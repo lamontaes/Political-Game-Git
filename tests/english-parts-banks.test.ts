@@ -304,7 +304,7 @@ const EVENING_AHEAD = new Set([
   "scene-talk.follow-thank.i-ll-write-it-tonight",
   "scene-talk.reply-offer.my-office-will-give-you-the-name-and-the-number-tonight",
   "scene-talk.follow-thank.tonight-thank-you",
-  "scene-talk.reply-comfort.there-s-a-line-i-won-t-cross-with-our-savings-i-ll-name-it-with-you-tonight",
+  "scene-talk.reply-comfort.there-s-a-line-i-won-t-cross-with-our-savings-we-ll-talk-about-it-toni",
   "scene-talk.reply-deflect.give-me-tonight-sunday-we-sit-down-with-the-bills-and-count-it-all",
   "scene-talk.follow-plea.pick-a-number-and-say-it-tonight",
   "scene-talk.follow-plea.tell-me-one-thing-that-changes-tonight",
@@ -312,6 +312,8 @@ const EVENING_AHEAD = new Set([
   "scene-talk.close-press.think-about-it-tonight-we-re-out-of-time",
   "scene-talk.follow-comfort.take-it-easy-tonight",
   "scene-talk.follow-thank.then-we-start-tonight-bring-me-your-contact-list",
+  // The bill's vote that evening, from its floor date (rule 22).
+  "scene-talk.follow-answer.short-well-know-tonight-when-bill-comes-up",
 ]);
 describe("the time of day in scene talk", () => {
   const sceneTalk = banks.find((row) => row.name === "scene-talk.json")!.bank;

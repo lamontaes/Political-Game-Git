@@ -14,6 +14,12 @@
       "state": "US-NE"
     },
     {
+      "seed": "1c0397c896de33bb0328e32710cb34eb125e0910381495d18fadd2e060775774",
+      "key": "4105700",
+      "name": "Bellfountain, Oregon",
+      "state": "US-OR"
+    },
+    {
       "seed": "13e8ffb8b9784c14db0727bbee4bd77596a82a7b5d8671c962bf05a634f75c0a",
       "key": "0209710",
       "name": "Butte, Alaska",
@@ -128,6 +134,30 @@
       "state": "US-RI"
     },
     {
+      "seed": "b728aa92efd914f5932d1dd77cbc7aa8fc7ad6863f5e9826312849d2685e6a91",
+      "key": "2044375",
+      "name": "Manter, Kansas",
+      "state": "US-KS"
+    },
+    {
+      "seed": "d3d37e45b6341a5a7c548d2e5a3e6e27a3d5787351607c40268c634485a277cf",
+      "key": "3684187",
+      "name": "Zena, New York",
+      "state": "US-NY"
+    },
+    {
+      "seed": "3faf142c52fc752de7c3d8c51bcc990976433087809a74824b3ebeabfc90a878",
+      "key": "territory:GU:hagatna",
+      "name": "Hagåtña, Guam",
+      "state": "US-GU"
+    },
+    {
+      "seed": "6bc8f3f997ddef99ba315283733dbf39681edb13b7021a1f275331785da8fce6",
+      "key": "4213168",
+      "name": "Cherryville, Pennsylvania",
+      "state": "US-PA"
+    },
+    {
       "seed": "393f73ee1c08140503117d6af7eea026ada4377080860846258968a73c13b710",
       "key": "0834960",
       "name": "Haxtun, Colorado",
@@ -150,13 +180,19 @@
       "key": "1041700",
       "name": "Leipsic, Delaware",
       "state": "US-DE"
+    },
+    {
+      "seed": "a707c46e878cd0baeeb14e51560de30a32f0a0bda27ba897f566277a25c39191",
+      "key": "4749940",
+      "name": "Mooresburg, Tennessee",
+      "state": "US-TN"
     }
   ],
   "summary": {
     "laws": 187,
     "wired": 147,
-    "partly": 40,
-    "stopgapped": 0,
+    "partly": 38,
+    "stopgapped": 2,
     "researchLinks": {
       "links": 246,
       "reaching": 175,
@@ -181,9 +217,9 @@
     ],
     "byLink": {
       "exists": {
-        "wired": 119,
+        "wired": 122,
         "partial": 5,
-        "missing": 5,
+        "missing": 2,
         "stopgap": 0,
         "n/a": 58
       },
@@ -195,31 +231,31 @@
         "n/a": 0
       },
       "reach": {
-        "wired": 99,
-        "partial": 5,
-        "missing": 19,
-        "stopgap": 4,
+        "wired": 104,
+        "partial": 1,
+        "missing": 22,
+        "stopgap": 0,
         "n/a": 60
       },
       "systems": {
         "wired": 116,
         "partial": 0,
-        "missing": 17,
-        "stopgap": 4,
+        "missing": 21,
+        "stopgap": 0,
         "n/a": 50
       },
       "money": {
         "wired": 95,
         "partial": 3,
-        "missing": 16,
-        "stopgap": 4,
+        "missing": 19,
+        "stopgap": 1,
         "n/a": 69
       },
       "web": {
-        "wired": 77,
+        "wired": 76,
         "partial": 0,
-        "missing": 31,
-        "stopgap": 4,
+        "missing": 35,
+        "stopgap": 1,
         "n/a": 75
       },
       "knowing": {
@@ -230,16 +266,16 @@
         "n/a": 50
       },
       "repeal": {
-        "wired": 105,
+        "wired": 106,
         "partial": 0,
-        "missing": 23,
+        "missing": 22,
         "stopgap": 0,
         "n/a": 59
       },
       "allPlaces": {
-        "wired": 106,
+        "wired": 107,
         "partial": 0,
-        "missing": 23,
+        "missing": 22,
         "stopgap": 0,
         "n/a": 58
       }
@@ -401,7 +437,7 @@
       "family": "infrastructure",
       "reachGroup": "B",
       "mechanic": "transit-fares",
-      "overall": "wired",
+      "overall": "stopgapped",
       "links": {
         "exists": {
           "status": "wired",
@@ -429,9 +465,9 @@
           "why": ""
         },
         "web": {
-          "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 fare-free-transit-to-ridership 0.4200, read by src/core2/modules/place-prices.ts:1190, src/core2/modules/place-prices.ts:1247; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-04 fare-free-transit-to-ridership 0.4200, read by src/core2/modules/place-prices.ts:1190, src/core2/modules/place-prices.ts:1247; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-05 fare-free-transit-to-ridership 0.4200, read by src/core2/modules/place-prices.ts:1190, src/core2/modules/place-prices.ts:1247",
-          "why": ""
+          "status": "stopgap",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 fare-free-transit-to-ridership 0.4200 (ledger row only); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-04 fare-free-transit-to-ridership 0.4200 (ledger row only); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-05 fare-free-transit-to-ridership 0.4200 (ledger row only)",
+          "why": "no production reader: fare-free-transit-to-ridership (SG-WEB-fare-free-riders-unread) move only the web's ledger"
         },
         "knowing": {
           "status": "wired",
@@ -1187,7 +1223,7 @@
     },
     {
       "key": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
-      "name": "expand medicaid eligibility",
+      "name": "expand Medicaid eligibility",
       "kind": "question",
       "family": "healthcare",
       "reachGroup": "B",
@@ -1270,7 +1306,7 @@
     },
     {
       "key": "local-power:us-policy-positions:health-human-services.expand-medicaid-eligibility",
-      "name": "Local power: expand medicaid eligibility",
+      "name": "Local power: expand Medicaid eligibility",
       "kind": "amount",
       "family": "healthcare",
       "reachGroup": null,
@@ -1329,7 +1365,7 @@
     },
     {
       "key": "us-policy-positions:health-human-services.medicaid-work-requirement",
-      "name": "medicaid work requirement",
+      "name": "Medicaid work requirement",
       "kind": "question",
       "family": "healthcare",
       "reachGroup": "B",
@@ -1412,7 +1448,7 @@
     },
     {
       "key": "local-power:us-policy-positions:health-human-services.medicaid-work-requirement",
-      "name": "Local power: medicaid work requirement",
+      "name": "Local power: Medicaid work requirement",
       "kind": "amount",
       "family": "healthcare",
       "reachGroup": null,
@@ -1605,7 +1641,7 @@
     },
     {
       "key": "budget-line:healthAndHospitals",
-      "name": "Spending: healthAndHospitals",
+      "name": "Spending: health and hospitals",
       "kind": "budget-line",
       "family": "healthcare",
       "reachGroup": "B",
@@ -1753,12 +1789,12 @@
     },
     {
       "key": "us-federal-positions:health.medicare-drug-price-negotiation",
-      "name": "medicare drug price negotiation",
+      "name": "Medicare drug price negotiation",
       "kind": "question",
       "family": "healthcare",
       "reachGroup": null,
       "mechanic": null,
-      "overall": "partly",
+      "overall": "wired",
       "links": {
         "exists": {
           "status": "wired",
@@ -1771,9 +1807,9 @@
           "why": ""
         },
         "reach": {
-          "status": "partial",
-          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 12 open (full 12, counted groups 0/0 people, households 0, orgs 0, govts 0) e.g. applied|us-federal-positions:health.medicare-drug-price-negotiation|person_a7869489a70c1548",
-          "why": "full people only: no counted group is reached (one model, two tiers)"
+          "status": "wired",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 12 open (full 12, counted groups 0/0 people, households 0, orgs 0, govts 0) e.g. applied|us-federal-positions:health.medicare-drug-price-negotiation|person_a7869489a70c1548; Hagåtña, Guam, US-GU (seed a4c2bd5bd896ac75): 861 open (full 17, counted groups 844/844 people, households 0, orgs 0, govts 0) e.g. applied|us-federal-positions:health.medicare-drug-price-negotiation|person_f9b946554f847221; Cherryville, Pennsylvania, US-PA (seed 86d67d515d0584dc): 1501 open (full 18, counted groups 1483/51757 people, households 0, orgs 0, govts 0) e.g. applied|us-federal-positions:health.medicare-drug-price-negotiation|person_af0d82958bb9e8bf",
+          "why": ""
         },
         "systems": {
           "status": "wired",
@@ -1782,7 +1818,7 @@
         },
         "money": {
           "status": "wired",
-          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): of 12 the law paid or charged, the payments that changed first: 7 accounts.transfer paid in (src/core2/medical-bills.ts:621; e.g. person_042cb0cc49072846 on 2025-02-01: -26536 in the control world, -28323 here, journal:2025-02-01:6336); New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): accounts.transfer @ src/core2/medical-bills.ts:621 1205061 -> 1218787 (journal:2025-02-01:6297)",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): of 12 the law paid or charged, the payments that changed first: 7 accounts.transfer paid in (src/core2/medical-bills.ts:621; e.g. person_042cb0cc49072846 on 2025-02-01: -26536 in the control world, -28323 here, journal:2025-02-01:6336); New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): accounts.transfer @ src/core2/medical-bills.ts:621 1205061 -> 1218787 (journal:2025-02-01:6297); Hagåtña, Guam, US-GU (seed a4c2bd5bd896ac75): accounts.transfer @ src/core2/medical-bills.ts:620 881072 -> 894791 (journal:2025-02-01:4120); Cherryville, Pennsylvania, US-PA (seed 86d67d515d0584dc): accounts.transfer @ src/core2/medical-bills.ts:620 1164174 -> 1174470 (journal:2025-02-01:7241)",
           "why": ""
         },
         "web": {
@@ -1792,17 +1828,17 @@
         },
         "knowing": {
           "status": "wired",
-          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 93 people heard (person_08155d00064491bf:printed:outlet:cable:0:national:law-took-effect:law:US:federal:us-federal-positions:health.medicare-drug-price-negotiation:general:2025-01-21:law-wiring-786e7fef)",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 93 people heard (person_08155d00064491bf:printed:outlet:cable:0:national:law-took-effect:law:US:federal:us-federal-positions:health.medicare-drug-price-negotiation:general:2025-01-21:law-wiring-786e7fef); Hagåtña, Guam, US-GU (seed a4c2bd5bd896ac75): 70 people heard (person_bf387883fab7c6d9:printed:outlet:newspaper:2:jurisdiction_e310a6aecc2b3e79:law-took-effect:law:US:federal:us-federal-positions:health.medicare-drug-price-negotiation:general:2025-01-21:law-wiring-786e7fef)",
           "why": ""
         },
         "repeal": {
           "status": "wired",
-          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): opening 12 -> after repeal 0 -> re-enacted 12",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): opening 12 -> after repeal 0 -> re-enacted 12; Hagåtña, Guam, US-GU (seed a4c2bd5bd896ac75): opening 861 -> after repeal 0 -> re-enacted 860; Cherryville, Pennsylvania, US-PA (seed 86d67d515d0584dc): opening 1501 -> after repeal 0 -> re-enacted 1550",
           "why": ""
         },
         "allPlaces": {
           "status": "wired",
-          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805)",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805); Hagåtña, Guam, US-GU (seed a4c2bd5bd896ac75); Cherryville, Pennsylvania, US-PA (seed 86d67d515d0584dc)",
           "why": ""
         }
       },
@@ -1810,6 +1846,16 @@
       "runs": [
         {
           "place": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805)",
+          "change": "repealed at federal effective 2025-01-21; then enacted again at federal effective 2025-02-26",
+          "inForceAtOpening": true
+        },
+        {
+          "place": "Hagåtña, Guam, US-GU (seed a4c2bd5bd896ac75)",
+          "change": "repealed at federal effective 2025-01-21; then enacted again at federal effective 2025-02-26",
+          "inForceAtOpening": true
+        },
+        {
+          "place": "Cherryville, Pennsylvania, US-PA (seed 86d67d515d0584dc)",
           "change": "repealed at federal effective 2025-01-21; then enacted again at federal effective 2025-02-26",
           "inForceAtOpening": true
         }
@@ -2336,7 +2382,7 @@
     },
     {
       "key": "budget-line:higherEducation",
-      "name": "Spending: higherEducation",
+      "name": "Spending: higher education",
       "kind": "budget-line",
       "family": "education",
       "reachGroup": "B",
@@ -4310,7 +4356,7 @@
     },
     {
       "key": "budget-line:welfareAndMedicaid",
-      "name": "Spending: welfareAndMedicaid",
+      "name": "Spending: welfare and Medicaid",
       "kind": "budget-line",
       "family": "assistance",
       "reachGroup": "B",
@@ -4476,24 +4522,24 @@
           "why": ""
         },
         "reach": {
-          "status": "stopgap",
+          "status": "missing",
           "evidence": "",
-          "why": "not run (registered SG-GOV-REACH-B-child-care-enrollment)"
+          "why": "not run"
         },
         "systems": {
-          "status": "stopgap",
+          "status": "missing",
           "evidence": "",
-          "why": "not run (registered SG-GOV-REACH-B-child-care-enrollment)"
+          "why": "not run"
         },
         "money": {
-          "status": "stopgap",
+          "status": "missing",
           "evidence": "",
-          "why": "not run (registered SG-GOV-REACH-B-child-care-enrollment)"
+          "why": "not run"
         },
         "web": {
-          "status": "stopgap",
+          "status": "missing",
           "evidence": "",
-          "why": "not run (registered SG-GOV-REACH-B-child-care-enrollment)"
+          "why": "not run"
         },
         "knowing": {
           "status": "missing",
@@ -4535,24 +4581,24 @@
           "why": ""
         },
         "reach": {
-          "status": "stopgap",
+          "status": "missing",
           "evidence": "",
-          "why": "not run (registered SG-GOV-REACH-B-ssi-eligibility)"
+          "why": "not run"
         },
         "systems": {
-          "status": "stopgap",
+          "status": "missing",
           "evidence": "",
-          "why": "not run (registered SG-GOV-REACH-B-ssi-eligibility)"
+          "why": "not run"
         },
         "money": {
-          "status": "stopgap",
+          "status": "missing",
           "evidence": "",
-          "why": "not run (registered SG-GOV-REACH-B-ssi-eligibility)"
+          "why": "not run"
         },
         "web": {
-          "status": "stopgap",
+          "status": "missing",
           "evidence": "",
-          "why": "not run (registered SG-GOV-REACH-B-ssi-eligibility)"
+          "why": "not run"
         },
         "knowing": {
           "status": "missing",
@@ -4896,9 +4942,9 @@
       "overall": "partly",
       "links": {
         "exists": {
-          "status": "missing",
-          "evidence": "0/56 places (budgets); src/core2/data/laws/starting-law.json jurisdictions; drawn place row law:US:federal:social-security-earliest-claim-age:general:starting",
-          "why": "no starting row in US-AK, US-AL, US-AR, US-AS, US-AZ, US-CA, US-CO, US-CT, US-DC, US-DE, US-FL, US-GA..."
+          "status": "wired",
+          "evidence": "56/56 places (budgets); src/core2/data/laws/social-security-ages.json (federal, opened by src/core2/modules/laws.ts); drawn place row law:US:federal:social-security-earliest-claim-age:general:starting",
+          "why": ""
         },
         "change": {
           "status": "wired",
@@ -4906,18 +4952,18 @@
           "why": ""
         },
         "reach": {
-          "status": "partial",
-          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 848 open (full 848, counted groups 0/0 people, households 0, orgs 0, govts 0) e.g. applied|social-security-earliest-claim-age|person_80fb6a3976d15d64",
-          "why": "full people only: no counted group is reached (one model, two tiers)"
+          "status": "wired",
+          "evidence": "Bellfountain, Oregon, US-OR (seed feaa3278ac773a2a): 682 open (full 672, counted groups 10/10 people, households 0, orgs 0, govts 0) e.g. applied|social-security-earliest-claim-age|person_5a6265dc6d2573e8; New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 855 open (full 848, counted groups 7/7 people, households 0, orgs 0, govts 0) e.g. applied|social-security-earliest-claim-age|person_e8632f5ae684089f; Mooresburg, Tennessee, US-TN (seed da176aa4a8b36dba): 821 open (full 743, counted groups 78/78 people, households 0, orgs 0, govts 0) e.g. applied|social-security-earliest-claim-age|person_21c3ca2f9d60702a",
+          "why": ""
         },
         "systems": {
           "status": "wired",
-          "evidence": "src/core2/modules/retirement-claims.ts:98, src/core2/modules/retirement-claims.ts:113, src/core2/modules/jobs.ts:3821",
+          "evidence": "src/core2/modules/retirement-claims.ts:98, src/core2/modules/retirement-claims.ts:117, src/core2/modules/jobs.ts:3823",
           "why": ""
         },
         "money": {
           "status": "n/a",
-          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 848 applied rows, none with an amount owed, paid or held (e.g. applied|social-security-earliest-claim-age|person_80fb6a3976d15d64)",
+          "evidence": "Bellfountain, Oregon, US-OR (seed feaa3278ac773a2a): 682 applied rows, none with an amount owed, paid or held (e.g. applied|social-security-earliest-claim-age|person_5a6265dc6d2573e8); New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 855 applied rows, none with an amount owed, paid or held (e.g. applied|social-security-earliest-claim-age|person_e8632f5ae684089f); Mooresburg, Tennessee, US-TN (seed da176aa4a8b36dba): 821 applied rows, none with an amount owed, paid or held (e.g. applied|social-security-earliest-claim-age|person_21c3ca2f9d60702a)",
           "why": "its terms bound nobody in the drawn places: each of its applied rows records nothing owed, paid or held"
         },
         "web": {
@@ -4927,24 +4973,34 @@
         },
         "knowing": {
           "status": "wired",
-          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 93 people heard (person_08155d00064491bf:printed:outlet:cable:0:national:law-took-effect:law:US:federal:social-security-earliest-claim-age:general:2025-01-21:law-wiring-3d351f82)",
+          "evidence": "Bellfountain, Oregon, US-OR (seed feaa3278ac773a2a): 31 people heard (person_5fe1e6e393488357:printed:outlet:cable:0:national:law-took-effect:law:US:federal:social-security-earliest-claim-age:general:2025-01-21:law-wiring-3d351f82); New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 93 people heard (person_08155d00064491bf:printed:outlet:cable:0:national:law-took-effect:law:US:federal:social-security-earliest-claim-age:general:2025-01-21:law-wiring-3d351f82); Mooresburg, Tennessee, US-TN (seed da176aa4a8b36dba): 67 people heard (person_b0f24dc3262e5116:printed:outlet:cable:0:national:law-took-effect:law:US:federal:social-security-earliest-claim-age:general:2025-01-21:law-wiring-3d351f82)",
           "why": ""
         },
         "repeal": {
           "status": "wired",
-          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 848 open under the changed row -> after the old amount is put back 0 still cite it",
+          "evidence": "Bellfountain, Oregon, US-OR (seed feaa3278ac773a2a): 682 open under the changed row -> after the old amount is put back 0 still cite it; New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 855 open under the changed row -> after the old amount is put back 0 still cite it; Mooresburg, Tennessee, US-TN (seed da176aa4a8b36dba): 821 open under the changed row -> after the old amount is put back 0 still cite it",
           "why": ""
         },
         "allPlaces": {
           "status": "wired",
-          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805)",
+          "evidence": "Bellfountain, Oregon, US-OR (seed feaa3278ac773a2a); New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805); Mooresburg, Tennessee, US-TN (seed da176aa4a8b36dba)",
           "why": ""
         }
       },
       "screens": [],
       "runs": [
         {
+          "place": "Bellfountain, Oregon, US-OR (seed feaa3278ac773a2a)",
+          "change": "social-security-earliest-claim-age 62 -> 68 at federal (law:US:federal:social-security-earliest-claim-age:general:2025-01-21:law-wiring-3d351f82) effective 2025-01-21",
+          "inForceAtOpening": false
+        },
+        {
           "place": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805)",
+          "change": "social-security-earliest-claim-age 62 -> 68 at federal (law:US:federal:social-security-earliest-claim-age:general:2025-01-21:law-wiring-3d351f82) effective 2025-01-21",
+          "inForceAtOpening": false
+        },
+        {
+          "place": "Mooresburg, Tennessee, US-TN (seed da176aa4a8b36dba)",
           "change": "social-security-earliest-claim-age 62 -> 68 at federal (law:US:federal:social-security-earliest-claim-age:general:2025-01-21:law-wiring-3d351f82) effective 2025-01-21",
           "inForceAtOpening": false
         }
@@ -4961,9 +5017,9 @@
       "overall": "partly",
       "links": {
         "exists": {
-          "status": "missing",
-          "evidence": "0/56 places (budgets); src/core2/data/laws/starting-law.json jurisdictions; drawn place row law:US:federal:social-security-full-retirement-age:general:starting",
-          "why": "no starting row in US-AK, US-AL, US-AR, US-AS, US-AZ, US-CA, US-CO, US-CT, US-DC, US-DE, US-FL, US-GA..."
+          "status": "wired",
+          "evidence": "56/56 places (budgets); src/core2/data/laws/social-security-ages.json (federal, opened by src/core2/modules/laws.ts); drawn place row law:US:federal:social-security-full-retirement-age:general:starting",
+          "why": ""
         },
         "change": {
           "status": "wired",
@@ -4971,18 +5027,18 @@
           "why": ""
         },
         "reach": {
-          "status": "partial",
-          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 802 open (full 802, counted groups 0/0 people, households 0, orgs 0, govts 0) e.g. applied|social-security-full-retirement-age|person_80fb6a3976d15d64",
-          "why": "full people only: no counted group is reached (one model, two tiers)"
+          "status": "wired",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 923 open (full 802, counted groups 121/121 people, households 0, orgs 0, govts 0) e.g. applied|social-security-full-retirement-age|person_e8632e5ae68406ec; Bellfountain, Oregon, US-OR (seed feaa3278ac773a2a): 653 open (full 624, counted groups 29/29 people, households 0, orgs 0, govts 0) e.g. applied|social-security-full-retirement-age|person_a0916c9fbfd4e5df; Mooresburg, Tennessee, US-TN (seed da176aa4a8b36dba): 947 open (full 706, counted groups 241/241 people, households 0, orgs 0, govts 0) e.g. applied|social-security-full-retirement-age|person_7b48e101fed83b00",
+          "why": ""
         },
         "systems": {
           "status": "wired",
-          "evidence": "src/core2/modules/retirement-claims.ts:98, src/core2/modules/retirement-claims.ts:113, src/core2/modules/jobs.ts:3821",
+          "evidence": "src/core2/modules/retirement-claims.ts:98, src/core2/modules/retirement-claims.ts:117, src/core2/modules/jobs.ts:3823",
           "why": ""
         },
         "money": {
           "status": "n/a",
-          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 802 applied rows, none with an amount owed, paid or held (e.g. applied|social-security-full-retirement-age|person_80fb6a3976d15d64)",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 923 applied rows, none with an amount owed, paid or held (e.g. applied|social-security-full-retirement-age|person_e8632e5ae68406ec); Bellfountain, Oregon, US-OR (seed feaa3278ac773a2a): 653 applied rows, none with an amount owed, paid or held (e.g. applied|social-security-full-retirement-age|person_a0916c9fbfd4e5df); Mooresburg, Tennessee, US-TN (seed da176aa4a8b36dba): 947 applied rows, none with an amount owed, paid or held (e.g. applied|social-security-full-retirement-age|person_7b48e101fed83b00)",
           "why": "its terms bound nobody in the drawn places: each of its applied rows records nothing owed, paid or held"
         },
         "web": {
@@ -4992,17 +5048,17 @@
         },
         "knowing": {
           "status": "wired",
-          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 93 people heard (person_08155d00064491bf:printed:outlet:cable:0:national:law-took-effect:law:US:federal:social-security-full-retirement-age:general:2025-01-21:law-wiring-2e0ccc5c)",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 93 people heard (person_08155d00064491bf:printed:outlet:cable:0:national:law-took-effect:law:US:federal:social-security-full-retirement-age:general:2025-01-21:law-wiring-2e0ccc5c); Bellfountain, Oregon, US-OR (seed feaa3278ac773a2a): 31 people heard (person_5fe1e6e393488357:printed:outlet:cable:0:national:law-took-effect:law:US:federal:social-security-full-retirement-age:general:2025-01-21:law-wiring-2e0ccc5c); Mooresburg, Tennessee, US-TN (seed da176aa4a8b36dba): 67 people heard (person_b0f24dc3262e5116:printed:outlet:cable:0:national:law-took-effect:law:US:federal:social-security-full-retirement-age:general:2025-01-21:law-wiring-2e0ccc5c)",
           "why": ""
         },
         "repeal": {
           "status": "wired",
-          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 802 open under the changed row -> after the old amount is put back 0 still cite it",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 923 open under the changed row -> after the old amount is put back 0 still cite it; Bellfountain, Oregon, US-OR (seed feaa3278ac773a2a): 653 open under the changed row -> after the old amount is put back 0 still cite it; Mooresburg, Tennessee, US-TN (seed da176aa4a8b36dba): 947 open under the changed row -> after the old amount is put back 0 still cite it",
           "why": ""
         },
         "allPlaces": {
           "status": "wired",
-          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805)",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805); Bellfountain, Oregon, US-OR (seed feaa3278ac773a2a); Mooresburg, Tennessee, US-TN (seed da176aa4a8b36dba)",
           "why": ""
         }
       },
@@ -5010,6 +5066,16 @@
       "runs": [
         {
           "place": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805)",
+          "change": "social-security-full-retirement-age 67 -> 74 at federal (law:US:federal:social-security-full-retirement-age:general:2025-01-21:law-wiring-2e0ccc5c) effective 2025-01-21",
+          "inForceAtOpening": false
+        },
+        {
+          "place": "Bellfountain, Oregon, US-OR (seed feaa3278ac773a2a)",
+          "change": "social-security-full-retirement-age 67 -> 74 at federal (law:US:federal:social-security-full-retirement-age:general:2025-01-21:law-wiring-2e0ccc5c) effective 2025-01-21",
+          "inForceAtOpening": false
+        },
+        {
+          "place": "Mooresburg, Tennessee, US-TN (seed da176aa4a8b36dba)",
           "change": "social-security-full-retirement-age 67 -> 74 at federal (law:US:federal:social-security-full-retirement-age:general:2025-01-21:law-wiring-2e0ccc5c) effective 2025-01-21",
           "inForceAtOpening": false
         }
@@ -5026,9 +5092,9 @@
       "overall": "partly",
       "links": {
         "exists": {
-          "status": "missing",
-          "evidence": "0/56 places (budgets); src/core2/data/laws/starting-law.json jurisdictions; drawn place row law:US:federal:social-security-delayed-credit-age:general:starting",
-          "why": "no starting row in US-AK, US-AL, US-AR, US-AS, US-AZ, US-CA, US-CO, US-CT, US-DC, US-DE, US-FL, US-GA..."
+          "status": "wired",
+          "evidence": "56/56 places (budgets); src/core2/data/laws/social-security-ages.json (federal, opened by src/core2/modules/laws.ts); drawn place row law:US:federal:social-security-delayed-credit-age:general:starting",
+          "why": ""
         },
         "change": {
           "status": "wired",
@@ -5036,18 +5102,18 @@
           "why": ""
         },
         "reach": {
-          "status": "partial",
-          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 802 open (full 802, counted groups 0/0 people, households 0, orgs 0, govts 0) e.g. applied|social-security-delayed-credit-age|person_80fb6a3976d15d64",
-          "why": "full people only: no counted group is reached (one model, two tiers)"
+          "status": "wired",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 923 open (full 802, counted groups 121/121 people, households 0, orgs 0, govts 0) e.g. applied|social-security-delayed-credit-age|person_e8632e5ae68406ec; Bellfountain, Oregon, US-OR (seed feaa3278ac773a2a): 652 open (full 624, counted groups 28/28 people, households 0, orgs 0, govts 0) e.g. applied|social-security-delayed-credit-age|person_a0916c9fbfd4e5df; Mooresburg, Tennessee, US-TN (seed da176aa4a8b36dba): 946 open (full 706, counted groups 240/240 people, households 0, orgs 0, govts 0) e.g. applied|social-security-delayed-credit-age|person_7b48e101fed83b00",
+          "why": ""
         },
         "systems": {
           "status": "wired",
-          "evidence": "src/core2/modules/retirement-claims.ts:98, src/core2/modules/retirement-claims.ts:113, src/core2/modules/jobs.ts:3821",
+          "evidence": "src/core2/modules/retirement-claims.ts:98, src/core2/modules/retirement-claims.ts:117, src/core2/modules/jobs.ts:3823",
           "why": ""
         },
         "money": {
           "status": "n/a",
-          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 802 applied rows, none with an amount owed, paid or held (e.g. applied|social-security-delayed-credit-age|person_80fb6a3976d15d64)",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 923 applied rows, none with an amount owed, paid or held (e.g. applied|social-security-delayed-credit-age|person_e8632e5ae68406ec); Bellfountain, Oregon, US-OR (seed feaa3278ac773a2a): 652 applied rows, none with an amount owed, paid or held (e.g. applied|social-security-delayed-credit-age|person_a0916c9fbfd4e5df); Mooresburg, Tennessee, US-TN (seed da176aa4a8b36dba): 946 applied rows, none with an amount owed, paid or held (e.g. applied|social-security-delayed-credit-age|person_7b48e101fed83b00)",
           "why": "its terms bound nobody in the drawn places: each of its applied rows records nothing owed, paid or held"
         },
         "web": {
@@ -5057,17 +5123,17 @@
         },
         "knowing": {
           "status": "wired",
-          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 93 people heard (person_08155d00064491bf:printed:outlet:cable:0:national:law-took-effect:law:US:federal:social-security-delayed-credit-age:general:2025-01-21:law-wiring-72cfb761)",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 93 people heard (person_08155d00064491bf:printed:outlet:cable:0:national:law-took-effect:law:US:federal:social-security-delayed-credit-age:general:2025-01-21:law-wiring-72cfb761); Bellfountain, Oregon, US-OR (seed feaa3278ac773a2a): 31 people heard (person_5fe1e6e393488357:printed:outlet:cable:0:national:law-took-effect:law:US:federal:social-security-delayed-credit-age:general:2025-01-21:law-wiring-72cfb761); Mooresburg, Tennessee, US-TN (seed da176aa4a8b36dba): 67 people heard (person_b0f24dc3262e5116:printed:outlet:cable:0:national:law-took-effect:law:US:federal:social-security-delayed-credit-age:general:2025-01-21:law-wiring-72cfb761)",
           "why": ""
         },
         "repeal": {
           "status": "wired",
-          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 802 open under the changed row -> after the old amount is put back 0 still cite it",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 923 open under the changed row -> after the old amount is put back 0 still cite it; Bellfountain, Oregon, US-OR (seed feaa3278ac773a2a): 652 open under the changed row -> after the old amount is put back 0 still cite it; Mooresburg, Tennessee, US-TN (seed da176aa4a8b36dba): 946 open under the changed row -> after the old amount is put back 0 still cite it",
           "why": ""
         },
         "allPlaces": {
           "status": "wired",
-          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805)",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805); Bellfountain, Oregon, US-OR (seed feaa3278ac773a2a); Mooresburg, Tennessee, US-TN (seed da176aa4a8b36dba)",
           "why": ""
         }
       },
@@ -5075,6 +5141,16 @@
       "runs": [
         {
           "place": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805)",
+          "change": "social-security-delayed-credit-age 70 -> 77 at federal (law:US:federal:social-security-delayed-credit-age:general:2025-01-21:law-wiring-72cfb761) effective 2025-01-21",
+          "inForceAtOpening": false
+        },
+        {
+          "place": "Bellfountain, Oregon, US-OR (seed feaa3278ac773a2a)",
+          "change": "social-security-delayed-credit-age 70 -> 77 at federal (law:US:federal:social-security-delayed-credit-age:general:2025-01-21:law-wiring-72cfb761) effective 2025-01-21",
+          "inForceAtOpening": false
+        },
+        {
+          "place": "Mooresburg, Tennessee, US-TN (seed da176aa4a8b36dba)",
           "change": "social-security-delayed-credit-age 70 -> 77 at federal (law:US:federal:social-security-delayed-credit-age:general:2025-01-21:law-wiring-72cfb761) effective 2025-01-21",
           "inForceAtOpening": false
         }
@@ -5249,24 +5325,24 @@
           "why": ""
         },
         "reach": {
-          "status": "stopgap",
+          "status": "missing",
           "evidence": "",
-          "why": "not run (registered SG-GOV-REACH-B-energy-assistance-enrollment)"
+          "why": "not run"
         },
         "systems": {
-          "status": "stopgap",
+          "status": "missing",
           "evidence": "",
-          "why": "not run (registered SG-GOV-REACH-B-energy-assistance-enrollment)"
+          "why": "not run"
         },
         "money": {
-          "status": "stopgap",
+          "status": "missing",
           "evidence": "",
-          "why": "not run (registered SG-GOV-REACH-B-energy-assistance-enrollment)"
+          "why": "not run"
         },
         "web": {
-          "status": "stopgap",
+          "status": "missing",
           "evidence": "",
-          "why": "not run (registered SG-GOV-REACH-B-energy-assistance-enrollment)"
+          "why": "not run"
         },
         "knowing": {
           "status": "missing",
@@ -6280,24 +6356,24 @@
           "why": ""
         },
         "reach": {
-          "status": "stopgap",
+          "status": "missing",
           "evidence": "",
-          "why": "not run (registered SG-LABOR-record-bias-public-only)"
+          "why": "not run"
         },
         "systems": {
-          "status": "stopgap",
+          "status": "missing",
           "evidence": "",
-          "why": "not run (registered SG-LABOR-record-bias-public-only)"
+          "why": "not run"
         },
         "money": {
-          "status": "stopgap",
+          "status": "missing",
           "evidence": "",
-          "why": "not run (registered SG-LABOR-record-bias-public-only)"
+          "why": "not run"
         },
         "web": {
-          "status": "stopgap",
+          "status": "missing",
           "evidence": "",
-          "why": "not run (registered SG-LABOR-record-bias-public-only)"
+          "why": "not run"
         },
         "knowing": {
           "status": "missing",
@@ -8000,7 +8076,7 @@
     },
     {
       "key": "budget-line:naturalResources",
-      "name": "Spending: naturalResources",
+      "name": "Spending: natural resources",
       "kind": "budget-line",
       "family": "energy-environment",
       "reachGroup": "B",
@@ -8896,7 +8972,7 @@
       "family": "justice",
       "reachGroup": null,
       "mechanic": null,
-      "overall": "partly",
+      "overall": "stopgapped",
       "links": {
         "exists": {
           "status": "wired",
@@ -8909,45 +8985,55 @@
           "why": ""
         },
         "reach": {
-          "status": "missing",
-          "evidence": "Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6): enacted at federal (law:US:federal:us-federal-positions:justice-rights.reduce-mandatory-minimums:general:2025-01-21:law-wiring-c08da077) effective 2025-01-21; then repealed at federal effective 2025-02-26",
-          "why": "no law-reach row: nothing records who it applies to"
+          "status": "wired",
+          "evidence": "Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6): 4 open (full 0, counted groups 4/5161 people, households 0, orgs 0, govts 0) e.g. applied|us-federal-positions:justice-rights.reduce-mandatory-minimums|federal-courts:Drug; Manter, Kansas, US-KS (seed 695c51eb1a2094e3): 4 open (full 0, counted groups 4/5161 people, households 0, orgs 0, govts 0) e.g. applied|us-federal-positions:justice-rights.reduce-mandatory-minimums|federal-courts:Drug; Zena, New York, US-NY (seed 7927c0ac3a4701a3): 4 open (full 0, counted groups 4/5161 people, households 0, orgs 0, govts 0) e.g. applied|us-federal-positions:justice-rights.reduce-mandatory-minimums|federal-courts:Drug",
+          "why": ""
         },
         "systems": {
           "status": "wired",
-          "evidence": "src/core2/modules/federal-courts.ts:164",
+          "evidence": "src/core2/modules/federal-courts.ts:165",
           "why": ""
         },
         "money": {
-          "status": "missing",
-          "evidence": "journal trace: no post differs from the control world",
-          "why": "no money flow: nobody pays or receives anything because of it"
+          "status": "stopgap",
+          "evidence": "Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6): 4 applied rows, none with an amount owed, paid or held (e.g. applied|us-federal-positions:justice-rights.reduce-mandatory-minimums|federal-courts:Drug); Manter, Kansas, US-KS (seed 695c51eb1a2094e3): 4 applied rows, none with an amount owed, paid or held (e.g. applied|us-federal-positions:justice-rights.reduce-mandatory-minimums|federal-courts:Drug); Zena, New York, US-NY (seed 7927c0ac3a4701a3): 4 applied rows, none with an amount owed, paid or held (e.g. applied|us-federal-positions:justice-rights.reduce-mandatory-minimums|federal-courts:Drug)",
+          "why": "the law shortens federal sentences and lowers the federal prison stock, but no engine pays the Bureau of Prisons per person held, so the smaller stock saves the Treasury nothing (SG-JUSTICE-federal-prison-cost-flat)"
         },
         "web": {
           "status": "wired",
-          "evidence": "Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6): mandatory-minimum-cut-to-federal-prisoners lags 12 months, past the run's window; the web read law:us-federal-positions:justice-rights.reduce-mandatory-minimums as 1 (control 0) in web:jurisdiction_ffa1a12974173cce:2025-01 (2025-01); Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6): mandatory-minimum-cut-to-federal-prisoners lags 12 months, past the run's window; the web read law:us-federal-positions:justice-rights.reduce-mandatory-minimums as 1 (control 0) in web:jurisdiction_ffa1a12974173cce:2025-02 (2025-02)",
+          "evidence": "Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6): mandatory-minimum-cut-to-federal-prisoners lags 12 months, past the run's window; the web read law:us-federal-positions:justice-rights.reduce-mandatory-minimums as 1 (control 0) in web:jurisdiction_ffa1a12974173cce:2025-01 (2025-01); Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6): mandatory-minimum-cut-to-federal-prisoners lags 12 months, past the run's window; the web read law:us-federal-positions:justice-rights.reduce-mandatory-minimums as 1 (control 0) in web:jurisdiction_ffa1a12974173cce:2025-02 (2025-02); Manter, Kansas, US-KS (seed 695c51eb1a2094e3): mandatory-minimum-cut-to-federal-prisoners lags 12 months, past the run's window; the web read law:us-federal-positions:justice-rights.reduce-mandatory-minimums as 1 (control 0) in web:jurisdiction_44fab3be4f9d7e06:2025-01 (2025-01)",
           "why": ""
         },
         "knowing": {
           "status": "wired",
-          "evidence": "Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6): 108 people heard (person_0aaf66a4aef1a3e6:printed:outlet:cable:0:national:law-took-effect:law:US:federal:us-federal-positions:justice-rights.reduce-mandatory-minimums:general:2025-01-21:law-wiring-c08da077)",
+          "evidence": "Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6): 118 people heard (person_0aaf66a4aef1a3e6:printed:outlet:cable:0:national:law-took-effect:law:US:federal:us-federal-positions:justice-rights.reduce-mandatory-minimums:general:2025-01-21:law-wiring-c08da077); Manter, Kansas, US-KS (seed 695c51eb1a2094e3): 58 people heard (person_a1102e737c21b117:printed:outlet:cable:0:national:law-took-effect:law:US:federal:us-federal-positions:justice-rights.reduce-mandatory-minimums:general:2025-01-21:law-wiring-c08da077)",
           "why": ""
         },
         "repeal": {
-          "status": "missing",
-          "evidence": "",
-          "why": "nothing reached, so nothing to stop"
+          "status": "wired",
+          "evidence": "Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6): 4 open -> after repeal 0 open, 0 ended; Manter, Kansas, US-KS (seed 695c51eb1a2094e3): 4 open -> after repeal 0 open, 0 ended; Zena, New York, US-NY (seed 7927c0ac3a4701a3): 4 open -> after repeal 0 open, 0 ended",
+          "why": ""
         },
         "allPlaces": {
-          "status": "missing",
-          "evidence": "Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6)",
-          "why": "reaches nobody anywhere"
+          "status": "wired",
+          "evidence": "Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6); Manter, Kansas, US-KS (seed 695c51eb1a2094e3); Zena, New York, US-NY (seed 7927c0ac3a4701a3)",
+          "why": ""
         }
       },
       "screens": [],
       "runs": [
         {
           "place": "Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6)",
+          "change": "enacted at federal (law:US:federal:us-federal-positions:justice-rights.reduce-mandatory-minimums:general:2025-01-21:law-wiring-c08da077) effective 2025-01-21; then repealed at federal effective 2025-02-26",
+          "inForceAtOpening": false
+        },
+        {
+          "place": "Manter, Kansas, US-KS (seed 695c51eb1a2094e3)",
+          "change": "enacted at federal (law:US:federal:us-federal-positions:justice-rights.reduce-mandatory-minimums:general:2025-01-21:law-wiring-c08da077) effective 2025-01-21; then repealed at federal effective 2025-02-26",
+          "inForceAtOpening": false
+        },
+        {
+          "place": "Zena, New York, US-NY (seed 7927c0ac3a4701a3)",
           "change": "enacted at federal (law:US:federal:us-federal-positions:justice-rights.reduce-mandatory-minimums:general:2025-01-21:law-wiring-c08da077) effective 2025-01-21; then repealed at federal effective 2025-02-26",
           "inForceAtOpening": false
         }
@@ -10812,7 +10898,7 @@
     },
     {
       "key": "state-contribution-limit-governor",
-      "name": "State campaign contribution limit: governor",
+      "name": "State campaign contribution limit: governor races",
       "kind": "amount",
       "family": "government",
       "reachGroup": null,
@@ -10878,7 +10964,7 @@
     },
     {
       "key": "state-contribution-limit-state-senate",
-      "name": "State campaign contribution limit: stateSenate",
+      "name": "State campaign contribution limit: state senate races",
       "kind": "amount",
       "family": "government",
       "reachGroup": null,
@@ -10944,7 +11030,7 @@
     },
     {
       "key": "state-contribution-limit-state-house",
-      "name": "State campaign contribution limit: stateHouse",
+      "name": "State campaign contribution limit: state house races",
       "kind": "amount",
       "family": "government",
       "reachGroup": null,
@@ -11010,7 +11096,7 @@
     },
     {
       "key": "state-contribution-limit-local",
-      "name": "State campaign contribution limit: local",
+      "name": "State campaign contribution limit: local races",
       "kind": "amount",
       "family": "government",
       "reachGroup": null,

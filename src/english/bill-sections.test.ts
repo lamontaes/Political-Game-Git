@@ -9,6 +9,7 @@ import { coreAPI } from "../core2/state";
 import seriesPowers from "../core2/data/legislature/series-powers.json" with { type: "json" };
 import federalQuestions from "../../data/research/campaigns/federal-questions-2026.json" with { type: "json" };
 import bankData from "../../data/english/bill-sections.json" with { type: "json" };
+import { billTitleOf } from "./bill-names";
 import { storyTopicName } from "./policy-names";
 import {
   amountWords,
@@ -114,6 +115,30 @@ describe("a section reads the record's numbers", () => {
       })!.sections[0],
     ).toMatch(/to \$11 an hour, amending § 25-7-41\.$/);
   });
+  it("an act names itself with a short title read from the same record as every other screen, and a local ordinance has none", () => {
+    const question = "us-policy-positions:labor-workforce.raise-minimum-wage";
+    const bill = (kind: string) => ({
+      id: "bill:fixture-title",
+      number: "2026-5",
+      form: { kind, enactingClause: "Be it enacted by the Legislature" },
+      provisions: [
+        { kind: "policy-question", question, value: 1, operation: "enact" },
+      ],
+    });
+    const act = composeBill(bill("act"))!;
+    expect(act.shortTitle, act.title).toMatch(
+      /^This Act may be cited as the \u201C[^\u201D]+\u201D\.$/,
+    );
+    const bill1 = bill("act");
+    expect(act.shortTitle).toContain(
+      billTitleOf({ form: bill1.form, provisions: bill1.provisions })!.title,
+    );
+    expect(act.text[1]).toBe(act.shortTitle);
+    expect(act.text.join(" ")).not.toMatch(/and for other purposes/);
+    const local = composeBill(bill("ordinance"))!;
+    expect(local.shortTitle).toBeNull();
+    expect(local.text.join(" ")).not.toMatch(/may be cited as/);
+  });
   it("edge fixture: two steps on one law state its purpose once", () => {
     // A raise phased in by dated steps (governing phase B): "An ordinance to
     // set the minimum wage and to set the minimum wage." read it twice.
@@ -126,6 +151,25 @@ describe("a section reads the record's numbers", () => {
     const purpose = BILL_SECTIONS.amounts["minimum-wage"]!.purpose;
     expect(made.title.split(purpose).length - 1, made.title).toBe(1);
     expect(made.sections).toHaveLength(2);
+  });
+  it("edge fixture: a phase-in's sections each say when they take effect", () => {
+    const one = input(1100);
+    const made = composeBill({
+      ...one,
+      provisions: [
+        { ...one.provisions[0]!, effectiveDate: "2027-01-02" },
+        { ...one.provisions[0]!, value: 1200, effectiveDate: "2028-01-02" },
+      ],
+      before: [one.before[0]!, { ...one.before[0]!, value: 1100 }],
+    })!;
+    expect(made.sections[0], made.sections[0]).toMatch(
+      /Section 1 takes effect on January 2, 2027\.$/,
+    );
+    expect(made.sections[1], made.sections[1]).toMatch(
+      /Section 2 takes effect on January 2, 2028\.$/,
+    );
+    // One bill with one date says it once, in its closing section, not in each section.
+    expect(composeBill(input(1100))!.sections[0]).not.toMatch(/takes effect/);
   });
   it("words a dated section and the sections the rule dates, in each form", () => {
     for (const form of [

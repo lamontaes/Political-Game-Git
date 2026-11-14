@@ -14,7 +14,7 @@
  */
 import { spokenDate } from "../core2/kernel/dates";
 import { properName } from "../director/words";
-import { spokenDesignation } from "./bill-names";
+import { billTitleOf, spokenDesignation } from "./bill-names";
 import sectionsJson from "../../data/english/bill-sections.json" with { type: "json" };
 
 interface PolicyWords {
@@ -36,11 +36,17 @@ interface AmountWords {
 interface FormWords {
   title: string;
   repealTitle: string;
+  /** The federal and state form only: a local measure has no short title. */
+  shortTitle?: string;
   first: string;
   further: string;
   repeal: string;
   effective: Record<
-    "on-enactment" | "days-after-adoption" | "state-rule" | "date",
+    | "on-enactment"
+    | "days-after-adoption"
+    | "state-rule"
+    | "date"
+    | "section-date",
     string
   >;
 }
@@ -93,6 +99,8 @@ export interface ComposedBill {
   readonly title: string;
   /** Each section, enacting words first. */
   readonly sections: readonly string[];
+  /** "This Act may be cited as the “Fair Wage Act”." An act's short title, from the bill's own name; none for a local measure or a bill with no name. */
+  readonly shortTitle: string | null;
   /** The closing section on when it takes effect, when the record gives one. */
   readonly effective: string | null;
   /** Title, sections and the closing section, in order: the text of the bill. */
@@ -265,15 +273,30 @@ export function composeBill(input: BillWordsInput): ComposedBill | null {
       })
     : fill(form.title, { purpose: purposes });
   const enacting = properName(input.form.enactingClause.replace(/[,\s]+$/, ""));
-  const sections = words.map((w, i) =>
-    fill(i === 0 ? form.first : form.further, {
+  const dates = new Set(input.provisions.map((p) => p.effectiveDate ?? null));
+  const sections = words.map((w, i) => {
+    const text = fill(i === 0 ? form.first : form.further, {
       number: i + 1,
       enacting,
       text: w.clause,
-    }),
-  );
+    });
+    // A phase-in's steps each name their own day, so the paper never reads as
+    // two changes made at once: the section says when it takes effect.
+    const own = input.provisions[i]?.effectiveDate;
+    return dates.size > 1 && own
+      ? `${text} ${fill(form.effective["section-date"], { number: i + 1, date: spokenDate(own) })}`
+      : text;
+  });
+  // An act (never a local ordinance) names itself after its heading: the short
+  // title is the bill's own name, read from bill-names.ts like every other screen.
+  const named = form.shortTitle
+    ? billTitleOf({ form: input.form, provisions: input.provisions })
+    : null;
+  const shortTitle =
+    named && form.shortTitle
+      ? fill(form.shortTitle, { act: `\u201C${named.title}\u201D` })
+      : null;
   const eff = input.effective;
-  const dates = new Set(input.provisions.map((p) => p.effectiveDate ?? null));
   const date = eff?.date ?? (dates.size === 1 ? [...dates][0]! : null);
   const effective = eff
     ? fill(form.effective[date ? "date" : eff.kind], {
@@ -284,9 +307,15 @@ export function composeBill(input: BillWordsInput): ComposedBill | null {
   return {
     designation: input.number,
     title,
+    shortTitle,
     sections,
     effective,
-    text: [upperFirst(title), ...sections, ...(effective ? [effective] : [])],
+    text: [
+      upperFirst(title),
+      ...(shortTitle ? [shortTitle] : []),
+      ...sections,
+      ...(effective ? [effective] : []),
+    ],
     keys: words.map((w) => w.key),
   };
 }

@@ -65,6 +65,29 @@ export function partLevels(
 }
 
 /**
+ * The people each part of a speech names, by part: every full person a
+ * sentence of the part cites (the Vice President, the Speaker), never the
+ * speaker. The montage shows them as that part is spoken (owner, Nov 12: "it
+ * was just showing random busts of people ... unless it's people that he's
+ * introducing in this speech").
+ */
+export function namedInParts(
+  core: CoreState,
+  sentences: readonly { part: number; sourceRecordIds: readonly string[] }[],
+  parts: number,
+  speakerId: string,
+): string[][] {
+  return Array.from({ length: parts }, (_, part) => [
+    ...new Set(
+      sentences
+        .filter((row) => row.part === part)
+        .flatMap((row) => row.sourceRecordIds)
+        .filter((id) => id !== speakerId && core.people.has(id as PersonId)),
+    ),
+  ]);
+}
+
+/**
  * The address as its montage: one beat per part, each a picture with its
  * people from the records: the speaker at the desk and on the colonnade, the
  * player's own circle across the town, the key people (the Vice President,
@@ -77,6 +100,8 @@ export function addressMontage(
   speakerId: string,
   levels: readonly string[],
   minuteOfDay: number,
+  /** The people each part names (`namedInParts`): an "america" beat shows them, and any beat adds them. */
+  namedByPart: readonly (readonly string[])[] = [],
 ): MontageBeat[] {
   const named = (id: string) => {
     const row = core.people.get(id as PersonId);
@@ -150,7 +175,8 @@ export function addressMontage(
     )
     .sort();
   let americaTurn = 0;
-  return beatKinds(levels).map((kind) => {
+  return beatKinds(levels).map((kind, at) => {
+    const namedHere = namedByPart[at] ?? [];
     const place =
       kind === "home"
         ? homeOf(core, personId, minuteOfDay)
@@ -190,6 +216,12 @@ export function addressMontage(
         });
         records.push(person.id, ...person.sourceRecordIds);
       }
+    } else if (kind === "america" && namedByPart.length) {
+      // The people this part names, and no one else: no stranger stands in.
+      for (const id of namedHere) {
+        cast.push({ id, name: named(id) ?? "", reason: "moment" });
+        records.push(id);
+      }
     } else if (kind === "america") {
       for (const id of known.slice(
         americaTurn * 2 - 2,
@@ -209,6 +241,14 @@ export function addressMontage(
           records.push(id);
         }
     }
+    // Whoever the part names is shown as it is spoken (the Vice President
+    // when named), unless the beat already holds them or is the home.
+    if (kind !== "home")
+      for (const id of namedHere)
+        if (!cast.some((row) => row.id === id)) {
+          cast.push({ id, name: named(id) ?? "", reason: "moment" });
+          records.push(id);
+        }
     return {
       kind,
       place: place ?? "",

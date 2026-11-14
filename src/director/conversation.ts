@@ -29,6 +29,7 @@
  * The listener remembers the last talk's topic and doesn't open with it again.
  */
 import { familyFactsOf, meetInTalk } from "../core2/modules/people";
+import { jobTitleByKind } from "../core2/person-work";
 import {
   PERSON_MOVED_IN,
   heldSinceRecord,
@@ -135,6 +136,7 @@ import {
 import WEEKDAYS from "./data/weekdays.json" with { type: "json" };
 import { workSpansOnDateV1 } from "../core2/work-spans-v1";
 import {
+  organizationName,
   properName,
   spoken,
   spokenWhen,
@@ -142,7 +144,10 @@ import {
   stateInSentence,
 } from "./words";
 import { dayParts, sceneMinute } from "./day-part";
-import { dayPartSaid } from "../english/day-words";
+import { dayAheadSaid, dayPartSaid } from "../english/day-words";
+import { clockOf, noteMention, tellingOf } from "../english/telling";
+import { saidAs, sentenceStarts } from "../english/said-as";
+import { saidPersonOf } from "./said-person";
 import {
   learnView,
   learnViewQuestion,
@@ -390,7 +395,10 @@ function fullName(core: Readonly<CoreState>, id: PersonId): string {
 function jobOf(core: Readonly<CoreState>, person: Readonly<PersonState>) {
   const job = person.jobId ? core.jobs.get(person.jobId) : undefined;
   const org = job ? core.organizations.get(job.organizationId) : undefined;
-  return job && org ? { job, org } : null;
+  // The title as people say it of that kind of government ("town clerk").
+  return job && org
+    ? { job, org, title: jobTitleByKind(job.title, org.name) }
+    : null;
 }
 
 /**
@@ -400,7 +408,7 @@ function jobOf(core: Readonly<CoreState>, person: Readonly<PersonState>) {
  * work for the Village of Jackson Center".
  */
 function employerText(org: { name: string; kind: string }): string {
-  const name = properName(org.name);
+  const name = organizationName(org);
   const said =
     org.kind === GOVERNMENT_TREASURY ? name.replace(/\s+treasury$/i, "") : name;
   return /^\p{Lu}\p{Ll}+ of /u.test(said) ? `the ${said}` : said;
@@ -436,9 +444,9 @@ function workDetail(
   slots: { position: string; place?: string },
 ): Facts {
   const facts: Facts = {};
-  if (sayableTitle(held.job.title))
+  if (sayableTitle(held.title))
     facts[slots.position] = {
-      text: withArticle(held.job.title),
+      text: withArticle(held.title),
       sourceRecordIds: [held.job.id],
     };
   const away =
@@ -677,7 +685,7 @@ function familyNews(
     const org = job ? core.organizations.get(job.organizationId) : undefined;
     if (org)
       facts.employer = {
-        text: properName(org.name),
+        text: organizationName(org),
         sourceRecordIds: [...cited, org.id],
       };
   }
@@ -958,16 +966,28 @@ function justiceSubjects(
   return out;
 }
 
-/** The job a person has hours at on the core's date, by its id; none on a day off. */
-function workToday(
+/**
+ * The job whose hours a person has finished today by this minute, by its id;
+ * none on a day off or before the shift is over (words know the hour and
+ * whose day it was: "Busy one at work today?" is never asked at 7:00 AM).
+ * With no clock, any work day counts.
+ */
+function workDoneToday(
   core: Readonly<CoreState>,
   personId: PersonId,
+  minuteOfDay: number | undefined,
 ): string | undefined {
   try {
     return workSpansOnDateV1(coreAPI(core as CoreState), {
       controlledPersonId: personId,
       date: core.date,
-    }).owners.find((owner) => owner.plannedMinutes > zero)?.job.id;
+    }).owners.find(
+      (owner) =>
+        owner.plannedMinutes > zero &&
+        (minuteOfDay === undefined ||
+          (owner.spans.length > zero &&
+            owner.spans.every((span) => span.endMinute <= minuteOfDay))),
+    )?.job.id;
   } catch {
     // Work terms that cannot be read for the date are not a work day.
     return undefined;
@@ -977,13 +997,18 @@ function workToday(
 /**
  * A quiet evening at home as a subject: the day of the week (the household
  * is where they are), when the two last spent time together, and whether
- * either had work that day, each from its record.
+ * the listener's work day is done, each from its record. Small talk is about
+ * a day that is over: in the daytime, before the listener's shift is done,
+ * there is none (its lines are all end-of-day lines). Its id holds no date,
+ * so the topic memory keeps it: raised once, it waits a week
+ * (`talkedWithin`).
  */
 function quietDay(
   core: Readonly<CoreState>,
   speaker: Readonly<PersonState>,
   listener: Readonly<PersonState>,
-): Subject {
+  minuteOfDay: number | undefined,
+): Subject | null {
   const day = new Date(`${core.date}T00:00:00Z`).getUTCDay();
   const facts: Facts = {
     weekday: {
@@ -1004,15 +1029,15 @@ function quietDay(
       text: spokenWhen(seen.date, core.date),
       sourceRecordIds: [seen.tieId],
     };
-  // A work day for either of them, from the job's own hours for the date.
-  for (const person of [speaker, listener]) {
-    const shift = person.jobId ? workToday(core, person.id) : undefined;
-    if (shift) {
-      facts.dayDone = { text: "", sourceRecordIds: [shift] };
-      break;
-    }
-  }
-  return { id: `quiet:${speaker.id}:${core.date}`, kind: "quiet", facts };
+  // The listener's own work day, over by the talk's minute: the day the
+  // line asks about is theirs.
+  const shift = listener.jobId
+    ? workDoneToday(core, listener.id, minuteOfDay)
+    : undefined;
+  if (shift) facts.dayDone = { text: "", sourceRecordIds: [shift] };
+  const evening = dayParts(minuteOfDay).includes("evening");
+  if (minuteOfDay !== undefined && !shift && !evening) return null;
+  return { id: `quiet:${speaker.id}`, kind: "quiet", facts };
 }
 
 /** The news engine's kind for a story an outlet printed (press desk). */
@@ -1184,6 +1209,8 @@ export function subjectsBetween(
   speakerId: PersonId,
   listenerId: PersonId,
   director?: Director,
+  /** The talk's room and hour (the telling): who else is here, and the minute it is said at. */
+  room: { presentIds?: readonly PersonId[]; minuteOfDay?: number } = {},
 ): Subject[] {
   const speaker = core.people.get(speakerId)!;
   // Someone not in the room is talked about only when something recorded
@@ -1209,7 +1236,7 @@ export function subjectsBetween(
       },
       own: { key: `person:${speakerId}:employer`, value: mine.org.id },
       // A true answer also tells what they do there, for the person card.
-      ...(sayableTitle(mine.job.title)
+      ...(sayableTitle(mine.title)
         ? {
             alsoOwn: [
               {
@@ -1260,7 +1287,7 @@ export function subjectsBetween(
           ...(org
             ? {
                 employer: {
-                  text: properName(org.name),
+                  text: organizationName(org),
                   sourceRecordIds: [ended!.id, org.id],
                 },
               }
@@ -1288,7 +1315,7 @@ export function subjectsBetween(
     : undefined;
   if (started && startedJob && startedOrg) {
     const employer = {
-      text: properName(startedOrg.name),
+      text: organizationName(startedOrg),
       sourceRecordIds: [startedJob.id, startedOrg.id],
     };
     out.push({
@@ -1333,7 +1360,7 @@ export function subjectsBetween(
       aboutId: listenerStarted.causeId,
       facts: {
         employer: {
-          text: properName(listenerOrg.name),
+          text: organizationName(listenerOrg),
           sourceRecordIds: [listenerJob.id, listenerOrg.id],
         },
       },
@@ -1380,7 +1407,7 @@ export function subjectsBetween(
     });
   // What they do there, asked right after they name their work: answered
   // from the job record's title.
-  if (theirs && !theirs.org.outsideFlow && sayableTitle(theirs.job.title))
+  if (theirs && !theirs.org.outsideFlow && sayableTitle(theirs.title))
     out.push({
       id: `their-position:${listenerId}`,
       kind: "their-position",
@@ -1414,7 +1441,7 @@ export function subjectsBetween(
         aboutId: row.recordId,
         facts: {
           school: {
-            text: properName(school.name),
+            text: organizationName(school),
             sourceRecordIds: [row.recordId],
           },
           years: {
@@ -1437,7 +1464,7 @@ export function subjectsBetween(
         aboutId: org.id,
         facts: {
           employer: {
-            text: properName(org.name),
+            text: organizationName(org),
             sourceRecordIds: [org.id],
           },
           // Work together that ended long ago is a reason to ask after it.
@@ -1453,6 +1480,15 @@ export function subjectsBetween(
   }
   for (const id of [...speaker.knownIds].sort()) {
     if (id === listenerId || id === speakerId || !listener.knownIds.has(id))
+      continue;
+    // Nobody is asked after while they stand there, or when they live with
+    // both of them (owner, Nov 12: "Have you talked to Maya?").
+    const asked = core.people.get(id);
+    if (
+      room.presentIds?.includes(id) ||
+      (asked?.householdId === speaker.householdId &&
+        asked?.householdId === listener.householdId)
+    )
       continue;
     if (!core.people.get(id)?.alive || !happened(id)) continue;
     out.push({
@@ -1664,7 +1700,7 @@ export function subjectsBetween(
       news: { institutionId: institution.id },
       facts: {
         topic: {
-          text: properName(institution.name),
+          text: organizationName(institution),
           sourceRecordIds: [news.eventId, institution.id],
         },
         // A place in town that closed, by the change's own record.
@@ -1798,8 +1834,10 @@ export function subjectsBetween(
   // At home, the day itself: the weekday, the last time the two spent
   // together and a work day, from records. Raised last, when
   // nothing else opens the talk.
-  if (listener.householdId === speaker.householdId)
-    out.push(quietDay(core, speaker, listener));
+  if (listener.householdId === speaker.householdId) {
+    const quiet = quietDay(core, speaker, listener, room.minuteOfDay);
+    if (quiet) out.push(quiet);
+  }
   // Between relatives, a talk is personal only.
   if (speaker.familyIds.has(listenerId))
     return out.filter(
@@ -1868,7 +1906,7 @@ function employerFact(
   const org = job ? core.organizations.get(job.organizationId) : undefined;
   if (!job || !org || org.outsideFlow || org.kind === "government-treasury")
     return undefined;
-  return { text: properName(org.name), sourceRecordIds: [job.id, org.id] };
+  return { text: organizationName(org), sourceRecordIds: [job.id, org.id] };
 }
 
 /**
@@ -2073,15 +2111,21 @@ function pointSubject(
   listenerId: PersonId,
   eventId: string,
   pick: PointPick,
-  president: { name: string; sourceRecordIds: readonly string[] },
+  president: { id: string; name: string; sourceRecordIds: readonly string[] },
 ): Subject {
   const speaker = core.people.get(speakerId)!;
   const said = [eventId, ...pick.point.sourceRecordIds];
+  // Who gave it, said through the one said-as reader: the talk opened on
+  // "what the President said", so the President is already named by role and
+  // every later slot says the role, never the full name again (owner, Nov 12:
+  // "saying the full name every time").
+  const telling = tellingOf({ speakerId, listenerId });
+  noteMention(telling, president.id, false);
+  noteMention(telling, speakerId, false);
   const facts: Facts = {
     about: { text: pick.point.about, sourceRecordIds: said },
-    // Who gave it, by name, from the officials engine's record.
     president: {
-      text: president.name,
+      text: saidAs(telling, saidPersonOf(core, president.id, telling)),
       sourceRecordIds: [eventId, ...president.sourceRecordIds],
     },
   };
@@ -2193,13 +2237,13 @@ export function composedLine(
     facts,
     stage,
     momentKey,
-    said: recentPartKeys,
+    said: [...recentPartKeys, ...heardNow],
   });
   if (!line) return null;
   const { asks, afterPlain, ...said } = line;
   void asks;
   void afterPlain;
-  return said;
+  return { ...said, text: sentenceStarts(said.text) };
 }
 
 /** The parts this speaker said earlier in the talk, so the next composed line says the point in other words. */
@@ -2267,7 +2311,7 @@ function replyFacts(
     }
     case "their-position": {
       const theirs = namedJobOf(core, listener);
-      return theirs && sayableTitle(theirs.job.title)
+      return theirs && sayableTitle(theirs.title)
         ? {
             facts: {
               employer: {
@@ -2536,6 +2580,7 @@ function worded(
     ...(pick.keys ? { keys: pick.keys } : {}),
     ...(pick.statementsOnly ? { statementsOnly: true } : {}),
     ...(pick.from ? { from: pick.from } : {}),
+    ...(heardNow.size ? { avoid: heardNow } : {}),
     words: data,
   });
 }
@@ -2547,7 +2592,7 @@ function words(...args: Parameters<typeof worded>): Said | null {
   const { asks, afterPlain, ...said } = line;
   void asks;
   void afterPlain;
-  return said;
+  return { ...said, text: sentenceStarts(said.text) };
 }
 
 /** The bank a question about the player's own record is asked from: as news to someone who doesn't know it. */
@@ -2786,7 +2831,13 @@ function tellable(
   kind: string,
 ): Subject | undefined {
   const { playerId, otherId } = conversation;
-  return subjectsBetween(core, otherId, playerId, conversation.director).find(
+  return subjectsBetween(
+    core,
+    otherId,
+    playerId,
+    conversation.director,
+    conversation,
+  ).find(
     (row) =>
       row.kind === kind &&
       !conversation.used.includes(`${otherId}>${row.id}`) &&
@@ -2830,6 +2881,7 @@ function otherAsks(
     playerId,
     otherId,
     conversation.director,
+    conversation,
   ).filter((row) => row.kind !== "news" && !conversation.used.includes(row.id));
   const other = core.people.get(otherId)!;
   const sameWork = order.includes("own-work")
@@ -2863,6 +2915,7 @@ function otherRaises(
     otherId,
     playerId,
     conversation.director,
+    conversation,
   ).filter(
     (row) =>
       order.includes(row.kind) &&
@@ -2893,6 +2946,15 @@ const OPENING_ORDER = [
   "address",
   "quiet",
 ];
+
+/** Small talk's subject ids: the day itself, with nothing but the clock behind it. */
+const SMALL_TALK_PREFIX = "quiet:";
+/** Days before small talk is raised with the same person again (conversation-rules.json, TUNABLE). */
+const SMALL_TALK_AGAIN_DAYS = (
+  rulesFile as unknown as {
+    smallTalk: { againAfterDays: { value: number } };
+  }
+).smallTalk.againAfterDays.value;
 
 /** The subjects that are the two speakers' relationship: what they share. */
 const SHARED_KINDS = ["shared-school", "shared-work"];
@@ -2978,9 +3040,22 @@ function mainTopic(
   // moment.
   const occasion = conversation.occasion;
   const consider = (subject: Subject, asks: boolean, holderId: PersonId) => {
+    // Small talk loses to anything with a record: it is never the leading
+    // subject, only the last thing the opening order reaches.
+    if (subject.kind === "quiet") return;
     if (
       conversation.used.includes(subject.id) ||
       conversation.used.includes(`${otherId}>${subject.id}`)
+    )
+      return;
+    // A scene's talk does not turn to the day's news the occasion is not
+    // about: bring-it-up, which says what the news is, is skipped in a
+    // scene, so "What do you think?" would ask about nothing (a death
+    // told at home, a letter, a friend met on the street).
+    if (
+      occasion &&
+      subject.kind === "news" &&
+      !isAbout(subject, occasion, data)
     )
       return;
     // A scene's moment with the other person in it (a reunion) is about the
@@ -3008,13 +3083,25 @@ function mainTopic(
     if (weight > zero && (!best || weight > best.weight))
       best = { subject, asks, weight };
   };
-  for (const subject of subjectsBetween(core, playerId, otherId, director))
+  for (const subject of subjectsBetween(
+    core,
+    playerId,
+    otherId,
+    director,
+    conversation,
+  ))
     if (
       conversationHas(subject.kind, "ask", data) ||
       composedConversationBank(`${subject.kind}-ask`)
     )
       consider(subject, true, playerId);
-  for (const subject of subjectsBetween(core, otherId, playerId, director))
+  for (const subject of subjectsBetween(
+    core,
+    otherId,
+    playerId,
+    director,
+    conversation,
+  ))
     if (data.otherRaises[subject.kind]) consider(subject, false, otherId);
   const lead = best as { subject: Subject; asks: boolean } | null;
   const stand = standing as { subject: Subject; asks: boolean } | null;
@@ -3026,7 +3113,7 @@ function mainTopic(
  * biggest recent recorded event of either person, else what they share,
  * else the player's work or home.
  */
-export function openConversation(
+function openConversationNow(
   core: Readonly<CoreState>,
   playerId: PersonId,
   otherId: PersonId,
@@ -3163,9 +3250,34 @@ export function openConversation(
   // Away from a scene's occasion, they mention the newest change they know
   // of and who they blame (bring-it-up, which passes both on). Those lines
   // are the talk's raise of that news, said once: the talk goes on from it.
-  const brought = occasion
+  const told = occasion
     ? null
     : bringItUp(core as CoreState, otherId, playerId);
+  // News someone else in the house already told the player today is not
+  // told again (the telling's "said today").
+  // News already talked over with the player (the listener's topic memory)
+  // is not brought up again either.
+  const talked = new Set(
+    [...(core.knowledgeByPerson.get(otherId) ?? [])]
+      .filter(([key]) => key.startsWith(talkedKeyPrefix(playerId)))
+      .map(([, fact]) => fact.value),
+  );
+  const toldIds = told
+    ? [
+        `news:${told.change.eventId}`,
+        `news:${storyOfReadEvent(told.change.eventId) ?? ""}`,
+      ]
+    : [];
+  const brought =
+    told &&
+    !toldIds.some(
+      (id) =>
+        heardNow.has(`${HEARD_SUBJECT}${id}`) ||
+        talked.has(id) ||
+        talked.has(`${otherId}>${id}`),
+    )
+      ? told
+      : null;
   let raisedBrought = false;
   if (brought) {
     conversation.recorded.push(brought.toldEventId);
@@ -3184,7 +3296,13 @@ export function openConversation(
       : null;
     const news =
       headline ??
-      subjectsBetween(core, otherId, playerId, conversation.director)
+      subjectsBetween(
+        core,
+        otherId,
+        playerId,
+        conversation.director,
+        conversation,
+      )
         .filter((row) => ids.includes(row.id))
         .at(zero);
     raisedBrought = news
@@ -3212,8 +3330,18 @@ export function openConversation(
   }
   // A topic already talked over isn't opened again (the listener remembers
   // each one; a new event is a new topic id).
+  // News heard today from someone else in the house is behind the player.
+  for (const key of heardNow)
+    if (key.startsWith(`${HEARD_SUBJECT}news:`))
+      conversation.used.push(key.slice(HEARD_SUBJECT.length));
+  // Small talk is kept a week, not for ever: past the week it may come back.
   for (const [key, fact] of core.knowledgeByPerson.get(otherId) ?? [])
-    if (key.startsWith(talkedKeyPrefix(playerId)))
+    if (
+      key.startsWith(talkedKeyPrefix(playerId)) &&
+      (!fact.value.startsWith(SMALL_TALK_PREFIX) ||
+        daysBetween(makeIsoDate(fact.learnedAt), makeIsoDate(core.date)) <
+          SMALL_TALK_AGAIN_DAYS)
+    )
       conversation.used.push(fact.value);
   const main = raisedBrought ? null : mainTopic(core, conversation, data);
   const open = (topic: { subject: Subject; asks: boolean }) =>
@@ -3243,6 +3371,85 @@ export function openConversation(
     endConversation(core, conversation, data);
   }
   return conversation;
+}
+
+/**
+ * What the player already heard today from anyone in the household (the
+ * telling's "said today"): the wording pieces, kept as the player's own
+ * knowledge, one key per piece, learned on the day. A wording heard today is
+ * not picked again that day, so two housemates never give the same sentence
+ * (owner, Nov 12: "basically saying the same thing").
+ */
+const HEARD_PREFIX = "talk:heard:";
+/** A subject heard today, kept beside the pieces: news one housemate told is not told again by the next. */
+const HEARD_SUBJECT = "subject:";
+let heardNow: ReadonlySet<string> = new Set();
+
+function heardToday(
+  core: Readonly<CoreState>,
+  playerId: PersonId,
+): Set<string> {
+  const out = new Set<string>();
+  for (const [key, fact] of core.knowledgeByPerson.get(playerId) ?? [])
+    if (key.startsWith(HEARD_PREFIX) && fact.learnedAt === core.date)
+      out.add(key.slice(HEARD_PREFIX.length));
+  return out;
+}
+
+/** Keeps every piece the other person said in this talk as heard today by the player. */
+function noteHeard(core: CoreState, conversation: Conversation): void {
+  if (conversation.look) return;
+  const api = coreAPI(core);
+  for (const line of conversation.lines) {
+    if (line.speakerId === conversation.playerId) continue;
+    for (const part of [
+      ...(line.wording?.parts ?? []),
+      `${HEARD_SUBJECT}${line.subjectId}`,
+    ])
+      api.observe(conversation.playerId, {
+        key: `${HEARD_PREFIX}${part}`,
+        value: part,
+        learnedAt: core.date,
+        sourceId: `conversation:${conversation.playerId}:${conversation.otherId}:${core.date}`,
+        access: "perceived",
+      });
+  }
+}
+
+/** Runs a step of the talk with what the player heard today held back from the picks. */
+function withHeard<T>(
+  core: Readonly<CoreState>,
+  playerId: PersonId,
+  run: () => T,
+): T {
+  const before = heardNow;
+  heardNow = heardToday(core, playerId);
+  try {
+    return run();
+  } finally {
+    heardNow = before;
+  }
+}
+
+/**
+ * Opens a conversation (see `openConversationNow`), handed the telling's
+ * "said today": what the player heard from the household is not said again.
+ */
+export function openConversation(
+  ...args: Parameters<typeof openConversationNow>
+): Conversation {
+  const [core, playerId] = args;
+  const talk = withHeard(core, playerId, () => openConversationNow(...args));
+  if (!talk.look && talk.lines.length) noteHeard(core as CoreState, talk);
+  return talk;
+}
+
+/** The player says a line (see `sayNow`); what the other person says back is kept as heard today. */
+export function say(...args: Parameters<typeof sayNow>): Conversation {
+  const [core, conversation] = args;
+  const talk = withHeard(core, conversation.playerId, () => sayNow(...args));
+  noteHeard(core, talk);
+  return talk;
 }
 
 /**
@@ -3289,6 +3496,10 @@ function knowsTruth(
   // who has worked their campaign or had them work theirs (shared-history.ts).
   if (own.key.endsWith(":employer"))
     return (
+      // People who live together know each other's work (owner, Nov 12: a
+      // housemate asking "What do you do?").
+      knower.householdId === core.people.get(subjectId)?.householdId ||
+      knower.familyIds.has(subjectId) ||
       (!!knower.jobId &&
         core.jobs.get(knower.jobId)?.organizationId === own.value) ||
       sharedHistory(core, knowerId, subjectId).some(
@@ -3331,7 +3542,8 @@ function lieClaims(
     claims.push({ stage: "none", value: "none", facts: {} });
     const nearby = [...(core.peopleByPlace.get(player.placeId) ?? [])]
       .map((id) => jobOf(core, core.people.get(id)!)?.org)
-      .filter((org) => org && org.id !== own.value);
+      // The market's stand-in for work out of town is no employer to claim.
+      .filter((org) => org && org.id !== own.value && !org.outsideFlow);
     const other = nearby.sort((a, b) =>
       stableHash(`${key}:${a!.id}`).localeCompare(
         stableHash(`${key}:${b!.id}`),
@@ -3343,7 +3555,7 @@ function lieClaims(
         value: other.id,
         facts: {
           claimed: {
-            text: properName(other.name),
+            text: employerText(other),
             sourceRecordIds: [other.id],
           },
         },
@@ -3481,6 +3693,7 @@ function offerChoices(
     playerId,
     otherId,
     conversation.director,
+    conversation,
   );
   const unused = between.filter(
     (row) =>
@@ -4129,6 +4342,15 @@ function partingLine(
           sourceRecordIds: [conversation.playerId],
         };
     }
+  // What is left of the day, for a line that looks ahead (the telling's
+  // clock): "later", or "tomorrow" once it is the evening.
+  const ahead = dayAheadSaid(
+    clockOf(
+      conversation.minuteOfDay ?? sceneMinute(core, conversation.playerId),
+    ).dayLeft,
+  );
+  if (housemate && ahead)
+    facts.ahead = { text: ahead, sourceRecordIds: [conversation.playerId] };
   if (!Object.keys(facts).length) return null;
   const line = composedLine(
     core,
@@ -4172,9 +4394,13 @@ function endConversation(
   // "Say hello to {name}." only for someone in the player's family they know.
   const family = housemate
     ? undefined
-    : subjectsBetween(core, playerId, otherId, conversation.director).find(
-        (row) => row.kind === "family",
-      );
+    : subjectsBetween(
+        core,
+        playerId,
+        otherId,
+        conversation.director,
+        conversation,
+      ).find((row) => row.kind === "family");
   // A parting word is not one already said in this talk ("Nice to see you."
   // opening and closing it): a further wording of the same move stands in.
   const said = new Set(conversation.lines.map((row) => row.text));
@@ -4239,7 +4465,7 @@ export function doubtsClaim(
 }
 
 /** The player says a choice: it is recorded, and the other person replies. */
-export function say(
+function sayNow(
   core: CoreState,
   conversation: Conversation,
   choiceKey: string,
@@ -4456,6 +4682,7 @@ export function say(
     playerId,
     otherId,
     conversation.director,
+    conversation,
   ).find((row) => row.id === choice.raises);
   if (
     !raised &&
@@ -4484,7 +4711,7 @@ export function say(
     // or a plea to be left alone, their answer ends the talk. An answer that
     // only takes their line in ("Oh, okay.") gets none: the talk has no
     // answer to a note.
-    const take = doubted
+    const answered = doubted
       ? null
       : answerInTalk(core, {
           replyMove: replyMoveOf(last.kind, choice.move),
@@ -4493,6 +4720,15 @@ export function say(
           speakerId: otherId,
           momentKey: `${playerId}:${otherId}:${conversation.lines.length}:take`,
         });
+    // An answer says something or is not said: a bare taking-in ("Okay.",
+    // "I see.") of an answer that asked nothing is a non-reply (owner, Nov
+    // 12: "a useless interaction"); the talk carries on from its records
+    // instead. Taking up a request ("Sit with me a minute?" "Sure.") stays.
+    const take =
+      answered?.move === "accept" &&
+      replyMoveOf(last.kind, choice.move) !== "request"
+        ? null
+        : answered;
     if (take)
       conversation.lines.push({
         speakerId: otherId,

@@ -2,7 +2,91 @@
   "schema": "english-judged/2",
   "rule": "stake-is-named",
   "rubric": "A plea gives its stake; a bargain names the trade; a complaint names the concrete effect.",
-  "judged": 92,
-  "no": {},
-  "yesHash": "24hswbkygpf"
+  "judged": 68,
+  "no": {
+    "050jxoy5cvo": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-one-of-your-donors-is-on-the-line",
+        "scene-talk.state-request.i-need-you-to-take-another-look-at-bill",
+        "scene-talk.reply-offer.let-me-put-you-on-the-calendar-for-a-real-meeting"
+      ],
+      "why": "The donor only asks you to 'take another look' at the bill; what they want changed and what rides on it for either side is never said."
+    },
+    "0bspjln7yty": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-comes-in-with-an-envelope-held-in-both-hands-as-though-it-might-b",
+        "scene-talk.state-plea.this-is-all-i-have-im-putting-all-of-it-in-your-hands-and-i-need-this"
+      ],
+      "why": "The money is offered for 'this to go my way', but what 'this' is (the vote, the decision) is never named, so the trade is only half named."
+    },
+    "0lzfc4xq39j": {
+      "keys": [
+        "scene-talk.narrate-narrate.the-hall-is-full-and-the-questions-are-coming-name-stands-up-with-a-fo",
+        "scene-talk.state-ask.what-are-you-going-to-do-about-the-things-people-here-are-worried-abou",
+        "scene-talk.reply-offer.i-can-t-do-this-justice-from-here-come-see-me"
+      ],
+      "why": "'The things people here are worried about' names no issue and no consequence; nothing concrete is at stake."
+    },
+    "0u6uv16tj5b": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-stands-at-the-edge-of-the-room-holding-a-folded-flyer-from-your",
+        "scene-talk.state-request.put-me-down-to-speak-at-the-next-public-meeting-i-want-you-to-know-wh",
+        "scene-talk.reply-offer.my-scheduler-will-find-you-a-slot-give-her-your-number"
+      ],
+      "why": "They want a speaking slot and say 'I want you to know why', but the why is never given; nothing about what's at stake is said."
+    },
+    "0ztk18403e8": {
+      "keys": [
+        "scene-talk.narrate-narrate.the-hall-is-full-and-the-questions-are-coming-name-stands-up-with-a-fo",
+        "scene-talk.state-ask.what-are-you-going-to-do-about-the-things-people-here-are-worried-abou",
+        "scene-talk.reply-deflect.that-s-a-good-one-for-another-night",
+        "scene-talk.follow-plea.please-i-stood-up-to-ask-this",
+        "scene-talk.reply-offer.call-my-office-tomorrow-and-ask-for-me-by-name"
+      ],
+      "why": "'Things people here are worried about' is vague, and the follow-up adds nothing concrete."
+    },
+    "195ci23fpgk": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-holds-out-a-small-wrapped-gift-and-says-it-is-nothing",
+        "scene-talk.state-offer.open-it-later-if-you-like-its-only-a-thank-you-and-id-like-to-be-remem",
+        "scene-talk.reply-deflect.you-didnt-need-to-do-that",
+        "scene-talk.follow-offer.take-it-home-to-your-family-then-nobodys-keeping-score"
+      ],
+      "why": "A gift 'to be remembered kindly' never says what is wanted in return; nothing concrete is traded or at stake."
+    },
+    "1pm7vbd5pbk": {
+      "keys": [
+        "scene-talk.narrate-narrate.the-hall-is-full-and-the-questions-are-coming-name-stands-up-with-a-fo",
+        "scene-talk.state-ask.i-have-a-question-and-i-d-like-a-straight-answer",
+        "scene-talk.reply-deflect.i-ll-take-the-next-hand",
+        "scene-talk.follow-plea.please-i-stood-up-to-ask-this",
+        "scene-talk.reply-offer.call-my-office-tomorrow-and-ask-for-me-by-name"
+      ],
+      "why": "The questioner only says they have a question and want a straight answer; no subject or consequence is ever named."
+    },
+    "1rvuaudu6zl": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-holds-out-a-small-wrapped-gift-and-says-it-is-nothing",
+        "scene-talk.state-offer.open-it-later-if-you-like-its-only-a-thank-you-and-id-like-to-be-remem"
+      ],
+      "why": "'Only a thank-you... remembered kindly' names nothing being traded or gained."
+    },
+    "1ytlncgwc0o": {
+      "keys": [
+        "scene-talk.narrate-narrate.name-has-known-you-for-years-and-has-a-favor-to-ask",
+        "scene-talk.state-request.can-i-ask-you-something-and-have-you-not-hear-it-as-the-donor-talking",
+        "scene-talk.reply-offer.let-me-get-you-in-with-my-chief-of-staff-first-she-ll-tell-me-what-s"
+      ],
+      "why": "The friend's favor is never stated; nothing about what is wanted or what rides on it has been said."
+    },
+    "2epzuxuqafj": {
+      "keys": [
+        "scene-talk.narrate-narrate.the-hall-is-full-and-the-questions-are-coming-name-stands-up-with-a-fo",
+        "scene-talk.state-ask.i-have-a-question-and-i-d-like-a-straight-answer",
+        "scene-talk.reply-offer.stay-after-and-let-s-sit-down-i-want-the-whole-story"
+      ],
+      "why": "'I have a question and I'd like a straight answer' names no subject or consequence."
+    }
+  },
+  "yesHash": "0o9gmgzus3d"
 }

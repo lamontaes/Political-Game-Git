@@ -116,6 +116,14 @@
       "stopgapId": "SG-GOV-REACH-B-voucher-payment",
       "employersGain": true
     },
+    "us-policy-positions:education.equalize-school-funding": {
+      "appliedByEngine": true,
+      "mechanic": "school-aid",
+      "effect": "school-aid-paid",
+      "kind": "service",
+      "enforcer": "state treasurer and education department",
+      "source": "Model of school finance equalization (Lafortune, Rothstein and Schanzenbach 2018, AEJ: Applied)"
+    },
     "us-policy-positions:education.raise-teacher-minimum-salary": {
       "mechanic": "teacher-floor",
       "effect": "teacher-salary-floor",
@@ -150,8 +158,7 @@
         "capShare": "propertyTaxGrowthCapShare"
       },
       "enforcer": "county assessor",
-      "source": "California Constitution art. XIII A; Lincoln Institute, Significant Features of the Property Tax (2023)",
-      "stopgapId": "SG-GOV-REACH-B-property-tax-bills"
+      "source": "California Constitution art. XIII A; Lincoln Institute, Significant Features of the Property Tax (2023)"
     },
     "us-policy-positions:fiscal.exempt-groceries-from-sales-tax": {
       "mechanic": "records",

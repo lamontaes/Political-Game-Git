@@ -1,0 +1,115 @@
+{
+  "about": "The share of an industry's jobs that stand open on any day: the JOLTS job openings rate (openings over employment plus openings), the 45-month average with its range as the spread. At the opening each employer posts its standing openings from it (src/core2/modules/jobs.ts, postStandingOpenings), so a world opens with the openings a real one carries instead of none. Business kinds map to series by vacancy-duration.json's kinds.",
+  "series": {
+    "total-private": {
+      "percent": {
+        "value": 4.92,
+        "low": 4.1,
+        "high": 6.5,
+        "tag": "SOURCED",
+        "unit": "percent",
+        "role": "coefficient"
+      },
+      "source": "BLS JOLTS job openings rate, total private, seasonally adjusted, monthly, Jan 2023 to Sep 2026 (45 months), FRED series JTS1000JOR (https://fred.stlouisfed.org/series/JTS1000JOR), fetched Nov 12, 2026. The rate is openings over employment plus openings."
+    },
+    "construction": {
+      "percent": {
+        "value": 3.53,
+        "low": 1.6,
+        "high": 5.2,
+        "tag": "SOURCED",
+        "unit": "percent",
+        "role": "coefficient"
+      },
+      "source": "BLS JOLTS job openings rate, construction, seasonally adjusted, monthly, Jan 2023 to Sep 2026 (45 months), FRED series JTS2300JOR (https://fred.stlouisfed.org/series/JTS2300JOR), fetched Nov 12, 2026. The rate is openings over employment plus openings."
+    },
+    "manufacturing": {
+      "percent": {
+        "value": 3.77,
+        "low": 2.9,
+        "high": 5.3,
+        "tag": "SOURCED",
+        "unit": "percent",
+        "role": "coefficient"
+      },
+      "source": "BLS JOLTS job openings rate, manufacturing, seasonally adjusted, monthly, Jan 2023 to Sep 2026 (45 months), FRED series JTS3000JOR (https://fred.stlouisfed.org/series/JTS3000JOR), fetched Nov 12, 2026. The rate is openings over employment plus openings."
+    },
+    "trade-transport": {
+      "percent": {
+        "value": 3.93,
+        "low": 3.1,
+        "high": 5.7,
+        "tag": "SOURCED",
+        "unit": "percent",
+        "role": "coefficient"
+      },
+      "source": "BLS JOLTS job openings rate, trade, transportation and utilities, seasonally adjusted, monthly, Jan 2023 to Sep 2026 (45 months), FRED series JTS4000JOR (https://fred.stlouisfed.org/series/JTS4000JOR), fetched Nov 12, 2026. The rate is openings over employment plus openings."
+    },
+    "retail": {
+      "percent": {
+        "value": 3.84,
+        "low": 2.8,
+        "high": 5.4,
+        "tag": "SOURCED",
+        "unit": "percent",
+        "role": "coefficient"
+      },
+      "source": "BLS JOLTS job openings rate, retail trade, seasonally adjusted, monthly, Jan 2023 to Sep 2026 (45 months), FRED series JTS4400JOR (https://fred.stlouisfed.org/series/JTS4400JOR), fetched Nov 12, 2026. The rate is openings over employment plus openings."
+    },
+    "professional": {
+      "percent": {
+        "value": 5.68,
+        "low": 4.5,
+        "high": 8.1,
+        "tag": "SOURCED",
+        "unit": "percent",
+        "role": "coefficient"
+      },
+      "source": "BLS JOLTS job openings rate, professional and business services, seasonally adjusted, monthly, Jan 2023 to Sep 2026 (45 months), FRED series JTS540099JOR (https://fred.stlouisfed.org/series/JTS540099JOR), fetched Nov 12, 2026. The rate is openings over employment plus openings."
+    },
+    "education-health": {
+      "percent": {
+        "value": 6.01,
+        "low": 4.7,
+        "high": 7.5,
+        "tag": "SOURCED",
+        "unit": "percent",
+        "role": "coefficient"
+      },
+      "source": "BLS JOLTS job openings rate, private education and health services, seasonally adjusted, monthly, Jan 2023 to Sep 2026 (45 months), FRED series JTS6000JOR (https://fred.stlouisfed.org/series/JTS6000JOR), fetched Nov 12, 2026. The rate is openings over employment plus openings."
+    },
+    "health-care": {
+      "percent": {
+        "value": 6.4,
+        "low": 5.1,
+        "high": 8.1,
+        "tag": "SOURCED",
+        "unit": "percent",
+        "role": "coefficient"
+      },
+      "source": "BLS JOLTS job openings rate, health care and social assistance, seasonally adjusted, monthly, Jan 2023 to Sep 2026 (45 months), FRED series JTS6200JOR (https://fred.stlouisfed.org/series/JTS6200JOR), fetched Nov 12, 2026. The rate is openings over employment plus openings."
+    },
+    "leisure-hospitality": {
+      "percent": {
+        "value": 5.89,
+        "low": 4.3,
+        "high": 8.5,
+        "tag": "SOURCED",
+        "unit": "percent",
+        "role": "coefficient"
+      },
+      "source": "BLS JOLTS job openings rate, leisure and hospitality, seasonally adjusted, monthly, Jan 2023 to Sep 2026 (45 months), FRED series JTS7000JOR (https://fred.stlouisfed.org/series/JTS7000JOR), fetched Nov 12, 2026. The rate is openings over employment plus openings."
+    },
+    "food-lodging": {
+      "percent": {
+        "value": 5.97,
+        "low": 4.4,
+        "high": 8.8,
+        "tag": "SOURCED",
+        "unit": "percent",
+        "role": "coefficient"
+      },
+      "source": "BLS JOLTS job openings rate, accommodation and food services, seasonally adjusted, monthly, Jan 2023 to Sep 2026 (45 months), FRED series JTS7200JOR (https://fred.stlouisfed.org/series/JTS7200JOR), fetched Nov 12, 2026. The rate is openings over employment plus openings."
+    }
+  }
+}
