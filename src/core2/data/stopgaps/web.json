@@ -143,18 +143,6 @@
     "resolvedBy": "stand-in-triage"
   },
   {
-    "id": "SG-WEB-voting-newspaper-closure",
-    "kind": "missing-engine",
-    "file": "src/core2/modules/outcome-web.ts",
-    "line": 212,
-    "whatItFakes": "The newspaper-closure-to-engagement link into local turnout runs (the web counts the town's closed local newspapers from the press module, and the voting engine multiplies a voter's turnout propensity by its effect on a day with a local race), but its cause does not occur in play: no local newspaper closes, so the count stays at zero and the link moves no one.",
-    "why": "A paper closes only by its owner's choice, which the business engine weighs from the paper's operating losses and the owner's age, and the press books each paper's shortfall to its wider audience every week (SG-PEOPLE-press-bureau-shortfall), so a paper's books show no losses; in four drawn places over 800 days none closed.",
-    "addedBy": "EFFECT-WEB-VOTING",
-    "addedAt": "2026-10-20",
-    "replacement": "An outlet whose revenue from its own readers and advertisers falls short of its costs without the wider audience's weekly top-up, so its books show the operating losses the owner's closing decision weighs; the web then counts it closed with no change to the link.",
-    "status": "open"
-  },
-  {
     "id": "SG-WEB-voting-corruption-reelection",
     "kind": "missing-engine",
     "file": "src/core2/turnout-web.ts",

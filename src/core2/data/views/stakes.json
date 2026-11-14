@@ -231,6 +231,114 @@
         "citation": "Per national household-income fifth above the middle (negative: the lower the household's income, the more it favors the question): lower-income households are the ones a wage floor, a graduated tax or a grocery exemption pays. A judgment from who the question pays, not yet checked against polls split by tenure, income or work (cut 4 checks each size against such polls); spread -0.09 to -0.01.",
         "role": "coefficient"
       }
+    },
+    "budget-line:schools": {
+      "youngChild": {
+        "value": 0.2,
+        "tag": "TUNABLE",
+        "citation": "A household with a young child is the one the schools serve next. A judgment from who the spending serves, not yet checked against polls split by tenure, income or work (cut 4 checks each size against such polls); spread 0.1 to 0.3.",
+        "role": "coefficient"
+      },
+      "publicWorker": {
+        "value": 0.1,
+        "tag": "TUNABLE",
+        "citation": "A government worker's own pay and post come from this line. A judgment from who the spending serves, not yet checked against polls split by tenure, income or work (cut 4 checks each size against such polls); spread 0.05 to 0.15.",
+        "role": "coefficient"
+      }
+    },
+    "budget-line:education": {
+      "youngChild": {
+        "value": 0.2,
+        "tag": "TUNABLE",
+        "citation": "A household with a young child is the one the schools serve next. A judgment from who the spending serves, not yet checked against polls split by tenure, income or work (cut 4 checks each size against such polls); spread 0.1 to 0.3.",
+        "role": "coefficient"
+      },
+      "publicWorker": {
+        "value": 0.1,
+        "tag": "TUNABLE",
+        "citation": "A government worker's own pay and post come from this line. A judgment from who the spending serves, not yet checked against polls split by tenure, income or work (cut 4 checks each size against such polls); spread 0.05 to 0.15.",
+        "role": "coefficient"
+      }
+    },
+    "budget-line:higherEducation": {
+      "incomeFifth": {
+        "value": -0.02,
+        "tag": "TUNABLE",
+        "citation": "Per national household-income fifth above the middle (negative: the lower the household's income, the more it wants spent): grants and low tuition matter most to families who cannot pay full price. A judgment from who the spending serves, not yet checked against polls split by tenure, income or work (cut 4 checks each size against such polls); spread -0.04 to 0.",
+        "role": "coefficient"
+      }
+    },
+    "budget-line:incomeSecurity": {
+      "noWork": {
+        "value": 0.2,
+        "tag": "TUNABLE",
+        "citation": "Someone out of work is the one income support pays. A judgment from who the spending serves, not yet checked against polls split by tenure, income or work (cut 4 checks each size against such polls); spread 0.1 to 0.3.",
+        "role": "coefficient"
+      },
+      "incomeFifth": {
+        "value": -0.05,
+        "tag": "TUNABLE",
+        "citation": "Per national household-income fifth above the middle (negative: the lower the household's income, the more it wants spent): income support is paid to the lowest-income households. A judgment from who the spending serves, not yet checked against polls split by tenure, income or work (cut 4 checks each size against such polls); spread -0.08 to -0.02.",
+        "role": "coefficient"
+      }
+    },
+    "budget-line:welfareAndMedicaid": {
+      "noPrivatePlan": {
+        "value": 0.2,
+        "tag": "TUNABLE",
+        "citation": "Someone without a private plan is the one Medicaid covers. A judgment from who the spending serves, not yet checked against polls split by tenure, income or work (cut 4 checks each size against such polls); spread 0.1 to 0.3.",
+        "role": "coefficient"
+      },
+      "noWork": {
+        "value": 0.1,
+        "tag": "TUNABLE",
+        "citation": "Someone out of work is the one cash aid pays. A judgment from who the spending serves, not yet checked against polls split by tenure, income or work (cut 4 checks each size against such polls); spread 0.05 to 0.15.",
+        "role": "coefficient"
+      },
+      "incomeFifth": {
+        "value": -0.05,
+        "tag": "TUNABLE",
+        "citation": "Per national household-income fifth above the middle (negative: the lower the household's income, the more it wants spent): aid and Medicaid go to the lowest-income households. A judgment from who the spending serves, not yet checked against polls split by tenure, income or work (cut 4 checks each size against such polls); spread -0.08 to -0.02.",
+        "role": "coefficient"
+      }
+    },
+    "budget-line:housing": {
+      "rents": {
+        "value": 0.25,
+        "tag": "TUNABLE",
+        "citation": "A renter is the one housing aid and public housing serve; an owner pays for it in tax. A judgment from who the spending serves, not yet checked against polls split by tenure, income or work (cut 4 checks each size against such polls); spread 0.15 to 0.35.",
+        "role": "coefficient"
+      },
+      "incomeFifth": {
+        "value": -0.03,
+        "tag": "TUNABLE",
+        "citation": "Per national household-income fifth above the middle (negative: the lower the household's income, the more it wants spent): housing aid goes to lower-income households. A judgment from who the spending serves, not yet checked against polls split by tenure, income or work (cut 4 checks each size against such polls); spread -0.05 to -0.01.",
+        "role": "coefficient"
+      }
+    },
+    "budget-line:health": {
+      "noPrivatePlan": {
+        "value": 0.15,
+        "tag": "TUNABLE",
+        "citation": "Someone without a private plan leans on public clinics and programs. A judgment from who the spending serves, not yet checked against polls split by tenure, income or work (cut 4 checks each size against such polls); spread 0.08 to 0.22.",
+        "role": "coefficient"
+      }
+    },
+    "budget-line:healthAndHospitals": {
+      "noPrivatePlan": {
+        "value": 0.15,
+        "tag": "TUNABLE",
+        "citation": "Someone without a private plan leans on the public hospital and clinics. A judgment from who the spending serves, not yet checked against polls split by tenure, income or work (cut 4 checks each size against such polls); spread 0.08 to 0.22.",
+        "role": "coefficient"
+      }
+    },
+    "budget-line:administration": {
+      "publicWorker": {
+        "value": 0.15,
+        "tag": "TUNABLE",
+        "citation": "A government worker's own pay and post come from this line. A judgment from who the spending serves, not yet checked against polls split by tenure, income or work (cut 4 checks each size against such polls); spread 0.08 to 0.22.",
+        "role": "coefficient"
+      }
     }
   }
 }
