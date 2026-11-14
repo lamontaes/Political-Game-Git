@@ -803,7 +803,8 @@
     "workAndSchool": "Work and school",
     "openings": "Open in town",
     "hourly": "per hour",
-    "noOpenings": "Nothing is open in town right now."
+    "noOpenings": "Nothing is open in town right now.",
+    "leaveJob": "Leave this job"
   },
   "politics": {
     "seats": "Seats",

@@ -1083,8 +1083,8 @@ export function coreAPI(core: CoreState): CoreAPI {
     startJob(job, commitment, calendar) {
       startRecordedJob(core, api, job, commitment, calendar);
     },
-    endJob(id, sourceId) {
-      endRecordedJob(core, api, id, sourceId);
+    endJob(id, sourceId, afterShift) {
+      endRecordedJob(core, api, id, sourceId, afterShift);
     },
     startSalariedPost(job) {
       startSalariedPost(core, api, job);
