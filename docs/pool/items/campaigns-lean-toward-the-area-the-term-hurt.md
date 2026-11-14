@@ -34,4 +34,4 @@ root: none
 
 **Files.** src/core2/modules/campaigns.ts, src/core2/term-read.ts, src/director/local-address.ts, src/core2/data/campaigns/parameters.json, src/core2/campaign-record-tilt.test.ts (new).
 
-**Notes.** Filed Nov 14 with the PR; year 1 time and records equal with and without at three places.
+**Notes.** Filed Nov 14 with the PR; years 1 and 2 are identical with and without because the term read is in its warmup (SG-WORDS-term-read-warmup) and a state race outside the played town has no web rows; by year 4 (seed t2, to 2029-01) the lean is non-zero in the campaign openings (largest 0.635) and 344 of 605 tables differ, 12 of them campaign tables, records 566,161 against 565,194, year 4 at 167.2 s without and 160.8 s with.
