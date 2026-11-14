@@ -298,6 +298,7 @@
 /src/core2/past-*.ts @lamontaes
 /src/core2/deep-past.ts @lamontaes
 /src/core2/own-past-kinds.ts @lamontaes
+/src/core2/places-elsewhere.ts @lamontaes
 /src/core2/pre-start.ts @lamontaes
 /src/core2/shared-history.ts @lamontaes
 
@@ -318,7 +319,7 @@
 /src/core2/world-settings.ts @lamontaes
 /src/core2/player-*.ts @lamontaes
 /src/core2/opening-*.ts @lamontaes
-/src/core2/fast-forward.ts @lamontaes
+/src/core2/place-race-origin.generated.ts @lamontaes
 /src/core2/modules/national-events.ts @lamontaes
 /src/core2/national-disaster-event.ts @lamontaes
 /src/core2/modules/climate.ts @lamontaes

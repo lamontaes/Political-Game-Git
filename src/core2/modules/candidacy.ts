@@ -80,7 +80,10 @@ import { countedResidents, type CountedVoter } from "../electorate";
 import { presidentSide, tideAgainstPresident } from "../electorate-inputs";
 import { partySide } from "../appointments";
 import { approvalGapPoints } from "./national-opinion";
-import { revolvingDoorFor } from "../law-reach/group-a-voting";
+import {
+  prisonersBarredHere,
+  revolvingDoorFor,
+} from "../law-reach/group-a-voting";
 import { fillInPerson } from "../state";
 import { campaignParameter } from "../campaign-data";
 
@@ -829,6 +832,25 @@ export function platformFromViews(
   ).map(({ question, position }) => `${question}=${position}`);
 }
 
+/**
+ * The stands a filing for this contest carries when none are handed in: the
+ * filer's own views on the questions the seat takes up. The counter files
+ * the player this way, as a simulated runner's filing does.
+ */
+export function platformForContest(
+  api: CoreAPI,
+  personId: PersonId,
+  party: string | null,
+  contest: { readonly officeId: string },
+): string[] {
+  return platformFromViews(
+    api,
+    personId,
+    party,
+    contestPositions(api, contest),
+  );
+}
+
 /** File for a runner: no fee; the filing's petition circulates until the clerk's check. */
 function fileFor(
   api: CoreAPI,
@@ -1218,8 +1240,9 @@ function countedScreen(
     held.year !== year ||
     !placeIds.every((id) => held!.places.includes(id))
   ) {
-    // Counted residents of adult correctional rooms may be drawn to run.
-    // stopgapId: SG-GQ-counted-prisoners-vote
+    // Counted residents of adult correctional rooms are not drawn to run
+    // where the state bars people held in prison (`incarceratedMayVote`).
+    const barredRooms = prisonersBarredHere(api);
     const places = [
       ...new Set([...(held?.year === year ? held.places : []), ...placeIds]),
     ];
@@ -1227,7 +1250,11 @@ function countedScreen(
       year,
       places,
       rows: countedResidents(api.state as CoreState)
-        .filter((voter) => places.includes(voter.placeId))
+        .filter(
+          (voter) =>
+            places.includes(voter.placeId) &&
+            !(barredRooms && voter.quarters === "adultCorrectional"),
+        )
         .map((voter) => {
           // The pull apart from the seat: an open town seat with no one
           // running yet, which bounds every seat's pull from above but for
@@ -1931,6 +1958,16 @@ export const candidacyModule: CoreModule = {
     },
   },
   onDay: (api) => {
+    candidacyDay(api);
+    dropPastNonRunners(api);
+  },
+  // A skipped day weighs and files the races whose day has come, so a race
+  // decided in skipped time has its incumbent and runners on the ballot.
+  onResultsDay: (api) => {
+    // No campaign is played in skipped time: the count reads the voters'
+    // standing views and the candidates' records, with no campaign's effect.
+    // stopgapId: SG-SPEED-results-mode-no-campaign-effect
+    api.stopgap("SG-SPEED-results-mode-no-campaign-effect");
     candidacyDay(api);
     dropPastNonRunners(api);
   },

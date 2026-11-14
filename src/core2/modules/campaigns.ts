@@ -15,7 +15,6 @@
  */
 import { shareValue } from "../shares";
 import { lawApplied } from "../law-reach/applied";
-import { FAST_FORWARD_STRIDE, fastForward } from "../fast-forward";
 import { townOutsideOf } from "../opening-outside-market";
 import { candidateIdentity } from "../candidate-identity";
 import {
@@ -68,16 +67,17 @@ import { basePlaces } from "../race-places";
 import { logistic } from "../kernel/deterministic-math";
 import { OPENING_CARRY } from "../turnout";
 import { transferCash } from "../world-transfer";
+import { notifySalesReceipt } from "./finance";
 import { medianTransactionBalance } from "../starting-cash";
 import { districtLean, groupAgreement, personLean } from "../campaign-views";
 import {
   campaignParameter,
   PLATFORM_QUESTIONS,
-  platformLead,
   type Stance,
 } from "../campaign-data";
 import {
   candidatePlatform,
+  platformShares,
   partyLean,
   partyPosition,
 } from "../campaign-stances";
@@ -125,6 +125,8 @@ import {
   PRESS_MODULE_ID,
 } from "./press";
 import { newsKey } from "./news";
+import { groupQuartersProfileOf } from "../gov-rules/place-population";
+import type { GroupQuartersType } from "../group-quarters-types";
 import {
   atLargeGroup,
   ballot,
@@ -161,6 +163,12 @@ export interface CampaignRow {
   readonly contestId: string;
   readonly candidateId: string;
   readonly platform: readonly Stance[];
+  /**
+   * Each platform question's share of what the campaign says, one in all
+   * (`platformShares`: the platform rule's own scores over their sum), read
+   * once when the campaign opens. A row without it shares equally.
+   */
+  readonly platformShares?: Readonly<Record<string, number>>;
   readonly organizationId: string;
   readonly volunteerIds: readonly string[];
   readonly staffIds: readonly string[];
@@ -256,6 +264,12 @@ export interface GiftRow {
   readonly donorId: string;
   readonly totalMinor: number;
   readonly lastDate: string;
+  /**
+   * What the donor gave this campaign in the calendar month of `lastDate`
+   * (absent counts as none): the part of the running total `giftBudget`
+   * takes off the donor's month (`givenInMonth`).
+   */
+  readonly monthMinor?: number;
   /**
    * How many people one row stands for: 1 (absent) for a named donor, the
    * count of an outside place's donors for an `outside:` row, whose limit is
@@ -516,6 +530,8 @@ export const CAMPAIGNS_MODULE: CoreModule = {
       /** Folded causes a voter's known fact still names as its source, kept for the trace. */
       foldedCauses: {},
       promises: { indexes: { byCandidate: { fields: ["candidateId"] } } },
+      /** What a campaign has said so far, a count per platform question, one row a filing (`nextTopic`); kept while its race is open (`closeRace`). */
+      emphasis: {},
       /**
        * Each resident's "yes" at a campaign's door, one row a voter and
        * candidate in a contest, kept while the contest is open: a closed
@@ -775,8 +791,12 @@ export function campaignFor(api: CoreAPI, filingId: string): CampaignRow {
     raisedMinor: 0,
     spentMinor: 0,
   };
-  table(api, "campaigns").put(row as unknown as ModuleRow);
-  return row;
+  const opened: CampaignRow = {
+    ...row,
+    platformShares: platformShares(api, row.platform),
+  };
+  table(api, "campaigns").put(opened as unknown as ModuleRow);
+  return opened;
 }
 
 function save(api: CoreAPI, row: CampaignRow) {
@@ -1099,6 +1119,18 @@ const addressCache = new WeakMap<
 >();
 
 /**
+ * Whether a group-quarters room is an institution's (a cell, a nursing-home
+ * room): no canvasser knocks there. A dormitory or barracks is still a door.
+ */
+const institution = (type: GroupQuartersType | undefined): boolean =>
+  type !== undefined && groupQuartersProfileOf(type).institutional;
+
+/** How many doors the town's canvass has: the one list `townAddresses` walks. */
+export function townDoorCount(api: CoreAPI): number {
+  return townAddresses(api).list.length;
+}
+
+/**
  * The town's addresses, full households and counted ones alike, with how many
  * counted adults live in them, in the order a campaign's walk list stands:
  * households with the oldest member first (older residents answer a knock
@@ -1126,6 +1158,7 @@ function townAddresses(api: CoreAPI): {
     if (
       person?.alive &&
       core.households.has(person.householdId) &&
+      !institution(core.households.get(person.householdId)!.quarters) &&
       !ids.has(person.householdId)
     ) {
       let eldest = person.birthDate;
@@ -1142,7 +1175,7 @@ function townAddresses(api: CoreAPI): {
   // The wider population is read from its groups' columns, never built as records.
   for (const h of rt?.store.liveHouseholds() ?? []) {
     if (h.placeId !== town || ids.has(h.id)) continue;
-    if (core.households.has(h.id)) continue;
+    if (core.households.has(h.id) || institution(h.quarters)) continue;
     let eldest = "9999-12-31";
     for (const m of rt!.store.countedMembers(h)) {
       const born = rt!.store.born[m]!;
@@ -1708,8 +1741,11 @@ const sellerCache = new WeakMap<object, Map<string, string | null>>();
 
 /**
  * Who sells a campaign what it buys: a business in town of a fitting kind
- * (the first of the first fitting kind, in the order they're recorded), or
- * a registered stand-in seller where the town has none.
+ * (the first of the first fitting kind, in the order they're recorded), else
+ * the town's outside market, where the region's pollsters, printers and halls
+ * are paid from the town's outside account like every other purchase the town
+ * makes beyond its edge (opening-outside-market.ts). The dollars leave the
+ * town as outside money; nothing is made up in town to take them.
  */
 export function seller(api: CoreAPI, purchase: Purchase): string {
   const core = api.state as CoreState;
@@ -1730,38 +1766,20 @@ export function seller(api: CoreAPI, purchase: Purchase): string {
     }
     cache.set(key, found);
   }
-  if (found) return found;
-  return standInSeller(api, purchase);
+  return found ?? outsideSeller(api);
 }
 
-/** A stand-in seller where the town has no business of the kind (registered). */
-function standInSeller(api: CoreAPI, purchase: Purchase): string {
-  if (purchase === "poll") {
-    // stopgapId: SG-GOV-campaign-pollster-seller
-    api.stopgap("SG-GOV-campaign-pollster-seller");
-  } else if (purchase === "mail") {
-    // stopgapId: SG-GOV-campaign-mail-seller
-    api.stopgap("SG-GOV-campaign-mail-seller");
-  } else {
-    // stopgapId: SG-GOV-campaign-venue-seller
-    api.stopgap("SG-GOV-campaign-venue-seller");
-  }
-  const id = `organization:campaign-${purchase}:${townRow(api).townPlaceId}`;
-  if (!api.state.organizations.has(id))
-    api.addOrganization({
-      id,
-      placeId: townRow(api).townPlaceId,
-      name: purchase,
-      kind: `campaign-${purchase}-seller`,
-      liquidMinor: 0,
-      source: {
-        tag: "ESTIMATED",
-        citation: `Stand-in seller of campaign ${purchase} where the town records no business of the kind`,
-        asOf: api.state.date,
-        estimatedFrom: `SG-GOV-campaign-${purchase === "event" ? "venue" : purchase === "poll" ? "pollster" : "mail"}-seller`,
-      },
-    });
-  return id;
+/** The town's outside account, where a campaign buys what no business in town sells (the postage always: the Postal Service is not in town). */
+function outsideSeller(api: CoreAPI): string {
+  const outside = townOutsideOf(
+    api.state.organizations.values(),
+    townRow(api).townPlaceId,
+  );
+  if (!outside)
+    throw new Error(
+      "No outside market account: a campaign has nowhere to buy what the town does not sell.",
+    );
+  return outside.id;
 }
 
 function priceRow(kind: string) {
@@ -3470,6 +3488,36 @@ export function spareAgainstGift(
   return (spare - even) / (spare + even);
 }
 
+/** The row after one more gift: the running total, and the month of it (the calendar month of the gift, restarted when the last gift came in an earlier one). */
+function grownGift(
+  api: CoreAPI,
+  prev: GiftRow | null,
+  amountMinor: number,
+): Pick<GiftRow, "totalMinor" | "lastDate" | "monthMinor"> {
+  const date = api.state.date;
+  const sameMonth = !!prev && prev.lastDate.slice(0, 7) === date.slice(0, 7);
+  return {
+    totalMinor: (prev?.totalMinor ?? 0) + amountMinor,
+    lastDate: date,
+    monthMinor: (sameMonth ? (prev.monthMinor ?? 0) : 0) + amountMinor,
+  };
+}
+
+/**
+ * What a person has already given this calendar month, to every campaign
+ * together, read off their gift rows (`byDonor`). A donor's month is one
+ * pot: each campaign's ask works from what is left of it, not from the whole.
+ */
+export function givenInMonth(api: CoreAPI, donorId: string): number {
+  const month = api.state.date.slice(0, 7);
+  let given = 0;
+  for (const row of table(api, "gifts").query("byDonor", [
+    donorId,
+  ]) as unknown as GiftRow[])
+    if (row.lastDate.slice(0, 7) === month) given += row.monthMinor ?? 0;
+  return given;
+}
+
 /**
  * What a person has to give from, read from their records: their share of
  * their household's monthly income after the taxes payroll withholds from it
@@ -3501,7 +3549,9 @@ export function giftBudget(
   readonly monthlyIncomeMinor: number;
   readonly monthlyWithheldMinor: number;
   readonly monthlyLivingMinor: number;
+  /** The month's spare still left to give from, after this month's gifts. */
   readonly discretionaryMinor: number;
+  readonly givenThisMonthMinor: number;
   readonly savingsMinor: number;
   readonly ownMonthLivingMinor: number;
   readonly cushionMinor: number;
@@ -3535,11 +3585,16 @@ export function giftBudget(
   const recordedOwn = perMonth * person.livingCostDailyMinor;
   const ownMonth = recordedOwn > 0 ? recordedOwn : householdShare;
   const cushion = campaignParameter("caseCushionMonths") * ownMonth;
+  const given = givenInMonth(api, person.id);
   return {
     monthlyIncomeMinor: income.minor / share,
     monthlyWithheldMinor: withheld / share,
     monthlyLivingMinor: householdShare,
-    discretionaryMinor: Math.max(0, income.minor - withheld - living) / share,
+    discretionaryMinor: Math.max(
+      0,
+      Math.max(0, income.minor - withheld - living) / share - given,
+    ),
+    givenThisMonthMinor: given,
     savingsMinor: Math.max(0, person.liquidMinor - cushion),
     ownMonthLivingMinor: ownMonth,
     cushionMinor: cushion,
@@ -3698,8 +3753,7 @@ function giveDonation(
     id: `${filingId}|${donorId}`,
     campaignId: filingId,
     donorId,
-    totalMinor: given + amount,
-    lastDate: api.state.date,
+    ...grownGift(api, giftOf(api, filingId, donorId), amount),
   } satisfies GiftRow as unknown as ModuleRow);
   save(api, {
     ...campaignFor(api, filingId),
@@ -3864,8 +3918,7 @@ export function contributeOwnMoney(
     id: `${filingId}|${candidate.id}`,
     campaignId: filingId,
     donorId: candidate.id,
-    totalMinor: given + amount,
-    lastDate: api.state.date,
+    ...grownGift(api, giftOf(api, filingId, candidate.id), amount),
   } satisfies GiftRow as unknown as ModuleRow);
   save(api, {
     ...campaignFor(api, filingId),
@@ -3994,17 +4047,47 @@ function spend(
   },
 ): string {
   const campaign = campaignFor(api, filingId);
-  const moneyId = `${input.kind}:${filingId}:${api.state.date}:${campaign.spentMinor}`;
-  postMoney(
-    api,
-    input.kind === "ad" ? AD_KIND : PURCHASE_KIND,
-    moneyId,
-    campaign.organizationId,
-    input.sellerId,
-    input.amountMinor,
-    input.citation,
-    false,
-  );
+  let moneyId = `${input.kind}:${filingId}:${api.state.date}:${campaign.spentMinor}`;
+  // A seller outside the town is paid through the accounts API, a flow
+  // recorded in outside-flows.json as goods and services bought outside.
+  if (api.state.organizations.get(input.sellerId)?.outsideFlow !== undefined) {
+    moneyId = `campaign-purchase:${moneyId}`;
+    const paid = transferCash(
+      api,
+      moneyId,
+      campaign.organizationId,
+      input.sellerId,
+      input.amountMinor,
+      { tag: "SOURCED", citation: input.citation, asOf: api.state.date },
+    );
+    if (paid !== input.amountMinor)
+      throw new Error(
+        "A campaign's purchase outside the town was not paid in full.",
+      );
+  } else {
+    postMoney(
+      api,
+      input.kind === "ad" ? AD_KIND : PURCHASE_KIND,
+      moneyId,
+      campaign.organizationId,
+      input.sellerId,
+      input.amountMinor,
+      input.citation,
+      false,
+    );
+    // A sale to a business in town is noticed the way any customer's is, so a
+    // sales tax in force reaches it and its seller remits.
+    notifySalesReceipt(api, {
+      id: moneyId,
+      date: api.state.date,
+      sellerId: input.sellerId,
+      buyerIds: [campaign.organizationId],
+      kind: `campaign-${input.kind}`,
+      paidMinor: input.amountMinor,
+      placeId: api.state.organizations.get(input.sellerId)?.placeId ?? "",
+      counted: false,
+    });
+  }
   const byKind = { ...(campaign.spentByKind ?? {}) };
   byKind[input.kind] = (byKind[input.kind] ?? 0) + input.amountMinor;
   save(api, {
@@ -4479,6 +4562,68 @@ export interface DonorMeetingResult {
   readonly raisedMinor: number;
 }
 
+/** What a campaign has said so far, one row a filing (`nextTopic`): every act's question counted, and each kind of act's own. */
+interface EmphasisRow {
+  readonly id: string;
+  readonly counts: Readonly<Record<string, number>>;
+  readonly byKind: Readonly<Record<string, Readonly<Record<string, number>>>>;
+}
+
+/**
+ * The question a campaign's next act is about (every act carrying the lead alone
+ * replaced): the platform question furthest behind its share of what the
+ * campaign has said so far, this act counted, taking its place in the whole
+ * and in its own kind of act (an ad, a mailer, a night of doors, an event or
+ * donor meeting's speech), so an evening of doors is not always about the
+ * question the ads never reach. Each question's share is its platform score's
+ * (`platformShares`), so the question the town backs most at the candidate's
+ * conviction is spoken of most, and the others in their turns; ties go to the
+ * platform's order. No roll: the same record gives the same question. The
+ * count is the filing's `emphasis` row, kept for an act that is taken and not
+ * for one that reached nobody. Undefined for a platform that takes no side.
+ */
+function nextTopic(
+  api: CoreAPI,
+  campaign: CampaignRow,
+  kind: string,
+): Stance | undefined {
+  const sides = campaign.platform.filter((s) => s.position !== 0);
+  if (!sides.length) return undefined;
+  const emphasis = table(api, "emphasis");
+  const row = emphasis.get(campaign.filingId) as unknown as
+    EmphasisRow | undefined;
+  const all = row?.counts ?? {};
+  const own = row?.byKind[kind] ?? {};
+  const sum = (c: Readonly<Record<string, number>>) =>
+    Object.values(c).reduce((t, n) => t + n, 0) + 1;
+  const allTotal = sum(all);
+  const ownTotal = sum(own);
+  const equal = 1 / sides.length;
+  let pick = sides[0]!;
+  let behind = -Infinity;
+  for (const stance of sides) {
+    const share = campaign.platformShares?.[stance.question] ?? equal;
+    const gap =
+      share * allTotal -
+      (all[stance.question] ?? 0) +
+      (share * ownTotal - (own[stance.question] ?? 0));
+    if (gap > behind) {
+      behind = gap;
+      pick = stance;
+    }
+  }
+  const bump = (c: Readonly<Record<string, number>>) => ({
+    ...c,
+    [pick.question]: (c[pick.question] ?? 0) + 1,
+  });
+  emphasis.put({
+    id: campaign.filingId,
+    counts: bump(all),
+    byKind: { ...(row?.byKind ?? {}), [kind]: bump(own) },
+  } as unknown as ModuleRow);
+  return pick;
+}
+
 /**
  * A donor meeting: a house party at a supporter's home. The host
  * (`donorMeetingHost`) gives their evening and invites their own circle and
@@ -4487,7 +4632,7 @@ export interface DonorMeetingResult {
  * invitation's pull (`donorMeetingHostTieWeight`), and the campaign's
  * volunteers come. The candidate meets everyone there they did not know (the
  * encounter engine's meeting, at the host's home), speaks to the room on
- * the question the campaign leads with (`platformLead`: a face-to-face
+ * the question it is next behind on (`nextTopic`: a face-to-face
  * speech, heard and retold as one), and the evening ends by asking each person there, the
  * host first, through `donationAnswer`: the gift rows, the journal and the
  * public `campaign-gift` record follow from it. No venue is paid; the host's
@@ -4543,12 +4688,12 @@ export function holdDonorMeeting(
         cause: ENCOUNTERS.causes.metOnVisit,
         hours: hours / room.length,
       });
-  const lead = platformLead(campaign.platform);
+  const topic = nextTopic(api, campaign, "speech");
   const venue = `home:${host.householdId}`;
   const causes = makeStatements(api, {
     filingId,
     venue,
-    statements: lead ? [lead] : [],
+    statements: topic ? [topic] : [],
     audienceIds: room,
     act: "speech",
     weight: campaignParameter("speechWeight"),
@@ -4603,7 +4748,7 @@ export function holdDonorMeeting(
       gave: String(donorIds.length),
       raisedMinor: String(raisedMinor),
       donorIds: donorIds.join(","),
-      ...(lead
+      ...(topic
         ? {
             speechId: statementSpeechId(campaign.candidateId, date, {
               act: "speech",
@@ -4990,7 +5135,7 @@ export function runAd(
 
 /**
  * A campaign's message, kept as a `messages` row (its kind, the question
- * the campaign leads with as its topic, `platformLead`, and who it reached) that word of a rival
+ * it is next behind on as its topic, `nextTopic`, and who it reached) that word of a rival
  * passes on from (`rivalWordPassedOn`). A paid message (an ad, a mailer) is
  * also an event its audience learns: it carries that topic and the change
  * the candidate wants, and the candidate's lean on the views engine's scale,
@@ -5009,11 +5154,12 @@ function emitMessage(
     readonly witnessIds: readonly string[];
   },
 ): void {
-  const lead = platformLead(campaign.platform);
   const witnessIds = [...new Set(input.witnessIds)].filter(
     (id) => id !== campaign.candidateId && api.state.people.has(id),
   );
-  if (!lead || lead.position === 0 || !witnessIds.length) return;
+  if (!witnessIds.length) return;
+  const lead = nextTopic(api, campaign, input.kind);
+  if (!lead) return;
   const messages = table(api, "messages");
   const kept = keptMessageDates(api);
   messages.put({
@@ -6163,7 +6309,9 @@ export function sendMail(
   quiet = false,
 ): readonly CauseRow[] {
   const campaign = campaignFor(api, filingId);
-  const perPiece = unitPrice(api, "mailer-print") + unitPrice(api, "postage");
+  const printPerPiece = unitPrice(api, "mailer-print");
+  const postagePerPiece = unitPrice(api, "postage");
+  const perPiece = printPerPiece + postagePerPiece;
   const { list } = townAddresses(api);
   // Never more than the campaign holds, as an ad buy is.
   const available = (api.state as CoreState).cashJournal.accounts.get(
@@ -6182,12 +6330,19 @@ export function sendMail(
     ),
   );
   if (pieces <= 0) return [];
+  // The printer is paid for the print and the Postal Service, never in town,
+  // for the postage (campaign-unit-prices mailer-print and postage rows).
   spend(api, filingId, {
     kind: "mail",
     sellerId: seller(api, "mail"),
-    amountMinor: pieces * perPiece,
-    citation:
-      "Mailers at the campaign-unit-prices mailer-print and postage rows",
+    amountMinor: pieces * printPerPiece,
+    citation: "Mailers at the campaign-unit-prices mailer-print row",
+  });
+  spend(api, filingId, {
+    kind: "mail",
+    sellerId: outsideSeller(api),
+    amountMinor: pieces * postagePerPiece,
+    citation: "Postage at the campaign-unit-prices postage row",
   });
   let cursor = campaign.mailCursor ?? 0;
   let counted = 0;
@@ -6256,21 +6411,21 @@ export function rentVenue(
 
 /**
  * An event: the campaign rents an evening at a venue in town and the
- * candidate speaks on the question the campaign leads with (`platformLead`)
+ * candidate speaks on the question it is next behind on (`nextTopic`)
  * to whoever chooses to come (`whoComes`). Only a candidate who is a full person speaks in a
  * room.
  */
 export function holdEvent(api: CoreAPI, filingId: string): readonly CauseRow[] {
   const campaign = campaignFor(api, filingId);
   if (!api.state.people.get(campaign.candidateId)?.alive) return [];
-  const lead = platformLead(campaign.platform);
-  if (!lead) return [];
+  const topic = nextTopic(api, campaign, "speech");
+  if (!topic) return [];
   const venue = rentVenue(api, filingId, "event").sellerId;
   const audienceIds = whoComes(api, campaign);
   const causes = makeStatements(api, {
     filingId,
     venue,
-    statements: [lead],
+    statements: [topic],
     audienceIds,
     act: "speech",
     weight: campaignParameter("speechWeight"),
@@ -7090,16 +7245,12 @@ function campaignWork(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
         ? contest.filingDeadline
         : race.electionDate;
     const daysLeft = daysBetween(date, toward);
-    // stopgapId: SG-SPEED-fast-forward-campaigns (a development switch: a coarser calendar, turns less often)
     // The wait is counted in whole scheduled turns (they fall `turnDays`
     // apart), so a day nearer than one more turn never costs a skipped turn:
     // near a deadline or an election every scheduled turn works the race.
     const everyTurns = Math.max(
       1,
-      Math.round(
-        (fastForward() ? FAST_FORWARD_STRIDE : 1) *
-          (1 + daysLeft / campaignParameter("campaignRampDays")),
-      ),
+      Math.round(1 + daysLeft / campaignParameter("campaignRampDays")),
     );
     if (
       race.lastTurn &&
@@ -7141,9 +7292,12 @@ export function closeRace(api: CoreAPI, contestId: string): void {
     contestId,
   ]) as unknown as { id: string; personId: string }[];
   const doors = table(api, "doors");
-  for (const filing of filings)
+  const emphasis = table(api, "emphasis");
+  for (const filing of filings) {
     for (const row of doors.query("byCampaign", [filing.id]))
       doors.remove(row.id);
+    emphasis.remove(filing.id);
+  }
   const playerId = (api.state as CoreState).playerId;
   if (filings.some((f) => f.personId === playerId)) return;
   const pledges = table(api, "pledges");

@@ -404,6 +404,7 @@
         "src/core2/past-*.ts",
         "src/core2/deep-past.ts",
         "src/core2/own-past-kinds.ts",
+        "src/core2/places-elsewhere.ts",
         "src/core2/pre-start.ts",
         "src/core2/shared-history.ts"
       ]
@@ -445,7 +446,7 @@
         "src/core2/world-settings.ts",
         "src/core2/player-*.ts",
         "src/core2/opening-*.ts",
-        "src/core2/fast-forward.ts",
+        "src/core2/place-race-origin.generated.ts",
         "src/core2/modules/national-events.ts",
         "src/core2/national-disaster-event.ts",
         "src/core2/modules/climate.ts"

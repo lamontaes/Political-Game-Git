@@ -1077,6 +1077,7 @@
       "kind": "health.hospital-stay",
       "life": "health",
       "what": "hospital-stay"
-    }
+    },
+    { "kind": "election.lost-before-start", "life": "politics", "what": "lost" }
   ]
 }
