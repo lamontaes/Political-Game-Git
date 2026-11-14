@@ -68943,7 +68943,7 @@
           "purpose": "rally-opponent",
           "key": "threat",
           "requiresFacts": ["debate", "issue"],
-          "excludesFacts": ["daytime"]
+          "excludesFacts": ["daytime", "said-none"]
         }
       ],
       "bearing": "braced",
@@ -68968,7 +68968,8 @@
           "role": "asker",
           "purpose": "rally-opponent",
           "key": "threat",
-          "requiresFacts": ["debate", "issue"]
+          "requiresFacts": ["debate", "issue"],
+          "excludesFacts": ["said-none"]
         }
       ],
       "bearing": "calm",
@@ -68993,7 +68994,8 @@
           "role": "asker",
           "purpose": "rally-opponent",
           "key": "threat",
-          "requiresFacts": ["debate", "issue"]
+          "requiresFacts": ["debate", "issue"],
+          "excludesFacts": ["said-none"]
         }
       ],
       "bearing": "tender",
@@ -69018,7 +69020,8 @@
           "role": "asker",
           "purpose": "rally-opponent",
           "key": "threat",
-          "requiresFacts": ["debate", "issue"]
+          "requiresFacts": ["debate", "issue"],
+          "excludesFacts": ["said-none"]
         }
       ],
       "bearing": "curious",
@@ -69044,7 +69047,7 @@
           "purpose": "rally-opponent",
           "key": "threat",
           "requiresFacts": ["debate", "issue"],
-          "excludesFacts": ["daytime"]
+          "excludesFacts": ["daytime", "said-none"]
         }
       ],
       "bearing": "guarded",
@@ -69119,7 +69122,8 @@
           "role": "asked",
           "purpose": "rally-opponent",
           "key": "threat",
-          "requiresFacts": ["debate", "issue"]
+          "requiresFacts": ["debate", "issue"],
+          "excludesFacts": ["said-none"]
         }
       ],
       "bearing": "braced",
@@ -69144,7 +69148,8 @@
           "role": "asked",
           "purpose": "rally-opponent",
           "key": "threat",
-          "requiresFacts": ["debate", "issue"]
+          "requiresFacts": ["debate", "issue"],
+          "excludesFacts": ["said-none"]
         }
       ],
       "bearing": "braced",
@@ -187790,31 +187795,6 @@
       }
     },
     {
-      "key": "scene-talk.state-confront.you-skipped-issue-up-there-i-wouldn-t-have",
-      "move": "state-confront",
-      "kind": "spoken",
-      "text": "You skipped {issue} up there. I wouldn't have.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "confront",
-          "role": "asker",
-          "purpose": "rally-opponent",
-          "key": "threat",
-          "requiresFacts": ["debate", "issue", "said-none"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Campaign events builder, draft for the Words lead",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "confront",
-        "key": "threat"
-      }
-    },
-    {
       "key": "scene-talk.state-confront.we-agreed-on-more-than-i-expected-up-there",
       "move": "state-confront",
       "kind": "spoken",
@@ -187964,56 +187944,6 @@
       "date": "2026-11-14",
       "tag": {
         "move": "confront",
-        "key": "threat"
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.then-we-ll-let-them-choose",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "Then we'll let them choose.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "rally-opponent",
-          "key": "threat",
-          "requiresFacts": ["debate"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Campaign events builder, draft for the Words lead",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "accept",
-        "key": "threat"
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.fair-that-s-what-people-ask-for",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "Fair. That's what people ask for.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "rally-opponent",
-          "key": "threat",
-          "requiresFacts": ["debate"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Campaign events builder, draft for the Words lead",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "accept",
         "key": "threat"
       }
     },
