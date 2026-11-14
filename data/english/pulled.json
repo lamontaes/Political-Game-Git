@@ -10,18 +10,6 @@
     "conversation.news-back-core.that-s-the-whole-of-it-it-ran-ran": [
       "plain-american-spelling-and-phrasing"
     ],
-    "headlines.law.law-now-in-force-in-place": [
-      "plain-american-spelling-and-phrasing"
-    ],
-    "headlines.public-action.neighbors-in-place-turn-out-glad-of-how-area-has": [
-      "plain-american-spelling-and-phrasing"
-    ],
-    "news.public-action.residents-of-place-turned-out-on-date-glad-of-how": [
-      "plain-american-spelling-and-phrasing"
-    ],
-    "news.took-office-cause.before-moved-away-and-the-seat-fell-empty-on-vacated": [
-      "plain-american-spelling-and-phrasing"
-    ],
     "opening-speech.ask.folded-polished-keep-law-short": [
       "plain-american-spelling-and-phrasing"
     ],
@@ -105,14 +93,10 @@
     ],
     "person-history.story.school.elsewhere.they.w3": [
       "plain-american-spelling-and-phrasing"
-    ],
-    "scene-words.cause-illness-other.other-has-fallen-seriously-ill": [
-      "plain-american-spelling-and-phrasing"
     ]
   },
   "waiting": {},
   "sample": {
-    "choice-names.carry-on.carry-on": ["plain-american-reads-stiff"],
     "conversation.charge-answer-deflect.that-s-for-the-court-to-sort-out": [
       "plain-american-reads-stiff"
     ],

@@ -292,6 +292,9 @@
 /src/core2/husk-promoters.ts @lamontaes
 /src/core2/opening-ties.ts @lamontaes
 /src/core2/household-cost.ts @lamontaes
+/src/core2/life-plan-readers.ts @lamontaes
+/src/core2/life-stake-rule.ts @lamontaes
+/src/core2/life-stakes.ts @lamontaes
 
 # The past before the start (past)
 /src/core2/past.ts @lamontaes
