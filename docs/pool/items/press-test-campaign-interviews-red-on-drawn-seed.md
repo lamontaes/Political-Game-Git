@@ -28,7 +28,7 @@ source: found by the layoff-in-the-paper thread, Nov 14, 2026, running the chang
 
 **Rules.** No dice. Never loosen the test to pass.
 
-**Done when.** A second session runs `src/core2/press.test.ts` three times on the head with no change in the result, in about a minute per test.
+**Done when.** A second session, in a drawn place, US-SD place 4630980 (seed 3cdf914b12d0b4ce622fe67672a675fd25d79615cd8249a81abcde0f7cd93407), runs `src/core2/press.test.ts` three times on the head with no change in the result, in about a minute per test.
 
 **Waits on.** Nothing
 
