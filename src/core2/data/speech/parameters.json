@@ -67,13 +67,13 @@
   },
   "speechRetellTies": {
     "value": 3,
-    "tag": "TUNABLE",
-    "citation": "How many of the people a listener is closest to outside their own household a retold speech reaches: people talk about what matters to them with a few others, not with everyone they know (the General Social Survey's core discussion network averages about two to three people, Marsden 1987, American Sociological Review 52(1):122-131, and McPherson, Smith-Lovin and Brashears 2006, American Sociological Review 71(3):353-375; cited from memory, not fetched). Taken in order of closeness, the closest first, so nothing is drawn.",
+    "tag": "ESTIMATED",
+    "citation": "How many of the people a listener is closest to outside their own household a retold speech reaches: people talk over what moved them with a few others, not with everyone they know, so the game takes the closest few by closeness (nothing is drawn). The figure is the game's own estimate, a few people past the household; its source is still to be found (pool item research-speech-retell-ties-source).",
     "spread": {
       "low": 1,
       "high": 6,
       "unit": "people outside the household",
-      "citation": "From the nearest one confidant to about twice the surveyed discussion network."
+      "citation": "From the nearest one person to about twice the estimate; the source item replaces this with a sourced range."
     },
     "role": "coefficient"
   }
