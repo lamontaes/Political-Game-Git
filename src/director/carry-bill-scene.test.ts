@@ -1,4 +1,6 @@
 import { randomBytes } from "node:crypto";
+import { appendFileSync } from "node:fs";
+import type { TreeNode } from "./scene-talk";
 import { expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
 import { drawPlace } from "../../scripts/core2-year/place";
@@ -9,6 +11,7 @@ import { billCatalog, provisionFor } from "../core2/bill-catalog";
 import { advanceCore } from "../core2/life";
 import {
   executiveOf,
+  floorDateOf,
   memberKey,
   members,
   proposalRight,
@@ -36,6 +39,11 @@ const BY_HAND = 6;
 
 it(`an executive's ask to carry a bill is the member's carry-bill scene, with the asker (seed ${seed})`, () => {
   const tried: string[] = [];
+  // Scenes composed across the places drawn, and those with a vote date set:
+  // the months check needs a bill whose floor date is set, so places are drawn
+  // until one has it, and the places passed over are named.
+  let composedAny = 0;
+  let withVote = 0;
   for (let attempt = 0; attempt < ATTEMPTS; attempt += 1) {
     const place = drawPlace(`${seed}:${attempt}`, "carry-bill-scene");
     const where = `${place.name} (${place.key}), seed ${seed}:${attempt}`;
@@ -159,13 +167,77 @@ it(`an executive's ask to carry a bill is the member's carry-bill scene, with th
           result.scene.facts.find((row) => row.key === "carry-ask")?.recordIds,
           here,
         ).toContain(ask.id);
+      // A promise of time fits the calendar (Fable A, Nov 13, rule 22): a
+      // count is promised for a day before the bill's vote, from its floor
+      // date, and on the vote's own day it is "tonight".
+      const floor = floorDateOf(api, String(ask.facts!.billId ?? ""));
+      const countBy = result.scene.facts.find((row) => row.key === "count-by");
+      const tonight = result.scene.facts.find(
+        (row) => row.key === "vote-tonight",
+      );
+      if (countBy) expect(floor! > core.date, here).toBe(true);
+      if (tonight)
+        expect(floor!.slice(0, 10), here).toBe(core.date.slice(0, 10));
+      // "Next month" is said only when the vote is in the month after the
+      // scene's; any other later day is said from the record, "vote-on".
+      const nextMonth = result.scene.facts.find(
+        (row) => row.key === "vote-next-month",
+      );
+      const voteOn = result.scene.facts.find((row) => row.key === "vote-on");
+      if (floor && floor > core.date && !tonight) {
+        const months =
+          (Number(floor.slice(0, 4)) - Number(core.date.slice(0, 4))) * 12 +
+          Number(floor.slice(5, 7)) -
+          Number(core.date.slice(5, 7));
+        expect(Boolean(nextMonth), `${here}: next month`).toBe(months === 1);
+        expect(Boolean(voteOn), `${here}: the vote's day`).toBe(months !== 1);
+      }
+      expect(!(nextMonth && voteOn), here).toBe(true);
+      // Whatever branch the player takes, "next month" is said only when the
+      // vote is in the month after the scene's.
+      const said: string[] = [];
+      const walk = (node: TreeNode | null, depth: number) => {
+        if (!node) return;
+        for (const line of node.lines)
+          said.push(`${"  ".repeat(depth)}asker: ${line.text}`);
+        for (const reply of node.replies) {
+          said.push(`${"  ".repeat(depth + 1)}[${reply.line.text}]`);
+          walk(reply.next, depth + 2);
+        }
+      };
+      walk(result.scene.talk.tree, 0);
+      if (!nextMonth)
+        expect(
+          said.filter((row) => /next month/i.test(row)),
+          `${here}: says next month, vote ${floor ?? "not set"}`,
+        ).toEqual([]);
+      if (process.env.CARRY_TREE_OUT)
+        appendFileSync(
+          process.env.CARRY_TREE_OUT,
+          `SCENE ${where} on ${core.date}, the vote ${floor ?? "not set"}\n${said.join("\n")}\n`,
+        );
+      process.stdout.write(
+        `CARRY ${here} on ${core.date}: the vote ${floor ?? "not set"}; count-by ${countBy?.text ?? "none"}; tonight ${tonight ? "yes" : "no"}; next month ${nextMonth ? "yes" : "no"}; vote-on ${voteOn?.text ?? "none"}\n`,
+      );
       composed += 1;
+      composedAny += 1;
+      if (floor && floor > core.date) withVote += 1;
       console.log(
         `CARRY ${here}: "${result.scene.talk.state.text}" (${ask.facts!.carried === "yes" ? "carried" : "turned down"})`,
       );
     }
-    if (composed) return;
-    tried.push(`${place.name}: every ask was taken into a sitting`);
+    if (withVote) return;
+    tried.push(
+      composed
+        ? `${place.name}: no vote date set yet`
+        : `${place.name}: every ask was taken into a sitting`,
+    );
+  }
+  if (composedAny) {
+    console.log(
+      `CARRY no drawn place had a vote date set; passed over: ${tried.join("; ")} (seed ${seed})`,
+    );
+    return;
   }
   throw new Error(
     `no executive asked a watched member to carry a bill in ${DAYS} days in ${tried.join("; ")} (seed ${seed})`,

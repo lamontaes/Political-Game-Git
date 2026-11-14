@@ -4,24 +4,12 @@ import { purposeScene, replyInScene } from "../director/purpose-scene";
 import type { SceneTalkLine, TreeNode } from "../director/scene-talk";
 import { dateSaid } from "../english/day-words";
 import { shipped } from "../english/scene-talk-words";
-import { hasBackdrop } from "./backdrop-places";
 import { bodyPicture } from "./legislature";
+import { scenePicture } from "./scene-picture";
 import { addressMontage, partLevels } from "./montage";
-import {
-  homeOf,
-  orgPlace,
-  backdropFor,
-  pictureFor,
-  peopleHere,
-  type StageReason,
-} from "./scene";
-import scenePlaces from "./data/scene-places.json" with { type: "json" };
+import { backdropFor, peopleHere, type StageReason } from "./scene";
 import type { CoreState, PersonId } from "../core2/types";
 import type { Director } from "../director/ledger";
-
-const SETTINGS = scenePlaces.sceneSettings as Record<string, string[]>;
-const SITUATIONS = scenePlaces.situationPlaces as Record<string, string[]>;
-const SCHOOLS = scenePlaces.schoolPlacesByAge;
 
 /** A line of a scene with a purpose, as the screen shows it. */
 function shownLine(line: SceneTalkLine) {
@@ -115,31 +103,22 @@ export function storyScene(
     scene.setting.kind === "chamber" && scene.setting.recordId
       ? bodyPicture(core, personId, scene.setting.recordId)
       : null;
-  const steps = [
-    ...(chamber ? [chamber] : []),
-    ...(SITUATIONS[`${scene.typeKey}:${scene.setting.kind}`] ?? []),
-    ...(scene.setting.kind === "school"
-      ? (SCHOOLS.find((row) => age < row.underAge)?.places ?? [])
-      : []),
-    ...(SETTINGS[scene.setting.kind] ?? ["@home"]),
-  ];
-  const place =
-    steps
-      .map((step) =>
-        step === "@home"
-          ? homeOf(core, personId, minuteOfDay)
-          : step === "@org"
-            ? orgPlace(core, scene.setting.recordId)
-            : step,
-      )
-      .find((row): row is string => !!row && hasBackdrop(row)) ??
-    homeOf(core, personId, minuteOfDay);
-  // The town's own picture of that kind of place, at this hour's light.
-  const pictured = pictureFor(
+  const variant =
+    purpose?.kind === "composed" ? purpose.scene.variant?.purpose : undefined;
+  const pictured = scenePicture(
     core,
-    place,
-    scene.setting.recordId ?? scene.setting.kind,
+    personId,
+    {
+      typeKey: scene.typeKey,
+      variant,
+      setting: scene.setting.kind,
+      seat: scene.setting.seat,
+      recordId: scene.setting.recordId,
+      presentIds: scene.presentIds,
+      age,
+    },
     minuteOfDay,
+    chamber,
   );
   // Who stands in the room is the director's cast, each for the reason the
   // director recorded (the role that cast them); this view decides no one
