@@ -158,7 +158,7 @@
   "questionAgain": {
     "about": "Lead, Nov 12 (\"say no to raising the debt limit only with spending cuts to match\" right after the opener named it in full): once a line has named a question, its act is said again in a short form, by the slot it fills. Lead, Nov 13: while it is the only question on the table, a later mention of its name in the talk is `it`. Words only; the composer reads them.",
     "against": "say no to it",
-    "to": "go through with it",
+    "to": "pass it",
     "it": "it"
   }
 }

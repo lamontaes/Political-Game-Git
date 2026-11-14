@@ -39876,6 +39876,202 @@
       "author": "Words lead (lines-to-add.md, owner's go-ahead Nov 14)",
       "date": "2026-11-14",
       "bearing": "warm"
+    },
+    {
+      "key": "conversation.address-point-core-against.the-president-came-out-for-about-i-think-he-s-wrong",
+      "move": "address-point-core-against",
+      "kind": "spoken",
+      "text": "The President came out for {about}. I think he's wrong.",
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "address-point-core-against",
+          "subject": "address-point",
+          "role": "core",
+          "stages": [
+            "against"
+          ],
+          "requiresFacts": [
+            "president-for",
+            "about"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md, owner's go-ahead Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.address-point-core-against.the-president-came-out-against-about-i-think-he-s-wrong",
+      "move": "address-point-core-against",
+      "kind": "spoken",
+      "text": "The President came out against {about}. I think he's wrong.",
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "address-point-core-against",
+          "subject": "address-point",
+          "role": "core",
+          "stages": [
+            "against"
+          ],
+          "requiresFacts": [
+            "president-against",
+            "about"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md, owner's go-ahead Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.address-point-core-against.the-president-won-t-have-about-i-wish-he-would",
+      "move": "address-point-core-against",
+      "kind": "spoken",
+      "text": "The President won't have {about}. I wish he would.",
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "address-point-core-against",
+          "subject": "address-point",
+          "role": "core",
+          "stages": [
+            "against"
+          ],
+          "requiresFacts": [
+            "president-against",
+            "about"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md, owner's go-ahead Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.address-point-core-against.i-heard-the-president-turn-down-about-we-need-it",
+      "move": "address-point-core-against",
+      "kind": "spoken",
+      "text": "I heard the President turn down {about}. We need it.",
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "address-point-core-against",
+          "subject": "address-point",
+          "role": "core",
+          "stages": [
+            "against"
+          ],
+          "requiresFacts": [
+            "president-against",
+            "about"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md, owner's go-ahead Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.address-point-core-with.the-president-came-out-against-about-good-so-am-i",
+      "move": "address-point-core-with",
+      "kind": "spoken",
+      "text": "The President came out against {about}. Good. So am I.",
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "address-point-core-with",
+          "subject": "address-point",
+          "role": "core",
+          "stages": [
+            "with"
+          ],
+          "requiresFacts": [
+            "president-against",
+            "about"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md, owner's go-ahead Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.address-point-core-with.the-president-won-t-have-about-and-i-m-glad-of-it",
+      "move": "address-point-core-with",
+      "kind": "spoken",
+      "text": "The President won't have {about}, and I'm glad of it.",
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "address-point-core-with",
+          "subject": "address-point",
+          "role": "core",
+          "stages": [
+            "with"
+          ],
+          "requiresFacts": [
+            "president-against",
+            "about"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md, owner's go-ahead Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.address-point-core-with.i-heard-the-president-turn-down-about-he-s-right",
+      "move": "address-point-core-with",
+      "kind": "spoken",
+      "text": "I heard the President turn down {about}. He's right.",
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "address-point-core-with",
+          "subject": "address-point",
+          "role": "core",
+          "stages": [
+            "with"
+          ],
+          "requiresFacts": [
+            "president-against",
+            "about"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines-to-add.md, owner's go-ahead Nov 14)",
+      "date": "2026-11-14"
     }
   ]
 }
