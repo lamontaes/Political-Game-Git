@@ -3169,7 +3169,7 @@ const retirement: Builder = (read, f) => {
       ...(government
         ? { government: read.fact(government, f.organizationId ?? "") }
         : {}),
-      ...(years > 1 ? { years: read.fact(String(years), f.jobId ?? "") } : {}),
+      ...(years > 1 ? { years: read.fact(count(years), f.jobId ?? "") } : {}),
       ...(town ? { place: read.fact(town, f.personId ?? "") } : {}),
     },
     ["name"],

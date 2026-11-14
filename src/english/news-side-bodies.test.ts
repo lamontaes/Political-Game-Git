@@ -81,7 +81,7 @@ describe("a retirement told as a story", () => {
             name: "Holly Neal",
             date: "February 1, 2025",
             employer: "Neal's Market",
-            years: "48",
+            years: "forty-eight",
             place: "Williamstown",
           }),
           "retirement",
@@ -98,12 +98,12 @@ describe("a retirement told as a story", () => {
         packet({
           name: "David Workman",
           date: "January 1, 2026",
-          years: "11",
+          years: "eleven",
           place: "Williamstown",
         }),
         "retirement",
         0,
       ).paragraphs ?? [];
-    expect(body.join(" ")).toContain("11 years");
+    expect(body.join(" ")).toContain("eleven years");
   });
 });

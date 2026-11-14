@@ -103,11 +103,23 @@ export function newsBoard({
         ? [el("img", { className: "story-image", src: url, alt: "" })]
         : [];
     };
+    // The day the story ran, as a paper says it ("February 21"); the year
+    // only when it is another year. A clipping keeps its own day.
+    const dateline = (story) =>
+      story.date
+        ? [
+            el("span", {
+              className: "news-dateline",
+              textContent: dateWords(story.date, { year: date }),
+            }),
+          ]
+        : [];
     const storyNode = (story, className) =>
       el(
         "article",
         { className: `news-story ${className}` },
         headline(story, className),
+        ...dateline(story),
         ...photo(story, className),
         // An opened story has its way back to the front page.
         ...(story === opened && story === lead
@@ -172,6 +184,7 @@ export function newsBoard({
                             "div",
                             { className: "news-brief news-brief-opens" },
                             headline(story, "brief"),
+                            ...dateline(story),
                             el("p", {
                               className: "intro",
                               textContent: told(story)[0],

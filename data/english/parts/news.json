@@ -15072,10 +15072,10 @@
       }
     },
     {
-      "key": "news.retirement-years.it-came-after-years-years-of-work",
+      "key": "news.retirement-years.it-came-after-years-years-in-the-job",
       "move": "retirement",
       "kind": "written",
-      "text": "It came after {years} years of work.",
+      "text": "It came after {years} years in the job.",
       "uses": [
         {
           "move": "retirement",
@@ -15095,10 +15095,10 @@
       }
     },
     {
-      "key": "news.retirement-years.name-had-worked-for-years-years",
+      "key": "news.retirement-years.name-had-held-the-job-for-years-years",
       "move": "retirement",
       "kind": "written",
-      "text": "{name} had worked for {years} years.",
+      "text": "{name} had held the job for {years} years.",
       "uses": [
         {
           "move": "retirement",
@@ -15118,10 +15118,10 @@
       }
     },
     {
-      "key": "news.retirement-years.years-years-of-work-are-behind-name",
+      "key": "news.retirement-years.years-years-in-the-job-are-behind-name",
       "move": "retirement",
       "kind": "written",
-      "text": "{years} years of work are behind {name}.",
+      "text": "{years} years in the job are behind {name}.",
       "uses": [
         {
           "move": "retirement",
