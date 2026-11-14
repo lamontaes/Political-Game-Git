@@ -1,0 +1,794 @@
+<title>Door Scenes Review</title>
+<meta name="claude:viewport-fit-sides" content="cover" />
+<style>
+  /* Layout: a scene list beside one conversation that plays as the game shows it. */
+  :root {
+    --bg: #f6f5f2;
+    --panel: #ffffff;
+    --fg: #1d2127;
+    --muted: #5c6470;
+    --line: #dcdad3;
+    --accent: #1f5f8b;
+    --accent-soft: #e2edf4;
+    --you: #e8f0e4;
+    --you-line: #b5cdae;
+    --narr: #6a5b3c;
+    --warn: #8a5a00;
+    --font: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #14181d;
+      --panel: #1c2128;
+      --fg: #e6e8eb;
+      --muted: #98a1ad;
+      --line: #2e353e;
+      --accent: #7fb4d9;
+      --accent-soft: #1f2f3c;
+      --you: #1f2d1d;
+      --you-line: #3a5636;
+      --narr: #cdb98a;
+      --warn: #e0b45a;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #14181d;
+    --panel: #1c2128;
+    --fg: #e6e8eb;
+    --muted: #98a1ad;
+    --line: #2e353e;
+    --accent: #7fb4d9;
+    --accent-soft: #1f2f3c;
+    --you: #1f2d1d;
+    --you-line: #3a5636;
+    --narr: #cdb98a;
+    --warn: #e0b45a;
+    color-scheme: dark;
+  }
+  * {
+    box-sizing: border-box;
+  }
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--font);
+    font-size: 15px;
+    line-height: 1.5;
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+    padding-block: 16px 48px;
+  }
+  .wrap {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 250px minmax(0, 1fr);
+    gap: 20px;
+    align-items: start;
+  }
+  @media (max-width: 760px) {
+    .wrap {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+  h1 {
+    font-size: 1.15rem;
+    margin: 0 0 4px;
+    letter-spacing: -0.01em;
+  }
+  .sub {
+    color: var(--muted);
+    font-size: 13px;
+    margin: 0 0 14px;
+  }
+  .sub code,
+  .meta code {
+    font-family: var(--mono);
+    font-size: 12px;
+  }
+  nav {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 10px;
+    position: sticky;
+    top: 12px;
+    max-height: calc(100vh - 24px);
+    overflow: auto;
+  }
+  @media (max-width: 760px) {
+    nav {
+      position: static;
+      max-height: none;
+    }
+  }
+  nav h2 {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    margin: 10px 6px 4px;
+    font-weight: 600;
+  }
+  nav button {
+    display: flex;
+    gap: 8px;
+    width: 100%;
+    text-align: left;
+    background: none;
+    border: 0;
+    color: var(--fg);
+    padding: 7px 8px;
+    border-radius: 6px;
+    font: inherit;
+    cursor: pointer;
+  }
+  nav button:hover {
+    background: var(--accent-soft);
+  }
+  nav button[aria-current="true"] {
+    background: var(--accent-soft);
+    font-weight: 600;
+  }
+  nav .sid {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--accent);
+    min-width: 22px;
+  }
+  main {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 18px;
+    min-width: 0;
+  }
+  .meta {
+    color: var(--muted);
+    font-size: 13px;
+    margin: 2px 0 12px;
+  }
+  .controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 14px;
+    align-items: center;
+    margin: 12px 0 16px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--line);
+  }
+  .group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    align-items: center;
+  }
+  .group > span {
+    font-size: 12px;
+    color: var(--muted);
+    margin-right: 2px;
+  }
+  .seg {
+    background: var(--bg);
+    border: 1px solid var(--line);
+    color: var(--fg);
+    border-radius: 6px;
+    padding: 4px 10px;
+    font: inherit;
+    font-size: 13px;
+    cursor: pointer;
+  }
+  .seg[aria-pressed="true"] {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+  }
+  :root[data-theme="dark"] .seg[aria-pressed="true"] {
+    color: #10161c;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) .seg[aria-pressed="true"] {
+      color: #10161c;
+    }
+  }
+  .act {
+    background: none;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    border-radius: 6px;
+    padding: 5px 12px;
+    font: inherit;
+    font-size: 13px;
+    cursor: pointer;
+  }
+  .act:disabled {
+    opacity: 0.4;
+    cursor: default;
+  }
+  button:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+  .conv {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 680px;
+  }
+  .row {
+    display: flex;
+    gap: 10px;
+    align-items: baseline;
+  }
+  .id {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 0 5px;
+    cursor: pointer;
+    flex: none;
+    line-height: 1.7;
+  }
+  .id:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+  }
+  .bubble {
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--line);
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+  .narr .bubble {
+    border: 0;
+    padding: 2px 0;
+    color: var(--narr);
+    font-style: italic;
+  }
+  .resident .bubble {
+    background: var(--bg);
+  }
+  .you .bubble {
+    background: var(--you);
+    border-color: var(--you-line);
+  }
+  .who {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--muted);
+    display: block;
+    margin-bottom: 1px;
+  }
+  .key {
+    display: none;
+    font-family: var(--mono);
+    font-size: 10.5px;
+    color: var(--muted);
+    margin-top: 3px;
+    overflow-wrap: anywhere;
+  }
+  .showkeys .key {
+    display: block;
+  }
+  .choices {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin: 4px 0 0 0;
+  }
+  .choices .lead {
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .choice {
+    display: flex;
+    gap: 10px;
+    align-items: baseline;
+    text-align: left;
+    background: var(--panel);
+    border: 1px solid var(--accent);
+    color: var(--fg);
+    border-radius: 8px;
+    padding: 8px 12px;
+    font: inherit;
+    cursor: pointer;
+  }
+  .choice:hover {
+    background: var(--accent-soft);
+  }
+  .choice .id {
+    cursor: inherit;
+  }
+  .end {
+    margin-top: 6px;
+    padding: 10px 12px;
+    border: 1px dashed var(--line);
+    border-radius: 8px;
+    color: var(--muted);
+    font-size: 13px;
+  }
+  .end b {
+    color: var(--fg);
+  }
+  .tools {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin: 0 0 12px;
+    font-size: 13px;
+    color: var(--muted);
+  }
+  label {
+    cursor: pointer;
+  }
+  .tabs {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 8px;
+  }
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    font-size: 13px;
+  }
+  .tablewrap {
+    overflow-x: auto;
+  }
+  th,
+  td {
+    text-align: left;
+    padding: 5px 8px;
+    border-bottom: 1px solid var(--line);
+    vertical-align: top;
+  }
+  th {
+    color: var(--muted);
+    font-weight: 600;
+    font-size: 12px;
+  }
+  td.t {
+    min-width: 240px;
+  }
+  .tag {
+    font-size: 11px;
+    color: var(--warn);
+  }
+  .notshown td {
+    background: var(--accent-soft);
+  }
+  .toast {
+    position: fixed;
+    left: 50%;
+    bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+    transform: translateX(-50%);
+    background: var(--fg);
+    color: var(--bg);
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 13px;
+    opacity: 0;
+    transition: opacity 0.2s;
+    pointer-events: none;
+  }
+  .toast.on {
+    opacity: 1;
+  }
+  .note {
+    font-size: 13px;
+    color: var(--muted);
+    margin-top: 18px;
+    padding-top: 12px;
+    border-top: 1px solid var(--line);
+  }
+</style>
+
+<div class="wrap">
+  <nav id="nav" aria-label="Scenes"></nav>
+  <main id="main"></main>
+</div>
+<div class="toast" id="toast" role="status"></div>
+
+<script id="data" type="application/json">
+  /*__DATA__*/
+</script>
+<script>
+  const D = JSON.parse(document.getElementById("data").textContent);
+  const $ = (id) => document.getElementById(id);
+  const state = {
+    scene: D.scenes[0].id,
+    v: 1,
+    ans: "yes",
+    path: [],
+    tab: "play",
+    keys: false,
+    all: false,
+  };
+
+  const sceneOf = (id) => D.scenes.find((s) => s.id === id);
+  const el = (tag, cls, text) => {
+    const n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (text !== undefined) n.textContent = text;
+    return n;
+  };
+  function toast(msg) {
+    const t = $("toast");
+    t.textContent = msg;
+    t.classList.add("on");
+    setTimeout(() => t.classList.remove("on"), 1400);
+  }
+  function copy(text) {
+    const done = () => toast("Copied " + text);
+    if (navigator.clipboard)
+      navigator.clipboard.writeText(text).then(done, () => toast(text));
+    else toast(text);
+  }
+  function idChip(id) {
+    const b = el("button", "id", id);
+    b.type = "button";
+    b.title = "Copy id";
+    b.addEventListener("click", (e) => {
+      e.stopPropagation();
+      copy(id);
+    });
+    return b;
+  }
+  function bankIdFor(scene, key) {
+    const first = key.split(" + ")[0];
+    const row = scene.bank.find((b) => b.key === first);
+    return row ? row.id : "";
+  }
+  function lineRow(scene, l) {
+    const row = el("div", "row " + l.role);
+    row.appendChild(idChip(l.id));
+    const bub = el("div", "bubble");
+    if (l.who) bub.appendChild(el("span", "who", l.who));
+    bub.appendChild(document.createTextNode(l.text));
+    const k = el(
+      "div",
+      "key",
+      bankIdFor(scene, l.key) + "  " + l.key + "  [" + l.move + "]",
+    );
+    bub.appendChild(k);
+    row.appendChild(bub);
+    return row;
+  }
+
+  function renderNav() {
+    const nav = $("nav");
+    nav.textContent = "";
+    for (const door of ["Signature", "Vote"]) {
+      nav.appendChild(
+        el(
+          "h2",
+          "",
+          door === "Signature" ? "Asking for a signature" : "Asking for a vote",
+        ),
+      );
+      for (const s of D.scenes.filter((x) => x.door === door)) {
+        const b = el("button");
+        b.type = "button";
+        b.setAttribute("aria-current", String(s.id === state.scene));
+        b.appendChild(el("span", "sid", s.id));
+        b.appendChild(el("span", "", s.variant));
+        b.addEventListener("click", () => {
+          state.scene = s.id;
+          state.path = [];
+          state.tab = "play";
+          render();
+          location.hash = "scene-" + s.id;
+        });
+        nav.appendChild(b);
+      }
+    }
+  }
+
+  function seg(group, label, items, current, on) {
+    const g = el("div", "group");
+    g.appendChild(el("span", "", label));
+    for (const [val, text] of items) {
+      const b = el("button", "seg", text);
+      b.type = "button";
+      b.setAttribute("aria-pressed", String(val === current));
+      b.addEventListener("click", () => on(val));
+      g.appendChild(b);
+    }
+    group.appendChild(g);
+  }
+
+  function renderPlay(main, scene, ans) {
+    const conv = el("div", "conv" + (state.keys ? " showkeys" : ""));
+    for (const l of ans.opening) conv.appendChild(lineRow(scene, l));
+    let node = ans.tree;
+    let depth = 0;
+    for (;;) {
+      for (const l of node.lines) conv.appendChild(lineRow(scene, l));
+      if (node.end && node.end.close)
+        conv.appendChild(lineRow(scene, node.end.close));
+      if (!node.choices.length) break;
+      if (state.all) {
+        const box = el("div", "choices");
+        box.appendChild(el("div", "lead", "All replies:"));
+        for (const c of node.choices) {
+          const r = lineRow(scene, c.line);
+          box.appendChild(r);
+          if (c.next) {
+            const inner = el("div", "conv");
+            inner.style.marginLeft = "18px";
+            walkAll(inner, scene, c.next);
+            box.appendChild(inner);
+          }
+        }
+        conv.appendChild(box);
+        return conv;
+      }
+      const pick = state.path[depth];
+      if (pick === undefined) {
+        const box = el("div", "choices");
+        box.appendChild(el("div", "lead", "Your reply:"));
+        node.choices.forEach((c, i) => {
+          const b = el("button", "choice");
+          b.type = "button";
+          b.appendChild(idChip(c.line.id));
+          b.appendChild(el("span", "", c.line.text));
+          b.addEventListener("click", () => {
+            state.path.push(i);
+            render();
+          });
+          const k = el(
+            "span",
+            "key",
+            bankIdFor(scene, c.line.key) + "  " + c.line.key,
+          );
+          b.appendChild(k);
+          box.appendChild(b);
+        });
+        conv.appendChild(box);
+        return conv;
+      }
+      const c = node.choices[pick];
+      conv.appendChild(lineRow(scene, c.line));
+      if (!c.next) break;
+      node = c.next;
+      depth += 1;
+    }
+    if (node.end) {
+      const e = el("div", "end");
+      e.appendChild(document.createTextNode("Ends: "));
+      e.appendChild(el("b", "", node.end.label || "no named ending"));
+      conv.appendChild(e);
+    }
+    return conv;
+  }
+  function walkAll(conv, scene, node) {
+    for (const l of node.lines) conv.appendChild(lineRow(scene, l));
+    if (node.end && node.end.close)
+      conv.appendChild(lineRow(scene, node.end.close));
+    for (const c of node.choices) {
+      conv.appendChild(lineRow(scene, c.line));
+      if (c.next) {
+        const inner = el("div", "conv");
+        inner.style.marginLeft = "18px";
+        walkAll(inner, scene, c.next);
+        conv.appendChild(inner);
+      }
+    }
+    if (node.end) {
+      const e = el("div", "end");
+      e.appendChild(document.createTextNode("Ends: "));
+      e.appendChild(el("b", "", node.end.label || "no named ending"));
+      conv.appendChild(e);
+    }
+  }
+
+  function renderBank(main, scene) {
+    const wrap = el("div", "tablewrap");
+    const t = el("table");
+    const head = el("tr");
+    for (const h of ["Id", "Step", "Move", "Line as written", "Needs"])
+      head.appendChild(el("th", "", h));
+    t.appendChild(head);
+    for (const b of scene.bank) {
+      const tr = el("tr", b.shown ? "" : "notshown");
+      const idc = el("td");
+      idc.appendChild(idChip(b.id));
+      tr.appendChild(idc);
+      tr.appendChild(el("td", "", b.step || ""));
+      tr.appendChild(el("td", "", b.move || ""));
+      const td = el("td", "t", b.text);
+      if (!b.shown)
+        td.appendChild(el("div", "tag", "not in the wordings shown above"));
+      if (b.family)
+        td.appendChild(el("div", "tag", "shared with the plain scene"));
+      td.appendChild(el("div", "key", b.key));
+      tr.appendChild(td);
+      tr.appendChild(el("td", "", (b.requires || []).join(", ")));
+      t.appendChild(tr);
+    }
+    wrap.appendChild(t);
+    main.appendChild(wrap);
+    if (state.keys) wrap.classList.add("showkeys");
+  }
+
+  function render() {
+    renderNav();
+    const main = $("main");
+    main.textContent = "";
+    const scene = sceneOf(state.scene);
+    const h = el(
+      "h1",
+      "",
+      "Scene " +
+        scene.id +
+        ": " +
+        (scene.door === "Signature" ? "signature" : "vote") +
+        ", " +
+        scene.variant,
+    );
+    main.appendChild(h);
+    main.appendChild(
+      el(
+        "p",
+        "meta",
+        "Picture: " +
+          (scene.picture
+            ? scene.picture.filter((x) => x[0] !== "@").join(", ") +
+              " (the door picture family; one row for every door scene)"
+            : "none yet") +
+          ". Lines in the bank for this scene: " +
+          scene.bank.length +
+          ". Ids: scene.wording+answer.line, for example " +
+          scene.id +
+          ".2y.5.",
+      ),
+    );
+
+    const tabs = el("div", "tabs");
+    for (const [val, text] of [
+      ["play", "Play it"],
+      ["bank", "Every line in the bank"],
+    ]) {
+      const b = el("button", "seg", text);
+      b.type = "button";
+      b.setAttribute("aria-pressed", String(state.tab === val));
+      b.addEventListener("click", () => {
+        state.tab = val;
+        render();
+      });
+      tabs.appendChild(b);
+    }
+    main.appendChild(tabs);
+
+    const tools = el("div", "tools");
+    const k = el("label");
+    const kc = el("input");
+    kc.type = "checkbox";
+    kc.id = "keys";
+    kc.checked = state.keys;
+    kc.addEventListener("change", () => {
+      state.keys = kc.checked;
+      render();
+    });
+    k.appendChild(kc);
+    k.appendChild(document.createTextNode(" Show piece keys"));
+    tools.appendChild(k);
+    if (state.tab === "play") {
+      const a = el("label");
+      const ac = el("input");
+      ac.type = "checkbox";
+      ac.id = "all";
+      ac.checked = state.all;
+      ac.addEventListener("change", () => {
+        state.all = ac.checked;
+        render();
+      });
+      a.appendChild(ac);
+      a.appendChild(document.createTextNode(" Read every branch at once"));
+      tools.appendChild(a);
+    }
+    main.appendChild(tools);
+
+    if (state.tab === "bank") {
+      renderBank(main, scene);
+      main.appendChild(footer());
+      return;
+    }
+
+    const ctl = el("div", "controls");
+    seg(
+      ctl,
+      "Wording",
+      scene.versions.map((v) => [v.v, "" + v.v]),
+      state.v,
+      (v) => {
+        state.v = v;
+        state.path = [];
+        render();
+      },
+    );
+    seg(
+      ctl,
+      "The records say they",
+      [
+        ["yes", "agree"],
+        ["maybe", "hold back"],
+        ["no", "decline"],
+      ],
+      state.ans,
+      (a) => {
+        state.ans = a;
+        state.path = [];
+        render();
+      },
+    );
+    const back = el("button", "act", "Back one reply");
+    back.type = "button";
+    back.disabled = state.path.length === 0;
+    back.addEventListener("click", () => {
+      state.path.pop();
+      render();
+    });
+    const start = el("button", "act", "Start over");
+    start.type = "button";
+    start.addEventListener("click", () => {
+      state.path = [];
+      render();
+    });
+    const list = el("button", "act", "Back to the list");
+    list.type = "button";
+    list.addEventListener("click", () => {
+      document.getElementById("nav").scrollIntoView({ behavior: "smooth" });
+    });
+    const g = el("div", "group");
+    g.appendChild(back);
+    g.appendChild(start);
+    g.appendChild(list);
+    ctl.appendChild(g);
+    main.appendChild(ctl);
+
+    const version =
+      scene.versions.find((v) => v.v === state.v) || scene.versions[0];
+    const ans = version.answers.find((a) => a.answer === state.ans);
+    if (!ans || ans.skipped)
+      main.appendChild(
+        el("p", "meta", "This answer did not compose: " + (ans && ans.skipped)),
+      );
+    else main.appendChild(renderPlay(main, scene, ans));
+    main.appendChild(footer());
+  }
+  function footer() {
+    const n = el("div", "note");
+    n.textContent =
+      "Built from the game's own scene composer at commit " +
+      (D.commit ? D.commit.slice(0, 10) : "unknown") +
+      ", " +
+      D.generated +
+      ", in " +
+      D.place.name +
+      " (seed " +
+      D.seed +
+      '). Names, the employer and the amounts are filled from that world or marked samples. Say a line aloud by its id, for example "' +
+      state.scene +
+      '.2y.5", and the note ties to the exact line. Tap an id to copy it.';
+    return n;
+  }
+  function fromHash() {
+    const m = /^#scene-(\d+)$/.exec(location.hash);
+    if (m && sceneOf(m[1])) {
+      state.scene = m[1];
+      state.path = [];
+    }
+  }
+  window.addEventListener("hashchange", () => {
+    fromHash();
+    render();
+  });
+  fromHash();
+  render();
+</script>
