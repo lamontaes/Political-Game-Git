@@ -1362,3 +1362,6 @@ export function nationalPanel(api: CoreAPI) {
     repricings: snap.tables.repricings,
   };
 }
+
+// Re-exported so the people family reads the tier's flows through this entry (families guard).
+export { COUNTRY_AGE_BANDS, countryFlowsIn } from "../country-model";

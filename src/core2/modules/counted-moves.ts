@@ -23,7 +23,7 @@ import regions from "../data/regional/regions.json" with { type: "json" };
 import rppHousing from "../data/regional/rpp-housing.json" with { type: "json" };
 import { withholdingFor } from "../budgets-treasury";
 import { startingLawReader } from "../country-law";
-import { COUNTRY_AGE_BANDS, countryFlowsIn } from "../country-model";
+import { COUNTRY_AGE_BANDS, countryFlowsIn } from "./macro";
 import type { LawInForceAnswer } from "../laws-in-force";
 import { ageOn, type CountedHousehold } from "../counted-groups";
 import { openingTemperaments } from "../opening-personality";
