@@ -26,6 +26,35 @@
       "said": "Late on {date}"
     }
   ],
+  "landing": {
+    "about": "How the opening's landing names its day (Words lead, Nov 14, on #9242): after 'It's', the part of the day by the minute the player lands, and the date with no ordinal ('January 20'). Read by dayLanding in src/english/day-words.ts.",
+    "parts": [
+      {
+        "upToMinute": 540,
+        "said": "early on {date}"
+      },
+      {
+        "upToMinute": 690,
+        "said": "the morning of {date}"
+      },
+      {
+        "upToMinute": 810,
+        "said": "around noon on {date}"
+      },
+      {
+        "upToMinute": 1020,
+        "said": "the afternoon of {date}"
+      },
+      {
+        "upToMinute": 1261,
+        "said": "the evening of {date}"
+      },
+      {
+        "upToMinute": null,
+        "said": "late on {date}"
+      }
+    ]
+  },
   "ordinals": {
     "one": "st",
     "two": "nd",

@@ -57,7 +57,11 @@ import {
 } from "../core2/place-lookup";
 import { applyCoreEvent, coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
-import { billNameFor, spokenDesignation } from "../english/bill-names";
+import {
+  billNameFor,
+  billNameOf,
+  spokenDesignation,
+} from "../english/bill-names";
 import { areaName } from "../english/area-names";
 import { NAMED_QUESTIONS, questionAbout } from "../english/question-names";
 import { raceTurnoutFacts } from "./race-turnout-facts";
@@ -100,6 +104,7 @@ import type { Moment } from "./types";
 import { beatenRunnerUp } from "../core2/modules/voting";
 import {
   SERVE_ASKED_EVENT,
+  leanIfHedged,
   serveAsk,
   type ServeGrounds,
 } from "../core2/modules/serve-asks";
@@ -1172,6 +1177,71 @@ function composeBinding(
       text: said.number ?? "",
       sourceRecordIds: [moment.causeId, askerId],
     };
+  // A witness at a committee's hearing (legislature.ts committeeStage): their
+  // side on the bill and what it reaches in their own life, from the record's
+  // lists (the job it binds, their lease or mortgage, a child at home, their
+  // own age, or only a view), with what the bill does in words and whether the
+  // player is its sponsor. The witness never says a figure about the world.
+  if (record?.kind === "committee-hearing" && said.witnessIds) {
+    const at = said.witnessIds.split(",").indexOf(askerId);
+    const side = (said.witnessSides ?? "").split(",")[at];
+    const life = (said.witnessLives ?? "").split(",")[at];
+    const cited = [moment.causeId, askerId];
+    if (side === "for" || side === "against")
+      facts[`witness-${side}`] = { text: "yes", sourceRecordIds: cited };
+    const lifeRecord = (said.witnessLifeRecords ?? "").split(",")[at] ?? "";
+    if (life)
+      facts[`life-${life}`] = {
+        text: "yes",
+        sourceRecordIds: lifeRecord ? [...cited, lifeRecord] : cited,
+      };
+    // The record that life rests on, worded where a person would name it:
+    // the place they work, their child.
+    const job = core.work.commitments.get(lifeRecord);
+    const workplace = job
+      ? core.organizations.get(job.organizationId)
+      : undefined;
+    if (workplace)
+      facts["own-workplace"] = {
+        text: organizationName(workplace),
+        sourceRecordIds: [...cited, lifeRecord, workplace.id],
+      };
+    const child =
+      life === "children-at-home"
+        ? core.people.get(lifeRecord as PersonId)
+        : undefined;
+    if (child)
+      facts["own-child"] = {
+        text: child.givenName,
+        sourceRecordIds: [...cited, child.id],
+      };
+    // The bill's area, so a line about a school, a doctor, a home or a raise
+    // plays only on a bill about one.
+    const area = {
+      wage: "bill-wage",
+      education: "bill-schools",
+      "health-human-services": "bill-health",
+      "housing-land-use": "bill-housing",
+    }[said.area ?? ""];
+    if (area) facts[area] = { text: "yes", sourceRecordIds: [moment.causeId] };
+    // A witness who holds a job took time off from it to come.
+    const working = [...(core.work.commitmentsByPerson.get(askerId) ?? [])]
+      .map((id) => core.work.commitments.get(id))
+      .find((row) => row && row.endsAt === undefined);
+    if (working)
+      facts["has-job"] = {
+        text: "yes",
+        sourceRecordIds: [...cited, working.id],
+      };
+    if (named?.sponsorId === askedId)
+      facts["you-sponsor"] = { text: "yes", sourceRecordIds: [named.id] };
+    const does = named ? billNameOf(named)?.purpose : undefined;
+    if (does)
+      facts["bill-does"] = {
+        text: does,
+        sourceRecordIds: [named!.id, moment.causeId],
+      };
+  }
   // A reporter cast for a record that names no outlet speaks for the outlet
   // that employs them, by its record.
   if (!facts.outlet && !said.outletId && core.modules.has(PRESS_MODULE_ID)) {
@@ -1219,11 +1289,31 @@ function composeBinding(
       );
     });
     const issue = split ? questionAbout(split.question) : null;
-    if (issue)
+    if (issue) {
       facts.issue = {
         text: issue,
         sourceRecordIds: [said.debateId, moment.causeId],
       };
+      // Which side the player said on it on the stage, and which side the
+      // rival said (the sitting's own fact names), so a line can throw the
+      // answer back: "You said you're for it."
+      const rivalSide = theirs.find((row) => row.question === split!.question);
+      const sides = [
+        [split!.position! > P.zero ? "said-for" : "said-against", split],
+        [
+          rivalSide!.position! > P.zero ? "rival-for" : "rival-against",
+          rivalSide,
+        ],
+      ] as const;
+      for (const [name, row] of sides)
+        facts[name] = {
+          text: "yes",
+          sourceRecordIds: [
+            said.debateId,
+            ...(row?.recordId ? [row.recordId] : []),
+          ],
+        };
+    }
   }
   // A donor's gift to the campaign (campaigns.ts recordGift): what they gave,
   // and the lines about a gift need it.
@@ -1663,6 +1753,10 @@ function composeBinding(
         text: "yes",
         sourceRecordIds: why,
       };
+    // Near the player on their own question, by the same read the answer
+    // weighed: the player can say so when asked why them.
+    if ((serve.terms.question ?? P.zero) > P.zero)
+      facts["near-on-issue"] = { text: "yes", sourceRecordIds: why };
     // Asked again after a no: a yes says what changed, as felt (Words lead,
     // Nov 14: the term that moved most since the no).
     if (serve.moved && serve.standing.lean > P.zero)
@@ -1987,7 +2081,17 @@ function serveStanding(
   const row = serveAsk(coreAPI(core as CoreState), said.askId ?? "");
   if (!row || row.askedId !== prospectId) return undefined;
   return {
-    standing: { lean: row.standing.lean, favor: P.zero },
+    standing: {
+      lean: row.standing.lean,
+      favor: P.zero,
+      // A stranger who would say yes asks the player one thing first; on
+      // their own question, a hedge is weighed as the player's stance unsaid.
+      asksFirst: !row.standing.grounds.knows && row.standing.lean > P.zero,
+      hedged:
+        row.standing.yesReason === "agree"
+          ? leanIfHedged(row)
+          : row.standing.lean,
+    },
     terms: row.standing.terms,
     raceOffice: row.raceOffice,
     office: row.office,
