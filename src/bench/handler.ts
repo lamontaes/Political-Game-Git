@@ -489,7 +489,7 @@ const ROUTES: readonly Route[] = [
             staged.momentId,
             {
               date: makeIsoDate(world.core.date),
-              minuteOfDay: OPENING_EVENING_MINUTE,
+              minuteOfDay: openingArrivalMinute(world.core, entrant.personId),
             },
           );
         send(200, {
