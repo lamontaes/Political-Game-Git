@@ -8,7 +8,7 @@ size: M
 status: open
 claimed-by:
 pr:
-after:
+after: talk-offer-of-help-cannot-spend-the-players-day
 blocked-on:
 source: promises brief T, Words lead rulings 1 (Nov 14)
 lead: director
@@ -22,7 +22,7 @@ root: design-story-director
 
 **Cause.** Design: no action in src/bench or src/core2 starts a call, letter, visit, dinner or stay with a chosen person; a talk happens only when the conversation engine puts two people together. The promise kind `reach-someone` is named in src/director/data/promise-kinds.json with `settle: []`, so no ending offers it. The rows it replaces are read in docs/stopgaps/triage-2026-11-10/director.md (SG-WORDS-reunion-letter-promise-unread, SG-WORDS-celebration-gathering-promise-unread, SG-WORDS-homecoming-stay-unread).
 
-**Fix.** Design the one player act (choose a person, choose how: call, letter, visit, dinner at their home, a stay) as an action that writes one record the relationship engine already reads (contact with a cause). Then give `reach-someone` its settle operation (the pair's contact with that cause) and restore the promise reply and its ending row in purpose-arcs.json and promise-kinds.json for the four purposes. The Words lead writes the restored lines.
+**Fix.** The act itself is built by talk-offer-of-help-cannot-spend-the-players-day. What stays here: in promises.ts, a settle operation on an event kind with the promised person in personIds, rows on `contact.visit` and `contact.call` for `reach-someone`, and the promise reply restored. (Originally: design the one player act (choose a person, choose how: call, letter, visit, dinner at their home, a stay) as an action that writes one record the relationship engine already reads (contact with a cause).) Then give `reach-someone` its settle operation (the pair's contact with that cause) and restore the promise reply and its ending row in purpose-arcs.json and promise-kinds.json for the four purposes. The Words lead writes the restored lines.
 
 **Time box.** Design 2 hours (Opus); build 1 day (Sonnet).
 
@@ -30,6 +30,6 @@ root: design-story-director
 
 **Done when.** A second session sees in the running game, in a drawn place (place and seed named) the player makes the promise at one of the four scenes, then reaches the person by the new act, and the promise ends kept by that act's record id; at a second place they do not, and it ends broken when its window closes; each outcome is said once at the next talk.
 
-**Waits on.** Nothing.
+**Waits on.** talk-offer-of-help-cannot-spend-the-players-day (the Visit and Call thread, branch claude/project-thread-soscar), which builds the act: core events `contact.visit` and `contact.call`, personIds [player, other].
 
 **Files.** src/director/data/promise-kinds.json, src/director/data/purpose-arcs.json, src/director/promises.ts, data/english/parts/scene-talk.json
