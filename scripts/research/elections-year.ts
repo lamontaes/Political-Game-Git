@@ -63,9 +63,6 @@ const deadlineRows = readJson<{
 }>("src/core2/data/elections/filing-deadlines.json");
 
 const SEVEN = [
-  "SG-GOV-campaign-pollster-seller",
-  "SG-GOV-campaign-mail-seller",
-  "SG-GOV-campaign-venue-seller",
   "SG-GOV-filing-deadline-estimate",
   "SG-GOV-filing-fallbacks",
   "SG-GOV-polling-place-kind",

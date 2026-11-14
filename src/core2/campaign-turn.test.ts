@@ -194,7 +194,10 @@ interface CampaignPayment {
 function campaignPayments<T>(act: () => T): [T, CampaignPayment[]] {
   const payments: CampaignPayment[] = [];
   setJournalTrace((input) => {
-    if (CAMPAIGN_MONEY_KINDS.includes(input.sourceRef.kind))
+    if (
+      CAMPAIGN_MONEY_KINDS.includes(input.sourceRef.kind) ||
+      input.sourceRef.id.startsWith("campaign-purchase:")
+    )
       payments.push({ ...input.sourceRef, postings: input.postings });
   });
   try {
@@ -289,9 +292,11 @@ describe("campaigns that raise and spend", () => {
         paidOut -= out.deltaMinor;
         const to = record.postings.find((p) => p !== out)!;
         const sellerId = to.accountId.slice(5, -":residual".length);
-        expect(core.organizations.get(sellerId)!.liquidMinor).toBeGreaterThan(
-          sellersBefore.get(sellerId) ?? 0,
-        );
+        // An outside seller holds no stock: its flow is the record.
+        if (core.organizations.get(sellerId)!.outsideFlow === undefined)
+          expect(core.organizations.get(sellerId)!.liquidMinor).toBeGreaterThan(
+            sellersBefore.get(sellerId) ?? 0,
+          );
       }
     }
     expect(paidOut).toBe(campaign.spentMinor);
