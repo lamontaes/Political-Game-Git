@@ -769,7 +769,10 @@ export function applyCountedFlows(
             );
             chances.set(slot, chance);
           }
-          return n + chance * weightOfPerson(member);
+          return (
+            n +
+            chance * (weightOfPerson(member) - (ill.get(member.id)?.share ?? 0))
+          );
         }, 0);
         expected += share;
         debts[key] = (debts[key] ?? 0) + share;
@@ -814,11 +817,17 @@ export function applyCountedFlows(
         // A record that stands for more households than the deaths owed: the
         // whole people owed fall ill in that many of them (one model, two
         // tiers: a record dies by a person's rule, times its weight).
+        // The cohort pays what it owes, rounded up to a person: never the
+        // whole month's pool in one record, which put every death on the
+        // oldest cohort and left the younger ones owed for a year.
+        const take = Math.min(
+          whole,
+          Math.ceil(debts[pick]! - 1e-9),
+          Math.floor(owedNow + 1e-9),
+        );
+        if (take < 1) break;
         let share: number | undefined;
-        if (!(owedNow + 1e-9 >= whole)) {
-          share = Math.floor(owedNow + 1e-9);
-          if (share < 1) break;
-        }
+        if (take < whole) share = take;
         const person = members.shift()!;
         debts[pick]! -= share ?? whole;
         const due = addDays(makeIsoDate(on), lead(person, on));
@@ -879,13 +888,19 @@ export function applyCountedFlows(
       ) {
         const before = addDays(makeIsoDate(date), -back * DAYS_PER_COUNT_MONTH);
         fall(
-          people.filter((person) => !ill.has(person.id)),
+          people.filter(
+            (person) =>
+              !ill.has(person.id) || ill.get(person.id)!.share !== undefined,
+          ),
           before,
           {},
         );
       }
     row.expected.deaths = fall(
-      well.filter((person) => !ill.has(person.id)),
+      well.filter(
+        (person) =>
+          !ill.has(person.id) || ill.get(person.id)!.share !== undefined,
+      ),
       date,
       owed,
     );
