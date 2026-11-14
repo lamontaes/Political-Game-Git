@@ -26,7 +26,7 @@ import { addDays, makeIsoDate } from "./kernel/dates";
 import { enactLaw, lawChain, lawInForce, LAWS_MODULE_ID } from "./modules/laws";
 import {
   amendBudget,
-  baseBudget,
+  lineExtra,
   budgetsOf,
   governments,
   type GovernmentRow,
@@ -232,9 +232,7 @@ function vouchersToReachFullHouseholds(
     .reduce((sum, g) => {
       const budget = budgetToday(api, g);
       if (!budget) return sum;
-      const extra =
-        (budget.spendingMinor.housing ?? 0) -
-        (baseBudget(api, g, budget.fiscalYear).spendingMinor.housing ?? 0);
+      const extra = lineExtra(api, g, budget, "housing");
       return (
         sum + Math.max(0, Math.floor((extra * townShare(api, g)) / annual))
       );
@@ -1039,9 +1037,7 @@ function play(
     const budget = budgetsOf(api, gov.id)
       .filter((b) => b.startsOn <= core.date)
       .sort((a, b) => b.startsOn.localeCompare(a.startsOn))[0]!;
-    const above =
-      (budget.spendingMinor.housing ?? 0) -
-      (baseBudget(api, gov, budget.fiscalYear).spendingMinor.housing ?? 0);
+    const above = lineExtra(api, gov, budget, "housing");
     check("rentHelp.cut", above > 0, "the line is not above its base to cut");
     const cutOn = core.date;
     amendBudget(api, {
@@ -1107,103 +1103,101 @@ const PINS = [
   { name: "Fort Carson, Colorado", key: "0827370", state: "US-CO" },
 ] as const;
 const WORLD_SEED = "housing-pin-1";
-/** The two cases with a defect found at these places; each runs again when its pool item's fix lands. */
-const KNOWN = {
-  housing: "laws-housing-line-raise-reaches-only-counted-groups",
-  cut: "laws-housing-line-cut-leaves-the-line-above-its-base",
-} as const;
-
+/**
+ * Whitney runs by default (about eight minutes with its staged apartments). The other two run with
+ * HOUSING_ALL_PINS=1, the way path-check-step-11 gates its long case on an environment switch; Fort
+ * Carson is the place where receipts scale a county's line below its base, so the line's raise must still show.
+ */
+const ALL_PINS = process.env.HOUSING_ALL_PINS === "1";
 for (const pin of PINS) {
   const where = `${pin.name}, ${pin.key}, seed ${WORLD_SEED}`;
-  describe(`housing and credit laws reach people and move money (${where})`, () => {
-    let played: Played | undefined;
-    let staged: Played | undefined;
-    let notPlayed: string | undefined;
-    let notStaged: string | undefined;
+  (pin.key === PINS[0].key || ALL_PINS ? describe : describe.skip)(
+    `housing and credit laws reach people and move money (${where})`,
+    () => {
+      let played: Played | undefined;
+      let staged: Played | undefined;
+      let notPlayed: string | undefined;
+      let notStaged: string | undefined;
 
-    const build = (mode: "family" | "staged") => {
-      const bookkeepingBefore = setBookkeeping(false);
-      try {
-        const people = publishedPlaceReferencePopulation(
-          corePlaceByKey(pin.key)?.sourceGeoid ?? pin.key,
-        )?.value;
-        let result: Played | string;
+      const build = (mode: "family" | "staged") => {
+        const bookkeepingBefore = setBookkeeping(false);
         try {
-          result = play(
-            { ...pin, seed: WORLD_SEED } as ReturnType<typeof drawPlace>,
-            people ?? 0,
-            mode,
-          );
-        } catch (error) {
-          throw new Error(`${where}: ${(error as Error).message}`, {
-            cause: error,
-          });
+          const people = publishedPlaceReferencePopulation(
+            corePlaceByKey(pin.key)?.sourceGeoid ?? pin.key,
+          )?.value;
+          let result: Played | string;
+          try {
+            result = play(
+              { ...pin, seed: WORLD_SEED } as ReturnType<typeof drawPlace>,
+              people ?? 0,
+              mode,
+            );
+          } catch (error) {
+            throw new Error(`${where}: ${(error as Error).message}`, {
+              cause: error,
+            });
+          } finally {
+            setJournalTrace(null);
+          }
+          return typeof result === "string" ? `${where}: ${result}` : result;
         } finally {
-          setJournalTrace(null);
+          setBookkeeping(bookkeepingBefore);
         }
-        return typeof result === "string" ? `${where}: ${result}` : result;
-      } finally {
-        setBookkeeping(bookkeepingBefore);
+      };
+      beforeAll(() => {
+        const year = build("family");
+        if (typeof year === "string") notPlayed = year;
+        else played = year;
+      }, 1_500_000);
+      beforeAll(() => {
+        const apartments = build("staged");
+        if (typeof apartments === "string") notStaged = apartments;
+        else staged = apartments;
+      }, 900_000);
+
+      afterAll(() => setJournalTrace(null));
+
+      /** The case passes when its list of failures is empty; a trail is printed for the law it follows. */
+      function passes(name: string, law?: Law, world = played): void {
+        const missing = world === staged ? notStaged : notPlayed;
+        expect(world, missing).toBeDefined();
+        const failed = world!.failures.get(name) ?? [];
+        expect(failed, `${world!.where}: ${name}`).toEqual([]);
+        if (law) {
+          const trail = world!.trails[law];
+          expect(trail, `${world!.where}: ${name} trail`).toBeDefined();
+          govReport(
+            "law-wiring-housing",
+            JSON.stringify({ law: KEYS[law], where: world!.where, ...trail }),
+          );
+        }
       }
-    };
-    beforeAll(() => {
-      const year = build("family");
-      if (typeof year === "string") notPlayed = year;
-      else played = year;
-    }, 1_500_000);
-    beforeAll(() => {
-      const apartments = build("staged");
-      if (typeof apartments === "string") notStaged = apartments;
-      else staged = apartments;
-    }, 900_000);
 
-    afterAll(() => setJournalTrace(null));
-
-    /** The case passes when its list of failures is empty; a trail is printed for the law it follows. */
-    function passes(name: string, law?: Law, world = played): void {
-      const missing = world === staged ? notStaged : notPlayed;
-      expect(world, missing).toBeDefined();
-      const failed = world!.failures.get(name) ?? [];
-      expect(failed, `${world!.where}: ${name}`).toEqual([]);
-      if (law) {
-        const trail = world!.trails[law];
-        expect(trail, `${world!.where}: ${name} trail`).toBeDefined();
-        govReport(
-          "law-wiring-housing",
-          JSON.stringify({ law: KEYS[law], where: world!.where, ...trail }),
-        );
-      }
-    }
-
-    it("rent stabilization: a lease renewed under the law has its applied row and the rent paid", () =>
-      passes("rent", "rent"));
-    it("inclusionary requirement: builders set units aside and a set-aside tenant pays the lower rent", () =>
-      passes("inclusionary", "inclusionary", staged));
-    it("allow multifamily in single-family zones: the landlord's apartment buildings are started under the law and paid for", () =>
-      passes("multifamily", "multifamily", staged));
-    it("right to counsel in eviction: a hearing's lawyer is paid by the government for the household", () =>
-      passes("counsel", "counsel"));
-    it("cap consumer loan rates: each quoted household is recorded and lent to under the ceiling", () =>
-      passes("cap", "cap"));
-    // Known defect (pool item named in KNOWN): it fails at every pinned place and stays visible here.
-    it.skip(`the housing line: raising it pays a household's rent assistance through the journal (${KNOWN.housing})`, () =>
-      passes("housing", "housing"));
-    it("the all-electric and farmland rules reach the builders the same way", () =>
-      passes("construction"));
-    it("rent help: the helped head rents (a lease exists)", () =>
-      passes("rentHelp.lease"));
-    it("rent help: the payment is at most the rent", () =>
-      passes("rentHelp.atMostRent"));
-    // At Fort Carson the county's raise does not survive into the next fiscal year's budget, so none of its help
-    // reaches a counted renter (1,346 counted renters there; the state's line pays them): the same defect as the cut.
-    (pin.key === "0827370" ? it.skip : it)(
-      `rent help: a counted renter's help goes into its group's fund${pin.key === "0827370" ? ` (${KNOWN.cut})` : ""}`,
-      () => passes("rentHelp.counted"),
-    );
-    it("rent help: the treasury has paid after a month", () =>
-      passes("rentHelp.paid"));
-    it.skip(`rent help: cutting the housing line ends every payment (${KNOWN.cut})`, () =>
-      passes("rentHelp.cut"));
-    it("repeal ends every row", () => passes("repeal"));
-  });
+      it("rent stabilization: a lease renewed under the law has its applied row and the rent paid", () =>
+        passes("rent", "rent"));
+      it("inclusionary requirement: builders set units aside and a set-aside tenant pays the lower rent", () =>
+        passes("inclusionary", "inclusionary", staged));
+      it("allow multifamily in single-family zones: the landlord's apartment buildings are started under the law and paid for", () =>
+        passes("multifamily", "multifamily", staged));
+      it("right to counsel in eviction: a hearing's lawyer is paid by the government for the household", () =>
+        passes("counsel", "counsel"));
+      it("cap consumer loan rates: each quoted household is recorded and lent to under the ceiling", () =>
+        passes("cap", "cap"));
+      it("the housing line: raising it pays a household's rent assistance through the journal", () =>
+        passes("housing", "housing"));
+      it("the all-electric and farmland rules reach the builders the same way", () =>
+        passes("construction"));
+      it("rent help: the helped head rents (a lease exists)", () =>
+        passes("rentHelp.lease"));
+      it("rent help: the payment is at most the rent", () =>
+        passes("rentHelp.atMostRent"));
+      it("rent help: a counted renter's help goes into its group's fund", () =>
+        passes("rentHelp.counted"));
+      it("rent help: the treasury has paid after a month", () =>
+        passes("rentHelp.paid"));
+      it("rent help: cutting the housing line ends every payment", () =>
+        passes("rentHelp.cut"));
+      it("repeal ends every row", () => passes("repeal"));
+    },
+  );
 }
