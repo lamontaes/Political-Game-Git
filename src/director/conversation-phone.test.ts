@@ -286,7 +286,7 @@ describe("the bank holds the doorway words off a call", () => {
       .map((part) => part.text);
     expect(own).toEqual(
       expect.arrayContaining([
-        "Talk soon.",
+        "Call anytime.",
         "I'll let you go.",
         "Thanks for calling.",
         "Glad you called.",

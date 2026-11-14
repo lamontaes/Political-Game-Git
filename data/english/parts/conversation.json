@@ -44711,25 +44711,6 @@
       "origin": "authored",
       "author": "Words builder A (by-phone lines, round 12)",
       "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.farewell-core.phone-talk-soon",
-      "move": "farewell-core",
-      "kind": "spoken",
-      "text": "Talk soon.",
-      "uses": [
-        {
-          "move": "farewell-core",
-          "subject": "farewell",
-          "role": "core",
-          "stages": ["default"],
-          "requiresFacts": ["by-phone"],
-          "closesTalk": true
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder A (by-phone lines, round 12)",
-      "date": "2026-11-14"
     }
   ]
 }
