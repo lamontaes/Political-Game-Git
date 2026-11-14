@@ -19,6 +19,7 @@ import {
   bodyReach,
   members,
 } from "../core2/modules/legislature";
+import { P } from "../core2/parameters";
 import rules from "./data/scene-talk-rules.json" with { type: "json" };
 import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
@@ -44,15 +45,15 @@ export function publicReason(
   speaksFor: boolean,
   wroteIt: boolean,
 ): Reason {
-  const sign = speaksFor ? 1 : -1;
+  const sign = speaksFor ? P.one : -P.one;
   const parts: readonly (readonly [Reason, number])[] = [
     ["own-view", position.views * sign],
     ["people", position.constituents * sign],
     // Only the bill's own sponsor says it is theirs.
-    ["own-bill", wroteIt ? position.sponsor * sign : 0],
+    ["own-bill", wroteIt ? position.sponsor * sign : P.zero],
   ];
   let best: Reason = "own-view";
-  let most = 0;
+  let most: number = P.zero;
   // Ties go to the member's own view, the first listed.
   for (const [reason, size] of parts)
     if (size > most) {
@@ -74,7 +75,7 @@ export function floorDebateFacts(
   const bill = billOf(api, said.billId);
   if (!bill) return;
   const cited = [causeId, bill.id];
-  const section = bill.provisions[0];
+  const section = bill.provisions[P.zero];
   const about =
     section?.kind === "policy-question" && section.question
       ? questionAbout(section.question)
