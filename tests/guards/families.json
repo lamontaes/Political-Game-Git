@@ -149,7 +149,8 @@
         "src/core2/modules/budgets.ts",
         "src/core2/modules/finance.ts",
         "src/core2/budgets-treasury.ts",
-        "src/core2/tax-index.ts"
+        "src/core2/tax-index.ts",
+        "src/core2/tax-listeners.ts"
       ],
       "paths": [
         "src/core2/modules/budgets.ts",
