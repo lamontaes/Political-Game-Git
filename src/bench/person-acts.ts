@@ -4,7 +4,7 @@
 // that says whether each act is open now and, if not, why (a closed key the
 // card words), and the writers that put a done act on the record. Nothing
 // here is rolled: the records say whether the act is open.
-import { recordVisit } from "../core2/encounters";
+import { recordVisit } from "../core2/modules/people";
 import { livesElsewhere } from "../core2/modules/moves";
 import { applyCoreEvent, coreAPI } from "../core2/state";
 import { parameter } from "../core2/parameters";
