@@ -16,11 +16,7 @@ import { OFFICES_MODULE_ID, townSeats } from "../core2/modules/offices";
 import { officialsIn, type OfficialRow } from "../core2/modules/officials";
 import { OUTCOME_WEB_MODULE_ID } from "../core2/modules/outcome-web";
 import { P } from "../core2/parameters";
-import {
-  TERM_AREAS,
-  placeTermRead,
-  type AreaRead,
-} from "../core2/modules/laws";
+import { jurisdictionTermRead, type AreaRead } from "../core2/modules/laws";
 import { applyCoreEvent, coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
 import type { AddressKind } from "./address-kind";
@@ -296,15 +292,6 @@ function speakerOf(core: CoreState, level: LocalLevel): Speaker | null {
   return townHead(core, spec.heads);
 }
 
-/** Every place the outcome web keeps rows for (the same read `termReadPlaces` gives once the public-action change lands). */
-function webPlaces(core: CoreState): string[] {
-  const rows = coreAPI(core)
-    .moduleState(OUTCOME_WEB_MODULE_ID)
-    .table("months")
-    .rows() as unknown as { placeId: string }[];
-  return [...new Set(rows.map((row) => row.placeId))].sort();
-}
-
 /** The term read of the state (the places the web keeps inside it) or of the town. */
 function realmRead(
   core: CoreState,
@@ -314,27 +301,9 @@ function realmRead(
   const api = coreAPI(core);
   if (!core.modules.has(OUTCOME_WEB_MODULE_ID)) return [];
   const here = core.people.get(core.playerId ?? "")?.placeId;
-  if (level === "town") return here ? placeTermRead(api, here, since) : [];
   const state = placeStateKey(core.placeMetadata.placeKey);
-  const reads = webPlaces(core)
-    .filter((place) => placeStateKey(place) === state)
-    .flatMap((place) => placeTermRead(api, place, since));
-  return TERM_AREAS.flatMap((area): AreaRead[] => {
-    const rows = reads.filter((row) => row.area === area);
-    return rows.length
-      ? [
-          {
-            area,
-            slide:
-              rows.reduce((sum, row) => sum + row.slide, P.zero) / rows.length,
-            measures: rows.flatMap((row) => row.measures),
-            sourceRecordIds: [
-              ...new Set(rows.flatMap((row) => row.sourceRecordIds)),
-            ],
-          },
-        ]
-      : [];
-  });
+  const jurisdiction = level === "town" ? here : state;
+  return jurisdiction ? jurisdictionTermRead(api, jurisdiction, since) : [];
 }
 
 /**
