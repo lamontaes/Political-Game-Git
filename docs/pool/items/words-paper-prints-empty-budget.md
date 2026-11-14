@@ -5,7 +5,7 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -42,3 +42,6 @@ Lane 3 (Nov 4): neither side is in Lane 3's files. `src/core2/past-news.ts:125-1
 **Notes (Fable's check, Nov 10).** How to find the cause: in the Orocovis, Puerto Rico replay, read how the budgets engine opens the budget row budget:county:72107:2024 and why it has no lines (a municipio with no Census finance row, or a row the opening skips). The fix is then made there, as an estimate from a sourced average marked as an estimate, never $0; a guard in src/core2/past-news.ts (line 126) against archiving an empty budget may follow it, not replace it.
 
 Nov 11 (cause finder for Fable B): not reproduced. The test passes at the named seed on main d64255aa, and Orocovis's budget row now holds money. I propose dropping the item as done by main. The dollar format past a trillion belongs to words-paper-law-and-budget-briefs-read-right.
+
+Dropped Nov 13, 2026 (Account lead T33, CTO's Nov 12 drop rule): its own Fix section says "Nothing to build. The CTO drops the item as done by main." and its Cause says the fault does not reproduce on main. The reproduce-again advice in that Fix stays the way back: file a new item from the place and seed if it returns.
+Seen on the way and not filed here: the federal budget story's "$6813.9 billion" is covered by words-paper-law-and-budget-briefs-read-right; whether Orocovis's $442,129 of planned spending is too small is an open question for the budgets lead.
