@@ -16,8 +16,8 @@ import {
   headCandidates,
   postsToFill,
 } from "./modules/executive";
-import { nameHeadPick, officeView } from "../bench/office";
-import { officeActsOf, officeHost } from "./modules/office-day";
+import { officeView } from "../bench/office";
+import { officeActsOf, officeHost, prepareAct } from "./modules/office-day";
 import { townSeats } from "./modules/offices";
 import { lawChain } from "./modules/laws";
 import { memberKey } from "./modules/legislature";
@@ -124,9 +124,16 @@ describe(`an appointer names a department head (seed ${seed})`, () => {
     );
   }, 1_200_000);
 
+  // Pinned at Jackson, Minnesota, where opening the office panel fills in the
+  // residents its staff list weighs, and one of them then ranks first for the
+  // post: the panel's list must be the list the engine names from.
   it("lists the people an open post could go to, and a pick other than the first is the one named", () => {
-    for (let attempt = 0; attempt < 8; attempt += 1) {
-      const place = drawPlace(`${seed}:${attempt}`, "name-head-pick");
+    for (let attempt = 0; attempt < 1; attempt += 1) {
+      const place = {
+        name: "Jackson, Minnesota",
+        key: "2731562",
+        seed: "e1c278b9d8e3a51714092324b05ec7c1254f88d543afeed4df18f667ca738625",
+      };
       const where = `${place.name}; seed ${place.seed}`;
       const world = buildBenchWorld(place.seed, gameStartDate(), {
         twoLevel: true,
@@ -173,7 +180,11 @@ describe(`an appointer names a department head (seed ${seed})`, () => {
       let named: ReturnType<typeof appointmentsIn>[number] | undefined;
       let picked = "";
       for (const reasons of ranked.slice(1, 6)) {
-        nameHeadPick(core, actorId!, head.post, reasons.candidateId);
+        // A yes to the official's ask writes their pick for the act (the ask
+        // and its scene: src/director/post-ask-scene.test.ts).
+        prepareAct(api, actorId!, "name-department-head", {
+          nominee: { post: head.post, personId: reasons.candidateId },
+        });
         handler(api, actorId!, offer);
         const row = appointmentsIn(api, town).find((r) => r.post === head.post);
         if (row && row.holderId !== head.holderId) {
@@ -195,7 +206,7 @@ describe(`an appointer names a department head (seed ${seed})`, () => {
       return;
     }
     throw new Error(
-      `No town with an appointed head to pick for in 8 draws; ${seed}`,
+      "Jackson, Minnesota has no appointed head to pick for at its pinned seed",
     );
   }, 1_200_000);
 });
