@@ -21,7 +21,7 @@ source: Desk thread, Nov 15, rule 136 played file (/mnt/project-files/words-lead
 **What.** John Mendoza serves as the elected county clerk (offices term office:gus2025:105319:clerk) from day one, yet he has no job row, so the case engine reads him as out of work with thin savings and sends him to a council member's office hours: "John Mendoza, the county clerk, meets you at the office... I need a job. What I saved is almost gone."
 Seen: Hardinsburg, Kentucky (2134552), seed 4276344481a2b078e70633cfee47d0caccb65f74:2, visit office-approached:case:person_f4535288f43c0996:2025-02-19.
 
-**Cause.** Found in code: src/core2/modules/offices.ts, the offices engine, seats an elected holder with a term but no paid job (person.jobId undefined for person_f4535288f43c0996), and src/core2/modules/constituent-cases.ts reads "out of work" as "no job row", so a serving officeholder counts as unemployed.
+**Cause.** Found in code: src/core2/modules/offices.ts, the offices engine, seats an elected holder with a term but no paid job (person.jobId undefined for person_f4535288f43c0996), and src/core2/modules/constituent-cases.ts problemOf (line 237) reads "out of work" as "no job row", so a serving officeholder counts as unemployed.
 
 **Fix.** Pay a serving elected officeholder through the office's own payroll (the official-pay engine's job for the term), or have the case engine's out-of-work read count a serving term as work; the first is the record a payslip, the card and the case read alike. Prove that no serving officeholder opens a job-search case.
 
