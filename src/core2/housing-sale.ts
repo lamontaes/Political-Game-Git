@@ -1,18 +1,22 @@
 /**
- * Selling an owned home when its owners leave town (the replacement for
- * SG-P15-moves-owners-stay). An outside buyer pays the home's value from the
- * dwellings table; the lender is paid off from the price first, any surplus
- * goes to the household's first member, and a price under the payoff leaves
- * the lender to carry the rest as a loss, as at a foreclosure sale. The
- * mortgage ends, the home is no longer the household's, and the sale is a
- * record the housing ledger keeps.
+ * Selling an owned home when its owners leave town or the last of them dies
+ * (the replacement for SG-P15-moves-owners-stay). The home goes on the market
+ * (`sellHome`) and stays the seller's until a buyer takes it: a household that
+ * left still owns it, and an estate stays open with the house in it. Its
+ * mortgage stops being paid each month and runs on at its rate until the
+ * sale. When a buyer takes it (housing-listings.ts `takeHomes`), the buyer
+ * pays the seller and `closeSale` pays the lender from that money first, the
+ * months of interest since it was listed included; the rest is the seller's,
+ * and a price under the payoff leaves the lender the loss, as at a
+ * foreclosure sale. The sale is a record the housing ledger keeps.
  */
 import { townOutsideOf } from "./opening-outside-market";
+import { daysBetweenText } from "./kernel/dates";
 import { transferCash } from "./world-transfer";
 import type { ModuleRow } from "./module-data";
 import { formerHome } from "./housing-former-home";
 import type { MortgageRow } from "./housing-foreclosure";
-import { webFactorFor } from "./modules/laws";
+import { type HomePart, listHome, markSold } from "./housing-listings";
 import type { CoreAPI, CoreState } from "./types";
 
 const HOUSING = "housing";
@@ -24,7 +28,23 @@ const table = (api: CoreAPI, name: string) =>
 export interface HomeSale {
   readonly id: string;
   readonly householdId: string;
+  readonly placeId: string;
+  /** The day it went on the market, and the day the last of its homes was bought. */
   readonly date: string;
+  readonly status: "listed" | "sold";
+  readonly soldAt?: string;
+  /** Homes for sale: a counted household's record stands for several; those still unsold. */
+  readonly homes: number;
+  readonly homesLeft: number;
+  /** Who the buyer pays: the household (its first member) or the estate (the decedent); for a counted household, the town's outside market, which passes the money on that day. */
+  readonly payeeId: string;
+  /** A counted household's surplus goes to its group's account (the counted dead's heirs); none, it leaves town with the household. */
+  readonly surplusAccountId?: string;
+  /** The home's value when last valued and the place's price level then: its value today by the one value rule (housing-price-level.ts `homeValueToday`). */
+  readonly homeValueMinor: number;
+  readonly homePriceLevel?: number;
+  /** The purchases that bought its homes. */
+  readonly boughtBy?: readonly string[];
   readonly mortgageIds: readonly string[];
   readonly priceMinor: number;
   readonly owedMinor: number;
@@ -71,6 +91,11 @@ export function homeSaleOf(
   api: CoreAPI,
   householdId: string,
 ): HomeSale | undefined {
+  if (!api.state.modules.has(HOUSING)) return undefined;
+  // Only a household whose home went on the market has a sale.
+  const home = table(api, "dwellings").get(`dwelling:${householdId}`) as
+    { tenure?: string; basis?: string } | undefined;
+  if (home?.basis !== "sale") return undefined;
   return (table(api, "sales").rows() as unknown as HomeSale[])
     .filter((row) => row.householdId === householdId)
     .sort((a, b) => a.date.localeCompare(b.date))
@@ -78,8 +103,11 @@ export function homeSaleOf(
 }
 
 /**
- * Sells the household's home for what it is worth, paying off its mortgages.
- * Returns the sale, or undefined when the household owns no recorded home.
+ * Puts the household's home on the market, for what a buyer will pay. It
+ * stays the household's (or its estate's) until a buyer takes it; its
+ * mortgage stops being billed and is paid off, with interest for the months
+ * it waited, from the sale. Returns the sale, or undefined when the household
+ * owns no recorded home (or already has it on the market).
  */
 export function sellHome(
   api: CoreAPI,
@@ -87,19 +115,14 @@ export function sellHome(
   reasonKey: string,
   estate?: { decedentId: string; deathEventId: string },
   /**
-   * A counted household's home: the households its record stands for (the
-   * price and the payoff times that), the place it is in, and where the
-   * surplus goes (the counted residents' own money, as the counted dead's
-   * cash does). Returns what that took in.
+   * A counted household's home: the households its record stands for, the
+   * place it is in, and the account its surplus goes to (its group's, for the
+   * counted dead); none, the surplus leaves town with it.
    */
   counted?: {
     readonly placeId: string;
     readonly weight: number;
-    readonly surplus: (
-      amountMinor: number,
-      id: string,
-      buyerId: string,
-    ) => number;
+    readonly surplusAccountId?: string;
   },
 ): HomeSale | undefined {
   if (!api.state.modules.has(HOUSING)) return undefined;
@@ -109,123 +132,219 @@ export function sellHome(
         tenure?: string;
         kind?: string;
         valueMinor?: number;
-        webFactor?: number;
+        priceLevel?: number;
       }
     | undefined;
   if (dwelling?.tenure !== "own") return undefined;
   const household = c.households.get(householdId);
   const placeId = counted?.placeId ?? household?.placeId;
   if (!placeId) return undefined;
-  // A counted household's record stands for several: its home and its
-  // mortgage are each that many.
   const times = counted?.weight ?? 1;
+  const market = townOutsideOf(c.organizations.values(), placeId);
+  // The estate, or the household's first living member, is paid; a counted record has no account of its own, so the outside market takes the buyer's money for it and passes it on the same day.
+  const payeeId = counted
+    ? market?.id
+    : (estate?.decedentId ??
+      household?.memberIds.find((id) => c.people.get(id)?.alive) ??
+      household?.memberIds[0]);
+  if (!payeeId) return undefined;
   const mortgages = (
     table(api, "mortgages").rows() as unknown as MortgageRow[]
   ).filter((row) => row.householdId === householdId && row.balanceMinor > 0);
-  // The buyer pays the home's value moved by the outcome web's factor on home
-  // values since the home was valued (a severe disaster's lower prices).
-  const price = Math.round(
-    (dwelling.valueMinor ?? 0) *
-      times *
-      (webFactorFor(api, placeId, HOME_VALUE_MEASURE) /
-        (dwelling.webFactor ?? 1)),
-  );
-  const owed = Math.round(
-    mortgages.reduce((sum, row) => sum + row.balanceMinor, 0) * times,
-  );
-  // The town's outside market stands for the buyer.
-  const buyer = townOutsideOf(c.organizations.values(), placeId);
-  if (!buyer || price <= 0) return undefined;
-  const source = {
-    tag: "ESTIMATED" as const,
-    asOf: c.date,
-    citation:
-      "Housing engine: the home's value in the dwellings table, paid by the outside market.",
-    estimatedFrom: `${householdId} sold its home (${reasonKey}).`,
-  };
-  const stamp = `${householdId}:${c.date}`;
-  let toLender = 0;
-  let remaining = price;
-  for (const mortgage of mortgages) {
-    const owedNow = Math.min(
-      remaining,
-      Math.round(mortgage.balanceMinor * times),
-    );
-    // The outside market that buys the home pays a lender who can be outside
-    // the game's books too: the same market, or another place's (a household
-    // that moved within the county keeps its lender, and its new place has its
-    // own market). Money between two outside parties is not on the books, so
-    // no cash moves and the loan is settled all the same.
-    const paid =
-      mortgage.holderId === buyer.id || outsideOwner(c, mortgage.holderId)
-        ? owedNow
-        : transferCash(
-            api,
-            `home-sale:${stamp}:${mortgage.id}`,
-            buyer.id,
-            mortgage.holderId,
-            owedNow,
-            source,
-          );
-    toLender += paid;
-    remaining -= paid;
-  }
-  // A sale for an estate pays its surplus into the estate, for the heirs; a
-  // counted household's goes to the counted residents it belonged to.
-  const first =
-    estate?.decedentId ??
-    household?.memberIds.find((id) => c.people.get(id)?.alive);
-  const surplus = counted
-    ? remaining > 0
-      ? counted.surplus(remaining, `home-sale-surplus:${stamp}`, buyer.id)
-      : 0
-    : remaining > 0 && first
-      ? transferCash(
-          api,
-          `home-sale-surplus:${stamp}`,
-          buyer.id,
-          first,
-          remaining,
-          source,
-        )
-      : 0;
   for (const mortgage of mortgages) {
     table(api, "mortgages").put({
       ...mortgage,
-      balanceMinor: 0,
-      monthsLeft: 0,
-      soldAt: c.date,
+      listedAt: c.date,
     } as unknown as ModuleRow);
+    // The household stops paying it month by month: it is paid off from the sale.
     if (
       c.finance.contracts.has(mortgage.id) &&
       !c.finance.contracts.get(mortgage.id)!.endedAt
     )
       api.endStandingContract(mortgage.id);
   }
+  const stamp = `${householdId}:${c.date}`;
   table(api, "dwellings").put(
     formerHome(dwelling, {
       householdId,
-      tenure: "sold",
+      tenure: "listed",
       basis: "sale",
       date: c.date,
-      soldForMinor: price,
     }) as unknown as ModuleRow,
   );
   const sale: HomeSale = {
     id: `home-sale:${stamp}`,
     householdId,
+    placeId,
     date: c.date,
+    status: "listed",
+    homes: times,
+    homesLeft: times,
+    payeeId,
+    ...(counted?.surplusAccountId
+      ? { surplusAccountId: counted.surplusAccountId }
+      : {}),
+    homeValueMinor: dwelling.valueMinor ?? 0,
+    ...(dwelling.priceLevel !== undefined
+      ? { homePriceLevel: dwelling.priceLevel }
+      : {}),
     mortgageIds: mortgages.map((row) => row.id),
-    priceMinor: price,
-    owedMinor: owed,
-    toLenderMinor: toLender,
-    surplusMinor: surplus,
-    lossMinor: Math.max(0, owed - toLender),
+    priceMinor: 0,
+    owedMinor: Math.round(
+      mortgages.reduce((sum, row) => sum + row.balanceMinor, 0) * times,
+    ),
+    toLenderMinor: 0,
+    surplusMinor: 0,
+    lossMinor: 0,
     reasonKey,
     ...(estate
       ? { decedentId: estate.decedentId, deathEventId: estate.deathEventId }
       : {}),
   };
   table(api, "sales").put(sale as unknown as ModuleRow);
+  // A home offered this month, for sale until a buyer takes it: the place's price level weighs it against the month's buyers.
+  listHome(api, placeId, times, sale.id, payeeId, {
+    valueMinor: sale.homeValueMinor,
+    ...(sale.homePriceLevel !== undefined
+      ? { priceLevel: sale.homePriceLevel }
+      : {}),
+  });
   return sale;
+}
+
+/**
+ * A buyer took `homes` of the sale's homes and paid its payee
+ * `receivedMinor` for them: the lender is paid first from that money (the
+ * balance on those homes and the interest since the home was listed), and the
+ * rest is the seller's. The last homes bought close the sale.
+ */
+export function closeSale(
+  api: CoreAPI,
+  saleId: string,
+  homes: number,
+  receivedMinor: number,
+  purchaseId: string,
+): void {
+  const sale = table(api, "sales").get(saleId) as unknown as
+    HomeSale | undefined;
+  if (!sale || sale.status !== "listed" || homes <= 0) return;
+  const c = api.state as CoreState;
+  const share = Math.min(1, homes / sale.homes);
+  const months = (days: number) =>
+    days /
+    (api.parameter("daysPerMeanYear") / api.parameter("macroMonthsPerYear"));
+  const source = {
+    tag: "ESTIMATED" as const,
+    asOf: c.date,
+    citation:
+      "Housing engine: the price a buyer paid for a home on the market, the lender paid from it first.",
+    estimatedFrom: `${purchaseId} bought ${homes} of ${sale.householdId}'s home sale ${saleId} (${sale.reasonKey}).`,
+  };
+  let remaining = receivedMinor,
+    toLender = 0,
+    owedNow = 0;
+  for (const id of sale.mortgageIds) {
+    const mortgage = table(api, "mortgages").get(id) as unknown as
+      (MortgageRow & { rate?: number; listedAt?: string }) | undefined;
+    if (!mortgage || mortgage.balanceMinor <= 0) continue;
+    // The balance on the homes bought, and its interest for the months it waited on the market.
+    const waited = mortgage.listedAt
+      ? months(daysBetweenText(mortgage.listedAt, c.date))
+      : 0;
+    const each =
+      mortgage.balanceMinor *
+      (1 +
+        ((mortgage.rate ?? 0) / api.parameter("macroMonthsPerYear")) * waited);
+    const owed = Math.round(each * sale.homes * share);
+    owedNow += owed;
+    const due = Math.min(remaining, owed);
+    // Money between two parties outside the game's books (the outside market and a lender elsewhere) moves no cash; the loan is settled all the same.
+    const paid =
+      due <= 0
+        ? 0
+        : mortgage.holderId === sale.payeeId ||
+            (outsideOwner(c, sale.payeeId) &&
+              outsideOwner(c, mortgage.holderId))
+          ? due
+          : transferCash(
+              api,
+              `home-sale:${saleId}:${purchaseId}:${mortgage.id}`,
+              sale.payeeId,
+              mortgage.holderId,
+              due,
+              source,
+            );
+    toLender += paid;
+    remaining -= paid;
+    const last = sale.homesLeft - homes <= 1e-9;
+    table(api, "mortgages").put({
+      ...mortgage,
+      balanceMinor: last
+        ? 0
+        : Math.max(0, mortgage.balanceMinor * (1 - homes / sale.homesLeft)),
+      ...(last ? { monthsLeft: 0, soldAt: c.date } : {}),
+    } as unknown as ModuleRow);
+  }
+  // The rest is the seller's: it stays with the household or the estate; a counted household's goes to its group, or leaves town with it.
+  const surplus =
+    remaining > 0 && sale.surplusAccountId
+      ? api.accounts().transfer({
+          id: `home-sale-surplus:${saleId}:${purchaseId}`,
+          from: api.accounts().main(sale.payeeId),
+          to: sale.surplusAccountId,
+          amountMinor: remaining,
+          reasonKey: "residents.counted-estate.home-surplus",
+          source,
+        }).paidMinor
+      : Math.max(0, remaining);
+  const homesLeft = Math.max(0, sale.homesLeft - homes);
+  const sold = homesLeft <= 1e-9;
+  const next: HomeSale = {
+    ...sale,
+    homesLeft: sold ? 0 : homesLeft,
+    status: sold ? "sold" : "listed",
+    ...(sold ? { soldAt: c.date } : {}),
+    priceMinor: sale.priceMinor + receivedMinor,
+    toLenderMinor: sale.toLenderMinor + toLender,
+    surplusMinor: sale.surplusMinor + surplus,
+    lossMinor: sale.lossMinor + Math.max(0, owedNow - toLender),
+    boughtBy: [...(sale.boughtBy ?? []), purchaseId],
+  };
+  table(api, "sales").put(next as unknown as ModuleRow);
+  if (sold) {
+    const dwelling = table(api, "dwellings").get(
+      `dwelling:${sale.householdId}`,
+    ) as { tenure?: string; kind?: string; valueMinor?: number } | undefined;
+    table(api, "dwellings").put(
+      formerHome(dwelling, {
+        householdId: sale.householdId,
+        tenure: "sold",
+        basis: "sale",
+        date: c.date,
+        soldForMinor: Math.round(next.priceMinor / sale.homes),
+      }) as unknown as ModuleRow,
+    );
+  }
+  // The counted dead's estate: what its home brought went to its group, the counted heirs.
+  if (sold && sale.surplusAccountId && sale.deathEventId)
+    recordEstatePaid(api, next, sale.deathEventId, [
+      { toId: sale.surplusAccountId, amountMinor: next.surplusMinor },
+    ]);
+}
+
+/**
+ * A purchase paid each part's seller `paidMinor`: each household's sale it
+ * came from pays its lender and closes; a foreclosed home's case names it.
+ */
+export function closeSales(
+  api: CoreAPI,
+  parts: readonly (HomePart & { readonly paidMinor: number })[],
+  purchaseId: string,
+): void {
+  for (const part of parts) {
+    if (!part.saleId) continue;
+    if (table(api, "sales").get(part.saleId))
+      closeSale(api, part.saleId, part.homes, part.paidMinor, purchaseId);
+    else markSold(api, [part.saleId], purchaseId);
+  }
 }

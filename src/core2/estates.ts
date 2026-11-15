@@ -59,7 +59,7 @@ import {
   handOverContractsAtDeath,
 } from "./finance-state";
 import { addDays, makeIsoDate, daysBetweenText } from "./kernel/dates";
-import { recordEstatePaid, sellHome } from "./housing-sale";
+import { homeSaleOf, recordEstatePaid, sellHome } from "./housing-sale";
 import type {
   CoreAPI,
   CoreModule,
@@ -677,6 +677,42 @@ interface Plan {
   readonly beneficiaries?: readonly { id: PersonId; weight: number }[];
 }
 
+/**
+ * The estate's house is still for sale: probate stays open, keeping the plan
+ * it closes by, and looks again in a month.
+ */
+function keepProbateOpen(
+  api: CoreAPI,
+  personId: PersonId,
+  deathEventId: string,
+  plan: Plan,
+): void {
+  api
+    .moduleState(ESTATES_MODULE_ID)
+    .table("probate")
+    .put({
+      id: personId,
+      share: plan.share,
+      ...(plan.baseMinor === undefined ? {} : { baseMinor: plan.baseMinor }),
+      ...(plan.carry === undefined ? {} : { carry: plan.carry }),
+    } as unknown as ModuleRow);
+  const month = Math.round(
+    api.parameter("daysPerMeanYear") / api.parameter("macroMonthsPerYear"),
+  );
+  api.moduleCalendar(ESTATES_MODULE_ID).schedule({
+    key: `${PROBATE_CLOSES}:${personId}:${api.state.date}`,
+    date: addDays(makeIsoDate(api.state.date), month),
+    kind: PROBATE_CLOSES,
+    source: {
+      tag: "ESTIMATED",
+      asOf: api.state.date,
+      citation: `Probate of the estate of ${personId} after ${deathEventId}, open while its house is for sale.`,
+      estimatedFrom: "daysPerMeanYear / macroMonthsPerYear",
+    },
+    sourceRecordIds: [personId, deathEventId],
+  });
+}
+
 /** Probate closes: the estate passes by the will, or by the law. */
 function distribute(
   api: CoreAPI,
@@ -689,14 +725,19 @@ function distribute(
   const accounts = api.accounts();
   const from = accounts.main(personId);
   const trust = plan.kind === "trust";
-  // Probate's close sells a home whose owners have all died; its surplus joins the estate.
+  // Probate puts a home whose owners have all died on the market; the estate stays open with the house in it until a buyer takes it, and what the buyer paid, after the lender, joins the estate.
   const home = trust ? undefined : homeOfLastOwner(api, person);
-  const sale = home
-    ? sellHome(api, home, "estate.probate-closes", {
-        decedentId: personId,
-        deathEventId,
-      })
-    : undefined;
+  if (home)
+    sellHome(api, home, "estate.probate-closes", {
+      decedentId: personId,
+      deathEventId,
+    });
+  const listed = trust ? undefined : homeSaleOf(api, person.householdId);
+  const sale = listed?.decedentId === personId ? listed : undefined;
+  if (sale?.status === "listed") {
+    keepProbateOpen(api, personId, deathEventId, plan);
+    return [];
+  }
   // The trust's part is what it holds; probate's is what is left in the account.
   const estate = trust
     ? Math.min(plan.fundedMinor ?? 0, accounts.balance(from))
