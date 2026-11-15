@@ -44,8 +44,10 @@ export interface SharedHistory {
    * volunteer left the campaign to run in its race.
    */
   endedOn?: IsoDate;
-  /** Schoolmates: the school year they shared (its first calendar year). */
+  /** Schoolmates: the first school year they shared (by the calendar year it starts in). */
   year?: number;
+  /** Schoolmates: the last school year they shared (by the calendar year it starts in); the years since they were at school together count from its end. */
+  lastYear?: number;
   /** Schoolmates: the school they shared is behind them, so they are not both enrolled there this school year. */
   ended?: boolean;
 }
@@ -338,6 +340,7 @@ export function sharedHistory(
       kind: "schoolmate",
       recordId: schoolA.schoolId,
       year: schoolA.year,
+      lastYear: schoolA.year,
       // Both attended it this school year and are enrolled there today: a
       // graduate is no longer once the year's last day has passed.
       ...(schoolA.year < schoolYearOf(core.date) ||
@@ -359,10 +362,23 @@ export function sharedHistory(
           mine.from <= row.to,
       );
       if (peer) {
+        // The last year they were there together: the latest overlap of any
+        // of their runs at the school (one run per stage in a district).
+        let lastYear = Math.min(mine.to, peer.to);
+        for (const own of schoolSpans(core, a))
+          for (const row of theirs)
+            if (
+              own.schoolId === mine.schoolId &&
+              row.schoolId === mine.schoolId &&
+              row.from <= own.to &&
+              own.from <= row.to
+            )
+              lastYear = Math.max(lastYear, Math.min(own.to, row.to));
         out.push({
           kind: "schoolmate",
           recordId: mine.schoolId,
           year: Math.max(mine.from, peer.from),
+          lastYear,
           // Each with a run there that reaches this school year is enrolled
           // there now (a district holds several runs of one person, one per
           // stage); a graduate's last run is over once its last day has passed.
