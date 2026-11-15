@@ -280,6 +280,13 @@ export interface BillRow {
   }[];
   /** The other chamber's sitting the bill is booked on, once one chamber passed it. */
   readonly nextChamberOn?: string;
+  /**
+   * The floor week the floor leader put the bill on the calendar for when it
+   * was introduced to a sitting legislature. The date holds: the pace is
+   * worked out again each week, but a bill calendared keeps its week, and
+   * later bills take the weeks after it.
+   */
+  readonly floorOn?: string;
   /** Sections of an enacted bill that only repeated law already made: no new law row, the row they repeat named. */
   readonly repeats?: readonly (SettledQuestion & {
     readonly question: string;
@@ -2665,7 +2672,26 @@ export function draftBill(
       publicRecord: true,
       facts: { billId: titled.id, number: titled.number },
     });
+  // The floor leader of a sitting legislature puts the bill on the calendar the
+  // day it is introduced, so the date its paper names is the date it gets.
+  const on = floorCalendarer?.(api, titled.id) ?? null;
+  if (on) {
+    titled = {
+      ...(table(api, "bills").get(titled.id) as unknown as BillRow),
+      floorOn: on,
+    };
+    table(api, "bills").put(titled as unknown as ModuleRow);
+  }
   return titled;
+}
+
+let floorCalendarer: ((api: CoreAPI, billId: string) => string | null) | null =
+  null;
+/** The engine that keeps the floor leaders' calendars says which week a newly introduced bill goes on. */
+export function registerFloorCalendarer(
+  calendarer: (api: CoreAPI, billId: string) => string | null,
+): void {
+  floorCalendarer = calendarer;
 }
 
 /**
