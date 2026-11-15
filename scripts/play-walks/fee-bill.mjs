@@ -140,6 +140,22 @@ try {
     await page
       .locator(".draft-card input")
       .fill(process.env.FEE_AMOUNT ?? "150");
+    // FEE_RISE=percent,years,firstDate drafts the fee as a phase-in by a percent a year.
+    if (process.env.FEE_RISE) {
+      const [percent, years, first] = process.env.FEE_RISE.split(",");
+      await page.locator(".draft-rise-toggle").click();
+      const boxes = page.locator(".draft-rise input");
+      await boxes.nth(0).fill(percent);
+      await boxes.nth(1).fill(years);
+      await boxes.nth(2).fill(first);
+      say(
+        "Rise drafting card:",
+        await page
+          .locator(".draft-card")
+          .innerText()
+          .then((t) => t.replace(/\s+/g, " ").slice(0, 600)),
+      );
+    }
     if (SHOTS) await page.screenshot({ path: `${SHOTS}/draft-card-fee.png` });
     await page
       .locator(".draft-card button", { hasText: /^Draft$/ })
