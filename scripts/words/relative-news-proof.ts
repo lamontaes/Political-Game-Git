@@ -59,6 +59,10 @@ const staged = option("cause", "");
 // STAGED, never natural: the dead person's illness is taken off their health
 // record, so the death is told as one with no illness on record.
 const noIllness = process.argv.includes("--no-illness");
+// STAGED, never natural: the dead person's named illness (or "none" for an
+// unnamed one) and the gender their record says, to show every wording.
+const stagedIllness = option("illness", "");
+const stagedGender = option("gender", "");
 const KINDS = new Set(["death-news", "illness-news", "prison-news"]);
 
 const nameOf = (core: CoreState, id: string) => {
@@ -98,10 +102,26 @@ for (let draw = 0; draw < draws; draw += 1) {
       const kin = [...familyFactsOf(core.people.get(playerId)!).keys()].find(
         (id) => core.people.get(id)?.alive && !home?.memberIds.includes(id),
       );
-      if (kin && beginSeriousIllness(coreAPI(core), kin))
+      if (kin && stagedGender) {
+        (core.people.get(kin)!.looks as { gender: string }).gender =
+          stagedGender;
+        console.log(`  STAGED: ${kin}'s record says gender ${stagedGender}`);
+      }
+      if (kin && beginSeriousIllness(coreAPI(core), kin)) {
+        const row = healthReport(core).cases.find(
+          (found) => found.personId === kin,
+        );
+        if (row && stagedIllness) {
+          if (stagedIllness === "none") delete row.conditionKey;
+          else row.conditionKey = stagedIllness;
+          console.log(
+            `  STAGED: the illness on their record is ${stagedIllness}`,
+          );
+        }
         console.log(
           `  STAGED on ${core.date}: dev illness for ${nameOf(core, kin)} (${kin}), not a natural event`,
         );
+      }
     }
     const household = core.households.get(
       core.people.get(playerId)!.householdId as never,
@@ -181,6 +201,35 @@ for (let draw = 0; draw < draws; draw += 1) {
         );
         for (const choice of first.choices)
           console.log(`  - offered: ${choice.text} (${choice.move})`);
+        // The same talk, asked "How?" on later days: the wording the composer
+        // draws depends on the day, so each replay is the same record told on
+        // another day (the world is left on today).
+        const replays = Number(option("replays", "0"));
+        const how = first.choices.find((choice) => choice.move === "ask");
+        if (how && subject.kind === "death-news")
+          for (let later = 1; later <= replays; later += 1) {
+            const today = core.date;
+            (core as { date: string }).date = addDays(
+              makeIsoDate(today),
+              later,
+            );
+            const talk = Object.fromEntries(
+              Object.entries(first).map(([key, value]) => [
+                key,
+                Array.isArray(value) ? [...value] : value,
+              ]),
+            ) as typeof first;
+            const from = talk.lines.length;
+            say(core, talk, how.key);
+            console.log(
+              `  > You say: ${how.text} (the same talk, ${later} day${later > 1 ? "s" : ""} later)\n    ${nameOf(core, id)}: ${talk.lines
+                .slice(from)
+                .filter((l) => l.speakerId !== playerId)
+                .map((l) => l.text)
+                .join(" / ")}`,
+            );
+            (core as { date: string }).date = today;
+          }
         for (const choice of first.choices) {
           const talk = Object.fromEntries(
             Object.entries(first).map(([key, value]) => [
@@ -198,7 +247,7 @@ for (let draw = 0; draw < draws; draw += 1) {
                 `${l.text} {bearing: ${bearingOf(l.wording?.parts)}} [${l.wording?.facts.join(", ")}]`,
             );
           console.log(
-            `  > You: ${choice.text}\n    ${nameOf(core, id)}: ${back.join(" / ") || "(says nothing more)"}\n    offered next: ${talk.choices.map((c) => c.text).join(" | ") || "(nothing; the talk ends)"}`,
+            `  > You say: ${choice.text}\n    ${nameOf(core, id)}: ${back.join(" / ") || "(says nothing more)"}\n    offered next: ${talk.choices.map((c) => c.text).join(" | ") || "(nothing; the talk ends)"}`,
           );
         }
       }

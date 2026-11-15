@@ -171,16 +171,10 @@ describe("how a relative says how someone died, from what the record holds", () 
       ),
     );
   const yes = fact("yes");
-  it("tells a death with no illness on record as sudden, and claims no heart, stroke or night", () => {
-    const told = asked({ "cause-sudden": yes, he: yes });
-    expect(told).toContain("Nobody saw it coming.");
-    expect(told).toContain("He wasn't sick. He was just gone.");
-    for (const text of told)
-      expect(text).not.toMatch(/heart|stroke|bed|night|cancer/i);
-  });
   it("tells a suicide as family words and never the method", () => {
     const told = asked({ "cause-suicide": yes, she: yes });
     expect(told).toContain("She took her own life.");
+    expect(told).toContain("She took her own life. None of us knew.");
     for (const text of told) expect(text).not.toMatch(/gun|shot|shoot/i);
   });
   it("tells a shooting as the act, never who or why", () => {

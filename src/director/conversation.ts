@@ -952,14 +952,13 @@ function relativeNewsFacts(
     const cause = RELATIVE_NEWS.deathCauses[recorded("causeOfDeath") ?? ""];
     if (cause) facts.cause = fact(cause);
     // A cause with no plain wording is told by the mark it sets; one the
-    // record only calls "other" is told as sudden when no illness was on
-    // record, and as the illness the house knew of when one was.
+    // record only calls "other" is told as the illness the house knew of when
+    // the death had a named one on record.
     const marked = RELATIVE_NEWS.deathMarks[recorded("causeOfDeath") ?? ""];
+    if (marked) facts[marked] = fact("yes");
     const had = seriousIllnessOf(core, about.id);
     const hadSaid = had ? RELATIVE_NEWS.illnessesInFamily[had] : undefined;
-    if (marked && marked !== "cause-sudden") facts[marked] = fact("yes");
-    else if (marked && !had) facts[marked] = fact("yes");
-    if (marked === "cause-sudden" && hadSaid) {
+    if (!cause && !marked && hadSaid) {
       facts["house-illness"] = fact("yes");
       facts.illness = fact(hadSaid);
     }

@@ -41852,7 +41852,6 @@
           "excludesFacts": [
             "cause",
             "illness-known",
-            "cause-sudden",
             "cause-suicide",
             "cause-shot",
             "house-illness"
@@ -45607,102 +45606,6 @@
       "date": "2026-11-14"
     },
     {
-      "key": "conversation.death-news-back-core.nobody-saw-it-coming",
-      "move": "death-news-back-core",
-      "kind": "spoken",
-      "text": "Nobody saw it coming.",
-      "uses": [
-        {
-          "move": "death-news-back-core",
-          "subject": "death-news-back",
-          "role": "core",
-          "stages": ["ask"],
-          "requiresFacts": ["cause-sudden"]
-        }
-      ],
-      "piece": {
-        "of": "death-news-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "plain",
-      "origin": "authored",
-      "author": "Words builder S3 (Words lead's ruling of Nov 14, 22:50Z: how a relative says how someone died)",
-      "date": "2026-11-15"
-    },
-    {
-      "key": "conversation.death-news-back-core.it-was-sudden-that-s-all-anybody-can-tell-us",
-      "move": "death-news-back-core",
-      "kind": "spoken",
-      "text": "It was sudden. That's all anybody can tell us.",
-      "uses": [
-        {
-          "move": "death-news-back-core",
-          "subject": "death-news-back",
-          "role": "core",
-          "stages": ["ask"],
-          "requiresFacts": ["cause-sudden"]
-        }
-      ],
-      "piece": {
-        "of": "death-news-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "plain",
-      "origin": "authored",
-      "author": "Words builder S3 (Words lead's ruling of Nov 14, 22:50Z: how a relative says how someone died)",
-      "date": "2026-11-15"
-    },
-    {
-      "key": "conversation.death-news-back-core.we-don-t-know-yet-nothing-was-wrong-we-knew-of",
-      "move": "death-news-back-core",
-      "kind": "spoken",
-      "text": "We don't know yet. Nothing was wrong we knew of.",
-      "uses": [
-        {
-          "move": "death-news-back-core",
-          "subject": "death-news-back",
-          "role": "core",
-          "stages": ["ask"],
-          "requiresFacts": ["cause-sudden"]
-        }
-      ],
-      "piece": {
-        "of": "death-news-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder S3 (Words lead's ruling of Nov 14, 22:50Z: how a relative says how someone died)",
-      "date": "2026-11-15"
-    },
-    {
-      "key": "conversation.death-news-back-core.he-wasn-t-sick-he-was-just-gone",
-      "move": "death-news-back-core",
-      "kind": "spoken",
-      "text": "He wasn't sick. He was just gone.",
-      "uses": [
-        {
-          "move": "death-news-back-core",
-          "subject": "death-news-back",
-          "role": "core",
-          "stages": ["ask"],
-          "requiresFacts": ["cause-sudden", "he"]
-        }
-      ],
-      "piece": {
-        "of": "death-news-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Words builder S3 (Words lead's ruling of Nov 14, 22:50Z: how a relative says how someone died)",
-      "date": "2026-11-15"
-    },
-    {
       "key": "conversation.death-news-back-core.he-took-his-own-life",
       "move": "death-news-back-core",
       "kind": "spoken",
@@ -45727,10 +45630,10 @@
       "date": "2026-11-15"
     },
     {
-      "key": "conversation.death-news-back-core.he-did-it-himself-i-can-t-say-more",
+      "key": "conversation.death-news-back-core.he-did-it-himself-i-can-t-say-more-than-that",
       "move": "death-news-back-core",
       "kind": "spoken",
-      "text": "He did it himself. I can't say more.",
+      "text": "He did it himself. I can't say more than that.",
       "uses": [
         {
           "move": "death-news-back-core",
@@ -45946,30 +45849,6 @@
       "date": "2026-11-15"
     },
     {
-      "key": "conversation.death-news-back-core.she-wasn-t-sick-she-was-just-gone",
-      "move": "death-news-back-core",
-      "kind": "spoken",
-      "text": "She wasn't sick. She was just gone.",
-      "uses": [
-        {
-          "move": "death-news-back-core",
-          "subject": "death-news-back",
-          "role": "core",
-          "stages": ["ask"],
-          "requiresFacts": ["cause-sudden", "she"]
-        }
-      ],
-      "piece": {
-        "of": "death-news-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Words builder S3 (Words lead's ruling of Nov 14, 22:50Z: how a relative says how someone died)",
-      "date": "2026-11-15"
-    },
-    {
       "key": "conversation.death-news-back-core.she-took-her-own-life",
       "move": "death-news-back-core",
       "kind": "spoken",
@@ -45994,10 +45873,10 @@
       "date": "2026-11-15"
     },
     {
-      "key": "conversation.death-news-back-core.she-did-it-herself-i-can-t-say-more",
+      "key": "conversation.death-news-back-core.she-did-it-herself-i-can-t-say-more-than-that",
       "move": "death-news-back-core",
       "kind": "spoken",
-      "text": "She did it herself. I can't say more.",
+      "text": "She did it herself. I can't say more than that.",
       "uses": [
         {
           "move": "death-news-back-core",
@@ -46213,30 +46092,6 @@
       "date": "2026-11-15"
     },
     {
-      "key": "conversation.death-news-back-core.they-weren-t-sick-they-were-just-gone",
-      "move": "death-news-back-core",
-      "kind": "spoken",
-      "text": "They weren't sick. They were just gone.",
-      "uses": [
-        {
-          "move": "death-news-back-core",
-          "subject": "death-news-back",
-          "role": "core",
-          "stages": ["ask"],
-          "requiresFacts": ["cause-sudden", "they"]
-        }
-      ],
-      "piece": {
-        "of": "death-news-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Words builder S3 (Words lead's ruling of Nov 14, 22:50Z: how a relative says how someone died)",
-      "date": "2026-11-15"
-    },
-    {
       "key": "conversation.death-news-back-core.they-took-their-own-life",
       "move": "death-news-back-core",
       "kind": "spoken",
@@ -46261,10 +46116,10 @@
       "date": "2026-11-15"
     },
     {
-      "key": "conversation.death-news-back-core.they-did-it-themself-i-can-t-say-more",
+      "key": "conversation.death-news-back-core.they-did-it-themself-i-can-t-say-more-than-that",
       "move": "death-news-back-core",
       "kind": "spoken",
-      "text": "They did it themself. I can't say more.",
+      "text": "They did it themself. I can't say more than that.",
       "uses": [
         {
           "move": "death-news-back-core",
@@ -46467,6 +46322,78 @@
           "stages": ["ask"],
           "requiresFacts": ["house-illness", "they"],
           "excludesFacts": ["illness-known"]
+        }
+      ],
+      "piece": {
+        "of": "death-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder S3 (Words lead's ruling of Nov 14, 22:50Z: how a relative says how someone died)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.death-news-back-core.he-took-his-own-life-none-of-us-knew",
+      "move": "death-news-back-core",
+      "kind": "spoken",
+      "text": "He took his own life. None of us knew.",
+      "uses": [
+        {
+          "move": "death-news-back-core",
+          "subject": "death-news-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["cause-suicide", "he"]
+        }
+      ],
+      "piece": {
+        "of": "death-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder S3 (Words lead's ruling of Nov 14, 22:50Z: how a relative says how someone died)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.death-news-back-core.she-took-her-own-life-none-of-us-knew",
+      "move": "death-news-back-core",
+      "kind": "spoken",
+      "text": "She took her own life. None of us knew.",
+      "uses": [
+        {
+          "move": "death-news-back-core",
+          "subject": "death-news-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["cause-suicide", "she"]
+        }
+      ],
+      "piece": {
+        "of": "death-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder S3 (Words lead's ruling of Nov 14, 22:50Z: how a relative says how someone died)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.death-news-back-core.they-took-their-own-life-none-of-us-knew",
+      "move": "death-news-back-core",
+      "kind": "spoken",
+      "text": "They took their own life. None of us knew.",
+      "uses": [
+        {
+          "move": "death-news-back-core",
+          "subject": "death-news-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["cause-suicide", "they"]
         }
       ],
       "piece": {
