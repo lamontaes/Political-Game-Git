@@ -160854,7 +160854,7 @@
           "requiresFacts": ["owed"]
         }
       ],
-      "bearing": "curious",
+      "bearing": "braced",
       "origin": "authored",
       "author": "Claude Opus (door scenes, brief G)",
       "date": "2026-11-14",
@@ -171228,42 +171228,6 @@
         }
       ],
       "bearing": "guarded",
-      "origin": "authored",
-      "author": "Claude Opus (door scenes, brief G)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "tell",
-        "key": "door"
-      }
-    },
-    {
-      "key": "scene-talk.reply-tell.i-m-behind-on-the-rent-i-m-working-on-it-but-it-doesn-t-move-fast",
-      "move": "reply-tell",
-      "kind": "spoken",
-      "text": "I'm behind on the rent. I'm working on it, but it doesn't move fast.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "ask-signature.rent-notice",
-          "key": "door",
-          "after": "ask",
-          "requiresFacts": ["owed"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "ask-support.rent-notice",
-          "key": "door",
-          "after": "ask",
-          "requiresFacts": ["owed"]
-        }
-      ],
-      "bearing": "calm",
       "origin": "authored",
       "author": "Claude Opus (door scenes, brief G)",
       "date": "2026-11-14",
