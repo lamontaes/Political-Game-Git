@@ -63,11 +63,14 @@ import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
 import { questionAbout } from "../english/question-names";
 import { composeJournal } from "./journal";
-import { promiseSubject } from "./promise-talk";
+import { openConversation } from "./conversation";
+import { promiseAnswers, promiseSubject } from "./promise-talk";
 import { promisesBetween } from "./promises";
 import { purposeScene, replyInScene } from "./purpose-scene";
 
 const PLACE = "territory:GU:santa-rita";
+/** Days the next talk is opened on until the word is brought up. */
+const TALK_DAYS = 7;
 const LEGISLATURE = "office:US-GU:legislature-unicameral";
 
 /**
@@ -370,7 +373,42 @@ for (const c of CASES)
         );
         expect(subject?.facts["promise-hold-question"], where).toBeDefined();
         expect(subject?.facts.issue?.text, where).toBeTruthy();
+        expect(subject?.facts.about?.text, where).toBe(about);
+        // The next talk: the one owed brings the word up by the proposal, and
+        // the player answers from the promise talk's own answers (Words lead,
+        // Nov 15 17:35Z): a broken word offers owning it, explaining and
+        // denying, and never making it right, since a word on a question is
+        // not renewed. A bigger subject of the day may lead, so the talk is
+        // opened on each of the next days until it is said (as promises.test).
+        let talkNow = openConversation(core, player, asked!.id as PersonId, {
+          director,
+        });
+        const raisedIn = (t: typeof talkNow) =>
+          t.lines.find(
+            (l) => l.kind === subject!.kind && l.speakerId === asked!.id,
+          );
+        for (let day = 0; day < TALK_DAYS && !raisedIn(talkNow); day += 1) {
+          advanceCore(core, addDays(makeIsoDate(core.date), 1));
+          talkNow = openConversation(core, player, asked!.id as PersonId, {
+            director,
+          });
+        }
+        const raise = raisedIn(talkNow);
+        expect(
+          raise?.text,
+          `${where}: ${talkNow.lines.map((l) => l.text).join(" / ")}`,
+        ).toContain(about);
+        expect(
+          talkNow.choices.map((choice) => choice.move).sort(),
+          where,
+        ).toEqual([...promiseAnswers(core, subject!, player)].sort());
+        if (c.vote !== "with")
+          expect(
+            talkNow.choices.map((choice) => choice.move),
+            where,
+          ).not.toContain("make-it-right");
         out.push(
+          `  Next talk, ${core.date}: ${c.asked}: ${raise!.text}`,
           `  ${billId} moves ${question} ${toward > 0 ? "toward" : "away from"} yes; the player voted ${vote} on ${ended.endedAt} (${ended.endedBy}): ${ended.outcome}; closeness ${before.toFixed(5)} to ${after.toFixed(5)}`,
         );
         process.stdout.write(out.join("\n") + "\n");
