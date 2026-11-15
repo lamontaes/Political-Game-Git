@@ -135068,29 +135068,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-ask.when-do-you-need-me",
-      "move": "reply-ask",
-      "kind": "spoken",
-      "text": "When do you need me?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "purpose": "friend-ask",
-          "key": "routine"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, first meeting and friends purposes)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "ask",
-        "key": "routine"
-      }
-    },
-    {
       "key": "scene-talk.reply-ask.what-made-you-think-of-me-for-it",
       "move": "reply-ask",
       "kind": "spoken",
