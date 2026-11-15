@@ -1203,22 +1203,120 @@ function paidShare(c: CoreState, personId: string, jobId: string): number {
   return 1;
 }
 
-/** A household's monthly pay as a lender counts it: wages times the share of due pay actually paid. */
+/**
+ * Money other than pay that reaches each person each month: Social Security
+ * and pension awards (a full person's income contracts, a counted person's
+ * part of the residents' retirement flows) and open unemployment claims.
+ * Read once a day, for every household the lenders and the buyers weigh.
+ */
+const otherIncomeByDay = new WeakMap<
+  CoreState,
+  { date: string; byPerson: Map<string, number> }
+>();
+function otherIncome(api: CoreAPI): ReadonlyMap<string, number> {
+  const c = core(api);
+  const known = otherIncomeByDay.get(c);
+  if (known?.date === c.date) return known.byPerson;
+  const byPerson = new Map<string, number>();
+  const add = (personId: string, monthly: number) =>
+    byPerson.set(personId, (byPerson.get(personId) ?? 0) + monthly);
+  const months = api.parameter("macroMonthsPerYear");
+  const yearDays = api.parameter("jobsDaysPerYear");
+  const seen = new Set<string>();
+  // A counted person's award is a part of a residents' retirement flow, by
+  // its contract; a filled-in retiree's flow is paid to them directly.
+  const rt = residentsRuntime(c);
+  if (rt) {
+    const awardee = new Map<string, string>();
+    for (const h of rt.store.liveHouseholds())
+      for (const contract of h.incomeContracts)
+        if (contract.recipientIncome)
+          awardee.set(contract.id, contract.recipientIncome.personId);
+    for (const flow of rt.flows.values()) {
+      if (flow.kind !== "retirement" || flow.endedAt) continue;
+      const perMonth =
+        flow.cadence.kind === "months"
+          ? 1 / flow.cadence.every
+          : yearDays / months / flow.cadence.every;
+      for (const [id, amount] of Object.entries(flow.amountByContract ?? {})) {
+        const personId = c.people.has(flow.payeeId)
+          ? flow.payeeId
+          : id.startsWith("retirement-claim:")
+            ? id.slice("retirement-claim:".length)
+            : awardee.get(id);
+        if (!personId) continue;
+        seen.add(id);
+        add(personId, amount * perMonth);
+      }
+    }
+  }
+  for (const contract of c.finance.contracts.values()) {
+    const award = contract.recipientIncome;
+    if (!award || contract.endedAt || seen.has(contract.id)) continue;
+    add(award.personId, contract.amountMinor / contract.periodMonths);
+  }
+  if (c.modules.has("jobs"))
+    for (const row of api
+      .moduleState("jobs")
+      .table("claims")
+      .rows() as unknown as {
+      personId: string;
+      open: boolean;
+      weeklyMinor: number;
+    }[])
+      if (row.open)
+        add(
+          row.personId,
+          (row.weeklyMinor * yearDays) / api.parameter("daysPerWeek") / months,
+        );
+  otherIncomeByDay.set(c, { date: c.date, byPerson });
+  return byPerson;
+}
+
+/**
+ * A household's monthly income as a lender counts it, and as the household
+ * itself counts what will come in this month: the pay that arrives (what a
+ * job earned from the hours worked, times the share of its due pay actually
+ * paid), its Social Security and pensions, and its unemployment benefits.
+ * The one reader for full and counted households alike, so a retiree is
+ * judged on their award and not as someone with no income.
+ */
 export function monthlyIncome(
   api: CoreAPI,
   memberIds: readonly string[],
 ): number {
   const c = core(api),
     members = new Set(memberIds);
+  const rt = residentsRuntime(c);
   let daily = 0;
   for (const job of c.jobs.values())
     if (job.endsAt === undefined && members.has(job.personId))
-      // A lender counts pay that arrives: what the job actually earned from
-      // the hours worked, times the share of its due pay actually paid.
       daily += earnedDaily(api, job) * paidShare(c, job.personId, job.id);
+  const other = otherIncome(api);
+  let monthly = 0;
+  for (const id of memberIds) {
+    monthly += other.get(id) ?? 0;
+    if (c.people.has(id) || !rt) continue;
+    const jobId =
+      rt.store.countedMember(id) !== undefined
+        ? residentFacts(c, id)?.jobId
+        : undefined;
+    const job = jobId ? rt.jobs.get(jobId) : undefined;
+    const flow = job ? rt.wageFlowByJob.get(job.id) : undefined;
+    if (!job || job.endsAt !== undefined || !flow || flow.endedAt) continue;
+    // stopgapId: SG-GOV-REACH-A-consumer-credit — counted pay has no
+    // individual attendance ledger; use its actual settled wage-flow fraction.
+    api.stopgap("SG-GOV-REACH-A-consumer-credit");
+    const share =
+      flow.lastRequestedMinor && flow.lastRequestedMinor > 0
+        ? Math.min(1, (flow.lastPaidMinor ?? 0) / flow.lastRequestedMinor)
+        : 1;
+    daily += job.wageDailyMinor * share;
+  }
   return (
     (daily * api.parameter("jobsDaysPerYear")) /
-    api.parameter("macroMonthsPerYear")
+      api.parameter("macroMonthsPerYear") +
+    monthly
   );
 }
 
@@ -1308,7 +1406,7 @@ interface BorrowingHousehold {
   cash: number;
   /** The households a counted household stands for; 1 for a full household. */
   weight: number;
-  /** Read only for a household with a real shortfall: it walks jobs and wage flows. */
+  /** Read only for a household whose cash is short: pay, awards and benefits (`monthlyIncome`). */
   income: () => number;
 }
 
@@ -1347,30 +1445,11 @@ function borrowingHouseholds(
         members,
         cash: cashOf(h),
         weight: rt.store.weightOf(h),
-        income: () => {
-          let daily = 0;
-          for (const member of members) {
-            const job = member.jobId ? rt.jobs.get(member.jobId) : undefined;
-            const flow = job ? rt.wageFlowByJob.get(job.id) : undefined;
-            if (!job || job.endsAt !== undefined || !flow || flow.endedAt)
-              continue;
-            // stopgapId: SG-GOV-REACH-A-consumer-credit — counted pay has no
-            // individual attendance ledger; use its actual settled wage-flow fraction.
-            api.stopgap("SG-GOV-REACH-A-consumer-credit");
-            const share =
-              flow.lastRequestedMinor && flow.lastRequestedMinor > 0
-                ? Math.min(
-                    1,
-                    (flow.lastPaidMinor ?? 0) / flow.lastRequestedMinor,
-                  )
-                : 1;
-            daily += job.wageDailyMinor * share;
-          }
-          return (
-            (daily * api.parameter("jobsDaysPerYear")) /
-            api.parameter("macroMonthsPerYear")
-          );
-        },
+        income: () =>
+          monthlyIncome(
+            api,
+            members.map((member) => member.id),
+          ),
       });
     }
   return rows.sort((a, b) => a.id.localeCompare(b.id));
@@ -1737,13 +1816,13 @@ function householdApplications(
       members.reduce((s, row) => s + row!.livingCostDailyMinor, 0) *
       p("businessDaysPerMonth");
     if (costs <= 0) continue;
-    // Only a real shortfall pulls toward borrowing: cash below a month of costs, by how far below.
+    // Only a real shortfall pulls toward borrowing: what the household cannot
+    // pay this month from its cash and the month's income, by how far short.
     if (cash >= costs) continue;
     const income = household.income();
-    const amount = costs * p("creditPersonalMonthsOfCosts");
-    // Only a real shortfall pulls toward borrowing: cash below a month of costs, by how far below.
-    const need = Math.max(0, 1 - cash / costs);
+    const need = Math.max(0, 1 - (cash + income) / costs);
     if (need <= 0) continue;
+    const amount = costs * p("creditPersonalMonthsOfCosts");
     let lent = 0;
     bank: if (room > 0) {
       const payment = amortizedPayment(
