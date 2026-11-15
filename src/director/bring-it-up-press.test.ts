@@ -6,6 +6,7 @@ import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
 import { storyOfReadEvent } from "../core2/modules/news";
 import { printedStoryOf } from "../core2/modules/press";
+import { isDemoted } from "../core2/counted-groups";
 import { coreAPI } from "../core2/state";
 import { bringItUp, changesKnownTo } from "./bring-it-up";
 import { questionTopic } from "../english/policy-names";
@@ -39,14 +40,21 @@ describe(`bring it up: a printed story in ${place.key} (seed ${place.seed})`, ()
             : undefined;
         return story && questionTopic(story.topic);
       });
+    // Someone they know whom the world keeps whole: a person back in the
+    // counts keeps no knowledge to be told (the two-level rule).
+    const whole = (id: string) => {
+      const other = core.people.get(id);
+      return !!other?.alive && !isDemoted(other);
+    };
     const reader = [...core.people.values()].find(
-      (row) => row.alive && row.knownIds.size > 0 && spoken(row.id).length > 0,
+      (row) =>
+        row.alive && [...row.knownIds].some(whole) && spoken(row.id).length > 0,
     );
     expect(
       reader,
       `a reader of a printed story with a named topic in ${place.key}`,
     ).toBeTruthy();
-    const listener = [...reader!.knownIds][0]!;
+    const listener = [...reader!.knownIds].sort().find(whole)!;
     const [change] = spoken(reader!.id);
     const story = printedStoryOf(api, storyOfReadEvent(change!.eventId)!)!;
     const said = bringItUp(core, reader!.id, listener);
