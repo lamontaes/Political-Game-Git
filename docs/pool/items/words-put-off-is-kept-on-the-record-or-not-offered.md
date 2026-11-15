@@ -18,9 +18,9 @@ root: design-life-record
 source: Words lead's page read at Salado TX (seed review1:2), class E, Nov 15, 2026; reporter's pairs from M4; cause traced by the short-replies builder
 ---
 
-**What.** Put-offs are offered in four scenes: "Can I get back to you on that?" and "Let's talk another time." (offer of help), "Let me look at my week and call you back." and "Can I think about it?" (interview invitation), "Call me back later." (debate invitation), and in the reporter's call before a vote "Let me check and call you back today." and "Ask me next week, when there's more to say." Each says the talk will continue, and the person never comes back. Seen: after a put-off, the Journal and the following weeks show nothing more from that person on that ask (Salado TX, P3, P5, P9, P27).
+**What.** Put-offs are offered in four scenes: "Can I get back to you on that?" and "Let's talk another time." (offer of help), "Let me look at my week and call you back." and "Can I think about it?" (interview invitation), "Call me back later." (debate invitation), and in the reporter's call before a vote "Let me check and call you back today." and "Ask me next week, when there's more to say." Each says the talk will continue. The person never comes back. Seen: after a put-off, the Journal and the following weeks show nothing more from that person on that ask (Salado TX, P3, P5, P9, P27).
 
-**Cause.** Found in code. The arcs end a stall in `thinking` with keeps `none` (`src/director/data/purpose-arcs.json`). The engines then differ:
+**Cause.** Found in code: the arcs end a stall in `thinking` with keeps `none` (`src/director/data/purpose-arcs.json`). The engines then differ:
 
 - Interview (`press.ts` `answerInvitation`): a stall leaves the row `invited`, so the ask is open on the engine's own table. `already` stops the outlet asking again, and the weekly pass turns the silence into a refusal once the race is over.
 - Debate (`meetings.ts` `answerDebateInvitation`): a stall leaves the row `invited` until `debateEve` holds the debate without the player. The record has a day, the debate's eve, and nobody calls before it.
