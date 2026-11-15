@@ -1,65 +1,106 @@
 /**
- * Shelter is paid once (pool item world-owner-property-tax-stays-in-town): in
- * a random place from all 56, what a household pays for its home through the
- * housing engine (rent, a mortgage, an owner's property tax) comes out of the
- * outside living cost, up to the HUD Fair Market Rent, and no more.
+ * Shelter is paid once (pool item world-owner-property-tax-stays-in-town): what
+ * a household pays for its home through the housing engine (rent, a mortgage,
+ * an owner's property tax) comes out of its outside living cost, up to the HUD
+ * Fair Market Rent, and no more. It is taken out after the housing past has
+ * restated the standing rents and mortgages, so it reads the payment that
+ * stands. Pinned to Matagorda, Texas on seed pt1:0 so a draw never decides it.
  */
-import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
-import { withoutOutsideShelter } from "./housing-shelter";
+import { buildBenchWorld } from "../bench/world";
+import { gameStartDate } from "./game-start";
+import { takeShelterOutOfOutsideLiving } from "./housing-shelter";
 import { bedroomsForHousehold, hudRentRowFor } from "./hud-rents";
-import { corePlaceByKey } from "./place-lookup";
-import type { CoreInput } from "./types";
+import { MORTGAGE_PREFIX } from "./housing-mortgages";
+import { residentsRuntime } from "./modules/residents";
+import { setResidentFlowAmount } from "./residents-economy";
+import { coreAPI } from "./state";
+import { stateEffectiveRate } from "./housing-property-tax";
+import { standingHomePayments } from "./modules/housing";
 
-const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(16).toString("hex");
-
-it("takes the housing engine's payments, tax included, out of the outside cost", () => {
-  const draw = drawPlace(seed, "housing-shelter");
+it("takes the standing payments out of the outside cost, never more than the Fair Market Rent", () => {
+  const draw = drawPlace("pt1:0", "session-a-property-tax");
+  const { core } = buildBenchWorld(draw.seed, gameStartDate(), {
+    twoLevel: true,
+    placeKey: draw.key,
+  });
   const where = `${draw.name} [${draw.key}], seed ${draw.seed}`;
-  const placeId = corePlaceByKey(draw.key)!.context.jurisdiction.id;
-  const row = hudRentRowFor(placeId as never, "fixture-seed");
-  if (!row) {
-    console.log(`housing-shelter: no HUD rent row in ${where}`);
-    return;
-  }
-  const members = 3;
-  const fmr = (row.rents[bedroomsForHousehold(members)] ?? 0) * 100;
-  expect(fmr, where).toBeGreaterThan(0);
-  const home = "household:owner";
-  const outside = fmr + 40_000;
-  const input = {
-    seed: "fixture-seed",
-    households: [{ id: home, placeId, memberIds: ["a", "b", "c"] }],
-    residents: {
-      households: [],
-      flows: [
-        {
-          id: `residents:outside-living:${home}`,
-          amountMinor: outside,
-        },
-      ],
-    },
-  } as unknown as CoreInput;
-  const mortgage = Math.round(fmr / 2);
-  const tax = Math.round(fmr / 5);
-  const flowOf = (result: CoreInput) =>
-    result.residents!.flows.find((f) =>
-      f.id.startsWith("residents:outside-living:"),
+  const rt = residentsRuntime(core)!;
+  // A full household that has an outside living cost to take shelter out of.
+  const flowOf = (id: string) => rt.flows.get(`residents:outside-living:${id}`);
+  const home = [...core.households.values()].find((h) => {
+    const flow = flowOf(h.id);
+    return (
+      flow &&
+      !flow.endedAt &&
+      (hudRentRowFor(h.placeId as never, core.seed)?.rents[
+        bedroomsForHousehold(h.memberIds.length)
+      ] ?? 0) > 0
     );
-  // A mortgage alone leaves the rest of the cost outside.
-  const alone = flowOf(
-    withoutOutsideShelter(input, new Map([[home, mortgage]])),
+  });
+  expect(home, where).toBeDefined();
+  const rent = hudRentRowFor(home!.placeId as never, core.seed)!;
+  const fmr =
+    (rent.rents[bedroomsForHousehold(home!.memberIds.length)] ?? 0) * 100;
+  const before = 10 * fmr;
+  setResidentFlowAmount(core, `residents:outside-living:${home!.id}`, before);
+  // A payment under the rent comes out whole.
+  const mortgage = Math.round(fmr / 2);
+  takeShelterOutOfOutsideLiving(core, new Map([[home!.id, mortgage]]));
+  expect(flowOf(home!.id)!.amountMinor, where).toBe(before - mortgage);
+  // More than the rent takes the rent and no more.
+  takeShelterOutOfOutsideLiving(core, new Map([[home!.id, fmr * 3]]));
+  expect(flowOf(home!.id)!.amountMinor, where).toBe(before - mortgage - fmr);
+}, 120_000);
+
+it("what shelter is taken out by is the mortgage payment that stands after the housing past", () => {
+  const draw = drawPlace("pt1:0", "session-a-property-tax");
+  const { core } = buildBenchWorld(draw.seed, gameStartDate(), {
+    twoLevel: true,
+    placeKey: draw.key,
+  });
+  const api = coreAPI(core);
+  const where = `${draw.name} [${draw.key}], seed ${draw.seed}`;
+  const paid = standingHomePayments(api);
+  const dwellings = new Map(
+    (
+      api.moduleState("housing").table("dwellings").rows() as unknown as {
+        householdId: string;
+        valueMinor?: number;
+        usps?: string;
+      }[]
+    ).map((row) => [row.householdId, row]),
   );
-  expect(alone?.amountMinor, where).toBe(outside - mortgage);
-  // The tax the housing engine bills adds to what is taken out, once.
-  const withTax = flowOf(
-    withoutOutsideShelter(input, new Map([[home, mortgage + tax]])),
-  );
-  expect(withTax?.amountMinor, where).toBe(outside - mortgage - tax);
-  // Never more than the Fair Market Rent comes out.
-  const capped = flowOf(
-    withoutOutsideShelter(input, new Map([[home, fmr * 3]])),
-  );
-  expect(capped?.amountMinor, where).toBe(outside - fmr);
-});
+  let restated = 0;
+  for (const row of api
+    .moduleState("housing")
+    .table("mortgages")
+    .rows() as unknown as {
+    householdId: string;
+    boughtYear: number;
+    paymentMinor: number;
+  }[]) {
+    const contract = core.finance.contracts.get(
+      `${MORTGAGE_PREFIX}${row.householdId}`,
+    );
+    if (!contract) continue;
+    const home = dwellings.get(row.householdId)!;
+    const tax = Math.round(
+      (home.valueMinor! *
+        stateEffectiveRate(
+          home.usps ?? core.placeMetadata?.housingState ?? "",
+        )) /
+        12,
+    );
+    // The contract the household pays is the restated payment, and the shelter it replaces is that payment and the tax.
+    expect(contract.amountMinor, `${where} ${row.householdId}`).toBe(
+      row.paymentMinor,
+    );
+    expect(paid.get(row.householdId), `${where} ${row.householdId}`).toBe(
+      contract.amountMinor + tax,
+    );
+    restated++;
+  }
+  expect(restated, where).toBeGreaterThan(5);
+}, 120_000);

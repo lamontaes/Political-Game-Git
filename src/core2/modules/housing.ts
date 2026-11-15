@@ -53,7 +53,7 @@ import {
   type MortgageTerms,
 } from "../housing-mortgages";
 import { endFlowPart } from "../residents-economy";
-import { withoutOutsideShelter } from "../housing-shelter";
+import { takeShelterOutOfOutsideLiving } from "../housing-shelter";
 import { billPropertyTax, stateEffectiveRate } from "../housing-property-tax";
 import {
   buildMonth,
@@ -802,75 +802,51 @@ function withHousingAt(input: CoreInput, town: Town): CoreInput {
       });
     }
   }
-  // What each household now pays for its home here: leases and full owners' mortgages are standing bills; counted rent and mortgages are flows.
-  const paid = new Map<string, number>();
-  const add = (id: string, amount: number) =>
-    paid.set(id, (paid.get(id) ?? 0) + amount);
-  for (const row of leases)
-    if (row.householdId) add(row.householdId, row.amountMinor);
-  for (const flow of flows)
-    if (flow.id.startsWith("rent:"))
-      add(flow.id.slice("rent:".length), flow.amountMinor);
-  // Owners' property tax is billed by the housing engine, so it comes out of the outside living cost too.
-  for (const row of ownerRows)
-    add(
-      row.id,
-      Math.round(
-        (row.valueMinor * stateEffectiveRate(town.usps)) /
-          housingMacroParameter("macroMonthsPerYear"),
-      ),
-    );
-  const billed = new Set(mortgages.contracts.map((row) => row.householdId));
-  for (const row of mortgages.terms)
-    if (!billed.has(row.householdId)) add(row.householdId, row.paymentMinor);
-  return withoutOutsideShelter(
-    {
-      ...input,
-      organizations: [
-        ...input.organizations,
-        {
-          id: landlordId,
-          placeId: town.placeId,
-          name: housingData.landlordNamePattern.replace(
-            "{place}",
-            input.placeMetadata?.placeName?.split(",")[0] ?? town.placeId,
-          ),
-          kind: "employer",
-          liquidMinor: 0,
-          source,
-        },
-      ],
-      finance: input.finance
-        ? {
-            ...input.finance,
-            contracts: [...input.finance.contracts, ...leases],
-          }
-        : { contracts: leases, facilities: [], businesses: [], gaps: [] },
-      ...(input.residents && flows.length
-        ? {
-            residents: {
-              ...input.residents,
-              flows: [...input.residents.flows, ...flows],
-            },
-          }
-        : {}),
-      placeMetadata: {
-        ...input.placeMetadata,
-        housingState: town.usps,
-        housingTown: town.placeId,
-        housingCounty: town.county,
-        [DWELLINGS_KEY]: JSON.stringify([
-          ...withKinds(input, town.county, households, dwellings),
-          ...groupDwellings(input, town.placeId),
-        ]),
-        ...(mortgages.terms.length
-          ? { [MORTGAGE_TERMS_KEY]: JSON.stringify(mortgages.terms) }
-          : {}),
-        [HOME_BOUGHT_KEY]: JSON.stringify(mortgages.boughtYears),
+  return {
+    ...input,
+    organizations: [
+      ...input.organizations,
+      {
+        id: landlordId,
+        placeId: town.placeId,
+        name: housingData.landlordNamePattern.replace(
+          "{place}",
+          input.placeMetadata?.placeName?.split(",")[0] ?? town.placeId,
+        ),
+        kind: "employer",
+        liquidMinor: 0,
+        source,
       },
+    ],
+    finance: input.finance
+      ? {
+          ...input.finance,
+          contracts: [...input.finance.contracts, ...leases],
+        }
+      : { contracts: leases, facilities: [], businesses: [], gaps: [] },
+    ...(input.residents && flows.length
+      ? {
+          residents: {
+            ...input.residents,
+            flows: [...input.residents.flows, ...flows],
+          },
+        }
+      : {}),
+    placeMetadata: {
+      ...input.placeMetadata,
+      housingState: town.usps,
+      housingTown: town.placeId,
+      housingCounty: town.county,
+      [DWELLINGS_KEY]: JSON.stringify([
+        ...withKinds(input, town.county, households, dwellings),
+        ...groupDwellings(input, town.placeId),
+      ]),
+      ...(mortgages.terms.length
+        ? { [MORTGAGE_TERMS_KEY]: JSON.stringify(mortgages.terms) }
+        : {}),
+      [HOME_BOUGHT_KEY]: JSON.stringify(mortgages.boughtYears),
     },
-    paid,
-  );
+  };
 }
 
 function store(api: CoreAPI) {
@@ -2770,6 +2746,53 @@ export function openHousing(api: CoreAPI): void {
   scheduleReview(api);
 }
 
+/**
+ * What each household pays for its home, as it stands once the housing past
+ * has restated the opening's rents and mortgages: its lease or mortgage
+ * contract, a counted household's rent or mortgage flow, and an owner's
+ * property tax. The one list shelter is taken out of the living cost by.
+ */
+export function standingHomePayments(api: CoreAPI): Map<string, number> {
+  const c = core(api);
+  const paid = new Map<string, number>();
+  const add = (id: string, amount: number) =>
+    paid.set(id, (paid.get(id) ?? 0) + amount);
+  for (const row of c.finance.contracts.values())
+    if (
+      row.householdId &&
+      !row.endedAt &&
+      (row.id.startsWith("lease:") || row.id.startsWith(MORTGAGE_PREFIX))
+    )
+      add(row.householdId, row.amountMinor);
+  for (const flow of residentsRuntime(c)?.flows.values() ?? []) {
+    if (flow.endedAt) continue;
+    if (flow.id.startsWith("rent:"))
+      add(flow.id.slice("rent:".length), flow.amountMinor);
+    if (flow.financeKind === "household.mortgage")
+      for (const [key, value] of Object.entries(flow.amountByContract ?? {}))
+        if (key.startsWith(MORTGAGE_PREFIX))
+          add(key.slice(MORTGAGE_PREFIX.length), value);
+  }
+  for (const row of store(api).table("dwellings").rows() as unknown as {
+    householdId: string;
+    tenure: string;
+    valueMinor?: number;
+    usps?: string;
+  }[])
+    if (row.tenure === "own" && row.valueMinor)
+      add(
+        row.householdId,
+        Math.round(
+          (row.valueMinor *
+            stateEffectiveRate(
+              row.usps ?? c.placeMetadata?.housingState ?? "",
+            )) /
+            housingMacroParameter("macroMonthsPerYear"),
+        ),
+      );
+  return paid;
+}
+
 export const HOUSING_MODULE: PreStartModule = {
   id: HOUSING_MODULE_ID,
   preStart: {
@@ -2787,6 +2810,7 @@ export const HOUSING_MODULE: PreStartModule = {
           api.state.placeMetadata?.[HOME_BOUGHT_KEY] ?? "{}",
         ) as Record<string, number>,
       );
+      takeShelterOutOfOutsideLiving(core(api), standingHomePayments(api));
     },
     later: housingPastLater,
   },

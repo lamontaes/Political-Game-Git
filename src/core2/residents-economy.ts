@@ -764,6 +764,23 @@ export function endFlowPart(
   return true;
 }
 
+/** One household's part of a merged flow pays a new amount (its shelter taken out of its living cost). */
+export function setFlowPart(
+  core: CoreState,
+  id: string,
+  part: string,
+  amountMinor: number,
+): boolean {
+  const flow = residentsRuntime(core)?.flows.get(id);
+  const was = flow?.amountByContract?.[part];
+  if (!flow || flow.endedAt || was === undefined) return false;
+  const parts = ownMap(flow.amountByContract!);
+  parts[part] = Math.max(0, Math.round(amountMinor));
+  flow.amountByContract = parts;
+  flow.amountMinor = Math.max(0, flow.amountMinor - was + parts[part]!);
+  return true;
+}
+
 /**
  * A counted household's standing flow (its rent) pays a new amount from its
  * next due date: zero while the household is behind, its rent again once it

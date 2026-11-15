@@ -7,63 +7,72 @@
  * housing engine and counted in what the household pays, so it comes out of
  * the outside cost too and is paid once, to the treasury. The rest (insurance
  * and upkeep) still leaves the town.
+ *
+ * It is taken out once the housing past has restated the standing rents and
+ * mortgages (housing-past.ts), so it reads the payment that stands, not the
+ * one the opening first computed.
  */
 import { bedroomsForHousehold, hudRentRowFor } from "./hud-rents";
 import type { EntityId } from "./kernel/brands";
-import type { CoreInput } from "./types";
+import { residentsRuntime } from "./modules/residents";
+import {
+  endResidentFlow,
+  setFlowPart,
+  setResidentFlowAmount,
+} from "./residents-economy";
+import type { CoreState } from "./types";
 
 const OUTSIDE_LIVING = "residents:outside-living:";
 const COUNTED = `${OUTSIDE_LIVING}counted:`;
 const HOUSEHOLD = "household:";
 const CENTS = 100;
 
-export function withoutOutsideShelter(
-  input: CoreInput,
-  /** Each household's monthly rent or mortgage payment through the housing engine. */
+/** Takes what each household pays for its home out of its outside living cost, up to the Fair Market Rent. */
+export function takeShelterOutOfOutsideLiving(
+  core: CoreState,
+  /** Each household's monthly rent or mortgage payment and property tax, as they stand. */
   paidByHousehold: ReadonlyMap<string, number>,
-): CoreInput {
-  const residents = input.residents;
-  if (!residents) return input;
-  const size = new Map<string, { placeId: string; members: number }>();
-  for (const home of input.households)
-    size.set(home.id, {
-      placeId: home.placeId,
-      members: home.memberIds.length,
-    });
-  for (const row of residents.households)
-    size.set(row.household.id, {
-      placeId: row.household.placeId,
-      members: row.household.memberIds.length,
-    });
+): void {
+  const rt = residentsRuntime(core);
+  if (!rt) return;
   const shelter = (homeId: string) => {
-    const id = size.has(homeId) ? homeId : homeId.replace(HOUSEHOLD, "");
-    const home = size.get(id);
-    if (!home || home.members < 1) return 0;
-    const rent = hudRentRowFor(home.placeId as EntityId, input.seed);
+    const id = homeId.startsWith(HOUSEHOLD)
+      ? homeId.slice(HOUSEHOLD.length)
+      : homeId;
+    const full = core.households.get(id as never);
+    const at = full ? undefined : rt.store.householdOf.get(id);
+    const counted = at === undefined ? undefined : rt.store.households[at];
+    const placeId = full?.placeId ?? counted?.placeId;
+    const members = full
+      ? full.memberIds.length
+      : counted
+        ? rt.store.memberIdsOf(counted).length
+        : 0;
+    if (!placeId || members < 1) return 0;
+    const rent = hudRentRowFor(placeId as EntityId, core.seed);
     const fmr = rent
-      ? (rent.rents[bedroomsForHousehold(home.members)] ?? 0) * CENTS
+      ? (rent.rents[bedroomsForHousehold(members)] ?? 0) * CENTS
       : 0;
     return Math.min(fmr, paidByHousehold.get(id) ?? 0);
   };
-  const flows = residents.flows.flatMap((flow) => {
-    if (!flow.id.startsWith(OUTSIDE_LIVING)) return [flow];
+  const reason = "its shelter is paid through the housing engine";
+  for (const flow of [...rt.flows.values()]) {
+    if (flow.endedAt || !flow.id.startsWith(OUTSIDE_LIVING)) continue;
     if (flow.id.startsWith(COUNTED)) {
-      const parts: Record<string, number> = {};
-      let amount = 0;
+      let left = 0;
       for (const [key, value] of Object.entries(flow.amountByContract ?? {})) {
-        const left = Math.max(0, value - shelter(key.replace(HOUSEHOLD, "")));
-        if (left > 0) parts[key] = left;
-        amount += left;
+        const kept = Math.max(0, value - shelter(key));
+        setFlowPart(core, flow.id, key, kept);
+        left += kept;
       }
-      return amount > 0
-        ? [{ ...flow, amountMinor: amount, amountByContract: parts }]
-        : [];
+      if (left <= 0) endResidentFlow(core, flow.id, reason);
+      continue;
     }
-    const left = Math.max(
+    const kept = Math.max(
       0,
       flow.amountMinor - shelter(flow.id.slice(OUTSIDE_LIVING.length)),
     );
-    return left > 0 ? [{ ...flow, amountMinor: left }] : [];
-  });
-  return { ...input, residents: { ...residents, flows } };
+    if (kept > 0) setResidentFlowAmount(core, flow.id, kept);
+    else endResidentFlow(core, flow.id, reason);
+  }
 }
