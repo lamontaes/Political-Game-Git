@@ -1,6 +1,6 @@
 {
   "about": "For each bank under data/english/parts, how many of its lines carry no insert (a slot in braces the English engine fills from the world's records) and are not excused by the owner's ruling of Nov 11, 2026 (call 12: \"Replies of one to three words and action names stay; everything else is rewritten.\"; a piece the engine joins counts as composed when the sentence it makes carries an insert). tests/guards/english/line-inserts.test.ts holds each count: it may only go down, and a bank not named here may hold none. Nov 14, 2026 (owner, 06:38Z card, \"Yes, change the rule\"): a part the world places (every place it is said has a condition on a fact, a scene purpose whose situation types each name a cause record, or a subject raised only from a record; a bearing alone does not count) is excused too; the count of lines that excuse covers is in excusedOnNov14.",
-  "total": 271,
+  "total": 270,
   "excusedOnNov11": {
     "short": 660,
     "action-name": 43
@@ -32,7 +32,7 @@
   },
   "vocativeNames": {
     "conversation": 0,
-    "scene-talk": 15
+    "scene-talk": 14
   },
   "pendingQuestion": "conversation.farewell-leave-bye.take-care-of-yourself is counted here only until the Words lead's second reader answers whether it stays as a goodbye a fact places or \"Take care.\" stands for it; then this line and the +1 in conversation go."
 }

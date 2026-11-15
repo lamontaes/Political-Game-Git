@@ -70,9 +70,17 @@ describe(`turnout and the outcome web (${place.name}, seed ${seed})`, () => {
       expect(t.web, person.id).toBeDefined();
       expect(t.web!.recordId).toBe(row.id);
       expect(t.web!.links).toEqual(["independent-redistricting-to-turnout"]);
-      const factor = t.propensity / propensityOf(t);
-      // Equal unless the propensity hit its ceiling of one.
-      if (t.propensity < 1) expect(factor).toBeCloseTo(1.05, 9);
+      // A voter on the rolls turns out at their propensity over the survey's
+      // registered share of people like them (the calibration is of everyone),
+      // so the web's factor is what is left when that share is put back.
+      const factor =
+        (t.registered === 1
+          ? t.propensity * t.surveyRegistered
+          : t.propensity) / propensityOf(t);
+      // Equal unless the propensity hit its ceiling of one, or the voter is
+      // not on the rolls (their turnout is the polls' registration cost's).
+      if (t.propensity < 1 && t.registered === 1)
+        expect(factor).toBeCloseTo(1.05, 9);
       seen.push({
         age: ageOnElection(person.birthDate, world.core.date),
         factor,
