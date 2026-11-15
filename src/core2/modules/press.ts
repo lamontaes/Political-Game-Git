@@ -19,6 +19,7 @@ import bases from "../../../data/research/money/public-budget-bases.json" with {
 import rows from "../data/press/parameters.json" with { type: "json" };
 import briefs from "../data/press/briefs.json" with { type: "json" };
 import nationalJson from "../data/press/national.json" with { type: "json" };
+import endorsing from "../data/press/endorsements.json" with { type: "json" };
 import { bookkeeping } from "../bookkeeping";
 import { coreAPI, fillInPerson, registerModule } from "../state";
 import {
@@ -69,6 +70,7 @@ import {
   registerAdOutlet,
   parsePlatform,
   contestPositions,
+  outletWeighsRace,
   type CampaignRow,
   type ImpressionRow,
 } from "./campaigns";
@@ -197,6 +199,9 @@ const NATIONAL = nationalJson as unknown as {
   basedIn: string;
   kinds: readonly NationalKindRow[];
 };
+/** The kinds of outlet that endorse in an editorial (data/press/endorsements.json). */
+const ENDORSING_KINDS: ReadonlySet<string> = new Set(endorsing.kinds);
+
 const ALL_KINDS: readonly OutletKind[] = [
   ...KINDS,
   ...NATIONAL.kinds.map((row) => row.kind),
@@ -4024,8 +4029,6 @@ function pressWeek(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   );
   pressPeopleLive(api);
   conflictBeat(api);
-  // stopgapId: SG-PEOPLE-press-endorsements
-  api.stopgap("SG-PEOPLE-press-endorsements");
   schoolResults(api);
   policeLog(api);
   milestones(api);
@@ -4156,6 +4159,33 @@ function pressWeek(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
           ?.status === "invited",
     );
     if (open.length) invited(api, open);
+  }
+  // Each outlet weighs the races on its beat once its interviews in a race
+  // are settled, or in the last week before the vote however they stand
+  // (the final edition before it): an editorial board hears the candidates
+  // before it endorses (`outletWeighsRace`).
+  const lastWeek = addDays(makeIsoDate(api.state.date), 7);
+  for (const outlet of outletsHere(api)) {
+    // Papers and magazines endorse; a station or network reports the race.
+    if (!ENDORSING_KINDS.has(outlet.kind)) continue;
+    const waiting = new Set(
+      (
+        table(api, "interviews").query("byOutlet", [
+          outlet.id,
+        ]) as unknown as InterviewRow[]
+      ).flatMap((row) =>
+        row.status === "invited" && row.contestId ? [row.contestId] : [],
+      ),
+    );
+    for (const contest of contests) {
+      if (!outletCoversContest(outlet, contest)) continue;
+      if (waiting.has(contest.id) && contest.electionDate >= lastWeek) continue;
+      outletWeighsRace(api, contest.id, {
+        organizationId: outlet.organizationId,
+        headId: outlet.headId,
+        followerIds: followersOf(api, outlet.id),
+      });
+    }
   }
 }
 

@@ -2981,6 +2981,24 @@ export function dwellingTenure(
   return { tenure: "rent", recordId, ...(rentMinor ? { rentMinor } : {}) };
 }
 
+/**
+ * The day a household began living in its present home, where it changed
+ * homes in play (rented again after an eviction, bought a house): the
+ * record's own date. Undefined for the home it opened in, whose date the
+ * past moves hold, so a reader (voter registration) takes the address as
+ * changed only by a move on record.
+ */
+export function dwellingMovedIn(
+  api: CoreAPI,
+  householdId: string,
+): string | undefined {
+  if (!(api.state as CoreState).modules.has(HOUSING_MODULE_ID))
+    return undefined;
+  const row = store(api).table("dwellings").get(`dwelling:${householdId}`) as
+    { since?: string; basis?: string } | undefined;
+  return row?.basis && row.basis !== "opening" ? row.since : undefined;
+}
+
 /** The kind of home a household lives in (house, rowhouse, apartment, mobile-home, farmhouse), for the home picture. */
 export function dwellingKind(
   api: CoreAPI,

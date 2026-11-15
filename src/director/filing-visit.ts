@@ -22,7 +22,7 @@ import {
   type PurposeType,
   type TreeNode,
 } from "./scene-talk";
-import { spoken, spokenDate, spokenWhen } from "./words";
+import { spoken, spokenDate, spokenWhen, stateInSentence } from "./words";
 import {
   wordSceneMove,
   type Fact,
@@ -33,6 +33,7 @@ import { filedSaid, filedSoFarSaid } from "../english/count-words";
 import { seatSaid, type SeatRecord } from "../english/journal-words";
 import { agencyHeadSaid, counterSaid } from "../english/said-as";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
+import { placeCounty } from "../core2/place-map";
 
 const zero = P.zero;
 const one = P.one;
@@ -157,7 +158,7 @@ export function openFilingVisit(
         ...clerkFact(core, clerkId),
       })
     : visitLine(core, visit, "clerk", "greet-counter", {
-        ...placeFact(core, playerId),
+        ...counterAreaFact(core, playerId, contests),
         // An office the record names only as a choice ("City or town clerk") is
         // said as the place's own kind; where the records do not settle it, the
         // town is said instead.
@@ -610,6 +611,51 @@ function placeFact(
     : null;
   return town
     ? { place: { text: spoken(town), sourceRecordIds: [person!.placeId] } }
+    : {};
+}
+
+/**
+ * The area a counter's greeting says it takes filings for ("I take the
+ * filings for {place}"): the town at a town's own counter, the state at a
+ * counter that takes only state and federal races (a Secretary of State), and
+ * the county at a county's (from the place map; none said where the map holds
+ * no county for the town). A
+ * town clerk's line is never put in a state office's mouth (Words lead,
+ * second reader, Nov 14: Vicco and West Point KY).
+ */
+function counterAreaFact(
+  core: Readonly<CoreState>,
+  playerId: PersonId,
+  contests: readonly FilingContest[],
+): Record<string, Fact> {
+  const levels = contests.map((row) => row.seat?.level ?? "");
+  const above = (level: string) =>
+    level === "county" || level === "state" || level === "federal";
+  if (levels.length === zero || !levels.every(above))
+    return placeFact(core, playerId);
+  const person = core.people.get(playerId);
+  const town = person
+    ? corePlaceByJurisdictionId(person.placeId as never)
+    : null;
+  if (levels.some((level) => level === "county")) {
+    const county = town ? placeCounty(town.key) : null;
+    return county
+      ? {
+          place: {
+            text: county.name,
+            sourceRecordIds: [person!.placeId],
+          },
+        }
+      : {};
+  }
+  const state = town?.withinName;
+  return state
+    ? {
+        place: {
+          text: stateInSentence(state),
+          sourceRecordIds: [person!.placeId],
+        },
+      }
     : {};
 }
 
