@@ -2,7 +2,7 @@
 name: train-gate
 description: >
   The gate a pull request passes before it is named for the train (draft PR
-  #9052 and its successors) while the first account's merging is stopped: the
+  #9554 on `claude/project-thread-lhbwzt-train2`, and its successors) while the first account's merging is stopped: the
   exact checks, why release:check needs a full clone, how to say where each
   check ran, the known reds on a clean train, full 40-character shas, and who
   posts which train-ready line. Use before marking a PR ready, before posting a
