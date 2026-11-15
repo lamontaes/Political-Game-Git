@@ -28,7 +28,7 @@ source: Account lead, Nov 15 11:16Z: home-talk-own-race-only red on the Train at
 
 **Rules.** Standing rule no dice: the doors answer for their own reasons and the hours come from the candidate's own traits and job, no draw. Standing rule sliding scales: the hours slide with the petition's shortfall, nothing flips at a line. Owner Oct 14 (the player's choices are the player's) and Oct 16 (the character never moves the player's money) hold.
 
-**Done when.** A second session runs src/core2/campaign-own-choice-petition.test.ts and src/director/home-talk-own-race-only.test.ts at Sherrodsville OH (3972242, seed scan-25) and both pass; the first shows the day's hours and the signatures gathered.
+**Done when.** A second session, on main at a drawn place (Sherrodsville OH 3972242, seed scan-25), runs src/core2/campaign-own-choice-petition.test.ts and src/director/home-talk-own-race-only.test.ts and both pass; the first shows the day's hours and the signatures gathered.
 
 **Waits on.** Nothing.
 
