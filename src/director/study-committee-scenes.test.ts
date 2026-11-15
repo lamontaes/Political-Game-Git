@@ -188,21 +188,16 @@ it(`the paper tells a study committee, and its members are spoken to when it for
           ).toContain(scene.askerId);
           expect([row.chairId, ...row.memberIds], here).toContain(personId);
           expect(scene.askerId, here).not.toBe(personId);
-          // It names the question the committee was charged with and the day it reports.
-          if (row.topic)
-            expect(
-              scene.facts.some((fact) => fact.key === "issue"),
-              `${here}: the question is named`,
-            ).toBe(true);
-          // Who chairs it is named: the asker, the player, or, when a member the
-          // two sit with asks, that member with the chair named beside them.
-          const chairKeys = scene.facts.map((fact) => fact.key);
+          // Who chairs it is named: the asker. A committee another member
+          // chairs has no worded scene yet (none has played), so it is skipped.
           expect(
-            chairKeys.includes("asker-chairs") ||
-              chairKeys.includes("you-chair") ||
-              (chairKeys.includes("fellow-member") &&
-                chairKeys.includes("chair")),
-            here,
+            scene.facts.some((fact) => fact.key === "asker-chairs"),
+            `${here}: the asker chairs it`,
+          ).toBe(true);
+          // The members who sit on it, besides the two talking, are named.
+          expect(
+            scene.facts.some((fact) => fact.key === "members"),
+            `${here}: the other members are named`,
           ).toBe(true);
           if (typeKey === "study-reported") {
             expect(

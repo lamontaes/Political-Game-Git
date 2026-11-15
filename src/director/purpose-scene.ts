@@ -1209,10 +1209,10 @@ function composeBinding(
     };
     floorDebateFacts(core, facts, said, moment.causeId, askerId);
   }
-  // A study committee (legislature.ts referToStudy and reportStudy): what it
-  // is charged with, who chairs it (the asker, or the player), when it reports
-  // and how many sit on it; at its report, what it found and whether the
-  // chair's speech to the body moved the player's own stance on the question.
+  // A study committee (legislature.ts referToStudy and reportStudy): who chairs
+  // it (the asker), who else sits on it and the body that sent the bill; at its
+  // report, what it found and whether the chair's speech to the body moved the
+  // player's own stance on the question.
   if (
     (record?.kind === "study-formed" || record?.kind === "study-reported") &&
     said.studyId &&
@@ -1224,29 +1224,15 @@ function composeBinding(
       .get(said.studyId) as unknown as StudyRow | undefined;
     if (study) {
       const cited = [moment.causeId, study.id];
-      const issue = study.topic
-        ? (questionAbout(study.topic) ?? lawName(study.topic))
-        : null;
-      if (issue) facts.issue = { text: issue, sourceRecordIds: cited };
-      // Who chairs it: the asker, the player, or a member the two sit with.
-      const chairing =
-        study.chairId === askerId
-          ? "asker-chairs"
-          : study.chairId === askedId
-            ? "you-chair"
-            : "fellow-member";
-      facts[chairing] = {
-        text: said.number ?? "",
-        sourceRecordIds: [...cited, study.chairId],
-      };
-      const chair = core.people.get(study.chairId as PersonId);
-      if (chairing === "fellow-member" && chair)
-        facts.chair = {
-          text: `${chair.givenName} ${chair.familyName}`,
-          sourceRecordIds: [...cited, chair.id],
+      // Who chairs it: the asker. A committee another member chairs is not
+      // worded yet (no played scene for it), so the scene is skipped there.
+      if (study.chairId === askerId)
+        facts["asker-chairs"] = {
+          text: said.number ?? "",
+          sourceRecordIds: [...cited, study.chairId],
         };
-      // The members besides the two talking (and the chair, named already for a
-      // fellow member), by name: the answer to who else sits on it.
+      // The members besides the two talking, by name: the answer to who else
+      // sits on it.
       const others = study.memberIds
         .filter(
           (id) => id !== askerId && id !== askedId && id !== study.chairId,
@@ -1280,10 +1266,6 @@ function composeBinding(
           text: bodyName,
           sourceRecordIds: [...cited, study.bodyOfficeId],
         };
-      facts.sunset = {
-        text: spokenDate(study.sunsetOn, core.date),
-        sourceRecordIds: cited,
-      };
       if (study.report) {
         facts[
           study.report.finding > P.zero ? "finding-for" : "finding-against"
