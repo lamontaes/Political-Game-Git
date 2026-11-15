@@ -5,13 +5,14 @@ area: words
 kind: bug
 priority: 3
 size: S
-status: open
+status: in-pr
 standard: 2
 after:
 blocked-on:
 model: sonnet
 effort: low
 root: none
+pr: 9389
 source: second words reader on the greeting fix #9378, Nov 15
 lead: words
 ---
