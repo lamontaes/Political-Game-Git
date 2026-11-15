@@ -41078,7 +41078,7 @@
           "role": "asked",
           "purpose": "concession-call",
           "key": "loss",
-          "after": "answer",
+          "after": "scene-talk.follow-answer.close-a-few-more-doors-might-have-done-it",
           "requiresFacts": ["race-close"]
         }
       ],
