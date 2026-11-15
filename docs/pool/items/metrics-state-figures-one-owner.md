@@ -8,7 +8,7 @@ size: M
 status: in-pr
 standard: 2
 claimed-by:
-pr: (next PR)
+pr: 9532
 after: metrics-output-numbers-registry
 blocked-on:
 lead: nation
