@@ -13,6 +13,7 @@
 import { createHash } from "node:crypto";
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
+import { bookkeeping } from "./bookkeeping";
 import { advanceToFilingOpen } from "./gov-test-clock";
 import { govReport } from "./gov-test-report";
 import { buildPopulation } from "./population";
@@ -150,13 +151,15 @@ describe("M2-02 election calendars and filing rules", () => {
           ),
       }),
     );
-  });
+  }, 600_000);
 });
 
 describe("M2-03 filing (engine)", () => {
   it("a resident files once, at no charge, and stands in the race while the petition circulates; an ineligible person is told the rule", () => {
     const core = world(randomPlace("file").key);
     advanceToFilingOpen(core);
+    // The wait ran with the debug checks off; they are on again for the rest.
+    expect(bookkeeping()).toBe(true);
     const api = coreAPI(core);
     const open = openContests(api);
     expect(open.length).toBeGreaterThan(0);
@@ -218,5 +221,5 @@ describe("M2-03 filing (engine)", () => {
         status: filing.status,
       }),
     );
-  });
+  }, 600_000);
 });

@@ -45,3 +45,5 @@ Sent back 2026-10-21 from PR #5729 (branch claude/political-game-pool-yucp92-bz)
 Stale 2026-10-26: PR #5729 closed (no push for five days, handed back); the work is on branch claude/political-game-pool-yucp92-bz; claim the item and merge main into that branch.
 
 Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have priced container deposits per person and replaced a retail-price stand-in; no player sees either.
+
+**Notes.** Nov 14 (Account lead, cluster 16): household use now comes from each household's own members, jobs and ages (`useFactor` in place-prices.ts), the eight price-law rows are removed, and fare-free riders now replace their own drives. Container returns stay the place's measured redemption share (ESTIMATED).

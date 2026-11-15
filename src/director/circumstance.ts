@@ -262,6 +262,9 @@ function bodyOfRecord(
 ): string | undefined {
   if (record.facts.officeId && !record.facts.billId)
     return record.facts.officeId;
+  // A debate on the floor is the chamber it was heard in: a House member does
+  // not hear the Senate's floor.
+  if (record.facts.chamber) return record.facts.chamber;
   const billId = record.facts.billId;
   if (!billId || !core.modules.has(LEGISLATURE_MODULE_ID)) return undefined;
   const bill = coreAPI(core as CoreState)
@@ -382,6 +385,9 @@ function playerHolds(
           record.facts.winnerId,
         ) && earlierLosses(core, playerId, record.facts.contestId) > zero
       );
+    case "official-in-it":
+      // A story of a bribe the player took (the report names the official).
+      return record.facts.officialId === playerId;
     case "named-in-it":
       // The record is the player's own (their school year's end).
       return record.personIds.includes(playerId);
@@ -442,22 +448,6 @@ function poolOf(
     const first = core.people.get(record.personIds[zero] ?? ("" as PersonId));
     return [...(core.households.get(first?.householdId ?? "")?.memberIds ?? [])]
       .filter((id) => id !== first?.id)
-      .map((id) => ({ id, named: false }));
-  }
-  if (source === "ties-of-named") {
-    // The people tied to the first person the record names (whom a death is
-    // about): their family on record, their household, the people they knew.
-    const first = core.people.get(record.personIds[zero] ?? ("" as PersonId));
-    if (!first) return [];
-    return [
-      ...new Set([
-        ...first.familyIds,
-        ...(core.households.get(first.householdId)?.memberIds ?? []),
-        ...first.knownIds,
-      ]),
-    ]
-      .filter((id) => id !== first.id)
-      .sort()
       .map((id) => ({ id, named: false }));
   }
   if (source === "ties-of-each-named") {

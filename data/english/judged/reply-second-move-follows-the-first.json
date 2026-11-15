@@ -2,22 +2,8 @@
   "schema": "english-judged/2",
   "rule": "reply-second-move-follows-the-first",
   "rubric": "A reply's second move follows from its first (\"I'm from Washington. What about you?\", never \"I'm from Washington. Have you talked to Omar?\").",
-  "judged": 8841,
+  "judged": 10265,
   "no": {
-    "01ci5tbdc2u": {
-      "keys": [
-        "scene-talk.follow-press.is-that-a-firm-answer-i-need-to-plan-around-it",
-        "scene-talk.reply-leave.i-d-rather-not-settle-this-by-letter-i-ll-write-back"
-      ],
-      "why": "Says they won't settle it by letter, then promises to write back by letter; contradicts with no turn."
-    },
-    "0gjtx3v0hdn": {
-      "keys": [
-        "scene-talk.follow-press.so-i-can-count-on-that-i-d-like-to-plan-around-it",
-        "scene-talk.reply-leave.i-d-rather-not-settle-this-by-letter-i-ll-write-back"
-      ],
-      "why": "Promising to write back contradicts the opening wish not to settle this by letter."
-    },
     "1zmdwj41zpc": {
       "keys": [
         "scene-talk.follow-press.that-s-what-you-always-say",
@@ -33,5 +19,5 @@
       "why": "'Going away' contradicts showing up everywhere, then 'that's what I needed to hear' accepts with no turn; the moves don't form one thought."
     }
   },
-  "yesHash": "0p94l4ghjbf"
+  "yesHash": "10hs2dp732v"
 }

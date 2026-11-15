@@ -404,6 +404,14 @@ export type CoreRelationshipListener = (
  */
 export type OfferRound = Map<string, unknown>;
 
+/**
+ * Set on a round that only predicts the day's act (the drives engine's "why"
+ * before the act): a provider reads as usual but keeps nothing it would hold
+ * past the call, so a prediction made with bookkeeping on and skipped in play
+ * changes no later choice (core-bookkeeping-changes-the-played-year).
+ */
+export const OFFER_ROUND_PREDICTION = "core2-offer-round-prediction";
+
 export interface ActOffer {
   definition: ActionDefinition;
   targetId: string;
@@ -1277,7 +1285,9 @@ export interface CoreAPI {
    * The new game's chosen identity for the controlled player, on the day the
    * world opens: name, birth date and look fields (gender, appearance). Only
    * the controlled player, only before any day has passed; the birth date
-   * may not be in the future. The life's generated past is not rewritten.
+   * may not be in the future. The life's generated past is not rewritten. A
+   * `looks.origin` other than the drawn one is taken by the household and
+   * the kin who shared the drawn origin.
    */
   chooseIdentityV1(
     personId: PersonId,

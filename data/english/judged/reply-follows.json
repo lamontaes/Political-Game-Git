@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "reply-follows-the-line-before",
   "rubric": "You are checking lines of dialogue for a game set in American politics and ordinary life. For each pair, the first line (A) was just said by one person and the second (B) is the other person's reply. Words in {braces} stand for a name, a place or a number. Each pair also names its scene: what the whole conversation is about (for example \"conflict accuse\", \"floor switch\", \"family loss\"). Earlier lines of the scene are not shown. B may refer to the scene's own subject (the bill, the vote, the firm, the loss) even when A does not repeat it; that alone is never a reason to say B does not follow.\n\nFor each pair, do this in order:\n1. Say to yourself what A does: asks something (what?), offers something (what?), states something (what?), agrees to something, thanks, refuses, or says it is leaving.\n2. Find what B reacts to. B's main point is the thing it answers, agrees with, thanks for, pushes back on, promises, or asks about. Look for that thing in A.\n3. B FOLLOWS when that thing is in A: a real person could say B right after hearing A, and a listener would know what B is responding to. A reply may dodge, refuse, joke or change the subject on purpose and still follow, if a listener would understand it as a response to A.\n4. B does NOT follow when any of these is true:\n   - B answers a question A did not ask, or acts as if A had told a story, made a case, made an offer, given a plan or apologized when A did not;\n   - A asked a direct question or made a direct request and B neither answers it, refuses it, nor visibly dodges it;\n   - B agrees or disagrees with, or thanks A for, something A did not say;\n   - B leans on \"it\", \"that\", \"them\", \"the third\" or the like and A gives nothing it could mean;\n   - A already did the thing B asks for (A gave the plan and B asks what the plan is; A said yes and B treats it as a no; A has not told the story yet and B asks whether that is all of it);\n   - B's tone answers a different situation (A agrees warmly and B shrugs it off as if overruled).\n5. Do not judge whether either line is well written, only whether B follows A. Do not give B the benefit of an imagined earlier conversation: only A was said. If a listener would have to guess what B refers to, it does not follow.\n\nExamples that do NOT follow:\n- A: \"Give me a minute. I'll explain how it happened.\" B: \"And that's everything?\" (A has not explained anything yet.)\n- A: \"I'll call the landlord tomorrow and set up a payment by Friday.\" B: \"Sorry isn't enough. What's your plan?\" (A just gave the plan and did not say sorry.)\n- A: \"Count me in. I'll tell them tonight.\" B: \"Have it your way.\" (B answers a refusal, and A agreed.)\n- A: \"We open at nine on Saturdays.\" B: \"I never said that about your brother.\" (Nothing in A is about a brother or a claim.)\nExamples that DO follow:\n- A: \"Would you sign my petition?\" B: \"I don't really follow local politics.\" (A dodge a listener understands.)\n- A: \"You can't avoid me forever.\" B: \"I've said all I'm going to say.\"\n- A: \"I need your vote on this.\" B: \"What's in it for my district?\"",
-  "judged": 2745,
+  "judged": 2542,
   "no": {
     "005r70dinlx": {
       "keys": [
@@ -116,13 +116,6 @@
       ],
       "why": "B agrees with a point A never made; A only asks a question or says it wants to plan around the answer."
     },
-    "0fn934ssddy": {
-      "keys": [
-        "scene-talk.follow-press.is-that-a-firm-answer-i-need-to-plan-around-it",
-        "scene-talk.reply-agree.you-re-right-i-ll-get-it-done"
-      ],
-      "why": "B agrees with a point A never made; A only asks a question or says it wants to plan around the answer."
-    },
     "0fzpe4an0w1": {
       "keys": [
         "scene-talk.reply-leave.let-me-call-you-back",
@@ -200,13 +193,6 @@
       ],
       "why": "A agrees to apologize; B's complaint answers a refusal."
     },
-    "0kr9vfwe3li": {
-      "keys": [
-        "scene-talk.follow-press.can-i-tell-the-family-you-ll-do-it-first",
-        "scene-talk.reply-agree.you-re-right-i-ll-contact-them"
-      ],
-      "why": "The reply agrees with a point the line before never made, since that line only asked a question."
-    },
     "0lctwmt3y20": {
       "keys": [
         "scene-talk.reply-leave.i-can-t-decide-this-right-now",
@@ -249,26 +235,12 @@
       ],
       "why": "A asks why vote; B asks where A heard something."
     },
-    "0pjwch1nbda": {
-      "keys": [
-        "scene-talk.follow-press.so-i-can-count-on-that-i-d-like-to-plan-around-it",
-        "scene-talk.reply-agree.you-re-right-i-ll-get-it-done"
-      ],
-      "why": "B agrees with a point A never made; A only asks a question or says it wants to plan around the answer."
-    },
     "0pwy84y1ru6": {
       "keys": [
         "scene-talk.follow-press.the-vote-s-in-two-weeks-after-is-too-late-for-my-readers",
         "scene-talk.reply-lie.nobody-s-even-asked-me-that-before"
       ],
       "why": "B answers a question A never asked"
-    },
-    "0q8k7i15iix": {
-      "keys": [
-        "scene-talk.follow-press.is-that-a-promise-i-d-like-to-tell-the-family-you-ll-do-it",
-        "scene-talk.reply-agree.you-re-right-i-ll-contact-them"
-      ],
-      "why": "The reply agrees with a point the line before never made, since that line only asked a question."
     },
     "0qlgjxp22l5": {
       "keys": [
@@ -305,13 +277,6 @@
       ],
       "why": "A's 'I will' is not something B answers with 'Where did you hear that?'"
     },
-    "0tt5wxgqbhv": {
-      "keys": [
-        "scene-talk.follow-press.can-i-tell-the-family-you-ll-do-it-first",
-        "scene-talk.reply-agree.that-s-fair-i-ll-reach-out-to-them"
-      ],
-      "why": "The reply agrees with a point the line before never made, since that line only asked a question."
-    },
     "0tw45fjmewk": {
       "keys": [
         "scene-talk.reply-tell.friend.i-ll-tell-you-everything-and-i-m-not-going-to-dress-it-up",
@@ -325,13 +290,6 @@
         "scene-talk.close-thank.welcome-aboard-paperwork-and-your-schedule-come-on-your-first-day"
       ],
       "why": "The reply treats a request for time as a yes, and the line before accepted nothing."
-    },
-    "0vkn5faq7hi": {
-      "keys": [
-        "scene-talk.follow-press.can-i-count-on-that-first-i-d-like-to-be-able-to-tell-the-family-you-ll-do-it",
-        "scene-talk.reply-agree.that-s-fair-i-ll-reach-out-to-them"
-      ],
-      "why": "The reply agrees with a point the line before never made, since that line only asked a question."
     },
     "0vuzlpyzaom": {
       "keys": [
@@ -515,26 +473,12 @@
       ],
       "why": "B agrees with a point A never made; A only asks a question or says it wants to plan around the answer."
     },
-    "1gbucw9fbp0": {
-      "keys": [
-        "scene-talk.follow-press.is-that-a-promise-i-d-like-to-tell-the-family-you-ll-do-it",
-        "scene-talk.reply-agree.that-s-fair-i-ll-reach-out-to-them"
-      ],
-      "why": "The reply agrees with a point the line before never made, since that line only asked a question."
-    },
     "1glmf8fb2xp": {
       "keys": [
         "scene-talk.reply-leave.the-library-closes-soon-i-have-to-return-these-books",
         "scene-talk.close-press.think-it-over-we-meet-every-week"
       ],
       "why": "The reply tells the person to think it over, but the line before only said they have to return books."
-    },
-    "1gqqdtz78dr": {
-      "keys": [
-        "scene-talk.follow-press.so-i-can-count-on-that-i-d-like-to-plan-around-it",
-        "scene-talk.reply-agree.you-make-a-fair-point-i-ll-do-it"
-      ],
-      "why": "B agrees with a point A never made; A only asks a question or says it wants to plan around the answer."
     },
     "1gsergrwkrh": {
       "keys": [
@@ -585,13 +529,6 @@
       ],
       "why": "Nothing in A about voting or answering for votes."
     },
-    "1mi4azccyr6": {
-      "keys": [
-        "scene-talk.follow-press.is-that-a-promise-i-d-like-to-tell-the-family-you-ll-do-it",
-        "scene-talk.reply-agree.you-have-a-point-so-i-ll-get-in-touch-with-them"
-      ],
-      "why": "The reply agrees with a point the line before never made, since that line only asked a question."
-    },
     "1o69lay5te0": {
       "keys": [
         "scene-talk.reply-agree.let-me-see-them-i-ll-read-them-now",
@@ -619,13 +556,6 @@
         "scene-talk.follow-thank.that-s-all-i-ask-thank-you"
       ],
       "why": "The line before asked when, and the reply neither says when nor sidesteps the question."
-    },
-    "1ppucbswlvf": {
-      "keys": [
-        "scene-talk.follow-press.can-i-count-on-that-first-i-d-like-to-plan-around-it",
-        "scene-talk.reply-agree.you-make-a-fair-point-i-ll-do-it"
-      ],
-      "why": "B agrees with a point A never made; A only asks a question or says it wants to plan around the answer."
     },
     "1q2j2b5iqu3": {
       "keys": [
@@ -704,13 +634,6 @@
       ],
       "why": "A never said B brings up the past; B answers a claim not made."
     },
-    "1wod050lzsl": {
-      "keys": [
-        "scene-talk.follow-press.so-i-can-count-on-that-i-d-like-to-plan-around-it",
-        "scene-talk.reply-agree.you-re-right-and-i-ll-do-it"
-      ],
-      "why": "The reply agrees with a point the line before never made, since that line only asked a question."
-    },
     "1wu5rdlx5qc": {
       "keys": [
         "scene-talk.follow-press.is-there-something-i-can-fix-i-d-like-to-understand",
@@ -746,20 +669,6 @@
       ],
       "why": "A comments on quiet people; B's bag remark answers nothing in A."
     },
-    "213ui9tkfsr": {
-      "keys": [
-        "scene-talk.follow-press.can-i-tell-the-family-you-ll-do-it-first",
-        "scene-talk.reply-agree.you-have-a-point-so-i-ll-get-in-touch-with-them"
-      ],
-      "why": "The reply agrees with a point the line before never made, since that line only asked a question."
-    },
-    "22ai2600ip5": {
-      "keys": [
-        "scene-talk.follow-press.can-i-count-on-that-first-i-d-like-to-be-able-to-tell-the-family-you-ll-do-it",
-        "scene-talk.reply-agree.you-re-right-i-ll-contact-them"
-      ],
-      "why": "The reply agrees with a point the line before never made, since that line only asked a question."
-    },
     "238fyxz5dig": {
       "keys": [
         "scene-talk.follow-confront.welcome-to-public-service",
@@ -787,13 +696,6 @@
         "scene-talk.reply-accept.then-we-understand-each-other"
       ],
       "why": "A asks for a number; B says \"we understand each other\""
-    },
-    "25hgc4lmj4g": {
-      "keys": [
-        "scene-talk.follow-press.is-that-a-firm-answer-i-need-to-plan-around-it",
-        "scene-talk.reply-agree.you-make-a-fair-point-i-ll-do-it"
-      ],
-      "why": "B agrees with a point A never made; A only asks a question or says it wants to plan around the answer."
     },
     "25ztng057bb": {
       "keys": [
@@ -823,26 +725,12 @@
       ],
       "why": "A asks where the money went; B answers about the rule to vote."
     },
-    "29aa6vf9uql": {
-      "keys": [
-        "scene-talk.follow-press.can-i-count-on-that-first-i-d-like-to-plan-around-it",
-        "scene-talk.reply-agree.you-re-right-i-ll-get-it-done"
-      ],
-      "why": "B agrees with a point A never made; A only asks a question or says it wants to plan around the answer."
-    },
     "29e6o7o0wgc": {
       "keys": [
         "scene-talk.reply-leave.i-can-t-decide-this-right-now",
         "scene-talk.close-accept.i-understand-take-care-of-yourself"
       ],
       "why": "The reply treats a request for time as a refusal, and the line before refused nothing."
-    },
-    "2agljwb7pq2": {
-      "keys": [
-        "scene-talk.follow-press.is-that-a-firm-answer-i-need-to-plan-around-it",
-        "scene-talk.reply-agree.you-re-right-and-i-ll-do-it"
-      ],
-      "why": "The reply agrees with a point the line before never made, since that line only asked a question."
     },
     "2busqwoqvx8": {
       "keys": [
@@ -901,5 +789,5 @@
       "why": "The line before asked when, and the reply neither says when nor sidesteps the question."
     }
   },
-  "yesHash": "12ragvic27t"
+  "yesHash": "152qqx5uszv"
 }

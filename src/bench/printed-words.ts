@@ -59,6 +59,7 @@ import {
 import type { StoryKind } from "../english/english-newscast";
 import { joinList } from "../english/bill-names";
 import { JOURNAL_WORDS, seatSaid } from "../english/journal-words";
+import { raceMemberTitle } from "../director/cause-facts";
 import { storyTopicName } from "../english/policy-names";
 import {
   causeGroupForm,
@@ -552,13 +553,26 @@ class Reader {
       district: contest.district,
     });
   }
-  /** A race's office, from its contest record ("Town board member"). */
+  /**
+   * The office a race is for as the one who holds it is called in that place:
+   * "alderman" where the body is named for its members (the Board of Aldermen),
+   * else the title the record gives ("Council member"). Read from the contest's
+   * office record through the same member table the seat reader uses, never a
+   * second list of titles.
+   */
+  contestOffice(
+    id: string | undefined,
+    title: string | undefined,
+  ): string | undefined {
+    return raceMemberTitle(this.core, id) ?? title;
+  }
+  /** A race's office, from its contest record ("Town board member"), as that place calls whoever holds it. */
   contestTitle(id: string | undefined): string | null {
     if (!id) return null;
     const contest = this.table(ELECTIONS_MODULE_ID, "contests")?.get(
       id,
     ) as unknown as { title?: string } | undefined;
-    return contest?.title ?? null;
+    return this.contestOffice(id, contest?.title) ?? null;
   }
   /**
    * An organization's name; a founded cause group, which keeps only its key,
@@ -1396,12 +1410,17 @@ const CONDITION_NOUNS: Readonly<Record<string, string>> = {
 const conditions: Builder = (read, f) => {
   // Who is out of work: the town's economic month the rate was taken from
   // (world-metrics writes it the day before the web's record).
-  const month = read.row<{ id: string; employed: number; unemployed: number }>(
+  const month = read.row<{
+    id: string;
+    residentsEmployed: number;
+    unemployed: number;
+  }>(
     WORLD_METRICS_MODULE_ID,
     "months",
     `metrics:${read.townPlaceId()}:${addDays(makeIsoDate(read.happened || read.story.date), -1)}`,
   );
-  const force = month ? month.employed + month.unemployed : 0;
+  // The rate's own labor force: the residents at work wherever the job is, with the jobless.
+  const force = month ? month.residentsEmployed + month.unemployed : 0;
   const moved: { measure: string; now: number; was: number; move: number }[] =
     [];
   for (const measure of Object.keys(CONDITIONS)) {
@@ -1744,7 +1763,14 @@ const filing: Builder = (read, f) => {
     "filing",
     {
       ...read.who(id, "name", false),
-      ...(f.office ? { office: read.fact(f.office, f.contestId ?? "") } : {}),
+      ...(f.office
+        ? {
+            office: read.fact(
+              read.contestOffice(f.contestId, f.office)!,
+              f.contestId ?? "",
+            ),
+          }
+        : {}),
       ...(f.electionDate
         ? { when: read.fact(spokenDate(f.electionDate), f.contestId ?? "") }
         : {}),
@@ -1798,7 +1824,14 @@ const electionResult: Builder = (read, f) => {
   if (!f.winnerId && !Object.keys(totals).length)
     return story(
       "unfilled",
-      f.office ? { office: read.fact(f.office, f.contestId ?? "") } : {},
+      f.office
+        ? {
+            office: read.fact(
+              read.contestOffice(f.contestId, f.office)!,
+              f.contestId ?? "",
+            ),
+          }
+        : {},
       ["office"],
       f.contestId,
     );
@@ -1876,7 +1909,7 @@ const electionResult: Builder = (read, f) => {
   // The office as a person says it (rule 34): lower case, its district
   // before it where the seat is numbered ("District 5 commissioner").
   const said = f.office
-    ? `${district ? `District ${district} ` : ""}${officeWords(f.office)}`
+    ? `${district ? `District ${district} ` : ""}${officeWords(read.contestOffice(f.contestId, f.office)!)}`
     : null;
   // The day of the count as the paper says it a few days on: the weekday
   // within the week, the date after.
@@ -2689,7 +2722,14 @@ const petitionChecked: Builder = (read, f) => {
     "petition-check",
     {
       ...read.who(id, "name", false),
-      ...(f.office ? { office: read.fact(f.office, f.contestId ?? "") } : {}),
+      ...(f.office
+        ? {
+            office: read.fact(
+              read.contestOffice(f.contestId, f.office)!,
+              f.contestId ?? "",
+            ),
+          }
+        : {}),
       ...(f.status === "on-ballot" || f.status === "short"
         ? { [f.status]: read.yes() }
         : {}),
@@ -3578,7 +3618,14 @@ const policeLog: Builder = (read, f) => {
   // that figure (a town whose usual rounds to none has the whole count over).
   const usualRounded = Math.round(usualOf(f) ?? 0);
   const over = usualOf(f) ? total - usualRounded : 0;
-  const extra = over >= 1 ? over : undefined;
+  // Said only when the month stands off the usual by more than the town's
+  // own months do from their mean (a month one over a usual of twelve is
+  // not news).
+  const spread = Number(f.spread);
+  const extra =
+    over >= 1 && over >= (Number.isFinite(spread) ? spread : 1)
+      ? over
+      : undefined;
   return story(
     "police-log",
     {
@@ -3601,7 +3648,6 @@ const policeLog: Builder = (read, f) => {
       ...(extra !== undefined && rising
         ? { rising: read.fact(rising, row.id) }
         : {}),
-      ...(extra !== undefined && f.busier ? { busier: read.yes() } : {}),
     },
     ["place", "number"],
   );

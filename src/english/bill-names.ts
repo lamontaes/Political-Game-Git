@@ -123,11 +123,35 @@ export function billNameOf(
   bill: {
     readonly form: { readonly kind: string };
     readonly provisions: readonly NamedSection[];
+    /** Set on a government's annual budget bill: whose budget, for which year. */
+    readonly budgetFor?: unknown;
   },
   book: BillNameBook = billNames as BillNameBook,
 ): BillName | null {
-  // A budget bill: only spending lines, each with its amount and no direction.
   const form = book.forms[bill.form.kind];
+  // A change to one spending line (a member's bill to raise or cut it) is named
+  // for that line, like any other policy: "Police Funding Increase Ordinance".
+  // Without this every such bill read "Budget Ordinance" and two of them on one
+  // agenda could not be told apart. A government's annual budget bill (its
+  // record carries `budgetFor`) is always the budget, whatever lines it changes.
+  const [only] = bill.provisions;
+  if (
+    !bill.budgetFor &&
+    bill.provisions.length === 1 &&
+    only!.kind === "budget-line" &&
+    !only!.operation &&
+    only!.value !== 0 &&
+    only!.line
+  ) {
+    const named = billNameFor(
+      `budget:${only!.line}`,
+      bill.form.kind,
+      only!.value < 0,
+      book,
+    );
+    if (named) return named;
+  }
+  // A budget bill: only spending lines, each with its amount and no direction.
   if (
     form &&
     bill.provisions.length > 0 &&
@@ -191,6 +215,8 @@ export function billTitleOf(
   bill: {
     readonly form: { readonly kind: string };
     readonly provisions: readonly NamedSection[];
+    /** Set on a government's annual budget bill: whose budget, for which year. */
+    readonly budgetFor?: unknown;
   },
   book: BillNameBook = billNames as BillNameBook,
 ): BillTitle | null {
@@ -207,7 +233,10 @@ export function billTitleOf(
     };
   const sections = bill.provisions.flatMap((section, index) => {
     const named = billNameOf({ form: bill.form, provisions: [section] }, book);
-    const key = section.policyId ?? section.question;
+    const key =
+      section.policyId ??
+      section.question ??
+      (section.line ? `budget:${section.line}` : undefined);
     return named && key ? [{ index, key, purpose: named.purpose }] : [];
   });
   return {
