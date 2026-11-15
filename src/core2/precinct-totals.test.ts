@@ -1,23 +1,19 @@
 import { expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { buildBenchWorld } from "../bench/world";
-import { setBookkeeping } from "../core2/bookkeeping";
-import { advanceCore } from "../core2/life";
-import {
-  ELECTIONS_MODULE_ID,
-  type ContestRow,
-} from "../core2/modules/elections";
-import { VOTING_MODULE_ID, type ResultRow } from "../core2/modules/voting";
-import { coreAPI } from "../core2/state";
-import { precinctShift } from "./race-turnout-facts";
+import { setBookkeeping } from "./bookkeeping";
+import { advanceCore } from "./life";
+import { ELECTIONS_MODULE_ID, type ContestRow } from "./modules/elections";
+import { VOTING_MODULE_ID, type ResultRow } from "./modules/voting";
+import { coreAPI } from "./state";
 
-// The count saves the town's votes by precinct, and a later read names the
-// part of town that turned. Pinned: Bountiful, Utah (15 precincts; its
+// The count saves the town's votes by precinct, so a later read can name a
+// part of town (pool item director-after-race-turned-precinct-more-cases). Pinned: Bountiful, Utah (15 precincts; its
 // county board seats are up in Nov 2026), found by drawing "probe:3"
 // for step12 once; place and seed in every message.
 const PIN = { draw: "probe:3", purpose: "step12" } as const;
 
-it("precincts add up to the count, and the part of town that turned is named from them", () => {
+it("the count saves its votes by precinct, and the precincts add up to the count", () => {
   const place = drawPlace(PIN.draw, PIN.purpose);
   const where = `${place.name} (${place.key}), seed ${place.seed}`;
   setBookkeeping(false);
@@ -54,24 +50,3 @@ it("precincts add up to the count, and the part of town that turned is named fro
     }
   }
 }, 170_000);
-
-it("the precinct that turned is the one whose share moved most, and which way", () => {
-  const earlier = {
-    "1": { a: 50, b: 50 },
-    "2": { a: 60, b: 40 },
-    "3": { a: 40, b: 60 },
-  };
-  const now = {
-    "1": { a: 45, b: 55 },
-    "2": { a: 30, b: 70 },
-    "3": { a: 45, b: 55 },
-  };
-  expect(precinctShift(now, earlier, ["a"], ["a"])).toEqual({
-    precinct: "2",
-    delta: expect.closeTo(-0.3, 5),
-  });
-  // A first race: the party's earlier candidate stands in for them.
-  expect(precinctShift(now, earlier, ["a"], ["b"])?.precinct).toBe("3");
-  expect(precinctShift(now, now, ["a"], ["a"])).toBeNull();
-  expect(precinctShift(now, earlier, ["a"], [])).toBeNull();
-});

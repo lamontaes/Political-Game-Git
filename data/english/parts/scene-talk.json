@@ -52,7 +52,6 @@
     "percent": "How much of the line that cut was, in whole percent, from the adopted budget on record.",
     "rivals": "The candidates already on a contest's ballot when the player filed, each said by what their candidacy shows (\"incumbent Ann Lee\", \"Democratic candidate Bo Chen\"), from the contest's filing records.",
     "building": "The building a precinct votes in, the town government's own, from the voting engine's polling place record.",
-    "turned-precinct": "The precinct where the player's share of the town's votes moved most against their last race for the office, by its number, from the count's precinct split.",
     "precinct": "The number of the voter's precinct, from the voting engine's polling place record (said only where the town has more than one).",
     "worker": "One of the people who work the voter's polling place that day, by name, from the voting engine's polling place record.",
     "cut": "What the council cut from a budget line, said to two figures, from the budget-line record.",
@@ -188543,51 +188542,6 @@
         "move": "disagree",
         "key": "threat"
       }
-    },
-    {
-      "key": "scene-talk.state-turned.we-lost-precinct-precinct",
-      "move": "state-turned",
-      "kind": "spoken",
-      "text": "We lost Precinct {turned-precinct}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "turned",
-          "role": "asker",
-          "purpose": "concession-call",
-          "key": "loss",
-          "requiresFacts": ["same-day", "turned-against"],
-          "excludesFacts": ["turned-own"]
-        }
-      ],
-      "bearing": "solemn",
-      "origin": "authored",
-      "author": "Words lead",
-      "date": "2026-11-15",
-      "tag": { "move": "tell", "key": "loss" }
-    },
-    {
-      "key": "scene-talk.state-turned-then.it-was-ours-last-time",
-      "move": "state-turned-then",
-      "kind": "spoken",
-      "text": "It was ours last time.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "turned-then",
-          "role": "asker",
-          "purpose": "concession-call",
-          "key": "loss",
-          "requiresFacts": ["same-day", "turned-against"]
-        }
-      ],
-      "bearing": "solemn",
-      "origin": "authored",
-      "author": "Words lead",
-      "date": "2026-11-15",
-      "tag": { "move": "tell", "key": "loss" }
     }
   ]
 }

@@ -2053,7 +2053,6 @@
     },
     "concession-call": {
       "state": "request",
-      "stateMoves": ["turned", "turned-then", "request"],
       "replies": ["agree", "ask", "refuse", "stall"],
       "follow": {
         "agree": ["thank"],

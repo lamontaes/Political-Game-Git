@@ -1770,10 +1770,7 @@ function composeBinding(
   // ballots, the share of the eligible who voted and the place that gave the
   // winner the biggest share.
   if (record?.kind === "election-result" && said.contestId)
-    Object.assign(
-      facts,
-      raceTurnoutFacts(core, said.contestId, core.playerId ?? undefined),
-    );
+    Object.assign(facts, raceTurnoutFacts(core, said.contestId));
   // The winner's side of a count: how far ahead they finished, from the
   // result record's totals (votes, exact: a count is an integer): over the
   // first who missed the cut, so in an at-large race the margin of the cut.
