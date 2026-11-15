@@ -385,6 +385,9 @@ interface CountedBallotsRow {
   /** Each voter's faith and degree against their age band's average (null where none is recorded; absent on rows kept before the loadings). */
   readonly faith?: readonly (number | null)[];
   readonly college?: readonly (number | null)[];
+  /** Each voter's circumstances as the count read them, and the world's seed (absent on rows kept before the count stored them). */
+  readonly life?: readonly (StanceProfile["life"] | null)[];
+  readonly seed?: string;
   /** Each voter's door "yes" as it held on the day (null where they gave none; absent on rows kept before pledges). */
   readonly pledges?: readonly (Readonly<Record<string, number>> | null)[];
   /** What each voter's decided cases left them feeling toward each official on the ballot (null where they brought none; absent on rows kept before cases counted). */
@@ -4014,6 +4017,8 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
     weight: [] as number[],
     faith: [] as (number | null)[],
     college: [] as (number | null)[],
+    /** Each voter's own circumstances as the count read them (`countedStanceProfile`; null where they have none). */
+    life: [] as (StanceProfile["life"] | null)[],
     /** Each voter's door "yes" as it held on the day (null where they gave none, or where it held for one household of several). */
     pledges: [] as (Readonly<Record<string, number>> | null)[],
     warmths: [] as (Readonly<Record<string, number>> | null)[],
@@ -4109,6 +4114,7 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
     // Module data holds JSON: a missing distance is kept as null.
     kept.faith.push(profile.faithFromAverage ?? null);
     kept.college.push(profile.collegeFromAverage ?? null);
+    kept.life.push(profile.life ?? null);
     kept.pledges.push(division.wholePledged ? (pledges ?? null) : null);
     kept.warmths.push(warmths ?? null);
     kept.endorsed.push(endorsed ?? null);
@@ -4149,6 +4155,8 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
     contestId,
     date,
     field,
+    // The world whose view of each question every voter's stance carries.
+    seed: api.state.seed,
     ...kept,
   } as unknown as ModuleRow);
   // Each counted resident stands for the town's people like them; those who
@@ -5532,6 +5540,30 @@ function countedRow(
     CountedBallotsRow | undefined;
 }
 
+/**
+ * The stance profile the count read for one kept voter: their faith and
+ * degree, the world's own view of each question and their circumstances, so
+ * the appeal read back is the appeal that was counted. A row kept before the
+ * count stored the world and the circumstances reads as it did then.
+ */
+function countedProfileAt(
+  row: CountedBallotsRow,
+  i: number,
+): StanceProfile | null {
+  const faith =
+    row.faith && row.college && Number.isFinite(row.faith[i])
+      ? {
+          faithFromAverage: row.faith[i]!,
+          ...(Number.isFinite(row.college[i])
+            ? { collegeFromAverage: row.college[i]! }
+            : {}),
+        }
+      : null;
+  if (row.seed === undefined) return faith;
+  const life = row.life?.[i];
+  return { ...(faith ?? {}), seed: row.seed, ...(life ? { life } : {}) };
+}
+
 /** The engine's own reading of one kept counted ballot. */
 function countedBallotAt(row: CountedBallotsRow, i: number): CountedBallotRow {
   return {
@@ -5560,15 +5592,7 @@ function countedBallotAt(row: CountedBallotsRow, i: number): CountedBallotRow {
       warmths: row.warmths?.[i] ?? undefined,
       endorsed: row.endorsed?.[i] ?? undefined,
       divides: true,
-      profile:
-        row.faith && row.college && Number.isFinite(row.faith[i])
-          ? {
-              faithFromAverage: row.faith[i]!,
-              ...(Number.isFinite(row.college[i])
-                ? { collegeFromAverage: row.college[i]! }
-                : {}),
-            }
-          : null,
+      profile: countedProfileAt(row, i),
     }),
     basis: "party-name-incumbency",
     lean: row.lean[i]!,
