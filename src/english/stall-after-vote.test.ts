@@ -7,6 +7,10 @@ import { fitting, type SceneMove } from "./scene-talk-words";
 // two weeks."); before it, those lines still play. The packet is
 // the one the reporter's call built in play: Salem, Ohio (3969834), seed
 // rank-m4 (src/director/press-comment-context.test.ts), Nov 15.
+// Old premise: that packet as play built it before #9433, with no `acted`.
+// New premise (Account lead, Nov 15 12:50Z): after the vote it carries
+// `acted`, as play now sets it for a member who voted on the call's bill
+// (src/director/vote-stand-facts.ts); before the vote it does not.
 const fact = (text: string): Fact => ({ text, sourceRecordIds: ["r1"] });
 const words: Record<string, string> = {
   name: "River",
@@ -80,9 +84,12 @@ const offered = (
   ).map((part) => part.text);
 
 describe("after the vote, no reply says the vote is still ahead", () => {
-  const voted = Object.fromEntries(
-    Object.entries(words).map(([key, text]) => [key, fact(text)]),
-  );
+  const voted = {
+    ...Object.fromEntries(
+      Object.entries(words).map(([key, text]) => [key, fact(text)]),
+    ),
+    acted: fact("yes"),
+  };
   const votedYes = {
     ...Object.fromEntries(
       Object.entries(voted).filter(([key]) => key !== "voted-no"),
@@ -91,7 +98,7 @@ describe("after the vote, no reply says the vote is still ahead", () => {
   };
   const before = Object.fromEntries(
     Object.entries(voted).filter(
-      ([key]) => key !== "vote-held" && key !== "voted-no",
+      ([key]) => key !== "vote-held" && key !== "voted-no" && key !== "acted",
     ),
   );
   const AFTER = [undefined, "press", "ask", "confront", "deflect", "refuse"];
