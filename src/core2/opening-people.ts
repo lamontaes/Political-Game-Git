@@ -30,7 +30,6 @@ export interface CharacterHistoryContextPersonInput {
   readonly familyName: string;
   readonly birthDate: IsoDate;
   readonly homeJurisdictionId: EntityId;
-  readonly birthplaceJurisdictionId?: EntityId;
   /**
    * Gender and pronouns for somebody the world is inventing. Optional because
    * a person the record says nothing about is written down as saying nothing
@@ -64,12 +63,8 @@ function buildPerson(
     throw new Error("A context person cannot be born after the current date.");
   if (!draft.jurisdictions[input.homeJurisdictionId])
     throw new Error("A context person requires an existing home jurisdiction.");
-  // stopgapId: SG-HIST-birthplace-is-home (no caller passes a birthplace yet)
-  const birthplace = input.birthplaceJurisdictionId ?? input.homeJurisdictionId;
-  if (!draft.jurisdictions[birthplace])
-    throw new Error(
-      "A context person requires an existing birthplace jurisdiction.",
-    );
+  // Where they were born is written once, from their family and their
+  // state's shares (src/core2/person-birthplace.ts), not here.
   const id = characterHistoryContextPersonId(draft, input.stableKey);
   if (draft.people[id]) return null;
   const fullName = `${input.givenName} ${input.familyName}`;
@@ -82,14 +77,6 @@ function buildPerson(
       occurredAt: birthDate,
       jurisdictionId: null,
       summary: `${fullName}'s birth date is established.`,
-    },
-    {
-      id: createStableId("fact", `${id}:birthplace`),
-      stableKey: "birthplace",
-      kind: "birthplace",
-      occurredAt: birthDate,
-      jurisdictionId: birthplace,
-      summary: `${fullName}'s birthplace is established.`,
     },
     {
       id: createStableId("fact", `${id}:residence:initial`),

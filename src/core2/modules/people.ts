@@ -35,6 +35,7 @@ import { ENCOUNTERS } from "../encounters";
 import { OPENING_KIN } from "../opening-kin";
 import {
   PAST_WORK_SPELL,
+  bornIn,
   pastMovesFor,
   pastMovesHistory,
   pastWorkFor,
@@ -44,6 +45,7 @@ import {
   preStartWindowOf,
   recordPreStartLater,
   residenceOn,
+  writeChildBirthplaces,
   schoolHistoryFor,
   type HistoryRecord,
   type HistoryWriter,
@@ -379,6 +381,12 @@ function peopleHistory(
   // Who came to the county and when, first: births, schools, the working
   // life and partnerships are placed by where people lived.
   pastMovesHistory(api, window, history, departureRateFor, withinCountyRateFor);
+  // A child's birthplace is where their parent lived that day, now the
+  // moves are run; a grown resident's was written at the opening.
+  writeChildBirthplaces(
+    api.state,
+    [...api.state.people.values()].filter((person) => person.tier !== "husk"),
+  );
   for (const person of api.state.people.values()) {
     if (person.tier === "husk") continue;
     if (inside(person.birthDate)) {
@@ -389,7 +397,7 @@ function peopleHistory(
         id: `person-history:${person.id}:birth`,
         date: makeIsoDate(person.birthDate),
         kind: "person.birth",
-        placeId: residenceOn(api.state, person, person.birthDate).placeId,
+        placeId: bornIn(api.state, person).placeId,
         personIds: [person.id],
         facts: {
           personId: person.id,
@@ -688,8 +696,7 @@ function writePast(core: CoreState, person: PersonState): void {
 /**
  * A person an engine made to hold a role (a newspaper's owner, a state's
  * election chief) is made with no past facts. Opened, they get their
- * birthplace as the place they live, the opening's own default where nothing
- * records another (opening-people.ts); their birth date is the person's own
+ * birthplace as the place they live; their birth date is the person's own
  * (`person.birth`). An official's roster nativity already says where they
  * were born, so they keep it.
  */
@@ -710,8 +717,7 @@ function bornWhere(core: CoreState, person: PersonState): void {
   const source = {
     tag: "ESTIMATED" as const,
     asOf: core.date,
-    citation:
-      "A person made to hold a role, opened: born where they live, as every opening resident's birthplace defaults to their home (src/core2/opening-people.ts).",
+    citation: "A person made to hold a role, opened: born where they live.",
     estimatedFrom:
       "No record of this person's birthplace exists; the place they live stands for it.",
   };

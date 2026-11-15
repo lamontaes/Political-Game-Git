@@ -121,6 +121,12 @@ import { SeededRng } from "./kernel/rng";
 import moverRates from "../../data/research/migration/mover-rates-acs-2024.json" with { type: "json" };
 import { buildOpeningKin, OPENING_KIN } from "./opening-kin";
 import {
+  BIRTHPLACE_FACT,
+  birthOrigin,
+  birthplaceSource as bornSource,
+  bornOutsideId,
+} from "./person-birthplace";
+import {
   partnerAgedHousehold,
   partnershipGeo,
   type Sex,
@@ -139,6 +145,7 @@ import {
   type OrganizationInput,
   type PersonInput,
   type HuskInput,
+  type PersonId,
   type Source,
 } from "./types";
 
@@ -1579,6 +1586,7 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
       placeEarningsOf(place.key, options.seed) ??
       nationalMedianAnnualWage("occupation:customer-service", options.seed) ??
       p("zero"),
+    placeKey: place.key,
     startedAt,
     plans: options.kinHouseholdIds
       ? plans.filter((plan) => options.kinHouseholdIds!.has(plan.id))
@@ -1663,6 +1671,8 @@ interface OpeningFamilyInput {
   stateKey?: string;
   /** A year's earnings of one worker of the town, which the relatives' opening cash reads. */
   earnings: number;
+  /** The town's place key, for its citizen share (src/core2/person-birthplace.ts). */
+  placeKey: string;
   startedAt: WorldDate;
   plans: readonly HouseholdPlan[];
   people: readonly PersonInput[];
@@ -1712,6 +1722,19 @@ function openingFamilies(input: OpeningFamilyInput): {
         moverRates.places[input.stateKey as keyof typeof moverRates.places] ??
         moverRates.national
       ).departurePerYearByAge,
+      ...(input.stateKey
+        ? {
+            bornOutside: (adultId: PersonId) =>
+              bornOutsideId(
+                birthOrigin({
+                  seed: input.seed,
+                  personId: adultId,
+                  placeKey: input.placeKey,
+                  usps: input.stateKey!.slice("US-".length),
+                }),
+              ),
+          }
+        : {}),
       name: ({
         stableKey,
         gender,
@@ -1902,8 +1925,22 @@ function openingFamilies(input: OpeningFamilyInput): {
       sharedTraitSource: temperamentSource,
     };
   };
+  // Where each grown resident was born, once (src/core2/person-birthplace.ts);
+  // a child's is written from where their parent lived that day, once the
+  // moves before the start are run.
+  const birthplaceSource = bornSource(startedAt);
   const residents = input.people.map((person) => {
     const facts = familyFacts(person.id);
+    const born = kin.birthplaces.get(person.id as PersonId);
+    if (born)
+      facts.pastFacts.push({
+        id: createStableId("fact", `${person.id}:birthplace`),
+        date: person.birthDate,
+        kind: BIRTHPLACE_FACT,
+        summary: `${names.get(person.id)}'s birthplace is established.`,
+        source: birthplaceSource,
+        facts: { placeId: born },
+      } as (typeof facts.pastFacts)[number]);
     return {
       ...person,
       ...withTemperament(

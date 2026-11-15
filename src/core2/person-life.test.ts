@@ -555,7 +555,7 @@ describe(`the life record in ${where}`, () => {
     const life = lifeOf(pcore, chief!.id);
     const label = `${where}: ${chief!.id} ${life.map((e) => `${e.life}/${e.what}`).join(", ")}`;
     expect(life.length, label).toBeGreaterThanOrEqual(4);
-    // Born where they live, as every opening resident's birthplace defaults to home.
+    // Born where they live: a person made to hold a role has no birthplace record (SG-PEOPLE-role-people-have-no-past).
     expect(
       life.some((event) => event.life === "born"),
       label,

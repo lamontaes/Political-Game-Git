@@ -42,6 +42,8 @@ import type {
 import { townWithin } from "./places-elsewhere";
 
 export const PERSON_MOVED_IN = ownPastKind("person.moved-in");
+/** The past fact a person's birthplace is kept as (src/core2/person-birthplace.ts). */
+const BIRTHPLACE = "birthplace";
 /** A move to another home inside the county the person lived in then. */
 export const PERSON_MOVED_WITHIN = ownPastKind("person.moved-within");
 
@@ -52,25 +54,99 @@ const MOVES = moveRows as unknown as Readonly<
 /** The moves engine's life-stage rate: the share of people of an age in a place's state who leave their county in a year (src/core2/modules/moves.ts `departureRateFor`). */
 export type DepartureRate = (placeId: string, age: number) => number;
 
-/** The place a person's records say they came from: a parent living outside the county, else their recorded birthplace outside it. */
+/**
+ * The place a person's records say they came from: their recorded birthplace
+ * when it is outside the county (src/core2/person-birthplace.ts), and none
+ * when it is inside; with no birthplace on record, a parent living outside
+ * the county.
+ */
 function originOf(
   core: Readonly<CoreState>,
   person: Readonly<PersonState>,
 ): { placeId: string; recordId: string } | undefined {
   const here = new Set([person.placeId, person.countyId].filter(Boolean));
+  const born = birthplaceFactOf(person);
+  if (born)
+    return here.has(born.placeId)
+      ? undefined
+      : { placeId: born.placeId, recordId: born.id };
   for (const fact of person.pastFacts ?? []) {
     if (!["family:parent", "family:other-parent"].includes(fact.kind)) continue;
     const parent = core.people.get(fact.facts?.otherPersonId as PersonId);
     if (parent?.alive && !here.has(parent.placeId))
       return { placeId: parent.placeId, recordId: fact.id };
   }
-  const born = (person.pastFacts ?? []).find(
-    (fact) => fact.kind === "birthplace",
-  );
-  const bornIn = born?.facts?.placeId;
-  return born && bornIn && !here.has(bornIn)
-    ? { placeId: bornIn, recordId: born.id }
+  return undefined;
+}
+
+/** A person's birthplace fact, the one record of where they were born. */
+function birthplaceFactOf(
+  person: Readonly<PersonState>,
+): { id: string; placeId: string } | undefined {
+  const fact = (person.pastFacts ?? []).find((row) => row.kind === BIRTHPLACE);
+  const placeId = fact?.facts?.placeId;
+  return fact && typeof placeId === "string"
+    ? { id: fact.id, placeId }
     : undefined;
+}
+
+/**
+ * Where a person was born, by name as precisely as the record allows: their
+ * birthplace fact (a state's record resolved to one of its towns, the same
+ * town the move from it names), else where the moves put them that day.
+ */
+export function bornIn(
+  core: Readonly<CoreState>,
+  person: Readonly<PersonState>,
+): Residence {
+  const born = birthplaceFactOf(person);
+  return born
+    ? {
+        placeId: townWithin(core, person.id, born.placeId) ?? born.placeId,
+        recordId: born.id,
+      }
+    : residenceOn(core, person, person.birthDate);
+}
+
+/**
+ * A child's birthplace, written once the moves before the start are run:
+ * where the parent they lived with was that day (`residenceOn`, the parent's
+ * move that carried them). Only a person with a parent in the world and no
+ * birthplace yet; a grown resident's is written at the opening.
+ */
+export function writeChildBirthplaces(
+  core: Readonly<CoreState>,
+  people: Iterable<PersonState>,
+): void {
+  for (const person of people) {
+    if (birthplaceFactOf(person)) continue;
+    const hasParent = (person.pastFacts ?? []).some(
+      (fact) =>
+        (fact.kind === "family:parent" ||
+          fact.kind === "family:other-parent") &&
+        core.people.has(fact.facts?.otherPersonId as PersonId),
+    );
+    if (!hasParent) continue;
+    const lived = residenceOn(core, person, person.birthDate);
+    person.pastFacts = [
+      ...(person.pastFacts ?? []),
+      {
+        id: `${person.id}:birthplace`,
+        date: makeIsoDate(person.birthDate),
+        kind: BIRTHPLACE,
+        summary: "birthplace",
+        source: {
+          tag: "ESTIMATED",
+          asOf: core.date,
+          citation:
+            "Where their parent lived the day they were born (src/core2/past-moves.ts residenceOn).",
+          estimatedFrom:
+            "The moves before the start: the place their parent came from, if they came after the birth, else the town.",
+        },
+        facts: { placeId: lived.placeId, residenceRecordId: lived.recordId },
+      },
+    ];
+  }
 }
 
 /** The person's own children, by their family records. */

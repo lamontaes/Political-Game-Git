@@ -34,6 +34,7 @@ import { familyFactsOf, meetInTalk } from "../core2/modules/people";
 import { jobTitleByKind } from "../core2/person-work";
 import {
   PERSON_MOVED_IN,
+  bornIn,
   heldSinceRecord,
   preStartHistory,
   schoolsAttended,
@@ -4184,20 +4185,14 @@ function playerFacts(
   let stage: string | undefined;
   if (last.kind === "home" || last.kind === "home-new") {
     // The move the run of the years before the start recorded, and where
-    // the player was born, from the run's birth record (or the opening's).
+    // the player was born, from their one birthplace record.
     const moved = preStartHistory(core as CoreState, {
       kind: PERSON_MOVED_IN,
       personId: player.id,
     })[zero];
+    const birth = bornIn(core as CoreState, player);
     const born =
-      preStartHistory(core as CoreState, {
-        kind: "person.birth",
-        personId: player.id,
-      }).find((row) => row.placeId === player.placeId) ??
-      (player.pastFacts ?? []).find(
-        (row) =>
-          row.kind === "birthplace" && row.facts?.placeId === player.placeId,
-      );
+      birth.placeId === player.placeId && birth.recordId !== player.id;
     if (moved) {
       facts.years = {
         text: String(

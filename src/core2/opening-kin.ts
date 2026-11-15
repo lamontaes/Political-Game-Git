@@ -72,6 +72,12 @@ export interface OpeningKinOptions {
   /** The state's yearly rate of leaving the county, by ACS age band ("18-19" ... "75+"). */
   departurePerYearByAge: Readonly<Record<string, number>>;
   name: KinNamer;
+  /**
+   * Where a grown resident was born when it is outside their state (a state's
+   * record or abroad, src/core2/person-birthplace.ts); undefined when they
+   * were born in it. Someone born outside did not grow up in the county.
+   */
+  bornOutside?: (adultId: PersonId) => string | undefined;
 }
 
 export interface KinPerson {
@@ -111,6 +117,12 @@ export interface OpeningKin {
    * with a date of death, in no household, place count or tier.
    */
   deaths: KinDeath[];
+  /**
+   * Each grown resident's birthplace: outside the state where they were born
+   * there, else the town when they grew up in its county, else where their
+   * parents live in the state.
+   */
+  birthplaces: Map<PersonId, string>;
 }
 
 export interface KinDeath {
@@ -368,6 +380,7 @@ export function buildOpeningKin(
     relations: [],
     parentsOf: new Map(),
     deaths: [],
+    birthplaces: new Map(),
   };
   const startedAt = makeIsoDate(options.startedAt);
   const adultAge = p("votingAge");
@@ -514,8 +527,14 @@ export function buildOpeningKin(
       // A partner who joined the household brought their own birth surname.
       let lineName: string | null =
         household.couple && index === p("one") ? null : adult.familyName;
-      const parentsNear = stayed(`origin:${index}`, age);
+      const outside = options.bornOutside?.(adult.id);
+      const grewUpHere = stayed(`origin:${index}`, age);
+      const parentsNear = !outside && grewUpHere;
       const parentsHome = newHome(`origin:${index}:parents`, parentsNear);
+      out.birthplaces.set(
+        adult.id,
+        outside ?? (parentsNear ? options.townId : parentsHome.row.placeId),
+      );
       // A marriage that ended leaves the father in a home of his own.
       const married = age + (order - p("one")) * interval;
       const apart = r.fork("marriage").next() >= marriageIntact(married);
