@@ -326,8 +326,9 @@ it("the story prints the official's own answer on the call, a decline, or nothin
  * with two conflicted county awards on 2025-02-01; Hayden, Colorado (0835070)
  * and West Hartford, Connecticut (0982660) one each. The world plays its own
  * days to the desk's sitting after the awards, about five weeks. Measured
- * one at a time with another gate running: 15 to 29 seconds, and 60 for
- * West Hartford, the largest town; hence the 120 second limit.
+ * one at a time: 14 to 26 seconds, and 56 for West Hartford, the largest
+ * town. Beside the other changed tests: 21 to 33 seconds, and 68 for West
+ * Hartford; hence the 135 second limit, about twice the slower run.
  */
 const CONFLICT_WORLDS: readonly {
   name: string;
@@ -458,4 +459,4 @@ for (const world of CONFLICT_WORLDS)
     }
     if (process.env.PLAYED_OUT)
       appendFileSync(process.env.PLAYED_OUT, `\n${out.join("\n")}`);
-  }, 120_000);
+  }, 135_000);
