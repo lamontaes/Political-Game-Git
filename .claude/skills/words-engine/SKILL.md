@@ -260,3 +260,11 @@ A composed rule reads whole texts a player met, never one bank line: its row's t
 
 - **A good or bad mark moves only its own piece.** `foldGrades` (scripts/dialogue-batch/apply-grades.ts) counts it against the piece's part keys, and `heldByGrades` holds or protects that piece wherever its uses reach; most scene-talk pieces have one use. Only 1-to-5 axis grades move `data/english/calibration.json` (move pairs, trait bearing, register length).
 - **His reason is what spreads.** When he marks a line, find every piece with the same fault and turn the reason into a line rule that runs over every line. On Nov 15, "I wrote this one, so I'll say it plainly." (not good: the sponsor should say what the bill does) had the same fault as all 26 legislative state-tell lines, and "Yes, I'm with you." (too personal for the floor) as 10 floor-debate replies that address a colleague as "you". Report the count and the rule to the Words lead, not only the grade.
+
+## Traps a talk-box builder met (Nov 15)
+
+- **Two readers of one fact is the defect to look for first.** Acquaintance, kin and closeness were each worked out in the talk box, the scene packet and the Journal. They now come from `relationFacts(core, asker, asked)` in `src/director/relation-facts.ts` with one cutoff row (`tieSides.friendCloseness`). A new fact about how two people stand goes there, never into a scene or the talk box alone.
+- **Order in the talk box is code.** `mainTopic`, `OPENING_ORDER` and the bring-it-up path decide what is said first; a fix to what a stranger says first must be proved with a test that fails without it (the introduction-first test), because a news path before `mainTopic` can bypass it.
+- **`npm run words:pairs` sheets scene pairs only.** Home-talk bank pieces (`data/english/parts/conversation.json`) need a hand-written sheet for M5 from the played talks.
+- **Test hygiene:** `buildBenchWorld` takes the seed as a string and about a minute to build, so a test that builds one sets its own timeout (say why in a comment); `npm run typecheck` needs `NODE_OPTIONS=--max-old-space-size=8192`; `release:check` needs a non-shallow clone.
+- **A test red on the train is checked on the clean train before it is blamed on your change** (stash, run the one test, pop).
