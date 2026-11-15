@@ -5,9 +5,9 @@ area: words
 kind: bug
 priority: 2
 size: M
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/project-thread-l6i8n1
 pr:
 after:
 blocked-on:
@@ -29,16 +29,16 @@ source: Words lead's page read at Salado TX (seed review1:2), class E, Nov 15, 2
 
 No generic reader of earlier `scene.reply` endings exists, and the bill stages thread confirmed #9369's readers each read their own engine's table.
 
-**Fix.** Where the engine keeps the ask open (interview, debate), the asker comes back once from that row. The call comes before the day the record names (the debate's eve; for an interview, the race's election date, ahead of the pass that counts silence as a no), with the Words lead's asked-before opening. No fixed count of days and no new table. For the reporter's call before a vote, the stall ending is kept as an open ask on the comment row, and the reporter calls back before the vote's date. "Ask me next week" is offered only when the vote is a week or more away. For the offer of help, nothing gives a day, so the put-off comes out of that scene and is deleted from the bank. Where a reader of earlier `scene.reply` endings is needed, it is written once beside the journal's (`journal.ts` `sceneEndingMoments`).
+**Fix.** Where the engine keeps the ask open, the asker comes back once from that row, on a day the record gives, with the Words lead's openings (Nov 15, 06:45Z, 07:50Z, 09:05Z): the opening fits what the put-off said (the reply's bank part, `scene-talk-rules.json` `callBack.said`, or a walk-off), and on the call back the player gets yes and no only. Debate (`meetings.ts`): the day before the eve the debate goes on without them. Interview (`press.ts`): the newsroom's next weekly pass. Job offer (`jobs.ts`): the offer's last day. Reporter before a vote (`press.ts` `keepPutOffComment`): the next day while the bill is still drafted; the stall is offered only then (`can-call-back`), and the call back's answer is the comment on the record first asked about. Each call back is a new record of the same kind with `again`, so its situation type repeats by cause. Offer of help and appointment offer keep nothing open, so their put-offs are deleted with the arcs' stall replies.
 
 **Time box.** 3 hours, Opus.
 
 **Rules.** No dice: the come-back day is read from the record. An effect is a read: the engine's open row is what brings the asker back. Lines by the Words lead, judged by M5.
 
-**Done when.** In the played world (buildBenchWorld) at Salado TX (seed review1:2) and one place drawn from all 56 (named with its seed), the player stalls a debate invitation and an interview invitation. Each asker calls back once before the record's day, and the call is named by record id. The offer of help no longer offers a put-off. A test stages each stall through the scene's own reply. A second session sees it in the running game.
+**Done when.** In the played world (buildBenchWorld) at Shelby MS (seed pin-b:1) the player stalls a debate and an interview and puts off a second interview with a question and a walk-off; at Island Heights NJ (seed pin-job-call-back:0) three job offers are put off three ways; at Peter UT (seed pin-reporter-call-back:0) a reporter is put off about a bill. Each asker calls back once, named by record id, opening on what was said, with yes and no only, and the yes or no is the engine's own. Offer of help and the appointment offer offer no put-off. A second session sees it in the running game.
 
-**Waits on.** The Words lead's call-back openings.
+**Waits on.** Nothing.
 
-**Files.** src/core2/modules/press.ts, src/core2/modules/meetings.ts, src/director/data/purpose-arcs.json, data/english/parts/scene-talk.json, src/director/journal.ts
+**Files.** src/core2/modules/press.ts, src/core2/modules/meetings.ts, src/core2/modules/jobs.ts, src/director/purpose-scene.ts, src/director/scene-talk.ts, src/director/data/purpose-arcs.json, src/director/data/situation-types.json, src/director/data/scene-talk-rules.json, src/director/data/director.json, src/core2/data/life/remembered.json, data/english/parts/scene-talk.json, src/director/put-off-call-back.test.ts (new), src/director/job-offer-call-back.test.ts (new), src/director/reporter-call-back.test.ts (new)
 
 **Notes.** Filed by hand on the conflict-accuse follow-up branch, Nov 15. The reporter's-call thread touches the same pieces for rule 113; tell it before changing them.
