@@ -29,3 +29,7 @@ Lead ruling, Nov 13 to 14: a test is pinned in the test file to named places wit
 ## Checking a reported pass
 
 Ask where it ran and at what head. A unit test that builds its own small world proves an edge case only; the played-world proof is separate.
+
+## Debugging a test (Nov 15, Visit/Call thread)
+
+`console.log` is swallowed by vitest here. A throwaway debug test writes its tally to a file and the file is deleted when the answer is found.

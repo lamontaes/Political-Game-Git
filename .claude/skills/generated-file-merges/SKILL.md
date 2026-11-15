@@ -61,3 +61,7 @@ When the bottom pull request of a stack is squash-merged, every branch above it 
 
 - **A merge that deletes or renames a file a report or doc cites raises the pointer baseline.** `tests/guards/current-pointers.test.ts` then fails. Fix the citing line, or add the old path to the `replaced` list in `docs/current.json` (skill `current-pointers`). Never raise `tests/guards/current-pointers-baseline.json` to make room: that count may only fall.
 - **`git add -A` inside a sparse helper copy is safe.** It stages only what the copy holds; the image files the copy skips are not read as deleted (checked Nov 12: 6,236 skipped paths, 0 staged). Only pictures you add or move need `git add --sparse` (skill `helper-checkout`).
+
+## Merging the train into a branch that carries a feature the train removed (Nov 15, Visit/Call thread)
+
+Git auto-merges the train's removal hunks silently in files with no conflict (the Visit/Call card lost its lines in `places.ts`, `shift.ts`, `player.ts`, `/api/known` and `personCardNode` in `play.mjs` this way). After such a merge, diff each card file against the feature branch's head and reapply what was dropped: `git diff <removal-commit> <removal-commit>^ -- <files> | git apply --3way` restores it, and typecheck catches the rest. After a train merge, also count a bank file's part keys against the pre-merge file (a merge once dropped 114 lines silently).

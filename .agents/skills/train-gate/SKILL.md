@@ -45,3 +45,7 @@ Compare against the clean train head, not only main: main's reds and the train's
 ## A moved head needs a new stamp
 
 A `Words lead: train-ready` stamp is for one sha. If the head moves afterward, the stamp is void and the PR is read again, unless the diff since the stamp is lint only (prettier or eslint, nothing a player sees). Say in the post what changed between the two heads.
+
+## Counting conflicts (Nov 15, Visit/Call thread)
+
+After a merge stops on conflicts, count them with `git diff --name-only --diff-filter=U`: data files (judged stores, `scene-places.json`) conflict beside the code, and a count of code files alone misses them.
