@@ -178151,6 +178151,56 @@
       }
     },
     {
+      "key": "scene-talk.state-tell.i-care-about-you-i-m-not-sure-enough-to-say-yes",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "I care about you. I'm not sure enough to say yes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "proposal-answer",
+          "key": "favor-asked",
+          "requiresFacts": ["said-no", "reason-not-sure-yet"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (family life builder; Words lead ruling Nov 14 11:30Z)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.i-can-t-say-yes-i-m-sorry",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "I can't say yes. I'm sorry.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "proposal-answer",
+          "key": "favor-asked",
+          "requiresFacts": ["said-no", "reason-not-sure-yet"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (family life builder; second words reader's read, Nov 14 16:45Z)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "favor-asked"
+      }
+    },
+    {
       "key": "scene-talk.reply-thank.good-i-m-really-glad",
       "move": "reply-thank",
       "kind": "spoken",
@@ -178277,6 +178327,16 @@
           "key": "favor-asked",
           "requiresFacts": ["said-no"],
           "after": "scene-talk.state-tell.not-yet-i-m-not-saying-never"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "proposal-answer",
+          "key": "favor-asked",
+          "requiresFacts": ["said-no"],
+          "after": "scene-talk.state-tell.i-can-t-say-yes-i-m-sorry"
         }
       ],
       "bearing": "curious",
@@ -178449,6 +178509,32 @@
         }
       ],
       "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (family life builder; Words lead ruling Nov 14 11:30Z)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "answer",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.i-want-to-be-sure-before-i-say-yes-i-m-not-there-yet",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "I want to be sure before I say yes. I'm not there yet.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "ask",
+          "purpose": "proposal-answer",
+          "key": "favor-asked",
+          "requiresFacts": ["reason-not-sure-yet"]
+        }
+      ],
+      "bearing": "solemn",
       "origin": "authored",
       "author": "Claude Opus 5.5 (family life builder; Words lead ruling Nov 14 11:30Z)",
       "date": "2026-11-14",
