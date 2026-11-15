@@ -7,7 +7,7 @@ priority: 2
 size: M
 status: in-pr
 claimed-by:
-pr:
+pr: 9512
 blocked-on:
 after:
 source: Words lead's read of the Salado TX play (words-lead/regression/page-read-salado.md, class F case 4), Nov 15
