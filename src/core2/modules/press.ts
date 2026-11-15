@@ -1177,14 +1177,18 @@ export function outletsHere(api: CoreAPI): readonly OutletRow[] {
 }
 
 /**
- * The outlet that carries the town's public record: the town's own
- * newspaper, else its first local outlet. Null where no press is installed.
+ * The town's outlet of record, which carries its public record (its legal
+ * notices, its police log, its government as a beat): the town's own
+ * newspaper, else the local outlet the most of the town follows
+ * (`widestLocalOutlet`), whatever its kind. Null where the town has no local
+ * outlet at all; then no outlet holds the town as its beat, and each weighs
+ * the town against its own audience.
  */
 export function townOutlet(api: CoreAPI): OutletRow | null {
   const local = outletsHere(api).filter((o) => o.tier === "local");
   return (
     local.find((o) => o.kind === "newspaper" && o.index === 0) ??
-    local[0] ??
+    widestLocalOutlet(api)?.outlet ??
     null
   );
 }
@@ -1366,30 +1370,40 @@ export function followersOf(api: CoreAPI, outletId: string): readonly string[] {
 }
 
 /**
+ * The town's own outlet with the widest audience in town, television first
+ * where audiences tie. A national outlet's audience in town is not the town's.
+ */
+function widestLocalOutlet(
+  api: CoreAPI,
+): { outlet: OutletRow; followers: readonly string[] } | null {
+  if (!api.state.modules.has(PRESS_MODULE_ID)) return null;
+  const best = outletsHere(api)
+    .filter((o) => o.tier !== "national")
+    .map((o) => ({ outlet: o, followers: followersOf(api, o.id) }))
+    .sort(
+      (a, b) =>
+        b.followers.length - a.followers.length ||
+        ALL_KINDS.indexOf(b.outlet.kind) - ALL_KINDS.indexOf(a.outlet.kind) ||
+        a.outlet.id.localeCompare(b.outlet.id),
+    )[0];
+  return best ?? null;
+}
+
+/**
  * Where a campaign buys an ad: the town's own outlet with the widest
- * audience, television first where audiences tie. A national outlet's
- * audience in town is not sold to a town's race.
+ * audience (`widestLocalOutlet`).
  */
 function adOutlet(api: CoreAPI): {
   organizationId: string;
   followerIds: readonly string[];
   countedFollowers: number;
 } | null {
-  if (!api.state.modules.has(PRESS_MODULE_ID)) return null;
-  const best = outletsHere(api)
-    .filter((o) => o.tier !== "national")
-    .map((o) => ({ o, followers: followersOf(api, o.id) }))
-    .sort(
-      (a, b) =>
-        b.followers.length - a.followers.length ||
-        ALL_KINDS.indexOf(b.o.kind) - ALL_KINDS.indexOf(a.o.kind) ||
-        a.o.id.localeCompare(b.o.id),
-    )[0];
+  const best = widestLocalOutlet(api);
   return best
     ? {
-        organizationId: best.o.organizationId,
+        organizationId: best.outlet.organizationId,
         followerIds: best.followers,
-        countedFollowers: countedFollowers(api, best.o.id),
+        countedFollowers: countedFollowers(api, best.outlet.id),
       }
     : null;
 }
@@ -1607,8 +1621,21 @@ export function levelAudienceShare(
   outlet: OutletRow,
   level: WireLevel,
 ): number {
-  if (!outlet.audiencePeople) return 1;
-  return Math.min(1, peopleAt(api, level) / outlet.audiencePeople);
+  const served = servedPeople(api, outlet);
+  return served ? Math.min(1, peopleAt(api, level) / served) : 1;
+}
+
+/**
+ * The people an outlet answers to: those it serves (`audiencePeople`), but
+ * the town's own for its outlet of record (`townOutlet`), whose beat is
+ * the town's government and record however wide it reaches. None for a
+ * national outlet.
+ */
+function servedPeople(api: CoreAPI, outlet: OutletRow): number | undefined {
+  if (!outlet.audiencePeople) return undefined;
+  return outlet.id === townOutlet(api)?.id
+    ? Math.min(outlet.audiencePeople, peopleAt(api, "town"))
+    : outlet.audiencePeople;
 }
 
 /**
@@ -1621,12 +1648,13 @@ export function raceAudienceShare(
   outlet: OutletRow,
   contestId: string,
 ): number {
-  if (!outlet.audiencePeople) return 1;
+  const served = servedPeople(api, outlet);
+  if (!served) return 1;
   const ofRace = api.state.modules.has(CAMPAIGNS_MODULE_ID)
     ? townShareOfRace(api, contestId)
     : 1;
   if (!(ofRace > 0)) return 1;
-  return Math.min(1, peopleAt(api, "town") / ofRace / outlet.audiencePeople);
+  return Math.min(1, peopleAt(api, "town") / ofRace / served);
 }
 
 /**
@@ -2830,8 +2858,7 @@ export function deskContext(api: CoreAPI): DeskContext {
     save: (story) => table(api, "stories").put(story as unknown as ModuleRow),
     countedFollowers: (outlet) => countedFollowersOf(api, outlet as OutletRow),
     paperOfRecord: (outlet) =>
-      outlet.tier !== "national" &&
-      adOutlet(api)?.organizationId === outlet.organizationId,
+      outlet.tier !== "national" && townOutlet(api)?.id === outlet.id,
   };
 }
 

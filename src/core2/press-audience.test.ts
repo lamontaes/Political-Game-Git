@@ -5,6 +5,10 @@
  * village's race is a sliver of its viewers: it seeks no village candidate,
  * and its week is filled from the county's, the state's and the nation's
  * records. A city that is its station's whole audience is covered as before.
+ * The town's outlet of record (its own paper, else the local outlet most of
+ * the town follows, where its legal notices run) keeps the town's government
+ * as its beat, so the town's record is still printed and its races still
+ * asked about by one outlet.
  *
  * Pinned places: Fairmont, Nebraska (a village of about 560 in a market of
  * about 286,000), Creve Coeur, Illinois (a town of about 5,000 whose county
@@ -17,13 +21,20 @@ import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
-import { ELECTIONS_MODULE_ID, type ContestRow } from "./modules/elections";
+import {
+  ELECTIONS_MODULE_ID,
+  type ContestRow,
+  type FilingRow,
+} from "./modules/elections";
+import { OFFICES_MODULE_ID, type TermRow } from "./modules/offices";
 import {
   PRESS_MODULE_ID,
   levelAudienceShare,
+  newsworthiness,
   outletsHere,
   pressParameter,
   raceAudienceShare,
+  townOutlet,
 } from "./modules/press";
 import { coreAPI } from "./state";
 
@@ -35,6 +46,7 @@ const PLACES = [
     // Every station's share of a town race is a sliver.
     townShare: { television: [0, 0.01] },
     townStoriesAtMost: 0,
+    stationsSeekTheSeat: false,
   },
   {
     name: "Creve Coeur, Illinois",
@@ -48,6 +60,7 @@ const PLACES = [
       television: [0, 0.01],
     },
     townStoriesAtMost: 0,
+    stationsSeekTheSeat: false,
   },
   {
     name: "Omaha, Nebraska",
@@ -56,6 +69,7 @@ const PLACES = [
     // The city is the whole of every outlet's audience.
     townShare: { newspaper: [1, 1], radio: [1, 1], television: [1, 1] },
     townStoriesAtMost: Number.POSITIVE_INFINITY,
+    stationsSeekTheSeat: true,
   },
 ] as const;
 
@@ -76,7 +90,14 @@ describe.each(PLACES)("an outlet's audience ($name)", (place) => {
         .table("contests")
         .rows() as unknown as ContestRow[]
     ).find((c) => c.level === "city" || c.level === "township");
-    const local = outletsHere(api).filter((o) => o.tier !== "national");
+    // The town's outlet of record keeps the town's government as its beat,
+    // whatever it reaches; the rest weigh the town against their audience.
+    const record = townOutlet(api)?.id;
+    expect(record, `${where}: an outlet of record`).toBeTruthy();
+    const all = outletsHere(api).filter((o) => o.tier !== "national");
+    const recordOutlet = all.find((o) => o.id === record)!;
+    expect(levelAudienceShare(api, recordOutlet, "town"), where).toBe(1);
+    const local = all.filter((o) => o.id !== record);
     expect(local.length, where).toBeGreaterThan(0);
     for (const outlet of local) {
       const range = (place.townShare as Record<string, readonly number[]>)[
@@ -98,6 +119,48 @@ describe.each(PLACES)("an outlet's audience ($name)", (place) => {
           raceAudienceShare(api, outlet, town.id),
           `${where}: ${town.id} at ${outlet.id}`,
         ).toBeCloseTo(share, 6);
+    }
+    // The town's sitting council member, running again: a station weighs
+    // them against its own viewers. The incumbency and the seat that carry a
+    // city member past a station's bar are a sliver of a market's audience.
+    const held = (
+      api
+        .moduleState(ELECTIONS_MODULE_ID)
+        .table("contests")
+        .rows() as unknown as ContestRow[]
+    ).find(
+      (c) =>
+        (c.level === "city" || c.level === "township") && c.incumbentTermId,
+    );
+    const term = held
+      ? (api
+          .moduleState(OFFICES_MODULE_ID)
+          .table("terms")
+          .get(held.incumbentTermId!) as unknown as TermRow | undefined)
+      : undefined;
+    expect(term, `${where}: a town seat held at the opening`).toBeTruthy();
+    const again = {
+      id: `filing:test:${held!.id}`,
+      contestId: held!.id,
+      personId: term!.personId,
+      filedOn: core.date,
+      filedWith: "",
+      platform: [],
+      status: "on-ballot",
+    } as FilingRow;
+    for (const station of local.filter((o) => o.kind === "television")) {
+      const worth = newsworthiness(api, again, station);
+      const bar = pressParameter("televisionBar");
+      if (place.stationsSeekTheSeat)
+        expect(
+          worth,
+          `${where}: ${station.id} weighs ${held!.id}`,
+        ).toBeGreaterThanOrEqual(bar);
+      else
+        expect(
+          worth,
+          `${where}: ${station.id} weighs ${held!.id}`,
+        ).toBeLessThan(bar);
     }
     // Five weeks of the press's own cycle: each station prints a full week,
     // from the wider records where the town has no room. The wire's levels

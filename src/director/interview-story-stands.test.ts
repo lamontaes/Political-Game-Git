@@ -149,5 +149,7 @@ describe("an interview's printed story", () => {
         `${place.name}: the story says the stand on ${asked}`,
       ).toBeTruthy();
     }
-  }, 240_000);
+    // Measured alone on train aa927a84: 32.6 s and 32.3 s; the limit is near
+    // twice that.
+  }, 70_000);
 });

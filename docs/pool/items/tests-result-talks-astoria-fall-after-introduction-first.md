@@ -20,9 +20,11 @@ root: none
 
 **What.** `src/director/bring-it-up-election.test.ts` at Astoria, Oregon (4103150), seed 0c04a6002f604427e427591b0e1749643730d79a9b5ed334c1a9e3ab91be8e63, fails on the train: "result talks: expected 1 to be greater than 3". It passed when #9279 folded it in (train 808bea72). Seen: after a count, a played week at Astoria should hold several neighbors bringing up the result, each citing it; the train's run holds one.
 
-**Cause.** Measured by bisecting the 41 train folds from 808bea72 to aa927a84 with the test alone: the first red fold is c01ae17c ("Fold #9388 ff296651", talk-stranger-introduces-first-before-any-news). #9388 makes a talk with a stranger open on their introduction and moves the brought-up news (`raiseBroughtNews` in src/director/conversation.ts) to after the player's name, in the `here` answer step. Inferred, not yet traced line by line: the test's talks with strangers end or are counted before that step, so their result lines no longer reach its count.
+**Cause.** Measured by bisecting the 41 train folds from 808bea72 to aa927a84 with the test alone: the first red fold is c01ae17c ("Fold #9388 ff296651", talk-stranger-introduces-first-before-any-news). The news is not lost (the builder of #9388, Nov 15, with played talks at /mnt/project-files/words-lead/intro-first/played-ff296651.md): a stranger now opens with the introduction (a line of kind "here"), and the news follows in the same talk after the player gives their name (`raiseBroughtNews` runs in the `say` branch after `here-back`, src/director/conversation.ts). The test counts a talk only when the opening's last line (`before = talk.lines.at(-1)`) cites the result, so strangers drop out of the count and only people who already know the player are counted.
 
-**Fix.** Read how the test drives each talk and where it counts a result line. If the talk now needs the player's name answered before the news, drive that step as a player would (the same reply the talk offers) and count the lines after it. Do not loosen the count or re-pin the seed. If the news is lost when a stranger's talk ends at the introduction, that is a defect in #9388's rule and goes to its builder.
+**Fix.** In the test, when a talk's last line is of kind "here" and the talk has choices, press the first reply as a player would, take the new last line as `before`, and keep the reply checks on the choices after it. The count stays as it is, at the same place and seed. A stranger who closes after the name with no news is the one-telling-a-day rule and is not counted.
+
+**Owner.** The conversation engine thread, which built #9388.
 
 **Time box.** 1 hour.
 

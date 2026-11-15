@@ -203,8 +203,9 @@ export interface DeskContext {
   /** The town's counted residents who follow an outlet. */
   readonly countedFollowers: (outlet: DeskOutlet) => number;
   /**
-   * Whether this outlet is the town's paper of record: the local outlet with
-   * the widest audience (where a legal notice runs). Absent, every outlet is.
+   * Whether this outlet is the town's outlet of record (`townOutlet`: its own
+   * paper, else the local outlet most of the town follows), where a legal
+   * notice runs. Absent, every outlet is.
    */
   readonly paperOfRecord?: (outlet: DeskOutlet) => boolean;
   readonly save: (story: PrintedStory) => void;

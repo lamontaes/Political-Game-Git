@@ -33,6 +33,7 @@ The owner, Nov 12, 2026: "A, look at the code, see what, where, and why it's occ
 ## Causes seen before
 
 - **A remembered fact keyed by its container, not by its record.** A reader held one fact per outlet (`printed:<outlet>:story`), so the outlet's next story replaced the one before and the first could no longer be brought up or traced to its printer (Depauville NY, Auburn WY, Casper Mountain WY, Nov 15). When something seen is "forgotten" only where two records share a container on one day, look for a knowledge key that names the container; key it by the record (`news:<story>:outlet`).
+- **A worth measured against the town when the actor serves a wider area.** Every outlet covering a town weighed a candidate by the share of the town that knew them, so three TV stations from a market of 286,000 each interviewed a village board candidate (Fairmont NE, Nov 15). When many actors that serve a market, county or state all act on one small place, look for a share computed over the town; measure it over the actor's own audience or area (`levelAudienceShare`, `raceAudienceShare` in src/core2/modules/press.ts).
 
 ## What a gap sheet row holds
 
