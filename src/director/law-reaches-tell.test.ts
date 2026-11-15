@@ -70,7 +70,7 @@ it(`says a law that does not reach the reader as what it is (seed ${seed})`, () 
       momentKey: "law-reaches-tell",
       said: new Set(),
     });
-  const cite = { law: ["law"], home: ["home"] };
+  const cite = { law: ["law"] };
   const play = { from: gameStartDate(), replaced: false };
 
   // Enacted, not yet in force: said with its date, never as lived with.
@@ -78,7 +78,7 @@ it(`says a law that does not reach the reader as what it is (seed ${seed})`, () 
     (row) => row.effectiveDate > core.date && lawName(row.series),
   );
   expect(later, `${where}: a law row not yet in force`).toBeDefined();
-  const pending = lawReachFacts(later!, home, core.date, cite, play);
+  const pending = lawReachFacts(later!, core.date, cite, play);
   expect(pending.effective?.text, where).toBeTruthy();
   // Said by what changes, never the number's label acting.
   expect(pending.about?.text, where).toBeTruthy();
@@ -88,7 +88,9 @@ it(`says a law that does not reach the reader as what it is (seed ${seed})`, () 
     where,
   ).toContain(pending.effective!.text);
 
-  // In force in another state: said with that state and the reader's own.
+  // A law of another government is never staged (the circumstance rows'
+  // `reach: "player"`, circumstance-reach.test.ts), so no line says whose law
+  // it is; the reader's own state's law in force gives no facts.
   const ownState = rows.find(
     (row) => row.jurisdiction === home && row.effectiveDate <= core.date,
   );
@@ -97,36 +99,9 @@ it(`says a law that does not reach the reader as what it is (seed ${seed})`, () 
     `${where}: a law row of the reader's own state`,
   ).toBeDefined();
   const elsewhere = home === "US-DE" ? "US-RI" : "US-DE";
-  const away = lawReachFacts(
-    { jurisdiction: elsewhere, effectiveDate: core.date },
-    home,
-    core.date,
-    cite,
-    play,
-  );
-  expect(away.lawstate?.text, where).toBeTruthy();
-  const saidAway = tell(away);
-  const text = saidAway && "text" in saidAway ? saidAway.text : "";
-  expect(text, where).toContain(away.lawstate!.text);
-  // Another state's law not yet in force is still another state's: said by
-  // the states, never by a date that would sound as if it will reach them.
-  const awayLater = lawReachFacts(
-    { jurisdiction: elsewhere, effectiveDate: "2099-01-01" },
-    home,
-    core.date,
-    cite,
-    play,
-  );
-  expect(Object.keys(awayLater).sort(), where).toEqual([
-    "homestate",
-    "lawstate",
-  ]);
-  // The reader is told the law is another state's; the replies offered fit
-  // that: a promise to call (or to look into it) is never offered for it, and
-  // the one that is, says whose law it is (Words lead's read of #9045).
   const reply = (
     move: string,
-    facts: typeof away,
+    facts: Record<string, { text: string; sourceRecordIds: string[] }>,
     at: number,
     step = "reply",
   ) => {
@@ -147,14 +122,6 @@ it(`says a law that does not reach the reader as what it is (seed ${seed})`, () 
     });
     return line && "text" in line ? line.text : "";
   };
-  for (let at = 0; at < 12; at += 1) {
-    expect(reply("promise", away, at), `${where}: no promise to call`).toBe("");
-    const fitting = reply("tell", away, at);
-    expect(fitting, `${where}: a reply that says whose law it is`).toMatch(
-      /ours|another state|not our/,
-    );
-    expect(fitting, where).not.toMatch(/let me see what I can do|voted/);
-  }
   const pendingReply = reply("tell", pending, 0);
   expect(pendingReply, `${where}: a reply for a law not yet in force`).toMatch(
     /Not yet|Give it time/,
@@ -174,16 +141,16 @@ it(`says a law that does not reach the reader as what it is (seed ${seed})`, () 
       lawName(row.series),
   );
   expect(old, `${where}: a law row that ended before play`).toBeDefined();
-  expect(lawReachFacts(old!, home, core.date, cite, play), where).toEqual({});
+  expect(lawReachFacts(old!, core.date, cite, play), where).toEqual({});
   const base = rows.find(
     (row) => row.jurisdiction !== elsewhere && lawName(row.series),
   )!;
   const over = { ...base, id: base.id, endDate: core.date }; // synthetic end
   expect(
-    lawReachFacts(over, home, core.date, cite, { ...play, replaced: true }),
+    lawReachFacts(over, core.date, cite, { ...play, replaced: true }),
     `${where}: a replaced rate is not raised`,
   ).toEqual({});
-  const ended = lawReachFacts(over, home, core.date, cite, play);
+  const ended = lawReachFacts(over, core.date, cite, play);
   expect(ended.ended?.text, where).toBeTruthy();
   const saidEnded = tell(ended);
   const endedText = saidEnded && "text" in saidEnded ? saidEnded.text : "";
@@ -215,7 +182,6 @@ it(`says a law that does not reach the reader as what it is (seed ${seed})`, () 
     seen.add(row.series);
     const facts = lawReachFacts(
       { ...row, endDate: core.date },
-      home,
       core.date,
       cite,
       play,
@@ -234,11 +200,9 @@ it(`says a law that does not reach the reader as what it is (seed ${seed})`, () 
     }
   }
   // A law in force where the reader lives gives none of these facts.
-  expect(lawReachFacts(ownState!, home, core.date, cite, play), where).toEqual(
-    {},
-  );
+  expect(lawReachFacts(ownState!, core.date, cite, play), where).toEqual({});
   console.log(
-    `law-reaches-tell: ${where}: "${saidLater && "text" in saidLater ? saidLater.text : ""}" / "${text}" / "${endedText}" (${over!.id})`,
+    `law-reaches-tell: ${where}: "${saidLater && "text" in saidLater ? saidLater.text : ""}" / "${endedText}" (${over!.id})`,
   );
 }, 300_000);
 
@@ -272,13 +236,10 @@ it("a learned law's record gives the scene its law and that it is in force", () 
     learned!.facts?.series,
     "the record carries no series",
   ).toBeUndefined();
-  const reader = core.people.get(learned!.personIds[0]!)!;
   const facts = lawFactsOfCause(
     core,
     learned!.facts as Record<string, string>,
     learned!.id,
-    reader.placeId,
-    reader.id,
   );
   expect(facts.law?.text, `${where}: the law is named`).toBeTruthy();
   // Said as the law's name, never the bare action ("Allow retail electric

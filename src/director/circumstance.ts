@@ -28,6 +28,8 @@ import {
 import { NEWS_MODULE_ID, storyOfReadEvent } from "../core2/modules/news";
 import { PRESS_MODULE_ID, outletsHere } from "../core2/modules/press";
 import { OFFICES_MODULE_ID, type TermRow } from "../core2/modules/offices";
+import { LAWS_MODULE_ID, lawChain } from "../core2/modules/laws";
+import { inTownChain, officeLawJurisdiction } from "../core2/laws-in-force";
 import { ELECTIONS_MODULE_ID } from "../core2/modules/elections";
 import { addDays, ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import { P } from "../core2/parameters";
@@ -55,6 +57,14 @@ export interface CircumstanceRow {
   recordKinds: readonly string[];
   /** Facts the record must carry. */
   recordFacts?: readonly string[];
+  /**
+   * Whose business the record is: `player` keeps a law's story or effect on
+   * the bench unless the law is the player's own business (owner, Nov 15:
+   * "a law that cannot reach the player"), that is, the law is of their
+   * town's chain (town, county, state), of the nation, or of an office they
+   * hold. Read from the law's own row by the record's `lawId`.
+   */
+  reach?: "player";
   /** Facts the record must carry with one of the listed values. */
   recordFactEquals?: Readonly<Record<string, readonly string[]>>;
   /**
@@ -216,6 +226,43 @@ function standingOf(
       .query("byPerson", [playerId]) as unknown as TermRow[])
       if (term.status === "serving") officeIds.add(term.officeId);
   return { officeIds, filed: openContests(core, playerId).length > zero };
+}
+
+/** The office row the law jurisdiction of an office reads. */
+type OfficeLawRow =
+  Parameters<typeof officeLawJurisdiction> extends [unknown, infer Office]
+    ? Office
+    : never;
+
+/**
+ * Whether a law is the player's business: its jurisdiction is in the governing
+ * chain of the town they live in, is the nation's, or is the government an
+ * office they hold serves. A law the laws engine does not hold is not known to
+ * reach them, and an unknown is never permission.
+ */
+export function lawReaches(
+  core: Readonly<CoreState>,
+  standing: Pick<PlayerStanding, "officeIds">,
+  lawId: string | undefined,
+): boolean {
+  if (!lawId || !core.modules.has(LAWS_MODULE_ID)) return false;
+  const api = coreAPI(core as CoreState);
+  const row = api
+    .moduleState(LAWS_MODULE_ID)
+    .table("laws")
+    .get(lawId.replace(/^law-history:/, "")) as
+    { jurisdiction?: string } | undefined;
+  const where = row?.jurisdiction;
+  if (!where) return false;
+  const chain = lawChain(api);
+  if (where === "US" || inTownChain(chain, where)) return true;
+  if (!api.state.modules.has(OFFICES_MODULE_ID)) return false;
+  const offices = api.moduleState(OFFICES_MODULE_ID).table("offices");
+  for (const officeId of standing.officeIds) {
+    const office = offices.get(officeId) as unknown as OfficeLawRow | undefined;
+    if (office && officeLawJurisdiction(chain, office) === where) return true;
+  }
+  return false;
 }
 
 /** The contests a person has filed in that are still ahead. */
@@ -660,6 +707,11 @@ export function circumstancePicks(
         continue;
       standing ??= standingOf(core, playerId);
       if (!playerHolds(row.player, core, playerId, standing, record)) continue;
+      if (
+        row.reach === "player" &&
+        !lawReaches(core, standing, record.facts.lawId)
+      )
+        continue;
       for (const source of row.pool)
         for (const { id, named } of poolOf(source, core, playerId, record)) {
           const person = core.people.get(id);

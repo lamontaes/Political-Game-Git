@@ -129,8 +129,6 @@
     "none-signed": "That a petition holds no signatures yet, from the petition record.",
     "filed-office": "The office the player already filed for at this counter, from the filing's contest record.",
     "back-again": "Set when the player is back at a counter where their own filing is already in, for another race.",
-    "lawstate": "The state whose law it is, when it is not the reader's own, from the law record.",
-    "homestate": "The reader's own state, from their place record.",
     "effective": "The day a law enacted but not yet in force takes effect, as people say it (\"January 1, 2026\"), from the law record.",
     "about": "What a law or bill is about, as people say it: a law not yet in force by what it changes (\"the Social Security payroll tax\"), from the law record's policy name, or the bill a donor named, from the bill's first provision as the bill catalog words its question (question-names).",
     "ended": "The day a law stopped being in force, as people say it, from the law record's end date.",
@@ -22732,7 +22730,7 @@
           "role": "asker",
           "purpose": "law-reaches",
           "key": "news-received",
-          "excludesFacts": ["lawstate", "ended"]
+          "excludesFacts": ["ended"]
         },
         {
           "subject": "scene",
@@ -73854,81 +73852,6 @@
       }
     },
     {
-      "key": "scene-talk.state-tell.that-s-a-law-in-lawstate-it-doesn-t-apply-in-homestate",
-      "move": "state-tell",
-      "kind": "spoken",
-      "text": "That's a law in {lawstate}. It doesn't apply in {homestate}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "law-reaches",
-          "key": "news-received",
-          "step": "state",
-          "move": "tell",
-          "role": "asker",
-          "requiresFacts": ["lawstate", "homestate"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder W2 (Fable A, Nov 13: the law-reaches tell for a law that does not reach the reader)",
-      "date": "2026-11-13",
-      "tag": {
-        "move": "tell",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.state-tell.that-changes-things-in-lawstate-not-in-homestate",
-      "move": "state-tell",
-      "kind": "spoken",
-      "text": "That changes things in {lawstate}, not in {homestate}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "law-reaches",
-          "key": "news-received",
-          "step": "state",
-          "move": "tell",
-          "role": "asker",
-          "requiresFacts": ["lawstate", "homestate"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder W2 (Fable A, Nov 13: the law-reaches tell for a law that does not reach the reader)",
-      "date": "2026-11-13",
-      "tag": {
-        "move": "tell",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.state-tell.lawstate-did-that-not-homestate",
-      "move": "state-tell",
-      "kind": "spoken",
-      "text": "{lawstate} did that, not {homestate}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "law-reaches",
-          "key": "news-received",
-          "step": "state",
-          "move": "tell",
-          "role": "asker",
-          "requiresFacts": ["lawstate", "homestate"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder W2 (Fable A, Nov 13: the law-reaches tell for a law that does not reach the reader)",
-      "date": "2026-11-13",
-      "tag": {
-        "move": "tell",
-        "key": "news-received"
-      }
-    },
-    {
       "key": "scene-talk.reply-tell.i-voted-the-way-i-thought-was-right-for-place-here-s-why",
       "move": "reply-tell",
       "kind": "spoken",
@@ -73940,8 +73863,7 @@
           "key": "news-received",
           "step": "reply",
           "move": "tell",
-          "role": "asked",
-          "excludesFacts": ["lawstate"]
+          "role": "asked"
         }
       ],
       "bearing": "calm",
@@ -73965,8 +73887,7 @@
           "key": "news-received",
           "step": "reply",
           "move": "tell",
-          "role": "asked",
-          "excludesFacts": ["lawstate"]
+          "role": "asked"
         }
       ],
       "bearing": "contrite",
@@ -73991,7 +73912,7 @@
           "step": "reply",
           "move": "promise",
           "role": "asked",
-          "excludesFacts": ["effective", "ended", "lawstate"]
+          "excludesFacts": ["effective", "ended"]
         }
       ],
       "bearing": "calm",
@@ -74016,7 +73937,7 @@
           "step": "reply",
           "move": "promise",
           "role": "asked",
-          "excludesFacts": ["ended", "lawstate"]
+          "excludesFacts": ["ended"]
         }
       ],
       "bearing": "tender",
@@ -74090,8 +74011,7 @@
           "key": "news-received",
           "step": "follow",
           "move": "disagree",
-          "role": "asker",
-          "excludesFacts": ["lawstate"]
+          "role": "asker"
         }
       ],
       "bearing": "hurt",
@@ -74142,7 +74062,7 @@
           "move": "tell",
           "role": "asked",
           "after": "disagree",
-          "excludesFacts": ["lawstate", "ended"]
+          "excludesFacts": ["ended"]
         }
       ],
       "bearing": "contrite",
@@ -74167,7 +74087,7 @@
           "step": "reply",
           "move": "promise",
           "role": "asked",
-          "excludesFacts": ["lawstate", "ended"]
+          "excludesFacts": ["ended"]
         }
       ],
       "bearing": "calm",
@@ -158300,81 +158220,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-tell.that-s-another-state-s-law-it-doesn-t-reach-us-here-in-place",
-      "move": "reply-tell",
-      "kind": "spoken",
-      "text": "That's another state's law. It doesn't reach us here in {place}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "law-reaches",
-          "key": "news-received",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "requiresFacts": ["lawstate", "homestate"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder T53 (Fable A's read of #9045, Nov 14: the replies and the ended lines for a law that does not reach the reader)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "tell",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.reply-tell.no-that-s-not-our-law-it-doesn-t-reach-place",
-      "move": "reply-tell",
-      "kind": "spoken",
-      "text": "No, that's not our law. It doesn't reach {place}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "law-reaches",
-          "key": "news-received",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "requiresFacts": ["lawstate", "homestate"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder T53 (Fable A's read of #9045, Nov 14: the replies and the ended lines for a law that does not reach the reader)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "tell",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.reply-tell.that-one-isn-t-ours-nothing-in-place-changed",
-      "move": "reply-tell",
-      "kind": "spoken",
-      "text": "That one isn't ours. Nothing in {place} changed.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "law-reaches",
-          "key": "news-received",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "requiresFacts": ["lawstate", "homestate"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder T53 (Fable A's read of #9045, Nov 14: the replies and the ended lines for a law that does not reach the reader)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "tell",
-        "key": "news-received"
-      }
-    },
-    {
       "key": "scene-talk.reply-tell.not-yet-nothing-changes-in-place-until-it-starts",
       "move": "reply-tell",
       "kind": "spoken",
@@ -158471,56 +158316,6 @@
       "date": "2026-11-14",
       "tag": {
         "move": "tell",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.then-i-read-it-wrong-first-that-s-not-us",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "Then I read it wrong. That's not us.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "law-reaches",
-          "key": "news-received",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "requiresFacts": ["lawstate", "homestate"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder T53 (Fable A's read of #9045, Nov 14: the replies and the ended lines for a law that does not reach the reader)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "accept",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.good-the-paper-made-it-sound-like-it-was-ours-first",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "Good. The paper made it sound like it was ours.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "law-reaches",
-          "key": "news-received",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "requiresFacts": ["lawstate", "homestate"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder T53 (Fable A's read of #9045, Nov 14: the replies and the ended lines for a law that does not reach the reader)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "accept",
         "key": "news-received"
       }
     },

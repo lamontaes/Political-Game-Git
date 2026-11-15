@@ -27,6 +27,7 @@
         "counterpart": "apart",
         "seat": "any"
       },
+      "reach": "player",
       "recordKinds": ["law.effect-learned"],
       "place": "public",
       "pool": ["named"],
@@ -198,6 +199,7 @@
         "counterpart": "apart",
         "seat": "any"
       },
+      "reach": "player",
       "recordKinds": ["news.read"],
       "recordFacts": ["lawId"],
       "place": "public",

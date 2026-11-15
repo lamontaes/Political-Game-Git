@@ -357,34 +357,20 @@ interface LawReachRow {
 }
 
 /**
- * The facts that say how a law reaches a reader it does not reach (Fable A,
+ * The facts that say how a law reaches a reader it does not yet reach (Fable A,
  * Nov 13): `effective`, the day a law enacted but not yet in force takes
- * effect; else `lawstate` and `homestate`, when it is law in another state
- * than the reader's. Empty for a law in force where the reader lives.
+ * effect; `ended` and `about` for one that ended in play. A law of another
+ * government is never staged (the circumstance rows' `reach: "player"`), so
+ * there is nothing here to say of whose law it is. Empty for a law in force.
  */
 export function lawReachFacts(
   row: LawReachRow | null,
-  homeStateKey: string | null,
   today: string,
-  cite: { law: string[]; home: string[] },
+  cite: { law: string[] },
   /** When play began, and whether a newer row of the law's series replaced this one. */
   play: { from: string; replaced: boolean },
 ): Record<string, Fact> {
   if (!row) return {};
-  // Another state's law does not reach the reader, in force or not: said by
-  // that state and the reader's own, never by a date that would sound as if
-  // it will.
-  const there = row.jurisdiction?.startsWith(STATE_KEY_PREFIX)
-    ? coreStateName(row.jurisdiction.slice(STATE_KEY_PREFIX.length))
-    : null;
-  const here = homeStateKey
-    ? coreStateName(homeStateKey.slice(STATE_KEY_PREFIX.length))
-    : null;
-  if (there && here && row.jurisdiction !== homeStateKey)
-    return {
-      lawstate: { text: stateInSentence(there), sourceRecordIds: cite.law },
-      homestate: { text: stateInSentence(here), sourceRecordIds: cite.home },
-    };
   // A law that is no longer in force: the day it ended, from its own row.
   // ("Struck down" is said only when a court's record ended it; no engine
   // writes one yet.)
@@ -500,20 +486,16 @@ export function lawName(series: string): string | null {
 /**
  * What a cause record that names a law says of it (a story that the law took
  * effect, a person's learning what it changed): its policy by name, whether
- * the laws engine keeps it in force where the reader lives, and, when it does
- * not reach the reader, why.
+ * the laws engine keeps it in force where the reader lives, and, when it is
+ * not yet in force or has ended in play, the day.
  */
 export function lawFactsOfCause(
   core: Readonly<CoreState>,
   said: Readonly<Record<string, string>>,
   causeId: string,
-  readerPlaceId: string,
-  readerId: string,
 ): Record<string, Fact> {
   const facts: Record<string, Fact> = {};
   const moment = { causeId };
-  const asker = { placeId: readerPlaceId };
-  const askerId = readerId;
   // A law in force (a story that it took effect): its policy by name, for
   // the lines that say what took effect.
   // A learned effect names its law row only (`law.effect-learned` carries a
@@ -559,9 +541,8 @@ export function lawFactsOfCause(
         facts,
         lawReachFacts(
           lawRow(core, lawRowId),
-          homeStateOf(asker.placeId),
           core.date,
-          { law: [lawRowId, moment.causeId], home: [asker.placeId, askerId] },
+          { law: [lawRowId, moment.causeId] },
           {
             from: gameStartDate(),
             replaced: (answer?.levels ?? []).some(
@@ -678,10 +659,7 @@ function composeBinding(
         facts["vote-on"] = { text: voteOn, sourceRecordIds: [billId!] };
     }
   }
-  Object.assign(
-    facts,
-    lawFactsOfCause(core, said, moment.causeId, asker.placeId, askerId),
-  );
+  Object.assign(facts, lawFactsOfCause(core, said, moment.causeId));
   // A law in force that a bill enacted (a story that it took effect): the
   // bill by its number, cited to the law and the bill.
   if (!said.number && said.lawId && said.enactedBy) {
