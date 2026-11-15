@@ -442,6 +442,14 @@
     "phoneSelf": "greet-phone-self",
     "aboutFacts": ["employer", "school", "place", "topic", "relation"]
   },
+  "knownByAct": {
+    "about": "Account lead, Nov 15 (#9489, point 3): someone who knows the other only from an act on the public record between them (a veto or signing of their bill, an appointment) knows who they are without having spent time together. The greeting's introduction then takes the stage `stage` instead of a stranger's, with the mark `act-<what>` (the record's action, or `appointed`) so its wordings fit. One row for every act made apart: a record of one of these kinds that names both people. A veto writes no shared time; a signing does (world-legislating.ts executiveHours), so a signed bill's sponsor is met, not only known.",
+    "kinds": {
+      "executive-action": "action",
+      "official-appointed": "appointed"
+    },
+    "stage": "known"
+  },
   "familyTalk": {
     "about": "Owner, Oct 15, evening (batch 11 grading): a family talk is a personal scene only, since the family has little involvement in play for now. Between relatives, work, school, where each is from and mutual acquaintances are not talked about ('Where do you work' between relatives is not a scene; neither is 'Have you talked to Diana?'). These are the subject kinds a relative does not raise or ask; what is left is the household's own news (a lost job, an eviction), kin, and news passed on.",
     "dropped": [

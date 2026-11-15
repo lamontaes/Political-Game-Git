@@ -2625,6 +2625,41 @@ function printedSubject(
  * two are at the speaker's work, the work; the stage says why the two are in
  * one place (working there, a customer or visitor, or the street).
  */
+const KNOWN_BY_ACT = (
+  rulesFile as unknown as {
+    knownByAct: { kinds: Record<string, string>; stage: string };
+  }
+).knownByAct;
+
+/**
+ * The newest record of an act made apart that names both people (a veto or
+ * signing of one's bill by the other, an appointment), and what it was;
+ * null when none (conversation-rules.json knownByAct).
+ */
+function actBetween(
+  core: Readonly<CoreState>,
+  a: PersonId,
+  b: PersonId,
+): { id: string; what: string } | null {
+  const ofA = core.logByPerson.get(a);
+  const ofB = core.logByPerson.get(b);
+  if (!ofA || !ofB) return null;
+  const [few, many] = ofA.size <= ofB.size ? [ofA, ofB] : [ofB, ofA];
+  let best: { id: string; what: string; date: string } | null = null;
+  for (const id of few) {
+    if (!many.has(id)) continue;
+    const record = core.durableLog.get(id);
+    const field = record && KNOWN_BY_ACT.kinds[record.kind];
+    if (!record || !field) continue;
+    const what =
+      field === "action" ? String(record.facts?.action ?? "") : field;
+    if (!what) continue;
+    if (!best || record.date > best.date)
+      best = { id, what, date: record.date };
+  }
+  return best && { id: best.id, what: best.what };
+}
+
 function introduction(
   core: Readonly<CoreState>,
   speaker: Readonly<PersonState>,
@@ -2647,6 +2682,18 @@ function introduction(
   const facts: Facts = {
     "their-name": { text: speaker.givenName, sourceRecordIds: [speaker.id] },
   };
+  // Known from an act on the public record between them, never met: they
+  // know who each other is (conversation-rules.json knownByAct).
+  const act = actBetween(core, speaker.id as PersonId, listener.id as PersonId);
+  if (act) {
+    facts[`act-${act.what}`] = { text: "yes", sourceRecordIds: [act.id] };
+    return {
+      id: `here:${speaker.id}`,
+      kind: "here",
+      facts,
+      stage: KNOWN_BY_ACT.stage,
+    };
+  }
   let stage = "street";
   if (room.visitOrganizationId) {
     stage = "customer";
