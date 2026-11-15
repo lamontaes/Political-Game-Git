@@ -17,6 +17,9 @@ import { advanceCore } from "./life";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { stancesOf } from "./modules/views";
 import { settleEstate, heirsOf } from "./estates";
+import { buyListedHome } from "./housing-sale-buyer-fixture";
+import { homeSaleOf } from "./housing-sale";
+import { townOutsideOf } from "./opening-outside-market";
 import {
   assessInheritanceTax,
   estateTaxes,
@@ -292,6 +295,16 @@ describe("estate and inheritance taxes", () => {
       core,
       addDays(makeIsoDate(core.date), api.parameter("probateDays") + 1),
     );
+    // An estate whose house is still for sale stays open: a buyer takes it, and probate closes at its next look.
+    const listed = homeSaleOf(api, decedent!.householdId);
+    if (listed?.status === "listed") {
+      buyListedHome(
+        api,
+        listed.id,
+        townOutsideOf(core.organizations.values(), listed.placeId)!.id,
+      );
+      advanceCore(core, addDays(makeIsoDate(core.date), 35));
+    }
     const log = heard;
     // A wealthy estate may pass in two settlements: the living trust's at
     // death and probate's after; the taxes are figured on the whole.
