@@ -5072,6 +5072,25 @@ function otherAsks(
   return otherRaises(core, conversation, data, order);
 }
 
+/**
+ * Whether where they stand comes up now: only on the question the news just
+ * told was about (its cause, in the same talk), and only as far as their tie
+ * and temperament allow (the views engine's willingness), so a stranger keeps
+ * where they stand.
+ */
+function ownViewComesUp(
+  conversation: Conversation,
+  row: Pick<Subject, "weight" | "news">,
+): boolean {
+  const question = row.news?.question;
+  return (
+    !!(row.weight ?? zero) &&
+    !!question &&
+    (conversation.questions ?? []).includes(question) &&
+    !(conversation.pointed ?? []).includes(question)
+  );
+}
+
 /** The other person raises the first of these kinds of their own. */
 function otherRaises(
   core: Readonly<CoreState>,
@@ -5093,15 +5112,7 @@ function otherRaises(
       // Where they stand comes up only on the question the news just told
       // was about (its cause, in the same talk). A housemate's stand on the
       // same question today does not hold theirs back (lead, Nov 13).
-      !(
-        row.kind === "own-view" &&
-        // Only as far as their tie and temperament allow (the views
-        // engine's willingness): a stranger keeps where they stand.
-        (!(row.weight ?? zero) ||
-          !row.news?.question ||
-          !(conversation.questions ?? []).includes(row.news.question) ||
-          (conversation.pointed ?? []).includes(row.news.question))
-      ) &&
+      !(row.kind === "own-view" && !ownViewComesUp(conversation, row)) &&
       !conversation.used.includes(`${otherId}>${row.id}`) &&
       !conversation.used.includes(row.id) &&
       // Told to the player today by someone else in the house.
@@ -8147,28 +8158,45 @@ function answerNews(
           sourceRecordIds: [...new Set([...what.sourceRecordIds, eventId])],
         });
     }
-    const stand = composedLine(
+    // Where their own view follows on this question, that line carries the
+    // stand; said here as well it would be said twice running.
+    const ownViewFollows = subjectsBetween(
       core,
       otherId,
-      "news-ask",
-      {
-        ...last.facts,
-        ...stakeMarks(theirs, "their-"),
-        "player-saw": { text: "yes", sourceRecordIds: [eventId] },
-      },
-      "default",
-      `${eventId}:stand`,
-      saidParts(conversation, otherId),
+      playerId,
+      conversation.director,
+      conversation,
+    ).some(
+      (row) =>
+        row.kind === "own-view" &&
+        ownViewComesUp(conversation, row) &&
+        !conversation.used.includes(row.id),
     );
-    if (stand) {
-      conversation.lines.push({
-        speakerId: otherId,
-        subjectId: choice.answers,
-        kind: "news",
-        act: "tell",
-        ...stand,
-        sourceRecordIds: [...new Set([...stand.sourceRecordIds, eventId])],
-      });
+    const stand = ownViewFollows
+      ? null
+      : composedLine(
+          core,
+          otherId,
+          "news-ask",
+          {
+            ...last.facts,
+            ...stakeMarks(theirs, "their-"),
+            "player-saw": { text: "yes", sourceRecordIds: [eventId] },
+          },
+          "default",
+          `${eventId}:stand`,
+          saidParts(conversation, otherId),
+        );
+    if (stand || ownViewFollows) {
+      if (stand)
+        conversation.lines.push({
+          speakerId: otherId,
+          subjectId: choice.answers,
+          kind: "news",
+          act: "tell",
+          ...stand,
+          sourceRecordIds: [...new Set([...stand.sourceRecordIds, eventId])],
+        });
       carryOn(core, conversation, data);
       return;
     }

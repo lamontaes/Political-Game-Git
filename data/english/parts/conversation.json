@@ -7897,39 +7897,6 @@
       "date": "2026-11-15"
     },
     {
-      "key": "conversation.news-raise-heard.did-you-catch-what-outlet-said-about-about",
-      "move": "news-raise-heard",
-      "kind": "spoken",
-      "text": "Did you catch what {outlet} said about {about}?",
-      "uses": [
-        {
-          "move": "news-raise-heard",
-          "subject": "news",
-          "role": "raise",
-          "choice": "heard",
-          "requiresFacts": ["about", "outlet", "broadcast"]
-        }
-      ],
-      "transcriptsUsing": 4,
-      "bySource": {
-        "dcpd": 1,
-        "nps": 3
-      },
-      "source": {
-        "document": "Remarks in an Exchange With Reporters at Joint Base Andrews, Maryland",
-        "date": "2020-02-18",
-        "granule": "DCPD-202000078",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202000078/html/DCPD-202000078.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      },
-      "author": "Words builder M3 (words-neighbor-asks-the-player-about-a-printed-story-by-its-medium)",
-      "date": "2026-11-15"
-    },
-    {
       "key": "conversation.news-raise-heard.did-you-see-the-news-about-about",
       "move": "news-raise-heard",
       "kind": "spoken",
@@ -22258,25 +22225,6 @@
       "date": "2026-11-15"
     },
     {
-      "key": "conversation.news-answer-yes.i-saw-it-online",
-      "move": "news-answer-yes",
-      "kind": "spoken",
-      "text": "I saw it online.",
-      "uses": [
-        {
-          "move": "news-answer-yes",
-          "subject": "news",
-          "role": "answer",
-          "choice": "yes",
-          "stages": ["heard"],
-          "requiresFacts": ["asked-by-medium", "outlet-online"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder M3 (words-neighbor-asks-the-player-about-a-printed-story-by-its-medium)",
-      "date": "2026-11-15"
-    },
-    {
       "key": "conversation.news-answer-no.no-tell-me-what-happened",
       "move": "news-answer-no",
       "kind": "spoken",
@@ -22289,26 +22237,6 @@
           "choice": "no",
           "stages": ["not-heard"],
           "requiresFacts": ["asked-by-medium"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder M3 (words-neighbor-asks-the-player-about-a-printed-story-by-its-medium)",
-      "date": "2026-11-15"
-    },
-    {
-      "key": "conversation.news-answer-yes.yes-the-outlet-had-it",
-      "move": "news-answer-yes",
-      "kind": "spoken",
-      "text": "Yes, the {outlet} had it.",
-      "uses": [
-        {
-          "move": "news-answer-yes",
-          "subject": "news",
-          "role": "answer",
-          "choice": "yes",
-          "stages": ["heard"],
-          "excludesFacts": ["asked-by-medium", "before-feeling"],
-          "requiresFacts": ["outlet-the"]
         }
       ],
       "origin": "authored",
@@ -22354,26 +22282,6 @@
       "origin": "authored",
       "author": "Words builder W3 (words-home-news-lines-are-composed)",
       "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.news-answer-yes.i-read-it-in-the-outlet-too",
-      "move": "news-answer-yes",
-      "kind": "spoken",
-      "text": "I read it in the {outlet} too.",
-      "uses": [
-        {
-          "move": "news-answer-yes",
-          "subject": "news",
-          "role": "answer",
-          "choice": "yes",
-          "stages": ["heard"],
-          "requiresFacts": ["outlet-said", "paper", "outlet-the"],
-          "excludesFacts": ["asked-by-medium"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder M3 (words-neighbor-asks-the-player-about-a-printed-story-by-its-medium)",
-      "date": "2026-11-15"
     },
     {
       "key": "conversation.news-answer-no.i-hadn-t-heard-about-topic",
@@ -24461,35 +24369,6 @@
       "date": "2026-11-11"
     },
     {
-      "key": "conversation.news-back-core.from-what-i-heard-it-s-for-about",
-      "move": "news-back-core",
-      "kind": "spoken",
-      "text": "From what I heard, it's for {about}.",
-      "piece": {
-        "of": "news-back",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "news-back-core",
-          "subject": "news-back",
-          "role": "core",
-          "requiresFacts": [
-            "said-why",
-            "about",
-            "ran",
-            "about-unsaid",
-            "broadcast"
-          ],
-          "excludesFacts": []
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder M3 (words-neighbor-asks-the-player-about-a-printed-story-by-its-medium)",
-      "date": "2026-11-15"
-    },
-    {
       "key": "conversation.news-back-core.the-story-said-it-s-about-about",
       "move": "news-back-core",
       "kind": "spoken",
@@ -24576,50 +24455,6 @@
       "origin": "authored",
       "author": "Words builder W3 (words-home-news-lines-are-composed)",
       "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.news-back-core.it-s-about-said-it-ran-ran",
-      "move": "news-back-core",
-      "kind": "spoken",
-      "text": "It's about {said}. It ran {ran}.",
-      "piece": {
-        "of": "news-back",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "news-back-core",
-          "subject": "news-back",
-          "role": "core",
-          "requiresFacts": ["said-no", "ask-told", "said", "ran"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder M3 (words-neighbor-asks-the-player-about-a-printed-story-by-its-medium)",
-      "date": "2026-11-15"
-    },
-    {
-      "key": "conversation.news-back-core.they-re-talking-about-said-it-ran-ran",
-      "move": "news-back-core",
-      "kind": "spoken",
-      "text": "They're talking about {said}. It ran {ran}.",
-      "piece": {
-        "of": "news-back",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "news-back-core",
-          "subject": "news-back",
-          "role": "core",
-          "requiresFacts": ["said-no", "ask-told", "said", "ran"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder M3 (words-neighbor-asks-the-player-about-a-printed-story-by-its-medium)",
-      "date": "2026-11-15"
     },
     {
       "key": "conversation.news-back-core.it-ran-ran-the-whole-thing-is-about-said",
@@ -28251,29 +28086,6 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.news-ask-core.i-heard-about-about-ran-i-m-for-it-myself",
-      "move": "news-ask-core",
-      "kind": "spoken",
-      "text": "I heard about {about} {ran}. I'm for it, myself.",
-      "piece": {
-        "of": "news-ask",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "news-ask-core",
-          "subject": "news-ask",
-          "role": "core",
-          "requiresFacts": ["story", "their-for", "broadcast"],
-          "excludesFacts": ["player-saw"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder M3 (words-neighbor-asks-the-player-about-a-printed-story-by-its-medium)",
-      "date": "2026-11-15"
-    },
-    {
       "key": "conversation.news-ask-core.about-made-the-news-ran-i-m-for-it",
       "move": "news-ask-core",
       "kind": "spoken",
@@ -28319,72 +28131,6 @@
       "date": "2026-11-15"
     },
     {
-      "key": "conversation.news-ask-core.about-time-i-say",
-      "move": "news-ask-core",
-      "kind": "spoken",
-      "text": "About time, I say.",
-      "piece": {
-        "of": "news-ask",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "news-ask-core",
-          "subject": "news-ask",
-          "role": "core",
-          "requiresFacts": ["story", "their-for", "player-saw"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder M3 (words-neighbor-asks-the-player-about-a-printed-story-by-its-medium)",
-      "date": "2026-11-15"
-    },
-    {
-      "key": "conversation.news-ask-core.i-m-against-it-myself",
-      "move": "news-ask-core",
-      "kind": "spoken",
-      "text": "I'm against it, myself.",
-      "piece": {
-        "of": "news-ask",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "news-ask-core",
-          "subject": "news-ask",
-          "role": "core",
-          "requiresFacts": ["story", "their-against", "player-saw"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder M3 (words-neighbor-asks-the-player-about-a-printed-story-by-its-medium)",
-      "date": "2026-11-15"
-    },
-    {
-      "key": "conversation.news-ask-core.i-don-t-like-it",
-      "move": "news-ask-core",
-      "kind": "spoken",
-      "text": "I don't like it.",
-      "piece": {
-        "of": "news-ask",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "news-ask-core",
-          "subject": "news-ask",
-          "role": "core",
-          "requiresFacts": ["story", "their-against", "player-saw"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder M3 (words-neighbor-asks-the-player-about-a-printed-story-by-its-medium)",
-      "date": "2026-11-15"
-    },
-    {
       "key": "conversation.news-ask-core.i-read-about-about-ran-i-m-against-it-myself",
       "move": "news-ask-core",
       "kind": "spoken",
@@ -28406,29 +28152,6 @@
       "origin": "authored",
       "author": "Words builder W-D, Claude Opus 5.5 (words composer, talk: news in the teller's own words)",
       "date": "2026-11-12"
-    },
-    {
-      "key": "conversation.news-ask-core.i-heard-about-about-ran-i-m-against-it-myself",
-      "move": "news-ask-core",
-      "kind": "spoken",
-      "text": "I heard about {about} {ran}. I'm against it, myself.",
-      "piece": {
-        "of": "news-ask",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "news-ask-core",
-          "subject": "news-ask",
-          "role": "core",
-          "requiresFacts": ["story", "their-against", "broadcast"],
-          "excludesFacts": ["player-saw"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder M3 (words-neighbor-asks-the-player-about-a-printed-story-by-its-medium)",
-      "date": "2026-11-15"
     },
     {
       "key": "conversation.news-ask-core.about-made-the-news-ran-i-m-against-it",
@@ -28500,29 +28223,6 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.news-back-core.not-that-i-heard-about-is-the-right-call",
-      "move": "news-back-core",
-      "kind": "spoken",
-      "text": "Not that I heard. {about} is the right call.",
-      "piece": {
-        "of": "news-back",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "news-back-core",
-          "subject": "news-back",
-          "role": "core",
-          "requiresFacts": ["said-why", "about-said", "their-for", "broadcast"],
-          "excludesFacts": []
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder M3 (words-neighbor-asks-the-player-about-a-printed-story-by-its-medium)",
-      "date": "2026-11-15"
-    },
-    {
       "key": "conversation.news-back-core.the-story-didn-t-say-i-ve-been-against-it-for-years",
       "move": "news-back-core",
       "kind": "spoken",
@@ -28569,34 +28269,6 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.news-back-core.not-that-i-heard-about-costs-more-than-it-s-worth",
-      "move": "news-back-core",
-      "kind": "spoken",
-      "text": "Not that I heard. {about} costs more than it's worth.",
-      "piece": {
-        "of": "news-back",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "news-back-core",
-          "subject": "news-back",
-          "role": "core",
-          "requiresFacts": [
-            "said-why",
-            "about-said",
-            "their-against",
-            "broadcast"
-          ],
-          "excludesFacts": []
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder M3 (words-neighbor-asks-the-player-about-a-printed-story-by-its-medium)",
-      "date": "2026-11-15"
-    },
-    {
       "key": "conversation.news-back-core.sponsor-is-from-what-i-read",
       "move": "news-back-core",
       "kind": "spoken",
@@ -28618,30 +28290,6 @@
       "origin": "authored",
       "author": "Fable A (words lead)",
       "date": "2026-11-13",
-      "bearing": "calm"
-    },
-    {
-      "key": "conversation.news-back-core.sponsor-is-from-what-i-heard",
-      "move": "news-back-core",
-      "kind": "spoken",
-      "text": "{sponsor} is, from what I heard.",
-      "piece": {
-        "of": "news-back",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "news-back-core",
-          "subject": "news-back",
-          "role": "core",
-          "requiresFacts": ["said-who", "sponsor", "broadcast"],
-          "excludesFacts": []
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder M3 (words-neighbor-asks-the-player-about-a-printed-story-by-its-medium)",
-      "date": "2026-11-15",
       "bearing": "calm"
     },
     {
