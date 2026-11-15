@@ -365,6 +365,7 @@
         "src/core2/emotion.ts",
         "src/core2/mind-*.ts",
         "src/core2/closeness.ts",
+        "src/core2/family-origin.ts",
         "src/core2/encounters.ts",
         "src/core2/knowledge-retention.ts",
         "src/core2/event-id-retention.ts",
