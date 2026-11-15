@@ -1,7 +1,7 @@
 ---
 id: tests-counted-demotion-filled-household-met-by-the-player-hulett
 title: "The demotion test is red at Hulett, Wyoming: the player comes to know someone in the household it filled in, so it is never returned to the counts"
-area: tests
+area: core
 kind: bug
 priority: 3
 size: S
