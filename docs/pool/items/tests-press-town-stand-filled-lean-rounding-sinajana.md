@@ -35,3 +35,5 @@ source: views thread, Nov 14 (seen while gating #9224)
 **Files.** src/core2/state.ts (fillInPerson), src/core2/modules/views.ts (countedLean), src/core2/press-town-stand.test.ts
 
 **Notes.** Nov 14 (claude, views thread): found while gating #9224; red on the clean train at the same seed.
+
+Nov 15 (views thread): also red on the train at ff9703d7 with PRESS_STAND_SEED=318a8084f65ed310, at Alpena, South Dakota (4601020): expected -0.07952562577173783, got -0.07952562590133504 (src/core2/press-town-stand.test.ts:84).
