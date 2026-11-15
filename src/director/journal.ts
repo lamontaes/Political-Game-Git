@@ -1852,11 +1852,16 @@ export function composeJournal(
       const via = outlet
         ? (JOURNAL_OUTLINE.learnedVia as Record<string, string>)[outlet]
         : undefined;
-      if (via)
+      // Where they heard is said once a day: the bills of one day's news
+      // do not each say "I heard of it in the paper".
+      const learnedKey = `${moment.date}|${via}`;
+      if (via && !learnedToldOn.has(learnedKey)) {
+        learnedToldOn.add(learnedKey);
         facts.learned = {
           text: via,
           sourceRecordIds: [moment.causeId, String(logged?.facts?.learnedFrom)],
         };
+      }
       // The lines that name the law are said where the record names it; the
       // bill-only lines are said where it does not.
       facts.naming = {
@@ -2133,6 +2138,7 @@ export function composeJournal(
   // up, the family they made and the moves, the working life, the household
   // now; then what the player did in play, one paragraph per event or race.
   const chapters: JournalChapter[] = [];
+  const learnedToldOn = new Set<string>();
   // Where life happened (a school, a job): never a chapter or an entry, only
   // where the person knew someone who matters later.
   const employerIds: string[] = [];
@@ -2631,7 +2637,15 @@ export function composeJournal(
       // A fact this paragraph has named already (an employer, a place) is
       // not named again when the record's line can be said without it.
       const repeated = Object.entries(unit.facts).filter(
-        ([name, fact]) => sayOnce.has(name) && said.has(fact.text),
+        ([name, fact]) =>
+          sayOnce.has(name) &&
+          (said.has(fact.text) ||
+            // A town named inside the place already said ("New York" inside
+            // "New York, New York") is said already.
+            (name === "place" &&
+              [...said].some(
+                (told) => told.includes(fact.text) || fact.text.includes(told),
+              ))),
       );
       if (repeated.length && unit.retell && !unit.framed) {
         const fewer = Object.fromEntries(
@@ -3707,6 +3721,10 @@ export function composeJournal(
     home.lines.sort((a, b) => a.date.localeCompare(b.date));
   }
   const kept = chapters.filter((row) => row.lines.length > zero);
+  // Entries run in the order they happened: a chapter's lines are told group
+  // by group, so a later group's earlier day goes before what came after it.
+  for (const row of kept)
+    row.lines.sort((a, b) => a.date.localeCompare(b.date));
   // Said-as: a relative is said by relation and first name the first time
   // the Journal names them ("my father Daniel"), then by first name.
   const kinSaid = [...kin].flatMap(([id, fact]) => {

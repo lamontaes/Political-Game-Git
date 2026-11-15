@@ -15009,6 +15009,84 @@
       "tag": {
         "move": "tell"
       }
+    },
+    {
+      "key": "journal.home-line-met.i-met-named-when-i-was-age",
+      "move": "home-line-met",
+      "kind": "spoken",
+      "text": "I met {named} when I was {age}.",
+      "uses": [
+        {
+          "move": "home-line-met",
+          "subject": "home",
+          "role": "met",
+          "choice": "met",
+          "journal": [
+            {
+              "kindPrefix": "household:partners-met",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.home-line-met.i-met-named",
+      "move": "home-line-met",
+      "kind": "spoken",
+      "text": "I met {named}.",
+      "uses": [
+        {
+          "move": "home-line-met",
+          "subject": "home",
+          "role": "met",
+          "choice": "met",
+          "journal": [
+            {
+              "kindPrefix": "household:partners-met",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.home-line-met.named-and-i-met-when-i-was-age",
+      "move": "home-line-met",
+      "kind": "spoken",
+      "text": "{named} and I met when I was {age}.",
+      "uses": [
+        {
+          "move": "home-line-met",
+          "subject": "home",
+          "role": "met",
+          "choice": "met",
+          "journal": [
+            {
+              "kindPrefix": "household:partners-met",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell"
+      }
     }
   ]
 }
