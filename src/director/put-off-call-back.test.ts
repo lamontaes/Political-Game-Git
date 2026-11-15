@@ -205,8 +205,8 @@ function play(): Played | string {
 
 describe("a put-off is kept on the record and called back once", () => {
   // The played days to the debate's call back, day by day, at one pinned
-  // place: about a minute (53 s measured), with a limit of five for a slow
-  // machine, since the call back is met only on its own played day.
+  // place: about a minute (53 s measured), with a limit near twice that,
+  // since the call back is met only on its own played day.
   it("the interview and the debate call back, with yes and no only", () => {
     const played = play();
     if (typeof played === "string") throw new Error(played);
@@ -237,5 +237,5 @@ describe("a put-off is kept on the record and called back once", () => {
       played.acceptedInterview,
       `${where}: the yes is the interview's yes`,
     ).toBe(true);
-  }, 300_000);
+  }, 120_000);
 });
