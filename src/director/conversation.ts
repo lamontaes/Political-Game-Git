@@ -4319,7 +4319,7 @@ function sameWhen(
   core: Readonly<CoreState>,
   playerId: PersonId,
   aboutId: PersonId,
-  seen: { date: IsoDate },
+  seen: { date: string },
   move: string | undefined,
 ): boolean {
   if (move === "ask-why") return false;
