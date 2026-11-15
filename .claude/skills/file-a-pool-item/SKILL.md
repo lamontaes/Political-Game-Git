@@ -28,6 +28,7 @@ description: >
 - The item goes in the thread's own PR, not a PR of its own.
 - An item you set `status: in-pr` needs `pr:` filled, and the PR number exists only after the PR is opened: open the draft, then set `pr: <number>` in a second commit (the pool guard reads 19 of 20 until you do; Nov 15, the town hall stop).
 - **Write an item with every field named, never positionally (Nov 15).** A shell function that filled the template by argument position shifted each field down one (the Cause text landed under What, the file list under Waits on) and CI's pool guard failed on all three items; the local check had not looked at them yet. Write the file with named fields, then open it, run `npm run pool -- --check` and read what it says of your items.
+- **What the pool check refuses** (Nov 15, filing `metrics-paper-looking-for-work-line-pinned`): the What paragraph must end with a sentence that begins `Seen:`, `Feeds: <item id>` or `Guards:`, and Done when must name a drawn place. A `pr:` is required once the status is `in-pr`, so name the PR number the moment the PR exists and rerun the gate on that head.
 
 ## A new item fails the pool check on its own words (Nov 15, fee-bills thread)
 
