@@ -5,7 +5,12 @@
 // card words), and the writers that put a done act on the record. Nothing
 // here is rolled: the records say whether the act is open.
 import { recordVisit } from "../core2/modules/people";
-import { askOut, canAsk, propose } from "../core2/modules/partnerships";
+import {
+  askOut,
+  canAsk,
+  propose,
+  type AskWhere,
+} from "../core2/modules/partnerships";
 import { livesElsewhere } from "../core2/modules/moves";
 import { applyCoreEvent, coreAPI } from "../core2/state";
 import { parameter } from "../core2/parameters";
@@ -272,8 +277,8 @@ export function askFromCard(
   playerId: string,
   otherId: string,
   kind: "ask-out" | "propose",
-  /** The room the player stands in (an organization or a household): the answer is given there. */
-  where?: string,
+  /** The room the two stand in together, or by phone while they are apart: the answer is given there. */
+  where?: AskWhere,
 ): { momentId?: string } {
   const ask = kind === "ask-out" ? askOut : propose;
   const answered = ask(

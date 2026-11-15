@@ -1299,6 +1299,9 @@ export function canAsk(
   return { open: true };
 }
 
+/** Where an ask is made: the room the two stand in together (an organization or a household), or by phone while they are apart. */
+export type AskWhere = { room: string } | { byPhone: true };
+
 function keepAnswer(
   api: CoreAPI,
   kind: AskKind,
@@ -1307,7 +1310,7 @@ function keepAnswer(
   answer: "yes" | "no",
   weight: number,
   reason?: AskReason,
-  where?: string,
+  where?: AskWhere,
 ) {
   const core = api.state as CoreState;
   const id = askRowId(kind, me.id, other.id);
@@ -1333,8 +1336,8 @@ function keepAnswer(
     date: core.date,
     kind: kind === "ask-out" ? FAMILY_ASKED_OUT : FAMILY_PROPOSAL_ANSWERED,
     personIds: ids,
-    // Where the ask was made (the room the player stands in), else the town.
-    placeId: where ?? me.placeId,
+    // Where the ask was made (the room the two stand in), else the town.
+    placeId: where && "room" in where ? where.room : me.placeId,
     publicRecord: false,
     source: source(
       api,
@@ -1346,6 +1349,9 @@ function keepAnswer(
       answer,
       ...(reason ? { reason } : {}),
       asks: String(row.count),
+      // Asked by phone, the two apart; asked of this person before.
+      ...(where && "byPhone" in where ? { by: "phone" } : {}),
+      ...(row.count > api.parameter("one") ? { askedBefore: "yes" } : {}),
     },
   });
   return recordId;
@@ -1361,8 +1367,8 @@ export function askOut(
   api: CoreAPI,
   playerId: PersonId,
   otherId: PersonId,
-  /** Where the ask is made: the room the player stands in (an organization or a household). */
-  where?: string,
+  /** Where the ask is made: the room the two stand in together, or by phone. */
+  where?: AskWhere,
 ): {
   asked: boolean;
   answer?: "yes" | "no";
@@ -1445,8 +1451,8 @@ export function propose(
   api: CoreAPI,
   playerId: PersonId,
   otherId: PersonId,
-  /** Where the ask is made: the room the player stands in (an organization or a household). */
-  where?: string,
+  /** Where the ask is made: the room the two stand in together, or by phone. */
+  where?: AskWhere,
 ): {
   asked: boolean;
   answer?: "yes" | "no";

@@ -178235,13 +178235,39 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "ask-out-answer",
-          "key": "favor-asked"
+          "key": "favor-asked",
+          "excludesFacts": ["by-phone"]
         }
       ],
       "bearing": "calm",
       "origin": "authored",
       "author": "Claude Opus 5.5 (family life builder; Words lead ruling Nov 14 11:30Z)",
       "date": "2026-11-14",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.you-picked-up-the-phone-and-asked-name-out",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "You picked up the phone and asked {name} out.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "ask-out-answer",
+          "key": "favor-asked",
+          "requiresFacts": ["by-phone"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (family life builder; the reader's fault 1, Nov 15)",
+      "date": "2026-11-15",
       "tag": {
         "move": "narrate",
         "key": "favor-asked"
@@ -178259,13 +178285,39 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "proposal-answer",
-          "key": "favor-asked"
+          "key": "favor-asked",
+          "excludesFacts": ["by-phone"]
         }
       ],
       "bearing": "calm",
       "origin": "authored",
       "author": "Claude Opus 5.5 (family life builder; Words lead ruling Nov 14 11:30Z)",
       "date": "2026-11-14",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.you-picked-up-the-phone-and-asked-name-to-marry-you",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "You picked up the phone and asked {name} to marry you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "proposal-answer",
+          "key": "favor-asked",
+          "requiresFacts": ["by-phone"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (family life builder; the reader's fault 1, Nov 15)",
+      "date": "2026-11-15",
       "tag": {
         "move": "narrate",
         "key": "favor-asked"

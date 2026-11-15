@@ -118,7 +118,8 @@ it("asked out by the player, someone seeing someone says so in a scene; waving i
     },
     facts: { union: "dating" },
   });
-  expect(askOut(api, me, taken!.id), where).toMatchObject({
+  // Asked from the card while the two are apart: the ask is a call.
+  expect(askOut(api, me, taken!.id, { byPhone: true }), where).toMatchObject({
     answer: "no",
     reason: "with-someone",
   });
@@ -134,9 +135,10 @@ it("asked out by the player, someone seeing someone says so in a scene; waving i
   if (scene?.kind !== "composed") return;
   expect(scene.scene.askerId, where).toBe(taken!.id);
   expect(scene.scene.askedId, where).toBe(me);
+  expect(entry!.bindings[0]?.setting.kind, where).toBe("phone");
   const keys = scene.scene.facts.map((row) => row.key);
   expect(keys, where).toEqual(
-    expect.arrayContaining(["said-no", "reason-with-someone"]),
+    expect.arrayContaining(["said-no", "reason-with-someone", "by-phone"]),
   );
   expect(keys, where).not.toContain("said-yes");
   const tree = scene.scene.talk.tree;
@@ -174,7 +176,9 @@ it("the player proposes on the first day of dating: the partner says not yet, an
     },
     facts: { union: "dating" },
   });
-  const answer = propose(api, me, partner.id);
+  // Asked at home, the two in the room together: the answer is given there.
+  const home = core.people.get(me)!.householdId;
+  const answer = propose(api, me, partner.id, { room: home });
   expect(answer, where).toMatchObject({ asked: true, answer: "no" });
   const { entry, scene } = sceneOf(
     core,
@@ -186,10 +190,15 @@ it("the player proposes on the first day of dating: the partner says not yet, an
   expect(entry?.outcome, where).toBe("scene-now");
   expect(scene?.kind, `${where}: ${JSON.stringify(scene)}`).toBe("composed");
   if (scene?.kind !== "composed") return;
+  expect(entry!.bindings[0]?.setting, where).toMatchObject({
+    kind: "home",
+    recordId: home,
+  });
   const keys = scene.scene.facts.map((row) => row.key);
   expect(keys, where).toEqual(
     expect.arrayContaining(["said-no", `reason-${answer.reason}`]),
   );
+  expect(keys, where).not.toContain("by-phone");
   expect(scene.scene.talk.state.text, where).not.toMatch(/^Yes/);
 }, 120_000);
 

@@ -1383,7 +1383,35 @@
           "match": {
             "label": "feeling:event:family.asked-out",
             "selfNamed": true,
-            "counterpart": "some"
+            "counterpart": "some",
+            "causeFacts": [
+              {
+                "key": "by",
+                "equals": ["phone"]
+              }
+            ]
+          },
+          "causeEngine": "partnerships",
+          "causeRecord": "family.asked-out",
+          "bind": {
+            "answering": "counterpart",
+            "asking": "subject"
+          },
+          "opener": "answering",
+          "opening": "greet",
+          "setting": ["phone"]
+        },
+        {
+          "match": {
+            "label": "feeling:event:family.asked-out",
+            "selfNamed": true,
+            "counterpart": "some",
+            "causeFacts": [
+              {
+                "key": "by",
+                "absent": true
+              }
+            ]
           },
           "causeEngine": "partnerships",
           "causeRecord": "family.asked-out",
@@ -1440,7 +1468,35 @@
           "match": {
             "label": "feeling:event:family.proposal-answered",
             "selfNamed": true,
-            "counterpart": "some"
+            "counterpart": "some",
+            "causeFacts": [
+              {
+                "key": "by",
+                "equals": ["phone"]
+              }
+            ]
+          },
+          "causeEngine": "partnerships",
+          "causeRecord": "family.proposal-answered",
+          "bind": {
+            "answering": "counterpart",
+            "asking": "subject"
+          },
+          "opener": "answering",
+          "opening": "greet",
+          "setting": ["phone"]
+        },
+        {
+          "match": {
+            "label": "feeling:event:family.proposal-answered",
+            "selfNamed": true,
+            "counterpart": "some",
+            "causeFacts": [
+              {
+                "key": "by",
+                "absent": true
+              }
+            ]
           },
           "causeEngine": "partnerships",
           "causeRecord": "family.proposal-answered",

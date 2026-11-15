@@ -177,6 +177,7 @@ import {
 import { governmentBodies } from "./government-bodies";
 import type { Director } from "../director/ledger";
 import type { CoreState, PersonId } from "../core2/types";
+import type { AskWhere } from "../core2/modules/partnerships";
 import { benchProgress } from "./progress";
 import { townPlaces, visitHome, visitPlace } from "./places";
 import {
@@ -436,6 +437,22 @@ function playerMinute(core: CoreState, playerId: string): number {
  * The room the player stands in now: the place or home they went to, else
  * their workplace on a shift, else their own home.
  */
+/**
+ * Where an ask from the card is made: in the room the player stands in when
+ * the other is there with them, else by phone.
+ */
+function askWhere(otherId: string): AskWhere | undefined {
+  const playerId = state.player?.personId;
+  if (!playerId) return undefined;
+  const core = requireCore();
+  const here = sceneNow(core, playerId).people.some(
+    (person) => person.personId === otherId,
+  );
+  if (!here) return { byPhone: true };
+  const room = playerRoom();
+  return room ? { room } : undefined;
+}
+
 function playerRoom(): string | undefined {
   const playerId = state.player?.personId;
   if (!playerId) return undefined;
@@ -2582,7 +2599,7 @@ const ROUTES: readonly Route[] = [
             state.player.personId,
             otherId,
             kind,
-            playerRoom(),
+            askWhere(otherId),
           ),
         });
         return;

@@ -2,7 +2,6 @@ import { expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import { benchRequest, benchWorld } from "./handler";
-import { whereIs } from "./person-acts";
 
 /*
  * Ask out and Propose on a person's card (family life question 1, ruled Nov
@@ -78,6 +77,10 @@ it("the card's Ask out is answered at once as a scene (ask-out-card-1)", async (
     }
   }
   expect(other, `${where}: someone to ask out`).toBeDefined();
+  expect(
+    (await acts(other!)).some((row) => row.reason === "here"),
+    `${where}: asked from across town`,
+  ).toBe(false);
 
   const done = await ask("POST", `/api/act?kind=ask-out&other=${other}`);
   expect(done.status, where).toBe(200);
@@ -90,17 +93,23 @@ it("the card's Ask out is answered at once as a scene (ask-out-card-1)", async (
   const narration = (story.json.narration as { text: string }[])
     .map((line) => line.text)
     .join(" ");
-  expect(narration, where).toMatch(/You asked .+ out\./);
-  // The answer is given where the ask was made: the record is in the room
-  // the player stands in (home, or work on a shift), the scene is set there,
-  // and nobody arrives or is met out in town.
+  // The answer is given where the ask was made. The one asked is not in the
+  // player's room, so the ask is a call: the record says so, the player
+  // stays where they stand, and nobody arrives or is met out in town (the
+  // in-room ask is in src/director/ask-answer-scene.test.ts).
   const record = [...(core.logByKind.get("family.asked-out") ?? [])]
     .map((id) => core.durableLog.get(id)!)
     .find((row) => row.personIds.includes(other! as never));
-  const at = whereIs(core, me, world.player!.packet!.at.minuteOfDay);
-  expect(record?.placeId, where).toBe(
-    at.kind === "work" ? at.organizationId : core.people.get(me)!.householdId,
+  expect(record?.facts?.by, where).toBe("phone");
+  expect(narration, where).toMatch(
+    /You picked up the phone and asked .+ out\./,
   );
+  expect(
+    (story.json.people as { personId?: string; id?: string }[]).some(
+      (person) => (person.personId ?? person.id) === other,
+    ),
+    `${where}: no face over a call`,
+  ).toBe(false);
   expect(narration, where).not.toMatch(
     /out and about|walks up to you|on the street|downtown|comes to the house|at your door/,
   );
