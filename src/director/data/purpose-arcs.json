@@ -1073,11 +1073,12 @@
     },
     "emergency-briefing": {
       "state": "request",
-      "replies": ["agree", "decline", "ask"],
+      "replies": ["agree", "decline", "ask", "leave"],
       "follow": {
         "agree": ["thank"],
         "decline": ["accept", "warn"],
-        "ask": ["answer"]
+        "ask": ["answer"],
+        "leave": ["answer"]
       },
       "again": {
         "answer": ["agree", "decline"],

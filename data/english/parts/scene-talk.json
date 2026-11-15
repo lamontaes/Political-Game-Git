@@ -187794,6 +187794,55 @@
       }
     },
     {
+      "key": "scene-talk.reply-leave.not-yet-i-m-still-deciding",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Not yet. I'm still deciding.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["again"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines for the governor's briefing room, added by its builder as written)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "leave",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.you-have-until-deadline-governor",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "You have until {deadline}, Governor.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "after": "leave",
+          "requiresFacts": ["deadline"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines for the governor's briefing room, added by its builder as written)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "answer",
+        "key": "threat"
+      }
+    },
+    {
       "key": "scene-talk.close-accept.they-file-out-nobody-says-anything",
       "move": "close-accept",
       "kind": "spoken",

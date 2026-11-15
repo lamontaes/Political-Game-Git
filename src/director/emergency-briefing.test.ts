@@ -230,16 +230,26 @@ describe(`the governor's briefing room (${where})`, () => {
     const closes = addDays(makeIsoDate(hazard.date), 30);
     if (!world.director.ledger.people.has(playerId))
       world.director.watch(core, playerId);
-    // The governor asks a question and leaves it there: a reply that answers nothing, so the scene closes and the offer is still theirs.
+    // The governor leaves it undecided: the first meeting's question, a return meeting's "not yet" (no reply that settles), so the scene closes and the offer is still theirs.
     const leave = (entry: ScheduleEntry): boolean => {
       const scene = purposeScene(core, world.director, playerId, entry, {
         typeKey: "emergency-briefing",
       });
       if (scene?.kind !== "composed") return false;
-      const ask = scene.scene.talk.tree.replies.findIndex(
-        (reply) => reply.line.move === "ask",
+      const replies = scene.scene.talk.tree.replies;
+      const ask = replies.findIndex(
+        (reply) => reply.line.move === "ask" || reply.line.move === "leave",
       );
-      expect(ask, `${where}: no question to ask`).toBeGreaterThanOrEqual(0);
+      expect(
+        ask,
+        `${where}: no way to leave it undecided`,
+      ).toBeGreaterThanOrEqual(0);
+      // A return meeting has no question to ask (it was answered the first time).
+      expect(
+        replies.some((reply) => reply.line.move === "ask") &&
+          entry.momentId.includes("~again~"),
+        `${where}: a return meeting offers the question again`,
+      ).toBe(false);
       return !!replyInScene(core, world.director, playerId, entry, [ask], {
         typeKey: "emergency-briefing",
       });
