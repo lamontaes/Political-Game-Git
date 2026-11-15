@@ -77,6 +77,35 @@ export const PLANTS: Readonly<Record<string, readonly Plant[]>> = {
       said: ["I'll sign it. Have you tried the new bakery?"],
     },
   ],
+  "no-quick-resolution": [
+    {
+      passes: true,
+      before: "Liam McNeely says you told him you're against it.",
+      said: [
+        "I said I had questions. That's not the same thing.",
+        "You're right. I shouldn't have said that.",
+        "Who told Liam that?",
+      ],
+    },
+    {
+      passes: true,
+      before: "Will you bring more people to the canvass Saturday?",
+      said: [
+        "You've got it.",
+        "Not until you tell me where the last ten went.",
+        "Maybe. I'll see who's free.",
+      ],
+    },
+    {
+      passes: false,
+      before: "You promised me that vote, and you broke it.",
+      said: [
+        "You're right. I'm sorry.",
+        "I'll make it up to you.",
+        "You're right, and it won't happen again.",
+      ],
+    },
+  ],
   "escalation-can-be-answered-in-kind": [
     {
       passes: true,
@@ -262,6 +291,8 @@ export const NOT_JUDGED: Readonly<Record<string, string>> = {
     "This rule judges only the replies offered now against the replies offered first: pass if they move the talk on, fail if most of them say the first replies again in new words. How well each reply is written, or whether it fits the line before, is not judged here.",
   "reply-second-move-follows-the-first":
     "This rule judges only B: does B's second move follow from B's own first move? Whether B is a good answer to A is a different rule and not judged here. A reply with one move passes.",
+  "no-quick-resolution":
+    "This rule judges only whether at least one of the replies offered pushes back, deflects or raises the stakes instead of giving in at once. One agreeable reply among them is fine. How well each reply is written, or whether it fits the line before, is not judged here.",
   "escalation-can-be-answered-in-kind":
     "This rule judges only whether one of the replies offered answers the threat or insult in kind. How well each reply is written is not judged here.",
   "replies-may-be-long-and-substantive":

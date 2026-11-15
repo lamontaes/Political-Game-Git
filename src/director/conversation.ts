@@ -209,6 +209,13 @@ import { personWorkOf } from "../core2/person-work";
 import localAddressData from "./data/local-address.json" with { type: "json" };
 import { saidPersonOf } from "./said-person";
 import {
+  answerPromise,
+  promiseAnswers,
+  promiseOfRaised,
+  promiseSaid,
+  promiseSubject,
+} from "./promise-talk";
+import {
   learnView,
   learnViewQuestion,
   stanceRecordId,
@@ -3235,6 +3242,11 @@ export function subjectsBetween(
     const quiet = quietDay(core, speaker, listener, room.minuteOfDay);
     if (quiet) out.push(quiet);
   }
+  // A promise the listener made the speaker, kept or broken, said once
+  // (src/director/promise-talk.ts).
+  const promise =
+    director && promiseSubject(core, director, speakerId, listenerId);
+  if (promise) out.push(promise);
   // A stranger who meets the player says who they are (Words lead, Nov 14,
   // rules 51, 52 and 56): their own name, and why the two are in one place.
   const introduces = introduction(core, speaker, listener, mine, room);
@@ -4784,6 +4796,12 @@ function raiseSubject(
         ]),
       ],
     });
+  // A promise once said is not brought up again by anyone.
+  const promise =
+    conversation.director && !conversation.look
+      ? promiseOfRaised(subject)
+      : null;
+  if (promise) promiseSaid(core, conversation.director!, promise);
   // The policy question it names is named for the house today.
   const question = subject.news?.question ?? subject.point?.question;
   if (question) (conversation.questions ??= []).push(question);
@@ -5139,6 +5157,10 @@ const NEWS_SUBJECTS: ReadonlySet<string> = new Set([
   "job-new",
   "job-new-detail",
   "job-new-told",
+  // A promise made to them, kept or broken, between the two of them
+  // (promise-talk.ts): told before the day's news, until it is said.
+  "promise-kept",
+  "promise-broken",
 ]);
 
 /** The reply pieces that ask who is behind a story (conversation-rules.json askedWho). */
@@ -6393,11 +6415,14 @@ function offerChoices(
   };
   // One choice per move, worded from every mined wording of it.
   type Group = { key: string; raises?: string; from?: WordingPick["from"] };
+  // To a promise brought up, only the answers its kind and the player's
+  // traits offer (promise-talk.ts promiseAnswers).
+  const promise = promiseOfRaised(last.subject);
+  const promised = promise && promiseAnswers(core, promise, playerId);
   const groups = new Map<string, Group>(
-    conversationMoves(last.kind, "answers", data).map((move) => [
-      move.key,
-      move,
-    ]),
+    conversationMoves(last.kind, "answers", data)
+      .filter((move) => !promised || promised.includes(move.key))
+      .map((move) => [move.key, move]),
   );
   const seen = new Set<string>();
   const answerBank = `conversation:${last.kind}:answers`;
@@ -7420,6 +7445,11 @@ function sayNow(
     sourceRecordIds: choice.sourceRecordIds,
     ...(choice.wording ? { wording: choice.wording } : {}),
   });
+  // The player's answer to a promise brought up counts (promise-talk.ts).
+  const promise =
+    !choice.lie && conversation.director ? promiseOfRaised(last.subject) : null;
+  if (promise)
+    answerPromise(core, conversation.director!, promise, playerId, choice.move);
   // A listener who doubts the lie says so; the conversation carries on.
   if (doubted) {
     const doubt = words(
