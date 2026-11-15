@@ -34499,32 +34499,6 @@
       }
     },
     {
-      "key": "conversation.here-say-core.you-know-my-name-it-was-on-the-bill-you-vetoed",
-      "move": "here-say-core",
-      "kind": "spoken",
-      "text": "You know my name. It was on the bill you vetoed.",
-      "uses": [
-        {
-          "move": "here-say-core",
-          "subject": "here-say",
-          "role": "core",
-          "stages": ["known"],
-          "requiresFacts": ["their-name", "act-vetoed", "act-mine"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (desk/known-by-act-introductions.md)",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "core"
-      },
-      "piece": {
-        "of": "here-say",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
       "key": "conversation.here-say-core.im-their-name-youll-know-the-name",
       "move": "here-say-core",
       "kind": "spoken",
