@@ -11,6 +11,18 @@
  * each member's nearest in the sitting's own order stands for the rest, so
  * no class piles onto its lowest id either (132 of 200 to seat 002 before).
  *
+ * Re-pinned when sittings became rooms with attendance (pool:
+ * legislature-colleague-ties-stay-slight). The earlier premise was at least
+ * 10 colleagues taking some (173 acts with D1, 185 once lost hours ran from
+ * the last sitting). That held only while colleagues' ties faded between
+ * floor days and the player's own caucus and committee rows drew company.
+ * Now every member's committees, caucuses and the rest of a session day
+ * renew those ties, and `tiePull` reads hours lost since the two were last
+ * together, so few free hours go to fellow senators at all (9 in these two
+ * weeks). They still spread out: the player 1, seven colleagues the rest.
+ * What stays pinned is that the player is not favored and no colleague
+ * takes the share the player used to.
+ *
  * Pinned place and seed (Texas, 4846968, 8647-mason), the senate's
  * sixteenth member by id as the player; two played weeks of February 2025.
  */
@@ -64,12 +76,12 @@ it("senators keep company with the colleagues they sit with, not all with the pl
   const total = [...to.values()].reduce((a, b) => a + b, 0);
   const others = [...to].filter(([id]) => id !== player).map(([, n]) => n);
   // Before: every act went to the player (197 of 197). With D1: the player
-  // 57 of 173, and 13 colleagues 1 to 14 each. With a tie's lost hours read
-  // from the last day together anywhere, a sitting included (pool:
-  // people-tie-lost-hours-ignore-sittings-since): the player 33 of 185, and
-  // 24 colleagues 1 to 17 each, the spread this test asks for.
+  // 57 of 173, and 13 colleagues 1 to 14 each. With lost hours run from the
+  // last day together: the player 33 of 185, and 24 colleagues. With rooms
+  // and attendance (this head): 9 acts, the player 1, seven colleagues the
+  // rest (seat 022 has 2).
   expect(total).toBeGreaterThan(0);
   expect(to.get(player) ?? 0).toBeLessThan(total / 2);
   expect(Math.max(...others)).toBeLessThanOrEqual(total / 4);
-  expect(others.length).toBeGreaterThanOrEqual(10);
+  expect(others.length).toBeGreaterThanOrEqual(7);
 }, 90_000);
