@@ -9,21 +9,24 @@
  *
  * Variants per slot. A slot is a spot the composer picks from in the
  * scene-talk bank: one use's purpose, situation key, step, move and role,
- * whatever line a piece answers (`after`) and whatever facts it needs. Only
- * variants that differ count: each group variants-differ judges (`slotVariants`)
- * counts as one when it judged them rewordings of one meaning ("no"), and as
- * its size otherwise; a group not yet judged counts its size and says so. Floors:
- * - a line met in most talks (a talk's own greeting, opener, plain yes, plain
- *   no, closer, leave, or any line of the everyday talk): 8;
- * - a line tied to a rare record (every variant needs a fact on record): 2;
- * - any other line, met once in a talk of its kind: 4.
+ * whatever line a piece answers (`after`) and whatever facts it needs or is
+ * guarded by (`requiresFacts`, `excludesFacts`, `onlyWhen`). A variant counts
+ * only when it is placed (`placedUse`): placed by nothing (a routine key, no
+ * fact, no onlyWhen) it counts as zero and is listed apart, the first thing to
+ * fix. Of the placed ones, each group variants-differ judges (`slotVariants`)
+ * counts as one when it judged them rewordings of one meaning ("no"). Floors
+ * (Words lead, Nov 15, /mnt/project-files/words-lead/many/ruling-readings.md):
+ * - 8 for the everyday talk's spots and the greet, leave, open and close
+ *   steps many scenes share;
+ * - 2 when every variant needs a fact on record;
+ * - 4 for any other spot, a scene's own yes or no among them.
  *
  * Versions of each scene type. A purpose of src/director/data/purpose-arcs.json
  * is one scene type; its versions are its arcs in arc-variants.json (one when
  * it has none), since an arc differs in who is there, what is asked or how it
  * can end. Floors: corruption 30, legislating and negotiating 12, each part of
- * campaigning 3, everything else 3. Which group a purpose is in is the table
- * below; the Words lead corrects it.
+ * campaigning 3, everything else 3, by the table below (Words lead, Nov 15).
+ * A version is a different situation from the record, never a rewording.
  */
 import { writeFileSync } from "node:fs";
 import arcJson from "../../src/director/data/arc-variants.json" with { type: "json" };
@@ -61,6 +64,10 @@ export const SCENE_GROUPS: Readonly<Record<string, SceneGroup>> = {
   "hearing-ask": "legislating",
   "desk-visit": "legislating",
   "cut-argument": "legislating",
+  "bill-sign-on": "legislating",
+  "witness-stake": "legislating",
+  "study-formed": "legislating",
+  "study-reported": "legislating",
   "ask-support": "campaigning",
   "ask-signature": "campaigning",
   "donor-ask": "campaigning",
@@ -69,7 +76,6 @@ export const SCENE_GROUPS: Readonly<Record<string, SceneGroup>> = {
   "rival-word": "campaigning",
   "invite-debate": "campaigning",
   "invite-interview": "campaigning",
-  "press-comment": "campaigning",
   "filing-clerk": "campaigning",
   "filing-petition": "campaigning",
   "family-filing": "campaigning",
@@ -81,18 +87,30 @@ export const SCENE_GROUPS: Readonly<Record<string, SceneGroup>> = {
   "poll-problem": "campaigning",
 };
 
-/** Lines every kind of talk has: its greeting, opener, plain yes and no, closer and leave. */
-const COMMON_MOVES = new Set([
-  "greet",
-  "leave",
-  "accept",
-  "agree",
-  "decline",
-  "refuse",
-]);
+/**
+ * Lines many scenes share: greet, leave, and the open and close steps. A
+ * scene's own yes or no takes the scene's floor (Words lead, Nov 15).
+ */
+const COMMON_MOVES = new Set(["greet", "leave"]);
 const COMMON_STEPS = new Set(["open", "close"]);
 /** The everyday talk's purposes: their lines are met in most talks. */
 const EVERYDAY = new Set(["*", "talk", ""]);
+
+/**
+ * Whether a use places its line (Words lead, Nov 15, from the owner's play of
+ * the reporter's call, rules 110 to 113): a fact it needs, an onlyWhen, a
+ * caused situation key (anything but "routine"), or a subject raised from a
+ * record (anything but the scene itself).
+ */
+export function placedUse(use: Readonly<Record<string, unknown>>): boolean {
+  const listed = (value: unknown) => Array.isArray(value) && value.length > 0;
+  return (
+    listed(use.requiresFacts) ||
+    listed(use.onlyWhen) ||
+    (typeof use.key === "string" && use.key !== "routine") ||
+    (typeof use.subject === "string" && use.subject !== "scene")
+  );
+}
 
 export interface SlotRow {
   readonly slot: string;
@@ -100,6 +118,8 @@ export interface SlotRow {
   readonly variants: number;
   /** Variants that count: each variants-differ group counts one when judged rewordings, else its size. */
   readonly counted: number;
+  /** Variants placed by nothing (a routine key, no fact, no onlyWhen): counted as zero, the first thing to fix. */
+  readonly unplaced: number;
   readonly judged: "yes" | "no" | "not yet" | "one";
   readonly floor: number;
   readonly words: readonly string[];
@@ -118,7 +138,10 @@ export function slotRows(
       use: Record<string, unknown>;
       exact: Map<
         string,
-        Map<string, { key: string; text: string; needs: boolean }>
+        Map<
+          string,
+          { key: string; text: string; needs: boolean; placed: boolean }
+        >
       >;
     }
   >();
@@ -137,6 +160,7 @@ export function slotRows(
       delete slot.excludesFacts;
       const spotUse = { ...slot };
       delete spotUse.after;
+      delete spotUse.onlyWhen;
       const spotName = nameOf(spotUse);
       const spot = spots.get(spotName) ?? { use: spotUse, exact: new Map() };
       spots.set(spotName, spot);
@@ -147,6 +171,7 @@ export function slotRows(
         key: piece.key,
         text: piece.text,
         needs: Array.isArray(needs) && needs.length > 0,
+        placed: placedUse(use as Record<string, unknown>),
       });
     }
   }
@@ -156,7 +181,7 @@ export function slotRows(
     const judged = new Set<SlotRow["judged"]>();
     const all = new Map<
       string,
-      { key: string; text: string; needs: boolean }
+      { key: string; text: string; needs: boolean; placed: boolean }
     >();
     for (const variants of exact.values()) {
       const shown = [...variants.values()].sort((a, b) =>
@@ -164,7 +189,7 @@ export function slotRows(
       );
       for (const variant of shown) all.set(variant.key, variant);
       if (shown.length < 2) {
-        counted += shown.length;
+        counted += shown.filter((variant) => variant.placed).length;
         judged.add("one");
         continue;
       }
@@ -178,7 +203,8 @@ export function slotRows(
           ? "yes"
           : "not yet";
       judged.add(verdict);
-      counted += verdict === "no" ? 1 : shown.length;
+      const placed = shown.filter((variant) => variant.placed).length;
+      counted += verdict === "no" ? Math.min(1, placed) : placed;
     }
     const variants = [...all.values()];
     const purpose = String(use.purpose ?? "");
@@ -196,6 +222,7 @@ export function slotRows(
       cls,
       variants: variants.length,
       counted,
+      unplaced: variants.filter((variant) => !variant.placed).length,
       judged: judged.has("not yet")
         ? "not yet"
         : judged.has("no")
@@ -268,7 +295,7 @@ function main() {
     ...(["common", "once", "rare"] as const).map((cls) => {
       const of = slots.filter((row) => row.cls === cls);
       const thin = of.filter((row) => row.counted < row.floor);
-      return `- ${cls} (floor ${SLOT_FLOORS[cls]}): ${of.length} slots, ${thin.length} thin; ${of.filter((row) => row.judged === "not yet").length} not yet judged by variants-differ`;
+      return `- ${cls} (floor ${SLOT_FLOORS[cls]}): ${of.length} slots, ${thin.length} thin, ${of.reduce((sum, row) => sum + row.unplaced, 0)} variants placed by nothing; ${of.filter((row) => row.judged === "not yet").length} not yet judged by variants-differ`;
     }),
     "",
     `Scene types: ${scenes.length}; ${thinScenes.length} below their floor.`,
@@ -288,7 +315,7 @@ function main() {
           `- ${row.purpose} (${row.group}): ${row.versions} of ${row.floor}${row.arcs.length ? ` (${row.arcs.join(", ")})` : ""}`,
       ),
     "",
-    "## Slots by scene: how many are below their floor",
+    "## Slots by scene: variants placed by nothing (counted as zero, fixed first), then thin slots",
     "",
     ...[...byScene(slots).entries()]
       .map(([purpose, rows]) => ({
@@ -296,11 +323,17 @@ function main() {
         rows: rows.length,
         thin: rows.filter((row) => row.counted < row.floor).length,
         counted: rows.reduce((sum, row) => sum + row.counted, 0),
+        unplaced: rows.reduce((sum, row) => sum + row.unplaced, 0),
       }))
-      .sort((a, b) => b.thin - a.thin || a.purpose.localeCompare(b.purpose))
+      .sort(
+        (a, b) =>
+          b.unplaced - a.unplaced ||
+          b.thin - a.thin ||
+          a.purpose.localeCompare(b.purpose),
+      )
       .map(
         (row) =>
-          `- ${row.purpose}: ${row.thin} of ${row.rows} slots thin, ${(row.counted / row.rows).toFixed(1)} counted variants a slot`,
+          `- ${row.purpose}: ${row.unplaced} variants placed by nothing; ${row.thin} of ${row.rows} slots thin, ${(row.counted / row.rows).toFixed(1)} counted variants a slot`,
       ),
     "",
     "## Slots below their floor, thinnest first",
@@ -313,7 +346,7 @@ function main() {
       )
       .map(
         (row) =>
-          `- ${row.slot} (${row.cls}): ${row.counted} of ${row.floor}${row.judged === "no" ? `, ${row.variants} rewordings of one meaning` : row.judged === "not yet" ? ", not yet judged" : ""}: ${row.words
+          `- ${row.slot} (${row.cls}): ${row.counted} of ${row.floor}${row.unplaced ? `, ${row.unplaced} placed by nothing` : ""}${row.judged === "no" ? `, ${row.variants} include rewordings of one meaning` : row.judged === "not yet" ? ", not yet judged" : ""}: ${row.words
             .slice(0, 3)
             .map((words) => `"${words}"`)
             .join(" / ")}`,
