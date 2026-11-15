@@ -6,8 +6,8 @@ kind: bug
 priority: 3
 size: S
 status: in-pr
-claimed-by:
-pr:
+claimed-by: S3
+pr: 9359
 after:
 blocked-on:
 source: stand-in triage Nov 10
