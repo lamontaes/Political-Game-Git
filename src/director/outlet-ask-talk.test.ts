@@ -42,7 +42,8 @@ for (const kind of KINDS)
         );
         const me = playerId as PersonId;
         const api = coreAPI(core);
-        advanceCore(core, addDays(makeIsoDate(core.date), 28));
+        // No natural story yet: the printed story the neighbor raises is the one staged below.
+        advanceCore(core, addDays(makeIsoDate(core.date), 1));
         const outlet = outletsHere(api).find(
           (o) => o.kind === kind && o.tier !== "national",
         )!;
@@ -65,7 +66,8 @@ for (const kind of KINDS)
           {
             id: storyId,
             kind: "press.printed",
-            date: addDays(makeIsoDate(core.date), -1),
+            // Today, and so the newest story the neighbor holds: it is the one raised.
+            date: makeIsoDate(core.date),
             placeId: neighbor!.placeId,
             topic: strongestQuestion(api, id)!.question,
             desiredChange: "enact",
