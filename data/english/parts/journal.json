@@ -10968,6 +10968,58 @@
       "tag": {
         "move": "tell"
       }
+    },
+    {
+      "key": "journal.scene-line-petition-going-out.i-went-out-to-get-more-names-on-my-petition",
+      "move": "scene-line-petition-going-out",
+      "kind": "spoken",
+      "text": "I went out to get more names on my petition.",
+      "uses": [
+        {
+          "move": "scene-line-petition-going-out",
+          "subject": "scene",
+          "role": "line",
+          "choice": "petition-going-out",
+          "journal": [
+            {
+              "kindPrefix": "scene-ending:petition-going-out",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (petition-short lines, Nov 15), placed by the record",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.scene-line-petition-not-today.other-said-my-petition-was-short-i-let-it-wait",
+      "move": "scene-line-petition-not-today",
+      "kind": "spoken",
+      "text": "{other} said my petition was short. I let it wait.",
+      "uses": [
+        {
+          "move": "scene-line-petition-not-today",
+          "subject": "scene",
+          "role": "line",
+          "choice": "petition-not-today",
+          "journal": [
+            {
+              "kindPrefix": "scene-ending:petition-not-today",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (petition-short lines, Nov 15), placed by the record",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "tell"
+      }
     }
   ]
 }

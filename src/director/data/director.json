@@ -1575,6 +1575,11 @@
       "impactParameter": "directorFilingImpact"
     },
     {
+      "eventKind": "petition-short",
+      "channel": "cause",
+      "impactParameter": "directorFilingImpact"
+    },
+    {
       "eventKind": "rival-filed",
       "channel": "cause",
       "impactParameter": "directorFilingImpact"
