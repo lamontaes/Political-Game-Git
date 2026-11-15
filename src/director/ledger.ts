@@ -286,7 +286,19 @@ export function createDirector(
   const laterDays = new Map<string, number[]>();
   for (const [kind, rows] of circumstanceRows) {
     const days = [
-      ...new Set(rows.flatMap((row) => (row.afterDays ? [row.afterDays] : []))),
+      ...new Set(
+        rows.flatMap((row) =>
+          row.afterDays
+            ? Array.from(
+                {
+                  length:
+                    (row.keepsDays ?? row.afterDays) - row.afterDays + P.one,
+                },
+                (_, step) => row.afterDays! + step,
+              )
+            : [],
+        ),
+      ),
     ];
     if (days.length) laterDays.set(kind, days);
   }
@@ -1663,7 +1675,15 @@ export function createDirector(
           b.score - a.score ||
           a.row.id.localeCompare(b.row.id),
       );
-      const pick = picks[zero];
+      // A row whose news keeps stages its scene for a record once: the first
+      // morning it wins the day, not the mornings after.
+      const pick = picks.find(
+        (row) =>
+          !row.row.keepsDays ||
+          !ledger.circumstanceLast.has(
+            `${book.personId}|${row.row.id}|${row.record.id}`,
+          ),
+      );
       if (!pick) continue;
       const base = param(pick.row.impactParameter);
       const raw = one + pick.closeness;
@@ -1703,6 +1723,11 @@ export function createDirector(
       ledger.circumstanceLast.set(`${book.personId}|${pick.row.id}`, date);
       ledger.circumstanceLast.set(`${book.personId}|*`, date);
       ledger.circumstanceLast.set(`${book.personId}|cast|${pick.castId}`, date);
+      if (pick.row.keepsDays)
+        ledger.circumstanceLast.set(
+          `${book.personId}|${pick.row.id}|${pick.record.id}`,
+          date,
+        );
     }
   }
 
