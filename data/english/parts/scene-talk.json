@@ -186266,62 +186266,6 @@
       }
     },
     {
-      "key": "scene-talk.state-deliver-news.you-re-still-registered-at-your-old-address",
-      "move": "state-deliver-news",
-      "kind": "spoken",
-      "text": "You're still registered at your old address.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "poll-problem",
-          "key": "routine",
-          "step": "state",
-          "move": "deliver-news",
-          "role": "asker",
-          "requiresFacts": ["poll-old-address"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead lines, built in by the voter registration thread (items scene-trouble-at-the-polling-place, words-run-poll-problem-lines-are-composed)",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "deliver-news",
-        "key": "routine"
-      },
-      "piece": {
-        "of": "poll-news",
-        "part": "opener"
-      }
-    },
-    {
-      "key": "scene-talk.state-deliver-news.you-registered-after-the-deadline-for-this-election",
-      "move": "state-deliver-news",
-      "kind": "spoken",
-      "text": "You registered after the deadline for this election.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "poll-problem",
-          "key": "routine",
-          "step": "state",
-          "move": "deliver-news",
-          "role": "asker",
-          "requiresFacts": ["poll-after-deadline"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead lines, built in by the voter registration thread (items scene-trouble-at-the-polling-place, words-run-poll-problem-lines-are-composed)",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "deliver-news",
-        "key": "routine"
-      },
-      "piece": {
-        "of": "poll-news",
-        "part": "opener"
-      }
-    },
-    {
       "key": "scene-talk.state-deliver-news.you-can-register-right-here-and-vote-today",
       "move": "state-deliver-news",
       "kind": "spoken",
@@ -187239,6 +187183,56 @@
       "date": "2026-11-15",
       "tag": {
         "move": "promise",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-accept.then-sign-me-up",
+      "move": "reply-accept",
+      "kind": "spoken",
+      "text": "Then sign me up.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "poll-problem",
+          "key": "routine",
+          "step": "reply",
+          "move": "accept",
+          "role": "asked",
+          "after": "scene-talk.follow-answer.just-this-form-i-ll-walk-you-through-it",
+          "requiresFacts": ["poll-same-day"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead lines, built in by the voter registration thread (items scene-trouble-at-the-polling-place, words-run-poll-problem-lines-are-composed)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.not-today-thank-you",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Not today. Thank you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "poll-problem",
+          "key": "routine",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "after": "scene-talk.follow-answer.just-this-form-i-ll-walk-you-through-it",
+          "requiresFacts": ["poll-same-day"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead lines, built in by the voter registration thread (items scene-trouble-at-the-polling-place, words-run-poll-problem-lines-are-composed)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "leave",
         "key": "routine"
       }
     }
