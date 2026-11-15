@@ -285,6 +285,7 @@
 /src/core2/journal-state.ts @lamontaes
 /src/core2/journal.ts @lamontaes
 /src/core2/heard-claims.ts @lamontaes
+/src/core2/told-claims.ts @lamontaes
 /src/core2/home-distance.ts @lamontaes
 /src/core2/sibling-names.ts @lamontaes
 /src/core2/modules/partnerships.ts @lamontaes
