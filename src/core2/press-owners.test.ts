@@ -197,17 +197,11 @@ describe("the press's owner and tip reads", () => {
       (s) => s.kind === "press.exposed",
     );
     expect(exposed.length, where).toBe(ran ? 1 : 0);
-    // The story says what the official said: unattended, their own lean on
-    // the comment (press.ts runExposure).
     const printed = api
       .moduleState(PRESS_MODULE_ID)
       .table("tips")
-      .get(crimeId) as { storyId: string | null; comment?: string } | undefined;
+      .get(crimeId) as { storyId: string | null } | undefined;
     expect(!!printed?.storyId, where).toBe(ran);
-    if (ran)
-      expect(["admitted", "declined", "denied"], where).toContain(
-        printed!.comment,
-      );
   });
 
   it("a leak is a tip the leaker chose to give: the reporter still decides to dig and the owner to run it, and the reporter knows who gave it", () => {

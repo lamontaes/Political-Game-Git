@@ -2578,6 +2578,50 @@
         }
       ]
     },
+    "ask-endorsement": {
+      "state": "request",
+      "stateMoves": ["tell-reason", "tell-need", "request"],
+      "replies": ["agree", "decline", "stall"],
+      "follow": {
+        "agree": ["thank"],
+        "decline": ["press"],
+        "stall": ["press"],
+        "refuse": ["accept"],
+        "relent": ["thank"],
+        "deflect": ["accept"]
+      },
+      "repeatable": {
+        "tell-reason": ["agree", "decline", "stall"],
+        "tell-need": ["agree", "decline", "stall"]
+      },
+      "again": { "press": ["agree", "relent", "refuse", "deflect"] },
+      "endings": [
+        {
+          "id": "endorsed",
+          "label": "You gave them your endorsement",
+          "keeps": "none",
+          "when": { "reply": ["agree", "relent"] }
+        },
+        {
+          "id": "refused",
+          "label": "You said no",
+          "keeps": "relationship-strained",
+          "when": { "reply": ["decline", "refuse"] }
+        },
+        {
+          "id": "thinking",
+          "label": "You said you would think about it",
+          "keeps": "none",
+          "when": { "reply": ["stall", "deflect"] }
+        },
+        {
+          "id": "left-there",
+          "label": "Left it there",
+          "keeps": "none",
+          "when": {}
+        }
+      ]
+    },
     "offer-help": {
       "state": "request",
       "replies": ["ask", "agree", "decline", "stall"],
