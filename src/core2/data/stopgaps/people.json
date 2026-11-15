@@ -168,13 +168,13 @@
   {
     "id": "SG-PEOPLE-counted-victims-lived-crime",
     "kind": "missing-mechanic",
-    "file": "src/core2/modules/views.ts",
-    "line": 944,
-    "whatItFakes": "A counted group's victimizations are a tally row per place, month and group; the views engine moves only the full victims a crime.victimized record names, so the wider population's view on the police never moves from the crimes it lives.",
-    "why": "A counted group's view is read from its opening profile alone; the views engine keeps no per-group stance a tally could move, and filling a member in would have to carry that moved view.",
+    "file": "src/core2/counted-news-views.ts",
+    "line": 343,
+    "whatItFakes": "A counted group lives its victimizations through its tally row: its stance on the question the crime ties to moves by the full victim's rule times the share of its adults the crimes reached (liveCountedCrime), as news moves a counted group. Two parts are still missing: counted ballots read a counted voter's view from their opening profile (countedViewOn), not the group's countedStances row, so the moved stance reaches what the press reads (countedNewsConcern) but not votes; and a member filled in from the group does not carry the group's stance.",
+    "why": "The counted ballot and the fill-in read neither news nor lived stances from the group row today; both are the same gap as SG-PEOPLE-counted-readers-stories and are built once for every countedStances row.",
     "addedBy": "effects lead (web-views-lived-crime-moves-stance)",
     "addedAt": "2026-10-24",
-    "replacement": "people-counted-victims-lived-crime: each counted group a tally row names moves its view on the police by the full victim's rule times the tally's count, citing the tally row, and a member filled in from that group holds the moved view.",
+    "replacement": "countedViewOn adds the group's countedStances row the way a full person's viewOn adds their stance, and a member filled in from the group starts from the group's stance (one PR for news and lived crime alike).",
     "status": "open"
   },
   {
