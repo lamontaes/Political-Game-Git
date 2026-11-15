@@ -1,3 +1,4 @@
+/* global process */
 /**
  * The desktop app keeps its life across quit and reopen
  * (core-played-game-saves-and-continues, part 3). The play server's host
