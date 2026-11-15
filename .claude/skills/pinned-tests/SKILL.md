@@ -26,6 +26,9 @@ Lead ruling, Nov 13 to 14: a test is pinned in the test file to named places wit
 7. **A late start changes who runs.** A test that opens a world later in the year to save time changes who files, who is in office and what is under way (the views thread, Nov 14: a moderate files on a cause from a Feb 3 board meeting at Marshfield MA, and in a world opened Aug 1 or Sep 1 only two liberals file; at Monument Beach MA opened Jun 1 the conservative never files). Check that the case still exists in the late world before moving the start date.
 8. **A pinned case must fail on the old behavior.** Put the old line back once and see the test go red (the warm-up test: without the hold the played person acts 69 times in the window, with it 0) before calling the case pinned.
 
+9. **A test that takes "the first ask" breaks when an ask moves earlier (Nov 15).** Moving a party's ask before the day's weighing made the first ask an ask to a member who weighs the seat, so the player's-answer test registered the wrong person. Pick the case by what the records say (the ask came after the contest's weighed row had `filedOn` set), never by order, and say why in a comment. Narrowing which case a test stages is not loosening it; removing or weakening an assertion is, and goes to the lead.
+10. **Check that a break-it edit changed the file (Nov 15).** A `sed` that matches nothing leaves the code intact and the test green. Print the changed line, or count matches, before reading the result.
+
 ## Checking a reported pass
 
 Ask where it ran and at what head. A unit test that builds its own small world proves an edge case only; the played-world proof is separate.
