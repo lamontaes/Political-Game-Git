@@ -5,8 +5,8 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: in-pr
+claimed-by: claude/cluster11-floor-gaps
 pr:
 blocked-on:
 source: the Account lead's two questions on the floor-date fix (Nov 15), answered from the code of #9459
@@ -34,4 +34,4 @@ root: none
 
 **Files.** src/core2/modules/world-legislating.ts, src/core2/bill-floor-date-gaps.test.ts (new)
 
-**Notes.** Reported by the floor-date builder before #9459 was marked ready; the sha was not moved at the Account lead's word.
+**Notes.** Reported by the floor-date builder before #9459 was marked ready; the sha was not moved at the Account lead's word. Pinned tests: src/core2/bill-floor-date-gaps.test.ts, one at Holiday Lakes, Texas and one at a Florida place whose legislature convenes March 4; both fail without the fix. Played in the running game: the refusal, then the sitting's opening day.
