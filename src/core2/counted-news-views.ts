@@ -225,6 +225,7 @@ export function countedGroupStance(
   personId: string,
   question: string,
 ): Stance | undefined {
+  if (!api.state.modules.has(VIEWS_MODULE_ID)) return undefined;
   const store = residentsRuntime(api.state as CoreState)?.store;
   const m = store?.countedMember(personId);
   if (m === undefined) return undefined;
@@ -244,7 +245,7 @@ export function countedStancesOfHousehold(
   householdId: string,
 ): readonly Stance[] {
   const id = householdGroupId(api, householdId);
-  if (!id) return [];
+  if (!id || !api.state.modules.has(VIEWS_MODULE_ID)) return [];
   return api
     .moduleState(VIEWS_MODULE_ID)
     .table("countedStances")

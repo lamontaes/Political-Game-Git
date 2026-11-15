@@ -385,6 +385,8 @@ interface CountedBallotsRow {
   /** Each voter's faith and degree against their age band's average (null where none is recorded; absent on rows kept before the loadings). */
   readonly faith?: readonly (number | null)[];
   readonly college?: readonly (number | null)[];
+  /** How far what each voter's group has heard or lived has moved them on the field's platform questions, by question (null where nothing has; absent on rows kept before it was read). */
+  readonly heard?: readonly (Readonly<Record<string, number>> | null)[];
   /** Each voter's door "yes" as it held on the day (null where they gave none; absent on rows kept before pledges). */
   readonly pledges?: readonly (Readonly<Record<string, number>> | null)[];
   /** What each voter's decided cases left them feeling toward each official on the ballot (null where they brought none; absent on rows kept before cases counted). */
@@ -4002,6 +4004,11 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
   let countedVoted = 0;
   let countedEligible = 0;
   const field = countedField(api, counting, filings);
+  // The questions the field's platforms take a side on: what a counted
+  // voter's group has heard of them is kept with the ballot.
+  const questions = [
+    ...new Set(field.flatMap((f) => f.platform.map((p) => p.question))),
+  ];
   const kept = {
     voterIds: [] as string[],
     voted: [] as number[],
@@ -4014,6 +4021,7 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
     weight: [] as number[],
     faith: [] as (number | null)[],
     college: [] as (number | null)[],
+    heard: [] as (Readonly<Record<string, number>> | null)[],
     /** Each voter's door "yes" as it held on the day (null where they gave none, or where it held for one household of several). */
     pledges: [] as (Readonly<Record<string, number>> | null)[],
     warmths: [] as (Readonly<Record<string, number>> | null)[],
@@ -4109,6 +4117,7 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
     // Module data holds JSON: a missing distance is kept as null.
     kept.faith.push(profile.faithFromAverage ?? null);
     kept.college.push(profile.collegeFromAverage ?? null);
+    kept.heard.push(heardOn(profile, questions));
     kept.pledges.push(division.wholePledged ? (pledges ?? null) : null);
     kept.warmths.push(warmths ?? null);
     kept.endorsed.push(endorsed ?? null);
@@ -5533,6 +5542,35 @@ function countedRow(
 }
 
 /** The engine's own reading of one kept counted ballot. */
+/** What a counted voter's group has heard or lived on each question, where it has moved them (null where nothing has). */
+function heardOn(
+  profile: StanceProfile,
+  questions: readonly string[],
+): Readonly<Record<string, number>> | null {
+  let heard: Record<string, number> | null = null;
+  for (const question of questions) {
+    const shift = profile.heard?.(question) ?? 0;
+    if (shift) (heard ??= {})[question] = shift;
+  }
+  return heard;
+}
+
+/** The stance profile a kept counted ballot was read with: faith, degree and what the voter's group had heard. */
+function keptProfile(row: CountedBallotsRow, i: number): StanceProfile | null {
+  const heard = row.heard?.[i];
+  const faith =
+    row.faith && row.college && Number.isFinite(row.faith[i])
+      ? {
+          faithFromAverage: row.faith[i]!,
+          ...(Number.isFinite(row.college[i])
+            ? { collegeFromAverage: row.college[i]! }
+            : {}),
+        }
+      : null;
+  if (!heard) return faith;
+  return { ...faith, heard: (question: string) => heard[question] ?? 0 };
+}
+
 function countedBallotAt(row: CountedBallotsRow, i: number): CountedBallotRow {
   return {
     id: `ballot:${row.contestId}:${row.voterIds[i]!}`,
@@ -5560,15 +5598,7 @@ function countedBallotAt(row: CountedBallotsRow, i: number): CountedBallotRow {
       warmths: row.warmths?.[i] ?? undefined,
       endorsed: row.endorsed?.[i] ?? undefined,
       divides: true,
-      profile:
-        row.faith && row.college && Number.isFinite(row.faith[i])
-          ? {
-              faithFromAverage: row.faith[i]!,
-              ...(Number.isFinite(row.college[i])
-                ? { collegeFromAverage: row.college[i]! }
-                : {}),
-            }
-          : null,
+      profile: keptProfile(row, i),
     }),
     basis: "party-name-incumbency",
     lean: row.lean[i]!,
