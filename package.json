@@ -13,6 +13,7 @@
     "preview": "vite preview",
     "words:composed": "node --max-old-space-size=4096 --import tsx scripts/words/composed.ts",
     "words:grade": "node --import tsx scripts/words/after-grading.ts",
+    "words:placement": "node --import tsx scripts/words/placement.ts",
     "words:pairs": "node --import tsx scripts/words/reply-pairs.ts",
     "words:review": "node --import tsx scripts/words/review.ts",
     "words:rules": "node --import tsx scripts/words/run-rules.ts",

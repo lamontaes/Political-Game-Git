@@ -5821,6 +5821,23 @@
         "Can we talk later?",
         "What's in it for my district?"
       ]
+    },
+    {
+      "id": "reply-states-only-what-the-record-holds",
+      "says": "A reply that states the player's vote, stance or past act is offered only when the record agrees; a false one is offered only as a marked lie, where the game reads lies, and never against what was said a line earlier.",
+      "judges": "line",
+      "from": [
+        {
+          "date": "2026-11-14",
+          "words": "I never had a problem with the ordinance. (offered after \"You voted against it.\")",
+          "via": "Words lead, rule 113"
+        }
+      ],
+      "note": "Rule 113. A counted report, not a pull: `npm run words:placement` lists the reply uses that state a vote or stance and require none of the facts that say it (data/english/placement-checks.json); the count may only fall (tests/guards/english/placement-checks.test.ts).",
+      "status": "awaiting-test",
+      "test": {
+        "kind": "place"
+      }
     }
   ]
 }

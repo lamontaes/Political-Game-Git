@@ -1,0 +1,23 @@
+{
+  "about": "Placement checks (Words lead, rules 110 to 113, Nov 14): a check reads where a bank piece is placed (its step, role, move and the facts it requires), never its wording alone. Each is a counted report: the count of breaks may only fall (tests/guards/english/placement-baseline.json) and no line is pulled; the Words lead names who fixes each one. Run `npm run words:placement` for the list.",
+  "checks": {
+    "reply-states-only-what-the-record-holds": {
+      "rule": "Rule 113",
+      "says": "A reply that states the player's own vote or stance needs the fact that says it, or is a marked lie.",
+      "step": "reply",
+      "role": "asked",
+      "statesPatterns": [
+        "\\bI (?:voted|vote|am voting|'m voting|will vote|support|oppose|supported|opposed|backed|back it|stand with|stand against|was against|am against|'m against|was for|am for|'m for|'m in favor|am in favor|don't support|didn't support|wasn't for)\\b",
+        "\\bI'm (?:against|for|opposed|in favor)\\b"
+      ],
+      "needsAnyFact": [
+        "voted-yes",
+        "voted-no",
+        "voted-for",
+        "voted-against",
+        "reason-last-vote"
+      ],
+      "exemptMoves": ["reply-lie"]
+    }
+  }
+}
