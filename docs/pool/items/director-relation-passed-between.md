@@ -8,7 +8,7 @@ size: M
 status: open
 standard: 2
 claimed-by: claude/words-class-h
-pr:
+pr: #9444
 after: director-relation-facts-one-reader
 blocked-on:
 lead: words
