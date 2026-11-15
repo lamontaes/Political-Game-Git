@@ -18,11 +18,11 @@ effort: medium
 root: none
 ---
 
-**What.** Advancing a world throws "Invalid nonnegative integer journal amount: owner after" (src/core2/journal.ts line 176) on some draws, so a played town stops mid-year. Seen: a player whose town has a campaign with paid circulators sees the world stop instead of the race going on.
+**What.** Advancing a world throws "Invalid nonnegative integer journal amount: owner after" (src/core2/journal.ts line 176) on some draws, so a played town stops mid-year. It happens while a campaign pays its circulators. Seen: a player whose town has a campaign with paid circulators sees the world stop instead of the race going on.
 
 **Cause.** Needs cause. Stack: circulatorShift (campaigns.ts line 3560), spend (4312), postMoney (4484), postJournal (state.ts 1041), postCashJournal (journal-state.ts 1417), projectCashJournal (journal.ts 498). Seen with GOLDEN_PATH_SEED=f06e00f0538bf6809078d24a90485082d362b578 in src/director/journal-race-margin.test.ts (places drawn from that seed as "journal-race-margin:0": Dagu, Northern Mariana Islands, then Laramie, Wyoming and Maunabo, Puerto Rico); a second throw with the same message came in journal-story.test.ts on a random seed. Which account and amount went below zero is not yet read.
 
-**Fix.** Read which account's balance goes below zero when a circulator is paid, and fix it at the root in the campaign's spending or its funds, never by clamping or skipping a posting.
+**Fix.** None until the cause is found.
 
 **Time box.** 2 hours; if not done, push what exists and write the handoff.
 
