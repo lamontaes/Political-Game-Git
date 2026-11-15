@@ -13,8 +13,11 @@
  * the month its speech comes. A world opened later has none of these speeches
  * (no campaign under way; pool item
  * opening-world-holds-causes-lived-before-its-start), so each plays from Jan
- * 20, 2025, and its limit sits near twice its measured time. GOLDEN_PATH_SEED
- * adds a run in places drawn from all 56 on that seed, for up to two years.
+ * 20, 2025. Each case's time is the game's own played days, not the test's:
+ * Gilliam MO plays 20 months (speech on Sep 7, 2026; about 82 s), Barton MD 21
+ * (Oct 6, 2026; about 150 s) and Wilton IA 20 (Aug 19, 2026; about 88 s), and
+ * each limit sits near twice its measured time. GOLDEN_PATH_SEED adds a run in
+ * places drawn from all 56 on that seed, for up to two years.
  */
 import { expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
