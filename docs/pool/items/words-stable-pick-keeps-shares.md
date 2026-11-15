@@ -2,7 +2,7 @@
 id: words-stable-pick-keeps-shares
 title: "Scaling every wording in a spot alike changes no line said"
 area: words
-kind: defect
+kind: bug
 priority: 1
 size: S
 status: claimed
