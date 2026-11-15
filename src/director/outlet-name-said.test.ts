@@ -12,6 +12,7 @@ import { buildBenchWorld } from "../bench/world";
 import { gameStartDate } from "../core2/game-start";
 import type { PersonId } from "../core2/types";
 import { openConversation, say } from "./conversation";
+import { donorAskFacts } from "./donor-ask-facts";
 
 it("says an outlet's name as its record has it when its staff say where they work", () => {
   const { core, playerId } = buildBenchWorld("review1:2", gameStartDate(), {
@@ -47,6 +48,27 @@ it("says an outlet's name as its record has it when its staff say where they wor
       )
       .map((text) => `  ${text}`)
       .join("\n")}\n`,
+  );
+  // The donor ask names the employer through the same function.
+  const asked = staff.flatMap((job) => {
+    const org = outlets.find((entry) => entry.id === job.organizationId);
+    const employer = donorAskFacts(
+      core,
+      job.personId as PersonId,
+      "outlet-name-said",
+      undefined,
+      () => 0,
+    ).employer?.text;
+    return org && employer ? [{ name: org.name, employer }] : [];
+  });
+  expect(asked.length, "a donor ask names an outlet").toBeGreaterThan(0);
+  for (const row of asked)
+    expect(row.employer, "the employer is said as recorded").toContain(
+      row.name,
+    );
+  appendFileSync(
+    path.join(tmpdir(), "outlet-name-said.txt"),
+    `Donor ask employer: ${asked.map((row) => row.employer).join(" | ")}\n`,
   );
   const wrong = said.filter((text) =>
     outlets.some((org) => {

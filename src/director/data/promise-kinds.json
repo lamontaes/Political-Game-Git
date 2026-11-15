@@ -32,6 +32,12 @@
       "kind": "show-around"
     },
     {
+      "purpose": "ask-to-serve",
+      "ending": "promised",
+      "kind": "hold-question",
+      "causeKinds": ["serve-asked"]
+    },
+    {
       "purpose": "friend-ask",
       "ending": "said-yes-to-friend",
       "kind": "attend"
@@ -122,6 +128,29 @@
       "windowEnds": "broken",
       "countedOn": false,
       "renewable": false
+    },
+    {
+      "id": "hold-question",
+      "about": "The player's word, given as the price of a yes to serve with them (gov-serve-ask-price-end), to hold the side the one asked holds on the question they care most about: settled by the player's next vote at a roll call or signature or veto on a bill that moves that question, kept if it moves the question their way, broken if against. Held by the player (the second person on the scene reply) and owed to the one asked. The question and the side come from the ask's record (`serve-asked` facts `price-question` and `price-side`: the question they hold most strongly that the ticket's office can decide).",
+      "heldBy": "second",
+      "tie": {
+        "question": "price-question",
+        "side": "price-side"
+      },
+      "settle": [
+        {
+          "operation": "question-vote",
+          "eventKind": "legislative-vote"
+        },
+        {
+          "operation": "question-signature",
+          "eventKind": "executive-action"
+        }
+      ],
+      "windowDays": "promiseHoldQuestionWindowDays",
+      "windowEnds": "lapsed",
+      "countedOn": true,
+      "renewable": false
     }
   ],
   "answersNote": "The player's answers when the one owed raises a settled promise (Words lead rulings 2, Nov 14). Each is read, or it is not offered. Kept: two of three courtesy answers, the two the player's traits lean to most (a trait's value is -2 to 2; `sign` -1 reads its low end); none moves the tie, which warmed when the promise was kept. Broken: `recovers` gives back a share (promiseOwnShare) of the hours the broken promise cost, times the one owed's lean to smooth things over (low `people-mind-v1:conflict`), divided by one more than the promises this person broke to them before (the ledger); `countedOnFactor` takes it down again by the one owed's own reliability where the kind is one they counted on. `cools` takes more hours off (promiseDeniedHours). `renews` writes a new promise of the same kind, offered only where the kind is renewable (a record can settle the new one). The answer is a `promise.answer` record either way.",
@@ -209,7 +238,7 @@
     "promiseBrokenHours": {
       "value": 2,
       "tag": "TUNABLE",
-      "citation": "As scene-talk-rules endingStrain trust-lost: a promise broken costs what trust lost costs (promises.ts).",
+      "citation": "Twice a kept word: a promise broken costs more than one talk's time together (promises.ts). Fixed hours while scene-talk-rules endingStrain trust-lost became a share of the tie (Nov 15); whether a broken promise should be a share too is item people-broken-promise-costs-share-of-tie.",
       "spread": "1 to 4",
       "checkRange": {
         "min": 1,
@@ -234,6 +263,16 @@
       "checkRange": {
         "min": 0.5,
         "max": 2
+      }
+    },
+    "promiseHoldQuestionWindowDays": {
+      "value": 1461,
+      "tag": "TUNABLE",
+      "citation": "One four-year term, the length of the seat the promise was the price of: a word given for a ticket is held until a vote or signature on the question tests it, and lapses with no outcome if none does in that time (promises.ts).",
+      "spread": "730 to 2922",
+      "checkRange": {
+        "min": 730,
+        "max": 2922
       }
     },
     "promiseAttendWindowDays": {

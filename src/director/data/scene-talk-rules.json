@@ -85,7 +85,7 @@
     }
   },
   "endingStrain": {
-    "about": "What an ending that strains a tie writes to closeness (the plan of Oct 28, section 3: each ending's keeps is a write to the engine that owns it). The closeness engine reads negative hours as a quarrel, tempered by who holds on to it. A negative value warms the tie (an ending settled in the scene). An ending that keeps a favor or a promise is written on the scene's record (facts keeps and ending, and for a promise its kind and tie from promise-kinds.json); the director keeps it and settles it (src/director/promises.ts).",
+    "about": "What an ending that strains a tie writes to closeness (the plan of Oct 28, section 3: each ending's keeps is a write to the engine that owns it). Each row is hours, or (unit \"share of the tie\") a share of the hours the tie stands on today (closeness.ts tieHoursBetween). The closeness engine reads negative hours as a quarrel, tempered by who holds on to it. A negative value warms the tie (an ending settled in the scene). An ending that keeps a favor or a promise is written on the scene's record (facts keeps and ending, and for a promise its kind and tie from promise-kinds.json); the director keeps it and settles it (src/director/promises.ts).",
     "relationship-strained": {
       "value": 1,
       "tag": "TUNABLE",
@@ -93,10 +93,11 @@
       "checkedAgainst": "One talk's length of quarrel, as familyStakes.putOffHours: a scene left on a strained note cancels about one talk's time together."
     },
     "trust-lost": {
-      "value": 2,
+      "value": 0.25,
+      "unit": "share of the tie",
       "tag": "TUNABLE",
-      "spread": [1, 4],
-      "checkedAgainst": "Twice a strained ending: trust lost (a lie found out, a promise broken to their face) costs more than a talk left unfinished."
+      "spread": [0.1, 0.5],
+      "checkedAgainst": "Trust lost (a lie found out, a promise broken to their face) takes a share of the hours the tie stands on today, so it costs a close tie more than a slight one: people tell fewer everyday lies to those they are close to and are more uncomfortable telling them (DePaulo and Kashy 1998, Everyday lies in close and casual relationships, Journal of Personality and Social Psychology 74(1)), which gives the direction only. The share is not fitted to a lie rate; it is checked by recounting the lies told at three named places by closeness band (Account lead's ruling and Words lead's yes, Nov 15)."
     },
     "kept-in-scene": {
       "value": -1,

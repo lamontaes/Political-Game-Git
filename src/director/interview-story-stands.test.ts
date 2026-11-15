@@ -149,5 +149,10 @@ describe("an interview's printed story", () => {
         `${place.name}: the story says the stand on ${asked}`,
       ).toBeTruthy();
     }
-  }, 240_000);
+    // The limit is near twice the slower of two measurements: alone (38.6 s
+    // at 358c0156), and on CI beside the pull request's other changed test
+    // files (74.6 s, #9509's unit job). It was 70 s, set from 32 s measured
+    // alone on train aa927a84; that was the wrong measurement, since CI runs
+    // the file beside the others (Account lead, Nov 15).
+  }, 150_000);
 });

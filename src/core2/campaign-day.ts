@@ -51,6 +51,7 @@ import {
   answerInterview,
   interviewsFor,
   newsworthiness,
+  raceAudienceShare,
   outletsHere,
   pressParameter,
   requestInterview,
@@ -347,9 +348,11 @@ function interviewFacts(api: CoreAPI, filing: FilingRow) {
     );
     if (done) outletsDone += 1;
     else if (roomLeft <= 0) outletsFull += 1;
+    // A station weighs the candidate against its own audience.
     const bar =
       outlet.kind !== "television" ||
-      newsworth() >= pressParameter("televisionBar");
+      newsworth() * raceAudienceShare(api, outlet, filing.contestId) >=
+        pressParameter("televisionBar");
     return roomLeft > 0 && !done && bar
       ? [{ outletId: outlet.id, roomLeft }]
       : [];
@@ -379,7 +382,9 @@ function interviewOpen(api: CoreAPI, filing: FilingRow): boolean {
       continue;
     if (outlet.kind !== "television") return true;
     if (
-      (worth ??= newsworthiness(api, filing)) >= pressParameter("televisionBar")
+      (worth ??= newsworthiness(api, filing)) *
+        raceAudienceShare(api, outlet, filing.contestId) >=
+      pressParameter("televisionBar")
     )
       return true;
   }

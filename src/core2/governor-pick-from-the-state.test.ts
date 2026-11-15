@@ -39,10 +39,7 @@ import { lawChain } from "./modules/laws";
 import { seatPlayerInStateOffice } from "./office-day-state";
 import { corePlaceByJurisdictionId } from "./place-lookup";
 import { coreAPI } from "./state";
-import {
-  playToDeathAsPlayer,
-  playUntil,
-} from "../../tests/support/play-to-death";
+import { playToDeathAsPlayer } from "../../tests/support/play-to-death";
 
 const PLACE = "5522550";
 const SEED = "edgar-petition-1";
@@ -56,17 +53,7 @@ function openPost() {
   const api = coreAPI(core);
   const player = core.playerId!;
   seatPlayerInStateOffice(api, { personId: player, role: "governor" });
-  // The executive engine names a new governor's whole cabinet at its next
-  // review, the player's too (pool item
-  // executive-player-governor-cabinet-named-without-press); the post's holder
-  // is read once that cabinet stands.
   const state = lawChain(api).stateKey;
-  playUntil(
-    core,
-    () => appointmentsIn(api, state)[0]?.appointedBy === player,
-    60,
-    `${where}: the governor's cabinet`,
-  );
   const held = appointmentsIn(api, state)[0]!;
   playToDeathAsPlayer(core, held.holderId, player, ["appointment"]);
   return { core, api, player, held };
