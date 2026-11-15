@@ -5,10 +5,10 @@ area: play
 kind: bug
 priority: 1
 size: M
-status: open
+status: in-pr
 standard: 2
 claimed-by:
-pr:
+pr: 9451
 after:
 blocked-on:
 lead: filing-counter
