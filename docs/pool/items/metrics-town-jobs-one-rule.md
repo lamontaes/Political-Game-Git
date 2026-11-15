@@ -8,7 +8,7 @@ size: M
 status: in-pr
 standard: 2
 claimed-by:
-pr:
+pr: 9391
 after: metrics-output-numbers-registry
 blocked-on:
 lead: jobs
