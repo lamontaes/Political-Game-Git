@@ -23,7 +23,7 @@ import {
   type PolicyLevel,
 } from "../core2/modules/laws";
 import { meetingsOn } from "../core2/modules/interest-groups";
-import { townSeats } from "../core2/modules/offices";
+import { OFFICES_MODULE_ID, townSeats } from "../core2/modules/offices";
 import {
   LEGISLATURE_MODULE_ID,
   absenceCarries,
@@ -37,6 +37,7 @@ import {
   memberPosition,
   signOnRecord,
   votesOn,
+  type StudyRow,
 } from "../core2/modules/legislature";
 import {
   MEETINGS_MODULE_ID,
@@ -45,6 +46,7 @@ import {
 } from "../core2/modules/meetings";
 import {
   VIEWS_MODULE_ID,
+  stanceRow,
   stancesOf,
   viewOf,
   viewOn,
@@ -1282,6 +1284,86 @@ function composeBinding(
       sourceRecordIds: [moment.causeId, askerId],
     };
     floorDebateFacts(core, facts, said, moment.causeId, askerId);
+  }
+  // A study committee (legislature.ts referToStudy and reportStudy): who chairs
+  // it (the asker), who else sits on it and the body that sent the bill; at its
+  // report, what it found and whether the chair's speech to the body moved the
+  // player's own stance on the question.
+  if (
+    (record?.kind === "study-formed" || record?.kind === "study-reported") &&
+    said.studyId &&
+    core.modules.has(LEGISLATURE_MODULE_ID)
+  ) {
+    const study = coreAPI(core as CoreState)
+      .moduleState(LEGISLATURE_MODULE_ID)
+      .table("studies")
+      .get(said.studyId) as unknown as StudyRow | undefined;
+    if (study) {
+      const cited = [moment.causeId, study.id];
+      // Who chairs it: the asker. A committee another member chairs is not
+      // worded yet (no played scene for it), so the scene is skipped there.
+      if (study.chairId === askerId)
+        facts["asker-chairs"] = {
+          text: said.number ?? "",
+          sourceRecordIds: [...cited, study.chairId],
+        };
+      // The members besides the two talking, by name: the answer to who else
+      // sits on it.
+      const others = study.memberIds
+        .filter(
+          (id) => id !== askerId && id !== askedId && id !== study.chairId,
+        )
+        .map((id) => core.people.get(id as PersonId))
+        .filter((person) => !!person?.alive);
+      if (others.length) {
+        const names = others.map(
+          (person) => `${person!.givenName} ${person!.familyName}`,
+        );
+        facts.members = {
+          text:
+            names.length === P.one
+              ? names[P.zero]!
+              : `${names.slice(P.zero, -P.one).join(", ")} and ${names.at(-P.one)}`,
+          sourceRecordIds: [...cited, ...others.map((person) => person!.id)],
+        };
+      }
+      // The body that sent the bill to study, by the name its office row
+      // gives it ("City Council"), said after the article: "The {body} sent ...".
+      const bodyName = (
+        coreAPI(core as CoreState)
+          .moduleState(OFFICES_MODULE_ID)
+          .table("offices")
+          .get(study.bodyOfficeId) as { bodyName?: string } | undefined
+      )?.bodyName
+        ?.trim()
+        .replace(/^the\s+/i, "");
+      if (bodyName)
+        facts.body = {
+          text: bodyName,
+          sourceRecordIds: [...cited, study.bodyOfficeId],
+        };
+      if (study.report) {
+        facts[
+          study.report.finding > P.zero ? "finding-for" : "finding-against"
+        ] = { text: said.number ?? "", sourceRecordIds: [...cited, study.id] };
+        // The speech moved the player's stance on the question toward the
+        // finding, by the stance record's own cause for that speech (a speaker
+        // is not moved by their own).
+        const stance =
+          study.report.speechId && study.topic && askedId !== study.chairId
+            ? stanceRow(coreAPI(core as CoreState), askedId, study.topic)
+            : undefined;
+        const cause = stance?.causes.find(
+          (row) => row.eventId === study.report!.speechId,
+        );
+        if (stance && cause && cause.change > P.zero)
+          facts[study.report.finding > P.zero ? "moved-for" : "moved-against"] =
+            {
+              text: said.number ?? "",
+              sourceRecordIds: [...cited, study.report.speechId!, stance.id],
+            };
+      }
+    }
   }
   // A witness at a committee's hearing (legislature.ts committeeStage): their
   // side on the bill and what it reaches in their own life, from the record's
