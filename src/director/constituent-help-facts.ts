@@ -101,15 +101,19 @@ export function caseFacts(
   } else {
     const loss = lastLayoff(core, askerId, cause.date);
     const org = loss ? core.organizations.get(loss.organizationId) : undefined;
-    if (loss && org) {
-      facts.employer = {
-        text: organizationName(org),
-        sourceRecordIds: [loss.id, org.id],
-      };
+    if (loss) {
       facts.since = {
         text: spanSaid(daysBetweenText(loss.date, cause.date)),
         sourceRecordIds: [loss.id],
       };
+      // Only an employer is named as one: a layoff row that points at an
+      // account or any other record that is not an employer leaves the lines
+      // that say {employer} out, and the lines without it play instead.
+      if (org?.kind === "employer")
+        facts.employer = {
+          text: organizationName(org),
+          sourceRecordIds: [loss.id, org.id],
+        };
     }
     // How their savings stand, in words, from the case's severity.
     const band = rules.moneyLeft.value.find(
@@ -147,21 +151,6 @@ export function constituentFacts(
   const api = coreAPI(core as CoreState);
   const person = core.people.get(askerId);
   if (!person) return facts;
-  // A layoff: the employer, and how long ago it was.
-  if ((variant.reads["laid-off"] ?? P.zero) > P.zero) {
-    const loss = lastLayoff(core, askerId, cause.date);
-    const org = loss ? core.organizations.get(loss.organizationId) : undefined;
-    if (loss && org) {
-      facts.employer = {
-        text: organizationName(org),
-        sourceRecordIds: [loss.id, org.id],
-      };
-      facts.since = {
-        text: spanSaid(daysBetweenText(loss.date, cause.date)),
-        sourceRecordIds: [loss.id],
-      };
-    }
-  }
   // A rent notice on the household: what it owes, to the dollar, and the day.
   if ((variant.reads["notice-served"] ?? P.zero) > P.zero) {
     const rows = (
@@ -193,29 +182,6 @@ export function constituentFacts(
           sourceRecordIds: [row.id],
         };
     }
-  }
-  // Pay under the floor: what the job pays by the hour and what the law sets.
-  if (
-    (variant.reads["paid-under-floor"] ?? P.zero) > P.zero &&
-    cause.facts.caseId &&
-    core.modules.has(CASES_MODULE_ID)
-  ) {
-    const row = api
-      .moduleState(CASES_MODULE_ID)
-      .table("cases")
-      .get(cause.facts.caseId) as unknown as
-      { facts?: { hourlyMinor?: number; floorMinor?: number } } | undefined;
-    const ids = [cause.facts.caseId];
-    if ((row?.facts?.hourlyMinor ?? P.zero) > P.zero)
-      facts.pay = {
-        text: dollars(row!.facts!.hourlyMinor!),
-        sourceRecordIds: ids,
-      };
-    if ((row?.facts?.floorMinor ?? P.zero) > P.zero)
-      facts.floor = {
-        text: dollars(row!.facts!.floorMinor!),
-        sourceRecordIds: ids,
-      };
   }
   // Sickness at home: the relative whose care asks the most, named only where
   // that need is the larger of the two (theirs against the asker's own).

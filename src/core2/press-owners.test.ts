@@ -10,7 +10,7 @@
 import { createHash } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { buildPopulation } from "./population";
-import { createLifeCore } from "./life";
+import { advanceCore, createLifeCore } from "./life";
 import { coreAPI } from "./state";
 import { openLaws } from "./modules/laws";
 import { openOffices } from "./modules/offices";
@@ -177,15 +177,31 @@ describe("the press's owner and tip reads", () => {
       source: { tag: "SOURCED", citation: "fixture", asOf: core.date },
     });
     const tip = api.moduleState(PRESS_MODULE_ID).table("tips").get(crimeId) as
-      | { dig: number | null; run: number | null; storyId: string | null }
+      | {
+          dig: number | null;
+          run: number | null;
+          exposedId: string | null;
+          runsOn: string | null;
+          storyId: string | null;
+        }
       | undefined;
     expect(tip, where).toBeTruthy();
     const ran = (tip!.dig ?? 0) > 0 && (tip!.run ?? 0) > 0;
-    expect(!!tip!.storyId, where).toBe(ran);
+    expect(!!tip!.exposedId, where).toBe(ran);
+    // Not printed yet: the story waits for the official's comment.
+    expect(tip!.storyId ?? null, where).toBeNull();
+    // The paper asks the official for comment before it prints: the story
+    // runs on its next print day.
+    if (tip!.runsOn) advanceCore(core, tip!.runsOn);
     const exposed = storiesPrinted(api, outlet.id).filter(
       (s) => s.kind === "press.exposed",
     );
     expect(exposed.length, where).toBe(ran ? 1 : 0);
+    const printed = api
+      .moduleState(PRESS_MODULE_ID)
+      .table("tips")
+      .get(crimeId) as { storyId: string | null } | undefined;
+    expect(!!printed?.storyId, where).toBe(ran);
   });
 
   it("a leak is a tip the leaker chose to give: the reporter still decides to dig and the owner to run it, and the reporter knows who gave it", () => {
@@ -228,11 +244,11 @@ describe("the press's owner and tip reads", () => {
     const before = api
       .moduleState(PRESS_MODULE_ID)
       .table("tips")
-      .get(crimeId) as { storyId: string | null } | undefined;
-    // The fixture crime is new to the press: no story of it is in print yet,
-    // so the leak below is what prints it. A story already in print would
+      .get(crimeId) as { exposedId: string | null } | undefined;
+    // The fixture crime is new to the press: no story of it is found yet,
+    // so the leak below is what exposes it. A story already found would
     // make the leak assertions vacuous, so that is a failure, not a skip.
-    expect(before?.storyId ?? null, where).toBeNull();
+    expect(before?.exposedId ?? null, where).toBeNull();
     // A person who does not know of it cannot leak it.
     expect(() =>
       leakToReporter(api, {
@@ -250,14 +266,14 @@ describe("the press's owner and tip reads", () => {
       knowerId: string;
       dig: number | null;
       run: number | null;
-      storyId: string | null;
+      exposedId: string | null;
       tip: number;
     };
     expect(row.leaked, where).toBe(true);
     expect(row.knowerId, where).toBe(leaker!.id);
     expect(row.tip, where).toBeGreaterThan(0);
     const ran = (row.dig ?? 0) > 0 && (row.run ?? 0) > 0;
-    expect(!!row.storyId, where).toBe(ran);
+    expect(!!row.exposedId, where).toBe(ran);
     // The reporter knows who gave it to them.
     expect(api.knows(reporter, `leak:${crimeId}`)?.value, where).toBe(
       leaker!.id,

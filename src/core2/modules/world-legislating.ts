@@ -55,6 +55,7 @@ import type {
   Source,
 } from "../types";
 import { nextMeeting } from "./offices";
+import { registerSittingCalendar, type SittingDay } from "../closeness";
 import {
   addDays,
   makeIsoDate,
@@ -79,7 +80,7 @@ import {
 import type { LawRowInput } from "./laws";
 import { policySeriesAtLevel } from "./laws";
 import stateReach from "../data/places/state-reach.json" with { type: "json" };
-import { OFFICES_MODULE_ID, type TermRow } from "./offices";
+import { OFFICES_MODULE_ID, servingTermsOf, type TermRow } from "./offices";
 import agendaData from "../data/legislature/outside-agenda.json" with { type: "json" };
 import { seededUnit } from "../seeded";
 import { countryStateNow, countryStates } from "./macro";
@@ -107,6 +108,7 @@ import {
   FEDERAL_SENATE,
   LEGISLATURE_MODULE_ID,
   registerFloorDateReader,
+  registerFloorCalendarer,
   registerSittingReader,
   registerWeeklyFloorReader,
   settledness,
@@ -218,6 +220,8 @@ export function openWorldLegislating(core: CoreState): void {
   registerSittingReader(nextSitting);
   registerWeeklyFloorReader(weeklyFloorOn);
   registerFloorDateReader(floorDateOf);
+  registerFloorCalendarer(projectedFloorDate);
+  registerSittingCalendar(SITTING_CALENDAR);
   if (!core.modules.has(WORLD_LEGISLATING_MODULE_ID))
     registerModule(core, WORLD_LEGISLATING_MODULE);
   const api = coreAPI(core);
@@ -1079,6 +1083,92 @@ function onWork(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
 // ---------------------------------------------------------------------------
 // State legislatures and Congress sit through their sessions.
 
+/** A legislature's floor days in one week of sitting: a state's from its row, Congress's spread over its session's weeks. */
+function floorDaysPerWeek(
+  jurisdiction: string,
+  conveneAt: string,
+  adjournAt: string,
+): number {
+  return jurisdiction === "US"
+    ? campaignParameter("congressFloorDaysPerYear") /
+        Math.max(1, daysBetween(conveneAt, adjournAt) / 7)
+    : campaignParameter("legislativeDaysPerWeek");
+}
+
+/** The legislature a chamber sits in: Congress, or the chamber's own state. */
+function chamberJurisdiction(api: CoreAPI, officeId: string): string | null {
+  const office = bodyOf(api, officeId);
+  if (!office) return null;
+  return office.kind.startsWith("us-house") || office.kind === "us-senate"
+    ? "US"
+    : office.jurisdiction;
+}
+
+/**
+ * A body's sittings on or after `from` and before `to`, from its own
+ * calendar: a town or county body's regular meetings by its rule; a
+ * legislature's floor weeks through each session it held (from the end of
+ * committee time after it convened, weekly until it adjourned), as
+ * `openSession` and `floorWeek` sit them.
+ */
+function sittingsBetween(
+  api: CoreAPI,
+  officeId: string,
+  from: string,
+  to: string,
+): readonly SittingDay[] {
+  const out: SittingDay[] = [];
+  const county = lawChain(api).countyGeoids[0];
+  const first = nextMeeting(api, officeId, plusDays(from, -1), county);
+  if (first) {
+    for (
+      let at: { date: string } | null = first;
+      at && at.date < to;
+      at = nextMeeting(api, officeId, at.date, county)
+    )
+      out.push({ date: at.date, days: 1 });
+    return out;
+  }
+  const jurisdiction = chamberJurisdiction(api, officeId);
+  if (!jurisdiction) return out;
+  const committee = campaignParameter("sessionCommitteeDays");
+  for (
+    let year = Number(from.slice(0, 4)) - 1;
+    year <= Number(to.slice(0, 4));
+    year += 1
+  )
+    for (const w of windowsIn(jurisdiction, year)) {
+      const days = floorDaysPerWeek(jurisdiction, w.conveneAt, w.adjournAt);
+      // A session the world has opened sits from its own first floor week (a
+      // session already sitting at the opening starts its floor after the
+      // opening); one before the world sat from the end of committee time.
+      const held = legislativeSessionsOf(api).find(
+        (r) => r.jurisdiction === jurisdiction && r.conveneAt === w.conveneAt,
+      );
+      for (
+        let date = held?.firstFloor ?? plusDays(w.conveneAt, committee);
+        date < w.adjournAt && date < to;
+        date = plusDays(date, 7)
+      )
+        if (date >= from) out.push({ date, days });
+    }
+  return out;
+}
+
+const SITTING_CALENDAR = {
+  seats: (api: CoreAPI, officeId: string) =>
+    members(api, officeId).map((term) => ({
+      personId: memberKey(term),
+      since: term.serviceStart ?? term.startDate,
+    })),
+  bodiesOf: (api: CoreAPI, personId: string) =>
+    servingTermsOf(api, personId)
+      .map((term) => term.officeId)
+      .filter((officeId) => bodyOf(api, officeId) !== undefined),
+  sittings: sittingsBetween,
+  hoursPerDay: () => campaignParameter("sittingHours"),
+};
+
 /**
  * When a body sits next, for a bill the player puts on its calendar: a town
  * body's next regular meeting; a legislature's or Congress's next floor week
@@ -1421,6 +1511,7 @@ function openSession(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     bills: [],
   };
   sessionTable(api).put(row as unknown as ModuleRow);
+  calendarWaitingBills(api, row);
   const calendar = api.moduleCalendar(WORLD_LEGISLATING_MODULE_ID);
   const source = {
     tag: "ESTIMATED" as const,
@@ -1455,6 +1546,22 @@ function openSession(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     source: { ...work.source, asOf: today },
     sourceRecordIds: [id],
   });
+}
+
+/**
+ * Bills drafted while no legislature sat go on the floor leader's calendar the
+ * day the sitting opens, in the order they were introduced, so the date their
+ * paper names then holds like any bill's drafted in session.
+ */
+function calendarWaitingBills(api: CoreAPI, row: LegislativeSession): void {
+  const bills = api.moduleState(LEGISLATURE_MODULE_ID).table("bills");
+  const waitingBills = chamberBills(api, row)
+    .filter((b) => b.status === "drafted" && !b.floorOn)
+    .sort((a, b) => a.introduced.localeCompare(b.introduced));
+  for (const b of waitingBills) {
+    const on = projectedFloorDate(api, b.id);
+    if (on) bills.put({ ...b, floorOn: on } as unknown as ModuleRow);
+  }
 }
 
 /**
@@ -2016,6 +2123,8 @@ interface Queued {
   readonly id: string;
   readonly introduced: string;
   readonly filing: Filing | null;
+  /** The floor week the leader put the bill on the calendar for. */
+  readonly floorOn?: string;
 }
 
 /**
@@ -2043,11 +2152,18 @@ function floorQueue(api: CoreAPI, row: LegislativeSession): readonly Queued[] {
           ? [{ id: "", introduced: filing.introduceOn, filing }]
           : [];
       const b = table.get(filing.billId) as unknown as BillRow | undefined;
-      return waiting(b) ? [{ id: b.id, introduced: b.introduced, filing }] : [];
+      return waiting(b)
+        ? [{ id: b.id, introduced: b.introduced, filing, floorOn: b.floorOn }]
+        : [];
     }),
     ...chamberBills(api, row)
       .filter(waiting)
-      .map((b) => ({ id: b.id, introduced: b.introduced, filing: null })),
+      .map((b) => ({
+        id: b.id,
+        introduced: b.introduced,
+        filing: null,
+        floorOn: b.floorOn,
+      })),
   ];
 }
 
@@ -2079,6 +2195,13 @@ function* floorWeeks(
       Math.round((queue.length - done.size) / Math.max(1, weeksLeft)),
     );
     const taken: Queued[] = [];
+    // The bills the leader calendared for this week keep it, whatever the
+    // pace works out to be now; the weeks' other bills fill what room is left.
+    for (const [i, q] of queue.entries()) {
+      if (done.has(i) || q.floorOn !== date) continue;
+      done.add(i);
+      taken.push(q);
+    }
     for (const [i, q] of queue.entries()) {
       if (taken.length >= pace) break;
       if (done.has(i) || q.introduced > ready) continue;
@@ -2178,6 +2301,28 @@ export function floorDateOf(api: CoreAPI, billId: string): string | null {
   if (!bill || bill.status !== "drafted") return null;
   const set = api.moduleCalendar(LEGISLATURE_MODULE_ID).get(voteKeyOf(bill));
   if (set) return set.date;
+  // The week the leader put it on the calendar for holds while it is ahead.
+  // A leader's refusal takes the bill off the calendar, and a grant puts it back.
+  if (
+    bill.floorOn &&
+    bill.floorOn >= api.state.date &&
+    !refusedByLeader(api, bill.id)
+  )
+    return bill.floorOn;
+  return projectedFloorDate(api, billId);
+}
+
+/**
+ * The floor week the leader's calendar takes a drafted bill up in the
+ * legislature now sitting, as the weeks stand today: the week a bill is
+ * introduced into a sitting legislature is put on the calendar for.
+ */
+function projectedFloorDate(api: CoreAPI, billId: string): string | null {
+  const bill = api
+    .moduleState(LEGISLATURE_MODULE_ID)
+    .table("bills")
+    .get(billId) as unknown as BillRow | undefined;
+  if (!bill || bill.status !== "drafted") return null;
   const row = sittingFor(api, bill.bodyOfficeId);
   if (!row) return null;
   for (const week of floorWeeks(api, row, nextFloorWeek(row, api.state.date)))

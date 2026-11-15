@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "variants-differ-in-what-they-say",
   "rubric": "Variants of a slot differ in what they say, each tied to a fact in the record, not only in wording; a bank grows by adding conditions and specifics, not more generic lines.",
-  "judged": 1211,
+  "judged": 1189,
   "no": {
     "006el8dj9s1": {
       "keys": [
@@ -1875,14 +1875,6 @@
       ],
       "why": "Both lines doubt that the promise will be kept, the same press with no fact to choose between them."
     },
-    "0uf66njuoii": {
-      "keys": [
-        "scene-talk.reply-leave.i-m-going-to-walk-around-the-block-once",
-        "scene-talk.reply-leave.i-need-some-air-before-i-do-either",
-        "scene-talk.reply-leave.i-need-some-air-first-five-minutes"
-      ],
-      "why": "All three ask for a short break outside first."
-    },
     "0ugiswle3f8": {
       "keys": [
         "scene-talk.follow-press.witness.that-doesn-t-answer-it-first-tell-me-what-you-meant-when-you-offered-the-money",
@@ -2086,13 +2078,6 @@
         "scene-talk.state-confront.pressed.money-s-tight-for-me-too-first-so-a-missed-payment-hits-hard-i-need-you-to-own-it"
       ],
       "why": "Both lines say money is tight and ask the player to own it."
-    },
-    "0xfitzgld25": {
-      "keys": [
-        "scene-talk.reply-deflect.i-ll-take-the-next-hand",
-        "scene-talk.reply-deflect.that-s-a-good-one-for-another-night"
-      ],
-      "why": "Both put the question off, a rewording."
     },
     "0xq94lfvewy": {
       "keys": [
@@ -3900,14 +3885,6 @@
       ],
       "why": "Both say the offer still stands, a rewording."
     },
-    "1sfvq6kfmm1": {
-      "keys": [
-        "scene-talk.reply-stall.five-minutes-i-need-to-say-it-to-myself-first",
-        "scene-talk.reply-stall.give-me-ten-minutes-alone-first",
-        "scene-talk.reply-stall.let-me-talk-to-the-volunteers-first"
-      ],
-      "why": "Two of the three ask for a few minutes alone, so most of the slot says the same stall in other words."
-    },
     "1sh38lmduqm": {
       "keys": [
         "scene-talk.follow-thank.glad-to-hear-it-i-ll-let-my-people-know",
@@ -4694,13 +4671,6 @@
       ],
       "why": "Most of the lines are an offer to tell the whole story in other words."
     },
-    "250uzdc4nvo": {
-      "keys": [
-        "scene-talk.close-warn.see-you-on-election-day",
-        "scene-talk.close-warn.this-isn-t-over"
-      ],
-      "why": "Both lines are the same parting threat."
-    },
     "252beo7hc1b": {
       "keys": [
         "scene-talk.reply-lie.i-m-leaning-your-way",
@@ -4716,13 +4686,6 @@
         "scene-talk.reply-decline.i-ll-think-it-over-that-s-the-honest-answer"
       ],
       "why": "Both say the player will think it over, nearly identical."
-    },
-    "25qirgaqgkk": {
-      "keys": [
-        "scene-talk.reply-promise.i-ll-answer-that-thanks-for-telling-me",
-        "scene-talk.reply-promise.then-i-d-better-say-where-i-stand-on-it"
-      ],
-      "why": "Both lines say the same thing, that the player will answer the rival's claim."
     },
     "25y6gx6i6h1": {
       "keys": [
@@ -4812,14 +4775,6 @@
       ],
       "why": "Two of the three ask what the town's plan is for {issue} in other words, and only one is tied to the host agreeing."
     },
-    "27879364pp4": {
-      "keys": [
-        "scene-talk.reply-confront.say-that-on-the-debate-stage",
-        "scene-talk.reply-confront.you-came-all-the-way-over-here-to-tell-me-that",
-        "scene-talk.reply-confront.you-could-have-said-that-on-stage"
-      ],
-      "why": "Two of the three lines say the opponent should have said it on the debate stage, one of them without even needing a debate, so most reword the same retort."
-    },
     "278mtyady5z": {
       "keys": [
         "scene-talk.close-warn.this-conversation-isn-t-finished",
@@ -4848,13 +4803,6 @@
         "scene-talk.reply-ask.what-about-you-you-go-first"
       ],
       "why": "Both turn the question back on the other person, nearly identical."
-    },
-    "27zaqio78ml": {
-      "keys": [
-        "scene-talk.reply-deflect.i-m-not-going-to-chase-every-flyer",
-        "scene-talk.reply-deflect.let-them-talk-i-m-running-my-own-race"
-      ],
-      "why": "Both lines are the same brush-off of the rival's message in different words."
     },
     "280xrxg8jkt": {
       "keys": [
@@ -5015,13 +4963,6 @@
         "scene-talk.narrate-narrate.the-vote-on-bill-is-coming-up-name-catches-you-outside-the-chamber"
       ],
       "why": "Both lines have {name} come asking about the vote on {bill}, differing only in setting with no fact to choose the setting."
-    },
-    "2aere6mkrdl": {
-      "keys": [
-        "scene-talk.reply-boast.people-heard-me-tonight-that-s-enough-for-me",
-        "scene-talk.reply-boast.people-heard-where-i-stand-on-issue-that-s-all-i-wanted"
-      ],
-      "why": "Both boast that people heard where the speaker stands, the second only naming {issue}."
     },
     "2afj2rif5cr": {
       "keys": [
@@ -5411,5 +5352,5 @@
       "why": "Both lines promise to look into it before the deadline, the second only adding detail to the same promise."
     }
   },
-  "yesHash": "00w34eup9e4"
+  "yesHash": "00psw3xz4e4"
 }

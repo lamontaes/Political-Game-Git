@@ -1,17 +1,18 @@
 /**
  * Papers endorse (owner, Oct 16: "if it happens in real life, sure"; an
  * outlet's endorsement follows its own leanings and the record, no dice).
- * An outlet of a kind that endorses (data/press/endorsements.json) weighs
- * the races on its beat by the one endorsement rule (`outletWeighsRace` in
+ * An outlet of a kind that endorses (src/core2/data/press/endorsements.json)
+ * weighs the races on its beat by the one endorsement rule (`outletWeighsRace` in
  * src/core2/modules/campaigns.ts): its head backs the candidate they agree
  * with above every rival, under the outlet's own name. Its followers hear it
- * (their impressions of the candidate, which the voting engine reads).
+ * (their impressions of the candidate, which the voting engine reads), and
+ * the paper prints the news of it in its own pages in its next press week.
  *
  * Pinned: Marshfield, Massachusetts, world seed 75d9b7ad, the township board
  * races of Nov 4, 2025. The papers weigh them in the first press week the
- * races are on their beat (Sep 29); playing Jan 20 to Oct 1 is the game's
- * own days, about 110 seconds, so the test sets its own limit near twice
- * that.
+ * races are on their beat (Sep 29) and print them in the press week after
+ * (Oct 6); playing Jan 20 to Oct 8 is the game's own days, about 135
+ * seconds, so the test sets its own limit near twice that.
  */
 import { afterAll, describe, expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
@@ -103,8 +104,21 @@ describe("an outlet endorses in a race on its beat", () => {
     expect(told.length, `${where}: ${heard!.id}`).toBeGreaterThanOrEqual(
       heard!.reached,
     );
+    // Each paper prints its own endorsement in its own pages in its next
+    // press week, under its head's name, whatever other endorsements of the
+    // race that week held.
+    advanceCore(core as CoreState, makeIsoDate("2025-10-08"));
+    const stories = api.moduleState(PRESS_MODULE_ID).table("stories");
+    for (const row of endorsed) {
+      const paper = byOrganization.get(row.organizationId!)!;
+      const printed = stories.get(
+        `printed:${paper.id}:campaign-endorsed:${row.id}`,
+      ) as { readonly reporterId: string } | undefined;
+      expect(printed, `${where}: ${row.id} in ${paper.id}`).toBeDefined();
+      expect(printed!.reporterId, `${where}: ${row.id}`).toBe(row.speakerId);
+    }
     console.log(
-      `${where}: ${endorsed.length} outlet endorsements, ${heard!.id} reached ${heard!.reached}, ${told.length} followers hold an impression`,
+      `${where}: ${endorsed.length} outlet endorsements, ${heard!.id} reached ${heard!.reached}, ${told.length} followers hold an impression; every one printed by its own paper`,
     );
   }, 200_000);
 });

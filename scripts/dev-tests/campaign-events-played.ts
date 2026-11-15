@@ -152,10 +152,15 @@ log(
   `Place ${place.name} (${place.key}), world seed ${place.seed}. Player ${nameOf(core, me)} (${me}). Race ${contest.id} "${contest.title}" (${contest.level}/${contest.family}), election ${contest.electionDate}, filing opened ${core.date}.`,
 );
 
+// The player starts with no cash; the filing fee is paid at the counter, so stage one.
+core.people.get(me as never)!.liquidMinor = Math.max(
+  core.people.get(me as never)!.liquidMinor,
+  1_000_000,
+);
 const filed = fileForOffice(core, me, contest.id) as {
   filing?: { id?: string; status?: string };
 };
-log(`Filed: ${JSON.stringify(filed.filing)}`);
+log(`Filed: ${JSON.stringify(filed.filing ?? filed)}`);
 const filingId = filed.filing?.id ?? `filing:${contest.id}:${me}`;
 const petition = gatherSignatures(core, filingId);
 log(
@@ -303,7 +308,11 @@ const playEntry = (r: Rec) => {
       });
     };
     flush();
-    const prefer = ["plain", "further", "turn", "brief"];
+    const prefer = process.env.PREFER
+      ? [...process.env.PREFER.split(","), "plain"]
+      : process.env.PREFER_BRIEF
+        ? ["brief", "plain"]
+        : ["plain", "further", "turn", "brief"];
     for (let at = 0; conv.choices.length && at < 12; at += 1) {
       L(
         `  choices: ${conv.choices.map((c) => `[${c.move}] ${c.text}`).join(" | ")}${conv.lies.length ? ` | LIE: ${conv.lies.map((c) => c.text).join(" | ")}` : ""}`,
@@ -355,6 +364,7 @@ const playEntry = (r: Rec) => {
     L(`- ${f.key}: ${f.text} [${f.recordIds.join(", ").slice(0, 160)}]`);
   L("Narration: " + s.talk.narration.map((l) => l.text).join(" / "));
   if (s.talk.open) L(`Opens: [${s.talk.open.speaker}] ${s.talk.open.text}`);
+  L(`States: [${s.talk.state.speaker}] ${s.talk.state.text}`);
   for (const l of dumpTree(s.talk.tree, 0, { n: 40 })) L(l);
   if (ANSWER_YES.has(r.typeKey) && r.interrupt) {
     const yes = s.talk.tree.replies.findIndex((x) =>

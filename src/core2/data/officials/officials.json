@@ -266,7 +266,7 @@
     "spread": [3, 3]
   },
   "colleagues": {
-    "about": "Officials who serve together know each other: a state's delegation to Congress, and each chamber's members with their party's leader. The time they've spent together is their shared years of service at a few hours a year (delegation lunches and caucus meetings); closeness then follows the core's own closeness model.",
+    "about": "Officials who serve together outside a shared sitting know each other: a state's delegation to Congress (its two houses and its governor), and the executive branch with its head. A chamber's members, its leaders among them, know each other from the sittings they share (sitting-closeness.ts). The time they've spent together is their shared years of service at a few hours a year (delegation lunches and caucus meetings); closeness then follows the core's own closeness model.",
     "hoursPerSharedYear": {
       "value": 6,
       "tag": "TUNABLE",
