@@ -24410,7 +24410,7 @@
       "key": "conversation.own-view-answer-disagree.i-come-down-the-other-side-first",
       "move": "own-view-answer-disagree",
       "kind": "spoken",
-      "text": "I come down on the other side, {first}.",
+      "text": "I come down on the other side.",
       "uses": [
         {
           "move": "own-view-answer-disagree",
@@ -31486,7 +31486,7 @@
       "key": "conversation.player-news-answer-take.very-funny-first-thanks-though",
       "move": "player-news-answer-take",
       "kind": "spoken",
-      "text": "Very funny, {first}. Thanks, though.",
+      "text": "Very funny. Thanks, though.",
       "uses": [
         {
           "move": "player-news-answer-take",
@@ -31540,7 +31540,7 @@
       "key": "conversation.player-news-answer-take.i-know-first-i-ll-take-my-chances",
       "move": "player-news-answer-take",
       "kind": "spoken",
-      "text": "I know, {first}. I'll take my chances.",
+      "text": "I know. I'll take my chances.",
       "uses": [
         {
           "move": "player-news-answer-take",
@@ -31577,7 +31577,7 @@
       "key": "conversation.player-news-answer-tell.we-ll-see-how-employer-goes-first",
       "move": "player-news-answer-tell",
       "kind": "spoken",
-      "text": "We'll see how {employer} goes, {first}.",
+      "text": "We'll see how {employer} goes.",
       "uses": [
         {
           "move": "player-news-answer-tell",
@@ -31614,7 +31614,7 @@
       "key": "conversation.player-news-answer-ask.you-d-really-vote-against-me-first",
       "move": "player-news-answer-ask",
       "kind": "spoken",
-      "text": "You'd really vote against me, {first}?",
+      "text": "You'd really vote against me?",
       "uses": [
         {
           "move": "player-news-answer-ask",
@@ -32664,14 +32664,13 @@
       "key": "conversation.government-news-answer-for.i-d-be-for-it-first",
       "move": "government-news-answer-for",
       "kind": "spoken",
-      "text": "I'd be for it, {first}.",
+      "text": "I'd be for it.",
       "uses": [
         {
           "move": "government-news-answer-for",
           "subject": "government-news",
           "role": "answer",
-          "choice": "for",
-          "requiresFacts": ["first"]
+          "choice": "for"
         }
       ],
       "origin": "authored",
@@ -32682,14 +32681,13 @@
       "key": "conversation.government-news-answer-for.i-m-for-it-first-somebody-had-to",
       "move": "government-news-answer-for",
       "kind": "spoken",
-      "text": "I'm for it, {first}. Somebody had to.",
+      "text": "I'm for it. Somebody had to.",
       "uses": [
         {
           "move": "government-news-answer-for",
           "subject": "government-news",
           "role": "answer",
-          "choice": "for",
-          "requiresFacts": ["first"]
+          "choice": "for"
         }
       ],
       "origin": "authored",
@@ -32700,14 +32698,13 @@
       "key": "conversation.government-news-answer-against.i-d-be-against-it-first",
       "move": "government-news-answer-against",
       "kind": "spoken",
-      "text": "I'd be against it, {first}.",
+      "text": "I'd be against it.",
       "uses": [
         {
           "move": "government-news-answer-against",
           "subject": "government-news",
           "role": "answer",
-          "choice": "against",
-          "requiresFacts": ["first"]
+          "choice": "against"
         }
       ],
       "origin": "authored",
@@ -32718,14 +32715,13 @@
       "key": "conversation.government-news-answer-against.i-m-against-it-first-it-s-the-wrong-call",
       "move": "government-news-answer-against",
       "kind": "spoken",
-      "text": "I'm against it, {first}. It's the wrong call.",
+      "text": "I'm against it. It's the wrong call.",
       "uses": [
         {
           "move": "government-news-answer-against",
           "subject": "government-news",
           "role": "answer",
-          "choice": "against",
-          "requiresFacts": ["first"]
+          "choice": "against"
         }
       ],
       "origin": "authored",
