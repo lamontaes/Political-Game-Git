@@ -276,7 +276,17 @@ function seat(api: CoreAPI, row: OfficialRow): void {
     annualMinor: salary.annualMinor,
     citation: salary.citation,
     source,
-    paidFrom: api.state.date,
+    // Seated as the world opens, its pay runs from the start of the month
+    // the first payday pays (or from the day it took office, if later): it
+    // worked the days of this month before the world began. Seated later,
+    // from today.
+    paidFrom:
+      api.state.date === api.state.startedAt
+        ? [makeIsoDate(`${api.state.date.slice(0, 8)}01`), row.serviceStart]
+            .filter((day) => day <= api.state.date)
+            .sort()
+            .at(-1)!
+        : api.state.date,
     endedOn: null,
     spends: keepHousehold(api, row, salary.annualMinor),
   } satisfies PayRow as unknown as ModuleRow);

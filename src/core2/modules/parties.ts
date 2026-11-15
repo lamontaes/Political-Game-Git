@@ -810,25 +810,39 @@ export function attendCase(
 }
 
 /**
- * The parties' monthly meeting in town. Adults with no tie yet (come of age,
- * moved in, met for the first time) take one by the opening's rule: a lean
- * as firm as the town's party identifiers' takes the party on its side, the
- * least committed have no party, the rest call themselves independent.
- * Members whose views have crossed to the other side leave (loyalty holds a
- * tie while views stay on its side). Those newly tied decide whether to join
- * the organization; a leader who died, moved or left is replaced; the
- * members inclined to show up meet the leader.
+ * The opening's rule for who takes which tie, read from the town's adults: a
+ * lean as firm as the town's party identifiers' takes the party on its side,
+ * the least committed have no party, the rest call themselves independent.
+ * The monthly meeting ties the adults it finds untied by it, and a person who
+ * files for a partisan seat before the meeting has met them takes their tie
+ * by the same rule (`tieBeforeFiling`).
  */
-function partyMeeting(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
-  if (work.kind !== "party-meeting") return;
-  scheduleMeeting(api, api.state.date);
+interface TieRule {
+  readonly town: string;
+  readonly adults: readonly { p: PersonState; lean: number }[];
+  readonly partyFor: (lean: number) => PartyRow | undefined;
+  readonly noPartyCut: number;
+  readonly townLean: number;
+}
+const tieRules = new WeakMap<
+  object,
+  { date: string; rule: TieRule | undefined }
+>();
+function townTieRule(api: CoreAPI): TieRule | undefined {
+  const held = tieRules.get(api.state);
+  if (held && held.date === api.state.date) return held.rule;
+  const rule = buildTieRule(api);
+  tieRules.set(api.state, { date: api.state.date, rule });
+  return rule;
+}
+function buildTieRule(api: CoreAPI): TieRule | undefined {
   const parties = partiesHere(api);
-  if (!parties.length) return;
+  if (!parties.length) return undefined;
   const core = api.state as CoreState;
   const date = core.date;
   const town = corePlaceByKey(core.placeMetadata.placeKey ?? "")?.context
     .jurisdiction.id;
-  if (!town) return;
+  if (!town) return undefined;
   const townLean =
     (
       api
@@ -844,7 +858,7 @@ function partyMeeting(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     )
     .sort((a, b) => a.id.localeCompare(b.id))
     .map((p) => ({ p, lean: personLean(core.people, p, townLean) }));
-  if (!adults.length) return;
+  if (!adults.length) return undefined;
   const firm = adults.map((a) => Math.abs(a.lean)).sort((a, b) => b - a);
   const identifierCut =
     firm[
@@ -868,7 +882,97 @@ function partyMeeting(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     Math.abs(lean) >= identifierCut && lean !== 0
       ? (bySide(Math.sign(lean)) ?? bySide(0))
       : undefined;
+  return { town, adults, partyFor, noPartyCut, townLean };
+}
+
+/**
+ * One person takes their tie by the opening's rule: the party on their side
+ * (and may join its organization), no party or independent.
+ */
+function tiePerson(
+  api: CoreAPI,
+  p: PersonState,
+  lean: number,
+  rule: TieRule,
+  reason: string,
+): void {
   const ties = api.moduleState(PARTIES_MODULE_ID).table("ties");
+  const date = api.state.date;
+  const party = rule.partyFor(lean);
+  if (!party) {
+    put(
+      ties,
+      p,
+      noPartyScore(lean, p.traits) <= rule.noPartyCut
+        ? "no-party"
+        : "independent",
+      null,
+      lean,
+      date,
+      reason,
+    );
+    return;
+  }
+  put(ties, p, "party", party.id, lean, date, reason);
+  if (
+    leanedYes(
+      api.state as CoreState,
+      p,
+      "parties.join",
+      "join",
+      "stay-out",
+      value("partiesJoinBase"),
+    )
+  )
+    api.join(p.id, party.organizationId);
+}
+
+/**
+ * A resident of the town who files for a partisan seat before the monthly
+ * meeting has met them has no tie yet, and would file under no label though
+ * their views sit on a party's side. They take their tie by the meeting's own
+ * rule first, so the label they file under is the party their views name.
+ */
+export function tieBeforeFiling(api: CoreAPI, personId: string): void {
+  if (partyTie(api, personId)) return;
+  const rule = townTieRule(api);
+  const person = api.state.people.get(personId as PersonId);
+  if (
+    !rule ||
+    !person?.alive ||
+    person.placeId !== rule.town ||
+    ageOn(person, api.state.date) < api.parameter("votingAge")
+  )
+    return;
+  tiePerson(
+    api,
+    person,
+    personLean(api.state.people, person, rule.townLean),
+    rule,
+    "newly-tied",
+  );
+}
+
+/**
+ * The parties' monthly meeting in town. Adults with no tie yet (come of age,
+ * moved in, met for the first time) take one by the opening's rule: a lean
+ * as firm as the town's party identifiers' takes the party on its side, the
+ * least committed have no party, the rest call themselves independent.
+ * Members whose views have crossed to the other side leave (loyalty holds a
+ * tie while views stay on its side). Those newly tied decide whether to join
+ * the organization; a leader who died, moved or left is replaced; the
+ * members inclined to show up meet the leader.
+ */
+function partyMeeting(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
+  if (work.kind !== "party-meeting") return;
+  scheduleMeeting(api, api.state.date);
+  const rule = townTieRule(api);
+  if (!rule) return;
+  const { adults, partyFor, townLean } = rule;
+  const parties = partiesHere(api);
+  const core = api.state as CoreState;
+  const date = core.date;
+  const town = rule.town;
   const recruited = new Map<string, string[]>();
   const left = new Map<string, string[]>();
   const playerId = core.playerId;
@@ -884,38 +988,9 @@ function partyMeeting(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
       continue;
     const party = partyFor(lean);
     if (held) left.set(held.id, [...(left.get(held.id) ?? []), p.id]);
-    if (party) {
-      put(
-        ties,
-        p,
-        "party",
-        party.id,
-        lean,
-        date,
-        tie ? "views-moved" : "newly-tied",
-      );
+    tiePerson(api, p, lean, rule, tie ? "views-moved" : "newly-tied");
+    if (party)
       recruited.set(party.id, [...(recruited.get(party.id) ?? []), p.id]);
-      if (
-        leanedYes(
-          core,
-          p,
-          "parties.join",
-          "join",
-          "stay-out",
-          value("partiesJoinBase"),
-        )
-      )
-        api.join(p.id, party.organizationId);
-    } else
-      put(
-        ties,
-        p,
-        noPartyScore(lean, p.traits) <= noPartyCut ? "no-party" : "independent",
-        null,
-        lean,
-        date,
-        tie ? "views-moved" : "newly-tied",
-      );
   }
   const here = new Set(adults.map((a) => a.p.id));
   for (const party of parties) {
