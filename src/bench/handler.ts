@@ -1,4 +1,5 @@
 import { lawDid } from "./law-did";
+import { stateRollCall } from "./states";
 import {
   drawAheadNow,
   drawAheadOn,
@@ -70,6 +71,7 @@ import {
   seatAskOptions,
   seatView,
 } from "./legislature";
+import { storyPicture } from "./news-picture";
 import {
   billPageView,
   billStage,
@@ -1783,6 +1785,16 @@ const ROUTES: readonly Route[] = [
                 })),
               }
             : {}),
+          // A phase-in by a percent a year.
+          ...(q("risePercent")
+            ? {
+                risePerYear: {
+                  percent: Number(q("risePercent")),
+                  years: Number(q("riseYears")),
+                  firstDate: String(q("riseFirstDate")),
+                },
+              }
+            : {}),
         }),
       );
       return;
@@ -2346,7 +2358,22 @@ const ROUTES: readonly Route[] = [
             const state = stateNames.get(value);
             if (state) names[value] = state;
           }
-          return Object.keys(names).length ? { ...row, names } : row;
+          // A story the paper can lead with carries the picture of what it
+          // is about, chosen from its own record.
+          const told = row as { headline?: string; lede?: string };
+          const picture =
+            (told.headline || told.lede) && facts
+              ? storyPicture(
+                  core,
+                  facts,
+                  (row as { sourceRecordIds?: string[] }).sourceRecordIds ?? [],
+                )
+              : null;
+          return {
+            ...row,
+            ...(Object.keys(names).length ? { names } : {}),
+            ...(picture ? { picture } : {}),
+          };
         }),
       );
       return;
@@ -2396,7 +2423,29 @@ const ROUTES: readonly Route[] = [
     match: ({ request, url }) =>
       request.method === "GET" && url.pathname === "/api/card",
     run: async ({ url, send }) => {
-      send(200, personCard(requireCore(), url.searchParams.get("id") ?? ""));
+      // The card also carries the clock a screen shows: the player's own while it runs, else the
+      // world's day (a dev panel's run of days lets the character go and returns no packet), so a
+      // screen that re-reads the card after any change shows today's date.
+      const core = requireCore();
+      send(200, {
+        ...personCard(core, url.searchParams.get("id") ?? ""),
+        at: state.player?.packet?.at ?? {
+          date: makeIsoDate(core.date),
+          minuteOfDay: 0,
+        },
+      });
+      return;
+    },
+  },
+  {
+    match: ({ request, url }) =>
+      request.method === "GET" && url.pathname === "/api/state/roll-call",
+    run: async ({ url, send }) => {
+      // Another state's change, its roll call in each chamber and its sponsor (states.ts).
+      send(
+        200,
+        stateRollCall(requireCore(), url.searchParams.get("lawId") ?? ""),
+      );
       return;
     },
   },

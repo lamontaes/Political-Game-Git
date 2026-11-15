@@ -61,7 +61,22 @@ import {
   prisonersBarredHere,
   recordRedistricting,
   electionLawTurnoutCost,
+  automaticRegistrationInForce,
+  sameDayRegistrationInForce,
 } from "../law-reach/group-a-voting";
+import {
+  countedParts,
+  ensureKeptOff,
+  keptOffOf,
+  onTheList,
+  reviewRegistrations,
+  waitAnchor,
+  daysSince,
+  type RegistrationDeps,
+  type RollEntry,
+} from "../electorate-registration";
+import { departureRateFor, withinCountyRateFor } from "./moves";
+import { dwellingMovedIn } from "./housing";
 import { breakElectionTie } from "../election-ties";
 import { ageOnElection, turnoutWeb } from "../turnout-web";
 import {
@@ -83,9 +98,7 @@ import {
   standingPool,
 } from "../candidate-pool";
 import { coarsePlace, metResident } from "../coarse-place";
-import { placeReferencePopulation } from "../gov-rules/place-population";
-import { searchCorePlaces } from "../place-lookup";
-import { stableHash } from "../kernel/ids";
+import { drawStateHome } from "../places";
 import { closenessBetween } from "../closeness";
 import {
   decisionLean,
@@ -159,10 +172,12 @@ import {
   unfilledTerm,
   repeatSpecialElection,
   electedWithGovernorOnTicket,
+  unheldVacancyWon,
   type TermRow,
 } from "./offices";
 import {
   INDEPENDENT,
+  lastUnheldParty,
   type WeighedPerson,
   candidateChoices,
   currentOfficial,
@@ -213,6 +228,7 @@ import {
   worldRoster,
   type ElectoratePlace,
   cpsAgeBand,
+  cpsRegistered,
   cpsTurnout,
 } from "../electorate-places";
 import {
@@ -443,6 +459,14 @@ export const VOTING_MODULE: CoreModule = {
       turnout: {},
       /** The town's polling places, one per precinct, and who works each. */
       pollingPlaces: {},
+      /** Each named adult's voter registration: on the rolls or not, at which address, since when. */
+      registrations: {},
+      /** The share of each age band that keeps off the rolls, found at the opening. */
+      registrationBase: {},
+      /** The precinct each household votes in, kept until a move on record changes it. */
+      householdPrecincts: {},
+      /** What an election day did to people not on the rolls: turned away, or registered at the polls. */
+      pollDays: {},
       emptyRaces: { indexes: { byContest: { fields: ["contestId"] } } },
       results: { indexes: { byContest: { fields: ["contestId"] } } },
       /** A close count's recount, by the place's own rule (recount-rules-2026). */
@@ -512,6 +536,10 @@ export function openVoting(core: CoreState): void {
   registerDoorChoice(doorChoiceOf);
   rememberOpeningElectorate(api);
   pollingPlaces(api);
+  // The world opens already in motion: who is registered, and who moved
+  // lately and has not yet registered at the new address.
+  registrations(api);
+  scheduleRegistrationReview(api);
   // A vacancy's special election runs as a real race.
   registerSpecialElections((a, race) => {
     if (!a.state.modules.has(VOTING_MODULE_ID)) return false;
@@ -966,6 +994,10 @@ function votingCalendarWork(
     fileStandingCandidates(api, work.sourceRecordIds[0]!);
   if (work.kind === "petition-check")
     checkPetition(api, work.sourceRecordIds[0]!);
+  if (work.kind === REGISTRATION_REVIEW) {
+    registrations(api);
+    scheduleRegistrationReview(api);
+  }
   if (work.kind === "primary") holdPrimary(api, work.sourceRecordIds[0]!);
   // A ticket office's count is the governor race's (`decideTicket`).
   if (work.kind === "election-day" && !decidedWithGovernor(api, work))
@@ -1960,9 +1992,6 @@ export function electorateSides(
   }
   const kept = held.byQuestion.get(question);
   if (kept) return kept;
-  if (question.startsWith("budget-line:"))
-    // stopgapId: SG-GOV-budget-line-stance-lean-only (a spending line's stance is the lean times the line's party axis alone, so every line splits the electorate the same way)
-    api.stopgap("SG-GOV-budget-line-stance-lean-only");
   let yes = 0,
     no = 0,
     sum = 0;
@@ -1998,6 +2027,12 @@ export function turnoutReasons(
   recordedWeeklyMinutes?: number,
   /** What this election adds to the cost of voting. */
   extraCost = 0,
+  /**
+   * Whether the voter's registration is a record the turnout rule reads
+   * (the town's own voters), so the flat parts of automatic and same-day
+   * registration are left out of their cost.
+   */
+  registrationIsRecord = false,
 ): {
   readonly duty: number;
   readonly cost: number;
@@ -2024,7 +2059,10 @@ export function turnoutReasons(
   const weeklyWork = recordedWeeklyMinutes ?? weeklyWorkOf(state, voter.id);
   const cost =
     (weeklyWork / campaignParameter("turnoutWorkWeekMinutes") +
-      electionLawTurnoutCost(api, voter, weeklyWork)) /
+      electionLawTurnoutCost(api, voter, weeklyWork, registrationIsRecord) -
+      (registrationIsRecord
+        ? campaignParameter("registrationCalibrationRelief")
+        : 0)) /
       customPolitics(state).turnout +
     extraCost;
   return { duty, cost, trait, lean };
@@ -2071,6 +2109,14 @@ export interface TurnoutDecision extends TurnoutParts {
   };
   /** A named voter's act; a counted voter votes at their propensity. */
   readonly votes: boolean;
+  /** The share of the voter's people on the rolls for the election (1 or 0 for a named person). */
+  readonly registered: number;
+  /** The survey's registered share of citizens like them, which their propensity on the rolls is divided by. */
+  readonly surveyRegistered: number;
+  /** The share of them who registered at the polls and voted. */
+  readonly atPolls: number;
+  /** The share of them who would have voted and were turned away for not being on the rolls. */
+  readonly turnedAway: number;
 }
 
 /** A named voter's record of election days: what their habit reads, and their carry. */
@@ -2117,6 +2163,7 @@ function decideTurnout(
     voter,
     input.recordedWeeklyMinutes,
     input.extraCost,
+    true,
   );
   // Kept where the voting engine runs (a measure or recall can be counted
   // without it, with no record kept).
@@ -2157,7 +2204,25 @@ function decideTurnout(
           input.local ?? false,
         )
       : null;
-  const propensity = Math.min(1, propensityOf(parts) * (web ? web.factor : 1));
+  // Registration: the turnout calibration is of the whole population, the
+  // unregistered among it, so a voter on the rolls turns out at their
+  // propensity over the survey's registered share of people like them, and
+  // one not on them (an old address, never registered, after the deadline)
+  // only where the state registers people at the polls, at a cost.
+  const reg = registrationReading(api, voter, input.date, duty);
+  const webFactor = web ? web.factor : 1;
+  const base = Math.min(1, propensityOf(parts) * webFactor);
+  const onRolls = Math.min(1, base / Math.max(0.01, reg.surveyShare));
+  const atPolls = reg.sameDay
+    ? Math.min(
+        1,
+        propensityOf({
+          ...parts,
+          cost: parts.cost + campaignParameter("sameDayPollRegistrationCost"),
+        }) * webFactor,
+      )
+    : 0;
+  const propensity = reg.share * onRolls + (1 - reg.share) * atPolls;
   // The audit's probe (off in play) sees the propensity with and without the trait term.
   reportOutcome("voting.turnout", voter.id, lean, "probability", (withTerm) =>
     withTerm
@@ -2169,12 +2234,26 @@ function decideTurnout(
         ),
   );
   let votes = false;
+  let registeredAtPolls = 0;
+  let turnedAway = 0;
   if (named) {
-    const act = namedTurnout(
-      record?.carry ?? openingVoterCarry(voter.id),
-      propensity,
-    );
+    const carry = record?.carry ?? openingVoterCarry(voter.id);
+    const act = namedTurnout(carry, propensity);
     votes = act.votes;
+    // Not on the rolls: where they would have gone to vote, the day keeps
+    // that they registered at the polls or were turned away.
+    // The player's own day is the player's to act: the engine keeps no
+    // poll-day row for a guess about them.
+    if (reg.share < 1 && voter.id !== (api.state as CoreState).playerId) {
+      const person = api.state.people.get(voter.id)!;
+      if (reg.sameDay && votes) {
+        registeredAtPolls = 1;
+        keepPollDay(api, person, input.date, "registers-at-polls", reg.why);
+      } else if (!reg.sameDay && namedTurnout(carry, onRolls).votes) {
+        turnedAway = 1;
+        keepPollDay(api, person, input.date, "not-on-the-list", reg.why);
+      }
+    }
     records?.put({
       id: voter.id,
       elections: (record?.elections ?? 0) + 1,
@@ -2188,6 +2267,14 @@ function decideTurnout(
     interest: input.interest,
     propensity,
     votes,
+    registered: reg.share,
+    surveyRegistered: reg.surveyShare,
+    atPolls: named ? registeredAtPolls : (1 - reg.share) * atPolls,
+    turnedAway: named
+      ? turnedAway
+      : reg.sameDay
+        ? 0
+        : (1 - reg.share) * onRolls,
     ...(web?.recordId && web.links.length
       ? { web: { recordId: web.recordId, links: web.links } }
       : {}),
@@ -3015,43 +3102,52 @@ export function pollingPlaces(api: CoreAPI): readonly PollingPlaceRow[] {
   return out;
 }
 
-/** The precinct a household votes in: its place in the order of the town's households. */
+/**
+ * The precinct a household votes in, assigned once and kept: the precinct
+ * with the fewest households when the household first votes here (ties to the
+ * lowest number), and changed only by a move on record (its home's start day
+ * changes). Other households coming and going never move it.
+ */
 function precinctOfHousehold(
   api: CoreAPI,
   householdId: string,
   precincts: number,
 ): number {
-  const memo = precinctMemo.get(api.state);
-  const map =
-    memo?.date === api.state.date && memo.precincts === precincts
-      ? memo.map
-      : precinctMap(api, precincts);
-  return map.get(householdId) ?? 1;
+  const rows = table(api, "householdPrecincts");
+  const dwelt = dwellingMovedIn(api, householdId) ?? "";
+  const held = rows.get(`household-precinct:${householdId}`) as unknown as
+    { precinct: number; movedIn: string } | undefined;
+  if (held && held.movedIn === dwelt && held.precinct <= precincts)
+    return held.precinct;
+  const fill = precinctFill(api, precincts);
+  let precinct = 1;
+  for (let i = 2; i <= precincts; i += 1)
+    if (fill[i - 1]! < fill[precinct - 1]!) precinct = i;
+  if (held && held.precinct <= precincts) fill[held.precinct - 1]! -= 1;
+  fill[precinct - 1]! += 1;
+  rows.put({
+    id: `household-precinct:${householdId}`,
+    householdId,
+    precinct,
+    movedIn: dwelt,
+    since: api.state.date,
+  } as unknown as ModuleRow);
+  return precinct;
 }
 
-/** Every town household's precinct, once a day. */
-function precinctMap(api: CoreAPI, precincts: number): Map<string, number> {
-  const homes = [
-    ...new Set(
-      townAdults(api).map(
-        (p) => (p as { householdId?: string }).householdId ?? p.id,
-      ),
-    ),
-  ].sort();
-  const map = new Map(
-    homes.map((home, index) => [
-      home,
-      Math.min(precincts - 1, Math.floor((index * precincts) / homes.length)) +
-        1,
-    ]),
-  );
-  precinctMemo.set(api.state, { date: api.state.date, precincts, map });
-  return map;
+/** How many households each precinct holds, read from the kept assignments once and then kept in step. */
+function precinctFill(api: CoreAPI, precincts: number): number[] {
+  const held = precinctFills.get(api.state);
+  if (held && held.length === precincts) return held;
+  const fill = new Array<number>(precincts).fill(0);
+  for (const row of table(api, "householdPrecincts").rows() as unknown as {
+    precinct: number;
+  }[])
+    if (row.precinct <= precincts) fill[row.precinct - 1]! += 1;
+  precinctFills.set(api.state, fill);
+  return fill;
 }
-const precinctMemo = new WeakMap<
-  object,
-  { date: string; precincts: number; map: Map<string, number> }
->();
+const precinctFills = new WeakMap<object, number[]>();
 
 /**
  * How many wards a council contest's seat is one of: the seats its office
@@ -3191,6 +3287,264 @@ export function pollingPlaceOf(
     .slice(0, Math.round(electionsParameter("pollWorkersPerVotingLocation")));
   // Read only: who works it is the reading of the records on the day asked.
   return { ...place, pollWorkers: { date, ids: ranked.map((r) => r.id) } };
+}
+
+// --- voter registration ----------------------------------------------------
+
+/** What the registration records need from this engine (`electorate-registration.ts`). */
+function registrationDeps(api: CoreAPI): RegistrationDeps {
+  return {
+    api,
+    table: (name) => table(api, name),
+    adults: () => townAdults(api),
+    dutyOf: (person) => turnoutReasons(api, person, undefined, 0, true).duty,
+    usps: town(api).stateKey.slice(3),
+    automatic: () => automaticRegistrationInForce(api),
+  };
+}
+
+/** The opening roll's people, for the part of each age band that keeps off the rolls. */
+function registrationRoll(api: CoreAPI): readonly RollEntry[] {
+  const date = api.state.date;
+  const adultAge = api.parameter("votingAge");
+  const automatic = automaticRegistrationInForce(api);
+  const deadlineDays = campaignParameter("registrationDeadlineDays");
+  const { townPlaceId } = town(api);
+  const named = townAdults(api).map((person): RollEntry => {
+    const { anchor, grown } = waitAnchor(api, person);
+    const age = ageOn(person, date);
+    return {
+      age,
+      weight: 1,
+      inputs: {
+        duty: turnoutReasons(api, person, undefined, 0, true).duty,
+        yearsInPlace: Math.floor(daysSince(anchor, date) / 365),
+        yearsAdult: Math.floor(daysSince(grown, date) / 365),
+        moveRate: 0,
+        automatic,
+        deadlineDays,
+      },
+    };
+  });
+  const scale = countedScale(api);
+  const counted = countedVoters(api)
+    .filter((v) => v.placeId === townPlaceId && ageOn(v, date) >= adultAge)
+    .map((v): RollEntry => {
+      const age = ageOn(v, date);
+      return {
+        age,
+        weight: v.weight * scale,
+        inputs: {
+          duty: turnoutReasons(api, v, v.weeklyMinutes, 0, true).duty,
+          yearsInPlace: v.yearsInPlace,
+          yearsAdult: age - adultAge,
+          moveRate:
+            departureRateFor(townPlaceId, age) +
+            withinCountyRateFor(townPlaceId, age),
+          automatic,
+          deadlineDays,
+        },
+      };
+    });
+  return [...named, ...counted];
+}
+
+/** The registration records, found at the opening and brought up to the day. */
+function registrations(api: CoreAPI): RegistrationDeps {
+  const deps = registrationDeps(api);
+  ensureKeptOff(deps, () => registrationRoll(api));
+  reviewRegistrations(deps);
+  assignPrecincts(api);
+  return deps;
+}
+
+/** Every household that votes here has its precinct, assigned the day it is first seen (so a reading writes nothing). */
+function assignPrecincts(api: CoreAPI): void {
+  if (assigned.get(api.state) === api.state.date) return;
+  assigned.set(api.state, api.state.date);
+  const precincts = pollingPlaces(api).length;
+  if (!precincts) return;
+  for (const home of new Set(townAdults(api).map((p) => p.householdId)))
+    precinctOfHousehold(api, home, precincts);
+}
+const assigned = new WeakMap<object, string>();
+
+/**
+ * The registration records brought up to today (a review of who moved and
+ * who finished registering), for the engines and tests that read them.
+ */
+export function reviewVoterRegistrations(api: CoreAPI): RegistrationDeps {
+  return registrations(api);
+}
+
+/**
+ * The share of the town's adult citizens on the rolls today: a named person
+ * by their record, a counted record by the same rule at its weight.
+ */
+export function registeredShareOfRoll(api: CoreAPI): number {
+  registrations(api);
+  const date = api.state.date;
+  const counted = new Map(countedVoters(api).map((c) => [c.id, c]));
+  let people = 0,
+    registered = 0;
+  for (const v of electorateRoll(api)) {
+    const voter = api.state.people.get(v.id) ?? counted.get(v.id)!;
+    const { duty } = turnoutReasons(api, voter, v.weeklyMinutes, 0, true);
+    const reading = registrationReading(api, voter, date, duty);
+    people += v.count;
+    registered += v.count * reading.share;
+  }
+  return people ? registered / people : 0;
+}
+
+const REGISTRATION_REVIEW = "registration-review";
+
+/** Books the next month's review of who has registered or moved, on its first day. */
+function scheduleRegistrationReview(api: CoreAPI): void {
+  const date = addDays(makeIsoDate(api.state.date), 30);
+  api.moduleCalendar(VOTING_MODULE_ID).schedule({
+    key: `${REGISTRATION_REVIEW}:${date}`,
+    date,
+    kind: REGISTRATION_REVIEW,
+    source: {
+      tag: "ESTIMATED",
+      citation:
+        "Each month the voting engine sees who moved and who finished registering (registrationLagMedianDays).",
+      asOf: api.state.date,
+      estimatedFrom: "src/core2/data/campaigns/parameters.json",
+    },
+    sourceRecordIds: ["registration-base"],
+  });
+}
+
+/** What an election day found about one voter's registration, as the turnout rule reads it. */
+interface RegistrationReading {
+  /** The share of the voter's people who are on the rolls in time: 1 or 0 for a named person. */
+  readonly share: number;
+  /** Why a named person is not on the rolls. */
+  readonly why: "on" | "old-address" | "not-registered" | "after-deadline";
+  /** The survey's registered share of citizens like them (the turnout calibration's), 0 to 1. */
+  readonly surveyShare: number;
+  readonly sameDay: boolean;
+}
+
+/** One voter's registration on a day: the record for a named person, the same rule's share for a counted record. */
+function registrationReading(
+  api: CoreAPI,
+  voter: Readonly<Pick<PersonState, "id" | "traits">>,
+  date: string,
+  duty: number,
+): RegistrationReading {
+  const deps = registrations(api);
+  const sameDay = sameDayRegistrationInForce(api);
+  const deadlineDays = sameDay
+    ? 0
+    : campaignParameter("registrationDeadlineDays");
+  const person = api.state.people.get(voter.id);
+  const birthDate =
+    (voter as { birthDate?: string }).birthDate ?? person?.birthDate;
+  const age = birthDate ? ageOn({ birthDate }, date) : 40;
+  const usps = deps.usps;
+  const rate =
+    cpsRegistered(usps, cpsAgeBand(age)) ?? cpsRegistered(usps) ?? 0.7;
+  if (person) {
+    const deadline = sameDay ? null : addDays(makeIsoDate(date), -deadlineDays);
+    const why = onTheList(deps, person, deadline);
+    return { share: why === "on" ? 1 : 0, why, surveyShare: rate, sameDay };
+  }
+  const counted = voter as {
+    readonly weight?: number;
+    readonly yearsInPlace?: number;
+    readonly placeId?: string;
+  };
+  const placeId = counted.placeId ?? town(api).townPlaceId;
+  const adultAge = api.parameter("votingAge");
+  const { a, b } = countedParts({
+    duty,
+    yearsInPlace: counted.yearsInPlace,
+    yearsAdult: age - adultAge,
+    moveRate:
+      departureRateFor(placeId, age) + withinCountyRateFor(placeId, age),
+    automatic: automaticRegistrationInForce(api),
+    deadlineDays,
+  });
+  const share = Math.min(1, Math.max(0, (1 - keptOffOf(deps, age)) * a + b));
+  return { share, why: "on", surveyShare: rate, sameDay };
+}
+
+/**
+ * A named person who goes to the polls and is not on the rolls: where the
+ * state registers people there they register and vote; elsewhere they are
+ * turned away. The day keeps what happened.
+ */
+function keepPollDay(
+  api: CoreAPI,
+  person: PersonState,
+  date: string,
+  outcome: "registers-at-polls" | "not-on-the-list",
+  why: string,
+): void {
+  const precincts = pollingPlaces(api).length;
+  table(api, "pollDays").put({
+    id: `poll-day:${date}:${person.id}`,
+    date,
+    personId: person.id,
+    outcome,
+    why,
+    precinct: precincts
+      ? precinctOfHousehold(api, person.householdId, precincts)
+      : 1,
+    addressKey: `${person.householdId}@${dwellingMovedIn(api, person.householdId) ?? ""}`,
+  } as unknown as ModuleRow);
+  if (outcome !== "registers-at-polls") return;
+  const rows = table(api, "registrations");
+  const row = rows.get(`registration:${person.id}`) as unknown as
+    Record<string, unknown> | undefined;
+  if (row)
+    rows.put({
+      ...row,
+      registered: true,
+      addressKey: `${person.householdId}@${dwellingMovedIn(api, person.householdId) ?? ""}`,
+      since: date,
+      how: "at-the-polls",
+      staleSince: null,
+      lastAddress: `${person.householdId}@${dwellingMovedIn(api, person.householdId) ?? ""}`,
+    } as unknown as ModuleRow);
+}
+
+/**
+ * What the election day did to the counted residents not on the rolls, as
+ * the one record of the day's count (the named people's are one row each):
+ * how many of them registered at the polls and voted, and how many who
+ * would have voted were not on the list.
+ */
+function keepCountedPollDay(api: CoreAPI, date: string): void {
+  const held = decisions.get(api.state);
+  if (!held) return;
+  const scale = countedScale(api);
+  let registeredAtPolls = 0,
+    notOnTheList = 0;
+  for (const v of countedVoters(api)) {
+    const d = held.get(`${date}|${v.id}`);
+    if (!d) continue;
+    const people = v.weight * scale;
+    registeredAtPolls += people * d.atPolls;
+    notOnTheList += people * d.turnedAway;
+  }
+  if (registeredAtPolls < 0.5 && notOnTheList < 0.5) return;
+  table(api, "pollDays").put({
+    id: `poll-day:${date}:counted`,
+    date,
+    registeredAtPolls: Math.round(registeredAtPolls),
+    notOnTheList: Math.round(notOnTheList),
+  } as unknown as ModuleRow);
+}
+
+/** The share of a voter's people who registered at the polls and voted on the day (named: 1 or 0), for the law's record. */
+export function registeredAtPollsShare(api: CoreAPI, voterId: string): number {
+  return (
+    decisions.get(api.state)?.get(`${api.state.date}|${voterId}`)?.atPolls ?? 0
+  );
 }
 
 /**
@@ -3754,6 +4108,7 @@ function settleCount(
   // mailed a ballot, who registered at the polls, and what the election's
   // administration cost the government that ran it.
   applyElectionLaws(api, "vote", electorateRoll(api), contestId);
+  keepCountedPollDay(api, date);
   // One race, one result every reader agrees on: those the count put inside
   // the race's seats, and those who missed the cut (`outIds`, on every seat's
   // record). A seat of an at-large race names its own winner, the names tied
@@ -5488,10 +5843,64 @@ const dayAfter = (date: string) =>
     .slice(0, 10);
 
 /**
- * A vacancy in a seat outside the town (a House district or a state
- * legislative district) is filled by a real race: on the special election
- * day its places vote as they do in the general election, between the two
- * major parties' named candidates, and the winner serves the unexpired term.
+ * What a seat outside the town is, for a special election: its office's kind
+ * and state, where the world's races count it. A House seat, a senator, a
+ * state legislator and another place's statewide executive are counted (a
+ * place with no counted electorate, a territory, is not, as in the general
+ * election); a seat the offices engine keeps no term for (another state's
+ * member of Congress) is named by its vacancy. Null for any other seat: the
+ * town's own seats are the voting engine's contests.
+ */
+function specialSeatKind(
+  api: CoreAPI,
+  seatId: string,
+  unheld?: { readonly stateKey: string; readonly officeKind: string },
+): { kind: string; stateKey: string; jurisdiction: string } | null {
+  if (unheld)
+    return unheld.officeKind === "us-house" || unheld.officeKind === "us-senate"
+      ? {
+          kind: unheld.officeKind,
+          stateKey: unheld.stateKey,
+          jurisdiction: unheld.stateKey,
+        }
+      : null;
+  const offices = api.moduleState(OFFICES_MODULE_ID);
+  const seat = offices.table("seats").get(seatId) as unknown as
+    { coversTown: boolean; officeId: string } | undefined;
+  const office = seat
+    ? (offices.table("offices").get(seat.officeId) as unknown as
+        | {
+            kind: string;
+            elected: boolean;
+            level: string;
+            jurisdiction: string;
+          }
+        | undefined)
+    : undefined;
+  if (!seat || !office?.elected || seat.coversTown) return null;
+  // The town's own seats are the voting engine's.
+  if (townSeats(api).some((entry) => entry.seat.id === seatId)) return null;
+  const house = office.kind === "us-house";
+  const counted =
+    office.kind === "us-senate" ||
+    office.kind.startsWith("legislature-") ||
+    isOutsideOffice(api, office);
+  if (!house && !counted) return null;
+  // A territory has no counted electorate: its seats are not raced.
+  if (!house && !countedPlace(api, office.jurisdiction)) return null;
+  return {
+    kind: office.kind,
+    stateKey: office.jurisdiction,
+    jurisdiction: office.jurisdiction,
+  };
+}
+
+/**
+ * A vacancy in a seat outside the town (a House district, a senator, a state
+ * legislative district, another place's statewide executive, another state's
+ * member of Congress) is filled by a real race: on the special election day
+ * its places vote as they do in the general election, between the two major
+ * parties' named candidates, and the winner serves the unexpired term.
  * Returns false for any other seat, which the other engines or the
  * stand-in fill.
  */
@@ -5502,29 +5911,14 @@ function openSpecialRace(
     readonly seatId: string;
     readonly electionDate: string;
     readonly termEnd: string | null;
+    readonly unheld?: {
+      readonly stateKey: string;
+      readonly officeKind: string;
+    };
   },
 ): boolean {
   if (!worldRacesOpen(api)) return false;
-  const offices = api.moduleState(OFFICES_MODULE_ID);
-  const seat = offices.table("seats").get(input.seatId) as unknown as
-    { coversTown: boolean; officeId: string } | undefined;
-  const office = seat
-    ? (offices.table("offices").get(seat.officeId) as unknown as
-        { kind: string; elected: boolean; jurisdiction: string } | undefined)
-    : undefined;
-  if (!seat || !office?.elected || seat.coversTown) return false;
-  if (office.kind !== "us-house" && !office.kind.startsWith("legislature-"))
-    return false;
-  // A territory's legislature has no counted electorate: the offices
-  // engine's stand-in fills the seat (SG-GOV-territory-legislature-race).
-  if (
-    office.kind.startsWith("legislature-") &&
-    !countedPlace(api, office.jurisdiction)
-  )
-    return false;
-  // The town's own seats are the voting engine's.
-  if (townSeats(api).some((entry) => entry.seat.id === input.seatId))
-    return false;
+  if (!specialSeatKind(api, input.seatId, input.unheld)) return false;
   // A special election whose day has already come is held the day after
   // (the calendar takes only a day not yet run).
   api.moduleCalendar(VOTING_MODULE_ID).schedule({
@@ -5539,7 +5933,11 @@ function openSpecialRace(
       citation: `Special election for ${input.vacancyId}`,
       asOf: api.state.date,
     },
-    sourceRecordIds: [input.vacancyId, input.seatId, input.termEnd ?? ""],
+    sourceRecordIds: [
+      input.vacancyId,
+      input.seatId,
+      ...(input.termEnd ? [input.termEnd] : []),
+    ],
   });
   return true;
 }
@@ -5549,8 +5947,39 @@ function decideSpecial(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   const [vacancyId, seatId, termEnd] = work.sourceRecordIds;
   const offices = api.moduleState(OFFICES_MODULE_ID);
   const vacancy = offices.table("vacancies").get(vacancyId!) as unknown as
-    { status: string } | undefined;
+    | {
+        status: string;
+        unheld?: { stateKey: string; officeKind: string };
+      }
+    | undefined;
   if (!vacancy || vacancy.status !== "awaiting-election") return;
+  const year = Number(api.state.date.slice(0, 4));
+  const special = { vacancyId: vacancyId!, termEnd: termEnd || null };
+  // A seat the offices engine keeps no term for: its race is named by the
+  // vacancy, and its last holder's party is the seat's side.
+  if (vacancy.unheld) {
+    const kind = vacancy.unheld.officeKind;
+    const code =
+      kind === "us-house" ? (seatId!.split(":").at(-1) ?? "00") : "00";
+    decide(
+      api,
+      {
+        seatId: seatId!,
+        office: kind,
+        usps: vacancy.unheld.stateKey.slice(3),
+        code,
+        incumbentParty: lastUnheldParty(api, seatId!),
+        leanSource:
+          kind === "us-house"
+            ? "2024 House vote in the district"
+            : "2024 presidential vote in the state's counties",
+        seatedOn: dayAfter(api.state.date),
+      },
+      year,
+      special,
+    );
+    return;
+  }
   const seat = offices.table("seats").get(seatId!) as unknown as
     | {
         id: string;
@@ -5565,15 +5994,23 @@ function decideSpecial(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
         | undefined)
     : undefined;
   if (!seat || !office) return;
-  const year = Number(api.state.date.slice(0, 4));
+  const race = seatRace(api, seat, office, year);
+  // Another place's office elected without party labels is counted by the
+  // places' lean and its winner takes the seat with no party.
+  const nonpartisan =
+    isOutsideOffice(api, office) &&
+    !office.kind.startsWith("legislature-") &&
+    researchedHolderParty(office.jurisdiction!, seat.id, "elected")?.party ===
+      null;
   decide(
     api,
     {
-      ...seatRace(api, seat, office, year),
+      ...race,
       seatedOn: dayAfter(api.state.date),
+      ...(nonpartisan ? { nonpartisan: true } : {}),
     },
     year,
-    { vacancyId: vacancyId!, termEnd: termEnd || null },
+    special,
   );
 }
 
@@ -6725,9 +7162,6 @@ function weighableFor(
   return { people, exclude };
 }
 
-/** How many towns a newcomer's home is drawn among, weighed by who lives there. */
-const NEWCOMER_TOWNS = 12;
-
 /**
  * A newcomer offered as a running mate, filled in: their name, birthday and
  * temperament as the officials engine drew them, a home town in the state
@@ -6745,30 +7179,7 @@ function offerNewcomer(
 ): void {
   if (api.state.people.has(id)) return;
   const seed = (api.state as CoreState).seed;
-  const towns = [
-    ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
-      stateJurisdictionKey: newcomer.stateKey,
-      scope: "locality",
-    }),
-  ]
-    .map((place) => ({
-      place,
-      order: stableHash(`${seed}:${id}:${place.key}`),
-    }))
-    .sort((a, b) => a.order.localeCompare(b.order))
-    .slice(0, NEWCOMER_TOWNS)
-    .map(({ place }) => ({
-      place,
-      people: place.sourceGeoid
-        ? (placeReferencePopulation(place.sourceGeoid, seed)?.value ?? 0)
-        : 0,
-    }));
-  const total = towns.reduce((sum, t) => sum + t.people, 0);
-  let at =
-    (parseInt(stableHash(`${seed}:${id}:home`).slice(0, 8), 16) / 0x100000000) *
-    total;
-  const home =
-    towns.find((t) => (at -= t.people) < 0)?.place ?? towns[0]?.place;
+  const home = drawStateHome(seed, id, newcomer.stateKey);
   const coarse = home ? coarsePlace(home.key, seed) : null;
   const met = coarse
     ? metResident(coarse, seed, `running-mate:${id}`)
@@ -7142,6 +7553,41 @@ function seatRaceWinner(api: CoreAPI, raceId: string): void {
       since: api.state.date,
       raceId,
     } as unknown as ModuleRow);
+    // A special election's winner fills the vacancy of a seat the offices
+    // engine keeps no term for (another state's member of Congress): the
+    // record of the seating names who they are and their party.
+    if (race.special) {
+      const loaded = api
+        .moduleState(OFFICES_MODULE_ID)
+        .table("loaded")
+        .get("town") as unknown as { worldSeed: string };
+      const fielded = race.candidates?.find(
+        (c) => c.party === race.winnerParty,
+      );
+      const stateUsps = race.seatId.split(":")[1]!.slice(3);
+      const drawn = fielded
+        ? null
+        : drawOfficialIdentity({
+            worldSeed: loaded.worldSeed,
+            seatKey: raceId,
+            stateUsps,
+            role: "state-executive-challenger",
+            referenceDate: api.state.date,
+          });
+      unheldVacancyWon(api, race.special.vacancyId, {
+        winnerParty: race.winnerParty,
+        winnerIdentity:
+          fielded?.identity ??
+          ({
+            givenName: drawn!.givenName,
+            familyName: drawn!.familyName,
+            gender: drawn!.gender,
+            birthDate: drawn!.birthDate,
+            homeState: `US-${stateUsps}`,
+          } as TermRow["identity"]),
+        resultId: raceId,
+      });
+    }
     return;
   }
   // A seat the offices engine holds: the one term writer ends the term and

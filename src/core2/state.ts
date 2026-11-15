@@ -1,3 +1,4 @@
+import { familyTakesChosenOrigin } from "./family-origin";
 import { promoteHusk as promoteHuskOfficial } from "./husk-promoters";
 import { refreshOfficeStaff } from "./civic-inputs";
 import { initialPersonState } from "./person-state";
@@ -1663,7 +1664,15 @@ export function coreAPI(core: CoreState): CoreAPI {
       actor.givenName = given;
       actor.familyName = family;
       actor.birthDate = identity.birthDate;
+      // A chosen look from another origin than the family was drawn with
+      // (owner, Nov 8: "I'm Mexican and my son is white"): the family's
+      // origins are worked out again from who is whose parent
+      // (family-origin.ts), not all painted in the player's tone.
+      const drawnOrigin = actor.looks?.origin;
+      const chosenOrigin = identity.looks.origin;
       actor.looks = { ...(actor.looks ?? {}), ...identity.looks };
+      if (chosenOrigin && drawnOrigin && chosenOrigin !== drawnOrigin)
+        familyTakesChosenOrigin(core, actor.id, drawnOrigin, chosenOrigin);
       // Brothers and sisters stay born months apart from the chosen birthday:
       // one drawn too close moves, keeping their age where their year allows.
       const siblings = (actor.pastFacts ?? []).flatMap((fact) => {
