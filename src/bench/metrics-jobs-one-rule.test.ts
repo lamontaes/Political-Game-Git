@@ -7,8 +7,11 @@
  * already hold a job and are job-hunting, while the rate counted only the
  * jobless (Washington, Kansas, July 21, 2025: 53 looking against 28 jobless;
  * Saugatuck, Connecticut: 131 against 59).
- * Pinned places and seeds. The time is the game's own played days: it plays six
- * months of Washington, Kansas (about 95 seconds) and Everett, Georgia (about 40).
+ * Pinned places and seeds. The time is the game's own played days, not the
+ * test's work: each place plays 182 days (January 20 to July 21, 2025), and a
+ * played town costs about half a second a day on this machine (a played year of
+ * a town is 75 to 200 seconds). Measured: Washington, Kansas 95 seconds,
+ * Everett, Georgia 46; the limit is about twice the slower.
  */
 import { describe, expect, it } from "vitest";
 import { metricsView } from "./metrics";
