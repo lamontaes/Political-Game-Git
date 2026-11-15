@@ -28,7 +28,7 @@ source: Played talks of #9530 (Nov 15), Dortches, North Carolina, seed 7952d3f3e
 
 **Rules.** One rule, all 56 places: facts from the school and job records, no place named. No dice: which lines fit is read from records, never a roll.
 
-**Done when.** A second session, on main, plays talks with schoolmates at seed 7952d3f3e3253ee4, the place it draws from all 56 (Dortches, North Carolina): the years said match the two records' last shared school year, no "Yes, I do." follows "…, weren't we?", and a schoolmate who works at the school asks only the tag question.
+**Done when.** A second session, on main, runs the school give-back test and plays talks with schoolmates in a played world at seed 7952d3f3e3253ee4, the place it draws from all 56 (Dortches, North Carolina): the years said match the two records' last shared school year, no "Yes, I do." follows "…, weren't we?", and a schoolmate who works at the school asks only the tag question.
 
 **Waits on.** Nothing.
 
