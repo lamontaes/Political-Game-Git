@@ -2,6 +2,10 @@
   "about": "How a day is named at the start of a scene (owner, Nov 8, 2:20 p.m.: 'If it's June 7th, it says first thing on June 7th. You head to the clerk's office and speak to Maria Patton.'): the part of the day and the date as people say it, 'first thing on June 7th'. Read by src/english/day-words.ts; the director passes the date and the minute of the day.",
   "parts": [
     {
+      "upToMinute": 300,
+      "said": "In the middle of the night on {date}"
+    },
+    {
       "upToMinute": 540,
       "said": "First thing on {date}"
     },
@@ -29,6 +33,10 @@
   "landing": {
     "about": "How the opening's landing names its day (Words lead, Nov 14, on #9242): after 'It's', the part of the day by the minute the player lands, and the date with no ordinal ('January 20'). Read by dayLanding in src/english/day-words.ts.",
     "parts": [
+      {
+        "upToMinute": 300,
+        "said": "the middle of the night on {date}"
+      },
       {
         "upToMinute": 540,
         "said": "early on {date}"

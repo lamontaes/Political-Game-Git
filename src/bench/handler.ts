@@ -2653,13 +2653,20 @@ const ROUTES: readonly Route[] = [
     run: async ({ url, send }) => {
       // The card also carries the clock a screen shows: the player's own while it runs, else the
       // world's day (a dev panel's run of days lets the character go and returns no packet), so a
-      // screen that re-reads the card after any change shows today's date.
+      // screen that re-reads the card after any change shows today's date. On the opening day the
+      // clock stands at the evening the household gets home, the minute every talk, ask and
+      // scene of that evening is told at (Account lead, Nov 15: the clock read 12:00 AM under
+      // "Late on January 20th.").
       const core = requireCore();
       send(200, {
         ...personCard(core, url.searchParams.get("id") ?? ""),
         at: state.player?.packet?.at ?? {
           date: makeIsoDate(core.date),
-          minuteOfDay: 0,
+          minuteOfDay:
+            state.player?.personId &&
+            state.director?.ledger.opening?.date === core.date
+              ? openingArrivalMinute(core, state.player.personId)
+              : 0,
         },
       });
       return;

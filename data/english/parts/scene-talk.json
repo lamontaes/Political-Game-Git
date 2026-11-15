@@ -2748,16 +2748,6 @@
           "role": "asked",
           "purpose": "family-absence",
           "key": "threat"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "after": "thank",
-          "purpose": "proposal-answer",
-          "key": "favor-asked",
-          "requiresFacts": ["said-yes"]
         }
       ],
       "bearing": "tender",

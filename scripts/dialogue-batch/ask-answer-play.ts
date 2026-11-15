@@ -19,12 +19,13 @@ import {
   askOut,
   canAsk,
   FAMILY_ASKED_OUT,
+  FAMILY_MOVE_IN_ASKED,
   FAMILY_PROPOSAL_ANSWERED,
   propose,
 } from "../../src/core2/modules/partnerships";
 import { coreAPI } from "../../src/core2/state";
 import type { CoreState, PersonId } from "../../src/core2/types";
-import { purposeScene } from "../../src/director/purpose-scene";
+import { purposeScene, replyInScene } from "../../src/director/purpose-scene";
 import type { SceneTalkLine, TreeNode } from "../../src/director/scene-talk";
 import { drawPlace } from "../core2-year/place";
 
@@ -39,6 +40,15 @@ const lines: string[] = [];
 const say = (s: string) => lines.push(s);
 const adult = (core: CoreState, born: string) =>
   ageOnDate(makeIsoDate(born), makeIsoDate(core.date)) >= 18;
+/** The reply path whose talk ends on this named ending. */
+function pathTo(node: TreeNode, ending: string): number[] | null {
+  for (const [at, reply] of node.replies.entries()) {
+    if (reply.next?.end?.ending?.id === ending) return [at];
+    const deeper = reply.next ? pathTo(reply.next, ending) : null;
+    if (deeper) return [at, ...deeper];
+  }
+  return null;
+}
 
 for (let draw = 0; draw < draws; draw += 1) {
   const place = drawPlace(`${seed}:${draw}`, "ask-answer-play");
@@ -62,6 +72,8 @@ for (let draw = 0; draw < draws; draw += 1) {
   const nextDay = () => {
     const was = core.date;
     for (let i = 0; i < 20 && core.date === was; i += 1) {
+      // An election day on the way: the player leaves the polls unvoted.
+      if (bench.pollingPlace) bench.leavePolls();
       const open = bench.packet;
       if (open && open.kind !== "complete" && open.kind !== "choice")
         bench.resume({ kind: "stop", pauseId: open.pauseId } as never);
@@ -242,23 +254,60 @@ for (let draw = 0; draw < draws; draw += 1) {
     other.id,
     "Propose: the first day of dating",
   );
-  moduleState(core, "partnerships")
-    .table("couples")
-    .put({
-      id: link.id,
-      stage: "living-together",
-      since: core.date,
-      progress: 0.9,
-    } as never);
-  nextDay();
-  if (canAsk(api, me, other.id, "propose").open) {
-    propose(api, me, other.id);
+  // 4. Then the couple goes on as a played couple does, nothing set by hand:
+  // an evening together each week, the partnerships engine's own monthly
+  // climb, the partner's ask to live together answered yes in its scene, and
+  // a proposal each month once they live together, until one is answered yes.
+  const couples = moduleState(core, "partnerships").table("couples");
+  const stage = () =>
+    (couples.get(link.id) as { stage: string } | undefined)?.stage;
+  const tie = () =>
+    core.relationships.get(
+      me < other.id ? `${me}:${other.id}` : `${other.id}:${me}`,
+    )?.kind ?? ("friend" as never);
+  const book = director.ledger.people.get(me)!;
+  let married = false;
+  for (let month = 0; month < 40 && !married && stage(); month += 1) {
+    for (let day = 0; day < 28; day += 1) {
+      if (day % 7 === 0)
+        api.relationship(me, other.id, tie(), 3, undefined, {
+          cause: "visit",
+        });
+      nextDay();
+      if (stage() !== "move-in-asked") continue;
+      const entry = book.schedule.find(
+        (row) =>
+          book.momentsById
+            .get(row.momentId)
+            ?.causeId.startsWith(`${FAMILY_MOVE_IN_ASKED}:`) &&
+          row.bindings.some((bound) => bound.typeKey === "move-in"),
+      );
+      const scene = entry
+        ? purposeScene(core, director, me, entry, { typeKey: "move-in" })
+        : null;
+      const path =
+        scene?.kind === "composed"
+          ? pathTo(scene.scene.talk.tree, "said-yes")
+          : null;
+      if (!entry || !path) {
+        say(`\n### Asked to move in on ${core.date}: no reply says yes`);
+        break;
+      }
+      replyInScene(core, director, me, entry, path, { typeKey: "move-in" });
+      say(
+        `\n### Asked to move in on ${core.date}; said yes in the scene: ${stage()}`,
+      );
+    }
+    if (stage() !== "living-together") continue;
+    if (!canAsk(api, me, other.id, "propose").open) continue;
+    const answer = propose(api, me, other.id);
     play(
       FAMILY_PROPOSAL_ANSWERED,
       "proposal-answered",
       other.id,
-      "Propose: after living together (staged: the couple set to living together, well along, the next day)",
+      `Propose: living together, ${core.date}`,
     );
+    married = answer.answer === "yes";
   }
 }
 writeFileSync(out, lines.join("\n") + "\n");
