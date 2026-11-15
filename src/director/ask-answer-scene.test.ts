@@ -277,7 +277,7 @@ it('asked out a second time, a yes is not one that was waited for: no "I was hop
 }, 120_000);
 
 it("every ask the player makes is answered in a scene, past the season's cap of one kind (Pulaski, Ohio)", () => {
-  const { core, director, me, singles, where } = world();
+  const { core, director, bench, me, singles, where } = world();
   const player = core.people.get(me)!;
   const today = makeIsoDate(core.date);
   const ageOf = (born: string) => ageOnDate(makeIsoDate(born), today);
@@ -300,6 +300,11 @@ it("every ask the player makes is answered in a scene, past the season's cap of 
   );
   expect(asked.length, where).toBeGreaterThan(cap);
   const book = director.ledger.people.get(me)!;
+  // The day's opening stop let go, as Continue does: the asks are made on a
+  // running clock.
+  for (let open = bench.packet; open?.kind === "stop"; open = bench.packet)
+    bench.resume({ kind: "stop", pauseId: open.pauseId });
+  const shown = new Set<string>();
   for (const other of asked.slice(0, cap + 1)) {
     const { momentId } = askFromCard(core, director, me, other.id, "ask-out", {
       byPhone: true,
@@ -307,5 +312,23 @@ it("every ask the player makes is answered in a scene, past the season's cap of 
     const entry = book.schedule.find((row) => row.momentId === momentId);
     expect(entry?.outcome, `${where}: ${other.givenName}`).toBe("scene-now");
     expect(entry?.heldBack, `${where}: ${other.givenName}`).toBeUndefined();
+    shown.add(momentId!);
+  }
+  // The press showed each answer: the clock does not stop again on one of
+  // them, a scene already played with its talk answered (Account lead, Nov
+  // 15: after Propose the clock stuck on "First thing on January 21st.").
+  for (let hour = 0; hour < 3; hour += 1) {
+    const packet = bench.spend(1);
+    expect(packet, `${where}: the hour goes by`).toBeDefined();
+    const stopped =
+      packet?.kind === "stop"
+        ? packet.stop.modules.map((row) => row.recordId)
+        : [];
+    expect(
+      stopped.filter((id) => shown.has(id)),
+      where,
+    ).toEqual([]);
+    if (packet?.kind === "stop")
+      bench.resume({ kind: "stop", pauseId: packet.pauseId });
   }
 }, 120_000);
