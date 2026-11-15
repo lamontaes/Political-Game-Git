@@ -61,6 +61,7 @@ import {
 import { nationalPanel } from "./modules/macro";
 import cabinetData from "./data/office-day/federal-cabinet.json" with { type: "json" };
 import {
+  controlledPerson,
   OFFICE_DAY_FEDERAL_MODULE_ID,
   federalParameter,
   federalSeatOf,
@@ -733,6 +734,33 @@ addFederalWorldPart((api) => {
       ]) as unknown as TermRow[]
   )[0]?.personId;
   if (president) confirmGivenVotes(api, president);
+});
+
+/**
+ * The President the player does not control gives the joint address on its
+ * day, by the same delivery the played President's own character uses, so the
+ * country's address is one engine's whoever sits in the office.
+ */
+addFederalWorldPart((api) => {
+  const date = api.state.date;
+  if (jointAddress(Number(date.slice(0, 4))).date !== date) return;
+  const president = (
+    api
+      .moduleState(OFFICES_MODULE_ID)
+      .table("terms")
+      .query("bySeatStatus", [
+        "seat:US:president",
+        "serving",
+      ]) as unknown as TermRow[]
+  )[0]?.personId;
+  if (
+    !president ||
+    president === controlledPerson(api) ||
+    !api.state.people.get(president)?.alive ||
+    gave(api, president, "joint-address", date)
+  )
+    return;
+  deliverAddress(api, president);
 });
 
 addFederalDayPart((api, personId) => {

@@ -9,7 +9,7 @@ import {
   corePlaceStateIdentities,
 } from "../place-lookup";
 import regionalParameters from "../data/regional/parameters.json" with { type: "json" };
-import type { MacroMonth } from "../macro-model";
+import { shiftMonth, type MacroMonth } from "../macro-model";
 import type { Parameter } from "../parameters";
 import {
   COUNTY_REGION,
@@ -57,6 +57,13 @@ export function regionOfPlace(placeId: string): string | undefined {
 }
 
 /** The month a year before `month` (YYYY-MM): months after it are kept in full. */
+/**
+ * How many months behind the regional engine's newest month the macro engine's
+ * latest recorded month can sit; Metrics reads a year before that month, so the
+ * regional months are kept this much longer than a year.
+ */
+export const LATEST_MONTH_LAG = 3;
+
 function yearBefore(month: string): string {
   return `${Number(month.slice(0, 4)) - 1}${month.slice(4)}`;
 }
@@ -169,10 +176,16 @@ export function stepRegional(
     stepped.push(row);
     months.put({ ...row });
   }
-  // Retention (MEMORY-FLAT): the last twelve months in full; before them,
-  // each year's December and the opening month (pay and jobs are read
-  // against it).
-  const gone = yearBefore(now.month);
+  // Retention (MEMORY-FLAT): the last twelve months in full, and the
+  // months a year back from the latest month Metrics may read (its last
+  // year's figure); before them, each
+  // year's December and the opening month (pay and jobs are read against it).
+  const p = (key: string) => api.parameter(key);
+  const gone = shiftMonth(
+    now.month,
+    -(p("macroMonthsPerYear") + LATEST_MONTH_LAG),
+    p,
+  );
   if (!gone.endsWith("-12") && gone !== opening)
     for (const row of months.query("byMonth", [gone])) months.remove(row.id);
   // Each state's monthly jobs report is a public record other engines (the news) can read.

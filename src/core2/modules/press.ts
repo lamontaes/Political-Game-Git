@@ -161,6 +161,29 @@ export type NationalKind = "cable" | "magazine" | "online" | "national-paper";
 export type OutletKind = LocalKind | NationalKind;
 const KINDS: readonly LocalKind[] = ["newspaper", "television", "radio"];
 
+/**
+ * How an outlet of each kind carries the news: printed on paper, shown on a
+ * screen, or said on the air; a site online is none of the three. Talk says
+ * "I read in" a paper, "I saw on" a station, "I heard on" the radio.
+ */
+const MEDIA: Readonly<
+  Partial<Record<OutletKind, "paper" | "television" | "radio">>
+> = {
+  newspaper: "paper",
+  "national-paper": "paper",
+  magazine: "paper",
+  television: "television",
+  cable: "television",
+  radio: "radio",
+};
+
+/** How an outlet's kind carries the news, or null for one online. */
+export function outletMedium(
+  kind: OutletKind,
+): "paper" | "television" | "radio" | null {
+  return MEDIA[kind] ?? null;
+}
+
 interface NationalKindRow {
   readonly kind: NationalKind;
   readonly followShare: number;
@@ -1135,16 +1158,7 @@ export function outletTelling(
   | undefined {
   const row = outletsHere(api).find((o) => o.organizationId === organizationId);
   if (!row) return undefined;
-  const medium =
-    row.kind === "newspaper" ||
-    row.kind === "national-paper" ||
-    row.kind === "magazine"
-      ? "paper"
-      : row.kind === "radio"
-        ? "radio"
-        : row.kind === "online"
-          ? "online"
-          : "television";
+  const medium = outletMedium(row.kind) ?? "online";
   return { medium, the: medium === "paper" && !/^the\s/i.test(name) };
 }
 
