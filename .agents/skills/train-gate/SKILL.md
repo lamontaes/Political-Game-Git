@@ -47,6 +47,10 @@ Compare against the clean train head, not only main: main's reds and the train's
 
 A `Words lead: train-ready` stamp is for one sha. If the head moves afterward, the stamp is void and the PR is read again, unless the diff since the stamp is lint only (prettier or eslint, nothing a player sees). Say in the post what changed between the two heads.
 
+## A new core2 source file needs its family and its owner (Nov 15)
+
+A new file under `src/core2` fails `tests/guards/families.test.ts` until it is in a family in `tests/guards/families.json`, and is in `.github/CODEOWNERS` (the test compares the two). When another family's file (the bench, the executive) imports it, list it under the family's `entry` too, or the guard says "Import the family's entry instead." Run that one test before pushing a PR that adds a core2 file.
+
 ## Carrying an old PR (Nov 15)
 
 - Bring the old PR's change with `git diff <old>~N <old> -- . ':!docs/play-first/shots' | git apply --3way`, then resolve each conflict by reading both sides; where the train already does what the old PR added (a label, a briefs-only lead), keep the train's side and say so in the PR body.
