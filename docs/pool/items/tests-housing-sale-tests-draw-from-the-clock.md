@@ -28,10 +28,10 @@ source: "found by T54 gating world-counted-renters-buy (#9117), Nov 15; Account 
 
 **Rules.** Pinned tests: named places, fixed seeds, about a minute, a limit near twice the measured time; a new pin is seen red once.
 
-**Done when.** None of the eleven files reads `randomBytes`, `Date.now` or `Math.random`; each passes at its pinned place and seed with its measured time and limit in the pull request body, and each was seen red once with its pin broken.
+**Done when.** None of the eleven files reads `randomBytes`, `Date.now` or `Math.random`; each passes at its pinned place and seed with its measured time and limit in the pull request body, and each was seen red once with its pin broken. A second session sees in the running game, at Carmel, Indiana (the counted estate sale's pinned place and seed), the partly bought estate home still for sale with a price, as the pinned test says.
 
 **Waits on.** world-counted-renters-buy (#9117), which these tests' assertions belong to.
 
-**Files.** The eleven test files above.
+**Files.** src/core2/counted-departure-share.test.ts, src/core2/counted-estate-home-sale.test.ts, src/core2/estate-home-sale.test.ts, src/core2/home-sale-outside-lender.test.ts, src/core2/home-sale.test.ts, src/core2/housing-island-areas.test.ts, src/core2/housing-readers.test.ts, src/core2/housing-renters-buy.test.ts, src/core2/laws-death-taxes.test.ts, src/core2/macro-mortgage-history.test.ts, src/core2/realistic-not-real.test.ts
 
 **Notes.** From the lying thread, Nov 15: `src/core2/realistic-not-real.test.ts` fails at Gagani, Northern Mariana Islands (territory:MP:gagani), `REALISTIC_SEED=82a3ae5b7c14185a`, on rows 28 (the town's population) and 37 (the schools people went to); seen on #9534's guards job (head c5f817e5) and the same on f6a552b3 (Train c43bf7e0 plus the lying change): 2 failed, 15 passed. Pinning keeps those two rows red at a place that shows them only if the fault is real, with its own item.
