@@ -9,7 +9,7 @@ status: open
 standard: 2
 claimed-by:
 pr:
-after: words-padded-names-out-of-talk-lines-that-came-in-after-the-pass
+after:
 blocked-on:
 lead: words
 model: sonnet
