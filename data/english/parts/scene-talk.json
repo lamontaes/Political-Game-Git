@@ -158984,10 +158984,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.if-you-ll-say-out-loud-what-employer-did-to-me-you-ve-got-my-vote",
+      "key": "scene-talk.reply-agree.employer-let-me-go-anybody-willing-to-take-on-how-things-are-has-my-vote",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "If you'll say out loud what {employer} did to me, you've got my vote.",
+      "text": "{employer} let me go. Anybody willing to take on how things are has my vote.",
       "uses": [
         {
           "subject": "scene",
@@ -159003,7 +159003,7 @@
       "bearing": "braced",
       "origin": "authored",
       "author": "Claude Opus (door scenes, brief G)",
-      "date": "2026-11-14",
+      "date": "2026-11-15",
       "tag": {
         "move": "agree",
         "key": "door"
@@ -160558,10 +160558,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.the-landlord-says-i-m-behind-you-do-something-about-rent-and-you-have-my-vote",
+      "key": "scene-talk.reply-agree.the-landlord-says-i-m-behind-i-want-somebody-in-there-who-knows-what-that-s-like",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "The landlord says I'm behind. You do something about rent and you have my vote.",
+      "text": "The landlord says I'm behind. I want somebody in there who knows what that's like. You have my vote.",
       "uses": [
         {
           "subject": "scene",
@@ -160577,7 +160577,7 @@
       "bearing": "braced",
       "origin": "authored",
       "author": "Claude Opus (door scenes, brief G)",
-      "date": "2026-11-14",
+      "date": "2026-11-15",
       "tag": {
         "move": "agree",
         "key": "door"
@@ -161203,10 +161203,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.not-the-landlord",
+      "key": "scene-talk.follow-press.i-m-not-the-one-who-sent-that-notice",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "Not the landlord.",
+      "text": "I'm not the one who sent that notice.",
       "uses": [
         {
           "subject": "scene",
@@ -161230,7 +161230,7 @@
       "bearing": "braced",
       "origin": "authored",
       "author": "Claude Opus (door scenes, brief G)",
-      "date": "2026-11-14",
+      "date": "2026-11-15",
       "tag": {
         "move": "press",
         "key": "door"
@@ -163619,10 +163619,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.if-you-ll-think-about-people-taking-care-of-somebody-like-relative-you-have-my-v",
+      "key": "scene-talk.reply-agree.taking-care-of-relative-is-most-of-my-day-now-i-d-like-that-to-count-for-somethi",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "If you'll think about people taking care of somebody like {relative}, you have my vote.",
+      "text": "Taking care of {relative} is most of my day now. I'd like that to count for something. You have my vote.",
       "uses": [
         {
           "subject": "scene",
@@ -163638,7 +163638,7 @@
       "bearing": "tender",
       "origin": "authored",
       "author": "Claude Opus (door scenes, brief G)",
-      "date": "2026-11-14",
+      "date": "2026-11-15",
       "tag": {
         "move": "agree",
         "key": "door"
