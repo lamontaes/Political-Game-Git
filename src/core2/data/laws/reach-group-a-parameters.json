@@ -223,6 +223,16 @@
       "value": 12,
       "tag": "SOURCED",
       "source": "Civil calendar: a year has 12 months."
+    },
+    "housingVoucherIncomeLimitShare": {
+      "value": 0.5,
+      "tag": "SOURCED",
+      "source": "42 U.S.C. 1437f(o)(4)(B) and 1437a(b)(2)(D): a voucher family is very low income, at most 50 percent of the area median income. The town's median monthly pay stands in for the area median."
+    },
+    "housingVoucherTenantIncomeShare": {
+      "value": 0.3,
+      "tag": "SOURCED",
+      "source": "42 U.S.C. 1437a(a)(1)(A) and 1437f(o)(2)(A): a voucher family pays 30 percent of its monthly adjusted income toward rent; the voucher pays the rest up to the payment standard."
     }
   }
 }
