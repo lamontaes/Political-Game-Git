@@ -83660,16 +83660,6 @@
           "role": "asked",
           "purpose": "desk-visit",
           "key": "desk-visit",
-          "requiresFacts": ["for"],
-          "after": "request"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "refuse",
-          "role": "asked",
-          "purpose": "desk-visit",
-          "key": "desk-visit",
           "after": "answer",
           "requiresFacts": ["for", "heard-why"],
           "excludesFacts": ["why-dismissed"]
