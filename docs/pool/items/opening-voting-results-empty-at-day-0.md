@@ -38,3 +38,5 @@ root: day-one-in-motion
 **Waits on.** Nothing.
 
 **Files.** src/core2/modules/voting.ts; src/core2/data/opening/day-zero.json
+
+**Notes (Nov 15, from director-after-race-turned-precinct, #9446).** The result rows this item gives the opening should carry `precinctTotals` too (the count's split of the town's own votes by precinct, written by `holdElection`), so the first race the player runs has a last race to turn from; today the "part of town that turned" fact fires only from the second count. The warm-up that runs the count engine for the past date gives it for free; a hand-filled split would be a second writer.
