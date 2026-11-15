@@ -26,7 +26,7 @@ source: Found while playing #9374's talks (Nov 15), on the train 07919bd2
 
 **Time box.** 1 hour for one Sonnet session at medium effort.
 
-**Rules.** No reply against the record. No line changes only to pass a test.
+**Rules.** Ask why: name the move and the record that offer a plain no against the player's own contact before changing anything. No reply against the record (Words lead rule 113). No line changes only to pass a test.
 
 **Done when.** A second session plays talks in a drawn place and, asked about someone the player saw within the last weeks, is never offered a plain no; the pinned test at seed 9f8e7d6c5b4a3921 passes.
 
