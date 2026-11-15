@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "commitment-names-who-what-why",
   "rubric": "A line that commits (a stance, a threat, a refusal) names who, what or why in plain words.",
-  "judged": 520,
+  "judged": 518,
   "no": {
     "000kvn97gfw": {
       "keys": [
@@ -1178,18 +1178,6 @@
       ],
       "why": "'Take the deal' is never explained; the deal is unnamed."
     },
-    "16i88cmfxog": {
-      "keys": [
-        "scene-talk.narrate-narrate.name-and-you-have-a-lot-to-settle-now-that-the-prison-term-is-over",
-        "scene-talk.state-request.the-term-is-over-first-we-have-to-decide-what-happens-now-and-i-don-t-want-to-put-it-off",
-        "scene-talk.reply-ask.what-do-you-need-most-right-now",
-        "scene-talk.follow-answer.what-we-both-need-is-a-plan-a-place-to-start-and-someone-in-our-corner",
-        "scene-talk.reply-deflect.let-me-think-it-over-before-i-say-yes",
-        "scene-talk.follow-press.a-few-days-is-a-long-time-when-everything-is-on-hold",
-        "scene-talk.reply-promise.i-mean-it-you-ll-see-it-this-week"
-      ],
-      "why": "'You'll see it this week' right after 'let me think it over'; what is promised (bed, job, support) is unclear."
-    },
     "16lyevzw931": {
       "keys": [
         "scene-talk.narrate-narrate.name-comes-up-with-a-smile-and-a-remark-that-has-been-chosen-with-care",
@@ -1621,14 +1609,6 @@
         "scene-talk.reply-refuse.my-answer-is-the-same-dont-come-to-me-again"
       ],
       "why": "'Take the deal' is the only description of what is asked; nothing names what the briber wants."
-    },
-    "1i7caxw7qjc": {
-      "keys": [
-        "scene-talk.narrate-narrate.name-and-you-have-a-lot-to-settle-now-that-the-prison-term-is-over",
-        "scene-talk.state-request.the-term-is-over-first-we-have-to-decide-what-happens-now-and-i-don-t-want-to-put-it-off",
-        "scene-talk.reply-promise.i-ll-do-my-part-you-ll-see"
-      ],
-      "why": "'I'll do my part' of an undecided 'what happens now'; what is promised is never said."
     },
     "1imxx3r9cmc": {
       "keys": [
