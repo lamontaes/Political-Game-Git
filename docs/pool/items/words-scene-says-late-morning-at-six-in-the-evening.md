@@ -1,6 +1,6 @@
 ---
 id: words-scene-says-late-morning-at-six-in-the-evening
-title: "A scene's opening line says \"Late in the morning\" when the clock reads 6:00 PM"
+title: 'A scene''s opening line says "Late in the morning" when the clock reads 6:00 PM'
 area: words
 kind: bug
 priority: 2

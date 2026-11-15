@@ -1242,6 +1242,11 @@
       "impactParameter": "directorFloorVoteImpact"
     },
     {
+      "eventKind": "sign-on-asked",
+      "channel": "cause",
+      "impactParameter": "directorFloorVoteImpact"
+    },
+    {
       "eventKind": "serve-asked",
       "channel": "cause",
       "impactParameter": "directorFilingImpact",

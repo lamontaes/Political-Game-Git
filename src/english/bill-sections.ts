@@ -68,6 +68,8 @@ export interface BillWordsInput {
   readonly id: string;
   readonly number: string;
   readonly form: { readonly kind: string; readonly enactingClause: string };
+  /** Set on a government's annual budget bill (the bill's own record). */
+  readonly budgetFor?: unknown;
   readonly provisions: readonly {
     readonly kind: string;
     readonly question?: string;
@@ -315,7 +317,11 @@ export function composeBill(input: BillWordsInput): ComposedBill | null {
   // An act (never a local ordinance) names itself after its heading: the short
   // title is the bill's own name, read from bill-names.ts like every other screen.
   const named = form.shortTitle
-    ? billTitleOf({ form: input.form, provisions: input.provisions })
+    ? billTitleOf({
+        form: input.form,
+        provisions: input.provisions,
+        budgetFor: input.budgetFor,
+      })
     : null;
   const shortTitle =
     named && form.shortTitle
