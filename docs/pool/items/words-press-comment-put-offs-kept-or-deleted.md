@@ -26,9 +26,7 @@ source: Found by the short-replies builder on the put-offs branch, Nov 15, 2026;
 
 Refusals that promise nothing (stay): they-ll-see-when-i-vote; you-ll-have-it-the-same-day-everybody-else-does; its-too-early-to-say; im-still-reading-the-latest-draft; i-havent-seen-the-final-language; id-rather-not-get-into-it-today; i-have-nothing-to-add-to-how-i-voted; im-not-talking-about-that-vote; i-heard-you-the-first-time-not-today; im-not-going-to-answer-that.
 
-True put-offs (a call back on the named day, or delete): give-it-a-month-then-you-get-a-real-interview; let-me-see-how-the-first-weeks-go-then-ask-me-again; ask-me-in-a-month-when-there-s-something-to-measure; give-me-time-to-see-it-work-before-i-answer-for-it; i-ll-tell-them-first-then-you; when-there-s-a-deal-you-ll-hear-about-it-first; ask-me-again-when-the-dust-settles; ask-me-again-when-it-s-out-of-committee; ask-me-next-week-when-there-s-more-to-say; give-me-a-week-and-the-first-hearing; i-ll-answer-that-after-the-hearing-on-the-record; give-us-a-month-to-get-the-word-out; you-ll-get-a-sentence-at-the-press-conference; let-me-have-my-office-send-you-a-statement; ill-have-more-when-the-committee-reports; well-know-more-next-week.
-
-For the Words lead to place: let-me-look-at-the-numbers-first and i-want-to-hear-from-the-people-i-represent-first (each implies a later answer without naming one).
+True put-offs (a call back on the named day, or delete): give-it-a-month-then-you-get-a-real-interview; let-me-see-how-the-first-weeks-go-then-ask-me-again; ask-me-in-a-month-when-there-s-something-to-measure; give-me-time-to-see-it-work-before-i-answer-for-it; i-ll-tell-them-first-then-you; when-there-s-a-deal-you-ll-hear-about-it-first; ask-me-again-when-the-dust-settles; ask-me-again-when-it-s-out-of-committee; ask-me-next-week-when-there-s-more-to-say; give-me-a-week-and-the-first-hearing; i-ll-answer-that-after-the-hearing-on-the-record; give-us-a-month-to-get-the-word-out; you-ll-get-a-sentence-at-the-press-conference; let-me-have-my-office-send-you-a-statement; ill-have-more-when-the-committee-reports; well-know-more-next-week; let-me-look-at-the-numbers-first; i-want-to-hear-from-the-people-i-represent-first.
 
 **Time box.** 3 hours, Opus.
 
@@ -40,4 +38,4 @@ For the Words lead to place: let-me-look-at-the-numbers-first and i-want-to-hear
 
 **Files.** src/core2/modules/press.ts, src/director/purpose-scene.ts, src/director/data/scene-talk-rules.json, data/english/parts/scene-talk.json
 
-**Notes.** Filed by hand on the put-offs branch, Nov 15.
+**Notes.** Filed by hand on the put-offs branch, Nov 15. Words lead, Nov 15, 10:40Z: "Let me look at the numbers first." and "I want to hear from the people I represent first." are true put-offs, since "first" promises an answer later; they go with the others (18 in all): a call back or deleted.
