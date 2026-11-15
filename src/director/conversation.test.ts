@@ -495,6 +495,11 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
       publicRecord: true,
       source: { tag: "SOURCED", citation: "Fixture story.", asOf: core.date },
     });
+    // Old premise (until Nov 15): the test found a person with a look-style
+    // open and then opened the same person again as the talk under test, and
+    // passed because the second open repeated an introduction the player had
+    // already had. Someone with contact today no longer introduces themselves
+    // again (Words lead, Nov 14), so nothing is left to say on a second open.
     // The first talk that opens is the talk under test: a second opening with
     // the same person the same day has nothing new to say, and a talk with no
     // line is no talk (owner, Nov 1), so the person is never opened twice.
