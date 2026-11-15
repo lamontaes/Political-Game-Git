@@ -8,7 +8,9 @@ import { openConversation, say } from "./conversation";
 // last saw the person, from their own tie. Pinned to the seed the played
 // talks were red at (played-talks, Nov 14: Cumming, Iowa, seed
 // 7952d3f3e3253ee4, a job-offer talk on Apr 14, 2025), the director's own
-// scenes over its first four months.
+// scenes over its first four months. Before the asker's own recent contact
+// held the question back, the first talk here was "Have you heard from
+// Ariana?" ... "I saw her today."
 const SEED = "7952d3f3e3253ee4";
 
 describe("a question about someone both know", () => {
@@ -45,6 +47,9 @@ describe("a question about someone both know", () => {
         );
         expect(back?.kind, seen.at(-1)).toBe("asked-mutual-give");
         expect(back?.sourceRecordIds.length, seen.at(-1)).toBeGreaterThan(0);
+        // Nobody asks after someone they saw today or yesterday: they would
+        // tell it (Words lead, Nov 15).
+        expect(back?.text, seen.at(-1)).not.toMatch(/\b(today|yesterday)\b/);
       },
     });
     const where = `${report.place.name}, seed ${report.seed}`;
