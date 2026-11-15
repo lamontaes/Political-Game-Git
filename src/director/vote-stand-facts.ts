@@ -10,8 +10,8 @@
  * vote, their position part by part as the floor weighed it, the trades they
  * took), the chamber's count and the body's own office row.
  *
- * - `acted`: they have voted (beside `voted-yes` / `voted-no`, which the
- *   cause's own facts set);
+ * - `acted` and `voted-yes` / `voted-no`: they have voted, and which way (a
+ *   cause that sets its own `voted-*` keeps it);
  * - `bill-passed` / `bill-failed`: what the chamber did, from its count;
  * - `body`: the body said short ("the council"), from its office row;
  * - `reason-*`: every part of their position said aloud that leans the way
@@ -70,6 +70,7 @@ export function voteStandFacts(
   const cited = [...new Set([causeId, voteId])];
   const yes = { text: "yes", sourceRecordIds: cited };
   facts.acted = yes;
+  facts[`voted-${own.vote}`] ??= yes;
   const count = chamber ? floorCountOf(api, bill.id, chamber) : null;
   if (count) facts[count.carried ? "bill-passed" : "bill-failed"] = yes;
   const body = bodySaid(core, chamber);
