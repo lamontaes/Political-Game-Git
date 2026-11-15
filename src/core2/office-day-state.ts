@@ -32,7 +32,7 @@ import { sessionYear, type SessionWindow } from "./state-session-calendar";
 import { registerModule } from "./state";
 import { decisionLean, leanedTerm } from "./trait-decisions";
 import { closenessBetween } from "./closeness";
-import { roomTime } from "./sitting-closeness";
+import { roomTime } from "./modules/people";
 import { personLean, personStance } from "./campaign-views";
 import { PLATFORM_QUESTIONS } from "./campaign-data";
 import { lineForPost, registerLinePayments } from "./budgets-treasury";

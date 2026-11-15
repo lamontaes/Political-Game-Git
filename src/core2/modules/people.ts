@@ -884,6 +884,7 @@ export const PEOPLE_MODULE: PreStartModule = {
 
 // Re-exported so other engine families import through this entry, not the file (families guard).
 export { currentCloseness } from "../closeness";
+export { roomTime } from "../sitting-closeness";
 export { decisionKinds } from "../trait-decision-table";
 export { decisionLean, termOfLean } from "../trait-decisions";
 export type { CashJournalPosting } from "../journal";
