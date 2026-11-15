@@ -127,6 +127,7 @@ engine can look it up and obey it.
 
 ## Applying it to the game
 
+- **An ESTIMATED row sizes a real event, never stands in for one (Account lead, Nov 15, #9543).** A row may say how long or how often an event the game records runs (a sitting's hours, a meeting a week); it may not supply hours for a meeting no record holds. When the look-first search finds no record of the event, build the event (a sitting on the one calendar, a scene with the people present) or file it as an item, and leave the hours out.
 - **A population rate** (a quit rate, a birth rate, turnout, a share of
   households) calibrates a band the proof reports against. Its row's `spread`
   is the band; `checkRange` points at a target in
