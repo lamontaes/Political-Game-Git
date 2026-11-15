@@ -16,7 +16,7 @@ import {
 } from "../core2/modules/elections";
 import { registerControlledPersonV1 } from "../core2/player-control-state-v1";
 import { CANDIDACY_MODULE_ID } from "../core2/modules/candidacy";
-import { coreAPI } from "../core2/state";
+import { coreAPI, retainLog } from "../core2/state";
 import type { PersonId } from "../core2/types";
 import { purposeScene, replyInScene } from "./purpose-scene";
 
@@ -29,9 +29,12 @@ import { purposeScene, replyInScene } from "./purpose-scene";
 // the member's decision cites.
 const SEED = "c29-party-ask-refused";
 // Pinned drawn places (one seed, fixed tags): "a" is Floydale, South
-// Carolina; "d" is Denver, Pennsylvania. Other tags drawn from this seed
-// stage no scene for the ask at home that day, so they are not pinned.
-const TAGS = ["a", "d"];
+// Carolina; "f" is Fox Chase, Kentucky. Both stage the ask at home the day
+// filing opens and run in under a minute. Denver, Pennsylvania (tag "d")
+// passes too but spends over two minutes playing its first days, so it is
+// not pinned; tags "c", "e", "g" and "h" have no ask left for the player
+// on the opening day, so they are not pinned either.
+const TAGS = ["a", "f"];
 
 it.each(TAGS)(
   "the party asks its next member after the player says no (%s)",
@@ -83,6 +86,11 @@ it.each(TAGS)(
         registerControlledPersonV1(core, player);
         core.focusPersonIds.add(player);
         director.watch(core, player);
+        // The game keeps a record that names the player's circle when it is
+        // written; the ask was written a moment before this member became the
+        // player here, so the log keeps it now, as it would have for a player
+        // who was already in the world.
+        retainLog(core, e);
         ask = { id: e.id, contestId: f.contestId!, partyId: f.partyId! };
       },
     );
@@ -145,5 +153,5 @@ it.each(TAGS)(
       `PARTY ASK REFUSED ${where}: ${ask!.id} refused (${replyId}); next ${next!.id}\n`,
     );
   },
-  600_000,
+  120_000,
 );
