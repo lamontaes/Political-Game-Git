@@ -68941,32 +68941,6 @@
       }
     },
     {
-      "key": "scene-talk.state-confront.you-were-wrong-about-issue-tonight-and-i-ll-keep-saying-so",
-      "move": "state-confront",
-      "kind": "spoken",
-      "text": "You were wrong about {issue} tonight, and I'll keep saying so.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "confront",
-          "role": "asker",
-          "purpose": "rally-opponent",
-          "key": "threat",
-          "requiresFacts": ["debate", "issue"],
-          "excludesFacts": ["daytime", "said-none"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Finisher (English engine and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "confront",
-        "key": "threat"
-      }
-    },
-    {
       "key": "scene-talk.state-confront.we-ll-never-agree-on-issue-i-wanted-to-say-it-to-your-face-not-only-on-stage",
       "move": "state-confront",
       "kind": "spoken",
@@ -69036,32 +69010,6 @@
         }
       ],
       "bearing": "curious",
-      "origin": "authored",
-      "author": "Finisher (English engine and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "confront",
-        "key": "threat"
-      }
-    },
-    {
-      "key": "scene-talk.state-confront.be-careful-what-you-promise-on-issue-people-were-listening-tonight",
-      "move": "state-confront",
-      "kind": "spoken",
-      "text": "Be careful what you promise on {issue}. People were listening tonight.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "confront",
-          "role": "asker",
-          "purpose": "rally-opponent",
-          "key": "threat",
-          "requiresFacts": ["debate", "issue"],
-          "excludesFacts": ["daytime", "said-none"]
-        }
-      ],
-      "bearing": "guarded",
       "origin": "authored",
       "author": "Finisher (English engine and scenes)",
       "date": "2026-10-27",
@@ -187806,58 +187754,6 @@
       }
     },
     {
-      "key": "scene-talk.state-confront.we-agreed-on-more-than-i-expected-up-there",
-      "move": "state-confront",
-      "kind": "spoken",
-      "text": "We agreed on more than I expected up there.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "confront",
-          "role": "asker",
-          "purpose": "rally-opponent",
-          "key": "threat",
-          "requiresFacts": ["debate"],
-          "excludesFacts": ["issue"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Campaign events builder, draft for the Words lead",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "confront",
-        "key": "threat"
-      }
-    },
-    {
-      "key": "scene-talk.state-confront.nothing-to-fight-about-up-there-we-ll-find-something",
-      "move": "state-confront",
-      "kind": "spoken",
-      "text": "Nothing to fight about up there. We'll find something.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "confront",
-          "role": "asker",
-          "purpose": "rally-opponent",
-          "key": "threat",
-          "requiresFacts": ["debate"],
-          "excludesFacts": ["issue"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Campaign events builder, draft for the Words lead",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "confront",
-        "key": "threat"
-      }
-    },
-    {
       "key": "scene-talk.reply-confront.you-had-the-same-microphone-i-did",
       "move": "reply-confront",
       "kind": "spoken",
@@ -187971,7 +187867,8 @@
           "role": "asker",
           "purpose": "rally-opponent",
           "key": "threat",
-          "requiresFacts": ["debate"]
+          "requiresFacts": ["debate"],
+          "excludesFacts": ["said-none"]
         }
       ],
       "bearing": "braced",
@@ -187996,7 +187893,8 @@
           "role": "asker",
           "purpose": "rally-opponent",
           "key": "threat",
-          "requiresFacts": ["debate"]
+          "requiresFacts": ["debate"],
+          "excludesFacts": ["said-none"]
         }
       ],
       "bearing": "braced",
