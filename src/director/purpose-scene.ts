@@ -149,6 +149,7 @@ import {
   hasArcFor,
   type VariantChoice,
 } from "./arc-variant";
+import { promiseReplyFacts } from "./promises";
 
 /** A state's key begins with its country (`US-KY`); the rest is its USPS code. */
 const STATE_KEY_PREFIX = "US-";
@@ -986,7 +987,7 @@ function composeBinding(
   // down or a person held before trial, with how long, the day they get out,
   // the bail, whether the term ended their job and the child at home, each
   // cited to the records it came from. stopgapId:
-  // SG-WORDS-homecoming-stay-unread, SG-WORDS-prison-visit-limits-fixed
+  // SG-WORDS-prison-visit-limits-fixed
   for (const [key, fact] of Object.entries(
     custodyFacts(core, record, askerId, askedId),
   ))
@@ -994,7 +995,7 @@ function composeBinding(
   // A first meeting or a tie that grew (the jobs, school and parties engines'
   // records): the employer, the job, the school, the children at one school,
   // the party and the town the two share or do not. stopgapId:
-  // SG-WORDS-meeting-no-club-records, SG-WORDS-meeting-promise-unread
+  // SG-WORDS-meeting-no-club-records
   for (const [key, fact] of Object.entries(
     meetingFacts(core, binding.typeKey, moment.causeId, askerId, askedId),
   ))
@@ -3013,6 +3014,10 @@ export function replyInScene(
       ...(enlists && filingId ? { enlisted: filingId } : {}),
       ...(backing ? { backing } : {}),
       ...(ending ? { ending: ending.id, keeps: ending.keeps } : {}),
+      // A promise a record can settle: its kind and its tie, from the
+      // ending's row in src/director/data/promise-kinds.json (promises.ts). stopgapId:
+      // SG-WORDS-favor-promise-keeps-unread (endings with no row yet)
+      ...(ending ? promiseReplyFacts({ ...scene, endingId: ending.id }) : {}),
       ...(ending?.firmness ? { firmness: ending.firmness } : {}),
       // A promise made on a resident's own question names it, for the
       // Journal (ruling 72).
@@ -3094,7 +3099,6 @@ export function replyInScene(
       undefined,
       { cause: "scene-reply", sourceId: id },
     );
-  // stopgapId: SG-WORDS-favor-promise-keeps-unread
   const strain = ending ? ENDING_STRAIN[ending.keeps]?.value : undefined;
   if (strain)
     coreAPI(core).relationship(
