@@ -13,6 +13,7 @@ import { gameStartDate } from "../game-start";
 import { setBookkeeping } from "../bookkeeping";
 import { advanceCore } from "../life";
 import { addDays, makeIsoDate } from "../kernel/dates";
+import { coreAPI } from "../state";
 import type { CoreState } from "../types";
 
 const PLACE = "4218136";
@@ -35,6 +36,19 @@ describe("a firm open on day 0 holds its line", { timeout: 300_000 }, () => {
     advanceCore(core, addDays(makeIsoDate(core.date), 1));
     const books = c.finance.businesses.get(clinic.id)!;
     expect(books.creditFacilityId, "its line, by id").toBeTruthy();
+    // The record says who runs the firm and that the line was held at the
+    // opening, not asked for today.
+    const application = (
+      coreAPI(core).moduleState("credit").table("applications").rows() as {
+        organizationId?: string;
+        decidedBy?: string;
+        reasonKey: string;
+        approved: boolean;
+      }[]
+    ).find((row) => row.organizationId === clinic.id)!;
+    expect(application.approved).toBe(true);
+    expect(application.reasonKey).toBe("line-held-at-opening");
+    expect(c.people.has(application.decidedBy ?? "")).toBe(true);
     // Through the first payday (Jan 30) and the day after: not closed.
     advanceCore(core, makeIsoDate("2025-02-01"));
     expect(books.closedAt).toBeUndefined();

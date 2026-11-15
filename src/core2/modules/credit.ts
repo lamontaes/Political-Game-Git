@@ -666,7 +666,12 @@ function review(api: CoreAPI, opening = false): void {
   const owners = c.modules.has("business")
     ? api.moduleState("business").table("owners")
     : undefined;
-  const wanted: { id: string; requested: number; decidedBy?: string }[] = [];
+  const wanted: {
+    id: string;
+    requested: number;
+    decidedBy?: string;
+    opening?: boolean;
+  }[] = [];
   const counted: { id: string; requested: number; score: number }[] = [];
   for (const [id, books] of [...c.finance.businesses].sort((a, b) =>
     a[0].localeCompare(b[0]),
@@ -685,10 +690,6 @@ function review(api: CoreAPI, opening = false): void {
     const cash = c.organizations.get(id)!.liquidMinor;
     const requested = Math.max(0, cover - cash);
     if (!requested) continue;
-    if (opening) {
-      wanted.push({ id, requested });
-      continue;
-    }
     // The owner decides; a firm with no recorded owner (a public employer, an
     // ownerless landlord) is run by its best-paid full worker, who weighs the
     // same reasons. With no full person to decide, its counted people's summed
@@ -696,6 +697,17 @@ function review(api: CoreAPI, opening = false): void {
     const ownerId =
       (owners?.get(id) as { ownerId?: string } | undefined)?.ownerId ??
       managerOf(c, id);
+    // At the opening the person who runs the firm opened the line before the
+    // game began: no choice is made now, and the application says so.
+    if (opening) {
+      wanted.push({
+        id,
+        requested,
+        opening: true,
+        ...(ownerId && c.people.has(ownerId) ? { decidedBy: ownerId } : {}),
+      });
+      continue;
+    }
     // Its sales stand for the same weight as its payroll.
     const monthlySales =
       (books.annualDemandMinor *
@@ -739,8 +751,8 @@ function review(api: CoreAPI, opening = false): void {
       store(api).table("pulls"),
     ))
       wanted.push({ id: row.id, requested: row.requested });
-  for (const { id, requested, decidedBy } of wanted.sort((a, b) =>
-    a.id.localeCompare(b.id),
+  for (const { id, requested, decidedBy, opening: held } of wanted.sort(
+    (a, b) => a.id.localeCompare(b.id),
   )) {
     const books = c.finance.businesses.get(id)!;
     const cash = c.organizations.get(id)!.liquidMinor;
@@ -755,7 +767,9 @@ function review(api: CoreAPI, opening = false): void {
         bankBookId: `book:${api.state.date}`,
         organizationId: id,
         date: api.state.date,
-        reasonKey: creditData.reasons.applied,
+        reasonKey: held
+          ? creditData.reasons.heldAtOpening
+          : creditData.reasons.applied,
         ...(decidedBy ? { decidedBy } : {}),
         requestedMinor: Math.round(requested),
         cashMinor: cash,
