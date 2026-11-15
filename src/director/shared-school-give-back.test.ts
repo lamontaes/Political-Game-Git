@@ -13,11 +13,17 @@ import { openConversation, say } from "./conversation";
 // them (a yes or a no where one is offered, else the first reply), one talk
 // per pair, so the year runs as it did when the red was seen.
 const SEED = "7952d3f3e3253ee4";
-// A played year: a schoolmate is met through a scene only late in the year
-// (the first school question at this seed came on Jan 6, 2026; none came
-// within 120 days here, at North Hornell, New York, 9f8e7d6c5b4a3921, or at
-// Rienzi, Mississippi, 55aa55aa12345678). The run takes about 150 seconds; the
-// limit is twice that.
+// Longer than the usual minute because it plays the game's own days: a
+// whole played year, since a schoolmate is met through a scene only late in
+// it (on Train 9a5a4d2c the school questions came on Nov 15, 2025 and Jan
+// 12, 2026; none came within 120 days here, at North Hornell, New York,
+// 9f8e7d6c5b4a3921, or at Rienzi, Mississippi, 55aa55aa12345678). Measured
+// at 147 seconds; the limit, 300 seconds, is about twice that.
+// The method changed (Account lead's yes, Nov 15). Old: the test waited
+// through the year and opened only the talks it checked, leaving every
+// other scene's talk unplayed. After the Train moved the draw, no school
+// question came at all. New: every scene talk is played to its close, as
+// played-talks plays them, so the year runs as it did when the red was seen.
 const DAYS = 365;
 const YES_NO = /^(yes|no|yeah|nope)\b/i;
 
