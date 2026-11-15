@@ -22,3 +22,5 @@ claimed-at: 2026-10-25T19:00:45.217Z
 **Files.** src/core2/laws-death-taxes.ts, src/core2/laws-death-taxes.test.ts, src/core2/data/stopgaps.json
 
 **Notes.** Sent back 2026-10-23 from PR #5744 (branch claude/law-wiring-death-tax-terms): the new rate-only death-tax test hit the default 30-second timeout and no later commit supplies the measured limit or lighter proof; finish on that branch, merge main into it first.
+
+Red on the Train, Nov 15 (T54, seen on Train c43bf7e0 bare and on #9117's gate): "a state that adopts a death tax by setting only a rate taxes the whole amount at that rate" fails at src/core2/laws-death-taxes.test.ts:191 for US-KY, `expected false to be true`: the government-heir stopgap marker was not hit for Kentucky's starting inheritance-tax row although that row's `governmentHeir` carries a reading. Run seed a7a8fcad003baedeefbe8273a7fdd56fdd9a6ebb4962e9f6ef189b20caaf3784 (GOLDEN_PATH_SEED), US-OH place 3982642. Cause not traced.
