@@ -60,9 +60,15 @@ try {
     seed = new URL((await built).url()).searchParams.get("seed");
     await page.locator("#front-pick:not([hidden])").waitFor();
     names = await page.locator("#pick-list button").allInnerTexts();
+    // FEE_BODY names another kind of seat to step in as (a state legislator, to reach the state's own fees).
     at = names.findIndex((t) =>
-      /council|commissioner|alderm|trustee|supervisor|selectm/i.test(t),
+      new RegExp(
+        process.env.FEE_BODY ??
+          "council|commissioner|alderm|trustee|supervisor|selectm",
+        "i",
+      ).test(t),
     );
+    if (at < 0) say("Seats offered:", names);
     if (at < 0)
       say(`unusable draw ${attempt}: seed ${seed}, no member of a body`);
   }
