@@ -27,7 +27,7 @@ checked:
 
 **Time box.** 1 hour.
 
-**Done when.** `npx vitest run src/director/concession-reported.test.ts` passes both cases at North Westminster, Vermont (5052375), world seed 18d0fb93fe003b8a20a3e4ce1848cd57da4a5e825a8dd4eab5c799ee23806b39.
+**Done when.** A second session plays the runner-up's call in a drawn place with a fresh seed, once conceding and once refusing, reads the race's story in the paper, and sees the runner-up and the winner named in full at their first mention and by family name after, the call's sentence naming the runner-up, and `npx vitest run src/director/concession-reported.test.ts` passing both cases at North Westminster, Vermont (5052375), world seed 18d0fb93fe003b8a20a3e4ce1848cd57da4a5e825a8dd4eab5c799ee23806b39.
 
 **Files.** src/director/concession-reported.test.ts
 
