@@ -101,7 +101,7 @@ import {
   raceScope,
   standingPool,
 } from "../candidate-pool";
-import { coarsePlace, metResident } from "../coarse-place";
+import { workFromHome } from "../coarse-place";
 import { drawStateHome } from "../places";
 import { closenessBetween } from "../closeness";
 import {
@@ -7336,9 +7336,8 @@ function offerNewcomer(
   if (api.state.people.has(id)) return;
   const seed = (api.state as CoreState).seed;
   const home = drawStateHome(seed, id, newcomer.stateKey);
-  const coarse = home ? coarsePlace(home.key, seed) : null;
-  const met = coarse
-    ? metResident(coarse, seed, `running-mate:${id}`)
+  const work = home
+    ? workFromHome(seed, home.key, `running-mate:${id}`)
     : undefined;
   fillInIdentity(api.state as CoreState, {
     id: id as PersonId,
@@ -7350,17 +7349,7 @@ function offerNewcomer(
     ...(party ? { party } : {}),
     traits: newcomer.traits,
     tier: "monthly",
-    ...(met
-      ? {
-          work: {
-            workplace: met.job.workplace,
-            title: met.job.title,
-            occupation: met.job.occupation,
-            hourlyMinor: met.job.hourlyMinor,
-            weeklyHours: met.job.weeklyHours,
-          },
-        }
-      : {}),
+    ...(work ? { work } : {}),
     source: {
       tag: "ESTIMATED",
       citation: `offered as a running mate on ${api.state.date}`,
@@ -7691,6 +7680,35 @@ function ticketRace(api: CoreAPI, race: Race, year: number): RaceRow | null {
 }
 
 /** Seat the winner on the term's first day. */
+/**
+ * Whether a person has filed for a seat other than `seatId` in the contest
+ * held on `date`: filing for the other office closed their own seat's ballot
+ * (a state legislator who files for Congress is not also up for their own
+ * seat), whether they went on to win, lose the primary or withdraw.
+ */
+function filedForAnotherSeat(
+  api: CoreAPI,
+  personId: string,
+  seatId: string,
+  date: string,
+): boolean {
+  const elections = api.moduleState(ELECTIONS_MODULE_ID);
+  return (
+    elections
+      .table("filings")
+      .query("byPerson", [personId]) as unknown as FilingRow[]
+  ).some((filing) => {
+    const contest = elections
+      .table("contests")
+      .get(filing.contestId) as unknown as ContestRow | undefined;
+    return (
+      contest !== undefined &&
+      contest.seatId !== seatId &&
+      contest.electionDate === date
+    );
+  });
+}
+
 function seatRaceWinner(api: CoreAPI, raceId: string): void {
   const race = table(api, "races").get(raceId) as unknown as
     | (RaceRow & {
@@ -7765,8 +7783,14 @@ function seatRaceWinner(api: CoreAPI, raceId: string): void {
         .sort((a, b) => a.date.localeCompare(b.date))
         .at(-1)
     : undefined;
+  // A holder on another seat's ballot this year is not on this one's: the
+  // seat is open, and its party's winner is a new person.
   const reelected =
     serving[0] &&
+    !(
+      serving[0].personId &&
+      filedForAnotherSeat(api, serving[0].personId, race.seatId, race.date)
+    ) &&
     (race.nonpartisan
       ? lastRace?.winnerParty === race.winnerParty
       : serving[0].party === race.winnerParty);
