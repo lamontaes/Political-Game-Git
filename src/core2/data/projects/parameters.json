@@ -14,6 +14,13 @@
       "tag": "TUNABLE",
       "source": "A work counts as built only if the treasury paid the contractor something for it that year (one cent); a line the treasury never paid has no work to open.",
       "spread": [1, 100000]
+    },
+    "projectLaborShare": {
+      "value": 0.3,
+      "tag": "TUNABLE",
+      "source": "The share of what the treasury pays a contractor for a public work that goes to the crew's wages, the rest being materials, equipment and overhead; it sets how many crew-days a payment buys and so how late a small crew finishes a large work. Checked against played towns: where a crew could not finish within the fiscal year the finish moves past it.",
+      "spread": [0.15, 0.5],
+      "role": "coefficient"
     }
   }
 }
