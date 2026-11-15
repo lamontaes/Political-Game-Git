@@ -5,9 +5,9 @@ area: director
 kind: bug
 priority: 3
 size: S
-status: open
+status: in-pr
 standard: 2
-claimed-by:
+claimed-by: thread cluster 29 part 3
 pr:
 after:
 blocked-on:
@@ -21,9 +21,9 @@ claimed-at:
 
 **What.** `GOLDEN_PATH_SEED=c6144eded094d3de npx vitest run src/director/civic-roles.test.ts` draws Guaynabo, Puerto Rico (place key 7232522) and fails `fills the clerk with the person the filing office's records name` with `expected 0 to be greater than 0`. It fails the same way on the clean train head 5fe71dec7a and on the voter registration branch. Seen: in the clerk a filing scene is cast with.
 
-**Cause.** Needs cause. Measured: the seed above in that drawn place, red on the clean train; the test finds zero clerks.
+**Cause.** Found in code: the failing line is the test's own premise, `expect(contests.length).toBeGreaterThan(0)` on `openContests(api)` a year into play, not the clerk. Guaynabo's 47 contest records (`contest:seat:US-PR:...:2028-11-07`, `contest:seat:municipio:72061:board:0:2028-11-07` and the rest) all belong to Puerto Rico's four-yearly general election of November 7, 2028, with filing windows from 2028-06-15 to 2028-08-14, so on 2026-01-20 no window is open and the list is empty. The world is right; the test assumed every place has a race open for filing in any year.
 
-**Fix.** None until the cause is found.
+**Fix.** The clerk check reads the races a filing is taken for: those open now, else those whose filing window opens next (`filingWindowOpens`, the one rule for when filing opens). A clerk is named by the filing office's records whether or not the window is open (`filingClerkFor`). The check also runs at three pinned places on the day the game starts: Guaynabo PR (7232522), Edgar WI (5522550) and Denver PA (4218888).
 
 **Time box.** 2 hours for one Opus session at medium effort. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
 
