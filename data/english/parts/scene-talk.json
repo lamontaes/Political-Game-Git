@@ -188320,10 +188320,10 @@
       }
     },
     {
-      "key": "scene-talk.state-tell.opponent-s-campaign-is-pushing-issue-hard-it-reached-me",
+      "key": "scene-talk.state-tell.opponent-s-campaign-is-talking-about-issue-everywhere-it-reached-me",
       "move": "state-tell",
       "kind": "spoken",
-      "text": "{opponent}'s campaign is pushing {issue} hard. It reached me.",
+      "text": "{opponent}'s campaign is talking about {issue} everywhere. It reached me.",
       "uses": [
         {
           "subject": "scene",

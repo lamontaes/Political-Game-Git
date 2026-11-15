@@ -42,10 +42,14 @@ import type { TreeNode } from "./scene-talk";
  * One named place on a fixed seed: Hopkinton RI, a race a candidate gets onto
  * the ballot for. Its season plays word of a rival by a night of doors and by
  * a campaign message, to tellers moved none and a lot, so every
- * line of the bank's rival-word scene plays here. The time is the game's own
- * played days from filing to election day (about two minutes); the case cannot
- * be staged shorter, because a teller is moved by messages the world's own
- * campaigns send over weeks. Earlier pins (Millston WI rwprobe:0, Grafton VT
+ * line of the bank's rival-word scene plays here. The time (about 130 seconds,
+ * limit near twice) is the game's own played days: the candidate files in the
+ * spring, and the scenes are the ones the world's own campaigns stage from
+ * late April to the first week of October, a week at a time, because a teller
+ * is moved by messages that reach them over weeks and the director stages
+ * one only on the day it is told; a shorter run (a later start, or stopping
+ * after the first scenes) shows no teller moved a lot and none of the later
+ * messages, and staging them by writing facts would prove only the bank. Earlier pins (Millston WI rwprobe:0, Grafton VT
  * rwprobe:5, Bicknell UT rwprobe:6) played the same scene, but after the Train
  * changed which rival-word rows the director stages as scenes, none of them
  * drew a teller moved "a little" (a scan of twelve drawn places on the Train
@@ -76,7 +80,7 @@ const DELETED = [
 
 const OPENER_BY_HOW: Record<string, RegExp> = {
   [CANVASS_MESSAGE_KIND]: /knocked|came by the house/i,
-  "campaign-message": /pushing|heard from/i,
+  "campaign-message": /talking about|heard from/i,
 };
 
 const MOVED_ANSWER: Partial<Record<"none" | "little" | "lot", string>> = {
@@ -294,4 +298,4 @@ it("news of a rival is staged once a message, says how it came, answers from the
     `rival-word: ${scenes} scenes that stopped the day over ${messages.size} messages; how seen ${[...how].join(", ")}; moved seen ${[...moved].join(", ")}`,
   );
   expect(scenes).toBeGreaterThan(0);
-}, 200_000);
+}, 260_000);
