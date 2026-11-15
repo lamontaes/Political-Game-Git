@@ -33,3 +33,5 @@ source: Lying builder, Nov 15, from the recount of lies told at three places (Ac
 **Waits on.** Nothing.
 
 **Files.** src/core2/sitting-closeness.ts, src/core2/modules/world-legislating.ts, src/core2/data/parameters.json
+
+Nov 15 (lying thread): the player's own rooms now follow the same rule. A committee, caucus or leaders' meeting is a sitting of a smaller room, shared by the sitting's own reader (`roomTime` in src/core2/sitting-closeness.ts, the sort `nearestInService` shared with the floor; spendTime in src/core2/office-day-state.ts): the meeting's hours times `sittingContactShare`, split among the `knownAmong(room - 1)` colleagues whose service began nearest one's own. Whether every colleague ends up too slight is still this item's question.
