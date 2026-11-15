@@ -6473,7 +6473,7 @@ function publicEmployerFor(
           new RegExp(name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "gi"),
           (found) =>
             /^[A-Z]/.test(found)
-              ? `${said.charAt(zero).toUpperCase()}${said.slice(1)}`
+              ? `${said.charAt(zero).toUpperCase()}${said.slice(one)}`
               : said,
         );
       row.text = publicEmployerSaid(row.text, said);
