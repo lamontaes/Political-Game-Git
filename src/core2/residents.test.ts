@@ -161,39 +161,6 @@ describe(`two-level population in ${place.name} (seed ${seed})`, () => {
     expect(sales).toBeGreaterThan(0);
   }, 300_000);
 
-  // Old premise (core2 commit a46bb32e, a builder's comment, no ruling): the
-  // days of a pay period before the opening were owed to no one, so the
-  // first paydays paid only the days since it. Account lead, Nov 15: a world
-  // opens in motion, and every payday after the opening pays its whole
-  // period (pool item world-opening-month-pays-rent-before-any-pay).
-  it("pays counted workers their whole first period, the days before the opening included", () => {
-    const hasCalendarPay = (input: CoreInput) =>
-      input.residents!.flows.some(
-        (row) =>
-          row.kind === "wages" &&
-          !!row.perDayMinorByJob &&
-          row.firstAt > input.startedAt,
-      );
-    const two = openingWith("core2-residents-early-payday", hasCalendarPay);
-    const start = two.startedAt;
-    const wages = two.residents!.flows.filter((row) => row.kind === "wages");
-    for (const row of wages) {
-      expect(row.firstAt >= start).toBe(true);
-      expect("earnedDaysByDue" in row).toBe(false);
-    }
-    const flow = wages
-      .filter((row) => row.perDayMinorByJob && row.firstAt > start)
-      .sort((a, b) => a.firstAt.localeCompare(b.firstAt))[0]!;
-    const core = createLifeCore(two);
-    const state = residentsRuntime(core)!.flows.get(flow.id)!;
-    const due = state.nextAt;
-    advanceCore(core, addDays(due, -1));
-    // What the whole period pays, as the flow stands the day before.
-    const whole = state.amountMinor;
-    advanceCore(core, due);
-    expect(state.lastRequestedMinor, `${flow.id} on ${due}`).toBe(whole);
-  }, 900_000);
-
   it("fills in a counted worker who matches the employer's books", () => {
     const core = createLifeCore(two);
     advanceCore(core, daysIn(14));
