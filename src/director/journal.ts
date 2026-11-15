@@ -49,7 +49,7 @@ import {
 } from "../english/journal-words";
 import { DEFAULT_DIRECTOR_DATA, type Director } from "./ledger";
 import { comingOfAgeOn } from "./coming-of-age";
-import type { RACE_MARGINS } from "../english/mined/journal-bank";
+import { raceMargin } from "./race-margin";
 import {
   organizationName,
   properName,
@@ -211,38 +211,6 @@ export function lawTopic(
     .get(lawId) as unknown as LawRowInput | undefined;
   const text = law ? topicInSentence(law.series) : null;
   return text ? { text, recordIds: [lawId] } : undefined;
-}
-
-/**
- * How a race was decided, from its result record's totals: "alone" when one
- * candidate stood, "close" or "wide" by the winner's lead over the runner-up
- * as a share of the votes cast, and "middle" between them or when the totals
- * are not on record, so no line claims a margin the record does not show.
- */
-function raceMargin(
-  core: Readonly<CoreState>,
-  resultId: string,
-): (typeof RACE_MARGINS)[number] {
-  let votes: number[] = [];
-  try {
-    votes = Object.values(
-      JSON.parse(String(core.durableLog.get(resultId)?.facts?.totals ?? "{}")),
-    )
-      .map(Number)
-      .filter(Number.isFinite)
-      .sort((a, b) => b - a);
-  } catch {
-    votes = [];
-  }
-  if (votes.length === one) return "alone";
-  const cast = votes.reduce((sum, count) => sum + count, zero);
-  if (votes.length < P.two || !(cast > zero)) return "middle";
-  const lead = (votes[zero]! - votes[one]!) / cast;
-  const { journalRaceCloseMargin, journalRaceWideMargin } =
-    DEFAULT_DIRECTOR_DATA.parameters;
-  if (lead <= journalRaceCloseMargin!.value) return "close";
-  if (lead >= journalRaceWideMargin!.value) return "wide";
-  return "middle";
 }
 
 /**

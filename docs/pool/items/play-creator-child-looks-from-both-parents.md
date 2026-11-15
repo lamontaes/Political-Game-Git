@@ -5,12 +5,12 @@ area: play
 kind: feature
 priority: 2
 size: M
-status: open
+status: in-pr
 standard: 2
 claimed-by:
 after:
 blocked-on:
-pr:
+pr: "#9351"
 lead: screens
 source: 'owner, Nov 8, 2026: "I''m Mexican and my son is white."; coordinator note on #9301'
 model: opus

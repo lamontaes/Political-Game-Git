@@ -1,0 +1,30 @@
+Seed: 8568-eldorado Place: Eldorado, Pennsylvania
+Place: Eldorado, Pennsylvania Seed: 8568-eldorado
+day-1-tab-1: no lead (nothing in print)
+day-1-tab-2: no lead (nothing in print)
+day-1-tab-3: no lead (nothing in print)
+day-1-tab-4: no lead (nothing in print)
+day-1-tab-5: no lead (nothing in print)
+day-1-tab-6: no lead (nothing in print)
+day-1-tab-7: no lead (nothing in print)
+day-1-tab-8: "Blair County adopts its budget" -> undefined from undefined
+week-1-tab-1: no lead (nothing in print)
+week-1-tab-2: no lead (nothing in print)
+week-1-tab-3: no lead (nothing in print)
+week-1-tab-4: no lead (nothing in print)
+week-1-tab-5: no lead (nothing in print)
+week-1-tab-6: no lead (nothing in print)
+week-1-tab-7: no lead (nothing in print)
+week-1-tab-8: "Blair County adopts its budget" -> undefined from undefined
+week-2-tab-2: no lead (nothing in print)
+week-2-tab-4: no lead (nothing in print)
+week-2-tab-5: no lead (nothing in print)
+week-2-tab-6: no lead (nothing in print)
+week-3-tab-2: no lead (nothing in print)
+week-3-tab-4: no lead (nothing in print)
+week-3-tab-6: no lead (nothing in print)
+week-4-tab-2: no lead (nothing in print)
+week-4-tab-4: no lead (nothing in print)
+week-4-tab-6: no lead (nothing in print)
+Leads 18, pictured 2, federal 0, business 0
+BEFORE: 16 tabs without a lead picture or with a bare column
