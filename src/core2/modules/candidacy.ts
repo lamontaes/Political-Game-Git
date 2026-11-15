@@ -71,6 +71,7 @@ import {
   partiesHere,
   partyMeetings,
   partyTie,
+  tieBeforeFiling,
   type PartyRow,
   type TieRow,
 } from "./parties";
@@ -969,6 +970,8 @@ function fileFor(
   contest: ContestRow,
   partisan: boolean,
 ): NonNullable<CandidacyDecision["filing"]> {
+  if (partisan && api.state.modules.has(PARTIES_MODULE_ID))
+    tieBeforeFiling(api, person.id);
   let party: string | null = partisan ? partyOf(api, person.id) : null;
   if (partisan && api.state.modules.has(PARTIES_MODULE_ID)) {
     const tie = partyTie(api, person.id);

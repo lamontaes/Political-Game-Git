@@ -60,6 +60,7 @@ import {
   closeDuePromises,
   indexPromise,
   promiseOfEvent,
+  promiseHeldBySecond,
   settlePromisesOnEvent,
   settlePromisesOnTie,
   promiseParam,
@@ -2130,13 +2131,19 @@ export function createDirector(
         return row.equals === undefined ? !!value : value === row.equals;
       });
       if (!kind.producedBy.includes(event.kind) && !byFact) continue;
-      const [holderId, otherId] = event.personIds;
-      if (!holderId || !otherId) continue;
       const promise =
         kind.endsOn === "settling-record"
           ? promiseOfEvent(event, promiseParam)
           : null;
       if (kind.endsOn === "settling-record" && !promise) continue;
+      // The word was given by the first person on the reply, or, where the
+      // promise was the price of a yes, by the second (promise-kinds.json).
+      const [first, second] = event.personIds;
+      const [holderId, otherId] =
+        promise && promiseHeldBySecond(promise.kind)
+          ? [second, first]
+          : [first, second];
+      if (!holderId || !otherId) continue;
       const fact: KeptFact = {
         id: `${kind.id}:${event.id}`,
         kind: kind.id,

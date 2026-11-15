@@ -30,6 +30,7 @@ import { fullHouseholdIncomes } from "../counted-income-fifth";
 import { webReach, type WebPart } from "../outcome-web-reach";
 import { baseOf, publishedBaseOf } from "../outcome-web-model";
 import { OUTCOME_WEB_MODULE_ID } from "./outcome-web";
+import { liveCountedCrimeTally } from "./views";
 import type { ModuleRow } from "../module-data";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 
@@ -404,6 +405,16 @@ function runPlace(
           groupId: unit.id,
           counts: { ...row?.counts, [type]: n },
         } as unknown as ModuleRow);
+        // The group lives it as a full victim does: its view on the question
+        // the crime ties to moves by the share of its adults it happened to.
+        liveCountedCrimeTally(api, CRIME_EVENT, {
+          tallyId: id,
+          groupId: unit.id,
+          type,
+          count: n,
+          againstPerson: TYPES[type].unit === "person",
+          households: unit.households,
+        });
         continue;
       }
       fullCount += n;
