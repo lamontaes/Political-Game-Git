@@ -333,22 +333,30 @@ async function launch() {
         return new Function("w", `return (${body})(w);`)(w);
       }, fn.toString());
 
-    const before = await win((w) => w.getSize());
-    await win((w) => w.setSize(1024, 700));
+    // The window opens maximized (desktop/main.mjs), and a maximized window
+    // ignores setSize, so restore it first. Then ask for a size the display
+    // can give, inside its work area and above the window's own minimum
+    // (960 by 640), and require the window to end at exactly that size.
+    // The Windows runner's display is 1040 by 736, so a fixed 1024 by 700
+    // is not always inside it.
+    const area = await app.evaluate(
+      ({ screen }) => screen.getPrimaryDisplay().workAreaSize,
+    );
+    const want = [
+      Math.max(960, Math.min(1024, area.width - 40)),
+      Math.max(640, Math.min(700, area.height - 40)),
+    ];
+    await win((w) => {
+      if (w.isMaximized()) w.unmaximize();
+    });
+    await new Promise((r) => setTimeout(r, 400));
+    await win(new Function("w", `return w.setSize(${want[0]}, ${want[1]});`));
     await new Promise((r) => setTimeout(r, 400));
     const size = await win((w) => w.getSize());
-    // A small runner display may clamp the height. The contract is that
-    // the window is at the requested width and at least the minimum
-    // height. If it was already at that clamped size, setSize is a no-op
-    // rather than a product defect.
-    const withinContract = size[0] === 1024 && size[1] >= 640;
-    const changed = String(size) !== String(before);
-    const alreadyClamped =
-      before[0] === 1024 && before[1] >= 640 && before[1] <= 700;
     check(
       "shell: resize applies",
-      withinContract && (changed || alreadyClamped),
-      `${before} -> ${size}`,
+      size[0] === want[0] && size[1] === want[1],
+      `asked ${want} in a ${area.width},${area.height} work area, got ${size}`,
     );
     check(
       "shell: game still rendered after resize",
