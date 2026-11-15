@@ -83825,7 +83825,18 @@
           "role": "asked",
           "purpose": "desk-visit",
           "key": "desk-visit",
-          "requiresFacts": ["for"],
+          "requiresFacts": ["for", "budget-cost"],
+          "after": "request",
+          "excludesFacts": ["heard-cost"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["for", "no-cost"],
           "after": "request",
           "excludesFacts": ["heard-cost"]
         },
@@ -83837,7 +83848,7 @@
           "purpose": "desk-visit",
           "key": "desk-visit",
           "after": "request",
-          "requiresFacts": ["against"],
+          "requiresFacts": ["against", "cost"],
           "excludesFacts": ["heard-cost"]
         }
       ],
