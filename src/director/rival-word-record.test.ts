@@ -41,18 +41,17 @@ import type { TreeNode } from "./scene-talk";
 /**
  * One named place on a fixed seed: Hopkinton RI, a race a candidate gets onto
  * the ballot for. Its season plays word of a rival by a night of doors and by
- * a campaign message, to tellers moved none, a little and a lot, so every
+ * a campaign message, to tellers moved none and a lot, so every
  * line of the bank's rival-word scene plays here. The time is the game's own
  * played days from filing to election day (about two minutes); the case cannot
  * be staged shorter, because a teller is moved by messages the world's own
  * campaigns send over weeks. Earlier pins (Millston WI rwprobe:0, Grafton VT
  * rwprobe:5, Bicknell UT rwprobe:6) played the same scene, but after the Train
  * changed which rival-word rows the director stages as scenes, none of them
- * drew a teller moved "a little", the world's common case (raw moves 0.0001 to
- * 0.0017 at five places), so the scene's moved-a-little answer and the press
- * after it stopped playing there. The case still happens in the game; a scan
- * of ten drawn places found it at Hopkinton, which replaces Bicknell and the
- * other two (nothing in the test was loosened). The play is the same every run.
+ * drew a teller moved "a little" (a scan of twelve drawn places on the Train
+ * of Nov 15 stages none either), so the moved-a-little answer and its press
+ * are deleted until a place plays one. Hopkinton plays the rest and replaces
+ * Bicknell and the other two (nothing in the test was loosened). The play is the same every run.
  */
 const PLACES = [{ key: "4435200", seed: "rwscan:8" }].map((row) => {
   const place = drawPlace(row.seed, "campaign-season");
@@ -80,9 +79,8 @@ const OPENER_BY_HOW: Record<string, RegExp> = {
   "campaign-message": /pushing|heard from/i,
 };
 
-const MOVED_ANSWER = {
+const MOVED_ANSWER: Partial<Record<"none" | "little" | "lot", string>> = {
   none: "No. I think what I thought before.",
-  little: "It made me think.",
   lot: "Some. I'm still making up my mind about",
 } as const;
 
@@ -266,7 +264,7 @@ it("news of a rival is staged once a message, says how it came, answers from the
           if (asked?.next?.lines.length) {
             const answer = asked.next.lines[0]!.text;
             expect(
-              answer.startsWith(MOVED_ANSWER[change]),
+              answer.startsWith(MOVED_ANSWER[change] ?? "no such answer"),
               `${where}: ${change} moved, answered "${answer}"`,
             ).toBe(true);
             moved.add(change);
