@@ -9,7 +9,7 @@
  *   - its opener says how the word reached the teller (a mailer, an ad, a
  *     night of doors, a campaign message), by the message's own kind;
  *   - "Did it change how you see ..." is answered from the teller's own
- *     stance cause for that message (none or a lot; a little has no line of its own until a played place shows one);
+ *     stance cause for that message (none, a little or a lot);
  *   - no line of it is one the bank deleted.
  * With PLAYED_FILE set, every line shown is written to that file.
  */
@@ -40,13 +40,13 @@ import type { TreeNode } from "./scene-talk";
 
 /**
  * Three named places on fixed seeds, each a race a candidate gets onto the
- * ballot for: Millston WI, Grafton VT and Bicknell UT. Each proves what the others do not: Millston a campaign message to a teller moved none and one moved a lot, Grafton a night of doors, Bicknell a teller moved a lot who is also told of it by the player's chase reply. Between them every line of the bank's rival-word scene plays. The time is the game's own played days (a season from filing to election day, about a minute each), so the limit is near twice the measured time. The play is the
+ * ballot for: Millston WI, Grafton VT and Hopkinton RI. Each proves what the others do not: Millston a campaign message to a teller moved none or a lot, Grafton a night of doors, Hopkinton word moved none, a little and a lot (a little is the common case in the world). Between them every line of the bank's rival-word scene plays. The time is the game's own played days (a season from filing to election day, about a minute each), so the limit is near twice the measured time. The play is the
  * same every run.
  */
 const PLACES = [
   { key: "5552025", seed: "rwprobe:0" },
   { key: "5028825", seed: "rwprobe:5" },
-  { key: "4905490", seed: "rwprobe:6" },
+  { key: "4435200", seed: "rwscan:8" },
 ].map((row) => {
   const place = drawPlace(row.seed, "campaign-season");
   if (place.key !== row.key)
@@ -184,7 +184,9 @@ it("news of a rival is staged once a message, says how it came, answers from the
             moment.date <= filed!.electionDate,
             `${where}: ${moment.id} on ${moment.date}, after ${filed!.electionDate}`,
           ).toBe(true);
-          if (!entry.interrupt) continue;
+          // A scene that does not stop the day is told later as a journal
+          // line; it is composed here all the same, since the same record
+          // and the same words make it (the file says which ones stopped).
           const result = purposeScene(core, director, me, entry, {
             typeKey: "rival-word",
           });
@@ -239,7 +241,7 @@ it("news of a rival is staged once a message, says how it came, answers from the
           }
           if (file) {
             const out = [
-              `### ${moment.date}, ${place.name}: word came by ${said.how === CANVASS_MESSAGE_KIND ? "a night of doors" : "a campaign message"}; the teller was moved ${change}`,
+              `### ${moment.date}, ${place.name}${entry.interrupt ? "" : " (told later, not stopping the day)"}: word came by ${said.how === CANVASS_MESSAGE_KIND ? "a night of doors" : "a campaign message"}; the teller was moved ${change}`,
               `They say: ${opener}`,
               "You say:",
             ];
@@ -262,4 +264,4 @@ it("news of a rival is staged once a message, says how it came, answers from the
     `rival-word: ${scenes} scenes that stopped the day over ${messages.size} messages; how seen ${[...how].join(", ")}; moved seen ${[...moved].join(", ")}`,
   );
   expect(scenes).toBeGreaterThan(0);
-}, 360_000);
+}, 440_000);

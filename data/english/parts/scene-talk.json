@@ -186340,7 +186340,25 @@
           "step": "reply",
           "move": "ask",
           "role": "asked",
+          "requiresFacts": ["issue", "side-for", "moved-little"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "rival-word",
+          "key": "news-received",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
           "requiresFacts": ["issue", "side-for", "moved-lot"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "rival-word",
+          "key": "news-received",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "requiresFacts": ["issue", "side-against", "moved-little"]
         },
         {
           "subject": "scene",
@@ -186547,6 +186565,66 @@
       "date": "2026-11-15",
       "tag": {
         "move": "accept",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.it-made-me-think-i-m-not-there-but-i-can-see-why-people-would-be",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "It made me think. I'm not there, but I can see why people would be.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-word",
+          "key": "news-received",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "scene-talk.reply-ask.did-it-change-how-you-see-issue",
+          "requiresFacts": ["moved-little"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (rival-word lines, Nov 15), placed by the record",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "answer",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.i-d-answer-this-one-it-landed-with-me",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "I'd answer this one. It landed with me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-word",
+          "key": "news-received",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "requiresFacts": ["moved-little"],
+          "after": "deflect"
+        },
+        {
+          "subject": "scene",
+          "purpose": "rival-word",
+          "key": "news-received",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "requiresFacts": ["moved-lot"],
+          "after": "deflect"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (rival-word lines, Nov 15), placed by the record",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "press",
         "key": "news-received"
       }
     }
