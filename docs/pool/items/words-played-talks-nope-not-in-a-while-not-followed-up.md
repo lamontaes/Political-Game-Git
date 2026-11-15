@@ -1,0 +1,35 @@
+---
+id: words-played-talks-nope-not-in-a-while-not-followed-up
+title: '"Nope. Not in a while." ends a talk with no follow-up in the played-talks proof'
+area: words
+kind: bug
+priority: 2
+size: S
+status: open
+standard: 2
+claimed-by:
+pr:
+after:
+blocked-on:
+lead: words
+model: sonnet
+effort: medium
+root: none
+source: Found while gating #9279 (Nov 14); red the same on the clean train 8bb1ff9d
+---
+
+**What.** `src/director/played-talks.test.ts` ("fifteen talks run to their close ... follow up every answer") is red by draw: a talk ends on the player's answer "Nope. Not in a while." with no line after it. Seen at seed c55062fdf88f46ad (Mountain Meadows, Colorado, a cause-invite talk on 2025-04-25) on #9279, and at seed 7952d3f3e3253ee4 (Cumming, Iowa, a job-offer talk on 2025-04-14) on the clean train 8bb1ff9d. Seen: talking to a neighbor in town, the talk just stops on the player's answer that they have not seen someone in a while.
+
+**Cause.** Measured: `GOLDEN_PATH_SEED=7952d3f3e3253ee4 npx vitest run src/director/played-talks.test.ts` fails at line 206 with the problem `"Nope. Not in a while." not followed up`, on the train with none of #9279's changes. Which move offered the answer is not yet traced; its wording reads as a "not seen" reply to a question about someone both know, and the talk closes on it.
+
+**Fix.** Trace which move offered "Nope. Not in a while." and give the other person's follow-up from the existing mutual-subject moves, or hold the reply back where no follow-up exists, the way `raiseSubject` holds back a line with no reply. Do not loosen the test.
+
+**Time box.** 1 hour for one Sonnet session at medium effort.
+
+**Rules.** Ask why: the fix names, by move and record, why the answer got no line back before changing anything. No line changes in the banks only to pass the test.
+
+**Done when.** A second session, on main, plays talks in a drawn place and sees no talk end on the player's answer; the test passes at both seeds above, and in a drawn place every "not in a while" answer to a mutual question gets a line back.
+
+**Waits on.** Nothing.
+
+**Files.** src/director/conversation.ts, src/director/played-talks.test.ts

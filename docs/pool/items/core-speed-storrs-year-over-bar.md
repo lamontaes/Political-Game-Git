@@ -36,3 +36,5 @@ effort: medium
 **Files.** scripts/speed-years/profile-year.ts, src/core2/modules/
 
 **Notes.** Older Storrs speed items (core-speed-hiring-ranked-once, core-speed-prestart-history-insert, core-speed-rehouse-rent-per-review) are done; this is what remains.
+
+Nov 14, voter registration record PR (#9323): speed:year seed spd1 also runs over the bar at Littleton Common, Massachusetts, 94.5 s in year 1 and 144 s in year 2 on the train head 5fe71dec7a; with the registration record it is 94.9 s and 143.5 s, so the record is not the cause.

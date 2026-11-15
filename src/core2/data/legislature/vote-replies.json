@@ -19,5 +19,10 @@
     "note": "The endings of the carry-bill scene (purpose-arcs.json) that answer an ask to carry a bill held for the player: carried files it under them, declined closes it; any other ending leaves the ask waiting.",
     "carried": ["carrying", "carrying-for-votes"],
     "declined": ["declined"]
+  },
+  "signOn": {
+    "note": "The colleague's answer to the player's ask to sign on to their bill (the cosponsor-ask arc, purpose-arcs.json): a yes or a yes after a plea puts their name on the bill; a no keeps the turned-down ask with its reason (carryAsks, kind sign-on); a not-yet changes nothing.",
+    "yes": ["agree", "relent", "accept"],
+    "no": ["refuse"]
   }
 }

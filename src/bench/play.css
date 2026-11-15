@@ -3824,6 +3824,17 @@ details.entry[open] {
   gap: 6px 12px;
   margin-bottom: 4px;
 }
+/* A phase-in by a percent a year: the percent, the years and the first day, a row each. */
+.draft-rise {
+  margin-bottom: 8px;
+}
+.draft-rise-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px 12px;
+  margin-bottom: 4px;
+}
 .draft-when {
   color: var(--text-2);
   font: var(--t-label) var(--ui);
