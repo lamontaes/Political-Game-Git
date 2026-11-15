@@ -7864,39 +7864,6 @@
       "date": "2026-11-15"
     },
     {
-      "key": "conversation.news-raise-heard.did-you-hear-about-about-on-the-radio",
-      "move": "news-raise-heard",
-      "kind": "spoken",
-      "text": "Did you hear about {about} on the radio?",
-      "uses": [
-        {
-          "move": "news-raise-heard",
-          "subject": "news",
-          "role": "raise",
-          "choice": "heard",
-          "requiresFacts": ["about", "outlet-radio"]
-        }
-      ],
-      "transcriptsUsing": 4,
-      "bySource": {
-        "dcpd": 1,
-        "nps": 3
-      },
-      "source": {
-        "document": "Remarks in an Exchange With Reporters at Joint Base Andrews, Maryland",
-        "date": "2020-02-18",
-        "granule": "DCPD-202000078",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202000078/html/DCPD-202000078.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      },
-      "author": "Words builder M3 (words-neighbor-asks-the-player-about-a-printed-story-by-its-medium)",
-      "date": "2026-11-15"
-    },
-    {
       "key": "conversation.news-raise-heard.did-you-see-the-news-about-about",
       "move": "news-raise-heard",
       "kind": "spoken",
@@ -28109,28 +28076,6 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.news-ask-core.i-m-for-it-myself",
-      "move": "news-ask-core",
-      "kind": "spoken",
-      "text": "I'm for it, myself.",
-      "piece": {
-        "of": "news-ask",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "news-ask-core",
-          "subject": "news-ask",
-          "role": "core",
-          "requiresFacts": ["story", "their-for", "player-saw"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder M3 (words-neighbor-asks-the-player-about-a-printed-story-by-its-medium)",
-      "date": "2026-11-15"
-    },
-    {
       "key": "conversation.news-ask-core.i-read-about-about-ran-i-m-against-it-myself",
       "move": "news-ask-core",
       "kind": "spoken",
@@ -36134,7 +36079,8 @@
           "move": "own-view-say-core",
           "subject": "own-view-say",
           "role": "core",
-          "requiresFacts": ["side-for"]
+          "requiresFacts": ["side-for"],
+          "excludesFacts": ["about-named"]
         }
       ],
       "piece": {
@@ -36184,7 +36130,8 @@
           "move": "own-view-say-core",
           "subject": "own-view-say",
           "role": "core",
-          "requiresFacts": ["side-against"]
+          "requiresFacts": ["side-against"],
+          "excludesFacts": ["about-named"]
         }
       ],
       "piece": {
