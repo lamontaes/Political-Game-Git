@@ -33,3 +33,5 @@ source: "owner, Nov 15 20:44Z and 20:48Z (jobs read as textiles or markets; chai
 **Waits on.** Piece 2; a container that can reach census.gov.
 
 **Files.** scripts/source/regional-money (its compiler and export script), src/core2/reference/town-employment.generated.ts.
+
+**Notes.** T54, Nov 15: `data/tables/local-business-counts.json` already holds County Business Patterns 2023 four-digit counts by county (establishments and employees) for grocery, hardware, diner, auto repair, law office, accounting, construction and salon. Read it first: grocery may need no fetch, and only fuel stations would.
