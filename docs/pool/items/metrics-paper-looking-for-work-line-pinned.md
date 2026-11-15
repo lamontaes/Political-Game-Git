@@ -22,7 +22,7 @@ source: Account lead, Nov 15, after metrics-town-jobs-one-rule (#9391)
 
 **Cause.** Found in code: `src/bench/printed-words.ts`, the `conditions` builder (the `jobless` fact reads `month.unemployed` from the world-metrics month row); no test under `src/bench` words an `outcome-web.month` story and reads this line. Existing news tests (`src/core2/outcome-news.test.ts`) stop at the record.
 
-**Fix.** A test at Washington, Kansas (599e6f66e9c1d25a) plays to July 2025, puts the town's outcome-web month record on the wire, words it through `wordPrintedStory` the way `src/bench/printed-civic.test.ts` does, and asserts the printed number equals `townLaborByPlace(...).seekers` for that month. The player sees the paper's line; no wording changes.
+**Fix.** A test at Washington, Kansas (599e6f66e9c1d25a) plays to June 2025 (the game writes each month's conditions record itself, nothing set by hand), words it through `wordPrintedStory` the way `src/bench/printed-civic.test.ts` does, and asserts the printed number equals `townLaborByPlace(...).seekers` for that month. The player sees the paper's line; no wording changes.
 
 **Time box.** 2 hours for one Sonnet session. When it runs out, push what passes and say what is left.
 
