@@ -5,9 +5,9 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: open
+status: in-pr
 claimed-by: claude/cluster11-bill-page-says-why
-pr:
+pr: #9572
 blocked-on:
 source: "the lead's relay of the lying thread's 60-run search (Nov 15): 51 of 60 player bills died with no roll call and the page said nothing of why"
 after:
