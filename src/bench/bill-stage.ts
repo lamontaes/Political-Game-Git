@@ -763,7 +763,11 @@ export function billPageView(core: CoreState, billId: string, asId?: string) {
   const reach = billReach(api, bill);
   const minorUnit = (unit: string | null | undefined) =>
     typeof unit === "string" && unit.startsWith("minor");
-  const clauseOf = (provisions: readonly Provision[], index: number) => {
+  const clauseOf = (
+    provisions: readonly Provision[],
+    index: number,
+    standing = false,
+  ) => {
     const copy: BillRow = { ...bill, provisions };
     const f = billForm(api, copy);
     return (
@@ -771,6 +775,7 @@ export function billPageView(core: CoreState, billId: string, asId?: string) {
         ...copy,
         effective: f.effectiveSection,
         before: f.sections.map((row) => row.before),
+        standing,
       })?.sections[index] ?? null
     );
   };
@@ -810,6 +815,9 @@ export function billPageView(core: CoreState, billId: string, asId?: string) {
               return { ...law, value: before.value } as Provision;
             }),
             index,
+            // A rate or amount reads as the law in force says it ("is 0.28 percent"), never as a
+            // raise from itself to itself.
+            provision.kind === "law-amount",
           )
         : null;
     return {
