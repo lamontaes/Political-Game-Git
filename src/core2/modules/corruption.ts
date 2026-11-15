@@ -127,6 +127,7 @@ function decide(
         provider: "corruption-circumstances",
         weightParameter: "one",
         arguments: { yes: String(yes) },
+        stopgapId: "SG-P15-corruption-weights",
       },
     ],
   });
@@ -589,7 +590,7 @@ function pay(api: CoreAPI, record: CrimeRecord): void {
         tag: "ESTIMATED",
         citation: "A bribe offered and taken through the shared chooser.",
         asOf: api.state.date,
-        estimatedFrom: "corruptionNeedWeight and the other corruption weights",
+        estimatedFrom: "SG-P15-corruption-weights",
       },
       expectedPostings: postings,
       requiredRelatedRefs: [],

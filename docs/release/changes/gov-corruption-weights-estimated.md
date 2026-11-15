@@ -3,4 +3,4 @@ id: gov-corruption-weights-estimated
 impact: none
 ---
 
-The bribe weights are estimates with stated ranges, each saying what raises and lowers the chance, and no longer wait on a stopgap. No value changed.
+Seven of the bribe weights are now estimates with the evidence they were fitted and checked against and a stated range, each saying what raises and lowers the chance; the other six stay tunable under a narrowed stopgap. No value changed.
