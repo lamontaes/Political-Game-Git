@@ -44,6 +44,7 @@ Check a file's header or the script in `package.json` before assuming a file is 
 - **The same key changed on both sides is a real conflict.** Read both and keep the newer ruling; if you cannot tell, ask the row's owner on the pull request.
 - **Bank lines are Story's (owner, Nov 10).** Re-adding a piece that exists on one side, by its key and word for word, is mechanical and allowed. Writing, rewording or dropping a line is not: leave it and say so on the pull request.
 - After merging a rules or bank file, run `npm run words:rules` twice and the English guards (`npx vitest run tests/guards/english`).
+- **A bank file has two keyed parts: `parts` by `key` and `slots` by slot name.** Merge both three ways from the index stages (`git show :1:<file>`, `:2:`, `:3:`): take the side that changed from the base, keep rows either side added. Taking one side's top level whole drops the other's new slots (S6, Nov 15: the train added 11 slots a branch's copy lacked). The judged stores beside it merge by union: the `.yes.txt` lists line by line (`sort -u`), the `.json` "no" maps key by key; `pulled.json` is written by the commands, so take the train's copy; then `npm run words:verdicts` and `npm run words:rules` twice.
 
 ## Several pull requests on one rules file
 

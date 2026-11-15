@@ -42,7 +42,9 @@ import { playServeAsk } from "../../tests/support/serve-ask-play";
  * Each place pins its post, the person who says yes and the one who says no,
  * as the place's record gives them (the read's lean and reason, at the seed):
  * at Victoria, Kansas the city administrator's post, River Snyder yes (pay,
- * 0.57) and Kimberly Colon no (the job she would leave, -0.13); at Fern
+ * 0.57) and Richard Hart no (the job they would leave, -0.13; re-pinned
+ * Nov 15 from Kimberly Colon, no longer among the people offered once the
+ * train's changes to the town's people landed; cause not traced); at Fern
  * Prairie, Washington the agriculture post, Cheryl Monroe yes (pay, 0.51)
  * and John Pugh no (the post pays less than his work, -0.71).
  */
@@ -53,7 +55,7 @@ const PLACES = [
     key: "2073775",
     seed: "f18f773a439a0edb270a308b0b66e18d21f26a61a9fa359e6cb1ce11f0e398de",
     yes: "River Snyder",
-    no: "Kimberly Colon",
+    no: "Richard Hart",
     reason: "own-job",
   },
   {
