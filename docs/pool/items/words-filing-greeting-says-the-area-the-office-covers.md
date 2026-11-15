@@ -5,13 +5,14 @@ area: words
 kind: bug
 priority: 3
 size: S
-status: open
+status: in-pr
 standard: 2
 after:
 blocked-on:
 model: sonnet
 effort: low
 root: none
+pr: 9378
 source: second words reader on #9348, Nov 14
 lead: words
 ---
@@ -28,7 +29,7 @@ lead: words
 
 **Done when.** A second session plays a state or federal filing at a drawn town and the greeting never names the town, and a town race still says the town; names the place and seed.
 
-**Waits on.** #9348 folding.
+**Waits on.** Nothing.
 
 **Files.** src/director/filing-visit.ts, src/director/filing-greeting-area.test.ts
 
