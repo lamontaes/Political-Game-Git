@@ -4627,7 +4627,11 @@
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
-      }
+      },
+      "applies": {
+        "banks": ["opening-speech", "speech-stages"]
+      },
+      "note": "Read whole, not by bank line (Words lead, Nov 14, 9133/ruling-many.md: the plan's speech reader). scripts/words/speech-sheets.ts composes, in pinned played worlds, the President's opening address, the governor's and the local head's address, a town member's campaign speech and the speech the player builds in steps, through the game's own composers; `npm run words:review` gives each to a fresh reviewer with planted speeches. The verdicts are a report for the speeches' owners, not a store: a composed speech is not a bank piece, so no saved verdict could be kept true to the bank."
     },
     {
       "id": "lie-names-another-place",
