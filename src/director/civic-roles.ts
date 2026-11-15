@@ -165,7 +165,6 @@ export const CIVIC_FILLS: ReadonlySet<string> = new Set([
   "oath-giver",
   "sworn-colleagues",
   "emergency-lead",
-  "emergency-heads",
 ]);
 
 interface BillRow {
@@ -427,14 +426,13 @@ export function civicFill(
         ),
       );
     }
-    case "emergency-lead":
-    case "emergency-heads": {
-      // The state cabinet's heads whose departments the disaster touches (data/executive/emergency.json,
-      // by the incident type on the offer's record), in the map's order: the first who holds a post
-      // opens the briefing, the rest stand in the room. A state with no post for the type has no one
-      // in that seat; with nobody at all there is no briefing.
-      const heads = emergencyHeadsOf(core, moment.causeId);
-      return free(fill === "emergency-lead" ? heads.slice(zero, one) : heads);
+    case "emergency-lead": {
+      // The state cabinet head whose department leads for the disaster (data/executive/emergency.json,
+      // by the incident type on the offer's record, in the map's order) opens the briefing. Only the
+      // people who speak are cast: the other heads join when the room can seat more than one speaker
+      // (pool item director-emergency-briefing-other-heads). A state with no post for the type has no
+      // one in that seat, so there is no briefing.
+      return free(emergencyHeadsOf(core, moment.causeId).slice(zero, one));
     }
     case "department-head": {
       // A cut line's department head: the person the town's appointment

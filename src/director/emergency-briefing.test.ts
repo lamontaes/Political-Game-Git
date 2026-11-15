@@ -1,5 +1,9 @@
 import { describe, expect, it } from "vitest";
-import { ordersDecide, ordersView } from "../bench/office";
+import {
+  leaveHoldsToCharacter,
+  ordersDecide,
+  ordersView,
+} from "../bench/office";
 import { BenchPlayer } from "../bench/player";
 import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "../core2/bookkeeping";
@@ -7,6 +11,7 @@ import { gameStartDate } from "../core2/game-start";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import {
   appointmentsIn,
+  EMERGENCY_LAPSED,
   EMERGENCY_OFFERED,
   EXECUTIVE_MODULE_ID,
   emergencyBriefingPosts,
@@ -18,6 +23,7 @@ import { memberKey } from "../core2/modules/legislature";
 import { townSeats } from "../core2/modules/offices";
 import { coreAPI } from "../core2/state";
 import type { CoreState } from "../core2/types";
+import type { ScheduleEntry } from "./scheduling";
 import { purposeScene, replyInScene } from "./purpose-scene";
 
 // The governor's briefing room (owner, Oct 14: the engine never declares for the player; Nov 15
@@ -90,7 +96,7 @@ function worldAtDisaster(playerIsGovernor: boolean, number: string) {
 }
 
 describe(`the governor's briefing room (${where})`, () => {
-  it("is staged for the player governor with the department heads the disaster touches, and the player's answer declares", () => {
+  it("is staged for the player governor with the lead department's head, and the player's answer declares", () => {
     const { world, core, api, player, governor, hazardId, hazard } =
       worldAtDisaster(true, "4860");
     const governorId = memberKey(governor);
@@ -131,7 +137,7 @@ describe(`the governor's briefing room (${where})`, () => {
     const binding = entry!.bindings.find(
       (row) => row.typeKey === "emergency-briefing",
     )!;
-    // Who is in the room: the holders of the map's posts for this disaster, lead department first.
+    // Who is in the room: the people who speak, the player and the lead department's head (the map's first post with a holder); the other heads wait on a room that seats more than one speaker.
     const state = lawChain(api).stateKey;
     const posts = emergencyBriefingPosts(String(hazard.facts?.incidentType));
     const holders = posts.flatMap((post) =>
@@ -144,9 +150,10 @@ describe(`the governor's briefing room (${where})`, () => {
       `${where}: no cabinet head in the room`,
     ).toBeGreaterThan(0);
     const inRoom = binding.roles.flatMap((row) => row.personIds);
-    expect(inRoom.filter((id) => id !== playerId).sort(), where).toEqual(
-      [...holders].sort(),
-    );
+    expect(
+      inRoom.filter((id) => id !== playerId),
+      where,
+    ).toEqual([holders[0]]);
     expect(
       binding.roles.find((row) => row.role === "briefer")?.personIds,
       where,
@@ -212,4 +219,88 @@ describe(`the governor's briefing room (${where})`, () => {
       where,
     ).toContain(hazardId);
   }, 120_000);
+
+  // Longer than a minute for the game's own 30 played days of a governor's state (the window closes on its own date).
+  it("leaves an offer the governor never answers theirs for 30 days, meets them again, then lapses with nothing declared", () => {
+    const { world, core, api, player, governor, hazardId, hazard } =
+      worldAtDisaster(true, "4860");
+    const governorId = memberKey(governor);
+    const playerId = player.personId!;
+    const closes = addDays(makeIsoDate(hazard.date), 30);
+    if (!world.director.ledger.people.has(playerId))
+      world.director.watch(core, playerId);
+    // The governor asks a question and leaves it there: a reply that answers nothing, so the scene closes and the offer is still theirs.
+    const leave = (entry: ScheduleEntry): boolean => {
+      const scene = purposeScene(core, world.director, playerId, entry, {
+        typeKey: "emergency-briefing",
+      });
+      if (scene?.kind !== "composed") return false;
+      const ask = scene.scene.talk.tree.replies.findIndex(
+        (reply) => reply.line.move === "ask",
+      );
+      expect(ask, `${where}: no question to ask`).toBeGreaterThanOrEqual(0);
+      return !!replyInScene(core, world.director, playerId, entry, [ask], {
+        typeKey: "emergency-briefing",
+      });
+    };
+    let met = 0;
+    for (
+      let guard = 0;
+      guard < 400 &&
+      core.date <= closes &&
+      !core.durableLog.get(`emergency-lapsed:${hazardId}`);
+      guard += 1
+    ) {
+      const packet = player.packet;
+      const waiting = world.director.ledger.people
+        .get(playerId)
+        ?.schedule.find(
+          (row) =>
+            row.stop &&
+            !row.answered?.includes("emergency-briefing") &&
+            row.bindings.some((bind) => bind.typeKey === "emergency-briefing"),
+        );
+      if (waiting && packet?.kind === "stop") {
+        expect(leave(waiting), where).toBe(true);
+        met += 1;
+        player.resume({ kind: "stop", pauseId: packet.pauseId });
+      } else if (player.pollingPlace) player.leavePolls();
+      else if (packet?.kind === "stop") {
+        for (const item of ordersView(core))
+          ordersDecide(core, item.entryId, "decline");
+        leaveHoldsToCharacter(core);
+        player.resume({ kind: "stop", pauseId: packet.pauseId });
+      } else if (packet?.kind === "choice")
+        player.resume({ kind: "own-choice", pauseId: packet.pauseId });
+      else player.advance("day");
+    }
+    // It met them again a week apart while it was theirs, each time its own record.
+    const offers = [...(core.logByKind.get(EMERGENCY_OFFERED) ?? [])]
+      .filter((id) => id.startsWith(`emergency-offered:${hazardId}`))
+      .map((id) => core.durableLog.get(id)!.date)
+      .sort();
+    expect(
+      offers.length,
+      `${where}: offers on ${offers.join(", ")}`,
+    ).toBeGreaterThan(2);
+    expect(met, where).toBeGreaterThan(2);
+    expect(
+      offers.every((date) => date <= closes),
+      where,
+    ).toBe(true);
+    // It lapsed on the window's last day: a public record, nothing declared, no aid asked for.
+    const lapsed = core.durableLog.get(`emergency-lapsed:${hazardId}`);
+    expect(lapsed?.kind, where).toBe(EMERGENCY_LAPSED);
+    expect(lapsed?.date, where).toBe(closes);
+    expect(lapsed?.publicRecord, where).toBe(true);
+    expect(lapsed?.personIds, where).toEqual([governorId]);
+    expect(
+      api.moduleState(EXECUTIVE_MODULE_ID).table("emergencies").rows().length,
+      where,
+    ).toBe(0);
+    expect(
+      pendingEmergencyOffers(api, governorId).map((row) => row.id),
+      where,
+    ).not.toContain(`emergency-offer:${hazardId}`);
+  }, 300_000);
 });

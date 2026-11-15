@@ -23,6 +23,17 @@
     "tag": "ESTIMATED",
     "source": "Which department answers each kind of disaster is read from the statutes that give it the work: the governor commands the state's National Guard unless it is called into federal service (U.S. Const. art. I, sec. 8, cl. 16); a state emergency declaration is the step before the governor's request for a federal declaration (Stafford Act sec. 401, 42 U.S.C. 5170; 44 CFR 206.36); a biological incident is a public health emergency (42 U.S.C. 247d); a drought is answered by the agriculture department's disaster designations (7 U.S.C. 1961); a hazardous release falls to the environment agency (CERCLA, 42 U.S.C. 9601 et seq.); wildfire help is a Fire Management Assistance Grant (Stafford Act sec. 420, 42 U.S.C. 5187).",
     "spread": "States organize emergency management differently (some place it under the adjutant general, some under public safety, some under the governor's office), so a state's own plan may seat a department this map leaves out or one of these may sit under another.",
+    "answerable": {
+      "about": "How long a disaster stays the player governor's to answer in the briefing: a request for a federal declaration must reach the Regional Administrator within 30 days of the incident, and the state's emergency declaration comes first. The offer stays answerable that many days from the incident's date; the briefing meets the governor again a week later while they leave it unanswered, and past the last day it lapses as a public record with nothing declared and no federal aid asked for. The engine never answers for the governor.",
+      "days": 30,
+      "meetAgainAfterDays": 7,
+      "meetAgainTag": "ESTIMATED",
+      "meetAgainSource": "A weekly briefing is how often a governor's emergency-management staff update them in an open disaster; no statute fixes it.",
+      "meetAgainSpread": "Daily during the first days of a major disaster, weekly once recovery starts; four meetings fit the 30 days.",
+      "tag": "SOURCED",
+      "source": "44 CFR 206.36(a): the Governor's request for a major disaster declaration is submitted within 30 days of the occurrence of the incident (Robert T. Stafford Act sec. 401, 42 U.S.C. 5170).",
+      "spread": "The 30 days may be extended by the Regional Administrator in writing; no extension is modeled."
+    },
     "default": ["public-safety", "military"],
     "rows": [
       {
