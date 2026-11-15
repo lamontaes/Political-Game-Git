@@ -9,6 +9,7 @@
  * warning or block). `provisionFor` turns a pick and an operation into a bill
  * provision. Outcomes never appear in the drafting controls.
  */
+import type { EntityId } from "./kernel/brands";
 import type { GovernmentLevel } from "./government-level";
 import catalog from "./data/legislature/bill-catalog.json" with { type: "json" };
 import type { CoreAPI } from "./types";
@@ -112,9 +113,9 @@ export function billCatalog(
         service === "hospitals" &&
         government &&
         government.level !== "state" &&
-        !localInstitutionsFor(government.jurisdictionId).hospitals.some(
-          (row) => row.kind === "hospital",
-        )
+        !localInstitutionsFor(
+          government.jurisdictionId as EntityId,
+        ).hospitals.some((row) => row.kind === "hospital")
       );
     },
   };

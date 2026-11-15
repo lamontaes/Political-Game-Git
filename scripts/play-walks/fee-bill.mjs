@@ -106,7 +106,9 @@ try {
   say("Fee lines offered on the draft card:", fees);
   if (SHOTS) await page.screenshot({ path: `${SHOTS}/draft-card-list.png` });
   if (fees.length) {
-    const value = fees[0].split(" | ")[0];
+    const value = (
+      fees.find((f) => f.includes(process.env.FEE_SERIES ?? "")) ?? fees[0]
+    ).split(" | ")[0];
     await page.locator(`.draft-card .pick[data-value="${value}"]`).click();
     await page.waitForTimeout(200);
     say(
