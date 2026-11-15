@@ -510,7 +510,8 @@ const ROOMS: SittingCalendar = {
         if (date >= from && date < to) out.push({ date, days: 1 });
     return out;
   },
-  hoursPerDay: () => stateDayParameter("meetingHours"),
+  contactHoursPerDay: (api) =>
+    stateDayParameter("meetingHours") * api.parameter("sittingContactShare"),
   absences(api, personId) {
     const out = new Map<string, string[]>();
     const office = stateOfficeOf(api, personId);

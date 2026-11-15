@@ -112,6 +112,7 @@ import {
   registerSittingReader,
   registerWeeklyFloorReader,
   settledness,
+  sittingContactHours,
   tasteForChange,
   type BillRow,
   type Provision,
@@ -1167,7 +1168,7 @@ const SITTING_CALENDAR = {
       .map((term) => term.officeId)
       .filter((officeId) => bodyOf(api, officeId) !== undefined),
   sittings: sittingsBetween,
-  hoursPerDay: () => campaignParameter("sittingHours"),
+  contactHoursPerDay: sittingContactHours,
 };
 
 /**

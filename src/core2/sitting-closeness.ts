@@ -57,8 +57,12 @@ export interface SittingCalendar {
     from: string,
     to: string,
   ) => readonly SittingDay[];
-  /** Hours one sitting day of the body takes (the engine's own sitting length). */
-  readonly hoursPerDay: (api: CoreAPI, officeId: string) => number;
+  /**
+   * The hours of one sitting day of the body its members spend in contact,
+   * before they are split among the colleagues each knows there (the
+   * engine's own sitting length times its contact share).
+   */
+  readonly contactHoursPerDay: (api: CoreAPI, officeId: string) => number;
   /** The sitting days a person stayed away from, by body, as their own record keeps them. */
   readonly absences?: (
     api: CoreAPI,
@@ -237,12 +241,11 @@ function bodyToday(k: Kept, officeId: string): BodyToday {
     earliest: seats.map((s) => s.since).sort()[0] ?? k.date,
     known: knownThrough(k, officeId, seats),
     perDay:
-      reader.hoursPerDay(k.api, officeId) *
-      (k.api.parameter("sittingContactShare") /
-        Math.max(
-          k.api.parameter("one"),
-          knownAmong(k.api, Math.max(seats.length - 1, 0)),
-        )),
+      reader.contactHoursPerDay(k.api, officeId) /
+      Math.max(
+        k.api.parameter("one"),
+        knownAmong(k.api, Math.max(seats.length - 1, 0)),
+      ),
   };
   k.today.set(officeId, body);
   return body;
