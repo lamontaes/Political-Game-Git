@@ -157,6 +157,8 @@
 /src/core2/modules/federal-courts.ts @lamontaes
 
 # Jobs, businesses and the economy (jobs-businesses)
+/src/core2/shared-time.ts @lamontaes
+/src/core2/work-closeness.ts @lamontaes
 /src/core2/country-law.ts @lamontaes
 /src/core2/country-model.ts @lamontaes
 /src/core2/country-opening.ts @lamontaes
