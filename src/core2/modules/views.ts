@@ -1027,6 +1027,30 @@ export function countedViewOn(
 }
 
 /**
+ * A counted group's view of one question, -1 to 1, read as a full person's
+ * `viewOn` is: where the group's mean lean puts it on the question's axis,
+ * the question's popularity, and how far what the group has heard or lived
+ * since has moved it (`heard`, its row in countedStances).
+ */
+export function countedGroupViewOn(
+  api: CoreAPI,
+  lean: number,
+  question: string,
+  heard: Stance | undefined,
+): number {
+  return Math.max(
+    -v("one"),
+    Math.min(
+      v("one"),
+      personStance(lean, question) +
+        popularity(question, api.state.seed) +
+        v("stanceViewWeight") *
+          (heard ? direction(heard.desiredChange) * heard.strength : v("zero")),
+    ),
+  );
+}
+
+/**
  * How much a person agrees with a platform, -1 to 1: the mean, over its
  * stated positions, of their current view times the position (the same rule a counted
  * voter's group is read by, `groupAgreement`).
@@ -1310,7 +1334,8 @@ export const viewsModule: CoreModule = {
       if (!view) continue;
       let desiredChange = event.desiredChange;
       if (lived) {
-        // stopgapId: SG-PEOPLE-counted-victims-lived-crime (a counted group's victimizations are a tally row; its view on the police does not move)
+        // A counted group lives its victimizations through its tally row
+        // (`liveCountedCrime` in src/core2/counted-news-views.ts).
         if (!event.personIds.includes(personId)) continue;
         const current = viewOn(api, personId, lived, view.lean);
         if (current === v("zero")) continue;
