@@ -32,6 +32,6 @@ source: Found by the short-replies builder (#9262) playing the paper's accusatio
 
 **Waits on.** Nothing. The player's own reasons for taking come with `gov-player-taken-bribe-keeps-no-reasons`. `motiveOf` is already read here.
 
-**Files.** src/director/purpose-scene.ts, src/director/data/arc-variants.json, data/english/parts/scene-talk.json, src/director/political-asks.test.ts
+**Files.** src/director/purpose-scene.ts, src/core2/modules/corruption.ts, src/core2/modules/justice.ts, src/director/data/arc-variants.json, data/english/parts/scene-talk.json, src/director/political-asks.test.ts
 
 **Notes.** Filed by hand on the follow-up branch, Nov 15.
