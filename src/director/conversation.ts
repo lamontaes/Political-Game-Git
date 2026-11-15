@@ -4115,6 +4115,26 @@ function youIn(
   return said ? {} : { you };
 }
 
+/**
+ * The one rule for a name in a talk (rule 105): facts a line is composed
+ * from, with the speaker's name for the player left out where the speaker
+ * already said it earlier in this talk. Every composer that places the name
+ * asks here, so no bank keeps its own count.
+ */
+function nameOnce(
+  core: Readonly<CoreState>,
+  conversation: Pick<Conversation, "lines">,
+  speakerId: PersonId,
+  playerId: PersonId,
+  facts: Facts,
+): Facts {
+  if (!facts.you || youIn(core, conversation, speakerId, playerId).you)
+    return facts;
+  const rest = { ...facts };
+  delete rest.you;
+  return rest;
+}
+
 /** What the other person said since the player last spoke. */
 function toldSince(
   lines: readonly ConversationLine[],
@@ -4583,6 +4603,21 @@ function giveBack(
       learned: {},
     };
   }
+  if (kind === "shared-school") {
+    // How long it has been since they were at school together, the asker's
+    // own sense of the years, after the player answers "Remember {school}?":
+    // a question answered is followed up, never the talk's last word (owner,
+    // Oct 15; the played talks at Cumming, Iowa, seed 7952d3f3e3253ee4, Nov
+    // 15). After an answer that already said the years, they agree instead
+    // (the stage the player's move names in the rules).
+    const years = subject.facts.years;
+    if (!years || said.includes("years")) return null;
+    return {
+      facts: { you, years },
+      stage: GIVES_ANSWER[kind]?.[move ?? ""] ?? "years",
+      learned: {},
+    };
+  }
   if (kind === "asked-kin" && subject.aboutId) {
     // From the relative's own facts the subject carries (their work, where
     // they live), less what the player already holds and what the question
@@ -4687,7 +4722,7 @@ function sayGiveBack(
         core,
         otherId,
         `${last.kind}-give`,
-        back.facts,
+        nameOnce(core, conversation, otherId, playerId, back.facts),
         back.stage,
         `${eventId}:give`,
         saidParts(conversation, otherId),
@@ -8258,8 +8293,10 @@ function answerNews(
   }
   const theirs = newsStake(core, otherId, last.subject);
   const facts: Facts = {
-    ...last.facts,
-    you: calledBy(core, otherId, playerId),
+    ...nameOnce(core, conversation, otherId, playerId, {
+      ...last.facts,
+      you: calledBy(core, otherId, playerId),
+    }),
     ...stakeMarks(theirs, "their-"),
     // No side of their own and no tie to the place: the answer says so.
     ...(theirs.reason === "none"

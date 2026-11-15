@@ -1,9 +1,18 @@
 /**
  * The player hears their own interview the day it runs, whether or not they
- * follow the outlet that printed it. Cannonville, Utah: the first two
- * stations to call (Sept 29 and 30, 2025) are ones the player does not
- * follow; before the fix those interviews were printed but never reached
- * the player, so News never showed them (Account lead check, Nov 14).
+ * follow the outlet that printed it. Before the fix, interviews from outlets
+ * the player did not follow were printed but never reached the player, so
+ * News never showed them (Account lead check, Nov 14).
+ *
+ * Re-pinned Nov 15 (lead's yes, 09:02Z). The old pin was Cannonville, Utah,
+ * where the first two stations to call (Sept 29 and 30, 2025) were ones the
+ * player did not follow. That premise no longer holds: a market's stations
+ * now weigh a village's race against their own audience
+ * (press-market-stations-seek-village-candidates), so at Cannonville only the
+ * town's outlet of record calls, and the player follows it. The new pin is
+ * chosen from the record, not by running until it passes: at Abita Springs,
+ * Louisiana, the town's paper of record invites the player (Mar 9, 2026) and
+ * the player does not follow it. The assertions are unchanged.
  *
  * The route is the ordinary one: the player is the resident the bench's
  * creator picks for a birthday, files for the town council the bench's way
@@ -25,11 +34,11 @@ import { openConversation, say } from "./conversation";
 import { purposeScene, replyInScene } from "./purpose-scene";
 import { composeScene } from "./scene";
 
-/** Pinned: Cannonville, Utah (pin-b:0 of the debate draw). */
+/** Pinned: Abita Springs, Louisiana (the seed the alderman invitation test pins). */
 const place = {
-  name: "Cannonville, Utah",
-  key: "4910330",
-  seed: "3a5884384393f00611b28a5ce609187c999d9b0f21d97ef4a4e9e0a15f724a08",
+  name: "Abita Springs, Louisiana",
+  key: "2200240",
+  seed: "7e3b9d1f5a2c48e6b0d4f8a2c6e19b3d5f70a4c8e2b6d09f3a7c51e4b8d2f60a",
 };
 
 describe("an interview the player sits for", () => {
@@ -52,9 +61,9 @@ describe("an interview the player sits for", () => {
       if (core.people.get(id)?.alive) director.watch(core, id as PersonId);
     const api = coreAPI(core);
     const today = () => makeIsoDate(core.date);
-    const council = "contest:seat:gus2025:135819:council:0:2025-11-04";
+    const council = "contest:seat:gus2025:105787:council:0:2026-04-07";
     let filed = false;
-    for (let week = 0; week < 40 && !filed; week += 1) {
+    for (let week = 0; week < 60 && !filed; week += 1) {
       try {
         const result = fileForOffice(core, me, council) as {
           filing?: { status?: string };
@@ -71,7 +80,7 @@ describe("an interview the player sits for", () => {
 
     const seen = new Set<string>();
     let published: string | null = null;
-    while (!published && today() < "2025-11-04") {
+    while (!published && today() < "2026-04-07") {
       advanceCore(core, addDays(today(), 1));
       for (const entry of director.ledger.people.get(me)!.schedule) {
         if (seen.has(entry.momentId)) continue;
@@ -93,8 +102,16 @@ describe("an interview the player sits for", () => {
             director,
             occasionId: entry.momentId,
           });
+          // The player answers each question with a stand (the plain
+          // answer), as the route above says; "nothing to add" is not an
+          // answer, and an interview with none prints no story.
           for (let at = 0; talk.choices.length && at < 8; at += 1)
-            say(core, talk, talk.choices[0]!.key);
+            say(
+              core,
+              talk,
+              (talk.choices.find((c) => c.move === "plain") ?? talk.choices[0]!)
+                .key,
+            );
           published = talk.sitting?.published ?? null;
           break;
         }
