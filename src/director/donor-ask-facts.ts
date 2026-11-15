@@ -23,7 +23,7 @@ import type { Fact } from "../english/scene-talk-words";
 import { questionAbout } from "../english/question-names";
 import { billTitleOf, billTitleSaid } from "../english/bill-names";
 import { employerSaid } from "../english/journal-words";
-import { properName } from "./words";
+import { businessNameSaid } from "./words";
 
 /** The situation type that reads these facts. */
 export const DONOR_ASK_TYPE = "donor-ask";
@@ -56,7 +56,7 @@ export function donorAskFacts(
   if (job && org && !job.endsAt)
     facts.employer = {
       // As people say it: "the government of Utah", never "Utah treasury".
-      text: employerSaid(properName(org.name), org),
+      text: employerSaid(businessNameSaid(org), org),
       sourceRecordIds: [job.id, org.id],
     };
   if (!billId || !core.modules.has(LEGISLATURE_MODULE_ID)) return facts;

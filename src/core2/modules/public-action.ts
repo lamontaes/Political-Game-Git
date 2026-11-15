@@ -21,10 +21,16 @@
  * give. The player is never decided for: an action the player's own life is
  * touched by is left open for them (`playerTouched`), and the scene is theirs.
  *
- * stopgapId: SG-WORDS-public-action-counted-share (the counted population is
- * not asked to join: an action's size is its named participants).
+ * The wider town's counted people are asked by the same decision, by their
+ * count: the school's staff, the renters, the jobless and every counted
+ * resident, each as many as their record stands for (one model, two tiers).
  */
 import { countedPersonOf } from "../counted-actor";
+import { townLean } from "./campaigns";
+import { countedVoters, voterLean, weeklyWorkOf } from "./voting";
+import { countedViewOn, viewOn } from "./views";
+
+type CountedVoter = ReturnType<typeof countedVoters>[number];
 import { residentsRuntime } from "./residents";
 import { registerModule } from "../state";
 import { addDays, makeIsoDate } from "../kernel/dates";
@@ -51,7 +57,7 @@ export const ACTION_KINDS = ["strike", "protest", "rally"] as const;
 export type ActionKind = (typeof ACTION_KINDS)[number];
 
 type Touches = "school-staff" | "renters" | "jobless" | "residents";
-interface AreaRule {
+export interface AreaRule {
   readonly touches: Touches;
   readonly bad: ActionKind;
   readonly good: ActionKind;
@@ -106,6 +112,13 @@ export function actionsOf(api: CoreAPI, placeId?: string): ActionRow[] {
   return (table(api, "actions").rows() as unknown as ActionRow[])
     .filter((row) => !placeId || row.placeId === placeId)
     .sort((a, b) => a.startedOn.localeCompare(b.startedOn));
+}
+
+/** The rule of one area (who it touches, what it presses), for a reader that asks one person what they would do. */
+export function areaRule(area: string): AreaRule {
+  const rule = RULES[area];
+  if (!rule) throw new Error(`No public-action area: ${area}`);
+  return rule;
 }
 
 /** The policy question a town presses on its officials when an area goes badly, where the area has one. */
@@ -172,6 +185,74 @@ function countedSchoolStaff(core: CoreState, placeId: string): string[] {
   return out.sort();
 }
 
+/** A counted person asked to join, and how many real people their record stands for. */
+interface CountedAsked {
+  readonly id: string;
+  readonly weight: number;
+}
+
+/**
+ * The wider town's counted adults an area touches, from the counts: the
+ * school's staff by the wage flows, the renters by their household's tenure,
+ * the jobless by the jobs engine's counted seekers, every resident by being
+ * counted here. Each carries the households its record stands for.
+ */
+function countedTouchedIn(
+  api: CoreAPI,
+  core: CoreState,
+  placeId: string,
+  touches: Touches,
+): CountedAsked[] {
+  if (touches === "school-staff")
+    return countedSchoolStaff(core, placeId).map((id) => ({ id, weight: 1 }));
+  const rt = residentsRuntime(core);
+  if (!rt) return [];
+  const store = rt.store;
+  const out: CountedAsked[] = [];
+  const adult = (birthDate: string) =>
+    ageOnDate(birthDate, core.date) >= ADULT_AGE;
+  if (touches === "jobless") {
+    if (!core.modules.has("jobs")) return [];
+    const seekers = api
+      .moduleState("jobs")
+      .table("countedSeekers")
+      .rows() as unknown as {
+      personId: string;
+      placeId: string;
+      employed: boolean;
+    }[];
+    for (const row of seekers) {
+      if (row.employed || row.placeId !== placeId) continue;
+      const member = store.countedMember(row.personId);
+      if (member === undefined || !store.isCounted(member)) continue;
+      const householdId = rt.householdOfPerson.get(row.personId);
+      const household = householdId
+        ? store.liveHousehold(householdId)
+        : undefined;
+      out.push({
+        id: row.personId,
+        weight: household ? store.weightOf(household) : 1,
+      });
+    }
+    return out.sort((a, b) => a.id.localeCompare(b.id));
+  }
+  for (const group of store.groups) {
+    if (group.placeId !== placeId) continue;
+    if (touches === "renters" && group.tenure !== "rent") continue;
+    if (group.tenure === "group") continue;
+    for (const index of group.households) {
+      const h = store.households[index]!;
+      if (h.gone) continue;
+      for (const member of store.countedMembers(h)) {
+        const facts = store.factsOf(member);
+        if (adult(facts.birthDate))
+          out.push({ id: facts.id, weight: store.weightOf(h) });
+      }
+    }
+  }
+  return out.sort((a, b) => a.id.localeCompare(b.id));
+}
+
 /** The people the jobs engine records as looking for work and not yet employed. */
 function jobSeekers(api: CoreAPI): Set<string> {
   const core = api.state as CoreState;
@@ -231,45 +312,151 @@ function organize(
   return rows;
 }
 
-/** The people in the town who are in the action this month, deciding one at a time who is drawn in by those already there. */
+/**
+ * What draws one person to an action and what going costs them, from their own
+ * records (one rule for a named person and a counted record, one model in two
+ * tiers). The pull is the town's organizing in the area times how far the
+ * person's own view of the area's question sides with the action (a grievance
+ * presses for the policy, a rally is for those who do not want it changed; an
+ * area with no question has no view to read and pulls everyone alike). The area
+ * touches their own life where it is their own group (the renters, the jobless,
+ * the school's staff); their view already carries what their own life adds. The
+ * cost is the share of the week they are awake that their scheduled work takes.
+ */
+export function joinCase(
+  api: CoreAPI,
+  core: CoreState,
+  rule: AreaRule,
+  side: "grievance" | "pride",
+  level: number,
+  who:
+    | { readonly person: PersonState }
+    | { readonly voter: CountedVoter; readonly person: PersonState },
+): { toward: number; touches: boolean; cost: number } {
+  let view: number | undefined;
+  let weeklyMinutes: number;
+  if ("voter" in who) {
+    weeklyMinutes = who.voter.weeklyMinutes;
+    if (rule.question)
+      view = countedViewOn(api, who.voter, rule.question, townLean(api));
+  } else {
+    weeklyMinutes = weeklyWorkOf(core, who.person.id);
+    if (rule.question)
+      view = viewOn(
+        api,
+        who.person.id,
+        rule.question,
+        voterLean(api, who.person),
+      );
+  }
+  const pull =
+    view === undefined ? 1 : Math.max(0, side === "grievance" ? view : -view);
+  // A strike is the work not done: its own staff pay no cost for the work.
+  const strikes = side === "grievance" && rule.touches === "school-staff";
+  return {
+    toward: Math.min(1, level) * pull,
+    touches: rule.touches !== "residents",
+    cost: strikes ? 0 : Math.min(1, weeklyMinutes / wakingWeekMinutes(api)),
+  };
+}
+
+/** The minutes a week a person is awake: the day's hours less the sleep the work engine keeps back, times seven. */
+function wakingWeekMinutes(api: CoreAPI): number {
+  const work = api.state.data.work;
+  const sleep = work ? api.parameter(work.sleepReserveParameter) : 0;
+  return (
+    (api.parameter("hoursPerDay") - sleep) *
+    api.parameter("minutesPerHour") *
+    api.parameter("daysPerWeek")
+  );
+}
+
+/** The counted people in the action this month, each asked by the same decision and counted as many as their record stands for. */
 function gatherCounted(
   api: CoreAPI,
-  counted: readonly string[],
+  counted: readonly CountedAsked[],
+  rule: AreaRule,
+  side: "grievance" | "pride",
   level: number,
 ): number {
+  const core = api.state as CoreState;
+  const voters = new Map(countedVoters(api).map((row) => [row.id, row]));
   let joined = 0;
-  for (const id of counted) {
-    const person = countedPersonOf(api.state as CoreState, id);
-    if (!person) continue;
+  for (const asked of counted) {
+    const person = countedPersonOf(core, asked.id);
+    const voter = voters.get(asked.id);
+    if (!person || !voter) continue;
+    const ask = joinCase(api, core, rule, side, level, {
+      voter,
+      person: { ...person, id: asked.id } as unknown as PersonState,
+    });
     if (
       joinsGroup(
         api,
-        { ...person, id } as unknown as PersonState,
-        Math.min(1, level),
-        true,
+        { ...person, id: asked.id } as unknown as PersonState,
+        ask.toward,
+        ask.touches,
         0,
+        ask.cost,
       )
     )
-      joined += 1;
+      joined += asked.weight;
   }
   return joined;
+}
+
+/**
+ * How a turnout looks, from its share of the town's adults, named and counted
+ * people alike (the same two cuts for both): "few", "group" or "crowd". The
+ * record keeps the size; a scene says only how it looks, so the same record
+ * is read at the same scale wherever it is told.
+ */
+export function turnoutLooks(
+  api: CoreAPI,
+  core: CoreState,
+  placeId: string,
+  size: number,
+): "few" | "group" | "crowd" {
+  const named = touchedIn(core, placeId, "residents", new Set(), new Set());
+  let adults = named.length;
+  for (const row of countedTouchedIn(api, core, placeId, "residents"))
+    adults += row.weight;
+  const share = adults > 0 ? size / adults : 1;
+  // A look is true of the count as well as the share: too few people are never
+  // a group, a handful never a crowd, and a few hundred never "a few", whatever
+  // the town's size.
+  if (size < PAR.turnoutGroupMinPeople.value) return "few";
+  if (size < PAR.turnoutFewMaxPeople.value && share < PAR.turnoutFewBelow.value)
+    return "few";
+  // A crowd is at least the crowd minimum and either a share of a small town's
+  // adults or enough people for any town.
+  return size >= PAR.turnoutCrowdMinPeople.value &&
+    (share >= PAR.turnoutCrowdFrom.value ||
+      size >= PAR.turnoutCrowdAnywhereFrom.value)
+    ? "crowd"
+    : "group";
 }
 
 function gather(
   api: CoreAPI,
   pool: readonly PersonState[],
+  rule: AreaRule,
+  side: "grievance" | "pride",
   level: number,
 ): string[] {
+  const core = api.state as CoreState;
   const joined = new Set<string>();
   for (const person of pool) {
     if (person.id === api.state.playerId) continue;
+    const ask = joinCase(api, core, rule, side, level, { person });
     if (
       joinsGroup(
         api,
         person,
-        Math.min(1, level),
-        true,
+        ask.toward,
+        ask.touches,
         groupDraw(api.state, person.id, joined),
+        ask.cost,
       )
     )
       joined.add(person.id);
@@ -413,11 +600,19 @@ function monthlyRun(api: CoreAPI): void {
         stock.level > 0
           ? touchedIn(core, placeId, rule.touches, renters, seekers)
           : [];
-      const participants = pool.length ? gather(api, pool, stock.level) : [];
-      // The wider town's school staff are asked the same question, by their count.
+      const participants = pool.length
+        ? gather(api, pool, rule, stock.side, stock.level)
+        : [];
+      // The wider town's counted people the area touches are asked the same question, by their count.
       const countedJoined =
-        stock.level > 0 && rule.touches === "school-staff"
-          ? gatherCounted(api, countedSchoolStaff(core, placeId), stock.level)
+        stock.level > 0
+          ? gatherCounted(
+              api,
+              countedTouchedIn(api, core, placeId, rule.touches),
+              rule,
+              stock.side,
+              stock.level,
+            )
           : 0;
       const formed =
         participants.length + countedJoined >= PAR.minimumParticipants.value;
@@ -433,6 +628,9 @@ function monthlyRun(api: CoreAPI): void {
       const read = reads.find((row) => row.area === stock.area);
       const id =
         open?.id ?? `action:${placeId}:${stock.area}:${stock.side}:${month}`;
+      const crowdIds = [
+        ...new Set([...(open?.participantIds ?? []), ...participants]),
+      ].sort();
       const row: ActionRow = {
         id,
         placeId,
@@ -443,9 +641,7 @@ function monthlyRun(api: CoreAPI): void {
         lastOn: core.date,
         endedOn: null,
         months: (open?.months ?? 0) + 1,
-        participantIds: [
-          ...new Set([...(open?.participantIds ?? []), ...participants]),
-        ].sort(),
+        participantIds: crowdIds,
         countedParticipants: countedJoined,
         level: stock.level,
         slide: read?.slide ?? 0,
@@ -472,7 +668,15 @@ function monthlyRun(api: CoreAPI): void {
             area: stock.area,
             side: stock.side,
             question: rule.question ?? "",
-            size: String(participants.length + countedJoined),
+            size: String(Math.round(participants.length + countedJoined)),
+            // How that headcount looks in this town (`turnoutLooks`): the one
+            // fact the scene and the paper both read from this record.
+            turnout: turnoutLooks(
+              api,
+              core,
+              placeId,
+              participants.length + countedJoined,
+            ),
           },
           source: {
             tag: "SOURCED",

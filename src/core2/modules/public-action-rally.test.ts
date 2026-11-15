@@ -15,7 +15,8 @@ import { CASE_MADE } from "./speech";
 // friend in one asks the player to come with a topic that names no demand, and
 // the player saying yes puts them in it without pressing any official.
 // Pinned (a drawn place may have no rally in a half year): the seed and the
-// place it draws are named in the failure line.
+// place it draws are named in the failure line. It plays six months of the
+// game's own days, and that is why it runs about two minutes.
 const seed = "pa-rally-pin";
 setBookkeeping(false);
 const place = drawPlace(`${seed}:0`, "public-action-rally");
@@ -92,7 +93,7 @@ it("a rally invites the player without a demand, and joining one presses no one"
   ))
     expect(row.topic?.includes("us-policy-positions"), where).toBe(false);
   // The player says yes to a friend in a rally: in it from then, still pressing no one.
-  const rally = rallies[0]!;
+  const rally = rallies.find((row) => row.participantIds.length > 0)!;
   const friend = rally.participantIds[0]!;
   api.emit({
     id: `scene.reply:test:rally`,
