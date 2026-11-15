@@ -2289,7 +2289,8 @@ export function billSections(
           };
     const after: BillSection["after"] = {
       value: p.kind === "budget-line" ? (before.value ?? 0) + p.value : p.value,
-      unit: p.unit ?? before.unit,
+      // A bill sets the law's amount, never its unit: a section that amends a law says it in the law's own.
+      unit: before.unit ?? p.unit,
       shape: p.shape ?? before.shape,
       effectiveDate: p.effectiveDate ?? null,
     };

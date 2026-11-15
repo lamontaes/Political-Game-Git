@@ -13,7 +13,7 @@ import { memberKey, members } from "../core2/modules/legislature";
 import { upcomingMeeting } from "../core2/modules/office-day";
 import { coreAPI } from "../core2/state";
 import { billPageView } from "./bill-stage";
-import { seatAct, seatView } from "./legislature";
+import { billPaper, seatAct, seatView } from "./legislature";
 import { buildBenchWorld } from "./world";
 
 const PLACE = process.env.PHASE_IN_PERCENT_PLACE ?? "4625741";
@@ -160,6 +160,10 @@ it(`a bill's paper says a rate in force as the law reads it and one rounding thr
   // The struck side says what the law in force says, never a raise from a rate to itself.
   expect(section.struck).toMatch(/ is [\d.]+ percent\.?$/);
   expect(section.struck).not.toMatch(/raised from/);
+  // The estimate says today's rate and the new one in one unit: a bill sets the law's amount, never its unit.
+  const estimate = billPaper(core, (drafted as unknown as { id: string }).id)
+    .sections[0]!.estimate;
+  expect(estimate.afterUnit).toBe(estimate.beforeUnit);
   // A rate reads to at most two decimals in every line of the paper's text.
   for (const line of [section.inserted ?? "", section.struck ?? ""])
     for (const rate of line.match(/\d+\.\d+(?= percent)/g) ?? [])
