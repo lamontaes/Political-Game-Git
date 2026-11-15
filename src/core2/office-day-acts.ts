@@ -388,14 +388,11 @@ export interface Prepared {
 }
 
 /**
- * The scheduled acts the seat's duty is made of: the ones always on offer once
- * due. An interview waits on a post being filled, so it is not a standing duty.
+ * The scheduled acts the seat's duty is made of. Meetings are with each head
+ * in turn, offered when that head's meeting has come due, and an interview
+ * waits on the paper, so neither is read as a standing duty of the seat.
  */
-const DUTY_KINDS: readonly string[] = [
-  "office-hours",
-  "town-hall",
-  "meet-department-head",
-];
+const DUTY_KINDS: readonly string[] = ["office-hours", "town-hall"];
 
 /** The days between acts of each kind that come round on a schedule. */
 const DUE_INTERVALS: Readonly<Record<string, string>> = {
@@ -463,6 +460,11 @@ export function officeActProviders(host: OfficeActHost) {
       holds(api, actor) &&
       (action.id !== "state-of-the-city" || addressDue(api, host, actor.id)) &&
       (action.id !== "town-hall" || townHallDue(api, host, actor.id)) &&
+      // Acts on a schedule are offered when their interval has come due,
+      // as the town hall and the address are.
+      (!(action.id in DUE_INTERVALS) ||
+        action.id === "town-hall" ||
+        dueOf(host, api, actor.id, action.id) >= 1) &&
       (action.id !== "propose-budget" ||
         budgetProposalDue(api, host, actor.id) !== null)
         ? [
@@ -483,7 +485,15 @@ export function officeActProviders(host: OfficeActHost) {
             .filter(
               (row) =>
                 row.holderId !== actor.id &&
-                api.state.people.get(row.holderId)?.alive,
+                api.state.people.get(row.holderId)?.alive &&
+                // A head is offered when their own meeting has come due.
+                dueOf(
+                  host,
+                  api,
+                  actor.id,
+                  "meet-department-head",
+                  row.holderId,
+                ) >= 1,
             )
             .map((row) => ({
               definition: action,
