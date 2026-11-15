@@ -80,7 +80,10 @@ it("writes each outlet's name and facts as the talk carries them (played file)",
   // the outlet's facts, plus "paper" or "broadcast" as the story's carrier.
   const said = (facts: Record<string, Fact>, choice: "yes" | "no") => {
     const out = new Set<string>();
-    for (let n = 0; n < 60; n++) {
+    // Four pinned seeds, chosen so that a radio station is heard on (1) and
+    // not listened to (3), and a television station is seen on (0) and not
+    // watched (24): named, never drawn.
+    for (const n of [0, 1, 3, 24]) {
       const line = wordConversationMove({
         seed: `outlet-telling:${n}`,
         subject: "news",
@@ -109,12 +112,20 @@ it("writes each outlet's name and facts as the talk carries them (played file)",
     const name = facts.outlet!.text;
     const yes = said(facts, "yes");
     const no = said(facts, "no");
+    if (o.kind === "radio") {
+      expect(yes).toContain(`I heard that on ${name}.`);
+      expect(no).toContain(`I don't listen to ${name} much. What happened?`);
+    }
+    if (outletMedium(o.kind) === "television") {
+      expect(yes).toContain(`I saw that on ${name}.`);
+      expect(no).toContain(`I don't watch ${name} much. What happened?`);
+    }
     if (o.kind === "radio")
       for (const line of [...yes, ...no])
         expect(
           line,
           `${name}: a station is never read in, seen on or watched`,
-        ).not.toMatch(/read it in|saw that on|watch/);
+        ).not.toMatch(/read it in|saw that|watch/);
     if (outletMedium(o.kind) === "television")
       for (const line of [...yes, ...no])
         expect(
