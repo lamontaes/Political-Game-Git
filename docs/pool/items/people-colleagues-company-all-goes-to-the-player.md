@@ -5,9 +5,9 @@ area: people
 kind: bug
 priority: 2
 size: S
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/project-thread-csmftn-known
 pr:
 after:
 blocked-on:

@@ -61,7 +61,11 @@ export function registerSittingCalendar(reader: SittingCalendar): void {
   calendar = reader;
   // Registered when a world opens, never as the file loads: in an import
   // cycle the closeness module's holder may not exist yet.
-  registerSharedHours(sittingHours);
+  registerSharedHours(sittingHours, {
+    kind: COLLEAGUE_KIND,
+    knownTo: sittingKnownTo,
+    together: sittingTogether,
+  });
 }
 
 const DAY_MS = 86_400_000;
@@ -125,7 +129,8 @@ function keptFor(core: CoreState): Kept {
 
 /**
  * The colleagues each member knows through the body: the `knownAmong` whose
- * service began nearest their own, ties by id, read over every seated member.
+ * service began nearest their own, ties by id, and those whose own nearest
+ * include them, read over every seated member.
  * Kept until the body's seats change.
  */
 function knownThrough(
@@ -137,18 +142,37 @@ function knownThrough(
   const held = k.known.get(officeId);
   if (held?.sig === sig) return held.known;
   const count = knownAmong(k.api, Math.max(seats.length - 1, 0));
-  const known = new Map<string, ReadonlySet<string>>();
+  // Both ways: one knows a colleague who knows them (a long-serving member
+  // is known to the newcomers nearest them even past their own count).
+  const either = new Map<string, Set<string>>(
+    seats.map((seat) => [seat.personId, new Set<string>()]),
+  );
   for (const seat of seats)
+    for (const other of nearestInService(
+      seat,
+      seats.filter((s) => s.personId !== seat.personId),
+      count,
+    )) {
+      either.get(seat.personId)!.add(other.personId);
+      either.get(other.personId)!.add(seat.personId);
+    }
+  // Each member's set in their own order, nearest first, so a reader that
+  // needs one of them in turn takes the nearest.
+  const known = new Map<string, ReadonlySet<string>>();
+  for (const seat of seats) {
+    const mine = either.get(seat.personId)!;
     known.set(
       seat.personId,
       new Set(
         nearestInService(
           seat,
-          seats.filter((s) => s.personId !== seat.personId),
-          count,
+          seats.filter((s) => mine.has(s.personId)),
+          mine.size,
+          true,
         ).map((s) => s.personId),
       ),
     );
+  }
   k.known.set(officeId, { sig, known });
   return known;
 }
@@ -156,18 +180,36 @@ function knownThrough(
 /**
  * The `count` of `others` one comes to know in a body's room: those whose
  * service began nearest one's own (they came in together and sat through the
- * same years), ties by id; everyone when the room is no bigger than that.
+ * same years); among those who began alike, the seats nearest one's own in the
+ * body's order (by id, going round), so a class sworn in on one day does not
+ * all come to know the same few; everyone when the room is no bigger than
+ * that (in that order when `ordered`).
  */
 function nearestInService(
   seat: SittingSeat,
   others: readonly SittingSeat[],
   count: number,
+  ordered = false,
 ): readonly SittingSeat[] {
-  if (count >= others.length) return others;
+  if (count >= others.length && !ordered) return others;
   const at = dayOf(seat.since);
   const gap = (s: SittingSeat) => Math.abs(dayOf(s.since) - at);
+  const order = [...others, seat]
+    .map((s) => s.personId)
+    .sort((x, y) => x.localeCompare(y));
+  const own = order.indexOf(seat.personId);
+  const place = new Map(order.map((id, i) => [id, i] as const));
+  const round = (s: SittingSeat) => {
+    const d = Math.abs(place.get(s.personId)! - own);
+    return Math.min(d, order.length - d);
+  };
   return [...others]
-    .sort((x, y) => gap(x) - gap(y) || x.personId.localeCompare(y.personId))
+    .sort(
+      (x, y) =>
+        gap(x) - gap(y) ||
+        round(x) - round(y) ||
+        x.personId.localeCompare(y.personId),
+    )
     .slice(0, count);
 }
 
@@ -260,7 +302,7 @@ export function sittingHours(core: object, a: PersonId, b: PersonId): number {
   for (const officeId of mine) {
     if (!theirs.includes(officeId)) continue;
     const body = bodyToday(k, officeId);
-    if (!body.known.get(a)?.has(b) && !body.known.get(b)?.has(a)) continue;
+    if (!body.known.get(a)?.has(b)) continue;
     const sa = body.since.get(a)!;
     const sb = body.since.get(b)!;
     hours +=
@@ -272,6 +314,65 @@ export function sittingHours(core: object, a: PersonId, b: PersonId): number {
       );
   }
   return hours;
+}
+
+/** The colleagues a person knows through the bodies they sit on today, nearest first. */
+function sittingKnownTo(core: object, id: PersonId): readonly PersonId[] {
+  if (!calendar) return [];
+  const state = core as CoreState;
+  if (!state.modules) return [];
+  const k = keptFor(state);
+  const bodies = bodiesOf(k, id);
+  if (!bodies.length) return [];
+  const out: PersonId[] = [];
+  for (const officeId of bodies)
+    for (const other of bodyToday(k, officeId).known.get(id) ?? [])
+      out.push(other as PersonId);
+  return out;
+}
+
+/**
+ * The first and the last sitting two colleagues who know each other have
+ * shared in a body they both sit on today, through today; null before their
+ * first. The body is the record.
+ */
+function sittingTogether(
+  core: object,
+  a: PersonId,
+  b: PersonId,
+): { first: string; last: string; sourceId: string } | null {
+  if (!calendar) return null;
+  const state = core as CoreState;
+  if (!state.modules) return null;
+  const k = keptFor(state);
+  const mine = bodiesOf(k, a);
+  if (!mine.length) return null;
+  const theirs = bodiesOf(k, b);
+  let best: { first: string; last: string; sourceId: string } | null = null;
+  for (const officeId of mine) {
+    if (!theirs.includes(officeId)) continue;
+    const body = bodyToday(k, officeId);
+    if (!body.known.get(a)?.has(b)) continue;
+    const sa = body.since.get(a)!;
+    const sb = body.since.get(b)!;
+    const at = dayOf(sa > sb ? sa : sb);
+    const s = seriesFor(k, officeId, body.earliest);
+    let lo = 0;
+    let hi = s.days.length;
+    while (lo < hi) {
+      const mid = (lo + hi) >> 1;
+      if (s.days[mid]! < at) lo = mid + 1;
+      else hi = mid;
+    }
+    if (lo >= s.days.length) continue;
+    const met = {
+      first: dateOf(s.days[lo]!),
+      last: dateOf(s.days[s.days.length - 1]!),
+      sourceId: officeId,
+    };
+    if (!best || met.last > best.last) best = met;
+  }
+  return best;
 }
 
 /** The bodies a person sits on today, kept for the day. */
