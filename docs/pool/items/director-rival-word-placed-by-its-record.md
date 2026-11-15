@@ -7,7 +7,7 @@ priority: 2
 size: M
 status: in-pr
 claimed-by: account lead thread "Give rivals more than one issue"
-pr:
+pr: 9416
 blocked-on:
 after:
 source: Words lead's read of the Salado TX play (words-lead/regression/page-read-salado.md, class F, P34 and P35), Nov 15
