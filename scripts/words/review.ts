@@ -36,6 +36,16 @@ interface Plant {
   readonly first?: readonly string[];
   /** For a rule about a slot's variants: `said` are the variants, `before` names the slot. */
   readonly slot?: true;
+  /** For a rule about a whole speech: `before` names the speech, `said` are its parts in order, and `stages` the steps it was built in. */
+  readonly speech?: true;
+  readonly stages?: readonly SpeechStageRow[];
+}
+
+/** One step of a speech built in steps: the choices offered and the one taken. */
+interface SpeechStageRow {
+  readonly stage: string;
+  readonly offered: readonly string[];
+  readonly chosen: string;
 }
 
 /** Plants by rule, in our own words: two that pass and one that fails per batch. */
@@ -103,6 +113,80 @@ export const PLANTS: Readonly<Record<string, readonly Plant[]>> = {
         "You're right. I'm sorry.",
         "I'll make it up to you.",
         "You're right, and it won't happen again.",
+      ],
+    },
+  ],
+  "speech-has-a-core": [
+    {
+      passes: true,
+      speech: true,
+      before: "a mayor's address",
+      said: [
+        "Good evening, neighbors, and thank you for coming.",
+        "Our water mains are older than most of us in this room. Last winter three of them broke in one week, and the people on Elm Street boiled their water for nine days. I will ask the council for the money to replace the worst of them this year, because nobody here should wonder whether the tap is safe.",
+        "The other thing I hear at every door is rent. Young families are leaving because they can't find a place they can pay for. I want the empty lots by the old depot zoned for homes, and I will bring that to the council in the spring.",
+        "That's the work. Thank you, and good night.",
+      ],
+    },
+    {
+      passes: true,
+      speech: true,
+      before: "the speech the player builds in steps",
+      said: [],
+      stages: [
+        {
+          stage: "opener",
+          offered: [
+            "Thanks for coming out tonight.",
+            "It's good to be home.",
+            "Evening, everybody.",
+            "I'll keep this short.",
+          ],
+          chosen: "It's good to be home.",
+        },
+        {
+          stage: "core",
+          offered: [
+            "I grew up two streets from the mill. When it closed, my father drove an hour each way for half the pay. I want this town to have work worth staying for, and I'll fight for the training money that brings it.",
+            "Our school lost its music teacher last year. A town that can't keep a band room open is telling its kids something, and I don't like what it says.",
+            "I hear about the roads at every door. Patching the same holes every spring costs more than paving them once.",
+            "I'm against raising the sales tax. It falls hardest on the people who can least afford it.",
+          ],
+          chosen:
+            "I grew up two streets from the mill. When it closed, my father drove an hour each way for half the pay. I want this town to have work worth staying for, and I'll fight for the training money that brings it.",
+        },
+        {
+          stage: "core",
+          offered: [
+            "Our school lost its music teacher last year. A town that can't keep a band room open is telling its kids something, and I don't like what it says.",
+            "I hear about the roads at every door. Patching the same holes every spring costs more than paving them once.",
+            "I'm against raising the sales tax. It falls hardest on the people who can least afford it.",
+            "My mother still lives on Pine Street. She shouldn't have to wait forty minutes for an ambulance.",
+          ],
+          chosen:
+            "I hear about the roads at every door. Patching the same holes every spring costs more than paving them once.",
+        },
+        {
+          stage: "closer",
+          offered: [
+            "Thank you. Let's get to work.",
+            "That's what I'm running on.",
+            "Thanks for listening.",
+            "Good night, everybody.",
+          ],
+          chosen: "Thank you. Let's get to work.",
+        },
+      ],
+    },
+    {
+      passes: false,
+      speech: true,
+      before: "a town member's campaign speech",
+      said: [
+        "Hello, everybody!",
+        "Vote for me!",
+        "We can do it!",
+        "Thank you!",
       ],
     },
   ],
@@ -281,6 +365,8 @@ export const PLANTS: Readonly<Record<string, readonly Plant[]>> = {
  * rule; words-engine skill).
  */
 export const NOT_JUDGED: Readonly<Record<string, string>> = {
+  "speech-has-a-core":
+    "Each entry is one whole speech as the game composed it: its parts in order, or, for a speech the player builds in steps, each step's choices and the one taken. Pass if it has a short opening and a short close around a longer core that says something of substance, and, where it is built in steps, the core's choices are on different subjects. Fail if it is a few short lines with nothing at its center (a four-line rally), one block with no parts, or a core of the same subject twice. Whether the speech has one theme, takes a stance well, keeps a real speech's order, or is well written is judged by other rules, not here.",
   "variants-differ-in-what-they-say":
     'Each entry is one slot: the lines the game can pick from for the same spot in a scene, with the facts each one needs from the world ("needs") or rules out ("not"). Pass if the variants say different things, or are tied to different facts, so the same spot plays differently in different worlds. Fail if most of them say the same thing in other words with nothing in the world to choose between them. How well each line is written, and whether it fits the scene, is not judged here.',
   "player-never-says-unchosen":
@@ -326,6 +412,12 @@ export function entriesOf(sheet: {
     first?: { words: string }[];
     options?: { words: string }[];
     variants?: { words: string; needs: string[]; not: string[] }[];
+  }[];
+  speeches?: {
+    id: string;
+    kind: string;
+    parts?: readonly string[];
+    stages?: readonly SpeechStageRow[];
   }[];
 }): Entry[] {
   const who = (role: string) =>
@@ -384,30 +476,58 @@ export function entriesOf(sheet: {
           : []),
       ].join("\n"),
     });
+  for (const speech of sheet.speeches ?? [])
+    entries.push({
+      id: speech.id,
+      text: speechText(speech.kind, speech.parts ?? [], speech.stages),
+    });
   return entries;
 }
 
+/** A whole speech as a reviewer reads it: its parts, or its steps with the choices offered. */
+function speechText(
+  kind: string,
+  parts: readonly string[],
+  stages: readonly SpeechStageRow[] | undefined,
+): string {
+  if (stages?.length)
+    return [
+      `Speech: ${kind}`,
+      ...stages.flatMap((step, i) => [
+        `Step ${i + 1} (${step.stage}), the choices offered:`,
+        ...step.offered.map((line) => `  - ${quote(line)}`),
+        `  Taken: ${quote(step.chosen)}`,
+      ]),
+    ].join("\n");
+  return [
+    `Speech: ${kind}`,
+    ...parts.map((part, i) => `Part ${i + 1}: ${quote(part)}`),
+  ].join("\n");
+}
+
 const plantText = (plant: Plant) =>
-  plant.slot
-    ? [
-        `Slot: ${plant.before}`,
-        "The variants of this slot (judge these):",
-        ...plant.said.map((line) => `  - ${quote(line)}`),
-      ].join("\n")
-    : plant.said.length === 1
-      ? `A: ${quote(plant.before)}\nB: ${quote(plant.said[0]!)}`
-      : [
-          "Before:",
-          `  the other person: ${quote(plant.before)}`,
-          ...(plant.first
-            ? [
-                "The replies offered first:",
-                ...plant.first.map((line) => `  - ${quote(line)}`),
-              ]
-            : []),
-          "The replies offered now (judge these):",
+  plant.speech
+    ? speechText(plant.before, plant.said, plant.stages)
+    : plant.slot
+      ? [
+          `Slot: ${plant.before}`,
+          "The variants of this slot (judge these):",
           ...plant.said.map((line) => `  - ${quote(line)}`),
-        ].join("\n");
+        ].join("\n")
+      : plant.said.length === 1
+        ? `A: ${quote(plant.before)}\nB: ${quote(plant.said[0]!)}`
+        : [
+            "Before:",
+            `  the other person: ${quote(plant.before)}`,
+            ...(plant.first
+              ? [
+                  "The replies offered first:",
+                  ...plant.first.map((line) => `  - ${quote(line)}`),
+                ]
+              : []),
+            "The replies offered now (judge these):",
+            ...plant.said.map((line) => `  - ${quote(line)}`),
+          ].join("\n");
 
 /** The batches for one rule's entries, with plants placed by a hash of the batch, and their key. */
 export function plantedBatches(
