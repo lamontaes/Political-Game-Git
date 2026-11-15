@@ -64,7 +64,7 @@ import type { PersonId } from "../core2/types";
 import { questionAbout } from "../english/question-names";
 import { composeJournal } from "./journal";
 import { promiseSubject } from "./promise-talk";
-import { promisesBetween } from "./promises";
+import { promisesBetween } from "../core2/modules/promises";
 import { purposeScene, replyInScene } from "./purpose-scene";
 
 const PLACE = "territory:GU:santa-rita";
@@ -271,7 +271,7 @@ for (const c of CASES)
           expect(serveAsk(api, row.id)?.answer, where).toBe("no");
           expect(runningMateOf(api, filing, ticket), where).toBeNull();
           expect(
-            promisesBetween(director.ledger, player, asked!.id as PersonId),
+            promisesBetween(coreAPI(core), player, asked!.id as PersonId),
             where,
           ).toEqual([]);
           out.push(`  -> ${reply.facts?.ending}; nobody seated, no promise`);
@@ -286,7 +286,7 @@ for (const c of CASES)
         );
         const factId = `promise:${replyId}`;
         const find = () =>
-          promisesBetween(director.ledger, player, asked!.id as PersonId).find(
+          promisesBetween(coreAPI(core), player, asked!.id as PersonId).find(
             (p) => p.id === factId,
           )!;
         expect(find(), `${where}: the promise on record`).toBeDefined();

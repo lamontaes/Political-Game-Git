@@ -899,7 +899,7 @@ export function askToServe(
       side: standing.grounds.theirStance < 0 ? "no" : "yes",
       // The question a price is named on, one the office can decide, and
       // their side on it: a promise they ask for is to hold it
-      // (promise-kinds.json `hold-question`).
+      // (src/core2/data/promises/promise-kinds.json `hold-question`).
       ...(standing.grounds.priceQuestion
         ? {
             "price-question": standing.grounds.priceQuestion,
@@ -1057,7 +1057,7 @@ function askToTakePost(
       askedId: personId,
       question: standing.grounds.question,
       // The side they hold on it: a promise they ask for is to hold it
-      // (promise-kinds.json `hold-question`).
+      // (src/core2/data/promises/promise-kinds.json `hold-question`).
       side: standing.grounds.theirStance < 0 ? "no" : "yes",
       reason: standing.reason,
     },

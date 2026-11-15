@@ -1,48 +1,6 @@
 {
-  "schema": "promise-kinds-v1",
-  "note": "Promises a scene ending keeps (Words lead brief T, Nov 14 2026; owner, Oct 13: an effect is a read, not a record). Developer data, never shown to a player. A scene reply that reaches an ending listed under `endings` (a family's row covers its variants) writes its promise's kind, tie and due day on its `scene.reply` record; the director keeps it as a kept fact held by the one who answered and owed to the other (ledger.ts), and ends it kept or broken on the day the record that settles it lands, or when its window closes (promises.ts), never by a daily scan. The settle operations are registered by name in promises.ts. A kind with `settle: []` has no player act that settles it yet: no ending names it, so it is never offered, and its row says what the missing act is.",
-  "endings": [
-    {
-      "purpose": "ask-vote",
-      "ending": "vote-given",
-      "kind": "vote",
-      "causeKinds": ["vote-ahead"]
-    },
-    {
-      "purpose": "ask-vote",
-      "ending": "traded",
-      "kind": "vote",
-      "causeKinds": ["vote-ahead"]
-    },
-    {
-      "purpose": "ask-vote",
-      "ending": "false-yes",
-      "kind": "vote",
-      "causeKinds": ["vote-ahead"]
-    },
-    {
-      "purpose": "owed-apology",
-      "ending": "promised-to-make-it-right",
-      "kind": "pay-on-time",
-      "causeKinds": ["family.quarrel"]
-    },
-    {
-      "purpose": "introduction",
-      "ending": "took-them-in-hand",
-      "kind": "show-around"
-    },
-    {
-      "purpose": "ask-to-serve",
-      "ending": "promised",
-      "kind": "hold-question",
-      "causeKinds": ["serve-asked"]
-    },
-    {
-      "purpose": "friend-ask",
-      "ending": "said-yes-to-friend",
-      "kind": "attend"
-    }
-  ],
+  "schema": "promise-kinds-v2",
+  "note": "Promises kept, broken and remembered (Words lead brief T, Nov 14 2026; owner, Oct 13: an effect is a read, not a record; owner, Nov 15: the promise record, its settlement and the tie it moves are the engine's). Developer data, never shown to a player. A scene reply that reaches an ending listed in src/director/data/promise-endings.json writes its promise's kind and tie on its `scene.reply` record; the promises engine (src/core2/modules/promises.ts) keeps it as one row held by the one who gave their word and owed to the other, and ends it kept or broken on the day the record that settles it lands, or when its window closes, never by a daily scan. Each kind names the records that settle it (`settle`), its window and what the window's close means.",
   "kinds": [
     {
       "id": "vote",
@@ -153,7 +111,7 @@
       "renewable": false
     }
   ],
-  "answersNote": "The player's answers when the one owed raises a settled promise (Words lead rulings 2, Nov 14). Each is read, or it is not offered. Kept: two of three courtesy answers, the two the player's traits lean to most (a trait's value is -2 to 2; `sign` -1 reads its low end); none moves the tie, which warmed when the promise was kept. Broken: `recovers` gives back a share (promiseOwnShare) of the hours the broken promise cost, times the one owed's lean to smooth things over (low `people-mind-v1:conflict`), divided by one more than the promises this person broke to them before (the ledger); `countedOnFactor` takes it down again by the one owed's own reliability where the kind is one they counted on. `cools` takes more hours off (promiseDeniedHours). `renews` writes a new promise of the same kind, offered only where the kind is renewable (a record can settle the new one). The answer is a `promise.answer` record either way.",
+  "answersNote": "The player's answers when the one owed raises a settled promise (Words lead rulings 2, Nov 14). Each is read, or it is not offered. Kept: two of three courtesy answers, the two the player's traits lean to most (a trait's value is -2 to 2; `sign` -1 reads its low end); none moves the tie, which warmed when the promise was kept. Broken: `recovers` gives back a share (promiseOwnShare) of the hours the broken promise cost, times the one owed's lean to smooth things over (low `smoothsOverTrait`), divided by one more than the promises this person broke to them before (the engine's rows); `countedOnFactor` takes it down again by the one owed's own `countsOnTrait` where the kind is one they counted on. `cools` takes more hours off (promiseDeniedHours). `renews` writes a new promise of the same kind, offered only where the kind is renewable (a record can settle the new one). The answer is a `promise.answer` record either way.",
   "answers": {
     "kept": [
       {
@@ -191,7 +149,9 @@
         "id": "make-it-right",
         "renews": true
       }
-    ]
+    ],
+    "smoothsOverTrait": "people-mind-v1:conflict",
+    "countsOnTrait": "people-mind-v1:reliability"
   },
   "parametersNote": "The sizes promises run on (Words lead brief T and rulings 1 and 2, Nov 14 2026): how long each kind stays open, how much keeping or breaking one moves the tie in hours of contact, and how the answers move it. Tuned values, checked against played talks within each spread.",
   "parameters": {

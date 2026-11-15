@@ -5096,7 +5096,7 @@ function raiseSubject(
     conversation.director && !conversation.look
       ? promiseOfRaised(subject)
       : null;
-  if (promise) promiseSaid(core, conversation.director!, promise);
+  if (promise) promiseSaid(core, promise);
   // The policy question it names is named for the house today.
   const question = subject.news?.question ?? subject.point?.question;
   if (question) (conversation.questions ??= []).push(question);
@@ -7788,8 +7788,7 @@ function sayNow(
   // The player's answer to a promise brought up counts (promise-talk.ts).
   const promise =
     !choice.lie && conversation.director ? promiseOfRaised(last.subject) : null;
-  if (promise)
-    answerPromise(core, conversation.director!, promise, playerId, choice.move);
+  if (promise) answerPromise(core, promise, playerId, choice.move);
   // A listener who doubts the lie says so; the conversation carries on.
   if (doubted) {
     const doubt = words(

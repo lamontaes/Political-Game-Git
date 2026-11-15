@@ -90,7 +90,7 @@
     }
   },
   "endingStrain": {
-    "about": "What an ending that strains a tie writes to closeness (the plan of Oct 28, section 3: each ending's keeps is a write to the engine that owns it). Each row is hours, or (unit \"share of the tie\") a share of the hours the tie stands on today (closeness.ts tieHoursBetween). The closeness engine reads negative hours as a quarrel, tempered by who holds on to it. A negative value warms the tie (an ending settled in the scene). An ending that keeps a favor or a promise is written on the scene's record (facts keeps and ending, and for a promise its kind and tie from promise-kinds.json); the director keeps it and settles it (src/director/promises.ts).",
+    "about": "What an ending that strains a tie writes to closeness (the plan of Oct 28, section 3: each ending's keeps is a write to the engine that owns it). Each row is hours, or (unit \"share of the tie\") a share of the hours the tie stands on today (closeness.ts tieHoursBetween). The closeness engine reads negative hours as a quarrel, tempered by who holds on to it. A negative value warms the tie (an ending settled in the scene). An ending that keeps a favor or a promise is written on the scene's record (facts keeps and ending, and for a promise its kind and tie from promise-endings.json); the promises engine keeps it and settles it (src/core2/modules/promises.ts).",
     "relationship-strained": {
       "value": 1,
       "tag": "TUNABLE",

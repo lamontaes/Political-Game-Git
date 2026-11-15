@@ -2,25 +2,26 @@
 name: promises
 description: >
   How a promise made in a scene of Our Civic Duty is kept, settled and said:
-  the kind as a data row in src/director/data/promise-kinds.json, the record
-  that settles it (promises.ts), the tie it moves, and the next talk that says
-  it (promise-talk.ts), with the traps found building vote, pay-on-time,
-  show-around and attend. Use when a scene ending should hold someone to their
-  word, when adding a promise kind or its lines, or when a promise never
-  settles or is said wrong. Not for the scene's own lines (civic-prose) or for
-  bargaining reads of a broken promise (the bargaining thread's promiseToHold).
+  the kind as a data row in src/core2/data/promises/promise-kinds.json, the
+  promises engine that keeps the row and settles it
+  (src/core2/modules/promises.ts), the tie it moves, and the next talk that
+  says it (src/director/promise-talk.ts), with the traps found building vote,
+  pay-on-time, show-around and attend. Use when a scene ending should hold
+  someone to their word, when adding a promise kind or its lines, or when a
+  promise never settles or is said wrong. Not for the scene's own lines
+  (civic-prose) or for a campaign's public pledges (the campaign engine).
 ---
 
 # Promises
 
-A promise is a kept fact the director holds for the one who promised, owed to
-the other. It ends kept or broken on the day the record that decides it lands,
+A promise is one row in the promises engine (`core2-promises-v1`), held by
+the one who promised and owed to the other; the director only words it. It ends kept or broken on the day the record that decides it lands,
 or when its window closes. The tie moves once, and the next talk between the
 two says it, once.
 
 ## Adding a kind
 
-1. **The kind.** Add a row to `kinds` in `src/director/data/promise-kinds.json`
+1. **The kind.** Add a row to `kinds` in `src/core2/data/promises/promise-kinds.json`
    with these fields:
    - `tie`: the cause facts it carries, for example `billId`, `meetingId`.
    - `settle`: an operation and the `eventKind` or `relationshipCause` that
@@ -32,13 +33,14 @@ two says it, once.
    A kind nothing can settle is cut, and a `Design:` pool item is filed for
    the act it waits on. Never add a stopgap for it.
 
-2. **The ending.** Add a row to `endings` naming the purpose and the ending id.
+2. **The ending.** Add a row to `src/director/data/promise-endings.json` naming the purpose and the ending id.
    `promiseReplyFacts` reads the tie from the cause's facts. If the cause does
    not carry it, it reads the first record id of the scene fact with that key,
    which is how a friend's meeting gets in.
-3. **The settle key.** Add the operation to `settleKeys` in `promises.ts` and
-   a branch in `settlePromisesOnEvent` (or `settlePromisesOnTie`). Each event
-   costs one set test and one map lookup; never scan.
+3. **The settle key.** Add the operation to `SETTLE_KEYS` in
+   `src/core2/modules/promises.ts` and a branch in `settleOnEvent` (or
+   `settleOnTie`). Each event costs one set test and one index lookup; never
+   scan.
 4. **The lines.** The Words lead writes the `promise-kept` and
    `promise-broken` raises in `data/english/parts/conversation.json`, gated by
    `requiresFacts: ["promise-<kind>", ...]`. The facts are added in
@@ -54,10 +56,10 @@ label)`: one place kept and one broken, the next talk played with every
 - **The core counts every tie move as contact.** `api.relationship` sets
   `lastContactDate`, so a promise broken while the two were apart made the
   friend say "I saw you just yesterday". Settle apart with `together =
-false`; `tieOwed` holds the hours, and `payTieOwed` moves the tie when the
-  promise is said in a talk.
+false`; `tieOwed` holds the hours, and the engine's `promiseSaid` moves the
+  tie when the promise is said in a talk.
 - **Same day.** A talk on the day a promise is made or answered does not
-  keep it (`settlePromisesOnTie` skips `since === today`).
+  keep it (`settleOnTie` skips `since === today`).
 - **The bank's filter.** The conversation bank drops a raise or ask that has
   no slot and says "it", "that" or "there"
   (`src/english/mined/conversation-bank.ts`). Such a line never plays, so cut
@@ -71,8 +73,8 @@ false`; `tieOwed` holds the hours, and `payTieOwed` moves the tie when the
   records office-day's `attend` act, then resume. That act is what says the
   player came.
 - **Branching talks.** Branch with `snapshotWorld`/`restoreWorld` plus an
-  in-place restore of the ledger maps, because the director keeps its own
-  reference.
+  in-place restore of the director's ledger maps, because the director keeps
+  its own reference. The promises engine's rows ride in the core snapshot.
 - **A friend's ask.** It is staged only when there is a town meeting ahead
   that the player may come to. Otherwise the scheduler holds it back as
   `nothing-to-ask`, rather than dropping it at its request. A yes before the

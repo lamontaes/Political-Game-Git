@@ -3338,7 +3338,7 @@ export function replyInScene(
       ...(backing ? { backing } : {}),
       ...(ending ? { ending: ending.id, keeps: ending.keeps } : {}),
       // A promise a record can settle: its kind and its tie, from the
-      // ending's row in src/director/data/promise-kinds.json (promises.ts). stopgapId:
+      // ending's row in src/director/data/promise-endings.json (promises.ts). stopgapId:
       // SG-WORDS-favor-promise-keeps-unread (endings with no row yet)
       ...promised,
       ...(ending?.firmness ? { firmness: ending.firmness } : {}),

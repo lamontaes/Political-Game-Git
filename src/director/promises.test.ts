@@ -44,7 +44,7 @@ import { wordConversationMove } from "../english/conversation-words";
 import type { Director } from "./ledger";
 import { promiseAnswers, promiseSubject } from "./promise-talk";
 import { restoreWorld, snapshotWorld } from "../core2/snapshot";
-import { kindOf, promisesBetween } from "./promises";
+import { kindOf, promisesBetween } from "../core2/modules/promises";
 import { purposeScene, replyInScene } from "./purpose-scene";
 import type { ScheduleEntry } from "./scheduling";
 import type { TreeNode } from "./scene-talk";
@@ -202,7 +202,7 @@ function talkOf(
         event.facts?.answer === id,
     );
     expect(answer, `${where}: ${id} wrote no answer record`).toBeTruthy();
-    const renewed = promisesBetween(director.ledger, playerId, speakerId).find(
+    const renewed = promisesBetween(coreAPI(core), playerId, speakerId).find(
       (row) => row.sourceId === answer!.id,
     );
     if (id === "make-it-right") {
@@ -418,7 +418,7 @@ it(
         expect(made, `${where}: the apology did not compose`).toBeTruthy();
         const factId = `promise:${made!.replyId}`;
         const find = () =>
-          promisesBetween(director.ledger, id, made!.owedId).find(
+          promisesBetween(coreAPI(core), id, made!.owedId).find(
             (row) => row.id === factId,
           )!;
         expect(find().outcome, where).toBe("open");
@@ -620,7 +620,7 @@ it(
         }
         const { factId, newcomer, since } = made;
         const find = () =>
-          promisesBetween(director.ledger, id, newcomer).find(
+          promisesBetween(coreAPI(core), id, newcomer).find(
             (row) => row.id === factId,
           )!;
         expect(find().outcome, where).toBe("open");
@@ -805,7 +805,7 @@ it(
           expect(reply.facts?.["promise-billId"], where).toBe(billId);
           const factId = `promise:${replyId}`;
           const find = () =>
-            promisesBetween(director.ledger, askerId, colleagueId).find(
+            promisesBetween(coreAPI(core), askerId, colleagueId).find(
               (row) => row.id === factId,
             )!;
           expect(find().holderId, where).toBe(colleagueId);
@@ -968,7 +968,7 @@ it(
         const date = meetingId.slice(-10);
         const factId = `promise:${replyId}`;
         const find = () =>
-          promisesBetween(director.ledger, id, friendId).find(
+          promisesBetween(coreAPI(core), id, friendId).find(
             (entry) => entry.id === factId,
           )!;
         expect(find().outcome, where).toBe("open");
