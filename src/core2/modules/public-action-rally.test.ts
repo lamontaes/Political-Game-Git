@@ -15,7 +15,8 @@ import { CASE_MADE } from "./speech";
 // friend in one asks the player to come with a topic that names no demand, and
 // the player saying yes puts them in it without pressing any official.
 // Pinned (a drawn place may have no rally in a half year): the seed and the
-// place it draws are named in the failure line.
+// place it draws are named in the failure line. It plays six months of the
+// game's own days, and that is why it runs about two minutes.
 const seed = "pa-rally-pin";
 setBookkeeping(false);
 const place = drawPlace(`${seed}:0`, "public-action-rally");
