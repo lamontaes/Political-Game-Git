@@ -2018,7 +2018,12 @@ export function votesAreTownNews(api: CoreAPI, personId: string): boolean {
  * (src/core2/state.ts, fillInIdentity), so the same official comes back the
  * same every time; the roster adds its selection shift (`drawOfficial`).
  */
-function temperamentOf(
+/**
+ * The temperament of a person the world invents for an office (an official,
+ * a cabinet secretary from elsewhere in the state): the opening's one
+ * temperament model, drawn from the world's seed and the person's id.
+ */
+export function temperamentOf(
   core: CoreState,
   personId: string,
   identity: { readonly birthDate: string; readonly gender?: string },
