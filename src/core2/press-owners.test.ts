@@ -182,11 +182,14 @@ describe("the press's owner and tip reads", () => {
           run: number | null;
           exposedId: string | null;
           runsOn: string | null;
+          storyId: string | null;
         }
       | undefined;
     expect(tip, where).toBeTruthy();
     const ran = (tip!.dig ?? 0) > 0 && (tip!.run ?? 0) > 0;
     expect(!!tip!.exposedId, where).toBe(ran);
+    // Not printed yet: the story waits for the official's comment.
+    expect(tip!.storyId ?? null, where).toBeNull();
     // The paper asks the official for comment before it prints: the story
     // runs on its next print day.
     if (tip!.runsOn) advanceCore(core, tip!.runsOn);
