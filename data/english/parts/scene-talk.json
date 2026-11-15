@@ -181686,6 +181686,132 @@
         "move": "decline",
         "key": "favor-asked"
       }
+    },
+    {
+      "key": "scene-talk.follow-accept.all-right-i-won-t-push-just-rest",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "All right. I won't push. Just rest.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "rescue-ask",
+          "key": "threat",
+          "after": "decline"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words lead",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "accept",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.okay-i-had-to-ask",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Okay. I had to ask.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "rescue-ask",
+          "key": "threat",
+          "after": "decline"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "accept",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.all-right-i-ll-be-here-either-way",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "All right. I'll be here either way.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "rescue-ask",
+          "key": "threat",
+          "after": "decline",
+          "requiresFacts": ["partner"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words lead",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "accept",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.i-was-the-one-who-called-for-help-do-this-one-thing-for-me",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "I was the one who called for help. Do this one thing for me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "rescue-ask",
+          "key": "threat",
+          "after": "decline"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Words lead",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "press",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.i-m-not-asking-for-much-i-m-asking-because-i-was-there",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "I'm not asking for much. I'm asking because I was there.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "rescue-ask",
+          "key": "threat",
+          "after": "decline"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Words lead",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "press",
+        "key": "threat"
+      }
     }
   ]
 }

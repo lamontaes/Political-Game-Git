@@ -1463,6 +1463,12 @@ function composeBinding(
   );
   if (asked.familyIds.has(askerId) && !partners)
     facts.kin = { text: asker.givenName, sourceRecordIds: [askerId, askedId] };
+  // A partner may say what only a partner says (Words lead, rescue-ask, Nov 15).
+  if (partners)
+    facts.partner = {
+      text: asker.givenName,
+      sourceRecordIds: [askerId, askedId],
+    };
   if (asked.knownIds.has(askerId) || partners)
     facts.acquainted = {
       text: asker.givenName,
