@@ -46,7 +46,19 @@ type OpeningCheck = {
   readonly sharedKey: string;
 };
 
-const CHECKS = data.checks as Record<string, StatesCheck | OpeningCheck>;
+type SharpCheck = {
+  readonly type: "sharp";
+  readonly step: string;
+  readonly role: string;
+  readonly moves: readonly string[];
+  readonly sharedKey: string;
+  readonly needsAnyFact: readonly string[];
+};
+
+const CHECKS = data.checks as Record<
+  string,
+  StatesCheck | OpeningCheck | SharpCheck
+>;
 
 export const PLACEMENT_CHECK_IDS = Object.keys(CHECKS);
 
@@ -118,6 +130,33 @@ export function placementBreaks(
         text: row.text,
         why: `every narration piece of this type is keyed "${check.sharedKey}", placed by no cause`,
       }));
+  }
+  if (check.type === "sharp") {
+    const found: PlacementBreak[] = [];
+    for (const piece of pieces) {
+      if (isPulled(piece, pulled) || !check.moves.includes(piece.move))
+        continue;
+      for (const use of piece.uses) {
+        if (
+          use.step !== check.step ||
+          use.role !== check.role ||
+          use.key !== check.sharedKey
+        )
+          continue;
+        if (
+          (use.requiresFacts ?? []).some((f) => check.needsAnyFact.includes(f))
+        )
+          continue;
+        found.push({
+          check: checkId,
+          pieceKey: piece.key,
+          purpose: use.purpose ?? "",
+          text: piece.text,
+          why: `a ${piece.move.replace("reply-", "")} reply placed by no cause: requires none of ${check.needsAnyFact.join(", ")}`,
+        });
+      }
+    }
+    return found;
   }
   const expressions = check.statesPatterns.map(
     (source) => new RegExp(source, "i"),

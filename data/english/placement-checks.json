@@ -26,6 +26,24 @@
       "says": "A scene type's opening narration is placed by its cause: at least one narration piece of the type carries a key other than the shared one, so the opening says what just happened. A type with no narration at all is listed, not flagged.",
       "step": "narrate",
       "sharedKey": "routine"
+    },
+    "sharp-reply-is-earned": {
+      "type": "sharp",
+      "rule": "Rule 112",
+      "says": "A reply that attacks, scolds or refuses is offered only when something on the record earned it: a bad tie, a story against the player, or a second press. Strict reading: shared (routine-keyed) replies of these moves that require none of those facts. A plain \"Not now.\" (leave, deflect) is always allowed and is not read.",
+      "step": "reply",
+      "role": "asked",
+      "moves": [
+        "reply-confront",
+        "reply-blame",
+        "reply-disagree",
+        "reply-refuse",
+        "reply-decline",
+        "reply-deny",
+        "reply-withdraw"
+      ],
+      "sharedKey": "routine",
+      "needsAnyFact": ["pressed", "tie-rival", "printed-against"]
     }
   }
 }
