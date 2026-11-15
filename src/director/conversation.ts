@@ -4105,7 +4105,8 @@ function nameOnce(
 ): Facts {
   if (!facts.you || youIn(core, conversation, speakerId, playerId).you)
     return facts;
-  const { you: _said, ...rest } = facts;
+  const rest = { ...facts };
+  delete rest.you;
   return rest;
 }
 
