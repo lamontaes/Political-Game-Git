@@ -33775,15 +33775,6 @@
           "subject": "farewell",
           "role": "closer",
           "excludesFacts": ["by-phone"]
-        },
-        {
-          "move": "farewell-core",
-          "subject": "farewell",
-          "role": "core",
-          "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first", "met-before"],
-          "closesTalk": true,
-          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -33836,15 +33827,6 @@
           "subject": "farewell",
           "role": "closer",
           "excludesFacts": ["by-phone"]
-        },
-        {
-          "move": "farewell-core",
-          "subject": "farewell",
-          "role": "core",
-          "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first", "met-before"],
-          "closesTalk": true,
-          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -33896,15 +33878,6 @@
           "move": "farewell-leave-bye",
           "subject": "farewell",
           "role": "closer",
-          "excludesFacts": ["by-phone"]
-        },
-        {
-          "move": "farewell-core",
-          "subject": "farewell",
-          "role": "core",
-          "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first", "met-before"],
-          "closesTalk": true,
           "excludesFacts": ["by-phone"]
         }
       ],
@@ -33994,20 +33967,6 @@
           "choice": "bye",
           "requiresFacts": ["daytime"],
           "excludesFacts": ["by-phone"]
-        },
-        {
-          "move": "farewell-core",
-          "subject": "farewell",
-          "role": "core",
-          "stages": ["default"],
-          "requiresFacts": [
-            "about-again",
-            "player-first",
-            "daytime",
-            "met-before"
-          ],
-          "closesTalk": true,
-          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -34082,15 +34041,6 @@
           "subject": "farewell",
           "role": "closer",
           "excludesFacts": ["by-phone"]
-        },
-        {
-          "move": "farewell-core",
-          "subject": "farewell",
-          "role": "core",
-          "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first", "met-before"],
-          "closesTalk": true,
-          "excludesFacts": ["by-phone"]
         }
       ],
       "origin": "authored",
@@ -34163,15 +34113,6 @@
           "move": "farewell-leave-bye",
           "subject": "farewell",
           "role": "closer",
-          "excludesFacts": ["by-phone"]
-        },
-        {
-          "move": "farewell-core",
-          "subject": "farewell",
-          "role": "core",
-          "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first", "met-before"],
-          "closesTalk": true,
           "excludesFacts": ["by-phone"]
         }
       ],
