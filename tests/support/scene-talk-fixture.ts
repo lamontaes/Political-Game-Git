@@ -140,7 +140,10 @@ export const facts: Record<string, Fact> = {
   // first name and seat, and one reason each way, so both answers can be worded.
   "their-first": fact("Pat"),
   "their-office": fact("state senator"),
-  "reason-yes-trust": fact("yes"),
+  stranger: fact("Pat"),
+  "self-full": fact("Pat Rivera"),
+  "race-office": fact("governor"),
+  "reason-yes-step-up": fact("yes"),
   "reason-own-seat": fact("yes"),
 };
 // The engine is tested the way the grading page composes, with every part in,

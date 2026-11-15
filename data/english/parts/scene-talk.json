@@ -31304,30 +31304,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-leave.i-need-some-air-first-five-minutes",
-      "move": "reply-leave",
-      "kind": "spoken",
-      "text": "I need some air first. Five minutes.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "concession-call",
-          "key": "loss"
-        }
-      ],
-      "bearing": "hurt",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "leave",
-        "key": "loss"
-      }
-    },
-    {
       "key": "scene-talk.reply-confront.fine-i-ll-stand-right-here-and-answer-anybody-who-walks-up",
       "move": "reply-confront",
       "kind": "spoken",
@@ -32833,32 +32809,6 @@
       "date": "2026-10-15",
       "tag": {
         "move": "agree",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.close-accept.five-minutes-i-ll-be-right-outside-the-door",
-      "move": "close-accept",
-      "kind": "spoken",
-      "text": "Five minutes. I'll be right outside the door.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "concession-call",
-          "key": "loss",
-          "after": "scene-talk.reply-leave.i-need-some-air-first-five-minutes",
-          "outcome": "open"
-        }
-      ],
-      "bearing": "solemn",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "accept",
         "key": "loss"
       }
     },
@@ -155988,7 +155938,8 @@
           "role": "asker",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["stranger"]
+          "requiresFacts": ["stranger"],
+          "excludesFacts": ["serve-post"]
         }
       ],
       "bearing": "calm",
@@ -156013,7 +155964,8 @@
           "role": "asker",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["stranger"]
+          "requiresFacts": ["stranger"],
+          "excludesFacts": ["serve-post"]
         }
       ],
       "bearing": "braced",
@@ -156038,7 +155990,8 @@
           "role": "asker",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["acquainted"]
+          "requiresFacts": ["acquainted"],
+          "excludesFacts": ["serve-post"]
         }
       ],
       "bearing": "warm",
@@ -156063,7 +156016,8 @@
           "role": "asker",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["acquainted"]
+          "requiresFacts": ["acquainted"],
+          "excludesFacts": ["serve-post"]
         }
       ],
       "bearing": "firm",
@@ -156088,7 +156042,8 @@
           "role": "asker",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["kin"]
+          "requiresFacts": ["kin"],
+          "excludesFacts": ["serve-post"]
         }
       ],
       "bearing": "tender",
@@ -156112,7 +156067,8 @@
           "move": "request",
           "role": "asker",
           "purpose": "ask-to-serve",
-          "key": "serve-asked"
+          "key": "serve-asked",
+          "excludesFacts": ["serve-post"]
         }
       ],
       "bearing": "hopeful",
@@ -156137,7 +156093,8 @@
           "role": "asker",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["standing-real"]
+          "requiresFacts": ["standing-real"],
+          "excludesFacts": ["serve-post"]
         }
       ],
       "bearing": "proud",
@@ -156161,7 +156118,8 @@
           "move": "request",
           "role": "asker",
           "purpose": "ask-to-serve",
-          "key": "serve-asked"
+          "key": "serve-asked",
+          "excludesFacts": ["serve-post"]
         }
       ],
       "bearing": "guarded",
@@ -156236,7 +156194,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["reason-yes-step-up"]
+          "requiresFacts": ["reason-yes-step-up"],
+          "excludesFacts": ["stranger"]
         }
       ],
       "bearing": "eager",
@@ -156261,7 +156220,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["reason-yes-step-up"]
+          "requiresFacts": ["reason-yes-step-up"],
+          "excludesFacts": ["stranger"]
         }
       ],
       "bearing": "proud",
@@ -156286,7 +156246,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["reason-yes-agree"]
+          "requiresFacts": ["reason-yes-agree"],
+          "excludesFacts": ["serve-post"]
         }
       ],
       "bearing": "calm",
@@ -156336,7 +156297,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["reason-yes-real-race"]
+          "requiresFacts": ["reason-yes-real-race"],
+          "excludesFacts": ["stranger"]
         }
       ],
       "bearing": "calm",
@@ -156361,7 +156323,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["reason-yes-real-race"]
+          "requiresFacts": ["reason-yes-real-race"],
+          "excludesFacts": ["stranger"]
         }
       ],
       "bearing": "guarded",
@@ -156411,7 +156374,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["reason-own-seat"]
+          "requiresFacts": ["reason-own-seat"],
+          "excludesFacts": ["stranger"]
         }
       ],
       "bearing": "guarded",
@@ -156461,7 +156425,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["reason-own-race"]
+          "requiresFacts": ["reason-own-race"],
+          "excludesFacts": ["stranger"]
         }
       ],
       "bearing": "calm",
@@ -156511,7 +156476,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["reason-apart"]
+          "requiresFacts": ["reason-apart"],
+          "excludesFacts": ["serve-post"]
         }
       ],
       "bearing": "guarded",
@@ -156561,60 +156527,11 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["reason-heard"]
+          "requiresFacts": ["reason-heard"],
+          "excludesFacts": ["stranger"]
         }
       ],
       "bearing": "guarded",
-      "origin": "authored",
-      "author": "S6 (brief J, asking someone to serve)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "decline",
-        "key": "serve-asked"
-      }
-    },
-    {
-      "key": "scene-talk.reply-decline.i-don-t-know-you-self-i-don-t-tie-my-name-to-a-stranger-s",
-      "move": "reply-decline",
-      "kind": "spoken",
-      "text": "I don't know you, {self}. I don't tie my name to a stranger's.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "decline",
-          "role": "asked",
-          "purpose": "ask-to-serve",
-          "key": "serve-asked",
-          "requiresFacts": ["reason-stranger"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "S6 (brief J, asking someone to serve)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "decline",
-        "key": "serve-asked"
-      }
-    },
-    {
-      "key": "scene-talk.reply-decline.you-seem-decent-self-but-we-ve-only-just-met-no",
-      "move": "reply-decline",
-      "kind": "spoken",
-      "text": "You seem decent, {self}, but we've only just met. No.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "decline",
-          "role": "asked",
-          "purpose": "ask-to-serve",
-          "key": "serve-asked",
-          "requiresFacts": ["reason-stranger"]
-        }
-      ],
-      "bearing": "calm",
       "origin": "authored",
       "author": "S6 (brief J, asking someone to serve)",
       "date": "2026-11-14",
@@ -156636,7 +156553,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["reason-long-shot"]
+          "requiresFacts": ["reason-long-shot"],
+          "excludesFacts": ["stranger"]
         }
       ],
       "bearing": "calm",
@@ -156661,7 +156579,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["reason-long-shot"]
+          "requiresFacts": ["reason-long-shot"],
+          "excludesFacts": ["stranger"]
         }
       ],
       "bearing": "braced",
@@ -156685,7 +156604,8 @@
           "move": "thank",
           "role": "asker",
           "purpose": "ask-to-serve",
-          "key": "serve-asked"
+          "key": "serve-asked",
+          "excludesFacts": ["serve-post"]
         }
       ],
       "bearing": "glad",
@@ -156709,34 +156629,11 @@
           "move": "thank",
           "role": "asker",
           "purpose": "ask-to-serve",
-          "key": "serve-asked"
+          "key": "serve-asked",
+          "excludesFacts": ["serve-post"]
         }
       ],
       "bearing": "warm",
-      "origin": "authored",
-      "author": "S6 (brief J, asking someone to serve)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "thank",
-        "key": "serve-asked"
-      }
-    },
-    {
-      "key": "scene-talk.follow-thank.good-we-start-tomorrow-their-first",
-      "move": "follow-thank",
-      "kind": "spoken",
-      "text": "Good. We start tomorrow, {their-first}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "ask-to-serve",
-          "key": "serve-asked"
-        }
-      ],
-      "bearing": "firm",
       "origin": "authored",
       "author": "S6 (brief J, asking someone to serve)",
       "date": "2026-11-14",
@@ -156757,7 +156654,8 @@
           "move": "thank",
           "role": "asker",
           "purpose": "ask-to-serve",
-          "key": "serve-asked"
+          "key": "serve-asked",
+          "excludesFacts": ["serve-post"]
         }
       ],
       "bearing": "calm",
@@ -157028,7 +156926,8 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "after": "press",
-          "requiresFacts": ["reason-own-race"]
+          "requiresFacts": ["reason-own-race"],
+          "excludesFacts": ["stranger"]
         }
       ],
       "bearing": "calm",
@@ -157080,36 +156979,11 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "after": "press",
-          "requiresFacts": ["reason-heard"]
+          "requiresFacts": ["reason-heard"],
+          "excludesFacts": ["stranger"]
         }
       ],
       "bearing": "braced",
-      "origin": "authored",
-      "author": "S6 (brief J, asking someone to serve)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "decline",
-        "key": "serve-asked"
-      }
-    },
-    {
-      "key": "scene-talk.reply-decline.let-me-get-to-know-you-first-self-then-ask",
-      "move": "reply-decline",
-      "kind": "spoken",
-      "text": "Let me get to know you first, {self}. Then ask.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "decline",
-          "role": "asked",
-          "purpose": "ask-to-serve",
-          "key": "serve-asked",
-          "after": "press",
-          "requiresFacts": ["reason-stranger"]
-        }
-      ],
-      "bearing": "guarded",
       "origin": "authored",
       "author": "S6 (brief J, asking someone to serve)",
       "date": "2026-11-14",
@@ -157132,7 +157006,8 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "after": "press",
-          "requiresFacts": ["reason-long-shot"]
+          "requiresFacts": ["reason-long-shot"],
+          "excludesFacts": ["stranger"]
         }
       ],
       "bearing": "calm",
@@ -157207,7 +157082,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["reason-yes-step-up"]
+          "requiresFacts": ["reason-yes-step-up"],
+          "excludesFacts": ["serve-post", "stranger"]
         }
       ],
       "bearing": "calm",
@@ -157232,7 +157108,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["reason-yes-step-up"]
+          "requiresFacts": ["reason-yes-step-up"],
+          "excludesFacts": ["stranger"]
         }
       ],
       "bearing": "guarded",
@@ -157257,7 +157134,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["reason-yes-agree"]
+          "requiresFacts": ["reason-yes-agree"],
+          "excludesFacts": ["serve-post", "stranger"]
         }
       ],
       "bearing": "eager",
@@ -157307,7 +157185,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["reason-yes-real-race"]
+          "requiresFacts": ["reason-yes-real-race"],
+          "excludesFacts": ["stranger"]
         }
       ],
       "bearing": "eager",
@@ -157332,7 +157211,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["reason-yes-real-race"]
+          "requiresFacts": ["reason-yes-real-race"],
+          "excludesFacts": ["stranger"]
         }
       ],
       "bearing": "firm",
@@ -157357,7 +157237,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["reason-own-seat"]
+          "requiresFacts": ["reason-own-seat"],
+          "excludesFacts": ["stranger"]
         }
       ],
       "bearing": "braced",
@@ -157382,7 +157263,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["reason-own-seat"]
+          "requiresFacts": ["reason-own-seat"],
+          "excludesFacts": ["stranger"]
         }
       ],
       "bearing": "firm",
@@ -157407,7 +157289,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["reason-own-race"]
+          "requiresFacts": ["reason-own-race"],
+          "excludesFacts": ["stranger"]
         }
       ],
       "bearing": "guarded",
@@ -157432,7 +157315,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["reason-own-race"]
+          "requiresFacts": ["reason-own-race"],
+          "excludesFacts": ["stranger"]
         }
       ],
       "bearing": "firm",
@@ -157457,7 +157341,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["reason-apart"]
+          "requiresFacts": ["reason-apart"],
+          "excludesFacts": ["stranger"]
         }
       ],
       "bearing": "calm",
@@ -157482,7 +157367,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["reason-apart"]
+          "requiresFacts": ["reason-apart"],
+          "excludesFacts": ["stranger"]
         }
       ],
       "bearing": "braced",
@@ -157507,7 +157393,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["reason-heard"]
+          "requiresFacts": ["reason-heard"],
+          "excludesFacts": ["stranger"]
         }
       ],
       "bearing": "calm",
@@ -157532,57 +157419,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["reason-heard"]
-        }
-      ],
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "S6 (brief J, asking someone to serve)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "decline",
-        "key": "serve-asked"
-      }
-    },
-    {
-      "key": "scene-talk.reply-decline.i-don-t-run-with-people-i-just-met-self-that-s-not-how-i-do-things",
-      "move": "reply-decline",
-      "kind": "spoken",
-      "text": "I don't run with people I just met, {self}. That's not how I do things.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "decline",
-          "role": "asked",
-          "purpose": "ask-to-serve",
-          "key": "serve-asked",
-          "requiresFacts": ["reason-stranger"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "S6 (brief J, asking someone to serve)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "decline",
-        "key": "serve-asked"
-      }
-    },
-    {
-      "key": "scene-talk.reply-decline.you-re-asking-a-lot-from-someone-you-met-today-self-no",
-      "move": "reply-decline",
-      "kind": "spoken",
-      "text": "You're asking a lot from someone you met today, {self}. No.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "decline",
-          "role": "asked",
-          "purpose": "ask-to-serve",
-          "key": "serve-asked",
-          "requiresFacts": ["reason-stranger"]
+          "requiresFacts": ["reason-heard"],
+          "excludesFacts": ["stranger"]
         }
       ],
       "bearing": "firm",
@@ -157607,7 +157445,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["reason-long-shot"]
+          "requiresFacts": ["reason-long-shot"],
+          "excludesFacts": ["stranger"]
         }
       ],
       "bearing": "guarded",
@@ -157632,7 +157471,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["reason-long-shot"]
+          "requiresFacts": ["reason-long-shot"],
+          "excludesFacts": ["stranger"]
         }
       ],
       "bearing": "firm",
@@ -157658,7 +157498,8 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "after": "press",
-          "requiresFacts": ["reason-own-race"]
+          "requiresFacts": ["reason-own-race"],
+          "excludesFacts": ["stranger"]
         }
       ],
       "bearing": "firm",
@@ -157684,7 +157525,8 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "after": "press",
-          "requiresFacts": ["reason-apart"]
+          "requiresFacts": ["reason-apart"],
+          "excludesFacts": ["stranger"]
         }
       ],
       "bearing": "calm",
@@ -157710,33 +157552,8 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "after": "press",
-          "requiresFacts": ["reason-heard"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "S6 (brief J, asking someone to serve)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "decline",
-        "key": "serve-asked"
-      }
-    },
-    {
-      "key": "scene-talk.reply-decline.spend-some-time-with-me-first-self-then-we-ll-see",
-      "move": "reply-decline",
-      "kind": "spoken",
-      "text": "Spend some time with me first, {self}. Then we'll see.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "decline",
-          "role": "asked",
-          "purpose": "ask-to-serve",
-          "key": "serve-asked",
-          "after": "press",
-          "requiresFacts": ["reason-stranger"]
+          "requiresFacts": ["reason-heard"],
+          "excludesFacts": ["stranger"]
         }
       ],
       "bearing": "calm",
@@ -157762,7 +157579,8 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "after": "press",
-          "requiresFacts": ["reason-long-shot"]
+          "requiresFacts": ["reason-long-shot"],
+          "excludesFacts": ["stranger"]
         }
       ],
       "bearing": "guarded",
@@ -157788,7 +157606,8 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "after": "press",
-          "requiresFacts": ["reason-own-seat"]
+          "requiresFacts": ["reason-own-seat"],
+          "excludesFacts": ["stranger"]
         }
       ],
       "bearing": "firm",
@@ -157813,7 +157632,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["changed-met", "self"]
+          "requiresFacts": ["changed-met", "self"],
+          "excludesFacts": ["serve-post"]
         }
       ],
       "bearing": "warm",
@@ -157863,7 +157683,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["changed-standing", "self"]
+          "requiresFacts": ["changed-standing", "self"],
+          "excludesFacts": ["serve-post"]
         }
       ],
       "bearing": "eager",
@@ -157913,7 +157734,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["changed-agree", "self"]
+          "requiresFacts": ["changed-agree", "self"],
+          "excludesFacts": ["serve-post"]
         }
       ],
       "bearing": "warm",
@@ -158038,7 +157860,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["changed-seat", "self"]
+          "requiresFacts": ["changed-seat", "self"],
+          "excludesFacts": ["serve-post"]
         }
       ],
       "bearing": "calm",
@@ -181503,7 +181326,8 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "after": "deflect",
-          "requiresFacts": ["reason-yes-agree"]
+          "requiresFacts": ["reason-yes-agree"],
+          "excludesFacts": ["serve-post"]
         }
       ],
       "bearing": "firm",
@@ -181555,7 +181379,8 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "after": "deflect",
-          "requiresFacts": ["reason-yes-agree"]
+          "requiresFacts": ["reason-yes-agree"],
+          "excludesFacts": ["serve-post"]
         }
       ],
       "bearing": "braced",
@@ -181592,6 +181417,15 @@
           "key": "serve-asked",
           "after": "tell",
           "requiresFacts": ["stranger", "reason-yes-step-up"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["reason-yes-step-up", "stranger"]
         }
       ],
       "bearing": "eager",
@@ -188680,6 +188514,1422 @@
         "move": "press",
         "key": "news-received"
       }
+    },
+    {
+      "key": "scene-talk.follow-thank.good-let-s-get-to-work",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Good. Let's get to work.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "excludesFacts": ["serve-post"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "S6 (Words lead ruling Nov 14 21:35Z: no record holds tomorrow)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "thank",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-m-self-full-we-haven-t-met-so-i-ll-be-plain-i-d-like-you-to-serve-as-office",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I'm {self-full}. We haven't met, so I'll be plain: I'd like you to serve as {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["serve-post", "stranger"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "request",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-m-self-full-you-know-this-work-and-i-d-like-you-to-serve-as-office",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I'm {self-full}. You know this work, and I'd like you to serve as {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["serve-post", "stranger", "post-field"]
+        }
+      ],
+      "bearing": "eager",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "request",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.their-first-you-know-how-i-work-i-d-like-you-to-serve-as-office",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "{their-first}, you know how I work. I'd like you to serve as {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["serve-post", "acquainted"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "request",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-ll-get-right-to-it-will-you-serve-as-office",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I'll get right to it. Will you serve as {office}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["serve-post", "acquainted"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "request",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.you-re-family-but-that-isn-t-why-i-m-asking-i-d-want-you-as-office-either-way",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "You're family, but that isn't why I'm asking. I'd want you as {office} either way.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["serve-post", "kin"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "request",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-know-it-s-a-lot-to-ask-would-you-serve-as-office",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I know it's a lot to ask. Would you serve as {office}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["serve-post"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "request",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.it-pays-less-than-i-make-now-i-can-t-take-that",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "It pays less than I make now. I can't take that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["serve-post", "reason-pays-less"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "decline",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-can-t-afford-the-cut-in-pay-i-m-sorry",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I can't afford the cut in pay. I'm sorry.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["serve-post", "reason-pays-less"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "decline",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-ve-got-work-i-m-good-at-i-m-not-leaving-it",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I've got work I'm good at. I'm not leaving it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["serve-post", "reason-own-job"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "decline",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-can-t-walk-away-from-the-job-i-have-now",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I can't walk away from the job I have now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["serve-post", "reason-own-job"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "decline",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.steady-work-yes-i-ll-take-it",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Steady work? Yes. I'll take it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["serve-post", "reason-yes-pay", "out-of-work"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "agree",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.it-s-good-work-and-it-pays-yes",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "It's good work, and it pays. Yes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["serve-post", "reason-yes-pay", "pay-raise"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "agree",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.it-s-a-step-up-yes",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "It's a step up. Yes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["serve-post", "reason-yes-pay", "pay-raise"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "agree",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.i-need-someone-who-can-do-it",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "I need someone who can do it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "ask",
+          "requiresFacts": ["serve-post", "reason-yes-step-up"],
+          "excludesFacts": ["post-field"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "answer",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.yes-if-they-ll-have-me",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Yes. If they'll have me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["serve-post", "confirm"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "agree",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.yes-if-they-ll-confirm-me",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Yes, if they'll confirm me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["serve-post", "confirm"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "agree",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.good-i-ll-put-your-name-in",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Good. I'll put your name in.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["serve-post", "confirm"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "thank",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.good-the-job-is-yours",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Good. The job is yours.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["serve-post"],
+          "excludesFacts": ["confirm"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "S6 (brief J, asking someone to serve)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "thank",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "move": "reply-agree",
+      "kind": "spoken",
+      "bearing": "proud",
+      "origin": "authored",
+      "author": "S6 (Words lead ruling Nov 14 21:35Z: a stranger never says the player's first name)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "agree",
+        "key": "serve-asked"
+      },
+      "key": "scene-talk.reply-agree.yes-i-ll-take-it-and-i-ll-earn-it",
+      "text": "Yes. I'll take it, and I'll earn it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["reason-yes-step-up", "stranger"]
+        }
+      ]
+    },
+    {
+      "move": "reply-agree",
+      "kind": "spoken",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "S6 (Words lead ruling Nov 14 21:35Z: a stranger never says the player's first name)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "agree",
+        "key": "serve-asked"
+      },
+      "key": "scene-talk.reply-agree.you-ve-got-a-real-campaign-going-count-me-in",
+      "text": "You've got a real campaign going. Count me in.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["reason-yes-real-race", "stranger"]
+        }
+      ]
+    },
+    {
+      "move": "reply-agree",
+      "kind": "spoken",
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "S6 (Words lead ruling Nov 14 21:35Z: a stranger never says the player's first name)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "agree",
+        "key": "serve-asked"
+      },
+      "key": "scene-talk.reply-agree.i-don-t-say-yes-to-long-shots-you-aren-t-one-yes",
+      "text": "I don't say yes to long shots. You aren't one. Yes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["reason-yes-real-race", "stranger"]
+        }
+      ]
+    },
+    {
+      "move": "reply-decline",
+      "kind": "spoken",
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "S6 (Words lead ruling Nov 14 21:35Z: a stranger never says the player's first name)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "decline",
+        "key": "serve-asked"
+      },
+      "key": "scene-talk.reply-decline.i-owe-the-people-i-serve-as-their-office-i-m-staying-where-i-am",
+      "text": "I owe the people I serve as {their-office}. I'm staying where I am.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["reason-own-seat", "stranger"]
+        }
+      ]
+    },
+    {
+      "move": "reply-decline",
+      "kind": "spoken",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "S6 (Words lead ruling Nov 14 21:35Z: a stranger never says the player's first name)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "decline",
+        "key": "serve-asked"
+      },
+      "key": "scene-talk.reply-decline.my-own-race-is-this-year-those-voters-come-first",
+      "text": "My own race is this year. Those voters come first.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["reason-own-race", "stranger"]
+        }
+      ]
+    },
+    {
+      "move": "reply-decline",
+      "kind": "spoken",
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "S6 (Words lead ruling Nov 14 21:35Z: a stranger never says the player's first name)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "decline",
+        "key": "serve-asked"
+      },
+      "key": "scene-talk.reply-decline.not-with-that-story-out-there-not-this-year",
+      "text": "Not with that story out there. Not this year.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["reason-heard", "stranger"]
+        }
+      ]
+    },
+    {
+      "move": "reply-decline",
+      "kind": "spoken",
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "S6 (Words lead ruling Nov 14 21:35Z: a stranger never says the player's first name)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "decline",
+        "key": "serve-asked"
+      },
+      "key": "scene-talk.reply-decline.i-don-t-know-you-i-don-t-tie-my-name-to-a-stranger-s",
+      "text": "I don't know you. I don't tie my name to a stranger's.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["reason-stranger", "stranger"]
+        }
+      ]
+    },
+    {
+      "move": "reply-decline",
+      "kind": "spoken",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "S6 (Words lead ruling Nov 14 21:35Z: a stranger never says the player's first name)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "decline",
+        "key": "serve-asked"
+      },
+      "key": "scene-talk.reply-decline.you-seem-decent-but-we-ve-only-just-met-no",
+      "text": "You seem decent, but we've only just met. No.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["reason-stranger", "stranger"]
+        }
+      ]
+    },
+    {
+      "move": "reply-decline",
+      "kind": "spoken",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "S6 (Words lead ruling Nov 14 21:35Z: a stranger never says the player's first name)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "decline",
+        "key": "serve-asked"
+      },
+      "key": "scene-talk.reply-decline.i-d-be-signing-on-to-a-long-shot-i-can-t-spend-my-name-on-that",
+      "text": "I'd be signing on to a long shot. I can't spend my name on that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["reason-long-shot", "stranger"]
+        }
+      ]
+    },
+    {
+      "move": "reply-decline",
+      "kind": "spoken",
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "S6 (Words lead ruling Nov 14 21:35Z: a stranger never says the player's first name)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "decline",
+        "key": "serve-asked"
+      },
+      "key": "scene-talk.reply-decline.your-campaign-hasn-t-gotten-off-the-ground-yet-ask-me-when-it-has",
+      "text": "Your campaign hasn't gotten off the ground yet. Ask me when it has.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["reason-long-shot", "stranger"]
+        }
+      ]
+    },
+    {
+      "move": "reply-decline",
+      "kind": "spoken",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "S6 (Words lead ruling Nov 14 21:35Z: a stranger never says the player's first name)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "decline",
+        "key": "serve-asked"
+      },
+      "key": "scene-talk.reply-decline.ask-me-again-after-my-own-election",
+      "text": "Ask me again after my own election.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "press",
+          "requiresFacts": ["reason-own-race", "stranger"]
+        }
+      ]
+    },
+    {
+      "move": "reply-decline",
+      "kind": "spoken",
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "S6 (Words lead ruling Nov 14 21:35Z: a stranger never says the player's first name)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "decline",
+        "key": "serve-asked"
+      },
+      "key": "scene-talk.reply-decline.answer-that-story-all-the-way-then-ask-me-again",
+      "text": "Answer that story all the way. Then ask me again.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "press",
+          "requiresFacts": ["reason-heard", "stranger"]
+        }
+      ]
+    },
+    {
+      "move": "reply-decline",
+      "kind": "spoken",
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "S6 (Words lead ruling Nov 14 21:35Z: a stranger never says the player's first name)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "decline",
+        "key": "serve-asked"
+      },
+      "key": "scene-talk.reply-decline.let-me-get-to-know-you-first-then-ask",
+      "text": "Let me get to know you first. Then ask.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "press",
+          "requiresFacts": ["reason-stranger", "stranger"]
+        }
+      ]
+    },
+    {
+      "move": "reply-decline",
+      "kind": "spoken",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "S6 (Words lead ruling Nov 14 21:35Z: a stranger never says the player's first name)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "decline",
+        "key": "serve-asked"
+      },
+      "key": "scene-talk.reply-decline.show-me-this-race-is-real-then-ask-me-again",
+      "text": "Show me this race is real. Then ask me again.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "press",
+          "requiresFacts": ["reason-long-shot", "stranger"]
+        }
+      ]
+    },
+    {
+      "move": "reply-agree",
+      "kind": "spoken",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "S6 (Words lead ruling Nov 14 21:35Z: a stranger never says the player's first name)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "agree",
+        "key": "serve-asked"
+      },
+      "key": "scene-talk.reply-agree.i-ve-thought-about-running-for-office-myself-doing-it-with-you-works-yes",
+      "text": "I've thought about running for {office} myself. Doing it with you works. Yes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["reason-yes-step-up", "stranger"],
+          "excludesFacts": ["serve-post"]
+        }
+      ]
+    },
+    {
+      "move": "reply-agree",
+      "kind": "spoken",
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "S6 (Words lead ruling Nov 14 21:35Z: a stranger never says the player's first name)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "agree",
+        "key": "serve-asked"
+      },
+      "key": "scene-talk.reply-agree.it-s-a-big-step-and-i-want-it-yes",
+      "text": "It's a big step, and I want it. Yes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["reason-yes-step-up", "stranger"]
+        }
+      ]
+    },
+    {
+      "move": "reply-agree",
+      "kind": "spoken",
+      "bearing": "eager",
+      "origin": "authored",
+      "author": "S6 (Words lead ruling Nov 14 21:35Z: a stranger never says the player's first name)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "agree",
+        "key": "serve-asked"
+      },
+      "key": "scene-talk.reply-agree.somebody-has-to-stand-up-on-issue-yes-i-ll-run-with-you",
+      "text": "Somebody has to stand up on {issue}. Yes, I'll run with you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["reason-yes-agree", "stranger"],
+          "excludesFacts": ["serve-post"]
+        }
+      ]
+    },
+    {
+      "move": "reply-agree",
+      "kind": "spoken",
+      "bearing": "eager",
+      "origin": "authored",
+      "author": "S6 (Words lead ruling Nov 14 21:35Z: a stranger never says the player's first name)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "agree",
+        "key": "serve-asked"
+      },
+      "key": "scene-talk.reply-agree.people-are-talking-about-your-campaign-i-want-in",
+      "text": "People are talking about your campaign. I want in.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["reason-yes-real-race", "stranger"]
+        }
+      ]
+    },
+    {
+      "move": "reply-agree",
+      "kind": "spoken",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "S6 (Words lead ruling Nov 14 21:35Z: a stranger never says the player's first name)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "agree",
+        "key": "serve-asked"
+      },
+      "key": "scene-talk.reply-agree.you-can-win-this-yes",
+      "text": "You can win this. Yes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["reason-yes-real-race", "stranger"]
+        }
+      ]
+    },
+    {
+      "move": "reply-decline",
+      "kind": "spoken",
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "S6 (Words lead ruling Nov 14 21:35Z: a stranger never says the player's first name)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "decline",
+        "key": "serve-asked"
+      },
+      "key": "scene-talk.reply-decline.the-people-who-elected-me-as-their-office-would-never-forgive-me-no",
+      "text": "The people who elected me as {their-office} would never forgive me. No.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["reason-own-seat", "stranger"]
+        }
+      ]
+    },
+    {
+      "move": "reply-decline",
+      "kind": "spoken",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "S6 (Words lead ruling Nov 14 21:35Z: a stranger never says the player's first name)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "decline",
+        "key": "serve-asked"
+      },
+      "key": "scene-talk.reply-decline.i-just-got-to-where-i-am-as-their-office-i-m-not-walking-away-from-it",
+      "text": "I just got to where I am as {their-office}. I'm not walking away from it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["reason-own-seat", "stranger"]
+        }
+      ]
+    },
+    {
+      "move": "reply-decline",
+      "kind": "spoken",
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "S6 (Words lead ruling Nov 14 21:35Z: a stranger never says the player's first name)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "decline",
+        "key": "serve-asked"
+      },
+      "key": "scene-talk.reply-decline.i-ve-got-my-own-name-on-a-ballot-this-year-i-can-t-split-myself-in-two",
+      "text": "I've got my own name on a ballot this year. I can't split myself in two.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["reason-own-race", "stranger"]
+        }
+      ]
+    },
+    {
+      "move": "reply-decline",
+      "kind": "spoken",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "S6 (Words lead ruling Nov 14 21:35Z: a stranger never says the player's first name)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "decline",
+        "key": "serve-asked"
+      },
+      "key": "scene-talk.reply-decline.my-own-race-comes-first-this-year-the-answer-s-no",
+      "text": "My own race comes first this year. The answer's no.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["reason-own-race", "stranger"]
+        }
+      ]
+    },
+    {
+      "move": "reply-decline",
+      "kind": "spoken",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "S6 (Words lead ruling Nov 14 21:35Z: a stranger never says the player's first name)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "decline",
+        "key": "serve-asked"
+      },
+      "key": "scene-talk.reply-decline.i-like-you-but-we-re-too-far-apart-on-issue-no",
+      "text": "I like you, but we're too far apart on {issue}. No.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["reason-apart", "stranger"]
+        }
+      ]
+    },
+    {
+      "move": "reply-decline",
+      "kind": "spoken",
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "S6 (Words lead ruling Nov 14 21:35Z: a stranger never says the player's first name)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "decline",
+        "key": "serve-asked"
+      },
+      "key": "scene-talk.reply-decline.people-would-ask-me-about-issue-every-day-i-couldn-t-look-them-in-the-eye",
+      "text": "People would ask me about {issue} every day. I couldn't look them in the eye.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["reason-apart", "stranger"]
+        }
+      ]
+    },
+    {
+      "move": "reply-decline",
+      "kind": "spoken",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "S6 (Words lead ruling Nov 14 21:35Z: a stranger never says the player's first name)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "decline",
+        "key": "serve-asked"
+      },
+      "key": "scene-talk.reply-decline.i-ve-heard-what-people-are-saying-about-you-i-need-to-stay-out-of-it",
+      "text": "I've heard what people are saying about you. I need to stay out of it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["reason-heard", "stranger"]
+        }
+      ]
+    },
+    {
+      "move": "reply-decline",
+      "kind": "spoken",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "S6 (Words lead ruling Nov 14 21:35Z: a stranger never says the player's first name)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "decline",
+        "key": "serve-asked"
+      },
+      "key": "scene-talk.reply-decline.everybody-s-talking-about-that-story-i-can-t-be-part-of-it",
+      "text": "Everybody's talking about that story. I can't be part of it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["reason-heard", "stranger"]
+        }
+      ]
+    },
+    {
+      "move": "reply-decline",
+      "kind": "spoken",
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "S6 (Words lead ruling Nov 14 21:35Z: a stranger never says the player's first name)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "decline",
+        "key": "serve-asked"
+      },
+      "key": "scene-talk.reply-decline.i-don-t-run-with-people-i-just-met-that-s-not-how-i-do-things",
+      "text": "I don't run with people I just met. That's not how I do things.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["reason-stranger", "stranger"],
+          "excludesFacts": ["serve-post"]
+        }
+      ]
+    },
+    {
+      "move": "reply-decline",
+      "kind": "spoken",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "S6 (Words lead ruling Nov 14 21:35Z: a stranger never says the player's first name)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "decline",
+        "key": "serve-asked"
+      },
+      "key": "scene-talk.reply-decline.you-re-asking-a-lot-from-someone-you-met-today-no",
+      "text": "You're asking a lot from someone you met today. No.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["reason-stranger", "stranger"]
+        }
+      ]
+    },
+    {
+      "move": "reply-decline",
+      "kind": "spoken",
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "S6 (Words lead ruling Nov 14 21:35Z: a stranger never says the player's first name)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "decline",
+        "key": "serve-asked"
+      },
+      "key": "scene-talk.reply-decline.nobody-knows-your-name-yet-i-can-t-bet-mine-on-it",
+      "text": "Nobody knows your name yet. I can't bet mine on it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["reason-long-shot", "stranger"]
+        }
+      ]
+    },
+    {
+      "move": "reply-decline",
+      "kind": "spoken",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "S6 (Words lead ruling Nov 14 21:35Z: a stranger never says the player's first name)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "decline",
+        "key": "serve-asked"
+      },
+      "key": "scene-talk.reply-decline.you-don-t-have-the-money-or-the-votes-yet-no",
+      "text": "You don't have the money or the votes yet. No.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["reason-long-shot", "stranger"]
+        }
+      ]
+    },
+    {
+      "move": "reply-decline",
+      "kind": "spoken",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "S6 (Words lead ruling Nov 14 21:35Z: a stranger never says the player's first name)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "decline",
+        "key": "serve-asked"
+      },
+      "key": "scene-talk.reply-decline.not-while-my-own-name-is-on-the-ballot-after-that-we-ll-talk",
+      "text": "Not while my own name is on the ballot. After that, we'll talk.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "press",
+          "requiresFacts": ["reason-own-race", "stranger"]
+        }
+      ]
+    },
+    {
+      "move": "reply-decline",
+      "kind": "spoken",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "S6 (Words lead ruling Nov 14 21:35Z: a stranger never says the player's first name)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "decline",
+        "key": "serve-asked"
+      },
+      "key": "scene-talk.reply-decline.if-you-moved-on-issue-i-d-think-about-it",
+      "text": "If you moved on {issue}, I'd think about it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "press",
+          "requiresFacts": ["reason-apart", "stranger"]
+        }
+      ]
+    },
+    {
+      "move": "reply-decline",
+      "kind": "spoken",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "S6 (Words lead ruling Nov 14 21:35Z: a stranger never says the player's first name)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "decline",
+        "key": "serve-asked"
+      },
+      "key": "scene-talk.reply-decline.clear-your-name-and-come-see-me-again",
+      "text": "Clear your name and come see me again.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "press",
+          "requiresFacts": ["reason-heard", "stranger"]
+        }
+      ]
+    },
+    {
+      "move": "reply-decline",
+      "kind": "spoken",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "S6 (Words lead ruling Nov 14 21:35Z: a stranger never says the player's first name)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "decline",
+        "key": "serve-asked"
+      },
+      "key": "scene-talk.reply-decline.spend-some-time-with-me-first-then-we-ll-see",
+      "text": "Spend some time with me first. Then we'll see.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "press",
+          "requiresFacts": ["reason-stranger", "stranger"]
+        }
+      ]
+    },
+    {
+      "move": "reply-decline",
+      "kind": "spoken",
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "S6 (Words lead ruling Nov 14 21:35Z: a stranger never says the player's first name)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "decline",
+        "key": "serve-asked"
+      },
+      "key": "scene-talk.reply-decline.raise-some-money-and-get-some-people-behind-you-then-come-back",
+      "text": "Raise some money and get some people behind you. Then come back.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "press",
+          "requiresFacts": ["reason-long-shot", "stranger"]
+        }
+      ]
+    },
+    {
+      "move": "reply-decline",
+      "kind": "spoken",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "S6 (Words lead ruling Nov 14 21:35Z: a stranger never says the player's first name)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "decline",
+        "key": "serve-asked"
+      },
+      "key": "scene-talk.reply-decline.my-seat-comes-first-that-won-t-change-this-year",
+      "text": "My seat comes first. That won't change this year.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "press",
+          "requiresFacts": ["reason-own-seat", "stranger"]
+        }
+      ]
     }
   ]
 }
