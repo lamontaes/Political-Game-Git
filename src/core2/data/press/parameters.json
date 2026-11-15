@@ -346,6 +346,12 @@
       "source": "How far one printed story moves a reader's stance on its topic, against a speech heard in person (1).",
       "spread": [0.2, 0.8]
     },
+    "exposureCommentDays": {
+      "value": 1,
+      "tag": "ESTIMATED",
+      "source": "Days from a reporter's finding to the story running: the one exposed is asked for comment first, and the story runs in the outlet's next edition with their answer or that they did not comment (the usual practice of seeking comment before publication; Society of Professional Journalists Code of Ethics, 'Seek Truth and Report It': diligently seek subjects of news coverage to allow them to respond to criticism or allegations of wrongdoing). One day is a daily paper or newscast's next edition; a weekly's is up to seven.",
+      "spread": [1, 7]
+    },
     "digDelayDays": {
       "value": 14,
       "tag": "TUNABLE",
