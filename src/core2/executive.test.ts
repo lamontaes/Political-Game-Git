@@ -30,7 +30,7 @@ import {
   orderableBy,
   townForm,
 } from "./modules/executive";
-import { answerIn } from "./modules/world-legislating";
+import { answerIn } from "./modules/laws";
 import { governmentOfJurisdiction, governments } from "./modules/budgets";
 import { postPayCapDaily } from "./budgets-treasury";
 import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";

@@ -28,10 +28,10 @@ import {
   openWorldLegislating,
   legislativeSessionsOf,
   sessionsOf,
-  answerIn,
   windowsIn,
   WORLD_LEGISLATING_MODULE_ID,
 } from "./modules/world-legislating";
+import { answerIn } from "./modules/laws";
 import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 
 const START = "2026-01-05";
