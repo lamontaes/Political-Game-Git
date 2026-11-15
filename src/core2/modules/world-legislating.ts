@@ -1192,8 +1192,28 @@ function executiveSits(
   );
 }
 
-/** The executive who sits with a body at its sittings, as a seat, or null. */
+/** The executive who sits with a body at its sittings, as a seat, or null; kept per body for the day. */
+const sittingKept = new WeakMap<
+  object,
+  {
+    date: string;
+    byBody: Map<string, { personId: string; since: string } | null>;
+  }
+>();
 function sittingExecutive(
+  api: CoreAPI,
+  officeId: string,
+): { personId: string; since: string } | null {
+  let kept = sittingKept.get(api.state);
+  if (!kept || kept.date !== api.state.date) {
+    kept = { date: api.state.date, byBody: new Map() };
+    sittingKept.set(api.state, kept);
+  }
+  if (!kept.byBody.has(officeId))
+    kept.byBody.set(officeId, sittingExecutiveNow(api, officeId));
+  return kept.byBody.get(officeId)!;
+}
+function sittingExecutiveNow(
   api: CoreAPI,
   officeId: string,
 ): { personId: string; since: string } | null {
@@ -1276,9 +1296,40 @@ function executiveHours(core: object, a: PersonId, b: PersonId): number {
     !state.modules.has(OFFICES_MODULE_ID)
   )
     return 0;
+  const serving = executivesServing(state);
+  if (!serving.has(a) && !serving.has(b)) return 0;
   const api = coreAPI(state);
-  return executiveWith(api, a, b) + executiveWith(api, b, a);
+  return (
+    (serving.has(a) ? executiveWith(api, a, b) : 0) +
+    (serving.has(b) ? executiveWith(api, b, a) : 0)
+  );
 }
+
+/** Everyone serving in an executive office today, kept for the day (the read above is asked for every pair). */
+const executivesKept = new WeakMap<
+  object,
+  { date: string; ids: ReadonlySet<string> }
+>();
+function executivesServing(state: CoreState): ReadonlySet<string> {
+  const kept = executivesKept.get(state);
+  if (kept && kept.date === state.date) return kept.ids;
+  const offices = coreAPI(state).moduleState(OFFICES_MODULE_ID);
+  const ids = new Set<string>();
+  for (const office of offices.table("offices").rows() as unknown as {
+    id: string;
+    kind: string;
+  }[]) {
+    if (!EXECUTIVE_KIND.test(office.kind)) continue;
+    for (const term of offices
+      .table("terms")
+      .query("byOfficeStatus", [office.id, "serving"]) as unknown as TermRow[])
+      ids.add(memberKey(term));
+  }
+  executivesKept.set(state, { date: state.date, ids });
+  return ids;
+}
+
+const EXECUTIVE_KIND = /^(mayor|governor|county-executive|president)$/;
 
 /** The hours executive `x` shares with member `y` from signings and leaders' meetings. */
 function executiveWith(api: CoreAPI, x: string, y: string): number {
@@ -1297,6 +1348,8 @@ function executiveWith(api: CoreAPI, x: string, y: string): number {
   let hours = 0;
   const signed = new Set<string>();
   for (const body of bodies) {
+    // Only a body that is an office's chamber or council has an executive.
+    if (!bodyOf(api, body)) continue;
     const { office, term } = executiveOf(api, body);
     if (!office || !term || memberKey(term) !== x) continue;
     // Each bill of theirs the executive signed: one meeting.
