@@ -461,10 +461,6 @@ export function printItem(
     receivedCounted: 0,
     interviewId: options.interviewId ?? null,
   };
-  // On the record before anyone reads it: a reader who hears it today reads
-  // what was printed (`printedStoryOf`, the letter a reader learns a stand
-  // from); the counts it reached are added once it has been read.
-  ctx.save(story);
   const received = printStory(
     api,
     {
