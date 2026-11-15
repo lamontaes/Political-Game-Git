@@ -43926,15 +43926,15 @@
       "text": "Still undecided.",
       "uses": [
         {
-          "move": "interview-take-plain-reply-take",
-          "subject": "interview-take-plain",
+          "move": "interview-take-brief-reply-take",
+          "subject": "interview-take-brief",
           "role": "reply",
           "choice": "take",
           "requiresFacts": ["said-none", "no-stand"]
         },
         {
-          "move": "debate-take-plain-reply-take",
-          "subject": "debate-take-plain",
+          "move": "debate-take-brief-reply-take",
+          "subject": "debate-take-brief",
           "role": "reply",
           "choice": "take",
           "requiresFacts": ["said-none", "no-stand"]
@@ -43951,29 +43951,29 @@
       "text": "Then your record will have to speak for you.",
       "uses": [
         {
-          "move": "interview-take-plain-reply-take",
-          "subject": "interview-take-plain",
+          "move": "interview-take-brief-reply-take",
+          "subject": "interview-take-brief",
           "role": "reply",
           "choice": "take",
           "requiresFacts": ["said-none", "stance-for"]
         },
         {
-          "move": "interview-take-plain-reply-take",
-          "subject": "interview-take-plain",
+          "move": "interview-take-brief-reply-take",
+          "subject": "interview-take-brief",
           "role": "reply",
           "choice": "take",
           "requiresFacts": ["said-none", "stance-against"]
         },
         {
-          "move": "debate-take-plain-reply-take",
-          "subject": "debate-take-plain",
+          "move": "debate-take-brief-reply-take",
+          "subject": "debate-take-brief",
           "role": "reply",
           "choice": "take",
           "requiresFacts": ["said-none", "stance-for"]
         },
         {
-          "move": "debate-take-plain-reply-take",
-          "subject": "debate-take-plain",
+          "move": "debate-take-brief-reply-take",
+          "subject": "debate-take-brief",
           "role": "reply",
           "choice": "take",
           "requiresFacts": ["said-none", "stance-against"]

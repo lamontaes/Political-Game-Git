@@ -81,7 +81,7 @@ for (const [label, stand] of [
   distinct(
     label,
     { ...base(flagsOf(stand, 0, null)), "said-none": fact("yes") },
-    `${subjects.takePrefix}plain`,
+    `${subjects.takePrefix}brief`,
     "reply",
   );
 writeFileSync(process.argv[2] ?? "/dev/stdout", lines.join("\n") + "\n");
