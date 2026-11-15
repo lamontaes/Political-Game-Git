@@ -199,7 +199,7 @@ const NATIONAL = nationalJson as unknown as {
   basedIn: string;
   kinds: readonly NationalKindRow[];
 };
-/** The kinds of outlet that endorse in an editorial (data/press/endorsements.json). */
+/** The kinds of outlet that endorse in an editorial (src/core2/data/press/endorsements.json). */
 const ENDORSING_KINDS: ReadonlySet<string> = new Set(endorsing.kinds);
 
 const ALL_KINDS: readonly OutletKind[] = [
@@ -1142,6 +1142,29 @@ export function outletsHere(api: CoreAPI): readonly OutletRow[] {
   return (table(api, "outlets").rows() as unknown as OutletRow[])
     .slice()
     .sort((a, b) => a.id.localeCompare(b.id));
+}
+
+/**
+ * How a person says an outlet: what it is (a paper is read in, a television or
+ * online outlet is seen on, a radio station is heard on) and whether its name
+ * takes "the" ("the Wendell Gazette"; a station's call letters and a name that
+ * already opens with "The" do not). Read from the outlet's record, so every
+ * line that names an outlet can say it the same way.
+ */
+export function outletTelling(
+  api: CoreAPI,
+  organizationId: string,
+  name: string,
+):
+  | {
+      readonly medium: "paper" | "television" | "radio" | "online";
+      readonly the: boolean;
+    }
+  | undefined {
+  const row = outletsHere(api).find((o) => o.organizationId === organizationId);
+  if (!row) return undefined;
+  const medium = outletMedium(row.kind) ?? "online";
+  return { medium, the: medium === "paper" && !/^the\s/i.test(name) };
 }
 
 /**
