@@ -1566,6 +1566,10 @@ function composeBinding(
       };
     const issue = questionSaid(record.topic);
     if (issue) facts.issue = { text: issue, sourceRecordIds: [moment.causeId] };
+    // What the question proposes, said whole ("civilian oversight of the
+    // police"), for the line that says which side the rival is on.
+    const about = questionAbout(record.topic);
+    if (about) facts.about = { text: about, sourceRecordIds: [moment.causeId] };
     if (said.side === "for" || said.side === "against")
       facts[`side-${said.side}`] = {
         text: "yes",

@@ -186316,7 +186316,16 @@
           "step": "reply",
           "move": "ask",
           "role": "asked",
-          "requiresFacts": ["issue", "side-for"]
+          "requiresFacts": ["issue", "about", "side-for"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "rival-word",
+          "key": "news-received",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "requiresFacts": ["issue", "about", "side-against"]
         }
       ],
       "origin": "authored",
@@ -186470,10 +186479,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-answer.some-i-d-like-to-hear-your-side-of-issue-before-i-say-more",
+      "key": "scene-talk.follow-answer.some-i-m-still-making-up-my-mind-about-issue",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "Some. I'd like to hear your side of {issue} before I say more.",
+      "text": "Some. I'm still making up my mind about {issue}.",
       "uses": [
         {
           "subject": "scene",
@@ -186508,7 +186517,7 @@
           "move": "press",
           "role": "asker",
           "requiresFacts": ["issue"],
-          "after": "deflect"
+          "after": "scene-talk.reply-deflect.let-them-talk-i-m-running-my-own-race"
         }
       ],
       "origin": "authored",
@@ -186520,10 +186529,35 @@
       }
     },
     {
-      "key": "scene-talk.follow-answer.opponent-is-for-it",
+      "key": "scene-talk.follow-press.then-start-knocking-they-ve-already-been-here",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Then start knocking. They've already been here.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-word",
+          "key": "news-received",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "requiresFacts": ["how-canvass"],
+          "after": "scene-talk.reply-deflect.they-can-knock-on-every-door-in-town-so-can-i"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (rival-word lines, Nov 15), placed by the record",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "press",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.opponent-is-for-about",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "{opponent} is for it.",
+      "text": "{opponent} is for {about}.",
       "uses": [
         {
           "subject": "scene",
@@ -186533,7 +186567,32 @@
           "move": "answer",
           "role": "asker",
           "after": "scene-talk.reply-ask.what-are-they-saying-about-issue",
-          "requiresFacts": ["opponent", "side-for"]
+          "requiresFacts": ["opponent", "about", "side-for"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (rival-word lines, Nov 15), placed by the record",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "answer",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.opponent-is-against-about",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "{opponent} is against {about}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-word",
+          "key": "news-received",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "scene-talk.reply-ask.what-are-they-saying-about-issue",
+          "requiresFacts": ["opponent", "about", "side-against"]
         }
       ],
       "origin": "authored",

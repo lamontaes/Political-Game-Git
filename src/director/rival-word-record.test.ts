@@ -71,6 +71,8 @@ const DELETED = [
   "Folks around here will ask you about it.",
   "got to me about",
   "reached me this week",
+  " is for it.",
+  "I'd like to hear your side of",
 ];
 
 const OPENER_BY_HOW: Record<string, RegExp> = {
@@ -81,7 +83,7 @@ const OPENER_BY_HOW: Record<string, RegExp> = {
 const MOVED_ANSWER = {
   none: "No. I think what I thought before.",
   little: "It made me think.",
-  lot: "Some. I'd like to hear your side",
+  lot: "Some. I'm still making up my mind about",
 } as const;
 
 /** Every line under a node, with the reply that led to it. */
@@ -219,6 +221,26 @@ it("news of a rival is staged once a message, says how it came, answers from the
                 text.includes(gone) || opener.includes(gone),
                 `${where}: ${text} is a deleted line`,
               ).toBe(false);
+          // A press fits what the player said: "whether you chase it or not"
+          // only after "Let them talk", and the door answer only after the
+          // door deflect. A rival's side is said with what the question
+          // proposes, never a bare "for it".
+          for (const text of all) {
+            if (text.includes("whether you chase it or not"))
+              expect(
+                text.includes('"Let them talk.'),
+                `${where}: ${text}`,
+              ).toBe(true);
+            if (text.includes("Then start knocking"))
+              expect(
+                text.includes('"They can knock on every door'),
+                `${where}: ${text}`,
+              ).toBe(true);
+            if (/ => .* is (for|against) /.test(text))
+              expect(text, `${where}: the rival's side`).toMatch(
+                / is (for|against) \S+.*\.$/,
+              );
+          }
           // A question the player is offered is one the record answers.
           for (const reply of talk.tree.replies)
             if (
