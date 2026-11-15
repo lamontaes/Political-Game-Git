@@ -77098,6 +77098,31 @@
       }
     },
     {
+      "key": "scene-talk.close-accept.sure-good-luck-out-there",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Sure. Good luck out there.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-word",
+          "key": "news-received",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "after": "leave"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (rival-word lines, Nov 15), placed by the line before",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "accept",
+        "key": "news-received"
+      }
+    },
+    {
       "key": "scene-talk.close-thank.take-care",
       "move": "close-thank",
       "kind": "spoken",
