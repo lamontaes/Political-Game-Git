@@ -2968,7 +2968,7 @@
         "custody": {
           "purpose": "constituent-help.custody",
           "base": 1.0,
-          "forCause": {
+          "onlyFor": {
             "fact": "problem",
             "is": "family-in-custody"
           },

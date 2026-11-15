@@ -142,7 +142,37 @@ const helpFacts: Record<string, Fact> = {
   "money-left": fact("running low"),
   "respond-in": fact("in seven days"),
 };
-const factsOf = (family: string) =>
+// Each case's own facts, in place of the plain visit's out-of-work fact.
+const caseFacts: Record<string, Record<string, Fact>> = {
+  eviction: {
+    "problem-eviction": fact("yes"),
+    behind: fact("two months"),
+    "cure-by": fact("March 14th"),
+    landlord: fact("Hartley Rentals"),
+    "rent-help": fact("yes"),
+  },
+  custody: {
+    "problem-custody": fact("yes"),
+    relation: fact("brother"),
+    "held-for": fact("three months"),
+    "out-in": fact("two years"),
+  },
+  sick: {
+    "problem-sick": fact("yes"),
+    "sick-relation": fact("yes"),
+    relation: fact("mother"),
+    "no-plan": fact("yes"),
+  },
+};
+const helpFactsOf = (variant: string): Record<string, Fact> => {
+  const own = caseFacts[variant];
+  if (!own) return helpFacts;
+  const rest = Object.fromEntries(
+    Object.entries(helpFacts).filter(([name]) => name !== "problem-work"),
+  );
+  return { ...rest, ...own };
+};
+const factsOf = (family: string, variant = "plain") =>
   family === "donor-ask"
     ? donorFacts
     : family === "press-comment"
@@ -152,7 +182,7 @@ const factsOf = (family: string) =>
         : family === "ask-vote"
           ? voteFacts
           : family === "constituent-help"
-            ? helpFacts
+            ? helpFactsOf(variant)
             : generic;
 
 const everyLine = (node: TreeNode | null, into: string[] = []): string[] => {
@@ -170,7 +200,7 @@ const everyLine = (node: TreeNode | null, into: string[] = []): string[] => {
 const compose = (
   family: string,
   variant: string,
-  facts: Record<string, Fact> = factsOf(family),
+  facts: Record<string, Fact> = factsOf(family, variant),
   causeId = "cause-a",
 ): SceneTalk => {
   const result = composeSceneTalk(
@@ -187,6 +217,14 @@ const compose = (
   );
   if (result.kind !== "composed") throw new Error("not composed");
   return result.talk;
+};
+
+// The endings each office-hours case reaches: the official's act for the case,
+// or the honest no where the office has none (illness).
+const CASE_ENDINGS: Record<string, string[]> = {
+  eviction: ["rent-help-first", "cant-help"],
+  custody: ["visit-asked", "cant-help"],
+  sick: ["cant-help"],
 };
 
 describe("a kind with several arcs", () => {
@@ -265,8 +303,9 @@ describe("a kind with several arcs", () => {
             ).toBeGreaterThan(0);
         else if (family === "constituent-help") {
           // The keeps the engines read (promise, meeting-set,
-          // relationship-strained) come from these endings.
-          for (const id of ["will-call", "caseworker"])
+          // relationship-strained) come from these endings; each case has
+          // its own (the official's act for it, or the honest no).
+          for (const id of CASE_ENDINGS[variant] ?? ["will-call", "caseworker"])
             expect(
               talk.endingCounts[id] ?? 0,
               `${where} ${id}`,
