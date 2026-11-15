@@ -5,7 +5,6 @@ import {
 } from "../core2/place-lookup";
 import { familyFactsOf, FAMILY_PARTNERED } from "../core2/modules/people";
 import { P } from "../core2/parameters";
-import { candidateIdentity } from "../core2/candidate-identity";
 import { coreAPI } from "../core2/state";
 import { OFFICES_MODULE_ID } from "../core2/modules/offices";
 import { jobTitleSaid, personWorkOf } from "../core2/person-work";
@@ -958,27 +957,21 @@ export function composeJournal(
 
   const factsById = new Map((person.pastFacts ?? []).map((f) => [f.id, f]));
 
+  // Someone the person talked with in a scene is known by name to them, an
+  // official who came to them as a donor among the rest (the reply record
+  // names both people).
+  const metInScene = new Set<string>(
+    (book?.schedule ?? []).flatMap((entry) =>
+      (entry.replies ?? []).flatMap(
+        (id) => core.durableLog.get(id)?.personIds ?? [],
+      ),
+    ),
+  );
   // How the person refers to someone: a relative by relation, anyone else by
   // name, and only someone whose name they know.
   const other = (id: PersonId): Fact | undefined => {
     const row = core.people.get(id);
-    if (!row) {
-      // A seated official the person talked with is not a row in the people
-      // table (state and federal officials are filled in when met): the
-      // term's own identity names them, by the same rule as anyone else.
-      const identity = (id as string).startsWith("official:")
-        ? candidateIdentity(coreAPI(core as CoreState), id)
-        : null;
-      if (!identity) return undefined;
-      const first = !named.has(id);
-      named.add(id);
-      return {
-        text: first
-          ? `${identity.givenName} ${identity.familyName}`
-          : identity.givenName,
-        sourceRecordIds: [id],
-      };
-    }
+    if (!row) return undefined;
     const relation = kin.get(id);
     if (relation) {
       const text = relationPhrase(
@@ -1014,7 +1007,7 @@ export function composeJournal(
       }
     }
     const known = person.knownIdSources?.[id];
-    if (!person.knownIds.has(id)) return undefined;
+    if (!person.knownIds.has(id) && !metInScene.has(id)) return undefined;
     const first = !named.has(id);
     named.add(id);
     return {
