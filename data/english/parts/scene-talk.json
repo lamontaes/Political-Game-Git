@@ -186760,10 +186760,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.all-right-i-ll-say-you-declined",
+      "key": "scene-talk.follow-accept.alright-i-ll-say-you-declined",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "All right. I'll say you declined.",
+      "text": "Alright. I'll say you declined.",
       "uses": [
         {
           "subject": "scene",
@@ -187112,10 +187112,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.all-right-i-ll-call-you-back",
+      "key": "scene-talk.follow-accept.alright-i-ll-call-you-back",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "All right. I'll call you back.",
+      "text": "Alright. I'll call you back.",
       "uses": [
         {
           "subject": "scene",

@@ -3,7 +3,7 @@
  * keepPutOffComment). In a pinned place a member of a body is the player and
  * drafts a bill, as comment-printed.test.ts does; a reporter asks about it the
  * next day. The player refuses, the reporter presses, and the player says
- * "Let me check and call you back today."; the reporter answers "All right.
+ * "Let me check and call you back today."; the reporter answers "Alright.
  * I'll call you back." The next day, with the vote still ahead, the reporter
  * calls back: "You were going to call me back about {bill}." and the vote's
  * day, with the answer and decline replies only. The answer given on the call
@@ -195,7 +195,7 @@ it("a reporter put off before a vote calls back once, about the bill and the vot
   if (typeof played === "string") throw new Error(played);
   const { where, again } = played;
   expect(played.heard.join(" "), where).toContain(
-    "All right. I'll call you back.",
+    "Alright. I'll call you back.",
   );
   expect(again.open?.text, where).toMatch(
     /^You were going to call me back about .+\.$/,
