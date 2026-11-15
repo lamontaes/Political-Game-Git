@@ -13,6 +13,11 @@
  * (`openConversation`, `say`): the telling, the replies offered and each
  * answer back, one talk per reply. Prints the place, seed, record ids and every
  * line as played, with the facts each line was composed from.
+ *
+ * Run by hand by the Words builder of a relative's-news PR (S3) for that PR's
+ * played file, at the PR's head. Its --stage, --cause, --illness, --gender,
+ * --no-illness and --replays options stage a case that is too rare to wait
+ * for; each staging prints a STAGED line, so a file shows what was staged.
  */
 import { buildBenchWorld } from "../../src/bench/world";
 import { setBookkeeping } from "../../src/core2/bookkeeping";
