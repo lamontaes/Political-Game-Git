@@ -31,6 +31,8 @@ checked:
 
 **Done when.** A one-year played run of a sitting mayor at Kimberly, Idaho and two other drawn places (names and seeds in the PR) records office hours, department-head meetings and an interview by record id, and a second session plays that mayor and sees them in the Journal.
 
+**Built.** A need "duty" (content row added by `officeDayData`, evaluator `office-duty` on the office-day module) reads each registered level's kit `duty(api, personId)`: for the local kit the mean of how far office hours, town hall and department-head meetings have come due (days since the holder last gave them over each interval, one if never); zero for anyone without a seat. The local office acts bind to it in place of "safety", so the same need and goal terms every personal act reads rank the seat's work with no weight of its own. Interviews wait on a post being filled and are not part of the standing duty. Not built: the state and federal kits still bind "safety" (file: gov-state-federal-office-acts-bind-duty-need). Measured at Kimberly (`mayor-acts-1:4`), 20 weeks, same seed with and without: office hours 0 to 4, address 0 to 1, department-head meetings counted by the act record 15 to 29, contact acts 113 to 105, care-for-relative 13 to 2 (the cost: duty now outranks the children's care on busy weeks; filed as gov-duty-need-and-due-reason-count-the-same-duty).
+
 **Waits on.** The mayor-acts PR merged.
 
 **Files.** src/core2/office-day-acts.ts, src/core2/modules/drives.ts
