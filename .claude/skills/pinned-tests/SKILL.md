@@ -25,6 +25,8 @@ Lead ruling, Nov 13 to 14: a test is pinned in the test file to named places wit
 6. **A test that needs a rare case that does not exist is a finding**, not a license to skip: file an item.
 7. **A late start changes who runs.** A test that opens a world later in the year to save time changes who files, who is in office and what is under way (the views thread, Nov 14: a moderate files on a cause from a Feb 3 board meeting at Marshfield MA, and in a world opened Aug 1 or Sep 1 only two liberals file; at Monument Beach MA opened Jun 1 the conservative never files). Check that the case still exists in the late world before moving the start date.
 8. **A pinned case must fail on the old behavior.** Put the old line back once and see the test go red (the warm-up test: without the hold the played person acts 69 times in the window, with it 0) before calling the case pinned.
+9. **A day-one test can rest on a false premise.** A test that reads what is open on the opening day (a filing window, a vote, a hearing) is red at every place whose window opens later (Guaynabo, Puerto Rico, Nov 15: every contest belongs to the 2028 general, so `openContests` is empty on 2026-01-20). Read the engine's own rule for when the case starts (`filingWindowOpens`) and build the world on that day, at the pinned places, rather than drawing until one happens to be open.
+10. **Staging a shared cause for a scene.** A hand-staged `cause.shared` record schedules a cause invite only if it carries the pull share-drive gives it (`stressImpulse`, `moodImpulse`) and the sharer lives outside the player's household (the type's receive counterpart is `apart`). Without either, nothing schedules and no error says why.
 
 ## Checking a reported pass
 

@@ -128,10 +128,16 @@
     "scene-talk.close-press.we-still-have-to-settle-this-you-know": [
       "no-filler"
     ],
+    "scene-talk.follow-accept.all-right-if-that-changes-you-know-where-to-find-me": [
+      "alright-in-dialogue"
+    ],
     "scene-talk.follow-accept.i-hear-you-the-ring-goes-back-in-the-drawer-and-we-re-still-us-i-ll-ta": [
       "no-stock-phrases"
     ],
     "scene-talk.follow-accept.it-s-all-right": ["alright-in-dialogue"],
+    "scene-talk.follow-accept.it-s-place-s-fight-but-all-right": [
+      "alright-in-dialogue"
+    ],
     "scene-talk.follow-accept.of-course-we-ll-sort-out-the-rest-as-we-go": [
       "plain-american-reads-stiff"
     ],
@@ -211,6 +217,9 @@
     ],
     "scene-talk.state-request.i-practiced-this-and-forgot-it-so-plainly-i-d-like-to-be-your-spouse-w": [
       "no-filler"
+    ],
+    "scene-talk.state-request.you-don-t-know-me-i-m-name-some-of-us-in-place-are-working-on-cause-an": [
+      "no-stock-phrases"
     ]
   },
   "noReplyFollows": {
@@ -260,12 +269,6 @@
     "scene-talk.follow-press.because-you-d-say-it-plainly-and-they-d-listen": [
       "join-cause/decline"
     ],
-    "scene-talk.follow-press.it-s-only-two-pages-here-take-a-look": [
-      "join-cause/decline"
-    ],
-    "scene-talk.follow-press.two-pages-and-i-have-them-right-here": [
-      "join-cause/decline"
-    ],
     "scene-talk.follow-press.what-would-change-it": [
       "ask-vote.friend/relent",
       "ask-vote.trade/relent",
@@ -278,8 +281,6 @@
     "scene-talk.follow-press.you-d-say-it-plainly-and-they-would-listen-to-you": [
       "join-cause/decline"
     ],
-    "scene-talk.reply-agree.count-me-in-tell-me-when": ["join-cause/thank"],
-    "scene-talk.reply-agree.i-m-with-you-tell-me-when": ["join-cause/thank"],
     "scene-talk.reply-confront.hearsay.you-took-somebody-s-word-over-mine": [
       "conflict-accuse.hearsay/confront"
     ],

@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "variants-differ-in-what-they-say",
   "rubric": "Variants of a slot differ in what they say, each tied to a fact in the record, not only in wording; a bank grows by adding conditions and specifics, not more generic lines.",
-  "judged": 1211,
+  "judged": 1203,
   "no": {
     "006el8dj9s1": {
       "keys": [
@@ -2552,13 +2552,6 @@
       ],
       "why": "Both lines refuse to name the source in other words."
     },
-    "14kyi744kiz": {
-      "keys": [
-        "scene-talk.follow-thank.first-monday-of-next-month-thanks",
-        "scene-talk.follow-thank.the-first-monday-of-next-month-thank-you"
-      ],
-      "why": "Both give the first Monday of next month and a thanks, a pure rewording."
-    },
     "14u8loqz0p4": {
       "keys": [
         "scene-talk.narrate-narrate.the-diploma-didnt-come-through-and-name-wants-to-talk",
@@ -2724,13 +2717,6 @@
         "scene-talk.reply-leave.thanks-clerk-i-need-to-think-it-over"
       ],
       "why": "All nine lines tell the clerk the player isn't ready and will come back, reworded with nothing in the world to choose between them."
-    },
-    "17hvk37fnfs": {
-      "keys": [
-        "scene-talk.reply-deflect.put-it-in-writing-and-send-it-to-me-first",
-        "scene-talk.reply-deflect.send-me-what-you-have-in-writing-first"
-      ],
-      "why": "Both ask for it in writing first, in reordered words."
     },
     "17pd7os37nc": {
       "keys": [
@@ -3751,13 +3737,6 @@
       ],
       "why": "Both lines end the talk in other words."
     },
-    "1pjyc23mz07": {
-      "keys": [
-        "scene-talk.reply-agree.give-them-here-i-ll-read-them-now",
-        "scene-talk.reply-agree.hand-them-over-i-ll-read-them-now"
-      ],
-      "why": "Both ask for the pages to read now, differing by one word."
-    },
     "1pt776eci3j": {
       "keys": [
         "scene-talk.reply-apologize.repeat.i-m-sorry-about-the-missed-payment-i-know-what-it-looks-like-after-last-time",
@@ -3765,13 +3744,6 @@
         "scene-talk.reply-apologize.repeat.you-re-right-and-i-know-it-s-not-the-first-time-i-m-sorry"
       ],
       "why": "All three lines apologize while admitting it happened before."
-    },
-    "1pwhf84l9nh": {
-      "keys": [
-        "scene-talk.reply-ask.who-s-going-to-speak-for-you-at-the-council",
-        "scene-talk.reply-ask.who-s-speaking-for-you-at-the-council"
-      ],
-      "why": "Both ask who speaks for the group at the council, differing by one word."
     },
     "1pzsx1juego": {
       "keys": [
@@ -4045,13 +4017,6 @@
         "scene-talk.reply-leave.not-tonight-i-ll-call-you"
       ],
       "why": "Both put the talk off until later, the daytime condition only screening out one rewording."
-    },
-    "1v60vos7p9g": {
-      "keys": [
-        "scene-talk.follow-press.it-s-two-pages-i-brought-them-with-me",
-        "scene-talk.follow-press.two-pages-and-i-have-them-right-here"
-      ],
-      "why": "Both say the asker has the two pages on hand, a rewording."
     },
     "1v6j0j34tlw": {
       "keys": [
@@ -5411,5 +5376,5 @@
       "why": "Both lines promise to look into it before the deadline, the second only adding detail to the same promise."
     }
   },
-  "yesHash": "00w34eup9e4"
+  "yesHash": "209b9bxhcfn"
 }

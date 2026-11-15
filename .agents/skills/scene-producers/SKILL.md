@@ -97,3 +97,9 @@ One kind of scene can play several arcs, its **variants**, and the records pick 
 - **Money in a fact** goes through `moneySaid` ("about $4,000"): never write "the {loss}" or "toward the {left}"; write "come to {loss}" and "still owe {left}".
 - **The director imports no module from another engine family** (the families guard counts it): name the record kind in a local constant beside `RALLY_EVENT`.
 - A new scene type needs its picture row or a `wantedScenes` line (skill `scene-pictures`); the `scene-pictures` guard fails one that has neither. Never wait for a picture.
+
+## 10. What the cause invite taught (Nov 15)
+
+- **A fact the narration needs must be worded for every kind of cause the record can carry.** A drive's topic comes from the event that formed it: a policy question, a budget line or an illness. The `{cause}` fact once worded only policy questions, so every budget or illness invite was skipped with "no narration can be worded". Word a topic through `causeTopicSaid` (src/english/policy-names.ts), which covers all three.
+- **A reply the other person cannot answer is not offered.** scene-talk.ts drops a reply whose follow no bank line can word, and lists the missing answer as a gap. A scene left with fewer than two replies at its root is skipped. When a bank line is deleted, delete the lines that could only follow it (`after` pointing only at deleted keys): they can never play.
+- **Edit a bank file by script, then run prettier** on it. Rewriting the JSON by hand reflows thousands of lines. After a bank change, run `npm run words:verdicts` and `npm run words:rules` so `data/english/pulled.json` and the saved verdicts match the bank, or the english guard fails.
