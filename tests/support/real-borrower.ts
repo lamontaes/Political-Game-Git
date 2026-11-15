@@ -64,7 +64,11 @@ export function play(core: CoreState, playerId: PersonId, days: number) {
 }
 
 /** Plays the player's days until the credit engine's missed payment starts a money quarrel the player owes; its record. */
-export function playToQuarrel(core: CoreState, id: PersonId) {
+export function playToQuarrel(
+  core: CoreState,
+  id: PersonId,
+  days: number = QUARREL_DAYS,
+) {
   const found: string[] = [];
   coreAPI(core).subscribeEvents(
     "promises-quarrel",
@@ -73,7 +77,7 @@ export function playToQuarrel(core: CoreState, id: PersonId) {
       if (event.facts?.owes === id) found.push(event.id);
     },
   );
-  const until = addDays(makeIsoDate(core.date), QUARREL_DAYS);
+  const until = addDays(makeIsoDate(core.date), days);
   while (!found.length && core.date < until) play(core, id, 15);
   return found[0] ? core.durableLog.get(found[0]) : undefined;
 }
