@@ -87,14 +87,32 @@ describe("relationFacts", () => {
     // player asked). Then, as the player, the player asked and was refused.
     reply("scene-reply:fixture-came:0", { move: "agree" });
     reply("scene-reply:fixture-went:0", { asked: "request", move: "refuse" });
+    // A promise is help only once an engine's record says it was done: one
+    // that keeps a promise and settled nothing is asked-before, not helped.
+    reply("scene-reply:fixture-promised:0", {
+      move: "promise",
+      keeps: "promise",
+    });
+    reply("scene-reply:fixture-kept:0", {
+      move: "promise",
+      keeps: "promise",
+      settled: "help",
+    });
     // The same day is not "before".
     expect(relationFacts(core, otherId, playerId).passed.askedBefore).toEqual(
       [],
     );
     advanceCore(core, addDays(core.date, 1));
     const came = relationFacts(core, otherId, playerId).passed;
-    expect(came.askedBefore).toEqual(["scene-reply:fixture-came:0"]);
-    expect(came.helpedBefore).toEqual(came.askedBefore);
+    expect(came.askedBefore.sort()).toEqual([
+      "scene-reply:fixture-came:0",
+      "scene-reply:fixture-kept:0",
+      "scene-reply:fixture-promised:0",
+    ]);
+    expect(came.helpedBefore.sort()).toEqual([
+      "scene-reply:fixture-came:0",
+      "scene-reply:fixture-kept:0",
+    ]);
     expect(came.refusedBefore).toEqual([]);
     const went = relationFacts(core, playerId, otherId).passed;
     expect(went.askedBefore).toEqual(["scene-reply:fixture-went:0"]);

@@ -73,7 +73,13 @@ function passedBetween(
     if (recordAsker !== askerId) continue;
     passed.askedBefore.push(id);
     const move = event.facts?.move;
-    if (move && PASSED.helped.includes(move)) passed.helpedBefore.push(id);
+    // A promise is help only once an engine's record says it was done: an
+    // ending that keeps a promise counts when it also settled as help
+    // (office hours: the case row is helped); other helping moves count as said.
+    const kept =
+      event.facts?.keeps !== "promise" || event.facts?.settled === "help";
+    if (move && PASSED.helped.includes(move) && kept)
+      passed.helpedBefore.push(id);
     if (move && PASSED.refused.includes(move)) passed.refusedBefore.push(id);
   }
   return passed;

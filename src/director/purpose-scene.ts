@@ -3125,6 +3125,10 @@ export function replyInScene(
       // SG-WORDS-favor-promise-keeps-unread (endings with no row yet)
       ...(ending ? promiseReplyFacts({ ...scene, endingId: ending.id }) : {}),
       ...(ending?.firmness ? { firmness: ending.firmness } : {}),
+      // What the ending settles in an engine's own record (office hours: the
+      // case is helped or declined), so a later scene reads help done and
+      // not a promise made (relation-facts.ts passedBetween).
+      ...(ending?.settles ? { settled: ending.settles } : {}),
       // A promise made on a resident's own question names it, for the
       // Journal (ruling 72).
       ...(ending?.keeps === "promise" && aboutQuestion
