@@ -20,6 +20,7 @@ import {
 } from "../core2/modules/legislature";
 import { meetingOf, OFFICE_DAY_MODULE_ID } from "../core2/modules/office-day";
 import { daySince } from "../english/day-words";
+import { paymentSaid } from "../english/payment-words";
 import { applyCoreEvent, coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
 import { P as CORE } from "../core2/parameters";
@@ -35,6 +36,9 @@ import {
   promisesBetween,
   type PromiseAnswerRow,
 } from "./promises";
+
+const PAY_ON_TIME = "pay-on-time";
+const PAYMENT_MISSED = "credit.payment-missed";
 
 /** A settled promise one person may say to another: the conversation subject's shape. */
 export interface PromiseSubject {
@@ -102,6 +106,19 @@ export function promiseSubject(
     if (held)
       facts["meeting-held"] = { text: held, sourceRecordIds: [meeting.id] };
   }
+  // A payment promised: the loan behind the missed payment, named as people
+  // say it ("the mortgage"). Broken, the new missed payment that broke it;
+  // kept, the one the quarrel was over (the cause of the reply).
+  const missed = paymentMissedOf(core, row);
+  const payment = paymentSaid(missed?.facts?.loanKind);
+  if (missed && payment)
+    facts.payment = {
+      text: payment,
+      sourceRecordIds: [
+        missed.id,
+        ...(missed.facts?.loanId ? [missed.facts.loanId] : []),
+      ],
+    };
   return {
     id: row.id,
     promiseKind: row.kind,
@@ -110,6 +127,26 @@ export function promiseSubject(
     facts,
     aboutId: row.sourceId,
   };
+}
+
+/**
+ * The missed-payment record a pay-on-time promise is about: the one that
+ * broke it, else the one the quarrel behind the promise was over (the reply's
+ * cause, `family.quarrel`, names it as `missedId`).
+ */
+function paymentMissedOf(
+  core: Readonly<CoreState>,
+  row: { kind: string; sourceId: string; outcome: string; endedBy?: string },
+) {
+  if (row.kind !== PAY_ON_TIME) return undefined;
+  const log = core.durableLog;
+  const broke =
+    row.outcome === "broken" ? log.get(row.endedBy ?? "") : undefined;
+  if (broke?.kind === PAYMENT_MISSED) return broke;
+  const causeId = log.get(row.sourceId)?.facts?.causeId;
+  const missedId = causeId ? log.get(causeId)?.facts?.missedId : undefined;
+  const missed = missedId ? log.get(missedId) : undefined;
+  return missed?.kind === PAYMENT_MISSED ? missed : undefined;
 }
 
 /**

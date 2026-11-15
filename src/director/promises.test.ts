@@ -13,6 +13,8 @@
  * there the quarrel, the scene, the reply, the record that settles the
  * promise and the tie are the engines' own.
  */
+import { CREDIT_MODULE_ID } from "../core2/modules/credit";
+import paymentWords from "../../data/english/payment-words.json" with { type: "json" };
 import { expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
 import { drawPlace } from "../../scripts/core2-year/place";
@@ -292,6 +294,21 @@ function world(attempt: number, label: string) {
 /** HAND-STAGED: the credit engine's missed-payment record for the player. */
 function missPayment(core: CoreState, id: PersonId, tag: string): string {
   const missedId = `event:credit.payment-missed:${tag}:${core.date}`;
+  // On a loan the borrower holds, as the credit engine's record names it, so
+  // the talk can name the payment. A player drawn at the start of adult life
+  // holds none, so the loan is HAND-STAGED too: a mortgage by its id alone.
+  const loan = (
+    coreAPI(core)
+      .moduleState(CREDIT_MODULE_ID)
+      .table("loans")
+      .query("open", [true]) as unknown as {
+      id: string;
+      kind: string;
+      borrowerId: string;
+    }[]
+  )
+    .filter((row) => row.borrowerId === id)
+    .sort((a, b) => a.id.localeCompare(b.id))[0];
   applyCoreEvent(core, {
     id: missedId,
     date: core.date,
@@ -304,8 +321,30 @@ function missPayment(core: CoreState, id: PersonId, tag: string): string {
       asOf: core.date,
       citation: "Hand-staged missed payment for the promises test.",
     },
+    facts: {
+      loanId: loan?.id ?? `loan:mortgage:${tag}`,
+      loanKind: loan?.kind ?? "mortgage",
+    },
   });
   return missedId;
+}
+
+/** The loan a missed payment was on (its record's facts), for the played file. */
+function missedLoan(
+  core: CoreState,
+  endedBy: string | undefined,
+  replyId: string,
+): string {
+  const log = core.durableLog;
+  const broke = log.get(endedBy ?? "");
+  const cause = log.get(log.get(replyId)?.facts?.causeId ?? "");
+  const missed =
+    broke?.kind === "credit.payment-missed"
+      ? broke
+      : log.get(cause?.facts?.missedId ?? "");
+  return missed
+    ? `${missed.facts?.loanKind} ${missed.facts?.loanId} (${missed.id})`
+    : "(none)";
 }
 
 /** The next apology scene staged for the player, by day, a fortnight at most. */
@@ -422,8 +461,15 @@ it(
         }
         const ended = find();
         const said = talkOf(core, director, made.owedId, id, where);
+        // A broken promise names the payment it was about, from the missed
+        // payment's loan (every broken raise needs it).
+        const payment = Object.values(paymentWords.payments).find((name) =>
+          said.includes(name),
+        );
+        if (ended.outcome === "broken")
+          expect(payment, `${where}: ${said}`).toBeTruthy();
         done.push(
-          `${where}: ${said}\n    ${factId} owed to ${made.owedId}, ${ended.outcome} by ${ended.endedBy} on ${ended.endedAt}, closeness ${before.toFixed(5)} to ${closenessBetween(core, id, made.owedId).toFixed(5)}`,
+          `${where}: ${said}\n    payment ${payment ?? "(not named)"}, the missed payment's loan ${missedLoan(core, ended.endedBy, made.replyId)}\n    ${factId} owed to ${made.owedId}, ${ended.outcome} by ${ended.endedBy} on ${ended.endedAt}, closeness ${before.toFixed(5)} to ${closenessBetween(core, id, made.owedId).toFixed(5)}`,
         );
       }
       if (done.length === 2) {
