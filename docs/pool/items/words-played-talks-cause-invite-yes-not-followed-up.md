@@ -5,10 +5,10 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: open
+status: in-pr
 standard: 2
 claimed-by: claude/project-thread-5efbu8
-pr:
+pr: 9505
 after:
 blocked-on:
 lead: words
@@ -35,4 +35,4 @@ Seen: a neighbor asks the player to join a cause, the player says yes, and the t
 
 **Files.** src/director/conversation.ts, src/director/data/conversation-rules.json, data/english/parts/conversation.json, src/director/shared-school-give-back.test.ts (new)
 
-**Notes.** Nov 15: built on claude/project-thread-5efbu8 after #9440. Pinned test src/director/shared-school-give-back.test.ts at Cumming, Iowa, seed 7952d3f3e3253ee4 over a played year: the first school question there comes on Jan 16, 2026, and none came within 120 days at three seeds. It fails without the rules row. Two related items are left to their PRs: that a cause invite's talk is not about the cause (words-reunion-talks-the-shared-cause, #8476), and that a budget-line cause has no words (director-cause-invite-unworded-for-budget-and-illness-causes, #9407). shared-work asks ("Remember {employer}?") have the same dead end, but the subject holds no years fact; they are not changed here.
+**Notes.** Nov 15: built on claude/project-thread-5efbu8 after #9440. Pinned test src/director/shared-school-give-back.test.ts at Cumming, Iowa, seed 7952d3f3e3253ee4 plays the year's scene talks to their close, as the played talks do; on Train 9a5a4d2c the school questions come on Nov 15, 2025 and Jan 12, 2026. A version that waited without playing the other talks found none after the Train moved, so the year is played as the red was seen. It fails without the rules row. Two related items are left to their PRs: that a cause invite's talk is not about the cause (words-reunion-talks-the-shared-cause, #8476), and that a budget-line cause has no words (director-cause-invite-unworded-for-budget-and-illness-causes, #9407). shared-work asks ("Remember {employer}?") have the same dead end, but the subject holds no years fact; they are not changed here.
