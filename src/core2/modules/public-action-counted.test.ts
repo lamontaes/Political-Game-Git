@@ -178,9 +178,10 @@ it("Port O'Connor and Lincoln: each action's record keeps how its headcount look
     expect(row.turnout, `${row.id}: ${row.people} people`).toBe(want);
   }
   // Used by headcount at these two small places: the jobs protests of two and
-  // three people are a few and the rent protest of a dozen at Lincoln a crowd.
+  // three people are a few and the rent protest of a dozen at Lincoln (about
+  // a twentieth of its adults) a group, not a crowd.
   expect(a.some((row) => row.turnout === "few")).toBe(true);
-  expect(b.some((row) => row.turnout === "crowd")).toBe(true);
+  expect(b.some((row) => row.turnout === "group")).toBe(true);
   expect(
     [...a, ...b].filter((row) => row.people < 5).map((row) => row.turnout),
   ).not.toContain("group");

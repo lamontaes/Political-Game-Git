@@ -666,7 +666,7 @@ function monthlyRun(api: CoreAPI): void {
             area: stock.area,
             side: stock.side,
             question: rule.question ?? "",
-            size: String(participants.length + countedJoined),
+            size: String(Math.round(participants.length + countedJoined)),
             // How that headcount looks in this town (`turnoutLooks`): the one
             // fact the scene and the paper both read from this record.
             turnout: turnoutLooks(
