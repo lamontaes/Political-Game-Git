@@ -8,7 +8,7 @@ size: S
 status: in-pr
 standard: 2
 claimed-by:
-pr:
+pr: #9371
 after:
 blocked-on:
 lead: play
