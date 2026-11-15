@@ -3,4 +3,4 @@ id: words-opening-reads-its-cause
 impact: none
 ---
 
-"The roll on the bill is recorded" and two lines like it are pulled from the reporter's talk, and a report counts the scene types whose opening names no cause; the count may only fall.
+A report counts the scene types whose opening names no cause and the lines that say record status in the record's own words; the counts may only fall and no line changes.

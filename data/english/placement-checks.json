@@ -26,6 +26,12 @@
       "says": "A scene type's opening narration is placed by its cause: at least one narration piece of the type carries a key other than the shared one, so the opening says what just happened. A type with no narration at all is listed, not flagged.",
       "step": "narrate",
       "sharedKey": "routine"
+    },
+    "record-status-words": {
+      "type": "phrases",
+      "rule": "Rule 110",
+      "says": "No opening or question says record status in the words of the record: \"is recorded\", \"the roll on\", \"on the roll\" (a person says \"the vote\"). Counted, not pulled.",
+      "phrases": ["\\bis recorded\\b", "\\b(?:the roll on|on the roll)\\b"]
     }
   }
 }

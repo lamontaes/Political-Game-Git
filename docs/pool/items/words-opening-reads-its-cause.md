@@ -23,7 +23,7 @@ checked: M1 2026-11-14
 
 **Cause.** Measured: 16 scene types have narration, all of it keyed "routine" (placed by no cause): press-comment and its four variants, the five owed-apology arcs, ally-return, filing-clerk, mentor-advice, care-visit, first-date, friend-ask. Four types have no narration at all (ask-signature.plain, ask-support.plain, campaign-answer, talk), listed not flagged. `npm run words:placement` lists them.
 
-**Fix.** The words "is recorded", "the roll on" and "on the roll" join plain-american-no-jargon (three press-comment lines are pulled from play by the run). A placement check counts the types and the guard `tests/guards/english/placement-checks.test.ts` holds the count at or below its baseline, so it only falls. Each type then gets an opening keyed to its cause that says the event in plain words; the Words lead names who writes them ("Fix the reporter's call scene" for press-comment).
+**Fix.** Saying "is recorded", "the roll on" or "on the roll" is a counted report, not a pull: the three press-comment lines that say them stay in play until the reporter's-call builder replaces them. A placement check counts the types and the guard `tests/guards/english/placement-checks.test.ts` holds the counts (16 types, 3 lines) at or below their baselines, so they only fall. Each type then gets an opening keyed to its cause that says the event in plain words; the Words lead names who writes them ("Fix the reporter's call scene" for press-comment).
 
 **Time box.** 2 hours, Sonnet.
 

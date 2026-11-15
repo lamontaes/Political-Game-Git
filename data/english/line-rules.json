@@ -5685,11 +5685,6 @@
         {
           "date": "2026-11-14",
           "words": "Be sure that it's talking in American English... I cut the levy by 2 mils. Come on, these are rules and guards already. There better not be any British English in this word session."
-        },
-        {
-          "date": "2026-11-14",
-          "words": "The roll on the free fares for rioters ordinance is recorded. Olivia from the... I'm not sure why it's saying the roll. Maybe, I don't know, is that finishing an event or something?",
-          "via": "Words lead, rule 110"
         }
       ],
       "status": "enforced",
@@ -5715,17 +5710,13 @@
           "\\b(?:b[a]nk r[a]te|c[e]ntral b[a]nk's r[a]te)\\b",
           "\\bj[u]risdictions?\\b",
           "\\bc[o]lleagues,",
-          "\\b(?:b[a]sis p[o]ints?|per c[a]pita|s[i]ne die|m[a]rkups?|c[l]oture|p[r]esentment|e[n]grossed|s[u]permajority|q[u]orum|g[e]rmane|e[a]rmark|c[o]ntinuing r[e]solution|u[n]funded m[a]ndate|r[o]llback r[a]te|d[e]bt s[e]rvice|l[i]ne i[t]em|s[u]nset c[l]ause|f[u]nd b[a]lance|b[i]ennium)\\b",
-          "\\bis recorded\\b",
-          "\\b(?:the roll on|on the roll)\\b"
+          "\\b(?:b[a]sis p[o]ints?|per c[a]pita|s[i]ne die|m[a]rkups?|c[l]oture|p[r]esentment|e[n]grossed|s[u]permajority|q[u]orum|g[e]rmane|e[a]rmark|c[o]ntinuing r[e]solution|u[n]funded m[a]ndate|r[o]llback r[a]te|d[e]bt s[e]rvice|l[i]ne i[t]em|s[u]nset c[l]ause|f[u]nd b[a]lance|b[i]ennium)\\b"
         ]
       },
       "catches": [
         "I cut the levy by two mills.",
         "The ad valorem assessment was promulgated pursuant to the ordinance.",
-        "We must secure the appropriation before the fiscal year lapses, colleagues.",
-        "The roll on {bill} is recorded.",
-        "I can't find you on the roll for {bill}."
+        "We must secure the appropriation before the fiscal year lapses, colleagues."
       ],
       "spares": ["I cut your property taxes.", "It's on the mayor's desk."],
       "applies": [
@@ -5859,7 +5850,7 @@
           "via": "Words lead, rule 110"
         }
       ],
-      "note": "Rule 110. The words \"is recorded\" and \"the roll on\" joined plain-american-no-jargon. The rest is a counted report, not a pull: `npm run words:placement` lists the scene types whose every narration piece is keyed routine (placed by no cause); the count may only fall (tests/guards/english/placement-checks.test.ts). Types with no narration are listed, not flagged.",
+      "note": "Rule 110. A counted report, not a pull: `npm run words:placement` lists (1) the scene types whose every narration piece is keyed routine (placed by no cause), and (2) the pieces that say record status (\"is recorded\", \"the roll on\", \"on the roll\"); the counts may only fall (tests/guards/english/placement-checks.test.ts). Types with no narration are listed, not flagged. Bare \"the roll\" said by a legislator stays with the judge. Nothing is pulled: the reporter's call has no opener until the reporter's-call builder replaces these lines.",
       "status": "awaiting-test",
       "test": {
         "kind": "place"

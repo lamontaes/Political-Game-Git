@@ -46,7 +46,15 @@ type OpeningCheck = {
   readonly sharedKey: string;
 };
 
-const CHECKS = data.checks as Record<string, StatesCheck | OpeningCheck>;
+type PhrasesCheck = {
+  readonly type: "phrases";
+  readonly phrases: readonly string[];
+};
+
+const CHECKS = data.checks as Record<
+  string,
+  StatesCheck | OpeningCheck | PhrasesCheck
+>;
 
 export const PLACEMENT_CHECK_IDS = Object.keys(CHECKS);
 
@@ -118,6 +126,23 @@ export function placementBreaks(
         text: row.text,
         why: `every narration piece of this type is keyed "${check.sharedKey}", placed by no cause`,
       }));
+  }
+  if (check.type === "phrases") {
+    const expressions = check.phrases.map((source) => new RegExp(source, "i"));
+    return pieces.flatMap((piece) =>
+      isPulled(piece, pulled) ||
+      !expressions.some((expression) => expression.test(piece.text))
+        ? []
+        : [
+            {
+              check: checkId,
+              pieceKey: piece.key,
+              purpose: piece.uses[0]?.purpose ?? "",
+              text: piece.text,
+              why: "says record status in the words of the record",
+            },
+          ],
+    );
   }
   const expressions = check.statesPatterns.map(
     (source) => new RegExp(source, "i"),
