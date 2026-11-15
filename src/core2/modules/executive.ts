@@ -1323,39 +1323,41 @@ function stateNominationInput(
   if (confirmation && !senate)
     throw new Error("No confirming chamber is recorded.");
   return {
-    seatKey: `cabinet:${state}:${spec.key}`,
-    appointerSide: leanOf(api, input.executiveId),
-    weighing: appointerWeighing(api.state as CoreState, input.executiveId),
-    candidates: [
-      ...pool.map((person) => {
-        const record = postRecord(api, person, spec.key, api.state.date);
-        return {
-          id: person.id,
-          lean: personLean(api.state.people, person, 0),
-          qualification: appointmentQualification(person, record),
-          qualificationRecords: record.recordIds,
-          known: (api.state as CoreState).relationships.has(
-            pairKey(input.executiveId, person.id),
-          ),
-        };
-      }),
-      // Someone the governor has never met: no record of their work is kept
-      // until they are filled in, so they are weighed on temperament alone.
-      ...drawn.map(([id, { resident }]) => ({
-        id,
-        lean: leanOf(api, id, resident),
-        qualification: appointmentQualification(resident, NO_POST_RECORD),
-        known: false,
-      })),
-    ],
     drawn: new Map(drawn),
-    confirmingBody: confirmation
-      ? {
-          name: senate!.title,
-          sides: members(api, senate!.id).map((t) => partySide(t.party)),
-        }
-      : null,
-    tolerance: campaignParameter("confirmationTolerance"),
+    nomination: {
+      seatKey: `cabinet:${state}:${spec.key}`,
+      appointerSide: leanOf(api, input.executiveId),
+      weighing: appointerWeighing(api.state as CoreState, input.executiveId),
+      candidates: [
+        ...pool.map((person) => {
+          const record = postRecord(api, person, spec.key, api.state.date);
+          return {
+            id: person.id,
+            lean: personLean(api.state.people, person, 0),
+            qualification: appointmentQualification(person, record),
+            qualificationRecords: record.recordIds,
+            known: (api.state as CoreState).relationships.has(
+              pairKey(input.executiveId, person.id),
+            ),
+          };
+        }),
+        // Someone the governor has never met: no record of their work is kept
+        // until they are filled in, so they are weighed on temperament alone.
+        ...drawn.map(([id, { resident }]) => ({
+          id,
+          lean: leanOf(api, id, resident),
+          qualification: appointmentQualification(resident, NO_POST_RECORD),
+          known: false,
+        })),
+      ],
+      confirmingBody: confirmation
+        ? {
+            name: senate!.title,
+            sides: members(api, senate!.id).map((t) => partySide(t.party)),
+          }
+        : null,
+      tolerance: campaignParameter("confirmationTolerance"),
+    },
   };
 }
 
@@ -1392,11 +1394,11 @@ export function stateCandidates(
     (p) => p.key === post && /governor/.test(p.appointedBy),
   );
   if (!spec) return [];
-  const { drawn: _drawn, ...input } = stateNominationInput(
+  const input = stateNominationInput(
     api,
     { executiveId, post },
     spec,
-  );
+  ).nomination;
   if (!input.candidates.length) return [];
   return nominateAndConfirm({ ...input, confirmingBody: null }).reasons;
 }
@@ -1420,7 +1422,7 @@ export function appointStatePost(
     (p) => p.key === input.post && /governor/.test(p.appointedBy),
   );
   if (!spec) throw new Error("This post is not appointed by the governor.");
-  const { drawn, ...nomination } = stateNominationInput(api, input, spec);
+  const { drawn, nomination } = stateNominationInput(api, input, spec);
   const appointment = nominateAndConfirm(nomination);
   const nominationId = `nomination:${state}:${spec.key}:${input.personId ?? "own-choice"}:${api.state.date}`;
   table(api, "nominations").put({

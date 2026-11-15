@@ -476,6 +476,7 @@ export function officeView(core: CoreState, personId: string) {
       ...postsToFill(api, personId).map((post) => ({
         post,
         candidates: headCandidates(api, post.key),
+        names: undefined as ReadonlyMap<string, string> | undefined,
       })),
       // A governor's open cabinet posts: the state chamber confirms the one they name.
       // Someone drawn from the state's people is named by their drawn record, never filled in to be shown.
@@ -484,7 +485,7 @@ export function officeView(core: CoreState, personId: string) {
         candidates: stateCandidates(api, personId, post.key),
         names: stateCandidateNames(api, post.key),
       })),
-    ].map(({ post, candidates, ...rest }) => ({
+    ].map(({ post, candidates, names }) => ({
       post: post.key,
       title: post.title,
       candidates: candidates.slice(0, 8).map((reasons) => {
@@ -493,9 +494,8 @@ export function officeView(core: CoreState, personId: string) {
         return {
           id: reasons.candidateId,
           name:
-            ("names" in rest
-              ? rest.names.get(reasons.candidateId)
-              : undefined) ?? personName(core, reasons.candidateId),
+            names?.get(reasons.candidateId) ??
+            personName(core, reasons.candidateId),
           job: job && job.endsAt === undefined ? job.title : null,
           total: reasons.total,
         };
