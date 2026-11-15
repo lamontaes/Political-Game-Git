@@ -22,13 +22,13 @@ source: "owner, Nov 15 21:09Z (industries, coal and farms, a town at one plant t
 
 **Cause.** Found in code: `outlets` in src/core2/town-workplaces.ts:54 fixes each workplace's count (utility 1, quarry 1, manufacturing 2), and `opening-town-jobs.ts:746` splits a sector's jobs evenly over them. The county's establishments by size class are in the County Business Patterns corpus (data/source/county-business-patterns/regional-corpus.json.gz) and are not read.
 
-**Fix.** The opening sizes a sector's businesses from its county's establishments by size class: the town's share of the county's establishments, largest first, each sized from its class, so a county whose mining is two big mines opens one or two big employers, and a county of small shops many small ones. The fixed `outlets` count is deleted. Numbers come from the corpus through the committed export script, never hand-edited.
+**Fix.** Account lead, Nov 15 21:17Z: "a large establishment is one building in one place". The county's establishments of 100 staff or more (County Business Patterns class 100-249 and up) are each placed whole in one of the county's places, or in the county outside any town. They are sized from their class, a withheld class from what is left of the sector's county employment. The placing is weighted by the places' populations in the county-part table, by a hash of the world seed, county, sector and index (seeded generation of what exists). The town's mix is its population share of the county's small-class jobs plus every large establishment placed in it, one business each. The small classes stay spread as now. The fixed `outlets` count is deleted. Numbers come from the corpus through the committed export script, never hand-edited. In-commuters from neighboring places and naming the plant other towns' commuters go to are a later item. The ZIP-level item (industry-1b) replaces the placing rule with where plants really are.
 
 **Time box.** 5 hours, Opus, medium.
 
 **Rules.** One rule, all 56 places: the size classes are read the same way for every county. Day one is in motion: the opening's businesses are the size a real place has. Replace, never layer: the fixed outlet counts go.
 
-**Done when.** At Gillette WY, Lebanon KY and a third named place with seeds, the largest employer's share of jobs is printed before and after, with the county's published largest size class beside it; year 1 and time per record at three places with and without, twice a side, alternated. A second session sees in dev mode, at a drawn place it names with its seed, the town's largest employer and its staff.
+**Done when.** At Gillette WY, Lebanon KY and a small town that hosts a large establishment, each named with its seed, a pinned test prints before and after the largest employer's share of the jobs located in town and of the town's working residents, and where the other residents work; year 1 and time per record at three places with and without, twice a side, alternated. A second session sees in dev mode, at a drawn place it names with its seed, the town's largest employer and its staff.
 
 **Waits on.** Nothing.
 
