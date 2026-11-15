@@ -5223,6 +5223,7 @@
   "stipendPostMinimumWeeklyMinutes": {
     "value": 60,
     "tag": "TUNABLE",
+    "role": "level",
     "citation": "Chosen by the game, not read from a source: the shortest weekly sitting a stipend post (a small town's attorney or clerk paid a few dollars a week) is scheduled for, so such a post is a few hours at a real rate and never a full week at cents an hour.",
     "spread": {
       "low": 30,
