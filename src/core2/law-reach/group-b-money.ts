@@ -1063,6 +1063,52 @@ export function payMedicaidCare(
   return { paidBySeller, journalIds };
 }
 
+/** The federal budget line Medicare's own part of its members' care is paid from (OMB function 570). */
+export const MEDICARE_LINE = "medicare";
+
+/**
+ * The part of Medicare members' care a raised Medicare line pays above what
+ * Medicare paid at its base (medical-bills.ts lowers the members' share by
+ * it): the federal treasury pays it to the medical seller each household
+ * pays, counted against the Medicare line so the close pays only the rest
+ * outside. A treasury pays what it holds. Returns what each seller was paid.
+ */
+export function payMedicareLinePart(
+  api: CoreAPI,
+  input: {
+    readonly bySeller: ReadonlyMap<string, number>;
+    readonly source: Source;
+  },
+): ReadonlyMap<string, number> {
+  const paidBySeller = new Map<string, number>();
+  const federal = governmentAt(api, "federal");
+  if (!federal) return paidBySeller;
+  const sellers = [...input.bySeller]
+    .filter(([, minor]) => minor > 0)
+    .sort(([a], [b]) => a.localeCompare(b));
+  fundFederalStanding(
+    api,
+    sellers.reduce((n, [, minor]) => n + minor, 0),
+  );
+  const accounts = api.accounts();
+  const today = api.state.date;
+  for (const [sellerId, minor] of sellers) {
+    const receipt = accounts.transfer({
+      id: `reach-b:medicare-line-care:${federal.id}|${sellerId}:${today}`,
+      from: accounts.main(federal.organizationId),
+      to: accounts.main(sellerId),
+      amountMinor: minor,
+      reasonKey: "law-reach:medicare-line-care",
+      partial: true,
+      source: input.source,
+    });
+    if (receipt.paidMinor <= 0) continue;
+    noteLinePaid(api, federal.id, MEDICARE_LINE, receipt.paidMinor);
+    paidBySeller.set(sellerId, receipt.paidMinor);
+  }
+  return paidBySeller;
+}
+
 /** One stretch of a resident's coverage under a policy, as the reach keeps it. */
 interface CoverageRow {
   readonly id: string;

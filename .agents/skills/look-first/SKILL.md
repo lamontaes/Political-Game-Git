@@ -64,6 +64,7 @@ Stop at the first hit that answers; read it whole.
 - Only the Story session writes, changes or deletes lines under `data/english/parts/`; every note he gives about words becomes a rule a program tests (owner, Nov 10, "Split by role"; `words-engine`).
 - A rule, a check or a skill merges before other pull requests (owner, Nov 10).
 - Nothing is done until a second session saw it in the running game (owner, Nov 3; `seen-in-game`).
+- Old material is deleted, not kept; a design question gets the whole-repository search before it is asked (Nov 15; `words-reads`, rules 127 to 135).
 - Election day is the player's choice; discrimination is simulated; the Wildermyth standard for scenes; one UI and one scene system (Oct 26).
 
 ## Self-check before you send anything to the owner
