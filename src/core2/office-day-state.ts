@@ -346,9 +346,13 @@ export function sessionOn(
 /** The first regular session window of a date's year, if the legislature meets that year. */
 function firstWindow(stateKey: string, year: number) {
   const { windows, tag, url } = windowsOf(stateKey, year);
-  const first = [...windows].sort((a, b) =>
+  // The first window that convenes in the year: a legislature that
+  // organizes in December (Indiana's organization day) is not that year's.
+  const sorted = [...windows].sort((a, b) =>
     a.conveneAt.localeCompare(b.conveneAt),
-  )[0];
+  );
+  const first =
+    sorted.find((w) => w.conveneAt.startsWith(`${year}-`)) ?? sorted[0];
   return first ? { window: first, tag, url } : null;
 }
 
@@ -1348,10 +1352,9 @@ function worldGovernors(api: CoreAPI): string[] {
     // meets or opens them.
     const office = offices.get(term.officeId) as unknown as
       { kind?: string; level?: string; jurisdiction?: string } | undefined;
+    if (office?.kind !== "governor") continue;
     const held =
-      term.personId ||
-      office?.kind !== "governor" ||
-      isOutsideOffice(api, office)
+      term.personId || isOutsideOffice(api, office)
         ? term
         : holderOf(api, term);
     if (held.personId) governors.add(held.personId);

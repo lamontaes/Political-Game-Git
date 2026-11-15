@@ -7,6 +7,7 @@ import { gameStartDate } from "../core2/game-start";
 import { makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
 import { officeActsOf } from "../core2/modules/office-day";
+import { sessionYear } from "../core2/state-session-calendar";
 import { OFFICE_DAY_STATE_MODULE_ID } from "../core2/office-day-state";
 import { OFFICES_MODULE_ID } from "../core2/modules/offices";
 import { coreAPI } from "../core2/state";
@@ -32,7 +33,7 @@ describe.each(PINNED)(
         twoLevel: true,
         placeKey: place.key,
       });
-      advanceCore(w.core, makeIsoDate("2026-02-01"));
+      advanceCore(w.core, makeIsoDate("2026-05-01"));
       const api = coreAPI(w.core);
       const results = api
         .moduleState(OFFICE_DAY_STATE_MODULE_ID)
@@ -64,14 +65,58 @@ describe.each(PINNED)(
         );
       // The sessions of January 2025 convened before the world's first day
       // (the opening lacks last year's address: pool item
-      // gov-opening-lacks-last-years-address), so the first governors' addresses
-      // are the next January's, one per governor, each on its own state's day.
-      expect(governors.length, place.name).toBeGreaterThan(20);
+      // gov-opening-lacks-last-years-address), so the first governors'
+      // addresses are 2026's, one per governor, each on its own state's day.
       expect(new Set(governors.map((g) => g.holderId)).size, place.name).toBe(
         governors.length,
       );
+      // Every state's governor is accounted for by the world's own record:
+      // the governor gave it, or the session calendar table says the state's
+      // legislature does not meet in 2026.
+      const offices = api.moduleState(OFFICES_MODULE_ID).table("offices");
+      const jurisdictionOf = (officeId: string) =>
+        (offices.get(officeId) as unknown as { jurisdiction: string })
+          .jurisdiction;
+      const servingGovernors = terms.filter(
+        (t) =>
+          t.status === "serving" &&
+          (offices.get(t.officeId) as unknown as { kind?: string })?.kind ===
+            "governor",
+      );
+      const gaveStates = new Set(
+        governors.map((g) =>
+          jurisdictionOf(
+            terms.find((t) => t.personId === g.holderId)!.officeId,
+          ),
+        ),
+      );
+      const states = new Set(
+        servingGovernors.map((t) => jurisdictionOf(t.officeId)),
+      );
+      const silent = [...states].filter((k) => !gaveStates.has(k));
+      const noSession = silent.filter((k) => !sessionYear(k, 2026)?.meets);
+      // A session the table says convened before 2026 (Indiana's started
+      // 2025-12-01, the Marianas' legislature has sat continuously since
+      // 2025-01-13) had its address in 2025, before that year's window.
+      const earlier = silent.filter(
+        (k) =>
+          !noSession.includes(k) &&
+          !sessionYear(k, 2026)!.windows.some((w) =>
+            w.conveneAt.startsWith("2026-"),
+          ),
+      );
+      const other = silent.filter(
+        (k) => !noSession.includes(k) && !earlier.includes(k),
+      );
+      if (process.env.ACTS_OUT)
+        appendFileSync(
+          process.env.ACTS_OUT,
+          `${place.name} states ${states.size} gave ${gaveStates.size} noSession ${JSON.stringify(noSession)} earlier ${JSON.stringify(earlier)} other ${JSON.stringify(other)}\n`,
+        );
+      expect(gaveStates.size, place.name).toBeGreaterThan(40);
+      expect(other, place.name).toEqual([]);
       expect(
-        governors.every((g) => g.date.startsWith("2026-01")),
+        governors.every((g) => g.date >= "2026-01"),
         place.name,
       ).toBe(true);
       expect(
