@@ -34,4 +34,4 @@ Lead ruling, Nov 13 to 14: a test is pinned in the test file to named places wit
 
 ## Checking a reported pass
 
-Ask where it ran and at what head. A unit test that builds its own small world proves an edge case only; the played-world proof is separate.
+Ask where it ran and at what head. A unit test that builds its own small world proves an edge case only; the played-world proof is separate. 7. **Stage a law by the game's own enactment and start from the row the game reads (Nov 15).** A test that waits played days for a bill to pass took 352 seconds and was red on a tie. Pin the place, take the starting amount from `billValueInForce` (the floor doctrine keeps the federal row on a tie, so "the local row" is the wrong start), and enact through `enactLaw`. Say in the comment why no played days are needed.
