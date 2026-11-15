@@ -17,7 +17,9 @@ import {
 } from "../core2/modules/partnerships";
 import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
+import { askFromCard } from "../bench/person-acts";
 import { purposeScene, replyInScene } from "./purpose-scene";
+import { SITUATION_LIBRARY } from "./scheduling";
 import type { TreeNode } from "./scene-talk";
 
 // The player's own ask (family life question 1, ruled Nov 14 2026 under the
@@ -272,4 +274,38 @@ it('asked out a second time, a yes is not one that was waited for: no "I was hop
   expect(scene.scene.talk.state.text, where).not.toBe(
     "I was hoping you'd ask.",
   );
+}, 120_000);
+
+it("every ask the player makes is answered in a scene, past the season's cap of one kind (Pulaski, Ohio)", () => {
+  const { core, director, me, singles, where } = world();
+  const player = core.people.get(me)!;
+  const today = makeIsoDate(core.date);
+  const ageOf = (born: string) => ageOnDate(makeIsoDate(born), today);
+  // The least fitting singles first, so the asks are noes and keep coming:
+  // one more than the season's cap of one kind of scene (six a season).
+  const cap = SITUATION_LIBRARY.scheduling.seasonCap.value;
+  const gender = (row: { looks?: { gender?: string } }) =>
+    row.looks?.gender === "female" || row.looks?.gender === "male"
+      ? row.looks.gender
+      : undefined;
+  const fit = (row: (typeof singles)[number]) =>
+    partnerAgeLikelihood(
+      ageOf(row.birthDate),
+      gender(row),
+      ageOf(player.birthDate),
+      gender(player),
+    );
+  const asked = [...singles].sort(
+    (a, b) => fit(a) - fit(b) || a.id.localeCompare(b.id),
+  );
+  expect(asked.length, where).toBeGreaterThan(cap);
+  const book = director.ledger.people.get(me)!;
+  for (const other of asked.slice(0, cap + 1)) {
+    const { momentId } = askFromCard(core, director, me, other.id, "ask-out", {
+      byPhone: true,
+    });
+    const entry = book.schedule.find((row) => row.momentId === momentId);
+    expect(entry?.outcome, `${where}: ${other.givenName}`).toBe("scene-now");
+    expect(entry?.heldBack, `${where}: ${other.givenName}`).toBeUndefined();
+  }
 }, 120_000);

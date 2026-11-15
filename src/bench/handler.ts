@@ -438,19 +438,17 @@ function playerMinute(core: CoreState, playerId: string): number {
  * their workplace on a shift, else their own home.
  */
 /**
- * Where an ask from the card is made: in the room the player stands in when
- * the other is there with them, else by phone.
+ * Where an ask from the card is made: the room the player stands in, in
+ * person when the other is there with them, else by phone from that room.
  */
 function askWhere(otherId: string): AskWhere | undefined {
   const playerId = state.player?.personId;
   if (!playerId) return undefined;
-  const core = requireCore();
-  const here = sceneNow(core, playerId).people.some(
+  const here = sceneNow(requireCore(), playerId).people.some(
     (person) => person.personId === otherId,
   );
-  if (!here) return { byPhone: true };
   const room = playerRoom();
-  return room ? { room } : undefined;
+  return { ...(room ? { room } : {}), ...(here ? {} : { byPhone: true }) };
 }
 
 function playerRoom(): string | undefined {

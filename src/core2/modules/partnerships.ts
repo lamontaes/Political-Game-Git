@@ -1299,8 +1299,14 @@ export function canAsk(
   return { open: true };
 }
 
-/** Where an ask is made: the room the two stand in together (an organization or a household), or by phone while they are apart. */
-export type AskWhere = { room: string } | { byPhone: true };
+/**
+ * Where an ask is made: the room the player stands in (an organization or a
+ * household), and whether it was by phone because the other was elsewhere.
+ */
+export interface AskWhere {
+  room?: string;
+  byPhone?: boolean;
+}
 
 function keepAnswer(
   api: CoreAPI,
@@ -1336,8 +1342,8 @@ function keepAnswer(
     date: core.date,
     kind: kind === "ask-out" ? FAMILY_ASKED_OUT : FAMILY_PROPOSAL_ANSWERED,
     personIds: ids,
-    // Where the ask was made (the room the two stand in), else the town.
-    placeId: where && "room" in where ? where.room : me.placeId,
+    // Where the ask was made (the room the player stands in), else the town.
+    placeId: where?.room ?? me.placeId,
     publicRecord: false,
     source: source(
       api,
@@ -1350,7 +1356,7 @@ function keepAnswer(
       ...(reason ? { reason } : {}),
       asks: String(row.count),
       // Asked by phone, the two apart; asked of this person before.
-      ...(where && "byPhone" in where ? { by: "phone" } : {}),
+      ...(where?.byPhone ? { by: "phone" } : {}),
       ...(row.count > api.parameter("one") ? { askedBefore: "yes" } : {}),
     },
   });

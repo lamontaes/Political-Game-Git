@@ -1377,6 +1377,7 @@
       "setting": ["venue", "public"],
       "timing": "at-cause",
       "stopsDay": true,
+      "answersPress": true,
       "repeatsBy": "cause",
       "causes": [
         {
@@ -1462,6 +1463,7 @@
       "setting": ["venue", "home", "public"],
       "timing": "at-cause",
       "stopsDay": true,
+      "answersPress": true,
       "repeatsBy": "cause",
       "causes": [
         {

@@ -182,6 +182,12 @@ export interface SituationType {
    */
   stopsDay?: boolean;
   /**
+   * The answer to the player's own press (an Ask out or a Propose from a
+   * card): every press plays its answer, so the season's cap, which spaces
+   * the causes the world brings, never holds it back.
+   */
+  answersPress?: boolean;
+  /**
    * The player's office stop this scene's stop follows (a desk visit follows
    * the desk switch): switched off, the scene does not stop the day, and
    * nothing is decided for the player (owner's card, Nov 14, 02:03Z).
@@ -1044,6 +1050,7 @@ export function scheduleMoment(
     return Object.keys(said).length === zero;
   };
   const seasonFull = (row: SceneBinding) =>
+    !library.types.find((type) => type.key === row.typeKey)?.answersPress &&
     (inSeason.get(row.typeKey) ?? zero) >= library.scheduling.seasonCap.value;
   const heldBack = wanted.flatMap(
     (row): NonNullable<ScheduleEntry["heldBack"]> =>

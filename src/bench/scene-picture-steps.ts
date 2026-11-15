@@ -19,7 +19,7 @@ const SCHOOLS = scenePlaces.schoolPlacesByAge;
 export type PictureRow = "variant" | "type" | "school" | "setting";
 
 export interface PictureStep {
-  /** A painted place's name, or an `@` token the records fill in (`@home`, `@org`, `@door`, `@office`, `@seatroom`). */
+  /** A painted place's name, or an `@` token the records fill in (`@home`, `@org`, `@from`, `@door`, `@office`, `@seatroom`). */
   readonly name: string;
   readonly row: PictureRow;
 }
