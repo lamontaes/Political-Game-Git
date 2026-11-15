@@ -87,10 +87,52 @@ export function closenessBetween(
   a: PersonId,
   b: PersonId,
 ): number {
+  return closenessBetweenAfter(
+    core,
+    a,
+    b,
+    parameter("zero", core.data.parameters),
+  );
+}
+
+/**
+ * Hours two people have spent together that no relationship row keeps,
+ * read from another engine's record when asked (the sittings two members of
+ * one body have shared, `sitting-closeness.ts`), already faded to today.
+ */
+type SharedHours = (core: object, a: PersonId, b: PersonId) => number;
+let sharedHours: SharedHours | null = null;
+export function registerSharedHours(reader: SharedHours): void {
+  sharedHours = reader;
+}
+
+/**
+ * How close two people would be after `hours` more together today (negative
+ * takes time away): their tie's hours faded to today, plus the hours another
+ * engine's record says they shared (`registerSharedHours`). With no tie and
+ * nothing shared it is zero; with `hours` zero it is today's closeness.
+ */
+export function closenessBetweenAfter(
+  core: Pick<CoreState, "data" | "date" | "relationships">,
+  a: PersonId,
+  b: PersonId,
+  hours: number,
+): number {
+  const p = lookup(core);
   const row = core.relationships.get(a < b ? `${a}:${b}` : `${b}:${a}`);
-  return row
-    ? currentCloseness(core, row)
-    : parameter("zero", core.data.parameters);
+  const shared = a === b ? p("zero") : (sharedHours?.(core, a, b) ?? p("zero"));
+  if (!row && shared === p("zero") && hours === p("zero")) return p("zero");
+  if (row && shared === p("zero") && hours === p("zero"))
+    return currentCloseness(core, row);
+  const tied = row
+    ? faded(
+        p,
+        hoursFromLevel(p, row.level),
+        elapsed(p, row.lastContactDate, core.date),
+        row.kind,
+      )
+    : p("zero");
+  return levelFromHours(p, tied + shared + hours);
 }
 
 /** Hours of time together the tie has lost since its last contact. */

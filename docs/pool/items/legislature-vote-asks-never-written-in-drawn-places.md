@@ -39,3 +39,5 @@ The player sees it in play as a floor vote with no member asking for their vote 
 **Waits on.** Nothing.
 
 **Files.** src/core2/modules/legislature.ts, src/director/ask-before-the-roll.test.ts, src/core2/legislature-ask-reaches-roll.test.ts, src/director/ask-vote-variants.test.ts
+
+Nov 15 (views thread): `ask-vote-variants` is still red on the train at ff9703d7 with GOLDEN_PATH_SEED=8c295d93bea70bd5: "no staged ask in 240 days" in Lakewood, New Jersey (3438580), world seed 84d8d272, then Decatur, Alabama (0120104). The lead ruled that it is a draw-hunting test. Once the cause is found, it stages the evening-before ask through the game's own path at one named place and seed, instead of drawing and waiting.

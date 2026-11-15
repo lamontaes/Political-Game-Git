@@ -55,12 +55,7 @@ import type {
   Source,
 } from "../types";
 import { nextMeeting } from "./offices";
-import {
-  catchUpSittings,
-  creditSittings,
-  registerSittingCalendar,
-  type SittingDay,
-} from "../sitting-closeness";
+import { registerSittingCalendar, type SittingDay } from "../sitting-closeness";
 import {
   addDays,
   makeIsoDate,
@@ -113,6 +108,7 @@ import {
   FEDERAL_SENATE,
   LEGISLATURE_MODULE_ID,
   registerFloorDateReader,
+  registerFloorCalendarer,
   registerSittingReader,
   registerWeeklyFloorReader,
   settledness,
@@ -224,30 +220,11 @@ export function openWorldLegislating(core: CoreState): void {
   registerSittingReader(nextSitting);
   registerWeeklyFloorReader(weeklyFloorOn);
   registerFloorDateReader(floorDateOf);
+  registerFloorCalendarer(projectedFloorDate);
   registerSittingCalendar(SITTING_CALENDAR);
-  const opening = !core.modules.has(WORLD_LEGISLATING_MODULE_ID);
-  if (opening) registerModule(core, WORLD_LEGISLATING_MODULE);
+  if (!core.modules.has(WORLD_LEGISLATING_MODULE_ID))
+    registerModule(core, WORLD_LEGISLATING_MODULE);
   const api = coreAPI(core);
-  // Members who have sat together since before the world opened know each
-  // other as they would from those sittings (day one in motion).
-  if (opening)
-    catchUpSittings(
-      api,
-      new Set(
-        (
-          api
-            .moduleState(OFFICES_MODULE_ID)
-            .table("terms")
-            .query("byStatus", ["serving"]) as unknown as TermRow[]
-        ).flatMap((term) =>
-          term.personId &&
-          bodyOf(api, term.officeId) &&
-          api.state.people.get(term.personId)?.alive
-            ? [term.personId]
-            : [],
-        ),
-      ),
-    );
   // The town's council and its county board meet on their own.
   for (const office of townBodies(api)) scheduleMeeting(api, office);
   // Congress and every legislature in the session calendar open their next
@@ -2129,6 +2106,8 @@ interface Queued {
   readonly id: string;
   readonly introduced: string;
   readonly filing: Filing | null;
+  /** The floor week the leader put the bill on the calendar for. */
+  readonly floorOn?: string;
 }
 
 /**
@@ -2156,11 +2135,18 @@ function floorQueue(api: CoreAPI, row: LegislativeSession): readonly Queued[] {
           ? [{ id: "", introduced: filing.introduceOn, filing }]
           : [];
       const b = table.get(filing.billId) as unknown as BillRow | undefined;
-      return waiting(b) ? [{ id: b.id, introduced: b.introduced, filing }] : [];
+      return waiting(b)
+        ? [{ id: b.id, introduced: b.introduced, filing, floorOn: b.floorOn }]
+        : [];
     }),
     ...chamberBills(api, row)
       .filter(waiting)
-      .map((b) => ({ id: b.id, introduced: b.introduced, filing: null })),
+      .map((b) => ({
+        id: b.id,
+        introduced: b.introduced,
+        filing: null,
+        floorOn: b.floorOn,
+      })),
   ];
 }
 
@@ -2192,6 +2178,13 @@ function* floorWeeks(
       Math.round((queue.length - done.size) / Math.max(1, weeksLeft)),
     );
     const taken: Queued[] = [];
+    // The bills the leader calendared for this week keep it, whatever the
+    // pace works out to be now; the weeks' other bills fill what room is left.
+    for (const [i, q] of queue.entries()) {
+      if (done.has(i) || q.floorOn !== date) continue;
+      done.add(i);
+      taken.push(q);
+    }
     for (const [i, q] of queue.entries()) {
       if (taken.length >= pace) break;
       if (done.has(i) || q.introduced > ready) continue;
@@ -2215,26 +2208,8 @@ function floorWeek(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   const today = api.state.date;
   const table = api.moduleState(LEGISLATURE_MODULE_ID).table("bills");
   const bills = [...row.bills];
-  // The chambers sit this week: their members share the floor days. A
-  // month's weeks are credited together at its last floor week (and at the
-  // session's last), each faded as closeness fades, so a chamber of hundreds
-  // is written monthly, not weekly (cadence-and-summaries).
-  const following = plusDays(today, 7);
-  if (
-    following.slice(0, 7) !== today.slice(0, 7) ||
-    following >= row.adjournAt
-  ) {
-    const month = `${today.slice(0, 7)}-01`;
-    for (const chamberId of sessionChambers(api, row))
-      creditSittings(
-        api,
-        chamberId,
-        row.firstFloor > month ? row.firstFloor : month,
-        today,
-      );
-  }
-  const taken = floorWeeks(api, row, today).next();
-  for (const q of taken.done ? [] : taken.value.taken) {
+  const week = floorWeeks(api, row, today).next();
+  for (const q of week.done ? [] : week.value.taken) {
     const drafted = table.get(q.id) as unknown as BillRow | undefined;
     if (!drafted) continue;
     // A member's filing is read against the law as it stands on the floor day.
@@ -2309,6 +2284,22 @@ export function floorDateOf(api: CoreAPI, billId: string): string | null {
   if (!bill || bill.status !== "drafted") return null;
   const set = api.moduleCalendar(LEGISLATURE_MODULE_ID).get(voteKeyOf(bill));
   if (set) return set.date;
+  // The week the leader put it on the calendar for holds while it is ahead.
+  if (bill.floorOn && bill.floorOn >= api.state.date) return bill.floorOn;
+  return projectedFloorDate(api, billId);
+}
+
+/**
+ * The floor week the leader's calendar takes a drafted bill up in the
+ * legislature now sitting, as the weeks stand today: the week a bill is
+ * introduced into a sitting legislature is put on the calendar for.
+ */
+function projectedFloorDate(api: CoreAPI, billId: string): string | null {
+  const bill = api
+    .moduleState(LEGISLATURE_MODULE_ID)
+    .table("bills")
+    .get(billId) as unknown as BillRow | undefined;
+  if (!bill || bill.status !== "drafted") return null;
   const row = sittingFor(api, bill.bodyOfficeId);
   if (!row) return null;
   for (const week of floorWeeks(api, row, nextFloorWeek(row, api.state.date)))
@@ -2435,9 +2426,6 @@ function localMeeting(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     return;
   }
   scheduleMeeting(api, officeId, meetingDate);
-  // The body meets (on the eve, the meeting held for the player's agenda is
-  // tomorrow's): its members share the sitting, once per meeting.
-  creditSittings(api, officeId, meetingDate, meetingDate);
   // Filed the day before, or on the day for a meeting with under a day's
   // notice: a meeting still on the books takes its filings onto the agenda
   // (and may stop the player) and votes them when it meets.

@@ -3,9 +3,8 @@
  * (sitting-closeness.ts). At a named place and seed: on day one, council
  * members who have sat together since before the world opened are tied by
  * those sittings, and the longer they have sat together the closer they are;
- * through two months of played meetings the ties grow; and crediting a
- * pair's shared sittings at once (as for a member filled in later) gives the
- * same closeness as crediting them sitting by sitting.
+ * through played meetings the ties grow; and a state senate pair with no
+ * tie written reads its closeness from the sittings it shared.
  */
 import { expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
@@ -16,7 +15,7 @@ import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import { bodyOf, memberKey, members } from "./modules/legislature";
 import { townSeats } from "./modules/offices";
-import { catchUpSittings } from "./sitting-closeness";
+import { sittingHours } from "./sitting-closeness";
 import { coreAPI } from "./state";
 import type { PersonId } from "./types";
 
@@ -55,15 +54,14 @@ it("council members who sit together know each other, from day one and as they k
   );
   expect(short).toBeGreaterThan(0);
   if (second!.since < last.since) expect(long).toBeGreaterThan(short);
-  // Two months of meetings (among their other contacts): the newest
-  // member's tie grows.
-  advanceCore(core, addDays(makeIsoDate(core.date), 60));
+  // Two and a half months of meetings (among their other contacts): the
+  // newest member's tie grows.
+  advanceCore(core, addDays(makeIsoDate(core.date), 75));
   const grown = closenessBetween(core, first!.id, last.id);
   expect(grown).toBeGreaterThan(short);
-  // The same sittings credited at once, as for a member filled in today,
-  // give the same tie as crediting them one by one. Read on the state's
-  // upper chamber, whose members (unlike the town's) share nothing else
-  // here: the first pair the sittings tie on day one.
+  // A state senate pair that shares nothing but the chamber: no tie is
+  // written for them, and their closeness is the sittings they shared, read
+  // from the chamber's calendar.
   const chamber = townSeats(api).find(
     (row) =>
       row.office.level === "state" &&
@@ -76,20 +74,15 @@ it("council members who sit together know each other, from day one and as they k
     .sort() as PersonId[];
   const pair = ids
     .flatMap((a, i) => ids.slice(i + 1).map((b) => [a, b] as const))
-    .find(([a, b]) => closenessBetween(core, a, b) > 0)!;
+    .find(
+      ([a, b]) =>
+        !core.relationships.has(`${a}:${b}`) && sittingHours(core, a, b) > 0,
+    )!;
+  expect(pair, `${chamber}: a pair tied only by sittings`).toBeTruthy();
   const [a, b] = pair;
-  const key = `${a}:${b}`;
-  const before = closenessBetween(core, a, b);
-  core.relationships.delete(key);
-  core.people.get(a)!.knownIds.delete(b);
-  core.people.get(b)!.knownIds.delete(a);
-  catchUpSittings(api, new Set([b]));
-  const atOnce = closenessBetween(core, a, b);
+  const read = closenessBetween(core, a, b);
   process.stdout.write(
-    `  newest member after 60 days ${grown.toFixed(4)}; ${chamber} ${a} and ${b} sitting by sitting ${before.toFixed(5)}, at once ${atOnce.toFixed(5)}\n`,
+    `  newest member after 75 days ${grown.toFixed(4)}; ${chamber} ${a} and ${b}, no tie written, ${sittingHours(core, a, b).toFixed(3)} hours, closeness ${read.toFixed(5)}\n`,
   );
-  // Equal but for temperament: the writer weighs each sitting's hours by the
-  // pair's traits as they stood that day, and traits move a little in two
-  // months, so the two agree to within one percent, not to the last digit.
-  expect(Math.abs(atOnce - before) / before).toBeLessThan(0.01);
+  expect(read).toBeGreaterThan(0);
 }, 75_000);

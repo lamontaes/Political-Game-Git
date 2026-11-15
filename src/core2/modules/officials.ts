@@ -25,7 +25,6 @@ import calibration from "../../../data/source/electoral-calibration-2024/corpus.
 import senateClasses from "../../../data/research/offices/senate-classes-2026.json" with { type: "json" };
 import tenure from "../data/offices/tenure.json" with { type: "json" };
 import { coreAPI, fillInIdentity, registerModule } from "../state";
-import { catchUpSittings } from "../sitting-closeness";
 import { registerHuskIdentity, registerHuskPromoter } from "../husk-promoters";
 import type { RecordedIdentity } from "../state";
 import type {
@@ -900,9 +899,6 @@ function promoteOutsideOfficial(
     source: source(row.husk.asOf),
   });
   colleagues(api, new Set([personId]));
-  // The sittings they shared with colleagues already filled in, as if they
-  // had been a full person all along.
-  catchUpSittings(api, new Set([personId]));
   return person;
 }
 registerHuskPromoter(promoteOutsideOfficial);
