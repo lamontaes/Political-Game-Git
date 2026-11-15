@@ -280,6 +280,10 @@ export interface InterviewRow {
   readonly newsworthiness: number;
   /** The outlet's reporter who asks: the one closest to the candidate. */
   readonly reporterId?: string | null;
+  /** The day the candidate put the invitation off (neither yes nor no). */
+  readonly putOffOn?: string | null;
+  /** The day the reporter called back about it, once. */
+  readonly calledBackOn?: string | null;
   /** The story the outlet printed from it. */
   readonly storyId?: string | null;
   /**
@@ -4045,6 +4049,19 @@ function pressWeek(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
         contestOf(api, row.contestId).electionDate < api.state.date
       )
         refuse(api, row);
+      // An invitation the player put off is called back once, when the
+      // newsroom next plans its week, while the race is still ahead.
+      else if (
+        row.status === "invited" &&
+        row.putOffOn &&
+        !row.calledBackOn &&
+        row.putOffOn < api.state.date
+      )
+        invitation(
+          api,
+          record(api, { ...row, calledBackOn: api.state.date }),
+          true,
+        );
   if (!contests.length) return;
   const filings = contests
     .flatMap((c) => ballot(api, c.id))
@@ -4298,7 +4315,7 @@ function inviteDay(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
 }
 
 /** One outlet's invitation on the record: the director stages it as a call from that outlet's reporter. */
-function invitation(api: CoreAPI, row: InterviewRow): void {
+function invitation(api: CoreAPI, row: InterviewRow, again = false): void {
   const ids = [row.candidateId, row.reporterId ?? ""].filter((id) =>
     api.state.people.has(id),
   );
@@ -4307,7 +4324,7 @@ function invitation(api: CoreAPI, row: InterviewRow): void {
   // The outlet by its organization, as the press's other records name it.
   const outlet = outletsHere(api).find((o) => o.id === row.outletId);
   api.emit({
-    id: `${INTERVIEW_INVITED_EVENT}:${row.id}`,
+    id: `${INTERVIEW_INVITED_EVENT}:${row.id}${again ? ":again" : ""}`,
     date: api.state.date,
     kind: INTERVIEW_INVITED_EVENT,
     personIds: ids,
@@ -4324,6 +4341,8 @@ function invitation(api: CoreAPI, row: InterviewRow): void {
       ...(row.reporterId ? { reporterId: row.reporterId } : {}),
       ...(row.contestId ? { contestId: row.contestId } : {}),
       ...(contest ? { office: contest.title } : {}),
+      // The reporter calling back about an invitation the candidate put off.
+      ...(again ? { again: "yes" } : {}),
     },
   });
 }
@@ -4426,6 +4445,8 @@ function answerInvitation(api: CoreAPI, event: Readonly<CoreEventInput>): void {
     return;
   if (ACCEPTING_MOVES.has(move)) accepted(api, row, event.id);
   else if (REFUSING_MOVES.has(move)) refuse(api, row);
+  // Neither: the ask stays open and the reporter calls back once (`pressWeek`).
+  else if (!row.putOffOn) record(api, { ...row, putOffOn: api.state.date });
 }
 
 /** What a person told a reporter about a record, or that they declined (the press-interview scene's ending). */

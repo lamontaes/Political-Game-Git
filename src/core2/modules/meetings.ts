@@ -157,7 +157,9 @@ export const MEETINGS_MODULE: CoreModule = {
   onCalendarWork: (api, work) =>
     work.kind === DEBATE_EVE_WORK
       ? debateEve(api, work)
-      : debateWeek(api, work),
+      : work.kind === DEBATE_CALL_BACK_WORK
+        ? debateCallBack(api, work)
+        : debateWeek(api, work),
   // The player answers a debate's invitation in the scene it stages.
   eventKinds: ["scene.reply"],
   onEvent: (api, event) => answerDebateInvitation(api, event),
@@ -1229,6 +1231,8 @@ export const DEBATE_INVITED_EVENT = "debate-invited";
 export const DEBATE_ACCEPTED_EVENT = "debate-accepted";
 /** The calendar work that holds a debate no one has sat for. */
 const DEBATE_EVE_WORK = "debate-eve";
+/** The calendar work that brings a put-off invitation back once before the eve. */
+const DEBATE_CALL_BACK_WORK = "debate-call-back";
 
 /**
  * Who moderates a race's debate for a candidate, from what the record already
@@ -1265,12 +1269,13 @@ function debateInvited(
   row: DebateRow,
   contest: ContestRow,
   candidateId: string,
+  again = false,
 ): void {
   const rivals = new Set(ballot(api, contest.id).map((f) => f.personId));
   const outlet = outletsHere(api).find((o) => o.id === row.outletId);
   const host = debateModerator(api, row, candidateId);
   api.emit({
-    id: `${DEBATE_INVITED_EVENT}:${row.id}`,
+    id: `${DEBATE_INVITED_EVENT}:${row.id}${again ? ":again" : ""}`,
     date: api.state.date,
     kind: DEBATE_INVITED_EVENT,
     personIds: host ? [candidateId, host] : [candidateId],
@@ -1288,8 +1293,11 @@ function debateInvited(
       ...(outlet ? { outletId: outlet.organizationId } : {}),
       ...(host ? { reporterId: host } : {}),
       candidates: String(rivals.size),
+      // The moderator calling back about an invitation the candidate put off.
+      ...(again ? { again: "yes" } : {}),
     },
   });
+  if (again) return;
   // A debate no one sits for is held on the eve of the election.
   const eve = addDays(
     makeIsoDate(contest.electionDate),
@@ -1382,6 +1390,54 @@ function answerDebateInvitation(
   if (ACCEPTING_MOVES.has(move))
     debateAccepted(api, row, cause, candidateId, event.id);
   else if (REFUSING_MOVES.has(move)) holdDebate(api, row, []);
+  else if (!cause.facts?.again) debateCallBackOnce(api, row, candidateId);
+}
+
+/**
+ * A candidate who put the invitation off (neither yes nor no) is called back
+ * once, on the last day before the eve the debate goes on without them: the
+ * record's own deadline, never a count of days. With no such day left, the
+ * eve settles it.
+ */
+function debateCallBackOnce(
+  api: CoreAPI,
+  row: DebateRow,
+  candidateId: string,
+): void {
+  const contest = contestOf(api, row.contestId);
+  const eve = addDays(
+    makeIsoDate(contest.electionDate),
+    -meetingParameter("debateLapseDaysBefore"),
+  );
+  const day = addDays(makeIsoDate(eve), -1);
+  if (day <= api.state.date) return;
+  api.moduleCalendar(MEETINGS_MODULE_ID).schedule({
+    key: `${DEBATE_CALL_BACK_WORK}:${row.id}`,
+    date: day,
+    kind: DEBATE_CALL_BACK_WORK,
+    source: {
+      tag: "ESTIMATED",
+      citation:
+        "A moderator calls a candidate who put off the invitation back before the debate goes on without them",
+      asOf: api.state.date,
+      estimatedFrom: "debateLapseDaysBefore",
+    },
+    sourceRecordIds: [row.id, candidateId],
+  });
+}
+
+/** The call back's day: the invitation again, while the debate still waits on the candidate. */
+function debateCallBack(
+  api: CoreAPI,
+  work: Readonly<ModuleCalendarWork>,
+): void {
+  const [rowId, candidateId] = work.sourceRecordIds;
+  const row = table(api, "debates").get(rowId ?? "") as unknown as
+    DebateRow | undefined;
+  if (row?.status !== "invited" || !candidateId) return;
+  if (api.state.durableLog.has(`${DEBATE_ACCEPTED_EVENT}:${row.id}`)) return;
+  if (!api.state.people.get(candidateId as PersonId)?.alive) return;
+  debateInvited(api, row, contestOf(api, row.contestId), candidateId, true);
 }
 
 /**
