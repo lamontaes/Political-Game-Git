@@ -30,6 +30,8 @@ source: Account lead builder, Nov 15, found while placing the Words lead's day w
 
 **Done when.** A second session has a bribe leaked in a drawn town with a reporter: the exposure is on the record the day it is found and the story is not; the story prints on the run day with the official's comment; an unattended official's comment follows their own lean.
 
+**Waits on.** Nothing.
+
 **Files.** src/core2/modules/press.ts, src/core2/data/press/parameters.json, src/core2/press-owners.test.ts, src/core2/press-conflict-exposed.test.ts
 
 **Notes.**
