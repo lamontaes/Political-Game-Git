@@ -28528,30 +28528,6 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.work-done-back-core.long-hours-at-wage-an-hour-adds-up-slow",
-      "move": "work-done-back-core",
-      "kind": "spoken",
-      "text": "Long. The hours add up slow.",
-      "uses": [
-        {
-          "move": "work-done-back-core",
-          "subject": "work-done-back",
-          "role": "core",
-          "stages": ["ask"],
-          "requiresFacts": ["hours", "wage", "longer"]
-        }
-      ],
-      "piece": {
-        "of": "work-done-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
-      "date": "2026-11-12"
-    },
-    {
       "key": "conversation.work-done-back-core.you-don-t-have-to-tell-me-twice-you",
       "move": "work-done-back-core",
       "kind": "spoken",
@@ -28570,30 +28546,6 @@
         "required": true
       },
       "bearing": "glad",
-      "origin": "authored",
-      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "conversation.work-done-back-core.i-will-hours-at-wage-an-hour-and-my-feet-know-it",
-      "move": "work-done-back-core",
-      "kind": "spoken",
-      "text": "I will. Long hours, and my feet know it.",
-      "uses": [
-        {
-          "move": "work-done-back-core",
-          "subject": "work-done-back",
-          "role": "core",
-          "stages": ["rest"],
-          "requiresFacts": ["hours", "wage"]
-        }
-      ],
-      "piece": {
-        "of": "work-done-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "tender",
       "origin": "authored",
       "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
       "date": "2026-11-12"
