@@ -37624,30 +37624,6 @@
       "date": "2026-11-14"
     },
     {
-      "key": "conversation.veto-say-opener.im-still-sore-about-bill",
-      "move": "veto-say-opener",
-      "kind": "spoken",
-      "text": "I'm still sore about {bill}.",
-      "uses": [
-        {
-          "move": "veto-say-opener",
-          "subject": "veto-say",
-          "role": "opener",
-          "stages": ["stood"],
-          "requiresFacts": ["bill"],
-          "setsFacts": ["bearing-warm"]
-        }
-      ],
-      "piece": {
-        "of": "veto-say",
-        "part": "opener"
-      },
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "Words lead (desk ruling 5: a veto said at the next talk, Nov 15)",
-      "date": "2026-11-15"
-    },
-    {
       "key": "conversation.veto-say-opener.you-vetoed-bill",
       "move": "veto-say-opener",
       "kind": "spoken",
@@ -37890,29 +37866,6 @@
         "part": "core",
         "required": true
       },
-      "origin": "authored",
-      "author": "Words lead (desk ruling 5: a veto said at the next talk, Nov 15)",
-      "date": "2026-11-15"
-    },
-    {
-      "key": "conversation.veto-say-closer.im-not-holding-it-against-you",
-      "move": "veto-say-closer",
-      "kind": "spoken",
-      "text": "I'm not holding it against you.",
-      "uses": [
-        {
-          "move": "veto-say-closer",
-          "subject": "veto-say",
-          "role": "closer",
-          "stages": ["stood"],
-          "requiresFacts": ["bearing-warm"]
-        }
-      ],
-      "piece": {
-        "of": "veto-say",
-        "part": "closer"
-      },
-      "bearing": "warm",
       "origin": "authored",
       "author": "Words lead (desk ruling 5: a veto said at the next talk, Nov 15)",
       "date": "2026-11-15"

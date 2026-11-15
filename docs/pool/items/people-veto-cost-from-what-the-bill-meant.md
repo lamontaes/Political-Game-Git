@@ -33,3 +33,7 @@ source: Account lead, Nov 15, ruling on #9489 (desk item 5)
 **Waits on.** government-executive-shared-time-with-body (an executive and a sponsor who share no tie have nothing to cool).
 
 **Files.** src/core2/modules/office-day.ts, src/director/veto-talk.ts, src/core2/data/office-day/federal-parameters.json
+
+**Notes.**
+
+- Nov 15, desk thread (Words lead's ruling on #9489): the veto lines "I'm still sore about {bill}." and "I'm not holding it against you." were deleted from #9489 because no record says whether the sponsor still holds the veto or has let it go; the step above is too small to tell. They are kept in /mnt/project-files/words-lead/desk/known-by-act-introductions.md and come back gated on this item's record: the cost the veto wrote to the tie and whether the tie has since recovered from it (still held: the sore line and no forgiving closer; let go: the closer and no sore line, each by requiresFacts and excludesFacts on one fact, never one line barred after another by key). Done when, added: a played file at two places shows one sponsor still sore and one who has let it go, and no talk says both.
