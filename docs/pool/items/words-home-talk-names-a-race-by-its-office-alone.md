@@ -19,7 +19,7 @@ source: "Second words reader, Nov 15, at Sherrodsville; filed by the Account lea
 checked:
 ---
 
-**What.** At Sherrodsville (place key 3972242, world seed "scan-25"), after the 2025-11-04 count, a housemate of a player who ran says "I saw how Council member came out." and "I'm sorry about Council member." The office is named bare, with no article and no word for the race, where a person would say "how the council race came out" or "I'm sorry about the council race." The played file `/mnt/project-files/filing-counter/played-9451.md` (second part) holds "Nathaniel: I saw how Council member came out." Seen: the player hears it at home in the evening after the count.
+**What.** At Sherrodsville (place key 3972242, world seed "scan-25"), after the 2025-11-04 count, a housemate of a player who ran says "I saw how Council member came out" and "I'm sorry about Council member", naming the office bare, with no article and no word for the race, where a person would say "how the council race came out". The played file `/mnt/project-files/filing-counter/played-9451.md` (second part) holds the first line. Seen: the player hears it at home in the evening after the count.
 
 **Cause.** Found in code: the two bank lines `"I saw how {office} came out."` and `"I'm sorry about {office}."` in `data/english/parts/conversation.json` (lines 31092 and 31116) are filled from the record's `office` fact through `properName(office)` in `playerNews` (src/director/conversation.ts), which gives the office's title ("Council member"), not a name of the race.
 
