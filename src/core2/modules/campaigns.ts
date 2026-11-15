@@ -6220,9 +6220,19 @@ function groupsWeighRace(api: CoreAPI, contestId: string): void {
       continue;
     const speaker = core.people.get(group.speakerId);
     if (!speaker?.alive) continue;
+    // A group speaks for its own cause: a platform that leaves every one of
+    // its questions out gives it nothing to stand on, whatever its members
+    // think of the rest; one that takes one up is weighed whole, the rest by
+    // what its members want.
+    const own = new Set(group.stance.map((s) => s.question));
     const positionOn = groupPositions(api, group);
     const agreementOf = (platform: readonly Stance[]) =>
-      platformRead(platform, positionOn);
+      platformRead(
+        platform,
+        platform.some((s) => own.has(s.question))
+          ? positionOn
+          : () => undefined,
+      );
     for (const campaign of field) {
       const weighing = weighEndorsement(
         api,

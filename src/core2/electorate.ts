@@ -483,6 +483,27 @@ export interface EndorsedBy {
   readonly warmth: number;
 }
 
+/**
+ * What the groups that backed each candidate bring a counted voter: each
+ * group's warmth (`EndorsedBy`) by how firmly the voter holds the stance it
+ * stood on, nothing where they hold the other side. Undefined where no group
+ * backed anyone on the ballot.
+ */
+export function countedEndorsed(
+  lean: number,
+  field: readonly CountedFieldEntry[],
+  profile: StanceProfile | null | undefined,
+): Readonly<Record<string, number>> | undefined {
+  let out: Record<string, number> | undefined;
+  for (const entry of field)
+    for (const by of entry.endorsed ?? []) {
+      const holds = groupStance(lean, by.question, profile) * by.position;
+      if (holds > 0)
+        (out ??= {})[entry.id] = (out?.[entry.id] ?? 0) + by.warmth * holds;
+    }
+  return out;
+}
+
 /** One counted voter's appeal for a candidate, with its parts. */
 export interface CountedAppeal {
   readonly total: number;
@@ -502,6 +523,8 @@ export interface CountedAppeal {
   readonly pledge: number;
   /** What the record's decided cases left them feeling toward the candidate, as the share of the record who brought them. */
   readonly warmth?: number;
+  /** What the groups whose cause they share brought them by backing the candidate (`countedEndorsed`). */
+  readonly endorsed?: number;
   /** What the held yes adds beyond its weight so it keeps the candidate ahead (`liftHeldPledges`); 0 where none holds. */
   readonly pledgeLift?: number;
 }
@@ -579,6 +602,8 @@ export function countedAppeal(
      * the official's id (a counted resident keeps no impression of their own).
      */
     readonly warmths?: Readonly<Record<string, number>>;
+    /** What the groups whose cause they share brought them, by candidate (`countedEndorsed`). */
+    readonly endorsed?: Readonly<Record<string, number>>;
     /**
      * The voter is a counted record's people, who divide among the
      * candidates as the count's rule has them (`countedShareRule`), not one
@@ -617,18 +642,10 @@ export function countedAppeal(
       : 0;
     // Their own word at the door (owner, Oct 29: a "yes" is near-binding).
     const pledge = pledgeWeight * (where.pledges?.[entry.id] ?? 0);
-    // What their cases left them feeling, and the groups whose cause they
-    // share that backed the candidate, by how firmly they share it (a group
+    const warmth = where.warmths?.[entry.id] ?? 0;
+    // The groups whose cause they share that backed the candidate (a group
     // reaches its town's own people).
-    let warmth = where.warmths?.[entry.id] ?? 0;
-    if (where.inTown)
-      for (const by of entry.endorsed ?? [])
-        warmth +=
-          by.warmth *
-          Math.max(
-            0,
-            groupStance(lean, by.question, where.profile) * by.position,
-          );
+    const endorsed = where.inTown ? (where.endorsed?.[entry.id] ?? 0) : 0;
     const total =
       party +
       standing +
@@ -637,7 +654,8 @@ export function countedAppeal(
       ballot +
       scandal +
       pledge +
-      warmth;
+      warmth +
+      endorsed;
     const held = into?.[entry.id] as Mutable<CountedAppeal> | undefined;
     if (held) {
       held.total = total;
@@ -649,6 +667,7 @@ export function countedAppeal(
       held.scandal = scandal;
       held.pledge = pledge;
       held.warmth = warmth;
+      held.endorsed = endorsed;
     } else
       appeal[entry.id] = {
         total,
@@ -660,6 +679,7 @@ export function countedAppeal(
         scandal,
         pledge,
         warmth,
+        endorsed,
       };
   }
   // A held door yes keeps its candidate ahead, in proportion to how far it holds.

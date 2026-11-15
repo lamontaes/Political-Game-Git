@@ -48,6 +48,7 @@ import {
   partyStrength,
   engagementOf,
   type CountedAppeal,
+  countedEndorsed,
   type CountedFieldEntry,
   type EndorsedBy,
   type CountedVoter,
@@ -386,6 +387,8 @@ interface CountedBallotsRow {
   readonly pledges?: readonly (Readonly<Record<string, number>> | null)[];
   /** What each voter's decided cases left them feeling toward each official on the ballot (null where they brought none; absent on rows kept before cases counted). */
   readonly warmths?: readonly (Readonly<Record<string, number>> | null)[];
+  /** What the groups whose cause each voter shares brought them, by candidate (null where none; absent on rows kept before groups reached the counted). */
+  readonly endorsed?: readonly (Readonly<Record<string, number>> | null)[];
   /** Where one household of a record's several gave a door "yes", the field index it voted for on its word (-1 otherwise). */
   readonly pledgedChoice?: readonly number[];
   /**
@@ -1854,6 +1857,7 @@ export function doorAppealOf(
       field,
     ),
     warmths: countedWarmths(api, voter, field),
+    endorsed: countedEndorsed(lean, field, countedStanceProfile(api, voter)),
   });
   const met = visit ? appeal[visit.candidateId] : undefined;
   if (visit && met) {
@@ -2610,6 +2614,11 @@ function countPrimary(
         ballotForm: form,
         profile: countedStanceProfile(api, voter),
         warmths: countedWarmths(api, voter, entries),
+        endorsed: countedEndorsed(
+          leanOf.get(voter.id) ?? 0,
+          entries,
+          countedStanceProfile(api, voter),
+        ),
         divides: true,
       };
       const pledges = countedPledges(api, voter.id, trust, contest.id, entries);
@@ -3000,6 +3009,11 @@ function atThePolls(
             api,
             voter,
             countedField(api, race.contest, race.field),
+          ),
+          endorsed: countedEndorsed(
+            lean,
+            countedField(api, race.contest, race.field),
+            null,
           ),
           pledges: countedPledges(
             api,
@@ -3936,6 +3950,8 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
     /** Each voter's door "yes" as it held on the day (null where they gave none, or where it held for one household of several). */
     pledges: [] as (Readonly<Record<string, number>> | null)[],
     warmths: [] as (Readonly<Record<string, number>> | null)[],
+    /** What the groups whose cause each voter shares brought them, by candidate (null where none). */
+    endorsed: [] as (Readonly<Record<string, number>> | null)[],
     /** Where one household of a record's several gave a door "yes": the field index it voted for on its word (-1 otherwise). */
     pledgedChoice: [] as number[],
     /** Each record's voters for each candidate before turnout, in field order (`countedDivision`). */
@@ -3977,6 +3993,11 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
       field,
     );
     const warmths = countedWarmths(api, voter, field);
+    const endorsed = countedEndorsed(
+      lean,
+      field,
+      countedStanceProfile(api, voter),
+    );
     const where = {
       inTown: true,
       local: true,
@@ -3986,6 +4007,7 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
       ballotForm: kept.voterIds.length,
       profile: countedStanceProfile(api, voter),
       warmths,
+      endorsed,
       divides: true,
     };
     const appeal = countedAppeal(lean, field, { ...where, pledges });
@@ -4022,6 +4044,7 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
     kept.college.push(profile.collegeFromAverage ?? null);
     kept.pledges.push(division.wholePledged ? (pledges ?? null) : null);
     kept.warmths.push(warmths ?? null);
+    kept.endorsed.push(endorsed ?? null);
     kept.pledgedChoice.push(
       !division.wholePledged && division.pledged
         ? field.findIndex((f) => f.id === division.pledged)
@@ -5468,6 +5491,7 @@ function countedBallotAt(row: CountedBallotsRow, i: number): CountedBallotRow {
       ballotForm: i,
       pledges: row.pledges?.[i] ?? undefined,
       warmths: row.warmths?.[i] ?? undefined,
+      endorsed: row.endorsed?.[i] ?? undefined,
       divides: true,
       profile:
         row.faith && row.college && Number.isFinite(row.faith[i])

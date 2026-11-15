@@ -26,6 +26,7 @@ import type { CoreState } from "./types";
 import { groupStance, personLean } from "./campaign-views";
 import {
   countedAppeal,
+  countedEndorsed,
   countedResidents,
   type CountedFieldEntry,
 } from "./electorate";
@@ -136,15 +137,23 @@ describe("a group's stance and its reach", () => {
     const read = (voter: (typeof counted)[number]) => {
       const profile = countedStanceProfile(api, voter);
       const lean = personLean(state.people, voter as never, lean0);
-      const at = { inTown: true, local: true, incumbentLean: 0, profile };
-      const without = countedAppeal(lean, [entry], at)[entry.id]!.warmth ?? 0;
-      const withIt =
-        countedAppeal(lean, [{ ...entry, endorsed: [endorsed!] }], at)[
-          entry.id
-        ]!.warmth ?? 0;
+      const field = [{ ...entry, endorsed: [endorsed!] }];
+      const at = {
+        inTown: true,
+        local: true,
+        incumbentLean: 0,
+        profile,
+        endorsed: countedEndorsed(lean, field, profile),
+      };
+      const without = countedAppeal(lean, [entry], at)[entry.id]!;
+      const withIt = countedAppeal(lean, field, at)[entry.id]!;
       const holds =
         groupStance(lean, endorsed!.question, profile) * endorsed!.position;
-      return { holds, gain: withIt - without };
+      return {
+        holds,
+        gain: withIt.total - without.total,
+        part: withIt.endorsed ?? 0,
+      };
     };
     const reads = counted.map(read);
     const sharing = reads.filter((r) => r.holds > 0);
@@ -152,10 +161,12 @@ describe("a group's stance and its reach", () => {
     expect(sharing.length, where).toBeGreaterThan(0);
     expect(opposed.length, where).toBeGreaterThan(0);
     // Those who share the cause hear it, by how firmly they hold it.
-    for (const r of sharing)
-      expect(r.gain, where).toBeCloseTo(endorsed!.warmth * r.holds, 12);
+    for (const r of sharing) {
+      expect(r.part, where).toBeCloseTo(endorsed!.warmth * r.holds, 12);
+      expect(r.gain, where).toBeCloseTo(r.part, 12);
+    }
     // Those who hold the other side are not its people.
-    for (const r of opposed) expect(r.gain, where).toBe(0);
+    for (const r of opposed) expect(r.part, where).toBe(0);
     console.log(
       `${where}: ${row!.id} on ${endorsed!.question}; ${sharing.length} counted records share it, ${opposed.length} oppose; warmth ${endorsed!.warmth.toFixed(4)}; ${other} members' view ${mean.toFixed(3)}`,
     );
