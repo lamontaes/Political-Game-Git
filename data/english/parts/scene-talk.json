@@ -4907,6 +4907,81 @@
       }
     },
     {
+      "key": "scene-talk.reply-answer.i-voted-against-it-it-wasn-t-right-for-place",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "I voted against it. It wasn't right for {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "press-comment",
+          "key": "routine",
+          "requiresFacts": ["acted", "voted-no"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (Fable), Nov 15",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.i-voted-no-i-ll-stand-on-that",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "I voted no. I'll stand on that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "press-comment",
+          "key": "routine",
+          "requiresFacts": ["acted", "voted-no"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (Fable), Nov 15",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.i-voted-for-it-i-d-vote-for-it-again",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "I voted for it. I'd vote for it again.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "press-comment",
+          "key": "routine",
+          "requiresFacts": ["acted", "voted-yes"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (Fable), Nov 15",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      }
+    },
+    {
       "key": "scene-talk.reply-deflect.i-ll-have-something-to-say-after-the-vote",
       "move": "reply-deflect",
       "kind": "spoken",
@@ -14420,10 +14495,35 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.place-votes-in-november-people-will-want-this-before-then",
+      "key": "scene-talk.follow-press.people-saw-how-you-voted-they-ll-want-the-why",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "{place} votes in November. People will want this before then.",
+      "text": "People saw how you voted. They'll want the why.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "requiresFacts": ["acted"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words lead (Fable), Nov 15",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "press",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.people-will-want-to-hear-it-from-you-not-from-me",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "People will want to hear it from you, not from me.",
       "uses": [
         {
           "subject": "scene",
@@ -14435,10 +14535,10 @@
           "after": "refuse"
         }
       ],
-      "bearing": "calm",
+      "bearing": "braced",
       "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
+      "author": "Words lead (Fable), Nov 15",
+      "date": "2026-11-15",
       "tag": {
         "move": "press",
         "key": "routine"
@@ -57408,7 +57508,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "press"
+          "after": "press",
+          "requiresFacts": ["acted"]
         }
       ],
       "bearing": "calm",
