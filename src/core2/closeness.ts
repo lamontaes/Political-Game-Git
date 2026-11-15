@@ -59,6 +59,17 @@ function elapsed(p: Lookup, from: IsoDate, to: IsoDate): number {
   return Math.max(daysBetweenText(from, to), p("zero"));
 }
 
+/**
+ * The day two people were last together, or null when they never were: a
+ * change made apart (a veto, an answer to the whip) moves the tie without
+ * being time together.
+ */
+export function lastTogether(
+  row: Pick<Relationship, "lastContactDate" | "lastMetDate">,
+): IsoDate | null {
+  return row.lastMetDate === undefined ? row.lastContactDate : row.lastMetDate;
+}
+
 /** Closeness today: the closeness at the last contact, faded since. */
 export function currentCloseness(
   core: Pick<CoreState, "data" | "date">,

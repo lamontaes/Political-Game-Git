@@ -256,6 +256,8 @@ function endPromise(
   api.relationship(first.holderId, first.otherId, "contact", hours, undefined, {
     cause: `promise-${outcome}`,
     sourceId: factId,
+    // Settled by the record (a roll call, a payment), not a meeting.
+    apart: true,
   });
 }
 

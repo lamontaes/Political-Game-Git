@@ -1369,7 +1369,7 @@ export function decideDesk(
   ) {
     const before = closenessBetween(api.state, player, bill.sponsorId);
     const step = -vetoCloseness();
-    const why = { cause: "veto", sourceId: billId };
+    const why = { cause: "veto", sourceId: billId, apart: true };
     api.relationship(bill.sponsorId, player, "contact", step, undefined, why);
     api.relationship(player, bill.sponsorId, "contact", step, undefined, why);
     cooled = before - closenessBetween(api.state, player, bill.sponsorId);
