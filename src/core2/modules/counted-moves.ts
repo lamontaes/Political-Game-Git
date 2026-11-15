@@ -23,7 +23,12 @@ import regions from "../data/regional/regions.json" with { type: "json" };
 import rppHousing from "../data/regional/rpp-housing.json" with { type: "json" };
 import { withholdingFor } from "../budgets-treasury";
 import { startingLawReader } from "../country-law";
-import { COUNTRY_AGE_BANDS, countryFlowsIn } from "./macro";
+import {
+  COUNTRY_AGE_BANDS,
+  countryFlowsIn,
+  countryStateMonth,
+  countryStates,
+} from "./macro";
 import type { LawInForceAnswer } from "../laws-in-force";
 import { ageOn, type CountedHousehold } from "../counted-groups";
 import { openingTemperaments } from "../opening-personality";
@@ -31,9 +36,7 @@ import { coreStateKeyOfPlaceholderId } from "../place-lookup";
 import { groupQuartersStayOf } from "../gov-rules/place-population";
 import { returnedMembersLeave } from "../returned-members-move";
 import { isDemoted } from "../counted-groups";
-import { stateFigures, type RegionMonth } from "../regional-model";
 import { LAWS_MODULE_ID, lawInForce, stateLawInForce } from "./laws";
-import { REGIONAL_MODULE_ID } from "./regional";
 import { webFactorFor, type Subject } from "../outcome-web-reach";
 import {
   admitCountedHousehold,
@@ -276,24 +279,19 @@ function stateIncomeTax(
   return minor / 100;
 }
 
-/** Each state's unemployment rate this month by USPS code, from the regional engine where it runs (also read by the working lives elsewhere, src/core2/jobs-elsewhere.ts). */
+/** Each state's unemployment rate this month by USPS code, from the country tier's kept month (also read by the working lives elsewhere, src/core2/jobs-elsewhere.ts). */
 export function stateUnemployment(api: CoreAPI): Map<string, number> {
   const out = new Map<string, number>();
-  if (!api.state.modules.has(REGIONAL_MODULE_ID)) return out;
+  if (!api.state.modules.has("macro")) return out;
   const latest = (
     api.moduleState("macro").table("state").get("macro:state") as
       { latestMonth?: string } | undefined
   )?.latestMonth;
   if (!latest) return out;
-  const months = api
-    .moduleState(REGIONAL_MODULE_ID)
-    .table("months")
-    .query("byMonth", [latest]) as unknown as RegionMonth[];
-  for (const fips of new Set(months.map((row) => row.stateFips)))
-    out.set(
-      STATES[fips]?.usps ?? fips,
-      stateFigures(months, fips).unemploymentPct,
-    );
+  for (const state of countryStates(api)) {
+    const row = countryStateMonth(api, state.fips, latest);
+    if (row) out.set(state.usps, row.unemploymentPct);
+  }
   return out;
 }
 

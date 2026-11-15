@@ -83,7 +83,7 @@ import stateReach from "../data/places/state-reach.json" with { type: "json" };
 import { OFFICES_MODULE_ID, servingTermsOf, type TermRow } from "./offices";
 import agendaData from "../data/legislature/outside-agenda.json" with { type: "json" };
 import { seededUnit } from "../seeded";
-import { countryStateNow, countryStates } from "./macro";
+import { countryStateMonth, countryStates } from "./macro";
 import type { OfficeLevel } from "./offices";
 import { partySide } from "./offices";
 import { decisionLean, termOfLean } from "./people";
@@ -1743,14 +1743,19 @@ interface AgendaCause {
   readonly opening: boolean;
 }
 
-/** A state's figures today from the country tier: people out of work, prices, pay, and revenue against budget. */
+/** A state's figures today from the country tier's kept month: people out of work, prices, pay, and revenue against budget. */
 function stateFigures(
   api: CoreAPI,
   jurisdiction: string,
 ): Record<string, number> | null {
   if (!api.state.modules.has("macro")) return null;
   const state = countryStates(api).find((row) => row.key === jurisdiction);
-  const now = state ? countryStateNow(api, state.fips) : undefined;
+  const month = api.moduleState("macro").table("state").get("macro:state") as
+    { latestMonth?: string } | undefined;
+  const now =
+    state && month?.latestMonth
+      ? countryStateMonth(api, state.fips, month.latestMonth)
+      : null;
   if (!state || !now) return null;
   const months = state.ledger.revenueMonths;
   const revenueYear = months.length
@@ -1758,9 +1763,9 @@ function stateFigures(
       api.parameter("monthsPerYear")
     : state.ledger.budgetYear;
   return {
-    unemploymentPct: now.now.unemploymentPct,
-    prices: now.now.prices,
-    hourlyPay: now.now.hourlyPay,
+    unemploymentPct: now.unemploymentPct,
+    prices: now.prices,
+    hourlyPay: now.hourlyPay,
     budgetGap:
       state.ledger.budgetYear > 0 ? revenueYear / state.ledger.budgetYear : 1,
   };
