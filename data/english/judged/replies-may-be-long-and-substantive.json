@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "replies-may-be-long-and-substantive",
   "rubric": "Replies are not all short; some carry an argument or a reason, so a reply does not kill the talk.",
-  "judged": 726,
+  "judged": 727,
   "no": {
     "005uy0thp82": {
       "keys": [
@@ -3179,14 +3179,6 @@
       ],
       "why": "The replies are a stance, a challenge and a referral to the office. None of them gives a reason for the vote."
     },
-    "2bfs0kafolr": {
-      "keys": [
-        "scene-talk.follow-press.close.i-believe-you-re-sorry-first-i-just-need-to-see-that-it-counts-for-something",
-        "scene-talk.reply-tell.close.i-can-t-prove-it-tonight-watch-what-i-do",
-        "scene-talk.reply-leave.close.i-can-t-talk-about-the-missed-payment-anymore-today-i-ll-find-you-when-i-m-ready"
-      ],
-      "why": "No reply carries a reason or argument; they are agreements, promises, stances, thanks or exits."
-    },
     "2bkcpbrb6ki": {
       "keys": [
         "scene-talk.beat-beat.a-staffer-hovers-at-your-elbow-holding-a-schedule",
@@ -3351,5 +3343,5 @@
       "why": "No reply carries a reason or argument; they are agreements, promises, stances, thanks or exits."
     }
   },
-  "yesHash": "1k5fd0azpdw"
+  "yesHash": "1lbef37arsb"
 }

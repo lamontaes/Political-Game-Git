@@ -2056,7 +2056,7 @@ export function composeSceneTalk(
       if (!unsaid.length && worded.length) {
         next.end = {
           outcome: replyOutcome,
-          ...closed(closeFor(replyOutcome, childPath, undefined, reply)),
+          ...closed(closeFor(replyOutcome, childPath, undefined)),
         };
         continue;
       }
@@ -2083,7 +2083,7 @@ export function composeSceneTalk(
       if (!answer && best) {
         next.end = {
           outcome: replyOutcome,
-          ...closed(closeFor(replyOutcome, childPath, undefined, reply)),
+          ...closed(closeFor(replyOutcome, childPath, undefined)),
         };
         continue;
       }
@@ -2091,7 +2091,7 @@ export function composeSceneTalk(
         gap("follow", reply.move, reply.parts[zero]);
         next.end = {
           outcome: replyOutcome,
-          ...closed(closeFor(replyOutcome, childPath, undefined, reply)),
+          ...closed(closeFor(replyOutcome, childPath, undefined)),
         };
         continue;
       }
