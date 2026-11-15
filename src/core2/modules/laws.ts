@@ -75,8 +75,11 @@ export { WEB_LINKS } from "../outcome-web-model";
  */
 export {
   ENDED_BY_REQUIREMENT,
+  federalBenefitLine,
+  MEDICARE_LINE,
   medicaidCoverageSpells,
   payMedicaidCare,
+  payMedicareLinePart,
   type CoverageSpell,
 } from "../law-reach/group-b-money";
 
