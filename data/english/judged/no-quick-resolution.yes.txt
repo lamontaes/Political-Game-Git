@@ -1,6 +1,5 @@
 00wo7693xqn
 00y9gygpq8u
-01cfmarbrtc
 01dmsi24q2v
 01owswx9ub6
 01pr94q6sq2
@@ -40,7 +39,6 @@
 0diidpv4o4j
 0dmqz2v2j03
 0dosnq2zt97
-0efs0c3b1iu
 0eqpwgcwnhw
 0eugykw9moi
 0f2gaxy6dev
@@ -103,10 +101,8 @@
 0zd5w2nrqrt
 0zzyuqusshn
 1014ryyyy36
-107sx0cd49r
 109ifudzdxe
 10qpszkpq42
-11a472h3sih
 12qljq9ibda
 13cijq1qhul
 13vm6dg4yit
@@ -129,7 +125,6 @@
 1akny3r01my
 1apzy3ci3da
 1awhji5kjmj
-1b3soyrwxrm
 1b7ixn5c0wt
 1b9yf8t5lsa
 1bc29hczia6

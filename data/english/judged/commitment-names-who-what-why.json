@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "commitment-names-who-what-why",
   "rubric": "A line that commits (a stance, a threat, a refusal) names who, what or why in plain words.",
-  "judged": 246,
+  "judged": 244,
   "no": {
     "005p34dzlgt": {
       "keys": [
@@ -563,5 +563,5 @@
       "why": "Begging for 'this' to go their way; the matter is never named."
     }
   },
-  "yesHash": "0xdzsaett36"
+  "yesHash": "0hqt0ubhyjf"
 }

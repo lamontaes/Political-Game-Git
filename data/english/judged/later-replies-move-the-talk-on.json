@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "later-replies-move-the-talk-on",
   "rubric": "After the first exchange the replies offered do not rehash the first options; they move the talk on.",
-  "judged": 649,
+  "judged": 607,
   "no": {
     "00gx3b8ur4y": {
       "keys": [
@@ -3203,5 +3203,5 @@
       "why": "\"I'll call tonight\" and the soup offer restate the first yes and \"Have you eaten today?\""
     }
   },
-  "yesHash": "291utx3mtx7"
+  "yesHash": "0zmmygm2jyb"
 }
