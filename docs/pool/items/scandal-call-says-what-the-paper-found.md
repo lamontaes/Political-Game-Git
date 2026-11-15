@@ -9,7 +9,7 @@ status: claimed
 standard: 2
 claimed-by: Account lead builder (thread "Fix the reporter's call scene")
 pr:
-after:
+after: press-exposure-asks-for-comment-before-it-prints
 blocked-on:
 lead: words
 model: opus
