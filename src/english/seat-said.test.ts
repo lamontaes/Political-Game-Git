@@ -106,6 +106,18 @@ describe("seatSaid", () => {
     expect(seatSaid(seat, { first: false })).toBe(
       "the state Senate in the 17th District",
     );
+    // A lettered or named district has no ordinal: it is said by its office
+    // and its code, every time, never as a number that is not one.
+    for (const code of ["A", "00A", "5B", "Addison-1"]) {
+      const said = seatSaid({ ...seat, district: code });
+      expect(said, code).not.toMatch(/NaN/);
+      expect(said, code).toBe(
+        `state senator in District ${code.replace(/^0+(?=\w)/, "")}`,
+      );
+      expect(seatSaid({ ...seat, district: code }, { first: false })).toBe(
+        said,
+      );
+    }
     expect(
       seatSaid({
         title: "U.S. Representative",
