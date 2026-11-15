@@ -7,7 +7,7 @@ priority: 1
 size: S
 status: in-pr
 claimed-by:
-pr:
+pr: 9525
 blocked-on:
 source: "Playable-page thread's Salado play, Nov 15 (39 asks in one council campaign at c43bf7e0)"
 lead: effects
