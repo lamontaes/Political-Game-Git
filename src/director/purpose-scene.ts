@@ -39,6 +39,7 @@ import {
   votesOn,
 } from "../core2/modules/legislature";
 import {
+  DEBATE_INVITED_EVENT,
   MEETINGS_MODULE_ID,
   type DebateRow,
   type TownHallRow,
@@ -83,7 +84,12 @@ import {
   topicInSentence,
 } from "../english/policy-names";
 import { dollars } from "../english/bill-sections";
-import { lateSaid, moneySaid, monthsOfRentDays } from "../english/count-words";
+import {
+  daysSaid,
+  lateSaid,
+  moneySaid,
+  monthsOfRentDays,
+} from "../english/count-words";
 import { NOTICE_SERVED_EVENT, dwellingTenure } from "../core2/modules/housing";
 import {
   NEWS_MODULE_ID,
@@ -200,6 +206,7 @@ import {
   PRESS_MODULE_ID,
   townOutlet,
   PRESS_STORY_EVENT,
+  INTERVIEW_INVITED_EVENT,
 } from "../core2/modules/press";
 import { closenessBetween } from "../core2/closeness";
 import lineNames from "../core2/data/budgets/line-names.json" with { type: "json" };
@@ -1365,6 +1372,26 @@ function composeBinding(
       facts.outlet = {
         text: organizationName(outlet),
         sourceRecordIds: [moment.causeId, outlet.id],
+      };
+  }
+  // The call back about an invitation the player put off (meetings.ts
+  // debateCallBack, press.ts pressWeek): the record's `again`. The day the
+  // debate goes on without them is said only as "tomorrow", the one day the
+  // moderator's "It's {when}." is true of (the call back is the day before);
+  // any other day plays the line without it (Words lead, Nov 15).
+  if (
+    (record?.kind === DEBATE_INVITED_EVENT ||
+      record?.kind === INTERVIEW_INVITED_EVENT) &&
+    said.again === "yes"
+  ) {
+    facts["called-back"] = { text: "yes", sourceRecordIds: [moment.causeId] };
+    if (
+      typeof said.heldOn === "string" &&
+      daysBetweenText(core.date, said.heldOn) === P.one
+    )
+      facts.when = {
+        text: daysSaid(P.one),
+        sourceRecordIds: [moment.causeId],
       };
   }
   // A published interview the official answered only in part (press.ts

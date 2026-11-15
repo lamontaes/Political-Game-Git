@@ -4445,8 +4445,10 @@ function answerInvitation(api: CoreAPI, event: Readonly<CoreEventInput>): void {
     return;
   if (ACCEPTING_MOVES.has(move)) accepted(api, row, event.id);
   else if (REFUSING_MOVES.has(move)) refuse(api, row);
-  // Neither: the ask stays open and the reporter calls back once (`pressWeek`).
-  else if (!row.putOffOn) record(api, { ...row, putOffOn: api.state.date });
+  // A put-off (the player said they would call back) is kept: the reporter
+  // calls back once (`pressWeek`). Any other non-answer leaves it open.
+  else if (move === "stall" && !row.putOffOn)
+    record(api, { ...row, putOffOn: api.state.date });
 }
 
 /** What a person told a reporter about a record, or that they declined (the press-interview scene's ending). */

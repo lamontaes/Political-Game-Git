@@ -1274,6 +1274,11 @@ function debateInvited(
   const rivals = new Set(ballot(api, contest.id).map((f) => f.personId));
   const outlet = outletsHere(api).find((o) => o.id === row.outletId);
   const host = debateModerator(api, row, candidateId);
+  // A debate no one sits for is held on the eve of the election.
+  const eve = addDays(
+    makeIsoDate(contest.electionDate),
+    -meetingParameter("debateLapseDaysBefore"),
+  );
   api.emit({
     id: `${DEBATE_INVITED_EVENT}:${row.id}${again ? ":again" : ""}`,
     date: api.state.date,
@@ -1293,16 +1298,12 @@ function debateInvited(
       ...(outlet ? { outletId: outlet.organizationId } : {}),
       ...(host ? { reporterId: host } : {}),
       candidates: String(rivals.size),
-      // The moderator calling back about an invitation the candidate put off.
-      ...(again ? { again: "yes" } : {}),
+      // The moderator calling back about an invitation the candidate put
+      // off, and the eve the debate goes on without them.
+      ...(again ? { again: "yes", heldOn: eve } : {}),
     },
   });
   if (again) return;
-  // A debate no one sits for is held on the eve of the election.
-  const eve = addDays(
-    makeIsoDate(contest.electionDate),
-    -meetingParameter("debateLapseDaysBefore"),
-  );
   api.moduleCalendar(MEETINGS_MODULE_ID).schedule({
     key: `${DEBATE_EVE_WORK}:${row.id}`,
     date: eve > api.state.date ? eve : addDays(makeIsoDate(api.state.date), 1),
@@ -1390,7 +1391,10 @@ function answerDebateInvitation(
   if (ACCEPTING_MOVES.has(move))
     debateAccepted(api, row, cause, candidateId, event.id);
   else if (REFUSING_MOVES.has(move)) holdDebate(api, row, []);
-  else if (!cause.facts?.again) debateCallBackOnce(api, row, candidateId);
+  // A put-off (the player said they would call back) is kept: the moderator
+  // calls back once. Any other non-answer (a walk-off) leaves it to the eve.
+  else if (move === "stall" && !cause.facts?.again)
+    debateCallBackOnce(api, row, candidateId);
 }
 
 /**

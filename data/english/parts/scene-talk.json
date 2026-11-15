@@ -31,7 +31,7 @@
     "cause": "A cause someone shared, by name, from the views engine's cause-shared record.",
     "kid": "The household's new child, by name, from the household record.",
     "begins": "The day a scene starts on, with the part of the day, as people say it ('First thing on June 7th'), from the clock.",
-    "when": "When a filing was made, said as the director says a date, from the filing record.",
+    "when": "When a filing was made, said as the director says a date, from the filing record. On a call back about a put-off debate, the day it goes on, as people say it, from the debate invitation record.",
     "teller": "Whoever told the person of the law, by name, from the record of how they learned.",
     "campaigner": "The campaigner whose people came by, by name, from the campaign record.",
     "title": "How the person is addressed (their office), from their term.",
@@ -3704,7 +3704,8 @@
           "key": "favor-asked",
           "step": "reply",
           "move": "agree",
-          "role": "asked"
+          "role": "asked",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "glad",
@@ -74722,7 +74723,8 @@
           "step": "open",
           "move": "greet",
           "role": "asker",
-          "requiresFacts": ["outlet"]
+          "requiresFacts": ["outlet"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "calm",
@@ -74747,7 +74749,8 @@
           "step": "open",
           "move": "greet",
           "role": "asker",
-          "requiresFacts": ["acquainted"]
+          "requiresFacts": ["acquainted"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "glad",
@@ -74772,7 +74775,8 @@
           "step": "open",
           "move": "greet",
           "role": "asker",
-          "requiresFacts": ["stranger", "office"]
+          "requiresFacts": ["stranger", "office"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "curious",
@@ -74797,7 +74801,8 @@
           "step": "state",
           "move": "request",
           "role": "asker",
-          "requiresFacts": ["office"]
+          "requiresFacts": ["office"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "curious",
@@ -74822,7 +74827,8 @@
           "step": "state",
           "move": "request",
           "role": "asker",
-          "requiresFacts": ["office"]
+          "requiresFacts": ["office"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "calm",
@@ -74847,7 +74853,8 @@
           "step": "state",
           "move": "request",
           "role": "asker",
-          "requiresFacts": ["office"]
+          "requiresFacts": ["office"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "guarded",
@@ -74872,7 +74879,8 @@
           "step": "state",
           "move": "request",
           "role": "asker",
-          "requiresFacts": ["acquainted", "place", "office"]
+          "requiresFacts": ["acquainted", "place", "office"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "glad",
@@ -74896,7 +74904,8 @@
           "key": "favor-asked",
           "step": "reply",
           "move": "ask",
-          "role": "asked"
+          "role": "asked",
+          "excludesFacts": ["called-back"]
         }
       ],
       "origin": "authored",
@@ -74919,7 +74928,8 @@
           "key": "favor-asked",
           "step": "reply",
           "move": "ask",
-          "role": "asked"
+          "role": "asked",
+          "excludesFacts": ["called-back"]
         }
       ],
       "origin": "authored",
@@ -74942,7 +74952,8 @@
           "key": "favor-asked",
           "step": "reply",
           "move": "agree",
-          "role": "asked"
+          "role": "asked",
+          "excludesFacts": ["called-back"]
         }
       ],
       "origin": "authored",
@@ -74965,7 +74976,8 @@
           "key": "favor-asked",
           "step": "reply",
           "move": "agree",
-          "role": "asked"
+          "role": "asked",
+          "excludesFacts": ["called-back"]
         }
       ],
       "origin": "authored",
@@ -74988,7 +75000,8 @@
           "key": "favor-asked",
           "step": "reply",
           "move": "decline",
-          "role": "asked"
+          "role": "asked",
+          "excludesFacts": ["called-back"]
         }
       ],
       "origin": "authored",
@@ -75011,7 +75024,8 @@
           "key": "favor-asked",
           "step": "reply",
           "move": "decline",
-          "role": "asked"
+          "role": "asked",
+          "excludesFacts": ["called-back"]
         }
       ],
       "origin": "authored",
@@ -75034,7 +75048,8 @@
           "key": "favor-asked",
           "step": "reply",
           "move": "stall",
-          "role": "asked"
+          "role": "asked",
+          "excludesFacts": ["called-back"]
         }
       ],
       "origin": "authored",
@@ -75057,7 +75072,8 @@
           "key": "favor-asked",
           "step": "reply",
           "move": "stall",
-          "role": "asked"
+          "role": "asked",
+          "excludesFacts": ["called-back"]
         }
       ],
       "origin": "authored",
@@ -75080,7 +75096,8 @@
           "key": "favor-asked",
           "step": "reply",
           "move": "leave",
-          "role": "asked"
+          "role": "asked",
+          "excludesFacts": ["called-back"]
         }
       ],
       "origin": "authored",
@@ -75103,7 +75120,8 @@
           "key": "favor-asked",
           "step": "reply",
           "move": "leave",
-          "role": "asked"
+          "role": "asked",
+          "excludesFacts": ["called-back"]
         }
       ],
       "origin": "authored",
@@ -75127,7 +75145,8 @@
           "step": "follow",
           "move": "answer",
           "role": "asker",
-          "requiresFacts": ["place"]
+          "requiresFacts": ["place"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "calm",
@@ -75151,7 +75170,8 @@
           "key": "favor-asked",
           "step": "follow",
           "move": "answer",
-          "role": "asker"
+          "role": "asker",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "curious",
@@ -75175,7 +75195,8 @@
           "key": "favor-asked",
           "step": "follow",
           "move": "thank",
-          "role": "asker"
+          "role": "asker",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "glad",
@@ -75199,7 +75220,8 @@
           "key": "favor-asked",
           "step": "follow",
           "move": "thank",
-          "role": "asker"
+          "role": "asker",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "calm",
@@ -75223,7 +75245,8 @@
           "key": "favor-asked",
           "step": "follow",
           "move": "press",
-          "role": "asker"
+          "role": "asker",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "guarded",
@@ -75247,7 +75270,8 @@
           "key": "favor-asked",
           "step": "follow",
           "move": "press",
-          "role": "asker"
+          "role": "asker",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "curious",
@@ -75271,7 +75295,8 @@
           "key": "favor-asked",
           "step": "follow",
           "move": "accept",
-          "role": "asker"
+          "role": "asker",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "calm",
@@ -75295,7 +75320,8 @@
           "key": "favor-asked",
           "step": "follow",
           "move": "accept",
-          "role": "asker"
+          "role": "asker",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "glad",
@@ -75464,7 +75490,8 @@
           "step": "open",
           "move": "greet",
           "role": "asker",
-          "requiresFacts": ["outlet"]
+          "requiresFacts": ["outlet"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "calm",
@@ -75489,7 +75516,8 @@
           "step": "open",
           "move": "greet",
           "role": "asker",
-          "requiresFacts": ["acquainted"]
+          "requiresFacts": ["acquainted"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "braced",
@@ -75514,7 +75542,8 @@
           "step": "state",
           "move": "request",
           "role": "asker",
-          "requiresFacts": ["office"]
+          "requiresFacts": ["office"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "calm",
@@ -75539,7 +75568,8 @@
           "step": "state",
           "move": "request",
           "role": "asker",
-          "requiresFacts": ["office"]
+          "requiresFacts": ["office"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "curious",
@@ -75564,7 +75594,8 @@
           "step": "state",
           "move": "request",
           "role": "asker",
-          "requiresFacts": ["office", "outlet"]
+          "requiresFacts": ["office", "outlet"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "braced",
@@ -75589,7 +75620,8 @@
           "step": "state",
           "move": "request",
           "role": "asker",
-          "requiresFacts": ["acquainted", "office"]
+          "requiresFacts": ["acquainted", "office"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "glad",
@@ -75613,7 +75645,8 @@
           "key": "favor-asked",
           "step": "reply",
           "move": "ask",
-          "role": "asked"
+          "role": "asked",
+          "excludesFacts": ["called-back"]
         }
       ],
       "origin": "authored",
@@ -75636,7 +75669,8 @@
           "key": "favor-asked",
           "step": "reply",
           "move": "ask",
-          "role": "asked"
+          "role": "asked",
+          "excludesFacts": ["called-back"]
         }
       ],
       "origin": "authored",
@@ -75682,7 +75716,8 @@
           "key": "favor-asked",
           "step": "reply",
           "move": "decline",
-          "role": "asked"
+          "role": "asked",
+          "excludesFacts": ["called-back"]
         }
       ],
       "origin": "authored",
@@ -75705,7 +75740,8 @@
           "key": "favor-asked",
           "step": "reply",
           "move": "decline",
-          "role": "asked"
+          "role": "asked",
+          "excludesFacts": ["called-back"]
         }
       ],
       "origin": "authored",
@@ -75728,7 +75764,8 @@
           "key": "favor-asked",
           "step": "reply",
           "move": "stall",
-          "role": "asked"
+          "role": "asked",
+          "excludesFacts": ["called-back"]
         }
       ],
       "origin": "authored",
@@ -75751,7 +75788,8 @@
           "key": "favor-asked",
           "step": "reply",
           "move": "leave",
-          "role": "asked"
+          "role": "asked",
+          "excludesFacts": ["called-back"]
         },
         {
           "subject": "scene",
@@ -75782,7 +75820,8 @@
           "key": "favor-asked",
           "step": "reply",
           "move": "leave",
-          "role": "asked"
+          "role": "asked",
+          "excludesFacts": ["called-back"]
         }
       ],
       "origin": "authored",
@@ -75805,7 +75844,8 @@
           "key": "favor-asked",
           "step": "follow",
           "move": "answer",
-          "role": "asker"
+          "role": "asker",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "calm",
@@ -75830,7 +75870,8 @@
           "step": "follow",
           "move": "answer",
           "role": "asker",
-          "requiresFacts": ["place"]
+          "requiresFacts": ["place"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "curious",
@@ -75854,7 +75895,8 @@
           "key": "favor-asked",
           "step": "follow",
           "move": "thank",
-          "role": "asker"
+          "role": "asker",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "calm",
@@ -75878,7 +75920,8 @@
           "key": "favor-asked",
           "step": "follow",
           "move": "thank",
-          "role": "asker"
+          "role": "asker",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "glad",
@@ -75902,7 +75945,8 @@
           "key": "favor-asked",
           "step": "follow",
           "move": "press",
-          "role": "asker"
+          "role": "asker",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "braced",
@@ -75926,7 +75970,8 @@
           "key": "favor-asked",
           "step": "follow",
           "move": "press",
-          "role": "asker"
+          "role": "asker",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "curious",
@@ -75950,7 +75995,8 @@
           "key": "favor-asked",
           "step": "follow",
           "move": "accept",
-          "role": "asker"
+          "role": "asker",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "calm",
@@ -75974,7 +76020,8 @@
           "key": "favor-asked",
           "step": "follow",
           "move": "accept",
-          "role": "asker"
+          "role": "asker",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "glad",
@@ -76493,52 +76540,6 @@
       "date": "2026-10-26",
       "tag": {
         "move": "stall",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.reply-stall.can-i-get-back-to-you-on-that",
-      "move": "reply-stall",
-      "kind": "spoken",
-      "text": "Can I get back to you on that?",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "offer-help",
-          "key": "favor-asked",
-          "step": "reply",
-          "move": "stall",
-          "role": "asked"
-        }
-      ],
-      "origin": "authored",
-      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
-      "date": "2026-10-26",
-      "tag": {
-        "move": "stall",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.reply-leave.let-s-talk-another-time",
-      "move": "reply-leave",
-      "kind": "spoken",
-      "text": "Let's talk another time.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "offer-help",
-          "key": "favor-asked",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked"
-        }
-      ],
-      "origin": "authored",
-      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
-      "date": "2026-10-26",
-      "tag": {
-        "move": "leave",
         "key": "favor-asked"
       }
     },
@@ -186443,6 +186444,304 @@
           "key": "bill-sign-on"
         }
       ]
+    },
+    {
+      "key": "scene-talk.open-greet.you-said-you-d-call-me-back-about-the-debate",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "You said you'd call me back about the debate.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "invite-debate",
+          "key": "favor-asked",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "requiresFacts": ["called-back"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (call-back openings), added by Claude Opus (short replies, put-offs)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "greet",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.it-s-when-i-need-an-answer",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "It's {when}. I need an answer.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "invite-debate",
+          "key": "favor-asked",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "requiresFacts": ["called-back", "when"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (call-back openings), added by Claude Opus (short replies, put-offs)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-need-an-answer-now",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I need an answer now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "invite-debate",
+          "key": "favor-asked",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "requiresFacts": ["called-back"],
+          "excludesFacts": ["when"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (call-back openings), added by Claude Opus (short replies, put-offs)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-won-t-be-there",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I won't be there.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "invite-debate",
+          "key": "favor-asked",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "requiresFacts": ["called-back"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (call-back openings), added by Claude Opus (short replies, put-offs)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.good-i-ll-put-you-on-the-stage",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Good. I'll put you on the stage.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "invite-debate",
+          "key": "favor-asked",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "requiresFacts": ["called-back"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (call-back openings), added by Claude Opus (short replies, put-offs)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.then-we-go-on-without-you",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Then we go on without you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "invite-debate",
+          "key": "favor-asked",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "requiresFacts": ["called-back"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (call-back openings), added by Claude Opus (short replies, put-offs)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.i-asked-you-for-an-interview-you-were-going-to-look-at-your-week",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I asked you for an interview. You were going to look at your week.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "invite-interview",
+          "key": "favor-asked",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "requiresFacts": ["called-back"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (call-back openings), added by Claude Opus (short replies, put-offs)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "greet",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.is-it-yes-or-no",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Is it yes or no?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "invite-interview",
+          "key": "favor-asked",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "requiresFacts": ["called-back"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (call-back openings), added by Claude Opus (short replies, put-offs)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.yes-let-s-do-it",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Yes. Let's do it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "invite-interview",
+          "key": "favor-asked",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "requiresFacts": ["called-back"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (call-back openings), added by Claude Opus (short replies, put-offs)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.no-not-this-time",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "No. Not this time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "invite-interview",
+          "key": "favor-asked",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "requiresFacts": ["called-back"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (call-back openings), added by Claude Opus (short replies, put-offs)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.good-i-ll-set-it-up",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Good. I'll set it up.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "invite-interview",
+          "key": "favor-asked",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "requiresFacts": ["called-back"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (call-back openings), added by Claude Opus (short replies, put-offs)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.all-right-i-ll-say-you-declined",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "All right. I'll say you declined.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "invite-interview",
+          "key": "favor-asked",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "requiresFacts": ["called-back"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (call-back openings), added by Claude Opus (short replies, put-offs)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
     }
   ]
 }

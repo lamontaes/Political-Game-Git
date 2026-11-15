@@ -4851,12 +4851,13 @@
     },
     {
       "key": "interview-invite",
+      "repeatsBy": "cause",
       "receive": {
         "age": "any",
         "counterpart": "apart",
         "seat": "any"
       },
-      "note": "An outlet covering the race asks a candidate to sit for an interview: the press engine's interview-invited record names the candidate, the reporter who asks (the outlet's reporter closest to them) and the outlet. The reporter calls. A yes is read by the press engine as sitting for it, answered from the candidate's own filed platform; a no is a refusal on the record the outlet's people may take as a snub; anything else leaves it open.",
+      "note": "An outlet covering the race asks a candidate to sit for an interview: the press engine's interview-invited record names the candidate, the reporter who asks (the outlet's reporter closest to them) and the outlet. The reporter calls. A yes is read by the press engine as sitting for it, answered from the candidate's own filed platform; a no is a refusal on the record the outlet's people may take as a snub; a put-off is called back once, on the press engine's next weekly pass (a new cause, so it repeats by cause), with yes and no only; anything else leaves it open.",
       "roles": [
         {
           "key": "reporter",
@@ -5034,12 +5035,13 @@
     },
     {
       "key": "debate-invite",
+      "repeatsBy": "cause",
       "receive": {
         "age": "any",
         "counterpart": "apart",
         "seat": "any"
       },
-      "note": "The race's debate on the town's widest-reaching outlet waits on the candidate: the meetings engine's debate-invited record names the candidate and the host outlet's reporter closest to them. The host calls. A yes puts the sitting on the record (debate-accepted) for the debate-sitting scene; a no lets the debate go on without them; anything else leaves it waiting until the eve of the election, when it is held without a sitting.",
+      "note": "The race's debate on the town's widest-reaching outlet waits on the candidate: the meetings engine's debate-invited record names the candidate and the host outlet's reporter closest to them. The host calls. A yes puts the sitting on the record (debate-accepted) for the debate-sitting scene; a no lets the debate go on without them; a put-off is called back once, the day before the eve (a new cause, so it repeats by cause), with yes and no only; anything else leaves it waiting until the eve of the election, when it is held without a sitting.",
       "roles": [
         {
           "key": "host",
