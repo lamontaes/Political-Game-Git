@@ -15,6 +15,7 @@ import {
   type ContestRow,
 } from "../core2/modules/elections";
 import { registerControlledPersonV1 } from "../core2/player-control-state-v1";
+import { CANDIDACY_MODULE_ID } from "../core2/modules/candidacy";
 import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
 import { purposeScene, replyInScene } from "./purpose-scene";
@@ -69,7 +70,15 @@ it.each(TAGS)(
           partyId: f.partyId!,
           contestId: f.contestId!,
         });
-        if (player) return;
+        // Only an ask written after the day's weighing waits on an answer (the
+        // party has no one filed); the asks before it go to members who weigh
+        // the seat that day (gov-party-ask-comes-after-the-days-weighing).
+        const weighed = api
+          .moduleState(CANDIDACY_MODULE_ID)
+          .table("weighed")
+          .get(f.contestId!) as unknown as
+          { filedOn: string | null } | undefined;
+        if (player || !weighed?.filedOn) return;
         player = f.askedId as PersonId;
         registerControlledPersonV1(core, player);
         core.focusPersonIds.add(player);
@@ -85,14 +94,15 @@ it.each(TAGS)(
     expect(ask, `${where}: no party asked the player`).toBeDefined();
     const before = asks.length;
     // The party waits on the player: no other member of that party has been
-    // asked for that seat yet.
+    // asked for that seat since (one asked before the day's weighing said no
+    // or was not weighed in, which is why the party is asking the player).
     expect(
-      asks.filter(
-        (row) =>
-          row.partyId === ask!.partyId &&
-          row.contestId === ask!.contestId &&
-          row.id !== ask!.id,
-      ),
+      asks
+        .slice(asks.findIndex((row) => row.id === ask!.id) + 1)
+        .filter(
+          (row) =>
+            row.partyId === ask!.partyId && row.contestId === ask!.contestId,
+        ),
       where,
     ).toEqual([]);
     const book = director.ledger.people.get(player!)!;
