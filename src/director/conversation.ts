@@ -4282,6 +4282,10 @@ function playerFacts(
       stage = "moved";
     } else if (born) stage = "born";
   }
+  // The player's own news is answered by what it was (a race won or lost, a
+  // job got or lost): its replies read the subject's stage, not the raise's.
+  if (last.kind === "player-news" && last.subject.stage)
+    stage = last.subject.stage;
   if (last.kind === "home-reply") {
     const theirs = last.facts.place?.text;
     if (theirs && theirs === facts["my-place"]?.text) stage = "same";
