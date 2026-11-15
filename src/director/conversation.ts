@@ -28,6 +28,7 @@
  * and the President's address weighs by how closely they follow politics.
  * The listener remembers the last talk's topic and doesn't open with it again.
  */
+import { sharedHoursBetween } from "../core2/closeness";
 import { lastContact, relationFacts } from "./relation-facts";
 import { seriousIllnessOf } from "../core2/modules/health";
 import { familyFactsOf, meetInTalk } from "../core2/modules/people";
@@ -2684,7 +2685,11 @@ function introduction(
   if (room.byPhone) return null;
   // Two who have met before are not strangers: no one introduces themselves
   // to someone they have already talked with (Words lead, Nov 14).
-  if (lastContact(core, speaker.id as PersonId, listener.id as PersonId))
+  if (
+    lastContact(core, speaker.id as PersonId, listener.id as PersonId) ||
+    sharedHoursBetween(core, speaker.id as PersonId, listener.id as PersonId) >
+      zero
+  )
     return null;
   if (
     speaker.householdId === listener.householdId ||
@@ -4655,6 +4660,21 @@ function giveBack(
       stage: sameWhen(core, playerId, aboutId, seen, move)
         ? "same"
         : (GIVES_ANSWER[kind]?.[move ?? ""] ?? "saw"),
+      learned: {},
+    };
+  }
+  if (kind === "shared-school") {
+    // How long it has been since they were at school together, the asker's
+    // own sense of the years, after the player answers "Remember {school}?":
+    // a question answered is followed up, never the talk's last word (owner,
+    // Oct 15; the played talks at Cumming, Iowa, seed 7952d3f3e3253ee4, Nov
+    // 15). After an answer that already said the years, they agree instead
+    // (the stage the player's move names in the rules).
+    const years = subject.facts.years;
+    if (!years || said.includes("years")) return null;
+    return {
+      facts: { you, years },
+      stage: GIVES_ANSWER[kind]?.[move ?? ""] ?? "years",
       learned: {},
     };
   }

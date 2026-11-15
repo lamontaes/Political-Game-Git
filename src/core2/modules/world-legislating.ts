@@ -51,11 +51,17 @@ import type {
   CoreAPI,
   CoreModule,
   CoreState,
+  PersonId,
   PersonState,
   Source,
 } from "../types";
 import { nextMeeting } from "./offices";
-import { registerSittingCalendar, type SittingDay } from "../closeness";
+import {
+  halfLifeDays,
+  registerSharedHours,
+  registerSittingCalendar,
+  type SittingDay,
+} from "../closeness";
 import {
   addDays,
   makeIsoDate,
@@ -82,6 +88,9 @@ import { policySeriesAtLevel } from "./laws";
 import stateReach from "../data/places/state-reach.json" with { type: "json" };
 import { OFFICES_MODULE_ID, servingTermsOf, type TermRow } from "./offices";
 import agendaData from "../data/legislature/outside-agenda.json" with { type: "json" };
+import executiveSittings from "../data/legislature/executive-sittings.json" with { type: "json" };
+import localExecutiveRules from "../../../data/research/gov/local-executive-introduction-2026.json" with { type: "json" };
+import { placeStateKey } from "../place-map";
 import { seededUnit } from "../seeded";
 import { countryStateNow, countryStates } from "./macro";
 import type { OfficeLevel } from "./offices";
@@ -222,6 +231,7 @@ export function openWorldLegislating(core: CoreState): void {
   registerFloorDateReader(floorDateOf);
   registerFloorCalendarer(projectedFloorDate);
   registerSittingCalendar(SITTING_CALENDAR);
+  registerSharedHours(executiveHours);
   if (!core.modules.has(WORLD_LEGISLATING_MODULE_ID))
     registerModule(core, WORLD_LEGISLATING_MODULE);
   const api = coreAPI(core);
@@ -1155,19 +1165,245 @@ function sittingsBetween(
   return out;
 }
 
+/**
+ * Whether the executive of a body sits with it at its regular sittings
+ * (src/core2/data/legislature/executive-sittings.json): a mayor always, a
+ * county executive where the place's research row says they preside over the
+ * board, a governor or the President never.
+ */
+function executiveSits(
+  api: CoreAPI,
+  executiveKind: string,
+  jurisdiction: string,
+): boolean {
+  const row = (
+    executiveSittings.kinds as Record<string, { sits: string } | undefined>
+  )[executiveKind];
+  if (row?.sits === "always") return true;
+  if (row?.sits !== "where-presides") return false;
+  const usps = (placeStateKey(jurisdiction) ?? "").replace(/^US-/, "");
+  return (
+    (
+      localExecutiveRules.places as Record<
+        string,
+        { countyExecutive?: { mode?: string } } | undefined
+      >
+    )[usps]?.countyExecutive?.mode === "presides"
+  );
+}
+
+/** The executive who sits with a body at its sittings, as a seat, or null; kept per body for the day. */
+const sittingKept = new WeakMap<
+  object,
+  {
+    date: string;
+    byBody: Map<string, { personId: string; since: string } | null>;
+  }
+>();
+function sittingExecutive(
+  api: CoreAPI,
+  officeId: string,
+): { personId: string; since: string } | null {
+  let kept = sittingKept.get(api.state);
+  if (!kept || kept.date !== api.state.date) {
+    kept = { date: api.state.date, byBody: new Map() };
+    sittingKept.set(api.state, kept);
+  }
+  if (!kept.byBody.has(officeId))
+    kept.byBody.set(officeId, sittingExecutiveNow(api, officeId));
+  return kept.byBody.get(officeId)!;
+}
+function sittingExecutiveNow(
+  api: CoreAPI,
+  officeId: string,
+): { personId: string; since: string } | null {
+  const body = bodyOf(api, officeId);
+  if (!body) return null;
+  const { office, term } = executiveOf(api, officeId);
+  if (!office || !term || !executiveSits(api, office.kind, body.jurisdiction))
+    return null;
+  return {
+    personId: memberKey(term),
+    since: term.serviceStart ?? term.startDate,
+  };
+}
+
 const SITTING_CALENDAR = {
-  seats: (api: CoreAPI, officeId: string) =>
-    members(api, officeId).map((term) => ({
+  // The members, and the executive who sits with them (a mayor at the
+  // council's meetings), each from the day their service began.
+  seats: (api: CoreAPI, officeId: string) => {
+    const seats = members(api, officeId).map((term) => ({
       personId: memberKey(term),
       since: term.serviceStart ?? term.startDate,
-    })),
-  bodiesOf: (api: CoreAPI, personId: string) =>
-    servingTermsOf(api, personId)
+    }));
+    const executive = sittingExecutive(api, officeId);
+    return executive &&
+      !seats.some((seat) => seat.personId === executive.personId)
+      ? [...seats, executive]
+      : seats;
+  },
+  // The bodies a person sits on, and for an executive the bodies of their
+  // own government they sit with.
+  bodiesOf: (api: CoreAPI, personId: string) => {
+    const terms = servingTermsOf(api, personId);
+    const sitsOn = terms
       .map((term) => term.officeId)
-      .filter((officeId) => bodyOf(api, officeId) !== undefined),
+      .filter((officeId) => bodyOf(api, officeId) !== undefined);
+    for (const term of terms) {
+      const office = api
+        .moduleState(OFFICES_MODULE_ID)
+        .table("offices")
+        .get(term.officeId) as unknown as
+        { kind: string; jurisdiction: string } | undefined;
+      if (!office || !/^(mayor|county-executive)$/.test(office.kind)) continue;
+      for (const other of api
+        .moduleState(OFFICES_MODULE_ID)
+        .table("offices")
+        .query("byJurisdiction", [office.jurisdiction]) as unknown as {
+        id: string;
+      }[])
+        if (
+          !sitsOn.includes(other.id) &&
+          bodyOf(api, other.id) !== undefined &&
+          sittingExecutive(api, other.id)?.personId === personId
+        )
+          sitsOn.push(other.id);
+    }
+    return sitsOn;
+  },
   sittings: sittingsBetween,
   hoursPerDay: () => campaignParameter("sittingHours"),
 };
+
+const DAY_MS = 86_400_000;
+const dayNumber = (date: string) => Date.parse(`${date}T00:00:00Z`) / DAY_MS;
+
+/**
+ * Time an executive shares with the members whose bills reach their desk
+ * beyond the sittings they sit at (executive-sittings.json, pool item
+ * government-executive-shared-time-with-body): each bill the executive
+ * signed is one sitting's contact with its sponsor, on the day it passed;
+ * an executive who sits with no body meets its leaders once each floor week.
+ * Read when someone asks how close two people are, through the one registry
+ * of shared hours (`registerSharedHours`), faded as colleagues' time fades,
+ * on day one as on any later day; nothing is written. A veto is not time
+ * together and is not read here.
+ */
+function executiveHours(core: object, a: PersonId, b: PersonId): number {
+  const state = core as CoreState;
+  if (
+    !state.modules?.has(LEGISLATURE_MODULE_ID) ||
+    !state.modules.has(OFFICES_MODULE_ID)
+  )
+    return 0;
+  const serving = executivesServing(state);
+  if (!serving.has(a) && !serving.has(b)) return 0;
+  const api = coreAPI(state);
+  return (
+    (serving.has(a) ? executiveWith(api, a, b) : 0) +
+    (serving.has(b) ? executiveWith(api, b, a) : 0)
+  );
+}
+
+/** Everyone serving in an executive office today, kept for the day (the read above is asked for every pair). */
+const executivesKept = new WeakMap<
+  object,
+  { date: string; ids: ReadonlySet<string> }
+>();
+function executivesServing(state: CoreState): ReadonlySet<string> {
+  const kept = executivesKept.get(state);
+  if (kept && kept.date === state.date) return kept.ids;
+  const offices = coreAPI(state).moduleState(OFFICES_MODULE_ID);
+  const ids = new Set<string>();
+  for (const office of offices.table("offices").rows() as unknown as {
+    id: string;
+    kind: string;
+  }[]) {
+    if (!EXECUTIVE_KIND.test(office.kind)) continue;
+    for (const term of offices
+      .table("terms")
+      .query("byOfficeStatus", [office.id, "serving"]) as unknown as TermRow[])
+      ids.add(memberKey(term));
+  }
+  executivesKept.set(state, { date: state.date, ids });
+  return ids;
+}
+
+const EXECUTIVE_KIND = /^(mayor|governor|county-executive|president)$/;
+
+/** The hours executive `x` shares with member `y` from signings and leaders' meetings. */
+function executiveWith(api: CoreAPI, x: string, y: string): number {
+  const bodies = SITTING_CALENDAR.bodiesOf(api, y);
+  if (!bodies.length) return 0;
+  const unit =
+    campaignParameter("sittingHours") * api.parameter("sittingContactShare");
+  const halfLife = halfLifeDays((key) => api.parameter(key), "coworker");
+  const today = dayNumber(api.state.date);
+  const faded = (date: string) =>
+    Math.pow(2, -Math.max(0, today - dayNumber(date)) / halfLife);
+  const rules = executiveSittings as unknown as {
+    leadersMeet: { perFloorWeek: number };
+    leaderPosts: readonly string[];
+  };
+  let hours = 0;
+  const signed = new Set<string>();
+  for (const body of bodies) {
+    // Only a body that is an office's chamber or council has an executive.
+    if (!bodyOf(api, body)) continue;
+    const { office, term } = executiveOf(api, body);
+    if (!office || !term || memberKey(term) !== x) continue;
+    // Each bill of theirs the executive signed: one meeting.
+    for (const bill of api
+      .moduleState(LEGISLATURE_MODULE_ID)
+      .table("bills")
+      .query("bySponsor", [y]) as unknown as BillRow[]) {
+      if (signed.has(bill.id)) continue;
+      const vote = api
+        .moduleState(LEGISLATURE_MODULE_ID)
+        .table("votes")
+        .get(`vote:${bill.id}:${x}`) as unknown as { vote: string } | undefined;
+      if (vote?.vote !== "sign") continue;
+      signed.add(bill.id);
+      hours += unit * faded(bill.passedOn ?? bill.introduced);
+    }
+    // The body's leaders meet an executive who does not sit with it.
+    const jurisdiction = bodyOf(api, body)?.jurisdiction ?? "";
+    if (executiveSits(api, office.kind, jurisdiction)) continue;
+    if (!rules.leaderPosts.some((post) => leaderOf(api, body, post) === y))
+      continue;
+    const from = term.serviceStart ?? term.startDate;
+    for (const sitting of sittingsWeeks(api, body, from))
+      hours += unit * rules.leadersMeet.perFloorWeek * faded(sitting);
+  }
+  return hours;
+}
+
+/** The days a body's floor weeks began, from `from` through today, kept per body for the day. */
+const weeksKept = new WeakMap<object, Map<string, readonly string[]>>();
+function sittingsWeeks(
+  api: CoreAPI,
+  body: string,
+  from: string,
+): readonly string[] {
+  let byBody = weeksKept.get(api.state);
+  if (!byBody) {
+    byBody = new Map();
+    weeksKept.set(api.state, byBody);
+  }
+  const key = `${body}|${from}|${api.state.date}`;
+  let held = byBody.get(key);
+  if (!held) {
+    if (byBody.size > 64) byBody.clear();
+    held = sittingsBetween(
+      api,
+      body,
+      from,
+      addDays(makeIsoDate(api.state.date), 1),
+    ).map((row) => row.date);
+    byBody.set(key, held);
+  }
+  return held;
+}
 
 /**
  * When a body sits next, for a bill the player puts on its calendar: a town
