@@ -3,14 +3,16 @@
  * buying when its own reasons pull that way (pool item
  * world-renters-can-choose-to-buy): children at home, the head's age, years in
  * the lease and savings beyond the down payment, against the cost and the
- * down payment. The played world, a place drawn from all 56 on a seed nobody
- * chose (RENTERS_BUY_SEED pins one); a year, and the share of full renter
- * households that bought against the NAR first-time buyer share.
+ * down payment. The played world at Shorewood, Wisconsin; a year, and the
+ * share of full renter households that bought against the NAR first-time
+ * buyer share.
+ *
+ * Pinned (tests-housing-sale-tests-draw-from-the-clock): the old test drew up
+ * to twelve places from randomBytes until 60 full renter households and one
+ * purchase added up, on the premise that a few draws always get there.
+ * Shorewood at this seed has 309 full renter households, 10 of whom bought.
  */
-import { randomBytes } from "node:crypto";
-import { appendFileSync } from "node:fs";
 import { expect, it } from "vitest";
-import { drawPlace } from "../../scripts/core2-year/place";
 import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
@@ -18,12 +20,14 @@ import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import { coreAPI } from "./state";
 
-const seed = process.env.RENTERS_BUY_SEED ?? randomBytes(8).toString("hex");
+const SHOREWOOD = {
+  name: "Shorewood, Wisconsin",
+  key: "5573725",
+  seed: "63e6d07daab9ec4fa70605b68e661dd6230c07ea9bcf3594e93c194b88076804",
+};
 
 it("full renter households buy a home in a played year, each purchase naming the reasons that decided it", () => {
   setBookkeeping(false);
-  // Most of a town's renters are counted, so places are drawn in turn until
-  // the full renter households add up to enough to see a share and someone has bought.
   let renters = 0;
   const bought: {
     where: string;
@@ -31,8 +35,8 @@ it("full renter households buy a home in a played year, each purchase naming the
     reasons?: Record<string, number>;
   }[] = [];
   const seen: string[] = [];
-  for (let draw = 0; draw < 12 && (renters < 60 || !bought.length); draw++) {
-    const place = drawPlace(`${seed}:${draw}`, "renters-buy");
+  {
+    const place = SHOREWOOD;
     const where = `${place.name} (${place.key}), seed ${place.seed}`;
     const { core } = buildBenchWorld(place.seed, gameStartDate(), {
       twoLevel: true,
@@ -59,8 +63,7 @@ it("full renter households buy a home in a played year, each purchase naming the
   }
   const share = renters ? bought.length / renters : 0;
   const detail = `${seen.join("; ")} (${(share * 100).toFixed(1)}% of ${renters} full renter households)`;
-  if (process.env.RENTERS_BUY_LOG)
-    appendFileSync(process.env.RENTERS_BUY_LOG, `${detail}\n`);
+  expect(renters, detail).toBeGreaterThanOrEqual(60);
   expect(bought.length, detail).toBeGreaterThan(0);
   // The NAR first-time buyer count is about 2 to 3 percent of renter
   // households a year; a handful of towns sits within a few times that.
@@ -79,4 +82,5 @@ it("full renter households buy a home in a played year, each purchase naming the
       ]),
     );
   }
-}, 3_600_000);
+  // About 276 s measured: building Shorewood and its played year (renters weigh buying only on played days).
+}, 560_000);
