@@ -29,7 +29,7 @@ checked: s3 2026-11-15
 
 **Rules.** No dice; no new stopgap; a chosen number is an ESTIMATED row with a spread; plain American English.
 
-**Done when.** `grep SG-P15-corruption-weights src tests scripts` finds nothing, no row in src/core2/data/corruption/parameters.json is TUNABLE, and the corruption tests give the same results as before (rates and odds between thirds in src/core2/corruption-calibration.test.ts).
+**Done when.** `grep SG-P15-corruption-weights src tests scripts` finds nothing, no row in src/core2/data/corruption/parameters.json is TUNABLE, and the corruption tests give the same results as before at the places they name (rates and odds between thirds in src/core2/corruption-calibration.test.ts; a taken bribe at Cinco Bayou FL in src/director/bribe-offer-player-seat.test.ts).
 
 **Waits on.** Nothing.
 
