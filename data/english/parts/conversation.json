@@ -41099,55 +41099,6 @@
       "date": "2026-11-14"
     },
     {
-      "key": "conversation.death-news-back-core.nobody-has-told-us-how-kin-died",
-      "move": "death-news-back-core",
-      "kind": "spoken",
-      "text": "Nobody has told us how {kin} died.",
-      "uses": [
-        {
-          "move": "death-news-back-core",
-          "subject": "death-news-back",
-          "role": "core",
-          "stages": ["ask"],
-          "excludesFacts": ["cause", "illness-known"],
-          "requiresFacts": ["kin"]
-        }
-      ],
-      "piece": {
-        "of": "death-news-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "solemn",
-      "origin": "authored",
-      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.death-news-back-core.nobody-has-told-us-how-relation-died-no-tie",
-      "move": "death-news-back-core",
-      "kind": "spoken",
-      "text": "Nobody has told us how {relation} died.",
-      "uses": [
-        {
-          "move": "death-news-back-core",
-          "subject": "death-news-back",
-          "role": "core",
-          "stages": ["ask"],
-          "excludesFacts": ["cause", "kin", "illness-known"]
-        }
-      ],
-      "piece": {
-        "of": "death-news-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "solemn",
-      "origin": "authored",
-      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
-      "date": "2026-11-14"
-    },
-    {
       "key": "conversation.death-news-back-core.not-really-you-i-keep-expecting-a-call",
       "move": "death-news-back-core",
       "kind": "spoken",
@@ -41801,6 +41752,54 @@
         "part": "core",
         "required": true
       }
+    },
+    {
+      "key": "conversation.death-news-back-core.i-wanted-you-to-hear-it-from-me",
+      "move": "death-news-back-core",
+      "kind": "spoken",
+      "text": "I wanted you to hear it from me.",
+      "uses": [
+        {
+          "move": "death-news-back-core",
+          "subject": "death-news-back",
+          "role": "core",
+          "stages": ["condole"],
+          "requiresFacts": ["kin"]
+        }
+      ],
+      "piece": {
+        "of": "death-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14: answers that close without a promise)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.death-news-back-core.we-knew-it-was-coming-it-s-still-hard",
+      "move": "death-news-back-core",
+      "kind": "spoken",
+      "text": "We knew it was coming. It's still hard.",
+      "uses": [
+        {
+          "move": "death-news-back-core",
+          "subject": "death-news-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["illness-known"]
+        }
+      ],
+      "piece": {
+        "of": "death-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14: answers that close without a promise)",
+      "date": "2026-11-14"
     },
     {
       "key": "conversation.illness-news-say-core.it-s-kin-you-something-s-wrong",
