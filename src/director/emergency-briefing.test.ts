@@ -294,7 +294,17 @@ describe(`the governor's briefing room (${where})`, () => {
       offers.length,
       `${where}: offers on ${offers.join(", ")}`,
     ).toBeGreaterThan(2);
-    expect(met, where).toBeGreaterThan(2);
+    // Every offer before the lapse, the last included, was staged as a meeting the player was in (the season cap never swallows an open decision).
+    const staged = (world.director.ledger.people.get(playerId)?.schedule ?? [])
+      .filter(
+        (entry) =>
+          entry.momentId.includes(hazardId) &&
+          entry.outcome === "scene-now" &&
+          entry.bindings.some((row) => row.typeKey === "emergency-briefing"),
+      )
+      .map((entry) => entry.date)
+      .sort();
+    expect(staged, `${where}: staged on ${staged.join(", ")}`).toEqual(offers);
     expect(
       offers.every((date) => date <= closes),
       where,
