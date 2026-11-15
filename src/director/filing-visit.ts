@@ -167,7 +167,7 @@ export function openFilingVisit(
         // An office the record names only as a choice ("City or town clerk") is
         // said as the place's own kind; where the records do not settle it, the
         // town is said instead.
-        ...(() => {
+        ...((): Record<string, Fact> => {
           const said =
             filedWith &&
             (saidOffice(filedWith, contests) ??
