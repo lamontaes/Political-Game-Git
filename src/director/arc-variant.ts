@@ -290,6 +290,19 @@ export function variantFamilies(): Record<string, string> {
   );
 }
 
+/**
+ * The reads a variant purpose is scored on (its terms), by name: the scene
+ * facts `read-<name>` a played variant carries when the read came to more than
+ * nothing (purpose-scene.ts). Empty for a purpose that is not a variant.
+ */
+export function variantReadNames(purpose: string): readonly string[] {
+  return Object.values(DATA.families).flatMap((family) =>
+    Object.values(family.variants)
+      .filter((row) => row.purpose === purpose)
+      .flatMap((row) => (row.terms ?? []).map((term) => term.read)),
+  );
+}
+
 /** The arc a variant purpose plays, or undefined for a purpose that is not a variant. */
 export function variantArc(purpose: string): unknown {
   return ARCS.get(purpose);

@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "variants-differ-in-what-they-say",
   "rubric": "Variants of a slot differ in what they say, each tied to a fact in the record, not only in wording; a bank grows by adding conditions and specifics, not more generic lines.",
-  "judged": 1216,
+  "judged": 1215,
   "no": {
     "006el8dj9s1": {
       "keys": [
@@ -370,13 +370,6 @@
         "scene-talk.close-warn.i-d-hate-for-it-to-be-close-and-know-i-didn-t-ask-you-twice"
       ],
       "why": "All three say the race is close and to decide soon, with no record fact about the race's margin behind any of them."
-    },
-    "06sb1do7lj7": {
-      "keys": [
-        "scene-talk.reply-promise.close.i-ll-make-it-up-to-you-i-m-sorry-and-it-won-t-happen-again",
-        "scene-talk.reply-promise.close.i-m-sorry-and-i-promise-to-do-better-you-can-count-on-me-with-the-bills"
-      ],
-      "why": "Both lines are a sorry and a promise to do better."
     },
     "06vjifi65pn": {
       "keys": [

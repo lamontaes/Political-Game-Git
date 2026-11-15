@@ -141914,68 +141914,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-promise.close.i-m-sorry-and-i-promise-to-do-better-you-can-count-on-me-with-the-bills",
-      "move": "reply-promise",
-      "kind": "spoken",
-      "text": "I'm sorry, and I promise to do better. You can count on me with the bills.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "purpose": "owed-apology.close",
-          "key": "routine"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "purpose": "owed-apology.money",
-          "key": "routine"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, apology variants)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "promise",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.reply-promise.close.i-ll-make-it-up-to-you-i-m-sorry-and-it-won-t-happen-again",
-      "move": "reply-promise",
-      "kind": "spoken",
-      "text": "I'll make it up to you. I'm sorry, and it won't happen again.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "purpose": "owed-apology.close",
-          "key": "routine"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "purpose": "owed-apology.money",
-          "key": "routine"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, apology variants)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "promise",
-        "key": "routine"
-      }
-    },
-    {
       "key": "scene-talk.reply-deflect.close.i-didn-t-think-it-would-matter-this-much-to-you",
       "move": "reply-deflect",
       "kind": "spoken",
@@ -186510,6 +186448,105 @@
         "move": "answer",
         "key": "routine"
       }
+    },
+    {
+      "key": "scene-talk.reply-promise.money.i-ll-pay-what-i-missed-you-have-my-word",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll pay what I missed. You have my word.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "owed-apology.money",
+          "key": "routine"
+        }
+      ],
+      "origin": "authored",
+      "author": "the Words lead (answer-what-I-will-do lines, pull request 9290)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "scene-talk.reply-promise.money.i-ll-pay-it-before-i-spend-on-anything-else",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll pay it before I spend on anything else.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "owed-apology.money",
+          "key": "routine"
+        }
+      ],
+      "origin": "authored",
+      "author": "the Words lead (answer-what-I-will-do lines, pull request 9290)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "scene-talk.reply-tell.money.i-can-t-promise-more-than-i-can-do-i-m-sorry-and-that-part-is-true",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I can't promise more than I can do. I'm sorry, and that part is true.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "owed-apology.money",
+          "key": "routine",
+          "after": "press"
+        }
+      ],
+      "origin": "authored",
+      "author": "the Words lead (answer-what-I-will-do lines, pull request 9290)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "scene-talk.reply-tell.close.i-don-t-have-a-plan-i-know-i-was-wrong-and-i-m-not-going-to-argue-it",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I don't have a plan. I know I was wrong, and I'm not going to argue it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "owed-apology.close",
+          "key": "routine",
+          "after": "press"
+        }
+      ],
+      "origin": "authored",
+      "author": "the Words lead (answer-what-I-will-do lines, pull request 9290)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "scene-talk.reply-tell.close.i-can-t-prove-it-tonight-watch-what-i-do",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I can't prove it tonight. Watch what I do.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "owed-apology.close",
+          "key": "routine",
+          "after": "press",
+          "excludesFacts": ["daytime"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Words lead (answer-what-I-will-do lines, pull request 9290)",
+      "date": "2026-11-15"
     }
   ]
 }

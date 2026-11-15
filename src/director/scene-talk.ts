@@ -534,8 +534,8 @@ interface Path {
   continued: boolean;
   /** After a caught lie: the asker's answers come from the lie block. */
   caught?: boolean;
-  /** Reply moves offered at earlier nodes on this path: not offered again. */
-  offered: ReadonlySet<string>;
+  /** Reply moves the player made at earlier nodes on this path: not offered again. */
+  made: ReadonlySet<string>;
   /** Reply lines offered at earlier nodes on this path: never offered again. */
   offeredPieces: ReadonlySet<string>;
 }
@@ -1552,7 +1552,7 @@ export function composeSceneTalk(
       led: true,
       id: "root",
       continued: false,
-      offered: new Set<string>(),
+      made: new Set<string>(),
       offeredPieces: new Set<string>(),
     },
     "root",
@@ -1804,13 +1804,22 @@ export function composeSceneTalk(
   for (let at = zero; at < queue.length; at += one) {
     const { node, path, moves, outcome, lastAsker } = queue[at]!;
     const round = path.round + one;
-    // The menu moves the talk on: a move offered at an earlier node on this
-    // path is not offered again (a lie and the way out aside, or where the arc
-    // lists it as repeatable after this asker move), and a node never offers
-    // two replies of one move.
-    // A move may come back with a different line; a line offered once on
-    // this path is never offered again.
-    const fresh = [...new Set(moves)];
+    // The menu moves the talk on (owner, Oct 16: "After the first exchange,
+    // the options must not rehash the first options"; Words lead, Nov 14,
+    // fault A): a move the player already made on this path is not offered
+    // again in other words, the way `beatAt` plays a beat once. The way out
+    // stays, as does a move the arc lists as repeatable after this asker move
+    // and the replies a caught lie lists itself. A node never offers two
+    // replies of one move, and a line offered once on this path is never
+    // offered again.
+    const repeatable = new Set(arc.repeatable?.[path.askerMove] ?? []);
+    const fresh = [...new Set(moves)].filter(
+      (move) =>
+        !path.made.has(move) ||
+        move === "leave" ||
+        repeatable.has(move) ||
+        !!path.caught,
+    );
     const seen = new Set([...path.said, ...path.offeredPieces]);
     const offered = fresh.slice(zero, maxReplies).flatMap((move) => {
       const reply = render(
@@ -1926,7 +1935,7 @@ export function composeSceneTalk(
         round,
         led: reply === ledLine,
         id: `${path.id}.${reply.move}`,
-        offered: new Set([...path.offered, ...offered.map((row) => row.move)]),
+        made: new Set([...path.made, reply.move]),
         offeredPieces: new Set([
           ...path.offeredPieces,
           ...offered.map((row) => row.parts[zero] ?? ""),

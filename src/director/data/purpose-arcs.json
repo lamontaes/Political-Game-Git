@@ -1414,6 +1414,9 @@
         "press": ["tell", "offer", "confront", "leave"],
         "confront": ["offer", "deny", "leave"]
       },
+      "repeatable": {
+        "ask": ["tell"]
+      },
       "endings": [
         {
           "id": "recused",

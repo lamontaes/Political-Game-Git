@@ -16,7 +16,10 @@ import {
   type SceneTalkOptions,
   type TreeNode,
 } from "../../src/director/scene-talk";
-import { variantFamilies } from "../../src/director/arc-variant";
+import {
+  variantFamilies,
+  variantReadNames,
+} from "../../src/director/arc-variant";
 
 import type { Fact } from "../../src/english/scene-talk-words";
 import situationFile from "../../src/director/data/situation-types.json" with { type: "json" };
@@ -146,6 +149,23 @@ export const types = (
 // Building many scenes and reading the pairs they produced (the reply tests).
 // ---------------------------------------------------------------------------
 
+/**
+ * The fixture's facts, and for a variant type the `read-<name>` facts a played
+ * variant carries (purpose-scene.ts sets one for every read that came to more
+ * than nothing), so a line gated on a read plays here only where it plays.
+ */
+export function variantFacts(type: PurposeType): Record<string, Fact> {
+  const reads = type.family ? variantReadNames(type.purpose ?? "") : [];
+  return reads.length
+    ? {
+        ...facts,
+        ...Object.fromEntries(
+          reads.map((name) => [`read-${name}`, fact("yes")] as const),
+        ),
+      }
+    : facts;
+}
+
 /** The scene types to build: every purpose type, and a type for each variant of a family. */
 export function talkTypes(): PurposeType[] {
   const families = variantFamilies();
@@ -178,7 +198,7 @@ export function buildTalks(
         director,
         { askerId: asker, askedId },
         type,
-        facts,
+        variantFacts(type),
         index === 2 ? { standing: { lean: -0.2, favor: 0.3 } } : {},
         options,
       );

@@ -1234,6 +1234,9 @@
             "again": {
               "plea": ["agree", "decline", "apologize", "leave"]
             },
+            "repeatable": {
+              "plea": ["decline"]
+            },
             "endings": [
               {
                 "id": "looking-again",
@@ -2236,10 +2239,11 @@
               "promise": ["accept", "press"],
               "deflect": ["press"],
               "confront": ["confront"],
-              "leave": []
+              "leave": [],
+              "tell": ["accept", "press"]
             },
             "again": {
-              "press": ["apologize", "promise", "leave", "confront"],
+              "press": ["promise", "tell", "leave"],
               "confront": ["apologize", "leave", "confront"]
             },
             "endings": [
@@ -2283,7 +2287,10 @@
                 "keeps": "none",
                 "when": {}
               }
-            ]
+            ],
+            "repeatable": {
+              "confront": ["confront"]
+            }
           }
         },
         "close": {
@@ -2306,17 +2313,17 @@
           ],
           "arc": {
             "state": "request",
-            "replies": ["apologize", "promise", "ask", "deflect"],
+            "replies": ["apologize", "ask", "deflect"],
             "follow": {
               "apologize": ["accept", "press"],
-              "promise": ["accept", "press"],
               "ask": ["answer"],
               "deflect": ["press"],
-              "leave": []
+              "leave": [],
+              "tell": ["accept", "press"]
             },
             "again": {
-              "press": ["apologize", "promise", "leave"],
-              "answer": ["apologize", "promise", "deflect"]
+              "press": ["tell", "leave"],
+              "answer": ["apologize", "deflect"]
             },
             "endings": [
               {
@@ -2435,7 +2442,10 @@
                 "keeps": "none",
                 "when": {}
               }
-            ]
+            ],
+            "repeatable": {
+              "confront": ["confront"]
+            }
           }
         },
         "pressed": {
@@ -2510,7 +2520,10 @@
                 "keeps": "none",
                 "when": {}
               }
-            ]
+            ],
+            "repeatable": {
+              "confront": ["confront"]
+            }
           }
         }
       }
@@ -2549,6 +2562,9 @@
               "ask": ["tell", "apologize", "leave"],
               "press": ["tell", "apologize", "confront", "leave"],
               "confront": ["apologize", "deny", "confront", "leave"]
+            },
+            "repeatable": {
+              "ask": ["tell"]
             },
             "endings": [
               {
@@ -2632,6 +2648,9 @@
               "press": ["tell", "confront", "leave"],
               "confront": ["deny", "tell", "confront", "leave"]
             },
+            "repeatable": {
+              "ask": ["tell"]
+            },
             "endings": [
               {
                 "id": "disclosed",
@@ -2714,6 +2733,9 @@
             "again": {
               "ask": ["tell", "deny", "leave"],
               "press": ["tell", "apologize", "leave"]
+            },
+            "repeatable": {
+              "ask": ["tell"]
             },
             "endings": [
               {
@@ -2800,6 +2822,9 @@
               "answer": ["tell", "deny", "apologize"],
               "ask": ["tell", "deny", "leave"],
               "press": ["tell", "apologize", "leave"]
+            },
+            "repeatable": {
+              "ask": ["tell"]
             },
             "endings": [
               {
