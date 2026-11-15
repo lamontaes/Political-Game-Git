@@ -149,6 +149,7 @@ import {
   OFFICE_DAY_MODULE_ID,
   decideDesk,
   deskWaiting,
+  pledgeToCome,
 } from "../core2/modules/office-day";
 import {
   chooseVariant,
@@ -157,10 +158,6 @@ import {
   type VariantChoice,
 } from "./arc-variant";
 import { promiseReplyFacts } from "./promises";
-import {
-  OFFICE_DAY_MODULE_ID,
-  pledgeToCome,
-} from "../core2/modules/office-day";
 
 /** A state's key begins with its country (`US-KY`); the rest is its USPS code. */
 const STATE_KEY_PREFIX = "US-";
