@@ -5,9 +5,9 @@ area: gov
 kind: bug
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: thread cluster 29 part 3
+pr: 9385
 blocked-on:
 source: Door scenes reader (#9288, head c9171e33 on train b7ed6337) and the account lead's code reading, Nov 14
 claimed-at:
@@ -34,6 +34,10 @@ checked: account lead 2026-11-14
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/executive.ts, src/core2/modules/counted-moves.ts
+**Files.** src/core2/modules/executive.ts, src/core2/places.ts, src/core2/modules/voting.ts, src/core2/modules/officials.ts, src/core2/cabinet-from-the-state.test.ts
 
 **Notes.** Filed by hand from the code reading at the coordinator's request; the door builder's place, seed and person will be added here when they arrive.
+
+Built on branch claude/project-thread-86yqt4 (Nov 15). The opening cabinet draw now picks each candidate's home with `drawStateHome` (src/core2/places.ts), the population-weighted draw the running-mate newcomer already used (moved out of voting.ts so both read one rule): the played town at its share of the state's people from the country tier (`countryStateParts`), otherwise one of the state's towns by population; the played town always when it is the state's seat (`coreSeatOfGovernmentPlace`). A secretary from elsewhere is filled in where they live (`fillInIdentity`, name and birth date as an official's, the opening's temperament) and never admitted to the town. Measured after the opening: Edgar WI, seed edgar-petition-1, 0 of 13 secretaries in town (13 before); Pierre SD, seed pierre-cabinet-1, 13 of 13 in town.
+
+The player governor's own pick (`stateNominationInput`, read by `stateCandidates` and `appointStatePost`) copies and moves no one: its pool is people the world already holds, each where they live. It still offers mostly the played town's people, because those are most of the full people. Offering strangers from across the state there needs their names on the office screen before they are filled in (src/bench/office.ts reads names with `personName`, which knows only full people and officials), and a read-only screen may not create people. Filed as executive-governor-pick-offers-the-state.

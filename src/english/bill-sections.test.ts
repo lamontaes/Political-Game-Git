@@ -58,6 +58,54 @@ describe("the bill-sections data", () => {
     expect(valueWords(1500, "minor/hour")).toBe("$15 an hour");
     expect(valueWords(31000, "dollars/year")).toBe("$31,000 a year");
   });
+
+  it("words a rate to at most two decimals, and more only where two would make two rates read the same", () => {
+    expect(valueWords(0.284, "percent-of-home-value")).toBe("0.28 percent");
+    expect(valueWords(8.773, "percent")).toBe("8.77 percent");
+    const rates = (before: number, value: number) =>
+      composeBill({
+        id: "b",
+        number: "2025-1",
+        form: {
+          kind: "ordinance",
+          enactingClause: "Be it ordained by the Town,",
+        },
+        provisions: [
+          { kind: "law-amount", series: "sales-tax", value, unit: "percent" },
+        ],
+        before: [{ value: before, unit: "percent" }],
+      })!.sections[0]!;
+    expect(rates(0.3124, 0.3436)).toContain(
+      "raised from 0.31 percent to 0.34 percent",
+    );
+    expect(rates(0.281, 0.284)).toContain(
+      "raised from 0.281 percent to 0.284 percent",
+    );
+  });
+
+  it("words a law amount as the law in force reads it for the struck side of a Compare view", () => {
+    const made = composeBill({
+      id: "b",
+      number: "2025-1",
+      form: {
+        kind: "ordinance",
+        enactingClause: "Be it ordained by the Town,",
+      },
+      provisions: [
+        {
+          kind: "law-amount",
+          series: "sales-tax",
+          value: 0.284,
+          unit: "percent",
+        },
+      ],
+      before: [{ value: 0.284, unit: "percent" }],
+      standing: true,
+    })!;
+    expect(made.sections[0]).toBe(
+      "Section 1. Be it ordained by the Town, That the local sales tax rate is 0.28 percent.",
+    );
+  });
 });
 
 describe("a section reads the record's numbers", () => {
