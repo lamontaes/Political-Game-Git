@@ -106,6 +106,7 @@ import {
 } from "../core2/modules/jobs";
 import conversationRules from "./data/conversation-rules.json" with { type: "json" };
 import type { Director } from "./ledger";
+import { raceMargin } from "./race-margin";
 import { knockFacts, petitionAtDoor } from "./doors";
 import { officeSaid, raceMemberTitle } from "./cause-facts";
 import { officeInSentence } from "../core2/person-work";
@@ -1637,6 +1638,17 @@ function composeBinding(
       text: sayPerson(rival),
       sourceRecordIds: [moment.causeId, rival.id],
     };
+  // How a lost race was decided, from its result record's totals by the one
+  // margin function the Journal reads: a line that judges the size (close,
+  // not close) requires the fact, and says no figure of its own.
+  if (/^(election|primary)-result:/.test(moment.causeId)) {
+    const margin = raceMargin(core, moment.causeId);
+    if (margin !== "alone")
+      facts[`race-${margin}`] = {
+        text: "yes",
+        sourceRecordIds: [moment.causeId],
+      };
+  }
   // A rival who runs under the candidate's own party label: a primary
   // challenge. The lines that call it one need both filings to say so.
   if (rival && said.contestId && core.modules.has(ELECTIONS_MODULE_ID)) {

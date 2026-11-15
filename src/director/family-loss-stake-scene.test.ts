@@ -1,4 +1,4 @@
-import { randomBytes } from "node:crypto";
+import { appendFileSync, writeFileSync } from "node:fs";
 import { expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
 import { drawPlace } from "../../scripts/core2-year/place";
@@ -29,23 +29,60 @@ import { coreAPI } from "../core2/state";
 import { familyFactsOf } from "../core2/modules/people";
 import type { PersonId } from "../core2/types";
 import { stakeOf } from "./family-stake";
+import { raceMargin } from "./race-margin";
+import type { TreeNode } from "./scene-talk";
 import { composeJournal } from "./journal";
 import { purposeScene, replyInScene } from "./purpose-scene";
 import { expectUpToFourDifferent } from "./reply-set-check";
 
 // The talk at home after a lost race (scenes-from-life, household-after-the-loss):
-// staged only for a relative who put work or money into the race, opening on what
-// they put in and how close the count was, and what the player says about running
-// again is kept where the candidacy engine reads it for the next contest. Drawn
-// places and a fresh seed each run; the place and seed are in every message.
-const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
-const ATTEMPTS = 24;
+// staged only for a relative who put work or money into the race, and what the
+// player says about running again is kept where the candidacy engine reads it
+// for the next contest. The count is said once, in the narration (owner, Nov 14:
+// people do not say the figure); a line that judges its size ("it was that
+// close", the answer to "How close was it?" in the concession call) is placed by
+// the one margin function the Journal reads (raceMargin), never asserted.
+// Two named places on fixed seeds, found by scanning drawn seeds once: Pomeroy
+// WA (a relative who worked it) and Vineyard UT (a relative who gave money). The
+// time is the game's own played season from filing to the count at each place
+// (about 80 and 290 seconds), and a relative's stake is made through the game's
+// own enlistVolunteer and contributeOwnMoney calls; a shorter run has no count
+// for either.
+const PLACES = [
+  { key: "5355120", seed: "losscan:4" },
+  { key: "4980420", seed: "losscan:1" },
+].map((row) => {
+  const place = drawPlace(row.seed, "family-loss-stake-scene");
+  if (place.key !== row.key)
+    throw new Error(`${row.seed} no longer draws ${row.key}: ${place.key}`);
+  return { ...place, drawSeed: row.seed };
+});
 const YEAR = 365;
 
+/** Every line under a node, with the reply that led to it. */
+function treeLines(node: TreeNode | null, path: string[], out: string[]): void {
+  if (!node) return;
+  for (const line of node.lines)
+    out.push(`${path.join(" > ")} => ${line.text}`);
+  if (node.end?.close)
+    out.push(`${path.join(" > ")} => ${node.end.close.text}`);
+  for (const reply of node.replies) {
+    out.push(`${path.join(" > ")} ? ${reply.line.text}`);
+    treeLines(reply.next, [...path, `"${reply.line.text}"`], out);
+  }
+}
+
+const CLOSE_ANSWER = {
+  close: "Close. A few more doors might have done it.",
+  wide: "It wasn't close.",
+} as const;
+
 /** One drawn place: the loss scenes it showed, or why it could not. */
-const run = (drawSeed: string): { done: boolean; note: string } => {
-  const place = drawPlace(drawSeed, "family-loss-stake-scene");
-  const where = `${place.name} (${place.key}), seed ${drawSeed}`;
+const run = (
+  place: (typeof PLACES)[number],
+): { done: boolean; note: string } => {
+  const where = `${place.name} (${place.key}), seed ${place.drawSeed}`;
+  const file = process.env.PLAYED_FILE;
   setBookkeeping(false);
   const world = buildBenchWorld(place.seed, gameStartDate(), {
     twoLevel: true,
@@ -225,7 +262,36 @@ const run = (drawSeed: string): { done: boolean; note: string } => {
     expect(part!.recordIds, here).toContain(causeId);
     // Worked it, or gave money: the relative says which.
     const margin = facts.find((row) => row.key === "margin")!;
-    expect(talk.state.text, here).toContain(margin.text);
+    // The count is said once, in the narration; nothing the relative or the
+    // player says repeats it, and no line asserts a size the count does not.
+    const how = raceMargin(core, causeId);
+    expect(
+      facts.some((row) => row.key === `race-${how}`),
+      `${here}: the scene holds race-${how}`,
+    ).toBe(true);
+    expect(
+      talk.narration.some((line) => line.text.includes(margin.text)),
+      `${here}: the narration says the count`,
+    ).toBe(true);
+    const said: string[] = [];
+    treeLines(talk.tree, [], said);
+    for (const text of [talk.state.text, ...said])
+      expect(text, `${here}: the count said again`).not.toContain(margin.text);
+    for (const text of said)
+      if (text.includes("that close"))
+        expect(how, `${here}: "${text}"`).toBe("close");
+    if (file)
+      appendFileSync(
+        file,
+        [
+          `### ${where}: ${filing.id}, the count was ${how}`,
+          ...talk.narration.map((line) => `Narration: ${line.text}`),
+          `They say: ${talk.state.text}`,
+          ...said.map((text) => `- ${text}`),
+          "",
+          "",
+        ].join("\n"),
+      );
     if (filing === worked) {
       expect(part!.key, here).toBe("stake-worked");
       expect(askerId, here).toBe(mateOf.id);
@@ -251,6 +317,53 @@ const run = (drawSeed: string): { done: boolean; note: string } => {
     lines.push(
       `${here} (${part!.key}, lost by ${margin.text}): ${core.people.get(askerId)!.givenName}: "${talk.state.text}" / ${talk.tree.replies.map((row) => `${row.line.move}: "${row.line.text}"`).join(" | ")}`,
     );
+
+    // The concession call, from the same result: "How close was it?" is
+    // answered by the count's own class, and the figure of speech nobody
+    // could back ("closer than anybody expected") is gone.
+    const callEntry = entry!;
+    if (callEntry.bindings.some((row) => row.typeKey === "race-lost")) {
+      const call = purposeScene(core, director, filer, callEntry, {
+        typeKey: "race-lost",
+      });
+      if (call?.kind === "composed") {
+        const heard: string[] = [];
+        treeLines(call.scene.talk.tree, [], heard);
+        for (const text of heard) {
+          expect(text, `${here}: a line nothing records`).not.toContain(
+            "Closer than anybody expected",
+          );
+          for (const [kind, line] of Object.entries(CLOSE_ANSWER))
+            if (text.endsWith(`=> ${line}`))
+              expect(kind, `${here}: "${text}"`).toBe(how);
+          if (text.includes("It was close. I can live on that"))
+            expect(how, `${here}: "${text}"`).toBe("close");
+        }
+        const asked = call.scene.talk.tree.replies.find(
+          (row) => row.line.text === "How close was it?",
+        );
+        // A middle count has no answer on record that a line can back, so
+        // the question is not offered then.
+        if (how === "middle")
+          expect(asked, `${here}: no question`).toBeUndefined();
+        else if (asked)
+          expect(
+            asked.next?.lines[0]?.text,
+            `${here}: the answer to how close`,
+          ).toBe(CLOSE_ANSWER[how as keyof typeof CLOSE_ANSWER]);
+        if (file)
+          appendFileSync(
+            file,
+            [
+              `### ${where}: the concession call, the count was ${how}`,
+              `They say: ${call.scene.talk.state.text}`,
+              ...heard.map((text) => `- ${text}`),
+              "",
+              "",
+            ].join("\n"),
+          );
+      }
+    }
 
     // Say you will run again: the relative's answer is kept for the next contest.
     const at = talk.tree.replies.findIndex(
@@ -293,16 +406,16 @@ const run = (drawSeed: string): { done: boolean; note: string } => {
   return { done: promised, note: lines.join("\n") };
 };
 
-it(`the talk after a lost race is for the relative who put in work or money, and what is said about running again is read by the next contest (seed ${seed})`, () => {
-  const skipped: string[] = [];
-  for (let attempt = 0; attempt < ATTEMPTS; attempt += 1) {
-    const out = run(`${seed}:${attempt}`);
-    if (out.done) {
-      process.stdout.write(`${out.note}\n`);
-      return;
-    }
-    skipped.push(out.note);
-    console.log(`not shown: ${out.note}`);
+it("the talk after a lost race is for the relative who put in work or money, says the count once, places its size words by the count, and what is said about running again is read by the next contest", () => {
+  const file = process.env.PLAYED_FILE;
+  if (file)
+    writeFileSync(
+      file,
+      `# After the loss, played (head ${process.env.PLAYED_SHA ?? "unknown"})\n\n`,
+    );
+  for (const place of PLACES) {
+    const out = run(place);
+    expect(out.done, out.note).toBe(true);
+    process.stdout.write(`${out.note}\n`);
   }
-  throw new Error(`no drawn place showed the talk: ${skipped.join("; ")}`);
-}, 3_600_000);
+}, 800_000);
