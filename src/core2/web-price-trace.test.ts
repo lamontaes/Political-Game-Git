@@ -16,7 +16,7 @@ import { advanceCore } from "./life";
 import { enactLaw, lawChain } from "./modules/laws";
 import { coreAPI } from "./state";
 import { lawReach } from "./law-reach/applied";
-import { WEB_PRICE_WHAT } from "./web-price-trace";
+import { WEB_PRICE_WHAT } from "./law-reach/web-price-trace";
 import { lawDid } from "../bench/law-did";
 
 const SEED = "9ea5b0b1cf7f19c41c24ddba458a95377a45443e44227b6ec9f33db30cc8c8ad";

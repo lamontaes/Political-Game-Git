@@ -32,4 +32,4 @@ root: rc8-law-judged-by-paperwork
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/web-price-trace.ts (new), src/core2/finance-state.ts, src/core2/outcome-web-reach.ts, src/core2/modules/outcome-web.ts, src/core2/law-reach/applied.ts, src/bench/law-did.ts, src/bench/play.mjs, src/bench/data/controls.json, src/bench/dev-mode.ts, src/bench/ui/dev-bill-card.mjs, src/core2/web-price-trace.test.ts (new)
+**Files.** src/core2/law-reach/web-price-trace.ts (new; the price engine reads it through src/core2/modules/outcome-web.ts), src/core2/finance-state.ts, src/core2/outcome-web-reach.ts, src/core2/modules/outcome-web.ts, src/core2/law-reach/applied.ts, src/bench/law-did.ts, src/bench/play.mjs, src/bench/data/controls.json, src/bench/dev-mode.ts, src/bench/ui/dev-bill-card.mjs, src/core2/web-price-trace.test.ts (new)

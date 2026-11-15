@@ -104,6 +104,12 @@ const SCHOOL_MEASURED = new Set([
 export { OUTCOME_WEB_MODULE_ID, WEB_LINKS };
 /** The factor an engine in another family multiplies its own rate by (medical-bills.ts). */
 export { webReach, type WebReach } from "../outcome-web-reach";
+// The trace of laws the web carries into business prices, for the price engine.
+export {
+  traceWebPriceLaws,
+  WEB_PRICE_ENGINE,
+  WEB_PRICE_WHAT,
+} from "../law-reach/web-price-trace";
 const STATE_ID = "outcome-web:state";
 const RUN_KIND = "outcome-web";
 const SETTINGS = WEB_SETTINGS;
@@ -137,8 +143,8 @@ const monthIndex = (month: string) =>
 const monthKey = (index: number) =>
   `${Math.floor(index / MONTHS)}-${String((index % MONTHS) + 1).padStart(2, "0")}`;
 const LAST_SAFE_DAY = "28";
-/** The same day `months` earlier (days past the 28th read as the 28th): the day a month's row read a cause `months` back. */
-export function dateMonthsBefore(date: string, months: number): string {
+/** The same day `months` earlier (days past the 28th read as the 28th). */
+function dateMonthsBefore(date: string, months: number): string {
   const day = date.slice("YYYY-MM-".length);
   const index = monthIndex(date.slice(0, "YYYY-MM".length)) - months;
   return `${monthKey(index)}-${day > LAST_SAFE_DAY ? LAST_SAFE_DAY : day}`;

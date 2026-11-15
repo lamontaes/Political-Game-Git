@@ -11,7 +11,7 @@ import { admitEverydayPurchase, isEverydayPurchase } from "./cost-of-living";
 import { ageOnDate, makeIsoDate, daysBetweenText } from "./kernel/dates";
 import { projectSalesReceiptBudgetPool } from "./finance-sales-budgets";
 import { webFactorFor } from "./outcome-web-reach";
-import { traceWebPriceLaws } from "./web-price-trace";
+import { traceWebPriceLaws } from "./modules/outcome-web";
 import { sellerTaxShare } from "./modules/purchase-tax";
 import {
   settleFinanceContractJournal,

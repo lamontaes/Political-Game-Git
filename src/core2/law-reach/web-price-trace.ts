@@ -16,12 +16,19 @@
  * web read it. Links with no law behind them (roads) keep their share
  * unrecorded.
  */
-import { lawApplied } from "./law-reach/applied";
-import { lawInForce, LAWS_MODULE_ID } from "./modules/laws";
-import { dateMonthsBefore } from "./modules/outcome-web";
-import { webDayCache, webReachInMonth } from "./outcome-web-reach";
-import { WEB_LINKS } from "./outcome-web-model";
-import type { CoreAPI } from "./types";
+import { lawApplied } from "./applied";
+import { lawInForce, LAWS_MODULE_ID } from "../modules/laws";
+import { webDayCache, webReachInMonth } from "../outcome-web-reach";
+import { WEB_LINKS } from "../outcome-web-model";
+import type { CoreAPI } from "../types";
+
+/** The same day `months` earlier (days past the 28th read as the 28th), as the web reads a cause a lag back. */
+function dateMonthsBefore(date: string, months: number): string {
+  const index =
+    Number(date.slice(0, 4)) * 12 + Number(date.slice(5, 7)) - 1 - months;
+  const day = date.slice(8, 10);
+  return `${Math.floor(index / 12)}-${String((index % 12) + 1).padStart(2, "0")}-${day > "28" ? "28" : day}`;
+}
 
 /** The engine a web-carried price row is recorded under. */
 export const WEB_PRICE_ENGINE = "business-prices";
