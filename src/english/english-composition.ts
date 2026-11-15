@@ -411,7 +411,11 @@ export function composeGroundedLine(
     }
 
     if (part === "core" && chosen.closesTalk) closed = true;
-    if (chosen.setsFacts?.length)
+    if (chosen.setsFacts?.length) {
+      const setBy = [...rendered.sourceRecordIds];
+      // What a part said, its speaker knows: a later part that needs the
+      // fact it set (a tail in the opener's bearing) is theirs to say.
+      const knower = packet.speaker ?? packet.viewer;
       packet = {
         ...packet,
         facts: {
@@ -419,14 +423,22 @@ export function composeGroundedLine(
           ...Object.fromEntries(
             chosen.setsFacts.map((key) => [
               key,
-              {
-                text: "yes",
-                sourceRecordIds: [...rendered.sourceRecordIds],
-              },
+              { text: "yes", sourceRecordIds: setBy },
             ]),
           ),
         },
+        knowledge: knower
+          ? [
+              ...packet.knowledge,
+              ...chosen.setsFacts.map((factKey) => ({
+                personId: knower.personId,
+                factKey,
+                sourceRecordIds: setBy,
+              })),
+            ]
+          : packet.knowledge,
       };
+    }
     parts.push({
       part,
       partKey: `${bankKey}:${part}:${rendered.variantKey}`,

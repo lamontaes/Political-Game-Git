@@ -158,6 +158,12 @@ it(`the sponsor brings up a veto once at the next talk, seed ${seed}`, () => {
       said!.wording?.parts.some((key) => key.includes("veto-say-core")),
       where,
     ).toBe(true);
+    // Three parts, in order: the opener, the reason, a tail in the
+    // opener's bearing (Words lead's lines).
+    expect(
+      said!.wording?.parts.map((key) => key.split(".")[1]),
+      where,
+    ).toEqual(["veto-say-opener", "veto-say-core", "veto-say-closer"]);
     // How it ended is the opener's; the reason given is the core's.
     expect(said!.wording?.stage, where).toBe(
       status === "overridden" ? "overridden" : "stood",
