@@ -3211,7 +3211,7 @@
       "key": "journal.election-other-result.other-was-elected-to-office",
       "move": "election-other-result",
       "kind": "spoken",
-      "text": "{other} was elected {office}.",
+      "text": "{other} was elected to {office}.",
       "uses": [
         {
           "move": "election-other-result",
@@ -3237,7 +3237,7 @@
       "key": "journal.election-other-result.other-got-elected-to-office",
       "move": "election-other-result",
       "kind": "spoken",
-      "text": "{other} got elected {office}.",
+      "text": "{other} got elected to {office}.",
       "uses": [
         {
           "move": "election-other-result",
@@ -3263,7 +3263,7 @@
       "key": "journal.election-other-result.name-was-elected-to-office",
       "move": "election-other-result",
       "kind": "spoken",
-      "text": "{name} was elected {office}.",
+      "text": "{name} was elected to {office}.",
       "uses": [
         {
           "move": "election-other-result",
@@ -3459,32 +3459,6 @@
         "url": "https://www.nasa.gov/wp-content/uploads/2024/11/geyerm-6-20-19.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       },
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.election-line-own-result.i-won-the-race-for-office-in-a-landslide",
-      "move": "election-line-own-result",
-      "kind": "spoken",
-      "text": "I won the race for {office} in a landslide.",
-      "uses": [
-        {
-          "move": "election-line-own-result",
-          "subject": "election",
-          "role": "line",
-          "choice": "own-result",
-          "journal": [
-            {
-              "kindPrefix": "event:election",
-              "field": "ownLine"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead",
-      "date": "2026-11-14",
       "tag": {
         "move": "tell"
       }
@@ -9013,7 +8987,7 @@
       "key": "journal.work-line-again.employer-took-me-on",
       "move": "work-line-again",
       "kind": "spoken",
-      "text": "{employer} hired me.",
+      "text": "{employer} took me on.",
       "uses": [
         {
           "move": "work-line-again",
@@ -10560,32 +10534,6 @@
       }
     },
     {
-      "key": "journal.home-line-met.i-met-named-in-place",
-      "move": "home-line-met",
-      "kind": "spoken",
-      "text": "I met {named} in {place}.",
-      "uses": [
-        {
-          "move": "home-line-met",
-          "subject": "home",
-          "role": "met",
-          "choice": "met",
-          "journal": [
-            {
-              "kindPrefix": "household:partners-met",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
       "key": "journal.home-line-met.named-and-i-met-in-place",
       "move": "home-line-met",
       "kind": "spoken",
@@ -10616,32 +10564,6 @@
       "move": "home-line-met",
       "kind": "spoken",
       "text": "I met {named} in {place} when I was {age}.",
-      "uses": [
-        {
-          "move": "home-line-met",
-          "subject": "home",
-          "role": "met",
-          "choice": "met",
-          "journal": [
-            {
-              "kindPrefix": "household:partners-met",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.home-line-met.named-and-i-met-in-place-when-i-was-age",
-      "move": "home-line-met",
-      "kind": "spoken",
-      "text": "{named} and I met in {place} when I was {age}.",
       "uses": [
         {
           "move": "home-line-met",
@@ -11130,58 +11052,6 @@
       }
     },
     {
-      "key": "journal.memoir-view-for.after-that-i-wanted-to-to",
-      "move": "memoir-view-for",
-      "kind": "spoken",
-      "text": "After that, I wanted to {to}.",
-      "uses": [
-        {
-          "move": "memoir-view-for",
-          "subject": "memoir",
-          "role": "viewFor",
-          "choice": "after-that-i-wanted-to-to",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "viewFor"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session (journal composer, words composer unit 6)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.memoir-view-for.that-was-when-i-came-to-want-to-to",
-      "move": "memoir-view-for",
-      "kind": "spoken",
-      "text": "That was when I came to want to {to}.",
-      "uses": [
-        {
-          "move": "memoir-view-for",
-          "subject": "memoir",
-          "role": "viewFor",
-          "choice": "that-was-when-i-came-to-want-to-to",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "viewFor"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session (journal composer, words composer unit 6)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
       "key": "journal.memoir-view-for.from-then-on-i-wanted-to-to",
       "move": "memoir-view-for",
       "kind": "spoken",
@@ -11202,36 +11072,6 @@
       ],
       "origin": "authored",
       "author": "Words session (journal composer, words composer unit 6)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.work-line-lost.i-lost-my-job-in-place",
-      "move": "work-line-lost",
-      "kind": "spoken",
-      "text": "I lost my job in {place}.",
-      "uses": [
-        {
-          "move": "work-line-lost",
-          "subject": "work",
-          "role": "line",
-          "choice": "i-lost-my-job-in-place",
-          "journal": [
-            {
-              "kindPrefix": "job-ended",
-              "field": "line"
-            },
-            {
-              "kindPrefix": "job-ended:let-go",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "W3 words builder (claude/words-w3-journal, db2c83d08d), carried by the journal composer",
       "date": "2026-11-12",
       "tag": {
         "move": "tell"
@@ -11323,32 +11163,6 @@
         "of": "journal.work-run",
         "part": "close",
         "required": false
-      }
-    },
-    {
-      "key": "journal.memoir-work-one.i-ve-been-at-employer-for-span-now",
-      "move": "memoir-work-one",
-      "kind": "spoken",
-      "text": "I've been at {employer} for {span} now.",
-      "uses": [
-        {
-          "move": "memoir-work-one",
-          "subject": "memoir",
-          "role": "workOne",
-          "choice": "i-ve-been-at-employer-for-span-now",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "workOne"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session (journal composer, words composer unit 6)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "tell"
       }
     },
     {
@@ -11650,58 +11464,6 @@
       }
     },
     {
-      "key": "journal.home-line-children-together.we-had-count-children-between-first-and-last-names",
-      "move": "home-line-children-together",
-      "kind": "spoken",
-      "text": "We had {count} children between {first} and {last}: {names}.",
-      "uses": [
-        {
-          "move": "home-line-children-together",
-          "subject": "home",
-          "role": "children",
-          "choice": "children-together",
-          "journal": [
-            {
-              "kindPrefix": "household:children-together",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (ruled Nov 14), added by the Journal builder",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.home-line-children-together.between-first-and-last-partner-and-i-had-count-children-names",
-      "move": "home-line-children-together",
-      "kind": "spoken",
-      "text": "Between {first} and {last}, {partner} and I had {count} children: {names}.",
-      "uses": [
-        {
-          "move": "home-line-children-together",
-          "subject": "home",
-          "role": "children",
-          "choice": "children-together",
-          "journal": [
-            {
-              "kindPrefix": "household:children-together",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (ruled Nov 14), added by the Journal builder",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
       "key": "journal.home-line-children-together.our-children-came-between-first-and-last-names",
       "move": "home-line-children-together",
       "kind": "spoken",
@@ -11858,32 +11620,6 @@
       }
     },
     {
-      "key": "journal.home-line-parent-apart.named-lived-somewhere-else-when-i-was-growing-up",
-      "move": "home-line-parent-apart",
-      "kind": "spoken",
-      "text": "{named} lived somewhere else when I was growing up.",
-      "uses": [
-        {
-          "move": "home-line-parent-apart",
-          "subject": "home",
-          "role": "apart",
-          "choice": "apart",
-          "journal": [
-            {
-              "kindPrefix": "household:parent-apart",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (ruled Nov 14), added by the Journal builder",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
       "key": "journal.home-line-parent-apart.i-did-not-grow-up-with-named",
       "move": "home-line-parent-apart",
       "kind": "spoken",
@@ -11897,32 +11633,6 @@
           "journal": [
             {
               "kindPrefix": "household:parent-apart",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (ruled Nov 14), added by the Journal builder",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.home-line-sibling-older.i-had-sibling-name",
-      "move": "home-line-sibling-older",
-      "kind": "spoken",
-      "text": "I had {sibling}, {name}.",
-      "uses": [
-        {
-          "move": "home-line-sibling-older",
-          "subject": "home",
-          "role": "older",
-          "choice": "older",
-          "journal": [
-            {
-              "kindPrefix": "household:sibling-older",
               "field": "line"
             }
           ]
@@ -11956,162 +11666,6 @@
       ],
       "origin": "authored",
       "author": "Words lead (ruled Nov 14), added by the Journal builder",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.money-line-law-effect-learned.my-bill-went-direction-amount-a-month",
-      "move": "money-line-law-effect-learned",
-      "kind": "spoken",
-      "text": "My {bill} went {direction} {amount} a month.",
-      "uses": [
-        {
-          "move": "money-line-law-effect-learned",
-          "subject": "money",
-          "role": "line",
-          "choice": "law-effect-learned",
-          "journal": [
-            {
-              "kindPrefix": "event:law.effect-learned",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (ruled Nov 14), added by the Journal builder",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.money-line-law-effect-learned.my-bill-went-direction-amount-a-month-i-heard-of-it-learned",
-      "move": "money-line-law-effect-learned",
-      "kind": "spoken",
-      "text": "My {bill} went {direction} {amount} a month. I heard of it {learned}.",
-      "uses": [
-        {
-          "move": "money-line-law-effect-learned",
-          "subject": "money",
-          "role": "line",
-          "choice": "law-effect-learned",
-          "journal": [
-            {
-              "kindPrefix": "event:law.effect-learned",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (ruled Nov 14), added by the Journal builder",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.money-line-law-effect-learned.my-bill-went-direction-amount-a-month-and-i-heard-of-it-learned",
-      "move": "money-line-law-effect-learned",
-      "kind": "spoken",
-      "text": "My {bill} went {direction} {amount} a month, and I heard of it {learned}.",
-      "uses": [
-        {
-          "move": "money-line-law-effect-learned",
-          "subject": "money",
-          "role": "line",
-          "choice": "law-effect-learned",
-          "journal": [
-            {
-              "kindPrefix": "event:law.effect-learned",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (ruled Nov 14), added by the Journal builder",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.home-line-met.i-met-named-when-i-was-age",
-      "move": "home-line-met",
-      "kind": "spoken",
-      "text": "I met {named} when I was {age}.",
-      "uses": [
-        {
-          "move": "home-line-met",
-          "subject": "home",
-          "role": "met",
-          "choice": "met",
-          "journal": [
-            {
-              "kindPrefix": "household:partners-met",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.home-line-met.i-met-named",
-      "move": "home-line-met",
-      "kind": "spoken",
-      "text": "I met {named}.",
-      "uses": [
-        {
-          "move": "home-line-met",
-          "subject": "home",
-          "role": "met",
-          "choice": "met",
-          "journal": [
-            {
-              "kindPrefix": "household:partners-met",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.home-line-met.named-and-i-met-when-i-was-age",
-      "move": "home-line-met",
-      "kind": "spoken",
-      "text": "{named} and I met when I was {age}.",
-      "uses": [
-        {
-          "move": "home-line-met",
-          "subject": "home",
-          "role": "met",
-          "choice": "met",
-          "journal": [
-            {
-              "kindPrefix": "household:partners-met",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead",
       "date": "2026-11-14",
       "tag": {
         "move": "tell"

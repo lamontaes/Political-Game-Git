@@ -1567,17 +1567,6 @@ export function composeJournal(
       const place = placeName(person.placeId);
       if (place) facts.place = place;
     }
-    // A lost job with no employer on record is told by where the person
-    // lived: "I lost my job in Sunbury, North Carolina." (W3, Nov 12: four
-    // losses in Delphos, Iowa were untold once "I lost my job." went).
-    if (
-      moment.causeKind.startsWith("job-ended") &&
-      !facts.employer &&
-      !facts.place
-    ) {
-      const place = placeName(person.placeId);
-      if (place) facts.place = place;
-    }
     // How old they were on the day, from the birth record they stand on.
     const ageThen = (born: string, recordId: string): Fact => ({
       text: String(ageOnDate(makeIsoDate(born), makeIsoDate(moment.date))),
