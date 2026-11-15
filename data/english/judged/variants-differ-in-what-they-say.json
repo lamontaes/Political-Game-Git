@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "variants-differ-in-what-they-say",
   "rubric": "Variants of a slot differ in what they say, each tied to a fact in the record, not only in wording; a bank grows by adding conditions and specifics, not more generic lines.",
-  "judged": 1210,
+  "judged": 1199,
   "no": {
     "006el8dj9s1": {
       "keys": [
@@ -628,13 +628,6 @@
         "scene-talk.state-rule-filing-deadline.i-can-t-take-a-filing-for-office-today-filing-isn-t-open"
       ],
       "why": "Both lines say filing for the office isn't open today, in nearly the same words."
-    },
-    "0a1zm1e5b2y": {
-      "keys": [
-        "scene-talk.state-request.the-opening-at-employer-is-yours-if-you-want-it",
-        "scene-talk.state-request.we-went-through-everybody-and-we-d-like-to-bring-you-on-as-position"
-      ],
-      "why": "Both lines make the same job offer at {position} and {pay} with nothing in the record to choose between them."
     },
     "0a8ftadv7qn": {
       "keys": [
@@ -1375,18 +1368,6 @@
       ],
       "why": "Both lines promise to finish school, with nothing in the world choosing the specific one."
     },
-    "0n02dadq6x8": {
-      "keys": [
-        "scene-talk.open-greet.do-you-have-a-moment-for-a-couple-of-questions",
-        "scene-talk.open-greet.one-question-and-i-m-gone",
-        "scene-talk.open-greet.quick-one-before-you-go",
-        "scene-talk.open-greet.title-a-minute-for-outlet",
-        "scene-talk.open-greet.title-can-i-walk-with-you-a-second",
-        "scene-talk.open-greet.title-one-question",
-        "scene-talk.open-greet.title-over-here"
-      ],
-      "why": "All seven lines ask for a quick question, and the title tag only adds a form of address, not a different thing said."
-    },
     "0n2ur99gpfx": {
       "keys": [
         "scene-talk.follow-press.sleep-on-it-the-executive-doesn-t-ask-twice",
@@ -1896,14 +1877,6 @@
         "scene-talk.close-thank.im-glad-we-talked"
       ],
       "why": "Both lines say the speaker is glad they talked."
-    },
-    "0ukzsr1260y": {
-      "keys": [
-        "scene-talk.reply-stall.i-ll-meet-with-the-executive-that-s-not-a-yes",
-        "scene-talk.reply-stall.tell-the-executive-i-ll-talk-that-s-all-i-m-saying-today",
-        "scene-talk.reply-stall.then-tell-the-executive-i-ll-talk-not-yes-i-ll-talk"
-      ],
-      "why": "All three lines agree only to talk, reworded."
     },
     "0umn50cwclc": {
       "keys": [
@@ -2887,15 +2860,6 @@
       ],
       "why": "All three lines greet the player on getting home, in other words."
     },
-    "1ai9ppql5oc": {
-      "keys": [
-        "scene-talk.reply-leave.i-need-a-night-with-this-i-ll-call-you-tomorrow",
-        "scene-talk.reply-leave.let-me-call-you-back-tomorrow",
-        "scene-talk.reply-leave.let-me-sleep-on-it-i-ll-call-you-tuesday",
-        "scene-talk.reply-leave.let-me-talk-to-my-family-i-ll-call-you-friday"
-      ],
-      "why": "All four lines ask to call back later, only the day changing with nothing in the world behind it."
-    },
     "1anz5qetsxi": {
       "keys": [
         "scene-talk.reply-agree.put-me-down-yes",
@@ -2909,13 +2873,6 @@
         "scene-talk.follow-confront.source-told-me-you-d-never-go-along-with-it"
       ],
       "why": "Both cite {source} saying the player never meant to go along, a rewording."
-    },
-    "1aswzjy0hfk": {
-      "keys": [
-        "scene-talk.reply-stall.can-i-get-back-to-you-on-that",
-        "scene-talk.reply-stall.let-me-see-what-i-need-first-and-i-ll-call-you"
-      ],
-      "why": "Both lines say the same thing, that the player will get back to them later."
     },
     "1asx9nm8m0e": {
       "keys": [
@@ -3352,13 +3309,6 @@
         "scene-talk.reply-deflect.it-s-temporary-it-ll-settle-down"
       ],
       "why": "All four lines brush off the absence as temporary or normal, with only a time-of-day tag."
-    },
-    "1i4cpmexitl": {
-      "keys": [
-        "scene-talk.reply-decline.i-ll-sit-this-one-out",
-        "scene-talk.reply-decline.i-m-not-going-to-debate"
-      ],
-      "why": "Both lines are the same refusal to debate in other words."
     },
     "1iffeuwhir4": {
       "keys": [
@@ -4135,13 +4085,6 @@
       ],
       "why": "Both lines are generic arrival check-ins with nothing to choose between them."
     },
-    "1w65xvkcol5": {
-      "keys": [
-        "scene-talk.reply-agree.i-ll-do-it-tell-me-when",
-        "scene-talk.reply-agree.sure-set-it-up"
-      ],
-      "why": "Both lines are the same yes to the interview in other words."
-    },
     "1wz9w0x3rew": {
       "keys": [
         "scene-talk.close-press.my-number-s-on-the-card-if-you-change-your-mind",
@@ -4427,13 +4370,6 @@
         "scene-talk.reply-answer.i-ll-answer-on-the-record-and-i-ll-give-you-the-dates"
       ],
       "why": "Both lines promise on-the-record answers backed by records or dates, the same reply in other words with no fact to choose between them."
-    },
-    "214il04yxib": {
-      "keys": [
-        "scene-talk.reply-decline.i-d-rather-let-the-campaign-speak-for-itself",
-        "scene-talk.reply-decline.i-ll-pass-on-this-one"
-      ],
-      "why": "Both lines are the same decline, one only adding a stock reason, with no fact to choose between them."
     },
     "21b4p5pqgfl": {
       "keys": [
@@ -5411,5 +5347,5 @@
       "why": "Both lines promise to look into it before the deadline, the second only adding detail to the same promise."
     }
   },
-  "yesHash": "1tflv5j309z"
+  "yesHash": "1e67qsf00iq"
 }

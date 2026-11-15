@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "replies-may-be-long-and-substantive",
   "rubric": "Replies are not all short; some carry an argument or a reason, so a reply does not kill the talk.",
-  "judged": 1171,
+  "judged": 1156,
   "no": {
     "0038nen24jy": {
       "keys": [
@@ -12,15 +12,6 @@
         "scene-talk.reply-leave.i-ve-got-to-run-call-me-tonight"
       ],
       "why": "A yes, neither yes nor no, and a call-me exit carry no argument."
-    },
-    "00ad5h63sx7": {
-      "keys": [
-        "scene-talk.follow-press.the-offer-s-good-until-friday-after-that-it-s-somebody-else-s",
-        "scene-talk.reply-agree.i-slept-on-worse-fine-yes",
-        "scene-talk.reply-decline.i-don-t-need-to-sleep-on-it-it-s-still-no",
-        "scene-talk.reply-leave.let-me-call-you-back-tomorrow"
-      ],
-      "why": "A yes, a repeated no and a callback carry no reason."
     },
     "00bo0dp5aop": {
       "keys": [
@@ -256,16 +247,6 @@
         "scene-talk.reply-leave.i-have-to-be-on-the-floor-in-five-minutes"
       ],
       "why": "Looking again, a hearing promise, a deferral and a floor exit carry no argument."
-    },
-    "040y5sphslu": {
-      "keys": [
-        "scene-talk.follow-answer.the-executive-would-appoint-someone-until-the-next-election-that-s-how",
-        "scene-talk.reply-agree.when-you-put-it-like-that-yes",
-        "scene-talk.reply-stall.tell-the-executive-i-ll-talk-that-s-all-i-m-saying-today",
-        "scene-talk.reply-decline.thank-the-executive-for-me-but-no",
-        "scene-talk.reply-leave.let-me-call-you-back-tomorrow"
-      ],
-      "why": "Accepting on their terms, agreeing to talk, a polite no and a callback give no reason of the player's own."
     },
     "042aqwn96r3": {
       "keys": [
@@ -1272,16 +1253,6 @@
       ],
       "why": "None of the offered replies gives an argument or a reason; they are denials, questions, promises to explain, apologies, threats or exits that leave nothing to answer."
     },
-    "0kkhmhx9v5f": {
-      "keys": [
-        "scene-talk.follow-answer.the-executive-would-appoint-someone-until-the-next-election-that-s-how",
-        "scene-talk.reply-agree.then-yes",
-        "scene-talk.reply-stall.i-ll-meet-with-the-executive-that-s-not-a-yes",
-        "scene-talk.reply-decline.thank-the-executive-for-me-but-no",
-        "scene-talk.reply-leave.let-me-sleep-on-it-i-ll-call-you-tuesday"
-      ],
-      "why": "Yes, a meeting that isn't a yes, a polite no and sleeping on it give no reason."
-    },
     "0kllb6bj17l": {
       "keys": [
         "scene-talk.follow-press.go-ahead-and-tell-them-see-who-believes-you",
@@ -2175,15 +2146,6 @@
       ],
       "why": "Doing it tonight, staying and coming back tomorrow carry no reason."
     },
-    "112c8zqlc0r": {
-      "keys": [
-        "scene-talk.follow-press.sleep-on-it-the-executive-doesn-t-ask-twice",
-        "scene-talk.reply-agree.i-slept-on-worse-fine-yes",
-        "scene-talk.reply-decline.i-don-t-need-to-sleep-on-it-it-s-still-no",
-        "scene-talk.reply-leave.let-me-call-you-back-tomorrow"
-      ],
-      "why": "A yes, a repeated no and a callback carry no reason."
-    },
     "114qbx2a73s": {
       "keys": [
         "scene-talk.follow-plea.please-i-have-a-lot-riding-on-this",
@@ -2662,15 +2624,6 @@
         "scene-talk.reply-leave.i-have-to-go-send-me-what-you-ve-got"
       ],
       "why": "A flat yes, a request for the best argument and asking for things in writing give the friend no reason."
-    },
-    "1cln3dqb74e": {
-      "keys": [
-        "scene-talk.follow-press.think-it-over-it-s-not-offered-twice",
-        "scene-talk.reply-agree.i-slept-on-worse-fine-yes",
-        "scene-talk.reply-decline.i-don-t-need-to-sleep-on-it-it-s-still-no",
-        "scene-talk.reply-leave.let-me-call-you-back-tomorrow"
-      ],
-      "why": "A yes, a repeated no and a callback carry no reason."
     },
     "1cwzomc9i9z": {
       "keys": [
@@ -4249,16 +4202,6 @@
       ],
       "why": "Dialing, asking, waiting for every ballot and talking to volunteers state positions without a reason."
     },
-    "24j6gethcf4": {
-      "keys": [
-        "scene-talk.state-request.so-you-re-really-running-for-office-what-can-i-do-to-help",
-        "scene-talk.reply-ask.what-kind-of-help-were-you-thinking",
-        "scene-talk.reply-agree.yes-i-could-use-you",
-        "scene-talk.reply-decline.thanks-but-i-ve-got-it-covered-for-now",
-        "scene-talk.reply-stall.let-me-see-what-i-need-first-and-i-ll-call-you"
-      ],
-      "why": "A question, a yes, \"got it covered\" and a callback carry no real argument."
-    },
     "24n16ll08yw": {
       "keys": [
         "scene-talk.follow-confront.bring-a-chair-it-s-a-long-morning",
@@ -4921,5 +4864,5 @@
       "why": "Thanks and a promise to call carry no reason."
     }
   },
-  "yesHash": "0cc9an1g160"
+  "yesHash": "1y8kgq1zcr1"
 }
