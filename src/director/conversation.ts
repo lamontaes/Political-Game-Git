@@ -4583,6 +4583,21 @@ function giveBack(
       learned: {},
     };
   }
+  if (kind === "shared-school") {
+    // How long it has been since they were at school together, the asker's
+    // own sense of the years, after the player answers "Remember {school}?":
+    // a question answered is followed up, never the talk's last word (owner,
+    // Oct 15; the played talks at Cumming, Iowa, seed 7952d3f3e3253ee4, Nov
+    // 15). After an answer that already said the years, they agree instead
+    // (the stage the player's move names in the rules).
+    const years = subject.facts.years;
+    if (!years || said.includes("years")) return null;
+    return {
+      facts: { you, years },
+      stage: GIVES_ANSWER[kind]?.[move ?? ""] ?? "years",
+      learned: {},
+    };
+  }
   if (kind === "asked-kin" && subject.aboutId) {
     // From the relative's own facts the subject carries (their work, where
     // they live), less what the player already holds and what the question
