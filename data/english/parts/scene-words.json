@@ -34,7 +34,7 @@
     "rival": "A rival in the race by full name, from the filing or message record.",
     "landlord": "The landlord who evicted the household, from the eviction record.",
     "occasion": "the broadcast's occasion as people say it after a possessive ('State of the State address'), from local-address.json heard.occasions",
-    "happened": "What happened, said by the cause record's fact that names it through data/english/happened-words.json (a law or a bill by its name, 'the law on {topic}', 'the {offense} charge'); absent when the cause record names no happening (a tie that grew, a speech heard), and then the plain first line plays."
+    "happened": "What happened, said by the cause record's fact that names it through data/english/happened-words.json (a bill by its name); absent when the cause record names no happening (a tie that grew, a speech heard), and then the plain first line plays."
   },
   "maxWords": 10,
   "mining": {
@@ -5469,46 +5469,6 @@
       "date": "2026-11-10"
     },
     {
-      "key": "scene-words.arrival-home-other.begins-name-comes-to-the-house-about-happened",
-      "move": "arrival-home-other",
-      "kind": "spoken",
-      "text": "{begins}, {name} comes to the house about {happened}.",
-      "uses": [
-        {
-          "move": "arrival-home-other",
-          "subject": "arrival",
-          "role": "home",
-          "choice": "other"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (Nov 15: the first line says what happened, director-street-news-scene-ends-after-its-opener)",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
-      "key": "scene-words.arrival-home-other.begins-you-sit-down-with-name-to-talk-about-happened",
-      "move": "arrival-home-other",
-      "kind": "spoken",
-      "text": "{begins}, you sit down with {name} to talk about {happened}.",
-      "uses": [
-        {
-          "move": "arrival-home-other",
-          "subject": "arrival",
-          "role": "home",
-          "choice": "other"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (Nov 15: the first line says what happened, director-street-news-scene-ends-after-its-opener)",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
       "key": "scene-words.arrival-home-alone.it-s-landing-you-stay-in-thinking-about-happened",
       "move": "arrival-home-alone",
       "kind": "spoken",
@@ -5529,126 +5489,6 @@
       }
     },
     {
-      "key": "scene-words.arrival-other-home-other.begins-you-stop-by-name-s-place-about-happened",
-      "move": "arrival-other-home-other",
-      "kind": "spoken",
-      "text": "{begins}, you stop by {name}'s place about {happened}.",
-      "uses": [
-        {
-          "move": "arrival-other-home-other",
-          "subject": "arrival",
-          "role": "other-home",
-          "choice": "other"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (Nov 15: the first line says what happened, director-street-news-scene-ends-after-its-opener)",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
-      "key": "scene-words.arrival-phone-other.begins-name-calls-about-happened",
-      "move": "arrival-phone-other",
-      "kind": "spoken",
-      "text": "{begins}, {name} calls about {happened}.",
-      "uses": [
-        {
-          "move": "arrival-phone-other",
-          "subject": "arrival",
-          "role": "phone",
-          "choice": "other"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (Nov 15: the first line says what happened, director-street-news-scene-ends-after-its-opener)",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
-      "key": "scene-words.arrival-phone-other.begins-the-phone-rings-it-s-name-about-happened",
-      "move": "arrival-phone-other",
-      "kind": "spoken",
-      "text": "{begins}, the phone rings. It's {name}, about {happened}.",
-      "uses": [
-        {
-          "move": "arrival-phone-other",
-          "subject": "arrival",
-          "role": "phone",
-          "choice": "other"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (Nov 15: the first line says what happened, director-street-news-scene-ends-after-its-opener)",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
-      "key": "scene-words.arrival-letter-other.begins-a-letter-comes-from-name-about-happened",
-      "move": "arrival-letter-other",
-      "kind": "spoken",
-      "text": "{begins}, a letter comes from {name} about {happened}.",
-      "uses": [
-        {
-          "move": "arrival-letter-other",
-          "subject": "arrival",
-          "role": "letter",
-          "choice": "other"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (Nov 15: the first line says what happened, director-street-news-scene-ends-after-its-opener)",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
-      "key": "scene-words.arrival-workplace-other.begins-name-finds-you-at-work-about-happened",
-      "move": "arrival-workplace-other",
-      "kind": "spoken",
-      "text": "{begins}, {name} finds you at work about {happened}.",
-      "uses": [
-        {
-          "move": "arrival-workplace-other",
-          "subject": "arrival",
-          "role": "workplace",
-          "choice": "other"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (Nov 15: the first line says what happened, director-street-news-scene-ends-after-its-opener)",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
-      "key": "scene-words.arrival-workplace-alone.begins-you-head-in-to-work-with-happened-on-your-mind",
-      "move": "arrival-workplace-alone",
-      "kind": "spoken",
-      "text": "{begins}, you head in to work with {happened} on your mind.",
-      "uses": [
-        {
-          "move": "arrival-workplace-alone",
-          "subject": "arrival",
-          "role": "workplace",
-          "choice": "alone"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (Nov 15: the first line says what happened, director-street-news-scene-ends-after-its-opener)",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
       "key": "scene-words.arrival-office-other.begins-you-head-to-where-to-see-name-about-happened",
       "move": "arrival-office-other",
       "kind": "spoken",
@@ -5658,106 +5498,6 @@
           "move": "arrival-office-other",
           "subject": "arrival",
           "role": "office",
-          "choice": "other"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (Nov 15: the first line says what happened, director-street-news-scene-ends-after-its-opener)",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
-      "key": "scene-words.arrival-office-alone.begins-you-head-into-the-office-with-happened-on-your-mind",
-      "move": "arrival-office-alone",
-      "kind": "spoken",
-      "text": "{begins}, you head into the office with {happened} on your mind.",
-      "uses": [
-        {
-          "move": "arrival-office-alone",
-          "subject": "arrival",
-          "role": "office",
-          "choice": "alone"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (Nov 15: the first line says what happened, director-street-news-scene-ends-after-its-opener)",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
-      "key": "scene-words.arrival-chamber-other.begins-in-the-chamber-name-brings-up-happened",
-      "move": "arrival-chamber-other",
-      "kind": "spoken",
-      "text": "{begins}, in the chamber, {name} brings up {happened}.",
-      "uses": [
-        {
-          "move": "arrival-chamber-other",
-          "subject": "arrival",
-          "role": "chamber",
-          "choice": "other"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (Nov 15: the first line says what happened, director-street-news-scene-ends-after-its-opener)",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
-      "key": "scene-words.arrival-school-other.begins-name-catches-you-at-school-about-happened",
-      "move": "arrival-school-other",
-      "kind": "spoken",
-      "text": "{begins}, {name} catches you at school about {happened}.",
-      "uses": [
-        {
-          "move": "arrival-school-other",
-          "subject": "arrival",
-          "role": "school",
-          "choice": "other"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (Nov 15: the first line says what happened, director-street-news-scene-ends-after-its-opener)",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
-      "key": "scene-words.arrival-school-alone.begins-you-head-to-school-with-happened-on-your-mind",
-      "move": "arrival-school-alone",
-      "kind": "spoken",
-      "text": "{begins}, you head to school with {happened} on your mind.",
-      "uses": [
-        {
-          "move": "arrival-school-alone",
-          "subject": "arrival",
-          "role": "school",
-          "choice": "alone"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (Nov 15: the first line says what happened, director-street-news-scene-ends-after-its-opener)",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
-      "key": "scene-words.arrival-public-other.begins-name-stops-you-on-the-street-about-happened",
-      "move": "arrival-public-other",
-      "kind": "spoken",
-      "text": "{begins}, {name} stops you on the street about {happened}.",
-      "uses": [
-        {
-          "move": "arrival-public-other",
-          "subject": "arrival",
-          "role": "public",
           "choice": "other"
         }
       ],

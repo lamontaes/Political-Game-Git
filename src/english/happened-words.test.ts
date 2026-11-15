@@ -5,37 +5,23 @@ const fact = (text: string) => ({ text, sourceRecordIds: [`cause:${text}`] });
 
 /**
  * The words table for what happened in a scene's first line
- * (data/english/happened-words.json, Words lead, Nov 15): each of the four
- * facts that fill `happened` is said its own way and cites its record, a
- * law named by its bill comes before what it is about, and a cause record
- * that names none of them gives no `happened` at all.
+ * (data/english/happened-words.json, Words lead, Nov 15): a bill is said by
+ * its name and cites its record; a law, a topic or a charge has no row until
+ * a played first line shows it, so a cause record that names only those, or
+ * nothing, gives no `happened` and the plain first line plays.
  */
 describe("what happened, as a first line says it", () => {
-  it("says each fact the way the table words it", () => {
-    expect(
-      happenedSaid({ law: fact("Missing Middle Housing Ordinance") }),
-    ).toEqual({
-      text: "Missing Middle Housing Ordinance",
-      sourceRecordIds: ["cause:Missing Middle Housing Ordinance"],
+  it("says a bill by its name, citing its record", () => {
+    expect(happenedSaid({ bill: fact("Dog Park Ordinance") })).toEqual({
+      text: "Dog Park Ordinance",
+      sourceRecordIds: ["cause:Dog Park Ordinance"],
     });
-    expect(happenedSaid({ bill: fact("Dog Park Ordinance") })?.text).toBe(
-      "Dog Park Ordinance",
-    );
-    expect(happenedSaid({ topic: fact("minimum wage") })?.text).toBe(
-      "the law on minimum wage",
-    );
-    expect(happenedSaid({ offense: fact("assault") })?.text).toBe(
-      "the assault charge",
-    );
   });
 
-  it("takes the law by name before what it is about, and nothing else", () => {
-    expect(
-      happenedSaid({ topic: fact("minimum wage"), law: fact("Wage Act") })
-        ?.text,
-    ).toBe("Wage Act");
-    expect(
-      happenedSaid({ office: fact("mayor"), org: fact("the mill") }),
-    ).toBeNull();
+  it("says nothing for a law, a topic, a charge or a record with none", () => {
+    expect(happenedSaid({ law: fact("Wage Act") })).toBeNull();
+    expect(happenedSaid({ topic: fact("minimum wage") })).toBeNull();
+    expect(happenedSaid({ offense: fact("bribery") })).toBeNull();
+    expect(happenedSaid({ office: fact("mayor") })).toBeNull();
   });
 });

@@ -10,8 +10,8 @@ const SAID = (
 ).said;
 
 /**
- * What happened, as a scene's first line says it ("the law on minimum wage",
- * "the assault charge"), from the first cause-record fact that names a
+ * What happened, as a scene's first line says it (a bill by its name),
+ * from the first cause-record fact that names a
  * happening, worded by `data/english/happened-words.json`; null when the
  * record names none (Words lead, Nov 15).
  */
