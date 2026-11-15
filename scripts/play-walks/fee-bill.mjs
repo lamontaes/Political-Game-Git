@@ -11,7 +11,7 @@ import assert from "node:assert/strict";
 import { mkdirSync } from "node:fs";
 import { chromium } from "playwright";
 import { writeFileSync } from "node:fs";
-import { clockOf, closeMenu, openMenu, playTalk } from "./lib.mjs";
+import { clockOf, closeMenu, playTalk } from "./lib.mjs";
 const lines = [];
 const say = (...a) => {
   const l = a
@@ -198,6 +198,13 @@ try {
         return r.status;
       }, billId);
       say("dev mode holds the floor vote:", held);
+      say(
+        "Stage right after the held vote:",
+        await page.evaluate(async (id) => {
+          const r = await fetch(`/api/bill/stage?billId=${id}`);
+          return (await r.text()).slice(0, 1800);
+        }, billId),
+      );
       await page.locator('#sheet-tabs .tab[aria-pressed="true"]').click();
       await page.waitForTimeout(800);
       await page
@@ -277,14 +284,89 @@ try {
               .catch(() => {});
             continue;
           }
+          // A State chamber stops the clock for the player's vote on a member's bill (a card with Yes, No, Abstain).
+          const asked = page.getByRole("button", { name: "Yes", exact: true });
+          if (
+            await asked
+              .first()
+              .isVisible()
+              .catch(() => false)
+          ) {
+            say(`[${await clockOf(page)}] floor vote card: pressing Yes`);
+            await asked
+              .first()
+              .click({ timeout: 3000 })
+              .catch(() => {});
+            continue;
+          }
           if (!(await page.locator("#day").isDisabled())) break;
         }
       }
     };
+    // The sheet's close button can be mid-animation for a State chamber's bill; click it as the page does.
+    const shutMenu = async () => {
+      await page
+        .locator("#sheet-close")
+        .evaluate((e) => e.click())
+        .catch(() => {});
+      await page.waitForTimeout(600);
+    };
+    // A scene the game stages on the last day (a member recognized on another bill) covers the rings until it is
+    // answered; a player closes it, so the walk does the same, then opens the tab the way the start of the walk does.
+    const openPolitics = async () => {
+      for (let i = 0; i < 40; i += 1) {
+        if (await shown("talk")) {
+          await playTalk(walk, "scene", { picture: false });
+          continue;
+        }
+        if (await shown("continue")) {
+          await page
+            .locator("#continue")
+            .click({ timeout: 3000 })
+            .catch(() => {});
+          continue;
+        }
+        break;
+      }
+      await page
+        .locator('#rings [data-tab="politics"]')
+        .first()
+        .evaluate((e) => e.click());
+      await page.waitForTimeout(1200);
+    };
     await playDays(60, true);
     say("voted at the meeting:", voted);
+    // Where the days stopped: every button a player could press, and the clock.
+    say(
+      "Buttons on screen when the days stopped:",
+      await page.evaluate(() =>
+        [...document.querySelectorAll("button")]
+          .filter((b) => b.offsetParent !== null && !b.disabled)
+          .map(
+            (b) =>
+              `${b.id || b.className}: ${b.textContent.trim().slice(0, 40)}`,
+          )
+          .slice(0, 40),
+      ),
+    );
+    if (SHOTS) await page.screenshot({ path: `${SHOTS}/days-stopped.png` });
     // The law takes effect the day after; press Day for five weeks, then read the fee list again.
-    await playDays(35, false);
+    await playDays(Number(process.env.FEE_LATER_DAYS ?? 35), false);
+    say(
+      "Buttons on screen after the later days:",
+      await page.evaluate(() =>
+        [...document.querySelectorAll("button")]
+          .filter((b) => b.offsetParent !== null)
+          .map(
+            (b) =>
+              `${b.id || b.className}${b.disabled ? " (disabled)" : ""}: ${b.textContent.trim().slice(0, 40)}`,
+          )
+          .slice(0, 40),
+      ),
+    );
+    say("Clock:", await clockOf(page));
+    if (SHOTS)
+      await page.screenshot({ path: `${SHOTS}/later-days-stopped.png` });
     // What the bill's floor did by the game's own days (no dev route): its stage, read from the one stage view.
     say(
       "Stage of the bill after the days:",
@@ -293,7 +375,7 @@ try {
         return (await r.text()).slice(0, 1500);
       }, billId),
     );
-    await openMenu(page, "politics");
+    await openPolitics();
     await page
       .locator("#sheet-tabs")
       .getByRole("button", { name: "Your office" })
@@ -314,11 +396,11 @@ try {
         prefix,
       ),
     );
-    await closeMenu(page);
+    await shutMenu();
     await page.waitForTimeout(1000);
     // The law in force, as the Government tab says it, and the Bills tab.
     for (const tab of ["Government", "Bills"]) {
-      await openMenu(page, "politics");
+      await openPolitics();
       await page
         .locator("#sheet-tabs")
         .getByRole("button", { name: tab })
@@ -331,7 +413,7 @@ try {
           .slice(0, 1800),
       );
       if (SHOTS) await page.screenshot({ path: `${SHOTS}/after-${tab}.png` });
-      await closeMenu(page);
+      await shutMenu();
     }
   }
 } finally {
