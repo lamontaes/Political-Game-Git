@@ -33,6 +33,8 @@ The owner, Nov 12, 2026: "A, look at the code, see what, where, and why it's occ
 ## Causes seen before
 
 - **A remembered fact keyed by its container, not by its record.** A reader held one fact per outlet (`printed:<outlet>:story`), so the outlet's next story replaced the one before and the first could no longer be brought up or traced to its printer (Depauville NY, Auburn WY, Casper Mountain WY, Nov 15). When something seen is "forgotten" only where two records share a container on one day, look for a knowledge key that names the container; key it by the record (`news:<story>:outlet`).
+- **A pinned person missing after a Train merge.** When a test's named person is no longer drawn at its place and seed, walk the Train's first-parent folds with a short world probe that only builds the world and checks for the person's id; the first fold where the id disappears names the cause (a cabinet secretary drawn from across the state, #9385, Nov 15). Re-pin with the old premise and that fold named in the test's comment.
+- **A worth measured against the town when the actor serves a wider area.** Every outlet covering a town weighed a candidate by the share of the town that knew them, so three TV stations from a market of 286,000 each interviewed a village board candidate (Fairmont NE, Nov 15). When many actors that serve a market, county or state all act on one small place, look for a share computed over the town; measure it over the actor's own audience or area (`levelAudienceShare`, `raceAudienceShare` in src/core2/modules/press.ts).
 
 ## What a gap sheet row holds
 

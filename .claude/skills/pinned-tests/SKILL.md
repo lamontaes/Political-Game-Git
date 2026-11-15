@@ -60,6 +60,7 @@ Ask where it ran and at what head. A unit test that builds its own small world p
 7. **A bound a builder wrote is a premise, so state it.** A share bound ("no action holds a tenth of the adults") went red when the train's world shifted by a few people. Do not nudge the number silently: say in the test's comment what the number means (here, the renters an issue touches, not the town), change it once with the new measured figure beside it, and name the change in the PR body.
 8. **A test that waits for a case it may not get is a drawn test even with a fixed seed variable.** A rally test and a movement test drew a place by a random seed and passed only where a rally or a founding existed. Pin the place (`drawPlace(<fixed seed>, <label>)`, then `expect(place.name)`), and say in a comment why a run over a minute is the game's own days.
 9. **Stage the id shape the engine really makes.** A recruiter's id may hold colons (a newspaper's owner is `newspaper:...`), and a parse written for a person's id lost the action. Put an id of that shape in the test.
+
 ## Debugging a test (Nov 15, Visit/Call thread)
 
 `console.log` is swallowed by vitest here. A throwaway debug test writes its tally to a file and the file is deleted when the answer is found.

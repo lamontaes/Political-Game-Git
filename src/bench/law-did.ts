@@ -12,14 +12,18 @@
  */
 import type { CoreState } from "../core2/types";
 import { coreAPI } from "../core2/state";
-import { lawReach } from "../core2/law-reach/applied";
+import {
+  lawReach,
+  TREASURY_ORGANIZATION_PREFIX,
+} from "../core2/law-reach/applied";
+import { organizationName } from "../core2/past";
 import {
   lawChain,
   LAWS_MODULE_ID,
   type LawRowInput,
 } from "../core2/modules/laws";
 
-/** The full people a page names under one law, the most money first (a list length, not a model value). */
+/** The full people (and the organizations) a page names under one law, the most money first (a list length, not a model value). */
 const NAMED = 8;
 
 export interface LawDidPerson {
@@ -28,6 +32,13 @@ export interface LawDidPerson {
   readonly inTown: boolean;
   readonly amountMinor: number;
   readonly endedOn: string | null;
+}
+
+export interface LawDidOrganization {
+  readonly organizationId: string;
+  readonly name: string;
+  readonly inTown: boolean;
+  readonly amountMinor: number;
 }
 
 export interface LawDid {
@@ -53,6 +64,13 @@ export interface LawDid {
   };
   readonly counted: { readonly people: number; readonly amountMinor: number };
   readonly named: readonly LawDidPerson[];
+  /** The businesses and other organizations it reached (a government's own treasury is not one), and the money it moved for them. */
+  readonly organizations: {
+    readonly count: number;
+    readonly amountMinor: number;
+  };
+  /** The organizations a page names under one law, the most money first. */
+  readonly namedOrganizations: readonly LawDidOrganization[];
 }
 
 /** Each law row passed in play on `series` here, newest first, with whom it reached. */
@@ -106,6 +124,9 @@ export function lawDid(core: CoreState, series: string): readonly LawDid[] {
     )
     .map((row) => {
       const reach = lawReach(api, row.id, chain.townPlaceId);
+      const organizations = reach.organizationsReached.filter(
+        (o) => !o.organizationId.startsWith(TREASURY_ORGANIZATION_PREFIX),
+      );
       return {
         lawId: row.id,
         level: row.level,
@@ -137,6 +158,18 @@ export function lawDid(core: CoreState, series: string): readonly LawDid[] {
           inTown: p.inTown,
           amountMinor: p.amountMinor,
           endedOn: p.endedOn,
+        })),
+        organizations: {
+          count: organizations.length,
+          amountMinor: organizations.reduce((n, o) => n + o.amountMinor, 0),
+        },
+        namedOrganizations: organizations.slice(0, NAMED).map((o) => ({
+          organizationId: o.organizationId,
+          name: organizationName(core, o.organizationId) ?? "",
+          inTown:
+            core.organizations.get(o.organizationId)?.placeId ===
+            chain.townPlaceId,
+          amountMinor: o.amountMinor,
         })),
       };
     });
