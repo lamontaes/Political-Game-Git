@@ -1,11 +1,11 @@
 ---
 id: press-concession-test-names-the-paper-s-rule-not-one-wording
 title: "The concession paper test checks the paper's naming rule, not one wording"
-area: press
+area: director
 kind: bug
 priority: 3
 size: S
-status: in-pr
+status: open
 standard: 2
 claimed-by:
 pr:
