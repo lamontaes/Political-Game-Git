@@ -208,7 +208,15 @@ interface ServerState {
    * organization) or someone's home (the host). They are there until they go
    * somewhere else, go home, or the day ends.
    */
-  visit: { organizationId?: string; hostId?: string; date: string } | undefined;
+  visit:
+    | {
+        organizationId?: string;
+        hostId?: string;
+        /** At a workplace: the one the player came to see. */
+        visitedId?: string;
+        date: string;
+      }
+    | undefined;
   /** The election nights each player has watched, and the mornings they canvassed. */
   nightsWatched: Set<string>;
   canvassedOn: Set<string>;
@@ -270,6 +278,21 @@ function sceneNow(current: CoreState, id: string) {
             id,
             state.visit.organizationId ?? "",
             at.minuteOfDay,
+            // The one the player came to see stays while they are still there.
+            state.visit.visitedId &&
+              (() => {
+                const there = whereIs(
+                  current,
+                  state.visit.visitedId,
+                  at.minuteOfDay,
+                );
+                return (
+                  there.kind === "work" &&
+                  there.organizationId === state.visit.organizationId
+                );
+              })()
+              ? state.visit.visitedId
+              : undefined,
           )
       : benchScene(
           current,
@@ -443,8 +466,8 @@ function visitPerson(otherId: string) {
   const room =
     at.kind === "work"
       ? {
-          visit: { organizationId: at.organizationId },
-          scene: visitPlace(core, playerId, at.organizationId, minute),
+          visit: { organizationId: at.organizationId, visitedId: otherId },
+          scene: visitPlace(core, playerId, at.organizationId, minute, otherId),
         }
       : {
           visit: { hostId: otherId },

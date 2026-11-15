@@ -259,10 +259,8 @@ let talkPersonId;
 function drawTalkStrip() {
   const name = $("talk-name").textContent;
   const inRoom = here.people.some((p) => p.personId === talkPersonId);
-  // On a call the other person is on the line, not in the room: nobody new
-  // stands in the player's room.
   const speaker =
-    talkPersonId && !inRoom && talkFace && !talk?.byPhone
+    talkPersonId && !inRoom && talkFace
       ? [{ personId: talkPersonId, name, face: talkFace }]
       : [];
   const others = here.people.filter((p) => p.personId !== talkPersonId);
@@ -275,8 +273,10 @@ function drawTalkStrip() {
         (speaker.includes(a) ? -1 : here.people.indexOf(a)) -
         (speaker.includes(b) ? -1 : here.people.indexOf(b)),
     );
+  // On a call nobody's face sits over the talk: a housemate in the room
+  // drawn above "Carlos McKinney" reads as the one on the line.
   $("talk-strip").replaceChildren(
-    ...(shown.length
+    ...(shown.length && !talk?.byPhone
       ? [bustStrip({ people: shown, speakingId: talkPersonId ?? undefined })]
       : []),
   );

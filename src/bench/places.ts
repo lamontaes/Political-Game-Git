@@ -317,6 +317,8 @@ export function visitPlace(
   playerId: string,
   organizationId: string,
   minute: number,
+  /** Someone the player came to see, there by `whereIs`: always in the room. */
+  visitedId?: string,
 ) {
   const org = core.organizations.get(organizationId);
   const place = orgPlace(core, organizationId);
@@ -328,9 +330,15 @@ export function visitPlace(
   const room = (backdropStaging(place)?.spots.length ?? 1) - 1;
   const met = counted.slice(0, Math.max(room - full.length, 0));
   for (const id of met) fillInPerson(core, id);
-  const present = [...full, ...met.filter((id) => core.people.has(id))]
+  const onShift = [...full, ...met.filter((id) => core.people.has(id))]
     .filter((id) => isOnShift(core, id, minute, organizationId))
-    .filter((id) => id !== playerId);
+    .filter((id) => id !== playerId && id !== visitedId);
+  // The one the player came to see stands first, so the room's spots never
+  // leave them out.
+  const present = [
+    ...(visitedId && core.people.has(visitedId) ? [visitedId] : []),
+    ...onShift,
+  ];
   const ids = [playerId, ...present].map((id) => {
     const row = core.people.get(id)!;
     return {
