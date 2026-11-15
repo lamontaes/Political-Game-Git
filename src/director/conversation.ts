@@ -5211,6 +5211,28 @@ function watchedTogether(
 }
 
 /**
+ * A stranger says who they are before they tell any news: two who have not
+ * met begin with the introduction (Words lead, Nov 14: a resident the player
+ * had never met opened on the paper's story, and the player had no name for
+ * the speaker). The introduction the other person has not yet said, or none
+ * in a talk a scene opens, which keeps to its occasion.
+ */
+function pendingIntroduction(
+  core: Readonly<CoreState>,
+  conversation: Conversation,
+  data: ConversationData,
+): Subject | undefined {
+  const { playerId, otherId, director, occasion } = conversation;
+  if (occasion || !data.otherRaises.here) return undefined;
+  return subjectsBetween(core, otherId, playerId, director, conversation).find(
+    (subject) =>
+      subject.kind === "here" &&
+      !conversation.used.includes(subject.id) &&
+      !conversation.used.includes(`${otherId}>${subject.id}`),
+  );
+}
+
+/**
  * The talk's main topic: the subject of either person that the biggest
  * recent recorded event is about, never the topic of their last talk.
  */
@@ -5357,6 +5379,8 @@ function mainTopic(
         composedConversationBank(`${subject.kind}-ask`))
     )
       consider(subject, true, playerId);
+  const introduces = pendingIntroduction(core, conversation, data);
+  if (introduces) return { subject: introduces, asks: false };
   for (const subject of subjectsBetween(
     core,
     otherId,
@@ -5366,6 +5390,150 @@ function mainTopic(
   ))
     if (data.otherRaises[subject.kind]) consider(subject, false, otherId);
   return best as { subject: Subject; asks: boolean } | null;
+}
+
+/**
+ * The newest change the other person knows of and who they blame, brought up
+ * by its story's headline or by bring-it-up's lines, said once (the talk goes
+ * on from it). Nothing in a scene's talk, which keeps to its occasion. True
+ * when it was raised.
+ */
+function raiseBroughtNews(
+  core: Readonly<CoreState>,
+  conversation: Conversation,
+  data: ConversationData,
+): boolean {
+  const { playerId, otherId, occasion } = conversation;
+  // The race results the player knew before anyone here tells them one.
+  const knewResults = occasion
+    ? new Set<string>()
+    : resultsKnownTo(core, coreAPI(core as CoreState), playerId);
+  // Away from a scene's occasion, they mention the newest change they know
+  // of and who they blame (bring-it-up, which passes both on). Those lines
+  // are the talk's raise of that news, said once: the talk goes on from it.
+  const told = occasion
+    ? null
+    : bringItUp(core as CoreState, otherId, playerId);
+  // News someone else in the house already told the player today is not
+  // told again (the telling's "said today").
+  // News already talked over with the player (the listener's topic memory)
+  // is not brought up again either.
+  const talked = new Set(
+    [...(core.knowledgeByPerson.get(otherId) ?? [])]
+      .filter(([key]) => key.startsWith(talkedKeyPrefix(playerId)))
+      .map(([, fact]) => fact.value),
+  );
+  const toldIds = told
+    ? [
+        `news:${told.change.eventId}`,
+        `news:${storyOfReadEvent(told.change.eventId) ?? ""}`,
+      ]
+    : [];
+  // News of something the two watched together is not news between them
+  // (owner, Nov 12: the address's headline read out to someone who watched
+  // it in the same room): it is not brought up.
+  const toldStory = told ? storyOfReadEvent(told.change.eventId) : null;
+  const aboutShared =
+    !!toldStory &&
+    watchedTogether(core, playerId, otherId) &&
+    storiesHeard(coreAPI(core), otherId).some(
+      (row) =>
+        row.id === toldStory && row.facts.recordKind === OPENING_ADDRESS_EVENT,
+    );
+  // The speaker's own hard news (an eviction, a lost job, a death) leads
+  // their talk, so the newest change they know of is not brought up ahead of
+  // it; with none untold, they bring the change up as before (Words lead,
+  // Nov 14: a person put out that day opened on a business closing).
+  const ownLoss =
+    !!told &&
+    subjectsBetween(core, otherId, playerId, conversation.director).some(
+      (row) =>
+        NEWS_SUBJECTS.has(row.kind) &&
+        !!data.otherRaises[row.kind] &&
+        !talked.has(row.id) &&
+        !talked.has(`${otherId}>${row.id}`) &&
+        !heardNow.has(`${HEARD_SUBJECT}${row.id}`),
+    );
+  const brought =
+    told &&
+    !aboutShared &&
+    !ownLoss &&
+    !toldIds.some(
+      (id) =>
+        heardNow.has(`${HEARD_SUBJECT}${id}`) ||
+        heardRows.some((row) => row.key === `${HEARD_SUBJECT}${id}`) ||
+        talked.has(id) ||
+        talked.has(`${otherId}>${id}`),
+    )
+      ? told
+      : null;
+  let raisedBrought = false;
+  if (brought) {
+    conversation.recorded.push(brought.toldEventId);
+    const storyId = storyOfReadEvent(brought.change.eventId);
+    const ids = [
+      `news:${brought.change.eventId}`,
+      ...(storyId ? [`news:${storyId}`] : []),
+    ];
+    // A printed story is raised by its own headline and outlet ("I saw it in
+    // the Courier: ..."), a race's result and other news by the lines
+    // bring-it-up worded.
+    const story = storyId
+      ? storiesHeard(coreAPI(core), otherId).find((row) => row.id === storyId)
+      : undefined;
+    const headline = story
+      ? printedSubject(core, story, conversation.director, otherId)
+      : null;
+    const news =
+      headline ??
+      subjectsBetween(
+        core,
+        otherId,
+        playerId,
+        conversation.director,
+        conversation,
+      )
+        .filter((row) => ids.includes(row.id))
+        .at(zero);
+    raisedBrought = news
+      ? raiseSubject(
+          core,
+          conversation,
+          data,
+          // A race's result is told by who won, not by a question the
+          // winner ran on: the player answers who won, never a stand on a
+          // question nobody said.
+          brought.resultId
+            ? resultSubject(
+                core,
+                news,
+                brought.resultId,
+                knewResults.has(brought.resultId),
+              )
+            : news,
+          false,
+          // A race's result is told by who won and how it sits with them,
+          // not by the paper's headline.
+          headline && !brought.resultId ? undefined : brought.lines,
+        )
+      : false;
+    // News the talk can't go on from is still said, and not raised again.
+    // A printed story is told only by what it is about and where the teller
+    // stands (`printedSubject`), never by its bare mention ("There was
+    // something in the paper about ..."): one with neither is not said.
+    if (!raisedBrought) {
+      for (const line of story ? [] : brought.lines)
+        conversation.lines.push({
+          speakerId: otherId,
+          subjectId: ids[zero]!,
+          kind: "brought-up",
+          act: "tell",
+          ...line,
+        });
+      conversation.used.push(...ids);
+    }
+  }
+  return raisedBrought;
 }
 
 /**
@@ -5535,135 +5703,11 @@ function openConversationNow(
       ...opener,
       sourceRecordIds: [occasion!.causeId, ...opener.sourceRecordIds],
     });
-  // The race results the player knew before anyone here tells them one.
-  const knewResults = occasion
-    ? new Set<string>()
-    : resultsKnownTo(core, coreAPI(core as CoreState), playerId);
-  // Away from a scene's occasion, they mention the newest change they know
-  // of and who they blame (bring-it-up, which passes both on). Those lines
-  // are the talk's raise of that news, said once: the talk goes on from it.
-  const told = occasion
-    ? null
-    : bringItUp(core as CoreState, otherId, playerId);
-  // News someone else in the house already told the player today is not
-  // told again (the telling's "said today").
-  // News already talked over with the player (the listener's topic memory)
-  // is not brought up again either.
-  const talked = new Set(
-    [...(core.knowledgeByPerson.get(otherId) ?? [])]
-      .filter(([key]) => key.startsWith(talkedKeyPrefix(playerId)))
-      .map(([, fact]) => fact.value),
-  );
-  const toldIds = told
-    ? [
-        `news:${told.change.eventId}`,
-        `news:${storyOfReadEvent(told.change.eventId) ?? ""}`,
-      ]
-    : [];
-  // News of something the two watched together is not news between them
-  // (owner, Nov 12: the address's headline read out to someone who watched
-  // it in the same room): it is not brought up.
-  const toldStory = told ? storyOfReadEvent(told.change.eventId) : null;
-  const aboutShared =
-    !!toldStory &&
-    watchedTogether(core, playerId, otherId) &&
-    storiesHeard(coreAPI(core), otherId).some(
-      (row) =>
-        row.id === toldStory && row.facts.recordKind === OPENING_ADDRESS_EVENT,
-    );
-  // The speaker's own hard news (an eviction, a lost job, a death) leads
-  // their talk, so the newest change they know of is not brought up ahead of
-  // it; with none untold, they bring the change up as before (Words lead,
-  // Nov 14: a person put out that day opened on a business closing).
-  const ownLoss =
-    !!told &&
-    subjectsBetween(core, otherId, playerId, conversation.director).some(
-      (row) =>
-        NEWS_SUBJECTS.has(row.kind) &&
-        !!data.otherRaises[row.kind] &&
-        !talked.has(row.id) &&
-        !talked.has(`${otherId}>${row.id}`) &&
-        !heardNow.has(`${HEARD_SUBJECT}${row.id}`),
-    );
-  const brought =
-    told &&
-    !aboutShared &&
-    !ownLoss &&
-    !toldIds.some(
-      (id) =>
-        heardNow.has(`${HEARD_SUBJECT}${id}`) ||
-        heardRows.some((row) => row.key === `${HEARD_SUBJECT}${id}`) ||
-        talked.has(id) ||
-        talked.has(`${otherId}>${id}`),
-    )
-      ? told
-      : null;
-  let raisedBrought = false;
-  if (brought) {
-    conversation.recorded.push(brought.toldEventId);
-    const storyId = storyOfReadEvent(brought.change.eventId);
-    const ids = [
-      `news:${brought.change.eventId}`,
-      ...(storyId ? [`news:${storyId}`] : []),
-    ];
-    // A printed story is raised by its own headline and outlet ("I saw it in
-    // the Courier: ..."), a race's result and other news by the lines
-    // bring-it-up worded.
-    const story = storyId
-      ? storiesHeard(coreAPI(core), otherId).find((row) => row.id === storyId)
-      : undefined;
-    const headline = story
-      ? printedSubject(core, story, conversation.director, otherId)
-      : null;
-    const news =
-      headline ??
-      subjectsBetween(
-        core,
-        otherId,
-        playerId,
-        conversation.director,
-        conversation,
-      )
-        .filter((row) => ids.includes(row.id))
-        .at(zero);
-    raisedBrought = news
-      ? raiseSubject(
-          core,
-          conversation,
-          data,
-          // A race's result is told by who won, not by a question the
-          // winner ran on: the player answers who won, never a stand on a
-          // question nobody said.
-          brought.resultId
-            ? resultSubject(
-                core,
-                news,
-                brought.resultId,
-                knewResults.has(brought.resultId),
-              )
-            : news,
-          false,
-          // A race's result is told by who won and how it sits with them,
-          // not by the paper's headline.
-          headline && !brought.resultId ? undefined : brought.lines,
-        )
-      : false;
-    // News the talk can't go on from is still said, and not raised again.
-    // A printed story is told only by what it is about and where the teller
-    // stands (`printedSubject`), never by its bare mention ("There was
-    // something in the paper about ..."): one with neither is not said.
-    if (!raisedBrought) {
-      for (const line of story ? [] : brought.lines)
-        conversation.lines.push({
-          speakerId: otherId,
-          subjectId: ids[zero]!,
-          kind: "brought-up",
-          act: "tell",
-          ...line,
-        });
-      conversation.used.push(...ids);
-    }
-  }
+  // A stranger says who they are before any news is told; the news follows
+  // the introduction (Words lead, Nov 14).
+  const raisedBrought =
+    !pendingIntroduction(core, conversation, data) &&
+    raiseBroughtNews(core, conversation, data);
   // A topic already talked over isn't opened again (the listener remembers
   // each one; a new event is a new topic id).
   // News heard today from someone else in the house is behind the player.
@@ -7625,6 +7669,18 @@ function sayNow(
         ...back,
         sourceRecordIds: [...new Set([...back.sourceRecordIds, eventId])],
       });
+    // Now they have met, the news they came with is told (Words lead, Nov 14).
+    if (last.kind === "here") {
+      if (raiseBroughtNews(core, conversation, data)) return conversation;
+      const main = mainTopic(core, conversation, data);
+      if (
+        main &&
+        (main.asks
+          ? askSubject(core, conversation, data, main.subject)
+          : raiseSubject(core, conversation, data, main.subject))
+      )
+        return conversation;
+    }
     carryOn(core, conversation, data);
     return conversation;
   }

@@ -4264,5 +4264,35 @@ export function rerateCountedRetirement(
   return changed;
 }
 
+/**
+ * The counted residents' Social Security awards running now, for the law
+ * reach: each pooled flow's payee, its amount, the retirees it pays and the
+ * line level it was last rated at (`rerateCountedRetirement`).
+ */
+export function countedRetirementAwards(core: CoreState): {
+  readonly flowId: string;
+  readonly payeeId: string;
+  readonly placeId: string;
+  readonly amountMinor: number;
+  readonly retirees: number;
+  readonly level: number;
+}[] {
+  const rt = runtimes.get(core);
+  if (!rt) return [];
+  const out = [];
+  for (const flow of rt.flows.values()) {
+    if (flow.kind !== "retirement" || flow.endedAt) continue;
+    out.push({
+      flowId: flow.id,
+      payeeId: flow.payeeId,
+      placeId: flow.placeId,
+      amountMinor: flow.amountMinor,
+      retirees: Math.max(1, Object.keys(flow.amountByContract ?? {}).length),
+      level: rt.retirementLevel.get(flow.id) ?? 1,
+    });
+  }
+  return out;
+}
+
 /** The counted households' moves, for the engines outside the people family (the family's entry). */
 export { countedMovesRunning, moveCountedHouseholdAway } from "./counted-moves";
