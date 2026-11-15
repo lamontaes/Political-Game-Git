@@ -3140,22 +3140,23 @@ function billEstimate(paper, section) {
       : null;
   // Today's amount beside the new one, as two cells: the law in force, and what the bill makes it.
   let compare = null;
-  if (before && after && est.charge)
-    // A fee's paper cites the record's own figure, and the new home figure where the record holds one.
+  if (before && after && est.charge) {
+    // A fee's paper cites the record's own figure for the first step; a later step starts from what the step before made it.
+    const home = (level, minor) =>
+      minor
+        ? (controls.fees?.newHome ?? "")
+            .replace("{level}", level)
+            .replace("{home}", moneyWords(Number(minor)))
+        : level;
     compare = {
       todayLabel: words.today ?? "",
-      today: feeToday(est.charge),
+      today: est.charge.first
+        ? feeToday(est.charge)
+        : home(before, est.charge.beforePerHomeMonthMinor),
       newLabel: words.proposed ?? "",
-      proposed: est.charge.newPerHomeMonthMinor
-        ? (controls.fees?.newHome ?? "")
-            .replace("{level}", after)
-            .replace(
-              "{home}",
-              moneyWords(Number(est.charge.newPerHomeMonthMinor)),
-            )
-        : after,
+      proposed: home(after, est.charge.newPerHomeMonthMinor),
     };
-  else if (before && after)
+  } else if (before && after)
     compare = {
       todayLabel: words.today ?? "",
       today: before,

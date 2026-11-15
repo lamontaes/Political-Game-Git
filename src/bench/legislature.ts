@@ -690,7 +690,17 @@ export function billPaper(core: CoreState, billId: string) {
         lawId: section?.before.lawId ?? null,
         beforeValue: section?.before.value ?? null,
         beforeUnit: section?.before.unit ?? null,
-        ...feeCharge(provision.series, section, billCharges),
+        ...feeCharge(
+          provision.series,
+          section,
+          billCharges,
+          // The level in force is the first section's "before"; a later step of the same fee follows an earlier one.
+          form.sections[
+            bill.provisions.findIndex((p) => p.series === provision.series)
+          ]?.before.value ?? null,
+          bill.provisions.findIndex((p) => p.series === provision.series) ===
+            index,
+        ),
         afterValue: section?.after.value ?? null,
         afterUnit: section?.after.unit ?? null,
         // The date this section names for itself (a phase-in's step), or
@@ -934,18 +944,34 @@ function feeCharge(
     yearlyMinor: number | bigint;
     perHomeMonthMinor?: number | bigint | null;
   }[],
+  inForceLevel: number | null,
+  first: boolean,
 ) {
   const service =
     series && isFeeLevelSeries(series) ? FEE_LEVEL_SERVICES[series] : undefined;
   const row = service ? charges.find((c) => c.service === service) : undefined;
   if (!row) return {};
-  const before = section?.before.value ?? FEE_LEVEL_BASELINE;
+  // The charge row is at the level in force today; a section's new home figure scales it to its own level.
+  const before = inForceLevel ?? FEE_LEVEL_BASELINE;
   const after = section?.after.value;
   return {
     charge: {
+      // Only the first step reads today's figure; later steps say what the step before made it.
+      first,
       yearlyMinor: String(row.yearlyMinor),
       perHomeMonthMinor:
         row.perHomeMonthMinor == null ? null : String(row.perHomeMonthMinor),
+      // What a home pays at the level this step starts from (a later step starts from the one before).
+      beforePerHomeMonthMinor:
+        row.perHomeMonthMinor != null && inForceLevel
+          ? String(
+              Math.round(
+                (Number(row.perHomeMonthMinor) *
+                  (section?.before.value ?? inForceLevel)) /
+                  inForceLevel,
+              ),
+            )
+          : null,
       newPerHomeMonthMinor:
         row.perHomeMonthMinor != null && typeof after === "number" && before
           ? String(Math.round((Number(row.perHomeMonthMinor) * after) / before))
