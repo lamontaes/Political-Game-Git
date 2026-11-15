@@ -25,10 +25,14 @@ import {
 } from "./group-b-people";
 import {
   type AssistanceTimeLimit,
+  federalBenefitLine,
   governmentAt,
+  INCOME_SECURITY,
+  INCOME_SECURITY_KEY,
   reconcileObligations,
   recordApplied,
   recordDraws,
+  recordLineShare,
   timeLimitedNow,
 } from "./group-b-money";
 
@@ -168,8 +172,11 @@ export function runFoodAid(
             r.id,
           ]);
     let countedMinor = 0;
+    let countedBaseMinor = 0;
     let countedHouseholds = 0;
     const lawId = lawInForce(api, "snap-maximum").governing?.id ?? "";
+    // The income security line in force scales what the allotment works out.
+    const line = federalBenefitLine(api, INCOME_SECURITY);
     for (const head of heads) {
       const household = facts.households.get(head.householdId);
       if (!household) continue;
@@ -185,8 +192,10 @@ export function runFoodAid(
       );
       if (dollars <= 0) continue;
       paid.push(...covered.filter((id) => !limited.has(id)));
+      const base = dollars * cents;
+      const monthly = Math.round(base * line.level);
       if (head.named) {
-        want.set(`${gov.id}|${head.id}`, dollars * cents);
+        want.set(`${gov.id}|${head.id}`, monthly);
         // The maximum allotment is read here, where the household's benefit is set.
         recordApplied(api, {
           key: "snap-maximum",
@@ -194,10 +203,19 @@ export function runFoodAid(
           targetId: head.householdId,
           target: "household",
           what: "snap-benefit-set",
-          amountMinor: dollars * cents,
+          amountMinor: monthly,
+        });
+        recordLineShare(api, line, {
+          key: INCOME_SECURITY_KEY,
+          targetId: head.householdId,
+          target: "household",
+          what: "snap-changed-by-line",
+          baseMinor: base,
+          paidMinor: monthly,
         });
       } else {
-        countedMinor += dollars * cents * (head.scale ?? 1);
+        countedMinor += monthly * (head.scale ?? 1);
+        countedBaseMinor += base * (head.scale ?? 1);
         countedHouseholds += head.scale ?? 1;
       }
     }
@@ -210,6 +228,16 @@ export function runFoodAid(
         what: "snap-benefit-set",
         count: Math.max(1, Math.round(countedHouseholds)),
         amountMinor: Math.floor(countedMinor),
+      });
+    if (countedMinor > 0)
+      recordLineShare(api, line, {
+        key: INCOME_SECURITY_KEY,
+        targetId: `${chain.townPlaceId}:snap-households`,
+        target: "group",
+        what: "snap-changed-by-line",
+        count: Math.max(1, Math.round(countedHouseholds)),
+        baseMinor: Math.floor(countedBaseMinor),
+        paidMinor: Math.floor(countedMinor),
       });
     recordDraws(api, timeLimit, paid);
     if (countedMinor > 0 && residentsOrg)
