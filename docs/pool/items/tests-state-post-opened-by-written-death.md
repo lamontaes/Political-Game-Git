@@ -5,11 +5,11 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: open
+status: in-pr
 standard: 2
 root: none
 claimed-by: claude/project-thread-86yqt4-death-path
-pr:
+pr: 9495
 after: executive-governor-pick-offers-the-state
 blocked-on:
 lead: governing

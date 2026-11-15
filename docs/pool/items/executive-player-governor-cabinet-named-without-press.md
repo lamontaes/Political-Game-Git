@@ -18,7 +18,7 @@ model: sonnet
 effort: medium
 ---
 
-**What.** When the player takes the governor's seat, the executive engine names every post of the governor's cabinet in the player's name at its next review, about 30 days later, with no press from the player. The ruling "nothing cast for the player without their press" says the player's own posts wait for their choice, as the town's already do. Seen: Edgar, Wisconsin (5522550), seed edgar-petition-1, player seated as governor with `seatPlayerInStateOffice` on 2025-01-20. On 2025-02-19 appointment:US-WI:agriculture is held by person:cabinet:US-WI:agriculture:term:seat:US-WI:governor:2025-01-20:dev-start:0 (Ellen Montgomery), `appointedBy` the player (person_0ac4774205321ee6), confirmed by the state senate 33 to 0, and every other governor's post the same.
+**What.** When the player takes the governor's seat, the executive engine names every post of the governor's cabinet in the player's name at its next review, about 30 days later, with no press from the player. The ruling "nothing cast for the player without their press" says the player's own posts wait for their choice, as the town's already do. Seen: Edgar, Wisconsin (5522550), seed edgar-petition-1, player seated as governor with `seatPlayerInStateOffice` on 2025-01-20. On 2025-02-19 appointment:US-WI:agriculture is held by person:cabinet:US-WI:agriculture:term:seat:US-WI:governor:2025-01-20:dev-start:0 (Ellen Montgomery), `appointedBy` the player (person_0ac4774205321ee6), confirmed by the state senate 33 to 0, and every other governor's post the same. Seen: a player governor's office panel lists every cabinet post as held by someone they never chose.
 
 **Cause.** Found in code: the review in src/core2/modules/executive.ts (about line 2117) calls `appointStateCabinet(api, worldSeed, `${governor.id}:`)` whenever the governor's seat has a new holder, whoever it is. The branch beside it, which fills a dead or departed cabinet member's post, already skips the player (`memberKey(governor) !== playerId`), and the town's posts skip the player's own (`townAppointer(...)?.personId === playerId`). The new-cabinet branch has no such check.
 
@@ -26,7 +26,7 @@ effort: medium
 
 **Time box.** 2 hours for one session.
 
-**Rules.** Nothing cast for the player without their press. One engine: the same review, with the player's check the vacancy branch already has.
+**Rules.** Wire to the world: the player's choices are the player's (OWNER-DECISIONS.md, Oct 14), and no engine names the player governor's cabinet without their own press. One engine: the same review, with the player's check the vacancy branch already has.
 
 **Done when.** A second session seats the player as governor in a drawn place (named with its seed), plays 60 days, and sees the cabinet still held by the people who held it at the opening, with no appointment `appointedBy` the player until the player names one in the office panel.
 

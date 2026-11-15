@@ -175,7 +175,9 @@ function ask(w: World, personId: string) {
 for (const place of PLACES)
   it(
     `asking someone to take a ${place.level} post plays as a scene; a no keeps the post open, a yes names them (${place.key}, seed ${place.seed.slice(0, 16)})`,
-    { timeout: 600_000 },
+    // The game's own played days to the booked death: about 25 seconds for
+    // the town, 40 for the state, measured; twice the longer.
+    { timeout: 90_000 },
     () => {
       const w = world(place);
       const api = coreAPI(w.core);
