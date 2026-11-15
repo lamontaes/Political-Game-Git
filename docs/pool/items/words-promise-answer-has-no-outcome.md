@@ -30,4 +30,6 @@ root: none
 
 **Done when.** A second session, at a drawn place with a joint ticket and a seed it did not choose, gets a running mate to bring up a broken word and presses each answer. Each answer brings a different reaction line, and the tie moves by an amount the screen shows as a change in how they get along.
 
+**Waits on.** Nothing; people-broken-promise-costs-share-of-tie is built on if it lands first.
+
 **Files.** src/director/promise-talk.ts, src/director/data/promise-kinds.json, data/english/parts/conversation.json

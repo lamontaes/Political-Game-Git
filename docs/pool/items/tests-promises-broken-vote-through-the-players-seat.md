@@ -26,8 +26,10 @@ root: none
 
 **Time box.** 1 hour for one sonnet session.
 
-**Rules.** Played-world proof: the player's vote goes through the player's seat, and the roll is the body's own.
+**Rules.** Wire to the world: the player's vote goes through the player's own seat, and the roll is the body's own on its floor day.
 
 **Done when.** A second session runs the moved promises test at its pinned place and seed, and sees the broken vote promise settled by a vote cast through `chooseOwnVote` at the body's own roll, with the three broken raises said in the next talk.
+
+**Waits on.** The promise code's move into the engine (thread "Build saves and move promises into the engine").
 
 **Files.** src/director/promises.test.ts (or where it moves)

@@ -71,8 +71,8 @@ import { purposeScene, replyInScene } from "./purpose-scene";
 const PLACE = "territory:GU:santa-rita";
 /** Days the next talk is opened on until the word is brought up. */
 const TALK_DAYS = 7;
-/** Days past the floor day the roll may wait (a sitting day moved by the body). */
-const ROLL_DAYS = 7;
+/** Days the world runs for the body's roll on the bill: a year and a month. */
+const ROLL_DAYS = 400;
 const LEGISLATURE = "office:US-GU:legislature-unicameral";
 
 /**
@@ -346,15 +346,16 @@ for (const c of CASES)
         const wanted = c.vote === "with" ? side : -side;
         const vote = wanted * toward > 0 ? "yes" : "no";
         chooseOwnVote(core, billId, vote);
+        // The floor day the body sets at drafting; it may move the day as its
+        // calendar fills, so the world runs until the body's roll, whenever
+        // that is.
         const floor = floorDateOf(api, billId);
         expect(floor, `${where}: the body set a floor day`).toBeTruthy();
-        while (core.date < addDays(makeIsoDate(floor!), -1))
-          advanceCore(core, addDays(makeIsoDate(core.date), 1));
         const before = closenessBetween(core, player, asked!.id as PersonId);
         // The tie's move for the settled word, read as the promise writes it
         // (promises.ts moveTie, citing the promise; paid at once when the two
-        // are together, or at their next talk). The whole day's closeness is
-        // not the measure: the floor day brings them time together that warms
+        // are together, or at their next talk). The whole year's closeness is
+        // not the measure: eleven months of the two working together move
         // the tie too.
         const moved: number[] = [];
         const original = api.relationship;
@@ -431,12 +432,15 @@ for (const c of CASES)
             where,
           ).not.toContain("make-it-right");
         api.relationship = original;
-        expect(moved.length, `${where}: the word moved the tie once`).toBe(1);
+        expect(
+          moved.length,
+          `${where}: the word moved the tie once (floor day ${floor}, ended ${ended.endedAt}, roll ${cast!.vote})`,
+        ).toBe(1);
         if (c.vote === "with") expect(moved[0], where).toBeGreaterThan(0);
         else expect(moved[0], where).toBeLessThan(0);
         out.push(
           `  Next talk, ${core.date}: ${c.asked}: ${raise!.text}`,
-          `  ${billId} moves ${question} ${toward > 0 ? "toward" : "away from"} yes; the player voted ${vote} on ${ended.endedAt} (${ended.endedBy}): ${ended.outcome}; the word's own tie move ${moved[0]} hours; closeness ${before.toFixed(5)} the day before the roll, ${after.toFixed(5)} after it`,
+          `  ${billId} moves ${question} ${toward > 0 ? "toward" : "away from"} yes; the player voted ${vote} on ${ended.endedAt} (${ended.endedBy}): ${ended.outcome}; the word's own tie move ${moved[0]} hours; closeness ${before.toFixed(5)} when the vote was chosen, ${after.toFixed(5)} after the roll`,
         );
         process.stdout.write(out.join("\n") + "\n");
       } finally {
