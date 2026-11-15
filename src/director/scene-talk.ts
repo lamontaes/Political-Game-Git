@@ -113,8 +113,12 @@ interface PurposeArc {
     thanks: string;
     /** The one asked's last word after the player thanks them for a yes, where the purpose has one. */
     thanked?: string;
-    /** The player's second ask after a "not yet" or a no, and what it weighs. */
-    again: { move: string; carries: AskCarries }[];
+    /**
+     * The player's second ask after a "not yet" or a no, and what it weighs;
+     * `secondAsk` marks one offered only when the player asks again after a
+     * not yet (Words lead, Nov 15: deferring to them keeps the ask open).
+     */
+    again: { move: string; carries: AskCarries; secondAsk?: boolean }[];
     /**
      * The answer of one whose price is taken up (`carries: "price"`), and of
      * one asked only to stay out of the room who agrees (`carries:
@@ -1102,23 +1106,25 @@ export function composeSceneTalk(
     const secondNo =
       !yes && !carried && standing.lean <= zero && !!facts["asked-before"];
     const afterLed = new Map<TreeNode, TreeReply>();
-    // On a second ask a plea is offered only where the favor record holds
-    // something, and pressing only where they lean for it already (Words
+    // On a second ask a plea is offered only where the record holds a time
+    // the player backed them (`read-favor-given`: the player's yes on a bill
+    // of theirs), and pressing only where they lean for it already (Words
     // lead, Nov 15): asking again with nothing behind it is not offered.
     const askedAgain = !!facts["asked-before"];
     const backed = (weighs: AskCarries) =>
       !askedAgain ||
       (weighs === "favor"
-        ? standing.favor > zero
+        ? !!facts["read-favor-given"]
         : weighs === "lean"
           ? standing.lean > zero
           : true);
     for (const again of yes
       ? [{ move: ask.thanks, carries: "none" as const }]
       : secondNo
-        ? ask.again.filter((row) => row.carries === "none")
+        ? ask.again.filter((row) => row.carries === "none" && !row.secondAsk)
         : ask.again) {
       if (!offered(again.carries) || !backed(again.carries)) continue;
+      if ("secondAsk" in again && again.secondAsk && !askedAgain) continue;
       const line = mine(
         {
           step: "follow",

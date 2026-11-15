@@ -16019,7 +16019,8 @@
           "role": "asker",
           "purpose": "ask-vote",
           "key": "vote-wanted",
-          "excludesFacts": ["asked-before"]
+          "excludesFacts": ["asked-before"],
+          "onlyWhen": ["read-favor-given"]
         },
         {
           "subject": "scene",
@@ -185401,13 +185402,13 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.you-have-bill-drafted-and-no-names-on-it-but-yours-name-is-in",
+      "key": "scene-talk.narrate-narrate.you-have-bill-drafted-and-no-names-on-it-but-yours-you-go-to-see-first",
       "move": "narrate-narrate",
       "kind": "written",
-      "text": "You have {bill} drafted and no names on it but yours. {first} is in.",
+      "text": "You have {bill} drafted and no names on it but yours. You go to see {first}.",
       "origin": "authored",
-      "author": "Bill stages (Claude Code), co-sponsor ask",
-      "date": "2026-11-14",
+      "author": "Words lead (Nov 15), co-sponsor ask",
+      "date": "2026-11-15",
       "tag": {
         "move": "narrate",
         "key": "bill-sign-on"
@@ -185421,54 +185422,6 @@
           "purpose": "cosponsor-ask",
           "key": "bill-sign-on",
           "requiresFacts": ["bill"],
-          "excludesFacts": ["asked-before"]
-        }
-      ]
-    },
-    {
-      "key": "scene-talk.narrate-narrate.you-catch-name-in-the-hallway-outside-the-chamber-between-meetings",
-      "move": "narrate-narrate",
-      "kind": "written",
-      "text": "You catch {first} in the hallway outside the chamber, between meetings.",
-      "origin": "authored",
-      "author": "Bill stages (Claude Code), co-sponsor ask",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "narrate",
-        "key": "bill-sign-on"
-      },
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "cosponsor-ask",
-          "key": "bill-sign-on",
-          "excludesFacts": ["asked-before"]
-        }
-      ]
-    },
-    {
-      "key": "scene-talk.narrate-narrate.name-s-door-is-open-you-knock-on-the-frame-and-step-in",
-      "move": "narrate-narrate",
-      "kind": "written",
-      "text": "{first}'s door is open. You knock on the frame and step in.",
-      "origin": "authored",
-      "author": "Bill stages (Claude Code), co-sponsor ask",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "narrate",
-        "key": "bill-sign-on"
-      },
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "cosponsor-ask",
-          "key": "bill-sign-on",
           "excludesFacts": ["asked-before"]
         }
       ]
@@ -186387,6 +186340,58 @@
       ]
     },
     {
+      "key": "scene-talk.follow-defer.read-it-that-s-all-i-m-asking",
+      "move": "follow-defer",
+      "kind": "spoken",
+      "text": "Read it. That's all I'm asking.",
+      "origin": "authored",
+      "author": "Words lead (Nov 15), second ask of the same person",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "defer",
+        "key": "bill-sign-on"
+      },
+      "bearing": "calm",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "defer",
+          "role": "asker",
+          "purpose": "cosponsor-ask",
+          "key": "bill-sign-on",
+          "after": "stall",
+          "requiresFacts": ["asked-before"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.follow-defer.take-the-time-you-need",
+      "move": "follow-defer",
+      "kind": "spoken",
+      "text": "Take the time you need.",
+      "origin": "authored",
+      "author": "Words lead (Nov 15), second ask of the same person",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "defer",
+        "key": "vote-wanted"
+      },
+      "bearing": "calm",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "defer",
+          "role": "asker",
+          "purpose": "ask-vote",
+          "key": "vote-wanted",
+          "after": "stall",
+          "requiresFacts": ["asked-before"]
+        }
+      ]
+    },
+    {
       "key": "scene-talk.reply-stall.i-was-a-no-last-time-don-t-count-me-either-way-yet",
       "move": "reply-stall",
       "kind": "spoken",
@@ -186431,7 +186436,8 @@
           "role": "asker",
           "purpose": "cosponsor-ask",
           "key": "bill-sign-on",
-          "requiresFacts": ["asked-before"]
+          "requiresFacts": ["asked-before"],
+          "onlyWhen": ["read-favor-given"]
         }
       ]
     },
@@ -186455,7 +186461,8 @@
           "role": "asker",
           "purpose": "ask-vote",
           "key": "vote-wanted",
-          "requiresFacts": ["asked-before"]
+          "requiresFacts": ["asked-before"],
+          "onlyWhen": ["read-favor-given"]
         }
       ]
     },

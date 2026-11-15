@@ -25,6 +25,7 @@ import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
 import {
   billOf,
+  castMemberVote,
   chairHears,
   declinedAsks,
   floorDateOf,
@@ -78,24 +79,27 @@ function readsAskedBefore(key: string): boolean {
 }
 
 /** A talk as the player plays it: what each says, the player's choices under "You say:". */
-function playedTalk(talk: {
-  narration: readonly { text: string }[];
-  state: { speaker: string; text: string };
-  tree: {
-    lines: readonly { speaker: string; text: string }[];
-    replies: readonly {
-      line: { text: string };
-      next?: { lines: readonly { speaker: string; text: string }[] };
-    }[];
-  };
-}): string {
+function playedTalk(
+  talk: {
+    narration: readonly { text: string }[];
+    state: { speaker: string; text: string };
+    tree: {
+      lines: readonly { speaker: string; text: string }[];
+      replies: readonly {
+        line: { text: string };
+        next?: { lines: readonly { speaker: string; text: string }[] };
+      }[];
+    };
+  },
+  taken?: number,
+): string {
   return [
     ...talk.narration.map((line) => `  ${line.text}`),
     `  ${talk.state.speaker}: ${talk.state.text}`,
     ...talk.tree.lines.map((line) => `  ${line.speaker}: ${line.text}`),
     "  You say:",
     ...talk.tree.replies.flatMap((reply, index) => [
-      `    ${index + 1}. ${reply.line.text}`,
+      `    ${index + 1}. ${reply.line.text}${index === taken ? "  (taken)" : ""}`,
       ...(reply.next?.lines.map(
         (line) => `       ${line.speaker}: ${line.text}`,
       ) ?? []),
@@ -176,8 +180,27 @@ describe("asking colleagues to sign on", () => {
       // (a bill the committee holds dies there, as it does in play).
       const questions = seatView(core, player).questions;
       const earlier = questions.map(draft).filter((id): id is string => !!id);
-      for (const id of earlier) scheduleVote(api, id);
-      const floor = earlier
+      // One colleague has a bill of their own at the same sitting, and the
+      // player votes yes on it: a time the player backed them, which a plea
+      // on a second ask may say (Words lead, Nov 15). The rest have none.
+      const theirBills: string[] = [];
+      for (const colleague of full(body!.id).filter((id) => id !== player)) {
+        try {
+          const theirs = seatAct(core, colleague, {
+            kind: "draft",
+            officeId: body!.id,
+            question: questions.at(-1)!,
+            value: 1,
+          }) as { id: string };
+          castMemberVote(api, theirs.id, player, "yes");
+          theirBills.push(theirs.id);
+          break;
+        } catch {
+          // A bill the chamber cannot pass is not drafted.
+        }
+      }
+      for (const id of [...earlier, ...theirBills]) scheduleVote(api, id);
+      const floor = [...earlier, ...theirBills]
         .map((id) => floorDateOf(api, id))
         .filter((date): date is string => !!date)
         .sort()
@@ -185,7 +208,7 @@ describe("asking colleagues to sign on", () => {
       expect(floor, `${where}: the bills have a sitting`).toBeTruthy();
       advanceCore(core, addDays(makeIsoDate(floor!), 1));
       const votedNo = new Set(
-        earlier.flatMap((id) =>
+        [...earlier, ...theirBills].flatMap((id) =>
           votesOn(api, id)
             .filter((v) => v.vote === "no")
             .map(
@@ -251,10 +274,6 @@ describe("asking colleagues to sign on", () => {
         expect(talk.narration[0]!.text, where).not.toContain(
           core.people.get(player)!.givenName,
         );
-        firstTalks.set(
-          cause.facts!.billId! + "|" + colleague,
-          playedTalk(talk),
-        );
         const said: string[] = [talk.state.text];
         const walk = (node: typeof talk.tree | null) => {
           if (!node) return;
@@ -296,6 +315,10 @@ describe("asking colleagues to sign on", () => {
                 ? pick("accept")
                 : 0;
         const chosen = talk.tree.replies[path]!;
+        firstTalks.set(
+          cause.facts!.billId! + "|" + colleague,
+          playedTalk(talk, path),
+        );
         const last = chosen.next?.lines.at(-1) ?? first;
         const heard = [
           talk.state.text,
@@ -404,8 +427,16 @@ describe("asking colleagues to sign on", () => {
             talk.tree.replies.map((reply) => reply.line.move),
             where,
           ).toEqual(["accept"]);
+        // A plea that claims a past act is offered only where the record
+        // holds the player's yes on a bill of theirs.
+        const backing = facts.has("read-favor-given");
+        if (!backing)
+          expect(
+            talk.tree.replies.map((reply) => reply.line.move),
+            where,
+          ).not.toContain("plea");
         process.stdout.write(
-          `SIGN-ON PLAYED ${where} asked again:\n${playedTalk(talk)}\n`,
+          `SIGN-ON PLAYED ${where} asked again (the player's yes on a bill of theirs on the record: ${backing ? "yes" : "no"}):\n${playedTalk(talk)}\n`,
         );
         process.stdout.write(
           `SIGN-ON ${where} asked again (${[...facts].filter((k) => k === "asked-before" || k === "voted-against-before" || k.startsWith("no-")).join(", ")}): ${lines.join(" | ")}\n`,

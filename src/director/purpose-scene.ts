@@ -2096,6 +2096,25 @@ function composeBinding(
         sourceRecordIds: [earlier.voteId, bill.id],
       };
   }
+  // The player's own ask on a bill reads the same record: a yes the player
+  // cast on a bill of the asked person's own, not yet given back, is a time
+  // the player backed them, which a plea may say (Words lead, Nov 15).
+  const asking = core.playerId;
+  const other = askerId === asking ? askedId : askerId;
+  if (type.playerAsks && asking && said.billId && !facts["read-favor-given"]) {
+    const [backing] = favorsGiven(
+      core,
+      asking,
+      other,
+      record?.date ?? moment.date,
+      said.billId,
+    );
+    if (backing)
+      facts["read-favor-given"] = {
+        text: "yes",
+        sourceRecordIds: [backing.voteId, backing.billId],
+      };
+  }
   const played =
     variant && variant.purpose !== type.purpose
       ? { ...type, purpose: variant.purpose, family: type.purpose }

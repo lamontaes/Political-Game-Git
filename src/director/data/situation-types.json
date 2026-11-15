@@ -3189,7 +3189,15 @@
           "key": "you",
           "fill": "subject",
           "count": "one",
-          "moves": ["request", "plea", "bargain", "press", "thank", "accept"],
+          "moves": [
+            "request",
+            "plea",
+            "bargain",
+            "press",
+            "thank",
+            "defer",
+            "accept"
+          ],
           "wants": ["commit"],
           "bearing": "hopeful"
         }
@@ -3986,7 +3994,12 @@
           "match": {
             "label": "cause:event:debate",
             "selfNamed": true,
-            "causeFacts": [{ "key": "stood", "includes": "subject" }]
+            "causeFacts": [
+              {
+                "key": "stood",
+                "includes": "subject"
+              }
+            ]
           },
           "causeEngine": "meetings",
           "causeRecord": "debate",
@@ -5685,7 +5698,7 @@
           "key": "you",
           "fill": "subject",
           "count": "one",
-          "moves": ["request", "plea", "press", "thank", "accept"],
+          "moves": ["request", "plea", "press", "thank", "defer", "accept"],
           "wants": ["commit"],
           "bearing": "hopeful"
         }
