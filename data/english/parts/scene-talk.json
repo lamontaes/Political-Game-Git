@@ -72971,7 +72971,8 @@
           "purpose": "town-hall-question",
           "role": "asked",
           "step": "reply",
-          "subject": "scene"
+          "subject": "scene",
+          "excludesFacts": ["outdoors"]
         }
       ],
       "bearing": "guarded",
