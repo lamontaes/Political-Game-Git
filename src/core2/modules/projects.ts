@@ -2,17 +2,21 @@
  * Public projects (office-cut-a-ribbon-needs-a-record-of). A government's
  * budget line that buys capital work is awarded to one of the town's firms for
  * the fiscal year (contracts.ts), and the treasury pays that firm each month.
- * That award is the project: it is built while its fiscal year runs, and it
- * is finished on the day the next fiscal year's budget takes over. A finished
- * project that was paid for is read by the office day, which offers the
- * officeholder its ribbon-cutting for a while after.
+ * That award is the project. Its work is paid for month by month and done by
+ * the winning firm's crew, so it is finished on the later of two days: the
+ * day of the treasury's last payment (work cannot outrun the money) and the
+ * day the crew, working at its own pay rate, has done the labor the payments
+ * bought. It counts as finished once the fiscal year has closed and no more
+ * payments can come. A finished project that was paid for is read by the
+ * office day, which offers the officeholder its ribbon-cutting for a while
+ * after.
  *
- * Nothing is stored for the project itself: its cost, contractor and payment
- * records are the award's, and its dates are the budgets'. The only record
+ * Nothing is stored for the project itself: its cost, contractor, crew and
+ * payment records are the award's. The only record
  * this module keeps is the ribbon (who cut it, and when).
  */
 import rows from "../data/projects/parameters.json" with { type: "json" };
-import { daysBetween, makeIsoDate } from "../kernel/dates";
+import { addDays, daysBetween, makeIsoDate } from "../kernel/dates";
 import { registerModule } from "../state";
 import { declareSnapshotCovered } from "../snapshot";
 import type { ModuleRow } from "../module-data";
@@ -56,20 +60,50 @@ export function finishedProjects(
   governmentId: string,
 ): readonly ProjectRow[] {
   if (!api.state.modules.has(BUDGETS_MODULE_ID)) return [];
-  // A work is finished on the day the next fiscal year's budget takes over;
-  // no work schedule or completion record exists to say otherwise.
-  api.stopgap("SG-OFFICE-public-project-finish-date");
   const budgets = budgetsOf(api, governmentId);
   const out: ProjectRow[] = [];
-  for (const award of contractsOf(api, governmentId)) {
+  const awards = contractsOf(api, governmentId);
+  for (const award of awards) {
     if (!LINES.has(award.line)) continue;
     const next = budgets.find((b) => b.fiscalYear === award.fiscalYear + 1);
     if (!next || next.startsOn > api.state.date) continue;
     if (award.paidMinor < PROJECT_PARAMETERS.projectMinimumPaidMinor.value)
       continue;
-    out.push(projectOf(award, next.startsOn));
+    out.push(projectOf(award, finishDay(award, awards)));
   }
   return out.sort((a, b) => b.finishedOn.localeCompare(a.finishedOn));
+}
+
+/**
+ * The day a project's work is done. The contractor's crew (the winning bid's
+ * staff at its daily wage) is shared among the awards the firm holds from this
+ * government that year; the labor a payment buys is its labor share, and the
+ * crew does it at its own daily pay. The work cannot finish before the last
+ * payment that funds it.
+ */
+function finishDay(
+  award: ContractAwardRow,
+  awards: readonly ContractAwardRow[],
+): string {
+  const bid = award.bids.find((b) => b.organizationId === award.organizationId);
+  const held = awards.filter(
+    (a) =>
+      a.organizationId === award.organizationId &&
+      a.fiscalYear === award.fiscalYear &&
+      LINES.has(a.line),
+  ).length;
+  const crewDaily = bid
+    ? (bid.staff * bid.wageDailyMinor) / Math.max(1, held)
+    : 0;
+  const workDays =
+    crewDaily > 0
+      ? Math.ceil(
+          (award.paidMinor * PROJECT_PARAMETERS.projectLaborShare.value) /
+            crewDaily,
+        )
+      : 0;
+  const done = addDays(makeIsoDate(award.awardedOn), workDays);
+  return done > award.lastPaidOn ? done : award.lastPaidOn;
 }
 
 function projectOf(award: ContractAwardRow, finishedOn: string): ProjectRow {
