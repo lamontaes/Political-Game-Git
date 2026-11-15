@@ -8,7 +8,7 @@ size: S
 status: in-pr
 standard: 2
 claimed-by: claude/treasury-arrival
-pr: #9554
+pr: #9562
 after:
 blocked-on:
 lead: words
