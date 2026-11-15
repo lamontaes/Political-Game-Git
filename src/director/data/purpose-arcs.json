@@ -1635,26 +1635,17 @@
     },
     "appointment-offer": {
       "state": "offer",
-      "replies": ["agree", "ask", "decline", "stall"],
+      "replies": ["agree", "ask", "decline"],
       "follow": {
         "agree": ["thank", "accept"],
         "ask": ["answer"],
-        "decline": ["press", "accept"],
-        "stall": ["accept"]
+        "decline": ["press", "accept"]
       },
       "again": {
-        "answer": ["agree", "stall", "decline", "ask", "leave"],
-        "press": ["agree", "decline", "leave"]
+        "answer": ["agree", "decline", "ask"],
+        "press": ["agree", "decline"]
       },
       "endings": [
-        {
-          "id": "talks",
-          "label": "You'll talk to them",
-          "keeps": "meeting-set",
-          "when": {
-            "reply": ["stall"]
-          }
-        },
         {
           "id": "accepted",
           "label": "You took the job",
@@ -1669,14 +1660,6 @@
           "keeps": "none",
           "when": {
             "reply": ["decline"]
-          }
-        },
-        {
-          "id": "thinking",
-          "label": "Thinking it over",
-          "keeps": "none",
-          "when": {
-            "reply": ["leave"]
           }
         },
         {

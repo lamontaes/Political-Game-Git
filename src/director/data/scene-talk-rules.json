@@ -203,11 +203,14 @@
     ]
   },
   "callBack": {
-    "about": "A call back about an invitation the player put off opens on what the put-off said (Words lead, Nov 15, 07:50Z): each put-off line of an invitation, by its bank part, to the fact its call back's opening requires. A walk-off that asked for a call is put-off-left, from its move. Every put-off line of a purpose that calls back is listed here (put-off-call-back.test.ts).",
+    "about": "A call back about an invitation or offer the player put off opens on what the put-off said (Words lead, Nov 15, 07:50Z and 09:05Z): each put-off line of a purpose that calls back, by its bank part, to the fact its call back's opening requires. A walk-off not listed is put-off-left, from its move. Every stall of a purpose that calls back is listed here (put-off-call-back.test.ts).",
     "said": {
       "scene-talk.reply-stall.let-me-look-at-my-week-and-call-you-back": "put-off-week",
       "scene-talk.reply-stall.can-i-think-about-it": "put-off-think",
-      "scene-talk.reply-stall.let-me-think-it-over-and-call-you-back": "put-off-call"
+      "scene-talk.reply-stall.let-me-think-it-over-and-call-you-back": "put-off-call",
+      "scene-talk.reply-stall.can-i-think-it-over-and-call-you-back": "put-off-call",
+      "scene-talk.reply-leave.let-me-call-you-back": "put-off-call",
+      "scene-talk.reply-stall.i-d-like-to-talk-it-over-at-home-first": "put-off-home"
     }
   }
 }

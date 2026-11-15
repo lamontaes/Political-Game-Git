@@ -5250,12 +5250,13 @@
     },
     {
       "key": "job-offer",
+      "repeatsBy": "cause",
       "receive": {
         "age": "any",
         "counterpart": "apart",
         "seat": "any"
       },
-      "note": "An employer picked the player for an opening: the jobs engine's job-offered record names the applicant, the person at the employer who makes the offer (the one there longest) and the position. They call. A yes takes the job; a no turns it down and the position opens to others; anything else leaves it waiting until its deadline, when the employer withdraws it. A job offer comes through a person and a scene or not at all (owner, Oct 27): it is in scheduling.ownRecordScenes, so it stops the day; its lines are the scene-talk bank's job-offer purpose (SG-DIR-job-offer-lines, resolved Oct 28).",
+      "note": "An employer picked the player for an opening: the jobs engine's job-offered record names the applicant, the person at the employer who makes the offer (the one there longest) and the position. They call. A yes takes the job; a no turns it down and the position opens to others; a put-off is called back once, on the offer's last day (a new cause, so it repeats by cause), with yes and no only; anything else leaves it waiting until its deadline, when the employer withdraws it. A job offer comes through a person and a scene or not at all (owner, Oct 27): it is in scheduling.ownRecordScenes, so it stops the day; its lines are the scene-talk bank's job-offer purpose (SG-DIR-job-offer-lines, resolved Oct 28).",
       "roles": [
         {
           "key": "employer",

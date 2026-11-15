@@ -9,7 +9,7 @@ status: open
 standard: 2
 claimed-by:
 pr:
-after: words-paper-reader-accusation-gives-the-record-reason
+after:
 blocked-on:
 lead: words
 model: opus

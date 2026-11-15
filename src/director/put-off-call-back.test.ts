@@ -239,8 +239,9 @@ describe("a put-off is kept on the record and called back once", () => {
     const stalls = conversationBank.parts.filter((part) =>
       part.uses.some(
         (use) =>
-          (use.purpose === "invite-debate" ||
-            use.purpose === "invite-interview") &&
+          ["invite-debate", "invite-interview", "job-offer"].includes(
+            use.purpose ?? "",
+          ) &&
           use.step === "reply" &&
           use.move === "stall",
       ),

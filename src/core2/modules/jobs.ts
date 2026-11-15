@@ -182,6 +182,8 @@ export interface JobOfferRow {
   deadline: string;
   status: "pending" | "accepted" | "declined" | "lapsed" | "withdrawn";
   answeredAt?: string;
+  /** The scene reply that put the offer off; the offerer calls back once about it. */
+  putOffReplyId?: string;
 }
 interface SeekerRow {
   id: string;
@@ -4818,6 +4820,8 @@ export const JOB_OFFERED_EVENT = "job-offered";
 const ACCEPTING_REPLIES: ReadonlySet<string> = new Set(["agree", "relent"]);
 /** The replies in an offer's scene that turn it down. */
 const REFUSING_REPLIES: ReadonlySet<string> = new Set(["decline"]);
+/** The replies that leave an offer open for a call back (Words lead, Nov 15). */
+const PUT_OFF_REPLIES: ReadonlySet<string> = new Set(["stall", "leave"]);
 
 /**
  * Who makes an offer at an employer: the full person, other than the
@@ -4998,26 +5002,66 @@ function offerToPlayer(
     ),
     sourceRecordIds: [id],
   });
-  const offerer = c.people.get(offeredBy)!;
+  jobOffered(api, row);
+}
+
+/**
+ * An offer on the record, for the director to stage as a call from the person
+ * who makes it; again, the call back about an offer the person put off.
+ */
+function jobOffered(api: CoreAPI, row: JobOfferRow, again = false): void {
+  const c = core(api);
+  const offerer = c.people.get(row.offeredBy);
+  if (!offerer) return;
   api.emit({
-    id: `${JOB_OFFERED_EVENT}:${id}`,
+    id: `${JOB_OFFERED_EVENT}:${row.id}${again ? ":again" : ""}`,
     date: c.date,
     kind: JOB_OFFERED_EVENT,
-    personIds: [personId, offeredBy],
+    personIds: [row.personId, row.offeredBy],
     placeId: offerer.placeId,
     source: source(
       api,
-      `${offeredBy} at ${position.organizationId} offered ${position.title} at ${position.hourlyMinor} cents an hour (${id}).`,
+      `${row.offeredBy} at ${row.organizationId} offered ${row.title} at ${row.hourlyMinor} cents an hour (${row.id}).`,
     ),
     facts: {
-      offeredBy,
-      invitedId: personId,
-      offerId: id,
-      organizationId: position.organizationId,
-      title: position.title,
+      offeredBy: row.offeredBy,
+      invitedId: row.personId,
+      offerId: row.id,
+      organizationId: row.organizationId,
+      title: row.title,
       hourlyMinor: String(row.hourlyMinor),
-      deadline,
+      deadline: row.deadline,
+      // The offerer calling back about an offer the person put off, and the
+      // reply that put it off.
+      ...(again
+        ? { again: "yes", putOffReplyId: row.putOffReplyId ?? "" }
+        : {}),
     },
+  });
+}
+
+/**
+ * A put-off (the person said they would call back, or had to go) is kept on
+ * the offer: the offerer calls back once, on the offer's last day. With no
+ * later day left, the lapse settles it.
+ */
+function keepPutOff(api: CoreAPI, offerId: string, replyId: string): void {
+  const row = store(api).table("offers").get(offerId) as
+    JobOfferRow | undefined;
+  if (row?.status !== "pending" || row.putOffReplyId) return;
+  store(api)
+    .table("offers")
+    .put({ ...row, putOffReplyId: replyId } as never);
+  if (row.deadline <= core(api).date) return;
+  api.moduleCalendar(JOBS_MODULE_ID).schedule({
+    key: `jobs-offer-call-back:${row.id}`,
+    date: row.deadline,
+    kind: "jobs-offer-call-back",
+    source: source(
+      api,
+      `The offerer calls back about ${row.id} on its last day, ${row.deadline}.`,
+    ),
+    sourceRecordIds: [row.id],
   });
 }
 
@@ -5035,6 +5079,8 @@ function answerOffer(api: CoreAPI, event: Readonly<CoreEventInput>): void {
   const offerId = String(offer.facts?.offerId ?? "");
   if (ACCEPTING_REPLIES.has(move)) acceptJobOffer(api, offerId);
   else if (REFUSING_REPLIES.has(move)) declineJobOffer(api, offerId);
+  else if (PUT_OFF_REPLIES.has(move) && !offer.facts?.again)
+    keepPutOff(api, offerId, event.id);
 }
 
 /** Closes an offer: its position free for others again. */
@@ -5635,6 +5681,11 @@ export const JOBS_MODULE: CoreModule = {
       // People living elsewhere work by the same pulls, reviewed the same day.
       reviewWorkElsewhere(api);
       scheduleReview(api);
+    } else if (work.kind === "jobs-offer-call-back") {
+      const row = store(api)
+        .table("offers")
+        .get(work.sourceRecordIds[0] ?? "") as JobOfferRow | undefined;
+      if (row?.status === "pending") jobOffered(api, row, true);
     } else if (work.kind === "jobs-offer-lapse") {
       const row = store(api)
         .table("offers")

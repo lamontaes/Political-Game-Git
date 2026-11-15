@@ -1374,29 +1374,29 @@ function composeBinding(
         sourceRecordIds: [moment.causeId, outlet.id],
       };
   }
-  // The call back about an invitation the player put off (meetings.ts
-  // debateCallBack, press.ts pressWeek): the record's `again`. The day the
+  // The call back about an invitation or offer the player put off
+  // (meetings.ts debateCallBack, press.ts pressWeek, jobs.ts keepPutOff): the
+  // record's `again`. The day the
   // debate goes on without them is said only as "tomorrow", the one day the
   // moderator's "It's {when}." is true of (the call back is the day before);
   // any other day plays the line without it (Words lead, Nov 15).
   if (
     (record?.kind === DEBATE_INVITED_EVENT ||
-      record?.kind === INTERVIEW_INVITED_EVENT) &&
+      record?.kind === INTERVIEW_INVITED_EVENT ||
+      record?.kind === JOB_OFFERED_EVENT) &&
     said.again === "yes"
   ) {
     facts["called-back"] = { text: "yes", sourceRecordIds: [moment.causeId] };
-    // What the put-off said, from its reply's record: a walk-off asked for a
-    // call, else the put-off line's own kind (rules: callBack.said). The
-    // opening fits it (Words lead, Nov 15, 07:50Z).
+    // What the put-off said, from its reply's record: the put-off line's own
+    // kind (rules: callBack.said), else a walk-off. The opening fits it
+    // (Words lead, Nov 15, 07:50Z and 09:05Z).
     const putOff = said.putOffReplyId
       ? core.durableLog.get(said.putOffReplyId)
       : undefined;
     const putOffSaid =
-      putOff?.facts?.move === "leave"
-        ? "put-off-left"
-        : (rulesFile.callBack.said as Readonly<Record<string, string>>)[
-            String(putOff?.facts?.piece ?? "")
-          ];
+      (rulesFile.callBack.said as Readonly<Record<string, string>>)[
+        String(putOff?.facts?.piece ?? "")
+      ] ?? (putOff?.facts?.move === "leave" ? "put-off-left" : undefined);
     if (putOff && putOffSaid)
       facts[putOffSaid] = {
         text: "yes",
