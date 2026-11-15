@@ -5,10 +5,10 @@ area: laws
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/project-thread-8fxsy5
-pr:
+pr: #9578
 after:
 blocked-on:
 lead: laws-effects
