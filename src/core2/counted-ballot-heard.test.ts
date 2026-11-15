@@ -97,6 +97,8 @@ describe("a counted ballot reads its group's heard stance once and keeps it", ()
           ...(Number.isFinite(row.college?.[i])
             ? { collegeFromAverage: row.college![i]! }
             : {}),
+          ...(row.seed === undefined ? {} : { seed: row.seed }),
+          ...(row.life?.[i] ? { life: row.life[i]! } : {}),
         };
         const withHeard: StanceProfile = {
           ...base,

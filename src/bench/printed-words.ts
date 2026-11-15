@@ -2910,6 +2910,22 @@ const emergency: Builder = (read, f) => {
   );
 };
 
+/** A governor's disaster window closing with nothing declared: the act not taken, and the disaster it was about. */
+const emergencyLapsed: Builder = (read, f) => {
+  const id = read.first();
+  // The disaster as the room says it ("the flood"), from the incident type on the record.
+  const kind = f.incidentType?.toLowerCase().replace(/\//g, " or ");
+  return story(
+    "emergency-lapsed",
+    {
+      ...read.who(id, "name", false),
+      ...(kind ? { disaster: read.fact(kind, f.hazardRecordId ?? "") } : {}),
+    },
+    ["disaster"],
+    id,
+  );
+};
+
 /** Who took an office by the line of succession, and whether as acting. */
 const succession: Builder = (read, f) => {
   const id = read.first();
@@ -4135,6 +4151,7 @@ const BUILDERS: Readonly<Record<string, Builder>> = {
   "official-trip": officialTrip,
   "ribbon-cut": ribbonCut,
   "emergency-declared": emergency,
+  "executive.emergency-lapsed": emergencyLapsed,
   succession,
   "recall-answer": recallReply,
   "ballot-measure-result": measureResult,

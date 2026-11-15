@@ -37,3 +37,5 @@ checked: fable 2026-11-10
 **Files.** src/core2/modules/executive.ts, data/research/executive/executive-powers-2026.json, src/core2/data/executive/emergency.json, src/core2/emergency-declaration.test.ts
 
 **Notes.** Evidence in docs/design/scenes/from-life/disaster-first-hours.md. Lead laws-effects. Words does not build engine records.
+
+Nov 15 (governor's briefing room builder): the governor's side now plays as the `emergency-briefing` scene (executive.ts writes `executive.emergency-offered`; the scene stages from it; the data map is `briefing` in src/core2/data/executive/emergency.json). The mayor's and county executive's briefing waits on this item: when a local emergency offer exists for a player mayor, add a cause row to the same situation type and a map of local department posts; do not build a second scene type.

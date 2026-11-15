@@ -1,20 +1,36 @@
 /**
- * Home prices over time: FHFA's all-transactions house price index for each
- * state, quarterly from 1985 through its latest quarter. Past the latest
- * quarter, and where FHFA has no rows (Puerto Rico and the island areas),
- * prices follow consumer prices (CPI-U) instead.
+ * Home prices are this world's own (owner, Nov 13, 2026: "it's simulated...
+ * things need to be simulated in order to make your modern day make sense").
+ * Each place keeps one price level, a typical home's value, that the housing
+ * engine steps once a month from causes:
+ *
+ *   ln L' = ln L + momentum * (last year's change) / 12
+ *                + reversion * (ln F - ln L)
+ *                + pressureResponse * tanh(pressure / pressureScale)
+ *   ln F  = ln pay + rateResponse * ln A(rate)
+ *
+ * - pay: what buyers earn, indexed to day one (the town's own pay in play,
+ *   smoothed over a year; the economy's pay before day one).
+ * - A(rate): the loan a fixed monthly payment carries at the 30-year rate.
+ * - momentum: buyers expect last year's change to go on (Capozza et al.).
+ * - reversion: the market closes the gap to what pay and rates support.
+ * - pressure: the month's buyers against the homes offered, over the homes
+ *   owned (zero before day one).
+ *
+ * Published data calibrates the three responses (the fit in
+ * scripts/research/home-price-fit.ts against FHFA's state indexes) and the
+ * level's scale once (the ACS median at its value date); it never sets the
+ * level. Every home's value is the one rule `homeValueAt`.
  */
-import housingData from "./data/housing/housing.json" with { type: "json" };
-import history from "./data/macro/history.json" with { type: "json" };
 import housingParameters from "./data/housing/parameters.json" with { type: "json" };
-import { parameter } from "./parameters";
 import { worldOffsetUnit } from "./world-draw";
-import { stopgap } from "./stopgaps";
 
 const HOUSING_ROWS = housingParameters as unknown as Record<
   string,
   { value: number }
 >;
+const pv = (key: string) => HOUSING_ROWS[key]!.value;
+
 /**
  * A signed offset between the floor share of the named housing spread row and
  * the whole spread, fixed by the world's seed and the key: generation of the
@@ -31,95 +47,73 @@ export function housingWorldOffset(
   );
 }
 
-const HPI = housingData.housePriceIndex.states as unknown as Record<
-  string,
-  Record<string, number>
->;
-const CPI = new Map(
-  (history.annualCpi as { year: number; index: number }[]).map((row) => [
-    row.year,
-    row.index,
-  ]),
-);
-const CPI_YEARS = [...CPI.keys()].sort((a, b) => a - b);
-/** ACS 2020-2024 five-year values are dated at the window's middle. */
-export const ACS_VALUE_DATE = "2022-07-01";
-
-function cpiAt(year: number): number {
-  const at = Math.min(Math.max(year, CPI_YEARS[0]!), CPI_YEARS.at(-1)!);
-  return CPI.get(at)!;
-}
-
-function quarterKey(date: string): string {
-  const month = Number(date.slice(5, 7));
-  return `${date.slice(0, 4)}-Q${Math.ceil(month / 3)}`;
-}
-
 /** A price level by date (the economy's simulated consumer prices), when the caller has one. */
 export type PriceLevel = (date: string) => number | undefined;
 
-function priceRatio(from: string, to: string, level?: PriceLevel): number {
-  const a = level?.(from),
-    b = level?.(to);
-  if (a && b) return b / a;
-  return cpiAt(Number(to.slice(0, 4))) / cpiAt(Number(from.slice(0, 4)));
+/** ACS 2020-2024 five-year values are dated at the window's middle. */
+export const ACS_VALUE_DATE = "2022-07-01";
+
+export type P = (key: string) => number;
+
+/** The loan one dollar a month carries for 30 years at a yearly percentage rate. */
+export function loanPerPayment(ratePct: number, p: P): number {
+  const months = p("macroMonthsPerYear");
+  const term = p("housingMortgageTermYears") * months;
+  const r = ratePct / p("macroHundred") / months;
+  return r > 0 ? (1 - (1 + r) ** -term) / r : term;
 }
 
-/** The state's index on a date; null when FHFA has no rows for it. */
-function indexAt(
-  usps: string,
-  date: string,
-  level?: PriceLevel,
-): number | null {
-  const rows = HPI[usps];
-  if (!rows) return null;
-  const key = quarterKey(date);
-  if (rows[key] !== undefined) return rows[key]!;
-  const keys = Object.keys(rows).sort();
-  if (key < keys[0]!) return rows[keys[0]!]!;
-  // Past the latest quarter, the latest index moved with consumer prices since.
-  const last = keys.at(-1)!;
-  stopgap("SG-WORLD-housing-price-index");
-  const lastDate = `${last.slice(0, 4)}-${String(Number(last.slice(-1)) * 3 - 1).padStart(2, "0")}-15`;
-  return rows[last]! * priceRatio(lastDate, date, level);
-}
-
-/**
- * How much a home's price moved from one date to another in a state, in this
- * world: the published move (FHFA, else consumer prices) with its growth scaled
- * once by the world's own offset for the state, so a world's prices ran a
- * little faster or slower than the published series (owner, Oct 27: realistic,
- * not real). Play reads this.
- */
-export function homePriceRatio(
-  usps: string,
-  from: string,
-  to: string,
-  seed: string,
-  level?: PriceLevel,
-): number {
+/** What pay and the mortgage rate support, in logs (the level's anchor before its scale). */
+export function supportedLog(payIndex: number, ratePct: number, p: P): number {
   return (
-    publishedHomePriceRatio(usps, from, to, level) **
-    (parameter("one") +
-      housingWorldOffset(
-        seed,
-        `price-trend:${usps}`,
-        "housingWorldPriceTrendSpreadShare",
-      ))
+    Math.log(payIndex) +
+    pv("housingPriceRateResponse") * Math.log(loanPerPayment(ratePct, p))
   );
 }
 
-/** How much a home's price moved from one date to another in a state, as published (calibration). */
-export function publishedHomePriceRatio(
-  usps: string,
-  from: string,
-  to: string,
-  level?: PriceLevel,
+/** The inputs one month's step reads, kept so Trace can show them. */
+export interface PriceStepInputs {
+  /** Buyers' pay, indexed to day one. */
+  readonly payIndex: number;
+  /** The 30-year mortgage rate, percent. */
+  readonly ratePct: number;
+  /** Buyers less homes offered, over the homes owned (zero before day one). */
+  readonly pressure: number;
+}
+
+/**
+ * One month's step of a place's log level. `recent` is the log level of the
+ * last 13 months, oldest first (the momentum reads the year's change).
+ */
+export function stepLogLevel(
+  logLevel: number,
+  recent: readonly number[],
+  inputs: PriceStepInputs,
+  p: P,
 ): number {
-  const a = indexAt(usps, from, level),
-    b = indexAt(usps, to, level);
-  if (a && b) return b / a;
-  // No state index (Puerto Rico, the island areas): consumer prices stand in.
-  stopgap("SG-WORLD-housing-price-index");
-  return priceRatio(from, to, level);
+  const months = p("macroMonthsPerYear");
+  const yearChange =
+    recent.length > months ? recent.at(-1)! - recent.at(-1 - months)! : 0;
+  return (
+    logLevel +
+    (pv("housingPriceMomentum") * yearChange) / months +
+    (pv("housingPriceReversionPerYear") / months) *
+      (supportedLog(inputs.payIndex, inputs.ratePct, p) - logLevel) +
+    pv("housingPricePressureResponse") *
+      Math.tanh(inputs.pressure / pv("housingPricePressureScale"))
+  );
+}
+
+/**
+ * The one value rule: a home valued at `valueMinor` when its place's level was
+ * `levelThen` is worth that times the level now over the level then.
+ */
+export function homeValueAt(
+  valueMinor: number,
+  levelThen: number,
+  levelNow: number,
+): number {
+  return levelThen > 0
+    ? Math.round((valueMinor * levelNow) / levelThen)
+    : valueMinor;
 }
