@@ -915,6 +915,13 @@ export function atLargeGroup(
   return group.length > 1 ? group : [contest];
 }
 
+/** Whether the contest's election day is behind us, by its record; false for a contest no longer (or not yet) on record. */
+export function contestPassed(api: CoreAPI, contestId: string): boolean {
+  const contest = table(api, "contests").get(contestId) as unknown as
+    ContestRow | undefined;
+  return !!contest && contest.electionDate < api.state.date;
+}
+
 /** Contests whose filing is open today, soonest deadline first. */
 export function openContests(api: CoreAPI): readonly ContestRow[] {
   const today = api.state.date;

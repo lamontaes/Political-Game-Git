@@ -95,6 +95,8 @@
     "said": "The subject of a policy question as a person names it after 'on' or 'about' (\"drug prices\"), from the question's `said` in data/english/question-names.json; never a side (the side is said as what it does to the speaker). `about` stays for lines that name the thing itself.",
     "seat": "The seat a race is for, as people say it (\"the Mutual Village Council\", \"mayor\"), from the elections engine's contest and the office's record through the one seat wording.",
     "bill": "A bill, by its title, from the legislature record.",
+    "meeting-body": "The town body whose meeting a friend asked the player to, as its record names it (City Council), from the office-day engine's meeting record.",
+    "meeting-held": "The day that meeting was held, told as past (\"yesterday\", \"the other day\", \"on March 4th\"), from the meeting's record.",
     "their_when": "When the asker last saw someone both know, said as people say it (\"last week\"), from the asker's own tie's last contact."
   },
   "maxWords": 10,
@@ -6564,7 +6566,8 @@
           "subject": "asked-mutual",
           "role": "answer",
           "choice": "saw",
-          "requiresFacts": ["my_when"]
+          "requiresFacts": ["my_when"],
+          "excludesFacts": ["mutual-he", "mutual-she"]
         }
       ],
       "transcriptsUsing": 3,
@@ -10631,9 +10634,9 @@
         "weather.gov": 1,
         "wpa": 6
       },
-      "key": "conversation.asked-mutual-answer-turn.why",
+      "key": "conversation.asked-mutual-answer-ask-why.why",
       "kind": "spoken",
-      "move": "asked-mutual-answer-turn",
+      "move": "asked-mutual-answer-ask-why",
       "source": {
         "date": "2026-09-10",
         "document": "Remarks at the Republican National Committee Midterm Convention Closing in Dallas, Texas",
@@ -10648,8 +10651,8 @@
       "transcriptsUsing": 956,
       "uses": [
         {
-          "choice": "turn",
-          "move": "asked-mutual-answer-turn",
+          "choice": "ask-why",
+          "move": "asked-mutual-answer-ask-why",
           "role": "answer",
           "subject": "asked-mutual"
         }
@@ -10891,7 +10894,8 @@
           "subject": "asked-mutual",
           "role": "answer",
           "choice": "saw",
-          "requiresFacts": ["my_when"]
+          "requiresFacts": ["my_when"],
+          "excludesFacts": ["mutual-he", "mutual-she"]
         }
       ],
       "transcriptsUsing": 8,
@@ -14150,7 +14154,8 @@
           "move": "asked-mutual-answer-not",
           "subject": "asked-mutual",
           "role": "answer",
-          "choice": "not"
+          "choice": "not",
+          "excludesFacts": ["my_lately"]
         }
       ],
       "origin": "authored",
@@ -14171,7 +14176,8 @@
           "move": "asked-mutual-answer-not",
           "subject": "asked-mutual",
           "role": "answer",
-          "choice": "not"
+          "choice": "not",
+          "excludesFacts": ["my_lately"]
         }
       ],
       "origin": "authored",
@@ -14192,7 +14198,8 @@
           "move": "asked-mutual-answer-not",
           "subject": "asked-mutual",
           "role": "answer",
-          "choice": "not"
+          "choice": "not",
+          "requiresFacts": ["my_not"]
         }
       ],
       "origin": "authored",
@@ -14213,7 +14220,8 @@
           "move": "asked-mutual-answer-brief",
           "subject": "asked-mutual",
           "role": "answer",
-          "choice": "brief"
+          "choice": "brief",
+          "requiresFacts": ["my_not"]
         }
       ],
       "origin": "authored",
@@ -14225,37 +14233,16 @@
       }
     },
     {
-      "key": "conversation.asked-mutual-answer-brief.nope-not-in-a-while",
-      "move": "asked-mutual-answer-brief",
-      "kind": "spoken",
-      "text": "Nope. Not in a while.",
-      "uses": [
-        {
-          "move": "asked-mutual-answer-brief",
-          "subject": "asked-mutual",
-          "role": "answer",
-          "choice": "brief"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "bearing": "guarded",
-      "tag": {
-        "move": "answer"
-      }
-    },
-    {
-      "key": "conversation.asked-mutual-answer-turn.why-do-you-ask",
-      "move": "asked-mutual-answer-turn",
+      "key": "conversation.asked-mutual-answer-ask-why.why-do-you-ask",
+      "move": "asked-mutual-answer-ask-why",
       "kind": "spoken",
       "text": "Why do you ask?",
       "uses": [
         {
-          "move": "asked-mutual-answer-turn",
+          "move": "asked-mutual-answer-ask-why",
           "subject": "asked-mutual",
           "role": "answer",
-          "choice": "turn"
+          "choice": "ask-why"
         }
       ],
       "origin": "authored",
@@ -14265,6 +14252,78 @@
       "tag": {
         "move": "ask"
       }
+    },
+    {
+      "key": "conversation.asked-mutual-answer-saw.i-saw-him-my-when",
+      "move": "asked-mutual-answer-saw",
+      "kind": "spoken",
+      "text": "I saw him {my_when}.",
+      "uses": [
+        {
+          "move": "asked-mutual-answer-saw",
+          "subject": "asked-mutual",
+          "role": "answer",
+          "choice": "saw",
+          "requiresFacts": ["mutual-he", "my_when"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (thread: election results brought up), for the Words lead's stamp",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.asked-mutual-answer-saw.i-saw-her-my-when",
+      "move": "asked-mutual-answer-saw",
+      "kind": "spoken",
+      "text": "I saw her {my_when}.",
+      "uses": [
+        {
+          "move": "asked-mutual-answer-saw",
+          "subject": "asked-mutual",
+          "role": "answer",
+          "choice": "saw",
+          "requiresFacts": ["mutual-she", "my_when"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (thread: election results brought up), for the Words lead's stamp",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.asked-mutual-answer-saw.i-talked-to-him-my-when",
+      "move": "asked-mutual-answer-saw",
+      "kind": "spoken",
+      "text": "I talked to him {my_when}.",
+      "uses": [
+        {
+          "move": "asked-mutual-answer-saw",
+          "subject": "asked-mutual",
+          "role": "answer",
+          "choice": "saw",
+          "requiresFacts": ["mutual-he", "my_when"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (thread: election results brought up), for the Words lead's stamp",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.asked-mutual-answer-saw.i-talked-to-her-my-when",
+      "move": "asked-mutual-answer-saw",
+      "kind": "spoken",
+      "text": "I talked to her {my_when}.",
+      "uses": [
+        {
+          "move": "asked-mutual-answer-saw",
+          "subject": "asked-mutual",
+          "role": "answer",
+          "choice": "saw",
+          "requiresFacts": ["mutual-she", "my_when"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (thread: election results brought up), for the Words lead's stamp",
+      "date": "2026-11-15"
     },
     {
       "key": "conversation.asked-kin-answer-brief.no-should-i",
@@ -37411,6 +37470,132 @@
       "date": "2026-11-14"
     },
     {
+      "key": "conversation.promise-kept-raise.thanks-for-coming-to-the-meeting-body-meeting-it-helped",
+      "move": "promise-kept-raise",
+      "kind": "spoken",
+      "text": "Thanks for coming to the {meeting-body} meeting. It helped.",
+      "uses": [
+        {
+          "move": "promise-kept-raise",
+          "subject": "promise-kept",
+          "role": "raise",
+          "requiresFacts": ["promise-attend", "meeting-body"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (attend raises, Nov 15)",
+      "date": "2026-11-15",
+      "bearing": "calm"
+    },
+    {
+      "key": "conversation.promise-kept-raise.glad-you-came-to-the-meeting-body-meeting-id-have-sat-alone",
+      "move": "promise-kept-raise",
+      "kind": "spoken",
+      "text": "Glad you came to the {meeting-body} meeting. I'd have sat alone.",
+      "uses": [
+        {
+          "move": "promise-kept-raise",
+          "subject": "promise-kept",
+          "role": "raise",
+          "requiresFacts": ["promise-attend", "meeting-body"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (attend raises, Nov 15)",
+      "date": "2026-11-15",
+      "bearing": "calm"
+    },
+    {
+      "key": "conversation.promise-kept-raise.you-said-youd-come-to-the-meeting-body-meeting-you-did",
+      "move": "promise-kept-raise",
+      "kind": "spoken",
+      "text": "You said you'd come to the {meeting-body} meeting. You did.",
+      "uses": [
+        {
+          "move": "promise-kept-raise",
+          "subject": "promise-kept",
+          "role": "raise",
+          "requiresFacts": ["promise-attend", "meeting-body"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (attend raises, Nov 15)",
+      "date": "2026-11-15",
+      "bearing": "calm"
+    },
+    {
+      "key": "conversation.promise-broken-raise.looked-for-you-at-the-meeting-body-meeting-you-said-youd-come",
+      "move": "promise-broken-raise",
+      "kind": "spoken",
+      "text": "Looked for you at the {meeting-body} meeting. You said you'd come.",
+      "uses": [
+        {
+          "move": "promise-broken-raise",
+          "subject": "promise-broken",
+          "role": "raise",
+          "requiresFacts": ["promise-attend", "meeting-body"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (attend raises, Nov 15)",
+      "date": "2026-11-15",
+      "bearing": "calm"
+    },
+    {
+      "key": "conversation.promise-broken-raise.you-said-youd-come-to-the-meeting-body-meeting-you-didnt",
+      "move": "promise-broken-raise",
+      "kind": "spoken",
+      "text": "You said you'd come to the {meeting-body} meeting. You didn't.",
+      "uses": [
+        {
+          "move": "promise-broken-raise",
+          "subject": "promise-broken",
+          "role": "raise",
+          "requiresFacts": ["promise-attend", "meeting-body"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (attend raises, Nov 15)",
+      "date": "2026-11-15",
+      "bearing": "calm"
+    },
+    {
+      "key": "conversation.promise-broken-raise.i-went-to-the-meeting-body-meeting-by-myself-meeting-held-what-happened",
+      "move": "promise-broken-raise",
+      "kind": "spoken",
+      "text": "I went to the {meeting-body} meeting by myself {meeting-held}. What happened?",
+      "uses": [
+        {
+          "move": "promise-broken-raise",
+          "subject": "promise-broken",
+          "role": "raise",
+          "requiresFacts": ["promise-attend", "meeting-body", "meeting-held"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (attend raises, Nov 15)",
+      "date": "2026-11-15",
+      "bearing": "calm"
+    },
+    {
+      "key": "conversation.promise-broken-raise.i-waited-for-you-outside-the-meeting-body-meeting-you-didnt-come",
+      "move": "promise-broken-raise",
+      "kind": "spoken",
+      "text": "I waited for you outside the {meeting-body} meeting. You didn't come.",
+      "uses": [
+        {
+          "move": "promise-broken-raise",
+          "subject": "promise-broken",
+          "role": "raise",
+          "requiresFacts": ["promise-attend", "meeting-body"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (attend raises, Nov 15)",
+      "date": "2026-11-15",
+      "bearing": "calm"
+    },
+    {
       "key": "conversation.address-point-opener-lead.the-president-blocked-about",
       "move": "address-point-opener-lead",
       "kind": "spoken",
@@ -46013,6 +46198,120 @@
       "origin": "authored",
       "author": "Words builder S3 (Words lead's ruling of Nov 14, 22:50Z: how a relative says how someone died)",
       "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.asked-mutual-give-core.just-wondering-i-saw-him-their-when",
+      "move": "asked-mutual-give-core",
+      "kind": "spoken",
+      "text": "Just wondering. I saw him {their_when}.",
+      "uses": [
+        {
+          "move": "asked-mutual-give-core",
+          "subject": "asked-mutual-give",
+          "role": "core",
+          "stages": ["ask-why"],
+          "requiresFacts": ["mutual-he", "their_when"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (thread: election results brought up), for the Words lead's stamp",
+      "date": "2026-11-15",
+      "piece": {
+        "of": "asked-mutual-give",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "conversation.asked-mutual-give-core.just-wondering-i-saw-her-their-when",
+      "move": "asked-mutual-give-core",
+      "kind": "spoken",
+      "text": "Just wondering. I saw her {their_when}.",
+      "uses": [
+        {
+          "move": "asked-mutual-give-core",
+          "subject": "asked-mutual-give",
+          "role": "core",
+          "stages": ["ask-why"],
+          "requiresFacts": ["mutual-she", "their_when"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (thread: election results brought up), for the Words lead's stamp",
+      "date": "2026-11-15",
+      "piece": {
+        "of": "asked-mutual-give",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "conversation.asked-mutual-give-core.no-reason-i-ran-into-him-their-when",
+      "move": "asked-mutual-give-core",
+      "kind": "spoken",
+      "text": "No reason. I ran into him {their_when}.",
+      "uses": [
+        {
+          "move": "asked-mutual-give-core",
+          "subject": "asked-mutual-give",
+          "role": "core",
+          "stages": ["ask-why"],
+          "requiresFacts": ["mutual-he", "their_when"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (thread: election results brought up), for the Words lead's stamp",
+      "date": "2026-11-15",
+      "piece": {
+        "of": "asked-mutual-give",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "conversation.asked-mutual-give-core.no-reason-i-ran-into-her-their-when",
+      "move": "asked-mutual-give-core",
+      "kind": "spoken",
+      "text": "No reason. I ran into her {their_when}.",
+      "uses": [
+        {
+          "move": "asked-mutual-give-core",
+          "subject": "asked-mutual-give",
+          "role": "core",
+          "stages": ["ask-why"],
+          "requiresFacts": ["mutual-she", "their_when"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (thread: election results brought up), for the Words lead's stamp",
+      "date": "2026-11-15",
+      "piece": {
+        "of": "asked-mutual-give",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "conversation.asked-mutual-give-core.same-about-then",
+      "move": "asked-mutual-give-core",
+      "kind": "spoken",
+      "text": "Same, about then.",
+      "uses": [
+        {
+          "move": "asked-mutual-give-core",
+          "subject": "asked-mutual-give",
+          "role": "core",
+          "stages": ["same"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (thread: election results brought up), for the Words lead's stamp",
+      "date": "2026-11-15",
+      "piece": {
+        "of": "asked-mutual-give",
+        "part": "core",
+        "required": true
+      }
     },
     {
       "key": "conversation.news-back-core.the-body-passed-it",
