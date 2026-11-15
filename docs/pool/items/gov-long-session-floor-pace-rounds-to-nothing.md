@@ -5,9 +5,9 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: open
+status: in-pr
 claimed-by: claude/cluster11-long-session-floor-pace
-pr:
+pr: #9535
 blocked-on:
 source: "the lying thread's trace of why a played legislator never gets a vote to work for (Nov 15), relayed by the coordinator"
 after:
