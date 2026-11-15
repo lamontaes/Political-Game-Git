@@ -5,11 +5,11 @@ area: words
 kind: bug
 priority: 2
 size: M
-status: open
+status: in-pr
 standard: 2
-claimed-by:
+claimed-by: Account lead builder (reporter's call thread)
 pr:
-after: scandal-call-says-what-the-paper-found
+after:
 blocked-on:
 lead: words
 model: opus
@@ -18,18 +18,20 @@ root: none
 source: Account lead builder, Nov 15, found while placing the Words lead's day word for the scandal call ("the day word is read from the story's run day on the record, never fixed")
 ---
 
-**What.** The scandal call says "We're running a story that says you took money from..." and closes on "It runs tomorrow.", but the story has already run: the paper printed it the day it exposed the act, and the call comes after. What the player says on the call never reaches the story. Seen: the reporter calls before the story runs, the close names the day it runs from the record, and the story prints the player's admission, denial or decline once, in the paper's words.
+**What.** The scandal call says "We're running a story that says you took money from..." and closes on "It runs tomorrow.", but the story has already run: the paper printed it the day it exposed the act, and the call comes after. What the player says on the call never reaches the story. Seen: the reporter calls before the story runs, and the story prints the official's admission, denial or decline once, in the paper's words.
 
 **Cause.** Found in code: src/core2/modules/press.ts `weighTip` emits `press.exposed` and calls `printItem` (src/core2/press-desk.ts) on the same day (`date: api.state.date`), so the printed story exists before the director stages the scandal call from the exposure (purpose-scene.ts reads `press.exposed`). Nothing writes the call's reply back to the story.
 
-**Fix.** In press.ts, an exposure of a person the director watches holds its print for the call: the story's run day is set on the exposure's record (the next edition of the outlet), the call reads it as `{day}` (day-words `dateSaid`), and the print runs on that day with the reply the scene wrote (scene.reply with the call's ending: on-the-record, no-comment, lie-printed, caught). An exposure of anyone else prints as today. The Words lead's closes by outlet kind ("It runs {day}.", "It airs {day}.", "It's in the next issue.", "It goes up {day}.", reply-sets/oath-bribe-scandal.md) replace "It runs tomorrow.". No second print path: the one `printItem` runs, a day later.
+**Fix.** A class, not one case (Account lead, Nov 15): every person the paper exposes is asked for comment before it prints. In press.ts `weighTip` keeps the exposure on the tips row (`exposedId`, `runsOn`) and schedules calendar work `press-run` on the outlet's next print day (`exposureCommentDays`, ESTIMATED from the SPJ code's "seek comment before publication", spread 1 to 7; never a tuned hold). `runExposure` prints it then through the one `printItem`, with the comment: the scandal call's ending when the official had the call (`keepComment`: on-the-record admitted; no-comment, left-there, source-fight declined; lie-printed, caught denied), "declined" for a player who never took the call, and for an unattended official their own lean on the `scene-talk.move` decision (confess or lie over refuse). The Words lead's closes by outlet kind ("It runs {day}." and the rest) replace "It runs tomorrow." in the scandal call's own pull request (scandal-call-says-what-the-paper-found), which builds on this one.
 
 **Time box.** 3 hours, one Opus session at medium.
 
-**Rules.** Ask why: the run day and the printed reply cite the exposure and the call by record id. Tests pinned to Gilbert, Iowa (1930630), seed reporters-call-1, staged through the game's own path as src/director/scandal-call.test.ts does.
+**Rules.** Ask why: the run day and the printed comment cite the exposure and the call by record id. Tests pinned to named places and seeds (src/core2/press-owners.test.ts, src/core2/press-conflict-exposed.test.ts).
 
-**Done when.** A second session takes a bribe in a drawn town with a reporter, has it leaked, and gets the call before the story runs; the close names the run day; the story on that day carries what the player said.
+**Done when.** A second session has a bribe leaked in a drawn town with a reporter: the exposure is on the record the day it is found and the story is not; the story prints on the run day with the official's comment; an unattended official's comment follows their own lean.
 
-**Files.** src/core2/modules/press.ts, src/core2/press-desk.ts, src/director/purpose-scene.ts, data/english/parts/scene-talk.json
+**Files.** src/core2/modules/press.ts, src/core2/data/press/parameters.json, src/core2/press-owners.test.ts, src/core2/press-conflict-exposed.test.ts
 
 **Notes.**
+
+- Nov 15: split from the scandal call at the coordinator's ruling; the call is pushed after this folds.
