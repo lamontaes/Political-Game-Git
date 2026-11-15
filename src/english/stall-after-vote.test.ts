@@ -35,6 +35,19 @@ const AHEAD = [
   "The vote's in two weeks. After is too late for my readers.",
   "Everybody else on the council has told me where they are.",
   "We'll see how it holds up after the vote.",
+  "It's too early to say.",
+  "I want to hear from the people I represent first.",
+  "Let me look at the numbers first.",
+  "We'll know more next week.",
+  "You'll have it the same day everybody else does.",
+  "Ask me next week, when there's more to say.",
+];
+// Placed on the vote: the honest ways to put a reporter off about a vote
+// already cast (Words lead, Nov 15).
+const AFTER_VOTE = [
+  "I'd rather not get into it tonight.",
+  "Give me a day. I want to say it right.",
+  "I'll explain it at the next meeting, in front of everybody.",
 ];
 const SPOTS = [
   { step: "reply", move: "stall", role: "asked" },
@@ -75,5 +88,8 @@ describe("after the vote, no reply says the vote is still ahead", () => {
       expect(after.length).toBeGreaterThan(0);
       const ahead = AFTER.flatMap((a) => offered(spot, before, a));
       expect(ahead.some((text) => AHEAD.includes(text))).toBe(true);
+      expect(ahead.filter((text) => AFTER_VOTE.includes(text))).toEqual([]);
+      if (spot.move === "stall")
+        expect(AFTER_VOTE.every((text) => after.includes(text))).toBe(true);
     });
 });

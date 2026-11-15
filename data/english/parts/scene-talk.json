@@ -14512,7 +14512,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "press"
+          "after": "press",
+          "excludesFacts": ["vote-held"]
         }
       ],
       "bearing": "guarded",
@@ -54146,7 +54147,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "press"
+          "after": "press",
+          "excludesFacts": ["vote-held"]
         }
       ],
       "bearing": "guarded",
@@ -103198,7 +103200,8 @@
           "move": "stall",
           "role": "asked",
           "purpose": "press-comment",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["vote-held"]
         }
       ],
       "bearing": "guarded",
@@ -103222,7 +103225,8 @@
           "move": "stall",
           "role": "asked",
           "purpose": "press-comment",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["vote-held"]
         }
       ],
       "bearing": "tender",
@@ -103272,7 +103276,8 @@
           "move": "stall",
           "role": "asked",
           "purpose": "press-comment",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["vote-held"]
         }
       ],
       "bearing": "calm",
@@ -103296,7 +103301,8 @@
           "move": "stall",
           "role": "asked",
           "purpose": "press-comment",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["vote-held"]
         }
       ],
       "bearing": "calm",
@@ -185658,6 +185664,81 @@
           "requiresFacts": ["no-consistency", "voted-against-before"]
         }
       ]
+    },
+    {
+      "key": "scene-talk.reply-stall.id-rather-not-get-into-it-tonight",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "I'd rather not get into it tonight.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "purpose": "press-comment",
+          "key": "routine",
+          "requiresFacts": ["vote-held"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words lead, civic-prose",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "stall",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-stall.give-me-a-day-i-want-to-say-it-right",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "Give me a day. I want to say it right.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "purpose": "press-comment",
+          "key": "routine",
+          "requiresFacts": ["vote-held"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead, civic-prose",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "stall",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-stall.ill-explain-it-at-the-next-meeting-in-front-of-everybody",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "I'll explain it at the next meeting, in front of everybody.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "purpose": "press-comment",
+          "key": "routine",
+          "requiresFacts": ["vote-held"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead, civic-prose",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "stall",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.reply-refuse.you-asked-me-this-before-it-s-still-no",

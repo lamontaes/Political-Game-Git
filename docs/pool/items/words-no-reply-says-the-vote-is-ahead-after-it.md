@@ -34,6 +34,8 @@ branch: claude/project-thread-irab2z
 
 **Notes.** Nov 15: widened from seven to twelve lines at the Words lead's 02:14Z note. Not taken, for the reporter's-call thread: "{place} votes in November..." (the election, still true after the vote), "Half now, half after the vote?" (plays only before a vote), and a stated side needing the matching voted fact (plan part 1b).
 
+Nov 15 02:33Z, Words lead's ruling: six more put-offs are excluded once the vote is held ("It's too early to say.", "I want to hear from the people I represent first.", "Let me look at the numbers first.", "We'll know more next week.", "You'll have it the same day everybody else does.", "Ask me next week, when there's more to say."), and three stalls placed on vote-held are added ("I'd rather not get into it tonight.", "Give me a day. I want to say it right.", "I'll explain it at the next meeting, in front of everybody.").
+
 **Waits on.** Nothing.
 
 **Files.** data/english/parts/scene-talk.json, src/english/stall-after-vote.test.ts (new)

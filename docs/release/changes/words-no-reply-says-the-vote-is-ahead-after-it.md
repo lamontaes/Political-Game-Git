@@ -6,3 +6,4 @@ title: After a vote, the official no longer tells the reporter the vote is still
 ---
 
 On the reporter's call after a vote, the replies no longer include "I'm still reading it." or "They'll see when I vote."
+After the vote, an official who would rather not talk yet says so plainly: "Give me a day. I want to say it right."
