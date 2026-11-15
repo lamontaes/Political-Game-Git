@@ -78,3 +78,12 @@ The review rules in the skill `words-engine` (its lessons of Nov 11), and these,
 - **Before and after screens, same script, same seed (Nov 15).** For a screen change, make the walk take the place key and world seed from the environment (`NEWS_PLACE_KEY`, `NEWS_SEED`) and a mode that records without asserting (`NEWS_BEFORE=1`), run it on the changed branch, then `git stash -u`, restart the bench (`pkill -f src/bench/`, `npm run bench`) and run it again on the train code, then `git stash pop`. The git-excluded `.walk/` and `src/bench/zz-*.mjs` files survive the stash. A copy of the script that the train lacks goes in `src/bench/zz-<name>.mjs` (add it to `.git/info/exclude`). The family a creator life draws depends on its identity, so a before and an after run draw different people: compare how the family relates to the player, not the same faces. ImageMagick `montage` turns per-card shots into one sheet.
 - **Wait for a picture to finish loading before the shot (Nov 15).** A story picture is a file fetched on show; the check read `naturalWidth` after 300 ms and called a loaded picture "did not load". Wait for `img.complete` first.
 - **A walk can start in a chosen place (Nov 15).** The new-life request takes `placeKey` (a place's key from `searchCorePlaces`, such as `1562600` for Pearl City, Hawaii), which a script adds with a `page.route` on `**/api/newlife*`, as `bill-amend.browser.mjs` does with `BENCH_PLACEKEY`. Use it to see one wording at named places (an own-named body, a state's reading, a new row) instead of waiting for a draw. A place takes about two minutes to build and open.
+
+## Replaying Visit or Call (Nov 15, Visit/Call thread)
+
+A new life offers no Call on day 1: calls need weeks of play, and the card's ties are housemates and relatives elsewhere, so a replay needs a life where the player has met someone. Advance with `POST /api/advance?mode=week`, then reload `/play` and click `front-continue` before reading the card.
+
+## Two walk traps from the fee bills (Nov 15)
+
+- At a State House seat the clock halts on a Yes, No, Abstain card for another member's bill, and the halt covers the rings. A walk answers the card the way a player does, and opens tabs with an evaluate click.
+- A fault seen in a walk is checked on the clean train at the same place and seed before it is blamed on a pull request, and a watch on a walk's first output line fires too soon.
