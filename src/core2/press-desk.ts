@@ -109,6 +109,8 @@ const MEETING_KIND = "public-meeting";
 const NOTICE_KIND = "election-notice";
 /** A reader's letter to the editor (the press's weekly letters step). */
 const LETTER_KIND = "press.letter";
+/** An endorsement kept and announced; the outlet's own is its editorial. */
+const ENDORSED_KIND = "campaign-endorsed";
 /** The week's sittings that took up nothing, printed as one brief. */
 export const MEETINGS_WEEK_KIND = "meetings-week";
 
@@ -906,8 +908,25 @@ export function runDesk(
   const letters = open.filter(
     (item) => item.kind === LETTER_KIND && item.facts?.outletId === outlet.id,
   );
+  // The outlet's own endorsement is its editorial, the paper speaking for
+  // itself under its head's name: printed in its own pages after the column,
+  // as a letter is, never a reporter's pick. It is the race's endorsement
+  // story at this outlet that week, so no group's endorsement of the same
+  // race takes its place (Marshfield, Massachusetts, seed 75d9b7ad: five
+  // papers' endorsements went unprinted behind cause groups' of the same
+  // races, Sep 29 to Oct 8, 2025).
+  const editorials = open.filter(
+    (item) =>
+      item.kind === ENDORSED_KIND &&
+      item.facts?.organizationId === outlet.organizationId,
+  );
   const base = open
-    .filter((item) => !told.has(item.id) && item.kind !== LETTER_KIND)
+    .filter(
+      (item) =>
+        !told.has(item.id) &&
+        item.kind !== LETTER_KIND &&
+        !editorials.includes(item),
+    )
     .map((item) => ({
       item,
       proximity: p(
@@ -935,7 +954,9 @@ export function runDesk(
   // 3c91e07a5d2f8b14:agree:0, printed council seats 0 and 2 of one race).
   const bills = new Set<string>();
   // The races whose money or backing this outlet has told this week.
-  const racesTold = new Set<string>();
+  const racesTold = new Set<string>(
+    editorials.flatMap((item) => raceTold(item) ?? []),
+  );
   const out: PrintedStory[] = [];
   for (const reporterId of outlet.reporterIds) {
     if (!api.state.people.get(reporterId)?.alive) continue;
@@ -1162,6 +1183,36 @@ export function runDesk(
           },
           facts: { [VIEWS_SPEAKER_KEY]: writer },
         },
+      ),
+    );
+  }
+  // The week's editorial: the outlet's own endorsement, under the name of
+  // the head who weighed the race, its readers moved by their standing with
+  // them.
+  for (const item of editorials) {
+    const head = item.facts?.speakerId;
+    if (!head || !api.state.people.get(head)?.alive) continue;
+    const proximity = p(
+      (outlet.tier === "national" ? NATIONAL_PROXIMITY : PROXIMITY)[item.level],
+    );
+    out.push(
+      printItem(
+        api,
+        ctx,
+        outlet,
+        head,
+        item,
+        {
+          proximity,
+          readerCare: 0,
+          people: 0,
+          renown: 0,
+          drive: 0,
+          score: proximity,
+          rank: 1,
+          weighed: editorials.length,
+        },
+        { facts: { [VIEWS_SPEAKER_KEY]: head } },
       ),
     );
   }
