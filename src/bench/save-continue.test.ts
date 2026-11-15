@@ -35,8 +35,7 @@ const ask = async (method: string, path: string) => {
 /** A day forward, as the player takes it: a pause the day stops on is stopped, as the Stop control does. */
 const day = async () => {
   const packet = (await ask("POST", "/api/advance?mode=day")).packet as
-    | { kind?: string; pauseId?: string }
-    | undefined;
+    { kind?: string; pauseId?: string } | undefined;
   if (packet?.pauseId && packet.kind !== "complete" && packet.kind !== "choice")
     await ask(
       "POST",

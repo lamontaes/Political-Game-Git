@@ -4823,7 +4823,8 @@ const sheets = {
   async saves() {
     await controlsReady;
     const words = controls.saves;
-    if (!titleSaves.length) return [plate(null, prose(words.none, "saves-none"))];
+    if (!titleSaves.length)
+      return [plate(null, prose(words.none, "saves-none"))];
     return titleSaves.map((life) =>
       personCard(
         { name: life.name, face: life.face },

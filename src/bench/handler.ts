@@ -3055,7 +3055,8 @@ export async function benchRequest(
         commands: [command],
         skipped: [],
       };
-    } else if (state.life?.core === state.core) state.life.commands.push(command);
+    } else if (state.life?.core === state.core)
+      state.life.commands.push(command);
     // Written after every request that moved the date (and a new life).
     if (state.core.date !== date || state.core !== was) saveLifeNow();
   }
