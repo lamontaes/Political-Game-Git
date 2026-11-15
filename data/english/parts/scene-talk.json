@@ -4910,7 +4910,8 @@
           "move": "deflect",
           "role": "asked",
           "purpose": "press-comment",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["vote-held"]
         }
       ],
       "bearing": "guarded",
@@ -9188,7 +9189,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "onlyWhen": ["bill"]
+          "onlyWhen": ["bill"],
+          "excludesFacts": ["vote-held"]
         }
       ],
       "bearing": "guarded",
@@ -14480,7 +14482,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "press"
+          "after": "press",
+          "excludesFacts": ["vote-held"]
         }
       ],
       "bearing": "guarded",
@@ -102969,7 +102972,8 @@
           "move": "deflect",
           "role": "asked",
           "purpose": "press-comment",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["vote-held"]
         }
       ],
       "bearing": "guarded",
@@ -103139,7 +103143,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "onlyWhen": ["bill"]
+          "onlyWhen": ["bill"],
+          "excludesFacts": ["vote-held"]
         }
       ],
       "bearing": "calm",
@@ -103163,7 +103168,8 @@
           "move": "stall",
           "role": "asked",
           "purpose": "press-comment",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["vote-held"]
         }
       ],
       "bearing": "calm",
@@ -103236,7 +103242,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "onlyWhen": ["bill"]
+          "onlyWhen": ["bill"],
+          "excludesFacts": ["vote-held"]
         }
       ],
       "bearing": "guarded",
