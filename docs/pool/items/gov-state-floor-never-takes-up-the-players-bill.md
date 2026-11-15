@@ -7,7 +7,7 @@ priority: 2
 size: M
 status: in-pr
 claimed-by: claude/cluster11-floor-date
-pr:
+pr: #9459
 blocked-on:
 source: found by hand while replaying the State House fee walks (cluster 13, PR #9308); the cause here replaces the first write-up
 after:
