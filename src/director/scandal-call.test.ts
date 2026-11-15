@@ -14,6 +14,7 @@ import {
   leakToReporter,
   outletsHere,
   PRESS_EXPOSED,
+  PRESS_MODULE_ID,
   townOutlet,
 } from "../core2/modules/press";
 import { BUSINESS_MODULE_ID } from "../core2/business-module-id";
@@ -23,7 +24,7 @@ import { OWNER_RELATION } from "../core2/modules/contracts";
 import { organizationName } from "./words";
 import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
-import { purposeScene } from "./purpose-scene";
+import { purposeScene, replyInScene } from "./purpose-scene";
 import type { TreeNode } from "./scene-talk";
 
 // The scandal call says what the paper found (owner, Nov 15: "I've got a
@@ -146,12 +147,18 @@ it("a scandal call names who paid and what for (Gilbert IA, seed reporters-call-
     reporterId,
     crimeId: offered!.id,
   });
-  expect(tip.storyId, `dig ${tip.dig} run ${tip.run}`).toBeTruthy();
+  expect(tip.exposedId, `dig ${tip.dig} run ${tip.run}`).toBeTruthy();
   const exposedId = [...(core.logByKind.get(PRESS_EXPOSED) ?? [])].find((id) =>
     String(id).includes(offered!.id),
   );
   expect(exposedId).toBeTruthy();
-  advanceCore(core, addDays(makeIsoDate(core.date), 1));
+  // The paper holds the story for the call: nothing is printed yet.
+  const tips = api.moduleState(PRESS_MODULE_ID).table("tips");
+  const held = tips.get(offered!.id) as unknown as Record<string, unknown>;
+  expect(held.storyId, "held for comment").toBeFalsy();
+  // The day is measured as play measures it for a player on the clock (the
+  // leak here comes between days): the call is staged the day of the finding.
+  director.stageOwnPress(core, me, String(exposedId));
   const entry = director.ledger.people
     .get(me)
     ?.schedule.find(
@@ -160,10 +167,12 @@ it("a scandal call names who paid and what for (Gilbert IA, seed reporters-call-
         row.bindings.some((b) => b.typeKey === "scandal"),
     );
   expect(entry, "the exposure stages the scandal call").toBeTruthy();
-  // The day of the exposure, when press.ts prints the story too
-  // (printItem's date), against the day the call is staged.
+  // The call comes the day of the finding; the story runs on the day the
+  // exposure names, after it.
+  const runsOn = String(core.durableLog.get(String(exposedId))?.facts?.runsOn);
+  expect((entry as unknown as { date: string }).date < runsOn).toBe(true);
   process.stdout.write(
-    `DAYS exposed and printed ${core.durableLog.get(String(exposedId))?.date}, call ${(entry as unknown as { date: string }).date}\n`,
+    `DAYS found ${core.durableLog.get(String(exposedId))?.date}, call ${(entry as unknown as { date: string }).date}, runs ${runsOn}\n`,
   );
   const result = purposeScene(core, director, me, entry!, {
     typeKey: "scandal",
@@ -185,6 +194,19 @@ it("a scandal call names who paid and what for (Gilbert IA, seed reporters-call-
   // Nothing about minutes, a signature or a story with no subject.
   for (const text of said)
     expect(text).not.toMatch(/minutes|sign anything|a story about you/i);
+  // The player owns it ("It's true. I was wrong, and I'll say so.", then "I
+  // don't have a good answer for you."); the story runs on its day with that.
+  expect(
+    replyInScene(core, director, me, entry!, [0, 0], { typeKey: "scandal" }),
+  ).toBeTruthy();
+  expect(tips.get(offered!.id)?.storyId, "not before its day").toBeFalsy();
+  advanceCore(core, runsOn);
+  const ran = tips.get(offered!.id) as unknown as Record<string, unknown>;
+  expect(ran.storyId, "runs on its day").toBeTruthy();
+  expect(ran.comment).toBe("admitted");
+  process.stdout.write(
+    `RAN ${String(ran.storyId)} comment ${String(ran.comment)}\n`,
+  );
 }, 60_000);
 
 // A conflict on an award: no award is made in a world's first weeks, so the
@@ -261,10 +283,13 @@ it("a conflict call names the contract, the firm and whose it is (Gilbert IA, se
         ownerId: owner.id,
         relation,
         outletId: outlet.id,
+        // The paper's next print day, as press.ts weighTip sets it.
+        runsOn: addDays(makeIsoDate(core.date), 1),
       },
       source: { tag: "SOURCED", citation: "fixture", asOf: core.date },
     });
-    advanceCore(core, addDays(makeIsoDate(core.date), 1));
+    // Staged the day of the finding, as play measures it for a player.
+    director.stageOwnPress(core, memberId, id);
     const entry = director.ledger.people
       .get(memberId)
       ?.schedule.find(

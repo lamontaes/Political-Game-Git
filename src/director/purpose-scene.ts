@@ -1215,6 +1215,11 @@ function composeBinding(
     const cited = [moment.causeId, exposed.recordId];
     facts[`found-${exposed.found}`] = { text: "yes", sourceRecordIds: cited };
     facts["knows-truth"] = { text: "yes", sourceRecordIds: cited };
+    // The paper holds the story for the official's comment until its next
+    // print day (press.ts weighTip `runsOn`); the reporter says when it runs.
+    const runsOn = said.runsOn ? dayAhead(said.runsOn, core.date) : null;
+    if (runsOn)
+      facts["runs-on"] = { text: runsOn, sourceRecordIds: [moment.causeId] };
     if (exposed.contractLine)
       facts.contract = {
         text: contractSaid(exposed.contractLine),
@@ -1462,9 +1467,10 @@ function composeBinding(
         )
       : undefined;
     const outlet = core.organizations.get(row?.organizationId ?? said.outletId);
-    // A paper says when the story runs ("It runs tomorrow."); a station does not.
-    if (row?.kind === "newspaper")
-      facts["outlet-newspaper"] = {
+    // How the outlet carries the story decides how a reporter says when it
+    // comes out (a paper runs it, a station airs it, a site puts it up).
+    if (row)
+      facts[`outlet-${row.kind}`] = {
         text: "yes",
         sourceRecordIds: [moment.causeId, row.id],
       };

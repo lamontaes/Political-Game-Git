@@ -21571,10 +21571,10 @@
       }
     },
     {
-      "key": "scene-talk.close-accept.it-runs-tomorrow",
+      "key": "scene-talk.close-accept.it-runs-runs-on",
       "move": "close-accept",
       "kind": "spoken",
-      "text": "It runs tomorrow.",
+      "text": "It runs {runs-on}.",
       "uses": [
         {
           "subject": "scene",
@@ -21585,7 +21585,7 @@
           "key": "threat",
           "after": "leave",
           "outcome": "open",
-          "requiresFacts": ["outlet-newspaper"]
+          "requiresFacts": ["outlet-newspaper", "runs-on"]
         },
         {
           "subject": "scene",
@@ -21595,13 +21595,187 @@
           "move": "answer",
           "role": "asker",
           "after": "scene-talk.reply-confront.print-it-then-we-re-done",
-          "requiresFacts": ["outlet-newspaper"]
+          "requiresFacts": ["outlet-newspaper", "runs-on"]
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "scandal-comment",
+          "key": "threat",
+          "after": "leave",
+          "outcome": "open",
+          "requiresFacts": ["outlet-national-paper", "runs-on"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "scandal-comment",
+          "key": "threat",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "scene-talk.reply-confront.print-it-then-we-re-done",
+          "requiresFacts": ["outlet-national-paper", "runs-on"]
         }
       ],
       "bearing": "calm",
       "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
+      "author": "Words lead",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "accept",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.it-airs-runs-on",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "It airs {runs-on}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "scandal-comment",
+          "key": "threat",
+          "after": "leave",
+          "outcome": "open",
+          "requiresFacts": ["outlet-television", "runs-on"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "scandal-comment",
+          "key": "threat",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "scene-talk.reply-confront.print-it-then-we-re-done",
+          "requiresFacts": ["outlet-television", "runs-on"]
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "scandal-comment",
+          "key": "threat",
+          "after": "leave",
+          "outcome": "open",
+          "requiresFacts": ["outlet-cable", "runs-on"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "scandal-comment",
+          "key": "threat",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "scene-talk.reply-confront.print-it-then-we-re-done",
+          "requiresFacts": ["outlet-cable", "runs-on"]
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "scandal-comment",
+          "key": "threat",
+          "after": "leave",
+          "outcome": "open",
+          "requiresFacts": ["outlet-radio", "runs-on"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "scandal-comment",
+          "key": "threat",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "scene-talk.reply-confront.print-it-then-we-re-done",
+          "requiresFacts": ["outlet-radio", "runs-on"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "accept",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.it-s-in-the-next-issue",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "It's in the next issue.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "scandal-comment",
+          "key": "threat",
+          "after": "leave",
+          "outcome": "open",
+          "requiresFacts": ["outlet-magazine"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "scandal-comment",
+          "key": "threat",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "scene-talk.reply-confront.print-it-then-we-re-done",
+          "requiresFacts": ["outlet-magazine"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "accept",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.it-goes-up-runs-on",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "It goes up {runs-on}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "scandal-comment",
+          "key": "threat",
+          "after": "leave",
+          "outcome": "open",
+          "requiresFacts": ["outlet-online", "runs-on"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "scandal-comment",
+          "key": "threat",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "scene-talk.reply-confront.print-it-then-we-re-done",
+          "requiresFacts": ["outlet-online", "runs-on"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead",
+      "date": "2026-11-15",
       "tag": {
         "move": "accept",
         "key": "threat"
