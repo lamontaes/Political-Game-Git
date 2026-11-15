@@ -135,6 +135,7 @@ Load a skill when its trigger fits; descriptions say when. Every session, first:
 - `player-screen-text`: checking every string a player sees
 - `pool-notes`: pool-only changes go in one bundle an hour; the cap on new work
 - `pr-fixer`: finishing sent-back PRs
+- `press-desk-reach`: which stories a town's outlets print, how a record's reach is weighed by its readers, and proving a desk change by story kind
 - `promises`: a promise made in a scene, kept or broken by the record that settles it, and said at the next talk
 - `red-main`: taking a red on main from report to fix
 - `remove-a-stopgap`: replacing and unregistering a stopgap row
@@ -150,6 +151,7 @@ Load a skill when its trigger fits; descriptions say when. Every session, first:
 - `session-start`: the pool worker loop
 - `skill-lessons`: the skills learn from each day
 - `slim-down`: removing dead and duplicate code with no behavior change
+- `speech-planner`: every speech built from the one planner: the click rule, by-day and evening facts, wording draws, and the checks before a Words reader
 - `speed-work`: timing a year, proving a cut changes nothing, folding what grows
 - `standing-rules-self-check`: one-line answers for the standing rules no other skill covers, and the dev-mode rule for every effect
 - `term-read`: reading a term by policy area, the kind of an address and the town's strikes, protests and rallies

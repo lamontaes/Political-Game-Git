@@ -186,6 +186,44 @@ export function metThrough(
 }
 
 /**
+ * The last day two people were together: their row's last contact, or the
+ * last sitting of a body both sit on, whichever is later; null when neither
+ * says they ever were. The one answer to "when did these two last see each
+ * other", for the hours a tie has lost and for whether the player has seen
+ * someone lately (calendar.ts).
+ */
+export function lastTogether(
+  core: Pick<CoreState, "relationships">,
+  a: PersonId,
+  b: PersonId,
+): IsoDate | null {
+  if (a === b) return null;
+  return timeTogether(core, a, b, false).last;
+}
+
+function timeTogether(
+  core: Pick<CoreState, "relationships">,
+  a: PersonId,
+  b: PersonId,
+  withHours: boolean,
+): {
+  row: Relationship | undefined;
+  last: IsoDate | null;
+  shared: { now: number; kind: string }[];
+} {
+  const row = core.relationships.get(a < b ? `${a}:${b}` : `${b}:${a}`);
+  const shared: { now: number; kind: string }[] = [];
+  let last: IsoDate | null = row ? row.lastContactDate : null;
+  for (const [reader, known] of knownReaders) {
+    const met = known.together(core, a, b);
+    if (!met) continue;
+    if (withHours) shared.push({ now: reader(core, a, b), kind: known.kind });
+    if (!last || met.last > last) last = met.last as IsoDate;
+  }
+  return { row, last, shared };
+}
+
+/**
  * The hours a tie has lost since the two were last together, over all its
  * time: the row's own and each reader's shared hours, each at its half-life,
  * since the last day any of them had the two together (the row's last
@@ -202,15 +240,7 @@ export function tieHoursLost(
   b: PersonId,
 ): number {
   const p = lookup(core);
-  const row = core.relationships.get(a < b ? `${a}:${b}` : `${b}:${a}`);
-  const shared: { now: number; kind: string }[] = [];
-  let last: IsoDate | null = row ? row.lastContactDate : null;
-  for (const [reader, known] of knownReaders) {
-    const met = known.together(core, a, b);
-    if (!met) continue;
-    shared.push({ now: reader(core, a, b), kind: known.kind });
-    if (!last || met.last > last) last = met.last as IsoDate;
-  }
+  const { row, last, shared } = timeTogether(core, a, b, true);
   if (!last) return p("zero");
   let lost = p("zero");
   if (row) {

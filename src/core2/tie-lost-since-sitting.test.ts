@@ -14,25 +14,17 @@
  * each reader's from its own last day), 016 and 022 read 0.05472.
  *
  * Re-pinned when committees, caucuses and the rest of a session day became
- * shared hours (pool: legislature-colleague-ties-stay-slight). The earlier
- * premise was that every pair who last talked a week or more before (103
- * then) has lost less than its row alone says, with 026 and 030 named. That
- * held only while a pair's shared floor hours were small. Now the chamber
- * gives a pair 4.7 to 6.5 hours, so a few days since the last sitting on the
- * whole tie can lose more than weeks on a 1-hour row. Six pairs are stale
- * here, and two read the tie over the row, right by the rule: 014 and 022
- * (row 0.02983, tie 0.03800; old form 0.06270) and 022 and 024 (row 0.02398,
- * tie 0.02816; old form 0.04762). 026 and 030 are no longer stale.
+ * shared hours (pool: legislature-colleague-ties-stay-slight), and again when
+ * the colleagues the player sits with came back into the player's circle
+ * (they choose daily again, so more pairs talk). The pair 016 and 022 carries
+ * the test and reads the same numbers through both. The count of stale pairs
+ * it also asserted (103, then 6, now 32) described the world, not the rule,
+ * and is gone.
  */
 import { expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "./bookkeeping";
-import {
-  hoursLost,
-  metThrough,
-  sharedHoursBetween,
-  tieHoursLost,
-} from "./closeness";
+import { hoursLost, metThrough, tieHoursLost } from "./closeness";
 import { gameStartDate } from "./game-start";
 import { makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
@@ -40,9 +32,6 @@ import { bodyOf, memberKey, members } from "./modules/legislature";
 import { townSeats } from "./modules/offices";
 import { coreAPI, fillInPerson } from "./state";
 import type { PersonId } from "./types";
-
-// Measured on this head: 6 pairs who last talked a week or more before.
-const STALE = 6;
 
 it("a colleague who sat with you since your last talk is missed from that sitting, not from the talk", () => {
   setBookkeeping(false);
@@ -67,21 +56,7 @@ it("a colleague who sat with you since your last talk is missed from that sittin
   const b = named("022");
 
   advanceCore(core, makeIsoDate("2025-02-28"));
-  // Every pair of senators who last talked at least a week ago and know each
-  // other through the floor.
-  const stale: string[] = [];
-  for (const x of ids)
-    for (const y of ids) {
-      if (x >= y) continue;
-      const row = core.relationships.get(`${x}:${y}`);
-      if (!row || row.lastContactDate > "2025-02-21") continue;
-      if (!(sharedHoursBetween(core, x as PersonId, y as PersonId) > 0))
-        continue;
-      stale.push(`${x.split(":")[5]}-${y.split(":")[5]}`);
-    }
-  expect(stale.length).toBe(STALE);
-
-  // One of them, by the numbers.
+  // The named pair, by the numbers.
   const row = core.relationships.get(`${a}:${b}`)!;
   expect(row.lastContactDate).toBe("2025-02-03");
   expect(metThrough(core, a, b)?.date).toBe("2025-02-03");
