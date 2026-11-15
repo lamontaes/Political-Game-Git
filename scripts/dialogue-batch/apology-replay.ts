@@ -31,13 +31,16 @@ const attempts = process.argv
 // quarrels between the two), or with the wronged housemate out of money (the
 // pressed arc reads their cash). Both go through the credit and quarrel
 // engines; only the missed-payment record and the empty purse are staged.
+// `--evening` plays the scene at 8:30 p.m. (the stop's hour), the hour that
+// lines marked off the daytime play in.
+const EVENING = process.argv.includes("--evening");
 const MODES = (
   process.argv.includes("--modes")
     ? process.argv[process.argv.indexOf("--modes") + 1]!
     : "plain"
 ).split(",");
 const lines: string[] = [
-  "# Apology scene replay (pinned places, seed apology-pin)",
+  `# Apology scene replay (pinned places, seed apology-pin${EVENING ? ", evening 8:30 p.m." : ""})`,
   "",
 ];
 const say = (line: SceneTalkLine, depth: number) =>
@@ -116,8 +119,23 @@ for (const attempt of attempts.length ? attempts : [0, 1]) {
       const tie = core.relationships.get(`${a}:${b}`);
       if (tie) tie.level = 0.05;
     }
-    const result = entry
-      ? purposeScene(core, director, id, entry, { typeKey: "apology" })
+    // The scene's hour is the schedule entry's stop (purposeScene reads it
+    // from the entry, not from its options): evening mode sets 8:30 p.m. there.
+    const timed =
+      entry && EVENING
+        ? {
+            ...entry,
+            stop: {
+              recordId: entry.stop?.recordId ?? "replay",
+              at: {
+                date: entry.stop?.at.date ?? makeIsoDate(core.date),
+                minuteOfDay: 20 * 60 + 30,
+              },
+            },
+          }
+        : entry;
+    const result = timed
+      ? purposeScene(core, director, id, timed, { typeKey: "apology" })
       : null;
     if (result?.kind !== "composed") {
       lines.push(`- no scene: ${result?.kind ?? "none scheduled"}`, "");
@@ -132,6 +150,7 @@ for (const attempt of attempts.length ? attempts : [0, 1]) {
       say(talk.state, 0),
     );
     walk(talk.tree, 1);
+    if (talk.gaps.length) lines.push("", `Gaps: ${talk.gaps.join("; ")}`);
     lines.push("");
   }
 }

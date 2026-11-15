@@ -140718,7 +140718,8 @@
           "move": "press",
           "role": "asker",
           "purpose": "owed-apology.money",
-          "key": "routine"
+          "key": "routine",
+          "after": "apologize"
         }
       ],
       "bearing": "guarded",
@@ -140742,7 +140743,8 @@
           "move": "press",
           "role": "asker",
           "purpose": "owed-apology.money",
-          "key": "routine"
+          "key": "routine",
+          "after": "apologize"
         }
       ],
       "bearing": "hurt",
@@ -141287,7 +141289,8 @@
           "move": "press",
           "role": "asker",
           "purpose": "owed-apology.close",
-          "key": "routine"
+          "key": "routine",
+          "after": "apologize"
         }
       ],
       "bearing": "hurt",
@@ -141311,7 +141314,8 @@
           "move": "press",
           "role": "asker",
           "purpose": "owed-apology.close",
-          "key": "routine"
+          "key": "routine",
+          "after": "apologize"
         }
       ],
       "bearing": "tender",
@@ -185103,7 +185107,8 @@
           "move": "promise",
           "role": "asked",
           "purpose": "owed-apology.money",
-          "key": "routine"
+          "key": "routine",
+          "after": "press"
         }
       ],
       "origin": "authored",
@@ -185122,7 +185127,8 @@
           "move": "promise",
           "role": "asked",
           "purpose": "owed-apology.money",
-          "key": "routine"
+          "key": "routine",
+          "after": "press"
         }
       ],
       "origin": "authored",
@@ -185162,7 +185168,7 @@
           "role": "asked",
           "purpose": "owed-apology.close",
           "key": "routine",
-          "after": "press"
+          "after": "scene-talk.follow-press.close.sorry-helps-first-i-d-like-to-know-how-you-ll-make-sure-it-doesn-t-happen-again"
         }
       ],
       "origin": "authored",

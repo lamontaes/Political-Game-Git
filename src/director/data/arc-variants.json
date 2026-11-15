@@ -2319,7 +2319,7 @@
               "tell": ["accept", "press"]
             },
             "again": {
-              "press": ["tell", "leave"],
+              "press": ["tell", "apologize", "leave"],
               "answer": ["apologize", "deflect"]
             },
             "endings": [
