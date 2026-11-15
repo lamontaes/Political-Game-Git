@@ -1145,6 +1145,29 @@ export function outletsHere(api: CoreAPI): readonly OutletRow[] {
 }
 
 /**
+ * How a person says an outlet: what it is (a paper is read in, a television or
+ * online outlet is seen on, a radio station is heard on) and whether its name
+ * takes "the" ("the Wendell Gazette"; a station's call letters and a name that
+ * already opens with "The" do not). Read from the outlet's record, so every
+ * line that names an outlet can say it the same way.
+ */
+export function outletTelling(
+  api: CoreAPI,
+  organizationId: string,
+  name: string,
+):
+  | {
+      readonly medium: "paper" | "television" | "radio" | "online";
+      readonly the: boolean;
+    }
+  | undefined {
+  const row = outletsHere(api).find((o) => o.organizationId === organizationId);
+  if (!row) return undefined;
+  const medium = outletMedium(row.kind) ?? "online";
+  return { medium, the: medium === "paper" && !/^the\s/i.test(name) };
+}
+
+/**
  * The outlet that carries the town's public record: the town's own
  * newspaper, else its first local outlet. Null where no press is installed.
  */

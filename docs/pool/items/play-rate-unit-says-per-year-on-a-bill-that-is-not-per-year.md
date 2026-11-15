@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 3
 size: S
-status: open
+status: in-pr
 claimed-by:
-pr:
+pr: #9392
 blocked-on:
 standard: 2
 model: sonnet
@@ -22,9 +22,9 @@ checked:
 
 **What.** The draft card and the issues list say the property tax rate in force is "0.28% of home value". The same bill's estimate boxes say "0.31% of home value per year" and "0.34% of home value per year". A rate worded two ways in one flow reads as two different things. Seen: the bill paper's "What it would do" boxes and the draft card in the Your office tab, Politics ring.
 
-**Cause.** Needs cause. Read first: the estimate's unit in `billEstimate` in src/bench/play.mjs, and the card's `amount(item.today.value, item.today.unit)`; check whether two unit tables word one unit.
+**Cause.** Found in code: the bill catalog spells the property tax rate's unit as the phrase "percent of home value per year" (src/core2/data/legislature/bill-catalog.json), while the law row the town holds is "percent-of-home-value" (`laws-starting.ts`, line 174); a section's `after.unit` is `p.unit ?? before.unit` (`billSections`, src/core2/modules/legislature.ts near line 2292), so the estimate's two boxes take two spellings and `amount()` in src/bench/play.mjs words them "of home value" and "of home value per year".
 
-**Fix.** None until the cause is found.
+**Fix.** A section says its amount in the law's own unit (`unit: before.unit ?? p.unit` in `billSections`), and the catalog row, the starting-law source row and the calibration fixture spell the unit the law's way, "percent-of-home-value". The player sees one wording in the two boxes of "What it would do".
 
 **Time box.** 2 hours for one Sonnet session to find the cause and write it here. When it runs out, write what was read and stop.
 
