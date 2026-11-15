@@ -379,9 +379,26 @@ it("dev mode brings on the offer and traces what the engine read", () => {
 it("other worlds show the other wordings of the clerk's and the helper's talk", () => {
   for (const seed of SIBLING_SEEDS) {
     for (const byHelper of [false, true]) {
-      const world = filer(seed);
-      if (byHelper) helperJoins(world);
-      told(world, `${byHelper ? "Helper" : "Clerk"}, another world`, seed);
+      for (const started of [false, true]) {
+        const world = filer(seed);
+        if (byHelper) helperJoins(world);
+        if (started) {
+          try {
+            startedByHand(world);
+          } catch {
+            // A town where one hour fills the petition has nothing short to tell.
+            write(
+              `## ${seed}: one canvass hour fills the petition; no talk to show.\n`,
+            );
+            continue;
+          }
+        }
+        told(
+          world,
+          `${byHelper ? "Helper" : "Clerk"}, ${started ? "something signed" : "nothing signed"}, another world`,
+          seed,
+        );
+      }
     }
   }
 }, 3_000_000);

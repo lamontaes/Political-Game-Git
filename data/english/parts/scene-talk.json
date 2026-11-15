@@ -12081,15 +12081,6 @@
           "role": "asker",
           "purpose": "talk",
           "after": "confess"
-        },
-        {
-          "subject": "scene",
-          "purpose": "petition-short",
-          "key": "news-received",
-          "step": "reply",
-          "move": "thank",
-          "role": "asked",
-          "after": "thank"
         }
       ],
       "bearing": "tender",
@@ -190370,29 +190361,6 @@
       }
     },
     {
-      "key": "scene-talk.state-tell.your-petition-is-behind-and-time-is-short",
-      "move": "state-tell",
-      "kind": "spoken",
-      "text": "Your petition is behind, and time is short.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "petition-short",
-          "key": "news-received",
-          "step": "state",
-          "move": "tell",
-          "role": "asker"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (petition-short lines, Nov 15), placed by the record",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "tell",
-        "key": "news-received"
-      }
-    },
-    {
       "key": "scene-talk.reply-ask.how-bad-is-it",
       "move": "reply-ask",
       "kind": "spoken",
@@ -190633,30 +190601,6 @@
           "move": "thank",
           "role": "asker",
           "after": "promise"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (petition-short lines, Nov 15), placed by the record",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "thank",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.reply-thank.i-m-glad-you-said-something",
-      "move": "reply-thank",
-      "kind": "spoken",
-      "text": "I'm glad you said something.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "petition-short",
-          "key": "news-received",
-          "step": "reply",
-          "move": "thank",
-          "role": "asked",
-          "after": "thank"
         }
       ],
       "origin": "authored",

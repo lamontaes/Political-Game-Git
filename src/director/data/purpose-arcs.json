@@ -2770,7 +2770,7 @@
       "again": {
         "answer": ["promise", "deflect", "leave"],
         "press": ["promise", "deflect", "leave"],
-        "thank": ["thank", "leave"]
+        "thank": ["leave"]
       },
       "endings": [
         {
