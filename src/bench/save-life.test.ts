@@ -18,7 +18,8 @@ import { snapshotWorld } from "../core2/snapshot";
 import type { SaveV1 } from "../core2/saves";
 import { benchRequest, benchWorld, replayLife, savedLives } from "./handler";
 
-// Pinned (pinned-tests): this seed draws Opal, Wyoming.
+// Pinned (pinned-tests): this seed draws Opal, Wyoming. About 60 seconds
+// alone and 75 beside the other save tests.
 const seed = "save-continue-1";
 const DAYS = 4;
 
@@ -120,4 +121,4 @@ it(`a played life saves and replays into the same world, seed ${seed}`, async ()
   process.stdout.write(
     `save-life seed ${seed} (${placeId}): ${save.commands.length} requests saved (${JSON.stringify(save).length} bytes), replayed with ${played.size} fields equal; a save marked 0.0.0-older replayed with upgradedFrom set.\n`,
   );
-}, 120_000);
+}, 150_000);
