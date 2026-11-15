@@ -119,17 +119,32 @@ export const numberWord = (count: number): string =>
   NUMBER_WORDS[count] ?? String(count);
 
 /**
+ * A business's or an outlet's name as people say it: an outlet's (a newspaper,
+ * a station) as its record has it, since call letters are capitals by nature
+ * ("KZBY"); any other by `properName`. The one place that says it, for every
+ * line that names where someone works.
+ */
+export function businessNameSaid(org: {
+  readonly name: string;
+  readonly kind?: string;
+}): string {
+  return org.kind === "media" ? org.name : properName(org.name);
+}
+
+/**
  * An organization's name as people say it: a government's by its place
  * record's proper name ("McDowell County", "Town of Smithtown treasury"),
  * since the recorded name keeps the listing's capitals as its identity;
- * anyone else's by `properName`.
+ * an outlet's (a newspaper, a station) as its record has it, since call
+ * letters are capitals by nature ("KZBY"); anyone else's by `properName`.
  */
 export function organizationName(org: {
   readonly name: string;
+  readonly kind?: string;
   readonly governmentFacts?: Readonly<Record<string, unknown>>;
 }): string {
   const key = org.governmentFacts?.governmentKey;
-  if (typeof key !== "string") return properName(org.name);
+  if (typeof key !== "string") return businessNameSaid(org);
   const treasury = /\s+treasury$/i.exec(org.name);
   const government = treasury
     ? org.name.slice(P.zero, treasury.index)
