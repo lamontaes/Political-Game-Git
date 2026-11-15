@@ -68,7 +68,9 @@ import {
   countedParts,
   ensureKeptOff,
   keptOffOf,
+  addressKeyOf,
   onTheList,
+  registrationRow,
   reviewRegistrations,
   waitAnchor,
   daysSince,
@@ -98,9 +100,7 @@ import {
   standingPool,
 } from "../candidate-pool";
 import { coarsePlace, metResident } from "../coarse-place";
-import { placeReferencePopulation } from "../gov-rules/place-population";
-import { searchCorePlaces } from "../place-lookup";
-import { stableHash } from "../kernel/ids";
+import { drawStateHome } from "../places";
 import { closenessBetween } from "../closeness";
 import {
   decisionLean,
@@ -3549,6 +3549,53 @@ export function registeredAtPollsShare(api: CoreAPI, voterId: string): number {
   );
 }
 
+/** Where a named person stands with the rolls for an election day: on them, able to register at the polls (a state that does), or why not. */
+export type PollingStatus =
+  "on" | "same-day" | "old-address" | "not-registered" | "after-deadline";
+
+/** The one read of a named person's standing for a day's election, from their registration record and the state's laws in force. */
+export function pollingStatus(
+  api: CoreAPI,
+  personId: string,
+  date: string,
+): PollingStatus {
+  const person = api.state.people.get(personId);
+  if (!person) return "not-registered";
+  const reading = registrationReading(api, person, date, 0);
+  return reading.why === "on"
+    ? "on"
+    : reading.sameDay
+      ? "same-day"
+      : reading.why;
+}
+
+/**
+ * A person registers to vote at the address they live at, today, by their
+ * own act (a form, in a state that has one). It counts for an election whose
+ * deadline is still ahead; the record names who acted. False where they are
+ * on the rolls at this address already or may not vote here.
+ */
+export function registerToVote(api: CoreAPI, personId: string): boolean {
+  const person = api.state.people.get(personId);
+  if (!person || !mayVoteOn(api, personId, api.state.date)) return false;
+  const deps = registrations(api);
+  const row = registrationRow(deps, personId);
+  if (!row) return false;
+  const key = addressKeyOf(api, person);
+  if (row.registered && row.addressKey === key) return false;
+  table(api, "registrations").put({
+    ...row,
+    registered: true,
+    addressKey: key,
+    since: api.state.date,
+    how: "by-the-player",
+    staleSince: null,
+    lastAddress: key,
+    willing: true,
+  } as unknown as ModuleRow);
+  return true;
+}
+
 /**
  * A named voter's own ballot in a race, cast before election day (the
  * player's): a candidate, or null to leave the race blank.
@@ -3759,6 +3806,24 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
       continue;
     }
     const decided = atThePolls(api, voter, contest.electionDate, cycleCost);
+    // A ballot the player marked still counts. In a state that registers at
+    // the polls, a player who was not on the rolls registers there, the way
+    // any named voter does, and the day keeps it. (Where the state would turn
+    // them away the ballot is not yet refused: the player has no way to see
+    // their standing or register until the polling-place scenes and the
+    // register act's screen are built; `elections-player-registration-
+    // shown-and-acted` holds that step.)
+    const standing = chosen
+      ? registrationReading(api, voter, contest.electionDate, 0)
+      : null;
+    if (chosen && standing && standing.why !== "on" && standing.sameDay)
+      keepPollDay(
+        api,
+        voter,
+        contest.electionDate,
+        "registers-at-polls",
+        standing.why,
+      );
     if (chosen && !decided.votes) recordChosenVote(api, voter.id);
     const t = chosen ? { ...decided, votes: true } : decided;
     // The same choice rule as every voter's: the one they rank first where
@@ -7164,9 +7229,6 @@ function weighableFor(
   return { people, exclude };
 }
 
-/** How many towns a newcomer's home is drawn among, weighed by who lives there. */
-const NEWCOMER_TOWNS = 12;
-
 /**
  * A newcomer offered as a running mate, filled in: their name, birthday and
  * temperament as the officials engine drew them, a home town in the state
@@ -7184,30 +7246,7 @@ function offerNewcomer(
 ): void {
   if (api.state.people.has(id)) return;
   const seed = (api.state as CoreState).seed;
-  const towns = [
-    ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
-      stateJurisdictionKey: newcomer.stateKey,
-      scope: "locality",
-    }),
-  ]
-    .map((place) => ({
-      place,
-      order: stableHash(`${seed}:${id}:${place.key}`),
-    }))
-    .sort((a, b) => a.order.localeCompare(b.order))
-    .slice(0, NEWCOMER_TOWNS)
-    .map(({ place }) => ({
-      place,
-      people: place.sourceGeoid
-        ? (placeReferencePopulation(place.sourceGeoid, seed)?.value ?? 0)
-        : 0,
-    }));
-  const total = towns.reduce((sum, t) => sum + t.people, 0);
-  let at =
-    (parseInt(stableHash(`${seed}:${id}:home`).slice(0, 8), 16) / 0x100000000) *
-    total;
-  const home =
-    towns.find((t) => (at -= t.people) < 0)?.place ?? towns[0]?.place;
+  const home = drawStateHome(seed, id, newcomer.stateKey);
   const coarse = home ? coarsePlace(home.key, seed) : null;
   const met = coarse
     ? metResident(coarse, seed, `running-mate:${id}`)

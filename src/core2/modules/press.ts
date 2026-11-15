@@ -19,6 +19,7 @@ import bases from "../../../data/research/money/public-budget-bases.json" with {
 import rows from "../data/press/parameters.json" with { type: "json" };
 import briefs from "../data/press/briefs.json" with { type: "json" };
 import nationalJson from "../data/press/national.json" with { type: "json" };
+import endorsing from "../data/press/endorsements.json" with { type: "json" };
 import { bookkeeping } from "../bookkeeping";
 import { coreAPI, fillInPerson, registerModule } from "../state";
 import {
@@ -69,6 +70,7 @@ import {
   registerAdOutlet,
   parsePlatform,
   contestPositions,
+  outletWeighsRace,
   type CampaignRow,
   type ImpressionRow,
 } from "./campaigns";
@@ -197,6 +199,9 @@ const NATIONAL = nationalJson as unknown as {
   basedIn: string;
   kinds: readonly NationalKindRow[];
 };
+/** The kinds of outlet that endorse in an editorial (data/press/endorsements.json). */
+const ENDORSING_KINDS: ReadonlySet<string> = new Set(endorsing.kinds);
+
 const ALL_KINDS: readonly OutletKind[] = [
   ...KINDS,
   ...NATIONAL.kinds.map((row) => row.kind),
@@ -1137,6 +1142,29 @@ export function outletsHere(api: CoreAPI): readonly OutletRow[] {
   return (table(api, "outlets").rows() as unknown as OutletRow[])
     .slice()
     .sort((a, b) => a.id.localeCompare(b.id));
+}
+
+/**
+ * How a person says an outlet: what it is (a paper is read in, a television or
+ * online outlet is seen on, a radio station is heard on) and whether its name
+ * takes "the" ("the Wendell Gazette"; a station's call letters and a name that
+ * already opens with "The" do not). Read from the outlet's record, so every
+ * line that names an outlet can say it the same way.
+ */
+export function outletTelling(
+  api: CoreAPI,
+  organizationId: string,
+  name: string,
+):
+  | {
+      readonly medium: "paper" | "television" | "radio" | "online";
+      readonly the: boolean;
+    }
+  | undefined {
+  const row = outletsHere(api).find((o) => o.organizationId === organizationId);
+  if (!row) return undefined;
+  const medium = outletMedium(row.kind) ?? "online";
+  return { medium, the: medium === "paper" && !/^the\s/i.test(name) };
 }
 
 /**
@@ -4001,8 +4029,6 @@ function pressWeek(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   );
   pressPeopleLive(api);
   conflictBeat(api);
-  // stopgapId: SG-PEOPLE-press-endorsements
-  api.stopgap("SG-PEOPLE-press-endorsements");
   schoolResults(api);
   policeLog(api);
   milestones(api);
@@ -4133,6 +4159,33 @@ function pressWeek(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
           ?.status === "invited",
     );
     if (open.length) invited(api, open);
+  }
+  // Each outlet weighs the races on its beat once its interviews in a race
+  // are settled, or in the last week before the vote however they stand
+  // (the final edition before it): an editorial board hears the candidates
+  // before it endorses (`outletWeighsRace`).
+  const lastWeek = addDays(makeIsoDate(api.state.date), 7);
+  for (const outlet of outletsHere(api)) {
+    // Papers and magazines endorse; a station or network reports the race.
+    if (!ENDORSING_KINDS.has(outlet.kind)) continue;
+    const waiting = new Set(
+      (
+        table(api, "interviews").query("byOutlet", [
+          outlet.id,
+        ]) as unknown as InterviewRow[]
+      ).flatMap((row) =>
+        row.status === "invited" && row.contestId ? [row.contestId] : [],
+      ),
+    );
+    for (const contest of contests) {
+      if (!outletCoversContest(outlet, contest)) continue;
+      if (waiting.has(contest.id) && contest.electionDate >= lastWeek) continue;
+      outletWeighsRace(api, contest.id, {
+        organizationId: outlet.organizationId,
+        headId: outlet.headId,
+        followerIds: followersOf(api, outlet.id),
+      });
+    }
   }
 }
 
