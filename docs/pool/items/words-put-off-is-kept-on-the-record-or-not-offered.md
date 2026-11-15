@@ -35,7 +35,7 @@ No generic reader of earlier `scene.reply` endings exists, and the bill stages t
 
 **Rules.** No dice: the come-back day is read from the record. An effect is a read: the engine's open row is what brings the asker back. Lines by the Words lead, judged by M5.
 
-**Done when.** In the played world (buildBenchWorld) at Shelby MS (seed pin-b:1) the player stalls a debate and an interview and puts off a second interview with a question and a walk-off; at Island Heights NJ (seed pin-job-call-back:0) three job offers are put off three ways; at Peter UT (seed pin-reporter-call-back:0) a reporter is put off about a bill. Each asker calls back once, named by record id, opening on what was said, with yes and no only, and the yes or no is the engine's own. Offer of help and the appointment offer offer no put-off. A second session sees it in the running game.
+**Done when.** In the played world (buildBenchWorld) at Shelby MS (seed pin-b:1) the player stalls a debate and an interview and puts off a second interview with a question and a walk-off; at Island Heights NJ (seed pin-job-call-back:0) three job offers are put off three ways; at Peter UT (seed pin-reporter-call-back:0) a reporter is put off about a bill; and the second session replays one of them at a place drawn from all 56, named with its seed. Each asker calls back once, named by record id, opening on what was said, with yes and no only, and the yes or no is the engine's own. Offer of help and the appointment offer offer no put-off. A second session sees it in the running game.
 
 **Waits on.** Nothing.
 
