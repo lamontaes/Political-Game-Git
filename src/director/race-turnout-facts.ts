@@ -14,7 +14,6 @@ import {
 import { P } from "../core2/parameters";
 import {
   VOTING_MODULE_ID,
-  pollingPlaceOf,
   pollingPlaces,
   placesOf,
   type ResultRow,
@@ -209,15 +208,6 @@ export function raceTurnoutFacts(
       text: "yes",
       sourceRecordIds: [...turned.sourceRecordIds],
     };
-    // The player's own precinct: said as "your own precinct".
-    const own = candidateId
-      ? pollingPlaceOf(api, candidateId, core.date)
-      : null;
-    if (own && own.precinct === turned.precinct)
-      facts["turned-own"] = {
-        text: "yes",
-        sourceRecordIds: [...turned.sourceRecordIds, candidateId!],
-      };
   }
   return facts;
 }

@@ -26,10 +26,16 @@ import { raceTurnoutFacts } from "./race-turnout-facts";
 // It writes every line the two scenes say, with the facts and record ids.
 const OUT = process.env.TURNED_PRECINCT_PLAYED;
 
+// PLACE picks the draw ("probe:3" is Bountiful, Utah; "probe:5" Stoneham,
+// Massachusetts; "probe:1" Marengo, Illinois): the office is the first with
+// two election dates within two years, the player files in the first seat each
+// time, and each result day and the day after are staged for the player.
+const DRAW = process.env.TURNED_PRECINCT_DRAW ?? "probe:3";
+
 it.skipIf(!OUT)(
-  "the player's second council race says the part of town that turned",
+  "the player's second race says the part of town that turned",
   () => {
-    const place = drawPlace("probe:3", "step12");
+    const place = drawPlace(DRAW, "step12");
     const where = `${place.name} (${place.key}), seed ${place.seed}`;
     setBookkeeping(false);
     const { core, director } = buildBenchWorld(place.seed, gameStartDate(), {
@@ -38,56 +44,50 @@ it.skipIf(!OUT)(
     });
     const api = coreAPI(core);
     const playerId = core.playerId as PersonId;
-    const lines: string[] = [`# Played: ${where}`, ""];
-    for (const date of ["2025-11-04", "2027-11-02"]) {
-      const contest = (
-        api
-          .moduleState(ELECTIONS_MODULE_ID)
-          .table("contests")
-          .rows() as unknown as ContestRow[]
+    const all = api
+      .moduleState(ELECTIONS_MODULE_ID)
+      .table("contests")
+      .rows() as unknown as ContestRow[];
+    const byOffice = new Map<string, string[]>();
+    for (const c of all)
+      byOffice.set(c.officeId, [
+        ...new Set([...(byOffice.get(c.officeId) ?? []), c.electionDate]),
+      ]);
+    const office = [...byOffice.entries()]
+      .map(([id, dates]) => ({ id, dates: dates.sort() }))
+      .filter(
+        (o) =>
+          o.dates.length >= 2 &&
+          /^office:gus2025:\d+:(council|board)/.test(o.id) &&
+          Date.parse(o.dates[1]!) - Date.parse(o.dates[0]!) < 800 * 864e5,
       )
-        .filter((c) => c.electionDate === date && /council/.test(c.officeId))
-        .sort((a, b) => a.id.localeCompare(b.id))[0];
-      expect(contest, `${where}: no council contest on ${date}`).toBeTruthy();
-      advanceToRaceFiling(core, contest!);
-      director.watch(core, playerId);
-      const filed = fileCandidacy(api, {
-        personId: playerId,
-        contestId: contest!.id,
-        platform: [],
-      });
-      expect(
-        filed.status,
-        `${where} ${contest!.id}: the player's filing`,
-      ).not.toBe("refused");
-      if ("filing" in filed) gatherSignatures(core, filed.filing.id);
-      advanceCore(core, addDays(makeIsoDate(contest!.electionDate), -1));
-      advanceCore(core, makeIsoDate(contest!.electionDate));
-      const causeId = `election-result:${contest!.id}`;
+      .sort((a, b) => a.dates[0]!.localeCompare(b.dates[0]!))[0];
+    expect(
+      office,
+      `${where}: no office with two counts within two years`,
+    ).toBeTruthy();
+    const lines: string[] = [`# Played: ${where}`, `office ${office!.id}`, ""];
+    const stage = (contest: ContestRow, label: string) => {
+      const causeId = `election-result:${contest.id}`;
+      const types = ["race-lost", "victory-night", "race-won"];
       const entry = director.ledger.people
         .get(playerId)
         ?.schedule.find(
           (row) =>
             row.momentId.includes(causeId) &&
-            row.bindings.some((b) =>
-              ["race-lost", "victory-night", "race-won"].includes(b.typeKey),
-            ),
+            row.bindings.some((b) => types.includes(b.typeKey)),
         );
-      lines.push(`## ${date} ${contest!.id}`, "");
-      const facts = raceTurnoutFacts(core, contest!.id, playerId);
+      const facts = raceTurnoutFacts(core, contest.id, playerId);
       lines.push(
+        `## ${label} ${core.date} ${contest.id}`,
         `facts: ${JSON.stringify(Object.fromEntries(Object.entries(facts).map(([k, v]) => [k, v.text])))}`,
-        "",
       );
-      if (!entry) {
-        lines.push("no scene staged for the player", "");
-        continue;
-      }
+      if (!entry) return lines.push("no scene staged for the player", "");
       const typeKey = entry.bindings.find((b) =>
-        ["race-lost", "victory-night", "race-won"].includes(b.typeKey),
+        types.includes(b.typeKey),
       )!.typeKey;
       const scene = purposeScene(core, director, playerId, entry, { typeKey });
-      lines.push(`scene: ${typeKey}, ${scene?.kind}`, "");
+      lines.push(`scene: ${typeKey}, ${scene?.kind}`);
       if (scene?.kind === "composed")
         for (const line of [
           ...scene.scene.talk.narration,
@@ -98,6 +98,28 @@ it.skipIf(!OUT)(
             `- ${line.speaker}: ${line.text}  [${line.parts.join(", ")}]`,
           );
       lines.push("");
+    };
+    for (const date of office!.dates.slice(0, 2)) {
+      const contest = all
+        .filter((c) => c.officeId === office!.id && c.electionDate === date)
+        .sort((a, b) => a.id.localeCompare(b.id))[0]!;
+      advanceToRaceFiling(core, contest);
+      director.watch(core, playerId);
+      const filed = fileCandidacy(api, {
+        personId: playerId,
+        contestId: contest.id,
+        platform: [],
+      });
+      expect(filed.status, `${where} ${contest.id}: the filing`).not.toBe(
+        "refused",
+      );
+      if ("filing" in filed) gatherSignatures(core, filed.filing.id);
+      advanceCore(core, addDays(makeIsoDate(contest.electionDate), -1));
+      advanceCore(core, makeIsoDate(contest.electionDate));
+      stage(contest, "night");
+      // The morning after, for the scene the player did not take that night.
+      advanceCore(core, addDays(makeIsoDate(core.date), 1));
+      stage(contest, "morning");
     }
     writeFileSync(OUT!, lines.join("\n"));
   },
