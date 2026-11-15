@@ -46,3 +46,7 @@ Ask where it ran and at what head. A unit test that builds its own small world p
 ## Debugging a test (Nov 15, Visit/Call thread)
 
 `console.log` is swallowed by vitest here. A throwaway debug test writes its tally to a file and the file is deleted when the answer is found.
+
+## Playing a controlled person through days
+
+`advanceCore` refuses a controlled person. To play days for the player in a test, build the world with `buildBenchWorld`, wrap the person in `BenchPlayer`, `select` them, and loop: on a `stop` packet vote their floor holds with `voteOnStateFloor(api, id, bill, "own")` and `resume`, on a `choice` packet `resume` with `own-choice`, otherwise `advance("day")`. `src/core2/bill-floor-date-holds.test.ts` is the worked case (Holiday Lakes, Texas, seed aa11, about a minute); a fix test should be run once with the fix stashed to see it fail where the defect was.
