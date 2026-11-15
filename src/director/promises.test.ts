@@ -436,7 +436,7 @@ it(
             for (const change of notice.changes)
               if (change.measure === "level")
                 moves.push(
-                  `${notice.date} ${notice.reason.cause}: tie level ${change.before.toFixed(5)} to ${change.after.toFixed(5)}`,
+                  `${notice.date} ${notice.reason.cause}: tie level ${change.before.toFixed(8)} to ${change.after.toFixed(8)}`,
                 );
           },
         );
