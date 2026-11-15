@@ -105,6 +105,11 @@ try {
   );
   say("Fee lines offered on the draft card:", fees);
   if (SHOTS) await page.screenshot({ path: `${SHOTS}/draft-card-list.png` });
+  if (process.env.FEE_PROBE) {
+    say("Place:", seed);
+    await browser.close();
+    process.exit(0);
+  }
   if (fees.length) {
     const value = (
       fees.find((f) => f.includes(process.env.FEE_SERIES ?? "")) ?? fees[0]
@@ -118,11 +123,17 @@ try {
         unit: document.querySelector(".draft-unit")?.textContent,
       })),
     );
-    await page.locator(".draft-card input").fill("150");
-    say(
-      "Under the box as 150 is typed:",
-      await page.locator(".draft-live").innerText(),
-    );
+    // Every level the paper can say, typed one by one: the words under the box for each.
+    for (const typed of (process.env.FEE_LEVELS ?? "150").split(",")) {
+      await page.locator(".draft-card input").fill(typed);
+      say(
+        `Under the box as ${typed} is typed:`,
+        await page.locator(".draft-live").innerText(),
+      );
+    }
+    await page
+      .locator(".draft-card input")
+      .fill(process.env.FEE_AMOUNT ?? "150");
     if (SHOTS) await page.screenshot({ path: `${SHOTS}/draft-card-fee.png` });
     await page
       .locator(".draft-card button", { hasText: /^Draft$/ })

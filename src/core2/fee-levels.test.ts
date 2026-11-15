@@ -159,7 +159,7 @@ it("a government is offered a fee line only for a service its charges row holds 
     const spending = budgetsOf(api, gov.id)
       .filter((b) => b.startsOn <= api.state.date)
       .sort((a, b) => b.startsOn.localeCompare(a.startsOn))[0]?.spendingMinor;
-    // Runs the thing: its budget spends on it (sewer and trash by its own billing; no toll or parking record exists yet).
+    // Runs the thing: its budget spends on it (sewer and trash by its own billing).
     const runs = (service: string) => {
       const lines = FEE_LEVEL_RUNS[service];
       if (lines === null) return true;

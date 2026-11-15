@@ -130,14 +130,6 @@
       "levels": ["state", "local"],
       "source": "Governments set their own user charges by statute or ordinance; no federal law sets them"
     },
-    "fee-level:highways-and-tolls": {
-      "levels": ["state", "local"],
-      "source": "Governments set their own user charges by statute or ordinance; no federal law sets them"
-    },
-    "fee-level:airports-ports-and-parking": {
-      "levels": ["state", "local"],
-      "source": "Governments set their own user charges by statute or ordinance; no federal law sets them"
-    },
     "fee-level:hospitals": {
       "levels": ["state", "local"],
       "source": "Governments set their own user charges by statute or ordinance; no federal law sets them"

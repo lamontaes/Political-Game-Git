@@ -634,18 +634,6 @@
       "repealName": "Sewer and Trash Fee Reduction",
       "repealPurpose": "lower sewer and trash fees"
     },
-    "law:fee-level:highways-and-tolls": {
-      "name": "Toll Increase",
-      "purpose": "higher tolls",
-      "repealName": "Toll Reduction",
-      "repealPurpose": "lower tolls"
-    },
-    "law:fee-level:airports-ports-and-parking": {
-      "name": "Parking Fee Increase",
-      "purpose": "higher parking fees",
-      "repealName": "Parking Fee Reduction",
-      "repealPurpose": "lower parking fees"
-    },
     "law:fee-level:hospitals": {
       "name": "Hospital Charges Increase",
       "purpose": "higher public hospital charges",

@@ -563,24 +563,6 @@
               "levels": ["state", "county", "city"]
             },
             {
-              "id": "law:fee-level:highways-and-tolls",
-              "name": "Tolls",
-              "kind": "law-amount",
-              "series": "fee-level:highways-and-tolls",
-              "unit": "percent of today's fee",
-              "operations": ["raise", "lower"],
-              "levels": ["state", "county", "city"]
-            },
-            {
-              "id": "law:fee-level:airports-ports-and-parking",
-              "name": "Parking fees",
-              "kind": "law-amount",
-              "series": "fee-level:airports-ports-and-parking",
-              "unit": "percent of today's fee",
-              "operations": ["raise", "lower"],
-              "levels": ["state", "county", "city"]
-            },
-            {
               "id": "law:fee-level:hospitals",
               "name": "Public hospital charges",
               "kind": "law-amount",

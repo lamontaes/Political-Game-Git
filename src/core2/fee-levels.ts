@@ -1,8 +1,8 @@
 /**
  * The fee levels a bill can set (pool item gov-fee-level-by-bill, owner Oct
  * 24: a council can set a fee level by bill where its powers allow). Each
- * charge a government collects (parks, sewer and trash, tolls, parking,
- * hospital bills, tuition) has a law series whose value is the fee as a
+ * charge a government collects that the world can show it runs (parks, sewer
+ * and trash, hospital bills, tuition) has a law series whose value is the fee as a
  * percent of what the budget's charges line already assumes: 100 means as
  * today. The charge payment reads the level in force when it is paid, so the
  * people who use the service pay the new level and the charges line follows.
@@ -12,8 +12,6 @@
 export const FEE_LEVEL_SERVICES: Readonly<Record<string, string>> = {
   "fee-level:parks-and-recreation": "parks-and-recreation",
   "fee-level:sewerage-and-solid-waste": "sewerage-and-solid-waste",
-  "fee-level:highways-and-tolls": "highways-and-tolls",
-  "fee-level:airports-ports-and-parking": "airports-ports-and-parking",
   "fee-level:hospitals": "hospitals",
   "fee-level:education": "education",
 };
@@ -21,18 +19,16 @@ export const FEE_LEVEL_SERVICES: Readonly<Record<string, string>> = {
 /**
  * What shows a government runs the thing a fee is for: the spending lines of
  * its own budget that pay for it (null: the charges row alone shows it, as
- * sewer and trash is billed per dwelling). A fee with an empty list has no
- * record of a facility anywhere in the world yet (a toll road, a parking
- * system), so no government is offered it (pool item
- * gov-fee-facility-record-for-tolls-and-parking).
+ * sewer and trash is billed per dwelling). Tolls and parking have no series
+ * until a record of a toll road or a parking system exists (pool item
+ * gov-fee-facility-record-for-tolls-and-parking); their series, bill names
+ * and catalog rows return with it.
  */
 export const FEE_LEVEL_RUNS: Readonly<
   Record<string, readonly string[] | null>
 > = {
   "parks-and-recreation": ["parks"],
   "sewerage-and-solid-waste": null,
-  "highways-and-tolls": [],
-  "airports-ports-and-parking": [],
   hospitals: ["healthAndHospitals"],
   education: ["schools", "higherEducation"],
 };
