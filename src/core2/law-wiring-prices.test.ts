@@ -61,12 +61,11 @@ const YES_LAWS = [...PRICE_LAWS.map((l) => l.key), CANNABIS, GROCERIES];
 const PLAYED_DAYS = 375;
 const REPEAL_DAYS = 35;
 /**
- * The ban's money moves when a builder starts a project, which a small town
- * does less than once a year (the audit towns' first starts came at 440 and 745
- * days): the case plays up to the longest wait a labor law's run uses, a month
- * at a time, at a place where one does.
+ * The ban's money moves when a builder starts a project: Wilton's builder
+ * starts a house about two months after the ban (2025-04-06), so the case
+ * plays a month at a time up to four months and fails by name past that.
  */
-const GAS_WINDOW_DAYS = 760;
+const GAS_WINDOW_DAYS = 120;
 const GAS_STEP_DAYS = 30;
 
 /** A place and the world seed it is played on, by name. */
@@ -171,7 +170,7 @@ describe("price and sales-tax laws reach people and move money", () => {
       setJournalTrace(null);
       setBookkeeping(true);
     }
-  }, 600_000); // every law in force, the longest lag a year can show. // A dense place (Guam took 390 seconds on shared CPU) plays 375 days of
+  }, 260_000); // Wilton plays 410 days with every law in force: about 120 seconds
 });
 
 function run(drawn: Pinned): boolean {
@@ -649,7 +648,7 @@ describe("the ban on new gas hookups reaches a builder and the cost of its proje
       setJournalTrace(null);
       setBookkeeping(true);
     }
-  }, 900_000); // one place of up to 760 days
+  }, 90_000); // one place, about 30 seconds
 });
 
 interface ProjectRow {
