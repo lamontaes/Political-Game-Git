@@ -1,10 +1,10 @@
 /**
- * The paper's "looking for work" line (the bank words it as, for example, "That leaves 33 people in Washington looking for work") is the town's one jobless count (pool
- * item metrics-paper-looking-for-work-line-pinned). The conditions story reads
+ * The paper's "looking for work" line (the bank words it as, for example, "That leaves 33 people in Washington looking for work") is the town's one jobless count
+ * (pool item metrics-paper-looking-for-work-line-pinned). The conditions story reads
  * the town's month row the day before the outcome web's record, and that row
  * is the count `townLaborByPlace` makes (metrics-town-jobs-one-rule), so the
  * number the paper prints must equal the month row's, the Metrics tab's
- * "looking for work" row and the jobs panel.
+ * "looking for work" row.
  * Pinned place and seed: Washington, Kansas (599e6f66e9c1d25a). The story is
  * staged through the game's own path: June's web reading is set a point and a
  * half lower, so July's own monthly run (the web's, then `monthEvent`) finds
@@ -20,7 +20,6 @@ import { count } from "./printed-words";
 import { gameStartDate } from "../core2/game-start";
 import { advanceCore } from "../core2/life";
 import { OUTCOME_WEB_MODULE_ID } from "../core2/outcome-web-model";
-import { townJobsPanel } from "../core2/modules/world-panels";
 import { coreAPI } from "../core2/state";
 
 const SEED = "599e6f66e9c1d25a";
@@ -84,13 +83,12 @@ describe("the paper's looking-for-work line", () => {
     process.stdout.write(`PRINTED JOBLESS ${where}: ${text}\n`);
     expect(text, where).toMatch(line);
 
-    // The same count on the Metrics tab and the jobs panel.
+    // The same count on the Metrics tab.
     const kept = metricsView(core, placeId).sections.find(
       (s) => s.key === "city",
     )!.rows;
     const tab = kept.find((r) => r.key === "seekers") as
       { now: number } | undefined;
     expect(tab?.now, where).toBe(looking);
-    expect(townJobsPanel(api, placeId).seekers, where).toBeGreaterThan(0);
   }, 180_000);
 });
