@@ -150617,7 +150617,8 @@
           "role": "asker",
           "purpose": "conflict-accuse.hearsay",
           "key": "threat",
-          "after": "tell"
+          "after": "tell",
+          "excludesFacts": ["money-moved"]
         }
       ],
       "bearing": "braced",
@@ -150669,6 +150670,15 @@
           "purpose": "conflict-accuse.hearsay",
           "key": "threat",
           "after": "ask"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "conflict-accuse.friend",
+          "key": "threat",
+          "after": "scene-talk.reply-ask.friend.who-told-you-you-weren-t-there-so-all-you-have-is"
         }
       ],
       "bearing": "braced",
@@ -150694,6 +150704,15 @@
           "purpose": "conflict-accuse.hearsay",
           "key": "threat",
           "after": "ask"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "conflict-accuse.friend",
+          "key": "threat",
+          "after": "scene-talk.reply-ask.friend.who-told-you-you-weren-t-there-so-all-you-have-is"
         }
       ],
       "bearing": "calm",
@@ -151420,7 +151439,7 @@
           "role": "asker",
           "purpose": "conflict-accuse.friend",
           "key": "threat",
-          "after": "ask"
+          "after": "scene-talk.reply-ask.friend.why-go-to-the-prosecutor-before-you-came-to-me-we-re"
         }
       ],
       "bearing": "hurt",
@@ -151445,7 +151464,7 @@
           "role": "asker",
           "purpose": "conflict-accuse.friend",
           "key": "threat",
-          "after": "ask"
+          "after": "scene-talk.reply-ask.friend.why-go-to-the-prosecutor-before-you-came-to-me-we-re"
         }
       ],
       "bearing": "hurt",
