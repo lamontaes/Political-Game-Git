@@ -4895,6 +4895,15 @@
           "purpose": "press-comment",
           "key": "routine",
           "excludesFacts": ["voted-no"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "press-comment",
+          "key": "routine",
+          "requiresFacts": ["acted", "voted-yes"]
         }
       ],
       "bearing": "calm",
@@ -7465,6 +7474,15 @@
           "role": "asker",
           "purpose": "press-comment",
           "key": "routine"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "requiresFacts": ["acted"]
         }
       ],
       "bearing": "braced",
@@ -14533,6 +14551,16 @@
           "purpose": "press-comment",
           "key": "routine",
           "after": "refuse"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "after": "refuse",
+          "requiresFacts": ["acted"]
         }
       ],
       "bearing": "braced",
