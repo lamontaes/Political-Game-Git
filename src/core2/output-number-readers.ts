@@ -2,7 +2,7 @@
  * Reading a registered output number (src/core2/output-numbers.ts) for a
  * place: the kept year row where world-metrics keeps the figure, or the
  * owning engine's own dated record where that engine keeps the rows itself
- * (the nation's months, the state's regional months, the budgets' fiscal
+ * (the nation's months, the country tier's state months, the budgets' fiscal
  * years, the jobs engine's live records). One read
  * per figure, each a lookup; a screen words what comes back and counts
  * nothing. A figure the owner holds no value for reads null, and so does a
@@ -15,17 +15,14 @@ import {
   type MacroMonth,
 } from "./macro-model";
 import { budgetsOf, governments, type GovernmentRow } from "./modules/budgets";
+import { countryStateMonth, openingStateMonth } from "./modules/macro";
 import { LATEST_MONTH_LAG, regionOfPlace } from "./modules/regional";
 import {
   keptOutputNumber,
   outputNumber,
   type OutputReading,
 } from "./output-numbers";
-import {
-  openingRegionMonths,
-  stateFigures,
-  type RegionMonth,
-} from "./regional-model";
+import { REGIONS } from "./regional-model";
 import { coreAPI } from "./state";
 import type { CoreAPI, CoreState } from "./types";
 
@@ -103,50 +100,30 @@ function nationMonths(reads: OutputReads) {
 }
 
 /**
- * The state the town is in, this month and a year before, from the regional
- * engine's kept months (the last twelve and each December; for a month of
- * the world's history before its first step, the engine's own opening
- * function): jobs summed, unemployment and pay weighted by population, the
- * one function the engine uses (the engine keeps the months back from the
- * latest one Metrics may read, `LATEST_MONTH_LAG`). Build order
- * metrics-state-figures-one-owner moves these to the country tier.
+ * The state the town is in, this month and a year before, from the country
+ * tier's kept months for that state (the tier holds every state's people,
+ * jobs, pay and prices once; the town's regions are its place inside the
+ * state, never the state). Before the tier's first day it reads the tier's opening.
  */
 function stateMonths(reads: OutputReads) {
-  return once(reads, "regional", () => {
+  return once(reads, "country-state", () => {
     const { core, api, placeId } = reads;
     const months = nationMonths(reads);
-    if (!months || !core.modules.has("regional")) return null;
-    const regional = api.moduleState("regional");
-    const at = (row: Readonly<MacroMonth>): RegionMonth[] => {
-      const stored = regional
-        .table("months")
-        .query("byMonth", [row.month]) as unknown as RegionMonth[];
-      if (stored.length) return stored;
-      return row.kind === "history"
-        ? openingRegionMonths(row, core.startedAt, core.seed, (key) =>
-            api.parameter(key),
-          )
-        : [];
-    };
-    const now = at(months.now);
+    if (!months || !core.modules.has("macro")) return null;
     const regionId = regionOfPlace(placeId);
-    const fips = now.find((row) => row.regionId === regionId)?.stateFips;
+    const fips = REGIONS.find((region) => region.id === regionId)?.stateFips;
     if (!fips) return null;
-    const before = months.before ? at(months.before) : [];
-    const figures = (rows: readonly RegionMonth[]) => {
-      const state = stateFigures(rows, fips);
-      return { ...state, jobs: state.jobsThousands * 1000 };
-    };
-    return {
-      now: figures(now),
-      before: before.some((row) => row.stateFips === fips)
-        ? figures(before)
-        : null,
-      recordId: `${regionId}:${months.now.month}`,
-      beforeRecordId: months.before
-        ? `${regionId}:${months.before.month}`
-        : null,
-    };
+    // Before the tier's first day it has kept nothing, and the state reads from the tier's own opening.
+    const now =
+      countryStateMonth(api, fips, months.now.month) ??
+      (api.moduleState("macro").table("months").rows().length
+        ? null
+        : openingStateMonth(api, months.now, fips));
+    if (!now) return null;
+    const before = months.before
+      ? countryStateMonth(api, fips, months.before.month)
+      : null;
+    return { now, before, fips };
   });
 }
 
@@ -220,15 +197,15 @@ const READERS: Readonly<
         )
       : null;
   },
-  "regional-state": (reads, field) => {
+  "country-state": (reads, field) => {
     const state = stateMonths(reads);
-    const key = field as "unemploymentPct" | "hourlyEarnings" | "jobs";
+    const key = field as "unemploymentPct" | "hourlyPay" | "jobs";
     return state
       ? reading(
           state.now[key],
           state.before?.[key],
-          state.recordId,
-          state.beforeRecordId,
+          state.now.id,
+          state.before?.id,
         )
       : null;
   },

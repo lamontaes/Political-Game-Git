@@ -4,10 +4,10 @@ title: "Stopgaps in housing-construction (faked-mechanic): 1 open"
 area: world
 kind: stopgap
 priority: 3
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: Account lead T54 (claude/project-thread-w31iec)
+pr: 9117
 blocked-on:
 after: world-counted-renters-buy
 lead: m0-m2
@@ -44,3 +44,4 @@ Measured Oct 19 (claude, claude/political-game-pool-l9cym2-f), not built. In Man
 Oct 20: Switched from blocked to the automatic after: gate on world-counted-renters-buy, so it opens by itself the moment those items are done.
 
 Deferred Oct 25: nothing on screen reads it yet.
+Nov 14, 2026 (Account lead T54): built in #9117 on the Account lead's ruling to pair it. A household moving into the played town weighs buying by the renters' rule (its share of its group's account, and for one drawn like an owner what that home sells for less its loan) and otherwise rents a home like the one it was drawn like; SG-WORLD-housing-new-home-buyers resolved. Test: src/core2/housing-counted-newcomers.test.ts (Bastrop, Louisiana, 2204685).

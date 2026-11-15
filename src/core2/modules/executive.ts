@@ -50,6 +50,7 @@ import { officialOf, temperamentOf } from "./officials";
 import { admitCountedHousehold } from "./residents";
 import type {
   CoreAPI,
+  CoreEventInput,
   CoreModule,
   CoreState,
   PersonId,
@@ -162,12 +163,20 @@ export const EXECUTIVE_MODULE: CoreModule = {
   },
   onCalendarWork: (api, work) => {
     if (work.kind === POST_JOB_END) return endPostJobOnCalendar(api, work);
+    if (work.kind === OFFER_LAPSE) return lapseEmergencyOffer(api, work);
+    if (work.kind === OFFER_MIDWAY)
+      return meetEmergencyOfferAgain(api, work, "midway");
+    if (work.kind === OFFER_LAST)
+      return meetEmergencyOfferAgain(api, work, "last");
     deskReview(api, work);
   },
   // A disaster on the record reaches the governor's desk the day it is
   // recorded (world-governor-declares-emergency-in-play).
-  eventKinds: ["hazard.disaster"],
-  onEvent: (api, event) => governorAnswersDisaster(api, event.id),
+  eventKinds: ["hazard.disaster", "scene.reply"],
+  onEvent: (api, event) => {
+    if (event.kind === "scene.reply") answerEmergencyBriefing(api, event);
+    else governorAnswersDisaster(api, event.id);
+  },
 };
 
 /**
@@ -196,12 +205,31 @@ function governorAnswersDisaster(api: CoreAPI, hazardRecordId: string): void {
     // A player governor decides for themselves: the disaster waits as an offer on their desk
     // (the state day's `emergency` entry), and the engine never declares for them.
     table(api, "emergencyOffers").put({
-      id: `emergency-offer:${hazardRecordId}`,
+      id: `${OFFER_PREFIX}${hazardRecordId}`,
       hazardRecordId,
       executiveId,
       date: api.state.date,
       answered: false,
     } as unknown as ModuleRow);
+    // The offer is the governor's own day: the briefing scene stages from this record, and their answer in it settles the offer.
+    emitEmergencyOffer(api, hazardRecordId, executiveId, "");
+    // It stays theirs to answer until the request window closes, then lapses (data/executive/emergency.json, `answerable`).
+    api.moduleCalendar(EXECUTIVE_MODULE_ID).schedule({
+      key: `${OFFER_LAPSE}:${hazardRecordId}`,
+      date: offerLapseDate(api, hazardRecordId),
+      kind: OFFER_LAPSE,
+      source: {
+        tag: "SOURCED",
+        citation: emergencyData.briefing.answerable.source,
+        asOf: api.state.date,
+      },
+      sourceRecordIds: [`${OFFER_PREFIX}${hazardRecordId}`, hazardRecordId],
+    });
+    scheduleBriefingReturns(
+      api,
+      `${OFFER_PREFIX}${hazardRecordId}`,
+      hazardRecordId,
+    );
     return;
   }
   const id = `emergency:${lawChain(api).stateKey}:${hazardRecordId}`;
@@ -1912,6 +1940,213 @@ export interface EmergencyRow {
   readonly line: string;
   readonly deltaMinor: number;
   readonly date: string;
+}
+
+/** The record that makes the governor's briefing due, and the ids an offer and its record are kept under. */
+export const EMERGENCY_OFFERED = "executive.emergency-offered";
+const OFFER_PREFIX = "emergency-offer:";
+const OFFERED_PREFIX = "emergency-offered:";
+
+/**
+ * The state cabinet posts in the governor's room for a disaster of this incident type, lead
+ * department first (data/executive/emergency.json, `briefing`). A type no row names uses the default.
+ */
+export function emergencyBriefingPosts(
+  incidentType: string,
+): readonly string[] {
+  const rows = emergencyData.briefing.rows as readonly {
+    readonly types: readonly string[];
+    readonly posts: readonly string[];
+  }[];
+  return (
+    rows.find((row) => row.types.includes(incidentType))?.posts ??
+    emergencyData.briefing.default
+  );
+}
+
+const OFFER_LAPSE = "emergency-offer-lapse";
+const OFFER_MIDWAY = "emergency-offer-midway";
+const OFFER_LAST = "emergency-offer-last";
+/** The mark between a disaster's id and the day a briefing meets the governor again, in an offered record's id. */
+const AGAIN_MARK = "~again~";
+export const EMERGENCY_LAPSED = "executive.emergency-lapsed";
+
+/** The record that makes a briefing due: the first time under the disaster's own id, a later meeting under it and its day. */
+function emitEmergencyOffer(
+  api: CoreAPI,
+  hazardRecordId: string,
+  executiveId: string,
+  again: string,
+  returnWhen?: "midway" | "last",
+): void {
+  const hazard = (api.state as CoreState).durableLog.get(hazardRecordId);
+  // The governor's own office is the room (the scene reads the cause's `officeId`), not the briefer's department.
+  const officeId = townSeats(api).find((s) => s.office.kind === "governor")
+    ?.office.id;
+  api.emit({
+    id: `${OFFERED_PREFIX}${hazardRecordId}${again ? `${AGAIN_MARK}${again}` : ""}`,
+    date: api.state.date,
+    kind: EMERGENCY_OFFERED,
+    personIds: [executiveId as PersonId],
+    placeId: lawChain(api).townPlaceId,
+    source: {
+      tag: "SOURCED",
+      citation: `Disaster ${hazardRecordId}: the state's emergency powers`,
+      asOf: api.state.date,
+    },
+    facts: {
+      hazardRecordId,
+      incidentType: String(hazard?.facts?.incidentType ?? ""),
+      ...(officeId ? { officeId } : {}),
+      // The last day the offer is theirs (the lapse reads the same day), so the briefer can tell the governor the deadline.
+      closes: offerLapseDate(api, hazardRecordId),
+      // A meeting after the first says so, so the briefing is not worded as the first time.
+      ...(again ? { again: "true" } : {}),
+      // Which return it is, so the briefer says the right thing (the midway one, or the last before the deadline).
+      ...(returnWhen ? { returnWhen } : {}),
+    },
+  });
+}
+
+/**
+ * The player governor's answer in the briefing scene settles the offer: declaring is the engine's own
+ * declaration; letting it pass declares nothing (the engine never declares for them). Leaving the
+ * briefing with no answer settles nothing: the offer stays theirs, and the briefing meets them again
+ * at the midway and last returns until the request window closes (`scheduleBriefingReturns`).
+ */
+function answerEmergencyBriefing(
+  api: CoreAPI,
+  event: Readonly<CoreEventInput>,
+): void {
+  const facts = event.facts ?? {};
+  if (facts.typeKey !== "emergency-briefing" || !facts.ending) return;
+  const causeId = String(facts.causeId ?? "");
+  if (!causeId.startsWith(OFFERED_PREFIX)) return;
+  const hazardRecordId = causeId
+    .slice(OFFERED_PREFIX.length)
+    .split(AGAIN_MARK)[0]!;
+  const offerId = `${OFFER_PREFIX}${hazardRecordId}`;
+  const offer = table(api, "emergencyOffers").get(offerId) as unknown as
+    EmergencyOfferRow | undefined;
+  if (!offer || offer.answered) return;
+  if (facts.ending === "declared" || facts.ending === "let-pass")
+    return void answerEmergencyOffer(api, offerId, facts.ending === "declared");
+}
+
+/** The last day a disaster's offer is the governor's to answer: the window's days from the incident's own date. */
+function offerLapseDate(api: CoreAPI, hazardRecordId: string) {
+  const hazard = (api.state as CoreState).durableLog.get(hazardRecordId);
+  const closes = addDays(
+    makeIsoDate(hazard?.date ?? api.state.date),
+    emergencyData.briefing.answerable.days,
+  );
+  const tomorrow = addDays(makeIsoDate(api.state.date), 1);
+  return closes > tomorrow ? closes : tomorrow;
+}
+
+/**
+ * The briefing meets the governor again at most twice, each from a cause on the offer: once when half the answer window
+ * is gone (if their first meeting came before that), and once on the last day a meeting can still be held before the
+ * deadline. A weekly count would bring the same scene back four times (Words lead, Nov 15).
+ */
+function scheduleBriefingReturns(
+  api: CoreAPI,
+  offerId: string,
+  hazardRecordId: string,
+): void {
+  const answerable = emergencyData.briefing.answerable;
+  const hazard = (api.state as CoreState).durableLog.get(hazardRecordId);
+  const today = makeIsoDate(api.state.date);
+  const last = addDays(
+    offerLapseDate(api, hazardRecordId),
+    -answerable.lastOfferDaysBeforeClose.value,
+  );
+  const midway = addDays(
+    makeIsoDate(hazard?.date ?? api.state.date),
+    Math.round(answerable.days * answerable.midwayShare.value),
+  );
+  const at = (date: ReturnType<typeof makeIsoDate>, kind: string) =>
+    api.moduleCalendar(EXECUTIVE_MODULE_ID).schedule({
+      key: `${kind}:${offerId}:${date}`,
+      date,
+      kind,
+      source: {
+        tag: "SOURCED",
+        citation: answerable.source,
+        asOf: api.state.date,
+      },
+      sourceRecordIds: [offerId, hazardRecordId],
+    });
+  if (last <= today) return;
+  if (midway > today && midway < last) at(midway, OFFER_MIDWAY);
+  at(last, OFFER_LAST);
+}
+
+/** A return day, with the offer still the governor's and the window open: a new record, so the same scene stages again. */
+function meetEmergencyOfferAgain(
+  api: CoreAPI,
+  work: Readonly<ModuleCalendarWork>,
+  returnWhen: "midway" | "last",
+): void {
+  const [offerId, hazardRecordId] = work.sourceRecordIds;
+  const offer = offerId
+    ? (table(api, "emergencyOffers").get(offerId) as unknown as
+        EmergencyOfferRow | undefined)
+    : undefined;
+  if (!offer || offer.answered || !hazardRecordId) return;
+  emitEmergencyOffer(
+    api,
+    hazardRecordId,
+    offer.executiveId,
+    api.state.date,
+    returnWhen,
+  );
+}
+
+/**
+ * The window to ask for a federal declaration closes with the offer unanswered: it lapses as a
+ * public record. Nothing is declared, the state's budget is not moved and no federal aid is
+ * asked for; the governor's silence is the whole of it (the engine never answers for them).
+ */
+function lapseEmergencyOffer(
+  api: CoreAPI,
+  work: Readonly<ModuleCalendarWork>,
+): void {
+  const [offerId, hazardRecordId] = work.sourceRecordIds;
+  const offer = offerId
+    ? (table(api, "emergencyOffers").get(offerId) as unknown as
+        EmergencyOfferRow | undefined)
+    : undefined;
+  if (!offer || offer.answered || !hazardRecordId) return;
+  table(api, "emergencyOffers").put({
+    ...offer,
+    answered: true,
+  } as unknown as ModuleRow);
+  // The governor as the people-facing records name them (as the declaration does), so the paper can say their name.
+  const governorPersonId = townSeats(api).find(
+    (seat) => seat.office.kind === "governor",
+  )?.holder?.personId;
+  const hazard = (api.state as CoreState).durableLog.get(hazardRecordId);
+  api.emit({
+    id: `emergency-lapsed:${hazardRecordId}`,
+    date: api.state.date,
+    kind: EMERGENCY_LAPSED,
+    personIds: governorPersonId ? [governorPersonId] : [],
+    placeId: lawChain(api).townPlaceId,
+    source: {
+      tag: "SOURCED",
+      citation: emergencyData.briefing.answerable.source,
+      asOf: api.state.date,
+    },
+    publicRecord: true,
+    news: true,
+    facts: {
+      hazardRecordId,
+      incidentType: String(hazard?.facts?.incidentType ?? ""),
+      title: String(hazard?.facts?.title ?? ""),
+      declared: "false",
+    },
+  });
 }
 
 export interface EmergencyOfferRow {

@@ -28,7 +28,7 @@
     "src/core2/data/electorate/parameters.json": 16,
     "src/core2/data/executive/emergency.json": 2,
     "src/core2/data/health/medical-bills.json": 8,
-    "src/core2/data/housing/parameters.json": 43,
+    "src/core2/data/housing/parameters.json": 42,
     "src/core2/data/jobs/employer-callback-gaps.json": 5,
     "src/core2/data/jobs/parameters.json": 55,
     "src/core2/data/justice/parameters.json": 32,
