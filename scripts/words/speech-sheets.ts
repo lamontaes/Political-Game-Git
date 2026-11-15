@@ -3,7 +3,7 @@
  * speeches a played world composes, whole, for a fresh reviewer to read with
  * `npm run words:review`. Development tooling; shipped play never imports it.
  *
- *   OCD_STORAGE_OVERRIDE=... node --import tsx scripts/words/speech-sheets.ts --out <dir> [placeKey:seed ...]
+ *   npm run words:speech-sheets -- --out <dir> [placeKey:seed ...]
  *
  * In each place it builds the played world (`buildBenchWorld`, two levels)
  * and keeps, through the game's own composers:

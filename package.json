@@ -16,6 +16,7 @@
     "words:grade": "node --import tsx scripts/words/after-grading.ts",
     "words:pairs": "node --import tsx scripts/words/reply-pairs.ts",
     "words:review": "node --import tsx scripts/words/review.ts",
+    "words:speech-sheets": "node --import tsx scripts/words/speech-sheets.ts",
     "words:rules": "node --import tsx scripts/words/run-rules.ts",
     "words:verdicts": "node --import tsx scripts/words/fold-verdicts.ts",
     "wording:check": "node --import tsx scripts/english-check/wording.ts",
