@@ -189874,10 +189874,10 @@
       ]
     },
     {
-      "key": "scene-talk.reply-bargain.i-could-see-it-but-i-d-need-to-know-you-re-with-me-on-issue",
+      "key": "scene-talk.reply-bargain.i-could-see-it-but-i-d-need-to-know-you-re-for-about",
       "move": "reply-bargain",
       "kind": "spoken",
-      "text": "I could see it. But I'd need to know you're with me on {issue}.",
+      "text": "I could see it. But I'd need to know you're for {about}.",
       "uses": [
         {
           "subject": "scene",
@@ -189892,7 +189892,7 @@
       ],
       "bearing": "calm",
       "origin": "authored",
-      "author": "S6 (gov-serve-ask-price-end; Words lead rulings Nov 14 16:15Z)",
+      "author": "Words lead (Nov 15 10:35Z, price-lines-revised.md); S6 (gov-serve-ask-price-end)",
       "date": "2026-11-15",
       "tag": {
         "move": "bargain",
@@ -189900,10 +189900,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-bargain.i-want-to-say-yes-first-tell-me-you-stand-where-i-stand-on-issue",
+      "key": "scene-talk.reply-bargain.i-want-to-say-yes-first-tell-me-you-re-for-about",
       "move": "reply-bargain",
       "kind": "spoken",
-      "text": "I want to say yes. First tell me you stand where I stand on {issue}.",
+      "text": "I want to say yes. First tell me you're for {about}.",
       "uses": [
         {
           "subject": "scene",
@@ -189918,7 +189918,7 @@
       ],
       "bearing": "eager",
       "origin": "authored",
-      "author": "S6 (gov-serve-ask-price-end; Words lead rulings Nov 14 16:15Z)",
+      "author": "Words lead (Nov 15 10:35Z, price-lines-revised.md); S6 (gov-serve-ask-price-end)",
       "date": "2026-11-15",
       "tag": {
         "move": "bargain",
@@ -189926,10 +189926,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-bargain.there-s-one-thing-it-s-about-issue-i-can-t-run-next-to-someone-who-s-against-me-on-it",
+      "key": "scene-talk.reply-bargain.there-s-one-thing-i-can-t-run-next-to-someone-who-s-against-about",
       "move": "reply-bargain",
       "kind": "spoken",
-      "text": "There's one thing. It's about {issue}. I can't run next to someone who's against me on it.",
+      "text": "There's one thing. I can't run next to someone who's against {about}.",
       "uses": [
         {
           "subject": "scene",
@@ -189944,7 +189944,7 @@
       ],
       "bearing": "firm",
       "origin": "authored",
-      "author": "S6 (gov-serve-ask-price-end; Words lead rulings Nov 14 16:15Z)",
+      "author": "Words lead (Nov 15 10:35Z, price-lines-revised.md); S6 (gov-serve-ask-price-end)",
       "date": "2026-11-15",
       "tag": {
         "move": "bargain",
@@ -189952,10 +189952,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-bargain.give-me-your-word-on-issue-then-we-can-talk",
+      "key": "scene-talk.reply-bargain.give-me-your-word-you-ll-back-about-then-i-m-in",
       "move": "reply-bargain",
       "kind": "spoken",
-      "text": "Give me your word on {issue}. Then we can talk.",
+      "text": "Give me your word you'll back {about}. Then I'm in.",
       "uses": [
         {
           "subject": "scene",
@@ -189970,7 +189970,7 @@
       ],
       "bearing": "guarded",
       "origin": "authored",
-      "author": "S6 (gov-serve-ask-price-end; Words lead rulings Nov 14 16:15Z)",
+      "author": "Words lead (Nov 15 10:35Z, price-lines-revised.md); S6 (gov-serve-ask-price-end)",
       "date": "2026-11-15",
       "tag": {
         "move": "bargain",
@@ -189978,10 +189978,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-bargain.i-d-need-you-to-leave-things-as-they-are-on-issue-i-couldn-t-stand-on-a-stage-defending-a-change",
+      "key": "scene-talk.reply-bargain.i-d-need-you-to-stand-against-about-i-couldn-t-go-on-a-stage-and-defend-it",
       "move": "reply-bargain",
       "kind": "spoken",
-      "text": "I'd need you to leave things as they are on {issue}. I couldn't stand on a stage defending a change.",
+      "text": "I'd need you to stand against {about}. I couldn't go on a stage and defend it.",
       "uses": [
         {
           "subject": "scene",
@@ -189996,7 +189996,7 @@
       ],
       "bearing": "braced",
       "origin": "authored",
-      "author": "S6 (gov-serve-ask-price-end; Words lead rulings Nov 14 16:15Z)",
+      "author": "Words lead (Nov 15 10:35Z, price-lines-revised.md); S6 (gov-serve-ask-price-end)",
       "date": "2026-11-15",
       "tag": {
         "move": "bargain",
@@ -190004,10 +190004,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-bargain.promise-me-you-won-t-push-on-issue-that-s-the-one-thing",
+      "key": "scene-talk.reply-bargain.promise-me-you-won-t-push-about-that-s-the-one-thing",
       "move": "reply-bargain",
       "kind": "spoken",
-      "text": "Promise me you won't push on {issue}. That's the one thing.",
+      "text": "Promise me you won't push {about}. That's the one thing.",
       "uses": [
         {
           "subject": "scene",
@@ -190022,7 +190022,7 @@
       ],
       "bearing": "firm",
       "origin": "authored",
-      "author": "S6 (gov-serve-ask-price-end; Words lead rulings Nov 14 16:15Z)",
+      "author": "Words lead (Nov 15 10:35Z, price-lines-revised.md); S6 (gov-serve-ask-price-end)",
       "date": "2026-11-15",
       "tag": {
         "move": "bargain",
@@ -190030,10 +190030,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-promise.you-have-my-word-i-m-with-you-on-issue",
+      "key": "scene-talk.follow-promise.you-have-my-word-i-m-for-about",
       "move": "follow-promise",
       "kind": "spoken",
-      "text": "You have my word. I'm with you on {issue}.",
+      "text": "You have my word. I'm for {about}.",
       "uses": [
         {
           "subject": "scene",
@@ -190043,12 +190043,38 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "after": "bargain",
-          "requiresFacts": ["price-named"]
+          "requiresFacts": ["price-named", "price-side-for"]
         }
       ],
       "bearing": "firm",
       "origin": "authored",
-      "author": "S6 (gov-serve-ask-price-end; Words lead rulings Nov 14 16:15Z)",
+      "author": "Words lead (Nov 15 10:35Z, price-lines-revised.md); S6 (gov-serve-ask-price-end)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "promise",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-promise.you-have-my-word-i-m-against-about",
+      "move": "follow-promise",
+      "kind": "spoken",
+      "text": "You have my word. I'm against {about}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "bargain",
+          "requiresFacts": ["price-named", "price-side-against"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Words lead (Nov 15 10:35Z, price-lines-revised.md); S6 (gov-serve-ask-price-end)",
       "date": "2026-11-15",
       "tag": {
         "move": "promise",

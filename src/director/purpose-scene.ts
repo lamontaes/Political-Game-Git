@@ -2104,6 +2104,14 @@ function composeBinding(
         text: issue,
         sourceRecordIds: [moment.causeId, serve.askId],
       };
+    // A price names the proposal itself, so the player knows which way they
+    // give their word (Words lead, Nov 15 10:35Z, rule 116).
+    const about = serve.priced ? questionAbout(serve.question) : null;
+    if (about)
+      facts.about = {
+        text: about,
+        sourceRecordIds: [moment.causeId, serve.askId],
+      };
   }
   if (door) {
     facts.name = {
