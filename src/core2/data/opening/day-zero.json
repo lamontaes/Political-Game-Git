@@ -2596,7 +2596,6 @@
     "tables": [
       "candidacy.decisions",
       "candidacy.weighed",
-      "core2-promises-v1.calendar",
       "core2-promises-v1.promises",
       "core2-promises-v1.settle",
       "part.core2-decision-detail-player-queue",

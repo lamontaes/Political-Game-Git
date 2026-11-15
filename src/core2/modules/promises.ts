@@ -12,8 +12,9 @@
  * record lands (a member's vote at the roll, a signature or veto, a missed
  * payment, a meeting held, a talk between the two) or its window closes. It
  * never scans: a settling record costs one set test and one index lookup,
- * and a day some window closes one index lookup (the module calendar); it
- * has no daily step.
+ * and the end of each day one index lookup for the windows whose last day
+ * it was (onAfterDay, after every record of the day, so a promise kept on
+ * its last day is kept).
  *
  * Kept warms the tie once and broken cools it, through the core's writer,
  * citing the row; settled while the two were apart, the move waits for the
@@ -165,9 +166,6 @@ const table = (api: CoreAPI) =>
   api.moduleState(PROMISES_MODULE_ID).table("promises");
 const settleTable = (api: CoreAPI) =>
   api.moduleState(PROMISES_MODULE_ID).table("settle");
-const calendarTable = (api: CoreAPI) =>
-  api.moduleState(PROMISES_MODULE_ID).table("calendar");
-const LAST_DUE = "last-due";
 
 /** The settle key an open promise is filed under, by the operation that settles it. */
 const SETTLE_KEYS: Record<string, (row: PromiseRow) => string | null> = {
@@ -251,7 +249,6 @@ function keepPromise(api: CoreAPI, event: CoreEventInput): void {
     ),
   ];
   table(api).put({ ...row, settleKeys: keys } as unknown as ModuleRow);
-  bookDue(api, row);
   for (const key of keys)
     settleTable(api).put({
       id: `${key}|${id}`,
@@ -444,38 +441,10 @@ function settleOnTie(api: CoreAPI, notice: RelationshipChangeNotice): void {
 }
 
 /**
- * The day a promise's window closes, on the module calendar: once a date,
- * whatever number of promises close on it. The calendar runs at the start of
- * the day, so the window is the days before it.
+ * Promises whose last day is today end as their kind says, after every
+ * record of the day: one index lookup a day.
  */
-function bookDue(api: CoreAPI, row: PromiseRow): void {
-  const calendar = api.moduleCalendar(PROMISES_MODULE_ID);
-  const key = `due:${row.dueOn}`;
-  if (calendar.get(key)) return;
-  calendar.schedule({
-    key,
-    date: row.dueOn,
-    kind: "promise-window-closes",
-    source: {
-      tag: "SOURCED",
-      citation:
-        "The promise's own record: the day its kind's window closes (promise-kinds.json).",
-      asOf: api.state.date,
-    },
-    sourceRecordIds: [row.id],
-  });
-}
-
-/**
- * Promises whose window closes today end as their kind says: one index
- * lookup on the days some window closes, none on other days. The calendar
- * entry handled last time is forgotten, so finished entries do not pile up.
- */
-function closeDue(api: CoreAPI, key: string): void {
-  const done = calendarTable(api).get(LAST_DUE) as
-    { id: string; key: string } | undefined;
-  if (done) api.moduleCalendar(PROMISES_MODULE_ID).forget(done.key);
-  calendarTable(api).put({ id: LAST_DUE, key } as unknown as ModuleRow);
+function closeDue(api: CoreAPI): void {
   const due = table(api).query("byDue", [
     api.state.date,
   ]) as unknown as PromiseRow[];
@@ -549,8 +518,6 @@ export const PROMISES_MODULE: CoreModule = {
         },
       },
       settle: { indexes: { byKey: { fields: ["key"] } } },
-      // One row: the calendar entry handled last, forgotten at the next.
-      calendar: {},
     },
   },
   eventKinds: ["scene.reply", "promise.answer", ...SETTLE_EVENT_KINDS],
@@ -563,8 +530,13 @@ export const PROMISES_MODULE: CoreModule = {
   onRelationshipChange(api, notice) {
     settleOnTie(api, notice);
   },
-  onCalendarWork(api, work) {
-    closeDue(api, work.key);
+  onAfterDay(api) {
+    closeDue(api);
+  },
+  // A day nobody watches runs no onAfterDay: the windows that end on it
+  // close the same way, so a skip leaves no promise open past its last day.
+  onResultsDay(api) {
+    closeDue(api);
   },
 };
 declareSnapshotCovered(PROMISES_MODULE_ID);

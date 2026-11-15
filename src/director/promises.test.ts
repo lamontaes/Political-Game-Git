@@ -239,6 +239,8 @@ const SEED = "promises-kept-and-broken-1";
 const ATTEMPTS = 4;
 /** How many talks, two days apart, a settled promise may wait behind bigger news. */
 const WAIT_DAYS = 7;
+/** Nine in the morning: the minute of the window's last day the player talks. */
+const LAST_DAY_MINUTE = 9 * 60;
 const TIMEOUT = 600_000;
 
 const paths = (node: TreeNode, prefix: number[] = []): number[][] =>
@@ -531,7 +533,7 @@ function hireLike(
 }
 
 it(
-  `a promise to show a new coworker around is kept by a talk between the two and broken when two weeks pass with none (seed ${SEED})`,
+  `a promise to show a new coworker around is kept by a talk between the two on a later day or on its last day, and broken when two weeks pass with none (seed ${SEED})`,
   () => {
     setBookkeeping(false);
     const tried: string[] = [];
@@ -539,7 +541,7 @@ it(
       const done: string[] = [];
       for (
         let attempt = 0;
-        attempt < ATTEMPTS && done.length < 2;
+        attempt < ATTEMPTS && done.length < 3;
         attempt += 1
       ) {
         const { core, director, playerId, where } = world(attempt, "coworker");
@@ -653,11 +655,35 @@ it(
           expect(closenessBetween(core, id, newcomer), where).toBeGreaterThan(
             before,
           );
-        } else {
+        } else if (done.length === 1) {
           // Broken: two weeks of the player's days with no talk between them.
           play(core, id, 15);
           expect(find().outcome, where).toBe("broken");
           expect(find().endedAt, where).toBe(addDays(makeIsoDate(since), 14));
+        } else {
+          // Kept on the last day: the player goes the whole two weeks and
+          // talks with the newcomer on the window's last day, which keeps it;
+          // the next morning, when the window closes, leaves it kept.
+          const lastDay = find().dueOn;
+          // To the morning of the last day, the player still inside it.
+          // play() stops at a midnight with the day before finished, so
+          // fourteen days end the day before the last; then into the last.
+          play(core, id, 14);
+          play(core, id, 1, LAST_DAY_MINUTE);
+          expect(core.date.slice(0, 10), where).toBe(lastDay);
+          const talk = openConversation(core, id, newcomer, { director });
+          const choice = talk.choices[0];
+          if (!choice) {
+            tried.push(
+              `${where}: nothing to say with the newcomer on ${lastDay}`,
+            );
+            continue;
+          }
+          say(core, talk, choice.key);
+          play(core, id, 1);
+          expect(find().outcome, where).toBe("kept");
+          expect(find().endedBy, where).toMatch(/^conversation:/);
+          expect(find().endedAt, where).toBe(lastDay);
         }
         const ended = find();
         const said = talkOf(core, director, newcomer, id, where);
@@ -665,7 +691,7 @@ it(
           `${where}: ${said}\n    ${factId} owed to ${newcomer}, ${ended.outcome} by ${ended.endedBy} on ${ended.endedAt}, closeness ${before.toFixed(5)} to ${closenessBetween(core, id, newcomer).toFixed(5)}`,
         );
       }
-      if (done.length === 2) {
+      if (done.length === 3) {
         process.stdout.write(
           `SHOW AROUND\n  ${done.join("\n  ")}\n  Passed over: ${tried.join("; ") || "none"}\n`,
         );
