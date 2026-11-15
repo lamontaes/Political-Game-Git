@@ -35,3 +35,10 @@ A row lives in a family file under `src/core2/data/stopgaps/` (the director's in
 ## No new stopgaps (owner's rule, Nov 14)
 
 This overrides any older note, item or skill line that says a builder may leave or register a new stopgap. Build the real thing through the engine that exists, or say in the PR what is missing and stop.
+
+## Lessons from clearing SG-GOV-officer-stipend-hours (Nov 15)
+
+- A row marked `resolved` or `dropped` can still have its marker in the code and a dropped pool item beside it: search the code for the id, delete row and marker together, and revive the dropped item with the cause in its Notes instead of filing a twin.
+- A replacement that moves pay from a rate to hours must keep the job's `wageDailyMinor` as the week's pay over `daysPerWeek` (a calendar-day figure); other engines read it as the budget line's room, and a wrong figure makes the next post's line read zero and drops that post.
+- A new constant in `parameters.json` needs a `role` (`coefficient`, `level`, `opening` or `law`) or `tests/guards/no-steering.test.ts` fails, and a TUNABLE row needs a spread; never invent a citation for a number the game chose.
+- Prove it with a test at the named place that fails on the base: swap the base file in, see the red, swap back.

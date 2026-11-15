@@ -422,7 +422,11 @@
     "hearing-witness:seat": ["@seatroom", "@office"],
     "hearing-witness:venue": ["public-meeting-room"],
     "party-welcome:venue": ["campaign-office-storefront"],
-    "party-welcome:public": ["campaign-office-storefront"]
+    "party-welcome:public": ["campaign-office-storefront"],
+    "study-formed:seat": ["@seatroom", "@office"],
+    "study-formed:venue": ["public-meeting-room"],
+    "study-reported:seat": ["@seatroom", "@office"],
+    "study-reported:venue": ["public-meeting-room"]
   },
   "schoolPlacesByAge": [
     {
