@@ -66,6 +66,11 @@ export function boardBodyName(
   governmentId?: string,
 ): string {
   const area = placeOfBody(countyDisplayName(listed, governmentId));
+  // A city and county is one government: its council is the city's, said
+  // once ("Honolulu City Council"), never "City and County of Honolulu
+  // County Council".
+  const joint = /^City and County of (.+)$/.exec(area);
+  if (joint) return `${joint[1]} ${bodyName.replace(/^County /, "City ")}`;
   const kind = area.split(" ").at(-1)!;
   if (bodyName.startsWith(`${kind} `))
     return `${area.slice(0, -kind.length)}${bodyName}`;
@@ -188,7 +193,18 @@ export function townAndBody(town: string, body: string): string {
  */
 function municipalBodyName(unit: GovernmentUnitIdentity): string {
   const charter = localGoverningBodyName(unit);
-  if (charter) return charter;
+  if (charter) {
+    // A charter's own name can leave the town out ("Board of Commissioners"):
+    // the body is always said with whose it is, so a calendar that holds a
+    // city's body and its county's tells them apart.
+    const town = governmentProperName(unit.name, unit.id)
+      .split(" ")
+      .slice(2)
+      .join(" ");
+    return town && !charter.toLowerCase().includes(town.toLowerCase())
+      ? townAndBody(town, charter)
+      : charter;
+  }
   const words = unit.name.trim().split(" ");
   const kind = words[1] === "OF" ? words[0]!.toLowerCase() : "";
   const usual =
