@@ -31,7 +31,6 @@
     },
     "unemployment-insurance": {
       "levels": ["state"],
-      "retainTerms": true,
       "source": "26 U.S.C. § 3304(a)(19): rights, privileges, or immunities subject to the power of the legislature to amend or repeal such law at any time; https://www.law.cornell.edu/uscode/text/26/3304"
     },
     "social-security-tax": {
