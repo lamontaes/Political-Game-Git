@@ -1,6 +1,8 @@
 ---
 id: words-played-talks-nope-not-in-a-while-not-followed-up
-impact: none
+impact: patch
+section: Fixed
+title: Asked about someone you both know, people answer instead of ending the talk
 ---
 
-Files a pool item for a test found red by draw while gating #9279.
+Asked about someone you both know, your answer no longer ends the talk: the person tells you when they last saw them.

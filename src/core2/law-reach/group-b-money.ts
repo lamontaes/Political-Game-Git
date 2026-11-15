@@ -22,6 +22,7 @@ import {
   amendBudget,
   BUDGETS_MODULE_ID,
   budgetsOf,
+  carriedMeasureOf,
   governments,
   type BudgetRow,
   type GovernmentRow,
@@ -53,6 +54,7 @@ import {
 import type { ModuleRow } from "../module-data";
 import {
   budgetInForce,
+  federalLineLevel,
   fundFederalStanding,
   noteLinePaid,
   registerLinePayments,
@@ -96,6 +98,58 @@ export function recordApplied(
     amountMinor: paidToday ? 0 : (input.amountMinor ?? 0),
   });
 }
+
+/**
+ * A federal benefit line in force over its base, and the bill that set it:
+ * the engines that pay from the line (SSI and food aid from income security)
+ * scale what their own laws work out by the level, and record the change on
+ * the bill's own record (`recordLineShare`).
+ */
+export function federalBenefitLine(
+  api: CoreAPI,
+  line: string,
+): { readonly level: number; readonly lawId: string | null } {
+  const federal = governmentAt(api, "federal");
+  if (!federal) return { level: 1, lawId: null };
+  return {
+    level: federalLineLevel(api, line),
+    lawId: carriedMeasureOf(api, federal.id, line)?.split("#")[0] || null,
+  };
+}
+
+/**
+ * The part of a benefit a federal line's bill changed, on that bill's record
+ * under the line's key: what the engine paid against what its own law alone
+ * worked out. Nothing is recorded while no bill changed the line.
+ */
+export function recordLineShare(
+  api: CoreAPI,
+  line: { readonly level: number; readonly lawId: string | null },
+  input: {
+    readonly key: string;
+    readonly targetId: string;
+    readonly target: AppliedTarget;
+    readonly what: string;
+    readonly count?: number;
+    readonly baseMinor: number;
+    readonly paidMinor: number;
+  },
+): void {
+  if (!line.lawId || line.level === 1) return;
+  recordApplied(api, {
+    key: input.key,
+    lawId: line.lawId,
+    targetId: input.targetId,
+    target: input.target,
+    what: input.what,
+    ...(input.count === undefined ? {} : { count: input.count }),
+    amountMinor: input.paidMinor - input.baseMinor,
+  });
+}
+
+/** The federal budget line SSI and food aid are paid from, and its law-reach key. */
+export const INCOME_SECURITY = "incomeSecurity";
+export const INCOME_SECURITY_KEY = `budget-line:${INCOME_SECURITY}`;
 
 /** The government at a law's or budget's level, if the town has one there. */
 export function governmentAt(
@@ -1441,7 +1495,10 @@ export function paySsi(
       (a) => a.placeId === town,
     )?.accountId;
     let countedMinor = 0;
+    let countedBaseMinor = 0;
     let countedHouseholds = 0;
+    // The income security line in force scales what the rate law works out.
+    const line = federalBenefitLine(api, INCOME_SECURITY);
     for (const household of input.households) {
       // Each aged member's countable income is the household's per member.
       const perMember = household.incomeDollars / months / household.size;
@@ -1449,11 +1506,13 @@ export function paySsi(
         0,
         input.rateDollars - Math.max(0, perMember - exclusion),
       );
-      const monthly = Math.round(each * household.agedCount * share * cents);
+      const base = Math.round(each * household.agedCount * share * cents);
+      const monthly = Math.round(base * line.level);
       if (monthly <= 0) continue;
       if (!household.named) {
         const weight = household.scale ?? 1;
         countedMinor += monthly * weight;
+        countedBaseMinor += base * weight;
         countedHouseholds += weight;
         continue;
       }
@@ -1469,6 +1528,14 @@ export function paySsi(
         what: "ssi-paid",
         amountMinor: monthly,
       });
+      recordLineShare(api, line, {
+        key: INCOME_SECURITY_KEY,
+        targetId: household.id,
+        target: "household",
+        what: "ssi-changed-by-line",
+        baseMinor: base,
+        paidMinor: monthly,
+      });
     }
     if (residentsOrg && countedHouseholds > 0) {
       counted = Math.round(countedHouseholds);
@@ -1481,6 +1548,15 @@ export function paySsi(
         what: "ssi-paid",
         count: counted,
         amountMinor: Math.floor(countedMinor),
+      });
+      recordLineShare(api, line, {
+        key: INCOME_SECURITY_KEY,
+        targetId: `${town}:ssi-households`,
+        target: "group",
+        what: "ssi-changed-by-line",
+        count: counted,
+        baseMinor: Math.floor(countedBaseMinor),
+        paidMinor: Math.floor(countedMinor),
       });
     }
   }
