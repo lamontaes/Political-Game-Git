@@ -26,6 +26,7 @@ import {
   type LinePart,
 } from "./english-composition";
 import { stableHash } from "../core2/kernel/ids";
+import { stableDraw } from "./grounded-english";
 
 export type { Fact };
 import { admittedParts, directorSlots } from "./bank-parts";
@@ -458,10 +459,11 @@ export function wordSceneMove(input: {
         ? every.length
         : zero;
     const order = sentences.length
-      ? Number(
-          BigInt(
-            `0x${stableHash(`${input.seed}:${input.momentKey}:${use.purpose}:${use.move}:joined`)}`,
-          ) % BigInt(sentences.length + wholeShare),
+      ? stableDraw(
+          stableHash(
+            `${input.seed}:${input.momentKey}:${use.purpose}:${use.move}:joined`,
+          ),
+          sentences.length + wholeShare,
         )
       : wholeShare;
     // The sentence the stable pick lands on first, then the rest, so a

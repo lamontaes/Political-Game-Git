@@ -162,7 +162,7 @@ export function renderGroundedEnglish(
     (total, row) => total + weightOf(row.variant),
     0,
   );
-  let draw = Number(BigInt(`0x${hash}`) % BigInt(totalWeight));
+  let draw = stableDraw(hash, totalWeight);
   const { variant, factKeys } = usable.find((row) => {
     draw -= weightOf(row.variant);
     return draw < 0;
@@ -205,6 +205,19 @@ export function renderGroundedEnglish(
     usedFactKeys: factKeys,
     sourceRecordIds: [...sourceRecordIds],
   };
+}
+
+/**
+ * Where a stable hash lands among `total` equal steps: the 64-bit hash read as
+ * a fraction, times the total. The high bits decide it, so scaling every
+ * weight alike (the calibration fold does) changes no pick, and keys that
+ * differ only by ids repeated in pairs still split (FNV-1a's lowest bit is
+ * only the parity of the key's odd-coded characters, so `hash mod n` gave
+ * every asker at a place the same one of two lines). Every stable pick over
+ * weights or a count reads the hash this way.
+ */
+export function stableDraw(hash: string, total: number): number {
+  return Number((BigInt(`0x${hash}`) * BigInt(total)) >> 64n);
 }
 
 /**
