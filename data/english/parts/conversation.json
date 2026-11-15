@@ -46414,6 +46414,75 @@
       "date": "2026-11-15"
     },
     {
+      "key": "conversation.shared-school-give-core.it-s-been-years-years-now",
+      "move": "shared-school-give-core",
+      "kind": "spoken",
+      "text": "It's been {years} years now.",
+      "uses": [
+        {
+          "move": "shared-school-give-core",
+          "subject": "shared-school-give",
+          "role": "core",
+          "stages": ["years"],
+          "requiresFacts": ["years"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (thread: election results brought up), for the Words lead's stamp",
+      "date": "2026-11-15",
+      "piece": {
+        "of": "shared-school-give",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "conversation.shared-school-give-core.seems-like-yesterday-and-it-s-been-years-years",
+      "move": "shared-school-give-core",
+      "kind": "spoken",
+      "text": "Seems like yesterday, and it's been {years} years.",
+      "uses": [
+        {
+          "move": "shared-school-give-core",
+          "subject": "shared-school-give",
+          "role": "core",
+          "stages": ["years"],
+          "requiresFacts": ["years"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (thread: election results brought up), for the Words lead's stamp",
+      "date": "2026-11-15",
+      "piece": {
+        "of": "shared-school-give",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "conversation.shared-school-give-core.time-flies",
+      "move": "shared-school-give-core",
+      "kind": "spoken",
+      "text": "Time flies.",
+      "uses": [
+        {
+          "move": "shared-school-give-core",
+          "subject": "shared-school-give",
+          "role": "core",
+          "stages": ["agree"],
+          "requiresFacts": []
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (thread: election results brought up), for the Words lead's stamp",
+      "date": "2026-11-15",
+      "piece": {
+        "of": "shared-school-give",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
       "key": "conversation.news-ask-core.told-i-m-glad-they-did",
       "move": "news-ask-core",
       "kind": "spoken",
