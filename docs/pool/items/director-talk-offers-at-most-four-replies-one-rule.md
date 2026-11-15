@@ -28,7 +28,7 @@ source: Found by the short-replies builder in the complaint over a taken bribe a
 
 **Rules.** One rule, one place: the limit is the director's one parameter. No dice: the kept replies follow the player's traits.
 
-**Done when.** At Bryant IL (seed c0ffee13) and one place drawn from all 56 (named with its seed), the taken accusation offers at most four replies at every node. The guard is green for all 77 purposes and the variants. A second session sees it in the running game.
+**Done when.** In the played world (buildBenchWorld) at Bryant IL (seed c0ffee13) and one place drawn from all 56 (named with its seed), the taken accusation offers at most four replies at every node. The guard is green for all 77 purposes and the variants. A second session sees it in the running game.
 
 **Waits on.** Nothing.
 
