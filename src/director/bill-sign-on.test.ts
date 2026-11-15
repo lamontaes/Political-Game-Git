@@ -271,13 +271,14 @@ describe("asking colleagues to sign on", () => {
         const colleague = cause.facts!.askedId!;
         expect(talk.askerId, where).toBe(colleague);
         // The narration names the colleague the player goes to, never the
-        // player.
-        expect(talk.narration[0]!.text, where).toContain(
-          core.people.get(colleague as PersonId)!.givenName,
-        );
-        expect(talk.narration[0]!.text, where).not.toContain(
-          core.people.get(player)!.givenName,
-        );
+        // player. Two people can share a given name (at Wiggins the player
+        // and a colleague are both James), and then the name alone cannot
+        // tell which one the line means.
+        const theirs = core.people.get(colleague as PersonId)!.givenName;
+        const mine = core.people.get(player)!.givenName;
+        expect(talk.narration[0]!.text, where).toContain(theirs);
+        if (mine !== theirs)
+          expect(talk.narration[0]!.text, where).not.toContain(mine);
         const said: string[] = [talk.state.text];
         const walk = (node: typeof talk.tree | null) => {
           if (!node) return;
