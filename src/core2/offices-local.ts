@@ -66,6 +66,11 @@ export function boardBodyName(
   governmentId?: string,
 ): string {
   const area = placeOfBody(countyDisplayName(listed, governmentId));
+  // A city and county is one government: its council is the city's, said
+  // once ("Honolulu City Council"), never "City and County of Honolulu
+  // County Council".
+  const joint = /^City and County of (.+)$/.exec(area);
+  if (joint) return `${joint[1]} ${bodyName.replace(/^County /, "City ")}`;
   const kind = area.split(" ").at(-1)!;
   if (bodyName.startsWith(`${kind} `))
     return `${area.slice(0, -kind.length)}${bodyName}`;

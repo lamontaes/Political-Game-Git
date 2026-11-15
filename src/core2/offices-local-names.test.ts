@@ -28,6 +28,12 @@ describe("a local body is named the way people write it", () => {
     expect(boardBodyName("PARISH OF ST EXAMPLE", "Parish Council")).toBe(
       "St. Example Parish Council",
     );
+    expect(boardBodyName("CITY AND COUNTY OF EXAMPLE", "County Council")).toBe(
+      "Example City Council",
+    );
+    expect(
+      boardBodyName("CITY AND COUNTY OF EXAMPLE", "Board of Supervisors"),
+    ).toBe("Example Board of Supervisors");
     expect(boardBodyName("PARISH OF EXAMPLE", "Police Jury")).toBe(
       "Example Parish Police Jury",
     );
