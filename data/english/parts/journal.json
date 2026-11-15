@@ -45,7 +45,8 @@
     "school_for": "How long the person had been at a school, from the school's attendance record.",
     "body": "The body a relative's seat belongs to, as the reader says it: the Nelson City Council.",
     "workplace": "Where a relative who holds an office also works, as the reader says it: Michael's Market.",
-    "about": "A question someone holds a view on, as people name it, from the views engine's stance record."
+    "about": "A question someone holds a view on, as people name it, from the views engine's stance record.",
+    "chair": "A committee chair, by full name, from the committee record."
   },
   "maxWords": 10,
   "mining": {
@@ -10991,6 +10992,136 @@
       "origin": "authored",
       "author": "Claude Opus (door scenes, brief G)",
       "date": "2026-11-14",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-line-took-office.the-chair-never-gave-law-a-hearing",
+      "move": "office-line-took-office",
+      "kind": "spoken",
+      "text": "The chair never gave {law} a hearing.",
+      "uses": [
+        {
+          "move": "office-line-took-office",
+          "subject": "office",
+          "role": "line",
+          "choice": "took-office",
+          "journal": [
+            {
+              "kindPrefix": "event:bill-held-in-committee",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead",
+      "date": "2026-11-16",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-line-took-office.law-sat-in-committee-the-chair-would-not-hear-it",
+      "move": "office-line-took-office",
+      "kind": "spoken",
+      "text": "{law} sat in committee. The chair would not hear it.",
+      "uses": [
+        {
+          "move": "office-line-took-office",
+          "subject": "office",
+          "role": "line",
+          "choice": "took-office",
+          "journal": [
+            {
+              "kindPrefix": "event:bill-held-in-committee",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead",
+      "date": "2026-11-16",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-line-took-office.my-bill-law-was-held-in-committee-without-a-hearing",
+      "move": "office-line-took-office",
+      "kind": "spoken",
+      "text": "My bill, {law}, was held in committee without a hearing.",
+      "uses": [
+        {
+          "move": "office-line-took-office",
+          "subject": "office",
+          "role": "line",
+          "choice": "took-office",
+          "journal": [
+            {
+              "kindPrefix": "event:bill-held-in-committee",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead",
+      "date": "2026-11-16",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-line-took-office.chair-would-not-give-law-a-hearing",
+      "move": "office-line-took-office",
+      "kind": "spoken",
+      "text": "{chair} would not give {law} a hearing.",
+      "uses": [
+        {
+          "move": "office-line-took-office",
+          "subject": "office",
+          "role": "line",
+          "choice": "took-office",
+          "journal": [
+            {
+              "kindPrefix": "event:bill-held-in-committee",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead",
+      "date": "2026-11-16",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-line-took-office.chair-held-law-in-committee-it-never-got-a-hearing",
+      "move": "office-line-took-office",
+      "kind": "spoken",
+      "text": "{chair} held {law} in committee. It never got a hearing.",
+      "uses": [
+        {
+          "move": "office-line-took-office",
+          "subject": "office",
+          "role": "line",
+          "choice": "took-office",
+          "journal": [
+            {
+              "kindPrefix": "event:bill-held-in-committee",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead",
+      "date": "2026-11-16",
       "tag": {
         "move": "tell"
       }

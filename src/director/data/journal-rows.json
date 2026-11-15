@@ -415,6 +415,18 @@
       }
     },
     {
+      "kindPrefix": "event:bill-held-in-committee",
+      "ownerFact": "sponsorId",
+      "turn": false,
+      "entry": "story",
+      "eventFacts": {
+        "law": {
+          "fact": "billId",
+          "format": "billNumberAndName"
+        }
+      }
+    },
+    {
       "kindPrefix": "event:bill-failed",
       "turn": false,
       "entry": "story",
