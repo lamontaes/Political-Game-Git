@@ -7,7 +7,7 @@ priority: 2
 size: S
 status: in-pr
 claimed-by: claude/cluster11-fee-rows
-pr:
+pr: #9504
 blocked-on:
 source: the Account lead's note (Nov 15): src/english/bill-sections.test.ts red on the Train since the fee-bills fold #9308
 after:
