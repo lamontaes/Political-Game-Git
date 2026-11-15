@@ -5,9 +5,9 @@ area: gov
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/project-thread-d5qa0q
+pr: #9477
 after:
 blocked-on:
 lead: governing
@@ -33,3 +33,7 @@ root: none
 **Waits on.** gov-running-mate-agrees-and-is-replaced (the player's half, on branch claude/project-thread-d5qa0q) and #9102's asks middle.
 
 **Files.** src/core2/modules/serve-asks.ts, src/core2/modules/record.ts, src/director/purpose-scene.ts, src/director/data/purpose-arcs.json, data/english/parts/scene-talk.json
+
+**Notes.**
+
+- Nov 15, S6: built on the director's promise ledger (#9192), not a new PromiseRow in record.ts, which would be a second promise record. The kind is `hold-question` (src/director/data/promise-kinds.json): it is held by the player and tied to the question and the side, and it is settled by the player's own vote at a roll call or their signature or veto (`settleQuestionPromises`, src/director/promises.ts). The bargain is split out per Words lead ruling 4: gov-serve-ask-price-bargain. Accept and refuse ship here.

@@ -1,6 +1,6 @@
 {
   "meta": {
-    "description": "Whether an elected executive sits with the body whose bills reach their desk at its regular sittings, read by the shared-sitting reader (src/core2/sitting-closeness.ts through world-legislating.ts's sitting calendar): an executive who sits with the body shares its sittings with its members as the members do. Pool item government-executive-shared-time-with-body.",
+    "description": "Whether an elected executive sits with the body whose bills reach their desk at its regular sittings, read by the shared-sitting reader (src/core2/sitting-closeness.ts through world-legislating.ts's sitting calendar): an executive who sits with the body shares its sittings with its members as the members do. Pool item government-executive-shared-time-with-body. A governor's meetings with the legislature's leaders and a signing with the sponsor are not read here: no record of either meeting exists yet (pool items government-executive-leaders-meeting-as-sitting and scene-signing-casts-who-it-reaches).",
     "retrieved": "2026-11-15"
   },
   "kinds": {
@@ -26,24 +26,5 @@
       "tag": "SOURCED",
       "citation": "U.S. Const. art. I, sec. 6, cl. 2 (no person holding an office under the United States may be a member of either House)."
     }
-  },
-  "signing": {
-    "what": "A bill the executive signed is one sitting's contact (the sitting's hours times sittingContactShare, the two alone) shared by the executive and its sponsor, on the day the bill passed its last chamber, faded as colleagues' time fades.",
-    "tag": "ESTIMATED",
-    "estimatedFrom": "Account lead's ruling, Nov 15 (pool item government-executive-shared-time-with-body): a signing is a meeting with the sponsor; its length is the length the game already gives one sitting.",
-    "spread": "one sitting's contact per signed bill"
-  },
-  "leadersMeet": {
-    "what": "An executive who sits with no body (a governor, the President, a county executive who does not preside) meets the body's leaders (speaker, president pro tempore, majority and minority leaders) once each floor week of the session, one sitting's contact each.",
-    "perFloorWeek": 1,
-    "tag": "ESTIMATED",
-    "estimatedFrom": "The pattern of a weekly leadership meeting between a governor and the legislature's leaders while the legislature sits (NCSL, Inside the Legislative Process; the leaders' role as the link to the executive). Not fitted to a count of meetings; no source read gives one. The game keeps no record of such meetings to read instead: the department-head meeting (src/core2/office-day-acts.ts) and the staff briefing (src/core2/modules/staff.ts) write no time between an executive and a legislator.",
-    "spread": [0.5, 1]
-  },
-  "leaderPosts": [
-    "speaker",
-    "president-pro-tempore",
-    "majority-leader",
-    "minority-leader"
-  ]
+  }
 }

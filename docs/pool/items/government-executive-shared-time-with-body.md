@@ -8,7 +8,7 @@ size: M
 status: in-pr
 standard: 2
 claimed-by: claude/project-thread-hkqdh2-executive-ties
-pr:
+pr: 9543
 after: legislature-members-have-no-tie-to-each-other
 blocked-on:
 lead: people
@@ -28,7 +28,7 @@ source: Account lead, Nov 15, from the desk-visits work (Bedford KY: the mayor a
 
 **Rules.** One rule, all 56 places: whether an executive presides at or attends the body comes from each place's records, never from a named place. Wire to the world: the shared time is read from records the game already keeps, with no flat number.
 
-**Done when.** (Widened by the Account lead, Nov 15 16:27Z and 16:34Z.) A mayor reads a tie with every council member on day one, and a county executive with the county's body where that state's executive presides; a governor (or other executive who does not sit) reads one with the body's leaders, one sitting's hours per floor week (an ESTIMATED row with spread, since no record of such meetings exists: the department-head meeting and the briefing write no executive-leader time), and with every sponsor of a bill they signed, one sitting's hours per signing; the conversation reads that shared time as met, so these people never open as strangers; shown at named places and a seed nobody chose, and a second session sees it in dev mode on main. A veto is an act apart and gives no shared time; how the next talk reads it is #9489's greeting rule.
+**Done when.** (Widened by the Account lead, Nov 15 16:27Z; narrowed at his review of #9543, 19:14Z.) A mayor reads a tie with every council member on day one, and a county executive with the county's body where that state's executive presides, from the sittings they share; the conversation reads that shared time as met, so these people never open as strangers; a governor, who sits with no body, shares no sitting with the legislature (the leaders' meeting is government-executive-leaders-meeting-as-sitting, a signing with the sponsor present is scene-signing-casts-who-it-reaches); shown at two named places and one drawn place, and a second session sees it in dev mode on main. A veto is an act apart and gives no shared time; how the next talk reads it is #9489's greeting rule.
 
 **Waits on.** The sitting-ties PR.
 

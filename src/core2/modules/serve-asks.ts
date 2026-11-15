@@ -67,6 +67,7 @@ import {
 import { appointGovernor, prepareAct } from "./office-day";
 import { campaignParameter } from "../campaign-data";
 import { viewOn } from "./views";
+import { contestPositions } from "../contest-positions";
 import {
   chooseRunningMate,
   runningMateChoice,
@@ -79,7 +80,8 @@ export const SERVE_ASKS_MODULE_ID = "core2-serve-asks-v1";
 export const SERVE_ASKED_EVENT = "serve-asked";
 
 /** The scene endings that seat the person, and the ones that keep a no. */
-const YES_ENDINGS: ReadonlySet<string> = new Set(["serving"]);
+/** A yes, and a yes on the player's promise (the price end). */
+const YES_ENDINGS: ReadonlySet<string> = new Set(["serving", "promised"]);
 const NO_ENDINGS: ReadonlySet<string> = new Set(["turned-down"]);
 
 type Tagged = { readonly value: number };
@@ -134,6 +136,15 @@ export interface ServeGrounds {
   readonly inField?: boolean;
   /** For a post: whether a council or chamber still confirms whoever is named. */
   readonly confirmed?: boolean;
+  /**
+   * For a ticket: the question they hold most strongly among those the
+   * ticket's office can decide, and their stance on it. Their price is named
+   * on it, since only a question the player's own vote or signature in that
+   * office can settle is one a promise can be kept or broken on (Account
+   * lead, Nov 15 10:45Z). Null where the office can decide none they hold.
+   */
+  readonly priceQuestion?: string | null;
+  readonly priceStance?: number;
 }
 
 export interface ServeStanding {
@@ -294,6 +305,7 @@ export function ticketStanding(
   const player = api.state.people.get(filing.personId);
   if (!asked || !player) return null;
   const seat = "ticket";
+  const price = priceRead(api, asked, contestPositions(api, ticket));
   const { question, theirStance, playerStance, heard, knows } = sharedRead(
     api,
     asked,
@@ -401,8 +413,34 @@ export function ticketStanding(
       endorsements,
       raisedMinor,
       filingStatus: filing.status ?? "",
+      priceQuestion: price?.question ?? null,
+      priceStance: price?.stance ?? 0,
     },
   };
+}
+
+/**
+ * The question the asked person holds most strongly among those the office
+ * can decide (`contestPositions`: the questions its government may decide,
+ * the same check a body files by), and their stance on it; null where it can
+ * decide none they hold.
+ */
+function priceRead(
+  api: CoreAPI,
+  asked: Readonly<PersonState>,
+  decided: readonly string[],
+): { question: string; stance: number } | null {
+  const theirLean = voterLean(api, asked);
+  const can = new Set(decided);
+  let best: { question: string; stance: number } | null = null;
+  for (const question of PLATFORM_QUESTIONS) {
+    if (!can.has(question)) continue;
+    const stance = viewOn(api, asked.id, question, theirLean);
+    if (stance === 0 || Math.abs(stance) <= Math.abs(best?.stance ?? 0))
+      continue;
+    best = { question, stance };
+  }
+  return best;
 }
 
 const share = (count: number, scale: number) => count / (count + scale);
@@ -704,6 +742,25 @@ export function leanIfHedged(row: ServeAskRow): number {
     : lean;
 }
 
+/**
+ * What the player's word on the asked person's own question is worth to them
+ * (willingness.json `promise`, times how strongly they hold it). Someone whose
+ * read is short of yes by less than this names the promise as their price;
+ * the player accepts it or refuses (gov-serve-ask-price-end). Zero where the
+ * seat weighs no promise or they hold no question.
+ */
+export function promiseWorth(row: ServeAskRow): number {
+  const { grounds } = row.standing;
+  if (!grounds.priceQuestion) return 0;
+  // A price is named only for the side a played world has shown: no place
+  // probed (about 77 worlds, Nov 15) gave a price against a question, so the
+  // lines for one were taken out, and a read against falls to no price, never
+  // to an empty line (Words lead and Account lead, Nov 15 12:26Z; pool item
+  // views-strongest-state-view-always-for).
+  if ((grounds.priceStance ?? 0) < 0) return 0;
+  return w(row.seat, "promise") * Math.abs(grounds.priceStance ?? 0);
+}
+
 /** The running mate choice as the player is offered it: with the willing read. */
 export function offeredRunningMates(api: CoreAPI, filingId: string) {
   return ticketFor(api, filingId)?.choice ?? runningMateChoice(api, filingId);
@@ -838,6 +895,18 @@ export function askToServe(
       askerId: found.filing.personId,
       askedId: input.personId,
       question: standing.grounds.question,
+      // The side they hold on it.
+      side: standing.grounds.theirStance < 0 ? "no" : "yes",
+      // The question a price is named on, one the office can decide, and
+      // their side on it: a promise they ask for is to hold it
+      // (promise-kinds.json `hold-question`).
+      ...(standing.grounds.priceQuestion
+        ? {
+            "price-question": standing.grounds.priceQuestion,
+            "price-side":
+              (standing.grounds.priceStance ?? 0) < 0 ? "no" : "yes",
+          }
+        : {}),
       reason: standing.reason,
     },
   });
@@ -987,6 +1056,9 @@ function askToTakePost(
       askerId: input.appointerId,
       askedId: personId,
       question: standing.grounds.question,
+      // The side they hold on it: a promise they ask for is to hold it
+      // (promise-kinds.json `hold-question`).
+      side: standing.grounds.theirStance < 0 ? "no" : "yes",
       reason: standing.reason,
     },
   });
