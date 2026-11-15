@@ -36,7 +36,7 @@ import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 import { buildBenchWorld } from "../bench/world";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { gameStartDate } from "./game-start";
-import { countedVoters } from "./law-reach/group-a-voting";
+import { countedVoters } from "./modules/voting";
 import { lawChain } from "./modules/laws";
 import { resolveRequiredSignatures } from "./gov-rules/municipal-election-rules";
 import { VOTING_MODULE_ID, type ResultRow } from "./modules/voting";

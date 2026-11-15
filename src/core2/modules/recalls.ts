@@ -38,8 +38,13 @@ import {
   vacateSeat,
   type TermRow,
 } from "./offices";
-import { lastVotesAtLevel, lastVotesForOffice, turnoutOn } from "./voting";
-import { barredFromVoting, countedVoters } from "../law-reach/group-a-voting";
+import {
+  countedVoters,
+  lastVotesAtLevel,
+  mayVoteOn,
+  lastVotesForOffice,
+  turnoutOn,
+} from "./voting";
 import { NEWS_MODULE_ID, storiesHeard, type Story } from "./news";
 import { citizenShareOf } from "../electorate-places";
 import { electorateChange } from "../electorate-inputs";
@@ -185,7 +190,7 @@ export function townVoters(api: CoreAPI): readonly TownVoter[] {
     date = api.state.date;
   return [
     ...adults(api)
-      .filter((p) => !barredFromVoting(api, p.id))
+      .filter((p) => mayVoteOn(api, p.id, date))
       .map((p) => ({
         id: p.id,
         traits: p.traits,

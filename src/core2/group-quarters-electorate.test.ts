@@ -15,7 +15,7 @@ import { gameStartDate } from "./game-start";
 import { prisonPartOfBarredShare } from "./law-reach/group-a-voting";
 import { CAMPAIGNS_MODULE_ID, townDoorCount } from "./modules/campaigns";
 import { residentsRuntime } from "./modules/residents";
-import { countedVoters } from "./law-reach/group-a-voting";
+import { countedVoters } from "./modules/voting";
 import { coreAPI } from "./state";
 import { groupQuartersProfileOf } from "./gov-rules/place-population";
 import type { GroupQuartersType } from "./group-quarters-types";

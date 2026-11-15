@@ -22,7 +22,7 @@ source: counted-carry thread, Nov 15 (traced from the M0-09 red at Pascagoula, M
 
 **Cause.** Found in code: src/core2/modules/recalls.ts built its voters from `countedResidents`, which includes the rooms the state bars (`prisonersBarredHere`), while the voting engine's `countedVoters` leaves them out (since the barred-rooms fix, #9145); src/core2/modules/candidacy.ts kept its own inline copy of the barred-rooms rule; and src/core2/voter-groups.test.ts kept the premise from before #9145.
 
-**Fix.** One reader of the counted electorate: `countedVoters` moves to src/core2/law-reach/group-a-voting.ts beside the rule it reads, and voting, candidacy, public action and recalls all read it. The recall's named signers and voters leave out anyone `barredFromVoting`. The inline copy in candidacy is deleted. M0-09's test states its old premise and the new one. No new stopgap.
+**Fix.** One reader of the counted electorate: the voting engine's `countedVoters`, read by voting, candidacy, public action and recalls. A recall's named signers and voters are those the voting engine's `mayVoteOn` lets vote, and its counted ones are `countedVoters`. The inline copy in candidacy is deleted. M0-09's test states its old premise and the new one. No new stopgap.
 
 **Time box.** 3 hours, Opus at medium effort.
 
@@ -32,4 +32,4 @@ source: counted-carry thread, Nov 15 (traced from the M0-09 red at Pascagoula, M
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/law-reach/group-a-voting.ts, src/core2/modules/voting.ts, src/core2/modules/candidacy.ts, src/core2/modules/recalls.ts, src/core2/modules/public-action.ts, src/core2/voter-groups.test.ts, src/core2/recall-voters.test.ts (new), src/core2/recalls.test.ts, src/core2/group-quarters-electorate.test.ts
+**Files.** src/core2/modules/candidacy.ts, src/core2/modules/recalls.ts, src/core2/voter-groups.test.ts, src/core2/recall-voters.test.ts (new), src/core2/recalls.test.ts

@@ -82,7 +82,8 @@ import { countedResidents, type CountedVoter } from "../electorate";
 import { presidentSide, tideAgainstPresident } from "../electorate-inputs";
 import { partySide } from "../appointments";
 import { approvalGapPoints } from "./national-opinion";
-import { countedVoters, revolvingDoorFor } from "../law-reach/group-a-voting";
+import { revolvingDoorFor } from "../law-reach/group-a-voting";
+import { countedVoters } from "./voting";
 import { fillInPerson } from "../state";
 import { campaignParameter } from "../campaign-data";
 

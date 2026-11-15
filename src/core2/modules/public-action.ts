@@ -27,8 +27,7 @@
  */
 import { countedPersonOf } from "../counted-actor";
 import { townLean } from "./campaigns";
-import { voterLean, weeklyWorkOf } from "./voting";
-import { countedVoters } from "../law-reach/group-a-voting";
+import { countedVoters, voterLean, weeklyWorkOf } from "./voting";
 import { countedViewOn, viewOn } from "./views";
 
 type CountedVoter = ReturnType<typeof countedVoters>[number];

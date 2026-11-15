@@ -19,7 +19,7 @@ import { PLATFORM_QUESTIONS } from "./campaign-data";
 import { ageOn } from "./counted-groups";
 import { countedResidents } from "./electorate";
 import { gameStartDate } from "./game-start";
-import { countedVoters } from "./law-reach/group-a-voting";
+import { countedVoters } from "./modules/voting";
 import { advanceCore } from "./life";
 import { lawChain } from "./modules/laws";
 import { draftBill, holdVote } from "./modules/legislature";

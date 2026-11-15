@@ -39,7 +39,6 @@ export {
   LOBBYING_BAN,
 } from "./voting-keys";
 import type { CoreAPI, CoreState, PersonState, Source } from "../types";
-import { countedResidents, type CountedVoter } from "../electorate";
 import felonyData from "../data/elections/felony-disenfranchisement.json" with { type: "json" };
 import { electionsParameter } from "../elections-calendar";
 import { campaignParameter } from "../campaign-data";
@@ -610,24 +609,6 @@ export function prisonersBarredHere(api: CoreAPI): boolean {
   );
   return !incarceratedMayVote(api, stateKey ?? "").may;
 }
-
-/**
- * The counted residents who vote: every counted resident but those of adult
- * correctional rooms where the state's law bars people held in prison
- * (`incarceratedMayVote`, through `prisonersBarredHere`). The one list every
- * counted voter loop reads.
- */
-export function countedVoters(api: CoreAPI): readonly CountedVoter[] {
-  const all = countedResidents(api.state as CoreState);
-  if (!prisonersBarredHere(api)) return all;
-  // Kept for as long as `countedResidents` keeps the list (a day).
-  const held = votersOfList.get(all);
-  if (held) return held;
-  const voters = all.filter((v) => v.quarters !== "adultCorrectional");
-  votersOfList.set(all, voters);
-  return voters;
-}
-const votersOfList = new WeakMap<readonly CountedVoter[], CountedVoter[]>();
 
 /**
  * Whether a named person's own record bars them from voting. Maine,

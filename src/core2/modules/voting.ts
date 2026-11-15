@@ -60,7 +60,7 @@ import {
   applyElectionLaws,
   barredFromVoting,
   prisonPartOfBarredShare,
-  countedVoters,
+  prisonersBarredHere,
   recordRedistricting,
   electionLawTurnoutCost,
   automaticRegistrationInForce,
@@ -4562,6 +4562,24 @@ function countedScale(api: CoreAPI): number {
     (1 - (electorateChange(api).barred - prisonPartOfBarredShare(api)))
   );
 }
+
+/**
+ * The counted residents who vote: every counted resident but those of adult
+ * correctional rooms where the state's law bars people held in prison
+ * (`incarceratedMayVote`, through `prisonersBarredHere`). The one list every
+ * counted voter loop reads.
+ */
+export function countedVoters(api: CoreAPI): readonly CountedVoter[] {
+  const all = countedResidents(api.state as CoreState);
+  if (!prisonersBarredHere(api)) return all;
+  // Kept for as long as `countedResidents` keeps the list (a day).
+  const held = votersOfList.get(all);
+  if (held) return held;
+  const voters = all.filter((v) => v.quarters !== "adultCorrectional");
+  votersOfList.set(all, voters);
+  return voters;
+}
+const votersOfList = new WeakMap<readonly CountedVoter[], CountedVoter[]>();
 
 /**
  * The town's eligible voters past its named and counted adults: its
