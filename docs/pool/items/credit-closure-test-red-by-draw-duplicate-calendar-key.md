@@ -19,7 +19,7 @@ source: found by the Account lead's gate on the opening-lines branch, Nov 15
 claimed-at:
 ---
 
-**What.** `src/core2/closure-credit-line.test.ts` draws a random seed and place on every run and throws "Duplicate institutional calendar key." from `keepRace` in the voting module during its year, so a business's closing is never reached. Seen: it failed on two different drawn seeds in one hour, one with and one without the opening-lines change.
+**What.** `src/core2/closure-credit-line.test.ts` draws a random seed and place on every run and throws "Duplicate institutional calendar key." from `keepRace` in the voting module during its year, so a business's closing is never reached. The test passes on other seeds. Seen: it failed on two different drawn seeds in one hour, one with and one without the opening-lines change.
 
 **Cause.** Needs cause. Measured: the test is unpinned (`randomBytes(16)` seed, no place named, line 11), against the pinned-tests rule. It failed at seed eea8c21d565b84a481fc6c4c2ef39533 on a branch with a change to the credit review, and at seed 5d397557254679c6152fb5b9486f9959 on the Train's own credit.ts at head 29ef4685, so the credit change is not the cause. The stack is `module-calendar.ts:151` from `keepRace` (voting.ts:7113), `decide`, `decideSpecial`, `raceWork`: a special-election decision schedules a calendar key that is already scheduled.
 
