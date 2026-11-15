@@ -196,15 +196,13 @@ function play(honest: boolean) {
   };
 }
 
+// The same spot, two temperaments, each its own played world (a world each,
+// so each test is one world's time).
 it("a senate colleague low in truthfulness says yes and votes no; the roll call sets the player straight", () => {
   const liar = play(false);
-  const honest = play(true);
   process.stdout.write(
-    `TOLD CLAIMS ${liar.where}\n  low truthfulness: said ${liar.answer}, lie ${liar.lieId}, roll ${liar.vote}, found out ${liar.found.map((e) => e.id).join(",")}, closeness ${liar.before.toFixed(3)} -> ${liar.after.toFixed(3)}\n  high truthfulness: said ${honest.answer}, roll ${honest.vote}\n`,
+    `TOLD CLAIMS ${liar.where}\n  low truthfulness: said ${liar.answer}, lie ${liar.lieId}, roll ${liar.vote}, found out ${liar.found.map((e) => e.id).join(",")}, closeness ${liar.before.toFixed(3)} -> ${liar.after.toFixed(3)}\n`,
   );
-  // The same spot, two temperaments: the honest one does not say yes.
-  expect(honest.answer, honest.where).not.toBe("agree");
-  expect(honest.lieId, honest.where).toBeUndefined();
   // The liar says yes, kept as a lie and as the player's belief.
   expect(liar.answer, liar.where).toBe("agree");
   expect(liar.lie?.kind, liar.where).toBe(liar.kind);
@@ -220,4 +218,13 @@ it("a senate colleague low in truthfulness says yes and votes no; the roll call 
   expect(liar.afterBelief, liar.where).toBeUndefined();
   expect(liar.knows, liar.where).toBe("no");
   expect(liar.after, liar.where).toBeLessThan(liar.before);
+}, 60_000);
+
+it("the same colleague high in truthfulness does not say yes", () => {
+  const honest = play(true);
+  process.stdout.write(
+    `TOLD CLAIMS ${honest.where}\n  high truthfulness: said ${honest.answer}, roll ${honest.vote}\n`,
+  );
+  expect(honest.answer, honest.where).not.toBe("agree");
+  expect(honest.lieId, honest.where).toBeUndefined();
 }, 60_000);
