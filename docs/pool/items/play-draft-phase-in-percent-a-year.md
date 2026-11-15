@@ -5,7 +5,7 @@ area: play
 kind: feature
 priority: 2
 size: S
-status: in-pr
+status: merged
 pr: #9344
 standard: 2
 claimed-by:

@@ -5,7 +5,7 @@ area: core
 kind: feature
 priority: 3
 size: S
-status: in-pr
+status: merged
 claimed-by:
 pr: 9140
 after:

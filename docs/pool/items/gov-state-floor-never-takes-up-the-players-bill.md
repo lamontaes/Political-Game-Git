@@ -5,7 +5,7 @@ area: gov
 kind: bug
 priority: 2
 size: M
-status: in-pr
+status: merged
 claimed-by: claude/cluster11-floor-date
 pr: #9459
 blocked-on:

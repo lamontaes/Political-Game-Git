@@ -5,7 +5,7 @@ area: play
 kind: feature
 priority: 2
 size: M
-status: in-pr
+status: merged
 claimed-by: claude/play-player-picks-the-member-to-ask
 branch: claude/play-player-picks-the-member-to-ask
 pr: #9216
