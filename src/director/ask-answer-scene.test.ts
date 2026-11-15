@@ -167,21 +167,49 @@ it("asked out by the player, someone seeing someone says so in a scene; waving i
 
 it("the player proposes on the first day of dating: the partner says not yet, and why, in a scene (Pulaski, Ohio)", () => {
   const { core, director, api, me, singles, where } = world();
-  const partner = singles[0]!;
-  api.setPartnersV1({
-    personIds: [me, partner.id],
-    together: true,
-    source: {
-      tag: "SOURCED",
-      asOf: core.date,
-      citation: "The partnerships writer, as its monthly review calls it.",
-    },
-    facts: { union: "dating" },
-  });
+  const player = core.people.get(me)!;
+  const today = makeIsoDate(core.date);
+  const ageOf = (born: string) => ageOnDate(makeIsoDate(born), today);
+  const gender = (row: { looks?: { gender?: string } }) =>
+    row.looks?.gender === "female" || row.looks?.gender === "male"
+      ? row.looks.gender
+      : undefined;
+  // A couple made the way play makes one (Account lead, Nov 15: a hand-set
+  // couple is not staging): the single whose age fits best, met as a talk
+  // meets them, evenings together, and an Ask out answered yes. The old
+  // premise set a stranger as the player's partner by hand, which only a
+  // tie of zero answers "not sure yet"; a real first day is "too soon".
+  const fitFor = (row: (typeof singles)[number]) =>
+    partnerAgeLikelihood(
+      ageOf(row.birthDate),
+      gender(row),
+      ageOf(player.birthDate),
+      gender(player),
+    );
+  const partner = [...singles].sort(
+    (a, b) => fitFor(b) - fitFor(a) || a.id.localeCompare(b.id),
+  )[0]!;
+  meetInTalk(
+    api,
+    me,
+    partner.id,
+    player.placeId,
+    1,
+    `talk:${core.date}:${me}:${partner.id}`,
+  );
+  for (let evening = 0; evening < 20; evening += 1)
+    api.relationship(me, partner.id, "friend" as never, 3, undefined, {
+      cause: "visit",
+    });
+  expect(askOut(api, me, partner.id), where).toMatchObject({ answer: "yes" });
   // Asked at home, the two in the room together: the answer is given there.
   const home = core.people.get(me)!.householdId;
   const answer = propose(api, me, partner.id, { room: home });
-  expect(answer, where).toMatchObject({ asked: true, answer: "no" });
+  expect(answer, where).toMatchObject({
+    asked: true,
+    answer: "no",
+    reason: "too-soon",
+  });
   const { entry, scene } = sceneOf(
     core,
     director,
