@@ -48,5 +48,43 @@
       "medianTransactionAccounts": 111600,
       "shareThatSaved": 0.8385
     }
-  ]
+  ],
+  "byAgeOfHead": {
+    "source": "Federal Reserve Board, Survey of Consumer Finances 2022: median transaction-account balance among families holding them, by age of head, as reprinted in Stacker / Motley Fool Money, 'The average savings account balance in the US' (KVIA, Jan 21, 2026) and Investopedia via Yahoo Finance; the all-families median is $8,000 (Federal Reserve Bulletin, October 2023, Table 3)",
+    "url": "https://kvia.com/money/stacker-money/2026/01/21/the-average-savings-account-balance-in-the-us-heres-how-much-americans-have-in-the-bank/",
+    "readOn": "2026-11-14",
+    "allFamiliesMedian": 8000,
+    "groups": [
+      {
+        "ages": "Less than 35",
+        "fromAge": 0,
+        "medianTransactionAccounts": 5400
+      },
+      {
+        "ages": "35–44",
+        "fromAge": 35,
+        "medianTransactionAccounts": 7500
+      },
+      {
+        "ages": "45–54",
+        "fromAge": 45,
+        "medianTransactionAccounts": 8700
+      },
+      {
+        "ages": "55–64",
+        "fromAge": 55,
+        "medianTransactionAccounts": 8000
+      },
+      {
+        "ages": "65–74",
+        "fromAge": 65,
+        "medianTransactionAccounts": 13400
+      },
+      {
+        "ages": "75 or more",
+        "fromAge": 75,
+        "medianTransactionAccounts": 10000
+      }
+    ]
+  }
 }
