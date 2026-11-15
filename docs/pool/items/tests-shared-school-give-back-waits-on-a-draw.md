@@ -18,9 +18,9 @@ root: none
 source: Red on the Train b22cd350 (Nov 15) after #9505 folded
 ---
 
-**What.** `src/director/shared-school-give-back.test.ts` is red on the Train. It played a year of the director's scenes at seed 7952d3f3e3253ee4 and waited for a scene whose counterpart was a schoolmate. After the Train changed the draw, no school question came up in the year, so the test failed with nothing to check. It guards the shared-school give-back (words-played-talks-cause-invite-yes-not-followed-up).
+**What.** `src/director/shared-school-give-back.test.ts` is red on the Train. It played a year of the director's scenes at seed 7952d3f3e3253ee4 and waited for a scene whose counterpart was a schoolmate. After the Train changed the draw, no school question came up in the year, so the test failed with nothing to check. Guards: the shared-school give-back a player hears in a talk (words-played-talks-cause-invite-yes-not-followed-up).
 
-**Cause.** Measured: on the Train b22cd350, the test fails at its final count with 0 questions after 365 played days. The test waits for a draw: whether a scene's talk pairs a watched person with a schoolmate depends on the year's scenes, and any change to the director moves that.
+**Cause.** Measured: `npx vitest run src/director/shared-school-give-back.test.ts` at seed 7952d3f3e3253ee4, on the Train b22cd350, fails at its final count with 0 questions after 365 played days. The test waits for a draw: whether a scene's talk pairs a watched person with a schoolmate depends on the year's scenes, and any change to the director moves that.
 
 **Fix.** In the test, the player chooses whom to talk to, through the bench's own routes: a new life made in the creator at 45 (so the school years are long enough ago for a schoolmate to raise them), schoolmates taken from the school records who work at a place the player's Travel menu lists, a visit to each place (`/api/goto/visit`) and a talk with each schoolmate there (`/api/talk/open`). No moment is copied or staged by hand. No change to the conversation engine.
 
@@ -28,7 +28,7 @@ source: Red on the Train b22cd350 (Nov 15) after #9505 folded
 
 **Rules.** One rule, all 56 places: the place comes from the seed, never named in logic. No dice: the test changes how the talk is reached, never what anyone says.
 
-**Done when.** A second session, on main, runs the test: at seed 7952d3f3e3253ee4 (Dortches, North Carolina) at least four schoolmates ask about the school, each answers back after the player's reply, and the test fails when `shared-school` is taken out of `givesBack.kinds`.
+**Done when.** A second session, on main, runs the test in the place seed 7952d3f3e3253ee4 draws from all 56 (Dortches, North Carolina), pinned in the test; there at least four schoolmates ask about the school, each answers back after the player's reply, and the test fails when `shared-school` is taken out of `givesBack.kinds`.
 
 **Waits on.** Nothing.
 
