@@ -313,7 +313,7 @@ it("the story prints the official's own answer on the call, a decline, or nothin
   out.push(...printStories(core, played));
   if (process.env.PLAYED_OUT)
     writeFileSync(process.env.PLAYED_OUT, out.join("\n"));
-}, 240_000);
+}, 60_000);
 
 /**
  * Conflicts on awards the game itself makes. No hand-made record: each body
@@ -325,8 +325,9 @@ it("the story prints the official's own answer on the call, a decline, or nothin
  * Wall, South Dakota (4668380) and Boyd, Texas (4809748) each have one member
  * with two conflicted county awards on 2025-02-01; Hayden, Colorado (0835070)
  * and West Hartford, Connecticut (0982660) one each. The world plays its own
- * days to the desk's sitting after the awards (about five weeks, 15 to 25
- * seconds each measured), hence the 60 second limit.
+ * days to the desk's sitting after the awards, about five weeks. Measured
+ * one at a time with another gate running: 15 to 29 seconds, and 60 for
+ * West Hartford, the largest town; hence the 120 second limit.
  */
 const CONFLICT_WORLDS: readonly {
   name: string;
@@ -457,4 +458,4 @@ for (const world of CONFLICT_WORLDS)
     }
     if (process.env.PLAYED_OUT)
       appendFileSync(process.env.PLAYED_OUT, `\n${out.join("\n")}`);
-  }, 60_000);
+  }, 120_000);
