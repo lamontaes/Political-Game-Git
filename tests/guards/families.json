@@ -232,6 +232,8 @@
         "src/core2/work-spans-v1.ts"
       ],
       "paths": [
+        "src/core2/shared-time.ts",
+        "src/core2/work-closeness.ts",
         "src/core2/country-law.ts",
         "src/core2/country-model.ts",
         "src/core2/country-opening.ts",
@@ -433,7 +435,8 @@
         "src/core2/opening-roles.ts",
         "src/core2/game-start.ts",
         "src/core2/output-numbers.ts",
-        "src/core2/output-number-readers.ts"
+        "src/core2/output-number-readers.ts",
+        "src/core2/player-warm-up.ts"
       ],
       "paths": [
         "src/core2/modules/world.ts",

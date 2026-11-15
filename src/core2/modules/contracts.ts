@@ -88,6 +88,8 @@ export interface ContractAwardRow {
   }[];
   readonly paidMinor: number;
   readonly paymentIds: readonly string[];
+  /** The day of the latest payment, "" until the first (projects.ts reads it for the work's finish). */
+  readonly lastPaidOn: string;
 }
 
 const table = (api: CoreAPI) =>
@@ -322,6 +324,7 @@ function award(
     conflicts: interested(api, state, winner, owners.get(winner), votes),
     paidMinor: 0,
     paymentIds: [],
+    lastPaidOn: "",
   };
   table(api).put(row as unknown as ModuleRow);
   // A bribe taken for the award is settled by whether the payer's firm won the award: a
@@ -374,6 +377,7 @@ export function openContracts(core: CoreState): void {
         ...row,
         paidMinor: row.paidMinor + payment.amountMinor,
         paymentIds: [...row.paymentIds, payment.id],
+        lastPaidOn: api.state.date,
       } as unknown as ModuleRow);
     },
   });

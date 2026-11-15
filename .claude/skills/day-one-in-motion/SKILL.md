@@ -30,12 +30,16 @@ A stock the engine already produces on day 0 needs no work; say so with a record
 
 People already out of work on day 0 (the stock, not only the monthly flow); voters already registered; party chairs with ties; officials already giving their yearly address and holding office hours unattended; people with something to say; open vacancies; a ballot that already has filings when a world starts inside a filing window; campaigns with money already raised and set aside. At state and federal level: sessions under way, bills in progress, budgets in force, officeholders mid-term, laws in force with their enactment history. Every state's legislature is seated from day one (`OWNER-DECISIONS.md`, Sept 26 and the Oct ruling that laws work federally).
 
+## The one mechanism: the opening warm-up
+
+A world can be built `warmUpDays` before its start date and run forward to it with the engines' own days (`src/core2/player-warm-up.ts`; `OPENING_WARMUP_DAYS` is 31 and the New game route and the day-zero test use it; tests that build a world without the option are unchanged). It fills the records an engine makes on its first steps. What a place has from longer ago than a month (last year's address, past police months, sitting committees, party chairs, a session in progress, a vacancy) is **not** a longer warm-up: the engine that owns it writes that stock for the past date inside the warm-up window, called from the one warm-up. Rules it keeps: the played person does nothing in the window (it runs the player clock's own day, `runControlledDay`, so no module may choose for them; pinned in `src/core2/player-warm-up.test.ts`, which fails if the hold is removed); the director shows the player nothing from it (`director.whileWarming`); ages and the entrant are read on the start date, not the build date (`cohortsOn`, `openingAgeOn`).
+
 ## How it is checked
 
 A skill alone does not hold, so three things enforce it:
 
 - `src/core2/data/opening/day-zero.json` calls each table stock (a real place has it on an ordinary day before anyone watches), flow-only, or unsure. The test of stock: would a real town, state or country have this record on an ordinary day?
-- `src/core2/day-zero.test.ts` builds a world at two pinned places (`pinned-tests`; one world covers town, state and federal, since it is one simulation) and fails by name where a stock table has no rows at creation. A still-empty stock table is known-red and names its pool item (never a stopgap id); the list only shrinks, and a known-red table that has rows fails until its mark is removed.
+- `src/core2/day-zero.test.ts` builds a world with the warm-up at two pinned places (`pinned-tests`; one world covers town, state and federal, since it is one simulation) and fails by name where a stock table has no rows at creation. A still-empty stock table is known-red and names its pool item (never a stopgap id); the list only shrinks, and a known-red table that has rows fails until its mark is removed.
 - `tests/guards/day-zero.test.ts` fails when a module id in `src/core2` is not in the file's `modules` list, so a new module cannot ship without answering the question, and when a known-red table is not in `tests/guards/day-zero-baseline.json`.
 
 Measure a table with `node --import tsx scripts/dev-tests/day-zero-year.ts <seed> 365`. It reads at creation and after 1, 31 and 365 days, because an engine's first step seats much of the opening: a table empty at creation and filled a day later is a smaller finding than one empty for a year, but a player can read it before the step runs.

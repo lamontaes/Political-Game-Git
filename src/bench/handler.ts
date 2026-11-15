@@ -28,7 +28,11 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { randomUUID } from "node:crypto";
 import { BenchPlayer } from "./player";
-import { buildBenchWorld, buildBenchWorldInStages } from "./world";
+import {
+  buildBenchWorld,
+  buildBenchWorldInStages,
+  OPENING_WARMUP_DAYS,
+} from "./world";
 import { gameStartDate } from "../core2/game-start";
 import { knownCard, personCard } from "./card";
 import { openingArrivalMinute, openingFrames } from "./opening";
@@ -444,6 +448,7 @@ const ROUTES: readonly Route[] = [
           gameStartDate(),
           {
             twoLevel: true,
+            warmUpDays: OPENING_WARMUP_DAYS,
             onWorld: (built, id) => {
               if (id) state.loadingPeek = loadingStory(built, id);
             },
