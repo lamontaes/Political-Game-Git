@@ -73,7 +73,9 @@ const RECORD_BRIEFS: ReadonlySet<string> = new Set(briefs.recordOutletOnly);
  * A month the town's own record puts well over its usual: the usual rests on
  * enough months and chance rarely gives a month this busy (the wire item's
  * `busier`). The one case an outlet that is not the town's paper of record
- * runs the town's own log, in its own words.
+ * runs the town's own log, in its own words, and only when the town's share
+ * of its audience leaves it room (`levelRoom`), so a market station does not
+ * carry a village's busy month.
  */
 function wellOverUsual(item: {
   readonly facts?: Readonly<Record<string, unknown>>;
