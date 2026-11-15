@@ -1,7 +1,7 @@
 /* global process, console, document, fetch */
 // Saved games on the title, in a real browser on the bench (npm run bench):
-// the item is live and opens a sheet that says what is kept and what is not
-// built yet; it never does nothing (screen-to-mock: nothing on screen does nothing).
+// the item is live and opens a sheet with one strip for each saved life, or
+// one plain line when there is none; it never does nothing (screen-to-mock).
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
 const base = `http://localhost:${process.env.BENCH_PORT ?? 3000}`;
@@ -26,21 +26,23 @@ try {
   }));
   console.log(`${read.title}: ${read.text.replace(/\s+/g, " ")}`);
   assert.equal(read.title, "Saved games");
-  // The one life in progress is a strip with its name, its date and Load; with none, one plain line.
-  const life = await page.locator("#front-continue").isEnabled();
-  if (life) {
-    assert.equal(await page.locator("#sheet .saves-row .sechead").count(), 1);
+  // Each saved life is a strip with its name, its date and Load; with none, one plain line.
+  const title = await page.evaluate(async () =>
+    (await fetch("/api/title")).json(),
+  );
+  if (title.saves.length) {
     assert.equal(
-      await page.locator("#sheet .saves-row .action").innerText(),
+      await page.locator("#sheet .saves-row .sechead").count(),
+      title.saves.length,
+    );
+    assert.equal(
+      await page.locator("#sheet .saves-row .action").first().innerText(),
       "Load",
     );
-    // The bust follows the title's own record (the player's one face; none for a child).
-    const face = await page.evaluate(
-      async () => (await (await fetch("/api/title")).json()).life?.face,
-    );
+    // The bust follows each save's own record (the player's one face; none for a child).
     assert.equal(
       await page.locator("#sheet .saves-row .mxbust .bust-stack").count(),
-      face ? 1 : 0,
+      title.saves.filter((life) => life.face).length,
     );
   } else assert.ok(await page.locator("#sheet .saves-none").count());
   if (process.env.SHOT) await page.screenshot({ path: process.env.SHOT });

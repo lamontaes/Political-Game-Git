@@ -71,6 +71,24 @@ export interface SaveV1 {
    * only the commands after; otherwise the save replays from the opening.
    */
   snapshot?: { world: WorldSnapshot; commandCount: number };
+  /** What a title shows for the save without loading it, written by the host that saved it. */
+  cover?: SaveCover;
+}
+
+/**
+ * The life a save holds as a title shows it before loading (Continue and
+ * Saved games): a view of the records on the day it was written, never read
+ * by the world.
+ */
+export interface SaveCover {
+  personId: string;
+  name: string;
+  age: number;
+  placeName: string;
+  date: string;
+  minuteOfDay: number;
+  /** The player's face as every screen draws it. */
+  face?: unknown;
 }
 
 export interface Game {
@@ -210,7 +228,7 @@ export function runCommand<R = unknown>(
  */
 export function saveGame(
   game: Game,
-  options: { snapshot?: boolean } = {},
+  options: { snapshot?: boolean; cover?: SaveCover } = {},
 ): SaveV1 {
   const snapshot =
     options.snapshot !== false &&
@@ -228,6 +246,7 @@ export function saveGame(
     commands: JSON.parse(JSON.stringify(game.commands)),
     savedAt: makeIsoDate(game.core.date),
     ...(snapshot ? { snapshot } : {}),
+    ...(options.cover ? { cover: options.cover } : {}),
   };
 }
 
@@ -282,6 +301,13 @@ export function loadGame(save: SaveV1, options: GameOptions = {}): Game {
   if (save.savedAt > game.core.date)
     runCommand(game, "advance", { through: save.savedAt });
   return game;
+}
+
+/** A save read from its text, its format checked (the one reader every host uses). */
+export function parseSave(text: string): SaveV1 {
+  const save = JSON.parse(text) as SaveV1;
+  openSave(save);
+  return save;
 }
 
 /** A save's format checked; the version it was made under when it is not this one. */
