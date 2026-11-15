@@ -186235,56 +186235,6 @@
         "move": "narrate",
         "key": "honor"
       }
-    },
-    {
-      "key": "scene-talk.state-ask.a-few-people-came-out-about-issue-does-that-change-anything",
-      "move": "state-ask",
-      "kind": "spoken",
-      "text": "A few people came out about {issue}. Does that change anything for you?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "ask",
-          "role": "asker",
-          "purpose": "office-doubt",
-          "key": "threat",
-          "requiresFacts": ["issue", "protest", "turnout-few"]
-        }
-      ],
-      "bearing": "hurt",
-      "origin": "authored",
-      "author": "Words lead's ruling for #9418 (turnout looks), Account lead",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "ask",
-        "key": "threat"
-      }
-    },
-    {
-      "key": "scene-talk.state-ask.people-came-out-about-issue-does-that-change-anything-for-yo",
-      "move": "state-ask",
-      "kind": "spoken",
-      "text": "People came out about {issue}. Does that change anything for you?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "ask",
-          "role": "asker",
-          "purpose": "office-doubt",
-          "key": "threat",
-          "requiresFacts": ["issue", "protest", "turnout-many"]
-        }
-      ],
-      "bearing": "hurt",
-      "origin": "authored",
-      "author": "Words lead's ruling for #9418 (turnout looks), Account lead",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "ask",
-        "key": "threat"
-      }
     }
   ]
 }
