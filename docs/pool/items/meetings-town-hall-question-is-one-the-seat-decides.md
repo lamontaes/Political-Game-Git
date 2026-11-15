@@ -1,7 +1,7 @@
 ---
 id: meetings-town-hall-question-is-one-the-seat-decides
 title: "A town hall's residents ask what the host's seat can decide, not the question they feel most about anything"
-area: meetings
+area: core
 kind: bug
 priority: 2
 size: S
