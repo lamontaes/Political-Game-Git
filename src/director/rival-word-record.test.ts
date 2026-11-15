@@ -39,15 +39,13 @@ import { purposeScene } from "./purpose-scene";
 import type { TreeNode } from "./scene-talk";
 
 /**
- * Five named places on fixed seeds, each a race a candidate gets onto the
- * ballot for: Millston WI, Patricksburg IN, Grafton VT, Malaeloa/Aitulagi AS and Bicknell UT. The play is the
+ * Three named places on fixed seeds, each a race a candidate gets onto the
+ * ballot for: Millston WI, Grafton VT and Bicknell UT. Each proves what the others do not: Millston a teller moved none and a little by a campaign message, Grafton a night of doors, Bicknell a teller moved a lot. Between them every line of the bank's rival-word scene plays. The time is the game's own played days (a season from filing to election day, about a minute each), so the limit is near twice the measured time. The play is the
  * same every run.
  */
 const PLACES = [
   { key: "5552025", seed: "rwprobe:0" },
-  { key: "1858374", seed: "rwprobe:4" },
   { key: "5028825", seed: "rwprobe:5" },
-  { key: "territory:AS:malaeloa-aitulagi", seed: "rwprobe:3" },
   { key: "4905490", seed: "rwprobe:6" },
 ].map((row) => {
   const place = drawPlace(row.seed, "campaign-season");

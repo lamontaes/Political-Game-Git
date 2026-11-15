@@ -33033,6 +33033,15 @@
           "purpose": "first-day-ropes",
           "key": "arrival",
           "after": "scene-talk.reply-thank.good-to-know-thanks"
+        },
+        {
+          "subject": "scene",
+          "purpose": "rival-word",
+          "key": "news-received",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "after": "thank"
         }
       ],
       "bearing": "glad",
@@ -77102,7 +77111,8 @@
           "key": "news-received",
           "step": "follow",
           "move": "accept",
-          "role": "asker"
+          "role": "asker",
+          "after": "deflect"
         }
       ],
       "bearing": "calm",
@@ -77126,7 +77136,8 @@
           "key": "news-received",
           "step": "follow",
           "move": "accept",
-          "role": "asker"
+          "role": "asker",
+          "after": "deflect"
         }
       ],
       "bearing": "glad",
@@ -185887,15 +185898,6 @@
           "move": "ask",
           "role": "asked",
           "requiresFacts": ["issue", "side-for"]
-        },
-        {
-          "subject": "scene",
-          "purpose": "rival-word",
-          "key": "news-received",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "requiresFacts": ["issue", "side-against"]
         }
       ],
       "origin": "authored",
@@ -185912,6 +185914,42 @@
       "kind": "spoken",
       "text": "Did it change how you see {issue}?",
       "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-word",
+          "key": "news-received",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "requiresFacts": ["issue", "side-for", "moved-little"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "rival-word",
+          "key": "news-received",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "requiresFacts": ["issue", "side-for", "moved-lot"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "rival-word",
+          "key": "news-received",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "requiresFacts": ["issue", "side-against", "moved-little"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "rival-word",
+          "key": "news-received",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "requiresFacts": ["issue", "side-against", "moved-lot"]
+        },
         {
           "subject": "scene",
           "purpose": "rival-word",
@@ -186075,7 +186113,8 @@
           "step": "follow",
           "move": "press",
           "role": "asker",
-          "requiresFacts": ["issue"]
+          "requiresFacts": ["issue"],
+          "after": "deflect"
         }
       ],
       "origin": "authored",
@@ -186099,7 +186138,8 @@
           "step": "follow",
           "move": "press",
           "role": "asker",
-          "requiresFacts": ["moved-little"]
+          "requiresFacts": ["moved-little"],
+          "after": "deflect"
         },
         {
           "subject": "scene",
@@ -186108,7 +186148,8 @@
           "step": "follow",
           "move": "press",
           "role": "asker",
-          "requiresFacts": ["moved-lot"]
+          "requiresFacts": ["moved-lot"],
+          "after": "deflect"
         }
       ],
       "origin": "authored",
@@ -186120,10 +186161,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-answer.it-s-about-issue-opponent-is-for-it",
+      "key": "scene-talk.follow-answer.opponent-is-for-it",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "It's about {issue}. {opponent} is for it.",
+      "text": "{opponent} is for it.",
       "uses": [
         {
           "subject": "scene",
@@ -186133,7 +186174,7 @@
           "move": "answer",
           "role": "asker",
           "after": "scene-talk.reply-ask.what-are-they-saying-about-issue",
-          "requiresFacts": ["opponent", "issue", "side-for"]
+          "requiresFacts": ["opponent", "side-for"]
         }
       ],
       "origin": "authored",
@@ -186145,27 +186186,26 @@
       }
     },
     {
-      "key": "scene-talk.follow-answer.it-s-about-issue-opponent-is-against-it",
-      "move": "follow-answer",
+      "key": "scene-talk.follow-accept.i-figured-you-d-want-to-know",
+      "move": "follow-accept",
       "kind": "spoken",
-      "text": "It's about {issue}. {opponent} is against it.",
+      "text": "I figured you'd want to know.",
       "uses": [
         {
           "subject": "scene",
           "purpose": "rival-word",
           "key": "news-received",
           "step": "follow",
-          "move": "answer",
+          "move": "accept",
           "role": "asker",
-          "after": "scene-talk.reply-ask.what-are-they-saying-about-issue",
-          "requiresFacts": ["opponent", "issue", "side-against"]
+          "after": "thank"
         }
       ],
       "origin": "authored",
       "author": "Words lead (rival-word lines, Nov 15), placed by the record",
       "date": "2026-11-15",
       "tag": {
-        "move": "answer",
+        "move": "accept",
         "key": "news-received"
       }
     }
