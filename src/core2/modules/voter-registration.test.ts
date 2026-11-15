@@ -273,5 +273,5 @@ describe("voter registration (pinned places, fixed seeds)", () => {
       );
       expect(row.how, `${where}: ${mover.id}`).toBe("automatic");
     }
-  }, 210_000);
+  }, 40_000);
 });
