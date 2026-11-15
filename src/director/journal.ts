@@ -11,6 +11,7 @@ import {
 } from "../core2/modules/people";
 import { P } from "../core2/parameters";
 import { coreAPI } from "../core2/state";
+import { snapshotExplicitControlV1 } from "../core2/player-control-state-v1";
 import journalLife from "./data/journal-life.json" with { type: "json" };
 import JOURNAL_OUTLINE from "./data/journal-outline.json" with { type: "json" };
 import billCatalogData from "../core2/data/legislature/bill-catalog.json" with { type: "json" };
@@ -2563,6 +2564,8 @@ export function composeJournal(
   // never told twice, and one event that moved the person says what they
   // think now once, not once for each record it left (Words lead, rule 86).
   const viewsSaid = new Set<string>();
+  const isPlayer =
+    snapshotExplicitControlV1(core as CoreState).personId === personId;
   // A sentence that follows a record (how long they had been there) is said
   // once in a life, whichever record it follows: two jobs held three years
   // are not "I had been there three years." twice (rule: no sentence twice).
@@ -2574,6 +2577,12 @@ export function composeJournal(
         ? movedViews.get(unit.moment.causeFactId)
         : undefined);
     if (!moved) return null;
+    // Nothing is cast for the player without their press (owner; Words lead,
+    // Nov 15): a stand or a lean the views engine moved ("I was against a
+    // price on carbon", "I grew more liberal") is not the player's own
+    // choice, so for the player the event line alone is told. It stays for
+    // everyone else, whose views are theirs.
+    if (isPlayer) return null;
     const eventKey = `${unit.moment.causeKind.split(":")[zero]}:${unit.moment.date}`;
     if (viewsSaid.has(moved.id) || viewsSaid.has(eventKey)) return null;
     const enact = moved.side === "enact";
@@ -3230,7 +3239,7 @@ export function composeJournal(
    * record (main before #8973 lands) tells nothing.
    */
   const pastViewSentences = (paragraph: string): JournalWorded[] => {
-    if (!core.modules.has(VIEWS_MODULE_ID)) return [];
+    if (!core.modules.has(VIEWS_MODULE_ID) || isPlayer) return [];
     const view = viewOf(coreAPI(core as CoreState), personId) as {
       id: string;
       pastShifts?: readonly {
