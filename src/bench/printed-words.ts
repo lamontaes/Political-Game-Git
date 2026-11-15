@@ -2095,11 +2095,15 @@ function winnersOn(read: Reader, date: string): string[] {
 
 /**
  * Which of the town's outlets that printed a race this story is, in the
- * order of their ids: each takes its own wordings (rule 37). An at-large
- * race may be printed from any of its seats' records.
+ * order of their ids: each takes its own wordings (rule 37), and a town with
+ * one paper takes none by turn. An at-large race may be printed from any of
+ * its seats' records.
  */
-function raceTurn(read: Reader, contest: ContestRow | undefined): number {
-  if (!contest || !read.core.modules.has(PRESS_MODULE_ID)) return 0;
+function raceTurn(
+  read: Reader,
+  contest: ContestRow | undefined,
+): number | undefined {
+  if (!contest || !read.core.modules.has(PRESS_MODULE_ID)) return undefined;
   const outlets = new Set<string>();
   for (const seat of atLargeGroup(read.api, contest))
     for (const row of read.query<{ outletId: string }>(
@@ -2109,6 +2113,9 @@ function raceTurn(read: Reader, contest: ContestRow | undefined): number {
       [`election-result:${seat.id}`],
     ))
       outlets.add(row.outletId);
+  // A town with one paper has no other outlet's wording to differ from, so
+  // its stories take the composer's own pick by story, not all the first.
+  if (outlets.size < 2) return undefined;
   const mine = /^printed:(.+?):election-result:/.exec(read.story.id)?.[1];
   return Math.max(0, [...outlets].sort().indexOf(mine ?? ""));
 }
