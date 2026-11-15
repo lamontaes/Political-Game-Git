@@ -188406,7 +188406,7 @@
           "step": "reply",
           "move": "ask",
           "role": "asked",
-          "requiresFacts": ["issue", "side-for", "moved-little"]
+          "requiresFacts": ["issue", "side-for", "moved-little", "about"]
         },
         {
           "subject": "scene",
@@ -188415,7 +188415,7 @@
           "step": "reply",
           "move": "ask",
           "role": "asked",
-          "requiresFacts": ["issue", "side-for", "moved-lot"]
+          "requiresFacts": ["issue", "side-for", "moved-lot", "about"]
         },
         {
           "subject": "scene",
@@ -188424,7 +188424,7 @@
           "step": "reply",
           "move": "ask",
           "role": "asked",
-          "requiresFacts": ["issue", "side-against", "moved-little"]
+          "requiresFacts": ["issue", "side-against", "moved-little", "about"]
         },
         {
           "subject": "scene",
@@ -188433,7 +188433,7 @@
           "step": "reply",
           "move": "ask",
           "role": "asked",
-          "requiresFacts": ["issue", "side-against", "moved-lot"]
+          "requiresFacts": ["issue", "side-against", "moved-lot", "about"]
         },
         {
           "subject": "scene",
@@ -188442,7 +188442,7 @@
           "step": "reply",
           "move": "ask",
           "role": "asked",
-          "requiresFacts": ["issue", "side-for"]
+          "requiresFacts": ["issue", "side-for", "about"]
         },
         {
           "subject": "scene",
@@ -188451,7 +188451,7 @@
           "step": "reply",
           "move": "ask",
           "role": "asked",
-          "requiresFacts": ["issue", "side-against"]
+          "requiresFacts": ["issue", "side-against", "about"]
         }
       ],
       "origin": "authored",
@@ -188586,7 +188586,8 @@
           "move": "press",
           "role": "asker",
           "requiresFacts": ["issue"],
-          "after": "scene-talk.reply-deflect.let-them-talk-i-m-running-my-own-race"
+          "after": "scene-talk.reply-deflect.let-them-talk-i-m-running-my-own-race",
+          "excludesFacts": ["moved-little", "moved-lot"]
         }
       ],
       "origin": "authored",
@@ -188710,7 +188711,7 @@
           "move": "press",
           "role": "asker",
           "requiresFacts": ["moved-little"],
-          "after": "deflect"
+          "after": "scene-talk.reply-deflect.let-them-talk-i-m-running-my-own-race"
         },
         {
           "subject": "scene",
@@ -188720,7 +188721,7 @@
           "move": "press",
           "role": "asker",
           "requiresFacts": ["moved-lot"],
-          "after": "deflect"
+          "after": "scene-talk.reply-deflect.let-them-talk-i-m-running-my-own-race"
         }
       ],
       "origin": "authored",

@@ -91,6 +91,9 @@ function lines(node: TreeNode | null, path: string[], out: string[]): void {
   if (!node) return;
   for (const line of node.lines)
     out.push(`${path.join(" > ")} => ${line.text}`);
+  // What is said as the talk closes on this path.
+  if (node.end?.close)
+    out.push(`${path.join(" > ")} => ${node.end.close.text}`);
   for (const reply of node.replies) {
     const next = [...path, `"${reply.line.text}"`];
     out.push(`${path.join(" > ")} ? ${reply.line.text}`);
