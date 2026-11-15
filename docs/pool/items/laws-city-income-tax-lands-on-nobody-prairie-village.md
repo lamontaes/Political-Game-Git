@@ -5,10 +5,10 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: open
+status: merged
 standard: 2
 claimed-by:
-pr:
+pr: #9327
 after:
 blocked-on:
 lead: laws-effects
@@ -20,9 +20,9 @@ root: rc8-law-judged-by-paperwork
 
 **What.** `src/core2/tax-change-lands.test.ts` is red on its pinned case: in Prairie Village, Kansas (2057575, world seed 8aadc4eadb2fce04f3477fe846529b657c108aa220a4db232645bdb8486b87b8) the state grants local income tax authority and the city enacts a 1% flat income tax; 60 days later no `law.effect-landed` event names the tax's law row ("no kept pay record changed"). Red with and without the Social Security change on train head 2190669e (replays 8c3210456999be81 and 7f76258a9ca0f474). A worker whose take-home pay drops never feels it, so the tax moves no mood or view. Seen: a named worker's Journal and views after a city income tax passes.
 
-**Cause.** Needs cause. The landing is written by `landWithholdingChange` from the withholding record (src/core2/modules/budgets.ts, `keepsWhy` guard) through `landTaxChange` (src/core2/budgets-treasury.ts); not yet followed: whether the city tax reaches the withholding lines at all in this place, or only `keepsWhy` drops every worker.
+**Cause.** Measured: Prairie Village, Kansas (2057575), world seed 8aadc4eadb2fce04f3477fe846529b657c108aa220a4db232645bdb8486b87b8, `npx vitest run src/core2/tax-change-lands.test.ts -t "Prairie Village"` with a counter on each step of the withholding path, on the train at 53e4b29fe8: 626 withholding records carry a city income line after the tax begins and 94 workers get a `law.effect-landed` event that names the tax's law row, so the test passes. The red at 2190669e was fixed by the next fold, pull request #9327 ("Make a felt change from a new tax count only the law's own line of pay", folded at ae91dc17da), found by a bisect over the train's folds. Its two causes are written in its own item, `tests-tax-change-lands-prairie-village-ks-no-pay-change`: nobody's pay record was kept because the test put no one in focus, and `landWithholdingChange` compared a paycheck with the last of any kind. This item is that item's twin.
 
-**Fix.** None until the cause is found.
+**Fix.** Built by pull request #9327: `landWithholdingChange` (src/core2/modules/budgets.ts) compares a paycheck with the last one of the same kind and measures only the changed law's own line, and the test puts workers in focus. A named worker's take-home pay drop now lands as a felt change.
 
 **Time box.** 2 hours for one Opus session at medium effort.
 
