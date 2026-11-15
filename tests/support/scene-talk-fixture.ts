@@ -71,6 +71,9 @@ const flags = [
   "first-filing",
   // A colleague's no to signing on says the reason its record holds.
   "no-views",
+  // The desk visit always knows what a bill costs; with no budget line the
+  // record says so (deskFacts, purpose-scene.ts).
+  "no-cost",
 ];
 export const facts: Record<string, Fact> = {
   name: fact("Pat Rivera"),
