@@ -43,8 +43,7 @@ import {
   coreSeatOfGovernmentPlace,
   type CorePlace,
 } from "../place-lookup";
-import { drawStateHome } from "../places";
-import { workFromHome } from "../coarse-place";
+import { drawStateHome, workFromHome } from "../places";
 import { placeReferencePopulation } from "../gov-rules/place-population";
 import { MACRO_MODULE_ID, countryStateParts } from "./macro";
 import { temperamentOf } from "./officials";
