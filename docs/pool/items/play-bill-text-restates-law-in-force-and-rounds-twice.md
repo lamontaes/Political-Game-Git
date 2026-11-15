@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 3
 size: S
-status: open
+status: in-pr
 claimed-by:
-pr:
+pr: #9381
 blocked-on:
 standard: 2
 model: sonnet
