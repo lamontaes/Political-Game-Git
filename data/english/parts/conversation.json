@@ -94,7 +94,8 @@
     "contested": "A mark: convicted at a trial the defendant fought (no guilty plea on the case).",
     "said": "The subject of a policy question as a person names it after 'on' or 'about' (\"drug prices\"), from the question's `said` in data/english/question-names.json; never a side (the side is said as what it does to the speaker). `about` stays for lines that name the thing itself.",
     "seat": "The seat a race is for, as people say it (\"the Mutual Village Council\", \"mayor\"), from the elections engine's contest and the office's record through the one seat wording.",
-    "bill": "A bill, by its title, from the legislature record."
+    "bill": "A bill, by its title, from the legislature record.",
+    "their_when": "When the asker last saw someone both know, said as people say it (\"last week\"), from the asker's own tie's last contact."
   },
   "maxWords": 10,
   "lineWords": {
@@ -7802,7 +7803,8 @@
           "subject": "news",
           "role": "answer",
           "choice": "yes",
-          "stages": ["heard"]
+          "stages": ["heard"],
+          "excludesFacts": ["outlet-radio"]
         }
       ],
       "transcriptsUsing": 44,
@@ -15468,7 +15470,7 @@
       "key": "conversation.interview-question-ask.would-you-vote-to-to",
       "move": "interview-question-ask",
       "kind": "spoken",
-      "text": "Would you vote to {to}?",
+      "text": "Would you vote for {about}?",
       "uses": [
         {
           "move": "interview-question-ask",
@@ -15664,7 +15666,7 @@
       "key": "conversation.interview-question-answer-plain.i-want-to-to-thats-my-platform",
       "move": "interview-question-answer-plain",
       "kind": "spoken",
-      "text": "I want to {to}. That's my platform.",
+      "text": "I'd vote for {about}. That's my platform.",
       "uses": [
         {
           "move": "interview-question-answer-plain",
@@ -15730,7 +15732,7 @@
       "key": "conversation.interview-question-answer-plain.i-wouldnt-to-thats-my-platform",
       "move": "interview-question-answer-plain",
       "kind": "spoken",
-      "text": "I wouldn't {to}. That's my platform.",
+      "text": "I'd vote against {about}. That's my platform.",
       "uses": [
         {
           "move": "interview-question-answer-plain",
@@ -16763,7 +16765,7 @@
       "key": "conversation.debate-question-ask.tell-us-would-you-vote-to-to",
       "move": "debate-question-ask",
       "kind": "spoken",
-      "text": "Tell us: would you vote to {to}?",
+      "text": "Tell us: would you vote for {about}?",
       "uses": [
         {
           "move": "debate-question-ask",
@@ -21929,7 +21931,8 @@
           "role": "answer",
           "choice": "yes",
           "stages": ["heard"],
-          "requiresFacts": ["broadcast"]
+          "requiresFacts": ["broadcast"],
+          "excludesFacts": ["outlet-radio"]
         }
       ],
       "origin": "authored",
@@ -22060,7 +22063,8 @@
           "role": "answer",
           "choice": "no",
           "stages": ["not-heard"],
-          "requiresFacts": ["broadcast"]
+          "requiresFacts": ["broadcast"],
+          "excludesFacts": ["outlet-radio"]
         }
       ],
       "origin": "authored",
@@ -45604,6 +45608,98 @@
       "origin": "authored",
       "author": "Words lead (rulings-2 with 06:55Z additions, Nov 14, 2026)",
       "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.asked-mutual-give-core.i-saw-him-their-when",
+      "move": "asked-mutual-give-core",
+      "kind": "spoken",
+      "text": "I saw him {their_when}.",
+      "uses": [
+        {
+          "move": "asked-mutual-give-core",
+          "subject": "asked-mutual-give",
+          "role": "core",
+          "stages": ["saw"],
+          "requiresFacts": ["mutual-he", "their_when"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (thread: election results brought up), for the Words lead's stamp",
+      "date": "2026-11-14",
+      "piece": {
+        "of": "asked-mutual-give",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "conversation.asked-mutual-give-core.i-ran-into-him-their-when",
+      "move": "asked-mutual-give-core",
+      "kind": "spoken",
+      "text": "I ran into him {their_when}.",
+      "uses": [
+        {
+          "move": "asked-mutual-give-core",
+          "subject": "asked-mutual-give",
+          "role": "core",
+          "stages": ["saw"],
+          "requiresFacts": ["mutual-he", "their_when"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (thread: election results brought up), for the Words lead's stamp",
+      "date": "2026-11-14",
+      "piece": {
+        "of": "asked-mutual-give",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "conversation.asked-mutual-give-core.i-saw-her-their-when",
+      "move": "asked-mutual-give-core",
+      "kind": "spoken",
+      "text": "I saw her {their_when}.",
+      "uses": [
+        {
+          "move": "asked-mutual-give-core",
+          "subject": "asked-mutual-give",
+          "role": "core",
+          "stages": ["saw"],
+          "requiresFacts": ["mutual-she", "their_when"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (thread: election results brought up), for the Words lead's stamp",
+      "date": "2026-11-14",
+      "piece": {
+        "of": "asked-mutual-give",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "conversation.asked-mutual-give-core.i-ran-into-her-their-when",
+      "move": "asked-mutual-give-core",
+      "kind": "spoken",
+      "text": "I ran into her {their_when}.",
+      "uses": [
+        {
+          "move": "asked-mutual-give-core",
+          "subject": "asked-mutual-give",
+          "role": "core",
+          "stages": ["saw"],
+          "requiresFacts": ["mutual-she", "their_when"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (thread: election results brought up), for the Words lead's stamp",
+      "date": "2026-11-14",
+      "piece": {
+        "of": "asked-mutual-give",
+        "part": "core",
+        "required": true
+      }
     },
     {
       "key": "conversation.death-news-back-core.he-took-his-own-life",
