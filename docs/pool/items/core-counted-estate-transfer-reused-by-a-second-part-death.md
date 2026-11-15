@@ -28,7 +28,7 @@ source: found by the Account lead while tracing the law-wiring-taxes red on the 
 
 **Rules.** No dice. Replace never layer. No new stopgaps.
 
-**Done when.** `npx vitest run src/core2/counted-part-death-estate-twice.test.ts` passes (a record dying in part 31 days apart, both estate taxes paid, the transfer ids distinct) and fails on the Train head without the change with "Transfer id is empty or reused".
+**Done when.** `npx vitest run src/core2/counted-part-death-estate-twice.test.ts` passes (Pike Creek Valley, Delaware, 1056500, seed c1d4df59…: a record dying in part 31 days apart, both estate taxes paid, the transfer ids distinct) and fails on the Train head without the change with "Transfer id is empty or reused". A second session then plays a drawn place (fresh seed, named) on main for a year with the estate and inheritance taxes set low through `enactLaw`, and reads that no counted record's second part death stops with a reused-transfer error.
 
 **Waits on.** Nothing.
 

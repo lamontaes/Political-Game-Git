@@ -23,6 +23,7 @@ Lead ruling, Nov 13 to 14: a test is pinned in the test file to named places wit
 4. **Fail by name.** When the case is missing, fail at that point with the place, the seed and what was passed over.
 5. **Never loosen a test, raise a baseline or widen a number to get green** without the lead's word. If a builder respells a line or a number to slip past a check, send it back.
 6. **A test that needs a rare case that does not exist is a finding**, not a license to skip: file an item.
+7. **A test that stages a death, a payment or a settlement on a record picked by state ("the richest household") must ask whether the game already acted on that record this month.** The estate test (law-wiring-taxes, Dennis MA) picked a record the game had just killed in part: its second settlement reused a transfer id (the accounts engine keeps ids for the month and the one before) and the failure looked like a game bug in the PR that happened to be on the head. Before blaming the PR on the head, run the same pinned test with that PR's change put back (`git checkout <earlier head> -- <file>`); if it fails the same, it is not that PR's.
 
 ## Checking a reported pass
 
