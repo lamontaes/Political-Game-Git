@@ -7,7 +7,7 @@ priority: 2
 size: M
 status: open
 standard: 2
-claimed-by:
+claimed-by: T54
 pr:
 after:
 blocked-on:
