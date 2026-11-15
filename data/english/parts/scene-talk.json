@@ -190289,30 +190289,6 @@
       }
     },
     {
-      "key": "scene-talk.state-tell.the-sheets-aren-t-filling-fast-enough-we-re-running-out-of-days",
-      "move": "state-tell",
-      "kind": "spoken",
-      "text": "The sheets aren't filling fast enough. We're running out of days.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "petition-short",
-          "key": "news-received",
-          "step": "state",
-          "move": "tell",
-          "role": "asker",
-          "requiresFacts": ["teller-helper", "started"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (petition-short lines, Nov 15), placed by the record",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "tell",
-        "key": "news-received"
-      }
-    },
-    {
       "key": "scene-talk.state-tell.there-s-nothing-on-your-petition-yet-time-is-short",
       "move": "state-tell",
       "kind": "spoken",
