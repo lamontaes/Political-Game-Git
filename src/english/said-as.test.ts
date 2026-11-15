@@ -7,6 +7,7 @@ import {
   wordPersonSlots,
   sentenceStarts,
   nameOnceThen,
+  ownGovernmentSaid,
   type SaidPerson,
 } from "./said-as";
 import { clockOf, heardBefore, noteSaid, tellingOf } from "./telling";
@@ -243,5 +244,21 @@ describe("the employer said again by a worker", () => {
       nameOnceThen(["I work for Marsh Fitness."], name, "worker", false)
         .texts[0],
     ).toBe("I work for Marsh Fitness.");
+  });
+});
+
+describe("a state's own government said in talk", () => {
+  const said = (level: string, key: string) =>
+    ownGovernmentSaid({ kind: "state", level, key });
+  it("says every state 'the state', Kentucky, Massachusetts, Pennsylvania and Virginia included", () => {
+    expect(said("State", "US-NV")).toBe("the state");
+    for (const key of ["US-KY", "US-MA", "US-PA", "US-VA"])
+      expect(said("Commonwealth", key)).toBe("the state");
+  });
+  it("says the commonwealths that are not states, the territories and the District their own way", () => {
+    expect(said("Commonwealth", "US-PR")).toBe("the commonwealth");
+    expect(said("Commonwealth", "US-MP")).toBe("the commonwealth");
+    expect(said("Territory", "US-GU")).toBe("the territory");
+    expect(said("District", "US-DC")).toBe("the District");
   });
 });

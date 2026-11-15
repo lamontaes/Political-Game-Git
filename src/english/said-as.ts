@@ -389,30 +389,30 @@ function governmentClassWord(name: string): string | null {
 /**
  * A government of the talk's own place as people say it in talk (said-as.json
  * governmentInTalk; Words lead ruling, Nov 15): a state by its level word, a
- * town or county by its record's class word, a school system "the school
- * district". Null where the record's class word is none of these, so the
- * full name is said.
+ * town or county by its record's class word. Null where the record's class
+ * word is none of these, so the full name is said.
  */
 export function ownGovernmentSaid(
   government:
-    | { readonly kind: "state"; readonly level: string }
-    | { readonly kind: "school" }
+    | {
+        readonly kind: "state";
+        readonly level: string;
+        /** The state identity's jurisdiction key ("US-KY"), for the places that say it their own way. */
+        readonly key?: string;
+      }
     | { readonly kind: "local"; readonly name: string },
 ): string | null {
   const row = data.governmentInTalk;
-  if (government.kind === "school") return row.school;
   if (government.kind === "state")
-    return (row.state as Record<string, string>)[government.level] ?? null;
+    return (
+      (government.key
+        ? (row.stateByKey as Record<string, string>)[government.key]
+        : undefined) ??
+      (row.state as Record<string, string>)[government.level] ??
+      null
+    );
   const word = governmentClassWord(government.name);
   return word ? row.ownClass.replace("{class}", word) : null;
-}
-
-/** Another place's state as its full name ("the State of Ohio", "the District of Columbia"). */
-export function otherStateSaid(level: string, name: string): string {
-  const row = data.governmentInTalk;
-  return name.toLowerCase().startsWith(level.toLowerCase())
-    ? row.otherStateNamedAsLevel.replace("{name}", name)
-    : row.otherState.replace("{level}", level).replace("{name}", name);
 }
 
 /**

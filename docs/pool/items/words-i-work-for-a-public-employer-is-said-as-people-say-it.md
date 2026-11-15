@@ -41,3 +41,5 @@ checked:
 
 **Notes.** Raised by M5 reading the goodbye scenes of #9479; the Account lead asked for it as its own pull request after the names rule.
 ---
+
+**Built (Nov 15, second read).** A commonwealth that is a state (Kentucky, Massachusetts, Pennsylvania, Virginia) is "the state"; Puerto Rico and the Northern Mariana Islands are "the commonwealth" (a row by jurisdiction key, for the Words lead to rule on). Another state's government and the school district are not built: no one who lives in a played town works for another state, and a school system is said by its name as a business is, so no talk reaches either; they are removed, not kept as unused rows. Federal employers keep the record's name, unchanged by this item. Seen said in talks at eleven named places: the state, the county, the city, the town, the village, the township, the borough, the parish, the District, the commonwealth and the territory.

@@ -122,7 +122,7 @@ it("an employer is said as people say it (Kingston, seed c1)", () => {
   expect(wrong).toEqual([]);
 }, 120_000);
 
-it("another place's state keeps its full name, the talk's own is 'the state' (Kingston, seed c1)", () => {
+it("another place's government keeps its record's name (said as null here), the talk's own state is 'the state' (Kingston, seed c1)", () => {
   setBookkeeping(false);
   const { core, playerId } = buildBenchWorld(SEED, "2025-01-20", {
     twoLevel: true,
@@ -145,7 +145,7 @@ it("another place's state keeps its full name, the talk's own is 'the state' (Ki
   ).toBe("the state");
   expect(
     employerInTalk(core, treasury("US-OH", "Ohio"), other.id as PersonId, me),
-  ).toBe("the State of Ohio");
+  ).toBeNull();
   expect(
     employerInTalk(
       core,
@@ -153,10 +153,10 @@ it("another place's state keeps its full name, the talk's own is 'the state' (Ki
       other.id as PersonId,
       me,
     ),
-  ).toBe("the District of Columbia");
+  ).toBeNull();
   expect(
     employerInTalk(core, treasury("US-GU", "Guam"), other.id as PersonId, me),
-  ).toBe("the Territory of Guam");
+  ).toBeNull();
   // A county's own government, said by its record's class word.
   expect(
     employerInTalk(
@@ -170,6 +170,7 @@ it("another place's state keeps its full name, the talk's own is 'the state' (Ki
       me,
     ),
   ).toBe("the county");
+  // A school system is said by its name, as a business is: no talk says "the school district".
   expect(
     employerInTalk(
       core,
@@ -181,7 +182,7 @@ it("another place's state keeps its full name, the talk's own is 'the state' (Ki
       other.id as PersonId,
       me,
     ),
-  ).toBe("the school district");
+  ).toBeNull();
   // A department keeps its name.
   expect(
     employerInTalk(

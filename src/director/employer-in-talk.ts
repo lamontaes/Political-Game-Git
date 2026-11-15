@@ -9,7 +9,7 @@ import { placeStateKey } from "../core2/place-map";
 import { lawChain } from "../core2/modules/laws";
 import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
-import { otherStateSaid, ownGovernmentSaid } from "../english/said-as";
+import { ownGovernmentSaid } from "../english/said-as";
 
 interface GovernmentRecord {
   readonly kind: string;
@@ -53,9 +53,15 @@ export function employerInTalk(
       const own =
         placeStateKey(speaker.placeId) === key &&
         placeStateKey(listener.placeId) === key;
+      // Another state's government keeps the name its record carries: nobody
+      // who lives in the played town works for one, so no talk says it.
       return own
-        ? ownGovernmentSaid({ kind: "state", level: state.levelWord })
-        : otherStateSaid(state.levelWord, state.name);
+        ? ownGovernmentSaid({
+            kind: "state",
+            level: state.levelWord,
+            key: state.jurisdictionKey,
+          })
+        : null;
     }
     // A town's or county's treasury: its government is the one whose record
     // names it ("Village of X treasury").
@@ -67,8 +73,6 @@ export function employerInTalk(
       : null;
   }
   if (!bothHere) return null;
-  if (org.classification === "service:school")
-    return ownGovernmentSaid({ kind: "school" });
   if (
     org.classification === "service:municipal-government" ||
     org.classification === "service:county-government"
