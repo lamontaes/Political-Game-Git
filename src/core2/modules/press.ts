@@ -2919,8 +2919,7 @@ function weighTip(
   if (dig > 0 && run > 0) {
     const exposedId = `press.exposed:${act.id}:${outlet.id}`;
     // A reporter asks the one exposed for comment before the story runs: it
-    // runs in the outlet's next edition (`exposureCommentDays`), with what
-    // they said, or that they did not comment (keepComment, runExposure).
+    // runs in the outlet's next edition (`exposureCommentDays`, runExposure).
     const runsOn = addDays(
       makeIsoDate(api.state.date),
       p("exposureCommentDays"),
@@ -2968,52 +2967,10 @@ function weighTip(
   return row;
 }
 
-/** What the one exposed said when asked for comment, as the story prints it. */
-export type ExposureComment = "admitted" | "declined" | "denied";
-/** The scandal call's endings (purpose-arcs.json scandal-comment), as the story prints them. */
-const CALL_COMMENT: Readonly<Record<string, ExposureComment>> = {
-  "on-the-record": "admitted",
-  "no-comment": "declined",
-  "left-there": "declined",
-  "source-fight": "declined",
-  "denial-printed": "denied",
-  "lie-printed": "denied",
-  caught: "denied",
-};
-
 /**
- * What a person asked for comment on their own exposure says, when no scene
- * asks them: their own lean, by their traits, toward owning it or denying it
- * over saying nothing (the scene-talk moves' decision, the one the player's
- * replies are weighed by), never a roll. Saying nothing is the level choice.
- */
-function commentByTraits(api: CoreAPI, personId: string): ExposureComment {
-  const person = api.state.people.get(personId as PersonId);
-  if (!person?.alive) return "declined";
-  const own = decisionLean(
-    api.state,
-    person,
-    "scene-talk.move",
-    "confess",
-    "refuse",
-  );
-  const deny = decisionLean(
-    api.state,
-    person,
-    "scene-talk.move",
-    "lie",
-    "refuse",
-  );
-  if (own <= 0 && deny <= 0) return "declined";
-  return own >= deny ? "admitted" : "denied";
-}
-
-/**
- * An exposure runs on its day (weighTip set it): the outlet prints the story
- * with what the one exposed said when asked: the player's answer on the call
- * (keepComment), "did not comment" when the player never answered, and for
- * anyone else their own answer by their traits. Their standing with the
- * outlet's followers falls as the story is read.
+ * An exposure runs on its day (weighTip set it): the outlet prints the story,
+ * puts it on the wire for the other outlets, and the one exposed's standing
+ * with the outlet's followers falls as the story is read.
  */
 function runExposure(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   const row = table(api, "tips").get(work.sourceRecordIds[0]!) as unknown as
@@ -3024,12 +2981,6 @@ function runExposure(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   const reporterId = String(row.reporterId);
   const outlet = outletsHere(api).find((o) => o.id === row.outletId);
   if (!outlet || !api.state.people.get(reporterId as PersonId)?.alive) return;
-  const kept = commentOn(api, exposedId);
-  const comment: ExposureComment = kept
-    ? (CALL_COMMENT[kept.ending ?? ""] ?? "declined")
-    : officialId === api.state.playerId
-      ? "declined"
-      : commentByTraits(api, officialId);
   const run = Number(row.run);
   const [factKey, factWord] = row.fact as [string, string];
   const ctx = deskContext(api);
@@ -3054,17 +3005,12 @@ function runExposure(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
         slant: -Math.min(1, run),
         reasons: { lean: 0, tie: 0, publisher: 0, advertiser: 0 },
       },
-      facts: {
-        [factKey]: factWord,
-        comment,
-        ...(kept ? { commentReplyId: kept.replyId } : {}),
-      },
+      facts: { [factKey]: factWord },
     },
   );
   table(api, "tips").put({
     ...row,
     storyId: story.id,
-    comment,
   } as unknown as ModuleRow);
   // In print, it is on the wire for the other outlets to carry.
   const exposure = api.state.durableLog.get(exposedId);
@@ -4572,8 +4518,6 @@ export interface CommentRow {
   readonly date: string;
   readonly quote: string | null;
   readonly replyId: string;
-  /** How the talk ended (the arc's ending id), when the reply named one. */
-  readonly ending?: string;
 }
 
 /** The comment kept on a record, by the record's id. */
@@ -4593,25 +4537,12 @@ export function commentOn(api: CoreAPI, causeId: string): CommentRow | null {
  */
 function keepComment(api: CoreAPI, event: Readonly<CoreEventInput>): void {
   const facts = event.facts ?? {};
-  // The interview's answer, or the answer on a scandal call before the story
-  // runs (runExposure prints it).
-  // Every scandal call's ending is kept, as the story says what was said.
-  const kept =
-    (facts.typeKey === "press-interview" && facts.keeps === "story-runs") ||
-    (facts.typeKey === "scandal" && Boolean(facts.ending));
-  if (!kept) return;
+  if (facts.typeKey !== "press-interview" || facts.keeps !== "story-runs")
+    return;
   const causeId = String(facts.causeId ?? "");
   const personId = event.personIds[0];
   if (!causeId || !personId) return;
-  // What they said goes in the story: an interview on the record, a scandal
-  // call answered on the record, a denial printed, or a lie printed or
-  // caught; any other ending is a decline.
-  const said =
-    facts.ending === "on-record" ||
-    facts.ending === "on-the-record" ||
-    facts.ending === "denial-printed" ||
-    facts.ending === "lie-printed" ||
-    facts.ending === "caught";
+  const said = facts.ending === "on-record" || facts.ending === "lie-printed";
   table(api, "comments").put({
     id: causeId,
     causeId,
@@ -4619,7 +4550,6 @@ function keepComment(api: CoreAPI, event: Readonly<CoreEventInput>): void {
     date: api.state.date,
     quote: said ? String(facts.line ?? "") || null : null,
     replyId: event.id,
-    ...(facts.ending ? { ending: String(facts.ending) } : {}),
   } satisfies CommentRow as unknown as ModuleRow);
 }
 

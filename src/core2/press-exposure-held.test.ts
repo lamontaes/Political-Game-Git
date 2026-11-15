@@ -2,10 +2,9 @@
  * A paper that exposes an official asks them for comment before it prints
  * (press.ts weighTip, runExposure; pool item
  * press-exposure-asks-for-comment-before-it-prints): the exposure is on the
- * record the day it is found, the story is not; the story prints on the
- * paper's next print day (`runsOn`) with the official's comment. An
- * unattended official's comment is their own lean; a player who never took
- * the call declined.
+ * record the day it is found, the story is not, nor is it on the wire; the
+ * story prints on the paper's next print day (`runsOn`) and then goes on the
+ * wire for the other outlets.
  *
  * Pinned to Gilbert, Iowa (1930630), seed reporters-call-1, where the town
  * paper's reporter digs and its owner runs a leaked bribe (the same staging
@@ -40,10 +39,9 @@ interface TipRow {
   readonly exposedId?: string | null;
   readonly runsOn?: string | null;
   readonly storyId?: string | null;
-  readonly comment?: string;
 }
 
-it("an exposure waits for the official's comment and prints it on the paper's next day (Gilbert IA, seed reporters-call-1)", () => {
+it("an exposure waits for comment and prints on the paper's next day (Gilbert IA, seed reporters-call-1)", () => {
   setBookkeeping(false);
   const { core } = buildBenchWorld(SEED, gameStartDate(), {
     twoLevel: true,
@@ -140,7 +138,7 @@ it("an exposure waits for the official's comment and prints it on the paper's ne
 
   // Two members each take a bribe in the offer scene, while the player
   // plays them. The player then plays the second, so the first is
-  // unattended when the paper prints, and the second never took the call.
+  // unattended when the paper prints.
   const takers: { crimeId: string; runsOn: string }[] = [];
   for (const member of members) {
     if (takers.length === 2) break;
@@ -161,7 +159,7 @@ it("an exposure waits for the official's comment and prints it on the paper's ne
   ] as const) {
     const ran = tips.get(crimeId) as unknown as TipRow;
     expect(ran.storyId, `${who}: printed on its day`).toBeTruthy();
-    // The story readers get (news.ts): its day and the comment it carries.
+    // The story readers get (news.ts), on its day.
     const story = api
       .moduleState(NEWS_MODULE_ID)
       .table("stories")
@@ -170,18 +168,11 @@ it("an exposure waits for the official's comment and prints it on the paper's ne
     expect(story?.date, `${who}: the story's day`).toBe(
       who === "unattended" ? a.runsOn : b.runsOn,
     );
-    expect(story?.facts?.comment, `${who}: the story's comment`).toBe(
-      ran.comment,
-    );
     // In print, it is on the wire for the other outlets to carry.
     expect(
       wire.get(String(story?.facts?.sourceRecordId ?? "")),
       `${who}: on the wire once printed`,
     ).toBeTruthy();
-    process.stdout.write(`HELD ${who} ${ran.storyId} comment ${ran.comment}\n`);
+    process.stdout.write(`HELD ${who} ${ran.storyId}\n`);
   }
-  expect((tips.get(b.crimeId) as unknown as TipRow).comment).toBe("declined");
-  expect(["admitted", "declined", "denied"]).toContain(
-    (tips.get(a.crimeId) as unknown as TipRow).comment,
-  );
 }, 120_000);
