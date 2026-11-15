@@ -358,10 +358,17 @@ function householdMoments(
     const apartPlaces = new Set(
       group.map((id) => core.people.get(id as PersonId)?.placeId),
     );
-    const apartFacts =
+    const apartPlace =
       category === "household:parent-apart" && apartPlaces.size === one
         ? placeOf([...apartPlaces][zero], fact.id)
         : {};
+    // A place the person lives in (or one that names it: "Vermont" for "New
+    // Haven, Vermont") is not where someone lived "not with us".
+    const ownPlace = placeLabel(person.placeId);
+    const apartFacts =
+      apartPlace.place && ownPlace?.includes(apartPlace.place.text)
+        ? {}
+        : apartPlace;
     moments.push({
       ...base(fact.id, fact.kind === "family:sibling" ? born : bornOn),
       ...(apartFacts.place ? { actFacts: apartFacts } : {}),
