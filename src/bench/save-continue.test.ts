@@ -5,7 +5,10 @@
  * days with a counted person's card opened (which fills them in); the bench
  * is emptied as a restart leaves it; the title's Continue and Saved games
  * name that life from its save; POST /api/load replays it, and the world's
- * snapshot matches the played one field by field.
+ * snapshot matches the played one field by field. The life is played as the
+ * desktop app plays it, with developer routes off, and once presses one (a
+ * town build, refused and recorded): the load replays with the setting the
+ * loading request has, so the developer route stays refused.
  */
 import { createHash } from "node:crypto";
 import { mkdtempSync } from "node:fs";
@@ -22,9 +25,10 @@ import { benchRequest, benchWorld, emptyBench } from "./handler";
 const SEED = "save-continue-1";
 const DAYS = 4;
 
+// The installed game's setting (desktop/play-api-host.mjs): developer routes off.
 const ask = async (method: string, path: string) => {
   const reply = await benchRequest(method, new URL(path, "http://bench"), {
-    developer: true,
+    developer: false,
   });
   expect(
     reply.status,
@@ -94,6 +98,13 @@ it(`after a restart, Continue and Saved games load the same life, seed ${SEED}`,
   );
   expect(counted, "a counted resident to open").toBeTruthy();
   await ask("GET", `/api/card?id=${counted!.id}`);
+  // A developer route, refused in the installed game: recorded, never run.
+  const refused = await benchRequest(
+    "POST",
+    new URL(`/api/build?seed=${SEED}-other`, "http://bench"),
+    { developer: false },
+  );
+  expect(refused.status, "a developer route is refused").toBe(404);
   await day();
   const played = parts();
   const date = core.date;
