@@ -37280,42 +37280,6 @@
       "bearing": "braced"
     },
     {
-      "key": "conversation.promise-broken-raise.were-behind-on-payment-again-you-promised-me",
-      "move": "promise-broken-raise",
-      "kind": "spoken",
-      "text": "We're behind on {payment} again. You promised me.",
-      "uses": [
-        {
-          "move": "promise-broken-raise",
-          "subject": "promise-broken",
-          "role": "raise",
-          "requiresFacts": ["promise-pay-on-time", "payment"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (pay-on-time raises, Nov 15)",
-      "date": "2026-11-15",
-      "bearing": "nervous"
-    },
-    {
-      "key": "conversation.promise-broken-raise.you-gave-your-word-on-payment-you-missed-it",
-      "move": "promise-broken-raise",
-      "kind": "spoken",
-      "text": "You gave your word on {payment}. You missed it.",
-      "uses": [
-        {
-          "move": "promise-broken-raise",
-          "subject": "promise-broken",
-          "role": "raise",
-          "requiresFacts": ["promise-pay-on-time", "payment"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (pay-on-time raises, Nov 15)",
-      "date": "2026-11-15",
-      "bearing": "guarded"
-    },
-    {
       "key": "conversation.promise-kept-raise.you-paid-payment-on-time-i-noticed",
       "move": "promise-kept-raise",
       "kind": "spoken",

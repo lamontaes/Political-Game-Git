@@ -425,6 +425,21 @@ it(
         const before = closenessBetween(core, id, made!.owedId);
         // The engine's own payments decide: a missed payment in the window
         // breaks it, none keeps it on the window's last day.
+        // The promise's own move on the tie, the day it settles (or the day
+        // it is said, when the two were apart), apart from two months at home.
+        const moves: string[] = [];
+        coreAPI(core).subscribeRelationshipChanges(
+          "promises-tie",
+          ["*"],
+          (_, notice) => {
+            if (notice.reason?.sourceId !== factId) return;
+            for (const change of notice.changes)
+              if (change.measure === "level")
+                moves.push(
+                  `${notice.date} ${notice.reason.cause}: tie level ${change.before.toFixed(5)} to ${change.after.toFixed(5)}`,
+                );
+          },
+        );
         const later: string[] = [];
         coreAPI(core).subscribeEvents(
           "promises-test",
@@ -461,7 +476,7 @@ it(
         if (ended.outcome === "broken")
           expect(payment, `${where}: ${said}`).toBeTruthy();
         done.push(
-          `${where}${takesWork ? `, took work ${job}` : ""}: ${said}\n    payment ${payment ?? "(not named)"}, the missed payment's loan ${missedLoan(core, ended.endedBy, made!.replyId)}\n    quarrel ${quarrel!.id}\n    ${factId} owed to ${made!.owedId}, ${ended.outcome} by ${ended.endedBy} on ${ended.endedAt}, closeness ${before.toFixed(5)} to ${closenessBetween(core, id, made!.owedId).toFixed(5)}`,
+          `${where}${takesWork ? `, took work ${job}` : ""}: ${said}\n    payment ${payment ?? "(not named)"}, the missed payment's loan ${missedLoan(core, ended.endedBy, made!.replyId)}\n    the promise's own move: ${moves.join("; ") || "(none)"}\n    quarrel ${quarrel!.id}\n    ${factId} owed to ${made!.owedId}, ${ended.outcome} by ${ended.endedBy} on ${ended.endedAt}, closeness from the promise to the talk ${before.toFixed(5)} to ${closenessBetween(core, id, made!.owedId).toFixed(5)}`,
         );
       }
       process.stdout.write(`PAY ON TIME\n  ${done.join("\n  ")}\n`);
