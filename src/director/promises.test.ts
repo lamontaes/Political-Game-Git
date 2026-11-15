@@ -51,7 +51,7 @@ import type { TreeNode } from "./scene-talk";
 import {
   borrowerWorld,
   LOAN_SEED,
-  PAYDAY_BORROWER,
+  BANK_BORROWER,
   play,
   playToQuarrel,
 } from "../../tests/support/real-borrower";
@@ -274,8 +274,8 @@ const BORROWERS: readonly {
   /** The player says yes to the next job an employer calls about (the jobs engine's offer, in its scene). */
   takesWork: boolean;
 }[] = [
-  { ...PAYDAY_BORROWER, takesWork: false },
-  { ...PAYDAY_BORROWER, takesWork: true },
+  { ...BANK_BORROWER, takesWork: false },
+  { ...BANK_BORROWER, takesWork: true },
 ];
 /** Days an employer's call may take to come: the jobs engine makes offers weekly, from its open positions. */
 const OFFER_DAYS = 60;

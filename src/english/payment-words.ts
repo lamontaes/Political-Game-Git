@@ -1,6 +1,6 @@
 /**
  * A payment as people name it, by the kind of loan behind it
- * (data/english/payment-words.json): "the loan", "the payday loan". Null
+ * (data/english/payment-words.json): "the loan". Null
  * for a kind with no name, so a line that needs one is not chosen.
  */
 import data from "../../data/english/payment-words.json" with { type: "json" };
