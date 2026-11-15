@@ -145,7 +145,10 @@ describe("a group's stance and its reach", () => {
         profile,
         endorsed: countedEndorsed(lean, field, profile),
       };
-      const without = countedAppeal(lean, [entry], at)[entry.id]!;
+      const without = countedAppeal(lean, [entry], {
+        ...at,
+        endorsed: undefined,
+      })[entry.id]!;
       const withIt = countedAppeal(lean, field, at)[entry.id]!;
       const holds =
         groupStance(lean, endorsed!.question, profile) * endorsed!.position;
