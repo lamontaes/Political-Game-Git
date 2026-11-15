@@ -243,7 +243,9 @@ export interface OutletRow {
    * outlet has none: its bar (`nationalInterviewBar`) and its beat weigh it.
    */
   readonly audiencePeople?: number;
-  /** How far each race's turns at this outlet have built up (`raceTurn`). */
+  /** The town's outlet of record (`townOutlet`), settled at the opening. */
+  readonly ofRecord?: boolean;
+  /** How far each seat's race has built toward a turn at this outlet (`raceTurns`). */
   readonly raceCredit?: Readonly<Record<string, number>>;
   /** How far each level's stories have built up at this outlet (`levelRoom`). */
   readonly storyCredit?: Readonly<Partial<Record<WireLevel, number>>>;
@@ -1061,6 +1063,13 @@ export function openPress(core: CoreState): readonly OutletRow[] {
       audienceRevenueMinor: expectedRevenueYearMinor(api, outlet),
     } as unknown as ModuleRow);
   }
+  // The town's outlet of record, settled once its followers are known.
+  const record = townOutlet(api);
+  if (record)
+    table(api, "outlets").put({
+      ...record,
+      ofRecord: true,
+    } as unknown as ModuleRow);
   scheduleWeek(api, api.state.date);
   pressStaffChanged(api);
   return outletsHere(api);
@@ -1180,13 +1189,16 @@ export function outletsHere(api: CoreAPI): readonly OutletRow[] {
  * The town's outlet of record, which carries its public record (its legal
  * notices, its police log, its government as a beat): the town's own
  * newspaper, else the local outlet the most of the town follows
- * (`widestLocalOutlet`), whatever its kind. Null where the town has no local
+ * (`widestLocalOutlet`), whatever its kind. Settled at the opening and kept
+ * on the outlet (`ofRecord`), so the town's record does not move from one
+ * station to another as followers shift week to week. Null where the town has no local
  * outlet at all; then no outlet holds the town as its beat, and each weighs
  * the town against its own audience.
  */
 export function townOutlet(api: CoreAPI): OutletRow | null {
   const local = outletsHere(api).filter((o) => o.tier === "local");
   return (
+    local.find((o) => o.ofRecord) ??
     local.find((o) => o.kind === "newspaper" && o.index === 0) ??
     widestLocalOutlet(api)?.outlet ??
     null
