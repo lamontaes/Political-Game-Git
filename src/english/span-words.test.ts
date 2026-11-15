@@ -4,6 +4,7 @@ import { spanSaid } from "./span-words";
 describe("a span of days as people say it", () => {
   it("tells a year or less in months", () => {
     expect(spanSaid(0)).toBe("less than a month");
+    expect(spanSaid(30)).toBe("a month");
     expect(spanSaid(95)).toBe("three months");
     expect(spanSaid(330)).toBe("eleven months");
   });
