@@ -24,6 +24,8 @@ Lead ruling, Nov 13 to 14: a test is pinned in the test file to named places wit
 5. **Never loosen a test, raise a baseline or widen a number to get green** without the lead's word. If a builder respells a line or a number to slip past a check, send it back.
 6. **A test that needs a rare case that does not exist is a finding**, not a license to skip: file an item.
 
+7. **A pinned test over about a minute is allowed only when the time is the game's own played days** (Nov 15, voter registration). Say in the test file's comment how many days each test plays and why it needs them (the world opens 2025-01-20; a town's election date sets the days), measure the time, and set the limit near twice that. If the time is load on a large place (a 71-day test took 104 s at a big town and 18 s at a small one), pin a smaller named place instead of raising the limit; the lead's yes is needed for a raised limit and its premise. A world builds in about 7 s at a small place, so the days are what you are paying for.
+
 ## Checking a reported pass
 
 Ask where it ran and at what head. A unit test that builds its own small world proves an edge case only; the played-world proof is separate.

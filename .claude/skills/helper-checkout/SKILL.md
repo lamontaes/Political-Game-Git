@@ -48,3 +48,7 @@ description: >
 ## Stop condition
 
 The skill ends when every helper's copy is sparse, outside the main checkout and on its own branch. Anything it cannot narrow (a copy another session owns) goes to that session or the CTO.
+
+## Trap: `helper-checkout.sh new <dir> <branch>` can land on main, not the branch (Nov 14)
+
+When the branch name already exists locally and the copy comes up at the release commit, the base of a with-and-without timing is the wrong code and the numbers look like a huge regression or gain. After making the copy, run `git -C <dir> checkout --detach <full sha>` for the exact head you compare against and `git -C <dir> log --oneline -1` before any run; delete the copy and its branch when the runs are done. A with-and-without comparison is the same seed and place, two runs each side, one process at a time, records counted beside time (time per record).

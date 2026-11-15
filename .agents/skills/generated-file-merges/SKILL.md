@@ -61,3 +61,7 @@ When the bottom pull request of a stack is squash-merged, every branch above it 
 
 - **A merge that deletes or renames a file a report or doc cites raises the pointer baseline.** `tests/guards/current-pointers.test.ts` then fails. Fix the citing line, or add the old path to the `replaced` list in `docs/current.json` (skill `current-pointers`). Never raise `tests/guards/current-pointers-baseline.json` to make room: that count may only fall.
 - **`git add -A` inside a sparse helper copy is safe.** It stages only what the copy holds; the image files the copy skips are not read as deleted (checked Nov 12: 6,236 skipped paths, 0 staged). Only pictures you add or move need `git add --sparse` (skill `helper-checkout`).
+
+## A table file both sides rewrote whole: take theirs, re-add your rows (Nov 14)
+
+`docs/design/daily-register.md` (the daily register's kept-tables list) is edited by many branches, and prettier re-pads the whole table when one row is longer, so a merge conflicts on the entire table, not on a row. Do not hand-resolve hundreds of lines: `git checkout --theirs <file>`, pull your own rows from your side with `git show HEAD:<file> | grep <table names>`, insert them after the row they sit beside (rows for one module stay together), run prettier on the file, and stage it. The register guard then lists every table you added by name.
