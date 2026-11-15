@@ -5,10 +5,10 @@ area: world
 kind: bug
 priority: 3
 size: S
-status: open
+status: in-pr
 standard: 2
 claimed-by:
-pr:
+pr: #9423
 blocked-on:
 source: "asked for by the Account lead on the resident spending build, Nov 15"
 claimed-at:
