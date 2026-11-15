@@ -28,6 +28,8 @@ root: none
 
 **Rules.** Wire to the world: the answer is offered from a record, never by chance. No hand-written player text: the line comes from the bank.
 
-**Done when.** A second session plays a world where the player promises a running mate their price. The player is whipped to vote against it at the roll call. In the next talk, the player can answer "I had no choice on that one." In a world with no whip's ask, that answer is not offered.
+**Done when.** A second session plays a world at a drawn place with a joint ticket, on a seed it did not choose, where the player promises a running mate their price. The player is whipped to vote against it at the roll call. In the next talk, the player can answer "I had no choice on that one." In a world with no whip's ask, that answer is not offered.
+
+**Waits on.** gov-serve-ask-price-said-aloud.
 
 **Files.** src/director/data/promise-kinds.json, src/director/promise-talk.ts, data/english/parts/conversation.json, src/director/serve-price-scene.test.ts

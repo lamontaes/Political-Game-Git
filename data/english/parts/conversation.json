@@ -37632,10 +37632,10 @@
       "bearing": "calm"
     },
     {
-      "key": "conversation.promise-broken-raise.you-gave-me-your-word-youd-back-about-then-you-went-the-other-way",
+      "key": "conversation.promise-broken-raise.you-said-youd-back-about-then-you-went-against-it",
       "move": "promise-broken-raise",
       "kind": "spoken",
-      "text": "You gave me your word you'd back {about}. Then you went the other way.",
+      "text": "You said you'd back {about}. Then you went against it.",
       "uses": [
         {
           "move": "promise-broken-raise",
@@ -37650,10 +37650,10 @@
       "bearing": "calm"
     },
     {
-      "key": "conversation.promise-broken-raise.i-joined-your-ticket-because-you-were-for-about-you-moved",
+      "key": "conversation.promise-broken-raise.i-joined-your-ticket-for-about-you-moved",
       "move": "promise-broken-raise",
       "kind": "spoken",
-      "text": "I joined your ticket because you were for {about}. You moved.",
+      "text": "I joined your ticket for {about}. You moved.",
       "uses": [
         {
           "move": "promise-broken-raise",

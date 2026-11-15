@@ -22,10 +22,10 @@ root: none
 
 **Cause.** Found in code: `promiseSubject` (src/director/promise-talk.ts) offers a `hold-question` promise that has been kept or broken as the talk's subject, with the facts `promise-hold-question` and `issue`. The conversation bank (data/english/parts/conversation.json) has promise-kept-raise and promise-broken-raise lines only for `promise-vote`, `promise-pay-on-time` and `promise-show-around`, so the talk finds no line for this subject.
 
-**Fix.** Pass the proposal itself to the talk as `about` (`questionAbout`), and only for a word given for it. Add the Words lead's lines (Nov 15 17:35Z and 17:36Z) to conversation.json, said by the running mate. Each requires `promise-hold-question` and `about`:
+**Fix.** Pass the proposal itself to the talk as `about` (`questionAbout`), and only for a word given for it. Add the Words lead's lines (Nov 15 17:35Z, 17:36Z, 18:23Z and 18:24Z) to conversation.json, said by the running mate. Each requires `promise-hold-question` and `about`:
 
 - `promise-kept-raise`: "You said you'd back {about}. You did." and "You stood up for {about}, like you said you would."
-- `promise-broken-raise`: "You gave me your word you'd back {about}. Then you went the other way." and "I joined your ticket because you were for {about}. You moved."
+- `promise-broken-raise`: "You said you'd back {about}. Then you went against it." and "I joined your ticket for {about}. You moved."
 
 The player answers from the promise talk's existing answers (own-it, explain, deny). make-it-right is not offered, because the kind is not renewable. No new reply lines are added (Words lead, 17:35Z). "I had no choice on that one." is its own item, words-promise-broken-no-choice-from-a-cause.
 
