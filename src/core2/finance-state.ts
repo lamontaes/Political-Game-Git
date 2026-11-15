@@ -11,6 +11,7 @@ import { admitEverydayPurchase, isEverydayPurchase } from "./cost-of-living";
 import { ageOnDate, makeIsoDate, daysBetweenText } from "./kernel/dates";
 import { projectSalesReceiptBudgetPool } from "./finance-sales-budgets";
 import { webFactorFor } from "./outcome-web-reach";
+import { traceWebPriceLaws } from "./modules/outcome-web";
 import { sellerTaxShare } from "./modules/purchase-tax";
 import {
   settleFinanceContractJournal,
@@ -1473,6 +1474,18 @@ export function reviewBusiness(
   if (!condition) core.gaps.add(finance.gaps.conditions);
   core.gaps.add(finance.gaps.income);
   removeIndex(core.finance.reviewsDueAt, book.nextReviewedAt, id);
+  // Who a law the web carried into this price reached, over the period just
+  // ended (reports only; web-price-trace.ts).
+  traceWebPriceLaws(api, {
+    organizationId: id,
+    placeId: place,
+    periodSalesMinor:
+      (book.annualDemandMinor *
+        daysBetweenText(book.lastReviewedAt, core.date)) /
+      p("daysPerMeanYear"),
+    periodFactor: book.lastWebPriceFactor ?? p("one"),
+    lastReviewedAt: book.lastReviewedAt,
+  });
   book.lastReviewedAt = core.date;
   book.nextReviewedAt = next;
   book.reachedIncomeRatio =

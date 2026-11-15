@@ -73,7 +73,9 @@ const RECORD_BRIEFS: ReadonlySet<string> = new Set(briefs.recordOutletOnly);
  * A month the town's own record puts well over its usual: the usual rests on
  * enough months and chance rarely gives a month this busy (the wire item's
  * `busier`). The one case an outlet that is not the town's paper of record
- * runs the town's own log, in its own words.
+ * runs the town's own log, in its own words, and only when the town's share
+ * of its audience leaves it room (`levelRoom`), so a market station does not
+ * carry a village's busy month.
  */
 function wellOverUsual(item: {
   readonly facts?: Readonly<Record<string, unknown>>;
@@ -205,11 +207,19 @@ export interface DeskContext {
   /** The town's counted residents who follow an outlet. */
   readonly countedFollowers: (outlet: DeskOutlet) => number;
   /**
-   * Whether this outlet is the town's paper of record: the local outlet with
-   * the widest audience (where a legal notice runs). Absent, every outlet is.
+   * Whether this outlet is the town's outlet of record (`townOutlet`: its own
+   * paper, else the local outlet most of the town follows), where a legal
+   * notice runs. Absent, every outlet is.
    */
   readonly paperOfRecord?: (outlet: DeskOutlet) => boolean;
   readonly save: (story: PrintedStory) => void;
+  /**
+   * The stories of each level an outlet has room for this week, which the
+   * desk spends as it prints: a level that is a sliver of the outlet's
+   * audience (a village at a market's station) has room only now and then.
+   * Absent, every level has all the outlet's space.
+   */
+  readonly levelRoom?: (outlet: DeskOutlet) => Map<WireLevel, number>;
 }
 
 const clamp = (x: number, lo = -1, hi = 1) => Math.max(lo, Math.min(hi, x));
@@ -960,6 +970,12 @@ export function runDesk(
     ownEndorsements.flatMap((item) => raceTold(item) ?? []),
   );
   const out: PrintedStory[] = [];
+  const room = ctx.levelRoom?.(outlet);
+  const hasRoom = (item: Pick<WireItem, "level">) =>
+    !room || (room.get(item.level) ?? 1) >= 1;
+  const spend = (item: Pick<WireItem, "level">) => {
+    if (room?.has(item.level)) room.set(item.level, room.get(item.level)! - 1);
+  };
   for (const reporterId of outlet.reporterIds) {
     if (!api.state.people.get(reporterId)?.alive) continue;
     // Briefs are the column's, never a reporter's story.
@@ -1004,6 +1020,9 @@ export function runDesk(
     for (const row of scored) {
       if (rank >= count) break;
       if (taken.has(row.item.id)) continue;
+      // The space a level's stories have at this outlet: the rest of the
+      // week goes to the levels its audience is more of.
+      if (!hasRoom(row.item)) continue;
       rank += 1;
       // A local body's sitting is covered whole: the reporter who files one
       // of its votes files the others it took that day, one story a bill, as
@@ -1036,6 +1055,7 @@ export function runDesk(
         );
         if (bills.has(billId)) continue;
         bills.add(billId);
+        spend(one.item);
         out.push(
           printItem(api, ctx, outlet, reporterId, one.item, {
             proximity: one.proximity,
@@ -1085,10 +1105,14 @@ export function runDesk(
             p("storyRenownWeight") * row.renown),
       }))
       .sort((a, b) => b.score - a.score || tieOrder(a.item, b.item));
-    const space = Math.min(p("briefsPerOutletWeek"), column.length);
-    for (let rank = 0; rank < space; rank += 1) {
-      const row = column[rank]!;
+    const space = p("briefsPerOutletWeek");
+    let rank = 0;
+    for (const row of column) {
+      if (rank >= space) break;
+      if (!hasRoom(row.item)) continue;
+      rank += 1;
       taken.add(row.item.id);
+      spend(row.item);
       out.push(
         printItem(api, ctx, outlet, filer, row.item, {
           proximity: row.proximity,
@@ -1097,7 +1121,7 @@ export function runDesk(
           renown: row.renown,
           drive: 0,
           score: row.score,
-          rank: rank + 1,
+          rank,
           weighed: column.length,
         }),
       );
@@ -1114,8 +1138,9 @@ export function runDesk(
     const bodies = [
       ...new Set(sat.flatMap((item) => item.facts?.officeId ?? [])),
     ];
-    if (bodies.length) {
+    if (bodies.length && hasRoom({ level: "town" })) {
       const proximity = p(PROXIMITY.town);
+      spend({ level: "town" });
       out.push(
         printItem(
           api,
@@ -1159,6 +1184,10 @@ export function runDesk(
   for (const item of letters) {
     const writer = item.subjectIds[0];
     if (!writer || !api.state.people.get(writer)?.alive) continue;
+    // A county paper prints the town's letters in the town's share of its
+    // readers, as it does the town's stories.
+    if (!hasRoom(item)) continue;
+    spend(item);
     const proximity = p(PROXIMITY.town);
     out.push(
       printItem(
