@@ -37,7 +37,6 @@ import {
   coreStateJurisdiction,
 } from "../place-lookup";
 import moverRates from "../../../data/research/migration/mover-rates-acs-2024.json" with { type: "json" };
-import majority from "../../../data/research/people/age-of-majority.json" with { type: "json" };
 import destinations from "../data/moves/destinations.json" with { type: "json" };
 import rows from "../data/moves/parameters.json" with { type: "json" };
 import { decisionFromScores, scoreOffers } from "../choice";
@@ -70,6 +69,7 @@ import type {
   Source,
 } from "../types";
 import { placeStateKey } from "../place-map";
+import { ageOfMajority } from "../age-of-majority";
 import { registerReturnedMembersLeave } from "../returned-members-move";
 
 export const MOVES_MODULE_ID = "moves";
@@ -585,28 +585,6 @@ function householdNetCash(
 function diminishing(api: CoreAPI, n: number): number {
   const d = m(api, "movesKinHoldDecay");
   return n > api.parameter("zero") ? (1 - d ** n) / (1 - d) : 0;
-}
-
-/** The ages of majority the research table records, by state or territory. */
-const MAJORITY = majority.places as Record<string, { age: number }>;
-/** The age most places set, for a place the table cannot be read for. */
-const USUAL_MAJORITY = (() => {
-  const counts = new Map<number, number>();
-  for (const row of Object.values(MAJORITY))
-    counts.set(row.age, (counts.get(row.age) ?? 0) + 1);
-  return [...counts].sort((a, b) => b[1] - a[1] || a[0] - b[0])[0]![0];
-})();
-const majorityByPlace = new Map<string, number>();
-
-/** The age at which a parent's authority ends where a person lives, from the place's records. */
-function ageOfMajority(placeId: string): number {
-  let age = majorityByPlace.get(placeId);
-  if (age === undefined) {
-    const state = placeStateKey(placeId)?.replace(/^US-/, "");
-    age = (state ? MAJORITY[state]?.age : undefined) ?? USUAL_MAJORITY;
-    majorityByPlace.set(placeId, age);
-  }
-  return age;
 }
 
 /** Whether a person decides for themselves where they live: they are of age where they live. */

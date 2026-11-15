@@ -122,6 +122,7 @@ export {
 export {
   PAST_WORK_OUT,
   PAST_WORK_SPELL,
+  findPerQuarter,
   heldSinceRecord,
   pastWorkFor,
   pastWorkHistory,

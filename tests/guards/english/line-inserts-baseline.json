@@ -29,5 +29,9 @@
   },
   "excusedOnNov14": {
     "placed": 4641
+  },
+  "vocativeNames": {
+    "conversation": 85,
+    "scene-talk": 15
   }
 }

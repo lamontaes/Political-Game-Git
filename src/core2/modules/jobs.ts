@@ -75,6 +75,7 @@ import {
   residentsRuntime,
   type ResidentsRuntime,
   startRegionalWork,
+  loseAwayWork,
   stopRegionalWork,
 } from "./residents";
 import { PROFILE_FACT_KINDS, profileFor } from "../opening-profile";
@@ -2632,6 +2633,124 @@ function reviewAbsence(api: CoreAPI): void {
     if (!live.has(row.id)) rows.remove(row.id);
 }
 
+/** The turnover table's row for the lost shares the households have not yet made a whole worker. */
+const AWAY_CARRY = "away-carry";
+
+/** The reason a counted seeker's row carries when their household's away share lost work. */
+export const AWAY_WORK_LOST = "away-work-lost";
+
+/**
+ * The counted households' out-of-town workers (`unplacedWorkers`, workers per
+ * household of the record) lose work by the rule everyone's work is: the
+ * quarterly pull (`layoffPerQuarter`) moved by the rise in the state's
+ * unemployment and the member's age, scaled by the state's own separation
+ * rate. A household's share of away workers is a count, not one person, so it
+ * shrinks by its share times the month's pull (never a roll, never a
+ * threshold): the pool's pay drops with it, and the members it no longer
+ * stands for are idle at the next `reviewCountedEntry`, which weighs looking
+ * for work as it does any jobless member (the regional finds then hire them
+ * back by the one hiring rule). The engine knows where the household lives
+ * and that its workers commute to the place's wider labor market, not which
+ * employer holds them, so the state's conditions are the household's place's.
+ */
+function loseAwayWorkByTurnover(
+  api: CoreAPI,
+  pulls: ModuleTable,
+  month: number,
+): void {
+  const c = core(api),
+    p = (key: string) => api.parameter(key),
+    rt = residentsRuntime(c);
+  if (!rt) return;
+  const counted = rt.store;
+  const [young, old] = jobsData.workingAge as [number, number];
+  const regional = new Set(
+    (
+      store(api).table("regional").rows() as unknown as { personId: string }[]
+    ).map((row) => row.personId),
+  );
+  const working = new Set<string>();
+  for (const [jobId, flow] of rt.wageFlowByJob) {
+    const job = rt.jobs.get(jobId);
+    if (job && !job.endsAt && !flow.endedAt) working.add(job.personId);
+  }
+  const seekers = store(api).table("countedSeekers");
+  // The shares lost add up through the households in order; each whole worker
+  // is one member out of work and looking, as a regional worker let go is.
+  // The first month starts somewhere along it from the world's seed
+  // (generation of who exists, no roll).
+  let carry =
+    (pulls.get(AWAY_CARRY) as { pull?: number } | undefined)?.pull ??
+    new SeededRng(api.state.seed).fork(`town-turnover:${AWAY_CARRY}`).next();
+  for (const h of counted.liveHouseholds()) {
+    if (!(h.unplacedWorkers > 0) || outsideLaborForce(h.quarters)) continue;
+    // Workers by name in regional work face their own pull above.
+    let regionalHere = 0,
+      ages = 0,
+      adults = 0;
+    for (const m of counted.countedMembers(h)) {
+      if (regional.has(counted.ids[m]!)) regionalHere += 1;
+      const age =
+        daysBetweenText(counted.born[m]!, c.date) / p("jobsDaysPerYear");
+      if (age >= young && age < old) {
+        ages += age;
+        adults += 1;
+      }
+    }
+    const away = h.unplacedWorkers - regionalHere;
+    if (!(away > 0) || adults === 0) continue;
+    const at = regionalConditions(api, h.placeId);
+    const lost = Math.min(
+      away,
+      away *
+        layoffPerQuarter(
+          api,
+          at.rise,
+          p("zero"),
+          workAgeFactor(api, ages / adults),
+        ) *
+        at.separation *
+        month,
+    );
+    if (!loseAwayWork(c, h, lost)) continue;
+    carry += lost;
+    const free = counted
+      .countedMembers(h)
+      .filter((m) => {
+        const id = counted.ids[m]!;
+        const age =
+          daysBetweenText(counted.born[m]!, c.date) / p("jobsDaysPerYear");
+        return (
+          !regional.has(id) &&
+          !working.has(id) &&
+          !seekers.get(id) &&
+          age >= young &&
+          age < old &&
+          !inCustody(api, id)
+        );
+      })
+      .sort((a, b) => counted.ids[a]!.localeCompare(counted.ids[b]!));
+    for (const m of free) {
+      if (carry < p("one")) break;
+      carry -= p("one");
+      const id = counted.ids[m]!;
+      seekers.put({
+        id,
+        isSeeker: true,
+        personId: id,
+        placeId: counted.strings[counted.placeIx[m]!]!,
+        employed: false,
+        since: c.date,
+        reasonKey: jobsData.reasons.layoff,
+        referenceHourlyMinor: 0,
+        // Why, by record: the household's away share lost work by the state's layoff pace.
+        reasons: { [AWAY_WORK_LOST]: 1 },
+      } as never);
+    }
+  }
+  pulls.put({ id: AWAY_CARRY, pull: carry } as never);
+}
+
 /**
  * The town's workers are let go at the rate working people are everywhere
  * (JOLTS layoffs and discharges, about 1.2% of employment a month), by the
@@ -2754,8 +2873,10 @@ function reviewTurnover(api: CoreAPI): void {
       values: { turnoverPull: pull, regional: 1, counted: 1 },
     });
   }
+  loseAwayWorkByTurnover(api, pulls, month);
   // A job that ended another way keeps no pull.
   const live = new Set([
+    AWAY_CARRY,
     ...jobs.map((job) => job.id),
     ...(store(api).table("regional").rows() as unknown as { id: string }[]).map(
       (row) => `regional:${row.id}`,

@@ -4047,6 +4047,21 @@ export function stopRegionalWork(core: CoreState, personId: string): boolean {
 }
 
 /**
+ * A counted household loses out-of-town workers (the jobs engine's layoff of
+ * the household's away workers): the same writer as an ended regional job
+ * takes them off the household and the place's pool pay. False where there
+ * is nothing to take.
+ */
+export function loseAwayWork(
+  core: CoreState,
+  h: CountedHousehold,
+  workers: number,
+): boolean {
+  const rt = runtimes.get(core);
+  return !!rt && shedUnplacedWorkers(rt, h, workers, core.date);
+}
+
+/**
  * The one writer that takes out-of-town workers off a counted household:
  * `workers` per household of the record, and from the place's pool's pay as
  * many workers as the record stands for, each at the pool's pay per worker.
