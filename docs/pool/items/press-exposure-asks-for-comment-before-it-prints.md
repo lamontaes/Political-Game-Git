@@ -32,8 +32,9 @@ source: Account lead builder, Nov 15, found while placing the Words lead's day w
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/press.ts, src/core2/data/press/parameters.json, src/core2/press-owners.test.ts, src/core2/press-conflict-exposed.test.ts
+**Files.** src/core2/modules/press.ts, src/core2/data/press/parameters.json, src/core2/press-owners.test.ts, src/core2/press-conflict-exposed.test.ts, src/core2/press-exposure-held.test.ts, src/core2/press-exposure-comment.test.ts
 
 **Notes.**
 
 - Nov 15: split from the scandal call at the coordinator's ruling; the call is pushed after this folds.
+- Nov 15: the call's answer now reaches print for every ending. A printed denial (`denial-printed`) was read as a decline and an admission (`on-the-record`) lost its quote; both fixed and played in press-exposure-comment.test.ts.
