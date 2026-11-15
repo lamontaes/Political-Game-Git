@@ -28,6 +28,10 @@ A row lives in a family file under `src/core2/data/stopgaps/` (the director's in
 - A stand-in row with no player effect and no data is dropped without asking. One a player can see stays until replaced.
 - A design call about the player's own experience is an `owner-decision` row plus a decision card, never a wait.
 
+- A "no record exists" stopgap is often cleared by one field on a record the engine already keeps, plus a rule that reads the records already there (Nov 15: a public work's finish day came from the award's payments and its winning crew, with one `lastPaidOn` field on the award and one TUNABLE labor-share row, no new table). Look for that before building a module.
+- Probe two or three named places in a played year first (a test that appends to a file, since vitest hides console output) to see whether the new rule ever binds; say so in the PR when it rarely does.
+- A before-and-after timing script that swaps `src` between two heads must copy its own test file in before both sides, must not use `git stash -u` (it hides your own edits), and should be started with `setsid nohup` and left alone: changing the session's working directory kills a plain background job.
+
 ## No new stopgaps (owner's rule, Nov 14)
 
 This overrides any older note, item or skill line that says a builder may leave or register a new stopgap. Build the real thing through the engine that exists, or say in the PR what is missing and stop.
