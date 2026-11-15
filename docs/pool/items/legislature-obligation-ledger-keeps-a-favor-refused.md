@@ -1,7 +1,7 @@
 ---
 id: legislature-obligation-ledger-keeps-a-favor-refused
 title: "A favor called in and refused is kept on the obligation ledger as broken, and the ones who dealt with that person read it"
-area: governing
+area: gov
 kind: wiring
 priority: 2
 size: S
@@ -9,11 +9,13 @@ status: open
 standard: 2
 claimed-by:
 pr:
+after:
 blocked-on:
 lead: governing
 source: "Endorsement-ask builder, Nov 15, 2026; the Account lead's ruling of 02:47Z"
 model: sonnet
 effort: medium
+root: none
 ---
 
 **What.** A colleague who took a deal in office owes the sponsor a favor; when the sponsor's campaign calls it in and the colleague says no, nothing on the ledger says so. The favor stays "owed" forever and is asked again, and nobody who dealt with the person can read that they refused. Seen: after a colleague refuses an endorsement they owed, the next deal they are offered, the sponsor's next talk with them and the paper's account of the race can say the favor was refused.
@@ -28,6 +30,6 @@ effort: medium
 
 **Done when.** A second session, not the builder, in a drawn place (named, with its seed) finds a refused favor on the ledger by obligation id, shows it is not asked again, and shows the engine that read it (a later deal or talk), named by record id.
 
-**Files.** src/core2/modules/legislature.ts, src/core2/modules/campaigns.ts
-
 **Waits on.** The promises thread ("Make promises kept, broken and remembered"); the endorsement-ask PR for the player's no.
+
+**Files.** src/core2/modules/legislature.ts, src/core2/modules/campaigns.ts

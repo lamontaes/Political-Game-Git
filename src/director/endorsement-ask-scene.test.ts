@@ -5,7 +5,6 @@ import { gameStartDate } from "../core2/game-start";
 import { addDays, ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
 import {
-  CAMPAIGNS_MODULE_ID,
   ENDORSEMENT_ASKED_EVENT,
   endorsementsOf,
 } from "../core2/modules/campaigns";
@@ -21,6 +20,7 @@ import { lawChain } from "../core2/modules/laws";
 import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
 import { purposeScene, replyInScene } from "./purpose-scene";
+import type { ScheduleEntry } from "./director";
 
 // A candidate's campaign asks the people closest to them for an endorsement
 // each turn; the player was skipped. Now the player is asked in a scene
@@ -91,10 +91,9 @@ function world() {
   return { core, director, api, race, filing, candidate, playerId };
 }
 
-it(`a candidate's campaign asks the player to endorse, and the reply writes the row (${PLACE.name})`, () => {
-  const { core, director, api, race, filing, candidate, playerId } = world();
+function asked(ctx: ReturnType<typeof world>) {
+  const { core, api, filing, candidate, playerId } = ctx;
   const rowId = `endorsement:${filing.id}:${playerId}`;
-  // Campaign days pass until the candidate's turn has asked the player.
   for (
     let day = 0;
     day < 60 &&
@@ -112,25 +111,28 @@ it(`a candidate's campaign asks the player to endorse, and the reply writes the 
   expect(row!.id).toBe(rowId);
   expect(row!.answer).toBe("asked");
   expect(row!.askerId).toBe(candidate.id);
-  const asked = [...core.durableLog.values()].find(
-    (r) =>
-      r.kind === ENDORSEMENT_ASKED_EVENT && r.facts?.endorsementId === rowId,
-  );
-  expect(asked, `${where}: no endorsement-asked record`).toBeTruthy();
-  expect(asked!.personIds).toEqual([candidate.id, playerId]);
-  // Nobody answered for the player: no yes is public.
-  expect(
-    [...core.durableLog.values()].some(
-      (r) => r.kind === "campaign-endorsed" && r.facts?.speakerId === playerId,
-    ),
-  ).toBe(false);
+  const record = [...core.durableLog.values()]
+    .filter(
+      (r) =>
+        r.kind === ENDORSEMENT_ASKED_EVENT && r.facts?.endorsementId === rowId,
+    )
+    .sort((a, b) => a.date.localeCompare(b.date))
+    .at(-1);
+  expect(record, `${where}: no endorsement-asked record`).toBeTruthy();
+  expect(record!.personIds).toEqual([candidate.id, playerId]);
+  return { row: row!, record: record!, rowId };
+}
 
-  // The scene: the candidate comes to the player; the player's yes endorses.
+function scene(
+  ctx: ReturnType<typeof world>,
+  recordId: string,
+): { entry: ScheduleEntry; replies: string[]; text: string } {
+  const { core, director, playerId } = ctx;
   const book = director.ledger.people.get(playerId)!;
   const entry = book.schedule.find(
-    (e) => book.momentsById.get(e.momentId)?.causeId === asked!.id,
+    (e) => book.momentsById.get(e.momentId)?.causeId === recordId,
   );
-  expect(entry, `${where}: no scene staged from ${asked!.id}`).toBeTruthy();
+  expect(entry, `${where}: no scene staged from ${recordId}`).toBeTruthy();
   expect(entry!.bindings.some((b) => b.typeKey === "endorsement-ask")).toBe(
     true,
   );
@@ -138,32 +140,96 @@ it(`a candidate's campaign asks the player to endorse, and the reply writes the 
     typeKey: "endorsement-ask",
   });
   expect(result?.kind, JSON.stringify(result)).toBe("composed");
-  if (result?.kind !== "composed") return;
-  const moves = result.scene.talk.tree.replies.map((r) => r.line.move);
+  if (result?.kind !== "composed") throw new Error("not composed");
+  const replies = result.scene.talk.tree.replies.map((r) => r.line.move);
   console.log(
-    `ENDORSEMENT ASK ${where}: "${result.scene.talk.state.text}" replies ${moves.join(", ")}`,
+    `ENDORSEMENT ASK ${where}: "${result.scene.talk.state.text}" replies ${replies.join(", ")}`,
   );
-  expect(moves).toContain("agree");
-  expect(moves).toContain("decline");
-  expect(moves).toContain("stall");
-  const reply = replyInScene(
-    core,
-    director,
-    playerId,
-    entry!,
-    [moves.indexOf("agree")],
+  return { entry: entry!, replies, text: result.scene.talk.state.text };
+}
+
+const say = (
+  ctx: ReturnType<typeof world>,
+  entry: ScheduleEntry,
+  replies: string[],
+  move: string,
+) =>
+  replyInScene(
+    ctx.core,
+    ctx.director,
+    ctx.playerId,
+    entry,
+    [replies.indexOf(move)],
     { typeKey: "endorsement-ask" },
   );
-  expect(reply, `${where}: the yes wrote no reply record`).toBeTruthy();
-  const after = endorsementsOf(api, filing.id).find(
-    (r) => r.speakerId === playerId,
-  )!;
-  expect(after.answer).toBe("yes");
+
+const endorsed = (ctx: ReturnType<typeof world>, rowId: string) =>
+  [...ctx.core.durableLog.values()].some(
+    (r) => r.kind === "campaign-endorsed" && r.facts?.endorsementId === rowId,
+  );
+
+const answerOf = (ctx: ReturnType<typeof world>) =>
+  endorsementsOf(ctx.api, ctx.filing.id).find(
+    (r) => r.speakerId === ctx.playerId,
+  )!.answer;
+
+it(`the player is asked and a yes endorses, in public (${PLACE.name})`, () => {
+  const ctx = world();
+  const { rowId, record } = asked(ctx);
+  expect(endorsed(ctx, rowId)).toBe(false);
+  const { entry, replies } = scene(ctx, record.id);
+  expect(replies).toEqual(
+    expect.arrayContaining(["agree", "decline", "stall"]),
+  );
   expect(
-    [...core.durableLog.values()].some(
-      (r) => r.kind === "campaign-endorsed" && r.facts?.endorsementId === rowId,
-    ),
-  ).toBe(true);
-  void CAMPAIGNS_MODULE_ID;
-  void race;
+    say(ctx, entry, replies, "agree"),
+    "the yes wrote no reply",
+  ).toBeTruthy();
+  expect(answerOf(ctx)).toBe("yes");
+  expect(endorsed(ctx, rowId)).toBe(true);
 }, 600_000);
+
+it(`a no is kept as the row's answer and nothing is said in public (${PLACE.name})`, () => {
+  const ctx = world();
+  const { rowId, record } = asked(ctx);
+  const { entry, replies } = scene(ctx, record.id);
+  expect(say(ctx, entry, replies, "decline")).toBeTruthy();
+  expect(answerOf(ctx)).toBe("no");
+  expect(endorsed(ctx, rowId)).toBe(false);
+  // It is not asked again: the days pass and the one row stands.
+  advanceCore(ctx.core, addDays(makeIsoDate(ctx.core.date), 40));
+  expect(answerOf(ctx)).toBe("no");
+}, 600_000);
+
+it(`a put-off comes back as a second asking, with no put-off offered (${PLACE.name})`, () => {
+  const ctx = world();
+  const first = asked(ctx);
+  const one = scene(ctx, first.record.id);
+  expect(say(ctx, one.entry, one.replies, "stall")).toBeTruthy();
+  expect(answerOf(ctx)).toBe("asked");
+  for (
+    let day = 0;
+    day < 60 &&
+    ![...ctx.core.durableLog.values()].some(
+      (r) =>
+        r.kind === ENDORSEMENT_ASKED_EVENT &&
+        r.facts?.endorsementId === first.rowId &&
+        r.id !== first.record.id,
+    );
+    day += 1
+  )
+    advanceCore(ctx.core, addDays(makeIsoDate(ctx.core.date), 1));
+  const back = [...ctx.core.durableLog.values()].find(
+    (r) =>
+      r.kind === ENDORSEMENT_ASKED_EVENT &&
+      r.facts?.endorsementId === first.rowId &&
+      r.id !== first.record.id,
+  );
+  expect(back, `${where}: the put-off never came back`).toBeTruthy();
+  expect(back!.facts?.again).toBe("yes");
+  const two = scene(ctx, back!.id);
+  expect(two.text).toContain("You said a few days");
+  expect(two.replies).not.toContain("stall");
+  expect(say(ctx, two.entry, two.replies, "agree")).toBeTruthy();
+  expect(answerOf(ctx)).toBe("yes");
+}, 900_000);

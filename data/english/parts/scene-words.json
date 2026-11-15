@@ -6109,10 +6109,10 @@
       }
     },
     {
-      "key": "scene-words.lead-endorsement-ask-other.name-filed-for-office-today-they-came-to-see-you",
+      "key": "scene-words.lead-endorsement-ask-other.name-filed-for-office-and-came-to-see-you",
       "move": "lead-endorsement-ask-other",
       "kind": "spoken",
-      "text": "{name} filed for {office}. Today they came to see you.",
+      "text": "{name} filed for {office} and came to see you.",
       "uses": [
         {
           "move": "lead-endorsement-ask-other",

@@ -186138,6 +186138,75 @@
       ]
     },
     {
+      "key": "scene-talk.narrate-narrate.name-asks-for-a-minute-of-your-time",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} asks for a minute of your time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (endorsement ask, Nov 15)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-has-come-to-ask-you-for-something",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} has come to ask you for something.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (endorsement ask, Nov 15)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-waits-until-the-two-of-you-can-talk",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} waits until the two of you can talk.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (endorsement ask, Nov 15)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      }
+    },
+    {
       "key": "scene-talk.state-tell-reason.i-m-running",
       "move": "state-tell-reason",
       "kind": "spoken",
@@ -186254,10 +186323,10 @@
       }
     },
     {
-      "key": "scene-talk.state-tell-reason.you-know-me-better-than-anyone-in-this-race",
+      "key": "scene-talk.state-tell-reason.you-know-me-better-than-anyone",
       "move": "state-tell-reason",
       "kind": "spoken",
-      "text": "You know me better than anyone in this race.",
+      "text": "You know me better than anyone.",
       "uses": [
         {
           "subject": "scene",
@@ -186746,10 +186815,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.thank-you-i-ll-tell-people-today",
+      "key": "scene-talk.follow-thank.thank-you-i-ll-tell-people",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "Thank you. I'll tell people today.",
+      "text": "Thank you. I'll tell people.",
       "uses": [
         {
           "subject": "scene",
