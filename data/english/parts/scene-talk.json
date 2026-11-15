@@ -135361,7 +135361,7 @@
       "key": "scene-talk.follow-answer.soon-if-you-can-and-i-thought-of-you-because-i-trust-you-with-it",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "As soon as you can. I thought of you because I trust you.",
+      "text": "I thought of you because I trust you.",
       "uses": [
         {
           "subject": "scene",
