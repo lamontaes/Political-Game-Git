@@ -1,4 +1,3 @@
-import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
 import { gameStartDate } from "./game-start";
@@ -10,7 +9,6 @@ import { buyListedHome } from "./housing-sale-buyer-fixture";
 import { townOutsideOf } from "./opening-outside-market";
 import type { MortgageRow } from "./housing-foreclosure";
 import type { ModuleRow } from "./module-data";
-import { drawPlace } from "../../scripts/core2-year/place";
 
 // A buyer from outside the town (the outside market) takes a listed home and
 // pays the household, which pays its lender from that money. When the same
@@ -19,13 +17,28 @@ import { drawPlace } from "../../scripts/core2-year/place";
 // played year with "A transfer needs two different accounts", Boiling Spring
 // Lakes, North Carolina, and with "Money cannot move between two outside
 // accounts", South Fork, Missouri), and the mortgage ends.
-const seed = process.env.HOME_SALE_SEED ?? randomBytes(8).toString("hex");
+//
+// Pinned (tests-housing-sale-tests-draw-from-the-clock): each case is a named
+// place, world seed and mortgaged household. The old tests drew up to eight
+// places from randomBytes and took the first mortgaged household (and the
+// first other outside account by id), on the premise that any draw has one;
+// the records below are each one, 40 days in.
+const BUTTE = {
+  key: "0209710",
+  seed: "8250ac48f569e0e80327bf3f0ea85c3b21739da3c1ab1bc217149d813ce3270d",
+  householdId: "household_0e78b6e0755552d9",
+};
+const LA_CUEVA = {
+  key: "3536930",
+  seed: "eba9bb33912a60c335307fc2876f25908f56062b19a48b0c4cf650fa2402b5a0",
+  householdId: "household_e464eafdeb06259e",
+  lenderId: "opening-retirement-contributor:42ea519c7efc58c6",
+};
 
 it("sells a home whose mortgage the outside market holds: the loan ends and no cash moves to itself", () => {
-  const tried: string[] = [];
-  for (let attempt = 0; attempt < 8; attempt += 1) {
-    const place = drawPlace(`${seed}:${attempt}`, "home-sale-outside-lender");
-    const where = `seed ${seed}, ${place.name} (${place.key}), world seed ${place.seed}`;
+  {
+    const place = BUTTE;
+    const where = `Butte, Alaska (${place.key}), world seed ${place.seed}, ${place.householdId}`;
     const { core } = buildBenchWorld(place.seed, gameStartDate(), {
       twoLevel: true,
       placeKey: place.key,
@@ -41,11 +54,9 @@ it("sells a home whose mortgage the outside market holds: the loan ends and no c
         core.finance.contracts.has(row.id) &&
         core.households.has(row.householdId),
     );
-    const loan = loans[0];
-    if (!loan) {
-      tried.push(`${where}: no mortgaged household`);
-      continue;
-    }
+    const loan = loans.find((row) => row.householdId === place.householdId);
+    expect(loan, `${where}: the named mortgaged household`).toBeTruthy();
+    if (!loan) return;
     const household = core.households.get(loan.householdId)!;
     // The town's outside market, found the way housing finds the holder of an
     // outside loan and the sale finds its buyer. The first outside account by
@@ -53,10 +64,8 @@ it("sells a home whose mortgage the outside market holds: the loan ends and no c
     // Arkansas): the loan went to the employer, and the payoff tried to move
     // cash between two outside accounts.
     const buyer = townOutsideOf(core.organizations.values(), household.placeId);
-    if (!buyer) {
-      tried.push(`${where}: no outside market`);
-      continue;
-    }
+    expect(buyer, `${where}: the town's outside market`).toBeTruthy();
+    if (!buyer) return;
     // The outside market holds this home's loan.
     housing
       .table("mortgages")
@@ -91,10 +100,9 @@ it("sells a home whose mortgage the outside market holds: the loan ends and no c
     process.stdout.write(
       `HOME-SALE ${where}: ${sale!.id}; mortgage ${loan.id}; payer ${buyer.id} (account ${payerAccount}); payee ${payee} (account ${payeeAccount}); borrower ${first}; price ${sale!.priceMinor}, to lender ${sale!.toLenderMinor}, surplus ${sale!.surplusMinor}, loan balance 0\n`,
     );
-    return;
   }
-  throw new Error(`no mortgaged household in 8 places: ${tried.join("; ")}`);
-}, 900_000);
+  // About 64 s measured: building Butte and its 40 days.
+}, 130_000);
 
 // A lender outside the books that is not the buyer: a household that moved
 // within the county keeps its lender while its new place has its own outside
@@ -102,10 +110,9 @@ it("sells a home whose mortgage the outside market holds: the loan ends and no c
 // Missouri, Nov 10, 2026: an estate's home sale threw "Money cannot move
 // between two outside accounts").
 it("sells a home whose mortgage another outside account holds: the loan ends and nothing throws", () => {
-  const tried: string[] = [];
-  for (let attempt = 0; attempt < 8; attempt += 1) {
-    const place = drawPlace(`${seed}:${attempt}`, "home-sale-other-outside");
-    const where = `seed ${seed}, ${place.name} (${place.key}), world seed ${place.seed}`;
+  {
+    const place = LA_CUEVA;
+    const where = `La Cueva, New Mexico (${place.key}), world seed ${place.seed}, ${place.householdId}`;
     const { core } = buildBenchWorld(place.seed, gameStartDate(), {
       twoLevel: true,
       placeKey: place.key,
@@ -117,31 +124,29 @@ it("sells a home whose mortgage another outside account holds: the loan ends and
       housing.table("mortgages").rows() as unknown as MortgageRow[]
     ).find(
       (row) =>
+        row.householdId === place.householdId &&
         row.balanceMinor > 0 &&
         core.finance.contracts.has(row.id) &&
         core.households.has(row.householdId),
     );
-    if (!loan) {
-      tried.push(`${where}: no mortgaged household`);
-      continue;
-    }
+    expect(loan, `${where}: the named mortgaged household`).toBeTruthy();
+    if (!loan) return;
     const household = core.households.get(loan.householdId)!;
     const buyer = townOutsideOf(core.organizations.values(), household.placeId);
     // Another owner whose cash is outside the books.
-    const other = [...core.organizations.values()]
-      .filter((org) => {
-        if (!buyer || org.id === buyer.id) return false;
-        const account = core.cashJournal.residualAccountByOwner.get(org.id);
-        return (
-          account !== undefined &&
-          core.cashJournal.accounts.get(account)?.outsideFlow === true
-        );
-      })
-      .sort((a, b) => a.id.localeCompare(b.id))[0];
-    if (!buyer || !other) {
-      tried.push(`${where}: no second outside account`);
-      continue;
-    }
+    const other = core.organizations.get(place.lenderId);
+    const otherAccount = core.cashJournal.residualAccountByOwner.get(
+      place.lenderId,
+    );
+    expect(
+      buyer !== undefined &&
+        other !== undefined &&
+        other.id !== buyer.id &&
+        otherAccount !== undefined &&
+        core.cashJournal.accounts.get(otherAccount)?.outsideFlow === true,
+      `${where}: ${place.lenderId} is a second outside account`,
+    ).toBe(true);
+    if (!buyer || !other) return;
     housing
       .table("mortgages")
       .put({ ...loan, holderId: other.id } as unknown as ModuleRow);
@@ -169,9 +174,6 @@ it("sells a home whose mortgage another outside account holds: the loan ends and
     process.stdout.write(
       `HOME-SALE-OTHER ${where}: ${sale!.id}; buyer ${buyer.id}; lender ${other.id}; to lender ${sale!.toLenderMinor}; surplus ${sale!.surplusMinor}\n`,
     );
-    return;
   }
-  throw new Error(
-    `no mortgaged household with a second outside account in 8 places: ${tried.join("; ")}`,
-  );
-}, 900_000);
+  // About 34 s measured: building La Cueva and its 40 days.
+}, 70_000);
