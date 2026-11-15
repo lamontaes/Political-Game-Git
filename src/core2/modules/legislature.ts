@@ -135,8 +135,11 @@ import { addDays, daysBetweenText, makeIsoDate } from "../kernel/dates";
 import {
   bodyNumbering,
   designation,
+  formKindOf,
   type BillFormKind,
+  type LocalPlace,
 } from "../legislature-bill-form";
+import { governmentProperName } from "../government-proper-name";
 import bodyRows from "../data/offices/bodies.json" with { type: "json" };
 import { worldRoster } from "./elections";
 
@@ -1917,17 +1920,44 @@ export function authorityFor(api: CoreAPI, provision: Provision): Authority {
   };
 }
 
+/**
+ * The place a local body sits in, for the clause and numbering its state's general law gives its
+ * ordinances (local-ordinance-style-2026.json); undefined for a state chamber or Congress.
+ */
+export function localPlaceOf(
+  api: CoreAPI,
+  body: {
+    readonly kind: string;
+    readonly jurisdiction: string;
+    readonly governmentName: string;
+  },
+): LocalPlace | undefined {
+  return formKindOf(body.kind) === "ordinance"
+    ? {
+        state: lawChain(api).stateKey.replace(/^US-/, ""),
+        governmentName:
+          body.kind === "county-board"
+            ? governmentProperName(
+                body.governmentName,
+                body.jurisdiction,
+                "county",
+              )
+            : governmentProperName(body.governmentName, body.jurisdiction),
+      }
+    : undefined;
+}
+
 /** The body's numbering for a bill drafted today, and the bill's form in it. */
 function numberAndForm(
   api: CoreAPI,
   officeId: string,
 ): Pick<BillRow, "number" | "form"> {
   const body = bodyOf(api, officeId)!;
-  const numbering = bodyNumbering(body, api.state.date);
-  if (numbering.kind === "ordinance") {
-    // stopgapId: SG-GOV-local-bill-numbering (one national ordinance numbering for every town)
-    api.stopgap("SG-GOV-local-bill-numbering");
-  }
+  const numbering = bodyNumbering(
+    body,
+    api.state.date,
+    localPlaceOf(api, body),
+  );
   const counter = table(api, "counters").get(numbering.runKey) as unknown as
     { n: number } | undefined;
   const n = counter ? counter.n + 1 : numbering.firstNumber;
@@ -4887,7 +4917,7 @@ export function committeeMemberKeys(
  * the bill touches most (for a minimum wage, workers paid under the new
  * floor), heard on the record; then the committee votes. The size is the
  * typical standing committee's (`committeeSize`); seats go by seniority
- * until leadership appoints them (SG-GOV-committee-structure).
+ * where no leadership roster seats them.
  */
 /**
  * One witness at a hearing: their side on the bill, and what in their own life the bill reaches, as a
@@ -5059,8 +5089,6 @@ function committeeStage(
     `committee:${bill.id}:${chamber}`,
   ) as unknown as CommitteeRecord | undefined;
   if (met) return met;
-  // stopgapId: SG-GOV-committee-structure
-  api.stopgap("SG-GOV-committee-structure");
   const { roster } = committeeSeats(api, bill, chamber)!;
   const {
     heard,
@@ -5212,7 +5240,8 @@ function committeeStage(
       tag: "ESTIMATED",
       citation: `Committee on ${bill.number}`,
       asOf: api.state.date,
-      estimatedFrom: "SG-GOV-committee-structure",
+      estimatedFrom:
+        "the chamber's leadership roster (leadership.ts), or seniority by party ratio where it has none",
     },
     publicRecord: true,
     // A bill that died without a hearing is news too.
@@ -5756,7 +5785,6 @@ export function studiesOf(api: CoreAPI, billId: string): readonly StudyRow[] {
  * give the same committee.
  */
 function referToStudy(api: CoreAPI, billId: string): void {
-  // stopgapId: SG-LEGISLATURE-study-committee-terms
   if (studiesOf(api, billId).length) return;
   const bill = table(api, "bills").get(billId) as unknown as BillRow;
   if (bill.status !== "failed" || bill.failedOn !== api.state.date) return;

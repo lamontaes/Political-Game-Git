@@ -73,7 +73,9 @@ import {
   questionAbout,
   questionSaid,
 } from "../english/question-names";
+import { floorDebateFacts } from "./floor-debate-facts";
 import { raceTurnoutFacts } from "./race-turnout-facts";
+import { DONOR_ASK_TYPE, donorAskFacts } from "./donor-ask-facts";
 import {
   questionSubject,
   questionTopic,
@@ -103,7 +105,7 @@ import {
 import conversationRules from "./data/conversation-rules.json" with { type: "json" };
 import type { Director } from "./ledger";
 import { knockFacts, petitionAtDoor } from "./doors";
-import { officeSaid } from "./cause-facts";
+import { officeSaid, raceMemberTitle } from "./cause-facts";
 import { officeInSentence } from "../core2/person-work";
 import {
   SITUATION_LIBRARY,
@@ -1221,6 +1223,23 @@ function composeBinding(
       text: said.number ?? "",
       sourceRecordIds: [moment.causeId, said.billId ?? moment.causeId],
     };
+  // A bill the asked person signed, or stopped: a veto, a veto overridden
+  // over it, or a bill held in committee (legislature.ts). A reporter asks
+  // who wanted it signed, or stopped.
+  const stopped =
+    (record?.kind === "executive-action" && said.action === "vetoed") ||
+    record?.kind === "veto-override" ||
+    record?.kind === "bill-held-in-committee";
+  if (stopped)
+    facts["stopped-it"] = {
+      text: said.number ?? "",
+      sourceRecordIds: [moment.causeId, said.billId ?? moment.causeId],
+    };
+  if (record?.kind === "executive-action" && said.action === "signed")
+    facts["signed-it"] = {
+      text: said.number ?? "",
+      sourceRecordIds: [moment.causeId, said.billId ?? moment.causeId],
+    };
   // A vote the asked person sat for (legislature.ts): the lines asked after
   // a vote need it, and which side they took, from their own vote record; a
   // member the roll shows on neither side has no side.
@@ -1250,11 +1269,13 @@ function composeBinding(
     };
   // The floor before the roll (legislature.ts recordFloorDebate): which side
   // the speaker rose for, and the bill.
-  if (record?.kind === "floor-debate")
+  if (record?.kind === "floor-debate") {
     facts[said.forId === askerId ? "speaks-for" : "speaks-against"] = {
       text: said.number ?? "",
       sourceRecordIds: [moment.causeId, askerId],
     };
+    floorDebateFacts(core, facts, said, moment.causeId, askerId);
+  }
   // A witness at a committee's hearing (legislature.ts committeeStage): their
   // side on the bill and what it reaches in their own life, from the record's
   // lists (the job it binds, their lease or mortgage, a child at home, their
@@ -1345,6 +1366,14 @@ function composeBinding(
         sourceRecordIds: [moment.causeId, outlet.id],
       };
   }
+  // A published interview the official answered only in part (press.ts
+  // publish: the record's `declined` counts the questions left unanswered): a
+  // reporter may ask the skipped ones again.
+  if (record?.kind === "interview-published" && Number(said.declined) > P.zero)
+    facts["skipped-some"] = {
+      text: String(said.declined),
+      sourceRecordIds: [moment.causeId],
+    };
   // The race's debate the two candidates just stood in (meetings.ts
   // holdDebate): the lines said leaving the stage need it, and the first
   // question the two answered on opposite sides is what the rival brings up.
@@ -1405,6 +1434,22 @@ function composeBinding(
     // The bill the donor holds the strongest view on, when one is pending.
     if (said.billId && facts.bill) facts["donor-bill"] = facts.bill;
   }
+  // A donor's own reasons: their given name, where they work, what the bill
+  // they named is about and which side of it they are on, each from the
+  // records it came from (donor-ask-facts.ts).
+  if (type.key === DONOR_ASK_TYPE)
+    Object.assign(
+      facts,
+      donorAskFacts(
+        core,
+        askerId,
+        moment.causeId,
+        record?.kind === "campaign-gift" && facts["donor-bill"]
+          ? said.billId
+          : undefined,
+        personLean,
+      ),
+    );
   // How the two stand, so a line can fit the tie: the asked person's known
   // people (`acquainted`, else `stranger`), and family (`kin`).
   // A partner is neither kin nor a stranger: they know each other (family
@@ -1454,7 +1499,10 @@ function composeBinding(
   }
   if (said.office)
     facts.office = {
-      text: titleInSentence(said.office),
+      // Where the body is named for its members the race is for that member
+      // ("alderman"); else the record's title in a sentence.
+      text:
+        raceMemberTitle(core, said.contestId) ?? titleInSentence(said.office),
       sourceRecordIds: [
         moment.causeId,
         ...(said.contestId ? [said.contestId] : []),
@@ -1990,8 +2038,9 @@ function composeBinding(
         };
   // A constituent's own records, worded: the job they lost, the notice on
   // their rent, the pay under the floor, the relative who is ill. A resident
-  // at their door speaks from the same records.
-  if (variant && (type.purpose === "constituent-help" || door))
+  // at their door speaks from the same records. Office hours always carries
+  // the case's own facts, whether or not a variant was chosen.
+  if (type.purpose === "constituent-help" || (variant && door))
     Object.assign(
       facts,
       constituentFacts(

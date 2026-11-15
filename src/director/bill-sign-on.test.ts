@@ -29,7 +29,6 @@ import {
   declinedAsks,
   floorDateOf,
   memberKey,
-  memberPosition,
   members,
   obligationsOf,
   scheduleVote,
@@ -128,11 +127,6 @@ describe("asking colleagues to sign on", () => {
           ? null
           : drafted.id;
       };
-      const asksOn = (billId: string) =>
-        [...core.durableLog.values()].filter(
-          (row) => row.kind === "sign-on-asked" && row.facts?.billId === billId,
-        );
-
       // The earlier votes: the player's first bills, one on every question
       // the chamber can pass, go to the floor of the session's next sitting
       // (a bill the committee holds dies there, as it does in play).

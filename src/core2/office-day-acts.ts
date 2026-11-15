@@ -45,6 +45,8 @@ import {
   requestInterview,
 } from "./modules/press";
 import { appoint, appointmentsIn, postsToFill } from "./modules/executive";
+import { townSeats } from "./modules/offices";
+import { leanedYesWithTerm } from "./trait-decisions";
 import { lawChain } from "./modules/laws";
 import {
   BUDGETS_MODULE_ID,
@@ -87,6 +89,14 @@ const act = (
   effectParameter: "one",
   targetKind,
   effect: id,
+  reasonBindings: [
+    {
+      id: "office-duty-due",
+      provider: "office-duty-due",
+      weightParameter: "officeDutyDueWeight",
+      arguments: { act: id },
+    },
+  ],
   emotion: {
     moodMultiplierParameter: "one",
     stressMultiplierParameter: "one",
@@ -170,6 +180,55 @@ const LOCAL_PARAMETERS = {
       "Members of Congress' town halls per member per year, applied to every local official: no count exists for councils and county boards.",
     spread: [67, 191],
   },
+  officeDutyDueWeight: {
+    value: 1,
+    tag: "TUNABLE",
+    citation:
+      "Unverified estimate (builder, Nov 14, 2026): how strongly an office act that has come due pulls on its holder against resting in the same slot. Set equal to the other reasons' weights (needWeight, causeGivenWeight and griefPullWeight are each 1) so a due act ranks on the same scale as the reasons a person already weighs, not a number picked for the act to win; the played-year check (Edmore, Matawan and Odessa) is the only evidence it spreads acts instead of crowding one out.",
+    estimatedFrom:
+      "Checked against a played year's recorded acts at three drawn places.",
+    spread: [0.5, 2],
+  },
+  officeHoursIntervalDays: {
+    value: 30,
+    tag: "TUNABLE",
+    citation:
+      "Unverified estimate (builder, Nov 14, 2026): days over which holding office hours comes fully due again for a local official. No published count was fetched or found for councils or mayors; it stands only on the played-year check at three drawn places.",
+    estimatedFrom: "Checked against a played year's recorded acts.",
+    spread: [14, 45],
+  },
+  meetHeadIntervalDays: {
+    value: 45,
+    tag: "TUNABLE",
+    citation:
+      "Unverified estimate (builder, Nov 14, 2026): days over which a meeting with a department head comes fully due again. No published count was fetched or found; it stands only on the played-year check at three drawn places.",
+    estimatedFrom: "Checked against a played year's recorded acts.",
+    spread: [14, 90],
+  },
+  interviewIntervalDays: {
+    value: 91,
+    tag: "TUNABLE",
+    citation:
+      "Unverified estimate (builder, Nov 14, 2026): days over which a press interview comes fully due again for a local official (a quarter). No count exists for councils and boards; it stands only on the played-year check at three drawn places.",
+    estimatedFrom: "Checked against a played year's press coverage.",
+    spread: [30, 180],
+  },
+  addressCustomWeight: {
+    value: 1,
+    tag: "ESTIMATED",
+    citation:
+      "Weight on the custom of the yearly address for a mayor or county executive: the office gives it whether or not the year was busy. Estimated from the same custom as the season (stateOfCityLastMonth: published addresses of U.S. cities, the National League of Cities' annual review); no charter text was read, and no count of how many mayors skip it was found.",
+    estimatedFrom: "The custom the season's citation names.",
+    spread: [0.6, 1.4],
+  },
+  addressEffort: {
+    value: 0.5,
+    tag: "TUNABLE",
+    citation:
+      "Unverified estimate (builder, Nov 14, 2026): the effort of giving the yearly address, against which the year's reasons are weighed; below a town hall's effort (0.8) because it is one prepared speech. Stands only on the played-year check that most world mayors give it, the reserved later in the season.",
+    estimatedFrom: "Checked against a played year at three drawn places.",
+    spread: [0.3, 0.8],
+  },
   stateOfCityLastMonth: {
     value: 4,
     tag: "ESTIMATED",
@@ -226,6 +285,8 @@ export function localOfficeKit(host: OfficeActHost): OfficeActKit {
     acts: OFFICE_ACTS,
     parameters: LOCAL_PARAMETERS,
     providers: officeActProviders(host),
+    reasonProviders: officeActReasons(host),
+    onMonth: worldAddresses(host),
     handlers: officeActHandlers(host) as unknown as OfficeActKit["handlers"],
   };
 }
@@ -271,7 +332,12 @@ export interface OfficeActHost {
   /** Whether the person already took this act in the year given. */
   given(api: CoreAPI, personId: string, kind: string, year: string): boolean;
   /** The date of the person's latest act of this kind, if any. */
-  lastGiven(api: CoreAPI, personId: string, kind: string): string | undefined;
+  lastGiven(
+    api: CoreAPI,
+    personId: string,
+    kind: string,
+    recordId?: string,
+  ): string | undefined;
 }
 
 export interface Prepared {
@@ -296,6 +362,50 @@ export interface Prepared {
   readonly platform?: readonly { question: string; position: number }[];
   /** The budget request: line changes in minor units. */
   readonly changes?: Readonly<Record<string, number>>;
+}
+
+/** The days between acts of each kind that come round on a schedule. */
+const DUE_INTERVALS: Readonly<Record<string, string>> = {
+  "office-hours": "officeHoursIntervalDays",
+  "town-hall": "townHallIntervalDays",
+  interview: "interviewIntervalDays",
+  "meet-department-head": "meetHeadIntervalDays",
+};
+
+/**
+ * How much an offered act has come due, from nothing to one: an act on a
+ * schedule rises with the days since the holder last took it (one if never);
+ * an act offered only when something is waiting (the address in its season, a
+ * vacant post, a finished project, a budget due) is due while it is offered.
+ * The holder's own choice weighs it against resting and the rest of the day.
+ */
+export function officeActReasons(host: OfficeActHost) {
+  return {
+    "office-duty-due": (
+      api: CoreAPI,
+      actor: Readonly<PersonState>,
+      offer: ActOffer,
+      binding: { readonly arguments?: Readonly<Record<string, string>> },
+    ) => {
+      const kind = binding.arguments?.act ?? "";
+      const interval = DUE_INTERVALS[kind];
+      // A meeting is with someone: each head comes due on their own.
+      const last = host.lastGiven(
+        api,
+        actor.id,
+        kind,
+        kind === "meet-department-head" ? offer.targetId : undefined,
+      );
+      const due =
+        !interval || !last
+          ? 1
+          : Math.min(
+              1,
+              daysBetweenText(last, api.state.date) / api.parameter(interval),
+            );
+      return { value: due, sourceIds: [actor.id] };
+    },
+  };
 }
 
 export function officeActProviders(host: OfficeActHost) {
@@ -388,6 +498,49 @@ export function officeActProviders(host: OfficeActHost) {
 
 /** The executives who give an annual address. */
 const EXECUTIVE_KINDS = new Set(["mayor", "county-executive"]);
+
+/**
+ * The world's own mayors and county executives, in the address's season: the
+ * first of each month (the office-day module's monthly step) until the season ends, each one who has not given it
+ * this year weighs it. The address is the office's custom, given whether or
+ * not the year was busy (what the year held shapes what is said: the speech
+ * argues the speaker's own strongest view); the custom's pull grows through
+ * the season, the effort stays, and their temperament moves the day (the
+ * outgoing give it in January, the reserved later) or, rarely, past the
+ * season's end. The one who says yes gives it by the same act the player's
+ * character gives, so the speech, the record of it and the listeners' views are
+ * the one engine's. The extraversion row of `meetings.hold-town-hall` stands
+ * in for the speaker's pull: no study of officials giving an address was found.
+ */
+export function worldAddresses(host: OfficeActHost) {
+  const give = officeActHandlers(host)["state-of-the-city"];
+  return (api: CoreAPI): void => {
+    const date = api.state.date;
+    const month = Number(date.slice(5, 7));
+    const last = api.parameter("stateOfCityLastMonth");
+    if (month > last) return;
+    const player = controlled(api);
+    const year = date.slice(0, 4);
+    // The custom's pull: a share of its weight that grows to all of it by the season's last month.
+    const custom = api.parameter("addressCustomWeight") * (month / last);
+    for (const row of townSeats(api)) {
+      if (!EXECUTIVE_KINDS.has(row.office.kind)) continue;
+      const id = row.holder?.personId;
+      const person = id ? api.state.people.get(id) : undefined;
+      if (!id || !person?.alive || id === player) continue;
+      if (host.given(api, id, "state-of-the-city", year)) continue;
+      const { yes } = leanedYesWithTerm(
+        api.state,
+        person,
+        "meetings.hold-town-hall",
+        "hold",
+        "skip",
+        custom - api.parameter("addressEffort"),
+      );
+      if (yes) give(api, id);
+    }
+  };
+}
 
 /** A mayor or county executive in the address's season who has not given it this year. */
 function addressDue(
@@ -536,6 +689,15 @@ export function officeActHandlers(host: OfficeActHost) {
           detail: decision,
         });
       }
+      // The hours themselves are an act, so the next due day counts from today.
+      host.keep(api, {
+        personId: actorId,
+        kind: "office-hours",
+        how: prepared ? "did" : "own-choice",
+        recordId: `${actorId}:${api.state.date}`,
+        position: null,
+        detail: "held office hours",
+      });
       host.clearPrepared(api, actorId, "office-hours");
     },
     /** A town hall: the host answers as prepared, or from their own view. */
@@ -697,6 +859,7 @@ export function officeActHandlers(host: OfficeActHost) {
           if (id !== actorId) audience.add(id);
       const id = `state-of-the-city:${actorId}:${api.state.date}`;
       deliverSpeech(api, {
+        groupUnwatched: true,
         id,
         speakerId: actorId,
         placeId: lawChain(api).townPlaceId,

@@ -15,7 +15,7 @@ const DEFS = (data as unknown as { committees: readonly CommitteeDef[] })
   .committees;
 const FALLBACK = (data as unknown as { fallback: string }).fallback;
 
-// stopgapId: SG-GOV-committee-names-national (one list of subject committees for every chamber)
+// One list of subject committees for every chamber: an ESTIMATED place-data row (committees.json says so and cites its sources).
 /** Every subject committee, in the data's order. */
 export const COMMITTEES: readonly string[] = DEFS.map((c) => c.id);
 
