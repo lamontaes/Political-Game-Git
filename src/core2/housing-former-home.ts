@@ -9,7 +9,7 @@
 export interface FormerHomeRow {
   readonly id: string;
   readonly householdId: string;
-  readonly tenure: "removed" | "sold";
+  readonly tenure: "removed" | "listed" | "sold";
   /** How the household held the home before it left. */
   readonly formerTenure: "own" | "rent";
   readonly kind: string;

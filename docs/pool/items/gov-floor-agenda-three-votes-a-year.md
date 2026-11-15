@@ -44,4 +44,4 @@ The code path is not traced yet. A stop is set the evening before each bill on `
 
 **Files.** src/core2/modules/legislature.ts, src/core2/modules/world-legislating.ts, src/core2/office-day-state.ts, src/core2/office-day-federal.ts
 
-**Notes.**
+**Notes.** Nov 15, Account lead: one cause found for a legislature that sits all year (Ohio, New York, the Virgin Islands): the floor's weekly share rounded to no bills until late summer; filed as gov-long-session-floor-pace-rounds-to-nothing. How many bills a legislature has in a year is still open here.

@@ -36,3 +36,5 @@ source: owner in chat Nov 13 2026 23:51Z (the past is simulated so the present m
 **Files.** src/core2/modules/jobs.ts, src/core2/past-work.ts, src/core2/output-numbers.ts
 
 **Notes.** Filed by Account lead T45 on its branch at the Account lead's request.
+
+Nov 14, 2026 (Account lead T49): the home price level before day one reads the economy's pay, not the town's (SG-WORLD-housing-price-past-pressure and the town-pay note in src/core2/housing-price-level.ts). When this pass keeps each town's pay by month before the start, the price path in src/core2/housing-price-path.ts can read it per place.

@@ -75,6 +75,11 @@
     "doubtMoves": ["ask", "disagree", "plea", "press"],
     "answersNote": "Which of the relative's answer moves, to a candidate who says they will run again after a loss, mean they are behind the run and which mean they doubt it. Moves only; no sentence."
   },
+  "passedBetween": {
+    "about": "What an earlier scene between the same two people left on the record, read by the one relation reader (relation-facts.ts) so a later scene starts from it: the asker came before (`asked-before`), and the asked person's own answer then, by move, was help or a refusal. Moves only; no sentence. The answerer's move is the `move` on the scene.reply record (the player's reply, or the colleague's answer where the player asked).",
+    "helped": ["agree", "offer", "promise", "accept", "relent"],
+    "refused": ["decline", "refuse", "withdraw"]
+  },
   "tieSides": {
     "about": "Which side of their tie a scene's two people stand, read from the relationship record so a friend and a rival say different things (scene-standard rule 4). A rival is one whose last contact on the tie was a quarrel; a friend is one nearer full closeness than none.",
     "friendCloseness": {

@@ -6,16 +6,19 @@ import { coreAPI } from "./state";
 import { advanceCore } from "./life";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { sellHome } from "./housing-sale";
+import { buyListedHome } from "./housing-sale-buyer-fixture";
 import { townOutsideOf } from "./opening-outside-market";
 import type { MortgageRow } from "./housing-foreclosure";
 import type { ModuleRow } from "./module-data";
 import { drawPlace } from "../../scripts/core2-year/place";
 
-// The outside market stands for a home's buyer. When the same outside market
-// also holds the home's mortgage, the sale pays the lender off without moving
-// cash from the market to itself (it once stopped a played year with "A
-// transfer needs two different accounts", Boiling Spring Lakes, North
-// Carolina), and the mortgage still ends.
+// A buyer from outside the town (the outside market) takes a listed home and
+// pays the household, which pays its lender from that money. When the same
+// outside market holds the mortgage, or another account outside the books
+// does, the payoff still settles the loan without throwing (it once stopped a
+// played year with "A transfer needs two different accounts", Boiling Spring
+// Lakes, North Carolina, and with "Money cannot move between two outside
+// accounts", South Fork, Missouri), and the mortgage ends.
 const seed = process.env.HOME_SALE_SEED ?? randomBytes(8).toString("hex");
 
 it("sells a home whose mortgage the outside market holds: the loan ends and no cash moves to itself", () => {
@@ -67,8 +70,10 @@ it("sells a home whose mortgage the outside market holds: the loan ends and no c
     expect(payeeAccount, where).toBe(payerAccount);
     const first = household.memberIds.find((id) => core.people.get(id)?.alive);
     const before = core.people.get(first!)?.liquidMinor ?? 0;
-    const sale = sellHome(api, loan.householdId, "test.departure");
-    expect(sale, where).toBeTruthy();
+    const listed = sellHome(api, loan.householdId, "test.departure");
+    expect(listed, where).toBeTruthy();
+    const sale = buyListedHome(api, listed!.id, buyer.id);
+    expect(sale.status, where).toBe("sold");
     expect(sale!.owedMinor, where).toBeGreaterThanOrEqual(loan.balanceMinor);
     expect(core.finance.contracts.get(loan.id)!.endedAt, where).toBeTruthy();
     expect(
@@ -142,12 +147,12 @@ it("sells a home whose mortgage another outside account holds: the loan ends and
       .put({ ...loan, holderId: other.id } as unknown as ModuleRow);
     const first = household.memberIds.find((id) => core.people.get(id)?.alive);
     const before = core.people.get(first!)?.liquidMinor ?? 0;
-    let sale: ReturnType<typeof sellHome>;
-    expect(
-      () => (sale = sellHome(api, loan.householdId, "test.departure")),
-      where,
-    ).not.toThrow();
-    expect(sale!, where).toBeTruthy();
+    let sale: ReturnType<typeof buyListedHome>;
+    expect(() => {
+      const listed = sellHome(api, loan.householdId, "test.departure")!;
+      sale = buyListedHome(api, listed.id, buyer.id);
+    }, where).not.toThrow();
+    expect(sale!.status, where).toBe("sold");
     expect(core.finance.contracts.get(loan.id)!.endedAt, where).toBeTruthy();
     expect(
       (housing.table("mortgages").get(loan.id) as unknown as MortgageRow)
