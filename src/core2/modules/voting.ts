@@ -98,9 +98,7 @@ import {
   standingPool,
 } from "../candidate-pool";
 import { coarsePlace, metResident } from "../coarse-place";
-import { placeReferencePopulation } from "../gov-rules/place-population";
-import { searchCorePlaces } from "../place-lookup";
-import { stableHash } from "../kernel/ids";
+import { drawStateHome } from "../places";
 import { closenessBetween } from "../closeness";
 import {
   decisionLean,
@@ -7164,9 +7162,6 @@ function weighableFor(
   return { people, exclude };
 }
 
-/** How many towns a newcomer's home is drawn among, weighed by who lives there. */
-const NEWCOMER_TOWNS = 12;
-
 /**
  * A newcomer offered as a running mate, filled in: their name, birthday and
  * temperament as the officials engine drew them, a home town in the state
@@ -7184,30 +7179,7 @@ function offerNewcomer(
 ): void {
   if (api.state.people.has(id)) return;
   const seed = (api.state as CoreState).seed;
-  const towns = [
-    ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
-      stateJurisdictionKey: newcomer.stateKey,
-      scope: "locality",
-    }),
-  ]
-    .map((place) => ({
-      place,
-      order: stableHash(`${seed}:${id}:${place.key}`),
-    }))
-    .sort((a, b) => a.order.localeCompare(b.order))
-    .slice(0, NEWCOMER_TOWNS)
-    .map(({ place }) => ({
-      place,
-      people: place.sourceGeoid
-        ? (placeReferencePopulation(place.sourceGeoid, seed)?.value ?? 0)
-        : 0,
-    }));
-  const total = towns.reduce((sum, t) => sum + t.people, 0);
-  let at =
-    (parseInt(stableHash(`${seed}:${id}:home`).slice(0, 8), 16) / 0x100000000) *
-    total;
-  const home =
-    towns.find((t) => (at -= t.people) < 0)?.place ?? towns[0]?.place;
+  const home = drawStateHome(seed, id, newcomer.stateKey);
   const coarse = home ? coarsePlace(home.key, seed) : null;
   const met = coarse
     ? metResident(coarse, seed, `running-mate:${id}`)
