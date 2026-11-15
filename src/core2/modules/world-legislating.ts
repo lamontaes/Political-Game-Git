@@ -1423,6 +1423,7 @@ function openSession(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     bills: [],
   };
   sessionTable(api).put(row as unknown as ModuleRow);
+  calendarWaitingBills(api, row);
   const calendar = api.moduleCalendar(WORLD_LEGISLATING_MODULE_ID);
   const source = {
     tag: "ESTIMATED" as const,
@@ -1457,6 +1458,22 @@ function openSession(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     source: { ...work.source, asOf: today },
     sourceRecordIds: [id],
   });
+}
+
+/**
+ * Bills drafted while no legislature sat go on the floor leader's calendar the
+ * day the sitting opens, in the order they were introduced, so the date their
+ * paper names then holds like any bill's drafted in session.
+ */
+function calendarWaitingBills(api: CoreAPI, row: LegislativeSession): void {
+  const bills = api.moduleState(LEGISLATURE_MODULE_ID).table("bills");
+  const waitingBills = chamberBills(api, row)
+    .filter((b) => b.status === "drafted" && !b.floorOn)
+    .sort((a, b) => a.introduced.localeCompare(b.introduced));
+  for (const b of waitingBills) {
+    const on = projectedFloorDate(api, b.id);
+    if (on) bills.put({ ...b, floorOn: on } as unknown as ModuleRow);
+  }
 }
 
 /**
@@ -2197,7 +2214,13 @@ export function floorDateOf(api: CoreAPI, billId: string): string | null {
   const set = api.moduleCalendar(LEGISLATURE_MODULE_ID).get(voteKeyOf(bill));
   if (set) return set.date;
   // The week the leader put it on the calendar for holds while it is ahead.
-  if (bill.floorOn && bill.floorOn >= api.state.date) return bill.floorOn;
+  // A leader's refusal takes the bill off the calendar, and a grant puts it back.
+  if (
+    bill.floorOn &&
+    bill.floorOn >= api.state.date &&
+    !refusedByLeader(api, bill.id)
+  )
+    return bill.floorOn;
   return projectedFloorDate(api, billId);
 }
 

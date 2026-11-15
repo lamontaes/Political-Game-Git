@@ -58,3 +58,7 @@ Ask where it ran and at what head. A unit test that builds its own small world p
 ## Lesson of Nov 15 (the paper's hold for comment)
 
 - **Break it before you trust it.** Two press tests at their pinned places passed with the change and without it, because the place's tip never ran, so the asserts sat inside `if (ran)`. Undo the line under test and run the file. If it still passes, stage the case through the game's own path (here: the player takes the bribe in the offer scene, the offerer leaks it with `leakToReporter`), and assert outside any branch.
+
+## Playing a controlled person through days
+
+`advanceCore` refuses a controlled person. To play days for the player in a test, build the world with `buildBenchWorld`, wrap the person in `BenchPlayer`, `select` them, and loop: on a `stop` packet vote their floor holds with `voteOnStateFloor(api, id, bill, "own")` and `resume`, on a `choice` packet `resume` with `own-choice`, otherwise `advance("day")`. `src/core2/bill-floor-date-holds.test.ts` is the worked case (Holiday Lakes, Texas, seed aa11, about a minute); a fix test should be run once with the fix stashed to see it fail where the defect was.
