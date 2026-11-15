@@ -183,7 +183,8 @@ describe("a life change is told to the person's stance", () => {
   it("a candidate speaks from their own circumstances, as a voter's view does", () => {
     // Without a party, a candidate's stance is their own: their lean on the
     // question's axis, their faith and degree, their own circumstances, and
-    // what they have heard.
+    // what they have heard; not the country's view of it, which a voter's
+    // view carries and a platform does not.
     const people = adults.filter(
       (person) =>
         core.people.get(person.id)?.alive &&

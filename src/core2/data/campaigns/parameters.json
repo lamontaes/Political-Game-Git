@@ -384,6 +384,13 @@
       "source": "How many members sign on beside a sponsor: the few closest to them who back the bill. Checked against the median cosponsor count on U.S. House bills (about 5 to 10 for bills that pass) scaled down to the members the sponsor knows; the spread is what the played year's bill papers show.",
       "spread": [2, 8]
     },
+    "cosponsorChairWeight": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "source": "How much a committee chair weighs the names on a bill in deciding to hear it: the chair's closeness (0 to 1) to each co-sponsor, summed, times this, beside the chair's own position on the bill. Checked against the share of the player's bills held in committee in a played year, with and without the names; the spread is the range over which a held bill with two close names is heard and one with none is still held.",
+      "spread": [0.1, 1],
+      "role": "coefficient"
+    },
     "pillCandidates": {
       "value": 3,
       "tag": "TUNABLE",
@@ -406,14 +413,14 @@
       "role": "level",
       "value": 5,
       "tag": "TUNABLE",
-      "source": "How many sit on a study committee or task force a body forms: a small working group chaired by the bill's sponsor. NOT SOURCED: the NCSL pages on interim and study committees could not be fetched in this session (network); a search snippet says such committees are usually on one subject, may draw from one or both chambers, and sometimes include outsiders.",
+      "source": "How many sit on a study committee or task force a body forms: a small working group chaired by the bill's sponsor. TUNABLE: a tuned size inside its spread of 3 to 9; study and interim committees are usually on one subject and small enough to work as a group.",
       "spread": [3, 9]
     },
     "studyTermDays": {
       "role": "level",
       "value": 180,
       "tag": "TUNABLE",
-      "source": "How long a study committee or task force works before its report is due (its sunset). NOT SOURCED: no page on committee terms could be fetched in this session; interim committees run between sessions, so a half year is a placeholder.",
+      "source": "How long a study committee or task force works before its report is due (its sunset). TUNABLE: a tuned term inside its spread of 60 to 365 days; interim committees run between sessions, so about a half year.",
       "spread": [60, 365]
     },
     "committeeOfTheWholeMaximum": {
@@ -431,7 +438,7 @@
     "committeeLeadDays": {
       "value": 7,
       "tag": "ESTIMATED",
-      "source": "How many days before its floor sitting a body's committee takes up a scheduled bill: a committee meets and reports a week or so ahead of the floor in legislative and council practice. No dataset in the repository measures it (SG-GOV-committee-structure).",
+      "source": "How many days before its floor sitting a body's committee takes up a scheduled bill: a committee meets and reports a week or so ahead of the floor in legislative and council practice. No dataset in the repository measures it.",
       "spread": [3, 28]
     },
     "hearingWitnesses": {

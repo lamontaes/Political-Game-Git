@@ -17,25 +17,25 @@
       "link": "congestion-to-premature-births",
       "outcome": "health.premature-births",
       "reason": "no measure: the web does not keep health.premature-births and no engine produces it; its research gives no size the game can apply, so the web does not run it",
-      "stopgapId": "SG-EW-HEALTH-unsized-links"
+      "stopgapId": "SG-WEB-unread-health-premature-births"
     },
     {
       "link": "birth-year-pollution-to-adult-earnings",
       "outcome": "labor.earnings-at-30",
       "reason": "no measure: the web does not keep labor.earnings-at-30 and no engine produces it; it needs each person's own exposure record, which no engine keeps",
-      "stopgapId": "SG-LABOR-person-exposure"
+      "stopgapId": "SG-WEB-unread-labor-earnings-at-30"
     },
     {
       "link": "water-violations-to-infant-health",
       "outcome": "health.low-birthweight",
       "reason": "engine doesn't read the factor: health.low-birthweight moves only in the web's monthly ledger; no engine multiplies its own rates by it",
-      "stopgapId": "SG-EW-HEALTH-condition-record"
+      "stopgapId": "SG-WEB-unread-health-low-birthweight"
     },
     {
       "link": "heat-to-deaths",
       "outcome": "health.heat-deaths",
       "reason": "no measure: the web does not keep health.heat-deaths and no engine produces it; its research gives no size the game can apply, so the web does not run it",
-      "stopgapId": "SG-EW-HEALTH-unsized-links"
+      "stopgapId": "SG-WEB-unread-health-heat-deaths"
     },
     {
       "link": "carbon-monoxide-to-absence",
@@ -59,43 +59,43 @@
       "link": "coverage-to-catastrophic-bills",
       "outcome": "health.catastrophic-medical-bills",
       "reason": "no measure: the web does not keep health.catastrophic-medical-bills and no engine produces it; nothing in the core records its cause, health.coverage",
-      "stopgapId": "SG-EW-HEALTH-person-level"
+      "stopgapId": "SG-WEB-unread-health-catastrophic-medical-bills"
     },
     {
       "link": "coverage-to-depression",
       "outcome": "health.depression",
       "reason": "no measure: the web does not keep health.depression and no engine produces it; nothing in the core records its cause, health.coverage",
-      "stopgapId": "SG-EW-HEALTH-person-level"
+      "stopgapId": "SG-WEB-unread-health-depression"
     },
     {
       "link": "eitc-to-low-birthweight",
       "outcome": "health.low-birthweight",
       "reason": "engine doesn't read the factor: health.low-birthweight moves only in the web's monthly ledger; no engine multiplies its own rates by it; nothing in the core records its cause, program.eitc-dollars",
-      "stopgapId": "SG-EW-HEALTH-person-level"
+      "stopgapId": "SG-WEB-unread-health-low-birthweight"
     },
     {
       "link": "child-food-stamps-to-adult-health",
       "outcome": "health.adult-metabolic-syndrome",
       "reason": "no measure: the web does not keep health.adult-metabolic-syndrome and no engine produces it; it needs each person's own exposure record, which no engine keeps",
-      "stopgapId": "SG-EW-HEALTH-person-level"
+      "stopgapId": "SG-WEB-unread-health-adult-metabolic-syndrome"
     },
     {
       "link": "child-benefit-to-child-poverty",
       "outcome": "household.child-poverty",
       "reason": "no measure: the web does not keep household.child-poverty and no engine produces it; nothing in the core records its cause, program.child-benefit-dollars",
-      "stopgapId": "SG-FAMILY-child-benefit-not-paid"
+      "stopgapId": "SG-WEB-unread-household-child-poverty"
     },
     {
       "link": "teacher-quality-to-earnings",
       "outcome": "labor.earnings-at-28",
       "reason": "no measure: the web does not keep labor.earnings-at-28 and no engine produces it; it needs each person's own exposure record, which no engine keeps",
-      "stopgapId": "SG-LABOR-person-exposure"
+      "stopgapId": "SG-WEB-unread-labor-earnings-at-28"
     },
     {
       "link": "neighborhood-years-to-adult-outcomes",
       "outcome": "labor.adult-earnings",
       "reason": "no measure: the web does not keep labor.adult-earnings and no engine produces it; it needs each person's own exposure record, which no engine keeps",
-      "stopgapId": "SG-LABOR-person-exposure"
+      "stopgapId": "SG-WEB-unread-labor-adult-earnings"
     },
     {
       "link": "homicide-nearby-to-scores",
@@ -125,7 +125,7 @@
       "link": "enforcement-to-hispanic-enrollment",
       "outcome": "school.hispanic-enrollment",
       "reason": "engine doesn't read the factor: school.hispanic-enrollment moves only in the web's monthly ledger; no engine multiplies its own rates by it; no engine produces school.hispanic-enrollment",
-      "stopgapId": "SG-SCHOOL-hispanic-enrollment"
+      "stopgapId": "SG-WEB-unread-school-hispanic-enrollment"
     },
     {
       "link": "daca-to-graduation",
@@ -143,43 +143,43 @@
       "link": "eviction-to-hospital-visits",
       "outcome": "health.hospital-visits",
       "reason": "no measure: the web does not keep health.hospital-visits and no engine produces it; its research gives no size the game can apply, so the web does not run it",
-      "stopgapId": "SG-EW-HEALTH-unsized-links"
+      "stopgapId": "SG-WEB-unread-health-hospital-visits"
     },
     {
       "link": "transit-loss-to-unemployment",
       "outcome": "labor.unemployment-pct",
       "reason": "engine doesn't read the factor: an engine records labor.unemployment-pct, but nothing multiplies its rates by the link's effect; its research gives no size the game can apply, so the web does not run it",
-      "stopgapId": "SG-LABOR-unsized-links"
+      "stopgapId": "SG-WEB-unread-labor-unemployment-pct"
     },
     {
       "link": "broadband-to-employment",
       "outcome": "labor.employment-rate",
       "reason": "no measure: the web does not keep labor.employment-rate and no engine produces it; its research gives no size the game can apply, so the web does not run it",
-      "stopgapId": "SG-LABOR-unsized-links"
+      "stopgapId": "SG-WEB-unread-labor-employment-rate"
     },
     {
       "link": "incentive-deal-to-industry-jobs",
       "outcome": "labor.deal-industry-jobs",
       "reason": "no measure: the web does not keep labor.deal-industry-jobs and no engine produces it; its research gives no size the game can apply, so the web does not run it",
-      "stopgapId": "SG-LABOR-unsized-links"
+      "stopgapId": "SG-WEB-unread-labor-deal-industry-jobs"
     },
     {
       "link": "baby-bonus-to-births",
       "outcome": "births.rate",
       "reason": "the web does not run it: it waits on program.birth-bonus-dollars, and it has no researched size; nothing in the core records its cause, program.birth-bonus-dollars",
-      "stopgapId": "SG-FAMILY-birth-bonus-not-paid"
+      "stopgapId": "SG-WEB-unread-births-rate"
     },
     {
       "link": "marriage-equality-to-marriages",
       "outcome": "family.same-sex-marriages",
       "reason": "no measure: the web does not keep family.same-sex-marriages and no engine produces it; its cause, law.marriage-equality, is national law that no place differs on, so it cannot vary",
-      "stopgapId": "SG-FAMILY-marriage-not-recorded"
+      "stopgapId": "SG-WEB-unread-family-same-sex-marriages"
     },
     {
       "link": "marriage-equality-to-coverage",
       "outcome": "health.uninsured-pct",
       "reason": "the web does not run it: it waits on law.marriage-equality; its cause, law.marriage-equality, is national law that no place differs on, so it cannot vary",
-      "stopgapId": "SG-EW-HEALTH-marriage-equality-cause"
+      "stopgapId": "SG-WEB-unread-health-uninsured-pct"
     },
     {
       "link": "abortion-denied-to-financial-distress",
@@ -203,7 +203,7 @@
       "link": "relief-spending-to-votes",
       "outcome": "election.incumbent-vote",
       "reason": "engine doesn't read the factor: an engine records election.incumbent-vote, but nothing multiplies its rates by the link's effect; its research gives no size the game can apply, so the web does not run it",
-      "stopgapId": "SG-WEB-voting-relief-approval"
+      "stopgapId": "SG-WEB-unread-election-incumbent-vote"
     },
     {
       "link": "preparedness-to-disaster-damage",
@@ -245,7 +245,7 @@
       "link": "more-immigration-to-workforce",
       "outcome": "labor.workforce",
       "reason": "no measure: the web does not keep labor.workforce and no engine produces it; its research gives no size the game can apply, so the web does not run it",
-      "stopgapId": "SG-LABOR-unsized-links"
+      "stopgapId": "SG-WEB-unread-labor-workforce"
     },
     {
       "link": "licensing-reform-to-poverty",
@@ -257,13 +257,7 @@
       "link": "gas-hookup-ban-to-child-asthma",
       "outcome": "health.child-asthma-pct",
       "reason": "engine doesn't read the factor: health.child-asthma-pct moves only in the web's monthly ledger; no engine multiplies its own rates by it",
-      "stopgapId": "SG-EW-HEALTH-condition-record"
-    },
-    {
-      "link": "fare-free-transit-to-ridership",
-      "outcome": "transit.ridership",
-      "reason": "Under a fare-free law the transit fare is zero, so the price engine multiplies the web's ridership factor into a zero fare and the added riders move no money; no other engine reads transit.ridership (stopgap SG-WEB-fare-free-riders-unread).",
-      "stopgapId": "SG-WEB-fare-free-riders-unread"
+      "stopgapId": "SG-WEB-unread-health-child-asthma-pct"
     },
     {
       "link": "farm-payments-cut-to-land-values",

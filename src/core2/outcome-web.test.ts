@@ -24,6 +24,7 @@ import {
   WEB_LINKS,
   type WebLink,
 } from "./outcome-web-model";
+import { layOff } from "./modules/jobs";
 import { coreAPI } from "./state";
 import { generatedOpening } from "./tooling/generated-world";
 import type { CoreAPI, CoreState } from "./types";
@@ -117,31 +118,36 @@ describe(`unemployment moves burglary, in a generated town (seed ${seed})`, () =
     advanceCore(twin, `${Y}-03-05`);
     const twinApi = coreAPI(twin);
     const core = build();
-    advanceCore(core, `${Y}-02-05`);
+    advanceCore(core, `${Y}-02-22`);
     const api = coreAPI(core);
     const town = core.people.get(core.playerId!)!.placeId;
     expect(twin.people.get(twin.playerId!)!.placeId, "the twin's town").toBe(
       town,
     );
     const twinAfter = monthOf(twinApi, town, `${Y}-03`);
-    // Twelve full workers lose their jobs over the next week (not ones a
-    // public supply contract names as its qualified worker).
+    // Twelve workers are laid off by their businesses in the last week of February, so the
+    // March figure (taken on March 2) reads them still looking: a month on, a
+    // town with openings and a big jobless pool has hired them back and then
+    // some. Not ones a public supply contract names as its qualified worker.
     const named = JSON.stringify([...core.finance.contracts.values()]);
     let laidOff = 0;
-    for (const day of [6, 7, 8, 9, 10, 11, 12]) {
+    for (const day of [23, 24, 25, 26, 27, 28]) {
       for (const job of [...core.jobs.values()]
         .filter((row) => !row.endsAt && !named.includes(row.id))
         .sort((a, b) => a.id.localeCompare(b.id))) {
         if (laidOff >= 12) break;
         try {
-          api.endJob(job.id, "test:layoff");
-          laidOff += 1;
+          // The business's own layoff, so the worker becomes a seeker and
+          // files a claim as a laid-off worker does; a job worked today ends
+          // at the next day's review.
+          if (layOff(api, job.organizationId, [job], 1, {})) laidOff += 1;
         } catch {
-          // A job mid-shift ends another day.
+          // A job that cannot end today ends another day.
         }
       }
       advanceCore(core, `${Y}-02-${String(day).padStart(2, "0")}`);
     }
+    expect(laidOff, "workers laid off").toBe(12);
     advanceCore(core, `${Y}-03-05`);
     const before = monthOf(api, town, `${Y}-02`),
       after = monthOf(api, town, `${Y}-03`);

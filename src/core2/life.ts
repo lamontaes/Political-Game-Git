@@ -62,6 +62,7 @@ import type {
   OfferRound,
   PersonState,
 } from "./types";
+import { OFFER_ROUND_PREDICTION } from "./types";
 
 export type Controller = (
   decision: DecisionResult,
@@ -291,6 +292,7 @@ function admits(
 export function availableActs(
   core: CoreState,
   personId: string,
+  prediction = false,
 ): readonly ActOffer[] {
   const actor = core.people.get(personId);
   if (!actor?.alive) return [];
@@ -305,6 +307,7 @@ export function availableActs(
   // One round of offers: the providers share what they work out for
   // this person today (nothing they read changes while the offers are made).
   const round: OfferRound = new Map();
+  if (prediction) round.set(OFFER_ROUND_PREDICTION, true);
   for (const definition of core.data.actions) {
     const provide = resolveOperation(
       core,

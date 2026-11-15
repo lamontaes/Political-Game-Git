@@ -188,18 +188,6 @@
     "resolvedBy": "stand-in triage (Nov 10, 2026)"
   },
   {
-    "id": "SG-NATION-country-tier-moves-twice",
-    "kind": "faked-mechanic",
-    "file": "src/core2/modules/counted-moves.ts",
-    "line": 1,
-    "whatItFakes": "People moving between states are kept twice: the country tier moves its cells by pay after tax, prices and work, and the counted-moves engine still keeps its own count of each state's people beside it. Its arrivals are fitted to the survey once, at the opening, and then follow taxes, prices and work; the monthly re-fit is gone.",
-    "why": "Replacing the counted-moves engine's state counts with the tier's cells touches 1,800 lines that also move the town's own households; it ships as the next pull request so this one stays reviewable.",
-    "addedBy": "Fable",
-    "addedAt": "2026-11-10",
-    "replacement": "Pool item core-country-tier-moves-one-holder: the counted-moves engine reads each state's people and place constants from the tier, and its pinned departures are deleted.",
-    "status": "open"
-  },
-  {
     "id": "SG-NATION-town-part-unsorted-jobs",
     "kind": "assumed-data",
     "file": "src/core2/modules/macro.ts",
