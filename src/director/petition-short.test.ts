@@ -383,23 +383,29 @@ it("a clerk says nothing when the names already meet what the office requires", 
   );
 }, 70_000);
 
-it("a petition the count has filled is never told", () => {
-  const world = filer();
+/**
+ * Seed scan-25 of this town is a world where a volunteer fills the petition on their own
+ * (found by a script outside the test; on the Train before the fold of #9539 nobody did, see
+ * the PR body): the petition is on pace by play, with nothing written by the test.
+ */
+const ON_PACE_SEED = "scan-25";
+
+it("a petition the count has filled by play is never told", () => {
+  const world = filer(ON_PACE_SEED);
   const { core, api, filing } = world;
   const petition = petitionOf(api, filing.id)!;
   const gather = signaturesToGather(petition.needed);
-  // The player, by hand, as the Campaign tab lets them: a canvass a day.
-  while (petitionOf(api, filing.id)!.signed < gather) {
-    takeCampaignDayChoice(api, filing.id, "canvass");
-    advanceCore(core, addDays(makeIsoDate(core.date), 1));
-  }
+  expect(playToTold(world), "nothing told").toBeUndefined();
   advanceCore(core, addDays(makeIsoDate(petition.due), 1));
+  const after = petitionOf(api, filing.id)!;
   expect(
-    core.durableLog.has(toldId(filing.id)),
-    `${PLACE} ${SEED}: a petition at ${gather} is told as short`,
-  ).toBe(false);
+    after.signed,
+    `${PLACE} ${ON_PACE_SEED}: the petition filled with no act of the player's`,
+  ).toBeGreaterThanOrEqual(gather);
+  expect(campaignFor(api, filing.id).volunteerIds.length).toBeGreaterThan(0);
+  expect(core.durableLog.has(toldId(filing.id))).toBe(false);
   write(
-    `## On pace: filled to ${gather} by hand; no one tells them; the clerk's check: ${statusOf(world)}.\n`,
+    `## On pace by play: ${PLACE} ${ON_PACE_SEED}, a volunteer filled the petition to ${after.signed} of ${gather} with no act of the player's; no one tells them; the clerk's check: ${statusOf(world)}.\n`,
   );
 }, 70_000);
 
@@ -419,9 +425,8 @@ it("dev mode brings on the offer and traces what the engine read", () => {
   write(
     `## Dev mode, a petition that falls behind: the button "${labels.petitionBehind}" advanced to ${result.told}; the line shown: "${labels.petitionTold}". Told by the ${result.tellerKind}; ${result.signed} of ${result.gathers} signed, ${result.daysLeft} days left.\n`,
   );
-  // A petition on pace is never told, and the control says so.
-  const onPace = filer();
-  takeCampaignDayChoice(onPace.api, onPace.filing.id, "canvass", { hours: 1 });
+  // A petition on pace by play is never told, and the control says so.
+  const onPace = filer(ON_PACE_SEED);
   const none = new DevMode(
     onPace.core,
     onPace.director,
