@@ -1385,6 +1385,23 @@ function composeBinding(
     said.again === "yes"
   ) {
     facts["called-back"] = { text: "yes", sourceRecordIds: [moment.causeId] };
+    // What the put-off said, from its reply's record: a walk-off asked for a
+    // call, else the put-off line's own kind (rules: callBack.said). The
+    // opening fits it (Words lead, Nov 15, 07:50Z).
+    const putOff = said.putOffReplyId
+      ? core.durableLog.get(said.putOffReplyId)
+      : undefined;
+    const putOffSaid =
+      putOff?.facts?.move === "leave"
+        ? "put-off-left"
+        : (rulesFile.callBack.said as Readonly<Record<string, string>>)[
+            String(putOff?.facts?.piece ?? "")
+          ];
+    if (putOff && putOffSaid)
+      facts[putOffSaid] = {
+        text: "yes",
+        sourceRecordIds: [moment.causeId, putOff.id],
+      };
     if (
       typeof said.heldOn === "string" &&
       daysBetweenText(core.date, said.heldOn) === P.one
@@ -3017,6 +3034,9 @@ export function replyInScene(
       move: theirs ?? line.move,
       ...(theirs ? { asked: line.move } : {}),
       line: line.text,
+      // The bank part said, for a later scene that answers to it (a call
+      // back opens on what the put-off said).
+      ...(line.parts[P.zero] ? { piece: line.parts[P.zero] } : {}),
       ...(stakeKind ? { stake: stakeKind } : {}),
       ...(enlists && filingId ? { enlisted: filingId } : {}),
       ...(backing ? { backing } : {}),

@@ -282,6 +282,8 @@ export interface InterviewRow {
   readonly reporterId?: string | null;
   /** The day the candidate put the invitation off (neither yes nor no). */
   readonly putOffOn?: string | null;
+  /** The scene reply that put it off, for the call back to answer to. */
+  readonly putOffReplyId?: string | null;
   /** The day the reporter called back about it, once. */
   readonly calledBackOn?: string | null;
   /** The story the outlet printed from it. */
@@ -4242,6 +4244,9 @@ export const INTERVIEW_INVITED_EVENT = "interview-invited";
  */
 export const INTERVIEW_ACCEPTED_EVENT = "interview-accepted";
 /** The replies in an invitation's scene that accept it. */
+/** The replies that leave an invitation open for a call back (Words lead, Nov 15). */
+export const PUT_OFF_MOVES: ReadonlySet<string> = new Set(["stall", "leave"]);
+
 export const ACCEPTING_MOVES: ReadonlySet<string> = new Set([
   "agree",
   "relent",
@@ -4341,8 +4346,11 @@ function invitation(api: CoreAPI, row: InterviewRow, again = false): void {
       ...(row.reporterId ? { reporterId: row.reporterId } : {}),
       ...(row.contestId ? { contestId: row.contestId } : {}),
       ...(contest ? { office: contest.title } : {}),
-      // The reporter calling back about an invitation the candidate put off.
-      ...(again ? { again: "yes" } : {}),
+      // The reporter calling back about an invitation the candidate put
+      // off, and the reply that put it off.
+      ...(again
+        ? { again: "yes", putOffReplyId: row.putOffReplyId ?? "" }
+        : {}),
     },
   });
 }
@@ -4445,10 +4453,11 @@ function answerInvitation(api: CoreAPI, event: Readonly<CoreEventInput>): void {
     return;
   if (ACCEPTING_MOVES.has(move)) accepted(api, row, event.id);
   else if (REFUSING_MOVES.has(move)) refuse(api, row);
-  // A put-off (the player said they would call back) is kept: the reporter
-  // calls back once (`pressWeek`). Any other non-answer leaves it open.
-  else if (move === "stall" && !row.putOffOn)
-    record(api, { ...row, putOffOn: api.state.date });
+  // A put-off (the player said they would call back, or had to go and asked
+  // for a call) is kept: the reporter calls back once (`pressWeek`). Any
+  // other non-answer (a question) leaves it open.
+  else if (PUT_OFF_MOVES.has(move) && !row.putOffOn)
+    record(api, { ...row, putOffOn: api.state.date, putOffReplyId: event.id });
 }
 
 /** What a person told a reporter about a record, or that they declined (the press-interview scene's ending). */

@@ -76521,29 +76521,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-stall.let-me-see-what-i-need-first-and-i-ll-call-you",
-      "move": "reply-stall",
-      "kind": "spoken",
-      "text": "Let me see what I need first, and I'll call you.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "offer-help",
-          "key": "favor-asked",
-          "step": "reply",
-          "move": "stall",
-          "role": "asked"
-        }
-      ],
-      "origin": "authored",
-      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
-      "date": "2026-10-26",
-      "tag": {
-        "move": "stall",
-        "key": "favor-asked"
-      }
-    },
-    {
       "key": "scene-talk.follow-answer.doors-phones-envelopes-whatever-needs-doing",
       "move": "follow-answer",
       "kind": "spoken",
@@ -186458,7 +186435,7 @@
           "step": "open",
           "move": "greet",
           "role": "asker",
-          "requiresFacts": ["called-back"]
+          "requiresFacts": ["called-back", "put-off-call"]
         }
       ],
       "bearing": "calm",
@@ -186608,7 +186585,7 @@
           "step": "open",
           "move": "greet",
           "role": "asker",
-          "requiresFacts": ["called-back"]
+          "requiresFacts": ["called-back", "put-off-week"]
         }
       ],
       "bearing": "calm",
@@ -186740,6 +186717,107 @@
       "date": "2026-11-15",
       "tag": {
         "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.we-didn-t-finish-talking-about-the-debate",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "We didn't finish talking about the debate.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "invite-debate",
+          "key": "favor-asked",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "requiresFacts": ["called-back", "put-off-left"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (call-back openings), added by Claude Opus (short replies, put-offs)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "greet",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.i-asked-you-for-an-interview-you-wanted-to-think-about-it",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I asked you for an interview. You wanted to think about it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "invite-interview",
+          "key": "favor-asked",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "requiresFacts": ["called-back", "put-off-think"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (call-back openings), added by Claude Opus (short replies, put-offs)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "greet",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.i-asked-you-for-an-interview-you-had-to-go",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I asked you for an interview. You had to go.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "invite-interview",
+          "key": "favor-asked",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "requiresFacts": ["called-back", "put-off-left"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (call-back openings), added by Claude Opus (short replies, put-offs)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "greet",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.i-asked-you-for-an-interview",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I asked you for an interview.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "invite-interview",
+          "key": "favor-asked",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "requiresFacts": ["called-back"],
+          "excludesFacts": ["put-off-week", "put-off-think", "put-off-left"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (call-back openings), added by Claude Opus (short replies, put-offs)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "greet",
         "key": "favor-asked"
       }
     }

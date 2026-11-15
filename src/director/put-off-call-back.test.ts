@@ -39,6 +39,8 @@ import type { PersonId } from "../core2/types";
 import type { ScheduleEntry } from "./scheduling";
 import { purposeScene, replyInScene } from "./purpose-scene";
 import type { SceneTalk } from "./scene-talk";
+import rulesFile from "./data/scene-talk-rules.json" with { type: "json" };
+import conversationBank from "../../data/english/parts/scene-talk.json" with { type: "json" };
 
 /** Pinned as debate-sitting.test.ts is: seed pin-b, draw 1 is Shelby, Mississippi. */
 const seed = "pin-b";
@@ -54,17 +56,37 @@ const INVITES = {
 } as const;
 type Invite = keyof typeof INVITES;
 
-interface Played {
-  where: string;
-  calls: Record<
-    Invite,
-    { first: SceneTalk; again: SceneTalk; againId: string } | undefined
-  >;
-  acceptedDebate: boolean;
-  acceptedInterview: boolean;
+interface Call {
+  typeKey: Invite;
+  how: "stall" | "leave";
+  /** The bank part the put-off said. */
+  piece: string;
+  first: SceneTalk;
+  again?: SceneTalk;
+  accepted?: boolean;
 }
 
-const said = (talk: SceneTalk) =>
+interface Played {
+  where: string;
+  calls: Call[];
+}
+
+/** What a call back's opening says after each put-off (Words lead, Nov 15, 07:50Z). */
+const OPENS: Record<Invite, Record<string, string>> = {
+  "debate-invite": {
+    "put-off-call": "You said you'd call me back about the debate.",
+    "put-off-left": "We didn't finish talking about the debate.",
+  },
+  "interview-invite": {
+    "put-off-week":
+      "I asked you for an interview. You were going to look at your week.",
+    "put-off-think":
+      "I asked you for an interview. You wanted to think about it.",
+    "put-off-left": "I asked you for an interview. You had to go.",
+  },
+};
+
+const opening = (talk: SceneTalk) =>
   [talk.open?.text, talk.state.text].filter(Boolean).join(" ");
 
 function play(): Played | string {
@@ -120,20 +142,20 @@ function play(): Played | string {
   if (petition && !(petition.check && petition.check.valid >= petition.needed))
     return `${where}: the petition came up short`;
 
-  const calls: Played["calls"] = {
-    "debate-invite": undefined,
-    "interview-invite": undefined,
-  };
-  const firsts: Partial<Record<Invite, SceneTalk>> = {};
+  const calls: Call[] = [];
+  const putOff = new Map<string, Call>();
+  let interviews = 0;
   const seen = new Set<string>();
   const sceneFor = (entry: ScheduleEntry, typeKey: Invite) => {
     const result = purposeScene(core, director, me, entry, { typeKey });
     return result?.kind === "composed" ? result.scene : undefined;
   };
-  // Day by day, so the call back is met on its own day.
+  const rowOf = (facts: Readonly<Record<string, unknown>> | undefined) =>
+    String(facts?.debateId ?? facts?.interviewId ?? "");
+  // Day by day, so each call back is met on its own day.
   while (
     core.date < contest.electionDate &&
-    !(calls["debate-invite"] && calls["interview-invite"])
+    !(putOff.size === 3 && [...putOff.values()].every((c) => c.again))
   ) {
     advanceCore(core, addDays(makeIsoDate(core.date), 1));
     for (const entry of director.ledger.people.get(me)!.schedule) {
@@ -148,27 +170,52 @@ function play(): Played | string {
       const cause = core.durableLog.get(scene.cause.id as never)!;
       if (cause.kind !== INVITES[typeKey]) continue;
       const tree = scene.talk.tree;
+      const row = rowOf(cause.facts);
       if (cause.facts?.again !== "yes") {
-        if (firsts[typeKey]) continue;
-        // The first call: the player puts it off.
-        const stall = tree.replies.findIndex((r) => r.line.move === "stall");
-        expect(stall, `${where}: ${typeKey} offers a put-off`).toBeGreaterThan(
-          -1,
-        );
+        // The debate and the first interview are put off with a stall; the
+        // second interview with a question, then a walk-off.
+        const how =
+          typeKey === "debate-invite"
+            ? "stall"
+            : (interviews += 1) === 1
+              ? "stall"
+              : interviews === 2
+                ? "leave"
+                : null;
+        if (!how || putOff.has(row)) continue;
+        let path: number[];
+        let piece: string;
+        if (how === "stall") {
+          const stall = tree.replies.findIndex((r) => r.line.move === "stall");
+          expect(
+            stall,
+            `${where}: ${typeKey} offers a put-off`,
+          ).toBeGreaterThan(-1);
+          path = [stall];
+          piece = tree.replies[stall]!.line.parts[0]!;
+        } else {
+          const ask = tree.replies.findIndex((r) => r.line.move === "ask");
+          const then = tree.replies[ask]?.next?.replies ?? [];
+          const leave = then.findIndex((r) => r.line.move === "leave");
+          expect(leave, `${where}: ${typeKey} lets them go`).toBeGreaterThan(
+            -1,
+          );
+          path = [ask, leave];
+          piece = then[leave]!.line.parts[0]!;
+        }
         expect(
-          replyInScene(core, director, me, entry, [stall]),
+          replyInScene(core, director, me, entry, path),
           where,
         ).toBeTruthy();
-        firsts[typeKey] = scene.talk;
+        putOff.set(row, { typeKey, how, piece, first: scene.talk });
         continue;
       }
       // The call back: yes.
+      const call = putOff.get(row);
+      expect(call, `${where}: a call back only after a put-off`).toBeTruthy();
+      expect(call!.again, `${where}: one call back per row`).toBeUndefined();
+      call!.again = scene.talk;
       const agree = tree.replies.findIndex((r) => r.line.move === "agree");
-      calls[typeKey] = {
-        first: firsts[typeKey]!,
-        again: scene.talk,
-        againId: cause.id,
-      };
       expect(
         agree,
         `${where}: ${typeKey} call back offers yes`,
@@ -177,65 +224,62 @@ function play(): Played | string {
         replyInScene(core, director, me, entry, [agree]),
         where,
       ).toBeTruthy();
+      call!.accepted = core.durableLog.has(
+        `${typeKey === "debate-invite" ? DEBATE_ACCEPTED_EVENT : INTERVIEW_ACCEPTED_EVENT}:${row}` as never,
+      );
+      calls.push(call!);
     }
   }
-  const interviewId = calls["interview-invite"]
-    ? String(
-        core.durableLog.get(calls["interview-invite"].againId as never)!.facts!
-          .interviewId,
-      )
-    : "";
-  const debateId = calls["debate-invite"]
-    ? String(
-        core.durableLog.get(calls["debate-invite"].againId as never)!.facts!
-          .debateId,
-      )
-    : "";
-  return {
-    where,
-    calls,
-    acceptedDebate: core.durableLog.has(
-      `${DEBATE_ACCEPTED_EVENT}:${debateId}` as never,
-    ),
-    acceptedInterview: core.durableLog.has(
-      `${INTERVIEW_ACCEPTED_EVENT}:${interviewId}` as never,
-    ),
-  };
+  return { where, calls: [...putOff.values()] };
 }
 
 describe("a put-off is kept on the record and called back once", () => {
+  it("every put-off line of an invitation names what its call back opens on", () => {
+    const said = rulesFile.callBack.said as Record<string, string>;
+    const stalls = conversationBank.parts.filter((part) =>
+      part.uses.some(
+        (use) =>
+          (use.purpose === "invite-debate" ||
+            use.purpose === "invite-interview") &&
+          use.step === "reply" &&
+          use.move === "stall",
+      ),
+    );
+    expect(stalls.length).toBeGreaterThan(0);
+    for (const part of stalls) expect(said[part.key], part.key).toBeTruthy();
+  });
+
   // The played days to the debate's call back, day by day, at one pinned
   // place: about a minute (53 s measured), with a limit near twice that,
   // since the call back is met only on its own played day.
-  it("the interview and the debate call back, with yes and no only", () => {
+  it("the interview and the debate call back on what was said, with yes and no only", () => {
     const played = play();
     if (typeof played === "string") throw new Error(played);
     const { where, calls } = played;
-    for (const typeKey of Object.keys(INVITES) as Invite[]) {
-      const call = calls[typeKey];
-      expect(call, `${where}: the ${typeKey} called back`).toBeTruthy();
-      const moves = call!.again.tree.replies.map((r) => r.line.move).sort();
-      expect(moves, `${where}: ${typeKey} call back replies`).toEqual([
-        "agree",
-        "decline",
-      ]);
+    expect(calls.map((c) => `${c.typeKey}:${c.how}`).sort(), where).toEqual([
+      "debate-invite:stall",
+      "interview-invite:leave",
+      "interview-invite:stall",
+    ]);
+    const said = rulesFile.callBack.said as Record<string, string>;
+    for (const call of calls) {
+      const label = `${where}: ${call.typeKey} after a ${call.how} (${call.piece})`;
+      expect(call.again, `${label}: called back`).toBeTruthy();
+      const moves = call.again!.tree.replies.map((r) => r.line.move).sort();
+      expect(moves, `${label}: yes and no only`).toEqual(["agree", "decline"]);
+      expect(call.accepted, `${label}: the yes is the engine's yes`).toBe(true);
       // The first call never opens as a call back.
-      expect(said(call!.first), where).not.toMatch(
-        /call me back|You were going/,
+      expect(opening(call.first), label).not.toMatch(
+        /call me back|You were going|didn't finish|You had to go/,
       );
+      const fact = call.how === "leave" ? "put-off-left" : said[call.piece]!;
+      expect(call.again!.open?.text, label).toBe(OPENS[call.typeKey][fact]);
     }
-    expect(said(calls["debate-invite"]!.again), where).toMatch(
-      /^You said you'd call me back about the debate\. (It's tomorrow\. )?I need an answer/,
+    const debate = calls.find((c) => c.typeKey === "debate-invite")!;
+    expect(debate.again!.state.text, where).toMatch(
+      /^(It's tomorrow\. )?I need an answer/,
     );
-    expect(said(calls["interview-invite"]!.again), where).toBe(
-      "I asked you for an interview. You were going to look at your week. Is it yes or no?",
-    );
-    expect(played.acceptedDebate, `${where}: the yes is the debate's yes`).toBe(
-      true,
-    );
-    expect(
-      played.acceptedInterview,
-      `${where}: the yes is the interview's yes`,
-    ).toBe(true);
+    for (const call of calls.filter((c) => c.typeKey === "interview-invite"))
+      expect(call.again!.state.text, where).toBe("Is it yes or no?");
   }, 120_000);
 });

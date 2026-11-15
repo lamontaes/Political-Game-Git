@@ -73,6 +73,7 @@ import {
   interviewQuestions,
   outletsHere,
   platformAnswers,
+  PUT_OFF_MOVES,
   REFUSING_MOVES,
   type InterviewAnswer,
 } from "./press";
@@ -1270,6 +1271,7 @@ function debateInvited(
   contest: ContestRow,
   candidateId: string,
   again = false,
+  putOffReplyId = "",
 ): void {
   const rivals = new Set(ballot(api, contest.id).map((f) => f.personId));
   const outlet = outletsHere(api).find((o) => o.id === row.outletId);
@@ -1300,7 +1302,7 @@ function debateInvited(
       candidates: String(rivals.size),
       // The moderator calling back about an invitation the candidate put
       // off, and the eve the debate goes on without them.
-      ...(again ? { again: "yes", heldOn: eve } : {}),
+      ...(again ? { again: "yes", heldOn: eve, putOffReplyId } : {}),
     },
   });
   if (again) return;
@@ -1391,10 +1393,11 @@ function answerDebateInvitation(
   if (ACCEPTING_MOVES.has(move))
     debateAccepted(api, row, cause, candidateId, event.id);
   else if (REFUSING_MOVES.has(move)) holdDebate(api, row, []);
-  // A put-off (the player said they would call back) is kept: the moderator
-  // calls back once. Any other non-answer (a walk-off) leaves it to the eve.
-  else if (move === "stall" && !cause.facts?.again)
-    debateCallBackOnce(api, row, candidateId);
+  // A put-off (the player said they would call back, or had to go and asked
+  // for a call) is kept: the moderator calls back once. A question leaves it
+  // to the eve.
+  else if (PUT_OFF_MOVES.has(move) && !cause.facts?.again)
+    debateCallBackOnce(api, row, candidateId, event.id);
 }
 
 /**
@@ -1407,6 +1410,7 @@ function debateCallBackOnce(
   api: CoreAPI,
   row: DebateRow,
   candidateId: string,
+  replyId: string,
 ): void {
   const contest = contestOf(api, row.contestId);
   const eve = addDays(
@@ -1426,7 +1430,7 @@ function debateCallBackOnce(
       asOf: api.state.date,
       estimatedFrom: "debateLapseDaysBefore",
     },
-    sourceRecordIds: [row.id, candidateId],
+    sourceRecordIds: [row.id, candidateId, replyId],
   });
 }
 
@@ -1435,13 +1439,20 @@ function debateCallBack(
   api: CoreAPI,
   work: Readonly<ModuleCalendarWork>,
 ): void {
-  const [rowId, candidateId] = work.sourceRecordIds;
+  const [rowId, candidateId, replyId] = work.sourceRecordIds;
   const row = table(api, "debates").get(rowId ?? "") as unknown as
     DebateRow | undefined;
   if (row?.status !== "invited" || !candidateId) return;
   if (api.state.durableLog.has(`${DEBATE_ACCEPTED_EVENT}:${row.id}`)) return;
   if (!api.state.people.get(candidateId as PersonId)?.alive) return;
-  debateInvited(api, row, contestOf(api, row.contestId), candidateId, true);
+  debateInvited(
+    api,
+    row,
+    contestOf(api, row.contestId),
+    candidateId,
+    true,
+    replyId ?? "",
+  );
 }
 
 /**
