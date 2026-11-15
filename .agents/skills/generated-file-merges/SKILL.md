@@ -44,6 +44,7 @@ Check a file's header or the script in `package.json` before assuming a file is 
 - **The same key changed on both sides is a real conflict.** Read both and keep the newer ruling; if you cannot tell, ask the row's owner on the pull request.
 - **Bank lines are Story's (owner, Nov 10).** Re-adding a piece that exists on one side, by its key and word for word, is mechanical and allowed. Writing, rewording or dropping a line is not: leave it and say so on the pull request.
 - After merging a rules or bank file, run `npm run words:rules` twice and the English guards (`npx vitest run tests/guards/english`).
+- **Merging without a hand edit (account lead, Nov 15).** For `data/english/parts/scene-talk.json`, read the three index stages (`git show :1:<file>` base, `:2:` yours, `:3:` theirs), go through `parts` by `key`, and take the side that changed from the base (both changed is the real conflict above); a key one side deleted and the other left alone stays deleted. For a judged store, start from theirs, add every entry of your `no` dict that theirs lacks, and write the union of both `.yes.txt` lists; a `.yes.txt` git merged on its own has no stages, so read it from the working tree. Then `npm run words:verdicts` (no `--from`) and `npm run words:rules` twice. Afterwards count what each side lost: `comm -23 <(git show <their head>:<store>.yes.txt | sort) <(sort <store>.yes.txt)`. What theirs lost should be only lines your branch changed or deleted; anything else means the union went wrong.
 
 ## Several pull requests on one rules file
 

@@ -84,11 +84,14 @@ import { careNeedOf } from "./modules/health";
 import { householdStateOf } from "./modules/counted-moves";
 import {
   ENDED_BY_REQUIREMENT,
+  federalBenefitLine,
   lawChain,
   lawInForce,
   LAWS_MODULE_ID,
+  MEDICARE_LINE,
   medicaidCoverageSpells,
   payMedicaidCare,
+  payMedicareLinePart,
 } from "./modules/laws";
 import { webReach, type WebReach } from "./modules/outcome-web";
 import { householdIncome, residentsRuntime } from "./modules/residents";
@@ -147,6 +150,8 @@ export interface BilledMember {
   readonly billMinor: number;
   /** Medicaid's own part of the member's care, the cost less their share, which the treasuries pay the seller (Medicaid members only). */
   readonly medicaidMinor?: number;
+  /** What a raised Medicare line pays of the member's care above Medicare's part at its base, which the federal treasury pays the seller (Medicare members only). */
+  readonly medicareLineMinor?: number;
   /**
    * What the work requirement added to the member's bill: the expansion
    * covers them but the requirement ended their coverage (its stretch on
@@ -489,6 +494,16 @@ function billMembers(
   // federal law is in force (the engine decides the cause from the law itself).
   const drugLaw = lawInForce(api, DRUG_NEGOTIATION);
   const drugs = drugLaw.value === one ? one + (DRUG_LINK.size ?? 0) : one;
+  // The Medicare line in force over its base scales Medicare's own part of
+  // its members' care, so their share falls (or rises) by the same dollars.
+  const medicareLine = federalBenefitLine(api, MEDICARE_LINE);
+  const medicareBase = q(SHARE_KEY.medicare);
+  const medicareShare = Math.min(
+    one,
+    Math.max(0, one - (one - medicareBase) * medicareLine.level),
+  );
+  const shareOf = (plan: BillPlan) =>
+    plan === "medicare" ? medicareShare : q(SHARE_KEY[plan]);
   const out = new Map<string, BilledMember[]>();
   for (const h of households) {
     const size = h.members.length;
@@ -502,8 +517,12 @@ function billMembers(
         const cost =
           (perMember * perMonth * (care(m.careNeed) / norm)) / average;
         const billMinor = Math.round(
-          cost * q(SHARE_KEY[m.plan]) * (m.plan === "medicare" ? drugs : one),
+          cost * shareOf(m.plan) * (m.plan === "medicare" ? drugs : one),
         );
+        const lineMinor =
+          m.plan === "medicare"
+            ? Math.round(cost * (medicareBase - medicareShare) * drugs)
+            : 0;
         const added = billMinor - Math.round(cost * medicaidShare);
         // The law reached this Medicare member by the same rule, full or
         // counted: a counted member stands for their household's weight.
@@ -519,8 +538,24 @@ function billMembers(
             what: "medicare-drug-bill-lowered",
             ...(full ? {} : { count: Math.max(one, Math.round(times)) }),
             amountMinor: Math.round(
-              cost * q(SHARE_KEY.medicare) * (drugs - one) * times,
+              cost * medicareShare * (drugs - one) * times,
             ),
+          });
+        }
+        // A bill that changed the Medicare line reached this member by the
+        // same rule: their share of the care moved by the line's change.
+        if (lineMinor !== 0 && medicareLine.lawId) {
+          const full = api.state.people.has(m.personId);
+          const times = full ? one : h.weight;
+          lawApplied(api, {
+            key: `budget-line:${MEDICARE_LINE}`,
+            lawId: medicareLine.lawId,
+            targetId: m.personId,
+            target: full ? "person" : "group",
+            engine: MEDICAL_BILLS_ENGINE,
+            what: "medicare-share-changed-by-line",
+            ...(full ? {} : { count: Math.max(one, Math.round(times)) }),
+            amountMinor: Math.round(lineMinor * times),
           });
         }
         return {
@@ -531,6 +566,7 @@ function billMembers(
           ...(m.plan === "medicaid"
             ? { medicaidMinor: Math.round(cost * (one - medicaidShare)) }
             : {}),
+          ...(lineMinor > 0 ? { medicareLineMinor: lineMinor } : {}),
           ...(m.endedByRequirement && added > 0
             ? { requirementMinor: added }
             : {}),
@@ -849,6 +885,8 @@ export function billMedicalCare(
   const wait = q("medicalCollectionsWaitDays");
   // Medicaid's part of its members' care, by the seller each household pays.
   const medicaidBySeller = new Map<string, number>();
+  // What a raised Medicare line pays of its members' care, by seller.
+  const medicareBySeller = new Map<string, number>();
   for (const h of households) {
     const members = bills.get(h.householdId) ?? [];
     const billMinor = billOf(h.householdId);
@@ -874,6 +912,15 @@ export function billMedicalCare(
       medicaidBySeller.set(
         payee,
         (medicaidBySeller.get(payee) ?? 0) + Math.round(medicaid * h.weight),
+      );
+    const medicare = members.reduce(
+      (n, m) => n + (m.medicareLineMinor ?? 0),
+      0,
+    );
+    if (medicare > 0 && payee)
+      medicareBySeller.set(
+        payee,
+        (medicareBySeller.get(payee) ?? 0) + Math.round(medicare * h.weight),
       );
     const owing = settleOwed(
       prior.get(h.householdId)?.owed ?? [],
@@ -949,6 +996,12 @@ export function billMedicalCare(
     });
     for (const [sellerId, paid] of paidBySeller) bookSale(core, sellerId, paid);
   }
+  if (medicareBySeller.size)
+    for (const [sellerId, paid] of payMedicareLinePart(api, {
+      bySeller: medicareBySeller,
+      source,
+    }))
+      bookSale(core, sellerId, paid);
   if (!bookkeeping()) dropSettledRows(api, input.module, households);
 }
 

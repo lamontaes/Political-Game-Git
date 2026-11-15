@@ -206,7 +206,7 @@ const NATIONAL = nationalJson as unknown as {
   basedIn: string;
   kinds: readonly NationalKindRow[];
 };
-/** The kinds of outlet that endorse in an editorial (data/press/endorsements.json). */
+/** The kinds of outlet that endorse in an editorial (src/core2/data/press/endorsements.json). */
 const ENDORSING_KINDS: ReadonlySet<string> = new Set(endorsing.kinds);
 
 const ALL_KINDS: readonly OutletKind[] = [
@@ -479,6 +479,9 @@ export const PRESS_MODULE: CoreModule = {
     const policeLog =
       event.kind === CRIME_EVENT && event.placeId === lawChain(api).townPlaceId;
     if (!event.publicRecord && !policeLog) return;
+    // An exposure the paper holds for comment goes on the wire when it runs
+    // (runExposure), so no desk prints it before the one exposed is asked.
+    if (event.kind === "press.exposed" && event.facts?.runsOn) return;
     const chain = lawChain(api);
     const item = wireItem(api, event, {
       placeId: chain.townPlaceId,
@@ -2980,6 +2983,7 @@ const CALL_COMMENT: Readonly<Record<string, ExposureComment>> = {
   "no-comment": "declined",
   "left-there": "declined",
   "source-fight": "declined",
+  "denial-printed": "denied",
   "lie-printed": "denied",
   caught: "denied",
 };
@@ -3069,6 +3073,16 @@ function runExposure(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     storyId: story.id,
     comment,
   } as unknown as ModuleRow);
+  // In print, it is on the wire for the other outlets to carry.
+  const exposure = api.state.durableLog.get(exposedId);
+  if (exposure) {
+    const chain = lawChain(api);
+    const item = wireItem(api, exposure, {
+      placeId: chain.townPlaceId,
+      stateKey: chain.stateKey,
+    });
+    if (item) table(api, "wire").put(item as unknown as ModuleRow);
+  }
   for (const id of ctx.followers(outlet.id))
     if (id !== officialId)
       touchImpression(api, {
@@ -4596,7 +4610,15 @@ function keepComment(api: CoreAPI, event: Readonly<CoreEventInput>): void {
   const causeId = String(facts.causeId ?? "");
   const personId = event.personIds[0];
   if (!causeId || !personId) return;
-  const said = facts.ending === "on-record" || facts.ending === "lie-printed";
+  // What they said goes in the story: an interview on the record, a scandal
+  // call answered on the record, a denial printed, or a lie printed or
+  // caught; any other ending is a decline.
+  const said =
+    facts.ending === "on-record" ||
+    facts.ending === "on-the-record" ||
+    facts.ending === "denial-printed" ||
+    facts.ending === "lie-printed" ||
+    facts.ending === "caught";
   table(api, "comments").put({
     id: causeId,
     causeId,
