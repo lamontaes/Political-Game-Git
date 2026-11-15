@@ -542,6 +542,15 @@ if (donorReplies.length) {
   const lines = composeJournal(core, director, me).flatMap((c) => c.lines);
   for (const d of donorReplies) {
     const hit = lines.filter((l) => l.sourceRecordIds.includes(d.id));
+    if (process.env.DEBUG_DONOR_JOURNAL) {
+      const rec = core.durableLog.get(d.id as never);
+      log(
+        `  debug: persons ${JSON.stringify(rec?.personIds)} keeps ${String(rec?.facts?.keeps)}; moments on this date: ${lines
+          .filter((l) => l.date === rec?.date)
+          .map((l) => l.text)
+          .join(" | ")}`,
+      );
+    }
     log(
       `- ${d.who} (${d.variant}), reply ${d.id}: ${hit.map((l) => `"${l.text}"`).join(" / ") || "no Journal line"}`,
     );
