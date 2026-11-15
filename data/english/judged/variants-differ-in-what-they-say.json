@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "variants-differ-in-what-they-say",
   "rubric": "Variants of a slot differ in what they say, each tied to a fact in the record, not only in wording; a bank grows by adding conditions and specifics, not more generic lines.",
-  "judged": 1215,
+  "judged": 1211,
   "no": {
     "006el8dj9s1": {
       "keys": [
@@ -370,6 +370,13 @@
         "scene-talk.close-warn.i-d-hate-for-it-to-be-close-and-know-i-didn-t-ask-you-twice"
       ],
       "why": "All three say the race is close and to decide soon, with no record fact about the race's margin behind any of them."
+    },
+    "06sb1do7lj7": {
+      "keys": [
+        "scene-talk.reply-promise.close.i-ll-make-it-up-to-you-i-m-sorry-and-it-won-t-happen-again",
+        "scene-talk.reply-promise.close.i-m-sorry-and-i-promise-to-do-better-you-can-count-on-me-with-the-bills"
+      ],
+      "why": "Both lines are a sorry and a promise to do better."
     },
     "06vjifi65pn": {
       "keys": [
@@ -1064,13 +1071,6 @@
       ],
       "why": "Both lines put the talk off, and ruling out daytime for one only changes when it plays, not what it says."
     },
-    "0haschym2n2": {
-      "keys": [
-        "scene-talk.reply-promise.i-ll-do-it-and-i-give-you-my-word",
-        "scene-talk.reply-promise.i-ll-write-you-again-soon-and-i-ll-make-it-happen"
-      ],
-      "why": "Both lines promise I'll do it, the same promise with no fact to choose between them."
-    },
     "0hexr4nre4i": {
       "keys": [
         "scene-talk.close-press.come-find-me-when-you-ve-thought-it-through",
@@ -1106,13 +1106,6 @@
         "scene-talk.reply-refuse.still-no-i-d-rather-you-hear-it-from-me-than-from-someone-else"
       ],
       "why": "All three say the player thought it over and the answer is no."
-    },
-    "0hmnpveqytz": {
-      "keys": [
-        "scene-talk.reply-promise.i-ll-make-it-work-you-have-my-word",
-        "scene-talk.reply-promise.i-will-do-it-and-you-won-t-have-to-remind-me"
-      ],
-      "why": "Both lines promise to do it without fail, the same promise with no fact to choose between them."
     },
     "0hr4smobd5x": {
       "keys": [
@@ -2463,13 +2456,6 @@
       ],
       "why": "All three lines are the same yes in other words."
     },
-    "13ec0yds9uo": {
-      "keys": [
-        "scene-talk.follow-press.can-i-count-on-that-first-i-d-like-to-be-able-to-tell-the-family-you-ll-do-it",
-        "scene-talk.follow-press.is-that-a-promise-i-d-like-to-tell-the-family-you-ll-do-it"
-      ],
-      "why": "Both lines ask for a promise to tell the family, nearly word for word."
-    },
     "13ftljkz4f6": {
       "keys": [
         "scene-talk.reply-decline.i-d-like-to-but-i-can-t-spare-the-time-right-now",
@@ -3348,15 +3334,6 @@
       ],
       "why": "Both lines are the same thanks."
     },
-    "1hjcka6h4re": {
-      "keys": [
-        "scene-talk.reply-promise.i-ll-do-exactly-that-and-i-promise-to-keep-my-word",
-        "scene-talk.reply-promise.i-promise-i-know-what-it-cost-you-to-stand-there-and-wait-for-help",
-        "scene-talk.reply-promise.i-promise-you-were-there-when-i-needed-someone-and-i-won-t-forget-it",
-        "scene-talk.reply-promise.you-have-my-word-i-ll-do-it-and-i-won-t-put-it-off"
-      ],
-      "why": "All four lines are a promise to do it, two with a nod to the rescue, and no fact separates them."
-    },
     "1htobwjj7mq": {
       "keys": [
         "scene-talk.reply-comfort.go-you-ve-earned-a-fresh-start-and-i-m-glad-for-you",
@@ -3892,13 +3869,6 @@
         "scene-talk.reply-deflect.that-s-not-the-whole-story"
       ],
       "why": "All three lines dismiss the rumor in other words."
-    },
-    "1rtyymkdzvq": {
-      "keys": [
-        "scene-talk.reply-promise.i-ll-make-it-happen-and-i-won-t-let-it-slide",
-        "scene-talk.reply-promise.you-have-my-word-i-ll-make-sure-they-hear-from-me"
-      ],
-      "why": "Both lines are the same promise to make it happen."
     },
     "1rxb9j94ro1": {
       "keys": [
@@ -5231,13 +5201,6 @@
       ],
       "why": "Both lines say the vote has not changed, the same claim reworded."
     },
-    "2cea4e25mzy": {
-      "keys": [
-        "scene-talk.close-promise.i-ll-keep-the-family-posted-first-thank-you-for-doing-this",
-        "scene-talk.close-promise.i-ll-let-the-family-know-how-it-goes-thank-you"
-      ],
-      "why": "Both lines promise to keep the family posted and say thanks."
-    },
     "2cf0l586xnr": {
       "keys": [
         "scene-talk.close-warn.i-ll-write-that-you-walked-off",
@@ -5448,5 +5411,5 @@
       "why": "Both lines promise to look into it before the deadline, the second only adding detail to the same promise."
     }
   },
-  "yesHash": "0ssasntonks"
+  "yesHash": "00w34eup9e4"
 }
