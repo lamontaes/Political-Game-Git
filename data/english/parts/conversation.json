@@ -21938,25 +21938,6 @@
       "date": "2026-11-11"
     },
     {
-      "key": "conversation.news-answer-yes.i-heard-that-on-outlet",
-      "move": "news-answer-yes",
-      "kind": "spoken",
-      "text": "I heard that on {outlet}.",
-      "uses": [
-        {
-          "move": "news-answer-yes",
-          "subject": "news",
-          "role": "answer",
-          "choice": "yes",
-          "stages": ["heard"],
-          "requiresFacts": ["broadcast", "outlet-radio"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder M3 (words-outlet-names-keep-call-letters-and-say-their-kind)",
-      "date": "2026-11-15"
-    },
-    {
       "key": "conversation.news-answer-yes.yes-outlet-had-it",
       "move": "news-answer-yes",
       "kind": "spoken",
@@ -22087,25 +22068,6 @@
       "origin": "authored",
       "author": "Words builder W3 (words-home-news-lines-are-composed)",
       "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.news-answer-no.i-don-t-listen-to-outlet-much-what-happened",
-      "move": "news-answer-no",
-      "kind": "spoken",
-      "text": "I don't listen to {outlet} much. What happened?",
-      "uses": [
-        {
-          "move": "news-answer-no",
-          "subject": "news",
-          "role": "answer",
-          "choice": "no",
-          "stages": ["not-heard"],
-          "requiresFacts": ["broadcast", "outlet-radio"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder M3 (words-outlet-names-keep-call-letters-and-say-their-kind)",
-      "date": "2026-11-15"
     },
     {
       "key": "conversation.news-answer-for.i-ve-wanted-about-for-a-while-now",
