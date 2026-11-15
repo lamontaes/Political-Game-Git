@@ -69,6 +69,12 @@ export function lawApplied(
     readonly what: string;
     readonly count?: number;
     readonly amountMinor?: number;
+    /**
+     * The law is no longer in force, but an effect it set going still pays
+     * (a lagged price): the dollars go onto the law's row for this target,
+     * which stays ended (or is written ended), never reopened.
+     */
+    readonly lingering?: boolean;
   },
 ): void {
   if (!api.state.modules.has(HOST_ID)) return;
@@ -78,6 +84,40 @@ export function lawApplied(
   const held = table.get(id) as unknown as LawAppliedRow | undefined;
   const count = input.count ?? 1;
   const amount = Math.round(input.amountMinor ?? 0);
+  if (input.lingering) {
+    const own =
+      held && held.lawId === input.lawId
+        ? held
+        : (table.get(`${id}|${input.lawId}`) as unknown as
+            LawAppliedRow | undefined);
+    if (own) {
+      table.put({
+        ...own,
+        lastOn: date,
+        times: own.times + (own.lastOn === date ? 0 : 1),
+        amountMinor: own.amountMinor + amount,
+        endedOn: own.endedOn ?? date,
+      } as unknown as ModuleRow);
+      return;
+    }
+    const ended: LawAppliedRow = {
+      id: held ? `${id}|${input.lawId}` : id,
+      key: input.key,
+      lawId: input.lawId,
+      targetId: input.targetId,
+      target: input.target,
+      count,
+      engine: input.engine,
+      what: input.what,
+      since: date,
+      lastOn: date,
+      times: 1,
+      amountMinor: amount,
+      endedOn: date,
+    };
+    table.put(ended as unknown as ModuleRow);
+    return;
+  }
   if (held && !held.endedOn && held.lawId === input.lawId) {
     if (
       held.lastOn === date &&
@@ -240,6 +280,11 @@ export interface LawReach {
    */
   readonly governmentOwnMinor: number;
   readonly by: readonly LawReachSide[];
+  /** Each organization it reached, the most money first. */
+  readonly organizationsReached: readonly {
+    readonly organizationId: string;
+    readonly amountMinor: number;
+  }[];
   /** Each full person it reached, the most money first. */
   readonly people: readonly {
     readonly personId: string;
@@ -289,6 +334,11 @@ export function lawReach(
     string,
     { amountMinor: number; what: string; endedOn: string | null }
   >();
+  const perOrganization = new Map<string, number>();
+  const organization = (into: Side, id: string, amount: number) => {
+    into.organizations.add(id);
+    perOrganization.set(id, (perOrganization.get(id) ?? 0) + amount);
+  };
   let countedMinor = 0;
   let governmentOwnMinor = 0;
   // The row being read: its end, for the person it names.
@@ -385,9 +435,10 @@ export function lawReach(
         if (typeof row.personId === "string") {
           if (!person(into, row.personId, amount)) into.counted += 1;
         } else if (typeof row.organizationId === "string")
-          into.organizations.add(row.organizationId);
+          organization(into, row.organizationId, amount);
         else if (typeof row.reached === "number") into.counted += row.reached;
-        else if (target === "organization") into.organizations.add(targetId);
+        else if (target === "organization")
+          organization(into, targetId, amount);
         else if (target === "government") into.governments.add(targetId);
         else if (target === "household") {
           // A full household's members are full people; one still in the counts stands for its count.
@@ -466,6 +517,13 @@ export function lawReach(
           Math.abs(b.amountMinor) - Math.abs(a.amountMinor) ||
           b.records - a.records ||
           `${a.engine}|${a.what}`.localeCompare(`${b.engine}|${b.what}`),
+      ),
+    organizationsReached: [...perOrganization]
+      .map(([organizationId, amountMinor]) => ({ organizationId, amountMinor }))
+      .sort(
+        (a, b) =>
+          Math.abs(b.amountMinor) - Math.abs(a.amountMinor) ||
+          a.organizationId.localeCompare(b.organizationId),
       ),
     people,
   };
