@@ -190401,58 +190401,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-bargain.i-d-need-you-to-stand-against-about-i-couldn-t-go-on-a-stage-and-defend-it",
-      "move": "reply-bargain",
-      "kind": "spoken",
-      "text": "I'd need you to stand against {about}. I couldn't go on a stage and defend it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "bargain",
-          "role": "asked",
-          "purpose": "ask-to-serve",
-          "key": "serve-asked",
-          "after": "request",
-          "requiresFacts": ["price-named", "price-side-against"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words lead (Nov 15 10:35Z, price-lines-revised.md); S6 (gov-serve-ask-price-end)",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "bargain",
-        "key": "serve-asked"
-      }
-    },
-    {
-      "key": "scene-talk.reply-bargain.promise-me-you-won-t-push-about-that-s-the-one-thing",
-      "move": "reply-bargain",
-      "kind": "spoken",
-      "text": "Promise me you won't push {about}. That's the one thing.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "bargain",
-          "role": "asked",
-          "purpose": "ask-to-serve",
-          "key": "serve-asked",
-          "after": "request",
-          "requiresFacts": ["price-named", "price-side-against"]
-        }
-      ],
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Words lead (Nov 15 10:35Z, price-lines-revised.md); S6 (gov-serve-ask-price-end)",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "bargain",
-        "key": "serve-asked"
-      }
-    },
-    {
       "key": "scene-talk.follow-promise.you-have-my-word-i-m-for-about",
       "move": "follow-promise",
       "kind": "spoken",
@@ -190467,32 +190415,6 @@
           "key": "serve-asked",
           "after": "bargain",
           "requiresFacts": ["price-named", "price-side-for"]
-        }
-      ],
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Words lead (Nov 15 10:35Z, price-lines-revised.md); S6 (gov-serve-ask-price-end)",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "promise",
-        "key": "serve-asked"
-      }
-    },
-    {
-      "key": "scene-talk.follow-promise.you-have-my-word-i-m-against-about",
-      "move": "follow-promise",
-      "kind": "spoken",
-      "text": "You have my word. I'm against {about}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "promise",
-          "role": "asker",
-          "purpose": "ask-to-serve",
-          "key": "serve-asked",
-          "after": "bargain",
-          "requiresFacts": ["price-named", "price-side-against"]
         }
       ],
       "bearing": "firm",

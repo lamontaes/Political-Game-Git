@@ -856,9 +856,7 @@ function sceneEndingMoments(
             keeps === "promise" &&
             typeof reply.facts?.about === "string" &&
             reply.facts?.promise === "hold-question"
-              ? reply.facts?.["promise-side"] === "no"
-                ? "scene-ending:side-word-against"
-                : "scene-ending:side-word-for"
+              ? "scene-ending:side-word-for"
               : keeps === "promise" && typeof reply.facts?.about === "string"
                 ? "scene-ending:view-promise"
                 : keeps === "promise" && reply.facts?.firmness === "vague"

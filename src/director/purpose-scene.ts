@@ -2059,16 +2059,11 @@ function composeBinding(
     if ((serve.terms.question ?? P.zero) > P.zero)
       facts["near-on-issue"] = { text: "yes", sourceRecordIds: why };
     // Short of yes by less than the player's word is worth to them: they name
-    // it as their price, on the side they hold (Words lead, Nov 14 16:15Z:
-    // to hold the line where they want the change, to leave things as they
-    // are where they do not).
+    // it as their price, for the proposal they hold (a read against one names
+    // no price: promiseWorth, Words lead and Account lead, Nov 15 12:26Z).
     if (serve.priced) {
       facts["price-named"] = { text: "yes", sourceRecordIds: why };
-      facts[
-        (serve.grounds.priceStance ?? P.zero) < P.zero
-          ? "price-side-against"
-          : "price-side-for"
-      ] = { text: "yes", sourceRecordIds: why };
+      facts["price-side-for"] = { text: "yes", sourceRecordIds: why };
     }
     // Asked again after a no: a yes says what changed, as felt (Words lead,
     // Nov 14: the term that moved most since the no).

@@ -750,6 +750,12 @@ export function leanIfHedged(row: ServeAskRow): number {
 export function promiseWorth(row: ServeAskRow): number {
   const { grounds } = row.standing;
   if (!grounds.priceQuestion) return 0;
+  // A price is named only for the side a played world has shown: no place
+  // probed (about 77 worlds, Nov 15) gave a price against a question, so the
+  // lines for one were taken out, and a read against falls to no price, never
+  // to an empty line (Words lead and Account lead, Nov 15 12:26Z; pool item
+  // views-strongest-state-view-always-for).
+  if ((grounds.priceStance ?? 0) < 0) return 0;
   return w(row.seat, "promise") * Math.abs(grounds.priceStance ?? 0);
 }
 
