@@ -30,7 +30,7 @@ checked: account lead 2026-11-15
 
 **Rules.** One rule, all 56 places. Read-only screens create no facts. Unattended-world changes: year 1 and time per record at three places, with and without, twice each side.
 
-**Done when.** A test pinned to a small town that is not its state's seat (place and seed named in the test file) makes the player governor, opens a post, and finds people from other towns of the state among those offered, by name, with no new person created by reading the list; appointing one fills them in where they live and puts them on the state payroll.
+**Done when.** A test pinned to a small town that is not its state's seat (place and seed named in the test file) makes the player governor, opens a post, and finds people from other towns of the state among those offered, by name, with no new person created by reading the list; appointing one fills them in where they live and puts them on the state payroll. A second session, playing a governor in a drawn small town in the running game, opens a cabinet post and sees people from across the state offered by name.
 
 **Waits on.** executive-cabinet-drawn-from-the-state.
 
