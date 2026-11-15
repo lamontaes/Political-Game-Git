@@ -5,7 +5,7 @@
  * newspapers, television stations and a radio station. Names are read from the
  * outlet's record, with no case rule guessed from their shape.
  */
-import { appendFileSync, readFileSync } from "node:fs";
+import { appendFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import { expect, it } from "vitest";
@@ -13,7 +13,9 @@ import { drawPlace } from "../../scripts/core2-year/place";
 import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
-import { outletsHere } from "../core2/modules/press";
+import { outletMedium, outletsHere } from "../core2/modules/press";
+import { wordConversationMove } from "../english/conversation-words";
+import type { Fact } from "../english/conversation-words";
 import { coreAPI } from "../core2/state";
 import { outletFacts } from "./conversation";
 
@@ -73,69 +75,54 @@ it("writes each outlet's name and facts as the talk carries them (played file)",
     placeKey: place.key,
   }).core;
   const api = coreAPI(core);
-  // The bank's own outlet-naming lines for "did you see it": a line plays for
-  // an outlet when every fact it requires is carried and none it excludes is.
-  const bank = JSON.parse(
-    readFileSync("data/english/parts/conversation.json", "utf8"),
-  ) as unknown;
-  const lines: {
-    text: string;
-    move: string;
-    requires: string[];
-    excludes: string[];
-  }[] = [];
-  const walk = (x: unknown): void => {
-    if (Array.isArray(x)) return x.forEach(walk);
-    if (!x || typeof x !== "object") return;
-    const row = x as Record<string, unknown>;
-    const text = row.text;
-    const use = (row.uses as Record<string, unknown>[] | undefined)?.[0];
-    if (
-      typeof text === "string" &&
-      text.includes("{outlet}") &&
-      typeof row.move === "string" &&
-      row.move.startsWith("news-answer-") &&
-      use
-    )
-      lines.push({
-        text,
-        move: row.move,
-        requires: (use.requiresFacts as string[] | undefined) ?? [],
-        excludes: (use.excludesFacts as string[] | undefined) ?? [],
+  // The lines the news talk says for this outlet, chosen by the engine's own
+  // wording choice (wordConversationMove) from the facts the game carries:
+  // the outlet's facts, plus "paper" or "broadcast" as the story's carrier.
+  const said = (facts: Record<string, Fact>, choice: "yes" | "no") => {
+    const out = new Set<string>();
+    for (let n = 0; n < 60; n++) {
+      const line = wordConversationMove({
+        seed: `outlet-telling:${n}`,
+        subject: "news",
+        part: "answers",
+        speakerId: "speaker" as never,
+        traits: {},
+        facts,
+        momentKey: `outlet-telling:${choice}:${n}`,
+        stage: choice === "yes" ? "heard" : "not-heard",
+        keys: [choice],
       });
-    Object.values(row).forEach(walk);
+      if (line?.text) out.add(line.text);
+    }
+    return [...out].sort();
   };
-  walk(bank);
   const rows: string[] = [];
   for (const o of outletsHere(api).filter((x) => x.tier !== "national")) {
     const org = core.organizations.get(o.organizationId as never)!;
-    const facts = outletFacts(core, org, ["test"]);
+    const facts: Record<string, Fact> = {
+      ...outletFacts(core, org, ["test"]),
+      [outletMedium(o.kind) === "paper" ? "paper" : "broadcast"]: {
+        text: "",
+        sourceRecordIds: ["test"],
+      },
+    };
     const name = facts.outlet!.text;
-    const the = facts["outlet-the"] ? `the ${name}` : name;
-    // The news talk also carries "paper" or "broadcast" for the outlet's kind.
-    const carried = new Set([
-      ...Object.keys(facts),
-      o.kind === "radio" || o.kind.includes("tele") ? "broadcast" : "paper",
-    ]);
-    const plays = lines.filter(
-      (l) =>
-        l.requires.every((f) => carried.has(f) || f === "outlet-said") &&
-        !l.excludes.some((f) => carried.has(f)),
-    );
-    for (const l of plays)
-      if (o.kind === "radio") {
+    const yes = said(facts, "yes");
+    const no = said(facts, "no");
+    if (o.kind === "radio")
+      for (const line of [...yes, ...no])
         expect(
-          l.text,
-          `${name}: a station is never read in or seen on`,
+          line,
+          `${name}: a station is never read in, seen on or watched`,
         ).not.toMatch(/read it in|saw that on|watch/);
-      }
+    if (outletMedium(o.kind) === "television")
+      for (const line of [...yes, ...no])
+        expect(
+          line,
+          `${name}: a television station is not heard on`,
+        ).not.toMatch(/heard that on|listen/);
     rows.push(
-      `${place.name} (${place.key}), seed pl5: ${o.kind} "${name}" says: ${plays
-        .map(
-          (l) =>
-            `"${l.text.replace("{outlet}", l.text.includes("read it in") ? the : name)}"`,
-        )
-        .join(" | ")}`,
+      `${place.name} (${place.key}), seed pl5: ${o.kind} "${name}" (facts ${Object.keys(facts).join(", ")})\n  yes: ${yes.join(" | ")}\n  no: ${no.join(" | ")}`,
     );
   }
   appendFileSync(
