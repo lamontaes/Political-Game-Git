@@ -1,6 +1,6 @@
 ---
 id: legislature-obligation-ledger-keeps-a-favor-refused
-title: "A favor called in and refused is kept on the obligation ledger as broken, and the ones who dealt with that person read it"
+title: "A favor refused when called in is read by the later dealings of the two people, and a refusal by anyone other than the player is kept too"
 area: gov
 kind: wiring
 priority: 2
@@ -18,11 +18,11 @@ effort: medium
 root: none
 ---
 
-**What.** A colleague who took a deal in office owes the sponsor a favor; when the sponsor's campaign calls it in and the colleague says no, nothing on the ledger says so. The favor stays "owed" forever and is asked again, and nobody who dealt with the person can read that they refused. Seen: after a colleague refuses an endorsement they owed, the next deal they are offered, the sponsor's next talk with them and the paper's account of the race can say the favor was refused.
+**What.** The endorsement-ask PR (#9431) gave the obligation ledger a refused state for the player: when a candidate calls in a favor and the player says no in the scene, `refuseObligation` writes `refusedBy` and `refusedOn` on the row, `obligationsOwedTo` stops returning it, and no campaign of that candidate calls it in again; the scene's ending strains the tie. Still missing: nothing else reads the refusal when the same two people deal again (a later deal, the sponsor's next talk with them, the paper's account of the race), and a no from anyone other than the player is not written, because `askForEndorsement` leaves the favor owed so it is asked again as views move. Seen: the sponsor's next dealing with someone who refused a called-in favor can say so.
 
-**Cause.** Found in code: `ObligationRow` in src/core2/modules/legislature.ts (line 3687) has only `settled: boolean`, `settledBy` and `settledOn`; `settleObligation` (line 3722) is the one writer, and only a yes calls it. A no on the endorsement row (src/core2/modules/campaigns.ts, `answerEndorsementAsk` for the player, `askForEndorsement` for everyone else) leaves the obligation row untouched.
+**Cause.** Found in code: `refuseObligation` and `obligationsOwedTo` in src/core2/modules/legislature.ts have one writer, `answerEndorsementAsk` in src/core2/modules/campaigns.ts, for the player's no. The legislature's deal weighing (`positionOn`, the deal functions near line 4090) and `askForEndorsement` do not read `refusedOn`.
 
-**Fix.** Give `ObligationRow` a refused state next to `settled` (`refusedBy`, `refusedOn`, written by one `refuseObligation` beside `settleObligation`), call it from the two endorsement paths on a no to a favor, make `obligationsOwedTo` stop returning a refused favor so it is not asked again, and read it where the legislature weighs a deal with the same person (the promises thread owns how promises are kept, broken and remembered: join it, never a second ledger). The player sees it in the sponsor's next talk with the person and in the Journal line for the refusal.
+**Fix.** Make the deal weighing and the sponsor's next scene with that person read `refusedOn` (the promises thread adds the promise-kind that settles on the refusal event; join it, never a second ledger), and decide with the owner's rulings whether a refusal by a simulated person is final too.
 
 **Time box.** 3 hours for one Sonnet session. When it runs out, push what passes and say what is left.
 
@@ -30,6 +30,6 @@ root: none
 
 **Done when.** A second session, not the builder, in a drawn place (named, with its seed) finds a refused favor on the ledger by obligation id, shows it is not asked again, and shows the engine that read it (a later deal or talk), named by record id.
 
-**Waits on.** The promises thread ("Make promises kept, broken and remembered"); the endorsement-ask PR for the player's no.
+**Waits on.** The endorsement-ask PR (#9431) for the refused state; the promises thread ("Make promises kept, broken and remembered") for the read.
 
 **Files.** src/core2/modules/legislature.ts, src/core2/modules/campaigns.ts
