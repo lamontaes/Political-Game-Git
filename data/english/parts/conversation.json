@@ -43920,31 +43920,6 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.interview-take-plain-reply-take.still-undecided",
-      "move": "interview-take-plain-reply-take",
-      "kind": "spoken",
-      "text": "Still undecided.",
-      "uses": [
-        {
-          "move": "interview-take-brief-reply-take",
-          "subject": "interview-take-brief",
-          "role": "reply",
-          "choice": "take",
-          "requiresFacts": ["said-none", "no-stand"]
-        },
-        {
-          "move": "debate-take-brief-reply-take",
-          "subject": "debate-take-brief",
-          "role": "reply",
-          "choice": "take",
-          "requiresFacts": ["said-none", "no-stand"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W1 (interviews and debates say what was asked and answered)",
-      "date": "2026-11-12"
-    },
-    {
       "key": "conversation.interview-take-plain-reply-take.then-your-record-will-have-to-speak-for-you",
       "move": "interview-take-plain-reply-take",
       "kind": "spoken",
