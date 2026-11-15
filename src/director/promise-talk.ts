@@ -240,7 +240,9 @@ export function promiseAnswers(
     const traits = core.people.get(answererId)?.traits ?? {};
     const lean = (row: PromiseAnswerRow) =>
       row.trait ? (row.sign ?? one) * (traits[row.trait] ?? zero) : zero;
-    return [...answers.kept]
+    const without = new Set(kindOf(subject.promiseKind).keptWithout ?? []);
+    return answers.kept
+      .filter((row) => !without.has(row.id))
       .sort((a, b) => lean(b) - lean(a) || a.id.localeCompare(b.id))
       .slice(zero, answers.keptOffered)
       .map((row) => row.id);
