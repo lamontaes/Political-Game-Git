@@ -30,13 +30,20 @@ import { composeJournal } from "./journal";
 // names the player may be another seat's than the contest they filed for
 // (the old premise of this test, which looked up only the filed contest's
 // record and judged the player's win or loss by that contest's winner alone,
-// called a win a loss and found no line at New Llano). The record to read is
+// called a win a loss and found no line at Duryea). The record to read is
 // the result event whose contest, or whose race, is the filed contest and
 // that names the player.
 // The wait for the first race is the game's own played days (44 weeks at
-// Fenwick Island and New Llano, 13 at Woodruff), advanced a week at a time as
-// the player waits at the clerk's door, so each case runs longer than a
-// minute; the limit is near twice the slowest of the three measured alone (53 s, 80 s and 123 s at Woodruff, Fenwick Island and New Llano).
+// Fenwick Island, 13 at Woodruff, 2 at Duryea), advanced a week at a time as
+// the player waits at the clerk's door, so a case can run longer than a
+// minute; the limit is near twice the slowest of the three measured alone
+// (49 s, 79 s and 159 s at Woodruff, Fenwick Island and Duryea).
+// The win case was found by a scan outside the test (draws 0 to 62 of
+// `jpr-pin`, one hour, three at a time): Duryea is the one win in 34 races
+// read, and its third seat is held by 173 votes to 124 and 76 for the next
+// two, a margin no small change moves. The first pick, New Llano, Louisiana,
+// won the third seat by 51 votes to 63 and lost it after unrelated train
+// changes, so it was dropped.
 const CASES = [
   {
     draw: "jpr-pin:2",
@@ -51,14 +58,14 @@ const CASES = [
     why: "a single seat, three rivals: the player loses",
   },
   {
-    draw: "jpr-pin:9",
-    where: "New Llano, Louisiana",
+    draw: "jpr-pin:37",
+    where: "Duryea, Pennsylvania",
     outcome: "won",
     why: "an at-large race of three seats: the player filed under the first seat and is elected to the third",
   },
 ] as const;
 const WEEKS = 104;
-const TIMEOUT = 250_000;
+const TIMEOUT = 330_000;
 
 describe("the player's journal tells their own first race the day after the count", () => {
   it.each(CASES)(
