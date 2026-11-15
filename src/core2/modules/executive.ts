@@ -853,6 +853,47 @@ function cabinetCandidate(
   };
 }
 
+/**
+ * A drawn cabinet candidate made a full person, without a job: one of the
+ * town's own is admitted from the wider population and filled in; someone from
+ * elsewhere in the state is filled in where they live, never moved into the
+ * played town. The same seeded identity the office panel named, so the person
+ * asked is the person seated. Returns their id.
+ */
+function fillInCabinetPerson(
+  api: CoreAPI,
+  chosen: CabinetCandidate,
+  state: string,
+  citation: string,
+): string {
+  const core = api.state as CoreState;
+  if (chosen.lives === "town") {
+    admitCountedHousehold(core, chosen.record);
+    const named = chosen.record.people[0]!.id;
+    return personOrFillIn(core, named)?.id ?? named;
+  }
+  const { identity } = chosen;
+  const personId = chosen.resident.id;
+  if (!core.people.has(personId as PersonId))
+    fillInIdentity(core, {
+      id: personId as PersonId,
+      givenName: identity.givenName,
+      familyName: identity.familyName,
+      birthDate: makeIsoDate(identity.birthDate),
+      placeId: (chosen.home?.context.jurisdiction.id ?? state) as never,
+      gender: identity.gender,
+      traits: chosen.resident.traits,
+      source: {
+        tag: "ESTIMATED",
+        asOf: makeIsoDate(api.state.date),
+        citation,
+        estimatedFrom:
+          "world seed: a home in the state drawn by who lives in each town, a name and birth date as an official's (officials-identity)",
+      },
+    });
+  return personId;
+}
+
 function seatCabinetPerson(
   api: CoreAPI,
   input: {
@@ -870,35 +911,12 @@ function seatCabinetPerson(
   ) as unknown as AppointmentRow | undefined;
   const priorJob = prior ? core.people.get(prior.holderId)?.jobId : undefined;
   if (priorJob) endReplacedPostJob(api, priorJob, input.appointmentId);
-  let personId: string;
-  if (chosen.lives === "town") {
-    // One of the town's own: admitted from the wider population and filled in.
-    admitCountedHousehold(core, chosen.record);
-    const named = chosen.record.people[0]!.id;
-    personId = personOrFillIn(core, named)?.id ?? named;
-  } else {
-    // Someone from elsewhere in the state: filled in where they live, never
-    // moved into the played town.
-    const { identity } = chosen;
-    personId = chosen.resident.id;
-    if (!core.people.has(personId as PersonId))
-      fillInIdentity(core, {
-        id: personId as PersonId,
-        givenName: identity.givenName,
-        familyName: identity.familyName,
-        birthDate: makeIsoDate(identity.birthDate),
-        placeId: (chosen.home?.context.jurisdiction.id ?? input.state) as never,
-        gender: identity.gender,
-        traits: chosen.resident.traits,
-        source: {
-          tag: "ESTIMATED",
-          asOf: makeIsoDate(api.state.date),
-          citation: `Appointment ${input.appointmentId}`,
-          estimatedFrom:
-            "world seed: a home in the state drawn by who lives in each town, a name and birth date as an official's (officials-identity)",
-        },
-      });
-  }
+  const personId = fillInCabinetPerson(
+    api,
+    chosen,
+    input.state,
+    `Appointment ${input.appointmentId}`,
+  );
   const employer = (
     api.state.modules.has(BUDGETS_MODULE_ID) ? governments(api) : []
   ).find((g) => g.level === "state")?.organizationId;
@@ -1263,6 +1281,29 @@ export function stateCandidateNames(
       id,
       c.name,
     ]),
+  );
+}
+
+/**
+ * Fills in one drawn person the office panel offers for a state post, so a
+ * governor can ask them to serve and they can answer as themselves (the
+ * serve-asks engine's post seat). Once filled in, the person is one of the
+ * world's own and `appointStatePost` seats them by the full-person path.
+ * Returns their id, or null when `personId` is not one the post offers.
+ */
+export function fillInStateCandidate(
+  api: CoreAPI,
+  post: string,
+  personId: string,
+): string | null {
+  if (api.state.people.has(personId as PersonId)) return personId;
+  const chosen = stateDrawnCandidates(api, { key: post }).get(personId);
+  if (!chosen) return null;
+  return fillInCabinetPerson(
+    api,
+    chosen,
+    lawChain(api).stateKey,
+    `Asked to serve as ${post}`,
   );
 }
 

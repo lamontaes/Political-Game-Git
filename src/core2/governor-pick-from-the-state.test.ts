@@ -12,6 +12,10 @@
  * stands open when its holder has died; statePostsToFill). Everything after
  * is the game's own calls.
  *
+ * Asking one of them to serve (the serve-asks engine's post seat) fills that
+ * person in first, so they answer as themselves; the person asked is the one
+ * the list named, and appointing them then seats that same person.
+ *
  * Pinned: Edgar, Wisconsin (5522550), seed edgar-petition-1, a small town that
  * is not the state's seat.
  */
@@ -22,6 +26,7 @@ import { gameStartDate } from "./game-start";
 import {
   appointStatePost,
   appointmentsIn,
+  fillInStateCandidate,
   stateCandidateNames,
   stateCandidates,
   statePostsToFill,
@@ -35,39 +40,43 @@ const PLACE = "5522550";
 const SEED = "edgar-petition-1";
 const where = `Edgar, Wisconsin (${PLACE}), seed ${SEED}`;
 
+function openPost() {
+  const { core } = buildBenchWorld(SEED, gameStartDate(), {
+    twoLevel: true,
+    placeKey: PLACE,
+  });
+  const api = coreAPI(core);
+  const player = core.playerId!;
+  seatPlayerInStateOffice(api, { personId: player, role: "governor" });
+  const held = appointmentsIn(api, lawChain(api).stateKey)[0]!;
+  const holder = core.people.get(held.holderId)!;
+  api.updatePerson(holder.id, { alive: false });
+  api.emit({
+    id: `test-death:${holder.id}`,
+    date: core.date,
+    kind: "life.death",
+    personIds: [holder.id],
+    placeId: holder.placeId,
+    source: { tag: "SOURCED", citation: "HAND-STAGED", asOf: core.date },
+  });
+  return { core, api, player, held };
+}
+
 it(`${where}: a governor filling an open post is offered people from across the state, by name`, () => {
   const previous = setBookkeeping(false);
   try {
-    const { core } = buildBenchWorld(SEED, gameStartDate(), {
-      twoLevel: true,
-      placeKey: PLACE,
-    });
-    const api = coreAPI(core);
-    const player = core.playerId!;
-    seatPlayerInStateOffice(api, { personId: player, role: "governor" });
+    // HAND-STAGED: the post's holder dies, and the post stands open.
+    const { core, api, player, held } = openPost();
     const { stateKey, townPlaceId } = lawChain(api);
-    const held = appointmentsIn(api, stateKey)[0];
-    expect(held, `${where}: the opening's cabinet`).toBeTruthy();
-    // The post's holder dies, and the post stands open.
-    const holder = core.people.get(held!.holderId)!;
-    api.updatePerson(holder.id, { alive: false });
-    api.emit({
-      id: `test-death:${holder.id}`,
-      date: core.date,
-      kind: "life.death",
-      personIds: [holder.id],
-      placeId: holder.placeId,
-      source: { tag: "SOURCED", citation: "HAND-STAGED", asOf: core.date },
-    });
     expect(
       statePostsToFill(api, player).map((p) => p.key),
       where,
-    ).toContain(held!.post);
+    ).toContain(held.post);
 
     // Reading the list creates nobody.
     const people = core.people.size;
-    const offered = stateCandidates(api, player, held!.post);
-    const names = stateCandidateNames(api, held!.post);
+    const offered = stateCandidates(api, player, held.post);
+    const names = stateCandidateNames(api, held.post);
     expect(core.people.size, `${where}: people created by reading`).toBe(
       people,
     );
@@ -84,14 +93,14 @@ it(`${where}: a governor filling an open post is offered people from across the 
     expect(elsewhere, `${where}: someone from elsewhere`).toBeTruthy();
     // Reading again offers the same people.
     expect(
-      stateCandidates(api, player, held!.post).map((r) => r.candidateId),
+      stateCandidates(api, player, held.post).map((r) => r.candidateId),
       where,
     ).toEqual(offered.map((r) => r.candidateId));
 
     // Appointing them fills them in where they live, on the state payroll.
     const row = appointStatePost(api, {
       executiveId: player,
-      post: held!.post,
+      post: held.post,
       personId: elsewhere!.candidateId,
     });
     expect(row?.holderId, where).toBe(elsewhere!.candidateId);
@@ -106,9 +115,54 @@ it(`${where}: a governor filling an open post is offered people from across the 
     expect(home?.stateJurisdictionKey ?? home?.key, where).toBe(stateKey);
     const job = core.jobs.get(person.jobId!);
     expect(job?.id, `${where}: on the state payroll`).toContain(
-      `state:${held!.post}`,
+      `state:${held.post}`,
     );
     expect(core.people.size, `${where}: only the one appointed`).toBe(
+      people + 1,
+    );
+  } finally {
+    setBookkeeping(previous);
+  }
+}, 120_000);
+
+it(`${where}: a drawn person asked to serve is filled in as the one the list named, and seated as that person`, () => {
+  const previous = setBookkeeping(false);
+  try {
+    const { core, api, player, held } = openPost();
+    const names = stateCandidateNames(api, held.post);
+    const [askedId, askedName] = [...names].find(([id]) =>
+      id.startsWith("person:cabinet:"),
+    )!;
+    const people = core.people.size;
+    // Asking fills them in, once; asking again changes nothing.
+    expect(fillInStateCandidate(api, held.post, askedId), where).toBe(askedId);
+    expect(fillInStateCandidate(api, held.post, askedId), where).toBe(askedId);
+    expect(core.people.size, `${where}: the one asked`).toBe(people + 1);
+    const person = core.people.get(askedId as never)!;
+    expect(`${person.givenName} ${person.familyName}`, where).toBe(askedName);
+    expect(person.jobId, `${where}: no post yet`).toBeFalsy();
+    // Someone the post does not offer is not filled in.
+    expect(
+      fillInStateCandidate(api, held.post, "person:cabinet:nobody"),
+      where,
+    ).toBeNull();
+    // Still offered, now as one of the world's own.
+    expect(stateCandidateNames(api, held.post).has(askedId), where).toBe(false);
+    expect(
+      stateCandidates(api, player, held.post).map((r) => r.candidateId),
+      where,
+    ).toContain(askedId);
+    // Appointing them seats that same person on the state payroll.
+    const row = appointStatePost(api, {
+      executiveId: player,
+      post: held.post,
+      personId: askedId,
+    });
+    expect(row?.holderId, where).toBe(askedId);
+    expect(core.jobs.get(person.jobId!)?.id ?? "", where).toContain(
+      `state:${held.post}`,
+    );
+    expect(core.people.size, `${where}: nobody else filled in`).toBe(
       people + 1,
     );
   } finally {
