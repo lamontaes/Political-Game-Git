@@ -92,6 +92,10 @@
       "kind": "acquittal-reply",
       "stage": "default"
     },
+    "veto": {
+      "kind": "veto-reply",
+      "stage": "default"
+    },
     "address-point": {
       "kind": "address-point",
       "stage": "default"
@@ -284,6 +288,11 @@
       "tell": "answer",
       "refuse": "refuse",
       "deflect": "deflect"
+    },
+    "veto-reply": {
+      "holds": "refuse",
+      "gives": "apologize",
+      "leave": "decline"
     },
     "work-day": {
       "plan": "answer",

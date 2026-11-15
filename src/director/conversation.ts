@@ -217,6 +217,12 @@ import {
   promiseSubject,
 } from "./promise-talk";
 import {
+  VETO_SUBJECT,
+  answerVeto,
+  vetoOfRaised,
+  vetoSubject,
+} from "./veto-talk";
+import {
   learnView,
   learnViewQuestion,
   stanceRecordId,
@@ -3334,6 +3340,12 @@ export function subjectsBetween(
   const promise =
     director && promiseSubject(core, director, speakerId, listenerId);
   if (promise) out.push(promise);
+  // A veto of a bill the speaker sponsored, said once at the pair's next
+  // talk, with the reason the listener gave and how it ended (veto-talk.ts).
+  const veto = vetoSubject(core, director, speakerId, listenerId, (id) =>
+    heardRows.some((row) => row.key === `${HEARD_SUBJECT}${id}`),
+  );
+  if (veto) out.push(veto);
   // A stranger who meets the player says who they are (Words lead, Nov 14,
   // rules 51, 52 and 56): their own name, and why the two are in one place.
   const introduces = introduction(core, speaker, listener, mine, room);
@@ -5332,6 +5344,8 @@ const NEWS_SUBJECTS: ReadonlySet<string> = new Set([
   // (promise-talk.ts): told before the day's news, until it is said.
   "promise-kept",
   "promise-broken",
+  // A veto of a bill they sponsored, said by the sponsor (veto-talk.ts).
+  VETO_SUBJECT,
 ]);
 
 /** The reply pieces that ask who is behind a story (conversation-rules.json askedWho). */
@@ -7645,6 +7659,42 @@ function sayNow(
     !choice.lie && conversation.director ? promiseOfRaised(last.subject) : null;
   if (promise)
     answerPromise(core, conversation.director!, promise, playerId, choice.move);
+  // The player's reply to a veto brought up moves the tie through the
+  // writer the veto used (veto-talk.ts); the sponsor answers it, and the
+  // talk ends there: on their answer, or on the player's leaving.
+  const veto = !choice.lie ? vetoOfRaised(last.subject) : null;
+  if (veto) {
+    const answered = answerVeto(
+      core,
+      veto.actId,
+      playerId,
+      otherId,
+      choice.move,
+    );
+    const back = composedLine(
+      core,
+      otherId,
+      `${last.kind}-back`,
+      last.facts,
+      choice.move,
+      `${eventId}:back`,
+      saidParts(conversation, otherId),
+    );
+    if (back)
+      conversation.lines.push({
+        speakerId: otherId,
+        subjectId: choice.answers,
+        kind: `${last.kind}-back`,
+        act: "tell",
+        ...back,
+        sourceRecordIds: [
+          ...new Set([...back.sourceRecordIds, answered ?? eventId]),
+        ],
+      });
+    conversation.choices = [];
+    conversation.lies = [];
+    return conversation;
+  }
   // A listener who doubts the lie says so; the conversation carries on.
   if (doubted) {
     const doubt = words(
