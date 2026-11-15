@@ -78,8 +78,6 @@ export function jobTitleSaid(
   );
 }
 
-/** A form's note in parentheses, innermost first so a nested note goes whole. */
-const FORM_NOTE = /\s*\([^()]*\)/;
 /** A title that names a body of several members, not one seat in it. */
 const BODY_TITLE = /\b(?:board|commission|council|committee)\b/i;
 /** A body named first and then by what it serves ("Board of Elections"). */
@@ -97,11 +95,7 @@ const SEAT_WORD =
  * "member of the board of elections" for a body named first; it reads in every frame ("served as", "the race for", "sworn in as").
  */
 export const officeInSentence = (title: string): string => {
-  let plain = title;
-  // A form's note ("(nonpartisan)", "(3 members, statewide, staggered 6-year
-  // terms)") is never said, as `seatSaid` drops it.
-  while (FORM_NOTE.test(plain)) plain = plain.replace(FORM_NOTE, "");
-  const said = plain
+  const said = title
     .trim()
     .split(/(\s+)/)
     .map((word) =>
