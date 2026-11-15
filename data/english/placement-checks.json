@@ -44,6 +44,12 @@
       ],
       "sharedKey": "routine",
       "needsAnyFact": ["pressed", "tie-rival", "printed-against"]
+    },
+    "record-status-words": {
+      "type": "phrases",
+      "rule": "Rule 110",
+      "says": "No opening or question says record status in the words of the record: \"is recorded\", \"the roll on\", \"on the roll\" (a person says \"the vote\"). Counted, not pulled.",
+      "phrases": ["\\bis recorded\\b", "\\b(?:the roll on|on the roll)\\b"]
     }
   }
 }

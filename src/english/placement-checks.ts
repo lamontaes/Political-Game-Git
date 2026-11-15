@@ -55,9 +55,14 @@ type SharpCheck = {
   readonly needsAnyFact: readonly string[];
 };
 
+type PhrasesCheck = {
+  readonly type: "phrases";
+  readonly phrases: readonly string[];
+};
+
 const CHECKS = data.checks as Record<
   string,
-  StatesCheck | OpeningCheck | SharpCheck
+  StatesCheck | OpeningCheck | PhrasesCheck | SharpCheck
 >;
 
 export const PLACEMENT_CHECK_IDS = Object.keys(CHECKS);
@@ -157,6 +162,23 @@ export function placementBreaks(
       }
     }
     return found;
+  }
+  if (check.type === "phrases") {
+    const expressions = check.phrases.map((source) => new RegExp(source, "i"));
+    return pieces.flatMap((piece) =>
+      isPulled(piece, pulled) ||
+      !expressions.some((expression) => expression.test(piece.text))
+        ? []
+        : [
+            {
+              check: checkId,
+              pieceKey: piece.key,
+              purpose: piece.uses[0]?.purpose ?? "",
+              text: piece.text,
+              why: "says record status in the words of the record",
+            },
+          ],
+    );
   }
   const expressions = check.statesPatterns.map(
     (source) => new RegExp(source, "i"),
