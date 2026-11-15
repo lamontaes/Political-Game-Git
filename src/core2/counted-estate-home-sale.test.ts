@@ -42,9 +42,14 @@ it(
       let sales = (
         housing.table("sales").rows() as unknown as HomeSale[]
       ).filter((row) => row.reasonKey === "estate.counted-last-owner");
-      // Still for sale: on the market, still the estate's, nothing paid yet.
+      // Still for sale: on the market and still the estate's. A counted sale
+      // stands for several homes, and buyers can take some of them before the
+      // rest (closeSale); what they paid is the price so far. The old premise,
+      // "nothing paid while listed", was false for a partly bought sale.
       for (const sale of sales.filter((row) => row.status === "listed")) {
-        expect(sale.priceMinor, sale.id).toBe(0);
+        const bought = (sale.boughtBy ?? []).length > 0;
+        expect(sale.priceMinor > 0, sale.id).toBe(bought);
+        expect(sale.homesLeft < sale.homes, sale.id).toBe(bought);
         expect(sale.settledEventId, sale.id).toBeUndefined();
         expect(
           (
