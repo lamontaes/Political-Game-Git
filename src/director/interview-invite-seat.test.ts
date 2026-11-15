@@ -4,8 +4,19 @@
  * a Board of Aldermen the player files for "alderman", and the call that
  * follows asks about running for "alderman", never "council member". The
  * route is the ordinary one (the player files, the weeks play, the press
- * engine invites, the director composes the scene); pinned to the place and
- * seed the interview check saw it at (Shelby, Mississippi).
+ * engine invites, the director composes the scene); pinned to two Board of
+ * Aldermen towns, Aberdeen, Mississippi and Abita Springs, Louisiana.
+ *
+ * Re-pinned Nov 15 (lead's yes, 09:02Z). The first pin was Shelby,
+ * Mississippi, where the interview check saw it, and where the market's TV
+ * stations invited the player. That premise no longer holds: a market's
+ * stations now weigh a village's race against their own audience
+ * (press-market-stations-seek-village-candidates), so only the town's outlet
+ * of record asks. At Shelby that is the town paper, whose reporter has left
+ * and whose one remaining staff member, its editor, is this test's player, so
+ * no one is left to call. The two other pins were chosen from the record: in
+ * each, the town's outlet of record invites the player. The assertions are
+ * unchanged.
  */
 import { appendFileSync } from "node:fs";
 import { expect, it } from "vitest";
@@ -23,11 +34,6 @@ import type { PersonId } from "../core2/types";
 import { purposeScene } from "./purpose-scene";
 
 const PINS = [
-  {
-    key: "2867040",
-    name: "Shelby, Mississippi",
-    seed: "b9c9caeca52322c89c12ddea061719a6525f2e846c2e89bae66a1b2091f26977",
-  },
   {
     key: "2800180",
     name: "Aberdeen, Mississippi",

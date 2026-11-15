@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "later-replies-move-the-talk-on",
   "rubric": "After the first exchange the replies offered do not rehash the first options; they move the talk on.",
-  "judged": 1017,
+  "judged": 1008,
   "no": {
     "00084oe3x4o": {
       "keys": [
@@ -4623,5 +4623,5 @@
       "why": "Two of three replies restate first options: the denial of any payment repeats the first denial, and declining to discuss it repeats having to go."
     }
   },
-  "yesHash": "1f6pnawfbgt"
+  "yesHash": "0etlok9c23p"
 }

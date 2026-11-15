@@ -963,6 +963,7 @@
       "fullHere": "{n} people here",
       "fullElsewhere": "{n} people elsewhere",
       "counted": "{n} more in households here",
+      "organizations": "{n} businesses and organizations",
       "stopped": "stopped {date}"
     },
     "repealed": "Repealed",
