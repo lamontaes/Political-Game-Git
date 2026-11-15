@@ -21,7 +21,6 @@ import { residentsRuntime } from "./modules/residents";
 import { webFactorFor } from "./outcome-web-reach";
 import { carriedLink } from "./modules/outcome-web";
 import { stableHash } from "./kernel/ids";
-import { stopgap } from "./stopgaps";
 import { transferCash } from "./world-transfer";
 import { lawApplied } from "./law-reach/applied";
 import { townOutsideOf } from "./opening-outside-market";
@@ -67,6 +66,8 @@ interface StockRow {
   /** The price index at the opening; 0 until the economy has kept its first month, which is then the base. */
   openingPriceLevel: number;
   zoning: Zoning;
+  /** Homes offered this month for the home price level (housing-price-level.ts). */
+  priceOffered?: number;
 }
 
 interface ProjectRow {
@@ -195,8 +196,7 @@ export function takeNewHome(
 ): string | undefined {
   const row = stock.get(`stock:${placeId}`) as unknown as StockRow | undefined;
   if (!row || row.newHomesForSale < 1) return undefined;
-  // Only full renters buy; counted renters and households moving in don't yet.
-  stopgap("SG-WORLD-housing-new-home-buyers");
+  // Renters in town buy (full ones, and counted ones on their lease anniversary), and so do counted households moving in.
   const builder = (
     projects.query("all", [true]) as unknown as ProjectRow[]
   ).find(
@@ -576,7 +576,12 @@ export function buildMonth(
             rentalUnits: now.rentalUnits + project.units,
             vacantRental: now.vacantRental + project.units,
           }
-        : { ...now, newHomesForSale: now.newHomesForSale + project.units },
+        : {
+            ...now,
+            newHomesForSale: now.newHomesForSale + project.units,
+            // New homes finished for sale are homes offered this month (the price level's step reads it).
+            priceOffered: (now.priceOffered ?? 0) + project.units,
+          },
     );
     onFinish(finished);
   }
