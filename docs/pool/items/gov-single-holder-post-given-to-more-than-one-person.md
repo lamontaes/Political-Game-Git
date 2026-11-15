@@ -20,7 +20,7 @@ root: none
 
 **What.** A player's mother and father both show as "a town clerk at the Town of New Haven" in the Journal's household lines. A post with one seat has two people in it. The fault is a class: any single-holder post (clerk, registrar, treasurer, a department head) can be given to more than one person, not only this household. Seen: the Journal's household lines and the town offices list show two holders of one clerk's post.
 
-**Cause.** Found in code, first reading: the public post's job id is keyed by post and person (`job:public:<post>:<personId>`, src/core2/public-payroll.ts line 75), and the only check on opening one is that this same person does not already hold it. Nothing asks whether another person already holds a post that has one seat. Which caller opened both clerk jobs at world build (the opening staff, the household seeding or the jobs engine's own fill) is not yet read, and the fix starts there.
+**Cause.** Found in code: the public post's job id is keyed by post and person (`job:public:<post>:<personId>`, src/core2/public-payroll.ts line 75), and the only check on opening one is that this same person does not already hold it. Nothing asks whether another person already holds a post that has one seat. Which caller opened both clerk jobs at world build (the opening staff, the household seeding or the jobs engine's own fill) is not yet read, and the fix starts there.
 
 **Fix.** Make the post's own record say how many seats it has and refuse, at the one place that opens a public post, a second living holder of a one-seat post. The caller that wanted a second holder takes the seat only when the first has left it.
 
