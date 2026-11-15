@@ -30,6 +30,8 @@ Lead ruling, Nov 13 to 14: a test is pinned in the test file to named places wit
 11. **Check that a break-it edit changed the file (Nov 15).** A `sed` that matches nothing leaves the code intact and the test green. Print the changed line, or count matches, before reading the result.
 12. **A test's played days are a cost; say why in a comment and use the smallest named place.** A test that plays months must say what the months are for (the federal income tax test plays 40 days, then 62 after each law change, because a law reaches the tier at its next month step and the treasury at the close after that), and it runs at the smallest place that holds the case (Roy, Montana is about 28 seconds a year; Klamath Falls and Delta City about 190). A first version at Klamath Falls took 152 seconds and was sent back; at Roy it takes 23. The explicit limit is near twice the measured test time.
 
+13. **Before you pin a person, read who they are.** A pinned "yes" or "no" must be someone the engine should offer at all. On Nov 15 the governor's pinned "no" at Fern Prairie, Washington was a sitting U.S. Senator from Rhode Island, offered only because the list did not filter by state; fixing the list broke the pin. Print the pinned person's place, job and any official row before pinning, and state the old premise in the PR body when a fix moves one.
+
 ## Checking a reported pass
 
 Ask where it ran and at what head. A unit test that builds its own small world proves an edge case only; the played-world proof is separate.
