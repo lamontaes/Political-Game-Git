@@ -2856,40 +2856,29 @@
           ],
           "arc": {
             "state": "request",
-            "replies": ["promise", "ask", "decline", "offer"],
+            "replies": ["promise", "ask", "decline"],
             "follow": {
               "promise": ["thank", "press"],
               "ask": ["answer"],
-              "decline": ["plea", "accept"],
-              "offer": ["thank", "press"]
+              "decline": ["plea", "press", "accept"]
             },
             "again": {
-              "answer": ["promise", "offer", "decline", "leave"],
-              "plea": ["promise", "offer", "decline"],
+              "answer": ["promise", "decline", "leave"],
+              "plea": ["promise", "decline"],
               "press": ["apologize", "leave"]
             },
             "repeatable": {
-              "answer": ["promise", "offer"]
+              "answer": ["promise"]
             },
             "endings": [
               {
-                "id": "will-call",
+                "id": "rent-help-first",
                 "settles": "help",
                 "opens": "office",
-                "label": "You'll make the call",
+                "label": "Put first for rent help",
                 "keeps": "promise",
                 "when": {
                   "anyReply": ["promise", "apologize"]
-                }
-              },
-              {
-                "id": "caseworker",
-                "settles": "help",
-                "opens": "office",
-                "label": "Handed to a caseworker",
-                "keeps": "meeting-set",
-                "when": {
-                  "anyReply": ["offer"]
                 }
               },
               {
@@ -2937,40 +2926,77 @@
           ],
           "arc": {
             "state": "request",
-            "replies": ["promise", "ask", "decline", "offer"],
+            "replies": ["ask", "decline", "leave"],
             "follow": {
-              "promise": ["thank", "press"],
               "ask": ["answer"],
-              "decline": ["plea", "accept"],
-              "offer": ["thank", "press"]
+              "decline": ["press", "accept"]
             },
             "again": {
-              "answer": ["promise", "offer", "decline", "leave"],
-              "plea": ["promise", "offer", "decline"],
-              "press": ["apologize", "leave"]
+              "answer": ["ask", "decline", "leave"],
+              "press": ["answer", "leave"]
             },
             "repeatable": {
-              "answer": ["promise", "offer"]
+              "answer": ["ask"]
             },
             "endings": [
               {
-                "id": "will-call",
-                "settles": "help",
-                "opens": "office",
-                "label": "You'll make the call",
-                "keeps": "promise",
+                "id": "cant-help",
+                "settles": "decline",
+                "label": "Can't help",
+                "keeps": "relationship-strained",
                 "when": {
-                  "anyReply": ["promise", "apologize"]
+                  "reply": ["decline"]
                 }
               },
               {
-                "id": "caseworker",
+                "id": "left-waiting",
+                "label": "Left waiting",
+                "keeps": "none",
+                "when": {
+                  "reply": ["leave", "ask", "deflect"]
+                }
+              },
+              {
+                "id": "left-there",
+                "label": "Left it there",
+                "keeps": "none",
+                "when": {}
+              }
+            ]
+          }
+        },
+        "custody": {
+          "purpose": "constituent-help.custody",
+          "base": 1.0,
+          "forCause": {
+            "fact": "problem",
+            "is": "family-in-custody"
+          },
+          "arc": {
+            "state": "request",
+            "replies": ["promise", "ask", "decline", "leave"],
+            "follow": {
+              "promise": ["thank", "press"],
+              "ask": ["answer"],
+              "decline": ["plea", "press", "accept"]
+            },
+            "again": {
+              "answer": ["promise", "ask", "decline", "leave"],
+              "plea": ["promise", "decline"],
+              "press": ["apologize", "leave"]
+            },
+            "repeatable": {
+              "answer": ["promise", "ask"]
+            },
+            "endings": [
+              {
+                "id": "visit-asked",
                 "settles": "help",
                 "opens": "office",
-                "label": "Handed to a caseworker",
-                "keeps": "meeting-set",
+                "label": "Asked for the visit",
+                "keeps": "promise",
                 "when": {
-                  "anyReply": ["offer"]
+                  "anyReply": ["promise", "apologize"]
                 }
               },
               {

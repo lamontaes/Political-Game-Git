@@ -21,6 +21,10 @@ import {
 } from "../core2/modules/offices";
 import { caseLoad } from "../core2/modules/constituent-cases";
 import { STAFF_MODULE_ID, servingStaffOf } from "../core2/modules/staff";
+import { HOUSING_MODULE_ID } from "../core2/modules/housing";
+import { COVERAGE_MODULE_ID, coverageOf } from "../core2/modules/coverage";
+import { lawInForce } from "../core2/modules/laws";
+import { rentHelpPaid } from "../core2/housing-assistance";
 import { JUSTICE_MODULE_ID, type CustodyRow } from "../core2/modules/justice";
 import { familyFactsOf } from "../core2/closeness";
 import { JOURNAL_WORDS } from "../english/journal-words";
@@ -38,7 +42,27 @@ const PROBLEM_FACT: Record<CaseRow["problem"], string> = {
   "looking-for-work": "problem-work",
   "paid-under-minimum-wage": "problem-wage",
   "family-in-custody": "problem-custody",
+  "behind-on-rent": "problem-eviction",
+  "caring-for-someone-ill": "problem-sick",
 };
+
+/** The law that covers adults by income through the state's program (law-reach group B, medicaid-coverage). */
+const EXPANSION =
+  "us-policy-positions:health-human-services.expand-medicaid-eligibility";
+
+/** What another person is to someone, as the journal's relation word ("brother", "mother"), from the family record. */
+function relationSaid(
+  core: Readonly<CoreState>,
+  personId: PersonId,
+  otherId: PersonId,
+): string | undefined {
+  const person = core.people.get(personId);
+  const kinKey = person ? familyFactsOf(person).get(otherId)?.relation : null;
+  const forms = kinKey ? JOURNAL_WORDS.relationWords[kinKey] : undefined;
+  if (!forms) return undefined;
+  const gender = core.people.get(otherId)?.looks?.gender ?? "other";
+  return forms[gender as keyof typeof forms] ?? forms.other;
+}
 
 /** The job a person lost most recently before a day: the jobs module's newest layoff row. */
 export function lastLayoff(
@@ -117,13 +141,7 @@ export function caseFacts(
       .table("custody")
       .get(String(row.facts.custodyId ?? "")) as unknown as
       CustodyRow | undefined;
-    const asker = core.people.get(askerId);
-    const kinKey = asker ? familyFactsOf(asker).get(kinId)?.relation : null;
-    const forms = kinKey ? JOURNAL_WORDS.relationWords[kinKey] : undefined;
-    const relation = forms
-      ? (forms[(kin?.looks?.gender ?? "other") as keyof typeof forms] ??
-        forms.other)
-      : undefined;
+    const relation = relationSaid(core, askerId, kinId);
     if (kin)
       facts.relative = { text: kin.givenName, sourceRecordIds: [kin.id] };
     if (relation && kin)
@@ -141,6 +159,80 @@ export function caseFacts(
           sourceRecordIds: ids,
         };
     }
+  } else if (row.problem === "behind-on-rent") {
+    // The rent notice: how far behind (the arrears in months of rent, as a
+    // span), the day it must be paid by, the landlord who served it, and
+    // whether the town pays rent help an official can put them first for.
+    const notice = api
+      .moduleState(HOUSING_MODULE_ID)
+      .table("cases")
+      .get(String(row.facts.housingCaseId ?? "")) as unknown as
+      | {
+          id: string;
+          leaseId: string;
+          landlordId?: string;
+          owedAtNoticeMinor?: number;
+          cureBy?: string;
+        }
+      | undefined;
+    if (notice) {
+      const ids = [notice.id];
+      const rent = core.finance.contracts.get(notice.leaseId)?.amountMinor;
+      if (rent && (notice.owedAtNoticeMinor ?? P.zero) > P.zero)
+        facts.behind = {
+          text: spanSaid(
+            Math.round(
+              ((notice.owedAtNoticeMinor! / rent) * P.daysPerMeanYear) /
+                P.monthsPerYear,
+            ),
+          ),
+          sourceRecordIds: [notice.id, notice.leaseId],
+        };
+      if (notice.cureBy && notice.cureBy > cause.date)
+        facts["cure-by"] = {
+          text: spokenDate(notice.cureBy, cause.date),
+          sourceRecordIds: ids,
+        };
+      const landlord = notice.landlordId
+        ? core.organizations.get(notice.landlordId)
+        : undefined;
+      if (landlord)
+        facts.landlord = {
+          text: organizationName(landlord),
+          sourceRecordIds: [notice.id, landlord.id],
+        };
+    }
+    facts[rentHelpPaid(api) ? "rent-help" : "no-rent-help"] = said("yes");
+  } else if (row.problem === "caring-for-someone-ill") {
+    // Who is ill (the resident or a relative at home), and whether anyone in
+    // the household holds a plan, from the health and coverage records.
+    const illId = String(row.facts.illId ?? "") as PersonId;
+    const ill = core.people.get(illId);
+    if (illId === askerId) facts["sick-self"] = said("yes");
+    else if (ill) {
+      facts["sick-relation"] = { text: "yes", sourceRecordIds: [ill.id] };
+      const relation = relationSaid(core, askerId, illId);
+      if (relation)
+        facts.relation = { text: relation, sourceRecordIds: [askerId, ill.id] };
+    }
+    const home = core.households.get(
+      core.people.get(askerId)?.householdId ?? "",
+    );
+    if (
+      core.modules.has(COVERAGE_MODULE_ID) &&
+      home &&
+      !home.memberIds.some((id) => {
+        const plan = coverageOf(api, id)?.plan;
+        return plan !== undefined && plan !== "none";
+      })
+    )
+      facts["no-plan"] = { text: "yes", sourceRecordIds: [home.id] };
+    if (
+      lawInForce(api, EXPANSION).levels.some(
+        (level) => (level.row?.value ?? P.zero) > P.zero,
+      )
+    )
+      facts.expansion = said("yes");
   } else if (row.problem === "looking-for-work") {
     const loss = lastLayoff(core, askerId, cause.date);
     const org = loss ? core.organizations.get(loss.organizationId) : undefined;

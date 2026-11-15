@@ -784,7 +784,9 @@
     "addedBy": "Fable",
     "addedAt": "2026-11-10",
     "replacement": "The constituent-cases engine (src/core2/modules/constituent-cases.ts, problemOf) opens a case from a served rent notice (problem behind-on-rent) and from a care need in the household (problem caring-for-someone-ill); the two variants then play from those cases with no change here.",
-    "status": "open"
+    "status": "resolved",
+    "resolvedAt": "2026-11-15",
+    "resolvedBy": "civic roles builder, words-office-hours-says-the-act: problemOf in src/core2/modules/constituent-cases.ts opens behind-on-rent from an open rent notice and caring-for-someone-ill from a serious illness in the household; the eviction and sick variants play from those cases (Nov 15)"
   },
   {
     "id": "SG-WORDS-speech-outline-other-kinds",

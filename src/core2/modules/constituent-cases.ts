@@ -42,6 +42,9 @@ import { keepsWhy } from "../why-kept";
 import { STAFF_MODULE_ID, staffDecision } from "./staff";
 import { JOBS_MODULE_ID, recordReferral } from "./jobs";
 import { referCustody, servingCustodyOf } from "./justice";
+import { careNeedOf, seriousIllnessOf } from "./health";
+import { HOUSING_MODULE_ID } from "./housing";
+import { referForRentHelp, rentHelpPaid } from "../housing-assistance";
 import { residentsRuntime } from "./residents";
 import { makeCase, SPEECH_MODULE_ID } from "./speech";
 import problemQuestions from "../data/constituent-cases/problem-questions.json" with { type: "json" };
@@ -50,7 +53,11 @@ import SCENE_ENDINGS from "../data/constituent-cases/scene-endings.json" with { 
 export const CASES_MODULE_ID = "core2-constituent-cases-v1";
 
 export type Problem =
-  "looking-for-work" | "paid-under-minimum-wage" | "family-in-custody";
+  | "looking-for-work"
+  | "paid-under-minimum-wage"
+  | "family-in-custody"
+  | "behind-on-rent"
+  | "caring-for-someone-ill";
 
 const PROBLEM_QUESTIONS = (
   problemQuestions as unknown as {
@@ -184,6 +191,46 @@ function localOfficials(api: CoreAPI): readonly TermRow[] {
     .sort((a, b) => a.id.localeCompare(b.id));
 }
 
+/** The household's open rent notice that has not reached filing, if any (the housing engine's case). */
+export function openRentNotice(
+  api: CoreAPI,
+  householdId: string,
+): { id: string; noticeAt: string; cureBy: string } | undefined {
+  if (!api.state.modules.has(HOUSING_MODULE_ID)) return undefined;
+  return (
+    api
+      .moduleState(HOUSING_MODULE_ID)
+      .table("cases")
+      .query("byHousehold", [householdId]) as unknown as {
+      id: string;
+      open?: boolean;
+      stage?: string;
+      noticeAt?: string;
+      cureBy?: string;
+    }[]
+  )
+    .filter((row) => row.open && row.stage === "notice" && row.cureBy)
+    .sort((a, b) => b.id.localeCompare(a.id))
+    .map((row) => ({
+      id: row.id,
+      noticeAt: row.noticeAt ?? row.cureBy!,
+      cureBy: row.cureBy!,
+    }))[0];
+}
+
+/** The member of a person's household, themselves first, with a serious illness on the health record. */
+function seriouslyIll(
+  api: CoreAPI,
+  person: Readonly<PersonState>,
+): string | undefined {
+  const state = api.state as CoreState;
+  const home = state.households.get(person.householdId)?.memberIds ?? [];
+  return [person.id, ...[...home].filter((id) => id !== person.id).sort()].find(
+    (id) =>
+      state.people.get(id)?.alive && !!seriousIllnessOf(state, id as PersonId),
+  );
+}
+
 /** A resident's problem from their records, and how hard it presses on them. */
 export function problemOf(
   api: CoreAPI,
@@ -212,6 +259,27 @@ export function problemOf(
       facts: { relativeId: kinId, custodyId: custody.id },
     };
   }
+  // A rent notice served on their household and not yet cured: how close the
+  // day it must be paid by is presses on them, read from the housing case.
+  const notice = openRentNotice(api, person.householdId);
+  if (notice) {
+    const span = Date.parse(notice.cureBy) - Date.parse(notice.noticeAt);
+    const left = Date.parse(notice.cureBy) - Date.parse(date);
+    return {
+      problem: "behind-on-rent",
+      severity: span > 0 ? Math.max(0, Math.min(1, 1 - left / span)) : 1,
+      facts: { housingCaseId: notice.id },
+    };
+  }
+  // A serious illness in the household, theirs or a relative's at home: the
+  // care it asks presses on them, read from the health record.
+  const ill = seriouslyIll(api, person);
+  if (ill)
+    return {
+      problem: "caring-for-someone-ill",
+      severity: careNeedOf(state, ill as PersonId),
+      facts: { illId: ill },
+    };
   const floor = lawInForce(api, "minimum-wage").value;
   const jobs = [...(state.work.commitmentsByPerson.get(person.id) ?? [])]
     .map((id) => state.work.commitments.get(id))
@@ -689,12 +757,14 @@ export function handleCase(
 function resolve(
   api: CoreAPI,
   row: CaseRow,
-  decision: "help" | "decline",
+  asked: "help" | "decline",
   by: "official" | "office" | "staff",
   stafferId: string | null = null,
   duty: number | null = null,
   replyId?: string,
 ): CaseRow {
+  // Help the office has nothing on record to give is a no, said with its reason.
+  let decision = asked;
   let outcome: string;
   if (decision === "help" && row.problem === "paid-under-minimum-wage") {
     const raised = raiseOne(api, String(row.facts.commitmentId), {
@@ -713,6 +783,32 @@ function resolve(
       officialId: row.officialId,
     });
     outcome = "referred-to-custody-review";
+  } else if (decision === "help" && row.problem === "behind-on-rent") {
+    // The housing engine's rent help pays a referred household first while
+    // its notice is open; where no housing line pays help, there is nothing
+    // to put them first for, and the office says so.
+    if (rentHelpPaid(api)) {
+      referForRentHelp(api, {
+        caseId: row.id,
+        householdId: String(
+          api.state.people.get(row.personId as PersonId)?.householdId ??
+            row.facts.householdId ??
+            "",
+        ),
+        housingCaseId: String(row.facts.housingCaseId),
+        officialId: row.officialId,
+      });
+      outcome = "referred-to-rent-help";
+    } else {
+      decision = "decline";
+      outcome = "no-rent-help";
+    }
+  } else if (decision === "help" && row.problem === "caring-for-someone-ill") {
+    // Coverage comes from a job, from Medicare at 65 or from the state's
+    // program, each by its own engine (coverage.ts, the Medicaid reach); none
+    // is the office's to give, so the office can only say so.
+    decision = "decline";
+    outcome = "nothing-to-give";
   } else if (decision === "help") {
     // The jobs engine reads the referral when an employer chooses among
     // applicants.
