@@ -25,10 +25,13 @@ import { advanceCore } from "../life";
 import { automaticRegistrationInForce } from "../law-reach/group-a-voting";
 import { coreAPI } from "../state";
 import type { CoreAPI, CoreState, PersonState } from "../types";
-import { ELECTIONS_MODULE_ID } from "./elections";
+import { ELECTIONS_MODULE_ID, ballot } from "./elections";
 import {
   VOTING_MODULE_ID,
+  castBallot,
   pollingPlaceOf,
+  pollingStatus,
+  registerToVote,
   registeredShareOfRoll,
   reviewVoterRegistrations,
 } from "./voting";
@@ -138,7 +141,8 @@ function moveOut(api: CoreAPI, movers: readonly PersonState[]) {
 // plays 289 days (the world opens 2025-01-20, the town's election is 2025-11-04,
 // staged moves land 10 days before it) and Adell plays 443 days (the election is
 // 2026-04-07); a world builds in about 7 s. North Hyde Park is a small place that
-// plays 71 days. The limits are near twice the measured time.
+// plays 71 days. The player tests play the same days: Adell's 443, Sherrodsville's
+// 224 (to 60 days before its election). The limits are near twice the measured time.
 describe("voter registration (pinned places, fixed seeds)", () => {
   it("Sherrodsville OH, seed reg-pin-oh: the world opens in motion, a mover is at the old address and is turned away at the polls", () => {
     const where = "Sherrodsville, Ohio (3972242), seed reg-pin-oh";
@@ -274,4 +278,74 @@ describe("voter registration (pinned places, fixed seeds)", () => {
       expect(row.how, `${where}: ${mover.id}`).toBe("automatic");
     }
   }, 40_000);
+
+  it("Adell WI, seed reg-pin-wi: the player who moved is told the day will register them, marks a ballot, and registers at the polls", () => {
+    const where = "Adell, Wisconsin (5500450), seed reg-pin-wi";
+    const { core, api } = worldAt("5500450", "reg-pin-wi");
+    const player = core.people.get(core.playerId!)!;
+    const election = nextTownElection(api);
+    advanceCore(core, addDays(makeIsoDate(election), -10));
+    moveOut(api, [player]);
+    reviewVoterRegistrations(api);
+    // The one read: a same-day state registers a person off the rolls at the polls.
+    const standing = pollingStatus(api, player.id, election);
+    expect(standing, where).toBe("same-day");
+    const contest = (
+      api
+        .moduleState(ELECTIONS_MODULE_ID)
+        .table("contests")
+        .rows() as unknown as { id: string; electionDate: string }[]
+    ).find(
+      (c) =>
+        c.electionDate === election &&
+        c.id.startsWith("contest:seat:gus") &&
+        ballot(api, c.id).length > 0,
+    )!;
+    castBallot(
+      api,
+      player.id,
+      contest.id,
+      ballot(api, contest.id)[0]!.personId,
+    );
+    advanceCore(core, addDays(makeIsoDate(election), 1));
+    const ballotRow = api
+      .moduleState(VOTING_MODULE_ID)
+      .table("ballots")
+      .get(`ballot:${contest.id}:${player.id}`) as unknown as {
+      voted: boolean;
+    };
+    expect(ballotRow.voted, where).toBe(true);
+    {
+      const day = rowsOf<PollDay>(api, "pollDays").find(
+        (r) => r.date === election && r.personId === player.id,
+      );
+      expect(day?.outcome, where).toBe("registers-at-polls");
+      expect(registrationOf(api, player.id)?.how, where).toBe("at-the-polls");
+    }
+  }, 225_000);
+
+  it("Sherrodsville OH, seed reg-pin-oh: the player who moved sees they are not on the list, registers by their own act, and is on it", () => {
+    const where = "Sherrodsville, Ohio (3972242), seed reg-pin-oh";
+    const { core, api } = worldAt("3972242", "reg-pin-oh");
+    const player = core.people.get(core.playerId!)!;
+    const election = nextTownElection(api);
+    // A month before the election, early enough to register by the deadline.
+    advanceCore(core, addDays(makeIsoDate(election), -60));
+    moveOut(api, [player]);
+    reviewVoterRegistrations(api);
+    const before = pollingStatus(api, player.id, election);
+    expect(["old-address", "not-registered"], where).toContain(before);
+    expect(registerToVote(api, player.id), where).toBe(true);
+    expect(pollingStatus(api, player.id, election), where).toBe("on");
+    const row = registrationOf(api, player.id)!;
+    expect(row.how, where).toBe("by-the-player");
+    // Registering again changes nothing: they are on the rolls at this address.
+    expect(registerToVote(api, player.id), where).toBe(false);
+    // The registration act is the same record every named voter's rule reads.
+    expect(
+      rowsOf<Registration>(api, "registrations").filter(
+        (r) => r.personId === player.id,
+      ),
+    ).toHaveLength(1);
+  }, 70_000);
 });

@@ -42,3 +42,5 @@ checked: fable 2026-11-10
 **Files.** src/director/polling-place.ts, src/director/data/situation-types.json, src/core2/modules/voting.ts, docs/design/scenes/from-life/trouble-at-the-polling-place.md
 
 **Notes.** The engine side (a provisional ballot status, the office's review after election day, state ID rules) needs the voting engine; the packet's Gaps name it.
+
+Nov 15, voter registration (player registration PR): the voting engine now exports `pollingStatus(api, personId, date)` (the one read of whether a named person is on the rolls for a day: on, same-day, old-address, not-registered or after-deadline) and `registerToVote(api, personId)` (the player's own act, `how: by-the-player`). The poll scene reads the status and the button calls the act; the count refuses a not-on-the-list ballot only after the scene and button exist (`elections-player-registration-shown-and-acted`, step two). Poll-day rows for named people are in `pollDays` (`registers-at-polls`, `not-on-the-list`).
