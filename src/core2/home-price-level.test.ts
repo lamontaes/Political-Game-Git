@@ -1,7 +1,5 @@
-import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
-import { drawPlace } from "../../scripts/core2-year/place";
 import { gameStartDate } from "./game-start";
 import { advanceCore } from "./life";
 import { addDays, makeIsoDate } from "./kernel/dates";
@@ -24,7 +22,17 @@ import {
 
 // The home price level (world-home-prices-from-housing): one step from
 // causes, and one value rule that every price in the game reads.
-const seed = process.env.HOME_PRICE_SEED ?? randomBytes(8).toString("hex");
+//
+// Pinned (Account lead, Nov 15): Bastrop, LA (2204685) at seed
+// 452a3c32cb1dec08, and an owner named by record in the played town. The old
+// test drew a place and took the first owning household by id, on the premise
+// that any owner lives in a place with a price level and an outside market
+// (the buyer the sale reads). That was false: owners also live in places the
+// world keeps for officials and relatives (the state, other towns), and many
+// of those have no outside-market record, so a draw could pick one and fail
+// on a missing buyer. The owner below lives in the played town, which has both.
+const BASTROP = { key: "2204685", seed: "452a3c32cb1dec08" };
+const OWNER = "household_07e4f09875cade0b";
 
 describe("the price step", () => {
   const steady = { payIndex: 1, ratePct: 6, pressure: 0 };
@@ -80,118 +88,102 @@ describe("the price step", () => {
 });
 
 it("a sale, an owned home's value, Metrics' typical value and a mortgage's price then all come from the one rule", () => {
-  const tried: string[] = [];
-  for (let attempt = 0; attempt < 6; attempt += 1) {
-    const place = drawPlace(
-      attempt ? `${seed}:${attempt}` : seed,
-      "home-price",
-    );
-    const where = `seed ${seed}, ${place.name} (${place.key})`;
-    const { core } = buildBenchWorld(place.seed, gameStartDate(), {
-      twoLevel: true,
-      placeKey: place.key,
-    });
-    const started = core.date;
-    // Two monthly reviews step the level twice.
-    advanceCore(core, addDays(makeIsoDate(core.date), 70));
-    const api = coreAPI(core);
-    const housing = api.moduleState("housing");
-    // A full-tier owner in a place with a price level and an outside market (the buyer below).
-    const owner = [...core.households.keys()].sort().find((id) => {
-      const at = core.households.get(id)!.placeId;
-      return (
-        (
-          housing.table("dwellings").get(`dwelling:${id}`) as
-            { tenure?: string } | undefined
-        )?.tenure === "own" &&
-        placePriceLevel(api, at) !== undefined &&
-        townOutsideOf(core.organizations.values(), at) !== undefined
+  const where = `seed ${BASTROP.seed}, Bastrop (${BASTROP.key}), ${OWNER}`;
+  const { core } = buildBenchWorld(BASTROP.seed, gameStartDate(), {
+    twoLevel: true,
+    placeKey: BASTROP.key,
+  });
+  const started = core.date;
+  // Two monthly reviews step the level twice.
+  advanceCore(core, addDays(makeIsoDate(core.date), 70));
+  const api = coreAPI(core);
+  const housing = api.moduleState("housing");
+  const owner = OWNER;
+  const placeId = core.households.get(owner)?.placeId;
+  expect(
+    (
+      housing.table("dwellings").get(`dwelling:${owner}`) as
+        { tenure?: string } | undefined
+    )?.tenure,
+    where,
+  ).toBe("own");
+  const level = placeId ? placePriceLevel(api, placeId) : undefined;
+  expect(level, where).toBeDefined();
+  if (!level) return;
+  const stock = housing.table("stock").get(level.stockId) as unknown as {
+    priceRead?: { month: string; buyers: number; offered: number };
+  };
+  // The level stepped from its month's causes, kept for Trace.
+  expect(stock.priceRead?.month, where).toBeTruthy();
+  const dwelling = housing
+    .table("dwellings")
+    .get(`dwelling:${owner}`) as unknown as {
+    valueMinor: number;
+    priceLevel?: number;
+  };
+  const today = homeValueToday(
+    api,
+    placeId!,
+    dwelling.valueMinor,
+    dwelling.priceLevel,
+  );
+  expect(
+    ownedHomes(api, placeId).find((row) => row.householdId === owner)
+      ?.valueMinor,
+    where,
+  ).toBe(today);
+  // Metrics' typical home value is the middle of the same values.
+  const values = ownedHomes(api, placeId)
+    .map((row) => row.valueMinor)
+    .filter((v) => v > 0)
+    .sort((a, b) => a - b);
+  expect(townFigures(api, placeId!).homeValueMinor, where).toBe(
+    values[Math.floor(values.length / 2)],
+  );
+  // A mortgage's price then is today's value moved back along the same path.
+  const loan = (
+    housing.table("mortgages").rows() as unknown as {
+      householdId: string;
+      boughtYear: number;
+      originalMinor: number;
+    }[]
+  ).find((row) => row.householdId === owner);
+  if (loan && dwelling.priceLevel === undefined) {
+    const then =
+      dwelling.valueMinor *
+      pastPriceRatio(
+        { startedAt: started, seed: core.seed },
+        started,
+        `${loan.boughtYear}-07-01`,
+        p,
       );
-    });
-    const placeId = owner ? core.households.get(owner)!.placeId : undefined;
-    const level = placeId ? placePriceLevel(api, placeId) : undefined;
-    if (!owner || !level) {
-      tried.push(
-        `${where}: no full-tier owner in a place with a price level and an outside market`,
-      );
-      continue;
-    }
-    const stock = housing.table("stock").get(level.stockId) as unknown as {
-      priceRead?: { month: string; buyers: number; offered: number };
-    };
-    // The level stepped from its month's causes, kept for Trace.
-    expect(stock.priceRead?.month, where).toBeTruthy();
-    const dwelling = housing
-      .table("dwellings")
-      .get(`dwelling:${owner}`) as unknown as {
-      valueMinor: number;
-      priceLevel?: number;
-    };
-    const today = homeValueToday(
-      api,
-      placeId!,
-      dwelling.valueMinor,
-      dwelling.priceLevel,
-    );
-    expect(
-      ownedHomes(api, placeId).find((row) => row.householdId === owner)
-        ?.valueMinor,
-      where,
-    ).toBe(today);
-    // Metrics' typical home value is the middle of the same values.
-    const values = ownedHomes(api, placeId)
-      .map((row) => row.valueMinor)
-      .filter((v) => v > 0)
-      .sort((a, b) => a - b);
-    expect(townFigures(api, placeId!).homeValueMinor, where).toBe(
-      values[Math.floor(values.length / 2)],
-    );
-    // A mortgage's price then is today's value moved back along the same path.
-    const loan = (
-      housing.table("mortgages").rows() as unknown as {
-        householdId: string;
-        boughtYear: number;
-        originalMinor: number;
-      }[]
-    ).find((row) => row.householdId === owner);
-    if (loan && dwelling.priceLevel === undefined) {
-      const then =
-        dwelling.valueMinor *
-        pastPriceRatio(
-          { startedAt: started, seed: core.seed },
-          started,
-          `${loan.boughtYear}-07-01`,
-          p,
-        );
-      const ratio = loan.originalMinor / then;
-      // The original loan is the price then less a first or repeat buyer's down payment.
-      expect(ratio, where).toBeGreaterThan(0.75);
-      expect(ratio, where).toBeLessThan(0.98);
-    }
-    // The seller gets today's value, and the sale names the level it read.
-    const listed = sellHome(api, owner, "test.departure");
-    expect(listed, where).toBeTruthy();
-    // A buyer from outside the town takes it at today's value.
-    const sale = buyListedHome(
-      api,
-      listed!.id,
-      townOutsideOf(core.organizations.values(), placeId!)!.id,
-    );
-    expect(sale.priceMinor, where).toBe(today);
-    const offered = (
-      housing.table("stock").get(level.stockId) as unknown as {
-        priceOffered: number;
-      }
-    ).priceOffered;
-    expect(
-      offered,
-      `${where}: the sale is a home offered this month`,
-    ).toBeGreaterThanOrEqual(1);
-    // Trace's line for the sale names the stock row and the month's causes.
-    const trace = priceTrace(api, placeId!);
-    expect(trace, where).toContain(level.stockId);
-    expect(trace, where).toMatch(/buyers against \d+ homes offered/);
-    return;
+    const ratio = loan.originalMinor / then;
+    // The original loan is the price then less a first or repeat buyer's down payment.
+    expect(ratio, where).toBeGreaterThan(0.75);
+    expect(ratio, where).toBeLessThan(0.98);
   }
-  throw new Error(`No drawn place had an owner to sell: ${tried.join("; ")}`);
-}, 600_000);
+  // The seller gets today's value, and the sale names the level it read.
+  const listed = sellHome(api, owner, "test.departure");
+  expect(listed, where).toBeTruthy();
+  // A buyer from outside the town takes it at today's value.
+  const sale = buyListedHome(
+    api,
+    listed!.id,
+    townOutsideOf(core.organizations.values(), placeId!)!.id,
+  );
+  expect(sale.priceMinor, where).toBe(today);
+  const offered = (
+    housing.table("stock").get(level.stockId) as unknown as {
+      priceOffered: number;
+    }
+  ).priceOffered;
+  expect(
+    offered,
+    `${where}: the sale is a home offered this month`,
+  ).toBeGreaterThanOrEqual(1);
+  // Trace's line for the sale names the stock row and the month's causes.
+  const trace = priceTrace(api, placeId!);
+  expect(trace, where).toContain(level.stockId);
+  expect(trace, where).toMatch(/buyers against \d+ homes offered/);
+  // About 111 s measured: building Bastrop and playing its 70 days (two price reviews).
+}, 240_000);
