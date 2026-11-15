@@ -23,7 +23,7 @@ claimed-at: 2026-11-15
 
 **Cause.** Found in code: src/director/purpose-scene.ts set `story` only for a news story read and a reporter's comment call; for `press.exposed` nothing read the finding the record names (`crime:<id>` bribe-taken, or `award:<id>` conflict-of-interest with the firm, its owner and the relation, src/core2/modules/press.ts bribeAct and conflictAct). The outlet block read `said.outletId` with `core.organizations.get`, which holds organization ids, not outlet rows.
 
-**Fix.** src/director/exposed-facts.ts reads the finding from its own record: a bribe through corruption.ts `crimeRecord` and `wantedFacts` (the reader the bribe offer already uses), a conflict from the award id and the record's firm and owner. purpose-scene.ts makes the bribe's bill the scene's bill (so the vote's facts follow), and sets `found-bribe` / `found-conflict`, `briber`, `wanted`, `contract`, `firm`, `firm-yours` or `relative`, `knows-truth` (every exposure ran on the paper trail, so the engine's own lie arc catches a denial), `briber-close` (family or a friend by the tie) and `leak-from-briber` (the press tip's knower). The outlet block resolves an outlet row to its organization for any cause, and sets `outlet-newspaper`. The Words lead's lines go in; the lines they replace are deleted.
+**Fix.** press.ts `exposedFinding` reads the finding from the exposure's own record: a bribe through corruption.ts `crimeRecord` and `wantedFacts` (the reader the bribe offer already uses), a conflict from the award id and the record's firm and owner. purpose-scene.ts makes the bribe's bill the scene's bill (so the vote's facts follow), and sets `found-bribe` / `found-conflict`, `briber`, `wanted`, `contract`, `firm`, `firm-yours` or `relative`, `knows-truth` (every exposure ran on the paper trail, so the engine's own lie arc catches a denial), `briber-close` (family or a friend by the tie) and `leak-from-briber` (the press tip's knower). The outlet block resolves an outlet row to its organization for any cause, and sets `outlet-newspaper`. The Words lead's lines go in; the lines they replace are deleted.
 
 **Time box.** 4 hours for one Opus session at medium.
 
@@ -33,6 +33,6 @@ claimed-at: 2026-11-15
 
 **Waits on.** Nothing.
 
-**Files.** src/director/exposed-facts.ts (new), src/director/exposed-facts.test.ts (new), src/director/purpose-scene.ts, src/core2/modules/press.ts, src/core2/modules/corruption.ts, data/english/parts/scene-talk.json
+**Files.** src/director/scandal-call.test.ts (new), src/director/purpose-scene.ts, src/core2/modules/press.ts, src/core2/modules/corruption.ts, data/english/parts/scene-talk.json
 
 **Notes.** The interview thread builds reporter, press-story, subject and stand for interview-published on top of the outlet fix. A conflict needs an award, and no award is made in a world's first weeks, so the conflict cases are a fixture exposure on a real government's road line and a real firm and owner.

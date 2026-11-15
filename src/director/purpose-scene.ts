@@ -74,7 +74,6 @@ import {
   questionSaid,
 } from "../english/question-names";
 import { floorDebateFacts } from "./floor-debate-facts";
-import { exposedFinding } from "./exposed-facts";
 import { raceTurnoutFacts } from "./race-turnout-facts";
 import { DONOR_ASK_TYPE, donorAskFacts } from "./donor-ask-facts";
 import {
@@ -202,6 +201,7 @@ import {
   townOutlet,
   PRESS_STORY_EVENT,
   PRESS_EXPOSED,
+  exposedFinding,
 } from "../core2/modules/press";
 import { closenessBetween } from "../core2/closeness";
 import lineNames from "../core2/data/budgets/line-names.json" with { type: "json" };
@@ -650,10 +650,12 @@ function composeBinding(
       text: "yes",
       sourceRecordIds: [remark.id, moment.causeId],
     };
-  // What a paper found when it exposed the asked person (exposed-facts.ts):
+  // What a paper found when it exposed the asked person (press.ts exposedFinding):
   // the bill a bribe bought a vote on is the scene's bill.
   const exposed =
-    record?.kind === PRESS_EXPOSED ? exposedFinding(core, said) : null;
+    record?.kind === PRESS_EXPOSED
+      ? exposedFinding(coreAPI(core as CoreState), said)
+      : null;
   const billId = said.billId ?? remark?.billId ?? exposed?.billId;
   const named =
     billId && core.modules.has(LEGISLATURE_MODULE_ID)
