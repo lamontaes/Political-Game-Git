@@ -5063,7 +5063,11 @@ const sheets = {
                 .filter(Boolean),
             ),
           ];
-      if (!p.filing && !why.length && labels.reasons?.public)
+      // A business with no reason of its own says what it is, under its own
+      // label (Words lead, Nov 15: "What it is", not "Why it's listed").
+      const what =
+        !p.filing && !why.length && p.kind ? labels.what?.[p.kind] : undefined;
+      if (!p.filing && !why.length && !what && labels.reasons?.public)
         why.push(labels.reasons.public);
       return {
         facts: [
@@ -5071,6 +5075,7 @@ const sheets = {
           ...(why.length
             ? [{ label: labels.why, value: why.join(" · ") }]
             : []),
+          ...(what ? [{ label: labels.whatLabel, value: what }] : []),
         ],
         who,
         does: doHere(p),

@@ -5,6 +5,10 @@ import { ageOnDate } from "../core2/kernel/dates";
 import { coreAPI, fillInPerson } from "../core2/state";
 import { OFFICES_MODULE_ID, townSeats } from "../core2/modules/offices";
 import { upcomingMeeting } from "../core2/modules/office-day";
+import { COVERAGE_MODULE_ID } from "../core2/modules/coverage";
+import { JOBS_MODULE_ID } from "../core2/modules/jobs";
+import { HOUSING_MODULE_ID } from "../core2/modules/housing";
+import { medicalBillOf } from "../core2/medical-bills";
 import { workSpansOnDateV1 } from "../core2/work-spans-v1";
 import { organizationName } from "../director/words";
 import { backdropStaging } from "./staging";
@@ -131,6 +135,14 @@ function civicBusiness(
   return business;
 }
 
+/** A record that is a reason to go somewhere: its kind and the record's id. */
+type Reason = {
+  kind: "patient" | "patientSelf" | "relativeLives";
+  recordId: string;
+};
+/** Reasons that list a place on their own; an opening only orders the fill. */
+const FILL_ONLY = new Set(["hiring"]);
+
 /** A party's office: listed for its members (play-join-a-party-has-no-scene-and-no-headquarters). */
 const PARTY_OFFICE = "membership:political-party";
 
@@ -180,6 +192,49 @@ export function townPlaces(
     .table("terms")
     .query("byPerson", [playerId])
     .some((row) => (row as { status?: string }).status === "serving");
+  const api = coreAPI(core);
+  // The household's latest medical bill: the provider it paid, for each member billed.
+  const treatedAt = new Map<string, Reason[]>();
+  const bill = api.state.modules.has(COVERAGE_MODULE_ID)
+    ? medicalBillOf(api, COVERAGE_MODULE_ID, player.householdId)
+    : undefined;
+  if (bill?.sellerId)
+    for (const member of bill.members)
+      if (member.billMinor > 0 && household.includes(member.personId)) {
+        const kind =
+          member.personId === playerId
+            ? ("patientSelf" as const)
+            : ("patient" as const);
+        const list = treatedAt.get(bill.sellerId) ?? [];
+        if (!list.some((r) => r.kind === kind))
+          list.push({ kind, recordId: bill.id });
+        treatedAt.set(bill.sellerId, list);
+      }
+  // The institutions that house a relative's room (a nursing home).
+  const housedAt = new Map<string, Reason[]>();
+  if (api.state.modules.has(HOUSING_MODULE_ID)) {
+    const dwellings = api.moduleState(HOUSING_MODULE_ID).table("dwellings");
+    for (const id of player.familyIds) {
+      const home = core.people.get(id)?.householdId;
+      const row = home
+        ? (dwellings.get(`dwelling:${home}`) as
+            { id: string; institutionId?: string } | undefined)
+        : undefined;
+      if (row?.institutionId && !housedAt.has(row.institutionId))
+        housedAt.set(row.institutionId, [
+          { kind: "relativeLives", recordId: row.id },
+        ]);
+    }
+  }
+  // An employer's first opening standing open, from the jobs engine.
+  const positions = api.state.modules.has(JOBS_MODULE_ID)
+    ? api.moduleState(JOBS_MODULE_ID).table("positions")
+    : undefined;
+  const hiring = (orgId: string) =>
+    (
+      positions?.query("byEmployerStatus", [orgId, "open"])[0] as
+        { id: string } | undefined
+    )?.id;
   return (
     [...core.organizations.values()]
       .filter(
@@ -217,6 +272,14 @@ export function townPlaces(
               ]
             : []),
           ...known.map((id) => ({ kind: "known" as const, recordId: id })),
+          // Where someone at home was treated: the household's latest medical bill paid this provider.
+          ...(treatedAt.get(org.id) ?? []),
+          // Where a relative lives: the institution that houses their room.
+          ...(housedAt.get(org.id) ?? []),
+          // Hiring: an opening of the jobs engine stands open there.
+          ...(hiring(org.id)
+            ? [{ kind: "hiring" as const, recordId: hiring(org.id)! }]
+            : []),
           ...actions.map((actionId) => ({
             kind: "action" as const,
             recordId: actionId,
@@ -232,7 +295,10 @@ export function townPlaces(
             : []),
         ];
         const open = PUBLIC_PLACES.has(place);
-        if (!reasons.length && !open) return [];
+        // A business is a place of its kind (a clinic, a factory, an inn),
+        // listed by the one-per-kind fill when it has no reason of its own.
+        const kind = core.finance.businesses.get(org.id)?.kindId;
+        if (!reasons.length && !open && !kind) return [];
         // One work tie, the closest: you, then your family, then people you know.
         const closest = WORK_TIES.find((kind) =>
           reasons.some((r) => r.kind === kind),
@@ -251,6 +317,7 @@ export function townPlaces(
             organizationId: org.id,
             name: organizationName(org),
             place,
+            ...(kind ? { kind } : {}),
             staff: full.length + counted.length,
             known: known.map((id) => {
               const row = core.people.get(id)!;
@@ -273,22 +340,52 @@ export function townPlaces(
       })
       .sort(
         (a, b) =>
-          Number(b.reasons.length > 0) - Number(a.reasons.length > 0) ||
+          Number(listedFor(b)) - Number(listedFor(a)) ||
           b.known.length - a.known.length ||
           b.actions.length - a.actions.length ||
           Number(b.presentCount > 0) - Number(a.presentCount > 0) ||
           b.staff - a.staff ||
           a.name.localeCompare(b.name),
       )
-      // Every place with a reason, then public places until the list has some.
+      // Every place with a reason, then one place of each kind (a business's
+      // kind, else its room) before a second of any, until the list has some.
+      .map((row, at, all) => ({ row, turn: kindTurn(row, at, all) }))
+      .sort((a, b) => a.turn - b.turn)
+      .map(({ row }) => row)
       .filter(
         (row, at, all) =>
-          row.reasons.length > 0 ||
-          at <
-            Math.max(PUBLIC_FILL, all.filter((r) => r.reasons.length).length),
+          listedFor(row) ||
+          at < Math.max(PUBLIC_FILL, all.filter(listedFor).length),
       )
       .slice(0, LISTED)
   );
+}
+
+/** Whether a place is listed for a reason of its own (an opening alone only orders the fill). */
+function listedFor(row: { reasons: readonly { kind: string }[] }): boolean {
+  return row.reasons.some((r) => !FILL_ONLY.has(r.kind));
+}
+
+/**
+ * A place's turn in the fill: places listed for a reason first, in order;
+ * then the first place of each kind, then the second of each, and so on,
+ * each round in the list's order. Ties keep the order (the sort is stable).
+ */
+function kindTurn(
+  row: { reasons: readonly { kind: string }[]; kind?: string; place: string },
+  at: number,
+  all: readonly {
+    reasons: readonly { kind: string }[];
+    kind?: string;
+    place: string;
+  }[],
+): number {
+  if (listedFor(row)) return -1;
+  const key = row.kind ?? row.place;
+  return all
+    .slice(0, at)
+    .filter((other) => !listedFor(other) && (other.kind ?? other.place) === key)
+    .length;
 }
 
 /**
