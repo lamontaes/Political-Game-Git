@@ -20,4 +20,5 @@ Before a PR opens, answer each line below in the PR body in one sentence, or wri
 
 `no-dice`, `one-rule-all-places`, `estimate-not-unknown`, `wire-to-the-world`, `ask-why` (standing-skills); `look-first`, `day-one-in-motion`, `researcher`, `speed-work`, `scene-pictures`, `scene-standard`, `player-screen-text`, `seen-in-game`, `remove-a-stopgap`, `current-pointers`.
 
+- **Weights are not re-fit to make a behavior appear (Account lead, Nov 15), even when a citation is named.** Size things from the record, and bring the lead what is weighed against what. A cap or count set to what the world happens to give is a tuned number.
 - **No count, span or flag stands in for a rule (Account lead, Nov 15).** A number of years, a count of rows or a boolean that approximates what a person, law or place would do is a stand-in; build the rule from the records that decide it, or register the stopgap naming the engine you could not find (`remove-a-stopgap`).
