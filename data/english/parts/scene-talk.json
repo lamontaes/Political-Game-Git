@@ -83336,7 +83336,8 @@
           "role": "asker",
           "purpose": "desk-visit",
           "key": "desk-visit",
-          "requiresFacts": ["for", "bill", "deadline"]
+          "requiresFacts": ["for", "bill", "deadline"],
+          "setsFacts": ["asked-only"]
         }
       ],
       "bearing": "calm",
@@ -83365,81 +83366,6 @@
         }
       ],
       "bearing": "proud",
-      "origin": "authored",
-      "author": "Helper D (words and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "request",
-        "key": "desk-visit"
-      }
-    },
-    {
-      "key": "scene-talk.state-request.before-you-decide-on-bill-hear-it-from-the-person-who-brought-it",
-      "move": "state-request",
-      "kind": "spoken",
-      "text": "Before you decide on {bill}, hear it from the person who brought it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "request",
-          "role": "asker",
-          "purpose": "desk-visit",
-          "key": "desk-visit",
-          "requiresFacts": ["for", "bill"]
-        }
-      ],
-      "bearing": "proud",
-      "origin": "authored",
-      "author": "Helper D (words and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "request",
-        "key": "desk-visit"
-      }
-    },
-    {
-      "key": "scene-talk.state-request.bill-costs-the-people-i-speak-for-about-cost-a-year-i-m-asking-you-to",
-      "move": "state-request",
-      "kind": "spoken",
-      "text": "{bill} costs the people I speak for about {cost} a year. I'm asking you to veto it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "request",
-          "role": "asker",
-          "purpose": "desk-visit",
-          "key": "desk-visit",
-          "requiresFacts": ["against", "bill", "cost"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Helper D (words and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "request",
-        "key": "desk-visit"
-      }
-    },
-    {
-      "key": "scene-talk.state-request.about-cost-a-year-that-s-what-bill-takes-from-the-people-i-speak-for-we-d-like-a-veto",
-      "move": "state-request",
-      "kind": "spoken",
-      "text": "About {cost} a year, that's what {bill} takes from the people I speak for. We'd like a veto.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "request",
-          "role": "asker",
-          "purpose": "desk-visit",
-          "key": "desk-visit",
-          "requiresFacts": ["against", "bill", "cost"]
-        }
-      ],
-      "bearing": "braced",
       "origin": "authored",
       "author": "Helper D (words and scenes)",
       "date": "2026-10-27",
@@ -83511,7 +83437,9 @@
           "role": "asked",
           "purpose": "desk-visit",
           "key": "desk-visit",
-          "requiresFacts": ["for"]
+          "requiresFacts": ["for"],
+          "after": "request",
+          "excludesFacts": ["asked-only"]
         }
       ],
       "bearing": "calm",
@@ -83536,7 +83464,8 @@
           "role": "asked",
           "purpose": "desk-visit",
           "key": "desk-visit",
-          "requiresFacts": ["for"]
+          "requiresFacts": ["for"],
+          "after": "request"
         }
       ],
       "bearing": "calm",
@@ -83561,7 +83490,8 @@
           "role": "asked",
           "purpose": "desk-visit",
           "key": "desk-visit",
-          "requiresFacts": ["against"]
+          "requiresFacts": ["against"],
+          "after": "request"
         }
       ],
       "bearing": "calm",
@@ -83570,56 +83500,6 @@
       "date": "2026-10-27",
       "tag": {
         "move": "agree",
-        "key": "desk-visit"
-      }
-    },
-    {
-      "key": "scene-talk.reply-agree.then-it-won-t-get-my-signature",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "Then it won't get my signature.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "desk-visit",
-          "key": "desk-visit",
-          "requiresFacts": ["against"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Helper D (words and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "agree",
-        "key": "desk-visit"
-      }
-    },
-    {
-      "key": "scene-talk.reply-refuse.i-can-t-put-my-name-on-this-as-it-stands",
-      "move": "reply-refuse",
-      "kind": "spoken",
-      "text": "I can't put my name on this as it stands.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "refuse",
-          "role": "asked",
-          "purpose": "desk-visit",
-          "key": "desk-visit",
-          "requiresFacts": ["for"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Helper D (words and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "refuse",
         "key": "desk-visit"
       }
     },
@@ -83636,7 +83516,19 @@
           "role": "asked",
           "purpose": "desk-visit",
           "key": "desk-visit",
-          "requiresFacts": ["for"]
+          "after": "answer",
+          "requiresFacts": ["for", "heard-why"],
+          "excludesFacts": ["why-dismissed"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "answer",
+          "requiresFacts": ["for", "heard-cost", "budget-cost"]
         }
       ],
       "bearing": "guarded",
@@ -83661,57 +83553,8 @@
           "role": "asked",
           "purpose": "desk-visit",
           "key": "desk-visit",
-          "requiresFacts": ["for"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Helper D (words and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "refuse",
-        "key": "desk-visit"
-      }
-    },
-    {
-      "key": "scene-talk.reply-refuse.it-passed-i-m-not-going-to-veto-it",
-      "move": "reply-refuse",
-      "kind": "spoken",
-      "text": "It passed. I'm not going to veto it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "refuse",
-          "role": "asked",
-          "purpose": "desk-visit",
-          "key": "desk-visit",
-          "requiresFacts": ["against"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Helper D (words and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "refuse",
-        "key": "desk-visit"
-      }
-    },
-    {
-      "key": "scene-talk.reply-refuse.the-people-who-voted-for-it-have-spoken-i-ll-sign",
-      "move": "reply-refuse",
-      "kind": "spoken",
-      "text": "The people who voted for it have spoken. I'll sign.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "refuse",
-          "role": "asked",
-          "purpose": "desk-visit",
-          "key": "desk-visit",
-          "requiresFacts": ["against"]
+          "requiresFacts": ["for"],
+          "after": "request"
         }
       ],
       "bearing": "guarded",
@@ -83736,7 +83579,18 @@
           "role": "asked",
           "purpose": "desk-visit",
           "key": "desk-visit",
-          "requiresFacts": ["against"]
+          "requiresFacts": ["against"],
+          "after": "request"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "answer",
+          "requiresFacts": ["against", "heard-cost"]
         }
       ],
       "bearing": "guarded",
@@ -83745,81 +83599,6 @@
       "date": "2026-10-27",
       "tag": {
         "move": "refuse",
-        "key": "desk-visit"
-      }
-    },
-    {
-      "key": "scene-talk.reply-bargain.bring-me-a-fix-and-i-ll-sign-it",
-      "move": "reply-bargain",
-      "kind": "spoken",
-      "text": "Bring me a fix and I'll sign it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "bargain",
-          "role": "asked",
-          "purpose": "desk-visit",
-          "key": "desk-visit",
-          "requiresFacts": ["for"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Helper D (words and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "bargain",
-        "key": "desk-visit"
-      }
-    },
-    {
-      "key": "scene-talk.reply-bargain.i-ll-sign-it-if-you-take-a-cleanup-bill-to-the-floor",
-      "move": "reply-bargain",
-      "kind": "spoken",
-      "text": "I'll sign it if you take a cleanup bill to the floor.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "bargain",
-          "role": "asked",
-          "purpose": "desk-visit",
-          "key": "desk-visit",
-          "requiresFacts": ["for"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Helper D (words and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "bargain",
-        "key": "desk-visit"
-      }
-    },
-    {
-      "key": "scene-talk.reply-bargain.give-me-your-word-on-a-follow-up-and-i-ll-sign",
-      "move": "reply-bargain",
-      "kind": "spoken",
-      "text": "Give me your word on a follow-up, and I'll sign.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "bargain",
-          "role": "asked",
-          "purpose": "desk-visit",
-          "key": "desk-visit",
-          "requiresFacts": ["for"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Helper D (words and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "bargain",
         "key": "desk-visit"
       }
     },
@@ -83836,32 +83615,10 @@
           "role": "asked",
           "purpose": "desk-visit",
           "key": "desk-visit",
-          "requiresFacts": ["against"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Helper D (words and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "bargain",
-        "key": "desk-visit"
-      }
-    },
-    {
-      "key": "scene-talk.reply-bargain.write-down-what-would-make-it-work-and-i-ll-carry-that-to-them",
-      "move": "reply-bargain",
-      "kind": "spoken",
-      "text": "Write down what would make it work, and I'll carry that to them.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "bargain",
-          "role": "asked",
-          "purpose": "desk-visit",
-          "key": "desk-visit",
-          "requiresFacts": ["against"]
+          "requiresFacts": ["against"],
+          "after": "request",
+          "setsFacts": ["asked-fix"],
+          "excludesFacts": ["asked-fix"]
         }
       ],
       "bearing": "calm",
@@ -83886,7 +83643,20 @@
           "role": "asked",
           "purpose": "desk-visit",
           "key": "desk-visit",
-          "requiresFacts": ["for", "opposed"]
+          "requiresFacts": ["for", "opposed"],
+          "after": "request",
+          "excludesFacts": ["heard-who", "heard-why"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "answer",
+          "requiresFacts": ["for", "opposed", "heard-cost"],
+          "excludesFacts": ["heard-who", "heard-why"]
         }
       ],
       "bearing": "curious",
@@ -83911,7 +83681,31 @@
           "role": "asked",
           "purpose": "desk-visit",
           "key": "desk-visit",
-          "requiresFacts": ["for"]
+          "requiresFacts": ["for", "budget-cost"],
+          "after": "request",
+          "excludesFacts": ["heard-cost"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["for", "no-cost"],
+          "after": "request",
+          "excludesFacts": ["heard-cost"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "request",
+          "requiresFacts": ["against", "cost"],
+          "excludesFacts": ["heard-cost"]
         }
       ],
       "bearing": "curious",
@@ -83936,24 +83730,10 @@
           "role": "asked",
           "purpose": "desk-visit",
           "key": "desk-visit",
-          "requiresFacts": ["for", "opposed"]
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Helper D (words and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "ask",
-        "key": "desk-visit"
-      }
-    },
-    {
-      "key": "scene-talk.reply-ask.what-does-it-cost-you-exactly",
-      "move": "reply-ask",
-      "kind": "spoken",
-      "text": "What does it cost you, exactly?",
-      "uses": [
+          "requiresFacts": ["for", "opposed"],
+          "after": "request",
+          "excludesFacts": ["heard-why"]
+        },
         {
           "subject": "scene",
           "step": "reply",
@@ -83961,7 +83741,9 @@
           "role": "asked",
           "purpose": "desk-visit",
           "key": "desk-visit",
-          "requiresFacts": ["against"]
+          "after": "answer",
+          "requiresFacts": ["for", "opposed", "heard-who"],
+          "excludesFacts": ["heard-why"]
         }
       ],
       "bearing": "curious",
@@ -84078,58 +83860,6 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.a-fix-i-can-do-you-ll-have-it-in-writing",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "A fix I can do. You'll have it in writing.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "desk-visit",
-          "key": "desk-visit",
-          "after": "bargain",
-          "requiresFacts": ["for"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Helper D (words and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "accept",
-        "key": "desk-visit"
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.done-i-ll-get-the-follow-up-drafted",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "Done. I'll get the follow-up drafted.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "desk-visit",
-          "key": "desk-visit",
-          "after": "bargain",
-          "requiresFacts": ["for"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Helper D (words and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "accept",
-        "key": "desk-visit"
-      }
-    },
-    {
       "key": "scene-talk.follow-accept.i-ll-have-it-written-up-for-you",
       "move": "follow-accept",
       "kind": "spoken",
@@ -84152,58 +83882,6 @@
       "date": "2026-10-27",
       "tag": {
         "move": "accept",
-        "key": "desk-visit"
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.we-can-do-that-you-ll-have-it-in-a-page",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "We can do that. You'll have it in a page.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "desk-visit",
-          "key": "desk-visit",
-          "after": "bargain",
-          "requiresFacts": ["against"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Helper D (words and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "accept",
-        "key": "desk-visit"
-      }
-    },
-    {
-      "key": "scene-talk.follow-press.that-s-a-hope-not-a-promise",
-      "move": "follow-press",
-      "kind": "spoken",
-      "text": "That's a hope, not a promise.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "purpose": "desk-visit",
-          "key": "desk-visit",
-          "after": "bargain",
-          "requiresFacts": ["against"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Helper D (words and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "press",
         "key": "desk-visit"
       }
     },
@@ -84234,58 +83912,6 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.it-passed-as-written-i-won-t-open-it-back-up",
-      "move": "follow-press",
-      "kind": "spoken",
-      "text": "It passed as written. I won't open it back up.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "purpose": "desk-visit",
-          "key": "desk-visit",
-          "after": "bargain",
-          "requiresFacts": ["for"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Desk thread (Words lead ruling, #9240 replay 2)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "press",
-        "key": "desk-visit"
-      }
-    },
-    {
-      "key": "scene-talk.follow-press.i-m-not-carrying-a-second-bill-to-get-the-first-one-signed",
-      "move": "follow-press",
-      "kind": "spoken",
-      "text": "I'm not carrying a second bill to get the first one signed.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "purpose": "desk-visit",
-          "key": "desk-visit",
-          "after": "bargain",
-          "requiresFacts": ["for"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Desk thread (Words lead ruling, #9240 replay 2)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "press",
-        "key": "desk-visit"
-      }
-    },
-    {
       "key": "scene-talk.follow-answer.about-cost-a-year-to-the-people-i-speak-for",
       "move": "follow-answer",
       "kind": "spoken",
@@ -84299,7 +83925,8 @@
           "purpose": "desk-visit",
           "key": "desk-visit",
           "after": "ask",
-          "requiresFacts": ["against", "cost"]
+          "requiresFacts": ["against", "cost"],
+          "setsFacts": ["heard-cost"]
         }
       ],
       "bearing": "guarded",
@@ -84325,7 +83952,8 @@
           "purpose": "desk-visit",
           "key": "desk-visit",
           "after": "ask",
-          "requiresFacts": ["against", "cost"]
+          "requiresFacts": ["against", "cost"],
+          "setsFacts": ["heard-cost"]
         }
       ],
       "bearing": "guarded",
@@ -84351,33 +83979,8 @@
           "purpose": "desk-visit",
           "key": "desk-visit",
           "after": "ask",
-          "requiresFacts": ["against"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Helper D (words and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "answer",
-        "key": "desk-visit"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.the-people-who-pay-this-weren-t-in-the-room-when-it-passed",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "The people who pay this weren't in the room when it passed.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "desk-visit",
-          "key": "desk-visit",
-          "after": "ask",
-          "requiresFacts": ["against"]
+          "requiresFacts": ["against"],
+          "setsFacts": ["heard-cost", "cost-dodged"]
         }
       ],
       "bearing": "guarded",
@@ -84430,6 +84033,16 @@
           "key": "desk-visit",
           "after": "refuse",
           "requiresFacts": ["for"]
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["for"],
+          "outcome": "refused"
         }
       ],
       "bearing": "nervous",
@@ -84455,7 +84068,8 @@
           "purpose": "desk-visit",
           "key": "desk-visit",
           "after": "refuse",
-          "requiresFacts": ["against"]
+          "requiresFacts": ["against"],
+          "setsFacts": ["asks-time"]
         }
       ],
       "bearing": "nervous",
@@ -84481,7 +84095,8 @@
           "purpose": "desk-visit",
           "key": "desk-visit",
           "after": "refuse",
-          "requiresFacts": ["against"]
+          "requiresFacts": ["against"],
+          "setsFacts": ["asks-time"]
         }
       ],
       "bearing": "nervous",
@@ -84507,7 +84122,8 @@
           "purpose": "desk-visit",
           "key": "desk-visit",
           "after": "refuse",
-          "requiresFacts": ["for"]
+          "requiresFacts": ["for"],
+          "setsFacts": ["warned"]
         },
         {
           "subject": "scene",
@@ -84517,7 +84133,8 @@
           "purpose": "desk-visit",
           "key": "desk-visit",
           "after": "stall",
-          "requiresFacts": ["for"]
+          "requiresFacts": ["for"],
+          "setsFacts": ["warned"]
         },
         {
           "subject": "scene",
@@ -84527,7 +84144,8 @@
           "purpose": "desk-visit",
           "key": "desk-visit",
           "after": "decline",
-          "requiresFacts": ["for"]
+          "requiresFacts": ["for"],
+          "setsFacts": ["warned"]
         }
       ],
       "bearing": "braced",
@@ -84599,7 +84217,8 @@
           "purpose": "desk-visit",
           "key": "desk-visit",
           "after": "refuse",
-          "requiresFacts": ["against"]
+          "requiresFacts": ["against"],
+          "setsFacts": ["warned"]
         },
         {
           "subject": "scene",
@@ -84609,7 +84228,8 @@
           "purpose": "desk-visit",
           "key": "desk-visit",
           "after": "stall",
-          "requiresFacts": ["against"]
+          "requiresFacts": ["against"],
+          "setsFacts": ["warned"]
         },
         {
           "subject": "scene",
@@ -84619,7 +84239,18 @@
           "purpose": "desk-visit",
           "key": "desk-visit",
           "after": "decline",
-          "requiresFacts": ["against"]
+          "requiresFacts": ["against"],
+          "setsFacts": ["warned"]
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["against"],
+          "outcome": "refused"
         }
       ],
       "bearing": "braced",
@@ -84645,7 +84276,8 @@
           "purpose": "desk-visit",
           "key": "desk-visit",
           "after": "refuse",
-          "requiresFacts": ["against"]
+          "requiresFacts": ["against"],
+          "setsFacts": ["warned"]
         },
         {
           "subject": "scene",
@@ -84655,7 +84287,8 @@
           "purpose": "desk-visit",
           "key": "desk-visit",
           "after": "stall",
-          "requiresFacts": ["against"]
+          "requiresFacts": ["against"],
+          "setsFacts": ["warned"]
         },
         {
           "subject": "scene",
@@ -84665,7 +84298,8 @@
           "purpose": "desk-visit",
           "key": "desk-visit",
           "after": "decline",
-          "requiresFacts": ["against"]
+          "requiresFacts": ["against"],
+          "setsFacts": ["warned"]
         }
       ],
       "bearing": "braced",
@@ -84727,7 +84361,8 @@
           "purpose": "desk-visit",
           "key": "desk-visit",
           "after": "refuse",
-          "requiresFacts": ["against"]
+          "requiresFacts": ["against"],
+          "setsFacts": ["election-threat"]
         },
         {
           "subject": "scene",
@@ -84737,7 +84372,8 @@
           "purpose": "desk-visit",
           "key": "desk-visit",
           "after": "decline",
-          "requiresFacts": ["against"]
+          "requiresFacts": ["against"],
+          "setsFacts": ["election-threat"]
         }
       ],
       "bearing": "braced",
@@ -84798,7 +84434,8 @@
           "role": "asker",
           "purpose": "desk-visit",
           "key": "desk-visit",
-          "after": "confront"
+          "after": "confront",
+          "setsFacts": ["conceded"]
         }
       ],
       "bearing": "guarded",
@@ -84849,7 +84486,8 @@
           "purpose": "desk-visit",
           "key": "desk-visit",
           "after": "plea",
-          "requiresFacts": ["for"]
+          "requiresFacts": ["for"],
+          "excludesFacts": ["conceded"]
         },
         {
           "subject": "scene",
@@ -84859,7 +84497,8 @@
           "purpose": "desk-visit",
           "key": "desk-visit",
           "after": "press",
-          "requiresFacts": ["for"]
+          "requiresFacts": ["for"],
+          "excludesFacts": ["conceded"]
         },
         {
           "subject": "scene",
@@ -84869,7 +84508,8 @@
           "purpose": "desk-visit",
           "key": "desk-visit",
           "after": "threaten",
-          "requiresFacts": ["for"]
+          "requiresFacts": ["for"],
+          "excludesFacts": ["conceded"]
         }
       ],
       "bearing": "calm",
@@ -84895,7 +84535,8 @@
           "purpose": "desk-visit",
           "key": "desk-visit",
           "after": "plea",
-          "requiresFacts": ["against"]
+          "requiresFacts": ["against"],
+          "excludesFacts": ["asks-time", "election-threat", "conceded"]
         },
         {
           "subject": "scene",
@@ -84905,7 +84546,8 @@
           "purpose": "desk-visit",
           "key": "desk-visit",
           "after": "press",
-          "requiresFacts": ["against"]
+          "requiresFacts": ["against"],
+          "excludesFacts": ["asks-time", "election-threat", "conceded"]
         },
         {
           "subject": "scene",
@@ -84915,7 +84557,8 @@
           "purpose": "desk-visit",
           "key": "desk-visit",
           "after": "threaten",
-          "requiresFacts": ["against"]
+          "requiresFacts": ["against"],
+          "excludesFacts": ["asks-time", "election-threat", "conceded"]
         }
       ],
       "bearing": "calm",
@@ -84967,7 +84610,18 @@
           "role": "asked",
           "purpose": "desk-visit",
           "key": "desk-visit",
-          "after": "answer"
+          "after": "answer",
+          "requiresFacts": ["heard-why"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "answer",
+          "requiresFacts": ["against", "heard-cost"]
         }
       ],
       "bearing": "guarded",
@@ -85011,15 +84665,6 @@
           "purpose": "desk-visit",
           "key": "desk-visit",
           "after": "threaten"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "refuse",
-          "role": "asked",
-          "purpose": "desk-visit",
-          "key": "desk-visit",
-          "after": "answer"
         }
       ],
       "bearing": "guarded",
@@ -85044,7 +84689,8 @@
           "role": "asked",
           "purpose": "desk-visit",
           "key": "desk-visit",
-          "after": "press"
+          "after": "press",
+          "excludesFacts": ["warned", "conceded"]
         }
       ],
       "bearing": "guarded",
@@ -85069,7 +84715,8 @@
           "role": "asked",
           "purpose": "desk-visit",
           "key": "desk-visit",
-          "after": "press"
+          "after": "press",
+          "excludesFacts": ["conceded"]
         }
       ],
       "bearing": "guarded",
@@ -85078,52 +84725,6 @@
       "date": "2026-10-27",
       "tag": {
         "move": "decline",
-        "key": "desk-visit"
-      }
-    },
-    {
-      "key": "scene-talk.reply-bargain.bring-me-the-fix-in-writing-and-i-ll-sign-it",
-      "move": "reply-bargain",
-      "kind": "spoken",
-      "text": "Bring me the fix in writing, and I'll sign it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "bargain",
-          "role": "asked",
-          "purpose": "desk-visit",
-          "key": "desk-visit",
-          "after": "plea",
-          "requiresFacts": ["for"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "bargain",
-          "role": "asked",
-          "purpose": "desk-visit",
-          "key": "desk-visit",
-          "after": "press",
-          "requiresFacts": ["for"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "bargain",
-          "role": "asked",
-          "purpose": "desk-visit",
-          "key": "desk-visit",
-          "after": "answer",
-          "requiresFacts": ["for"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Helper D (words and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "bargain",
         "key": "desk-visit"
       }
     },
@@ -85141,7 +84742,9 @@
           "purpose": "desk-visit",
           "key": "desk-visit",
           "after": "plea",
-          "requiresFacts": ["against"]
+          "requiresFacts": ["against"],
+          "setsFacts": ["asked-fix"],
+          "excludesFacts": ["asked-fix"]
         },
         {
           "subject": "scene",
@@ -85151,7 +84754,9 @@
           "purpose": "desk-visit",
           "key": "desk-visit",
           "after": "press",
-          "requiresFacts": ["against"]
+          "requiresFacts": ["against"],
+          "setsFacts": ["asked-fix"],
+          "excludesFacts": ["asked-fix"]
         },
         {
           "subject": "scene",
@@ -85161,53 +84766,9 @@
           "purpose": "desk-visit",
           "key": "desk-visit",
           "after": "answer",
-          "requiresFacts": ["against"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Helper D (words and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "bargain",
-        "key": "desk-visit"
-      }
-    },
-    {
-      "key": "scene-talk.reply-bargain.show-me-what-you-would-accept-and-i-ll-ask-for-it",
-      "move": "reply-bargain",
-      "kind": "spoken",
-      "text": "Show me what you would accept, and I'll ask for it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "bargain",
-          "role": "asked",
-          "purpose": "desk-visit",
-          "key": "desk-visit",
-          "after": "plea",
-          "requiresFacts": ["against"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "bargain",
-          "role": "asked",
-          "purpose": "desk-visit",
-          "key": "desk-visit",
-          "after": "press",
-          "requiresFacts": ["against"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "bargain",
-          "role": "asked",
-          "purpose": "desk-visit",
-          "key": "desk-visit",
-          "after": "answer",
-          "requiresFacts": ["against"]
+          "requiresFacts": ["against", "heard-cost"],
+          "setsFacts": ["asked-fix"],
+          "excludesFacts": ["asked-fix"]
         }
       ],
       "bearing": "calm",
@@ -85259,7 +84820,29 @@
           "role": "asked",
           "purpose": "desk-visit",
           "key": "desk-visit",
-          "after": "answer"
+          "after": "answer",
+          "requiresFacts": ["for", "heard-why"],
+          "excludesFacts": ["why-dismissed"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "answer",
+          "requiresFacts": ["against", "heard-cost"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "answer",
+          "requiresFacts": ["for", "heard-cost"]
         }
       ],
       "bearing": "calm",
@@ -85335,7 +84918,7 @@
           "purpose": "desk-visit",
           "key": "desk-visit",
           "after": "answer",
-          "requiresFacts": ["for"]
+          "requiresFacts": ["for", "heard-cost", "budget-cost"]
         }
       ],
       "bearing": "calm",
@@ -85361,59 +84944,7 @@
           "purpose": "desk-visit",
           "key": "desk-visit",
           "after": "answer",
-          "requiresFacts": ["for"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Helper D (words and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "agree",
-        "key": "desk-visit"
-      }
-    },
-    {
-      "key": "scene-talk.reply-agree.then-it-deserves-a-veto-i-ll-write-it",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "Then it deserves a veto. I'll write it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "desk-visit",
-          "key": "desk-visit",
-          "after": "answer",
-          "requiresFacts": ["against"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Helper D (words and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "agree",
-        "key": "desk-visit"
-      }
-    },
-    {
-      "key": "scene-talk.reply-agree.that-settles-it-i-ll-send-it-back",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "That settles it. I'll send it back.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "desk-visit",
-          "key": "desk-visit",
-          "after": "answer",
-          "requiresFacts": ["against"]
+          "requiresFacts": ["for", "heard-why"]
         }
       ],
       "bearing": "calm",
@@ -85541,7 +85072,8 @@
           "move": "accept",
           "role": "asker",
           "purpose": "desk-visit",
-          "key": "desk-visit"
+          "key": "desk-visit",
+          "outcome": "open"
         }
       ],
       "bearing": "calm",
@@ -174689,7 +174221,8 @@
           "role": "asker",
           "purpose": "desk-visit",
           "key": "desk-visit",
-          "requiresFacts": ["for", "bill", "short-of-override"]
+          "requiresFacts": ["for", "bill", "short-of-override"],
+          "setsFacts": ["asked-only"]
         }
       ],
       "bearing": "calm",
@@ -174865,7 +174398,8 @@
           "purpose": "desk-visit",
           "key": "desk-visit",
           "after": "scene-talk.reply-ask.what-are-the-people-who-oppose-it-saying",
-          "requiresFacts": ["for", "opposed-voters"]
+          "requiresFacts": ["for", "opposed-voters"],
+          "setsFacts": ["heard-why"]
         }
       ],
       "bearing": "calm",
@@ -174891,7 +174425,8 @@
           "purpose": "desk-visit",
           "key": "desk-visit",
           "after": "scene-talk.reply-ask.what-are-the-people-who-oppose-it-saying",
-          "requiresFacts": ["for", "opposed-voters"]
+          "requiresFacts": ["for", "opposed-voters"],
+          "setsFacts": ["heard-why"]
         }
       ],
       "bearing": "guarded",
@@ -174917,7 +174452,8 @@
           "purpose": "desk-visit",
           "key": "desk-visit",
           "after": "scene-talk.reply-ask.what-are-the-people-who-oppose-it-saying",
-          "requiresFacts": ["for", "opposed-groups", "group"]
+          "requiresFacts": ["for", "opposed-groups", "group"],
+          "setsFacts": ["heard-why"]
         }
       ],
       "bearing": "calm",
@@ -174943,7 +174479,8 @@
           "purpose": "desk-visit",
           "key": "desk-visit",
           "after": "scene-talk.reply-ask.what-are-the-people-who-oppose-it-saying",
-          "requiresFacts": ["for", "opposed-groups", "group"]
+          "requiresFacts": ["for", "opposed-groups", "group"],
+          "setsFacts": ["heard-why"]
         }
       ],
       "bearing": "guarded",
@@ -174969,7 +174506,8 @@
           "purpose": "desk-visit",
           "key": "desk-visit",
           "after": "scene-talk.reply-ask.what-are-the-people-who-oppose-it-saying",
-          "requiresFacts": ["for", "opposed-party"]
+          "requiresFacts": ["for", "opposed-party"],
+          "setsFacts": ["heard-why"]
         }
       ],
       "bearing": "calm",
@@ -174995,7 +174533,8 @@
           "purpose": "desk-visit",
           "key": "desk-visit",
           "after": "scene-talk.reply-ask.what-are-the-people-who-oppose-it-saying",
-          "requiresFacts": ["for", "opposed-party"]
+          "requiresFacts": ["for", "opposed-party"],
+          "setsFacts": ["heard-why", "why-dismissed"]
         }
       ],
       "bearing": "guarded",
@@ -175021,36 +174560,11 @@
           "purpose": "desk-visit",
           "key": "desk-visit",
           "after": "scene-talk.reply-ask.what-are-the-people-who-oppose-it-saying",
-          "requiresFacts": ["for", "opposed-views"]
+          "requiresFacts": ["for", "opposed-views"],
+          "setsFacts": ["heard-why", "why-dismissed"]
         }
       ],
       "bearing": "calm",
-      "origin": "authored",
-      "author": "Words lead (desk thread, ruled Nov 14 2026)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "answer",
-        "key": "desk-visit"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.they-re-against-this-kind-of-thing-nothing-i-said-moved-them",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "They're against this kind of thing. Nothing I said moved them.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "desk-visit",
-          "key": "desk-visit",
-          "after": "scene-talk.reply-ask.what-are-the-people-who-oppose-it-saying",
-          "requiresFacts": ["for", "opposed-views"]
-        }
-      ],
-      "bearing": "guarded",
       "origin": "authored",
       "author": "Words lead (desk thread, ruled Nov 14 2026)",
       "date": "2026-11-14",
@@ -175073,7 +174587,8 @@
           "purpose": "desk-visit",
           "key": "desk-visit",
           "after": "scene-talk.reply-ask.who-is-against-it",
-          "requiresFacts": ["for", "names"]
+          "requiresFacts": ["for", "names"],
+          "setsFacts": ["heard-who"]
         }
       ],
       "bearing": "calm",
@@ -175100,7 +174615,8 @@
           "key": "desk-visit",
           "after": "scene-talk.reply-ask.who-is-against-it",
           "requiresFacts": ["for", "opposed-voters"],
-          "excludesFacts": ["names"]
+          "excludesFacts": ["names"],
+          "setsFacts": ["heard-who"]
         }
       ],
       "bearing": "calm",
@@ -175127,7 +174643,8 @@
           "key": "desk-visit",
           "after": "scene-talk.reply-ask.who-is-against-it",
           "requiresFacts": ["for", "opposed-groups", "group"],
-          "excludesFacts": ["names"]
+          "excludesFacts": ["names"],
+          "setsFacts": ["heard-who"]
         }
       ],
       "bearing": "calm",
@@ -175154,7 +174671,8 @@
           "key": "desk-visit",
           "after": "scene-talk.reply-ask.who-is-against-it",
           "requiresFacts": ["for", "opposed-party"],
-          "excludesFacts": ["names"]
+          "excludesFacts": ["names"],
+          "setsFacts": ["heard-why", "why-dismissed"]
         }
       ],
       "bearing": "guarded",
@@ -175181,7 +174699,8 @@
           "key": "desk-visit",
           "after": "scene-talk.reply-ask.who-is-against-it",
           "requiresFacts": ["for", "opposed-views"],
-          "excludesFacts": ["names"]
+          "excludesFacts": ["names"],
+          "setsFacts": ["heard-who"]
         }
       ],
       "bearing": "calm",
@@ -175207,7 +174726,8 @@
           "purpose": "desk-visit",
           "key": "desk-visit",
           "after": "scene-talk.reply-ask.what-does-it-cost",
-          "requiresFacts": ["for", "budget-cost"]
+          "requiresFacts": ["for", "budget-cost"],
+          "setsFacts": ["heard-cost"]
         }
       ],
       "bearing": "calm",
@@ -175233,7 +174753,8 @@
           "purpose": "desk-visit",
           "key": "desk-visit",
           "after": "scene-talk.reply-ask.what-does-it-cost",
-          "requiresFacts": ["for", "no-cost"]
+          "requiresFacts": ["for", "no-cost"],
+          "setsFacts": ["heard-cost"]
         }
       ],
       "bearing": "calm",
@@ -186247,6 +185768,112 @@
       "tag": {
         "move": "disagree",
         "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.so-it-brings-purpose-and-costs-the-budget-nothing-i-ll-sign-it",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "So it brings {purpose} and costs the budget nothing. I'll sign it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "answer",
+          "requiresFacts": ["for", "heard-cost", "no-cost", "purpose"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Account lead (desk visit)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "agree",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.then-it-gets-a-veto",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Then it gets a veto.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "requiresFacts": ["against"],
+          "after": "request"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "agree",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.that-settles-it-i-ll-veto-it",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "That settles it. I'll veto it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "answer",
+          "requiresFacts": ["against", "heard-cost"],
+          "excludesFacts": ["cost-dodged"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Helper D (words and scenes)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "agree",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.then-i-ll-hear-from-them-myself-before-i-decide",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Then I'll hear from them myself before I decide.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "answer",
+          "requiresFacts": ["for", "heard-who"],
+          "excludesFacts": ["heard-why"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Account lead (desk thread, M5 noes on #9292)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "leave",
+        "key": "desk-visit"
       }
     }
   ]
