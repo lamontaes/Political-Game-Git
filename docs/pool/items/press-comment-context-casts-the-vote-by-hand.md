@@ -25,9 +25,9 @@ Seen: on the reporter's call after a council vote, in the lines a words reader s
 
 **Fix.** Cast the vote with `chooseOwnVote(core, bill.id, vote, me)`. No assertion changes.
 
-**Time box.** 30 minutes, one session.
+**Time box.** 0.5 hours, one Opus session at medium.
 
-**Rules.** No hand staging. No assertion loosened.
+**Rules.** Wire to the world: the vote is the player's own press in a played world, never a call the test makes for them. No assertion is loosened.
 
 **Done when.** The test, run at the three seeds above in a played world built by `buildBenchWorld`, casts the vote through `chooseOwnVote` and passes at each, drawing the same place and seed as before; a second session runs it at one of them and sees the vote cast through the press and the call that follows.
 
