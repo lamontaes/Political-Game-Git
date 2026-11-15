@@ -152,6 +152,15 @@ describe("a bribe offered to the player's seat", () => {
       expect(taken.taken, where).toBe(true);
       expect(taken.pending, where).toBeUndefined();
       expect(taken.amountMinor, where).toBeGreaterThan(0);
+      // What the money was for and why the player took it stay on the record:
+      // the subject, the offerer's own reasons and the player's take (their
+      // choice beside what the engine weighs).
+      expect(taken.subjectId, where).toBe(`contract:${where}`);
+      expect(Object.keys(taken.reasons.offer ?? {}), where).toContain("stake");
+      expect(taken.reasons.take?.picked, where).toBe(1);
+      expect(Object.keys(taken.reasons.take ?? {}), where).toEqual(
+        expect.arrayContaining(["need", "pressure", "tie", "temperament"]),
+      );
       expect(core.people.get(offerer.id)!.liquidMinor, where).toBe(
         before.offerer - taken.amountMinor,
       );
