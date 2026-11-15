@@ -4,7 +4,8 @@
  * together; Propose on the first day of dating and after a while living
  * together. Each answer is decided by the partnerships engine and staged by
  * the director on the player's clock; this writes the talk tree each plays.
- * Run: node --import tsx scripts/dialogue-batch/ask-answer-play.ts <seed> <out.md> [draws]
+ * Run: node --import tsx scripts/dialogue-batch/ask-answer-play.ts <seed> <out.md> [draws] [first draw]
+ * (one process holds every world it builds: run a long replay a draw per process).
  */
 import { writeFileSync } from "node:fs";
 import { BenchPlayer } from "../../src/bench/player";
@@ -29,12 +30,14 @@ import { purposeScene, replyInScene } from "../../src/director/purpose-scene";
 import type { SceneTalkLine, TreeNode } from "../../src/director/scene-talk";
 import { drawPlace } from "../core2-year/place";
 
-const [seed, out, drawsArg] = process.argv.slice(2) as [
+const [seed, out, drawsArg, firstArg] = process.argv.slice(2) as [
   string,
   string,
   string?,
+  string?,
 ];
 const draws = Number(drawsArg ?? 3);
+const first = Number(firstArg ?? 0);
 setBookkeeping(false);
 const lines: string[] = [];
 const say = (s: string) => lines.push(s);
@@ -50,7 +53,7 @@ function pathTo(node: TreeNode, ending: string): number[] | null {
   return null;
 }
 
-for (let draw = 0; draw < draws; draw += 1) {
+for (let draw = first; draw < first + draws; draw += 1) {
   const place = drawPlace(`${seed}:${draw}`, "ask-answer-play");
   say(
     `\n## ${place.name} (${place.key}), run seed ${seed} draw ${draw}, world seed ${place.seed}`,
