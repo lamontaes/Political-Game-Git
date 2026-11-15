@@ -67,28 +67,52 @@ it("a resident the player has not met says who they are before the paper's story
   );
   expect(holders.length).toBeGreaterThan(0);
   let goesOn = 0;
-  for (const row of holders.slice(0, 6)) {
+  const order =
+    process.env.INTRO_ORDER === "reverse" ? [...holders].reverse() : holders;
+  for (const row of order.slice(0, 6)) {
     const talk = openConversation(core, playerId, row.id as PersonId, {
       director,
     });
     const first = talk.lines.find((line) => line.kind !== "greet");
     expect(first?.kind, `${row.givenName}: ${first?.text}`).toBe("here");
-    // The player gives their name, and the talk goes on to what they read.
+    process.stdout.write(`TALK ${row.givenName} ${row.familyName}\n`);
+    let shown = 0;
+    const show = (pressed?: string) => {
+      for (const line of talk.lines.slice(shown))
+        process.stdout.write(
+          `  ${line.speakerId === playerId ? "You" : row.givenName}: ${line.text}\n`,
+        );
+      shown = talk.lines.length;
+      if (talk.choices.length)
+        process.stdout.write(
+          `  You say: ${talk.choices.map((choice) => `${choice.key === pressed ? "[pressed] " : ""}${choice.text}`).join(" | ")}\n`,
+        );
+      else process.stdout.write("  (the talk is over)\n");
+    };
+    // The player gives their name, then takes the first reply offered at each turn.
     const name = talk.choices.find((choice) => choice.move === "name");
     expect(
       name,
       `${row.givenName} offers the player a name to give`,
     ).toBeTruthy();
-    say(core, talk, name!.key);
-    if (
-      talk.lines
-        .slice(2)
-        .some((line) => line.kind !== "here" && line.kind !== "here-back")
-    )
-      goesOn += 1;
-    process.stdout.write(
-      `  ${row.givenName} ${row.familyName}: ${talk.lines.map((line) => line.text).join(" / ")}\n`,
-    );
+    let pick = name!;
+    show(pick.key);
+    for (let turn = 0; turn < 6; turn += 1) {
+      say(core, talk, pick.key);
+      if (
+        turn === 0 &&
+        talk.lines
+          .slice(2)
+          .some((line) => line.kind !== "here" && line.kind !== "here-back")
+      )
+        goesOn += 1;
+      if (!talk.choices.length) {
+        show();
+        break;
+      }
+      pick = talk.choices[0]!;
+      show(pick.key);
+    }
   }
   // The same story is told to the player once a day (one telling for the
   // house), so only the first resident to tell it goes on to it here.
