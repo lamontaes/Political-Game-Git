@@ -5,7 +5,7 @@ area: director
 kind: bug
 priority: 2
 size: M
-status: open
+status: in-pr
 claimed-by:
 pr:
 blocked-on:
