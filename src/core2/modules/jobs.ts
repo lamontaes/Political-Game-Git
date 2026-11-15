@@ -2745,6 +2745,8 @@ function loseAwayWorkByTurnover(
         referenceHourlyMinor: 0,
         // Why, by record: the household's away share lost work by the state's layoff pace.
         reasons: { [AWAY_WORK_LOST]: 1 },
+        // Someone who held an away job knows the wider market already: their search starts where the opening's seekers' do, never from nothing.
+        regionalPull: openingProgress(c, id),
       } as never);
     }
   }
