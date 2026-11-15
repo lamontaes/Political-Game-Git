@@ -39,6 +39,7 @@ export function newsBoard({
   chosenKey,
   onChoose,
   followsAny = true,
+  actionOf,
 }) {
   let chosen = outlets.has(chosenKey) ? chosenKey : outlets.keys().next().value;
   let opened = null;
@@ -96,7 +97,7 @@ export function newsBoard({
       });
       return node;
     };
-    // The lead of a government acting carries that room's front-page photo, when the record has one.
+    // The lead carries the picture of the place its record is about, when the art has painted it.
     const photo = (story, className) => {
       const url = className === "lead" ? photoOf?.(story) : undefined;
       return url
@@ -141,6 +142,8 @@ export function newsBoard({
             el("p", { className: "intro", textContent: text }),
           ),
         ),
+        // What the story's record opens (another state's change: its roll call).
+        ...(className === "lead" && actionOf?.(story) ? [actionOf(story)] : []),
       );
     // One paper needs no tab over its own masthead.
     holder.replaceChildren(

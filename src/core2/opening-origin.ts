@@ -215,16 +215,28 @@ export function withOrigins(input: CoreInput): CoreInput {
   };
 }
 
+/**
+ * One of the parents' values, by the child's own id (generation of who
+ * exists): the one rule that says which parent a child takes after.
+ */
+export function oneOfParents<T extends string>(
+  parents: readonly (T | undefined)[],
+  childId: string,
+  seed: string,
+): T | undefined {
+  const known = parents.filter((o): o is T => !!o).sort();
+  if (!known.length) return undefined;
+  const pick = new SeededRng(seed)
+    .fork(`origin:${childId}`)
+    .integer(0, known.length);
+  return known[pick];
+}
+
 /** A child's origin: one of the parents', by the child's own id (generation of who exists). */
 export function childOrigin(
   parents: readonly (string | undefined)[],
   childId: string,
   seed: string,
 ): Origin | undefined {
-  const known = parents.filter((o): o is string => !!o).sort();
-  if (!known.length) return undefined;
-  const pick = new SeededRng(seed)
-    .fork(`origin:${childId}`)
-    .integer(0, known.length);
-  return known[pick] as Origin;
+  return oneOfParents(parents, childId, seed) as Origin | undefined;
 }

@@ -22,6 +22,7 @@ import {
   lawChain,
   lawInForce,
   lawRows,
+  localPowerBarred,
   yesLevels,
   LAWS_MODULE_ID,
   openLaws,
@@ -67,6 +68,9 @@ import {
 import { spellOn } from "./health-own";
 
 const START = "2026-01-05";
+const MEDICAID_SEED = "0123";
+/** South Fork Estates, Texas: named covered adults at MEDICAID_SEED. */
+const MEDICAID_PLACE = "4868966";
 let seed =
   process.env.GOLDEN_PATH_SEED ??
   createHash("sha256").update(`reach-b:${Date.now()}`).digest("hex");
@@ -387,6 +391,17 @@ function expectEnded(key: string): void {
   expect(openOrgs(key), `${where} ${key} employers`).toEqual([]);
   const g = group(key);
   if (g) expect(g.endedOn, `${where} ${key} group`).not.toBeNull();
+}
+
+/**
+ * The level that can make the rule: where the state bars its places from it
+ * (a researched preemption, which the state's own law can change) a county or
+ * city act is void and only the state makes it.
+ */
+function actLevel(key: string, level: string): string {
+  return level !== "state" && level !== "federal" && localPowerBarred(api, key)
+    ? "state"
+    : level;
 }
 
 function govFor(line: string): GovernmentRow {
@@ -810,9 +825,10 @@ describe("law reach, group B: every policy reaches people through its engine", (
 
   it("funding pensions to schedule adds the contribution and reaches public employers and workers", () => {
     const key = Q("fiscal.fund-pensions-to-schedule");
-    const gov = governments(api).find((g) => g.level === LOCAL)!;
+    const at = actLevel(key, LOCAL);
+    const gov = governments(api).find((g) => g.level === at)!;
     const before = line(gov, "retirementContributions");
-    enact(key, 1, LOCAL);
+    enact(key, 1, at);
     const added = Math.round(
       reachParameter("pensionShortfallPerResidentDollars") *
         100 *
@@ -841,7 +857,7 @@ describe("law reach, group B: every policy reaches people through its engine", (
       publicOrgs.length,
     );
     report.pensions = { addedMinor: added, publicEmployers: publicOrgs.length };
-    enact(key, 0, LOCAL);
+    enact(key, 0, at);
     expect(line(gov, "retirementContributions")).toBe(before);
     expectEnded("budget-line:retirementContributions");
   });
@@ -849,7 +865,9 @@ describe("law reach, group B: every policy reaches people through its engine", (
   it("a minimum reserve sets the treasury's cash aside up to its target; repeal releases it", () => {
     const key = Q("fiscal.minimum-reserve-balance");
     const govs = governments(api).filter(
-      (g) => g.level === LOCAL || g.level === "state",
+      (g) =>
+        g.level === "state" ||
+        (g.level === LOCAL && actLevel(key, LOCAL) === LOCAL),
     );
     // The government with a budget to hold a reserve against, richest first.
     const spends = (g: GovernmentRow) =>
@@ -906,7 +924,8 @@ describe("law reach, group B: every policy reaches people through its engine", (
 
   it("a balanced-budget rule cuts spending to revenue", () => {
     const key = Q("fiscal.balanced-operating-budget");
-    const gov = governments(api).find((g) => g.level === LOCAL)!;
+    const at = actLevel(key, LOCAL);
+    const gov = governments(api).find((g) => g.level === at)!;
     const total = (o: Readonly<Record<string, number>>) =>
       Object.values(o).reduce((a, b) => a + b, 0);
     const b0 = budgetNow(api, gov.id)!;
@@ -917,7 +936,7 @@ describe("law reach, group B: every policy reaches people through its engine", (
     expect(total(before.spendingMinor)).toBeGreaterThan(
       total(before.revenueMinor),
     );
-    enact(key, 1, LOCAL);
+    enact(key, 1, at);
     const after_ = budgetsOf(api, gov.id).find((b) => b.id === before.id)!;
     expect(total(after_.spendingMinor), where).toBeLessThanOrEqual(
       total(after_.revenueMinor),
@@ -930,7 +949,7 @@ describe("law reach, group B: every policy reaches people through its engine", (
       spendingAfter: total(after_.spendingMinor),
       revenue: total(after_.revenueMinor),
     };
-    enact(key, 0, LOCAL);
+    enact(key, 0, at);
     expectEnded(key);
   });
 
@@ -1076,8 +1095,18 @@ describe("law reach, group B: a city income tax", () => {
 });
 
 describe("law reach, group B: Medicaid expansion and its work requirement", () => {
-  // Its own town, drawn for only the subjects these cases read, from all 56 and named in every failure.
-  beforeAll(() => build({ pinned: false, need: ["medicaid"] }));
+  // Pinned to a town with named adults the expansion covers and the work
+  // requirement then reaches, found by drawing (seed 0123 at its draw): a
+  // two-level town has few named covered adults, so a fresh draw of forty
+  // towns can find none. The seed is restored for the cases after it.
+  const drawnSeed = seed;
+  beforeAll(() => {
+    seed = MEDICAID_SEED;
+    build({ pinned: false, placeKey: MEDICAID_PLACE, need: ["medicaid"] });
+  });
+  afterAll(() => {
+    seed = drawnSeed;
+  });
 
   // ---- Eligibility from income, work hours and children ----
   it("Medicaid expansion reaches low-income adults 19-64; the work requirement those under 80 hours without young children", () => {

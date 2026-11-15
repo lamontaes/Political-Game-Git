@@ -21,7 +21,9 @@ const STATE = "US-CO";
 
 it(
   `a state with no estate or inheritance tax has none in force, not the federal rate (Nathrop CO, seed ${SEED})`,
-  { timeout: 120_000 },
+  // Measured 7.9 s alone on Nov 15 (building the world is most of it); the
+  // limit is about twice that, with room for a gate running two workers.
+  { timeout: 20_000 },
   () => {
     const bookkeeping = setBookkeeping(false);
     try {

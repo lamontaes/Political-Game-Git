@@ -41,6 +41,7 @@ import dischargeData from "../data/legislature/discharge.json" with { type: "jso
 import replyMoves from "../data/legislature/vote-replies.json" with { type: "json" };
 
 const carryEndings = replyMoves.carry;
+const signOnMoves = replyMoves.signOn;
 import ties from "../../../data/research/elections/tie-rules-2026.json" with { type: "json" };
 import provisionQuestions from "../../../data/research/legislature/provision-questions.json" with { type: "json" };
 import { POLICY_QUESTIONS, policySeriesAtLevel } from "../policy-answers";
@@ -385,6 +386,7 @@ export const LEGISLATURE_MODULE: CoreModule = {
       },
       /** The evening before a floor vote, the sponsor's ask of a member the bill needs, by the record that names it. */
       voteAsks: {},
+      /** The player's ask of a colleague to sign on to a bill they drafted, by the record that names it (`askToSignOn`). */
       /**
        * Where a colleague stands on a bill, as someone learned it: in
        * conversation, from the record (an aide's brief) or the news. The
@@ -458,6 +460,10 @@ function keepReply(api: CoreAPI, event: CoreEventInput): void {
   const move = String(event.facts?.move ?? "");
   if (causeId.startsWith("carry-asked:")) {
     answerCarryInScene(api, event, causeId.slice("carry-asked:".length));
+    return;
+  }
+  if (causeId.startsWith("sign-on:")) {
+    answerSignOn(api, event, causeId);
     return;
   }
   const sign = replyMoves.favor.includes(move)
@@ -2519,11 +2525,12 @@ function requireSection(provisions: readonly Provision[]): void {
 }
 
 /**
- * Who signs on beside the sponsor: members of the body whose position on the bill is for it and who
- * know the sponsor (closeness on record), the closest and most for it first, a few at most. Read for the
+ * Whom the sponsor asks to sign on: members of the body who know the sponsor (closeness on record),
+ * the closest and most for the bill first, a few at most. Each answers in their own scene
+ * (`askToSignOn`), from where they stand on the bill and their tie to the sponsor. Read for the
  * player's own bills only (SG-LEGISLATURE-cosponsors-player-bills): other members' bills carry none.
  */
-function cosponsorsFor(api: CoreAPI, bill: BillRow): readonly string[] {
+function signOnCandidates(api: CoreAPI, bill: BillRow): readonly string[] {
   const player =
     snapshotExplicitControlV1(api.state).personId ??
     (api.state as CoreState).playerId;
@@ -2536,13 +2543,103 @@ function cosponsorsFor(api: CoreAPI, bill: BillRow): readonly string[] {
       total: memberPosition(api, bill.id, key).total,
       close: closenessBetween(api.state as CoreState, key, bill.sponsorId),
     }))
-    .filter((row) => row.total > 0 && row.close > 0)
+    .filter((row) => row.close > 0)
     .sort(
       (a, b) =>
         b.close - a.close || b.total - a.total || a.key.localeCompare(b.key),
     )
     .slice(0, campaignParameter("cosponsorsMax"))
     .map((row) => row.key);
+}
+
+/**
+ * The player drafts a bill and goes to the colleagues they know to sign on: one ask each, a record
+ * the director stages as the player's own ask (`bill-sign-on`). The bill carries no co-sponsor until
+ * one says yes in that scene (`answerSignOn`), which reads the ask from its own record.
+ */
+function askToSignOn(api: CoreAPI, bill: BillRow): void {
+  const section = bill.provisions[0];
+  for (const askedId of signOnCandidates(api, bill)) {
+    const id = `sign-on:${bill.id}:${askedId}`;
+    if (api.state.durableLog.get(id)) continue;
+    api.emit({
+      id,
+      date: api.state.date,
+      kind: "sign-on-asked",
+      personIds: [askedId, bill.sponsorId],
+      placeId: api.state.people.get(askedId)!.placeId,
+      source: {
+        tag: "SOURCED",
+        citation: `The sponsor's ask for names on ${bill.number}`,
+        asOf: api.state.date,
+      },
+      facts: {
+        billId: bill.id,
+        number: bill.number,
+        askedId,
+        askerId: bill.sponsorId,
+        ...(section?.question ? { question: section.question } : {}),
+      },
+    });
+  }
+}
+
+/**
+ * The colleague's answer to the player's ask to sign on, said in the scene: a yes (or a yes after a
+ * plea) puts their name on the bill; a no is kept as a turned-down ask with the position it weighed,
+ * so its reason can be said and read back when the player asks again (`declinedAsks`, kind
+ * `sign-on`). A not-yet changes nothing.
+ */
+function answerSignOn(api: CoreAPI, event: CoreEventInput, causeId: string) {
+  const facts = api.state.durableLog.get(causeId)?.facts;
+  const ask = facts?.billId
+    ? {
+        billId: String(facts.billId),
+        askedId: String(facts.askedId),
+        askerId: String(facts.askerId),
+      }
+    : undefined;
+  if (!ask || event.personIds[0] !== ask.askedId) return;
+  const bill = table(api, "bills").get(ask.billId) as unknown as
+    BillRow | undefined;
+  if (!bill || bill.status !== "drafted") return;
+  const move = String(event.facts?.move ?? "");
+  if (signOnMoves.yes.includes(move)) {
+    if (bill.cosponsors?.includes(ask.askedId)) return;
+    table(api, "bills").put({
+      ...bill,
+      cosponsors: [...(bill.cosponsors ?? []), ask.askedId],
+    } as unknown as ModuleRow);
+    // A yes given after the player pleaded is a favor owed, kept where a
+    // deal's debts are, until the colleague calls it in.
+    if (String(event.facts?.asked ?? "") === "plea")
+      table(api, "obligations").put({
+        id: `obligation:${bill.id}:${ask.askedId}:sign-on`,
+        owedBy: ask.askerId,
+        owedTo: ask.askedId,
+        kind: "favor",
+        billId: bill.id,
+        measure: bill.number,
+        date: event.date,
+        settled: false,
+        replyId: event.id,
+      } as unknown as ModuleRow);
+    return;
+  }
+  if (!signOnMoves.no.includes(move)) return;
+  table(api, "carryAsks").put({
+    id: `${causeId}:${event.id}`,
+    kind: "sign-on",
+    askerId: ask.askerId,
+    memberId: ask.askedId,
+    bodyOfficeId: bill.bodyOfficeId,
+    date: event.date,
+    provisions: bill.provisions,
+    position: memberPosition(api, bill.id, ask.askedId),
+    standing: favorWorth(api, ask.askedId, ask.askerId),
+    carried: false,
+    billId: bill.id,
+  } satisfies CarryRequest as unknown as ModuleRow);
 }
 
 /** Draft a bill: numbered, with its cost estimate and authority check. */
@@ -2567,8 +2664,9 @@ export function draftBill(
   let titled = { ...bill, title: billTitle(bill) };
   table(api, "bills").put(titled as unknown as ModuleRow);
   // stopgapId: SG-LEGISLATURE-cosponsors-player-bills
-  titled = { ...titled, cosponsors: cosponsorsFor(api, titled) };
+  titled = { ...titled, cosponsors: [] };
   table(api, "bills").put(titled as unknown as ModuleRow);
+  askToSignOn(api, titled);
   // A local body drafting under the state's grant of home rule is in that
   // law's reach; a screen's check of what a body may do records nothing.
   const level = bodyLevel(api, input.bodyOfficeId);
@@ -3606,6 +3704,8 @@ export interface CarryRequest {
   readonly billId: string | null;
   /** The member is the player: the ask waits for their answer (`answerCarryAsk`) and nothing is filed until then. */
   readonly awaitingPlayer?: boolean;
+  /** What was asked: to carry a bill (the default), or to sign on to the asker's bill as a co-sponsor. */
+  readonly kind?: "carry" | "sign-on";
 }
 
 /**
@@ -3806,16 +3906,46 @@ export function publicDeclineReason(
   return "standing";
 }
 
+/**
+ * The member's no vote on an earlier bill on the same question and in the
+ * same direction, which a no to signing on may cite (`votedAgainst`).
+ */
+export function signOnRecord(
+  api: CoreAPI,
+  memberId: string,
+  bill: BillRow,
+): { votedAgainst?: string } {
+  const question = bill.provisions[0]?.question;
+  if (!question) return {};
+  for (const row of table(api, "bills").rows() as unknown as BillRow[]) {
+    if (
+      row.id === bill.id ||
+      row.provisions[0]?.question !== question ||
+      (row.provisions[0]?.value ?? 0) * (bill.provisions[0]?.value ?? 0) <= 0
+    )
+      continue;
+    if (
+      votesOn(api, row.id).some(
+        (v) => v.memberId === memberId && v.vote === "no",
+      )
+    )
+      return { votedAgainst: row.id };
+  }
+  return {};
+}
+
 /** The asks this asker made of this member of this body that were turned down, oldest first. */
 export function declinedAsks(
   api: CoreAPI,
   askerId: string,
   memberId: string,
   bodyOfficeId: string,
+  kind: "carry" | "sign-on" = "carry",
 ): readonly CarryRequest[] {
   return (table(api, "carryAsks").rows() as unknown as CarryRequest[])
     .filter(
       (r) =>
+        (r.kind ?? "carry") === kind &&
         !r.carried &&
         !r.awaitingPlayer &&
         r.askerId === askerId &&
@@ -4700,6 +4830,9 @@ export interface CommitteeRecord {
     readonly hearingTrait: number;
     /** The scene reply (after an earlier hold) in which the chair agreed to hear the bill. */
     readonly agreedReplyId?: string;
+    /** The co-sponsors on the bill when the chair decided, and what their names weighed with the chair. */
+    readonly cosponsorIds?: readonly string[];
+    readonly cosponsorPull?: number;
   };
   readonly votes: readonly {
     readonly memberId: string;
@@ -4956,12 +5089,29 @@ export function chairHears(api: CoreAPI, bill: BillRow, chamber: string) {
     memberKey(chair),
     chairPosition.total,
   );
+  // The names on the bill: a chair weighs a colleague's name by how close
+  // they are to that colleague.
+  const cosponsorPull =
+    campaignParameter("cosponsorChairWeight") *
+    (bill.cosponsors ?? []).reduce(
+      (sum, id) =>
+        sum + closenessBetween(api.state as CoreState, memberKey(chair), id),
+      0,
+    );
   const heard = castHear
     ? castHear.hear
     : agreed
       ? true
-      : chairPosition.total + hearingTrait >= 0;
-  return { heard, chair, castHear, agreed, chairPosition, hearingTrait };
+      : chairPosition.total + hearingTrait + cosponsorPull >= 0;
+  return {
+    heard,
+    chair,
+    castHear,
+    agreed,
+    chairPosition,
+    hearingTrait,
+    cosponsorPull,
+  };
 }
 
 function committeeStage(
@@ -4978,8 +5128,15 @@ function committeeStage(
   ) as unknown as CommitteeRecord | undefined;
   if (met) return met;
   const { roster } = committeeSeats(api, bill, chamber)!;
-  const { heard, chair, castHear, agreed, chairPosition, hearingTrait } =
-    chairHears(api, bill, chamber);
+  const {
+    heard,
+    chair,
+    castHear,
+    agreed,
+    chairPosition,
+    hearingTrait,
+    cosponsorPull,
+  } = chairHears(api, bill, chamber);
   // The chair's reasons are kept on the committee record; no scene or story
   // reads them yet. stopgapId: SG-LAW-held-bill-chair-reasons-unread
   api.stopgap("SG-LAW-held-bill-chair-reasons-unread");
@@ -5089,6 +5246,9 @@ function committeeStage(
       position: chairPosition,
       hearingTrait,
       ...(agreed?.replyId ? { agreedReplyId: agreed.replyId } : {}),
+      ...(bill.cosponsors?.length
+        ? { cosponsorIds: bill.cosponsors, cosponsorPull }
+        : {}),
     },
     votes,
     witnesses,
