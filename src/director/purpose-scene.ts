@@ -73,7 +73,6 @@ import {
   NAMED_QUESTIONS,
   questionAbout,
   questionSaid,
-  questionSide,
 } from "../english/question-names";
 import { floorDebateFacts } from "./floor-debate-facts";
 import { raceTurnoutFacts } from "./race-turnout-facts";
@@ -235,10 +234,8 @@ import {
   titleInSentence,
 } from "./swearing-in";
 
-/** How a rival's message reached the one who passed word of it on, by the message record's kind: the word each opener is placed by (`how-mailer`, `how-ad`, `how-canvass`, `how-message`). */
+/** How a rival's message reached the one who passed word of it on, by the message record's kind: the word each opener is placed by (`how-canvass`, `how-message`); a world candidate's campaign sends only these (the player's own bought ads and mail are never a rival's word). */
 const HOW_WORD_REACHED: Readonly<Record<string, string>> = {
-  "campaign-mail": "mailer",
-  "campaign-ad": "ad",
   [CANVASS_MESSAGE_KIND]: "canvass",
   "campaign-message": "message",
 };
@@ -1543,13 +1540,9 @@ function composeBinding(
       };
     const issue = questionSaid(record.topic);
     if (issue) facts.issue = { text: issue, sourceRecordIds: [moment.causeId] };
-    const side =
-      said.side === "for" || said.side === "against"
-        ? questionSide(record.topic, said.side)
-        : null;
-    if (side)
-      facts.side = {
-        text: side,
+    if (said.side === "for" || said.side === "against")
+      facts[`side-${said.side}`] = {
+        text: "yes",
         sourceRecordIds: [said.messageId ?? moment.causeId],
       };
     // The player's own stand on it, where the views engine keeps one.

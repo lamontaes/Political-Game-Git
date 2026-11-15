@@ -1579,10 +1579,10 @@
     },
     "rivalWordMovedALot": {
       "role": "level",
-      "value": 0.05,
+      "value": 0.002,
       "tag": "TUNABLE",
-      "source": "How far a rival's message must move the person who passed word of it on, toward the rival's case, for them to say it moved them a lot and not a little: half of the views engine's one-event step (stanceStep, 0.1). Only picks which of two honest wordings the teller uses; nothing in the world reads it. Checked by src/director/rival-word-record.test.ts, which prints the moves seen at a pinned place.",
-      "spread": [0.02, 0.08]
+      "source": "How far a rival's message must move the person who passed word of it on, toward the rival's case, for them to say it moved them a lot and not a little. Set where about one message in eight did so over three played places (Millston WI, Patricksburg IN and Grafton VT: moves from 0.0001 to 0.003, most under 0.001; the views engine's ceiling for one campaign message is stanceStep 0.1 times adViewsImpulse 0.15). Only picks which of two honest wordings the teller uses; nothing in the world reads it. Checked by src/director/rival-word-record.test.ts.",
+      "spread": [0.001, 0.003]
     },
     "rivalWordDays": {
       "value": 7,

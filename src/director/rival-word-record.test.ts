@@ -24,8 +24,6 @@ import { gatherSignatures } from "../core2/campaign-petition-kit";
 import { gameStartDate } from "../core2/game-start";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
-import { campaignParameter } from "../core2/campaign-data";
-import { VIEWS_MODULE_ID } from "../core2/modules/views";
 import {
   CANVASS_MESSAGE_KIND,
   rivalWordMoved,
@@ -41,14 +39,16 @@ import { purposeScene } from "./purpose-scene";
 import type { TreeNode } from "./scene-talk";
 
 /**
- * Three named places on fixed seeds, each a race a candidate gets onto the
- * ballot for: Millston WI, Patricksburg IN and Grafton VT. The play is the
+ * Five named places on fixed seeds, each a race a candidate gets onto the
+ * ballot for: Millston WI, Patricksburg IN, Grafton VT, Malaeloa/Aitulagi AS and Bicknell UT. The play is the
  * same every run.
  */
 const PLACES = [
   { key: "5552025", seed: "rwprobe:0" },
   { key: "1858374", seed: "rwprobe:4" },
   { key: "5028825", seed: "rwprobe:5" },
+  { key: "territory:AS:malaeloa-aitulagi", seed: "rwprobe:3" },
+  { key: "4905490", seed: "rwprobe:6" },
 ].map((row) => {
   const place = drawPlace(row.seed, "campaign-season");
   if (place.key !== row.key)
@@ -69,8 +69,6 @@ const DELETED = [
 ];
 
 const OPENER_BY_HOW: Record<string, RegExp> = {
-  "campaign-mail": /mail|mailer/i,
-  "campaign-ad": /\bad\b/i,
   [CANVASS_MESSAGE_KIND]: /knocked|came by the house/i,
   "campaign-message": /pushing|heard from/i,
 };
@@ -160,7 +158,6 @@ it("news of a rival is staged once a message, says how it came, answers from the
     ).toBe(true);
     const seen = new Set<string>();
     const told = new Set<string>();
-    let staged = false;
     if (file) appendFileSync(file, `## ${where}\n\n`);
     while (core.date < filed!.electionDate) {
       advanceCore(
@@ -242,89 +239,23 @@ it("news of a rival is staged once a message, says how it came, answers from the
             ).toBe(true);
             moved.add(change);
           }
-          // The same scene told for each other way word can reach a person and
-          // each size of move, by writing that one fact onto this real record
-          // (an edge case, not a played one: the three places' own messages
-          // reach the teller by a night of doors and a campaign message).
-          if (!staged) {
-            staged = true;
-            const facts = cause.facts as Record<string, string>;
-            const stances = api.moduleState(VIEWS_MODULE_ID).table("stances");
-            const key = `${said.tellerId}:${cause.topic}`;
-            const before = stances.get(key);
-            const original = facts.how;
-            const variants: [string, string, "none" | "little" | "lot"][] = [
-              ["campaign-mail", "mailer", "none"],
-              ["campaign-ad", "ad", "none"],
-              ["campaign-message", "campaign", "lot"],
-              ["campaign-message", "campaign", "little"],
+          if (file) {
+            const out = [
+              `### ${moment.date}, ${place.name}: word came by ${said.how === CANVASS_MESSAGE_KIND ? "a night of doors" : "a campaign message"}; the teller was moved ${change}`,
+              `They say: ${opener}`,
+              "You say:",
             ];
-            for (const [kind, , size] of variants) {
-              facts.how = kind;
-              stances.put({
-                id: key,
-                personId: said.tellerId,
-                topic: cause.topic,
-                desiredChange: "enact",
-                strength: 0.5,
-                causes:
-                  size === "none"
-                    ? []
-                    : [
-                        {
-                          eventId: said.messageId,
-                          date: moment.date,
-                          change:
-                            campaignParameter("rivalWordMovedALot") *
-                            (size === "lot" ? 2 : 0.5),
-                        },
-                      ],
-              } as never);
-              const again = purposeScene(core, director, me, entry, {
-                typeKey: "rival-word",
-              });
-              expect(
-                again?.kind,
-                again?.kind === "skipped" ? again.reason : "",
-              ).toBe("composed");
-              if (again?.kind !== "composed") continue;
-              const opening = again.scene.talk.state.text;
-              expect(OPENER_BY_HOW[kind]!.test(opening), opening).toBe(true);
-              const followed: string[] = [];
-              lines(again.scene.talk.tree, [], followed);
-              const asked = again.scene.talk.tree.replies.find((reply) =>
-                reply.line.text.startsWith("Did it change how you see"),
-              );
-              if (asked?.next?.lines.length)
-                expect(
-                  asked.next.lines[0]!.text.startsWith(MOVED_ANSWER[size]),
-                  `${kind} ${size}: ${asked.next.lines[0]!.text}`,
-                ).toBe(true);
-              if (file)
-                appendFileSync(
-                  file,
-                  [
-                    `### Staged: ${kind}, moved ${size}`,
-                    `State: ${opening}`,
-                    ...followed.map((text) => `- ${text}`),
-                    "",
-                  ].join("\n"),
+            for (const reply of talk.tree.replies) {
+              out.push(`- ${reply.line.text}`);
+              const below: string[] = [];
+              lines(reply.next, [], below);
+              for (const text of below)
+                out.push(
+                  `    - ${text.replace(/^ ?(=>|\?) /, (m) => (m.includes("?") ? "You say: " : "They say: "))}`,
                 );
             }
-            facts.how = original!;
-            if (before) stances.put(before);
-            else stances.delete(key);
+            appendFileSync(file, out.join("\n") + "\n\n");
           }
-          if (file)
-            appendFileSync(
-              file,
-              [
-                `### ${moment.date}, ${said.how}, moved ${change}, message ${said.messageId}`,
-                `State: ${opener}`,
-                ...all.map((text) => `- ${text}`),
-                "",
-              ].join("\n"),
-            );
         }
       }
     }

@@ -5,7 +5,6 @@
   "slots": {
     "area": "A policy area, said after 'with' or 'about', from the town's term read.",
     "stand": "The stand the speaker takes in an address, as a verb phrase after 'to' (\"raise the minimum wage\"), from the speaker's recorded views.",
-    "side": "The side a rival's message argued, as a verb phrase after 'wants to' (\"make public transit free to ride\"), from the message record's position on its question.",
     "signatures": "The signatures a filing's petition needs, as a number, from the petition record.",
     "due": "The last day a petition's signatures may be handed in, as people say it, from the petition record.",
     "name": "The other person, by name, from the scene's cast record.",
@@ -185800,81 +185799,6 @@
       ]
     },
     {
-      "key": "scene-talk.state-tell.something-from-opponent-came-in-my-mail-it-s-about-issue",
-      "move": "state-tell",
-      "kind": "spoken",
-      "text": "Something from {opponent} came in my mail. It's about {issue}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "rival-word",
-          "key": "news-received",
-          "step": "state",
-          "move": "tell",
-          "role": "asker",
-          "requiresFacts": ["how-mailer", "opponent", "issue"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words lead (rival-word lines, Nov 15), placed by the record",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "tell",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.state-tell.opponent-sent-a-mailer-around-about-issue-i-got-one",
-      "move": "state-tell",
-      "kind": "spoken",
-      "text": "{opponent} sent a mailer around about {issue}. I got one.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "rival-word",
-          "key": "news-received",
-          "step": "state",
-          "move": "tell",
-          "role": "asker",
-          "requiresFacts": ["how-mailer", "opponent", "issue"]
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Words lead (rival-word lines, Nov 15), placed by the record",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "tell",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.state-tell.i-saw-an-ad-for-opponent-it-s-all-about-issue",
-      "move": "state-tell",
-      "kind": "spoken",
-      "text": "I saw an ad for {opponent}. It's all about {issue}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "rival-word",
-          "key": "news-received",
-          "step": "state",
-          "move": "tell",
-          "role": "asker",
-          "requiresFacts": ["how-ad", "opponent", "issue"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words lead (rival-word lines, Nov 15), placed by the record",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "tell",
-        "key": "news-received"
-      }
-    },
-    {
       "key": "scene-talk.state-tell.opponent-s-people-knocked-on-my-door-this-week-they-wanted-to-talk-about-issue",
       "move": "state-tell",
       "kind": "spoken",
@@ -185891,31 +185815,6 @@
         }
       ],
       "bearing": "curious",
-      "origin": "authored",
-      "author": "Words lead (rival-word lines, Nov 15), placed by the record",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "tell",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.state-tell.somebody-from-opponent-s-campaign-came-by-the-house-about-issue",
-      "move": "state-tell",
-      "kind": "spoken",
-      "text": "Somebody from {opponent}'s campaign came by the house about {issue}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "rival-word",
-          "key": "news-received",
-          "step": "state",
-          "move": "tell",
-          "role": "asker",
-          "requiresFacts": ["how-canvass", "opponent", "issue"]
-        }
-      ],
-      "bearing": "calm",
       "origin": "authored",
       "author": "Words lead (rival-word lines, Nov 15), placed by the record",
       "date": "2026-11-15",
@@ -185987,7 +185886,16 @@
           "step": "reply",
           "move": "ask",
           "role": "asked",
-          "requiresFacts": ["issue", "side"]
+          "requiresFacts": ["issue", "side-for"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "rival-word",
+          "key": "news-received",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "requiresFacts": ["issue", "side-against"]
         }
       ],
       "origin": "authored",
@@ -186011,7 +185919,16 @@
           "step": "reply",
           "move": "ask",
           "role": "asked",
-          "requiresFacts": ["issue"]
+          "requiresFacts": ["issue", "side-for"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "rival-word",
+          "key": "news-received",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "requiresFacts": ["issue", "side-against"]
         }
       ],
       "origin": "authored",
@@ -186019,30 +185936,6 @@
       "date": "2026-11-15",
       "tag": {
         "move": "ask",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.reply-promise.then-i-d-better-say-where-i-stand-on-issue",
-      "move": "reply-promise",
-      "kind": "spoken",
-      "text": "Then I'd better say where I stand on {issue}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "rival-word",
-          "key": "news-received",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "requiresFacts": ["issue"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (rival-word lines, Nov 15), placed by the record",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "promise",
         "key": "news-received"
       }
     },
@@ -186071,54 +185964,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-deflect.i-m-not-going-to-chase-every-mailer",
-      "move": "reply-deflect",
-      "kind": "spoken",
-      "text": "I'm not going to chase every mailer.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "rival-word",
-          "key": "news-received",
-          "step": "reply",
-          "move": "deflect",
-          "role": "asked",
-          "requiresFacts": ["how-mailer"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (rival-word lines, Nov 15), placed by the record",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "deflect",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.reply-deflect.i-can-t-answer-every-ad",
-      "move": "reply-deflect",
-      "kind": "spoken",
-      "text": "I can't answer every ad.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "rival-word",
-          "key": "news-received",
-          "step": "reply",
-          "move": "deflect",
-          "role": "asked",
-          "requiresFacts": ["how-ad"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (rival-word lines, Nov 15), placed by the record",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "deflect",
-        "key": "news-received"
-      }
-    },
-    {
       "key": "scene-talk.reply-deflect.they-can-knock-on-every-door-in-town-so-can-i",
       "move": "reply-deflect",
       "kind": "spoken",
@@ -186139,31 +185984,6 @@
       "date": "2026-11-15",
       "tag": {
         "move": "deflect",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.that-opponent-wants-to-side-that-s-the-whole-pitch",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "That {opponent} wants to {side}. That's the whole pitch.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "rival-word",
-          "key": "news-received",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "after": "scene-talk.reply-ask.what-are-they-saying-about-issue",
-          "requiresFacts": ["opponent", "side"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (rival-word lines, Nov 15), placed by the record",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "answer",
         "key": "news-received"
       }
     },
@@ -186296,6 +186116,56 @@
       "date": "2026-11-15",
       "tag": {
         "move": "press",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.it-s-about-issue-opponent-is-for-it",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "It's about {issue}. {opponent} is for it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-word",
+          "key": "news-received",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "scene-talk.reply-ask.what-are-they-saying-about-issue",
+          "requiresFacts": ["opponent", "issue", "side-for"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (rival-word lines, Nov 15), placed by the record",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "answer",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.it-s-about-issue-opponent-is-against-it",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "It's about {issue}. {opponent} is against it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-word",
+          "key": "news-received",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "scene-talk.reply-ask.what-are-they-saying-about-issue",
+          "requiresFacts": ["opponent", "issue", "side-against"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (rival-word lines, Nov 15), placed by the record",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "answer",
         "key": "news-received"
       }
     }
