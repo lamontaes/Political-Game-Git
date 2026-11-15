@@ -195,7 +195,7 @@ describe(`the governor's briefing room (${where})`, () => {
       pendingEmergencyOffers(api, governorId).map((row) => row.id),
       where,
     ).not.toContain(offerId);
-  }, 240_000);
+  }, 120_000);
 
   it("is not staged where the player is not the governor: the engine declares as before", () => {
     const { core, api, hazardId } = worldAtDisaster(false, "3624");
@@ -211,5 +211,5 @@ describe(`the governor's briefing room (${where})`, () => {
       declared.map((row) => row.hazardRecordId),
       where,
     ).toContain(hazardId);
-  }, 240_000);
+  }, 120_000);
 });

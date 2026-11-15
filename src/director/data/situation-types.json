@@ -3571,6 +3571,7 @@
     {
       "key": "emergency-briefing",
       "receive": { "age": "any", "counterpart": "any", "seat": "serving" },
+      "eachCause": true,
       "note": "A disaster is recorded in the state of a governor the player plays: the executive engine's emergency-offered record names the governor and the disaster. The heads of the departments the disaster touches (data/executive/emergency.json, by incident type) are in the room, and the first opens. Each says what their department's records show of this disaster. The player's answer is the declaration or letting it pass: the executive engine reads the scene reply and writes the same declaration the engine writes for any governor (declareEmergency). The engine never declares for the player (owner, Oct 14). It stops the day. The mayor's side waits on a local emergency declaration, which no engine records yet.",
       "roles": [
         {

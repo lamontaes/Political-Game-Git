@@ -1730,7 +1730,7 @@ function composeBinding(
   if (record?.kind === "bill-presented")
     deskFacts(core, facts, said, moment.causeId, askerId);
   if (record?.kind === EMERGENCY_OFFERED)
-    briefingFacts(core, facts, said, moment.causeId, askerId);
+    briefingFacts(core, facts, said, moment.causeId);
 
   // A recall petition names the member's vote; a promise to vote against
   // the bill (`promised-against`) is said only from a record of one, which no
@@ -2568,15 +2568,13 @@ function cutFacts(
 
 /**
  * What a department head says in the governor's emergency briefing: the kind of disaster the offer's
- * record names, whether the disaster record counts damaged homes, and their own department's post,
- * each with the records it came from. Said as people say it (never a count).
+ * record names and whether the disaster record counts damaged homes, each with the records it came from. Said as people say it (never a count).
  */
 function briefingFacts(
   core: Readonly<CoreState>,
   facts: Record<string, Fact>,
   said: Readonly<Record<string, string>>,
   causeId: string,
-  headId: PersonId,
 ): void {
   const kind = said.incidentType?.toLowerCase().replace(/\//g, " or ");
   if (kind) facts.disaster = { text: kind, sourceRecordIds: [causeId] };
@@ -2585,12 +2583,6 @@ function briefingFacts(
     : undefined;
   if (Number(hazard?.facts?.damagedHomes) > P.zero)
     facts.homes = { text: "", sourceRecordIds: [causeId, hazard!.id] };
-  const api = coreAPI(core as CoreState);
-  const post = appointmentsIn(api, lawChain(api).stateKey).find(
-    (row) => row.holderId === headId,
-  );
-  if (post)
-    facts.post = { text: post.title.toLowerCase(), sourceRecordIds: [post.id] };
 }
 
 /**
