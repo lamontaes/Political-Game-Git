@@ -7802,7 +7802,8 @@
           "subject": "news",
           "role": "answer",
           "choice": "yes",
-          "stages": ["heard"]
+          "stages": ["heard"],
+          "excludesFacts": ["outlet-radio"]
         }
       ],
       "transcriptsUsing": 44,
@@ -21929,7 +21930,8 @@
           "role": "answer",
           "choice": "yes",
           "stages": ["heard"],
-          "requiresFacts": ["broadcast"]
+          "requiresFacts": ["broadcast"],
+          "excludesFacts": ["outlet-radio"]
         }
       ],
       "origin": "authored",
@@ -22060,7 +22062,8 @@
           "role": "answer",
           "choice": "no",
           "stages": ["not-heard"],
-          "requiresFacts": ["broadcast"]
+          "requiresFacts": ["broadcast"],
+          "excludesFacts": ["outlet-radio"]
         }
       ],
       "origin": "authored",
