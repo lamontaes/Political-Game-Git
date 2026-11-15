@@ -205,6 +205,13 @@ export interface SituationType {
    */
   eachCause?: boolean;
   /**
+   * The scene is the player's own decision on a record that stays open until
+   * they answer or its window closes (a governor's emergency offer): the
+   * season cap never holds one back, because a cause with an outcome still
+   * to come is not a repeat of a settled scene.
+   */
+  openDecision?: boolean;
+  /**
    * What the repeat window tells scenes apart by besides the cast: "bill"
    * for a scene about one bill (a vote asked for), so the same two people
    * about another bill on a later day is a new scene; "cause" for a scene
@@ -1083,8 +1090,14 @@ export function scheduleMoment(
   // scene is not staged rather than dropped at its request.
   const nothingToAsk = (row: SceneBinding) =>
     row.typeKey === FRIENDS_TYPE && !nextMeetingFacts(core).meeting;
+  // A scene that answers the player's own press, or holds an open decision,
+  // plays past the season's cap of its kind.
+  const pastCap = (key: string) => {
+    const type = library.types.find((row) => row.key === key);
+    return Boolean(type?.answersPress || type?.openDecision);
+  };
   const seasonFull = (row: SceneBinding) =>
-    !library.types.find((type) => type.key === row.typeKey)?.answersPress &&
+    !pastCap(row.typeKey) &&
     (inSeason.get(row.typeKey) ?? zero) >= library.scheduling.seasonCap.value;
   const heldBack = wanted.flatMap(
     (row): NonNullable<ScheduleEntry["heldBack"]> =>

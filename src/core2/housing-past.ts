@@ -15,16 +15,18 @@
  *   place so the median rent paid on day one is the opening's sourced median.
  *   A lease signs at the market rent then and renews on each anniversary of
  *   its signing month; day one's rent is the rent its last renewal set.
- * - Home values follow the state's price index from each purchase
- *   (`homePriceRatio`, the rule play and the mortgages read). A full owner's
- *   mortgage is restated from the year its move record says it bought.
+ * - Home values follow this world's price level from each purchase
+ *   (`pastPriceRatio`: the housing engine's monthly price step run from the
+ *   economy's months, the path play continues and the mortgages read). A
+ *   full owner's mortgage is restated from the year its move record says it
+ *   bought.
  * - Each place's typical rent and home value, at every step and each
  *   December, are kept as history and as the registry's year rows, so
  *   Metrics reads last year on day one as it does from month 13 on.
  */
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { tenants } from "./housing-occupancy";
-import { homePriceRatio } from "./housing-prices";
+import { pastPriceRatio } from "./housing-price-path";
 import {
   MORTGAGE_PREFIX,
   mortgageFrom,
@@ -66,7 +68,7 @@ const SOURCE = (asOf: string, estimatedFrom: string): Source => ({
   tag: "ESTIMATED",
   asOf,
   citation:
-    "The housing engine's own rules run before the start: the renewal rule's pay ratio (BLS average hourly earnings, the economy pass's months), the state's house price index (FHFA, homePriceRatio) and each household's move or purchase records.",
+    "The housing engine's own rules run before the start: the renewal rule's pay ratio (BLS average hourly earnings, the economy pass's months), this world's home price level (the housing engine's price step run on the economy's months, pastPriceRatio) and each household's move or purchase records.",
   estimatedFrom,
 });
 
@@ -353,14 +355,19 @@ export function housingPast(
       lease.openingRentMinor * level.get(lease.placeId)! * share(lease, on),
     );
   const opened = c.date;
-  // The index moves one state on one day for every home there alike.
+  // The level moves every home on one day alike.
+  const p = (key: string) => api.parameter(key);
   const ratios = new Map<string, number>();
   const valueOn = (home: Owned, on: string) => {
-    const key = `${home.usps}:${on}`;
-    let ratio = ratios.get(key);
+    let ratio = ratios.get(on);
     if (ratio === undefined) {
-      ratio = homePriceRatio(home.usps, opened, on, c.seed);
-      ratios.set(key, ratio);
+      ratio = pastPriceRatio(
+        { startedAt: opened, seed: c.seed },
+        opened,
+        on,
+        p,
+      );
+      ratios.set(on, ratio);
     }
     return Math.round(home.valueMinor * ratio);
   };
@@ -440,7 +447,7 @@ export function housingPast(
       publicRecord: false,
       source: SOURCE(
         c.date,
-        "Bought in the year its records say; valued since by the state's house price index.",
+        "Bought in the year its records say; valued since by this world's home price level.",
       ),
     });
   }

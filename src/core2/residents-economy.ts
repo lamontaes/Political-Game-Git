@@ -765,6 +765,30 @@ export function endFlowPart(
 }
 
 /**
+ * One household's part joins a merged flow (a counted household's new
+ * mortgage): the flow pays its parts' sum from its next due date. False when
+ * there is no such live merged flow; a part already there is an error.
+ */
+export function addFlowPart(
+  core: CoreState,
+  id: string,
+  part: string,
+  amountMinor: number,
+): boolean {
+  const flow = residentsRuntime(core)?.flows.get(id);
+  if (!flow || flow.endedAt || !flow.amountByContract) return false;
+  if (flow.amountByContract[part] !== undefined)
+    throw new Error(`The flow already has the part: ${id} ${part}`);
+  if (!Number.isSafeInteger(amountMinor) || amountMinor < 0)
+    throw new Error(`Invalid part amount: ${id} ${part}`);
+  const parts = ownMap(flow.amountByContract);
+  parts[part] = amountMinor;
+  flow.amountByContract = parts;
+  flow.amountMinor += amountMinor;
+  return true;
+}
+
+/**
  * A counted household's standing flow (its rent) pays a new amount from its
  * next due date: zero while the household is behind, its rent again once it
  * catches up. False when there is no such live flow.
