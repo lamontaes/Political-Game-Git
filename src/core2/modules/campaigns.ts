@@ -446,9 +446,10 @@ export interface EndorsementRow {
   readonly askerId: string | null;
   /**
    * "withdrawn": a yes ended on the day its speaker filed in the same race (`endedByFilingId`); nothing reads it as a backing.
-   * "asked": the person asked is the player, who has not answered yet (the scene it stages asks them; their reply writes the yes or the no).
+   * "asked": the person asked is the player, who has not answered yet (the scene it stages asks them; their reply writes the yes or the no). It waits for them; nothing asks again.
+   * "put-off": the player asked for a few days (`date` is the day they said so); only this asks again, once the offer spacing has passed.
    */
-  readonly answer: "yes" | "no" | "withdrawn" | "asked";
+  readonly answer: "yes" | "no" | "withdrawn" | "asked" | "put-off";
   /** The day a yes was withdrawn and the filing that ended it. */
   readonly endedOn?: string;
   readonly endedByFilingId?: string;
@@ -6198,8 +6199,10 @@ export const ENDORSEMENT_ASKED_EVENT = "endorsement-asked";
  * endorsement row as `asked`, carrying the asker's own reasons (the weighing
  * as it stands today) and any favor named, and a scene puts it to the
  * player; their reply writes the yes or the no (`answerEndorsementAsk`).
- * An ask put off comes back after the offer spacing days, as a new scene,
- * until the race is decided; a player who is a rival in the race is not asked.
+ * An ask the player has not answered waits and is not repeated; one they put
+ * off comes back once, after the offer spacing days from the day they said so
+ * (the second asking offers no put-off), and any ask still open closes with
+ * the race; a player who is a rival in the race is not asked.
  */
 function askPlayerForEndorsement(
   api: CoreAPI,
@@ -6219,16 +6222,24 @@ function askPlayerForEndorsement(
   const id = `endorsement:${filingId}:${player.id}`;
   const held = table(api, "endorsements").get(id) as unknown as
     EndorsementRow | undefined;
-  if (renew && held?.answer !== "asked") return;
-  if (held && held.answer !== "asked") return;
+  // An ask the player has not answered waits for them and is not repeated;
+  // only a put-off comes back (a person asked once has answered).
+  if (renew && held?.answer !== "put-off") return;
+  if (held && held.answer !== "asked" && held.answer !== "put-off") return;
   if (rivalFiling(api, campaign, player.id)) return;
   const date = api.state.date;
+  // An ask closes with the race: once the vote is held nothing asks again
+  // (a race the player filed in keeps its rows, so the date decides).
+  const contested = elections(api, "contests").get(campaign.contestId) as
+    ContestRow | undefined;
+  if (contested && contested.electionDate < date) return;
   if (held) {
-    // Put off: it comes back once the spacing has passed, and a favor
-    // named later is added to the same ask.
+    // Put off: it comes back once the spacing has passed from the day the
+    // player said so, and a favor named later is added to the same ask.
     const due =
+      held.answer === "put-off" &&
       held.date <=
-      addDays(makeIsoDate(date), -campaignParameter("offerSpacingDays"));
+        addDays(makeIsoDate(date), -campaignParameter("offerSpacingDays"));
     if (!due && !(obligationId && !held.obligationId)) return;
     if (!due) {
       table(api, "endorsements").put({
@@ -6357,6 +6368,20 @@ function answerEndorsementAsk(
   const cause = api.state.durableLog.get(String(facts.causeId ?? ""));
   if (cause?.kind !== ENDORSEMENT_ASKED_EVENT) return;
   const move = String(facts.move);
+  // A put-off is the player's reply too: the row keeps the day, and only it
+  // is asked again.
+  if (move === "stall") {
+    const open = table(api, "endorsements").get(
+      String(cause.facts?.endorsementId ?? ""),
+    ) as unknown as EndorsementRow | undefined;
+    if (open?.answer === "asked")
+      table(api, "endorsements").put({
+        ...open,
+        date: api.state.date,
+        answer: "put-off",
+      } as unknown as ModuleRow);
+    return;
+  }
   const yes = ACCEPTING_MOVES.has(move);
   // "refuse" is the hold on a no after the asker presses.
   if (!yes && !REFUSING_MOVES.has(move) && move !== "refuse") return;

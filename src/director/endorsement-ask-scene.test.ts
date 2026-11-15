@@ -257,6 +257,12 @@ const endorsed = (ctx: ReturnType<typeof world>, rowId: string) =>
     (r) => r.kind === "campaign-endorsed" && r.facts?.endorsementId === rowId,
   );
 
+const asksOf = (ctx: ReturnType<typeof world>, rowId: string) =>
+  [...ctx.core.durableLog.values()].filter(
+    (r) =>
+      r.kind === ENDORSEMENT_ASKED_EVENT && r.facts?.endorsementId === rowId,
+  );
+
 const answerOf = (ctx: ReturnType<typeof world>) =>
   endorsementsOf(ctx.api, ctx.filing.id).find(
     (r) => r.speakerId === ctx.playerId,
@@ -295,7 +301,7 @@ it(`a put-off comes back as a second asking, with no put-off offered (${PLACE.na
   const first = asked(ctx);
   const one = scene(ctx, first.record.id);
   expect(say(ctx, one.entry, one.replies, "stall")).toBeTruthy();
-  expect(answerOf(ctx)).toBe("asked");
+  expect(answerOf(ctx)).toBe("put-off");
   for (
     let day = 0;
     day < 60 &&
@@ -319,8 +325,36 @@ it(`a put-off comes back as a second asking, with no put-off offered (${PLACE.na
   const two = scene(ctx, back!.id);
   expect(two.text).toContain("You said a few days");
   expect(two.replies).not.toContain("stall");
+  // Left unanswered a second time, it is not asked a third: the second
+  // asking was the last (a person asked twice has answered by silence).
+  advanceCore(ctx.core, addDays(makeIsoDate(ctx.core.date), 80));
+  expect(asksOf(ctx, first.rowId)).toHaveLength(2);
   expect(say(ctx, two.entry, two.replies, "agree")).toBeTruthy();
   expect(answerOf(ctx)).toBe("yes");
+}, 900_000);
+
+it(`an ask the player never answers is asked once, not every campaign turn (${PLACE.name})`, () => {
+  // Seen red before the fix: five candidates each asked the player on
+  // Oct 14, Oct 23 and Nov 1 (15 asks) with no reply at all.
+  const ctx = world();
+  asked(ctx);
+  for (let day = 0; day < 150; day += 1)
+    advanceCore(ctx.core, addDays(makeIsoDate(ctx.core.date), 1));
+  const byRow = new Map<string, number>();
+  for (const r of ctx.core.durableLog.values())
+    if (r.kind === ENDORSEMENT_ASKED_EVENT && r.facts?.askedId === ctx.playerId)
+      byRow.set(
+        String(r.facts?.endorsementId),
+        (byRow.get(String(r.facts?.endorsementId)) ?? 0) + 1,
+      );
+  expect(byRow.size, `${where}: nobody asked`).toBeGreaterThan(0);
+  expect([...byRow.values()].filter((n) => n !== 1)).toEqual([]);
+  // The open ask closes with its race: the vote is held, its rows go.
+  expect(
+    endorsementsOf(ctx.api, ctx.filing.id).some(
+      (r) => r.speakerId === ctx.playerId,
+    ),
+  ).toBe(false);
 }, 900_000);
 
 it(`a favor the player owes is asked by name, a no is final, and a yes settles it (${PLACE.name})`, () => {
