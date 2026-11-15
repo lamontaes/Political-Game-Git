@@ -5,10 +5,10 @@ area: director
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/project-thread-5efbu8-arrival
-pr:
+pr: 9585
 after:
 blocked-on:
 lead: words
