@@ -115,3 +115,17 @@ false`; `tieOwed` holds the hours, and `payTieOwed` moves the tie when the
 - **Drawn is not said.** A raise listed under "also drawn on other days" was
   never said in a talk. The second reader stamps only lines said; a line that
   no played talk says is deleted, or played until a talk says it.
+- **Every name that fills a slot is seen said (Account lead, Nov 15).** A
+  name in `data/english/payment-words.json` ships only once a played talk
+  says it; an unseen kind comes out of the file, and `paymentNamed`
+  (promise-talk.ts) keeps its talk from firing at all, never a fallback name.
+  Before hunting a kind, read whether the engine can bill it: medical debt is
+  written closed and never billed, a business loan's borrower is the firm
+  (no `credit.payment-missed` for a person), and an opening mortgage lives in
+  the housing module's own table. Hunt town-wide first (count every missed
+  payment by kind in a played year), then hunt players in the towns that
+  have them, since a bought home's mortgage is the household head's.
+- **Hunt scripts run as scratch tests, moved out after.** A background
+  `sh -c` with `rm` in it is refused by the safety check; move the scratch
+  file out of `src/` with `mv` once its run ends, before the guards run, or
+  zero-dice and the guards read it.
