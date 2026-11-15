@@ -24472,7 +24472,7 @@
       "key": "conversation.own-view-answer-disagree.we-ll-have-to-differ-first",
       "move": "own-view-answer-disagree",
       "kind": "spoken",
-      "text": "We'll have to agree to disagree.",
+      "text": "We'll have to agree to disagree, {first}.",
       "uses": [
         {
           "move": "own-view-answer-disagree",
@@ -31494,7 +31494,7 @@
       "key": "conversation.player-news-answer-take.i-ll-be-okay-first-thanks",
       "move": "player-news-answer-take",
       "kind": "spoken",
-      "text": "I'll be okay. Thanks.",
+      "text": "I'll be okay, {first}. Thanks.",
       "uses": [
         {
           "move": "player-news-answer-take",
@@ -31512,7 +31512,7 @@
       "key": "conversation.player-news-answer-take.i-ll-be-careful-first-i-promise",
       "move": "player-news-answer-take",
       "kind": "spoken",
-      "text": "I'll be careful. I promise.",
+      "text": "I'll be careful, {first}. I promise.",
       "uses": [
         {
           "move": "player-news-answer-take",
@@ -31548,7 +31548,7 @@
       "key": "conversation.player-news-answer-tell.somebody-has-to-run-for-office-first",
       "move": "player-news-answer-tell",
       "kind": "spoken",
-      "text": "Somebody has to run for {office}.",
+      "text": "Somebody has to run for {office}, {first}.",
       "uses": [
         {
           "move": "player-news-answer-tell",
@@ -31586,7 +31586,7 @@
       "key": "conversation.player-news-answer-ask.you-think-it-s-a-mistake-first",
       "move": "player-news-answer-ask",
       "kind": "spoken",
-      "text": "You think it's a mistake?",
+      "text": "You think it's a mistake, {first}?",
       "uses": [
         {
           "move": "player-news-answer-ask",
