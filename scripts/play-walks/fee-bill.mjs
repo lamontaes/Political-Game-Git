@@ -1,4 +1,4 @@
-/* global process, URL, console, document */
+/* global process, URL, console, document, fetch */
 // A fee bill as a player meets it (pull request #9308): the Fees and charges list on the draft card, one drafted
 // fee bill and its paper. Writes what the screen says. Run on a fresh bench: node scripts/play-walks/fee-bill.mjs <out-dir>
 // The bill screens (owner, Oct 29: "the layout of all those bill screens needs to be adjusted"):
@@ -20,6 +20,7 @@ const say = (...a) => {
   lines.push(l);
   console.log(l);
 };
+const prefix = process.env.FEE_PREFIX ?? "series:fee-level:";
 const SHOTS = process.argv[2] ?? process.env.SHOTS_DIR;
 if (SHOTS) mkdirSync(SHOTS, { recursive: true });
 const browser = await chromium.launch({
@@ -104,10 +105,14 @@ try {
   await page.locator(".office-board").waitFor();
   await page.locator('.office-board [data-act="write-a-bill"]').first().click();
   await page.locator(".draft-card .pick").first().waitFor();
-  const fees = await page.evaluate(() =>
-    [...document.querySelectorAll(".draft-card .pick")]
-      .filter((o) => o.dataset.value.startsWith("series:fee-level:"))
-      .map((o) => o.dataset.value + " | " + o.textContent.replace(/\s+/g, " ")),
+  const fees = await page.evaluate(
+    (prefix) =>
+      [...document.querySelectorAll(".draft-card .pick")]
+        .filter((o) => o.dataset.value.startsWith(prefix))
+        .map(
+          (o) => o.dataset.value + " | " + o.textContent.replace(/\s+/g, " "),
+        ),
+    prefix,
   );
   say("Fee lines offered on the draft card:", fees);
   if (SHOTS) await page.screenshot({ path: `${SHOTS}/draft-card-list.png` });
@@ -134,7 +139,9 @@ try {
       await page.locator(".draft-card .draft-step input").first().fill(typed);
       say(
         `Under the box as ${typed} is typed:`,
-        await page.locator(".draft-live").innerText(),
+        (await page.locator(".draft-live").count())
+          ? await page.locator(".draft-live").innerText()
+          : "(no live words on this card)",
       );
     }
     await page
@@ -163,10 +170,16 @@ try {
       .first()
       .click();
     await page.waitForTimeout(2500);
+    // A bill in a state's chamber has no meeting for the player to sit through; FEE_HOLD runs its floor by dev
+    // mode's own hold-vote route (the legislation-screens skill), then the walk reads the result on the paper.
+    const asked = page.waitForRequest((r) =>
+      r.url().includes("/api/bill?billId="),
+    );
     await page
       .locator("#sheet-body button", { hasText: /Read the bill/ })
       .first()
       .click();
+    const billId = new URL((await asked).url()).searchParams.get("billId");
     await page.waitForTimeout(1500);
     say(
       "Bill paper:",
@@ -175,6 +188,33 @@ try {
         .slice(0, 2400),
     );
     if (SHOTS) await page.screenshot({ path: `${SHOTS}/fee-bill-paper.png` });
+    if (process.env.FEE_HOLD) {
+      const held = await page.evaluate(async (id) => {
+        const r = await fetch("/api/dev/hold-vote", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ billId: id }),
+        });
+        return r.status;
+      }, billId);
+      say("dev mode holds the floor vote:", held);
+      await page.locator('#sheet-tabs .tab[aria-pressed="true"]').click();
+      await page.waitForTimeout(800);
+      await page
+        .locator("#sheet-body button", { hasText: /Read the bill/ })
+        .first()
+        .click();
+      await page.locator(".stage-chamber").first().waitFor();
+      say(
+        "Floor result on the paper:",
+        await page.evaluate(() =>
+          [...document.querySelectorAll(".stage-chamber")].map((n) =>
+            n.innerText.replace(/\s+/g, " "),
+          ),
+        ),
+      );
+      if (SHOTS) await page.screenshot({ path: `${SHOTS}/fee-bill-floor.png` });
+    }
     // The vote, by the game's own path: close the menu and press Day; the body meets, the bill is read, the player votes Yes.
     await closeMenu(page);
     const walk = {
@@ -245,6 +285,14 @@ try {
     say("voted at the meeting:", voted);
     // The law takes effect the day after; press Day for five weeks, then read the fee list again.
     await playDays(35, false);
+    // What the bill's floor did by the game's own days (no dev route): its stage, read from the one stage view.
+    say(
+      "Stage of the bill after the days:",
+      await page.evaluate(async (id) => {
+        const r = await fetch(`/api/bill/stage?billId=${id}`);
+        return (await r.text()).slice(0, 1500);
+      }, billId),
+    );
     await openMenu(page, "politics");
     await page
       .locator("#sheet-tabs")
@@ -258,10 +306,12 @@ try {
     await page.locator(".draft-card .pick").first().waitFor();
     say(
       "Fee lines after the law took effect:",
-      await page.evaluate(() =>
-        [...document.querySelectorAll(".draft-card .pick")]
-          .filter((o) => o.dataset.value.startsWith("series:fee-level:"))
-          .map((o) => o.textContent.replace(/\s+/g, " ")),
+      await page.evaluate(
+        (prefix) =>
+          [...document.querySelectorAll(".draft-card .pick")]
+            .filter((o) => o.dataset.value.startsWith(prefix))
+            .map((o) => o.textContent.replace(/\s+/g, " ")),
+        prefix,
       ),
     );
     await closeMenu(page);
