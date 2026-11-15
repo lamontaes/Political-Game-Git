@@ -5,9 +5,9 @@ area: world
 kind: bug
 priority: 3
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/project-thread-8y55c8
+pr: #9405
 after:
 blocked-on:
 source: Found while building world-estate-heirs-are-fixed-at-death, Nov 15 2026
