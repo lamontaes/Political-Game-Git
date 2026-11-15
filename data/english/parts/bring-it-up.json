@@ -6,7 +6,9 @@
     "subject": "The place or business that changed, from the event record.",
     "whose": "Who made the change, with the possessive, from the event or blame record.",
     "who": "Who made the change, by name, from the event or blame record.",
-    "topic": "What the story was about: the catalog's name for the policy topic of the story, from the printed story record."
+    "topic": "What the story was about: the catalog's name for the policy topic of the story, from the printed story record.",
+    "winner": "Who won a race the speaker read about, by name, from the election result record.",
+    "seat": "The race's seat as people say it (\"mayor\", \"the Mutual Village Council\", \"U.S. representative in District 2\"), from the elections engine's contest and the office's record through the one seat wording."
   },
   "maxWords": 10,
   "mining": {
@@ -738,6 +740,327 @@
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-30",
+      "kind": "spoken"
+    },
+    {
+      "key": "bring-it-up.lean-with.i-voted-for-winner-so-im-not-complaining",
+      "move": "lean-with",
+      "text": "I voted for {winner}, so I'm not complaining.",
+      "uses": [
+        {
+          "move": "lean-with",
+          "subject": "lean",
+          "role": "with",
+          "choice": "with",
+          "requiresFacts": ["lean", "ballot"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (ruling on #8831, Nov 14)",
+      "date": "2026-11-14",
+      "kind": "spoken"
+    },
+    {
+      "key": "bring-it-up.lean-with.its-the-result-i-was-hoping-for",
+      "move": "lean-with",
+      "text": "It's the result I was hoping for.",
+      "uses": [
+        {
+          "move": "lean-with",
+          "subject": "lean",
+          "role": "with",
+          "choice": "with",
+          "requiresFacts": ["lean"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (ruling on #8831, Nov 14)",
+      "date": "2026-11-14",
+      "kind": "spoken"
+    },
+    {
+      "key": "bring-it-up.lean-with.thats-how-id-have-called-it",
+      "move": "lean-with",
+      "text": "That's how I'd have called it.",
+      "uses": [
+        {
+          "move": "lean-with",
+          "subject": "lean",
+          "role": "with",
+          "choice": "with",
+          "requiresFacts": ["lean"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (ruling on #8831, Nov 14)",
+      "date": "2026-11-14",
+      "kind": "spoken"
+    },
+    {
+      "key": "bring-it-up.lean-with.good-night-for-our-side",
+      "move": "lean-with",
+      "text": "Good night for our side.",
+      "uses": [
+        {
+          "move": "lean-with",
+          "subject": "lean",
+          "role": "with",
+          "choice": "with",
+          "requiresFacts": ["lean", "ourSide"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (ruling on #8831, Nov 14)",
+      "date": "2026-11-14",
+      "kind": "spoken"
+    },
+    {
+      "key": "bring-it-up.lean-against.it-wasnt-my-pick",
+      "move": "lean-against",
+      "text": "It wasn't my pick.",
+      "uses": [
+        {
+          "move": "lean-against",
+          "subject": "lean",
+          "role": "against",
+          "choice": "against",
+          "requiresFacts": ["lean"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (ruling on #8831, Nov 14)",
+      "date": "2026-11-14",
+      "kind": "spoken"
+    },
+    {
+      "key": "bring-it-up.lean-against.not-the-way-id-have-voted",
+      "move": "lean-against",
+      "text": "Not the way I'd have voted.",
+      "uses": [
+        {
+          "move": "lean-against",
+          "subject": "lean",
+          "role": "against",
+          "choice": "against",
+          "requiresFacts": ["lean"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (ruling on #8831, Nov 14)",
+      "date": "2026-11-14",
+      "kind": "spoken"
+    },
+    {
+      "key": "bring-it-up.lean-against.hard-to-swallow-honestly",
+      "move": "lean-against",
+      "text": "Hard to swallow, honestly.",
+      "uses": [
+        {
+          "move": "lean-against",
+          "subject": "lean",
+          "role": "against",
+          "choice": "against",
+          "requiresFacts": ["lean"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (ruling on #8831, Nov 14)",
+      "date": "2026-11-14",
+      "kind": "spoken"
+    },
+    {
+      "key": "bring-it-up.lean-against.im-not-thrilled-about-it",
+      "move": "lean-against",
+      "text": "I'm not thrilled about it.",
+      "uses": [
+        {
+          "move": "lean-against",
+          "subject": "lean",
+          "role": "against",
+          "choice": "against",
+          "requiresFacts": ["lean"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (ruling on #8831, Nov 14)",
+      "date": "2026-11-14",
+      "kind": "spoken"
+    },
+    {
+      "key": "bring-it-up.lean-against.winner-has-to-earn-it-now",
+      "move": "lean-against",
+      "text": "{winner} has to earn it now.",
+      "uses": [
+        {
+          "move": "lean-against",
+          "subject": "lean",
+          "role": "against",
+          "choice": "against",
+          "requiresFacts": ["lean"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (ruling on #8831, Nov 14)",
+      "date": "2026-11-14",
+      "kind": "spoken"
+    },
+    {
+      "key": "bring-it-up.lean-against.winner-gets-a-chance-and-ill-be-watching",
+      "move": "lean-against",
+      "text": "{winner} gets a chance, and I'll be watching.",
+      "uses": [
+        {
+          "move": "lean-against",
+          "subject": "lean",
+          "role": "against",
+          "choice": "against",
+          "requiresFacts": ["lean"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (ruling on #8831, Nov 14)",
+      "date": "2026-11-14",
+      "kind": "spoken"
+    },
+    {
+      "key": "bring-it-up.lean-against.ill-judge-winner-by-what-gets-done",
+      "move": "lean-against",
+      "text": "I'll judge {winner} by what gets done.",
+      "uses": [
+        {
+          "move": "lean-against",
+          "subject": "lean",
+          "role": "against",
+          "choice": "against",
+          "requiresFacts": ["lean"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (ruling on #8831, Nov 14)",
+      "date": "2026-11-14",
+      "kind": "spoken"
+    },
+    {
+      "key": "bring-it-up.election-result-named.i-read-in-subject-that-winner-won-the-race-for-seat",
+      "move": "election-result-named",
+      "text": "I read in {subject} that {winner} won the race for {seat}.",
+      "uses": [
+        {
+          "move": "election-result-named",
+          "subject": "election",
+          "role": "result",
+          "choice": "named",
+          "requiresFacts": ["paper"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (thread: election results brought up), for the Words lead's stamp",
+      "date": "2026-11-14",
+      "kind": "spoken"
+    },
+    {
+      "key": "bring-it-up.election-result-named.i-saw-on-subject-that-winner-won-the-race-for-seat",
+      "move": "election-result-named",
+      "text": "I saw on {subject} that {winner} won the race for {seat}.",
+      "uses": [
+        {
+          "move": "election-result-named",
+          "subject": "election",
+          "role": "result",
+          "choice": "named",
+          "requiresFacts": ["television"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (thread: election results brought up), for the Words lead's stamp",
+      "date": "2026-11-14",
+      "kind": "spoken"
+    },
+    {
+      "key": "bring-it-up.election-result-named.subject-says-winner-won-the-race-for-seat",
+      "move": "election-result-named",
+      "text": "{subject} says {winner} won the race for {seat}.",
+      "uses": [
+        {
+          "move": "election-result-named",
+          "subject": "election",
+          "role": "result",
+          "choice": "named"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (thread: election results brought up), for the Words lead's stamp",
+      "date": "2026-11-14",
+      "kind": "spoken"
+    },
+    {
+      "key": "bring-it-up.election-result-unnamed.i-read-the-results-for-seat-in-subject",
+      "move": "election-result-unnamed",
+      "text": "I read the results for {seat} in {subject}.",
+      "uses": [
+        {
+          "move": "election-result-unnamed",
+          "subject": "election",
+          "role": "result",
+          "choice": "unnamed",
+          "requiresFacts": ["paper"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (thread: election results brought up), for the Words lead's stamp",
+      "date": "2026-11-14",
+      "kind": "spoken"
+    },
+    {
+      "key": "bring-it-up.election-result-unnamed.i-saw-the-results-for-seat-on-subject",
+      "move": "election-result-unnamed",
+      "text": "I saw the results for {seat} on {subject}.",
+      "uses": [
+        {
+          "move": "election-result-unnamed",
+          "subject": "election",
+          "role": "result",
+          "choice": "unnamed",
+          "requiresFacts": ["television"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (thread: election results brought up), for the Words lead's stamp",
+      "date": "2026-11-14",
+      "kind": "spoken"
+    },
+    {
+      "key": "bring-it-up.election-result-unnamed.subject-has-the-results-for-seat",
+      "move": "election-result-unnamed",
+      "text": "{subject} has the results for {seat}.",
+      "uses": [
+        {
+          "move": "election-result-unnamed",
+          "subject": "election",
+          "role": "result",
+          "choice": "unnamed"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (thread: election results brought up), for the Words lead's stamp",
+      "date": "2026-11-14",
+      "kind": "spoken"
+    },
+    {
+      "key": "bring-it-up.election-result-known.winner-won-the-race-for-seat",
+      "move": "election-result-known",
+      "text": "{winner} won the race for {seat}.",
+      "uses": [
+        {
+          "move": "election-result-known",
+          "subject": "election",
+          "role": "result",
+          "choice": "known"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (thread: election results brought up), for the Words lead's stamp",
+      "date": "2026-11-14",
       "kind": "spoken"
     }
   ]

@@ -7992,3 +7992,6 @@ export function campaignRecognition(api: CoreAPI, filingId: string): number {
 }
 
 export type { ContestRow };
+
+/** A party's lean, read by other families through this entry (`campaign-stances.ts`). */
+export { partyLean } from "../campaign-stances";
