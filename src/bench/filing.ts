@@ -308,6 +308,7 @@ export function openBenchFilingVisit(
     clerk ?? undefined,
     filedWith,
     back,
+    clerkRow ? (clerkRow.heads ?? clerkRow.title) : undefined,
   );
   const place = officePlace(filedWith);
   const player = core.people.get(playerId)!;

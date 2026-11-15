@@ -139,6 +139,11 @@ export function openFilingVisit(
    * from it (Fable A, Nov 13: "Back again? Your papers for {office} are in.").
    */
   back?: { filingId: string; seat: SeatRecord },
+  /**
+   * The body the clerk works for, as the records name it, said where the
+   * filing note gives the office only as a rule (`describesByRule`).
+   */
+  clerkBody?: string,
 ): FilingVisit {
   const visit: FilingVisit = {
     playerId,
@@ -162,14 +167,20 @@ export function openFilingVisit(
         // An office the record names only as a choice ("City or town clerk") is
         // said as the place's own kind; where the records do not settle it, the
         // town is said instead.
-        ...(filedWith && saidOffice(filedWith, contests)
-          ? {
-              where: {
-                text: titleInSentence(saidOffice(filedWith, contests)!),
-                sourceRecordIds: contests.map((row) => row.id),
-              },
-            }
-          : {}),
+        ...(() => {
+          const said =
+            filedWith &&
+            (saidOffice(filedWith, contests) ??
+              (describesByRule(spokenOffice(filedWith)) ? clerkBody : null));
+          return said
+            ? {
+                where: {
+                  text: titleInSentence(said),
+                  sourceRecordIds: contests.map((row) => row.id),
+                },
+              }
+            : {};
+        })(),
         ...clerkFact(core, clerkId),
       });
   if (greet) visit.lines.push({ speaker: "clerk", ...greet });
@@ -224,6 +235,19 @@ export function spokenOffice(note: string): string {
 }
 
 /**
+ * An office the research note gives as a rule, not a name ("Board of
+ * elections of the most populous county in the district", "General registrar
+ * of the city or county where the town lies"). A clerk never says it; the body
+ * is named from the person who works there (Words lead, second reader, Nov 15,
+ * South Vienna OH).
+ */
+export function describesByRule(office: string): boolean {
+  return /\b(?:most populous|largest|county seat|in the district|where the town lies)\b/i.test(
+    office,
+  );
+}
+
+/**
  * The filing office as the place says it. A research note that names a choice
  * ("City or town clerk") is settled by the kind of place the races here are
  * for, read from their own names ("Town of Wareham Select Board": the town
@@ -237,6 +261,7 @@ export function saidOffice(
   }[],
 ): string | null {
   const office = spokenOffice(note);
+  if (describesByRule(office)) return null;
   const choice = /^(?<one>\w+) or (?<other>\w+) (?<rest>.+)$/i.exec(
     office,
   )?.groups;

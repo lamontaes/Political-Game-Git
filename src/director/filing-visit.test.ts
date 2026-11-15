@@ -9,6 +9,7 @@ import {
   openFilingVisit,
   pickContest,
   saidOffice,
+  describesByRule,
   spokenOffice,
   type FilingCheck,
 } from "./filing-visit";
@@ -282,4 +283,26 @@ it("says a choice of office as the kind of place the races are for", () => {
   ).toBe("City clerk");
   expect(saidOffice("City or town clerk", [{ title: "Board" }])).toBeNull();
   expect(saidOffice("Town clerk (party)", [])).toBe("Town clerk");
+});
+
+// An office the research gives as a rule is never said as the rule (Words
+// lead, second reader, Nov 15, South Vienna, Ohio: "with the board of
+// elections of the most populous county in the district"); the clerk's own
+// body is said instead, or nothing.
+it("never says an office the note gives only as a rule", () => {
+  const rules = [
+    "Board of elections of the most populous county in the district",
+    "General registrar of the city or county where the town lies",
+  ];
+  for (const note of rules) {
+    expect(describesByRule(spokenOffice(note))).toBe(true);
+    expect(saidOffice(note, [{ title: "U.S. Representative" }])).toBeNull();
+  }
+  for (const note of [
+    "County board of elections (counter: director)",
+    "Secretary of State (multi-county districts) or the county clerk",
+    "County elections official of the candidate's home county",
+    "Town clerk",
+  ])
+    expect(describesByRule(spokenOffice(note))).toBe(false);
 });
