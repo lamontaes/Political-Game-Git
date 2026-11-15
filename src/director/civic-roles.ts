@@ -180,17 +180,19 @@ interface InterviewRow {
 }
 
 const FILED_PREFIX = "candidate-filed:";
+/** The clerk's check of a petition names the filing it checked after this prefix. */
+const CHECKED_PREFIX = "petition-checked:";
 
-/** A filing moment's cause is the filing (or its announcement) or the contest itself. */
+/** A filing moment's cause is the filing (or its announcement or the clerk's check of its petition) or the contest itself. */
 function contestOfFiling(api: CoreAPI, causeId: string): string {
+  const prefix = [FILED_PREFIX, CHECKED_PREFIX].find((row) =>
+    causeId.startsWith(row),
+  );
   const filing = api
     .moduleState(ELECTIONS_MODULE_ID)
     .table("filings")
-    .get(
-      causeId.startsWith(FILED_PREFIX)
-        ? causeId.slice(FILED_PREFIX.length)
-        : causeId,
-    ) as unknown as { contestId: string } | undefined;
+    .get(prefix ? causeId.slice(prefix.length) : causeId) as unknown as
+    { contestId: string } | undefined;
   return filing?.contestId ?? causeId;
 }
 

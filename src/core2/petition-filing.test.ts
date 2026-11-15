@@ -227,6 +227,10 @@ describe("filing is a petition", () => {
           signed.length + outside,
         );
         expect(signers.has(p.personId), where).toBe(false);
+        // Each struck signer's reason is kept beside the check.
+        expect(Object.keys(p.check.struckReasons).sort(), where).toEqual(
+          [...p.check.struckIds].sort(),
+        );
         expect(p.check.valid + p.check.struckIds.length, where).toBe(
           signed.length + outside,
         );

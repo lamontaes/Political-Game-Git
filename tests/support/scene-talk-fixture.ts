@@ -71,9 +71,17 @@ const flags = [
   "first-filing",
   // A colleague's no to signing on says the reason its record holds.
   "no-views",
+  // The clerk's word on a petition: how the check came out and why names came off.
+  "short",
+  "on-ballot",
+  "struck-moved",
+  "struck-under-age",
+  "struck-barred",
+  "struck-died",
 ];
 export const facts: Record<string, Fact> = {
   name: fact("Pat Rivera"),
+  backable: fact("Dana Lee"),
   first: fact(core.people.get(askedId)!.givenName),
   bill: fact('"Limit groundwater withdrawal"'),
   section: fact("2"),

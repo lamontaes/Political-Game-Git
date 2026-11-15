@@ -202,13 +202,23 @@ export interface PetitionRow {
   readonly signed: number;
   /** Signatures paid circulators gathered among a race's counted voters outside the town, by electorate place id (`signOutside`). */
   readonly outsideSigned?: Readonly<Record<string, number>>;
-  /** The clerk's check: the day, the signatures that stood and those struck. */
+  /** The clerk's check: the day, the signatures that stood and those struck, and why each was struck. */
   readonly check?: {
     readonly on: string;
     readonly valid: number;
     readonly struckIds: readonly string[];
+    /** Why each struck signer was struck, by the signer's id (every id in `struckIds`). */
+    readonly struckReasons: Readonly<Record<string, StruckReason>>;
   };
 }
+
+/**
+ * Why the clerk struck a signature, read from the signer's own record the
+ * day of the check: they no longer live in the town ("moved"), died, are not
+ * yet of voting age, or are barred from voting. Open to more kinds (a
+ * petition objection is a struck signer with a reason of its own).
+ */
+export type StruckReason = "moved" | "died" | "under-age" | "barred";
 
 /** Party candidates and independents file on their own terms. */
 export type FilingSide = "party" | "independent";
@@ -1811,7 +1821,11 @@ export const PETITION_CHECKED_EVENT = "petition-checked";
 export function keepPetitionCheck(
   api: CoreAPI,
   filingId: string,
-  check: { readonly valid: number; readonly struckIds: readonly string[] },
+  check: {
+    readonly valid: number;
+    readonly struckIds: readonly string[];
+    readonly struckReasons: Readonly<Record<string, StruckReason>>;
+  },
 ): FilingRow["status"] {
   const petition = petitionOf(api, filingId);
   const filing = table(api, "filings").get(filingId) as unknown as
@@ -1849,6 +1863,10 @@ export function keepPetitionCheck(
       contestId: contest.id,
       office: contest.title,
       status,
+      // A petition that circulated (the clerk's word the morning after its
+      // deadline); a filing the law asks no signatures of is checked the day
+      // it is taken, with nothing to say.
+      ...(petition.needed > 0 ? { circulated: "yes" } : {}),
       signatures: String(petition.signed),
       valid: String(check.valid),
       needed: String(petition.needed),

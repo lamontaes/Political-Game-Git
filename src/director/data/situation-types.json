@@ -117,6 +117,7 @@
     "householdRecordScenes": ["feeling:event:housing.eviction"],
     "ownRecordScenes": [
       "cause:event:candidate-filed",
+      "cause:event:petition-checked",
       "cause:event:election-result",
       "cause:event:primary-result",
       "cause:event:press-story",
@@ -2873,6 +2874,66 @@
       "asker": "clerk",
       "asked": "candidate",
       "stakes": ["office", "petition"]
+    },
+    {
+      "key": "petition-checked",
+      "receive": {
+        "age": "any",
+        "counterpart": "any",
+        "seat": "any"
+      },
+      "note": "The morning after a petition's deadline the clerk's office tells the candidate how the check came out: the papers are in and they are on the ballot, or they fell short. Where signatures were struck the clerk says why by kind (people who no longer live in the town, who died, who are not old enough, who are barred), never how many. A candidate who fell short can back someone else in the race, if there is a candidate they would back by the same rule as anyone's endorsement (`endorsementChoice`); that backing is the endorsement record the press and the circle read. A filing the law asks no signatures of is checked the day it is taken and has no check to tell (`circulated`).",
+      "roles": [
+        {
+          "key": "candidate",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["ask", "accept", "offer", "leave"],
+          "wants": ["commit"],
+          "bearing": "anxious"
+        },
+        {
+          "key": "clerk",
+          "fill": "clerk",
+          "count": "one",
+          "moves": ["deliver-news", "answer", "close"],
+          "wants": ["keep-same"],
+          "bearing": "calm"
+        }
+      ],
+      "setting": ["venue", "phone"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "match": {
+            "label": "cause:event:petition-checked",
+            "selfNamed": true,
+            "counterpart": "none",
+            "causeFacts": [
+              {
+                "key": "circulated"
+              }
+            ]
+          },
+          "causeEngine": "elections",
+          "causeRecord": "petition-checked",
+          "bind": {
+            "candidate": "subject",
+            "clerk": "clerk"
+          },
+          "opener": "clerk",
+          "opening": "deliver-news"
+        }
+      ],
+      "tag": {
+        "key": "petition-checked",
+        "endpoint": "political",
+        "registers": ["scene-talk", "journal"]
+      },
+      "purpose": "petition-checked",
+      "asker": "clerk",
+      "asked": "candidate",
+      "stakes": ["office", "race"]
     },
     {
       "key": "layoff",

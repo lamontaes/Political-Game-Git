@@ -407,6 +407,8 @@
     "door-ask:other-home": ["@door", "doorstep-entrance"],
     "door-signature:other-home": ["@door", "doorstep-entrance"],
     "filing:venue": ["clerk-counter"],
+    "petition-checked:venue": ["clerk-counter"],
+    "petition-checked:phone": ["@home"],
     "address:seat": ["@seatroom", "@office", "council-chamber"],
     "floor-debate:seat": ["@seatroom", "@office", "council-chamber"],
     "floor-debate:venue": ["public-meeting-room"],

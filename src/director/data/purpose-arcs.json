@@ -2308,6 +2308,51 @@
         }
       ]
     },
+    "petition-checked": {
+      "state": "deliver-news",
+      "replies": ["accept", "ask", "promise", "leave"],
+      "follow": {
+        "accept": ["thank"],
+        "ask": ["answer"],
+        "promise": ["thank"]
+      },
+      "again": {
+        "answer": ["accept", "promise", "leave"],
+        "thank": ["leave"]
+      },
+      "endings": [
+        {
+          "id": "backed-another",
+          "label": "You said you would back someone else",
+          "keeps": "none",
+          "when": {
+            "reply": ["promise"]
+          }
+        },
+        {
+          "id": "papers-in",
+          "label": "You heard how the check came out",
+          "keeps": "none",
+          "when": {
+            "reply": ["accept"]
+          }
+        },
+        {
+          "id": "asked-how-it-went",
+          "label": "You asked how the check went",
+          "keeps": "none",
+          "when": {
+            "anyReply": ["ask"]
+          }
+        },
+        {
+          "id": "left-there",
+          "label": "Left it there",
+          "keeps": "none",
+          "when": {}
+        }
+      ]
+    },
     "care-visit": {
       "state": "request",
       "replies": ["agree", "ask", "comfort", "deflect"],

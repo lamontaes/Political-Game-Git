@@ -97,3 +97,12 @@ One kind of scene can play several arcs, its **variants**, and the records pick 
 - **Money in a fact** goes through `moneySaid` ("about $4,000"): never write "the {loss}" or "toward the {left}"; write "come to {loss}" and "still owe {left}".
 - **The director imports no module from another engine family** (the families guard counts it): name the record kind in a local constant beside `RALLY_EVENT`.
 - A new scene type needs its picture row or a `wantedScenes` line (skill `scene-pictures`); the `scene-pictures` guard fails one that has neither. Never wait for a picture.
+
+## 10. What the clerk's petition scene taught (Nov 15)
+
+- **A public event that sometimes means nothing needs a fact that says when it does.** `keepPetitionCheck` also runs the day a filing is taken where the law asks no signatures, so `petition-checked` fired at filing with nothing to tell. The cause's `causeFacts` can require the presence of a fact (`{ "key": "circulated" }`, no `is` or `equals`), and the engine emits `circulated` only where there was a petition.
+- **A person-owned moment is only met if its label is in `ownRecordScenes`** (`situation-types.json` scheduling). A new `cause:event:<kind>` for the player's own record goes there, or the scene stages on the schedule but never stops the day.
+- **The clerk role casts from the contest, whatever record names the filing.** `contestOfFiling` in `civic-roles.ts` strips the record's id prefix (`candidate-filed:`, `petition-checked:`); a new record about a filing adds its prefix there.
+- **A reply that writes through another engine's act stays one write.** The reply's `scene.reply` event carries the filing it acted on (`backed`), and `replyInScene` returns the earlier id on a repeat, so a reloaded page does not endorse twice. Never write a second row of your own; call the engine's act (`askForEndorsement` with `unasked`).
+- **The engine's own rules show up in your fixture.** The player who files in a race ends their earlier endorsement there (`answer: "withdrawn"`, `endedByFilingId`), so a proof of "backs someone" asserts no `yes` before and a `yes` after, never "no row".
+- **A new purpose needs its fact names in the scene-talk fixture** (`tests/support/scene-talk-fixture.ts`, `flags` and `facts`), or `scene-talk.test.ts` composes it with none of its gated lines.

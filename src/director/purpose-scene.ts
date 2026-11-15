@@ -188,9 +188,12 @@ import {
   openContests,
   partyTie,
   petitionOf,
+  type StruckReason,
 } from "../core2/modules/elections";
 import {
   CAMPAIGNS_MODULE_ID,
+  askForEndorsement,
+  endorsementChoice,
   enlistVolunteer,
   type CauseRow,
 } from "../core2/modules/campaigns";
@@ -1610,6 +1613,54 @@ function composeBinding(
   // signatures and the day they are due, or that the office takes none.
   if (type.stakes?.includes("petition"))
     Object.assign(facts, petitionFacts(core, said.filingId));
+  // The clerk's word on the petition (`petition-checked`): how the check
+  // came out, why signatures were struck by kind (never how many), and the
+  // candidate the player would back if theirs fell short.
+  if (record?.kind === PETITION_CHECKED_KIND) {
+    const petition = said.filingId
+      ? petitionOf(coreAPI(core as CoreState), said.filingId)
+      : null;
+    if (petition?.check) {
+      facts[said.status === SHORT_STATUS ? SHORT_STATUS : "on-ballot"] = {
+        text: "yes",
+        sourceRecordIds: [petition.id, moment.causeId],
+      };
+      for (const reason of STRUCK_REASONS) {
+        const ids = Object.entries(petition.check.struckReasons)
+          .filter(([, why]) => why === reason)
+          .map(([id]) => id)
+          .sort();
+        if (ids.length)
+          facts[`struck-${reason}`] = {
+            text: "yes",
+            sourceRecordIds: [petition.id, ...ids],
+          };
+      }
+      const backing =
+        said.status === SHORT_STATUS && said.contestId
+          ? endorsementChoice(
+              coreAPI(core as CoreState),
+              said.contestId,
+              askedId,
+            )
+          : null;
+      const backed = backing
+        ? coreAPI(core as CoreState)
+            .moduleState(ELECTIONS_MODULE_ID)
+            .table("filings")
+            .get(backing)
+        : undefined;
+      const rival = core.people.get(
+        (backed as unknown as { personId?: string } | undefined)
+          ?.personId as PersonId,
+      );
+      if (backing && rival)
+        facts.backable = {
+          text: sayPerson(rival),
+          sourceRecordIds: [backing, rival.id],
+        };
+    }
+  }
   // In a race the asked lost, the winner is the opponent the scene may name.
   const winner = said.winnerId
     ? core.people.get(said.winnerId as PersonId)
@@ -2822,6 +2873,18 @@ function walkThroughFacts(
   };
 }
 
+/** The kind of the clerk's check of a petition, the status that leaves a filing off the ballot, and why a signature is struck (the check's own `StruckReason`s). */
+const PETITION_CHECKED_KIND = "petition-checked";
+const SHORT_STATUS = "short";
+const STRUCK_REASONS: readonly StruckReason[] = [
+  "moved",
+  "died",
+  "under-age",
+  "barred",
+];
+/** The scene type of the clerk's word on a petition (situation-types.json). */
+const PETITION_CHECKED_TYPE = "petition-checked";
+
 /** The scene type of a resident's visit to the official's office (situation-types.json). */
 const OFFICE_HOURS_TYPE = "office-hours";
 
@@ -2934,6 +2997,19 @@ export function replyInScene(
       : undefined;
   const answer = reply!.next?.lines.find((row) => row.role === "asker");
   const filingId = scene.cause.facts.filingId;
+  // The clerk's word on a short petition: the player says they will back
+  // someone else in the race, and that is their own endorsement, kept by the
+  // campaign engine through the one rule everyone's backing goes through.
+  const backedFiling =
+    scene.typeKey === PETITION_CHECKED_TYPE &&
+    line.move === "promise" &&
+    core.modules.has(CAMPAIGNS_MODULE_ID)
+      ? scene.facts.find((row) => row.key === "backable")?.recordIds[P.zero]
+      : undefined;
+  if (backedFiling)
+    askForEndorsement(coreAPI(core), backedFiling, scene.askedId, {
+      unasked: true,
+    });
   const enlists =
     !!stakeKind &&
     !!filingId &&
@@ -2992,6 +3068,7 @@ export function replyInScene(
       line: line.text,
       ...(stakeKind ? { stake: stakeKind } : {}),
       ...(enlists && filingId ? { enlisted: filingId } : {}),
+      ...(backedFiling ? { backed: backedFiling } : {}),
       ...(backing ? { backing } : {}),
       ...(ending ? { ending: ending.id, keeps: ending.keeps } : {}),
       // A promise a record can settle: its kind and its tie, from the

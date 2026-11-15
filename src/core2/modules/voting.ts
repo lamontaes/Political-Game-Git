@@ -135,6 +135,7 @@ import {
   isLocalFamily,
   registerWardResidency,
   keepPetitionCheck,
+  type StruckReason,
   openPetition,
   petitionOf,
   petitionSigners,
@@ -675,7 +676,11 @@ function openFilingPetition(api: CoreAPI, filingId: string): void {
   // Where the law asks no signatures, the clerk takes the filing at the
   // counter: nothing to circulate.
   if (petition.needed === 0) {
-    keepPetitionCheck(api, filing.id, { valid: 0, struckIds: [] });
+    keepPetitionCheck(api, filing.id, {
+      valid: 0,
+      struckIds: [],
+      struckReasons: {},
+    });
     return;
   }
   const key = `petition-check:${filing.id}:${petition.opened}`;
@@ -943,7 +948,43 @@ function checkPetition(api: CoreAPI, petitionId: string): void {
   keepPetitionCheck(api, filingId, {
     valid: signers.length - struckIds.length + outside,
     struckIds,
+    struckReasons: struckReasonsOf(api, struckIds),
   });
+}
+
+/**
+ * Why each struck signer was struck, read from their own record the day of
+ * the check (the roll's own four tests, in the order it applies them). A
+ * counted resident stands for the people like them, so is struck only for
+ * living elsewhere, being under voting age or being barred: one rule for both
+ * tiers. A counted record the store no longer holds has moved on.
+ */
+function struckReasonsOf(
+  api: CoreAPI,
+  struckIds: readonly string[],
+): Record<string, StruckReason> {
+  const state = api.state as CoreState;
+  const { townPlaceId } = town(api);
+  const adultAge = api.parameter("votingAge");
+  const date = state.date;
+  const counted = struckIds.some((id) => !state.people.has(id as PersonId))
+    ? new Map(countedResidents(state).map((v) => [v.id, v]))
+    : null;
+  const reasons: Record<string, StruckReason> = {};
+  for (const id of struckIds) {
+    const person = state.people.get(id as PersonId);
+    const record = person ?? counted?.get(id);
+    reasons[id] = !record
+      ? "moved"
+      : person && !person.alive
+        ? "died"
+        : record.placeId !== townPlaceId
+          ? "moved"
+          : ageOn(record, date) < adultAge
+            ? "under-age"
+            : "barred";
+  }
+  return reasons;
 }
 
 /** Once a seat's contest is decided, its next cycle's contest opens. */

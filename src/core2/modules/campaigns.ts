@@ -6103,6 +6103,30 @@ export function endorsementWeighing(
 }
 
 /**
+ * The filing in a race that someone not standing in it would back, by the one
+ * endorsement rule everyone's own word goes through (`endorsementWeighing`):
+ * the standing candidate they back most among those they would endorse at all,
+ * the earlier filing first on a tie. Nothing is kept; none where they would
+ * back no one.
+ */
+export function endorsementChoice(
+  api: CoreAPI,
+  contestId: string,
+  endorserId: string,
+): string | null {
+  const endorser = api.state.people.get(endorserId);
+  if (!endorser?.alive) return null;
+  let best: { readonly id: string; readonly score: number } | null = null;
+  for (const campaign of raceCampaigns(api, contestId)) {
+    if (campaign.candidateId === endorserId) continue;
+    const weighing = endorsementWeighing(api, campaign, endorser);
+    if (weighing.yes && (!best || weighing.score > best.score))
+      best = { id: campaign.id, score: weighing.score };
+  }
+  return best?.id ?? null;
+}
+
+/**
  * Ask someone to endorse. They endorse only the candidate they back most
  * among those standing (`weighEndorsement`: their agreement with the
  * platform and their tie to the candidate), never for a price; everyone who
@@ -6113,6 +6137,8 @@ export function askForEndorsement(
   api: CoreAPI,
   filingId: string,
   endorserId: string,
+  /** Backed on their own word, never asked by the candidate (a person whose own petition fell short). */
+  options: { readonly unasked?: boolean } = {},
 ): boolean {
   const campaign = campaignFor(api, filingId);
   const endorser = api.state.people.get(endorserId);
@@ -6138,7 +6164,7 @@ export function askForEndorsement(
       id,
       speakerId: endorserId,
       organizationId: null,
-      askerId: campaign.candidateId,
+      askerId: options.unasked ? null : campaign.candidateId,
       weighing,
       reached,
       volunteerIds: [],

@@ -3,6 +3,7 @@
   "register": "scene-talk",
   "description": "Scenes with a purpose (owner, Oct 15, evening): the narrator's setup, the asker's opening and statement of purpose, the player's four replies with their stakes, the asker's answer and the close. Authored to calibrated patterns from ordinary American political and family talk (the text rule, Oct 15); no one's text is copied. Each piece serves every scene with its step and move: each use names the purpose it serves, so a line never leaks into a scene it does not fit; a follow that answers one reply names that reply's piece or move in `after`. A piece's bearing is the manner of its wording; the speaker's traits pull toward the bearings they favor. The director's exchange engine (src/director/scene-talk.ts) arranges the pieces by src/director/data/purpose-arcs.json.",
   "slots": {
+    "backable": "The candidate in the race the player would back after their own petition fell short, from the endorsement rule (`endorsementChoice`).",
     "area": "A policy area, said after 'with' or 'about', from the town's term read.",
     "stand": "The stand the speaker takes in an address, as a verb phrase after 'to' (\"raise the minimum wage\"), from the speaker's recorded views.",
     "signatures": "The signatures a filing's petition needs, as a number, from the petition record.",
@@ -186136,6 +186137,773 @@
           "key": "bill-sign-on"
         }
       ]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-clerk-s-office-has-finished-checking-your-petition",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The clerk's office has finished checking your petition.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "petition-checked",
+          "key": "petition-checked"
+        }
+      ],
+      "origin": "authored",
+      "author": "Builder (Claude Code), clerk petition scene: a draft for the Words lead to read, not read yet",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "narrate",
+        "key": "petition-checked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-clerk-s-office-has-checked-your-petition-and-it-came-up-short",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The clerk's office has checked your petition, and it came up short.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "petition-checked",
+          "key": "petition-checked",
+          "requiresFacts": ["short"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Builder (Claude Code), clerk petition scene: a draft for the Words lead to read, not read yet",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "narrate",
+        "key": "petition-checked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-clerk-s-office-has-checked-your-petition-and-the-papers-are-in",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The clerk's office has checked your petition, and the papers are in.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "petition-checked",
+          "key": "petition-checked",
+          "requiresFacts": ["on-ballot"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Builder (Claude Code), clerk petition scene: a draft for the Words lead to read, not read yet",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "narrate",
+        "key": "petition-checked"
+      }
+    },
+    {
+      "key": "scene-talk.state-deliver-news.your-papers-are-in-order-you-re-on-the-ballot-for-office",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "Your papers are in order. You're on the ballot for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "petition-checked",
+          "key": "petition-checked",
+          "requiresFacts": ["on-ballot", "office"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Builder (Claude Code), clerk petition scene: a draft for the Words lead to read, not read yet",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "deliver-news",
+        "key": "petition-checked"
+      }
+    },
+    {
+      "key": "scene-talk.state-deliver-news.your-papers-are-in-some-of-the-names-came-off-because-those-people-have-moved-aw",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "Your papers are in. Some of the names came off because those people have moved away, but enough stood. You're on the ballot for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "petition-checked",
+          "key": "petition-checked",
+          "requiresFacts": ["on-ballot", "office", "struck-moved"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Builder (Claude Code), clerk petition scene: a draft for the Words lead to read, not read yet",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "deliver-news",
+        "key": "petition-checked"
+      }
+    },
+    {
+      "key": "scene-talk.state-deliver-news.your-papers-are-in-some-of-the-signers-weren-t-old-enough-to-sign-but-enough-nam",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "Your papers are in. Some of the signers weren't old enough to sign, but enough names stood. You're on the ballot for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "petition-checked",
+          "key": "petition-checked",
+          "requiresFacts": ["on-ballot", "office", "struck-under-age"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Builder (Claude Code), clerk petition scene: a draft for the Words lead to read, not read yet",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "deliver-news",
+        "key": "petition-checked"
+      }
+    },
+    {
+      "key": "scene-talk.state-deliver-news.your-papers-are-in-some-of-the-names-came-off-the-roll-but-enough-stood-you-re-o",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "Your papers are in. Some of the names came off the roll, but enough stood. You're on the ballot for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "petition-checked",
+          "key": "petition-checked",
+          "requiresFacts": ["on-ballot", "office", "struck-barred"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Builder (Claude Code), clerk petition scene: a draft for the Words lead to read, not read yet",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "deliver-news",
+        "key": "petition-checked"
+      }
+    },
+    {
+      "key": "scene-talk.state-deliver-news.your-papers-are-in-some-of-the-names-were-of-people-who-have-died-and-they-came-",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "Your papers are in. Some of the names were of people who have died, and they came off, but enough stood. You're on the ballot for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "petition-checked",
+          "key": "petition-checked",
+          "requiresFacts": ["on-ballot", "office", "struck-died"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Builder (Claude Code), clerk petition scene: a draft for the Words lead to read, not read yet",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "deliver-news",
+        "key": "petition-checked"
+      }
+    },
+    {
+      "key": "scene-talk.state-deliver-news.i-m-sorry-your-petition-came-up-short-and-you-re-not-on-the-ballot-for-office",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "I'm sorry. Your petition came up short, and you're not on the ballot for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "petition-checked",
+          "key": "petition-checked",
+          "requiresFacts": ["short", "office"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Builder (Claude Code), clerk petition scene: a draft for the Words lead to read, not read yet",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "deliver-news",
+        "key": "petition-checked"
+      }
+    },
+    {
+      "key": "scene-talk.state-deliver-news.i-m-sorry-some-of-the-people-who-signed-have-moved-away-and-their-names-came-off",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "I'm sorry. Some of the people who signed have moved away, and their names came off. Your petition came up short for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "petition-checked",
+          "key": "petition-checked",
+          "requiresFacts": ["short", "office", "struck-moved"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Builder (Claude Code), clerk petition scene: a draft for the Words lead to read, not read yet",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "deliver-news",
+        "key": "petition-checked"
+      }
+    },
+    {
+      "key": "scene-talk.state-deliver-news.i-m-sorry-some-of-the-people-who-signed-weren-t-old-enough-to-sign-and-their-nam",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "I'm sorry. Some of the people who signed weren't old enough to sign, and their names came off. Your petition came up short for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "petition-checked",
+          "key": "petition-checked",
+          "requiresFacts": ["short", "office", "struck-under-age"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Builder (Claude Code), clerk petition scene: a draft for the Words lead to read, not read yet",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "deliver-news",
+        "key": "petition-checked"
+      }
+    },
+    {
+      "key": "scene-talk.state-deliver-news.i-m-sorry-some-of-the-people-who-signed-can-t-vote-right-now-and-their-names-cam",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "I'm sorry. Some of the people who signed can't vote right now, and their names came off. Your petition came up short for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "petition-checked",
+          "key": "petition-checked",
+          "requiresFacts": ["short", "office", "struck-barred"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Builder (Claude Code), clerk petition scene: a draft for the Words lead to read, not read yet",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "deliver-news",
+        "key": "petition-checked"
+      }
+    },
+    {
+      "key": "scene-talk.state-deliver-news.i-m-sorry-some-of-the-names-were-of-people-who-have-died-and-they-came-off-your-",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "I'm sorry. Some of the names were of people who have died, and they came off. Your petition came up short for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "petition-checked",
+          "key": "petition-checked",
+          "requiresFacts": ["short", "office", "struck-died"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Builder (Claude Code), clerk petition scene: a draft for the Words lead to read, not read yet",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "deliver-news",
+        "key": "petition-checked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-accept.understood-thank-you-for-telling-me",
+      "move": "reply-accept",
+      "kind": "spoken",
+      "text": "Understood. Thank you for telling me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "accept",
+          "role": "asked",
+          "purpose": "petition-checked",
+          "key": "petition-checked"
+        }
+      ],
+      "origin": "authored",
+      "author": "Builder (Claude Code), clerk petition scene: a draft for the Words lead to read, not read yet",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "accept",
+        "key": "petition-checked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-accept.i-understand-it-s-hard-to-hear-but-thank-you-for-being-straight-with-me",
+      "move": "reply-accept",
+      "kind": "spoken",
+      "text": "I understand. It's hard to hear, but thank you for being straight with me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "accept",
+          "role": "asked",
+          "purpose": "petition-checked",
+          "key": "petition-checked",
+          "requiresFacts": ["short"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Builder (Claude Code), clerk petition scene: a draft for the Words lead to read, not read yet",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "accept",
+        "key": "petition-checked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-happens-now",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What happens now?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "petition-checked",
+          "key": "petition-checked"
+        }
+      ],
+      "origin": "authored",
+      "author": "Builder (Claude Code), clerk petition scene: a draft for the Words lead to read, not read yet",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "ask",
+        "key": "petition-checked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.is-there-anything-i-can-still-do-for-this-race",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Is there anything I can still do for this race?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "petition-checked",
+          "key": "petition-checked",
+          "requiresFacts": ["short"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Builder (Claude Code), clerk petition scene: a draft for the Words lead to read, not read yet",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "ask",
+        "key": "petition-checked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-happened-to-the-names-that-came-off",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What happened to the names that came off?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "petition-checked",
+          "key": "petition-checked",
+          "requiresFacts": ["struck-moved"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Builder (Claude Code), clerk petition scene: a draft for the Words lead to read, not read yet",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "ask",
+        "key": "petition-checked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.then-i-ll-back-backable-in-this-race",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "Then I'll back {backable} in this race.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "petition-checked",
+          "key": "petition-checked",
+          "requiresFacts": ["short", "backable"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Builder (Claude Code), clerk petition scene: a draft for the Words lead to read, not read yet",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "promise",
+        "key": "petition-checked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-can-t-run-but-i-can-stand-behind-backable-i-ll-say-so",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I can't run, but I can stand behind {backable}. I'll say so.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "petition-checked",
+          "key": "petition-checked",
+          "requiresFacts": ["short", "backable"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Builder (Claude Code), clerk petition scene: a draft for the Words lead to read, not read yet",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "promise",
+        "key": "petition-checked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-need-some-air-thank-you-clerk",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I need some air. Thank you, clerk.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "petition-checked",
+          "key": "petition-checked"
+        }
+      ],
+      "origin": "authored",
+      "author": "Builder (Claude Code), clerk petition scene: a draft for the Words lead to read, not read yet",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "leave",
+        "key": "petition-checked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.that-s-all-i-need-to-know-for-now-i-ll-be-in-touch",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "That's all I need to know for now. I'll be in touch.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "petition-checked",
+          "key": "petition-checked"
+        }
+      ],
+      "origin": "authored",
+      "author": "Builder (Claude Code), clerk petition scene: a draft for the Words lead to read, not read yet",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "leave",
+        "key": "petition-checked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-come-see-me-if-you-need-anything-else-from-this-office",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you. Come see me if you need anything else from this office.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "petition-checked",
+          "key": "petition-checked",
+          "after": "accept"
+        }
+      ],
+      "origin": "authored",
+      "author": "Builder (Claude Code), clerk petition scene: a draft for the Words lead to read, not read yet",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "thank",
+        "key": "petition-checked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.i-hoped-you-d-say-that-it-matters-to-whoever-you-back",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "I hoped you'd say that. It matters to whoever you back.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "petition-checked",
+          "key": "petition-checked",
+          "after": "promise",
+          "requiresFacts": ["backable"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Builder (Claude Code), clerk petition scene: a draft for the Words lead to read, not read yet",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "thank",
+        "key": "petition-checked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.now-it-s-the-campaign-your-name-is-on-the-ballot-for-office",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Now it's the campaign. Your name is on the ballot for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "petition-checked",
+          "key": "petition-checked",
+          "after": "ask",
+          "requiresFacts": ["on-ballot"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Builder (Claude Code), clerk petition scene: a draft for the Words lead to read, not read yet",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "answer",
+        "key": "petition-checked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.the-race-goes-on-without-you-what-you-say-about-it-still-carries-weight-in-this-",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "The race goes on without you. What you say about it still carries weight in this town.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "petition-checked",
+          "key": "petition-checked",
+          "after": "ask",
+          "requiresFacts": ["short"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Builder (Claude Code), clerk petition scene: a draft for the Words lead to read, not read yet",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "answer",
+        "key": "petition-checked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.some-of-the-people-who-signed-have-moved-out-of-town-since-the-law-counts-only-p",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Some of the people who signed have moved out of town since. The law counts only people who live here.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "petition-checked",
+          "key": "petition-checked",
+          "after": "ask",
+          "requiresFacts": ["struck-moved"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Builder (Claude Code), clerk petition scene: a draft for the Words lead to read, not read yet",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "answer",
+        "key": "petition-checked"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.thank-you-for-coming-in",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thank you for coming in.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "petition-checked",
+          "key": "petition-checked",
+          "outcome": "resolved"
+        }
+      ],
+      "origin": "authored",
+      "author": "Builder (Claude Code), clerk petition scene: a draft for the Words lead to read, not read yet",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "thank",
+        "key": "petition-checked"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.i-ll-see-you-at-the-next-filing-if-you-want-to-try-again",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "I'll see you at the next filing, if you want to try again.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "petition-checked",
+          "key": "petition-checked",
+          "outcome": "resolved"
+        }
+      ],
+      "origin": "authored",
+      "author": "Builder (Claude Code), clerk petition scene: a draft for the Words lead to read, not read yet",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "promise",
+        "key": "petition-checked"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.all-right-i-m-here-if-you-want-to-talk-it-through",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "All right. I'm here if you want to talk it through.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "petition-checked",
+          "key": "petition-checked",
+          "outcome": "refused"
+        }
+      ],
+      "origin": "authored",
+      "author": "Builder (Claude Code), clerk petition scene: a draft for the Words lead to read, not read yet",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "accept",
+        "key": "petition-checked"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.think-about-it-the-race-is-still-going-on",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Think about it. The race is still going on.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "petition-checked",
+          "key": "petition-checked",
+          "outcome": "open"
+        }
+      ],
+      "origin": "authored",
+      "author": "Builder (Claude Code), clerk petition scene: a draft for the Words lead to read, not read yet",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "press",
+        "key": "petition-checked"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.don-t-wait-too-long-on-whatever-you-decide",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "Don't wait too long on whatever you decide.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "petition-checked",
+          "key": "petition-checked",
+          "outcome": "open"
+        }
+      ],
+      "origin": "authored",
+      "author": "Builder (Claude Code), clerk petition scene: a draft for the Words lead to read, not read yet",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "warn",
+        "key": "petition-checked"
+      }
     }
   ]
 }

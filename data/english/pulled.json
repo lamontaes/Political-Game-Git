@@ -67,6 +67,9 @@
     "scene-talk.follow-answer.on-bill-they-re-scared-of-their-own-voters-that-s-the-whole-of-it": [
       "plain-american-spelling-and-phrasing"
     ],
+    "scene-talk.follow-answer.the-race-goes-on-without-you-what-you-say-about-it-still-carries-weight-in-this-": [
+      "no-this-town"
+    ],
     "scene-talk.state-request.bill-means-purpose-that-s-the-whole-of-it": [
       "plain-american-spelling-and-phrasing"
     ]
@@ -114,6 +117,9 @@
     ],
     "scene-talk.close-accept.all-right-i-hear-you": ["no-stock-phrases"],
     "scene-talk.close-accept.all-right-i-ll-let-you-go": [
+      "alright-in-dialogue"
+    ],
+    "scene-talk.close-accept.all-right-i-m-here-if-you-want-to-talk-it-through": [
       "alright-in-dialogue"
     ],
     "scene-talk.close-accept.all-right-we-ll-sort-out-the-bills-this-week": [

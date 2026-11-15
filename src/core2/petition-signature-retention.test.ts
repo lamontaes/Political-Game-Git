@@ -63,6 +63,7 @@ it(
         const status = keepPetitionCheck(api, filingId, {
           valid: 2,
           struckIds: [],
+          struckReasons: {},
         });
         return {
           status,
