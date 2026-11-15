@@ -157,13 +157,21 @@ describe("Metrics reads the registry in a played world", () => {
           for (const row of opening.sections.find((s) => s.key === section)
             ?.rows ?? [])
             if (
-              section === "housing" &&
-              (row.key === "rent" || row.key === "homeValue")
+              (section === "housing" &&
+                (row.key === "rent" || row.key === "homeValue")) ||
+              (section === "city" &&
+                (row.key === "employed" || row.key === "seekers"))
             )
               expect(
                 row.before,
                 `${where}: ${section}.${row.key}`,
-              ).toBeGreaterThan(0);
+              ).toBeGreaterThanOrEqual(0);
+            else if (section === "city" && row.key === "openPositions")
+              // The jobs open a year before follow the seekers; with no one looking there are none to read.
+              expect(
+                row.before === null || row.before >= 0,
+                `${where}: openPositions`,
+              ).toBe(true);
             else
               expect(row.before, `${where}: ${section}.${row.key}`).toBeNull();
 
@@ -228,6 +236,9 @@ describe("Metrics reads the registry in a played world", () => {
         for (const [section, key, field] of [
           ["city", "people", "people"],
           ["city", "households", "households"],
+          ["city", "employed", "residentsAtWork"],
+          ["city", "seekers", "residentsLooking"],
+          ["city", "openPositions", "openPositions"],
           ["housing", "rentals", "rentalUnits"],
           ["housing", "vacant", "vacantRentals"],
           ["housing", "homeless", "peopleWithoutHome"],
@@ -254,6 +265,12 @@ describe("Metrics reads the registry in a played world", () => {
             .get(placeId),
           where,
         ).toMatchObject({ homeless: march!.peopleWithoutHome });
+        // The state's figures keep the month a year back, so each has last year from the second year on.
+        for (const key of ["unemployment", "pay", "jobs"])
+          expect(
+            rowOf(view, "state", key)?.before,
+            `${where}: state.${key} last year`,
+          ).toBeGreaterThan(0);
         // No row shows a last year that no record holds.
         for (const section of view.sections)
           for (const row of section.rows)

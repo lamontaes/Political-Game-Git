@@ -457,18 +457,6 @@
     "resolvedBy": "stand-in triage T3"
   },
   {
-    "id": "SG-WORDS-bribe-accuser-anyone-close",
-    "kind": "missing-data",
-    "file": "src/director/data/circumstances.json",
-    "line": 1,
-    "whatItFakes": "The accusation after the press carries a taken bribe is put by the person with the highest tie and sociability among the official's family, household and acquaintances. The press records who reads a story, but not who among the official's circle did, nor what each of them has at stake, so the one who asks is the closest, not the one with a reason.",
-    "why": "The corruption engine records the report (scandal.reported) and the news engine records readers per story, but the two are not joined to the official's circle.",
-    "addedBy": "Story session",
-    "addedAt": "2026-11-08",
-    "replacement": "The circumstance casts from the news.read records of the story the report became, then by stake.",
-    "status": "open"
-  },
-  {
     "id": "SG-WORDS-address-no-reader",
     "kind": "missing-hook",
     "file": "data/english/parts/address.json",
