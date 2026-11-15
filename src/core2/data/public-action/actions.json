@@ -20,6 +20,18 @@
       "spread": "2 to 5",
       "note": "The fewest people who are an action: one person alone is not a walkout, a protest or a rally."
     },
+    "turnoutFewBelow": {
+      "value": 0.015,
+      "tag": "TUNABLE",
+      "spread": "0.005 to 0.03",
+      "note": "Below this share of the town's adults (named and counted people alike, the same cut for both), a turnout is said as a few people; a scene says how it looks and never the figure."
+    },
+    "turnoutCrowdFrom": {
+      "value": 0.08,
+      "tag": "TUNABLE",
+      "spread": "0.04 to 0.15",
+      "note": "From this share of the town's adults, a turnout is said as a crowd; between the two cuts it is a group. Placed from the shares the staged bad term draws at three pinned places (about 0.6 to 11 percent)."
+    },
     "faded": {
       "value": 0.001,
       "tag": "ESTIMATED",

@@ -144,3 +144,33 @@ it("Lincoln, Vermont: the same issue costs a person who works more of the week m
   const most = working.reduce((a, b) => (b.ask.cost > a.ask.cost ? b : a));
   expect(most.ask.cost).toBeGreaterThan(free[0]!.ask.cost);
 }, 180_000);
+
+// A scene says how a turnout looks and never the figure (owner's rule, Words
+// lead's ruling for #9418): the record keeps the size and one fact, read at
+// one scale (its share of the town's adults) for named and counted alike.
+it("Port O'Connor and Lincoln: each protest's record says how its turnout looks, by its share of the adults", () => {
+  const looks = (label: string, name: string) => {
+    const { world, adults } = playTerm(label, name);
+    const records = [...world.core.durableLog.values()].filter(
+      (row) => row.kind === "civic.protest",
+    );
+    // The record is written when the action forms, so its own size is read.
+    return records.map((rec) => ({
+      area: rec.facts!.area,
+      share: Number(rec.facts!.size) / adults,
+      turnout: rec.facts!.turnout,
+    }));
+  };
+  const a = looks("pa-a", "Port O'Connor, Texas");
+  const b = looks("pa-b", "Lincoln, Vermont");
+  for (const row of [...a, ...b]) {
+    expect(row.turnout, row.area).toBe(
+      row.share < 0.015 ? "few" : row.share >= 0.08 ? "crowd" : "group",
+    );
+  }
+  // The scale is used both ways: a few at one place, a group at the other. The
+  // record is written when the action forms, so a protest that later grows
+  // is told by its size at the start (a crowd looks only at a big first turnout).
+  expect(a.some((row) => row.turnout === "few")).toBe(true);
+  expect(b.some((row) => row.turnout === "group")).toBe(true);
+}, 240_000);

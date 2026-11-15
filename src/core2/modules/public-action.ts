@@ -405,6 +405,27 @@ function gatherCounted(
   return joined;
 }
 
+/**
+ * How a turnout looks, from its share of the town's adults, named and counted
+ * people alike (the same two cuts for both): "few", "group" or "crowd". The
+ * record keeps the size; a scene says only how it looks, so the same record
+ * is read at the same scale wherever it is told.
+ */
+export function turnoutLooks(
+  api: CoreAPI,
+  core: CoreState,
+  placeId: string,
+  size: number,
+): "few" | "group" | "crowd" {
+  const named = touchedIn(core, placeId, "residents", new Set(), new Set());
+  let adults = named.length;
+  for (const row of countedTouchedIn(api, core, placeId, "residents"))
+    adults += row.weight;
+  const share = adults > 0 ? size / adults : 1;
+  if (share < PAR.turnoutFewBelow.value) return "few";
+  return share >= PAR.turnoutCrowdFrom.value ? "crowd" : "group";
+}
+
 function gather(
   api: CoreAPI,
   pool: readonly PersonState[],
@@ -636,6 +657,12 @@ function monthlyRun(api: CoreAPI): void {
             side: stock.side,
             question: rule.question ?? "",
             size: String(participants.length + countedJoined),
+            turnout: turnoutLooks(
+              api,
+              core,
+              placeId,
+              participants.length + countedJoined,
+            ),
           },
           source: {
             tag: "SOURCED",
