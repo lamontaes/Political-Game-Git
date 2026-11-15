@@ -123514,7 +123514,8 @@
           "move": "answer",
           "role": "asked",
           "purpose": "press-comment.national",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "calm",
