@@ -1466,6 +1466,7 @@
       "organizations": "Organizations",
       "governments": "Governments",
       "money": "Money moved",
+      "governmentOwn": "Committed on the government's own record, not paid",
       "none": "No record names this law yet"
     },
     "endings": {
