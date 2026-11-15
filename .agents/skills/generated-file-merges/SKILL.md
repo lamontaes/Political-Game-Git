@@ -63,6 +63,10 @@ When the bottom pull request of a stack is squash-merged, every branch above it 
 - **A merge that deletes or renames a file a report or doc cites raises the pointer baseline.** `tests/guards/current-pointers.test.ts` then fails. Fix the citing line, or add the old path to the `replaced` list in `docs/current.json` (skill `current-pointers`). Never raise `tests/guards/current-pointers-baseline.json` to make room: that count may only fall.
 - **`git add -A` inside a sparse helper copy is safe.** It stages only what the copy holds; the image files the copy skips are not read as deleted (checked Nov 12: 6,236 skipped paths, 0 staged). Only pictures you add or move need `git add --sparse` (skill `helper-checkout`).
 
+## Merging the train into a branch that carries a feature the train removed (Nov 15, Visit/Call thread)
+
+Git auto-merges the train's removal hunks silently in files with no conflict (the Visit/Call card lost its lines in `places.ts`, `shift.ts`, `player.ts`, `/api/known` and `personCardNode` in `play.mjs` this way). After such a merge, diff each card file against the feature branch's head and reapply what was dropped: `git diff <removal-commit> <removal-commit>^ -- <files> | git apply --3way` restores it, and typecheck catches the rest. After a train merge, also count a bank file's part keys against the pre-merge file (a merge once dropped 114 lines silently).
+
 ## Folding many branches into one train (Nov 14, the Account lead's train)
 
 The train branch takes finished pull requests one named sha at a time, sometimes forty in a night. The merge is a plain `git merge <sha>`; what goes wrong is always in the bank and verdict files. What worked and what bit:
@@ -77,3 +81,8 @@ The train branch takes finished pull requests one named sha at a time, sometimes
 - **Gate every push on what changed since the last push:** typecheck, the guards, release check, zero-dice, eslint on changed `.ts` and `.mjs` files (the repository check in CI fails on lint even when typecheck passes; an empty file list lints the whole repository, so guard it), and the changed test files by name. Put the commands in a script file; `$(...)` inside a quoted `bash -c` string expands wrong.
 - **A new test in one pull request can turn another fold red.** A test that reads the whole world (law reach, most specific line) finds a regression from a different fold; name the failing call chain in the report and the fold that added the call, and do not revert it yourself.
 - **Run a long test file alone before calling a timeout real.** A test that passes alone in 40 seconds and fails at its limit while the gate runs other suites is a limit too close to its run time; tell its builder.
+
+## Two skills appended by two branches (Nov 15, S3)
+
+- When two branches both append to the same skill, keep both sides in both mirrors (`.agents` and `.claude`) with one script and run `npm run test:skill-ops`.
+- A leftover "cherry-pick in progress" state is cleared with `git cherry-pick --quit`.
