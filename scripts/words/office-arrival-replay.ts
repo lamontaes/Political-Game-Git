@@ -130,12 +130,17 @@ console.log(`# Office arrivals, head ${sha}\n`);
     const binding = entry.bindings.find(
       (b) => b.typeKey === "emergency-briefing",
     )!;
-    const scene = purposeScene(core, world.director, playerId, entry, {
+    const opening = composeScene(core, world.director, playerId, entry);
+    const purpose = purposeScene(core, world.director, playerId, entry, {
       typeKey: "emergency-briefing",
     });
     const org = core.organizations.get(binding.setting.recordId);
     console.log(
-      `- emergency-briefing (${binding.setting.kind} ${binding.setting.recordId}${org ? ` "${org.name}" ${org.kind}` : ""}, cause ${String(offered.facts?.officeId ?? "")}): ${scene?.kind === "composed" ? scene.scene.narration[0]?.text : JSON.stringify(scene)?.slice(0, 200)}`,
+      `- emergency-briefing (${binding.setting.kind} ${binding.setting.recordId}${org ? ` "${org.name}" ${org.kind}` : ""}, cause ${offered.id}): ${opening?.narration[0]?.text ?? "(no narration)"}`,
     );
+    if (purpose?.kind === "composed")
+      console.log(
+        `  - the briefer says: ${JSON.stringify(purpose.scene.talk.narration.slice(0, 2))}`,
+      );
   }
 }
