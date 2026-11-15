@@ -97,7 +97,7 @@ export function newsBoard({
       });
       return node;
     };
-    // The lead of a government acting carries that room's front-page photo, when the record has one.
+    // The lead carries the picture of the place its record is about, when the art has painted it.
     const photo = (story, className) => {
       const url = className === "lead" ? photoOf?.(story) : undefined;
       return url

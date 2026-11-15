@@ -820,12 +820,17 @@ export function applyCountedFlows(
         // The cohort pays what it owes, rounded up to a person: never the
         // whole month's pool in one record, which put every death on the
         // oldest cohort and left the younger ones owed for a year.
-        const take = Math.min(
-          whole,
+        // A record that has lost most of its households to earlier deaths
+        // stands for less than a person: it falls ill whole, and pays that
+        // much of the debt; only when no whole person is owed does the month
+        // stop. (Reading its weight under one as "nothing owed" ended the
+        // whole month's illnesses, so the town's deaths stalled.)
+        const payable = Math.min(
           Math.ceil(debts[pick]! - 1e-9),
           Math.floor(owedNow + 1e-9),
         );
-        if (take < 1) break;
+        if (payable < 1) break;
+        const take = Math.min(whole, payable);
         let share: number | undefined;
         if (take < whole) share = take;
         const person = members.shift()!;
@@ -875,6 +880,12 @@ export function applyCountedFlows(
       }
       return expected;
     };
+    // The fraction of a person each cohort owes at the end of one looked-back
+    // month is owed in the next, as it is in every month played; each month
+    // starting from nothing dropped it and seeded about a fifth to a half too
+    // few running illnesses at a small place. What is left after the last
+    // looked-back month is not the year's: the first month starts from nothing.
+    const lookedBack: Record<string, number> = {};
     // The first month of a place has people already ill: the illnesses that
     // began in the months before the opening and have not yet run out.
     // They are found by the same rule, month by month back from today.
@@ -893,7 +904,7 @@ export function applyCountedFlows(
               !ill.has(person.id) || ill.get(person.id)!.share !== undefined,
           ),
           before,
-          {},
+          lookedBack,
         );
       }
     row.expected.deaths = fall(
