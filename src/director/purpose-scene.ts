@@ -1144,6 +1144,11 @@ function composeBinding(
       // protest in the street or workers who walked out.
       const flag = record?.kind === "civic.strike" ? "strike" : "protest";
       facts[flag] = { text: "yes", sourceRecordIds: [said.actionId] };
+      // A protest is held outside: the narration puts everyone in the street,
+      // so the replies that belong to a meeting (a seat, a stay-after) are not
+      // offered, and their outdoor twins are.
+      if (flag === "protest")
+        facts.outdoors = { text: "yes", sourceRecordIds: [said.actionId] };
       Object.assign(
         facts,
         turnoutFacts(

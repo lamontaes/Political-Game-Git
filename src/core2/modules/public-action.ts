@@ -424,8 +424,17 @@ export function turnoutLooks(
   for (const row of countedTouchedIn(api, core, placeId, "residents"))
     adults += row.weight;
   const share = adults > 0 ? size / adults : 1;
-  if (share < PAR.turnoutFewBelow.value) return "few";
-  return share >= PAR.turnoutCrowdFrom.value ? "crowd" : "group";
+  // A look is true of the count as well as the share: too few people are never
+  // a group, and a handful never a crowd, whatever the town's size.
+  if (
+    share < PAR.turnoutFewBelow.value ||
+    size < PAR.turnoutGroupMinPeople.value
+  )
+    return "few";
+  return share >= PAR.turnoutCrowdFrom.value &&
+    size >= PAR.turnoutCrowdMinPeople.value
+    ? "crowd"
+    : "group";
 }
 
 function gather(

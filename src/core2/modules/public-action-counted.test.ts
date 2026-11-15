@@ -147,13 +147,17 @@ it("Lincoln, Vermont: the same issue costs a person who works more of the week m
 
 // A scene says how a turnout looks and never the figure (owner's rule, Words
 // lead's ruling for #9418): one fact, read from the action's own record as it
-// stands when the scene is composed, at one scale (its share of the town's
-// adults) for named and counted people alike.
-it("Port O'Connor and Lincoln: each protest is told by how its turnout looks now, by its share of the adults", () => {
+// stands when the scene is composed, from its headcount and its share of the
+// town's adults, named and counted people alike. A look is true of both: two
+// or three people are never a group, however small the town, and a handful
+// is never a crowd, so the paper's "2 residents protested" and a scene's
+// "a group has gathered" can never disagree.
+it("Port O'Connor and Lincoln: each protest is told by how its turnout looks now, from its headcount and its share of the adults", () => {
   const looks = (label: string, name: string) => {
     const { actions, adults } = playTerm(label, name);
     return actions.map((row) => ({
       area: row.area,
+      people: row.participantIds.length + row.countedParticipants,
       share: share(row, adults),
       turnout: row.turnout,
     }));
@@ -161,13 +165,23 @@ it("Port O'Connor and Lincoln: each protest is told by how its turnout looks now
   const a = looks("pa-a", "Port O'Connor, Texas");
   const b = looks("pa-b", "Lincoln, Vermont");
   for (const row of [...a, ...b]) {
-    expect(row.turnout, row.area).toBe(
-      row.share < 0.015 ? "few" : row.share >= 0.08 ? "crowd" : "group",
-    );
+    const want =
+      row.share < 0.015 || row.people < 5
+        ? "few"
+        : row.share >= 0.08 && row.people >= 10
+          ? "crowd"
+          : "group";
+    expect(row.turnout, `${row.area}: ${row.people} people`).toBe(want);
+    // Never a group of two or three, never a crowd of a handful.
+    if (row.people < 5) expect(row.turnout).toBe("few");
+    if (row.turnout === "crowd") expect(row.people).toBeGreaterThanOrEqual(10);
   }
-  // The scale is used all three ways at these two places: a few at one, a
-  // crowd (the rent protest, a tenth of the adults) and a group at the other.
+  // The scale is used by headcount too: at these two small places the
+  // jobs protests of two and three people are a few, the rent protest of a
+  // dozen at Lincoln is a crowd.
   expect(a.some((row) => row.turnout === "few")).toBe(true);
   expect(b.some((row) => row.turnout === "crowd")).toBe(true);
-  expect(b.some((row) => row.turnout === "group")).toBe(true);
+  expect(
+    [...a, ...b].filter((row) => row.people < 5).map((row) => row.turnout),
+  ).not.toContain("group");
 }, 240_000);

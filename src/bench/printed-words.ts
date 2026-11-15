@@ -3805,7 +3805,14 @@ const publicAction =
       {
         place: read.fact(place, f.actionId ?? ""),
         date: read.date(),
-        ...(f.size ? { number: read.fact(f.size, f.actionId ?? "") } : {}),
+        ...(f.size
+          ? {
+              number: read.fact(
+                new Intl.NumberFormat("en-US").format(Number(f.size)),
+                f.actionId ?? "",
+              ),
+            }
+          : {}),
         // A turnout that looks like a crowd (its share of the town's adults,
         // set by the action's own record) is the one a story calls a crowd.
         ...(f.actionId &&

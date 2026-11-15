@@ -34,6 +34,20 @@
       "spread": "0.04 to 0.15",
       "note": "From this share of the town's adults, a turnout is said as a crowd; between the two cuts it is a group. Placed from the shares the staged bad term draws at three pinned places (about 0.6 to 11 percent)."
     },
+    "turnoutGroupMinPeople": {
+      "value": 5,
+      "role": "level",
+      "tag": "ESTIMATED",
+      "spread": "3 to 8",
+      "note": "The fewest people who are a group: below this count a turnout is a few people whatever the town's size, so two residents of a small town are never a group that someone steps out of."
+    },
+    "turnoutCrowdMinPeople": {
+      "value": 10,
+      "role": "level",
+      "tag": "ESTIMATED",
+      "spread": "8 to 20",
+      "note": "The fewest people who are a crowd: below this count a turnout is a group at most, whatever its share of the town."
+    },
     "faded": {
       "value": 0.001,
       "tag": "ESTIMATED",

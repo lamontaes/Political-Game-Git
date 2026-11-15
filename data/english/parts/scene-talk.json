@@ -72296,7 +72296,8 @@
           "move": "offer",
           "role": "asked",
           "purpose": "town-hall-question",
-          "key": "favor-asked"
+          "key": "favor-asked",
+          "excludesFacts": ["outdoors"]
         }
       ],
       "bearing": "calm",
@@ -72368,7 +72369,8 @@
           "move": "deflect",
           "role": "asked",
           "purpose": "town-hall-question",
-          "key": "favor-asked"
+          "key": "favor-asked",
+          "excludesFacts": ["outdoors"]
         }
       ],
       "bearing": "guarded",
@@ -72392,7 +72394,8 @@
           "move": "deflect",
           "role": "asked",
           "purpose": "town-hall-question",
-          "key": "favor-asked"
+          "key": "favor-asked",
+          "excludesFacts": ["outdoors"]
         }
       ],
       "bearing": "guarded",
@@ -72748,7 +72751,8 @@
           "role": "asker",
           "purpose": "town-hall-question",
           "key": "favor-asked",
-          "after": "deflect"
+          "after": "deflect",
+          "excludesFacts": ["outdoors"]
         }
       ],
       "bearing": "anxious",
@@ -97605,7 +97609,8 @@
           "move": "thank",
           "role": "asked",
           "purpose": "rally-word",
-          "key": "honor"
+          "key": "honor",
+          "requiresFacts": ["turnout-crowd"]
         }
       ],
       "origin": "authored",
@@ -186234,6 +186239,107 @@
       "tag": {
         "move": "narrate",
         "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-offer.walk-with-me-i-want-the-whole-story",
+      "move": "reply-offer",
+      "kind": "spoken",
+      "text": "Walk with me. I want the whole story.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "offer",
+          "role": "asked",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "requiresFacts": ["outdoors"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (Claude Code)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "offer",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.that-s-a-bigger-answer-than-i-can-give-out-here",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "That's a bigger answer than I can give out here.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "requiresFacts": ["outdoors"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words lead (Claude Code)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "deflect",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.let-me-hear-from-someone-else-too",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "Let me hear from someone else too.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "requiresFacts": ["outdoors"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words lead (Claude Code)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "deflect",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-plea.please-i-came-out-here-to-ask-this",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "Please. I came out here to ask this.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "after": "deflect",
+          "requiresFacts": ["outdoors"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Words lead (Claude Code)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "plea",
+        "key": "favor-asked"
       }
     }
   ]

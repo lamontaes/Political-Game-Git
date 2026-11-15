@@ -19,7 +19,7 @@ source: Account lead stopgap disposal, Nov 14 (found building the join decision)
 claimed-at:
 ---
 
-**What.** A strike, protest or rally now draws the people whose own view of the area's question, own group and week send them, so a bad term draws one or two in a hundred. The `crime` and `roads` areas in `src/core2/data/public-action/actions.json` name no policy question, so the decision has no view to read and pulls every adult alike: in Pekin, Ohio (seed `ab2b506363a1cbfb:0`) a crime rally held 129 named people and a roads protest 129, the whole town. Seen: the paper's line about how many residents protested crime or roads shows a whole town.
+**What.** A strike, protest or rally now draws the people whose own view of the area's question, own group and week send them, so a bad term draws one or two in a hundred. The `crime` and `roads` areas in `src/core2/data/public-action/actions.json` name no policy question, so the decision has no view to read and pulls every adult alike: in Pekin, Ohio (seed `ab2b506363a1cbfb:0`) a crime rally held 129 named people and a roads protest 129, the whole town. Seen: the paper's line about how many residents protested crime or roads shows a whole town. Seen: on Nov 15 at Cottleville, Missouri (seed `pa-rally-pin:0`, a staged good term): the paper printed "A crowd of 3269 turned out in Cottleville" for the crime rally, more than half the town.
 
 **Cause.** Found in code: `joinCase` in `src/core2/modules/public-action.ts` sets the pull to 1 for an area with no `question` (`view === undefined`). `RULES.crime` and `RULES.roads` carry `touches: "residents"` and no `question`.
 
