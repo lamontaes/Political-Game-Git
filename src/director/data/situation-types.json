@@ -3242,7 +3242,7 @@
           "key": "prospect",
           "fill": "counterpart",
           "count": "one",
-          "moves": ["agree", "decline", "relent"],
+          "moves": ["agree", "decline", "relent", "bargain"],
           "wants": ["play-safe"],
           "bearing": "guarded"
         },
@@ -3250,7 +3250,7 @@
           "key": "you",
           "fill": "subject",
           "count": "one",
-          "moves": ["request", "press", "thank", "accept"],
+          "moves": ["request", "press", "thank", "accept", "promise", "refuse"],
           "wants": ["commit"],
           "bearing": "hopeful"
         }
@@ -3986,7 +3986,12 @@
           "match": {
             "label": "cause:event:debate",
             "selfNamed": true,
-            "causeFacts": [{ "key": "stood", "includes": "subject" }]
+            "causeFacts": [
+              {
+                "key": "stood",
+                "includes": "subject"
+              }
+            ]
           },
           "causeEngine": "meetings",
           "causeRecord": "debate",
