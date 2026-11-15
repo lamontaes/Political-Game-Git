@@ -14538,7 +14538,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "press"
+          "after": "press",
+          "excludesFacts": ["vote-held"]
         }
       ],
       "bearing": "braced",
@@ -14563,7 +14564,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "press"
+          "after": "press",
+          "excludesFacts": ["vote-held"]
         }
       ],
       "bearing": "proud",
@@ -57386,7 +57388,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "press"
+          "after": "press",
+          "excludesFacts": ["vote-held"]
         }
       ],
       "bearing": "guarded",
@@ -57511,7 +57514,8 @@
           "role": "asker",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.reply-stall.let-me-check-and-call-you-back-today"
+          "after": "scene-talk.reply-stall.let-me-check-and-call-you-back-today",
+          "excludesFacts": ["vote-held"]
         }
       ],
       "bearing": "calm",
@@ -103053,7 +103057,19 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "onlyWhen": ["bill"]
+          "onlyWhen": ["bill"],
+          "excludesFacts": ["voted-no"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "press-comment",
+          "key": "routine",
+          "onlyWhen": ["bill"],
+          "excludesFacts": ["voted-no"],
+          "after": "ask"
         }
       ],
       "bearing": "calm",
@@ -181220,6 +181236,112 @@
       ]
     },
     {
+      "key": "scene-talk.reply-deflect.my-vote-is-on-the-record-thats-my-statement",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "My vote is on the record. That's my statement.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "press-comment",
+          "key": "routine",
+          "requiresFacts": ["vote-held"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "press-comment",
+          "key": "routine",
+          "after": "press",
+          "requiresFacts": ["vote-held"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "press-comment",
+          "key": "routine",
+          "after": "ask",
+          "requiresFacts": ["vote-held"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead, civic-prose",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "deflect",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.everyone-in-that-room-voted-ask-them-too",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "Everyone in that room voted. Ask them too.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "press-comment",
+          "key": "routine",
+          "after": "press",
+          "requiresFacts": ["vote-held"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words lead, civic-prose",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "deflect",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.ill-let-my-vote-speak-for-itself",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "I'll let my vote speak for itself.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "press-comment",
+          "key": "routine",
+          "requiresFacts": ["voted-no"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "press-comment",
+          "key": "routine",
+          "requiresFacts": ["voted-no"],
+          "after": "ask"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead, civic-prose",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "deflect",
+        "key": "routine"
+      }
+    },
+    {
       "key": "scene-talk.reply-leave.i-have-to-go-take-care",
       "move": "reply-leave",
       "kind": "spoken",
@@ -185679,6 +185801,16 @@
           "purpose": "press-comment",
           "key": "routine",
           "requiresFacts": ["vote-held"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "purpose": "press-comment",
+          "key": "routine",
+          "requiresFacts": ["vote-held"],
+          "after": "press"
         }
       ],
       "bearing": "guarded",
@@ -185691,10 +185823,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-stall.ill-explain-it-at-the-next-meeting-in-front-of-everybody",
+      "key": "scene-talk.reply-stall.i-have-nothing-to-add-to-how-i-voted",
       "move": "reply-stall",
       "kind": "spoken",
-      "text": "I'll explain it at the next meeting, in front of everybody.",
+      "text": "I have nothing to add to how I voted.",
       "uses": [
         {
           "subject": "scene",
@@ -185704,9 +185836,116 @@
           "purpose": "press-comment",
           "key": "routine",
           "requiresFacts": ["vote-held"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "purpose": "press-comment",
+          "key": "routine",
+          "after": "ask",
+          "requiresFacts": ["vote-held"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "purpose": "press-comment",
+          "key": "routine",
+          "after": "confront",
+          "requiresFacts": ["vote-held"]
         }
       ],
-      "bearing": "calm",
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words lead, civic-prose",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "stall",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-stall.im-not-talking-about-that-vote",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "I'm not talking about that vote.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "purpose": "press-comment",
+          "key": "routine",
+          "requiresFacts": ["vote-held"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "purpose": "press-comment",
+          "key": "routine",
+          "after": "ask",
+          "requiresFacts": ["vote-held"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words lead, civic-prose",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "stall",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-stall.i-heard-you-the-first-time-not-today",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "I heard you the first time. Not today.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "purpose": "press-comment",
+          "key": "routine",
+          "after": "press",
+          "requiresFacts": ["vote-held"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words lead, civic-prose",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "stall",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-stall.im-not-going-to-answer-that",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "I'm not going to answer that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "purpose": "press-comment",
+          "key": "routine",
+          "after": "confront",
+          "requiresFacts": ["vote-held"]
+        }
+      ],
+      "bearing": "guarded",
       "origin": "authored",
       "author": "Words lead, civic-prose",
       "date": "2026-11-15",

@@ -41,12 +41,21 @@ const AHEAD = [
   "We'll know more next week.",
   "You'll have it the same day everybody else does.",
   "Ask me next week, when there's more to say.",
+  "Let me check and call you back today.",
+  "Fine. I'm leaning yes. That's all you get.",
+  "Put this in: I'll vote yes, and I'll own it.",
 ];
 // Placed on the vote: the honest ways to put a reporter off about a vote
-// already cast (Words lead, Nov 15).
+// already cast, none promising anything later (Words lead, Nov 15).
 const AFTER_VOTE = [
   "I'd rather not get into it today.",
-  "I'll explain it at the next meeting, in front of everybody.",
+  "I have nothing to add to how I voted.",
+  "I'm not talking about that vote.",
+  "I heard you the first time. Not today.",
+  "I'm not going to answer that.",
+  "My vote is on the record. That's my statement.",
+  "Everyone in that room voted. Ask them too.",
+  "I'll let my vote speak for itself.",
 ];
 const SPOTS = [
   { step: "reply", move: "stall", role: "asked" },
@@ -74,6 +83,12 @@ describe("after the vote, no reply says the vote is still ahead", () => {
   const voted = Object.fromEntries(
     Object.entries(words).map(([key, text]) => [key, fact(text)]),
   );
+  const votedYes = {
+    ...Object.fromEntries(
+      Object.entries(voted).filter(([key]) => key !== "voted-no"),
+    ),
+    "voted-yes": fact("2025-1"),
+  };
   const before = Object.fromEntries(
     Object.entries(voted).filter(
       ([key]) => key !== "vote-held" && key !== "voted-no",
@@ -81,14 +96,28 @@ describe("after the vote, no reply says the vote is still ahead", () => {
   );
   const AFTER = [undefined, "press", "ask", "confront", "deflect", "refuse"];
   for (const spot of SPOTS)
-    it(`${spot.step} ${spot.move}: none after the vote, and the spot still has lines`, () => {
-      const after = AFTER.flatMap((a) => offered(spot, voted, a));
-      expect(after.filter((text) => AHEAD.includes(text))).toEqual([]);
-      expect(after.length).toBeGreaterThan(0);
+    it(`${spot.step} ${spot.move}: none after the vote, and every turn still offers two`, () => {
+      for (const facts of [voted, votedYes])
+        for (const a of AFTER) {
+          const after = offered(spot, facts, a);
+          expect(after.filter((text) => AHEAD.includes(text))).toEqual([]);
+          if (after.length) expect(new Set(after).size).toBeGreaterThan(1);
+        }
+      expect(AFTER.some((a) => offered(spot, voted, a).length)).toBe(true);
       const ahead = AFTER.flatMap((a) => offered(spot, before, a));
       expect(ahead.some((text) => AHEAD.includes(text))).toBe(true);
       expect(ahead.filter((text) => AFTER_VOTE.includes(text))).toEqual([]);
-      if (spot.move === "stall")
-        expect(AFTER_VOTE.every((text) => after.includes(text))).toBe(true);
     });
+  it("the bill speaks for itself only after a yes, the vote only after a no", () => {
+    const deflects = (facts: Record<string, Fact>) =>
+      AFTER.flatMap((a) => offered(SPOTS[1]!, facts, a));
+    expect(deflects(voted)).not.toContain(
+      "I'll let the bill speak for itself.",
+    );
+    expect(deflects(votedYes)).not.toContain(
+      "I'll let my vote speak for itself.",
+    );
+    expect(deflects(voted)).toContain("I'll let my vote speak for itself.");
+    expect(deflects(votedYes)).toContain("I'll let the bill speak for itself.");
+  });
 });
