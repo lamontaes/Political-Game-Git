@@ -8,6 +8,7 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { healthReport } from "./modules/health";
+import { OFFICES_MODULE_ID } from "./modules/offices";
 import { buildBenchWorld, OPENING_WARMUP_DAYS } from "../bench/world";
 import { coreAPI } from "./state";
 import { ELECTIONS_MODULE_ID } from "./modules/elections";
@@ -91,13 +92,21 @@ describe("day zero: the world opens already running", () => {
       }
       for (const row of stock)
         if (row.zeroAtPlaces?.includes(place.placeKey)) {
-          // The vacancies table's only writer is a death, so the true zero shows as no death in the
-          // warm-up window while illnesses are already under way.
+          // A seat falls vacant only when the person who held it dies (offices.ts, `life.death`). The
+          // true zero: whoever died in the warm-up window held no seat, and illnesses are in progress.
           const report = healthReport(world.core);
+          const terms = coreAPI(world.core)
+            .moduleState(OFFICES_MODULE_ID)
+            .table("terms");
+          const dead = (
+            report.cases as { personId: string; deathEventId?: string }[]
+          ).filter((c) => c.deathEventId);
           expect(
-            report.deaths,
-            `${place.name}: ${row.table} is empty because no one died in the warm-up window`,
-          ).toBe(0);
+            dead
+              .filter((c) => terms.query("byPerson", [c.personId]).length > 0)
+              .map((c) => c.personId),
+            `${place.name}: ${row.table} is empty because no one who died in the warm-up window held a seat`,
+          ).toEqual([]);
           expect(
             (report.cases as { onsetEventId?: string }[]).filter(
               (c) => c.onsetEventId,
