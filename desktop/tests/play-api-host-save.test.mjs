@@ -85,7 +85,8 @@ test("the app's play server is given the app's save folder", () => {
 test(
   `a life survives quitting and reopening the app, seed ${SEED}`,
   {
-    timeout: 240_000,
+    // 45 s alone and 33 s beside the other desktop tests (Nov 15): twice the slower.
+    timeout: 90_000,
   },
   async () => {
     const root = sourceRoot();
