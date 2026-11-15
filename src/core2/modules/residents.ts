@@ -90,6 +90,7 @@ import {
 } from "../residents-economy";
 import {
   chargeGroups,
+  claimMoved,
   claimsInGroup,
   savingClaim,
   savingWeight,
@@ -219,6 +220,8 @@ export interface ResidentsRuntime {
     peopleVersion?: number;
     /** The places of `people`'s groups (`placeHasGroups`). */
     places?: { of: Map<number, number>; set: Set<string> };
+    /** Each group's savings claims, kept while no one joins or leaves the counts and no weight changes (`claimsInGroup`). */
+    claims?: { members: number; weights: number; groups: Map<number, number> };
     serial: number;
   };
   /** The engine's own handle on the world, for money a regroup moves. */
@@ -479,6 +482,7 @@ export function regroupHousehold(
   const claim = rt.api ? savingClaim(rt, h) : 0;
   const groupBefore = rt.api && before >= 0 ? claimsInGroup(rt, before) : 0;
   rt.store.regroup(h, groupKeyOf(rt, h, date));
+  if (rt.api) claimMoved(rt, before, h.group, claim);
   // Its share of the old group's money goes with it.
   if (rt.api && before !== h.group)
     moveShare(rt.api, rt, before, h.group, claim, groupBefore);

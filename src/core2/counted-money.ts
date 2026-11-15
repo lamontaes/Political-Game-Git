@@ -118,12 +118,59 @@ export function savingClaim(rt: ResidentsRuntime, h: CountedHousehold): number {
   );
 }
 
-/** The claims on a group's account: its households' people at their savings weights. */
+/**
+ * The claims on a group's account: its households' people at their savings
+ * weights. A group's claims change only when someone joins or leaves the
+ * counts, a record's weight changes, or a household changes group, so they
+ * are counted once and kept until one of those: a regroup moves one
+ * household's claim (`claimMoved`) instead of counting both groups again.
+ */
 export function claimsInGroup(rt: ResidentsRuntime, group: number): number {
+  const cache = claimsCache(rt);
+  const held = cache.get(group);
+  if (held !== undefined) return held;
   let n = 0;
   for (const i of rt.store.groups[group]?.households ?? [])
     n += savingClaim(rt, rt.store.households[i]!);
+  cache.set(group, n);
   return n;
+}
+
+/** The kept claims, emptied when anyone joins or leaves the counts or a weight changes. */
+function claimsCache(rt: ResidentsRuntime): Map<number, number> {
+  const store = rt.store;
+  const held = rt.moneyCache.claims;
+  if (
+    held &&
+    held.members === store.membersVersion &&
+    held.weights === store.weightsVersion
+  )
+    return held.groups;
+  const groups = new Map<number, number>();
+  rt.moneyCache.claims = {
+    members: store.membersVersion,
+    weights: store.weightsVersion,
+    groups,
+  };
+  return groups;
+}
+
+/** A household moved from one group to another with `claim`: each group's kept claims change by it. */
+export function claimMoved(
+  rt: ResidentsRuntime,
+  from: number,
+  to: number,
+  claim: number,
+): void {
+  if (from === to) return;
+  const cache = claimsCache(rt);
+  for (const [group, change] of [
+    [from, -claim],
+    [to, claim],
+  ] as const) {
+    const held = cache.get(group);
+    if (held !== undefined) cache.set(group, held + change);
+  }
 }
 
 /** Whether a place has counted groups with people (`placeWeights` is not empty), kept with `groupPeople`. */
