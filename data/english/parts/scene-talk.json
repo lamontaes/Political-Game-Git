@@ -31304,30 +31304,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-leave.i-need-some-air-first-five-minutes",
-      "move": "reply-leave",
-      "kind": "spoken",
-      "text": "I need some air first. Five minutes.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "concession-call",
-          "key": "loss"
-        }
-      ],
-      "bearing": "hurt",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "leave",
-        "key": "loss"
-      }
-    },
-    {
       "key": "scene-talk.reply-confront.fine-i-ll-stand-right-here-and-answer-anybody-who-walks-up",
       "move": "reply-confront",
       "kind": "spoken",
@@ -32833,32 +32809,6 @@
       "date": "2026-10-15",
       "tag": {
         "move": "agree",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.close-accept.five-minutes-i-ll-be-right-outside-the-door",
-      "move": "close-accept",
-      "kind": "spoken",
-      "text": "Five minutes. I'll be right outside the door.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "concession-call",
-          "key": "loss",
-          "after": "scene-talk.reply-leave.i-need-some-air-first-five-minutes",
-          "outcome": "open"
-        }
-      ],
-      "bearing": "solemn",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "accept",
         "key": "loss"
       }
     },

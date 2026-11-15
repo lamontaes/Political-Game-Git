@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "variants-differ-in-what-they-say",
   "rubric": "Variants of a slot differ in what they say, each tied to a fact in the record, not only in wording; a bank grows by adding conditions and specifics, not more generic lines.",
-  "judged": 1209,
+  "judged": 1208,
   "no": {
     "006el8dj9s1": {
       "keys": [
@@ -1874,14 +1874,6 @@
         "scene-talk.follow-press.you-always-say-that-make-it-something-more-than-a-nice-thing-to-say"
       ],
       "why": "Both lines doubt that the promise will be kept, the same press with no fact to choose between them."
-    },
-    "0uf66njuoii": {
-      "keys": [
-        "scene-talk.reply-leave.i-m-going-to-walk-around-the-block-once",
-        "scene-talk.reply-leave.i-need-some-air-before-i-do-either",
-        "scene-talk.reply-leave.i-need-some-air-first-five-minutes"
-      ],
-      "why": "All three ask for a short break outside first."
     },
     "0ugiswle3f8": {
       "keys": [
