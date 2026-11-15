@@ -1730,6 +1730,8 @@ function emitEmergencyOffer(
     facts: {
       hazardRecordId,
       incidentType: String(hazard?.facts?.incidentType ?? ""),
+      // A meeting after the first says so, so the briefing is not worded as the first time.
+      ...(again ? { again: "true" } : {}),
     },
   });
 }
