@@ -133,6 +133,7 @@ import {
 } from "./scene-talk";
 import type { Fact } from "../english/scene-talk-words";
 import { bargainFacts } from "./bargain-facts";
+import { voteStandFacts } from "./vote-stand-facts";
 import { custodyFacts } from "./custody-facts";
 import { meetingFacts } from "./meeting-facts";
 import { letterFacts } from "./letter-facts";
@@ -646,6 +647,14 @@ function composeBinding(
       sourceRecordIds: [billId ?? moment.causeId, moment.causeId],
     };
   }
+  // A bill that cuts: a budget line taken down or a law repealed, from its own
+  // sections, so nobody asks why it cuts a program when it raises a fee.
+  if (
+    named?.provisions.some(
+      (row) => row.repeal || (row.kind === "budget-line" && row.value < P.zero),
+    )
+  )
+    facts["bill-cuts"] = { text: "yes", sourceRecordIds: [named.id] };
   // When the bill comes to a vote, from its own record, so a promise of
   // time fits the calendar: on the day of the vote it is "tonight"; before
   // it, a count is promised for the day before the vote, never a day after
@@ -685,6 +694,12 @@ function composeBinding(
         sourceRecordIds: [bill.id, said.lawId, moment.causeId],
       };
   }
+  // What the asked person did on the cause's bill (or the bill that enacted
+  // its law) and why, from their row of the roll (vote-stand-facts.ts), so no
+  // line says the opposite of the vote and a "why" is answered by a reason
+  // the record holds.
+  const votedOn = billId ?? said.enactedBy;
+  if (votedOn) voteStandFacts(core, facts, votedOn, askedId, moment.causeId);
   // The chair a committee's hold names, for a member who is asked to press them.
   const chair = said.chair
     ? core.people.get(said.chair as PersonId)
@@ -1226,6 +1241,11 @@ function composeBinding(
       text: said.number ?? "",
       sourceRecordIds: [moment.causeId, said.billId ?? moment.causeId],
     };
+  // Signed or stopped, the asked person has acted on the bill: a line that
+  // waits on their decision no longer fits (vote-stand-facts.ts says the same
+  // of a vote).
+  if (facts["signed-it"] || facts["stopped-it"])
+    facts.acted ??= facts["signed-it"] ?? facts["stopped-it"]!;
   // A vote the asked person sat for (legislature.ts): the lines asked after
   // a vote need it, and which side they took, from their own vote record; a
   // member the roll shows on neither side has no side.
