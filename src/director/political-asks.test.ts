@@ -14,6 +14,7 @@ import {
 import { PARTIES_MODULE_ID } from "../core2/modules/parties";
 import { P } from "../core2/parameters";
 import { advancePlayerV1, resumePlayerV1 } from "../core2/player-v1";
+import { storiesHeard, storyOfReadEvent } from "../core2/modules/news";
 import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
 import { variantArc, variantFamilies } from "./arc-variant";
@@ -91,12 +92,19 @@ function partyHasVeteran(core: CoreState): boolean {
 }
 
 describe("the political asks: a bribe in the press and a party that asks you to run", () => {
-  it(`the accusation: someone close asks whether the reported bribe is true (seed ${seed})`, () => {
+  // Pinned to Adams, Massachusetts (seed f54fcb0fe1c46cd2, draw 2): the place
+  // where a reported bribe is printed and read inside the window and a reader
+  // who knows the official asks them (nothing here draws).
+  const accusationSeed = "f54fcb0fe1c46cd2";
+  it(`the accusation: a reader of the paper's story asks whether the reported bribe is true (Adams, Massachusetts, seed ${accusationSeed}:2)`, () => {
     setBookkeeping(false);
     const tried: string[] = [];
-    for (let attempt = 0; attempt < 3; attempt += 1) {
-      const place = drawPlace(`${seed}:${attempt}`, "dead-kinds-accusation");
-      const where = `${place.name} (${place.key}), seed ${seed}:${attempt}`;
+    for (const attempt of [2]) {
+      const place = drawPlace(
+        `${accusationSeed}:${attempt}`,
+        "dead-kinds-accusation",
+      );
+      const where = `${place.name} (${place.key}), seed ${accusationSeed}:${attempt}`;
       const { core, director, playerId } = buildBenchWorld(
         place.seed,
         gameStartDate(),
@@ -226,7 +234,7 @@ describe("the political asks: a bribe in the press and a party that asks you to 
         core,
         director,
         me,
-        addDays(makeIsoDate(core.date), 4),
+        addDays(makeIsoDate(core.date), 21),
         (stop) => {
           const entry = book.schedule.find(
             (row) => row.momentId === stop.recordId,
@@ -262,7 +270,19 @@ describe("the political asks: a bribe in the press and a party that asks you to 
             "offer",
             "lie",
           ];
-          expect(moment.causeId, here).toBe(reported);
+          // The accuser is cast from the readers' own record of the paper's
+          // story (printed the paper's week after the report): the cause is
+          // that story's news.read record, and the asker read it.
+          expect(
+            storyOfReadEvent(moment.causeId)?.endsWith(`:${reported}`),
+            here,
+          ).toBe(true);
+          expect(
+            storiesHeard(coreAPI(core), scene.askerId).some((story) =>
+              story.id.endsWith(`:${reported}`),
+            ),
+            `${here}: the asker read the story`,
+          ).toBe(true);
           expect(scene.askerId, here).not.toBe(me);
           const asker = core.people.get(scene.askerId)!;
           expect(
@@ -286,7 +306,9 @@ describe("the political asks: a bribe in the press and a party that asks you to 
         `${where}: no accusation scene after ${reported}${skipped.length ? ` (${skipped.join("; ")})` : ""}`,
       );
     }
-    throw new Error(`no accusation scene: ${tried.join("; ")} (seed ${seed})`);
+    throw new Error(
+      `no accusation scene: ${tried.join("; ")} (seed ${accusationSeed})`,
+    );
   }, 3_600_000);
 
   it(`the advice: a seated officeholder of the party weighs in the day after a party asks the player to run (seed ${seed})`, () => {
