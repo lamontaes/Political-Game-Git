@@ -61,6 +61,7 @@ import {
   coreStateName,
 } from "../core2/place-lookup";
 import { applyCoreEvent, coreAPI } from "../core2/state";
+import { tieHoursBetween } from "../core2/closeness";
 import type { CoreState, PersonId } from "../core2/types";
 import {
   billNameFor,
@@ -3117,10 +3118,29 @@ function keepDoorPieces(
 /** The player's move at a door that asks after the resident (the door arcs' `asks.middle.ask`). */
 const DOOR_ASK_AFTER = "ask";
 
-/** Hours of quarrel an ending that strains a tie writes to closeness, by what it keeps. */
+/**
+ * What an ending that strains a tie writes to closeness, by what it keeps:
+ * hours of quarrel, or (`unit` "share of the tie") a share of the hours the
+ * tie stands on today.
+ */
 const ENDING_STRAIN = rulesFile.endingStrain as unknown as Readonly<
-  Record<string, { value: number } | undefined>
+  Record<string, { value: number; unit?: string } | undefined>
 >;
+const SHARE_OF_TIE = "share of the tie";
+
+/** The hours an ending's strain takes off the tie between two people today. */
+export function endingStrainHours(
+  core: Pick<CoreState, "data" | "date" | "relationships">,
+  keeps: string,
+  a: PersonId,
+  b: PersonId,
+): number | undefined {
+  const row = ENDING_STRAIN[keeps];
+  if (!row) return undefined;
+  return row.unit === SHARE_OF_TIE
+    ? row.value * Math.max(tieHoursBetween(core, a, b), 0)
+    : row.value;
+}
 
 /**
  * The player's reply in a scene with a purpose, by its path through the tree
@@ -3347,7 +3367,9 @@ export function replyInScene(
       undefined,
       { cause: "scene-reply", sourceId: id },
     );
-  const strain = ending ? ENDING_STRAIN[ending.keeps]?.value : undefined;
+  const strain = ending
+    ? endingStrainHours(core, ending.keeps, scene.askedId, scene.askerId)
+    : undefined;
   if (strain)
     coreAPI(core).relationship(
       scene.askedId,
