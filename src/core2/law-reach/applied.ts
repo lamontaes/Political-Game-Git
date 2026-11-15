@@ -351,7 +351,16 @@ export function lawReach(
       for (const row of state.table(name).rows() as unknown as Readonly<
         Record<string, unknown>
       >[]) {
-        if (row.lawId !== lawId) continue;
+        // A row several laws share (a budget line two governments changed) names each in its credits.
+        if (
+          row.lawId !== lawId &&
+          !(
+            typeof row.credits === "object" &&
+            row.credits !== null &&
+            lawId in row.credits
+          )
+        )
+          continue;
         const into = side(
           text(row.engine) || moduleId,
           text(row.what) || text(row.effect) || text(row.key) || name,
