@@ -18,8 +18,8 @@
  * floor days and the player's own caucus and committee rows drew company.
  * Now every member's committees, caucuses and the rest of a session day
  * renew those ties, and `tiePull` reads hours lost since the two were last
- * together, so few free hours go to fellow senators at all (9 in these two
- * weeks). They still spread out: the player 1, seven colleagues the rest.
+ * together, so few of the counted acts go to fellow senators (9 in these
+ * two weeks). They still spread out: the player 1, seven colleagues the rest.
  * What stays pinned is that the player is not favored and no colleague
  * takes the share the player used to.
  *
@@ -59,7 +59,13 @@ it("senators keep company with the colleagues they sit with, not all with the pl
 
   advanceCore(core, makeIsoDate("2025-01-31"));
   // Each day's company a senator chose to keep with another senator, read
-  // from the tie it last changed that day.
+  // from the tie it last changed that day. A tie keeps its latest change only
+  // when it touches the player, someone the player has dealt with or a
+  // controlled person (state.ts, `retainRelationshipEvidence`), so this
+  // counts every act to the player and only those other acts that touch the
+  // player's circle. Every count below is of those kept acts, not of all
+  // acts; that is conservative for what is asserted, since the player's real
+  // share is lower than the kept share.
   const to = new Map<string, number>();
   let day = makeIsoDate("2025-02-01");
   for (let i = 0; i < 14; i++, day = addDays(day, 1)) {
@@ -75,11 +81,11 @@ it("senators keep company with the colleagues they sit with, not all with the pl
   }
   const total = [...to.values()].reduce((a, b) => a + b, 0);
   const others = [...to].filter(([id]) => id !== player).map(([, n]) => n);
-  // Before: every act went to the player (197 of 197). With D1: the player
-  // 57 of 173, and 13 colleagues 1 to 14 each. With lost hours run from the
-  // last day together: the player 33 of 185, and 24 colleagues. With rooms
-  // and attendance (this head): 9 acts, the player 1, seven colleagues the
-  // rest (seat 022 has 2).
+  // Kept acts. Before: every one went to the player (197 of 197). With D1:
+  // the player 57 of 173, and 13 colleagues 1 to 14 each. With lost hours
+  // run from the last day together: the player 33 of 185, and 24
+  // colleagues. With rooms and attendance (this head): 9 acts, the player 1,
+  // seven colleagues the rest (seat 022 has 2).
   expect(total).toBeGreaterThan(0);
   expect(to.get(player) ?? 0).toBeLessThan(total / 2);
   expect(Math.max(...others)).toBeLessThanOrEqual(total / 4);
