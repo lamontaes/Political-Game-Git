@@ -29,7 +29,7 @@ Seen: on the reporter's call after a council vote, in the lines a words reader s
 
 **Rules.** No hand staging. No assertion loosened.
 
-**Done when.** The test, run at the three seeds above in a played world built by `buildBenchWorld`, casts the vote through `chooseOwnVote` and passes at each, drawing the same place and seed as before.
+**Done when.** The test, run at the three seeds above in a played world built by `buildBenchWorld`, casts the vote through `chooseOwnVote` and passes at each, drawing the same place and seed as before; a second session runs it at one of them and sees the vote cast through the press and the call that follows.
 
 **Waits on.** Nothing.
 
