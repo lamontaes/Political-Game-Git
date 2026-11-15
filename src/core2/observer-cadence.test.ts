@@ -7,8 +7,8 @@
  * and choose only on calendar dates, visited a colleague daily only when
  * watched (Nov 15).
  *
- * What this pins is that route: the same people act with the observer on and
- * off. It does not pin every pick. A second route through the tie writer's
+ * What this pins is that route: the same people act in the week with the
+ * observer on and off. It does not pin every pick. A second route through the tie writer's
  * `fullTrace` (state.ts) still moves a few picks (2,747 visits against 2,751
  * over the same two months, the first on Feb 3), and the item stays open for
  * it.
@@ -27,7 +27,7 @@ import { townSeats } from "./modules/offices";
 import { coreAPI, fillInPerson } from "./state";
 import type { PersonId } from "./types";
 
-function sittingSenatorsWhoActed(observer: boolean): string[] {
+function whoActed(observer: boolean): { acted: string[]; full: number } {
   setBookkeeping(false);
   const { core } = buildBenchWorld("8647-mason", gameStartDate(), {
     twoLevel: true,
@@ -57,14 +57,15 @@ function sittingSenatorsWhoActed(observer: boolean): string[] {
       .filter((row) => row.month === "2025-02")
       .map((row) => row.actorId as string),
   );
-  return ids.filter((id) => acted.has(id));
+  return { acted: [...acted].sort(), full: core.people.size };
 }
 
-it("the same senators act in a week with the observer on and off", () => {
-  const unwatched = sittingSenatorsWhoActed(false);
-  const watched = sittingSenatorsWhoActed(true);
-  // Unwatched, only the player and the colleagues in the player's focus act
-  // between calendar dates; before the fix, watched, nearly every senator did.
-  expect(unwatched.length).toBeLessThan(10);
-  expect(watched).toEqual(unwatched);
+it("the same people act in a week with the observer on and off", () => {
+  const unwatched = whoActed(false);
+  const watched = whoActed(true);
+  // Unwatched, people on a weekly, monthly or calendar schedule who are not
+  // in the player's focus wait for their day; before the fix, watched, every
+  // full person acted every day.
+  expect(unwatched.acted.length).toBeLessThan(unwatched.full);
+  expect(watched.acted).toEqual(unwatched.acted);
 }, 120_000);
