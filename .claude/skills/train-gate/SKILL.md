@@ -22,6 +22,7 @@ Owner, Nov 13: "run the checks and fix and just add it all to the train." Nothin
 3. Prettier and eslint on changed files. When a words, bank or line file changed, `tests/english-parts-banks.test.ts` is in the gate.
 4. `npx vitest run --dir . tests/guards --maxWorkers=2`, then `npm run guards` (20 guards).
 5. `npm run release:check -- --mode pr` **on a full clone**: run `git fetch --unshallow` first. "Cannot relate branch point" or a pool INDEX red means the clone is shallow, not that the PR is wrong.
+   Run it against the PR's own base, the Train head it merged, not main: `RELEASE_DECLARATION_BASE=<train sha> RELEASE_DECLARATION_HEAD=$(git rev-parse HEAD) RELEASE_DECLARATION_MODE=pr npm run release:check`. Against main's merge-base it can pass because the Train's own declarations cover the range, while CI on the PR fails for a missing declaration (#9430, Nov 15: six skill files with no declaration passed locally and went red in CI).
 6. `npm run zero-dice`, `npm run pool -- --check`, and `npm run test:skill-ops` when an instruction or skill file changed.
 
 Cloud sessions set `OCD_STORAGE_OVERRIDE="cloud session, owner approved Oct 14"` on every npm command.
