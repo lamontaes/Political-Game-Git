@@ -2287,10 +2287,7 @@
                 "keeps": "none",
                 "when": {}
               }
-            ],
-            "repeatable": {
-              "confront": ["confront"]
-            }
+            ]
           }
         },
         "close": {
