@@ -15495,28 +15495,6 @@
       }
     },
     {
-      "key": "news.police-log.month-was-a-busier-month-for-police-in-place-number-reports",
-      "move": "police-log",
-      "kind": "written",
-      "text": "{month} was a busier month for police in {place}: {number} reports.",
-      "uses": [
-        {
-          "move": "police-log",
-          "subject": "news",
-          "role": "police-log",
-          "choice": "lede",
-          "requiresFacts": ["several", "busier"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Sonnet 5.5 (police log)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
       "key": "news.police-log.the-month-police-log-for-place-runs-to-number-reports",
       "move": "police-log",
       "kind": "written",

@@ -87,6 +87,8 @@ export type FilingAction =
   | { kind: "file"; contestId: string }
   /** A reply in the clerk's scene that is not filing or leaving: its place among the replies offered. */
   | { kind: "say"; contestId: string; index: number }
+  /** The player says they will come back with what the clerk asked for. */
+  | { kind: "return"; contestId: string }
   | { kind: "done" };
 
 export interface FilingVisit {
@@ -314,8 +316,21 @@ export function pickContest(
   // the clerk's scene, and its replies are the player's choices.
   const talk = clerkScene(core, visit);
   if (talk) visit.lines.push(clerkSaid(talk.state));
+  // Where the place's law charges a fee, the clerk names it once, here
+  // (Words lead, Nov 14); the same sum is what the clerk says when it is
+  // paid or cannot be.
+  const feeCheck = checks.find((row) => row.rule === "filing-fee");
+  if (feeCheck) {
+    facts.fee = { text: feeCheck.required, sourceRecordIds: ids };
+    const told = visitLine(core, visit, "clerk", "tell-filing-fee", facts);
+    if (told) visit.lines.push({ speaker: "clerk", ...told });
+  }
   // Each rule that stops the filing, in the clerk's words, from its record.
-  const unmet = checks.filter((row) => !row.met);
+  // The fee is not one of them here: the clerk has named it, and refuses for
+  // it only when the player tries to file without it (`refusedAtCounter`),
+  // never before the player has moved.
+  const unmet = checks.filter((row) => !row.met && row.rule !== "filing-fee");
+  const short = checks.some((row) => !row.met && row.rule === "filing-fee");
   for (const check of unmet) {
     const required =
       check.rule === "filing-deadline"
@@ -351,6 +366,53 @@ export function pickContest(
     for (const line of talk.tree.lines) visit.lines.push(clerkSaid(line));
     offerReplies(visit, talk.tree);
   }
+  // A candidate short of the fee may say they will come back with it.
+  if (short) offerComeBack(core, visit, facts, contestId);
+  return visit;
+}
+
+/** The player's choice to come back with the fee: their words, from the bank. */
+function offerComeBack(
+  core: Readonly<CoreState>,
+  visit: FilingVisit,
+  facts: Readonly<Record<string, Fact>>,
+  contestId: string,
+): void {
+  const back = visitLine(core, visit, "player", "come-back", facts);
+  if (back)
+    visit.choices.push({
+      key: "come-back",
+      text: back.text,
+      control: "leave",
+      move: "come-back",
+      action: { kind: "return", contestId },
+      sourceRecordIds: back.sourceRecordIds,
+    });
+}
+
+/**
+ * The player tried to file and the fee stopped it: their own words, then the
+ * clerk's refusal, which follows the player's move and never comes before it,
+ * and the way to say they will come back with it.
+ */
+export function refusedAtCounter(
+  core: Readonly<CoreState>,
+  visit: FilingVisit,
+  choice: FilingVisit["choices"][number],
+): FilingVisit {
+  visit.lines.push({
+    speaker: "player",
+    text: choice.text,
+    sourceRecordIds: choice.sourceRecordIds,
+  });
+  const facts = visit.picked?.facts;
+  if (facts) {
+    const line = visitLine(core, visit, "clerk", "rule-filing-fee", facts);
+    if (line) visit.lines.push({ speaker: "clerk", ...line });
+  }
+  visit.choices = [];
+  if (facts && visit.picked)
+    offerComeBack(core, visit, facts, visit.picked.contestId);
   return visit;
 }
 
@@ -529,7 +591,41 @@ export function filedAtCounter(
   filingId?: string,
 ): FilingVisit {
   const index = visit.choices.indexOf(choice);
-  return followReply(core, visit, index, filingId);
+  const kept = followReply(core, visit, index, filingId);
+  // The fee, where there was one, is paid at the counter: the clerk says so.
+  if (filingId && visit.picked?.facts.fee) {
+    const paid = visitLine(
+      core,
+      kept,
+      "clerk",
+      "filing-fee-paid",
+      visit.picked.facts,
+    );
+    if (paid) kept.lines.push({ speaker: "clerk", ...paid });
+  }
+  return kept;
+}
+
+/** The player says they will come back with the fee: their words, and the reply recorded. */
+export function comeBackLater(
+  core: Readonly<CoreState>,
+  visit: FilingVisit,
+  choice: FilingVisit["choices"][number],
+): FilingVisit {
+  visit.lines.push({
+    speaker: "player",
+    text: choice.text,
+    sourceRecordIds: choice.sourceRecordIds,
+  });
+  recordReply(
+    core,
+    visit,
+    { move: "come-back", text: choice.text },
+    [],
+    undefined,
+  );
+  visit.choices = [];
+  return visit;
 }
 
 /**
