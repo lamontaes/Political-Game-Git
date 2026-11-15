@@ -745,19 +745,6 @@ function bornWhere(core: CoreState, person: PersonState): void {
   const date = makeIsoDate(person.birthDate);
   person.pastFacts = [
     ...facts,
-    // A person made to hold a role has no birth-date record; a resident does.
-    ...(facts.some((row) => row.kind === "birth-date")
-      ? []
-      : [
-          {
-            id: `${person.id}:birth-date`,
-            date,
-            kind: "birth-date",
-            summary: "birth-date",
-            source: birthplaceSource(core.date),
-            facts: {},
-          },
-        ]),
     {
       id: `${person.id}:birthplace`,
       date,
