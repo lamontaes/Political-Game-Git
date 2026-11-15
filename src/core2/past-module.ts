@@ -132,6 +132,7 @@ export {
   PERSON_MOVED_IN,
   PERSON_MOVED_WITHIN,
   bornIn,
+  hasParentHere,
   pastMovesFor,
   pastMovesHistory,
   residenceOn,

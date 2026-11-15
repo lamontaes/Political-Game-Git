@@ -296,7 +296,7 @@
     "kind": "faked-mechanic",
     "file": "src/core2/past-work.ts",
     "line": 1,
-    "whatItFakes": "A person an engine makes to hold a role (a newspaper's owner, a state's election chief) is made with no past facts. Opened or met, they now get their birth date, a birthplace that is the place they live, their schooling and, where they hold a job on day one and live where the world keeps no business, one earlier post at the same organization from their first working day to the day they took the role (an estimate). Still missing: press staff who live outside the town hold no job record, so they get no working life; nobody made for a role gets parents or partners.",
+    "whatItFakes": "A person an engine makes to hold a role (a newspaper's owner, a state's election chief) is made with no past facts. Opened or met, they now get their birth date, a birthplace drawn from their state's shares of where its people were born (src/core2/person-birthplace.ts; born in the state, the place they live stands for where in it, as for any resident the opening's families did not reach), their schooling and, where they hold a job on day one and live where the world keeps no business, one earlier post at the same organization from their first working day to the day they took the role (an estimate). Still missing: press staff who live outside the town hold no job record, so they get no working life; nobody made for a role gets parents or partners.",
     "why": "The world keeps no record of an outside organization's earlier staff or of where a person made for a role was born; press staff outside the town are paid as a post, not a job (press-staff.ts seatStaff).",
     "addedBy": "Fable",
     "addedAt": "2026-11-10",

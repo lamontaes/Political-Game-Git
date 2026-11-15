@@ -108,25 +108,30 @@ export function bornIn(
     : residenceOn(core, person, person.birthDate);
 }
 
+/** Whether a person has a parent the world holds as a person. */
+export function hasParentHere(
+  core: Readonly<CoreState>,
+  person: Readonly<PersonState>,
+): boolean {
+  return (person.pastFacts ?? []).some(
+    (fact) =>
+      (fact.kind === "family:parent" || fact.kind === "family:other-parent") &&
+      core.people.has(fact.facts?.otherPersonId as PersonId),
+  );
+}
+
 /**
  * A child's birthplace, written once the moves before the start are run:
  * where the parent they lived with was that day (`residenceOn`, the parent's
  * move that carried them). Only a person with a parent in the world and no
- * birthplace yet; a grown resident's is written at the opening.
+ * birthplace yet; everyone else's is written before the moves.
  */
 export function writeChildBirthplaces(
   core: Readonly<CoreState>,
   people: Iterable<PersonState>,
 ): void {
   for (const person of people) {
-    if (birthplaceFactOf(person)) continue;
-    const hasParent = (person.pastFacts ?? []).some(
-      (fact) =>
-        (fact.kind === "family:parent" ||
-          fact.kind === "family:other-parent") &&
-        core.people.has(fact.facts?.otherPersonId as PersonId),
-    );
-    if (!hasParent) continue;
+    if (birthplaceFactOf(person) || !hasParentHere(core, person)) continue;
     const lived = residenceOn(core, person, person.birthDate);
     person.pastFacts = [
       ...(person.pastFacts ?? []),

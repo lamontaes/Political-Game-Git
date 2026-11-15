@@ -1799,7 +1799,7 @@ function openingFamilies(input: OpeningFamilyInput): {
     ]);
   const familyFacts = (personId: string) => {
     const relations = byPerson.get(personId) ?? [];
-    const pastFacts = [
+    const pastFacts: NonNullable<PersonInput["pastFacts"]>[number][] = [
       ...(diedOf.get(personId) ?? []).map((death) => ({
         id: `${personId}:family-died:${death.relation}`,
         date: death.date,
@@ -1940,7 +1940,7 @@ function openingFamilies(input: OpeningFamilyInput): {
         summary: `${names.get(person.id)}'s birthplace is established.`,
         source: birthplaceSource,
         facts: { placeId: born },
-      } as (typeof facts.pastFacts)[number]);
+      });
     return {
       ...person,
       ...withTemperament(
