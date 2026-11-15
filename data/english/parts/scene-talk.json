@@ -4863,7 +4863,7 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "excludesFacts": ["acted"]
+          "excludesFacts": ["vote-held"]
         }
       ],
       "bearing": "proud",
@@ -4913,7 +4913,7 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "excludesFacts": ["acted"]
+          "excludesFacts": ["vote-held"]
         }
       ],
       "bearing": "guarded",
@@ -9144,7 +9144,7 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "excludesFacts": ["acted"]
+          "excludesFacts": ["vote-held"]
         }
       ],
       "bearing": "braced",
@@ -14441,7 +14441,7 @@
           "purpose": "press-comment",
           "key": "routine",
           "after": "deflect",
-          "excludesFacts": ["acted"]
+          "excludesFacts": ["vote-held"]
         }
       ],
       "bearing": "calm",
@@ -14467,7 +14467,7 @@
           "purpose": "press-comment",
           "key": "routine",
           "after": "deflect",
-          "excludesFacts": ["acted"]
+          "excludesFacts": ["vote-held"]
         }
       ],
       "bearing": "braced",
@@ -14493,7 +14493,7 @@
           "purpose": "press-comment",
           "key": "routine",
           "after": "press",
-          "excludesFacts": ["acted"]
+          "excludesFacts": ["vote-held"]
         }
       ],
       "bearing": "guarded",
@@ -103027,7 +103027,7 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "excludesFacts": ["acted"]
+          "excludesFacts": ["vote-held"]
         }
       ],
       "bearing": "guarded",
@@ -103224,7 +103224,7 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "excludesFacts": ["acted"]
+          "excludesFacts": ["vote-held"]
         }
       ],
       "bearing": "calm",
