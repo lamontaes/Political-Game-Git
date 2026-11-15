@@ -44,6 +44,7 @@ import {
 } from "../core2/modules/offices";
 import { ELECTIONS_MODULE_ID } from "../core2/modules/elections";
 import { EXECUTIVE_MODULE_ID } from "../core2/modules/executive";
+import { lawChain } from "../core2/modules/laws";
 import { STAFF_MODULE_ID } from "../core2/modules/staff";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { officeWords } from "../english/said-as";
@@ -396,11 +397,12 @@ function constituentOf(
   const api = coreAPI(core as CoreState);
   const own = new Set(servingTermsOf(api, playerId).map((t) => t.seatId));
   if (!own.size || !other) return null;
+  // The seats that cover the played town: everyone living in it is their holders' constituent,
+  // wherever the holder lives.
+  const town = lawChain(api).townPlaceId;
+  if (other.placeId !== town) return null;
   for (const { seat } of townSeats(api)) {
     if (!own.has(seat.id)) continue;
-    // The covered town is the played one: its residents are the seat's.
-    const player = core.people.get(playerId);
-    if (other.placeId !== player?.placeId) return null;
     const place = corePlaceByJurisdictionId(other.placeId as never);
     if (seat.district)
       return { kind: "constituent", stage: "district", facts: {} };
