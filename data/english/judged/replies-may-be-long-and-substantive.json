@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "replies-may-be-long-and-substantive",
   "rubric": "Replies are not all short; some carry an argument or a reason, so a reply does not kill the talk.",
-  "judged": 1171,
+  "judged": 1170,
   "no": {
     "0038nen24jy": {
       "keys": [
@@ -763,15 +763,6 @@
         "scene-talk.reply-leave.i-have-to-go-send-me-what-you-ve-got"
       ],
       "why": "Looking again, a hearing promise, avoiding the phone and an exit carry no reason."
-    },
-    "0dc6y92gooi": {
-      "keys": [
-        "scene-talk.follow-ask.and-if-it-doesn-t-last-the-remaining",
-        "scene-talk.reply-tell.i-m-running-i-ll-be-home-for-dinner-with-child-most-nights-and-i-ll-tell-you-the",
-        "scene-talk.reply-apologize.i-m-sorry-i-wanted-to-be-sure-first",
-        "scene-talk.reply-request.would-you-take-child-on-the-nights-i-m-at-the-meetings-i-ll-take-the-weekends"
-      ],
-      "why": "A dinner promise, an apology and asking for help with {child} answer 'if it doesn't last?' without a reason."
     },
     "0diidpv4o4j": {
       "keys": [

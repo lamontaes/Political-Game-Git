@@ -4614,7 +4614,7 @@
     {
       "key": "person-history.story.work.out-for-second.i.w3",
       "move": "story",
-      "text": "I spent another {span} looking for work in {year}.",
+      "text": "I spent {span} more looking for work in {year}.",
       "origin": "authored",
       "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
       "date": "2026-11-11",
@@ -4641,7 +4641,7 @@
     {
       "key": "person-history.story.work.out-for-second.third.w3",
       "move": "story",
-      "text": "{who} spent another {span} looking for work in {year}.",
+      "text": "{who} spent {span} more looking for work in {year}.",
       "origin": "authored",
       "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
       "date": "2026-11-11",
@@ -4668,7 +4668,7 @@
     {
       "key": "person-history.story.work.out-for-second.they.w3",
       "move": "story",
-      "text": "They spent another {span} looking for work in {year}.",
+      "text": "They spent {span} more looking for work in {year}.",
       "origin": "authored",
       "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
       "date": "2026-11-11",
