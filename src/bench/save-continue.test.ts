@@ -17,7 +17,8 @@ import { snapshotWorld } from "../core2/snapshot";
 import { benchRequest, benchWorld, emptyBench } from "./handler";
 
 // Pinned (pinned-tests): this seed draws Opal, Wyoming. Alone the test takes
-// about 37 seconds (the world is built twice: played, then loaded).
+// about 37 seconds and 56 beside the other save tests (the world is built
+// twice: played, then loaded).
 const SEED = "save-continue-1";
 const DAYS = 4;
 
