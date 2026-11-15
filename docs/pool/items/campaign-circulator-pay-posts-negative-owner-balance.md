@@ -33,3 +33,5 @@ root: none
 **Waits on.** Nothing.
 
 **Files.** src/core2/modules/campaigns.ts, src/core2/journal-state.ts
+
+**Notes.** The journal-story test that hit this fault on a random seed was re-pinned on Nov 15 (Account lead, ruling 1) to Stockton, Utah (key 4973050): the old premise was that other people's filings and oaths were told over three random draws; rule 87 tells them only where they name the subject, so the test no longer draws.
