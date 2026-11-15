@@ -26,9 +26,11 @@ source: Account lead builder, Nov 15, found merging rule 113 (#9433) onto the Tr
 
 **Time box.** 1 hour, one Opus session at medium.
 
-**Rules.** One rule lives in one place. Test pinned to a named place and seed, staged through the game's own signing path.
+**Rules.** Ask why: the fact that keeps the six lines out cites the executive action's record id, so the scene says why by record. Tests pinned to a named place and seed, staged through the game's own signing path, with one rule in one place.
 
-**Done when.** A second session signs a bill as the executive in a drawn town and takes the reporter's call: none of the six is offered.
+**Done when.** A second session signs a bill as the mayor or governor in a drawn place, then takes the reporter's call about it in the running game, and none of the six replies is offered; a pinned test in src/director stages the same signing and checks the scene's replies by record id.
+
+**Waits on.** Nothing.
 
 **Files.** src/director/purpose-scene.ts
 

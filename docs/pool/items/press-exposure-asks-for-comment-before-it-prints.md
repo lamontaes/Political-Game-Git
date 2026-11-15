@@ -8,7 +8,7 @@ size: M
 status: in-pr
 standard: 2
 claimed-by: Account lead builder (reporter's call thread)
-pr:
+pr: 9463
 after:
 blocked-on:
 lead: words
@@ -29,6 +29,8 @@ source: Account lead builder, Nov 15, found while placing the Words lead's day w
 **Rules.** Ask why: the run day and the printed comment cite the exposure and the call by record id. Tests pinned to named places and seeds (src/core2/press-owners.test.ts, src/core2/press-conflict-exposed.test.ts).
 
 **Done when.** A second session has a bribe leaked in a drawn town with a reporter: the exposure is on the record the day it is found and the story is not; the story prints on the run day with the official's comment; an unattended official's comment follows their own lean.
+
+**Waits on.** Nothing.
 
 **Files.** src/core2/modules/press.ts, src/core2/data/press/parameters.json, src/core2/press-owners.test.ts, src/core2/press-conflict-exposed.test.ts
 
