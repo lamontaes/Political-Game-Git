@@ -1,7 +1,11 @@
 import { ageOnDate } from "../core2/kernel/dates";
 import { composeScene } from "../director/scene";
 import { purposeScene, replyInScene } from "../director/purpose-scene";
-import type { SceneTalkLine, TreeNode } from "../director/scene-talk";
+import {
+  playedNode,
+  type SceneTalkLine,
+  type TreeNode,
+} from "../director/scene-talk";
 import { dateSaid } from "../english/day-words";
 import { shipped } from "../english/scene-talk-words";
 import { bodyPicture } from "./legislature";
@@ -30,7 +34,9 @@ type ShownNode = {
   replies: { line: ReturnType<typeof shownLine>; next: ShownNode | null }[];
   end?: { outcome: string; close?: ReturnType<typeof shownLine> };
 };
-function shownNode(node: TreeNode): ShownNode {
+function shownNode(branched: TreeNode): ShownNode {
+  // After a lie, the outcome the records give (caught or believed).
+  const node = playedNode(branched);
   return {
     lines: node.lines.map(shownLine),
     replies: node.replies.map((reply) => ({
