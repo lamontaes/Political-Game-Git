@@ -3809,7 +3809,8 @@
           "subject": "news",
           "role": "chamber",
           "choice": "lede",
-          "requiresFacts": ["presides"]
+          "requiresFacts": ["presides"],
+          "excludesFacts": ["mid-term"]
         }
       ],
       "origin": "authored",

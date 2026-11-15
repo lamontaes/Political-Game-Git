@@ -554,6 +554,8 @@ function organizeNow(
       news: true,
       facts: {
         level: bodyReach(api, chamber),
+        // A refill of what one leaver held, not an organizing of the body.
+        ...(fill ? { "mid-term": "yes" } : {}),
         ...Object.fromEntries(filled.map((p) => [p.post, p.holderId ?? ""])),
       },
     });

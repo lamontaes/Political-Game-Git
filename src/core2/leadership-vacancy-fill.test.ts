@@ -25,6 +25,7 @@ import {
   type CommitteeRow,
   type PostRow,
 } from "./modules/leadership";
+import { wordPrintedStory } from "../bench/archive-words";
 import type { CoreEventInput } from "./types";
 
 const SEED = "c200623d61b817cdbdbb9e459ce67a3c381f9d7893848b5e1a43ce0ef2ac9716";
@@ -161,7 +162,7 @@ describe("a vacancy fills what its holder held", () => {
     // The paper hears of the one post that changed hands, and no other.
     expect(seen).toHaveLength(1);
     expect(Object.keys(seen[0]!.facts ?? {}).sort()).toEqual(
-      ["level", presiding.post].sort(),
+      ["level", "mid-term", presiding.post].sort(),
     );
   }, 180_000);
 
@@ -290,12 +291,30 @@ describe("a vacancy fills what its holder held", () => {
     );
     expect(seen.length).toBeGreaterThan(0);
     expect(Object.keys(seen.at(-1)!.facts ?? {}).sort()).toEqual(
-      ["level", ...changed.map((p) => p.post)].sort(),
+      ["level", "mid-term", ...changed.map((p) => p.post)].sort(),
     );
     for (const row of seatsBefore)
       if (row.memberIds.every((id) => sitting.has(id)))
         expect(
           committees(api, ohio).find((c) => c.committee === row.committee),
         ).toEqual(row);
+    // The paper words a refill as a post filled, never as a body that
+    // organized (Words lead, Nov 15): across sixty outlets' draws, none.
+    const event = seen.at(-1)!;
+    let printed = 0;
+    for (let i = 0; i < 60; i++) {
+      const worded = wordPrintedStory(core, {
+        id: `printed:outlet:probe:${i}:${event.id}`,
+        kind: "press.printed",
+        date: event.date,
+        facts: { sourceRecordId: event.id },
+      } as never);
+      if (!worded) continue;
+      printed++;
+      expect(`${worded.headline} ${worded.lede}`).not.toMatch(
+        /organized and chose/,
+      );
+    }
+    expect(printed).toBeGreaterThan(0);
   }, 300_000);
 });
