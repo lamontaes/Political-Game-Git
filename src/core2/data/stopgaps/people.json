@@ -90,18 +90,6 @@
     "resolvedBy": "stand-in triage T7 (owner, Nov 10)"
   },
   {
-    "id": "SG-PEOPLE-press-endorsements",
-    "kind": "missing-mechanic",
-    "file": "src/core2/modules/press.ts",
-    "line": 3585,
-    "whatItFakes": "Outlets never endorse a candidate in an editorial.",
-    "why": "The decision register (docs/coordination/DECISION-REGISTER.md, 'Many ways to win') names endorsements among the channels of campaign support, so an outlet's endorsement is in; it is not built yet.",
-    "addedBy": "OPUS-PEOPLE",
-    "addedAt": "2026-10-14",
-    "replacement": "An outlet's head and owner endorse from the outlet's line, their regard for the candidates and the candidates' records, printed as a story the views and voting engines read.",
-    "status": "open"
-  },
-  {
     "id": "SG-PEOPLE-press-national-payroll",
     "kind": "missing-record",
     "file": "src/core2/press-staff.ts",

@@ -435,7 +435,7 @@
               "name": "Property tax rate",
               "kind": "law-amount",
               "series": "property-tax",
-              "unit": "percent of home value per year",
+              "unit": "percent-of-home-value",
               "operations": ["raise", "lower"],
               "levels": ["state", "county", "city"]
             },
