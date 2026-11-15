@@ -2,16 +2,15 @@
  * A filing office the research gives as a rule, not a name: "Board of
  * elections of the most populous county in the district" (Ohio's U.S. House
  * races) and "General registrar of the city or county where the town lies"
- * (Virginia's town races). The rule is resolved to the body it points to, from
- * the place map, the 2026 congressional district lines and the county
- * populations, before anyone is cast at the office or any line names it
- * (Words lead, second reader, Nov 15: South Vienna, Ohio).
+ * (Virginia's town races). The rule is resolved to the body it points to only
+ * where the game can know it: from the place map, the 2026 congressional
+ * district lines and the county populations. Where it cannot (the game holds
+ * no state-district-to-county relationship, and a county split between
+ * districts has no recorded population inside one), the body is the office
+ * named without a county, never a guessed one (Account lead, Nov 15).
  */
 import budgetBases from "../../data/research/money/public-budget-bases.json" with { type: "json" };
 import districtLines from "../../data/research/district-lines-2026/lines-2026.json" with { type: "json" };
-import acsPlaces from "../../data/research/money/place-population-acs-2024.json" with { type: "json" };
-import { placeDistrictMembershipCatalog } from "../districts/place-membership";
-import { placeDistrictPopulations } from "../districts/place-population-share";
 import { placeCounty, placeRow } from "./place-map";
 
 const COUNTY_POPULATION = (
@@ -43,89 +42,44 @@ const inDistrict = (
       ? value === district
       : value.includes(district);
 
-const PLACE_COUNTIES = (
-  acsPlaces as unknown as {
-    placeCounties: Record<string, readonly (readonly [string, number])[]>;
-  }
-).placeCounties;
-
-/** A state legislative district named as the records name it: the chamber and its three-digit code. */
-export interface StateDistrict {
-  readonly chamber: "lower" | "upper";
-  readonly code: string;
-}
-
-/**
- * The most populous county of a state legislative district, ESTIMATED from the
- * Census place-to-district relationship (the places wholly in the district, and
- * a split place's recorded population in it) and each place's population by
- * county (ACS 2024); the unincorporated remainder is not counted, which is the
- * estimate's spread. Null where no place of the state falls in the district.
- */
-const districtCounty = (() => {
-  const cache = new Map<string, string | null>();
-  return (fips: string, district: StateDistrict): string | null => {
-    const chamber = `state-${district.chamber}` as const;
-    const geoid = `${fips}${district.code}`;
-    const key = `${geoid}:${chamber}`;
-    if (cache.has(key)) return cache.get(key)!;
-    const catalog = placeDistrictMembershipCatalog();
-    const totals = new Map<string, number>();
-    const add = (place: string, share: number) => {
-      for (const [county, population] of PLACE_COUNTIES[place] ?? [])
-        totals.set(county, (totals.get(county) ?? 0) + population * share);
-    };
-    const suffix = `:${chamber}`;
-    for (const [place, home] of Object.entries(catalog.wholePlaceByKey))
-      if (home === geoid && place.endsWith(suffix) && place.startsWith(fips))
-        add(place.slice(0, -suffix.length), 1);
-    for (const place of Object.keys(catalog.splitDistrictsByKey)) {
-      if (!place.endsWith(suffix) || !place.startsWith(fips)) continue;
-      const geoidOfPlace = place.slice(0, -suffix.length);
-      const parts = placeDistrictPopulations(geoidOfPlace, chamber);
-      const total = Object.values(parts).reduce((a, b) => a + b, 0);
-      if (total > 0 && parts[geoid]) add(geoidOfPlace, parts[geoid] / total);
-    }
-    const best =
-      [...totals.entries()].sort(
-        (a, b) => b[1] - a[1] || a[0].localeCompare(b[0]),
-      )[0]?.[0] ?? null;
-    cache.set(key, best);
-    return best;
-  };
-})();
-
 /**
  * The county a rule-given office points to for a town (its five-digit code),
- * or null where the game has none: a town on two congressional districts, a
- * state district with no place in the Census relationship, or a town with no
- * county on the map. The state legislative district's county is an estimate
- * (`districtCounty`).
+ * or null where the game cannot know it: a state legislative district (the
+ * game holds no district-to-county relationship), a town on two congressional
+ * districts, a congressional district whose largest county is split with
+ * another district (its population inside this one is not recorded, and could
+ * be the largest), or a town with no county on the map.
  */
 export function ruleOfficeCounty(
   note: string,
   family: string,
   townPlaceKey: string,
-  district?: StateDistrict,
 ): string | null {
   if (/most populous county in the district/i.test(note)) {
     const fips = townPlaceKey.slice(0, 2);
-    if (family === "stateLegislative")
-      return district ? districtCounty(fips, district) : null;
     if (family !== "usHouse") return null;
     const lines = LINES[fips];
     const home = lines?.places[townPlaceKey.slice(2)];
     if (!lines || typeof home !== "string") return null;
-    return (
-      Object.entries(lines.counties)
-        .filter(([, value]) => inDistrict(value, home))
-        .map(([code]) => `${fips}${code}`)
-        .sort(
-          (a, b) =>
-            (COUNTY_POPULATION[b] ?? 0) - (COUNTY_POPULATION[a] ?? 0) ||
-            a.localeCompare(b),
-        )[0] ?? null
+    const population = (code: string) =>
+      COUNTY_POPULATION[`${fips}${code}`] ?? 0;
+    const whole = Object.entries(lines.counties)
+      .filter(([, value]) => value === home)
+      .map(([code]) => code)
+      .sort((a, b) => population(b) - population(a) || a.localeCompare(b));
+    const largestSplit = Math.max(
+      0,
+      ...Object.entries(lines.counties)
+        .filter(
+          ([, value]) => typeof value !== "string" && inDistrict(value, home),
+        )
+        .map(([code]) => population(code)),
     );
+    // A split county's share inside the district is not recorded; it could be
+    // as large as the county, so a whole county is named only if it is larger.
+    return whole[0] !== undefined && population(whole[0]) > largestSplit
+      ? `${fips}${whole[0]}`
+      : null;
   }
   if (/where the town lies/i.test(note)) {
     const id = placeCounty(townPlaceKey)?.id;
@@ -134,17 +88,24 @@ export function ruleOfficeCounty(
   return null;
 }
 
-/** The body a rule-given office points to for a town, said as a person says it, or null where the game has no such body. */
+/**
+ * The body a rule-given office points to for a town, said as a person says it.
+ * Where the county cannot be known it is the office named without a county
+ * ("board of elections", "general registrar"), read from the data's own words.
+ */
 export function ruleOfficeBody(
   note: string,
   family: string,
   townPlaceKey: string,
-  district?: StateDistrict,
-): string | null {
-  const county = ruleOfficeCounty(note, family, townPlaceKey, district);
+): string {
+  const county = ruleOfficeCounty(note, family, townPlaceKey);
   const name = county ? placeRow(`county:${county}`)?.name : null;
-  if (!name) return null;
-  return /most populous/i.test(note)
-    ? `${name} board of elections`
-    : `${name} general registrar`;
+  if (name)
+    return /most populous/i.test(note)
+      ? `${name} board of elections`
+      : `${name} general registrar`;
+  const plain = /^(.+?) of (?:the )?(?:most populous|largest|city or county)/i
+    .exec(note)?.[1]
+    ?.trim();
+  return plain ? plain.charAt(0).toLowerCase() + plain.slice(1) : note;
 }

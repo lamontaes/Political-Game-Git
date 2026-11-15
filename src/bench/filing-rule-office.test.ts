@@ -14,9 +14,9 @@ import { openBenchFilingVisit } from "./filing";
  * body the rule points to, the most populous county of district 15
  * (Words lead, second reader, Nov 15). The wait is the game's own played weeks: the race's filing window opens on its own date.
  */
-describe("a filing counter whose office is a rule is cast at the body it points to", () => {
+describe("a filing counter whose office is a rule names no county the game cannot know", () => {
   it(
-    "South Vienna, Ohio: Franklin County board of elections",
+    "South Vienna, Ohio: a named clerk at the board of elections, no county",
     { timeout: 300_000 },
     () => {
       const place = searchCorePlaces("South Vienna", 3, {
@@ -31,7 +31,8 @@ describe("a filing counter whose office is a rule is cast at the body it points 
         const row = playerContests(api).find((c) => c.family === "usHouse");
         if (row) {
           const clerk = filingClerkFor(api, row.id);
-          expect(clerk?.title).toBe("Franklin County board of elections");
+          expect(clerk?.title).toBe("board of elections");
+          expect(clerk?.basis).toBe("state-appointment");
           const visit = openBenchFilingVisit(
             core,
             playerId!,
@@ -39,15 +40,18 @@ describe("a filing counter whose office is a rule is cast at the body it points 
             600,
           );
           const said = visit.visit.lines.map((line) => line.text).join(" ");
-          expect(said).toContain("Franklin County board of elections");
+          expect(said).toContain("with the board of elections");
           expect(said).not.toContain("most populous");
-          // The state races at the same town resolve too: each district's
-          // most populous county, estimated from its places.
+          expect(said).not.toMatch(/County/);
+          // The state races at the same town: the game holds no district-to-county
+          // relationship, so each is the same plain board with a named clerk.
           const boards = playerContests(api)
             .filter((other) => other.family === "stateLegislative")
             .map((other) => filingClerkFor(api, other.id)?.title);
-          expect(boards).toContain("Clark County board of elections");
-          expect(boards).toContain("Greene County board of elections");
+          expect(boards.length).toBeGreaterThan(0);
+          expect(boards.every((title) => title === "board of elections")).toBe(
+            true,
+          );
           return;
         }
         advanceCore(core, addDays(makeIsoDate(core.date), 7));

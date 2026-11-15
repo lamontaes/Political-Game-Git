@@ -619,21 +619,9 @@ export function filingRulesFor(
     ? rules
     : { ...rules, deadline: null };
   // An office the data gives as a rule is the body it points to for this
-  // town; where the game cannot tell (a state legislative district) the
-  // rule's own wording stays.
+  // town; where the game cannot know the county, the office without one.
   const body = describesByRule(dated.filedWith)
-    ? ruleOfficeBody(
-        dated.filedWith,
-        contest.family,
-        town(api).geoid,
-        /legislature-(?<chamber>lower|upper)$/.exec(contest.officeId)?.groups
-          ?.chamber && contest.district
-          ? {
-              chamber: contest.officeId.endsWith("lower") ? "lower" : "upper",
-              code: contest.district,
-            }
-          : undefined,
-      )
+    ? ruleOfficeBody(dated.filedWith, contest.family, town(api).geoid)
     : null;
   return body ? { ...dated, filedWith: body } : dated;
 }

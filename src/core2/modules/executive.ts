@@ -87,10 +87,7 @@ import {
   describesByRule,
   ruleOfficeBody,
   ruleOfficeCounty,
-  type StateDistrict,
 } from "../filing-rule-office";
-import { placeDistrictMembershipCatalog } from "../../districts/place-membership";
-import { placeDistrictPopulations } from "../../districts/place-population-share";
 import { localClerkFor } from "./candidacy";
 import { pairKey } from "../kernel/ids";
 
@@ -1095,11 +1092,10 @@ function seatLocalFilingOfficers(api: CoreAPI, worldSeed: string): void {
     // of elections (counter: election commissioner)"): that is their title.
     const counter = /\(counter: ([^)]+)\)/.exec(office)?.[1]?.trim();
     // An office the data gives as a rule is the body the rule points to for
-    // this town; where the game has none, no one is seated.
+    // this town, or the office without a county where the game cannot know it.
     const body = describesByRule(office)
       ? ruleOfficeBody(office, family, lawChain(api).placeKey)
       : null;
-    if (describesByRule(office) && !body) continue;
     seatDrawnOfficer(api, worldSeed, {
       government: townPlaceId,
       post: `${LOCAL_FILING_OFFICER_POST}:${family}`,
@@ -1123,49 +1119,28 @@ export const RULE_FILING_OFFICER_POST = "rule-filing-officer";
  * The person at a state or federal counter whose office the filing data gives
  * as a rule ("Board of elections of the most populous county in the district"):
  * drawn for the body the rule points to for the player's town, on that county's
- * payroll where it is the player's own county. Where the game has no such body
- * (a state legislative district) no one is seated, and the counter has no one
- * to name.
+ * payroll where it is the player's own county. Where the game cannot know the
+ * county (a state legislative district, a county split between districts) the
+ * body is the office without one, and its person is on no county's payroll.
  */
 function seatRuleFilingOfficers(api: CoreAPI, worldSeed: string): void {
   const { stateKey, placeKey, countyGeoids } = lawChain(api);
-  const catalog = placeDistrictMembershipCatalog();
-  // Each body the rule points to for this town: the U.S. House race's, and one
-  // per chamber for the state legislative races (the town's own district).
-  const wanted: {
-    family: "usHouse" | "stateLegislative";
-    district?: StateDistrict;
-  }[] = [{ family: "usHouse" }];
-  for (const chamber of ["lower", "upper"] as const) {
-    // A town split between districts is placed in the one holding most of its people.
-    const shares = Object.entries(
-      placeDistrictPopulations(placeKey, `state-${chamber}`),
-    ).sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
-    const home =
-      catalog.wholePlaceByKey[`${placeKey}:state-${chamber}`] ?? shares[0]?.[0];
-    if (home)
-      wanted.push({
-        family: "stateLegislative",
-        district: { chamber, code: home.slice(2) },
-      });
-  }
-  for (const { family, district } of wanted) {
+  for (const family of ["usHouse", "stateLegislative"] as const) {
     const office = filingRequirements(stateKey, family).filedWith;
     if (!describesByRule(office)) continue;
-    const county = ruleOfficeCounty(office, family, placeKey, district);
-    const body = ruleOfficeBody(office, family, placeKey, district);
-    if (!county || !body) continue;
+    const county = ruleOfficeCounty(office, family, placeKey);
+    const body = ruleOfficeBody(office, family, placeKey);
     seatDrawnOfficer(api, worldSeed, {
       government: stateKey,
-      post: `${RULE_FILING_OFFICER_POST}:${county}`,
+      post: `${RULE_FILING_OFFICER_POST}:${county ?? "unknown"}`,
       title: body,
       seatKey: `rule-filing-officer:${stateKey}:${body}`,
       personKey: `rule-filing-officer:${stateKey}:${body}`,
       placeId: stateKey,
-      payroll: countyGeoids.includes(county) ? "county" : null,
+      payroll: county && countyGeoids.includes(county) ? "county" : null,
       citation: `The person at the counter of the ${body}, which takes filings for the races whose office the filing data gives as a rule in ${stateKey}.`,
       estimatedFrom:
-        "The filing data gives the office as a rule; the rule is resolved to the body it points to (a state district's county is estimated from the Census place-to-district relationship and ACS place populations by county), and the person is drawn from the world's seed like any invented official.",
+        "The filing data gives the office as a rule; the rule is resolved to the body it points to where the game can know it, and the person is drawn from the world's seed like any invented official.",
     });
   }
 }

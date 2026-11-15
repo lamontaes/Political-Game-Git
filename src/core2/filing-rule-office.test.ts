@@ -1,40 +1,37 @@
 import { describe, expect, it } from "vitest";
-import { describesByRule, ruleOfficeBody } from "./filing-rule-office";
+import {
+  describesByRule,
+  ruleOfficeBody,
+  ruleOfficeCounty,
+} from "./filing-rule-office";
 
 const OHIO_HOUSE =
   "Board of elections of the most populous county in the district";
 const REGISTRAR = "General registrar of the city or county where the town lies";
 
 describe("an office given as a rule resolves to the body it points to", () => {
-  it("names the most populous county of the town's congressional district", () => {
-    // South Vienna, Ohio is in district 15; Franklin County is its most populous county.
+  it("names no county the game cannot know: South Vienna's district 15 splits Franklin County with another district", () => {
+    // Franklin County is the largest in the district but is split with district 3;
+    // its share inside district 15 is not recorded, so no county is named.
+    expect(ruleOfficeCounty(OHIO_HOUSE, "usHouse", "3973796")).toBeNull();
     expect(ruleOfficeBody(OHIO_HOUSE, "usHouse", "3973796")).toBe(
-      "Franklin County board of elections",
+      "board of elections",
     );
   });
-  it("estimates the most populous county of a state legislative district from its places", () => {
-    // South Vienna, Ohio: state Senate district 010 and state House district 071.
+  it("names no county for a state legislative district, which the game cannot place in a county", () => {
     expect(
-      ruleOfficeBody(OHIO_HOUSE, "stateLegislative", "3973796", {
-        chamber: "upper",
-        code: "010",
-      }),
-    ).toBe("Clark County board of elections");
-    expect(
-      ruleOfficeBody(OHIO_HOUSE, "stateLegislative", "3973796", {
-        chamber: "lower",
-        code: "071",
-      }),
-    ).toBe("Greene County board of elections");
-  });
-  it("has no body where the race names no district", () => {
-    expect(
-      ruleOfficeBody(OHIO_HOUSE, "stateLegislative", "3973796"),
+      ruleOfficeCounty(OHIO_HOUSE, "stateLegislative", "3973796"),
     ).toBeNull();
+    expect(ruleOfficeBody(OHIO_HOUSE, "stateLegislative", "3973796")).toBe(
+      "board of elections",
+    );
   });
   it("names the county or city where a town lies", () => {
     expect(ruleOfficeBody(REGISTRAR, "municipalOffice", "5148952")).toBe(
       "Manassas city general registrar",
+    );
+    expect(ruleOfficeBody(REGISTRAR, "municipalOffice", "0000000")).toBe(
+      "general registrar",
     );
   });
   it("marks exactly the offices given as a rule", () => {

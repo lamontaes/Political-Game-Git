@@ -81,7 +81,8 @@ const SECRETARY_OF_STATE_POST = "secretary-of-state";
 function stateClerkFor(api: CoreAPI, contest: ContestRow): FilingClerk | null {
   const core = api.state as CoreState;
   // An office the data gives as a rule is the person seated at the body the
-  // rule points to for this town; with none, the counter has no one to name.
+  // rule points to for this town, or at the office without a county where the
+  // game cannot know it.
   if (givenAsRule(api, contest)) {
     const body = filingOfficeFor(api, contest.id).filedWith;
     const seated = agencyHeadsIn(api, lawChain(api).stateKey).find(
@@ -90,9 +91,7 @@ function stateClerkFor(api: CoreAPI, contest: ContestRow): FilingClerk | null {
         row.title === body &&
         living(core, row.holderId),
     );
-    // A rule the game cannot resolve (a district with no place in the Census
-    // relationship) is taken by the state's election chief, named by their own
-    // agency; the record keeps the rule's wording as data.
+    // A person not yet seated falls back to the state's election chief.
     return seated
       ? {
           personId: seated.holderId,
