@@ -26,8 +26,10 @@ import {
 import {
   CLOSENESS,
   closenessBetween,
-  hoursLost,
+  knownThroughRecords,
+  metThrough,
   openingClosenessHours,
+  tieHoursLost,
 } from "../closeness";
 import { careNeedOf } from "./health";
 import { GRIEF, griefToday, recordDeath } from "../grief";
@@ -85,17 +87,20 @@ function tiePull(
   actor: Readonly<PersonState>,
   otherId: PersonId,
 ): { value: number; sourceIds: string[] } | undefined {
-  const row = api.state.relationships.get(pairKey(actor.id, otherId));
   const other = api.state.people.get(otherId);
-  if (!row || !other) return undefined;
+  if (!other) return undefined;
+  // The tie's whole time (its row and the hours a record says they shared,
+  // such as a body's sittings), lost since the two were last together.
+  const met = metThrough(api.state, actor.id, otherId);
+  if (!met) return undefined;
   const near =
     other.placeId === actor.placeId ||
     (other.countyId !== undefined && other.countyId === actor.countyId);
   return {
     value:
-      hoursLost(api.state, row) *
+      tieHoursLost(api.state, actor.id, otherId) *
       (near ? api.parameter("one") : api.parameter("farKinContactShare")),
-    sourceIds: [row.id],
+    sourceIds: [met.sourceId],
   };
 }
 
@@ -817,7 +822,8 @@ export const PEOPLE_MODULE: PreStartModule = {
         if (!known.has(kind)) for (const id of rows) ids.add(id);
       return [...ids].map((id) => offer(api, actor, action, id));
     },
-    // Everyone the person knows and has a tie with, plus one person they know
+    // Everyone the person knows and has a tie with (a row, or time a record
+    // says they shared), plus one person they know
     // without a tie yet. Untied offers all score alike and the chooser breaks
     // ties by the lowest key, so the lowest-id untied person stands for them all.
     // A person with a cause weighs only the week's shortlist of their ties.
@@ -826,15 +832,31 @@ export const PEOPLE_MODULE: PreStartModule = {
       const tied: PersonId[] = [];
       let untied: string | undefined;
       const ties = tiedTo(api, actor.id);
-      for (const id of actor.knownIds) {
+      // Colleagues one knows through a record (a body's sittings) are ties
+      // too, though no row holds them yet (closeness.ts, `knownPeople`).
+      const throughRecords = knownThroughRecords(api.state, actor.id);
+      const candidates = throughRecords.size
+        ? new Set<PersonId>([...throughRecords, ...actor.knownIds])
+        : actor.knownIds;
+      // Of colleagues known only through a record, whose pulls are alike, the
+      // nearest in the record's own order stands for the rest (as the
+      // lowest-id untied person does below), so each member's turn goes to
+      // their own nearest colleague, not everyone's to the lowest id.
+      const standsFor = new Set<number>();
+      for (const id of candidates) {
         if (!api.state.people.get(id)?.alive) continue;
-        const hasTie = ties.has(id);
+        const hasRow = ties.has(id);
         if (
           bookkeeping() &&
-          hasTie !== api.state.relationships.has(pairKey(actor.id, id))
+          hasRow !== api.state.relationships.has(pairKey(actor.id, id))
         )
           throw new Error("A person's kept ties no longer match their ties.");
-        if (hasTie) tied.push(id);
+        if (!hasRow && throughRecords.has(id)) {
+          const pull = tiePull(api, actor, id)?.value ?? api.parameter("zero");
+          if (standsFor.has(pull)) continue;
+          standsFor.add(pull);
+        }
+        if (hasRow || throughRecords.has(id)) tied.push(id);
         else if (untied === undefined || id < untied) untied = id;
       }
       for (const id of actor.drives.size
@@ -862,6 +884,7 @@ export const PEOPLE_MODULE: PreStartModule = {
 
 // Re-exported so other engine families import through this entry, not the file (families guard).
 export { currentCloseness } from "../closeness";
+export { roomTime } from "../sitting-closeness";
 export { decisionKinds } from "../trait-decision-table";
 export { decisionLean, termOfLean } from "../trait-decisions";
 export type { CashJournalPosting } from "../journal";

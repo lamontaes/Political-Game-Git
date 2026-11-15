@@ -32,6 +32,7 @@ import { sessionYear, type SessionWindow } from "./state-session-calendar";
 import { registerModule } from "./state";
 import { decisionLean, leanedTerm } from "./trait-decisions";
 import { closenessBetween } from "./closeness";
+import { roomTime } from "./modules/people";
 import { personLean, personStance } from "./campaign-views";
 import { PLATFORM_QUESTIONS } from "./campaign-data";
 import { lineForPost, registerLinePayments } from "./budgets-treasury";
@@ -44,9 +45,7 @@ import {
   appointmentsIn,
   clemencyAuthority,
   GOVERNOR_DECIDES_CLEMENCY,
-  answerEmergencyOffer,
   issueOrder,
-  pendingEmergencyOffers,
   pendingGovernorOrders,
 } from "./modules/executive";
 import {
@@ -134,8 +133,6 @@ registerStopKinds([
   { kind: "state-floor-vote", byDefault: true },
   // An order the governor's staff brings for signature: issued or set aside by the player, not the character.
   { kind: "executive-order", byDefault: true },
-  // A disaster the governor may declare a state of emergency for: the player's to answer, never the character's.
-  { kind: "emergency", byDefault: true },
   // A cabinet post that stands open: the governor the player plays names who fills it.
   { kind: "appointment", byDefault: true },
   // The state budget the governor sends the legislature: the player writes the lines, the character does not.
@@ -291,7 +288,6 @@ export type StateEntryKind =
   | "interim-committee"
   | "state-of-the-state"
   | "executive-order"
-  | "emergency"
   | "appointment"
   | "budget-proposal"
   | "legislative-leaders"
@@ -448,12 +444,6 @@ export function stateDay(
     return out;
   }
   // The governor.
-  // A disaster in the state the governor may declare an emergency for (the player's to answer).
-  for (const offer of pendingEmergencyOffers(api, office.personId))
-    add("emergency", offer.id, {
-      tag: "SOURCED",
-      citation: `Disaster ${offer.hazardRecordId}: the state's emergency powers`,
-    });
   // The first open cabinet post: the governor names who fills it (one at a time).
   const open = statePostsToFill(api, office.personId)[0];
   if (workday && open)
@@ -550,7 +540,6 @@ export function stopKindOf(api: CoreAPI, entry: StateDayEntry): string | null {
   }
   if (entry.kind === "state-of-the-state") return "state-of-the-state";
   if (entry.kind === "executive-order") return "executive-order";
-  if (entry.kind === "emergency") return "emergency";
   if (entry.kind === "appointment") return "appointment";
   if (entry.kind === "budget-proposal") return "budget-proposal";
   return null;
@@ -572,7 +561,6 @@ export type StateChoice =
       readonly issue?: boolean;
     }
   | { readonly kind: "attend"; readonly attend: boolean }
-  | { readonly kind: "emergency"; readonly declare: boolean }
   /** The person named to an open cabinet post; left out, the governor's own first choice stands. */
   | {
       readonly kind: "appointment";
@@ -651,18 +639,30 @@ function room(api: CoreAPI, entry: StateDayEntry, office: StateOffice) {
   return [];
 }
 
-/** Time together with each colleague in the room: their tie grows (or begins). */
+/**
+ * Time together with the colleagues one knows in the room: their tie grows
+ * (or begins). A committee or caucus meeting is a sitting of a smaller room,
+ * shared by the sitting's own rule (sitting-closeness.ts `roomTime`): the
+ * meeting's hours times the contact share, split among the colleagues one
+ * comes to know there, never the whole meeting with each of them.
+ */
 function spendTime(
   api: CoreAPI,
   holderId: string,
-  others: readonly string[],
+  officeId: string,
+  room: readonly string[],
   sourceId: string,
 ): string[] {
-  const hours = stateDayParameter("meetingHours");
+  const { ids: others, hours } = roomTime(
+    api,
+    officeId,
+    holderId,
+    room.filter((id) => api.state.people.get(id)?.alive),
+    stateDayParameter("meetingHours"),
+  );
   const placeId = lawChain(api).townPlaceId;
   const touched: string[] = [];
   for (const other of others) {
-    if (other === holderId || !api.state.people.get(other)?.alive) continue;
     const id = pairKey(holderId, other);
     if ((api.state as CoreState).relationships.has(id))
       api.relationship(holderId, other, "contact", hours, undefined, {
@@ -762,7 +762,13 @@ export function actOn(
       const sourceId = `office-day:${entry.id}`;
       if (chosen.attend) {
         recordIds.push(
-          ...spendTime(api, entry.holderId, room(api, entry, office), sourceId),
+          ...spendTime(
+            api,
+            entry.holderId,
+            office.officeId,
+            room(api, entry, office),
+            sourceId,
+          ),
         );
       }
       // A member at their committee learns where they sit, and what it heard
@@ -810,17 +816,6 @@ export function actOn(
           );
           if (done) recordIds.push(done.id);
         }
-      break;
-    }
-    case "emergency": {
-      // The character declares where the law gives the power, as the engine does for any governor;
-      // the player may let it pass.
-      chosen = choice ?? { kind: "emergency", declare: true };
-      if (chosen.kind !== "emergency")
-        throw new Error("Choose whether to declare the emergency.");
-      const declared = answerEmergencyOffer(api, entry.subject, chosen.declare);
-      if (declared.emergencyId) recordIds.push(declared.emergencyId);
-      reasons["authority"] = "state-emergency-power";
       break;
     }
     case "appointment": {
@@ -946,6 +941,7 @@ export function actOn(
           ...spendTime(
             api,
             entry.holderId,
+            office.officeId,
             legislativeLeaders(api, office.stateKey),
             `office-day:${entry.id}`,
           ),

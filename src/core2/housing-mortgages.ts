@@ -13,9 +13,9 @@
 import housingData from "./data/housing/housing.json" with { type: "json" };
 import acs from "../../data/research/world/acs-2024-owner-mortgage-moved-in-by-county.json" with { type: "json" };
 import type { FinanceContractInput } from "./finance-types";
-import { historicalMortgageRate, type MacroParameter } from "./macro-model";
+import type { MacroParameter } from "./macro-model";
 import type { ResidentFlowInput } from "./residents";
-import { homePriceRatio } from "./housing-prices";
+import { economyMonthBefore, pastPriceRatio } from "./housing-price-path";
 import { stopgap } from "./stopgaps";
 import type { IsoDate, Source } from "./types";
 
@@ -150,7 +150,7 @@ function balanceAfter(
 /**
  * The loan a household took when it bought its home in `boughtYear`, as it
  * stands at `startedAt`: the price then (today's value moved back by the
- * state's house price index), the down payment for a first or repeat buyer,
+ * world's price level), the down payment for a first or repeat buyer,
  * the rate that year and the payments made since. Undefined once paid off.
  * The opening's mortgages and the housing history's restated ones (a full
  * owner who moved in after the drawn year) are both this one formula.
@@ -184,13 +184,13 @@ export function mortgageFrom(
     boughtYear - owner.oldest < p("housingFirstTimeBuyerMedianAge")
       ? DATA.downPayment.firstTime
       : DATA.downPayment.repeat;
-  // What the home cost then: today's value moved back by the state's house price index.
+  // What the home cost then: today's value moved back by this world's price level.
   const price =
     owner.valueMinor *
-    homePriceRatio(at.usps, at.startedAt, `${boughtYear}-07-01`, at.seed);
+    pastPriceRatio(at, at.startedAt, `${boughtYear}-07-01`, p);
   const original = price * (1 - down);
   const rate =
-    historicalMortgageRate(`${boughtYear}-06`, p) / p("macroHundred");
+    economyMonthBefore(`${boughtYear}-06`, at, p).ratePct / p("macroHundred");
   const r = rate / months;
   const payment = Math.round(
     r > 0

@@ -5,10 +5,10 @@ area: world
 kind: feature
 priority: 2
 size: M
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: Account lead T54 (claude/project-thread-w31iec)
+pr: 9117
 blocked-on:
 after: world-estate-sells-the-home
 lead: laws-effects
@@ -36,3 +36,4 @@ checked: fable 2026-11-10
 **Files.** src/core2/modules/housing.ts, src/core2/housing-sale.ts, src/core2/housing-mortgages.ts
 
 **Notes.** Found Oct 18 splitting world-home-turnover. Today `buyHomes` takes `takeNewHome(...) ?? outside.id` as the seller.
+Nov 14, 2026 (Account lead T54): built in #9117 on the Account lead's rulings of 17:37Z and 20:09Z. Homes for sale are a builder's finished new houses and homes households put on the market (src/core2/housing-listings.ts); a household or estate keeps its home until a buyer takes it and pays it, and `closeSale` (src/core2/housing-sale.ts) pays the lender from that money with interest for the months listed; an estate stays open while its house is for sale. Test: src/core2/housing-listings.test.ts (Bastrop, Louisiana, 2204685).

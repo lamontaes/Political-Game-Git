@@ -11,7 +11,7 @@ pr: #4737
 blocked-on:
 after: director-civic-producers-electoral
 source: added with npm run pool -- add
-claimed-at: 
+claimed-at:
 ---
 
 **What.** Two of the four civic election scenes still wait on a producer: the filing visit and the campaign stop. The filing scene needs the clerk of the filing office, who has no record in the core yet (the pool item gov-clerk-person; `src/director/civic-roles.ts` leaves the role unfilled and the scene cannot bind). The campaign stop needs a campaign event as its cause: a speech, a door-knock day or a rally the campaigns engine records for the candidate, with the voters it reached. Give each a match in `src/director/data/situation-types.json` (replacing the `awaitingProducer` marks), bind their roles from those records, fold the filing visit in `filing-visit.ts` into the same path so there is one, and let both scenes fire for the person the event reaches. The player would notice a clerk at the counter when he files and a crowd at a campaign stop.

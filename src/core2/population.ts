@@ -1421,6 +1421,15 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
             medianTransactionBalance(
               (dailyPay * p("daysPerMeanYear")) / p("minorPerDollar"),
               options.seed,
+              // The head is the household's oldest adult.
+              Math.max(
+                ...adults.map((id) =>
+                  ageOnDate(
+                    makeIsoDate(world.people[id]!.birthDate),
+                    startedAt,
+                  ),
+                ),
+              ),
             ) * p("minorPerDollar"),
           )
         : householdDailyCost * p("moneyBufferDays");
@@ -1952,6 +1961,12 @@ function openingFamilies(input: OpeningFamilyInput): {
       p("zero"),
       adults.length,
       input.seed,
+      // The head is the household's oldest adult.
+      Math.max(
+        ...adults.map((id) =>
+          ageOnDate(makeIsoDate(kinBirth.get(id)!), startedAt),
+        ),
+      ),
     );
     adults.forEach((id, index) => kinCash.set(id, cash[index]!));
     const daily = householdDailyCostMinor({

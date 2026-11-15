@@ -23,6 +23,8 @@ import { endFlowPart } from "./residents-economy";
 import { householdIncome, residentsRuntime } from "./modules/residents";
 import { leaveCountedHome } from "./housing-homeless";
 import { formerHome } from "./housing-former-home";
+import { homeValueToday } from "./housing-price-level";
+import { listHome } from "./housing-listings";
 import type { ModuleRow } from "./module-data";
 import type { CoreAPI, CoreState } from "./types";
 
@@ -89,6 +91,8 @@ export interface MortgageRow {
   /** Consecutive months paid nothing toward principal. */
   readonly missedMonths?: number;
   readonly foreclosedAt?: string;
+  /** The home went on the market (housing-sale.ts): no more monthly payments; the sale pays it off. */
+  readonly listedAt?: string;
 }
 
 /** The state's steps, with the days from first filing to sale. */
@@ -134,7 +138,8 @@ export function countedOwnersBehind(api: CoreAPI): Set<string> {
   if (!rt) return behind;
   const payment = new Map<string, number>();
   for (const row of table(api, "mortgages").rows() as unknown as MortgageRow[])
-    if (!row.foreclosedAt && row.monthsLeft > 0)
+    // A mortgage on a home for sale is paid off from the sale, not month by month.
+    if (!row.foreclosedAt && !row.listedAt && row.monthsLeft > 0)
       payment.set(row.householdId, row.paymentMinor);
   const byGroup = new Map<
     number,
@@ -206,13 +211,46 @@ export function startForeclosures(
   return opened;
 }
 
-/** What the home brings at a foreclosure sale, from its value in the dwellings table. */
-function salePrice(api: CoreAPI, householdId: string): number {
+/** The place a home's household lives in, full or counted, and how many households its record stands for. */
+function homePlace(
+  c: CoreState,
+  householdId: string,
+): { placeId: string; weight: number } | undefined {
+  const full = c.households.get(householdId);
+  if (full) return { placeId: full.placeId, weight: 1 };
+  const store = residentsRuntime(c)?.store;
+  const at = store?.householdOf.get(householdId);
+  const counted = at === undefined ? undefined : store!.households[at];
+  return counted
+    ? { placeId: counted.placeId, weight: store!.weightOf(counted) }
+    : undefined;
+}
+
+/** What the home brings at a foreclosure sale: its value today by the one value rule, at the sale's share. */
+function salePrice(api: CoreAPI, householdId: string, caseId: string): number {
   const dwelling = table(api, "dwellings").get(`dwelling:${householdId}`) as
-    { valueMinor?: number } | undefined;
-  return Math.round(
-    (dwelling?.valueMinor ?? 0) * api.parameter("housingForeclosureSaleShare"),
-  );
+    { valueMinor?: number; priceLevel?: number } | undefined;
+  const at = homePlace(core(api), householdId);
+  const value = at
+    ? homeValueToday(
+        api,
+        at.placeId,
+        dwelling?.valueMinor ?? 0,
+        dwelling?.priceLevel,
+      )
+    : (dwelling?.valueMinor ?? 0);
+  // The home goes to market this month, for sale until a buyer takes it.
+  // The outside market bought it at auction; it is then for sale from that buyer.
+  const auction =
+    at && townOutsideOf(core(api).organizations.values(), at.placeId);
+  if (at && auction)
+    listHome(api, at.placeId, at.weight, caseId, auction.id, {
+      valueMinor: dwelling?.valueMinor ?? 0,
+      ...(dwelling?.priceLevel !== undefined
+        ? { priceLevel: dwelling.priceLevel }
+        : {}),
+    });
+  return Math.round(value * api.parameter("housingForeclosureSaleShare"));
 }
 
 /**
@@ -245,7 +283,7 @@ export function foreclosureSale(api: CoreAPI, caseId: string): string | null {
     } as unknown as ModuleRow);
     return null;
   }
-  const price = salePrice(api, row.householdId);
+  const price = salePrice(api, row.householdId, caseId);
   const owed = mortgage.balanceMinor;
   // The town's outside market stands for the buyer at the sale.
   const buyer = townOutsideOf(
