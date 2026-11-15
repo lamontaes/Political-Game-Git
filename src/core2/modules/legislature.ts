@@ -1810,7 +1810,7 @@ function billLevel(api: CoreAPI, bill: BillRow): LawLevel {
  * section with no date of its own takes effect with the bill, before any
  * dated step; of two on one date, the later in the bill's text.
  */
-function billStances(
+export function billStances(
   api: CoreAPI,
   bill: BillRow,
 ): readonly {
