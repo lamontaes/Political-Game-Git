@@ -21,7 +21,7 @@ checked:
 
 **What.** `src/director/concession-reported.test.ts` fails both cases on the Train: it looks for a sentence that starts with the runner-up's full name and says "called … to concede", and the paper now prints "Michael Wise defeated Betty Sheppard for selectboard member on Tuesday, 22 votes to 21. After the count, Sheppard called Wise to concede."
 
-**Cause.** Found in code: the old premise was that the concession sentence starts with the runner-up's full name. That stopped being true when the wording "After the count, {rival} called {last} to concede." came in (d9c85e4441), picked by outlet order (807f349de8); the paper's rule is the full name at the first mention and the family name after, so the story is right and the test is stale.
+**Cause.** Found in code: the wording lives in data/english/parts/news.json; the old premise was that the concession sentence starts with the runner-up's full name. That stopped being true when the wording "After the count, {rival} called {last} to concede." came in (d9c85e4441), picked by outlet order (807f349de8); the paper's rule is the full name at the first mention and the family name after, so the story is right and the test is stale.
 
 **Fix.** The test finds the sentence that reports the concession by "conce", asserts the paper's rule on the whole story (the runner-up and the winner are each named in full before their family names appear, and the call's sentence names the runner-up by family name and does not repeat the full name), and keeps the two meaning checks (called to concede; has not called or would not concede) with the name allowed before "to concede". Run at the same named place and seed.
 
