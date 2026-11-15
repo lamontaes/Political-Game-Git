@@ -5617,24 +5617,6 @@
           "purpose": "family-loss",
           "key": "loss",
           "after": "scene-talk.follow-comfort.it-isn-t-on-you-we-both-worked-it"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "blame",
-          "role": "asked",
-          "purpose": "family-loss",
-          "key": "loss",
-          "after": "scene-talk.state-comfort.i-put-a-little-in-and-we-lost-i-d-do-it-again"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "blame",
-          "role": "asked",
-          "purpose": "family-loss",
-          "key": "loss",
-          "after": "scene-talk.state-comfort.we-lost-i-m-glad-i-gave-anyway"
         }
       ],
       "bearing": "hurt",
@@ -5691,26 +5673,6 @@
           "key": "loss",
           "requiresFacts": ["opponent"],
           "after": "scene-talk.follow-comfort.it-isn-t-on-you-we-both-worked-it"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "blame",
-          "role": "asked",
-          "purpose": "family-loss",
-          "key": "loss",
-          "requiresFacts": ["opponent"],
-          "after": "scene-talk.state-comfort.i-put-a-little-in-and-we-lost-i-d-do-it-again"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "blame",
-          "role": "asked",
-          "purpose": "family-loss",
-          "key": "loss",
-          "requiresFacts": ["opponent"],
-          "after": "scene-talk.state-comfort.we-lost-i-m-glad-i-gave-anyway"
         }
       ],
       "bearing": "braced",
@@ -5827,26 +5789,6 @@
           "key": "loss",
           "excludesFacts": ["daytime"],
           "after": "scene-talk.follow-comfort.it-isn-t-on-you-we-both-worked-it"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "deflect",
-          "role": "asked",
-          "purpose": "family-loss",
-          "key": "loss",
-          "excludesFacts": ["daytime"],
-          "after": "scene-talk.state-comfort.i-put-a-little-in-and-we-lost-i-d-do-it-again"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "deflect",
-          "role": "asked",
-          "purpose": "family-loss",
-          "key": "loss",
-          "excludesFacts": ["daytime"],
-          "after": "scene-talk.state-comfort.we-lost-i-m-glad-i-gave-anyway"
         }
       ],
       "bearing": "guarded",
@@ -5944,15 +5886,6 @@
           "purpose": "family-loss",
           "key": "loss",
           "after": "scene-talk.follow-comfort.it-isn-t-on-you-we-both-worked-it"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "deflect",
-          "role": "asked",
-          "purpose": "family-loss",
-          "key": "loss",
-          "after": "scene-talk.state-comfort.i-put-a-little-in-and-we-lost-i-d-do-it-again"
         }
       ],
       "bearing": "guarded",
@@ -6023,24 +5956,6 @@
           "purpose": "family-loss",
           "key": "loss",
           "after": "scene-talk.follow-comfort.it-isn-t-on-you-we-both-worked-it"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "purpose": "family-loss",
-          "key": "loss",
-          "after": "scene-talk.state-comfort.i-put-a-little-in-and-we-lost-i-d-do-it-again"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "purpose": "family-loss",
-          "key": "loss",
-          "after": "scene-talk.state-comfort.we-lost-i-m-glad-i-gave-anyway"
         }
       ],
       "bearing": "braced",
@@ -6111,24 +6026,6 @@
           "purpose": "family-loss",
           "key": "loss",
           "after": "scene-talk.follow-comfort.it-isn-t-on-you-we-both-worked-it"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "purpose": "family-loss",
-          "key": "loss",
-          "after": "scene-talk.state-comfort.i-put-a-little-in-and-we-lost-i-d-do-it-again"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "purpose": "family-loss",
-          "key": "loss",
-          "after": "scene-talk.state-comfort.we-lost-i-m-glad-i-gave-anyway"
         }
       ],
       "bearing": "braced",
@@ -6271,24 +6168,6 @@
           "purpose": "family-loss",
           "key": "loss",
           "after": "scene-talk.follow-comfort.it-isn-t-on-you-we-both-worked-it"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "family-loss",
-          "key": "loss",
-          "after": "scene-talk.state-comfort.i-put-a-little-in-and-we-lost-i-d-do-it-again"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "family-loss",
-          "key": "loss",
-          "after": "scene-talk.state-comfort.we-lost-i-m-glad-i-gave-anyway"
         }
       ],
       "bearing": "hurt",
@@ -8563,15 +8442,6 @@
       "kind": "spoken",
       "text": "Don't do that to yourself.",
       "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "disagree",
-          "role": "asker",
-          "purpose": "family-loss",
-          "key": "loss",
-          "after": "scene-talk.reply-blame.i-spent-more-than-i-should-have-and-this-is-all-it-came-to"
-        },
         {
           "subject": "scene",
           "step": "follow",
@@ -96476,7 +96346,7 @@
           "purpose": "family-loss",
           "key": "loss",
           "requiresFacts": ["stake-gave"],
-          "after": "scene-talk.state-comfort.i-put-a-little-in-and-we-lost-i-d-do-it-again"
+          "after": "scene-talk.state-comfort.you-put-a-lot-of-money-into-this-are-you-alright"
         },
         {
           "subject": "scene",
@@ -96486,7 +96356,37 @@
           "purpose": "family-loss",
           "key": "loss",
           "requiresFacts": ["stake-gave"],
-          "after": "scene-talk.state-comfort.we-lost-i-m-glad-i-gave-anyway"
+          "after": "scene-talk.state-comfort.that-was-a-lot-to-spend-and-lose-talk-to-me"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-gave"],
+          "after": "scene-talk.state-comfort.you-spent-a-lot-on-this-race-what-now"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "family-loss.small",
+          "key": "loss",
+          "requiresFacts": ["stake-gave"],
+          "after": "scene-talk.state-comfort.you-didn-t-spend-much-on-it-i-m-sorry-you-lost"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "family-loss.small",
+          "key": "loss",
+          "requiresFacts": ["stake-gave"],
+          "after": "scene-talk.state-comfort.it-didn-t-cost-much-how-are-you-holding-up"
         }
       ],
       "bearing": "tender",
@@ -96582,7 +96482,7 @@
           "purpose": "family-loss",
           "key": "loss",
           "requiresFacts": ["stake-gave"],
-          "after": "scene-talk.state-comfort.i-put-a-little-in-and-we-lost-i-d-do-it-again"
+          "after": "scene-talk.state-comfort.you-put-a-lot-of-money-into-this-are-you-alright"
         },
         {
           "subject": "scene",
@@ -96592,7 +96492,37 @@
           "purpose": "family-loss",
           "key": "loss",
           "requiresFacts": ["stake-gave"],
-          "after": "scene-talk.state-comfort.we-lost-i-m-glad-i-gave-anyway"
+          "after": "scene-talk.state-comfort.that-was-a-lot-to-spend-and-lose-talk-to-me"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-gave"],
+          "after": "scene-talk.state-comfort.you-spent-a-lot-on-this-race-what-now"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "family-loss.small",
+          "key": "loss",
+          "requiresFacts": ["stake-gave"],
+          "after": "scene-talk.state-comfort.you-didn-t-spend-much-on-it-i-m-sorry-you-lost"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "family-loss.small",
+          "key": "loss",
+          "requiresFacts": ["stake-gave"],
+          "after": "scene-talk.state-comfort.it-didn-t-cost-much-how-are-you-holding-up"
         }
       ],
       "bearing": "tender",
@@ -96638,7 +96568,7 @@
           "purpose": "family-loss",
           "key": "loss",
           "requiresFacts": ["stake-gave"],
-          "after": "scene-talk.state-comfort.i-put-a-little-in-and-we-lost-i-d-do-it-again"
+          "after": "scene-talk.state-comfort.you-put-a-lot-of-money-into-this-are-you-alright"
         },
         {
           "subject": "scene",
@@ -96648,7 +96578,37 @@
           "purpose": "family-loss",
           "key": "loss",
           "requiresFacts": ["stake-gave"],
-          "after": "scene-talk.state-comfort.we-lost-i-m-glad-i-gave-anyway"
+          "after": "scene-talk.state-comfort.that-was-a-lot-to-spend-and-lose-talk-to-me"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "blame",
+          "role": "asked",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-gave"],
+          "after": "scene-talk.state-comfort.you-spent-a-lot-on-this-race-what-now"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "blame",
+          "role": "asked",
+          "purpose": "family-loss.small",
+          "key": "loss",
+          "requiresFacts": ["stake-gave"],
+          "after": "scene-talk.state-comfort.you-didn-t-spend-much-on-it-i-m-sorry-you-lost"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "blame",
+          "role": "asked",
+          "purpose": "family-loss.small",
+          "key": "loss",
+          "requiresFacts": ["stake-gave"],
+          "after": "scene-talk.state-comfort.it-didn-t-cost-much-how-are-you-holding-up"
         }
       ],
       "bearing": "hurt",
@@ -96708,7 +96668,51 @@
           "key": "loss",
           "requiresFacts": ["stake-gave"],
           "excludesFacts": ["daytime"],
-          "after": "scene-talk.state-comfort.i-put-a-little-in-and-we-lost-i-d-do-it-again"
+          "after": "scene-talk.state-comfort.you-put-a-lot-of-money-into-this-are-you-alright"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-gave"],
+          "excludesFacts": ["daytime"],
+          "after": "scene-talk.state-comfort.that-was-a-lot-to-spend-and-lose-talk-to-me"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-gave"],
+          "excludesFacts": ["daytime"],
+          "after": "scene-talk.state-comfort.you-spent-a-lot-on-this-race-what-now"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "family-loss.small",
+          "key": "loss",
+          "requiresFacts": ["stake-gave"],
+          "excludesFacts": ["daytime"],
+          "after": "scene-talk.state-comfort.you-didn-t-spend-much-on-it-i-m-sorry-you-lost"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "family-loss.small",
+          "key": "loss",
+          "requiresFacts": ["stake-gave"],
+          "excludesFacts": ["daytime"],
+          "after": "scene-talk.state-comfort.it-didn-t-cost-much-how-are-you-holding-up"
         }
       ],
       "bearing": "guarded",
@@ -96774,7 +96778,47 @@
           "purpose": "family-loss",
           "key": "loss",
           "requiresFacts": ["stake-gave"],
-          "after": "scene-talk.state-comfort.i-put-a-little-in-and-we-lost-i-d-do-it-again"
+          "after": "scene-talk.state-comfort.you-put-a-lot-of-money-into-this-are-you-alright"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-gave"],
+          "after": "scene-talk.state-comfort.that-was-a-lot-to-spend-and-lose-talk-to-me"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-gave"],
+          "after": "scene-talk.state-comfort.you-spent-a-lot-on-this-race-what-now"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "family-loss.small",
+          "key": "loss",
+          "requiresFacts": ["stake-gave"],
+          "after": "scene-talk.state-comfort.you-didn-t-spend-much-on-it-i-m-sorry-you-lost"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "family-loss.small",
+          "key": "loss",
+          "requiresFacts": ["stake-gave"],
+          "after": "scene-talk.state-comfort.it-didn-t-cost-much-how-are-you-holding-up"
         }
       ],
       "bearing": "guarded",
@@ -96790,7 +96834,7 @@
       "key": "scene-talk.reply-promise.i-ll-run-again-and-next-time-i-ll-tell-you-before-i-put-in-a-dollar-of-ours",
       "move": "reply-promise",
       "kind": "spoken",
-      "text": "I'll run again, and next time I'll tell you before I put in a dollar of ours.",
+      "text": "I'll run again, and next time I'll tell you before I put in a dollar.",
       "uses": [
         {
           "subject": "scene",
@@ -96850,7 +96894,47 @@
           "purpose": "family-loss",
           "key": "loss",
           "requiresFacts": ["stake-gave"],
-          "after": "scene-talk.state-comfort.i-put-a-little-in-and-we-lost-i-d-do-it-again"
+          "after": "scene-talk.state-comfort.you-put-a-lot-of-money-into-this-are-you-alright"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-gave"],
+          "after": "scene-talk.state-comfort.that-was-a-lot-to-spend-and-lose-talk-to-me"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-gave"],
+          "after": "scene-talk.state-comfort.you-spent-a-lot-on-this-race-what-now"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "family-loss.small",
+          "key": "loss",
+          "requiresFacts": ["stake-gave"],
+          "after": "scene-talk.state-comfort.you-didn-t-spend-much-on-it-i-m-sorry-you-lost"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "family-loss.small",
+          "key": "loss",
+          "requiresFacts": ["stake-gave"],
+          "after": "scene-talk.state-comfort.it-didn-t-cost-much-how-are-you-holding-up"
         }
       ],
       "bearing": "braced",
@@ -96926,7 +97010,7 @@
           "purpose": "family-loss",
           "key": "loss",
           "requiresFacts": ["stake-gave"],
-          "after": "scene-talk.state-comfort.i-put-a-little-in-and-we-lost-i-d-do-it-again"
+          "after": "scene-talk.state-comfort.you-put-a-lot-of-money-into-this-are-you-alright"
         },
         {
           "subject": "scene",
@@ -96936,7 +97020,37 @@
           "purpose": "family-loss",
           "key": "loss",
           "requiresFacts": ["stake-gave"],
-          "after": "scene-talk.state-comfort.we-lost-i-m-glad-i-gave-anyway"
+          "after": "scene-talk.state-comfort.that-was-a-lot-to-spend-and-lose-talk-to-me"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-gave"],
+          "after": "scene-talk.state-comfort.you-spent-a-lot-on-this-race-what-now"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "family-loss.small",
+          "key": "loss",
+          "requiresFacts": ["stake-gave"],
+          "after": "scene-talk.state-comfort.you-didn-t-spend-much-on-it-i-m-sorry-you-lost"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "family-loss.small",
+          "key": "loss",
+          "requiresFacts": ["stake-gave"],
+          "after": "scene-talk.state-comfort.it-didn-t-cost-much-how-are-you-holding-up"
         }
       ],
       "bearing": "calm",
@@ -97150,18 +97264,8 @@
       "key": "scene-talk.follow-comfort.it-isn-t-on-you-we-put-it-in-knowing-it-might-not-come-back",
       "move": "follow-comfort",
       "kind": "spoken",
-      "text": "It isn't on you. We put it in knowing it might not come back.",
+      "text": "It isn't on you. You knew it might not come back.",
       "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "comfort",
-          "role": "asker",
-          "purpose": "family-loss",
-          "key": "loss",
-          "requiresFacts": ["stake-gave"],
-          "after": "scene-talk.reply-blame.i-spent-more-than-i-should-have-and-this-is-all-it-came-to"
-        },
         {
           "subject": "scene",
           "step": "follow",
@@ -97226,18 +97330,8 @@
       "key": "scene-talk.follow-disagree.you-re-counting-what-we-spent-not-what-we-tried",
       "move": "follow-disagree",
       "kind": "spoken",
-      "text": "You're counting what we spent, not what we tried.",
+      "text": "You're counting what you spent, not what you tried.",
       "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "disagree",
-          "role": "asker",
-          "purpose": "family-loss",
-          "key": "loss",
-          "requiresFacts": ["stake-gave"],
-          "after": "scene-talk.reply-blame.i-spent-more-than-i-should-have-and-this-is-all-it-came-to"
-        },
         {
           "subject": "scene",
           "step": "follow",
@@ -97262,7 +97356,7 @@
       "key": "scene-talk.follow-plea.talk-to-me-that-was-ours-and-i-d-like-to-hear-you-say-something",
       "move": "follow-plea",
       "kind": "spoken",
-      "text": "Talk to me. That was ours, and I'd like to hear you say something.",
+      "text": "Talk to me. I'd like to hear you say something.",
       "uses": [
         {
           "subject": "scene",
@@ -97318,7 +97412,7 @@
       "key": "scene-talk.follow-ask.again-then-tell-me-what-we-have-left-to-put-in",
       "move": "follow-ask",
       "kind": "spoken",
-      "text": "Again. Then tell me what we have left to put in.",
+      "text": "Again. Then tell me what you have left to put in.",
       "uses": [
         {
           "subject": "scene",
@@ -97384,7 +97478,7 @@
       "key": "scene-talk.follow-thank.then-we-do-it-with-a-number-before-we-start",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "Then we do it with a number before we start.",
+      "text": "Then you set a number before you start.",
       "uses": [
         {
           "subject": "scene",
@@ -97526,16 +97620,6 @@
           "purpose": "family-loss",
           "key": "loss",
           "requiresFacts": ["stake-gave"],
-          "after": "scene-talk.reply-blame.i-spent-more-than-i-should-have-and-this-is-all-it-came-to"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "comfort",
-          "role": "asker",
-          "purpose": "family-loss",
-          "key": "loss",
-          "requiresFacts": ["stake-gave"],
           "after": "scene-talk.reply-blame.i-put-given-in-and-lost-that-s-on-me"
         },
         {
@@ -97619,19 +97703,8 @@
       "key": "scene-talk.follow-disagree.don-t-add-it-up-tonight-we-knew-it-could-go-this-way-when-we-put-it-in",
       "move": "follow-disagree",
       "kind": "spoken",
-      "text": "Don't add it up tonight. We knew it could go this way when we put it in.",
+      "text": "Don't add it up tonight. You knew it could go this way.",
       "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "disagree",
-          "role": "asker",
-          "purpose": "family-loss",
-          "key": "loss",
-          "requiresFacts": ["stake-gave"],
-          "excludesFacts": ["daytime"],
-          "after": "scene-talk.reply-blame.i-spent-more-than-i-should-have-and-this-is-all-it-came-to"
-        },
         {
           "subject": "scene",
           "step": "follow",
@@ -97724,7 +97797,7 @@
       "key": "scene-talk.follow-plea.look-at-me-that-money-was-ours-and-i-need-you-to-say-one-true-thing",
       "move": "follow-plea",
       "kind": "spoken",
-      "text": "Look at me. That money was ours, and I need you to say one true thing.",
+      "text": "Look at me. I need you to say one true thing.",
       "uses": [
         {
           "subject": "scene",
@@ -97958,7 +98031,7 @@
       "key": "scene-talk.follow-thank.then-we-start-with-what-s-left-in-the-account-and-we-say-it-out-loud",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "Then we start with what's left in the account, and we say it out loud.",
+      "text": "Then start with what's left, and say it out loud.",
       "uses": [
         {
           "subject": "scene",
@@ -114312,24 +114385,6 @@
           "purpose": "family-loss",
           "key": "loss",
           "after": "scene-talk.follow-comfort.it-isn-t-on-you-we-both-worked-it"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "purpose": "family-loss",
-          "key": "loss",
-          "after": "scene-talk.state-comfort.i-put-a-little-in-and-we-lost-i-d-do-it-again"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "purpose": "family-loss",
-          "key": "loss",
-          "after": "scene-talk.state-comfort.we-lost-i-m-glad-i-gave-anyway"
         }
       ],
       "source": {
@@ -114405,24 +114460,6 @@
           "purpose": "family-loss",
           "key": "loss",
           "after": "scene-talk.follow-comfort.it-isn-t-on-you-we-both-worked-it"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "purpose": "family-loss",
-          "key": "loss",
-          "after": "scene-talk.state-comfort.i-put-a-little-in-and-we-lost-i-d-do-it-again"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "purpose": "family-loss",
-          "key": "loss",
-          "after": "scene-talk.state-comfort.we-lost-i-m-glad-i-gave-anyway"
         }
       ],
       "source": {
@@ -114516,24 +114553,6 @@
           "purpose": "family-loss",
           "key": "loss",
           "after": "scene-talk.follow-comfort.it-isn-t-on-you-we-both-worked-it"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "thank",
-          "role": "asked",
-          "purpose": "family-loss",
-          "key": "loss",
-          "after": "scene-talk.state-comfort.i-put-a-little-in-and-we-lost-i-d-do-it-again"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "thank",
-          "role": "asked",
-          "purpose": "family-loss",
-          "key": "loss",
-          "after": "scene-talk.state-comfort.we-lost-i-m-glad-i-gave-anyway"
         }
       ],
       "source": {
@@ -193169,62 +193188,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-blame.i-spent-more-than-i-should-have-and-this-is-all-it-came-to",
-      "move": "reply-blame",
-      "kind": "spoken",
-      "text": "I spent more than I should have, and this is all it came to.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "blame",
-          "role": "asked",
-          "purpose": "family-loss",
-          "key": "loss",
-          "requiresFacts": ["stake-gave"],
-          "after": "scene-talk.follow-comfort.it-isn-t-on-you-we-put-it-in-knowing-it-might-not-come-back"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "blame",
-          "role": "asked",
-          "purpose": "family-loss",
-          "key": "loss",
-          "requiresFacts": ["stake-gave"],
-          "after": "scene-talk.follow-comfort.you-spent-it-on-something-you-believed-in-sit-down-with-me-for-a-minute"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "blame",
-          "role": "asked",
-          "purpose": "family-loss",
-          "key": "loss",
-          "requiresFacts": ["stake-gave"],
-          "after": "scene-talk.state-comfort.i-put-a-little-in-and-we-lost-i-d-do-it-again"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "blame",
-          "role": "asked",
-          "purpose": "family-loss",
-          "key": "loss",
-          "requiresFacts": ["stake-gave"],
-          "after": "scene-talk.state-comfort.we-lost-i-m-glad-i-gave-anyway"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Scene builder A",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "blame",
-        "key": "loss"
-      }
-    },
-    {
       "key": "scene-talk.follow-comfort.it-isn-t-on-you-we-both-worked-it",
       "move": "follow-comfort",
       "kind": "spoken",
@@ -193281,35 +193244,10 @@
       }
     },
     {
-      "key": "scene-talk.state-comfort.i-put-a-little-in-and-we-lost-i-d-do-it-again",
+      "key": "scene-talk.state-comfort.you-put-a-lot-of-money-into-this-are-you-alright",
       "move": "state-comfort",
       "kind": "spoken",
-      "text": "I put a little in, and we lost. I'd do it again.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "comfort",
-          "role": "asker",
-          "purpose": "family-loss.small",
-          "key": "loss",
-          "requiresFacts": ["stake-gave"]
-        }
-      ],
-      "bearing": "anxious",
-      "origin": "authored",
-      "author": "Words lead (class F case 4, Nov 15), placed by gift-size",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "comfort",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.state-comfort.we-lost-i-m-glad-i-gave-anyway",
-      "move": "state-comfort",
-      "kind": "spoken",
-      "text": "We lost. I'm glad I gave anyway.",
+      "text": "You put a lot of money into this. Are you alright?",
       "uses": [
         {
           "subject": "scene",
@@ -193323,7 +193261,107 @@
       ],
       "bearing": "anxious",
       "origin": "authored",
-      "author": "Words lead (class F case 4, Nov 15), placed by gift-size",
+      "author": "Words lead (class F case 4, Nov 15)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "comfort",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.state-comfort.that-was-a-lot-to-spend-and-lose-talk-to-me",
+      "move": "state-comfort",
+      "kind": "spoken",
+      "text": "That was a lot to spend and lose. Talk to me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-gave"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Words lead (class F case 4, Nov 15)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "comfort",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.state-comfort.you-spent-a-lot-on-this-race-what-now",
+      "move": "state-comfort",
+      "kind": "spoken",
+      "text": "You spent a lot on this race. What now?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-gave"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Words lead (class F case 4, Nov 15)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "comfort",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.state-comfort.you-didn-t-spend-much-on-it-i-m-sorry-you-lost",
+      "move": "state-comfort",
+      "kind": "spoken",
+      "text": "You didn't spend much on it. I'm sorry you lost.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "family-loss.small",
+          "key": "loss",
+          "requiresFacts": ["stake-gave"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Words lead (class F case 4, Nov 15)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "comfort",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.state-comfort.it-didn-t-cost-much-how-are-you-holding-up",
+      "move": "state-comfort",
+      "kind": "spoken",
+      "text": "It didn't cost much. How are you holding up?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "family-loss.small",
+          "key": "loss",
+          "requiresFacts": ["stake-gave"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Words lead (class F case 4, Nov 15)",
       "date": "2026-11-15",
       "tag": {
         "move": "comfort",

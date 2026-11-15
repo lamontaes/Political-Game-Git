@@ -253,7 +253,9 @@
       "family-loss/tell"
     ],
     "scene-talk.follow-ask.again-then-tell-me-what-we-have-left-to-put-in": [
+      "family-loss.small/promise",
       "family-loss.small/tell",
+      "family-loss/promise",
       "family-loss/tell"
     ],
     "scene-talk.follow-ask.are-you-sure-that-s-what-you-want": [
@@ -349,12 +351,23 @@
     "scene-talk.reply-tell.taken.i-ll-tell-you-exactly-how-it-went-and-you-can-judge": [
       "conflict-accuse.taken/ask"
     ],
-    "scene-talk.state-comfort.i-put-a-little-in-and-we-lost-i-d-do-it-again": [
-      "family-loss.small/blame"
-    ],
     "scene-talk.state-comfort.i-worked-this-race-with-you-and-we-lost-it-what-do-we-do-with-all-of-it": [
       "family-loss.small/tell",
       "family-loss/tell"
+    ],
+    "scene-talk.state-comfort.it-didn-t-cost-much-how-are-you-holding-up": [
+      "family-loss.small/deflect"
+    ],
+    "scene-talk.state-comfort.you-didn-t-spend-much-on-it-i-m-sorry-you-lost": [
+      "family-loss.small/deflect"
+    ],
+    "scene-talk.state-comfort.you-spent-a-lot-on-this-race-what-now": [
+      "family-loss.small/blame",
+      "family-loss.small/tell",
+      "family-loss.small/thank",
+      "family-loss/blame",
+      "family-loss/tell",
+      "family-loss/thank"
     ]
   },
   "barred": {},
