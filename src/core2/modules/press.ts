@@ -199,7 +199,7 @@ const NATIONAL = nationalJson as unknown as {
   basedIn: string;
   kinds: readonly NationalKindRow[];
 };
-/** The kinds of outlet that endorse in an editorial (data/press/endorsements.json). */
+/** The kinds of outlet that endorse in an editorial (src/core2/data/press/endorsements.json). */
 const ENDORSING_KINDS: ReadonlySet<string> = new Set(endorsing.kinds);
 
 const ALL_KINDS: readonly OutletKind[] = [

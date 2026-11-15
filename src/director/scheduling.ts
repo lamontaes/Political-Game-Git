@@ -13,6 +13,7 @@
 import { SPEECH_OCCASION_KIND, familyFactsOf } from "../core2/modules/people";
 import { coreAPI } from "../core2/state";
 import { OFFICES_MODULE_ID } from "../core2/modules/offices";
+import { OFFICE_DAY_MODULE_ID, stopsOf } from "../core2/modules/office-day";
 import { CAMPAIGN_ACTS } from "../core2/modules/campaigns";
 import { ELECTIONS_MODULE_ID, contestPassed } from "../core2/modules/elections";
 import { coreSeatOfGovernmentPlace } from "../core2/place-lookup";
@@ -181,6 +182,12 @@ export interface SituationType {
    * the moment was felt, for the one whose record it is.
    */
   stopsDay?: boolean;
+  /**
+   * The player's office stop this scene's stop follows (a desk visit follows
+   * the desk switch): switched off, the scene does not stop the day, and
+   * nothing is decided for the player (owner's card, Nov 14, 02:03Z).
+   */
+  stopSwitch?: string;
   /**
    * A scene about one record's own decision (a member's vote on one bill):
    * each cause stages its own, never taken into another sitting or held back
@@ -1133,10 +1140,25 @@ export function scheduleMoment(
   const ownRecord =
     moment.selfNamed === true ||
     !!core.durableLog.get(moment.causeId)?.personIds.includes(moment.personId);
+  // A scene that follows an office stop the player switched off (a desk
+  // visit, the desk switch) neither stops the day nor waits for them: the
+  // player is away from it, and the moment is the Journal's line.
+  const switchedOff = (row: (typeof bindings)[number]) => {
+    const type = library.types.find((each) => each.key === row.typeKey);
+    return (
+      !!type?.stopSwitch &&
+      core.modules.has(OFFICE_DAY_MODULE_ID) &&
+      stopsOf(coreAPI(core), moment.personId)[type.stopSwitch] === false
+    );
+  };
+  const away =
+    bindings.length > zero && bindings.every((row) => switchedOff(row));
   const stopsDay =
     ownRecord &&
     bindings.some(
-      (row) => library.types.find((type) => type.key === row.typeKey)?.stopsDay,
+      (row) =>
+        !switchedOff(row) &&
+        library.types.find((type) => type.key === row.typeKey)?.stopsDay,
     );
   const interrupt =
     bindings.length > zero &&
@@ -1155,13 +1177,14 @@ export function scheduleMoment(
       reason: "no-type",
     };
   const live = options.mode === "live";
-  const outcome = !bindings.length
-    ? "journal-line"
-    : interrupt
-      ? "scene-now"
-      : rank <= pace && live
-        ? "scene-waiting"
-        : "journal-line";
+  const outcome =
+    !bindings.length || away
+      ? "journal-line"
+      : interrupt
+        ? "scene-now"
+        : rank <= pace && live
+          ? "scene-waiting"
+          : "journal-line";
   return {
     momentId: moment.id,
     date: moment.date,

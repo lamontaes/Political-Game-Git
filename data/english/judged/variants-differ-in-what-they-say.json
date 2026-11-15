@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "variants-differ-in-what-they-say",
   "rubric": "Variants of a slot differ in what they say, each tied to a fact in the record, not only in wording; a bank grows by adding conditions and specifics, not more generic lines.",
-  "judged": 1199,
+  "judged": 1205,
   "no": {
     "006el8dj9s1": {
       "keys": [
@@ -3900,14 +3900,6 @@
       ],
       "why": "Both say the offer still stands, a rewording."
     },
-    "1sfvq6kfmm1": {
-      "keys": [
-        "scene-talk.reply-stall.five-minutes-i-need-to-say-it-to-myself-first",
-        "scene-talk.reply-stall.give-me-ten-minutes-alone-first",
-        "scene-talk.reply-stall.let-me-talk-to-the-volunteers-first"
-      ],
-      "why": "Two of the three ask for a few minutes alone, so most of the slot says the same stall in other words."
-    },
     "1sh38lmduqm": {
       "keys": [
         "scene-talk.follow-thank.glad-to-hear-it-i-ll-let-my-people-know",
@@ -5375,5 +5367,5 @@
       "why": "Both lines promise to look into it before the deadline, the second only adding detail to the same promise."
     }
   },
-  "yesHash": "1ubtujbkpfk"
+  "yesHash": "0d8salzg5kw"
 }

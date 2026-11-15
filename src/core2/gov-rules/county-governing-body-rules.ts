@@ -94,6 +94,16 @@ const AVERAGE = readings.nationalAverage as StateReading & {
 };
 
 /**
+ * The usual name of a county's governing body in each state whose size is
+ * not read (ESTIMATED: the usual name, a charter county can differ). A
+ * state's own form names its body; the national average names it only where
+ * no state row says.
+ */
+const USUAL_NAMES = readings.usualNames.states as Readonly<
+  Record<string, { readonly bodyName: string; readonly memberTitle: string }>
+>;
+
+/**
  * Counties whose governing body's own name is read (Louisiana's police
  * juries, parish councils and Caddo's commission), by GEOID, with the elected
  * chief executive a council-president parish has. The name and the chief
@@ -186,11 +196,13 @@ export function countyGoverningBodyRules(
   const named = unit.countyGeoid ? NAMED_BODIES[unit.countyGeoid] : undefined;
   const structure = countyStructureForState(unit.stateUsps);
   const executive = countyExecutive(structure, named?.chiefTitle ?? null);
+  const usual = USUAL_NAMES[unit.stateUsps];
+  const form = state ?? usual ?? AVERAGE;
   return {
     seats: read ?? AVERAGE.seats,
     basis: read === null ? "estimated" : "state-law",
-    bodyName: named?.bodyName ?? reading.bodyName,
-    memberTitle: named?.memberTitle ?? reading.memberTitle,
+    bodyName: named?.bodyName ?? form.bodyName,
+    memberTitle: named?.memberTitle ?? form.memberTitle,
     chiefTitle: executive.kind === "elected" ? executive.title : null,
     structure,
     executive,

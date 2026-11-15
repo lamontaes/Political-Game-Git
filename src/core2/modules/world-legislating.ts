@@ -107,6 +107,7 @@ import {
   FEDERAL_SENATE,
   LEGISLATURE_MODULE_ID,
   registerFloorDateReader,
+  registerFloorCalendarer,
   registerSittingReader,
   registerWeeklyFloorReader,
   settledness,
@@ -218,6 +219,7 @@ export function openWorldLegislating(core: CoreState): void {
   registerSittingReader(nextSitting);
   registerWeeklyFloorReader(weeklyFloorOn);
   registerFloorDateReader(floorDateOf);
+  registerFloorCalendarer(projectedFloorDate);
   if (!core.modules.has(WORLD_LEGISLATING_MODULE_ID))
     registerModule(core, WORLD_LEGISLATING_MODULE);
   const api = coreAPI(core);
@@ -2016,6 +2018,8 @@ interface Queued {
   readonly id: string;
   readonly introduced: string;
   readonly filing: Filing | null;
+  /** The floor week the leader put the bill on the calendar for. */
+  readonly floorOn?: string;
 }
 
 /**
@@ -2043,11 +2047,18 @@ function floorQueue(api: CoreAPI, row: LegislativeSession): readonly Queued[] {
           ? [{ id: "", introduced: filing.introduceOn, filing }]
           : [];
       const b = table.get(filing.billId) as unknown as BillRow | undefined;
-      return waiting(b) ? [{ id: b.id, introduced: b.introduced, filing }] : [];
+      return waiting(b)
+        ? [{ id: b.id, introduced: b.introduced, filing, floorOn: b.floorOn }]
+        : [];
     }),
     ...chamberBills(api, row)
       .filter(waiting)
-      .map((b) => ({ id: b.id, introduced: b.introduced, filing: null })),
+      .map((b) => ({
+        id: b.id,
+        introduced: b.introduced,
+        filing: null,
+        floorOn: b.floorOn,
+      })),
   ];
 }
 
@@ -2079,6 +2090,13 @@ function* floorWeeks(
       Math.round((queue.length - done.size) / Math.max(1, weeksLeft)),
     );
     const taken: Queued[] = [];
+    // The bills the leader calendared for this week keep it, whatever the
+    // pace works out to be now; the weeks' other bills fill what room is left.
+    for (const [i, q] of queue.entries()) {
+      if (done.has(i) || q.floorOn !== date) continue;
+      done.add(i);
+      taken.push(q);
+    }
     for (const [i, q] of queue.entries()) {
       if (taken.length >= pace) break;
       if (done.has(i) || q.introduced > ready) continue;
@@ -2178,6 +2196,22 @@ export function floorDateOf(api: CoreAPI, billId: string): string | null {
   if (!bill || bill.status !== "drafted") return null;
   const set = api.moduleCalendar(LEGISLATURE_MODULE_ID).get(voteKeyOf(bill));
   if (set) return set.date;
+  // The week the leader put it on the calendar for holds while it is ahead.
+  if (bill.floorOn && bill.floorOn >= api.state.date) return bill.floorOn;
+  return projectedFloorDate(api, billId);
+}
+
+/**
+ * The floor week the leader's calendar takes a drafted bill up in the
+ * legislature now sitting, as the weeks stand today: the week a bill is
+ * introduced into a sitting legislature is put on the calendar for.
+ */
+function projectedFloorDate(api: CoreAPI, billId: string): string | null {
+  const bill = api
+    .moduleState(LEGISLATURE_MODULE_ID)
+    .table("bills")
+    .get(billId) as unknown as BillRow | undefined;
+  if (!bill || bill.status !== "drafted") return null;
   const row = sittingFor(api, bill.bodyOfficeId);
   if (!row) return null;
   for (const week of floorWeeks(api, row, nextFloorWeek(row, api.state.date)))

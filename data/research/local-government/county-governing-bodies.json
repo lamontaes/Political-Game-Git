@@ -123,6 +123,153 @@
     "citation": "ESTIMATED FROM AVERAGE: the National Association of Counties counts \"nearly 20,000 elected county board members\"; the Census Bureau's 2025 Government Units listing holds 3,031 county governments. 20,000 / 3,031 is 6.6 members per board, rounded to 7. NACo also says a commission or board is the most common form, so the name is the common one.",
     "url": "https://www.naco.org/page/county-structure-authority-and-finances"
   },
+  "usualNames": {
+    "note": "The usual name of the body that governs a county, and what its members are called, for a state whose size has not been read above: each state's county statutes name the body (the form row in structure says which kind it is). ESTIMATED: the usual name in the state; a charter county can name its own, and a county named under namedBodies keeps that name. A state not listed here has no county government (Connecticut, Rhode Island, Vermont) or has its size and name read above.",
+    "tag": "ESTIMATED",
+    "spread": "Name of the usual body in the state; charter counties and a few single counties differ.",
+    "states": {
+      "AK": {
+        "bodyName": "Borough Assembly",
+        "memberTitle": "Assembly member"
+      },
+      "AL": {
+        "bodyName": "County Commission",
+        "memberTitle": "Commissioner"
+      },
+      "AR": {
+        "bodyName": "Quorum Court",
+        "memberTitle": "Justice of the Peace"
+      },
+      "CO": {
+        "bodyName": "Board of County Commissioners",
+        "memberTitle": "Commissioner"
+      },
+      "DE": {
+        "bodyName": "County Council",
+        "memberTitle": "Council member"
+      },
+      "FL": {
+        "bodyName": "Board of County Commissioners",
+        "memberTitle": "Commissioner"
+      },
+      "GA": {
+        "bodyName": "Board of Commissioners",
+        "memberTitle": "Commissioner"
+      },
+      "HI": {
+        "bodyName": "County Council",
+        "memberTitle": "Council member"
+      },
+      "IA": {
+        "bodyName": "Board of Supervisors",
+        "memberTitle": "Supervisor"
+      },
+      "IL": {
+        "bodyName": "County Board",
+        "memberTitle": "Board member"
+      },
+      "IN": {
+        "bodyName": "Board of Commissioners",
+        "memberTitle": "Commissioner"
+      },
+      "KS": {
+        "bodyName": "Board of County Commissioners",
+        "memberTitle": "Commissioner"
+      },
+      "KY": {
+        "bodyName": "Fiscal Court",
+        "memberTitle": "Magistrate"
+      },
+      "LA": {
+        "bodyName": "Parish Council",
+        "memberTitle": "Council member"
+      },
+      "MA": {
+        "bodyName": "County Commission",
+        "memberTitle": "Commissioner"
+      },
+      "MD": {
+        "bodyName": "Board of County Commissioners",
+        "memberTitle": "Commissioner"
+      },
+      "MI": {
+        "bodyName": "Board of Commissioners",
+        "memberTitle": "Commissioner"
+      },
+      "MS": {
+        "bodyName": "Board of Supervisors",
+        "memberTitle": "Supervisor"
+      },
+      "NC": {
+        "bodyName": "Board of Commissioners",
+        "memberTitle": "Commissioner"
+      },
+      "ND": {
+        "bodyName": "Board of County Commissioners",
+        "memberTitle": "Commissioner"
+      },
+      "NE": {
+        "bodyName": "Board of Commissioners",
+        "memberTitle": "Commissioner"
+      },
+      "NH": {
+        "bodyName": "Board of Commissioners",
+        "memberTitle": "Commissioner"
+      },
+      "NJ": {
+        "bodyName": "Board of County Commissioners",
+        "memberTitle": "Commissioner"
+      },
+      "NM": {
+        "bodyName": "Board of County Commissioners",
+        "memberTitle": "Commissioner"
+      },
+      "NY": {
+        "bodyName": "County Legislature",
+        "memberTitle": "Legislator"
+      },
+      "OK": {
+        "bodyName": "Board of County Commissioners",
+        "memberTitle": "Commissioner"
+      },
+      "PA": {
+        "bodyName": "Board of Commissioners",
+        "memberTitle": "Commissioner"
+      },
+      "SC": {
+        "bodyName": "County Council",
+        "memberTitle": "Council member"
+      },
+      "SD": {
+        "bodyName": "Board of County Commissioners",
+        "memberTitle": "Commissioner"
+      },
+      "TN": {
+        "bodyName": "County Commission",
+        "memberTitle": "Commissioner"
+      },
+      "TX": {
+        "bodyName": "Commissioners Court",
+        "memberTitle": "Commissioner"
+      },
+      "UT": {
+        "bodyName": "County Commission",
+        "memberTitle": "Commissioner"
+      },
+      "VA": {
+        "bodyName": "Board of Supervisors",
+        "memberTitle": "Supervisor"
+      },
+      "WI": {
+        "bodyName": "County Board of Supervisors",
+        "memberTitle": "Supervisor"
+      },
+      "WY": {
+        "bodyName": "Board of County Commissioners",
+        "memberTitle": "Commissioner"
+      }
+    }
+  },
   "municipalCodes": {
     "PR": {
       "stateFips": "72",
