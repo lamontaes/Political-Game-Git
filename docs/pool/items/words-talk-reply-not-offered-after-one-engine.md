@@ -7,8 +7,8 @@ priority: 2
 size: S
 status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/talk-double-press
+pr: #9541
 blocked-on:
 after:
 lead: words
