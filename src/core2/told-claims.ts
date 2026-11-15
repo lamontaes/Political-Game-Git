@@ -33,7 +33,7 @@
  * the one told learns the truth from that record and the tie strains
  * (`exposeVoteLies`). No screen calls it a lie.
  */
-import { closenessAfter, closenessBetween } from "./closeness";
+import { closenessBetween, closenessBetweenAfter } from "./closeness";
 import { decisionFromScores, scoreOffers } from "./choice";
 import { decisionKinds } from "./trait-decision-table";
 import { ELECTIONS_MODULE_ID, type FilingRow } from "./modules/elections";
@@ -152,18 +152,21 @@ export function claimRecord(
   return fact(key, decided.run, c(api, "one"), [decided.id]);
 }
 
-/** How much closeness `hours` of strain would take off the tie between two people today. */
+/**
+ * How much closeness `hours` of strain would take off the tie between two
+ * people today: their tie's own hours and the hours another engine says they
+ * shared (sittings, work), read as `closenessBetween` reads them.
+ */
 function strainCost(
   api: CoreAPI,
   a: PersonId,
   b: PersonId,
   hours: number,
 ): number {
-  const row = api.state.relationships.get(a < b ? `${a}:${b}` : `${b}:${a}`);
-  return row
-    ? closenessBetween(api.state, a, b) -
-        closenessAfter(api.state, row, row.kind, -hours)
-    : c(api, "zero");
+  return (
+    closenessBetween(api.state, a, b) -
+    closenessBetweenAfter(api.state, a, b, -hours)
+  );
 }
 
 /** What a speaker said to a claim, and the record of a false one. */
