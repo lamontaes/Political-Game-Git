@@ -192,3 +192,45 @@ export function personWorkOf(
     offices,
   };
 }
+
+/** The work a person holds now and what it pays, wherever they hold it. */
+export interface WorkHeld {
+  readonly title: string;
+  /** Pay per hour in minor units; null where no published wage covers it. */
+  readonly hourlyMinor: number | null;
+  /** The job record, for work held in the played world; null for work kept as their identity's record. */
+  readonly jobId: string | null;
+}
+
+/**
+ * The work a person holds now: the open job they hold here (the jobs table),
+ * else the work they were filled in with where they live (their
+ * `identity:work` record, from that town's counts: `workFromHome`). One reader
+ * for every engine that weighs what someone would give up; null when they
+ * hold none.
+ */
+export function workHeld(
+  core: Readonly<CoreState>,
+  personId: string,
+): WorkHeld | null {
+  const person = core.people.get(personId as never);
+  if (!person) return null;
+  const job = person.jobId ? core.jobs.get(person.jobId) : undefined;
+  if (job && job.endsAt === undefined)
+    return {
+      title: job.title,
+      hourlyMinor:
+        job.hourlyMinor ??
+        job.wageDailyMinor / Math.max(job.hoursDaily, Number.EPSILON),
+      jobId: job.id,
+    };
+  if (job) return null;
+  const kept = person.pastFacts?.find((f) => f.kind === "identity:work");
+  if (!kept) return null;
+  const hourly = kept.facts?.hourlyMinor;
+  return {
+    title: String(kept.facts?.title ?? kept.summary),
+    hourlyMinor: hourly === undefined ? null : Number(hourly),
+    jobId: null,
+  };
+}
