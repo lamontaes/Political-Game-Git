@@ -1028,6 +1028,14 @@ export function composeSceneTalk(
       const node: TreeNode = { lines: asked ? [asked] : [], replies: [] };
       const heard = asked ? addParts(said, asked) : said;
       for (const then of asked ? ask.first.then : []) {
+        // A dodge is offered only when it costs something on the record:
+        // where the stance left unsaid weighs the same as the one on the
+        // player's record, there is nothing to dodge (Words lead, Nov 14).
+        if (
+          then.carries === "hedged" &&
+          (standing.hedged === undefined || standing.hedged >= standing.lean)
+        )
+          continue;
         const line = mine(
           {
             step: "follow",
