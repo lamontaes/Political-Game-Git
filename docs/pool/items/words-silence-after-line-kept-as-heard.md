@@ -8,7 +8,7 @@ size: S
 status: in-pr
 standard: 2
 claimed-by: claude/talk-silence-heard
-pr:
+pr: #9553
 after:
 blocked-on:
 lead: words
