@@ -110,11 +110,19 @@ try {
   const kin = cards.find((c) =>
     /mother|father|sister|brother|daughter|son|wife|husband/i.test(c.row),
   );
-  const friend = cards.find((c) => /friend/i.test(c.row));
+  const friend =
+    cards.find((c) => /friend/i.test(c.row)) ??
+    cards.find(
+      (c) =>
+        c !== kin &&
+        !/ (mother|father|uncle|aunt|grand|cousin)/i.test(c.row) &&
+        c.row.split(" ").length > 1 &&
+        c !== cards.at(-1),
+    );
   const far = cards.at(-1);
   for (const [label, pick] of [
     ["Relative", kin],
-    ["Friend", friend],
+    ["Friend, or the first colleague when the world has no friend yet", friend],
     ["Least close", far],
   ])
     console.log(
