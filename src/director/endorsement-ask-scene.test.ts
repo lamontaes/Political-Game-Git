@@ -30,7 +30,7 @@ import { lawChain } from "../core2/modules/laws";
 import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
 import { purposeScene, replyInScene } from "./purpose-scene";
-import type { ScheduleEntry } from "./director";
+import type { ScheduleEntry } from "./scheduling";
 import type { TreeNode } from "./scene-talk";
 
 // A candidate's campaign asks the people closest to them for an endorsement
