@@ -714,6 +714,38 @@
       "lower": "the public notice a regular meeting of a local body requires shall be lowered from {before} to {value}",
       "raiseTo": "the public notice a regular meeting of a local body requires shall be raised to {value}",
       "lowerTo": "the public notice a regular meeting of a local body requires shall be lowered to {value}"
+    },
+    "fee-level:parks-and-recreation": {
+      "subject": "park and recreation fees",
+      "purpose": "set the fees charged for parks and recreation",
+      "raise": "the fees charged for parks and recreation shall be raised from {before} to {value} of the schedule now in the budget",
+      "lower": "the fees charged for parks and recreation shall be lowered from {before} to {value} of the schedule now in the budget",
+      "raiseTo": "the fees charged for parks and recreation shall be raised to {value} of the schedule now in the budget",
+      "lowerTo": "the fees charged for parks and recreation shall be lowered to {value} of the schedule now in the budget"
+    },
+    "fee-level:sewerage-and-solid-waste": {
+      "subject": "sewer and trash fees",
+      "purpose": "set the fees charged for sewer and trash service",
+      "raise": "the fees charged for sewer and trash service shall be raised from {before} to {value} of the schedule now in the budget",
+      "lower": "the fees charged for sewer and trash service shall be lowered from {before} to {value} of the schedule now in the budget",
+      "raiseTo": "the fees charged for sewer and trash service shall be raised to {value} of the schedule now in the budget",
+      "lowerTo": "the fees charged for sewer and trash service shall be lowered to {value} of the schedule now in the budget"
+    },
+    "fee-level:hospitals": {
+      "subject": "hospital charges",
+      "purpose": "set the charges at public hospitals",
+      "raise": "the charges at public hospitals shall be raised from {before} to {value} of the schedule now in the budget",
+      "lower": "the charges at public hospitals shall be lowered from {before} to {value} of the schedule now in the budget",
+      "raiseTo": "the charges at public hospitals shall be raised to {value} of the schedule now in the budget",
+      "lowerTo": "the charges at public hospitals shall be lowered to {value} of the schedule now in the budget"
+    },
+    "fee-level:education": {
+      "subject": "tuition and school fees",
+      "purpose": "set tuition and school fees",
+      "raise": "tuition and school fees shall be raised from {before} to {value} of the schedule now in the budget",
+      "lower": "tuition and school fees shall be lowered from {before} to {value} of the schedule now in the budget",
+      "raiseTo": "tuition and school fees shall be raised to {value} of the schedule now in the budget",
+      "lowerTo": "tuition and school fees shall be lowered to {value} of the schedule now in the budget"
     }
   },
   "units": {
