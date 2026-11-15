@@ -18,7 +18,7 @@ root: none
 source: Builder M3 on #9455, Nov 15; Account lead asked for the cause before any limit moves
 ---
 
-**What.** The test "names when the two last met on a second talk, the employer of a talk about work, and says over 30 different greetings and goodbyes in 100 talks" in src/director/conversation.test.ts runs about 27.5 seconds against vitest's 30 second default, and failed with a timeout when other work ran beside it. A test that sits at nine tenths of its limit is red by load, not by a fault. Measured on the base of #9455 at 27.5 and 29.1 seconds, and over the limit at 30.1 while two other test runs shared the machine.
+**What.** The test "names when the two last met on a second talk, the employer of a talk about work, and says over 30 different greetings and goodbyes in 100 talks" in src/director/conversation.test.ts runs about 27.5 seconds against vitest's 30 second default, and failed with a timeout when other work ran beside it. A test that sits at nine tenths of its limit is red by load, not by a fault. Guards: the greetings and goodbyes the player hears in a talk keep their variety and their naming of the last meeting. Measured on the base of #9455 at 27.5 and 29.1 seconds, and over the limit at 30.1 while two other test runs shared the machine.
 
 **Cause.** Found in code: src/director/conversation.test.ts, the `it` at line 1394, plays every person away from the player's household, up to 200, in two rounds (`everyone().slice(0, 200)`, `for (const round of [0, 1])`), so up to 400 talks of up to eight turns each (`play`), although its own title and its comment say variety is read over the first 100 goodbyes (`if (said <= 100)`). There is no draw loop; the cost is the count of talks played.
 
@@ -28,7 +28,7 @@ source: Builder M3 on #9455, Nov 15; Account lead asked for the cause before any
 
 **Rules.** Tests pin named places and fixed seeds, take about a minute and never loosen an assertion to pass; this test keeps every assertion and plays fewer talks.
 
-**Done when.** In the played world the test builds (buildBenchWorld through its own startWorld), a second session runs the test alone and sees it pass in under half its limit, with the same assertions and the same counts of greetings and goodbyes named in its output line.
+**Done when.** In the played world at a drawn place, the one the test builds (buildBenchWorld through its own startWorld), a second session runs the test alone and sees it pass in under half its limit, with the same assertions and the same counts of greetings and goodbyes named in its output line.
 
 **Waits on.** Nothing.
 
