@@ -122,6 +122,7 @@ import type {
 import type { ModuleCalendarWork } from "../module-calendar";
 import type { ModuleRow } from "../module-data";
 import { groupStance, personLean, type StanceProfile } from "../campaign-views";
+import type { LifeStake } from "../life-stake-rule";
 import { campaignParameter, platformLead, type Stance } from "../campaign-data";
 import { basePlaces, wideElectorate } from "../race-places";
 import { shareValue } from "../shares";
@@ -385,6 +386,10 @@ interface CountedBallotsRow {
   /** Each voter's faith and degree against their age band's average (null where none is recorded; absent on rows kept before the loadings). */
   readonly faith?: readonly (number | null)[];
   readonly college?: readonly (number | null)[];
+  /** The world whose country's view of each question the voters' stances carried (`popularity`; absent on rows kept before it was). */
+  readonly seed?: string;
+  /** Each voter's circumstances and how much they weigh them, as the count read them (`stakeShift`; null where none; absent on rows kept before it was). */
+  readonly life?: readonly (LifeStake | null)[];
   /** Each voter's door "yes" as it held on the day (null where they gave none; absent on rows kept before pledges). */
   readonly pledges?: readonly (Readonly<Record<string, number>> | null)[];
   /** What each voter's decided cases left them feeling toward each official on the ballot (null where they brought none; absent on rows kept before cases counted). */
@@ -4014,6 +4019,7 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
     weight: [] as number[],
     faith: [] as (number | null)[],
     college: [] as (number | null)[],
+    life: [] as (LifeStake | null)[],
     /** Each voter's door "yes" as it held on the day (null where they gave none, or where it held for one household of several). */
     pledges: [] as (Readonly<Record<string, number>> | null)[],
     warmths: [] as (Readonly<Record<string, number>> | null)[],
@@ -4109,6 +4115,7 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
     // Module data holds JSON: a missing distance is kept as null.
     kept.faith.push(profile.faithFromAverage ?? null);
     kept.college.push(profile.collegeFromAverage ?? null);
+    kept.life.push(profile.life ?? null);
     kept.pledges.push(division.wholePledged ? (pledges ?? null) : null);
     kept.warmths.push(warmths ?? null);
     kept.endorsed.push(endorsed ?? null);
@@ -4149,6 +4156,7 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
     contestId,
     date,
     field,
+    seed: api.state.seed,
     ...kept,
   } as unknown as ModuleRow);
   // Each counted resident stands for the town's people like them; those who
@@ -5560,19 +5568,36 @@ function countedBallotAt(row: CountedBallotsRow, i: number): CountedBallotRow {
       warmths: row.warmths?.[i] ?? undefined,
       endorsed: row.endorsed?.[i] ?? undefined,
       divides: true,
-      profile:
-        row.faith && row.college && Number.isFinite(row.faith[i])
-          ? {
-              faithFromAverage: row.faith[i]!,
-              ...(Number.isFinite(row.college[i])
-                ? { collegeFromAverage: row.college[i]! }
-                : {}),
-            }
-          : null,
+      profile: keptProfile(row, i),
     }),
     basis: "party-name-incumbency",
     lean: row.lean[i]!,
     weight: row.weight?.[i] ?? 1,
+  };
+}
+
+/**
+ * The stance profile a kept counted ballot was read with: the voter's faith
+ * and degree, the world's country view and their circumstances, so a ballot
+ * read back has the appeal the count decided by. A row kept before a column
+ * was reads without it.
+ */
+function keptProfile(row: CountedBallotsRow, i: number): StanceProfile | null {
+  const faith =
+    row.faith && row.college && Number.isFinite(row.faith[i])
+      ? {
+          faithFromAverage: row.faith[i]!,
+          ...(Number.isFinite(row.college[i])
+            ? { collegeFromAverage: row.college[i]! }
+            : {}),
+        }
+      : null;
+  const life = row.life?.[i] ?? undefined;
+  if (row.seed === undefined && !life) return faith;
+  return {
+    ...faith,
+    ...(row.seed === undefined ? {} : { seed: row.seed }),
+    ...(life ? { life } : {}),
   };
 }
 
