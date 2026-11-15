@@ -36,6 +36,45 @@ import type { TreeNode } from "./scene-talk";
 const PLACE = "1930630";
 const SEED = "reporters-call-1";
 
+/** The scene's talk as composed: its opening lines, its tree and the spots left unworded. */
+interface Talk {
+  narration: { text: string }[];
+  open?: { text: string };
+  state: { text: string };
+  tree: TreeNode;
+  gaps: string[];
+}
+/** The whole tree, as the player meets it: what is said, then "You say:"; a lie is marked. */
+function played(talk: Talk): { said: string[]; shown: string[] } {
+  const said: string[] = [];
+  const shown: string[] = [];
+  const walk = (node: TreeNode, depth: string): void => {
+    for (const line of node.lines) {
+      said.push(line.text);
+      shown.push(`${depth}${line.text}`);
+    }
+    for (const branch of node.branches ?? []) {
+      shown.push(`${depth}(${branch.label})`);
+      walk(branch.node, `${depth}  `);
+    }
+    if (node.replies.length) shown.push(`${depth}You say:`);
+    node.replies.forEach((reply, at) => {
+      said.push(reply.line.text);
+      const lie = reply.line.move === "lie" ? " (a lie)" : "";
+      shown.push(`${depth}  ${at + 1}. ${reply.line.text}${lie}`);
+      if (reply.next) walk(reply.next, `${depth}     `);
+    });
+    if (node.end?.close) shown.push(`${depth}${node.end.close.text}`);
+  };
+  for (const line of [...talk.narration, talk.open, talk.state])
+    if (line) {
+      said.push(line.text);
+      shown.push(line.text);
+    }
+  walk(talk.tree, "");
+  return { said, shown };
+}
+
 it("a scandal call names who paid and what for (Gilbert IA, seed reporters-call-1)", () => {
   setBookkeeping(false);
   const { core, director } = buildBenchWorld(SEED, gameStartDate(), {
@@ -130,48 +169,13 @@ it("a scandal call names who paid and what for (Gilbert IA, seed reporters-call-
   for (const key of ["found-bribe", "briber", "wanted", "bill", "knows-truth"])
     expect(facts.has(key), key).toBe(true);
   expect(facts.get("briber")).toContain(offerer.givenName);
-  const talk = (
-    result.scene as unknown as {
-      talk: {
-        narration: { text: string }[];
-        open?: { text: string };
-        state: { text: string };
-        tree: TreeNode;
-        lines: { text: string }[];
-      };
-    }
-  ).talk;
+  const talk = (result.scene as unknown as { talk: Talk }).talk;
   // The reporter says who paid and the vote it bought.
   expect(talk.state.text).toContain(offerer.givenName);
   expect(talk.state.text).toContain(facts.get("bill")!);
-  // The whole tree, as the player meets it: what is said, then "You say:".
-  const said: string[] = [];
-  const shown: string[] = [];
-  const walk = (node: TreeNode, depth: string): void => {
-    for (const line of node.lines) {
-      said.push(line.text);
-      shown.push(`${depth}${line.text}`);
-    }
-    for (const branch of node.branches ?? []) {
-      shown.push(`${depth}(${branch.label})`);
-      walk(branch.node, `${depth}  `);
-    }
-    if (node.replies.length) shown.push(`${depth}You say:`);
-    node.replies.forEach((reply, at) => {
-      said.push(reply.line.text);
-      shown.push(`${depth}  ${at + 1}. ${reply.line.text}`);
-      if (reply.next) walk(reply.next, `${depth}     `);
-    });
-    if (node.end?.close) shown.push(`${depth}${node.end.close.text}`);
-  };
-  for (const line of [...talk.narration, talk.open, talk.state])
-    if (line) {
-      said.push(line.text);
-      shown.push(line.text);
-    }
-  walk(talk.tree, "");
+  const { said, shown } = played(talk);
   process.stdout.write(
-    `GAPS ${JSON.stringify((talk as unknown as { gaps: string[] }).gaps)}\nSCANDAL CALL\n${shown.join("\n")}\nEND CALL\n`,
+    `GAPS ${JSON.stringify(talk.gaps)}\nSCANDAL CALL\n${shown.join("\n")}\nEND CALL\n`,
   );
   // Nothing about minutes, a signature or a story with no subject.
   for (const text of said)
@@ -213,11 +217,18 @@ it("a conflict call names the contract, the firm and whose it is (Gilbert IA, se
   });
   expect(firm, "a firm whose owner has family").toBeTruthy();
   const owner = core.people.get(firm!.ownerId as PersonId)!;
-  const relativeId = [...owner.familyIds]
+  // A relative who shares the owner's home when there is one, as at Gilbert.
+  const kinIds = [...owner.familyIds]
     .sort()
-    .find(
+    .filter(
       (id) => core.people.get(id)?.alive && familyRelation(core, id, owner.id),
-    )!;
+    );
+  const relativeId =
+    kinIds.find(
+      (id) => core.people.get(id)!.householdId === owner.householdId,
+    ) ?? kinIds[0]!;
+  const housemate =
+    core.people.get(relativeId)!.householdId === owner.householdId;
   const gov = governments(api)[0]!;
   const awardId = `contract:${gov.id}:highways:${core.date}`;
   const outlet = townOutlet(api)!;
@@ -263,10 +274,12 @@ it("a conflict call names the contract, the firm and whose it is (Gilbert IA, se
     expect(result?.kind, JSON.stringify(result)).toBe("composed");
     if (result?.kind !== "composed") throw new Error("not composed");
     const facts = new Map(result.scene.facts.map((row) => [row.key, row.text]));
-    const state = (
-      result.scene as unknown as { talk: { state: { text: string } } }
-    ).talk.state.text;
-    process.stdout.write(`CONFLICT ${relation}\n${state}\n`);
+    const talk = (result.scene as unknown as { talk: Talk }).talk;
+    const state = talk.state.text;
+    const { shown } = played(talk);
+    process.stdout.write(
+      `GAPS ${JSON.stringify(talk.gaps)}\nCONFLICT ${relation}\n${shown.join("\n")}\nEND CALL\n`,
+    );
     return { facts, state };
   };
   const firmName = organizationName(core.organizations.get(firm!.id)!);
@@ -279,4 +292,7 @@ it("a conflict call names the contract, the firm and whose it is (Gilbert IA, se
   expect(kin.facts.has("firm-yours")).toBe(false);
   expect(kin.state).toContain(firmName);
   expect(kin.state).toContain(owner.givenName);
+  // A housemate is told the owner lives with them (Words lead, Nov 15).
+  expect(kin.facts.has("relative-lives-with")).toBe(housemate);
+  if (housemate) expect(kin.state).toContain("lives with you");
 }, 60_000);

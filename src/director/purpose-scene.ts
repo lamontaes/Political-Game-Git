@@ -1257,11 +1257,19 @@ function composeBinding(
     const owner = core.people.get((exposed.ownerId ?? "") as PersonId);
     if (exposed.ownFirm)
       facts["firm-yours"] = { text: "yes", sourceRecordIds: cited };
-    else if (owner)
+    else if (owner) {
       facts.relative = {
         text: sayPerson(owner),
         sourceRecordIds: [...cited, owner.id],
       };
+      // The owner shares the asked person's home: the reporter says so, as
+      // the player may not hold in mind who owns the firm.
+      if (owner.householdId === asked.householdId)
+        facts["relative-lives-with"] = {
+          text: "yes",
+          sourceRecordIds: [...cited, owner.id, asked.householdId],
+        };
+    }
   }
   // A printed story that runs against the person or their bill (press-desk.ts
   // recordNamed): the outlet that ran it, who wrote it, and what it is about.
