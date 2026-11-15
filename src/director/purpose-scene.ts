@@ -23,7 +23,7 @@ import {
   type PolicyLevel,
 } from "../core2/modules/laws";
 import { meetingsOn } from "../core2/modules/interest-groups";
-import { townSeats } from "../core2/modules/offices";
+import { OFFICES_MODULE_ID, townSeats } from "../core2/modules/offices";
 import {
   LEGISLATURE_MODULE_ID,
   absenceCarries,
@@ -1265,6 +1265,21 @@ function composeBinding(
           sourceRecordIds: [...cited, ...others.map((person) => person!.id)],
         };
       }
+      // The body that sent the bill to study, by the name its office row
+      // gives it ("City Council"), said after the article: "The {body} sent ...".
+      const bodyName = (
+        coreAPI(core as CoreState)
+          .moduleState(OFFICES_MODULE_ID)
+          .table("offices")
+          .get(study.bodyOfficeId) as { bodyName?: string } | undefined
+      )?.bodyName
+        ?.trim()
+        .replace(/^the\s+/i, "");
+      if (bodyName)
+        facts.body = {
+          text: bodyName,
+          sourceRecordIds: [...cited, study.bodyOfficeId],
+        };
       facts.sunset = {
         text: spokenDate(study.sunsetOn, core.date),
         sourceRecordIds: cited,

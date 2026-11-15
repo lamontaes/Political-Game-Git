@@ -186758,7 +186758,7 @@
       "key": "scene-talk.state-tell.the-body-sent-bill-to-a-study-committee-i-asked-for-people-who-voted-against-it-will-you-sit-on-it",
       "move": "state-tell",
       "kind": "spoken",
-      "text": "The body sent {bill} to a study committee. It's a small committee, and I asked for people who voted against it. You're one of them. Will you sit on it?",
+      "text": "The {body} sent {bill} to a study committee. It's a small committee, and I asked for people who voted against it. You're one of them. Will you sit on it?",
       "uses": [
         {
           "subject": "scene",
@@ -186767,7 +186767,7 @@
           "role": "asker",
           "purpose": "study-formed",
           "key": "colleague-word",
-          "requiresFacts": ["bill", "asker-chairs"]
+          "requiresFacts": ["bill", "asker-chairs", "body"]
         }
       ],
       "bearing": "braced",
