@@ -223,7 +223,13 @@ export const STORY_KINDS = {
     lede: ["profile"],
     context: ["profile-office", "profile-party", "profile-since"],
   },
-  interview: { headline: ["interview"], lede: ["interview"] },
+  // The answers the candidate gave at the sitting: what they were for, what
+  // against, and what they gave no answer on (the interview row).
+  interview: {
+    headline: ["interview"],
+    lede: ["interview"],
+    context: ["interview-for", "interview-against", "interview-declined"],
+  },
   debate: { headline: ["debate"], lede: ["debate"] },
   primary: { headline: ["primary"], lede: ["primary"] },
   "took-office": {
