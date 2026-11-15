@@ -57,7 +57,7 @@ import type {
 import { nextMeeting } from "./offices";
 import {
   catchUpSittings,
-  creditSitting,
+  creditSittings,
   registerSittingCalendar,
   type SittingDay,
 } from "../sitting-closeness";
@@ -2215,15 +2215,26 @@ function floorWeek(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   const today = api.state.date;
   const table = api.moduleState(LEGISLATURE_MODULE_ID).table("bills");
   const bills = [...row.bills];
-  // The chambers sit this week: their members share the floor days.
-  for (const chamberId of sessionChambers(api, row))
-    creditSitting(
-      api,
-      chamberId,
-      floorDaysPerWeek(row.jurisdiction, row.conveneAt, row.adjournAt),
-    );
-  const week = floorWeeks(api, row, today).next();
-  for (const q of week.done ? [] : week.value.taken) {
+  // The chambers sit this week: their members share the floor days. A
+  // month's weeks are credited together at its last floor week (and at the
+  // session's last), each faded as closeness fades, so a chamber of hundreds
+  // is written monthly, not weekly (cadence-and-summaries).
+  const following = plusDays(today, 7);
+  if (
+    following.slice(0, 7) !== today.slice(0, 7) ||
+    following >= row.adjournAt
+  ) {
+    const month = `${today.slice(0, 7)}-01`;
+    for (const chamberId of sessionChambers(api, row))
+      creditSittings(
+        api,
+        chamberId,
+        row.firstFloor > month ? row.firstFloor : month,
+        today,
+      );
+  }
+  const taken = floorWeeks(api, row, today).next();
+  for (const q of taken.done ? [] : taken.value.taken) {
     const drafted = table.get(q.id) as unknown as BillRow | undefined;
     if (!drafted) continue;
     // A member's filing is read against the law as it stands on the floor day.
@@ -2426,7 +2437,7 @@ function localMeeting(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   scheduleMeeting(api, officeId, meetingDate);
   // The body meets (on the eve, the meeting held for the player's agenda is
   // tomorrow's): its members share the sitting, once per meeting.
-  creditSitting(api, officeId, 1);
+  creditSittings(api, officeId, meetingDate, meetingDate);
   // Filed the day before, or on the day for a meeting with under a day's
   // notice: a meeting still on the books takes its filings onto the agenda
   // (and may stop the player) and votes them when it meets.
