@@ -187,8 +187,10 @@ export function metThrough(
 
 /**
  * The hours a tie has lost since the two were last together, over all its
- * time: the row's own since its last contact, and each reader's shared hours
- * since the last day its record had them together, at the same half-life.
+ * time: the row's own and each reader's shared hours, each at its half-life,
+ * since the last day any of them had the two together (the row's last
+ * contact, or the last sitting both sat). Two colleagues who sat together
+ * yesterday have lost a day, however long ago their row's last contact was.
  * What a person misses about someone they have not seen.
  */
 export function tieHoursLost(
@@ -201,21 +203,29 @@ export function tieHoursLost(
 ): number {
   const p = lookup(core);
   const row = core.relationships.get(a < b ? `${a}:${b}` : `${b}:${a}`);
-  let lost = row ? hoursLost(core, row) : p("zero");
+  const shared: { now: number; kind: string }[] = [];
+  let last: IsoDate | null = row ? row.lastContactDate : null;
   for (const [reader, known] of knownReaders) {
     const met = known.together(core, a, b);
     if (!met) continue;
-    const now = reader(core, a, b);
-    // The reader's hours are already faded to today; the hours at the last
-    // day together were that much more.
+    shared.push({ now: reader(core, a, b), kind: known.kind });
+    if (!last || met.last > last) last = met.last as IsoDate;
+  }
+  if (!last) return p("zero");
+  let lost = p("zero");
+  if (row) {
+    const hours = hoursFromLevel(p, row.level);
+    lost +=
+      faded(p, hours, elapsed(p, row.lastContactDate, last), row.kind) -
+      faded(p, hours, elapsed(p, row.lastContactDate, core.date), row.kind);
+  }
+  // The readers' hours are already faded to today; on the last day together
+  // they were that much more.
+  for (const { now, kind } of shared)
     lost +=
       now *
-      (Math.pow(
-        p("two"),
-        elapsed(p, met.last, core.date) / halfLifeDays(p, known.kind),
-      ) -
+      (Math.pow(p("two"), elapsed(p, last, core.date) / halfLifeDays(p, kind)) -
         p("one"));
-  }
   return lost;
 }
 
