@@ -18,9 +18,10 @@ effort: medium
 root: none
 ---
 
-**What.** Word of a rival played six times in ten weeks with the same lines: an opener that did not say how it came, replies the same whoever the teller was, and "Did it change your mind?" answered with "Mostly their side of it." Seen: the Salado TX play, seed review1:2; the three pinned places of the new test show the fix.
+**What.** Word of a rival played six times in ten weeks with the same lines: an opener that did not say how it came, replies the same whoever the teller was, and "Did it change your mind?" answered with "Mostly their side of it."
+Seen: the Salado TX play, seed review1:2, class F of the Words lead's read.
 
-**Cause.** Found in code: the rival-word event kept the teller, the rival and the topic but not how the message reached the teller (the message row's kind), the side it argued or how far it moved the teller, so the bank had nothing to place a line by; and a scene about a race stayed worth staging after its election day.
+**Cause.** Found in code: in src/core2/modules/campaigns.ts, `rivalWordPassedOn` wrote the rival-word event kept the teller, the rival and the topic but not how the message reached the teller (the message row's kind), the side it argued or how far it moved the teller, so the bank had nothing to place a line by; and a scene about a race stayed worth staging after its election day.
 
 **Fix.** The event now keeps `how` and `side`; the packet reads them with the teller's own stance cause for the message (none, a little, a lot, by `rivalWordMovedALot`) and the player's own stand; the bank's openers, replies and answers are written to those facts (the Words lead's rival-word/lines.md) and the lines nothing backed are deleted; a situation type's `liveWhile: "contest-open"` drops the scene once its cause's contest has had its election day.
 
@@ -29,6 +30,8 @@ root: none
 **Rules.** Replace, never layer: the old openers and answers are deleted, not left beside the new. Wire to the world: every fact is read from the message, the views engine's cause row or the contest, by record id. No hand-written player text in code: every line is a bank piece.
 
 **Done when.** A second session sees, at a place drawn from all 56 (name the place and seed), a rival's news scene whose opener matches how the word came, whose "Did it change how you see" answer matches the teller's own stance cause, and no such scene staged after the contest's election day.
+
+**Waits on.** Nothing: it builds on the campaigns engine's rival-word record as it stands.
 
 **Files.** src/core2/modules/campaigns.ts, src/core2/modules/elections.ts, src/director/purpose-scene.ts, src/director/scheduling.ts, src/director/data/situation-types.json, data/english/parts/scene-talk.json, src/core2/data/campaigns/parameters.json, src/director/rival-word-record.test.ts
 
