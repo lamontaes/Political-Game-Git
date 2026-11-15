@@ -36,3 +36,5 @@ checked: fable 2026-11-10
 **Files.** src/core2/modules/housing.ts, src/core2/housing-prices.ts, src/core2/modules/place-prices.ts, src/core2/data/stopgaps/world.json
 
 **Notes.** Found Oct 18 splitting world-home-turnover. Property tax reads `ownedHomes`; see world-property-tax-zero-home-values (done).
+
+Nov 14, 2026 (Account lead T49): world-home-prices-from-housing replaces SG-WORLD-housing-price-index with each place's own price level, moved monthly by the town's buyers against homes offered (sales through sellHome, foreclosures, new homes), pay and the mortgage rate; property tax and every sale read it. What is left of this item is pricing a sale from the town's recent sale prices themselves, which that level now stands for; check whether anything remains before building.

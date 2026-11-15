@@ -287,6 +287,8 @@ export function withCountySample(
       employment.get(home.id)?.length ?? p("zero"),
       adultsHere.length,
       input.seed,
+      // The head is the household's oldest adult.
+      Math.max(...adultsHere.map((row) => ageInYears(row.birthDate, start))),
     );
     adultsHere.forEach((row, n) => {
       row.liquidMinor = cash[n]!;

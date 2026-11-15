@@ -31,6 +31,62 @@ export interface RelationFacts {
   side: "friend" | "rival" | null;
   /** The tie record the side or closeness rests on, if any. */
   tieId: string | null;
+  /** What earlier scene replies between the two left: ids of the `scene.reply` records, by what they say. */
+  passed: {
+    /** The asker came to the asked before, in an earlier scene. */
+    askedBefore: string[];
+    /** The asked person's answer to the asker then was help. */
+    helpedBefore: string[];
+    /** The asked person's answer to the asker then was a refusal. */
+    refusedBefore: string[];
+  };
+}
+
+const PASSED = rulesFile.passedBetween;
+
+/**
+ * What earlier scene replies between two people say: who came to whom and how
+ * the one asked answered (a `scene.reply` names the player first; its `asked`
+ * fact is there only where the player asked, and its `move` is the answerer's).
+ */
+function passedBetween(
+  core: Readonly<CoreState>,
+  askerId: PersonId,
+  askedId: PersonId,
+): RelationFacts["passed"] {
+  const passed: RelationFacts["passed"] = {
+    askedBefore: [],
+    helpedBefore: [],
+    refusedBefore: [],
+  };
+  const ids = core.logByKind.get("scene.reply");
+  if (!ids) return passed;
+  for (const id of ids) {
+    const event = core.durableLog.get(id);
+    if (!event) continue;
+    if (event.date >= core.date) continue;
+    const [first, second] = event.personIds;
+    if (!first || !second) continue;
+    if (!(
+      (first === askerId && second === askedId) ||
+      (first === askedId && second === askerId)
+    ))
+      continue;
+    const playerAsked = event.facts?.asked !== undefined;
+    const recordAsker = playerAsked ? first : second;
+    if (recordAsker !== askerId) continue;
+    passed.askedBefore.push(id);
+    const move = event.facts?.move;
+    // A promise is help only once an engine's record says it was done: an
+    // ending that keeps a promise counts when it also settled as help
+    // (office hours: the case row is helped); other helping moves count as said.
+    const kept =
+      event.facts?.keeps !== "promise" || event.facts?.settled === "help";
+    if (move && PASSED.helped.includes(move) && kept)
+      passed.helpedBefore.push(id);
+    if (move && PASSED.refused.includes(move)) passed.refusedBefore.push(id);
+  }
+  return passed;
 }
 
 export function lastContact(
@@ -116,6 +172,7 @@ export function relationFacts(
     metBefore,
     side,
     tieId: tie ? tieId : null,
+    passed: passedBetween(core, askerId, askedId),
   };
 }
 
