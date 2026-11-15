@@ -16,6 +16,7 @@ import { expect, it } from "vitest";
 import { fileForOffice, governmentView } from "../bench/government";
 import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "../core2/bookkeeping";
+import { gatherSignatures } from "../core2/campaign-petition-kit";
 import { gameStartDate } from "../core2/game-start";
 import { addDays, daysBetween, makeIsoDate } from "../core2/kernel/dates";
 import {
@@ -171,12 +172,35 @@ it("a person who filed through the game's own filing hears their own race (Sherr
   (core as { playerId?: string }).playerId = entrant!;
   director.watch(core, entrant!);
   core.focusPersonIds.add(entrant!);
-  fileForOffice(core, entrant!, contestId);
+  const filed = fileForOffice(core, entrant!, contestId);
   expect(filingsOf(world, entrant!).map((row) => row.contestId)).toContain(
     contestId,
   );
+  // Filing is a petition (owner, Oct 28), and the controlled person is never
+  // signed up by the campaign engine: the filer canvasses for their own
+  // signatures through the game's own day choice, so the clerk puts them on
+  // the ballot and the count names them. Before the fold of #9473 this world
+  // put a filer on the ballot with no signatures; the test's premise was
+  // that, and it is stated here so a green run is not mistaken for it.
+  expect("filing" in filed, "the filing went in").toBe(true);
+  const petition = gatherSignatures(
+    core,
+    (filed as { filing: { id: string } }).filing.id,
+  );
+  process.stdout.write(
+    `PETITION ${PLACE} ${SEED}: ${petition?.signed} signed of ${petition?.needed} needed, ${petition?.rule.count} the city rate\n`,
+  );
+  expect(
+    petition?.signed ?? 0,
+    `${PLACE} ${SEED}: the filer's petition needs ${petition?.needed}`,
+  ).toBeGreaterThanOrEqual(petition?.needed ?? 1);
   const said: string[] = [];
-  for (let day = FILE_DAY + 1; day <= first + 6; day += 1) {
+  for (
+    let day =
+      daysBetween(makeIsoDate(gameStartDate()), makeIsoDate(core.date)) + 1;
+    day <= first + 6;
+    day += 1
+  ) {
     liveThrough(world, entrant!, day);
     if (day >= first) said.push(...homeNews(world, entrant!, day));
   }
