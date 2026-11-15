@@ -6,6 +6,7 @@ import {
   personSlot,
   wordPersonSlots,
   sentenceStarts,
+  nameOnceThen,
   type SaidPerson,
 } from "./said-as";
 import { clockOf, heardBefore, noteSaid, tellingOf } from "./telling";
@@ -213,5 +214,24 @@ describe("person slots", () => {
     expect(wordPersonSlots(`I heard ${a}. ${a} should act.`, them)).toBe(
       "I heard the President. They should act.",
     );
+  });
+});
+
+describe("the employer said again by a worker", () => {
+  const name = "Marsh Fitness";
+  it("is 'work' in a frame that does not already say it, 'there' in one that does", () => {
+    const again = (text: string) =>
+      nameOnceThen([text], name, "worker", true).texts[0];
+    expect(again("I'm at Marsh Fitness.")).toBe("I'm at work.");
+    expect(again("At Marsh Fitness.")).toBe("At work.");
+    expect(again("I work over at Marsh Fitness.")).toBe("I work there.");
+    expect(again("I work for Marsh Fitness.")).toBe("I work there.");
+    expect(again("I'm with Marsh Fitness.")).toBe("I'm there.");
+  });
+  it("names it in full the first time, in any frame", () => {
+    expect(
+      nameOnceThen(["I work for Marsh Fitness."], name, "worker", false)
+        .texts[0],
+    ).toBe("I work for Marsh Fitness.");
   });
 });

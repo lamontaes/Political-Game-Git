@@ -145,6 +145,7 @@ import {
   type Wording,
 } from "../english/conversation-words";
 import {
+  employerIsGovernment,
   jobSaid,
   kinAddress,
   relationPhrase,
@@ -202,6 +203,7 @@ import {
   officeWords,
   personSlot,
   nameOnceThen,
+  publicEmployerSaid,
   ownPlaceSaid,
   sentenceStarts,
   wordPersonSlots,
@@ -6296,6 +6298,7 @@ function laterMentions(
   conversation: Conversation,
   from: number,
 ): void {
+  publicEmployerFor(core, conversation, from);
   employerOnce(conversation, from);
   presidentOnce(core, conversation, from);
   questionOnce(conversation);
@@ -6350,6 +6353,30 @@ function questionOnce(conversation: Conversation): void {
   }
   for (const choice of [...conversation.choices, ...conversation.lies])
     choice.text = say(choice.text, table).text;
+}
+
+/**
+ * A person works for a government, never at it (said-as, `publicEmployerSaid`;
+ * item words-i-work-for-a-public-employer-is-said-as-people-say-it): in a
+ * line whose records name a government as the employer, the frame's
+ * preposition is the one people use, whichever class of government it is.
+ */
+function publicEmployerFor(
+  core: Readonly<CoreState>,
+  conversation: Conversation,
+  from: number,
+): void {
+  const fix = (row: { text: string; sourceRecordIds: readonly string[] }) => {
+    for (const id of row.sourceRecordIds) {
+      const org = core.organizations.get(id as never);
+      if (!org || !employerIsGovernment(org)) continue;
+      const name = employerWords(org);
+      if (name) row.text = publicEmployerSaid(row.text, name);
+    }
+  };
+  for (const line of conversation.lines.slice(from)) fix(line);
+  for (const choice of [...conversation.choices, ...conversation.lies])
+    fix(choice);
 }
 
 /**

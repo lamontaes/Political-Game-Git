@@ -176,6 +176,28 @@
     "worker": "work",
     "resident": "town"
   },
+  "publicEmployer": {
+    "about": "Account lead, Nov 15, 2026, from M5's read of #9479 (item words-i-work-for-a-public-employer-is-said-as-people-say-it): a person works for a government, never at it (\"I work at the government of Ohio.\"). One row per frame the bank says an employer in; {name} is the government as employerSaid says it, whatever its class (town, county, state, federal; a school system is not a government here, it is said by its name as a business is). The frame is kept and its preposition goes.",
+    "frames": [
+      {
+        "from": "(\\b(?:work|works|working|worked)\\s+)(?:over\\s+)?(?:at|with)\\s+{name}",
+        "to": "$1for {name}"
+      },
+      {
+        "from": "((?:I'm|I am|we're|we are)\\s+)(?:over\\s+)?at\\s+{name}",
+        "to": "$1with {name}"
+      },
+      { "from": "(\\b(?:job|jobs)\\s+)at\\s+{name}", "to": "$1with {name}" }
+    ]
+  },
+  "ownPlaceThere": {
+    "about": "Account lead, Nov 15, 2026, from M5's read of #9502 (item words-i-work-for-a-public-employer-is-said-as-people-say-it): a later mention of the employer is 'work' (ownPlace), except after a frame that already says work or takes 'with' or 'for' (\"I work over at work.\", \"I'm with work.\", \"I work for work.\"), where it is 'there' (\"I work there.\", \"I'm there.\"). Each row is the words before the name, kept, and the preposition that goes; {name} is the employer.",
+    "said": "there",
+    "frames": [
+      "(\\b(?:work|works|working|worked)\\s+)(?:over\\s+)?(?:at|for|with)\\s+{name}",
+      "((?:I'm|I am|we're|we are)\\s+)with\\s+{name}"
+    ]
+  },
   "questionAgain": {
     "about": "Lead, Nov 12 (\"say no to raising the debt limit only with spending cuts to match\" right after the opener named it in full): once a line has named a question, its act is said again in a short form, by the slot it fills. Lead, Nov 13: while it is the only question on the table, a later mention of its name in the talk is `it`. Words only; the composer reads them.",
     "against": "say no to it",

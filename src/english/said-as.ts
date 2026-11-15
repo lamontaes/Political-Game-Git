@@ -379,6 +379,23 @@ export function ownPlaceSaid(tie: "student" | "worker"): string {
 }
 
 /**
+ * A government's name in a text said with the preposition people use for it
+ * (said-as.json publicEmployer): a person works for a government, not at it.
+ */
+export function publicEmployerSaid(text: string, name: string): string {
+  const escaped = name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const slot = `(?<![\\w'])${escaped}(?![\\w'])`;
+  return data.publicEmployer.frames.reduce(
+    (now, frame) =>
+      now.replace(
+        new RegExp(frame.from.replace("{name}", slot), "gi"),
+        frame.to.replace("{name}", name),
+      ),
+    text,
+  );
+}
+
+/**
  * An organization named once in a text, then said by the tie (`ownPlaceSaid`):
  * every later whole-word mention in these texts, in order, becomes the word
  * for it ("a day off from work", "Work wears me out."). `named` says whether
@@ -394,16 +411,37 @@ export function nameOnceThen(
   const word = ownPlaceSaid(tie);
   const escaped = name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
   const pattern = new RegExp(`(?<![\\w'])${escaped}(?![\\w'])`, "g");
+  // A worker's later mention after a frame that already says work, or that
+  // takes "with" or "for", is "there" (said-as.json ownPlaceThere).
+  const frames =
+    tie === "worker"
+      ? data.ownPlaceThere.frames.map(
+          (frame) =>
+            new RegExp(
+              frame.replace("{name}", `(?<![\\w'])${escaped}(?![\\w'])`),
+              "gi",
+            ),
+        )
+      : [];
   let said = named;
   const out = texts.map((text) =>
     sentenceStarts(
-      text.replace(pattern, (match) => {
-        if (!said) {
-          said = true;
-          return match;
-        }
-        return word;
-      }),
+      frames
+        .reduce(
+          (now, frame) =>
+            now.replace(frame, (match, before: string) => {
+              if (!said) return match;
+              return `${before}${data.ownPlaceThere.said}`;
+            }),
+          text,
+        )
+        .replace(pattern, (match) => {
+          if (!said) {
+            said = true;
+            return match;
+          }
+          return word;
+        }),
     ),
   );
   return { texts: out, named: said };
