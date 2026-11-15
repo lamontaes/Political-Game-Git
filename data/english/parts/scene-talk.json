@@ -181367,31 +181367,6 @@
       }
     },
     {
-      "key": "scene-talk.state-request.a-few-of-us-have-started-working-on-cause-i-thought-of-you-first",
-      "move": "state-request",
-      "kind": "spoken",
-      "text": "A few of us have started working on {cause}. I thought of you first.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "request",
-          "role": "asker",
-          "purpose": "join-cause",
-          "key": "favor-asked",
-          "requiresFacts": ["acquainted"]
-        }
-      ],
-      "bearing": "hopeful",
-      "origin": "authored",
-      "author": "Words lead",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "request",
-        "key": "favor-asked"
-      }
-    },
-    {
       "key": "scene-talk.reply-ask.what-would-i-be-signing-up-for",
       "move": "reply-ask",
       "kind": "spoken",
