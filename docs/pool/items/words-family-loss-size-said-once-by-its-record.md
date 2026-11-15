@@ -19,7 +19,8 @@ root: none
 ---
 
 **What.** After a lost race the household member, the player's replies and the concession call said "we lost by about 830 votes" three times, "closer than anybody expected" for a wide loss and "not much to lose by" for any size.
-The Words lead found it reading the Salado TX play. It is class F case 4 of that read, seed review1:2.
+It was found reading the Salado TX play, class F case 4 of the Words lead's read.
+Seen: the Salado TX play, seed review1:2.
 
 **Cause.** Found in code: the `margin` fact set in src/director/family-stake.ts (lossStakeOf) was worded into eight household statements, two replies and a follow, and nothing read how the race was decided (`raceMargin` in src/director/race-margin.ts, which the Journal reads), so every line that judged the size asserted it.
 
