@@ -37,7 +37,7 @@ import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
 import { seatSaid } from "../english/journal-words";
 import type { Fact } from "../english/scene-talk-words";
-import { publicReasons } from "./floor-debate-facts";
+import { publicReasons, type SaidPosition } from "./floor-debate-facts";
 
 /** Facts of `memberId`'s vote on `billId`, added to `facts`; nothing when they cast none. */
 export function voteStandFacts(
@@ -57,7 +57,7 @@ export function voteStandFacts(
       vote: string;
       chamber?: string;
       override?: boolean;
-      position: Parameters<typeof publicReasons>[0] & {
+      position: SaidPosition & {
         readonly deal: number;
         readonly consistency: number;
       };

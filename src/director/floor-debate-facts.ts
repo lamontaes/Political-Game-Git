@@ -31,6 +31,13 @@ import type { Fact } from "../english/scene-talk-words";
 
 type Reason = "own-view" | "people" | "own-bill";
 
+/** The parts of a member's position that can be said aloud. */
+export interface SaidPosition {
+  readonly views: number;
+  readonly constituents: number;
+  readonly sponsor: number;
+}
+
 /**
  * Every part said aloud that leans the way the member speaks or voted,
  * largest first: their own view, the people they speak for, or that the bill
@@ -38,11 +45,7 @@ type Reason = "own-view" | "people" | "own-bill";
  * never among them.
  */
 export function publicReasons(
-  position: {
-    readonly views: number;
-    readonly constituents: number;
-    readonly sponsor: number;
-  },
+  position: SaidPosition,
   speaksFor: boolean,
   wroteIt: boolean,
 ): Reason[] {
@@ -66,7 +69,7 @@ export function publicReasons(
  * on the floor, gives their own view.
  */
 export function publicReason(
-  position: Parameters<typeof publicReasons>[0],
+  position: SaidPosition,
   speaksFor: boolean,
   wroteIt: boolean,
 ): Reason {
