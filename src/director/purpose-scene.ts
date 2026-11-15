@@ -29,11 +29,13 @@ import {
   absenceCarries,
   askPrice,
   billOf,
+  declinedAsks,
   bodyRow,
   deskPassage,
   favorWorth,
   floorDateOf,
   memberPosition,
+  signOnRecord,
   votesOn,
 } from "../core2/modules/legislature";
 import {
@@ -66,7 +68,11 @@ import {
   spokenDesignation,
 } from "../english/bill-names";
 import { areaName } from "../english/area-names";
-import { NAMED_QUESTIONS, questionAbout } from "../english/question-names";
+import {
+  NAMED_QUESTIONS,
+  questionAbout,
+  questionSaid,
+} from "../english/question-names";
 import { floorDebateFacts } from "./floor-debate-facts";
 import { raceTurnoutFacts } from "./race-turnout-facts";
 import { DONOR_ASK_TYPE, donorAskFacts } from "./donor-ask-facts";
@@ -727,6 +733,69 @@ function composeBinding(
       facts.bill = {
         text: `the ${name.title}`,
         sourceRecordIds: [moment.causeId],
+      };
+  }
+  // The player's ask of a colleague to sign on to their bill (legislature.ts
+  // askToSignOn): the bill said by what it does, the reason the colleague
+  // would give for a no (never a deal, a lobby or a bribe), and whether the
+  // player asked them before and was turned down.
+  if (record?.kind === "sign-on-asked" && said.billId && named) {
+    const api = coreAPI(core as CoreState);
+    const [asked] = named.provisions;
+    const subject = asked?.question ? questionSaid(asked.question) : null;
+    if (subject)
+      facts.said = {
+        text: subject,
+        sourceRecordIds: [named.id, moment.causeId],
+      };
+    const position = memberPosition(api, named.id, askerId);
+    const past = signOnRecord(api, askerId, named);
+    // The reason a colleague says aloud: the part of their position that
+    // weighs most against the bill among those a colleague names (their
+    // views, the people they represent, their party's leaders), or holding to
+    // a past stand where a past no vote on the question is on the record.
+    // Temperament, a wing, a deal or a lobby are never said; a no they alone
+    // carry is said as the member's own view.
+    const sayable = [
+      { name: "views", value: position.views },
+      { name: "constituents", value: position.constituents },
+      { name: "party", value: position.party ?? P.zero },
+      ...(past.votedAgainst
+        ? [{ name: "consistency", value: position.consistency }]
+        : []),
+    ];
+    const [worst] = sayable
+      .filter((row) => row.value < P.zero)
+      .sort((a, b) => a.value - b.value);
+    const reason = worst?.name ?? "views";
+    facts[`no-${reason}`] = {
+      text: "yes",
+      sourceRecordIds: [named.id, moment.causeId],
+    };
+    // A past no vote is said only where the record holds it.
+    if (past.votedAgainst)
+      facts["voted-against-before"] = {
+        text: "yes",
+        sourceRecordIds: [past.votedAgainst, moment.causeId],
+      };
+    // Turned down before on the same question, on an earlier bill.
+    const [section] = named.provisions;
+    const question = section?.question;
+    const before = declinedAsks(
+      api,
+      askedId,
+      askerId,
+      named.bodyOfficeId,
+      "sign-on",
+    ).filter(
+      (row) =>
+        row.billId !== named.id &&
+        row.provisions.some((other) => other.question === question),
+    );
+    if (before.length)
+      facts["asked-before"] = {
+        text: "yes",
+        sourceRecordIds: [before.at(-P.one)!.id, moment.causeId],
       };
   }
   // A job offer (jobs.ts offerToPlayer): the employer, the position with its

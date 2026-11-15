@@ -2238,15 +2238,22 @@
     },
     "filing-clerk": {
       "state": "tell",
-      "stateMoves": ["tell-running", "tell-race", "tell-duty", "tell-deadline"],
+      "stateMoves": [
+        "tell-running",
+        "tell-race",
+        "tell-duty",
+        "tell-deadline",
+        "tell-filing-fee"
+      ],
       "replies": ["agree", "ask", "confront", "leave"],
       "follow": {
-        "agree": ["accept"],
+        "agree": ["accept", "refuse"],
         "ask": ["answer"],
         "confront": ["answer"]
       },
       "again": {
-        "answer": ["agree", "leave"]
+        "answer": ["agree", "leave"],
+        "refuse": ["come-back", "leave"]
       },
       "endings": [
         {
@@ -4256,6 +4263,65 @@
           "keeps": "none",
           "when": {
             "reply": ["thank"]
+          }
+        },
+        {
+          "id": "left-there",
+          "label": "Left it there",
+          "keeps": "none",
+          "when": {}
+        }
+      ]
+    },
+    "cosponsor-ask": {
+      "state": "request",
+      "asks": {
+        "note": "The player asks a colleague to sign on to their bill: the colleague answers yes if they already lean for it, not yet if a favor to the player would carry them, no otherwise, and a no says the reason the record holds (publicDeclineReason). Asked again: a plea carries them where the favor would; pressing holds them only where they lean for it; letting it go wins nothing. A yes is thanked, and the colleague closes on it.",
+        "yes": "agree",
+        "carried": "stall",
+        "no": "refuse",
+        "relent": ["relent", "agree"],
+        "thanks": "thank",
+        "thanked": "accept",
+        "again": [
+          {
+            "move": "plea",
+            "carries": "favor"
+          },
+          {
+            "move": "press",
+            "carries": "lean"
+          },
+          {
+            "move": "accept",
+            "carries": "none"
+          }
+        ]
+      },
+      "replies": ["agree", "refuse", "stall"],
+      "endings": [
+        {
+          "id": "signed-on",
+          "label": "Put their name on it",
+          "keeps": "favor-owed",
+          "when": {
+            "reply": ["agree", "relent", "accept"]
+          }
+        },
+        {
+          "id": "refused",
+          "label": "Turned you down",
+          "keeps": "relationship-strained",
+          "when": {
+            "reply": ["refuse"]
+          }
+        },
+        {
+          "id": "not-yet",
+          "label": "Not yet",
+          "keeps": "none",
+          "when": {
+            "reply": ["stall"]
           }
         },
         {
