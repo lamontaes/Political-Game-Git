@@ -313,11 +313,16 @@ describe("a kind with several arcs", () => {
             `${family}: ${a} and ${b} are one arc in two coats`,
           ).toBe(true);
         }
-      // The variants differ in the step or the replies they offer: at least
-      // three skeletons where a family has four or more variants, and where it
-      // has three, at least two (constituent-help kept eviction, plain and
-      // sick once lost-job and short-pay went to the case-help move set; a
-      // lone skeleton would fail either way).
+      // The variants differ in the step or the replies they offer. Old
+      // premise: at least three skeletons, which held while constituent-help
+      // had five variants (plain, eviction, sick, lost-job, short-pay) with
+      // their own steps. lost-job and short-pay were deleted as duplicates of
+      // the plain arc worded by the case-help move set (#9394), leaving three
+      // variants of which two share a skeleton, so a floor of three cannot
+      // hold: it is min(3, variants minus 1) until sick has steps of its own
+      // (pool item words-sick-case-help-variant-gets-its-own-steps), when the
+      // floor goes back to one skeleton per variant. The pair check above
+      // still fails when two variants are one arc in two coats.
       const skeletons = new Set(
         names.map(
           (name) => `${shapes.get(name)!.state}|${shapes.get(name)!.replies}`,
