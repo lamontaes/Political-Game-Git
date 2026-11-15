@@ -33,3 +33,7 @@ root: rc10-screens-keep-own-facts
 **Waits on.** Nothing.
 
 **Files.** scripts/speed-years/profile-year.ts
+
+**Notes.**
+
+- Nov 15, 2026, account lead laws thread: a second town is over the bar on the train. Hartsville, South Carolina (4532560, seed credit-b), `npm run speed:year -- --seed credit-b --years 1 --exclusive` on train head 2190669eda61e1e3f8734d0ca237a40860093edb took 127.0 and 137.4 s, and with #9349's change on top 130.5 and 130.8 s (415,526 records each time; most in law-effects applied 37,714, counted coverage 29,100 and medical bills 21,642). That is about 31 s per 100k records, the same cost per record as Forest's slow head, so it is likely the same cause; the bisect should time this seed too.
