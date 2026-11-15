@@ -12,7 +12,7 @@ pr:
 after:
 blocked-on:
 lead: elections
-source: "Account lead's scene build-out, Nov 15, 2026 (/mnt/project-files/scene-buildout/rulings-and-briefs.md, section 1); not for now (Account lead, Nov 15 02:39Z)"
+source: "Account lead's scene build-out, Nov 15, 2026 (the build-out's rulings-and-briefs, section 1, in the project's shared files); not for now (Account lead, Nov 15 02:39Z)"
 model: fable
 effort: medium
 root: none

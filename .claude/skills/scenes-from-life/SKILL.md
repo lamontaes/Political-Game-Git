@@ -23,6 +23,17 @@ The owner's examples are a floor. Any record the simulation keeps can call a sce
 6. **File the trail.** The episode's packet, the gaps, and what shipped go in `docs/design/scenes/from-life/<slug>.md` (packet and citations; never the real name in any player-facing file), and the item's Notes name that file.
    A packet PR (research only, no scene firing) opens with `Touches pool item: <id>`, never `Pool item: <id>`: line 1 flips the feature item to merged on the merge (Oct 27: #6304 and #6314 were sent back for it).
 
+## Building out many classes at once (owner, Nov 15, 2026)
+
+When the ask is breadth ("keep adding a bunch of scenes... use people's real lives"), work as a catalog, not one episode at a time. The Nov 15 catalog is `docs/design/scenes/scene-catalog.md`, read by machines as `docs/design/scenes/scene-catalog.json` (37 classes, the form below); add rows to it rather than starting another.
+
+- **One row per class, never per episode.** Each row names: the real lives behind it (cited), who, where, the cause record (the file and line you read), depth (turns, where the player steers, the long form), what it writes, which later scenes read that ending, whether the engine can do it now, with a small addition or only with a new mechanism, and the thread that owns it.
+- **The outcome rule first** (owner, Nov 15 02:32Z): a class whose ending writes nothing another engine reads is dropped or folded into a scene that does, unless it is a step inside an event's arc that unlocks later scenes. Run every row through it before proposing.
+- **Look for an engine that already does it for everyone but the player.** The cheapest scenes are acts the world already performs between people and skips for the player by name: on Nov 15 every candidate asked their closest people for an endorsement each turn, except the player (`campaigns.ts`, `id !== playerId`), and a favor the player owed was a stopgap. Search `playerId` exclusions and `SG-*-player-*` stopgaps in the engine you are reading.
+- **Look for traits nobody decides with.** A trait read only by wordings (`arc-variants.json`, `grading-profiles.json`) and by no decision is a missing mechanism (Nov 15: `truthfulness` decided nothing, so nobody could lie to the player).
+- **Design questions go through `look-first` across every area's prior-rulings digest** before they reach the lead; all three of the Nov 15 catalog's questions were already ruled.
+- **Sources that worked from a cloud session (Nov 15):** WebFetch reaches the Miller Center's "Life Before the Presidency" pages, Wikipedia, History.com, the Encyclopedia of Arkansas, Flatland KC, Atlanta Magazine and BlackPast; `curl` from the container does not reach most of them. Ask the fetch for numbered episodes with who, trigger, choice and consequence.
+
 ## SMART shape of a scenes-from-life item (it also carries `standard: 2`)
 
 - **Specific:** the episode (by slug), the producer or bank it adds, the files.

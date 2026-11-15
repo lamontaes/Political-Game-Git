@@ -12,7 +12,7 @@ pr:
 after:
 blocked-on:
 lead: governing
-source: "owner, Nov 15, 2026, 02:27Z (a keynote at a partisan national convention, 10 to 20 clicks); Account lead's scene build-out (/mnt/project-files/scene-buildout/rulings-and-briefs.md, section 1)"
+source: "owner, Nov 15, 2026, 02:27Z (a keynote at a partisan national convention, 10 to 20 clicks); Account lead's scene build-out (the build-out's rulings-and-briefs, section 1, in the project's shared files)"
 model: fable
 effort: medium
 root: none
