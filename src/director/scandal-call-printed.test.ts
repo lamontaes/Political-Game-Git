@@ -80,13 +80,13 @@ const CALLS: readonly {
     outlet: "television",
   },
   {
-    name: "asks a news site who told, lies, then says no more",
-    moves: ["confront", "lie", "deflect"],
+    name: "lies to a news site, then tells them to run it",
+    moves: ["lie", "confront"],
     outlet: "online",
   },
   {
-    name: "lies to a magazine, then tells them to run it",
-    moves: ["lie", "confront"],
+    name: "owns it to a magazine, then has to go",
+    moves: ["confess", "leave"],
     outlet: "magazine",
   },
   { name: "no call, the player", moves: null },
@@ -387,8 +387,8 @@ const CONFLICT_WORLDS: readonly {
     seed: "conflict-scan-5",
     calls: [
       {
-        name: "conflict, your own firm, lies, then says the papers are wrong",
-        moves: ["lie", "lie"],
+        name: "conflict, your own firm, asks who told, lies, then says no more",
+        moves: ["confront", "lie", "deflect"],
       },
     ],
   },
