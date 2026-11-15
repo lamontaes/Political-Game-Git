@@ -285,19 +285,15 @@ it("says a choice of office as the kind of place the races are for", () => {
   expect(saidOffice("Town clerk (party)", [])).toBe("Town clerk");
 });
 
-// An office the research gives as a rule is never said as the rule (Words
-// lead, second reader, Nov 15, South Vienna, Ohio: "with the board of
-// elections of the most populous county in the district"); the clerk's own
-// body is said instead, or nothing.
-it("never says an office the note gives only as a rule", () => {
-  const rules = [
+// An office the research gives as a rule is resolved to its body before it is
+// said (`ruleOfficeBody`); only where the game cannot tell does the rule's own
+// wording stand (Words lead, second reader, Nov 15, South Vienna, Ohio).
+it("marks the offices given as a rule and no others", () => {
+  for (const note of [
     "Board of elections of the most populous county in the district",
     "General registrar of the city or county where the town lies",
-  ];
-  for (const note of rules) {
+  ])
     expect(describesByRule(spokenOffice(note))).toBe(true);
-    expect(saidOffice(note, [{ title: "U.S. Representative" }])).toBeNull();
-  }
   for (const note of [
     "County board of elections (counter: director)",
     "Secretary of State (multi-county districts) or the county clerk",

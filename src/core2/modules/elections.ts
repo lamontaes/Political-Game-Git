@@ -25,6 +25,7 @@ import {
 } from "../law-reach/group-a-voting";
 import { campaignParameter } from "../campaign-data";
 import { shareValue } from "../shares";
+import { describesByRule, ruleOfficeBody } from "../filing-rule-office";
 import { PARTIES_MODULE_ID, partiesHere, partyTie } from "./parties";
 
 /** The parties module's id and readers, for readers outside the elections family (the director's party veterans, a first meeting's shared party) to take from the family's entry. */
@@ -614,9 +615,16 @@ export function filingRulesFor(
       : stateRules;
   // A side's own deadline is read for the 2026 cycle only; other years'
   // contests keep the deadline from their own calendar.
-  return contest.electionDate.startsWith("2026-")
+  const dated = contest.electionDate.startsWith("2026-")
     ? rules
     : { ...rules, deadline: null };
+  // An office the data gives as a rule is the body it points to for this
+  // town; where the game cannot tell (a state legislative district) the
+  // rule's own wording stays.
+  const body = describesByRule(dated.filedWith)
+    ? ruleOfficeBody(dated.filedWith, contest.family, town(api).geoid)
+    : null;
+  return body ? { ...dated, filedWith: body } : dated;
 }
 
 function localFilingOfficer(usps: string, family: OfficeFamily): string {

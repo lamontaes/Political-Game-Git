@@ -171,12 +171,9 @@ export function openFilingVisit(
         // said as the place's own kind; where the records do not settle it, the
         // town is said instead.
         ...((): Record<string, Fact> => {
-          // A body resolved from a rule is a proper name ("Franklin County
-          // board of elections"), said as it stands.
-          const named =
-            filedWith && describesByRule(spokenOffice(filedWith))
-              ? clerkBody
-              : null;
+          // The body a person works for, named in the records, is a proper
+          // name ("Franklin County board of elections"), said as it stands.
+          const named = filedWith && clerkBody ? clerkBody : null;
           const said =
             named ?? (filedWith ? saidOffice(filedWith, contests) : null);
           return said
@@ -255,7 +252,6 @@ export function saidOffice(
   }[],
 ): string | null {
   const office = spokenOffice(note);
-  if (describesByRule(office)) return null;
   const choice = /^(?<one>\w+) or (?<other>\w+) (?<rest>.+)$/i.exec(
     office,
   )?.groups;

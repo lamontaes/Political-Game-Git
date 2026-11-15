@@ -23,8 +23,16 @@ import { describesByRule } from "../filing-rule-office";
 import {
   ELECTIONS_MODULE_ID,
   filingOfficeFor,
+  filingRequirements,
   type ContestRow,
 } from "./elections";
+
+/** Whether the data gives a contest's filing office as a rule, not a name. */
+function givenAsRule(api: CoreAPI, contest: ContestRow): boolean {
+  return describesByRule(
+    filingRequirements(lawChain(api).stateKey, contest.family).filedWith,
+  );
+}
 
 /** The elected offices whose holder is the clerk at a filing counter. */
 const CLERK_SEAT_KINDS: ReadonlySet<string> = new Set([
@@ -74,10 +82,12 @@ function stateClerkFor(api: CoreAPI, contest: ContestRow): FilingClerk | null {
   const core = api.state as CoreState;
   // An office the data gives as a rule is the person seated at the body the
   // rule points to for this town; with none, the counter has no one to name.
-  if (describesByRule(filingOfficeFor(api, contest.id).filedWith)) {
+  if (givenAsRule(api, contest)) {
+    const body = filingOfficeFor(api, contest.id).filedWith;
     const seated = agencyHeadsIn(api, lawChain(api).stateKey).find(
       (row) =>
         row.post === `${RULE_FILING_OFFICER_POST}:${contest.family}` &&
+        row.title === body &&
         living(core, row.holderId),
     );
     return seated
@@ -159,7 +169,7 @@ export function filingClerkFor(
     return stateClerkFor(api, contest);
   // The town's filing office given as a rule (a county's general registrar) is
   // the drawn officer seated for that body, not the town clerk the records name.
-  if (describesByRule(filingOfficeFor(api, contest.id).filedWith)) {
+  if (givenAsRule(api, contest)) {
     const drawn = drawnLocalOfficer(api, contest.family);
     // The body is a proper name, the agency they head.
     return drawn ? { ...drawn, heads: drawn.title } : null;
