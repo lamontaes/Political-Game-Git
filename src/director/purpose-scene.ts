@@ -7,7 +7,7 @@
  * the cause record, its kind and date, and every fact with the records it
  * came from.
  */
-import { saidAs } from "../english/said-as";
+import { saidAs, sayableJobTitle } from "../english/said-as";
 import { tellingOf } from "../english/telling";
 import { saidPersonOf } from "./said-person";
 import { placeStateKey } from "../core2/place-map";
@@ -95,7 +95,7 @@ import {
 } from "../core2/modules/news";
 import { MOVED_AWAY_EVENT, departureOf } from "../core2/modules/moves";
 import { disasterSaid, homeSaid } from "../english/disaster-words";
-import { seatSaid, withArticle } from "../english/journal-words";
+import { jobSaid, seatSaid, withArticle } from "../english/journal-words";
 import { causeGroupName } from "../english/group-names";
 import { contractSaid } from "../english/contract-words";
 import {
@@ -1984,7 +1984,9 @@ function composeBinding(
       sourceRecordIds: [askerId],
     };
     facts.office = {
-      text: officeSaidAloud(serve.office),
+      text: officeSaidAloud(
+        serve.seat === "post" ? postTitleSaid(serve.office) : serve.office,
+      ),
       sourceRecordIds: [moment.causeId, serve.askId],
     };
     // Why a no is a no: the term that weighed most against the ask, which
@@ -2013,7 +2015,46 @@ function composeBinding(
       text: `${asked.givenName} ${asked.familyName}`,
       sourceRecordIds: [askedId],
     };
-    if (serve.raceOffice)
+    // A post the player appoints, not a place on their ticket: the lines
+    // that speak of a ticket, a race or a ballot are held to the ticket.
+    if (serve.seat === "post") {
+      facts["serve-post"] = { text: "yes", sourceRecordIds: why };
+      // A council or chamber still confirms whoever is named: a yes is not
+      // yet the job (Words lead, Nov 14 19:15Z).
+      if (serve.grounds.confirmed)
+        facts.confirm = { text: "yes", sourceRecordIds: why };
+      // Pay, from two different records: out of work, or a raise.
+      const job = serve.grounds.jobId
+        ? core.jobs.get(serve.grounds.jobId)
+        : undefined;
+      if (!job) facts["out-of-work"] = { text: "yes", sourceRecordIds: why };
+      else if ((serve.terms.pay ?? P.zero) > P.zero)
+        facts["pay-raise"] = {
+          text: "yes",
+          sourceRecordIds: [...why, job.id],
+        };
+      // Their work is in the post's own field: the player can say they have
+      // done the work, as the job they hold.
+      if (job && serve.grounds.inField) {
+        facts["post-field"] = {
+          text: "yes",
+          sourceRecordIds: [...why, job.id],
+        };
+        // An occupation group's plural name ("Registered Nurses") is not one
+        // person's job, so it is not said.
+        if (
+          sayableJobTitle(job.title) &&
+          !/[^su]s$/i.test(
+            job.title.trim().split(/\s+/).at(P.negativeOne) ?? "",
+          )
+        )
+          facts["their-office"] = {
+            text: jobSaid(job.title),
+            sourceRecordIds: [...why, job.id],
+          };
+      }
+    }
+    if (serve.raceOffice && serve.seat !== "post")
       facts["race-office"] = {
         text: officeSaidAloud(serve.raceOffice),
         sourceRecordIds: why,
@@ -2044,7 +2085,7 @@ function composeBinding(
         sourceRecordIds: [...why, ...serve.grounds.stories],
       };
     // The question they hold most strongly, as the read found it.
-    const issue = questionAbout(serve.question);
+    const issue = questionSaid(serve.question);
     if (issue)
       facts.issue = {
         text: issue,
@@ -2337,6 +2378,7 @@ function serveStanding(
       terms: Readonly<Record<string, number>>;
       raceOffice: string;
       moved: string | null;
+      seat: string;
     }
   | undefined {
   const row = serveAsk(coreAPI(core as CoreState), said.askId ?? "");
@@ -2362,7 +2404,24 @@ function serveStanding(
     yesReason: row.standing.yesReason,
     grounds: row.standing.grounds,
     moved: row.moved ?? null,
+    seat: row.seat,
   };
+}
+
+/**
+ * A post's title as one title a person can say: the research gives some
+ * posts two names ("Revenue / Tax Commissioner", "Agriculture
+ * Commissioner/Director"), and a person says the first, with the post's
+ * role word where the first name is only its field ("revenue commissioner").
+ * A note in parentheses is not said.
+ */
+function postTitleSaid(title: string): string {
+  const plain = title.replace(/\s*\([^)]*\)/g, "").trim();
+  const names = plain.split("/").map((name) => name.trim());
+  const first = names[P.zero]!;
+  if (names.length < P.two || /\s/.test(first)) return first;
+  const role = plain.split(/\s+/).at(P.negativeOne)!;
+  return `${first} ${role}`;
 }
 
 /**

@@ -1363,6 +1363,27 @@ export function statePostsToFill(
     .map((p) => ({ key: p.key, title: p.title }));
 }
 
+/**
+ * Whether a post the player appoints still goes to a confirming body: a town
+ * post to the council where its form says so, a state post to the chamber
+ * where the state's law says so.
+ */
+export function postConfirmed(
+  api: CoreAPI,
+  level: "town" | "state",
+  post: string,
+): boolean {
+  if (level === "town")
+    return /council/.test(
+      townPosts(api).find((s) => s.key === post)?.confirmedBy ?? "",
+    );
+  return /senate|legislature/.test(
+    RESEARCH.places[lawChain(api).stateKey]?.cabinet?.positions?.find(
+      (p) => p.key === post,
+    )?.confirmedBy ?? "",
+  );
+}
+
 /** The people a state post could go to, best first by the governor's own reasons. */
 export function stateCandidates(
   api: CoreAPI,
