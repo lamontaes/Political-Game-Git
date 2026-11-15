@@ -103,8 +103,120 @@ export function closenessBetween(
  */
 type SharedHours = (core: object, a: PersonId, b: PersonId) => number;
 const sharedReaders = new Set<SharedHours>();
-export function registerSharedHours(reader: SharedHours): void {
+
+/**
+ * Who a reader's record says a person knows, and when two of them shared
+ * time: a reader of shared hours answers from the set it already keeps (the
+ * colleagues one knows through a body's sittings), so "who does this person
+ * know" and "have these two met" have one answer for every engine and scene.
+ */
+export interface KnownThrough {
+  /** The kind of tie the reader's hours fade as. */
+  readonly kind: string;
+  /** Everyone the record says this person knows, nearest first by the record's own order. */
+  readonly knownTo: (core: object, id: PersonId) => readonly PersonId[];
+  /** The first and the last day the two shared time in the record, and the record; null when they have not. */
+  readonly together: (
+    core: object,
+    a: PersonId,
+    b: PersonId,
+  ) => { first: IsoDate; last: IsoDate; sourceId: string } | null;
+}
+const knownReaders = new Map<SharedHours, KnownThrough>();
+
+export function registerSharedHours(
+  reader: SharedHours,
+  known?: KnownThrough,
+): void {
   sharedReaders.add(reader);
+  if (known) knownReaders.set(reader, known);
+}
+
+/**
+ * Everyone a person knows: those they have a tie row with, and those a
+ * registered reader's record says they know (colleagues they sit with).
+ */
+export function knownPeople(
+  core: Pick<CoreState, "relationships" | "relationshipsByPerson">,
+  id: PersonId,
+): ReadonlySet<PersonId> {
+  const out = new Set<PersonId>(knownThroughRecords(core, id));
+  for (const key of core.relationshipsByPerson.get(id) ?? []) {
+    const row = core.relationships.get(key);
+    if (row) out.add(row.actorId === id ? row.otherId : row.actorId);
+  }
+  return out;
+}
+
+/** The half of `knownPeople` no tie row holds: those a registered reader's record says a person knows, in its order. */
+export function knownThroughRecords(
+  core: object,
+  id: PersonId,
+): ReadonlySet<PersonId> {
+  const out = new Set<PersonId>();
+  for (const known of knownReaders.values())
+    for (const other of known.knownTo(core, id)) out.add(other);
+  out.delete(id);
+  return out;
+}
+
+/**
+ * Whether, and since when, two people have met: their tie row (its last
+ * contact and id), or else the first day a registered reader's record says
+ * they shared time (the first sitting of a body both sit on) and that record.
+ * Null when neither says so: an act on record with no time together is not a
+ * meeting.
+ */
+export function metThrough(
+  core: Pick<CoreState, "relationships">,
+  a: PersonId,
+  b: PersonId,
+): { date: IsoDate; sourceId: string } | null {
+  if (a === b) return null;
+  const key = a < b ? `${a}:${b}` : `${b}:${a}`;
+  const row = core.relationships.get(key);
+  if (row) return { date: row.lastContactDate, sourceId: row.id };
+  let first: { date: IsoDate; sourceId: string } | null = null;
+  for (const known of knownReaders.values()) {
+    const met = known.together(core, a, b);
+    if (met && (!first || met.first < first.date))
+      first = { date: met.first, sourceId: met.sourceId };
+  }
+  return first;
+}
+
+/**
+ * The hours a tie has lost since the two were last together, over all its
+ * time: the row's own since its last contact, and each reader's shared hours
+ * since the last day its record had them together, at the same half-life.
+ * What a person misses about someone they have not seen.
+ */
+export function tieHoursLost(
+  core: Pick<
+    CoreState,
+    "data" | "date" | "relationships" | "relationshipsByPerson"
+  >,
+  a: PersonId,
+  b: PersonId,
+): number {
+  const p = lookup(core);
+  const row = core.relationships.get(a < b ? `${a}:${b}` : `${b}:${a}`);
+  let lost = row ? hoursLost(core, row) : p("zero");
+  for (const [reader, known] of knownReaders) {
+    const met = known.together(core, a, b);
+    if (!met) continue;
+    const now = reader(core, a, b);
+    // The reader's hours are already faded to today; the hours at the last
+    // day together were that much more.
+    lost +=
+      now *
+      (Math.pow(
+        p("two"),
+        elapsed(p, met.last, core.date) / halfLifeDays(p, known.kind),
+      ) -
+        p("one"));
+  }
+  return lost;
 }
 
 /** The hours every registered reader says two people shared, faded to today. */

@@ -6,13 +6,18 @@ import { setBookkeeping } from "./bookkeeping";
 import { settleEstate } from "./estates";
 import { gameStartDate } from "./game-start";
 import type { HomeSale } from "./housing-sale";
+import { buyListedHome } from "./housing-sale-buyer-fixture";
+import { townOutsideOf } from "./opening-outside-market";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import { coreAPI, registerModule } from "./state";
 import type { CoreEventInput, CoreState } from "./types";
 
-// A home whose owners have all died is sold when probate closes
-// (world-estate-sells-the-home).
+// A home whose owners have all died goes on the market when probate would
+// close, and the estate stays open with the house in it until a buyer takes
+// it (world-estate-sells-the-home, world-buyer-pays-the-selling-household):
+// the buyer pays the estate, the lender is paid first, and probate then pays
+// the heirs.
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 
 /** The heir payments an `estate.settled` record names: the transfer id `estate:<decedent>:<heir>` and the amount. */
@@ -108,10 +113,32 @@ it(`the last owner's death sells the home when probate closes, the lender first 
       `${where}: ${owner.id} owned before probate closes`,
     ).toBe("own");
     advanceCore(core, addDays(makeIsoDate(core.date), 280));
-    const sale = (housing.table("sales").rows() as unknown as HomeSale[]).find(
-      (row) => row.householdId === owner.id,
+    const listed = (
+      housing.table("sales").rows() as unknown as HomeSale[]
+    ).find((row) => row.householdId === owner.id);
+    expect(listed, `${where}: a sale for ${owner.id}`).toBeDefined();
+    if (listed!.status === "listed") {
+      // Unsold: the estate it belongs to is still open, with the house in it.
+      expect(
+        heard.filter((e) => e.facts?.decedentId === listed!.decedentId),
+        `${where}: no estate settled while its house is for sale`,
+      ).toEqual([]);
+      // A buyer from outside the town takes it and pays the estate; probate closes at its next look.
+      buyListedHome(
+        api,
+        listed!.id,
+        townOutsideOf(state.organizations.values(), owner.placeId)!.id,
+      );
+      advanceCore(core, addDays(makeIsoDate(core.date), 35));
+    }
+    // Sold in play close to the run's end: probate closes at its next monthly look.
+    else if (!heard.some((e) => e.facts?.decedentId === listed!.decedentId))
+      advanceCore(core, addDays(makeIsoDate(core.date), 35));
+    const sale = housing.table("sales").get(listed!.id) as unknown as HomeSale;
+    expect(sale.status, `${where}: ${sale.id} sold`).toBe("sold");
+    expect(sale.boughtBy?.length, `${where}: ${sale.id} names its buyer`).toBe(
+      1,
     );
-    expect(sale, `${where}: a sale for ${owner.id}`).toBeDefined();
     expect(sale!.id).toBe(`home-sale:${owner.id}:${sale!.date}`);
     expect(sale!.reasonKey).toBe("estate.probate-closes");
     if (mortgaged)

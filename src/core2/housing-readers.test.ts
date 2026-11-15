@@ -1,7 +1,6 @@
 import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
-import { homePriceRatio } from "./housing-prices";
 import { createLifeCore } from "./life";
 import {
   HOUSING_MODULE,
@@ -24,7 +23,7 @@ const source: Source = {
 };
 
 describe(`housing reads in ${place.name}, seed ${seed}`, () => {
-  it("filters both tiers without changing values and rereads changed opening dates", () => {
+  it("filters both tiers and rereads a changed place price level", () => {
     const people = ["full", "counted", "elsewhere", "renter"].map((id) => ({
       id,
       givenName: id,
@@ -73,7 +72,16 @@ describe(`housing reads in ${place.name}, seed ${seed}`, () => {
         valueMinor: 10000000,
         basis: p.id === "elsewhere" ? "purchase" : "opening",
       });
-    state.table("state").put({ id: "housing:state", openedAt: "2021-01-01" });
+    // The place's price level has risen a tenth since the opening; the other place keeps none.
+    const level = (now: number) =>
+      state.table("stock").put({
+        id: `stock:${place.key}`,
+        placeId: place.key,
+        priceScaleMinor: 1,
+        priceLevelMinor: now,
+        openingPriceLevelMinor: 10000000,
+      });
+    level(11000000);
     const all = ownedHomes(api),
       local = ownedHomes(api, place.key);
     expect(local).toEqual(all.filter((row) => row.placeId === place.key));
@@ -83,16 +91,14 @@ describe(`housing reads in ${place.name}, seed ${seed}`, () => {
     ]);
     expect(core.people.has("counted")).toBe(false);
     expect(ownedHomes(api, "place:absent")).toEqual([]);
-    state.table("state").put({ id: "housing:state", openedAt: date });
+    // The one value rule: an opening home's value is its value times the level now over the opening's.
+    expect(all.find((row) => row.householdId === "home:full")?.valueMinor).toBe(
+      11000000,
+    );
+    level(10000000);
     expect(ownedHomes(api, place.key).map((row) => row.valueMinor)).toEqual([
       10000000, 10000000,
     ]);
-    expect(all.find((row) => row.householdId === "home:full")?.valueMinor).toBe(
-      Math.round(
-        10000000 *
-          homePriceRatio(place.state.slice(3), "2021-01-01", date, core.seed),
-      ),
-    );
     expect(ownedHomes(api, "place:elsewhere")[0]?.valueMinor).toBe(10000000);
     const batch = townFiguresByPlace(
       api,
