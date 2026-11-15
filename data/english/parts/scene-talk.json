@@ -71610,7 +71610,7 @@
       "key": "scene-talk.open-greet.thank-you-for-taking-this",
       "move": "open-greet",
       "kind": "spoken",
-      "text": "Thank you for taking this.",
+      "text": "Thanks for letting me ask.",
       "uses": [
         {
           "subject": "scene",
@@ -72539,7 +72539,7 @@
       "key": "scene-talk.follow-press.easy-to-say-from-up-there",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "Easy to say from up there.",
+      "text": "Easy to say when the room is listening.",
       "uses": [
         {
           "subject": "scene",
