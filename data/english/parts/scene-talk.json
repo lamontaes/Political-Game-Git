@@ -3497,30 +3497,6 @@
       }
     },
     {
-      "key": "scene-talk.state-confront.nice-speech-too-bad-none-of-it-was-true",
-      "move": "state-confront",
-      "kind": "spoken",
-      "text": "Nice speech. Too bad none of it was true.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "confront",
-          "role": "asker",
-          "purpose": "rally-opponent",
-          "key": "threat"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "confront",
-        "key": "threat"
-      }
-    },
-    {
       "key": "scene-talk.state-confront.you-can-t-win-this-you-know",
       "move": "state-confront",
       "kind": "spoken",
