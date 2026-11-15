@@ -191,6 +191,8 @@ const yearsServed = (t: TermRow, date: string) =>
 
 /** Each member's lean, worked out once per organization (a body can be all of Congress). */
 let leans: Map<string, number> | null = null;
+/** How one member rates another, worked out once per organization: every post's vote reads the same pair again. */
+let ratings: Map<string, number> | null = null;
 function leanFor(api: CoreAPI, t: TermRow): number {
   const key = memberKey(t);
   const known = leans?.get(key);
@@ -207,6 +209,21 @@ function leanFor(api: CoreAPI, t: TermRow): number {
  * slightly, years served.
  */
 function rating(
+  api: CoreAPI,
+  voter: TermRow,
+  candidate: TermRow,
+  partisan: boolean,
+): number {
+  if (!ratings) return ratingOf(api, voter, candidate, partisan);
+  const key = `${memberKey(voter)}|${memberKey(candidate)}|${partisan ? 1 : 0}`;
+  const known = ratings.get(key);
+  if (known !== undefined) return known;
+  const value = ratingOf(api, voter, candidate, partisan);
+  ratings.set(key, value);
+  return value;
+}
+
+function ratingOf(
   api: CoreAPI,
   voter: TermRow,
   candidate: TermRow,
@@ -243,12 +260,21 @@ function voteOf(
     return chosen?.candidateId ?? null;
   }
   const pool = candidates.filter((c) => memberKey(c) !== key);
-  const best = pool
-    .map((c) => ({ c, r: rating(api, voter, c, partisan) }))
-    .sort(
-      (x, y) => y.r - x.r || memberKey(x.c).localeCompare(memberKey(y.c)),
-    )[0];
-  return best ? memberKey(best.c) : null;
+  // The highest rating, a tie to the smaller member key (what sorting them and taking the first gave).
+  let best: TermRow | null = null;
+  let bestRating = 0;
+  for (const c of pool) {
+    const r = rating(api, voter, c, partisan);
+    if (
+      !best ||
+      r > bestRating ||
+      (r === bestRating && memberKey(c).localeCompare(memberKey(best)) < 0)
+    ) {
+      best = c;
+      bestRating = r;
+    }
+  }
+  return best ? memberKey(best) : null;
 }
 
 /** A plurality among the voters; a tie goes to the longest serving. */
@@ -338,10 +364,12 @@ export function organize(api: CoreAPI, body: string): readonly PostRow[] {
       chamber,
     ]) as unknown as PostRow[];
   leans = new Map();
+  ratings = new Map();
   try {
     return organizeNow(api, chamber, all, signature);
   } finally {
     leans = null;
+    ratings = null;
   }
 }
 

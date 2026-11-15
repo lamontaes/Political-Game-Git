@@ -30985,7 +30985,7 @@
       "key": "conversation.player-news-say-core.you-won-office-you-actually-won",
       "move": "player-news-say-core",
       "kind": "spoken",
-      "text": "You won the race for {office}. You actually won.",
+      "text": "You won {office}. You actually won.",
       "uses": [
         {
           "move": "player-news-say-core",
@@ -31033,7 +31033,7 @@
       "key": "conversation.player-news-say-core.i-saw-how-office-came-out",
       "move": "player-news-say-core",
       "kind": "spoken",
-      "text": "I saw how the race for {office} came out.",
+      "text": "I saw how {office} came out.",
       "uses": [
         {
           "move": "player-news-say-core",
@@ -31057,7 +31057,7 @@
       "key": "conversation.player-news-say-core.i-m-sorry-about-office",
       "move": "player-news-say-core",
       "kind": "spoken",
-      "text": "I'm sorry about the race for {office}.",
+      "text": "I'm sorry about {office}.",
       "uses": [
         {
           "move": "player-news-say-core",

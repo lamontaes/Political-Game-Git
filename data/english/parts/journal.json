@@ -3464,32 +3464,6 @@
       }
     },
     {
-      "key": "journal.election-line-own-result.i-lost-the-race-for-office-in-a-landslide",
-      "move": "election-line-own-result",
-      "kind": "spoken",
-      "text": "I lost the race for {office} in a landslide.",
-      "uses": [
-        {
-          "move": "election-line-own-result",
-          "subject": "election",
-          "role": "line",
-          "choice": "own-result",
-          "journal": [
-            {
-              "kindPrefix": "event:election",
-              "field": "ownLine"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
       "key": "journal.office-line-filing.i-went-to-filing-office",
       "move": "office-line-filing",
       "kind": "spoken",
@@ -6412,6 +6386,84 @@
       ],
       "origin": "authored",
       "author": "Words session (pool item play-first-10-journal-from-day-one)",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.money-line-law-effect-learned.i-found-out-law-changed-what-i-pay",
+      "move": "money-line-law-effect-learned",
+      "kind": "spoken",
+      "text": "I found out {law} changed what I pay.",
+      "uses": [
+        {
+          "move": "money-line-law-effect-learned",
+          "subject": "money",
+          "role": "line",
+          "choice": "law-effect-learned",
+          "journal": [
+            {
+              "kindPrefix": "event:law.effect-learned",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (pool item words-law-effect-learned-journal)",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.money-line-law-effect-learned.i-learned-law-is-behind-what-i-pay-now",
+      "move": "money-line-law-effect-learned",
+      "kind": "spoken",
+      "text": "I learned {law} is behind what I pay now.",
+      "uses": [
+        {
+          "move": "money-line-law-effect-learned",
+          "subject": "money",
+          "role": "line",
+          "choice": "law-effect-learned",
+          "journal": [
+            {
+              "kindPrefix": "event:law.effect-learned",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (pool item words-law-effect-learned-journal)",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.money-line-law-effect-learned.now-i-know-law-is-why-my-costs-changed",
+      "move": "money-line-law-effect-learned",
+      "kind": "spoken",
+      "text": "Now I know {law} is why my costs changed.",
+      "uses": [
+        {
+          "move": "money-line-law-effect-learned",
+          "subject": "money",
+          "role": "line",
+          "choice": "law-effect-learned",
+          "journal": [
+            {
+              "kindPrefix": "event:law.effect-learned",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (pool item words-law-effect-learned-journal)",
       "date": "2026-10-25",
       "tag": {
         "move": "tell"
@@ -10534,6 +10586,58 @@
       }
     },
     {
+      "key": "journal.scene-line-side-word-for.i-promised-other-i-d-back-about",
+      "move": "scene-line-side-word-for",
+      "kind": "spoken",
+      "text": "I promised {other} I'd back {about}.",
+      "uses": [
+        {
+          "move": "scene-line-side-word-for",
+          "subject": "scene",
+          "role": "line",
+          "choice": "side-word-for",
+          "journal": [
+            {
+              "kindPrefix": "scene-ending:side-word-for",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (Nov 15 10:58Z); S6 (gov-serve-ask-price-end)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.election-line-own-result.i-lost-the-race-for-office-in-a-landslide",
+      "move": "election-line-own-result",
+      "kind": "spoken",
+      "text": "I lost the race for {office} in a landslide.",
+      "uses": [
+        {
+          "move": "election-line-own-result",
+          "subject": "election",
+          "role": "line",
+          "choice": "own-result",
+          "journal": [
+            {
+              "kindPrefix": "event:election",
+              "field": "ownLine"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
       "key": "journal.home-line-met.i-met-named-in-place-when-i-was-age",
       "move": "home-line-met",
       "kind": "spoken",
@@ -11615,84 +11719,6 @@
       "origin": "authored",
       "author": "Words lead (ruled Nov 14), added by the Journal builder",
       "date": "2026-11-14",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.money-line-law-effect-learned.i-found-out-law-changed-what-i-pay",
-      "move": "money-line-law-effect-learned",
-      "kind": "spoken",
-      "text": "I found out {law} changed what I pay.",
-      "uses": [
-        {
-          "move": "money-line-law-effect-learned",
-          "subject": "money",
-          "role": "line",
-          "choice": "law-effect-learned",
-          "journal": [
-            {
-              "kindPrefix": "event:law.effect-learned",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session (pool item words-law-effect-learned-journal)",
-      "date": "2026-10-25",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.money-line-law-effect-learned.i-learned-law-is-behind-what-i-pay-now",
-      "move": "money-line-law-effect-learned",
-      "kind": "spoken",
-      "text": "I learned {law} is behind what I pay now.",
-      "uses": [
-        {
-          "move": "money-line-law-effect-learned",
-          "subject": "money",
-          "role": "line",
-          "choice": "law-effect-learned",
-          "journal": [
-            {
-              "kindPrefix": "event:law.effect-learned",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session (pool item words-law-effect-learned-journal)",
-      "date": "2026-10-25",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.money-line-law-effect-learned.now-i-know-law-is-why-my-costs-changed",
-      "move": "money-line-law-effect-learned",
-      "kind": "spoken",
-      "text": "Now I know {law} is why my costs changed.",
-      "uses": [
-        {
-          "move": "money-line-law-effect-learned",
-          "subject": "money",
-          "role": "line",
-          "choice": "law-effect-learned",
-          "journal": [
-            {
-              "kindPrefix": "event:law.effect-learned",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session (pool item words-law-effect-learned-journal)",
-      "date": "2026-10-25",
       "tag": {
         "move": "tell"
       }

@@ -19,6 +19,48 @@
     "opening-speech.to-states.polished-ina-sta-all-core-you-know-hardest-better-than-anyone-here-and-i": [
       "plain-american-spelling-and-phrasing"
     ],
+    "person-history.story.health.ill.i": [
+      "plain-american-spelling-and-phrasing"
+    ],
+    "person-history.story.health.ill.they": [
+      "plain-american-spelling-and-phrasing"
+    ],
+    "person-history.story.health.ill.third": [
+      "plain-american-spelling-and-phrasing"
+    ],
+    "person-history.story.moved.home.i.w2": [
+      "plain-american-spelling-and-phrasing"
+    ],
+    "person-history.story.moved.home.they.w2": [
+      "plain-american-spelling-and-phrasing"
+    ],
+    "person-history.story.moved.home.third.w2": [
+      "plain-american-spelling-and-phrasing"
+    ],
+    "person-history.story.office.entered-again.i": [
+      "plain-american-spelling-and-phrasing"
+    ],
+    "person-history.story.office.entered-again.they": [
+      "plain-american-spelling-and-phrasing"
+    ],
+    "person-history.story.office.entered-again.third": [
+      "plain-american-spelling-and-phrasing"
+    ],
+    "person-history.story.office.entered-always.i": [
+      "plain-american-spelling-and-phrasing"
+    ],
+    "person-history.story.office.entered-always.they": [
+      "plain-american-spelling-and-phrasing"
+    ],
+    "person-history.story.office.entered-always.third": [
+      "plain-american-spelling-and-phrasing"
+    ],
+    "person-history.story.school.elsewhere.i.w3": [
+      "plain-american-spelling-and-phrasing"
+    ],
+    "person-history.story.school.elsewhere.they.w3": [
+      "plain-american-spelling-and-phrasing"
+    ],
     "scene-talk.follow-answer.on-bill-they-re-scared-of-their-own-voters-that-s-the-whole-of-it": [
       "plain-american-spelling-and-phrasing"
     ],
@@ -281,6 +323,6 @@
   "awaitingVerdict": {
     "narration-assumes-no-reason": 0,
     "player-never-says-unchosen (pairs)": 0,
-    "reply-second-move-follows-the-first (pairs)": 11641
+    "reply-second-move-follows-the-first (pairs)": 11616
   }
 }
