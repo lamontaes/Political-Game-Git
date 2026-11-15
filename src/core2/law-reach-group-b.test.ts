@@ -1,12 +1,11 @@
 /**
- * Law reach, group B (audit item 13), in a random place drawn from all 56:
+ * Law reach, group B (audit item 13), at named places with a fixed seed:
  * every group B policy, once law, changes something real for named people,
  * counted residents or employers through the engine that owns it (pay,
  * treasury money, budget lines, tax law rows, records), and a repeal (or a
  * budget line back at its base) ends it.
  */
 import { appliedOn } from "./law-reach/applied";
-import { createHash } from "node:crypto";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { govReport } from "./gov-test-report";
 import { repealStartingAnswers } from "./law-test-start";
@@ -40,7 +39,6 @@ import { withholdingFor } from "./tax-withholding";
 import type { LawInForceAnswer } from "./laws-in-force";
 import type { CoreAPI, CoreState } from "./types";
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
-import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 import { getRow, putRow, REACH_B_MODULE_ID } from "./law-reach/group-b-store";
 import type {
   GroupReach,
@@ -68,16 +66,19 @@ import {
 import { spellOn } from "./health-own";
 
 const START = "2026-01-05";
-const MEDICAID_SEED = "0123";
-/** South Fork Estates, Texas: named covered adults at MEDICAID_SEED. */
+/**
+ * Every case runs at a named place and a fixed seed, so no case is red or green
+ * by a draw. The place for each case is the one found, by looking at built worlds
+ * once, to hold the subject the case's assertions read (the Need it names).
+ */
+const SEED = "0123";
+/** South Fork Estates, Texas: named covered adults at SEED (the Medicaid cases). */
 const MEDICAID_PLACE = "4868966";
-let seed =
-  process.env.GOLDEN_PATH_SEED ??
-  createHash("sha256").update(`reach-b:${Date.now()}`).digest("hex");
-function pick<T>(list: readonly T[], salt: string): T {
-  const hash = createHash("sha256").update(`${seed}:${salt}`).digest("hex");
-  return list[parseInt(hash.slice(0, 8), 16) % list.length]!;
-}
+/** Abanda, Alabama: a child of preschool age, and the other subjects but a school job. */
+const PRESCHOOL_PLACE = "0100100";
+/** Acalanes Ridge, California: a school job, a private school, a paycheck, a highway line, a welfare household. */
+const MAIN_PLACE = "0600135";
+let seed = SEED;
 const after = (date: string, days: number) =>
   new Date(Date.parse(`${date}T00:00:00Z`) + days * 86_400_000)
     .toISOString()
@@ -94,10 +95,6 @@ let LOCAL = "city";
 let measure = 0;
 const report: Record<string, unknown> = {};
 
-const states = [...corePlaceStateIdentities()]
-  .map((s) => s.jurisdictionKey)
-  .sort();
-
 /** A subject a case's assertions read; a town without it is redrawn, never skipped. */
 type Need =
   | "time-limit"
@@ -109,103 +106,66 @@ type Need =
   | "paycheck";
 
 /**
- * A town to run the cases in. The payment cases need payees (adults the
- * expansion covers, adults the work requirement then reaches, and a child of
- * preschool age), so a place without them is redrawn. The tax case needs none,
- * so it alone keeps a pinned place (GOLDEN_PATH_PLACE_KEY).
+ * Builds the town a case runs in, once, at the place it names. A place that does
+ * not hold the subject the case reads fails loudly with what it lacks; it is never
+ * redrawn and never skipped.
  */
-function build(options: {
-  pinned: boolean;
-  placeKey?: string;
-  need?: readonly Need[];
-}): void {
+function build(options: { placeKey: string; need?: readonly Need[] }): void {
   const needs = new Set<Need>(options.need ?? []);
-  const tried: string[] = [];
-  for (let attempt = 0; attempt < 40; attempt += 1) {
-    const state = pick(states, `state:${attempt}`);
-    const places = [
-      ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
-        stateJurisdictionKey: state,
-        scope: "locality",
-      }),
-    ].sort((a, b) => a.key.localeCompare(b.key));
-    if (!places.length) continue;
-    const key =
-      options.placeKey ??
-      (options.pinned ? process.env.GOLDEN_PATH_PLACE_KEY : undefined) ??
-      pick(places, `place:${attempt}`).key;
-    tried.push(key);
-    // The opening's public school district is the employer the school-pay tests need.
-    const full = withPublicSchoolDistrict(
-      buildPopulation({
-        seed,
-        placeKey: key,
-        startedAt: START,
-        minimumPeople: 400,
-      }),
-    ).input;
-    const year = Number(START.slice(0, 4));
-    // An employed adult where the place has one (paychecks for the tax tests), else any adult.
-    const adults = [...full.people]
-      .filter((p) => year - Number(p.birthDate.slice(0, 4)) >= 18)
-      .sort((a, b) => a.id.localeCompare(b.id));
-    const player = adults.find((p) => p.jobId) ?? adults[0];
-    if (!player) continue;
-    const teachers = full.jobs.filter(
-      (j) => j.occupationClassification === "profession:teacher",
-    ).length;
-    if (!teachers && attempt < 20) continue;
-    core = createLifeCore(
-      collapseToTwoLevels({ ...full, playerId: player.id }),
+  const key = options.placeKey;
+  // The opening's public school district is the employer the school-pay tests need.
+  const full = withPublicSchoolDistrict(
+    buildPopulation({
+      seed,
+      placeKey: key,
+      startedAt: START,
+      minimumPeople: 400,
+    }),
+  ).input;
+  const year = Number(START.slice(0, 4));
+  // An employed adult where the place has one (paychecks for the tax tests), else any adult.
+  const adults = [...full.people]
+    .filter((p) => year - Number(p.birthDate.slice(0, 4)) >= 18)
+    .sort((a, b) => a.id.localeCompare(b.id));
+  const player = adults.find((p) => p.jobId) ?? adults[0];
+  if (!player) throw new Error(`place ${key} at seed ${seed} has no adult`);
+  core = createLifeCore(collapseToTwoLevels({ ...full, playerId: player.id }));
+  openLaws(core);
+  openBudgets(core);
+  openLawReach(core);
+  repealStartingAnswers(core);
+  api = coreAPI(core);
+  place = key;
+  town = lawChain(api).townPlaceId;
+  const stateKey = lawChain(api).stateKey;
+  const facts = townFacts(api, town);
+  const covers = (law: string) =>
+    selectResidents(facts, groupBPolicy(Q(law))!.people!, stateKey).filter(
+      (r) => r.named,
     );
-    openLaws(core);
-    openBudgets(core);
-    openLawReach(core);
-    repealStartingAnswers(core);
-    api = coreAPI(core);
-    place = key;
-    town = lawChain(api).townPlaceId;
-    // The Medicaid and preschool payment tests need a town with adults the
-    // expansion covers, adults the work requirement then reaches, and a child
-    // of preschool age: a place without them is redrawn, never skipped.
-    const stateKey = lawChain(api).stateKey;
-    const facts = townFacts(api, town);
-    const covers = (law: string) =>
-      selectResidents(facts, groupBPolicy(Q(law))!.people!, stateKey).filter(
-        (r) => r.named,
-      );
-    // The welfare time-limit case needs a household head, named or counted,
-    // the assistance work requirement reaches and the welfare line pays.
-    const workReached = new Set(
-      selectResidents(facts, WELFARE_WORK_RULE, stateKey).map((r) => r.id),
-    );
-    const timeLimitHeads = selectResidents(
-      facts,
-      { incomeBelowPovertyShare: "assistanceIncomeShare", householdHead: true },
-      stateKey,
-    ).filter((h) => workReached.has(h.id));
-    if (
-      !options.pinned &&
-      ((needs.has("time-limit") && !timeLimitHeads.length) ||
-        (needs.has("medicaid") &&
-          (!covers("health-human-services.expand-medicaid-eligibility")
-            .length ||
-            !covers("health-human-services.medicaid-work-requirement")
-              .length)) ||
-        (needs.has("preschool") &&
-          !covers("education.universal-preschool").length))
-    )
-      continue;
-    // The tests below need a private school, a school job and a state highway
-    // line; a place without one is redrawn, never skipped.
-    const stateGov = governments(api).find((g) => g.level === "state");
-    const inTown = (org: string) =>
-      core.organizations.get(org)?.placeId === town;
-    const hasPrivateSchool = [...core.organizations.values()].some(
+  // The welfare time-limit case needs a household head, named or counted,
+  // the assistance work requirement reaches and the welfare line pays.
+  const workReached = new Set(
+    selectResidents(facts, WELFARE_WORK_RULE, stateKey).map((r) => r.id),
+  );
+  const timeLimitHeads = selectResidents(
+    facts,
+    { incomeBelowPovertyShare: "assistanceIncomeShare", householdHead: true },
+    stateKey,
+  ).filter((h) => workReached.has(h.id));
+  const stateGov = governments(api).find((g) => g.level === "state");
+  const inTown = (org: string) => core.organizations.get(org)?.placeId === town;
+  const has: Record<Need, boolean> = {
+    "time-limit": timeLimitHeads.length > 0,
+    medicaid:
+      covers("health-human-services.expand-medicaid-eligibility").length > 0 &&
+      covers("health-human-services.medicaid-work-requirement").length > 0,
+    preschool: covers("education.universal-preschool").length > 0,
+    "private-school": [...core.organizations.values()].some(
       (o) =>
         o.classification === "service:private-school" && o.placeId === town,
-    );
-    const hasSchoolJob = [
+    ),
+    "school-job": [
       ...core.jobs.values(),
       ...(residentsRuntime(core)?.jobs.values() ?? []),
     ].some(
@@ -215,37 +175,29 @@ function build(options: {
         inTown(j.organizationId) &&
         core.organizations.get(j.organizationId)?.classification ===
           "service:school",
-    );
+    ),
     // A named worker whose job pays: the payday a payroll tax is withheld on.
-    const hasPaycheck = [...core.jobs.values()].some(
+    paycheck: [...core.jobs.values()].some(
       (j) =>
         j.endsAt === undefined &&
         (j.hourlyMinor ?? 0) > 0 &&
         core.people.get(j.personId)?.alive === true,
-    );
-    const hasHighwayLine =
+    ),
+    highway:
       !!stateGov &&
       residentsOf(api, stateGov) > 0 &&
-      (budgetNow(api, stateGov.id)?.spendingMinor.highways ?? 0) > 0;
-    if (
-      !options.pinned &&
-      ((needs.has("private-school") && !hasPrivateSchool) ||
-        (needs.has("school-job") && !hasSchoolJob) ||
-        (needs.has("paycheck") && !hasPaycheck) ||
-        (needs.has("highway") && !hasHighwayLine))
-    )
-      continue;
-    const levels = new Set(governments(api).map((g) => g.level));
-    LOCAL = ["city", "county", "state"].find((l) => levels.has(l as "city"))!;
-    where = `seed ${seed}, place ${key} (${core.placeMetadata.placeName})`;
-    console.log(`law-reach-group-b: ${where}`);
-    where += `, governments ${[...new Set(governments(api).map((g) => g.level))].join("/")}`;
-    report.place = where;
-    return;
-  }
-  throw new Error(
-    `no town with an employed adult${needs.size ? ` and ${[...needs].join(", ")}` : ""} in forty draws (seed ${seed}); places tried: ${tried.join(", ")}`,
-  );
+      (budgetNow(api, stateGov.id)?.spendingMinor.highways ?? 0) > 0,
+  };
+  const lacking = [...needs].filter((n) => !has[n]);
+  if (lacking.length)
+    throw new Error(
+      `place ${key} at seed ${seed} lacks ${lacking.join(", ")}: pin another place`,
+    );
+  const levels = new Set(governments(api).map((g) => g.level));
+  LOCAL = ["city", "county", "state"].find((l) => levels.has(l as "city"))!;
+  where = `seed ${seed}, place ${key} (${core.placeMetadata.placeName})`;
+  where += `, governments ${[...levels].join("/")}`;
+  report.place = where;
 }
 
 function table<T>(name: string): T[] {
@@ -649,7 +601,7 @@ function assistanceWorkCase(): void {
 }
 
 describe("law reach, group B: every policy reaches people through its engine", () => {
-  beforeAll(() => build({ pinned: false }));
+  beforeAll(() => build({ placeKey: MAIN_PLACE }));
 
   it("registers a handler for every group B policy and budget line", () => {
     expect(GROUP_B_KEYS.length).toBe(38);
@@ -960,7 +912,7 @@ describe("law reach, group B: every policy reaches people through its engine", (
 
 describe("law reach, group B: a city income tax", () => {
   // Its own town, drawn for a named worker with a paycheck, from all 56 and named in every failure.
-  beforeAll(() => build({ pinned: false, need: ["paycheck"] }));
+  beforeAll(() => build({ placeKey: MAIN_PLACE, need: ["paycheck"] }));
 
   // ---- Taxes collected through payroll withholding ----
   it("adopting a city income tax writes the law row payroll withholds into the city treasury; repeal stops it", () => {
@@ -1096,16 +1048,10 @@ describe("law reach, group B: a city income tax", () => {
 
 describe("law reach, group B: Medicaid expansion and its work requirement", () => {
   // Pinned to a town with named adults the expansion covers and the work
-  // requirement then reaches, found by drawing (seed 0123 at its draw): a
-  // two-level town has few named covered adults, so a fresh draw of forty
-  // towns can find none. The seed is restored for the cases after it.
-  const drawnSeed = seed;
+  // requirement then reaches: a two-level town has few named covered adults,
+  // so most places hold none.
   beforeAll(() => {
-    seed = MEDICAID_SEED;
-    build({ pinned: false, placeKey: MEDICAID_PLACE, need: ["medicaid"] });
-  });
-  afterAll(() => {
-    seed = drawnSeed;
+    build({ placeKey: MEDICAID_PLACE, need: ["medicaid"] });
   });
 
   // ---- Eligibility from income, work hours and children ----
@@ -1211,7 +1157,7 @@ describe("law reach, group B: Medicaid expansion and its work requirement", () =
 
 describe("law reach, group B: universal preschool", () => {
   // Its own town, drawn for only the subjects these cases read, from all 56 and named in every failure.
-  beforeAll(() => build({ pinned: false, need: ["preschool"] }));
+  beforeAll(() => build({ placeKey: PRESCHOOL_PLACE, need: ["preschool"] }));
 
   it("universal preschool has the state treasury pay the household of each 3- and 4-year-old a month at a time; a repeal ends it", () => {
     const key = Q("education.universal-preschool");
@@ -1281,7 +1227,7 @@ describe("law reach, group B: universal preschool", () => {
 
 describe("law reach, group B: school pay", () => {
   // Its own town, drawn for only the subjects these cases read, from all 56 and named in every failure.
-  beforeAll(() => build({ pinned: false, need: ["school-job"] }));
+  beforeAll(() => build({ placeKey: MAIN_PLACE, need: ["school-job"] }));
 
   // ---- Pay ----
   it("a teacher minimum salary raises every covered teacher under it to the floor (rerateJob), and the pay floor engine records each teacher it covers", () => {
@@ -1344,7 +1290,7 @@ describe("law reach, group B: school pay", () => {
 
 describe("law reach, group B: the schools budget line", () => {
   // Its own town, drawn for only the subjects these cases read, from all 56 and named in every failure.
-  beforeAll(() => build({ pinned: false, need: ["school-job"] }));
+  beforeAll(() => build({ placeKey: MAIN_PLACE, need: ["school-job"] }));
 
   it("budget line schools: a change re-rates school staff pay from base and returns it at base", () => {
     const key = "budget-line:schools";
@@ -1434,7 +1380,7 @@ describe("law reach, group B: the schools budget line", () => {
 
 describe("law reach, group B: shifting highway funds", () => {
   // Its own town, drawn for only the subjects these cases read, from all 56 and named in every failure.
-  beforeAll(() => build({ pinned: false, need: ["highway"] }));
+  beforeAll(() => build({ placeKey: MAIN_PLACE, need: ["highway"] }));
 
   it("shifting highway funds to transit moves the line; drivers' road service falls", () => {
     const key = Q(
@@ -1466,7 +1412,7 @@ describe("law reach, group B: shifting highway funds", () => {
 
 describe("law reach, group B: a closed school", () => {
   // Its own town, drawn for only the subjects these cases read, from all 56 and named in every failure.
-  beforeAll(() => build({ pinned: false, need: ["private-school"] }));
+  beforeAll(() => build({ placeKey: MAIN_PLACE, need: ["private-school"] }));
 
   it("a closed school's eligibility rows end the day it closes", () => {
     const key = Q("education.public-funds-for-private-schooling");
@@ -1501,7 +1447,7 @@ describe("law reach, group B: the assistance work requirement", () => {
   // Its own town: one with a welfare head the requirement reaches, drawn from
   // all 56 and named in every failure, with every place tried listed when none
   // qualifies in forty draws.
-  beforeAll(() => build({ pinned: false, need: ["time-limit"] }));
+  beforeAll(() => build({ placeKey: MAIN_PLACE, need: ["time-limit"] }));
 
   it("an assistance work requirement stops the welfare benefit for the adults it reaches after its time limit, and a repeal pays them again", () => {
     assistanceWorkCase();
@@ -1509,7 +1455,7 @@ describe("law reach, group B: the assistance work requirement", () => {
 });
 
 describe("law reach, group B: a graduated income tax", () => {
-  beforeAll(() => build({ pinned: true }));
+  beforeAll(() => build({ placeKey: MAIN_PLACE }));
 
   it("a graduated income tax replaces the level's tax with a schedule; repeal restores the prior row", () => {
     const key = Q("fiscal.graduated-income-tax");
@@ -1573,13 +1519,13 @@ describe("law reach, group B: a graduated income tax", () => {
  * again. It runs the same case as above, pinned, and does not skip.
  */
 describe("law reach, group B: the assistance work requirement's counted payments, Guam regression", () => {
-  const drawnSeed = seed;
+  const pinnedSeed = seed;
   beforeAll(() => {
     seed = "741e1fe731e2aef3a39de315f1d07c4368754d2d0409b3bbeacc39f43896b2b6";
-    build({ pinned: true, placeKey: "territory:GU:inarajan" });
+    build({ placeKey: "territory:GU:inarajan" });
   });
   afterAll(() => {
-    seed = drawnSeed;
+    seed = pinnedSeed;
   });
 
   it("the counted groups' payments equal the whole-cent rate times each group's households", () => {
