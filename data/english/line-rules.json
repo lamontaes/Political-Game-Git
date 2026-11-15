@@ -1061,7 +1061,7 @@
     {
       "id": "no-quick-resolution",
       "says": "No instant, agreeable wrap-up: a reply may push back, deflect or escalate instead of giving in in one line.",
-      "judges": "exchange",
+      "judges": "set",
       "from": [
         {
           "date": "2026-10-16",
@@ -1098,7 +1098,13 @@
         "You've got it. We'll bring more people Saturday.",
         "We'll be there.",
         "Okay. I don't like it, but okay."
-      ]
+      ],
+      "sets": "every",
+      "applies": {
+        "banks": ["scene-talk"],
+        "moves": "^(?:state|follow|continue)-(?:request|press|plea|confront|bargain|warn)$"
+      },
+      "note": "Read as a set (Words lead, Nov 14, ruling-many.md): one agreeable reply is fine as long as another reply offered pushes back, deflects or raises the stakes. Each set of two or more replies to a request, press, plea, confront, bargain or warning is judged together; threats are escalation-can-be-answered-in-kind's."
     },
     {
       "id": "evasion-points-somewhere",
@@ -3263,10 +3269,12 @@
       "research": [
         "docs/research/dialogue/ (how games write dialogue), rule 5"
       ],
-      "status": "awaiting-test",
+      "status": "enforced",
       "test": {
-        "kind": "judged"
-      }
+        "kind": "place",
+        "by": "src/english/most-specific-line-wins.test.ts"
+      },
+      "note": "Enforced by the composer: useFit in src/english/scene-talk-words.ts ranks a variant over its family, a situation key over none, a reply written for the line it answers over one for its kind, and a piece that needs a fact on the record over a generic one. The test it names reads what wordSceneMove says, on made pieces and at every spot of the shipped scene-talk bank where a fact-tied and a generic piece share a spot."
     },
     {
       "id": "no-dangling-fragments",

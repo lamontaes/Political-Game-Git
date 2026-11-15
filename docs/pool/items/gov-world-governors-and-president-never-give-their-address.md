@@ -6,10 +6,10 @@ lead: laws
 kind: bug
 priority: 3
 size: M
-status: open
+status: in-pr
 standard: 2
 claimed-by:
-pr:
+pr: 9346
 after:
 blocked-on:
 model: opus
@@ -34,5 +34,7 @@ checked:
 **Waits on.** gov-world-officials-never-give-yearly-address merged.
 
 **Files.** src/core2/office-day-state.ts, src/core2/office-day-federal.ts, src/core2/office-day-acts.ts
+
+**Built.** The state kit schedules each world governor's State of the State on the module calendar from the state's own convening date plus the kit's days-after parameter (monthly step, no daily scan); the day's handler runs the kit's own `state-of-the-state` act. The federal kit gives the joint address on its date for a President the player does not control, through the same `deliverAddress`. Governors and the President give it every year: the State of the State and the joint address are a constitutional and customary duty, so no custom-and-temperament decision runs (only a mayor's varies, in worldAddresses). Seen in src/bench/world-state-address.test.ts at Edmore ND and Odessa WA through 2026-05-01: of 55 governors, 49 give it once on their state's own day (January to April 2026), 4 (ND, MT, TX, NV) have no session in 2026 by the session calendar table, and 2 (IN, whose 2026 session convened 2025-12-01, and the Marianas, a continuous body since 2025-01-13) had their address date in 2025, before this year's window; the joint address comes 2025-03-04. The January 2025 sessions convened before the world's first day: gov-opening-lacks-last-years-address. Both acts already print news through existing bank lines (headlines.office-act.name-gives-the-state-of-the-state, news.office-act.office-name-delivered-the-state-of-the-state-address, news.joint-address.*); no line was written.
 
 **Notes.** Owner, Nov 14 19:27Z: 'And not just town, but country and state. Remember, it's all one simulation.'

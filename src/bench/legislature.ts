@@ -420,14 +420,16 @@ export function seatAct(
     if (!input.series || input.line)
       throw new Error("A phase-in steps a law amount.");
     if (!Number.isFinite(rise.percent) || rise.percent === 0)
-      throw new Error("A rise a year needs a percent.");
+      throw new Error("An increase a year needs a percent.");
     if (!Number.isInteger(rise.years) || rise.years < 2)
-      throw new Error("A rise a year runs for two years or more.");
+      throw new Error("An increase a year runs for two years or more.");
     const inForce = menusFor(api, body.level, input.officeId!)
       .flatMap((menu) => menu.items)
       .find((row) => row.series === input.series)?.inForce;
-    if (typeof inForce !== "number")
-      throw new Error("There is no amount in force to raise.");
+    if (typeof inForce !== "number" || inForce <= 0)
+      throw new Error(
+        "An increase by a percent a year needs an amount in force above zero.",
+      );
     const base = inForce;
     const first = makeIsoDate(rise.firstDate);
     let amount = base;
@@ -621,7 +623,11 @@ export function billPaper(core: CoreState, billId: string) {
     effective: form.effectiveSection,
     before: form.sections.map((section) => section.before),
   });
-  const titled = billTitleOf({ form: bill.form, provisions: bill.provisions });
+  const titled = billTitleOf({
+    form: bill.form,
+    provisions: bill.provisions,
+    budgetFor: bill.budgetFor,
+  });
   const names = { ...policyNames(), ...budgetLineNames() };
   const sections = bill.provisions.map((provision, index) => {
     const subject = bill.title?.subjects[index] ?? null;
