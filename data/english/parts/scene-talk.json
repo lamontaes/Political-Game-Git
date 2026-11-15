@@ -44512,10 +44512,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-stall.five-minutes-i-need-to-say-it-to-myself-first",
+      "key": "scene-talk.reply-stall.five-minutes-i-need-to-gather-myself",
       "move": "reply-stall",
       "kind": "spoken",
-      "text": "Five minutes. I need to say it to myself first.",
+      "text": "Five minutes. I need to gather myself.",
       "uses": [
         {
           "subject": "scene",
@@ -44548,7 +44548,7 @@
           "role": "asker",
           "purpose": "concession-call",
           "key": "loss",
-          "after": "scene-talk.reply-stall.five-minutes-i-need-to-say-it-to-myself-first"
+          "after": "scene-talk.reply-stall.five-minutes-i-need-to-gather-myself"
         }
       ],
       "bearing": "tender",
