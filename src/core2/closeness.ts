@@ -155,7 +155,16 @@ export function closenessBetweenAfter(
       ? currentCloseness(core, row)
       : parameter("zero", core.data.parameters);
   const p = lookup(core);
-  const tied = row
+  return levelFromHours(p, rowHours(core, p, row) + shared + hours);
+}
+
+/** A row's hours faded to today, less the strain it owes; zero with no row. */
+function rowHours(
+  core: Pick<CoreState, "date">,
+  p: Lookup,
+  row: Relationship | undefined,
+): number {
+  return row
     ? faded(
         p,
         hoursFromLevel(p, row.level),
@@ -163,7 +172,21 @@ export function closenessBetweenAfter(
         row.kind,
       ) - owedToday(p, row, core.date)
     : p("zero");
-  return levelFromHours(p, tied + shared + hours);
+}
+
+/**
+ * The hours a tie stands on today: its row's hours faded to today, less any
+ * strain the row owes, plus the hours another engine's record says the two
+ * shared (`registerSharedHours`). What a share of the tie is taken from (a
+ * lie found out, scene-talk-rules endingStrain trust-lost).
+ */
+export function tieHoursBetween(
+  core: Pick<CoreState, "data" | "date" | "relationships">,
+  a: PersonId,
+  b: PersonId,
+): number {
+  const row = core.relationships.get(a < b ? `${a}:${b}` : `${b}:${a}`);
+  return rowHours(core, lookup(core), row) + sharedHoursBetween(core, a, b);
 }
 
 /**

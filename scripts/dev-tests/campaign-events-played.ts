@@ -308,9 +308,11 @@ const playEntry = (r: Rec) => {
       });
     };
     flush();
-    const prefer = process.env.PREFER_BRIEF
-      ? ["brief", "plain"]
-      : ["plain", "further", "turn", "brief"];
+    const prefer = process.env.PREFER
+      ? [...process.env.PREFER.split(","), "plain"]
+      : process.env.PREFER_BRIEF
+        ? ["brief", "plain"]
+        : ["plain", "further", "turn", "brief"];
     for (let at = 0; conv.choices.length && at < 12; at += 1) {
       L(
         `  choices: ${conv.choices.map((c) => `[${c.move}] ${c.text}`).join(" | ")}${conv.lies.length ? ` | LIE: ${conv.lies.map((c) => c.text).join(" | ")}` : ""}`,
