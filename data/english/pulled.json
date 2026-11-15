@@ -232,6 +232,9 @@
     "scene-talk.follow-accept.fair-i-ll-say-you-changed-your-mind": [
       "ask-vote/refuse"
     ],
+    "scene-talk.follow-accept.i-can-get-you-the-funding-section-give-me-a-day": [
+      "ask-vote/refuse"
+    ],
     "scene-talk.follow-accept.i-ll-put-that-in": ["ask-vote/refuse"],
     "scene-talk.follow-accept.i-respect-that-their-first-my-door-stays-open": [
       "ask-to-serve/decline"
@@ -417,9 +420,6 @@
     ],
     "scene-talk.reply-offer.there-s-a-posting-at-public-works-this-week-tell-him-to-apply-by-frida": [
       "favor-job/press"
-    ],
-    "scene-talk.reply-refuse.i-voted-no-on-your-last-one-nothing-s-different-for-me": [
-      "ask-vote/thank"
     ],
     "scene-talk.reply-refuse.you-asked-me-last-time-and-i-voted-no-i-m-voting-no-again": [
       "ask-vote/thank"

@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "reply-follows-the-line-before",
   "rubric": "You are checking lines of dialogue for a game set in American politics and ordinary life. For each pair, the first line (A) was just said by one person and the second (B) is the other person's reply. Words in {braces} stand for a name, a place or a number. Each pair also names its scene: what the whole conversation is about (for example \"conflict accuse\", \"floor switch\", \"family loss\"). Earlier lines of the scene are not shown. B may refer to the scene's own subject (the bill, the vote, the firm, the loss) even when A does not repeat it; that alone is never a reason to say B does not follow.\n\nFor each pair, do this in order:\n1. Say to yourself what A does: asks something (what?), offers something (what?), states something (what?), agrees to something, thanks, refuses, or says it is leaving.\n2. Find what B reacts to. B's main point is the thing it answers, agrees with, thanks for, pushes back on, promises, or asks about. Look for that thing in A.\n3. B FOLLOWS when that thing is in A: a real person could say B right after hearing A, and a listener would know what B is responding to. A reply may dodge, refuse, joke or change the subject on purpose and still follow, if a listener would understand it as a response to A.\n4. B does NOT follow when any of these is true:\n   - B answers a question A did not ask, or acts as if A had told a story, made a case, made an offer, given a plan or apologized when A did not;\n   - A asked a direct question or made a direct request and B neither answers it, refuses it, nor visibly dodges it;\n   - B agrees or disagrees with, or thanks A for, something A did not say;\n   - B leans on \"it\", \"that\", \"them\", \"the third\" or the like and A gives nothing it could mean;\n   - A already did the thing B asks for (A gave the plan and B asks what the plan is; A said yes and B treats it as a no; A has not told the story yet and B asks whether that is all of it);\n   - B's tone answers a different situation (A agrees warmly and B shrugs it off as if overruled).\n5. Do not judge whether either line is well written, only whether B follows A. Do not give B the benefit of an imagined earlier conversation: only A was said. If a listener would have to guess what B refers to, it does not follow.\n\nExamples that do NOT follow:\n- A: \"Give me a minute. I'll explain how it happened.\" B: \"And that's everything?\" (A has not explained anything yet.)\n- A: \"I'll call the landlord tomorrow and set up a payment by Friday.\" B: \"Sorry isn't enough. What's your plan?\" (A just gave the plan and did not say sorry.)\n- A: \"Count me in. I'll tell them tonight.\" B: \"Have it your way.\" (B answers a refusal, and A agreed.)\n- A: \"We open at nine on Saturdays.\" B: \"I never said that about your brother.\" (Nothing in A is about a brother or a claim.)\nExamples that DO follow:\n- A: \"Would you sign my petition?\" B: \"I don't really follow local politics.\" (A dodge a listener understands.)\n- A: \"You can't avoid me forever.\" B: \"I've said all I'm going to say.\"\n- A: \"I need your vote on this.\" B: \"What's in it for my district?\"",
-  "judged": 3020,
+  "judged": 2899,
   "no": {
     "000jt3f972v": {
       "keys": [
@@ -60,13 +60,6 @@
       ],
       "why": "The reply disagrees with something the line before never claimed."
     },
-    "01bwcwnv3dp": {
-      "keys": [
-        "scene-talk.follow-press.not-there-on-what-tell-me-which-part",
-        "scene-talk.reply-refuse.i-voted-no-on-your-last-one-nothing-s-different-for-me"
-      ],
-      "why": "A asks which part; B does not name a part."
-    },
     "01d9zvz4wto": {
       "keys": [
         "scene-talk.reply-agree.fine-you-have-it",
@@ -108,13 +101,6 @@
         "scene-talk.close-accept.best-of-luck-to-you"
       ],
       "why": "The reply treats a request for time as a refusal, and the line before refused nothing."
-    },
-    "04rbejonq0i": {
-      "keys": [
-        "scene-talk.reply-refuse.i-voted-no-on-your-last-one-nothing-s-different-for-me",
-        "scene-talk.state-request.i-m-counting-votes-on-bill-and-i-need-you"
-      ],
-      "why": "Repeating the opening ask ignores the no just given."
     },
     "05fbnjccy59": {
       "keys": [
@@ -171,13 +157,6 @@
         "scene-talk.reply-confront.i-m-not-planning-on-being-the-third"
       ],
       "why": "\"The third\" has no referent in A."
-    },
-    "0bjepmm55dc": {
-      "keys": [
-        "scene-talk.reply-refuse.i-voted-no-on-your-last-one-nothing-s-different-for-me",
-        "scene-talk.state-request.can-i-count-on-you-for-bill"
-      ],
-      "why": "Asking \"Can I count on you?\" right after a no ignores it."
     },
     "0bqh33eopjl": {
       "keys": [
@@ -340,13 +319,6 @@
       ],
       "why": "The reply tells the person to think it over, but the line before only said they have to return books."
     },
-    "0k132h0pqgm": {
-      "keys": [
-        "scene-talk.follow-thank.i-knew-i-could-count-on-you",
-        "scene-talk.reply-refuse.i-voted-no-on-your-last-one-nothing-s-different-for-me"
-      ],
-      "why": "A responds to a yes; a firm no does not follow it."
-    },
     "0k186lhn649": {
       "keys": [
         "scene-talk.follow-ask.taken.who-else-knew-first",
@@ -360,20 +332,6 @@
         "scene-talk.follow-thank.good-we-start-tomorrow-their-first"
       ],
       "why": "\"We start tomorrow\" answers a yes, not a no."
-    },
-    "0k5vynvqddu": {
-      "keys": [
-        "scene-talk.reply-refuse.i-voted-no-on-your-last-one-nothing-s-different-for-me",
-        "scene-talk.follow-thank.i-knew-i-could-count-on-you"
-      ],
-      "why": "\"I knew I could count on you\" treats a no as a yes."
-    },
-    "0k86q16ubd7": {
-      "keys": [
-        "scene-talk.follow-accept.fair-i-ll-say-you-changed-your-mind",
-        "scene-talk.reply-refuse.i-voted-no-on-your-last-one-nothing-s-different-for-me"
-      ],
-      "why": "A says they changed their mind; a no with no correction does not follow."
     },
     "0ka4492qy04": {
       "keys": [
@@ -438,13 +396,6 @@
       ],
       "why": "The reply treats a request for time as a refusal, and the line before refused nothing."
     },
-    "0o38lazz1dm": {
-      "keys": [
-        "scene-talk.reply-refuse.i-voted-no-on-your-last-one-nothing-s-different-for-me",
-        "scene-talk.follow-threaten.then-i-m-putting-you-down-as-undecided"
-      ],
-      "why": "They said a plain no; putting them down as undecided does not follow."
-    },
     "0ondcdto6t5": {
       "keys": [
         "scene-talk.reply-stall.i-was-a-no-last-time-don-t-count-me-either-way-yet",
@@ -501,13 +452,6 @@
       ],
       "why": "A asks how much was given; B answers about family saying yes"
     },
-    "0qx9qvuv4e0": {
-      "keys": [
-        "scene-talk.follow-bargain.depends-on-the-favor",
-        "scene-talk.reply-refuse.i-voted-no-on-your-last-one-nothing-s-different-for-me"
-      ],
-      "why": "A hedges on a favor as if A is the one being asked; B's vote refusal doesn't answer that."
-    },
     "0rb4jkz03k0": {
       "keys": [
         "scene-talk.reply-deny.no-where-did-you-hear-that",
@@ -557,27 +501,6 @@
       ],
       "why": "\"No hard feelings\" already accepts the no; restating it does not follow."
     },
-    "0ugit6uz1w6": {
-      "keys": [
-        "scene-talk.follow-ask.why-is-source-wrong",
-        "scene-talk.reply-refuse.i-voted-no-on-your-last-one-nothing-s-different-for-me"
-      ],
-      "why": "A asks why the source is wrong; B never answers that question."
-    },
-    "0v1bmy6a0ji": {
-      "keys": [
-        "scene-talk.follow-accept.okay-i-can-work-with-that",
-        "scene-talk.reply-refuse.i-voted-no-on-your-last-one-nothing-s-different-for-me"
-      ],
-      "why": "A is accepting terms; a flat no does not follow it."
-    },
-    "0v310nuuv02": {
-      "keys": [
-        "scene-talk.follow-thank.good-i-m-writing-you-down",
-        "scene-talk.reply-refuse.i-voted-no-on-your-last-one-nothing-s-different-for-me"
-      ],
-      "why": "A treats the vote as already promised; B's flat no contradicts it instead of following it."
-    },
     "0v3vlh6wafc": {
       "keys": [
         "scene-talk.reply-agree.yes-put-my-name-on-it",
@@ -613,26 +536,12 @@
       ],
       "why": "'There is' answers nothing in A's statement about being told."
     },
-    "0wh3nn43dt3": {
-      "keys": [
-        "scene-talk.follow-press.what-do-you-need-to-get-there",
-        "scene-talk.reply-refuse.i-voted-no-on-your-last-one-nothing-s-different-for-me"
-      ],
-      "why": "A asks what B needs to get there; B does not answer the question."
-    },
     "0wlsrhgcvax": {
       "keys": [
         "scene-talk.reply-refuse.you-asked-me-last-time-and-i-voted-no-i-m-voting-no-again",
         "scene-talk.follow-thank.i-knew-i-could-count-on-you"
       ],
       "why": "A just refused; saying B could count on them does not follow."
-    },
-    "0x3hwp87aw6": {
-      "keys": [
-        "scene-talk.follow-accept.all-right-i-had-to-ask",
-        "scene-talk.reply-refuse.i-voted-no-on-your-last-one-nothing-s-different-for-me"
-      ],
-      "why": "A has already closed the ask; repeating the no does not follow."
     },
     "0xg45rgwav2": {
       "keys": [
@@ -745,13 +654,6 @@
         "scene-talk.reply-deflect.close.i-didn-t-mean-anything-by-it-it-just-got-away-from-me"
       ],
       "why": "A made no accusation; B excuses itself as if accused."
-    },
-    "11kx60nv6o2": {
-      "keys": [
-        "scene-talk.follow-accept.all-right-i-ll-find-the-votes-somewhere-else",
-        "scene-talk.reply-refuse.i-voted-no-on-your-last-one-nothing-s-different-for-me"
-      ],
-      "why": "A is already leaving to look elsewhere; repeating the no does not follow."
     },
     "11n04ca32jo": {
       "keys": [
@@ -886,13 +788,6 @@
       ],
       "why": "The reply treats a request for time as a refusal, and the line before refused nothing."
     },
-    "1beawz0b5vu": {
-      "keys": [
-        "scene-talk.follow-accept.not-against-me-i-ll-take-that",
-        "scene-talk.reply-refuse.i-voted-no-on-your-last-one-nothing-s-different-for-me"
-      ],
-      "why": "A accepts that they won't vote against; a firm no contradicts that without addressing it."
-    },
     "1c61qwtv5v6": {
       "keys": [
         "scene-talk.follow-press.you-keep-saying-that-what-changes-by-next-week",
@@ -1026,20 +921,6 @@
       ],
       "why": "The reply accepts phone calls, but the line before only said how long a talk lasts."
     },
-    "1hzltl2wbmr": {
-      "keys": [
-        "scene-talk.follow-accept.suit-yourself",
-        "scene-talk.reply-refuse.i-voted-no-on-your-last-one-nothing-s-different-for-me"
-      ],
-      "why": "A has already given up; repeating the no does not follow."
-    },
-    "1i8w5n8ifm8": {
-      "keys": [
-        "scene-talk.follow-thank.thank-you-i-won-t-forget-it",
-        "scene-talk.reply-refuse.i-voted-no-on-your-last-one-nothing-s-different-for-me"
-      ],
-      "why": "A thanks them for support; a firm no does not follow a thank-you."
-    },
     "1idoc3os1iw": {
       "keys": [
         "scene-talk.reply-stall.i-was-a-no-last-time-don-t-count-me-either-way-yet",
@@ -1074,13 +955,6 @@
         "scene-talk.reply-thank.funerals-all-right-i-own-a-black-suit"
       ],
       "why": "Funerals appear nowhere in A"
-    },
-    "1j9umf514an": {
-      "keys": [
-        "scene-talk.follow-bargain.i-can-write-it-in-tonight-it-ll-cost-me-two-other-votes",
-        "scene-talk.reply-refuse.i-voted-no-on-your-last-one-nothing-s-different-for-me"
-      ],
-      "why": "A offers to write in what B wanted at a cost; B ignores the offer and repeats an old no."
     },
     "1k7soz35rxr": {
       "keys": [
@@ -1131,13 +1005,6 @@
       ],
       "why": "A is already leaving to look elsewhere; repeating the no does not follow."
     },
-    "1nj1lgg21qf": {
-      "keys": [
-        "scene-talk.reply-refuse.i-voted-no-on-your-last-one-nothing-s-different-for-me",
-        "scene-talk.follow-accept.fine-i-ll-find-someone-who-can-afford-it"
-      ],
-      "why": "A never said they couldn't afford it; 'someone who can afford it' answers a reason A did not give."
-    },
     "1nof3un6vjr": {
       "keys": [
         "scene-talk.follow-thank.that-means-a-lot-their-first-thank-you",
@@ -1173,13 +1040,6 @@
       ],
       "why": "The line before asked when, and the reply neither says when nor sidesteps the question."
     },
-    "1p2alzto2ld": {
-      "keys": [
-        "scene-talk.follow-thank.good-i-ll-hold-you-to-that",
-        "scene-talk.reply-refuse.i-voted-no-on-your-last-one-nothing-s-different-for-me"
-      ],
-      "why": "A responds to a promise; a firm no does not follow it."
-    },
     "1q2j2b5iqu3": {
       "keys": [
         "scene-talk.follow-confront.bring-a-chair-it-s-a-long-morning",
@@ -1207,13 +1067,6 @@
         "scene-talk.reply-agree.phone-calls-i-can-do-put-me-down"
       ],
       "why": "The reply picks a job from a list the line before never gave."
-    },
-    "1qqg63ixhnt": {
-      "keys": [
-        "scene-talk.reply-refuse.i-voted-no-on-your-last-one-nothing-s-different-for-me",
-        "scene-talk.follow-thank.good-i-m-writing-you-down"
-      ],
-      "why": "\"I'm writing you down\" with \"Good\" treats a no as a yes."
     },
     "1qy3bo00mml": {
       "keys": [
@@ -1277,13 +1130,6 @@
         "scene-talk.follow-confront.i-will"
       ],
       "why": "'I will' answers nothing in A's statement."
-    },
-    "1thy83mumrz": {
-      "keys": [
-        "scene-talk.follow-thank.good-i-ll-put-you-down-as-a-yes",
-        "scene-talk.reply-refuse.i-voted-no-on-your-last-one-nothing-s-different-for-me"
-      ],
-      "why": "A has just put them down as a yes; a flat no does not follow it."
     },
     "1u9zeyy89k0": {
       "keys": [
@@ -1355,13 +1201,6 @@
       ],
       "why": "A asks B to sit the vote out, and B's reply about how they voted last time does not take that up."
     },
-    "1wku19pcnmn": {
-      "keys": [
-        "scene-talk.follow-plea.then-tell-me-who-s-right",
-        "scene-talk.reply-refuse.i-voted-no-on-your-last-one-nothing-s-different-for-me"
-      ],
-      "why": "A asks B to say who is right; B does not answer."
-    },
     "1wu5rdlx5qc": {
       "keys": [
         "scene-talk.follow-press.is-there-something-i-can-fix-i-d-like-to-understand",
@@ -1375,13 +1214,6 @@
         "scene-talk.follow-thank.good-we-ll-see-you-there"
       ],
       "why": "The line before asked when, and the reply neither says when nor sidesteps the question."
-    },
-    "1xjqki35kny": {
-      "keys": [
-        "scene-talk.follow-accept.fair-enough",
-        "scene-talk.reply-refuse.i-voted-no-on-your-last-one-nothing-s-different-for-me"
-      ],
-      "why": "A has already accepted; repeating the no does not follow."
     },
     "1xnxleanzoq": {
       "keys": [
@@ -1397,20 +1229,6 @@
       ],
       "why": "The line before asked when, and the reply neither says when nor sidesteps the question."
     },
-    "1y8dwbs7uuq": {
-      "keys": [
-        "scene-talk.follow-thank.that-s-a-relief",
-        "scene-talk.reply-refuse.i-voted-no-on-your-last-one-nothing-s-different-for-me"
-      ],
-      "why": "A is relieved by a yes; a flat no does not follow it."
-    },
-    "1y8orjmgjhf": {
-      "keys": [
-        "scene-talk.reply-refuse.i-voted-no-on-your-last-one-nothing-s-different-for-me",
-        "scene-talk.state-request.bill-comes-down-to-a-vote-or-two-yours-is-one-of-them"
-      ],
-      "why": "The opening ask repeated after a no ignores the refusal."
-    },
     "1ycjjzm8o2k": {
       "keys": [
         "scene-talk.follow-accept.i-can-get-you-the-funding-section-give-me-a-day",
@@ -1418,33 +1236,12 @@
       ],
       "why": "A offers the funding section; recounting the last vote ignores the offer."
     },
-    "1yjuz0i0o1u": {
-      "keys": [
-        "scene-talk.reply-refuse.i-voted-no-on-your-last-one-nothing-s-different-for-me",
-        "scene-talk.follow-thank.good-i-ll-hold-you-to-that"
-      ],
-      "why": "\"I'll hold you to that\" treats a no as a promise of support."
-    },
     "1z2ttkzxdqm": {
       "keys": [
         "scene-talk.follow-request.if-you-can-t-vote-yes-can-you-be-out-of-the-room",
         "scene-talk.reply-stall.i-was-a-no-last-time-don-t-count-me-either-way-yet"
       ],
       "why": "A asks whether B will be out of the room, and B's reply about how they voted last time does not answer that."
-    },
-    "1z4idmjsdui": {
-      "keys": [
-        "scene-talk.follow-accept.then-your-amendment-goes-in-deal",
-        "scene-talk.reply-refuse.i-voted-no-on-your-last-one-nothing-s-different-for-me"
-      ],
-      "why": "A grants B's amendment and calls it a deal; B ignores the deal and repeats an old no."
-    },
-    "1ze6hltb0gy": {
-      "keys": [
-        "scene-talk.follow-accept.name-it-if-i-can-do-it-it-s-yours",
-        "scene-talk.reply-refuse.i-voted-no-on-your-last-one-nothing-s-different-for-me"
-      ],
-      "why": "A offers what they asked for; a flat no that names nothing does not answer \"Name it.\""
     },
     "1zjhkvz6fyh": {
       "keys": [
@@ -1466,13 +1263,6 @@
         "scene-talk.reply-leave.let-me-drop-my-bag-and-i-m-all-yours"
       ],
       "why": "A comments on quiet people; B's bag remark answers nothing in A."
-    },
-    "22kw3clyzbx": {
-      "keys": [
-        "scene-talk.follow-accept.all-right-we-have-a-deal",
-        "scene-talk.reply-refuse.i-voted-no-on-your-last-one-nothing-s-different-for-me"
-      ],
-      "why": "A says they have a deal; a flat no without addressing it does not follow."
     },
     "238fyxz5dig": {
       "keys": [
@@ -1516,13 +1306,6 @@
       ],
       "why": "A asks for a number; B says \"we understand each other\""
     },
-    "24za9mqt8uw": {
-      "keys": [
-        "scene-talk.follow-accept.i-ll-put-that-in",
-        "scene-talk.reply-refuse.i-voted-no-on-your-last-one-nothing-s-different-for-me"
-      ],
-      "why": "A agrees to put something in; B answers with a refusal that ignores what A just agreed to."
-    },
     "254a1dp8dau": {
       "keys": [
         "scene-talk.follow-accept.all-right-we-have-a-deal",
@@ -1536,13 +1319,6 @@
         "scene-talk.reply-refuse.you-asked-me-last-time-and-i-voted-no-i-m-voting-no-again"
       ],
       "why": "A offers to write in what B wanted at a cost; B ignores the offer and repeats an old no."
-    },
-    "25xxgmi2fif": {
-      "keys": [
-        "scene-talk.reply-refuse.i-voted-no-on-your-last-one-nothing-s-different-for-me",
-        "scene-talk.follow-thank.thank-you-i-won-t-forget-it"
-      ],
-      "why": "Thanking them treats a no as a yes."
     },
     "25ztng057bb": {
       "keys": [
@@ -1670,13 +1446,6 @@
       ],
       "why": "The reply treats a request for time as a yes, and the line before accepted nothing."
     },
-    "2fbu807sana": {
-      "keys": [
-        "scene-talk.reply-refuse.i-voted-no-on-your-last-one-nothing-s-different-for-me",
-        "scene-talk.state-request.i-need-your-vote-on-bill"
-      ],
-      "why": "Repeating the opening ask ignores the no just given."
-    },
     "2fxwucgfci4": {
       "keys": [
         "scene-talk.reply-offer.there-s-a-posting-at-public-works-this-week-tell-him-to-apply-by-frida",
@@ -1684,26 +1453,12 @@
       ],
       "why": "'Somebody' echoes a word A never said; A offered a name reference."
     },
-    "2g10hmiyt48": {
-      "keys": [
-        "scene-talk.follow-thank.thank-you-i-know-that-wasn-t-easy",
-        "scene-talk.reply-refuse.i-voted-no-on-your-last-one-nothing-s-different-for-me"
-      ],
-      "why": "A thanks them for a hard yes; a flat no does not follow it."
-    },
     "2g2m53qiifo": {
       "keys": [
         "scene-talk.follow-answer.sign-up-sheets-phone-calls-and-a-few-words-at-a-meeting-if-you-want",
         "scene-talk.reply-decline.honestly-i-don-t-agree-with-you-on-this-one"
       ],
       "why": "The reply disagrees with something the line before never claimed."
-    },
-    "2g766g697pj": {
-      "keys": [
-        "scene-talk.follow-accept.that-i-can-live-with",
-        "scene-talk.reply-refuse.i-voted-no-on-your-last-one-nothing-s-different-for-me"
-      ],
-      "why": "A is accepting terms; a flat no does not follow it."
     },
     "2gf4jpc7n1x": {
       "keys": [
@@ -1727,5 +1482,5 @@
       "why": "A says they changed their mind; a no with no correction does not follow."
     }
   },
-  "yesHash": "1nvmo4klvip"
+  "yesHash": "1pro7ae170s"
 }
