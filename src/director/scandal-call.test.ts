@@ -237,39 +237,44 @@ it("a conflict call names the contract, the firm and whose it is (Gilbert IA, se
       ownerId: string;
     }[]),
   ].sort((a, b) => a.id.localeCompare(b.id));
-  const firm = owners.find((row) => {
-    const owner = core.people.get(row.ownerId as PersonId);
-    return (
-      owner?.alive &&
+  // The owner's living relatives the family record names, in the owner's
+  // home.
+  const kinOf = (ownerId: PersonId) => {
+    const owner = core.people.get(ownerId);
+    const kin = [...(owner?.familyIds ?? [])]
+      .sort()
+      .filter(
+        (id) => core.people.get(id)?.alive && familyRelation(core, id, ownerId),
+      );
+    const home = (id: PersonId) =>
+      core.people.get(id)!.householdId === owner!.householdId;
+    return { inside: kin.find((id) => home(id)) };
+  };
+  // A firm whose owner has a relative at home, as at Gilbert. (A relative
+  // in office who lives elsewhere in town is not in an opening world: an
+  // owner's kin outside the home are not filled in, at four places and seeds.)
+  const firm = owners.find(
+    (row) =>
+      core.people.get(row.ownerId as PersonId)?.alive &&
       core.organizations.has(row.id) &&
-      [...owner.familyIds].some((id) => core.people.get(id)?.alive)
-    );
-  });
-  expect(firm, "a firm whose owner has family").toBeTruthy();
+      kinOf(row.ownerId as PersonId).inside,
+  );
+  expect(firm, "a firm whose owner has family at home").toBeTruthy();
   const owner = core.people.get(firm!.ownerId as PersonId)!;
-  // A relative who shares the owner's home when there is one, as at Gilbert.
-  const kinIds = [...owner.familyIds]
-    .sort()
-    .filter(
-      (id) => core.people.get(id)?.alive && familyRelation(core, id, owner.id),
-    );
-  const relativeId =
-    kinIds.find(
-      (id) => core.people.get(id)!.householdId === owner.householdId,
-    ) ?? kinIds[0]!;
-  const housemate =
-    core.people.get(relativeId)!.householdId === owner.householdId;
   const gov = governments(api)[0]!;
   const awardId = `contract:${gov.id}:highways:${core.date}`;
   const outlet = townOutlet(api)!;
   const call = (memberId: PersonId) => {
+    const at = firm!;
+    const ownerId = at.ownerId as PersonId;
     const relation =
-      memberId === owner.id
+      memberId === ownerId
         ? OWNER_RELATION
-        : familyRelation(core, memberId, owner.id)!;
+        : familyRelation(core, memberId, ownerId)!;
     core.playerId = memberId;
     if (!director.ledger.people.has(memberId)) director.watch(core, memberId);
     const id = `${PRESS_EXPOSED}:${awardId}:${memberId}:${outlet.id}`;
+    const runsOn = addDays(makeIsoDate(core.date), 1);
     api.emit({
       id,
       date: core.date,
@@ -282,12 +287,12 @@ it("a conflict call names the contract, the firm and whose it is (Gilbert IA, se
       facts: {
         [`award:${awardId}`]: "conflict-of-interest",
         memberId,
-        organizationId: firm!.id,
-        ownerId: owner.id,
+        organizationId: at.id,
+        ownerId,
         relation,
         outletId: outlet.id,
         // The paper's next print day, as press.ts weighTip sets it.
-        runsOn: addDays(makeIsoDate(core.date), 1),
+        runsOn,
       },
       source: { tag: "SOURCED", citation: "fixture", asOf: core.date },
     });
@@ -310,8 +315,9 @@ it("a conflict call names the contract, the firm and whose it is (Gilbert IA, se
     const talk = (result.scene as unknown as { talk: Talk }).talk;
     const state = talk.state.text;
     const { shown } = played(talk);
+    const callOn = (entry as unknown as { date: string }).date;
     process.stdout.write(
-      `GAPS ${JSON.stringify(talk.gaps)}\nCONFLICT ${relation}\n${shown.join("\n")}\nEND CALL\n`,
+      `GAPS ${JSON.stringify(talk.gaps)}\nCONFLICT ${relation}\nDAYS found ${core.date}, call ${callOn}, runs ${runsOn}\n${shown.join("\n")}\nEND CALL\n`,
     );
     return { facts, state };
   };
@@ -321,11 +327,11 @@ it("a conflict call names the contract, the firm and whose it is (Gilbert IA, se
   expect(own.state).toContain("the road contract");
   expect(own.state).toContain(firmName);
   expect(own.state).toContain("stake");
-  const kin = call(relativeId as PersonId);
+  // A housemate is told the owner lives with them (Words lead, Nov 15).
+  const kin = call(kinOf(owner.id).inside!);
   expect(kin.facts.has("firm-yours")).toBe(false);
   expect(kin.state).toContain(firmName);
   expect(kin.state).toContain(owner.givenName);
-  // A housemate is told the owner lives with them (Words lead, Nov 15).
-  expect(kin.facts.has("relative-lives-with")).toBe(housemate);
-  if (housemate) expect(kin.state).toContain("lives with you");
+  expect(kin.facts.has("relative-lives-with")).toBe(true);
+  expect(kin.state).toContain("lives with you");
 }, 60_000);

@@ -52,17 +52,50 @@ import type { TreeNode } from "./scene-talk";
 const PLACE = "1930630";
 const SEED = "reporters-call-1";
 
-/** The reply the player picks at each step, by its move; null is no call. */
-const CALLS = [
-  { name: "owns it", moves: ["confess", "answer"] },
+/**
+ * The reply the player picks at each step, by its move; null is no call.
+ * `outlet` is the kind of outlet whose reporter the one who paid goes to
+ * (the town paper when unset); `close` has a relative or friend pay.
+ */
+const CALLS: readonly {
+  name: string;
+  moves: readonly string[] | null;
+  outlet?: string;
+  close?: boolean;
+}[] = [
+  { name: "owns it, gives a reason", moves: ["confess", "answer"] },
+  { name: "owns it, then says no more", moves: ["confess", "refuse"] },
+  {
+    name: "owns it, a relative or friend paid",
+    moves: ["confess", "answer"],
+    close: true,
+  },
   { name: "will not comment", moves: ["refuse"] },
+  { name: "asks who told, then says no more", moves: ["confront", "refuse"] },
+  { name: "asks who told, then owns it", moves: ["confront", "confess"] },
   { name: "lies", moves: ["lie"] },
+  {
+    name: "owns it to the TV station, then has to go",
+    moves: ["confess", "leave"],
+    outlet: "television",
+  },
+  {
+    name: "owns it to a news site, then has to go",
+    moves: ["confess", "leave"],
+    outlet: "online",
+  },
+  {
+    name: "owns it to a magazine, then has to go",
+    moves: ["confess", "leave"],
+    outlet: "magazine",
+  },
   { name: "no call, the player", moves: null },
   { name: "no call, unattended", moves: null },
-] as const;
+];
 
 interface Played {
   name: string;
+  days?: string;
   exposedId: string;
   who: PersonId;
   said: string[];
@@ -102,6 +135,8 @@ it("the story prints the official's own answer on the call, a decline, or nothin
         talk: { state: { text: string }; tree: TreeNode };
       }
     ).talk;
+    const runsOn = String(core.durableLog.get(exposedId)?.facts?.runsOn);
+    const days = `Found ${core.durableLog.get(exposedId)?.date}, call ${(entry as unknown as { date: string }).date}, runs ${runsOn}.`;
     const said = [`Reporter: ${talk.state.text}`];
     let node: TreeNode | null = talk.tree;
     const path: number[] = [];
@@ -126,8 +161,10 @@ it("the story prints the official's own answer on the call, a decline, or nothin
         for (const l of known.node.lines) said.push(`Reporter: ${l.text}`);
         node = known.node;
       }
+      // Where the call ends, the reporter's closing line.
+      if (node?.end?.close) said.push(`Reporter: ${node.end.close.text}`);
     }
-    return { said, answer };
+    return { said, answer, days };
   };
 
   // Bribes: each member takes one in the offer scene while the player
@@ -140,7 +177,6 @@ it("the story prints the official's own answer on the call, a decline, or nothin
       const body = seatView(core, p.id).bodies[0];
       return body && !("byRequest" in body && body.byRequest);
     });
-  const reporterId = townOutlet(api)!.reporterIds[0]!;
   const played: Played[] = [];
   let next = 0;
   for (const c of CALLS) {
@@ -154,11 +190,14 @@ it("the story prints the official's own answer on the call, a decline, or nothin
           p.id !== who &&
           p.placeId === member.placeId &&
           !staff.has(p.id) &&
-          !members.some((m) => m.id === p.id),
+          !members.some((m) => m.id === p.id) &&
+          // A relative of the member pays only where the call asks for one.
+          member.familyIds.has(p.id) === Boolean(c.close),
       )
       .sort(
         (a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id),
       )[0]!;
+    expect(offerer, `${c.name}: one who pays`).toBeTruthy();
     const seat = seatView(core, who);
     let bill = { id: "", status: "blocked" };
     for (const question of [...seat.questions].slice(0, 6)) {
@@ -192,16 +231,26 @@ it("the story prints the official's own answer on the call, a decline, or nothin
         source: { tag: "SOURCED", asOf: core.date, citation: "test" },
       });
     expect(crimeRecord(api, offered.id)?.taken, c.name).toBe(true);
+    const outlet = c.outlet
+      ? outletsHere(api).find((row) => row.kind === c.outlet)!
+      : townOutlet(api)!;
     const tip = leakToReporter(api, {
       leakerId: offerer.id,
-      reporterId,
+      reporterId: outlet.reporterIds[0]!,
       crimeId: offered.id,
     }) as { exposedId?: string | null };
     expect(tip.exposedId, c.name).toBeTruthy();
-    const { said, answer } = c.moves
+    const { said, answer, days } = c.moves
       ? call(who, tip.exposedId!, c.moves)
-      : { said: [], answer: null };
-    played.push({ name: c.name, exposedId: tip.exposedId!, who, said, answer });
+      : { said: [], answer: null, days: undefined };
+    played.push({
+      name: c.name,
+      exposedId: tip.exposedId!,
+      who,
+      said,
+      answer,
+      days,
+    });
   }
   // The player plays the "no call" member when the paper prints.
   core.playerId = played.find((p) => p.name === "no call, the player")!.who;
@@ -273,7 +322,7 @@ it("the story prints the official's own answer on the call, a decline, or nothin
   ).toBeTruthy();
   const conflictWho = conflict!.personIds[0] as PersonId;
   const player = core.playerId;
-  const conflictCall = call(conflictWho, conflict!.id, ["confess"]);
+  const conflictCall = call(conflictWho, conflict!.id, ["confess", "answer"]);
   core.playerId = player;
   played.push({
     name: "conflict, owns it",
@@ -309,7 +358,7 @@ it("the story prints the official's own answer on the call, a decline, or nothin
       `## ${p.name}`,
       "",
       ...(p.said.length
-        ? ["The call:", "", ...p.said.map((l) => `- ${l}`), ""]
+        ? [p.days!, "", "The call:", "", ...p.said.map((l) => `- ${l}`), ""]
         : ["No call.", ""]),
       `Printed ${(story as { date: string }).date} by ${worded?.outlet?.name ?? "?"}, about ${full}:`,
       "",

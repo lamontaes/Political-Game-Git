@@ -21408,7 +21408,18 @@
           "role": "asker",
           "purpose": "scandal-comment",
           "key": "threat",
-          "after": "refuse"
+          "after": "refuse",
+          "excludesFacts": ["answered-on-call"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "scandal-comment",
+          "key": "threat",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "after": "scene-talk.reply-leave.i-ve-said-what-i-m-going-to-say",
+          "excludesFacts": ["answered-on-call"]
         }
       ],
       "bearing": "calm",
@@ -21433,7 +21444,8 @@
           "purpose": "scandal-comment",
           "role": "asker",
           "step": "follow",
-          "subject": "scene"
+          "subject": "scene",
+          "excludesFacts": ["answered-on-call"]
         }
       ],
       "bearing": "calm",
@@ -21458,7 +21470,8 @@
           "purpose": "scandal-comment",
           "role": "asker",
           "step": "follow",
-          "subject": "scene"
+          "subject": "scene",
+          "excludesFacts": ["answered-on-call"]
         }
       ],
       "bearing": "calm",
@@ -21654,6 +21667,50 @@
           "role": "asker",
           "after": "scene-talk.reply-confront.print-it-then-we-re-done",
           "requiresFacts": ["outlet-national-paper", "runs-on"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "scandal-comment",
+          "key": "threat",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "after": "answer",
+          "requiresFacts": ["outlet-newspaper", "runs-on"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "scandal-comment",
+          "key": "threat",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "after": "scene-talk.reply-leave.i-ve-said-what-i-m-going-to-say",
+          "requiresFacts": ["answered-on-call", "outlet-newspaper", "runs-on"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "scandal-comment",
+          "key": "threat",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "after": "answer",
+          "requiresFacts": ["outlet-national-paper", "runs-on"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "scandal-comment",
+          "key": "threat",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "after": "scene-talk.reply-leave.i-ve-said-what-i-m-going-to-say",
+          "requiresFacts": [
+            "answered-on-call",
+            "outlet-national-paper",
+            "runs-on"
+          ]
         }
       ],
       "bearing": "calm",
@@ -21733,6 +21790,66 @@
           "role": "asker",
           "after": "scene-talk.reply-confront.print-it-then-we-re-done",
           "requiresFacts": ["outlet-radio", "runs-on"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "scandal-comment",
+          "key": "threat",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "after": "answer",
+          "requiresFacts": ["outlet-television", "runs-on"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "scandal-comment",
+          "key": "threat",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "after": "scene-talk.reply-leave.i-ve-said-what-i-m-going-to-say",
+          "requiresFacts": ["answered-on-call", "outlet-television", "runs-on"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "scandal-comment",
+          "key": "threat",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "after": "answer",
+          "requiresFacts": ["outlet-cable", "runs-on"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "scandal-comment",
+          "key": "threat",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "after": "scene-talk.reply-leave.i-ve-said-what-i-m-going-to-say",
+          "requiresFacts": ["answered-on-call", "outlet-cable", "runs-on"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "scandal-comment",
+          "key": "threat",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "after": "answer",
+          "requiresFacts": ["outlet-radio", "runs-on"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "scandal-comment",
+          "key": "threat",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "after": "scene-talk.reply-leave.i-ve-said-what-i-m-going-to-say",
+          "requiresFacts": ["answered-on-call", "outlet-radio", "runs-on"]
         }
       ],
       "bearing": "calm",
@@ -21770,6 +21887,26 @@
           "role": "asker",
           "after": "scene-talk.reply-confront.print-it-then-we-re-done",
           "requiresFacts": ["outlet-magazine"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "scandal-comment",
+          "key": "threat",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "after": "answer",
+          "requiresFacts": ["outlet-magazine"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "scandal-comment",
+          "key": "threat",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "after": "scene-talk.reply-leave.i-ve-said-what-i-m-going-to-say",
+          "requiresFacts": ["answered-on-call", "outlet-magazine"]
         }
       ],
       "bearing": "calm",
@@ -21807,6 +21944,26 @@
           "role": "asker",
           "after": "scene-talk.reply-confront.print-it-then-we-re-done",
           "requiresFacts": ["outlet-online", "runs-on"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "scandal-comment",
+          "key": "threat",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "after": "answer",
+          "requiresFacts": ["outlet-online", "runs-on"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "scandal-comment",
+          "key": "threat",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "after": "scene-talk.reply-leave.i-ve-said-what-i-m-going-to-say",
+          "requiresFacts": ["answered-on-call", "outlet-online", "runs-on"]
         }
       ],
       "bearing": "calm",
@@ -54591,15 +54748,6 @@
           "purpose": "press-comment",
           "key": "routine",
           "after": "scene-talk.reply-lie.it-doesn-t-cost-anyone-a-cent"
-        },
-        {
-          "subject": "scene",
-          "purpose": "scandal-comment",
-          "key": "threat",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "after": "scene-talk.reply-answer.i-don-t-have-a-good-answer-for-you"
         }
       ],
       "bearing": "calm",
@@ -184658,32 +184806,6 @@
       }
     },
     {
-      "key": "scene-talk.state-ask.we-re-running-a-story-that-contract-went-to-firm-and-relative-owns-fir",
-      "move": "state-ask",
-      "kind": "spoken",
-      "text": "We're running a story that {contract} went to {firm}, and {relative} owns {firm}. What's your side?",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "scandal-comment",
-          "key": "threat",
-          "step": "state",
-          "move": "ask",
-          "role": "asker",
-          "requiresFacts": ["found-conflict", "relative", "contract", "firm"],
-          "excludesFacts": ["relative-lives-with"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Reporter's-call builder (Claude Code), Words lead's lines (reply-sets/oath-bribe-scandal.md C)",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "ask",
-        "key": "threat"
-      }
-    },
-    {
       "key": "scene-talk.reply-confess.it-s-true-i-was-wrong-and-i-ll-say-so",
       "move": "reply-confess",
       "kind": "spoken",
@@ -184695,7 +184817,8 @@
           "key": "threat",
           "step": "reply",
           "move": "confess",
-          "role": "asked"
+          "role": "asked",
+          "setsFacts": ["answered-on-call"]
         }
       ],
       "bearing": "contrite",
@@ -184779,7 +184902,7 @@
           "step": "follow",
           "move": "accept",
           "role": "asker",
-          "after": "scene-talk.reply-confess.all-right-it-s-true-i-took-it"
+          "after": "scene-talk.reply-confess.alright-it-s-true-i-took-it"
         },
         {
           "subject": "scene",
@@ -184788,7 +184911,7 @@
           "step": "follow",
           "move": "accept",
           "role": "asker",
-          "after": "scene-talk.reply-confess.all-right-i-should-have-stepped-aside"
+          "after": "scene-talk.reply-confess.alright-i-should-have-stepped-aside"
         },
         {
           "subject": "scene",
@@ -184797,7 +184920,7 @@
           "step": "follow",
           "move": "thank",
           "role": "asker",
-          "after": "scene-talk.reply-confess.all-right-it-s-true-i-took-it"
+          "after": "scene-talk.reply-confess.alright-it-s-true-i-took-it"
         },
         {
           "subject": "scene",
@@ -184806,7 +184929,7 @@
           "step": "follow",
           "move": "thank",
           "role": "asker",
-          "after": "scene-talk.reply-confess.all-right-i-should-have-stepped-aside"
+          "after": "scene-talk.reply-confess.alright-i-should-have-stepped-aside"
         }
       ],
       "bearing": "calm",
@@ -184871,10 +184994,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-answer.i-don-t-have-a-good-answer-for-you",
+      "key": "scene-talk.reply-answer.i-told-myself-it-wouldn-t-change-my-vote",
       "move": "reply-answer",
       "kind": "spoken",
-      "text": "I don't have a good answer for you.",
+      "text": "I told myself it wouldn't change my vote.",
       "uses": [
         {
           "subject": "scene",
@@ -184883,21 +185006,13 @@
           "step": "reply",
           "move": "answer",
           "role": "asked",
-          "after": "scene-talk.follow-ask.i-ll-print-that-why-did-you-take-it"
-        },
-        {
-          "subject": "scene",
-          "purpose": "scandal-comment",
-          "key": "threat",
-          "step": "reply",
-          "move": "answer",
-          "role": "asked",
-          "after": "scene-talk.follow-ask.i-ll-print-that-why-didn-t-you-step-aside"
+          "after": "scene-talk.follow-ask.i-ll-print-that-why-did-you-take-it",
+          "excludesFacts": ["briber-close"]
         }
       ],
       "bearing": "contrite",
       "origin": "authored",
-      "author": "Reporter's-call builder (Claude Code), Words lead's lines (reply-sets/oath-bribe-scandal.md C, 02:45Z)",
+      "author": "Reporter's-call builder (Claude Code), Words lead's lines (rulings-f23b8d9a.md, 10:18Z)",
       "date": "2026-11-15",
       "tag": {
         "move": "answer",
@@ -184905,44 +185020,62 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.that-goes-in-too",
-      "move": "follow-accept",
+      "key": "scene-talk.reply-answer.i-told-myself-i-could-be-fair-about-it",
+      "move": "reply-answer",
       "kind": "spoken",
-      "text": "That goes in too.",
+      "text": "I told myself I could be fair about it.",
       "uses": [
         {
           "subject": "scene",
           "purpose": "scandal-comment",
           "key": "threat",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "after": "scene-talk.reply-leave.i-ve-said-what-i-m-going-to-say"
-        },
-        {
-          "subject": "scene",
-          "purpose": "scandal-comment",
-          "key": "threat",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "after": "scene-talk.reply-answer.briber-asked-and-i-didn-t-know-how-to-say-no"
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "after": "scene-talk.follow-ask.i-ll-print-that-why-didn-t-you-step-aside",
+          "requiresFacts": ["firm-yours"]
         }
       ],
-      "bearing": "calm",
+      "bearing": "contrite",
       "origin": "authored",
-      "author": "Reporter's-call builder (Claude Code), Words lead's lines (reply-sets/oath-bribe-scandal.md C, 02:45Z)",
+      "author": "Reporter's-call builder (Claude Code), Words lead's lines (rulings-f23b8d9a.md, 10:18Z)",
       "date": "2026-11-15",
       "tag": {
-        "move": "accept",
+        "move": "answer",
         "key": "threat"
       }
     },
     {
-      "key": "scene-talk.reply-confess.all-right-it-s-true-i-took-it",
+      "key": "scene-talk.reply-answer.i-thought-i-could-vote-without-thinking-of-relative",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "I thought I could vote without thinking of {relative}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "scandal-comment",
+          "key": "threat",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "after": "scene-talk.follow-ask.i-ll-print-that-why-didn-t-you-step-aside",
+          "requiresFacts": ["relative"]
+        }
+      ],
+      "bearing": "contrite",
+      "origin": "authored",
+      "author": "Reporter's-call builder (Claude Code), Words lead's lines (rulings-f23b8d9a.md, 10:18Z)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "answer",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confess.alright-it-s-true-i-took-it",
       "move": "reply-confess",
       "kind": "spoken",
-      "text": "All right. It's true. I took it.",
+      "text": "Alright. It's true. I took it.",
       "uses": [
         {
           "subject": "scene",
@@ -184952,7 +185085,8 @@
           "move": "confess",
           "role": "asked",
           "after": "scene-talk.follow-confront.i-have-the-papers-try-again",
-          "requiresFacts": ["found-bribe"]
+          "requiresFacts": ["found-bribe"],
+          "setsFacts": ["answered-on-call"]
         },
         {
           "subject": "scene",
@@ -184962,7 +185096,8 @@
           "move": "confess",
           "role": "asked",
           "after": "scene-talk.follow-answer.i-don-t-give-up-the-people-who-talk-to-me-so-what-s-your-side",
-          "requiresFacts": ["found-bribe"]
+          "requiresFacts": ["found-bribe"],
+          "setsFacts": ["answered-on-call"]
         }
       ],
       "bearing": "contrite",
@@ -185012,7 +185147,8 @@
           "step": "reply",
           "move": "lie",
           "role": "asked",
-          "after": "scene-talk.follow-confront.i-have-the-papers-try-again"
+          "after": "scene-talk.follow-confront.i-have-the-papers-try-again",
+          "setsFacts": ["answered-on-call"]
         }
       ],
       "bearing": "braced",
@@ -185114,7 +185250,8 @@
           "key": "threat",
           "step": "reply",
           "move": "lie",
-          "role": "asked"
+          "role": "asked",
+          "setsFacts": ["answered-on-call"]
         }
       ],
       "bearing": "braced",
@@ -185152,10 +185289,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-confess.all-right-i-should-have-stepped-aside",
+      "key": "scene-talk.reply-confess.alright-i-should-have-stepped-aside",
       "move": "reply-confess",
       "kind": "spoken",
-      "text": "All right. I should have stepped aside.",
+      "text": "Alright. I should have stepped aside.",
       "uses": [
         {
           "subject": "scene",
@@ -185165,7 +185302,8 @@
           "move": "confess",
           "role": "asked",
           "after": "scene-talk.follow-answer.i-don-t-give-up-the-people-who-talk-to-me-so-what-s-your-side",
-          "requiresFacts": ["found-conflict"]
+          "requiresFacts": ["found-conflict"],
+          "setsFacts": ["answered-on-call"]
         },
         {
           "subject": "scene",
@@ -185175,7 +185313,8 @@
           "move": "confess",
           "role": "asked",
           "after": "scene-talk.follow-confront.i-have-the-papers-try-again",
-          "requiresFacts": ["found-conflict"]
+          "requiresFacts": ["found-conflict"],
+          "setsFacts": ["answered-on-call"]
         }
       ],
       "bearing": "contrite",
@@ -185201,7 +185340,8 @@
           "move": "lie",
           "role": "asked",
           "after": "scene-talk.follow-answer.i-don-t-give-up-the-people-who-talk-to-me-so-what-s-your-side",
-          "requiresFacts": ["found-bribe", "briber"]
+          "requiresFacts": ["found-bribe", "briber"],
+          "setsFacts": ["answered-on-call"]
         }
       ],
       "bearing": "braced",
@@ -185227,7 +185367,8 @@
           "move": "lie",
           "role": "asked",
           "after": "scene-talk.follow-answer.i-don-t-give-up-the-people-who-talk-to-me-so-what-s-your-side",
-          "requiresFacts": ["found-conflict"]
+          "requiresFacts": ["found-conflict"],
+          "setsFacts": ["answered-on-call"]
         }
       ],
       "bearing": "braced",
