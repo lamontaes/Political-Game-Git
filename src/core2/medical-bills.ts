@@ -63,7 +63,7 @@
 import { bookkeeping } from "./bookkeeping";
 import data from "./data/health/medical-bills.json" with { type: "json" };
 import customers from "./data/opening-customers.json" with { type: "json" };
-import { chargeGroups, fundGroups } from "./counted-money";
+import { chargeGroups, countedPayment, fundGroups } from "./counted-money";
 import { incomeBandOf, fullHouseholdIncomes } from "./counted-income-fifth";
 import { countedIllnessOf } from "./counted-illness";
 import { coverageSpellsNow, spellOn } from "./health-own";
@@ -191,6 +191,9 @@ export interface MedicalBillRow {
   readonly keptBackMinor?: number;
   /** Who was paid, and the cash journal entries that paid them. */
   readonly sellerId: string | null;
+  /** What one household paid of its owed bills from a loan taken for them, and the loans (payOwedMedicalBills). */
+  readonly loanPaidMinor?: number;
+  readonly loanIds?: readonly string[];
   readonly journalIds: readonly string[];
   /** The share of what is unpaid past the wait sent to collections (the web's factor; the rest the provider writes off), and the web month row. */
   readonly collectionsShare: number;
@@ -1030,6 +1033,93 @@ function dropSettledRows(
 }
 
 /** A household's latest month of medical bills, if it was billed. */
+/**
+ * What one real household still owes its provider and has not yet seen
+ * placed for collection: the bills inside the wait, oldest first. A counted
+ * row's bills stand for its whole weight, so one household's part is that
+ * over the weight.
+ */
+export function owedMedicalMinor(
+  api: CoreAPI,
+  module: string,
+  householdId: string,
+): number {
+  const row = medicalBillOf(api, module, householdId);
+  if (!row?.owed.length) return 0;
+  const owed = row.owed.reduce((n, bill) => n + bill.minor, 0);
+  return Math.floor(owed / Math.max(1, row.counted ? row.weight : 1));
+}
+
+/**
+ * A household pays the bills it still owes its provider from a loan it took
+ * for them (credit.ts), so the bill does not also go to collections: one
+ * debt, not two. It pays the bills inside the wait, oldest first, up to
+ * `maxMinor` for one household, to the seller that billed them, or to the
+ * place's seller as billing picks it where that one has closed. The borrower
+ * pays from their own account, or a counted borrower from their group's, as
+ * the loan reached them. Returns what one household paid.
+ */
+export function payOwedMedicalBills(
+  api: CoreAPI,
+  input: {
+    readonly module: string;
+    readonly householdId: string;
+    readonly borrowerId: string;
+    readonly maxMinor: number;
+    readonly loanId: string;
+    readonly source: Source;
+  },
+): number {
+  const core = api.state as CoreState;
+  const row = medicalBillOf(api, input.module, input.householdId);
+  const owe = owedMedicalMinor(api, input.module, input.householdId);
+  const amount = Math.min(owe, Math.floor(input.maxMinor));
+  if (!row || amount <= 0) return 0;
+  const open = (id: string | null) =>
+    !!id &&
+    core.organizations.has(id) &&
+    !core.finance.businesses.get(id)?.closedAt &&
+    core.cashJournal.residualAccountByOwner.has(id);
+  const payee = open(row.sellerId)
+    ? row.sellerId!
+    : (medicalSellers(api, row.placeId)[0] ?? outsideAccountOf(api));
+  if (!payee) return 0;
+  const id = `medical:${input.householdId}:${core.date}:${input.loanId}`;
+  const paid = core.people.has(input.borrowerId)
+    ? api.accounts().transfer({
+        id,
+        from: api.accounts().main(input.borrowerId),
+        to: api.accounts().main(payee),
+        amountMinor: amount,
+        reasonKey: MEDICAL_BILL_KIND,
+        partial: true,
+        source: input.source,
+      }).paidMinor
+    : countedPayment(api, {
+        id,
+        placeId: row.placeId,
+        personId: input.borrowerId,
+        otherOwnerId: payee,
+        amountMinor: amount,
+        reasonKey: MEDICAL_BILL_KIND,
+        source: input.source,
+      });
+  if (paid <= 0) return 0;
+  const weight = Math.max(1, row.counted ? row.weight : 1);
+  const settled = paid * weight;
+  bookSale(core, payee, settled);
+  const today = makeIsoDate(core.date);
+  table(api, input.module).put({
+    ...row,
+    owed: settleOwed(row.owed, 0, settled, today),
+    paidMinor: row.paidMinor + paid,
+    unpaidMinor: Math.max(0, row.unpaidMinor - paid),
+    loanPaidMinor: (row.loanPaidMinor ?? 0) + paid,
+    loanIds: [...(row.loanIds ?? []), input.loanId],
+  } as never);
+  return paid;
+}
+
 export function medicalBillOf(
   api: CoreAPI,
   module: string,

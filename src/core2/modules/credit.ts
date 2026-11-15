@@ -31,9 +31,12 @@ import type {
 } from "../types";
 import { linkCreditLineToPrime, quotedLineRate } from "./macro";
 import { countedPayment } from "../counted-money";
+import { owedMedicalMinor, payOwedMedicalBills } from "../medical-bills";
+import { COVERAGE_MODULE_ID } from "./coverage";
 import {
   residentsRuntime,
   householdCash,
+  householdArrears,
   householdCashReader,
   residentFacts,
 } from "./residents";
@@ -1406,6 +1409,8 @@ interface BorrowingHousehold {
   cash: number;
   /** The households a counted household stands for; 1 for a full household. */
   weight: number;
+  /** What it is behind on its home or its living: a full household's rent arrears, a counted one's share of its group's unpaid living. */
+  arrears: number;
   /** Read only for a household whose cash is short: pay, awards and benefits (`monthlyIncome`). */
   income: () => number;
 }
@@ -1417,6 +1422,18 @@ function borrowingHouseholds(
 ): BorrowingHousehold[] {
   const c = core(api);
   const rows: BorrowingHousehold[] = [];
+  const rentOwed = new Map<string, number>();
+  for (const [id, row] of c.finance.contracts)
+    if (
+      id.startsWith("lease:") &&
+      !row.endedAt &&
+      (row.arrearsMinor ?? 0) > 0 &&
+      row.householdId
+    )
+      rentOwed.set(
+        row.householdId,
+        (rentOwed.get(row.householdId) ?? 0) + (row.arrearsMinor ?? 0),
+      );
   for (const h of c.households.values()) {
     if (h.placeId !== placeId) continue;
     const members = h.memberIds.flatMap((id) => {
@@ -1429,6 +1446,7 @@ function borrowingHouseholds(
       members,
       cash: members.reduce((sum, person) => sum + person.liquidMinor, 0),
       weight: 1,
+      arrears: rentOwed.get(h.id) ?? 0,
       income: () => monthlyIncome(api, h.memberIds),
     });
   }
@@ -1445,6 +1463,7 @@ function borrowingHouseholds(
         members,
         cash: cashOf(h),
         weight: rt.store.weightOf(h),
+        arrears: householdArrears(rt, h),
         income: () =>
           monthlyIncome(
             api,
@@ -1816,17 +1835,45 @@ function householdApplications(
       members.reduce((s, row) => s + row!.livingCostDailyMinor, 0) *
       p("businessDaysPerMonth");
     if (costs <= 0) continue;
+    // Medical bills it still owes, inside the wait before collection, are due
+    // this month too: a loan for them pays them (payOwedMedicalBills).
+    const medical = c.modules.has(COVERAGE_MODULE_ID)
+      ? owedMedicalMinor(api, COVERAGE_MODULE_ID, household.id)
+      : 0;
+    // So is what it is already behind on its home or its living.
+    const due = costs + medical + household.arrears;
     // Only a real shortfall pulls toward borrowing: what the household cannot
     // pay this month from its cash and the month's income, by how far short.
-    if (cash >= costs) continue;
+    if (cash >= due) continue;
     const income = household.income();
-    const need = Math.max(0, 1 - (cash + income) / costs);
+    const need = Math.max(0, 1 - (cash + income) / due);
     if (need <= 0) continue;
-    const amount = costs * p("creditPersonalMonthsOfCosts");
+    // The household asks for what its records say it is short: the bills and
+    // arrears it owes, and the rest of the month it cannot cover. Each lender
+    // writes no loan below its own minimum, so the ask is never below it.
+    const amount = Math.max(medical + household.arrears, due - cash - income);
+    // What the loan pays of the owed bills, to their provider, as it arrives.
+    const payBills = (loanId: string, lentMinor: number) => {
+      if (medical > 0)
+        payOwedMedicalBills(api, {
+          module: COVERAGE_MODULE_ID,
+          householdId: household.id,
+          borrowerId: head.id,
+          maxMinor: lentMinor,
+          loanId,
+          source: {
+            tag: "ESTIMATED",
+            asOf: c.date,
+            citation: creditData.source.citation,
+            estimatedFrom: `The household borrowed for its owed medical bills (${loanId}) and paid them from the loan.`,
+          },
+        });
+    };
     let lent = 0;
     bank: if (room > 0) {
+      const ask = Math.max(amount, p("creditMinimumLoanMinor"));
       const payment = amortizedPayment(
-        amount,
+        ask,
         rate,
         p("creditPersonalTermMonths"),
         p,
@@ -1856,7 +1903,7 @@ function householdApplications(
           (1 + Math.exp(-p("creditDtiSlope") * residualPct))
         : 0;
       // Below the smallest loan the bank writes, there is no loan.
-      const offered = Math.floor(Math.min(amount * yes, room));
+      const offered = Math.floor(Math.min(ask * yes, room));
       const principal = offered >= p("creditMinimumLoanMinor") ? offered : 0;
       store(api)
         .table("applications")
@@ -1897,10 +1944,11 @@ function householdApplications(
           tag: "ESTIMATED",
           asOf: c.date,
           citation: creditData.source.citation,
-          estimatedFrom: `A personal loan quoted at ${rate}, from market rate ${marketRate}${lawId ? ` under ${lawId}` : ""}, sized from the household's costs and debt-to-income.`,
+          estimatedFrom: `A personal loan quoted at ${rate}, from market rate ${marketRate}${lawId ? ` under ${lawId}` : ""}, sized from what the household is short (owed bills, arrears and the month it cannot cover) and its debt-to-income.`,
         },
       );
       if (lent <= 0) break bank;
+      payBills(`loan:${household.id}:${c.date}`, lent);
       store(api)
         .table("loans")
         .put({
@@ -1940,7 +1988,10 @@ function householdApplications(
         : Math.min(lender.annualRate, ceiling);
     // A storefront lends a share of documented monthly pay, never more than the shortfall's loan, so no income is no loan.
     const ask = Math.min(
-      amount,
+      Math.max(
+        amount,
+        p("smallDollarMinimumLoanDollars") * p("creditMinorPerDollar"),
+      ),
       p("smallDollarLoanToMonthlyIncome") * Math.max(0, income),
     );
     if (!(ask > 0)) continue;
@@ -2020,6 +2071,7 @@ function householdApplications(
       },
     );
     if (moved <= 0) continue;
+    payBills(loanId, moved);
     store(api)
       .table("loans")
       .put({

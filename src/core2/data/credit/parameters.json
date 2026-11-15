@@ -166,17 +166,6 @@
       "citation": "How far borrowing sits below doing without, before need; checked against G.19 consumer credit growth and SCF borrowing shares."
     }
   },
-  "creditPersonalMonthsOfCosts": {
-    "value": 2,
-    "tag": "TUNABLE",
-    "citation": "Personal loans cover a few months of costs (SCF 2022 median unsecured installment balance about 2 to 3 months of median household spending).",
-    "spread": {
-      "low": 1,
-      "high": 4,
-      "unit": "months of living costs",
-      "citation": "Personal loans cover a few months of costs (SCF 2022 median unsecured installment balance about 2 to 3 months of median household spending)."
-    }
-  },
   "creditHouseholdMonthlyLendingShare": {
     "value": 0.02,
     "tag": "TUNABLE",
