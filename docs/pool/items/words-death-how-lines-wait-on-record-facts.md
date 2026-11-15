@@ -36,3 +36,5 @@ checked: s3 2026-11-15
 **Files.** src/core2/modules/health.ts, src/director/conversation.ts, data/english/relative-news-words.json, data/english/parts/conversation.json
 
 **Notes.** Filed on the #9384 branch (claude/words-s3-death-how-wordings).
+
+Nov 15 (second reader, #9384): "{He} took {his} own life. None of us knew." is built on the plain cause-suicide mark because no record of an illness of the mind exists in the health engine; when one does, place the warm line only where no such illness was on a record the house knew of (the ruling's own condition) and keep the plain line otherwise.
