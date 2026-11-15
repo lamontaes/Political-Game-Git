@@ -19,6 +19,7 @@ Learned by the path-check runners A and B and the speed lead, Oct 29 to Nov 1, a
 
 - **Cost a daily step before you add one** (`cadence-and-summaries`): a long run's growth is mostly what runs every day and what is never folded, and the daily register says which steps and tables those are.
 - **One heavy run at a time** on a 15 to 16 GB container. A second one, or a long save beside it, gets killed for memory.
+- **Start a long run with the tool's own `run_in_background`, never `( ... ) &` inside one command:** a command backgrounded inside the call is killed when the call returns and leaves an empty output file with no exit line. `npm run typecheck` needs `NODE_OPTIONS=--max-old-space-size=8192` or it dies out of memory in 20 seconds.
 - **Give node 8,000 MB:** `NODE_OPTIONS=--max-old-space-size=8000` (or 8192). At 6,500, two of the three heaviest rows died with exit 134 (heap out of memory).
 - **The heavy lock serializes heavy runs only.** Start no light test run, matrix regeneration or typecheck in another copy while an 8 GB run holds it: on Nov 1 the lenders test was killed with "Worker exited unexpectedly" and no heap message while such runs shared the container.
 - **Two Montpelier-size worlds are the limit, with nothing beside them (Nov 9).** Two 5 to 7 GB worlds ran together; adding a `npm run typecheck` or one vitest file got one of them killed three times in a morning. Put every world through one queue (a folder of job scripts run in name order by one runner), and run tests or the typecheck only while at most one world runs.
