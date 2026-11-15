@@ -26,3 +26,4 @@ description: >
 6. Add a release declaration `docs/release/changes/<id>.md`. `impact: none` has no section or title; any title is under 140 characters.
 7. Run `npm run pool -- --check` and prettier on the file. Known reds on two words items are not yours.
 8. The item goes in the thread's own PR, not a PR of its own.
+9. **What the pool check refuses** (Nov 15, filing `metrics-paper-looking-for-work-line-pinned`): the What paragraph must end with a sentence that begins `Seen:`, `Feeds: <item id>` or `Guards:`, and Done when must name a drawn place. A `pr:` is required once the status is `in-pr`, so name the PR number the moment the PR exists and rerun the gate on that head.
