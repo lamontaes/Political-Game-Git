@@ -8,8 +8,12 @@
  * for a state post, each confirmed as before); a no is kept with its reason
  * and date and the post stays open.
  *
- * Pinned places and seeds; the head who held the post dies (the one fixture,
- * as in the appointment tests), which opens it.
+ * Pinned places and seeds. HAND-STAGED: the head who holds the post falls
+ * seriously ill (beginSeriousIllness), once; the health engine books and
+ * plays their death, which opens the post. Before, the death was written by
+ * hand on the opening day (pool item tests-state-post-opened-by-written-death).
+ * The days run on the player's own clock (advancePlayerV1), so an open post
+ * waits for the player; a governor keeps only that stop on (setStops).
  */
 import { expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
@@ -36,6 +40,7 @@ import { officeActHandlers, OFFICE_ACTS } from "../core2/office-day-acts";
 import { coreAPI } from "../core2/state";
 import type { ActOffer, CoreState, PersonId } from "../core2/types";
 import type { Director } from "./ledger";
+import { playToDeathAsPlayer } from "../../tests/support/play-to-death";
 import { playServeAsk } from "../../tests/support/serve-ask-play";
 
 /**
@@ -48,8 +53,16 @@ import { playServeAsk } from "../../tests/support/serve-ask-play";
  * executive-cabinet-drawn-from-the-state) a cabinet secretary lives where the
  * state's people put them, and Victoria is not the state's seat, so the
  * secretary now lives elsewhere in Kansas and she is not in this world; at Fern
- * Prairie, Washington the agriculture post, Cheryl Monroe yes (pay, 0.51)
- * and John Pugh no (the post pays less than his work, -0.71).
+ * Prairie, Washington the agriculture post, Michelle Hunter yes (pay, 0.25)
+ * and Marcus Hunter no (the county clerk's job he would leave, -0.13).
+ * Re-pinned Nov 15 from Cheryl Monroe yes: she is one of the President's
+ * cabinet nominees passed over, who held no town and no work, so she said
+ * yes to any post; since executive-federal-nominees-passed-over-have-no-work
+ * she is a registered nurse and turns this post down (-0.23).
+ * Re-pinned Nov 15 from John Pugh, who was offered while he sat in the U.S.
+ * Senate for Rhode Island (official:seat:US-RI:us-senate:1): a governor's
+ * list now holds only the state's own people who hold no other office
+ * (executive-governor-pick-offers-the-state), so he is no longer offered.
  */
 const PLACES = [
   {
@@ -66,9 +79,9 @@ const PLACES = [
     office: "governor",
     key: "5323690",
     seed: "d156d6ecb2e252df9e0b3f2f992aff211c70c4b87e0caa779cd5729063d48ae0",
-    yes: "Cheryl Monroe",
-    no: "John Pugh",
-    reason: "pays-less",
+    yes: "Michelle Hunter",
+    no: "Marcus Hunter",
+    reason: "own-job",
   },
 ] as const;
 
@@ -103,15 +116,18 @@ function world(place: (typeof PLACES)[number]): World {
           (row) => row.confirmation,
         );
   expect(head, where).toBeDefined();
-  const dead = core.people.get(head!.holderId) as {
-    alive: boolean;
-    jobId?: string;
-  };
-  dead.alive = false;
-  if (dead.jobId) api.endJob(dead.jobId, `died:${core.date}`);
+  // The player holds the office before the head falls ill, and their days
+  // run on their own clock, so an open post waits for their choice.
   core.playerId = playerId;
   core.focusPersonIds.add(playerId);
   director.watch(core, playerId);
+  const { diedOn } = playToDeathAsPlayer(
+    core,
+    head!.holderId,
+    playerId,
+    place.level === "state" ? ["appointment"] : [],
+  );
+  process.stdout.write(`${where}: ${head!.holderId} died ${diedOn}\n`);
   const open =
     place.level === "town"
       ? postsToFill(api, playerId)
@@ -159,7 +175,9 @@ function ask(w: World, personId: string) {
 for (const place of PLACES)
   it(
     `asking someone to take a ${place.level} post plays as a scene; a no keeps the post open, a yes names them (${place.key}, seed ${place.seed.slice(0, 16)})`,
-    { timeout: 600_000 },
+    // The game's own played days to the booked death: about 25 seconds for
+    // the town, 40 for the state, measured; twice the longer.
+    { timeout: 90_000 },
     () => {
       const w = world(place);
       const api = coreAPI(w.core);
