@@ -198,6 +198,7 @@ import {
   stateInSentence,
 } from "./words";
 import { dayParts, sceneMinute } from "./day-part";
+import { employerInTalk } from "./employer-in-talk";
 import {
   employerSaidAs,
   officeWords,
@@ -6366,17 +6367,28 @@ function publicEmployerFor(
   conversation: Conversation,
   from: number,
 ): void {
-  const fix = (row: { text: string; sourceRecordIds: readonly string[] }) => {
+  const { playerId, otherId } = conversation;
+  const fix = (
+    row: { text: string; sourceRecordIds: readonly string[] },
+    speakerId: PersonId,
+    listenerId: PersonId,
+  ) => {
     for (const id of row.sourceRecordIds) {
       const org = core.organizations.get(id as never);
       if (!org || !employerIsGovernment(org)) continue;
       const name = employerWords(org);
-      if (name) row.text = publicEmployerSaid(row.text, name);
+      if (!name) continue;
+      // A government of the talk's own place is said by its class
+      // (Words lead ruling, Nov 15), anything else by its full name.
+      const said = employerInTalk(core, org, speakerId, listenerId) ?? name;
+      if (said !== name) row.text = row.text.split(name).join(said);
+      row.text = publicEmployerSaid(row.text, said);
     }
   };
-  for (const line of conversation.lines.slice(from)) fix(line);
+  for (const line of conversation.lines.slice(from))
+    fix(line, line.speakerId, line.speakerId === playerId ? otherId : playerId);
   for (const choice of [...conversation.choices, ...conversation.lies])
-    fix(choice);
+    fix(choice, playerId, otherId);
 }
 
 /**

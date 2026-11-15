@@ -27,6 +27,8 @@ checked:
 
 **Fix.** One reader for how a public employer is said in running text, in the said-as table (one row per class of government: town, county, state, federal, school district), covering the preposition ("for") as well as the name; the work lines read it through one slot. No per-line patches; the lines that say "at {employer}" for a business stay. Show the changed lines said at named places.
 
+**Ruling (Words lead, Nov 15; /mnt/project-files/words-lead/public-employer-said-in-talk.md).** In talk, a government of the talk's own place (both people's town, county or state) is said by its class: "the state" (territory "the territory", D.C. "the District"), "the county" (parish, borough by the record's class word), "the city"/"the town"/"the village"/"the township", "the school district"; the federal government is "the federal government" everywhere; any other place's government keeps its full name ("the State of Ohio", "the Territory of Guam"); the Journal keeps its own forms. Built as said-as.json `governmentInTalk` read by `src/director/employer-in-talk.ts`, from the record's kind, class and the two people's places.
+
 **Time box.** 2 hours, Sonnet.
 
 **Rules.** Follow the standing rule "One rule, all 56 places" and the other standing rules in AGENTS.md; no place is named in logic, and every class of public employer is covered.

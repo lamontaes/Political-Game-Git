@@ -12,6 +12,7 @@ import {
   jobOffersFor,
 } from "../core2/modules/jobs";
 import { openConversation, say } from "./conversation";
+import { employerInTalk } from "./employer-in-talk";
 
 // A person works for a government and is with it, never at it, and an
 // employer said again is never "work" inside a frame that already says work
@@ -20,18 +21,20 @@ import { openConversation, say } from "./conversation";
 // (Account lead, Nov 15).
 const PLACE_KEY = "3238100";
 const SEED = "c1";
-const GOVERNMENT =
-  "(?:the (?:government of|County of) |the federal government)";
+// What talk never says of the talk's own place's government: its full name
+// ("the government of Nevada", "the County of Lander"), and never "at" it.
+const OWN_FULL = "(?:the government of|the County of|the Village of)";
 const BAD = new RegExp(
   [
     "\\bwork(?:s|ing|ed)?\\s+(?:over\\s+)?(?:at|for|with)\\s+work\\b",
     "\\bI(?:'m| am)\\s+with\\s+work\\b",
-    `\\bwork(?:s|ing|ed)?\\s+(?:over\\s+)?(?:at|with)\\s+${GOVERNMENT}`,
-    `\\bI(?:'m| am)\\s+(?:over\\s+)?at\\s+${GOVERNMENT}`,
+    `\\b(?:at|for|with)\\s+${OWN_FULL}`,
+    "\\bwork(?:s|ing|ed)?\\s+(?:over\\s+)?at\\s+the (?:state|county|federal)",
+    "\\bI(?:'m| am)\\s+(?:over\\s+)?at\\s+the (?:state|county|federal)",
   ].join("|"),
   "i",
 );
-const GOOD = new RegExp(`\\b(?:for|with) ${GOVERNMENT}`, "i");
+const GOOD = /\b(?:for|with) the (?:state|county)\b/i;
 
 it("an employer is said as people say it (Kingston, seed c1)", () => {
   setBookkeeping(false);
@@ -118,3 +121,78 @@ it("an employer is said as people say it (Kingston, seed c1)", () => {
   ).toBeGreaterThan(0);
   expect(wrong).toEqual([]);
 }, 120_000);
+
+it("another place's state keeps its full name, the talk's own is 'the state' (Kingston, seed c1)", () => {
+  setBookkeeping(false);
+  const { core, playerId } = buildBenchWorld(SEED, "2025-01-20", {
+    twoLevel: true,
+    placeKey: PLACE_KEY,
+  });
+  const me = playerId as PersonId;
+  const other = [...core.people.values()].find(
+    (row) =>
+      row.alive &&
+      row.id !== me &&
+      row.placeId === core.people.get(me)!.placeId,
+  )!;
+  const treasury = (key: string, name: string) => ({
+    kind: "government-treasury",
+    name: `${name} treasury`,
+    governmentFacts: { governmentKey: key },
+  });
+  expect(
+    employerInTalk(core, treasury("US-NV", "Nevada"), other.id as PersonId, me),
+  ).toBe("the state");
+  expect(
+    employerInTalk(core, treasury("US-OH", "Ohio"), other.id as PersonId, me),
+  ).toBe("the State of Ohio");
+  expect(
+    employerInTalk(
+      core,
+      treasury("US-DC", "District of Columbia"),
+      other.id as PersonId,
+      me,
+    ),
+  ).toBe("the District of Columbia");
+  expect(
+    employerInTalk(core, treasury("US-GU", "Guam"), other.id as PersonId, me),
+  ).toBe("the Territory of Guam");
+  // A county's own government, said by its record's class word.
+  expect(
+    employerInTalk(
+      core,
+      {
+        kind: "employer",
+        name: "County of Lander",
+        classification: "service:county-government",
+      },
+      other.id as PersonId,
+      me,
+    ),
+  ).toBe("the county");
+  expect(
+    employerInTalk(
+      core,
+      {
+        kind: "employer",
+        name: "Island Falls Public Schools",
+        classification: "service:school",
+      },
+      other.id as PersonId,
+      me,
+    ),
+  ).toBe("the school district");
+  // A department keeps its name.
+  expect(
+    employerInTalk(
+      core,
+      {
+        kind: "employer",
+        name: "Kingston Fire Department",
+        classification: "service:fire",
+      },
+      other.id as PersonId,
+      me,
+    ),
+  ).toBeNull();
+});

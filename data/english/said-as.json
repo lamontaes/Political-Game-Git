@@ -190,6 +190,28 @@
       { "from": "(\\b(?:job|jobs)\\s+)at\\s+{name}", "to": "$1with {name}" }
     ]
   },
+  "governmentInTalk": {
+    "about": "Words lead ruling, Nov 15, 2026 (/mnt/project-files/words-lead/public-employer-said-in-talk.md): in talk, a government of the talk's own place (the speaker's and listener's town, county or state) is said by its class; any other government keeps its full name; the federal government is \"the federal government\" everywhere; the Journal keeps its own forms. state: by the state identity's level word. classWords: a town's or county's own class word as its record's name carries it (\"Village of X\", \"X County\"); a class word not listed is said by the full name. otherState: another state's full name from its level word and name.",
+    "state": {
+      "State": "the state",
+      "District": "the District",
+      "Territory": "the territory",
+      "Commonwealth": "the territory"
+    },
+    "classWords": [
+      "city",
+      "town",
+      "village",
+      "township",
+      "county",
+      "parish",
+      "borough"
+    ],
+    "ownClass": "the {class}",
+    "school": "the school district",
+    "otherState": "the {level} of {name}",
+    "otherStateNamedAsLevel": "the {name}"
+  },
   "ownPlaceThere": {
     "about": "Account lead, Nov 15, 2026, from M5's read of #9502 (item words-i-work-for-a-public-employer-is-said-as-people-say-it): a later mention of the employer is 'work' (ownPlace), except after a frame that already says work or takes 'with' or 'for' (\"I work over at work.\", \"I'm with work.\", \"I work for work.\"), where it is 'there' (\"I work there.\", \"I'm there.\"). Each row is the words before the name, kept, and the preposition that goes; {name} is the employer.",
     "said": "there",
