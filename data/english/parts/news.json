@@ -7316,7 +7316,7 @@
       "key": "news.emergency-lapsed.name-declared-no-emergency-over-the-disaster",
       "move": "emergency-lapsed",
       "kind": "written",
-      "text": "{name} declared no emergency over the {disaster} before the deadline passed.",
+      "text": "{name} declared no emergency over the {disaster} before the deadline ran out.",
       "uses": [
         {
           "move": "emergency-lapsed",
@@ -7338,7 +7338,7 @@
       "key": "news.emergency-lapsed.no-emergency-was-declared-over-the-disaster",
       "move": "emergency-lapsed",
       "kind": "written",
-      "text": "No emergency was declared over the {disaster} before the deadline passed.",
+      "text": "No emergency was declared over the {disaster} before the deadline ran out.",
       "uses": [
         {
           "move": "emergency-lapsed",

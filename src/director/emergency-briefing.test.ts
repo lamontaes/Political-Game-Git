@@ -310,6 +310,8 @@ describe(`the governor's briefing room (${where})`, () => {
       `emergency-briefing: printed "${headline}" / "${worded?.lede ?? ""}"`,
     );
     expect(headline, where).toMatch(/no emergency (declared )?over the /i);
+    // No headline alone: the story also prints its lede.
+    expect(worded?.lede ?? "", where).toMatch(/no emergency/i);
     expect(
       api.moduleState(EXECUTIVE_MODULE_ID).table("emergencies").rows().length,
       where,
