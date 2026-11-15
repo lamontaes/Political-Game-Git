@@ -10,7 +10,7 @@
  */
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
-import { groupStance } from "./campaign-views";
+import { groupStance, popularity } from "./campaign-views";
 import { setBookkeeping } from "./bookkeeping";
 import { countedResidents } from "./electorate";
 import { gameStartDate } from "./game-start";
@@ -158,11 +158,15 @@ describe("views from the person's own life", () => {
     );
     expect(full, where(place)).toBeDefined();
     // At a centered lean, with no survey loading on a spending line, the
-    // opening stance is the life term alone.
+    // opening stance is the country's view of the line plus the life term.
     expect(
       openingStance(api, full!.id, HOUSING_LINE, 0),
       `${where(place)}: ${full!.id}`,
-    ).toBeCloseTo(stakeShift(fullLifeStake(core, full!), HOUSING_LINE), 12);
+    ).toBeCloseTo(
+      popularity(HOUSING_LINE, core.seed) +
+        stakeShift(fullLifeStake(core, full!), HOUSING_LINE),
+      12,
+    );
   }, 120_000);
 
   it("a counted resident filled in keeps the circumstances their household's record gave them", () => {

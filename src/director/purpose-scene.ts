@@ -67,6 +67,7 @@ import {
 } from "../english/bill-names";
 import { areaName } from "../english/area-names";
 import { NAMED_QUESTIONS, questionAbout } from "../english/question-names";
+import { floorDebateFacts } from "./floor-debate-facts";
 import { raceTurnoutFacts } from "./race-turnout-facts";
 import { DONOR_ASK_TYPE, donorAskFacts } from "./donor-ask-facts";
 import {
@@ -98,7 +99,7 @@ import {
 import conversationRules from "./data/conversation-rules.json" with { type: "json" };
 import type { Director } from "./ledger";
 import { knockFacts, petitionAtDoor } from "./doors";
-import { officeSaid } from "./cause-facts";
+import { officeSaid, raceMemberTitle } from "./cause-facts";
 import { officeInSentence } from "../core2/person-work";
 import {
   SITUATION_LIBRARY,
@@ -1199,11 +1200,13 @@ function composeBinding(
     };
   // The floor before the roll (legislature.ts recordFloorDebate): which side
   // the speaker rose for, and the bill.
-  if (record?.kind === "floor-debate")
+  if (record?.kind === "floor-debate") {
     facts[said.forId === askerId ? "speaks-for" : "speaks-against"] = {
       text: said.number ?? "",
       sourceRecordIds: [moment.causeId, askerId],
     };
+    floorDebateFacts(core, facts, said, moment.causeId, askerId);
+  }
   // A witness at a committee's hearing (legislature.ts committeeStage): their
   // side on the bill and what it reaches in their own life, from the record's
   // lists (the job it binds, their lease or mortgage, a child at home, their
@@ -1427,7 +1430,10 @@ function composeBinding(
   }
   if (said.office)
     facts.office = {
-      text: titleInSentence(said.office),
+      // Where the body is named for its members the race is for that member
+      // ("alderman"); else the record's title in a sentence.
+      text:
+        raceMemberTitle(core, said.contestId) ?? titleInSentence(said.office),
       sourceRecordIds: [
         moment.causeId,
         ...(said.contestId ? [said.contestId] : []),

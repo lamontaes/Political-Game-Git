@@ -78,27 +78,17 @@ describe("the police log's body slides with the month's distance over usual", ()
     );
     expect(ledes.size).toBeGreaterThanOrEqual(3);
   });
-  it("'busier' is said only for a month the record marks as busier", () => {
+  it("a month the record marks as busier is told by its figures, not by a strong word", () => {
     for (const turn of [0, 1, 2, 3, 4, 5, 6, 7]) {
-      const plain = composeNewsStory(
-        packet({ ...month, usual: "six", extra: "one" }),
+      const story = composeNewsStory(
+        packet({ ...month, usual: "six", extra: "three", busier: "yes" }),
         "police-log",
         turn,
       );
-      expect(`${plain.lede} ${(plain.paragraphs ?? []).join(" ")}`).not.toMatch(
-        /busier/,
+      expect(`${story.lede} ${(story.paragraphs ?? []).join(" ")}`).not.toMatch(
+        /busier|jump/,
       );
     }
-    const said = [0, 1, 2, 3, 4, 5, 6, 7].some((turn) =>
-      (
-        composeNewsStory(
-          packet({ ...month, usual: "six", extra: "three", busier: "yes" }),
-          "police-log",
-          turn,
-        ).lede ?? ""
-      ).includes("busier"),
-    );
-    expect(said).toBe(true);
   });
   it("a quiet month's log has a lede and no comparison", () => {
     for (const turn of [0, 1, 2, 3, 4]) {
