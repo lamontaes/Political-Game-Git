@@ -39,6 +39,7 @@ import {
 } from "../core2/modules/elections";
 import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
+import { DevMode } from "../bench/dev-mode";
 import { composeJournal } from "./journal";
 import { purposeScene, replyInScene } from "./purpose-scene";
 import { composeScene } from "./scene";
@@ -339,5 +340,22 @@ it("a petition the count has filled is never told", () => {
   ).toBe(false);
   write(
     `## On pace: filled to ${gather} by hand; no one tells them; the clerk's check: ${statusOf(world)}.\n`,
+  );
+}, 1_500_000);
+
+it("dev mode brings on the offer and traces what the engine read", () => {
+  const { core, director, filing } = filer();
+  const dev = new DevMode(core, director, undefined, PLACE);
+  const result = dev.petitionShort(filing.id);
+  expect(result.told, "dev mode advanced to the day the engine told them").toBe(
+    "2025-08-03",
+  );
+  expect(result.tellerKind).toBe("clerk");
+  expect(result.signed).toBe(0);
+  expect(result.gathers).toBe(15);
+  expect(result.canAddAfterNextTurn).toBe(0);
+  expect(core.durableLog.has(toldId(filing.id))).toBe(true);
+  write(
+    `## Dev mode: "${"Petition falls behind"}" advanced to ${result.told}; told by the ${result.tellerKind}; ${result.signed} of ${result.gathers} signed, ${result.daysLeft} days left.\n`,
   );
 }, 1_500_000);
