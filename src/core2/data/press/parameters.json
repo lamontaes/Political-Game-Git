@@ -236,6 +236,20 @@
       "source": "The share of the town's usual at which a brief has all the space the desk gives a brief; above it a brief's space no longer grows.",
       "spread": [1.2, 2]
     },
+    "briefUsualMinMonths": {
+      "value": 6,
+      "tag": "TUNABLE",
+      "role": "coefficient",
+      "source": "The closed months a town's usual must rest on before a month can be called well over it; a usual from fewer months is too thin to call anything busy (coordinator ruling, Nov 14).",
+      "spread": [3, 12]
+    },
+    "briefChanceBar": {
+      "value": 0.05,
+      "tag": "TUNABLE",
+      "role": "coefficient",
+      "source": "How rarely chance gives a month this busy at the town's usual (one month in twenty) before the paper calls it well over usual; four reports against a usual of two happens about one month in seven and is not news (coordinator ruling, Nov 14).",
+      "spread": [0.01, 0.1]
+    },
     "storyProximityTown": {
       "value": 1,
       "tag": "TUNABLE",
