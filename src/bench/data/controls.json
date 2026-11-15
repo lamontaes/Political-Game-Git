@@ -981,7 +981,12 @@
       "fullElsewhere": "{n} people elsewhere",
       "counted": "{n} more in households here",
       "stopped": "stopped {date}"
-    }
+    },
+    "repealed": "Repealed",
+    "rollCallSponsor": "Sponsor",
+    "rollCallYes": "Yes ({n})",
+    "rollCallNo": "No ({n})",
+    "rollCallOpen": "How they voted"
   },
   "results": {
     "you": "You",
@@ -1160,6 +1165,15 @@
     "addStep": "Add a step",
     "firstStep": "Takes effect when it becomes law",
     "stepDate": "Takes effect on",
+    "risePerYear": "Raise it by a percent a year",
+    "risePercent": "Percent a year",
+    "riseYears": "Years it runs",
+    "riseFirstDate": "First increase on",
+    "riseBack": "Back to one amount",
+    "risePercentNeeded": "Enter a percent above zero to draft this.",
+    "riseYearsNeeded": "Enter two years or more to draft this.",
+    "riseDateNeeded": "Pick the day of the first increase to draft this.",
+    "riseNeedsAmount": "Nothing is in force today, so there is no amount to increase by a percent.",
     "askedCarried": "{name} agreed to carry your bill.",
     "askedRefused": "{name} said no to sponsoring your bill, so nothing was filed.",
     "askedRefusedSaid": "{name} said no to sponsoring your bill, so nothing was filed. \"{words},\" {subject} said.",

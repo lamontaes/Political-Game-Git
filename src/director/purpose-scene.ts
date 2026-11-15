@@ -29,11 +29,13 @@ import {
   absenceCarries,
   askPrice,
   billOf,
+  declinedAsks,
   bodyRow,
   deskPassage,
   favorWorth,
   floorDateOf,
   memberPosition,
+  signOnRecord,
   votesOn,
 } from "../core2/modules/legislature";
 import {
@@ -66,7 +68,11 @@ import {
   spokenDesignation,
 } from "../english/bill-names";
 import { areaName } from "../english/area-names";
-import { NAMED_QUESTIONS, questionAbout } from "../english/question-names";
+import {
+  NAMED_QUESTIONS,
+  questionAbout,
+  questionSaid,
+} from "../english/question-names";
 import { floorDebateFacts } from "./floor-debate-facts";
 import { raceTurnoutFacts } from "./race-turnout-facts";
 import { DONOR_ASK_TYPE, donorAskFacts } from "./donor-ask-facts";
@@ -143,6 +149,7 @@ import {
   hasArcFor,
   type VariantChoice,
 } from "./arc-variant";
+import { promiseReplyFacts } from "./promises";
 
 /** A state's key begins with its country (`US-KY`); the rest is its USPS code. */
 const STATE_KEY_PREFIX = "US-";
@@ -724,6 +731,69 @@ function composeBinding(
         sourceRecordIds: [moment.causeId],
       };
   }
+  // The player's ask of a colleague to sign on to their bill (legislature.ts
+  // askToSignOn): the bill said by what it does, the reason the colleague
+  // would give for a no (never a deal, a lobby or a bribe), and whether the
+  // player asked them before and was turned down.
+  if (record?.kind === "sign-on-asked" && said.billId && named) {
+    const api = coreAPI(core as CoreState);
+    const [asked] = named.provisions;
+    const subject = asked?.question ? questionSaid(asked.question) : null;
+    if (subject)
+      facts.said = {
+        text: subject,
+        sourceRecordIds: [named.id, moment.causeId],
+      };
+    const position = memberPosition(api, named.id, askerId);
+    const past = signOnRecord(api, askerId, named);
+    // The reason a colleague says aloud: the part of their position that
+    // weighs most against the bill among those a colleague names (their
+    // views, the people they represent, their party's leaders), or holding to
+    // a past stand where a past no vote on the question is on the record.
+    // Temperament, a wing, a deal or a lobby are never said; a no they alone
+    // carry is said as the member's own view.
+    const sayable = [
+      { name: "views", value: position.views },
+      { name: "constituents", value: position.constituents },
+      { name: "party", value: position.party ?? P.zero },
+      ...(past.votedAgainst
+        ? [{ name: "consistency", value: position.consistency }]
+        : []),
+    ];
+    const [worst] = sayable
+      .filter((row) => row.value < P.zero)
+      .sort((a, b) => a.value - b.value);
+    const reason = worst?.name ?? "views";
+    facts[`no-${reason}`] = {
+      text: "yes",
+      sourceRecordIds: [named.id, moment.causeId],
+    };
+    // A past no vote is said only where the record holds it.
+    if (past.votedAgainst)
+      facts["voted-against-before"] = {
+        text: "yes",
+        sourceRecordIds: [past.votedAgainst, moment.causeId],
+      };
+    // Turned down before on the same question, on an earlier bill.
+    const [section] = named.provisions;
+    const question = section?.question;
+    const before = declinedAsks(
+      api,
+      askedId,
+      askerId,
+      named.bodyOfficeId,
+      "sign-on",
+    ).filter(
+      (row) =>
+        row.billId !== named.id &&
+        row.provisions.some((other) => other.question === question),
+    );
+    if (before.length)
+      facts["asked-before"] = {
+        text: "yes",
+        sourceRecordIds: [before.at(-P.one)!.id, moment.causeId],
+      };
+  }
   // A job offer (jobs.ts offerToPlayer): the employer, the position with its
   // article, the pay offered by the hour and the day the offer lapses.
   if (record?.kind === JOB_OFFERED_EVENT && said.organizationId) {
@@ -903,7 +973,7 @@ function composeBinding(
   // down or a person held before trial, with how long, the day they get out,
   // the bail, whether the term ended their job and the child at home, each
   // cited to the records it came from. stopgapId:
-  // SG-WORDS-homecoming-stay-unread, SG-WORDS-prison-visit-limits-fixed
+  // SG-WORDS-prison-visit-limits-fixed
   for (const [key, fact] of Object.entries(
     custodyFacts(core, record, askerId, askedId),
   ))
@@ -911,7 +981,7 @@ function composeBinding(
   // A first meeting or a tie that grew (the jobs, school and parties engines'
   // records): the employer, the job, the school, the children at one school,
   // the party and the town the two share or do not. stopgapId:
-  // SG-WORDS-meeting-no-club-records, SG-WORDS-meeting-promise-unread
+  // SG-WORDS-meeting-no-club-records
   for (const [key, fact] of Object.entries(
     meetingFacts(core, binding.typeKey, moment.causeId, askerId, askedId),
   ))
@@ -2927,6 +2997,10 @@ export function replyInScene(
       ...(enlists && filingId ? { enlisted: filingId } : {}),
       ...(backing ? { backing } : {}),
       ...(ending ? { ending: ending.id, keeps: ending.keeps } : {}),
+      // A promise a record can settle: its kind and its tie, from the
+      // ending's row in src/director/data/promise-kinds.json (promises.ts). stopgapId:
+      // SG-WORDS-favor-promise-keeps-unread (endings with no row yet)
+      ...(ending ? promiseReplyFacts({ ...scene, endingId: ending.id }) : {}),
       ...(ending?.firmness ? { firmness: ending.firmness } : {}),
       // A promise made on a resident's own question names it, for the
       // Journal (ruling 72).
@@ -3008,7 +3082,6 @@ export function replyInScene(
       undefined,
       { cause: "scene-reply", sourceId: id },
     );
-  // stopgapId: SG-WORDS-favor-promise-keeps-unread
   const strain = ending ? ENDING_STRAIN[ending.keeps]?.value : undefined;
   if (strain)
     coreAPI(core).relationship(

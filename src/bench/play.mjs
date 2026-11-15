@@ -92,12 +92,7 @@ import { billStageSections } from "./ui/bill-stage.mjs";
 import { meetingItem } from "./ui/meeting-item.mjs";
 import { draftCard } from "./ui/draft-card.mjs";
 import { line, prose, heading, labeled, smallText } from "./ui/text.mjs";
-import {
-  engraveMasthead,
-  readerBody,
-  readerMore,
-  sameFor,
-} from "./ui/newspaper.mjs";
+import { engraveMasthead, readerBody, readerMore } from "./ui/newspaper.mjs";
 import { show, mountCloseButtons, mountPanelHeads } from "./ui/panel.mjs";
 import {
   stripScreen,
@@ -144,9 +139,11 @@ let newsFor = null;
 let newsSeen = new Set();
 // The tab on screen while News stays open: a redraw keeps it (closed or left, it clears).
 let newsShowing = null;
-// The game's date is the clock's, the packet's; me.date is only the day the
-// screen loaded (P15, C10: the News kept the opening day).
-const today = () => packet?.at?.date ?? me.date;
+// The game's date is the server's clock: a packet's `at` or the card's (the card is re-read after
+// every change the server made, a dev panel's run of days included, which returns no packet); me.date
+// is only the day the screen loaded (P15, C10: the News kept the opening day).
+let clockAt;
+const today = () => clockAt?.date ?? me.date;
 let talk;
 let openTab;
 let busy = false;
@@ -292,44 +289,11 @@ function drawTalkStrip() {
 const storyHeadline = (story) =>
   story.headline ?? story.lede ?? story.broadcast?.[0]?.text ?? "";
 /**
- * The front-page photo of the room where a state or local government acts.
- * No photo shows the official's own face, which would not match the record;
- * a federal story has none until the art has one without a face.
+ * A story's photo: the painted place its own record is about (the room of the
+ * body that acted, the business, the home), chosen on the server; none when
+ * the record names no painted place.
  */
-const STORY_PHOTOS = {
-  state: ["story-governor-1.jpg"],
-  local: ["story-council-1.jpg", "story-council-2.jpg"],
-};
-/**
- * The level of government a story is about: its own level, else the body,
- * government or law its record names (the nation's ids start "US", a state's
- * "US-" and its postal code, everything else is local).
- */
-function storyLevel(story) {
-  const facts = story.facts ?? {};
-  if (facts.level) return facts.level;
-  if (story.kind === "address") return "federal";
-  const who = String(
-    facts.governmentId ?? facts.body ?? facts.lawId ?? "",
-  ).replace(/^(office|law):/, "");
-  if (!who) return undefined;
-  if (/^US(:|$)/.test(who)) return "federal";
-  if (/^US-[A-Z]{2}:federal\b/.test(who)) return "federal";
-  if (/^US-[A-Z]{2}(:|$)/.test(who)) return "state";
-  return "local";
-}
-/** A lead story about a government acting carries the photo of that level's room. */
-function storyPhoto(story) {
-  const level = storyLevel(story);
-  if (!level || level === "federal") return undefined;
-  const acting = `${story.kind ?? ""} ${story.facts?.recordKind ?? ""}`;
-  if (
-    !/address|inauguration|law|bill|vote|council|budget|veto|sign/.test(acting)
-  )
-    return undefined;
-  const list = STORY_PHOTOS[level] ?? STORY_PHOTOS.local;
-  return `/art/newspaper/${sameFor(list, story.recordId ?? story.id ?? "")}`;
-}
+const storyPhoto = (story) => story.picture?.url;
 function hideNewsToast() {
   hideToast($("news-surface"));
 }
@@ -434,10 +398,11 @@ async function renderScene({ keepBackdrop = false } = {}) {
 async function renderCard() {
   const card = await api(`/api/card?id=${encodeURIComponent(me.id)}`);
   me.card = card;
+  clockAt = card.at ?? clockAt;
   me.names = { ...me.names, [me.id]: card.name };
   $("card-name").textContent = card.name;
   $("card-place").textContent = me.placeName;
-  setClock(packet?.at ?? { date: today(), minuteOfDay: me.minuteOfDay ?? 0 });
+  setClock(clockAt ?? { date: today(), minuteOfDay: me.minuteOfDay ?? 0 });
 }
 
 // The Guide's search, kept so an underlined term opens straight to it.
@@ -630,7 +595,10 @@ function renderPacket(value) {
   const open = packet?.kind === "stop";
   $("hour").disabled = $("day").disabled = $("week").disabled = busy || open;
   show("continue", packet?.kind === "stop");
-  if (packet) setClock(packet.at);
+  if (packet) {
+    clockAt = packet.at;
+    setClock(clockAt);
+  }
 }
 
 /** The newest line of the journal, bottom right. */
@@ -3276,6 +3244,49 @@ function billEstimate(paper, section) {
  * records when the body has made them. Clicking a section shows its estimate
  * beside it. `show` draws the nodes, `back` returns to the rows.
  */
+/**
+ * Another state's change opened (play-states-screen-opens-any-state): who voted
+ * yes and no in each chamber and its sponsor, from the roll call kept the day
+ * it passed. It closes like every menu, by its tabs and close control (owner,
+ * Oct 29: no Back in any menu).
+ */
+async function showRollCall(lawId) {
+  const call = await api(
+    `/api/state/roll-call?${new URLSearchParams({ lawId })}`,
+  );
+  if (!call) return;
+  await controlsReady;
+  const labels = controls.politics;
+  const fill = (text, values) =>
+    Object.entries(values).reduce(
+      (t, [k, v]) => t.replaceAll(`{${k}}`, String(v)),
+      text ?? "",
+    );
+  $("sheet-body").replaceChildren(
+    rosterTitle(
+      policyLabel(call.series),
+      [call.repealed ? labels.repealed : labels.passed, dateWords(call.date)]
+        .filter(Boolean)
+        .join(" · "),
+    ),
+    ...(call.sponsor ? [row(labels.rollCallSponsor, call.sponsor)] : []),
+    ...call.chambers.map((chamber, at) =>
+      stripSection(
+        Math.min(at + 1, 5),
+        chamber.chamber,
+        // Each side as a paragraph of names, read left to right.
+        prose(
+          `${fill(labels.rollCallYes, { n: chamber.yes.length })}: ${chamber.yes.join(", ")}`,
+          "roll-call-names",
+        ),
+        prose(
+          `${fill(labels.rollCallNo, { n: chamber.no.length })}: ${chamber.no.join(", ")}`,
+          "roll-call-names",
+        ),
+      ),
+    ),
+  );
+}
 async function openBillPaper(billId, show, back, backLabel) {
   // Only the newest draw of a page is shown. Two acts close together (a vote,
   // then calling the question) each redraw the page; the earlier redraw can
@@ -3647,6 +3658,15 @@ async function seatRows() {
         addStep: seat.addStep ?? "",
         firstStep: seat.firstStep ?? "",
         stepDate: seat.stepDate ?? "",
+        risePerYear: seat.risePerYear ?? "",
+        risePercent: seat.risePercent ?? "",
+        riseYears: seat.riseYears ?? "",
+        riseFirstDate: seat.riseFirstDate ?? "",
+        riseBack: seat.riseBack ?? "",
+        riseNeedsAmount: seat.riseNeedsAmount ?? "",
+        risePercentNeeded: seat.risePercentNeeded ?? "",
+        riseYearsNeeded: seat.riseYearsNeeded ?? "",
+        riseDateNeeded: seat.riseDateNeeded ?? "",
         none: controls.bill?.none ?? "",
       },
       groups: (body.menus ?? []).map((menu) => ({
@@ -3673,13 +3693,15 @@ async function seatRows() {
           unit: item.series ? amountUnit(item.unit) : item.line ? "$" : "",
           cents: item.unit?.startsWith("minor") || Boolean(item.line),
           blocked: item.allowed === false,
+          // A percent a year needs an amount in force above zero to start from.
+          raisable: Number(item.today?.value) > 0,
           note:
             item.allowed === false
               ? (controls.authority?.[item.reason] ?? "")
               : "",
         })),
       })),
-      onDraft: (item, typed, steps = []) => {
+      onDraft: (item, typed, steps = [], rise = null) => {
         const [kind, key] = [
           item.value.slice(0, item.value.indexOf(":")),
           item.value.slice(item.value.indexOf(":") + 1),
@@ -3692,23 +3714,30 @@ async function seatRows() {
             : kind === "line"
               ? { line: key }
               : { question: key }),
-          // A phase-in names each step's amount and day; a single bill, one amount.
-          ...(steps.length
+          // A phase-in names each step's amount and day, or a percent a year, its years and
+          // its first day; a single bill, one amount.
+          ...(rise
             ? {
-                steps: JSON.stringify(
-                  steps.map((step) => ({
-                    value: item.cents
-                      ? Math.round(Number(step.amount) * 100)
-                      : Number(step.amount),
-                    effectiveDate: step.date,
-                  })),
-                ),
+                risePercent: String(rise.percent),
+                riseYears: String(rise.years),
+                riseFirstDate: rise.firstDate,
               }
-            : {
-                value: item.cents
-                  ? String(Math.round(Number(typed) * 100))
-                  : typed,
-              }),
+            : steps.length
+              ? {
+                  steps: JSON.stringify(
+                    steps.map((step) => ({
+                      value: item.cents
+                        ? Math.round(Number(step.amount) * 100)
+                        : Number(step.amount),
+                      effectiveDate: step.date,
+                    })),
+                  ),
+                }
+              : {
+                  value: item.cents
+                    ? String(Math.round(Number(typed) * 100))
+                    : typed,
+                }),
         };
         // An executive's bill goes through a member the player picks: the body's members, the
         // one the engine would ask marked as the likely yes.
@@ -4582,7 +4611,7 @@ const sheets = {
     );
     // Today is the world's day: the later of the clock's last packet and the
     // record, so a day the world has reached never offers a jump to it.
-    const date = [packet?.at.date, recordDate].filter(Boolean).sort().at(-1);
+    const date = [clockAt?.date, recordDate].filter(Boolean).sort().at(-1);
     const labels = controls.calendar;
     return [
       calendarScreen({
@@ -4719,6 +4748,15 @@ const sheets = {
         date: today(),
         headlineOf: storyHeadline,
         photoOf: storyPhoto,
+        // Another state's law opens its roll call (play-states-screen-opens-any-state).
+        actionOf: (story) =>
+          story.kind === "nation.law"
+            ? makeButton({
+                className: "action",
+                textContent: controls.politics.rollCallOpen ?? "",
+                onclick: () => showRollCall(story.id),
+              })
+            : null,
       }),
     ];
   },
@@ -5561,8 +5599,14 @@ const sheets = {
             voteRows(
               votes.map((v) => ({
                 title: v.title,
-                result: `${v.passed ? labels.passed : labels.failed} · ${fill(labels.yesCount, { n: v.yes })}, ${fill(labels.noCount, { n: v.no })}`,
+                result: `${v.repealed ? labels.repealed : v.passed ? labels.passed : labels.failed} · ${fill(labels.yesCount, { n: v.yes })}, ${fill(labels.noCount, { n: v.no })}`,
                 when: short(v.date),
+                // Another state's change: its roll call (play-states-screen-opens-any-state).
+                ...(v.rollCall
+                  ? {
+                      onOpen: () => showRollCall(v.lawId),
+                    }
+                  : {}),
                 ...(v.openable
                   ? {
                       onOpen: () =>

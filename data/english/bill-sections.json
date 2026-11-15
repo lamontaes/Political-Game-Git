@@ -726,5 +726,6 @@
     "USD/election": "{dollars} for each election",
     "hours": "{value} hours"
   },
-  "cited": "{clause}, amending {statute}"
+  "cited": "{clause}, amending {statute}",
+  "stands": "{subject} is {value}"
 }

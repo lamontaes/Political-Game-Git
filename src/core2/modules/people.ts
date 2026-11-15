@@ -60,10 +60,12 @@ import type {
   ActOffer,
   CoreAPI,
   CoreState,
+  OfferRound,
   PersonId,
   PersonState,
   Relationship,
 } from "../types";
+import { OFFER_ROUND_PREDICTION } from "../types";
 import { offer } from "./life";
 import { openPastTerms } from "./offices";
 import { stopgap } from "../stopgaps";
@@ -114,6 +116,7 @@ function weeklyContacts(
   api: CoreAPI,
   actor: Readonly<PersonState>,
   tied: readonly PersonId[],
+  round: OfferRound | undefined,
 ): readonly PersonId[] {
   const size = api.parameter("causeHolderWeeklyContacts");
   if (tied.length <= size) return tied;
@@ -141,7 +144,10 @@ function weeklyContacts(
       week,
       ids: new Set(ranked.slice(0, size).map((row) => row.id)),
     };
-    byPerson.set(actor.id, held);
+    // A prediction ranks the ties but leaves the week's first look to the
+    // person's own act, so it is taken at the same moment with bookkeeping
+    // on (which predicts every drive holder daily) and off.
+    if (!round?.get(OFFER_ROUND_PREDICTION)) byPerson.set(actor.id, held);
   }
   const ids = held.ids;
   return tied.filter((id) => ids.has(id));
@@ -316,35 +322,33 @@ function shareHomeTime(api: CoreAPI): void {
  * age ATUS counts household children to. A grown relative's need follows
  * their health (health.ts `careNeedOf`) and the closeness of the tie.
  */
-const dependentsCache = new WeakMap<
-  Readonly<PersonState>,
-  { date: string; rows: { id: string; need: number }[] }
->();
-
+// Read fresh on every call, never held for the day: a relative who falls ill
+// or a tie that changes during the day changes the answer at once, and a
+// held copy kept by the person's record differed between play and
+// bookkeeping (core-bookkeeping-changes-the-played-year).
 function dependents(
   api: CoreAPI,
   actor: Readonly<PersonState>,
 ): { id: string; need: number }[] {
-  const cached = dependentsCache.get(actor);
-  if (cached?.date === api.state.date) return cached.rows;
-  const p = (key: string) => api.parameter(key);
   const rows: { id: string; need: number }[] = [];
+  const zero = api.parameter("zero");
   const today = makeIsoDate(api.state.date);
   for (const id of actor.familyIds) {
     const other = api.state.people.get(id);
     if (!other?.alive || other.householdId !== actor.householdId) continue;
     const years =
-      daysBetween(makeIsoDate(other.birthDate), today) / p("daysPerMeanYear");
-    const childNeed = p("one") - years / p("householdChildAgeYears");
+      daysBetween(makeIsoDate(other.birthDate), today) /
+      api.parameter("daysPerMeanYear");
+    const childNeed =
+      api.parameter("one") - years / api.parameter("householdChildAgeYears");
     // A child needs care by age. A grown relative needs it by health, and how
     // much of it this person gives follows how close the two are.
     const need =
-      childNeed > p("zero")
+      childNeed > zero
         ? childNeed
         : careNeedOf(api.state, id) * closenessBetween(api.state, actor.id, id);
-    if (need > p("zero")) rows.push({ id, need });
+    if (need > zero) rows.push({ id, need });
   }
-  dependentsCache.set(actor, { date: api.state.date, rows });
   return rows;
 }
 
@@ -822,7 +826,7 @@ export const PEOPLE_MODULE: PreStartModule = {
     // without a tie yet. Untied offers all score alike and the chooser breaks
     // ties by the lowest key, so the lowest-id untied person stands for them all.
     // A person with a cause weighs only the week's shortlist of their ties.
-    "contact-candidate": (api, actor, action) => {
+    "contact-candidate": (api, actor, action, round) => {
       const out: ActOffer[] = [];
       const tied: PersonId[] = [];
       let untied: string | undefined;
@@ -839,7 +843,7 @@ export const PEOPLE_MODULE: PreStartModule = {
         else if (untied === undefined || id < untied) untied = id;
       }
       for (const id of actor.drives.size
-        ? weeklyContacts(api, actor, tied)
+        ? weeklyContacts(api, actor, tied, round)
         : tied)
         out.push(offer(api, actor, action, id));
       if (untied !== undefined) out.push(offer(api, actor, action, untied));
