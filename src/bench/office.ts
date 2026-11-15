@@ -93,6 +93,7 @@ import { bodyMembers, bodyScene, personName } from "./legislature";
 import {
   headCandidates,
   postsToFill,
+  stateCandidateNames,
   stateCandidates,
   statePostsToFill,
 } from "../core2/modules/executive";
@@ -477,11 +478,13 @@ export function officeView(core: CoreState, personId: string) {
         candidates: headCandidates(api, post.key),
       })),
       // A governor's open cabinet posts: the state chamber confirms the one they name.
+      // Someone drawn from the state's people is named by their drawn record, never filled in to be shown.
       ...statePostsToFill(api, personId).map((post) => ({
         post,
         candidates: stateCandidates(api, personId, post.key),
+        names: stateCandidateNames(api, post.key),
       })),
-    ].map(({ post, candidates }) => ({
+    ].map(({ post, candidates, ...rest }) => ({
       post: post.key,
       title: post.title,
       candidates: candidates.slice(0, 8).map((reasons) => {
@@ -489,7 +492,10 @@ export function officeView(core: CoreState, personId: string) {
         const job = person?.jobId ? core.jobs.get(person.jobId) : undefined;
         return {
           id: reasons.candidateId,
-          name: personName(core, reasons.candidateId),
+          name:
+            ("names" in rest
+              ? rest.names.get(reasons.candidateId)
+              : undefined) ?? personName(core, reasons.candidateId),
           job: job && job.endsAt === undefined ? job.title : null,
           total: reasons.total,
         };
@@ -802,7 +808,10 @@ export function ordersView(core: CoreState) {
                   const job = who?.jobId ? core.jobs.get(who.jobId) : undefined;
                   return {
                     id: reasons.candidateId,
-                    name: personName(core, reasons.candidateId),
+                    name:
+                      stateCandidateNames(api, entry.subject).get(
+                        reasons.candidateId,
+                      ) ?? personName(core, reasons.candidateId),
                     job: job && job.endsAt === undefined ? job.title : null,
                   };
                 }),

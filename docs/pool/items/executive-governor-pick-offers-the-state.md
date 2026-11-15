@@ -5,8 +5,8 @@ area: gov
 kind: bug
 priority: 3
 size: M
-status: open
-claimed-by:
+status: in-pr
+claimed-by: civic roles builder
 pr:
 blocked-on:
 source: executive-cabinet-drawn-from-the-state build, Nov 15
@@ -37,3 +37,5 @@ checked: account lead 2026-11-15
 **Files.** src/core2/modules/executive.ts, src/bench/office.ts
 
 **Notes.** Filed by hand from the cabinet build.
+
+- Nov 15, civic roles builder: built on branch claude/project-thread-86yqt4-governor-pick. "Home" here and in executive-cabinet-drawn-from-the-state means where the person lives now (`drawStateHome`, by who lives in each town of the state), not where they are from. A birthplace or origin comes from the birthplace work, not from this draw. An unattended world never calls the governor's own pick (it is the player's office day and the office panel), so it runs the same code as before.
