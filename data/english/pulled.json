@@ -247,6 +247,21 @@
     "scene-talk.follow-answer.you-d-get-three-minutes-they-stop-you-after-that": [
       "join-cause/decline"
     ],
+    "scene-talk.follow-ask.again-then-i-ll-want-a-number-in-writing-before-another-dollar-goes-in": [
+      "family-loss/tell"
+    ],
+    "scene-talk.follow-ask.again-then-i-ll-want-to-know-the-plan-before-i-give-you-another-month": [
+      "family-loss/tell"
+    ],
+    "scene-talk.follow-ask.again-then-tell-me-what-s-different-next-time": [
+      "family-loss/tell"
+    ],
+    "scene-talk.follow-ask.again-then-tell-me-what-we-have-left-to-put-in": [
+      "family-loss/tell"
+    ],
+    "scene-talk.follow-ask.are-you-sure-that-s-what-you-want": [
+      "family-loss/tell"
+    ],
     "scene-talk.follow-ask.then-why-vote-at-all": [
       "conflict-accuse.friend/deny",
       "conflict-accuse.hearsay/deny",
@@ -275,6 +290,9 @@
     "scene-talk.follow-press.because-you-d-say-it-plainly-and-they-d-listen": [
       "join-cause/decline"
     ],
+    "scene-talk.follow-press.five-i-ll-hold-the-phone": [
+      "concession-call/refuse"
+    ],
     "scene-talk.follow-press.it-s-only-two-pages-here-take-a-look": [
       "join-cause/decline"
     ],
@@ -295,6 +313,11 @@
     ],
     "scene-talk.reply-agree.count-me-in-tell-me-when": ["join-cause/thank"],
     "scene-talk.reply-agree.i-m-with-you-tell-me-when": ["join-cause/thank"],
+    "scene-talk.reply-ask.how-close-was-it": ["concession-call/answer"],
+    "scene-talk.reply-blame.i-should-have-asked-for-more-help-sooner": [
+      "family-loss/comfort"
+    ],
+    "scene-talk.reply-blame.opponent-ran-a-dirty-race": ["family-loss/comfort"],
     "scene-talk.reply-confront.hearsay.you-took-somebody-s-word-over-mine": [
       "conflict-accuse.hearsay/confront"
     ],
@@ -310,6 +333,9 @@
     "scene-talk.reply-leave.i-ve-got-to-run-call-me-tonight": [
       "ask-vote.watched/accept"
     ],
+    "scene-talk.reply-leave.not-yet-let-me-read-the-numbers-myself": [
+      "concession-call/accept"
+    ],
     "scene-talk.reply-offer.i-ll-step-out-on-this-one-not-because-i-ve-done-anything-but-because-y": [
       "conflict-accuse/accept"
     ],
@@ -324,12 +350,24 @@
     ],
     "scene-talk.reply-tell.taken.i-ll-tell-you-exactly-how-it-went-and-you-can-judge": [
       "conflict-accuse.taken/ask"
+    ],
+    "scene-talk.state-comfort.i-worked-this-race-with-you-and-we-lost-it-what-do-we-do-with-all-of-it": [
+      "family-loss/tell"
+    ],
+    "scene-talk.state-comfort.the-money-is-spent-and-the-race-is-lost-tell-me-what-happens-now": [
+      "family-loss/tell"
+    ],
+    "scene-talk.state-comfort.we-lost-i-gave-that-campaign-my-time-and-i-d-like-to-know-what-we-do-with-that": [
+      "family-loss/tell"
+    ],
+    "scene-talk.state-comfort.we-lost-i-put-my-time-in-too-so-tell-me-what-you-want-from-me-next": [
+      "family-loss/tell"
     ]
   },
   "barred": {},
   "awaitingVerdict": {
     "narration-assumes-no-reason": 0,
     "player-never-says-unchosen (pairs)": 0,
-    "reply-second-move-follows-the-first (pairs)": 11673
+    "reply-second-move-follows-the-first (pairs)": 11545
   }
 }
