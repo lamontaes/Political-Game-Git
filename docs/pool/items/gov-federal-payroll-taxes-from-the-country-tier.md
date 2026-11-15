@@ -20,7 +20,7 @@ checked:
 claimed-at:
 ---
 
-**What.** The federal social security and medicare lines still pay the plan times the away share over twelve each month, whatever the law in force does to payroll tax rates or wages. Seen: the budget screen's revenue lines for the federal budget.
+**What.** The federal social security and medicare lines still pay the plan times the away share over twelve each month, whatever the law in force does to payroll tax rates or wages. The gap is the same in every place that has the line. Seen: the budget screen's revenue lines for the federal budget.
 
 **Cause.** Found in code: src/core2/budgets-treasury.ts `outsideRevenueMonthly` pays plan times away share over twelve for every revenue line with no named payer (stopgap SG-GOV-outside-revenue-monthly), and the country tier already keeps the social-security and medicare withheld lines by law row (the `tax` field added in #9393) in each state's `whatMoved` rows.
 

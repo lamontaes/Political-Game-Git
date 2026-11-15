@@ -20,7 +20,7 @@ checked:
 claimed-at:
 ---
 
-**What.** The away share of a state government's income, sales and corporate profit tax lines is still a twelfth of the plan, so a law changing one of those taxes moves nothing in the other states' treasuries. Seen: the budget screen's revenue lines for the state budget.
+**What.** The away share of a state government's income, sales and corporate profit tax lines is still a twelfth of the plan, so a law changing one of those taxes moves nothing in the other states' treasuries. The gap is the same in every place that has the line. Seen: the budget screen's revenue lines for the state budget.
 
 **Cause.** Found in code: src/core2/budgets-treasury.ts `outsideRevenueMonthly` pays plan times away share over twelve for every revenue line with no named payer (stopgap SG-GOV-outside-revenue-monthly), and the country tier already keeps each state's income, sales and profit revenue in each state's `whatMoved` rows.
 
