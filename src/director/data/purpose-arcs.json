@@ -2572,8 +2572,8 @@
       "replies": ["agree", "decline", "stall"],
       "follow": {
         "agree": ["thank"],
-        "decline": ["press", "accept"],
-        "stall": ["press", "accept"]
+        "decline": ["press"],
+        "stall": ["press"]
       },
       "again": { "press": ["agree", "decline", "stall"] },
       "endings": [
