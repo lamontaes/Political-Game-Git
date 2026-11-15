@@ -56,6 +56,7 @@ Learned by the path-check runners A and B and the speed lead, Oct 29 to Nov 1, a
 
 - **Compare only like with like:** the same place, seed and key on both heads. Diff the outputs line by line first. Two heads that give identical output for a place (Salida on m5 and m6) mean the change did nothing there, so don't spend an hour reading them.
 - **A crash in a measurement line** (m4's `b.appeal` of undefined): read the first stack frame in stderr and send `file:line` to the lead at once. The run's earlier `LOG` lines still carry the evidence.
+- **A with-and-without run that swaps the change with `git stash` owns the tree for the whole run (Nov 15).** Nothing else can switch branches or merge meanwhile, and a stash left unpopped hides the change. Run the baseline from a second checkout of the same head (sparse, per `helper-checkout`) or take both sides in one script, and print `git stash list` and `git status` when it ends.
 
 ## Stop condition
 
