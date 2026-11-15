@@ -2324,8 +2324,14 @@ function postWithholding(
  * new level taxing) counts, never a bigger or smaller paycheck.
  */
 function landWithholdingChange(api: CoreAPI, record: WithholdingRecord): void {
+  // Against the last paycheck of the same kind (a job's payroll, a stipend):
+  // a stipend taxed on other lines than a job's pay is not a law's change.
+  const kind = (r: WithholdingRecord) => r.payrollReceiptId.split(":")[0];
   const earlier = withholdingOf(api, record.personId)
-    .filter((r) => r.id !== record.id && r.date < record.date)
+    .filter(
+      (r) =>
+        r.id !== record.id && r.date < record.date && kind(r) === kind(record),
+    )
     .sort((a, b) => b.date.localeCompare(a.date))[0];
   if (!earlier || record.paidMinor <= 0 || earlier.paidMinor <= 0) return;
   const rows = (r: WithholdingRecord) =>
@@ -2342,12 +2348,18 @@ function landWithholdingChange(api: CoreAPI, record: WithholdingRecord): void {
     1 - r.lines.reduce((n, l) => n + l.minor, 0) / r.paidMinor;
   const was = take(earlier);
   if (!(was > 0)) return;
+  const lineShare = (r: WithholdingRecord, of: WithholdingLine) =>
+    (r.lines.find((l) => l.level === of.level && l.tax === of.tax)?.minor ??
+      0) / r.paidMinor;
   landTaxChange(api, {
     personId: record.personId,
     obligationId: record.id,
     lawId: cause.lawId,
     series: cause.tax === "income" ? "income-tax" : `${cause.tax}-tax`,
-    share: (take(record) - was) / was,
+    // The law's own change: what its line took of pay then against now, never
+    // a bigger or smaller take from the other lines (a graduated rate, a
+    // different pay period).
+    share: (lineShare(earlier, cause) - lineShare(record, cause)) / was,
   });
 }
 

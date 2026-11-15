@@ -442,6 +442,18 @@
       "repealName": "Parks Funding Reduction",
       "repealPurpose": "less money for parks"
     },
+    "budget:localAid": {
+      "name": "Aid to Other Governments Increase",
+      "purpose": "more money passed on to other governments",
+      "repealName": "Aid to Other Governments Reduction",
+      "repealPurpose": "less money passed on to other governments"
+    },
+    "budget:otherPrograms": {
+      "name": "Other Programs Funding Increase",
+      "purpose": "more money for programs with no budget line of their own",
+      "repealName": "Other Programs Funding Reduction",
+      "repealPurpose": "less money for programs with no budget line of their own"
+    },
     "law:income-tax": {
       "name": "Income Tax Increase",
       "purpose": "a higher local income tax rate",
