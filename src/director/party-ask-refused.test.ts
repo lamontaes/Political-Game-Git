@@ -16,7 +16,8 @@ import {
 } from "../core2/modules/elections";
 import { registerControlledPersonV1 } from "../core2/player-control-state-v1";
 import { CANDIDACY_MODULE_ID } from "../core2/modules/candidacy";
-import { coreAPI, retainLog } from "../core2/state";
+import { PARTIES_MODULE_ID } from "../core2/modules/parties";
+import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
 import { purposeScene, replyInScene } from "./purpose-scene";
 
@@ -28,6 +29,10 @@ import { purposeScene, replyInScene } from "./purpose-scene";
 // the scene, and the party's next ask is a record for another member that
 // the member's decision cites.
 const SEED = "c29-party-ask-refused";
+// Old premise: Floydale and Denver, Pennsylvania, pinned inside a 600 s limit;
+// Denver spends over two minutes playing its first eight days. New premise:
+// two small named places, about 55 s each, limit 120 s each (Account lead,
+// Nov 15).
 // Pinned drawn places (one seed, fixed tags): "a" is Floydale, South
 // Carolina; "f" is Fox Chase, Kentucky. Both stage the ask at home the day
 // filing opens and run in under a minute. Denver, Pennsylvania (tag "d")
@@ -86,11 +91,6 @@ it.each(TAGS)(
         registerControlledPersonV1(core, player);
         core.focusPersonIds.add(player);
         director.watch(core, player);
-        // The game keeps a record that names the player's circle when it is
-        // written; the ask was written a moment before this member became the
-        // player here, so the log keeps it now, as it would have for a player
-        // who was already in the world.
-        retainLog(core, e);
         ask = { id: e.id, contestId: f.contestId!, partyId: f.partyId! };
       },
     );
@@ -98,6 +98,16 @@ it.each(TAGS)(
       .map((c) => filingWindowOpens(api, c))
       .filter((date) => date > core.date)
       .sort()[0]!;
+    // The day before filing opens, every party member is in the player's
+    // circle, as the member the party asks is in a played game before the ask
+    // is written, so the game's own rule keeps the ask's record (it keeps a
+    // record that names someone in the circle, when the record is written).
+    advanceCore(core, addDays(makeIsoDate(opens), -1));
+    for (const tie of api
+      .moduleState(PARTIES_MODULE_ID)
+      .table("ties")
+      .rows() as unknown as { tie: string; personId: string }[])
+      if (tie.tie === "party") core.focusPersonIds.add(tie.personId);
     advanceCore(core, addDays(makeIsoDate(opens), 1));
     expect(ask, `${where}: no party asked the player`).toBeDefined();
     const before = asks.length;
