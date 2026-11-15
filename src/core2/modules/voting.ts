@@ -49,6 +49,7 @@ import {
   engagementOf,
   type CountedAppeal,
   type CountedFieldEntry,
+  type EndorsedBy,
   type CountedVoter,
   type PlaceResult,
   type RacePlace,
@@ -154,6 +155,7 @@ import {
   CAMPAIGNS_MODULE_ID,
   townLean,
   campaignFor,
+  endorsementsOf,
   impressionOf,
   parsePlatform,
   pledgesOf,
@@ -1555,11 +1557,53 @@ function contestView(
         : {}),
       // A reported scandal as far as its story reached the town's people.
       scandal: scandalAppeal(api, f.personId, named),
+      // The groups that backed them, as far as each reached those who share its cause.
+      endorsed: endorsedOn(api, f.id),
     };
   });
   const view = { field: rows, publicRecord };
   byKey.set(key, view);
   return view;
+}
+
+/**
+ * The groups that backed a candidate, each by the stance it stood on and the
+ * warmth its word brings a counted voter who holds that stance fully: what it
+ * brought each member it reached (`endorsementHeard`: the endorsement weight
+ * toward the group's backing), times the share of the town's holders of the
+ * stance it reached (its members, among everyone who holds it, by how firmly).
+ * A counted voter reads it by how firmly they hold the stance themselves
+ * (`countedAppeal`), so the counted share of a cause's people hears it by the
+ * same rule as its members, times their count (one model, two tiers).
+ */
+export function endorsedOn(
+  api: CoreAPI,
+  filingId: string,
+): readonly EndorsedBy[] {
+  const out: EndorsedBy[] = [];
+  for (const row of endorsementsOf(api, filingId)) {
+    if (
+      row.answer !== "yes" ||
+      !row.organizationId ||
+      !row.stance ||
+      !row.reached ||
+      // A paper's word reaches its readers, not the holders of a cause.
+      api.state.organizations.get(row.organizationId as never)?.kind === "media"
+    )
+      continue;
+    const sides = electorateSides(api, row.stance.question);
+    const holders = row.stance.position > 0 ? sides.heldYes : sides.heldNo;
+    if (holders <= 0) continue;
+    out.push({
+      question: row.stance.question,
+      position: Math.sign(row.stance.position),
+      warmth:
+        campaignParameter("endorsementWeight") *
+        Math.max(-1, Math.min(1, row.score)) *
+        Math.min(1, row.reached / holders),
+    });
+  }
+  return out;
 }
 
 /**
@@ -1912,6 +1956,14 @@ export interface ElectorateSides {
   readonly no: number;
   /** The mean of their stances, -1 to 1, each counted record by the people it stands for. */
   readonly mean: number;
+  /**
+   * How firmly the electorate holds each side, in people: each voter's
+   * stance toward it (0 to 1) times the people they stand for, so the
+   * reach of a group's word among those who share its cause reads as a
+   * share of them (`endorsedOn`).
+   */
+  readonly heldYes: number;
+  readonly heldNo: number;
 }
 
 interface SideVoter {
@@ -1954,7 +2006,7 @@ export function electorateSides(
   question: string,
 ): ElectorateSides {
   if (!api.state.modules.has(ELECTIONS_MODULE_ID))
-    return { yes: 0, no: 0, mean: 0 };
+    return { yes: 0, no: 0, mean: 0, heldYes: 0, heldNo: 0 };
   const core = api.state as CoreState;
   const key = `${core.date}|${core.people.size}|${residentsRuntime(core)?.store.membersVersion ?? 0}`;
   let held = sidesByDay.get(core);
@@ -1994,18 +2046,31 @@ export function electorateSides(
   if (kept) return kept;
   let yes = 0,
     no = 0,
-    sum = 0;
+    sum = 0,
+    heldYes = 0,
+    heldNo = 0;
   for (const voter of held.voters) {
     const stance = voter.named
       ? viewOn(api, voter.id, question, voter.lean)
       : groupStance(voter.lean, question, voter.profile);
-    if (stance > 0) yes += voter.count;
-    else if (stance < 0) no += voter.count;
+    if (stance > 0) {
+      yes += voter.count;
+      heldYes += stance * voter.count;
+    } else if (stance < 0) {
+      no += voter.count;
+      heldNo -= stance * voter.count;
+    }
     sum += stance * voter.count;
   }
   const sides: ElectorateSides = held.total
-    ? { yes: yes / held.total, no: no / held.total, mean: sum / held.total }
-    : { yes: 0, no: 0, mean: 0 };
+    ? {
+        yes: yes / held.total,
+        no: no / held.total,
+        mean: sum / held.total,
+        heldYes,
+        heldNo,
+      }
+    : { yes: 0, no: 0, mean: 0, heldYes: 0, heldNo: 0 };
   held.byQuestion.set(question, sides);
   return sides;
 }

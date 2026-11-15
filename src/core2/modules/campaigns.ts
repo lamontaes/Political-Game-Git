@@ -401,7 +401,11 @@ export interface OrganizedGroup {
   readonly speakerId: string | null;
   /** Its members living in town, full people. */
   readonly memberIds: readonly string[];
-  /** What it stands for: its question and side, its cause's topic, or a party's position on each question. */
+  /**
+   * What it stands for of its own: its question and side, its cause's topic,
+   * or a party's position on each question. On any other question its
+   * members' own views speak for it (`groupsWeighRace`).
+   */
   readonly stance: readonly Stance[];
 }
 
@@ -5711,8 +5715,6 @@ export function organizedGroupsIn(
     }
   for (const group of causeGroupsIn(api, placeId)) {
     const memberIds = group.memberIds.filter(living);
-    // stopgapId: SG-GOV-group-endorsement-stance (a cause group's change read as for or against its topic)
-    api.stopgap("SG-GOV-group-endorsement-stance");
     out.push({
       organizationId: group.organizationId,
       kind: "cause-group",
@@ -6151,6 +6153,37 @@ export function askForEndorsement(
 }
 
 /**
+ * Where a group stands on a question, as it weighs a candidate: its own
+ * cause where it has one (`OrganizedGroup.stance`), and on every other
+ * question a candidate runs on, the position its members adopt, the mean of
+ * their own views (a group's questionnaire asks what its members want; a
+ * member who holds no view pulls it toward none). Undefined where it has no
+ * cause on the question and no member living. Each question is read once.
+ */
+export function groupPositions(
+  api: CoreAPI,
+  group: Pick<OrganizedGroup, "stance" | "memberIds">,
+): (question: string) => number | undefined {
+  const core = api.state as CoreState;
+  const held = new Map(group.stance.map((s) => [s.question, s.position]));
+  const members = group.memberIds.flatMap((id) => {
+    const person = core.people.get(id);
+    return person?.alive
+      ? [{ id, lean: personLean(core.people, person, townRow(api).lean) }]
+      : [];
+  });
+  return (question) => {
+    if (held.has(question)) return held.get(question);
+    if (!members.length) return undefined;
+    let sum = 0;
+    for (const m of members) sum += viewOn(api, m.id, question, m.lean);
+    const mean = sum / members.length;
+    held.set(question, mean);
+    return mean;
+  };
+}
+
+/**
  * The organizations in town weigh a race on its campaign turn (owner, Oct
  * 29: "she was working with the Democratic Socialists of America... then
  * her campaign gained steam"). Each group's speaker weighs every candidate
@@ -6187,9 +6220,9 @@ function groupsWeighRace(api: CoreAPI, contestId: string): void {
       continue;
     const speaker = core.people.get(group.speakerId);
     if (!speaker?.alive) continue;
-    const held = new Map(group.stance.map((s) => [s.question, s.position]));
+    const positionOn = groupPositions(api, group);
     const agreementOf = (platform: readonly Stance[]) =>
-      platformRead(platform, (question) => held.get(question));
+      platformRead(platform, positionOn);
     for (const campaign of field) {
       const weighing = weighEndorsement(
         api,

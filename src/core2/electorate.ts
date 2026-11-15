@@ -11,6 +11,7 @@
  */
 import {
   groupAgreement,
+  groupStance,
   type StanceProfile,
   registerCountedPeople,
   registerViewLeans,
@@ -468,6 +469,18 @@ export interface CountedFieldEntry {
    * it, so their traits move them around that advantage, not on top of it.
    */
   readonly incumbentLeanCenter?: number;
+  /** The groups that backed the candidate, as a counted voter who shares each one's cause hears it. */
+  readonly endorsed?: readonly EndorsedBy[];
+}
+
+/**
+ * A group's endorsement as the counted electorate hears it: the stance it
+ * stood on, and the warmth it brings a voter who holds that stance fully.
+ */
+export interface EndorsedBy {
+  readonly question: string;
+  readonly position: number;
+  readonly warmth: number;
 }
 
 /** One counted voter's appeal for a candidate, with its parts. */
@@ -604,7 +617,18 @@ export function countedAppeal(
       : 0;
     // Their own word at the door (owner, Oct 29: a "yes" is near-binding).
     const pledge = pledgeWeight * (where.pledges?.[entry.id] ?? 0);
-    const warmth = where.warmths?.[entry.id] ?? 0;
+    // What their cases left them feeling, and the groups whose cause they
+    // share that backed the candidate, by how firmly they share it (a group
+    // reaches its town's own people).
+    let warmth = where.warmths?.[entry.id] ?? 0;
+    if (where.inTown)
+      for (const by of entry.endorsed ?? [])
+        warmth +=
+          by.warmth *
+          Math.max(
+            0,
+            groupStance(lean, by.question, where.profile) * by.position,
+          );
     const total =
       party +
       standing +
