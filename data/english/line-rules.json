@@ -5855,6 +5855,23 @@
       "test": {
         "kind": "place"
       }
+    },
+    {
+      "id": "sharp-reply-is-earned",
+      "says": "A reply that attacks, scolds or refuses is offered only when something on the record earned it: a bad tie, a story against the player, or a second press. A first plain question never earns it; a plain \"Not now.\" is always allowed.",
+      "judges": "line",
+      "from": [
+        {
+          "date": "2026-11-14",
+          "words": "Read the ordinance before you write about it. That doesn't make any sense. Why is she so combative already?",
+          "via": "Words lead, rule 112"
+        }
+      ],
+      "note": "Rule 112, strict reading. A counted report, not a pull: `npm run words:placement` lists the shared (routine-keyed) confront, blame, disagree, refuse, decline, deny and withdraw replies that require none of pressed, tie-rival or printed-against (the facts the reporter's-call builder sets); the count may only fall (tests/guards/english/placement-checks.test.ts). Leave and deflect replies are not read.",
+      "status": "awaiting-test",
+      "test": {
+        "kind": "place"
+      }
     }
   ]
 }
