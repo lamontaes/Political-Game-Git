@@ -2483,7 +2483,8 @@ const chamber: Builder = (read, f) => {
   )?.[1];
   const body = read.body(officeId);
   const posts = Object.entries(f).filter(
-    ([post, holder]) => post !== "level" && read.name(holder),
+    ([post, holder]) =>
+      post !== "level" && post !== "mid-term" && read.name(holder),
   );
   const [post, holder] =
     posts.find(([key]) => /^(?:speaker|president)$/.test(key)) ??
@@ -2506,6 +2507,7 @@ const chamber: Builder = (read, f) => {
       ...(post && /^(?:speaker|president)$/.test(post)
         ? { presides: read.yes() }
         : {}),
+      ...(f["mid-term"] ? { "mid-term": read.yes() } : {}),
       ...(body ? { body: read.fact(body, officeId ?? "") } : {}),
     },
     ["name", "post"],
