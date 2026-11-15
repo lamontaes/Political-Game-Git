@@ -649,7 +649,8 @@ export function saysOffice(
   lines: readonly JournalWorded[],
   office: { text: string },
 ): boolean {
-  return lines.some((line) => line.text.includes(office.text.toLowerCase()));
+  const said = office.text.toLowerCase();
+  return lines.some((line) => line.text.toLowerCase().includes(said));
 }
 
 /** The parts of a journal entry, said as one entry. */

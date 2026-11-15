@@ -1179,9 +1179,7 @@ function officeActMoments(
       const officeHeld = officeHolding(core)(personId);
       const town = placeLabel(core.people.get(personId)?.placeId);
       const where: Facts = {
-        ...(officeHeld
-          ? { office: { ...officeHeld, text: officeHeld.text.toLowerCase() } }
-          : {}),
+        ...(officeHeld ? { office: officeHeld } : {}),
         ...(town ? { place: { text: town, sourceRecordIds: [personId] } } : {}),
       };
       // A town hall is told by who came and what they asked, from its own
@@ -1859,6 +1857,12 @@ export function composeJournal(
           text: via,
           sourceRecordIds: [moment.causeId, String(logged?.facts?.learnedFrom)],
         };
+      // The lines that name the law are said where the record names it; the
+      // bill-only lines are said where it does not.
+      facts.naming = {
+        text: facts.law ? "law" : "bare",
+        sourceRecordIds: [moment.causeId],
+      };
       facts.bill = {
         text: bill,
         sourceRecordIds: [moment.causeId, ruleId as string],
@@ -3559,12 +3563,21 @@ export function composeJournal(
         group[zero]!.moment.date,
       );
     }
-    const told = [
-      ...(actRun(group) ?? tellParagraph(group, "play")),
-      ...group.flatMap(speakAfter),
-      ...group.flatMap(recallAfter),
-    ];
-    push(group, told);
+    // A race's certified result is its own entry, on the day it was certified
+    // (Words lead, Nov 15: an entry does not tell a later event under an
+    // earlier date); what led up to it is told first, under its own day.
+    const decided = group.filter((unit) => unit.row.hasOwnLine);
+    const leadUp = group.filter((unit) => !unit.row.hasOwnLine);
+    for (const part of leadUp.length && decided.length
+      ? [leadUp, decided]
+      : [group]) {
+      const told = [
+        ...(actRun(part) ?? tellParagraph(part, "play")),
+        ...part.flatMap(speakAfter),
+        ...part.flatMap(recallAfter),
+      ];
+      push(part, told);
+    }
   }
 
   // Revised as life goes on: a schoolmate or a co-worker who now holds office
@@ -3606,7 +3619,7 @@ export function composeJournal(
       const facts: Facts = {
         name: said,
         other: said,
-        office: { ...office, text: office.text.toLowerCase() },
+        office,
         // Where they worked together, from the employer's own record.
         ...(coworker && employerName(core, recordId, recordId)
           ? { employer: employerName(core, recordId, recordId)! }

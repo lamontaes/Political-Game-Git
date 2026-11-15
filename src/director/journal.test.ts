@@ -891,7 +891,8 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
     const lines = beyond(chapters) as (typeof chapters)[number]["lines"];
     expect(lines).toHaveLength(1);
     expect(lines[0]!.text).not.toMatch(/^Except/);
-    expect(lines[0]!.text).toMatch(/mayor/);
+    // One form of an office, everywhere (Words lead, Nov 15): the record's own, "Mayor", as the player's own lines say it; it was lower case here before.
+    expect(lines[0]!.text).toMatch(/Mayor/);
     expect(lines[0]!.sourceRecordIds).toContain(employerId);
   });
 });

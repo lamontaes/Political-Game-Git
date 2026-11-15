@@ -2027,7 +2027,7 @@
       "key": "journal.office-line-won.i-was-elected-to-office",
       "move": "office-line-won",
       "kind": "spoken",
-      "text": "I was elected to {office}.",
+      "text": "I was elected {office}.",
       "uses": [
         {
           "move": "office-line-won",
@@ -3211,7 +3211,7 @@
       "key": "journal.election-other-result.other-was-elected-to-office",
       "move": "election-other-result",
       "kind": "spoken",
-      "text": "{other} was elected to {office}.",
+      "text": "{other} was elected {office}.",
       "uses": [
         {
           "move": "election-other-result",
@@ -3237,7 +3237,7 @@
       "key": "journal.election-other-result.other-got-elected-to-office",
       "move": "election-other-result",
       "kind": "spoken",
-      "text": "{other} got elected to {office}.",
+      "text": "{other} got elected {office}.",
       "uses": [
         {
           "move": "election-other-result",
@@ -3263,7 +3263,7 @@
       "key": "journal.election-other-result.name-was-elected-to-office",
       "move": "election-other-result",
       "kind": "spoken",
-      "text": "{name} was elected to {office}.",
+      "text": "{name} was elected {office}.",
       "uses": [
         {
           "move": "election-other-result",
@@ -5665,7 +5665,7 @@
       "key": "journal.memoir-decided.so-i-filed-for-office-with-the-election-set-for-election",
       "move": "memoir-decided",
       "kind": "spoken",
-      "text": "So I filed for {office}, with the election set for {election}.",
+      "text": "I filed for {office}, with the election set for {election}.",
       "uses": [
         {
           "move": "memoir-decided",
@@ -14751,58 +14751,6 @@
       }
     },
     {
-      "key": "journal.money-line-law-effect-learned.once-the-rules-on-topic-took-hold-my-bill-went-direction-amount-a-month",
-      "move": "money-line-law-effect-learned",
-      "kind": "spoken",
-      "text": "Once the rules on {topic} took hold, my {bill} went {direction} {amount} a month.",
-      "uses": [
-        {
-          "move": "money-line-law-effect-learned",
-          "subject": "money",
-          "role": "line",
-          "choice": "law-effect-learned",
-          "journal": [
-            {
-              "kindPrefix": "event:law.effect-learned",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (ruled Nov 14), added by the Journal builder",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.money-line-law-effect-learned.after-the-rules-on-topic-changed-my-bill-went-direction-amount-a-month",
-      "move": "money-line-law-effect-learned",
-      "kind": "spoken",
-      "text": "After the rules on {topic} changed, my {bill} went {direction} {amount} a month.",
-      "uses": [
-        {
-          "move": "money-line-law-effect-learned",
-          "subject": "money",
-          "role": "line",
-          "choice": "law-effect-learned",
-          "journal": [
-            {
-              "kindPrefix": "event:law.effect-learned",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (ruled Nov 14), added by the Journal builder",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
       "key": "journal.office-line-petition.i-fell-short-signatures-short-and-was-left-off-the-ballot",
       "move": "office-line-petition",
       "kind": "spoken",
@@ -14963,6 +14911,84 @@
       "move": "money-line-law-effect-learned",
       "kind": "spoken",
       "text": "My {bill} was {direction} {amount} by the next month, after {law} took hold.",
+      "uses": [
+        {
+          "move": "money-line-law-effect-learned",
+          "subject": "money",
+          "role": "line",
+          "choice": "law-effect-learned",
+          "journal": [
+            {
+              "kindPrefix": "event:law.effect-learned",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (ruled Nov 14), added by the Journal builder",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.money-line-law-effect-learned.my-bill-went-direction-amount-a-month",
+      "move": "money-line-law-effect-learned",
+      "kind": "spoken",
+      "text": "My {bill} went {direction} {amount} a month.",
+      "uses": [
+        {
+          "move": "money-line-law-effect-learned",
+          "subject": "money",
+          "role": "line",
+          "choice": "law-effect-learned",
+          "journal": [
+            {
+              "kindPrefix": "event:law.effect-learned",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (ruled Nov 14), added by the Journal builder",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.money-line-law-effect-learned.my-bill-went-direction-amount-a-month-i-heard-of-it-learned",
+      "move": "money-line-law-effect-learned",
+      "kind": "spoken",
+      "text": "My {bill} went {direction} {amount} a month. I heard of it {learned}.",
+      "uses": [
+        {
+          "move": "money-line-law-effect-learned",
+          "subject": "money",
+          "role": "line",
+          "choice": "law-effect-learned",
+          "journal": [
+            {
+              "kindPrefix": "event:law.effect-learned",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (ruled Nov 14), added by the Journal builder",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.money-line-law-effect-learned.my-bill-went-direction-amount-a-month-and-i-heard-of-it-learned",
+      "move": "money-line-law-effect-learned",
+      "kind": "spoken",
+      "text": "My {bill} went {direction} {amount} a month, and I heard of it {learned}.",
       "uses": [
         {
           "move": "money-line-law-effect-learned",

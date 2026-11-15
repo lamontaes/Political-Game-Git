@@ -235,6 +235,11 @@
     {
       "kindPrefix": "event:law.effect-learned",
       "turn": false,
+      "stageFact": "naming",
+      "stageWords": {
+        "law": "\\{\\{law\\}\\}",
+        "bare": "^(?!.*\\{\\{law\\}\\})"
+      },
       "eventFacts": {
         "law": {
           "fact": "lawId",
