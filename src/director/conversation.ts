@@ -2627,7 +2627,13 @@ function printedSubject(
  */
 const KNOWN_BY_ACT = (
   rulesFile as unknown as {
-    knownByAct: { kinds: Record<string, string>; stage: string };
+    knownByAct: {
+      kinds: Record<
+        string,
+        { what: string; doer: string; said?: Record<string, string> }
+      >;
+      stage: string;
+    };
   }
 ).knownByAct;
 
@@ -2640,24 +2646,31 @@ function actBetween(
   core: Readonly<CoreState>,
   a: PersonId,
   b: PersonId,
-): { id: string; what: string } | null {
+): { id: string; what: string; byA: boolean } | null {
   const ofA = core.logByPerson.get(a);
   const ofB = core.logByPerson.get(b);
   if (!ofA || !ofB) return null;
   const [few, many] = ofA.size <= ofB.size ? [ofA, ofB] : [ofB, ofA];
-  let best: { id: string; what: string; date: string } | null = null;
+  let best: { id: string; what: string; byA: boolean; date: string } | null =
+    null;
   for (const id of few) {
     if (!many.has(id)) continue;
     const record = core.durableLog.get(id);
-    const field = record && KNOWN_BY_ACT.kinds[record.kind];
-    if (!record || !field) continue;
-    const what =
-      field === "action" ? String(record.facts?.action ?? "") : field;
+    const rule = record && KNOWN_BY_ACT.kinds[record.kind];
+    if (!record || !rule) continue;
+    const what = rule.said
+      ? rule.said[String(record.facts?.[rule.what] ?? "")]
+      : rule.what;
     if (!what) continue;
-    if (!best || record.date > best.date)
-      best = { id, what, date: record.date };
+    if (best && record.date <= best.date) continue;
+    best = {
+      id,
+      what,
+      byA: record.facts?.[rule.doer] === a,
+      date: record.date,
+    };
   }
-  return best && { id: best.id, what: best.what };
+  return best && { id: best.id, what: best.what, byA: best.byA };
 }
 
 function introduction(
@@ -2686,7 +2699,10 @@ function introduction(
   // know who each other is (conversation-rules.json knownByAct).
   const act = actBetween(core, speaker.id as PersonId, listener.id as PersonId);
   if (act) {
-    facts[`act-${act.what}`] = { text: "yes", sourceRecordIds: [act.id] };
+    const cites = { text: "yes", sourceRecordIds: [act.id] };
+    facts.known = cites;
+    facts[`act-${act.what}`] = cites;
+    facts[act.byA ? "act-theirs" : "act-mine"] = cites;
     return {
       id: `here:${speaker.id}`,
       kind: "here",

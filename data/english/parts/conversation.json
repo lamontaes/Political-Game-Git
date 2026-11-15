@@ -34447,6 +34447,162 @@
       }
     },
     {
+      "key": "conversation.here-say-core.im-their-name-you-vetoed-my-bill",
+      "move": "here-say-core",
+      "kind": "spoken",
+      "text": "I'm {their_name}. You vetoed my bill.",
+      "uses": [
+        {
+          "move": "here-say-core",
+          "subject": "here-say",
+          "role": "core",
+          "stages": ["known"],
+          "requiresFacts": ["their-name", "act-vetoed", "act-mine"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (desk/known-by-act-introductions.md)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "core"
+      },
+      "piece": {
+        "of": "here-say",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "conversation.here-say-core.im-their-name-my-bill-is-the-one-you-vetoed",
+      "move": "here-say-core",
+      "kind": "spoken",
+      "text": "I'm {their_name}. My bill is the one you vetoed.",
+      "uses": [
+        {
+          "move": "here-say-core",
+          "subject": "here-say",
+          "role": "core",
+          "stages": ["known"],
+          "requiresFacts": ["their-name", "act-vetoed", "act-mine"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (desk/known-by-act-introductions.md)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "core"
+      },
+      "piece": {
+        "of": "here-say",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "conversation.here-say-core.you-know-my-name-it-was-on-the-bill-you-vetoed",
+      "move": "here-say-core",
+      "kind": "spoken",
+      "text": "You know my name. It was on the bill you vetoed.",
+      "uses": [
+        {
+          "move": "here-say-core",
+          "subject": "here-say",
+          "role": "core",
+          "stages": ["known"],
+          "requiresFacts": ["their-name", "act-vetoed", "act-mine"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (desk/known-by-act-introductions.md)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "core"
+      },
+      "piece": {
+        "of": "here-say",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "conversation.here-say-core.im-their-name-youll-know-the-name",
+      "move": "here-say-core",
+      "kind": "spoken",
+      "text": "I'm {their_name}. You'll know the name.",
+      "uses": [
+        {
+          "move": "here-say-core",
+          "subject": "here-say",
+          "role": "core",
+          "stages": ["known"],
+          "requiresFacts": ["their-name", "known"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (desk/known-by-act-introductions.md)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "core"
+      },
+      "piece": {
+        "of": "here-say",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "conversation.here-say-core.im-their-name-we-know-each-other-on-paper",
+      "move": "here-say-core",
+      "kind": "spoken",
+      "text": "I'm {their_name}. We know each other on paper.",
+      "uses": [
+        {
+          "move": "here-say-core",
+          "subject": "here-say",
+          "role": "core",
+          "stages": ["known"],
+          "requiresFacts": ["their-name", "known"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (desk/known-by-act-introductions.md)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "core"
+      },
+      "piece": {
+        "of": "here-say",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "conversation.here-say-core.im-their-name-we-havent-sat-down-before",
+      "move": "here-say-core",
+      "kind": "spoken",
+      "text": "I'm {their_name}. We haven't sat down before.",
+      "uses": [
+        {
+          "move": "here-say-core",
+          "subject": "here-say",
+          "role": "core",
+          "stages": ["known"],
+          "requiresFacts": ["their-name", "known"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (desk/known-by-act-introductions.md)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "core"
+      },
+      "piece": {
+        "of": "here-say",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
       "key": "conversation.here-answer-name.i-m-self",
       "move": "here-answer-name",
       "kind": "spoken",
@@ -34457,7 +34613,8 @@
           "subject": "here",
           "role": "answer",
           "choice": "name",
-          "requiresFacts": ["self"]
+          "requiresFacts": ["self"],
+          "excludesFacts": ["known"]
         }
       ],
       "origin": "authored",
@@ -34478,7 +34635,8 @@
           "subject": "here",
           "role": "answer",
           "choice": "name",
-          "requiresFacts": ["self"]
+          "requiresFacts": ["self"],
+          "excludesFacts": ["known"]
         }
       ],
       "origin": "authored",
@@ -34499,12 +34657,55 @@
           "subject": "here",
           "role": "answer",
           "choice": "name",
-          "requiresFacts": ["self", "their-name"]
+          "requiresFacts": ["self", "their-name"],
+          "excludesFacts": ["known"]
         }
       ],
       "origin": "authored",
       "author": "Words lead (lines-to-add.md section 2)",
       "date": "2026-11-14",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.here-answer-name.im-self-i-know-your-name",
+      "move": "here-answer-name",
+      "kind": "spoken",
+      "text": "I'm {self}. I know your name.",
+      "uses": [
+        {
+          "move": "here-answer-name",
+          "subject": "here",
+          "role": "answer",
+          "choice": "name",
+          "requiresFacts": ["self", "known"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (desk/known-by-act-introductions.md)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.here-answer-name.i-know-who-you-are-im-self",
+      "move": "here-answer-name",
+      "kind": "spoken",
+      "text": "I know who you are. I'm {self}.",
+      "uses": [
+        {
+          "move": "here-answer-name",
+          "subject": "here",
+          "role": "answer",
+          "choice": "name",
+          "requiresFacts": ["self", "known"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (desk/known-by-act-introductions.md)",
+      "date": "2026-11-15",
       "tag": {
         "move": "answer"
       }
@@ -34520,7 +34721,8 @@
           "subject": "here-back",
           "role": "core",
           "stages": ["name"],
-          "requiresFacts": ["you"]
+          "requiresFacts": ["you"],
+          "excludesFacts": ["known"]
         }
       ],
       "origin": "authored",
@@ -34546,7 +34748,8 @@
           "subject": "here-back",
           "role": "core",
           "stages": ["name"],
-          "requiresFacts": ["you"]
+          "requiresFacts": ["you"],
+          "excludesFacts": ["known"]
         }
       ],
       "origin": "authored",
@@ -34572,7 +34775,8 @@
           "subject": "here-back",
           "role": "core",
           "stages": ["name"],
-          "requiresFacts": ["you"]
+          "requiresFacts": ["you"],
+          "excludesFacts": ["known"]
         }
       ],
       "origin": "authored",

@@ -443,10 +443,22 @@
     "aboutFacts": ["employer", "school", "place", "topic", "relation"]
   },
   "knownByAct": {
-    "about": "Account lead, Nov 15 (#9489, point 3): someone who knows the other only from an act on the public record between them (a veto or signing of their bill, an appointment) knows who they are without having spent time together. The greeting's introduction then takes the stage `stage` instead of a stranger's, with the mark `act-<what>` (the record's action, or `appointed`) so its wordings fit. One row for every act made apart: a record of one of these kinds that names both people. A veto writes no shared time; a signing does (world-legislating.ts executiveHours), so a signed bill's sponsor is met, not only known.",
+    "about": "Account lead, Nov 15 (#9489, point 3): someone who knows the other only from an act on the public record between them (a veto or signing of their bill, an appointment) knows who they are without having spent time together. The greeting's introduction then takes the stage `stage` instead of a stranger's, with the mark `act-<what>` (from `said`) and a second mark saying whose act it was: `act-mine` when the listener did it to the speaker (the speaker's bill, the speaker's appointment), `act-theirs` when the speaker did it (Words lead, Nov 15). The mark `known` holds back every stranger's answer and welcome (\"Good to meet you\", \"now we've met\"). One row for every act made apart: a record of one of these kinds that names both people. A veto writes no shared time; a signing does (world-legislating.ts executiveHours), so a signed bill's sponsor is met, not only known.",
     "kinds": {
-      "executive-action": "action",
-      "official-appointed": "appointed"
+      "executive-action": {
+        "what": "action",
+        "doer": "executiveId",
+        "said": {
+          "vetoed": "vetoed",
+          "overridden": "vetoed",
+          "signed": "signed",
+          "unsigned": "unsigned"
+        }
+      },
+      "official-appointed": {
+        "what": "appointed",
+        "doer": "appointedBy"
+      }
     },
     "stage": "known"
   },
