@@ -9,6 +9,7 @@ import { createLifeCore } from "./life";
 import { coreAPI } from "./state";
 import { worldCoreData } from "./modules/world";
 import {
+  householdComposition,
   monthlyChange,
   PLACE_PRICES_MODULE,
   ridersMilesLeft,
@@ -16,7 +17,8 @@ import {
   useFactor,
   worldGoods,
 } from "./modules/place-prices";
-import type { CoreInput } from "./types";
+import type { CoreInput, CoreState } from "./types";
+import { ageOfMajority } from "./age-of-majority";
 
 function api() {
   const input = {
@@ -94,5 +96,34 @@ describe("a household's own use of a priced good", () => {
     const b = ruleId("p", "electricity", "share", "clean-standard");
     expect(a).not.toBe(b);
     expect(ruleId("p", "electricity", "share")).not.toBe(a);
+  });
+});
+
+describe("who counts as an adult for prices", () => {
+  // Pinned places: 2854920 is in Mississippi (age of majority 21), 1018950 in
+  // Delaware (18). The same 19-year-old worker is an adult in one and not in
+  // the other, and the voting age plays no part: the reader takes no
+  // parameters, so a law lowering the voting age leaves prices alone.
+  const at = (placeId: string) => {
+    const state = {
+      date: "2026-06-01",
+      people: new Map([
+        ["p1", { birthDate: "2007-01-01", placeId, jobId: "j1" }],
+        ["p2", { birthDate: "1980-01-01", placeId }],
+      ]),
+      jobs: new Map([["j1", { endsAt: undefined }]]),
+    } as unknown as CoreState;
+    return householdComposition(state, ["p1", "p2"]);
+  };
+  it("reads each place's age of majority", () => {
+    expect(ageOfMajority("2854920")).toBe(21);
+    expect(ageOfMajority("1018950")).toBe(18);
+  });
+  it("counts a 19-year-old as an adult where majority is 18 and not where it is 21", () => {
+    expect(at("1018950")).toEqual({ persons: 2, adults: 2, workers: 1 });
+    expect(at("2854920")).toEqual({ persons: 2, adults: 1, workers: 1 });
+  });
+  it("is read from no parameter, so the voting age cannot move it", () => {
+    expect(householdComposition.length).toBe(2);
   });
 });

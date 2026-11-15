@@ -21,6 +21,8 @@ export interface PersonReach {
   readonly effect: string;
   readonly kind: string;
   readonly lawId: string;
+  /** Every law the reach is credited to, with its share (a budget line several governments' laws changed); `lawId` is the largest. */
+  readonly credits?: Readonly<Record<string, number>>;
   readonly since: string;
   readonly endedOn: string | null;
   readonly terms: Readonly<Record<string, number>>;
@@ -33,6 +35,8 @@ export interface OrganizationReach {
   readonly effect: string;
   readonly kind: string;
   readonly lawId: string;
+  /** Every law the reach is credited to, with its share (a budget line several governments' laws changed); `lawId` is the largest. */
+  readonly credits?: Readonly<Record<string, number>>;
   readonly since: string;
   readonly endedOn: string | null;
   readonly terms: Readonly<Record<string, number>>;
@@ -45,6 +49,7 @@ export interface GroupReach {
   readonly placeId: string;
   readonly effect: string;
   readonly lawId: string;
+  readonly credits?: Readonly<Record<string, number>>;
   readonly reached: number;
   readonly of: number;
   readonly since: string;
@@ -166,9 +171,18 @@ export function reconcile(
     readonly lawId: string;
     readonly placeId: string;
     readonly reach: Reach | null;
+    /**
+     * Each law's share of the reach, where several laws made it (a budget
+     * line two governments changed); `lawId` is the law with the most.
+     */
+    readonly credits?: Readonly<Record<string, number>>;
   },
 ): void {
   const date = api.state.date;
+  const credits = input.credits ? { credits: input.credits } : {};
+  const sameCredits = (row: { readonly credits?: object }) =>
+    JSON.stringify(row.credits ?? null) ===
+    JSON.stringify(input.credits ?? null);
   const people = reachTable(api, "people");
   const open = people.query("byKey", [
     input.key,
@@ -179,11 +193,18 @@ export function reconcile(
   // row now applying it (a new row with the same terms replaces the old law).
   for (const row of open) {
     const terms = named.get(row.personId);
-    if (terms && sameTerms(terms, row.terms) && row.lawId === input.lawId)
+    if (
+      terms &&
+      sameTerms(terms, row.terms) &&
+      row.lawId === input.lawId &&
+      sameCredits(row)
+    )
       continue;
     people.put({
       ...row,
-      ...(terms ? { terms, lawId: input.lawId } : { endedOn: date }),
+      ...(terms
+        ? { terms, lawId: input.lawId, ...credits }
+        : { endedOn: date }),
     } as unknown as ModuleRow);
   }
   const holding = new Set(open.map((row) => row.personId));
@@ -196,6 +217,7 @@ export function reconcile(
       effect: input.effect,
       kind: input.kind,
       lawId: input.lawId,
+      ...credits,
       since: date,
       endedOn: null,
       terms,
@@ -210,11 +232,18 @@ export function reconcile(
   const bound = input.reach?.organizations ?? new Map();
   for (const row of openOrgs) {
     const terms = bound.get(row.organizationId);
-    if (terms && sameTerms(terms, row.terms) && row.lawId === input.lawId)
+    if (
+      terms &&
+      sameTerms(terms, row.terms) &&
+      row.lawId === input.lawId &&
+      sameCredits(row)
+    )
       continue;
     orgs.put({
       ...row,
-      ...(terms ? { terms, lawId: input.lawId } : { endedOn: date }),
+      ...(terms
+        ? { terms, lawId: input.lawId, ...credits }
+        : { endedOn: date }),
     } as unknown as ModuleRow);
   }
   const boundNow = new Set(openOrgs.map((row) => row.organizationId));
@@ -227,6 +256,7 @@ export function reconcile(
       effect: input.effect,
       kind: input.kind,
       lawId: input.lawId,
+      ...credits,
       since: date,
       endedOn: null,
       terms,
@@ -241,6 +271,11 @@ export function reconcile(
       placeId: input.placeId,
       effect: input.effect,
       lawId: input.lawId,
+      ...(input.credits
+        ? credits
+        : prior?.credits
+          ? { credits: prior.credits }
+          : {}),
       reached: input.reach?.counted ?? 0,
       of: input.reach?.countedOf ?? prior?.of ?? 0,
       since: input.reach
@@ -258,6 +293,8 @@ export interface ActiveRow {
   readonly lawId: string;
   readonly level: string;
   readonly since: string;
+  /** A budget line's law at each level of the chain: the last act that changed that government's line. */
+  readonly byLevel?: Readonly<Record<string, string>>;
 }
 
 /** Mark a policy in force (or not) for the monthly review. */

@@ -384,6 +384,13 @@
       "source": "How many members sign on beside a sponsor: the few closest to them who back the bill. Checked against the median cosponsor count on U.S. House bills (about 5 to 10 for bills that pass) scaled down to the members the sponsor knows; the spread is what the played year's bill papers show.",
       "spread": [2, 8]
     },
+    "cosponsorChairWeight": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "source": "How much a committee chair weighs the names on a bill in deciding to hear it: the chair's closeness (0 to 1) to each co-sponsor, summed, times this, beside the chair's own position on the bill. Checked against the share of the player's bills held in committee in a played year, with and without the names; the spread is the range over which a held bill with two close names is heard and one with none is still held.",
+      "spread": [0.1, 1],
+      "role": "coefficient"
+    },
     "pillCandidates": {
       "value": 3,
       "tag": "TUNABLE",
