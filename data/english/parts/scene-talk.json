@@ -182477,6 +182477,15 @@
           "role": "asker",
           "after": "promise",
           "requiresFacts": ["problem-wage"]
+        },
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "after": "promise",
+          "requiresFacts": ["problem-custody"]
         }
       ],
       "origin": "authored",
@@ -182516,6 +182525,15 @@
           "role": "asker",
           "after": "promise",
           "requiresFacts": ["problem-wage"]
+        },
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "after": "promise",
+          "requiresFacts": ["problem-custody"]
         }
       ],
       "origin": "authored",
@@ -183149,6 +183167,15 @@
           "role": "asker",
           "after": "decline",
           "requiresFacts": ["problem-wage"]
+        },
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "after": "decline",
+          "requiresFacts": ["problem-custody"]
         }
       ],
       "origin": "authored",
@@ -183287,6 +183314,15 @@
           "role": "asker",
           "after": "decline",
           "requiresFacts": ["problem-wage"]
+        },
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "after": "decline",
+          "requiresFacts": ["problem-custody"]
         }
       ],
       "origin": "authored",
@@ -183614,6 +183650,14 @@
           "move": "accept",
           "role": "asker",
           "requiresFacts": ["problem-wage"]
+        },
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "requiresFacts": ["problem-custody"]
         }
       ],
       "origin": "authored",
@@ -183651,6 +183695,14 @@
           "move": "press",
           "role": "asker",
           "requiresFacts": ["problem-wage"]
+        },
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "requiresFacts": ["problem-custody"]
         }
       ],
       "origin": "authored",
@@ -191099,7 +191151,7 @@
       "key": "scene-talk.reply-decline.case-help-oh-1",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I can't take your case. I have {other-cases} open already.",
+      "text": "I can't take your case. My office has too many open already.",
       "uses": [
         {
           "subject": "scene",
@@ -191128,7 +191180,7 @@
       "key": "scene-talk.reply-decline.case-help-oh-2",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "My office is carrying {other-cases}. I can't add yours.",
+      "text": "My office is carrying all it can. I can't add yours.",
       "uses": [
         {
           "subject": "scene",
@@ -191265,6 +191317,240 @@
       "bearing": "calm",
       "piece": {
         "of": "case-help.reply-apologize",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.state-request.case-help-custody-1",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Someone in my family is locked up, and I can't get a visit.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "requiresFacts": ["problem-custody"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (office hours, custody, Nov 15 22:45Z), added by the civic roles builder",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "request",
+        "key": "case-help"
+      },
+      "bearing": "anxious",
+      "piece": {
+        "of": "case-help.state-request",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.state-request.case-help-custody-2",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I have family in jail, and I haven't been able to see them.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "requiresFacts": ["problem-custody"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (office hours, custody, Nov 15 22:45Z), added by the civic roles builder",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "request",
+        "key": "case-help"
+      },
+      "bearing": "anxious",
+      "piece": {
+        "of": "case-help.state-request",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.state-request.case-help-custody-3",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I want to visit family in jail. I don't know who to ask.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "requiresFacts": ["problem-custody"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (office hours, custody, Nov 15 22:45Z), added by the civic roles builder",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "request",
+        "key": "case-help"
+      },
+      "bearing": "anxious",
+      "piece": {
+        "of": "case-help.state-request",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.case-help-custody-1",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll ask that you be allowed a visit, today.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "requiresFacts": ["problem-custody"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (office hours, custody, Nov 15 22:45Z), added by the civic roles builder",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "promise",
+        "key": "case-help"
+      },
+      "bearing": "calm",
+      "piece": {
+        "of": "case-help.reply-promise",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.case-help-custody-2",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll put in for the visit myself.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "requiresFacts": ["problem-custody"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (office hours, custody, Nov 15 22:45Z), added by the civic roles builder",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "promise",
+        "key": "case-help"
+      },
+      "bearing": "calm",
+      "piece": {
+        "of": "case-help.reply-promise",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.case-help-custody-3",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll take it up today and ask for your visit.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "requiresFacts": ["problem-custody"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (office hours, custody, Nov 15 22:45Z), added by the civic roles builder",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "promise",
+        "key": "case-help"
+      },
+      "bearing": "calm",
+      "piece": {
+        "of": "case-help.reply-promise",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.case-help-custody-1",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Every week I wait is a week I don't see them.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "requiresFacts": ["problem-custody"],
+          "after": "decline"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (office hours, custody, Nov 15 22:45Z), added by the civic roles builder",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "press",
+        "key": "case-help"
+      },
+      "bearing": "braced",
+      "piece": {
+        "of": "case-help.follow-press",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.follow-plea.case-help-custody-1",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "Please. I only want to see them.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "requiresFacts": ["problem-custody"],
+          "after": "decline"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (office hours, custody, Nov 15 22:45Z), added by the civic roles builder",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "plea",
+        "key": "case-help"
+      },
+      "bearing": "anxious",
+      "piece": {
+        "of": "case-help.follow-plea",
         "part": "core",
         "required": true
       }

@@ -1,15 +1,6 @@
 {
   "schema": "director-constituent-help-facts/1",
-  "note": "What the office-hours scene says of the constituent's case (src/director/constituent-help-facts.ts caseFacts): how the office's other open cases are said. Words only; nothing here is a number the world runs on.",
-  "otherCases": {
-    "value": {
-      "one": "one other case",
-      "more": "{count} other cases"
-    },
-    "tag": "TUNABLE",
-    "spread": "Words only: the official's other open cases (openCasesOf), said as a count in words.",
-    "checkedAgainst": "count-words.ts countSaid."
-  },
+  "note": "What the office-hours scene says of the constituent's case (src/director/constituent-help-facts.ts caseFacts): how a job seeker's savings are said. Words only; nothing here is a number the world runs on.",
   "moneyLeft": {
     "value": [
       {

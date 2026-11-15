@@ -16,11 +16,12 @@ import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
 import {
   CASES_MODULE_ID,
+  caseLoad,
   openCasesOf,
   type CaseRow,
 } from "../core2/modules/offices";
 import { STAFF_MODULE_ID, servingStaffOf } from "../core2/modules/staff";
-import { countSaid, daysSaid } from "../english/count-words";
+import { daysSaid } from "../english/count-words";
 import rules from "./data/constituent-help-facts.json" with { type: "json" };
 import { JOBS_MODULE_ID } from "../core2/modules/jobs";
 import { dollars } from "../english/bill-sections";
@@ -71,7 +72,8 @@ export function lastLayoff(
  *   seven days"), from the case's deadline;
  * - `employer` and `since` (a job seeker's last layoff), `money-left` (how
  *   their savings stand, in words), `pay` and `floor` (a wage complaint);
- * - `other-cases`: the official's other open cases; `staffer`: the aide who
+ * - `other-cases`: the official's other open cases are many, by the cases
+ *   engine's own load (`caseLoad`); `staffer`: the aide who
  *   would take the case, where the official has staff.
  *
  * A fact is set only where its record is on the books.
@@ -122,15 +124,11 @@ export function caseFacts(
     );
     if (band && row.severity > P.zero) facts["money-left"] = said(band.said);
   }
+  // A full desk: the office's other open cases weigh on its answer at least
+  // as much as everything else (the cases engine's own `caseLoad`, half at
+  // `caseLoadHalf`), so "too many" is true when the line says it.
   const others = openCasesOf(api, row.officialId, row.id);
-  if (others > P.zero) {
-    const words = rules.otherCases.value;
-    facts["other-cases"] = said(
-      others === P.one
-        ? words.one
-        : words.more.replace("{count}", countSaid(others)),
-    );
-  }
+  if (caseLoad(api, others) >= P.half) facts["other-cases"] = said("yes");
   if (core.modules.has(STAFF_MODULE_ID)) {
     const aide = servingStaffOf(api, row.officialId)
       .map((staffer) => core.people.get(staffer.personId))

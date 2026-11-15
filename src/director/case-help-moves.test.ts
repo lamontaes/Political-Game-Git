@@ -154,11 +154,9 @@ describe("the case-help lines read as an American resident and an official would
         expect(use.requiresFacts ?? [], part.key).not.toContain("agency");
     }
   });
-  it("says the other open cases only in the official's own turning away, never in the resident's lines", () => {
+  it("tells no one how many other cases are open", () => {
     for (const part of pieces)
-      if (part.text.includes("{other-cases}"))
-        for (const use of part.uses)
-          expect(`${use.role} ${use.move}`, part.key).toBe("asked decline");
+      expect(part.text, part.key).not.toContain("{other-cases}");
   });
   it("says how long ago a layoff was with a span that takes 'ago'", () => {
     for (let days = 1; days < 4000; days += 7)
