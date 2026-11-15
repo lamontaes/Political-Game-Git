@@ -104,6 +104,12 @@ const SCHOOL_MEASURED = new Set([
 export { OUTCOME_WEB_MODULE_ID, WEB_LINKS };
 /** The factor an engine in another family multiplies its own rate by (medical-bills.ts). */
 export { webReach, type WebReach } from "../outcome-web-reach";
+// The trace of laws the web carries into business prices, for the price engine.
+export {
+  traceWebPriceLaws,
+  WEB_PRICE_ENGINE,
+  WEB_PRICE_WHAT,
+} from "../law-reach/web-price-trace";
 const STATE_ID = "outcome-web:state";
 const RUN_KIND = "outcome-web";
 const SETTINGS = WEB_SETTINGS;

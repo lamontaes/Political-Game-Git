@@ -91,11 +91,6 @@ export interface ResidentFlowInput {
    * half the month: this lists the other payday's flow, which pays the same jobs.
    */
   partnerFlowIds?: readonly string[];
-  /**
-   * Wages: paydays at the opening whose period began before it pay only the
-   * days worked since the opening, as full workers' earned pay does.
-   */
-  earnedDaysByDue?: Readonly<Record<string, number>>;
   /** Unplaced-worker pay: how many counted workers it pays (the opening's employment target less recorded jobs). */
   unplacedWorkers?: number;
   /**
@@ -214,15 +209,6 @@ export function householdOutsideFlow(
     marketAdjusted: false,
     source,
   };
-}
-
-function daysBetweenInclusive(from: IsoDate, through: string): number {
-  return (
-    Math.round(
-      (Date.parse(`${through}T00:00:00Z`) - Date.parse(`${from}T00:00:00Z`)) /
-        86_400_000,
-    ) + 1
-  );
 }
 
 /**
@@ -443,28 +429,14 @@ export function collapseToTwoLevels(
       perDayMinorByJob: group.perDayByJob,
       source: group.source,
     };
-    // Paydays from the opening on: the first ones may cover days before it,
-    // which no one is owed in the game (full workers earn from attendance).
+    // Paydays from the opening on, each paying its whole period: a period
+    // begun before the opening was worked before it, and its payday pays it
+    // (a payday on the opening day was paid before it, in the opening cash).
     const reads = new FinanceReadGuard(),
       units = { zero: 0, one: 1, monthsPerYear: MONTHS_PER_YEAR };
-    const earnedDaysByDue: Record<string, number> = {};
-    let period = nextWorkPayrollPeriod(reads, calendar, start, start, units);
+    const period = nextWorkPayrollPeriod(reads, calendar, start, start, units);
     const firstDue = makeIsoDate(period.dueAt);
     const firstIndex = period.index;
-    while (period.fromAt < start) {
-      const from = period.fromAt < start ? start : period.fromAt;
-      earnedDaysByDue[period.dueAt] =
-        period.throughAt < from
-          ? 0
-          : daysBetweenInclusive(makeIsoDate(from), period.throughAt);
-      period = workPayPeriodAtIndex(
-        reads,
-        calendar,
-        period.index + 1,
-        start,
-        units,
-      );
-    }
     const first = firstDue;
     if (calendar.periodDays) {
       flows.push({
@@ -474,7 +446,6 @@ export function collapseToTwoLevels(
         periodFactor: calendar.periodDays,
         firstAt: first,
         cadence: { kind: "days", every: calendar.periodDays },
-        earnedDaysByDue,
       });
     } else {
       const months = calendar.periodMonths ?? 1;
@@ -512,7 +483,6 @@ export function collapseToTwoLevels(
             (DAYS_PER_YEAR / MONTHS_PER_YEAR) * (months / days.length),
           firstAt: nextMonthDay(first, day),
           cadence: { kind: "months", every: months, day },
-          earnedDaysByDue,
         }),
       );
     }
