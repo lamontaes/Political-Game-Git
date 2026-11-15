@@ -133,6 +133,41 @@ His words: "they shouldn't just say the unemployment rate is 4.6, it should say 
 
 How soon a speaker's own hard news is told slides with the tie: close, it leads; an acquaintance gives a guarded line and the fact only if asked; a stranger does not volunteer it. A scene is a tree: at least two turns past its ask on two branches that end differently and write back. Guides to how real people talk in twelve settings were written from transcripts on Nov 14 2026 and are kept off main; ask the Words lead for the one for your setting before writing lines.
 
+## Rules 108 to 135: scenes as played (owner, Nov 14 and 15 2026)
+
+His words are kept whole, with his message ids, in the Words lead's feedback file; ask the lead for it. He grades by scene and line number on the Scenes page, and a spoken "good" or "not good" becomes a rule here the same night, because only the 1-to-5 grades spread through the grade run.
+
+108. A question that is offered is answered from a record, or it is not offered. This binds the player's own replies as well as other people's.
+109. A pronoun for a person comes from that person's record, never a guess.
+110. A scene opens on what just happened, in plain words, from its cause record.
+111. A "why" gets a reason or a plain decline, never a restatement.
+112. A sharp or refusing reply is earned: by the tie, by a story against the player, or by being pressed twice.
+113. No reply contradicts the record unless it is a marked lie.
+114. The player always knows which lines are their choices.
+115. No "it", "this" or "of it" that points at nothing said.
+116. A scene says the specific thing at stake from the record, or it does not play.
+117. An oath or ceremony follows its real form.
+118. A reply does one clear thing.
+119. Replies belong to the person and the moment. Offer many, different in what they do, not in wording.
+120. Scenes do not all have one shape (narrator, line, line).
+121. A line someone says to themselves is a thing people say ("I need to gather myself.").
+122. A bill's sponsor says what the bill does unasked, in a few sentences.
+123. Narration makes the setting and the kind of talk plain, and the lines fit it: a floor is not two people alone.
+124. An opener fits how the two came to be talking and whether the player knows the person.
+125. No reply needs context the player was not given.
+126. What happens around the talk follows what was just said.
+127. A scene is as long as its occasion: a keynote is 10 to 20 clicks of short sentences, a hallway word is two.
+128. Another person's long turn is one block of three or four short sentences, sometimes one sentence alone for effect.
+129. The player's own speech is picked one part of four at each click (ruled Oct 14 and 15; `docs/coordination/OWNER-DECISIONS.md`).
+130. The player does not cut in on a turn. Another person may cut in on the player, as an event in the scene.
+131. A scene has an outcome, or it is a step toward one inside an event under way. Little everyday talk; home goes deep when the subject is heavy.
+132. Before a design question or an inference goes to the owner, the whole repository is searched for his ruling, and the question carries the reading line.
+133. Rule 129 holds for every speech. The number of clicks follows the occasion and varies; short is allowed and length is never padding.
+134. Speeches do not all follow one format. The order and kind of parts differ by occasion, by the speaker's record and by what was picked before.
+135. One back-end place accounts for every scene and line, so any line can be found later. A line it cannot list is a fault.
+
+Rulings that go with these. A said name of a subject ({issue}, {said}) goes only after "on" or "about". A put-off that promises a later talk is offered only when the record keeps the ask open and someone raises it again. Every spot where the player answers offers two or three answers that differ; one only for a courtesy. In a first meeting the name is said once, at the introduction, and a stranger at a door never uses the candidate's first name. What the player just said sets a fact, and the next line must answer it. A person remembers what passed with the player: a second ask of the same person opens on the first answer, a third on both, and after a second no the player gets a plain close only. A plea is offered only when the record holds what it leans on. A bribe says what is wanted first and the money second. A news story shows the day it ran. A line taken out of a scene is deleted from the bank, and a played file, sheet or verdict for a head that no longer exists is deleted, never renamed "old" (owner, Nov 15: "don't leave old shit in the files. Delete it.").
+
 ## Traps
 
 - A test that counts questions or wordings going red after a rule change is usually telling the truth. Find which change emptied the supply before touching the test.
@@ -142,3 +177,9 @@ How soon a speaker's own hard news is told slides with the tie: close, it leads;
 - When a count test wants many different lines, do not write near-twins: split the line into two parts the bank combines (a lead and a stance), and delete the whole-line pieces they replace.
 - Read a builder's fault before ruling on it. A card that looked wrong ("Went to school together" in July) was right: the player had graduated in June. Ask whose card it is.
 - A picture of one screen can hide the next one: a drafting card passed while the bill it produced showed one step of three. Ask for the screen the player lands on after pressing the button.
+- Before a stamp, check every new line in the diff against the played file headed with that exact sha (`git diff <train>...<sha> -- data/english/parts`, the added "text" rows). A line that never played is shown or deleted; a stamp given on a file from another head is withdrawn.
+- A stamp reads the slots as well as the words: {name} in a colleague's opening was the player's own name.
+- A press placed on "leans yes" after a "not yet" can never play, because a "not yet" comes only from someone leaning against. Ask the builder which states reach a line before writing it.
+- The ten-word limit is `maxWords` in `data/english/parts/conversation.json`, a builder's setting, not an owner rule. Rule 128's long turn is several parts composed as one turn (an arc's `stateMoves` in `src/director/scene-talk.ts`), never one long part.
+- One fault class gets one mechanism and one owner thread. Before assigning a class, ask which thread already holds the mechanism, and say so to both.
+- A deleted line that exists nowhere else is a loss to rule on, not a cleanup: ask where each deleted line still plays.
