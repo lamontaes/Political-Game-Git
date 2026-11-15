@@ -39,6 +39,7 @@ import { POLICY_QUESTIONS } from "../core2/policy-answers";
 import { POLICIES as REACH_A_POLICIES } from "../core2/law-reach/group-a-records";
 import { GROUP_B_KEYS } from "../core2/law-reach/group-b";
 import { jobsAt } from "../core2/law-reach/group-b-money";
+import { organizationName } from "../core2/past";
 import { lawReach } from "../core2/law-reach/applied";
 import {
   PUBLIC_EMPLOYER_CLASSES,
@@ -615,9 +616,20 @@ export class DevMode {
    * the full people it reached, the most money first. It reads only.
    */
   reach(lawId: string) {
-    const { people, ...reach } = lawReach(this.api, lawId, this.townId());
+    const { people, organizationsReached, ...reach } = lawReach(
+      this.api,
+      lawId,
+      this.townId(),
+    );
     return {
       ...reach,
+      /** The first of the organizations it reached (businesses whose price it raised, groups it paid). */
+      namedOrganizations: organizationsReached
+        .slice(0, REACH_NAMED)
+        .map((row) => ({
+          ...row,
+          name: organizationName(this.core, row.organizationId) ?? "",
+        })),
       /** The first of the full people it named; a screen lists these. */
       named: people.slice(0, REACH_NAMED).map((row) => {
         const person = this.core.people.get(row.personId)!;
