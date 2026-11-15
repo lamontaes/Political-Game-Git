@@ -63312,8 +63312,7 @@
           "role": "asker",
           "purpose": "donor-ask",
           "key": "favor-asked",
-          "requiresFacts": ["gift"],
-          "excludesFacts": ["asked-before", "helped-before", "refused-before"]
+          "requiresFacts": ["gift"]
         }
       ],
       "bearing": "calm",
@@ -187382,33 +187381,6 @@
           "purpose": "constituent-help",
           "key": "favor-asked",
           "requiresFacts": ["helped-before"]
-        },
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "purpose": "donor-ask",
-          "key": "favor-asked",
-          "requiresFacts": ["helped-before"]
-        },
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "purpose": "favor-job",
-          "key": "favor-asked",
-          "requiresFacts": ["helped-before"]
-        },
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "purpose": "hearing-ask",
-          "key": "favor-asked",
-          "requiresFacts": ["helped-before"]
         }
       ],
       "bearing": "calm",
@@ -187434,33 +187406,6 @@
           "purpose": "constituent-help",
           "key": "favor-asked",
           "requiresFacts": ["helped-before"]
-        },
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "purpose": "donor-ask",
-          "key": "favor-asked",
-          "requiresFacts": ["helped-before"]
-        },
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "purpose": "favor-job",
-          "key": "favor-asked",
-          "requiresFacts": ["helped-before"]
-        },
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "purpose": "hearing-ask",
-          "key": "favor-asked",
-          "requiresFacts": ["helped-before"]
         }
       ],
       "bearing": "calm",
@@ -187483,43 +187428,7 @@
           "step": "open",
           "move": "greet",
           "role": "asker",
-          "purpose": "appointment-offer",
-          "key": "honor",
-          "requiresFacts": ["refused-before"]
-        },
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
           "purpose": "constituent-help",
-          "key": "favor-asked",
-          "requiresFacts": ["refused-before"]
-        },
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "purpose": "donor-ask",
-          "key": "favor-asked",
-          "requiresFacts": ["refused-before"]
-        },
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "purpose": "favor-job",
-          "key": "favor-asked",
-          "requiresFacts": ["refused-before"]
-        },
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "purpose": "hearing-ask",
           "key": "favor-asked",
           "requiresFacts": ["refused-before"]
         }
@@ -187544,101 +187453,9 @@
           "step": "open",
           "move": "greet",
           "role": "asker",
-          "purpose": "appointment-offer",
-          "key": "honor",
-          "requiresFacts": ["refused-before"]
-        },
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
           "purpose": "constituent-help",
           "key": "favor-asked",
           "requiresFacts": ["refused-before"]
-        },
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "purpose": "donor-ask",
-          "key": "favor-asked",
-          "requiresFacts": ["refused-before"]
-        },
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "purpose": "favor-job",
-          "key": "favor-asked",
-          "requiresFacts": ["refused-before"]
-        },
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "purpose": "hearing-ask",
-          "key": "favor-asked",
-          "requiresFacts": ["refused-before"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words lead, for class H (a person remembers what passed)",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "greet",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.open-greet.i-came-to-you-before",
-      "move": "open-greet",
-      "kind": "spoken",
-      "text": "I came to you about this before. Nothing came of it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "purpose": "constituent-help",
-          "key": "favor-asked",
-          "requiresFacts": ["asked-before"],
-          "excludesFacts": ["helped-before", "refused-before"]
-        },
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "purpose": "donor-ask",
-          "key": "favor-asked",
-          "requiresFacts": ["asked-before"],
-          "excludesFacts": ["helped-before", "refused-before"]
-        },
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "purpose": "favor-job",
-          "key": "favor-asked",
-          "requiresFacts": ["asked-before"],
-          "excludesFacts": ["helped-before", "refused-before"]
-        },
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "purpose": "hearing-ask",
-          "key": "favor-asked",
-          "requiresFacts": ["asked-before"],
-          "excludesFacts": ["helped-before", "refused-before"]
         }
       ],
       "bearing": "calm",
