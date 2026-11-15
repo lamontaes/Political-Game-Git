@@ -8,7 +8,7 @@ size: M
 status: in-pr
 standard: 2
 claimed-by: claude/words-relation-facts
-pr:
+pr: #9411
 after:
 blocked-on:
 lead: words
@@ -30,7 +30,7 @@ checked: words lead 2026-11-15
 
 **Rules.** Replace, never layer. Wire to the world: the pinned test reads Sheridan WY's people.
 
-**Done when.** src/director/relation-facts.test.ts passes at Sheridan WY seed 7 and the phone, Journal, campaign-answer and kin-address tests still pass.
+**Done when.** A second session, on main in Sheridan WY with seed 7 (and one more drawn place, named), plays a life in dev mode and sees a person who greets the player as close on a call also stand as a friend in a scene and in the Journal, from the same tie record id. src/director/relation-facts.test.ts passes at Sheridan WY seed 7, and the phone, Journal, campaign-answer and kin-address tests still pass.
 
 **Waits on.** Nothing.
 
