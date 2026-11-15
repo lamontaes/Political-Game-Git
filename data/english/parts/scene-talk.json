@@ -72170,7 +72170,8 @@
           "move": "offer",
           "role": "asked",
           "purpose": "town-hall-question",
-          "key": "favor-asked"
+          "key": "favor-asked",
+          "excludesFacts": ["outdoors"]
         }
       ],
       "bearing": "calm",
@@ -72242,7 +72243,8 @@
           "move": "deflect",
           "role": "asked",
           "purpose": "town-hall-question",
-          "key": "favor-asked"
+          "key": "favor-asked",
+          "excludesFacts": ["outdoors"]
         }
       ],
       "bearing": "guarded",
@@ -72266,7 +72268,8 @@
           "move": "deflect",
           "role": "asked",
           "purpose": "town-hall-question",
-          "key": "favor-asked"
+          "key": "favor-asked",
+          "excludesFacts": ["outdoors"]
         }
       ],
       "bearing": "guarded",
@@ -72622,7 +72625,8 @@
           "role": "asker",
           "purpose": "town-hall-question",
           "key": "favor-asked",
-          "after": "deflect"
+          "after": "deflect",
+          "excludesFacts": ["outdoors"]
         }
       ],
       "bearing": "anxious",
@@ -72919,7 +72923,8 @@
           "purpose": "town-hall-question",
           "role": "asked",
           "step": "reply",
-          "subject": "scene"
+          "subject": "scene",
+          "excludesFacts": ["outdoors"]
         }
       ],
       "bearing": "guarded",
@@ -96466,31 +96471,6 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.a-crowd-has-gathered-number-strong-and-name-steps-out-of-it",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "A crowd has gathered, {number} strong, and {name} steps out of it to ask you about {issue}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "town-hall-question",
-          "key": "favor-asked",
-          "requiresFacts": ["issue", "protest", "number"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Story (Claude Code), civic-prose",
-      "date": "2026-11-08",
-      "tag": {
-        "move": "narrate",
-        "key": "favor-asked"
-      }
-    },
-    {
       "key": "scene-talk.narrate-narrate.the-signs-are-up-and-the-street-is-full-name-steps-forward",
       "move": "narrate-narrate",
       "kind": "spoken",
@@ -96579,31 +96559,6 @@
           "purpose": "town-hall-question",
           "key": "favor-asked",
           "requiresFacts": ["issue", "protest"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Story (Claude Code), civic-prose",
-      "date": "2026-11-08",
-      "tag": {
-        "move": "ask",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.state-ask.there-are-number-of-us-out-here-on-issue-what-are-you-going-to-do",
-      "move": "state-ask",
-      "kind": "spoken",
-      "text": "There are {number} of us out here on {issue}. What are you going to do about it?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "ask",
-          "role": "asker",
-          "purpose": "town-hall-question",
-          "key": "favor-asked",
-          "requiresFacts": ["issue", "protest", "number"]
         }
       ],
       "bearing": "braced",
@@ -96763,30 +96718,6 @@
       "tag": {
         "move": "press",
         "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.narrate-narrate.number-people-have-come-out-and-the-mood-is-good-name-makes",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "{number} people have come out, and the mood is good. {name} makes room for you at the front.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "rally-word",
-          "key": "honor",
-          "requiresFacts": ["rally", "area", "number"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Story (Claude Code), civic-prose",
-      "date": "2026-11-08",
-      "tag": {
-        "move": "narrate",
-        "key": "honor"
       }
     },
     {
@@ -97088,7 +97019,8 @@
           "move": "thank",
           "role": "asked",
           "purpose": "rally-word",
-          "key": "honor"
+          "key": "honor",
+          "requiresFacts": ["turnout-crowd"]
         }
       ],
       "origin": "authored",
@@ -99337,31 +99269,6 @@
         }
       ],
       "bearing": "tender",
-      "origin": "authored",
-      "author": "Story (Claude Code), civic-prose",
-      "date": "2026-11-08",
-      "tag": {
-        "move": "ask",
-        "key": "threat"
-      }
-    },
-    {
-      "key": "scene-talk.state-ask.there-are-number-people-out-there-over-issue-do-you-ever-think",
-      "move": "state-ask",
-      "kind": "spoken",
-      "text": "There are {number} people out there over {issue}. Do you ever think of stopping?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "ask",
-          "role": "asker",
-          "purpose": "office-doubt",
-          "key": "threat",
-          "requiresFacts": ["issue", "number", "protest"]
-        }
-      ],
-      "bearing": "hurt",
       "origin": "authored",
       "author": "Story (Claude Code), civic-prose",
       "date": "2026-11-08",
@@ -188454,6 +188361,305 @@
       "tag": {
         "move": "disagree",
         "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.a-few-people-are-standing-outside-name-comes-over-to-ask-you",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "A few people are standing outside. {name} comes over to ask you about {issue}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "requiresFacts": ["issue", "protest", "turnout-few"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words lead's ruling for #9418 (turnout looks), Account lead",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.a-group-has-gathered-outside-name-steps-out-of-it-to-ask-you",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "A group has gathered outside. {name} steps out of it to ask you about {issue}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "requiresFacts": ["issue", "protest", "turnout-group"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words lead's ruling for #9418 (turnout looks), Account lead",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.a-crowd-has-gathered-outside-name-steps-out-of-it-to-ask-you",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "A crowd has gathered outside. {name} steps out of it to ask you about {issue}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "requiresFacts": ["issue", "protest", "turnout-crowd"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words lead's ruling for #9418 (turnout looks), Account lead",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.there-aren-t-many-of-us-we-came-anyway-what-are-you-going-to",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "There aren't many of us. We came anyway. What are you going to do about {issue}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "requiresFacts": ["issue", "protest", "turnout-few"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words lead's ruling for #9418 (turnout looks), Account lead",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "ask",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.we-re-out-here-about-issue-what-are-you-going-to-do",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "We're out here about {issue}. What are you going to do?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "requiresFacts": ["issue", "protest", "turnout-group"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words lead's ruling for #9418 (turnout looks), Account lead",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "ask",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.look-how-many-of-us-came-out-what-are-you-going-to-do-about",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "Look how many of us came out. What are you going to do about {issue}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "requiresFacts": ["issue", "protest", "turnout-crowd"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words lead's ruling for #9418 (turnout looks), Account lead",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "ask",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.a-few-people-have-come-out-and-the-mood-is-good-name-waves-y",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "A few people have come out, and the mood is good. {name} waves you over.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "rally-word",
+          "key": "honor",
+          "requiresFacts": ["rally", "area", "turnout-few"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead's ruling for #9418 (turnout looks), Account lead",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "narrate",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.people-have-come-out-and-the-mood-is-good-name-makes-room-fo",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "People have come out, and the mood is good. {name} makes room for you at the front.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "rally-word",
+          "key": "honor",
+          "requiresFacts": ["rally", "area", "turnout-many"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead's ruling for #9418 (turnout looks), Account lead",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "narrate",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-offer.walk-with-me-i-want-the-whole-story",
+      "move": "reply-offer",
+      "kind": "spoken",
+      "text": "Walk with me. I want the whole story.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "offer",
+          "role": "asked",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "requiresFacts": ["outdoors"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (Claude Code)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "offer",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.that-s-a-bigger-answer-than-i-can-give-out-here",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "That's a bigger answer than I can give out here.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "requiresFacts": ["outdoors"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words lead (Claude Code)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "deflect",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.let-me-hear-from-someone-else-too",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "Let me hear from someone else too.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "requiresFacts": ["outdoors"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words lead (Claude Code)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "deflect",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-plea.please-i-came-out-here-to-ask-this",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "Please. I came out here to ask this.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "after": "deflect",
+          "requiresFacts": ["outdoors"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Words lead (Claude Code)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "plea",
+        "key": "favor-asked"
       }
     },
     {

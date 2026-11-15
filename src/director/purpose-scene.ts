@@ -1145,11 +1145,15 @@ function composeBinding(
       // protest in the street or workers who walked out.
       const flag = record?.kind === "civic.strike" ? "strike" : "protest";
       facts[flag] = { text: "yes", sourceRecordIds: [said.actionId] };
-      if (said.size)
-        facts.number = {
-          text: said.size,
-          sourceRecordIds: [said.actionId],
-        };
+      // A protest is held outside: the narration puts everyone in the street,
+      // so the replies that belong to a meeting (a seat, a stay-after) are not
+      // offered, and their outdoor twins are.
+      if (flag === "protest")
+        facts.outdoors = { text: "yes", sourceRecordIds: [said.actionId] };
+      Object.assign(
+        facts,
+        turnoutFacts(turnoutOf(record?.facts?.turnout), said.actionId),
+      );
     }
   }
   // A rally in the town (public-action.ts): the area the term read well in,
@@ -1162,8 +1166,10 @@ function composeBinding(
         sourceRecordIds: [said.actionId, moment.causeId],
       };
     facts.rally = { text: "yes", sourceRecordIds: [said.actionId] };
-    if (said.size)
-      facts.number = { text: said.size, sourceRecordIds: [said.actionId] };
+    Object.assign(
+      facts,
+      turnoutFacts(turnoutOf(record?.facts?.turnout), said.actionId),
+    );
   }
   // What an offer asks in return (a vote, a contract): the lines about that
   // favor need it, and the thing itself is named so the one offering says
@@ -3316,4 +3322,33 @@ export function replyInScene(
       { cause: "scene-put-off", sourceId: id },
     );
   return id;
+}
+
+/**
+ * How a turnout looks, read from the action's own record as it stands when the
+ * scene is composed (`turnoutOf`, public-action.ts, from its share of the
+ * town's adults): a scene says "a few",
+ * "a group" or "a crowd" and never the figure (owner's rule, no count in a
+ * scene). `turnout-many` is set for the two larger looks, for lines that
+ * serve both.
+ */
+function turnoutFacts(
+  turnout: "few" | "group" | "crowd" | undefined,
+  actionId: string,
+): Record<string, Fact> {
+  if (!turnout) return {};
+  const fact = (text: string): Fact => ({ text, sourceRecordIds: [actionId] });
+  return {
+    [`turnout-${turnout}`]: fact("yes"),
+    ...(turnout !== "few" ? { "turnout-many": fact("yes") } : {}),
+  };
+}
+
+/** How the turnout looked when the action formed: the fact its civic record keeps (public-action.ts, `turnout`), the same one the paper reads. */
+function turnoutOf(
+  value: string | undefined,
+): "few" | "group" | "crowd" | undefined {
+  return value === "few" || value === "group" || value === "crowd"
+    ? value
+    : undefined;
 }
