@@ -18,7 +18,7 @@ effort: medium
 root: none
 ---
 
-**What.** In a legislature that sits all year, the floor takes up no bill until about the middle of August, so a player seated there has no floor vote to work for and the paper has no floor news for most of the year. Seen: the bill paper of any bill at an Ohio or New York or Virgin Islands place names a floor date in December, and the player's floor-vote stop does not come until late summer.
+**What.** In a legislature that sits all year, the floor takes up no bill until about the middle of August, so a player seated there has no floor vote to work for and the paper has no floor news for most of the year. It affects every legislature that sits more than a few months and has fewer bills than weeks. Seen: the bill paper of any bill at an Ohio or New York or Virgin Islands place names a floor date in December, and the player's floor-vote stop does not come until late summer.
 
 **Cause.** Measured: at Cuyahoga Heights, Ohio (3919806), seed aa11, and at Red Hook, U.S. Virgin Islands (territory:VI:red-hook), by `npx vitest run src/core2/long-session-floor-pace.test.ts` on the Train before the fix: Ohio sits Jan 6 to Dec 31 with 9 filings and its first floor week is Feb 10; `floorWeeks` in src/core2/modules/world-legislating.ts took `round(waiting / weeks left)` bills a week, which is 0 until about 18 weeks remain, and the paper named Dec 22 for the first bill; Red Hook has 6 filings over the same weeks and the same date. A short session is not touched, because its weeks are few.
 
