@@ -90,4 +90,20 @@ it(`a bill phases in an amount by a percent a year, one dated section a year (${
       risePerYear: { percent: 10, years: 1, firstDate: first },
     }),
   ).toThrow(/two years or more/);
+  // Nothing rises by a percent from zero: a law amount with none in force is refused.
+  const items = seatView(core, seat!.member)
+    .bodies.find((b) => b.officeId === seat!.office.id)!
+    .menus.flatMap((m) => m.items);
+  const none = items.find(
+    (row) => row.series && row.allowed && !(Number(row.inForce) > 0),
+  );
+  expect(none, `${PLACE}: a law amount with nothing in force`).toBeDefined();
+  expect(() =>
+    seatAct(core, seat!.member, {
+      kind: "draft",
+      officeId: seat!.office.id,
+      series: none!.series,
+      risePerYear: { percent: 10, years: 3, firstDate: first },
+    }),
+  ).toThrow(/above zero/);
 }, 120_000);

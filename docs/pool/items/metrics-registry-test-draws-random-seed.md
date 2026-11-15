@@ -5,10 +5,10 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/metrics-registry-pin
+pr: (next PR)
 after:
 blocked-on:
 lead: screens
@@ -33,3 +33,5 @@ source: Account lead thread "Show last year on the metrics", Nov 14
 **Waits on.** Nothing.
 
 **Files.** src/bench/metrics-registry.test.ts, src/core2/modules/budgets.ts, src/bench/budget.ts
+
+**Notes.** Nov 15, Account lead thread "Show last year on the metrics": cause found by reading, not an engine fault. The four territories (Guam, the U.S. Virgin Islands, American Samoa, the Northern Marianas) have no town government in the game, by the owner's ruling (Nov 14: they get local government after early access, with a notice), so `townGovernment` finds none and Metrics has no budget section there. The test now names two places with one seed each (Washington, Kansas, a named regression for notices served in the start year, and Everett, Georgia), no fallbacks, and a named territory test (Fananganan, seed 9ca49eb7074e5581, three months). The long tests' time is played days, said in their comments, with limits near twice the time measured.
