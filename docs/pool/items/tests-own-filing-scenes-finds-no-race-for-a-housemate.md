@@ -6,10 +6,10 @@ lead: filing-counter
 kind: bug
 priority: 3
 size: M
-status: open
+status: in-pr
 standard: 2
 claimed-by:
-pr:
+pr: 9467
 after:
 blocked-on:
 model: sonnet
