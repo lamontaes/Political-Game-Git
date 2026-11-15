@@ -55,6 +55,7 @@ import type {
   Source,
 } from "../types";
 import { nextMeeting } from "./offices";
+import { registerSittingCalendar, type SittingDay } from "../closeness";
 import {
   addDays,
   makeIsoDate,
@@ -79,7 +80,7 @@ import {
 import type { LawRowInput } from "./laws";
 import { policySeriesAtLevel } from "./laws";
 import stateReach from "../data/places/state-reach.json" with { type: "json" };
-import { OFFICES_MODULE_ID, type TermRow } from "./offices";
+import { OFFICES_MODULE_ID, servingTermsOf, type TermRow } from "./offices";
 import agendaData from "../data/legislature/outside-agenda.json" with { type: "json" };
 import { seededUnit } from "../seeded";
 import { countryStateNow, countryStates } from "./macro";
@@ -220,6 +221,7 @@ export function openWorldLegislating(core: CoreState): void {
   registerWeeklyFloorReader(weeklyFloorOn);
   registerFloorDateReader(floorDateOf);
   registerFloorCalendarer(projectedFloorDate);
+  registerSittingCalendar(SITTING_CALENDAR);
   if (!core.modules.has(WORLD_LEGISLATING_MODULE_ID))
     registerModule(core, WORLD_LEGISLATING_MODULE);
   const api = coreAPI(core);
@@ -1080,6 +1082,92 @@ function onWork(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
 
 // ---------------------------------------------------------------------------
 // State legislatures and Congress sit through their sessions.
+
+/** A legislature's floor days in one week of sitting: a state's from its row, Congress's spread over its session's weeks. */
+function floorDaysPerWeek(
+  jurisdiction: string,
+  conveneAt: string,
+  adjournAt: string,
+): number {
+  return jurisdiction === "US"
+    ? campaignParameter("congressFloorDaysPerYear") /
+        Math.max(1, daysBetween(conveneAt, adjournAt) / 7)
+    : campaignParameter("legislativeDaysPerWeek");
+}
+
+/** The legislature a chamber sits in: Congress, or the chamber's own state. */
+function chamberJurisdiction(api: CoreAPI, officeId: string): string | null {
+  const office = bodyOf(api, officeId);
+  if (!office) return null;
+  return office.kind.startsWith("us-house") || office.kind === "us-senate"
+    ? "US"
+    : office.jurisdiction;
+}
+
+/**
+ * A body's sittings on or after `from` and before `to`, from its own
+ * calendar: a town or county body's regular meetings by its rule; a
+ * legislature's floor weeks through each session it held (from the end of
+ * committee time after it convened, weekly until it adjourned), as
+ * `openSession` and `floorWeek` sit them.
+ */
+function sittingsBetween(
+  api: CoreAPI,
+  officeId: string,
+  from: string,
+  to: string,
+): readonly SittingDay[] {
+  const out: SittingDay[] = [];
+  const county = lawChain(api).countyGeoids[0];
+  const first = nextMeeting(api, officeId, plusDays(from, -1), county);
+  if (first) {
+    for (
+      let at: { date: string } | null = first;
+      at && at.date < to;
+      at = nextMeeting(api, officeId, at.date, county)
+    )
+      out.push({ date: at.date, days: 1 });
+    return out;
+  }
+  const jurisdiction = chamberJurisdiction(api, officeId);
+  if (!jurisdiction) return out;
+  const committee = campaignParameter("sessionCommitteeDays");
+  for (
+    let year = Number(from.slice(0, 4)) - 1;
+    year <= Number(to.slice(0, 4));
+    year += 1
+  )
+    for (const w of windowsIn(jurisdiction, year)) {
+      const days = floorDaysPerWeek(jurisdiction, w.conveneAt, w.adjournAt);
+      // A session the world has opened sits from its own first floor week (a
+      // session already sitting at the opening starts its floor after the
+      // opening); one before the world sat from the end of committee time.
+      const held = legislativeSessionsOf(api).find(
+        (r) => r.jurisdiction === jurisdiction && r.conveneAt === w.conveneAt,
+      );
+      for (
+        let date = held?.firstFloor ?? plusDays(w.conveneAt, committee);
+        date < w.adjournAt && date < to;
+        date = plusDays(date, 7)
+      )
+        if (date >= from) out.push({ date, days });
+    }
+  return out;
+}
+
+const SITTING_CALENDAR = {
+  seats: (api: CoreAPI, officeId: string) =>
+    members(api, officeId).map((term) => ({
+      personId: memberKey(term),
+      since: term.serviceStart ?? term.startDate,
+    })),
+  bodiesOf: (api: CoreAPI, personId: string) =>
+    servingTermsOf(api, personId)
+      .map((term) => term.officeId)
+      .filter((officeId) => bodyOf(api, officeId) !== undefined),
+  sittings: sittingsBetween,
+  hoursPerDay: () => campaignParameter("sittingHours"),
+};
 
 /**
  * When a body sits next, for a bill the player puts on its calendar: a town
