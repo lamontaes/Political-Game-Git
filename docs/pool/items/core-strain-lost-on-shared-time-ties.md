@@ -28,7 +28,7 @@ source: Lying builder, Nov 15, while pricing a lie's strain on a legislator pair
 
 **Rules.** No dice: the strain is the hours the scene's own ending says, never a roll. Wire to the world: the found-out record's strain must reach the closeness the vote asks and favors read afterward.
 
-**Done when.** At 4846968 seed 8647-mason and one drawn place, a state senate pair with no relationship row and a sitting tie reads lower closeness after a found-out record than before, by the closeness `strainCost` priced, in a test through the game's own `relationship()` path; a second session sees it in dev mode on main.
+**Done when.** At the named place 4846968 seed 8647-mason, a state senate pair with no relationship row and a sitting tie reads lower closeness after a found-out record than before, by the closeness `strainCost` priced, in a test through the game's own `relationship()` path; a second session sees it in dev mode on main.
 
 **Waits on.** legislature-members-have-no-tie-to-each-other.
 
