@@ -3138,7 +3138,7 @@ export function endingStrainHours(
   const row = ENDING_STRAIN[keeps];
   if (!row) return undefined;
   return row.unit === SHARE_OF_TIE
-    ? row.value * Math.max(tieHoursBetween(core, a, b), 0)
+    ? row.value * tieHoursBetween(core, a, b)
     : row.value;
 }
 
