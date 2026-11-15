@@ -5,10 +5,10 @@ area: words
 kind: bug
 priority: 1
 size: M
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: Account lead builder (thread "Fix the reporter's call scene")
-pr:
+pr: 9482
 after: press-exposure-asks-for-comment-before-it-prints
 blocked-on:
 lead: words
