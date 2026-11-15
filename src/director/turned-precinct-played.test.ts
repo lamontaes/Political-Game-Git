@@ -13,6 +13,7 @@ import {
   fileCandidacy,
   type ContestRow,
 } from "../core2/modules/elections";
+import { VOTING_MODULE_ID, type ResultRow } from "../core2/modules/voting";
 import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
 import { purposeScene } from "./purpose-scene";
@@ -29,7 +30,7 @@ const OUT = process.env.TURNED_PRECINCT_PLAYED;
 // PLACE picks the draw ("probe:3" is Bountiful, Utah; "probe:5" Stoneham,
 // Massachusetts; "probe:1" Marengo, Illinois): the office is the first with
 // two election dates within two years, the player files in the first seat each
-// time, and each result day and the day after are staged for the player.
+// time, and each result night is staged for the player (the game stages it on the day of the count).
 const DRAW = process.env.TURNED_PRECINCT_DRAW ?? "probe:3";
 
 it.skipIf(!OUT)(
@@ -67,7 +68,7 @@ it.skipIf(!OUT)(
       `${where}: no office with two counts within two years`,
     ).toBeTruthy();
     const lines: string[] = [`# Played: ${where}`, `office ${office!.id}`, ""];
-    const stage = (contest: ContestRow, label: string) => {
+    const stage = (contest: ContestRow, label: string, prior?: ContestRow) => {
       const causeId = `election-result:${contest.id}`;
       const types = ["race-lost", "victory-night", "race-won"];
       const entry = director.ledger.people
@@ -82,6 +83,16 @@ it.skipIf(!OUT)(
         `## ${label} ${core.date} ${contest.id}`,
         `facts: ${JSON.stringify(Object.fromEntries(Object.entries(facts).map(([k, v]) => [k, v.text])))}`,
       );
+      const turned = facts["turned-precinct"]?.text;
+      if (turned && prior) {
+        const results = api.moduleState(VOTING_MODULE_ID).table("results");
+        const row = (c: ContestRow) =>
+          (results.get(`result:${c.id}`) as unknown as ResultRow)
+            .precinctTotals![turned];
+        lines.push(
+          `precinct ${turned}, votes by candidate (player ${playerId}): last time ${JSON.stringify(row(prior))} (result:${prior.id}); now ${JSON.stringify(row(contest))} (result:${contest.id})`,
+        );
+      }
       if (!entry) return lines.push("no scene staged for the player", "");
       const typeKey = entry.bindings.find((b) =>
         types.includes(b.typeKey),
@@ -99,6 +110,7 @@ it.skipIf(!OUT)(
           );
       lines.push("");
     };
+    let prior: ContestRow | undefined;
     for (const date of office!.dates.slice(0, 2)) {
       const contest = all
         .filter((c) => c.officeId === office!.id && c.electionDate === date)
@@ -116,10 +128,8 @@ it.skipIf(!OUT)(
       if ("filing" in filed) gatherSignatures(core, filed.filing.id);
       advanceCore(core, addDays(makeIsoDate(contest.electionDate), -1));
       advanceCore(core, makeIsoDate(contest.electionDate));
-      stage(contest, "night");
-      // The morning after, for the scene the player did not take that night.
-      advanceCore(core, addDays(makeIsoDate(core.date), 1));
-      stage(contest, "morning");
+      stage(contest, "night", prior);
+      prior = contest;
     }
     writeFileSync(OUT!, lines.join("\n"));
   },

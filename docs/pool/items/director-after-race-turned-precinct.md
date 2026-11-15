@@ -25,7 +25,7 @@ claimed-at: 2026-11-15T05:30:00.000Z
 
 **Fix.** `holdElection` sums each named ballot at its household's precinct and each counted record's share at its run of the town's order, scaled and rounded so a candidate's precincts add up to their named plus counted votes (`precinctTotals` on `ResultRow`). `turnedPrecinct` in race-turnout-facts.ts sets the player's share per precinct against their last count for the office (or their party's candidates where it is their first), and `raceTurnoutFacts` adds `turned-precinct`, `turned-against`. The player sees it in the race-lost and victory-night scenes once the Words lead writes the lines. A town with one precinct has no fact. The town has no street map (SG-GOV-ward-map), so the part of town is the polling place and its precinct.
 
-**Lines shipped.** Only the sentences that played in the two played runs (Bountiful UT and Stoneham MA, the player's second race lost with a swing against): "We lost Precinct N.", "I keep thinking about Precinct N.", "It was ours last time." The Words lead's other thirteen (wins, swings for the player, the player's own precinct, the morning after a win) come back with their own played proof.
+**Lines shipped.** Only the sentences that played in the two played runs (Bountiful UT and Stoneham MA, the player's second race lost with a swing against, on the night of the count): "We lost Precinct N." and "It was ours last time." The Words lead's other fourteen (wins, swings for the player, the player's own precinct, the morning after, including "I keep thinking about Precinct N.", which waits on a morning scene that reads as a morning) come back with their own played proof.
 
 **Time box.** 5 hours for one Sonnet session.
 

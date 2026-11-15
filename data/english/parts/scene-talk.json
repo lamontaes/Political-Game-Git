@@ -188568,29 +188568,6 @@
       "tag": { "move": "tell", "key": "loss" }
     },
     {
-      "key": "scene-talk.state-turned.i-keep-thinking-about-precinct-precinct",
-      "move": "state-turned",
-      "kind": "spoken",
-      "text": "I keep thinking about Precinct {turned-precinct}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "turned",
-          "role": "asker",
-          "purpose": "concession-call",
-          "key": "loss",
-          "requiresFacts": ["day-after", "turned-against"],
-          "excludesFacts": ["turned-own"]
-        }
-      ],
-      "bearing": "solemn",
-      "origin": "authored",
-      "author": "Words lead",
-      "date": "2026-11-15",
-      "tag": { "move": "tell", "key": "loss" }
-    },
-    {
       "key": "scene-talk.state-turned-then.it-was-ours-last-time",
       "move": "state-turned-then",
       "kind": "spoken",
@@ -188604,15 +188581,6 @@
           "purpose": "concession-call",
           "key": "loss",
           "requiresFacts": ["same-day", "turned-against"]
-        },
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "turned-then",
-          "role": "asker",
-          "purpose": "concession-call",
-          "key": "loss",
-          "requiresFacts": ["day-after", "turned-against"]
         }
       ],
       "bearing": "solemn",

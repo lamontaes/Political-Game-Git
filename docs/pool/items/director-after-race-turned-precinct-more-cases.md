@@ -18,7 +18,7 @@ root: none
 source: director-after-race-turned-precinct (#9446), the Account lead's call Nov 15 that only sentences that played ship
 ---
 
-**What.** #9446 ships the swing against the player (three sentences). The Words lead wrote thirteen more that never played in the two played runs, because a world decides the win, the swing and the precinct. They come back each with a played proof: the swing for the player after a loss ("Precinct N came over to you." / "It wasn't enough."), a win with a swing for ("It was Precinct N." / "It wasn't ours last time.") or against ("We won. But we lost Precinct N."), the morning wordings for the swing for ("Precinct N came over." / "Remember that next time."), and the player's own precinct ("We lost your own precinct.", "Your own precinct came over to you.", "It was your own precinct.", "We won. But we lost your own precinct.", "I keep thinking about your own precinct.", "Your own precinct came over."). Seen: in the race-lost and victory-night scenes on race night and the morning after.
+**What.** #9446 ships the swing against the player (three sentences). The Words lead wrote fourteen more that never played in the two played runs, because a world decides the win, the swing and the precinct. They come back each with a played proof: the swing for the player after a loss ("Precinct N came over to you." / "It wasn't enough."), a win with a swing for ("It was Precinct N." / "It wasn't ours last time.") or against ("We won. But we lost Precinct N."), the morning wordings for the swing for ("Precinct N came over." / "Remember that next time."), and the player's own precinct ("We lost your own precinct.", "Your own precinct came over to you.", "It was your own precinct.", "We won. But we lost your own precinct.", "I keep thinking about your own precinct.", "Your own precinct came over."). Seen: in the race-lost and victory-night scenes on race night and the morning after.
 
 **Cause.** Found in code: src/director/race-turnout-facts.ts `turnedPrecinct` returns the precinct and its direction, but `raceTurnoutFacts` hands only `turned-against` to the scene, and src/director/data/purpose-arcs.json gives only `concession-call` the `stateMoves` ["turned", "turned-then", "request"]. The facts `turned-for` and `turned-own` (the player's household's precinct, `pollingPlaceOf`) were removed because no played line read them.
 
@@ -30,6 +30,6 @@ source: director-after-race-turned-precinct (#9446), the Account lead's call Nov
 
 **Done when.** A second session sees each added sentence played at its exact head in the played file, naming the place and seed.
 
-**Waits on.** #9446 folding.
+**Waits on.** #9446 folding; the morning lines wait on world-race-lost-day-after-keeps-night-narration.
 
 **Files.** src/director/race-turnout-facts.ts, src/director/data/purpose-arcs.json, data/english/parts/scene-talk.json, src/director/turned-precinct-played.test.ts
