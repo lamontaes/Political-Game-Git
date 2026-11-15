@@ -188,6 +188,7 @@ import { COMPOSED_CHECKS_DATA as composedChecksData } from "../english/composed-
 import { budgetPurposeSaid } from "../english/bill-names";
 import {
   organizationName,
+  businessNameSaid,
   properName,
   spoken,
   spokenDate,
@@ -424,6 +425,8 @@ export interface Conversation {
   pointed?: string[];
   /** The player gave their name in this talk, so the other may now say it (internal). */
   nameGiven?: boolean;
+  /** The other person had met the player before the day this talk opened, read before the talk stamps today as the last contact (internal). */
+  metBeforeAtOpen?: boolean;
   /** The minute of the day the talk is had at, when the caller gave it (internal). */
   minuteOfDay?: number;
   /** The organization whose place the player came to for the talk, when the screen knows it (internal). */
@@ -487,7 +490,7 @@ function jobOf(core: Readonly<CoreState>, person: Readonly<PersonState>) {
  */
 function employerWords(org: Readonly<OrganizationInput>): string | null {
   return employerSaidAs({
-    name: properName(org.name),
+    name: businessNameSaid(org),
     kind: org.kind,
     outside: !!org.outsideFlow,
     ...(org.classification ? { classification: org.classification } : {}),
@@ -1979,7 +1982,7 @@ function storyTouching(
       if (!employerId || story.facts.organizationId !== employerId) continue;
       const org = core.organizations.get(employerId);
       if (!org || !story.facts.years) continue;
-      facts.employer = fact(properName(org.name));
+      facts.employer = fact(businessNameSaid(org));
       facts.years = fact(story.facts.years);
     } else {
       const aboutId = story.facts.personId as PersonId | undefined;
@@ -5856,6 +5859,8 @@ function openConversationNow(
       : {}),
     ...(options.byPhone ? { byPhone: true } : {}),
     ...(options.look ? { look: true } : {}),
+    // Read now: the first reply stamps today as the last contact on the tie.
+    metBeforeAtOpen: relationFacts(core, playerId, otherId).metBefore,
   };
   const occasion = options.occasionId
     ? options.director?.ledger.people
@@ -6513,7 +6518,7 @@ function lieClaims(
         value: other.id,
         facts: {
           claimed: {
-            text: employerWords(other) ?? properName(other.name),
+            text: employerWords(other) ?? businessNameSaid(other),
             sourceRecordIds: [other.id],
           },
         },
@@ -7242,11 +7247,12 @@ function saysName(
   core: Readonly<CoreState>,
   otherId: PersonId,
   playerId: PersonId,
-  conversation?: Pick<Conversation, "nameGiven">,
+  conversation?: Pick<Conversation, "nameGiven" | "metBeforeAtOpen">,
 ): boolean {
   return (
     !!conversation?.nameGiven ||
-    relationFacts(core, playerId, otherId).metBefore
+    (conversation?.metBeforeAtOpen ??
+      relationFacts(core, playerId, otherId).metBefore)
   );
 }
 
@@ -7445,7 +7451,7 @@ function partingLine(
     const mark = (name: string, ids: readonly string[]) => {
       facts[name] = { text: "yes", sourceRecordIds: ids };
     };
-    const theirJob = jobOf(core, core.people.get(speakerId)!);
+    const theirJob = sayJob(core, core.people.get(speakerId)!);
     if (
       theirJob &&
       conversation.visitOrganizationId &&
