@@ -47,6 +47,7 @@ it(`${where}: grown residents are born where their state's people were, and the 
   let abroad = 0;
   let toldElsewhere = 0;
   let broughtByIt = 0;
+  let withinAfter = 0;
   for (const person of grown) {
     // Opened as the player would meet them: a resident the opening's
     // families did not reach gets their birthplace from the same draw now.
@@ -54,6 +55,27 @@ it(`${where}: grown residents are born where their state's people were, and the 
     const facts = (person.pastFacts ?? []).filter(
       (row) => row.kind === BIRTHPLACE_FACT,
     );
+    // They came here once: their own move or a parent's they came with as a
+    // child, never a second arrival from their birthplace.
+    const arrivals = preStartHistory(core, {
+      kind: "person.moved-in",
+      personId: person.id as PersonId,
+    });
+    expect(arrivals.length, `${person.id}, ${where}`).toBeLessThanOrEqual(1);
+    // A move to another home after they came is in the town, and one before
+    // it is where they lived then, never back where they came from.
+    const came = arrivals[0];
+    for (const within of preStartHistory(core, {
+      kind: "person.moved-within",
+      personId: person.id as PersonId,
+    })) {
+      const here = !came || within.date >= came.date;
+      if (here) withinAfter += 1;
+      expect(
+        within.placeId === town,
+        `${within.id} on ${within.date}, came ${came?.date ?? "never"}, ${where}`,
+      ).toBe(here || came!.facts.fromPlaceId === town);
+    }
     // One record of where they were born.
     expect(facts.length, `${person.id}, ${where}`).toBe(1);
     const placeId = facts[0]!.facts!.placeId!;
@@ -93,10 +115,64 @@ it(`${where}: grown residents are born where their state's people were, and the 
   // Within three binomial spreads of the survey's share born in the state.
   const spread = 3 * Math.sqrt((share * (1 - share)) / n);
   process.stdout.write(
-    `${where}: ${n} grown residents, ${inState} born in Wisconsin (survey ${share}), ${n - inState - abroad} in another state or territory, ${abroad} abroad; ${broughtByIt} brought by a move that reads it; ${toldElsewhere} cards name the other-state town.\n`,
+    `${where}: ${n} grown residents, ${inState} born in Wisconsin (survey ${share}), ${n - inState - abroad} in another state or territory, ${abroad} abroad; ${broughtByIt} brought by a move that reads it; ${toldElsewhere} cards name the other-state town; ${withinAfter} moves within the town after arriving.\n`,
   );
   expect(n).toBeGreaterThan(100);
   expect(Math.abs(inState / n - share), where).toBeLessThan(spread);
   expect(n - inState - abroad, where).toBeGreaterThan(0);
   expect(broughtByIt, where).toBeGreaterThan(0);
+  expect(withinAfter, where).toBeGreaterThan(0);
 }, 80_000);
+
+/**
+ * The player's household, whose cards a player opens first, came here once
+ * and moved within the town only after they came. Pinned where both faults
+ * were seen on the card (card-history-ways, seed 1b0ab6a17683e90d462a): Old
+ * Bennington, Vermont, where a son who came with his mother as a child got a
+ * second arrival at 18 from his birthplace, and Oregon, Missouri, where a
+ * mother who came in 1997 "changed homes within Texas in 1998". About 20
+ * seconds a town; the limit is twice both.
+ */
+it.each([
+  [
+    "Old Bennington, Vermont",
+    "5053125",
+    "2bbf36139f045258b9704d969336a16d63aec99ad6129d1fac9109b18605be56",
+  ],
+  [
+    "Oregon, Missouri",
+    "2954848",
+    "eb4e315ac08f2b1b8dfc72f1cbc48492f81fd833516a51f835e7da206143f44d",
+  ],
+])(
+  "%s (%s): the household came once and moved within the town after",
+  (name, key, seed) => {
+    const at = `${name} (${key}), seed ${seed}`;
+    const { core, playerId } = buildBenchWorld(seed, gameStartDate(), {
+      twoLevel: true,
+      placeKey: key,
+    });
+    const me = core.people.get(playerId as PersonId)!;
+    const town = me.placeId;
+    for (const id of core.households.get(me.householdId)!.memberIds) {
+      // Opened as the player opens their card.
+      knownCard(core, playerId!, id);
+      const arrivals = preStartHistory(core, {
+        kind: "person.moved-in",
+        personId: id as PersonId,
+      });
+      expect(arrivals.length, `${id}, ${at}`).toBeLessThanOrEqual(1);
+      const came = arrivals[0];
+      for (const within of preStartHistory(core, {
+        kind: "person.moved-within",
+        personId: id as PersonId,
+      }))
+        if (came && within.date >= came.date)
+          expect(
+            within.placeId,
+            `${within.id} on ${within.date}, came ${came.date}, ${at}`,
+          ).toBe(town);
+    }
+  },
+  80_000,
+);

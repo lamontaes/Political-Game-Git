@@ -351,6 +351,14 @@ function withinRecords(
           if (grainedYears.has(date.slice(0, 4))) continue;
           grainedYears.add(date.slice(0, 4));
         }
+        // The county is the one they lived in on the move's own day: a year
+        // counted from a birthday by mean years can start a day before an
+        // arrival told on that birthday, and a move after they came is in
+        // the town, never back where they came from.
+        const movedIn =
+          arrived && date < arrived.date
+            ? String(arrived.facts.fromPlaceId)
+            : person.placeId;
         // stopgapId: SG-HIST-within-moves-child-own-past
         stopgap("SG-HIST-within-moves-child-own-past", core);
         const withThem = children
@@ -369,12 +377,12 @@ function withinRecords(
           id: `${PERSON_MOVED_WITHIN}:${person.id}:${count}`,
           date: makeIsoDate(date),
           kind: PERSON_MOVED_WITHIN,
-          placeId,
+          placeId: movedIn,
           personIds: [person.id],
           facts: {
             personId: person.id,
-            fromPlaceId: placeId,
-            toPlaceId: placeId,
+            fromPlaceId: movedIn,
+            toPlaceId: movedIn,
             ...(withThem.length ? { childIds: withThem.join(" ") } : {}),
           },
           publicRecord: false,
@@ -431,18 +439,21 @@ export function pastMovesFor(
   for (const person of people) {
     const window = ownWindowOf(core, person);
     if (!window || !wholePastOnce(core, person.id, "moves")) continue;
-    const held = new Set(
-      preStartHistory(core, { kind: PERSON_MOVED_IN, personId: person.id }).map(
-        (row) => row.id,
-      ),
-    );
-    const rows = moveRecords(
-      coreAPI(core),
-      window,
-      rate,
-      [person],
-      preStartWindowOf(core)!.from,
-    ).filter((row) => !held.has(row.id));
+    // A person already brought here (their own move, or a parent's they came
+    // with as a child) came once: no second arrival from their birthplace.
+    const held = preStartHistory(core, {
+      kind: PERSON_MOVED_IN,
+      personId: person.id,
+    });
+    const rows = held.length
+      ? []
+      : moveRecords(
+          coreAPI(core),
+          window,
+          rate,
+          [person],
+          preStartWindowOf(core)!.from,
+        );
     if (within) {
       const heldWithin = new Set(
         preStartHistory(core, {
