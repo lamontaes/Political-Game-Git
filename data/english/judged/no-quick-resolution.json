@@ -2,16 +2,8 @@
   "schema": "english-judged/2",
   "rule": "no-quick-resolution",
   "rubric": "No instant, agreeable wrap-up: a reply may push back, deflect or escalate instead of giving in in one line.",
-  "judged": 884,
+  "judged": 852,
   "no": {
-    "01n80psxct5": {
-      "keys": [
-        "scene-talk.follow-press.will-you-really-follow-through-first-i-m-asking-because-i-was-the-one-who-called-for-help",
-        "scene-talk.reply-agree.alright-i-ll-do-it-thank-you-for-asking-me-instead-of-deciding-for-me",
-        "scene-talk.reply-promise.i-promise-i-know-what-it-cost-you-to-stand-there-and-wait-for-help"
-      ],
-      "why": "Both replies give in with a promise, leaving the player no way to push back or put it off."
-    },
     "0f0tx72zwym": {
       "keys": [
         "scene-talk.follow-confront.you-did-don-t-let-it-go-to-your-head",
@@ -54,30 +46,6 @@
       ],
       "why": "Both replies readily commit to help, leaving no option that pushes back or deflects."
     },
-    "122hvpqa787": {
-      "keys": [
-        "scene-talk.follow-press.can-i-count-on-that-first-i-was-frightened-when-i-called-for-help-and-i-don-t-want-to-feel-that-way-again",
-        "scene-talk.reply-agree.yes-i-owe-you-more-than-i-can-say-so-i-ll-do-what-you-re-asking",
-        "scene-talk.reply-promise.you-have-my-word-i-ll-do-it-and-i-won-t-put-it-off"
-      ],
-      "why": "Both replies are quick promises, with no reply that pushes back, deflects or escalates."
-    },
-    "17wbgog9q48": {
-      "keys": [
-        "scene-talk.follow-press.will-you-really-follow-through-first-i-m-asking-because-i-was-the-one-who-called-for-help",
-        "scene-talk.reply-agree.yes-you-re-right-i-ll-do-that",
-        "scene-talk.reply-promise.you-have-my-word-i-ll-do-it-and-i-won-t-put-it-off"
-      ],
-      "why": "Both replies are instant agreement, with no option that pushes back or holds off."
-    },
-    "1piqq4hmtqn": {
-      "keys": [
-        "scene-talk.follow-press.can-i-count-on-that-first-i-was-frightened-when-i-called-for-help-and-i-don-t-want-to-feel-that-way-again",
-        "scene-talk.reply-agree.yes-you-re-right-i-ll-do-that",
-        "scene-talk.reply-promise.i-promise-you-were-there-when-i-needed-someone-and-i-won-t-forget-it"
-      ],
-      "why": "Both replies agree and promise at once, so none pushes back, deflects or raises the stakes."
-    },
     "1powyeazj0g": {
       "keys": [
         "scene-talk.follow-plea.then-who-helps-people-like-us-i-m-trying-not-to-lose-everything-else-on-top-of-t",
@@ -110,14 +78,6 @@
       ],
       "why": "Both replies give in agreeably to the teasing, and neither pushes back, deflects or raises the stakes."
     },
-    "2anyi9c9uka": {
-      "keys": [
-        "scene-talk.follow-press.will-you-really-follow-through-first-i-m-asking-because-i-was-the-one-who-called-for-help",
-        "scene-talk.reply-agree.alright-i-ll-do-it-thank-you-for-asking-me-instead-of-deciding-for-me",
-        "scene-talk.reply-promise.i-ll-do-exactly-that-and-i-promise-to-keep-my-word"
-      ],
-      "why": "Both replies agree right away, so the exchange wraps up with no pushback or deflection on offer."
-    },
     "2g3nxcpb3wf": {
       "keys": [
         "scene-talk.follow-press.it-s-on-the-list-in-the-packet-page-four",
@@ -127,5 +87,5 @@
       "why": "Both replies give in: one concedes the point and the other apologizes, so none pushes back, deflects or raises the stakes."
     }
   },
-  "yesHash": "074b5blexws"
+  "yesHash": "0k8465n3jhj"
 }
