@@ -26,7 +26,7 @@ import { organizationName } from "./words";
 import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
 import { purposeScene, replyInScene } from "./purpose-scene";
-import type { TreeNode } from "./scene-talk";
+import { playedNode, type TreeNode } from "./scene-talk";
 
 // The scandal call says what the paper found (owner, Nov 15: "I've got a
 // story about the water rates, and your name is in it... that's very
@@ -195,6 +195,14 @@ it("a scandal call names who paid and what for (Gilbert IA, seed reporters-call-
   // Nothing about minutes, a signature or a story with no subject.
   for (const text of said)
     expect(text).not.toMatch(/minutes|sign anything|a story about you/i);
+  // After a lie, play reaches the outcome the records give: the reporter has
+  // the papers, says so, and the player answers again (the page and the
+  // reply record both walk it; story.ts shownNode, purpose-scene.ts
+  // replyInScene).
+  const lie = talk.tree.replies.find((r) => r.line.move === "lie")!;
+  const reached = playedNode(lie.next!);
+  expect(reached.lines.map((l) => l.text).join(" ")).toMatch(/papers/);
+  expect(reached.replies.length).toBeGreaterThan(0);
   // The player owns it ("It's true. I was wrong, and I'll say so.", then "I
   // don't have a good answer for you."), a click at a time as play posts
   // them; the story runs on its day quoting their own answer.

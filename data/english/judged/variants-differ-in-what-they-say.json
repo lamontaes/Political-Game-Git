@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "variants-differ-in-what-they-say",
   "rubric": "Variants of a slot differ in what they say, each tied to a fact in the record, not only in wording; a bank grows by adding conditions and specifics, not more generic lines.",
-  "judged": 1191,
+  "judged": 1190,
   "no": {
     "006el8dj9s1": {
       "keys": [
@@ -5239,14 +5239,6 @@
         "scene-talk.reply-apologize.you-re-right-i-ll-stand-up-and-say-it-in-front-of-everyone"
       ],
       "why": "All four lines promise to apologize publicly at the meeting, reworded."
-    },
-    "2e9hjvd4x26": {
-      "keys": [
-        "scene-talk.follow-thank.all-right-i-ll-print-your-denial-in-full",
-        "scene-talk.follow-thank.noted-the-story-will-say-you-deny-it",
-        "scene-talk.follow-thank.then-i-ll-put-that-you-deny-it"
-      ],
-      "why": "All three lines say the denial will be printed, reworded."
     },
     "2ewxxhmazkj": {
       "keys": [

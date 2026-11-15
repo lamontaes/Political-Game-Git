@@ -29,6 +29,7 @@ import {
   crimeRecord,
 } from "../core2/modules/corruption";
 import { NEWS_MODULE_ID } from "../core2/modules/news";
+import { familyRelation } from "../core2/closeness";
 import { BUSINESS_MODULE_ID } from "../core2/business-module-id";
 import { governments } from "../core2/modules/budgets";
 import {
@@ -64,24 +65,27 @@ const CALLS: readonly {
   close?: boolean;
 }[] = [
   { name: "owns it, gives a reason", moves: ["confess", "answer"] },
-  { name: "owns it, then says no more", moves: ["confess", "refuse"] },
+  { name: "lies, then owns it", moves: ["lie", "confess"] },
   {
     name: "owns it, a relative or friend paid",
     moves: ["confess", "answer"],
     close: true,
   },
   { name: "will not comment", moves: ["refuse"] },
-  { name: "asks who told, then says no more", moves: ["confront", "refuse"] },
+  { name: "asks who told, then says nothing", moves: ["confront", "refuse"] },
   { name: "asks who told, then owns it", moves: ["confront", "confess"] },
-  { name: "lies", moves: ["lie"] },
+  {
+    name: "asks who told, lies, then says the papers are wrong",
+    moves: ["confront", "lie", "lie"],
+  },
   {
     name: "owns it to the TV station, then has to go",
     moves: ["confess", "leave"],
     outlet: "television",
   },
   {
-    name: "owns it to a news site, then has to go",
-    moves: ["confess", "leave"],
+    name: "owns it to a news site, then says no more",
+    moves: ["confess", "refuse"],
     outlet: "online",
   },
   {
@@ -132,12 +136,21 @@ it("the story prints the official's own answer on the call, a decline, or nothin
     if (result?.kind !== "composed") throw new Error("no call");
     const talk = (
       result.scene as unknown as {
-        talk: { state: { text: string }; tree: TreeNode };
+        talk: {
+          narration: { text: string }[];
+          open?: { text: string };
+          state: { text: string };
+          tree: TreeNode;
+        };
       }
     ).talk;
     const runsOn = String(core.durableLog.get(exposedId)?.facts?.runsOn);
     const days = `Found ${core.durableLog.get(exposedId)?.date}, call ${(entry as unknown as { date: string }).date}, runs ${runsOn}.`;
-    const said = [`Reporter: ${talk.state.text}`];
+    const said = [
+      ...talk.narration.map((l) => `(${l.text})`),
+      ...(talk.open ? [`Reporter: ${talk.open.text}`] : []),
+      `Reporter: ${talk.state.text}`,
+    ];
     let node: TreeNode | null = talk.tree;
     const path: number[] = [];
     let answer: string | null = null;
@@ -152,6 +165,8 @@ it("the story prints the official's own answer on the call, a decline, or nothin
         replyInScene(core, director, who, entry!, path, { typeKey: "scandal" }),
       ).toBeTruthy();
       said.push(`You: ${reply.line.text}`);
+      // The paper quotes the last stand on the charge: the last reply that
+      // owns it or denies it (Words lead, Nov 15).
       if (["confess", "deny", "lie"].includes(move)) answer = reply.line.text;
       node = reply.next;
       for (const l of node?.lines ?? []) said.push(`Reporter: ${l.text}`);
@@ -263,73 +278,155 @@ it("the story prints the official's own answer on the call, a decline, or nothin
   // print meanwhile, on their own day).
   for (let day = 0; day < 3; day++)
     advanceCore(core, addDays(makeIsoDate(core.date), 1));
-  const firm = [
+  const papers = new Set(outletsHere(api).map((row) => row.organizationId));
+  const owners = [
     ...(api
       .moduleState(BUSINESS_MODULE_ID)
       .table("owners")
       .rows() as unknown as { id: string; ownerId: string }[]),
   ]
     .sort((a, b) => a.id.localeCompare(b.id))
-    .find(
+    .filter(
       (row) =>
         core.people.get(row.ownerId as PersonId)?.alive &&
         core.organizations.has(row.id) &&
+        // A paper is not its own contractor.
+        !papers.has(row.id) &&
         !played.some((p) => p.who === row.ownerId) &&
         !staff.has(row.ownerId),
-    )!;
+    );
+  // A relative who lives with the owner, as the family record names them.
+  const housemateOf = (ownerId: PersonId) => {
+    const owner = core.people.get(ownerId)!;
+    return [...owner.familyIds]
+      .sort()
+      .find(
+        (id) =>
+          core.people.get(id)?.alive &&
+          core.people.get(id)!.householdId === owner.householdId &&
+          !staff.has(id) &&
+          !played.some((p) => p.who === id) &&
+          familyRelation(core, id, ownerId),
+      );
+  };
+  // The conflicts, each on its own firm and award; `kin` has the vote cast
+  // by a relative who lives with the owner.
+  const CONFLICTS: readonly {
+    name: string;
+    moves: readonly string[];
+    kin?: boolean;
+  }[] = [
+    {
+      name: "conflict, your own firm, gives a reason",
+      moves: ["confess", "answer"],
+    },
+    {
+      name: "conflict, the firm of a relative you live with, gives a reason",
+      moves: ["confess", "answer"],
+      kin: true,
+    },
+    {
+      name: "conflict, your own firm, lies, then tells them to run it",
+      moves: ["lie", "confront"],
+    },
+    {
+      name: "conflict, your own firm, lies, then says the papers are wrong",
+      moves: ["lie", "lie"],
+    },
+    {
+      name: "conflict, your own firm, asks who told, then owns it",
+      moves: ["confront", "confess"],
+    },
+    {
+      name: "conflict, your own firm, asks who told, lies, then says no more",
+      moves: ["confront", "lie", "deflect"],
+    },
+  ];
   const gov = governments(api)[0]!;
-  api
-    .moduleState(CONTRACTS_MODULE_ID)
-    .table("awards")
-    .put({
-      id: `contract:${gov.id}:highways:${core.date}`,
-      governmentId: gov.id,
-      line: "highways",
-      fiscalYear: Number(core.date.slice(0, 4)),
-      awardedOn: core.date,
-      organizationId: firm.id,
-      basis: "vote",
-      bids: [],
-      votes: { [firm.ownerId]: firm.id },
-      tally: { [firm.id]: 1 },
-      bribes: [],
-      boughtVotes: [],
-      conflicts: [
-        {
-          memberId: firm.ownerId,
-          organizationId: firm.id,
-          ownerId: firm.ownerId,
-          relation: OWNER_RELATION,
-        },
-      ],
-      paidMinor: 0,
-      paymentIds: [],
-      lastPaidOn: "",
-    } satisfies ContractAwardRow as unknown as ModuleRow);
-  const conflictOf = () =>
+  const award = (
+    line: string,
+    at: { id: string; ownerId: string },
+    memberId: string,
+    relation: string,
+  ) =>
+    api
+      .moduleState(CONTRACTS_MODULE_ID)
+      .table("awards")
+      .put({
+        id: `contract:${gov.id}:${line}:${core.date}`,
+        governmentId: gov.id,
+        line,
+        fiscalYear: Number(core.date.slice(0, 4)),
+        awardedOn: core.date,
+        organizationId: at.id,
+        basis: "vote",
+        bids: [],
+        votes: { [memberId]: at.id },
+        tally: { [at.id]: 1 },
+        bribes: [],
+        boughtVotes: [],
+        conflicts: [
+          { memberId, organizationId: at.id, ownerId: at.ownerId, relation },
+        ],
+        paidMinor: 0,
+        paymentIds: [],
+        lastPaidOn: "",
+      } satisfies ContractAwardRow as unknown as ModuleRow);
+  // A spending line each award is paid from, said as its own contract.
+  const LINES = [
+    "highways",
+    "parks",
+    "administration",
+    "housing",
+    "schools",
+    "healthAndHospitals",
+  ];
+  const taken = new Set<string>();
+  const cases = CONFLICTS.map((c, at) => {
+    const firm = owners.find(
+      (row) =>
+        !taken.has(row.id) &&
+        !taken.has(row.ownerId) &&
+        (!c.kin || Boolean(housemateOf(row.ownerId as PersonId))),
+    )!;
+    expect(firm, `${c.name}: a firm`).toBeTruthy();
+    taken.add(firm.id);
+    taken.add(firm.ownerId);
+    const who = c.kin ? housemateOf(firm.ownerId as PersonId)! : firm.ownerId;
+    taken.add(who);
+    const relation = c.kin
+      ? familyRelation(core, who as PersonId, firm.ownerId as PersonId)!
+      : OWNER_RELATION;
+    award(LINES[at]!, firm, who, relation);
+    return { ...c, who };
+  });
+  const conflictOf = (who: string) =>
     [...(core.logByKind.get(PRESS_EXPOSED) ?? [])]
       .map((id) => core.durableLog.get(String(id))!)
-      .find((e) =>
-        Object.values(e.facts ?? {}).includes("conflict-of-interest"),
+      .find(
+        (e) =>
+          e.personIds[0] === who &&
+          Object.values(e.facts ?? {}).includes("conflict-of-interest"),
       );
   const until = addDays(makeIsoDate(core.date), 8);
-  while (!conflictOf() && core.date < until)
+  while (!cases.every((c) => conflictOf(c.who)) && core.date < until)
     advanceCore(core, addDays(makeIsoDate(core.date), 1));
-  const conflict = conflictOf();
-  expect(
-    conflict,
-    "the desk exposes the conflict within its week",
-  ).toBeTruthy();
-  const conflictWho = conflict!.personIds[0] as PersonId;
   const player = core.playerId;
-  const conflictCall = call(conflictWho, conflict!.id, ["confess", "answer"]);
+  for (const { name, who, moves } of cases) {
+    const conflict = conflictOf(who);
+    expect(
+      conflict,
+      `${name}: the desk exposes it within its week`,
+    ).toBeTruthy();
+    const conflictCall = call(who as PersonId, conflict!.id, moves);
+    played.push({
+      name,
+      exposedId: conflict!.id,
+      who: who as PersonId,
+      ...conflictCall,
+    });
+  }
   core.playerId = player;
-  played.push({
-    name: "conflict, owns it",
-    exposedId: conflict!.id,
-    who: conflictWho,
-    ...conflictCall,
-  });
 
   // Every story runs on its day.
   const last = played

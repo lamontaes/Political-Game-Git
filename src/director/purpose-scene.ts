@@ -125,6 +125,7 @@ import {
 import {
   composeSceneTalk,
   lastAnswerAlong,
+  playedNode,
   type AskStanding,
   type PurposeType,
   type SceneTalk,
@@ -3185,11 +3186,14 @@ export function replyInScene(
   let node: TreeNode | null = scene.talk.tree;
   let reply: TreeReply | undefined;
   for (const index of path) {
-    reply = node?.replies[index];
+    reply = node ? playedNode(node).replies[index] : undefined;
     if (!reply) return null;
     node = reply.next;
   }
   const line = reply!.line;
+  // Where the reply leads, as play reaches it (after a lie, the outcome the
+  // records give).
+  const reached = reply!.next ? playedNode(reply!.next) : null;
   // One record per scene of the moment and reply path: a record that stages
   // several scenes keeps each one's replies apart.
   const unit = scene.unit ?? scene.typeKey;
@@ -3210,7 +3214,7 @@ export function replyInScene(
     : scene.facts.some((row) => row.key === "stake-time")
       ? "time"
       : undefined;
-  const answer = reply!.next?.lines.find((row) => row.role === "asker");
+  const answer = reached?.lines.find((row) => row.role === "asker");
   const filingId = scene.cause.facts.filingId;
   const enlists =
     !!stakeKind &&
@@ -3242,7 +3246,7 @@ export function replyInScene(
   // is written on its record for the engines that read it, and a tie it
   // strains is written to closeness (the plan, section 3: "Each 'keeps'
   // becomes a write to the engine that owns it").
-  const ending = reply!.next?.end?.ending;
+  const ending = reached?.end?.ending;
   const aboutQuestion = scene.facts.find((row) => row.key === "about");
   // The concession call: conceding, or refusing to that night, is marked on
   // the reply for the press to put on the public record.

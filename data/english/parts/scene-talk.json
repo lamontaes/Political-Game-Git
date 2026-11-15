@@ -21418,7 +21418,17 @@
           "step": "follow",
           "move": "accept",
           "role": "asker",
-          "after": "scene-talk.reply-leave.i-ve-said-what-i-m-going-to-say",
+          "after": "scene-talk.reply-refuse.i-m-not-commenting",
+          "excludesFacts": ["answered-on-call"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "scandal-comment",
+          "key": "threat",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "after": "scene-talk.reply-refuse.then-i-have-nothing-for-you",
           "excludesFacts": ["answered-on-call"]
         }
       ],
@@ -21484,81 +21494,6 @@
       },
       "tag": {
         "move": "accept",
-        "key": "threat"
-      }
-    },
-    {
-      "key": "scene-talk.follow-thank.then-i-ll-put-that-you-deny-it",
-      "move": "follow-thank",
-      "kind": "spoken",
-      "text": "Then I'll put that you deny it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "scandal-comment",
-          "key": "threat",
-          "after": "lie"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "thank",
-        "key": "threat"
-      }
-    },
-    {
-      "key": "scene-talk.follow-thank.noted-the-story-will-say-you-deny-it",
-      "move": "follow-thank",
-      "kind": "spoken",
-      "text": "Noted. The story will say you deny it.",
-      "uses": [
-        {
-          "after": "lie",
-          "key": "threat",
-          "move": "thank",
-          "purpose": "scandal-comment",
-          "role": "asker",
-          "step": "follow",
-          "subject": "scene"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Claude Sonnet 5.5 (night: story)",
-      "date": "2026-11-08",
-      "tag": {
-        "move": "thank",
-        "key": "threat"
-      }
-    },
-    {
-      "key": "scene-talk.follow-thank.all-right-i-ll-print-your-denial-in-full",
-      "move": "follow-thank",
-      "kind": "spoken",
-      "text": "Alright. I'll print your denial in full.",
-      "uses": [
-        {
-          "after": "lie",
-          "key": "threat",
-          "move": "thank",
-          "purpose": "scandal-comment",
-          "role": "asker",
-          "step": "follow",
-          "subject": "scene"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Claude Sonnet 5.5 (night: story)",
-      "date": "2026-11-08",
-      "tag": {
-        "move": "thank",
         "key": "threat"
       }
     },
@@ -21644,7 +21579,7 @@
           "step": "follow",
           "move": "answer",
           "role": "asker",
-          "after": "scene-talk.reply-confront.print-it-then-we-re-done",
+          "after": "scene-talk.reply-confront.run-it-then-we-re-done",
           "requiresFacts": ["outlet-newspaper", "runs-on"]
         },
         {
@@ -21665,7 +21600,7 @@
           "step": "follow",
           "move": "answer",
           "role": "asker",
-          "after": "scene-talk.reply-confront.print-it-then-we-re-done",
+          "after": "scene-talk.reply-confront.run-it-then-we-re-done",
           "requiresFacts": ["outlet-national-paper", "runs-on"]
         },
         {
@@ -21746,7 +21681,7 @@
           "step": "follow",
           "move": "answer",
           "role": "asker",
-          "after": "scene-talk.reply-confront.print-it-then-we-re-done",
+          "after": "scene-talk.reply-confront.run-it-then-we-re-done",
           "requiresFacts": ["outlet-television", "runs-on"]
         },
         {
@@ -21767,7 +21702,7 @@
           "step": "follow",
           "move": "answer",
           "role": "asker",
-          "after": "scene-talk.reply-confront.print-it-then-we-re-done",
+          "after": "scene-talk.reply-confront.run-it-then-we-re-done",
           "requiresFacts": ["outlet-cable", "runs-on"]
         },
         {
@@ -21788,7 +21723,7 @@
           "step": "follow",
           "move": "answer",
           "role": "asker",
-          "after": "scene-talk.reply-confront.print-it-then-we-re-done",
+          "after": "scene-talk.reply-confront.run-it-then-we-re-done",
           "requiresFacts": ["outlet-radio", "runs-on"]
         },
         {
@@ -21885,7 +21820,7 @@
           "step": "follow",
           "move": "answer",
           "role": "asker",
-          "after": "scene-talk.reply-confront.print-it-then-we-re-done",
+          "after": "scene-talk.reply-confront.run-it-then-we-re-done",
           "requiresFacts": ["outlet-magazine"]
         },
         {
@@ -21942,7 +21877,7 @@
           "step": "follow",
           "move": "answer",
           "role": "asker",
-          "after": "scene-talk.reply-confront.print-it-then-we-re-done",
+          "after": "scene-talk.reply-confront.run-it-then-we-re-done",
           "requiresFacts": ["outlet-online", "runs-on"]
         },
         {
@@ -56969,7 +56904,7 @@
           "step": "reply",
           "move": "refuse",
           "role": "asked",
-          "after": "scene-talk.follow-ask.i-ll-print-that-why-did-you-take-it"
+          "after": "scene-talk.follow-ask.i-ll-quote-you-on-that-why-did-you-take-it"
         },
         {
           "subject": "scene",
@@ -56987,16 +56922,7 @@
           "step": "reply",
           "move": "refuse",
           "role": "asked",
-          "after": "scene-talk.follow-answer.i-don-t-give-up-the-people-who-talk-to-me-so-what-s-your-side"
-        },
-        {
-          "subject": "scene",
-          "purpose": "scandal-comment",
-          "key": "threat",
-          "step": "reply",
-          "move": "refuse",
-          "role": "asked",
-          "after": "scene-talk.follow-ask.i-ll-print-that-why-didn-t-you-step-aside"
+          "after": "scene-talk.follow-ask.i-ll-quote-you-on-that-why-didn-t-you-step-aside"
         }
       ],
       "bearing": "guarded",
@@ -184855,6 +184781,31 @@
       }
     },
     {
+      "key": "scene-talk.reply-refuse.then-i-have-nothing-for-you",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "Then I have nothing for you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "scandal-comment",
+          "key": "threat",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "after": "scene-talk.follow-answer.i-don-t-give-up-the-people-who-talk-to-me-so-what-s-your-side"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Reporter's-call builder (Claude Code), Words lead's line (rulings-f23b8d9a.md, 10:56Z)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "refuse",
+        "key": "threat"
+      }
+    },
+    {
       "key": "scene-talk.follow-confront.i-have-the-papers-try-again",
       "move": "follow-confront",
       "kind": "spoken",
@@ -184942,10 +184893,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-ask.i-ll-print-that-why-did-you-take-it",
+      "key": "scene-talk.follow-ask.i-ll-quote-you-on-that-why-did-you-take-it",
       "move": "follow-ask",
       "kind": "spoken",
-      "text": "I'll print that. Why did you take it?",
+      "text": "I'll quote you on that. Why did you take it?",
       "uses": [
         {
           "subject": "scene",
@@ -184968,10 +184919,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-answer.briber-asked-and-i-didn-t-know-how-to-say-no",
+      "key": "scene-talk.reply-answer.i-couldn-t-say-no-to-someone-that-close-to-me",
       "move": "reply-answer",
       "kind": "spoken",
-      "text": "{briber} asked, and I didn't know how to say no.",
+      "text": "I couldn't say no to someone that close to me.",
       "uses": [
         {
           "subject": "scene",
@@ -184980,13 +184931,13 @@
           "step": "reply",
           "move": "answer",
           "role": "asked",
-          "after": "scene-talk.follow-ask.i-ll-print-that-why-did-you-take-it",
-          "requiresFacts": ["briber-close", "briber"]
+          "after": "scene-talk.follow-ask.i-ll-quote-you-on-that-why-did-you-take-it",
+          "requiresFacts": ["briber-close"]
         }
       ],
       "bearing": "contrite",
       "origin": "authored",
-      "author": "Reporter's-call builder (Claude Code), Words lead's lines (reply-sets/oath-bribe-scandal.md C, 02:45Z)",
+      "author": "Reporter's-call builder (Claude Code), Words lead's line (rulings-f23b8d9a.md, 10:51Z)",
       "date": "2026-11-15",
       "tag": {
         "move": "answer",
@@ -185006,7 +184957,7 @@
           "step": "reply",
           "move": "answer",
           "role": "asked",
-          "after": "scene-talk.follow-ask.i-ll-print-that-why-did-you-take-it",
+          "after": "scene-talk.follow-ask.i-ll-quote-you-on-that-why-did-you-take-it",
           "excludesFacts": ["briber-close"]
         }
       ],
@@ -185032,7 +184983,7 @@
           "step": "reply",
           "move": "answer",
           "role": "asked",
-          "after": "scene-talk.follow-ask.i-ll-print-that-why-didn-t-you-step-aside",
+          "after": "scene-talk.follow-ask.i-ll-quote-you-on-that-why-didn-t-you-step-aside",
           "requiresFacts": ["firm-yours"]
         }
       ],
@@ -185046,10 +184997,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-answer.i-thought-i-could-vote-without-thinking-of-relative",
+      "key": "scene-talk.reply-answer.i-thought-i-could-keep-family-out-of-my-vote",
       "move": "reply-answer",
       "kind": "spoken",
-      "text": "I thought I could vote without thinking of {relative}.",
+      "text": "I thought I could keep family out of my vote.",
       "uses": [
         {
           "subject": "scene",
@@ -185058,13 +185009,13 @@
           "step": "reply",
           "move": "answer",
           "role": "asked",
-          "after": "scene-talk.follow-ask.i-ll-print-that-why-didn-t-you-step-aside",
+          "after": "scene-talk.follow-ask.i-ll-quote-you-on-that-why-didn-t-you-step-aside",
           "requiresFacts": ["relative"]
         }
       ],
       "bearing": "contrite",
       "origin": "authored",
-      "author": "Reporter's-call builder (Claude Code), Words lead's lines (rulings-f23b8d9a.md, 10:18Z)",
+      "author": "Reporter's-call builder (Claude Code), Words lead's line (rulings-f23b8d9a.md, 11:12Z)",
       "date": "2026-11-15",
       "tag": {
         "move": "answer",
@@ -185214,10 +185165,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-confront.print-it-then-we-re-done",
+      "key": "scene-talk.reply-confront.run-it-then-we-re-done",
       "move": "reply-confront",
       "kind": "spoken",
-      "text": "Print it, then. We're done.",
+      "text": "Run it, then. We're done.",
       "uses": [
         {
           "subject": "scene",
@@ -185381,10 +185332,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-ask.i-ll-print-that-why-didn-t-you-step-aside",
+      "key": "scene-talk.follow-ask.i-ll-quote-you-on-that-why-didn-t-you-step-aside",
       "move": "follow-ask",
       "kind": "spoken",
-      "text": "I'll print that. Why didn't you step aside?",
+      "text": "I'll quote you on that. Why didn't you step aside?",
       "uses": [
         {
           "subject": "scene",
