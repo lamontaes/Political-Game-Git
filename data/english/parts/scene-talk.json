@@ -77394,26 +77394,6 @@
           "step": "close",
           "move": "thank",
           "role": "asker"
-        },
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "ask-out-answer",
-          "key": "favor-asked",
-          "outcome": "resolved",
-          "requiresFacts": ["said-no"]
-        },
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "ask-out-answer",
-          "key": "favor-asked",
-          "outcome": "refused",
-          "requiresFacts": ["said-no"]
         }
       ],
       "bearing": "glad",
@@ -178980,31 +178960,6 @@
       }
     },
     {
-      "key": "scene-talk.state-tell.yes-i-love-you",
-      "move": "state-tell",
-      "kind": "spoken",
-      "text": "Yes. I love you.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "tell",
-          "role": "asker",
-          "purpose": "proposal-answer",
-          "key": "favor-asked",
-          "requiresFacts": ["said-yes"]
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Claude Opus 5.5 (family life builder; Words lead ruling Nov 14 11:30Z)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "tell",
-        "key": "favor-asked"
-      }
-    },
-    {
       "key": "scene-talk.state-tell.yes-come-here",
       "move": "state-tell",
       "kind": "spoken",
@@ -179494,32 +179449,6 @@
       "date": "2026-11-14",
       "tag": {
         "move": "answer",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.close-thank.see-you-soon",
-      "move": "close-thank",
-      "kind": "spoken",
-      "text": "See you soon.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "ask-out-answer",
-          "key": "favor-asked",
-          "outcome": "resolved",
-          "requiresFacts": ["said-yes"]
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "Claude Opus 5.5 (family life builder; Words lead ruling Nov 14 11:30Z)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "thank",
         "key": "favor-asked"
       }
     },
