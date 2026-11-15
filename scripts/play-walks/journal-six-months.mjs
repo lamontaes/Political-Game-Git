@@ -56,6 +56,14 @@ const api = (method, path, body) =>
     [method, path, body],
   );
 const talkHere = async () => {
+  // The game opens on a talk at home; play it through before anything else.
+  if (
+    await page
+      .locator("#talk")
+      .isVisible()
+      .catch(() => false)
+  )
+    await playTalk(walk, "scene", { picture: false });
   const who = page.locator("#here .busts-person.talkable").first();
   if (!(await who.count())) return walk.say("(nobody here to talk to)");
   walk.say(`>>> clicks ${(await who.getAttribute("aria-label")) ?? ""}`);
