@@ -2599,6 +2599,9 @@ export function withholdingOf(
   ]) as unknown as WithholdingRecord[];
 }
 // Re-exported so the opening county sample reads it through this entry (families guard).
-export { medianTransactionBalance } from "../starting-cash";
+export {
+  householdOpeningCash,
+  medianTransactionBalance,
+} from "../starting-cash";
 // Re-exported so the climate engine reads the states' bases through this entry (families guard).
 export { residentsOf, STATES } from "./outside-budgets";

@@ -101,7 +101,7 @@ import {
   raceScope,
   standingPool,
 } from "../candidate-pool";
-import { coarsePlace, metResident } from "../coarse-place";
+import { workFromHome } from "../coarse-place";
 import { drawStateHome } from "../places";
 import { closenessBetween } from "../closeness";
 import {
@@ -7336,9 +7336,8 @@ function offerNewcomer(
   if (api.state.people.has(id)) return;
   const seed = (api.state as CoreState).seed;
   const home = drawStateHome(seed, id, newcomer.stateKey);
-  const coarse = home ? coarsePlace(home.key, seed) : null;
-  const met = coarse
-    ? metResident(coarse, seed, `running-mate:${id}`)
+  const work = home
+    ? workFromHome(seed, home.key, `running-mate:${id}`)
     : undefined;
   fillInIdentity(api.state as CoreState, {
     id: id as PersonId,
@@ -7350,17 +7349,7 @@ function offerNewcomer(
     ...(party ? { party } : {}),
     traits: newcomer.traits,
     tier: "monthly",
-    ...(met
-      ? {
-          work: {
-            workplace: met.job.workplace,
-            title: met.job.title,
-            occupation: met.job.occupation,
-            hourlyMinor: met.job.hourlyMinor,
-            weeklyHours: met.job.weeklyHours,
-          },
-        }
-      : {}),
+    ...(work ? { work } : {}),
     source: {
       tag: "ESTIMATED",
       citation: `offered as a running mate on ${api.state.date}`,
