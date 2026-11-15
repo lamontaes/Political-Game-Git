@@ -234,7 +234,7 @@ export function nextMeetingFacts(
       startMinute >= officeDayParameter("eveningMeetingMinute"),
   );
   if (when) facts["meeting-when"] = { text: when, sourceRecordIds: cite };
-  const first = row?.agenda[0];
+  const [first] = row?.agenda ?? [];
   if (first && core.modules.has(LEGISLATURE_MODULE_ID)) {
     const titled = billTitleOf(billOf(api, first));
     if (titled)

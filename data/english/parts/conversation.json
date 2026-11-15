@@ -37976,10 +37976,10 @@
       "bearing": "calm"
     },
     {
-      "key": "conversation.promise-broken-raise.i-saved-you-a-seat-at-the-meeting-body-meeting",
+      "key": "conversation.promise-broken-raise.you-said-youd-come-to-the-meeting-body-meeting-you-didnt",
       "move": "promise-broken-raise",
       "kind": "spoken",
-      "text": "I saved you a seat at the {meeting-body} meeting.",
+      "text": "You said you'd come to the {meeting-body} meeting. You didn't.",
       "uses": [
         {
           "move": "promise-broken-raise",
