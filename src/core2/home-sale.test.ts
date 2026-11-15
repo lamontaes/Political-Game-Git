@@ -1,4 +1,3 @@
-import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
 import { gameStartDate } from "./game-start";
@@ -9,7 +8,6 @@ import { sellHome } from "./housing-sale";
 import { buyListedHome } from "./housing-sale-buyer-fixture";
 import { townOutsideOf } from "./opening-outside-market";
 import type { MortgageRow } from "./housing-foreclosure";
-import { drawPlace } from "../../scripts/core2-year/place";
 
 // A mortgaged owner household that leaves sells its home (replaces
 // SG-P15-moves-owners-stay): in the played world, in a place drawn from all
@@ -17,13 +15,22 @@ import { drawPlace } from "../../scripts/core2-year/place";
 // takes it and pays the household, the lender is paid off first from that
 // money, the surplus stays with the household, the mortgage ends, and every
 // dollar stays on someone's books.
-const seed = process.env.HOME_SALE_SEED ?? randomBytes(8).toString("hex");
+//
+// Pinned (tests-housing-sale-tests-draw-from-the-clock): Eatonville,
+// Washington, a named world seed and a mortgaged household in the played
+// town. The old test drew up to eight places from randomBytes and took the
+// first mortgaged owner by id, on the premise that any draw has one; this
+// household is one, 40 days in.
+const EATONVILLE = {
+  key: "5320260",
+  seed: "c5c7e8f40065cbdf2ed208fe2fee572fdead7337ab75f60a289b7195204b080e",
+  householdId: "household_1bf3b277851bf8b8",
+};
 
 it("sells a mortgaged home: payoff first, surplus to the household, mortgage ended", () => {
-  const tried: string[] = [];
-  for (let attempt = 0; attempt < 8; attempt += 1) {
-    const place = drawPlace(attempt ? `${seed}:${attempt}` : seed, "home-sale");
-    const where = `seed ${seed}, ${place.name} (${place.key})`;
+  {
+    const place = EATONVILLE;
+    const where = `Eatonville, Washington (${place.key}), world seed ${place.seed}, ${place.householdId}`;
     const { core } = buildBenchWorld(place.seed, gameStartDate(), {
       twoLevel: true,
       placeKey: place.key,
@@ -32,15 +39,6 @@ it("sells a mortgaged home: payoff first, surplus to the household, mortgage end
     advanceCore(core, addDays(makeIsoDate(core.date), 40));
     const api = coreAPI(core);
     const housing = api.moduleState("housing");
-    const owners = (core.households.size ? [...core.households.keys()] : [])
-      .sort()
-      .filter(
-        (id) =>
-          (
-            housing.table("dwellings").get(`dwelling:${id}`) as
-              { tenure?: string } | undefined
-          )?.tenure === "own",
-      );
     const owed = (id: string) =>
       (housing.table("mortgages").rows() as unknown as MortgageRow[]).filter(
         (row) =>
@@ -48,12 +46,15 @@ it("sells a mortgaged home: payoff first, surplus to the household, mortgage end
           row.balanceMinor > 0 &&
           core.finance.contracts.has(row.id),
       );
-    // A mortgaged owner when the world has one, else an owner with a free home.
-    const householdId = owners.find((id) => owed(id).length) ?? owners[0];
-    if (!householdId) {
-      tried.push(`${where}: no full-tier owner household`);
-      continue;
-    }
+    const householdId = place.householdId;
+    expect(
+      (
+        housing.table("dwellings").get(`dwelling:${householdId}`) as
+          { tenure?: string } | undefined
+      )?.tenure,
+      `${where}: an owner`,
+    ).toBe("own");
+    expect(owed(householdId).length, `${where}: a mortgage`).toBeGreaterThan(0);
     const loans = owed(householdId);
     const mortgage = loans[0];
     const books = () =>
@@ -120,9 +121,6 @@ it("sells a mortgaged home: payoff first, surplus to the household, mortgage end
     );
     // Selling twice finds no home to sell.
     expect(sellHome(api, householdId, "test.departure"), where).toBe(undefined);
-    return;
   }
-  throw new Error(
-    `no drawn place had a full-tier owner household: ${tried.join("; ")}`,
-  );
-}, 900_000);
+  // About 59 s measured: building Eatonville and its 40 days.
+}, 120_000);
