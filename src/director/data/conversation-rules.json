@@ -462,6 +462,10 @@
     },
     "stage": "known"
   },
+  "metThroughPast": {
+    "about": "Account lead, Nov 15 (item people-schoolmates-meet-as-strangers, evidence from the second reader at Dortches): two people the records put in the same school year, workplace or campaign spent time together, however long ago, so neither introduces themselves as to a stranger; the shared-school or shared-work subject is how they place each other. Kinds are sharedHistory's (src/core2/shared-history.ts).",
+    "kinds": ["schoolmate", "coworker", "campaign"]
+  },
   "familyTalk": {
     "about": "Owner, Oct 15, evening (batch 11 grading): a family talk is a personal scene only, since the family has little involvement in play for now. Between relatives, work, school, where each is from and mutual acquaintances are not talked about ('Where do you work' between relatives is not a scene; neither is 'Have you talked to Diana?'). These are the subject kinds a relative does not raise or ask; what is left is the household's own news (a lost job, an eviction), kin, and news passed on.",
     "dropped": [

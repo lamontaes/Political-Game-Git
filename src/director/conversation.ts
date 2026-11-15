@@ -2626,6 +2626,10 @@ function printedSubject(
  * two are at the speaker's work, the work; the stage says why the two are in
  * one place (working there, a customer or visitor, or the street).
  */
+const MET_THROUGH_PAST = (
+  rulesFile as unknown as { metThroughPast: { kinds: string[] } }
+).metThroughPast.kinds;
+
 const KNOWN_BY_ACT = (
   rulesFile as unknown as {
     knownByAct: {
@@ -2685,8 +2689,15 @@ function introduction(
   if (room.byPhone) return null;
   // Two who have met before are not strangers: no one introduces themselves
   // to someone they have already talked with (Words lead, Nov 14).
+  // A contact written today is this meeting's own (a visit's first contact),
+  // not an earlier one.
+  const seen = lastContact(
+    core,
+    speaker.id as PersonId,
+    listener.id as PersonId,
+  );
   if (
-    lastContact(core, speaker.id as PersonId, listener.id as PersonId) ||
+    (seen && seen.date < core.date) ||
     sharedHoursBetween(core, speaker.id as PersonId, listener.id as PersonId) >
       zero
   )
@@ -2695,6 +2706,14 @@ function introduction(
     speaker.householdId === listener.householdId ||
     speaker.familyIds.has(listener.id as PersonId) ||
     saysName(core, speaker.id as PersonId, listener.id as PersonId)
+  )
+    return null;
+  // Schoolmates, coworkers and a campaign's people spent time together, however
+  // long ago (conversation-rules.json metThroughPast).
+  if (
+    sharedHistory(core, speaker.id as PersonId, listener.id as PersonId).some(
+      (row) => MET_THROUGH_PAST.includes(row.kind),
+    )
   )
     return null;
   const facts: Facts = {
