@@ -3732,6 +3732,7 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
   const precinctVotes: Record<number, Record<string, number>> = {};
   const countedByPrecinct: Record<number, Record<string, number>> = {};
   let voted = 0;
+  const namedPrecincts = pollingPlaces(api).length;
   for (const voter of named) {
     const { appeal, lean, recordReasons, basis } = appealFor(
       api,
@@ -3813,7 +3814,11 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
     }
     for (const id of choices) namedVotes[id] = (namedVotes[id] ?? 0) + 1;
     if (t.votes && choices.length) {
-      const here = (precinctVotes[precinctIndexOf(api, voter) + 1] ??= {});
+      const home =
+        (voter as { householdId?: string }).householdId ?? voter.id;
+      const here = (precinctVotes[
+        precinctOfHousehold(api, home, namedPrecincts)
+      ] ??= {});
       for (const id of choices) here[id] = (here[id] ?? 0) + 1;
     }
     // The reasons behind a ballot (each candidate's appeal terms, the record
