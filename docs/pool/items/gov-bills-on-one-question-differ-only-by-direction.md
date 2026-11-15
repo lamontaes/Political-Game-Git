@@ -39,3 +39,5 @@ root: none
 **Waits on.** The amount-bills PR (state amount series filed by members), which shows whether amounts alone are enough.
 
 **Files.** src/core2/modules/world-legislating.ts, src/core2/modules/legislature.ts
+
+- Nov 15 2026 (bargaining thread): more evidence at Nathrop CO, seed 612deadbcae7ad23. A Colorado senator weighs a one-section income tax bill at 2.5 and one at 0 the same (1.393 for upper:001), and likewise minimum wage at $7.25 and $12.00 (1.480): a figure's size moves no member, only its direction. Measured with sponsorsStrongestSection while building src/director/sponsor-own-section.test.ts.
