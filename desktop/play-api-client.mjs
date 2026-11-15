@@ -27,13 +27,21 @@ export const PLAY_API_HOST = path.join(
  */
 export const PLAY_SERVER_SEMI_SPACE_MIB = 64;
 
-/** The apps' fork: an Electron utility process for one play-api root. */
-export function utilityFork(utilityProcess) {
+/**
+ * The apps' fork: an Electron utility process for one play-api root. The
+ * play server keeps its saves in `saveDir()` (the app's own data folder), so
+ * a life survives quitting and reopening the app.
+ */
+export function utilityFork(utilityProcess, { saveDir } = {}) {
   return (hostPath, root) => {
     const child = utilityProcess.fork(hostPath, [], {
       serviceName: "Our Civic Duty play server",
       execArgv: [`--max-semi-space-size=${PLAY_SERVER_SEMI_SPACE_MIB}`],
-      env: { ...process.env, OCD_PLAY_API_ROOT: root },
+      env: {
+        ...process.env,
+        OCD_PLAY_API_ROOT: root,
+        ...(saveDir ? { OCD_SAVE_DIR: saveDir() } : {}),
+      },
       stdio: "inherit",
     });
     return {

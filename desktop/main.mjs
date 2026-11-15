@@ -99,7 +99,11 @@ const playApiRoot = app.isPackaged
   : path.join(desktopRoot, "staged", "play-api");
 const playApi = createPlayApi({
   root: playApiRoot,
-  fork: utilityFork(utilityProcess),
+  // The saves live in the app's own data folder (read when the play server
+  // starts, after userData is set below), so a life survives quit and reopen.
+  fork: utilityFork(utilityProcess, {
+    saveDir: () => path.join(app.getPath("userData"), "saves"),
+  }),
 });
 
 /**
