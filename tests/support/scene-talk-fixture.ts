@@ -82,7 +82,6 @@ const flags = [
 export const facts: Record<string, Fact> = {
   name: fact("Pat Rivera"),
   backable: fact("Dana Lee"),
-  "backable-other": fact("Sam Ortiz"),
   first: fact(core.people.get(askedId)!.givenName),
   bill: fact('"Limit groundwater withdrawal"'),
   section: fact("2"),

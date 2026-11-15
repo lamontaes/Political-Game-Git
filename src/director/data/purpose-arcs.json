@@ -2310,14 +2310,13 @@
     },
     "petition-checked": {
       "state": "deliver-news",
-      "replies": ["accept", "ask", "promise", "agree", "leave"],
+      "replies": ["accept", "ask", "promise", "leave"],
       "follow": {
         "ask": ["answer"],
-        "promise": ["thank"],
-        "agree": ["thank"]
+        "promise": ["thank"]
       },
       "again": {
-        "answer": ["accept", "promise", "agree", "leave"]
+        "answer": ["accept", "promise", "leave"]
       },
       "endings": [
         {
@@ -2325,7 +2324,7 @@
           "label": "You said you would back someone else",
           "keeps": "none",
           "when": {
-            "reply": ["promise", "agree"]
+            "reply": ["promise"]
           }
         },
         {
@@ -3488,7 +3487,9 @@
           "id": "heard-out",
           "label": "You heard the speaker out",
           "keeps": "none",
-          "when": { "reply": ["leave"] }
+          "when": {
+            "reply": ["leave"]
+          }
         },
         {
           "id": "stood-with",
@@ -3502,7 +3503,10 @@
           "id": "held-against",
           "label": "You held your ground",
           "keeps": "relationship-strained",
-          "when": { "reply": ["disagree"], "asker": ["press"] }
+          "when": {
+            "reply": ["disagree"],
+            "asker": ["press"]
+          }
         },
         {
           "id": "spoke-against",
@@ -4165,9 +4169,18 @@
         "first": {
           "tell": "ask",
           "then": [
-            { "move": "answer", "carries": "lean" },
-            { "move": "tell", "carries": "lean" },
-            { "move": "deflect", "carries": "hedged" }
+            {
+              "move": "answer",
+              "carries": "lean"
+            },
+            {
+              "move": "tell",
+              "carries": "lean"
+            },
+            {
+              "move": "deflect",
+              "carries": "hedged"
+            }
           ]
         }
       },

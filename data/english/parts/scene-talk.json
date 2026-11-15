@@ -4,7 +4,6 @@
   "description": "Scenes with a purpose (owner, Oct 15, evening): the narrator's setup, the asker's opening and statement of purpose, the player's four replies with their stakes, the asker's answer and the close. Authored to calibrated patterns from ordinary American political and family talk (the text rule, Oct 15); no one's text is copied. Each piece serves every scene with its step and move: each use names the purpose it serves, so a line never leaks into a scene it does not fit; a follow that answers one reply names that reply's piece or move in `after`. A piece's bearing is the manner of its wording; the speaker's traits pull toward the bearings they favor. The director's exchange engine (src/director/scene-talk.ts) arranges the pieces by src/director/data/purpose-arcs.json.",
   "slots": {
     "backable": "The candidate in the race the player would back after their own petition fell short, by the endorsement rule (`endorsementChoices`).",
-    "backable-other": "A second candidate in the race the player would back, when there is one.",
     "area": "A policy area, said after 'with' or 'about', from the town's term read.",
     "stand": "The stand the speaker takes in an address, as a verb phrase after 'to' (\"raise the minimum wage\"), from the speaker's recorded views.",
     "signatures": "The signatures a filing's petition needs, as a number, from the petition record.",
@@ -186679,10 +186678,10 @@
       }
     },
     {
-      "key": "scene-talk.state-deliver-news.some-names-came-off-those-people-have-moved-away",
+      "key": "scene-talk.state-deliver-news.some-names-came-off",
       "move": "state-deliver-news",
       "kind": "spoken",
-      "text": "Some names came off. Those people have moved away.",
+      "text": "Some names came off.",
       "uses": [
         {
           "subject": "scene",
@@ -186691,90 +186690,7 @@
           "role": "asker",
           "purpose": "petition-checked",
           "key": "petition-checked",
-          "requiresFacts": ["on-ballot", "struck-moved"]
-        },
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "deliver-news",
-          "role": "asker",
-          "purpose": "petition-checked",
-          "key": "petition-checked",
-          "requiresFacts": ["short", "struck-moved"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (Nov 15, clerk-petition/lines.md), applied by the builder of #9441; read by the Words lead",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "deliver-news",
-        "key": "petition-checked"
-      },
-      "piece": {
-        "of": "petition-result",
-        "part": "core"
-      }
-    },
-    {
-      "key": "scene-talk.state-deliver-news.some-names-came-off-those-signers-have-died",
-      "move": "state-deliver-news",
-      "kind": "spoken",
-      "text": "Some names came off. Those signers have died.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "deliver-news",
-          "role": "asker",
-          "purpose": "petition-checked",
-          "key": "petition-checked",
-          "requiresFacts": ["on-ballot", "struck-died"]
-        },
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "deliver-news",
-          "role": "asker",
-          "purpose": "petition-checked",
-          "key": "petition-checked",
-          "requiresFacts": ["short", "struck-died"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (Nov 15, clerk-petition/lines.md), applied by the builder of #9441; read by the Words lead",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "deliver-news",
-        "key": "petition-checked"
-      },
-      "piece": {
-        "of": "petition-result",
-        "part": "core"
-      }
-    },
-    {
-      "key": "scene-talk.state-deliver-news.some-names-came-off-those-signers-can-t-vote-right-now",
-      "move": "state-deliver-news",
-      "kind": "spoken",
-      "text": "Some names came off. Those signers can't vote right now.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "deliver-news",
-          "role": "asker",
-          "purpose": "petition-checked",
-          "key": "petition-checked",
-          "requiresFacts": ["on-ballot", "struck-barred"]
-        },
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "deliver-news",
-          "role": "asker",
-          "purpose": "petition-checked",
-          "key": "petition-checked",
-          "requiresFacts": ["short", "struck-barred"]
+          "requiresFacts": ["struck"]
         }
       ],
       "origin": "authored",
@@ -187063,30 +186979,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.then-i-ll-back-backable-other",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "Then I'll back {backable-other}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "petition-checked",
-          "key": "petition-checked",
-          "requiresFacts": ["short", "backable-other"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (Nov 15, clerk-petition/lines.md), applied by the builder of #9441; read by the Words lead",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "agree",
-        "key": "petition-checked"
-      }
-    },
-    {
       "key": "scene-talk.follow-answer.now-you-campaign-your-name-is-on-it",
       "move": "follow-answer",
       "kind": "spoken",
@@ -187202,16 +187094,6 @@
           "key": "petition-checked",
           "after": "promise",
           "requiresFacts": ["backable"]
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "petition-checked",
-          "key": "petition-checked",
-          "after": "agree",
-          "requiresFacts": ["backable-other"]
         }
       ],
       "origin": "authored",

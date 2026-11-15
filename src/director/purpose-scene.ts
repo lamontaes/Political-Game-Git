@@ -1669,7 +1669,7 @@ function composeBinding(
           sourceRecordIds: [petition.id, ...struck],
         };
       // Whom the player would back in the race, by the endorsement rule, up
-      // to the two the reply menu offers.
+      // to the two backing replies the arc now has (pool item scene-petition-checked-back-anyone-in-the-race).
       const backing =
         said.status === SHORT_STATUS && said.contestId
           ? endorsementChoices(
@@ -2919,8 +2919,8 @@ const STRUCK_REASONS: readonly StruckReason[] = [
 /** The scene type of the clerk's word on a petition (situation-types.json). */
 const PETITION_CHECKED_TYPE = "petition-checked";
 /** The facts for the candidates the player would back, and the reply move that says each. */
-const BACKING_KEYS = ["backable", "backable-other"] as const;
-const BACKING_MOVES = ["promise", "agree"] as const;
+const BACKING_KEYS = ["backable"] as const;
+const BACKING_MOVES = ["promise"] as const;
 
 /** The scene type of a resident's visit to the official's office (situation-types.json). */
 const OFFICE_HOURS_TYPE = "office-hours";
