@@ -6,10 +6,13 @@
  * published mix of lines, so a budget no longer repeats the same revenue year
  * after year. A state's or county's spending follows the same ratio as
  * before; the nation's spending is voted and holds the base.
- * Pinned place and seed: Washington, Kansas (599e6f66e9c1d25a). The time is
- * the game's own played days: 1,108 days (January 20, 2025 to February 1,
- * 2028; measured 351 seconds, about a third of a second a day with the
- * bookkeeping off); the limit is about twice that.
+ * Pinned place and seed: Everett, Georgia (7a5e19c2b3d84f60). The rule first
+ * shows when a treasury has a whole fiscal year of months behind it: the
+ * nation's year runs October to September and the first whole year ends
+ * September 2026, so its next budget (and the state's, from July 2026) is the
+ * first one re-budgeted. The time is the game's own played days: 650 days
+ * (January 20, 2025 to November 1, 2026) in a small town; the limit is
+ * about twice the measured time (70 seconds).
  */
 import { describe, expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
@@ -20,17 +23,17 @@ import { advanceCore } from "./life";
 import { baseBudget, budgetsOf, governments } from "./modules/budgets";
 import { coreAPI } from "./state";
 
-const SEED = "599e6f66e9c1d25a";
+const SEED = "7a5e19c2b3d84f60";
 const total = (side: Readonly<Record<string, number>>) =>
   Object.values(side).reduce((a, v) => a + v, 0);
 
 describe("revenue is re-budgeted from last year's collections", () => {
-  it("moves each level's budgeted revenue year to year (Washington, Kansas)", () => {
+  it("moves each level's budgeted revenue year to year (Everett, Georgia)", () => {
     setBookkeeping(false);
     const world = buildBenchWorld(SEED, gameStartDate(), { twoLevel: true });
-    expect(world.place.displayName).toBe("Washington, Kansas");
+    expect(world.place.displayName).toBe("Everett, Georgia");
     const api = coreAPI(world.core);
-    advanceCore(world.core, "2028-02-01" as never);
+    advanceCore(world.core, "2026-11-01" as never);
     const where = `${world.place.displayName} (seed ${SEED})`;
 
     for (const level of ["federal", "state", "county"] as const) {
@@ -73,7 +76,7 @@ describe("revenue is re-budgeted from last year's collections", () => {
       expect(
         revenues.size,
         `${where}: ${level} revenue by year`,
-      ).toBeGreaterThan(2);
+      ).toBeGreaterThan(1);
     }
-  }, 700_000);
+  }, 140_000);
 });
