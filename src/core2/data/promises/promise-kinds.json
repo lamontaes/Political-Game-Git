@@ -163,7 +163,8 @@
       "checkRange": {
         "min": 30,
         "max": 180
-      }
+      },
+      "role": "coefficient"
     },
     "promisePayWindowDays": {
       "value": 62,
@@ -173,7 +174,8 @@
       "checkRange": {
         "min": 31,
         "max": 93
-      }
+      },
+      "role": "coefficient"
     },
     "promiseShowAroundWindowDays": {
       "value": 14,
@@ -183,7 +185,8 @@
       "checkRange": {
         "min": 7,
         "max": 30
-      }
+      },
+      "role": "coefficient"
     },
     "promiseKeptHours": {
       "value": 1,
@@ -193,7 +196,8 @@
       "checkRange": {
         "min": 0.5,
         "max": 2
-      }
+      },
+      "role": "coefficient"
     },
     "promiseBrokenHours": {
       "value": 2,
@@ -203,7 +207,8 @@
       "checkRange": {
         "min": 1,
         "max": 4
-      }
+      },
+      "role": "coefficient"
     },
     "promiseOwnShare": {
       "value": 0.5,
@@ -213,7 +218,8 @@
       "checkRange": {
         "min": 0.25,
         "max": 0.75
-      }
+      },
+      "role": "coefficient"
     },
     "promiseDeniedHours": {
       "value": 1,
@@ -223,7 +229,8 @@
       "checkRange": {
         "min": 0.5,
         "max": 2
-      }
+      },
+      "role": "coefficient"
     },
     "promiseHoldQuestionWindowDays": {
       "value": 1461,
@@ -233,7 +240,8 @@
       "checkRange": {
         "min": 730,
         "max": 2922
-      }
+      },
+      "role": "coefficient"
     },
     "promiseAttendWindowDays": {
       "value": 45,
@@ -243,7 +251,8 @@
       "checkRange": {
         "min": 30,
         "max": 60
-      }
+      },
+      "role": "coefficient"
     }
   }
 }
