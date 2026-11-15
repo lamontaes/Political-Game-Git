@@ -188869,10 +188869,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-promise.you-have-my-word-on-issue",
+      "key": "scene-talk.follow-promise.you-have-my-word-i-m-with-you-on-issue",
       "move": "follow-promise",
       "kind": "spoken",
-      "text": "You have my word on {issue}.",
+      "text": "You have my word. I'm with you on {issue}.",
       "uses": [
         {
           "subject": "scene",
