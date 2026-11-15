@@ -28,6 +28,7 @@
  * and the President's address weighs by how closely they follow politics.
  * The listener remembers the last talk's topic and doesn't open with it again.
  */
+import { seriousIllnessOf } from "../core2/modules/health";
 import { closenessBetween } from "../core2/closeness";
 import { familyFactsOf, meetInTalk } from "../core2/modules/people";
 import { jobTitleByKind } from "../core2/person-work";
@@ -950,6 +951,17 @@ function relativeNewsFacts(
     if (age < RELATIVE_NEWS.youngBelowAge.value) facts.young = fact("yes");
     const cause = RELATIVE_NEWS.deathCauses[recorded("causeOfDeath") ?? ""];
     if (cause) facts.cause = fact(cause);
+    // A cause with no plain wording is told by the mark it sets; one the
+    // record only calls "other" is told as the illness the house knew of when
+    // the death had a named one on record.
+    const marked = RELATIVE_NEWS.deathMarks[recorded("causeOfDeath") ?? ""];
+    if (marked) facts[marked] = fact("yes");
+    const had = seriousIllnessOf(core, about.id);
+    const hadSaid = had ? RELATIVE_NEWS.illnessesInFamily[had] : undefined;
+    if (!cause && !marked && hadSaid) {
+      facts["house-illness"] = fact("yes");
+      facts.illness = fact(hadSaid);
+    }
     // An illness of theirs that the player was told of before they died: the
     // house knew of it, and says since when. The player's own heard record of
     // that telling names the health engine's record and its day (the
