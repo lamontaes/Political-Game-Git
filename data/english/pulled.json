@@ -214,6 +214,44 @@
     ]
   },
   "noReplyFollows": {
+    "scene-talk.follow-accept.all-right-i-had-to-ask": ["ask-vote/refuse"],
+    "scene-talk.follow-accept.all-right-i-ll-find-the-votes-somewhere-else": [
+      "ask-vote/refuse"
+    ],
+    "scene-talk.follow-accept.all-right-we-have-a-deal": ["ask-vote/refuse"],
+    "scene-talk.follow-accept.alright-their-first-no-hard-feelings": [
+      "ask-to-serve/decline"
+    ],
+    "scene-talk.follow-accept.fair-enough": [
+      "ask-to-serve/decline",
+      "ask-vote/refuse"
+    ],
+    "scene-talk.follow-accept.fair-enough-their-first-i-m-glad-we-talked": [
+      "ask-to-serve/decline"
+    ],
+    "scene-talk.follow-accept.fair-i-ll-say-you-changed-your-mind": [
+      "ask-vote/refuse"
+    ],
+    "scene-talk.follow-accept.i-ll-put-that-in": ["ask-vote/refuse"],
+    "scene-talk.follow-accept.i-respect-that-their-first-my-door-stays-open": [
+      "ask-to-serve/decline"
+    ],
+    "scene-talk.follow-accept.i-understand": ["ask-to-serve/decline"],
+    "scene-talk.follow-accept.i-understand-their-first-thank-you-for-hearing-me-out": [
+      "ask-to-serve/decline"
+    ],
+    "scene-talk.follow-accept.name-it-if-i-can-do-it-it-s-yours": [
+      "ask-vote/refuse"
+    ],
+    "scene-talk.follow-accept.not-against-me-i-ll-take-that": [
+      "ask-vote/refuse"
+    ],
+    "scene-talk.follow-accept.okay-i-can-work-with-that": ["ask-vote/refuse"],
+    "scene-talk.follow-accept.suit-yourself": ["ask-vote/refuse"],
+    "scene-talk.follow-accept.that-i-can-live-with": ["ask-vote/refuse"],
+    "scene-talk.follow-accept.then-your-amendment-goes-in-deal": [
+      "ask-vote/refuse"
+    ],
     "scene-talk.follow-answer.about-twenty-of-us-mostly-neighbors": [
       "join-cause/decline"
     ],
@@ -237,6 +275,23 @@
       "conflict-accuse.hearsay/deny",
       "conflict-accuse.taken/deny"
     ],
+    "scene-talk.follow-ask.why-is-source-wrong": [
+      "ask-vote.friend/refuse",
+      "ask-vote.trade/refuse",
+      "ask-vote.watched/refuse",
+      "ask-vote.whip/refuse",
+      "ask-vote/refuse"
+    ],
+    "scene-talk.follow-bargain.depends-on-the-favor": [
+      "ask-vote.friend/refuse",
+      "ask-vote.trade/refuse",
+      "ask-vote.watched/refuse",
+      "ask-vote.whip/refuse",
+      "ask-vote/refuse"
+    ],
+    "scene-talk.follow-bargain.i-can-write-it-in-tonight-it-ll-cost-me-two-other-votes": [
+      "ask-vote.watched/refuse"
+    ],
     "scene-talk.follow-confront.hearsay.don-t-call-it-a-rumor-when-the-prosecutor-has-it-first": [
       "conflict-accuse.hearsay/tell"
     ],
@@ -257,14 +312,27 @@
       "conflict-accuse/leave",
       "conflict-accuse/tell"
     ],
+    "scene-talk.follow-plea.then-tell-me-who-s-right": [
+      "ask-vote.friend/refuse",
+      "ask-vote.trade/refuse",
+      "ask-vote.watched/refuse",
+      "ask-vote.whip/refuse",
+      "ask-vote/refuse"
+    ],
     "scene-talk.follow-press.because-you-d-say-it-plainly-and-they-d-listen": [
       "join-cause/decline"
     ],
     "scene-talk.follow-press.it-s-only-two-pages-here-take-a-look": [
       "join-cause/decline"
     ],
+    "scene-talk.follow-press.not-there-on-what-tell-me-which-part": [
+      "ask-vote/refuse"
+    ],
     "scene-talk.follow-press.two-pages-and-i-have-them-right-here": [
       "join-cause/decline"
+    ],
+    "scene-talk.follow-press.what-do-you-need-to-get-there": [
+      "ask-vote/refuse"
     ],
     "scene-talk.follow-press.what-would-change-it": [
       "ask-vote.friend/relent",
@@ -278,6 +346,29 @@
     "scene-talk.follow-press.you-d-say-it-plainly-and-they-would-listen-to-you": [
       "join-cause/decline"
     ],
+    "scene-talk.follow-thank.good-i-ll-hold-you-to-that": ["ask-vote/refuse"],
+    "scene-talk.follow-thank.good-i-ll-put-you-down-as-a-yes": [
+      "ask-vote/refuse"
+    ],
+    "scene-talk.follow-thank.good-i-m-writing-you-down": ["ask-vote/refuse"],
+    "scene-talk.follow-thank.good-we-start-tomorrow-their-first": [
+      "ask-to-serve/decline"
+    ],
+    "scene-talk.follow-thank.i-knew-i-could-count-on-you": ["ask-vote/refuse"],
+    "scene-talk.follow-thank.thank-you-i-know-that-wasn-t-easy": [
+      "ask-vote/refuse"
+    ],
+    "scene-talk.follow-thank.thank-you-i-won-t-forget-it": ["ask-vote/refuse"],
+    "scene-talk.follow-thank.thank-you-their-first-let-s-do-this-right": [
+      "ask-to-serve/decline"
+    ],
+    "scene-talk.follow-thank.thank-you-their-first-you-won-t-be-sorry": [
+      "ask-to-serve/decline"
+    ],
+    "scene-talk.follow-thank.that-means-a-lot-their-first-thank-you": [
+      "ask-to-serve/decline"
+    ],
+    "scene-talk.follow-thank.that-s-a-relief": ["ask-vote/refuse"],
     "scene-talk.reply-agree.count-me-in-tell-me-when": ["join-cause/thank"],
     "scene-talk.reply-agree.i-m-with-you-tell-me-when": ["join-cause/thank"],
     "scene-talk.reply-confront.hearsay.you-took-somebody-s-word-over-mine": [
@@ -292,6 +383,12 @@
     "scene-talk.reply-confront.witness.you-ve-made-up-your-mind-so-there-s-nothing-left-to-say": [
       "conflict-accuse.witness/confront"
     ],
+    "scene-talk.reply-decline.i-gave-you-my-answer-it-hasn-t-changed": [
+      "ask-to-serve/thank"
+    ],
+    "scene-talk.reply-decline.nothing-s-changed-for-me-since-you-asked-it-s-still-no": [
+      "ask-to-serve/thank"
+    ],
     "scene-talk.reply-leave.i-ve-got-to-run-call-me-tonight": [
       "ask-vote.watched/accept"
     ],
@@ -301,6 +398,12 @@
     "scene-talk.reply-offer.there-s-a-posting-at-public-works-this-week-tell-him-to-apply-by-frida": [
       "favor-job/press"
     ],
+    "scene-talk.reply-refuse.i-voted-no-on-your-last-one-nothing-s-different-for-me": [
+      "ask-vote/thank"
+    ],
+    "scene-talk.reply-refuse.you-asked-me-last-time-and-i-voted-no-i-m-voting-no-again": [
+      "ask-vote/thank"
+    ],
     "scene-talk.reply-tell.friend.i-ll-tell-you-everything-and-i-m-not-going-to-dress-it-up": [
       "conflict-accuse.friend/ask"
     ],
@@ -309,6 +412,13 @@
     ],
     "scene-talk.reply-tell.taken.i-ll-tell-you-exactly-how-it-went-and-you-can-judge": [
       "conflict-accuse.taken/ask"
+    ],
+    "scene-talk.reply-thank.thank-you": ["ask-to-serve/decline"],
+    "scene-talk.state-request.i-m-self-full-thank-you-for-seeing-me-i-m-running-for-race-office-and-i-d-like-you-to-run-with-me-for-office": [
+      "ask-to-serve/decline"
+    ],
+    "scene-talk.state-request.i-m-self-full-we-haven-t-met-so-i-ll-be-plain": [
+      "ask-to-serve/decline"
     ]
   },
   "barred": {},

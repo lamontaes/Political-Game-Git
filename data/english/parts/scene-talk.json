@@ -158180,7 +158180,8 @@
           "role": "asker",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["stranger"]
+          "requiresFacts": ["stranger"],
+          "excludesFacts": ["asked-before"]
         }
       ],
       "bearing": "calm",
@@ -158205,7 +158206,8 @@
           "role": "asker",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["stranger"]
+          "requiresFacts": ["stranger"],
+          "excludesFacts": ["asked-before"]
         }
       ],
       "bearing": "braced",

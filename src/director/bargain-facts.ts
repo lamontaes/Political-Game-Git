@@ -88,7 +88,8 @@ export function bargainFacts(
       sourceRecordIds: [causeId, before],
     };
     // The question both bills are on, as people say it.
-    const question = bill.provisions[0]?.question;
+    const [section] = bill.provisions;
+    const question = section?.question;
     const subject = question ? questionSaid(question) : null;
     if (subject && !facts.said)
       facts.said = { text: subject, sourceRecordIds: [causeId, before] };
