@@ -1903,7 +1903,7 @@ export function incumbentLeanOf(
 }
 
 /** A named person's scheduled weekly work, from their commitments. */
-function weeklyWorkOf(state: CoreState, personId: string): number {
+export function weeklyWorkOf(state: CoreState, personId: string): number {
   return [...(state.work.commitmentsByPerson.get(personId) ?? [])].reduce(
     (sum, id) =>
       sum + (state.work.commitments.get(id)?.expectedWeeklyMinutes ?? 0),

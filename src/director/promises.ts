@@ -24,6 +24,7 @@ import {
   votesOn,
   LEGISLATURE_MODULE_ID,
 } from "../core2/modules/legislature";
+import { officeActsOf } from "../core2/modules/office-day";
 import type {
   CoreAPI,
   CoreEventInput,
@@ -126,6 +127,8 @@ export function promiseReplyFacts(scene: {
   purpose: string;
   variant?: { readonly purpose: string };
   cause: { kind: string; facts: Readonly<Record<string, string>> };
+  /** The scene's own facts: a tie the cause does not carry is the first record a fact cites (the meeting a friend asks the player to). */
+  facts?: readonly { key: string; recordIds: readonly string[] }[];
   endingId: string;
 }): Record<string, string> {
   const purpose = scene.variant?.purpose ?? scene.purpose;
@@ -143,7 +146,9 @@ export function promiseReplyFacts(scene: {
   if (!kind.settle.length) return {};
   const out: Record<string, string> = { [PROMISE_FACT]: kind.id };
   for (const [key, causeFact] of Object.entries(kind.tie)) {
-    const value = scene.cause.facts[causeFact];
+    const value =
+      scene.cause.facts[causeFact] ??
+      scene.facts?.find((row) => row.key === causeFact)?.recordIds[zero];
     // A tie the cause does not carry: the promise cannot be settled.
     if (!value) return {};
     out[`promise-${key}`] = value;
@@ -176,6 +181,10 @@ const settleKeys: Record<
   "question-signature": {
     ofFact: (fact) => questionKey(fact),
   },
+  "meeting-held": {
+    ofFact: (fact) =>
+      fact.promise?.meetingId ? `meeting-held|${fact.promise.meetingId}` : null,
+  },
 };
 
 const questionKey = (fact: KeptFact): string | null =>
@@ -204,6 +213,7 @@ export function promiseOfEvent(
   const billId = event.facts?.["promise-billId"];
   const question = event.facts?.["promise-question"];
   const side = event.facts?.["promise-side"];
+  const meetingId = event.facts?.["promise-meetingId"];
   return {
     kind: kind.id,
     dueOn: addDays(makeIsoDate(event.date), param(kind.windowDays)),
@@ -212,6 +222,7 @@ export function promiseOfEvent(
     ...(typeof side === "string" && side
       ? { side: side === "no" || side === "-1" ? minusOne : one }
       : {}),
+    ...(typeof meetingId === "string" && meetingId ? { meetingId } : {}),
   };
 }
 
@@ -253,6 +264,7 @@ function endPromise(
   outcome: "kept" | "broken" | "lapsed",
   endedBy: string,
   param: (key: string) => number,
+  together = true,
 ): void {
   const copies = copiesOf(ledger, factId).filter(
     (fact) => fact.promise && !fact.promise.outcome,
@@ -279,15 +291,50 @@ function endPromise(
     outcome === "kept"
       ? param("promiseKeptHours")
       : -param("promiseBrokenHours");
+  // Apart, the move waits for the two's next time together (tieOwed).
+  if (!together) {
+    for (const fact of copies)
+      fact.promise = { ...fact.promise!, tieOwed: hours };
+    return;
+  }
+  moveTie(api, first, outcome, hours, factId);
+}
+
+/** The tie moved once for a settled promise, through the core's writer, citing it. */
+function moveTie(
+  api: CoreAPI,
+  fact: Pick<KeptFact, "holderId" | "otherId">,
+  outcome: "kept" | "broken",
+  hours: number,
+  factId: string,
+): void {
   if (
-    !api.state.people.get(first.holderId)?.alive ||
-    !api.state.people.get(first.otherId)?.alive
+    !api.state.people.get(fact.holderId)?.alive ||
+    !api.state.people.get(fact.otherId)?.alive
   )
     return;
-  api.relationship(first.holderId, first.otherId, "contact", hours, undefined, {
+  api.relationship(fact.holderId, fact.otherId, "contact", hours, undefined, {
     cause: `promise-${outcome}`,
     sourceId: factId,
   });
+}
+
+/** A tie's move held for the two's next time together, paid when the promise is said. */
+export function payTieOwed(api: CoreAPI, ledger: Ledger, factId: string): void {
+  const copies = copiesOf(ledger, factId);
+  const promise = copies[zero]?.promise;
+  if (
+    !promise?.tieOwed ||
+    (promise.outcome !== "kept" && promise.outcome !== "broken")
+  )
+    return;
+  const hours = promise.tieOwed;
+  for (const fact of copies) {
+    const rest = { ...fact.promise! };
+    delete rest.tieOwed;
+    fact.promise = rest;
+  }
+  moveTie(api, copies[zero]!, promise.outcome, hours, factId);
 }
 
 /** The event kinds some open promise could be settled by (data, read once). */
@@ -339,6 +386,39 @@ export function settlePromisesOnEvent(
           : "broken",
         event.id,
         param,
+      );
+    }
+    return;
+  }
+  if (event.kind === "public-meeting") {
+    // The meeting promised: kept if the one who promised was there (the
+    // player's own presence, the meeting's record), broken if not.
+    const meetingId = event.facts?.meetingId;
+    const ids =
+      typeof meetingId === "string"
+        ? ledger.promisesBySettle.get(`meeting-held|${meetingId}`)
+        : undefined;
+    for (const id of [...(ids ?? [])]) {
+      const fact = copiesOf(ledger, id)[zero];
+      if (!fact?.promise) continue;
+      // There: still in the room at its close, or came and left (office-day's
+      // own "attend" act on the meeting).
+      const there =
+        fact.holderId === api.state.playerId &&
+        (event.facts?.playerPresent === "true" ||
+          officeActsOf(api, fact.holderId).some(
+            (act) => act.kind === "attend" && act.recordId === meetingId,
+          ));
+      // Not there, the friend learns it apart from them: the tie moves when
+      // the two next talk and it is said.
+      endPromise(
+        api,
+        ledger,
+        id,
+        there ? "kept" : "broken",
+        event.id,
+        param,
+        there,
       );
     }
     return;
@@ -474,6 +554,7 @@ export interface PromiseBetween {
   billId?: string;
   question?: string;
   side?: number;
+  meetingId?: string;
   outcome: "open" | "kept" | "broken" | "lapsed";
   endedBy?: string;
   endedAt?: IsoDate;
@@ -511,6 +592,9 @@ export function promisesBetween(
         ...(fact.promise.billId ? { billId: fact.promise.billId } : {}),
         ...(fact.promise.question ? { question: fact.promise.question } : {}),
         ...(fact.promise.side ? { side: fact.promise.side } : {}),
+        ...(fact.promise.meetingId
+          ? { meetingId: fact.promise.meetingId }
+          : {}),
         outcome: fact.promise.outcome ?? "open",
         ...(fact.endedBy ? { endedBy: fact.endedBy } : {}),
         ...(fact.endedAt ? { endedAt: fact.endedAt } : {}),
