@@ -682,6 +682,21 @@ export class DevMode {
       },
       addedSections: sectionsAddedTo(bill),
       sections: bill.provisions.length,
+      /**
+       * An enacted bill's budget-line sections make no law row: the treasury
+       * credits the line's change to the bill's number (`carriedMeasureOf`),
+       * and each engine that pays from the line writes its reach there.
+       */
+      budget:
+        bill.status === "enacted" &&
+        bill.provisions.some((p) => p.kind === "budget-line")
+          ? {
+              lines: bill.provisions
+                .filter((p) => p.kind === "budget-line")
+                .map((p) => ({ line: p.line ?? "", value: p.value })),
+              reach: this.reach(bill.number),
+            }
+          : null,
       laws: laws.map((row) => ({
         id: row.id,
         series: row.series,
