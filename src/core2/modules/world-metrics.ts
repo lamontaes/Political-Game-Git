@@ -8,7 +8,6 @@
  * counts on the day they happen. Screens and the outcome web (M3-04) read
  * these rows; nothing here moves money or decides anything.
  */
-import { outsideLaborForce } from "../gov-rules/place-population";
 import { addDays, makeIsoDate } from "../kernel/dates";
 import type { CoreAPI, CoreModule, CoreState } from "../types";
 import { residentsRuntime } from "./residents";
