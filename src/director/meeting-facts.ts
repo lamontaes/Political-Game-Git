@@ -21,11 +21,11 @@ import {
 import {
   meetingAhead,
   OFFICE_DAY_MODULE_ID,
+  officeDayParameter,
   upcomingMeeting,
   type MeetingRow,
 } from "../core2/modules/office-day";
 import { townSeats } from "../core2/modules/offices";
-import { officeDayParameter } from "../core2/office-day-calendar";
 import { billTitleOf, billTitleSaid } from "../english/bill-names";
 import { dayAheadSaid } from "../english/day-words";
 import {

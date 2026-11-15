@@ -80,7 +80,7 @@ import {
   type MeetingRule,
 } from "../office-day-calendar";
 // The meeting rule, for readers outside the family.
-export { meetingRule } from "../office-day-calendar";
+export { meetingRule, officeDayParameter } from "../office-day-calendar";
 // The federal holidays, for the calendar screen.
 export {
   federalHolidayName,
