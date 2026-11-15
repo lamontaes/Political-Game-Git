@@ -4132,6 +4132,29 @@ function nameOnce(
   return rest;
 }
 
+/** The facts the talk has not said yet: each one whose words and record an earlier line (either speaker) does not carry. */
+function unsaidFacts(
+  conversation: Pick<Conversation, "lines">,
+  facts: Readonly<Record<string, Fact>>,
+): Facts {
+  return Object.fromEntries(
+    Object.entries(facts).filter(
+      ([, fact]) => !alreadyAnswered(conversation, { fact }),
+    ),
+  );
+}
+
+/** A subject with the facts the talk already said taken out, or null when none is left. */
+function withoutSaid(
+  conversation: Pick<Conversation, "lines">,
+  subject: Subject,
+): Subject | null {
+  const left = unsaidFacts(conversation, subject.facts);
+  const kept = Object.keys(left).length;
+  if (kept === Object.keys(subject.facts).length) return subject;
+  return kept ? { ...subject, facts: left } : null;
+}
+
 /**
  * Whether the talk already said what a question asks for: every fact the
  * question's subject holds is in an earlier line, by either speaker, with its
@@ -4937,7 +4960,7 @@ function raiseSubject(
   core: Readonly<CoreState>,
   conversation: Conversation,
   data: ConversationData,
-  subject: Subject,
+  asked: Subject,
   /** A side remark on the topic in hand, not a topic of its own. */
   remark = false,
   /** Lines already worded that raise it (what they brought up), said instead. */
@@ -4948,9 +4971,15 @@ function raiseSubject(
   }[],
 ): boolean {
   const { playerId, otherId } = conversation;
-  conversation.used.push(`${otherId}>${subject.id}`);
-  const then = data.otherRaises[subject.kind];
+  conversation.used.push(`${otherId}>${asked.id}`);
+  const then = data.otherRaises[asked.kind];
   if (!then) return false;
+  // What the talk already said is not told again, by either of them ("I'm at
+  // Stark's Kitchen myself." then "Right now I'm at work."; item
+  // words-everyday-talk-asks-the-same-question): the subject is raised with
+  // the facts not yet said, or not at all when none is left.
+  const subject = withoutSaid(conversation, asked);
+  if (!subject) return false;
   // A small question is asked only when the asker has their own answer to
   // give back (lead, Nov 13): a relative with neither work nor a home on
   // record is not asked about.
@@ -6885,7 +6914,14 @@ function offerChoices(
     // said) is not offered ("McKenzie's Kitchen for me, 18 years now." then
     // "How long have you worked there?"; item
     // words-everyday-talk-asks-the-same-question).
-    if (raised && alreadyAnswered(conversation, raised.facts)) return;
+    if (
+      raised &&
+      alreadyAnswered(
+        conversation,
+        replyFacts(core, otherId, raised)?.facts ?? {},
+      )
+    )
+      return;
     // Turning the question back asks it; nothing more is said.
     if (raised === last.subject && !answer.asks) return;
     // A move that turns the question back says nothing without its subject.
@@ -8174,7 +8210,15 @@ function sayNow(
   if (raised.own) tell(`${eventId}:told`, raised.own);
   for (const also of saidOwn(raised, choice.wording))
     tell(`${eventId}:told:${also.key}`, also);
-  const reply = replyFacts(core, otherId, raised);
+  // What the talk already said (the give-back told where they work) is not
+  // told again by the answer; with nothing new left the talk carries on.
+  const replied = replyFacts(core, otherId, raised);
+  const fresh = replied && unsaidFacts(conversation, replied.facts);
+  if (replied && fresh && !Object.keys(fresh).length) {
+    carryOn(core, conversation, data);
+    return conversation;
+  }
+  const reply = replied && fresh ? { ...replied, facts: fresh } : replied;
   const kind = data.replyKinds[raised.kind] ?? raised.kind;
   const line = reply
     ? words(

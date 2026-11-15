@@ -22,6 +22,9 @@ const PLACE_KEY = "2158116";
 const SEED = "c2";
 const SAID_YEARS = /\b\d+ years?\b/i;
 const ASKS_YEARS = /\b(?:how many years|how long)\b/i;
+// Where they work told a second time, with the name stood in by "work".
+const TOLD_TWICE =
+  /\b(?:work(?:s|ing)? (?:over at |at |for |with )|I'm (?:over at |at |with )|^At )work\b/i;
 
 it("a question whose answer the talk already said is not offered (Onton, seed c2)", () => {
   setBookkeeping(false);
@@ -80,11 +83,9 @@ it("a question whose answer the talk already said is not offered (Onton, seed c2
       hours: 2,
     });
   advanceCore(core, addDays(makeIsoDate(core.date), 4));
-  let seen = 0;
-  let right = 0;
-  const wrong: string[] = [];
   let said = 0;
   const asked: string[] = [];
+  const twice: string[] = [];
   for (const other of others) {
     const talk = openConversation(core, me, other.id as PersonId, {
       director,
@@ -96,6 +97,9 @@ it("a question whose answer the talk already said is not offered (Onton, seed c2
         for (const choice of talk.choices)
           if (ASKS_YEARS.test(choice.text)) asked.push(choice.text);
       }
+      for (const line of talk.lines)
+        if (line.speakerId === other.id && TOLD_TWICE.test(line.text))
+          twice.push(line.text);
       say(
         core,
         talk,
@@ -105,4 +109,5 @@ it("a question whose answer the talk already said is not offered (Onton, seed c2
   }
   expect(said, "turns after the years were said").toBeGreaterThan(0);
   expect(asked).toEqual([]);
+  expect(twice).toEqual([]);
 }, 120_000);
