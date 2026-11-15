@@ -486,11 +486,6 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
   });
 
   it("records talking as time together, and passes news the other hasn't heard", () => {
-    const otherId = talkers.find(
-      (id) =>
-        !me.familyIds.has(id) &&
-        openConversation(core, player.id, id).choices.length,
-    )!;
     applyCoreEvent(core, {
       id: "fixture-story",
       date: core.date,
@@ -500,9 +495,21 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
       publicRecord: true,
       source: { tag: "SOURCED", citation: "Fixture story.", asOf: core.date },
     });
-    const knewBefore = api.knows(otherId, newsKey("fixture-story"));
-    const talk = openConversation(core, player.id, otherId);
-    say(core, talk, talk.choices[0]!.key);
+    // The first talk that opens is the talk under test: a second opening with
+    // the same person the same day has nothing new to say, and a talk with no
+    // line is no talk (owner, Nov 1), so the person is never opened twice.
+    let talk: ReturnType<typeof openConversation> | undefined;
+    let knewBefore = false;
+    const otherId = talkers.find((id) => {
+      if (me.familyIds.has(id)) return false;
+      const knew = !!api.knows(id, newsKey("fixture-story"));
+      const opened = openConversation(core, player.id, id);
+      if (!opened.choices.length) return false;
+      talk = opened;
+      knewBefore = knew;
+      return true;
+    })!;
+    say(core, talk!, talk!.choices[0]!.key);
     const tie = [...(core.relationshipsByPerson.get(player.id) ?? [])]
       .map((id) => core.relationships.get(id)!)
       .find((row) => row.actorId === otherId || row.otherId === otherId)!;
