@@ -311,7 +311,9 @@ for (const c of CASES)
         // the sentence after that lead-in (Account lead, Nov 15 16:15Z).
         const said = `I promised ${c.asked} I'd ${side > 0 ? "back" : "oppose"} ${about}.`;
         expect(told[0]!.plain ?? told[0]!.text, where).toBe(said);
-        expect(told[0]!.text.endsWith(said), `${where}: ${told[0]!.text}`).toBe(true);
+        expect(told[0]!.text.endsWith(said), `${where}: ${told[0]!.text}`).toBe(
+          true,
+        );
         out.push(
           `  -> ${reply.facts?.ending}; seated; ${factId} ${find().kind} held by ${player} on ${question}, side ${side}`,
           `  Journal: ${told[0]!.text}`,
