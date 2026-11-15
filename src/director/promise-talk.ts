@@ -12,6 +12,7 @@
  * player's answer; nothing else here writes a line.
  */
 import { billNameOf, billTitleSaid } from "../english/bill-names";
+import { questionSaid } from "../english/question-names";
 import type { Fact } from "../english/conversation-words";
 import { LEGISLATURE_MODULE_ID, billOf } from "../core2/modules/legislature";
 import { applyCoreEvent, coreAPI } from "../core2/state";
@@ -77,6 +78,10 @@ export function promiseSubject(
         sourceRecordIds: [row.billId],
       };
   }
+  // A word on a question (hold-question) is brought up by the question's
+  // short name, as the scene where it was given said it.
+  const issue = row.question ? questionSaid(row.question) : null;
+  if (issue) facts.issue = fact(issue);
   return {
     id: row.id,
     promiseKind: row.kind,

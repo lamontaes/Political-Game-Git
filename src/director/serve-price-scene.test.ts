@@ -58,6 +58,7 @@ import {
 import { corePlaceByKey } from "../core2/place-lookup";
 import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
+import { promiseSubject } from "./promise-talk";
 import { promisesBetween } from "./promises";
 import { purposeScene, replyInScene } from "./purpose-scene";
 
@@ -263,6 +264,19 @@ for (const c of CASES)
         );
         if (c.vote === "with") expect(after, where).toBeGreaterThan(before);
         else expect(after, where).toBeLessThan(before);
+        // What the person owed can bring up: the word kept or broken, on the
+        // question by its short name (promise-talk.ts).
+        const subject = promiseSubject(
+          core,
+          director,
+          asked!.id as PersonId,
+          player,
+        );
+        expect(subject?.kind, where).toBe(
+          c.vote === "with" ? "promise-kept" : "promise-broken",
+        );
+        expect(subject?.facts["promise-hold-question"], where).toBeDefined();
+        expect(subject?.facts.issue?.text, where).toBeTruthy();
         out.push(
           `  ${billId} moves ${question} ${toward > 0 ? "toward" : "away from"} yes; the player voted ${vote} on ${ended.endedAt} (${ended.endedBy}): ${ended.outcome}; closeness ${before.toFixed(5)} to ${after.toFixed(5)}`,
         );

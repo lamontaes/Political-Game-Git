@@ -187518,10 +187518,10 @@
       ]
     },
     {
-      "key": "scene-talk.reply-bargain.i-could-see-it-but-i-d-need-to-know-you-ll-hold-the-line-on-issue",
+      "key": "scene-talk.reply-bargain.i-could-see-it-but-i-d-need-to-know-you-re-with-me-on-issue",
       "move": "reply-bargain",
       "kind": "spoken",
-      "text": "I could see it. But I'd need to know you'll hold the line on {issue}.",
+      "text": "I could see it. But I'd need to know you're with me on {issue}.",
       "uses": [
         {
           "subject": "scene",
@@ -187544,10 +187544,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-bargain.i-want-to-say-yes-first-tell-me-you-won-t-give-ground-on-issue",
+      "key": "scene-talk.reply-bargain.i-want-to-say-yes-first-tell-me-you-stand-where-i-stand-on-issue",
       "move": "reply-bargain",
       "kind": "spoken",
-      "text": "I want to say yes. First tell me you won't give ground on {issue}.",
+      "text": "I want to say yes. First tell me you stand where I stand on {issue}.",
       "uses": [
         {
           "subject": "scene",
@@ -187570,10 +187570,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-bargain.there-s-one-thing-it-s-about-issue-i-can-t-run-next-to-someone-who-d-give-ground-on-it",
+      "key": "scene-talk.reply-bargain.there-s-one-thing-it-s-about-issue-i-can-t-run-next-to-someone-who-s-against-me-on-it",
       "move": "reply-bargain",
       "kind": "spoken",
-      "text": "There's one thing. It's about {issue}. I can't run next to someone who'd give ground on it.",
+      "text": "There's one thing. It's about {issue}. I can't run next to someone who's against me on it.",
       "uses": [
         {
           "subject": "scene",
