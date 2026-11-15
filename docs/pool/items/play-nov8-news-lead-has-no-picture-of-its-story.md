@@ -7,7 +7,7 @@ priority: 2
 size: S
 status: in-pr
 claimed-by: claude/pool-play-nov8-news-lead-has-no-picture-of-its-story
-pr: "#9381"
+pr: "#9373"
 after:
 blocked-on:
 standard: 2
