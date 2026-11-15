@@ -42,7 +42,11 @@ import {
 } from "../core2/modules/offices";
 import { OFFICE_DAY_MODULE_ID } from "../core2/modules/office-day";
 import { officialOf } from "../core2/modules/officials";
-import { commentOn, PRESS_MODULE_ID } from "../core2/modules/press";
+import {
+  commentOn,
+  PRESS_MODULE_ID,
+  type InterviewRow,
+} from "../core2/modules/press";
 import {
   corePlaceByJurisdictionId,
   coreStateName,
@@ -61,6 +65,7 @@ import { joinList } from "../english/bill-names";
 import { JOURNAL_WORDS, seatSaid } from "../english/journal-words";
 import { raceMemberTitle } from "../director/cause-facts";
 import { storyTopicName } from "../english/policy-names";
+import { questionAbout } from "../english/question-names";
 import {
   causeGroupForm,
   causeGroupName,
@@ -1631,16 +1636,65 @@ const profile: Builder = (read) => {
   );
 };
 
-/** A candidate's interview, printed from the platform they filed. */
+/**
+ * A candidate's interview, printed from the answers they gave at the
+ * sitting (the press engine's interview row): which questions they were for,
+ * which against, and which they gave no answer on, each named the way the
+ * reporter asked it (`questionAbout`, the sitting's own name for it).
+ */
 const interview: Builder = (read, f) => {
   const key = Object.keys(f).find(
     (k) => k.startsWith("interview:") && k.endsWith(":candidate"),
   );
   const candidate = key ? f[key] : undefined;
   const topic = read.story.topic ?? "";
+  const interviewId = key?.slice("interview:".length, -":candidate".length);
+  const row = (interviewId && read.core.modules.has(PRESS_MODULE_ID)
+    ? read.api.moduleState(PRESS_MODULE_ID).table("interviews").get(interviewId)
+    : undefined) as unknown as InterviewRow | undefined;
+  const asked = (question: string) => questionAbout(question);
+  // The headline's question is said in the lede with its side; the rest
+  // are listed after it.
+  const lead = row?.answers.find((answer) => answer.question === topic);
+  const said = (side: (position: number | null) => boolean) =>
+    joinList(
+      (row?.answers ?? [])
+        .filter((answer) => answer !== lead && side(answer.position))
+        .map((answer) => asked(answer.question))
+        .filter((name): name is string => !!name),
+      "and",
+    );
+  const stands = {
+    "for-issues": said((position) => position !== null && position > 0),
+    "against-issues": said((position) => position !== null && position < 0),
+    "declined-issues": said((position) => position === null),
+  };
+  const subject = asked(topic);
   return story(
     "interview",
-    { ...read.who(candidate, "name", false), ...read.issue(topic) },
+    {
+      ...read.who(candidate, "name", false),
+      // After the lede names them, the story says the candidate by last name.
+      ...(candidate && read.name(candidate)
+        ? { last: read.fact(familyOf(read, candidate), candidate) }
+        : {}),
+      ...(subject
+        ? { issue: read.fact(subject, interviewId ?? "") }
+        : read.issue(topic)),
+      ...(lead?.position
+        ? {
+            [lead.position > 0 ? "issue-for" : "issue-against"]: read.fact(
+              "yes",
+              interviewId ?? "",
+            ),
+          }
+        : {}),
+      ...Object.fromEntries(
+        Object.entries(stands)
+          .filter(([, text]) => text)
+          .map(([slot, text]) => [slot, read.fact(text, interviewId ?? "")]),
+      ),
+    },
     ["name"],
     candidate,
   );
