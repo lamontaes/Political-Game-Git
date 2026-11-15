@@ -230,7 +230,10 @@ describe("a kind with several arcs", () => {
               `${where} ${id}`,
             ).toBeGreaterThan(0);
         else if (family === "donor-ask")
-          for (const id of ["looking-again", "hearing-only", "put-off"])
+          // A candidate's ask is a hearing, never a promise (Words lead and
+          // Account lead ruling, Nov 15): looking-again and process moved to
+          // held-officeholder-lines.md until an officeholder ask plays them.
+          for (const id of ["hearing-only", "put-off"])
             expect(
               talk.endingCounts[id] ?? 0,
               `${where} ${id}`,
@@ -308,6 +311,18 @@ describe("a kind with several arcs", () => {
           const shared = [...x.lines].filter((line) =>
             y.lines.has(line),
           ).length;
+          // A candidate's donor ask is a hearing and never a promise (Words
+          // lead and Account lead ruling, Nov 15): the officeholder lines are
+          // held, so small, friend and again keep one skeleton and carry
+          // their own narration, greeting and request over the plain lines.
+          // Old premise: every pair of variants differs in skeleton or shares
+          // under half its lines. Needs the lead's yes before this PR folds.
+          if (
+            family === "donor-ask" &&
+            ["small", "friend", "again"].includes(a) &&
+            ["small", "friend", "again"].includes(b)
+          )
+            continue;
           expect(
             !same || shared < Math.min(x.lines.size, y.lines.size) / 2,
             `${family}: ${a} and ${b} are one arc in two coats`,

@@ -320,64 +320,29 @@
     },
     "donor-ask": {
       "state": "request",
-      "replies": ["agree", "offer", "decline", "deflect", "lie"],
+      "replies": ["agree", "decline", "deflect", "leave"],
       "follow": {
-        "offer": ["accept"],
+        "agree": ["thank"],
         "decline": ["threaten", "accept"],
         "apologize": ["accept"]
       },
       "again": {
-        "ask": ["answer", "refuse", "leave"],
-        "confront": ["deflect", "apologize", "leave"]
+        "confront": ["deflect", "apologize", "leave"],
+        "press": ["agree", "decline", "leave"],
+        "threaten": ["confront", "leave"]
       },
       "endings": [
         {
-          "id": "looking-again",
-          "label": "You'll look at it again",
-          "keeps": "favor-owed",
-          "when": {
-            "reply": ["agree", "relent"]
-          }
-        },
-        {
-          "id": "process",
-          "label": "Handed to your chief of staff",
-          "keeps": "meeting-set",
-          "when": {
-            "reply": ["offer"]
-          }
-        },
-        {
           "id": "hearing-only",
-          "label": "A hearing, not a vote",
-          "keeps": "none",
-          "when": {
-            "reply": ["decline", "bargain"]
-          }
-        },
-        {
-          "id": "caught",
-          "label": "Caught in a lie",
-          "keeps": "trust-lost",
-          "when": {
-            "caught": true
-          }
-        },
-        {
-          "id": "false-progress",
-          "label": "A story that it's moving",
-          "keeps": "promise",
-          "when": {
-            "believed": true
-          }
+          "label": "You heard them out",
+          "keeps": "heard",
+          "when": { "reply": ["agree", "decline"] }
         },
         {
           "id": "put-off",
           "label": "Put off",
           "keeps": "relationship-strained",
-          "when": {
-            "reply": ["deflect", "stall", "leave", "refuse", "apologize"]
-          }
+          "when": { "reply": ["deflect", "leave", "apologize"] }
         },
         {
           "id": "left-there",
