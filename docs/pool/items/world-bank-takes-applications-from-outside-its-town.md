@@ -8,7 +8,7 @@ size: S
 status: in-pr
 standard: 2
 claimed-by: T54
-pr:
+pr: 9457
 blocked-on:
 source: "measured by T54 for the Account lead's bank-room question, Nov 15"
 claimed-at: 2026-11-15
