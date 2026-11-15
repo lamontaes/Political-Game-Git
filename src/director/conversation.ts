@@ -8110,7 +8110,7 @@ function answerNews(
   // reaction) the neighbor then says where they stand.
   const theirLast = conversation.lines
     .filter((l) => l.speakerId === otherId)
-    .at(-1);
+    .at(-one);
   if (
     last.facts.story &&
     theirLast &&
@@ -8118,7 +8118,11 @@ function answerNews(
     ["yes", "no", "react"].includes(choice.move)
   ) {
     if (choice.move === "no") {
-      const { "about-said": _said, "about-unsaid": _unsaid, ...plain } = facts;
+      const plain = Object.fromEntries(
+        Object.entries(facts).filter(
+          ([key]) => key !== "about-said" && key !== "about-unsaid",
+        ),
+      );
       const what = composedLine(
         core,
         otherId,
