@@ -897,8 +897,8 @@ function sceneEndingMoments(
                   },
                   ...(petitionTeller(core, reply) === "clerk"
                     ? {
-                        tellerIsClerk: {
-                          text: "clerk",
+                        clerk: {
+                          text: "the clerk",
                           sourceRecordIds: [id, String(reply.facts?.causeId)],
                         },
                       }

@@ -45,7 +45,8 @@
     "school_for": "How long the person had been at a school, from the school's attendance record.",
     "body": "The body a relative's seat belongs to, as the reader says it: the Nelson City Council.",
     "workplace": "Where a relative who holds an office also works, as the reader says it: Michael's Market.",
-    "about": "A question someone holds a view on, as people name it, from the views engine's stance record."
+    "about": "A question someone holds a view on, as people name it, from the views engine's stance record.",
+    "clerk": "The clerk who took the filing, said as 'the clerk', from the scene's record (the petition told short by the clerk)."
   },
   "maxWords": 10,
   "mining": {
@@ -11048,10 +11049,10 @@
       }
     },
     {
-      "key": "journal.scene-line-petition-not-today.the-clerk-said-my-office-petition-was-short-i-waited",
+      "key": "journal.scene-line-petition-not-today.clerk-said-my-office-petition-was-short-i-waited",
       "move": "scene-line-petition-not-today",
       "kind": "spoken",
-      "text": "The clerk said my {office} petition was short. I waited.",
+      "text": "{clerk} said my {office} petition was short. I waited.",
       "uses": [
         {
           "move": "scene-line-petition-not-today",
@@ -11063,8 +11064,7 @@
               "kindPrefix": "scene-ending:petition-not-today",
               "field": "line"
             }
-          ],
-          "requiresFacts": ["tellerIsClerk"]
+          ]
         }
       ],
       "origin": "authored",
