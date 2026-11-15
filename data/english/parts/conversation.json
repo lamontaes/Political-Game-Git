@@ -8909,40 +8909,6 @@
       "bearing": "tender"
     },
     {
-      "key": "conversation.farewell-leave-bye.take-care-of-yourself",
-      "move": "farewell-leave-bye",
-      "kind": "spoken",
-      "text": "Take care of yourself.",
-      "piece": {
-        "of": "farewell-leave",
-        "part": "closer"
-      },
-      "uses": [
-        {
-          "move": "farewell-closer",
-          "subject": "farewell",
-          "role": "closer",
-          "stages": ["default"]
-        }
-      ],
-      "transcriptsUsing": 8,
-      "bySource": {
-        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 1,
-        "dcpd": 7
-      },
-      "source": {
-        "document": "Commencement Address at the United States Coast Guard Academy in New London, Connecticut",
-        "date": "2026-05-20",
-        "granule": "DCPD-202600354",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600354/html/DCPD-202600354.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "farewell"
-      },
-      "bearing": "tender"
-    },
-    {
       "key": "conversation.farewell-leave-bye.good-night",
       "move": "farewell-leave-bye",
       "kind": "spoken",
@@ -24430,6 +24396,24 @@
       "move": "own-view-answer-disagree",
       "kind": "spoken",
       "text": "I can't go along with that.",
+      "uses": [
+        {
+          "move": "own-view-answer-disagree",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "disagree",
+          "requiresFacts": ["my-other"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-view-answer-disagree.we-ll-have-to-differ-first",
+      "move": "own-view-answer-disagree",
+      "kind": "spoken",
+      "text": "We'll have to agree to disagree, {first}.",
       "uses": [
         {
           "move": "own-view-answer-disagree",
@@ -41286,10 +41270,10 @@
       "date": "2026-11-14"
     },
     {
-      "key": "conversation.prison-news-back-core.that-s-all-i-know-you",
+      "key": "conversation.prison-news-back-core.that-s-all-i-know",
       "move": "prison-news-back-core",
       "kind": "spoken",
-      "text": "That's all I know, {you}.",
+      "text": "That's all I know.",
       "uses": [
         {
           "move": "prison-news-back-core",
@@ -41303,7 +41287,13 @@
           "subject": "death-news-back",
           "role": "core",
           "stages": ["ask"],
-          "excludesFacts": ["cause", "illness-known"]
+          "excludesFacts": [
+            "cause",
+            "illness-known",
+            "cause-suicide",
+            "cause-shot",
+            "house-illness"
+          ]
         }
       ],
       "bearing": "calm",
@@ -45063,22 +45053,805 @@
       "date": "2026-11-14"
     },
     {
-      "key": "conversation.own-view-answer-disagree.we-ll-have-to-differ-first",
-      "move": "own-view-answer-disagree",
+      "key": "conversation.death-news-back-core.he-took-his-own-life",
+      "move": "death-news-back-core",
       "kind": "spoken",
-      "text": "We'll have to agree to disagree, {first}.",
+      "text": "He took his own life.",
       "uses": [
         {
-          "move": "own-view-answer-disagree",
-          "subject": "own-view",
-          "role": "answer",
-          "choice": "disagree",
-          "requiresFacts": ["my-other"]
+          "move": "death-news-back-core",
+          "subject": "death-news-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["cause-suicide", "he"]
         }
       ],
+      "piece": {
+        "of": "death-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "solemn",
       "origin": "authored",
-      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
-      "date": "2026-11-11"
+      "author": "Words builder S3 (Words lead's ruling of Nov 14, 22:50Z: how a relative says how someone died)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.death-news-back-core.he-did-it-himself-i-can-t-say-more-than-that",
+      "move": "death-news-back-core",
+      "kind": "spoken",
+      "text": "He did it himself. I can't say more than that.",
+      "uses": [
+        {
+          "move": "death-news-back-core",
+          "subject": "death-news-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["cause-suicide", "he"]
+        }
+      ],
+      "piece": {
+        "of": "death-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder S3 (Words lead's ruling of Nov 14, 22:50Z: how a relative says how someone died)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.death-news-back-core.he-killed-himself",
+      "move": "death-news-back-core",
+      "kind": "spoken",
+      "text": "He killed himself.",
+      "uses": [
+        {
+          "move": "death-news-back-core",
+          "subject": "death-news-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["cause-suicide", "he"]
+        }
+      ],
+      "piece": {
+        "of": "death-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "blunt",
+      "origin": "authored",
+      "author": "Words builder S3 (Words lead's ruling of Nov 14, 22:50Z: how a relative says how someone died)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.death-news-back-core.he-was-shot",
+      "move": "death-news-back-core",
+      "kind": "spoken",
+      "text": "He was shot.",
+      "uses": [
+        {
+          "move": "death-news-back-core",
+          "subject": "death-news-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["cause-shot", "he"]
+        }
+      ],
+      "piece": {
+        "of": "death-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Words builder S3 (Words lead's ruling of Nov 14, 22:50Z: how a relative says how someone died)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.death-news-back-core.somebody-shot-him-i-can-t-believe-i-m-saying-it",
+      "move": "death-news-back-core",
+      "kind": "spoken",
+      "text": "Somebody shot him. I can't believe I'm saying it.",
+      "uses": [
+        {
+          "move": "death-news-back-core",
+          "subject": "death-news-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["cause-shot", "he"]
+        }
+      ],
+      "piece": {
+        "of": "death-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder S3 (Words lead's ruling of Nov 14, 22:50Z: how a relative says how someone died)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.death-news-back-core.he-was-killed-i-don-t-want-to-go-through-it",
+      "move": "death-news-back-core",
+      "kind": "spoken",
+      "text": "He was killed. I don't want to go through it.",
+      "uses": [
+        {
+          "move": "death-news-back-core",
+          "subject": "death-news-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["cause-shot", "he"]
+        }
+      ],
+      "piece": {
+        "of": "death-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder S3 (Words lead's ruling of Nov 14, 22:50Z: how a relative says how someone died)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.death-news-back-core.somebody-shot-him",
+      "move": "death-news-back-core",
+      "kind": "spoken",
+      "text": "Somebody shot him.",
+      "uses": [
+        {
+          "move": "death-news-back-core",
+          "subject": "death-news-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["cause-shot", "he"]
+        }
+      ],
+      "piece": {
+        "of": "death-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "blunt",
+      "origin": "authored",
+      "author": "Words builder S3 (Words lead's ruling of Nov 14, 22:50Z: how a relative says how someone died)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.death-news-back-core.he-had-illness",
+      "move": "death-news-back-core",
+      "kind": "spoken",
+      "text": "He had {illness}.",
+      "uses": [
+        {
+          "move": "death-news-back-core",
+          "subject": "death-news-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["house-illness", "he"],
+          "excludesFacts": ["illness-known"]
+        }
+      ],
+      "piece": {
+        "of": "death-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Words builder S3 (Words lead's ruling of Nov 14, 22:50Z: how a relative says how someone died)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.death-news-back-core.he-had-illness-i-thought-you-knew",
+      "move": "death-news-back-core",
+      "kind": "spoken",
+      "text": "He had {illness}. I thought you knew.",
+      "uses": [
+        {
+          "move": "death-news-back-core",
+          "subject": "death-news-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["house-illness", "he"],
+          "excludesFacts": ["illness-known"]
+        }
+      ],
+      "piece": {
+        "of": "death-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder S3 (Words lead's ruling of Nov 14, 22:50Z: how a relative says how someone died)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.death-news-back-core.he-had-illness-i-m-sorry-nobody-told-you",
+      "move": "death-news-back-core",
+      "kind": "spoken",
+      "text": "He had {illness}. I'm sorry nobody told you.",
+      "uses": [
+        {
+          "move": "death-news-back-core",
+          "subject": "death-news-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["house-illness", "he"],
+          "excludesFacts": ["illness-known"]
+        }
+      ],
+      "piece": {
+        "of": "death-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder S3 (Words lead's ruling of Nov 14, 22:50Z: how a relative says how someone died)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.death-news-back-core.she-took-her-own-life",
+      "move": "death-news-back-core",
+      "kind": "spoken",
+      "text": "She took her own life.",
+      "uses": [
+        {
+          "move": "death-news-back-core",
+          "subject": "death-news-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["cause-suicide", "she"]
+        }
+      ],
+      "piece": {
+        "of": "death-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Words builder S3 (Words lead's ruling of Nov 14, 22:50Z: how a relative says how someone died)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.death-news-back-core.she-did-it-herself-i-can-t-say-more-than-that",
+      "move": "death-news-back-core",
+      "kind": "spoken",
+      "text": "She did it herself. I can't say more than that.",
+      "uses": [
+        {
+          "move": "death-news-back-core",
+          "subject": "death-news-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["cause-suicide", "she"]
+        }
+      ],
+      "piece": {
+        "of": "death-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder S3 (Words lead's ruling of Nov 14, 22:50Z: how a relative says how someone died)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.death-news-back-core.she-killed-herself",
+      "move": "death-news-back-core",
+      "kind": "spoken",
+      "text": "She killed herself.",
+      "uses": [
+        {
+          "move": "death-news-back-core",
+          "subject": "death-news-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["cause-suicide", "she"]
+        }
+      ],
+      "piece": {
+        "of": "death-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "blunt",
+      "origin": "authored",
+      "author": "Words builder S3 (Words lead's ruling of Nov 14, 22:50Z: how a relative says how someone died)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.death-news-back-core.she-was-shot",
+      "move": "death-news-back-core",
+      "kind": "spoken",
+      "text": "She was shot.",
+      "uses": [
+        {
+          "move": "death-news-back-core",
+          "subject": "death-news-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["cause-shot", "she"]
+        }
+      ],
+      "piece": {
+        "of": "death-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Words builder S3 (Words lead's ruling of Nov 14, 22:50Z: how a relative says how someone died)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.death-news-back-core.somebody-shot-her-i-can-t-believe-i-m-saying-it",
+      "move": "death-news-back-core",
+      "kind": "spoken",
+      "text": "Somebody shot her. I can't believe I'm saying it.",
+      "uses": [
+        {
+          "move": "death-news-back-core",
+          "subject": "death-news-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["cause-shot", "she"]
+        }
+      ],
+      "piece": {
+        "of": "death-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder S3 (Words lead's ruling of Nov 14, 22:50Z: how a relative says how someone died)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.death-news-back-core.she-was-killed-i-don-t-want-to-go-through-it",
+      "move": "death-news-back-core",
+      "kind": "spoken",
+      "text": "She was killed. I don't want to go through it.",
+      "uses": [
+        {
+          "move": "death-news-back-core",
+          "subject": "death-news-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["cause-shot", "she"]
+        }
+      ],
+      "piece": {
+        "of": "death-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder S3 (Words lead's ruling of Nov 14, 22:50Z: how a relative says how someone died)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.death-news-back-core.somebody-shot-her",
+      "move": "death-news-back-core",
+      "kind": "spoken",
+      "text": "Somebody shot her.",
+      "uses": [
+        {
+          "move": "death-news-back-core",
+          "subject": "death-news-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["cause-shot", "she"]
+        }
+      ],
+      "piece": {
+        "of": "death-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "blunt",
+      "origin": "authored",
+      "author": "Words builder S3 (Words lead's ruling of Nov 14, 22:50Z: how a relative says how someone died)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.death-news-back-core.she-had-illness",
+      "move": "death-news-back-core",
+      "kind": "spoken",
+      "text": "She had {illness}.",
+      "uses": [
+        {
+          "move": "death-news-back-core",
+          "subject": "death-news-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["house-illness", "she"],
+          "excludesFacts": ["illness-known"]
+        }
+      ],
+      "piece": {
+        "of": "death-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Words builder S3 (Words lead's ruling of Nov 14, 22:50Z: how a relative says how someone died)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.death-news-back-core.she-had-illness-i-thought-you-knew",
+      "move": "death-news-back-core",
+      "kind": "spoken",
+      "text": "She had {illness}. I thought you knew.",
+      "uses": [
+        {
+          "move": "death-news-back-core",
+          "subject": "death-news-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["house-illness", "she"],
+          "excludesFacts": ["illness-known"]
+        }
+      ],
+      "piece": {
+        "of": "death-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder S3 (Words lead's ruling of Nov 14, 22:50Z: how a relative says how someone died)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.death-news-back-core.she-had-illness-i-m-sorry-nobody-told-you",
+      "move": "death-news-back-core",
+      "kind": "spoken",
+      "text": "She had {illness}. I'm sorry nobody told you.",
+      "uses": [
+        {
+          "move": "death-news-back-core",
+          "subject": "death-news-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["house-illness", "she"],
+          "excludesFacts": ["illness-known"]
+        }
+      ],
+      "piece": {
+        "of": "death-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder S3 (Words lead's ruling of Nov 14, 22:50Z: how a relative says how someone died)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.death-news-back-core.they-took-their-own-life",
+      "move": "death-news-back-core",
+      "kind": "spoken",
+      "text": "They took their own life.",
+      "uses": [
+        {
+          "move": "death-news-back-core",
+          "subject": "death-news-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["cause-suicide", "they"]
+        }
+      ],
+      "piece": {
+        "of": "death-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Words builder S3 (Words lead's ruling of Nov 14, 22:50Z: how a relative says how someone died)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.death-news-back-core.they-did-it-themself-i-can-t-say-more-than-that",
+      "move": "death-news-back-core",
+      "kind": "spoken",
+      "text": "They did it themself. I can't say more than that.",
+      "uses": [
+        {
+          "move": "death-news-back-core",
+          "subject": "death-news-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["cause-suicide", "they"]
+        }
+      ],
+      "piece": {
+        "of": "death-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder S3 (Words lead's ruling of Nov 14, 22:50Z: how a relative says how someone died)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.death-news-back-core.they-killed-themself",
+      "move": "death-news-back-core",
+      "kind": "spoken",
+      "text": "They killed themself.",
+      "uses": [
+        {
+          "move": "death-news-back-core",
+          "subject": "death-news-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["cause-suicide", "they"]
+        }
+      ],
+      "piece": {
+        "of": "death-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "blunt",
+      "origin": "authored",
+      "author": "Words builder S3 (Words lead's ruling of Nov 14, 22:50Z: how a relative says how someone died)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.death-news-back-core.they-were-shot",
+      "move": "death-news-back-core",
+      "kind": "spoken",
+      "text": "They were shot.",
+      "uses": [
+        {
+          "move": "death-news-back-core",
+          "subject": "death-news-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["cause-shot", "they"]
+        }
+      ],
+      "piece": {
+        "of": "death-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Words builder S3 (Words lead's ruling of Nov 14, 22:50Z: how a relative says how someone died)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.death-news-back-core.somebody-shot-them-i-can-t-believe-i-m-saying-it",
+      "move": "death-news-back-core",
+      "kind": "spoken",
+      "text": "Somebody shot them. I can't believe I'm saying it.",
+      "uses": [
+        {
+          "move": "death-news-back-core",
+          "subject": "death-news-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["cause-shot", "they"]
+        }
+      ],
+      "piece": {
+        "of": "death-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder S3 (Words lead's ruling of Nov 14, 22:50Z: how a relative says how someone died)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.death-news-back-core.they-were-killed-i-don-t-want-to-go-through-it",
+      "move": "death-news-back-core",
+      "kind": "spoken",
+      "text": "They were killed. I don't want to go through it.",
+      "uses": [
+        {
+          "move": "death-news-back-core",
+          "subject": "death-news-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["cause-shot", "they"]
+        }
+      ],
+      "piece": {
+        "of": "death-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder S3 (Words lead's ruling of Nov 14, 22:50Z: how a relative says how someone died)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.death-news-back-core.somebody-shot-them",
+      "move": "death-news-back-core",
+      "kind": "spoken",
+      "text": "Somebody shot them.",
+      "uses": [
+        {
+          "move": "death-news-back-core",
+          "subject": "death-news-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["cause-shot", "they"]
+        }
+      ],
+      "piece": {
+        "of": "death-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "blunt",
+      "origin": "authored",
+      "author": "Words builder S3 (Words lead's ruling of Nov 14, 22:50Z: how a relative says how someone died)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.death-news-back-core.they-had-illness",
+      "move": "death-news-back-core",
+      "kind": "spoken",
+      "text": "They had {illness}.",
+      "uses": [
+        {
+          "move": "death-news-back-core",
+          "subject": "death-news-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["house-illness", "they"],
+          "excludesFacts": ["illness-known"]
+        }
+      ],
+      "piece": {
+        "of": "death-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Words builder S3 (Words lead's ruling of Nov 14, 22:50Z: how a relative says how someone died)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.death-news-back-core.they-had-illness-i-thought-you-knew",
+      "move": "death-news-back-core",
+      "kind": "spoken",
+      "text": "They had {illness}. I thought you knew.",
+      "uses": [
+        {
+          "move": "death-news-back-core",
+          "subject": "death-news-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["house-illness", "they"],
+          "excludesFacts": ["illness-known"]
+        }
+      ],
+      "piece": {
+        "of": "death-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder S3 (Words lead's ruling of Nov 14, 22:50Z: how a relative says how someone died)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.death-news-back-core.they-had-illness-i-m-sorry-nobody-told-you",
+      "move": "death-news-back-core",
+      "kind": "spoken",
+      "text": "They had {illness}. I'm sorry nobody told you.",
+      "uses": [
+        {
+          "move": "death-news-back-core",
+          "subject": "death-news-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["house-illness", "they"],
+          "excludesFacts": ["illness-known"]
+        }
+      ],
+      "piece": {
+        "of": "death-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder S3 (Words lead's ruling of Nov 14, 22:50Z: how a relative says how someone died)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.death-news-back-core.he-took-his-own-life-none-of-us-knew",
+      "move": "death-news-back-core",
+      "kind": "spoken",
+      "text": "He took his own life. None of us knew.",
+      "uses": [
+        {
+          "move": "death-news-back-core",
+          "subject": "death-news-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["cause-suicide", "he"]
+        }
+      ],
+      "piece": {
+        "of": "death-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder S3 (Words lead's ruling of Nov 14, 22:50Z: how a relative says how someone died)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.death-news-back-core.she-took-her-own-life-none-of-us-knew",
+      "move": "death-news-back-core",
+      "kind": "spoken",
+      "text": "She took her own life. None of us knew.",
+      "uses": [
+        {
+          "move": "death-news-back-core",
+          "subject": "death-news-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["cause-suicide", "she"]
+        }
+      ],
+      "piece": {
+        "of": "death-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder S3 (Words lead's ruling of Nov 14, 22:50Z: how a relative says how someone died)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.death-news-back-core.they-took-their-own-life-none-of-us-knew",
+      "move": "death-news-back-core",
+      "kind": "spoken",
+      "text": "They took their own life. None of us knew.",
+      "uses": [
+        {
+          "move": "death-news-back-core",
+          "subject": "death-news-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["cause-suicide", "they"]
+        }
+      ],
+      "piece": {
+        "of": "death-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder S3 (Words lead's ruling of Nov 14, 22:50Z: how a relative says how someone died)",
+      "date": "2026-11-15"
     }
   ]
 }
