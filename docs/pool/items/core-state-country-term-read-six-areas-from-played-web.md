@@ -34,4 +34,4 @@ root: none
 
 **Files.** src/core2/term-read.ts, src/core2/data/term-read/areas.json, src/core2/modules/housing.ts, src/core2/modules/crime.ts, src/core2/modules/world-metrics.ts
 
-**Notes.** Filed Nov 14 by hand with #9342. Pay for states and the country (household income and poverty in the tier's figures) is the next PR of this thread.
+**Notes.** Filed Nov 14 by hand with #9342. Pay for states and the country is read from what their jobs pay for each resident (`core-state-country-pay-from-regional-months`); poverty stays open.
