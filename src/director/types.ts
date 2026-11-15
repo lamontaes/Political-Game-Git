@@ -318,7 +318,10 @@ export interface PollingVisitRecord {
   readonly contestIds: readonly string[];
   /** Each contest marked: the candidate, or null for a race left blank. */
   readonly marked: Readonly<Record<string, string | null>>;
-  readonly status: "open" | "voted" | "left";
+  /** "turned-away": the voting engine did not find them on the rolls and the state does not register at the polls. */
+  readonly status: "open" | "voted" | "left" | "turned-away";
+  /** The replies the voter has chosen in the poll worker's scene (`poll-problem.ts`), by their place among those offered. */
+  readonly talkPath?: readonly number[];
 }
 
 /**

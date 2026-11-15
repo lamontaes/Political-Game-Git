@@ -1969,7 +1969,7 @@
         "counterpart": "any",
         "seat": "any"
       },
-      "note": "Election day is a scene (owner, Oct 14, 2026): the player goes to their precinct's polling place, sees the poll workers and neighbors the records place there, and casts their ballot as the scene's choice, never in a menu. The visit is the director's polling-place.ts: on the eve of an election the voter's day stops at the polls, with the household members who may vote; the ballot is the elections engine's, cast through the voting engine's castBallot. The poll workers are those the voting engine's polling-place record names for the voter's precinct.",
+      "note": "Election day is a scene (owner, Oct 14, 2026): the player goes to their precinct's polling place, sees the poll workers and neighbors the records place there, and casts their ballot as the scene's choice, never in a menu. The visit is the director's polling-place.ts: on the eve of an election the voter's day stops at the polls, with the household members who may vote; the ballot is the elections engine's, cast through the voting engine's castBallot. The poll workers are those the voting engine's polling-place record names for the voter's precinct. A voter the rolls do not hold meets the first worker in the poll-problem scene (src/director/poll-problem.ts, composed by the scene engine from the voting engine's `pollingStatus`): where the state registers people at the polls the voter's own press registers them, elsewhere the ballot is refused and the voting engine keeps the day.",
       "roles": [
         {
           "key": "voter",

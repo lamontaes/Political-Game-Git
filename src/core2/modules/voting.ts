@@ -3570,6 +3570,42 @@ export function pollingStatus(
 }
 
 /**
+ * A person at the polls in a state that registers there registers (by their
+ * own press, for the player) and may vote: the registration is made and the
+ * day keeps it. False where the state does not register at the polls or they
+ * are on the rolls already.
+ */
+export function registerAtThePolls(
+  api: CoreAPI,
+  personId: string,
+  date: string,
+): boolean {
+  const person = api.state.people.get(personId);
+  if (!person || pollingStatus(api, personId, date) !== "same-day")
+    return false;
+  const reading = registrationReading(api, person, date, 0);
+  keepPollDay(api, person, date, "registers-at-polls", reading.why);
+  return true;
+}
+
+/**
+ * A person at the polls who is not on the rolls, in a state that does not
+ * register there, is turned away: the day keeps it, with the reason. False
+ * where they may vote.
+ */
+export function turnedAwayAtThePolls(
+  api: CoreAPI,
+  personId: string,
+  date: string,
+): boolean {
+  const person = api.state.people.get(personId);
+  const status = person ? pollingStatus(api, personId, date) : "on";
+  if (!person || status === "on" || status === "same-day") return false;
+  keepPollDay(api, person, date, "not-on-the-list", status);
+  return true;
+}
+
+/**
  * A person registers to vote at the address they live at, today, by their
  * own act (a form, in a state that has one). It counts for an election whose
  * deadline is still ahead; the record names who acted. False where they are
@@ -3806,26 +3842,27 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
       continue;
     }
     const decided = atThePolls(api, voter, contest.electionDate, cycleCost);
-    // A ballot the player marked still counts. In a state that registers at
-    // the polls, a player who was not on the rolls registers there, the way
-    // any named voter does, and the day keeps it. (Where the state would turn
-    // them away the ballot is not yet refused: the player has no way to see
-    // their standing or register until the polling-place scenes and the
-    // register act's screen are built; `elections-player-registration-
-    // shown-and-acted` holds that step.)
+    // A ballot the player marked meets the same registration rule as
+    // everyone's. On the rolls it counts. In a state that registers at the
+    // polls, a player who was not on them registers there and it counts (the
+    // polling-place scene makes that the player's own press). Where the state
+    // turns people away, the ballot is not counted and the day keeps it.
     const standing = chosen
       ? registrationReading(api, voter, contest.electionDate, 0)
       : null;
-    if (chosen && standing && standing.why !== "on" && standing.sameDay)
+    const refused = Boolean(
+      standing && standing.why !== "on" && !standing.sameDay,
+    );
+    if (chosen && standing && standing.why !== "on")
       keepPollDay(
         api,
         voter,
         contest.electionDate,
-        "registers-at-polls",
+        refused ? "not-on-the-list" : "registers-at-polls",
         standing.why,
       );
-    if (chosen && !decided.votes) recordChosenVote(api, voter.id);
-    const t = chosen ? { ...decided, votes: true } : decided;
+    if (chosen && !refused && !decided.votes) recordChosenVote(api, voter.id);
+    const t = chosen ? { ...decided, votes: !refused } : decided;
     // The same choice rule as every voter's: the one they rank first where
     // something separates them from the next; a lone candidate only where
     // they are for them; else they leave the race blank.
@@ -3833,18 +3870,22 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
     // choice rule.
     // At large, a voter votes for up to as many as there are seats, by the
     // same choice rule (their first places); the first is kept as their choice.
-    const choices: readonly string[] = chosen
-      ? chosen.candidateId
-        ? [chosen.candidateId]
-        : []
-      : !t.votes
-        ? []
-        : filings.some((f) => f.personId === voter.id)
-          ? [
-              voter.id,
-              ...countedChoices(appeal, seats).filter((id) => id !== voter.id),
-            ].slice(0, seats)
-          : countedChoices(appeal, seats);
+    const choices: readonly string[] = refused
+      ? []
+      : chosen
+        ? chosen.candidateId
+          ? [chosen.candidateId]
+          : []
+        : !t.votes
+          ? []
+          : filings.some((f) => f.personId === voter.id)
+            ? [
+                voter.id,
+                ...countedChoices(appeal, seats).filter(
+                  (id) => id !== voter.id,
+                ),
+              ].slice(0, seats)
+            : countedChoices(appeal, seats);
     const choice = choices[0] ?? null;
     const pollster =
       t.votes && choice !== null ? pollsterCase(api, voter, t.interest) : null;

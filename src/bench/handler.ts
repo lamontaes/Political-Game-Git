@@ -2695,6 +2695,23 @@ const ROUTES: readonly Route[] = [
   },
   {
     match: ({ request, url }) =>
+      request.method === "POST" && url.pathname === "/api/polling-place/say",
+    run: async ({ url, send }) => {
+      if (!state.player) throw new Error("Generate a town first.");
+      const talk = state.player.sayAtPolls(
+        Number(url.searchParams.get("index")),
+      );
+      send(200, {
+        talk,
+        pollingPlace: state.player.pollingPlace
+          ? pollingScene(requireCore(), state.player.pollingPlace)
+          : null,
+      });
+      return;
+    },
+  },
+  {
+    match: ({ request, url }) =>
       request.method === "POST" && url.pathname === "/api/polling-place/leave",
     run: async ({ send }) => {
       if (!state.player) throw new Error("Generate a town first.");

@@ -10,10 +10,12 @@ import {
   type ContestRow,
 } from "../core2/modules/elections";
 import {
+  VOTING_MODULE_ID,
   ballotOf,
   holdElection,
   pollingPlaceOf,
 } from "../core2/modules/voting";
+import { addressKeyOf } from "../core2/electorate-registration";
 import { addDays, ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
 import { parameter } from "../core2/parameters";
@@ -151,6 +153,21 @@ describe("election day at the polls", () => {
   });
 
   it("counts what the voter marked", () => {
+    // This test is about the mark the count reads, so the voter is on the
+    // rolls at their address (the registration record's own rule is pinned
+    // in src/core2/modules/voter-registration.test.ts).
+    const rolls = api.moduleState(VOTING_MODULE_ID).table("registrations");
+    const row = rolls.get(`registration:${voterId}`) as unknown as Record<
+      string,
+      unknown
+    >;
+    rolls.put({
+      ...row,
+      registered: true,
+      addressKey: addressKeyOf(api, core.people.get(voterId)!),
+      since: "2020-01-01",
+      staleSince: null,
+    } as never);
     let visit = stagedPollingVisit(core, director.ledger, voterId, date)!;
     const [first, ...rest] = visit.contests;
     // The first race left blank by hand; the voter then leaves.

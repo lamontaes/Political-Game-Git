@@ -695,6 +695,30 @@
       "turn": false,
       "entry": "story",
       "toldWithoutOther": true
+    },
+    {
+      "kindPrefix": "poll-day:registers-at-polls",
+      "turn": false,
+      "entry": "story",
+      "toldWithoutOther": true
+    },
+    {
+      "kindPrefix": "poll-day:not-on-the-list:old-address",
+      "turn": false,
+      "entry": "story",
+      "toldWithoutOther": true
+    },
+    {
+      "kindPrefix": "poll-day:not-on-the-list:not-registered",
+      "turn": false,
+      "entry": "story",
+      "toldWithoutOther": true
+    },
+    {
+      "kindPrefix": "poll-day:not-on-the-list:after-deadline",
+      "turn": false,
+      "entry": "story",
+      "toldWithoutOther": true
     }
   ],
   "firstTitle": [

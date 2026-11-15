@@ -71,9 +71,16 @@ const flags = [
   "first-filing",
   // A colleague's no to signing on says the reason its record holds.
   "no-views",
+  // The polling place's worker reads where the voter stands with the rolls: a
+  // voter who moved and was not in the book (one status holds in one talk).
+  "poll-old-address",
+  "poll-not-in-book",
+  "poll-off-book",
 ];
 export const facts: Record<string, Fact> = {
   name: fact("Pat Rivera"),
+  "polling-place": fact("the town hall"),
+  "moved-when": fact("last spring"),
   first: fact(core.people.get(askedId)!.givenName),
   bill: fact('"Limit groundwater withdrawal"'),
   section: fact("2"),

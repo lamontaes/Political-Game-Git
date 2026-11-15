@@ -31,6 +31,10 @@ import {
   VOTING_MODULE_ID,
   castBallot,
   mayVoteOn,
+  pollingStatus,
+  registerAtThePolls,
+  turnedAwayAtThePolls,
+  type PollingStatus,
   pollingPlaceOf,
 } from "../core2/modules/voting";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
@@ -76,6 +80,8 @@ export interface PollingVisit {
   /** The voting engine's polling place for the voter's precinct, and who works it that day. */
   readonly pollingPlaceId: string | null;
   readonly pollWorkerIds: readonly PersonId[];
+  /** Where the voter stands with the rolls today, read from the voting engine (the one read every named voter's turnout shares). */
+  readonly standing: PollingStatus;
 }
 
 const visitId = (personId: PersonId, date: IsoDate) => `${personId}:${date}`;
@@ -202,6 +208,9 @@ export function stagedPollingVisit(
       (id) => id !== personId && mayVoteOn(api, id, date),
     ),
     ...pollingPlaceFields(api, personId, date),
+    standing: api.state.modules.has(VOTING_MODULE_ID)
+      ? pollingStatus(api, personId, date)
+      : "on",
   };
 }
 
@@ -232,6 +241,14 @@ export function markBallot(
 ): PollingVisitRecord {
   const contest = visit.contests.find((row) => row.id === contestId);
   if (!contest) throw new Error("That race isn't on this ballot.");
+  // Not on the rolls: a state that registers at the polls waits for the
+  // voter's own press (registerAtPollingPlace); any other turns them away.
+  if (visit.standing === "same-day")
+    throw new Error("Register at the polling place before marking a ballot.");
+  if (visit.standing !== "on") {
+    turnAway(core, ledger, visit);
+    throw new Error("You are not on the list at this polling place.");
+  }
   if (
     candidateId !== null &&
     !contest.candidates.some((row) => row.personId === candidateId)
@@ -260,6 +277,40 @@ export function leavePollingPlace(
   visit: PollingVisit,
 ): PollingVisitRecord {
   const record: PollingVisitRecord = { ...visit.record, status: "left" };
+  ledger.pollingVisits.set(record.id, record);
+  return record;
+}
+
+/**
+ * The voter presses "register here" at the polling place, in a state that
+ * registers there: the voting engine registers them at the address they live
+ * at, the day keeps it, and they may mark the ballot. Nothing is registered
+ * for them without this press.
+ */
+export function registerAtPollingPlace(
+  core: CoreState,
+  visit: PollingVisit,
+): boolean {
+  if (visit.record.status !== "open") return false;
+  return registerAtThePolls(
+    coreAPI(core),
+    visit.record.personId,
+    visit.record.electionDate,
+  );
+}
+
+/** A voter not on the list, in a state that turns people away, is turned away: the voting engine keeps the day's record and the visit ends. */
+export function turnAway(
+  core: CoreState,
+  ledger: Ledger,
+  visit: PollingVisit,
+): PollingVisitRecord {
+  turnedAwayAtThePolls(
+    coreAPI(core),
+    visit.record.personId,
+    visit.record.electionDate,
+  );
+  const record: PollingVisitRecord = { ...visit.record, status: "turned-away" };
   ledger.pollingVisits.set(record.id, record);
   return record;
 }

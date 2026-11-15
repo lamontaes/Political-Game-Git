@@ -46,7 +46,9 @@ describe(`scenes with a purpose (seed ${seed})`, () => {
           /\b(?:today|tonight|yesterday|this (?:morning|afternoon|evening))\b/i,
         );
       expect(talk.rounds.length).toBeGreaterThan(0);
-      expect(talk.rounds[0]!.replies.length).toBeGreaterThanOrEqual(3);
+      expect(talk.rounds[0]!.replies.length, type.key).toBeGreaterThanOrEqual(
+        3,
+      );
       expect(talk.rounds[0]!.replies.filter((r) => r.chosen)).toHaveLength(1);
       for (const line of talk.lines) {
         expect(line.text).not.toMatch(/[{}]/);
@@ -217,7 +219,7 @@ describe(`scenes with a purpose (seed ${seed})`, () => {
       expect(talk.nodes).toBeLessThanOrEqual(
         RULES_BOUND.tree.maxNodes.value + 10,
       );
-      expect(talk.depth).toBeGreaterThanOrEqual(2);
+      expect(talk.depth, type.key).toBeGreaterThanOrEqual(2);
       const numbers: number[] = [];
       let lies = 0;
       const walk = (node: typeof talk.tree) => {

@@ -13,6 +13,7 @@ import { resolveSavedTraceV1 } from "../core2/saved-trace-v1";
 import type { CoreState } from "../core2/types";
 import type { Director } from "../director/ledger";
 import { electionNight, onBallotOn } from "./election-night";
+import { sayAtPolls } from "../director/poll-problem";
 import {
   leavePollingPlace,
   markBallot,
@@ -439,7 +440,7 @@ export class BenchPlayer {
 
   /** The character marks one race at the polls: a candidate, or null to leave it blank. */
   markBallot(contestId: string, candidateId: string | null) {
-    const visit = this.pollingPlace;
+    const visit = this.freshPolls();
     if (!visit) throw new Error("The polls aren't open for this character.");
     const record = markBallot(
       this.core,
@@ -451,6 +452,30 @@ export class BenchPlayer {
     this.pollingPlace =
       record.status === "voted" ? undefined : { ...visit, record };
     return record;
+  }
+
+  /** The visit as the records hold it now: standing changes when the voter registers at the polls. */
+  private freshPolls(): PollingVisit | undefined {
+    const visit = this.pollingPlace;
+    if (!visit) return undefined;
+    const fresh =
+      stagedPollingVisit(
+        this.core,
+        this.director.ledger,
+        visit.record.personId,
+        makeIsoDate(visit.record.electionDate),
+      ) ?? undefined;
+    this.pollingPlace = fresh;
+    return fresh;
+  }
+
+  /** The character says a reply to the poll worker; the visit goes on or ends with the scene. */
+  sayAtPolls(index: number) {
+    const visit = this.freshPolls();
+    if (!visit) throw new Error("The polls aren't open for this character.");
+    const talk = sayAtPolls(this.core, this.director.ledger, visit, index);
+    this.freshPolls();
+    return talk;
   }
 
   /** The character leaves the polls; the races left unmarked are their own to decide. */

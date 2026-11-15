@@ -1,6 +1,7 @@
 import { backdropFor, peopleHere } from "./scene";
 import type { CoreState } from "../core2/types";
 import type { PollingVisit } from "../director/polling-place";
+import { pollProblemTalk } from "../director/poll-problem";
 
 /** The picture's hour: the polls in the morning light. A presentation choice. */
 const POLLING_MINUTE = 8 * 60;
@@ -40,5 +41,8 @@ export function pollingScene(core: CoreState, visit: PollingVisit) {
           : null,
     })),
     status: visit.record.status,
+    /** Where the voter stands with the rolls, and the poll worker's talk where they are not on them. */
+    standing: visit.standing,
+    talk: pollProblemTalk(core, visit),
   };
 }

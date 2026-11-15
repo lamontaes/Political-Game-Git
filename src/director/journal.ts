@@ -7,6 +7,7 @@ import { familyFactsOf, FAMILY_PARTNERED } from "../core2/modules/people";
 import { P } from "../core2/parameters";
 import { coreAPI } from "../core2/state";
 import { OFFICES_MODULE_ID } from "../core2/modules/offices";
+import { VOTING_MODULE_ID } from "../core2/modules/voting";
 import { jobTitleSaid, personWorkOf } from "../core2/person-work";
 import {
   LEGISLATURE_MODULE_ID,
@@ -874,6 +875,45 @@ function sceneEndingMoments(
 }
 
 /**
+ * What a day at the polls kept for the person when the rolls did not hold
+ * them: they registered there and voted, or were turned away for the reason
+ * the voting engine's day row names (an old address, never registered, a form
+ * after the deadline). Read from `pollDays`, the same row the scene and the
+ * count wrote; a day on the rolls keeps no row and is not told here.
+ */
+function pollDayMoments(
+  core: Readonly<CoreState>,
+  personId: PersonId,
+): JournalMoment[] {
+  if (!core.modules.has(VOTING_MODULE_ID)) return [];
+  const api = coreAPI(core as CoreState);
+  return (
+    api.moduleState(VOTING_MODULE_ID).table("pollDays").rows() as unknown as {
+      id: string;
+      date: string;
+      personId: string;
+      outcome: string;
+      why: string;
+    }[]
+  )
+    .filter((day) => day.personId === personId)
+    .map((day): JournalMoment => ({
+      id: day.id,
+      date: day.date as IsoDate,
+      causeId: day.id,
+      causeKind:
+        day.outcome === "registers-at-polls"
+          ? "poll-day:registers-at-polls"
+          : `poll-day:${day.outcome}:${day.why}`,
+      counterpartIds: [],
+      selfNamed: true,
+      hindsight: zero,
+      impact: zero,
+      echoes: [],
+    }));
+}
+
+/**
  * What the person did in office, read from the acts the office-day engine
  * keeps (a vote, a town hall, an interview): each is a moment the journal
  * tells, citing the act's own record and, for a vote, the bill.
@@ -1459,6 +1499,7 @@ export function composeJournal(
       ),
     ),
     ...sceneEndingMoments(core, book, personId),
+    ...pollDayMoments(core, personId),
     ...householdMoments(core, person),
     ...pastWorkMoments(core, person),
     ...comingOfAgeMoments(core, person),

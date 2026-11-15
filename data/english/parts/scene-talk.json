@@ -163,7 +163,9 @@
     "respond-in": "When the office decides a constituent's case if nobody does sooner (\"in seven days\"), from the case's deadline.",
     "money-left": "How a job seeker's savings stand, in words and never a figure (\"running low\", \"almost gone\"), from their constituent case's severity.",
     "said": "The subject of the player's bill as a person names it after 'on' (\"voting by mail\"), from the question's `said` in data/english/question-names.json (questionSaid), for the co-sponsor ask; never a side.",
-    "fee-short": "Yes where the one filing cannot pay the fee (their cash is under the sum); nothing otherwise."
+    "fee-short": "Yes where the one filing cannot pay the fee (their cash is under the sum); nothing otherwise.",
+    "polling-place": "Where the voter is standing, the building the voting engine's polling place record names for their precinct, as people say it (the town hall, the fire station).",
+    "moved-when": "When the voter moved, as people say it (last spring, a few weeks back), from the home's move-in record (spokenWhen)."
   },
   "maxWords": 70,
   "parts": [
@@ -186136,6 +186138,1109 @@
           "key": "bill-sign-on"
         }
       ]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.at-polling-place-a-poll-worker-looks-for-name-in-the-book",
+      "move": "narrate-narrate",
+      "kind": "written",
+      "text": "At {polling-place} a poll worker looks for {name} in the book.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "poll-problem",
+          "key": "routine",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["polling-place", "name"],
+          "excludesFacts": ["poll-acquainted"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead lines, built in by the voter registration thread (items scene-trouble-at-the-polling-place, words-run-poll-problem-lines-are-composed)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "narrate",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-poll-worker-runs-a-finger-down-the-page-for-name",
+      "move": "narrate-narrate",
+      "kind": "written",
+      "text": "The poll worker runs a finger down the page for {name}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "poll-problem",
+          "key": "routine",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["name"],
+          "excludesFacts": ["poll-acquainted"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead lines, built in by the voter registration thread (items scene-trouble-at-the-polling-place, words-run-poll-problem-lines-are-composed)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "narrate",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-poll-worker-knows-you-and-looks-in-the-book-anyway",
+      "move": "narrate-narrate",
+      "kind": "written",
+      "text": "The poll worker knows you and looks in the book anyway.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "poll-problem",
+          "key": "routine",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["poll-acquainted"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead lines, built in by the voter registration thread (items scene-trouble-at-the-polling-place, words-run-poll-problem-lines-are-composed)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "narrate",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.i-know-who-you-are-i-still-have-to-go-by-the-book",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I know who you are. I still have to go by the book.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "poll-problem",
+          "key": "routine",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "requiresFacts": ["poll-acquainted"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead lines, built in by the voter registration thread (items scene-trouble-at-the-polling-place, words-run-poll-problem-lines-are-composed)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "greet",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-deliver-news.you-re-not-in-the-book",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "You're not in the book.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "poll-problem",
+          "key": "routine",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "requiresFacts": ["poll-not-in-book"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead lines, built in by the voter registration thread (items scene-trouble-at-the-polling-place, words-run-poll-problem-lines-are-composed)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "deliver-news",
+        "key": "routine"
+      },
+      "piece": {
+        "of": "poll-news",
+        "part": "opener"
+      }
+    },
+    {
+      "key": "scene-talk.state-deliver-news.you-re-still-registered-at-your-old-address",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "You're still registered at your old address.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "poll-problem",
+          "key": "routine",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "requiresFacts": ["poll-old-address"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead lines, built in by the voter registration thread (items scene-trouble-at-the-polling-place, words-run-poll-problem-lines-are-composed)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "deliver-news",
+        "key": "routine"
+      },
+      "piece": {
+        "of": "poll-news",
+        "part": "opener"
+      }
+    },
+    {
+      "key": "scene-talk.state-deliver-news.you-registered-after-the-deadline-for-this-election",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "You registered after the deadline for this election.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "poll-problem",
+          "key": "routine",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "requiresFacts": ["poll-after-deadline"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead lines, built in by the voter registration thread (items scene-trouble-at-the-polling-place, words-run-poll-problem-lines-are-composed)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "deliver-news",
+        "key": "routine"
+      },
+      "piece": {
+        "of": "poll-news",
+        "part": "opener"
+      }
+    },
+    {
+      "key": "scene-talk.state-deliver-news.you-can-register-right-here-and-vote-today",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "You can register right here and vote today.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "poll-problem",
+          "key": "routine",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "requiresFacts": ["poll-same-day"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead lines, built in by the voter registration thread (items scene-trouble-at-the-polling-place, words-run-poll-problem-lines-are-composed)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "deliver-news",
+        "key": "routine"
+      },
+      "piece": {
+        "of": "poll-news",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.state-deliver-news.i-can-t-give-you-a-ballot-here",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "I can't give you a ballot here.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "poll-problem",
+          "key": "routine",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "requiresFacts": ["poll-old-address"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead lines, built in by the voter registration thread (items scene-trouble-at-the-polling-place, words-run-poll-problem-lines-are-composed)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "deliver-news",
+        "key": "routine"
+      },
+      "piece": {
+        "of": "poll-news",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.state-deliver-news.i-don-t-have-you-registered-anywhere",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "I don't have you registered anywhere.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "poll-problem",
+          "key": "routine",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "requiresFacts": ["poll-not-registered"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead lines, built in by the voter registration thread (items scene-trouble-at-the-polling-place, words-run-poll-problem-lines-are-composed)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "deliver-news",
+        "key": "routine"
+      },
+      "piece": {
+        "of": "poll-news",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.state-deliver-news.you-ll-be-in-the-book-next-time-not-today",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "You'll be in the book next time. Not today.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "poll-problem",
+          "key": "routine",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "requiresFacts": ["poll-after-deadline"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead lines, built in by the voter registration thread (items scene-trouble-at-the-polling-place, words-run-poll-problem-lines-are-composed)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "deliver-news",
+        "key": "routine"
+      },
+      "piece": {
+        "of": "poll-news",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.state-deliver-news.i-can-t-give-you-a-ballot-today",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "I can't give you a ballot today.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "poll-problem",
+          "key": "routine",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "requiresFacts": ["poll-not-registered"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead lines, built in by the voter registration thread (items scene-trouble-at-the-polling-place, words-run-poll-problem-lines-are-composed)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "deliver-news",
+        "key": "routine"
+      },
+      "piece": {
+        "of": "poll-news",
+        "part": "closer"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.why-am-i-not-in-the-book",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Why am I not in the book?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "poll-problem",
+          "key": "routine",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead lines, built in by the voter registration thread (items scene-trouble-at-the-polling-place, words-run-poll-problem-lines-are-composed)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-request.where-do-i-vote-then",
+      "move": "reply-request",
+      "kind": "spoken",
+      "text": "Where do I vote, then?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "poll-problem",
+          "key": "routine",
+          "step": "reply",
+          "move": "request",
+          "role": "asked",
+          "requiresFacts": ["poll-nowhere"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead lines, built in by the voter registration thread (items scene-trouble-at-the-polling-place, words-run-poll-problem-lines-are-composed)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "request",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.i-should-be-in-that-book-look-again",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "I should be in that book. Look again.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "poll-problem",
+          "key": "routine",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "requiresFacts": ["poll-off-book"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead lines, built in by the voter registration thread (items scene-trouble-at-the-polling-place, words-run-poll-problem-lines-are-composed)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "confront",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-accept.then-register-me-here",
+      "move": "reply-accept",
+      "kind": "spoken",
+      "text": "Then register me here.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "poll-problem",
+          "key": "routine",
+          "step": "reply",
+          "move": "accept",
+          "role": "asked",
+          "requiresFacts": ["poll-same-day"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead lines, built in by the voter registration thread (items scene-trouble-at-the-polling-place, words-run-poll-problem-lines-are-composed)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.alright-thank-you",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Alright. Thank you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "poll-problem",
+          "key": "routine",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead lines, built in by the voter registration thread (items scene-trouble-at-the-polling-place, words-run-poll-problem-lines-are-composed)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "leave",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.you-never-registered-you-can-do-it-at-this-table",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "You never registered. You can do it at this table.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "poll-problem",
+          "key": "routine",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "ask",
+          "requiresFacts": ["poll-same-day"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead lines, built in by the voter registration thread (items scene-trouble-at-the-polling-place, words-run-poll-problem-lines-are-composed)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.you-moved-moved-when-your-registration-didn-t-move-with-you",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "You moved {moved-when}. Your registration didn't move with you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "poll-problem",
+          "key": "routine",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "ask",
+          "requiresFacts": ["poll-old-address", "moved-when"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead lines, built in by the voter registration thread (items scene-trouble-at-the-polling-place, words-run-poll-problem-lines-are-composed)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.nobody-by-your-name-is-registered-that-s-all-the-book-tells-me",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Nobody by your name is registered. That's all the book tells me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "poll-problem",
+          "key": "routine",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "ask",
+          "requiresFacts": ["poll-not-registered"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead lines, built in by the voter registration thread (items scene-trouble-at-the-polling-place, words-run-poll-problem-lines-are-composed)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.the-book-for-this-election-closed-before-your-form-came-in",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "The book for this election closed before your form came in.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "poll-problem",
+          "key": "routine",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "ask",
+          "requiresFacts": ["poll-after-deadline"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead lines, built in by the voter registration thread (items scene-trouble-at-the-polling-place, words-run-poll-problem-lines-are-composed)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.nowhere-today-you-can-register-for-the-next-one",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Nowhere today. You can register for the next one.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "poll-problem",
+          "key": "routine",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "request",
+          "requiresFacts": ["poll-nowhere"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead lines, built in by the voter registration thread (items scene-trouble-at-the-polling-place, words-run-poll-problem-lines-are-composed)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-deflect.i-looked-you-re-not-here",
+      "move": "follow-deflect",
+      "kind": "spoken",
+      "text": "I looked. You're not here.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "poll-problem",
+          "key": "routine",
+          "step": "follow",
+          "move": "deflect",
+          "role": "asker",
+          "after": "confront",
+          "excludesFacts": ["poll-old-address", "poll-acquainted"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead lines, built in by the voter registration thread (items scene-trouble-at-the-polling-place, words-run-poll-problem-lines-are-composed)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "deflect",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-deflect.i-know-i-can-only-go-by-the-book",
+      "move": "follow-deflect",
+      "kind": "spoken",
+      "text": "I know. I can only go by the book.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "poll-problem",
+          "key": "routine",
+          "step": "follow",
+          "move": "deflect",
+          "role": "asker",
+          "after": "confront",
+          "requiresFacts": ["poll-acquainted"],
+          "excludesFacts": ["poll-old-address"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead lines, built in by the voter registration thread (items scene-trouble-at-the-polling-place, words-run-poll-problem-lines-are-composed)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "deflect",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-deflect.i-looked-you-re-not-in-this-book",
+      "move": "follow-deflect",
+      "kind": "spoken",
+      "text": "I looked. You're not in this book.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "poll-problem",
+          "key": "routine",
+          "step": "follow",
+          "move": "deflect",
+          "role": "asker",
+          "after": "confront",
+          "requiresFacts": ["poll-old-address"],
+          "excludesFacts": ["poll-acquainted"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead lines, built in by the voter registration thread (items scene-trouble-at-the-polling-place, words-run-poll-problem-lines-are-composed)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "deflect",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-offer.fill-this-out-then-i-ll-hand-you-a-ballot",
+      "move": "follow-offer",
+      "kind": "spoken",
+      "text": "Fill this out. Then I'll hand you a ballot.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "poll-problem",
+          "key": "routine",
+          "step": "follow",
+          "move": "offer",
+          "role": "asker",
+          "after": "accept",
+          "requiresFacts": ["poll-same-day"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead lines, built in by the voter registration thread (items scene-trouble-at-the-polling-place, words-run-poll-problem-lines-are-composed)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "offer",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.can-you-fix-it-here-today",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Can you fix it here, today?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "poll-problem",
+          "key": "routine",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "after": "answer",
+          "excludesFacts": ["poll-same-day"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "poll-problem",
+          "key": "routine",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "after": "offer",
+          "excludesFacts": ["poll-same-day"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "poll-problem",
+          "key": "routine",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "after": "deflect",
+          "excludesFacts": ["poll-same-day"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead lines, built in by the voter registration thread (items scene-trouble-at-the-polling-place, words-run-poll-problem-lines-are-composed)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.no-i-can-only-go-by-the-book",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "No. I can only go by the book.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "poll-problem",
+          "key": "routine",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "scene-talk.reply-ask.can-you-fix-it-here-today",
+          "excludesFacts": ["poll-same-day"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead lines, built in by the voter registration thread (items scene-trouble-at-the-polling-place, words-run-poll-problem-lines-are-composed)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-do-i-need-to-register",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What do I need to register?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "poll-problem",
+          "key": "routine",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "after": "answer",
+          "requiresFacts": ["poll-same-day"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "poll-problem",
+          "key": "routine",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "after": "offer",
+          "requiresFacts": ["poll-same-day"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "poll-problem",
+          "key": "routine",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "after": "deflect",
+          "requiresFacts": ["poll-same-day"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead lines, built in by the voter registration thread (items scene-trouble-at-the-polling-place, words-run-poll-problem-lines-are-composed)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.just-this-form-i-ll-walk-you-through-it",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Just this form. I'll walk you through it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "poll-problem",
+          "key": "routine",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "scene-talk.reply-ask.what-do-i-need-to-register",
+          "requiresFacts": ["poll-same-day"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead lines, built in by the voter registration thread (items scene-trouble-at-the-polling-place, words-run-poll-problem-lines-are-composed)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-accept.alright-sign-me-up",
+      "move": "reply-accept",
+      "kind": "spoken",
+      "text": "Alright. Sign me up.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "poll-problem",
+          "key": "routine",
+          "step": "reply",
+          "move": "accept",
+          "role": "asked",
+          "after": "answer",
+          "requiresFacts": ["poll-same-day"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "poll-problem",
+          "key": "routine",
+          "step": "reply",
+          "move": "accept",
+          "role": "asked",
+          "after": "offer",
+          "requiresFacts": ["poll-same-day"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "poll-problem",
+          "key": "routine",
+          "step": "reply",
+          "move": "accept",
+          "role": "asked",
+          "after": "deflect",
+          "requiresFacts": ["poll-same-day"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead lines, built in by the voter registration thread (items scene-trouble-at-the-polling-place, words-run-poll-problem-lines-are-composed)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-offer.here-s-the-form-your-ballot-comes-after",
+      "move": "follow-offer",
+      "kind": "spoken",
+      "text": "Here's the form. Your ballot comes after.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "poll-problem",
+          "key": "routine",
+          "step": "follow",
+          "move": "offer",
+          "role": "asker",
+          "after": "scene-talk.reply-accept.alright-sign-me-up",
+          "requiresFacts": ["poll-same-day"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead lines, built in by the voter registration thread (items scene-trouble-at-the-polling-place, words-run-poll-problem-lines-are-composed)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "offer",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.that-still-doesn-t-make-it-right",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "That still doesn't make it right.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "poll-problem",
+          "key": "routine",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "after": "answer",
+          "excludesFacts": ["poll-same-day"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "poll-problem",
+          "key": "routine",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "after": "offer",
+          "excludesFacts": ["poll-same-day"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead lines, built in by the voter registration thread (items scene-trouble-at-the-polling-place, words-run-poll-problem-lines-are-composed)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "confront",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-deflect.it-s-what-the-book-says-i-m-sorry",
+      "move": "follow-deflect",
+      "kind": "spoken",
+      "text": "It's what the book says. I'm sorry.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "poll-problem",
+          "key": "routine",
+          "step": "follow",
+          "move": "deflect",
+          "role": "asker",
+          "after": "scene-talk.reply-confront.that-still-doesn-t-make-it-right",
+          "excludesFacts": ["poll-same-day"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead lines, built in by the voter registration thread (items scene-trouble-at-the-polling-place, words-run-poll-problem-lines-are-composed)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "deflect",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-thank.i-see-thank-you-for-explaining",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "I see. Thank you for explaining.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "poll-problem",
+          "key": "routine",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "after": "answer",
+          "excludesFacts": ["poll-same-day"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "poll-problem",
+          "key": "routine",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "after": "offer",
+          "excludesFacts": ["poll-same-day"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "poll-problem",
+          "key": "routine",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "after": "deflect",
+          "excludesFacts": ["poll-same-day"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead lines, built in by the voter registration thread (items scene-trouble-at-the-polling-place, words-run-poll-problem-lines-are-composed)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "thank",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.then-there-s-nothing-for-me-here",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Then there's nothing for me here.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "poll-problem",
+          "key": "routine",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "after": "answer"
+        },
+        {
+          "subject": "scene",
+          "purpose": "poll-problem",
+          "key": "routine",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "after": "offer"
+        },
+        {
+          "subject": "scene",
+          "purpose": "poll-problem",
+          "key": "routine",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "after": "deflect"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead lines, built in by the voter registration thread (items scene-trouble-at-the-polling-place, words-run-poll-problem-lines-are-composed)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "leave",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-deflect.i-know-you-live-here-now-the-book-doesn-t",
+      "move": "follow-deflect",
+      "kind": "spoken",
+      "text": "I know you live here now. The book doesn't.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "poll-problem",
+          "key": "routine",
+          "step": "follow",
+          "move": "deflect",
+          "role": "asker",
+          "after": "confront",
+          "requiresFacts": ["poll-old-address", "poll-acquainted"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead lines, built in by the voter registration thread (items scene-trouble-at-the-polling-place, words-run-poll-problem-lines-are-composed)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "deflect",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.i-m-sorry-next-please",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "I'm sorry. Next, please.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "poll-problem",
+          "key": "routine",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "after": "leave",
+          "outcome": "open"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead lines, built in by the voter registration thread (items scene-trouble-at-the-polling-place, words-run-poll-problem-lines-are-composed)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.you-re-all-set-go-ahead-and-vote",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "You're all set. Go ahead and vote.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "poll-problem",
+          "key": "routine",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "outcome": "resolved",
+          "requiresFacts": ["poll-same-day"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead lines, built in by the voter registration thread (items scene-trouble-at-the-polling-place, words-run-poll-problem-lines-are-composed)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "promise",
+        "key": "routine"
+      }
     }
   ]
 }

@@ -10968,6 +10968,110 @@
       "tag": {
         "move": "tell"
       }
+    },
+    {
+      "key": "journal.poll-day-registered.i-registered-at-the-polls-and-voted",
+      "move": "poll-day-registered",
+      "kind": "spoken",
+      "text": "I registered at the polls and voted.",
+      "uses": [
+        {
+          "move": "poll-day-registered",
+          "subject": "poll-day",
+          "role": "line",
+          "choice": "registered",
+          "journal": [
+            {
+              "kindPrefix": "poll-day:registers-at-polls",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead lines, built in by the voter registration thread (items scene-trouble-at-the-polling-place, words-run-poll-problem-lines-are-composed)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.poll-day-old-address.i-was-still-registered-at-my-old-address",
+      "move": "poll-day-old-address",
+      "kind": "spoken",
+      "text": "I was still registered at my old address. I did not vote.",
+      "uses": [
+        {
+          "move": "poll-day-old-address",
+          "subject": "poll-day",
+          "role": "line",
+          "choice": "old-address",
+          "journal": [
+            {
+              "kindPrefix": "poll-day:not-on-the-list:old-address",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead lines, built in by the voter registration thread (items scene-trouble-at-the-polling-place, words-run-poll-problem-lines-are-composed)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.poll-day-not-registered.i-was-not-registered",
+      "move": "poll-day-not-registered",
+      "kind": "spoken",
+      "text": "I was not registered. I did not vote.",
+      "uses": [
+        {
+          "move": "poll-day-not-registered",
+          "subject": "poll-day",
+          "role": "line",
+          "choice": "not-registered",
+          "journal": [
+            {
+              "kindPrefix": "poll-day:not-on-the-list:not-registered",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead lines, built in by the voter registration thread (items scene-trouble-at-the-polling-place, words-run-poll-problem-lines-are-composed)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.poll-day-after-deadline.i-registered-too-late-for-this-election",
+      "move": "poll-day-after-deadline",
+      "kind": "spoken",
+      "text": "I registered too late for this election. I did not vote.",
+      "uses": [
+        {
+          "move": "poll-day-after-deadline",
+          "subject": "poll-day",
+          "role": "line",
+          "choice": "after-deadline",
+          "journal": [
+            {
+              "kindPrefix": "poll-day:not-on-the-list:after-deadline",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead lines, built in by the voter registration thread (items scene-trouble-at-the-polling-place, words-run-poll-problem-lines-are-composed)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "tell"
+      }
     }
   ]
 }
