@@ -830,7 +830,14 @@ describe(`tax and public finance laws in a played world (seed ${seed})`, () => {
         const rt = residentsRuntime(core)!;
         const store = rt.store;
         const house = [...store.liveHouseholds()]
-          .filter((h) => store.countedMembers(h).length >= 2)
+          // A record that stands for a whole household or more: one the game's own
+          // deaths have worn down to a fraction (0.076 here, after a part death on
+          // 2026-05-01) has paid its estate once already this month, and its applied
+          // rows hold that earlier settlement's money, not this one's.
+          .filter(
+            (h) =>
+              store.countedMembers(h).length >= 2 && store.weightOf(h) >= 1,
+          )
           .sort(
             (a, b) =>
               householdCash(rt, b) - householdCash(rt, a) ||

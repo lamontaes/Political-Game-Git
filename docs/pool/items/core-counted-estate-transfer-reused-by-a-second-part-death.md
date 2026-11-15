@@ -32,6 +32,6 @@ source: found by the Account lead while tracing the law-wiring-taxes red on the 
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/estates.ts, src/core2/counted-part-death-estate-twice.test.ts
+**Files.** src/core2/estates.ts, src/core2/counted-part-death-estate-twice.test.ts, src/core2/law-wiring-taxes.test.ts
 
-**Notes.** law-wiring-taxes.test.ts, once past this, stops at a later assertion in its counted-estate case ("journal entry for applied|inheritance-tax|person_cead8361…"): the heir's group fund is emptied by the estate tax, so the inheritance tax moves nothing and no post names it, while the applied row keeps 259,960 from the 2026-05-01 settlement. The test staged a leftover record of 0.076 households that had just died in part. That is a staging choice in the test, not this change.
+**Notes.** law-wiring-taxes.test.ts, once past this, stopped at a later assertion in its counted-estate case ("journal entry for applied|inheritance-tax|person_cead8361…"). The applied row is correct: `lawApplied` keeps one row per law and target and adds each application's money to it, so the row held the 259,960 the game's own settlement moved on 2026-05-01 while this settlement moved nothing (the heir's group fund was emptied by the estate tax). The test's premise, that every applied row with money has a post in the settlement just run, was wrong for a record the game had already settled that month. The same test now stages a record that stands for a whole household or more (the staged one stood for 0.076 after the part death), same place and seed; it passes in 251 s.

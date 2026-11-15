@@ -124,4 +124,7 @@ it("a record that dies in part two months running pays the estate tax both times
   } finally {
     setBookkeeping(was);
   }
-}, 300_000);
+  // About twice the 97 s measured. The time is the game's own played days: the
+  // opening, 35 days of paydays to fund the groups, then 31 days to the second
+  // death (the transfer id is kept for the month and the one before).
+}, 200_000);
