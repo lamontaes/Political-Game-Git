@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "later-replies-move-the-talk-on",
   "rubric": "After the first exchange the replies offered do not rehash the first options; they move the talk on.",
-  "judged": 1009,
+  "judged": 1005,
   "no": {
     "00084oe3x4o": {
       "keys": [
@@ -42,19 +42,6 @@
         "scene-talk.reply-bargain.help-me-with-the-road-money-for-my-district-and-i-ll-do-it"
       ],
       "why": "'I'm in', 'It's a no' and the road-money condition repeat the first yes, refusal and conditional-yes replies."
-    },
-    "00lbudgv4oe": {
-      "keys": [
-        "scene-talk.follow-plea.then-do-it-on-yours-just-do-it-tonight",
-        "scene-talk.reply-agree.dial-it-i-ll-keep-it-short",
-        "scene-talk.reply-ask.what-s-still-out-tell-me-the-precincts",
-        "scene-talk.reply-refuse.not-tonight-not-until-every-ballot-s-counted",
-        "scene-talk.reply-stall.let-me-talk-to-the-volunteers-first",
-        "scene-talk.reply-agree.okay-for-them",
-        "scene-talk.reply-refuse.not-yet-i-m-sorry",
-        "scene-talk.reply-leave.let-me-splash-some-water-on-my-face-first"
-      ],
-      "why": "'Not yet. I'm sorry' and 'splash some water on my face first' repeat the first refusal and stall options, leaving only 'For them' new."
     },
     "01ezaq9gift": {
       "keys": [
@@ -2678,19 +2665,6 @@
       ],
       "why": "Put that away, I can't do this and I trust you replay the first not-even-for-you, sorry and for-you-fine options."
     },
-    "1c47ywouptb": {
-      "keys": [
-        "scene-talk.follow-press.the-volunteers-already-know-they-re-waiting-on-you-to-say-it",
-        "scene-talk.reply-agree.dial-it-i-ll-keep-it-short",
-        "scene-talk.reply-ask.what-s-still-out-tell-me-the-precincts",
-        "scene-talk.reply-refuse.i-m-not-calling-anybody-until-the-county-certifies-it",
-        "scene-talk.reply-stall.give-me-ten-minutes-alone-first",
-        "scene-talk.reply-agree.all-right-i-ll-make-the-call",
-        "scene-talk.reply-refuse.not-yet-i-m-not-ready",
-        "scene-talk.reply-leave.i-ll-be-right-back-don-t-dial-without-me"
-      ],
-      "why": "'I'll make the call', 'Not yet. I'm not ready' and 'I'll be right back' repeat dial, wait and step away from the start."
-    },
     "1c4av7kq5xh": {
       "keys": [
         "scene-talk.follow-confront.money.don-t-turn-this-around-on-me-first-we-re-talking-about-your-payment",
@@ -3289,19 +3263,6 @@
         "scene-talk.reply-leave.im-done-talking"
       ],
       "why": "Still no, reporting it and honest ways to get help reword three first options; only 'done talking' is new."
-    },
-    "1pc8m3uahws": {
-      "keys": [
-        "scene-talk.follow-plea.okay-but-the-room-s-getting-quiet-out-there",
-        "scene-talk.reply-agree.dial-it-i-ll-keep-it-short",
-        "scene-talk.reply-ask.what-s-still-out-tell-me-the-precincts",
-        "scene-talk.reply-refuse.i-m-not-calling-anybody-until-the-county-certifies-it",
-        "scene-talk.reply-stall.give-me-ten-minutes-alone-first",
-        "scene-talk.reply-agree.okay-the-call-first-then-them",
-        "scene-talk.reply-refuse.not-yet-i-m-sorry",
-        "scene-talk.reply-leave.let-me-splash-some-water-on-my-face-first"
-      ],
-      "why": "Calling, 'Not yet' and splashing water just restate the opening dial, wait and time-alone replies."
     },
     "1pecvt3clwf": {
       "keys": [
@@ -4239,19 +4200,6 @@
         "scene-talk.reply-decline.that-s-more-than-i-can-do-i-m-sorry"
       ],
       "why": "\"I'll do it,\" \"write you what I find\" and \"more than I can do\" restate the first promise, write-back and refusal."
-    },
-    "2b1m5c60q9d": {
-      "keys": [
-        "scene-talk.follow-press.the-volunteers-already-know-they-re-waiting-on-you-to-say-it",
-        "scene-talk.reply-agree.dial-it-i-ll-keep-it-short",
-        "scene-talk.reply-ask.what-s-still-out-tell-me-the-precincts",
-        "scene-talk.reply-refuse.not-tonight-not-until-every-ballot-s-counted",
-        "scene-talk.reply-stall.let-me-talk-to-the-volunteers-first",
-        "scene-talk.reply-agree.all-right-i-ll-make-the-call",
-        "scene-talk.reply-refuse.i-m-not-doing-it-on-anybody-s-schedule-but-mine",
-        "scene-talk.reply-leave.i-ll-be-right-back-don-t-dial-without-me"
-      ],
-      "why": "'I'll make the call' is 'Dial it' again and 'I'll be right back' is another stall like talking to the volunteers first, so most rehash."
     },
     "2bdhtcy12v5": {
       "keys": [

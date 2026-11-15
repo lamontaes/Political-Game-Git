@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "replies-may-be-long-and-substantive",
   "rubric": "Replies are not all short; some carry an argument or a reason, so a reply does not kill the talk.",
-  "judged": 1039,
+  "judged": 1037,
   "no": {
     "0038nen24jy": {
       "keys": [
@@ -545,15 +545,6 @@
         "scene-talk.reply-leave.let-s-talk-tomorrow-when-we-re-both-calmer"
       ],
       "why": "Conceding, ending the talk or putting it off to tomorrow gives no reason about where the remark was aimed."
-    },
-    "0bnjiopokik": {
-      "keys": [
-        "scene-talk.follow-plea.then-do-it-on-yours-just-do-it-tonight",
-        "scene-talk.reply-agree.okay-for-them",
-        "scene-talk.reply-refuse.not-yet-i-m-sorry",
-        "scene-talk.reply-leave.let-me-splash-some-water-on-my-face-first"
-      ],
-      "why": "Agreeing, apologizing and stepping out give no reason."
     },
     "0bs9u6bl3lb": {
       "keys": [
@@ -2056,15 +2047,6 @@
         "scene-talk.reply-leave.hearsay.come-back-when-you-have-more-than-a-rumor"
       ],
       "why": "None of the offered replies gives an argument or a reason; they are denials, questions, promises to explain, apologies, threats or exits that leave nothing to answer."
-    },
-    "15p26mf2a1v": {
-      "keys": [
-        "scene-talk.follow-plea.okay-but-the-room-s-getting-quiet-out-there",
-        "scene-talk.reply-agree.okay-the-call-first-then-them",
-        "scene-talk.reply-refuse.not-yet-i-m-sorry",
-        "scene-talk.reply-leave.let-me-splash-some-water-on-my-face-first"
-      ],
-      "why": "Agreeing, apologizing and stepping out carry no reason."
     },
     "15v6fa05nym": {
       "keys": [
