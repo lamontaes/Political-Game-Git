@@ -3,10 +3,11 @@
  * holder held: the posts they led and the committee seats they had. Every
  * other post and seat stands as it was (same holder, same day), the paper
  * gets the one post that changed hands, and a body whose majority changed
- * hands organizes in full. Pinned at Vilas, South Dakota (place 4667340),
- * the player's state's lower house, and Minnesota's Senate (34 to 33), whose
- * majority a played vacancy turns. Each leaver goes through the offices
- * engine's own vacancy writer (`vacateSeat`), as a resignation does.
+ * hands organizes in full. Every test runs in the one world drawn at Vilas,
+ * South Dakota (place 4667340, seed c200623d…): the player's state's House,
+ * Ohio's House (a played death of its speaker in spring 2025) and Minnesota's
+ * Senate (34 to 33). Tests marked "(vacancy writer)" end a term with the
+ * offices engine's own `vacateSeat`, not a played event.
  */
 import { describe, expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
@@ -93,7 +94,11 @@ const ratioHolds = (api: ReturnType<typeof coreAPI>, chamber: string) => {
 };
 
 describe("a vacancy fills what its holder held", () => {
-  it("the leaver's post and seats are filled; everything else stands, and the paper hears of the one post", () => {
+  // Tests named "(vacancy writer)" end a term with the offices engine's own
+  // writer, `vacateSeat`, which the game calls for a death, a move away, an
+  // incompatible office, a recall, a conviction; nobody here chose to resign.
+
+  it("(vacancy writer) the leaver's post and seats are filled; everything else stands, and the paper hears of the one post", () => {
     const { api } = setup();
     organize(api, CHAMBER);
     const before = posts(api);
@@ -160,7 +165,7 @@ describe("a vacancy fills what its holder held", () => {
     );
   }, 180_000);
 
-  it("a vacancy of a member who held no post prints nothing and changes no post", () => {
+  it("(vacancy writer) a vacancy of a member who held no post prints nothing and changes no post", () => {
     const { api } = setup();
     organize(api, CHAMBER);
     const before = posts(api);
@@ -184,7 +189,7 @@ describe("a vacancy fills what its holder held", () => {
         ).toEqual(row);
   }, 180_000);
 
-  it("a majority that changes hands through a played vacancy organizes in full, and every committee keeps its party ratio", () => {
+  it("(vacancy writer) a majority that changes hands organizes in full, and every committee keeps its party ratio", () => {
     // Minnesota's Senate sits 34 to 33 in this world; the game's own vacancy
     // writer ends a majority member's term and the seat awaits its special
     // election, so the sides stand level and the other side leads.
@@ -217,7 +222,7 @@ describe("a vacancy fills what its holder held", () => {
     ratioHolds(api, chamber);
   }, 240_000);
 
-  it("when the sides' sizes move, a committee that no longer fits its party ratio is seated again by the assigner's rule", () => {
+  it("(unit check of the ratio rule, eleven resignations at once) a committee that no longer fits its party ratio is seated again by the assigner's rule", () => {
     // Eleven members of Minnesota's Senate minority resign through the
     // vacancy writer and their seats await special elections: the minority
     // is smaller, so its share of each committee is too.
@@ -245,4 +250,52 @@ describe("a vacancy fills what its holder held", () => {
     expect(after).toBe(sideBefore);
     ratioHolds(api, chamber);
   }, 240_000);
+
+  it("(played) Ohio's House loses its speaker to a death in the played year and fills the post, nothing else", () => {
+    // In this world (Vilas, place 4667340, the seed above) the health engine
+    // brings two Ohio House deaths in spring 2025, the second the speaker's
+    // (2025-05-04): no one chose it; the offices engine's own death rule
+    // vacates the seat.
+    const { core, api } = setup();
+    const ohio = "office:US-OH:legislature-lower";
+    organize(api, ohio);
+    const before = posts(api, ohio);
+    const seatsBefore = committees(api, ohio);
+    const speaker = before.find((p) => p.post === "speaker")!;
+    const seen: CoreEventInput[] = [];
+    const emit = api.emit.bind(api);
+    api.emit = (event: CoreEventInput) => {
+      if (event.kind === "chamber-organized") seen.push(event);
+      return emit(event);
+    };
+    advanceCore(core, makeIsoDate("2025-05-06"));
+    organize(api, ohio);
+    const sitting = new Set(members(api, ohio).map(memberKey));
+    expect(sitting.has(speaker.holderId!), "the speaker died").toBe(false);
+    const after = posts(api, ohio);
+    const now = after.find((p) => p.post === "speaker")!;
+    expect(sitting.has(now.holderId!)).toBe(true);
+    // The posts whose holders live stand as they were.
+    for (const post of before.filter(
+      (p) => p.post !== "speaker" && sitting.has(p.holderId!),
+    ))
+      expect(
+        after.find((p) => p.post === post.post),
+        post.post,
+      ).toEqual(post);
+    // The paper hears of the posts that changed hands only.
+    const changed = after.filter(
+      (p) =>
+        !before.some((b) => b.post === p.post && b.holderId === p.holderId),
+    );
+    expect(seen.length).toBeGreaterThan(0);
+    expect(Object.keys(seen.at(-1)!.facts ?? {}).sort()).toEqual(
+      ["level", ...changed.map((p) => p.post)].sort(),
+    );
+    for (const row of seatsBefore)
+      if (row.memberIds.every((id) => sitting.has(id)))
+        expect(
+          committees(api, ohio).find((c) => c.committee === row.committee),
+        ).toEqual(row);
+  }, 300_000);
 });
