@@ -331,7 +331,7 @@ export function openOfficeDay(core: CoreState, worldSeed: string): void {
  * rather than all of them owed at once. Taken before the warm-up, so the
  * dates are the build date minus the offset.
  */
-function openingActs(api: CoreAPI): void {
+export function openingActs(api: CoreAPI): void {
   const today = makeIsoDate(api.state.date);
   const year = Number(api.state.date.slice(0, 4));
   // Each serving holder's first day of service: nobody is given an act from

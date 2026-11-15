@@ -5,8 +5,16 @@ import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
 import { daysBetween, makeIsoDate } from "../core2/kernel/dates";
-import { officeActsOf, OFFICE_DAY_MODULE } from "../core2/modules/office-day";
-import { OFFICES_MODULE_ID, townSeats } from "../core2/modules/offices";
+import {
+  officeActsOf,
+  OFFICE_DAY_MODULE,
+  openingActs,
+} from "../core2/modules/office-day";
+import {
+  OFFICES_MODULE_ID,
+  townSeats,
+  vacateSeat,
+} from "../core2/modules/offices";
 import type { TermRow } from "../core2/modules/offices";
 import { coreAPI } from "../core2/state";
 import { leaveHoldsToCharacter } from "./office";
@@ -150,3 +158,61 @@ describe.each(PINNED)(
     }, 120_000);
   },
 );
+
+// A holder who took the seat after the opening's dates did not do what the
+// opening says was done before: the game's own vacancy fill seats one, and the
+// opening's rule leaves them out.
+describe("the opening's acts and a late starter", () => {
+  it("gives nobody an act from before they held the seat", () => {
+    setBookkeeping(false);
+    const place = drawPlace("mayor-acts-1:1", "mayor-acts");
+    const w = buildBenchWorld(place.seed, gameStartDate(), {
+      twoLevel: true,
+      placeKey: place.key,
+    });
+    const api = coreAPI(w.core);
+    const terms = () =>
+      api.moduleState(OFFICES_MODULE_ID).table("terms") as unknown as {
+        rows(): TermRow[];
+      };
+    const before = new Set(
+      terms()
+        .rows()
+        .map((t) => t.id),
+    );
+    const fresh: TermRow[] = [];
+    const kinds: string[] = [];
+    for (const row of townSeats(api)) {
+      if (!row.holder?.personId) continue;
+      if (row.office.kind !== "mayor" && row.office.kind !== "county-executive")
+        continue;
+      vacateSeat(api, row.seat.id, "resigned");
+      const now = townSeats(api).find((r) => r.seat.id === row.seat.id)?.holder;
+      if (now?.personId && !before.has(now.id)) fresh.push(now);
+      if (now?.personId && !before.has(now.id)) kinds.push(row.office.kind);
+      if (fresh.length >= 3) break;
+    }
+    expect(
+      fresh.length,
+      `${place.name}: seats refilled by the game`,
+    ).toBeGreaterThan(0);
+    const late = new Set(
+      fresh
+        .map((t) => t.personId!)
+        .filter(
+          (id) =>
+            api.state.people.has(id) &&
+            !officeActsOf(api, id).some((a) => a.detail === "before the start"),
+        ),
+    );
+    expect(late.size, "new holders with nothing from before").toBeGreaterThan(
+      0,
+    );
+    openingActs(api);
+    for (const id of late)
+      expect(
+        officeActsOf(api, id).filter((a) => a.detail === "before the start"),
+        `${place.name}: ${id} took the seat on ${w.core.date}`,
+      ).toEqual([]);
+  }, 120_000);
+});
