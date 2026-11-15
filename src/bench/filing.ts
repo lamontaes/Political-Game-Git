@@ -1,6 +1,8 @@
 import { raceTitle } from "./race-words";
 import { coreAPI } from "../core2/state";
 import { filingClerkFor } from "../core2/modules/filing-clerk";
+import { describesByRule, ruleOfficeBody } from "../core2/filing-rule-office";
+import { lawChain } from "../core2/modules/laws";
 import { workSpansOf } from "./places";
 import officeHours from "./data/office-hours.json" with { type: "json" };
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
@@ -308,6 +310,18 @@ export function openBenchFilingVisit(
     clerk ?? undefined,
     filedWith,
     back,
+    describesByRule(filedWith)
+      ? (ruleOfficeBody(
+          filedWith,
+          String(
+            api
+              .moduleState(ELECTIONS_MODULE_ID)
+              .table("contests")
+              .get(contests[0]!.id)?.family,
+          ),
+          lawChain(api).placeKey,
+        ) ?? undefined)
+      : undefined,
   );
   const place = officePlace(filedWith);
   const player = core.people.get(playerId)!;

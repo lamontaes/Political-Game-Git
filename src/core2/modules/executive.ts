@@ -83,6 +83,11 @@ import { federalAidFor } from "./disasters";
 import { lineForPost, postPayCapDaily } from "../budgets-treasury";
 import { startPublicJob } from "../public-payroll";
 import { filingRequirements } from "./elections";
+import {
+  describesByRule,
+  ruleOfficeBody,
+  ruleOfficeCounty,
+} from "../filing-rule-office";
 import { localClerkFor } from "./candidacy";
 import { pairKey } from "../kernel/ids";
 
@@ -308,6 +313,7 @@ export function openExecutive(core: CoreState, worldSeed: string): void {
   appointStateCabinet(api, worldSeed);
   seatElectionChief(api, worldSeed);
   seatLocalFilingOfficers(api, worldSeed);
+  seatRuleFilingOfficers(api, worldSeed);
   table(api, "review").put({ id: "seed", worldSeed } as unknown as ModuleRow);
   scheduleReview(api, core.date);
 }
@@ -1076,15 +1082,25 @@ export const LOCAL_FILING_OFFICER_POST = "local-filing-officer";
 function seatLocalFilingOfficers(api: CoreAPI, worldSeed: string): void {
   const { stateKey, townPlaceId } = lawChain(api);
   for (const family of ["municipalOffice", "countyOffice"] as const) {
-    if (localClerkFor(api, family, { drawn: false })) continue;
     const office = filingRequirements(stateKey, family).filedWith;
+    if (
+      !describesByRule(office) &&
+      localClerkFor(api, family, { drawn: false })
+    )
+      continue;
     // The data names who stands at the counter where it knows ("County board
     // of elections (counter: election commissioner)"): that is their title.
     const counter = /\(counter: ([^)]+)\)/.exec(office)?.[1]?.trim();
+    // An office the data gives as a rule is the body the rule points to for
+    // this town; where the game has none, no one is seated.
+    const body = describesByRule(office)
+      ? ruleOfficeBody(office, family, lawChain(api).placeKey)
+      : null;
+    if (describesByRule(office) && !body) continue;
     seatDrawnOfficer(api, worldSeed, {
       government: townPlaceId,
       post: `${LOCAL_FILING_OFFICER_POST}:${family}`,
-      title: counter ?? office,
+      title: counter ?? body ?? office,
       seatKey: `filing-officer:${townPlaceId}:${family}`,
       personKey: `filing-officer:${townPlaceId}:${family}`,
       placeId: townPlaceId,
@@ -1093,6 +1109,42 @@ function seatLocalFilingOfficers(api: CoreAPI, worldSeed: string): void {
       citation: `The person at the counter of ${office}, who takes filings for the town's ${family === "countyOffice" ? "county" : "local"} races.`,
       estimatedFrom:
         "The filing data names the office, and the place's records name no clerk or staff for it; the person is drawn from the world's seed like any invented official.",
+    });
+  }
+}
+
+/** The post that keeps the person at a state or federal counter whose office the data gives as a rule, by family. */
+export const RULE_FILING_OFFICER_POST = "rule-filing-officer";
+
+/**
+ * The person at a state or federal counter whose office the filing data gives
+ * as a rule ("Board of elections of the most populous county in the district"):
+ * drawn for the body the rule points to for the player's town, on that county's
+ * payroll where it is the player's own county. Where the game has no such body
+ * (a state legislative district) no one is seated, and the counter has no one
+ * to name.
+ */
+function seatRuleFilingOfficers(api: CoreAPI, worldSeed: string): void {
+  const { stateKey, placeKey, countyGeoids } = lawChain(api);
+  for (const family of ["usHouse", "stateLegislative"] as const) {
+    const office = filingRequirements(stateKey, family).filedWith;
+    if (!describesByRule(office)) continue;
+    const body = ruleOfficeBody(office, family, placeKey);
+    if (!body) continue;
+    const own = countyGeoids.includes(
+      ruleOfficeCounty(office, family, placeKey) ?? "",
+    );
+    seatDrawnOfficer(api, worldSeed, {
+      government: stateKey,
+      post: `${RULE_FILING_OFFICER_POST}:${family}`,
+      title: body,
+      seatKey: `rule-filing-officer:${stateKey}:${family}:${body}`,
+      personKey: `rule-filing-officer:${stateKey}:${family}:${body}`,
+      placeId: stateKey,
+      payroll: own ? "county" : null,
+      citation: `The person at the counter of the ${body}, which takes filings for ${family} races in ${stateKey}.`,
+      estimatedFrom:
+        "The filing data gives the office as a rule; the rule is resolved to the body it points to, and the person is drawn from the world's seed like any invented official.",
     });
   }
 }
@@ -1113,7 +1165,7 @@ function seatDrawnOfficer(
     readonly seatKey: string;
     readonly personKey: string;
     readonly placeId: string;
-    readonly payroll: "state" | "county" | "city";
+    readonly payroll: "state" | "county" | "city" | null;
     readonly citation: string;
     readonly estimatedFrom: string;
   },
@@ -1165,7 +1217,9 @@ function seatDrawnOfficer(
   } as unknown as ModuleRow);
   // On their government's payroll, as the town's heads are on the town's.
   const govs = api.state.modules.has(BUDGETS_MODULE_ID) ? governments(api) : [];
-  const employer = govs.find((g) => g.level === spec.payroll)?.organizationId;
+  const employer = spec.payroll
+    ? govs.find((g) => g.level === spec.payroll)?.organizationId
+    : undefined;
   const post = `${spec.payroll}:${spec.post}`;
   // A world with no treasury open has no payroll to hold the post on.
   if (employer)
@@ -1893,6 +1947,7 @@ function deskReview(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   if (worldSeed) {
     seatElectionChief(api, worldSeed);
     seatLocalFilingOfficers(api, worldSeed);
+    seatRuleFilingOfficers(api, worldSeed);
   }
   const executiveId = memberKey(governor);
   if (executiveId === playerId) return;

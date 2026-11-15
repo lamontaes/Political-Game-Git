@@ -34,6 +34,9 @@ import { seatSaid, type SeatRecord } from "../english/journal-words";
 import { agencyHeadSaid, counterSaid } from "../english/said-as";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { placeCounty } from "../core2/place-map";
+import { describesByRule } from "../core2/filing-rule-office";
+
+export { describesByRule };
 
 const zero = P.zero;
 const one = P.one;
@@ -139,6 +142,11 @@ export function openFilingVisit(
    * from it (Fable A, Nov 13: "Back again? Your papers for {office} are in.").
    */
   back?: { filingId: string; seat: SeatRecord },
+  /**
+   * The body the clerk works for, as the records name it, said where the
+   * filing note gives the office only as a rule (`describesByRule`).
+   */
+  clerkBody?: string,
 ): FilingVisit {
   const visit: FilingVisit = {
     playerId,
@@ -162,14 +170,24 @@ export function openFilingVisit(
         // An office the record names only as a choice ("City or town clerk") is
         // said as the place's own kind; where the records do not settle it, the
         // town is said instead.
-        ...(filedWith && saidOffice(filedWith, contests)
-          ? {
-              where: {
-                text: titleInSentence(saidOffice(filedWith, contests)!),
-                sourceRecordIds: contests.map((row) => row.id),
-              },
-            }
-          : {}),
+        ...((): Record<string, Fact> => {
+          // A body resolved from a rule is a proper name ("Franklin County
+          // board of elections"), said as it stands.
+          const named =
+            filedWith && describesByRule(spokenOffice(filedWith))
+              ? clerkBody
+              : null;
+          const said =
+            named ?? (filedWith ? saidOffice(filedWith, contests) : null);
+          return said
+            ? {
+                where: {
+                  text: named ? said : titleInSentence(said),
+                  sourceRecordIds: contests.map((row) => row.id),
+                },
+              }
+            : {};
+        })(),
         ...clerkFact(core, clerkId),
       });
   if (greet) visit.lines.push({ speaker: "clerk", ...greet });
@@ -237,6 +255,7 @@ export function saidOffice(
   }[],
 ): string | null {
   const office = spokenOffice(note);
+  if (describesByRule(office)) return null;
   const choice = /^(?<one>\w+) or (?<other>\w+) (?<rest>.+)$/i.exec(
     office,
   )?.groups;
