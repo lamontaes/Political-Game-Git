@@ -456,9 +456,6 @@ describe("asking colleagues to sign on", () => {
           ...memberPosition(api, billId, colleague),
           favor: favorWorth(api, colleague, player),
         };
-        expect(facts.has("leans-closer"), where).toBe(
-          now.total + now.favor > then.total + then.favor,
-        );
         // Their not-yet left open, where it is offered: the player defers to
         // them, and what comes of it is read from the record afterward.
         const defer = talk.tree.replies.findIndex(
@@ -525,7 +522,7 @@ describe("asking colleagues to sign on", () => {
       process.stdout.write(
         `SIGN-ON ${where}: ${units.length} asks played, ${signed} signed, ${refused.length} said no (${[...reasonsHere].join(", ")}); ${earlier.length} earlier bills, ${votedNo.size} no votes on them\n`,
       );
-    }, 300_000);
+    }, 200_000);
 
   afterAll(() => {
     // Every reason the bank can say for a no played somewhere, and the two

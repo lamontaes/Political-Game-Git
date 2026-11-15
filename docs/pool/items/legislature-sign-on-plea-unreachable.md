@@ -33,3 +33,5 @@ root: none
 **Waits on.** Nothing.
 
 **Files.** src/core2/modules/legislature.ts, src/director/arc-variant.ts, data/english/parts/scene-talk.json, src/director/bill-sign-on.test.ts
+
+**Notes.** Nov 15 (story builder, #9369; Account lead's ruling 21:53Z): "I said no last time. I'm less sure of that now. Let me read this one." is also taken out of the sign-on ask, with the `leans-closer` fact that gated it. It claims a change of mind, so it is said only when the colleague holds a record made since the no about the player (a favor, backing, the player's yes on their bill) and the total is higher. Room time alone moves the total by about 0.01 a day, and that is not a reason a person would name. No pinned world gives a sign-on colleague such a record yet (above), so the line had no case. The Words lead keeps its text in /mnt/project-files/words-lead/bill-stages/second-ask-not-moved.md, and it returns with this route. Until then, a second ask with nothing recorded since says "You asked before. I still haven't made up my mind." The colleague's yes or no is still the sum of their own terms; the record gates only the wording.

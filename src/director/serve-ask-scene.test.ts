@@ -266,7 +266,7 @@ function ask(w: World, personId: string, take: "thank" | "accept") {
 for (const place of PLACES)
   it(
     `asking a running mate plays as a scene; a no stands for now and is asked again a month on (${place.key}, seed ${place.seed})`,
-    { timeout: 600_000 },
+    { timeout: 105_000 },
     () => {
       const w = world(place);
       const api = coreAPI(w.core);
@@ -415,7 +415,7 @@ for (const place of PLACES)
 
 it(
   `a later yes after the player's stance moves to theirs, asked at once (${CHANGED.key}, seed ${CHANGED.seed})`,
-  { timeout: 600_000 },
+  { timeout: 60_000 },
   () => {
     const w = world(CHANGED);
     const api = coreAPI(w.core);
@@ -475,7 +475,7 @@ it(
 
 it(
   `Choose for me names someone willing, never the one who said no (${PLACES[1].key}, seed ${PLACES[1].seed})`,
-  { timeout: 600_000 },
+  { timeout: 60_000 },
   () => {
     const w = world(PLACES[1]);
     const api = coreAPI(w.core);
@@ -555,7 +555,7 @@ const ASKS_FIRST: {
 for (const place of ASKS_FIRST)
   it(
     `a stranger asks one thing first and answers the player's ${place.reply} (${place.key}, seed ${place.seed})`,
-    { timeout: 600_000 },
+    { timeout: 55_000 },
     () => {
       const w = world(place);
       const api = coreAPI(w.core);

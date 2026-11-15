@@ -120,7 +120,7 @@ function playedTalk(
 for (const pin of PINS)
   it(
     `a colleague asked again for their vote says they were asked before (${pin.name})`,
-    { timeout: 300_000 },
+    { timeout: 170_000 },
     () => {
       const place = pin.place();
       expect(place.name).toBe(pin.name);
