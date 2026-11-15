@@ -160457,32 +160457,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-m-behind-on-rent-and-you-want-my-name-no",
-      "move": "reply-decline",
-      "kind": "spoken",
-      "text": "I'm behind on rent and you want my name. No.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "decline",
-          "role": "asked",
-          "purpose": "ask-signature.rent-notice",
-          "key": "door",
-          "after": "request",
-          "requiresFacts": ["owed"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Claude Opus (door scenes, brief G)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "decline",
-        "key": "door"
-      }
-    },
-    {
       "key": "scene-talk.reply-decline.i-have-until-deadline-to-figure-out-where-we-go-i-can-t-think-about-a-ballot",
       "move": "reply-decline",
       "kind": "spoken",
