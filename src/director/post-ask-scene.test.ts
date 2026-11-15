@@ -42,9 +42,12 @@ import { playServeAsk } from "../../tests/support/serve-ask-play";
  * Each place pins its post, the person who says yes and the one who says no,
  * as the place's record gives them (the read's lean and reason, at the seed):
  * at Victoria, Kansas the city administrator's post, River Snyder yes (pay,
- * 0.57) and Richard Hart no (the job they would leave, -0.13; re-pinned
- * Nov 15 from Kimberly Colon, no longer among the people offered once the
- * train's changes to the town's people landed; cause not traced); at Fern
+ * 0.57) and Richard Hart no (the job they would leave, -0.13). Re-pinned
+ * Nov 15 from Kimberly Colon, who was the state's transportation secretary,
+ * drawn at the opening from the town's own people: since #9385 (pool item
+ * executive-cabinet-drawn-from-the-state) a cabinet secretary lives where the
+ * state's people put them, and Victoria is not the state's seat, so the
+ * secretary now lives elsewhere in Kansas and she is not in this world; at Fern
  * Prairie, Washington the agriculture post, Cheryl Monroe yes (pay, 0.51)
  * and John Pugh no (the post pays less than his work, -0.71).
  */
