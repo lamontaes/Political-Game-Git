@@ -36,3 +36,5 @@ checked:
 **Files.** src/core2/modules/speech.ts, src/core2/office-day-acts.ts, src/core2/housing-past.ts
 
 **Notes.** The skills thread is told: an opening item.
+
+**Builder note, Nov 14 (#9346).** The governors' and President's addresses are now given by the same writers on their dates (state kit calendar, federal joint address). The past year's address closes by calling that same writer for the past date inside the opening warm-up the skills thread is building, never by a seeded record. Year one has none until then.
