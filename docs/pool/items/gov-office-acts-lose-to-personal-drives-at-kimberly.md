@@ -6,10 +6,10 @@ lead: laws
 kind: bug
 priority: 3
 size: M
-status: open
+status: in-pr
 standard: 2
 claimed-by:
-pr:
+pr: 9425
 after:
 blocked-on:
 model: opus
