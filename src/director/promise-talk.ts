@@ -74,7 +74,8 @@ export function promiseSubject(
       entry.holderId === listenerId &&
       entry.otherId === speakerId &&
       (entry.outcome === "kept" || entry.outcome === "broken") &&
-      !entry.saidAt,
+      !entry.saidAt &&
+      paymentNamed(core, entry),
   );
   if (!row) return null;
   const cites = [row.id, row.sourceId, ...(row.endedBy ? [row.endedBy] : [])];
@@ -107,7 +108,7 @@ export function promiseSubject(
       facts["meeting-held"] = { text: held, sourceRecordIds: [meeting.id] };
   }
   // A payment promised: the loan behind the missed payment, named as people
-  // say it ("the mortgage"). Broken, the new missed payment that broke it;
+  // say it ("the payday loan"). Broken, the new missed payment that broke it;
   // kept, the one the quarrel was over (the cause of the reply).
   const missed = paymentMissedOf(core, row);
   const payment = paymentSaid(missed?.facts?.loanKind);
@@ -127,6 +128,20 @@ export function promiseSubject(
     facts,
     aboutId: row.sourceId,
   };
+}
+
+/**
+ * A payment the game has no name for is never talked about: no fallback name,
+ * no empty slot (Account lead, Nov 15). Only kinds a played borrower was seen
+ * to miss are named (data/english/payment-words.json); a pay-on-time promise
+ * on any other kind is never said. Other promises always pass.
+ */
+export function paymentNamed(
+  core: Readonly<CoreState>,
+  row: { kind: string; sourceId: string; outcome: string; endedBy?: string },
+): boolean {
+  if (row.kind !== PAY_ON_TIME) return true;
+  return paymentSaid(paymentMissedOf(core, row)?.facts?.loanKind) !== null;
 }
 
 /**

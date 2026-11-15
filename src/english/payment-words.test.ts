@@ -1,19 +1,14 @@
 import { expect, it } from "vitest";
 import { paymentSaid } from "./payment-words";
 
-// The credit engine's loan kinds (LoanRow.kind in src/core2/modules/credit.ts):
-// every one is named, so a missed payment on any of them can be said.
-const LOAN_KINDS = [
-  "personal",
-  "startup",
-  "mortgage",
-  "small-dollar",
-  "medical",
-];
-
-it("names the payment on every kind of loan the credit engine keeps", () => {
-  for (const kind of LOAN_KINDS)
+// Only kinds a played borrower was seen to miss and be held to a promise are
+// named (src/director/promises.test.ts); the credit engine's other kinds
+// (mortgage, medical, startup) have no name, so their talk never fires
+// (src/director/promise-talk-names.test.ts).
+it("names the payment on the loan kinds a played borrower was seen to miss", () => {
+  for (const kind of ["personal", "small-dollar"])
     expect(paymentSaid(kind), kind).toMatch(/^the /);
-  expect(paymentSaid("no-such-kind")).toBeNull();
+  for (const kind of ["mortgage", "medical", "startup", "no-such-kind"])
+    expect(paymentSaid(kind), kind).toBeNull();
   expect(paymentSaid(undefined)).toBeNull();
 });
