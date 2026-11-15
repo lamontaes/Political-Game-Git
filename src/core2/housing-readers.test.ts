@@ -1,4 +1,3 @@
-import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { createLifeCore } from "./life";
@@ -12,7 +11,11 @@ import { collapseToTwoLevels } from "./residents";
 import { coreAPI } from "./state";
 import type { CoreInput, Source } from "./types";
 
-const seed = randomBytes(16).toString("hex");
+// Pinned (tests-housing-sale-tests-draw-from-the-clock): this seed always
+// draws Valley Center, California. The old seed came from randomBytes on
+// every run, on the premise that any place reads the same; a fixture world
+// built on a named place reads the same on every run instead.
+const seed = "a735426bca91e9dd2acb667586aedf35";
 const place = drawPlace(seed, "housing-reader");
 const date = "2026-01-01";
 const source: Source = {
@@ -24,6 +27,7 @@ const source: Source = {
 
 describe(`housing reads in ${place.name}, seed ${seed}`, () => {
   it("filters both tiers and rereads a changed place price level", () => {
+    expect(place.name).toContain("Valley Center");
     const people = ["full", "counted", "elsewhere", "renter"].map((id) => ({
       id,
       givenName: id,
