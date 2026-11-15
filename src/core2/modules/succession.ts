@@ -45,6 +45,8 @@ import {
   members,
 } from "./legislature";
 import { LEADERSHIP_MODULE_ID, leaderOf } from "./leadership";
+import { drawStateHome } from "../places";
+import { corePlaceByJurisdictionId } from "../place-lookup";
 
 export const SUCCESSION_MODULE_ID = "core2-succession-v1";
 
@@ -166,14 +168,14 @@ function nominate(
   if (!president?.personId) return null;
   const side = partySide(president.party);
   const party = president.party ?? null;
-  const stateKey = (
-    api
-      .moduleState(OFFICES_MODULE_ID)
-      .table("loaded")
-      .get("town") as unknown as {
-      stateKey: string;
-    }
-  ).stateKey;
+  const { stateKey, townPlaceId } = api
+    .moduleState(OFFICES_MODULE_ID)
+    .table("loaded")
+    .get("town") as unknown as {
+    stateKey: string;
+    townPlaceId: string;
+  };
+  const town = corePlaceByJurisdictionId(townPlaceId as never);
   const tolerance = campaignParameter("confirmationTolerance");
   const widening = campaignParameter("confirmationRoundWidening");
   const everyone: ReturnType<typeof seatOfficial>[] = [];
@@ -187,8 +189,17 @@ function nominate(
   const lastRound = Math.max(0, Math.ceil((LEAN_SPAN - tolerance) / widening));
   for (let round = 0; !chosenId && round <= lastRound; round++) {
     const roundKey = round ? `${input.key}:round-${round}` : input.key;
-    const pool = [0, 1, 2].map((n) =>
-      seatOfficial(api, {
+    const pool = [0, 1, 2].map((n) => {
+      // Each of the field lives in a town of the state, drawn by who lives
+      // in each (drawStateHome), and holds that town's work; the played
+      // town's own people are its counted residents, not drawn here.
+      const home = drawStateHome(
+        api.state.seed,
+        `${roundKey}:${n}`,
+        stateKey,
+        town ? { place: town, people: 0, statePeople: 1 } : undefined,
+      );
+      return seatOfficial(api, {
         key: `${roundKey}:${n}`,
         seatId: `seat:${roundKey}:${n}`,
         term: null,
@@ -198,8 +209,16 @@ function nominate(
         district: null,
         party,
         termYears: null,
-      }),
-    );
+        ...(home
+          ? {
+              home: {
+                jurisdictionId: home.context.jurisdiction.id,
+                key: home.key,
+              },
+            }
+          : {}),
+      });
+    });
     everyone.push(...pool);
     // The president's ranking, by the reasons a governor's cabinet is chosen by.
     ranking = nominateAndConfirm({
