@@ -365,7 +365,7 @@ export interface ResultRow {
  * ballot's appeal and its parts are the engine's own reading of these
  * (`countedBallotOf`), the same numbers it decided by.
  */
-interface CountedBallotsRow {
+export interface CountedBallotsRow {
   readonly id: string;
   readonly contestId: string;
   readonly date: string;
@@ -4068,11 +4068,12 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
       field,
     );
     const warmths = countedWarmths(api, voter, field);
-    const endorsed = countedEndorsed(
-      lean,
-      field,
-      countedStanceProfile(api, voter),
-    );
+    const profile = countedStanceProfile(api, voter);
+    const endorsed = countedEndorsed(lean, field, profile);
+    // What the voter's group has heard, read once for each question the
+    // field's platforms take a side on, for every candidate on the ballot,
+    // and kept with it: the ballot reads exactly what its reasons keep.
+    const heard = heardOn(profile, questions);
     const where = {
       inTown: true,
       local: true,
@@ -4080,7 +4081,7 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
       trust: trustWeight(api, lean),
       // The town's people hold each form of a rotated ballot in turn.
       ballotForm: kept.voterIds.length,
-      profile: countedStanceProfile(api, voter),
+      profile: keptHeard(profile, heard),
       warmths,
       endorsed,
       divides: true,
@@ -4113,11 +4114,10 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
     kept.interest.push(t.interest);
     kept.cost.push(t.cost);
     kept.weight.push(voter.weight);
-    const profile = countedStanceProfile(api, voter);
     // Module data holds JSON: a missing distance is kept as null.
     kept.faith.push(profile.faithFromAverage ?? null);
     kept.college.push(profile.collegeFromAverage ?? null);
-    kept.heard.push(heardOn(profile, questions));
+    kept.heard.push(heard);
     kept.pledges.push(division.wholePledged ? (pledges ?? null) : null);
     kept.warmths.push(warmths ?? null);
     kept.endorsed.push(endorsed ?? null);
@@ -5555,6 +5555,17 @@ function heardOn(
   return heard;
 }
 
+/** A profile whose heard term is the values read for the ballot (none where nothing has moved the voter). */
+function keptHeard(
+  profile: StanceProfile,
+  heard: Readonly<Record<string, number>> | null,
+): StanceProfile {
+  return {
+    ...profile,
+    heard: heard ? (question: string) => heard[question] ?? 0 : undefined,
+  };
+}
+
 /** The stance profile a kept counted ballot was read with: faith, degree and what the voter's group had heard. */
 function keptProfile(row: CountedBallotsRow, i: number): StanceProfile | null {
   const heard = row.heard?.[i];
@@ -5568,10 +5579,13 @@ function keptProfile(row: CountedBallotsRow, i: number): StanceProfile | null {
         }
       : null;
   if (!heard) return faith;
-  return { ...faith, heard: (question: string) => heard[question] ?? 0 };
+  return keptHeard(faith ?? {}, heard);
 }
 
-function countedBallotAt(row: CountedBallotsRow, i: number): CountedBallotRow {
+export function countedBallotAt(
+  row: CountedBallotsRow,
+  i: number,
+): CountedBallotRow {
   return {
     id: `ballot:${row.contestId}:${row.voterIds[i]!}`,
     contestId: row.contestId,
