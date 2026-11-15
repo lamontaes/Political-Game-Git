@@ -99,6 +99,8 @@ export interface ActionRow {
   readonly slide: number;
   /** The player's own life is touched by it: the scene is theirs to take. */
   readonly playerTouched: boolean;
+  /** How the turnout looks as it stands this month (`turnoutLooks`): the one fact a scene and the paper read. */
+  readonly turnout: "few" | "group" | "crowd";
   /** The web rows the read compared. */
   readonly sourceRecordIds: readonly string[];
 }
@@ -426,27 +428,6 @@ export function turnoutLooks(
   return share >= PAR.turnoutCrowdFrom.value ? "crowd" : "group";
 }
 
-/**
- * How an action's turnout looks as it stands now, from its own record: the one
- * fact a scene and the paper both read, so a protest that grew is told at its
- * size the day it is told. Undefined for an action not on record.
- */
-export function turnoutOf(
-  api: CoreAPI,
-  actionId: string,
-): "few" | "group" | "crowd" | undefined {
-  const row = table(api, "actions").get(actionId) as unknown as
-    ActionRow | undefined;
-  return row
-    ? turnoutLooks(
-        api,
-        api.state as CoreState,
-        row.placeId,
-        row.participantIds.length + row.countedParticipants,
-      )
-    : undefined;
-}
-
 function gather(
   api: CoreAPI,
   pool: readonly PersonState[],
@@ -638,6 +619,9 @@ function monthlyRun(api: CoreAPI): void {
       const read = reads.find((row) => row.area === stock.area);
       const id =
         open?.id ?? `action:${placeId}:${stock.area}:${stock.side}:${month}`;
+      const crowdIds = [
+        ...new Set([...(open?.participantIds ?? []), ...participants]),
+      ].sort();
       const row: ActionRow = {
         id,
         placeId,
@@ -648,14 +632,18 @@ function monthlyRun(api: CoreAPI): void {
         lastOn: core.date,
         endedOn: null,
         months: (open?.months ?? 0) + 1,
-        participantIds: [
-          ...new Set([...(open?.participantIds ?? []), ...participants]),
-        ].sort(),
+        participantIds: crowdIds,
         countedParticipants: countedJoined,
         level: stock.level,
         slide: read?.slide ?? 0,
         playerTouched: pool.some((person) => person.id === core.playerId),
         sourceRecordIds: stock.sourceRecordIds,
+        turnout: turnoutLooks(
+          api,
+          core,
+          placeId,
+          crowdIds.length + countedJoined,
+        ),
       };
       table(api, "actions").put(row as unknown as ModuleRow);
       if (!open)

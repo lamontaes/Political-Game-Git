@@ -8,7 +8,7 @@ import { advanceCore } from "../life";
 import { coreAPI } from "../state";
 import { OUTCOME_WEB_MODULE_ID } from "../outcome-web-model";
 import { TERM_MEASURES } from "../term-read";
-import { actionsOf, areaRule, joinCase, turnoutOf } from "./public-action";
+import { actionsOf, areaRule, joinCase } from "./public-action";
 import { residentsRuntime } from "./residents";
 
 // Who joins a strike, protest or rally (owner, Oct 14: one model, two tiers).
@@ -151,11 +151,11 @@ it("Lincoln, Vermont: the same issue costs a person who works more of the week m
 // adults) for named and counted people alike.
 it("Port O'Connor and Lincoln: each protest is told by how its turnout looks now, by its share of the adults", () => {
   const looks = (label: string, name: string) => {
-    const { actions, adults, api } = playTerm(label, name);
+    const { actions, adults } = playTerm(label, name);
     return actions.map((row) => ({
       area: row.area,
       share: share(row, adults),
-      turnout: turnoutOf(api, row.id),
+      turnout: row.turnout,
     }));
   };
   const a = looks("pa-a", "Port O'Connor, Texas");

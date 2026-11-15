@@ -59,7 +59,6 @@ import {
   coreStateName,
 } from "../core2/place-lookup";
 import { applyCoreEvent, coreAPI } from "../core2/state";
-import { turnoutOf } from "../core2/modules/public-action";
 import type { CoreState, PersonId } from "../core2/types";
 import {
   billNameFor,
@@ -1148,7 +1147,7 @@ function composeBinding(
       Object.assign(
         facts,
         turnoutFacts(
-          turnoutOf(coreAPI(core as CoreState), said.actionId),
+          actionTurnout(core as CoreState, said.actionId),
           said.actionId,
         ),
       );
@@ -1167,7 +1166,7 @@ function composeBinding(
     Object.assign(
       facts,
       turnoutFacts(
-        turnoutOf(coreAPI(core as CoreState), said.actionId),
+        actionTurnout(core as CoreState, said.actionId),
         said.actionId,
       ),
     );
@@ -3127,4 +3126,17 @@ function turnoutFacts(
     [`turnout-${turnout}`]: fact("yes"),
     ...(turnout !== "few" ? { "turnout-many": fact("yes") } : {}),
   };
+}
+
+/** How the action's turnout looks this month: the one fact its own record keeps (public-action.ts, `turnout`). */
+function actionTurnout(
+  core: CoreState,
+  actionId: string,
+): "few" | "group" | "crowd" | undefined {
+  const row = coreAPI(core)
+    .moduleState("core2-public-action-v1")
+    .table("actions")
+    .get(actionId) as unknown as
+    { turnout?: "few" | "group" | "crowd" } | undefined;
+  return row?.turnout;
 }

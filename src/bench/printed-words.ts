@@ -6,7 +6,6 @@
  * facts its news banks word. Every fact cites the printed story and the record
  * it came from. A record whose facts can't be said is left unworded here.
  */
-import { turnoutOf } from "../core2/modules/public-action";
 import { governmentProperName } from "../core2/government-proper-name";
 import billNames from "../../data/english/bill-names.json" with { type: "json" };
 import businessBooks from "../core2/data/business-books.json" with { type: "json" };
@@ -3809,7 +3808,13 @@ const publicAction =
         ...(f.size ? { number: read.fact(f.size, f.actionId ?? "") } : {}),
         // A turnout that looks like a crowd (its share of the town's adults,
         // set by the action's own record) is the one a story calls a crowd.
-        ...(f.actionId && turnoutOf(read.api, f.actionId) === "crowd"
+        ...(f.actionId &&
+        (
+          read.api
+            .moduleState("core2-public-action-v1")
+            .table("actions")
+            .get(f.actionId) as unknown as { turnout?: string } | undefined
+        )?.turnout === "crowd"
           ? { crowd: read.fact("yes", f.actionId ?? "") }
           : {}),
         ...issue,
