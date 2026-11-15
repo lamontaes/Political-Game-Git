@@ -77,10 +77,10 @@ import { floorDebateFacts } from "./floor-debate-facts";
 import { raceTurnoutFacts } from "./race-turnout-facts";
 import { DONOR_ASK_TYPE, donorAskFacts } from "./donor-ask-facts";
 import {
+  causeTopicSaid,
   questionSubject,
   questionTopic,
   storyTopicName,
-  topicInSentence,
 } from "../english/policy-names";
 import { dollars } from "../english/bill-sections";
 import { lateSaid, moneySaid, monthsOfRentDays } from "../english/count-words";
@@ -634,9 +634,9 @@ function composeBinding(
   const town = corePlaceByJurisdictionId(asked.placeId as never);
   if (town)
     facts.place = { text: spoken(town), sourceRecordIds: [asked.placeId] };
-  // What the cause record is about (a shared cause, a speech), as the bill
-  // catalog names its topic.
-  const cause = record?.topic ? topicInSentence(record.topic) : null;
+  // What the cause record is about (a shared cause, a speech): a policy
+  // question, a budget line or an illness, as the English engine names it.
+  const cause = record?.topic ? causeTopicSaid(record.topic) : null;
   if (cause) facts.cause = { text: cause, sourceRecordIds: [moment.causeId] };
   // A bill the record names, by its number, and the section a trade added.
   // A committee's hold names its bill by id only; the bill row has the number.
