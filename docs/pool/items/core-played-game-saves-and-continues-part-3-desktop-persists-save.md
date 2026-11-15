@@ -8,7 +8,7 @@ size: S
 status: in-pr
 standard: 2
 claimed-by: claude/saves-part-3-desktop
-pr:
+pr: #9561
 after: core-played-game-saves-and-continues-part-1-bench-saves-life
 blocked-on:
 lead: play-first
