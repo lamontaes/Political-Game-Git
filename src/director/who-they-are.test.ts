@@ -32,7 +32,7 @@ import { whatTheyAre } from "./who-they-are";
 
 const SEED = "4276344481a2b078e70633cfee47d0caccb65f74:2";
 
-it("a name set off by the line itself takes no second appositive, and a closing comma never stands before the sentence's mark", () => {
+it("a name set off by the line itself or made possessive takes no appositive, and a closing comma never stands before the sentence's mark", () => {
   const facts = {
     name: {
       text: "Jose Salgado, the town clerk,",
@@ -57,6 +57,9 @@ it("a name set off by the line itself takes no second appositive, and a closing 
   );
   expect(say("You meet {{name}}.")).toBe(
     "You meet Jose Salgado, the town clerk.",
+  );
+  expect(say("Your phone lights up with {{name}}'s name.")).toBe(
+    "Your phone lights up with Jose Salgado's name.",
   );
   expect(say("{{name}}, the police chief, asks for ten minutes.")).toBe(
     "Jose Salgado, the police chief, asks for ten minutes.",

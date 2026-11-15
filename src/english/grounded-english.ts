@@ -176,6 +176,8 @@ export function renderGroundedEnglish(
   // A slot that ends on an appositive's closing comma ("Jose Salgado, the
   // town clerk,") drops it before the sentence's own mark (said-as
   // `nameWithWhat`, rule 136): no comma ever stands before . ! ? ; : or another comma.
+  // A slot the line itself follows with a comma or a possessive ("{{name}}'s
+  // name") takes the bare name: no appositive inside a possessive.
   const text = (
     variant.kind === "verbatim"
       ? packet.facts[variant.factKey]!.text
@@ -184,7 +186,7 @@ export function renderGroundedEnglish(
           (slot, key: string, at: number, whole: string) => {
             const fact = packet.facts[key]!;
             return fact.bare !== undefined &&
-              whole.charAt(at + slot.length) === ","
+              /[,'\u2019]/.test(whole.charAt(at + slot.length))
               ? fact.bare
               : fact.text;
           },
