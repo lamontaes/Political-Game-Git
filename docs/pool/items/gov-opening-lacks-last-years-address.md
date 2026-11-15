@@ -9,7 +9,7 @@ size: M
 status: in-pr
 standard: 2
 claimed-by: account-lead-builder
-pr: PENDING
+pr: 9472
 after:
 blocked-on:
 model: opus
