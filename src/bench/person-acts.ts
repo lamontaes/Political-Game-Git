@@ -24,12 +24,8 @@ export type ActReason =
   | "here"
   /** The person lives outside the town: a call reaches them, a visit does not. */
   | "elsewhere"
-  /** The person is at a place the game has no picture of. */
-  | "away"
   /** A stop or choice holds the clock, so a trip cannot be taken. */
   | "held"
-  /** The person has died: the card says so and offers nothing. */
-  | "died"
   /** They live with the player: home is not a visit, and nobody calls a house they are in. */
   | "home"
   /** The trip and the visit's hours would run past the end of today. */
@@ -83,8 +79,8 @@ export function personActs(
     open: false,
     reason,
   });
-  // Someone who has died is one line on the card, not two closed buttons.
-  if (!other.alive) return [closed("visit", "died")];
+  // Someone who has died is offered nothing: the card has no Get in touch.
+  if (!other.alive) return [];
   const visit = ((): PersonAct => {
     if (context.here.includes(otherId)) return closed("visit", "here");
     if (other.householdId === core.people.get(playerId)?.householdId)
@@ -97,14 +93,17 @@ export function personActs(
     if (context.held) return closed("visit", "held");
     if (context.minute + visitMinutesOf(core) >= dayMinutesOf(core))
       return closed("visit", "late");
-    const at = whereIs(core, otherId, context.minute);
-    if (
-      at.kind === "work" &&
-      !hasBackdrop(orgPlace(core, at.organizationId) ?? "")
-    )
-      return closed("visit", "away");
     return { kind: "visit", open: true };
   })();
+  // At work in a place the game has no room for, there is nowhere to go
+  // to: no Visit is offered then (none is shown, as with a Call that has
+  // nothing to say), and the card offers it again once they leave work.
+  const at = whereIs(core, otherId, context.minute);
+  const unreachable =
+    visit.open &&
+    at.kind === "work" &&
+    !hasBackdrop(orgPlace(core, at.organizationId) ?? "");
+  const visits = unreachable ? [] : [visit];
   // Nobody calls someone in the room, or a house they are standing in: a
   // housemate at home while the player is home is not called either.
   const sameHouse =
@@ -113,7 +112,7 @@ export function personActs(
       other.householdId === core.people.get(playerId)?.householdId &&
       whereIs(core, otherId, context.minute).kind === "home");
   if (sameHouse)
-    return [visit, ...courtshipActs(core, playerId, otherId, context)];
+    return [...visits, ...courtshipActs(core, playerId, otherId, context)];
   // A call that cannot open (the game has no talk for them) is not offered:
   // no button and no reason, since "nothing to say" would not be true of them.
   const talk = openConversation(
@@ -127,8 +126,15 @@ export function personActs(
     },
   );
   return [
-    visit,
-    ...(talk.lines.length ? [{ kind: "call" as const, open: true }] : []),
+    ...visits,
+    // While a stop or scene holds the clock, Call waits like Visit does.
+    ...(talk.lines.length
+      ? [
+          context.held
+            ? { kind: "call" as const, open: false, reason: "held" as const }
+            : { kind: "call" as const, open: true },
+        ]
+      : []),
     ...courtshipActs(core, playerId, otherId, context),
   ];
 }
@@ -260,9 +266,9 @@ export function askFromCard(
   );
   const recordId = answered.recordId;
   if (!recordId) return {};
-  const book = director?.ledger.people.get(playerId as PersonId);
-  const entry = book?.schedule.find(
-    (row) => book.momentsById.get(row.momentId)?.causeId === recordId,
-  );
+  // The ask is the player's own press: its scene is staged now and shown
+  // (on the opening day too, before the clock has run), not held for the
+  // day's close. The one path the running-mate ask uses.
+  const entry = director?.stageOwnPress(core, playerId as PersonId, recordId);
   return entry ? { momentId: entry.momentId } : {};
 }

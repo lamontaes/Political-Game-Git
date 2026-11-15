@@ -170,8 +170,27 @@ for (let draw = 0; draw < draws; draw += 1) {
       "Ask out: someone seeing someone",
     );
   }
-  // 2. The nearest-age single, asked cold; then again after evenings together.
   const born = player.birthDate;
+  // 1b. The single farthest from the player in age, asked cold: the no an
+  // age gap gives.
+  const far = singles
+    .filter((r) => r.id !== taken?.id && r.id !== theirs?.id)
+    .sort(
+      (a, b) =>
+        Math.abs(Date.parse(b.birthDate) - Date.parse(born)) -
+          Math.abs(Date.parse(a.birthDate) - Date.parse(born)) ||
+        a.id.localeCompare(b.id),
+    )[0];
+  if (far && canAsk(api, me, far.id, "ask-out").open) {
+    askOut(api, me, far.id);
+    play(
+      FAMILY_ASKED_OUT,
+      "asked-out",
+      far.id,
+      "Ask out: the single farthest in age, cold",
+    );
+  }
+  // 2. The nearest-age single, asked cold; then again after evenings together.
   const other = singles
     .filter((r) => r.id !== taken?.id && r.id !== theirs?.id)
     .sort(

@@ -179090,56 +179090,6 @@
       }
     },
     {
-      "key": "scene-talk.state-tell.that-s-sweet-i-just-don-t-see-us-that-way",
-      "move": "state-tell",
-      "kind": "spoken",
-      "text": "That's sweet. I just don't see us that way.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "tell",
-          "role": "asker",
-          "purpose": "ask-out-answer",
-          "key": "favor-asked",
-          "requiresFacts": ["said-no", "reason-age-gap"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Claude Opus 5.5 (family life builder; Words lead ruling Nov 14 11:30Z)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "tell",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.state-tell.yes-yes-of-course",
-      "move": "state-tell",
-      "kind": "spoken",
-      "text": "Yes. Yes, of course.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "tell",
-          "role": "asker",
-          "purpose": "proposal-answer",
-          "key": "favor-asked",
-          "requiresFacts": ["said-yes"]
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Claude Opus 5.5 (family life builder; Words lead ruling Nov 14 11:30Z)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "tell",
-        "key": "favor-asked"
-      }
-    },
-    {
       "key": "scene-talk.state-tell.yes-i-love-you",
       "move": "state-tell",
       "kind": "spoken",
@@ -179606,32 +179556,6 @@
       }
     },
     {
-      "key": "scene-talk.follow-answer.i-just-don-t-see-it-working-it-s-nothing-you-did",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "I just don't see it working. It's nothing you did.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "after": "ask",
-          "purpose": "ask-out-answer",
-          "key": "favor-asked",
-          "requiresFacts": ["reason-age-gap"]
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Claude Opus 5.5 (family life builder; Words lead ruling Nov 14 11:30Z)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "answer",
-        "key": "favor-asked"
-      }
-    },
-    {
       "key": "scene-talk.follow-answer.it-s-too-soon-for-me-that-s-all-it-is",
       "move": "follow-answer",
       "kind": "spoken",
@@ -179701,42 +179625,6 @@
         }
       ],
       "bearing": "warm",
-      "origin": "authored",
-      "author": "Claude Opus 5.5 (family life builder; Words lead ruling Nov 14 11:30Z)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "thank",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.close-thank.come-here-we-re-fine",
-      "move": "close-thank",
-      "kind": "spoken",
-      "text": "Come here. We're fine.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "proposal-answer",
-          "key": "favor-asked",
-          "outcome": "resolved",
-          "requiresFacts": ["said-no"]
-        },
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "proposal-answer",
-          "key": "favor-asked",
-          "outcome": "refused",
-          "requiresFacts": ["said-no"]
-        }
-      ],
-      "bearing": "tender",
       "origin": "authored",
       "author": "Claude Opus 5.5 (family life builder; Words lead ruling Nov 14 11:30Z)",
       "date": "2026-11-14",

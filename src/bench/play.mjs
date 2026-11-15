@@ -2676,34 +2676,33 @@ async function personCardNode(
   // closed ones with the reason in plain words under them.
   const acts = person.personId === me.id ? [] : (c.acts ?? []);
   const first = c.name.split(" ")[0];
-  const died = acts.some((act) => act.reason === "died");
   const actsSection = acts.length
     ? [
         stripSection(
           1,
           labels.actsTitle,
-          // Someone who has died is one plain line, no buttons.
-          ...(died
-            ? [noteLine(labels.actReasons.died.replace("{first}", first))]
-            : [
-                buttonRow(
-                  ...acts.map((act) =>
-                    makeButton({
-                      className: "action",
-                      textContent: labels.acts[act.kind],
-                      disabled: !act.open,
-                      onclick: () => doAct(act.kind, person.personId),
-                    }),
-                  ),
-                ),
-                ...acts
-                  .filter((act) => !act.open && labels.actReasons[act.reason])
-                  .map((act) =>
-                    noteLine(
-                      labels.actReasons[act.reason].replace("{first}", first),
-                    ),
-                  ),
-              ]),
+          buttonRow(
+            ...acts.map((act) =>
+              makeButton({
+                className: "action",
+                textContent: labels.acts[act.kind],
+                disabled: !act.open,
+                onclick: () => doAct(act.kind, person.personId),
+              }),
+            ),
+          ),
+          ...acts
+            .filter(
+              (act, at, all) =>
+                !act.open &&
+                labels.actReasons[act.reason] &&
+                // One line per reason: a closed Visit and Call that wait
+                // for the same thing say it once.
+                all.findIndex((other) => other.reason === act.reason) === at,
+            )
+            .map((act) =>
+              noteLine(labels.actReasons[act.reason].replace("{first}", first)),
+            ),
         ),
       ]
     : [];
