@@ -2,7 +2,7 @@
 id: campaigns-endorsement-ask-repeats-until-answered
 title: "An endorsement ask the player has not answered is asked again every campaign turn"
 area: elections
-kind: defect
+kind: bug
 priority: 1
 size: S
 status: in-pr
