@@ -2860,10 +2860,6 @@ async function doAct(kind, personId) {
     $("backdrop").src = done.backdrop.url;
     drawHere(done, (p) => talkTo(p.personId));
     me.scene = done;
-    // A visit to a home is the host's home; a workplace is named as it is.
-    $("card-place").textContent = done.hostId
-      ? controls.person.homeOf.replace("{name}", done.name)
-      : done.name;
     // The trip and the visit's hours moved the clock.
     if (done.packet) renderPacket(done.packet);
   }
