@@ -41,3 +41,12 @@ A words read answers one question for one exact sha: can a player meet every wor
 - A fault outside the PR goes to the Account lead in one line with the place, the seed and the line. The reader files and fixes nothing.
 - A question the rules do not answer goes to the Words lead; the reader never rules.
 - Thread messages cap at 2,000 characters. A longer read goes in a file beside the played file and is deleted when the head moves or the PR is stamped.
+
+## Traps found Nov 15 (after #9455, #9369, #9389)
+
+- Two lines that differ by one word (a form with "the" and one without, a slot in a different spot) match the same search fragment. Count each sibling by the words only it has, or by its key; a fragment match on the shared part is not "seen". The Words lead's own check passed an unplayed line this way.
+- A played file that prints only the last thing said ("They say:") can hide a line that showed before it. Read the file's full line list for each talk and ask the builder to say which lines show on screen together.
+- An answer to "What happened?" or "Tell me" must tell more than the question that opened the talk. If the slot it fills is shorter than the opening's own words, the player learns nothing; question it even when it follows a ruling to the letter, and send it to the Words lead.
+- A line that invites a question ("Ask me about it.") does not fit a speaker who raised the subject themselves.
+- A place fact shown to the player (a county, an office) is checked against what the game can know before a stamp; say so as a limit when you cannot check it, and tell the Account lead.
+- A second stamp behind the Words lead's line is still a full read. Do not assume the first read covered a line.
