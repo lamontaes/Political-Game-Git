@@ -143071,30 +143071,6 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.pressed.money-is-tight-for-name-as-well-and-they-have-come-to-talk-about-the-missed-payment",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "Money is tight for {name} as well, who has come to talk about the missed payment.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "owed-apology.pressed",
-          "key": "routine",
-          "excludesFacts": ["same-home"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, apology variants)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "narrate",
-        "key": "routine"
-      }
-    },
-    {
       "key": "scene-talk.open-greet.pressed.do-you-have-a-minute-first-money-is-tight-for-me-too-and-i-need-to-talk-about-the-payment-you-missed",
       "move": "open-greet",
       "kind": "spoken",
