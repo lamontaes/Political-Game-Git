@@ -13,7 +13,7 @@
  * visit (`polling-place.ts`), not by a moment, so it holds no cause of its own.
  */
 import { applyCoreEvent, coreAPI } from "../core2/state";
-import { pollingStatus, type PollingStatus } from "../core2/modules/voting";
+import { type PollingStatus } from "../core2/modules/voting";
 import { dwellingMovedIn } from "../core2/modules/housing";
 import type { CoreState, PersonId } from "../core2/types";
 import {
