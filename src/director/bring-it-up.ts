@@ -480,12 +480,36 @@ export interface BroughtUp {
   change: KnownChange;
   attribution: Attribution;
   toldEventId: string;
+  /** Who they blamed aloud, when the blame line is among the lines. */
+  blamedId?: string;
   /** The race result the lines tell, when it is one: said in place of the story's headline. */
   resultId?: string;
 }
 
-/** The speaker brings up the newest change they know of, and tells the listener. */
+/**
+ * The speaker brings up the newest change they know of, and tells the
+ * listener: the lines worded (`wordBringItUp`) and what they said reaching
+ * the listener (`tellBroughtUp`).
+ */
 export function bringItUp(
+  core: CoreState,
+  speakerId: PersonId,
+  listenerId: PersonId,
+  options: { rows?: BringRows; words?: BringWords } = {},
+): BroughtUp | null {
+  const brought = wordBringItUp(core, speakerId, listenerId, options);
+  if (brought) tellBroughtUp(core, speakerId, listenerId, brought, options);
+  return brought;
+}
+
+/**
+ * The lines the speaker would bring up the newest change they know of with,
+ * worded and not yet said: nothing reaches the listener until the talk says
+ * them (`tellBroughtUp`). A talk that passes the news over, or a room only
+ * looked at, tells nobody anything (Account lead, Nov 15: the player was on
+ * record as told a change and a blame nobody said).
+ */
+export function wordBringItUp(
   core: CoreState,
   speakerId: PersonId,
   listenerId: PersonId,
@@ -692,7 +716,30 @@ export function bringItUp(
             : {},
         );
   if (second) lines.push(second);
-  // What was said reaches the listener: the change, and the blame if any.
+  const toldEventId = `${data.toldEvent}:${speakerId}:${listenerId}:${change.eventId}:${core.date}`;
+  return {
+    lines,
+    change,
+    attribution,
+    toldEventId,
+    // A blame reaches the listener only when it is said aloud.
+    ...(attribution.blamedId && second
+      ? { blamedId: attribution.blamedId }
+      : {}),
+    ...(election && result ? { resultId: result.id } : {}),
+  };
+}
+
+/** What was said reaches the listener: the change, and the blame if it was said. */
+export function tellBroughtUp(
+  core: CoreState,
+  speakerId: PersonId,
+  listenerId: PersonId,
+  brought: BroughtUp,
+  options: { rows?: BringRows } = {},
+): void {
+  const data = options.rows ?? BRING_IT_UP_ROWS;
+  const { change } = brought;
   const speaker = core.people.get(speakerId)!;
   const source: Source = {
     tag: "SOURCED",
@@ -700,27 +747,18 @@ export function bringItUp(
       "Recorded conversation: a person brought up a change and who they believe caused it.",
     asOf: core.date,
   };
-  const toldEventId = `${data.toldEvent}:${speakerId}:${listenerId}:${change.eventId}:${core.date}`;
   applyCoreEvent(core, {
-    id: toldEventId,
+    id: brought.toldEventId,
     date: core.date,
     kind: data.toldEvent,
     personIds: [listenerId],
     placeId: speaker.placeId,
     facts: {
       [`${data.heardKey}:${change.eventId}`]: change.institutionId,
-      // A blame reaches the listener only when it was said aloud.
-      ...(attribution.blamedId && second
-        ? { [`${data.blameKey}:${change.eventId}`]: attribution.blamedId }
+      ...(brought.blamedId
+        ? { [`${data.blameKey}:${change.eventId}`]: brought.blamedId }
         : {}),
     },
     source,
   });
-  return {
-    lines,
-    change,
-    attribution,
-    toldEventId,
-    ...(election && result ? { resultId: result.id } : {}),
-  };
 }
