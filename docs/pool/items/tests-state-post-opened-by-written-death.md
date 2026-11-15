@@ -26,9 +26,9 @@ effort: medium
 
 **Time box.** 1 hour for one session.
 
-**Rules.** Pinned tests, named places and seeds; rare events are staged through the game's own path.
+**Rules.** Wire to the world: the death that opens the post is the health engine's own, so every engine that reads a death reads this one. No dice: the illness is staged once by hand and its course decides the date.
 
-**Done when.** A second session runs the three tests and reads in each that the post opened through the health engine's booked death, not by writing records.
+**Done when.** A second session runs the three tests, then opens a post the same way in a drawn place named with its seed, and sees the post open on the holder's booked death through the health engine, with nothing written by hand.
 
 **Waits on.** nothing.
 
