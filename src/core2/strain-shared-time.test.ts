@@ -4,8 +4,8 @@
  * chamber have no relationship row; their closeness is the sittings they
  * shared (sitting-closeness.ts). A strain written through the one relationship
  * writer (a broken word found out) takes off what the read prices, a strain
- * larger than the whole tie stops at zero, and a pair that shares nothing
- * elsewhere keeps the old floor at zero hours.
+ * larger than the whole tie stops at zero, and a pair that shares no time
+ * another engine reads keeps the old floor at zero hours.
  */
 import { expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
@@ -83,7 +83,7 @@ it("a strain on a tie built from shared sittings takes closeness off, never belo
   expect(
     core.relationships.get(`${c}:${d}`)?.owedHours ?? 0,
   ).toBeLessThanOrEqual(sharedHoursBetween(core, c, d));
-  // Two senators who share nothing elsewhere and have no row: the strain
+  // A senator and someone they share no sitting or row with: the strain
   // stops at zero hours and nothing is kept owed, as before.
   const apart = ids
     .flatMap((x) =>
