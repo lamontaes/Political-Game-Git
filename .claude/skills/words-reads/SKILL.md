@@ -183,3 +183,4 @@ Rulings that go with these. A said name of a subject ({issue}, {said}) goes only
 - The ten-word limit is `maxWords` in `data/english/parts/conversation.json`, a builder's setting, not an owner rule. Rule 128's long turn is several parts composed as one turn (an arc's `stateMoves` in `src/director/scene-talk.ts`), never one long part.
 - One fault class gets one mechanism and one owner thread. Before assigning a class, ask which thread already holds the mechanism, and say so to both.
 - A deleted line that exists nowhere else is a loss to rule on, not a cleanup: ask where each deleted line still plays.
+- A line that plays is not yet a line that is placed right. At a stamp, read what places each new line (requiresFacts, excludesFacts, onlyWhen) against the lines file: two pleas written "only when the record holds a favor" were placed on asked-before alone and played for a player who had never backed the person.
