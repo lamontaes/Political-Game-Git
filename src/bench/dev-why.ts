@@ -676,7 +676,7 @@ function countryStatePanels(core: CoreState, state: CountryState): WhyPanel[] {
   return [
     { title: `Taxes withheld from pay in ${name}, ${month}`, rows: withheld },
     { title: `Spending and the ledger in ${name}, ${month}`, rows: ledger },
-    { title: `Jobs in ${name} by sector, ${month}`, rows: jobs },
+    { title: `Residents with jobs in ${name} by sector, ${month}`, rows: jobs },
     { title: `People who arrived and left ${name}, ${month}`, rows: people },
   ];
 }
@@ -711,7 +711,7 @@ function countryStatePartPanels(
           }),
     },
     {
-      title: `Jobs in ${name}: the played places and the rest`,
+      title: `Residents with jobs in ${name}: the played places and the rest`,
       rows: rows("jobs"),
     },
   ];
