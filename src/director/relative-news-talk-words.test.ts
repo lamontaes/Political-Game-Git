@@ -161,3 +161,32 @@ describe("the answers that close a death's telling without a promise", () => {
     );
   });
 });
+
+describe("how a relative says how someone died, from what the record holds", () => {
+  const asked = (facts: Record<string, ReturnType<typeof fact>>) =>
+    new Set(
+      Array.from(
+        { length: 60 },
+        (_, at) => say("death-news-back", facts, "ask", `:${at}`)?.text,
+      ),
+    );
+  const yes = fact("yes");
+  it("tells a suicide as family words and never the method", () => {
+    const told = asked({ "cause-suicide": yes, she: yes });
+    expect(told).toContain("She took her own life.");
+    expect(told).toContain("She took her own life. None of us knew.");
+    for (const text of told) expect(text).not.toMatch(/gun|shot|shoot/i);
+  });
+  it("tells a shooting as the act, never who or why", () => {
+    const told = asked({ "cause-shot": yes, they: yes });
+    expect(told).toContain("They were shot.");
+    expect(told).toContain("Somebody shot them.");
+  });
+  it("states an illness the house knew of in family words, only when the player was not told", () => {
+    const facts = { "house-illness": yes, he: yes, illness: fact("bad lungs") };
+    expect(asked(facts)).toContain("He had bad lungs. I thought you knew.");
+    expect(asked({ ...facts, "illness-known": yes })).not.toContain(
+      "He had bad lungs. I thought you knew.",
+    );
+  });
+});

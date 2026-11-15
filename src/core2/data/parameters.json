@@ -4007,6 +4007,19 @@
     },
     "stopgapId": "SG-P15-partnership-model"
   },
+  "workContactShare": {
+    "value": 0.25,
+    "role": "coefficient",
+    "tag": "ESTIMATED",
+    "citation": "The share of the minutes two coworkers' shifts overlap that the first spends in contact with the people they know there (talking, working side by side), before it is split among them (work-closeness.ts). Anchored on the American Time Use Survey's time at work spent with coworkers, whose exact figure was not fetched: the relationship (more shared minutes, more closeness) is what is used; the number is an estimate with the spread below.",
+    "estimatedFrom": "A quarter of a shift, between a mostly solitary job and a mostly team job.",
+    "spread": {
+      "low": 0.1,
+      "high": 0.4,
+      "unit": "share of overlapping shift minutes spent in contact with known coworkers",
+      "citation": "From a mostly solitary job (a tenth of the overlap) to a mostly team job (two fifths); the time-use survey's coworker time was not fetched, so the ends are estimates."
+    }
+  },
   "groupKnownScale": {
     "value": 4.5,
     "tag": "ESTIMATED",
@@ -5218,6 +5231,18 @@
       "high": 360,
       "unit": "minutes a shift",
       "citation": "Four- to six-hour shifts."
+    }
+  },
+  "stipendPostMinimumWeeklyMinutes": {
+    "value": 60,
+    "tag": "TUNABLE",
+    "role": "level",
+    "citation": "Chosen by the game, not read from a source: the shortest weekly sitting a stipend post (a small town's attorney or clerk paid a few dollars a week) is scheduled for, so such a post is a few hours at a real rate and never a full week at cents an hour.",
+    "spread": {
+      "low": 30,
+      "high": 120,
+      "unit": "minutes a week",
+      "citation": "Half an hour to two hours a week; checked against the posts' weekly pay at small places, which the line's own room sets."
     }
   },
   "residentsOutlayShareOfIncome": {

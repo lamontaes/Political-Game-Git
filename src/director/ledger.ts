@@ -145,6 +145,11 @@ export interface Director {
   storyWords?: StoryWords;
   /** Snapshot every watched person; call once after the core is created. */
   start(core: Readonly<CoreState>): void;
+  /**
+   * Runs the opening's warm-up (src/core2/player-warm-up.ts) before the director starts: its days watch
+   * no one, make no scene, stop or journal line, and are not an error.
+   */
+  whileWarming(run: () => void): void;
   /** Begin watching another person, such as someone the player clicks into. */
   watch(core: Readonly<CoreState>, personId: PersonId): void;
   /** "live" or "skipping": while skipping, waiting scenes become journal lines. */
@@ -282,7 +287,19 @@ export function createDirector(
   const laterDays = new Map<string, number[]>();
   for (const [kind, rows] of circumstanceRows) {
     const days = [
-      ...new Set(rows.flatMap((row) => (row.afterDays ? [row.afterDays] : []))),
+      ...new Set(
+        rows.flatMap((row) =>
+          row.afterDays
+            ? Array.from(
+                {
+                  length:
+                    (row.keepsDays ?? row.afterDays) - row.afterDays + P.one,
+                },
+                (_, step) => row.afterDays! + step,
+              )
+            : [],
+        ),
+      ),
     ];
     if (days.length) laterDays.set(kind, days);
   }
@@ -311,6 +328,7 @@ export function createDirector(
   const interruptedToday = new Set<PersonId>();
   const initial = [...options.watch];
   let started = false;
+  let warming = false;
   let mode: "live" | "skipping" = "live";
 
   const param = (key: string): number => {
@@ -1658,7 +1676,15 @@ export function createDirector(
           b.score - a.score ||
           a.row.id.localeCompare(b.row.id),
       );
-      const pick = picks[zero];
+      // A row whose news keeps stages its scene for a record once: the first
+      // morning it wins the day, not the mornings after.
+      const pick = picks.find(
+        (row) =>
+          !row.row.keepsDays ||
+          !ledger.circumstanceLast.has(
+            `${book.personId}|${row.row.id}|${row.record.id}`,
+          ),
+      );
       if (!pick) continue;
       const base = param(pick.row.impactParameter);
       const raw = one + pick.closeness;
@@ -1698,6 +1724,11 @@ export function createDirector(
       ledger.circumstanceLast.set(`${book.personId}|${pick.row.id}`, date);
       ledger.circumstanceLast.set(`${book.personId}|*`, date);
       ledger.circumstanceLast.set(`${book.personId}|cast|${pick.castId}`, date);
+      if (pick.row.keepsDays)
+        ledger.circumstanceLast.set(
+          `${book.personId}|${pick.row.id}|${pick.record.id}`,
+          date,
+        );
     }
   }
 
@@ -2205,6 +2236,7 @@ export function createDirector(
         pendingFor(receipt.personId).work.push({ ...receipt });
     },
     onAfterDay(api) {
+      if (!started && warming) return;
       if (!started)
         throw new Error("The story director was installed but not started.");
       // Promises whose window closes today end as their kind says.
@@ -2232,6 +2264,16 @@ export function createDirector(
     module,
     ledger,
     ...(options.storyWords ? { storyWords: options.storyWords } : {}),
+    whileWarming(run) {
+      if (started)
+        throw new Error("Warm the world before the director starts.");
+      warming = true;
+      try {
+        run();
+      } finally {
+        warming = false;
+      }
+    },
     start(core) {
       if (started) return;
       started = true;
