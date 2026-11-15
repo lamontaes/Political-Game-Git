@@ -69,6 +69,12 @@ export function lawApplied(
     readonly what: string;
     readonly count?: number;
     readonly amountMinor?: number;
+    /**
+     * The law is no longer in force, but an effect it set going still pays
+     * (a lagged price): the dollars go onto the law's row for this target,
+     * which stays ended (or is written ended), never reopened.
+     */
+    readonly lingering?: boolean;
   },
 ): void {
   if (!api.state.modules.has(HOST_ID)) return;
@@ -78,6 +84,40 @@ export function lawApplied(
   const held = table.get(id) as unknown as LawAppliedRow | undefined;
   const count = input.count ?? 1;
   const amount = Math.round(input.amountMinor ?? 0);
+  if (input.lingering) {
+    const own =
+      held && held.lawId === input.lawId
+        ? held
+        : (table.get(`${id}|${input.lawId}`) as unknown as
+            LawAppliedRow | undefined);
+    if (own) {
+      table.put({
+        ...own,
+        lastOn: date,
+        times: own.times + (own.lastOn === date ? 0 : 1),
+        amountMinor: own.amountMinor + amount,
+        endedOn: own.endedOn ?? date,
+      } as unknown as ModuleRow);
+      return;
+    }
+    const ended: LawAppliedRow = {
+      id: held ? `${id}|${input.lawId}` : id,
+      key: input.key,
+      lawId: input.lawId,
+      targetId: input.targetId,
+      target: input.target,
+      count,
+      engine: input.engine,
+      what: input.what,
+      since: date,
+      lastOn: date,
+      times: 1,
+      amountMinor: amount,
+      endedOn: date,
+    };
+    table.put(ended as unknown as ModuleRow);
+    return;
+  }
   if (held && !held.endedOn && held.lawId === input.lawId) {
     if (
       held.lastOn === date &&

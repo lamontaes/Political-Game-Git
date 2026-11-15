@@ -109,7 +109,14 @@ export function traceWebPriceLaws(
       laws.set(cached, lawId);
     }
     if (!lawId) continue;
+    const today = `${link.question}|today`;
+    let inForce = laws.get(today);
+    if (inForce === undefined) {
+      inForce = lawInForce(api, link.question).governing?.id ?? null;
+      laws.set(today, inForce);
+    }
     lawApplied(api, {
+      lingering: inForce !== lawId,
       key: link.question,
       lawId,
       targetId: input.organizationId,
