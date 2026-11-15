@@ -16,7 +16,7 @@ source: second words reader on #9348, Nov 14
 lead: words
 ---
 
-**What.** At the filing counter in Vicco KY and West Point KY the same Secretary of State clerk opens one talk "This is the Secretary of State" and another "I keep the candidate list for Vicco" or "I take the filings for West Point", a town clerk's line in a state office's mouth.
+**What.** At the filing counter in Vicco KY and West Point KY the same Secretary of State clerk opens one talk "This is the Secretary of State" and another "I keep the candidate list for Vicco" or "I take the filings for West Point", a town clerk's line in a state office's mouth.  Seen: the clerk's greeting at the filing counter.
 
 **Cause.** Found in code: `openFilingVisit` in `src/director/filing-visit.ts` gave the `greet-counter` move `placeFact`, which is always the player's town, even when the counter takes only state, federal or county races.
 
