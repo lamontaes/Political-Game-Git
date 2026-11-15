@@ -144,6 +144,11 @@ export interface Director {
   storyWords?: StoryWords;
   /** Snapshot every watched person; call once after the core is created. */
   start(core: Readonly<CoreState>): void;
+  /**
+   * Runs the opening's warm-up (src/core2/player-warm-up.ts) before the director starts: its days watch
+   * no one, make no scene, stop or journal line, and are not an error.
+   */
+  whileWarming(run: () => void): void;
   /** Begin watching another person, such as someone the player clicks into. */
   watch(core: Readonly<CoreState>, personId: PersonId): void;
   /** "live" or "skipping": while skipping, waiting scenes become journal lines. */
@@ -310,6 +315,7 @@ export function createDirector(
   const interruptedToday = new Set<PersonId>();
   const initial = [...options.watch];
   let started = false;
+  let warming = false;
   let mode: "live" | "skipping" = "live";
 
   const param = (key: string): number => {
@@ -2198,6 +2204,7 @@ export function createDirector(
         pendingFor(receipt.personId).work.push({ ...receipt });
     },
     onAfterDay(api) {
+      if (!started && warming) return;
       if (!started)
         throw new Error("The story director was installed but not started.");
       // Promises whose window closes today end as their kind says.
@@ -2225,6 +2232,16 @@ export function createDirector(
     module,
     ledger,
     ...(options.storyWords ? { storyWords: options.storyWords } : {}),
+    whileWarming(run) {
+      if (started)
+        throw new Error("Warm the world before the director starts.");
+      warming = true;
+      try {
+        run();
+      } finally {
+        warming = false;
+      }
+    },
     start(core) {
       if (started) return;
       started = true;
