@@ -757,16 +757,26 @@ export interface EmployerRecord {
 }
 
 /**
+ * Whether an organization is a government's payroll body (its treasury, or an
+ * outside government's account): the employer on an official's job record, and
+ * neither a place anyone goes to nor a room anyone meets in.
+ */
+export function isPayrollOrganization(record: {
+  readonly kind?: string;
+}): boolean {
+  return (
+    record.kind === "government-outside" ||
+    record.kind === "government-treasury"
+  );
+}
+
+/**
  * Whether the employer is a government or one of its offices (a treasury, an
  * outside government, a government's own record): a person works for it,
  * never at it. A business or a school system is not.
  */
 export function employerIsGovernment(record: EmployerRecord): boolean {
-  if (
-    record.kind === "government-outside" ||
-    record.kind === "government-treasury"
-  )
-    return true;
+  if (isPayrollOrganization(record)) return true;
   const business = !!record.classification?.startsWith("enterprise:");
   const government =
     !!record.governmentFacts?.governmentKind ||
