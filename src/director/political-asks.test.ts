@@ -1,4 +1,3 @@
-import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
 import { drawPlace } from "../../scripts/core2-year/place";
@@ -90,7 +89,6 @@ const ADVICE_PINS = [
 ] as const;
 const DAY_PATTERN =
   /\d{4}-\d{2}-\d{2}|\b[a-z]+[-.:][a-z-]+:|\{|\}|undefined|\d{5,}/;
-const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 
 /** Whether any party in town has a seated officeholder who has held a seat a year or more (read from the records). */
 function partyHasVeteran(core: CoreState): boolean {
