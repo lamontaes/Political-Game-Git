@@ -26,7 +26,12 @@ import { buyMarket, monthlyPayment, weighHome } from "./housing-buy";
 import { countUnmetBuyer, takeHomes } from "./housing-listings";
 import { countedMortgageFlowId, MORTGAGE_PREFIX } from "./housing-mortgages";
 import { countBuyer, placePriceLevel } from "./housing-price-level";
-import { countedHousingInArrears, countedPayment } from "./counted-money";
+import { depositsHeld, withdrawSavings } from "./accounts";
+import {
+  countedHousingInArrears,
+  countedPayment,
+  fundOf,
+} from "./counted-money";
 import type { CountedHousehold } from "./counted-groups";
 import { ageInYears, daysBetweenText, makeIsoDate } from "./kernel/dates";
 import {
@@ -269,8 +274,9 @@ function weighAndBuy(
   const outside = world.outsideOf(h.placeId);
   if (!value || !outside) return false;
   const weight = rt.store.weightOf(h);
-  // What it could put down: its own share of its group's account, for one household of the record.
+  // What it could put down: its own share of its group's account and the savings the bank holds for it, both for every household of the record, as a full renter counts its cash and savings.
   const share = departingCash(rt, h);
+  const banked = depositsHeld(api.state as CoreState, h.id);
   // A newcomer that owned where it came from also brings what it sold that home for, less its loan, for each household.
   const brought = Math.max(0, Math.floor(home.broughtMinor ?? 0));
   const weighed = weighHome(api, market, world.bankYes, {
@@ -279,7 +285,7 @@ function weighAndBuy(
     valueMinor: value,
     rentMinor: home.rentMinor,
     incomeMinor: income,
-    meansMinor: Math.floor(share / weight) + brought,
+    meansMinor: Math.floor((share + banked) / weight) + brought,
     children: facts.filter(
       (row) => ageInYears(row.birthDate, today) < p("housingOwnerMinimumAge"),
     ).length,
@@ -288,8 +294,9 @@ function weighAndBuy(
   });
   if (!weighed.buy) return false;
   const down = Math.round(weighed.downMinor);
-  // What it brought and its share must cover the down payment for every household the record stands for, so the households it leaves behind pay none of it.
-  if (share + Math.min(brought, down) * weight < down * weight) return false;
+  // What it brought, its share and its savings must cover the down payment for every household the record stands for, so the households it leaves behind pay none of it.
+  if (share + banked + Math.min(brought, down) * weight < down * weight)
+    return false;
   return buy(
     api,
     rt,
@@ -304,6 +311,7 @@ function weighAndBuy(
       rentMinor: home.rentMinor,
       incomeMinor: income,
       shareMinor: Math.floor(share / weight),
+      bankedMinor: Math.floor(banked / weight),
       broughtMinor: Math.min(brought, down),
       leaseMonths:
         home.leaseDays / (p("daysPerMeanYear") / p("macroMonthsPerYear")),
@@ -331,6 +339,8 @@ function buy(
     incomeMinor: number;
     /** One household's share of its group's account when it weighed buying. */
     shareMinor: number;
+    /** One household's savings at the bank when it weighed buying. */
+    bankedMinor: number;
     /** What it brought from the home it sold before moving here, toward the down payment, for one household. */
     broughtMinor: number;
     leaseMonths: number;
@@ -347,7 +357,7 @@ function buy(
     tag: "ESTIMATED",
     asOf: c.date,
     citation: housingData.mortgage.source,
-    estimatedFrom: `A counted household (standing for ${weight}) bought a home for ${Math.round((deal.principal + deal.down) / 100)} dollars each with ${Math.round(deal.down / 100)} down at ${(deal.rate * 100).toFixed(2)}%, from ${Math.round(deal.shareMinor / 100)} dollars of its own savings, its share of its group's account, after ${deal.leaseMonths.toFixed(0)} months of its lease.`,
+    estimatedFrom: `A counted household (standing for ${weight}) bought a home for ${Math.round((deal.principal + deal.down) / 100)} dollars each with ${Math.round(deal.down / 100)} down at ${(deal.rate * 100).toFixed(2)}%, from ${Math.round((deal.shareMinor + deal.bankedMinor) / 100)} dollars of its own savings, its share of its group's account and its savings at the bank, after ${deal.leaseMonths.toFixed(0)} months of its lease.`,
   };
   // Only homes for sale that it can afford: a builder's new houses, then homes households put on the market worth no more today than the home it weighed. None, it does not buy this month; the price level still weighs it as a buyer.
   const taken = takeHomes(api, h.placeId, weight, false, deal.value);
@@ -371,6 +381,9 @@ function buy(
   regroupHousehold(rt, h, c.date);
   // The down payment, to each seller for its homes: first what it brought from the home it sold (paid in from the outside market that bought that home), then from the account its share moved to.
   let downPaid = 0;
+  // Its share pays first; past it, the savings it needs are drawn from the bank into the account its share moved to, just before each payment.
+  let shareLeft = deal.shareMinor * weight;
+  let bankedLeft = depositsHeld(c, h.id);
   for (const seller of sellers) {
     const amount = Math.round(deal.down * seller.scale * seller.homes);
     const fromSale = Math.min(
@@ -390,8 +403,20 @@ function buy(
               fromSale,
               source,
             );
+    const need = amount - sold;
+    const fromShare = Math.min(Math.max(0, need), shareLeft);
+    shareLeft -= fromShare;
+    const draw = Math.min(need - fromShare, bankedLeft);
+    if (draw > 0)
+      bankedLeft -= withdrawSavings(c, api, {
+        id: `down-payment-savings:${stamp}:${seller.key}`,
+        holderId: h.id,
+        customerAccountId: fundOf(api, rt, h.group),
+        amountMinor: draw,
+        source,
+      });
     const fromSavings =
-      amount - sold > 0
+      need > 0
         ? countedPayment(api, {
             id: `down-payment:${stamp}:${seller.key}`,
             placeId: h.placeId,
