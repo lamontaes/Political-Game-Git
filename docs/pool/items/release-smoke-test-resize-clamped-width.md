@@ -24,7 +24,7 @@ checked:
 
 **Cause.** Found in code: `desktop/scripts/smoke-test.mjs`, the "shell: resize applies" check (lines 335 to 352). It asks for a window 1024 wide, then passes only if the width is exactly 1024 and the height is at least 640, and the window changed or was already between 640 and 700 high. When the runner clamps the window to 1040 by 736, the width is not 1024, the check fails, and nothing about the build is wrong.
 
-**Fix.** In `desktop/scripts/smoke-test.mjs`, make the check ask what the product promises: the window ends at or above the minimum size and the game is still drawn after the resize (the check beside it already reads that). Accept a clamped size when it is at least the window's minimum width and height; keep failing when the size is below the minimum or the game is not drawn. The player sees nothing change; the package check stops failing on a runner display.
+**Fix.** Built on the Train in commit df168042, in `desktop/scripts/smoke-test.mjs`: the check restores the maximized window first (`desktop/main.mjs` line 285 maximizes the window at open, and a maximized window ignores `setSize`), reads the display's work area, asks for 1024 by 700 trimmed to fit it and not below the window minimum of 960 by 640, and requires the window to end at exactly that size. It was written without a way to run Electron, so it is unverified until the first Windows package run that includes it; if that run is red the commit comes out and the item reopens with what was seen. The player sees nothing change.
 
 **Time box.** 1 hour for one Sonnet session at medium effort.
 

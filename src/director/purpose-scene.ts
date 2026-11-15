@@ -61,6 +61,7 @@ import {
   coreStateName,
 } from "../core2/place-lookup";
 import { applyCoreEvent, coreAPI } from "../core2/state";
+import { tieHoursBetween } from "../core2/closeness";
 import type { CoreState, PersonId } from "../core2/types";
 import {
   billNameFor,
@@ -109,7 +110,7 @@ import type { Director } from "./ledger";
 import { raceMargin } from "./race-margin";
 import { knockFacts, petitionAtDoor } from "./doors";
 import { officeSaid, raceMemberTitle } from "./cause-facts";
-import { officeInSentence } from "../core2/person-work";
+import { officeInSentence, workHeld } from "../core2/person-work";
 import {
   SITUATION_LIBRARY,
   type ScheduleEntry,
@@ -2088,21 +2089,23 @@ function composeBinding(
       if (serve.grounds.confirmed)
         facts.confirm = { text: "yes", sourceRecordIds: why };
       // Pay, from two different records: out of work, or a raise.
-      const job = serve.grounds.jobId
-        ? core.jobs.get(serve.grounds.jobId)
-        : undefined;
+      // The work is a job in the played world or, for someone filled in from
+      // elsewhere, their home town's work on their identity's record. The
+      // person asked is the one who answers (`askerId`, serveStanding's
+      // prospect); `askedId` is still the player's seat.
+      const job = workHeld(core, askerId);
       if (!job) facts["out-of-work"] = { text: "yes", sourceRecordIds: why };
       else if ((serve.terms.pay ?? P.zero) > P.zero)
         facts["pay-raise"] = {
           text: "yes",
-          sourceRecordIds: [...why, job.id],
+          sourceRecordIds: [...why, job.recordId],
         };
       // Their work is in the post's own field: the player can say they have
       // done the work, as the job they hold.
       if (job && serve.grounds.inField) {
         facts["post-field"] = {
           text: "yes",
-          sourceRecordIds: [...why, job.id],
+          sourceRecordIds: [...why, job.recordId],
         };
         // An occupation group's plural name ("Registered Nurses") is not one
         // person's job, so it is not said.
@@ -2114,7 +2117,7 @@ function composeBinding(
         )
           facts["their-office"] = {
             text: jobSaid(job.title),
-            sourceRecordIds: [...why, job.id],
+            sourceRecordIds: [...why, job.recordId],
           };
       }
     }
@@ -3146,10 +3149,29 @@ function keepDoorPieces(
 /** The player's move at a door that asks after the resident (the door arcs' `asks.middle.ask`). */
 const DOOR_ASK_AFTER = "ask";
 
-/** Hours of quarrel an ending that strains a tie writes to closeness, by what it keeps. */
+/**
+ * What an ending that strains a tie writes to closeness, by what it keeps:
+ * hours of quarrel, or (`unit` "share of the tie") a share of the hours the
+ * tie stands on today.
+ */
 const ENDING_STRAIN = rulesFile.endingStrain as unknown as Readonly<
-  Record<string, { value: number } | undefined>
+  Record<string, { value: number; unit?: string } | undefined>
 >;
+const SHARE_OF_TIE = "share of the tie";
+
+/** The hours an ending's strain takes off the tie between two people today. */
+export function endingStrainHours(
+  core: Pick<CoreState, "data" | "date" | "relationships">,
+  keeps: string,
+  a: PersonId,
+  b: PersonId,
+): number | undefined {
+  const row = ENDING_STRAIN[keeps];
+  if (!row) return undefined;
+  return row.unit === SHARE_OF_TIE
+    ? row.value * tieHoursBetween(core, a, b)
+    : row.value;
+}
 
 /**
  * The player's reply in a scene with a purpose, by its path through the tree
@@ -3376,7 +3398,9 @@ export function replyInScene(
       undefined,
       { cause: "scene-reply", sourceId: id },
     );
-  const strain = ending ? ENDING_STRAIN[ending.keeps]?.value : undefined;
+  const strain = ending
+    ? endingStrainHours(core, ending.keeps, scene.askedId, scene.askerId)
+    : undefined;
   if (strain)
     coreAPI(core).relationship(
       scene.askedId,
