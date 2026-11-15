@@ -24,6 +24,8 @@ source: Words lead's read of #9446 (Nov 15): the day-after play of race-lost ope
 
 **Fix.** Find whether a player can reach the scene the day after through the schedule's `openUntil`; if so, gate the night narration on `same-day` and give the morning narration its own parts (Words lead writes them), in the same purpose.
 
+**Checked Nov 15 (builder).** At Bountiful UT (draw probe:3, step12), seed 616264a0c7f08ad24b15ac0e0ddd007381977b57ddfc987335abbc0f3fcda803, the player files in the first council seat and loses the 2025-11-04 count. The player's schedule entry for it is `journal-line` (not `scene-waiting`), with `openUntil` 2025-11-11, and `director.waitingScenes` does not list it on 2025-11-05. So in that world the game never offers the concession call the morning after; only a test that composes the scene by hand plays night narration on the day after. Gating the two night narrations on `same-day` made the night play and removed them the day after, but no run shows the game reaching the morning scene, so nothing shipped. Needs one world where the entry is `scene-waiting` and opens the next morning (a player not at the count); until one is found this is a defensive gap, not a seen fault.
+
 **Time box.** 2 hours.
 
 **Rules.** Replace, never layer: the morning narration replaces the night's on the day after and none is kept beside it. One scene engine, and the builder writes no line.
