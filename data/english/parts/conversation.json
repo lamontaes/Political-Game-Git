@@ -24201,7 +24201,7 @@
       "key": "conversation.own-view-answer-agree.you-and-me-both-first",
       "move": "own-view-answer-agree",
       "kind": "spoken",
-      "text": "You and me both.",
+      "text": "You and me both, {first}.",
       "uses": [
         {
           "move": "own-view-answer-agree",
