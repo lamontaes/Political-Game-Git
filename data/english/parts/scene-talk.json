@@ -161,7 +161,9 @@
     "agency": "The office a constituent's case is referred to when the official takes it up (\"the workforce office\"), by the case's problem in the constituent-cases record.",
     "staffer": "The first name of an aide serving on the official's staff, from the staff record.",
     "respond-in": "When the office decides a constituent's case if nobody does sooner (\"in seven days\"), from the case's deadline.",
-    "money-left": "How a job seeker's savings stand, in words and never a figure (\"running low\", \"almost gone\"), from their constituent case's severity."
+    "money-left": "How a job seeker's savings stand, in words and never a figure (\"running low\", \"almost gone\"), from their constituent case's severity.",
+    "said": "The subject of the player's bill as a person names it after 'on' (\"voting by mail\"), from the question's `said` in data/english/question-names.json (questionSaid), for the co-sponsor ask; never a side.",
+    "fee-short": "Yes where the one filing cannot pay the fee (their cash is under the sum); nothing otherwise."
   },
   "maxWords": 70,
   "parts": [
