@@ -2,8 +2,9 @@ import { describe, expect, it } from "vitest";
 import type { Fact } from "./bank-line";
 import { fitting, type SceneMove } from "./scene-talk-words";
 
-// An official asked about a bill after its vote never says the vote is still
-// ahead ("I'm still reading it.", "They'll see when I vote."). The packet is
+// On a reporter's call after a bill's vote, nobody speaks of the vote as still
+// ahead ("I'm still reading it.", "They'll see when I vote.", "The vote's in
+// two weeks."); before it, those lines still play. The packet is
 // the one the reporter's call built in play: Salem, Ohio (3969834), seed
 // rank-m4 (src/director/press-comment-context.test.ts), Nov 15.
 const fact = (text: string): Fact => ({ text, sourceRecordIds: ["r1"] });
@@ -29,13 +30,27 @@ const AHEAD = [
   "I'll have something to say after the vote.",
   "I'm not going to get ahead of the vote.",
   "I'll have more when the committee reports.",
+  "I'm voting no, and I'll tell you why.",
+  "I'm voting for it, and you can quote me.",
+  "The vote's in two weeks. After is too late for my readers.",
+  "Everybody else on the council has told me where they are.",
+  "We'll see how it holds up after the vote.",
 ];
-const offered = (move: string, facts: Record<string, Fact>, after?: string) =>
+const SPOTS = [
+  { step: "reply", move: "stall", role: "asked" },
+  { step: "reply", move: "deflect", role: "asked" },
+  { step: "reply", move: "answer", role: "asked" },
+  { step: "follow", move: "press", role: "asker" },
+  { step: "close", move: "promise", role: "asker", outcome: "resolved" },
+];
+const offered = (
+  spot: (typeof SPOTS)[number],
+  facts: Record<string, Fact>,
+  after?: string,
+) =>
   fitting(
     {
-      step: "reply",
-      move,
-      role: "asked",
+      ...spot,
       purpose: "press-comment",
       key: "routine",
       ...(after ? { after } : {}),
@@ -52,15 +67,13 @@ describe("after the vote, no reply says the vote is still ahead", () => {
       ([key]) => key !== "vote-held" && key !== "voted-no",
     ),
   );
-  for (const move of ["stall", "deflect"])
-    it(`${move}: none after the vote, and the spot still has lines`, () => {
-      const after = [...offered(move, voted), ...offered(move, voted, "press")];
+  const AFTER = [undefined, "press", "ask", "confront", "deflect", "refuse"];
+  for (const spot of SPOTS)
+    it(`${spot.step} ${spot.move}: none after the vote, and the spot still has lines`, () => {
+      const after = AFTER.flatMap((a) => offered(spot, voted, a));
       expect(after.filter((text) => AHEAD.includes(text))).toEqual([]);
-      expect(offered(move, voted).length).toBeGreaterThan(0);
-      const ahead = [
-        ...offered(move, before),
-        ...offered(move, before, "press"),
-      ];
+      expect(after.length).toBeGreaterThan(0);
+      const ahead = AFTER.flatMap((a) => offered(spot, before, a));
       expect(ahead.some((text) => AHEAD.includes(text))).toBe(true);
     });
 });

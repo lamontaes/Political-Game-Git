@@ -4862,7 +4862,8 @@
           "move": "answer",
           "role": "asked",
           "purpose": "press-comment",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["vote-held"]
         }
       ],
       "bearing": "proud",
@@ -9140,7 +9141,8 @@
           "move": "answer",
           "role": "asked",
           "purpose": "press-comment",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["vote-held"]
         }
       ],
       "bearing": "braced",
@@ -14432,7 +14434,8 @@
           "role": "asker",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "deflect"
+          "after": "deflect",
+          "excludesFacts": ["vote-held"]
         }
       ],
       "bearing": "calm",
@@ -14457,7 +14460,8 @@
           "role": "asker",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "deflect"
+          "after": "deflect",
+          "excludesFacts": ["vote-held"]
         }
       ],
       "bearing": "braced",
@@ -19315,7 +19319,8 @@
           "role": "asker",
           "purpose": "press-comment",
           "key": "routine",
-          "outcome": "resolved"
+          "outcome": "resolved",
+          "excludesFacts": ["vote-held"]
         }
       ],
       "bearing": "calm",
