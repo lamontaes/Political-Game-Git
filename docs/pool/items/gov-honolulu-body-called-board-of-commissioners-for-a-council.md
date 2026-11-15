@@ -5,9 +5,9 @@ area: gov
 kind: bug
 priority: 3
 size: S
-status: open
+status: in-pr
 claimed-by:
-pr:
+pr: 9404
 blocked-on:
 standard: 2
 model: sonnet
@@ -22,9 +22,9 @@ checked:
 
 **What.** The bill paper names the body "City and County of Honolulu Board of Commissioners" while the player who sits on it is a Council member, so one body has two names. Search first: gov-body-named-by-member-title and gov-county-board-follows-each-states-real-form-and-seats may hold the fix; if they do, add this evidence there and close this item. Seen: the bill paper's banner and the Where it is box in the Your office tab.
 
-**Cause.** Needs cause. Read first: where `governmentProperName` and the body's display name take the county-board kind (`localPlaceOf` in src/core2/modules/legislature.ts) against the place's own record of its governing body's name.
+**Cause.** Found in code: `countyGoverningBodyRules` (src/core2/gov-rules/county-governing-body-rules.ts) read a body name only for the 12 states whose size is read, and for every other state, and for a read state whose size was unreadable, it fell back to the national average name "Board of Commissioners". Hawaii has no size row, so its council took the average name. Read first: where `governmentProperName` and the body's display name take the county-board kind (`localPlaceOf` in src/core2/modules/legislature.ts) against the place's own record of its governing body's name.
 
-**Fix.** None until the cause is found.
+**Fix.** A `usualNames` block in data/research/local-government/county-governing-bodies.json (ESTIMATED, spread stated) gives the usual body name and member title for each of the 35 states with county government and no reading; the rules resolve a name as the county's own named body, then its state's reading, then the state's usual name, then the national average. A test walks every county in every state and territory.
 
 **Time box.** 2 hours for one Sonnet session to find the cause and write it here. When it runs out, write what was read and stop.
 

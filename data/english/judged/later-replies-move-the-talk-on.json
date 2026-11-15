@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "later-replies-move-the-talk-on",
   "rubric": "After the first exchange the replies offered do not rehash the first options; they move the talk on.",
-  "judged": 1025,
+  "judged": 1019,
   "no": {
     "00084oe3x4o": {
       "keys": [
@@ -1430,19 +1430,6 @@
       ],
       "why": "Three of four replies say the openers again: \"Show me what you have\" rewords not-until-I've-seen even though the reporter just offered to show, the office statement rewords answer-in-writing, and \"None of it is true\" rewords \"I knew nothing about it.\""
     },
-    "0n940n1o4fz": {
-      "keys": [
-        "scene-talk.follow-press.five-i-ll-hold-the-phone",
-        "scene-talk.reply-agree.give-me-the-phone",
-        "scene-talk.reply-ask.how-close-was-it",
-        "scene-talk.reply-refuse.i-m-not-calling-anybody-until-the-county-certifies-it",
-        "scene-talk.reply-stall.five-minutes-i-need-to-say-it-to-myself-first",
-        "scene-talk.reply-agree.all-right-i-ll-make-the-call",
-        "scene-talk.reply-refuse.then-we-wait-if-i-m-wrong-i-ll-eat-it-in-the-morning",
-        "scene-talk.reply-leave.i-ll-be-right-back-don-t-dial-without-me"
-      ],
-      "why": "'I'll make the call' repeats 'Give me the phone' and 'I'll be right back' repeats the five-minute stall just taken."
-    },
     "0n9rs7bmvzf": {
       "keys": [
         "scene-talk.follow-plea.i-dont-know-what-ill-do-if-you-turn-me-down-i-truly-dont",
@@ -1888,19 +1875,6 @@
       ],
       "why": "'Find a job, save something, then see' is the first 'work first and figure out the rest' again and 'I'll tell you when I know' is 'you'll see' again, leaving only enjoying the day new."
     },
-    "0tu1qelhlmd": {
-      "keys": [
-        "scene-talk.follow-press.certification-takes-a-week-every-hour-you-wait-it-looks-worse",
-        "scene-talk.reply-agree.give-me-the-phone",
-        "scene-talk.reply-ask.how-close-was-it",
-        "scene-talk.reply-refuse.i-m-not-calling-anybody-until-the-county-certifies-it",
-        "scene-talk.reply-stall.five-minutes-i-need-to-say-it-to-myself-first",
-        "scene-talk.reply-agree.all-right-i-ll-make-the-call",
-        "scene-talk.reply-refuse.let-it-look-worse-i-m-not-conceding-a-race-i-might-have-won",
-        "scene-talk.reply-leave.i-ll-be-right-back-don-t-dial-without-me"
-      ],
-      "why": "'I'll make the call' is 'Give me the phone' again and 'I'll be right back' repeats the five-minute stall, so two of three rehash."
-    },
     "0uviky4wp6y": {
       "keys": [
         "scene-talk.follow-press.everyone-s-waiting-to-see-how-you-lose-do-it-well",
@@ -2148,19 +2122,6 @@
         "scene-talk.reply-leave.hearsay.i-ll-answer-when-i-know-who-said-it"
       ],
       "why": "All three replies restate first options: the offer to explain, the denial of the rumor and asking who said it."
-    },
-    "0zdduy7ltyn": {
-      "keys": [
-        "scene-talk.follow-plea.your-volunteers-are-in-that-room-they-want-to-hear-it-from-you-not-fro",
-        "scene-talk.reply-agree.give-me-the-phone",
-        "scene-talk.reply-ask.how-close-was-it",
-        "scene-talk.reply-refuse.i-m-not-calling-anybody-until-the-county-certifies-it",
-        "scene-talk.reply-stall.five-minutes-i-need-to-say-it-to-myself-first",
-        "scene-talk.reply-agree.you-re-right-hand-it-here",
-        "scene-talk.reply-refuse.not-yet-i-m-sorry",
-        "scene-talk.reply-leave.let-me-splash-some-water-on-my-face-first"
-      ],
-      "why": "'Hand it here', 'Not yet' and 'splash some water first' are the first phone, refusal and stall options reworded."
     },
     "0zo0bqvl5e5": {
       "keys": [
@@ -2707,19 +2668,6 @@
       ],
       "why": "Agreeing to speak, promising to keep at it and thanking the crowd reword three of the first four replies."
     },
-    "1azalbnle9b": {
-      "keys": [
-        "scene-talk.follow-press.everyone-s-waiting-to-see-how-you-lose-do-it-well",
-        "scene-talk.reply-agree.give-me-the-phone",
-        "scene-talk.reply-ask.how-close-was-it",
-        "scene-talk.reply-refuse.i-m-not-calling-anybody-until-the-county-certifies-it",
-        "scene-talk.reply-stall.five-minutes-i-need-to-say-it-to-myself-first",
-        "scene-talk.reply-agree.all-right-i-ll-make-the-call",
-        "scene-talk.reply-refuse.not-yet-i-m-not-ready",
-        "scene-talk.reply-leave.i-ll-be-right-back-don-t-dial-without-me"
-      ],
-      "why": "'I'll make the call', 'Not yet. I'm not ready' and 'I'll be right back' restate the first phone, delay and stall options."
-    },
     "1b18tyz8w5p": {
       "keys": [
         "scene-talk.follow-press.you-cant-ignore-me-forever-first",
@@ -3020,19 +2968,6 @@
         "scene-talk.reply-leave.we-re-voting"
       ],
       "why": "Most of the replies offered now repeat the first replies' denial, explanation, defiance or apology in new words."
-    },
-    "1gd00awvinc": {
-      "keys": [
-        "scene-talk.follow-plea.your-volunteers-are-in-that-room-they-want-to-hear-it-from-you-not-fro",
-        "scene-talk.reply-agree.give-me-the-phone",
-        "scene-talk.reply-ask.how-close-was-it",
-        "scene-talk.reply-refuse.i-m-not-calling-anybody-until-the-county-certifies-it",
-        "scene-talk.reply-stall.five-minutes-i-need-to-say-it-to-myself-first",
-        "scene-talk.reply-agree.okay-for-them",
-        "scene-talk.reply-refuse.not-yet-i-m-sorry",
-        "scene-talk.reply-leave.let-me-splash-some-water-on-my-face-first"
-      ],
-      "why": "'Not yet. I'm sorry' and 'splash some water' are the first refusal and five-minute stall again, leaving only 'For them' new."
     },
     "1gds1yoe08h": {
       "keys": [
@@ -3538,19 +3473,6 @@
         "scene-talk.reply-leave.hearsay.come-back-when-you-have-more-than-a-rumor"
       ],
       "why": "\"Where did you hear that?\" restates \"by whom,\" and \"Rumors ruin people\" and \"more than a rumor\" restate the first rumor reply, three of four."
-    },
-    "1r20f2hlsvk": {
-      "keys": [
-        "scene-talk.follow-plea.okay-but-the-room-s-getting-quiet-out-there",
-        "scene-talk.reply-agree.give-me-the-phone",
-        "scene-talk.reply-ask.how-close-was-it",
-        "scene-talk.reply-refuse.i-m-not-calling-anybody-until-the-county-certifies-it",
-        "scene-talk.reply-stall.five-minutes-i-need-to-say-it-to-myself-first",
-        "scene-talk.reply-agree.okay-for-them",
-        "scene-talk.reply-refuse.not-yet-i-m-sorry",
-        "scene-talk.reply-leave.let-me-splash-some-water-on-my-face-first"
-      ],
-      "why": "'Not yet. I'm sorry' and the splash-water stall repeat the delay options the player already used."
     },
     "1r2oual4530": {
       "keys": [
@@ -4729,5 +4651,5 @@
       "why": "Two of three replies restate first options: the denial of any payment repeats the first denial, and declining to discuss it repeats having to go."
     }
   },
-  "yesHash": "1arfqt3yn8d"
+  "yesHash": "1f6pnawfbgt"
 }
