@@ -31,20 +31,24 @@ import type { Fact } from "../english/scene-talk-words";
 
 type Reason = "own-view" | "people" | "own-bill";
 
+/** The parts of a member's position that can be said aloud. */
+export interface SaidPosition {
+  readonly views: number;
+  readonly constituents: number;
+  readonly sponsor: number;
+}
+
 /**
- * The speaker's public reason: the largest of the parts said aloud that lean
- * the way they speak. A speaker whose lean comes from a deal, a lobby or
- * their traits, which are never said on the floor, gives their own view.
+ * Every part said aloud that leans the way the member speaks or voted,
+ * largest first: their own view, the people they speak for, or that the bill
+ * is their own. Ties keep that order. A deal, a lobby or their traits are
+ * never among them.
  */
-export function publicReason(
-  position: {
-    readonly views: number;
-    readonly constituents: number;
-    readonly sponsor: number;
-  },
+export function publicReasons(
+  position: SaidPosition,
   speaksFor: boolean,
   wroteIt: boolean,
-): Reason {
+): Reason[] {
   const sign = speaksFor ? P.one : -P.one;
   const parts: readonly (readonly [Reason, number])[] = [
     ["own-view", position.views * sign],
@@ -52,15 +56,24 @@ export function publicReason(
     // Only the bill's own sponsor says it is theirs.
     ["own-bill", wroteIt ? position.sponsor * sign : P.zero],
   ];
-  let best: Reason = "own-view";
-  let most: number = P.zero;
-  // Ties go to the member's own view, the first listed.
-  for (const [reason, size] of parts)
-    if (size > most) {
-      best = reason;
-      most = size;
-    }
-  return best;
+  return parts
+    .filter(([, size]) => size > P.zero)
+    .map(([reason, size], at) => ({ reason, size, at }))
+    .sort((a, b) => b.size - a.size || a.at - b.at)
+    .map((row) => row.reason);
+}
+
+/**
+ * The speaker's public reason: the largest of `publicReasons`. A speaker
+ * whose lean comes from a deal, a lobby or their traits, which are never said
+ * on the floor, gives their own view.
+ */
+export function publicReason(
+  position: SaidPosition,
+  speaksFor: boolean,
+  wroteIt: boolean,
+): Reason {
+  return publicReasons(position, speaksFor, wroteIt)[P.zero] ?? "own-view";
 }
 
 export function floorDebateFacts(
