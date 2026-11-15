@@ -46,7 +46,7 @@ import {
 import { drawStateHome, workFromHome } from "../places";
 import { placeReferencePopulation } from "../gov-rules/place-population";
 import { MACRO_MODULE_ID, countryStateParts } from "./macro";
-import { temperamentOf } from "./officials";
+import { officialOf, temperamentOf } from "./officials";
 import { admitCountedHousehold } from "./residents";
 import type {
   CoreAPI,
@@ -1302,15 +1302,24 @@ export function appointmentsIn(
  * stands open. Nobody is created by reading the list; only the one appointed
  * is admitted or filled in (`seatCabinetPerson`).
  */
+/** How many of the state's people are drawn for an open post, as the opening draws three. */
+const STATE_DRAWN = 3;
+
 function stateDrawnCandidates(
   api: CoreAPI,
   spec: { readonly key: string },
-): ReadonlyMap<string, CabinetCandidate & { readonly name: string }> {
+): ReadonlyMap<
+  string,
+  CabinetCandidate & { readonly name: string; readonly n: number }
+> {
   const state = lawChain(api).stateKey;
   const prior = appointmentsIn(api, state).find((p) => p.post === spec.key);
   const vacancy = prior ? `${prior.holderId}:${prior.since}` : "unfilled";
-  const drawn = new Map<string, CabinetCandidate & { readonly name: string }>();
-  for (const n of [0, 1, 2]) {
+  const drawn = new Map<
+    string,
+    CabinetCandidate & { readonly name: string; readonly n: number }
+  >();
+  for (let n = 0; n < STATE_DRAWN; n += 1) {
     const candidate = cabinetCandidate(
       api,
       api.state.seed,
@@ -1325,6 +1334,7 @@ function stateDrawnCandidates(
     drawn.set(candidate.resident.id, {
       ...candidate,
       name: `${named.givenName} ${named.familyName}`,
+      n,
     });
   }
   return drawn;
@@ -1366,6 +1376,13 @@ export function fillInStateCandidate(
   );
 }
 
+/** Whether a place is in the state (the state itself, or a place within it). */
+function livesInState(placeId: string, state: string): boolean {
+  if (placeId === state) return true;
+  const place = corePlaceByJurisdictionId(placeId as never);
+  return (place?.stateJurisdictionKey ?? place?.key) === state;
+}
+
 /** The governor's candidates for a state post and the chamber that confirms them, as the engine weighs them. */
 function stateNominationInput(
   api: CoreAPI,
@@ -1378,9 +1395,11 @@ function stateNominationInput(
 ) {
   const state = lawChain(api).stateKey;
   const offices = api.moduleState(OFFICES_MODULE_ID);
+  // Anyone who holds an appointed post now, in this state or any other
+  // government (a federal cabinet officer), other than this post's own.
   const holding = new Set(
-    appointmentsIn(api, state)
-      .filter((p) => p.post !== input.post)
+    (table(api, "appointments").rows() as unknown as AppointmentRow[])
+      .filter((p) => !(p.government === state && p.post === input.post))
       .map((p) => p.holderId),
   );
   const pool = [...api.state.people.values()]
@@ -1392,6 +1411,10 @@ function stateNominationInput(
         ageOn(person, api.state.date) >=
           campaignParameter("appointmentAdulthoodAge") &&
         !holding.has(person.id) &&
+        // The state's own people: someone who lives in another state, or
+        // who serves now as a state or federal official, could not take it.
+        livesInState(person.placeId, state) &&
+        officialOf(api, person.id)?.ended !== null &&
         !(
           offices
             .table("terms")
@@ -1441,12 +1464,16 @@ function stateNominationInput(
             ),
           };
         }),
-        // Someone the governor has never met: no record of their work is kept
-        // until they are filled in, so they are weighed on temperament alone.
-        ...drawn.map(([id, { resident }]) => ({
+        // Someone of the state drawn for the post, weighed by the rule the
+        // opening weighs its drawn cabinet by (the state's own pick of people
+        // fit for the post), until they are filled in and their record is read.
+        ...drawn.map(([id, { resident, n }]) => ({
           id,
           lean: leanOf(api, id, resident),
-          qualification: appointmentQualification(resident, NO_POST_RECORD),
+          qualification:
+            campaignParameter("cabinetQualificationBase") +
+            campaignParameter("cabinetQualificationStep") *
+              (STATE_DRAWN - 1 - n),
           known: false,
         })),
       ],

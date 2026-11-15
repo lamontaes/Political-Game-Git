@@ -108,7 +108,7 @@ import conversationRules from "./data/conversation-rules.json" with { type: "jso
 import type { Director } from "./ledger";
 import { knockFacts, petitionAtDoor } from "./doors";
 import { officeSaid, raceMemberTitle } from "./cause-facts";
-import { officeInSentence } from "../core2/person-work";
+import { officeInSentence, workHeld } from "../core2/person-work";
 import {
   SITUATION_LIBRARY,
   type ScheduleEntry,
@@ -2024,21 +2024,21 @@ function composeBinding(
       if (serve.grounds.confirmed)
         facts.confirm = { text: "yes", sourceRecordIds: why };
       // Pay, from two different records: out of work, or a raise.
-      const job = serve.grounds.jobId
-        ? core.jobs.get(serve.grounds.jobId)
-        : undefined;
+      // The work is a job in the played world or, for someone filled in from
+      // elsewhere, their home town's work on their identity's record.
+      const job = workHeld(core, askedId);
       if (!job) facts["out-of-work"] = { text: "yes", sourceRecordIds: why };
       else if ((serve.terms.pay ?? P.zero) > P.zero)
         facts["pay-raise"] = {
           text: "yes",
-          sourceRecordIds: [...why, job.id],
+          sourceRecordIds: [...why, job.recordId],
         };
       // Their work is in the post's own field: the player can say they have
       // done the work, as the job they hold.
       if (job && serve.grounds.inField) {
         facts["post-field"] = {
           text: "yes",
-          sourceRecordIds: [...why, job.id],
+          sourceRecordIds: [...why, job.recordId],
         };
         // An occupation group's plural name ("Registered Nurses") is not one
         // person's job, so it is not said.
@@ -2050,7 +2050,7 @@ function composeBinding(
         )
           facts["their-office"] = {
             text: jobSaid(job.title),
-            sourceRecordIds: [...why, job.id],
+            sourceRecordIds: [...why, job.recordId],
           };
       }
     }

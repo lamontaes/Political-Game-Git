@@ -505,7 +505,7 @@ export function officeView(core: CoreState, personId: string) {
       return {
         post: post.key,
         title: post.title,
-        candidates: candidates.slice(0, 8).map((reasons) => {
+        candidates: candidates.map((reasons) => {
           const person = core.people.get(reasons.candidateId);
           const job = person?.jobId ? core.jobs.get(person.jobId) : undefined;
           const asked = asks.get(reasons.candidateId);
@@ -812,27 +812,32 @@ export function ordersView(core: CoreState) {
                   (p) => p.key === entry.subject,
                 )?.title ?? null,
               revoke: false,
-              // Only someone who may be asked now is offered; a no stands for a while.
-              candidates: stateCandidates(api, person, entry.subject)
-                .filter(
-                  (reasons) =>
-                    postAsks(api, person, entry.subject).find(
-                      (a) => a.personId === reasons.candidateId,
-                    )?.mayAsk ?? true,
-                )
-                .slice(0, 8)
-                .map((reasons) => {
-                  const who = core.people.get(reasons.candidateId);
-                  const job = who?.jobId ? core.jobs.get(who.jobId) : undefined;
-                  return {
-                    id: reasons.candidateId,
-                    name:
-                      stateCandidateNames(api, entry.subject).get(
-                        reasons.candidateId,
-                      ) ?? personName(core, reasons.candidateId),
-                    job: job && job.endsAt === undefined ? job.title : null,
-                  };
-                }),
+              // Only someone who may be asked now is offered; a no stands for
+              // a while. Everyone the post could go to, best first.
+              candidates: (() => {
+                const asks = new Map(
+                  postAsks(api, person, entry.subject).map((a) => [
+                    a.personId,
+                    a.mayAsk,
+                  ]),
+                );
+                const names = stateCandidateNames(api, entry.subject);
+                return stateCandidates(api, person, entry.subject)
+                  .filter((reasons) => asks.get(reasons.candidateId) ?? true)
+                  .map((reasons) => {
+                    const who = core.people.get(reasons.candidateId);
+                    const job = who?.jobId
+                      ? core.jobs.get(who.jobId)
+                      : undefined;
+                    return {
+                      id: reasons.candidateId,
+                      name:
+                        names.get(reasons.candidateId) ??
+                        personName(core, reasons.candidateId),
+                      job: job && job.endsAt === undefined ? job.title : null,
+                    };
+                  });
+              })(),
             }
           : stopKindOf(api, entry) === "own-hearing"
             ? {
@@ -955,7 +960,7 @@ export function nominationsView(core: CoreState) {
   return nominationsOpen(api, person).map((post) => ({
     post: post.postId,
     title: post.title,
-    candidates: post.candidates.slice(0, 8).map((c) => {
+    candidates: post.candidates.map((c) => {
       const who = core.people.get(c.id);
       const job = who?.jobId ? core.jobs.get(who.jobId) : undefined;
       return {
