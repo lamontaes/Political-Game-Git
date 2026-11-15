@@ -2016,11 +2016,13 @@ export function composeSceneTalk(
         continue;
       }
       if (!answer) {
+        // A reply the asker has no answer to is not offered: the player would
+        // say it and the scene would stop (owner, Nov 14, rules 110 to 114).
+        // The missing answer is listed for the bank.
         gap("follow", reply.move, reply.parts[zero]);
-        next.end = {
-          outcome: replyOutcome,
-          ...closed(closeFor(replyOutcome, childPath, undefined)),
-        };
+        node.replies.splice(node.replies.indexOf(treeReply), one);
+        if (ledChoices.get(node) === treeReply) ledChoices.delete(node);
+        reply.chosen = false;
         continue;
       }
       answer.round = round;
@@ -2113,6 +2115,30 @@ export function composeSceneTalk(
         outcome: replyOutcome,
         lastAsker: lastAnswer,
       });
+    }
+    // With the unanswerable replies taken out, a menu too short to be a
+    // choice is not one: the root skips the scene, a later node ends on its close.
+    if (node.replies.length < fewest) {
+      if (path.id === "root")
+        return {
+          kind: "skipped",
+          reason: `fewer than two replies of ${moves.join("/")} can be answered for ${purpose}`,
+        };
+      node.replies.length = zero;
+      endNode(node, outcome, path, lastAsker);
+      continue;
+    }
+    // The page follows the next reply the traits lean toward when the one
+    // they led to was taken out.
+    if (path.led && !ledChoices.has(node)) {
+      const led = ranked.find((line) =>
+        node.replies.some((row) => row.line === line && row.next),
+      );
+      const row = node.replies.find((r) => r.line === led);
+      if (led && row) {
+        led.chosen = true;
+        ledChoices.set(node, row);
+      }
     }
   }
 
