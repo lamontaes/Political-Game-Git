@@ -8,7 +8,7 @@ size: S
 status: in-pr
 standard: 2
 claimed-by: claude/project-thread-hjvzia
-pr:
+pr: 9466
 after:
 blocked-on:
 root: none
