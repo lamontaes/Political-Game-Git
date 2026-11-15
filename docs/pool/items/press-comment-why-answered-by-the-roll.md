@@ -29,10 +29,10 @@ Seen: on the reporter's call after a council vote, the player's answer to "why" 
 
 **Rules.** Ask why: every reason said cites the roll. No dice. No line ships unplayed.
 
-**Done when.** In a played world built by `buildBenchWorld` at a pinned place, the player drafts a bill and votes on it with the game's own press. A second session plays the reporter's call that follows and sees the answer to "why" name a reason the roll holds, cited to the vote's record id, or the plain answer when no part of the player's position leans their way. src/director/press-comment-after-yes.test.ts shows the first case at Bagdad, Arizona.
+**Done when.** In a played world built by `buildBenchWorld` at a pinned place, the player drafts a bill and votes on it with the game's own press. A second session plays the reporter's call that follows and sees the answer to "why" name a reason the roll holds, cited to the vote's record id, or the plain answer when no part of the player's position leans their way. src/director/press-comment-after-vote.test.ts shows the first case at Bagdad, Arizona.
 
 **Waits on.** Nothing.
 
-**Files.** src/director/vote-stand-facts.ts, data/english/parts/scene-talk.json, src/director/press-comment-after-yes.test.ts
+**Files.** src/director/vote-stand-facts.ts, data/english/parts/scene-talk.json, src/director/press-comment-after-vote.test.ts
 
 **Notes.**

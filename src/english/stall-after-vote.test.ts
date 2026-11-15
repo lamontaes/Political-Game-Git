@@ -16,7 +16,7 @@ import { fitting, type SceneMove } from "./scene-talk-words";
 // 22:24Z): a "why" is answered by the largest reason the roll holds, so the
 // yes packet carries `top-reason-own-view` and `top-reason-people`, as play
 // builds them at Bagdad, Arizona (0405140) when the player votes yes on
-// another member's bill (src/director/press-comment-after-yes.test.ts).
+// another member's bill (src/director/press-comment-after-vote.test.ts).
 const fact = (text: string): Fact => ({ text, sourceRecordIds: ["r1"] });
 const words: Record<string, string> = {
   name: "River",

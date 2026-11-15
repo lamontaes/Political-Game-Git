@@ -4947,7 +4947,7 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "requiresFacts": ["acted", "voted-no"]
+          "requiresFacts": ["acted", "voted-no", "top-reason-own-view"]
         }
       ],
       "bearing": "calm",
@@ -5035,10 +5035,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-answer.people-here-asked-me-for-it-i-listened",
+      "key": "scene-talk.reply-answer.people-here-want-it-i-voted-with-them",
       "move": "reply-answer",
       "kind": "spoken",
-      "text": "People here asked me for it. I listened.",
+      "text": "People here want it. I voted with them.",
       "uses": [
         {
           "subject": "scene",
@@ -5060,10 +5060,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-answer.i-trust-the-people-who-wrote-it",
+      "key": "scene-talk.reply-answer.i-trust-the-member-who-wrote-it",
       "move": "reply-answer",
       "kind": "spoken",
-      "text": "I trust the people who wrote it.",
+      "text": "I trust the member who wrote it.",
       "uses": [
         {
           "subject": "scene",
@@ -11217,30 +11217,6 @@
           "step": "reply",
           "subject": "scene",
           "excludesFacts": ["voted-no"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Claude Sonnet 5.5 (night: story)",
-      "date": "2026-11-08",
-      "tag": {
-        "move": "lie",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.reply-lie.my-position-hasn-t-changed-since-day-one",
-      "move": "reply-lie",
-      "kind": "spoken",
-      "text": "My position hasn't changed since day one.",
-      "uses": [
-        {
-          "key": "routine",
-          "move": "lie",
-          "purpose": "press-comment",
-          "role": "asked",
-          "step": "reply",
-          "subject": "scene"
         }
       ],
       "bearing": "calm",
