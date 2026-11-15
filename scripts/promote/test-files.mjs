@@ -34,7 +34,13 @@ import { pathToFileURL } from "node:url";
 
 // Judged by hand. A path here is never listed, whatever the rule says.
 export const KEEP = new Map([
-  // (none yet)
+  [
+    "desktop/scripts/smoke-test.mjs",
+    "release-package.yml plays the packaged app with it; the apps are built from main",
+  ],
+  // The rule and the step that uses it are the game side's tooling, though the
+  // rule's name says "test".
+  ["scripts/promote/test-files.mjs", "the rule itself; promote.mjs imports it"],
 ]);
 
 // Docs hold reproduction files and handoffs that quote tests; they are prose
@@ -193,7 +199,7 @@ export function analyze(root, files = listTrackedFiles(root)) {
       const s = typeof item === "string" ? item : item.s;
       const imp = typeof item !== "string";
       if (s.length < 3 || s.includes("\n")) continue;
-      // Words inside a longer string ("node --import tsx scripts/x.ts").
+      // Words inside a longer string: a command line with a script path in it.
       const pieces = /\s/.test(s) ? s.split(/\s+/) : [s];
       for (const p of pieces) {
         for (const t of resolveSpec(f, p, bare)) addRef(t, f, imp);
@@ -232,7 +238,7 @@ export function analyze(root, files = listTrackedFiles(root)) {
     }
     helper.add(f);
   }
-  const testSide = (f) => isTestByName(f) || helper.has(f);
+  const testSide = (f) => (isTestByName(f) && !KEEP.has(f)) || helper.has(f);
   let changed = true;
   while (changed) {
     changed = false;
@@ -250,7 +256,7 @@ export function analyze(root, files = listTrackedFiles(root)) {
   // Test-named files the game side reaches stay. A package script, workflow or
   // config does not count (see isConfig); an instruction file does not count for
   // a test-named file either, since docs mention tests by name all the time.
-  const stay = new Map();
+  const stay = new Map([...KEEP].map(([f, why]) => [f, [why]]));
   const test = new Set(nameTest);
   let more = true;
   while (more) {
