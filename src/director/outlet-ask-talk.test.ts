@@ -115,7 +115,7 @@ const CASES: readonly Case[] = [
     topic: "budget-line:police",
     told: /^The .+ passed it\.$/,
     asks: /more money for the police/,
-    stand: /About time|That's what I wanted|glad/,
+    stand: /glad/,
   },
   {
     title: "radio, a budget line moved down",
@@ -130,7 +130,7 @@ const CASES: readonly Case[] = [
     topic: "budget-line:police",
     told: /^The .+ passed it\.$/,
     asks: /less money for the police/,
-    stand: /don't like|wish they hadn't|shouldn't have/,
+    stand: /wish they hadn/,
   },
 ];
 
