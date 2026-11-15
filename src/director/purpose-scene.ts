@@ -1416,8 +1416,34 @@ function composeBinding(
         mine.position * other.position! < P.zero
       );
     });
-    const issue = split ? questionAbout(split.question) : null;
-    if (issue) {
+    // No split: a question the rival answered and the player passed on.
+    const ducked = split
+      ? undefined
+      : (debate?.answers[askedId] ?? []).find(
+          (mine) =>
+            mine.position === null &&
+            theirs.some(
+              (row) => row.question === mine.question && row.position !== null,
+            ),
+        );
+    const issue = split
+      ? questionAbout(split.question)
+      : ducked
+        ? questionAbout(ducked.question)
+        : null;
+    if (issue && ducked) {
+      facts.issue = {
+        text: issue,
+        sourceRecordIds: [said.debateId, moment.causeId],
+      };
+      facts["said-none"] = {
+        text: "yes",
+        sourceRecordIds: [
+          said.debateId,
+          ...(ducked.recordId ? [ducked.recordId] : []),
+        ],
+      };
+    } else if (issue) {
       facts.issue = {
         text: issue,
         sourceRecordIds: [said.debateId, moment.causeId],
