@@ -26,7 +26,7 @@ source: views thread, Nov 15 (seen while gating the counted-carry change)
 
 **Time box.** 1 hour, Sonnet at medium effort.
 
-**Rules.** Never loosen a test to get green. Unknown facts are not zero or permission.
+**Rules.** One model, two tiers: the measure's voters turn out by the one turnout rule, which reads their registration from the voting engine as the game does. Never loosen a test to get green, and never count a voter with no registration record as registered.
 
 **Done when.** The test passes at `GOLDEN_PATH_SEED=views-measure-1` and at two other seeds named in the PR. A second session, on the train or main in a drawn place it names with its seed, sees a state measure decided on election night in dev mode.
 
