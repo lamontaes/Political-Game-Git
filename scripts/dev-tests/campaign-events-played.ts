@@ -152,11 +152,6 @@ log(
   `Place ${place.name} (${place.key}), world seed ${place.seed}. Player ${nameOf(core, me)} (${me}). Race ${contest.id} "${contest.title}" (${contest.level}/${contest.family}), election ${contest.electionDate}, filing opened ${core.date}.`,
 );
 
-// The player starts with no cash; the filing fee is paid at the counter, so stage one.
-core.people.get(me as never)!.liquidMinor = Math.max(
-  core.people.get(me as never)!.liquidMinor,
-  1_000_000,
-);
 const filed = fileForOffice(core, me, contest.id) as {
   filing?: { id?: string; status?: string };
 };

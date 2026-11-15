@@ -64,10 +64,6 @@ it.each(PINNED)(
       contest,
       `${where}: no local race the player may file for`,
     ).toBeTruthy();
-    // The player starts with no cash and the place charges a filing fee at
-    // the counter, so stage the cash the fee takes.
-    const me = core.people.get(playerId)!;
-    me.liquidMinor = Math.max(me.liquidMinor, 1_000_000);
     const filed = fileForOffice(core, playerId, contest!.id);
     expect(filed.status, `${where}: the player's filing`).not.toBe("refused");
     advanceCore(core, addDays(makeIsoDate(contest!.electionDate), 1));
