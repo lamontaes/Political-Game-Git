@@ -1156,6 +1156,7 @@ function sittingsBetween(
 }
 
 const SITTING_CALENDAR = {
+  owns: (api: CoreAPI, officeId: string) => bodyOf(api, officeId) !== undefined,
   seats: (api: CoreAPI, officeId: string) =>
     members(api, officeId).map((term) => ({
       personId: memberKey(term),

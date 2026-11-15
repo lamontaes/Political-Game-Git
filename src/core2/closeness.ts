@@ -612,5 +612,7 @@ export {
   noSittingTie,
   registerSittingCalendar,
   sittingHours,
+  sittingHoursByBody,
+  type SittingCalendar,
   type SittingDay,
 } from "./sitting-closeness";

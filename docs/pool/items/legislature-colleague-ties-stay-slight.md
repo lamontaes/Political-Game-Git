@@ -5,9 +5,9 @@ area: gov
 kind: bug
 priority: 2
 size: M
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/project-thread-csmftn-rooms
 pr:
 after:
 blocked-on:
