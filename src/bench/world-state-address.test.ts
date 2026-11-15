@@ -4,11 +4,16 @@ import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
-import { makeIsoDate } from "../core2/kernel/dates";
+import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
 import { officeActsOf } from "../core2/modules/office-day";
 import { sessionYear } from "../core2/state-session-calendar";
-import { OFFICE_DAY_STATE_MODULE_ID } from "../core2/office-day-state";
+import {
+  OFFICE_DAY_STATE_MODULE_ID,
+  stateDay,
+  stateDayParameter,
+  type StateOffice,
+} from "../core2/office-day-state";
 import { OFFICES_MODULE_ID } from "../core2/modules/offices";
 import { coreAPI } from "../core2/state";
 import { buildBenchWorld } from "./world";
@@ -130,3 +135,48 @@ describe.each(PINNED)(
     }, 300_000);
   },
 );
+
+// The played governor's own day reads the same date rule the world's
+// governors use (`firstWindow`: the first session window that convenes in the
+// year), pinned at Edmore ND: Washington's 2026 address is its January
+// convening plus the kit's days, and Indiana's session that convened
+// 2025-12-01 puts its address in 2025, not 2026.
+it("gives a played governor's State of the State on the session's own date (Edmore)", () => {
+  setBookkeeping(false);
+  const place = drawPlace("mayor-acts-1:1", "mayor-acts");
+  expect(place.name).toContain("Edmore");
+  const w = buildBenchWorld(place.seed, gameStartDate(), {
+    twoLevel: true,
+    placeKey: place.key,
+  });
+  const api = coreAPI(w.core);
+  const governor = (stateKey: string): StateOffice => ({
+    personId: "pinned-governor",
+    role: "governor",
+    stateKey,
+    officeId: "office:pinned",
+    seatId: "seat:pinned",
+    termId: "term:pinned",
+    party: null,
+  });
+  const addressDays = (stateKey: string, year: number) => {
+    const days: string[] = [];
+    for (let n = 0; n < 366; n++) {
+      const date = addDays(makeIsoDate(`${year}-01-01`), n);
+      if (!date.startsWith(`${year}-`)) break;
+      if (
+        stateDay(api, governor(stateKey), date).some(
+          (e) => e.kind === "state-of-the-state",
+        )
+      )
+        days.push(date);
+    }
+    return days;
+  };
+  const after = stateDayParameter("stateOfTheStateDaysAfterConvening");
+  const washington = sessionYear("US-WA", 2026)!.windows[0]!.conveneAt;
+  expect(addressDays("US-WA", 2026)).toEqual([
+    addDays(makeIsoDate(washington), after),
+  ]);
+  expect(addressDays("US-IN", 2026)).toEqual([]);
+}, 120_000);
