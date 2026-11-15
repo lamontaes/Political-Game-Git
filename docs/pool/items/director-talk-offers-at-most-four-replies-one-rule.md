@@ -18,7 +18,7 @@ root: design-life-record
 source: Found by the short-replies builder in the complaint over a taken bribe at Bryant IL (seed c0ffee13), Nov 15, 2026; the Account lead asked for one rule for every arc
 ---
 
-**What.** The owner ruled replies are up to four, never more (OWNER-DECISIONS, Nov 10, about 7:50 p.m.: "So just up to 4."). A talk whose arc lists five reply moves offers five. Seen: in the accusation over a taken bribe at Bryant IL, the first menu offers tell, apologize, deny, confront and leave. The paper's accusation reached five the moment a fifth piece fit (the follow-up PR's test caught it with `expectUpToFourDifferent`).
+**What.** The owner ruled replies are up to four, never more (OWNER-DECISIONS, Nov 10, about 7:50 p.m.: "So just up to 4."). A talk whose arc lists five reply moves offers five, and the paper's accusation reached five the moment a fifth piece fit (the follow-up PR's test caught it with `expectUpToFourDifferent`). Seen: in the accusation over a taken bribe at Bryant IL, the first menu offers tell, apologize, deny, confront and leave.
 
 **Cause.** Found in code: `src/director/scene-talk.ts` takes `fresh.slice(0, maxReplies)` and then lets one extra option in up to `maxReplies + 1`. `maxReplies` is 5 in `src/director/data/scene-talk-rules.json` (tree), checked against "the lie, which he asked for as a fifth reply" (Oct 15), which the Nov 10 ruling replaced. The director's own limit is `directorChoicesPerTurn` (4, `src/director/data/director.json`), read by conversation.ts, speech-builder.ts and the test helper `reply-set-check.ts`, but not by scene-talk.ts. Measured: 13 of 77 purpose arcs and 9 arc variants list five replies. M1's placement guards (#9357, #9360, #9362) count lines, not menu size, so none covers this.
 
