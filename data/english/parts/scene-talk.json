@@ -6186,6 +6186,14 @@
           "role": "asker",
           "purpose": "donor-ask",
           "key": "favor-asked"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "cosponsor-ask",
+          "key": "bill-sign-on"
         }
       ],
       "bearing": "glad",
@@ -12798,6 +12806,14 @@
           "role": "asker",
           "step": "follow",
           "subject": "scene"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "cosponsor-ask",
+          "key": "bill-sign-on"
         }
       ],
       "bearing": "glad",
@@ -156376,7 +156392,8 @@
           "step": "follow",
           "move": "accept",
           "role": "asker",
-          "after": "agree"
+          "after": "agree",
+          "excludesFacts": ["fee-short"]
         }
       ],
       "origin": "authored",
@@ -156404,7 +156421,8 @@
           "step": "follow",
           "move": "accept",
           "role": "asker",
-          "after": "agree"
+          "after": "agree",
+          "excludesFacts": ["fee-short"]
         }
       ],
       "origin": "authored",
@@ -156432,7 +156450,8 @@
           "step": "follow",
           "move": "accept",
           "role": "asker",
-          "after": "agree"
+          "after": "agree",
+          "excludesFacts": ["fee-short"]
         }
       ],
       "origin": "authored",
@@ -156460,7 +156479,8 @@
           "step": "follow",
           "move": "accept",
           "role": "asker",
-          "after": "agree"
+          "after": "agree",
+          "excludesFacts": ["fee-short"]
         }
       ],
       "origin": "authored",
@@ -156489,7 +156509,8 @@
           "move": "accept",
           "role": "asker",
           "after": "agree",
-          "requiresFacts": ["seat"]
+          "requiresFacts": ["seat"],
+          "excludesFacts": ["fee-short"]
         }
       ],
       "origin": "authored",
@@ -156519,7 +156540,8 @@
           "move": "accept",
           "role": "asker",
           "after": "agree",
-          "requiresFacts": ["seat"]
+          "requiresFacts": ["seat"],
+          "excludesFacts": ["fee-short"]
         }
       ],
       "origin": "authored",
@@ -156549,7 +156571,8 @@
           "move": "accept",
           "role": "asker",
           "after": "agree",
-          "requiresFacts": ["seat"]
+          "requiresFacts": ["seat"],
+          "excludesFacts": ["fee-short"]
         }
       ],
       "origin": "authored",
@@ -156579,7 +156602,8 @@
           "move": "accept",
           "role": "asker",
           "after": "agree",
-          "requiresFacts": ["seat", "seat-place"]
+          "requiresFacts": ["seat", "seat-place"],
+          "excludesFacts": ["fee-short"]
         }
       ],
       "origin": "authored",
@@ -156609,7 +156633,8 @@
           "move": "accept",
           "role": "asker",
           "after": "agree",
-          "requiresFacts": ["seat"]
+          "requiresFacts": ["seat"],
+          "excludesFacts": ["fee-short"]
         }
       ],
       "origin": "authored",
@@ -156639,7 +156664,8 @@
           "move": "accept",
           "role": "asker",
           "after": "agree",
-          "requiresFacts": ["seat", "opponent"]
+          "requiresFacts": ["seat", "opponent"],
+          "excludesFacts": ["fee-short"]
         }
       ],
       "origin": "authored",
@@ -156669,7 +156695,8 @@
           "move": "accept",
           "role": "asker",
           "after": "agree",
-          "requiresFacts": ["seat"]
+          "requiresFacts": ["seat"],
+          "excludesFacts": ["fee-short"]
         }
       ],
       "origin": "authored",
@@ -156699,7 +156726,8 @@
           "move": "accept",
           "role": "asker",
           "after": "agree",
-          "requiresFacts": ["seat", "filed"]
+          "requiresFacts": ["seat", "filed"],
+          "excludesFacts": ["fee", "fee-short"]
         }
       ],
       "origin": "authored",
@@ -156729,7 +156757,8 @@
           "move": "accept",
           "role": "asker",
           "after": "agree",
-          "requiresFacts": ["seat", "seat-place"]
+          "requiresFacts": ["seat", "seat-place"],
+          "excludesFacts": ["fee-short"]
         }
       ],
       "origin": "authored",
@@ -156759,7 +156788,8 @@
           "move": "accept",
           "role": "asker",
           "after": "agree",
-          "requiresFacts": ["seat"]
+          "requiresFacts": ["seat"],
+          "excludesFacts": ["fee-short"]
         }
       ],
       "origin": "authored",
@@ -186384,10 +186414,11 @@
           "subject": "scene",
           "purpose": "filing-clerk",
           "key": "routine",
-          "step": "state",
+          "step": "reply",
           "move": "come-back",
           "role": "asked",
-          "requiresFacts": ["fee"]
+          "requiresFacts": ["fee"],
+          "after": "refuse"
         }
       ],
       "bearing": "calm",
