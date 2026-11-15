@@ -3977,6 +3977,34 @@ export function signOnRecord(
   return {};
 }
 
+/**
+ * The asker's earlier ask for this member's vote on another bill on the same
+ * question, which the member answered with a no vote: the ask's id, so the
+ * talk can say it was asked before. Read when an ask is composed.
+ */
+export function voteAskedBefore(
+  api: CoreAPI,
+  askerId: string,
+  memberId: string,
+  bill: BillRow,
+): string | undefined {
+  const question = bill.provisions[0]?.question;
+  if (!question) return undefined;
+  const asks = (table(api, "voteAsks").rows() as unknown as VoteAsk[])
+    .filter(
+      (row) =>
+        row.askerId === askerId &&
+        row.askedId === memberId &&
+        row.billId !== bill.id &&
+        billOf(api, row.billId)?.provisions[0]?.question === question &&
+        votesOn(api, row.billId).some(
+          (v) => v.memberId === memberId && v.vote === "no",
+        ),
+    )
+    .sort((a, b) => a.floorDate.localeCompare(b.floorDate));
+  return asks.at(-1)?.id;
+}
+
 /** The asks this asker made of this member of this body that were turned down, oldest first. */
 export function declinedAsks(
   api: CoreAPI,

@@ -200,6 +200,11 @@ export interface SituationType {
    */
   eachCause?: boolean;
   /**
+   * The player asks it of someone (to sign on, to vote, to serve, at a
+   * door): the player's own act is the scene's cause.
+   */
+  playerAsks?: boolean;
+  /**
    * The scene is the player's own decision on a record that stays open until
    * they answer or its window closes (a governor's emergency offer): the
    * season cap never holds one back, because a cause with an outcome still
@@ -1090,6 +1095,22 @@ export function scheduleMoment(
     );
     return Object.keys(said).length === zero;
   };
+  // A scene the player pressed for themselves (their own ask to a colleague
+  // to sign on, to vote, to serve) is not counted against a season: each one
+  // is a record of the player's own act, already limited by what is on the
+  // record (one sitting a day with the same person, the same bill asked of
+  // the same person once in the repeat window, a person who said no knows it
+  // and says so). A door on the player's canvass is the circumstance
+  // producer's pick of the day and stays under the cap.
+  const pressedByPlayer = (row: SceneBinding) => {
+    const type = library.types.find((t) => t.key === row.typeKey);
+    return (
+      !!type?.playerAsks &&
+      type.causes.every(
+        (cause) => cause.match?.label?.startsWith("cause:event:") ?? false,
+      )
+    );
+  };
   // A friend asks only for what the game can settle now (the Words lead,
   // Nov 15; owner's ruling: a colleague asks only for what the game can do):
   // the next posted town meeting the player may come to. With none, the
@@ -1097,6 +1118,7 @@ export function scheduleMoment(
   const nothingToAsk = (row: SceneBinding) =>
     row.typeKey === FRIENDS_TYPE && !nextMeetingFacts(core).meeting;
   const seasonFull = (row: SceneBinding) =>
+    !pressedByPlayer(row) &&
     !library.types.find((type) => type.key === row.typeKey)?.openDecision &&
     (inSeason.get(row.typeKey) ?? zero) >= library.scheduling.seasonCap.value;
   const heldBack = wanted.flatMap(
