@@ -36,3 +36,5 @@ root: design-story-director
 **Waits on.** `scene-trouble-at-the-polling-place` (PR 9450).
 
 **Files.** src/core2/modules/voting.ts, src/director/polling-place.ts, src/director/poll-problem.ts
+
+**Notes.** Provisional ballots (account lead, Nov 15, PR 9450): in a state that lets a voter not on the rolls cast a provisional ballot, the game does nothing today. No provisional ballot is offered, cast or counted; the poll worker's scene refuses the ballot or offers the same-day table, and the refusal is kept as the voting engine's `not-on-the-list` day. Building it belongs to this item: the ballot is kept apart, and the county counts it only once the registration record shows the voter was eligible. No stopgap row is registered (no new stopgaps); this line is the record.
