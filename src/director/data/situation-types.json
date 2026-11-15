@@ -23,7 +23,8 @@
     "constituent": "A resident of the subject's district with a recorded problem (a lost job, an eviction, a serious illness).",
     "opponent": "The other candidate the subject's contest record names.",
     "volunteer": "A person the subject's campaign record lists as a volunteer.",
-    "bill-sponsor": "The member who sponsored the bill the cause's record names."
+    "bill-sponsor": "The member who sponsored the bill the cause's record names.",
+    "emergency-lead": "The state cabinet head who opens a governor's emergency briefing: the first holder of a post in the map for the disaster's incident type (data/executive/emergency.json). None, and the scene is not staged."
   },
   "settings": {
     "home": "The subject's household home.",
@@ -3573,6 +3574,55 @@
         "endpoint": "money",
         "registers": ["scene-talk", "scene-words"]
       }
+    },
+    {
+      "key": "emergency-briefing",
+      "receive": { "age": "any", "counterpart": "any", "seat": "serving" },
+      "eachCause": true,
+      "openDecision": true,
+      "note": "A disaster is recorded in the state of a governor the player plays: the executive engine's emergency-offered record names the governor and the disaster. The head of the department that leads for this disaster (data/executive/emergency.json, by incident type) opens and says what their department's records show of it; the other heads join when a room can seat more than one speaker (pool item director-emergency-briefing-other-heads). The player's answer is the declaration or letting it pass: the executive engine reads the scene reply and writes the same declaration the engine writes for any governor (declareEmergency). The engine never declares for the player (owner, Oct 14). It stops the day. The mayor's side waits on a local emergency declaration, which no engine records yet.",
+      "roles": [
+        {
+          "key": "briefer",
+          "fill": "emergency-lead",
+          "count": "one",
+          "moves": ["greet", "request", "answer", "warn", "thank"],
+          "wants": ["follow-rules"],
+          "bearing": "solemn"
+        },
+        {
+          "key": "you",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["agree", "decline", "ask"],
+          "wants": ["commit"],
+          "bearing": "steady"
+        }
+      ],
+      "setting": ["office", "venue"],
+      "timing": "at-cause",
+      "stopsDay": true,
+      "causes": [
+        {
+          "match": {
+            "label": "cause:event:executive.emergency-offered",
+            "selfNamed": true
+          },
+          "causeEngine": "executive",
+          "causeRecord": "executive.emergency-offered",
+          "bind": { "you": "subject" },
+          "opener": "briefer"
+        }
+      ],
+      "tag": {
+        "key": "threat",
+        "endpoint": "political",
+        "registers": ["scene-talk", "scene-words"]
+      },
+      "purpose": "emergency-briefing",
+      "asker": "briefer",
+      "asked": "you",
+      "stakes": ["disaster", "emergency"]
     },
     {
       "key": "party-recruit",

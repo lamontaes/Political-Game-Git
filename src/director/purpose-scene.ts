@@ -14,7 +14,7 @@ import { placeStateKey } from "../core2/place-map";
 import { BUDGETS_MODULE_ID, type BudgetRow } from "../core2/modules/budgets";
 import { gameStartDate } from "../core2/game-start";
 import { personLean } from "../core2/campaign-views";
-import { appointmentsIn } from "../core2/modules/executive";
+import { appointmentsIn, EMERGENCY_OFFERED } from "../core2/modules/executive";
 import {
   LAWS_MODULE_ID,
   lawChain,
@@ -1612,6 +1612,24 @@ function composeBinding(
       text: asker.givenName,
       sourceRecordIds: [relation.tieId],
     };
+  // What passed between them in an earlier scene, from its reply records: the
+  // asker came before, and the asked person helped or refused then.
+  const passed = relation.passed;
+  if (passed.askedBefore.length)
+    facts["asked-before"] = {
+      text: asker.givenName,
+      sourceRecordIds: passed.askedBefore,
+    };
+  if (passed.helpedBefore.length)
+    facts["helped-before"] = {
+      text: asker.givenName,
+      sourceRecordIds: passed.helpedBefore,
+    };
+  if (passed.refusedBefore.length)
+    facts["refused-before"] = {
+      text: asker.givenName,
+      sourceRecordIds: passed.refusedBefore,
+    };
   // A committee trade coming due on the floor (legislature.ts
   // recordPromises): the member promised their vote, and the lines about a
   // promised vote need it.
@@ -1890,6 +1908,8 @@ function composeBinding(
     cutFacts(core, facts, said, moment.causeId, askerId);
   if (record?.kind === "bill-presented")
     deskFacts(core, facts, said, moment.causeId, askerId);
+  if (record?.kind === EMERGENCY_OFFERED)
+    briefingFacts(core, facts, said, moment.causeId);
 
   // A recall petition names the member's vote; a promise to vote against
   // the bill (`promised-against`) is said only from a record of one, which no
@@ -2862,6 +2882,37 @@ function cutFacts(
 }
 
 /**
+ * What a department head says in the governor's emergency briefing: the kind of disaster the offer's
+ * record names and whether this is a later meeting on it, each with the records it came from. Said as people say it (never a count).
+ */
+function briefingFacts(
+  core: Readonly<CoreState>,
+  facts: Record<string, Fact>,
+  said: Readonly<Record<string, string>>,
+  causeId: string,
+): void {
+  const kind = said.incidentType?.toLowerCase().replace(/\//g, " or ");
+  if (kind) facts.disaster = { text: kind, sourceRecordIds: [causeId] };
+  // The briefing is a later meeting on the same disaster (the offer was left unanswered).
+  // The day the offer lapses, said as people say a date, from the same record the lapse reads.
+  if (said.closes)
+    facts.deadline = {
+      text: spokenDate(
+        said.closes,
+        core.durableLog.get(causeId)?.date ?? core.date,
+      ),
+      sourceRecordIds: [causeId],
+    };
+  if (said.again) facts.again = { text: "", sourceRecordIds: [causeId] };
+  // Which return it is: the midway one (half the window gone) or the last before the deadline.
+  if (said.returnWhen === "midway" || said.returnWhen === "last")
+    facts[`return-${said.returnWhen}`] = {
+      text: "",
+      sourceRecordIds: [causeId],
+    };
+}
+
+/**
  * What someone who comes to a bill's presentment may say of it: the day the
  * decision is due, how the chambers voted, and whose side the visitor is on
  * (the sponsor is for it; a group's lobbyist is against it and says what it
@@ -3351,6 +3402,10 @@ export function replyInScene(
       // SG-WORDS-favor-promise-keeps-unread (endings with no row yet)
       ...promised,
       ...(ending?.firmness ? { firmness: ending.firmness } : {}),
+      // What the ending settles in an engine's own record (office hours: the
+      // case is helped or declined), so a later scene reads help done and
+      // not a promise made (relation-facts.ts passedBetween).
+      ...(ending?.settles ? { settled: ending.settles } : {}),
       // A promise made on a resident's own question names it, for the
       // Journal (ruling 72).
       ...(ending?.keeps === "promise" && aboutQuestion

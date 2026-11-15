@@ -1307,8 +1307,8 @@ function arrivals(
       // They settle where the household they resemble lives.
       const placeId = template.placeId;
       const record = newcomers(api, rt, residents, template, origin, source);
-      // A newcomer household stands for as many as the one it resembles.
-      admitCountedHousehold(core, record, weight);
+      // A newcomer household stands for as many as the one it resembles, and looks for a home like its.
+      admitCountedHousehold(core, record, weight, template.id);
       const h = store.households[store.householdOf.get(record.household.id)!]!;
       // Working-age newcomers share the place's unplaced workers at its rate.
       rates ??= unplacedRates(residents, date);
