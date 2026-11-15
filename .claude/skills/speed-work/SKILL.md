@@ -141,6 +141,8 @@ When a session builds work that runs for many people (relatives elsewhere, the c
 
 Done when every timed claim names the place, seed, years and machine, every speed PR carries an identical records proof (or a fold's named tables), and the item's done-when lines each have that evidence.
 
+- **With and without in one script (Nov 15).** Save the changed file and its base version (`git show HEAD:<file>`) beside each other, then loop place by place and round by round, copying one over the working file before each `npm run speed:year -- --seed <s> --place <key> --years 1 --exclusive`, with the changed file restored at the end. Run it in the background and start nothing else while it runs (about 25 minutes for three places, two runs a side). The records line also shows what the change adds (a per-death row added 7 to 28 records a year).
+
 ## Unattended-world changes: the speed table
 
 A change to anything that runs without the player watching (monthly engines, skipped time, counted groups) carries two tables in the PR body: year 1 of `npm run speed:year`, and time per record, each at three drawn places, with and without the change. Container noise is 10 to 20 percent, so one process at a time and say the machine. A change that makes a year more than 20 percent slower than its base fails the bar even if each table looks small.
