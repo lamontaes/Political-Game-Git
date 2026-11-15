@@ -805,17 +805,21 @@
       "own-work-new",
       "asked-kin",
       "school",
-      "asked-mutual"
+      "asked-mutual",
+      "shared-school"
     ],
     "covers": {
       "about": "Lead, Nov 14, rule 53 (one fact, once): a give-back already said where the asker lives, so the player's own question about it (a raised `home`) is not answered a second time. The asked kind, then the raised kinds its give-back covers.",
       "home-new": ["home"]
     },
     "answers": {
-      "about": "Coordinator for the account lead, Nov 15 (owner, Nov 14: replies must look like choices): asked about someone both know, the player may answer, or answer and ask back how the asker is or why they ask, never a no against the record; the asker's give-back answers each in its own stage. The asked kind, then each player's move its give-back answers and the give-back's stage for it.",
+      "about": "Coordinator for the account lead, Nov 15 (owner, Nov 14: replies must look like choices): asked about someone both know, the player may answer, or answer and ask back how the asker is or why they ask, never a no against the record; the asker's give-back answers each in its own stage. The asked kind, then each player's move its give-back answers and the give-back's stage for it. Asked whether they remember a school both went to, the asker says how long it has been, or agrees where the player's answer already said it (Cumming, Iowa, seed 7952d3f3e3253ee4, Nov 15).",
       "asked-mutual": {
         "turn": "saw",
         "ask-why": "ask-why"
+      },
+      "shared-school": {
+        "years": "agree"
       }
     },
     "plain": {

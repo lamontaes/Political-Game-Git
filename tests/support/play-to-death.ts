@@ -18,20 +18,6 @@ import type { CoreState, PersonId } from "../../src/core2/types";
 /** The longest serious episode the health engine books, with a margin. */
 const LONGEST_DAYS = 400;
 
-/** Plays days until `done` holds; throws after `most` days. Returns the days played. */
-export function playUntil(
-  core: CoreState,
-  done: () => boolean,
-  most: number,
-  what: string,
-): number {
-  for (let days = 0; days <= most; days++) {
-    if (done()) return days;
-    advanceCore(core, addDays(makeIsoDate(core.date), 1));
-  }
-  throw new Error(`${what}: not within ${most} days.`);
-}
-
 /**
  * The same death, played on the player's own clock (`advancePlayerV1`), the
  * way the game plays a controlled person's days: a held stop (an open post
