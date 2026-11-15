@@ -32,6 +32,8 @@ effort: medium
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/person-birthplace.ts (new), src/core2/opening-kin.ts, src/core2/population.ts, src/core2/opening-people.ts, src/core2/past-moves.ts, src/core2/modules/people.ts, src/bench/card.ts, src/director/conversation.ts, src/core2/data/stopgaps/hist.json
+**Files.** src/core2/person-birthplace.ts (new), src/core2/opening-kin.ts, src/core2/population.ts, src/core2/opening-people.ts, src/core2/past-moves.ts, src/core2/modules/people.ts, src/bench/card.ts, src/director/conversation.ts, src/core2/data/stopgaps/hist.json, src/core2/data/life/remembered.json, src/core2/press-desk.ts
 
 **Notes.** Filed by hand by the civic roles builder, Nov 15. A birth abroad has no place record to name, so the card says the year only ("Born in {year}."), an existing line; a line naming a birth abroad is for the Words lead to ask for if wanted.
+
+Found while gating, Nov 15: the paper delivered a printed story to its readers before putting it on record (src/core2/press-desk.ts), so a reader who heard a letter to the editor the day it printed learned nothing of its writer's stand (`printedStoryOf` was empty when `learnFromStory` ran). Seen at Osceola Mills, Pennsylvania (4257232), view-learned seed c0b9b89bf76b76649abb, where the player's own letter was the only one they heard. Fixed in the same PR: the story is saved before it is read, and again with its counts.
