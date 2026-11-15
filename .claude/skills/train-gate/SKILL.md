@@ -35,6 +35,10 @@ A gate line names each command, its exit code and where it ran (which container,
 
 Compare against the clean train head, not only main: main's reds and the train's reds differ. Keep the current known-red list in project memory and in the PR body; a red also red on the clean base does not block, and a red the PR introduces does. Never skip, loosen or quarantine a test to get green (`pinned-tests`).
 
+## A new test's time limit (Account lead, Nov 15)
+
+Set a new or changed test's limit near twice the slower of two runs: the test alone, and the test beside the PR's other changed test files (CI's `unit` job runs them together). Write both in the test's comment. A limit set from the run alone went red on CI (#9509: 32 s alone, 74.6 s on CI beside four other files, against a 70 s limit). For a drawn red you did not cause, rerun it at the seed it printed on the clean Train head (`GOLDEN_PATH_SEED` or the test's own variable) and say "red at the same seed on <sha>"; a test that prints no replayable seed is said as such.
+
 ## Shas and lines
 
 - Always the full 40-character sha. A short sha is refused.
