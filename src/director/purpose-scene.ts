@@ -1599,6 +1599,24 @@ function composeBinding(
     facts.nays = { text: said.no ?? "", sourceRecordIds: [moment.causeId] };
     facts.ayes = { text: said.yes ?? "", sourceRecordIds: [moment.causeId] };
   }
+  // A candidate's campaign asking the player to endorse (the campaigns
+  // engine's endorsement-asked record): the asker gives one reason, the
+  // strongest the record holds, and only a favor names a deal.
+  if (binding.typeKey === "endorsement-ask") {
+    const cited = [moment.causeId];
+    const reason = said.obligationId
+      ? "reason-favor"
+      : said.closeness === "close"
+        ? "reason-tie-close"
+        : "reason-tie-distant";
+    facts[reason] = { text: "yes", sourceRecordIds: cited };
+    if (said.endorsedAnother)
+      facts["endorsed-other"] = { text: "yes", sourceRecordIds: cited };
+    if (said.again)
+      facts["asked-again"] = { text: "yes", sourceRecordIds: cited };
+    if (said.contestId)
+      Object.assign(facts, contestVoteDay(core, said.contestId));
+  }
   if (said.office)
     facts.office = {
       // Where the body is named for its members the race is for that member
