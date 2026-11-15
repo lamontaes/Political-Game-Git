@@ -7,7 +7,7 @@ priority: 1
 size: M
 status: in-pr
 claimed-by: claude/petition-clerk-scene
-pr:
+pr: "#9441"
 blocked-on:
 source: owner, Nov 15, 2026 (build-out of scenes: "different ways to start scenes", "imagine situations in the county clerk's office"); brief section 10.1 of /mnt/project-files/scene-buildout/rulings-and-briefs.md
 claimed-at: 2026-11-15T05:30:00Z
