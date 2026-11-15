@@ -14,6 +14,7 @@ import {
   stateDayParameter,
   type StateOffice,
 } from "../core2/office-day-state";
+import { lawChain } from "../core2/modules/laws";
 import { OFFICES_MODULE_ID } from "../core2/modules/offices";
 import { coreAPI } from "../core2/state";
 import { buildBenchWorld } from "./world";
@@ -135,6 +136,64 @@ describe.each(PINNED)(
     }, 300_000);
   },
 );
+
+// Another state's governor keeps only the result of the yearly address (owner,
+// Nov 5, 12:49 p.m. Eastern, OWNER-DECISIONS.md lines 205 to 213): the result
+// row stands and no speech is delivered to a full audience. The player's own
+// state's governor speaks to its legislators and to the followers of the
+// town's outlets. Before this, every state's address went to the town's
+// outlet followers, so a town's readers heard 49 other governors a year.
+describe("another state's governor keeps only the result of the address", () => {
+  it("delivers no speech outside the player's state and still delivers inside it", () => {
+    setBookkeeping(false);
+    const place = drawPlace("mayor-acts-1:3", "mayor-acts");
+    expect(place.name).toContain("Odessa");
+    const w = buildBenchWorld(place.seed, gameStartDate(), {
+      twoLevel: true,
+      placeKey: place.key,
+    });
+    advanceCore(w.core, makeIsoDate("2026-05-01"));
+    const api = coreAPI(w.core);
+    const results = api
+      .moduleState(OFFICE_DAY_STATE_MODULE_ID)
+      .table("results")
+      .rows() as unknown as {
+      kind: string;
+      holderId: string;
+      recordIds: string[];
+      choice: { kind: string };
+    }[];
+    const governors = results.filter((r) => r.kind === "state-of-the-state");
+    const offices = api.moduleState(OFFICES_MODULE_ID).table("offices");
+    const terms = api
+      .moduleState(OFFICES_MODULE_ID)
+      .table("terms")
+      .rows() as unknown as { personId?: string; officeId: string }[];
+    const ownState = lawChain(api).stateKey;
+    const stateOf = (holderId: string) =>
+      (
+        offices.get(
+          terms.find((t) => t.personId === holderId)!.officeId,
+        ) as unknown as { jurisdiction: string }
+      ).jurisdiction;
+    const outside = governors.filter((g) => stateOf(g.holderId) !== ownState);
+    const inside = governors.filter((g) => stateOf(g.holderId) === ownState);
+    expect(outside.length, place.name).toBeGreaterThan(30);
+    // The result row is kept, with what the governor said, and no speech.
+    for (const g of outside) {
+      expect(g.choice.kind, place.name).toBe("address");
+      expect(g.recordIds, place.name).toEqual([]);
+    }
+    // The player's own state's governor speaks, as before.
+    for (const g of inside)
+      expect(g.recordIds.length, place.name).toBeGreaterThan(0);
+    if (process.env.ACTS_OUT)
+      appendFileSync(
+        process.env.ACTS_OUT,
+        `${place.name} outside ${outside.length} inside ${inside.length}\n`,
+      );
+  }, 300_000);
+});
 
 // The played governor's own day reads the same date rule the world's
 // governors use (`firstWindow`: the first session window that convenes in the

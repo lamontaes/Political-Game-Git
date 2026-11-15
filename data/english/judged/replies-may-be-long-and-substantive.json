@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "replies-may-be-long-and-substantive",
   "rubric": "Replies are not all short; some carry an argument or a reason, so a reply does not kill the talk.",
-  "judged": 1051,
+  "judged": 1038,
   "no": {
     "0038nen24jy": {
       "keys": [
@@ -1255,17 +1255,6 @@
       ],
       "why": "'You shouldn't have asked', 'I care about you, and I can't do this', accepting and leaving refuse or give in without a reason."
     },
-    "0ncuuve23vm": {
-      "keys": [
-        "scene-talk.follow-press.not-answering-is-an-answer-too",
-        "scene-talk.reply-answer.all-right-plainly-i-stand-by-it",
-        "scene-talk.reply-refuse.i-m-not-doing-this-in-a-hallway",
-        "scene-talk.reply-confront.you-re-not-going-to-like-any-answer-i-give",
-        "scene-talk.reply-leave.i-ve-said-what-i-m-going-to-say",
-        "scene-talk.reply-lie.nobody-s-even-asked-me-that-before"
-      ],
-      "why": "\"I stand by it,\" the hallway refusal, \"You're not going to like any answer,\" \"I've said\" and \"Nobody's even asked me\" give no reason."
-    },
     "0o5qamx83dq": {
       "keys": [
         "scene-talk.follow-press.friend.i-want-to-believe-you-first-i-just-need-more-than-that",
@@ -1747,15 +1736,6 @@
       ],
       "why": "'We didn't win', thanks and 'I can't count it yet' give no argument or reason."
     },
-    "0xbj1t7nopb": {
-      "keys": [
-        "scene-talk.beat-beat.across-the-lobby-someone-else-s-camera-swings-your-way",
-        "scene-talk.reply-answer.leaning-write-it-down",
-        "scene-talk.reply-boast.time-will-answer-that-and-it-ll-answer-for-me",
-        "scene-talk.reply-leave.that-s-my-elevator"
-      ],
-      "why": "\"Write it down,\" \"time will answer\" and \"that's my elevator\" give no reason for leaning."
-    },
     "0xl9nfzt7cy": {
       "keys": [
         "scene-talk.follow-press.friend.i-want-to-believe-you-first-i-just-need-more-than-that",
@@ -2231,15 +2211,6 @@
         "scene-talk.reply-leave.i-need-some-air-we-ll-talk-later"
       ],
       "why": "Thanks, 'That's fair. Let's try it' and stepping out for air carry no reason."
-    },
-    "199sr5k45xk": {
-      "keys": [
-        "scene-talk.beat-beat.across-the-hall-someone-stops-to-listen",
-        "scene-talk.reply-answer.leaning-write-it-down",
-        "scene-talk.reply-boast.time-will-answer-that-and-it-ll-answer-for-me",
-        "scene-talk.reply-leave.that-s-my-elevator"
-      ],
-      "why": "\"Write it down,\" \"time will answer\" and \"that's my elevator\" give no reason for leaning."
     },
     "19bvc409afc": {
       "keys": [
@@ -4304,5 +4275,5 @@
       "why": "Thanks and a promise to call carry no reason."
     }
   },
-  "yesHash": "21qm193r99g"
+  "yesHash": "1qc55vg9tn9"
 }

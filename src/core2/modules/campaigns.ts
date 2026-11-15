@@ -99,6 +99,7 @@ import { ownerOf } from "./business";
 import {
   agreementWith,
   countedStanceProfile,
+  stanceRow,
   viewOn,
   VIEWS_MODULE_ID,
   VIEWS_SPEAKER_KEY,
@@ -2626,7 +2627,7 @@ export const RIVAL_WORD_EVENT = "rival-word";
  */
 export const CANVASS_MESSAGE_KIND = "campaign-canvass";
 
-interface MessageRow {
+export interface MessageRow {
   readonly id: string;
   /** The message's kind: an ad, a mailer, a turn's paid message, or an evening of doors. */
   readonly kind?: string;
@@ -2634,7 +2635,31 @@ interface MessageRow {
   readonly candidateId: string;
   readonly date: string;
   readonly topic: string;
+  /** Which side of the topic the message argued: above zero for the change, below for keeping things as they are. */
+  readonly position?: number;
   readonly witnessIds: readonly string[];
+}
+
+/**
+ * What one rival message did to the person who passed word of it on: none
+ * where the views engine kept no cause for it on their stance on its topic
+ * (a night of doors is kept as word and never as a paid message, so it moves
+ * nobody), else a little or a lot by how far that cause moved them toward the
+ * rival's case against `rivalWordMovedALot`. Read-only.
+ */
+export function rivalWordMoved(
+  api: CoreAPI,
+  tellerId: string,
+  messageId: string,
+  topic: string,
+): "none" | "little" | "lot" {
+  const cause = stanceRow(api, tellerId as PersonId, topic)?.causes.find(
+    (row) => row.eventId === messageId,
+  );
+  if (!cause) return "none";
+  return cause.change >= campaignParameter("rivalWordMovedALot")
+    ? "lot"
+    : "little";
 }
 
 /** Whether two people have been in touch after a day: their relationship's last contact is later. */
@@ -2780,6 +2805,10 @@ function rivalWordPassedOn(api: CoreAPI): void {
           rivalId: message.candidateId,
           messageId: message.id,
           contestId: filing.contestId,
+          ...(message.kind ? { how: message.kind } : {}),
+          ...(message.position === undefined
+            ? {}
+            : { side: message.position > 0 ? "for" : "against" }),
           ...(contest ? { office: contest.title } : {}),
         },
       });
@@ -5613,6 +5642,7 @@ function emitMessage(
     candidateId: campaign.candidateId,
     date: api.state.date,
     topic: lead.question,
+    position: lead.position,
     witnessIds,
   } as unknown as ModuleRow);
   // The contest's latest message date moves with the row
@@ -6565,9 +6595,8 @@ export function outletWeighsRace(
       "endorsement",
       weighing.score,
     );
-    keepEndorsement(
-      api,
-      endorsementRow(campaign, api.state.date, {
+    keepEndorsement(api, {
+      ...endorsementRow(campaign, api.state.date, {
         id: `endorsement:${campaign.id}:${outlet.organizationId}`,
         speakerId: head.id,
         organizationId: outlet.organizationId,
@@ -6576,7 +6605,11 @@ export function outletWeighsRace(
         reached,
         volunteerIds: [],
       }),
-    );
+      // A paper is not a group with a cause: its head weighed the platform
+      // by their own views, so no group stance is kept for the paper to be
+      // told by ("The group wants ...", Words lead, Nov 15, on #9466).
+      stance: null,
+    });
     return true;
   }
   return false;

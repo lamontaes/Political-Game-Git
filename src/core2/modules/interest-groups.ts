@@ -756,7 +756,9 @@ export function groupStance(
  * Whether a resident joins a side's group: how hard the side pulls them (their
  * view toward it, doubled where it touches their own life) and how strongly
  * the group's members already draw them in (their closest tie to one), against
- * the bar, and their traits toward joining on top.
+ * the bar, and their traits toward joining on top. A `cost` of going (the
+ * share of a working week their work already takes, the voting engine's own
+ * unit) is taken off what pulls them.
  */
 export function joinsGroup(
   api: CoreAPI,
@@ -764,6 +766,7 @@ export function joinsGroup(
   toward: number,
   touches: boolean,
   drawn: number,
+  cost = 0,
 ): boolean {
   return leanedYes(
     api.state,
@@ -774,7 +777,8 @@ export function joinsGroup(
     Math.max(0, toward) *
       (1 + meetingParameter("lifeConcernWeight") * (touches ? 1 : 0)) +
       campaignParameter("groupDrawWeight") * drawn -
-      campaignParameter("groupJoinBar"),
+      campaignParameter("groupJoinBar") -
+      cost,
   );
 }
 

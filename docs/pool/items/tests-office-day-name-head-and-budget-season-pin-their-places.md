@@ -35,4 +35,4 @@ checked:
 
 **Files.** src/core2/office-day-name-head.test.ts, src/core2/office-day-budget-season.test.ts
 
-**Notes.** Found while gating the duty need (Nov 15).
+**Notes.** Found while gating the duty need (Nov 15). Seen again Nov 15 on #9485's gate and on Train 88b5b879: office-day-name-head at seed c5fa51b05add8d84, "No town with an appointed head and a pay line to name them in 8 draws".

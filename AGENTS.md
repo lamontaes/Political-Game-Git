@@ -81,7 +81,7 @@ Detail and self-checks are in the matching `.agents/rules/standing-skills/<name>
 - **Every effect can be triggered from the game's own code in dev mode and its effect seen and traced there (owner, Nov 14: "every single one of those should be able to be triggered using the game code and advanced in order to see the effect"; dev mode and advanced are the same).** A law (town, county, state and country), budget line, executive act, event or scene has a dev mode control that causes it through the game's own calls and a Trace or "What came of it" line that shows its effect. A build that adds an effect dev mode cannot trigger and trace is not done (`standing-rules-self-check`, `seen-in-game`).
 - **Research before building.** Real data checks the simulation and never decides an outcome by itself. See `research-habit`.
 - **Speed (owner, Oct 29: "It has to be a country's year... I want simulations to be able to go hundreds of years").** A country's year (the whole played world, not one town) runs in under two minutes on `npm run speed:year`, which measures four years so every check includes an election year; the bar holds for each year. No change may make a year more than 20% slower than its base, measured on the same base and machine, one process at a time. Over one save, years 97 to 100 run at most 1.2 times as long as years 1 to 4, and memory and records kept hold the same way: old records fold into summaries once play no longer reads them. Never scan the whole world or history every day; use indexes or act on the day something changed. See `OWNER-DECISIONS.md`, Oct 30 01:55.
-- **Saves don't matter** until early-access preparation, when a versioned save format is built.
+- **Saves work now; a versioned format waits (owner, Nov 15: "just go ahead and get them, working. That I don't think that should be something that waits till last, but saves don't need to be transferable between versions or anything right now").** Saving a played life and continuing it is built now (`core-played-game-saves-and-continues`). A save need not load in a later version until early-access preparation, when a versioned save format is built.
 - **American English everywhere**, enforced by `tests/guards/english/`; `npm run spelling` lists what it would flag.
 
 ## Process
@@ -135,6 +135,7 @@ Load a skill when its trigger fits; descriptions say when. Every session, first:
 - `player-screen-text`: checking every string a player sees
 - `pool-notes`: pool-only changes go in one bundle an hour; the cap on new work
 - `pr-fixer`: finishing sent-back PRs
+- `promises`: a promise made in a scene, kept or broken by the record that settles it, and said at the next talk
 - `red-main`: taking a red on main from report to fix
 - `remove-a-stopgap`: replacing and unregistering a stopgap row
 - `researcher`: turning a stopgap into a sourced number

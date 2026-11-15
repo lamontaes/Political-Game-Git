@@ -25,7 +25,7 @@ import { outletsHere } from "../core2/modules/press";
 import { printStory, storiesHeard } from "../core2/modules/news";
 import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
-import { openConversation, say } from "./conversation";
+import { newsStake, openConversation, say } from "./conversation";
 import { strongestQuestion } from "./view-learned";
 
 interface Case {
@@ -36,10 +36,12 @@ interface Case {
   readonly facts?: (chamber: string) => Record<string, string>;
   /** What the neighbor says after a no, from the row; none where the row holds nothing. */
   readonly told?: RegExp;
-  /** The question the story is about, where it is not the neighbor's strongest (a budget line). */
+  /** What the neighbor's ask says, from the row (a budget line: more or less money for what it pays for). */
+  readonly asks?: RegExp;
+  /** The question the story is about, where it is not the neighbor's strongest (a budget line's own question). */
   readonly topic?: string;
-  /** The row is a budget line moved: the talk does not ask about it (the question names a proposal, the row an outcome). */
-  readonly notAsked?: true;
+  /** Their own stand follows the telling as a line of its own (their own view is not on this question), on the story's side, not the question's. */
+  readonly stand?: RegExp;
 }
 
 const CASES: readonly Case[] = [
@@ -101,20 +103,34 @@ const CASES: readonly Case[] = [
     told: /^It took effect\. It's the law now\.$/,
   },
   {
-    title: "television, a budget line moved up (not asked)",
+    title: "television, a budget line moved up",
     kind: "television",
-    notAsked: true,
     playerHeard: false,
+    facts: () => ({
+      line: "police",
+      deltaMinor: "1000",
+      carried: "yes",
+      level: "city",
+    }),
     topic: "budget-line:police",
-    facts: () => ({ line: "police", deltaMinor: "1000", carried: "yes" }),
+    told: /^The .+ passed it\.$/,
+    asks: /more money for the police/,
+    stand: /glad/,
   },
   {
-    title: "radio, a budget line moved down (not asked)",
+    title: "radio, a budget line moved down",
     kind: "radio",
-    notAsked: true,
     playerHeard: false,
+    facts: () => ({
+      line: "police",
+      deltaMinor: "-1000",
+      carried: "yes",
+      level: "city",
+    }),
     topic: "budget-line:police",
-    facts: () => ({ line: "police", deltaMinor: "-1000", carried: "yes" }),
+    told: /^The .+ passed it\.$/,
+    asks: /less money for the police/,
+    stand: /wish they hadn/,
   },
 ];
 
@@ -154,7 +170,12 @@ for (const row of CASES)
           p.householdId === core.people.get(me)!.householdId,
       )
       .sort((a, b) => a.id.localeCompare(b.id))
-      .find((p) => strongestQuestion(api, p.id as PersonId));
+      .find((p) =>
+        row.topic
+          ? newsStake(core, p.id as PersonId, { news: { question: row.topic } })
+              .reason === "stance"
+          : strongestQuestion(api, p.id as PersonId),
+      );
     expect(neighbor, "a neighbor with a stand").toBeTruthy();
     const id = neighbor!.id as PersonId;
     const storyId = `fixture:ask-talk:${row.title}`;
@@ -190,23 +211,11 @@ for (const row of CASES)
     ];
     const pressed = row.playerHeard ? "yes" : "no";
     const asked = talk.lines.find((l) => l.kind === "news")!;
-    if (row.notAsked) {
-      // A budget line is not asked about: the story is told, and no yes or no is offered.
-      expect(asked.text).not.toMatch(/\?$/);
-      expect(talk.choices.map((c) => c.move)).not.toContain("no");
-      shown.push(
-        `  Lines: ${talk.lines.map((l) => `${l.kind}/${l.speakerId === id ? "they" : "you"}: ${l.text}`).join(" | ")}`,
-      );
-      appendFileSync(
-        path.join(tmpdir(), "outlet-ask-talk.txt"),
-        shown.join("\n") + "\n",
-      );
-      return;
-    }
     expect(
       asked,
       `the neighbor asks about the story: ${talk.lines.map((l) => `${l.kind}: ${l.text}`).join(" | ")}`,
     ).toBeTruthy();
+    if (row.asks) expect(asked.text).toMatch(row.asks);
     // The verb fits the medium: read of a paper only, the radio of a station only.
     if (row.kind !== "newspaper")
       expect(asked.text).not.toMatch(/\bread\b|paper/);
@@ -238,7 +247,9 @@ for (const row of CASES)
     // stand again; a no is answered with what the story reported where its
     // row holds it.
     const after = talk.lines.slice(mine + 1).map((l) => l.kind);
-    const expected = row.told ? ["news-back", "own-view"] : ["own-view"];
+    const expected = row.told
+      ? ["news-back", row.stand ? "news" : "own-view"]
+      : ["own-view"];
     expect(
       after.slice(0, expected.length),
       `lines after the answer: ${talk.lines
@@ -255,6 +266,11 @@ for (const row of CASES)
       const back = talk.lines[mine + 1]!.text;
       expect(back).toMatch(row.told);
       expect(back).not.toMatch(/\d/);
+      if (row.stand)
+        expect(
+          talk.lines[mine + 2]!.text,
+          "the stand follows the story",
+        ).toMatch(row.stand);
     }
     shown.push(
       `  Lines: ${talk.lines.map((l) => `${l.kind}/${l.speakerId === id ? "they" : "you"}: ${l.text}`).join(" | ")}`,

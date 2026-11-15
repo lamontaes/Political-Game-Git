@@ -58,3 +58,7 @@ Push everything, write a last block that says where each PR and helper stands, s
 > Write your status block in your channel section every two hours (commit to main: `leads: <name> status <time>`); a need from another role is a Needs-from line there and a pool item with lead: set. Message the CTO (or comment on the item's pull request, if your tool cannot message) with questions for the owner or blockers, and the session whose work meets yours (docs/coordination/CREW.md) before building in its area, so nothing is built twice (owner, Oct 29).
 > Simulate it, don't ask. Never say "wired" without the row. Never merge your own PR, never force-push, never push to a branch while a merger is checking it.
 > In a cloud environment, set OCD_STORAGE_OVERRIDE="cloud session, owner approved Oct 14" on every npm command and never ask the owner to confirm it.
+
+## One family's read of another's records (Account lead, Nov 15)
+
+The `families` guard counts the files a module reaches inside another family and the count only shrinks. When a module of one family needs a read that sits in a non-entry file of another (the counted voter's view of a question was in the elections family's `campaign-views.ts`), do not import that file: add one small exported reader in an entry file of your own or the owning family (here `countedViewOn` in `views.ts`, `countedVoters` in `voting.ts`) built from the same engine functions, and import that. Adding names to an import line the file already has does not count as a new import.

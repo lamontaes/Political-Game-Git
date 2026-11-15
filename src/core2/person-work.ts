@@ -194,6 +194,8 @@ export interface WorkHeld {
   readonly hourlyMinor: number | null;
   /** The job record, for work held in the played world; null for work kept as their identity's record. */
   readonly jobId: string | null;
+  /** The record that says so: the job, or their identity's work fact. */
+  readonly recordId: string;
 }
 
 /**
@@ -217,6 +219,7 @@ export function workHeld(
         job.hourlyMinor ??
         job.wageDailyMinor / Math.max(job.hoursDaily, Number.EPSILON),
       jobId: job.id,
+      recordId: job.id,
     };
   if (job) return null;
   const kept = person.pastFacts?.find((f) => f.kind === "identity:work");
@@ -226,5 +229,6 @@ export function workHeld(
     title: String(kept.facts?.title ?? kept.summary),
     hourlyMinor: hourly === undefined ? null : Number(hourly),
     jobId: null,
+    recordId: kept.id,
   };
 }
