@@ -1,10 +1,7 @@
 {
   "version": "p13-director-v1",
   "note": "Story director on the new core (docs/design/director-on-core2.md). Developer data, never shown to a player. Channels, kept-fact kinds and tie rows are open data rows; the code registers one measure per channel operation.",
-  "chosenJobEnds": [
-    "jobs:quit:",
-    "jobs:left-work:"
-  ],
+  "chosenJobEnds": ["jobs:quit:", "jobs:left-work:"],
   "chosenJobEndsNote": "Sources of a job's end the worker chose (src/core2/modules/jobs.ts: a quit when hired elsewhere, leaving or retiring from work). Those ends are a job left, not a job lost, so no family scene says 'I lost my job.' for them (owner, Oct 14, 2026, night: scenes from the household's records).",
   "parameters": {
     "directorMomentFloor": {
@@ -1078,9 +1075,7 @@
     {
       "id": "lie",
       "endsOn": "contradicting-fact-learned",
-      "producedBy": [
-        "conversation.lie"
-      ]
+      "producedBy": ["conversation.lie"]
     },
     {
       "id": "favor",
@@ -1110,16 +1105,9 @@
       ]
     }
   ],
-  "broadEventFlags": [
-    "publicRecord",
-    "news"
-  ],
-  "eventKinds": [
-    "*"
-  ],
-  "relationshipKinds": [
-    "*"
-  ],
+  "broadEventFlags": ["publicRecord", "news"],
+  "eventKinds": ["*"],
+  "relationshipKinds": ["*"],
   "kinTies": [
     {
       "relation": "parent",

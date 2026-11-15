@@ -15,7 +15,8 @@ import {
   type GroundedEnglishKnowledge,
   type GroundedEnglishPacket,
 } from "./grounded-english";
-import { journalDataFromBank, type RACE_MARGINS } from "./mined/journal-bank";
+import { journalDataFromBank } from "./mined/journal-bank";
+import type { RACE_MARGINS } from "../director/race-margin";
 import articleSounds from "../../data/english/article-sounds.json" with { type: "json" };
 import { ordinalDay } from "./day-words";
 import seatWords from "../../data/english/seat-words.json" with { type: "json" };
