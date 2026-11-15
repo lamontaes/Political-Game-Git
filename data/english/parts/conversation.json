@@ -5208,14 +5208,14 @@
           "subject": "shared-school",
           "role": "ask",
           "choice": "remember",
-          "requiresFacts": ["long-ago"]
+          "requiresFacts": ["long-ago", "only-past"]
         },
         {
           "move": "shared-school-raise-remember",
           "subject": "shared-school",
           "role": "raise",
           "choice": "remember",
-          "requiresFacts": ["long-ago"]
+          "requiresFacts": ["long-ago", "only-past"]
         }
       ],
       "transcriptsUsing": 33,
@@ -5255,14 +5255,14 @@
           "subject": "shared-school",
           "role": "ask",
           "choice": "remember",
-          "requiresFacts": ["long-ago"]
+          "requiresFacts": ["long-ago", "only-past"]
         },
         {
           "move": "shared-school-raise-remember",
           "subject": "shared-school",
           "role": "raise",
           "choice": "remember",
-          "requiresFacts": ["long-ago"]
+          "requiresFacts": ["long-ago", "only-past"]
         }
       ],
       "transcriptsUsing": 23,
@@ -5299,14 +5299,14 @@
           "subject": "shared-school",
           "role": "ask",
           "choice": "remember",
-          "requiresFacts": ["long-ago"]
+          "requiresFacts": ["long-ago", "only-past"]
         },
         {
           "move": "shared-school-raise-remember",
           "subject": "shared-school",
           "role": "raise",
           "choice": "remember",
-          "requiresFacts": ["long-ago"]
+          "requiresFacts": ["long-ago", "only-past"]
         }
       ],
       "transcriptsUsing": 10,
@@ -14504,14 +14504,14 @@
           "subject": "shared-school",
           "role": "ask",
           "choice": "remember",
-          "requiresFacts": ["long-ago"]
+          "requiresFacts": ["long-ago", "only-past"]
         },
         {
           "move": "shared-school-raise-remember",
           "subject": "shared-school",
           "role": "raise",
           "choice": "remember",
-          "requiresFacts": ["long-ago"]
+          "requiresFacts": ["long-ago", "only-past"]
         }
       ],
       "origin": "authored",
@@ -14523,20 +14523,20 @@
       }
     },
     {
-      "key": "conversation.shared-school-ask-remember.we-were-at-school-together-weren-t-we",
-      "move": "shared-school-ask-remember",
+      "key": "conversation.shared-school-ask-together.we-were-at-school-together-weren-t-we",
+      "move": "shared-school-ask-together",
       "kind": "spoken",
       "text": "We were at {school} together, weren't we?",
       "uses": [
         {
-          "move": "shared-school-ask-remember",
+          "move": "shared-school-ask-together",
           "subject": "shared-school",
           "role": "ask",
           "choice": "remember",
           "requiresFacts": ["long-ago"]
         },
         {
-          "move": "shared-school-raise-remember",
+          "move": "shared-school-raise-together",
           "subject": "shared-school",
           "role": "raise",
           "choice": "remember",

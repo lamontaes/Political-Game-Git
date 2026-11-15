@@ -2893,6 +2893,15 @@ export function subjectsBetween(
           ...(since >= LONG_AGO_YEARS
             ? { "long-ago": { text: "yes", sourceRecordIds: [row.recordId] } }
             : {}),
+          // The school is only their past: neither works there now, so it
+          // may be asked about as a memory (Words lead, Nov 15: Blair, a
+          // teacher there, asked "Do you ever think about Dortches Public
+          // Schools?"). Read from their jobs on record; nothing kept.
+          ...(![speakerId, listenerId].some(
+            (id) => jobOf(core, core.people.get(id)!)?.org.id === row.recordId,
+          )
+            ? { "only-past": { text: "yes", sourceRecordIds: [row.recordId] } }
+            : {}),
         },
       });
     }
