@@ -4903,7 +4903,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "requiresFacts": ["acted", "voted-yes"]
+          "requiresFacts": ["acted", "voted-yes"],
+          "excludesFacts": ["voted-no"]
         }
       ],
       "bearing": "calm",
