@@ -28,7 +28,7 @@ source: "Interviews thread at Surrency GA, Nov 15 22:07Z (owners 41 to 35 after 
 
 **Rules.** No dice: the listing and the balance decide who comes. One model, two tiers. Sliding scales. No tuned number: the arrivals stay sized by the origins' sourced flows.
 
-**Done when.** At Surrency GA and Gratz KY with their seeds, a year's homes listed, bought (by whom: town renter, newcomer) and still waiting, with and without the change, named by sale id; year 1 and records at three places, twice a side, alternated. A second session sees at a drawn small place it names with its seed that a listed home is bought by a household from outside the town.
+**Done when.** A pinned test at Surrency GA and Gratz KY with their seeds prints a year's homes listed, bought (by whom: town renter, newcomer) and still waiting, with and without the change, named by sale id; year 1 and records at three places, twice a side, alternated. A second session sees at a drawn small place it names with its seed that a listed home is bought by a household from outside the town.
 
 **Waits on.** industry-2 (who leaves a town), by the lead's order.
 
