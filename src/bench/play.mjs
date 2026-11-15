@@ -144,9 +144,11 @@ let newsFor = null;
 let newsSeen = new Set();
 // The tab on screen while News stays open: a redraw keeps it (closed or left, it clears).
 let newsShowing = null;
-// The game's date is the clock's, the packet's; me.date is only the day the
-// screen loaded (P15, C10: the News kept the opening day).
-const today = () => packet?.at?.date ?? me.date;
+// The game's date is the server's clock: a packet's `at` or the card's (the card is re-read after
+// every change the server made, a dev panel's run of days included, which returns no packet); me.date
+// is only the day the screen loaded (P15, C10: the News kept the opening day).
+let clockAt;
+const today = () => clockAt?.date ?? me.date;
 let talk;
 let openTab;
 let busy = false;
@@ -434,10 +436,11 @@ async function renderScene({ keepBackdrop = false } = {}) {
 async function renderCard() {
   const card = await api(`/api/card?id=${encodeURIComponent(me.id)}`);
   me.card = card;
+  clockAt = card.at ?? clockAt;
   me.names = { ...me.names, [me.id]: card.name };
   $("card-name").textContent = card.name;
   $("card-place").textContent = me.placeName;
-  setClock(packet?.at ?? { date: today(), minuteOfDay: me.minuteOfDay ?? 0 });
+  setClock(clockAt ?? { date: today(), minuteOfDay: me.minuteOfDay ?? 0 });
 }
 
 // The Guide's search, kept so an underlined term opens straight to it.
@@ -630,7 +633,10 @@ function renderPacket(value) {
   const open = packet?.kind === "stop";
   $("hour").disabled = $("day").disabled = $("week").disabled = busy || open;
   show("continue", packet?.kind === "stop");
-  if (packet) setClock(packet.at);
+  if (packet) {
+    clockAt = packet.at;
+    setClock(clockAt);
+  }
 }
 
 /** The newest line of the journal, bottom right. */
@@ -4516,7 +4522,7 @@ const sheets = {
     );
     // Today is the world's day: the later of the clock's last packet and the
     // record, so a day the world has reached never offers a jump to it.
-    const date = [packet?.at.date, recordDate].filter(Boolean).sort().at(-1);
+    const date = [clockAt?.date, recordDate].filter(Boolean).sort().at(-1);
     const labels = controls.calendar;
     return [
       calendarScreen({
