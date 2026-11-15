@@ -10534,32 +10534,6 @@
       }
     },
     {
-      "key": "journal.home-line-met.named-and-i-met-in-place",
-      "move": "home-line-met",
-      "kind": "spoken",
-      "text": "{named} and I met in {place}.",
-      "uses": [
-        {
-          "move": "home-line-met",
-          "subject": "home",
-          "role": "met",
-          "choice": "met",
-          "journal": [
-            {
-              "kindPrefix": "household:partners-met",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
       "key": "journal.home-line-met.i-met-named-in-place-when-i-was-age",
       "move": "home-line-met",
       "kind": "spoken",
@@ -11555,32 +11529,6 @@
           "journal": [
             {
               "kindPrefix": "household:children-together",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (ruled Nov 14), added by the Journal builder",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.home-line-parent-apart.named-lived-in-place-not-with-us",
-      "move": "home-line-parent-apart",
-      "kind": "spoken",
-      "text": "{named} lived in {place}, not with us.",
-      "uses": [
-        {
-          "move": "home-line-parent-apart",
-          "subject": "home",
-          "role": "apart",
-          "choice": "apart",
-          "journal": [
-            {
-              "kindPrefix": "household:parent-apart",
               "field": "line"
             }
           ]
