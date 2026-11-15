@@ -2071,10 +2071,7 @@ function playerNews(
     // (journal-own-race), and a housemate who says "I'm sorry about Council
     // member" to a player who never ran has read another person's race as
     // the player's (pool item play-player-entered-in-races-without-filing-press).
-    if (
-      (mark === "filed" || mark === "result") &&
-      moment.selfNamed !== true
-    )
+    if ((mark === "filed" || mark === "result") && moment.selfNamed !== true)
       continue;
     if (
       daysBetween(makeIsoDate(moment.date), makeIsoDate(core.date)) >
