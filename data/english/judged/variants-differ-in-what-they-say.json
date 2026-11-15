@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "variants-differ-in-what-they-say",
   "rubric": "Variants of a slot differ in what they say, each tied to a fact in the record, not only in wording; a bank grows by adding conditions and specifics, not more generic lines.",
-  "judged": 1183,
+  "judged": 1180,
   "no": {
     "006el8dj9s1": {
       "keys": [
@@ -867,17 +867,6 @@
         "scene-talk.reply-boast.print-what-i-said-last-time-it-s-still-true"
       ],
       "why": "All three lines boast of a consistent record, reworded."
-    },
-    "0dk4oq23e5t": {
-      "keys": [
-        "scene-talk.open-greet.i-hope-this-isn-t-a-bad-time",
-        "scene-talk.open-greet.i-ll-be-honest-i-almost-didn-t-come-over",
-        "scene-talk.open-greet.i-ll-be-quick-i-promise",
-        "scene-talk.open-greet.i-m-with-the-group-that-s-been-calling-you",
-        "scene-talk.open-greet.sorry-to-catch-you-on-the-way-out",
-        "scene-talk.open-greet.you-probably-don-t-remember-me"
-      ],
-      "why": "Most of these openers are interchangeable apologies for the interruption, and the more specific claims carry no fact from the record."
     },
     "0dnhtu5myug": {
       "keys": [
@@ -3380,20 +3369,6 @@
       ],
       "why": "Both lines push back that the blame is unfair, the same retort reworded."
     },
-    "1k4cr72abgn": {
-      "keys": [
-        "scene-talk.open-greet.can-i-bend-your-ear-for-a-second",
-        "scene-talk.open-greet.do-you-have-five-minutes-just-five",
-        "scene-talk.open-greet.glad-i-caught-you-before-you-left",
-        "scene-talk.open-greet.have-you-got-a-second-for-a-neighbor",
-        "scene-talk.open-greet.i-ve-been-meaning-to-come-by-your-office",
-        "scene-talk.open-greet.i-won-t-keep-you-long",
-        "scene-talk.open-greet.mind-if-i-walk-with-you-a-bit",
-        "scene-talk.open-greet.thanks-for-stopping-i-know-you-re-busy",
-        "scene-talk.open-greet.title-have-you-got-a-minute"
-      ],
-      "why": "Nearly all nine openers are interchangeable asks for a minute, with only a title fact on one and nothing else to choose among them."
-    },
     "1k4rfaqb7h5": {
       "keys": [
         "scene-talk.follow-promise.whatever-it-is-i-ll-back-you",
@@ -5243,5 +5218,5 @@
       "why": "Both lines promise to look into it before the deadline, the second only adding detail to the same promise."
     }
   },
-  "yesHash": "14dft11wb0c"
+  "yesHash": "1wefmb16hqa"
 }

@@ -57369,31 +57369,6 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-called-your-office-about-cause-all-week-today-there-s-a-knock-at-",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "{name} called your office about {cause} all week. Today there's a knock at your door.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "join-cause",
-          "key": "favor-asked",
-          "requiresFacts": ["same-day"]
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "narrate",
-        "key": "favor-asked"
-      }
-    },
-    {
       "key": "scene-talk.open-greet.title-have-you-got-a-minute",
       "move": "open-greet",
       "kind": "spoken",
@@ -57542,31 +57517,6 @@
       }
     },
     {
-      "key": "scene-talk.close-promise.i-ll-send-the-details-to-your-office-tonight",
-      "move": "close-promise",
-      "kind": "spoken",
-      "text": "I'll send the details to your office tonight.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "promise",
-          "role": "asker",
-          "purpose": "join-cause",
-          "key": "favor-asked",
-          "outcome": "resolved"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "promise",
-        "key": "favor-asked"
-      }
-    },
-    {
       "key": "scene-talk.close-accept.understood-the-door-stays-open",
       "move": "close-accept",
       "kind": "spoken",
@@ -57588,31 +57538,6 @@
       "date": "2026-10-15",
       "tag": {
         "move": "accept",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.close-warn.we-ll-be-at-the-council-either-way",
-      "move": "close-warn",
-      "kind": "spoken",
-      "text": "We'll be at the council either way.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "warn",
-          "role": "asker",
-          "purpose": "join-cause",
-          "key": "favor-asked",
-          "outcome": "refused"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "warn",
         "key": "favor-asked"
       }
     },
@@ -58455,30 +58380,6 @@
       }
     },
     {
-      "key": "scene-talk.open-greet.i-ve-been-trying-to-catch-you-for-a-week",
-      "move": "open-greet",
-      "kind": "spoken",
-      "text": "I've been trying to catch you for a week.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "purpose": "join-cause",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "hopeful",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "greet",
-        "key": "favor-asked"
-      }
-    },
-    {
       "key": "scene-talk.open-greet.mind-if-i-walk-with-you-a-bit",
       "move": "open-greet",
       "kind": "spoken",
@@ -58623,30 +58524,6 @@
       }
     },
     {
-      "key": "scene-talk.open-greet.i-ve-been-meaning-to-come-by-your-office",
-      "move": "open-greet",
-      "kind": "spoken",
-      "text": "I've been meaning to come by your office.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "purpose": "join-cause",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "greet",
-        "key": "favor-asked"
-      }
-    },
-    {
       "key": "scene-talk.open-greet.can-i-bend-your-ear-for-a-second",
       "move": "open-greet",
       "kind": "spoken",
@@ -58686,30 +58563,6 @@
         }
       ],
       "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "greet",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.open-greet.i-m-with-the-group-that-s-been-calling-you",
-      "move": "open-greet",
-      "kind": "spoken",
-      "text": "I'm with the group that's been calling you.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "purpose": "join-cause",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "nervous",
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
