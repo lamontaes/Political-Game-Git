@@ -162,7 +162,8 @@ export function constituentFacts(
       };
     }
   }
-  // A rent notice on the household: what it owes, to the dollar, and the day.
+  // A rent notice on the household: what it owes, to the dollar, and the day
+  // to pay by.
   if ((variant.reads["notice-served"] ?? P.zero) > P.zero) {
     const rows = (
       api
@@ -187,7 +188,10 @@ export function constituentFacts(
           ),
           sourceRecordIds: [row.id],
         };
-      if (row.cureBy)
+      // The day to pay by is said only while it is still ahead: a case past
+      // its cure date has moved on (filed, a hearing set), and "before July
+      // 9" in October contradicts the record (second words reader, Nov 15).
+      if (row.cureBy && row.cureBy >= cause.date)
         facts.deadline = {
           text: spokenDate(row.cureBy, cause.date),
           sourceRecordIds: [row.id],
