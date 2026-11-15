@@ -95,6 +95,8 @@
     "said": "The subject of a policy question as a person names it after 'on' or 'about' (\"drug prices\"), from the question's `said` in data/english/question-names.json; never a side (the side is said as what it does to the speaker). `about` stays for lines that name the thing itself.",
     "seat": "The seat a race is for, as people say it (\"the Mutual Village Council\", \"mayor\"), from the elections engine's contest and the office's record through the one seat wording.",
     "bill": "A bill, by its title, from the legislature record.",
+    "meeting-body": "The town body whose meeting a friend asked the player to, as its record names it (City Council), from the office-day engine's meeting record.",
+    "meeting-held": "The day that meeting was held, told as past (\"yesterday\", \"the other day\", \"on March 4th\"), from the meeting's record.",
     "their_when": "When the asker last saw someone both know, said as people say it (\"last week\"), from the asker's own tie's last contact."
   },
   "maxWords": 10,
@@ -38038,6 +38040,132 @@
       "origin": "authored",
       "author": "Words lead (promises rulings-2, Nov 14)",
       "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.promise-kept-raise.thanks-for-coming-to-the-meeting-body-meeting-it-helped",
+      "move": "promise-kept-raise",
+      "kind": "spoken",
+      "text": "Thanks for coming to the {meeting-body} meeting. It helped.",
+      "uses": [
+        {
+          "move": "promise-kept-raise",
+          "subject": "promise-kept",
+          "role": "raise",
+          "requiresFacts": ["promise-attend", "meeting-body"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (attend raises, Nov 15)",
+      "date": "2026-11-15",
+      "bearing": "calm"
+    },
+    {
+      "key": "conversation.promise-kept-raise.glad-you-came-to-the-meeting-body-meeting-id-have-sat-alone",
+      "move": "promise-kept-raise",
+      "kind": "spoken",
+      "text": "Glad you came to the {meeting-body} meeting. I'd have sat alone.",
+      "uses": [
+        {
+          "move": "promise-kept-raise",
+          "subject": "promise-kept",
+          "role": "raise",
+          "requiresFacts": ["promise-attend", "meeting-body"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (attend raises, Nov 15)",
+      "date": "2026-11-15",
+      "bearing": "calm"
+    },
+    {
+      "key": "conversation.promise-kept-raise.you-said-youd-come-to-the-meeting-body-meeting-you-did",
+      "move": "promise-kept-raise",
+      "kind": "spoken",
+      "text": "You said you'd come to the {meeting-body} meeting. You did.",
+      "uses": [
+        {
+          "move": "promise-kept-raise",
+          "subject": "promise-kept",
+          "role": "raise",
+          "requiresFacts": ["promise-attend", "meeting-body"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (attend raises, Nov 15)",
+      "date": "2026-11-15",
+      "bearing": "calm"
+    },
+    {
+      "key": "conversation.promise-broken-raise.looked-for-you-at-the-meeting-body-meeting-you-said-youd-come",
+      "move": "promise-broken-raise",
+      "kind": "spoken",
+      "text": "Looked for you at the {meeting-body} meeting. You said you'd come.",
+      "uses": [
+        {
+          "move": "promise-broken-raise",
+          "subject": "promise-broken",
+          "role": "raise",
+          "requiresFacts": ["promise-attend", "meeting-body"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (attend raises, Nov 15)",
+      "date": "2026-11-15",
+      "bearing": "calm"
+    },
+    {
+      "key": "conversation.promise-broken-raise.you-said-youd-come-to-the-meeting-body-meeting-you-didnt",
+      "move": "promise-broken-raise",
+      "kind": "spoken",
+      "text": "You said you'd come to the {meeting-body} meeting. You didn't.",
+      "uses": [
+        {
+          "move": "promise-broken-raise",
+          "subject": "promise-broken",
+          "role": "raise",
+          "requiresFacts": ["promise-attend", "meeting-body"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (attend raises, Nov 15)",
+      "date": "2026-11-15",
+      "bearing": "calm"
+    },
+    {
+      "key": "conversation.promise-broken-raise.i-went-to-the-meeting-body-meeting-by-myself-meeting-held-what-happened",
+      "move": "promise-broken-raise",
+      "kind": "spoken",
+      "text": "I went to the {meeting-body} meeting by myself {meeting-held}. What happened?",
+      "uses": [
+        {
+          "move": "promise-broken-raise",
+          "subject": "promise-broken",
+          "role": "raise",
+          "requiresFacts": ["promise-attend", "meeting-body", "meeting-held"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (attend raises, Nov 15)",
+      "date": "2026-11-15",
+      "bearing": "calm"
+    },
+    {
+      "key": "conversation.promise-broken-raise.i-waited-for-you-outside-the-meeting-body-meeting-you-didnt-come",
+      "move": "promise-broken-raise",
+      "kind": "spoken",
+      "text": "I waited for you outside the {meeting-body} meeting. You didn't come.",
+      "uses": [
+        {
+          "move": "promise-broken-raise",
+          "subject": "promise-broken",
+          "role": "raise",
+          "requiresFacts": ["promise-attend", "meeting-body"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (attend raises, Nov 15)",
+      "date": "2026-11-15",
+      "bearing": "calm"
     },
     {
       "key": "conversation.address-point-opener-lead.the-president-blocked-about",

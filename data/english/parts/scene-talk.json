@@ -164,6 +164,8 @@
     "money-left": "How a job seeker's savings stand, in words and never a figure (\"running low\", \"almost gone\"), from their constituent case's severity.",
     "said": "The subject of the player's bill as a person names it after 'on' (\"voting by mail\"), from the question's `said` in data/english/question-names.json (questionSaid), for the co-sponsor ask; never a side.",
     "fee-short": "Yes where the one filing cannot pay the fee (their cash is under the sum); nothing otherwise.",
+    "item": "The first bill on a posted meeting's agenda, by its title, from the office-day engine's meeting record.",
+    "meeting-when": "The day a town body's next meeting falls on, as said asking someone along: tonight or today, tomorrow night or tomorrow, else on the weekday within a week or the date, from the office-day engine's meeting record.",
     "sunset": "The day a study committee's term ends, as people say it, from the study record.",
     "members": "The other people who sit on the study committee, by name, from the study record."
   },
@@ -134879,10 +134881,10 @@
       }
     },
     {
-      "key": "scene-talk.state-request.i-m-going-to-the-next-meeting-of-the-party-first-do-you-want-to-come-with-me",
+      "key": "scene-talk.state-request.the-body-meets-meeting-when-im-going-do-you-want-to-come-with-me",
       "move": "state-request",
       "kind": "spoken",
-      "text": "I'm going to the next meeting of the {party}. Do you want to come with me?",
+      "text": "The {body} meets {meeting-when}. I'm going. Do you want to come with me?",
       "uses": [
         {
           "subject": "scene",
@@ -134891,13 +134893,113 @@
           "role": "asker",
           "purpose": "friend-ask",
           "key": "routine",
-          "requiresFacts": ["party"]
+          "requiresFacts": ["meeting", "body", "meeting-when"]
         }
       ],
       "bearing": "warm",
       "origin": "authored",
-      "author": "Claude Sonnet (Story, first meeting and friends purposes)",
-      "date": "2026-11-09",
+      "author": "Words lead (friend-ask meeting lines, Nov 15)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "request",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.im-going-to-the-body-meeting-meeting-when-come-with-me",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I'm going to the {body} meeting {meeting-when}. Come with me?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "friend-ask",
+          "key": "routine",
+          "requiresFacts": ["meeting", "body", "meeting-when"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Words lead (friend-ask meeting lines, Nov 15)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "request",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.the-body-meets-meeting-when-id-rather-not-sit-through-it-alone-will-you-come",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "The {body} meets {meeting-when}. I'd rather not sit through it alone. Will you come?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "friend-ask",
+          "key": "routine",
+          "requiresFacts": ["meeting", "body", "meeting-when"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Words lead (friend-ask meeting lines, Nov 15)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "request",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.the-body-takes-up-item-meeting-when-i-want-to-hear-it-would-you-come-along",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "The {body} takes up {item} {meeting-when}. I want to hear it. Would you come along?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "friend-ask",
+          "key": "routine",
+          "requiresFacts": ["meeting", "body", "item", "meeting-when"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Words lead (friend-ask meeting lines, Nov 15)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "request",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.will-you-come-to-the-body-meeting-with-me-meeting-when-id-like-the-company",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Will you come to the {body} meeting with me {meeting-when}? I'd like the company.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "friend-ask",
+          "key": "routine",
+          "requiresFacts": ["meeting", "body", "meeting-when"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Words lead (friend-ask meeting lines, Nov 15)",
+      "date": "2026-11-15",
       "tag": {
         "move": "request",
         "key": "routine"
@@ -134946,29 +135048,6 @@
       "date": "2026-11-09",
       "tag": {
         "move": "agree",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.reply-ask.when-do-you-need-me",
-      "move": "reply-ask",
-      "kind": "spoken",
-      "text": "When do you need me?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "purpose": "friend-ask",
-          "key": "routine"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, first meeting and friends purposes)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "ask",
         "key": "routine"
       }
     },
@@ -135241,7 +135320,7 @@
       "key": "scene-talk.follow-answer.whatever-time-you-have-this-week-would-be-fine-i-thought-of-you-because-you-re-easy-to-be-around",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "Whenever works for you. I thought of you because you're easy to be around.",
+      "text": "I thought of you because you're easy to be around.",
       "uses": [
         {
           "subject": "scene",
@@ -135266,7 +135345,7 @@
       "key": "scene-talk.follow-answer.soon-if-you-can-and-i-thought-of-you-because-i-trust-you-with-it",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "As soon as you can. I thought of you because I trust you.",
+      "text": "I thought of you because I trust you.",
       "uses": [
         {
           "subject": "scene",
