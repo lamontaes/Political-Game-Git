@@ -5668,6 +5668,7 @@
       ],
       "setting": ["home"],
       "timing": "at-cause",
+      "liveWhile": "contest-open",
       "causes": [
         {
           "match": {
