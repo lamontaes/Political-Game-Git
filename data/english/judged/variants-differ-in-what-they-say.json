@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "variants-differ-in-what-they-say",
   "rubric": "Variants of a slot differ in what they say, each tied to a fact in the record, not only in wording; a bank grows by adding conditions and specifics, not more generic lines.",
-  "judged": 1219,
+  "judged": 1217,
   "no": {
     "006el8dj9s1": {
       "keys": [
@@ -1535,13 +1535,6 @@
         "scene-talk.reply-thank.thank-you-i-mean-it"
       ],
       "why": "Both lines are the same thanks in other words."
-    },
-    "0opxt5ftna6": {
-      "keys": [
-        "scene-talk.follow-press.easy-to-say-from-up-there",
-        "scene-talk.follow-press.that-isn-t-an-answer-i-can-take-home"
-      ],
-      "why": "Both say the answer isn't good enough, in other words."
     },
     "0p10egl1oaf": {
       "keys": [
@@ -5455,5 +5448,5 @@
       "why": "Both lines promise to look into it before the deadline, the second only adding detail to the same promise."
     }
   },
-  "yesHash": "079mwbiq1nn"
+  "yesHash": "228ny23e0g0"
 }

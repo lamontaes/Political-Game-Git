@@ -5,7 +5,7 @@ area: director
 kind: bug
 priority: 2
 size: S
-status: open
+status: in-pr
 standard: 2
 claimed-by:
 pr:
@@ -35,4 +35,6 @@ checked: meetings and floor builder 2026-11-14
 
 **Files.** src/director/scheduling.ts, src/director/data/situation-types.json, src/director/data/circumstances.json, data/english/parts/scene-talk.json
 
-**Notes.** Needs the Words lead's ruling on the replacement lines first (report-1.md, items 6 to 8). Built locally Nov 14: `stopsDay: true` on the town-hall-question type (the same flag took-office carries) stops the player at Roy, Montana (meet-a1:1): 5 stops in 30 days before, 6 after, the new one the town hall on 2025-01-28. The cause above (rank, impact) was not it: a hall the member hosts is selfNamed and `stopsDay` is the data switch for that.
+**Notes.** Words lead ruled the replacement lines (#8928 Nov 14 16:28Z). Built locally Nov 14: `stopsDay: true` on the town-hall-question type (the same flag took-office carries) stops the player at Roy, Montana (meet-a1:1): 5 stops in 30 days before, 6 after, the new one the town hall on 2025-01-28. The cause above (rank, impact) was not it: a hall the member hosts is selfNamed and `stopsDay` is the data switch for that.
+
+Built in the stop PR: the two lectern lines ("Easy to say when the room is listening.", "Thanks for letting me ask.") and the unmarked lie replies out (rule 113: five lie pieces removed, "lie" off the town-hall-question replies and moves, the same arc the protest and strike type uses). Not built, left for the meetings engine and the Words lead: the resident's question is still the one they feel most strongly of all policy questions, so a small town's hall can hear a federal wage question the board cannot decide, and "I'd like a date" has no thing it is a date for (rules 115, 116). Filed as the Notes of words-run-town-hall-question-lines-are-composed.

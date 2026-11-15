@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "replies-may-be-long-and-substantive",
   "rubric": "Replies are not all short; some carry an argument or a reason, so a reply does not kill the talk.",
-  "judged": 1252,
+  "judged": 1250,
   "no": {
     "0038nen24jy": {
       "keys": [
@@ -944,16 +944,6 @@
         "scene-talk.reply-promise.all-right-me-have-him-send-it-to-me-directly"
       ],
       "why": "\"Not me. That's the whole point\" points at a reason without saying it, and the other reply just agrees."
-    },
-    "0f8difm48hh": {
-      "keys": [
-        "scene-talk.state-ask.what-are-you-going-to-do-about-the-things-people-here-are-worried-abou",
-        "scene-talk.reply-answer.i-gave-you-my-answer-on-that-and-i-meant-it",
-        "scene-talk.reply-offer.i-can-t-do-this-justice-from-here-come-see-me",
-        "scene-talk.reply-deflect.that-s-a-good-one-for-another-night",
-        "scene-talk.reply-lie.my-office-has-a-file-open-on-it"
-      ],
-      "why": "Every reply defers or deflects the question elsewhere instead of offering an argument that keeps the talk going."
     },
     "0fcy3f7n0yg": {
       "keys": [
@@ -5299,5 +5289,5 @@
       "why": "Going along, insisting \"I mean it\" and leaving for the night give no reason in answer to everything being on hold."
     }
   },
-  "yesHash": "0hwml9n0xep"
+  "yesHash": "1eu1x698azq"
 }

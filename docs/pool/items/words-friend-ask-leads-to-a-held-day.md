@@ -35,3 +35,5 @@ root: none
 **Files.** src/director/data/purpose-arcs.json, data/english/parts/scene-talk.json (Words lead), src/core2/modules/parties.ts (read only)
 
 **Notes.** Filed by the family life builder (thread "Write family life scenes"), Nov 14 2026.
+
+Nov 15, meetings and floor builder: the no-party case. Since the Nov 14 cut the one friend request left (the next meeting of a party) needs the `party` fact, which meeting-facts.ts sets only when both people hold the same party tie. A friendship that grows between two people with no shared party therefore asks nothing, and for a played person the moment goes to the Journal as a line with no stop (ledger registerInterrupts asks `speaks`, which asks the bench's `wordsPurpose`). Read from code, not yet seen played. The friendship itself still forms from time together. Whoever builds this plays the no-party Journal line at a drawn place first.

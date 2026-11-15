@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "later-replies-move-the-talk-on",
   "rubric": "After the first exchange the replies offered do not rehash the first options; they move the talk on.",
-  "judged": 1232,
+  "judged": 1230,
   "no": {
     "00084oe3x4o": {
       "keys": [
@@ -2837,19 +2837,6 @@
       ],
       "why": "\"I promise\" and the tea offer restate the first yes and the eating deflection."
     },
-    "19n1xqlu1hn": {
-      "keys": [
-        "scene-talk.follow-plea.please-i-stood-up-to-ask-this",
-        "scene-talk.reply-answer.you-re-right-to-ask-i-stand-where-i-said-i-do",
-        "scene-talk.reply-offer.stay-after-and-let-s-sit-down-i-want-the-whole-story",
-        "scene-talk.reply-deflect.i-ll-take-the-next-hand",
-        "scene-talk.reply-lie.i-m-already-working-on-it",
-        "scene-talk.reply-answer.i-gave-you-my-answer-on-that-and-i-meant-it",
-        "scene-talk.reply-offer.call-my-office-tomorrow-and-ask-for-me-by-name",
-        "scene-talk.reply-leave.i-hear-you-and-i-have-to-take-the-next-question"
-      ],
-      "why": "'I gave you my answer', 'call my office tomorrow' and 'I have to take the next question' reword the first stand, meet-after and next-hand options."
-    },
     "1ab9lwe9qwa": {
       "keys": [
         "scene-talk.follow-answer.no-date-i-m-not-in-a-hurry-i-just-want-to-know-we-re-headed-the-same-d",
@@ -3381,19 +3368,6 @@
         "scene-talk.reply-leave.enough-please-leave"
       ],
       "why": "No, reporting it, nothing to say and asking them to leave repeat the first no, clerk and finished options."
-    },
-    "1ic5ythtue6": {
-      "keys": [
-        "scene-talk.follow-plea.please-i-stood-up-to-ask-this",
-        "scene-talk.reply-answer.i-gave-you-my-answer-on-that-and-i-meant-it",
-        "scene-talk.reply-offer.i-can-t-do-this-justice-from-here-come-see-me",
-        "scene-talk.reply-deflect.that-s-a-good-one-for-another-night",
-        "scene-talk.reply-lie.my-office-has-a-file-open-on-it",
-        "scene-talk.reply-answer.you-re-right-to-ask-i-stand-where-i-said-i-do",
-        "scene-talk.reply-offer.call-my-office-tomorrow-and-ask-for-me-by-name",
-        "scene-talk.reply-leave.i-wish-i-had-more-time-i-don-t"
-      ],
-      "why": "'I stand where I said', 'call my office' and 'I wish I had more time' restate the first answer, come-see-me and another-night options."
     },
     "1itp2r48mfs": {
       "keys": [

@@ -4366,7 +4366,7 @@
           "key": "you",
           "fill": "subject",
           "count": "one",
-          "moves": ["answer", "relent", "offer", "deflect", "lie", "leave"],
+          "moves": ["answer", "relent", "offer", "deflect", "leave"],
           "wants": ["keep-same"],
           "bearing": "calm"
         }
@@ -4431,7 +4431,7 @@
           "key": "you",
           "fill": "subject",
           "count": "one",
-          "moves": ["answer", "relent", "offer", "deflect", "lie", "leave"],
+          "moves": ["answer", "relent", "offer", "deflect", "leave"],
           "wants": ["keep-same"],
           "bearing": "calm"
         }
