@@ -10,10 +10,10 @@
  * stance it reached, by how firmly each holds it (`endorsedOn` in
  * src/core2/modules/voting.ts, read by `countedAppeal`).
  *
- * Pinned: Marshfield, Massachusetts, world seed 75d9b7ad, the township board
- * races of Nov 4, 2025, whose groups weigh them in late September. Playing
- * Jan 20 to Oct 1 is the game's own days, about 110 seconds, so the test sets
- * its own limit near twice that.
+ * Pinned: Gilliam, Missouri, world seed 53a4a04a, whose groups first back
+ * candidates for the races of Nov 3, 2026 in the week to Feb 2, 2026. The
+ * run is the game's own played days, Jan 20, 2025 to Feb 2, 2026: about 50
+ * seconds, so the test sets its own limit near twice that.
  */
 import { afterAll, describe, expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
@@ -40,12 +40,12 @@ import {
 import { endorsedOn } from "./modules/voting";
 import { countedStanceProfile, viewOn } from "./modules/views";
 
-const MARSHFIELD = {
-  name: "Marshfield, Massachusetts",
-  key: "2538820",
-  seed: "75d9b7ad36560f47b03a252ae33001b88ec529e8f4871fa480acf053c7642a78",
+const GILLIAM = {
+  name: "Gilliam, Missouri",
+  key: "2927028",
+  seed: "53a4a04aa5cce8c364ead5828f0c15569e8e360f4edf96fbb8e4ee784c7d2076",
 };
-const where = `${MARSHFIELD.name} (${MARSHFIELD.key}), seed ${MARSHFIELD.seed}`;
+const where = `${GILLIAM.name} (${GILLIAM.key}), seed ${GILLIAM.seed}`;
 
 const before = setBookkeeping(false);
 afterAll(() => {
@@ -54,11 +54,11 @@ afterAll(() => {
 
 describe("a group's stance and its reach", () => {
   it("a group weighs other questions by its members' views, and its endorsement reaches the counted residents who share its cause", () => {
-    const { core } = buildBenchWorld(MARSHFIELD.seed, gameStartDate(), {
+    const { core } = buildBenchWorld(GILLIAM.seed, gameStartDate(), {
       twoLevel: true,
-      placeKey: MARSHFIELD.key,
+      placeKey: GILLIAM.key,
     });
-    advanceCore(core as CoreState, makeIsoDate("2025-10-01"));
+    advanceCore(core as CoreState, makeIsoDate("2026-02-02"));
     const state = core as CoreState;
     const api = coreAPI(state);
     const lean0 = townLean(api);
@@ -173,5 +173,5 @@ describe("a group's stance and its reach", () => {
     console.log(
       `${where}: ${row!.id} on ${endorsed!.question}; ${sharing.length} counted records share it, ${opposed.length} oppose; warmth ${endorsed!.warmth.toFixed(4)}; ${other} members' view ${mean.toFixed(3)}`,
     );
-  }, 200_000);
+  }, 100_000);
 });
