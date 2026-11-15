@@ -13,6 +13,7 @@ model: sonnet
 effort: low
 root: none
 pr: 9389
+pr: 9389
 source: second words reader on the greeting fix #9378, Nov 15
 lead: words
 ---
