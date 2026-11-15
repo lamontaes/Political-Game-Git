@@ -7,7 +7,7 @@ priority: 2
 size: S
 status: in-pr
 claimed-by: account lead thread "Give rivals more than one issue"
-pr:
+pr: 9382
 blocked-on:
 after: core-outcome-web-follows-only-the-played-town
 source: account lead thread "Give rivals more than one issue", Nov 14 (next PR after #9342, coordinator)
