@@ -103,7 +103,22 @@ export function personActs(
     visit.open &&
     at.kind === "work" &&
     !hasBackdrop(orgPlace(core, at.organizationId) ?? "");
-  const visits = unreachable ? [] : [visit];
+  // A visit is to talk with them: one the game has nothing to say for (a
+  // colleague never met, at home or at their work) is not offered either,
+  // so the player is never set down in a room where nothing happens.
+  const silent =
+    visit.open &&
+    !unreachable &&
+    !openConversation(core, playerId as PersonId, otherId as PersonId, {
+      ...(context.director ? { director: context.director } : {}),
+      ...(at.kind === "work" ? { visitOrganizationId: at.organizationId } : {}),
+      minuteOfDay: Math.min(
+        context.minute + visitMinutesOf(core),
+        dayMinutesOf(core) - 1,
+      ),
+      look: true,
+    }).lines.length;
+  const visits = unreachable || silent ? [] : [visit];
   // Nobody calls someone in the room, or a house they are standing in: a
   // housemate at home while the player is home is not called either.
   const sameHouse =

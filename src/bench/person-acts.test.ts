@@ -124,7 +124,12 @@ for (const seed of WORLDS) {
     let other: string | undefined;
     for (const candidate of town.slice(0, 60)) {
       const rows = await acts(candidate.id);
-      expect(rows[0]?.kind, `${where}: Visit is always listed`).toBe("visit");
+      // Visit is listed first, unless a visit would have nothing to say (a
+      // colleague never met): then it is not offered at all.
+      if (rows.length)
+        expect(["visit", "call"], `${where}: Visit comes first`).toContain(
+          rows[0]!.kind,
+        );
       for (const row of rows)
         expect(row.open || !!row.reason, `${where}: reason`).toBe(true);
       // Visit and Call both open (Ask out or Propose may follow them).
@@ -181,6 +186,12 @@ for (const seed of WORLDS) {
       (p) => p.personId,
     );
     expect(inRoom, `${where}: the person is in the room`).toContain(other);
+    // A visit offered is a talk had: the player is never set down in a room
+    // where nothing is said (walk at Ainaloa HI, Nov 15).
+    expect(
+      visit.json.talk?.lines.length,
+      `${where}: the visit opens a talk`,
+    ).toBeGreaterThan(0);
     expect(
       [...(core.logByKind.get(CONTACT_VISIT) ?? [])].filter((id) =>
         id.includes(`:${me}:${other}:`),
