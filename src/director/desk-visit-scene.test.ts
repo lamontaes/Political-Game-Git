@@ -38,7 +38,6 @@ import {
 import purposeArcs from "./data/purpose-arcs.json" with { type: "json" };
 import { SITUATION_LIBRARY } from "./scheduling";
 import { expectUpToFourDifferent } from "./reply-set-check";
-import purposeArcs from "./data/purpose-arcs.json" with { type: "json" };
 
 // The arc's apart sets say at most one of their facts holds in one visit;
 // the pair sheets leave out pairs that need two of one set, so every visit

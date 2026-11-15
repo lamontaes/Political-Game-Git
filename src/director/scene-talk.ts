@@ -1981,7 +1981,12 @@ export function composeSceneTalk(
       // (Words lead, Nov 14: "a reply that names the act ends the talk and
       // decides").
       if (actPieces.has(reply.parts[zero] ?? "")) {
-        const close = closeFor(replyOutcome, childPath, undefined, afterAct(childPath.said));
+        const close = closeFor(
+          replyOutcome,
+          childPath,
+          undefined,
+          afterAct(childPath.said),
+        );
         next.end = { outcome: replyOutcome, ...closed(close) };
         if (!close) gap("close", replyOutcome, `${reply.move} (an act)`);
         continue;
