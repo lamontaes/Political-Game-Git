@@ -45,6 +45,7 @@ import {
 } from "../core2/modules/meetings";
 import {
   VIEWS_MODULE_ID,
+  stanceRow,
   stancesOf,
   viewOf,
   viewOn,
@@ -72,6 +73,7 @@ import {
   NAMED_QUESTIONS,
   questionAbout,
   questionSaid,
+  questionSide,
 } from "../english/question-names";
 import { floorDebateFacts } from "./floor-debate-facts";
 import { raceTurnoutFacts } from "./race-turnout-facts";
@@ -191,7 +193,10 @@ import {
 } from "../core2/modules/elections";
 import {
   CAMPAIGNS_MODULE_ID,
+  CANVASS_MESSAGE_KIND,
+  RIVAL_WORD_EVENT,
   enlistVolunteer,
+  rivalWordMoved,
   type CauseRow,
 } from "../core2/modules/campaigns";
 import rulesFile from "./data/scene-talk-rules.json" with { type: "json" };
@@ -229,6 +234,14 @@ import {
   swornOffice,
   titleInSentence,
 } from "./swearing-in";
+
+/** How a rival's message reached the one who passed word of it on, by the message record's kind: the word each opener is placed by (`how-mailer`, `how-ad`, `how-canvass`, `how-message`). */
+const HOW_WORD_REACHED: Readonly<Record<string, string>> = {
+  "campaign-mail": "mailer",
+  "campaign-ad": "ad",
+  [CANVASS_MESSAGE_KIND]: "canvass",
+  "campaign-message": "message",
+};
 
 export interface PurposeScene {
   typeKey: string;
@@ -1518,6 +1531,42 @@ function composeBinding(
       text: sayPerson(rival),
       sourceRecordIds: [moment.causeId, rival.id],
     };
+  // Word of a rival's message passed on: how it reached the teller, what it
+  // argued (the subject and the rival's side of it) and how far it moved the
+  // teller, each from the message's own record. Nothing here quotes it.
+  if (record?.kind === RIVAL_WORD_EVENT && record.topic) {
+    const how = HOW_WORD_REACHED[said.how ?? ""];
+    if (how)
+      facts[`how-${how}`] = {
+        text: "yes",
+        sourceRecordIds: [said.messageId ?? moment.causeId],
+      };
+    const issue = questionSaid(record.topic);
+    if (issue) facts.issue = { text: issue, sourceRecordIds: [moment.causeId] };
+    const side =
+      said.side === "for" || said.side === "against"
+        ? questionSide(record.topic, said.side)
+        : null;
+    if (side)
+      facts.side = {
+        text: side,
+        sourceRecordIds: [said.messageId ?? moment.causeId],
+      };
+    // The player's own stand on it, where the views engine keeps one.
+    const own = core.modules.has(VIEWS_MODULE_ID)
+      ? stanceRow(coreAPI(core as CoreState), askedId, record.topic)
+      : undefined;
+    if (own && own.strength > P.zero)
+      facts["own-stand"] = {
+        text: "yes",
+        sourceRecordIds: [own.id, moment.causeId],
+      };
+    if (said.tellerId && said.messageId) {
+      facts[
+        `moved-${rivalWordMoved(coreAPI(core as CoreState), said.tellerId, said.messageId, record.topic)}`
+      ] = { text: "yes", sourceRecordIds: [said.messageId, said.tellerId] };
+    }
+  }
   // A rival who runs under the candidate's own party label: a primary
   // challenge. The lines that call it one need both filings to say so.
   if (rival && said.contestId && core.modules.has(ELECTIONS_MODULE_ID)) {
