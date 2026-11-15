@@ -35,6 +35,7 @@ import type { ReplyFollowsTable } from "../english/reply-follows";
 import situationFile from "./data/situation-types.json" with { type: "json" };
 import rulesFile from "./data/scene-talk-rules.json" with { type: "json" };
 import {
+  factsSetBy,
   pieceAnswers,
   sceneMoveFits,
   sceneMovesWritten,
@@ -98,6 +99,14 @@ interface PurposeArc {
   endings?: Ending[];
   /** Reply moves after which the answer ends the exchange: no goodbye follows it (everyday talk). */
   closes?: string[];
+  /**
+   * Replies that do the thing asked in their own words (sign, veto), by the
+   * act, as their pieces: said, the talk ends with one closing line from the
+   * asker, and the engine that keeps the act reads the reply's piece.
+   */
+  acts?: Record<string, string[] | string>;
+  /** Facts an act makes no longer true (a deadline once the bill is decided): the closing line after an act is worded without them. */
+  actEnds?: string[];
   /** Reply moves that may be offered again after an asker move: { askerMove: [replyMoves] }. */
   repeatable?: Record<string, string[]>;
   /** When an exchange resolves the purpose may go on instead of closing: played once. */
@@ -621,6 +630,25 @@ export function composeSceneTalk(
   const closesSaid = new Set<string>();
   /** How many closes of each move this talk has said. */
   const closesByMove = new Map<string, number>();
+  // What the talk has told so far: the scene's facts and the facts the lines
+  // said on a path set for the rest of it (an answer sets what it told).
+  const heardOn = new WeakMap<ReadonlySet<string>, typeof facts>();
+  const heard = (said: ReadonlySet<string>): typeof facts => {
+    let found = heardOn.get(said);
+    if (!found) {
+      const set = factsSetBy(said, base);
+      found = set.length
+        ? {
+            ...facts,
+            ...Object.fromEntries(
+              set.map((name) => [name, { text: "yes", sourceRecordIds: [] }]),
+            ),
+          }
+        : facts;
+      heardOn.set(said, found);
+    }
+    return found;
+  };
   const render = (
     use: FitUse,
     speakerId: PersonId,
@@ -628,7 +656,9 @@ export function composeSceneTalk(
     moment: string,
     said: ReadonlySet<string>,
     onlyTagged = false,
+    given: typeof facts = facts,
   ): SceneTalkLine | null => {
+    const known = given === facts ? heard(said) : given;
     // The English engine picks and words the piece; the director only says
     // which move this is, who says it and what it answers.
     // A talk does not close two branches on the same words while another close
@@ -637,7 +667,7 @@ export function composeSceneTalk(
     const closing = use.step === "close";
     const worded = wordSceneMove({
       move: use,
-      facts,
+      facts: known,
       seed: core.seed,
       speakerId,
       traits,
@@ -1598,15 +1628,17 @@ export function composeSceneTalk(
     outcome: Outcome,
     path: Path,
     lastAsker: SceneTalkLine | undefined,
+    given: typeof facts = facts,
   ): SceneTalkLine | undefined => {
     if (lastAsker && RULES.terminalFollow.includes(lastAsker.move))
       return undefined;
+    const known = given === facts ? heard(path.said) : given;
     const moves = ARCS.close[outcome]
       .filter((move) => move !== lastAsker?.move)
       .filter((move) =>
         sceneMoveFits(
           { step: "close", move, role: "asker", ...base, outcome },
-          facts,
+          known,
           options,
         ),
       );
@@ -1622,6 +1654,8 @@ export function composeSceneTalk(
       askerTraits,
       `${path.id}:close`,
       path.said,
+      false,
+      known,
     );
     // The close never says again what was just said.
     return line && line.parts[zero] !== lastAsker?.parts[zero]
@@ -1804,6 +1838,19 @@ export function composeSceneTalk(
     if (picked && childPath.led) ledBranch.set(next, picked);
   };
 
+  // The replies that do the thing asked (arc.acts), and the facts the closing
+  // line after one is worded with: the arc's actEnds no longer hold.
+  const actPieces = new Set(
+    Object.entries(arc.acts ?? {}).flatMap(([key, pieces]) =>
+      key === "note" ? [] : [pieces].flat(),
+    ),
+  );
+  const afterAct = (said: ReadonlySet<string>): typeof facts =>
+    Object.fromEntries(
+      Object.entries(heard(said)).filter(
+        ([key]) => !(arc.actEnds ?? []).includes(key),
+      ),
+    );
   for (let at = zero; at < queue.length; at += one) {
     const { node, path, moves, outcome, lastAsker } = queue[at]!;
     const round = path.round + one;
@@ -1829,6 +1876,8 @@ export function composeSceneTalk(
         askedTraits,
         `${path.id}:reply:${move}`,
         seen,
+        false,
+        heard(path.said),
       );
       if (!reply) {
         gap("reply", move, path.askerMove);
@@ -1856,6 +1905,7 @@ export function composeSceneTalk(
         `${path.id}:tagged:${move}`,
         seen,
         true,
+        heard(path.said),
       );
       if (!extra || seen.has(extra.parts[zero] ?? "")) continue;
       extra.round = round;
@@ -1943,6 +1993,21 @@ export function composeSceneTalk(
           closeFor("open", childPath, undefined);
         next.end = { outcome: "open", ...closed(farewell) };
         if (!farewell) gap("close", "leave", reply.parts[zero]);
+        continue;
+      }
+      // A reply that does the thing asked in its own words ends the talk: one
+      // closing line from the asker, worded without the facts the act ended
+      // (Words lead, Nov 14: "a reply that names the act ends the talk and
+      // decides").
+      if (actPieces.has(reply.parts[zero] ?? "")) {
+        const close = closeFor(
+          replyOutcome,
+          childPath,
+          undefined,
+          afterAct(childPath.said),
+        );
+        next.end = { outcome: replyOutcome, ...closed(close) };
+        if (!close) gap("close", replyOutcome, `${reply.move} (an act)`);
         continue;
       }
       // A lie plays out as two nodes, believed and caught.
