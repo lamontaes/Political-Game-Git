@@ -3196,7 +3196,8 @@
           "move": "news-answer-react",
           "subject": "news",
           "role": "answer",
-          "choice": "react"
+          "choice": "react",
+          "excludesFacts": ["result-known"]
         },
         {
           "move": "lie-doubt-question",
@@ -3970,7 +3971,8 @@
           "move": "news-answer-react",
           "subject": "news",
           "role": "answer",
-          "choice": "react"
+          "choice": "react",
+          "excludesFacts": ["result"]
         },
         {
           "move": "tenure-reply-answer-ack",
@@ -6659,7 +6661,8 @@
           "move": "news-answer-react",
           "subject": "news",
           "role": "answer",
-          "choice": "react"
+          "choice": "react",
+          "excludesFacts": ["result"]
         },
         {
           "move": "mutual-answer-turn",
@@ -8180,7 +8183,8 @@
           "move": "news-answer-react",
           "subject": "news",
           "role": "answer",
-          "choice": "react"
+          "choice": "react",
+          "excludesFacts": ["result"]
         }
       ],
       "transcriptsUsing": 41,
@@ -8302,7 +8306,8 @@
           "move": "news-answer-react",
           "subject": "news",
           "role": "answer",
-          "choice": "react"
+          "choice": "react",
+          "excludesFacts": ["result"]
         }
       ],
       "transcriptsUsing": 51,
@@ -8342,7 +8347,8 @@
           "move": "news-answer-react",
           "subject": "news",
           "role": "answer",
-          "choice": "react"
+          "choice": "react",
+          "excludesFacts": ["result-known", "result-not-close"]
         }
       ],
       "transcriptsUsing": 23,
@@ -21921,7 +21927,8 @@
           "subject": "news",
           "role": "answer",
           "choice": "yes",
-          "stages": ["heard"]
+          "stages": ["heard"],
+          "requiresFacts": ["broadcast"]
         }
       ],
       "origin": "authored",
@@ -21939,7 +21946,8 @@
           "subject": "news",
           "role": "answer",
           "choice": "yes",
-          "stages": ["heard"]
+          "stages": ["heard"],
+          "excludesFacts": ["before-feeling"]
         }
       ],
       "origin": "authored",
@@ -21957,7 +21965,8 @@
           "subject": "news",
           "role": "answer",
           "choice": "yes",
-          "stages": ["heard"]
+          "stages": ["heard"],
+          "requiresFacts": ["broadcast"]
         }
       ],
       "origin": "authored",
@@ -21976,7 +21985,7 @@
           "role": "answer",
           "choice": "yes",
           "stages": ["heard"],
-          "requiresFacts": ["paper"]
+          "requiresFacts": ["outlet-said", "paper"]
         }
       ],
       "origin": "authored",
@@ -22030,7 +22039,8 @@
           "subject": "news",
           "role": "answer",
           "choice": "no",
-          "stages": ["not-heard"]
+          "stages": ["not-heard"],
+          "requiresFacts": ["broadcast"]
         }
       ],
       "origin": "authored",
@@ -24400,7 +24410,7 @@
       "key": "conversation.own-view-answer-disagree.i-come-down-the-other-side-first",
       "move": "own-view-answer-disagree",
       "kind": "spoken",
-      "text": "I come down on the other side, {first}.",
+      "text": "I come down on the other side.",
       "uses": [
         {
           "move": "own-view-answer-disagree",
@@ -31476,7 +31486,7 @@
       "key": "conversation.player-news-answer-take.very-funny-first-thanks-though",
       "move": "player-news-answer-take",
       "kind": "spoken",
-      "text": "Very funny, {first}. Thanks, though.",
+      "text": "Very funny. Thanks, though.",
       "uses": [
         {
           "move": "player-news-answer-take",
@@ -31530,7 +31540,7 @@
       "key": "conversation.player-news-answer-take.i-know-first-i-ll-take-my-chances",
       "move": "player-news-answer-take",
       "kind": "spoken",
-      "text": "I know, {first}. I'll take my chances.",
+      "text": "I know. I'll take my chances.",
       "uses": [
         {
           "move": "player-news-answer-take",
@@ -31567,7 +31577,7 @@
       "key": "conversation.player-news-answer-tell.we-ll-see-how-employer-goes-first",
       "move": "player-news-answer-tell",
       "kind": "spoken",
-      "text": "We'll see how {employer} goes, {first}.",
+      "text": "We'll see how {employer} goes.",
       "uses": [
         {
           "move": "player-news-answer-tell",
@@ -31604,7 +31614,7 @@
       "key": "conversation.player-news-answer-ask.you-d-really-vote-against-me-first",
       "move": "player-news-answer-ask",
       "kind": "spoken",
-      "text": "You'd really vote against me, {first}?",
+      "text": "You'd really vote against me?",
       "uses": [
         {
           "move": "player-news-answer-ask",
@@ -32654,14 +32664,13 @@
       "key": "conversation.government-news-answer-for.i-d-be-for-it-first",
       "move": "government-news-answer-for",
       "kind": "spoken",
-      "text": "I'd be for it, {first}.",
+      "text": "I'd be for it.",
       "uses": [
         {
           "move": "government-news-answer-for",
           "subject": "government-news",
           "role": "answer",
-          "choice": "for",
-          "requiresFacts": ["first"]
+          "choice": "for"
         }
       ],
       "origin": "authored",
@@ -32672,14 +32681,13 @@
       "key": "conversation.government-news-answer-for.i-m-for-it-first-somebody-had-to",
       "move": "government-news-answer-for",
       "kind": "spoken",
-      "text": "I'm for it, {first}. Somebody had to.",
+      "text": "I'm for it. Somebody had to.",
       "uses": [
         {
           "move": "government-news-answer-for",
           "subject": "government-news",
           "role": "answer",
-          "choice": "for",
-          "requiresFacts": ["first"]
+          "choice": "for"
         }
       ],
       "origin": "authored",
@@ -32690,14 +32698,13 @@
       "key": "conversation.government-news-answer-against.i-d-be-against-it-first",
       "move": "government-news-answer-against",
       "kind": "spoken",
-      "text": "I'd be against it, {first}.",
+      "text": "I'd be against it.",
       "uses": [
         {
           "move": "government-news-answer-against",
           "subject": "government-news",
           "role": "answer",
-          "choice": "against",
-          "requiresFacts": ["first"]
+          "choice": "against"
         }
       ],
       "origin": "authored",
@@ -32708,14 +32715,13 @@
       "key": "conversation.government-news-answer-against.i-m-against-it-first-it-s-the-wrong-call",
       "move": "government-news-answer-against",
       "kind": "spoken",
-      "text": "I'm against it, {first}. It's the wrong call.",
+      "text": "I'm against it. It's the wrong call.",
       "uses": [
         {
           "move": "government-news-answer-against",
           "subject": "government-news",
           "role": "answer",
-          "choice": "against",
-          "requiresFacts": ["first"]
+          "choice": "against"
         }
       ],
       "origin": "authored",
@@ -41099,55 +41105,6 @@
       "date": "2026-11-14"
     },
     {
-      "key": "conversation.death-news-back-core.nobody-has-told-us-how-kin-died",
-      "move": "death-news-back-core",
-      "kind": "spoken",
-      "text": "Nobody has told us how {kin} died.",
-      "uses": [
-        {
-          "move": "death-news-back-core",
-          "subject": "death-news-back",
-          "role": "core",
-          "stages": ["ask"],
-          "excludesFacts": ["cause", "illness-known"],
-          "requiresFacts": ["kin"]
-        }
-      ],
-      "piece": {
-        "of": "death-news-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "solemn",
-      "origin": "authored",
-      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.death-news-back-core.nobody-has-told-us-how-relation-died-no-tie",
-      "move": "death-news-back-core",
-      "kind": "spoken",
-      "text": "Nobody has told us how {relation} died.",
-      "uses": [
-        {
-          "move": "death-news-back-core",
-          "subject": "death-news-back",
-          "role": "core",
-          "stages": ["ask"],
-          "excludesFacts": ["cause", "kin", "illness-known"]
-        }
-      ],
-      "piece": {
-        "of": "death-news-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "solemn",
-      "origin": "authored",
-      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
-      "date": "2026-11-14"
-    },
-    {
       "key": "conversation.death-news-back-core.not-really-you-i-keep-expecting-a-call",
       "move": "death-news-back-core",
       "kind": "spoken",
@@ -41801,6 +41758,54 @@
         "part": "core",
         "required": true
       }
+    },
+    {
+      "key": "conversation.death-news-back-core.i-wanted-you-to-hear-it-from-me",
+      "move": "death-news-back-core",
+      "kind": "spoken",
+      "text": "I wanted you to hear it from me.",
+      "uses": [
+        {
+          "move": "death-news-back-core",
+          "subject": "death-news-back",
+          "role": "core",
+          "stages": ["condole"],
+          "requiresFacts": ["kin"]
+        }
+      ],
+      "piece": {
+        "of": "death-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14: answers that close without a promise)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.death-news-back-core.we-knew-it-was-coming-it-s-still-hard",
+      "move": "death-news-back-core",
+      "kind": "spoken",
+      "text": "We knew it was coming. It's still hard.",
+      "uses": [
+        {
+          "move": "death-news-back-core",
+          "subject": "death-news-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["illness-known"]
+        }
+      ],
+      "piece": {
+        "of": "death-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14: answers that close without a promise)",
+      "date": "2026-11-14"
     },
     {
       "key": "conversation.illness-news-say-core.it-s-kin-you-something-s-wrong",

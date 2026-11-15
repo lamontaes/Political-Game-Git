@@ -3210,6 +3210,49 @@ function billEstimate(paper, section) {
  * records when the body has made them. Clicking a section shows its estimate
  * beside it. `show` draws the nodes, `back` returns to the rows.
  */
+/**
+ * Another state's change opened (play-states-screen-opens-any-state): who voted
+ * yes and no in each chamber and its sponsor, from the roll call kept the day
+ * it passed. It closes like every menu, by its tabs and close control (owner,
+ * Oct 29: no Back in any menu).
+ */
+async function showRollCall(lawId) {
+  const call = await api(
+    `/api/state/roll-call?${new URLSearchParams({ lawId })}`,
+  );
+  if (!call) return;
+  await controlsReady;
+  const labels = controls.politics;
+  const fill = (text, values) =>
+    Object.entries(values).reduce(
+      (t, [k, v]) => t.replaceAll(`{${k}}`, String(v)),
+      text ?? "",
+    );
+  $("sheet-body").replaceChildren(
+    rosterTitle(
+      policyLabel(call.series),
+      [call.repealed ? labels.repealed : labels.passed, dateWords(call.date)]
+        .filter(Boolean)
+        .join(" · "),
+    ),
+    ...(call.sponsor ? [row(labels.rollCallSponsor, call.sponsor)] : []),
+    ...call.chambers.map((chamber, at) =>
+      stripSection(
+        Math.min(at + 1, 5),
+        chamber.chamber,
+        // Each side as a paragraph of names, read left to right.
+        prose(
+          `${fill(labels.rollCallYes, { n: chamber.yes.length })}: ${chamber.yes.join(", ")}`,
+          "roll-call-names",
+        ),
+        prose(
+          `${fill(labels.rollCallNo, { n: chamber.no.length })}: ${chamber.no.join(", ")}`,
+          "roll-call-names",
+        ),
+      ),
+    ),
+  );
+}
 async function openBillPaper(billId, show, back, backLabel) {
   // Only the newest draw of a page is shown. Two acts close together (a vote,
   // then calling the question) each redraw the page; the earlier redraw can
@@ -3581,6 +3624,15 @@ async function seatRows() {
         addStep: seat.addStep ?? "",
         firstStep: seat.firstStep ?? "",
         stepDate: seat.stepDate ?? "",
+        risePerYear: seat.risePerYear ?? "",
+        risePercent: seat.risePercent ?? "",
+        riseYears: seat.riseYears ?? "",
+        riseFirstDate: seat.riseFirstDate ?? "",
+        riseBack: seat.riseBack ?? "",
+        riseNeedsAmount: seat.riseNeedsAmount ?? "",
+        risePercentNeeded: seat.risePercentNeeded ?? "",
+        riseYearsNeeded: seat.riseYearsNeeded ?? "",
+        riseDateNeeded: seat.riseDateNeeded ?? "",
         none: controls.bill?.none ?? "",
       },
       groups: (body.menus ?? []).map((menu) => ({
@@ -3607,13 +3659,15 @@ async function seatRows() {
           unit: item.series ? amountUnit(item.unit) : item.line ? "$" : "",
           cents: item.unit?.startsWith("minor") || Boolean(item.line),
           blocked: item.allowed === false,
+          // A percent a year needs an amount in force above zero to start from.
+          raisable: Number(item.today?.value) > 0,
           note:
             item.allowed === false
               ? (controls.authority?.[item.reason] ?? "")
               : "",
         })),
       })),
-      onDraft: (item, typed, steps = []) => {
+      onDraft: (item, typed, steps = [], rise = null) => {
         const [kind, key] = [
           item.value.slice(0, item.value.indexOf(":")),
           item.value.slice(item.value.indexOf(":") + 1),
@@ -3626,23 +3680,30 @@ async function seatRows() {
             : kind === "line"
               ? { line: key }
               : { question: key }),
-          // A phase-in names each step's amount and day; a single bill, one amount.
-          ...(steps.length
+          // A phase-in names each step's amount and day, or a percent a year, its years and
+          // its first day; a single bill, one amount.
+          ...(rise
             ? {
-                steps: JSON.stringify(
-                  steps.map((step) => ({
-                    value: item.cents
-                      ? Math.round(Number(step.amount) * 100)
-                      : Number(step.amount),
-                    effectiveDate: step.date,
-                  })),
-                ),
+                risePercent: String(rise.percent),
+                riseYears: String(rise.years),
+                riseFirstDate: rise.firstDate,
               }
-            : {
-                value: item.cents
-                  ? String(Math.round(Number(typed) * 100))
-                  : typed,
-              }),
+            : steps.length
+              ? {
+                  steps: JSON.stringify(
+                    steps.map((step) => ({
+                      value: item.cents
+                        ? Math.round(Number(step.amount) * 100)
+                        : Number(step.amount),
+                      effectiveDate: step.date,
+                    })),
+                  ),
+                }
+              : {
+                  value: item.cents
+                    ? String(Math.round(Number(typed) * 100))
+                    : typed,
+                }),
         };
         // An executive's bill goes through a member the player picks: the body's members, the
         // one the engine would ask marked as the likely yes.
@@ -4653,6 +4714,15 @@ const sheets = {
         date: today(),
         headlineOf: storyHeadline,
         photoOf: storyPhoto,
+        // Another state's law opens its roll call (play-states-screen-opens-any-state).
+        actionOf: (story) =>
+          story.kind === "nation.law"
+            ? makeButton({
+                className: "action",
+                textContent: controls.politics.rollCallOpen ?? "",
+                onclick: () => showRollCall(story.id),
+              })
+            : null,
       }),
     ];
   },
@@ -5495,8 +5565,14 @@ const sheets = {
             voteRows(
               votes.map((v) => ({
                 title: v.title,
-                result: `${v.passed ? labels.passed : labels.failed} · ${fill(labels.yesCount, { n: v.yes })}, ${fill(labels.noCount, { n: v.no })}`,
+                result: `${v.repealed ? labels.repealed : v.passed ? labels.passed : labels.failed} · ${fill(labels.yesCount, { n: v.yes })}, ${fill(labels.noCount, { n: v.no })}`,
                 when: short(v.date),
+                // Another state's change: its roll call (play-states-screen-opens-any-state).
+                ...(v.rollCall
+                  ? {
+                      onOpen: () => showRollCall(v.lawId),
+                    }
+                  : {}),
                 ...(v.openable
                   ? {
                       onOpen: () =>
