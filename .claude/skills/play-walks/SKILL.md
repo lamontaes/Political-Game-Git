@@ -83,3 +83,12 @@ The review rules in the skill `words-engine` (its lessons of Nov 11), and these,
 - **A walk can start in a chosen place (Nov 15).** The new-life request takes `placeKey` (a place's key from `searchCorePlaces`, such as `1562600` for Pearl City, Hawaii), which a script adds with a `page.route` on `**/api/newlife*`, as `bill-amend.browser.mjs` does with `BENCH_PLACEKEY`. Use it to see one wording at named places (an own-named body, a state's reading, a new row) instead of waiting for a draw. A place takes about two minutes to build and open.
 - **A card read 1.2 seconds after the click can be the previous card (Nov 15).** The People card waits for `/api/known` (about half a second when the bench is idle, longer while a gate or replay runs beside it) and keeps the old card until the new one arrives, so a busy walk prints one person's name with the last person's reason ("Victor Pennington: Carl lives too far away to visit."). Before reporting a wrong reason, check the picture, or wait for the card's name to change before reading it.
 - **Press every act once in a drawn life before you say an act is fine (Nov 15).** Two walks found Visit offered to a colleague the player had never spoken with: at home it set the player in a living room where nothing was said, and at work it handed back an empty street. The tests had passed, because each test picked someone with something to say.
+
+## Replaying Visit or Call (Nov 15, Visit/Call thread)
+
+A new life offers no Call on day 1: calls need weeks of play, and the card's ties are housemates and relatives elsewhere, so a replay needs a life where the player has met someone. Advance with `POST /api/advance?mode=week`, then reload `/play` and click `front-continue` before reading the card.
+
+## Two walk traps from the fee bills (Nov 15)
+
+- At a State House seat the clock halts on a Yes, No, Abstain card for another member's bill, and the halt covers the rings. A walk answers the card the way a player does, and opens tabs with an evaluate click.
+- A fault seen in a walk is checked on the clean train at the same place and seed before it is blamed on a pull request, and a watch on a walk's first output line fires too soon.
