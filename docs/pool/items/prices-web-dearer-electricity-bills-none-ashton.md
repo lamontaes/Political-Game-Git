@@ -5,10 +5,10 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/project-thread-8fxsy5
-pr:
+pr: #9590
 after:
 blocked-on:
 lead: m0-m2
