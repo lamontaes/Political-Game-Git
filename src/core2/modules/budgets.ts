@@ -95,6 +95,8 @@ import {
   stateJurisdictionId,
 } from "../government-jurisdictions";
 import { syncServiceCharges } from "../budgets-service-charges";
+export { chargedServicesOf } from "../budgets-service-charges";
+import { isFeeLevelSeries } from "../fee-levels";
 
 export {
   budgetInForce,
@@ -467,6 +469,8 @@ export const BUDGETS_MODULE: PreStartModule = {
       taxPayments: {
         indexes: { byGovernment: { fields: ["governmentId"] } },
       },
+      /** What the country tier's workers had withheld in the month a line first read it, the base its later months are measured against. */
+      tierBases: {},
       /** Each treasury's monthly close: every line's money, where it went. */
       treasuryMonths: {
         indexes: { byGovernment: { fields: ["governmentId"] } },
@@ -509,6 +513,8 @@ export const BUDGETS_MODULE: PreStartModule = {
     const series = event.facts?.series;
     if (series === "sales-tax" || series === GROCERY_EXEMPTION)
       syncSalesTax(api);
+    if (typeof series === "string" && isFeeLevelSeries(series))
+      syncServiceCharges(api);
     if (event.kind === "budget-line-changed") {
       syncServiceCharges(api);
       const f = event.facts ?? {};

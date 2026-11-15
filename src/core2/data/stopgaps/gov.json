@@ -218,18 +218,6 @@
     "status": "open"
   },
   {
-    "id": "SG-GOV-group-endorsement-stance",
-    "kind": "estimated-rule",
-    "file": "src/core2/modules/campaigns.ts",
-    "line": 3236,
-    "whatItFakes": "What an organization stands for when it weighs a candidate for endorsement is read from the little its engine keeps: a cause group's topic, for it unless its founder's drive wants a repeal (a desired change like building a park or cutting a hazard counts as for); an employers' group formed over a wage bill states nothing, so it endorses no one; a party chapter holds its lean along the 54 platform questions only, so a budget-line plank weighs nothing with it. Only a group's full members hear its endorsement and are asked to volunteer; counted residents who hold the same cause are not reached.",
-    "why": "No group engine yet writes a group platform (a candidate questionnaire, a slate of positions) or keeps the question an employers' wage group argued, and groups enlist only full people.",
-    "addedBy": "governing/campaign-group-endorsements",
-    "addedAt": "2026-10-29",
-    "replacement": "Each organization keeps its own platform (the positions its members adopt, a questionnaire it sends candidates) that the endorsement weighing reads, and its counted supporters are reached by the same rule times their count.",
-    "status": "open"
-  },
-  {
     "id": "SG-GOV-staff-unpaid",
     "kind": "missing-engine",
     "file": "src/core2/modules/staff.ts",
@@ -898,7 +886,7 @@
     "kind": "faked-mechanic",
     "file": "src/core2/data/outside-flows.json",
     "line": 228,
-    "whatItFakes": "Each month, a state, county, city or federal treasury receives from the town's outside account an even twelfth of the yearly revenue no flow in the game pays (state and federal aid come from the treasury above it; corporate, customs, excise, estate and gift, selective sales and vehicle taxes, and charges and fees, come from named groups of payers on their due dates), and pays each spending line an even twelfth: what the town's engines paid on the line stays in town, the town's share of purchases goes to its businesses, and the rest goes to the outside account as spending elsewhere.",
+    "whatItFakes": "Each month, a state, county, city or federal treasury receives from the town's outside account an even twelfth of the yearly revenue no flow in the game pays (state and federal aid come from the treasury above it; corporate, customs, excise, estate and gift, selective sales and vehicle taxes, and charges and fees, come from named groups of payers on their due dates, and the federal individual income tax for the rest of the country is read from the country tier's own federal withholding each month), and pays each spending line an even twelfth: what the town's engines paid on the line stays in town, the town's share of purchases goes to its businesses, and the rest goes to the outside account as spending elsewhere.",
     "why": "Real payers outside the town (the rest of the state's taxpayers) and real payees (contractors and public workers elsewhere) aren't modeled; their real dates (aid schedules, tax due dates, payrolls) aren't in data yet.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-14",
@@ -1563,18 +1551,6 @@
     "resolvedBy": "stand-in triage T2"
   },
   {
-    "id": "SG-GOV-fee-level-by-bill",
-    "kind": "owner-decision",
-    "file": "src/core2/budgets-service-charges.ts",
-    "line": 232,
-    "whatItFakes": "A government's charges and fees follow its budget's charges line; no council or legislature bill sets a fee's level (a transit fare, a park fee), so a player cannot raise one by bill.",
-    "why": "Whether councils set fees by bill is the owner's call: a real-world step the game lacks is a question, not a feature (DECISION-REGISTER, Oct 14). Asked in OWNER-DECISIONS.md, Open.",
-    "addedBy": "claude/outside-revenue-fees",
-    "addedAt": "2026-10-24",
-    "replacement": "The owner's ruling: either the charges line stays the budget's, or a fee-schedule provision on a bill that the budget's charges line and the households' payments read. (pool item gov-fee-level-by-bill).",
-    "status": "open"
-  },
-  {
     "id": "SG-GOV-recall-counted-exposure",
     "kind": "missing-record",
     "file": "src/core2/modules/recalls.ts",
@@ -1584,20 +1560,6 @@
     "addedBy": "Claude (traits lead)",
     "addedAt": "2026-10-24",
     "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: A per-group hearing record for counted residents, kept by the news engine, that the recall reads like a named voter's.",
-    "status": "resolved",
-    "resolvedAt": "2026-11-10",
-    "resolvedBy": "stand-in triage T2"
-  },
-  {
-    "id": "SG-GOV-officer-stipend-hours",
-    "kind": "estimated-rule",
-    "file": "src/core2/public-payroll.ts",
-    "line": 111,
-    "whatItFakes": "A small town's appointed department heads work a full-time public-office week at a cut hourly rate (a Prescott, Michigan planning director at $1.07 an hour for 8.5 hours) when their budget line carries only a part-time stipend. The pay in total matches the line; the hours and the hourly rate do not. The minimum wage skips these posts by law (data/laws/minimum-wage-exempt.json), so a wage raise no longer multiplies their pay.",
-    "why": "The work schedule a post follows is a template's full-time slots, and the payroll pays the hourly rate for the minutes scheduled; fitting hours to a stipend needs a part-time schedule for the post.",
-    "addedBy": "gov-town-officers-paid-under-minimum-wage",
-    "addedAt": "2026-10-26",
-    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: A post whose line carries less than a full-time week takes a part-time schedule sized to the stipend at the going rate (Census ASPEP part-time municipal payroll), so its hours and hourly rate both match the source.",
     "status": "resolved",
     "resolvedAt": "2026-11-10",
     "resolvedBy": "stand-in triage T2"
