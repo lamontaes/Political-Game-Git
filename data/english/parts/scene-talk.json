@@ -187406,55 +187406,6 @@
       }
     },
     {
-      "key": "scene-talk.open-greet.governor-thank-you-for-coming-straight-in",
-      "move": "open-greet",
-      "kind": "spoken",
-      "text": "Governor. Thank you for coming straight in.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "purpose": "emergency-briefing",
-          "key": "threat",
-          "excludesFacts": ["again"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (lines for the governor's briefing room, added by its builder as written)",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "greet",
-        "key": "threat"
-      }
-    },
-    {
-      "key": "scene-talk.state-request.the-disaster-is-on-the-ground-now-people-have-lost-homes-we-need-an",
-      "move": "state-request",
-      "kind": "spoken",
-      "text": "The {disaster} is on the ground now. People have lost homes. We need an emergency declared. Will you sign it?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "request",
-          "role": "asker",
-          "purpose": "emergency-briefing",
-          "key": "threat",
-          "requiresFacts": ["disaster", "homes"],
-          "excludesFacts": ["again"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (lines for the governor's briefing room, added by its builder as written)",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "request",
-        "key": "threat"
-      }
-    },
-    {
       "key": "scene-talk.state-request.the-disaster-is-on-the-ground-now-we-need-an-emergency-declared-will",
       "move": "state-request",
       "kind": "spoken",
@@ -187822,30 +187773,6 @@
       "date": "2026-11-15",
       "tag": {
         "move": "leave",
-        "key": "threat"
-      }
-    },
-    {
-      "key": "scene-talk.close-thank.they-are-already-moving-when-you-stand",
-      "move": "close-thank",
-      "kind": "spoken",
-      "text": "They are already moving when you stand.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "emergency-briefing",
-          "key": "threat",
-          "outcome": "resolved"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (lines for the governor's briefing room, added by its builder as written)",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "thank",
         "key": "threat"
       }
     },

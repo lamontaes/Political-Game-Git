@@ -2656,7 +2656,7 @@ function cutFacts(
 
 /**
  * What a department head says in the governor's emergency briefing: the kind of disaster the offer's
- * record names, whether the disaster record counts damaged homes and whether this is a later meeting on it, each with the records it came from. Said as people say it (never a count).
+ * record names and whether this is a later meeting on it, each with the records it came from. Said as people say it (never a count).
  */
 function briefingFacts(
   core: Readonly<CoreState>,
@@ -2668,11 +2668,6 @@ function briefingFacts(
   if (kind) facts.disaster = { text: kind, sourceRecordIds: [causeId] };
   // The briefing is a later meeting on the same disaster (the offer was left unanswered).
   if (said.again) facts.again = { text: "", sourceRecordIds: [causeId] };
-  const hazard = said.hazardRecordId
-    ? core.durableLog.get(said.hazardRecordId)
-    : undefined;
-  if (Number(hazard?.facts?.damagedHomes) > P.zero)
-    facts.homes = { text: "", sourceRecordIds: [causeId, hazard!.id] };
 }
 
 /**

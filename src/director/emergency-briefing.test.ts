@@ -294,7 +294,9 @@ describe(`the governor's briefing room (${where})`, () => {
     expect(lapsed?.kind, where).toBe(EMERGENCY_LAPSED);
     expect(lapsed?.date, where).toBe(closes);
     expect(lapsed?.publicRecord, where).toBe(true);
-    expect(lapsed?.personIds, where).toEqual([governorId]);
+    expect(lapsed?.personIds, where).toEqual(
+      governor.personId ? [governor.personId] : [],
+    );
     // The paper's words for it report the act not taken and do not say why. The press's own
     // choice to print a record is its reporters' (not staged here); this words the real record.
     const worded = wordPrintedStory(core, {

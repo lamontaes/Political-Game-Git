@@ -34,8 +34,7 @@
     "speaker": "Who gave the speech, by first name, from the speech record; for a broadcast heard at home, by office first ('Governor Lori Lopez'), from the address record and said-as.",
     "rival": "A rival in the race by full name, from the filing or message record.",
     "landlord": "The landlord who evicted the household, from the eviction record.",
-    "occasion": "the broadcast's occasion as people say it after a possessive ('State of the State address'), from local-address.json heard.occasions",
-    "disaster": "The kind of disaster, from the disaster record the scene's cause names (lower case)."
+    "occasion": "the broadcast's occasion as people say it after a possessive ('State of the State address'), from local-address.json heard.occasions"
   },
   "maxWords": 10,
   "mining": {
@@ -6105,46 +6104,6 @@
       "origin": "authored",
       "author": "Account lead builder (cluster 29, pool item play-party-joined-scene-at-the-office)",
       "date": "2026-11-14",
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
-      "key": "scene-words.lead-emergency-briefing-other.a-disaster-has-hit-the-state-your-department-heads-are-waiting",
-      "move": "lead-emergency-briefing-other",
-      "kind": "spoken",
-      "text": "A {disaster} has hit the state. Your department heads are waiting.",
-      "uses": [
-        {
-          "move": "lead-emergency-briefing-other",
-          "subject": "lead",
-          "role": "emergency-briefing",
-          "choice": "other"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (lines for the governor's briefing room, added by its builder as written)",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
-      "key": "scene-words.lead-emergency-briefing-alone.a-disaster-has-hit-the-state-name-is-waiting-to-brief-you",
-      "move": "lead-emergency-briefing-alone",
-      "kind": "spoken",
-      "text": "A {disaster} has hit the state. {name} is waiting to brief you.",
-      "uses": [
-        {
-          "move": "lead-emergency-briefing-alone",
-          "subject": "lead",
-          "role": "emergency-briefing",
-          "choice": "alone"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (lines for the governor's briefing room, added by its builder as written)",
-      "date": "2026-11-15",
       "tag": {
         "move": "narrate"
       }

@@ -1830,12 +1830,16 @@ function lapseEmergencyOffer(
     ...offer,
     answered: true,
   } as unknown as ModuleRow);
+  // The governor as the people-facing records name them (as the declaration does), so the paper can say their name.
+  const governorPersonId = townSeats(api).find(
+    (seat) => seat.office.kind === "governor",
+  )?.holder?.personId;
   const hazard = (api.state as CoreState).durableLog.get(hazardRecordId);
   api.emit({
     id: `emergency-lapsed:${hazardRecordId}`,
     date: api.state.date,
     kind: EMERGENCY_LAPSED,
-    personIds: [offer.executiveId as PersonId],
+    personIds: governorPersonId ? [governorPersonId] : [],
     placeId: lawChain(api).townPlaceId,
     source: {
       tag: "SOURCED",
