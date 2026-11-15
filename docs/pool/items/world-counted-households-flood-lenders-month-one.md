@@ -31,6 +31,8 @@ checked:
 
 **Done when.** A second session plays a first year in a played world (buildBenchWorld) at a drawn place and seed it did not choose, plus Cherry Hill, Virginia, seed promises-real-loan-1 draw loan:2, and sees month-one loan applications and approvals in line with a cited yearly share of households borrowing, the small-dollar store's cash above zero through the year, and a full household's payday loan approved by record id.
 
+**Notes.** Nov 15: with no played payday borrower, "the payday loan" was taken out of data/english/payment-words.json on #9517; it returns once a played storefront borrower is seen held to a promise to pay on time after the lenders are fixed (Account lead, 22:41Z).
+
 **Waits on.** Nothing.
 
 **Files.** src/core2/modules/credit.ts, src/core2/starting-cash.ts, tests/support/real-borrower.ts
