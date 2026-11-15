@@ -7164,8 +7164,13 @@ export function sayNothing(
   // In a sitting, silence declines the question put.
   if (conversation.sitting) return declineInSitting(core, conversation, data);
   const from = conversation.lines.length;
-  carryOn(core, conversation, data);
+  // As `say` does: what the player heard today is held back from the pick, and
+  // what the other person says next is kept as heard.
+  withHeard(core, conversation.playerId, () =>
+    carryOn(core, conversation, data),
+  );
   laterMentions(core, conversation, from);
+  noteHeard(core, conversation);
   return conversation;
 }
 
