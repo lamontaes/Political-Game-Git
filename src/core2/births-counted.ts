@@ -49,6 +49,7 @@ import {
   addCountedPerson,
   countedEstateOf,
   countedHouseholdsByPlace,
+  countedPartDeath,
   householdIncome,
   incomeBandOf,
   removeCountedPerson,
@@ -545,6 +546,8 @@ export function applyCountedFlows(
       fellIll: [] as string[],
       /** At a place's first month: those already ill, their illness begun before the opening. */
       openingIll: [] as string[],
+      /** The real people those illnesses stand for: a record's weight, or its share where fewer were ill. */
+      openingIllPeople: 0,
       ill: 0,
       /** What each death left to the household that outlived it, by heir. */
       estates: [] as {
@@ -618,6 +621,55 @@ export function applyCountedFlows(
       if (found.dueDate > date) continue;
       ill.delete(found.id);
       endCountedIllness(api, found.id);
+      // An illness in part of the households a record stands for: that many
+      // of its people die, by cause in real people, and the record stands
+      // for that many fewer households (the people who lived with them stay
+      // in the counts, in the group's other households).
+      const whole = weightOfPerson(person);
+      if (found.share !== undefined && found.share < whole) {
+        const died = assignDeathCause(api, {
+          placeId,
+          age: ageOf(person, date),
+          incomeFifth: fifthOf.get(person.id),
+          weight: found.share,
+        });
+        row.deathCauses[died.cause] =
+          (row.deathCauses[died.cause] ?? 0) + found.share;
+        carry.died += found.share;
+        const part = countedPartDeath(core, person.id, found.share);
+        if (part) {
+          // The estate passes as a whole death's does, for the households
+          // that share stands for, and the survivors hear of the death.
+          settleCountedEstate(api, {
+            deceasedId: person.id,
+            placeId,
+            estate: { ...part.estate, households: found.share },
+          });
+          if (part.survivors.length)
+            api.emit({
+              id: `event:${DEFAULT_HEALTH_DATA.countedDeathEventKind}:${person.id}:${date}`,
+              date,
+              kind: DEFAULT_HEALTH_DATA.countedDeathEventKind,
+              personIds: [],
+              placeId,
+              topic: `${DEFAULT_HEALTH_DATA.topicPrefix}:${died.cause}`,
+              desiredChange: `${DEFAULT_HEALTH_DATA.desiredChangePrefix}:${died.cause}`,
+              ...severityImpulse(api, DEFAULT_HEALTH_DATA.deathSeverity),
+              publicRecord: false,
+              source: { ...DEFAULT_HEALTH_DATA.source, asOf: date },
+              facts: {
+                "counted-subject": person.id,
+                "counted-household": person.householdId,
+                "counted-perceivers": JSON.stringify(part.survivors),
+              },
+            });
+          const kept = counted?.liveHousehold(person.householdId);
+          if (kept)
+            for (const member of byHousehold.get(person.householdId) ?? [])
+              weightOf.set(member.id, counted!.weightOf(kept));
+        }
+        continue;
+      }
       // The cause the town's age band is owed the most; the counts row keeps
       // it by cause (in real people) and by the person's id.
       const died = assignDeathCause(api, {
@@ -663,8 +715,11 @@ export function applyCountedFlows(
           },
         });
     }
+    // A record ill in part of its households is well in the rest.
     const well = people.filter(
-      (person) => !ill.has(person.id) && !dead.has(person.id),
+      (person) =>
+        (!ill.has(person.id) || ill.get(person.id)!.share !== undefined) &&
+        !dead.has(person.id),
     );
     const owed: Record<string, number> = { ...carry.deaths };
     // The cohorts the latest `fall` weighed.
@@ -714,7 +769,10 @@ export function applyCountedFlows(
             );
             chances.set(slot, chance);
           }
-          return n + chance * weightOfPerson(member);
+          return (
+            n +
+            chance * (weightOfPerson(member) - (ill.get(member.id)?.share ?? 0))
+          );
         }, 0);
         expected += share;
         debts[key] = (debts[key] ?? 0) + share;
@@ -749,29 +807,50 @@ export function applyCountedFlows(
           );
           sorted.add(pick);
         }
+        // A record already ill in part waits for that illness to run its course.
+        if (ill.has(members[0]!.id)) {
+          members.shift();
+          continue;
+        }
         const owedNow = Object.values(debts).reduce((n, debt) => n + debt, 0);
-        if (!(owedNow + 1e-9 >= weightOfPerson(members[0]!))) break;
+        const whole = weightOfPerson(members[0]!);
+        // A record that stands for more households than the deaths owed: the
+        // whole people owed fall ill in that many of them (one model, two
+        // tiers: a record dies by a person's rule, times its weight).
+        // The cohort pays what it owes, rounded up to a person: never the
+        // whole month's pool in one record, which put every death on the
+        // oldest cohort and left the younger ones owed for a year.
+        // A record that has lost most of its households to earlier deaths
+        // stands for less than a person: it falls ill whole, and pays that
+        // much of the debt; only when no whole person is owed does the month
+        // stop. (Reading its weight under one as "nothing owed" ended the
+        // whole month's illnesses, so the town's deaths stalled.)
+        const payable = Math.min(
+          Math.ceil(debts[pick]! - 1e-9),
+          Math.floor(owedNow + 1e-9),
+        );
+        if (payable < 1) break;
+        const take = Math.min(whole, payable);
+        let share: number | undefined;
+        if (take < whole) share = take;
         const person = members.shift()!;
-        debts[pick]! -= weightOfPerson(person);
+        debts[pick]! -= share ?? whole;
         const due = addDays(makeIsoDate(on), lead(person, on));
         // An illness whose course ended before the first day played is a
         // death that happened before the opening: nobody here is booked.
         if (due <= date) continue;
-        bookCountedIllness(api, {
+        const illness = {
           id: person.id,
           placeId,
           onsetDate: makeIsoDate(on),
           dueDate: due,
           countsId: row.id,
-        });
-        ill.set(person.id, {
-          id: person.id,
-          placeId,
-          onsetDate: makeIsoDate(on),
-          dueDate: due,
-          countsId: row.id,
-        });
+          ...(share !== undefined ? { share } : {}),
+        };
+        bookCountedIllness(api, illness);
+        ill.set(person.id, illness);
         (on === date ? row.fellIll : row.openingIll).push(person.id);
+        if (on !== date) row.openingIllPeople += share ?? whole;
         // An illness begun today, for the person and the household they live
         // with: a private record the people engines read.
         if (on === date)
@@ -801,6 +880,12 @@ export function applyCountedFlows(
       }
       return expected;
     };
+    // The fraction of a person each cohort owes at the end of one looked-back
+    // month is owed in the next, as it is in every month played; each month
+    // starting from nothing dropped it and seeded about a fifth to a half too
+    // few running illnesses at a small place. What is left after the last
+    // looked-back month is not the year's: the first month starts from nothing.
+    const lookedBack: Record<string, number> = {};
     // The first month of a place has people already ill: the illnesses that
     // began in the months before the opening and have not yet run out.
     // They are found by the same rule, month by month back from today.
@@ -814,13 +899,19 @@ export function applyCountedFlows(
       ) {
         const before = addDays(makeIsoDate(date), -back * DAYS_PER_COUNT_MONTH);
         fall(
-          people.filter((person) => !ill.has(person.id)),
+          people.filter(
+            (person) =>
+              !ill.has(person.id) || ill.get(person.id)!.share !== undefined,
+          ),
           before,
-          {},
+          lookedBack,
         );
       }
     row.expected.deaths = fall(
-      well.filter((person) => !ill.has(person.id)),
+      well.filter(
+        (person) =>
+          !ill.has(person.id) || ill.get(person.id)!.share !== undefined,
+      ),
       date,
       owed,
     );

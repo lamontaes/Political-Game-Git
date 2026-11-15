@@ -543,7 +543,11 @@ function scheduleDeliveries(
       makeIsoDate(story.date),
       atOnce.has(personId) ? 0 : delay,
     );
-    if (date < api.state.date)
+    // A reading day already past is heard on that day; the story's own
+    // subject hears it now. A delivery for today would wait on today's
+    // reading, which has already run when a story is printed in the player's
+    // turn (an interview sat for), so it is never left to the queue.
+    if (date < api.state.date || atOnce.has(personId))
       hear(api, personId, story, "public", story.id, date);
     else
       deliveries(api).put({
@@ -791,8 +795,14 @@ export function createNewsModule(
         }
         // A story argues a change on a policy question; a law taking effect
         // is also read and remembered with no side to take, so a reader can
-        // bring up the law in town.
-        if (!story.topic || (!story.desiredChange && !story.facts.lawId))
+        // bring up the law in town, and so is a report of a bribe taken by a
+        // named official (the story names the crime and the official), so the
+        // people who read it can ask the official about it.
+        const reportsBribe = !!story.facts.crimeId && !!story.facts.officialId;
+        if (
+          !story.topic ||
+          (!story.desiredChange && !story.facts.lawId && !reportsBribe)
+        )
           continue;
         const event = read(
           `${NEWS_READ}:${story.id}:${api.state.date}`,

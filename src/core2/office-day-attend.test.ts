@@ -38,6 +38,7 @@ import {
   meetingToAttend,
   OFFICE_DAY_MODULE_ID,
   officeActsOf,
+  officeHost,
   setStops,
   speakOnItem,
   takeUpItem,
@@ -530,9 +531,20 @@ const SEATED_COMMITTEE_PLACE = {
   name: "Adjuntas, Puerto Rico",
   seed: "46df10dad049f2497d21e51cb6bfb6a949ec55a83040f6eb601b9d1cf1eb2472",
 };
+/**
+ * The playtest's place for the budget (Nov 13, 2026): its council heard the
+ * mayor's budget on Jun 1 and votes it at its Jul 1 meeting. Kept, played past
+ * that day, so the budget is proved decided alike held and away.
+ */
+const BUDGET_PLACE = {
+  key: "1918435",
+  name: "Danville, Iowa",
+  seed: "4b0fc31d-ba59-4168-8b84-d7c0e3f826b6",
+  days: 165,
+};
 const DAYS = Number(process.env.TWIN_DAYS ?? 100);
-const endOf = (core: CoreState) =>
-  new Date(Date.parse(`${core.date}T00:00:00Z`) + DAYS * 86_400_000)
+const endOf = (core: CoreState, days = DAYS) =>
+  new Date(Date.parse(`${core.date}T00:00:00Z`) + days * 86_400_000)
     .toISOString()
     .slice(0, 10);
 
@@ -704,28 +716,30 @@ it("watching changes nothing: attending in silence, the same bills get the same 
   ).toBeGreaterThan(0);
 }, 3_600_000);
 
-it("a member the player plays decides alike at the stop and away from it: the member's own vote on every item", () => {
-  // The two worlds: the player plays the same member in both. In one they are
-  // held at every meeting and leave each item to the character ("Decide for
-  // me"), which casts the vote the member's own position gives; in the other no meeting stops them, and the meeting's
-  // close votes the items with the member's own vote. Same place, same seed,
-  // same days. (A seat the player plays is not compared with the same seat
-  // left to the world: a played member files no ordinances of their own and
-  // is not voted for on an override, so those two worlds differ by what the
-  // player does, not by the hold. The watcher's twin above compares held
-  // against unheld.)
+it("a member the player plays is stopped at every meeting by default, votes there by their own press, and with the stops off is absent, never voted for", () => {
+  // The two worlds: the player plays the same member in both. In one the
+  // stops are at their defaults (owner's card, Nov 14, 2026, 02:03Z: "Stop me
+  // at every vote"): they are held at every meeting and leave each item to
+  // the character ("Decide for me"), which casts the vote the member's own
+  // position gives. In the other they switched the meeting stops off: no
+  // meeting stops them, and every item of their body is voted with them
+  // absent, nothing cast in their name. Same place, same seed, same days.
   let proved = 0;
   const passedOver: string[] = [];
   // The kept place first, and it must pass; then drawn ones until one has a seat to play.
   for (const place of named ?? [
     SAME_DAY_PLACE,
     COMMITTEE_PLACE,
+    BUDGET_PLACE,
     SEATED_COMMITTEE_PLACE,
     ...twinPlaces("seated-holds"),
   ]) {
     const where = `${place.name} (${place.key}), seed ${place.seed}`;
     console.log(`seated-holds builds ${where}`);
-    const kept = place === SAME_DAY_PLACE || place === COMMITTEE_PLACE;
+    const kept =
+      place === SAME_DAY_PLACE ||
+      place === COMMITTEE_PLACE ||
+      place === BUDGET_PLACE;
     const run = (
       present: boolean,
       mode: "own" | "silent" | "adjourn" = "own",
@@ -748,12 +762,14 @@ it("a member the player plays decides alike at the stop and away from it: the me
       const member = seat.holder.personId;
       const player = new BenchPlayer(core, world.director);
       player.select(member);
-      setStops(api, member, {
-        "every-meeting": present,
-        "own-bill-vote": present,
-        "deciding-vote": present,
-      });
-      const end = endOf(core);
+      // Held: the stops as the game starts them. Away: the player switched them off.
+      if (!present)
+        setStops(api, member, {
+          "every-meeting": false,
+          "own-bill-vote": false,
+          "deciding-vote": false,
+        });
+      const end = endOf(core, "days" in place ? place.days : DAYS);
       let held = 0;
       let items = 0;
       const sat: string[] = [];
@@ -881,13 +897,54 @@ it("a member the player plays decides alike at the stop and away from it: the me
             expect(c.date, `${where}: committee on ${c.billId}`).toBe(
               placed.date,
             );
-          return `${c.billId} ${c.date} ${c.yes}-${c.no} ${c.votes
+          // Away, the player's seat is absent at the committee too; held, it
+          // votes their press. The other members vote alike on both paths.
+          const own = c.votes.find((v) => v.memberId === member)?.vote;
+          if (!present)
+            expect(own, `${where}: committee on ${c.billId} away`).toBe(
+              "absent",
+            );
+          return `${c.billId} ${c.date} ${c.votes
+            .filter((v) => v.memberId !== member)
             .map((v) => `${v.memberId}:${v.vote}`)
             .join(",")}`;
         });
       if (mode === "adjourn")
         expect(adjourned, `${where}: items left to Adjourn`).toBeGreaterThan(0);
-      return { bills: decided(api), held, items, date: core.date, committees };
+      // Away, every vote of the member's body records them absent, with no
+      // vote cast from their position.
+      let absent = 0;
+      if (!present)
+        for (const officeId of officeHost.officesOf(api, member))
+          for (const vote of api
+            .moduleState(LEGISLATURE_MODULE_ID)
+            .table("votes")
+            .rows() as unknown as {
+            id: string;
+            billId: string;
+            memberId: string;
+            chamber: string;
+            vote: string;
+          }[]) {
+            if (vote.memberId !== member || vote.chamber !== officeId) continue;
+            if (/:override/.test(vote.id)) continue;
+            expect(vote.vote, `${where}: ${vote.billId} away`).toBe("absent");
+            const act = officeActsOf(api, member).find(
+              (a) => a.kind === "vote" && a.recordId === vote.billId,
+            );
+            expect(act?.how, `${where}: ${vote.billId} act away`).toBe(
+              "absent",
+            );
+            absent += 1;
+          }
+      return {
+        bills: decided(api),
+        held,
+        items,
+        absent,
+        date: core.date,
+        committees,
+      };
     };
     const held = run(true);
     if (!held) {
@@ -900,15 +957,22 @@ it("a member the player plays decides alike at the stop and away from it: the me
     );
     expect(away.held).toBe(0);
     expect(held.date).toBe(away.date);
-    expect(held.bills, where).toEqual(away.bills);
-    expect(held.committees, `${where}: committees the player sits on`).toEqual(
-      away.committees,
-    );
+    if (held.items > 0)
+      expect(away.absent, `${where}: votes missed away`).toBeGreaterThan(0);
+    // The two worlds part once the player's votes differ (their press held,
+    // absent away), so later agendas differ too; each world's committees
+    // meet on their meeting's day, checked in the run.
     if (place.key === SEATED_COMMITTEE_PLACE.key)
       expect(
         held.committees.length,
         `${where}: a committee the player sits on`,
       ).toBeGreaterThan(0);
+    // The budget is voted at the Jul 1 meeting on both paths, alike.
+    if (place === BUDGET_PLACE)
+      expect(
+        held.bills.some((line) => / 2025-6 /.test(line)),
+        `${where}: the budget decided`,
+      ).toBe(true);
     if (place.key === COMMITTEE_PLACE.key) {
       run(true, "silent");
       run(true, "adjourn");

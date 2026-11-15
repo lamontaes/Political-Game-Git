@@ -190,7 +190,12 @@ function amendSchoolsLine(direction: -1 | 1, breakProducer?: () => void) {
     const staffInPlace = staffBefore.length;
     // A row set earlier keeps the base the engine funds against: within its
     // fiscal year the base it took, and in a new year the positions it funded.
-    const earlier = staffingOf(api, "budget-line:schools", district.id);
+    const earlier = staffingOf(
+      api,
+      "budget-line:schools",
+      district.id,
+      city.id,
+    );
     // The jobs each person held when the line was proposed, both tiers: a
     // named person's current jobs and a counted resident's (the residents
     // runtime's jobs). A hire must not have been taken from one still running.
@@ -276,13 +281,17 @@ it("a cut to the city's schools line ends named teachers' jobs at the public sch
   );
   // The bill reaches the district: it is funded for the staff in place (named
   // or counted) times the line after the bill against the line before it.
-  const row = staffingOf(r.api, "budget-line:schools", r.district.id);
+  const row = staffingOf(
+    r.api,
+    "budget-line:schools",
+    r.district.id,
+    r.governmentId,
+  );
   expect(row, r.where).not.toBeNull();
   expect(row!.baseStaff, r.where).toBe(
-    // An earlier row set by another government's line (a state's schools line
-    // beside this city's) funded its own positions, so this line starts from
-    // the staff in place (group-a-staffing.ts baseStaffFor).
-    !r.earlier || r.earlier.governmentId !== r.governmentId
+    // A row this government set earlier keeps its base; with none, this line
+    // starts from the staff in place (group-a-staffing.ts baseStaffFor).
+    !r.earlier
       ? baseDay(r, row!.setOn)
       : r.earlier.fiscalYear === row!.fiscalYear
         ? r.earlier.baseStaff
@@ -307,13 +316,17 @@ it("a raise to the city's schools line hires named adults who had no work at the
     .teachers(r.district.id)
     .filter((j) => hired.includes(j.personId))
     .map((j) => j.id);
-  const row = staffingOf(r.api, "budget-line:schools", r.district.id);
+  const row = staffingOf(
+    r.api,
+    "budget-line:schools",
+    r.district.id,
+    r.governmentId,
+  );
   expect(row, r.where).not.toBeNull();
   expect(row!.baseStaff, r.where).toBe(
-    // An earlier row set by another government's line (a state's schools line
-    // beside this city's) funded its own positions, so this line starts from
-    // the staff in place (group-a-staffing.ts baseStaffFor).
-    !r.earlier || r.earlier.governmentId !== r.governmentId
+    // A row this government set earlier keeps its base; with none, this line
+    // starts from the staff in place (group-a-staffing.ts baseStaffFor).
+    !r.earlier
       ? baseDay(r, row!.setOn)
       : r.earlier.fiscalYear === row!.fiscalYear
         ? r.earlier.baseStaff

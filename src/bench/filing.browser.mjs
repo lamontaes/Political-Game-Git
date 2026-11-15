@@ -9,9 +9,13 @@
 //   node src/bench/filing.browser.mjs            SEED=<seed> replays a world
 import assert from "node:assert/strict";
 
-/** Whether the page says the clerk will count no signatures at all. */
-const saysZeroSignatures = (text) =>
-  /signatures the clerk will count: 0\b/i.test(text);
+/**
+ * Whether the counter shows a count or status label under the clerk's talk:
+ * the clerk says once what the petition asks, and nothing else is shown
+ * (owner, Nov 14: "It should literally just be dialogue").
+ */
+const showsCountLabel = (text) =>
+  /clerk will count|collecting signatures|you are on the ballot/i.test(text);
 import { chromium } from "playwright";
 import parameters from "../core2/data/parameters.json" with { type: "json" };
 const browser = await chromium.launch({
@@ -268,20 +272,18 @@ try {
     ["petitioning", "on-ballot"].includes(result?.filing?.status),
     `the filing was refused: ${JSON.stringify(result?.unmet ?? result)}`,
   );
-  // A petition is shown from its record: the signatures the clerk will count
-  // and the last day, at the counter; the held count and the deadline on the
-  // campaign board's data.
+  // The counter is dialogue only: no count or status label under the talk,
+  // for a petition or for a race that asks none (owner, Nov 14). The
+  // signatures held and the deadline are on the campaign board's data.
+  await page.waitForTimeout(1000);
+  assert.ok(
+    !showsCountLabel(await page.evaluate(() => document.body.innerText)),
+    "the counter shows a count or status label under the talk",
+  );
   if (result.filing.status === "petitioning") {
     assert.ok(
       result.petition?.needed > 0 && result.petition?.due,
       `a petitioning filing carries its petition: ${JSON.stringify(result.petition)}`,
-    );
-    await page.waitForFunction(
-      (needed) =>
-        document.body.innerText
-          .toLowerCase()
-          .includes(`signatures the clerk will count: ${needed}`),
-      result.petition.needed,
     );
     const board = await (
       await page.request.get(
@@ -296,14 +298,6 @@ try {
     assert.equal(held?.due, result.petition.due, "the board's deadline");
     console.log(
       `Petition ${held.id}: ${held.signed} of ${held.needed} by ${held.due}`,
-    );
-  } else {
-    // A race whose law asks no signatures shows no petition: no "will count:
-    // 0" at the counter (playtest, Nov 13).
-    await page.waitForTimeout(1000);
-    assert.ok(
-      !saysZeroSignatures(await page.evaluate(() => document.body.innerText)),
-      "a filing that needs no signatures shows a petition of 0",
     );
   }
   // The party on the filing is the resident's tie on record (joined now, or

@@ -15,8 +15,7 @@ import {
   type MacroMonth,
 } from "./macro-model";
 import { budgetsOf, governments, type GovernmentRow } from "./modules/budgets";
-import { regionOfPlace } from "./modules/regional";
-import { townJobsPanel } from "./modules/world-panels";
+import { LATEST_MONTH_LAG, regionOfPlace } from "./modules/regional";
 import {
   keptOutputNumber,
   outputNumber,
@@ -64,7 +63,7 @@ const reading = (
 });
 
 /** How many months back the latest recorded month can sit (the macro engine records a month once it has ended). */
-const MONTHS_BACK = 3;
+const MONTHS_BACK = LATEST_MONTH_LAG;
 
 /**
  * The nation's latest month and the same month a year before: the macro
@@ -108,8 +107,8 @@ function nationMonths(reads: OutputReads) {
  * engine's kept months (the last twelve and each December; for a month of
  * the world's history before its first step, the engine's own opening
  * function): jobs summed, unemployment and pay weighted by population, the
- * one function the engine uses. SG-SCREENS-metrics-no-prior-year: a month
- * the engine kept no row for has no figure. Build order
+ * one function the engine uses (the engine keeps the months back from the
+ * latest one Metrics may read, `LATEST_MONTH_LAG`). Build order
  * metrics-state-figures-one-owner moves these to the country tier.
  */
 function stateMonths(reads: OutputReads) {
@@ -205,14 +204,6 @@ function townBudget(reads: OutputReads) {
   });
 }
 
-/** The town's labor market today as the jobs engine counts it (build order metrics-town-jobs-one-rule keeps it monthly). */
-const townJobs = (reads: OutputReads) =>
-  once(reads, "jobs", () =>
-    reads.core.modules.has("jobs")
-      ? townJobsPanel(reads.api, reads.placeId)
-      : null,
-  );
-
 const READERS: Readonly<
   Record<string, (reads: OutputReads, field: string) => Reading>
 > = {
@@ -238,22 +229,6 @@ const READERS: Readonly<
           state.before?.[key],
           state.recordId,
           state.beforeRecordId,
-        )
-      : null;
-  },
-  "town-jobs": (reads, field) => {
-    const jobs = townJobs(reads);
-    return jobs
-      ? reading(
-          jobs[field as "employed" | "seekers" | "openPositions"],
-          null,
-          `jobs:${reads.placeId}`,
-          null,
-          {
-            employed: jobs.employed,
-            seekers: jobs.seekers,
-            laborForce: jobs.employed + jobs.seekers,
-          },
         )
       : null;
   },

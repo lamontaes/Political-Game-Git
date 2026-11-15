@@ -36,10 +36,19 @@ export function dayOpening(iso: string, minuteOfDay: number): string {
   return part.said.replace("{date}", dateSaid(iso));
 }
 
-/** The part of the day as said in passing ("this morning", "tonight"), by the mark a scene's hour gives; undefined for a mark with no words. */
-export function dayPartSaid(mark: string): string | undefined {
-  const said = (data.spokenParts as Readonly<Record<string, string>>)[mark];
-  return mark === "about" ? undefined : said;
+/**
+ * The day as the opening's landing names it, after "It's": "the evening of
+ * January 20", "late on January 20" (the date with no ordinal; Words lead,
+ * Nov 14), the part by the minute the player lands.
+ */
+export function dayLanding(iso: string, minuteOfDay: number): string {
+  const rows = data.landing.parts;
+  const part =
+    rows.find(
+      (row) => row.upToMinute === null || minuteOfDay < row.upToMinute,
+    ) ?? rows[rows.length - 1]!;
+  const month = data.months[Number(iso.slice(5, 7)) - 1] ?? iso;
+  return part.said.replace("{date}", `${month} ${Number(iso.slice(8, 10))}`);
 }
 
 /**
@@ -76,6 +85,21 @@ export function daySince(recordIso: string, playIso: string): string | null {
   return row.said
     .replace("{weekday}", weekday)
     .replace("{date}", dateSaid(recordIso));
+}
+
+/**
+ * The month a record began, said after "since" ("since March", "since last
+ * March", "since March 2023"); never a date.
+ */
+export function sinceMonthSaid(recordIso: string, playIso: string): string {
+  const month = data.months[Number(recordIso.slice(5, 7)) - 1]!;
+  const years = Number(playIso.slice(0, 4)) - Number(recordIso.slice(0, 4));
+  if (years <= 0) return month;
+  return (
+    years === 1 ? data.sinceOtherYear.lastYear : data.sinceOtherYear.earlier
+  )
+    .replace("{month}", month)
+    .replace("{year}", recordIso.slice(0, 4));
 }
 
 /**

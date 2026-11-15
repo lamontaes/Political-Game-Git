@@ -19,20 +19,22 @@
     "refund": "What a law gave back to the household, from the payment record.",
     "topic": "What a law is about, as the policy catalog names it, from the law record.",
     "begins": "The day a scene starts on, with the part of the day, as people say it ('First thing on June 7th'), from the clock.",
+    "landing": "The day a scene at home alone starts on, said after \"It's\" with the part of the day and the date with no ordinal ('the evening of January 20'), from the clock.",
     "where": "The workplace, office or school the scene is set in, from the setting's organization record.",
     "since": "The day of the record that caused the scene, told as past from the day it plays ('yesterday', 'the other day', 'on January 3rd'), from daySince; absent when the record is from the same day.",
     "about": "Whom the moment is about when they are not in the room (the one mourned, the one missing, the newcomer), as you know them, from the moment's record.",
     "office": "The office a race, a filing, an oath or an appointment is for, as people say it, from the contest or office record.",
     "bill": "The bill a vote, a signing, a hearing or a question is about, by its name, from the legislature's bill record.",
     "org": "The employer or school the moment's record names (the job offered, begun or lost), from the organization record.",
-    "outlet": "The paper or station the moment's record names, from the organization record.",
+    "outlet": "The paper or station the moment's record names, from the organization record; for a broadcast heard at home, the place's own outlet that carried it, from the press records.",
     "title": "The job's title in lower case, from the job offer's record.",
     "party": "The party that asked, by its name, from the party's record.",
     "offense": "The charge, from the case record.",
     "term": "The prison term as people say it, from the sentence record.",
-    "speaker": "Who gave the speech, by first name, from the speech record.",
+    "speaker": "Who gave the speech, by first name, from the speech record; for a broadcast heard at home, by office first ('Governor Lori Lopez'), from the address record and said-as.",
     "rival": "A rival in the race by full name, from the filing or message record.",
-    "landlord": "The landlord who evicted the household, from the eviction record."
+    "landlord": "The landlord who evicted the household, from the eviction record.",
+    "occasion": "the broadcast's occasion as people say it after a possessive ('State of the State address'), from local-address.json heard.occasions"
   },
   "maxWords": 10,
   "mining": {
@@ -212,9 +214,9 @@
       }
     },
     {
-      "key": "scene-words.setting-letter-letter.a-letter-has-come-from-who",
+      "key": "scene-words.setting-letter-letter.a-letter-came-from-who",
       "move": "setting-letter-letter",
-      "text": "A letter has come from {who}.",
+      "text": "A letter came from {who}.",
       "uses": [
         {
           "move": "setting-letter-letter",
@@ -613,9 +615,9 @@
       }
     },
     {
-      "key": "scene-words.cause-illness-other.other-has-fallen-seriously-ill",
+      "key": "scene-words.cause-illness-other.other-has-gotten-seriously-ill",
       "move": "cause-illness-other",
-      "text": "{other} has fallen seriously ill.",
+      "text": "{other} has gotten seriously ill.",
       "uses": [
         {
           "move": "cause-illness-other",
@@ -2597,10 +2599,10 @@
       }
     },
     {
-      "key": "scene-words.cause-circumstance:hallway-colleague-other.other-wants-a-word-before-the-vote",
+      "key": "scene-words.cause-circumstance:hallway-colleague-other.other-wants-to-talk-before-the-vote",
       "move": "cause-circumstance:hallway-colleague-other",
       "kind": "spoken",
-      "text": "{other} wants a word before the vote.",
+      "text": "{other} wants to talk before the vote.",
       "uses": [
         {
           "move": "cause-circumstance:hallway-colleague-other",
@@ -3252,10 +3254,10 @@
       "date": "2026-11-12"
     },
     {
-      "key": "scene-words.lead-manager-offer-other.other-has-come-to-talk-about-running-your-campaign",
+      "key": "scene-words.lead-manager-offer-other.other-wants-to-talk-about-running-your-campaign",
       "move": "lead-manager-offer-other",
       "kind": "spoken",
-      "text": "{other} has come to talk about running your campaign.",
+      "text": "{other} wants to talk about running your campaign.",
       "uses": [
         {
           "move": "lead-manager-offer-other",
@@ -4309,7 +4311,7 @@
       "key": "scene-words.arrival-home-alone.begins-the-house-is-quiet",
       "move": "arrival-home-alone",
       "kind": "spoken",
-      "text": "{begins}, the house is quiet.",
+      "text": "It's {landing}. The house is quiet.",
       "uses": [
         {
           "move": "arrival-home-alone",
@@ -4329,7 +4331,7 @@
       "key": "scene-words.arrival-home-alone.begins-you-stay-in",
       "move": "arrival-home-alone",
       "kind": "spoken",
-      "text": "{begins}, you stay in.",
+      "text": "It's {landing}. You stay in.",
       "uses": [
         {
           "move": "arrival-home-alone",
@@ -4349,13 +4351,14 @@
       "key": "scene-words.arrival-home-alone.begins-finds-you-at-home",
       "move": "arrival-home-alone",
       "kind": "spoken",
-      "text": "{begins} finds you at home.",
+      "text": "It's {landing}. The day is done.",
       "uses": [
         {
           "move": "arrival-home-alone",
           "subject": "arrival",
           "role": "home",
-          "choice": "alone"
+          "choice": "alone",
+          "requiresFacts": ["evening"]
         }
       ],
       "origin": "authored",
@@ -5166,10 +5169,10 @@
       }
     },
     {
-      "key": "scene-words.arrival-public-other.begins-name-walks-up-to-you-in-the-street",
+      "key": "scene-words.arrival-public-other.begins-name-walks-up-to-you-on-the-street",
       "move": "arrival-public-other",
       "kind": "spoken",
-      "text": "{begins}, {name} walks up to you in the street.",
+      "text": "{begins}, {name} walks up to you on the street.",
       "uses": [
         {
           "move": "arrival-public-other",
@@ -5509,7 +5512,7 @@
       "key": "scene-words.arrival-home-alone.begins-you-stay-in-still-thinking-about-what-happened-since",
       "move": "arrival-home-alone",
       "kind": "spoken",
-      "text": "{begins}, you stay in, still thinking about what happened {since}.",
+      "text": "It's {landing}. You stay in, thinking about what happened {since}.",
       "uses": [
         {
           "move": "arrival-home-alone",
@@ -5826,10 +5829,10 @@
       }
     },
     {
-      "key": "scene-words.arrival-public-other.begins-name-stops-you-in-the-street-about-what-happened-sinc",
+      "key": "scene-words.arrival-public-other.begins-name-stops-you-on-the-street-about-what-happened-since",
       "move": "arrival-public-other",
       "kind": "spoken",
-      "text": "{begins}, {name} stops you in the street about what happened {since}.",
+      "text": "{begins}, {name} stops you on the street about what happened {since}.",
       "uses": [
         {
           "move": "arrival-public-other",
@@ -5901,6 +5904,206 @@
       "origin": "authored",
       "author": "Words writer (Fable B's words line), words-day-end-scene-opens-next-midnight",
       "date": "2026-11-11",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.opening-heard-television.last-night-you-watched-speakers-occasion-on-outlet",
+      "move": "opening-heard-television",
+      "kind": "spoken",
+      "text": "Last night you watched {speaker}'s {occasion} on {outlet}.",
+      "uses": [
+        {
+          "move": "opening-heard-television",
+          "subject": "opening",
+          "role": "heard-television",
+          "choice": "heard-television"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (Opus words builder, speech staging), civic-prose",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.opening-heard-television.you-caught-speakers-occasion-on-outlet",
+      "move": "opening-heard-television",
+      "kind": "spoken",
+      "text": "You caught {speaker}'s {occasion} on {outlet} last night.",
+      "uses": [
+        {
+          "move": "opening-heard-television",
+          "subject": "opening",
+          "role": "heard-television",
+          "choice": "heard-television"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (Opus words builder, speech staging), civic-prose",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.opening-heard-radio.last-night-speakers-occasion-came-over-outlet",
+      "move": "opening-heard-radio",
+      "kind": "spoken",
+      "text": "Last night {speaker}'s {occasion} came over {outlet}.",
+      "uses": [
+        {
+          "move": "opening-heard-radio",
+          "subject": "opening",
+          "role": "heard-radio",
+          "choice": "heard-radio"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (Opus words builder, speech staging), civic-prose",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.opening-heard-radio.you-heard-speakers-occasion-on-outlet",
+      "move": "opening-heard-radio",
+      "kind": "spoken",
+      "text": "You heard {speaker}'s {occasion} on {outlet} last night.",
+      "uses": [
+        {
+          "move": "opening-heard-radio",
+          "subject": "opening",
+          "role": "heard-radio",
+          "choice": "heard-radio"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (Opus words builder, speech staging), civic-prose",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.opening-heard-newspaper.outlet-prints-speakers-occasion-in-full",
+      "move": "opening-heard-newspaper",
+      "kind": "spoken",
+      "text": "This morning {outlet} prints {speaker}'s {occasion} in full.",
+      "uses": [
+        {
+          "move": "opening-heard-newspaper",
+          "subject": "opening",
+          "role": "heard-newspaper",
+          "choice": "heard-newspaper"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (Opus words builder, speech staging), civic-prose",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.opening-heard-newspaper.outlet-runs-speakers-occasion-word-for-word",
+      "move": "opening-heard-newspaper",
+      "kind": "spoken",
+      "text": "{outlet} runs {speaker}'s {occasion} this morning, word for word.",
+      "uses": [
+        {
+          "move": "opening-heard-newspaper",
+          "subject": "opening",
+          "role": "heard-newspaper",
+          "choice": "heard-newspaper"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (Opus words builder, speech staging), civic-prose",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-party-welcome-other.other-is-waiting-to-welcome-you-to-the-party",
+      "move": "lead-party-welcome-other",
+      "kind": "spoken",
+      "text": "{other} is waiting to welcome you to the {party}.",
+      "uses": [
+        {
+          "move": "lead-party-welcome-other",
+          "subject": "lead",
+          "role": "party-welcome",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Account lead builder (cluster 29, pool item play-party-joined-scene-at-the-office)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-party-welcome-other.other-has-been-expecting-you-since-you-signed-up",
+      "move": "lead-party-welcome-other",
+      "kind": "spoken",
+      "text": "{other} has been expecting you since you signed up.",
+      "uses": [
+        {
+          "move": "lead-party-welcome-other",
+          "subject": "lead",
+          "role": "party-welcome",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Account lead builder (cluster 29, pool item play-party-joined-scene-at-the-office)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-party-welcome-alone.you-go-to-the-party-office-to-see-who-runs-it",
+      "move": "lead-party-welcome-alone",
+      "kind": "spoken",
+      "text": "You go to the {party} office to see who runs it.",
+      "uses": [
+        {
+          "move": "lead-party-welcome-alone",
+          "subject": "lead",
+          "role": "party-welcome",
+          "choice": "alone"
+        }
+      ],
+      "origin": "authored",
+      "author": "Account lead builder (cluster 29, pool item play-party-joined-scene-at-the-office)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-party-welcome-alone.the-party-office-is-open-and-someone-is-expecting-you",
+      "move": "lead-party-welcome-alone",
+      "kind": "spoken",
+      "text": "The {party} office is open, and someone is expecting you.",
+      "uses": [
+        {
+          "move": "lead-party-welcome-alone",
+          "subject": "lead",
+          "role": "party-welcome",
+          "choice": "alone"
+        }
+      ],
+      "origin": "authored",
+      "author": "Account lead builder (cluster 29, pool item play-party-joined-scene-at-the-office)",
+      "date": "2026-11-14",
       "tag": {
         "move": "narrate"
       }

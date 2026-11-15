@@ -7,17 +7,35 @@
  * the cause record, its kind and date, and every fact with the records it
  * came from.
  */
+import { saidAs } from "../english/said-as";
+import { tellingOf } from "../english/telling";
+import { saidPersonOf } from "./said-person";
+import { placeStateKey } from "../core2/place-map";
 import { BUDGETS_MODULE_ID, type BudgetRow } from "../core2/modules/budgets";
+import { gameStartDate } from "../core2/game-start";
 import { personLean } from "../core2/campaign-views";
 import { appointmentsIn } from "../core2/modules/executive";
-import { LAWS_MODULE_ID, lawChain, lawInForce } from "../core2/modules/laws";
+import {
+  LAWS_MODULE_ID,
+  lawChain,
+  lawInForce,
+  policyAuthority,
+  type PolicyLevel,
+} from "../core2/modules/laws";
 import { meetingsOn } from "../core2/modules/interest-groups";
+import { townSeats } from "../core2/modules/offices";
 import {
   LEGISLATURE_MODULE_ID,
+  absenceCarries,
+  askPrice,
   billOf,
+  declinedAsks,
+  bodyRow,
+  deskPassage,
   favorWorth,
   floorDateOf,
   memberPosition,
+  signOnRecord,
   votesOn,
 } from "../core2/modules/legislature";
 import {
@@ -25,7 +43,12 @@ import {
   type DebateRow,
   type TownHallRow,
 } from "../core2/modules/meetings";
-import { viewOn } from "../core2/modules/views";
+import {
+  VIEWS_MODULE_ID,
+  stancesOf,
+  viewOf,
+  viewOn,
+} from "../core2/modules/views";
 import { addDays, daysBetweenText, makeIsoDate } from "../core2/kernel/dates";
 import { dayAhead, inNextMonth } from "../english/day-words";
 import { P } from "../core2/parameters";
@@ -37,18 +60,31 @@ import {
 } from "../core2/place-lookup";
 import { applyCoreEvent, coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
-import { billNameFor, spokenDesignation } from "../english/bill-names";
-import { areaName } from "../english/area-names";
-import { questionAbout } from "../english/question-names";
-import { raceTurnoutFacts } from "./race-turnout-facts";
 import {
-  questionName,
+  billNameFor,
+  billNameOf,
+  billTitleOf,
+  billTitleSaid,
+  spokenDesignation,
+} from "../english/bill-names";
+import { areaName } from "../english/area-names";
+import {
+  NAMED_QUESTIONS,
+  questionAbout,
+  questionSaid,
+} from "../english/question-names";
+import { floorDebateFacts } from "./floor-debate-facts";
+import { raceTurnoutFacts } from "./race-turnout-facts";
+import { DONOR_ASK_TYPE, donorAskFacts } from "./donor-ask-facts";
+import {
+  questionSubject,
+  questionTopic,
   storyTopicName,
   topicInSentence,
 } from "../english/policy-names";
 import { dollars } from "../english/bill-sections";
 import { lateSaid, moneySaid, monthsOfRentDays } from "../english/count-words";
-import { NOTICE_SERVED_EVENT } from "../core2/modules/housing";
+import { NOTICE_SERVED_EVENT, dwellingTenure } from "../core2/modules/housing";
 import {
   NEWS_MODULE_ID,
   NEWS_READ,
@@ -57,7 +93,9 @@ import {
 } from "../core2/modules/news";
 import { MOVED_AWAY_EVENT, departureOf } from "../core2/modules/moves";
 import { disasterSaid, homeSaid } from "../english/disaster-words";
-import { withArticle } from "../english/journal-words";
+import { seatSaid, withArticle } from "../english/journal-words";
+import { causeGroupName } from "../english/group-names";
+import { contractSaid } from "../english/contract-words";
 import {
   JOBS_MODULE_ID,
   JOB_OFFERED_EVENT,
@@ -66,7 +104,9 @@ import {
 } from "../core2/modules/jobs";
 import conversationRules from "./data/conversation-rules.json" with { type: "json" };
 import type { Director } from "./ledger";
-import { petitionAtDoor } from "./doors";
+import { knockFacts, petitionAtDoor } from "./doors";
+import { officeSaid, raceMemberTitle } from "./cause-facts";
+import { officeInSentence } from "../core2/person-work";
 import {
   SITUATION_LIBRARY,
   type ScheduleEntry,
@@ -74,6 +114,12 @@ import {
 } from "./scheduling";
 import type { Moment } from "./types";
 import { beatenRunnerUp } from "../core2/modules/voting";
+import {
+  SERVE_ASKED_EVENT,
+  leanIfHedged,
+  serveAsk,
+  type ServeGrounds,
+} from "../core2/modules/serve-asks";
 import {
   composeSceneTalk,
   lastAnswerAlong,
@@ -84,21 +130,52 @@ import {
   type TreeReply,
 } from "./scene-talk";
 import type { Fact } from "../english/scene-talk-words";
+import { bargainFacts } from "./bargain-facts";
 import { custodyFacts } from "./custody-facts";
 import { meetingFacts } from "./meeting-facts";
 import { letterFacts } from "./letter-facts";
 import { celebrationFacts } from "./celebration-facts";
+import { careFacts } from "./care-facts";
+import { moveInFacts } from "./move-in-facts";
 import { gatheringFacts } from "./gathering-facts";
 import { rescueFacts } from "./rescue-facts";
 import { birthFacts } from "./birth-facts";
 import { constituentFacts } from "./constituent-help-facts";
-import { chooseVariant, favorsGiven, type VariantChoice } from "./arc-variant";
+import { CASES_MODULE_ID, handleCase } from "../core2/modules/offices";
+import {
+  chooseVariant,
+  favorsGiven,
+  hasArcFor,
+  type VariantChoice,
+} from "./arc-variant";
+import { promiseReplyFacts } from "./promises";
 
 /** A state's key begins with its country (`US-KY`); the rest is its USPS code. */
 const STATE_KEY_PREFIX = "US-";
 
 /** The moves engine's basis for a move to somewhere else in the same state. */
 const STATE_BASIS = "state";
+
+/** The levels of a place's own governments: its city, its town or township, its county. */
+const LOCAL_GOVERNMENTS: ReadonlySet<string> = new Set([
+  "city",
+  "township",
+  "county",
+]);
+
+/**
+ * A seat as the party's chair says it: a seat on a body ("a seat on the
+ * council"), or a single office ("the mayor's office"), from the one place
+ * that words seats.
+ */
+function seatPhrase(office: {
+  readonly title: string;
+  readonly seats?: number;
+  readonly bodyName?: string;
+}): string {
+  const said = seatSaid(office);
+  return said.startsWith("the ") ? `a seat on ${said}` : `the ${said}'s office`;
+}
 
 /** The public-action engine's record of a rally forming (`civic.rally`). */
 const RALLY_EVENT = "civic.rally";
@@ -108,6 +185,8 @@ import {
   ELECTIONS_MODULE_ID,
   ballot,
   incumbentOf,
+  openContests,
+  partyTie,
   petitionOf,
 } from "../core2/modules/elections";
 import {
@@ -129,11 +208,18 @@ import { remarkOf } from "./remark";
 import { counterFilingReplyId } from "./filing-visit";
 import {
   numberWord,
-  properName,
+  organizationName,
   spoken,
   spokenDate,
   stateInSentence,
 } from "./words";
+import {
+  learnView,
+  learnViewQuestion,
+  strongestQuestion,
+  viewReason,
+  viewRecordId,
+} from "./view-learned";
 import { giveInauguralAddress, inauguralStand } from "./inaugural-address";
 import {
   ADDRESS_KEEPS,
@@ -241,19 +327,112 @@ export function purposeScene(
   );
   let skipped: PurposeSceneResult | null = null;
   for (const { unit, moment: about, binding } of chosen) {
-    const result = composeBinding(
-      core,
-      director,
-      personId,
-      about,
-      binding,
-      options,
-    );
+    const result = composeBinding(core, director, personId, about, binding, {
+      ...options,
+      stopMinute: entry.stop?.at.minuteOfDay,
+    });
     if (result.kind === "composed")
       return { kind: "composed", scene: { ...result.scene, unit } };
     skipped ??= result;
   }
   return skipped;
+}
+
+/** What the law-reaches facts read of a law row: where it is law, when it starts and ends, and its series. */
+interface LawReachRow {
+  readonly jurisdiction?: string;
+  readonly effectiveDate?: string;
+  readonly endDate?: string | null;
+  readonly series?: string;
+  readonly id?: string;
+}
+
+/**
+ * The facts that say how a law reaches a reader it does not reach (Fable A,
+ * Nov 13): `effective`, the day a law enacted but not yet in force takes
+ * effect; else `lawstate` and `homestate`, when it is law in another state
+ * than the reader's. Empty for a law in force where the reader lives.
+ */
+export function lawReachFacts(
+  row: LawReachRow | null,
+  homeStateKey: string | null,
+  today: string,
+  cite: { law: string[]; home: string[] },
+  /** When play began, and whether a newer row of the law's series replaced this one. */
+  play: { from: string; replaced: boolean },
+): Record<string, Fact> {
+  if (!row) return {};
+  // Another state's law does not reach the reader, in force or not: said by
+  // that state and the reader's own, never by a date that would sound as if
+  // it will.
+  const there = row.jurisdiction?.startsWith(STATE_KEY_PREFIX)
+    ? coreStateName(row.jurisdiction.slice(STATE_KEY_PREFIX.length))
+    : null;
+  const here = homeStateKey
+    ? coreStateName(homeStateKey.slice(STATE_KEY_PREFIX.length))
+    : null;
+  if (there && here && row.jurisdiction !== homeStateKey)
+    return {
+      lawstate: { text: stateInSentence(there), sourceRecordIds: cite.law },
+      homestate: { text: stateInSentence(here), sourceRecordIds: cite.home },
+    };
+  // A law that is no longer in force: the day it ended, from its own row.
+  // ("Struck down" is said only when a court's record ended it; no engine
+  // writes one yet.)
+  // It is said with what it was, so the line names the law.
+  const about = row.series ? lawAbout(row.series) : null;
+  // Raised only when it ended during play and nothing replaced it: a rate
+  // that a newer rate took over, or one that ended before the game began, is
+  // not something a resident talks about (Words lead, Nov 14). Proved only on
+  // a staged end date until a repeal is played (stopgapId:
+  // SG-DIRECTOR-law-ended-in-play-proved-on-staged-date).
+  if (row.endDate && row.endDate <= today) {
+    if (row.endDate < play.from || play.replaced) return {};
+    return {
+      ended: {
+        text: spokenDate(row.endDate, today),
+        sourceRecordIds: cite.law,
+      },
+      ...(about ? { about: { text: about, sourceRecordIds: cite.law } } : {}),
+    };
+  }
+  if (row.effectiveDate && row.effectiveDate > today) {
+    // What the law changes, by what it is, not by the number it sets: a tax
+    // rate's law changes the tax ("the Social Security payroll tax").
+    return {
+      effective: {
+        text: spokenDate(row.effectiveDate, today),
+        sourceRecordIds: cite.law,
+      },
+      ...(about ? { about: { text: about, sourceRecordIds: cite.law } } : {}),
+    };
+  }
+  return {};
+}
+
+/** What a law changes, by what it is, not by the number it sets: a tax rate's law changes the tax ("the Social Security payroll tax"). */
+function lawAbout(series: string): string | null {
+  const name = lawName(series);
+  return name ? name.replace(/\btax rate$/, "tax") : null;
+}
+
+/** The state a person lives in (`US-IL`), from their place's record or, for someone placed only at their state's level, the state's own id. */
+export function homeStateOf(placeId: string): string | null {
+  return placeStateKey(placeId);
+}
+
+/** A law row of the laws engine by its id: where it is law and the day it takes effect. */
+export function lawRow(
+  core: Readonly<CoreState>,
+  id: string,
+): LawReachRow | null {
+  if (!core.modules.has(LAWS_MODULE_ID)) return null;
+  return (
+    (coreAPI(core as CoreState)
+      .moduleState(LAWS_MODULE_ID)
+      .table("laws")
+      .get(id) as LawReachRow | undefined) ?? null
+  );
 }
 
 /**
@@ -296,7 +475,17 @@ export function typeForCause(type: PurposeType, label: string): PurposeType {
  */
 export function lawName(series: string): string | null {
   const topic = series.slice(series.lastIndexOf(":") + P.one);
-  return questionName(series) ?? storyTopicName(topic);
+  // The spoken noun the talks and speeches say a measure by ("a higher
+  // minimum wage"), never the catalog's verb phrase ("raise minimum wage");
+  // a question with no noun name has no name, and its scene is not offered.
+  // A series a law row keeps by its bare key (a local body's authority) is
+  // the catalog question that ends in it.
+  const question = NAMED_QUESTIONS.find((key) => key.endsWith(`.${series}`));
+  return (
+    questionAbout(series) ??
+    (question ? questionAbout(question) : null) ??
+    storyTopicName(topic)
+  );
 }
 
 /**
@@ -322,6 +511,83 @@ export function tieSide(
   return null;
 }
 
+/**
+ * What a cause record that names a law says of it (a story that the law took
+ * effect, a person's learning what it changed): its policy by name, whether
+ * the laws engine keeps it in force where the reader lives, and, when it does
+ * not reach the reader, why.
+ */
+export function lawFactsOfCause(
+  core: Readonly<CoreState>,
+  said: Readonly<Record<string, string>>,
+  causeId: string,
+  readerPlaceId: string,
+  readerId: string,
+): Record<string, Fact> {
+  const facts: Record<string, Fact> = {};
+  const moment = { causeId };
+  const asker = { placeId: readerPlaceId };
+  const askerId = readerId;
+  // A law in force (a story that it took effect): its policy by name, for
+  // the lines that say what took effect.
+  // A learned effect names its law row only (`law.effect-learned` carries a
+  // lawId and no series), so the series is the law row's own; reading only
+  // the record's series left every learned-law scene without `law` and
+  // `in-force`, and the tell could not be worded.
+  const lawRowOfSaid = said.lawId
+    ? lawRow(core, said.lawId.replace(/^law-history:/, ""))
+    : null;
+  const series = said.series ?? lawRowOfSaid?.series;
+  if (said.lawId && series) {
+    const name = lawName(series);
+    if (name)
+      facts.law = {
+        text: name,
+        sourceRecordIds: [said.lawId, moment.causeId],
+      };
+    // Still in force today, by the laws engine's own answer: the lines that
+    // say the law took effect and is lived with need it (a street stop about
+    // a state law with no local bill number had none to say, Mount Horeb,
+    // Wisconsin, seed 16ca82ba-0487-44a2-96ee-c5231d4e0ab4).
+    const answer = core.modules.has(LAWS_MODULE_ID)
+      ? lawInForce(coreAPI(core as CoreState), series)
+      : undefined;
+    // A story of a law's history names the law row it keeps
+    // (`law-history:<law row id>`, past-module): a state law in force from
+    // before the opening (Kansas's local sales tax, seed 2d5c12bd...).
+    const lawRowId = said.lawId.replace(/^law-history:/, "");
+    const kept = answer?.levels.find(
+      (level) => level.row?.id === lawRowId && !level.setAside,
+    );
+    if (kept)
+      facts["in-force"] = {
+        text: "yes",
+        sourceRecordIds: [said.lawId, moment.causeId],
+      };
+    // A law that does not reach the reader is said as what it is (Fable A,
+    // Nov 13): one enacted but not yet in force by the day it takes effect;
+    // one in force in another state by that state and the reader's own. Only
+    // a law in force where the reader lives is spoken of as lived with.
+    if (!kept)
+      Object.assign(
+        facts,
+        lawReachFacts(
+          lawRow(core, lawRowId),
+          homeStateOf(asker.placeId),
+          core.date,
+          { law: [lawRowId, moment.causeId], home: [asker.placeId, askerId] },
+          {
+            from: gameStartDate(),
+            replaced: (answer?.levels ?? []).some(
+              (level) => level.row && !level.setAside,
+            ),
+          },
+        ),
+      );
+  }
+  return facts;
+}
+
 /** One purpose scene of a moment, worded from its records. */
 function composeBinding(
   core: Readonly<CoreState>,
@@ -329,7 +595,7 @@ function composeBinding(
   personId: PersonId,
   moment: Moment,
   binding: ScheduleEntry["bindings"][number],
-  options: { includeHeld?: boolean },
+  options: { includeHeld?: boolean; stopMinute?: number },
 ): PurposeSceneResult {
   const type = typeForCause(
     TYPES.get(binding.typeKey) as PurposeType,
@@ -341,6 +607,16 @@ function composeBinding(
   const askedId = cast(type.asked) ?? personId;
   if (!askerId)
     return { kind: "skipped", reason: `no ${type.asker} on record` };
+  // Every person the scene names goes through the one said-as reader with
+  // the scene's telling (words composer, part 2): by role and name the first
+  // time, shorter after. The scene's own cause record names them, so the
+  // listener has been told who they are.
+  const telling = tellingOf({ speakerId: askerId, listenerId: askedId });
+  const sayPerson = (person: { id: string }) =>
+    saidAs(telling, {
+      ...saidPersonOf(core, person.id, telling),
+      knownToListener: true,
+    });
   const asker = core.people.get(askerId);
   const asked = core.people.get(askedId);
   if (!asker || !asked)
@@ -350,7 +626,7 @@ function composeBinding(
   const said = (record?.facts ?? {}) as Readonly<Record<string, string>>;
   const facts: Record<string, Fact> = {
     name: {
-      text: `${asker.givenName} ${asker.familyName}`,
+      text: sayPerson(asker),
       sourceRecordIds: [askerId],
     },
     first: { text: asked.givenName, sourceRecordIds: [askedId] },
@@ -408,35 +684,10 @@ function composeBinding(
         facts["vote-on"] = { text: voteOn, sourceRecordIds: [billId!] };
     }
   }
-  // A law in force (a story that it took effect): its policy by name, for
-  // the lines that say what took effect.
-  if (said.lawId && said.series) {
-    const name = lawName(said.series);
-    if (name)
-      facts.law = {
-        text: name,
-        sourceRecordIds: [said.lawId, moment.causeId],
-      };
-    // Still in force today, by the laws engine's own answer: the lines that
-    // say the law took effect and is lived with need it (a street stop about
-    // a state law with no local bill number had none to say, Mount Horeb,
-    // Wisconsin, seed 16ca82ba-0487-44a2-96ee-c5231d4e0ab4).
-    const answer = core.modules.has(LAWS_MODULE_ID)
-      ? lawInForce(coreAPI(core as CoreState), said.series)
-      : undefined;
-    // A story of a law's history names the law row it keeps
-    // (`law-history:<law row id>`, past-module): a state law in force from
-    // before the opening (Kansas's local sales tax, seed 2d5c12bd...).
-    const lawRowId = said.lawId.replace(/^law-history:/, "");
-    const kept = answer?.levels.find(
-      (level) => level.row?.id === lawRowId && !level.setAside,
-    );
-    if (kept)
-      facts["in-force"] = {
-        text: "yes",
-        sourceRecordIds: [said.lawId, moment.causeId],
-      };
-  }
+  Object.assign(
+    facts,
+    lawFactsOfCause(core, said, moment.causeId, asker.placeId, askerId),
+  );
   // A law in force that a bill enacted (a story that it took effect): the
   // bill by its number, cited to the law and the bill.
   if (!said.number && said.lawId && said.enactedBy) {
@@ -455,7 +706,7 @@ function composeBinding(
     : undefined;
   if (chair && chair.id !== askedId)
     facts.chair = {
-      text: `${chair.givenName} ${chair.familyName}`,
+      text: sayPerson(chair),
       sourceRecordIds: [moment.causeId, chair.id],
     };
   // An executive's ask to carry their bill (legislature.ts askToCarry): the
@@ -479,13 +730,76 @@ function composeBinding(
         sourceRecordIds: [moment.causeId],
       };
   }
+  // The player's ask of a colleague to sign on to their bill (legislature.ts
+  // askToSignOn): the bill said by what it does, the reason the colleague
+  // would give for a no (never a deal, a lobby or a bribe), and whether the
+  // player asked them before and was turned down.
+  if (record?.kind === "sign-on-asked" && said.billId && named) {
+    const api = coreAPI(core as CoreState);
+    const [asked] = named.provisions;
+    const subject = asked?.question ? questionSaid(asked.question) : null;
+    if (subject)
+      facts.said = {
+        text: subject,
+        sourceRecordIds: [named.id, moment.causeId],
+      };
+    const position = memberPosition(api, named.id, askerId);
+    const past = signOnRecord(api, askerId, named);
+    // The reason a colleague says aloud: the part of their position that
+    // weighs most against the bill among those a colleague names (their
+    // views, the people they represent, their party's leaders), or holding to
+    // a past stand where a past no vote on the question is on the record.
+    // Temperament, a wing, a deal or a lobby are never said; a no they alone
+    // carry is said as the member's own view.
+    const sayable = [
+      { name: "views", value: position.views },
+      { name: "constituents", value: position.constituents },
+      { name: "party", value: position.party ?? P.zero },
+      ...(past.votedAgainst
+        ? [{ name: "consistency", value: position.consistency }]
+        : []),
+    ];
+    const [worst] = sayable
+      .filter((row) => row.value < P.zero)
+      .sort((a, b) => a.value - b.value);
+    const reason = worst?.name ?? "views";
+    facts[`no-${reason}`] = {
+      text: "yes",
+      sourceRecordIds: [named.id, moment.causeId],
+    };
+    // A past no vote is said only where the record holds it.
+    if (past.votedAgainst)
+      facts["voted-against-before"] = {
+        text: "yes",
+        sourceRecordIds: [past.votedAgainst, moment.causeId],
+      };
+    // Turned down before on the same question, on an earlier bill.
+    const [section] = named.provisions;
+    const question = section?.question;
+    const before = declinedAsks(
+      api,
+      askedId,
+      askerId,
+      named.bodyOfficeId,
+      "sign-on",
+    ).filter(
+      (row) =>
+        row.billId !== named.id &&
+        row.provisions.some((other) => other.question === question),
+    );
+    if (before.length)
+      facts["asked-before"] = {
+        text: "yes",
+        sourceRecordIds: [before.at(-P.one)!.id, moment.causeId],
+      };
+  }
   // A job offer (jobs.ts offerToPlayer): the employer, the position with its
   // article, the pay offered by the hour and the day the offer lapses.
   if (record?.kind === JOB_OFFERED_EVENT && said.organizationId) {
     const org = core.organizations.get(said.organizationId);
     const ids = [moment.causeId, said.organizationId];
     if (org)
-      facts.employer = { text: properName(org.name), sourceRecordIds: ids };
+      facts.employer = { text: organizationName(org), sourceRecordIds: ids };
     if (said.title)
       facts.position = { text: withArticle(said.title), sourceRecordIds: ids };
     if (Number(said.hourlyMinor) > P.zero)
@@ -539,7 +853,7 @@ function composeBinding(
         : undefined;
       if (before)
         facts.replaced = {
-          text: `${before.givenName} ${before.familyName}`,
+          text: sayPerson(before),
           sourceRecordIds: [...at, before.id],
         };
       const crew = Math.round(staffCount(api, said.organizationId));
@@ -611,7 +925,7 @@ function composeBinding(
     const printer = story ? core.organizations.get(story.outletId) : undefined;
     if (printer)
       facts.outlet = {
-        text: properName(printer.name),
+        text: organizationName(printer),
         sourceRecordIds: [...cited, printer.id],
       };
   }
@@ -648,14 +962,17 @@ function composeBinding(
         ? departure.destinationBasis === row.reason.slice("basis:".length)
         : (departure.reasons[row.reason] ?? P.zero) > P.zero,
     );
-    if (why)
+    if (why) {
       facts[why.fact] = { text: asker.givenName, sourceRecordIds: cited };
+      // The questions about why are offered only when a record names a reason.
+      facts["why-given"] = { text: asker.givenName, sourceRecordIds: cited };
+    }
   }
   // A prison term (justice.ts): a person home from prison, a sentence handed
   // down or a person held before trial, with how long, the day they get out,
   // the bail, whether the term ended their job and the child at home, each
   // cited to the records it came from. stopgapId:
-  // SG-WORDS-homecoming-stay-unread, SG-WORDS-prison-visit-limits-fixed
+  // SG-WORDS-prison-visit-limits-fixed
   for (const [key, fact] of Object.entries(
     custodyFacts(core, record, askerId, askedId),
   ))
@@ -663,7 +980,7 @@ function composeBinding(
   // A first meeting or a tie that grew (the jobs, school and parties engines'
   // records): the employer, the job, the school, the children at one school,
   // the party and the town the two share or do not. stopgapId:
-  // SG-WORDS-meeting-no-club-records, SG-WORDS-meeting-promise-unread
+  // SG-WORDS-meeting-no-club-records
   for (const [key, fact] of Object.entries(
     meetingFacts(core, binding.typeKey, moment.causeId, askerId, askedId),
   ))
@@ -710,6 +1027,10 @@ function composeBinding(
     // A rescue (`health.rescued`): who got help, who was there to see it.
     // stopgapId: SG-WORDS-rescue-ask-unrecorded
     ...rescueFacts(core, binding.typeKey, moment.causeId, askerId, askedId),
+    // A visit to someone seriously ill in town: the relative still to be told.
+    ...careFacts(core, binding.typeKey, moment.causeId, askerId, askedId),
+    // A partner's ask to live together: who would move, and the asked's kin.
+    ...moveInFacts(core, binding.typeKey, moment.causeId, askerId, askedId),
     // A new baby (`person-birth`): the child's name, the other parent and the
     // visitor's town. stopgapId: SG-WORDS-new-baby-ask-unrecorded
     ...birthFacts(
@@ -843,12 +1164,24 @@ function composeBinding(
     if (said.size)
       facts.number = { text: said.size, sourceRecordIds: [said.actionId] };
   }
-  // What an offer asks in return (a vote, a contract): the lines about that favor need it.
-  if (said.favor)
+  // What an offer asks in return (a vote, a contract): the lines about that
+  // favor need it, and the thing itself is named so the one offering says
+  // what they want (Words lead, Nov 14): the bill for a vote (`bill`, above),
+  // the award for a contract by the work it pays for (`contract`). `wanted`
+  // is whichever of the two the record names, for lines either side shares.
+  if (said.favor) {
     facts[`favor-${said.favor}`] = {
       text: said.favor,
       sourceRecordIds: [moment.causeId],
     };
+    if (said.favor === "contract")
+      facts.contract = {
+        text: contractSaid(said.contractLine ?? ""),
+        sourceRecordIds: [moment.causeId, said.contractId ?? moment.causeId],
+      };
+    const wanted = said.favor === "vote" ? facts.bill : facts.contract;
+    if (wanted) facts.wanted = wanted;
+  }
   // A printed story that runs against the person or their bill (press-desk.ts
   // recordNamed): the outlet that ran it, who wrote it, and what it is about.
   if (record?.kind === PRESS_STORY_EVENT) {
@@ -856,7 +1189,7 @@ function composeBinding(
     const cited = [moment.causeId, said.storyId ?? moment.causeId];
     if (outlet) {
       facts.outlet = {
-        text: properName(outlet.name),
+        text: organizationName(outlet),
         sourceRecordIds: [...cited, outlet.id],
       };
       facts["press-story"] = facts.outlet;
@@ -864,7 +1197,7 @@ function composeBinding(
     const reporter = core.people.get((said.reporterId ?? "") as PersonId);
     if (reporter)
       facts.reporter = {
-        text: `${reporter.givenName} ${reporter.familyName}`,
+        text: sayPerson(reporter),
         sourceRecordIds: [...cited, reporter.id],
       };
     const bill =
@@ -888,6 +1221,23 @@ function composeBinding(
   // lines about an introduction need it.
   if (record?.kind === "office.introduced")
     facts.introduced = {
+      text: said.number ?? "",
+      sourceRecordIds: [moment.causeId, said.billId ?? moment.causeId],
+    };
+  // A bill the asked person signed, or stopped: a veto, a veto overridden
+  // over it, or a bill held in committee (legislature.ts). A reporter asks
+  // who wanted it signed, or stopped.
+  const stopped =
+    (record?.kind === "executive-action" && said.action === "vetoed") ||
+    record?.kind === "veto-override" ||
+    record?.kind === "bill-held-in-committee";
+  if (stopped)
+    facts["stopped-it"] = {
+      text: said.number ?? "",
+      sourceRecordIds: [moment.causeId, said.billId ?? moment.causeId],
+    };
+  if (record?.kind === "executive-action" && said.action === "signed")
+    facts["signed-it"] = {
       text: said.number ?? "",
       sourceRecordIds: [moment.causeId, said.billId ?? moment.causeId],
     };
@@ -920,11 +1270,78 @@ function composeBinding(
     };
   // The floor before the roll (legislature.ts recordFloorDebate): which side
   // the speaker rose for, and the bill.
-  if (record?.kind === "floor-debate")
+  if (record?.kind === "floor-debate") {
     facts[said.forId === askerId ? "speaks-for" : "speaks-against"] = {
       text: said.number ?? "",
       sourceRecordIds: [moment.causeId, askerId],
     };
+    floorDebateFacts(core, facts, said, moment.causeId, askerId);
+  }
+  // A witness at a committee's hearing (legislature.ts committeeStage): their
+  // side on the bill and what it reaches in their own life, from the record's
+  // lists (the job it binds, their lease or mortgage, a child at home, their
+  // own age, or only a view), with what the bill does in words and whether the
+  // player is its sponsor. The witness never says a figure about the world.
+  if (record?.kind === "committee-hearing" && said.witnessIds) {
+    const at = said.witnessIds.split(",").indexOf(askerId);
+    const side = (said.witnessSides ?? "").split(",")[at];
+    const life = (said.witnessLives ?? "").split(",")[at];
+    const cited = [moment.causeId, askerId];
+    if (side === "for" || side === "against")
+      facts[`witness-${side}`] = { text: "yes", sourceRecordIds: cited };
+    const lifeRecord = (said.witnessLifeRecords ?? "").split(",")[at] ?? "";
+    if (life)
+      facts[`life-${life}`] = {
+        text: "yes",
+        sourceRecordIds: lifeRecord ? [...cited, lifeRecord] : cited,
+      };
+    // The record that life rests on, worded where a person would name it:
+    // the place they work, their child.
+    const job = core.work.commitments.get(lifeRecord);
+    const workplace = job
+      ? core.organizations.get(job.organizationId)
+      : undefined;
+    if (workplace)
+      facts["own-workplace"] = {
+        text: organizationName(workplace),
+        sourceRecordIds: [...cited, lifeRecord, workplace.id],
+      };
+    const child =
+      life === "children-at-home"
+        ? core.people.get(lifeRecord as PersonId)
+        : undefined;
+    if (child)
+      facts["own-child"] = {
+        text: child.givenName,
+        sourceRecordIds: [...cited, child.id],
+      };
+    // The bill's area, so a line about a school, a doctor, a home or a raise
+    // plays only on a bill about one.
+    const area = {
+      wage: "bill-wage",
+      education: "bill-schools",
+      "health-human-services": "bill-health",
+      "housing-land-use": "bill-housing",
+    }[said.area ?? ""];
+    if (area) facts[area] = { text: "yes", sourceRecordIds: [moment.causeId] };
+    // A witness who holds a job took time off from it to come.
+    const working = [...(core.work.commitmentsByPerson.get(askerId) ?? [])]
+      .map((id) => core.work.commitments.get(id))
+      .find((row) => row && row.endsAt === undefined);
+    if (working)
+      facts["has-job"] = {
+        text: "yes",
+        sourceRecordIds: [...cited, working.id],
+      };
+    if (named?.sponsorId === askedId)
+      facts["you-sponsor"] = { text: "yes", sourceRecordIds: [named.id] };
+    const does = named ? billNameOf(named)?.purpose : undefined;
+    if (does)
+      facts["bill-does"] = {
+        text: does,
+        sourceRecordIds: [named!.id, moment.causeId],
+      };
+  }
   // A reporter cast for a record that names no outlet speaks for the outlet
   // that employs them, by its record.
   if (!facts.outlet && !said.outletId && core.modules.has(PRESS_MODULE_ID)) {
@@ -936,7 +1353,7 @@ function composeBinding(
       : undefined;
     if (outlet)
       facts.outlet = {
-        text: properName(outlet.name),
+        text: organizationName(outlet),
         sourceRecordIds: [employer!.id, outlet.id],
       };
   }
@@ -946,10 +1363,18 @@ function composeBinding(
     const outlet = core.organizations.get(said.outletId);
     if (outlet)
       facts.outlet = {
-        text: properName(outlet.name),
+        text: organizationName(outlet),
         sourceRecordIds: [moment.causeId, outlet.id],
       };
   }
+  // A published interview the official answered only in part (press.ts
+  // publish: the record's `declined` counts the questions left unanswered): a
+  // reporter may ask the skipped ones again.
+  if (record?.kind === "interview-published" && Number(said.declined) > P.zero)
+    facts["skipped-some"] = {
+      text: String(said.declined),
+      sourceRecordIds: [moment.causeId],
+    };
   // The race's debate the two candidates just stood in (meetings.ts
   // holdDebate): the lines said leaving the stage need it, and the first
   // question the two answered on opposite sides is what the rival brings up.
@@ -972,11 +1397,31 @@ function composeBinding(
       );
     });
     const issue = split ? questionAbout(split.question) : null;
-    if (issue)
+    if (issue) {
       facts.issue = {
         text: issue,
         sourceRecordIds: [said.debateId, moment.causeId],
       };
+      // Which side the player said on it on the stage, and which side the
+      // rival said (the sitting's own fact names), so a line can throw the
+      // answer back: "You said you're for it."
+      const rivalSide = theirs.find((row) => row.question === split!.question);
+      const sides = [
+        [split!.position! > P.zero ? "said-for" : "said-against", split],
+        [
+          rivalSide!.position! > P.zero ? "rival-for" : "rival-against",
+          rivalSide,
+        ],
+      ] as const;
+      for (const [name, row] of sides)
+        facts[name] = {
+          text: "yes",
+          sourceRecordIds: [
+            said.debateId,
+            ...(row?.recordId ? [row.recordId] : []),
+          ],
+        };
+    }
   }
   // A donor's gift to the campaign (campaigns.ts recordGift): what they gave,
   // and the lines about a gift need it.
@@ -990,11 +1435,35 @@ function composeBinding(
     // The bill the donor holds the strongest view on, when one is pending.
     if (said.billId && facts.bill) facts["donor-bill"] = facts.bill;
   }
+  // A donor's own reasons: their given name, where they work, what the bill
+  // they named is about and which side of it they are on, each from the
+  // records it came from (donor-ask-facts.ts).
+  if (type.key === DONOR_ASK_TYPE)
+    Object.assign(
+      facts,
+      donorAskFacts(
+        core,
+        askerId,
+        moment.causeId,
+        record?.kind === "campaign-gift" && facts["donor-bill"]
+          ? said.billId
+          : undefined,
+        personLean,
+      ),
+    );
   // How the two stand, so a line can fit the tie: the asked person's known
   // people (`acquainted`, else `stranger`), and family (`kin`).
-  if (asked.familyIds.has(askerId))
+  // A partner is neither kin nor a stranger: they know each other (family
+  // life, Words lead's read of the move-in scene, Nov 14 2026).
+  const partners = [...core.familyLinks.values()].some(
+    (link) =>
+      link.kind === "partner" &&
+      link.personIds.includes(askerId) &&
+      link.personIds.includes(askedId),
+  );
+  if (asked.familyIds.has(askerId) && !partners)
     facts.kin = { text: asker.givenName, sourceRecordIds: [askerId, askedId] };
-  if (asked.knownIds.has(askerId))
+  if (asked.knownIds.has(askerId) || partners)
     facts.acquainted = {
       text: asker.givenName,
       sourceRecordIds: [askerId, askedId],
@@ -1031,7 +1500,10 @@ function composeBinding(
   }
   if (said.office)
     facts.office = {
-      text: titleInSentence(said.office),
+      // Where the body is named for its members the race is for that member
+      // ("alderman"); else the record's title in a sentence.
+      text:
+        raceMemberTitle(core, said.contestId) ?? titleInSentence(said.office),
       sourceRecordIds: [
         moment.causeId,
         ...(said.contestId ? [said.contestId] : []),
@@ -1043,7 +1515,7 @@ function composeBinding(
     : undefined;
   if (rival)
     facts.opponent = {
-      text: `${rival.givenName} ${rival.familyName}`,
+      text: sayPerson(rival),
       sourceRecordIds: [moment.causeId, rival.id],
     };
   // A rival who runs under the candidate's own party label: a primary
@@ -1144,7 +1616,7 @@ function composeBinding(
     : undefined;
   if (winner && winner.id !== askedId)
     facts.opponent = {
-      text: `${winner.givenName} ${winner.familyName}`,
+      text: sayPerson(winner),
       sourceRecordIds: [moment.causeId, winner.id],
     };
   // In a race the asked won, the opponent is the one they beat: first among
@@ -1157,7 +1629,7 @@ function composeBinding(
     const other = runnerUp ? core.people.get(runnerUp as PersonId) : undefined;
     if (other)
       facts.opponent = {
-        text: `${other.givenName} ${other.familyName}`,
+        text: sayPerson(other),
         sourceRecordIds: [moment.causeId, other.id],
       };
   }
@@ -1236,6 +1708,53 @@ function composeBinding(
   // the bill (`promised-against`) is said only from a record of one, which no
   // engine writes yet. stopgapId: SG-WORDS-recall-promise-record
 
+  // Joining a party: the party the record names, by its name.
+  if (type.purpose === "party-welcome" && typeof said.party === "string") {
+    facts.party = { text: said.party, sourceRecordIds: [moment.causeId] };
+    // What the party holds and runs in this place, from the offices' terms and
+    // the open races' filings: the leader's answer to "what do you do here".
+    const api = coreAPI(core as CoreState);
+    const named = said.party.toLowerCase();
+    // A place whose own government is filed at the state level (it has no
+    // city, township or county offices, as in the District of Columbia and the
+    // territories) counts those offices as its local ones; read from the data.
+    const seats = townSeats(api);
+    const own = seats.some((row) => LOCAL_GOVERNMENTS.has(row.office.level))
+      ? LOCAL_GOVERNMENTS
+      : new Set([...LOCAL_GOVERNMENTS, "state"]);
+    const held = seats.find(
+      (row) =>
+        own.has(row.office.level) &&
+        (row.holder?.party?.toLowerCase() === named ||
+          (row.holder?.personId
+            ? partyTie(api, row.holder.personId)?.partyId === said.partyId
+            : false)),
+    );
+    const race = openContests(api).find(
+      (contest) =>
+        own.has(contest.level) &&
+        ballot(api, contest.id).some(
+          (filing) => filing.party?.toLowerCase() === named,
+        ),
+    );
+    // A race the party is running now is what its chair talks about; the seat
+    // it holds is said when nothing is running.
+    if (held && !race)
+      facts["office-held"] = {
+        text: seatPhrase(held.office),
+        sourceRecordIds: [held.holder!.id],
+      };
+    if (race)
+      facts["race-run"] = {
+        text: race.title.toLowerCase(),
+        sourceRecordIds: [race.id],
+      };
+    if (!held && !race)
+      facts["party-holds-nothing"] = {
+        text: "yes",
+        sourceRecordIds: [moment.causeId],
+      };
+  }
   // Taking office (offices.ts): the office by its title in the offices
   // engine's rows, whatever wording the record carries (a contest's title, or
   // an office's id from a dev start); an executive office goes on to an
@@ -1294,7 +1813,14 @@ function composeBinding(
   // "Morning." is said before noon, "this afternoon" is still ahead only in
   // the daytime, and "tonight" is true of the present only in the evening:
   // the hour is the player's clock as the scene plays.
-  for (const mark of dayParts(sceneMinute(core, personId)))
+  // The scene's narration opens at the same hour (scene.ts): the player's
+  // clock, else the hour of the stop, else the start of the player's day, so
+  // a line that fits only the evening never plays under "First thing on...".
+  for (const mark of dayParts(
+    sceneMinute(core, personId) ??
+      options.stopMinute ??
+      core.data.parameters.playerDayStartMinute!.value,
+  ))
     facts[mark] = { text: "yes", sourceRecordIds: [moment.causeId] };
 
   const wording = options.includeHeld ? { includeHeld: true } : {};
@@ -1304,11 +1830,20 @@ function composeBinding(
     type.playerAsks && moment.causeKind === "event:campaign.door"
       ? doorStanding(core, moment.causeId, askerId, type.purpose ?? "")
       : undefined;
+  // Someone the player asked to serve: where the serve-asks engine read them.
+  const serve =
+    type.playerAsks && moment.causeKind === `event:${SERVE_ASKED_EVENT}`
+      ? serveStanding(core, said, askerId)
+      : undefined;
   const standing = door
     ? door.standing
-    : type.playerAsks
-      ? askStanding(core, said, askerId, askedId)
-      : undefined;
+    : serve
+      ? serve.standing
+      : type.playerAsks
+        ? askStanding(core, said, askerId, askedId)
+        : undefined;
+  if (standing && !door && !serve && said.billId)
+    bargainFacts(core, facts, said.billId, askerId, askedId, moment.causeId);
   if (type.playerAsks && !standing)
     return {
       kind: "skipped",
@@ -1317,21 +1852,129 @@ function composeBinding(
           ? "no race on record to ask about"
           : "no bill on record to ask about",
     };
-  if (door) {
+  if (serve) {
     facts.name = {
       text: `${asker.givenName} ${asker.familyName}`,
       sourceRecordIds: [askerId],
     };
     facts.self = { text: asked.givenName, sourceRecordIds: [askedId] };
+    // After the introduction the player says their first name, never the
+    // full name again (Words lead, Nov 14).
+    facts["their-first"] = {
+      text: asker.givenName,
+      sourceRecordIds: [askerId],
+    };
     facts.office = {
-      text: titleInSentence(door.office),
+      text: officeSaidAloud(serve.office),
+      sourceRecordIds: [moment.causeId, serve.askId],
+    };
+    // Why a no is a no: the term that weighed most against the ask, which
+    // the answer gives as its reason (own-seat, own-race, apart, heard, stranger).
+    // A yes gives its reason too, from the term that weighed most for it
+    // (trust, step-up, agree, real-race).
+    const why = [moment.causeId, serve.askId];
+    if (serve.standing.lean <= P.zero)
+      facts[`reason-${serve.reason}`] = { text: "yes", sourceRecordIds: why };
+    else
+      facts[`reason-yes-${serve.yesReason}`] = {
+        text: "yes",
+        sourceRecordIds: why,
+      };
+    // Near the player on their own question, by the same read the answer
+    // weighed: the player can say so when asked why them.
+    if ((serve.terms.question ?? P.zero) > P.zero)
+      facts["near-on-issue"] = { text: "yes", sourceRecordIds: why };
+    // Asked again after a no: a yes says what changed, as felt (Words lead,
+    // Nov 14: the term that moved most since the no).
+    if (serve.moved && serve.standing.lean > P.zero)
+      facts[`changed-${serve.moved}`] = { text: "yes", sourceRecordIds: why };
+    // A stranger is introduced to the player by their full name; the race
+    // the player runs in is said from its contest record.
+    facts["self-full"] = {
+      text: `${asked.givenName} ${asked.familyName}`,
+      sourceRecordIds: [askedId],
+    };
+    if (serve.raceOffice)
+      facts["race-office"] = {
+        text: officeSaidAloud(serve.raceOffice),
+        sourceRecordIds: why,
+      };
+    // The player may say the race can be won only where their standing in it
+    // weighs for them.
+    if ((serve.terms.standing ?? P.zero) > P.zero)
+      facts["standing-real"] = { text: "yes", sourceRecordIds: why };
+    if (serve.grounds.seatEnds && serve.grounds.seatTermId)
+      facts["their-term-ends"] = {
+        text: "yes",
+        sourceRecordIds: [...why, serve.grounds.seatTermId],
+      };
+    // The seat they would give up, as people say it.
+    if (serve.grounds.seatTitle && serve.grounds.seatTermId)
+      facts["their-office"] = {
+        text: officeSaidAloud(serve.grounds.seatTitle),
+        sourceRecordIds: [...why, serve.grounds.seatTermId],
+      };
+    // Where they read what was printed about the player: the outlet of the
+    // newest scandal story they heard.
+    const outlet = serve.grounds.storyOutletId
+      ? core.organizations.get(serve.grounds.storyOutletId as never)?.name
+      : undefined;
+    if (outlet && serve.grounds.stories.length)
+      facts.outlet = {
+        text: outlet,
+        sourceRecordIds: [...why, ...serve.grounds.stories],
+      };
+    // The question they hold most strongly, as the read found it.
+    const issue = questionAbout(serve.question);
+    if (issue)
+      facts.issue = {
+        text: issue,
+        sourceRecordIds: [moment.causeId, serve.askId],
+      };
+  }
+  if (door) {
+    facts.name = {
+      text: sayPerson(asker),
+      sourceRecordIds: [askerId],
+    };
+    facts.self = { text: asked.givenName, sourceRecordIds: [askedId] };
+    // The seat as people say it (Words lead, Nov 14, ruling 69): "the
+    // Bethel Town Council", "mayor", never the form's title in a sentence.
+    const seat = officeSaid(core, { contestId: door.contestId });
+    facts.office = {
+      text: seat?.text ?? titleInSentence(door.office),
       sourceRecordIds: [moment.causeId, door.contestId],
     };
+    // The race's next vote as a day, and while the petition circulates the
+    // day its signatures are due (Words lead, Nov 14, ruling 73: a line meets
+    // the insert guard with a record that belongs in it).
+    Object.assign(facts, contestVoteDay(core, door.contestId));
+    if (door.filingId && core.modules.has(ELECTIONS_MODULE_ID)) {
+      const petition = petitionOf(coreAPI(core as CoreState), door.filingId);
+      if (petition && door.knock.petition === "true")
+        facts.due = {
+          text: spokenDate(petition.due, core.date),
+          sourceRecordIds: [petition.id],
+        };
+    }
+    // What matters to the resident, asked (ruling 72): their strongest
+    // question from their own views, with their side and the reason from
+    // their life on record. One who has taken up no question of their own
+    // has no view strong enough to name.
+    Object.assign(facts, doorViewFacts(core, askerId, door.contestId));
+    // A second knock: the two have met at this door, so the player does not
+    // introduce themself as a stranger again.
+    if (door.knock.first === "false")
+      facts["knocked-before"] = {
+        text: "yes",
+        sourceRecordIds: [moment.causeId],
+      };
   }
-  // The player asks: their lines speak to the colleague by name.
-  else if (standing) {
+  // The player asks: their lines speak to the colleague by name. A serve ask
+  // set its names above, from the prospect's record.
+  else if (standing && !serve) {
     facts.name = {
-      text: `${asked.givenName} ${asked.familyName}`,
+      text: sayPerson(asked),
       sourceRecordIds: [askedId],
     };
     facts.first = { text: asker.givenName, sourceRecordIds: [askerId] };
@@ -1348,10 +1991,28 @@ function composeBinding(
       };
   }
   // The kind's own arc, or the variant of it the records give this cause. A
-  // scene where the player asks plays the kind's own arc: its variants are
-  // the colleague's ask of the player.
+  // scene where the player asks a colleague plays the kind's own arc: its
+  // variants are the colleague's ask of the player. At a door the resident
+  // is the asker, and the variant is what their own records give them to
+  // talk about (a layoff, a rent notice, an illness in the house); on a
+  // second knock they raise the next record down, so the same door is not
+  // the same scene twice.
+  const variantFacts = door ? { ...said, ...door.knock } : said;
+  // A cause no variant was written for (a speech heard, for the door
+  // families, whose variants are a resident's records at a door) plays the
+  // purpose's own arc and its own lines; a purpose with neither is not
+  // offered rather than played on another cause's lines.
+  if (
+    type.purpose &&
+    (!type.playerAsks || door) &&
+    !hasArcFor(type.purpose, variantFacts)
+  )
+    return {
+      kind: "skipped",
+      reason: `no ${type.purpose} arc for this cause`,
+    };
   const variant =
-    type.purpose && !type.playerAsks
+    type.purpose && (!type.playerAsks || door)
       ? chooseVariant(core, {
           family: type.purpose,
           askerId,
@@ -1359,9 +2020,10 @@ function composeBinding(
           cause: {
             id: moment.causeId,
             date: record?.date ?? moment.date,
-            facts: said,
+            facts: variantFacts,
           },
           setting: binding.setting.kind,
+          ...(door?.knock.first === "false" ? { nextDown: true } : {}),
         })
       : null;
   // What the records gave the variant, for the lines that say it: every read
@@ -1376,8 +2038,10 @@ function composeBinding(
           sourceRecordIds: [...variant.recordIds],
         };
   // A constituent's own records, worded: the job they lost, the notice on
-  // their rent, the pay under the floor, the relative who is ill.
-  if (variant && type.purpose === "constituent-help")
+  // their rent, the pay under the floor, the relative who is ill. A resident
+  // at their door speaks from the same records. Office hours always carries
+  // the case's own facts, whether or not a variant was chosen.
+  if (type.purpose === "constituent-help" || (variant && door))
     Object.assign(
       facts,
       constituentFacts(
@@ -1415,6 +2079,13 @@ function composeBinding(
     variant && variant.purpose !== type.purpose
       ? { ...type, purpose: variant.purpose, family: type.purpose }
       : type;
+  // At a door, the pieces of the player's earlier door scenes (earlier days)
+  // are shown: an unused fitting piece is said first, so the opening and the
+  // rest differ from outing to outing (Words lead, Nov 14, ruling 67).
+  const doorDay = record?.date ?? moment.date;
+  const seenAtDoors = door
+    ? doorPiecesBefore(core, askedId, doorDay, moment.causeId)
+    : undefined;
   const result = composeSceneTalk(
     core,
     director,
@@ -1422,9 +2093,14 @@ function composeBinding(
     played,
     facts,
     standing ? { standing } : {},
-    wording,
+    seenAtDoors?.size ? { ...wording, shown: seenAtDoors } : wording,
   );
   if (result.kind !== "composed") return result;
+  if (door)
+    keepDoorPieces(core, askedId, doorDay, moment.causeId, result.talk.tree, [
+      ...result.talk.narration,
+      result.talk.state,
+    ]);
   return {
     kind: "composed",
     scene: {
@@ -1464,7 +2140,14 @@ function doorStanding(
   causeId: string,
   residentId: PersonId,
   purpose: string,
-): { standing: AskStanding; office: string; contestId: string } | null {
+): {
+  standing: AskStanding;
+  office: string;
+  contestId: string;
+  /** The candidate's filing in the contest, when one is on record. */
+  filingId?: string;
+  knock: Record<string, string>;
+} | null {
   if (
     !core.modules.has(CAMPAIGNS_MODULE_ID) ||
     !core.modules.has(ELECTIONS_MODULE_ID)
@@ -1493,6 +2176,15 @@ function doorStanding(
       ? petitionAtDoor(core, cause.candidateId as PersonId, residentId)
       : undefined;
   if (petition === null) return null;
+  const filing = (
+    api
+      .moduleState(ELECTIONS_MODULE_ID)
+      .table("filings")
+      .query("byPerson", [cause.candidateId]) as unknown as {
+      id: string;
+      contestId: string;
+    }[]
+  ).find((row) => row.contestId === impression!.contestId);
   return {
     standing: {
       lean: petition ? (petition.signed ? P.one : -P.one) : cause.warmthAfter,
@@ -1500,8 +2192,225 @@ function doorStanding(
     },
     office: contest.title,
     contestId: impression!.contestId!,
+    ...(filing ? { filingId: filing.id } : {}),
+    knock: knockFacts(core, cause),
   };
 }
+
+/**
+ * Where someone the player asked to serve stands: the serve-asks engine's
+ * read kept with the ask (their record and the player's on the day asked),
+ * never read again while the scene is open.
+ */
+function serveStanding(
+  core: Readonly<CoreState>,
+  said: Readonly<Record<string, string>>,
+  prospectId: PersonId,
+):
+  | {
+      standing: AskStanding;
+      office: string;
+      askId: string;
+      question: string;
+      reason: string;
+      yesReason: string;
+      grounds: ServeGrounds;
+      terms: Readonly<Record<string, number>>;
+      raceOffice: string;
+      moved: string | null;
+    }
+  | undefined {
+  const row = serveAsk(coreAPI(core as CoreState), said.askId ?? "");
+  if (!row || row.askedId !== prospectId) return undefined;
+  return {
+    standing: {
+      lean: row.standing.lean,
+      favor: P.zero,
+      // A stranger who would say yes asks the player one thing first; on
+      // their own question, a hedge is weighed as the player's stance unsaid.
+      asksFirst: !row.standing.grounds.knows && row.standing.lean > P.zero,
+      hedged:
+        row.standing.yesReason === "agree"
+          ? leanIfHedged(row)
+          : row.standing.lean,
+    },
+    terms: row.standing.terms,
+    raceOffice: row.raceOffice,
+    office: row.office,
+    askId: row.id,
+    question: row.standing.grounds.question,
+    reason: row.standing.reason,
+    yesReason: row.standing.yesReason,
+    grounds: row.standing.grounds,
+    moved: row.moved ?? null,
+  };
+}
+
+/**
+ * An office as a person says it aloud (Words lead, rule 100): "lieutenant
+ * governor", "state representative", the place it is of kept as named
+ * ("attorney general of Guam").
+ */
+function officeSaidAloud(title: string): string {
+  const at = title.indexOf(" of ");
+  return at < P.zero
+    ? officeInSentence(title)
+    : `${officeInSentence(title.slice(P.zero, at))}${title.slice(at)}`;
+}
+
+/**
+ * What a resident says matters to them when the player asks at the door
+ * (Words lead, Nov 14, ruling 72), from the views engine: the question they
+ * hold the strongest view on of those they have taken up (a stance record of
+ * their own), their side, and the reason from their life when one is on
+ * record (`viewReason`: their work, or money tight at home). One who has
+ * taken up no question says so (`no-view`). `view-question` names the
+ * question for the reply's record, which the player then holds.
+ */
+function doorViewFacts(
+  core: Readonly<CoreState>,
+  residentId: PersonId,
+  contestId: string,
+): Record<string, Fact> {
+  if (!core.modules.has(VIEWS_MODULE_ID)) return {};
+  const api = coreAPI(core as CoreState);
+  const own = new Set(stancesOf(api, residentId).map((row) => row.topic));
+  const none = {
+    "no-view": {
+      text: "yes",
+      sourceRecordIds: [viewRecordId(residentId)],
+    },
+  };
+  const lean = viewOf(api, residentId)?.lean;
+  if (!own.size || lean === undefined) return none;
+  // A resident says a view as what it does to them (Words lead, rule 103):
+  // only a question their own record touches (their job, their bills, their
+  // home) on the side they hold, so one their life does not reach is not
+  // volunteered.
+  const touches = (question: string) =>
+    doorViewReason(
+      core,
+      residentId,
+      question,
+      viewOn(api, residentId, question, lean) > P.zero ? "for" : "against",
+    );
+  // What the office can touch comes first (rule 99): the strongest such view
+  // on a question the race's level of government may decide (the power
+  // catalog's one reader, `policyAuthority`), and only with none, the
+  // strongest of all, which the player cannot promise on.
+  const level = contestPolicyLevel(core, contestId);
+  const local = level
+    ? strongestQuestion(
+        api,
+        residentId,
+        (question) =>
+          own.has(question) &&
+          touches(question) !== null &&
+          policyAuthority(api, question, level).allowed,
+      )
+    : null;
+  const top =
+    local ??
+    strongestQuestion(
+      api,
+      residentId,
+      (question) => own.has(question) && touches(question) !== null,
+    );
+  if (!top || !own.has(top.question)) return none;
+  const reason = touches(top.question);
+  if (!reason) return none;
+  const ids = [top.recordId];
+  const facts: Record<string, Fact> = {
+    about: { text: top.about, sourceRecordIds: ids },
+    [`side-${top.side}`]: { text: "yes", sourceRecordIds: ids },
+    "view-question": { text: top.question, sourceRecordIds: ids },
+    [local ? "office-decides" : "above-office"]: {
+      text: "yes",
+      sourceRecordIds: [contestId],
+    },
+    [`why-${reason.reason}`]: {
+      text: "yes",
+      sourceRecordIds: [...reason.recordIds],
+    },
+  };
+  if (reason.reason === "work")
+    facts.workplace = {
+      text: reason.employer,
+      sourceRecordIds: [...reason.recordIds],
+    };
+  // A renter may say the rent they pay: their own money (rule 101).
+  else if (reason.reason === "rent" && reason.rentMinor)
+    facts.rent = {
+      text: moneySaid(reason.rentMinor),
+      sourceRecordIds: [...reason.recordIds],
+    };
+  return facts;
+}
+
+/**
+ * What in a resident's own record a question touches: their work or their
+ * money (the views engine's reason, `viewReason`), else, for a housing
+ * question, the home they rent or own (the housing engine's dwelling).
+ */
+function doorViewReason(
+  core: Readonly<CoreState>,
+  residentId: PersonId,
+  question: string,
+  side: "for" | "against",
+):
+  | { reason: "work"; employer: string; recordIds: readonly string[] }
+  | {
+      reason: "money" | "rent" | "home";
+      recordIds: readonly string[];
+      rentMinor?: number;
+    }
+  | null {
+  const reason = viewReason(core, residentId, question, side);
+  if (reason) return reason;
+  if (questionSubject(question) !== HOUSING_SUBJECT) return null;
+  const householdId = core.people.get(residentId)?.householdId;
+  const home = householdId
+    ? dwellingTenure(coreAPI(core as CoreState), householdId)
+    : undefined;
+  // A renter feels every housing question; an owner only what zoning does
+  // to their street.
+  if (
+    !home ||
+    (home.tenure === "own" && questionTopic(question) !== ZONING_TOPIC)
+  )
+    return null;
+  return {
+    reason: home.tenure === "rent" ? "rent" : "home",
+    recordIds: [home.recordId],
+    ...(home.rentMinor ? { rentMinor: home.rentMinor } : {}),
+  };
+}
+const HOUSING_SUBJECT = "housing";
+const ZONING_TOPIC = "Planning and zoning";
+
+/**
+ * The level of government a race's seat sits at, as the power catalog reads
+ * it: the contest's own level, or for a township the level its board's row
+ * gives (data/offices/bodies.json). Null for none the catalog knows.
+ */
+function contestPolicyLevel(
+  core: Readonly<CoreState>,
+  contestId: string,
+): PolicyLevel | null {
+  const contest = coreAPI(core as CoreState)
+    .moduleState(ELECTIONS_MODULE_ID)
+    .table("contests")
+    .get(contestId) as unknown as { level: string } | undefined;
+  if (!contest) return null;
+  if (POLICY_LEVELS.has(contest.level)) return contest.level as PolicyLevel;
+  return bodyRow(`${contest.level}-board`)?.level ?? null;
+}
+const POLICY_LEVELS: ReadonlySet<string> = new Set([
+  "federal",
+  "state",
+  "county",
+  "city",
+]);
 
 /**
  * Where a colleague the player asks stands on the bill the record names: their
@@ -1518,9 +2427,12 @@ function askStanding(
     return undefined;
   const api = coreAPI(core as CoreState);
   if (!billOf(api, said.billId)) return undefined;
+  const price = askPrice(api, said.billId, colleagueId, playerId);
   return {
     lean: memberPosition(api, said.billId, colleagueId).total,
     favor: favorWorth(api, colleagueId, playerId),
+    ...(price ? { price: price.after } : {}),
+    absence: absenceCarries(api, said.billId, colleagueId, playerId),
   };
 }
 
@@ -1651,19 +2563,80 @@ function deskFacts(
   const api = coreAPI(core as CoreState);
   const bill = billOf(api, said.billId);
   if (!bill) return;
-  const votes = votesOn(api, bill.id);
-  const yes = votes.filter((row) => row.vote === "yes").length;
-  const no = votes.filter((row) => row.vote === "no").length;
-  // The roll, for and against; the bank's lines join them.
-  if (yes + no > P.zero) {
-    const roll = (text: string) => ({
-      text,
+  // The bill as the visitor says it: by its name and what it does, never by
+  // its number alone (the number sits on the desk's paper).
+  const title = billTitleOf(bill);
+  if (title) {
+    facts.bill = {
+      text: billTitleSaid(title.title),
       sourceRecordIds: [causeId, bill.id],
-    });
-    facts.roll = roll("yes");
-    facts.ayes = roll(String(yes));
-    facts.nays = roll(String(no));
+    };
+    facts.purpose = { text: title.purpose, sourceRecordIds: [bill.id] };
   }
+  // How it passed, said as people say it, never as a count (owner, Nov 14
+  // 00:50Z; Words lead rule 50): nobody against it, enough to override a
+  // veto in every chamber, or short of that, by the chambers' own tallies.
+  const passage = deskPassage(api, bill.id);
+  if (passage)
+    facts[passage] = { text: "yes", sourceRecordIds: [causeId, bill.id] };
+  // Why the members who voted no did, from the reasons their positions on
+  // record weigh most against it: their voters, the groups that pressed
+  // them, their party, or their own views (rule 93: the other side's reason
+  // on record; with nobody against it there is none to tell). The groups are
+  // a reason only when the group that met them has a name to say.
+  const against = votesOn(api, bill.id).filter((row) => row.vote === "no");
+  const cited = [causeId, bill.id];
+  if (against.length) {
+    facts.opposed = { text: "yes", sourceRecordIds: cited };
+    const group = opposingGroup(
+      core,
+      meetingsOn(api, bill.id),
+      new Set(against.map((row) => row.memberId)),
+    );
+    if (group) facts.group = { text: group.said, sourceRecordIds: [group.id] };
+    const weight = {
+      voters: P.zero,
+      groups: P.zero,
+      party: P.zero,
+      views: P.zero,
+    };
+    for (const { position } of against) {
+      weight.voters += position.constituents;
+      weight.groups += position.lobby;
+      weight.party += (position.party ?? P.zero) + (position.wing ?? P.zero);
+      weight.views += position.views + position.trait + position.consistency;
+    }
+    const reason = Object.entries(weight)
+      .map(([why, most]) => ({ why, most }))
+      .filter(({ why, most }) => most < P.zero && (why !== "groups" || group))
+      .sort((a, b) => a.most - b.most || a.why.localeCompare(b.why))
+      .at(P.zero)?.why;
+    if (reason)
+      facts[`opposed-${reason}`] = { text: "yes", sourceRecordIds: cited };
+    // Who they are: by name when they are few enough to say (Words lead,
+    // Nov 14: three or fewer), else by the reason they share.
+    const names = against.map((row) => core.people.get(row.memberId));
+    if (against.length <= P.two + P.one && names.every(Boolean))
+      facts.names = {
+        text: new Intl.ListFormat("en-US").format(
+          names.map((person) => `${person!.givenName} ${person!.familyName}`),
+        ),
+        sourceRecordIds: [...cited, ...against.map((row) => row.memberId)],
+      };
+  }
+  // What it costs, from the budget lines it adds to: one rounded sum a year,
+  // or nothing the budget shows (Words lead, Nov 14).
+  const added = bill.provisions.reduce(
+    (sum, p) =>
+      p.kind === "budget-line" && p.value > P.zero ? sum + p.value : sum,
+    P.zero,
+  );
+  if (added > P.zero)
+    facts["budget-cost"] = {
+      text: roundedDollars(added),
+      sourceRecordIds: [bill.id],
+    };
+  else facts["no-cost"] = { text: "yes", sourceRecordIds: [bill.id] };
   if (bill.sponsorId === visitorId) {
     facts.for = {
       text: said.number ?? bill.number,
@@ -1671,12 +2644,12 @@ function deskFacts(
     };
     return;
   }
-  const against = meetingsOn(api, bill.id)
+  const lobbied = meetingsOn(api, bill.id)
     .filter(
       (row) => row.lobbyistId === visitorId && (row.side ?? -P.one) < P.zero,
     )
     .sort((a, b) => b.annualCostMinor - a.annualCostMinor);
-  const [largest] = against;
+  const [largest] = lobbied;
   if (!largest) return;
   facts.against = {
     text: said.number ?? bill.number,
@@ -1687,6 +2660,51 @@ function deskFacts(
       text: roundedDollars(largest.annualCostMinor),
       sourceRecordIds: [causeId, largest.id],
     };
+}
+
+/**
+ * The group that pressed the members who voted no hardest (the most
+ * meetings with them, then the largest case), as people say its name, or
+ * null when none met them or its record has no name to say.
+ */
+function opposingGroup(
+  core: Readonly<CoreState>,
+  meetings: readonly {
+    groupId: string;
+    memberId: string;
+    side?: number;
+    annualCostMinor: number;
+  }[],
+  noVoters: ReadonlySet<string>,
+): { id: string; said: string } | null {
+  const tally = new Map<string, { met: number; cost: number }>();
+  for (const row of meetings) {
+    if ((row.side ?? -P.one) >= P.zero || !noVoters.has(row.memberId)) continue;
+    const seen = tally.get(row.groupId) ?? { met: P.zero, cost: P.zero };
+    tally.set(row.groupId, {
+      met: seen.met + P.one,
+      cost: Math.max(seen.cost, row.annualCostMinor),
+    });
+  }
+  const ranked = [...tally]
+    .map(([groupId, seen]) => ({ groupId, ...seen }))
+    .sort(
+      (a, b) =>
+        b.met - a.met || b.cost - a.cost || a.groupId.localeCompare(b.groupId),
+    );
+  for (const { groupId } of ranked) {
+    const org = core.organizations.get(`organization:${groupId}` as never) as
+      { id: string; name: string; kind?: string; topic?: string } | undefined;
+    if (!org) continue;
+    const said =
+      org.kind === "cause-group" && org.topic
+        ? causeGroupName(org.id, org.topic)
+        : /[:_]/.test(org.name)
+          ? null
+          : `the ${org.name.charAt(P.zero).toLowerCase()}${org.name.slice(P.one)}`;
+    if (said) return { id: org.id, said };
+  }
+  return null;
 }
 
 /** The petition a filing opened, as the clerk says it, or nothing where none is on record. */
@@ -1735,16 +2753,24 @@ function voteDay(
   core: Readonly<CoreState>,
   petition: { filingId: string },
 ): Record<string, Fact> {
-  const api = coreAPI(core as CoreState);
-  const elections = api.moduleState(ELECTIONS_MODULE_ID);
-  const filing = elections
+  const filing = coreAPI(core as CoreState)
+    .moduleState(ELECTIONS_MODULE_ID)
     .table("filings")
     .get(petition.filingId) as unknown as { contestId: string } | undefined;
-  const contest = filing
-    ? (elections.table("contests").get(filing.contestId) as unknown as
-        | { id: string; primaryDate: string | null; electionDate: string }
-        | undefined)
-    : undefined;
+  return filing ? contestVoteDay(core, filing.contestId) : {};
+}
+
+/** The contest's next vote, its primary while one is ahead, else the election, said as a day. */
+function contestVoteDay(
+  core: Readonly<CoreState>,
+  contestId: string,
+): Record<string, Fact> {
+  const contest = coreAPI(core as CoreState)
+    .moduleState(ELECTIONS_MODULE_ID)
+    .table("contests")
+    .get(contestId) as unknown as
+    | { id: string; primaryDate: string | null; electionDate: string }
+    | undefined;
   if (!contest) return {};
   const day =
     contest.primaryDate && contest.primaryDate >= core.date
@@ -1795,6 +2821,64 @@ function walkThroughFacts(
       : {}),
   };
 }
+
+/** The scene type of a resident's visit to the official's office (situation-types.json). */
+const OFFICE_HOURS_TYPE = "office-hours";
+
+/**
+ * The pieces each door scene said, by the player and the cause, kept the
+ * first time the scene is composed (per world, never saved): the doors of
+ * earlier days are shown to the next door scene so its pieces differ. A
+ * scene composed again (its reply) reads the same earlier days and so the
+ * same pieces.
+ */
+const DOOR_PIECES = new WeakMap<
+  object,
+  Map<PersonId, Map<string, { date: string; parts: ReadonlySet<string> }>>
+>();
+
+function doorPiecesBefore(
+  core: Readonly<CoreState>,
+  playerId: PersonId,
+  date: string,
+  causeId: string,
+): ReadonlySet<string> {
+  const out = new Set<string>();
+  for (const [id, row] of DOOR_PIECES.get(core)?.get(playerId) ?? [])
+    if (id !== causeId && row.date < date)
+      for (const part of row.parts) out.add(part);
+  return out;
+}
+
+function keepDoorPieces(
+  core: Readonly<CoreState>,
+  playerId: PersonId,
+  date: string,
+  causeId: string,
+  tree: TreeNode,
+  opening: readonly { parts: readonly string[] }[],
+): void {
+  let byPlayer = DOOR_PIECES.get(core);
+  if (!byPlayer) DOOR_PIECES.set(core, (byPlayer = new Map()));
+  let rows = byPlayer.get(playerId);
+  if (!rows) byPlayer.set(playerId, (rows = new Map()));
+  if (rows.has(causeId)) return;
+  const parts = new Set<string>();
+  for (const line of opening) line.parts.forEach((part) => parts.add(part));
+  const walk = (node: TreeNode) => {
+    for (const line of node.lines)
+      line.parts.forEach((part) => parts.add(part));
+    for (const reply of node.replies) {
+      reply.line.parts.forEach((part) => parts.add(part));
+      if (reply.next) walk(reply.next);
+    }
+  };
+  walk(tree);
+  rows.set(causeId, { date, parts });
+}
+
+/** The player's move at a door that asks after the resident (the door arcs' `asks.middle.ask`). */
+const DOOR_ASK_AFTER = "ask";
 
 /** Hours of quarrel an ending that strains a tie writes to closeness, by what it keeps. */
 const ENDING_STRAIN = rulesFile.endingStrain as unknown as Readonly<
@@ -1881,6 +2965,7 @@ export function replyInScene(
   // strains is written to closeness (the plan, section 3: "Each 'keeps'
   // becomes a write to the engine that owns it").
   const ending = reply!.next?.end?.ending;
+  const aboutQuestion = scene.facts.find((row) => row.key === "about");
   // The concession call: conceding, or refusing to that night, is marked on
   // the reply for the press to put on the public record.
   const conceded = ending
@@ -1909,7 +2994,16 @@ export function replyInScene(
       ...(enlists && filingId ? { enlisted: filingId } : {}),
       ...(backing ? { backing } : {}),
       ...(ending ? { ending: ending.id, keeps: ending.keeps } : {}),
+      // A promise a record can settle: its kind and its tie, from the
+      // ending's row in src/director/data/promise-kinds.json (promises.ts). stopgapId:
+      // SG-WORDS-favor-promise-keeps-unread (endings with no row yet)
+      ...(ending ? promiseReplyFacts({ ...scene, endingId: ending.id }) : {}),
       ...(ending?.firmness ? { firmness: ending.firmness } : {}),
+      // A promise made on a resident's own question names it, for the
+      // Journal (ruling 72).
+      ...(ending?.keeps === "promise" && aboutQuestion
+        ? { about: aboutQuestion.text }
+        : {}),
       ...(conceded ? { conceded } : {}),
     },
     source: {
@@ -1919,6 +3013,37 @@ export function replyInScene(
     },
   });
   entry.replies = [...(entry.replies ?? []), id];
+  // Office hours: the official's answer settles the resident's case through the
+  // cases engine, the way the desk's decision does, citing this reply. "I'll
+  // make the call" and "Let me refer you" are help; "I can't help" is a decline;
+  // a reply that leaves it waiting settles nothing.
+  const caseId = scene.cause.facts.caseId;
+  const caseDecision = ending?.settles;
+  if (
+    scene.typeKey === OFFICE_HOURS_TYPE &&
+    caseId &&
+    caseDecision &&
+    core.modules.has(CASES_MODULE_ID)
+  )
+    handleCase(coreAPI(core), caseId, caseDecision, null, id);
+
+  // Asked at the door what matters to them, a resident says their strongest
+  // question and their side (ruling 72): the player holds it as a talk's
+  // listener does (the views engine's records, by the learned-view keys the
+  // person's card reads), citing this reply.
+  const question = scene.facts.find((row) => row.key === "view-question");
+  const asked = scene.talk.tree.replies[path[P.zero]!]?.line;
+  if (
+    scene.playerAsks &&
+    question &&
+    asked?.move === DOOR_ASK_AFTER &&
+    core.modules.has(VIEWS_MODULE_ID)
+  ) {
+    const residentId =
+      scene.askerId === personId ? scene.askedId : scene.askerId;
+    learnView(coreAPI(core), personId, residentId, question.recordIds, id);
+    learnViewQuestion(coreAPI(core), personId, residentId, question.text, id);
+  }
   // A swearing-in that ended in an address: the speech engine records it as
   // heard by the people the scene named in the room (swearing-in.ts).
   if (ending?.keeps === ADDRESS_KEEPS)
@@ -1954,7 +3079,6 @@ export function replyInScene(
       undefined,
       { cause: "scene-reply", sourceId: id },
     );
-  // stopgapId: SG-WORDS-favor-promise-keeps-unread
   const strain = ending ? ENDING_STRAIN[ending.keeps]?.value : undefined;
   if (strain)
     coreAPI(core).relationship(

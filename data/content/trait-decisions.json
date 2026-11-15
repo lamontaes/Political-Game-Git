@@ -608,6 +608,10 @@
           "actKinds": ["delay", "play-safe"]
         },
         {
+          "id": "come-back",
+          "actKinds": ["delay", "play-safe"]
+        },
+        {
           "id": "deflect",
           "actKinds": ["delay", "stay-quiet"]
         },
@@ -642,6 +646,10 @@
         {
           "id": "comfort",
           "actKinds": ["help-others"]
+        },
+        {
+          "id": "defer",
+          "actKinds": ["play-safe", "concede"]
         },
         {
           "id": "apologize",
@@ -1830,6 +1838,22 @@
         {
           "id": "blame-outsiders",
           "actKinds": ["distrust", "self-interest", "keep-same"]
+        }
+      ]
+    },
+    {
+      "id": "views.own-stake",
+      "site": "src/core2/life-stakes.ts",
+      "owner": "views",
+      "route": "formula",
+      "options": [
+        {
+          "id": "common-good",
+          "actKinds": ["help-others", "cooperate"]
+        },
+        {
+          "id": "own-stake",
+          "actKinds": ["self-interest"]
         }
       ]
     }

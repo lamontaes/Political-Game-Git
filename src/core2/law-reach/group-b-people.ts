@@ -4,6 +4,7 @@
  * Age, household size and income, work hours and the children in the house
  * come from each person's own records (jobs, work commitments, household).
  */
+import type { GroupQuartersType } from "../group-quarters-types";
 import parameters from "../data/laws/reach-group-b-parameters.json" with { type: "json" };
 import { ageOnDate, makeIsoDate } from "../kernel/dates";
 import { parameter } from "../parameters";
@@ -23,6 +24,7 @@ import type {
 
 interface ParameterRow {
   readonly value: number;
+  readonly spread?: readonly [number, number];
 }
 const table = parameters as unknown as {
   parameters: Record<string, ParameterRow>;
@@ -50,6 +52,14 @@ export function reachParameter(key: string): number {
   return row.value;
 }
 
+/** The low and high ends of a law-reach parameter's spread. */
+export function reachParameterSpread(key: string): readonly [number, number] {
+  const row = table.parameters[key];
+  if (!row?.spread)
+    throw new Error(`No spread for law-reach parameter: ${key}`);
+  return row.spread as unknown as readonly [number, number];
+}
+
 export function graduatedSchedule(scope: "state" | "local") {
   return table.graduatedSchedules[scope];
 }
@@ -64,8 +74,17 @@ export interface PeopleSelector {
   readonly hoursBelowPerMonth?: string;
   /** No child of the household is younger than this (an exemption). */
   readonly noChildBelow?: string;
+  /** A child of the household is younger than this (a program for families with a minor child). */
+  readonly withChildBelow?: string;
   /** One record per household: its oldest member who matches. */
   readonly householdHead?: boolean;
+  /**
+   * The group-quarters types a means-tested program serves. A room has no
+   * household income of its own to test, so a selector with an income line
+   * reaches a room only where its type is named here (a program's own
+   * eligibility rule); absent, it serves none.
+   */
+  readonly servesGroupQuarters?: readonly GroupQuartersType[];
 }
 
 /** One resident's facts, named or counted. */
@@ -94,6 +113,8 @@ export interface HouseholdFacts {
   readonly ages: readonly number[];
   /** Real households this counted row stands for (absent means one). */
   readonly scale?: number;
+  /** The group-quarters type of its room; absent for a household. */
+  readonly quarters?: GroupQuartersType;
 }
 
 export interface TownFacts {
@@ -218,6 +239,9 @@ export function townFacts(api: CoreAPI, townPlaceId: string): TownFacts {
         ? { retirementDollars: retirementMinor / cents }
         : {}),
       ages,
+      ...(core.households.get(householdId)?.quarters
+        ? { quarters: core.households.get(householdId)!.quarters }
+        : {}),
     });
   }
   // Counted residents: their groups' members, read from the packed columns
@@ -277,6 +301,7 @@ export function townFacts(api: CoreAPI, townPlaceId: string): TownFacts {
             : {}),
           ages,
           ...(scale !== 1 ? { scale } : {}),
+          ...(h.quarters ? { quarters: h.quarters } : {}),
         });
     }
   }
@@ -321,6 +346,7 @@ export function selectResidents(
           reachParameter("weeksPerYear")
         : undefined;
   const childBelow = p(selector.noChildBelow);
+  const needsChildBelow = p(selector.withChildBelow);
   const adult = reachParameter("votingAge");
   const out: ResidentFacts[] = [];
   for (const r of facts.residents) {
@@ -333,6 +359,14 @@ export function selectResidents(
     if (weekly !== undefined && r.weeklyMinutes >= weekly) continue;
     const household = facts.households.get(r.householdId);
     if (!household) continue;
+    // A room has no household income to test: a means-tested program
+    // reaches it only where its own rule serves the room's type.
+    if (
+      incomeShare !== undefined &&
+      household.quarters &&
+      !selector.servesGroupQuarters?.includes(household.quarters)
+    )
+      continue;
     if (
       incomeShare !== undefined &&
       household.incomeDollars >=
@@ -342,6 +376,11 @@ export function selectResidents(
     if (
       childBelow !== undefined &&
       household.ages.some((age) => age < Math.min(childBelow, adult))
+    )
+      continue;
+    if (
+      needsChildBelow !== undefined &&
+      !household.ages.some((age) => age < Math.min(needsChildBelow, adult))
     )
       continue;
     out.push(weight === 1 ? r : { ...r, weight });

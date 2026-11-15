@@ -18,6 +18,7 @@ import {
 import type { OfficeInput } from "./offices-local";
 import { POLICY_QUESTIONS } from "./policy-answers";
 import { LEGISLATURE_MODULE_ID, type BillRow } from "./modules/legislature";
+import { ELECTIONS_MODULE_ID } from "./modules/elections";
 
 export type WireLevel = "town" | "county" | "state" | "nation";
 
@@ -107,6 +108,35 @@ function seatOffice(
 }
 
 /**
+ * A campaign's gift or endorsement is the news of its race, wherever the
+ * donor lives: its level is the level of the office the race fills (a US
+ * Senate gift from a town's donor is the nation's news, a county seat's the
+ * county's), not the town's because the record is kept there. Null for any
+ * other record, and where the race or its level is not on the books.
+ */
+const RACE_RECORDS: ReadonlySet<string> = new Set([
+  "campaign-gift",
+  "campaign-endorsed",
+]);
+function raceLevel(
+  api: CoreAPI,
+  event: Readonly<CoreEventInput>,
+): WireLevel | null {
+  const contestId = event.facts?.contestId;
+  if (
+    !RACE_RECORDS.has(event.kind) ||
+    !contestId ||
+    !api.state.modules.has(ELECTIONS_MODULE_ID)
+  )
+    return null;
+  const contest = api
+    .moduleState(ELECTIONS_MODULE_ID)
+    .table("contests")
+    .get(contestId) as unknown as { readonly level?: string } | undefined;
+  return (contest?.level && LEVELS[contest.level]) || null;
+}
+
+/**
  * The wire item a public record makes for a town's press, or null when it is
  * outside what the town's outlets cover (another state's report).
  */
@@ -136,6 +166,7 @@ export function wireItem(
   // whatever level the act itself was passed at.
   if (String(event.placeId).startsWith("national:")) level = "nation";
   else if (seat) level = LEVELS[seat.level] ?? "town";
+  else if (raceLevel(api, event)) level = raceLevel(api, event);
   else if (facts.level && LEVELS[facts.level]) level = LEVELS[facts.level]!;
   else if (authority) level = authority;
   else if (event.placeId === town.placeId) level = "town";

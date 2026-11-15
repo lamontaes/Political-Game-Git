@@ -1,4 +1,5 @@
 import { lawDid } from "./law-did";
+import { stateRollCall } from "./states";
 import {
   drawAheadNow,
   drawAheadOn,
@@ -30,7 +31,7 @@ import { BenchPlayer } from "./player";
 import { buildBenchWorld, buildBenchWorldInStages } from "./world";
 import { gameStartDate } from "../core2/game-start";
 import { knownCard, personCard } from "./card";
-import { OPENING_EVENING_MINUTE, openingFrames } from "./opening";
+import { openingArrivalMinute, openingFrames } from "./opening";
 import { calendarItems, heardItems, newsItems } from "./calendar";
 import { nationStories } from "./nation-news";
 import {
@@ -39,6 +40,8 @@ import {
   donationAsksView,
   campaignDay,
   campaignView,
+  runningMateAsked,
+  runningMatePicked,
   playerRecord,
   debateAnswer,
   speechBegin,
@@ -59,8 +62,16 @@ import {
   stayedHomeLine,
 } from "./election-night";
 import { followsAnyOutlet, homePapers, wordOwnResult } from "./archive-words";
-import { openingsView } from "./openings";
-import { billPaper, seatAct, seatView } from "./legislature";
+import { leaveJobAs, openingsView } from "./openings";
+import {
+  billPaper,
+  isByRequest,
+  seatAct,
+  seatAsk,
+  seatAskOptions,
+  seatView,
+} from "./legislature";
+import { storyPicture } from "./news-picture";
 import {
   billPageView,
   billStage,
@@ -92,6 +103,7 @@ import {
   nominationsView,
   budgetLinePick,
   officeView,
+  officeStops,
 } from "./office";
 import { bankView } from "./bank";
 import { budgetView, setPriority } from "./budget";
@@ -109,6 +121,7 @@ import {
   backdropPath,
   benchScene,
   faceOf,
+  roomIds,
   scenePlace,
 } from "./scene";
 import { occluderPath } from "./occluders";
@@ -140,6 +153,8 @@ import { pollingScene } from "./polling";
 import { officeCases, decideCase } from "./office-cases";
 import {
   meetOverTalk,
+  noteHeard,
+  noteSceneHeard,
   openConversation,
   say,
   sayNothing,
@@ -157,14 +172,14 @@ import {
 } from "./government";
 import { governmentBodies } from "./government-bodies";
 import type { Director } from "../director/ledger";
-import type { CoreState } from "../core2/types";
+import type { CoreState, PersonId } from "../core2/types";
 import { benchProgress } from "./progress";
 import { townPlaces, visitPlace } from "./places";
 import { officeholders } from "./officeholders";
 import { lawChanges } from "./changes";
 import { patchNoteReleases } from "./patch-notes";
 import { governmentMap } from "./map";
-import { budgetLineNames, choiceName, policyNames } from "./words";
+import { actionNames, budgetLineNames, choiceName, policyNames } from "./words";
 import controls from "./data/controls.json" with { type: "json" };
 
 // This is a reference to engine-owned state, not a parallel state or writer.
@@ -244,7 +259,7 @@ function sceneNow(current: CoreState, id: string) {
           current,
           id,
           playing ? state.player!.packet : undefined,
-          openingDay ? OPENING_EVENING_MINUTE : undefined,
+          openingDay ? openingArrivalMinute(current, id) : undefined,
         );
   // Who has something to say: the director's own answer (a talk that opens with
   // no lines is no talk), read without writing anything. The room leaves the
@@ -471,6 +486,17 @@ const ROUTES: readonly Route[] = [
               row.outcome.startsWith("scene") &&
               row.bindings.length > 0,
           );
+        // Shown now, it is opened: the director's waiting list does not stop
+        // the clock for it again tomorrow.
+        if (staged?.outcome === "scene-waiting")
+          world.director.openWaiting(
+            entrant.personId as PersonId,
+            staged.momentId,
+            {
+              date: makeIsoDate(world.core.date),
+              minuteOfDay: openingArrivalMinute(world.core, entrant.personId),
+            },
+          );
         send(200, {
           personId: entrant.personId,
           placeName: world.place.displayName,
@@ -611,16 +637,27 @@ const ROUTES: readonly Route[] = [
       // A talk a scene opens is about the scene's moment.
       const occasionId = url.searchParams.get("momentId") ?? undefined;
       // The minute the talk is had at: the opening day is that evening at
-      // home, whatever the clock's own start of the day says (the opening's
-      // talks spend their minutes from the clock's morning); else the clock.
+      // home, when the household gets home (the opening's talks spend their
+      // minutes from the clock's morning); else the clock.
       const clockMinute = state.player.packet?.at.minuteOfDay;
-      const minuteOfDay =
+      const arrivalMinute =
         state.director?.ledger.opening?.date === requireCore().date
-          ? Math.max(
-              clockMinute ?? OPENING_EVENING_MINUTE,
-              OPENING_EVENING_MINUTE,
-            )
-          : clockMinute;
+          ? openingArrivalMinute(requireCore(), state.player.personId)
+          : undefined;
+      const minuteOfDay =
+        arrivalMinute === undefined
+          ? clockMinute
+          : Math.max(clockMinute ?? arrivalMinute, arrivalMinute);
+      // The room is handed to the talk (the telling): who else is here hears
+      // it, and nobody is asked after while they stand there.
+      const openingDay =
+        state.director?.ledger.opening?.date === requireCore().date;
+      const room = roomIds(
+        requireCore(),
+        state.player.personId,
+        state.player.packet,
+        openingDay ? minuteOfDay : undefined,
+      );
       state.conversation = openConversation(
         requireCore(),
         state.player.personId,
@@ -628,6 +665,7 @@ const ROUTES: readonly Route[] = [
         state.director
           ? {
               director: state.director,
+              presentIds: room,
               ...(occasionId ? { occasionId } : {}),
               ...(minuteOfDay !== undefined ? { minuteOfDay } : {}),
               // The place the player came to, so a goodbye knows it is said
@@ -649,6 +687,9 @@ const ROUTES: readonly Route[] = [
       // The player talked with them: the two have met (the encounters
       // engine's meeting, through the director's one entry for it).
       meetOverTalk(requireCore(), state.conversation);
+      // What they said is heard today by the player (the telling's "said
+      // today"): the next housemate says something else.
+      noteHeard(requireCore(), state.conversation);
       send(200, talkView(state.conversation));
       return;
     },
@@ -1192,6 +1233,8 @@ const ROUTES: readonly Route[] = [
       send(200, {
         ...controls,
         policyNames: { ...policyNames(), ...budgetLineNames() },
+        // An act's name for the journal of acts and a place's reasons.
+        actions: actionNames(),
       });
       return;
     },
@@ -1591,6 +1634,23 @@ const ROUTES: readonly Route[] = [
   },
   {
     match: ({ request, url }) =>
+      request.method === "POST" && url.pathname === "/api/office/stops",
+    run: async ({ url, send }) => {
+      if (!state.player?.personId) throw new Error("Choose a resident first.");
+      send(
+        200,
+        officeStops(
+          requireCore(),
+          state.player.personId,
+          url.searchParams.get("key") ?? "",
+          url.searchParams.get("on") === "true",
+        ),
+      );
+      return;
+    },
+  },
+  {
+    match: ({ request, url }) =>
       request.method === "POST" && url.pathname === "/api/office/hire-aide",
     run: async ({ url, send }) => {
       if (!state.player?.personId) throw new Error("Choose a resident first.");
@@ -1639,12 +1699,46 @@ const ROUTES: readonly Route[] = [
       return;
     },
   },
+  // Who an executive may ask to carry the bill just drafted, the likeliest yes marked.
+  {
+    match: ({ request, url }) =>
+      request.method === "GET" && url.pathname === "/api/seat/ask-options",
+    run: async ({ url, send }) => {
+      if (!state.player?.personId) throw new Error("Choose a resident first.");
+      const q = (key: string) => url.searchParams.get(key) ?? undefined;
+      send(
+        200,
+        seatAskOptions(requireCore(), state.player.personId, {
+          officeId: q("officeId"),
+          series: q("series"),
+          question: q("question"),
+          line: q("line"),
+          value: q("value") === undefined ? undefined : Number(q("value")),
+        }),
+      );
+      return;
+    },
+  },
   {
     match: ({ request, url }) =>
       request.method === "POST" && url.pathname === "/api/seat/act",
     run: async ({ url, send }) => {
       if (!state.player?.personId) throw new Error("Choose a resident first.");
       const q = (key: string) => url.searchParams.get(key) ?? undefined;
+      if (isByRequest(requireCore(), state.player.personId, q("officeId"))) {
+        send(
+          200,
+          seatAsk(requireCore(), state.player.personId, {
+            officeId: q("officeId"),
+            series: q("series"),
+            question: q("question"),
+            line: q("line"),
+            value: q("value") === undefined ? undefined : Number(q("value")),
+            memberId: q("memberId"),
+          }),
+        );
+        return;
+      }
       send(
         200,
         seatAct(requireCore(), state.player.personId, {
@@ -1654,6 +1748,30 @@ const ROUTES: readonly Route[] = [
           question: q("question"),
           line: q("line"),
           value: q("value") === undefined ? undefined : Number(q("value")),
+          // A phase-in: each step's amount and the day it takes effect.
+          ...(q("steps")
+            ? {
+                steps: (
+                  JSON.parse(q("steps")!) as {
+                    value: number;
+                    effectiveDate: string;
+                  }[]
+                ).map((step) => ({
+                  value: Number(step.value),
+                  effectiveDate: String(step.effectiveDate),
+                })),
+              }
+            : {}),
+          // A phase-in by a percent a year.
+          ...(q("risePercent")
+            ? {
+                risePerYear: {
+                  percent: Number(q("risePercent")),
+                  years: Number(q("riseYears")),
+                  firstDate: String(q("riseFirstDate")),
+                },
+              }
+            : {}),
         }),
       );
       return;
@@ -1737,7 +1855,7 @@ const ROUTES: readonly Route[] = [
           // The opening day's scene is that evening at home (as /api/scene).
           state.player.packet?.at.minuteOfDay ??
             (state.director.ledger.opening?.date === requireCore().date
-              ? OPENING_EVENING_MINUTE
+              ? openingArrivalMinute(requireCore(), state.player.personId)
               : 12 * 60),
           // ?held=1 on the play page: the grading view, held lines marked.
           { held: url.searchParams.get("held") === "1" },
@@ -1773,6 +1891,13 @@ const ROUTES: readonly Route[] = [
     run: async ({ url, send }) => {
       if (!state.player?.personId || !state.director)
         throw new Error("Choose a resident first.");
+      // The scene's story is heard for the day: talk does not tell it again.
+      noteSceneHeard(
+        requireCore(),
+        state.director,
+        state.player.personId,
+        url.searchParams.get("momentId") ?? "",
+      );
       send(
         200,
         storyReply(
@@ -1800,6 +1925,56 @@ const ROUTES: readonly Route[] = [
       request.method === "GET" && url.pathname === "/api/campaign",
     run: async ({ url, send }) => {
       send(200, campaignView(requireCore(), url.searchParams.get("id") ?? ""));
+      return;
+    },
+  },
+  // A player running for governor takes "Choose for me": the strongest of the people offered
+  // who would say yes is named, with no scene (asking someone is /api/campaign/running-mate/ask).
+  {
+    match: ({ request, url }) =>
+      request.method === "POST" &&
+      url.pathname === "/api/campaign/running-mate",
+    run: async ({ url, send }) => {
+      if (!state.player?.personId) throw new Error("Choose a resident first.");
+      send(
+        200,
+        runningMatePicked(
+          requireCore(),
+          state.player.personId,
+          url.searchParams.get("filingId") ?? "",
+        ),
+      );
+      return;
+    },
+  },
+  // A player running for governor asks one of the people offered to be their running mate:
+  // the ask plays as a scene on the clock, and only its ending names anyone (brief J).
+  {
+    match: ({ request, url }) =>
+      request.method === "POST" &&
+      url.pathname === "/api/campaign/running-mate/ask",
+    run: async ({ url, send }) => {
+      if (!state.player?.personId) throw new Error("Choose a resident first.");
+      const asked = runningMateAsked(
+        requireCore(),
+        state.player.personId,
+        url.searchParams.get("filingId") ?? "",
+        url.searchParams.get("personId") ?? "",
+      );
+      // The sit-down opens at once: the ask is the player's own press, so
+      // its scene is staged now and shown, not held for the day's close.
+      const staged = state.director?.stageOwnPress(
+        requireCore(),
+        state.player.personId as PersonId,
+        asked.eventId,
+      );
+      const spent = state.player.spend(asked.hours);
+      send(200, {
+        ...(staged ? { story: staged.momentId } : {}),
+        ...(spent
+          ? { packet: spent.packet, names: namesFor(spent.packet) }
+          : {}),
+      });
       return;
     },
   },
@@ -1957,7 +2132,7 @@ const ROUTES: readonly Route[] = [
           date: current.date,
           minuteOfDay:
             state.director?.ledger.opening?.date === current.date
-              ? OPENING_EVENING_MINUTE
+              ? openingArrivalMinute(current, state.player?.personId ?? "")
               : 12 * 60,
         },
       );
@@ -1979,7 +2154,7 @@ const ROUTES: readonly Route[] = [
         date: current.date,
         minuteOfDay:
           state.director?.ledger.opening?.date === current.date
-            ? OPENING_EVENING_MINUTE
+            ? openingArrivalMinute(current, state.player.personId)
             : 12 * 60,
       };
       const opens = counterOpening(current, filedWith, now);
@@ -2173,7 +2348,22 @@ const ROUTES: readonly Route[] = [
             const state = stateNames.get(value);
             if (state) names[value] = state;
           }
-          return Object.keys(names).length ? { ...row, names } : row;
+          // A story the paper can lead with carries the picture of what it
+          // is about, chosen from its own record.
+          const told = row as { headline?: string; lede?: string };
+          const picture =
+            (told.headline || told.lede) && facts
+              ? storyPicture(
+                  core,
+                  facts,
+                  (row as { sourceRecordIds?: string[] }).sourceRecordIds ?? [],
+                )
+              : null;
+          return {
+            ...row,
+            ...(Object.keys(names).length ? { names } : {}),
+            ...(picture ? { picture } : {}),
+          };
         }),
       );
       return;
@@ -2223,7 +2413,29 @@ const ROUTES: readonly Route[] = [
     match: ({ request, url }) =>
       request.method === "GET" && url.pathname === "/api/card",
     run: async ({ url, send }) => {
-      send(200, personCard(requireCore(), url.searchParams.get("id") ?? ""));
+      // The card also carries the clock a screen shows: the player's own while it runs, else the
+      // world's day (a dev panel's run of days lets the character go and returns no packet), so a
+      // screen that re-reads the card after any change shows today's date.
+      const core = requireCore();
+      send(200, {
+        ...personCard(core, url.searchParams.get("id") ?? ""),
+        at: state.player?.packet?.at ?? {
+          date: makeIsoDate(core.date),
+          minuteOfDay: 0,
+        },
+      });
+      return;
+    },
+  },
+  {
+    match: ({ request, url }) =>
+      request.method === "GET" && url.pathname === "/api/state/roll-call",
+    run: async ({ url, send }) => {
+      // Another state's change, its roll call in each chamber and its sponsor (states.ts).
+      send(
+        200,
+        stateRollCall(requireCore(), url.searchParams.get("lawId") ?? ""),
+      );
       return;
     },
   },
@@ -2276,6 +2488,15 @@ const ROUTES: readonly Route[] = [
         200,
         governmentView(requireCore(), url.searchParams.get("id") ?? ""),
       );
+      return;
+    },
+  },
+  {
+    match: ({ request, url }) =>
+      request.method === "POST" && url.pathname === "/api/job/leave",
+    run: async ({ send }) => {
+      if (!state.player?.personId) throw new Error("Choose a resident first.");
+      send(200, leaveJobAs(requireCore(), state.player.personId));
       return;
     },
   },

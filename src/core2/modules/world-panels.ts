@@ -8,6 +8,7 @@ import { regionalLevel, regionName } from "./regional";
 import { countedResidents } from "../electorate";
 import { JOBS_DATA, type PositionRow } from "./jobs";
 import { residentsRuntime } from "./residents";
+import { outsideLaborForce } from "../gov-rules/place-population";
 import type { CoreAPI, CoreState } from "../types";
 
 const has = (api: CoreAPI, id: string) =>
@@ -44,56 +45,96 @@ export function regionPanel(api: CoreAPI, placeId: string) {
   };
 }
 
+/** One place's labor market: residents at work, residents out of work and looking, and the jobs its employers post. */
+export interface TownLabor {
+  readonly employed: number;
+  /** Residents with no job who are looking: the people the unemployment rate counts. */
+  readonly seekers: number;
+  readonly openPositions: number;
+}
+
 /**
- * The town's own labor market today: its residents at work and looking, a
- * counted resident standing for its household's weight and a full person for
- * one (one model, two tiers), and the open positions its employers post.
+ * Every place's labor market today, counted once, by one rule (build order
+ * metrics-town-jobs-one-rule): a counted resident stands for its household's
+ * weight and a full person for one (one model, two tiers); the workers the
+ * opening placed in no town firm (commuters, and work in industries the town
+ * lacks) are at work too; a seeker who already holds a job is at work and is
+ * not counted as out of work. The month row the rate stands on, the Metrics
+ * tab, the paper and the bench's economy panel all read this one pass.
  */
-export function townJobsPanel(api: CoreAPI, placeId: string) {
+export function townLaborByPlace(api: CoreAPI): Map<string, TownLabor> {
   const c = api.state as CoreState;
-  const counted = new Map<string, number>();
-  let employed = 0;
-  for (const row of countedResidents(c)) {
-    if (row.placeId !== placeId) continue;
-    counted.set(row.id, row.weight);
-    if (row.weeklyMinutes > 0) employed += row.weight;
-  }
-  const fullHere = (personId: string) => {
-    const person = c.people.get(personId);
-    return person?.alive === true && person.placeId === placeId;
+  const out = new Map<string, { e: number; s: number; o: number }>();
+  const at = (placeId: string) => {
+    let row = out.get(placeId);
+    if (!row) out.set(placeId, (row = { e: 0, s: 0, o: 0 }));
+    return row;
   };
+  const counted = new Map<string, { placeId: string; weight: number }>();
+  for (const row of countedResidents(c)) {
+    counted.set(row.id, { placeId: row.placeId, weight: row.weight });
+    if (row.weeklyMinutes > 0) at(row.placeId).e += row.weight;
+  }
   const atWork = new Set<string>();
-  for (const job of c.jobs.values())
-    if (job.endsAt === undefined && fullHere(job.personId))
-      atWork.add(job.personId);
-  employed += atWork.size;
-  // The workers the opening placed in no town firm (commuters, and work in
-  // industries the town lacks) are at work too, paid from the place's outside account.
+  for (const job of c.jobs.values()) {
+    if (job.endsAt !== undefined || atWork.has(job.personId)) continue;
+    const person = c.people.get(job.personId);
+    if (person?.alive !== true) continue;
+    atWork.add(job.personId);
+    at(person.placeId).e += 1;
+  }
   const rt = residentsRuntime(c);
   for (const h of rt?.store.liveHouseholds() ?? [])
-    if (h.placeId === placeId)
-      employed += h.unplacedWorkers * rt!.store.weightOf(h);
-  employed = Math.round(employed);
-  const jobs = api.moduleState("jobs");
-  // Looking is a seeker's row in either table, each person once, as the jobs
-  // engine counts participation (a counted seeker filled in keeps their row).
-  const looking = new Map<string, number>();
-  for (const table of ["seekers", "countedSeekers"])
-    for (const row of jobs.table(table).rows() as unknown as {
-      personId: string;
-    }[]) {
-      const heads =
-        counted.get(row.personId) ?? (fullHere(row.personId) ? 1 : 0);
-      if (heads) looking.set(row.personId, heads);
+    if (h.unplacedWorkers > 0 && !outsideLaborForce(h.quarters))
+      at(h.placeId).e += h.unplacedWorkers * rt!.store.weightOf(h);
+  if (has(api, "jobs")) {
+    const jobs = api.moduleState("jobs");
+    // A seeker's row in either table, each person once, as the jobs engine
+    // counts participation (a counted seeker filled in keeps their row).
+    const looking = new Map<string, { placeId: string; heads: number }>();
+    for (const table of ["seekers", "countedSeekers"])
+      for (const row of jobs.table(table).rows() as unknown as {
+        personId: string;
+        employed: boolean;
+      }[]) {
+        if (row.employed) continue;
+        const group = counted.get(row.personId);
+        const person = group ? undefined : c.people.get(row.personId);
+        if (group)
+          looking.set(row.personId, {
+            placeId: group.placeId,
+            heads: group.weight,
+          });
+        else if (person?.alive === true)
+          looking.set(row.personId, { placeId: person.placeId, heads: 1 });
+      }
+    for (const { placeId, heads } of looking.values()) at(placeId).s += heads;
+    for (const row of jobs
+      .table("positions")
+      .query("byStatus", ["open"]) as unknown as PositionRow[])
+      at(row.placeId).o += row.heads ?? 1;
+  }
+  return new Map(
+    [...out].map(([placeId, row]) => [
+      placeId,
+      {
+        employed: Math.round(row.e),
+        seekers: Math.round(row.s),
+        openPositions: row.o,
+      },
+    ]),
+  );
+}
+
+/** One place's labor market today (a place with none reads zeros). */
+export function townJobsPanel(api: CoreAPI, placeId: string): TownLabor {
+  return (
+    townLaborByPlace(api).get(placeId) ?? {
+      employed: 0,
+      seekers: 0,
+      openPositions: 0,
     }
-  let seekers = 0;
-  for (const heads of looking.values()) seekers += heads;
-  let openPositions = 0;
-  for (const row of jobs
-    .table("positions")
-    .query("byStatus", ["open"]) as unknown as PositionRow[])
-    if (row.placeId === placeId) openPositions += row.heads ?? 1;
-  return { employed, seekers, openPositions };
+  );
 }
 
 /** The town's monthly hires, quits and layoffs per hundred jobs, against JOLTS 2001-2019. */
@@ -212,5 +253,5 @@ export function homePanel(api: CoreAPI, householdId: string) {
   };
 }
 
-// Re-exported so the bill stage view reads the legislature's sessions through this entry (families guard).
-export { legislativeSessionsOf } from "./world-legislating";
+// Re-exported so the bill stage view and the states screen read the legislature's sessions and roll calls through this entry (families guard).
+export { legislativeSessionsOf, rollCallOf } from "./world-legislating";

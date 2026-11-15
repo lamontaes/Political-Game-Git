@@ -1,19 +1,5 @@
 [
   {
-    "id": "SG-SPEED-fast-forward-campaigns",
-    "kind": "partial-model",
-    "file": "src/core2/modules/campaigns.ts",
-    "line": 6402,
-    "whatItFakes": "With fast-forward on (development only), a world campaign takes its turns four times as far apart, so a race is decided on fewer impressions than a played one.",
-    "why": "The owner asked for 20 years in seconds, accepted if the result makes sense in the end (Nov 8, 1:58 a.m.); a campaign's town halls, speeches and doors are most of an election year's time.",
-    "addedBy": "speed",
-    "addedAt": "2026-11-08",
-    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: A stride engine that steps the whole day loop in months for people nobody is watching; the campaign then reads the aggregate effect of its spending and reach.",
-    "status": "resolved",
-    "resolvedAt": "2026-11-10",
-    "resolvedBy": "stand-in triage T9 (owner, Nov 10: too in depth)"
-  },
-  {
     "id": "SG-SPEED-hearer-groups",
     "kind": "partial-model",
     "file": "src/core2/hearer-groups.ts",
@@ -49,6 +35,18 @@
     "addedBy": "Fable helper",
     "addedAt": "2026-11-10",
     "replacement": "A skipped month's attendance as a result the attendance writer admits without a decision (each commitment's planned minutes, the way counted workers are paid their schedule), then the payroll dispatch for every due date the month passed.",
+    "status": "open"
+  },
+  {
+    "id": "SG-SPEED-results-mode-no-campaign-effect",
+    "kind": "partial-model",
+    "file": "src/core2/modules/candidacy.ts",
+    "line": 1864,
+    "whatItFakes": "A race decided in skipped time (results mode) is counted from the voters' standing views and the candidates' records with no campaign's effect: no door, poll, ad, speech or press week moves a voter, and a filing's petition gathers no signatures on campaign turns.",
+    "why": "The fast clock, part 4 (pool item core-fast-clock-part-4-elections-counted-from-the-voters-in-skipped-time): no campaign day is played in skipped time, and the campaign's group results (core-speed-world-campaign-days-as-group-results, parts 1 to 3) are not on main yet to apply once a month.",
+    "addedBy": "opus-5234 (core-fast-clock-part-4)",
+    "addedAt": "2026-11-11",
+    "replacement": "The campaign's group results applied once a month in results mode, as core-speed-world-campaign-days-as-group-results parts 1 to 3 build them.",
     "status": "open"
   }
 ]

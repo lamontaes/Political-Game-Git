@@ -368,18 +368,6 @@
     "resolvedBy": "stand-in triage T5"
   },
   {
-    "id": "SG-P8-civic-progress",
-    "kind": "uncalibrated-tunable",
-    "file": "src/core2/data/content.json",
-    "line": 141,
-    "whatItFakes": "Prototype civic availability and organization/approach consequences, rather than complete procedures.",
-    "why": "Isolated measured prototype; incomplete mechanics cannot ship as finished behavior.",
-    "addedBy": "SOL-1258",
-    "addedAt": "2026-10-09",
-    "replacement": "An identified empirical range checked by an instrument-matched or activity-plan-matched calibration test; no parameter bound inferred from an unrelated outcome. Oct 23, 2026 (research-content-sourced-parameters): lookupHours is now ESTIMATED from ATUS 2025 Table A-1 Government services (0.91 hours for the people who did it; 0.72 to 1.06 across published years), recorded in data/research/core/bls-atus-table-a1-2025.json with ATUS volunteering (4.0 to 5.7 percent of people a day) for the civic acts. Still open: the join, organize, approach and look-up acts are prototype procedures (builder item core-stopgap-content-uncalibrated-tunable), and lookupHours stays ESTIMATED until a time-use source measures looking up an office itself.",
-    "status": "open"
-  },
-  {
     "id": "SG-P8-opening-vintage",
     "kind": "data-gap",
     "file": "src/core2/population.ts",
@@ -412,20 +400,6 @@
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
     "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Oct 28, 2026 (wire-opening-and-home, line 7): the generated school cohorts, present campus names and opening-locality proxies (buildDeepPast) are deleted; the school engine's own rule runs the school years from the player's birth year (src/core2/past-school.ts). What stays faked is the fixed stage ages; they become SOURCED when a source that follows children from kindergarten entry gives the years to each grade.",
-    "status": "resolved",
-    "resolvedAt": "2026-11-10",
-    "resolvedBy": "stand-in triage T5"
-  },
-  {
-    "id": "SG-P8-civic-inputs",
-    "kind": "civic-data-vintage-and-permission",
-    "file": "src/core2/data/civic-inputs.json",
-    "line": 3,
-    "whatItFakes": "Current indexed institution and canonical generated employer classifications stand in for historical public directories. Meeting permissions, membership acceptance, and public authority are not established by these names.",
-    "why": "Prototype offers need source-grounded civic targets while historical directory and access records are incomplete.",
-    "addedBy": "SOL-1258",
-    "addedAt": "2026-10-09",
-    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Era-specific directories with explicit institution access, membership and authority records. Oct 23, 2026 (research-deep-past-sourced-parameters): the band a school meeting-place offer should land in is in data/research/core/shpps-2012-joint-use.json (CDC School Health Policies and Practices Study 2012, Jones and Wendel 2015: 61.6% of districts, 57.5% to 65.5%, had a formal agreement letting outside groups use school property, by metro status, district size and region), reported by scripts/research/deep-past-year.ts; the builder item core-stopgap-civic-inputs-civic-data-vintage-and-permission establishes access from the district's own record and checks the town against it. Historical directories remain unsourced.",
     "status": "resolved",
     "resolvedAt": "2026-11-10",
     "resolvedBy": "stand-in triage T5"
