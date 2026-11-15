@@ -29,7 +29,7 @@ checked:
 
 **Rules.** Skill `pinned-tests`; no dice; never loosen a test to get green.
 
-**Done when.** Both files run at named places and fixed seeds in about a minute each, with the places named in the PR, red or green by the code and never by the draw, and a second session reruns them on main and sees the same result.
+**Done when.** Both files run at named places and fixed seeds in about a minute each, naming a drawn place for each case in the PR (for example Mosier, Oregon and West Memphis, Arkansas, with the seeds they failed at), red or green by the code and never by the draw, and a second session reruns them on main and sees the same result.
 
 **Waits on.** Nothing.
 
