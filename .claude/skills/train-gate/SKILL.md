@@ -52,6 +52,8 @@ Set a new or changed test's limit near twice the slower of two runs: the test al
 
 A `Words lead: train-ready` stamp is for one sha. If the head moves afterward, the stamp is void and the PR is read again, unless the diff since the stamp is lint only (prettier or eslint, nothing a player sees). Say in the post what changed between the two heads.
 
+Readers' lines are not the lead's acceptance (Nov 15, #9369). Post `Account lead Tn: train-ready` only after the lead's message accepts that exact sha, even when both readers' carry-over lines are already up. A head several Train folds behind is not accepted however clean its gate: merge the newest pushed Train head, gate again, and show each red at the same seed on the clean Train. A line posted early is struck through and marked withdrawn, and the PR goes back to draft.
+
 ## A new core2 source file needs its family and its owner (Nov 15)
 
 A new file under `src/core2` fails `tests/guards/families.test.ts` until it is in a family in `tests/guards/families.json`, and is in `.github/CODEOWNERS` (the test compares the two). When another family's file (the bench, the executive) imports it, list it under the family's `entry` too, or the guard says "Import the family's entry instead." Run that one test before pushing a PR that adds a core2 file.
