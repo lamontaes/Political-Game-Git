@@ -189,6 +189,7 @@ import { COMPOSED_CHECKS_DATA as composedChecksData } from "../english/composed-
 import { budgetPurposeSaid } from "../english/bill-names";
 import {
   organizationName,
+  businessNameSaid,
   properName,
   spoken,
   spokenDate,
@@ -425,6 +426,8 @@ export interface Conversation {
   pointed?: string[];
   /** The player gave their name in this talk, so the other may now say it (internal). */
   nameGiven?: boolean;
+  /** The other person had met the player before the day this talk opened, read before the talk stamps today as the last contact (internal). */
+  metBeforeAtOpen?: boolean;
   /** The minute of the day the talk is had at, when the caller gave it (internal). */
   minuteOfDay?: number;
   /** The organization whose place the player came to for the talk, when the screen knows it (internal). */
@@ -488,7 +491,7 @@ function jobOf(core: Readonly<CoreState>, person: Readonly<PersonState>) {
  */
 function employerWords(org: Readonly<OrganizationInput>): string | null {
   return employerSaidAs({
-    name: properName(org.name),
+    name: businessNameSaid(org),
     kind: org.kind,
     outside: !!org.outsideFlow,
     ...(org.classification ? { classification: org.classification } : {}),
@@ -1980,7 +1983,7 @@ function storyTouching(
       if (!employerId || story.facts.organizationId !== employerId) continue;
       const org = core.organizations.get(employerId);
       if (!org || !story.facts.years) continue;
-      facts.employer = fact(properName(org.name));
+      facts.employer = fact(businessNameSaid(org));
       facts.years = fact(story.facts.years);
     } else {
       const aboutId = story.facts.personId as PersonId | undefined;
@@ -4216,12 +4219,27 @@ function playerFacts(
     last.subject.aboutId
   ) {
     const seen = lastContact(core, playerId, last.subject.aboutId);
-    if (seen)
+    // The asker just said the name, so the answer says the person's pronoun,
+    // from their record (Words lead, Nov 15).
+    const gender = core.people.get(last.subject.aboutId)?.looks?.gender;
+    if (
+      last.kind === "asked-mutual" &&
+      (gender === "male" || gender === "female")
+    )
+      facts[gender === "male" ? "mutual-he" : "mutual-she"] = {
+        text: "",
+        sourceRecordIds: [last.subject.aboutId],
+      };
+    if (seen) {
       facts["my-when"] = {
         text: spokenWhen(seen.date, core.date),
         sourceRecordIds: [seen.tieId],
       };
-    else facts["my-not"] = { text: "", sourceRecordIds: [playerId] };
+      // Seen within weeks, a plain "Not in a while." would be said against
+      // the record (Words lead rule 113): the no answers wait for a long gap.
+      if (spokenWhenRow(seen.date, core.date).gap !== "long")
+        facts["my-lately"] = { text: "", sourceRecordIds: [seen.tieId] };
+    } else facts["my-not"] = { text: "", sourceRecordIds: [playerId] };
   }
   // News, by what the line before was (M5's pairs, Nov 14): a question
   // ("Did you hear ...?") is answered yes or no; the news told outright is
@@ -4348,6 +4366,56 @@ const GIVES_BACK: readonly string[] = (
   CONVERSATION_RULES as unknown as { givesBack: { kinds: string[] } }
 ).givesBack.kinds;
 
+/** The player's moves a give-back answers as well as a plain answer, and its stage for each, by the asked kind (conversation-rules.json givesBack.answers): asked back "Why do you ask?", the asker says why. */
+const GIVES_ANSWER: Readonly<Record<string, Readonly<Record<string, string>>>> =
+  (() => {
+    const answers = {
+      ...((
+        CONVERSATION_RULES as unknown as {
+          givesBack: {
+            answers?: Record<string, Record<string, string> | string>;
+          };
+        }
+      ).givesBack.answers ?? {}),
+    };
+    delete answers.about;
+    return answers as Record<string, Record<string, string>>;
+  })();
+
+/**
+ * Whether the asker last saw the person when the player says they did, so
+ * their give-back would only say the player's own words again ("I saw him a
+ * few weeks ago." "I saw him a few weeks ago."): then they say it is the same
+ * (Words lead, Nov 15). Only after an answer that said when.
+ */
+function sameWhen(
+  core: Readonly<CoreState>,
+  playerId: PersonId,
+  aboutId: PersonId,
+  seen: { date: string },
+  move: string | undefined,
+): boolean {
+  if (move === "ask-why") return false;
+  const mine = lastContact(core, playerId, aboutId);
+  return (
+    !!mine &&
+    spokenWhen(mine.date, core.date) === spokenWhen(seen.date, core.date)
+  );
+}
+
+/** The moves that are the plain answer to a question, where it has no move named plain, by the asked kind (conversation-rules.json givesBack.plain). */
+const PLAIN_ANSWERS: Readonly<Record<string, readonly string[]>> = (() => {
+  const plain = {
+    ...((
+      CONVERSATION_RULES as unknown as {
+        givesBack: { plain?: Record<string, string[] | string> };
+      }
+    ).givesBack.plain ?? {}),
+  };
+  delete plain.about;
+  return plain as Record<string, string[]>;
+})();
+
 /** The raised kinds a give-back already told, by the asked kind (conversation-rules.json givesBack.covers). */
 const GIVES_COVER: Readonly<Record<string, readonly string[]>> = (() => {
   const covers = {
@@ -4378,6 +4446,8 @@ function giveBack(
   subject: Subject,
   /** The facts the question itself already said. */
   said: readonly string[] = [],
+  /** The player's answer's move, where the give-back answers it in its own way. */
+  move?: string,
 ): {
   facts: Facts;
   stage: string;
@@ -4481,7 +4551,11 @@ function giveBack(
           sourceRecordIds: [seen.tieId],
         },
       },
-      stage: "saw",
+      // Asked back why, they say why; else what they last saw (the stage
+      // the player's move names in the rules).
+      stage: sameWhen(core, playerId, aboutId, seen, move)
+        ? "same"
+        : (GIVES_ANSWER[kind]?.[move ?? ""] ?? "saw"),
       learned: {},
     };
   }
@@ -4569,6 +4643,7 @@ function sayGiveBack(
   last: LastLine,
   answeredId: string,
   eventId: string,
+  move?: string,
 ): boolean {
   const { playerId, otherId } = conversation;
   const asked = [...conversation.lines]
@@ -4581,6 +4656,7 @@ function sayGiveBack(
     last.kind,
     last.subject,
     asked?.wording?.facts ?? [],
+    move,
   );
   const line = back
     ? composedLine(
@@ -5769,6 +5845,8 @@ function openConversationNow(
       : {}),
     ...(options.byPhone ? { byPhone: true } : {}),
     ...(options.look ? { look: true } : {}),
+    // Read now: the first reply stamps today as the last contact on the tie.
+    metBeforeAtOpen: relationFacts(core, playerId, otherId).metBefore,
   };
   const occasion = options.occasionId
     ? options.director?.ledger.people
@@ -6426,7 +6504,7 @@ function lieClaims(
         value: other.id,
         facts: {
           claimed: {
-            text: employerWords(other) ?? properName(other.name),
+            text: employerWords(other) ?? businessNameSaid(other),
             sourceRecordIds: [other.id],
           },
         },
@@ -6682,8 +6760,12 @@ function offerChoices(
     let head: Said = answer;
     let tail: Said | null = null;
     if (answer.afterPlain) {
-      const plain =
-        groups.get("plain") && answerWith(groups.get("plain")!, "plain");
+      // The plain answer: the move named plain, or the one the rules name
+      // for the question (asked about someone both know: when the player saw
+      // them, or that they have not).
+      const plain = [...(PLAIN_ANSWERS[last.kind] ?? []), "plain"]
+        .map((key) => groups.get(key) && answerWith(groups.get(key)!, key))
+        .find(Boolean);
       if (plain && !plain.asks) {
         head = plain;
         tail = answer;
@@ -6745,6 +6827,9 @@ function offerChoices(
       (last.kind === "own-view" && choiceKey === OWN_VIEW_WHY) ||
       // A day's own subject answers every reply, in composed words.
       dayBack(last.kind) ||
+      // A question turned back the asker's give-back answers ("Why do you
+      // ask?" "Just wondering. I saw her last week.").
+      !!GIVES_ANSWER[last.kind]?.[choiceKey] ||
       REPLY_MOVES.answerable.includes(replyMoveOf(last.kind, choiceKey));
     // A slot that opens a sentence is said with a capital, as every line is.
     const text = sentenceStarts(joinedReply(head, tail));
@@ -7148,11 +7233,12 @@ function saysName(
   core: Readonly<CoreState>,
   otherId: PersonId,
   playerId: PersonId,
-  conversation?: Pick<Conversation, "nameGiven">,
+  conversation?: Pick<Conversation, "nameGiven" | "metBeforeAtOpen">,
 ): boolean {
   return (
     !!conversation?.nameGiven ||
-    relationFacts(core, playerId, otherId).metBefore
+    (conversation?.metBeforeAtOpen ??
+      relationFacts(core, playerId, otherId).metBefore)
   );
 }
 
@@ -7351,7 +7437,7 @@ function partingLine(
     const mark = (name: string, ids: readonly string[]) => {
       facts[name] = { text: "yes", sourceRecordIds: ids };
     };
-    const theirJob = jobOf(core, core.people.get(speakerId)!);
+    const theirJob = sayJob(core, core.people.get(speakerId)!);
     if (
       theirJob &&
       conversation.visitOrganizationId &&
@@ -7885,7 +7971,15 @@ function sayNow(
     !doubted &&
     !choice.lie &&
     GIVES_BACK.includes(last.kind) &&
-    sayGiveBack(core, conversation, data, last, choice.answers, eventId);
+    sayGiveBack(
+      core,
+      conversation,
+      data,
+      last,
+      choice.answers,
+      eventId,
+      choice.move,
+    );
   // A raised answer the give-back already told (where they live, said as the
   // give-back) is not told again (lead, Nov 14, rule 53: one fact, once).
   const covered =

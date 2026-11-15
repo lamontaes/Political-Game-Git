@@ -33,12 +33,21 @@ import {
   votesOn,
 } from "../core2/modules/legislature";
 import { townSeats } from "../core2/modules/offices";
+import { partyTie } from "../core2/modules/elections";
+import {
+  attendMeeting,
+  leaveMeeting,
+  meetingInProgress,
+  meetingOf,
+} from "../core2/modules/office-day";
+import { sharedHistory } from "../core2/past";
+import { nextMeetingFacts } from "./meeting-facts";
 import { openConversation, say } from "./conversation";
 import { wordConversationMove } from "../english/conversation-words";
 import type { Director } from "./ledger";
 import { promiseAnswers, promiseSubject } from "./promise-talk";
 import { restoreWorld, snapshotWorld } from "../core2/snapshot";
-import { promisesBetween } from "./promises";
+import { kindOf, promisesBetween } from "./promises";
 import { purposeScene, replyInScene } from "./purpose-scene";
 import type { ScheduleEntry } from "./scheduling";
 import type { TreeNode } from "./scene-talk";
@@ -79,8 +88,10 @@ function talkOf(
       expect(["plain", "modest", "warm"], where).toContain(id);
   } else {
     expect(offered.slice(0, 3), where).toEqual(["own-it", "explain", "deny"]);
+    // Making it right promises again, only where the kind can be renewed
+    // (not a vote, not a meeting that is over).
     expect(offered.includes("make-it-right"), where).toBe(
-      subject!.promiseKind !== "vote",
+      kindOf(subject!.promiseKind).renewable,
     );
   }
   const name = (id: PersonId) => core.people.get(id)?.givenName ?? id;
@@ -251,7 +262,12 @@ function play(core: CoreState, playerId: PersonId, days: number) {
       through: { date: addDays(makeIsoDate(core.date), days), minuteOfDay: 0 },
     },
   );
-  while (packet && packet.kind !== "complete")
+  while (packet && packet.kind !== "complete") {
+    // A resident held at a meeting they marked sits through its public
+    // comment and leaves (office-day's own act, which records that they came).
+    const meeting =
+      packet.kind === "stop" ? meetingInProgress(coreAPI(core)) : undefined;
+    if (meeting?.audience === playerId) leaveMeeting(coreAPI(core), meeting.id);
     packet =
       packet.kind === "stop"
         ? resumePlayerV1(core, { kind: "stop", pauseId: packet.pauseId })
@@ -260,6 +276,7 @@ function play(core: CoreState, playerId: PersonId, days: number) {
             pauseId: packet.pauseId,
             offerId: packet.offers[0]!.offerId,
           });
+  }
 }
 
 function world(attempt: number, label: string) {
@@ -788,6 +805,168 @@ it(
       process.stdout.write(
         `VOTE\n  ${done.join("\n  ")}\n  Passed over: ${tried.join("; ") || "none"}\n`,
       );
+    } finally {
+      setBookkeeping(true);
+    }
+  },
+  TIMEOUT,
+);
+
+/** Days a friend's ask may wait, one at a time, for a town body to post its next meeting. */
+const POSTED_DAYS = 45;
+
+it(
+  `a friend's ask to come to a town body's meeting is kept by being there and broken by staying away (seed ${SEED})`,
+  () => {
+    setBookkeeping(false);
+    const tried: string[] = [];
+    const done: string[] = [];
+    try {
+      for (let draw = 0; draw < ATTEMPTS * 2 && done.length < 2; draw += 1) {
+        const { core, director, where } = world(draw, "attend");
+        const id = core.playerId as PersonId;
+        const player = core.people.get(id)!;
+        director.watch(core, id);
+        core.focusPersonIds.add(id);
+        const api = coreAPI(core);
+        // HAND-STAGED, as meeting-scene.test.ts: a townsperson the player has
+        // no tie to and shares no party with, met once, then time together
+        // until the tie turns (the relationship engine's own cause).
+        const partyOf = (pid: string) =>
+          partyTie(api, pid)?.tie === "party"
+            ? partyTie(api, pid)!.partyId
+            : null;
+        const stranger = [...core.people.values()]
+          .filter(
+            (row) =>
+              row.alive &&
+              row.tier !== "husk" &&
+              row.id.startsWith("person_") &&
+              row.id !== id &&
+              row.householdId !== player.householdId &&
+              !player.familyIds.has(row.id) &&
+              !sharedHistory(core, id, row.id as PersonId).length &&
+              (!partyOf(row.id) || partyOf(row.id) !== partyOf(id)),
+          )
+          .sort((a, b) => a.id.localeCompare(b.id))[0];
+        if (!stranger) {
+          tried.push(`${where}: no townsperson without a tie`);
+          continue;
+        }
+        const friendId = stranger.id as PersonId;
+        api.meet(id, friendId, {
+          placeId: player.placeId,
+          sourceId: "fixture-meeting",
+          cause: "met-in-group",
+          hours: 1,
+        });
+        const book = director.ledger.people.get(id)!;
+        const grew = () =>
+          book.threads
+            .get(friendId)
+            ?.turns.find((turn) => turn.turn === "grew");
+        for (let days = 0; days < 30 && !grew(); days += 1) {
+          api.relationship(id, friendId, "contact", 6);
+          advanceCore(core, addDays(makeIsoDate(core.date), 1));
+        }
+        const turn = grew();
+        if (!turn) {
+          tried.push(`${where}: the tie never turned`);
+          continue;
+        }
+        const entry = book.schedule.find(
+          (item) => item.momentId === turn.momentId,
+        );
+        if (!entry?.bindings.some((b) => b.typeKey === "becoming-friends")) {
+          tried.push(`${where}: no becoming-friends scene staged`);
+          continue;
+        }
+        // The friend asks once a town body has a meeting ahead (meetingAhead).
+        for (
+          let days = 0;
+          days < POSTED_DAYS && !nextMeetingFacts(core).meeting;
+          days += 2
+        )
+          play(core, id, 2);
+        const ahead = nextMeetingFacts(core);
+        if (!ahead.meeting) {
+          tried.push(`${where}: no town meeting ahead in ${POSTED_DAYS} days`);
+          continue;
+        }
+        const result = purposeScene(core, director, id, entry, {
+          typeKey: "becoming-friends",
+        });
+        if (result?.kind !== "composed") {
+          tried.push(`${where}: ${JSON.stringify(result)}`);
+          continue;
+        }
+        const { scene } = result;
+        expect(scene.purpose, where).toBe("friend-ask");
+        expect(
+          partyOf(friendId) && partyOf(friendId) === partyOf(id),
+          where,
+        ).toBeFalsy();
+        const request = scene.talk.lines.find((row) => row.move === "request");
+        expect(request?.text, where).toContain(ahead.body!.text);
+        const path = pathTo(scene.talk.tree, "said-yes-to-friend");
+        expect(path, `${where}: no yes`).toBeTruthy();
+        const replyId = replyInScene(core, director, id, entry, path!, {
+          typeKey: "becoming-friends",
+        })!;
+        const meetingId = ahead.meeting.sourceRecordIds[0]!;
+        expect(
+          core.durableLog.get(replyId)?.facts?.["promise-meetingId"],
+          where,
+        ).toBe(meetingId);
+        const date = meetingId.slice(-10);
+        const factId = `promise:${replyId}`;
+        const find = () =>
+          promisesBetween(director.ledger, id, friendId).find(
+            (entry) => entry.id === factId,
+          )!;
+        expect(find().outcome, where).toBe("open");
+        expect(find().meetingId, where).toBe(meetingId);
+        // A meeting not yet posted holds the word until it is (pledgeToCome):
+        // the days are played to its posting.
+        for (let step = 0; step < 30 && !meetingOf(api, meetingId); step += 1)
+          play(core, id, 2);
+        const row = meetingOf(api, meetingId);
+        expect(row, `${where}: ${meetingId} never posted`).toBeTruthy();
+        expect(row!.audience, where).toBe(id);
+        expect(row!.with, where).toContain(friendId);
+        const kept = !done.length;
+        // Broken: the player takes the mark back (the calendar's own act).
+        if (!kept) attendMeeting(api, row!.officeId, row!.date, false);
+        const days =
+          Math.round((Date.parse(date) - Date.parse(core.date)) / 86_400_000) +
+          2;
+        play(core, id, days);
+        const held = core.durableLog.get(`meeting-held:${meetingId}`);
+        expect(held, `${where}: the meeting was not held`).toBeTruthy();
+        expect(held!.personIds, where).toContain(friendId);
+        expect(find().outcome, where).toBe(kept ? "kept" : "broken");
+        expect(find().endedBy, where).toBe(held!.id);
+        // Not there, the two were apart: the broken promise waits to move the
+        // tie until it is said, so nobody "just saw" the other at the meeting.
+        const tie = [...(core.relationshipsByPerson.get(id) ?? [])]
+          .map((rid) => core.relationships.get(rid)!)
+          .find((r) => r.actorId === friendId || r.otherId === friendId)!;
+        if (!kept) {
+          expect(tie.lastContactDate < date, where).toBe(true);
+          expect(find().outcome, where).toBe("broken");
+        }
+        const said = talkOf(core, director, friendId, id, where);
+        done.push(
+          `${where}: asked "${request!.text}"\n    ${factId}, ${find().outcome} by ${held!.id} on ${find().endedAt}\n  ${said}`,
+        );
+      }
+      if (done.length === 2) {
+        process.stdout.write(
+          `ATTEND\n  ${done.join("\n  ")}\n  Passed over: ${tried.join("; ") || "none"}\n`,
+        );
+        return;
+      }
+      throw new Error(`No place played the promise: ${tried.join("; ")}`);
     } finally {
       setBookkeeping(true);
     }

@@ -184,7 +184,7 @@ function foundOutHours(
   b: PersonId,
   share: number,
 ): number {
-  return share * Math.max(tieHoursBetween(api.state, a, b), 0);
+  return share * tieHoursBetween(api.state, a, b);
 }
 
 /** What a speaker said to a claim, and the record of a false one. */
