@@ -96,19 +96,24 @@ it("a sale, an owned home's value, Metrics' typical value and a mortgage's price
     advanceCore(core, addDays(makeIsoDate(core.date), 70));
     const api = coreAPI(core);
     const housing = api.moduleState("housing");
-    const owner = [...core.households.keys()]
-      .sort()
-      .find(
-        (id) =>
-          (
-            housing.table("dwellings").get(`dwelling:${id}`) as
-              { tenure?: string } | undefined
-          )?.tenure === "own",
+    // A full-tier owner in a place with a price level and an outside market (the buyer below).
+    const owner = [...core.households.keys()].sort().find((id) => {
+      const at = core.households.get(id)!.placeId;
+      return (
+        (
+          housing.table("dwellings").get(`dwelling:${id}`) as
+            { tenure?: string } | undefined
+        )?.tenure === "own" &&
+        placePriceLevel(api, at) !== undefined &&
+        townOutsideOf(core.organizations.values(), at) !== undefined
       );
+    });
     const placeId = owner ? core.households.get(owner)!.placeId : undefined;
     const level = placeId ? placePriceLevel(api, placeId) : undefined;
     if (!owner || !level) {
-      tried.push(`${where}: no full-tier owner in a place with a price level`);
+      tried.push(
+        `${where}: no full-tier owner in a place with a price level and an outside market`,
+      );
       continue;
     }
     const stock = housing.table("stock").get(level.stockId) as unknown as {
