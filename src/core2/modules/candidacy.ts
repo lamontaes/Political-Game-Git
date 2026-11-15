@@ -54,6 +54,7 @@ import { isExplicitlyControlledPersonV1 } from "../player-control-state-v1";
 import type { OfficeInput } from "../offices-local";
 import {
   ELECTIONS_MODULE_ID,
+  feeCashInReach,
   fileCandidacy,
   filingRulesFor,
   filledByTickets,
@@ -1128,9 +1129,11 @@ export function weighContest(
     !appointed.has(p.id) &&
     ageOnDate(p.birthDate, date) >= rules.minimumAge &&
     // The filing fee weighs in the decision: someone who cannot cover it from
-    // their own cash does not decide to run (the counter's refusal is left
-    // for the player and for money that ran out in between).
-    p.liquidMinor >= rules.feeMinor &&
+    // their own cash or their household's (`feeCashInReach`) does not decide
+    // to run (the counter's refusal is left for the player and for money that
+    // ran out in between).
+    (p.liquidMinor >= rules.feeMinor ||
+      feeCashInReach(api, p.id) >= rules.feeMinor) &&
     !isExplicitlyControlledPersonV1(api.state, p.id) &&
     !committed.has(p.id) &&
     !(incumbentFiled && p.id === incumbentId) &&
@@ -1799,7 +1802,7 @@ function askBeforeWeighing(
       (member) =>
         !decisionOf(api, contest.id, member.id)?.run &&
         !isExplicitlyControlledPersonV1(api.state, member.id) &&
-        member.liquidMinor >= fee,
+        (member.liquidMinor >= fee || feeCashInReach(api, member.id) >= fee),
     );
     if (!person) continue;
     const recordId = `${PARTY_ASKED_EVENT}:${contest.id}:${party.id}:${person.id}`;

@@ -1246,14 +1246,15 @@ export function checkEligibility(
       source: "File once (owner, Oct 8)",
     },
     // The fee the place's law charges, where it charges one: the candidate
-    // must hold it when they file (it is paid at the counter).
+    // and the adults of their household must hold it between them when they
+    // file (it is paid at the counter).
     ...(rules.feeMinor > 0
       ? [
           {
             rule: "filing-fee" as const,
-            met: person.liquidMinor >= rules.feeMinor,
+            met: feeCashInReach(api, person.id) >= rules.feeMinor,
             required: `$${Math.round(rules.feeMinor / 100).toLocaleString("en-US")}`,
-            actual: `$${Math.max(0, Math.floor(person.liquidMinor / 100)).toLocaleString("en-US")}`,
+            actual: `$${Math.max(0, Math.floor(feeCashInReach(api, person.id) / 100)).toLocaleString("en-US")}`,
             source: rules.source,
           },
         ]
@@ -1426,14 +1427,64 @@ function payFilingFee(
     governments(api).find((row) => row.level === level) ??
     governments(api).find((row) => row.level === "state");
   if (!gov) return;
-  payGovernmentFee(api, {
-    id: `filing-fee:${filingId}`,
-    personId,
-    governmentId: gov.organizationId,
-    amountMinor: feeMinor,
-    reasonKey: "elections.filing-fee",
-    citation: `The filing fee the law charges for ${contest.officeId} (data/research/elections/filing-requirements.json).`,
-  });
+  // The candidate pays what they hold and the adults of their household the
+  // rest, each by their own journal post that names who paid.
+  let owed = feeMinor;
+  for (const payer of feePayers(api, personId)) {
+    if (owed <= 0) break;
+    const paying = Math.min(owed, payer.liquidMinor);
+    if (paying <= 0) continue;
+    payGovernmentFee(api, {
+      id:
+        payer.id === personId
+          ? `filing-fee:${filingId}`
+          : `filing-fee:${filingId}:${payer.id}`,
+      personId: payer.id,
+      governmentId: gov.organizationId,
+      amountMinor: paying,
+      reasonKey: "elections.filing-fee",
+      citation: `The filing fee the law charges for ${contest.officeId} (data/research/elections/filing-requirements.json)${payer.id === personId ? "" : `, paid for ${personId} by ${payer.id} of their household`}.`,
+    });
+    owed -= paying;
+  }
+}
+
+/**
+ * Who can pay a candidate's filing fee, in the order they pay: the candidate,
+ * then the other adults of their household, the one holding the most first.
+ * A new adult who lives with family holds no cash of their own, and the fee
+ * must not be what stops the golden path's filing step, so the household's
+ * cash is treated as shared for this one fee, as it is for living costs.
+ * Whether a relative would pay is their own choice (their money, their tie to
+ * the candidate): the owner's call, flagged as a stopgap.
+ */
+function feePayers(api: CoreAPI, personId: string): PersonState[] {
+  // stopgapId: SG-GOV-filing-fee-household-pays
+  const state = api.state as CoreState;
+  const candidate = state.people.get(personId as never);
+  if (!candidate) return [];
+  const adultAge = api.parameter("votingAge");
+  const ageOf = (birthDate: string) =>
+    Number(state.date.slice(0, 4)) -
+    Number(birthDate.slice(0, 4)) -
+    (state.date.slice(5) < birthDate.slice(5) ? 1 : 0);
+  const others = (state.households.get(candidate.householdId)?.memberIds ?? [])
+    .filter((id) => id !== candidate.id)
+    .flatMap((id) => {
+      const member = state.people.get(id);
+      return member?.alive && ageOf(member.birthDate) >= adultAge
+        ? [member]
+        : [];
+    })
+    .sort((a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id));
+  return [candidate, ...others];
+}
+
+/** The cash a candidate can put toward a filing fee: their own and their household's adults' (`feePayers`). */
+export function feeCashInReach(api: CoreAPI, personId: string): number {
+  const payers = feePayers(api, personId);
+  if (payers.length > 1) api.stopgap("SG-GOV-filing-fee-household-pays");
+  return payers.reduce((sum, payer) => sum + Math.max(0, payer.liquidMinor), 0);
 }
 
 /** The state a place lies in, from the place records. */

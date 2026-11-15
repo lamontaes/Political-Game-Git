@@ -2052,5 +2052,17 @@
     "addedAt": "2026-11-11",
     "replacement": "Resolved Nov 14, 2026 (elections-read-counted-cases): the counted electorate reads a counted resident's decided cases as warmth toward the official (caseWarmthsOf in constituent-cases.ts, read by countedAppeal at the election count, the primary, the door answer and the turnout reason), by the same step touchImpression applies, at the share of the record who brought the case. Was: The counted electorate reads its members' decided cases as warmth toward the official, times their count, by the same rule touchImpression applies to a full person.",
     "status": "resolved"
+  },
+  {
+    "id": "SG-GOV-filing-fee-household-pays",
+    "kind": "owner-decision",
+    "file": "src/core2/modules/elections.ts",
+    "line": 1462,
+    "whatItFakes": "A candidate's filing fee is covered by the cash of the adults of their household, as if the household's money were shared for this one fee. Nobody decides to pay: the candidate pays what they hold and the adult holding the most pays the rest.",
+    "why": "Since the fee became a check, a new adult who lives with family and holds no cash of their own could never file where the law charges a fee, which stops the golden path at its third step in 11 of the 56 places (Bennington, Kansas, Nov 15: the fee is $20, the player holds $0 and their parent $5,285). Should a filing fee ever be able to stop the player from filing, or is it only a payment? Read: OWNER-DECISIONS (Nov 14), DECISION-REGISTER, prior-rulings/laws-and-money.md, LAW; searched: filing fee, fee, filing, petition.",
+    "addedBy": "Fable B",
+    "addedAt": "2026-11-15",
+    "replacement": "The owner's ruling. If the fee may stop a candidate, a relative's own decision to pay (their money and their tie to the candidate) through the one decision engine; if it may not, the fee stays a payment the household covers.",
+    "status": "open"
   }
 ]
