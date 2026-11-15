@@ -194,6 +194,15 @@ export const OFFICE_DAY_MODULE: CoreModule = {
   onAfterDay(api) {
     for (const kit of officeActKits()) kit.onAfterDay?.(api);
   },
+  needEvaluators: {
+    // The duty of the seat a person holds: the most that any level's kit says
+    // has come due, zero for someone who holds none.
+    "office-duty": (api, actor) =>
+      officeActKits().reduce(
+        (most, kit) => Math.max(most, kit.duty?.(api, actor.id) ?? 0),
+        api.parameter("zero"),
+      ),
+  },
   // Filled from every registered level's kit when the engine opens.
   offerProviders: {},
   effectHandlers: {},
