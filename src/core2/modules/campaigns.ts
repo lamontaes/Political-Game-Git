@@ -6565,9 +6565,8 @@ export function outletWeighsRace(
       "endorsement",
       weighing.score,
     );
-    keepEndorsement(
-      api,
-      endorsementRow(campaign, api.state.date, {
+    keepEndorsement(api, {
+      ...endorsementRow(campaign, api.state.date, {
         id: `endorsement:${campaign.id}:${outlet.organizationId}`,
         speakerId: head.id,
         organizationId: outlet.organizationId,
@@ -6576,7 +6575,11 @@ export function outletWeighsRace(
         reached,
         volunteerIds: [],
       }),
-    );
+      // A paper is not a group with a cause: its head weighed the platform
+      // by their own views, so no group stance is kept for the paper to be
+      // told by ("The group wants ...", Words lead, Nov 15, on #9466).
+      stance: null,
+    });
     return true;
   }
   return false;
