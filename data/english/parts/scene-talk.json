@@ -1387,7 +1387,7 @@
       "key": "scene-talk.narrate-narrate.you-filed-for-office-and-you-haven-t-worked-out-how-the-money-lasts-remaining",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "You filed for {office}, and you haven't worked out how the money lasts {remaining}.",
+      "text": "You filed for {office}, and you haven't worked out how the money lasts until the vote.",
       "uses": [
         {
           "subject": "scene",
@@ -65846,7 +65846,7 @@
       "key": "scene-talk.reply-comfort.we-ll-make-it-through-remaining-i-won-t-spend-what-we-need-to-live-on",
       "move": "reply-comfort",
       "kind": "spoken",
-      "text": "We'll make it through {remaining}. I won't spend what we need to live on.",
+      "text": "We'll make it to the vote. I won't spend what we need to live on.",
       "uses": [
         {
           "subject": "scene",
@@ -66171,7 +66171,7 @@
       "key": "scene-talk.follow-ask.and-if-it-doesn-t-last-the-remaining",
       "move": "follow-ask",
       "kind": "spoken",
-      "text": "And if it doesn't last {remaining}?",
+      "text": "And if it doesn't last that long?",
       "uses": [
         {
           "subject": "scene",
