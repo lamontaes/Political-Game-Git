@@ -20,7 +20,7 @@ source: Lying PR (people can lie to the player), Nov 15, when trust lost became 
 
 **What.** On Nov 15 the Account lead ruled that trust lost (a lie found out) takes a share of the hours a tie stands on today, so a close tie loses more than a slight one; the Words lead agreed, and scene-talk-rules endingStrain trust-lost is now a share. A promise broken is the same loss of trust, but the director still takes a fixed two hours for it, so a broken promise costs a lifelong friend almost nothing and costs a stranger their whole tie. Seen: in dev mode, a broken promise between close friends cools their tie by a share of it, the same share a lie found out takes.
 
-**Cause.** Found in code: `promiseBrokenHours` in src/director/data/promise-kinds.json is a fixed number of hours, read where src/director/promises.ts settles a broken promise and where src/director/promise-talk.ts weighs one; its citation used to say it costs what trust lost costs, which is no longer true.
+**Cause.** Found in code: `promiseBrokenHours` in src/core2/data/promises/promise-kinds.json is a fixed number of hours, read where src/director/promises.ts settles a broken promise and where src/director/promise-talk.ts weighs one; its citation used to say it costs what trust lost costs, which is no longer true.
 
 **Fix.** Read the endingStrain trust-lost share through `tieHoursBetween` (src/core2/closeness.ts) where promises.ts settles a broken promise, and delete `promiseBrokenHours`, so one row says what lost trust costs.
 
@@ -32,4 +32,4 @@ source: Lying PR (people can lie to the player), Nov 15, when trust lost became 
 
 **Waits on.** The lying PR (people can lie to the player) on the Train.
 
-**Files.** src/director/promises.ts, src/director/promise-talk.ts, src/director/data/promise-kinds.json
+**Files.** src/director/promises.ts, src/director/promise-talk.ts, src/core2/data/promises/promise-kinds.json

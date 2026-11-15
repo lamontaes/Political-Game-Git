@@ -536,6 +536,12 @@
       "now": "src/core2/data/elections/petition-rules.json",
       "when": "2026-11-14",
       "why": "Every family of offices now reads its petition rule from one file, computed for the race's own electorate; the municipal rows moved in unchanged."
+    },
+    {
+      "old": "src/director/data/promise-kinds.json",
+      "now": "src/core2/data/promises/promise-kinds.json (the kinds, windows, answers and parameters) and src/director/data/promise-endings.json (which scene endings keep a promise)",
+      "when": "2026-11-15",
+      "why": "The promise record, its settlement and the tie it moves moved into the promises engine (core2-promises-v1); the director only words it."
     }
   ]
 }
