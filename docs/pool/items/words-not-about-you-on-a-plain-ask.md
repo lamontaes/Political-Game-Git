@@ -24,11 +24,11 @@ root: none
 
 **Fix.** The Words lead decides: place the piece only where the record holds a strained tie between the two (a fact read from the relationship the scene already loads), or reword it without "It's not about you". The player sees it in the sign-on ask's first answer.
 
-**Time box.** 30 minutes.
+**Time box.** 1 hour.
 
 **Rules.** Lines are the Words lead's; a piece is never reworded only to pass a check.
 
-**Done when.** A second session plays the sign-on ask at Wiggins, Colorado (that seed) and the first no from a colleague whose reason is their views does not say "It's not about you" unless the record holds a strained tie.
+**Done when.** A second session runs src/director/bill-sign-on.test.ts at the drawn place Wiggins, Colorado (0884770), that world seed, in a played world built by buildBenchWorld, and the first no from a colleague whose reason is their views does not say "It's not about you" unless the record holds a strained tie.
 
 **Waits on.** Nothing.
 
