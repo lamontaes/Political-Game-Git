@@ -308,6 +308,13 @@ export interface Relationship {
    * together on `lastContactDate`. Read through `lastTogether`.
    */
   lastMetDate?: IsoDate | null;
+  /**
+   * Hours of strain the row's own time did not cover, as of its last contact
+   * (a quarrel or a broken word between people whose tie is mostly time
+   * another engine reads, such as shared sittings); taken off those hours
+   * when closeness is read (closeness.ts, `tieAfter`). Absent when nothing is owed.
+   */
+  owedHours?: number;
   promise?: string;
   latestChange?: Readonly<RelationshipChangeEvidence>;
 }

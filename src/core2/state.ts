@@ -4,10 +4,11 @@ import { refreshOfficeStaff } from "./civic-inputs";
 import { initialPersonState } from "./person-state";
 import {
   CLOSENESS,
-  closenessAfter,
   lastTogether,
   openingClosenessHours,
+  sharedHoursBetween,
   temperedHours,
+  tieAfter,
 } from "./closeness";
 import { validateCompactChoice } from "./compact-choice";
 import { bookkeeping } from "./bookkeeping";
@@ -1189,12 +1190,14 @@ export function coreAPI(core: CoreState): CoreAPI {
         actualActor = core.people.get(actorId),
         actualOther = core.people.get(otherId) ?? core.husks.get(otherId),
         // Temperament sets how much the time together (or the quarrel) counts.
-        nextLevel = closenessAfter(
+        next = tieAfter(
           core,
           previous,
           row.kind,
           temperedHours(core, actualActor, core.people.get(otherId), change),
+          () => sharedHoursBetween(core, actorId, otherId),
         ),
+        nextLevel = next.level,
         storedKind = row.kind;
       const originalDecision =
         decision === undefined ? undefined : copyRelationshipEvidence(decision);
@@ -1317,6 +1320,8 @@ export function coreAPI(core: CoreState): CoreAPI {
       if (reason?.apart)
         row.lastMetDate = previous ? lastTogether(previous) : null;
       else delete row.lastMetDate;
+      if (next.owedHours) row.owedHours = next.owedHours;
+      else delete row.owedHours;
       row.lastContactDate = at;
       row.latestChange = latestChange;
       core.relationships.set(id, row);
