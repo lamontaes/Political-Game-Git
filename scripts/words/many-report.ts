@@ -262,7 +262,7 @@ function main() {
   const lines = [
     "# How many: variants per slot and versions per scene (counted)",
     "",
-    "Floors by the Words lead (Nov 14). A thin one is work for the scene's owner; this report never fails a build and never pulls a line.",
+    "Floors by the Words lead (Nov 14). A thin one is work for the scene's owner; this report never fails a build and never pulls a line. A count is a pointer, not a target: depth means lines placed by the record, never lines added to reach a floor (Account lead, Nov 15). Regenerate it from the bank with `npm run words:many -- --report <file>`; keep one current copy.",
     "",
     `Slots: ${slots.length} in the scene-talk bank; ${thinSlots.length} below their floor.`,
     ...(["common", "once", "rare"] as const).map((cls) => {
