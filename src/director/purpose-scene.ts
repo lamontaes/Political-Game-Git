@@ -14,7 +14,7 @@ import { placeStateKey } from "../core2/place-map";
 import { BUDGETS_MODULE_ID, type BudgetRow } from "../core2/modules/budgets";
 import { gameStartDate } from "../core2/game-start";
 import { personLean } from "../core2/campaign-views";
-import { appointmentsIn } from "../core2/modules/executive";
+import { appointmentsIn, EMERGENCY_OFFERED } from "../core2/modules/executive";
 import {
   LAWS_MODULE_ID,
   lawChain,
@@ -1894,6 +1894,8 @@ function composeBinding(
     cutFacts(core, facts, said, moment.causeId, askerId);
   if (record?.kind === "bill-presented")
     deskFacts(core, facts, said, moment.causeId, askerId);
+  if (record?.kind === EMERGENCY_OFFERED)
+    briefingFacts(core, facts, said, moment.causeId);
 
   // A recall petition names the member's vote; a promise to vote against
   // the bill (`promised-against`) is said only from a record of one, which no
@@ -2816,6 +2818,37 @@ function cutFacts(
     facts.years = {
       text: String(years),
       sourceRecordIds: [post.id],
+    };
+}
+
+/**
+ * What a department head says in the governor's emergency briefing: the kind of disaster the offer's
+ * record names and whether this is a later meeting on it, each with the records it came from. Said as people say it (never a count).
+ */
+function briefingFacts(
+  core: Readonly<CoreState>,
+  facts: Record<string, Fact>,
+  said: Readonly<Record<string, string>>,
+  causeId: string,
+): void {
+  const kind = said.incidentType?.toLowerCase().replace(/\//g, " or ");
+  if (kind) facts.disaster = { text: kind, sourceRecordIds: [causeId] };
+  // The briefing is a later meeting on the same disaster (the offer was left unanswered).
+  // The day the offer lapses, said as people say a date, from the same record the lapse reads.
+  if (said.closes)
+    facts.deadline = {
+      text: spokenDate(
+        said.closes,
+        core.durableLog.get(causeId)?.date ?? core.date,
+      ),
+      sourceRecordIds: [causeId],
+    };
+  if (said.again) facts.again = { text: "", sourceRecordIds: [causeId] };
+  // Which return it is: the midway one (half the window gone) or the last before the deadline.
+  if (said.returnWhen === "midway" || said.returnWhen === "last")
+    facts[`return-${said.returnWhen}`] = {
+      text: "",
+      sourceRecordIds: [causeId],
     };
 }
 
