@@ -636,9 +636,9 @@ function keepProbateOpen(
     .table("probate")
     .put({
       id: personId,
-      baseMinor: plan.baseMinor,
       share: plan.share,
-      carry: plan.carry,
+      ...(plan.baseMinor === undefined ? {} : { baseMinor: plan.baseMinor }),
+      ...(plan.carry === undefined ? {} : { carry: plan.carry }),
     } as unknown as ModuleRow);
   const month = Math.round(
     api.parameter("daysPerMeanYear") / api.parameter("macroMonthsPerYear"),
