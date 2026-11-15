@@ -91,7 +91,11 @@ import {
 import { coreStateKeyOfPlaceholderId } from "../place-lookup";
 import { firmStaffing } from "./jobs";
 import { LAWS_MODULE_ID, stateLawInForce } from "./laws";
-import { openingRegionMonths, stateOfRegions } from "../regional-model";
+import {
+  openingRegionMonths,
+  stateOfRegions,
+  type RegionMonth,
+} from "../regional-model";
 import { coarseSteps, type PreStartModule } from "../pre-start";
 import {
   LATEST_MONTH_LAG,
@@ -531,10 +535,10 @@ function recordStateHistory(
   const p = params(api);
   const table = store(api).table("countryStateMonths");
   const { startedAt, seed } = api.state;
-  const sums = (month: Readonly<MacroMonth>, fips: string) => {
-    const regions = openingRegionMonths(month, startedAt, seed, p).filter(
-      (row) => row.stateFips === fips,
-    );
+  // Each month's regions are built once and summed to every state from there.
+  const byMonth = new Map<string, Map<string, ReturnType<typeof sumOf>>>();
+  const sumOf = (rows: readonly RegionMonth[], fips: string) => {
+    const regions = rows.filter((row) => row.stateFips === fips);
     const state = stateOfRegions(regions, fips);
     return {
       unemploymentPct: state.unemploymentPct,
@@ -544,6 +548,20 @@ function recordStateHistory(
       earnedPerResident: state.earnedPerResident,
       population: regions.reduce((sum, row) => sum + row.population, p("zero")),
     };
+  };
+  const sums = (month: Readonly<MacroMonth>, fips: string) => {
+    let rows = byMonth.get(month.month);
+    if (!rows) {
+      const regions = openingRegionMonths(month, startedAt, seed, p);
+      rows = new Map(
+        [...new Set(regions.map((row) => row.stateFips))].map((state) => [
+          state,
+          sumOf(regions, state),
+        ]),
+      );
+      byMonth.set(month.month, rows);
+    }
+    return rows.get(fips)!;
   };
   const kept = yearBefore(opening.month);
   const months = history.filter(
