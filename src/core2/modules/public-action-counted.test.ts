@@ -157,11 +157,22 @@ it("Port O'Connor and Lincoln: each protest is told by how its turnout looks now
     const { actions, adults } = playTerm(label, name);
     return actions.map((row) => ({
       area: row.area,
-      people: row.participantIds.length + row.countedParticipants,
+      people: row.people,
       share: share(row, adults),
       turnout: row.turnout,
     }));
   };
+  // The paper prints the headcount its record kept when the action formed; the
+  // scene reads the row's own headcount for the month. They are one number in
+  // the month the action forms, so a group is never told over two people.
+  const played = playTerm("pa-a", "Port O'Connor, Texas");
+  for (const row of played.actions) {
+    const record = [...played.world.core.durableLog.values()].find(
+      (entry) => entry.facts?.actionId === row.id,
+    );
+    if (row.months === 1)
+      expect(Number(record?.facts?.size), row.id).toBe(row.people);
+  }
   const a = looks("pa-a", "Port O'Connor, Texas");
   const b = looks("pa-b", "Lincoln, Vermont");
   for (const row of [...a, ...b]) {
