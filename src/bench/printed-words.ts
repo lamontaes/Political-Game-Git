@@ -2913,17 +2913,15 @@ const emergency: Builder = (read, f) => {
 /** A governor's disaster window closing with nothing declared: the act not taken, and the disaster it was about. */
 const emergencyLapsed: Builder = (read, f) => {
   const id = read.first();
-  const title = f.title ?? "";
-  const incident = title === title.toUpperCase() ? title.toLowerCase() : title;
+  // The disaster as the room says it ("the flood"), from the incident type on the record.
+  const kind = f.incidentType?.toLowerCase().replace(/\//g, " or ");
   return story(
     "emergency-lapsed",
     {
       ...read.who(id, "name", false),
-      ...(incident
-        ? { incident: read.fact(incident, f.hazardRecordId ?? "") }
-        : {}),
+      ...(kind ? { disaster: read.fact(kind, f.hazardRecordId ?? "") } : {}),
     },
-    ["incident"],
+    ["disaster"],
     id,
   );
 };

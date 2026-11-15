@@ -39,6 +39,7 @@
     "to": "The amount now in force, from the law record.",
     "issue": "A policy question, by its name.",
     "incident": "The kind of disaster, from the declaration record.",
+    "disaster": "The kind of disaster as people say it (lower case), from the incident type on the disaster record.",
     "area": "The region a rate is measured for (a metro area, or the state), by name.",
     "outside": "The possessive of the state an area outside its metro areas belongs to (\"Kentucky's\", \"Texas'\"), from the regional record.",
     "candidate": "A candidate, by name, from the campaign's record.",
@@ -6474,17 +6475,17 @@
       }
     },
     {
-      "key": "headlines.emergency-lapsed.name-declares-no-emergency-over-the-incident",
+      "key": "headlines.emergency-lapsed.name-declares-no-emergency-over-the-disaster",
       "move": "emergency-lapsed",
       "kind": "written",
-      "text": "{name} declares no emergency over the {incident}",
+      "text": "{name} declares no emergency over the {disaster}",
       "uses": [
         {
           "move": "emergency-lapsed",
           "subject": "headline",
           "role": "emergency-lapsed",
           "choice": "headline",
-          "requiresFacts": ["name", "incident"]
+          "requiresFacts": ["name", "disaster"]
         }
       ],
       "origin": "authored",
@@ -6496,17 +6497,17 @@
       }
     },
     {
-      "key": "headlines.emergency-lapsed.no-emergency-declared-over-the-incident",
+      "key": "headlines.emergency-lapsed.no-emergency-declared-over-the-disaster",
       "move": "emergency-lapsed",
       "kind": "written",
-      "text": "No emergency declared over the {incident}",
+      "text": "No emergency declared over the {disaster}",
       "uses": [
         {
           "move": "emergency-lapsed",
           "subject": "headline",
           "role": "emergency-lapsed",
           "choice": "headline",
-          "requiresFacts": ["incident"]
+          "requiresFacts": ["disaster"]
         }
       ],
       "origin": "authored",

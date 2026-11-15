@@ -187344,7 +187344,8 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "emergency-briefing",
-          "key": "threat"
+          "key": "threat",
+          "excludesFacts": ["again"]
         }
       ],
       "origin": "authored",
@@ -187367,7 +187368,8 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "emergency-briefing",
-          "key": "threat"
+          "key": "threat",
+          "excludesFacts": ["again"]
         }
       ],
       "origin": "authored",
@@ -187391,7 +187393,8 @@
           "role": "asker",
           "purpose": "emergency-briefing",
           "key": "threat",
-          "requiresFacts": ["disaster"]
+          "requiresFacts": ["disaster"],
+          "excludesFacts": ["again"]
         }
       ],
       "origin": "authored",
@@ -187414,7 +187417,8 @@
           "move": "greet",
           "role": "asker",
           "purpose": "emergency-briefing",
-          "key": "threat"
+          "key": "threat",
+          "excludesFacts": ["again"]
         }
       ],
       "origin": "authored",
@@ -187438,7 +187442,8 @@
           "role": "asker",
           "purpose": "emergency-briefing",
           "key": "threat",
-          "requiresFacts": ["disaster", "homes"]
+          "requiresFacts": ["disaster", "homes"],
+          "excludesFacts": ["again"]
         }
       ],
       "origin": "authored",
@@ -187462,11 +187467,84 @@
           "role": "asker",
           "purpose": "emergency-briefing",
           "key": "threat",
-          "requiresFacts": ["disaster"]
+          "requiresFacts": ["disaster"],
+          "excludesFacts": ["again"]
         }
       ],
       "origin": "authored",
       "author": "Words lead (lines for the governor's briefing room, added by its builder as written)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "request",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-same-people-are-in-the-room-with-the-same-question",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The same people are in the room, with the same question.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["again"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "narrate",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.governor-nothing-has-changed-out-there",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Governor. Nothing has changed out there.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["again"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "greet",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.we-asked-you-last-week-we-re-asking-again-will-you-declare",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "We asked you last week. We're asking again. Will you declare the emergency?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["again"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead",
       "date": "2026-11-15",
       "tag": {
         "move": "request",
@@ -187485,7 +187563,8 @@
           "move": "agree",
           "role": "asked",
           "purpose": "emergency-briefing",
-          "key": "threat"
+          "key": "threat",
+          "excludesFacts": ["again"]
         }
       ],
       "origin": "authored",
@@ -187661,6 +187740,15 @@
           "purpose": "emergency-briefing",
           "key": "threat",
           "after": "warn"
+        },
+        {
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["again"],
+          "subject": "scene"
         }
       ],
       "origin": "authored",
