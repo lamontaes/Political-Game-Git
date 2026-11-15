@@ -8091,7 +8091,10 @@ function sayNow(
       core,
       otherId,
       `${last.kind}-back`,
-      { ...backFacts, ...youIn(core, conversation, otherId, playerId) },
+      {
+        ...nameOnce(core, conversation, otherId, playerId, backFacts),
+        ...youIn(core, conversation, otherId, playerId),
+      },
       choice.move,
       `${eventId}:back`,
       saidParts(conversation, otherId),
