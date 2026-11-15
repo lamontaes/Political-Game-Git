@@ -1,20 +1,22 @@
 /**
  * People can lie to the player (told-claims.ts; the Account lead's rule of
- * Nov 15 on OWNER-DECISIONS line 108). The player sponsors a bill on their
- * town's body that would fail by one; the evening before the floor vote the
+ * Nov 15 on OWNER-DECISIONS line 108). The player, a state senator, sponsors
+ * a bill that would fail by one; the evening before the floor vote the
  * legislature names the colleague the player needs (askBeforeTheRoll), and
- * the director stages the player's ask. The colleague's true answer is no
+ * the director stages the player's ask. The colleague is one the player
+ * knows from the chamber's sittings (sitting-closeness.ts), with no tie
+ * written for the test. The colleague's true answer is no
  * and costs them their tie with the player, so whether they say so is
  * weighed through the chooser with their temperament: one low in
- * truthfulness says yes, the same colleague high in it says no. The false
+ * truthfulness says yes, the same colleague high in it does not (it stalls
+ * or says no). The false
  * yes is kept as the player's belief and a lie record; the roll call shows
  * the no, the player learns it from the record, and the tie strains, by
  * record id.
  *
  * Staged through the game's own path at a named place and seed. The stand-in
  * (test files only): the other members' votes are chosen so the count needs
- * the colleague, the player and colleague are given time together, the
- * colleague takes the whole trait profile of the town's adult most (or
+ * the colleague, and the colleague takes the whole trait profile of the town's adult most (or
  * least) inclined to the false answer, and their no is chosen after the
  * evening so a lobby visit cannot move it.
  */
@@ -24,13 +26,14 @@ import { buildBenchWorld } from "../bench/world";
 import { beliefsOf } from "../director/conversation";
 import { billCatalog, provisionFor } from "./bill-catalog";
 import { setBookkeeping } from "./bookkeeping";
-import { closenessBetween } from "./closeness";
+import { closenessBetween, sharedHoursBetween } from "./closeness";
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import {
   bodyOf,
   castMemberVote,
+  chairHears,
   draftBill,
   memberKey,
   memberPosition,
@@ -56,37 +59,50 @@ function play(honest: boolean) {
   const api = coreAPI(core);
   const seat = townSeats(api).find(
     (row) =>
-      row.office.level === "city" &&
+      row.office.level === "state" &&
       bodyOf(api, row.office.id) &&
       members(api, row.office.id).length >= 3 &&
       members(api, row.office.id).every((term) => term.personId),
   );
-  if (!seat) throw new Error("no town body of three held seats");
+  if (!seat) throw new Error("no state chamber of held seats");
   const body = seat.office.id;
   const ids = members(api, body).map(memberKey).sort();
   for (const id of ids) fillInPerson(core, id);
-  const player = ids[0]! as PersonId;
+  // The player: the first senator, by seat, who has sat with colleagues
+  // already (a senator sworn in this term has not sat yet on day one).
+  const knownTo = (who: string) =>
+    ids.filter(
+      (id) =>
+        id !== who &&
+        sharedHoursBetween(core, who as PersonId, id as PersonId) > 0,
+    );
+  const player = ids.find((id) => knownTo(id).length)! as PersonId;
   core.playerId = player;
   for (const id of ids) {
     core.focusPersonIds.add(id as PersonId);
     director.watch(core, id as PersonId);
   }
-  // The first question the town may enact that a member stands against.
-  const policies = billCatalog(api, "city")
+  // Only colleagues the player knows from the chamber's sittings.
+  const known = knownTo(player);
+  const policies = billCatalog(api, "state")
     .flatMap((subject) => subject.topics.flatMap((topic) => topic.policies))
     .filter((row) => row.kind === "policy-question" && row.authority.allowed);
-  // Of the first questions it may enact, the one a member stands against
-  // most firmly: their own vote is no whatever the evening brings.
+  // Of the first questions the state may enact, the one a known colleague
+  // stands against most firmly: their own vote is no whatever the evening
+  // brings.
   let bill: ReturnType<typeof draftBill> | undefined;
   let colleague: PersonId | undefined;
   let firmest = 0;
-  for (const policy of policies.slice(0, 6)) {
+  for (const policy of policies.slice(0, 12)) {
     const drafted = draftBill(api, {
       bodyOfficeId: body,
       sponsorId: player,
       provisions: [provisionFor({ policyId: policy.id, operation: "enact" })],
     });
-    for (const id of ids.slice(1)) {
+    // Only a bill its committee's chair will hear reaches the floor, where
+    // the evening's ask comes.
+    if (!chairHears(api, drafted, body).heard) continue;
+    for (const id of known) {
       const total = memberPosition(api, drafted.id, id).total;
       if (total < firmest) {
         firmest = total;
@@ -95,7 +111,10 @@ function play(honest: boolean) {
       }
     }
   }
-  if (!bill || !colleague) throw new Error("no member against any bill");
+  if (!bill || !colleague)
+    throw new Error(
+      `no known colleague against any bill: ${known.length} known, ${policies.length} questions`,
+    );
   const sitting = scheduleVote(api, bill.id);
   const person = core.people.get(colleague)!;
   // The temperament: the whole trait profile of the town's adult most, or
@@ -109,12 +128,16 @@ function play(honest: boolean) {
       (a, b) => lean(a.traits) - lean(b.traits) || a.id.localeCompare(b.id),
     );
   const model = honest ? adults[0]! : adults[adults.length - 1]!;
-  person.traits = { ...model.traits };
-  api.relationship(player, colleague, "contact", 200);
-  // The rest vote so the bill fails by the colleague's no: one yes.
-  const others = ids.slice(1).filter((id) => id !== colleague);
+  // A new record, not an edit in place: the chooser keeps each person's
+  // trait lean by their record (choice.ts, kindLean).
+  core.people.set(colleague, { ...person, traits: { ...model.traits } });
+  // The rest vote so the count turns on the colleague: as many yes as no
+  // among them, or one more yes, so their yes carries the bill and the
+  // evening's count needs it.
+  const others = ids.filter((id) => id !== player && id !== colleague);
+  const yeses = Math.ceil(others.length / 2);
   others.forEach((id, i) =>
-    castMemberVote(api, bill.id, id, i === 0 ? "yes" : i % 2 ? "no" : "yes"),
+    castMemberVote(api, bill.id, id, i < yeses ? "yes" : "no"),
   );
   const asks: CoreEventInput[] = [];
   api.subscribeEvents("told-claims-test", ["vote-ahead"], (_, e) => {
@@ -173,13 +196,13 @@ function play(honest: boolean) {
   };
 }
 
-it("a colleague low in truthfulness says yes and votes no; the roll call sets the player straight", () => {
+it("a senate colleague low in truthfulness says yes and votes no; the roll call sets the player straight", () => {
   const liar = play(false);
   const honest = play(true);
   process.stdout.write(
     `TOLD CLAIMS ${liar.where}\n  low truthfulness: said ${liar.answer}, lie ${liar.lieId}, roll ${liar.vote}, found out ${liar.found.map((e) => e.id).join(",")}, closeness ${liar.before.toFixed(3)} -> ${liar.after.toFixed(3)}\n  high truthfulness: said ${honest.answer}, roll ${honest.vote}\n`,
   );
-  // The same spot, two temperaments: the honest one says no.
+  // The same spot, two temperaments: the honest one does not say yes.
   expect(honest.answer, honest.where).not.toBe("agree");
   expect(honest.lieId, honest.where).toBeUndefined();
   // The liar says yes, kept as a lie and as the player's belief.

@@ -44,6 +44,8 @@ Lead ruling, Nov 13 to 14: a test is pinned in the test file to named places wit
 
 - **Before you pin a person, read who they are.** A pinned "yes" or "no" must be someone the engine should offer at all. On Nov 15 the governor's pinned "no" at Fern Prairie, Washington was a sitting U.S. Senator from Rhode Island, offered only because the list did not filter by state; fixing the list broke the pin. Print the pinned person's place, job and any official row before pinning, and state the old premise in the PR body when a fix moves one.
 
+- **Give a person new traits as a new record, never by editing in place (Nov 15, lying thread).** The chooser caches each person's trait lean on the person record (`kindLean` in `src/core2/choice.ts`). In play, traits change through the people writer, which replaces the traits object and calls `forgetTraitLean`, so the cache is right. A test that writes `person.traits.x = ...` in place is not seen, and the person goes on choosing with their old temperament. Write `core.people.set(id, { ...person, traits: { ...newTraits } })` or call `api.updatePerson(id, { traits })`.
+
 ## Checking a reported pass
 
 Ask where it ran and at what head. A unit test that builds its own small world proves an edge case only; the played-world proof is separate. 7. **Stage a law by the game's own enactment and start from the row the game reads (Nov 15).** A test that waits played days for a bill to pass took 352 seconds and was red on a tie. Pin the place, take the starting amount from `billValueInForce` (the floor doctrine keeps the federal row on a tie, so "the local row" is the wrong start), and enact through `enactLaw`. Say in the comment why no played days are needed.
