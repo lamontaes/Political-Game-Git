@@ -6146,6 +6146,16 @@ const sheets = {
           ...group("fullHere", d.fullInTown),
           ...group("fullElsewhere", d.fullElsewhere),
           ...group("counted", d.counted),
+          ...(d.organizations?.count
+            ? [
+                row(
+                  fill(w.organizations, {
+                    n: d.organizations.count.toLocaleString("en-US"),
+                  }),
+                  roundedMoney(d.organizations.amountMinor),
+                ),
+              ]
+            : []),
           ...d.named.map((p) =>
             row(
               p.name,
@@ -6157,6 +6167,9 @@ const sheets = {
               ].join(" · "),
             ),
           ),
+          ...(d.namedOrganizations ?? [])
+            .filter((o) => o.name)
+            .map((o) => row(o.name, roundedMoney(o.amountMinor))),
         ];
       });
       return [stripSection(5, w.title, ...nodes)];
