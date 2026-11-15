@@ -33,3 +33,5 @@ root: rc10-screens-keep-own-facts
 **Waits on.** Nothing.
 
 **Files.** scripts/speed-years/profile-year.ts
+
+**Evidence, Nov 15 (people-shared-time-grows-ties, PR #9364).** One played year at Sheridan, WY (5669845, seed a1), measured on the train at 2190669e with and without that PR: 187.2 and 186.5 s without, 175.2 and 191.3 s with, then 175.2 and 180.0 s without and 179.9 and 179.0 s with on a quiet machine. Arkadelphia, AR ran 244.5 and 253.9 s without; Astoria, OR 205.0 and 187.7 s. All are over the two-minute year bar on the train itself, with or without the ties change.

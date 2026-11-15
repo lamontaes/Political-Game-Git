@@ -1,5 +1,6 @@
 /**
- * People who work the same hours at one employer spend that time together,
+ * The first reader of the shared-time mechanism (`shared-time.ts`): people who
+ * work the same hours at one employer spend that time together,
  * so their closeness keeps growing while they do (pool item
  * people-shared-time-grows-ties). Once a week, for every pair of full people
  * who know each other and hold open jobs at one employer, the minutes their
@@ -12,6 +13,7 @@
  * half-life as before. Nothing rolls a die.
  */
 import { daysBetweenText } from "./kernel/dates";
+import { creditSharedTime } from "./shared-time";
 import type { CoreAPI, IsoDate, PersonId, WorkCommitmentInput } from "./types";
 
 export const WORK_TIME_CAUSE = "worked the same hours at one employer";
@@ -90,20 +92,21 @@ export function creditWorkTime(
       if (!left || !right) continue;
       let minutes = 0;
       for (const day of days) minutes += overlapOn(left, right, day);
-      if (minutes <= 0) continue;
       let room = known.get(jobA.organizationId);
       if (room === undefined) {
-        room = Math.max(p("one"), knownIn(jobA.organizationId));
+        room = knownIn(jobA.organizationId);
         known.set(jobA.organizationId, room);
       }
-      api.relationship(
-        a.id,
-        b.id,
-        "coworker",
-        (minutes / p("minutesPerHour")) * (share / room),
-        undefined,
-        { cause: WORK_TIME_CAUSE, sourceId: jobA.organizationId },
-      );
+      creditSharedTime(api, {
+        a: a.id,
+        b: b.id,
+        minutes,
+        contactShare: share,
+        room,
+        kind: "coworker",
+        cause: WORK_TIME_CAUSE,
+        sourceId: jobA.organizationId,
+      });
     }
   }
 }
