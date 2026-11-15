@@ -160558,10 +160558,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.the-landlord-says-i-m-behind-i-want-somebody-in-there-who-knows-what-that-s-like",
+      "key": "scene-talk.reply-agree.the-landlord-says-i-m-behind-things-have-to-change-around-here-you-have-my-vote",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "The landlord says I'm behind. I want somebody in there who knows what that's like. You have my vote.",
+      "text": "The landlord says I'm behind. Things have to change around here. You have my vote.",
       "uses": [
         {
           "subject": "scene",
