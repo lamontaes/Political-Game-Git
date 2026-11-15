@@ -60,3 +60,7 @@ Learned by the path-check runners A and B and the speed lead, Oct 29 to Nov 1, a
 ## Stop condition
 
 Done when every row has its `.done` file with an exit code and seconds, its result line names the commit, and any failure is reported with the stack frame or the memory reading that explains it.
+
+## A gate script dies with its worker (Nov 15, F1)
+
+A background gate script dies if the worker restarts: check its log for `ALLDONE` and rerun what is missing, and keep temporary probe tests out of the tree while a gate is running.
