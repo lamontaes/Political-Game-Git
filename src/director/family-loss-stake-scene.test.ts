@@ -52,16 +52,19 @@ import { expectUpToFourDifferent } from "./reply-set-check";
 // own enlistVolunteer and contributeOwnMoney calls; a shorter run has no count
 // for either. Measured 402 seconds for both places on one process; the limit
 // (800 seconds) is twice that.
+const ONLY = process.env.PLACE_ONLY;
 const PLACES = [
   { key: "5355120", seed: "losscan:4" },
   { key: "4980420", seed: "losscan:1" },
   { key: "2683060", seed: "losscan:25" },
-].map((row) => {
-  const place = drawPlace(row.seed, "family-loss-stake-scene");
-  if (place.key !== row.key)
-    throw new Error(`${row.seed} no longer draws ${row.key}: ${place.key}`);
-  return { ...place, drawSeed: row.seed };
-});
+]
+  .filter((row) => !ONLY || row.key === ONLY)
+  .map((row) => {
+    const place = drawPlace(row.seed, "family-loss-stake-scene");
+    if (place.key !== row.key)
+      throw new Error(`${row.seed} no longer draws ${row.key}: ${place.key}`);
+    return { ...place, drawSeed: row.seed };
+  });
 const YEAR = 365;
 
 /** Every line under a node, with the reply that led to it. */
@@ -153,7 +156,7 @@ const run = (
     (core.households.get(core.people.get(filer)!.householdId)?.memberIds ?? [])
       .map((id) => core.people.get(id)!)
       .find((p) => p.id !== filer && p.alive && p.birthDate < "2005-01-01");
-  const [worked, gave, neither] = filings;
+  const [worked, gave, small] = filings;
   // Filers who live together share what is put in: pass the place over.
   const homeOf = (filing: FilingRow) =>
     core.people.get(filing.personId as PersonId)!.householdId;
@@ -175,13 +178,12 @@ const run = (
     Math.max(10000, giver.liquidMinor / 4),
   );
   if (!given) return { done: false, note: `${where}: nothing to give` };
-  // The third filer puts most of what their household has into it: a gift
-  // that reads large against the household's own year (the second filer's
-  // quarter reads small or plain), so the .large statements are played.
-  if (neither) {
-    campaignFor(api, neither.id);
-    const third = core.people.get(neither.personId as PersonId)!;
-    contributeOwnMoney(api, neither.id, Math.floor(third.liquidMinor * 0.9));
+  // The third filer gives a hundred dollars through the same call: a gift
+  // that reads small against their household's year, so the .small
+  // statements are played where a household gave.
+  if (small) {
+    campaignFor(api, small.id);
+    contributeOwnMoney(api, small.id, 10000);
   }
   // Each filer canvasses for signatures until the clerk's check.
   gatherSignatures(core, ...filings.map((f) => f.id));
@@ -225,7 +227,7 @@ const run = (
   const causeId = `election-result:${contest.id}`;
   const lines: string[] = [];
   let promised = false;
-  for (const filing of [worked, gave, neither]) {
+  for (const filing of [worked, gave, small]) {
     if (!filing) continue;
     const filer = filing.personId as PersonId;
     const here = `${where}: ${filing.id}`;
@@ -244,6 +246,12 @@ const run = (
       ),
     ) as string[];
     if (outIds.includes(filer)) continue;
+    // A seat of an at-large race that the count gave them is no loss: the
+    // count's own list of those who missed the cut names who lost.
+    const missed = JSON.parse(
+      String(core.durableLog.get(causeId)?.facts?.outIds ?? "[]"),
+    ) as string[];
+    if (!missed.includes(filer)) continue;
     const entry = director.ledger.people
       .get(filer)!
       .schedule.find((row) =>
@@ -306,44 +314,12 @@ const run = (
       const cast = votes.reduce((sum, row) => sum + row[1], 0);
       const lead = votes.length > 1 ? (votes[0]![1] - votes[1]![1]) / cast : 0;
       const given = facts.find((row) => row.key === "given")?.text;
-      return `votes ${votes.map((row) => row[1]).join(", ")} of ${cast} cast, lead ${(lead * 100).toFixed(1)} points${given ? `, given ${given}` : ""}`;
+      const seats =
+        Number(core.durableLog.get(causeId)?.facts?.seats ?? 1) || 1;
+      const own = Object.fromEntries(votes)[filer] ?? 0;
+      const last = votes[Math.min(seats, votes.length) - 1]?.[1] ?? own;
+      return `votes ${votes.map((row) => row[1]).join(", ")} of ${cast} cast, ${seats} seat${seats === 1 ? "" : "s"}, this candidate got ${own} and the last winning seat got ${last}, so ${Math.max(0, last - own)} short${given ? `, given ${given}` : ""}`;
     })();
-    // The wording the same record gets in other worlds: the English engine
-    // picks among a move's pieces by world seed and moment, so the same lost
-    // race composed under other world seeds shows the pieces this one did not
-    // pick. Only the seed changes; the record, the facts and the count are the
-    // played ones.
-    const variants = new Map<string, string>();
-    const statements = new Set<string>([talk.state.text]);
-    const worldSeed = core.seed;
-    try {
-      for (let k = 1; k <= 120; k += 1) {
-        (core as { seed: string }).seed = `${worldSeed}:wording-${k}`;
-        const other = purposeScene(core, director, filer, entry!, {
-          typeKey: "family-loss",
-        });
-        if (other?.kind !== "composed") continue;
-        const lines: string[] = [];
-        treeLines(other.scene.talk.tree, [], lines);
-        for (const text of [other.scene.talk.state.text, ...lines])
-          if (!variants.has(text)) variants.set(text, `seed ${k}`);
-        statements.add(other.scene.talk.state.text);
-        // A move has four statements at most: stop once all four have shown.
-        if (statements.size >= 4) break;
-      }
-    } finally {
-      (core as { seed: string }).seed = worldSeed;
-    }
-    if (file)
-      appendFileSync(
-        file,
-        [
-          `### Other wording for ${here}, ${part!.key}, same record, ${variants.size} lines under 120 other world seeds`,
-          ...[...variants.keys()].map((text) => `- ${text}`),
-          "",
-          "",
-        ].join("\n"),
-      );
     if (file)
       appendFileSync(
         file,
@@ -478,8 +454,11 @@ it("the talk after a lost race is for the relative who put in work or money, say
       `# After the loss, played (head ${process.env.PLAYED_SHA ?? "unknown"})\n\n`,
     );
   for (const place of PLACES) {
+    const began = Date.now();
     const out = run(place);
     expect(out.done, out.note).toBe(true);
-    process.stdout.write(`${out.note}\n`);
+    process.stdout.write(
+      `${out.note}\n${place.name}: ${Math.round((Date.now() - began) / 1000)} s\n`,
+    );
   }
 }, 1_500_000);

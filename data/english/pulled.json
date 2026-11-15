@@ -241,27 +241,22 @@
       "join-cause/decline"
     ],
     "scene-talk.follow-ask.again-then-i-ll-want-a-number-in-writing-before-another-dollar-goes-in": [
-      "family-loss.large/tell",
       "family-loss.small/tell",
       "family-loss/tell"
     ],
     "scene-talk.follow-ask.again-then-i-ll-want-to-know-the-plan-before-i-give-you-another-month": [
-      "family-loss.large/tell",
       "family-loss.small/tell",
       "family-loss/tell"
     ],
     "scene-talk.follow-ask.again-then-tell-me-what-s-different-next-time": [
-      "family-loss.large/tell",
       "family-loss.small/tell",
       "family-loss/tell"
     ],
     "scene-talk.follow-ask.again-then-tell-me-what-we-have-left-to-put-in": [
-      "family-loss.large/tell",
       "family-loss.small/tell",
       "family-loss/tell"
     ],
     "scene-talk.follow-ask.are-you-sure-that-s-what-you-want": [
-      "family-loss.large/tell",
       "family-loss.small/tell",
       "family-loss/tell"
     ],
@@ -318,7 +313,6 @@
     "scene-talk.reply-agree.i-m-with-you-tell-me-when": ["join-cause/thank"],
     "scene-talk.reply-ask.how-close-was-it": ["concession-call/answer"],
     "scene-talk.reply-blame.opponent-ran-a-dirty-race": [
-      "family-loss.large/comfort",
       "family-loss.small/comfort",
       "family-loss/comfort"
     ],
@@ -356,15 +350,6 @@
       "conflict-accuse.taken/ask"
     ],
     "scene-talk.state-comfort.i-worked-this-race-with-you-and-we-lost-it-what-do-we-do-with-all-of-it": [
-      "family-loss.large/tell",
-      "family-loss.small/tell",
-      "family-loss/tell"
-    ],
-    "scene-talk.state-comfort.the-money-is-spent-and-the-race-is-lost-tell-me-what-happens-now": [
-      "family-loss.large/tell"
-    ],
-    "scene-talk.state-comfort.we-lost-i-gave-that-campaign-my-time-and-i-d-like-to-know-what-we-do-with-that": [
-      "family-loss.large/tell",
       "family-loss.small/tell",
       "family-loss/tell"
     ]
