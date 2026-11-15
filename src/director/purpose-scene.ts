@@ -74,6 +74,7 @@ import {
   questionSaid,
 } from "../english/question-names";
 import { floorDebateFacts } from "./floor-debate-facts";
+import { exposedFinding } from "./exposed-facts";
 import { raceTurnoutFacts } from "./race-turnout-facts";
 import { DONOR_ASK_TYPE, donorAskFacts } from "./donor-ask-facts";
 import {
@@ -200,6 +201,7 @@ import {
   PRESS_MODULE_ID,
   townOutlet,
   PRESS_STORY_EVENT,
+  PRESS_EXPOSED,
 } from "../core2/modules/press";
 import { closenessBetween } from "../core2/closeness";
 import lineNames from "../core2/data/budgets/line-names.json" with { type: "json" };
@@ -648,7 +650,11 @@ function composeBinding(
       text: "yes",
       sourceRecordIds: [remark.id, moment.causeId],
     };
-  const billId = said.billId ?? remark?.billId;
+  // What a paper found when it exposed the asked person (exposed-facts.ts):
+  // the bill a bribe bought a vote on is the scene's bill.
+  const exposed =
+    record?.kind === PRESS_EXPOSED ? exposedFinding(core, said) : null;
+  const billId = said.billId ?? remark?.billId ?? exposed?.billId;
   const named =
     billId && core.modules.has(LEGISLATURE_MODULE_ID)
       ? billOf(coreAPI(core as CoreState), billId)
@@ -1182,6 +1188,64 @@ function composeBinding(
     const wanted = said.favor === "vote" ? facts.bill : facts.contract;
     if (wanted) facts.wanted = wanted;
   }
+  // The finding a reporter calls about (press.ts press.exposed): a bribe, by
+  // who paid it and the vote or contract it bought; a conflict, by the award,
+  // the firm and whose it is. The reporter says what the story says, not only
+  // that there is one (owner, Nov 15). Every exposure ran after the reporter
+  // dug through the paper trail (press.ts weighTip), so the papers are in hand:
+  // a denial is a lie the reporter can show is one (`knows-truth`).
+  if (exposed) {
+    const cited = [moment.causeId, exposed.recordId];
+    facts[`found-${exposed.found}`] = { text: "yes", sourceRecordIds: cited };
+    facts["knows-truth"] = { text: "yes", sourceRecordIds: cited };
+    if (exposed.contractLine)
+      facts.contract = {
+        text: contractSaid(exposed.contractLine),
+        sourceRecordIds: [...cited, exposed.contractId ?? exposed.recordId],
+      };
+    if (exposed.found === "bribe") {
+      const wanted = facts.bill ?? facts.contract;
+      if (wanted) facts.wanted = wanted;
+    }
+    const briber = core.people.get((exposed.briberId ?? "") as PersonId);
+    if (briber) {
+      facts.briber = {
+        text: sayPerson(briber),
+        sourceRecordIds: [...cited, briber.id],
+      };
+      // One who paid is family, or a friend by the tie's record: the player
+      // can say they could not refuse them.
+      const tie = tieSide(core, askedId, briber.id);
+      if (asked.familyIds.has(briber.id) || tie?.side === "friend")
+        facts["briber-close"] = {
+          text: "yes",
+          sourceRecordIds: [...cited, tie?.tieId ?? briber.id],
+        };
+      // The tip came from the one who paid (press.ts leakToReporter): the
+      // papers the reporter holds are theirs.
+      const tip = coreAPI(core as CoreState)
+        .moduleState(PRESS_MODULE_ID)
+        .table("tips")
+        .get(exposed.recordId) as unknown as
+        { readonly knowerId?: string } | undefined;
+      if (tip?.knowerId === briber.id)
+        facts["leak-from-briber"] = { text: "yes", sourceRecordIds: cited };
+    }
+    const firm = core.organizations.get(exposed.firmId ?? "");
+    if (firm)
+      facts.firm = {
+        text: organizationName(firm),
+        sourceRecordIds: [...cited, firm.id],
+      };
+    const owner = core.people.get((exposed.ownerId ?? "") as PersonId);
+    if (exposed.ownFirm)
+      facts["firm-yours"] = { text: "yes", sourceRecordIds: cited };
+    else if (owner)
+      facts.relative = {
+        text: sayPerson(owner),
+        sourceRecordIds: [...cited, owner.id],
+      };
+  }
   // A printed story that runs against the person or their bill (press-desk.ts
   // recordNamed): the outlet that ran it, who wrote it, and what it is about.
   if (record?.kind === PRESS_STORY_EVENT) {
@@ -1358,9 +1422,22 @@ function composeBinding(
       };
   }
   // An outlet any other cause names (an invitation to an interview or a
-  // debate), by name.
+  // debate, an exposure), by name. The press names an outlet by its outlet
+  // row (press.ts `outletId: outlet.id`), the meetings by its organization;
+  // the row says which organization it is.
   if (record?.kind !== PRESS_STORY_EVENT && said.outletId) {
-    const outlet = core.organizations.get(said.outletId);
+    const row = core.modules.has(PRESS_MODULE_ID)
+      ? outletsHere(coreAPI(core as CoreState)).find(
+          (o) => o.id === said.outletId,
+        )
+      : undefined;
+    const outlet = core.organizations.get(row?.organizationId ?? said.outletId);
+    // A paper says when the story runs ("It runs tomorrow."); a station does not.
+    if (row?.kind === "newspaper")
+      facts["outlet-newspaper"] = {
+        text: "yes",
+        sourceRecordIds: [moment.causeId, row.id],
+      };
     if (outlet)
       facts.outlet = {
         text: organizationName(outlet),

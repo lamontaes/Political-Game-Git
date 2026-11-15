@@ -1,0 +1,38 @@
+---
+id: scandal-call-says-what-the-paper-found
+title: "A reporter calling about an exposure says what the paper found: who paid and for what vote, or which contract went to whose firm"
+area: words
+kind: bug
+priority: 1
+size: M
+status: claimed
+standard: 2
+claimed-by: Account lead builder (thread "Fix the reporter's call scene")
+pr:
+after:
+blocked-on:
+lead: words
+model: opus
+effort: medium
+root: none
+source: Owner, Nov 15 01:02Z (the scandal call, "I've got a story about the water rates, and your name is in it... that's very ambiguous"); Words lead's lines, reply-sets/oath-bribe-scandal.md part C
+claimed-at: 2026-11-15
+---
+
+**What.** The owner read a scandal call that said only "I've got a story about {story}, and your name is in it." In the game it was worse: the call never played. A paper's exposure (press.exposed) names its outlet by the press's outlet row, and the scene looked that id up as an organization, so the narration ("Your phone rings. It's {name} from {outlet}.") had no outlet and every scandal call was skipped. Where it was composed by hand, the reporter never said what the story is ("We're running a story about you tomorrow."), and the replies spoke of minutes and signatures that no exposure is about. Seen: the call plays, the reporter says who paid and the vote it bought, or the contract and whose firm, and every reply fits that.
+
+**Cause.** Found in code: src/director/purpose-scene.ts set `story` only for a news story read and a reporter's comment call; for `press.exposed` nothing read the finding the record names (`crime:<id>` bribe-taken, or `award:<id>` conflict-of-interest with the firm, its owner and the relation, src/core2/modules/press.ts bribeAct and conflictAct). The outlet block read `said.outletId` with `core.organizations.get`, which holds organization ids, not outlet rows.
+
+**Fix.** src/director/exposed-facts.ts reads the finding from its own record: a bribe through corruption.ts `crimeRecord` and `wantedFacts` (the reader the bribe offer already uses), a conflict from the award id and the record's firm and owner. purpose-scene.ts makes the bribe's bill the scene's bill (so the vote's facts follow), and sets `found-bribe` / `found-conflict`, `briber`, `wanted`, `contract`, `firm`, `firm-yours` or `relative`, `knows-truth` (every exposure ran on the paper trail, so the engine's own lie arc catches a denial), `briber-close` (family or a friend by the tie) and `leak-from-briber` (the press tip's knower). The outlet block resolves an outlet row to its organization for any cause, and sets `outlet-newspaper`. The Words lead's lines go in; the lines they replace are deleted.
+
+**Time box.** 4 hours for one Opus session at medium.
+
+**Rules.** Ask why: every line is placed by a fact that cites the crime, the award or the tip behind it. No dice: the record places a line. No line changed only to pass a guard; the lines are the Words lead's; changed talks go to M5 as sheets; a played file at the exact head for the reader. Tests pinned to a named place and seed.
+
+**Done when.** A second session plays a scandal call after a taken bribe is exposed and after a conflict on an award is exposed, in a drawn place, and the reporter names who paid and the vote, or the contract and whose firm; the call plays at all; a denial is caught by the papers; no reply speaks of minutes or signatures.
+
+**Waits on.** Nothing.
+
+**Files.** src/director/exposed-facts.ts (new), src/director/exposed-facts.test.ts (new), src/director/purpose-scene.ts, src/core2/modules/press.ts, src/core2/modules/corruption.ts, data/english/parts/scene-talk.json
+
+**Notes.** The interview thread builds reporter, press-story, subject and stand for interview-published on top of the outlet fix. A conflict needs an award, and no award is made in a world's first weeks, so the conflict cases are a fixture exposure on a real government's road line and a real firm and owner.

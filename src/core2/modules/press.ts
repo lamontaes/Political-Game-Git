@@ -148,6 +148,8 @@ import {
 } from "../press-desk";
 // The press desk's own story record, read by the director through this entry.
 export { PRESS_STORY_EVENT } from "../press-desk";
+/** A story a paper ran on an official's hidden act: a bribe taken, or a vote for a firm they or their family own. */
+export const PRESS_EXPOSED = "press.exposed";
 import { newsKey, storiesHeard, type Story } from "./news";
 import { registerCountedNewsSource } from "./news-listeners";
 import { worldLevel } from "../world-draw";
@@ -2889,7 +2891,7 @@ function weighTip(
     api.emit({
       id: exposedId,
       date: api.state.date,
-      kind: "press.exposed",
+      kind: PRESS_EXPOSED,
       personIds: api.state.people.has(officialId) ? [officialId] : [],
       placeId: outlet.placeId,
       publicRecord: true,
@@ -2914,7 +2916,7 @@ function weighTip(
       reporterId,
       {
         id: exposedId,
-        kind: "press.exposed",
+        kind: PRESS_EXPOSED,
         date: api.state.date,
         level: "town",
         topic: `conduct:${officialId}`,
