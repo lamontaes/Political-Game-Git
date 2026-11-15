@@ -9,7 +9,7 @@ size: M
 status: in-pr
 standard: 2
 claimed-by: account-lead-builder
-pr: PENDING
+pr: 9503
 after:
 blocked-on:
 model: sonnet
