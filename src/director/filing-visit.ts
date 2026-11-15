@@ -22,7 +22,7 @@ import {
   type PurposeType,
   type TreeNode,
 } from "./scene-talk";
-import { spoken, spokenDate, spokenWhen } from "./words";
+import { spoken, spokenDate, spokenWhen, stateInSentence } from "./words";
 import {
   wordSceneMove,
   type Fact,
@@ -157,7 +157,7 @@ export function openFilingVisit(
         ...clerkFact(core, clerkId),
       })
     : visitLine(core, visit, "clerk", "greet-counter", {
-        ...placeFact(core, playerId),
+        ...counterAreaFact(core, playerId, contests),
         // An office the record names only as a choice ("City or town clerk") is
         // said as the place's own kind; where the records do not settle it, the
         // town is said instead.
@@ -610,6 +610,39 @@ function placeFact(
     : null;
   return town
     ? { place: { text: spoken(town), sourceRecordIds: [person!.placeId] } }
+    : {};
+}
+
+/**
+ * The area a counter's greeting says it takes filings for ("I take the
+ * filings for {place}"): the town at a town's own counter, the state at a
+ * counter that takes only state and federal races (a Secretary of State), and
+ * no place at a county's, where the records hold no county name to say. A
+ * town clerk's line is never put in a state office's mouth (Words lead,
+ * second reader, Nov 14: Vicco and West Point KY).
+ */
+function counterAreaFact(
+  core: Readonly<CoreState>,
+  playerId: PersonId,
+  contests: readonly FilingContest[],
+): Record<string, Fact> {
+  const levels = contests.map((row) => row.seat?.level ?? "");
+  const above = (level: string) =>
+    level === "county" || level === "state" || level === "federal";
+  if (levels.length === zero || !levels.every(above))
+    return placeFact(core, playerId);
+  if (levels.some((level) => level === "county")) return {};
+  const person = core.people.get(playerId);
+  const state = person
+    ? corePlaceByJurisdictionId(person.placeId as never)?.withinName
+    : null;
+  return state
+    ? {
+        place: {
+          text: stateInSentence(state),
+          sourceRecordIds: [person!.placeId],
+        },
+      }
     : {};
 }
 
