@@ -186207,122 +186207,6 @@
       }
     },
     {
-      "key": "scene-talk.state-tell-reason.i-m-running",
-      "move": "state-tell-reason",
-      "kind": "spoken",
-      "text": "I'm running.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "tell-reason",
-          "role": "asker",
-          "purpose": "ask-endorsement",
-          "key": "favor-asked",
-          "excludesFacts": [
-            "reason-favor",
-            "reason-tie-close",
-            "reason-tie-distant",
-            "asked-again"
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (endorsement ask, Nov 15)",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "tell-reason",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.state-tell-reason.i-m-in-this-race",
-      "move": "state-tell-reason",
-      "kind": "spoken",
-      "text": "I'm in this race.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "tell-reason",
-          "role": "asker",
-          "purpose": "ask-endorsement",
-          "key": "favor-asked",
-          "excludesFacts": [
-            "reason-favor",
-            "reason-tie-close",
-            "reason-tie-distant",
-            "asked-again"
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (endorsement ask, Nov 15)",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "tell-reason",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.state-tell-need.i-want-you-with-me",
-      "move": "state-tell-need",
-      "kind": "spoken",
-      "text": "I want you with me.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "tell-need",
-          "role": "asker",
-          "purpose": "ask-endorsement",
-          "key": "favor-asked",
-          "excludesFacts": [
-            "reason-favor",
-            "reason-tie-close",
-            "reason-tie-distant",
-            "asked-again"
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (endorsement ask, Nov 15)",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "tell-need",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.state-tell-need.i-d-like-your-name-behind-me",
-      "move": "state-tell-need",
-      "kind": "spoken",
-      "text": "I'd like your name behind me.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "tell-need",
-          "role": "asker",
-          "purpose": "ask-endorsement",
-          "key": "favor-asked",
-          "excludesFacts": [
-            "reason-favor",
-            "reason-tie-close",
-            "reason-tie-distant",
-            "asked-again"
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (endorsement ask, Nov 15)",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "tell-need",
-        "key": "favor-asked"
-      }
-    },
-    {
       "key": "scene-talk.state-tell-reason.you-know-me-better-than-anyone",
       "move": "state-tell-reason",
       "kind": "spoken",
@@ -186486,35 +186370,6 @@
           "purpose": "ask-endorsement",
           "key": "favor-asked",
           "excludesFacts": ["asked-again"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (endorsement ask, Nov 15)",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "request",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.state-request.can-i-count-on-it",
-      "move": "state-request",
-      "kind": "spoken",
-      "text": "Can I count on it?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "request",
-          "role": "asker",
-          "purpose": "ask-endorsement",
-          "key": "favor-asked",
-          "excludesFacts": [
-            "reason-favor",
-            "reason-tie-close",
-            "reason-tie-distant",
-            "asked-again"
-          ]
         }
       ],
       "origin": "authored",
@@ -187138,10 +186993,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-relent.you-re-right-you-have-my-endorsement",
+      "key": "scene-talk.reply-relent.i-don-t-have-a-good-reason-you-have-my-endorsement",
       "move": "reply-relent",
       "kind": "spoken",
-      "text": "You're right. You have my endorsement.",
+      "text": "I don't have a good reason. You have my endorsement.",
       "uses": [
         {
           "subject": "scene",
@@ -187151,7 +187006,22 @@
           "purpose": "ask-endorsement",
           "key": "favor-asked",
           "after": "scene-talk.follow-press.can-i-ask-why"
-        },
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (endorsement ask, Nov 15)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "relent",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-relent.you-re-right-you-have-my-endorsement",
+      "move": "reply-relent",
+      "kind": "spoken",
+      "text": "You're right. You have my endorsement.",
+      "uses": [
         {
           "subject": "scene",
           "step": "reply",
@@ -187324,10 +187194,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.all-right-i-heard-you",
+      "key": "scene-talk.follow-accept.alright-i-heard-you",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "All right. I heard you.",
+      "text": "Alright. I heard you.",
       "uses": [
         {
           "subject": "scene",

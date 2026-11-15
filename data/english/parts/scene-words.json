@@ -6107,46 +6107,6 @@
       "tag": {
         "move": "narrate"
       }
-    },
-    {
-      "key": "scene-words.lead-endorsement-ask-other.name-filed-for-office-and-came-to-see-you",
-      "move": "lead-endorsement-ask-other",
-      "kind": "spoken",
-      "text": "{name} filed for {office} and came to see you.",
-      "uses": [
-        {
-          "move": "lead-endorsement-ask-other",
-          "subject": "lead",
-          "role": "endorsement-ask",
-          "choice": "other"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (endorsement ask, Nov 15)",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
-      "key": "scene-words.lead-endorsement-ask-alone.name-is-running-for-office-and-asked-to-see-you",
-      "move": "lead-endorsement-ask-alone",
-      "kind": "spoken",
-      "text": "{name} is running for office and asked to see you.",
-      "uses": [
-        {
-          "move": "lead-endorsement-ask-alone",
-          "subject": "lead",
-          "role": "endorsement-ask",
-          "choice": "alone"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (endorsement ask, Nov 15)",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "narrate"
-      }
     }
   ]
 }
