@@ -37,7 +37,7 @@ claimed-at:
 
 **Rules.** No dice: a counted record's split is a share of its count, never a roll. Never loosen the test to get green; it is pinned to a named place and seed as `pinned-tests` says.
 
-**Done when.** A second session runs `COUNTED_SHARE_SEED=e2051d49e318d174 npx vitest run src/core2/counted-vote-share.test.ts -t "(d)"` on the train and sees it pass at Magnolia, Delaware, and the same at Glencoe, Minnesota with seed 3e755ead4b7c2887; and in the running game at Magnolia, with dev mode on, opens the April 7, 2026 council race and reads a counted voter's ballot: the reasons add up to the split the count kept for that voter.
+**Done when.** A second session runs `COUNTED_SHARE_SEED=e2051d49e318d174 npx vitest run src/core2/counted-vote-share.test.ts -t "(d)"` on the train and sees it pass at Magnolia, Delaware, and the same at Glencoe, Minnesota with seed 3e755ead4b7c2887; and in the running game, in Magnolia or in a drawn place it names with its seed, with dev mode on, opens a council race for more than one seat once it is counted and reads a counted voter's ballot: the reasons add up to the split the count kept for that voter.
 
 **Waits on.** Nothing.
 
