@@ -8,7 +8,7 @@ size: M
 status: in-pr
 standard: 2
 claimed-by: claude/project-thread-p37c46
-pr:
+pr: #9446
 after:
 blocked-on:
 lead: words
@@ -35,4 +35,4 @@ claimed-at: 2026-11-15T05:30:00.000Z
 
 **Files.** src/core2/modules/voting.ts, src/director/race-turnout-facts.ts, src/director/purpose-scene.ts, src/director/turned-precinct.test.ts
 
-**Notes.** Built in PR (Account lead train, thread "Build scenes after the race"). Step B, the visit to someone who backed the winner, is a separate item and waits on the visit route (#9256).
+**Notes.** Built in #9446 (Account lead train, thread "Build scenes after the race"). Step B, the visit to someone who backed the winner, is a separate item and waits on the visit route (#9256).
