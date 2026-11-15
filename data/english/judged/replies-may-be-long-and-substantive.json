@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "replies-may-be-long-and-substantive",
   "rubric": "Replies are not all short; some carry an argument or a reason, so a reply does not kill the talk.",
-  "judged": 1251,
+  "judged": 1218,
   "no": {
     "0038nen24jy": {
       "keys": [
@@ -220,15 +220,6 @@
         "scene-talk.reply-leave.the-guard-is-waving-me-out-i-ll-write"
       ],
       "why": "Bare promises and a guard-driven exit carry no argument or reason."
-    },
-    "02ajsebcnit": {
-      "keys": [
-        "scene-talk.follow-answer.i-only-want-you-taken-care-of-first-whatever-you-can-manage-is-enough-for-me",
-        "scene-talk.reply-agree.yes-you-re-right-i-ll-do-that",
-        "scene-talk.reply-promise.i-ll-do-exactly-that-and-i-promise-to-keep-my-word",
-        "scene-talk.reply-decline.i-owe-you-more-than-i-can-say-and-i-still-can-t-do-that-right-now"
-      ],
-      "why": "The replies agree, promise or refuse, and the refusal offers gratitude but no reason."
     },
     "02hkcn0qbi0": {
       "keys": [
@@ -612,15 +603,6 @@
       ],
       "why": "\"You can quote me\" and \"We're done here\" carry no argument."
     },
-    "09db4brfn5p": {
-      "keys": [
-        "scene-talk.follow-press.i-thought-of-you-first-first-can-you-tell-me-what-s-in-the-way",
-        "scene-talk.reply-agree.alright-you-re-right-i-ll-make-it-work",
-        "scene-talk.reply-promise.i-ll-do-it-i-promise-let-me-look-at-what-i-have",
-        "scene-talk.reply-leave.i-m-sorry-but-i-can-t-stay-and-argue-about-it-let-s-pick-it-back-up-tomorrow"
-      ],
-      "why": "The replies agree, promise or leave, and the refusal gives no reason."
-    },
     "09dg7paglpj": {
       "keys": [
         "scene-talk.follow-press.five-i-ll-hold-the-phone",
@@ -638,16 +620,6 @@
         "scene-talk.reply-leave.show-me-where-to-hang-my-coat-and-i-m-ready"
       ],
       "why": "A question, a jab that somebody handed over their shifts and a ready line carry no reason."
-    },
-    "09ivjixqsbq": {
-      "keys": [
-        "scene-talk.state-request.i-m-going-to-the-next-meeting-of-the-party-first-do-you-want-to-come-with-me",
-        "scene-talk.reply-agree.sure-you-can-count-on-me",
-        "scene-talk.reply-promise.i-ll-make-it-work-you-have-my-word",
-        "scene-talk.reply-ask.what-made-you-think-of-me-for-it",
-        "scene-talk.reply-decline.i-m-sorry-but-i-can-t-make-that-work-this-time"
-      ],
-      "why": "The replies accept, promise, ask or decline without any reason."
     },
     "09jpywlgfnw": {
       "keys": [
@@ -1563,16 +1535,6 @@
       ],
       "why": "A promised why, not having seen the language and \"We're done here\" never state a reason."
     },
-    "0o23ltafc5y": {
-      "keys": [
-        "scene-talk.state-request.the-term-is-over-first-we-have-to-decide-what-happens-now-and-i-don-t-want-to-put-it-off",
-        "scene-talk.reply-agree.alright-we-ll-work-it-out-together",
-        "scene-talk.reply-promise.i-ll-do-my-part-you-ll-see",
-        "scene-talk.reply-ask.what-do-you-need-most-right-now",
-        "scene-talk.reply-deflect.not-tonight-give-me-a-few-days-to-think-it-over"
-      ],
-      "why": "The replies are agreements, a promise, a question and a delay, and none gives an argument or reason about what happens after the prison term."
-    },
     "0o5qamx83dq": {
       "keys": [
         "scene-talk.follow-press.friend.i-want-to-believe-you-first-i-just-need-more-than-that",
@@ -2009,15 +1971,6 @@
       ],
       "why": "Coming to one meeting, thinking it over and returning books carry no reason."
     },
-    "0w7d2jfp2pv": {
-      "keys": [
-        "scene-talk.follow-press.a-few-days-is-a-long-time-when-everything-is-on-hold",
-        "scene-talk.reply-agree.alright-we-ll-do-it-your-way",
-        "scene-talk.reply-promise.i-mean-it-you-ll-see-it-this-week",
-        "scene-talk.reply-leave.i-can-t-keep-doing-this-tonight-we-ll-finish-tomorrow"
-      ],
-      "why": "Each reply is a concession, a bare promise or a call to stop for tonight, with nothing explaining the player's position."
-    },
     "0w7plaju3vw": {
       "keys": [
         "scene-talk.follow-answer.sure-enough-to-be-in-your-office-on-a-thursday",
@@ -2394,14 +2347,6 @@
       ],
       "why": "\"I'm with you\", \"I'm not sold yet\" and heading home give no reason."
     },
-    "122hvpqa787": {
-      "keys": [
-        "scene-talk.follow-press.can-i-count-on-that-first-i-was-frightened-when-i-called-for-help-and-i-don-t-want-to-feel-that-way-again",
-        "scene-talk.reply-agree.yes-i-owe-you-more-than-i-can-say-so-i-ll-do-what-you-re-asking",
-        "scene-talk.reply-promise.you-have-my-word-i-ll-do-it-and-i-won-t-put-it-off"
-      ],
-      "why": "Both replies are a promise or thanks with no reason in them."
-    },
     "12d9wvg2hk9": {
       "keys": [
         "scene-talk.follow-ask.taken.who-else-knew-first",
@@ -2427,15 +2372,6 @@
         "scene-talk.reply-leave.i-ll-figure-out-the-rest-as-i-go"
       ],
       "why": "A thank-you and \"I'll figure out the rest as I go\" carry no reason."
-    },
-    "12rlcm4uemo": {
-      "keys": [
-        "scene-talk.follow-answer.i-m-asking-for-a-little-of-your-time-and-i-thought-of-you-first-tell-me-what-you-can-do",
-        "scene-talk.reply-agree.okay-i-see-i-ll-do-it",
-        "scene-talk.reply-promise.you-can-count-on-me-i-ll-do-it",
-        "scene-talk.reply-decline.thanks-for-explaining-i-still-can-t-though-i-m-sorry"
-      ],
-      "why": "Two ways of saying yes and a sorry refusal explain nothing about the visit."
     },
     "12xb3sh8saj": {
       "keys": [
@@ -2633,14 +2569,6 @@
         "scene-talk.reply-leave.im-done-talking"
       ],
       "why": "\"My answer is the same\" and \"I'm done talking\" end the talk with no reason."
-    },
-    "17wbgog9q48": {
-      "keys": [
-        "scene-talk.follow-press.will-you-really-follow-through-first-i-m-asking-because-i-was-the-one-who-called-for-help",
-        "scene-talk.reply-agree.yes-you-re-right-i-ll-do-that",
-        "scene-talk.reply-promise.you-have-my-word-i-ll-do-it-and-i-won-t-put-it-off"
-      ],
-      "why": "Both replies are bare agreement or promise with no reason."
     },
     "17yognk1w70": {
       "keys": [
@@ -3155,15 +3083,6 @@
       ],
       "why": "A slogan, a plan to thank door-knockers and an exit give no reason."
     },
-    "1gr7l07sem5": {
-      "keys": [
-        "scene-talk.follow-answer.i-m-afraid-of-walking-in-and-finding-you-worse-first-that-s-all-it-is",
-        "scene-talk.reply-agree.alright-you-were-the-one-who-called-for-help-so-i-won-t-argue",
-        "scene-talk.reply-promise.you-have-my-word-i-ll-do-it-and-i-won-t-put-it-off",
-        "scene-talk.reply-decline.i-know-you-were-scared-but-i-can-t-do-that-right-now-i-m-sorry"
-      ],
-      "why": "The replies agree, promise or refuse, and the refusal gives no reason."
-    },
     "1h9h8clmdc4": {
       "keys": [
         "scene-talk.state-ask.okay-honestly-how-are-you-holding-up",
@@ -3192,15 +3111,6 @@
         "scene-talk.reply-confront.that-sounds-like-a-warning"
       ],
       "why": "\"Point taken\" and \"That sounds like a warning\" carry no reason."
-    },
-    "1hrb5rrr5sy": {
-      "keys": [
-        "scene-talk.follow-answer.whatever-you-can-manage-first-a-kind-word-from-you-would-go-a-long-way",
-        "scene-talk.reply-agree.that-makes-it-easier-and-i-ll-do-it",
-        "scene-talk.reply-promise.i-ll-see-to-it-you-have-my-word",
-        "scene-talk.reply-decline.i-understand-why-you-asked-but-i-still-can-t-do-it-i-m-sorry"
-      ],
-      "why": "The replies agree, promise or refuse, and the refusal gives no reason."
     },
     "1hrvuol09ho": {
       "keys": [
@@ -3403,15 +3313,6 @@
       ],
       "why": "Asked for the plan, the replies thank, promise, boast or open a topic, with no reason given."
     },
-    "1kp1ef2sdlf": {
-      "keys": [
-        "scene-talk.follow-press.you-ll-really-do-it-i-d-like-to-know-i-can-plan-around-it",
-        "scene-talk.reply-agree.alright-you-re-right-i-ll-make-it-work",
-        "scene-talk.reply-promise.i-ll-do-it-i-promise-let-me-look-at-what-i-have",
-        "scene-talk.reply-leave.i-m-sorry-but-i-can-t-stay-and-argue-about-it-let-s-pick-it-back-up-tomorrow"
-      ],
-      "why": "The replies agree, promise or leave saying \"I can't stay and argue\" without saying why."
-    },
     "1kzc88rzck0": {
       "keys": [
         "scene-talk.follow-press.don-t-walk-past-tell-me-why-you-voted-for-it",
@@ -3513,15 +3414,6 @@
         "scene-talk.reply-lie.yes-stop-worrying-about-it"
       ],
       "why": "Two yeses, an emotional can't, a hearing trade and a deferral carry no reason."
-    },
-    "1nyevper59j": {
-      "keys": [
-        "scene-talk.follow-answer.what-we-both-need-is-a-plan-a-place-to-start-and-someone-in-our-corner",
-        "scene-talk.reply-agree.alright-i-can-do-that",
-        "scene-talk.reply-promise.i-ll-start-on-it-tomorrow-and-i-ll-tell-you-how-it-goes",
-        "scene-talk.reply-deflect.let-me-think-it-over-before-i-say-yes"
-      ],
-      "why": "Agreeing, promising to start tomorrow and asking to think it over all answer the request for a place and a job without any reason or argument."
     },
     "1o1hf8otlvo": {
       "keys": [
@@ -3631,16 +3523,6 @@
       ],
       "why": "Looking again, deferring until heard out and asking for things in writing are stances and exits with no reason given."
     },
-    "1q6q9j33afm": {
-      "keys": [
-        "scene-talk.state-request.write-back-and-tell-me-how-you-are-first-i-like-hearing-what-s-going-on-in-your-life",
-        "scene-talk.reply-agree.alright-yes-i-m-glad-you-asked-me",
-        "scene-talk.reply-promise.i-ll-do-it-and-i-give-you-my-word",
-        "scene-talk.reply-ask.can-you-tell-me-more-about-what-you-re-asking",
-        "scene-talk.reply-decline.i-m-sorry-but-i-can-t-do-that-this-time"
-      ],
-      "why": "Every reply is a bare yes, promise, question or refusal with no reason given."
-    },
     "1q7s65hdxcc": {
       "keys": [
         "scene-talk.follow-press.if-you-won-t-answer-in-a-hallway-where-will-you-give-me-a-day",
@@ -3650,15 +3532,6 @@
         "scene-talk.reply-lie.nobody-told-me-what-to-do-that-vote-was-mine"
       ],
       "why": "\"I stand by it\" and \"That vote was mine\" assert a position without saying why, and the rest refuse or leave."
-    },
-    "1qfmg1fa7ap": {
-      "keys": [
-        "scene-talk.follow-answer.whatever-you-can-manage-first-a-kind-word-from-you-would-go-a-long-way",
-        "scene-talk.reply-agree.that-helps-count-me-in",
-        "scene-talk.reply-promise.i-ll-see-to-it-you-have-my-word",
-        "scene-talk.reply-decline.thank-you-for-asking-but-i-can-t-do-it-i-m-sorry"
-      ],
-      "why": "The replies agree, promise or decline with thanks, and none gives a reason."
     },
     "1qhf5uwj7u3": {
       "keys": [
@@ -4404,16 +4277,6 @@
       ],
       "why": "\"It's the right call,\" \"you've got that wrong\" and \"we're done\" assert without a reason."
     },
-    "217ndjgid54": {
-      "keys": [
-        "scene-talk.state-request.it-s-been-a-while-since-we-really-talked-first-will-you-write-back-and-tell-me-what-s-on-your-mind",
-        "scene-talk.reply-agree.alright-yes-i-m-glad-you-asked-me",
-        "scene-talk.reply-promise.i-ll-do-it-and-i-give-you-my-word",
-        "scene-talk.reply-ask.can-you-tell-me-more-about-what-you-re-asking",
-        "scene-talk.reply-decline.i-m-sorry-but-i-can-t-do-that-this-time"
-      ],
-      "why": "Every reply is a bare yes, promise, question or refusal with no reason given."
-    },
     "21929mb87h1": {
       "keys": [
         "scene-talk.follow-promise.i-ll-keep-counting-you-keep-talking-to-them",
@@ -4813,16 +4676,6 @@
         "scene-talk.reply-leave.let-me-drop-my-bag-and-i-m-all-yours"
       ],
       "why": "Thanks and an offer after dropping a bag are polite closers with no reason in them."
-    },
-    "299iflh6psi": {
-      "keys": [
-        "scene-talk.state-request.would-you-come-for-a-visit-sometime-this-year-first-i-d-like-to-see-you-in-person",
-        "scene-talk.reply-agree.yes-of-course-i-ll-do-it",
-        "scene-talk.reply-promise.i-ll-write-you-again-soon-and-i-ll-make-it-happen",
-        "scene-talk.reply-ask.why-now-i-m-glad-to-hear-from-you-and-i-d-like-to-know-what-s-behind-it",
-        "scene-talk.reply-decline.i-wish-i-could-but-i-can-t-right-now-i-hope-you-ll-understand"
-      ],
-      "why": "The replies accept, promise, ask why or decline without giving any reason of their own."
     },
     "29bv0og2usg": {
       "keys": [
@@ -5288,16 +5141,7 @@
         "scene-talk.reply-leave.i-ll-call-you-once-i-ve-decided"
       ],
       "why": "Thanks and a promise to call carry no reason."
-    },
-    "2g6mupp1vr3": {
-      "keys": [
-        "scene-talk.follow-press.a-few-days-is-a-long-time-when-everything-is-on-hold",
-        "scene-talk.reply-agree.alright-we-ll-do-it-your-way",
-        "scene-talk.reply-promise.i-mean-it-you-ll-see-it-this-week",
-        "scene-talk.reply-leave.that-s-all-i-have-tonight-i-ll-find-you-in-the-morning"
-      ],
-      "why": "Going along, insisting \"I mean it\" and leaving for the night give no reason in answer to everything being on hold."
     }
   },
-  "yesHash": "1vuzskqng86"
+  "yesHash": "1oyh2a5vyxv"
 }

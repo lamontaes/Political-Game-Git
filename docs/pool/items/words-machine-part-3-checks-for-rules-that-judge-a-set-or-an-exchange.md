@@ -5,10 +5,10 @@ area: words
 kind: feature
 priority: 1
 size: M
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/project-thread-jwna62
-pr:
+pr: 9365
 after:
 blocked-on:
 lead: words
