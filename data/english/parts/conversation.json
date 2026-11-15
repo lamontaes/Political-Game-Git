@@ -7797,39 +7797,6 @@
       "date": "2026-11-15"
     },
     {
-      "key": "conversation.news-raise-heard.did-you-see-what-the-outlet-had-on-about",
-      "move": "news-raise-heard",
-      "kind": "spoken",
-      "text": "Did you see what the {outlet} had on {about}?",
-      "uses": [
-        {
-          "move": "news-raise-heard",
-          "subject": "news",
-          "role": "raise",
-          "choice": "heard",
-          "requiresFacts": ["about", "outlet", "outlet-paper", "outlet-the"]
-        }
-      ],
-      "transcriptsUsing": 4,
-      "bySource": {
-        "dcpd": 1,
-        "nps": 3
-      },
-      "source": {
-        "document": "Remarks in an Exchange With Reporters at Joint Base Andrews, Maryland",
-        "date": "2020-02-18",
-        "granule": "DCPD-202000078",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202000078/html/DCPD-202000078.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      },
-      "author": "Words builder M3 (words-neighbor-asks-the-player-about-a-printed-story-by-its-medium)",
-      "date": "2026-11-15"
-    },
-    {
       "key": "conversation.news-raise-heard.did-you-see-the-news-about-about",
       "move": "news-raise-heard",
       "kind": "spoken",
@@ -30112,7 +30079,8 @@
           "subject": "own-view-take",
           "role": "core",
           "stages": ["agree"],
-          "requiresFacts": ["has-reason", "decider", "wants-it"]
+          "requiresFacts": ["has-reason", "decider", "wants-it"],
+          "excludesFacts": ["story-decided"]
         }
       ],
       "piece": {
@@ -30184,7 +30152,8 @@
           "subject": "own-view-take",
           "role": "core",
           "stages": ["disagree"],
-          "requiresFacts": ["has-reason", "decider"]
+          "requiresFacts": ["has-reason", "decider"],
+          "excludesFacts": ["story-decided"]
         }
       ],
       "piece": {
@@ -30207,7 +30176,8 @@
           "move": "own-view-take-core",
           "subject": "own-view-take",
           "role": "core",
-          "stages": ["disagree"]
+          "stages": ["disagree"],
+          "excludesFacts": ["story-decided"]
         }
       ],
       "piece": {
@@ -30230,7 +30200,8 @@
           "move": "own-view-take-core",
           "subject": "own-view-take",
           "role": "core",
-          "stages": ["agree"]
+          "stages": ["agree"],
+          "excludesFacts": ["story-decided"]
         }
       ],
       "piece": {
@@ -32410,7 +32381,8 @@
           "subject": "own-view-take",
           "role": "core",
           "stages": ["agree"],
-          "requiresFacts": ["has-reason", "decider", "wants-not"]
+          "requiresFacts": ["has-reason", "decider", "wants-not"],
+          "excludesFacts": ["story-decided"]
         }
       ],
       "piece": {
@@ -32434,7 +32406,8 @@
           "subject": "own-view-take",
           "role": "core",
           "stages": ["agree"],
-          "requiresFacts": ["has-reason", "decider", "wants-not"]
+          "requiresFacts": ["has-reason", "decider", "wants-not"],
+          "excludesFacts": ["story-decided"]
         }
       ],
       "piece": {
@@ -46800,108 +46773,6 @@
           "subject": "news-back",
           "role": "core",
           "requiresFacts": ["said-no", "ask-told", "story-took-effect"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder M3 (words-neighbor-asks-the-player-about-a-printed-story-by-its-medium)",
-      "date": "2026-11-15"
-    },
-    {
-      "key": "conversation.news-back-core.the-body-put-more-money-into-said",
-      "move": "news-back-core",
-      "kind": "spoken",
-      "text": "The {body} put more money into {said}.",
-      "piece": {
-        "of": "news-back",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "news-back-core",
-          "subject": "news-back",
-          "role": "core",
-          "requiresFacts": [
-            "said-no",
-            "ask-told",
-            "story-budget-up",
-            "body",
-            "said"
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder M3 (words-neighbor-asks-the-player-about-a-printed-story-by-its-medium)",
-      "date": "2026-11-15"
-    },
-    {
-      "key": "conversation.news-back-core.the-body-cut-the-money-for-said",
-      "move": "news-back-core",
-      "kind": "spoken",
-      "text": "The {body} cut the money for {said}.",
-      "piece": {
-        "of": "news-back",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "news-back-core",
-          "subject": "news-back",
-          "role": "core",
-          "requiresFacts": [
-            "said-no",
-            "ask-told",
-            "story-budget-down",
-            "body",
-            "said"
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder M3 (words-neighbor-asks-the-player-about-a-printed-story-by-its-medium)",
-      "date": "2026-11-15"
-    },
-    {
-      "key": "conversation.news-back-core.they-put-more-money-into-said",
-      "move": "news-back-core",
-      "kind": "spoken",
-      "text": "They put more money into {said}.",
-      "piece": {
-        "of": "news-back",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "news-back-core",
-          "subject": "news-back",
-          "role": "core",
-          "requiresFacts": ["said-no", "ask-told", "story-budget-up", "said"],
-          "excludesFacts": ["body"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder M3 (words-neighbor-asks-the-player-about-a-printed-story-by-its-medium)",
-      "date": "2026-11-15"
-    },
-    {
-      "key": "conversation.news-back-core.they-cut-the-money-for-said",
-      "move": "news-back-core",
-      "kind": "spoken",
-      "text": "They cut the money for {said}.",
-      "piece": {
-        "of": "news-back",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "news-back-core",
-          "subject": "news-back",
-          "role": "core",
-          "requiresFacts": ["said-no", "ask-told", "story-budget-down", "said"],
-          "excludesFacts": ["body"]
         }
       ],
       "origin": "authored",

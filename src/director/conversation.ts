@@ -2487,12 +2487,6 @@ function storyEvent(
     return null;
   };
   if (facts.lawId) return { event: "took-effect", body: null };
-  if (facts.line && facts.deltaMinor !== undefined && facts.carried !== "no") {
-    const delta = Number(facts.deltaMinor);
-    return delta === zero
-      ? null
-      : { event: delta > zero ? "budget-up" : "budget-down", body: null };
-  }
   return voted();
 }
 
@@ -2550,6 +2544,12 @@ function printedSubject(
         ...stakeMarks(stake, "their-"),
         // A printed story, told by what it is about (never its headline).
         story: { text: "yes", sourceRecordIds: cited },
+        // A budget line moved: the question names a proposal and the row an
+        // outcome, so the talk does not ask about it (pool item).
+        ...(story.facts.line !== undefined &&
+        story.facts.deltaMinor !== undefined
+          ? { "story-budget": { text: "yes", sourceRecordIds: [story.id] } }
+          : {}),
         // What it reports, where its row holds it (storyEvent).
         ...(reported
           ? {
@@ -2558,6 +2558,8 @@ function printedSubject(
                 text: "yes",
                 sourceRecordIds: [story.id],
               },
+              // Said as how it came out: nothing is left to wait for.
+              "story-decided": { text: "yes", sourceRecordIds: [story.id] },
               ...(reported.body
                 ? {
                     body: { text: reported.body, sourceRecordIds: [story.id] },
@@ -4825,6 +4827,7 @@ function raiseSubject(
   const asksFirst =
     subject.kind === "news" &&
     !!subject.facts.story &&
+    !subject.facts["story-budget"] &&
     !!words(
       core,
       data,
@@ -7743,7 +7746,15 @@ function sayNow(
       core,
       otherId,
       OWN_VIEW_TAKE,
-      { ...last.facts, ...youIn(core, conversation, otherId, playerId) },
+      {
+        ...last.facts,
+        ...youIn(core, conversation, otherId, playerId),
+        // The story the talk opened on already says how it came out: no
+        // reply that waits to see.
+        ...(conversation.topicFacts?.["story-decided"]
+          ? { "story-decided": conversation.topicFacts["story-decided"] }
+          : {}),
+      },
       choice.move,
       `${eventId}:take`,
       saidParts(conversation, otherId),
@@ -7757,7 +7768,9 @@ function sayNow(
         ...back,
         sourceRecordIds: [...new Set([...back.sourceRecordIds, eventId])],
       });
-    if (back) {
+    // A story that already says how it came out leaves nothing to wait to
+    // see: with no take that fits, the talk carries on with no filler line.
+    if (back || conversation.topicFacts?.["story-decided"]) {
       carryOn(core, conversation, data);
       return conversation;
     }

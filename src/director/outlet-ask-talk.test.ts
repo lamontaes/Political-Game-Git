@@ -38,6 +38,8 @@ interface Case {
   readonly told?: RegExp;
   /** The question the story is about, where it is not the neighbor's strongest (a budget line). */
   readonly topic?: string;
+  /** The row is a budget line moved: the talk does not ask about it (the question names a proposal, the row an outcome). */
+  readonly notAsked?: true;
 }
 
 const CASES: readonly Case[] = [
@@ -99,20 +101,20 @@ const CASES: readonly Case[] = [
     told: /^It took effect\. It's the law now\.$/,
   },
   {
-    title: "television, a budget line moved up",
+    title: "television, a budget line moved up (not asked)",
     kind: "television",
+    notAsked: true,
     playerHeard: false,
     topic: "budget-line:police",
     facts: () => ({ line: "police", deltaMinor: "1000", carried: "yes" }),
-    told: /^They put more money into .+\.$/,
   },
   {
-    title: "radio, a budget line moved down",
+    title: "radio, a budget line moved down (not asked)",
     kind: "radio",
+    notAsked: true,
     playerHeard: false,
     topic: "budget-line:police",
     facts: () => ({ line: "police", deltaMinor: "-1000", carried: "yes" }),
-    told: /^They cut the money for .+\.$/,
   },
 ];
 
@@ -188,6 +190,19 @@ for (const row of CASES)
     ];
     const pressed = row.playerHeard ? "yes" : "no";
     const asked = talk.lines.find((l) => l.kind === "news")!;
+    if (row.notAsked) {
+      // A budget line is not asked about: the story is told, and no yes or no is offered.
+      expect(asked.text).not.toMatch(/\?$/);
+      expect(talk.choices.map((c) => c.move)).not.toContain("no");
+      shown.push(
+        `  Lines: ${talk.lines.map((l) => `${l.kind}/${l.speakerId === id ? "they" : "you"}: ${l.text}`).join(" | ")}`,
+      );
+      appendFileSync(
+        path.join(tmpdir(), "outlet-ask-talk.txt"),
+        shown.join("\n") + "\n",
+      );
+      return;
+    }
     expect(
       asked,
       `the neighbor asks about the story: ${talk.lines.map((l) => `${l.kind}: ${l.text}`).join(" | ")}`,
@@ -223,13 +238,7 @@ for (const row of CASES)
     // stand again; a no is answered with what the story reported where its
     // row holds it.
     const after = talk.lines.slice(mine + 1).map((l) => l.kind);
-    // (A budget story is about a line the neighbor holds no stand on: the
-    // talk ends on what happened.)
-    const expected = row.told
-      ? row.topic
-        ? ["news-back"]
-        : ["news-back", "own-view"]
-      : ["own-view"];
+    const expected = row.told ? ["news-back", "own-view"] : ["own-view"];
     expect(
       after.slice(0, expected.length),
       `lines after the answer: ${talk.lines
@@ -238,6 +247,11 @@ for (const row of CASES)
         .join(" | ")}`,
     ).toEqual(expected);
     if (row.told) {
+      // The telling already says how it came out: nothing after it waits to see.
+      expect(
+        talk.lines.map((l) => l.text).join(" "),
+        talk.lines.map((l) => `${l.kind}: ${l.text}`).join(" | "),
+      ).not.toMatch(/see how it comes out|We'll see|once .+ votes/);
       const back = talk.lines[mine + 1]!.text;
       expect(back).toMatch(row.told);
       expect(back).not.toMatch(/\d/);
