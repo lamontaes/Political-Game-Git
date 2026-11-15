@@ -122,12 +122,15 @@ export const numberWord = (count: number): string =>
  * An organization's name as people say it: a government's by its place
  * record's proper name ("McDowell County", "Town of Smithtown treasury"),
  * since the recorded name keeps the listing's capitals as its identity;
- * anyone else's by `properName`.
+ * an outlet's (a newspaper, a station) as its record has it, since call
+ * letters are capitals by nature ("KZBY"); anyone else's by `properName`.
  */
 export function organizationName(org: {
   readonly name: string;
+  readonly kind?: string;
   readonly governmentFacts?: Readonly<Record<string, unknown>>;
 }): string {
+  if (org.kind === "media") return org.name;
   const key = org.governmentFacts?.governmentKey;
   if (typeof key !== "string") return properName(org.name);
   const treasury = /\s+treasury$/i.exec(org.name);

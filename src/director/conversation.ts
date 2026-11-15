@@ -487,7 +487,7 @@ function jobOf(core: Readonly<CoreState>, person: Readonly<PersonState>) {
  */
 function employerWords(org: Readonly<OrganizationInput>): string | null {
   return employerSaidAs({
-    name: properName(org.name),
+    name: organizationName(org),
     kind: org.kind,
     outside: !!org.outsideFlow,
     ...(org.classification ? { classification: org.classification } : {}),
@@ -1979,7 +1979,7 @@ function storyTouching(
       if (!employerId || story.facts.organizationId !== employerId) continue;
       const org = core.organizations.get(employerId);
       if (!org || !story.facts.years) continue;
-      facts.employer = fact(properName(org.name));
+      facts.employer = fact(organizationName(org));
       facts.years = fact(story.facts.years);
     } else {
       const aboutId = story.facts.personId as PersonId | undefined;
@@ -6425,7 +6425,7 @@ function lieClaims(
         value: other.id,
         facts: {
           claimed: {
-            text: employerWords(other) ?? properName(other.name),
+            text: employerWords(other) ?? organizationName(other),
             sourceRecordIds: [other.id],
           },
         },
