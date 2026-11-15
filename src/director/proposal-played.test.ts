@@ -24,11 +24,10 @@ import type { TreeNode } from "./scene-talk";
 // scene, then proposing once the couple has lived together a while. No stage
 // or progress is written by hand; the partnerships engine's own monthly climb
 // moves the couple. Place and seed pinned: Pulaski, Ohio, family-a, a first
-// proposal the partner answers yes. The premise is the scene, not one
-// wording: at 0bf3e4f5 the yes read "Yes. I thought you'd never ask."; with
-// Train 29ef4685 merged the pick among the yes lines that fit (both need
-// only said-yes on a first proposal) gives "Yes! Come here." (re-pinned
-// Nov 15, the change named in #9256's body).
+// proposal the partner answers "Yes. I thought you'd never ask." (Nov 15:
+// with Train 29ef4685 merged this read "Yes! Come here." because the
+// relation reader's general asked-before, set by the partner's own ask to
+// move in, hid it; the ask answers now read their own asked-same-before.)
 //
 // Played days: this test plays the months a couple takes to move in and then
 // to be ready for a yes (here, asked out in May 2025, asked to move in on
@@ -184,7 +183,7 @@ it("dated, moved in at the partner's ask, then proposed: the yes plays as a scen
   const lines = scene.scene.talk.lines.map((line) => line.text);
   expect(lines, where).toEqual([
     "You asked Isaiah to marry you.",
-    "Yes! Come here.",
+    "Yes. I thought you'd never ask.",
     "We're getting married.",
     "You're sure?",
     "I've never been more sure.",

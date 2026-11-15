@@ -297,7 +297,7 @@ it('asked out a second time, a yes is not one that was waited for: no "I was hop
   if (scene?.kind !== "composed") return;
   const keys = scene.scene.facts.map((row) => row.key);
   expect(keys, where).toEqual(
-    expect.arrayContaining(["said-yes", "asked-before"]),
+    expect.arrayContaining(["said-yes", "asked-same-before"]),
   );
   expect(scene.scene.talk.state.text, where).not.toBe(
     "I was hoping you'd ask.",

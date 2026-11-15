@@ -178071,7 +178071,7 @@
           "purpose": "ask-out-answer",
           "key": "favor-asked",
           "requiresFacts": ["said-yes"],
-          "excludesFacts": ["asked-before"]
+          "excludesFacts": ["asked-same-before"]
         }
       ],
       "bearing": "warm",
@@ -178247,7 +178247,7 @@
           "purpose": "proposal-answer",
           "key": "favor-asked",
           "requiresFacts": ["said-yes"],
-          "excludesFacts": ["asked-before"]
+          "excludesFacts": ["asked-same-before"]
         }
       ],
       "bearing": "guarded",
