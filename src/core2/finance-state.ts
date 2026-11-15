@@ -1484,6 +1484,7 @@ export function reviewBusiness(
         daysBetweenText(book.lastReviewedAt, core.date)) /
       p("daysPerMeanYear"),
     periodFactor: book.lastWebPriceFactor ?? p("one"),
+    lastReviewedAt: book.lastReviewedAt,
   });
   book.lastReviewedAt = core.date;
   book.nextReviewedAt = next;

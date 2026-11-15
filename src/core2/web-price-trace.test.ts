@@ -17,6 +17,7 @@ import { enactLaw, lawChain } from "./modules/laws";
 import { coreAPI } from "./state";
 import { lawReach } from "./law-reach/applied";
 import { WEB_PRICE_WHAT } from "./web-price-trace";
+import { lawDid } from "../bench/law-did";
 
 const SEED = "9ea5b0b1cf7f19c41c24ddba458a95377a45443e44227b6ec9f33db30cc8c8ad";
 const EVELETH = "2719934";
@@ -47,8 +48,15 @@ it("names the businesses a bottle deposit raised prices at, with the dollars (Ev
   const reach = lawReach(api, row.id, placeId);
   const side = reach.by.find((s) => s.what === WEB_PRICE_WHAT);
   expect(side, "the price side of the law").toBeDefined();
-  expect(side!.organizations, "businesses whose price it raised").toBeGreaterThan(
-    0,
-  );
+  expect(
+    side!.organizations,
+    "businesses whose price it raised",
+  ).toBeGreaterThan(0);
   expect(side!.amountMinor, "what buyers paid for it").toBeGreaterThan(0);
+  // The law's page names them, with the money.
+  const page = lawDid(core, DEPOSIT).find((d) => d.lawId === row.id);
+  expect(page?.organizations.count, "businesses on the page").toBe(
+    side!.organizations,
+  );
+  expect(page?.namedOrganizations[0]?.name, "a business by name").toBeTruthy();
 }, 120_000);
