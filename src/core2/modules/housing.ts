@@ -1507,16 +1507,19 @@ function buyHomes(api: CoreAPI): void {
       },
     );
     if (!weighed.buy) continue;
-    const { reasons, principalMinor: principal } = weighed,
-      down = weighed.downMinor;
-    // Only a home for sale: a finished new house from its builder, else one a household sold (the outside market paid it when it sold, and takes the buyer's money). None left, it keeps renting this month; the price level still weighs it as a buyer.
-    const taken = takeHomes(api, household.placeId, 1, true);
+    // Only a home for sale that it can afford: a finished new house from its builder, else one a household put on the market, worth no more today than the home it weighed. None, it keeps renting this month; the price level still weighs it as a buyer.
+    const taken = takeHomes(api, household.placeId, 1, true, value);
     if (!taken) {
       countUnmetBuyer(api, household.placeId, 1, household.id);
       continue;
     }
     const part = taken[0]!;
     const seller = part.sellerId;
+    // It pays what that home is worth today: the down payment and the loan scale to its price.
+    const scale = (part.priceMinor ?? value) / value;
+    const { reasons } = weighed,
+      principal = Math.floor(weighed.principalMinor * scale),
+      down = weighed.downMinor * scale;
     const source = {
       tag: "ESTIMATED" as const,
       asOf: c.date,
@@ -1582,6 +1585,7 @@ function buyHomes(api: CoreAPI): void {
         // What decided it: each reason's contribution to the buy option.
         reasons,
         // The household's sale whose home it bought.
+        sellerIds: [seller],
         ...(part.saleId ? { saleIds: [part.saleId] } : {}),
       });
     // The seller was paid the down payment and the loan: its sale pays its lender and closes.

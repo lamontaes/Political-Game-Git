@@ -14,7 +14,7 @@ import {
   priceTrace,
 } from "./housing-price-level";
 import { sellHome } from "./housing-sale";
-import { buyListedHome } from "./home-sale-buyer-fixture";
+import { buyListedHome } from "./housing-sale-buyer-fixture";
 import { townOutsideOf } from "./opening-outside-market";
 import {
   housingMacroParameter as p,

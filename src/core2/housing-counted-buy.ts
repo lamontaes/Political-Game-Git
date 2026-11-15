@@ -296,6 +296,7 @@ function weighAndBuy(
     h,
     {
       weight,
+      value,
       down,
       principal: weighed.principalMinor,
       rate: market.rate,
@@ -320,6 +321,8 @@ function buy(
   h: CountedHousehold,
   deal: {
     weight: number;
+    /** What the home it weighed is worth, for one household. */
+    value: number;
     down: number;
     principal: number;
     rate: number;
@@ -346,8 +349,8 @@ function buy(
     citation: housingData.mortgage.source,
     estimatedFrom: `A counted household (standing for ${weight}) bought a home for ${Math.round((deal.principal + deal.down) / 100)} dollars each with ${Math.round(deal.down / 100)} down at ${(deal.rate * 100).toFixed(2)}%, from ${Math.round(deal.shareMinor / 100)} dollars of its own savings, its share of its group's account, after ${deal.leaseMonths.toFixed(0)} months of its lease.`,
   };
-  // Only homes for sale: a builder's new houses, then homes households sold. None left, it does not buy this month; the price level still weighs it as a buyer.
-  const taken = takeHomes(api, h.placeId, weight);
+  // Only homes for sale that it can afford: a builder's new houses, then homes households put on the market worth no more today than the home it weighed. None, it does not buy this month; the price level still weighs it as a buyer.
+  const taken = takeHomes(api, h.placeId, weight, false, deal.value);
   if (!taken) {
     countUnmetBuyer(api, h.placeId, weight, h.id);
     return false;
@@ -357,6 +360,9 @@ function buy(
     ...part,
     id: part.sellerId,
     key: `${i}:${part.sellerId}`,
+    // It pays what each home is worth today: the down payment and the loan scale to that price.
+    scale: (part.priceMinor ?? deal.value) / deal.value,
+    downMinor: 0,
     paidMinor: 0,
   }));
   // It joins the town's owners first, taking its share of the renters' account with it; the down payment then comes out of that money, not the renters' left behind.
@@ -366,10 +372,10 @@ function buy(
   // The down payment, to each seller for its homes: first what it brought from the home it sold (paid in from the outside market that bought that home), then from the account its share moved to.
   let downPaid = 0;
   for (const seller of sellers) {
-    const amount = Math.round(deal.down * seller.homes);
+    const amount = Math.round(deal.down * seller.scale * seller.homes);
     const fromSale = Math.min(
       amount,
-      Math.round(deal.broughtMinor * seller.homes),
+      Math.min(amount, Math.round(deal.broughtMinor * seller.homes)),
     );
     // Money between the outside market and itself is not on the books: the sale pays all the same.
     const sold =
@@ -397,6 +403,7 @@ function buy(
             source,
           })
         : 0;
+    seller.downMinor += sold + fromSavings;
     seller.paidMinor += sold + fromSavings;
     downPaid += sold + fromSavings;
   }
@@ -406,19 +413,21 @@ function buy(
     regroupHousehold(rt, h, c.date);
     return false;
   }
-  // The loan never exceeds what the down payment actually paid supports at the lender's loan-to-value rule.
+  // Each home's loan never exceeds what its down payment actually paid supports at the lender's loan-to-value rule.
   const share = housingData.mortgage.downPayment.firstTime;
-  const loanWanted = Math.min(
-    Math.round(deal.principal * weight),
-    Math.floor((downPaid * (1 - share)) / share),
-  );
+  const loanOf = (seller: (typeof sellers)[number]) =>
+    Math.min(
+      Math.round(deal.principal * seller.scale * seller.homes),
+      Math.floor((seller.downMinor * (1 - share)) / share),
+    );
+  const loanWanted = sellers.reduce((n, seller) => n + loanOf(seller), 0);
   // The town bank holds it where its capital has room; otherwise a holder outside the town, as at the opening.
   const room = world.mortgageRoom();
   const holderId =
     room && loanWanted <= room.roomMinor ? room.bankId : deal.outsideId;
   let lent = 0;
   for (const seller of sellers) {
-    const amount = Math.round((loanWanted * seller.homes) / weight);
+    const amount = loanOf(seller);
     // Money between the outside market and itself is not on the books: the loan is made all the same.
     const loaned =
       holderId === seller.id

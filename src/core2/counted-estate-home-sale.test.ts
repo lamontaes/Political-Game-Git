@@ -13,7 +13,7 @@ import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
 import type { HomeSale } from "./housing-sale";
-import { buyListedHome } from "./home-sale-buyer-fixture";
+import { buyListedHome } from "./housing-sale-buyer-fixture";
 import { townOutsideOf } from "./opening-outside-market";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";

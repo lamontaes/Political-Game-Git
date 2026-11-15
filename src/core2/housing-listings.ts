@@ -17,7 +17,11 @@
  * the sale names the purchase.
  */
 import { takeNewHome } from "./housing-construction";
-import { countBuyer, countOffered } from "./housing-price-level";
+import {
+  countBuyer,
+  countOffered,
+  homeValueToday,
+} from "./housing-price-level";
 import { daysBetweenText } from "./kernel/dates";
 import type { CoreAPI } from "./types";
 
@@ -34,6 +38,9 @@ interface Listing {
   readonly listedAt: string;
   /** Who a buyer pays for it. */
   readonly payeeId: string;
+  /** The home's value when last valued and the place's price level then, for its value today. */
+  readonly valueMinor?: number;
+  readonly priceLevel?: number;
 }
 
 /** One part of a purchase: who is paid for how many homes, and the sale they come from (none for a builder's new house). */
@@ -41,6 +48,8 @@ export interface HomePart {
   readonly sellerId: string;
   readonly homes: number;
   readonly saleId?: string;
+  /** What one home of a household's sale is worth today, which the buyer pays; a builder's new house sells at the buyer's own price. */
+  readonly priceMinor?: number;
 }
 
 type StockWithListings = {
@@ -67,6 +76,7 @@ export function listHome(
   homes: number,
   saleId: string,
   payeeId: string,
+  value?: { valueMinor: number; priceLevel?: number },
 ): void {
   if (!api.state.modules.has(HOUSING) || homes <= 0) return;
   countOffered(api, placeId, homes);
@@ -76,7 +86,16 @@ export function listHome(
     ...row,
     listings: [
       ...(row.listings ?? []),
-      { saleId, homes, listedAt: api.state.date, payeeId },
+      {
+        saleId,
+        homes,
+        listedAt: api.state.date,
+        payeeId,
+        ...(value ? { valueMinor: value.valueMinor } : {}),
+        ...(value?.priceLevel !== undefined
+          ? { priceLevel: value.priceLevel }
+          : {}),
+      },
     ],
   } as never);
 }
@@ -93,24 +112,47 @@ export function homesForSale(api: CoreAPI, placeId: string): number {
 
 /**
  * A buyer takes `homes` homes in a place, all or none: a builder's finished
- * new houses first, then the oldest homes households sold. Returns each part:
- * who is paid for how many homes and the sale it comes from; undefined when
- * not enough homes are for sale.
+ * new houses first, then homes households put on the market that it can
+ * afford (worth no more today than `valueMinor`, what it would pay for one),
+ * the nearest that value first and the longest listed among equals. Returns
+ * each part: who is paid for how many homes, what one of them is worth today
+ * (a household's home), and the sale it comes from; undefined when not enough
+ * homes it can afford are for sale.
  */
 export function takeHomes(
   api: CoreAPI,
   placeId: string,
   homes: number,
   /** A full household buys one whole home from one seller. */
-  whole = false,
+  whole: boolean,
+  valueMinor: number,
 ): HomePart[] | undefined {
   // A whole house or a counted record's share of one: what is left after whole
   // houses is matched to the households' homes for sale too.
   const tolerance = 1e-9;
-  if (homesForSale(api, placeId) + tolerance < homes) return undefined;
+  const row = stockOf(api, placeId);
+  if (!row) return undefined;
+  const today = (l: Listing) =>
+    l.valueMinor === undefined
+      ? valueMinor
+      : homeValueToday(api, placeId, l.valueMinor, l.priceLevel);
+  const listings = (row.listings ?? []).map((l) => ({ ...l }));
+  const affordable = listings
+    .filter(
+      (l) =>
+        today(l) <= valueMinor * (1 + tolerance) &&
+        (!whole || l.homes + tolerance >= 1),
+    )
+    .sort(
+      (a, b) => today(b) - today(a) || a.listedAt.localeCompare(b.listedAt),
+    );
+  const newHomes = Math.max(0, Math.floor(row.newHomesForSale));
+  const fromNew = Math.min(newHomes, Math.floor(homes + tolerance));
+  if (fromNew + affordable.reduce((n, l) => n + l.homes, 0) + tolerance < homes)
+    return undefined;
   const builders = new Map<string, number>();
   let left = homes;
-  while (left >= 1) {
+  for (let i = 0; i < fromNew; i++) {
     const builder = takeNewHome(
       table(api, "stock"),
       table(api, "projects"),
@@ -125,24 +167,25 @@ export function takeHomes(
     homes: n,
   }));
   if (left > tolerance) {
-    const row = stockOf(api, placeId)!;
-    const listings = (row.listings ?? []).map((l) => ({ ...l }));
-    for (const listing of listings) {
+    for (const listing of affordable) {
       if (left <= tolerance) break;
-      if (whole && listing.homes + tolerance < left) continue;
-      const took = Math.min(listing.homes, left);
+      const took = Math.min(listing.homes, left, whole ? 1 : Infinity);
       listing.homes -= took;
       left -= took;
       parts.push({
         sellerId: listing.payeeId,
         homes: took,
         saleId: listing.saleId,
+        priceMinor: Math.round(today(listing)),
       });
     }
-    if (left > tolerance) return undefined;
+    const after = stockOf(api, placeId)!;
+    const kept = new Map(affordable.map((l) => [l.saleId, l.homes]));
     table(api, "stock").put({
-      ...row,
-      listings: listings.filter((l) => l.homes > tolerance),
+      ...after,
+      listings: listings
+        .map((l) => ({ ...l, homes: kept.get(l.saleId) ?? l.homes }))
+        .filter((l) => l.homes > tolerance),
     } as never);
   }
   return parts;

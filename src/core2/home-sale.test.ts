@@ -6,7 +6,7 @@ import { coreAPI } from "./state";
 import { advanceCore } from "./life";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { sellHome } from "./housing-sale";
-import { buyListedHome } from "./home-sale-buyer-fixture";
+import { buyListedHome } from "./housing-sale-buyer-fixture";
 import { townOutsideOf } from "./opening-outside-market";
 import type { MortgageRow } from "./housing-foreclosure";
 import { drawPlace } from "../../scripts/core2-year/place";

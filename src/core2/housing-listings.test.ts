@@ -4,9 +4,8 @@
  * (place 2204685, the seed home-price-paths draws from "c3"), on the first of
  * July of its first year: by then households have sold homes (they left, an
  * estate closed) and buyers have taken some of them. Each purchase of a sold
- * home names its sale and the sale names the purchase; the buyer's down
- * payment went to the outside market, which paid the selling household and
- * its lender at the sale. With nothing for sale, a renter who would buy does
+ * home names its sale and the sale names the purchase; the buyer paid the
+ * seller the sale names, which paid its lender from that money. With nothing for sale, a renter who would buy does
  * not, and the price level still counts it.
  */
 import { expect, it } from "vitest";
@@ -19,7 +18,6 @@ import { makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import { weighCountedBuyers } from "./modules/housing";
 import { residentsRuntime } from "./modules/residents";
-import { townOutsideOf } from "./opening-outside-market";
 import { coreAPI } from "./state";
 
 const PLACE = "2204685";
@@ -63,7 +61,6 @@ it("a buyer takes a home a household sold and the two rows name each other; with
   expect(ofSale.length, `${detail}: purchases of sold homes`).toBeGreaterThan(
     0,
   );
-  const outside = townOutsideOf(core.organizations.values(), town)!.id;
   for (const purchase of ofSale) {
     for (const saleId of purchase.saleIds!) {
       const sale = sales.find((row) => row.id === saleId);
@@ -85,8 +82,12 @@ it("a buyer takes a home a household sold and the two rows name each other; with
         ).toBeLessThanOrEqual(sale.priceMinor);
       }
     }
-    // The buyer paid the outside market, which had paid the selling household and its lender.
-    expect(purchase.sellerIds ?? [outside], purchase.id).toContain(outside);
+    // The buyer paid each seller named on the sales it bought: the household, its estate, or for a counted record the outside market that passes the money on.
+    for (const saleId of purchase.saleIds!) {
+      const sale = sales.find((row) => row.id === saleId) as
+        (Sale & { payeeId: string }) | undefined;
+      if (sale) expect(purchase.sellerIds, purchase.id).toContain(sale.payeeId);
+    }
   }
 
   // Nothing for sale: the place's market is emptied, and this month's renters who would buy cannot.

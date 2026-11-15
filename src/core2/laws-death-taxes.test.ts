@@ -17,7 +17,7 @@ import { advanceCore } from "./life";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { stancesOf } from "./modules/views";
 import { settleEstate, heirsOf } from "./estates";
-import { buyListedHome } from "./home-sale-buyer-fixture";
+import { buyListedHome } from "./housing-sale-buyer-fixture";
 import { homeSaleOf } from "./housing-sale";
 import { townOutsideOf } from "./opening-outside-market";
 import {

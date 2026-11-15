@@ -203,7 +203,12 @@ export function sellHome(
   };
   table(api, "sales").put(sale as unknown as ModuleRow);
   // A home offered this month, for sale until a buyer takes it: the place's price level weighs it against the month's buyers.
-  listHome(api, placeId, times, sale.id, payeeId);
+  listHome(api, placeId, times, sale.id, payeeId, {
+    valueMinor: sale.homeValueMinor,
+    ...(sale.homePriceLevel !== undefined
+      ? { priceLevel: sale.homePriceLevel }
+      : {}),
+  });
   return sale;
 }
 

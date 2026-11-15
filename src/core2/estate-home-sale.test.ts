@@ -6,7 +6,7 @@ import { setBookkeeping } from "./bookkeeping";
 import { settleEstate } from "./estates";
 import { gameStartDate } from "./game-start";
 import type { HomeSale } from "./housing-sale";
-import { buyListedHome } from "./home-sale-buyer-fixture";
+import { buyListedHome } from "./housing-sale-buyer-fixture";
 import { townOutsideOf } from "./opening-outside-market";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
@@ -131,6 +131,9 @@ it(`the last owner's death sells the home when probate closes, the lender first 
       );
       advanceCore(core, addDays(makeIsoDate(core.date), 35));
     }
+    // Sold in play close to the run's end: probate closes at its next monthly look.
+    else if (!heard.some((e) => e.facts?.decedentId === listed!.decedentId))
+      advanceCore(core, addDays(makeIsoDate(core.date), 35));
     const sale = housing.table("sales").get(listed!.id) as unknown as HomeSale;
     expect(sale.status, `${where}: ${sale.id} sold`).toBe("sold");
     expect(sale.boughtBy?.length, `${where}: ${sale.id} names its buyer`).toBe(

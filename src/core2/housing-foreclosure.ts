@@ -243,7 +243,13 @@ function salePrice(api: CoreAPI, householdId: string, caseId: string): number {
   // The outside market bought it at auction; it is then for sale from that buyer.
   const auction =
     at && townOutsideOf(core(api).organizations.values(), at.placeId);
-  if (at && auction) listHome(api, at.placeId, at.weight, caseId, auction.id);
+  if (at && auction)
+    listHome(api, at.placeId, at.weight, caseId, auction.id, {
+      valueMinor: dwelling?.valueMinor ?? 0,
+      ...(dwelling?.priceLevel !== undefined
+        ? { priceLevel: dwelling.priceLevel }
+        : {}),
+    });
   return Math.round(value * api.parameter("housingForeclosureSaleShare"));
 }
 

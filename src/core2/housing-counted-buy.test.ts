@@ -96,7 +96,17 @@ it("counted renters on their lease month buy from their own savings, short ones 
     ) + outside();
   const bankId = mortgageRoom(api)!.bankId;
   const bankCash = () => api.accounts().balance(api.accounts().main(bankId));
-  const before = { funds: funds(), others: others() };
+  // A home bought from a counted estate pays its surplus into the dead's group account, one of these funds.
+  const toGroups = () =>
+    (
+      api.moduleState("housing").table("sales").rows() as unknown as {
+        surplusAccountId?: string;
+        surplusMinor: number;
+      }[]
+    )
+      .filter((row) => row.surplusAccountId)
+      .reduce((n, row) => n + row.surplusMinor, 0);
+  const before = { funds: funds(), others: others(), toGroups: toGroups() };
   const heldBefore = heldMortgages(api, bankId).now,
     bankBefore = bankCash();
 
@@ -119,7 +129,7 @@ it("counted renters on their lease month buy from their own savings, short ones 
   // Newcomers waiting for a home weigh buying in the same review; their own test is housing-counted-newcomers.test.ts.
   rt.newcomers.length = 0;
   weighCountedBuyers(api);
-  const after = { funds: funds(), others: others() };
+  const after = { funds: funds(), others: others(), toGroups: toGroups() };
   const heldAfter = heldMortgages(api, bankId).now,
     bankAfter = bankCash();
 
@@ -191,7 +201,7 @@ it("counted renters on their lease month buy from their own savings, short ones 
   expect(new Set(bought.map((row) => JSON.stringify(row.reasons))).size).toBe(
     bought.length,
   );
-  // Money: the groups paid the down payments; the sellers took them and the bank's loans; nothing else moved.
+  // Money: the groups paid the down payments, less what the homes of counted estates brought their groups; the sellers took them and the bank's loans; nothing else moved.
   const down = bought.reduce((n, row) => n + row.downMinor * row.weight, 0);
   // The bank's books carry each loan it made for every household the record stands for, as its cash paid it out.
   const banked = bought
@@ -205,7 +215,9 @@ it("counted renters on their lease month buy from their own savings, short ones 
     bought.length,
   );
   expect(
-    Math.abs(before.funds - after.funds - down),
+    Math.abs(
+      before.funds - after.funds - down + (after.toGroups - before.toGroups),
+    ),
     detail,
   ).toBeLessThanOrEqual(bought.length);
   expect(after.funds + after.others, detail).toBe(before.funds + before.others);
