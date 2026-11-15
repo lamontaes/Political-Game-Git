@@ -2405,7 +2405,7 @@ const exposed: Builder = (read, f) => {
       row.personIds[0] === id &&
       row.facts?.organizationId === f.organizationId &&
       row.date <= when &&
-      (row.date < found || (row.date === found && theirs < mine))
+      (row.date < found || (row.date === found && theirs < (mine ?? "")))
     )
       earlier.add(theirs);
   }
