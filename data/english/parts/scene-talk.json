@@ -185979,10 +185979,10 @@
       }
     },
     {
-      "key": "scene-talk.state-ask.we-re-running-a-story-that-contract-went-to-firm-relative-owns-it-and-re",
+      "key": "scene-talk.state-ask.we-re-running-a-story-that-contract-went-to-firm-relative-owns-it-and-li",
       "move": "state-ask",
       "kind": "spoken",
-      "text": "We're running a story that {contract} went to {firm}. {relative} owns it, and {relative} lives with you. What's your side?",
+      "text": "We're running a story that {contract} went to {firm}. {relative} owns it and lives with you. What's your side?",
       "uses": [
         {
           "subject": "scene",

@@ -160,6 +160,11 @@ it("a scandal call names who paid and what for (Gilbert IA, seed reporters-call-
         row.bindings.some((b) => b.typeKey === "scandal"),
     );
   expect(entry, "the exposure stages the scandal call").toBeTruthy();
+  // The day of the exposure, when press.ts prints the story too
+  // (printItem's date), against the day the call is staged.
+  process.stdout.write(
+    `DAYS exposed and printed ${core.durableLog.get(String(exposedId))?.date}, call ${(entry as unknown as { date: string }).date}\n`,
+  );
   const result = purposeScene(core, director, me, entry!, {
     typeKey: "scandal",
   });
