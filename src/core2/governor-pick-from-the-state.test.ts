@@ -8,9 +8,13 @@
  * in, and only the one appointed is filled in where they live and put on the
  * state payroll.
  *
- * HAND-STAGED: the death of the post's holder, which opens the post (a post
- * stands open when its holder has died; statePostsToFill). Everything after
- * is the game's own calls.
+ * HAND-STAGED: the post's holder falls seriously ill (beginSeriousIllness),
+ * once. The health engine then books and plays their death, which opens the
+ * post (a post stands open when its holder has died; statePostsToFill), and
+ * everything after is the game's own calls. Before, the death was written by
+ * hand on the opening day (pool item tests-state-post-opened-by-written-death).
+ * The days run on the player's own clock (advancePlayerV1), so an open post
+ * waits for the player; a governor keeps only that stop on (setStops).
  *
  * Asking one of them to serve (the serve-asks engine's post seat) fills that
  * person in first, so they answer as themselves; the person asked is the one
@@ -35,6 +39,10 @@ import { lawChain } from "./modules/laws";
 import { seatPlayerInStateOffice } from "./office-day-state";
 import { corePlaceByJurisdictionId } from "./place-lookup";
 import { coreAPI } from "./state";
+import {
+  playToDeathAsPlayer,
+  playUntil,
+} from "../../tests/support/play-to-death";
 
 const PLACE = "5522550";
 const SEED = "edgar-petition-1";
@@ -48,24 +56,26 @@ function openPost() {
   const api = coreAPI(core);
   const player = core.playerId!;
   seatPlayerInStateOffice(api, { personId: player, role: "governor" });
-  const held = appointmentsIn(api, lawChain(api).stateKey)[0]!;
-  const holder = core.people.get(held.holderId)!;
-  api.updatePerson(holder.id, { alive: false });
-  api.emit({
-    id: `test-death:${holder.id}`,
-    date: core.date,
-    kind: "life.death",
-    personIds: [holder.id],
-    placeId: holder.placeId,
-    source: { tag: "SOURCED", citation: "HAND-STAGED", asOf: core.date },
-  });
+  // The executive engine names a new governor's whole cabinet at its next
+  // review, the player's too (pool item
+  // executive-player-governor-cabinet-named-without-press); the post's holder
+  // is read once that cabinet stands.
+  const state = lawChain(api).stateKey;
+  playUntil(
+    core,
+    () => appointmentsIn(api, state)[0]?.appointedBy === player,
+    60,
+    `${where}: the governor's cabinet`,
+  );
+  const held = appointmentsIn(api, state)[0]!;
+  playToDeathAsPlayer(core, held.holderId, player, ["appointment"]);
   return { core, api, player, held };
 }
 
 it(`${where}: a governor filling an open post is offered people from across the state, by name`, () => {
   const previous = setBookkeeping(false);
   try {
-    // HAND-STAGED: the post's holder dies, and the post stands open.
+    // HAND-STAGED: the post's holder falls ill; their death opens the post.
     const { core, api, player, held } = openPost();
     const { stateKey, townPlaceId } = lawChain(api);
     expect(
@@ -123,7 +133,9 @@ it(`${where}: a governor filling an open post is offered people from across the 
   } finally {
     setBookkeeping(previous);
   }
-}, 120_000);
+  // The limit covers the game's own played days to the booked death (about
+  // 85 seconds measured; twice that).
+}, 180_000);
 
 it(`${where}: a drawn person asked to serve is filled in as the one the list named, and seated as that person`, () => {
   const previous = setBookkeeping(false);
@@ -168,4 +180,6 @@ it(`${where}: a drawn person asked to serve is filled in as the one the list nam
   } finally {
     setBookkeeping(previous);
   }
-}, 120_000);
+  // The limit covers the game's own played days to the booked death (about
+  // 85 seconds measured; twice that).
+}, 180_000);
