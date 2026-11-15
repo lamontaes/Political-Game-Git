@@ -186730,10 +186730,10 @@
       }
     },
     {
-      "key": "scene-talk.state-tell.theyve-set-up-a-study-committee-and-youre-on-it-i",
+      "key": "scene-talk.state-tell.theyve-set-up-a-study-committee-and-im-chairing-it-ill-sit-you-on-it-will-you",
       "move": "state-tell",
       "kind": "spoken",
-      "text": "They've set up a study committee, and you're on it. I wanted you to hear it from me.",
+      "text": "They've set up a study committee, and I'm chairing it. I'd like you on it. Will you sit on it?",
       "uses": [
         {
           "subject": "scene",
@@ -186741,123 +186741,24 @@
           "move": "tell",
           "role": "asker",
           "purpose": "study-formed",
-          "key": "colleague-word"
+          "key": "colleague-word",
+          "requiresFacts": ["asker-chairs"]
         }
       ],
       "bearing": "calm",
       "origin": "authored",
-      "author": "Story (Claude Code), civic-prose",
-      "date": "2026-11-09",
+      "author": "Claude Sonnet (carry #9328, Words lead ruling-2)",
+      "date": "2026-11-15",
       "tag": {
         "move": "tell",
         "key": "colleague-word"
       }
     },
     {
-      "key": "scene-talk.state-tell.the-vote-on-bill-came-up-short-and-people-want-more-time-on-it-i-m-chairing-the-committee-",
+      "key": "scene-talk.state-tell.the-body-sent-bill-to-a-study-committee-i-asked-for-people-who-voted-against-it-will-you-sit-on-it",
       "move": "state-tell",
       "kind": "spoken",
-      "text": "The vote on {bill} came up short, and people want more time on it. I'm chairing the committee, and you're a member.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "tell",
-          "role": "asker",
-          "purpose": "study-formed",
-          "key": "colleague-word",
-          "requiresFacts": ["bill", "asker-chairs"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story (Claude Code), civic-prose",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "tell",
-        "key": "colleague-word"
-      }
-    },
-    {
-      "key": "scene-talk.state-tell.they-want-issue-studied-before-they-vote-again-and-i-m-chairing-the-committee-you-re-on-it",
-      "move": "state-tell",
-      "kind": "spoken",
-      "text": "They want {issue} studied before they vote again, and I'm chairing the committee. You're on it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "tell",
-          "role": "asker",
-          "purpose": "study-formed",
-          "key": "colleague-word",
-          "requiresFacts": ["issue", "asker-chairs"]
-        }
-      ],
-      "bearing": "eager",
-      "origin": "authored",
-      "author": "Story (Claude Code), civic-prose",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "tell",
-        "key": "colleague-word"
-      }
-    },
-    {
-      "key": "scene-talk.state-tell.we-report-back-by-sunset-i-want-a-finding-the-whole",
-      "move": "state-tell",
-      "kind": "spoken",
-      "text": "We report back by {sunset}. I want a finding the whole body can read, and I'd like yours in it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "tell",
-          "role": "asker",
-          "purpose": "study-formed",
-          "key": "colleague-word",
-          "requiresFacts": ["sunset", "asker-chairs"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story (Claude Code), civic-prose",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "tell",
-        "key": "colleague-word"
-      }
-    },
-    {
-      "key": "scene-talk.state-tell.we-have-until-sunset-on-issue-id-rather-we-used-the",
-      "move": "state-tell",
-      "kind": "spoken",
-      "text": "We have until {sunset} on {issue}. I'd rather we used the time than sat on it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "tell",
-          "role": "asker",
-          "purpose": "study-formed",
-          "key": "colleague-word",
-          "requiresFacts": ["sunset", "issue", "asker-chairs"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Story (Claude Code), civic-prose",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "tell",
-        "key": "colleague-word"
-      }
-    },
-    {
-      "key": "scene-talk.state-tell.its-a-committee-of-number-and-i-asked-for-people-who",
-      "move": "state-tell",
-      "kind": "spoken",
-      "text": "It's a small committee, and I asked for people who voted against {bill}. You're one of them.",
+      "text": "The body sent {bill} to a study committee. It's a small committee, and I asked for people who voted against it. You're one of them. Will you sit on it?",
       "uses": [
         {
           "subject": "scene",
@@ -186871,8 +186772,8 @@
       ],
       "bearing": "braced",
       "origin": "authored",
-      "author": "Story (Claude Code), civic-prose",
-      "date": "2026-11-09",
+      "author": "Claude Sonnet (carry #9328, Words lead ruling-2)",
+      "date": "2026-11-15",
       "tag": {
         "move": "tell",
         "key": "colleague-word"
@@ -187173,31 +187074,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-ask.what-exactly-are-we-charged-with",
-      "move": "reply-ask",
-      "kind": "spoken",
-      "text": "What exactly are we charged with?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "purpose": "study-formed",
-          "key": "colleague-word",
-          "requiresFacts": ["issue"]
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Story (Claude Code), civic-prose",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "ask",
-        "key": "colleague-word"
-      }
-    },
-    {
       "key": "scene-talk.reply-deflect.lets-see-how-the-first-meeting-goes",
       "move": "reply-deflect",
       "kind": "spoken",
@@ -187452,32 +187328,6 @@
           "key": "colleague-word",
           "requiresFacts": ["sunset"],
           "after": "scene-talk.reply-ask.when-does-it-report"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story (Claude Code), civic-prose",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "answer",
-        "key": "colleague-word"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.the-order-charges-us-with-issue-thats-the-whole-charge",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "The order charges us with {issue}. That's the whole charge.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "study-formed",
-          "key": "colleague-word",
-          "requiresFacts": ["issue"],
-          "after": "scene-talk.reply-ask.what-exactly-are-we-charged-with"
         }
       ],
       "bearing": "calm",
@@ -187761,30 +187611,6 @@
       }
     },
     {
-      "key": "scene-talk.close-warn.dont-write-the-study-off-before-it-has-met",
-      "move": "close-warn",
-      "kind": "spoken",
-      "text": "Don't write the study off before it has met.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "warn",
-          "role": "asker",
-          "purpose": "study-formed",
-          "key": "colleague-word"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Story (Claude Code), civic-prose",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "warn",
-        "key": "colleague-word"
-      }
-    },
-    {
       "key": "scene-talk.close-warn.ill-hold-the-committee-to-its-date-and-id-ask-you",
       "move": "close-warn",
       "kind": "spoken",
@@ -187853,30 +187679,6 @@
       "date": "2026-11-09",
       "tag": {
         "move": "promise",
-        "key": "colleague-word"
-      }
-    },
-    {
-      "key": "scene-talk.narrate-narrate.the-clerk-reads-the-committees-report-into-the-record",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "The clerk reads the committee's report into the record, and {name} turns to you afterward.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "study-reported",
-          "key": "colleague-word"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story (Claude Code), civic-prose",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "narrate",
         "key": "colleague-word"
       }
     },
@@ -188243,6 +188045,31 @@
       }
     },
     {
+      "key": "scene-talk.reply-agree.all-right-i-ll-go-with-the-committee",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "All right. I'll go with the committee.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "study-reported",
+          "key": "colleague-word",
+          "after": "press"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (carry #9328, Words lead ruling-2 fault 5)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "agree",
+        "key": "colleague-word"
+      }
+    },
+    {
       "key": "scene-talk.reply-agree.the-study-did-its-job-i-can-back-what-it-found",
       "move": "reply-agree",
       "kind": "spoken",
@@ -188363,10 +188190,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-ask.what-carried-the-finding-in-the-end",
+      "key": "scene-talk.reply-ask.how-did-the-members-come-down",
       "move": "reply-ask",
       "kind": "spoken",
-      "text": "What carried the finding in the end?",
+      "text": "How did the members come down?",
       "uses": [
         {
           "subject": "scene",
@@ -188379,8 +188206,8 @@
       ],
       "bearing": "curious",
       "origin": "authored",
-      "author": "Story (Claude Code), civic-prose",
-      "date": "2026-11-09",
+      "author": "Claude Sonnet (carry #9328, Words lead ruling-2)",
+      "date": "2026-11-15",
       "tag": {
         "move": "ask",
         "key": "colleague-word"
@@ -188664,7 +188491,7 @@
           "purpose": "study-reported",
           "key": "colleague-word",
           "requiresFacts": ["finding-for"],
-          "after": "scene-talk.reply-ask.what-carried-the-finding-in-the-end"
+          "after": "scene-talk.reply-ask.how-did-the-members-come-down"
         }
       ],
       "bearing": "calm",
@@ -188690,7 +188517,7 @@
           "purpose": "study-reported",
           "key": "colleague-word",
           "requiresFacts": ["finding-against"],
-          "after": "scene-talk.reply-ask.what-carried-the-finding-in-the-end"
+          "after": "scene-talk.reply-ask.how-did-the-members-come-down"
         }
       ],
       "bearing": "calm",
@@ -188926,30 +188753,6 @@
       "move": "close-warn",
       "kind": "spoken",
       "text": "Read it before the next roll call. That's all I'm asking.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "warn",
-          "role": "asker",
-          "purpose": "study-reported",
-          "key": "colleague-word"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Story (Claude Code), civic-prose",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "warn",
-        "key": "colleague-word"
-      }
-    },
-    {
-      "key": "scene-talk.close-warn.ill-remember-who-read-the-report-and-who-didnt",
-      "move": "close-warn",
-      "kind": "spoken",
-      "text": "I'll remember who read the report and who didn't.",
       "uses": [
         {
           "subject": "scene",
