@@ -30,6 +30,10 @@ The owner, Nov 12, 2026: "A, look at the code, see what, where, and why it's occ
 - **Cause not found:** say how far you got and name the one run that settles it.
 - **Only a design call about the player's own experience that no ruling answers** goes to the owner, in one sentence, ending with the reading line from `look-first`.
 
+## Causes seen before
+
+- **A remembered fact keyed by its container, not by its record.** A reader held one fact per outlet (`printed:<outlet>:story`), so the outlet's next story replaced the one before and the first could no longer be brought up or traced to its printer (Depauville NY, Auburn WY, Casper Mountain WY, Nov 15). When something seen is "forgotten" only where two records share a container on one day, look for a knowledge key that names the container; key it by the record (`news:<story>:outlet`).
+
 ## What a gap sheet row holds
 
 1. What was seen and where (quote the screen or the owner).

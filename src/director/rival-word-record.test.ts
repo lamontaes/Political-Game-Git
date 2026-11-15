@@ -9,7 +9,7 @@
  *   - its opener says how the word reached the teller (a mailer, an ad, a
  *     night of doors, a campaign message), by the message's own kind;
  *   - "Did it change how you see ..." is answered from the teller's own
- *     stance cause for that message (none, a little, a lot);
+ *     stance cause for that message (none or a lot; a little has no line of its own until a played place shows one);
  *   - no line of it is one the bank deleted.
  * With PLAYED_FILE set, every line shown is written to that file.
  */
@@ -40,7 +40,7 @@ import type { TreeNode } from "./scene-talk";
 
 /**
  * Three named places on fixed seeds, each a race a candidate gets onto the
- * ballot for: Millston WI, Grafton VT and Bicknell UT. Each proves what the others do not: Millston a teller moved none and a little by a campaign message, Grafton a night of doors, Bicknell a teller moved a lot. Between them every line of the bank's rival-word scene plays. The time is the game's own played days (a season from filing to election day, about a minute each), so the limit is near twice the measured time. The play is the
+ * ballot for: Millston WI, Grafton VT and Bicknell UT. Each proves what the others do not: Millston a campaign message to a teller moved none and one moved a lot, Grafton a night of doors, Bicknell a teller moved a lot who is also told of it by the player's chase reply. Between them every line of the bank's rival-word scene plays. The time is the game's own played days (a season from filing to election day, about a minute each), so the limit is near twice the measured time. The play is the
  * same every run.
  */
 const PLACES = [
