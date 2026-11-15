@@ -114265,26 +114265,6 @@
       "origin": "authored",
       "author": "Claude (player speech builder), for the Words lead's review",
       "date": "2026-11-15"
-    },
-    {
-      "key": "opening-speech.occasion.plain-campaign-speech-i-m-running-for-and-i-want-office-title-theme-name-by-day",
-      "move": "occasion",
-      "kind": "spoken",
-      "text": "I'm running for {office-title}, and I want to talk about {theme-name}.",
-      "uses": [
-        {
-          "move": "occasion",
-          "subject": "campaign-speech",
-          "role": "occasion",
-          "choice": "occasion",
-          "requiresFacts": ["office-title", "theme-name"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (player speech builder), for the Words lead's review",
-      "date": "2026-11-15"
     }
   ]
 }
