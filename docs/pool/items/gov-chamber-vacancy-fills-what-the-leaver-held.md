@@ -31,6 +31,6 @@ root: rc5-full-detail-every-day
 
 **Done when.** At Vilas (place 4667340, seed c200623d) a test removes the holder of the South Dakota House's presiding post in the middle of a term and shows that post changed hands, every other post and every committee the leaver was not on kept its holder and day, the arrival sits where the leaver sat and the paper got one `chamber-organized` event for that one post; a body whose majority changed hands organizes in full; and a second session on main, in a drawn place and seed it names, times the played year lower and sees the paper print a changed post once.
 
-**Waits on.** Nothing.
+**Waits on.** The Words lead's ruling on the printed line "The {body} organized and chose {name} to lead it." for a one-post refill (drawn for a speaker or presiding fill, 11 of 60 outlet ids). The player sees the change in the paper's chamber story and in a speaker, leader or committee list that no longer reshuffles when a back-bencher leaves. No played flip of a majority was reached at Vilas, so that case is a check of the vacancy writer only.
 
 **Files.** src/core2/modules/leadership.ts; src/core2/leadership-vacancy-fill.test.ts (new)
