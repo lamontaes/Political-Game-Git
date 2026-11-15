@@ -49,6 +49,8 @@ import {
 } from "../english/journal-words";
 import { DEFAULT_DIRECTOR_DATA, type Director } from "./ledger";
 import { comingOfAgeOn } from "./coming-of-age";
+import { raceMemberTitle } from "./cause-facts";
+import { titleInSentence } from "./filing-visit";
 import { raceMargin } from "./race-margin";
 import {
   organizationName,
@@ -823,6 +825,27 @@ function comingOfAgeMoments(
   ];
 }
 
+/** The office a scene's cause record kept when it was written, said as the scene says it. */
+function petitionOffice(
+  core: Readonly<CoreState>,
+  reply: { facts?: Record<string, unknown> },
+): string | undefined {
+  const facts = core.durableLog.get(String(reply.facts?.causeId))?.facts;
+  const office = facts?.office;
+  return typeof office === "string"
+    ? (raceMemberTitle(core, String(facts?.contestId)) ??
+        titleInSentence(office))
+    : undefined;
+}
+
+/** Who told the petition was short, from the scene's own record. */
+function petitionTeller(
+  core: Readonly<CoreState>,
+  reply: { facts?: Record<string, unknown> },
+): unknown {
+  return core.durableLog.get(String(reply.facts?.causeId))?.facts?.tellerKind;
+}
+
 /**
  * What a scene the person answered kept, from the reply record it wrote: a
  * promise made, a favor owed, a tie strained, a lie caught, a meeting set or
@@ -859,6 +882,26 @@ function sceneEndingMoments(
             ? {
                 actFacts: {
                   about: { text: reply.facts.about, sourceRecordIds: [id] },
+                },
+              }
+            : {}),
+          // A petition ending says which office the petition is for, from the
+          // office the scene's own record kept when it was written.
+          ...(keeps.startsWith("petition-") && petitionOffice(core, reply)
+            ? {
+                actFacts: {
+                  office: {
+                    text: petitionOffice(core, reply)!,
+                    sourceRecordIds: [id, String(reply.facts?.causeId)],
+                  },
+                  ...(petitionTeller(core, reply) === "clerk"
+                    ? {
+                        tellerIsClerk: {
+                          text: "clerk",
+                          sourceRecordIds: [id, String(reply.facts?.causeId)],
+                        },
+                      }
+                    : {}),
                 },
               }
             : {}),

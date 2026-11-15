@@ -12089,6 +12089,15 @@
           "role": "asker",
           "purpose": "talk",
           "after": "confess"
+        },
+        {
+          "subject": "scene",
+          "purpose": "petition-short",
+          "key": "news-received",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "after": "thank"
         }
       ],
       "bearing": "tender",
@@ -190680,30 +190689,6 @@
           "move": "thank",
           "role": "asker",
           "after": "promise"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (petition-short lines, Nov 15), placed by the record",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "thank",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.reply-thank.thank-you-for-telling-me",
-      "move": "reply-thank",
-      "kind": "spoken",
-      "text": "Thank you for telling me.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "petition-short",
-          "key": "news-received",
-          "step": "reply",
-          "move": "thank",
-          "role": "asked",
-          "after": "thank"
         }
       ],
       "origin": "authored",

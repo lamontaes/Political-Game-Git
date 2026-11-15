@@ -6151,10 +6151,10 @@
       }
     },
     {
-      "key": "scene-words.lead-petition-short-alone.someone-wants-a-word-about-your-petition",
+      "key": "scene-words.lead-petition-short-alone.someone-wants-a-word-about-your-petition-for-office",
       "move": "lead-petition-short-alone",
       "kind": "spoken",
-      "text": "Someone wants a word about your petition.",
+      "text": "Someone wants a word about your petition for {office}.",
       "uses": [
         {
           "move": "lead-petition-short-alone",

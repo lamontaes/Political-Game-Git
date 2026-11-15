@@ -10970,10 +10970,10 @@
       }
     },
     {
-      "key": "journal.scene-line-petition-going-out.i-went-out-to-get-more-names-on-my-petition",
+      "key": "journal.scene-line-petition-going-out.i-went-out-for-more-names-on-my-office-petition",
       "move": "scene-line-petition-going-out",
       "kind": "spoken",
-      "text": "I went out to get more names on my petition.",
+      "text": "I went out for more names on my {office} petition.",
       "uses": [
         {
           "move": "scene-line-petition-going-out",
@@ -11012,6 +11012,33 @@
               "field": "line"
             }
           ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (petition-short lines, Nov 15), placed by the record",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.scene-line-petition-not-today.the-clerk-said-my-office-petition-was-short-i-waited",
+      "move": "scene-line-petition-not-today",
+      "kind": "spoken",
+      "text": "The clerk said my {office} petition was short. I waited.",
+      "uses": [
+        {
+          "move": "scene-line-petition-not-today",
+          "subject": "scene",
+          "role": "line",
+          "choice": "petition-not-today",
+          "journal": [
+            {
+              "kindPrefix": "scene-ending:petition-not-today",
+              "field": "line"
+            }
+          ],
+          "requiresFacts": ["tellerIsClerk"]
         }
       ],
       "origin": "authored",

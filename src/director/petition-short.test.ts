@@ -264,8 +264,8 @@ it("the clerk tells a filed player on a thin petition once; a yes takes their ca
 
 it("a no changes nothing: no door is walked for the player", () => {
   // The clerk is pressed once and the player says no again; a helper the
-  // player knows by name takes the first no. The Journal names only someone
-  // the player knows, so only the helper's no is told.
+  // player knows by name takes the first no. The Journal names the helper, and
+  // says "the clerk" for a clerk the player has no name for.
   for (const [label, byHelper] of [
     ["Clerk, then a no", false],
     ["Helper, then a no", true],
@@ -292,8 +292,10 @@ it("a no changes nothing: no door is walked for the player", () => {
       addDays(makeIsoDate(petitionOf(world.api, world.filing.id)!.due), 1),
     );
     const journal = journalAbout(world).join(" ");
-    expect(/said my petition was short\. I let it wait\./.test(journal)).toBe(
-      byHelper,
+    expect(journal, "the Journal keeps the no").toMatch(
+      byHelper
+        ? /my mother said my petition was short\. I let it wait\./
+        : /[Tt]he clerk said my .+ petition was short\. I waited\./,
     );
     write(`Said no (${label}). Journal: ${journalAbout(world).join(" | ")}\n`);
     expect(statusOf(world), "left alone, the petition falls short").not.toBe(
