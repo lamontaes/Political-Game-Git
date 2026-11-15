@@ -28,12 +28,12 @@ import { restoreWorld, snapshotWorld } from "../core2/snapshot";
 import { coreAPI } from "../core2/state";
 import type { CoreState } from "../core2/types";
 
-const DRAWS = 3;
 /**
- * Time in these tests is the game's own played days: a year of a town runs
- * 75 to 200 seconds on this machine (Everett, Georgia the least), and the
- * finish line needs fourteen months of one place, so the first test cannot
- * run in a minute without playing fewer days than it asserts.
+ * Time in these tests is the game's own played days, which is the one reason
+ * a test here runs longer than a minute: a played year of a town takes 75 to
+ * 200 seconds on this machine (Everett, Georgia the least), and the finish
+ * line needs fourteen months of one place. Each limit is about twice the time
+ * measured on Nov 14, 2026 for that test.
  */
 /** The game opens in January 2025; fourteen months on is the item's finish line. */
 const AFTER_FOURTEEN_MONTHS = "2026-03-25";
@@ -42,17 +42,16 @@ const THREE_MONTHS = "2025-04-25";
 const ONE_MORE_MONTH = "2026-04-25";
 
 /**
- * The second place, pinned (never drawn): Everett, Georgia, the smallest town measured. A place that
- * serves no eviction notice in the months played is passed over, by name, for
- * the next of these.
+ * The second place, pinned: Everett, Georgia, the smallest town measured. It
+ * serves eviction notices in the months played (111 in 2025); if it stops
+ * serving them the test fails and says so, it does not look at another place.
  */
 const first = process.env.METRICS_SEED ?? "7a5e19c2b3d84f60";
-/** Places tried, in this order, when one serves no notice in the months played. */
-const NEXT_PLACES = ["4b0fc31dba594d0c", "599e6f66e9c1d25a"];
 /**
- * Fananganan, Northern Mariana Islands: a territory whose places have no town
- * government in the game (owner, Nov 14: territories get local government after
- * early access, with a notice), so Metrics has no budget section there.
+ * Fananganan, Northern Mariana Islands: a territory, and a territory's places
+ * have no town government in the game. This follows the owner's ruling (Nov 14)
+ * that territories get local government after early access, with a notice, so
+ * Metrics has no budget section there. Plays three months (45 seconds).
  */
 const TERRITORY_SEED = "9ca49eb7074e5581";
 /**
@@ -151,207 +150,215 @@ describe("the registry of output numbers", () => {
 });
 
 describe("Metrics reads the registry in a played world", () => {
+  // Each plays fifteen months of one place: fourteen to the finish line, one more after a save and a load.
+  // Measured Nov 14, 2026: Washington 241 s, Everett 126 s; the limits are about twice those.
   for (const start of [NOTICES_IN_START_YEAR, first])
-    it(`shows the town's own kept figures with last year, counts notices on the day, and survives a save, from seed ${start}`, () => {
-      const passedOver: string[] = [];
-      for (let draw = 0; draw < DRAWS; draw += 1) {
-        const seed = draw === 0 ? start : NEXT_PLACES[draw - 1]!;
-        const build = () =>
-          buildBenchWorld(seed, gameStartDate(), { twoLevel: true });
-        const world = build();
-        const core = world.core;
-        const api = coreAPI(core);
-        const placeId = world.placeId;
-        const where = `${world.place.displayName} (seed ${seed})`;
+    it(
+      `shows the town's own kept figures with last year, counts notices on the day, and survives a save, from seed ${start}`,
+      () => {
+        {
+          const seed = start;
+          const build = () =>
+            buildBenchWorld(seed, gameStartDate(), { twoLevel: true });
+          const world = build();
+          const core = world.core;
+          const api = coreAPI(core);
+          const placeId = world.placeId;
+          const where = `${world.place.displayName} (seed ${seed})`;
 
-        // The first day: housing's past ran before the start (src/core2/housing-past.ts),
-        // so rent and home value carry last year; no other town row has kept a year.
-        advanceCore(core, "2025-01-21" as never);
-        const opening = metricsView(core, placeId);
-        expect(
-          opening.sections.map((s) => s.key),
-          where,
-        ).toContain("nation");
-        for (const section of ["city", "housing", "evictions", "benefits"])
-          for (const row of opening.sections.find((s) => s.key === section)
-            ?.rows ?? [])
-            if (
-              (section === "housing" &&
-                (row.key === "rent" || row.key === "homeValue")) ||
-              (section === "city" &&
-                (row.key === "employed" || row.key === "seekers"))
-            )
-              expect(
-                row.before,
-                `${where}: ${section}.${row.key}`,
-              ).toBeGreaterThanOrEqual(0);
-            else if (section === "city" && row.key === "openPositions")
-              // The jobs open a year before follow the seekers; with no one looking there are none to read.
-              expect(
-                row.before === null || row.before >= 0,
-                `${where}: openPositions`,
-              ).toBe(true);
-            else
-              expect(row.before, `${where}: ${section}.${row.key}`).toBeNull();
+          // The first day: housing's past ran before the start (src/core2/housing-past.ts),
+          // so rent and home value carry last year; no other town row has kept a year.
+          advanceCore(core, "2025-01-21" as never);
+          const opening = metricsView(core, placeId);
+          expect(
+            opening.sections.map((s) => s.key),
+            where,
+          ).toContain("nation");
+          for (const section of ["city", "housing", "evictions", "benefits"])
+            for (const row of opening.sections.find((s) => s.key === section)
+              ?.rows ?? [])
+              if (
+                (section === "housing" &&
+                  (row.key === "rent" || row.key === "homeValue")) ||
+                (section === "city" &&
+                  (row.key === "employed" || row.key === "seekers"))
+              )
+                expect(
+                  row.before,
+                  `${where}: ${section}.${row.key}`,
+                ).toBeGreaterThanOrEqual(0);
+              else if (section === "city" && row.key === "openPositions")
+                // The jobs open a year before follow the seekers; with no one looking there are none to read.
+                expect(
+                  row.before === null || row.before >= 0,
+                  `${where}: openPositions`,
+                ).toBe(true);
+              else
+                expect(
+                  row.before,
+                  `${where}: ${section}.${row.key}`,
+                ).toBeNull();
 
-        advanceCore(core, AFTER_FOURTEEN_MONTHS as never);
-        const counted = noticesCounted(core);
-        if (!counted["2025"]) {
-          passedOver.push(
+          advanceCore(core, AFTER_FOURTEEN_MONTHS as never);
+          const counted = noticesCounted(core);
+          expect(
+            counted["2025"],
             `${where}: no eviction notice served by ${AFTER_FOURTEEN_MONTHS}`,
-          );
-          continue;
-        }
-        // The count kept on the day equals the cases counted from scratch, year by year.
-        expect(noticesKept(core), where).toEqual(counted);
+          ).toBeGreaterThan(0);
+          // The count kept on the day equals the cases counted from scratch, year by year.
+          expect(noticesKept(core), where).toEqual(counted);
 
-        const view = metricsView(core, placeId);
-        const months = api.moduleState("world-metrics").table("months");
-        const december = months.get(`metrics:${placeId}:2025-12-02`) as
-          Record<string, number> | undefined;
-        const march = months.get(`metrics:${placeId}:2026-03-02`) as
-          Record<string, number> | undefined;
-        expect(december, where).toBeTruthy();
-        expect(march, where).toBeTruthy();
-        // Rent and home value are the town's monthly row, with December's beside them.
-        for (const [key, field] of [
-          ["rent", "medianRentMinor"],
-          ["homeValue", "medianHomeValueMinor"],
-        ] as const) {
-          const row = rowOf(view, "housing", key);
-          if (!(march![field]! > 0)) {
-            expect(row, `${where}: ${key} with no figure`).toBeUndefined();
-            continue;
-          }
-          expect(row?.now, `${where}: ${key}`).toBe(march![field]);
-          expect(row?.before, `${where}: ${key} last year`).toBe(
-            december![field],
-          );
-        }
-        // The town's notices: this year so far beside last year's whole count.
-        const last = api
-          .moduleState("world-metrics")
-          .table("years")
-          .get(yearRowId(placeId, 2025)) as OutputYearRow | undefined;
-        expect(last?.closedAt, where).toBe("2026-01-02");
-        const evictions = rowOf(view, "evictions", "evictionNotices");
-        expect(evictions?.before, where).toBe(last?.evictionNotices ?? 0);
-        expect(rowOf(view, "benefits", "claims")?.now, where).toBe(
-          march!.unemploymentClaimsOpen,
-        );
-        // The people behind the count of seekers.
-        const seekers = rowOf(view, "city", "seekers") as
-          { now: number; of?: number } | undefined;
-        const employed = rowOf(view, "city", "employed");
-        expect(seekers?.of, where).toBe(employed!.now + seekers!.now);
-        // People and homes (build order metrics-people-and-homes-by-year): each is the town's monthly
-        // row with December's beside it, the named and counted people behind the count add up to it,
-        // and the housing engine's own stock and the homeless count's record are what the row holds.
-        const homes = api
-          .moduleState("housing")
-          .table("stock")
-          .get(`stock:${placeId}`) as
-          { rentalUnits: number; vacantRental: number } | undefined;
-        for (const [section, key, field] of [
-          ["city", "people", "people"],
-          ["city", "households", "households"],
-          ["city", "employed", "residentsAtWork"],
-          ["city", "seekers", "residentsLooking"],
-          ["city", "openPositions", "openPositions"],
-          ["housing", "rentals", "rentalUnits"],
-          ["housing", "vacant", "vacantRentals"],
-          ["housing", "homeless", "peopleWithoutHome"],
-        ] as const) {
-          const row = rowOf(view, section, key);
-          if (typeof march![field] !== "number") {
-            expect(row, `${where}: ${key} with no record`).toBeUndefined();
-            continue;
-          }
-          expect(row?.now, `${where}: ${key}`).toBe(march![field]);
-          if (typeof december![field] === "number")
+          const view = metricsView(core, placeId);
+          const months = api.moduleState("world-metrics").table("months");
+          const december = months.get(`metrics:${placeId}:2025-12-02`) as
+            Record<string, number> | undefined;
+          const march = months.get(`metrics:${placeId}:2026-03-02`) as
+            Record<string, number> | undefined;
+          expect(december, where).toBeTruthy();
+          expect(march, where).toBeTruthy();
+          // Rent and home value are the town's monthly row, with December's beside them.
+          for (const [key, field] of [
+            ["rent", "medianRentMinor"],
+            ["homeValue", "medianHomeValueMinor"],
+          ] as const) {
+            const row = rowOf(view, "housing", key);
+            if (!(march![field]! > 0)) {
+              expect(row, `${where}: ${key} with no figure`).toBeUndefined();
+              continue;
+            }
+            expect(row?.now, `${where}: ${key}`).toBe(march![field]);
             expect(row?.before, `${where}: ${key} last year`).toBe(
               december![field],
             );
-        }
-        expect(march!.people, where).toBe(
-          march!.peopleNamed! + march!.peopleCounted!,
-        );
-        expect(march!.rentalUnits, where).toBe(homes?.rentalUnits);
-        expect(
-          api
-            .moduleState("core2-homeless-count-v1")
-            .table("counts")
-            .get(placeId),
-          where,
-        ).toMatchObject({ homeless: march!.peopleWithoutHome });
-        // The state's figures keep the month a year back, so each has last year from the second year on.
-        for (const key of ["unemployment", "pay", "jobs"])
-          expect(
-            rowOf(view, "state", key)?.before,
-            `${where}: state.${key} last year`,
-          ).toBeGreaterThan(0);
-        // No row shows a last year that no record holds.
-        for (const section of view.sections)
-          for (const row of section.rows)
-            expect(
-              row.before === null || Number.isFinite(row.before),
-              `${where}: ${section.key}.${row.key}`,
-            ).toBe(true);
-
-        // The town's books are the played town's own government, on Metrics and on the Budgets tab.
-        const town = governments(api).find(
-          (gov) =>
-            gov.id === budgetView(core, world.playerId ?? "").townGovernmentId,
-        );
-        if (world.playerId) expect(town?.jurisdictionId, where).toBe(placeId);
-        const own = governments(api).filter(
-          (gov) => gov.jurisdictionId === placeId,
-        );
-        const books = [...budgetsOf(api, (own[0] ?? { id: "" }).id)].sort(
-          (a, b) => b.fiscalYear - a.fiscalYear,
-        )[0];
-        // The books are headed by the name of the government they were read from.
-        if (books)
-          expect(
-            (view.sections.find((s) => s.key === "budget") as { name?: string })
-              .name,
-            where,
-          ).toBe(governmentProperName(own[0]!.name, own[0]!.id));
-        if (books)
-          expect(rowOf(view, "budget", "revenue")?.now, where).toBe(
-            Object.values(books.revenueMinor).reduce(
-              (n, minor) => n + minor,
-              0,
-            ),
+          }
+          // The town's notices: this year so far beside last year's whole count.
+          const last = api
+            .moduleState("world-metrics")
+            .table("years")
+            .get(yearRowId(placeId, 2025)) as OutputYearRow | undefined;
+          expect(last?.closedAt, where).toBe("2026-01-02");
+          const evictions = rowOf(view, "evictions", "evictionNotices");
+          expect(evictions?.before, where).toBe(last?.evictionNotices ?? 0);
+          expect(rowOf(view, "benefits", "claims")?.now, where).toBe(
+            march!.unemploymentClaimsOpen,
           );
+          // The people behind the count of seekers.
+          const seekers = rowOf(view, "city", "seekers") as
+            { now: number; of?: number } | undefined;
+          const employed = rowOf(view, "city", "employed");
+          expect(seekers?.of, where).toBe(employed!.now + seekers!.now);
+          // People and homes (build order metrics-people-and-homes-by-year): each is the town's monthly
+          // row with December's beside it, the named and counted people behind the count add up to it,
+          // and the housing engine's own stock and the homeless count's record are what the row holds.
+          const homes = api
+            .moduleState("housing")
+            .table("stock")
+            .get(`stock:${placeId}`) as
+            { rentalUnits: number; vacantRental: number } | undefined;
+          for (const [section, key, field] of [
+            ["city", "people", "people"],
+            ["city", "households", "households"],
+            ["city", "employed", "residentsAtWork"],
+            ["city", "seekers", "residentsLooking"],
+            ["city", "openPositions", "openPositions"],
+            ["housing", "rentals", "rentalUnits"],
+            ["housing", "vacant", "vacantRentals"],
+            ["housing", "homeless", "peopleWithoutHome"],
+          ] as const) {
+            const row = rowOf(view, section, key);
+            if (typeof march![field] !== "number") {
+              expect(row, `${where}: ${key} with no record`).toBeUndefined();
+              continue;
+            }
+            expect(row?.now, `${where}: ${key}`).toBe(march![field]);
+            if (typeof december![field] === "number")
+              expect(row?.before, `${where}: ${key} last year`).toBe(
+                december![field],
+              );
+          }
+          expect(march!.people, where).toBe(
+            march!.peopleNamed! + march!.peopleCounted!,
+          );
+          expect(march!.rentalUnits, where).toBe(homes?.rentalUnits);
+          expect(
+            api
+              .moduleState("core2-homeless-count-v1")
+              .table("counts")
+              .get(placeId),
+            where,
+          ).toMatchObject({ homeless: march!.peopleWithoutHome });
+          // The state's figures keep the month a year back, so each has last year from the second year on.
+          for (const key of ["unemployment", "pay", "jobs"])
+            expect(
+              rowOf(view, "state", key)?.before,
+              `${where}: state.${key} last year`,
+            ).toBeGreaterThan(0);
+          // No row shows a last year that no record holds.
+          for (const section of view.sections)
+            for (const row of section.rows)
+              expect(
+                row.before === null || Number.isFinite(row.before),
+                `${where}: ${section.key}.${row.key}`,
+              ).toBe(true);
 
-        // A save and a load keep the year rows, and the count goes on from them.
-        const saved = snapshotWorld(core);
-        const keptRows = JSON.stringify(yearRows(core));
-        const loaded = build().core;
-        restoreWorld(loaded, saved);
-        expect(JSON.stringify(yearRows(loaded)), where).toBe(keptRows);
-        advanceCore(loaded, ONE_MORE_MONTH as never);
-        expect(noticesKept(loaded), where).toEqual(noticesCounted(loaded));
+          // The town's books are the played town's own government, on Metrics and on the Budgets tab.
+          const town = governments(api).find(
+            (gov) =>
+              gov.id ===
+              budgetView(core, world.playerId ?? "").townGovernmentId,
+          );
+          if (world.playerId) expect(town?.jurisdictionId, where).toBe(placeId);
+          const own = governments(api).filter(
+            (gov) => gov.jurisdictionId === placeId,
+          );
+          const books = [...budgetsOf(api, (own[0] ?? { id: "" }).id)].sort(
+            (a, b) => b.fiscalYear - a.fiscalYear,
+          )[0];
+          // The books are headed by the name of the government they were read from.
+          if (books)
+            expect(
+              (
+                view.sections.find((s) => s.key === "budget") as {
+                  name?: string;
+                }
+              ).name,
+              where,
+            ).toBe(governmentProperName(own[0]!.name, own[0]!.id));
+          if (books)
+            expect(rowOf(view, "budget", "revenue")?.now, where).toBe(
+              Object.values(books.revenueMinor).reduce(
+                (n, minor) => n + minor,
+                0,
+              ),
+            );
 
-        process.stdout.write(
-          `metrics registry: ${where}, people and homes now/last year ${JSON.stringify(
-            ["people", "households", "rentals", "vacant", "homeless"].map(
-              (key) => [
-                key,
-                (rowOf(view, "city", key) ?? rowOf(view, "housing", key))?.now,
-                (rowOf(view, "city", key) ?? rowOf(view, "housing", key))
-                  ?.before,
-              ],
-            ),
-          )}, notices ${JSON.stringify(counted)}; passed over: ${passedOver.join("; ") || "none"}\n`,
-        );
-        return;
-      }
-      throw new Error(
-        `No drawn place served an eviction notice: ${passedOver.join("; ")}`,
-      );
-    }, 900_000);
+          // A save and a load keep the year rows, and the count goes on from them.
+          const saved = snapshotWorld(core);
+          const keptRows = JSON.stringify(yearRows(core));
+          const loaded = build().core;
+          restoreWorld(loaded, saved);
+          expect(JSON.stringify(yearRows(loaded)), where).toBe(keptRows);
+          advanceCore(loaded, ONE_MORE_MONTH as never);
+          expect(noticesKept(loaded), where).toEqual(noticesCounted(loaded));
+
+          process.stdout.write(
+            `metrics registry: ${where}, people and homes now/last year ${JSON.stringify(
+              ["people", "households", "rentals", "vacant", "homeless"].map(
+                (key) => [
+                  key,
+                  (rowOf(view, "city", key) ?? rowOf(view, "housing", key))
+                    ?.now,
+                  (rowOf(view, "city", key) ?? rowOf(view, "housing", key))
+                    ?.before,
+                ],
+              ),
+            )}, notices ${JSON.stringify(counted)}\n`,
+          );
+          return;
+        }
+      },
+      start === NOTICES_IN_START_YEAR ? 500_000 : 260_000,
+    );
 
   it("a territory's town has no government of its own, so Metrics has no budget section", () => {
     const world = buildBenchWorld(TERRITORY_SEED, gameStartDate(), {
@@ -367,7 +374,7 @@ describe("Metrics reads the registry in a played world", () => {
       view.sections.find((section) => section.key === "budget"),
       where,
     ).toBeUndefined();
-  }, 120_000);
+  }, 90_000);
 
   /** A drawn small town (seed fixed so the town stays a few hundred people at most). */
   it("shows a small town's own count, and an empty figure as a zero from the engine's record", () => {
@@ -414,5 +421,5 @@ describe("Metrics reads the registry in a played world", () => {
     process.stdout.write(
       `metrics small town: ${where}, people ${people!.now}, rentals ${stock?.rentalUnits}, homeless ${count?.homeless}\n`,
     );
-  }, 900_000);
+  }, 70_000);
 });

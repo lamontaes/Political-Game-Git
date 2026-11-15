@@ -80,5 +80,5 @@ describe("the town's labor market a year before the start", () => {
         row(later, "city", key)?.before,
         `${where}: city.${key}`,
       ).toBeGreaterThanOrEqual(0);
-  }, 600_000);
+  }, 400_000);
 });
