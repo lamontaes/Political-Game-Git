@@ -150,9 +150,10 @@ export function draftCard({ groups, words, onDraft }) {
     const riseNeeds = el("p", { className: "draft-note draft-rise-needs" });
     riseNeeds.hidden = true;
     const checkRise = () => {
+      // Closed, Draft is as the subject allows: dark where the body may not write on it.
       if (rise.hidden) {
         riseNeeds.hidden = true;
-        draft.disabled = false;
+        draft.disabled = Boolean(item.blocked);
         return;
       }
       const missing = !(Number(percent.value) > 0)
@@ -164,7 +165,7 @@ export function draftCard({ groups, words, onDraft }) {
             : "";
       riseNeeds.textContent = missing ?? "";
       riseNeeds.hidden = !missing;
-      draft.disabled = Boolean(missing);
+      draft.disabled = Boolean(item.blocked || missing);
     };
     percent.addEventListener("input", checkRise);
     years.addEventListener("input", checkRise);

@@ -3577,7 +3577,17 @@ async function seatRows() {
     );
   };
   const act = async (params) => {
-    const r = await post(`/api/seat/act?${new URLSearchParams(params)}`);
+    let r;
+    try {
+      r = await post(`/api/seat/act?${new URLSearchParams(params)}`);
+    } catch (error) {
+      // The engine refused the bill (a step's day out of order, a day already past): its
+      // reason is shown on the seat, and nothing was drafted.
+      seatText = [];
+      seatResult = error.message;
+      openSheet("office");
+      return;
+    }
     seatText = r.text ?? [];
     // An executive's bill goes through a member: who was asked and what they said.
     const askedWord = r.asked
