@@ -77,7 +77,11 @@ import {
 } from "../english/policy-names";
 import { dollars } from "../english/bill-sections";
 import { lateSaid, moneySaid, monthsOfRentDays } from "../english/count-words";
-import { NOTICE_SERVED_EVENT, dwellingTenure } from "../core2/modules/housing";
+import {
+  HOUSING_MODULE_ID,
+  NOTICE_SERVED_EVENT,
+  dwellingTenure,
+} from "../core2/modules/housing";
 import {
   NEWS_MODULE_ID,
   NEWS_READ,
@@ -2292,6 +2296,21 @@ function doorViewFacts(
       facts["rent-heavy"] = {
         text: "yes",
         sourceRecordIds: [...reason.recordIds, ...income.ids],
+      };
+    // That it went up, where the lease's last renewal raised it (the housing
+    // engine's renewal row): the renter who wants it left alone says so.
+    const renewal = !core.modules.has(HOUSING_MODULE_ID)
+      ? undefined
+      : (coreAPI(core as CoreState)
+          .moduleState(HOUSING_MODULE_ID)
+          .table("renewals")
+          .get(`lease:${householdId}`) as unknown as
+          | { id: string; rentMinor: number; previousRentMinor: number }
+          | undefined);
+    if (renewal && renewal.rentMinor > renewal.previousRentMinor)
+      facts["rent-rose"] = {
+        text: "yes",
+        sourceRecordIds: [...reason.recordIds, renewal.id],
       };
   }
   return facts;

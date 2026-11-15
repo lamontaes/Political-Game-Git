@@ -168987,6 +168987,42 @@
       }
     },
     {
+      "key": "scene-talk.reply-tell.my-rent-went-up-when-i-renewed-i-can-t-back-anything-that-pushes-it-higher",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "My rent went up when I renewed. I can't back anything that pushes it higher.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-signature.plain",
+          "key": "door",
+          "after": "ask",
+          "requiresFacts": ["side-against", "why-rent", "rent-rose"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "ask-support.plain",
+          "key": "door",
+          "after": "ask",
+          "requiresFacts": ["side-against", "why-rent", "rent-rose"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Opus (door scenes, brief G)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "tell",
+        "key": "door"
+      }
+    },
+    {
       "key": "scene-talk.reply-tell.the-rent-it-s-hard",
       "move": "reply-tell",
       "kind": "spoken",
