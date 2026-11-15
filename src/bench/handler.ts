@@ -2413,7 +2413,17 @@ const ROUTES: readonly Route[] = [
     match: ({ request, url }) =>
       request.method === "GET" && url.pathname === "/api/card",
     run: async ({ url, send }) => {
-      send(200, personCard(requireCore(), url.searchParams.get("id") ?? ""));
+      // The card also carries the clock a screen shows: the player's own while it runs, else the
+      // world's day (a dev panel's run of days lets the character go and returns no packet), so a
+      // screen that re-reads the card after any change shows today's date.
+      const core = requireCore();
+      send(200, {
+        ...personCard(core, url.searchParams.get("id") ?? ""),
+        at: state.player?.packet?.at ?? {
+          date: makeIsoDate(core.date),
+          minuteOfDay: 0,
+        },
+      });
       return;
     },
   },
