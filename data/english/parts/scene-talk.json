@@ -76842,7 +76842,17 @@
           "key": "news-received",
           "step": "reply",
           "move": "promise",
-          "role": "asked"
+          "role": "asked",
+          "after": "tell"
+        },
+        {
+          "subject": "scene",
+          "purpose": "rival-word",
+          "key": "news-received",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "after": "scene-talk.follow-answer.opponent-is-for-about"
         }
       ],
       "origin": "authored",
@@ -76865,7 +76875,17 @@
           "key": "news-received",
           "step": "reply",
           "move": "deflect",
-          "role": "asked"
+          "role": "asked",
+          "after": "tell"
+        },
+        {
+          "subject": "scene",
+          "purpose": "rival-word",
+          "key": "news-received",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "after": "scene-talk.follow-answer.opponent-is-for-about"
         }
       ],
       "origin": "authored",
@@ -76934,7 +76954,8 @@
           "key": "news-received",
           "step": "reply",
           "move": "leave",
-          "role": "asked"
+          "role": "asked",
+          "after": "press"
         }
       ],
       "origin": "authored",
@@ -186317,15 +186338,6 @@
           "move": "ask",
           "role": "asked",
           "requiresFacts": ["issue", "about", "side-for"]
-        },
-        {
-          "subject": "scene",
-          "purpose": "rival-word",
-          "key": "news-received",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "requiresFacts": ["issue", "about", "side-against"]
         }
       ],
       "origin": "authored",
@@ -186418,7 +186430,18 @@
           "step": "reply",
           "move": "promise",
           "role": "asked",
-          "requiresFacts": ["issue", "own-stand"]
+          "requiresFacts": ["issue", "own-stand"],
+          "after": "tell"
+        },
+        {
+          "subject": "scene",
+          "purpose": "rival-word",
+          "key": "news-received",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "requiresFacts": ["issue", "own-stand"],
+          "after": "scene-talk.follow-answer.opponent-is-for-about"
         }
       ],
       "origin": "authored",
@@ -186442,7 +186465,8 @@
           "step": "reply",
           "move": "deflect",
           "role": "asked",
-          "requiresFacts": ["how-canvass"]
+          "requiresFacts": ["how-canvass"],
+          "after": "tell"
         }
       ],
       "origin": "authored",
@@ -186568,31 +186592,6 @@
           "role": "asker",
           "after": "scene-talk.reply-ask.what-are-they-saying-about-issue",
           "requiresFacts": ["opponent", "about", "side-for"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (rival-word lines, Nov 15), placed by the record",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "answer",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.opponent-is-against-about",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "{opponent} is against {about}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "rival-word",
-          "key": "news-received",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "after": "scene-talk.reply-ask.what-are-they-saying-about-issue",
-          "requiresFacts": ["opponent", "about", "side-against"]
         }
       ],
       "origin": "authored",
