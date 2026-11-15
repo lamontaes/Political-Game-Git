@@ -21106,7 +21106,18 @@
           "move": "confront",
           "role": "asker",
           "purpose": "rally-opponent",
-          "key": "threat"
+          "key": "threat",
+          "excludesFacts": ["debate"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "rally-opponent",
+          "key": "threat",
+          "requiresFacts": ["debate", "issue"],
+          "excludesFacts": ["said-none"]
         }
       ],
       "bearing": "braced",
@@ -187923,10 +187934,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-confront.i-answered-most-of-them-you-can-ask-me-that-one-now",
+      "key": "scene-talk.reply-confront.i-said-i-had-nothing-to-add-that-s-an-answer",
       "move": "reply-confront",
       "kind": "spoken",
-      "text": "I answered most of them. You can ask me that one now.",
+      "text": "I said I had nothing to add. That's an answer.",
       "uses": [
         {
           "subject": "scene",
@@ -187994,6 +188005,32 @@
       "date": "2026-11-14",
       "tag": {
         "move": "warn",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-disagree.i-ll-take-my-chances-with-the-voters",
+      "move": "reply-disagree",
+      "kind": "spoken",
+      "text": "I'll take my chances with the voters.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "disagree",
+          "role": "asked",
+          "purpose": "rally-opponent",
+          "key": "threat",
+          "requiresFacts": ["debate"],
+          "after": "confront"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Campaign events builder, draft for the Words lead",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "disagree",
         "key": "threat"
       }
     }
