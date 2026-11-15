@@ -896,7 +896,14 @@ export function actOn(
         stances: ownPriorities(api, person),
       };
       if (chosen.kind !== "address") throw new Error("Choose what to say.");
-      recordIds.push(...stateOfTheState(api, office, entry, chosen.stances));
+      // Another state's governor keeps only the result (owner, Nov 5, 12:49
+      // p.m. Eastern, OWNER-DECISIONS.md: for a government outside the
+      // player's own chain, simulate from the people there and keep the
+      // result): the address and the stances said stay on this entry's
+      // result row, and no speech is delivered to a full audience. The
+      // player's own state's governor is in the chain and speaks to it.
+      if (office.stateKey === lawChain(api).stateKey)
+        recordIds.push(...stateOfTheState(api, office, entry, chosen.stances));
       break;
     }
     case "budget-proposal": {
