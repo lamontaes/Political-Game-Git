@@ -47,6 +47,22 @@ for (const seed of WORLDS) {
       .filter((p) => p.alive && !p.id.startsWith("official:"))
       .sort((a, b) => a.id.localeCompare(b.id))[0]!.id;
     world.player!.select(me);
+    // The opening evening, at home: nobody the player lives with is called
+    // or visited (the card reads the evening the household gets home, not
+    // a midday clock the opening never had).
+    for (const mate of [...core.people.values()].filter(
+      (p) =>
+        p.alive &&
+        p.id !== me &&
+        p.householdId === core.people.get(me)!.householdId,
+    )) {
+      const rows = (await ask("GET", `/api/known?id=${me}&other=${mate.id}`))
+        .json.acts as Act[];
+      expect(
+        rows.some((row) => row.kind === "call"),
+        `${where}: no call home on the opening evening`,
+      ).toBe(false);
+    }
     expect((await ask("POST", "/api/advance?mode=day")).status, where).toBe(
       200,
     );

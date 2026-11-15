@@ -312,6 +312,8 @@ const talkView = (value: Conversation | undefined) =>
     choices: value.choices,
     // The scales' set: the same choices made false (empty dims the scales).
     lies: value.lies,
+    // A call: the screen keeps the player's own room and draws nobody new in it.
+    ...(value.byPhone ? { byPhone: true } : {}),
   };
 /**
  * Opens a talk with someone, by every road: the room, a scene, a workplace
@@ -389,19 +391,32 @@ function openTalk(otherId: string, occasionId?: string, byPhone = false) {
   return talkView(state.conversation);
 }
 
+/**
+ * The player's minute now: the clock's, else on the opening day the evening
+ * the household gets home (where the opening scene stands), else midday.
+ */
+function playerMinute(core: CoreState, playerId: string): number {
+  return (
+    state.player?.packet?.at.minuteOfDay ??
+    (state.director?.ledger.opening?.date === core.date
+      ? openingArrivalMinute(core, playerId)
+      : undefined) ??
+    12 * 60
+  );
+}
+
 /** The acts the card offers for a person, from where the player stands now. */
 function actsFor(otherId: string) {
   const player = state.player;
   if (!player?.personId) return [];
   const core = requireCore();
+  const minute = playerMinute(core, player.personId);
   return personActs(core, player.personId, otherId, {
-    minute: player.packet?.at.minuteOfDay ?? 12 * 60,
+    minute,
     held: player.clockHeld(),
     here: sceneNow(core, player.personId).people.map((p) => p.personId),
     atHome:
-      !state.visit &&
-      whereIs(core, player.personId, player.packet?.at.minuteOfDay ?? 12 * 60)
-        .kind === "home",
+      !state.visit && whereIs(core, player.personId, minute).kind === "home",
     ...(state.director ? { director: state.director } : {}),
   });
 }
@@ -423,7 +438,7 @@ function visitPerson(otherId: string) {
       parameter("minutesPerHour", parameters),
   );
   // The room as it stands at the arrival minute, then the visit's hours.
-  const minute = player.packet?.at.minuteOfDay ?? 12 * 60;
+  const minute = playerMinute(core, playerId);
   const at = whereIs(core, otherId, minute);
   const room =
     at.kind === "work"

@@ -259,8 +259,10 @@ let talkPersonId;
 function drawTalkStrip() {
   const name = $("talk-name").textContent;
   const inRoom = here.people.some((p) => p.personId === talkPersonId);
+  // On a call the other person is on the line, not in the room: nobody new
+  // stands in the player's room.
   const speaker =
-    talkPersonId && !inRoom && talkFace
+    talkPersonId && !inRoom && talkFace && !talk?.byPhone
       ? [{ personId: talkPersonId, name, face: talkFace }]
       : [];
   const others = here.people.filter((p) => p.personId !== talkPersonId);
@@ -1408,7 +1410,7 @@ async function setWho(personId, name) {
   drawTalkStrip();
 }
 /** A talk's lines: what you said before, what they said before, and what is said now. */
-function spokenLines(lines) {
+function spokenLines(lines, keep = 1) {
   return transcript(
     lines.map((line) => ({
       text: line.text,
@@ -1418,6 +1420,7 @@ function spokenLines(lines) {
     {
       mineWho: $("card-name").textContent,
       theirWho: $("talk-name").textContent,
+      keep,
     },
   );
 }
@@ -1447,7 +1450,12 @@ function setScales({ available, on }) {
   $("talk-lie").disabled = !available;
   $("talk-lie").classList.toggle("on", Boolean(available && on));
 }
-function renderTalk(value) {
+/**
+ * Draws the talk box. `opened` is the talk's first draw: everything said so
+ * far is shown (a call's "Yes, hello?" comes before the player's own "Hi,
+ * it's ..."), where later draws keep only the player's last line and after.
+ */
+function renderTalk(value, opened = false) {
   if (value?.otherId !== talk?.otherId) lying = false;
   talk = value;
   show("talk", Boolean(value));
@@ -1464,7 +1472,7 @@ function renderTalk(value) {
   const choices = (lying && lies.length ? lies : value.choices).slice(0, 6);
   talkControls({ silent: true, leave: true });
   fillTalk({
-    lines: spokenLines(value.lines),
+    lines: spokenLines(value.lines, opened ? value.lines.length : 1),
     replies: replies(choices, (choice) => sayLine(choice.key)),
   });
   // Dim when there is nothing false to say; tipped and red while lying.
@@ -1484,7 +1492,7 @@ async function talkTo(otherId, momentId) {
   const opened = await post(
     `/api/talk/open?otherId=${encodeURIComponent(otherId)}${occasion}`,
   );
-  renderTalk(opened);
+  renderTalk(opened, true);
   // Nothing to say opens no box (the server answers none): the room is handed
   // back, as after a talk's end.
   if (!opened) await renderScene();
@@ -2863,7 +2871,7 @@ async function doAct(kind, personId) {
   // The talk opens where they are, or on the phone; nothing to say hands the
   // room back, as after any talk's end. An ask's answer is a scene the room
   // now plays.
-  if (done.talk) renderTalk(done.talk);
+  if (done.talk) renderTalk(done.talk, true);
   else if (done.momentId) await showStory(done.momentId);
   else await renderScene();
 }
