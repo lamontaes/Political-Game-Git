@@ -13,6 +13,7 @@ blocked-on:
 source: "measured by T54 for the Account lead's bank-room question, Nov 15"
 claimed-at: 2026-11-15
 after:
+root: none
 lead: money
 model: sonnet
 effort: medium
