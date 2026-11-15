@@ -678,11 +678,23 @@ function assignCommittees(
   for (const committee of COMMITTEES) {
     const majorityPool = partisan ? majority : all;
     const old = fill ? before.get(committee) : undefined;
-    const stay = (old?.memberIds ?? [])
+    const sitting = (old?.memberIds ?? [])
       .filter((id) => standing.has(id))
       .map((id) => byKey.get(id)!);
-    // Every member of a committee still sits: it stands as it was.
-    if (old && stay.length === old.memberIds.length) continue;
+    const sittingMajority = sitting.filter((t) =>
+      majorityPool.includes(t),
+    ).length;
+    // Seats the party ratio no longer gives a side (the sides changed size)
+    // are not kept: the committee is seated again by the assigner's rule.
+    const ratioHolds =
+      sittingMajority <= size - minoritySeats &&
+      sitting.length - sittingMajority <= minoritySeats;
+    // Every member of a committee still sits and its ratio holds: it stands as it was.
+    if (old && ratioHolds && sitting.length === old.memberIds.length) continue;
+    const stay = ratioHolds ? sitting : [];
+    for (const t of sitting)
+      if (!ratioHolds)
+        load.set(memberKey(t), (load.get(memberKey(t)) ?? 1) - 1);
     const stayKeys = new Set(stay.map(memberKey));
     const stayMajority = stay.filter((t) => majorityPool.includes(t)).length;
     // A seat left open goes first to a member who arrived since the body
@@ -727,7 +739,9 @@ function assignCommittees(
     // The chair: the assigning authority's pick, or the committee's vote.
     const authority = who.majority ? byKey.get(who.majority) : undefined;
     const keptChair =
-      old && standing.has(old.chairId) ? byKey.get(old.chairId) : undefined;
+      old && ratioHolds && standing.has(old.chairId)
+        ? byKey.get(old.chairId)
+        : undefined;
     const chair =
       keptChair ??
       (/vote/.test(chairRule) || !authority
