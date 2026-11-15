@@ -32,6 +32,6 @@ source: Found by the short-replies builder playing the paper's bribe accusation 
 
 **Waits on.** #9357 (placement checks file) for the count; the build itself can start.
 
-**Files.** src/director/purpose-scene.ts, data/english/parts/scene-talk.json, data/english/placement-checks.json (new; from #9357), src/english/placement-checks.ts (new; from #9357)
+**Files.** src/director/purpose-scene.ts, data/english/parts/scene-talk.json, data/english/placement-checks.json (new), src/english/placement-checks.ts (new)
 
 **Notes.** Filed by hand on the conflict-accuse follow-up branch, Nov 15.
