@@ -38519,7 +38519,8 @@
           "move": "veto-reply-answer-gives",
           "subject": "veto-reply",
           "role": "answer",
-          "choice": "gives"
+          "choice": "gives",
+          "requiresFacts": ["bill"]
         }
       ],
       "origin": "authored",
@@ -38536,7 +38537,8 @@
           "move": "veto-reply-answer-leave",
           "subject": "veto-reply",
           "role": "answer",
-          "choice": "leave"
+          "choice": "leave",
+          "requiresFacts": ["bill"]
         }
       ],
       "origin": "authored",
@@ -38553,7 +38555,8 @@
           "move": "veto-reply-back-core",
           "subject": "veto-reply-back",
           "role": "core",
-          "stages": ["holds"]
+          "stages": ["holds"],
+          "requiresFacts": ["bill"]
         }
       ],
       "piece": {
@@ -38575,7 +38578,8 @@
           "move": "veto-reply-back-core",
           "subject": "veto-reply-back",
           "role": "core",
-          "stages": ["gives"]
+          "stages": ["gives"],
+          "requiresFacts": ["bill"]
         }
       ],
       "piece": {

@@ -27,10 +27,10 @@ import {
 } from "../core2/modules/legislature";
 import {
   OFFICE_DAY_MODULE_ID,
+  vetoCloseness,
   type OfficeActRow,
 } from "../core2/modules/office-day";
-import { federalParameter } from "../core2/office-day-federal";
-import { meetingsOn } from "../core2/modules/interest-groups";
+import { meetingsOn } from "../core2/modules/elections";
 import { causeGroupName } from "../english/group-names";
 import { applyCoreEvent, coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
@@ -212,8 +212,7 @@ export function answerVeto(
   // Nothing to give back where the veto took nothing (no tie to cool).
   if (reply !== "gives" || !act.cooled) return id;
   const traits = core.people.get(sponsorId)?.traits ?? {};
-  const step =
-    federalParameter("whipAnswerCloseness") * (P.one - share(traits, CONFLICT));
+  const step = vetoCloseness() * (P.one - share(traits, CONFLICT));
   if (!step) return id;
   const why = { cause: "veto-answer:gives", sourceId: id };
   api.relationship(sponsorId, answererId, "contact", step, undefined, why);

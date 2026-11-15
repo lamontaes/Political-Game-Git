@@ -1,6 +1,6 @@
 ---
 id: people-act-at-a-distance-is-not-contact
-title: "A veto or a whip's answer moves a tie without the two meeting, but the greeting the next day says \"I saw you yesterday\""
+title: 'A veto or a whip''s answer moves a tie without the two meeting, but the greeting the next day says "I saw you yesterday"'
 area: people
 kind: bug
 priority: 2

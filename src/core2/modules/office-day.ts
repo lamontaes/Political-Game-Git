@@ -1368,7 +1368,7 @@ export function decideDesk(
     api.state.people.get(bill.sponsorId)?.alive
   ) {
     const before = closenessBetween(api.state, player, bill.sponsorId);
-    const step = -federalParameter("whipAnswerCloseness");
+    const step = -vetoCloseness();
     const why = { cause: "veto", sourceId: billId };
     api.relationship(bill.sponsorId, player, "contact", step, undefined, why);
     api.relationship(player, bill.sponsorId, "contact", step, undefined, why);
@@ -1389,6 +1389,11 @@ export function decideDesk(
   const decided = executiveDecision(api, billId, sign);
   releaseHeld(api, deskStopId(billId));
   return decided;
+}
+
+/** How far a veto moves the tie between the executive and the sponsor (the whip-answer step, `whipAnswerCloseness`), for what a reply gives back. */
+export function vetoCloseness(): number {
+  return federalParameter("whipAnswerCloseness");
 }
 
 /** The reasons the record supports for the player to give with a veto of a bill on their desk (`vetoReasons`). */
