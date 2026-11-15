@@ -144328,10 +144328,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-confront.taken.you-could-have-sat-on-it-long-enough-to-ask-me",
+      "key": "scene-talk.reply-confront.taken.you-couldn-t-sit-on-it-but-you-could-have-come-to-me",
       "move": "reply-confront",
       "kind": "spoken",
-      "text": "You could have sat on it long enough to ask me. One day would have done it.",
+      "text": "You couldn't sit on it, but you could have come to me first. I'd have told you the rest.",
       "uses": [
         {
           "subject": "scene",
