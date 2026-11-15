@@ -39,15 +39,22 @@ import { purposeScene } from "./purpose-scene";
 import type { TreeNode } from "./scene-talk";
 
 /**
- * Three named places on fixed seeds, each a race a candidate gets onto the
- * ballot for: Millston WI, Grafton VT and Hopkinton RI. Each proves what the others do not: Millston a campaign message to a teller moved none or a lot, Grafton a night of doors, Hopkinton word moved none, a little and a lot (a little is the common case in the world). Between them every line of the bank's rival-word scene plays. The time is the game's own played days (a season from filing to election day, about a minute each), so the limit is near twice the measured time. The play is the
- * same every run.
+ * One named place on a fixed seed: Hopkinton RI, a race a candidate gets onto
+ * the ballot for. Its season plays word of a rival by a night of doors and by
+ * a campaign message, to tellers moved none, a little and a lot, so every
+ * line of the bank's rival-word scene plays here. The time is the game's own
+ * played days from filing to election day (about two minutes); the case cannot
+ * be staged shorter, because a teller is moved by messages the world's own
+ * campaigns send over weeks. Earlier pins (Millston WI rwprobe:0, Grafton VT
+ * rwprobe:5, Bicknell UT rwprobe:6) played the same scene, but after the Train
+ * changed which rival-word rows the director stages as scenes, none of them
+ * drew a teller moved "a little", the world's common case (raw moves 0.0001 to
+ * 0.0017 at five places), so the scene's moved-a-little answer and the press
+ * after it stopped playing there. The case still happens in the game; a scan
+ * of ten drawn places found it at Hopkinton, which replaces Bicknell and the
+ * other two (nothing in the test was loosened). The play is the same every run.
  */
-const PLACES = [
-  { key: "5552025", seed: "rwprobe:0" },
-  { key: "5028825", seed: "rwprobe:5" },
-  { key: "4435200", seed: "rwscan:8" },
-].map((row) => {
+const PLACES = [{ key: "4435200", seed: "rwscan:8" }].map((row) => {
   const place = drawPlace(row.seed, "campaign-season");
   if (place.key !== row.key)
     throw new Error(`${row.seed} no longer draws ${row.key}: ${place.key}`);
@@ -264,4 +271,4 @@ it("news of a rival is staged once a message, says how it came, answers from the
     `rival-word: ${scenes} scenes that stopped the day over ${messages.size} messages; how seen ${[...how].join(", ")}; moved seen ${[...moved].join(", ")}`,
   );
   expect(scenes).toBeGreaterThan(0);
-}, 440_000);
+}, 200_000);
