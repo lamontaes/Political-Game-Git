@@ -187011,7 +187011,8 @@
           "move": "agree",
           "role": "asked",
           "purpose": "study-formed",
-          "key": "colleague-word"
+          "key": "colleague-word",
+          "after": "press"
         }
       ],
       "bearing": "guarded",
@@ -187343,7 +187344,7 @@
       "key": "scene-talk.follow-answer.there-are-number-of-us-chair-the-ones-whose-votes-on-bill-were-closest-you-set-the-schedul",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "{members}, Chair. Theirs were the votes on {bill} that came closest. You set the schedule.",
+      "text": "{members}, Chair. They voted against {bill} too, and they were the closest to changing their minds. You set the schedule.",
       "uses": [
         {
           "subject": "scene",
@@ -187358,8 +187359,8 @@
       ],
       "bearing": "calm",
       "origin": "authored",
-      "author": "Story (Claude Code), civic-prose",
-      "date": "2026-11-09",
+      "author": "Claude Sonnet (carry #9328, Words lead ruling-2)",
+      "date": "2026-11-15",
       "tag": {
         "move": "answer",
         "key": "colleague-word"
@@ -187369,7 +187370,7 @@
       "key": "scene-talk.follow-answer.besides-you-and-me-members-the-votes-on-bill-that-came-closest-to-mine",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "Besides you and me, {members}. Their votes on {bill} came closest to mine.",
+      "text": "Besides you and me, {members}. They voted against {bill} too, and they were the closest to changing their minds.",
       "uses": [
         {
           "subject": "scene",
@@ -187384,8 +187385,8 @@
       ],
       "bearing": "calm",
       "origin": "authored",
-      "author": "Story (Claude Code), civic-prose",
-      "date": "2026-11-09",
+      "author": "Claude Sonnet (carry #9328, Words lead ruling-2)",
+      "date": "2026-11-15",
       "tag": {
         "move": "answer",
         "key": "colleague-word"
@@ -188974,7 +188975,7 @@
       "key": "scene-talk.follow-answer.there-are-number-of-us-the-ones-whose-votes-on-bill-were-closest-that-s-how-chair-chose-us",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "{members}, the ones whose votes on {bill} were closest. That's how {chair} chose us.",
+      "text": "{members}, who voted against {bill} and were the closest to changing their minds. That's how {chair} chose us.",
       "uses": [
         {
           "subject": "scene",
@@ -188989,8 +188990,8 @@
       ],
       "bearing": "calm",
       "origin": "authored",
-      "author": "Story (Claude Code), civic-prose",
-      "date": "2026-11-09",
+      "author": "Claude Sonnet (carry #9328, Words lead ruling-2)",
+      "date": "2026-11-15",
       "tag": {
         "move": "answer",
         "key": "colleague-word"
