@@ -179,8 +179,6 @@ export function personCard(core: CoreState, personId: string) {
     latestChange: row.latestChange && {
       date: row.latestChange.date,
       cause: row.latestChange.reason?.cause ?? row.latestChange.cause,
-      before: row.latestChange.before.level,
-      after: row.latestChange.after.level,
     },
   }));
   return {
