@@ -5,10 +5,10 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: open
+status: in-pr
 standard: 2
 claimed-by: T54
-pr:
+pr: 9508
 after:
 blocked-on:
 root: day-one-in-motion
