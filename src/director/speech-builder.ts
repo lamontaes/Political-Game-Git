@@ -1,142 +1,350 @@
 /**
- * A speech the player builds as they give it. Four stages, four choices at each: a short opener, two
- * longer parts at the core on different subjects, and a short closer. The
- * subjects are the speaker's own: the stands they hold (the views engine's
- * stances, named as the bill catalog names them), their work, their town,
- * their children and their school. Nothing is typed here, and no bank is
- * read here: the English engine (`src/english/speech-stage-words.ts`) gives
- * the pieces for each stage, filled from the speaker's records, and a subject
- * with no record for its slots is never offered.
+ * A campaign speech the player builds as they give it, one part a click, with
+ * the one planner (speech-outline.ts `planSpeech`) doing what it does for
+ * every other speaker: the player's picked questions are its points, and it
+ * gives them their shape, belief and ask, as it does for a candidate or a
+ * mayor. A part on offer is the planner's own sentences for it, so the words
+ * shown are exactly the words said when the speech is given.
+ *
+ * The form of a speech (which kinds of parts, in what order, how many clicks)
+ * is data: `stagesOf` reads it from the speech's row in
+ * `speech-outlines.json`, and nothing here fixes it. Today a stump speech's row
+ * gives a greeting, one click per point the row plans, and a close.
+ *
+ * - The greeting is the planner's greeting block said several ways.
+ * - The first point carries the planner's occasion paragraph (the one matter
+ *   the speech is about), since that names the theme the first pick chose.
+ *   The first pick chooses the one theme; later points are the questions the
+ *   speaker argues from the same side of it.
+ * - The close is the planner's close block, said several ways, written for the
+ *   points picked.
+ *
+ * Nothing is typed here, and no bank is read here: the English engine words
+ * every sentence from the speaker's records.
  */
-// stopgapId: SG-WORDS-player-speech-not-planned
-import { heldSinceRecord, schoolsAttended } from "../core2/past";
-import {
-  speechPartsByReach,
-  speechStagePieces,
-  speechWords,
-  wordSpeechPart,
-  type Fact,
-} from "../english/speech-stage-words";
 import { decisionLean } from "../core2/trait-decisions";
-import { corePlaceByJurisdictionId } from "../core2/place-lookup";
-import { ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import { viewOf, viewOn } from "../core2/modules/views";
-import { areaQuestion } from "../core2/modules/people";
-import { placeTermRead } from "../core2/modules/laws";
-import { areaName } from "../english/area-names";
-import { P } from "../core2/parameters";
 import { coreAPI } from "../core2/state";
-import type { CoreState, PersonId } from "../core2/types";
-import { DEFAULT_DIRECTOR_DATA } from "./ledger";
 import {
   allQuestions,
   questionName,
   questionTopic,
 } from "../english/policy-names";
-import { numberWord, organizationName, properName, spoken } from "./words";
+import { P } from "../core2/parameters";
+import type { CoreState, PersonId } from "../core2/types";
+import { speechPartsByReach, speechWords } from "../english/speech-stage-words";
+import { DEFAULT_DIRECTOR_DATA } from "./ledger";
+import { campaignSpeaker } from "./local-speeches";
+import { markWordsStopgap } from "./stopgaps";
+import { composeBlocks, type OpeningSentence } from "./opening-story";
+import {
+  outlineOf,
+  planSpeech,
+  pointCandidates,
+  type OutlineSpeaker,
+} from "./speech-outline";
 
 export type SpeechStage = "opener" | "core" | "closer";
-/** Opener, two parts at the core, closer. */
-export const SPEECH_STAGES: readonly SpeechStage[] = [
-  "opener",
-  "core",
-  "core",
-  "closer",
-];
+
+/** The speech kind a player's own speech is planned as. */
+const KIND = "campaign";
+
+/**
+ * The form of a speech, read from its row: the greeting, a click for each
+ * point its row plans, the close.
+ */
+export function stagesOf(kindKey: string = KIND): readonly SpeechStage[] {
+  return [
+    "opener",
+    ...Array.from({ length: outlineOf(kindKey).points }, () => "core" as const),
+    "closer",
+  ];
+}
 
 export interface SpeechChoice {
   key: string;
   stage: SpeechStage;
-  /** What the part is about: a stand's question id, or work, home, children, school; empty for an opener or closer. */
+  /** What the part is about: the point's question id; empty for a greeting or a close. */
   subject: string;
+  /** The planner's sentences for the part, as they are said. */
   text: string;
-  /** The bank piece the words came from. */
+  /** The bank pieces the sentences were joined from. */
   partKey: string;
   sourceRecordIds: readonly string[];
-  /** A stand the speaker takes in this part, for the speech engine. */
+  /** The stand the speaker takes in this part, for the speech engine. */
   stand?: { question: string; desiredChange: "enact" | "repeal" };
+  /** Which wording of its block a greeting or a close is. */
+  draw?: number;
 }
 
 export interface SpeechBuild {
   speakerId: PersonId;
   placeId: string;
-  /** The date it began; with the speaker, it keys the wording. */
+  /** The office the speech is for, and the party the speaker runs under. */
+  officeId: string;
+  party: string | null;
+  /** The date it began. */
   startedOn: string;
+  /** The form of the speech, from the data. */
+  stages: readonly SpeechStage[];
   picked: SpeechChoice[];
-  /** The four choices for the next stage; empty once the speech is whole. */
+  /** The choices for the next stage; empty once the speech is whole. */
   choices: SpeechChoice[];
   done: boolean;
 }
 
-/** The facts a speaker's own records give a part. */
-function factsOf(
-  core: Readonly<CoreState>,
-  speakerId: PersonId,
-): Record<string, Fact> {
-  const person = core.people.get(speakerId);
-  const facts: Record<string, Fact> = {};
-  if (!person) return facts;
-  const place = corePlaceByJurisdictionId(person.placeId as never);
-  if (place)
-    facts.place = {
-      text: spoken(place),
-      sourceRecordIds: [person.householdId],
-    };
-  const job = person.jobId ? core.jobs.get(person.jobId) : undefined;
-  const org = job ? core.organizations.get(job.organizationId) : undefined;
-  if (org)
-    facts.employer = { text: organizationName(org), sourceRecordIds: [org.id] };
-  // How long they have held it, from the record of their working life.
-  const tenure = heldSinceRecord(core as CoreState, person.id, person.jobId);
-  if (tenure) {
-    const years = ageOnDate(
-      makeIsoDate(String(tenure.facts.startedAt)),
-      makeIsoDate(core.date),
-    );
-    if (years > P.zero)
-      facts.years = { text: String(years), sourceRecordIds: [tenure.id] };
+type Seed = Pick<
+  SpeechBuild,
+  "speakerId" | "officeId" | "party" | "picked" | "stages"
+>;
+
+/** What the picked parts say of the plan: the questions, in order, and the wording chosen for each block. */
+function pickedOf(picked: readonly SpeechChoice[]) {
+  const draws: Record<string, number> = {};
+  for (const part of picked) {
+    if (part.stage === "opener") draws.salutation = part.draw ?? P.zero;
+    if (part.stage === "closer") draws.close = part.draw ?? P.zero;
   }
-  // The first school the person's records name, by its own record.
-  const school = schoolsAttended(core, person.id).find((row) => row.name);
-  if (school)
-    facts.school = {
-      text: properName(school.name!),
-      sourceRecordIds: [school.recordId, school.schoolId],
-    };
-  const household = core.households.get(person.householdId);
-  const children = (household?.memberIds ?? []).filter((id) => {
-    const member = core.people.get(id);
-    return (
-      member?.alive &&
-      id !== speakerId &&
-      ageOnDate(makeIsoDate(member.birthDate), makeIsoDate(core.date)) <
-        P.childUpperAge
-    );
-  });
-  if (children.length >= P.two)
-    facts.number = {
-      text: numberWord(children.length),
-      sourceRecordIds: [person.householdId, ...children],
-    };
-  return facts;
+  return {
+    questions: picked
+      .filter((part) => part.subject)
+      .map((part) => part.subject),
+    draws,
+  };
 }
 
-const capitalized = (text: string) =>
-  text.charAt(P.zero).toUpperCase() + text.slice(P.one);
+/** The sentences the planner says for the points picked so far, said as the picks chose, grouped by the block they were said for. */
+function said(
+  core: Readonly<CoreState>,
+  seed: Seed,
+  questions: readonly string[],
+  draws: Readonly<Record<string, number>>,
+): {
+  sentences: readonly OpeningSentence[];
+  speaker: OutlineSpeaker;
+  sides: ReadonlyMap<string, "for" | "against">;
+} | null {
+  const speaker = campaignSpeaker(
+    core as CoreState,
+    seed.speakerId,
+    seed.officeId,
+    seed.party,
+  );
+  if (!speaker) return null;
+  const plan = planSpeech(core as CoreState, KIND, {
+    ...speaker,
+    chosen: questions,
+  });
+  const sentences = composeBlocks(
+    core as CoreState,
+    speaker.person,
+    plan.blocks,
+    {
+      draws,
+    },
+  );
+  return sentences
+    ? {
+        sentences,
+        speaker,
+        sides: new Map(plan.points.map((row) => [row.question, row.side])),
+      }
+    : null;
+}
 
-/** The records behind only the facts a line copied. */
-const usedIds = (
-  line: { factKeys?: readonly string[] },
-  facts: Record<string, Fact>,
+/** One choice out of the sentences said for some of the plan's blocks. */
+function choiceOf(
+  stage: SpeechStage,
+  key: string,
+  subject: string,
+  rows: readonly OpeningSentence[],
+  extra: Partial<SpeechChoice> = {},
+): SpeechChoice | null {
+  if (!rows.length) return null;
+  return {
+    key,
+    stage,
+    subject,
+    text: rows.map((row) => row.text).join(" "),
+    partKey: rows.flatMap((row) => row.pieces).join("+"),
+    sourceRecordIds: [...new Set(rows.flatMap((row) => row.sourceRecordIds))],
+    ...extra,
+  };
+}
+
+/** A greeting or a close said several ways, the ways that read differently and differ in the pieces that say them. */
+function wordings(
+  core: Readonly<CoreState>,
+  seed: Seed,
+  stage: "opener" | "closer",
+  questions: readonly string[],
+  base: Readonly<Record<string, number>>,
+): SpeechChoice[] {
+  const block = stage === "opener" ? "salutation" : "close";
+  const count = DEFAULT_DIRECTOR_DATA.parameters.directorChoicesPerTurn!.value;
+  const tries = DEFAULT_DIRECTOR_DATA.parameters.speechWordingTries!.value;
+  const found: SpeechChoice[] = [];
+  const texts = new Set<string>();
+  const pieces = new Set<string>();
+  for (let draw = P.zero; draw < tries && found.length < count; draw += P.one) {
+    const done = said(core, seed, questions, { ...base, [block]: draw });
+    const row = choiceOf(
+      stage,
+      `${stage}:${draw}`,
+      "",
+      done?.sentences.filter((sentence) => sentence.block === block) ?? [],
+      { draw },
+    );
+    if (!row || texts.has(row.text) || pieces.has(row.partKey)) continue;
+    texts.add(row.text);
+    pieces.add(row.partKey);
+    found.push(row);
+  }
+  return found;
+}
+
+/**
+ * The stage the speech is at and its choices. The form says how many points a
+ * speech may make; a speaker with no further question to make a point of goes
+ * on to the close, so a speech is never stuck for want of a part.
+ */
+function offer(
+  core: Readonly<CoreState>,
+  build: Seed,
+): { stage: SpeechStage | null; choices: SpeechChoice[] } {
+  const { questions, draws } = pickedOf(build.picked);
+  const speaker = campaignSpeaker(
+    core as CoreState,
+    build.speakerId,
+    build.officeId,
+    build.party,
+  );
+  if (!speaker) return { stage: null, choices: [] };
+  const has = (stage: SpeechStage) =>
+    build.picked.some((part) => part.stage === stage);
+  const points = build.stages.filter((stage) => stage === "core").length;
+  const stage: SpeechStage | null = !has("opener")
+    ? "opener"
+    : questions.length < points &&
+        pointCandidates(core as CoreState, KIND, speaker, questions).length
+      ? "core"
+      : !has("closer")
+        ? "closer"
+        : null;
+  if (!stage) return { stage, choices: [] };
+  return {
+    stage,
+    choices: offerAt(core, build, stage, speaker, questions, draws),
+  };
+}
+
+function offerAt(
+  core: Readonly<CoreState>,
+  build: Seed,
+  stage: SpeechStage,
+  speaker: OutlineSpeaker,
+  questions: readonly string[],
+  draws: Readonly<Record<string, number>>,
+): SpeechChoice[] {
+  const count = DEFAULT_DIRECTOR_DATA.parameters.directorChoicesPerTurn!.value;
+  if (stage === "opener") {
+    // The greeting does not depend on the points: it is said for the plan of
+    // the first question on offer.
+    const first = pointCandidates(core as CoreState, KIND, speaker, [])[P.zero];
+    return first ? wordings(core, build, "opener", [first], {}) : [];
+  }
+  if (stage === "closer")
+    return wordings(core, build, "closer", questions, draws);
+  // A point: the planner's sentences for each question the speech may take
+  // up next, the first carrying the paragraph that names the speech's theme.
+  const first = !questions.length;
+  const rows = pointCandidates(core as CoreState, KIND, speaker, questions)
+    .map((question) => {
+      const done = said(core, build, [...questions, question], draws);
+      if (!done) return null;
+      const side = done.sides.get(question);
+      const blocks = first
+        ? ["occasion", `point-${question}`]
+        : [`point-${question}`];
+      return choiceOf(
+        "core",
+        `core:${question}`,
+        question,
+        done.sentences.filter((sentence) => blocks.includes(sentence.block)),
+        side
+          ? {
+              stand: {
+                question,
+                desiredChange: side === "for" ? "enact" : "repeal",
+              },
+            }
+          : {},
+      );
+    })
+    .filter((row): row is SpeechChoice => !!row);
+  const person = core.people.get(build.speakerId);
+  const reach = person
+    ? decisionLean(
+        core,
+        person,
+        "conversation.reply-reach",
+        "carry-on",
+        "keep-short",
+      )
+    : P.zero;
+  return speechPartsByReach(rows, reach >= P.zero).slice(P.zero, count);
+}
+
+/**
+ * Begin a speech for a race the speaker stands in: the greeting's choices.
+ * Null when the speaker is not a living person or holds no stand the seat's
+ * questions could make a speech of.
+ */
+export function beginSpeech(
+  core: Readonly<CoreState>,
   speakerId: PersonId,
-) => {
-  const ids = [
-    ...new Set(
-      (line.factKeys ?? []).flatMap((key) => facts[key]?.sourceRecordIds ?? []),
-    ),
-  ];
-  return ids.length ? ids : [speakerId];
-};
+  race: { officeId: string; party: string | null },
+): SpeechBuild | null {
+  const person = core.people.get(speakerId);
+  if (!person?.alive) return null;
+  // stopgapId: SG-WORDS-floor-speech-state-chambers
+  if (
+    !campaignSpeaker(core as CoreState, speakerId, race.officeId, race.party)
+  ) {
+    markWordsStopgap("SG-WORDS-floor-speech-state-chambers");
+    return null;
+  }
+  const build = {
+    speakerId,
+    placeId: person.placeId,
+    officeId: race.officeId,
+    party: race.party,
+    startedOn: core.date,
+    stages: stagesOf(),
+    picked: [] as SpeechChoice[],
+  };
+  const { choices } = offer(core, build);
+  return choices.length ? { ...build, choices, done: false } : null;
+}
+
+/** Say one of the choices; the next stage's follow. Unknown keys change nothing. */
+export function chooseSpeechPart(
+  core: Readonly<CoreState>,
+  build: SpeechBuild,
+  key: string,
+): SpeechBuild {
+  const choice = build.choices.find((row) => row.key === key);
+  if (!choice) return build;
+  const picked = [...build.picked, choice];
+  const next = { ...build, picked };
+  const { stage, choices } = offer(core, next);
+  return { ...next, choices, done: stage === null };
+}
+
+/** The speech as given so far, parts in order: the words the player saw when they picked each. */
+export function speechText(build: Pick<SpeechBuild, "picked">): string {
+  return speechWords(build.picked);
+}
 
 /**
  * The speaker's stands, strongest first: their current view on each policy
@@ -167,216 +375,4 @@ export function standsOf(core: Readonly<CoreState>, speakerId: PersonId) {
     topics.add(topic);
     return true;
   });
-}
-
-/** What a speech part about the world's areas is a subject of (`area:schools`). */
-const AREA_SUBJECT = "area:";
-
-/** Core parts the speaker could give now, one per subject, each worded from their records. */
-function corePool(
-  core: Readonly<CoreState>,
-  build: Pick<SpeechBuild, "speakerId" | "startedOn" | "picked">,
-): SpeechChoice[] {
-  const facts = factsOf(core, build.speakerId);
-  const taken = new Set(build.picked.map((row) => row.subject));
-  const pool: SpeechChoice[] = [];
-  const say = (
-    subject: string,
-    role: string,
-    extra: Record<string, Fact>,
-    stand?: SpeechChoice["stand"],
-  ) => {
-    if (taken.has(subject)) return;
-    const line = wordSpeechPart({
-      seed: core.seed,
-      role,
-      speakerId: build.speakerId,
-      facts: { ...facts, ...extra },
-      momentKey: `speech:${build.speakerId}:${build.startedOn}:${subject}`,
-    });
-    if (!line) return;
-    pool.push({
-      key: `core:${subject}`,
-      stage: "core",
-      subject,
-      text: line.text,
-      partKey: line.variantKey ?? "",
-      sourceRecordIds: usedIds(line, { ...facts, ...extra }, build.speakerId),
-      ...(stand ? { stand } : {}),
-    });
-  };
-  for (const stand of standsOf(core, build.speakerId)) {
-    const desired = stand.view > P.zero ? "enact" : "repeal";
-    say(
-      stand.question,
-      desired === "enact" ? "stance-enact" : "stance-repeal",
-      {
-        issue: {
-          text: questionTopic(stand.question)!.toLowerCase(),
-          sourceRecordIds: [build.speakerId],
-        },
-        goal: {
-          text: capitalized(questionName(stand.question)!),
-          sourceRecordIds: [build.speakerId],
-        },
-      },
-      { question: stand.question, desiredChange: desired },
-    );
-  }
-  for (const subject of ["work", "home", "children", "school"])
-    say(subject, subject, {});
-  // The world around them (owner, Nov 8: "start with laws and effects and the
-  // world around you"): the areas of the speaker's town that moved most since
-  // the term began, bad news with the remedy it presses on the town's officials
-  // as a stand, good news as a thing worth saying.
-  const speaker = core.people.get(build.speakerId);
-  if (speaker)
-    for (const read of placeTermRead(
-      coreAPI(core as CoreState),
-      speaker.placeId,
-      core.startedAt,
-    )
-      .filter((row) => areaName(row.area))
-      .sort(
-        (a, b) =>
-          Math.abs(b.slide) - Math.abs(a.slide) || a.area.localeCompare(b.area),
-      )
-      .slice(P.zero, P.two)) {
-      const question = areaQuestion(read.area);
-      say(
-        `${AREA_SUBJECT}${read.area}`,
-        read.slide < P.zero ? "area-worse" : "area-better",
-        {
-          issue: {
-            text: areaName(read.area)!,
-            sourceRecordIds: read.sourceRecordIds,
-          },
-        },
-        read.slide < P.zero && question
-          ? { question, desiredChange: "enact" }
-          : undefined,
-      );
-    }
-  return pool;
-}
-
-/**
- * Four choices, ranked by the speaker's traits: someone who carries talk on
- * sees the longer, weightier parts first, someone who keeps it short sees
- * the plainer ones. At the core, two stands and two personal parts are
- * offered side by side (a speaker with fewer of one kind sees more of the
- * other), so the choice is always between different subjects.
- */
-function rank(
-  core: Readonly<CoreState>,
-  speakerId: PersonId,
-  pool: readonly SpeechChoice[],
-): SpeechChoice[] {
-  const person = core.people.get(speakerId);
-  const reach = person
-    ? decisionLean(
-        core,
-        person,
-        "conversation.reply-reach",
-        "carry-on",
-        "keep-short",
-      )
-    : P.zero;
-  const count = DEFAULT_DIRECTOR_DATA.parameters.directorChoicesPerTurn!.value;
-  const byReach = (rows: readonly SpeechChoice[]) =>
-    speechPartsByReach(rows, reach >= P.zero);
-  // The world around the speaker is always one of the choices at the core.
-  const world = pool
-    .filter((row) => row.subject.startsWith(AREA_SUBJECT))
-    .slice(P.zero, P.one);
-  const rest = pool.filter((row) => !world.includes(row));
-  const stands = rest.filter((row) => row.stand).slice(P.zero, P.two);
-  const personal = rest.filter((row) => !row.stand);
-  const fixed = [...world];
-  if (!stands.length)
-    return byReach([
-      ...fixed,
-      ...byReach(personal).slice(P.zero, count - fixed.length),
-    ]).slice(P.zero, count);
-  const room = count - stands.length - fixed.length;
-  return byReach([
-    ...fixed,
-    ...stands,
-    ...byReach(personal).slice(P.zero, Math.max(room, P.two)),
-  ]).slice(P.zero, count);
-}
-
-function edgePool(
-  core: Readonly<CoreState>,
-  build: Pick<SpeechBuild, "speakerId" | "startedOn">,
-  role: "opener" | "closer",
-): SpeechChoice[] {
-  const facts = factsOf(core, build.speakerId);
-  const pool: SpeechChoice[] = [];
-  for (const piece of speechStagePieces(role)) {
-    const line = wordSpeechPart({
-      seed: core.seed,
-      role,
-      speakerId: build.speakerId,
-      facts,
-      momentKey: `speech:${build.speakerId}:${build.startedOn}:${role}`,
-      pieceKey: piece,
-    });
-    if (line)
-      pool.push({
-        key: `${role}:${piece}`,
-        stage: role,
-        subject: "",
-        text: line.text,
-        partKey: piece,
-        sourceRecordIds: usedIds(line, facts, build.speakerId),
-      });
-  }
-  return pool;
-}
-
-function offer(
-  core: Readonly<CoreState>,
-  build: Pick<SpeechBuild, "speakerId" | "startedOn" | "picked">,
-): SpeechChoice[] {
-  const stage = SPEECH_STAGES[build.picked.length];
-  if (!stage) return [];
-  const pool =
-    stage === "core" ? corePool(core, build) : edgePool(core, build, stage);
-  return rank(core, build.speakerId, pool);
-}
-
-/** Begin a speech: the opener's four choices. Null when the speaker is not a living person. */
-export function beginSpeech(
-  core: Readonly<CoreState>,
-  speakerId: PersonId,
-): SpeechBuild | null {
-  const person = core.people.get(speakerId);
-  if (!person?.alive) return null;
-  const build = {
-    speakerId,
-    placeId: person.placeId,
-    startedOn: core.date,
-    picked: [] as SpeechChoice[],
-  };
-  return { ...build, choices: offer(core, build), done: false };
-}
-
-/** Say one of the four; the next stage's four follow. Unknown keys change nothing. */
-export function chooseSpeechPart(
-  core: Readonly<CoreState>,
-  build: SpeechBuild,
-  key: string,
-): SpeechBuild {
-  const choice = build.choices.find((row) => row.key === key);
-  if (!choice) return build;
-  const picked = [...build.picked, choice];
-  const next = { ...build, picked };
-  const choices = offer(core, next);
-  return { ...next, choices, done: picked.length >= SPEECH_STAGES.length };
-}
-
-/** The speech as given so far, parts in order. */
-export function speechText(build: Pick<SpeechBuild, "picked">): string {
-  return speechWords(build.picked);
 }

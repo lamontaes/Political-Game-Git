@@ -69,7 +69,9 @@ try {
     const filingId = view.campaigns[0].filing.id;
     const venue = view.venues?.[0] ?? view.campaigns[0].venues?.[0];
     let state = await (
-      await page.request.post(`${base}/api/campaign/speech/begin`)
+      await page.request.post(
+        `${base}/api/campaign/speech/begin?${new URLSearchParams({ filingId })}`,
+      )
     ).json();
     for (
       let step = 0;

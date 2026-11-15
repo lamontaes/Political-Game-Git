@@ -2192,7 +2192,9 @@ async function campaignParts() {
               state: speechState,
               venue,
               onBegin: async () => {
-                speechState = await post("/api/campaign/speech/begin");
+                speechState = await post(
+                  `/api/campaign/speech/begin?${new URLSearchParams({ filingId: filing.id })}`,
+                );
                 reopenTrail(filing.id);
               },
               onPick: async (choice) => {

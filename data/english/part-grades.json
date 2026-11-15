@@ -2151,54 +2151,6 @@
       "sharedGood": 0,
       "sharedBad": 0,
       "sharedFix": 0
-    },
-    "speech-stages.stage-closer.god-bless-you-and-god-bless-america": {
-      "good": 1,
-      "bad": 0,
-      "fix": 0,
-      "sharedGood": 0,
-      "sharedBad": 0,
-      "sharedFix": 0
-    },
-    "speech-stages.stage-closer.let-s-get-to-work": {
-      "good": 1,
-      "bad": 0,
-      "fix": 0,
-      "sharedGood": 0,
-      "sharedBad": 0,
-      "sharedFix": 0
-    },
-    "speech-stages.stage-closer.thank-you-all": {
-      "good": 1,
-      "bad": 0,
-      "fix": 0,
-      "sharedGood": 0,
-      "sharedBad": 0,
-      "sharedFix": 0
-    },
-    "speech-stages.stage-opener.thank-you-all-for-being-here": {
-      "good": 1,
-      "bad": 0,
-      "fix": 0,
-      "sharedGood": 0,
-      "sharedBad": 0,
-      "sharedFix": 0
-    },
-    "speech-stages.stage-stance-enact.let-me-talk-about-issue-goal-i-m-for": {
-      "good": 0,
-      "bad": 1,
-      "fix": 0,
-      "sharedGood": 0,
-      "sharedBad": 0,
-      "sharedFix": 0
-    },
-    "speech-stages.stage-stance-enact.on-issue-i-ll-be-plain-goal-i-m-for-": {
-      "good": 0,
-      "bad": 1,
-      "fix": 0,
-      "sharedGood": 0,
-      "sharedBad": 0,
-      "sharedFix": 0
     }
   },
   "kept": {

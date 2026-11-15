@@ -6,7 +6,7 @@ kind: feature
 priority: 3
 size: M
 status: open
-claimed-by:
+claimed-by: prove-the-speeches (branch claude/project-thread-qd8x5y)
 pr:
 after:
 blocked-on:

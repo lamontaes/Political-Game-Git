@@ -18,7 +18,6 @@ import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { fileCandidacy, openContests } from "../core2/modules/elections";
 import { lawChain } from "../core2/modules/laws";
 import { stancesOf } from "../core2/modules/views";
-import { SPEECH_STAGES } from "../director/speech-builder";
 import {
   campaignView,
   speechBegin,
@@ -119,9 +118,18 @@ const run = (drawSeed: string): string | null => {
       anyFiled = true;
       const speakerId = filed.personId;
 
-      // Four stages, up to four parts on offer at each, the player picking by key.
-      let speech = speechBegin(core, speakerId);
-      for (const stage of SPEECH_STAGES) {
+      // The form of the speech is the data's; at each stage up to four parts
+      // are on offer and the player picks by key. A race above the town has
+      // no speech to build yet (SG-WORDS-floor-speech-state-chambers): the
+      // next candidate tries.
+      let speech: ReturnType<typeof speechBegin>;
+      try {
+        speech = speechBegin(core, speakerId, filed.id);
+      } catch {
+        continue;
+      }
+      while (!speech.done) {
+        const stage = speech.choices[0]?.stage;
         const view = speechView(speech);
         expect(view.choices.length, `${stage}: ${where}`).toBeGreaterThan(0);
         expect(view.choices.length, where).toBeLessThanOrEqual(4);

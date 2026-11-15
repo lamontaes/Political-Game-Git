@@ -193,13 +193,6 @@
     },
     {
       "file": "restored-liked-lines.json",
-      "key": "speech-stages.stage-opener.thank-you-all-for-being-here",
-      "date": "2026-10-14",
-      "note": "Fine. (batch 9 item 55)",
-      "reason": "Graded \"Thank you all for being here.\" fine in a hearing opener; praise for one line, held good by the ledger."
-    },
-    {
-      "file": "restored-liked-lines.json",
       "key": "scene-talk.reply-thank.thank-you-chair",
       "date": "2026-10-14",
       "note": "Good. One \"Madam Chair\" and one \"Mr. Chairman\" per batch is enough for calibration. (batch 9 item 39)",

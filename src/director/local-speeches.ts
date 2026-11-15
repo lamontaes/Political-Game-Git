@@ -34,6 +34,7 @@ import {
   fact,
   planSpeech,
   type Block,
+  type OutlineSpeaker,
   type PlannedPoint,
 } from "./speech-outline";
 import { localSpeaker } from "./local-address";
@@ -98,6 +99,7 @@ function spoken(
  * vote. Null when the bill is not before a town's body, its question has no
  * spoken name, or the member holds no view on it.
  */
+// stopgapId: SG-WORDS-player-speech-not-planned
 export function composeFloorSpeech(
   core: CoreState,
   billId: string,
@@ -166,25 +168,42 @@ export function composeCampaignSpeech(
   party: string | null,
 ): LocalSpeech | null {
   const api = coreAPI(core);
-  const office = officeOf(core, officeId);
-  const person = core.people.get(candidateId);
-  if (!office || !person) return null;
   const platform = candidatePlatform(
     api,
     candidateId,
     party,
     contestPositions(api, { officeId }),
   ).map((row) => row.question);
-  const plan = planSpeech(core, "campaign", {
+  const speaker = campaignSpeaker(core, candidateId, officeId, party, platform);
+  if (!speaker) return null;
+  const plan = planSpeech(core, "campaign", speaker);
+  return spoken(core, "campaign", candidateId, plan, plan.blocks);
+}
+
+/**
+ * Who a candidate is to the one planner when they speak on the stump for an
+ * office: their person, the office's jurisdiction, and the seat's level, body
+ * and title read from its row. `questions` are what they run on; the player
+ * building their own speech passes none and speaks to every question the
+ * seat decides. Null where the office or the person is not in the world.
+ */
+export function campaignSpeaker(
+  core: CoreState,
+  candidateId: PersonId,
+  officeId: string,
+  party: string | null,
+  questions?: readonly string[],
+): OutlineSpeaker | null {
+  const office = officeOf(core, officeId);
+  const person = core.people.get(candidateId);
+  if (!office || !person) return null;
+  const local = localSpeaker(core, { party }, office, officeSaid(office));
+  return {
     person,
     jurisdiction: office.jurisdiction,
     serviceStart: core.date,
-    local: {
-      ...localSpeaker(core, { party }, office, officeSaid(office)),
-      questions: platform,
-    },
-  });
-  return spoken(core, "campaign", candidateId, plan, plan.blocks);
+    local: questions ? { ...local, questions } : local,
+  };
 }
 
 /** A speech a scene plays in its speaker's own words, composed from its record. */

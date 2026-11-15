@@ -906,6 +906,8 @@ export interface OutlineSpeaker {
     readonly officeTitle: string | null;
   };
   readonly serviceStart: string;
+  /** The questions the speaker picked as their points, in order; absent where the planner picks them (everyone but a player building a speech). */
+  readonly chosen?: readonly string[];
   /** The term read of a governor's state or a mayor's town; the President's is the country's. */
   readonly areas?: readonly AreaRead[];
 }
@@ -1807,6 +1809,69 @@ function asidesOf(
   );
 }
 
+/** The stands a speaker holds at their level: an officeholder's from the officials engine, anyone else's from the questions their body decides. */
+function standsOfSpeaker(
+  api: CoreAPI,
+  level: PolicyLevel,
+  speaker: OutlineSpeaker,
+): Stand[] {
+  const { official, local, person } = speaker;
+  return official
+    ? standsAt(api, official, level, speaker.jurisdiction).filter((stand) =>
+        speaksTo(level, stand.question),
+      )
+    : local && speaker.jurisdiction
+      ? standsOfPerson(
+          api,
+          person.id,
+          local.party,
+          local.questions,
+          local.officeId,
+          speaker.jurisdiction,
+        )
+      : [];
+}
+
+/**
+ * The questions a speaker who picks their points one part at a time may pick
+ * next. The first pick is any theme's lead question (the speech has one
+ * theme, so the first pick chooses it); after it, the questions of that
+ * theme the speaker argues from the same pole, in the planner's own order,
+ * less those already picked.
+ */
+export function pointCandidates(
+  core: CoreState,
+  kindKey: string,
+  speaker: OutlineSpeaker,
+  chosen: readonly string[],
+): string[] {
+  const row = outlineOf(kindKey);
+  const level = speaker.local?.level ?? row.level;
+  if (!level) return [];
+  const api = coreAPI(core);
+  const stands = standsOfSpeaker(api, level, speaker);
+  const firstPick = chosen[P.zero];
+  const themeOfFirst = firstPick ? themeOfQuestion(firstPick) : null;
+  if (chosen.length) {
+    if (!themeOfFirst) return [];
+    return themeStands(speaker.official, stands, themeOfFirst, speaker.person)
+      .map((stand) => stand.question)
+      .filter((question) => !chosen.includes(question));
+  }
+  return THEMES.flatMap((theme) => {
+    const lead = themeStands(speaker.official, stands, theme, speaker.person)[
+      P.zero
+    ];
+    return lead ? [{ lead, distance: distinct(speaker.official, lead) }] : [];
+  })
+    .sort(
+      (a, b) =>
+        b.distance - a.distance ||
+        a.lead.question.localeCompare(b.lead.question),
+    )
+    .map((entry) => entry.lead.question);
+}
+
 /**
  * Plan a speech of one kind from its outline row and the world: the one
  * planner for the President's, a governor's and a mayor's address.
@@ -1831,34 +1896,27 @@ export function planSpeech(
     : realmFacts(speaker.areas ?? []);
   const official = speaker.official;
   const local = speaker.local;
-  const stands = official
-    ? standsAt(api, official, level, speaker.jurisdiction).filter((stand) =>
-        speaksTo(level, stand.question),
-      )
-    : local && speaker.jurisdiction
-      ? standsOfPerson(
-          api,
-          person.id,
-          local.party,
-          local.questions,
-          local.officeId,
-          speaker.jurisdiction,
-        )
-      : [];
+  const stands = standsOfSpeaker(api, level, speaker);
   // Every question the speaker's level may answer and holds a view on: an
   // open one is an ask, one the law in force answers is a law to defend or
-  // repeal. The theme is the one with enough of them to make its points.
-  const theme = themeOf(
-    official,
-    stands,
-    country,
-    federal,
-    row.leastPoints,
-    person,
-  );
-  const themePoints = theme
-    ? themeStands(official, stands, theme, person).slice(P.zero, row.points)
-    : [];
+  // repeal. The theme is the one with enough of them to make its points; a
+  // speaker who picked their points (the player, one part at a time) has
+  // them as the points, in the order picked, and the theme is their first's.
+  const picked = (speaker.chosen ?? []).flatMap((question) => {
+    const stand = stands.find((row) => row.question === question);
+    return stand ? [stand] : [];
+  });
+  const firstPicked = picked[P.zero];
+  const theme = speaker.chosen
+    ? firstPicked
+      ? themeOfQuestion(firstPicked.question)
+      : null
+    : themeOf(official, stands, country, federal, row.leastPoints, person);
+  const themePoints = speaker.chosen
+    ? picked
+    : theme
+      ? themeStands(official, stands, theme, person).slice(P.zero, row.points)
+      : [];
   // The kind of address (owner, Nov 8), from the world and the speaker.
   const situation = addressSituation(core, {
     macroSlide: country.macroSlide,

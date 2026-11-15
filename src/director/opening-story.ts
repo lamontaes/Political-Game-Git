@@ -86,6 +86,8 @@ export interface OpeningSentence {
   readonly level: OpeningLevel;
   /** The part of the address it is said in, from 0, one per Continue. */
   readonly part: number;
+  /** The key of the planned block the sentence was said for ("salutation", "point-<question>", "close"). */
+  readonly block: string;
   readonly text: string;
   readonly sourceRecordIds: readonly string[];
   /** What the sentence is about: the facts it said ("jobs-up", "place", "goal"). */
@@ -316,6 +318,14 @@ export function composeBlocks(
   core: CoreState,
   president: PersonState,
   blocks: readonly Block[],
+  options: {
+    /**
+     * Which of a block's wordings to say, by block key (0 when absent): a
+     * speech the player builds offers the same block said several ways and
+     * says the one they pick.
+     */
+    readonly draws?: Readonly<Record<string, number>>;
+  } = {},
 ): OpeningSentence[] | null {
   const stage = chairStage(core);
   // The addresses the President has given: each speech the speech module
@@ -465,7 +475,7 @@ export function composeBlocks(
     const sayMove = (move: OpeningMove, facts: Facts, retry = P.zero) =>
       composeAddress(
         packet(
-          `opening:${core.date}:${president.id}/${block.key}${retry ? `#${retry}` : ""}`,
+          `opening:${core.date}:${president.id}/${block.key}${(options.draws?.[block.key] ?? P.zero) + retry ? `#${(options.draws?.[block.key] ?? P.zero) + retry}` : ""}`,
           core.seed,
           president.id,
           stage,
@@ -734,6 +744,7 @@ export function composeBlocks(
       sentences.push({
         level: block.level,
         part: block.part,
+        block: block.key,
         text: move.text,
         facts: [...used].sort(),
         pieces: move.parts.map((part) => part.variantKey),

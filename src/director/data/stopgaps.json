@@ -923,7 +923,7 @@
     "kind": "missing-hook",
     "file": "src/director/local-speeches.ts",
     "line": 1,
-    "whatItFakes": "The floor-debate scene and the scene after a candidate's stump speech play the speech composed by the one planner (speechOfRecord) only for a town's, township's or county's body and race; a state or federal chamber's floor debate still opens on its talk line, and a state or federal candidate's speech is not played.",
+    "whatItFakes": "The floor-debate scene and the scene after a candidate's stump speech play the speech composed by the one planner (speechOfRecord) only for a town's, township's or county's body and race; a state or federal chamber's floor debate still opens on its talk line, and a state or federal candidate's speech is not played, nor can the player build one for a state or federal race.",
     "why": "composeFloorSpeech and composeCampaignSpeech read the town's seats (townSeats); a state legislator's or a congressional candidate's speech needs the officials engine's row as the governor's address reads it (words builder, Nov 12).",
     "addedBy": "Words builder (Opus), Nov 12",
     "addedAt": "2026-11-12",
@@ -933,13 +933,13 @@
   {
     "id": "SG-WORDS-player-speech-not-planned",
     "kind": "missing-hook",
-    "file": "src/director/speech-builder.ts",
+    "file": "src/director/local-speeches.ts",
     "line": 1,
-    "whatItFakes": "The player's own campaign speech is the stage builder's four picked parts, each said on its own, not planned by the one outline planner, and a player seated on a town body has no floor speech of their own.",
-    "why": "Wiring the stage choices into planSpeech is more than this pull request's hour (words builder, Nov 12); pool item words-player-speech-through-planner.",
+    "whatItFakes": "A player seated on a town body has no floor speech of their own: the floor-debate scene casts only the two members the record names, and no screen offers the player the floor.",
+    "why": "The campaign speech the player builds is planned (speech-builder.ts); the floor day's offer to the player is the third step of pool item words-player-speech-through-planner.",
     "addedBy": "Words builder (Opus), Nov 12",
     "addedAt": "2026-11-12",
-    "replacement": "Each stage offers the planner's points for the player's stands and /give composes the speech from the plan; the floor day offers the player composeFloorSpeech.",
+    "replacement": "On a town body's floor day the player is offered the floor and composeFloorSpeech(core, billId, playerId) is built through the same click flow.",
     "status": "open"
   }
 ]

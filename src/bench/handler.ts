@@ -2035,9 +2035,13 @@ const ROUTES: readonly Route[] = [
     match: ({ request, url }) =>
       request.method === "POST" &&
       url.pathname === "/api/campaign/speech/begin",
-    run: async ({ send }) => {
+    run: async ({ url, send }) => {
       if (!state.player?.personId) throw new Error("Choose a resident first.");
-      state.speechBuild = speechBegin(requireCore(), state.player.personId);
+      state.speechBuild = speechBegin(
+        requireCore(),
+        state.player.personId,
+        url.searchParams.get("filingId") ?? "",
+      );
       send(200, speechView(state.speechBuild));
       return;
     },

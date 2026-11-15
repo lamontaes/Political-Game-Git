@@ -769,6 +769,18 @@
       "tag": "SOURCED",
       "citation": "Owner ruling, Oct 14, 2026 (afternoon, docs/coordination/OWNER-DECISIONS.md): a conversation always offers four replies ranked by the engine, with 'say nothing' a smaller control beside them, never one of the four."
     },
+    "speechWordingTries": {
+      "value": 12,
+      "tag": "ESTIMATED",
+      "citation": "How many wordings of a greeting or a close the player's speech builder tries to fill the four choices, each a different draw of the planner's block (src/director/speech-builder.ts). The bank holds a few ways of each, so twelve tries reach every distinct one.",
+      "spread": {
+        "low": 6,
+        "high": 24,
+        "unit": "wordings tried",
+        "citation": "Fewer may leave a choice unfilled; more only repeats wordings already found."
+      },
+      "estimatedFrom": "The number of ways the opening-speech bank says a greeting and a close (a handful each), times two for draws that land on the same wording; spread 6 to 24"
+    },
     "directorFarewellWordings": {
       "value": 4,
       "tag": "ESTIMATED",

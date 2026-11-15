@@ -908,24 +908,6 @@
         "tag": "narrate"
       }
     ],
-    "speech-stages": [
-      {
-        "move": "^stage-opener$",
-        "tag": "greet"
-      },
-      {
-        "move": "^stage-closer$",
-        "tag": "close"
-      },
-      {
-        "move": "^stage-stance-",
-        "tag": "promise"
-      },
-      {
-        "move": "^stage-",
-        "tag": "tell"
-      }
-    ],
     "scene-talk": [
       {
         "move": "^[a-z]+-congratulate$",
@@ -1063,7 +1045,10 @@
         "move": "^[a-z]+-react$",
         "tag": "react"
       },
-      { "move": "^beat-beat$", "tag": "beat" },
+      {
+        "move": "^beat-beat$",
+        "tag": "beat"
+      },
       {
         "move": "^[a-z]+-call-to-order$",
         "tag": "call-to-order"

@@ -85,8 +85,7 @@
           "newscast",
           "opening-speech",
           "scene-talk",
-          "scene-words",
-          "speech-stages"
+          "scene-words"
         ]
       },
       "catches": ["I must lock up."],
@@ -117,8 +116,7 @@
           "newscast",
           "opening-speech",
           "scene-talk",
-          "scene-words",
-          "speech-stages"
+          "scene-words"
         ]
       },
       "catches": ["Then that's settled.", "That's settled."]
@@ -185,8 +183,7 @@
           "newscast",
           "opening-speech",
           "scene-talk",
-          "scene-words",
-          "speech-stages"
+          "scene-words"
         ]
       },
       "catches": ["I'll be at the doors.", "Where are your gaps?"]
@@ -278,8 +275,7 @@
           "newscast",
           "opening-speech",
           "scene-talk",
-          "scene-words",
-          "speech-stages"
+          "scene-words"
         ]
       },
       "catches": ["The vote was in 2025."]
@@ -1050,7 +1046,6 @@
           "conversation",
           "journal",
           "opening-speech",
-          "speech-stages",
           "bring-it-up",
           "hearing",
           "address"
@@ -3017,7 +3012,7 @@
         "kind": "judged"
       },
       "applies": {
-        "banks": ["opening-speech", "speech-stages"]
+        "banks": ["opening-speech"]
       },
       "catches": [
         "I see you, governors. I see you.",
@@ -3097,12 +3092,7 @@
         "kind": "judged"
       },
       "applies": {
-        "banks": [
-          "scene-talk",
-          "conversation",
-          "opening-speech",
-          "speech-stages"
-        ]
+        "banks": ["scene-talk", "conversation", "opening-speech"]
       },
       "catches": [
         "a tense night for everyone",
@@ -3777,7 +3767,7 @@
         "phrases": ["Thank you so much"]
       },
       "applies": {
-        "banks": ["opening-speech", "speech-stages", "address"]
+        "banks": ["opening-speech", "address"]
       },
       "catches": ["Thank you so much."],
       "spares": ["Thank you very much."]
@@ -4631,7 +4621,7 @@
         "kind": "judged"
       },
       "applies": {
-        "banks": ["opening-speech", "speech-stages"]
+        "banks": ["opening-speech"]
       },
       "note": "Read whole, not by bank line (Words lead, Nov 14, 9133/ruling-many.md: the plan's speech reader). scripts/words/speech-sheets.ts composes, in pinned played worlds, the President's opening address, the governor's and the local head's address, a town member's campaign speech and the speech the player builds in steps, through the game's own composers; `npm run words:review` gives each to a fresh reviewer with planted speeches. The verdicts are a report for the speeches' owners, not a store: a composed speech is not a bank piece, so no saved verdict could be kept true to the bank."
     },
@@ -4892,7 +4882,7 @@
         "kind": "judged"
       },
       "applies": {
-        "banks": ["opening-speech", "speech-stages"]
+        "banks": ["opening-speech"]
       }
     },
     {
@@ -5787,7 +5777,6 @@
             "choice-names",
             "opening-speech",
             "address",
-            "speech-stages",
             "journal",
             "news",
             "newscast",

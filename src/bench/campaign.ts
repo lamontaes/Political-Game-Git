@@ -1124,14 +1124,36 @@ export function speechView(build: SpeechBuild) {
   };
 }
 
-/** The player starts a speech: the opener's choices, from their own records. */
-export function speechBegin(core: CoreState, personId: string): SpeechBuild {
-  const build = beginSpeech(core, personId);
-  if (!build) throw new Error("Only a living person can give a speech.");
+/** The player starts a speech for the race they filed in: the greeting's choices, from their own records. */
+export function speechBegin(
+  core: CoreState,
+  personId: string,
+  filingId: string,
+): SpeechBuild {
+  const api = coreAPI(core);
+  const campaign = campaignFor(api, filingId);
+  if (campaign.candidateId !== personId)
+    throw new Error("That is not your campaign.");
+  const filing = api
+    .moduleState(ELECTIONS)
+    .table("filings")
+    .get(filingId) as unknown as FilingRow | undefined;
+  const contest = filing
+    ? (api
+        .moduleState(ELECTIONS)
+        .table("contests")
+        .get(filing.contestId) as unknown as ContestRow | undefined)
+    : undefined;
+  if (!filing || !contest) throw new Error("That is not your campaign.");
+  const build = beginSpeech(core, personId, {
+    officeId: contest.officeId,
+    party: filing.party ?? null,
+  });
+  if (!build) throw new Error("This race has no speech to give yet.");
   return build;
 }
 
-/** The player says one of the four parts offered; the next stage's follow. */
+/** The player says one of the parts offered; the next stage's follow. */
 export function speechPick(
   core: CoreState,
   build: SpeechBuild,
