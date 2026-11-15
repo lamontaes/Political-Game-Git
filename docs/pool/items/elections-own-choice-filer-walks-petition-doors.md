@@ -8,7 +8,7 @@ size: S
 status: in-pr
 standard: 2
 claimed-by: claude/project-thread-p37c46
-pr:
+pr: #9492
 after:
 blocked-on:
 lead: words
