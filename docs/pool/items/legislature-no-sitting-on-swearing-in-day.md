@@ -1,8 +1,8 @@
 ---
 id: legislature-no-sitting-on-swearing-in-day
 title: "A body's calendar holds a sitting on the day its new members are sworn in"
-area: government
-kind: defect
+area: gov
+kind: bug
 priority: 3
 size: S
 status: open

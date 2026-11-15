@@ -1,8 +1,8 @@
 ---
 id: government-executive-shared-time-with-body
 title: "A mayor, county executive or governor knows the members of the body they work with, from day one"
-area: government
-kind: defect
+area: gov
+kind: bug
 priority: 2
 size: M
 status: open
@@ -26,9 +26,9 @@ source: Account lead, Nov 15, from the desk-visits work (Bedford KY: the mayor a
 
 **Time box.** 4 hours, one Opus session at medium effort, with research.
 
-**Rules.** One rule for all 56 places; place facts in data; no flat number.
+**Rules.** One rule, all 56 places: whether an executive presides at or attends the body comes from each place's records, never from a named place. Wire to the world: the shared time is read from records the game already keeps, with no flat number.
 
-**Done when.** At Bedford KY and two more named places, the mayor and council read a tie on day one where the mayor presides, and a governor and their legislature's leaders read one from the records named; a second session sees it in dev mode on main.
+**Done when.** At Bedford KY, two more named places and one drawn place, the mayor and council read a tie on day one where the mayor presides, and a governor and their legislature's leaders read one from the records named; a second session sees it in dev mode on main.
 
 **Waits on.** The sitting-ties PR.
 

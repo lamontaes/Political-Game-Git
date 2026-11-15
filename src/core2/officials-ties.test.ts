@@ -5,7 +5,7 @@ import { drawPlace } from "../../scripts/core2-year/place";
 import { gameStartDate } from "./game-start";
 import { memberKey, members } from "./modules/legislature";
 import { allOfficials } from "./modules/officials";
-import { noSittingTie } from "./sitting-closeness";
+import { noSittingTie } from "./closeness";
 import { coreAPI, personOrFillIn } from "./state";
 import type { PersonId } from "./types";
 

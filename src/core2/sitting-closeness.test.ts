@@ -15,7 +15,7 @@ import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import { bodyOf, memberKey, members } from "./modules/legislature";
 import { townSeats } from "./modules/offices";
-import { sittingHours } from "./sitting-closeness";
+import { sittingHours } from "./closeness";
 import { coreAPI } from "./state";
 import type { PersonId } from "./types";
 

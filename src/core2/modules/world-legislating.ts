@@ -55,7 +55,7 @@ import type {
   Source,
 } from "../types";
 import { nextMeeting } from "./offices";
-import { registerSittingCalendar, type SittingDay } from "../sitting-closeness";
+import { registerSittingCalendar, type SittingDay } from "../closeness";
 import {
   addDays,
   makeIsoDate,

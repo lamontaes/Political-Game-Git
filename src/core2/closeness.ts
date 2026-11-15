@@ -395,3 +395,12 @@ export function temperedHours(
   );
   return hours * Math.exp(decisionTraitWeight(core, id) * (lean - center));
 }
+
+// Members of a body know each other from the sittings they share: the engine
+// that keeps the bodies' calendars registers them through this entry.
+export {
+  noSittingTie,
+  registerSittingCalendar,
+  sittingHours,
+  type SittingDay,
+} from "./sitting-closeness";

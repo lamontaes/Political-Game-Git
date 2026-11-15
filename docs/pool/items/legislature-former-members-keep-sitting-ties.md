@@ -2,7 +2,7 @@
 id: legislature-former-members-keep-sitting-ties
 title: "Members who leave a body keep the ties their shared sittings built, fading after"
 area: people
-kind: defect
+kind: bug
 priority: 3
 size: S
 status: open

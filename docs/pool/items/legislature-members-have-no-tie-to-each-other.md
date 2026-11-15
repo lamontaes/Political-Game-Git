@@ -2,7 +2,7 @@
 id: legislature-members-have-no-tie-to-each-other
 title: "Members of a council, board, state chamber or Congress know each other from the sittings they share"
 area: people
-kind: defect
+kind: bug
 priority: 2
 size: M
 status: in-pr
