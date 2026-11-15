@@ -66,6 +66,20 @@ const raceTold = (item: WireItem): string | null =>
 
 /** The record kinds a local outlet prints in its briefs column. */
 const BRIEF_KINDS: ReadonlySet<string> = new Set(briefs.kinds);
+/** Briefs of the town's own that its paper of record runs; another outlet runs one only in a month well over usual. */
+const RECORD_BRIEFS: ReadonlySet<string> = new Set(briefs.recordOutletOnly);
+
+/**
+ * A month the town's own record puts well over its usual: the usual rests on
+ * enough months and chance rarely gives a month this busy (the wire item's
+ * `busier`). The one case an outlet that is not the town's paper of record
+ * runs the town's own log, in its own words.
+ */
+function wellOverUsual(item: {
+  readonly facts?: Readonly<Record<string, unknown>>;
+}): boolean {
+  return item.facts?.busier === "yes";
+}
 
 /**
  * The share of a brief's space a measure that stands off the place's own
@@ -177,11 +191,15 @@ export interface DeskContext {
   readonly parameter: (key: string) => number;
   readonly followers: (outletId: string) => readonly string[];
   readonly townPlaceId: string;
+  /** The town's paper of record, the one outlet that runs a town's own log every month. */
+  readonly recordOutletId?: () => string | undefined;
   /** Yearly ad money a person's campaign spent at this outlet. */
   readonly adMoney: (outlet: DeskOutlet, personId: string) => number;
   /** The candidates running against a person in their open races. */
   readonly rivals: (personId: string) => readonly string[];
   readonly printed: (wireId: string, outletId: string) => boolean;
+  /** Whether any outlet has printed this wire item (the town's one log runs once). */
+  readonly printedAnywhere?: (wireId: string) => boolean;
   /** The town's counted residents who follow an outlet. */
   readonly countedFollowers: (outlet: DeskOutlet) => number;
   /**
@@ -1025,7 +1043,14 @@ export function runDesk(
         (row) =>
           !taken.has(row.item.id) &&
           BRIEF_KINDS.has(row.item.kind) &&
-          usualSpace(row.item, p) > 0,
+          usualSpace(row.item, p) > 0 &&
+          (!RECORD_BRIEFS.has(row.item.kind) ||
+            wellOverUsual(row.item) ||
+            // The town's one log runs in its paper of record, and once: if
+            // the record changed hands after another outlet printed it, the
+            // new record does not print it again.
+            (outlet.id === ctx.recordOutletId?.() &&
+              !ctx.printedAnywhere?.(row.item.id))),
       )
       .map((row) => ({
         ...row,

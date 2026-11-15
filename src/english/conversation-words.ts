@@ -397,23 +397,36 @@ const COMPOSED = new Map<string, ComposedLineBank | null>();
 
 /** The fact a talk carries once a speaker said how long they have held a stand ("for years"). */
 export const HELD_SAID = "held-said";
-let HELD_PIECES: ReadonlySet<string> | null = null;
+/** The fact a call carries once the other person said they were glad to hear the player's voice. */
+export const VOICE_SAID = "voice-said";
+/** Facts a talk carries once one of the pieces that exclude them was said: said once per talk. */
+export const SAID_ONCE_FACTS: readonly string[] = [HELD_SAID, VOICE_SAID];
+const ONCE_PIECES = new Map<string, ReadonlySet<string>>();
 
 /**
- * The pieces that say how long the speaker has held a stand: each is held
- * back once the talk has said it (`excludesFacts: held-said`), and saying one
- * is what sets that fact for the rest of the talk (lead, Nov 13: how long a
- * person has held a stand is said once per talk).
+ * The pieces held back once the talk has said one of them
+ * (`excludesFacts: <fact>`): saying one sets that fact for the rest of the
+ * talk (lead, Nov 13: how long a person has held a stand is said once per
+ * talk; Words lead, Nov 14: a call's goodbye never repeats its hello).
  */
+export function piecesSaidOnce(fact: string): ReadonlySet<string> {
+  let pieces = ONCE_PIECES.get(fact);
+  if (!pieces) {
+    pieces = new Set(
+      admittedParts(CONVERSATION_BANK.parts)
+        .filter((piece) =>
+          piece.uses.some((use) => use.excludesFacts?.includes(fact)),
+        )
+        .map((piece) => piece.key),
+    );
+    ONCE_PIECES.set(fact, pieces);
+  }
+  return pieces;
+}
+
+/** The pieces that say how long the speaker has held a stand. */
 export function heldPieces(): ReadonlySet<string> {
-  HELD_PIECES ??= new Set(
-    admittedParts(CONVERSATION_BANK.parts)
-      .filter((piece) =>
-        piece.uses.some((use) => use.excludesFacts?.includes(HELD_SAID)),
-      )
-      .map((piece) => piece.key),
-  );
-  return HELD_PIECES;
+  return piecesSaidOnce(HELD_SAID);
 }
 
 /**

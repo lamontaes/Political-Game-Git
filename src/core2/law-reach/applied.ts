@@ -12,6 +12,8 @@ import type { ModuleRow } from "../module-data";
 import type { CoreAPI } from "../types";
 
 export const LAW_APPLIED_TABLE = "applied";
+/** A government's treasury organization: its id is this prefix and the government's id. */
+export const TREASURY_ORGANIZATION_PREFIX = "organization:treasury:";
 
 export type AppliedTarget =
   "person" | "household" | "group" | "organization" | "government";
@@ -231,6 +233,12 @@ export interface LawReach {
   readonly amountElsewhereMinor: number;
   /** Money the law moved for the people still in the counts (counted households, groups and counted rows). */
   readonly amountCountedMinor: number;
+  /**
+   * Money on a government's own record, not paid to anyone: the yearly pay a
+   * budget line commits to the positions it funds, or borrowing a debt limit
+   * held back (paid out is negative). Kept out of `amountMinor`.
+   */
+  readonly governmentOwnMinor: number;
   readonly by: readonly LawReachSide[];
   /** Each full person it reached, the most money first. */
   readonly people: readonly {
@@ -282,6 +290,7 @@ export function lawReach(
     { amountMinor: number; what: string; endedOn: string | null }
   >();
   let countedMinor = 0;
+  let governmentOwnMinor = 0;
   // The row being read: its end, for the person it names.
   let rowEnded: string | null = null;
   const side = (engine: string, what: string) => {
@@ -342,7 +351,16 @@ export function lawReach(
       for (const row of state.table(name).rows() as unknown as Readonly<
         Record<string, unknown>
       >[]) {
-        if (row.lawId !== lawId) continue;
+        // A row several laws share (a budget line two governments changed) names each in its credits.
+        if (
+          row.lawId !== lawId &&
+          !(
+            typeof row.credits === "object" &&
+            row.credits !== null &&
+            lawId in row.credits
+          )
+        )
+          continue;
         const into = side(
           text(row.engine) || moduleId,
           text(row.what) || text(row.effect) || text(row.key) || name,
@@ -352,6 +370,12 @@ export function lawReach(
           num(row.amountMinor) ||
           // A wage raise: the hourly pay it added, as the raise row keeps it.
           (name === "raises" ? num(row.toMinor) - num(row.fromMinor) : 0);
+        // A government's own record moves no money to anyone: its engine's
+        // side shows it, the law's total keeps it apart.
+        const own =
+          text(row.target) === "government" ||
+          text(row.targetId).startsWith(TREASURY_ORGANIZATION_PREFIX);
+        if (own) governmentOwnMinor += amount;
         into.amountMinor += amount;
         rowEnded = text(row.endedOn) || null;
         const counted = into.counted;
@@ -421,10 +445,11 @@ export function lawReach(
     counted,
     organizations: organizations.size,
     governments: governments.size,
-    amountMinor,
+    amountMinor: amountMinor - governmentOwnMinor,
     amountInTownMinor: sum(people.filter((p) => p.inTown)),
     amountElsewhereMinor: sum(people.filter((p) => !p.inTown)),
     amountCountedMinor: countedMinor,
+    governmentOwnMinor,
     by: [...sides.values()]
       .map((s) => ({
         engine: s.engine,
