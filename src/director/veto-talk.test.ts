@@ -3,7 +3,7 @@ import { buildBenchWorld } from "../bench/world";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "../core2/bookkeeping";
 import { PLATFORM_QUESTIONS } from "../core2/campaign-data";
-import { closenessBetween } from "../core2/closeness";
+import { closenessBetween, lastTogether } from "../core2/closeness";
 import { gameStartDate } from "../core2/game-start";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
@@ -118,8 +118,19 @@ it(`the sponsor brings up a veto once at the next talk, seed ${seed}`, () => {
       cause: "test-staging: a work session",
       sourceId: council[0]!.office.id,
     });
+    // The veto comes the next day: a veto is made at the desk, apart from
+    // the sponsor, so the day the two last met stays the work session's.
+    const metOn = core.date;
+    advanceCore(core, addDays(makeIsoDate(core.date), 1));
+    expect(billOf(api, bill.id).status, where).toBe("awaiting-signature");
     const before = closenessBetween(core, mayor!, sponsor);
     decideDesk(api, bill.id, false, reason);
+    const tieKey =
+      mayor! < sponsor ? `${mayor}:${sponsor}` : `${sponsor}:${mayor}`;
+    expect(
+      lastTogether(core.relationships.get(tieKey)!),
+      `${where}: a veto is not time together`,
+    ).toBe(metOn);
     const act = (
       api
         .moduleState(OFFICE_DAY_MODULE_ID)
@@ -147,6 +158,12 @@ it(`the sponsor brings up a veto once at the next talk, seed ${seed}`, () => {
           "\n",
         )}\n  replies: ${talk.choices.map((row) => row.text).join(" | ")}\n`,
     );
+    // The pair last met two days ago, at the work session: nobody says
+    // they saw the other yesterday (the veto was not a meeting).
+    expect(
+      talk.lines.some((line) => /yesterday/i.test(line.text)),
+      `${where}: the veto read as time together`,
+    ).toBe(false);
     expect(
       said,
       `${where}: the sponsor did not bring up the veto`,
@@ -185,9 +202,7 @@ it(`the sponsor brings up a veto once at the next talk, seed ${seed}`, () => {
       cooled,
     );
     // The last word on the tie is the apology's, by its record.
-    const tie = core.relationships.get(
-      mayor! < sponsor ? `${mayor}:${sponsor}` : `${sponsor}:${mayor}`,
-    );
+    const tie = core.relationships.get(tieKey);
     expect(tie?.latestChange?.reason, where).toEqual({
       cause: "veto-answer:gives",
       sourceId: `veto.answer:${act!.id}`,
