@@ -41,8 +41,10 @@ for (const seed of WORLDS) {
     ).toBe(200);
     const world = benchWorld();
     const core = world.core!;
+    // A townsperson plays (the cabinet's appointees are people too, and their
+    // ids sort first; they live in the capital's records, not on a street).
     const me = [...core.people.values()]
-      .filter((p) => p.alive)
+      .filter((p) => p.alive && !p.id.startsWith("official:"))
       .sort((a, b) => a.id.localeCompare(b.id))[0]!.id;
     world.player!.select(me);
     expect((await ask("POST", "/api/advance?mode=day")).status, where).toBe(
@@ -59,8 +61,8 @@ for (const seed of WORLDS) {
         }
       ).people.map((p) => p.personId);
 
-    // Your own card offers nothing; someone in the room cannot be visited
-    // (talk to them) but can be called if they have something to say.
+    // Your own card offers nothing; someone in the room is neither visited
+    // nor called (talk to them).
     expect(await acts(me), `${where}: own card`).toEqual([]);
     const room = await hereIds();
     for (const id of room.slice(0, 1)) {
@@ -69,10 +71,29 @@ for (const seed of WORLDS) {
         open: false,
         reason: "here",
       });
+      expect(
+        (await acts(id)).some((a) => a.kind === "call"),
+        `${where}: nobody calls someone in the room`,
+      ).toBe(false);
     }
+    // Someone who lives with the player is never visited, wherever they are.
+    const household = core.people.get(me)!.householdId;
+    for (const mate of [...core.people.values()].filter(
+      (p) =>
+        p.alive &&
+        p.id !== me &&
+        p.householdId === household &&
+        !room.includes(p.id),
+    ))
+      expect(
+        (await acts(mate.id)).find((a) => a.kind === "visit"),
+        `${where}: a housemate`,
+      ).toMatchObject({ open: false, reason: "home" });
 
     // Someone in town not in the room: Visit is open (or closed with a
     // reason the card words), and a closed act always carries its reason.
+    // A call is never to a stranger (the phone talk, Words lead, Nov 14), so
+    // the people the player knows best are tried first.
     const town = [...core.people.values()]
       .filter(
         (p) =>
@@ -81,7 +102,9 @@ for (const seed of WORLDS) {
           p.placeId === core.people.get(me)!.placeId &&
           !room.includes(p.id),
       )
-      .sort((a, b) => a.id.localeCompare(b.id));
+      .map((p) => ({ p, close: closenessBetween(core, me, p.id) }))
+      .sort((a, b) => b.close - a.close || a.p.id.localeCompare(b.p.id))
+      .map((row) => row.p);
     let other: string | undefined;
     for (const candidate of town.slice(0, 60)) {
       const rows = await acts(candidate.id);
@@ -165,5 +188,39 @@ for (const seed of WORLDS) {
       (await acts(other!)).find((a) => a.kind === "visit"),
       where,
     ).toMatchObject({ open: false, reason: "here" });
+
+    // Late in the day, a visit that would run past the day's end is not
+    // offered: the clock is spent toward the night the way any act spends it.
+    const day =
+      parameter("hoursPerDay", parameters) *
+      parameter("minutesPerHour", parameters);
+    const now = world.player!.packet!.at.minuteOfDay;
+    const late = day - Math.round(spent) + 1;
+    if (now < late)
+      expect(
+        (
+          await ask(
+            "POST",
+            `/api/wait?hours=${(late - now) / parameter("minutesPerHour", parameters)}`,
+          )
+        ).status,
+        where,
+      ).toBe(200);
+    expect(world.player!.packet!.at.minuteOfDay, where).toBeGreaterThanOrEqual(
+      late,
+    );
+    const lateRows = await Promise.all(
+      town
+        .slice(0, 20)
+        .map(async (p) => (await acts(p.id)).find((a) => a.kind === "visit")!),
+    );
+    expect(
+      lateRows.filter((row) => row.open),
+      `${where}: no visit offered that runs past the day`,
+    ).toEqual([]);
+    expect(
+      lateRows.some((row) => row.reason === "late"),
+      `${where}: too late to go over`,
+    ).toBe(true);
   }, 900_000);
 }

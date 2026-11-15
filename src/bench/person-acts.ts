@@ -30,6 +30,10 @@ export type ActReason =
   | "held"
   /** The person has died: the card says so and offers nothing. */
   | "died"
+  /** They live with the player: home is not a visit, and nobody calls a house they are in. */
+  | "home"
+  /** The trip and the visit's hours would run past the end of today. */
+  | "late"
   /** Asked before and told no, and the reason they gave still holds. */
   | "nothing-changed";
 
@@ -60,6 +64,8 @@ export interface ActContext {
   held: boolean;
   /** Who is in the player's room now. */
   here: readonly string[];
+  /** Whether the player is at their own home now (not out at work or on a visit). */
+  atHome: boolean;
   director?: Director;
 }
 
@@ -81,12 +87,16 @@ export function personActs(
   if (!other.alive) return [closed("visit", "died")];
   const visit = ((): PersonAct => {
     if (context.here.includes(otherId)) return closed("visit", "here");
+    if (other.householdId === core.people.get(playerId)?.householdId)
+      return closed("visit", "home");
     if (
       livesElsewhere(core, other) ||
       other.placeId !== core.people.get(playerId)?.placeId
     )
       return closed("visit", "elsewhere");
     if (context.held) return closed("visit", "held");
+    if (context.minute + visitMinutesOf(core) >= dayMinutesOf(core))
+      return closed("visit", "late");
     const at = whereIs(core, otherId, context.minute);
     if (
       at.kind === "work" &&
@@ -95,6 +105,15 @@ export function personActs(
       return closed("visit", "away");
     return { kind: "visit", open: true };
   })();
+  // Nobody calls someone in the room, or a house they are standing in: a
+  // housemate at home while the player is home is not called either.
+  const sameHouse =
+    context.here.includes(otherId) ||
+    (context.atHome &&
+      other.householdId === core.people.get(playerId)?.householdId &&
+      whereIs(core, otherId, context.minute).kind === "home");
+  if (sameHouse)
+    return [visit, ...courtshipActs(core, playerId, otherId, context)];
   // A call that cannot open (the game has no talk for them) is not offered:
   // no button and no reason, since "nothing to say" would not be true of them.
   const talk = openConversation(
@@ -203,6 +222,18 @@ function emitContact(
   });
   return id;
 }
+
+/** The minutes a visit takes on the clock: the trip there and the visit's hours. */
+export const visitMinutesOf = (core: CoreState): number =>
+  Math.round(
+    parameter("tripMinutes", core.data.parameters) +
+      visitHoursOf(core) * parameter("minutesPerHour", core.data.parameters),
+  );
+
+/** The minutes in a day, from the core's parameters (the clock's own day). */
+const dayMinutesOf = (core: CoreState): number =>
+  parameter("hoursPerDay", core.data.parameters) *
+  parameter("minutesPerHour", core.data.parameters);
 
 /** The hours a visit takes: the people engine's own visit effort (socialHours). */
 export const visitHoursOf = (core: CoreState): number =>

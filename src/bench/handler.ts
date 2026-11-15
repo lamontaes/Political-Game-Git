@@ -396,6 +396,10 @@ function actsFor(otherId: string) {
     minute: player.packet?.at.minuteOfDay ?? 12 * 60,
     held: player.clockHeld(),
     here: sceneNow(core, player.personId).people.map((p) => p.personId),
+    atHome:
+      !state.visit &&
+      whereIs(core, player.personId, player.packet?.at.minuteOfDay ?? 12 * 60)
+        .kind === "home",
     ...(state.director ? { director: state.director } : {}),
   });
 }
@@ -430,10 +434,13 @@ function visitPerson(otherId: string) {
           scene: visitHome(core, playerId, otherId, minute),
         };
   const hours = visitHoursOf(core);
+  // The visit is written at arrival, before its hours are lived: the hours'
+  // drive prepares the day's next choices (a shift) from the records as they
+  // stand, so a write after it would leave that prepared choice stale.
+  recordPlayerVisit(core, playerId, otherId, minute, hours);
   const spent = player.spend(hours) ?? trip;
   const arrived = player.packet?.at;
   state.visit = arrived ? { ...room.visit, date: arrived.date } : undefined;
-  recordPlayerVisit(core, playerId, otherId, minute, hours);
   const talk = openTalk(otherId);
   return {
     ...room.scene,
