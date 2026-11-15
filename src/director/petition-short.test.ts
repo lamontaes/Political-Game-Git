@@ -3,7 +3,7 @@
  * would really say it, and the answer is theirs (owner, Oct 14: "No engine
  * accepts a job, a home, a filing or any choice for the controlled person; the
  * engine offers, the player decides"). Pinned at Sherrodsville, Ohio
- * (3972242, seed "scan-25"): the first council petition needs 10 signatures
+ * (3972242, seed "scan-3"): the first council petition needs 10 signatures
  * and a campaign gathers 15 (`signaturesToGather`), and nobody else is walking
  * the player's petition. The record is written on the last turn on which a
  * canvass shift a day (`petitionShiftYield`) can still close the gap; a
@@ -12,6 +12,10 @@
  * NOT a one-minute test: the town's own days from the start date to the filing
  * window are the only way to a real petition (about 4 minutes each case).
  * PETITION_SHORT_PLAYED=<file> keeps the played talks and the arithmetic.
+ * Limits are twice the slower of the test alone and beside the other file (Nov 15,
+ * alone / beside, seconds): 37 / 42, 64 / 65, 95 / 86, 33 / 31, 34 / 33, 65 / 64 and,
+ * for the other worlds' talks, 389 to 450 / 456. Each case plays about 100 days of a
+ * town, so the limits are long.
  */
 import { appendFileSync, writeFileSync } from "node:fs";
 import { expect, it } from "vitest";
@@ -46,11 +50,11 @@ import { composeScene } from "./scene";
 import type { TreeNode } from "./scene-talk";
 
 const PLACE = "3972242";
-const SEED = "scan-25";
+const SEED = "scan-3";
 /** Seeds of this town where the petition runs short and the clerk tells the player, found by hand. */
-const CLERK_SEEDS = ["scan-3", "scan-9", "scan-12", "scan-14", "scan-24"];
+const CLERK_SEEDS = ["scan-4", "scan-9", "scan-12", "scan-14", "scan-24"];
 /** Seeds where a played yes to an offer of help puts a helper on the campaign who then tells the player, found by hand. */
-const HELPER_SEEDS = ["scan-6", "scan-19"];
+const HELPER_SEEDS = ["scan-5", "scan-19"];
 /** A seed of this town where a household member's offer to run the campaign comes and the player's yes puts them on its staff. */
 const HELPER_SEED = "scan-7";
 const OUT = process.env.PETITION_SHORT_PLAYED;
@@ -298,7 +302,7 @@ it("the clerk tells a filed player on a thin petition once; a yes takes their ca
   expect(statusOf(world), `${PLACE} ${SEED}: after the player went out`).toBe(
     "on-ballot",
   );
-}, 1_500_000);
+}, 90_000);
 
 it("a no changes nothing: no door is walked for the player", () => {
   // The clerk is pressed once and the player says no again; a helper the
@@ -339,7 +343,7 @@ it("a no changes nothing: no door is walked for the player", () => {
       "on-ballot",
     );
   }
-}, 1_500_000);
+}, 130_000);
 
 it("the clerk's words once some names are on the petition, below what the office requires, and a helper's words in both cases", () => {
   const started = filer();
@@ -361,7 +365,7 @@ it("the clerk's words once some names are on the petition, below what the office
   const c = told(both, "Helper, something signed", HELPER_SEED);
   expect(c.record.facts?.tellerKind).toBe("helper");
   expect(c.record.facts?.started).toBe("yes");
-}, 1_500_000);
+}, 190_000);
 
 it("a clerk says nothing when the names already meet what the office requires", () => {
   const world = filer();
@@ -377,7 +381,7 @@ it("a clerk says nothing when the names already meet what the office requires", 
   write(
     `## Clerk, names meet the requirement: ${PLACE} ${SEED}, ${petition.signed} signed, ${petition.needed} needed, a campaign gathers ${signaturesToGather(petition.needed)}. No one tells them; the clerk's check: ${statusOf(world)}.\n`,
   );
-}, 1_500_000);
+}, 70_000);
 
 it("a petition the count has filled is never told", () => {
   const world = filer();
@@ -397,7 +401,7 @@ it("a petition the count has filled is never told", () => {
   write(
     `## On pace: filled to ${gather} by hand; no one tells them; the clerk's check: ${statusOf(world)}.\n`,
   );
-}, 1_500_000);
+}, 70_000);
 
 it("dev mode brings on the offer and traces what the engine read", () => {
   const { core, director, filing } = filer();
@@ -428,7 +432,7 @@ it("dev mode brings on the offer and traces what the engine read", () => {
   write(
     `## Dev mode, a petition that meets the requirement: the button "${labels.petitionBehind}"; the line shown: "${labels.petitionNotTold}".\n`,
   );
-}, 1_500_000);
+}, 130_000);
 
 /**
  * Other worlds at the same place, so each wording of a line that the world's own pick chooses
@@ -463,4 +467,4 @@ it("other worlds show the other wordings of the clerk's and the helper's talk", 
       }
     }
   }
-}, 3_000_000);
+}, 920_000);

@@ -161,7 +161,7 @@ it("a race the player did not enter is not brought up as the player's own (Sherr
   // The player never filed, so none of their news is about a race or a filing.
   expect(filingsOf(world, playerId)).toEqual([]);
   expect(raceNews(said)).toEqual([]);
-}, 900_000);
+}, 100_000);
 
 it("a person who filed through the game's own filing hears their own race (Sherrodsville)", () => {
   const { world, playerId } = setUp();
@@ -209,4 +209,4 @@ it("a person who filed through the game's own filing hears their own race (Sherr
   const mine = raceNews(said);
   expect(mine.length).toBeGreaterThan(0);
   expect(mine.every((row) => row.includes(contestId))).toBe(true);
-}, 900_000);
+}, 120_000);
