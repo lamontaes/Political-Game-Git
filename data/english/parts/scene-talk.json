@@ -4894,17 +4894,7 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "excludesFacts": ["voted-no"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "answer",
-          "role": "asked",
-          "purpose": "press-comment",
-          "key": "routine",
-          "requiresFacts": ["acted", "voted-yes"],
-          "excludesFacts": ["voted-no"]
+          "excludesFacts": ["voted-no", "acted"]
         }
       ],
       "bearing": "calm",
