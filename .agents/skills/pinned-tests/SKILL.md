@@ -53,3 +53,7 @@ Ask where it ran and at what head. A unit test that builds its own small world p
 ## Debugging a test (Nov 15, Visit/Call thread)
 
 `console.log` is swallowed by vitest here. A throwaway debug test writes its tally to a file and the file is deleted when the answer is found.
+
+## Lesson of Nov 15 (the paper's hold for comment)
+
+- **Break it before you trust it.** Two press tests at their pinned places passed with the change and without it, because the place's tip never ran, so the asserts sat inside `if (ran)`. Undo the line under test and run the file. If it still passes, stage the case through the game's own path (here: the player takes the bribe in the offer scene, the offerer leaks it with `leakToReporter`), and assert outside any branch.
