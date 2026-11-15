@@ -489,7 +489,9 @@ function unplacedShare(rt: ResidentsRuntime, h: CountedHousehold): number {
 
 /**
  * A counted household's share of its group's money: the group's account
- * times its people over the group's people.
+ * times its people over the group's people, its people being those of one
+ * real household or, for a record standing for less than one, the people the
+ * record stands for.
  */
 export function householdCash(
   rt: ResidentsRuntime,
@@ -536,8 +538,18 @@ export function householdCashReader(
       };
       groups.set(h.group, group);
     }
+    // One real household's share, and never more than the record's own: a
+    // record that stands for less than one household holds only the part of
+    // the group's money its own people hold, so a household filled in from it
+    // cannot ask for more than the group's fund (Central Falls and the
+    // lender replay, Nov 14: a sole record of weight 0.34 asked three times
+    // the whole fund).
     return group.people > 0
-      ? Math.floor((group.balance * rt.store.countedCount(h)) / group.people)
+      ? Math.floor(
+          (group.balance *
+            Math.min(rt.store.countedCount(h), rt.store.weightedCount(h))) /
+            group.people,
+        )
       : 0;
   };
 }
@@ -4262,6 +4274,36 @@ export function rerateCountedRetirement(
     changed.push({ flowId: flow.id, fromMinor, toMinor: flow.amountMinor });
   }
   return changed;
+}
+
+/**
+ * The counted residents' Social Security awards running now, for the law
+ * reach: each pooled flow's payee, its amount, the retirees it pays and the
+ * line level it was last rated at (`rerateCountedRetirement`).
+ */
+export function countedRetirementAwards(core: CoreState): {
+  readonly flowId: string;
+  readonly payeeId: string;
+  readonly placeId: string;
+  readonly amountMinor: number;
+  readonly retirees: number;
+  readonly level: number;
+}[] {
+  const rt = runtimes.get(core);
+  if (!rt) return [];
+  const out = [];
+  for (const flow of rt.flows.values()) {
+    if (flow.kind !== "retirement" || flow.endedAt) continue;
+    out.push({
+      flowId: flow.id,
+      payeeId: flow.payeeId,
+      placeId: flow.placeId,
+      amountMinor: flow.amountMinor,
+      retirees: Math.max(1, Object.keys(flow.amountByContract ?? {}).length),
+      level: rt.retirementLevel.get(flow.id) ?? 1,
+    });
+  }
+  return out;
 }
 
 /** The counted households' moves, for the engines outside the people family (the family's entry). */

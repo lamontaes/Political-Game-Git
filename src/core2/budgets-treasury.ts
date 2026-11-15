@@ -44,7 +44,11 @@ import {
 } from "./modules/budgets";
 import { appliedOn, lawApplied, lawNoLongerApplies } from "./law-reach/applied";
 import { LAWS_MODULE_ID, lawChain, lawInForce, webReach } from "./modules/laws";
-import { rerateCountedRetirement, residentsRuntime } from "./modules/residents";
+import {
+  countedRetirementAwards,
+  rerateCountedRetirement,
+  residentsRuntime,
+} from "./modules/residents";
 import { countedJobHeads, countedJobsOf } from "./residents-economy";
 import { setRecipientIncomeAmount } from "./finance-state";
 import { retirementClaims } from "./modules/retirement-claims";
@@ -1925,8 +1929,13 @@ export function treasuryMonthsOf(
   ]) as unknown as TreasuryMonthRow[];
 }
 
-/** The federal Social Security line in force against its base (1 = base). */
-export function socialSecurityLevel(api: CoreAPI): number {
+/**
+ * A federal budget line in force against its base (1 = base): the line the
+ * budget in force carries over the line it would carry without the bills
+ * that changed it. The benefit engines that pay from a federal line scale
+ * what their own laws work out by it.
+ */
+export function federalLineLevel(api: CoreAPI, line: string): number {
   const federal = governments(api).find((g) => g.level === "federal");
   const budget = federal && budgetInForce(api, federal.id);
   if (!federal || !budget) return 1;
@@ -1934,10 +1943,15 @@ export function socialSecurityLevel(api: CoreAPI): number {
     api,
     federal,
     Number(budget.startsOn.slice(0, 4)),
-    "socialSecurity",
+    line,
   );
-  const now = budget.spendingMinor.socialSecurity;
+  const now = budget.spendingMinor[line];
   return base && now !== undefined ? now / base : 1;
+}
+
+/** The federal Social Security line in force against its base (1 = base). */
+export function socialSecurityLevel(api: CoreAPI): number {
+  return federalLineLevel(api, "socialSecurity");
 }
 
 const CAUSE_ROW = "cause:socialSecurity";
@@ -1969,12 +1983,43 @@ export function applySocialSecurityLevel(
   };
   const target = (id: string, amount: number) =>
     Math.round(baseOf(id, amount) * level);
+  // The law that set the line reaches each recipient as the award engine
+  // pays it: on the day the line changes their award (named, no money yet)
+  // and at each close, the month's award above its base (the law's money).
+  const lawId = measureId?.split("#")[0] ?? "";
+  const month = cause === undefined;
+  const reached = new Set<string>();
+  const reach = (
+    targetId: string,
+    target: "person" | "group",
+    baseMinor: number,
+    nowMinor: number,
+    count = 1,
+  ) => {
+    if (!lawId || reached.has(targetId)) return;
+    reached.add(targetId);
+    if (level === 1) {
+      lawNoLongerApplies(api, SOCIAL_SECURITY_KEY, targetId);
+      return;
+    }
+    lawApplied(api, {
+      key: SOCIAL_SECURITY_KEY,
+      lawId,
+      targetId,
+      target,
+      count,
+      engine: BUDGETS_MODULE_ID,
+      what: SOCIAL_SECURITY_WHAT,
+      amountMinor: month ? nowMinor - baseMinor : 0,
+    });
+  };
   const accounts = api.accounts();
   for (const [personId, claim] of retirementClaims(core)) {
     if (claim.counted) continue;
     const obligation = accounts.obligation(claim.obligationId);
     if (!obligation || obligation.endedAt) continue;
     const want = target(claim.obligationId, claim.monthlyMinor);
+    reach(personId, "person", baseOf(claim.obligationId, 0), want);
     if (want === obligation.amountMinor) continue;
     const from = obligation.amountMinor;
     accounts.setObligationAmount(claim.obligationId, want, {
@@ -1997,13 +2042,15 @@ export function applySocialSecurityLevel(
     )
       continue;
     const want = target(`income:${contract.id}`, contract.amountMinor);
+    const personId = contract.recipientIncome.personId;
+    reach(personId, "person", baseOf(`income:${contract.id}`, 0), want);
     if (want === contract.amountMinor) continue;
     const changed = setRecipientIncomeAmount(core, api, contract.id, want, {
       measureId: measureId ?? "budget:socialSecurity",
     });
     landOn(
       api,
-      contract.recipientIncome.personId,
+      personId,
       contract.id,
       changed.fromMinor,
       changed.toMinor,
@@ -2011,9 +2058,26 @@ export function applySocialSecurityLevel(
     );
   }
   // Counted recipients' awards, pooled in the residents' flows, follow the
-  // same line (OPUS-CORE, one model, two tiers).
+  // same line (OPUS-CORE, one model, two tiers), and the law reaches each
+  // pool's retirees by their count.
   rerateCountedRetirement(core, level);
+  if (lawId)
+    for (const award of countedRetirementAwards(core)) {
+      const named = core.people.has(award.payeeId);
+      reach(
+        named ? award.payeeId : award.flowId,
+        named ? "person" : "group",
+        Math.round(award.amountMinor / award.level),
+        award.amountMinor,
+        named ? 1 : award.retirees,
+      );
+    }
 }
+
+/** The law reach's key for the federal Social Security line, the bill card's and the law page's. */
+const SOCIAL_SECURITY_KEY = "budget-line:socialSecurity";
+/** What the line changed for a recipient: their award (the English engine words the key). */
+const SOCIAL_SECURITY_WHAT = "social-security-award-changed";
 
 // Re-exported so other engine families read the paycheck rule through this entry, not the file (families guard).
 export { withholdingFor } from "./tax-withholding";
