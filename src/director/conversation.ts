@@ -28,7 +28,7 @@
  * and the President's address weighs by how closely they follow politics.
  * The listener remembers the last talk's topic and doesn't open with it again.
  */
-import { closenessBetween } from "../core2/closeness";
+import { lastContact, relationFacts } from "./relation-facts";
 import { familyFactsOf, meetInTalk } from "../core2/modules/people";
 import { jobTitleByKind } from "../core2/person-work";
 import {
@@ -89,7 +89,6 @@ import type {
   CoreAPI,
   CoreModule,
   CoreState,
-  IsoDate,
   KnownFact,
   OrganizationInput,
   PersonId,
@@ -594,21 +593,6 @@ function startedOf(
 ): { date: string; factId: string } | null {
   const held = heldSinceRecord(core as CoreState, person.id, person.jobId);
   return held ? { date: String(held.facts.startedAt), factId: held.id } : null;
-}
-
-function lastContact(
-  core: Readonly<CoreState>,
-  personId: PersonId,
-  otherId: PersonId,
-): { date: IsoDate; tieId: string } | null {
-  let best: { date: IsoDate; tieId: string } | null = null;
-  for (const id of core.relationshipsByPerson.get(personId) ?? []) {
-    const row = core.relationships.get(id)!;
-    if (row.actorId !== otherId && row.otherId !== otherId) continue;
-    if (!best || row.lastContactDate > best.date)
-      best = { date: row.lastContactDate, tieId: id };
-  }
-  return best;
 }
 
 /** How far back a recorded event still makes something to talk about. */
@@ -6921,20 +6905,11 @@ function saysName(
   playerId: PersonId,
   conversation?: Pick<Conversation, "nameGiven">,
 ): boolean {
-  if (conversation?.nameGiven) return true;
-  const other = core.people.get(otherId);
-  if (!other?.knownIds.has(playerId)) return false;
-  if (other.familyIds.has(playerId)) return true;
-  const learned = other.knownIdSources?.[playerId]?.learnedAt;
-  if (learned !== undefined) return learned < core.date;
-  const seen = lastContact(core, otherId, playerId);
-  return !!seen && seen.date < core.date;
+  return (
+    !!conversation?.nameGiven ||
+    relationFacts(core, playerId, otherId).metBefore
+  );
 }
-
-/** How close a tie must be, on the closeness scale, for a call to be answered as one from a voice they know (conversation-rules.json, TUNABLE). */
-const CLOSE_TIE_LEVEL = (
-  rulesFile as unknown as { closeTieLevel: { value: number } }
-).closeTieLevel.value;
 
 /**
  * What a call's words need to know about the tie: a relative or someone of
@@ -6950,20 +6925,9 @@ function phoneTieFacts(
   const mark = (name: string, ids: readonly string[]) => {
     facts[name] = { text: "yes", sourceRecordIds: [...ids] };
   };
-  const player = core.people.get(playerId);
-  const other = core.people.get(otherId);
-  const ties = [...(core.relationshipsByPerson.get(playerId) ?? [])]
-    .map((id) => core.relationships.get(id)!)
-    .filter((row) => row.actorId === otherId || row.otherId === otherId);
-  const family = ties.find((row) => row.kind === "family");
-  if (player && other && player.householdId === other.householdId)
-    mark("kin-or-household", [player.householdId]);
-  else if (family) mark("kin-or-household", [family.id]);
-  if (
-    ties[zero] &&
-    closenessBetween(core, playerId, otherId) >= CLOSE_TIE_LEVEL
-  )
-    mark("close-tie", [ties[zero].id]);
+  const relation = relationFacts(core, playerId, otherId);
+  if (relation.kinSource) mark("kin-or-household", [relation.kinSource]);
+  if (relation.close && relation.tieId) mark("close-tie", [relation.tieId]);
   return facts;
 }
 

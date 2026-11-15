@@ -201,7 +201,7 @@ import {
   townOutlet,
   PRESS_STORY_EVENT,
 } from "../core2/modules/press";
-import { closenessBetween } from "../core2/closeness";
+import { relationFacts, tieSide } from "./relation-facts";
 import lineNames from "../core2/data/budgets/line-names.json" with { type: "json" };
 import { stakeOf } from "./family-stake";
 import { remarkOf } from "./remark";
@@ -486,29 +486,6 @@ export function lawName(series: string): string | null {
     (question ? questionAbout(question) : null) ??
     storyTopicName(topic)
   );
-}
-
-/**
- * Which side of their tie two people stand, from its record: a rival is one
- * whose last contact on the tie was a quarrel; a friend is nearer full
- * closeness than none (scene-talk-rules tieSides). Null for neither, or no
- * tie on record. Scenes and the Journal read it alike.
- */
-export function tieSide(
-  core: Readonly<CoreState>,
-  aId: PersonId,
-  bId: PersonId,
-): { side: "friend" | "rival"; tieId: string } | null {
-  const tieId = aId < bId ? `${aId}:${bId}` : `${bId}:${aId}`;
-  const tie = core.relationships.get(tieId);
-  if (!tie) return null;
-  if ((tie.latestChange?.requestedChange ?? P.zero) < P.zero)
-    return { side: "rival", tieId };
-  if (
-    closenessBetween(core, aId, bId) >= rulesFile.tieSides.friendCloseness.value
-  )
-    return { side: "friend", tieId };
-  return null;
 }
 
 /**
@@ -1451,33 +1428,23 @@ function composeBinding(
         personLean,
       ),
     );
-  // How the two stand, so a line can fit the tie: the asked person's known
-  // people (`acquainted`, else `stranger`), and family (`kin`).
-  // A partner is neither kin nor a stranger: they know each other (family
-  // life, Words lead's read of the move-in scene, Nov 14 2026).
-  const partners = [...core.familyLinks.values()].some(
-    (link) =>
-      link.kind === "partner" &&
-      link.personIds.includes(askerId) &&
-      link.personIds.includes(askedId),
-  );
-  if (asked.familyIds.has(askerId) && !partners)
+  // How the two stand, from the one reader (relation-facts.ts): the asked
+  // person's family (`kin`), known people (`acquainted`, else `stranger`), and
+  // which side of the tie they stand (`tie-friend`, `tie-rival`). A partner is
+  // neither kin nor a stranger (Words lead's read of the move-in scene).
+  const relation = relationFacts(core, askerId, askedId);
+  if (relation.kin)
     facts.kin = { text: asker.givenName, sourceRecordIds: [askerId, askedId] };
-  if (asked.knownIds.has(askerId) || partners)
+  if (relation.acquainted)
     facts.acquainted = {
       text: asker.givenName,
       sourceRecordIds: [askerId, askedId],
     };
   else facts.stranger = { text: asker.givenName, sourceRecordIds: [askerId] };
-  // Which side of their tie the two stand nearer, from its record: a friend
-  // (`tie-friend`) is nearer full closeness than none; a rival (`tie-rival`)
-  // is one whose last contact on the tie was a quarrel. A friend and a rival
-  // say different things.
-  const side = tieSide(core, askerId, askedId);
-  if (side)
-    facts[`tie-${side.side}`] = {
+  if (relation.side && relation.tieId)
+    facts[`tie-${relation.side}`] = {
       text: asker.givenName,
-      sourceRecordIds: [side.tieId],
+      sourceRecordIds: [relation.tieId],
     };
   // A committee trade coming due on the floor (legislature.ts
   // recordPromises): the member promised their vote, and the lines about a
