@@ -8,7 +8,7 @@ size: S
 status: in-pr
 standard: 2
 claimed-by:
-pr:
+pr: 9406
 after: metrics-town-jobs-one-rule
 blocked-on:
 lead: jobs
@@ -30,7 +30,7 @@ source: Account lead, Nov 15, after metrics-town-jobs-one-rule (#9391)
 
 **Done when.** A second session runs the test in a drawn place (Washington, Kansas, seed 599e6f66e9c1d25a, is the pinned one), sees the printed line and its figure match the month row and the Metrics tab's looking-for-work row, and sees it fail when the row is changed by one.
 
-**Waits on.** metrics-town-jobs-one-rule (#9391).
+**Waits on.** metrics-town-jobs-one-rule (#9391, folded).
 
 **Files.** src/bench/printed-jobless-line.test.ts (new)
 
