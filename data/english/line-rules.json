@@ -3263,10 +3263,12 @@
       "research": [
         "docs/research/dialogue/ (how games write dialogue), rule 5"
       ],
-      "status": "awaiting-test",
+      "status": "enforced",
       "test": {
-        "kind": "judged"
-      }
+        "kind": "place",
+        "by": "src/english/most-specific-line-wins.test.ts"
+      },
+      "note": "Enforced by the composer: useFit in src/english/scene-talk-words.ts ranks a variant over its family, a situation key over none, a reply written for the line it answers over one for its kind, and a piece that needs a fact on the record over a generic one. The test it names reads what wordSceneMove says, on made pieces and at every spot of the shipped scene-talk bank where a fact-tied and a generic piece share a spot."
     },
     {
       "id": "no-dangling-fragments",
@@ -4730,6 +4732,10 @@
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
+      },
+      "sets": "later",
+      "applies": {
+        "banks": ["scene-talk"]
       }
     },
     {
@@ -4746,6 +4752,10 @@
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
+      },
+      "sets": "every",
+      "applies": {
+        "banks": ["scene-talk"]
       }
     },
     {
@@ -4762,6 +4772,11 @@
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
+      },
+      "sets": "every",
+      "applies": {
+        "banks": ["scene-talk"],
+        "moves": "^(?:state|follow|continue)-(?:confront|threaten)$"
       }
     },
     {

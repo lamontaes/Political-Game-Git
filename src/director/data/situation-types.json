@@ -1831,7 +1831,7 @@
             "label": "circumstance:bribe-accused"
           },
           "causeEngine": "circumstance",
-          "causeRecord": "scandal.reported",
+          "causeRecord": "news.read",
           "sceneKey": "bribe-reported",
           "bind": {
             "accuser": "counterpart",
