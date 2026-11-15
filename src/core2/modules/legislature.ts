@@ -4366,6 +4366,9 @@ export interface ObligationRow {
   /** The record that called it in (an endorsement given), and when. */
   readonly settledBy?: string;
   readonly settledOn?: string;
+  /** The record that refused it (the debtor's no when it was called in), and when: a refused favor is not called in again. */
+  readonly refusedBy?: string;
+  readonly refusedOn?: string;
 }
 
 /** The favors still owed to a person: the deals they took that the sponsor has not repaid (campaign-favor-called-in). */
@@ -4375,7 +4378,7 @@ export function obligationsOwedTo(
 ): readonly ObligationRow[] {
   if (!api.state.modules.has(LEGISLATURE_MODULE_ID)) return [];
   return (table(api, "obligations").rows() as unknown as ObligationRow[])
-    .filter((o) => o.owedTo === personId && !o.settled)
+    .filter((o) => o.owedTo === personId && !o.settled && !o.refusedOn)
     .sort((a, b) => a.id.localeCompare(b.id));
 }
 
@@ -4402,6 +4405,25 @@ export function settleObligation(
     settled: true,
     settledBy: recordId,
     settledOn: api.state.date,
+    // A no given up on the same day is no longer a refusal.
+    refusedBy: undefined,
+    refusedOn: undefined,
+  } as unknown as ModuleRow);
+}
+
+/** A favor called in and refused: the debtor's no, kept on the ledger, so no campaign calls it in again. */
+export function refuseObligation(
+  api: CoreAPI,
+  obligationId: string,
+  recordId: string,
+): void {
+  const row = table(api, "obligations").get(obligationId) as unknown as
+    ObligationRow | undefined;
+  if (!row || row.settled || row.refusedOn) return;
+  table(api, "obligations").put({
+    ...row,
+    refusedBy: recordId,
+    refusedOn: api.state.date,
   } as unknown as ModuleRow);
 }
 
