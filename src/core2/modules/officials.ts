@@ -25,6 +25,7 @@ import calibration from "../../../data/source/electoral-calibration-2024/corpus.
 import senateClasses from "../../../data/research/offices/senate-classes-2026.json" with { type: "json" };
 import tenure from "../data/offices/tenure.json" with { type: "json" };
 import { coreAPI, fillInIdentity, registerModule } from "../state";
+import { catchUpSittings } from "../sitting-closeness";
 import { registerHuskIdentity, registerHuskPromoter } from "../husk-promoters";
 import type { RecordedIdentity } from "../state";
 import type {
@@ -899,6 +900,9 @@ function promoteOutsideOfficial(
     source: source(row.husk.asOf),
   });
   colleagues(api, new Set([personId]));
+  // The sittings they shared with colleagues already filled in, as if they
+  // had been a full person all along.
+  catchUpSittings(api, new Set([personId]));
   return person;
 }
 registerHuskPromoter(promoteOutsideOfficial);
@@ -979,8 +983,11 @@ function leaders(all: readonly Spec[]): Map<string, string> {
 
 /**
  * Officials who serve together know each other: a state's delegation to
- * Congress and its governor, each chamber's members (a state legislature's
- * too) with their party's leader, and the executive branch with its head. Their time together is their shared years of service.
+ * Congress and its governor, and the executive branch with its head. Their
+ * time together is their shared years of service. A chamber's members (the
+ * party's leader among them) are not tied here: they know each other from
+ * the sittings they share (`sitting-closeness.ts`), counted sitting by
+ * sitting from the chamber's calendar.
  */
 function colleagues(api: CoreAPI, added: ReadonlySet<string>): void {
   const officials = table(api, "officials");
@@ -1016,10 +1023,9 @@ function colleagues(api: CoreAPI, added: ReadonlySet<string>): void {
       sourceId: a.seatId,
     });
   };
-  // A tie needs one of its ends among the added, so only the delegations and
-  // bodies the added rows sit in can make one; the rest are not read.
+  // A tie needs one of its ends among the added, so only the delegations the
+  // added rows sit in can make one; the rest are not read.
   const addedStates = new Set(addedRows.map((row) => row.stateKey));
-  const addedBodies = new Set(addedRows.map((row) => row.body));
   const delegations = groupBy(
     rows.filter(
       (row) =>
@@ -1038,41 +1044,6 @@ function colleagues(api: CoreAPI, added: ReadonlySet<string>): void {
           members[j]!,
           "served together in the state's delegation",
         );
-  const byBody = groupBy(
-    rows.filter((row) => addedBodies.has(row.body)),
-    (row) => row.body,
-  );
-  for (const members of byBody.values()) {
-    const leadersBySide = new Map(
-      members
-        .filter((m) => m.leadership)
-        .map((m) => [partySide(m.party), m] as const),
-    );
-    // The chamber's leaders by id, for a member whose own side has none (an
-    // independent, a one-member side) or who is their side's leader.
-    // A chamber with no designated leader (a nonpartisan legislature) is
-    // led, for who knows whom, by its longest-serving member.
-    const leaders = leadersBySide.size
-      ? [...leadersBySide.values()].sort((a, b) => a.id.localeCompare(b.id))
-      : [...members]
-          .sort(
-            (a, b) =>
-              a.serviceStart.localeCompare(b.serviceStart) ||
-              a.id.localeCompare(b.id),
-          )
-          .slice(0, 1);
-    for (const m of members) {
-      const own = leadersBySide.get(partySide(m.party));
-      const leader =
-        own && own.id !== m.id ? own : leaders.find((l) => l.id !== m.id);
-      // Congress's same-state pairs are already tied as a delegation.
-      const delegation =
-        leader?.stateKey === m.stateKey &&
-        (m.bodyKind === "us-house" || m.bodyKind === "us-senate");
-      if (leader && leader.id !== m.id && !delegation)
-        tie(m, leader, "served in the chamber under their party's leader");
-    }
-  }
   // The executive branch serves under its head: the president for the
   // administration (vice president, cabinet), a state's governor for its
   // other executive officers (lieutenant governor, attorney general, board).
