@@ -21,6 +21,9 @@ import {
   type CaseRow,
 } from "../core2/modules/offices";
 import { STAFF_MODULE_ID, servingStaffOf } from "../core2/modules/staff";
+import { JUSTICE_MODULE_ID, type CustodyRow } from "../core2/modules/justice";
+import { familyFactsOf } from "../core2/closeness";
+import { JOURNAL_WORDS } from "../english/journal-words";
 import { daysSaid } from "../english/count-words";
 import rules from "./data/constituent-help-facts.json" with { type: "json" };
 import { JOBS_MODULE_ID } from "../core2/modules/jobs";
@@ -72,6 +75,9 @@ export function lastLayoff(
  *   seven days"), from the case's deadline;
  * - `employer` and `since` (a job seeker's last layoff), `money-left` (how
  *   their savings stand, in words), `pay` and `floor` (a wage complaint);
+ *   `relative`, `relation`, `held-for` and `out-in` (a relative in custody:
+ *   their first name, what they are to the resident, and how long they have
+ *   been held and have left, each a bare span such as "two years");
  * - `other-cases`: the official's other open cases are many, by the cases
  *   engine's own load (`caseLoad`); `staffer`: the aide who
  *   would take the case, where the official has staff.
@@ -101,6 +107,40 @@ export function caseFacts(
     const floor = Number(row.facts.floorMinor ?? P.zero);
     if (hourly > P.zero) facts.pay = said(dollars(hourly));
     if (floor > P.zero) facts.floor = said(dollars(floor));
+  } else if (row.problem === "family-in-custody") {
+    // The relative in custody: who they are to the resident, their name, and
+    // how long they have been held and have left, from the custody record.
+    const kinId = String(row.facts.relativeId ?? "") as PersonId;
+    const kin = core.people.get(kinId);
+    const custody = coreAPI(core as CoreState)
+      .moduleState(JUSTICE_MODULE_ID)
+      .table("custody")
+      .get(String(row.facts.custodyId ?? "")) as unknown as
+      CustodyRow | undefined;
+    const asker = core.people.get(askerId);
+    const kinKey = asker ? familyFactsOf(asker).get(kinId)?.relation : null;
+    const forms = kinKey ? JOURNAL_WORDS.relationWords[kinKey] : undefined;
+    const relation = forms
+      ? (forms[(kin?.looks?.gender ?? "other") as keyof typeof forms] ??
+        forms.other)
+      : undefined;
+    if (kin)
+      facts.relative = { text: kin.givenName, sourceRecordIds: [kin.id] };
+    if (relation && kin)
+      facts.relation = { text: relation, sourceRecordIds: [askerId, kin.id] };
+    if (custody) {
+      const ids = [custody.id];
+      if (custody.from < cause.date)
+        facts["held-for"] = {
+          text: spanSaid(daysBetweenText(custody.from, cause.date)),
+          sourceRecordIds: ids,
+        };
+      if (custody.until > cause.date)
+        facts["out-in"] = {
+          text: spanSaid(daysBetweenText(cause.date, custody.until)),
+          sourceRecordIds: ids,
+        };
+    }
   } else if (row.problem === "looking-for-work") {
     const loss = lastLayoff(core, askerId, cause.date);
     const org = loss ? core.organizations.get(loss.organizationId) : undefined;

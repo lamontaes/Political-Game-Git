@@ -191554,6 +191554,271 @@
         "part": "core",
         "required": true
       }
+    },
+    {
+      "key": "scene-talk.state-request.case-help-custody-4",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "My {relation} is locked up, and I can't get a visit.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "requiresFacts": ["problem-custody", "relation"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (office hours, custody with the relative's facts, Nov 15 22:55Z), added by the civic roles builder",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "request",
+        "key": "case-help"
+      },
+      "bearing": "anxious",
+      "piece": {
+        "of": "case-help.state-request",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.state-request.case-help-custody-5",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I want to visit my {relation} in jail. I don't know who to ask.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "requiresFacts": ["problem-custody", "relation"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (office hours, custody with the relative's facts, Nov 15 22:55Z), added by the civic roles builder",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "request",
+        "key": "case-help"
+      },
+      "bearing": "anxious",
+      "piece": {
+        "of": "case-help.state-request",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.case-help-custody-1",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Who is it?",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "requiresFacts": ["problem-custody", "relation", "relative"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (office hours, custody with the relative's facts, Nov 15 22:55Z), added by the civic roles builder",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "ask",
+        "key": "case-help"
+      },
+      "bearing": "calm",
+      "piece": {
+        "of": "case-help.reply-ask",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.case-help-custody-2",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "How long has your {relation} been in?",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "requiresFacts": ["problem-custody", "relation", "held-for"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (office hours, custody with the relative's facts, Nov 15 22:55Z), added by the civic roles builder",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "ask",
+        "key": "case-help"
+      },
+      "bearing": "calm",
+      "piece": {
+        "of": "case-help.reply-ask",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.case-help-custody-3",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "When does your {relation} get out?",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "requiresFacts": ["problem-custody", "relation", "out-in"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (office hours, custody with the relative's facts, Nov 15 22:55Z), added by the civic roles builder",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "ask",
+        "key": "case-help"
+      },
+      "bearing": "calm",
+      "piece": {
+        "of": "case-help.reply-ask",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.case-help-custody-1",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "My {relation}, {relative}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "requiresFacts": ["problem-custody", "relation", "relative"],
+          "after": "scene-talk.reply-ask.case-help-custody-1"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (office hours, custody with the relative's facts, Nov 15 22:55Z), added by the civic roles builder",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "answer",
+        "key": "case-help"
+      },
+      "bearing": "anxious",
+      "piece": {
+        "of": "case-help.follow-answer",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.case-help-custody-2",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "{held-for} now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "requiresFacts": ["problem-custody", "relation", "held-for"],
+          "after": "scene-talk.reply-ask.case-help-custody-2"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (office hours, custody with the relative's facts, Nov 15 22:55Z), added by the civic roles builder",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "answer",
+        "key": "case-help"
+      },
+      "bearing": "anxious",
+      "piece": {
+        "of": "case-help.follow-answer",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.case-help-custody-3",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Not for {out-in}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "requiresFacts": ["problem-custody", "relation", "out-in"],
+          "after": "scene-talk.reply-ask.case-help-custody-3"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (office hours, custody with the relative's facts, Nov 15 22:55Z), added by the civic roles builder",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "answer",
+        "key": "case-help"
+      },
+      "bearing": "anxious",
+      "piece": {
+        "of": "case-help.follow-answer",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.case-help-custody-4",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll ask that you be allowed to see {relative}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "requiresFacts": ["problem-custody", "relative"],
+          "after": "scene-talk.follow-answer.case-help-custody-1"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (office hours, custody with the relative's facts, Nov 15 22:55Z), added by the civic roles builder",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "promise",
+        "key": "case-help"
+      },
+      "bearing": "calm",
+      "piece": {
+        "of": "case-help.reply-promise",
+        "part": "core",
+        "required": true
+      }
     }
   ]
 }
