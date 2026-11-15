@@ -160304,10 +160304,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.they-want-owed-from-me-you-want-a-signature-a-signature-i-can-give-here",
+      "key": "scene-talk.reply-agree.they-want-back-rent-from-me-you-want-a-signature-a-signature-i-can-give-here",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "They want {owed} from me. You want a signature. A signature I can give. Here.",
+      "text": "They want back rent from me. You want a signature. A signature I can give. Here.",
       "uses": [
         {
           "subject": "scene",
@@ -160457,10 +160457,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-owe-owed-and-you-want-my-name-no",
+      "key": "scene-talk.reply-decline.i-m-behind-on-rent-and-you-want-my-name-no",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I owe {owed} and you want my name. No.",
+      "text": "I'm behind on rent and you want my name. No.",
       "uses": [
         {
           "subject": "scene",
@@ -160584,10 +160584,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.the-landlord-says-i-owe-owed-you-do-something-about-rent-and-you-have-my-vote",
+      "key": "scene-talk.reply-agree.the-landlord-says-i-m-behind-you-do-something-about-rent-and-you-have-my-vote",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "The landlord says I owe {owed}. You do something about rent and you have my vote.",
+      "text": "The landlord says I'm behind. You do something about rent and you have my vote.",
       "uses": [
         {
           "subject": "scene",
@@ -160838,10 +160838,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.what-would-you-do-about-owed-i-don-t-have-nothing-then-i-m-not-voting-for-you",
+      "key": "scene-talk.reply-decline.what-would-you-do-about-rent-i-don-t-have-nothing-then-i-m-not-voting-for-you",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "What would you do about {owed} I don't have? Nothing? Then I'm not voting for you.",
+      "text": "What would you do about rent I don't have? Nothing? Then I'm not voting for you.",
       "uses": [
         {
           "subject": "scene",
@@ -161367,10 +161367,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-promise.i-ll-ask-what-the-town-does-for-people-owed-behind-you-ll-hear-back",
+      "key": "scene-talk.follow-promise.i-ll-ask-what-the-town-does-for-people-behind-on-rent-you-ll-hear-back",
       "move": "follow-promise",
       "kind": "spoken",
-      "text": "I'll ask what the town does for people {owed} behind. You'll hear back.",
+      "text": "I'll ask what the town does for people behind on rent. You'll hear back.",
       "uses": [
         {
           "subject": "scene",
@@ -171237,10 +171237,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-tell.i-m-owed-behind-i-m-working-on-it-but-it-doesn-t-move-fast",
+      "key": "scene-talk.reply-tell.i-m-behind-on-the-rent-i-m-working-on-it-but-it-doesn-t-move-fast",
       "move": "reply-tell",
       "kind": "spoken",
-      "text": "I'm {owed} behind. I'm working on it, but it doesn't move fast.",
+      "text": "I'm behind on the rent. I'm working on it, but it doesn't move fast.",
       "uses": [
         {
           "subject": "scene",
