@@ -1929,8 +1929,13 @@ export function treasuryMonthsOf(
   ]) as unknown as TreasuryMonthRow[];
 }
 
-/** The federal Social Security line in force against its base (1 = base). */
-export function socialSecurityLevel(api: CoreAPI): number {
+/**
+ * A federal budget line in force against its base (1 = base): the line the
+ * budget in force carries over the line it would carry without the bills
+ * that changed it. The benefit engines that pay from a federal line scale
+ * what their own laws work out by it.
+ */
+export function federalLineLevel(api: CoreAPI, line: string): number {
   const federal = governments(api).find((g) => g.level === "federal");
   const budget = federal && budgetInForce(api, federal.id);
   if (!federal || !budget) return 1;
@@ -1938,10 +1943,15 @@ export function socialSecurityLevel(api: CoreAPI): number {
     api,
     federal,
     Number(budget.startsOn.slice(0, 4)),
-    "socialSecurity",
+    line,
   );
-  const now = budget.spendingMinor.socialSecurity;
+  const now = budget.spendingMinor[line];
   return base && now !== undefined ? now / base : 1;
+}
+
+/** The federal Social Security line in force against its base (1 = base). */
+export function socialSecurityLevel(api: CoreAPI): number {
+  return federalLineLevel(api, "socialSecurity");
 }
 
 const CAUSE_ROW = "cause:socialSecurity";
