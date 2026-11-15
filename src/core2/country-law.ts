@@ -18,6 +18,14 @@ import { unemploymentTermsOf } from "./jobs-benefits";
 import { withholdingFor } from "./budgets-treasury";
 import { resolveLawInForce, type LawInForceAnswer } from "./laws-in-force";
 import { stateOpeningLawRows } from "./modules/laws";
+import moverRates from "../../data/research/migration/mover-rates-acs-2024.json" with { type: "json" };
+
+/** The federal position whose law admits more immigrants (the moves research's own series). */
+const ADMIT_MORE_IMMIGRANTS =
+  "us-federal-positions:immigration.admit-more-immigrants";
+const MOVER_RATES = moverRates as unknown as {
+  national: { admitMoreImmigrantsLaw: { shareOfArrivalsFromAbroad: number } };
+};
 
 const DAYS_PER_YEAR = 365;
 const WEEKS_PER_YEAR = 52;
@@ -179,6 +187,13 @@ export function countryLaw(
       );
       return weekly * WEEKS_PER_YEAR;
     },
+    // While Congress's law to admit more immigrants stands, more come: the
+    // researched extra admissions as a share of today's arrivals from abroad.
+    abroadFactor: (state) =>
+      law(state, ADMIT_MORE_IMMIGRANTS).value === 1
+        ? 1 +
+          MOVER_RATES.national.admitMoreImmigrantsLaw.shareOfArrivalsFromAbroad
+        : 1,
   };
 }
 

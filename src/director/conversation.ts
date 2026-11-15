@@ -29,6 +29,7 @@
  * The listener remembers the last talk's topic and doesn't open with it again.
  */
 import { seriousIllnessOf } from "../core2/modules/health";
+import { closenessBetween } from "../core2/closeness";
 import { familyFactsOf, meetInTalk } from "../core2/modules/people";
 import { jobTitleByKind } from "../core2/person-work";
 import {
@@ -80,8 +81,8 @@ import {
   MILESTONE_BIRTHDAY,
   PRESS_MODULE_ID,
   RETIREMENT,
+  outletMedium,
   outletsHere,
-  type OutletKind,
 } from "../core2/modules/press";
 import { decisionLean, hardshipStress } from "../core2/trait-decisions";
 import { believesClaim } from "../core2/heard-claims";
@@ -96,7 +97,13 @@ import type {
   PersonState,
   Source,
 } from "../core2/types";
-import { BRING_IT_UP_ROWS, bringItUp, changesKnownTo } from "./bring-it-up";
+import {
+  BRING_IT_UP_ROWS,
+  bringItUp,
+  changesKnownTo,
+  resultsKnownTo,
+} from "./bring-it-up";
+import { raceMargin } from "./race-margin";
 import { DEFAULT_DIRECTOR_DATA, type Director } from "./ledger";
 import { SITUATION_LIBRARY } from "./scheduling";
 import type { Moment } from "./types";
@@ -127,8 +134,8 @@ import {
   conversationHas,
   conversationMoves,
   CONVERSATION_WORDS,
-  HELD_SAID,
-  heldPieces,
+  SAID_ONCE_FACTS,
+  piecesSaidOnce,
   joinedReply,
   wordConversationMove,
   type ConversationPart,
@@ -348,6 +355,11 @@ export interface ConversationLine {
   text: string;
   sourceRecordIds: readonly string[];
   wording?: Wording;
+  /**
+   * A told line that says how the teller feels about the news, not the news
+   * itself ("Good night for our side."): the reply answers the feeling.
+   */
+  feeling?: boolean;
 }
 
 export interface ConversationChoice {
@@ -408,6 +420,8 @@ export interface Conversation {
   minuteOfDay?: number;
   /** The organization whose place the player came to for the talk, when the screen knows it (internal). */
   visitOrganizationId?: string;
+  /** The talk is by phone: the greeting and goodbye carry the fact "by-phone" (internal). */
+  byPhone?: boolean;
   /** A look only: whether there is anything to say, with nothing learned (internal). */
   look?: boolean;
   /** The director's ledger, read for what happened to whom (internal). */
@@ -2295,16 +2309,6 @@ function governmentNews(
 /** The news engine's kind for a story an outlet printed (press desk). */
 const PRINTED_STORY = "press.printed";
 
-/** How each kind of outlet carries a story: printed on paper or broadcast. */
-const MEDIUM: Readonly<Partial<Record<OutletKind, "paper" | "broadcast">>> = {
-  newspaper: "paper",
-  "national-paper": "paper",
-  magazine: "paper",
-  television: "broadcast",
-  radio: "broadcast",
-  cable: "broadcast",
-};
-
 /** Whether a person knows of a change or a story: learned of the change, or heard the story. */
 function knowsNews(
   core: Readonly<CoreState>,
@@ -2440,7 +2444,8 @@ function printedSubject(
           (entry) => entry.organizationId === story.outletId,
         )
       : undefined;
-    const medium = row ? MEDIUM[row.kind] : undefined;
+    const media = row ? outletMedium(row.kind) : null;
+    const medium = media ? (media === "paper" ? "paper" : "broadcast") : null;
     const carried = medium
       ? { [medium]: { text: "", sourceRecordIds: [story.id, row!.id] } }
       : {};
@@ -2502,8 +2507,14 @@ function introduction(
   speaker: Readonly<PersonState>,
   listener: Readonly<PersonState>,
   work: ReturnType<typeof sayJob>,
-  room: { visitOrganizationId?: string },
+  room: { visitOrganizationId?: string; byPhone?: boolean },
 ): Subject | null {
+  // A call is never to a stranger, so nobody introduces themselves on one.
+  if (room.byPhone) return null;
+  // Two who have met before are not strangers: no one introduces themselves
+  // to someone they have already talked with (Words lead, Nov 14).
+  if (lastContact(core, speaker.id as PersonId, listener.id as PersonId))
+    return null;
   if (
     speaker.householdId === listener.householdId ||
     speaker.familyIds.has(listener.id as PersonId) ||
@@ -2538,6 +2549,8 @@ export function subjectsBetween(
     presentIds?: readonly PersonId[];
     minuteOfDay?: number;
     visitOrganizationId?: string;
+    /** The talk is a phone call. */
+    byPhone?: boolean;
   } = {},
 ): Subject[] {
   const speaker = core.people.get(speakerId)!;
@@ -3723,19 +3736,26 @@ export function composedLine(
   momentKey: string,
   recentPartKeys: readonly string[] = [],
 ): Said | null {
-  // How long they have held a stand, said once in this talk (the parts this
-  // speaker said in it), is not said again (lead, Nov 13).
-  const held = heldPieces();
-  const heldSaid = recentPartKeys.some((key) => held.has(key));
+  // What is said once in a talk (how long they have held a stand; being
+  // glad to hear the player's voice) is not said again in it (lead, Nov 13;
+  // Words lead, Nov 14).
+  const onceSaid = SAID_ONCE_FACTS.filter((fact) =>
+    recentPartKeys.some((key) => piecesSaidOnce(fact).has(key)),
+  );
   const line = composeConversationLine({
     seed: core.seed,
     subject,
     speakerId,
     traits: core.people.get(speakerId)?.traits ?? {},
-    facts: heldSaid
+    facts: onceSaid.length
       ? {
           ...facts,
-          [HELD_SAID]: { text: "yes", sourceRecordIds: [speakerId] },
+          ...Object.fromEntries(
+            onceSaid.map((fact) => [
+              fact,
+              { text: "yes", sourceRecordIds: [speakerId] },
+            ]),
+          ),
         }
       : facts,
     stage,
@@ -3968,12 +3988,29 @@ function youIn(
   return said ? {} : { you };
 }
 
+/** What the other person said since the player last spoke. */
+function toldSince(
+  lines: readonly ConversationLine[],
+  playerId: PersonId,
+): ConversationLine[] {
+  const run: ConversationLine[] = [];
+  for (let at = lines.length - one; at >= zero; at -= one) {
+    if (lines[at]!.speakerId === playerId) break;
+    run.unshift(lines[at]!);
+  }
+  return run;
+}
+
 /** The facts the player's own answers can add, from the player's records. */
 function playerFacts(
   core: Readonly<CoreState>,
   playerId: PersonId,
   last: LastLine,
   otherId?: PersonId,
+  /** The other person's line the answer follows. */
+  before?: ConversationLine,
+  /** What the other person said since the player last spoke. */
+  told: readonly ConversationLine[] = [],
 ): { facts: Facts; stage?: string } {
   const player = core.people.get(playerId)!;
   const facts: Facts = {};
@@ -4086,10 +4123,36 @@ function playerFacts(
       };
     else facts["my-not"] = { text: "", sourceRecordIds: [playerId] };
   }
-  if (last.kind === "news" && last.subject.aboutId)
-    stage = knowsNews(core, playerId, last.subject.aboutId)
-      ? "heard"
-      : "not-heard";
+  // News, by what the line before was (M5's pairs, Nov 14): a question
+  // ("Did you hear ...?") is answered yes or no; the news told outright is
+  // never answered "I haven't heard." or "Tell me." (only by taking it in,
+  // or by saying the player knew); a feeling about it is never answered
+  // "Yes, ... had it." (`before-feeling` holds that wording back).
+  if (last.kind === "news" && last.subject.aboutId) {
+    // A race's result is known to the player when they knew it before this
+    // telling (`result-known`, from any outlet's story or an earlier telling).
+    const heard = last.facts.result
+      ? !!last.facts["result-known"]
+      : knowsNews(core, playerId, last.subject.aboutId);
+    const asked = !!before && asksQuestion(before);
+    stage = heard ? "heard" : asked ? "not-heard" : "told";
+    if (before?.feeling && !asked)
+      facts["before-feeling"] = {
+        text: "yes",
+        sourceRecordIds: before.sourceRecordIds,
+      };
+    // Where they got it, when they said so: "I read it in ... too" answers
+    // only a teller who named that outlet (Words lead, Nov 14).
+    const outlet = last.facts.outlet;
+    const named = outlet
+      ? told.find((line) => line.text.includes(outlet.text))
+      : undefined;
+    if (named)
+      facts["outlet-said"] = {
+        text: "yes",
+        sourceRecordIds: named.sourceRecordIds,
+      };
+  }
   if (last.kind === "school") stage = schoolStage(core, player);
   if (last.kind === "kin" && last.subject.aboutId) {
     const relative = core.people.get(last.subject.aboutId);
@@ -4557,6 +4620,39 @@ function askSubject(
   return true;
 }
 
+/**
+ * A race's result as a talk's subject: the paper's story with the question
+ * the winner ran on taken out (its `about` and the news question), so the
+ * player answers who won ("Really?", "I saw that.") and never takes a stand
+ * on, or says they have no view of, a question nobody said. It is marked a
+ * result (`result`), and one not close on the record (`result-not-close`),
+ * so a reply that doubts it ("You're kidding.") follows only a close race
+ * and a bare noise ("Huh.") follows none (Words lead, Nov 14).
+ */
+function resultSubject(
+  core: Readonly<CoreState>,
+  subject: Subject,
+  resultId: string,
+  /** The player knew the result before this telling. */
+  known: boolean,
+): Subject {
+  const facts: Facts = {
+    ...subject.facts,
+    result: { text: "yes", sourceRecordIds: [resultId] },
+    ...(known
+      ? { "result-known": { text: "yes", sourceRecordIds: [resultId] } }
+      : {}),
+    ...(raceMargin(core, resultId) === "close"
+      ? {}
+      : { "result-not-close": { text: "yes", sourceRecordIds: [resultId] } }),
+  };
+  delete facts.about;
+  const { news, ...rest } = subject;
+  const said = { ...news };
+  delete said.question;
+  return { ...rest, facts, ...(news ? { news: said } : {}) };
+}
+
 /** The other person raises one of their own subjects. */
 function raiseSubject(
   core: Readonly<CoreState>,
@@ -4566,7 +4662,11 @@ function raiseSubject(
   /** A side remark on the topic in hand, not a topic of its own. */
   remark = false,
   /** Lines already worded that raise it (what they brought up), said instead. */
-  said?: readonly { text: string; sourceRecordIds: readonly string[] }[],
+  said?: readonly {
+    text: string;
+    sourceRecordIds: readonly string[];
+    feeling?: boolean;
+  }[],
 ): boolean {
   const { playerId, otherId } = conversation;
   conversation.used.push(`${otherId}>${subject.id}`);
@@ -5279,6 +5379,8 @@ function openConversationNow(
     minuteOfDay?: number;
     /** The organization whose place the player came to (a visit), where the screen knows it. */
     visitOrganizationId?: string;
+    /** The talk is a phone call: words that fit only in person are held back by the fact "by-phone". */
+    byPhone?: boolean;
     /** Only looking whether there is anything to say (the room's check): nothing is learned. */
     look?: boolean;
   } = {},
@@ -5303,6 +5405,7 @@ function openConversationNow(
     ...(options.visitOrganizationId
       ? { visitOrganizationId: options.visitOrganizationId }
       : {}),
+    ...(options.byPhone ? { byPhone: true } : {}),
     ...(options.look ? { look: true } : {}),
   };
   const occasion = options.occasionId
@@ -5328,9 +5431,12 @@ function openConversationNow(
   // People who live together don't greet each other at home.
   const housemate =
     core.people.get(otherId)?.householdId === player.householdId;
-  const greeting = housemate
-    ? null
-    : greetingLine(core, data, playerId, otherId, !!knows);
+  // A call opens as a call even to someone in the player's own house: the
+  // person answering says hello first (Words lead, Nov 14).
+  const greeting =
+    housemate && !options.byPhone
+      ? null
+      : greetingLine(core, data, playerId, otherId, !!knows, !!options.byPhone);
   if (greeting) {
     // The hello is its own short turn, as people say it ("Hi." then "Back
     // again?"): a composed greeting's opener is said first, the rest after.
@@ -5358,7 +5464,20 @@ function openConversationNow(
             },
           ]
         : [greeting];
-    for (const line of said)
+    // On a call the other person answers, the player says who it is, and the
+    // other person goes on: the player's own words, from the same facts.
+    const self =
+      options.byPhone && said.length > one
+        ? composedLine(
+            core,
+            playerId,
+            GREET_AND_PART.phoneSelf,
+            phoneFacts(core, playerId, otherId),
+            "default",
+            `${playerId}:${otherId}:${core.date}:greet-self`,
+          )
+        : null;
+    said.forEach((line, at) => {
       conversation.lines.push({
         speakerId: otherId,
         subjectId: `greet:${otherId}`,
@@ -5366,6 +5485,15 @@ function openConversationNow(
         act: "tell",
         ...line,
       });
+      if (at === zero && self)
+        conversation.lines.push({
+          speakerId: playerId,
+          subjectId: `greet:${otherId}`,
+          kind: "greet",
+          act: "tell",
+          ...self,
+        });
+    });
   }
   // At home, a scene with the household's hard news opens by asking for the player's attention
   // ("We need to talk.") instead of a greeting (owner, Oct 14, 2026, night: a
@@ -5398,6 +5526,10 @@ function openConversationNow(
       ...opener,
       sourceRecordIds: [occasion!.causeId, ...opener.sourceRecordIds],
     });
+  // The race results the player knew before anyone here tells them one.
+  const knewResults = occasion
+    ? new Set<string>()
+    : resultsKnownTo(core, coreAPI(core as CoreState), playerId);
   // Away from a scene's occasion, they mention the newest change they know
   // of and who they blame (bring-it-up, which passes both on). Those lines
   // are the talk's raise of that news, said once: the talk goes on from it.
@@ -5466,7 +5598,8 @@ function openConversationNow(
       ...(storyId ? [`news:${storyId}`] : []),
     ];
     // A printed story is raised by its own headline and outlet ("I saw it in
-    // the Courier: ..."); other news by the lines bring-it-up worded.
+    // the Courier: ..."), a race's result and other news by the lines
+    // bring-it-up worded.
     const story = storyId
       ? storiesHeard(coreAPI(core), otherId).find((row) => row.id === storyId)
       : undefined;
@@ -5489,9 +5622,21 @@ function openConversationNow(
           core,
           conversation,
           data,
-          news,
+          // A race's result is told by who won, not by a question the
+          // winner ran on: the player answers who won, never a stand on a
+          // question nobody said.
+          brought.resultId
+            ? resultSubject(
+                core,
+                news,
+                brought.resultId,
+                knewResults.has(brought.resultId),
+              )
+            : news,
           false,
-          headline ? undefined : brought.lines,
+          // A race's result is told by who won and how it sits with them,
+          // not by the paper's headline.
+          headline && !brought.resultId ? undefined : brought.lines,
         )
       : false;
     // News the talk can't go on from is still said, and not raised again.
@@ -6164,7 +6309,14 @@ function offerChoices(
   const last = conversation.last!;
   conversation.choices = [];
   conversation.lies = [];
-  const own = playerFacts(core, playerId, last, otherId);
+  const own = playerFacts(
+    core,
+    playerId,
+    last,
+    otherId,
+    conversation.lines.at(-one),
+    toldSince(conversation.lines, playerId),
+  );
   const other = core.people.get(otherId);
   const facts: Facts = {
     ...own.facts,
@@ -6734,6 +6886,7 @@ const GREET_AND_PART = (
     greetAndPart: {
       greet: string;
       farewell: string;
+      phoneSelf: string;
       aboutFacts: readonly string[];
     };
   }
@@ -6766,12 +6919,66 @@ function saysName(
   return !!seen && seen.date < core.date;
 }
 
+/** How close a tie must be, on the closeness scale, for a call to be answered as one from a voice they know (conversation-rules.json, TUNABLE). */
+const CLOSE_TIE_LEVEL = (
+  rulesFile as unknown as { closeTieLevel: { value: number } }
+).closeTieLevel.value;
+
+/**
+ * What a call's words need to know about the tie: a relative or someone of
+ * the house (`kin-or-household`), or a tie that has stayed close
+ * (`close-tie`). Each cites the tie record the answer rests on.
+ */
+function phoneTieFacts(
+  core: Readonly<CoreState>,
+  playerId: PersonId,
+  otherId: PersonId,
+): Facts {
+  const facts: Facts = {};
+  const mark = (name: string, ids: readonly string[]) => {
+    facts[name] = { text: "yes", sourceRecordIds: [...ids] };
+  };
+  const player = core.people.get(playerId);
+  const other = core.people.get(otherId);
+  const ties = [...(core.relationshipsByPerson.get(playerId) ?? [])]
+    .map((id) => core.relationships.get(id)!)
+    .filter((row) => row.actorId === otherId || row.otherId === otherId);
+  const family = ties.find((row) => row.kind === "family");
+  if (player && other && player.householdId === other.householdId)
+    mark("kin-or-household", [player.householdId]);
+  else if (family) mark("kin-or-household", [family.id]);
+  if (
+    ties[zero] &&
+    closenessBetween(core, playerId, otherId) >= CLOSE_TIE_LEVEL
+  )
+    mark("close-tie", [ties[zero].id]);
+  return facts;
+}
+
+/** What a call's greeting knows: it is a call, the tie, and the player's own name (said by the player on the line). */
+function phoneFacts(
+  core: Readonly<CoreState>,
+  playerId: PersonId,
+  otherId: PersonId,
+): Facts {
+  const facts = phoneTieFacts(core, playerId, otherId);
+  facts["by-phone"] = { text: "yes", sourceRecordIds: [playerId] };
+  const player = core.people.get(playerId);
+  if (player?.givenName)
+    facts["player-first"] = {
+      text: player.givenName,
+      sourceRecordIds: [playerId],
+    };
+  return facts;
+}
+
 function greetingLine(
   core: Readonly<CoreState>,
   data: ConversationData,
   playerId: PersonId,
   otherId: PersonId,
   knows: boolean,
+  byPhone = false,
 ): ReturnType<typeof words> {
   const player = core.people.get(playerId)!;
   const momentKey = `${playerId}:${otherId}:${core.date}:greet`;
@@ -6787,6 +6994,8 @@ function greetingLine(
       }
     : {};
   const facts: Facts = { ...name };
+  // A call: the greetings that fit only in person ("Good to see you") wait on this.
+  if (byPhone) Object.assign(facts, phoneFacts(core, playerId, otherId));
   // When they last met, said in passing, from the tie's own contact date;
   // never a meeting earlier today.
   const seen = lastContact(core, otherId, playerId);
@@ -6887,6 +7096,13 @@ function partingLine(
     conversation.lines.some((line) => line.text.includes(topic[found]!.text));
   const key = named ? undefined : found;
   const player = core.people.get(conversation.playerId);
+  if (conversation.byPhone) {
+    Object.assign(facts, phoneTieFacts(core, conversation.playerId, speakerId));
+    facts["by-phone"] = {
+      text: "yes",
+      sourceRecordIds: [conversation.playerId],
+    };
+  }
   // A name given in this talk (the introduction) is a name to say goodbye by.
   const introduced = found === undefined && !!conversation.nameGiven;
   if (
@@ -6985,7 +7201,9 @@ function endConversation(
   const lastFromOther = [...conversation.lines]
     .reverse()
     .find((line) => line.speakerId === otherId && line.kind !== "ack");
+  // A call is the exception: it is closed by the person called, or it hangs.
   if (
+    !conversation.byPhone &&
     lastFromOther &&
     asksQuestion(lastFromOther) &&
     conversation.lines.indexOf(lastFromOther) < conversation.lines.length - one
@@ -6993,9 +7211,12 @@ function endConversation(
     return;
   // People who live together close a talk as housemates do: never "Come
   // back soon." at home, and no hello passed on to their own family.
+  // A call is ended as a call, even between people who live together: the
+  // goodbye is the phone's own (Words lead, Nov 14: calls ended with none).
   const housemate =
+    !conversation.byPhone &&
     core.people.get(otherId)?.householdId ===
-    core.people.get(playerId)?.householdId;
+      core.people.get(playerId)?.householdId;
   // A talk between people who live together ends on its last line that says
   // something: nobody at home announces where they will be or that they will
   // check in (owner, Nov 12: "the same bullshit ... with the just
@@ -7005,7 +7226,11 @@ function endConversation(
   // a job lost, a death): it ends on their last answer, never "Come back
   // soon." or "Say hello to Mom." to someone who just lost their home (W1's
   // strict review, Nov 12).
-  if (NEWS_SUBJECTS.has(subjectKindOf(conversation.topics[zero] ?? ""))) return;
+  if (
+    !conversation.byPhone &&
+    NEWS_SUBJECTS.has(subjectKindOf(conversation.topics[zero] ?? ""))
+  )
+    return;
   // "Say hello to {name}." only for someone in the player's family they know.
   const family = housemate
     ? undefined
