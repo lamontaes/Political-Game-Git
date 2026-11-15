@@ -448,18 +448,26 @@ function lendingRoom(api: CoreAPI, book: ReturnType<typeof equity>): number {
 const openingHeld = new WeakMap<CoreState, number>();
 
 /** What the opening's mortgages held by the bank owe now, and owed at the opening. */
-function heldMortgages(api: CoreAPI, bankId: string) {
+export function heldMortgages(api: CoreAPI, bankId: string) {
   const c = core(api);
   if (!c.modules.has("housing")) return { now: 0, opening: 0 };
+  // A counted household's mortgage row is one household's loan; its record
+  // stands for its weight of households, each owing it (one model, two tiers).
+  const counted = residentsRuntime(c) !== undefined;
   let opening = openingHeld.get(c);
   if (opening === undefined) {
     opening = 0;
     const raw = c.placeMetadata?.housingMortgages;
     for (const row of raw
-      ? (JSON.parse(raw) as { holderId: string; balanceMinor: number }[])
+      ? (JSON.parse(raw) as {
+          holderId: string;
+          householdId: string;
+          balanceMinor: number;
+        }[])
       : [])
-      if (row.holderId === bankId) opening += row.balanceMinor;
-    openingHeld.set(c, opening);
+      if (row.holderId === bankId)
+        opening += row.balanceMinor * loanWeight(api, row.householdId);
+    if (counted) openingHeld.set(c, opening);
   }
   let now = 0;
   const rows = api
@@ -467,11 +475,14 @@ function heldMortgages(api: CoreAPI, bankId: string) {
     .table("mortgages")
     .rows() as unknown as {
     holderId: string;
+    householdId: string;
     balanceMinor: number;
   }[];
   // Before housing opens its table, the opening balances stand.
   if (!rows.length) return { now: opening, opening };
-  for (const row of rows) if (row.holderId === bankId) now += row.balanceMinor;
+  for (const row of rows)
+    if (row.holderId === bankId && row.balanceMinor > 0)
+      now += row.balanceMinor * loanWeight(api, row.householdId);
   return { now, opening };
 }
 
@@ -507,6 +518,27 @@ export function bankYes(
 }
 
 /**
+ * What the town bank can lend on a new home loan today, by the same capital
+ * rule `lendMortgage` applies: undefined where the place has no town bank.
+ */
+export function mortgageRoom(
+  api: CoreAPI,
+): { bankId: string; roomMinor: number } | undefined {
+  const bank = bankOf(api);
+  if (!bank) return undefined;
+  const book = equity(api, bank.organizationId);
+  return {
+    bankId: bank.organizationId,
+    roomMinor: Math.max(
+      0,
+      book.equity * api.parameter("creditMaxLimitsPerEquity") -
+        book.limits -
+        book.loans,
+    ),
+  };
+}
+
+/**
  * A home loan from the town bank: the bank pays the seller the principal and
  * the household repays monthly like any loan. Zero when the bank has no room.
  */
@@ -522,15 +554,11 @@ export function lendMortgage(
   },
 ): number {
   const bank = bankOf(api);
-  if (!bank) return 0;
+  const room = mortgageRoom(api);
+  if (!bank || !room) return 0;
   const c = core(api),
     p = (key: string) => api.parameter(key);
-  const book = equity(api, bank.organizationId);
-  const room = Math.max(
-    0,
-    book.equity * p("creditMaxLimitsPerEquity") - book.limits - book.loans,
-  );
-  const amount = Math.min(input.principalMinor, room);
+  const amount = Math.min(input.principalMinor, room.roomMinor);
   if (amount <= 0) return 0;
   const id = `mortgage-loan:${input.householdId}:${c.date}`;
   const lent = transferCash(
