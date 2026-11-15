@@ -227,8 +227,9 @@
     "housingVoucherIncomeLimitShare": {
       "role": "law",
       "value": 0.5,
-      "tag": "SOURCED",
-      "source": "42 U.S.C. 1437f(o)(4)(B) and 1437a(b)(2)(D): a voucher family is very low income, at most 50 percent of the area median income. The town's median monthly pay stands in for the area median."
+      "tag": "ESTIMATED",
+      "source": "The statute's limit is SOURCED: 42 U.S.C. 1437f(o)(4)(B) and 1437a(b)(2)(D) make a voucher family very low income at no more than 50 percent of the area median family income. What it is measured against is a stand-in: the game keeps no area median family income, so the town's median monthly pay stands in for it, and this share is an estimate of half the area median as a share of that pay. A family's income is often more than one worker's pay, so the true share of median pay is likely higher; not measured here.",
+      "spread": [0.5, 1]
     },
     "housingVoucherTenantIncomeShare": {
       "role": "law",

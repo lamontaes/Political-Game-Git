@@ -31,7 +31,7 @@ export const HOUSING_ASSISTANCE_KEY = HOUSING_LINE_KEY;
 /** Pay this month's rent assistance and end it for households no longer covered. */
 export function payRentAssistance(
   api: CoreAPI,
-  /** The town's median monthly pay (the housing engine's town figures), the area median a voucher's limit reads. */
+  /** The town's median monthly pay (the housing engine's town figures): a stand-in for the area median family income a voucher's limit is measured against, which the game does not keep (see `housingVoucherIncomeLimitShare`). */
   townMedianPayMinor: () => number,
 ): void {
   if (!api.state.modules.has(BUDGETS_MODULE_ID)) return;
