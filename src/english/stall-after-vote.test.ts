@@ -45,8 +45,7 @@ const AHEAD = [
 // Placed on the vote: the honest ways to put a reporter off about a vote
 // already cast (Words lead, Nov 15).
 const AFTER_VOTE = [
-  "I'd rather not get into it tonight.",
-  "Give me a day. I want to say it right.",
+  "I'd rather not get into it today.",
   "I'll explain it at the next meeting, in front of everybody.",
 ];
 const SPOTS = [
