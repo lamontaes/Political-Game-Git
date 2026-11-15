@@ -367,7 +367,7 @@ function favorOf(subjectId: string): string {
  * vote or the award for a contract with the spending line it pays from
  * (contracts.ts subject `contract:<government>:<line>:<date>`).
  */
-function wantedFacts(subjectId: string): Record<string, string> {
+export function wantedFacts(subjectId: string): Record<string, string> {
   if (favorOf(subjectId) === "vote")
     return { favor: "vote", billId: subjectId };
   const parts = subjectId.split(":");
