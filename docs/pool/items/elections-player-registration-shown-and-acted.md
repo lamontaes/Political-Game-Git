@@ -8,7 +8,7 @@ size: M
 status: in-pr
 standard: 2
 claimed-by:
-pr: 9400
+pr: 9450
 after: elections-voter-registration-record
 blocked-on:
 model: sonnet
@@ -36,3 +36,5 @@ claimed-at:
 **Files.** src/core2/modules/voting.ts, src/core2/electorate-registration.ts, data/english
 
 **Notes.** From the voter registration record PR (#9323). The act is `registerToVote` and the read is `pollingStatus`, both exported from src/core2/modules/voting.ts.
+
+Nov 15, step two (PR 9450): the player is told at the polls (the poll worker's scene), registers on their own press in a same-day state, is turned away in the others with the day kept (`not-on-the-list` and its reason), and the day reaches the Journal in one line. Nothing is registered or cast for the player without their press.

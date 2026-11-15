@@ -5,10 +5,10 @@ area: words
 kind: bug
 priority: 1
 size: M
-status: open
+status: in-pr
 standard: 2
 claimed-by:
-pr:
+pr: 9450
 after: scene-trouble-at-the-polling-place
 blocked-on:
 lead: words
@@ -47,3 +47,5 @@ branch:
 **Files.** src/director/polling-place.ts, src/director/polling-place.test.ts, src/director/purpose-scene.ts, src/director/words.ts, src/director/reply-set-check.ts, src/director/data/situation-types.json, src/director/data/purpose-arcs.json, src/english/scene-talk-words.ts, src/core2/modules/voting.ts, data/english/parts/scene-talk.json, tests/guards/english/line-inserts-baseline.json
 
 **Notes.** Planned by Fable B's Words planner (2026-11-11) from main at 5ef67361. 64 lines, 62 with no insert and not excused. Three today: "Spell the last name for me?", "I'm sorry. You're not on the voter roll for this precinct.", "I've voted here for years. What changed?" This item is also `after:` words-run-filing-clerk-lines-are-composed for the composer; the pool field holds the producer, which is the longer wait.
+
+Nov 15 (PR 9450): the Words lead's poll-problem lines and the second-round lines, closes and four Journal lines are built in as written (the worker names the reason, never a figure). Not done: the replies that name the place the voter should vote at wait on `elections-vote-at-the-right-polling-place`; words:rules verdicts wait on M5.

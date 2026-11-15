@@ -5,10 +5,10 @@ area: director
 kind: feature
 priority: 2
 size: M
-status: open
+status: in-pr
 standard: 2
 claimed-by:
-pr:
+pr: 9450
 blocked-on:
 source: "words-and-scenes lead, Oct 27, scene web election-day pass"
 lead: director
@@ -44,3 +44,5 @@ checked: fable 2026-11-10
 **Notes.** The engine side (a provisional ballot status, the office's review after election day, state ID rules) needs the voting engine; the packet's Gaps name it.
 
 Nov 15, voter registration (player registration PR): the voting engine now exports `pollingStatus(api, personId, date)` (the one read of whether a named person is on the rolls for a day: on, same-day, old-address, not-registered or after-deadline) and `registerToVote(api, personId)` (the player's own act, `how: by-the-player`). The poll scene reads the status and the button calls the act; the count refuses a not-on-the-list ballot only after the scene and button exist (`elections-player-registration-shown-and-acted`, step two). Poll-day rows for named people are in `pollDays` (`registers-at-polls`, `not-on-the-list`).
+
+Nov 15, step two (PR 9450, account lead T19): the scene is built as `src/director/poll-problem.ts`, composed by the scene engine from the voting engine's `pollingStatus`; the visit (`polling-place.ts`) stages it, so the type holds no cause and no `awaitingProducer`. Same-day states register the voter on their own press; others refuse the ballot and keep the day. The half that sends the voter to the right place and casts their vote there is not built: the voting engine counts a vote only at the voter's own registration (item `elections-vote-at-the-right-polling-place`).
