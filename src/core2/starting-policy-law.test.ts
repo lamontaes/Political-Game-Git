@@ -13,7 +13,7 @@ import { coreAPI } from "./state";
 import { LAWS_MODULE_ID, openLaws, yesLevels } from "./modules/laws";
 import { openBudgets } from "./modules/budgets";
 import { openLawReach } from "./law-reach/host";
-import { answerIn } from "./modules/world-legislating";
+import { answerIn } from "./modules/laws";
 import { POLICY_QUESTIONS } from "./policy-answers";
 import { REACH_A_MODULE_ID } from "./law-reach/group-a-records";
 import { REACH_B_MODULE_ID } from "./law-reach/group-b-store";

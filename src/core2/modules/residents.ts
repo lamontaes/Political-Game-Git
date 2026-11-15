@@ -467,8 +467,15 @@ export function regroupHousehold(
 ): void {
   const before = h.group;
   const people = rt.store.weightedCount(h);
-  const groupBefore = before >= 0 ? peopleInGroup(rt, before) : 0;
-  rt.store.regroup(h, groupKeyOf(rt, h, date));
+  const key = groupKeyOf(rt, h, date);
+  // The old group's people are read only when the household leaves it: the
+  // count walks every household of the group, and most regroups keep the
+  // household where it is (a share of away work lost each month).
+  const groupBefore =
+    before >= 0 && rt.store.group(key).index !== before
+      ? peopleInGroup(rt, before)
+      : 0;
+  rt.store.regroup(h, key);
   // Its share of the old group's money goes with it.
   if (rt.api && before !== h.group)
     moveShare(rt.api, rt, before, h.group, people, groupBefore);
