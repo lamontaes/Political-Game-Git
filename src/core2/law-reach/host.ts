@@ -345,10 +345,11 @@ export function reachedBy(
       .table("people")
       .query("byKey", [key, null]) as unknown as {
       lawId: string;
+      credits?: Readonly<Record<string, number>>;
       personId: string;
       effect: string;
     }[])
-      if (row.lawId === lawId)
+      if (row.lawId === lawId || (row.credits && lawId in row.credits))
         out.push({ personId: row.personId, what: row.effect });
   if (api.state.modules.has(LAW_REACH_HOST_ID))
     for (const row of api

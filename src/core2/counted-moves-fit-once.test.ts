@@ -1,8 +1,9 @@
 // @vitest-environment node
 /**
- * The moves between states fit once (country-tier design, "What is deleted":
- * the monthly re-fit of arrivals to the Census is replaced by place constants
- * fitted at the opening; flows then follow causes). A drawn place from all 56;
+ * The moves between states fit once and are held once (country-tier design,
+ * "What is deleted": the monthly re-fit of arrivals to the Census is replaced
+ * by place constants fitted at the opening; flows then follow causes; the
+ * tier is the one holder of every state's people). A drawn place from all 56;
  * set GOLDEN_PATH_SEED to reproduce the draw.
  */
 import { randomBytes } from "node:crypto";
@@ -21,6 +22,8 @@ import {
   stateUnemployment,
 } from "./modules/counted-moves";
 import { enactLaw, lawChain, stateLawInForce } from "./modules/laws";
+import { countryStates } from "./modules/macro";
+import regions from "./data/regional/regions.json" with { type: "json" };
 import { restoreWorld, snapshotWorld } from "./snapshot";
 import { coreAPI } from "./state";
 import type { CoreState } from "./types";
@@ -96,17 +99,33 @@ describe("the moves between states fit once", () => {
   const place = drawTaxedPlace();
   const where = `${place.name} (${place.key}), seed ${place.seed}`;
 
-  it("the fit runs once: the kept attractiveness is the same after 3 months and after 14", () => {
+  it("the moves engine holds no state count of its own and the tier's draw is fitted once: after 3 months and after 14", () => {
     const first = build(place.seed, place.key);
     const api = coreAPI(first);
+    const tierPeople = () =>
+      new Map(
+        countryStates(api).map((st) => [
+          st.usps,
+          st.children + st.cells.reduce((n, c) => n + c.people, 0),
+        ]),
+      );
     monthsOn(first, 3);
-    const rt = runtimeOf(api)!;
-    const kept = new Map(rt.attract);
-    expect(kept.size, `${where}: states fitted`).toBeGreaterThan(50);
-    monthsOn(first, 11);
-    expect(rt.attract.size, where).toBe(kept.size);
-    for (const [usps, value] of kept)
-      expect(rt.attract.get(usps), `${where}: ${usps}`).toBe(value);
+    const draw = new Map(countryStates(api).map((st) => [st.usps, st.draw]));
+    expect(draw.size, `${where}: states held`).toBeGreaterThan(50);
+    for (const months of [0, 11]) {
+      monthsOn(first, months);
+      // The people the moves engine reads are the tier's, as of its month's start.
+      for (const [usps, people] of tierPeople()) {
+        const read = countedStatePeople(first, usps)!;
+        expect(read, `${where}: ${usps} read`).toBeGreaterThan(0);
+        expect(
+          Math.abs(read - people) / people,
+          `${where}: ${usps} on ${first.date}`,
+        ).toBeLessThan(0.01);
+      }
+    }
+    for (const st of countryStates(api))
+      expect(st.draw, `${where}: ${st.usps} draw`).toBe(draw.get(st.usps));
   }, 900_000);
 
   it("a state that ends its income tax is no longer pulled back to the survey: its people differ from the twin's, and the pull toward it is stronger", () => {
@@ -120,7 +139,8 @@ describe("the moves between states fit once", () => {
     // world's legislature repealed the tax itself eighteen months in): from
     // another state, the income part of the pull toward this one is stronger
     // with the tax gone.
-    const from = [...runtimeOf(coreAPI(control))!.states.keys()]
+    const from = Object.values(regions.states)
+      .map((row) => row.usps)
       .sort()
       .find((other) => other !== usps)!;
     const incomePull = (core: CoreState) => {
@@ -134,8 +154,7 @@ describe("the moves between states fit once", () => {
       advanceCore(core, addDays(makeIsoDate(core.date), 2));
     const [without, withLaw] = [incomePull(control), incomePull(treated)];
     expect(withLaw, `${where}: pull toward ${usps}`).toBeGreaterThan(without);
-    const people = (core: CoreState) =>
-      countedStatePeople(core, usps, core.date.slice(0, 7))!;
+    const people = (core: CoreState) => countedStatePeople(core, usps)!;
     const gaps: number[] = [];
     const lines: string[] = [];
     for (const months of [12, 12]) {
@@ -148,8 +167,18 @@ describe("the moves between states fit once", () => {
         `${control.date}: ${Math.round(a)} without, ${Math.round(b)} with no income tax`,
       );
     }
+    // The town's own arrivals from other states, counted from its move records.
+    const fromOtherStates = (core: CoreState) =>
+      countedMoves(coreAPI(core))
+        .filter(
+          (row) =>
+            row.direction === "in" &&
+            !row.fromPlace.startsWith(usps) &&
+            row.fromPlace !== "abroad",
+        )
+        .reduce((n, row) => n + row.people, 0);
     process.stdout.write(
-      `fit-once tax twin: ${where}; income pull from ${from} toward ${usps} ${without.toFixed(4)} without, ${withLaw.toFixed(4)} with no income tax; ${lines.join("; ")}\n`,
+      `fit-once tax twin: ${where}; income pull from ${from} toward ${usps} ${without.toFixed(4)} without, ${withLaw.toFixed(4)} with no income tax; ${lines.join("; ")}; the town's arrivals from other states in two years: ${Math.round(fromOtherStates(control))} without, ${Math.round(fromOtherStates(treated))} with no income tax\n`,
     );
     // The monthly re-fit forced the difference to exactly zero at every month.
     // Which way the people go is not asserted: ending the tax also cuts the
@@ -166,7 +195,8 @@ describe("the moves between states fit once", () => {
     const control = build(place.seed, place.key);
     const treated = build(place.seed, place.key);
     const home = lawChain(coreAPI(control)).stateKey;
-    const other = [...runtimeOf(coreAPI(control))!.states.keys()]
+    const other = Object.values(regions.states)
+      .map((row) => row.usps)
       .sort()
       .map((usps) => `US-${usps}`)
       .find((key) => key !== home && taxed(control, key))!;
@@ -194,19 +224,20 @@ describe("the moves between states fit once", () => {
     expect(withLaw, `${where}: pull toward ${other}`).toBeGreaterThan(without);
   }, 900_000);
 
-  it("a restored world keeps the fit and the next month is the same", () => {
+  it("a restored world reads the same states from the tier and the next month is the same", () => {
     const original = build(place.seed, place.key);
     monthsOn(original, 3);
     const saved = JSON.parse(JSON.stringify(snapshotWorld(original)));
     const loaded = build(place.seed, place.key);
     restoreWorld(loaded, saved);
-    const kept = runtimeOf(coreAPI(original))!.attract;
-    const back = runtimeOf(coreAPI(loaded))!.attract;
-    expect(back.size, where).toBe(kept.size);
-    for (const [usps, value] of kept)
-      expect(back.get(usps), `${where}: ${usps}`).toBe(value);
     monthsOn(original, 1);
     monthsOn(loaded, 1);
+    // The tier is saved with the world: the restored one reads the same states.
+    const states = Object.values(regions.states).map((row) => row.usps);
+    for (const usps of states)
+      expect(countedStatePeople(loaded, usps), `${where}: ${usps}`).toBe(
+        countedStatePeople(original, usps),
+      );
     expect(countedMoves(coreAPI(loaded)), where).toEqual(
       countedMoves(coreAPI(original)),
     );
