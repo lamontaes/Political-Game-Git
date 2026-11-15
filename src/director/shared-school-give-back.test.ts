@@ -1,9 +1,10 @@
-import { describe, expect, it } from "vitest";
+import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { benchRequest, benchWorld } from "../bench/handler";
 import { staffOf } from "../bench/scene";
 import { setBookkeeping } from "../core2/bookkeeping";
 import { sharedHistory } from "../core2/shared-history";
 import type { PersonId } from "../core2/types";
+import { subjectsBetween } from "./conversation";
 
 // Asked "Remember Dortches Public Schools?", the player's answer never ends
 // the talk: the asker says how long it has been, from the school record's
@@ -25,8 +26,9 @@ import type { PersonId } from "../core2/types";
 // director's scenes, waiting for a scene whose counterpart was a schoolmate;
 // after the Train moved the draw, no school question came in the year. New:
 // the player chooses whom to talk to, so nothing waits on a draw. Measured at
-// about 32 seconds of play (50 with loading); the limit, 65 seconds, is about
-// twice the play.
+// about 29 seconds (21 to make the life, 8 of play; 45 with the file's
+// loading); the limits, 65 seconds for the life and for the play, are about
+// twice the whole.
 const SEED = "7952d3f3e3253ee4";
 const PLAYER = {
   givenName: "Dana",
@@ -41,6 +43,20 @@ const NEEDED = 4;
 /** Played days the player goes around town on. */
 const DAYS = 2;
 const YES = /^(yes|yeah)\b/i;
+/**
+ * Two classmates still at Dortches Public Schools together, at one stage and
+ * not kin, read from the played world's school records at this seed: Michael
+ * (born Nov 18, 2011) and Joseph (born Feb 19, 2011), both in middle school.
+ */
+const STILL_THERE = [
+  "person_15786a67c3834faf",
+  "person_22d6a96918c16944",
+] as PersonId[];
+/**
+ * Kimberly (born Apr 20, 1971), in the district's high school from 1985 to
+ * 1988 while the player was in its elementary school: never schoolmates.
+ */
+const NEVER_TOGETHER = "person_c9cd9bfdd84a1b01" as PersonId;
 
 interface Line {
   speakerId: string;
@@ -64,15 +80,57 @@ const ask = async (method: string, path: string) => {
 };
 
 describe("a question about a school both went to", () => {
+  // Read tracing is a debug switch (AGENTS.md): play runs without it.
+  let was = false;
+  let built: { status: number; json: { placeName: string } };
+  beforeAll(async () => {
+    was = setBookkeeping(false);
+    const person = encodeURIComponent(JSON.stringify(PLAYER));
+    built = await ask("POST", `/api/newlife?seed=${SEED}&person=${person}`);
+  }, 65_000);
+  afterAll(() => {
+    setBookkeeping(was);
+  });
+
+  // A check of the subject, not a played talk: two still there together have
+  // no years since and no reason to raise it, so no line about the school
+  // can say how long it has been.
+  it("has no years for two still at school together", () => {
+    expect(built.status, `seed ${SEED}`).toBe(200);
+    const world = benchWorld();
+    const core = world.core!;
+    const where = `${built.json.placeName}, seed ${SEED}`;
+    const [a, b] = STILL_THERE as [PersonId, PersonId];
+    const row = sharedHistory(core, a, b).find(
+      (shared) => shared.kind === "schoolmate",
+    );
+    expect(row, `${where}: ${a} and ${b} share a school`).toBeTruthy();
+    expect(row!.ended, `${where}: both still enrolled`).toBeUndefined();
+    const subject = subjectsBetween(core, a, b, world.director).find(
+      (row) => row.kind === "shared-school",
+    );
+    expect(subject, `${where}: the shared school is a subject`).toBeTruthy();
+    expect(Object.keys(subject!.facts).sort(), where).toEqual(["school"]);
+  });
+
+  // A check of the record: together means one stage of the school in the
+  // same years, not the same district (Account lead, Nov 15).
+  it("counts no schoolmates who were at different stages", () => {
+    const world = benchWorld();
+    const core = world.core!;
+    const me = world.player!.personId! as PersonId;
+    const where = `${built.json.placeName}, seed ${SEED}`;
+    expect(
+      sharedHistory(core, me, NEVER_TOGETHER).some(
+        (row) => row.kind === "schoolmate",
+      ),
+      `${where}: Kimberly in high school, the player in elementary school`,
+    ).toBe(false);
+  });
+
   it("is answered back by the asker after the player's answer", async () => {
-    // Read tracing is a debug switch (AGENTS.md): play runs without it.
-    const was = setBookkeeping(false);
-    try {
-      const person = encodeURIComponent(JSON.stringify(PLAYER));
-      const built = await ask(
-        "POST",
-        `/api/newlife?seed=${SEED}&person=${person}`,
-      );
+    {
+      // The years each asker says, beside the two records' last shared year.
       expect(built.status, `seed ${SEED}`).toBe(200);
       const world = benchWorld();
       const core = world.core!;
@@ -134,9 +192,18 @@ describe("a question about a school both went to", () => {
               const back = talk.lines
                 .slice(before)
                 .find((line) => line.speakerId === otherId);
+              const last = sharedHistory(core, me, otherId as PersonId).find(
+                (row) => row.kind === "schoolmate",
+              )?.lastYear;
               heard.push(
-                `${core.date} ${otherId}: ${talk.lines.map((line) => line.text).join(" / ")}`,
+                `${core.date} ${otherId} (last school year together ${last}-${Number(last) + 1}): ${talk.lines.map((line) => line.text).join(" / ")}`,
               );
+              // The years said are those since the end of that school year.
+              const said = back?.text.match(/\b(\d+) years\b/)?.[1];
+              if (said)
+                expect(Number(said), `${where}: ${heard.at(-1)}`).toBe(
+                  Number(core.date.slice(0, 4)) - (Number(last) + 1),
+                );
               expect(back?.kind, `${where}: ${heard.at(-1)}`).toBe(
                 "shared-school-give",
               );
@@ -163,8 +230,6 @@ describe("a question about a school both went to", () => {
         heard.length,
         `${where}: questions about a school both went to`,
       ).toBeGreaterThanOrEqual(NEEDED);
-    } finally {
-      setBookkeeping(was);
     }
   }, 65_000);
 });

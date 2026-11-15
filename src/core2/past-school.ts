@@ -103,7 +103,7 @@ const STAGE_STARTS = [
 ] as const;
 type Stage = (typeof STAGE_STARTS)[number][0];
 /** The stage a grade is in (0 is kindergarten). */
-function stageOf(core: Readonly<CoreState>, grade: number): Stage {
+export function stageOf(core: Readonly<CoreState>, grade: number): Stage {
   const api = coreAPI(core as CoreState);
   let stage: Stage = STAGE_STARTS[0][0];
   for (const [row, key] of STAGE_STARTS)
@@ -387,6 +387,8 @@ export function schoolsAttended(
 /** A run of school years at one school: its first and last school year (by calendar year the year starts in), and the record it opens on. */
 export interface SchoolSpan {
   schoolId: string;
+  /** The stage the run is at (elementary, middle, high): a district's stages are separate schools. */
+  stage: string;
   from: number;
   to: number;
   recordId: string;
@@ -424,6 +426,7 @@ export function schoolSpans(
     const to = next ? kindergarten + next.grade - 1 : lastYear;
     return {
       schoolId: row.schoolId,
+      stage: row.stage,
       from,
       to,
       recordId: row.recordId,
