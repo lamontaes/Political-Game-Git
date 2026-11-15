@@ -4019,7 +4019,7 @@
       "roles": [
         {
           "key": "visitor",
-          "fill": "sponsor",
+          "fill": "bill-stake",
           "count": "one",
           "moves": [
             "request",
@@ -4061,26 +4061,7 @@
           "causeEngine": "legislature",
           "causeRecord": "bill-presented",
           "bind": {
-            "visitor": "sponsor",
-            "you": "subject"
-          },
-          "opener": "visitor"
-        },
-        {
-          "match": {
-            "label": "cause:event:bill-presented",
-            "selfNamed": true,
-            "causeFacts": [
-              {
-                "key": "executiveId",
-                "is": "subject"
-              }
-            ]
-          },
-          "causeEngine": "legislature",
-          "causeRecord": "bill-presented",
-          "bind": {
-            "visitor": "lobbyist",
+            "visitor": "bill-stake",
             "you": "subject"
           },
           "opener": "visitor"

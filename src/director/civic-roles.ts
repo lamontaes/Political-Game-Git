@@ -152,8 +152,7 @@ export const CIVIC_FILLS: ReadonlySet<string> = new Set([
   "press-corps",
   "staff",
   "department-head",
-  "sponsor",
-  "lobbyist",
+  "bill-stake",
   "town-hall-askers",
   "supporters",
   "volunteers",
@@ -168,6 +167,10 @@ interface BillRow {
   readonly id: string;
   readonly bodyOfficeId: string;
   readonly sponsorId: string;
+  readonly provisions?: readonly {
+    readonly kind: string;
+    readonly value?: number;
+  }[];
 }
 interface OutletRow {
   readonly id: string;
@@ -430,32 +433,54 @@ export function civicFill(
         ),
       );
     }
-    case "sponsor": {
-      // The bill's sponsor on its record, when it is someone other than the
-      // executive whose desk it is on.
+    case "bill-stake": {
+      // Who comes to the desk about a bill (Words lead, ruling 4, Nov 14):
+      // the person with the most at stake who has a tie to the executive
+      // first, else the sponsor; one per bill. A stake is on record in
+      // dollars a year: what the sponsor's bill adds to the budget, or what
+      // a group whose lobbyist met members against it says it costs the
+      // people it speaks for. A tie is knowing each other, as the sittings
+      // read it. Nobody tied, the sponsor comes; a sponsor who cannot, the
+      // lobbyist whose group it costs most.
       if (!api.state.modules.has(LEGISLATURE_MODULE_ID)) return [];
       const bill = billOf(api, moment);
-      return bill ? free(living(core, [bill.sponsorId])) : [];
-    }
-    case "lobbyist": {
-      // The lobbyist of a group whose recorded meetings on the bill are
-      // against it: the group that costs its members most comes first.
-      if (!api.state.modules.has(INTEREST_GROUPS_MODULE_ID)) return [];
-      const bill = billOf(api, moment);
       if (!bill) return [];
-      const against = meetingsOn(api, bill.id)
-        .filter((row) => row.lobbyistId && (row.side ?? -one) < zero)
-        .sort(
-          (a, b) =>
-            b.annualCostMinor - a.annualCostMinor ||
-            a.groupId.localeCompare(b.groupId),
-        );
-      return free(
-        living(
-          core,
-          against.map((row) => row.lobbyistId),
-        ),
+      const lobbied = api.state.modules.has(INTEREST_GROUPS_MODULE_ID)
+        ? meetingsOn(api, bill.id).filter(
+            (row) => row.lobbyistId && (row.side ?? -one) < zero,
+          )
+        : [];
+      const stake = new Map<string, number>([
+        [
+          bill.sponsorId,
+          (bill.provisions ?? []).reduce(
+            (sum, p) =>
+              p.kind === "budget-line" && (p.value ?? zero) > zero
+                ? sum + p.value!
+                : sum,
+            zero,
+          ),
+        ],
+      ]);
+      for (const row of lobbied)
+        if (row.lobbyistId !== bill.sponsorId)
+          stake.set(
+            row.lobbyistId!,
+            Math.max(stake.get(row.lobbyistId!) ?? zero, row.annualCostMinor),
+          );
+      const executive = core.people.get(moment.personId);
+      const tied = (id: string) =>
+        !!executive?.knownIds.has(id as PersonId) ||
+        !!core.people.get(id)?.knownIds.has(moment.personId);
+      const order = [...stake.keys()].sort(
+        (a, b) =>
+          Number(tied(b)) - Number(tied(a)) ||
+          (tied(a) ? stake.get(b)! - stake.get(a)! : zero) ||
+          Number(b === bill.sponsorId) - Number(a === bill.sponsorId) ||
+          stake.get(b)! - stake.get(a)! ||
+          a.localeCompare(b),
       );
+      return free(living(core, order));
     }
     case "town-hall-askers": {
       // The residents who stood up with a question at the host's town hall,

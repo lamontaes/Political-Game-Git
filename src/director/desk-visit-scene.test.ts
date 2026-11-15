@@ -61,11 +61,13 @@ function expectApart(facts: readonly { key: string }[], where: string): void {
 // Someone comes to argue before the decision (episode desk-decision-both-sides,
 // docs/design/scenes/from-life/desk-decision-both-sides.md). When a bill is
 // presented to the player's desk the record names the player and the bill's
-// sponsor. The sponsor comes and asks for a signature; where the sponsor
-// cannot come (dead), the lobbyist of a group whose recorded meetings on the
-// bill are against it comes and asks for a veto, saying what it costs the
-// businesses they speak for; with neither, the aide's desk scene plays as
-// before. Places are drawn in turn until one's mayor has a veto.
+// sponsor. One visitor comes, by stake (Words lead ruling 4): of the sponsor
+// and the lobbyists whose groups' recorded meetings on the bill are against
+// it, one who knows the player and has the most at stake in dollars on
+// record; with nobody tied, the sponsor, who asks for a signature; where the
+// sponsor cannot come (dead), the lobbyist whose group it costs most, who
+// asks for a veto and says what it costs the businesses they speak for; with
+// none, the aide's desk scene plays as before. Places are drawn in turn until one's mayor has a veto.
 // Pinned (pinned-tests): Havre, Montana puts a titled bill on the mayor's
 // desk at attempt 2 and a governor's sponsor visit in the same run; a draw
 // over fresh seeds made this test red by luck (Kansas, Oklahoma had no
@@ -535,8 +537,15 @@ it(`a bill on the desk brings its sponsor, or the group against it, in to argue,
         own.length > 0,
       );
       if (visited) {
+        // Ruling 4's order: one who knows the mayor first, then the cost.
+        const knows = (id: string) =>
+          !!core.people.get(mayor!)?.knownIds.has(id as PersonId) ||
+          !!core.people.get(id)?.knownIds.has(mayor!);
         const top = [...own].sort(
-          (a, b) => b.annualCostMinor - a.annualCostMinor,
+          (a, b) =>
+            Number(knows(b.lobbyistId!)) - Number(knows(a.lobbyistId!)) ||
+            b.annualCostMinor - a.annualCostMinor ||
+            a.lobbyistId!.localeCompare(b.lobbyistId!),
         )[0]!;
         expect(
           visited.roles.find((r) => r.role === "visitor")!.personIds,
@@ -544,6 +553,52 @@ it(`a bill on the desk brings its sponsor, or the group against it, in to argue,
         ).toEqual([top.lobbyistId]);
         real = `the engine's own meeting ${top.id} put its lobbyist ${top.lobbyistId} in the office`;
       }
+    }
+
+    // 5. Visitor by stake (Words lead ruling 4, Nov 14): a lobbyist whose
+    // group the bill costs, and who knows the mayor, comes ahead of a sponsor
+    // who could come; the one visitor says the cost on record.
+    const seated = new Set([
+      mayor!,
+      ...council.map((s) => s.holder!.personId!),
+    ]);
+    const outsider = [...core.people.values()].find(
+      (p) => p.alive && !seated.has(p.id) && p.id !== lobbyist,
+    )!.id as PersonId;
+    const fifth = present(0, (billId) => {
+      clear(billId);
+      core.people.get(outsider)!.knownIds.add(mayor!);
+      api
+        .moduleState(INTEREST_GROUPS_MODULE_ID)
+        .table("meetings")
+        .put({
+          id: `lobby:test:${billId}:stake`,
+          groupId: "group:test-stake",
+          billId,
+          memberId: council[0]!.holder!.personId!,
+          lobbyistId: outsider,
+          date: core.date,
+          annualCostMinor: 9_800_000,
+          share: 0.5,
+          side: -1,
+        } as unknown as ModuleRow);
+    });
+    expect(core.people.get(fifth.sponsor)?.alive, where).toBe(true);
+    const staked = fifth.entry!.bindings.find(
+      (b) => b.typeKey === "desk-visit",
+    );
+    expect(staked, `${where}: no visit for the staked bill`).toBeTruthy();
+    expect(
+      staked!.roles.find((r) => r.role === "visitor")!.personIds,
+      `${where}: the tied lobbyist did not come ahead of the sponsor`,
+    ).toEqual([outsider]);
+    const stakeScene = purposeScene(core, director, mayor!, fifth.entry!);
+    expect(stakeScene?.kind, where).toBe("composed");
+    if (stakeScene?.kind === "composed") {
+      const keys = stakeScene.scene.facts.map((row) => row.key);
+      expect(keys, where).toContain("against");
+      expect(keys, where).toContain("cost");
+      expect(keys, where).not.toContain("for");
     }
 
     console.log(
@@ -558,10 +613,11 @@ it(`a bill on the desk brings its sponsor, or the group against it, in to argue,
 
 // The governor's year, with nothing placed by the test: every bill the
 // state's chambers present to the governor names the governor and the
-// sponsor, so the sponsor comes whenever they are a living person other than
-// the governor. Places are drawn in turn until one's governor is a full person
+// sponsor, so one visitor comes whenever the sponsor is a living person other
+// than the governor: the sponsor, or a lobbyist against it who knows the
+// governor (ruling 4). Places are drawn in turn until one's governor is a full person
 // and a bill reaches them.
-it(`a governor's year of presented bills brings each living sponsor in, seed ${seed}`, () => {
+it(`a governor's year of presented bills brings one visitor for each, seed ${seed}`, () => {
   const tried: string[] = [];
   for (let attempt = 0; attempt < ATTEMPTS; attempt += 1) {
     const place = drawPlace(`${seed}:g${attempt}`, "desk-visit-governor");
@@ -617,10 +673,24 @@ it(`a governor's year of presented bills brings each living sponsor in, seed ${s
         sponsor.sponsorId !== governor &&
         core.people.get(sponsor.sponsorId)?.alive === true;
       // The director paces its scenes, so not every presentment is staged;
-      // a staged one with a living sponsor must bring the sponsor.
+      // a staged one with a living sponsor brings one visitor: the sponsor,
+      // or by ruling 4 a lobbyist against it who knows the governor.
       if (entry) staged += 1;
       if (entry && comes) {
         expect(cast, `${where}: ${record.id} brought no sponsor`).toBeTruthy();
+        const visitor = cast!.roles.find((r) => r.role === "visitor")!
+          .personIds[0]!;
+        if (visitor !== sponsor!.sponsorId)
+          expect(
+            meetingsOn(api, String(record.facts?.billId)).some(
+              (row) =>
+                row.lobbyistId === visitor &&
+                (row.side ?? -1) < 0 &&
+                (core.people.get(governor)!.knownIds.has(visitor) ||
+                  !!core.people.get(visitor)?.knownIds.has(governor)),
+            ),
+            `${where}: ${record.id} brought ${visitor}, neither the sponsor nor a tied lobbyist`,
+          ).toBe(true);
         const scene = purposeScene(core, director, governor, entry);
         expect(scene?.kind, `${where}: ${record.id}`).toBe("composed");
         if (
