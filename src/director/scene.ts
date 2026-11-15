@@ -20,7 +20,7 @@ import {
   type SceneBinding,
   type ScheduleEntry,
 } from "./scheduling";
-import { organizationName, properName, spoken } from "./words";
+import { organizationName, spoken } from "./words";
 import { dayOpening, daySince } from "../english/day-words";
 import { homeAloneDayFacts } from "./day-part";
 import { officeWords } from "../english/said-as";
@@ -463,7 +463,8 @@ export function composeScene(
             carried
               ? {
                   heardOn: {
-                    station: properName(carried.org.name),
+                    // As its record has it: call letters stay in capitals.
+                    station: carried.org.name,
                     medium: carried.medium,
                   },
                 }
@@ -531,7 +532,8 @@ export function heardLine(
         },
         occasion: { text: occasion, sourceRecordIds: [record.id] },
         outlet: {
-          text: properName(org.name),
+          // As the outlet's record has it: call letters stay in capitals.
+          text: org.name,
           sourceRecordIds: [outlet.id, org.id],
         },
       },
