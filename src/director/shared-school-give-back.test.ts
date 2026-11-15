@@ -44,14 +44,19 @@ const NEEDED = 4;
 const DAYS = 2;
 const YES = /^(yes|yeah)\b/i;
 /**
- * Two classmates still at Dortches Public Schools together, not kin, read
- * from the played world's school records at this seed: Michael (born Nov 18,
- * 2011) and Bryan (born Nov 23, 2007).
+ * Two classmates still at Dortches Public Schools together, at one stage and
+ * not kin, read from the played world's school records at this seed: Michael
+ * (born Nov 18, 2011) and Joseph (born Feb 19, 2011), both in middle school.
  */
 const STILL_THERE = [
   "person_15786a67c3834faf",
-  "person_1a2895e069f8fc4f",
+  "person_22d6a96918c16944",
 ] as PersonId[];
+/**
+ * Kimberly (born Apr 20, 1971), in the district's high school from 1985 to
+ * 1988 while the player was in its elementary school: never schoolmates.
+ */
+const NEVER_TOGETHER = "person_c9cd9bfdd84a1b01" as PersonId;
 
 interface Line {
   speakerId: string;
@@ -106,6 +111,21 @@ describe("a question about a school both went to", () => {
     );
     expect(subject, `${where}: the shared school is a subject`).toBeTruthy();
     expect(Object.keys(subject!.facts).sort(), where).toEqual(["school"]);
+  });
+
+  // A check of the record: together means one stage of the school in the
+  // same years, not the same district (Account lead, Nov 15).
+  it("counts no schoolmates who were at different stages", () => {
+    const world = benchWorld();
+    const core = world.core!;
+    const me = world.player!.personId! as PersonId;
+    const where = `${built.json.placeName}, seed ${SEED}`;
+    expect(
+      sharedHistory(core, me, NEVER_TOGETHER).some(
+        (row) => row.kind === "schoolmate",
+      ),
+      `${where}: Kimberly in high school, the player in elementary school`,
+    ).toBe(false);
   });
 
   it("is answered back by the asker after the player's answer", async () => {
