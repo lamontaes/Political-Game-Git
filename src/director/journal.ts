@@ -2314,6 +2314,19 @@ export function composeJournal(
       )
         continue;
     }
+    // Someone else's fact that names nobody ("My father was sick.") is not
+    // told alone (rule 87): the person is told only when the writer knows
+    // them by name.
+    if (!own) {
+      const whose = core.people.get(subjectOf(moment) as PersonId);
+      if (
+        whose &&
+        !(facts.named?.text ?? facts.other?.text ?? "").includes(
+          whose.givenName,
+        )
+      )
+        continue;
+    }
     // A move the household made together is "we".
     const together =
       (selfCount ??
