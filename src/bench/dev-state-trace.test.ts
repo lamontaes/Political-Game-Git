@@ -139,7 +139,10 @@ describe("Trace on a state's record", () => {
     // The jobs lines differ by sector between the two worlds.
     const jobsOf = (panels: readonly WhyPanel[]) =>
       new Map(
-        panel(panels, "Jobs in").rows.map((row) => [row.label, row.value]),
+        panel(panels, "Residents with jobs in").rows.map((row) => [
+          row.label,
+          row.value,
+        ]),
       );
     const endedJobs = jobsOf(ended.panels);
     const leftJobs = jobsOf(left.panels);
