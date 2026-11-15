@@ -107,6 +107,13 @@
         "tag": "TUNABLE",
         "source": "In a person's terms: the smallest drop in their willingness they would feel when the player won't say where they stand on the question that person cares most about. Below it the dodge costs them nothing they can feel, so it is not offered as a dodge (Words lead, Nov 14 21:35Z). Checked across its spread at the pinned places: Mary Conway's 0.0001 falls under every value in it, Elliott Tate's 0.26 above every one. What would replace it: what that person can actually notice on the record, namely how strongly they hold the question and how often they have spoken of it or heard it argued, so that someone who cares more notices a smaller dodge.",
         "spread": [0.005, 0.03]
+      },
+      "promise": {
+        "value": 0.3,
+        "role": "coefficient",
+        "tag": "TUNABLE",
+        "source": "What the player's word on the question a person holds most strongly is worth to them, times how strongly they hold it (their stance's size, 0 to 1). Someone short of yes by less than that names the promise as their price (Words lead, Nov 14 05:24Z: a yes with a price). Checked across its spread at 16 drawn worlds of Santa Rita, Guam (one player each, every person offered): of 36 who would say no, 5 name a price at 0.15, 15 at 0.3 and 21 at 0.5, so at the middle a price is a minority of noes and most noes stay noes; what would replace it is how often that person has spoken of the question or heard it argued, from the record.",
+        "spread": [0.15, 0.5]
       }
     },
     "post": {

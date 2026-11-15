@@ -35,3 +35,5 @@ checked:
 **Waits on.** The owner's yes to a change to the CI workflow.
 
 **Files.** .github/workflows/validate.yml
+
+**Notes.** Done on the Train (owner, Nov 15 17:20Z: "Yes, the train can."): lines 97 and 100 of validate.yml now give prettier and eslint the list in batches of 400, and a failing batch still fails the step. Nothing else in the workflow changed.
