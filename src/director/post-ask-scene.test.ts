@@ -48,8 +48,12 @@ import { playServeAsk } from "../../tests/support/serve-ask-play";
  * executive-cabinet-drawn-from-the-state) a cabinet secretary lives where the
  * state's people put them, and Victoria is not the state's seat, so the
  * secretary now lives elsewhere in Kansas and she is not in this world; at Fern
- * Prairie, Washington the agriculture post, Cheryl Monroe yes (pay, 0.50)
+ * Prairie, Washington the agriculture post, Michelle Hunter yes (pay, 0.25)
  * and Marcus Hunter no (the county clerk's job he would leave, -0.13).
+ * Re-pinned Nov 15 from Cheryl Monroe yes: she is one of the President's
+ * cabinet nominees passed over, who held no town and no work, so she said
+ * yes to any post; since executive-federal-nominees-passed-over-have-no-work
+ * she is a registered nurse and turns this post down (-0.23).
  * Re-pinned Nov 15 from John Pugh, who was offered while he sat in the U.S.
  * Senate for Rhode Island (official:seat:US-RI:us-senate:1): a governor's
  * list now holds only the state's own people who hold no other office
@@ -70,7 +74,7 @@ const PLACES = [
     office: "governor",
     key: "5323690",
     seed: "d156d6ecb2e252df9e0b3f2f992aff211c70c4b87e0caa779cd5729063d48ae0",
-    yes: "Cheryl Monroe",
+    yes: "Michelle Hunter",
     no: "Marcus Hunter",
     reason: "own-job",
   },
