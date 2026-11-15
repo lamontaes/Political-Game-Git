@@ -28,7 +28,7 @@ root: none
 
 **Rules.** No dice: the draw is seeded generation of who exists, never an outcome. One model, two tiers: the rule reads the same for every local officeholder.
 
-**Done when.** A second session composes the local address and two council members' campaign speeches in two drawn places (`node --import tsx scripts/words/speech-outline-proof.ts <seed>`) and sees each speaker's theme come from causes of their own named on their record.
+**Done when.** A second session composes the local address and two council members' campaign speeches in two drawn places (through the speech outline, `src/director/speech-outline.ts`, in a played world) and sees each speaker's theme come from causes of their own named on their record.
 
 **Waits on.** Nothing.
 
