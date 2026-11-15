@@ -7,7 +7,7 @@ priority: 2
 size: S
 status: open
 standard: 2
-claimed-by:
+claimed-by: claude/project-thread-5efbu8
 pr:
 after:
 blocked-on:
@@ -33,3 +33,5 @@ source: Found while gating #9279 (Nov 14); red the same on the clean train 8bb1f
 **Waits on.** Nothing.
 
 **Files.** src/director/talk-move-pairs.test.ts
+
+**Notes.** Nov 15: built on claude/project-thread-5efbu8 after #9505. The first talk opens with `look: true` (`openConversation`, src/director/conversation.ts): it only looks, and learns and records nothing. The graded talk therefore opens from the same records and says the same line. The conversation engine is unchanged. The test is pinned to 82998207500ce8e2 (Basco, Illinois, and Platteville, Colorado), and `GOLDEN_PATH_SEED` still draws two other places. The time limit is 90 seconds, about twice the measured 45. It passes at 82998207500ce8e2, 7952d3f3e3253ee4 (Pinehurst MA and Edgerton KS) and c55062fdf88f46ad (Greenville GA and Otho IA).
