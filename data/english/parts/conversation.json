@@ -46398,6 +46398,55 @@
       "origin": "authored",
       "author": "Words builder M3 (words-neighbor-asks-the-player-about-a-printed-story-by-its-medium)",
       "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.news-ask-core.told-i-m-glad-they-did",
+      "move": "news-ask-core",
+      "kind": "spoken",
+      "text": "I'm glad they did.",
+      "piece": {
+        "of": "news-ask",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "news-ask-core",
+          "subject": "news-ask",
+          "role": "core",
+          "requiresFacts": ["story", "story-decided", "player-saw", "their-for"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder M3, Claude Sonnet 5.5 (a stand after a decided story is told)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.news-ask-core.told-i-wish-they-hadn-t",
+      "move": "news-ask-core",
+      "kind": "spoken",
+      "text": "I wish they hadn't.",
+      "piece": {
+        "of": "news-ask",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "news-ask-core",
+          "subject": "news-ask",
+          "role": "core",
+          "requiresFacts": [
+            "story",
+            "story-decided",
+            "player-saw",
+            "their-against"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder M3, Claude Sonnet 5.5 (a stand after a decided story is told)",
+      "date": "2026-11-15"
     }
   ]
 }
