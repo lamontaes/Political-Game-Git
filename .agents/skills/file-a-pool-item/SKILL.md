@@ -27,3 +27,4 @@ description: >
 7. Run `npm run pool -- --check` and prettier on the file. Known reds on two words items are not yours.
 8. The item goes in the thread's own PR, not a PR of its own.
 9. An item you set `status: in-pr` needs `pr:` filled, and the PR number exists only after the PR is opened: open the draft, then set `pr: <number>` in a second commit (the pool guard reads 19 of 20 until you do; Nov 15, the town hall stop).
+10. **The check reads a `Needs cause.` item word for word (Nov 15, views thread).** Its Fix is exactly `None until the cause is found.` and nothing more; a likely fix goes in a Notes line. Its What has at least three sentences and 40 words, and its last sentence begins `Seen:`, `Feeds: <item id>` or `Guards:`.

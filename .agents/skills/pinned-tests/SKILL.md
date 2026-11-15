@@ -29,6 +29,7 @@ Lead ruling, Nov 13 to 14: a test is pinned in the test file to named places wit
 
 9. **A test that takes "the first ask" breaks when an ask moves earlier (Nov 15).** Moving a party's ask before the day's weighing made the first ask an ask to a member who weighs the seat, so the player's-answer test registered the wrong person. Pick the case by what the records say (the ask came after the contest's weighed row had `filedOn` set), never by order, and say why in a comment. Narrowing which case a test stages is not loosening it; removing or weakening an assertion is, and goes to the lead.
 10. **Check that a break-it edit changed the file (Nov 15).** A `sed` that matches nothing leaves the code intact and the test green. Print the changed line, or count matches, before reading the result.
+11. **Playing a pinned test longer keeps each assertion at its own date (Nov 15, views thread).** Moving the outlet endorsement test from Oct 1 to Oct 8 to see the printing turned its follower count red (10 against 11): followers had changed in the extra week. Advance to the first date, assert what was measured there, then advance again for the new assertion; do not move the old assertions to the later date.
 
 ## Checking a reported pass
 
