@@ -2046,6 +2046,7 @@ const ROUTES: readonly Route[] = [
         requireCore(),
         state.player.personId,
         url.searchParams.get("filingId") ?? "",
+        state.player.packet?.at.minuteOfDay,
       );
       send(200, speechView(state.speechBuild));
       return;

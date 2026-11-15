@@ -88,7 +88,7 @@ describe(`a built speech in ${PLACE} (seed ${SEED}, speaker ${speakerId})`, () =
     const stages = stagesOf();
     expect(stages[0]).toBe("opener");
     expect(stages.at(-1)).toBe("closer");
-    expect(stages.length).toBe(outlineOf("campaign").points + 2);
+    expect(stages.length).toBe(outlineOf("campaign").asks + 2);
     expect(start.stages).toEqual(stages);
   });
 
@@ -135,6 +135,31 @@ describe(`a built speech in ${PLACE} (seed ${SEED}, speaker ${speakerId})`, () =
     const first = speechText(play((now) => now.choices[0]!.key));
     const last = speechText(play((now) => now.choices.at(-1)!.key));
     expect(first).not.toBe(last);
+  });
+
+  it("says tonight only when the player's clock says it is evening", () => {
+    const text = (minute: number) => {
+      let build = beginSpeech(core, speakerId, { officeId, party, minute })!;
+      const said: string[] = [];
+      while (!build.done) {
+        // Every choice at every click, not only the one picked.
+        said.push(...build.choices.map((row) => row.text));
+        build = chooseSpeechPart(core, build, build.choices[0]!.key);
+      }
+      return said.join(" ");
+    };
+    expect(text(10 * 60)).not.toMatch(/tonight|this evening/i);
+    expect(text(15 * 60)).not.toMatch(/tonight|this evening/i);
+    // In the evening the lines that say it may play (the planner draws among
+    // the lines that fit); the words are the same speech's, not a second one.
+    expect(text(20 * 60).length).toBeGreaterThan(0);
+  });
+
+  it("makes the one ask its row names, so no second point repeats it", () => {
+    const build = play((now) => now.choices[0]!.key);
+    expect(build.picked.filter((row) => row.stage === "core").length).toBe(
+      outlineOf("campaign").asks,
+    );
   });
 
   it("changes nothing for a key that is not on offer", () => {

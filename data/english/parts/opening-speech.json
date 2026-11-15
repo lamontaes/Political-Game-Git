@@ -9221,14 +9221,14 @@
           "subject": "inaugural",
           "role": "occasion",
           "choice": "occasion",
-          "requiresFacts": ["hardest"]
+          "requiresFacts": ["hardest", "evening"]
         },
         {
           "move": "occasion",
           "subject": "state-of-the-union",
           "role": "occasion",
           "choice": "occasion",
-          "requiresFacts": ["hardest"]
+          "requiresFacts": ["hardest", "evening"]
         }
       ],
       "voice": "polished",
@@ -9287,14 +9287,14 @@
           "subject": "inaugural",
           "role": "occasion",
           "choice": "occasion",
-          "requiresFacts": ["best"]
+          "requiresFacts": ["best", "evening"]
         },
         {
           "move": "occasion",
           "subject": "state-of-the-union",
           "role": "occasion",
           "choice": "occasion",
-          "requiresFacts": ["best"]
+          "requiresFacts": ["best", "evening"]
         }
       ],
       "voice": "polished",
@@ -9419,14 +9419,14 @@
           "subject": "inaugural",
           "role": "occasion",
           "choice": "occasion",
-          "requiresFacts": ["vice-president"]
+          "requiresFacts": ["vice-president", "evening"]
         },
         {
           "move": "occasion",
           "subject": "state-of-the-union",
           "role": "occasion",
           "choice": "occasion",
-          "requiresFacts": ["vice-president"]
+          "requiresFacts": ["vice-president", "evening"]
         }
       ],
       "voice": "polished",
@@ -10442,14 +10442,14 @@
           "subject": "inaugural",
           "role": "occasion",
           "choice": "occasion",
-          "requiresFacts": ["vice-president"]
+          "requiresFacts": ["vice-president", "evening"]
         },
         {
           "move": "occasion",
           "subject": "state-of-the-union",
           "role": "occasion",
           "choice": "occasion",
-          "requiresFacts": ["vice-president"]
+          "requiresFacts": ["vice-president", "evening"]
         }
       ],
       "voice": "plain",
@@ -38922,7 +38922,7 @@
           "subject": "state-of-the-union",
           "role": "salutation",
           "choice": "salutation",
-          "requiresFacts": ["vice-president-object"]
+          "requiresFacts": ["vice-president-object", "evening"]
         }
       ],
       "voice": "polished",
@@ -39022,7 +39022,7 @@
           "subject": "state-of-the-union",
           "role": "salutation",
           "choice": "salutation",
-          "requiresFacts": ["vice-president-object"]
+          "requiresFacts": ["vice-president-object", "evening"]
         }
       ],
       "voice": "polished",
@@ -39072,7 +39072,7 @@
           "subject": "state-of-the-union",
           "role": "salutation",
           "choice": "salutation",
-          "requiresFacts": ["vice-president"]
+          "requiresFacts": ["vice-president", "evening"]
         }
       ],
       "voice": "polished",
@@ -39322,7 +39322,7 @@
           "subject": "state-of-the-union",
           "role": "salutation",
           "choice": "salutation",
-          "requiresFacts": ["vice-president"]
+          "requiresFacts": ["vice-president", "evening"]
         }
       ],
       "voice": "plain",
@@ -39372,7 +39372,7 @@
           "subject": "state-of-the-union",
           "role": "salutation",
           "choice": "salutation",
-          "requiresFacts": ["vice-president"]
+          "requiresFacts": ["vice-president", "evening"]
         }
       ],
       "voice": "plain",
@@ -39447,7 +39447,7 @@
           "subject": "state-of-the-union",
           "role": "salutation",
           "choice": "salutation",
-          "requiresFacts": ["home-state"]
+          "requiresFacts": ["home-state", "evening"]
         }
       ],
       "voice": "plain",
@@ -89399,42 +89399,42 @@
           "subject": "inaugural",
           "role": "today",
           "choice": "today",
-          "requiresFacts": ["today-clause"]
+          "requiresFacts": ["today-clause", "evening"]
         },
         {
           "move": "today",
           "subject": "state-of-the-union",
           "role": "today",
           "choice": "today",
-          "requiresFacts": ["today-clause"]
+          "requiresFacts": ["today-clause", "evening"]
         },
         {
           "move": "today",
           "subject": "state-of-the-state",
           "role": "today",
           "choice": "today",
-          "requiresFacts": ["today-clause"]
+          "requiresFacts": ["today-clause", "evening"]
         },
         {
           "move": "today",
           "subject": "town-address",
           "role": "today",
           "choice": "today",
-          "requiresFacts": ["today-clause"]
+          "requiresFacts": ["today-clause", "evening"]
         },
         {
           "move": "today",
           "subject": "floor-speech",
           "role": "today",
           "choice": "today",
-          "requiresFacts": ["today-clause"]
+          "requiresFacts": ["today-clause", "evening"]
         },
         {
           "move": "today",
           "subject": "campaign-speech",
           "role": "today",
           "choice": "today",
-          "requiresFacts": ["today-clause"]
+          "requiresFacts": ["today-clause", "evening"]
         }
       ],
       "voice": "polished",
@@ -94704,42 +94704,42 @@
           "subject": "inaugural",
           "role": "today",
           "choice": "today",
-          "requiresFacts": ["today-clause-second"]
+          "requiresFacts": ["today-clause-second", "evening"]
         },
         {
           "move": "today",
           "subject": "state-of-the-union",
           "role": "today",
           "choice": "today",
-          "requiresFacts": ["today-clause-second"]
+          "requiresFacts": ["today-clause-second", "evening"]
         },
         {
           "move": "today",
           "subject": "state-of-the-state",
           "role": "today",
           "choice": "today",
-          "requiresFacts": ["today-clause-second"]
+          "requiresFacts": ["today-clause-second", "evening"]
         },
         {
           "move": "today",
           "subject": "town-address",
           "role": "today",
           "choice": "today",
-          "requiresFacts": ["today-clause-second"]
+          "requiresFacts": ["today-clause-second", "evening"]
         },
         {
           "move": "today",
           "subject": "floor-speech",
           "role": "today",
           "choice": "today",
-          "requiresFacts": ["today-clause-second"]
+          "requiresFacts": ["today-clause-second", "evening"]
         },
         {
           "move": "today",
           "subject": "campaign-speech",
           "role": "today",
           "choice": "today",
-          "requiresFacts": ["today-clause-second"]
+          "requiresFacts": ["today-clause-second", "evening"]
         }
       ],
       "voice": "polished",
@@ -94759,42 +94759,42 @@
           "subject": "inaugural",
           "role": "today",
           "choice": "today",
-          "requiresFacts": ["today-clause-third"]
+          "requiresFacts": ["today-clause-third", "evening"]
         },
         {
           "move": "today",
           "subject": "state-of-the-union",
           "role": "today",
           "choice": "today",
-          "requiresFacts": ["today-clause-third"]
+          "requiresFacts": ["today-clause-third", "evening"]
         },
         {
           "move": "today",
           "subject": "state-of-the-state",
           "role": "today",
           "choice": "today",
-          "requiresFacts": ["today-clause-third"]
+          "requiresFacts": ["today-clause-third", "evening"]
         },
         {
           "move": "today",
           "subject": "town-address",
           "role": "today",
           "choice": "today",
-          "requiresFacts": ["today-clause-third"]
+          "requiresFacts": ["today-clause-third", "evening"]
         },
         {
           "move": "today",
           "subject": "floor-speech",
           "role": "today",
           "choice": "today",
-          "requiresFacts": ["today-clause-third"]
+          "requiresFacts": ["today-clause-third", "evening"]
         },
         {
           "move": "today",
           "subject": "campaign-speech",
           "role": "today",
           "choice": "today",
-          "requiresFacts": ["today-clause-third"]
+          "requiresFacts": ["today-clause-third", "evening"]
         }
       ],
       "voice": "polished",
@@ -98137,14 +98137,14 @@
           "subject": "state-of-the-state",
           "role": "occasion",
           "choice": "occasion",
-          "requiresFacts": ["realm-name", "theme-name"]
+          "requiresFacts": ["realm-name", "theme-name", "evening"]
         },
         {
           "move": "occasion",
           "subject": "town-address",
           "role": "occasion",
           "choice": "occasion",
-          "requiresFacts": ["realm-name", "theme-name"]
+          "requiresFacts": ["realm-name", "theme-name", "evening"]
         }
       ],
       "voice": "polished",
@@ -98164,14 +98164,14 @@
           "subject": "state-of-the-state",
           "role": "occasion",
           "choice": "occasion",
-          "requiresFacts": ["realm-name", "theme-name"]
+          "requiresFacts": ["realm-name", "theme-name", "evening"]
         },
         {
           "move": "occasion",
           "subject": "town-address",
           "role": "occasion",
           "choice": "occasion",
-          "requiresFacts": ["realm-name", "theme-name"]
+          "requiresFacts": ["realm-name", "theme-name", "evening"]
         }
       ],
       "voice": "polished",
@@ -98218,14 +98218,14 @@
           "subject": "state-of-the-state",
           "role": "occasion",
           "choice": "occasion",
-          "requiresFacts": ["realm-bare", "theme-name"]
+          "requiresFacts": ["realm-bare", "theme-name", "evening"]
         },
         {
           "move": "occasion",
           "subject": "town-address",
           "role": "occasion",
           "choice": "occasion",
-          "requiresFacts": ["realm-bare", "theme-name"]
+          "requiresFacts": ["realm-bare", "theme-name", "evening"]
         }
       ],
       "voice": "plain",
@@ -98245,14 +98245,14 @@
           "subject": "state-of-the-state",
           "role": "occasion",
           "choice": "occasion",
-          "requiresFacts": ["realm-name", "theme-name"]
+          "requiresFacts": ["realm-name", "theme-name", "evening"]
         },
         {
           "move": "occasion",
           "subject": "town-address",
           "role": "occasion",
           "choice": "occasion",
-          "requiresFacts": ["realm-name", "theme-name"]
+          "requiresFacts": ["realm-name", "theme-name", "evening"]
         }
       ],
       "voice": "plain",
@@ -98272,14 +98272,14 @@
           "subject": "state-of-the-state",
           "role": "occasion",
           "choice": "occasion",
-          "requiresFacts": ["realm-name", "theme-name"]
+          "requiresFacts": ["realm-name", "theme-name", "evening"]
         },
         {
           "move": "occasion",
           "subject": "town-address",
           "role": "occasion",
           "choice": "occasion",
-          "requiresFacts": ["realm-name", "theme-name"]
+          "requiresFacts": ["realm-name", "theme-name", "evening"]
         }
       ],
       "voice": "plain",
@@ -99021,7 +99021,7 @@
           "subject": "floor-speech",
           "role": "close",
           "choice": "close",
-          "requiresFacts": ["first-side"]
+          "requiresFacts": ["first-side", "evening"]
         }
       ],
       "voice": "plain",
@@ -99101,7 +99101,7 @@
           "subject": "campaign-speech",
           "role": "occasion",
           "choice": "occasion",
-          "requiresFacts": ["office-title", "theme-name"]
+          "requiresFacts": ["office-title", "theme-name", "evening"]
         }
       ],
       "voice": "polished",
@@ -99121,7 +99121,7 @@
           "subject": "campaign-speech",
           "role": "occasion",
           "choice": "occasion",
-          "requiresFacts": ["office-title", "theme-name"]
+          "requiresFacts": ["office-title", "theme-name", "evening"]
         }
       ],
       "voice": "plain",
@@ -100186,7 +100186,8 @@
             "condition-budget-short",
             "condition-budget-steady",
             "budget-year",
-            "budget-gap"
+            "budget-gap",
+            "evening"
           ]
         }
       ],
@@ -101113,7 +101114,7 @@
           "subject": "town-address",
           "role": "salutation",
           "choice": "salutation",
-          "requiresFacts": ["body-name", "realm-name"]
+          "requiresFacts": ["body-name", "realm-name", "evening"]
         }
       ],
       "voice": "plain",
@@ -114244,6 +114245,46 @@
       "origin": "authored",
       "author": "Claude (Words builder S, local work, pay and prices)",
       "date": "2026-11-14"
+    },
+    {
+      "key": "opening-speech.occasion.polished-campaign-speech-i-am-running-for-and-i-want-to-office-title-theme-name-by-day",
+      "move": "occasion",
+      "kind": "spoken",
+      "text": "I am running for {office-title}, and I want to talk about {theme-name}.",
+      "uses": [
+        {
+          "move": "occasion",
+          "subject": "campaign-speech",
+          "role": "occasion",
+          "choice": "occasion",
+          "requiresFacts": ["office-title", "theme-name"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (player speech builder), for the Words lead's review",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "opening-speech.occasion.plain-campaign-speech-i-m-running-for-and-i-want-office-title-theme-name-by-day",
+      "move": "occasion",
+      "kind": "spoken",
+      "text": "I'm running for {office-title}, and I want to talk about {theme-name}.",
+      "uses": [
+        {
+          "move": "occasion",
+          "subject": "campaign-speech",
+          "role": "occasion",
+          "choice": "occasion",
+          "requiresFacts": ["office-title", "theme-name"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (player speech builder), for the Words lead's review",
+      "date": "2026-11-15"
     }
   ]
 }

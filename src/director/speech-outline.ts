@@ -906,6 +906,12 @@ export interface OutlineSpeaker {
     readonly officeTitle: string | null;
   };
   readonly serviceStart: string;
+  /**
+   * Whether the speech is given in the evening, where the speaker gives it at
+   * their own hour (the player, from their clock); absent where it is given at
+   * a set occasion, which the planner treats as the evening.
+   */
+  readonly evening?: boolean;
   /** The questions the speaker picked as their points, in order; absent where the planner picks them (everyone but a player building a speech). */
   readonly chosen?: readonly string[];
   /** The term read of a governor's state or a mayor's town; the President's is the country's. */
@@ -2736,9 +2742,17 @@ export function planSpeech(
     const { joins, ...rest } = draft;
     void joins;
     const facts = Object.fromEntries(
-      Object.entries({ ...world, ...kindFact, ...rest.facts }).filter(
-        ([, value]) => value !== undefined,
-      ),
+      Object.entries({
+        ...world,
+        ...kindFact,
+        // A line that says "tonight" plays only in the evening: a speech given
+        // at a set occasion is not told an hour, and one given at the
+        // player's own hour says it only when that hour is the evening.
+        ...(speaker.evening === false
+          ? {}
+          : { evening: fact("yes", person.id) }),
+        ...rest.facts,
+      }).filter(([, value]) => value !== undefined),
     ) as Facts;
     if (bodyAgain && facts["body-name"] && draft.key !== "salutation") {
       if (bodyAsked) facts["body-name"] = bodyAgain;

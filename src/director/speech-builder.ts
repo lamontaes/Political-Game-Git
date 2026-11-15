@@ -34,7 +34,8 @@ import { P } from "../core2/parameters";
 import type { CoreState, PersonId } from "../core2/types";
 import { speechPartsByReach, speechWords } from "../english/speech-stage-words";
 import { DEFAULT_DIRECTOR_DATA } from "./ledger";
-import { campaignSpeaker } from "./local-speeches";
+import { campaignSpeaker as speakerFor } from "./local-speeches";
+import { dayParts } from "./day-part";
 import { markWordsStopgap } from "./stopgaps";
 import { composeBlocks, type OpeningSentence } from "./opening-story";
 import {
@@ -56,7 +57,10 @@ const KIND = "campaign";
 export function stagesOf(kindKey: string = KIND): readonly SpeechStage[] {
   return [
     "opener",
-    ...Array.from({ length: outlineOf(kindKey).points }, () => "core" as const),
+    // A stump speech makes the one ask its row names (`asks`): a second point
+    // would have to say its own ask or end without one, which waits for the
+    // form to come from data (pool item words-player-speech-form-from-data).
+    ...Array.from({ length: outlineOf(kindKey).asks }, () => "core" as const),
     "closer",
   ];
 }
@@ -83,6 +87,8 @@ export interface SpeechBuild {
   /** The office the speech is for, and the party the speaker runs under. */
   officeId: string;
   party: string | null;
+  /** The minute of the day on the player's clock when the speech began; the hour it is said at. */
+  minute: number | undefined;
   /** The date it began. */
   startedOn: string;
   /** The form of the speech, from the data. */
@@ -95,8 +101,26 @@ export interface SpeechBuild {
 
 type Seed = Pick<
   SpeechBuild,
-  "speakerId" | "officeId" | "party" | "picked" | "stages"
+  "speakerId" | "officeId" | "party" | "minute" | "picked" | "stages"
 >;
+
+/**
+ * The speaker as the planner has them: for the race, at the player's own
+ * hour, so a line that says "tonight" plays only when their clock says it is
+ * evening.
+ */
+function campaignSpeaker(
+  core: CoreState,
+  speakerId: PersonId,
+  officeId: string,
+  party: string | null,
+  minute: number | undefined,
+): OutlineSpeaker | null {
+  const speaker = speakerFor(core, speakerId, officeId, party);
+  return speaker
+    ? { ...speaker, evening: dayParts(minute).includes("evening") }
+    : null;
+}
 
 /** What the picked parts say of the plan: the questions, in order, and the wording chosen for each block. */
 function pickedOf(picked: readonly SpeechChoice[]) {
@@ -129,6 +153,7 @@ function said(
     seed.speakerId,
     seed.officeId,
     seed.party,
+    seed.minute,
   );
   if (!speaker) return null;
   const plan = planSpeech(core as CoreState, KIND, {
@@ -218,6 +243,7 @@ function offer(
     build.speakerId,
     build.officeId,
     build.party,
+    build.minute,
   );
   if (!speaker) return { stage: null, choices: [] };
   const has = (stage: SpeechStage) =>
@@ -303,13 +329,19 @@ function offerAt(
 export function beginSpeech(
   core: Readonly<CoreState>,
   speakerId: PersonId,
-  race: { officeId: string; party: string | null },
+  race: { officeId: string; party: string | null; minute?: number },
 ): SpeechBuild | null {
   const person = core.people.get(speakerId);
   if (!person?.alive) return null;
   // stopgapId: SG-WORDS-floor-speech-state-chambers
   if (
-    !campaignSpeaker(core as CoreState, speakerId, race.officeId, race.party)
+    !campaignSpeaker(
+      core as CoreState,
+      speakerId,
+      race.officeId,
+      race.party,
+      race.minute,
+    )
   ) {
     markWordsStopgap("SG-WORDS-floor-speech-state-chambers");
     return null;
@@ -319,6 +351,7 @@ export function beginSpeech(
     placeId: person.placeId,
     officeId: race.officeId,
     party: race.party,
+    minute: race.minute,
     startedOn: core.date,
     stages: stagesOf(),
     picked: [] as SpeechChoice[],

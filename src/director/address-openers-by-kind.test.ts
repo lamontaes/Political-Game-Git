@@ -275,6 +275,9 @@ const WORLD_TEXT: Record<string, string> = {
   // The body by its recorded name, as a local speaker carries it (localSpeaker).
   "body-name": "the Riverton City Council",
   "office-title": "mayor",
+  // An address at a set occasion is told it is the evening (the planner's
+  // `evening` fact), so the lines that say "tonight" play.
+  evening: "yes",
 };
 const WORLD = Object.fromEntries(
   Object.entries(WORLD_TEXT).map(([key, text]) => [

@@ -1129,6 +1129,7 @@ export function speechBegin(
   core: CoreState,
   personId: string,
   filingId: string,
+  minute?: number,
 ): SpeechBuild {
   const api = coreAPI(core);
   const campaign = campaignFor(api, filingId);
@@ -1148,6 +1149,7 @@ export function speechBegin(
   const build = beginSpeech(core, personId, {
     officeId: contest.officeId,
     party: filing.party ?? null,
+    minute,
   });
   if (!build) throw new Error("This race has no speech to give yet.");
   return build;
