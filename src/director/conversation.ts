@@ -2708,7 +2708,7 @@ function introduction(
     saysName(core, speaker.id as PersonId, listener.id as PersonId)
   )
     return null;
-  // Schoolmates, coworkers and a campaign's people spent time together, however
+  // Schoolmates and a campaign's people spent time together, however
   // long ago (conversation-rules.json metThroughPast).
   if (
     sharedHistory(core, speaker.id as PersonId, listener.id as PersonId).some(
