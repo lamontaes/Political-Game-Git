@@ -7307,6 +7307,7 @@ async function startLife({ custom = false, pick = false, placeKey, person }) {
       "cabinet",
       "workings",
       "history",
+      "warmup",
       "opening",
     ];
     // A poll still in flight when the build ends leaves the line alone.

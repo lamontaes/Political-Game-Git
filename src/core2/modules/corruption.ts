@@ -426,6 +426,28 @@ function takePendingBribe(api: CoreAPI, crimeId: string): void {
   };
   delete (taken as { pending?: true }).pending;
   if (taken.amountMinor <= api.parameter("zero")) return;
+  // Why the player took it, kept as an official's take is: what the engine
+  // weighs in this official taking this sum from this person (their money
+  // pressure, the tie, their temperament) beside the player's own choice
+  // (picked 1) and what the engine would have said. What it was for is the
+  // record's subject.
+  const official = api.state.people.get(record.officialId);
+  if (official) {
+    const take = decide(
+      api,
+      record.officialId,
+      "take",
+      takeValues(
+        api,
+        official,
+        taken.amountMinor,
+        closeness(api, record.offererId, record.officialId),
+      ),
+      record.subjectId,
+      true,
+    );
+    Object.assign(taken, { reasons: { ...record.reasons, take: take.values } });
+  }
   pay(api, taken);
   table(api, "crimes").put(taken as unknown as { id: string });
   partiesOf(api).add(taken.offererId).add(taken.officialId);
