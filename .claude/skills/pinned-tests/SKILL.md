@@ -27,9 +27,13 @@ Lead ruling, Nov 13 to 14: a test is pinned in the test file to named places wit
 8. **A pinned case must fail on the old behavior.** Put the old line back once and see the test go red (the warm-up test: without the hold the played person acts 69 times in the window, with it 0) before calling the case pinned.
 9. **A test that files for office stages the filing fee's cash, and sizes the place by its vote date** (campaign events builder, Nov 15). The player starts with $0 and a place that charges a filing fee refuses the filing (`filing-fee`, `status: "refused"`), so set the player's `liquidMinor` before `fileForOffice` and assert the filing was not refused. A big place whose vote is nine months out takes about 190 seconds of played days after a 38 second build; pin a small place where the vote follows the filing window by weeks, and measure its build time, days to the vote and the debate or other event it needs before pinning it (a place with a council race can still hold no debate).
 
-9. **A test that takes "the first ask" breaks when an ask moves earlier (Nov 15).** Moving a party's ask before the day's weighing made the first ask an ask to a member who weighs the seat, so the player's-answer test registered the wrong person. Pick the case by what the records say (the ask came after the contest's weighed row had `filedOn` set), never by order, and say why in a comment. Narrowing which case a test stages is not loosening it; removing or weakening an assertion is, and goes to the lead.
-10. **Check that a break-it edit changed the file (Nov 15).** A `sed` that matches nothing leaves the code intact and the test green. Print the changed line, or count matches, before reading the result.
+10. **A test that takes "the first ask" breaks when an ask moves earlier (Nov 15).** Moving a party's ask before the day's weighing made the first ask an ask to a member who weighs the seat, so the player's-answer test registered the wrong person. Pick the case by what the records say (the ask came after the contest's weighed row had `filedOn` set), never by order, and say why in a comment. Narrowing which case a test stages is not loosening it; removing or weakening an assertion is, and goes to the lead.
+11. **Check that a break-it edit changed the file (Nov 15).** A `sed` that matches nothing leaves the code intact and the test green. Print the changed line, or count matches, before reading the result.
 
 ## Checking a reported pass
 
 Ask where it ran and at what head. A unit test that builds its own small world proves an edge case only; the played-world proof is separate.
+
+## Lesson of Nov 15 (the paper's hold for comment)
+
+- **Break it before you trust it.** Two press tests at their pinned places passed with the change and without it, because the place's tip never ran, so the asserts sat inside `if (ran)`. Undo the line under test and run the file. If it still passes, stage the case through the game's own path (here: the player takes the bribe in the offer scene, the offerer leaks it with `leakToReporter`), and assert outside any branch.
