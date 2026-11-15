@@ -20,7 +20,12 @@ import { WEB_LINKS } from "./outcome-web-model";
 import type { LawRowInput } from "./laws-starting";
 import { BUDGETS_MODULE_ID } from "./modules/budgets";
 import { enactLaw, lawChain, lawInForce, LAWS_MODULE_ID } from "./modules/laws";
-import { OUTCOME_WEB_MODULE_ID, type WebMonth } from "./modules/outcome-web";
+import {
+  OUTCOME_WEB_MODULE_ID,
+  WEB_PRICE_ENGINE,
+  WEB_PRICE_WHAT,
+  type WebMonth,
+} from "./modules/outcome-web";
 import { licensedSellers } from "./modules/place-prices";
 import { purchaseTaxes } from "./modules/purchase-tax";
 import { coreAPI } from "./state";
@@ -285,10 +290,17 @@ function run(
     const lawId = lawIds.get(law.key)!;
     // The budgets engine also reaches each government whose lines the law
     // moves (a fare-free system's lost fares), under that government's own
-    // row of the law; every other record is the price engine's.
+    // row of the law; a business whose prices the outcome web raised for
+    // the law is credited by the web's price trace, under the law's own row;
+    // every other record is the price engine's.
     for (const row of all.filter((r) => r.engine !== "place-prices")) {
-      expect(row.engine, `${where}: ${row.id}`).toBe(BUDGETS_MODULE_ID);
-      expect(row.target, `${where}: ${row.id}`).toBe("government");
+      if (row.engine === WEB_PRICE_ENGINE) {
+        expect(row.what, `${where}: ${row.id}`).toBe(WEB_PRICE_WHAT);
+        expect(row.target, `${where}: ${row.id}`).toBe("organization");
+      } else {
+        expect(row.engine, `${where}: ${row.id}`).toBe(BUDGETS_MODULE_ID);
+        expect(row.target, `${where}: ${row.id}`).toBe("government");
+      }
       expect(
         ownRows.get(law.key)!.has(row.lawId),
         `${where}: ${row.id} names ${row.lawId}`,
