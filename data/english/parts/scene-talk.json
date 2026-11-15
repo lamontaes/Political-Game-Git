@@ -16981,7 +16981,7 @@
           "role": "asker",
           "purpose": "constituent-help",
           "key": "favor-asked",
-          "excludesFacts": ["agency"]
+          "excludesFacts": ["respond-in"]
         }
       ],
       "bearing": "nervous",
@@ -61547,7 +61547,7 @@
           "purpose": "constituent-help",
           "key": "favor-asked",
           "after": "press",
-          "excludesFacts": ["agency"]
+          "excludesFacts": ["respond-in"]
         }
       ],
       "bearing": "guarded",
@@ -61573,7 +61573,7 @@
           "purpose": "constituent-help",
           "key": "favor-asked",
           "after": "answer",
-          "excludesFacts": ["agency"]
+          "excludesFacts": ["respond-in"]
         }
       ],
       "bearing": "guarded",

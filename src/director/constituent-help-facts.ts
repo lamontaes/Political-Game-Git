@@ -16,10 +16,10 @@ import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
 import {
   CASES_MODULE_ID,
-  caseLoad,
   openCasesOf,
   type CaseRow,
 } from "../core2/modules/offices";
+import { caseLoad } from "../core2/modules/constituent-cases";
 import { STAFF_MODULE_ID, servingStaffOf } from "../core2/modules/staff";
 import { JUSTICE_MODULE_ID, type CustodyRow } from "../core2/modules/justice";
 import { familyFactsOf } from "../core2/closeness";
