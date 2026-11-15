@@ -228,6 +228,16 @@ describe("the employer said again by a worker", () => {
     expect(again("I work for Marsh Fitness.")).toBe("I work there.");
     expect(again("I'm with Marsh Fitness.")).toBe("I'm there.");
   });
+  it("says the place once in a turn, not 'there' in two sentences", () => {
+    expect(
+      nameOnceThen(
+        ["I work over at Marsh Fitness. I'm just a sales associate there."],
+        name,
+        "worker",
+        true,
+      ).texts[0],
+    ).toBe("I work there. I'm just a sales associate.");
+  });
   it("names it in full the first time, in any frame", () => {
     expect(
       nameOnceThen(["I work for Marsh Fitness."], name, "worker", false)

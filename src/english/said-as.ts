@@ -396,6 +396,24 @@ export function publicEmployerSaid(text: string, name: string): string {
 }
 
 /**
+ * The place said once in one turn: where the frames above made the employer
+ * "there", a later sentence of the same text that ends on "there" drops it
+ * ("I work there. I'm just a sales associate there." is "I work there. I'm
+ * just a sales associate."), by the one word (said-as.json ownPlaceThere).
+ */
+function placeOnce(now: string, before: string): string {
+  const there = data.ownPlaceThere.said;
+  if (now === before) return now;
+  const first = new RegExp(`\\b${there}\\b`, "i").exec(now);
+  if (!first) return now;
+  const at = first.index + first[0].length;
+  return (
+    now.slice(0, at) +
+    now.slice(at).replace(new RegExp(`\\s+${there}(?=[.,!?]|$)`, "gi"), "")
+  );
+}
+
+/**
  * An organization named once in a text, then said by the tie (`ownPlaceSaid`):
  * every later whole-word mention in these texts, in order, becomes the word
  * for it ("a day off from work", "Work wears me out."). `named` says whether
@@ -426,22 +444,23 @@ export function nameOnceThen(
   let said = named;
   const out = texts.map((text) =>
     sentenceStarts(
-      frames
-        .reduce(
+      placeOnce(
+        frames.reduce(
           (now, frame) =>
             now.replace(frame, (match, before: string) => {
               if (!said) return match;
               return `${before}${data.ownPlaceThere.said}`;
             }),
           text,
-        )
-        .replace(pattern, (match) => {
-          if (!said) {
-            said = true;
-            return match;
-          }
-          return word;
-        }),
+        ),
+        text,
+      ).replace(pattern, (match) => {
+        if (!said) {
+          said = true;
+          return match;
+        }
+        return word;
+      }),
     ),
   );
   return { texts: out, named: said };
