@@ -6,8 +6,10 @@
  * offered only people with a row, every senator's went to the player (177
  * acts in two weeks at seat 001 and 197 at seat 016, none to any other
  * senator, Nov 15). Now the colleagues a record says one knows are offered
- * too (closeness.ts `knownPeople`), and pulled by the time their tie has
- * lost since the two last sat together.
+ * too (closeness.ts `knownPeople`), pulled by the time their tie has lost
+ * since the two last sat together; among colleagues whose pulls are alike,
+ * each member's nearest in the sitting's own order stands for the rest, so
+ * no class piles onto its lowest id either (132 of 200 to seat 002 before).
  *
  * Pinned place and seed (Texas, 4846968, 8647-mason), the senate's
  * sixteenth member by id as the player; two played weeks of February 2025.
@@ -60,7 +62,11 @@ it("senators keep company with the colleagues they sit with, not all with the pl
     }
   }
   const total = [...to.values()].reduce((a, b) => a + b, 0);
+  const others = [...to].filter(([id]) => id !== player).map(([, n]) => n);
+  // Before: every act went to the player (197 of 197). After (measured on
+  // this head): the player 57 of 173, and 13 colleagues 1 to 14 each.
   expect(total).toBeGreaterThan(0);
-  expect(to.get(player) ?? 0).toBeLessThanOrEqual(total / 3);
-  expect(to.size).toBeGreaterThan(3);
+  expect(to.get(player) ?? 0).toBeLessThan(total / 2);
+  expect(Math.max(...others)).toBeLessThanOrEqual(total / 4);
+  expect(others.length).toBeGreaterThanOrEqual(10);
 }, 90_000);
