@@ -146,35 +146,28 @@ it("Lincoln, Vermont: the same issue costs a person who works more of the week m
 }, 180_000);
 
 // A scene says how a turnout looks and never the figure (owner's rule, Words
-// lead's ruling for #9418): one fact, read from the action's own record as it
-// stands when the scene is composed, from its headcount and its share of the
-// town's adults, named and counted people alike. A look is true of both: two
-// or three people are never a group, however small the town, and a handful
-// is never a crowd, so the paper's "2 residents protested" and a scene's
-// "a group has gathered" can never disagree.
-it("Port O'Connor and Lincoln: each protest is told by how its turnout looks now, from its headcount and its share of the adults", () => {
+// lead's ruling for #9418): one fact, kept on the action's civic record when it
+// forms, from its headcount and its share of the town's adults, named and
+// counted people alike. The paper prints the same record's headcount and a
+// scene reads the same record's look, so they cannot disagree. A look is true
+// of both: two or three people are never a group, however small the town, and
+// a handful is never a crowd.
+it("Port O'Connor and Lincoln: each action's record keeps how its headcount looks, from the headcount and its share of the adults", () => {
   const looks = (label: string, name: string) => {
-    const { actions, adults } = playTerm(label, name);
-    return actions.map((row) => ({
-      area: row.area,
-      people: row.people,
-      share: share(row, adults),
-      turnout: row.turnout,
-    }));
+    const { world, adults } = playTerm(label, name);
+    return [...world.core.durableLog.values()]
+      .filter((row) => /^civic\.(protest|strike|rally)$/.test(row.kind))
+      .map((row) => ({
+        id: row.id,
+        people: Number(row.facts?.size),
+        share: Number(row.facts?.size) / adults,
+        turnout: row.facts?.turnout,
+      }));
   };
-  // The paper prints the headcount its record kept when the action formed; the
-  // scene reads the row's own headcount for the month. They are one number in
-  // the month the action forms, so a group is never told over two people.
-  const played = playTerm("pa-a", "Port O'Connor, Texas");
-  for (const row of played.actions) {
-    const record = [...played.world.core.durableLog.values()].find(
-      (entry) => entry.facts?.actionId === row.id,
-    );
-    if (row.months === 1)
-      expect(Number(record?.facts?.size), row.id).toBe(row.people);
-  }
   const a = looks("pa-a", "Port O'Connor, Texas");
   const b = looks("pa-b", "Lincoln, Vermont");
+  expect(a.length).toBeGreaterThan(0);
+  expect(b.length).toBeGreaterThan(0);
   for (const row of [...a, ...b]) {
     const want =
       row.share < 0.015 || row.people < 5
@@ -182,14 +175,10 @@ it("Port O'Connor and Lincoln: each protest is told by how its turnout looks now
         : row.share >= 0.08 && row.people >= 10
           ? "crowd"
           : "group";
-    expect(row.turnout, `${row.area}: ${row.people} people`).toBe(want);
-    // Never a group of two or three, never a crowd of a handful.
-    if (row.people < 5) expect(row.turnout).toBe("few");
-    if (row.turnout === "crowd") expect(row.people).toBeGreaterThanOrEqual(10);
+    expect(row.turnout, `${row.id}: ${row.people} people`).toBe(want);
   }
-  // The scale is used by headcount too: at these two small places the
-  // jobs protests of two and three people are a few, the rent protest of a
-  // dozen at Lincoln is a crowd.
+  // Used by headcount at these two small places: the jobs protests of two and
+  // three people are a few and the rent protest of a dozen at Lincoln a crowd.
   expect(a.some((row) => row.turnout === "few")).toBe(true);
   expect(b.some((row) => row.turnout === "crowd")).toBe(true);
   expect(

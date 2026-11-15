@@ -3813,15 +3813,9 @@ const publicAction =
               ),
             }
           : {}),
-        // A turnout that looks like a crowd (its share of the town's adults,
-        // set by the action's own record) is the one a story calls a crowd.
-        ...(f.actionId &&
-        (
-          read.api
-            .moduleState("core2-public-action-v1")
-            .table("actions")
-            .get(f.actionId) as unknown as { turnout?: string } | undefined
-        )?.turnout === "crowd"
+        // A turnout that looks like a crowd, as the record kept it when the
+        // action formed (the same fact a scene reads), is the one a story calls one.
+        ...(f.turnout === "crowd"
           ? { crowd: read.fact("yes", f.actionId ?? "") }
           : {}),
         ...issue,

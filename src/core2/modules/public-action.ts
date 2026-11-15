@@ -99,10 +99,6 @@ export interface ActionRow {
   readonly slide: number;
   /** The player's own life is touched by it: the scene is theirs to take. */
   readonly playerTouched: boolean;
-  /** How the turnout looks as it stands this month (`turnoutLooks`): the one fact a scene and the paper read. */
-  readonly turnout: "few" | "group" | "crowd";
-  /** The people out this month, named and counted: the headcount `turnout` reads (the record's `size` when the month is the first). */
-  readonly people: number;
   /** The web rows the read compared. */
   readonly sourceRecordIds: readonly string[];
 }
@@ -649,13 +645,6 @@ function monthlyRun(api: CoreAPI): void {
         slide: read?.slide ?? 0,
         playerTouched: pool.some((person) => person.id === core.playerId),
         sourceRecordIds: stock.sourceRecordIds,
-        people: participants.length + countedJoined,
-        turnout: turnoutLooks(
-          api,
-          core,
-          placeId,
-          participants.length + countedJoined,
-        ),
       };
       table(api, "actions").put(row as unknown as ModuleRow);
       if (!open)
@@ -678,6 +667,14 @@ function monthlyRun(api: CoreAPI): void {
             side: stock.side,
             question: rule.question ?? "",
             size: String(participants.length + countedJoined),
+            // How that headcount looks in this town (`turnoutLooks`): the one
+            // fact the scene and the paper both read from this record.
+            turnout: turnoutLooks(
+              api,
+              core,
+              placeId,
+              participants.length + countedJoined,
+            ),
           },
           source: {
             tag: "SOURCED",

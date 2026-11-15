@@ -1151,10 +1151,7 @@ function composeBinding(
         facts.outdoors = { text: "yes", sourceRecordIds: [said.actionId] };
       Object.assign(
         facts,
-        turnoutFacts(
-          actionTurnout(core as CoreState, said.actionId),
-          said.actionId,
-        ),
+        turnoutFacts(turnoutOf(record?.facts?.turnout), said.actionId),
       );
     }
   }
@@ -1170,10 +1167,7 @@ function composeBinding(
     facts.rally = { text: "yes", sourceRecordIds: [said.actionId] };
     Object.assign(
       facts,
-      turnoutFacts(
-        actionTurnout(core as CoreState, said.actionId),
-        said.actionId,
-      ),
+      turnoutFacts(turnoutOf(record?.facts?.turnout), said.actionId),
     );
   }
   // What an offer asks in return (a vote, a contract): the lines about that
@@ -3133,15 +3127,11 @@ function turnoutFacts(
   };
 }
 
-/** How the action's turnout looks this month: the one fact its own record keeps (public-action.ts, `turnout`). */
-function actionTurnout(
-  core: CoreState,
-  actionId: string,
+/** How the turnout looked when the action formed: the fact its civic record keeps (public-action.ts, `turnout`), the same one the paper reads. */
+function turnoutOf(
+  value: string | undefined,
 ): "few" | "group" | "crowd" | undefined {
-  const row = coreAPI(core)
-    .moduleState("core2-public-action-v1")
-    .table("actions")
-    .get(actionId) as unknown as
-    { turnout?: "few" | "group" | "crowd" } | undefined;
-  return row?.turnout;
+  return value === "few" || value === "group" || value === "crowd"
+    ? value
+    : undefined;
 }

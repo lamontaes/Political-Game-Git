@@ -82,9 +82,11 @@ const tree = (node: TreeNode | null, depth: number) => {
   }
 };
 for (const row of actionsOf(api, placeId)) {
-  say(`\n### ${row.kind} / ${row.area}: turnout ${row.turnout}`);
   const record = [...core.durableLog.values()].find(
     (r) => (r.facts as Record<string, string> | undefined)?.actionId === row.id,
+  );
+  say(
+    `\n### ${row.kind} / ${row.area}: ${record?.facts?.size ?? "?"} people when it formed, the record says "${record?.facts?.turnout ?? "?"}"`,
   );
   if (!record) {
     say("(no civic record)");
