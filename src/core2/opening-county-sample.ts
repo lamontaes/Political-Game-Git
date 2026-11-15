@@ -27,7 +27,7 @@ import {
 } from "./modules/jobs";
 import { corePlaceByKey } from "./place-lookup";
 import { placeCountyPopulationShares, placeStateKey } from "./place-map";
-import { householdOpeningCash } from "./starting-cash";
+import { householdOpeningCash } from "./modules/budgets";
 import { citizenShareOf } from "./modules/voting";
 import { parameter as p } from "./parameters";
 import { stopgap } from "./stopgaps";
