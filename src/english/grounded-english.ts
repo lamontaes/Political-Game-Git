@@ -121,15 +121,6 @@ export type GroundedEnglishResult =
     };
 
 const SLOT = /\{\{([a-z][a-z0-9-]*)\}\}/g;
-/**
- * A slot that opens a sentence inside a line starts with a capital ("Nobody.
- * The Parking Ordinance..."), never after an ellipsis, where the sentence
- * goes on ("Well... the bill"). The line's own first letter is the caller's.
- */
-const SENTENCE_END = /(?<!\.)[.!?]["”’)]?\s+$/;
-const opensSentence = (before: string): boolean => SENTENCE_END.test(before);
-const capitalFirst = (text: string): string =>
-  text.charAt(0).toUpperCase() + text.slice(1);
 
 /**
  * Variant selection changes wording only. Semantic effects belong to the
@@ -181,10 +172,7 @@ export function renderGroundedEnglish(
       ? packet.facts[variant.factKey]!.text
       : variant.text.replace(
           SLOT,
-          (_slot, key: string, at: number, whole: string) =>
-            opensSentence(whole.slice(0, at))
-              ? capitalFirst(packet.facts[key]!.text)
-              : packet.facts[key]!.text,
+          (_slot, key: string) => packet.facts[key]!.text,
         );
 
   const sourceRecordIds = new Set<EntityId>(packet.sourceRecordIds);

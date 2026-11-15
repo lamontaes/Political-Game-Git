@@ -5,7 +5,7 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: dropped
 standard: 2
 claimed-by: account-lead-M4
 pr: 9358
@@ -34,4 +34,8 @@ branch: claude/project-thread-irab2z
 
 **Waits on.** Nothing.
 
-**Files.** src/english/grounded-english.ts, src/english/slot-capital.test.ts (new)
+**Files.** src/english/grounded-english.ts, src/english/said-as.ts
+
+**Notes.**
+
+- Nov 15, M4: dropped, done elsewhere. `sentenceStarts` (src/english/said-as.ts) has capitalized a slot that opens a sentence since Nov 12, called in src/english/scene-talk-words.ts (two places) and src/director/conversation.ts. Five lives played 90 days with and without #9358's fix showed no played line differ; #9358 is withdrawn (a second capitalizer). The two surfaces that never call it are item words-speech-and-scene-leads-call-sentence-starts.
