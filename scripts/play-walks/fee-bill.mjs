@@ -131,14 +131,15 @@ try {
     );
     // Every level the paper can say, typed one by one: the words under the box for each.
     for (const typed of (process.env.FEE_LEVELS ?? "150").split(",")) {
-      await page.locator(".draft-card input").fill(typed);
+      await page.locator(".draft-card .draft-step input").first().fill(typed);
       say(
         `Under the box as ${typed} is typed:`,
         await page.locator(".draft-live").innerText(),
       );
     }
     await page
-      .locator(".draft-card input")
+      .locator(".draft-card .draft-step input")
+      .first()
       .fill(process.env.FEE_AMOUNT ?? "150");
     // FEE_RISE=percent,years,firstDate drafts the fee as a phase-in by a percent a year.
     if (process.env.FEE_RISE) {
