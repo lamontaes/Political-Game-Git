@@ -325,6 +325,16 @@ export function billStageSections(
               words,
             )
           : el("p", { textContent: words.held }),
+        ...(!record.heard && record.chairReasons?.length
+          ? [
+              el("b", { textContent: words.chairReasons }),
+              ...record.chairReasons.map((r) =>
+                el("p", {
+                  textContent: `${words.reasons[r.reason]}: ${words[r.side]}`,
+                }),
+              ),
+            ]
+          : []),
         ...(record.markup?.length
           ? [
               el("b", { textContent: words.markup }),

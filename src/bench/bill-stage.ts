@@ -250,6 +250,20 @@ export function billStage(core: CoreState, billId: string, asId?: string) {
       stake: w.stake,
     })),
     votes: record.votes.map(named),
+    // Why the chair did not hear it: the reasons the committee record kept for the chair's own
+    // position and for their temperament toward hearing, worded as a governor's at the desk.
+    chairReasons: record.heard
+      ? []
+      : reasonsOf({
+          ...record.chairReasons.position,
+          // The names on the bill weighed with the chair as the sponsor's did.
+          sponsor:
+            (record.chairReasons.position.sponsor ?? 0) +
+            (record.chairReasons.cosponsorPull ?? 0),
+          trait:
+            (record.chairReasons.position.trait ?? 0) +
+            record.chairReasons.hearingTrait,
+        }),
     members: record.memberIds.length,
     yes: record.yes,
     no: record.no,
