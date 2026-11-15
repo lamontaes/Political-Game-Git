@@ -2115,9 +2115,15 @@ function deskReview(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     table(api, "review").get("seed") as unknown as
       { worldSeed: string } | undefined
   )?.worldSeed;
+  // A newly seated governor names their own cabinet, unless the governor is
+  // the player: the player's choices are the player's (OWNER-DECISIONS, Oct
+  // 14: "No engine accepts a job, a home, a filing or any choice for the
+  // controlled person"), so the sitting cabinet serves until the player names
+  // someone in its place (`appointStatePost`), as the town's posts wait.
   if (
     worldSeed &&
     cabinet.length &&
+    memberKey(governor) !== playerId &&
     memberKey(governor) !== cabinet[0]!.appointedBy &&
     (!before || holderOf(before) !== holderOf(governor))
   )

@@ -906,11 +906,11 @@ export function admitResidents(core: CoreState, input: ResidentsInput): void {
       if (!core.organizations.has(id) && !core.people.has(id))
         throw new Error(`Flow owner is not recorded: ${id}`);
     // A flow due on or before the opening date settles on the first simulated
-    // day, except counted wages with earned days by payday: they keep their
-    // calendar, so a payday on the opening day (its period all before it)
-    // passes, and the next one pays the days since the opening.
+    // day, except counted wages from an employer's calendar: they keep it, so
+    // a payday on the opening day (paid before it, in the opening cash)
+    // passes, and the next one pays its whole period.
     let nextAt = makeIsoDate(row.firstAt);
-    if (row.earnedDaysByDue)
+    if (row.kind === "wages" && row.perDayMinorByJob)
       while (nextAt <= core.date)
         nextAt = makeIsoDate(advanceCadence(nextAt, row.cadence));
     if (nextAt <= core.date)
@@ -1185,16 +1185,6 @@ function settle(
     return end(flow, date, "payee-closed");
   }
   let base = flow.amountMinor;
-  const earnedDays = flow.earnedDaysByDue?.[date];
-  if (earnedDays !== undefined && flow.perDayMinorByJob) {
-    // A payday at the opening pays only the days worked since it.
-    let perDay = 0;
-    for (const value of Object.values(flow.perDayMinorByJob)) perDay += value;
-    base = Math.round(perDay * earnedDays);
-    const rest = { ...flow.earnedDaysByDue };
-    delete rest[date];
-    flow.earnedDaysByDue = rest;
-  }
   if (flow.payIndexed) base = Math.round(base * payLevel(core, flow.placeId));
   if (flow.kind === "outside-costs" && payerBook) {
     // Supplies follow sales: the firm accrues its booked cost share of what it
