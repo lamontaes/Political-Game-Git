@@ -38,3 +38,5 @@ branch:
 **Files.** src/director/speech-afterward.test.ts
 
 **Notes.** Filed Nov 14 by the Account lead on the coordinator's ruling. The pinned seed first stopped on the campaign overdraw fixed in campaigns-purchases-spend-the-set-aside-funds, then on this assertion.
+
+- Nov 15, civic roles builder: red twice more by draw on the train, same assertion, nothing in either diff touching the scene. At c295b5d2 (test seed 3351d29171f78ff25c6bc15b3d848fb302664d1d): Lordship, Connecticut (0944000), world seed ce9fd247231aac891a4c12f045e6216ef6a2b25a8461f74f5d716169ec160ee9, narration "First thing on November 16th, you mee…". At e12e9cc4 (#9407, test seed ef713fed3e7bc8601e9fd6e775ac8ec2c269a723): Bethel, Vermont (5005725), world seed 41f5be735b636165ea4e24795694b4f374696e41eafe56ffe9b8051ca8c96694, narration "First thing on January 15th, you head…".
