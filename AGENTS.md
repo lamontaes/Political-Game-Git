@@ -149,7 +149,6 @@ Load a skill when its trigger fits; descriptions say when. Every session, first:
 - `session-start`: the pool worker loop
 - `skill-lessons`: the skills learn from each day
 - `slim-down`: removing dead and duplicate code with no behavior change
-- `speeches-and-scene-shape`: speech length and format, every line in one findable place, a scene's outcome, a long turn's shape
 - `speed-work`: timing a year, proving a cut changes nothing, folding what grows
 - `standing-rules-self-check`: one-line answers for the standing rules no other skill covers, and the dev-mode rule for every effect
 - `term-read`: reading a term by policy area, the kind of an address and the town's strikes, protests and rallies
