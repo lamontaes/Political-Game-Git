@@ -260,3 +260,10 @@ A composed rule reads whole texts a player met, never one bank line: its row's t
 - **`npm run words:pairs` sheets scene pairs only.** Home-talk bank pieces (`data/english/parts/conversation.json`) need a hand-written sheet for M5 from the played talks.
 - **Test hygiene:** `buildBenchWorld` takes the seed as a string and about a minute to build, so a test that builds one sets its own timeout (say why in a comment); `npm run typecheck` needs `NODE_OPTIONS=--max-old-space-size=8192`; `release:check` needs a non-shallow clone.
 - **A test red on the train is checked on the clean train before it is blamed on your change** (stash, run the one test, pop).
+
+## What the scene reply record says, and bisecting a red (Nov 15)
+
+- **A `scene.reply` record names the player first** in `personIds`; its `asked` fact is there only where the player asked, and its `move` is always the answerer's (the player's reply, or the colleague's answer where the player asked). `relationFacts(...).passed` reads those; read them there, never count replies in a scene or a variant.
+- **A test cannot write an earlier day:** events enter on the current date, so a test that needs "before" writes the record, then `advanceCore`s a day.
+- **A talk with no line is no talk:** the bench handler opens nothing when `openConversation` returns no lines (owner, Nov 1), so an empty talk in a test is by rule; a test that opens the same person twice in a day depends on a repeated introduction and must open each person once.
+- **Bisecting a red across folds:** `git bisect start <bad> <good>` then `git bisect run` on one test works, but a merge-graph can name a commit that touches nothing the test reads (the celebration-ask count named an opening-landing commit); read the named commit's files before believing it, and file the item with the next step if they do not fit.
