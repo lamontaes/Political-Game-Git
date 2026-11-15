@@ -16,8 +16,16 @@ import { SITUATION_LIBRARY } from "./scheduling";
 // The reporter's call after the player votes yes, cast with the player's own
 // press (bill-stage.ts chooseOwnVote), at a pinned place: Bagdad, Arizona
 // (0405140), drawn as press-comment-context.test.ts draws, from seed
-// yes-vote-6:0. Both answers after a yes vote ("I voted for it. I'd vote for
-// it again." and "I support it. It's good for {place}.") are said there.
+// yes-vote-6:0.
+//
+// Old premise (#9510): both plain answers after a yes vote ("I voted for it.
+// I'd vote for it again." and "I support it. It's good for {place}.") are said
+// here. New premise (Words lead, Nov 15): a "why" is answered by a reason the
+// roll holds. The player wrote the bill, and the largest part of their
+// position that leans yes is that it is theirs, so the answer is "It's my
+// bill. I believe in it.", cited to the roll (`top-reason-own-bill`). The
+// plain answers are for a member with no part leaning their way, and "I voted
+// for it. I'd vote for it again." is deleted because it gives no reason.
 const TYPE = SITUATION_LIBRARY.types.find(
   (row) => row.key === "press-interview",
 ) as unknown as PurposeType;
@@ -31,7 +39,7 @@ const FACETS = [
   "personality-v1:facet-sensitive",
 ];
 
-it("after the player votes yes, the reporter's call offers the yes answers (Bagdad AZ 0405140, seed yes-vote-6:0)", () => {
+it("after the player votes yes on their own bill, the reporter's call answers why with the bill being theirs (Bagdad AZ 0405140, seed yes-vote-6:0)", () => {
   const place = drawPlace("yes-vote-6:0", "press-comment-context");
   expect(place.key).toBe("0405140");
   setBookkeeping(false);
@@ -82,6 +90,7 @@ it("after the player votes yes, the reporter's call offers the yes answers (Bagd
   const keys = scene.facts.map((row) => row.key);
   expect(keys).toContain("voted-yes");
   expect(keys).toContain("acted");
+  expect(keys).toContain("top-reason-own-bill");
   const facts = Object.fromEntries(
     scene.facts.map((row) => [
       row.key,
@@ -130,6 +139,5 @@ it("after the player votes yes, the reporter's call offers the yes answers (Bagd
     expect(text, "no answer after a yes says the player voted no").not.toMatch(
       /I voted (no|against)/,
     );
-  expect(said).toContain("I voted for it. I'd vote for it again.");
-  expect([...said].some((text) => text.startsWith("I support it."))).toBe(true);
+  expect(said).toContain("It's my bill. I believe in it.");
 }, 60_000);

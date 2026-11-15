@@ -4942,10 +4942,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-answer.i-voted-no-i-ll-stand-on-that",
+      "key": "scene-talk.reply-answer.i-voted-against-it-place-deserves-better-than-that",
       "move": "reply-answer",
       "kind": "spoken",
-      "text": "I voted no. I'll stand on that.",
+      "text": "I voted against it. {place} deserves better than that.",
       "uses": [
         {
           "subject": "scene",
@@ -4967,10 +4967,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-answer.i-voted-for-it-i-d-vote-for-it-again",
+      "key": "scene-talk.reply-answer.i-voted-no-because-i-don-t-believe-in-it",
       "move": "reply-answer",
       "kind": "spoken",
-      "text": "I voted for it. I'd vote for it again.",
+      "text": "I voted no because I don't believe in it.",
       "uses": [
         {
           "subject": "scene",
@@ -4979,7 +4979,107 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "requiresFacts": ["acted", "voted-yes"]
+          "requiresFacts": ["acted", "voted-no", "top-reason-own-view"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (Fable), Nov 15",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.it-s-my-bill-i-believe-in-it",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "It's my bill. I believe in it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "press-comment",
+          "key": "routine",
+          "requiresFacts": ["acted", "voted-yes", "top-reason-own-bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (Fable), Nov 15",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.i-voted-for-it-because-i-believe-in-it",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "I voted for it because I believe in it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "press-comment",
+          "key": "routine",
+          "requiresFacts": ["acted", "voted-yes", "top-reason-own-view"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (Fable), Nov 15",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.people-here-asked-me-for-it-i-listened",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "People here asked me for it. I listened.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "press-comment",
+          "key": "routine",
+          "requiresFacts": ["acted", "voted-yes", "top-reason-people"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (Fable), Nov 15",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.i-trust-the-people-who-wrote-it",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "I trust the people who wrote it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "press-comment",
+          "key": "routine",
+          "requiresFacts": ["acted", "voted-yes", "top-reason-sponsor"]
         }
       ],
       "bearing": "calm",
@@ -56869,31 +56969,6 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.a-year-i-ll-hold-you-to-it",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "A year. I'll hold you to it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "press-comment",
-          "key": "routine",
-          "after": "boast"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "accept",
-        "key": "routine"
-      }
-    },
-    {
       "key": "scene-talk.follow-accept.i-will-i-ll-print-what-i-find",
       "move": "follow-accept",
       "kind": "spoken",
@@ -57624,31 +57699,6 @@
       "date": "2026-10-15",
       "tag": {
         "move": "leave",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.reply-lie.i-ve-got-numbers-that-say-otherwise",
-      "move": "reply-lie",
-      "kind": "spoken",
-      "text": "I've got numbers that say otherwise.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "lie",
-          "role": "asked",
-          "purpose": "press-comment",
-          "key": "routine",
-          "after": "press"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "lie",
         "key": "routine"
       }
     },
