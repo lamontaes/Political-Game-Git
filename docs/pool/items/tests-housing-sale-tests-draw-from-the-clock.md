@@ -33,3 +33,5 @@ source: "found by T54 gating world-counted-renters-buy (#9117), Nov 15; Account 
 **Waits on.** world-counted-renters-buy (#9117), which these tests' assertions belong to.
 
 **Files.** The eleven test files above.
+
+**Notes.** From the lying thread, Nov 15: `src/core2/realistic-not-real.test.ts` fails at Gagani, Northern Mariana Islands (territory:MP:gagani), `REALISTIC_SEED=82a3ae5b7c14185a`, on rows 28 (the town's population) and 37 (the schools people went to); seen on #9534's guards job (head c5f817e5) and the same on f6a552b3 (Train c43bf7e0 plus the lying change): 2 failed, 15 passed. Pinning keeps those two rows red at a place that shows them only if the fault is real, with its own item.
