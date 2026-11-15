@@ -249,5 +249,5 @@ for (const seed of WORLDS) {
       lateRows.some((row) => row.reason === "late"),
       `${where}: too late to go over`,
     ).toBe(true);
-  }, 900_000);
+  }, 45_000);
 }

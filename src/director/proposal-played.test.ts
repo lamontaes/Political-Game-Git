@@ -185,4 +185,4 @@ it("dated, moved in at the partner's ask, then proposed: the yes plays as a scen
     "You're sure?",
     "I've never been more sure.",
   ]);
-}, 120_000);
+}, 130_000);

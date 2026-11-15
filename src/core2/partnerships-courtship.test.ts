@@ -118,7 +118,7 @@ describe("the player's own courtship acts (Pulaski, Ohio)", () => {
     );
     expect(record?.personIds, where).toEqual([taken!.id, me]);
     expect(record?.facts?.reason, where).toBe("with-someone");
-  }, 120_000);
+  }, 50_000);
 
   it("asks out someone the player has spent time with: a yes starts them dating, then a proposal is answered", () => {
     const { core, api, me, free, where } = world();
@@ -253,5 +253,5 @@ describe("the player's own courtship acts (Pulaski, Ohio)", () => {
         "engaged",
       );
     else expect(["too-soon", "not-sure-yet"], where).toContain(asked.reason);
-  }, 120_000);
+  }, 50_000);
 });

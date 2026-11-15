@@ -126,4 +126,4 @@ it("the card's Ask out is answered at once as a scene (ask-out-card-1)", async (
     ["yes", "nothing-changed"],
     `${where}: ${JSON.stringify(after)}`,
   ).toContain(said);
-}, 300_000);
+}, 130_000);
