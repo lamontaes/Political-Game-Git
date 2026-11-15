@@ -42565,30 +42565,6 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-catches-you-outside-the-library-with-a-stack-of-flyers-about-caus",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "{name} catches you outside the library with a stack of flyers about {cause}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "join-cause",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "narrate",
-        "key": "favor-asked"
-      }
-    },
-    {
       "key": "scene-talk.open-greet.just-the-person-i-was-hoping-to-run-into",
       "move": "open-greet",
       "kind": "spoken",
@@ -58011,30 +57987,6 @@
       }
     },
     {
-      "key": "scene-talk.state-request.we-re-trying-to-get-cause-in-front-of-the-council-it-goes-farther-with",
-      "move": "state-request",
-      "kind": "spoken",
-      "text": "We're trying to get {cause} in front of the council. It goes farther with you standing with us.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "request",
-          "role": "asker",
-          "purpose": "join-cause",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "hopeful",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "request",
-        "key": "favor-asked"
-      }
-    },
-    {
       "key": "scene-talk.reply-ask.what-would-you-want-me-to-do-there",
       "move": "reply-ask",
       "kind": "spoken",
@@ -58124,107 +58076,6 @@
           "purpose": "join-cause",
           "key": "favor-asked",
           "after": "scene-talk.state-request.you-said-at-the-town-hall-that-you-cared-about-cause-we-meet-tuesday-n"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "deflect",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.reply-ask.who-s-speaking-for-you-at-the-council",
-      "move": "reply-ask",
-      "kind": "spoken",
-      "text": "Who's speaking for you at the council?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "purpose": "join-cause",
-          "key": "favor-asked",
-          "after": "scene-talk.state-request.we-re-trying-to-get-cause-in-front-of-the-council-it-goes-farther-with"
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "ask",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.reply-agree.i-ll-stand-with-you-tell-me-when",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "I'll stand with you. Tell me when.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "join-cause",
-          "key": "favor-asked",
-          "after": "scene-talk.state-request.we-re-trying-to-get-cause-in-front-of-the-council-it-goes-farther-with"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "agree",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.reply-decline.i-m-the-one-they-d-be-asking-i-can-t-sit-on-both-sides-of-the-table",
-      "move": "reply-decline",
-      "kind": "spoken",
-      "text": "I'm the one they'd be asking. I can't sit on both sides of the table.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "decline",
-          "role": "asked",
-          "purpose": "join-cause",
-          "key": "favor-asked",
-          "after": "scene-talk.state-request.we-re-trying-to-get-cause-in-front-of-the-council-it-goes-farther-with",
-          "requiresFacts": ["title"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "decline",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.reply-deflect.send-me-what-you-have-in-writing-first",
-      "move": "reply-deflect",
-      "kind": "spoken",
-      "text": "Send me what you have in writing first.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "deflect",
-          "role": "asked",
-          "purpose": "join-cause",
-          "key": "favor-asked",
-          "after": "scene-talk.state-request.we-re-trying-to-get-cause-in-front-of-the-council-it-goes-farther-with"
         }
       ],
       "bearing": "guarded",
@@ -58362,132 +58213,6 @@
       }
     },
     {
-      "key": "scene-talk.follow-answer.whoever-you-d-tell-us-to-send-that-s-why-we-need-you",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "Whoever you'd tell us to send. That's why we need you.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "join-cause",
-          "key": "favor-asked",
-          "after": "scene-talk.reply-ask.who-s-speaking-for-you-at-the-council",
-          "requiresFacts": ["title"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "answer",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.follow-thank.the-first-monday-of-next-month-thank-you",
-      "move": "follow-thank",
-      "kind": "spoken",
-      "text": "The first Monday of next month. Thank you.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "join-cause",
-          "key": "favor-asked",
-          "after": "scene-talk.reply-agree.i-ll-stand-with-you-tell-me-when"
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "thank",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.follow-press.then-tell-us-who-on-the-council-would-listen",
-      "move": "follow-press",
-      "kind": "spoken",
-      "text": "Then tell us who on the council would listen.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "purpose": "join-cause",
-          "key": "favor-asked",
-          "after": "scene-talk.reply-decline.i-m-the-one-they-d-be-asking-i-can-t-sit-on-both-sides-of-the-table"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "press",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.okay-we-ll-go-in-without-you",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "Okay. We'll go in without you.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "join-cause",
-          "key": "favor-asked",
-          "after": "scene-talk.reply-decline.i-m-the-one-they-d-be-asking-i-can-t-sit-on-both-sides-of-the-table"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "accept",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.follow-press.it-s-two-pages-i-brought-them-with-me",
-      "move": "follow-press",
-      "kind": "spoken",
-      "text": "It's two pages. I brought them with me.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "purpose": "join-cause",
-          "key": "favor-asked",
-          "after": "scene-talk.reply-deflect.send-me-what-you-have-in-writing-first"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "press",
-        "key": "favor-asked"
-      }
-    },
-    {
       "key": "scene-talk.reply-agree.that-i-can-do-put-me-down-for-tuesday",
       "move": "reply-agree",
       "kind": "spoken",
@@ -58552,83 +58277,6 @@
           "purpose": "join-cause",
           "key": "favor-asked",
           "after": "scene-talk.follow-answer.just-listen-first-then-tell-us-what-the-city-can-actually-do"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "leave",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.reply-agree.then-send-your-strongest-speaker-and-i-ll-be-in-the-room",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "Then send your strongest speaker, and I'll be in the room.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "join-cause",
-          "key": "favor-asked",
-          "after": "scene-talk.follow-answer.whoever-you-d-tell-us-to-send-that-s-why-we-need-you",
-          "requiresFacts": ["title"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "agree",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.reply-decline.i-can-t-pick-your-speaker-that-s-yours-to-decide",
-      "move": "reply-decline",
-      "kind": "spoken",
-      "text": "I can't pick your speaker. That's yours to decide.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "decline",
-          "role": "asked",
-          "purpose": "join-cause",
-          "key": "favor-asked",
-          "after": "scene-talk.follow-answer.whoever-you-d-tell-us-to-send-that-s-why-we-need-you",
-          "requiresFacts": ["title"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "decline",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.reply-leave.let-me-think-about-who-d-listen",
-      "move": "reply-leave",
-      "kind": "spoken",
-      "text": "Let me think about who'd listen.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "join-cause",
-          "key": "favor-asked",
-          "after": "scene-talk.follow-answer.whoever-you-d-tell-us-to-send-that-s-why-we-need-you"
         }
       ],
       "bearing": "guarded",
@@ -58780,158 +58428,6 @@
           "purpose": "join-cause",
           "key": "favor-asked",
           "after": "scene-talk.follow-press.we-ll-move-it-to-a-wednesday-if-that-s-what-it-takes"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "leave",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.reply-agree.talk-to-the-member-from-the-east-side-say-i-sent-you",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "Talk to the member from the east side. Say I sent you.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "join-cause",
-          "key": "favor-asked",
-          "after": "scene-talk.follow-press.then-tell-us-who-on-the-council-would-listen",
-          "requiresFacts": ["title"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "agree",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.reply-decline.i-can-t-steer-you-to-my-colleagues-you-ll-have-to-call-them",
-      "move": "reply-decline",
-      "kind": "spoken",
-      "text": "I can't steer you to my colleagues. You'll have to call them.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "decline",
-          "role": "asked",
-          "purpose": "join-cause",
-          "key": "favor-asked",
-          "after": "scene-talk.follow-press.then-tell-us-who-on-the-council-would-listen",
-          "requiresFacts": ["title"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "decline",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.reply-leave.i-ll-get-back-to-you-on-that",
-      "move": "reply-leave",
-      "kind": "spoken",
-      "text": "I'll get back to you on that.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "join-cause",
-          "key": "favor-asked",
-          "after": "scene-talk.follow-press.then-tell-us-who-on-the-council-would-listen"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "leave",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.reply-agree.hand-them-over-i-ll-read-them-now",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "Hand them over. I'll read them now.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "join-cause",
-          "key": "favor-asked",
-          "after": "scene-talk.follow-press.it-s-two-pages-i-brought-them-with-me"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "agree",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.reply-decline.leave-them-with-my-office-that-s-all-i-can-do",
-      "move": "reply-decline",
-      "kind": "spoken",
-      "text": "Leave them with my office. That's all I can do.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "decline",
-          "role": "asked",
-          "purpose": "join-cause",
-          "key": "favor-asked",
-          "after": "scene-talk.follow-press.it-s-two-pages-i-brought-them-with-me"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "decline",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.reply-leave.leave-them-and-i-ll-call-you",
-      "move": "reply-leave",
-      "kind": "spoken",
-      "text": "Leave them, and I'll call you.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "join-cause",
-          "key": "favor-asked",
-          "after": "scene-talk.follow-press.it-s-two-pages-i-brought-them-with-me"
         }
       ],
       "bearing": "guarded",
@@ -59571,30 +59067,6 @@
       }
     },
     {
-      "key": "scene-talk.state-request.we-ve-got-forty-names-on-a-letter-about-cause-yours-would-get-it-read",
-      "move": "state-request",
-      "kind": "spoken",
-      "text": "We've got forty names on a letter about {cause}. Yours would get it read.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "request",
-          "role": "asker",
-          "purpose": "join-cause",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "hopeful",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "request",
-        "key": "favor-asked"
-      }
-    },
-    {
       "key": "scene-talk.state-request.a-few-of-us-are-knocking-on-doors-about-cause-saturday-morning-walk-a-",
       "move": "state-request",
       "kind": "spoken",
@@ -59664,106 +59136,6 @@
       "date": "2026-10-15",
       "tag": {
         "move": "request",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.reply-ask.who-s-the-letter-going-to",
-      "move": "reply-ask",
-      "kind": "spoken",
-      "text": "Who's the letter going to?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "purpose": "join-cause",
-          "key": "favor-asked",
-          "after": "scene-talk.state-request.we-ve-got-forty-names-on-a-letter-about-cause-yours-would-get-it-read"
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "ask",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.reply-agree.let-me-read-it-if-i-agree-with-it-i-ll-sign",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "Let me read it. If I agree with it, I'll sign.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "join-cause",
-          "key": "favor-asked",
-          "after": "scene-talk.state-request.we-ve-got-forty-names-on-a-letter-about-cause-yours-would-get-it-read"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "agree",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.reply-decline.i-don-t-sign-group-letters-nothing-personal",
-      "move": "reply-decline",
-      "kind": "spoken",
-      "text": "I don't sign group letters. Nothing personal.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "decline",
-          "role": "asked",
-          "purpose": "join-cause",
-          "key": "favor-asked",
-          "after": "scene-talk.state-request.we-ve-got-forty-names-on-a-letter-about-cause-yours-would-get-it-read"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "decline",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.reply-deflect.that-s-already-a-lot-of-names",
-      "move": "reply-deflect",
-      "kind": "spoken",
-      "text": "That's already a lot of names.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "deflect",
-          "role": "asked",
-          "purpose": "join-cause",
-          "key": "favor-asked",
-          "after": "scene-talk.state-request.we-ve-got-forty-names-on-a-letter-about-cause-yours-would-get-it-read"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "deflect",
         "key": "favor-asked"
       }
     },
@@ -59939,81 +59311,6 @@
       "date": "2026-10-15",
       "tag": {
         "move": "deflect",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.everyone-who-votes-on-it-one-copy-each",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "Everyone who votes on it. One copy each.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "join-cause",
-          "key": "favor-asked",
-          "after": "scene-talk.reply-ask.who-s-the-letter-going-to"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "answer",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.follow-thank.that-s-all-i-d-ask-here-s-a-copy",
-      "move": "follow-thank",
-      "kind": "spoken",
-      "text": "That's all I'd ask. Here's a copy.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "join-cause",
-          "key": "favor-asked",
-          "after": "scene-talk.reply-agree.let-me-read-it-if-i-agree-with-it-i-ll-sign"
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "thank",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.fair-enough-read-it-anyway-if-you-get-a-minute",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "Fair enough. Read it anyway, if you get a minute.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "join-cause",
-          "key": "favor-asked",
-          "after": "scene-talk.reply-decline.i-don-t-sign-group-letters-nothing-personal"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "accept",
         "key": "favor-asked"
       }
     },
@@ -60239,81 +59536,6 @@
       "date": "2026-10-15",
       "tag": {
         "move": "press",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.reply-agree.then-add-my-name-to-it",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "Then add my name to it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "join-cause",
-          "key": "favor-asked",
-          "after": "scene-talk.follow-answer.everyone-who-votes-on-it-one-copy-each"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "agree",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.reply-decline.i-d-rather-write-to-them-myself",
-      "move": "reply-decline",
-      "kind": "spoken",
-      "text": "I'd rather write to them myself.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "decline",
-          "role": "asked",
-          "purpose": "join-cause",
-          "key": "favor-asked",
-          "after": "scene-talk.follow-answer.everyone-who-votes-on-it-one-copy-each"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "decline",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.reply-leave.i-m-not-ready-to-say-yes",
-      "move": "reply-leave",
-      "kind": "spoken",
-      "text": "I'm not ready to say yes.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "join-cause",
-          "key": "favor-asked",
-          "after": "scene-talk.follow-answer.everyone-who-votes-on-it-one-copy-each"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "leave",
         "key": "favor-asked"
       }
     },
@@ -61064,30 +60286,6 @@
       "date": "2026-10-15",
       "tag": {
         "move": "accept",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.beat-beat.two-people-in-matching-shirts-wait-a-few-steps-back",
-      "move": "beat-beat",
-      "kind": "spoken",
-      "text": "Two people in matching shirts wait a few steps back.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "beat",
-          "move": "beat",
-          "role": "narrator",
-          "purpose": "join-cause",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "beat",
         "key": "favor-asked"
       }
     },
@@ -151008,81 +150206,6 @@
           "role": "asker",
           "purpose": "join-cause",
           "key": "favor-asked",
-          "after": "scene-talk.reply-decline.i-m-glad-somebody-s-doing-it-it-s-not-my-fight"
-        }
-      ],
-      "tag": {
-        "move": "press",
-        "key": "favor-asked"
-      },
-      "key": "scene-talk.follow-press.when-it-passes-it-s-everybody-s-problem",
-      "text": "When it passes, it's everybody's problem.",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, one-line spots 2)",
-      "date": "2026-11-10"
-    },
-    {
-      "move": "follow-press",
-      "kind": "spoken",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "purpose": "join-cause",
-          "key": "favor-asked",
-          "after": "scene-talk.reply-deflect.send-me-what-you-have-in-writing-first"
-        }
-      ],
-      "tag": {
-        "move": "press",
-        "key": "favor-asked"
-      },
-      "key": "scene-talk.follow-press.two-pages-and-i-have-them-right-here",
-      "text": "Two pages, and I have them right here.",
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, one-line spots 2)",
-      "date": "2026-11-10"
-    },
-    {
-      "move": "follow-press",
-      "kind": "spoken",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "purpose": "join-cause",
-          "key": "favor-asked",
-          "after": "scene-talk.reply-deflect.send-me-what-you-have-in-writing-first"
-        }
-      ],
-      "tag": {
-        "move": "press",
-        "key": "favor-asked"
-      },
-      "key": "scene-talk.follow-press.it-s-only-two-pages-here-take-a-look",
-      "text": "It's only two pages. Here, take a look.",
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, one-line spots 2)",
-      "date": "2026-11-10"
-    },
-    {
-      "move": "follow-press",
-      "kind": "spoken",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "purpose": "join-cause",
-          "key": "favor-asked",
           "after": "scene-talk.reply-deflect.i-already-know-where-i-stand-on-that"
         }
       ],
@@ -151173,56 +150296,6 @@
       "date": "2026-11-10"
     },
     {
-      "move": "follow-thank",
-      "kind": "spoken",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "join-cause",
-          "key": "favor-asked",
-          "after": "scene-talk.reply-agree.i-ll-stand-with-you-tell-me-when"
-        }
-      ],
-      "tag": {
-        "move": "thank",
-        "key": "favor-asked"
-      },
-      "key": "scene-talk.follow-thank.first-monday-of-next-month-thanks",
-      "text": "First Monday of next month. Thanks.",
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, one-line spots 2)",
-      "date": "2026-11-10"
-    },
-    {
-      "move": "follow-thank",
-      "kind": "spoken",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "join-cause",
-          "key": "favor-asked",
-          "after": "scene-talk.reply-agree.i-ll-stand-with-you-tell-me-when"
-        }
-      ],
-      "tag": {
-        "move": "thank",
-        "key": "favor-asked"
-      },
-      "key": "scene-talk.follow-thank.next-month-s-first-monday-i-appreciate-it",
-      "text": "Next month's first Monday. I appreciate it.",
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, one-line spots 2)",
-      "date": "2026-11-10"
-    },
-    {
       "move": "reply-agree",
       "kind": "spoken",
       "uses": [
@@ -151283,56 +150356,6 @@
           "role": "asked",
           "purpose": "join-cause",
           "key": "favor-asked",
-          "after": "scene-talk.follow-press.it-s-two-pages-i-brought-them-with-me"
-        }
-      ],
-      "tag": {
-        "move": "agree",
-        "key": "favor-asked"
-      },
-      "key": "scene-talk.reply-agree.give-them-here-i-ll-read-them-now",
-      "text": "Give them here. I'll read them now.",
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, one-line spots 2)",
-      "date": "2026-11-10"
-    },
-    {
-      "move": "reply-agree",
-      "kind": "spoken",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "join-cause",
-          "key": "favor-asked",
-          "after": "scene-talk.follow-press.it-s-two-pages-i-brought-them-with-me"
-        }
-      ],
-      "tag": {
-        "move": "agree",
-        "key": "favor-asked"
-      },
-      "key": "scene-talk.reply-agree.let-me-see-them-i-ll-read-them-now",
-      "text": "Let me see them. I'll read them now.",
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, one-line spots 2)",
-      "date": "2026-11-10"
-    },
-    {
-      "move": "reply-agree",
-      "kind": "spoken",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "join-cause",
-          "key": "favor-asked",
           "after": "scene-talk.state-request.we-re-meeting-about-cause-at-the-library-next-week-i-d-like-you-to-hea"
         }
       ],
@@ -151367,56 +150390,6 @@
       },
       "key": "scene-talk.reply-agree.okay-i-ll-come-and-listen",
       "text": "Okay. I'll come and listen.",
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, one-line spots 2)",
-      "date": "2026-11-10"
-    },
-    {
-      "move": "reply-agree",
-      "kind": "spoken",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "join-cause",
-          "key": "favor-asked",
-          "after": "scene-talk.state-request.we-re-trying-to-get-cause-in-front-of-the-council-it-goes-farther-with"
-        }
-      ],
-      "tag": {
-        "move": "agree",
-        "key": "favor-asked"
-      },
-      "key": "scene-talk.reply-agree.i-m-with-you-tell-me-when",
-      "text": "I'm with you. Tell me when.",
-      "bearing": "steady",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, one-line spots 2)",
-      "date": "2026-11-10"
-    },
-    {
-      "move": "reply-agree",
-      "kind": "spoken",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "join-cause",
-          "key": "favor-asked",
-          "after": "scene-talk.state-request.we-re-trying-to-get-cause-in-front-of-the-council-it-goes-farther-with"
-        }
-      ],
-      "tag": {
-        "move": "agree",
-        "key": "favor-asked"
-      },
-      "key": "scene-talk.reply-agree.count-me-in-tell-me-when",
-      "text": "Count me in. Tell me when.",
       "bearing": "warm",
       "origin": "authored",
       "author": "Claude Sonnet (Story, one-line spots 2)",
@@ -152404,106 +151377,6 @@
       "key": "scene-talk.follow-press.not-even-a-rough-idea",
       "text": "Not even a rough idea?",
       "bearing": "tender",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, one-line spots 3)",
-      "date": "2026-11-10"
-    },
-    {
-      "move": "reply-ask",
-      "kind": "spoken",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "purpose": "join-cause",
-          "key": "favor-asked",
-          "after": "scene-talk.state-request.we-re-trying-to-get-cause-in-front-of-the-council-it-goes-farther-with"
-        }
-      ],
-      "tag": {
-        "move": "ask",
-        "key": "favor-asked"
-      },
-      "key": "scene-talk.reply-ask.who-s-going-to-speak-for-you-at-the-council",
-      "text": "Who's going to speak for you at the council?",
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, one-line spots 3)",
-      "date": "2026-11-10"
-    },
-    {
-      "move": "reply-ask",
-      "kind": "spoken",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "purpose": "join-cause",
-          "key": "favor-asked",
-          "after": "scene-talk.state-request.we-re-trying-to-get-cause-in-front-of-the-council-it-goes-farther-with"
-        }
-      ],
-      "tag": {
-        "move": "ask",
-        "key": "favor-asked"
-      },
-      "key": "scene-talk.reply-ask.who-is-speaking-to-the-council-for-you",
-      "text": "Who is speaking to the council for you?",
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, one-line spots 3)",
-      "date": "2026-11-10"
-    },
-    {
-      "move": "reply-deflect",
-      "kind": "spoken",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "deflect",
-          "role": "asked",
-          "purpose": "join-cause",
-          "key": "favor-asked",
-          "after": "scene-talk.state-request.we-re-trying-to-get-cause-in-front-of-the-council-it-goes-farther-with"
-        }
-      ],
-      "tag": {
-        "move": "deflect",
-        "key": "favor-asked"
-      },
-      "key": "scene-talk.reply-deflect.put-it-in-writing-and-send-it-to-me-first",
-      "text": "Put it in writing and send it to me first.",
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, one-line spots 3)",
-      "date": "2026-11-10"
-    },
-    {
-      "move": "reply-deflect",
-      "kind": "spoken",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "deflect",
-          "role": "asked",
-          "purpose": "join-cause",
-          "key": "favor-asked",
-          "after": "scene-talk.state-request.we-re-trying-to-get-cause-in-front-of-the-council-it-goes-farther-with"
-        }
-      ],
-      "tag": {
-        "move": "deflect",
-        "key": "favor-asked"
-      },
-      "key": "scene-talk.reply-deflect.write-it-down-and-send-it-over-first",
-      "text": "Write it down and send it over first.",
-      "bearing": "calm",
       "origin": "authored",
       "author": "Claude Sonnet (Story, one-line spots 3)",
       "date": "2026-11-10"
@@ -186136,6 +185009,377 @@
           "key": "bill-sign-on"
         }
       ]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-stops-you-it-s-about-cause",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} stops you. It's about {cause}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["stranger"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-has-been-looking-for-you-it-s-about-cause",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} has been looking for you. It's about {cause}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["acquainted"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.you-don-t-know-me-i-m-name-some-of-us-in-place-are-working-on-cause-an",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "You don't know me. I'm {name}. Some of us in {place} are working on {cause}, and I hear you see it the way we do.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["stranger"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Words lead",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.you-and-i-see-cause-the-same-way-some-of-us-in-place-are-doing-somethi",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "You and I see {cause} the same way. Some of us in {place} are doing something about it. Will you join us?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["acquainted"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Words lead",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.a-few-of-us-have-started-working-on-cause-i-thought-of-you-first",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "A few of us have started working on {cause}. I thought of you first.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["acquainted"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Words lead",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-would-i-be-signing-up-for",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What would I be signing up for?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "join-cause",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Words lead",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "ask",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.your-name-with-ours-for-now-when-there-s-something-to-do-i-ll-come-fin",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Your name with ours, for now. When there's something to do, I'll come find you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "after": "scene-talk.reply-ask.what-would-i-be-signing-up-for"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "answer",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.i-m-in-put-my-name-with-yours",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I'm in. Put my name with yours.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "join-cause",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Words lead",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.good-i-ll-tell-the-others",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Good. I'll tell the others.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "after": "scene-talk.reply-agree.i-m-in-put-my-name-with-yours"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.you-should-have-asked-me-sooner-yes",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "You should have asked me sooner. Yes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "requiresFacts": ["acquainted"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Words lead",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.i-should-have-thank-you",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "I should have. Thank you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "after": "scene-talk.reply-agree.you-should-have-asked-me-sooner-yes"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-agree-with-you-i-m-not-joining-anything-right-now",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I agree with you. I'm not joining anything right now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "join-cause",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.all-right-if-that-changes-you-know-where-to-find-me",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "All right. If that changes, you know where to find me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "after": "scene-talk.reply-decline.i-agree-with-you-i-m-not-joining-anything-right-now"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.it-s-not-my-fight",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "It's not my fight.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "join-cause",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.it-s-place-s-fight-but-all-right",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "It's {place}'s fight. But all right.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "after": "scene-talk.reply-decline.it-s-not-my-fight"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
     }
   ]
 }
