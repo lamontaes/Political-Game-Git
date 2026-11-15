@@ -118,12 +118,14 @@ export function closenessBetweenAfter(
   b: PersonId,
   hours: number,
 ): number {
-  const p = lookup(core);
   const row = core.relationships.get(a < b ? `${a}:${b}` : `${b}:${a}`);
-  const shared = a === b ? p("zero") : (sharedHours?.(core, a, b) ?? p("zero"));
-  if (!row && shared === p("zero") && hours === p("zero")) return p("zero");
-  if (row && shared === p("zero") && hours === p("zero"))
-    return currentCloseness(core, row);
+  const shared = sharedHours && a !== b ? sharedHours(core, a, b) : 0;
+  // Nothing shared and nothing added: the tie as it stands (the common read).
+  if (!shared && !hours)
+    return row
+      ? currentCloseness(core, row)
+      : parameter("zero", core.data.parameters);
+  const p = lookup(core);
   const tied = row
     ? faded(
         p,

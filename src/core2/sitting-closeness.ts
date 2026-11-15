@@ -238,17 +238,9 @@ export function sittingHours(core: object, a: PersonId, b: PersonId): number {
   const state = core as CoreState;
   if (!state.modules) return 0;
   const k = keptFor(state);
-  const bodies = (id: string) => {
-    let held = k.bodiesOf.get(id);
-    if (!held) {
-      held = calendar!.bodiesOf(k.api, id);
-      k.bodiesOf.set(id, held);
-    }
-    return held;
-  };
-  const mine = bodies(a);
+  const mine = bodiesOf(k, a);
   if (!mine.length) return 0;
-  const theirs = bodies(b);
+  const theirs = bodiesOf(k, b);
   if (!theirs.length) return 0;
   let hours = 0;
   for (const officeId of mine) {
@@ -268,6 +260,16 @@ export function sittingHours(core: object, a: PersonId, b: PersonId): number {
   return hours;
 }
 
+/** The bodies a person sits on today, kept for the day. */
+function bodiesOf(k: Kept, id: string): readonly string[] {
+  let held = k.bodiesOf.get(id);
+  if (!held) {
+    held = calendar!.bodiesOf(k.api, id);
+    k.bodiesOf.set(id, held);
+  }
+  return held;
+}
+
 /**
  * Why a person reads no tie from any sitting: they sit on no body, their
  * bodies have not sat since their service began (a member sworn in before
@@ -281,7 +283,7 @@ export function noSittingTie(
 ): "no-body" | "no-sitting-yet" | "known-colleagues-not-full" | null {
   if (!calendar) return "no-body";
   const k = keptFor(core);
-  const bodies = calendar.bodiesOf(k.api, personId);
+  const bodies = bodiesOf(k, personId);
   if (!bodies.length) return "no-body";
   let sat = false;
   for (const officeId of bodies) {
