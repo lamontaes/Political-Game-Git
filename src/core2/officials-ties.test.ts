@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { gameStartDate } from "./game-start";
+import { memberKey, members } from "./modules/legislature";
 import { allOfficials } from "./modules/officials";
 import { noSittingTie } from "./sitting-closeness";
 import { coreAPI, personOrFillIn } from "./state";
@@ -17,13 +18,15 @@ import type { PersonId } from "./types";
 //
 // The premise before Nov 15 was that every serving official has a tie on day
 // one, which a flat tie to each chamber member's party leader guaranteed. That
-// tie is gone (members know each other from the sittings they share), so two
-// kinds of official may know no one yet, and only these two: a member sworn
+// tie is gone (members know each other from the sittings they share), so three
+// kinds of official may know no one yet, and only these three: a member sworn
 // in before their body's first sitting (a House freshman sworn on January 3
-// whose first floor week is in February), and one whose colleagues known
-// through the body are all husks not yet opened (D.C.'s delegate, whose
-// nearest House colleagues are other states' members). Any other official
-// with no one fails the test.
+// whose first floor week is in February); one whose colleagues known through
+// the body are all husks not yet opened; and a House delegate, whose seat the
+// House's roster does not hold yet, so they sit on no body (pool item
+// legislature-delegates-not-seated-in-house; once the roster seats them this
+// kind no longer applies and they fall under the first two). Any other
+// official with no one fails the test.
 const seed = process.env.OFFICIAL_TIES_SEED ?? randomBytes(8).toString("hex");
 
 describe(`officials know their colleagues (seed ${seed})`, () => {
@@ -56,11 +59,19 @@ describe(`officials know their colleagues (seed ${seed})`, () => {
           .map((row) => `${row.id} (${why.get(row.id)})`)
           .join(", ")}\n`,
       );
-      // Only the two named kinds: anything else is a new way to know no one.
+      // Only the three named kinds: anything else is a new way to know no one.
+      const house = new Set(
+        members(coreAPI(core), "federal:us-house").map(memberKey),
+      );
       const unexplained = alone.filter(
         (row) =>
           why.get(row.id) !== "no-sitting-yet" &&
-          why.get(row.id) !== "known-colleagues-not-full",
+          why.get(row.id) !== "known-colleagues-not-full" &&
+          !(
+            why.get(row.id) === "no-body" &&
+            row.officeKind === "us-house" &&
+            !house.has(row.id)
+          ),
       );
       expect(
         unexplained
