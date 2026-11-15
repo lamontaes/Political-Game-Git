@@ -740,7 +740,16 @@ export function createNewsModule(
             ...(story.moodImpulse === undefined
               ? {}
               : { moodImpulse: story.moodImpulse }),
-            facts: { ...facts, learnedFrom: newsKey(story.id) },
+            facts: {
+              ...facts,
+              learnedFrom: newsKey(story.id),
+              // What a reader can bring up: which outlet printed this story.
+              // One fact per story read, so a second story from the same
+              // outlet on the same day does not replace the first.
+              ...(story.kind === "press.printed"
+                ? { [`${newsKey(story.id)}:outlet`]: story.outletId }
+                : {}),
+            },
             source: {
               tag: "SOURCED",
               citation: `Story ${story.id}, read by its outlet's followers`,
@@ -756,7 +765,7 @@ export function createNewsModule(
         // condition ties to. A reader with no side on a
         // question has none to strengthen. The readers already hold the
         // story's facts; what they take from reading it is its source, whose
-        // case it was and which outlet printed it (what they can bring up).
+        // case it was and (added by read) which outlet printed it.
         const questions = story.desiredChange
           ? []
           : conditionQuestions(story.facts);
@@ -764,9 +773,7 @@ export function createNewsModule(
           const zero = api.parameter("zero");
           const carried = Object.fromEntries(
             Object.entries(story.facts).filter(
-              ([key]) =>
-                key === VIEWS_SPEAKER_KEY ||
-                (key.startsWith("printed:") && key.endsWith(":story")),
+              ([key]) => key === VIEWS_SPEAKER_KEY,
             ),
           );
           for (const question of questions) {
