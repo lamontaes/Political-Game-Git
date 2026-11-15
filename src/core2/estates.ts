@@ -481,6 +481,9 @@ export function settleCountedEstate(
   const estateMinor = input.estate.estateMinor;
   if (estateMinor <= 0) return;
   const households = Math.max(1, input.estate.households);
+  // A record that dies in part dies again later under the same person id, so
+  // each death's transfers carry its day (one illness at a time ends in one
+  // death a day, so two settle on one day only if a caller settles one twice).
   const date = api.state.date;
   const source = (citation: string) => ({
     tag: "SOURCED" as const,
@@ -531,7 +534,7 @@ export function settleCountedEstate(
       left -= part;
       if (part <= 0) return;
       const moved = countedPayment(api, {
-        id: `estate:${input.deceasedId}:${tax.series}:${tax.jurisdiction}:${h.heirId}`,
+        id: `estate:${input.deceasedId}:${tax.series}:${tax.jurisdiction}:${h.heirId}:${date}`,
         placeId: input.placeId,
         personId: h.heirId,
         otherOwnerId: treasuryOf(api, tax.jurisdiction),
@@ -587,7 +590,7 @@ export function settleCountedEstate(
     const moved =
       assessment.amountMinor > 0
         ? countedPayment(api, {
-            id: `estate:${input.deceasedId}:${assessment.series}:${assessment.jurisdiction}:${h.heirId}`,
+            id: `estate:${input.deceasedId}:${assessment.series}:${assessment.jurisdiction}:${h.heirId}:${date}`,
             placeId: input.placeId,
             personId: h.heirId,
             otherOwnerId: treasuryOf(api, assessment.jurisdiction),
