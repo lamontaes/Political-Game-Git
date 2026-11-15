@@ -11,6 +11,7 @@
  * own filing (`fileForOffice`) and then plays the same days still hears their
  * own race.
  */
+import { appendFileSync } from "node:fs";
 import { expect, it } from "vitest";
 import { fileForOffice, governmentView } from "../bench/government";
 import { buildBenchWorld } from "../bench/world";
@@ -80,6 +81,17 @@ function homeNews(world: World, playerId: PersonId, day: number): string[] {
     noteHeard(core, talk);
     for (let turn = 0; turn < 6 && talk.choices.length; turn += 1)
       say(core, talk, talk.choices[(day + turn) % talk.choices.length]!.key);
+    // HOME_TALK_PLAYED=<file> keeps every line said, for the played file.
+    if (process.env.HOME_TALK_PLAYED)
+      appendFileSync(
+        process.env.HOME_TALK_PLAYED,
+        `-- ${core.date}, with ${core.people.get(otherId)!.givenName}\n${talk.lines
+          .map(
+            (line) =>
+              `  ${line.speakerId === playerId ? "You" : core.people.get(line.speakerId)?.givenName}: ${line.text}`,
+          )
+          .join("\n")}\n`,
+      );
     for (const line of talk.lines)
       if (line.kind === "player-news" && line.speakerId === otherId)
         said.push(`${core.date}: ${line.subjectId} ${line.text}`);
