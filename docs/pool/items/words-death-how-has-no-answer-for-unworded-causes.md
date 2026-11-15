@@ -7,8 +7,8 @@ priority: 2
 size: S
 status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: S3
+pr: 9384
 after:
 blocked-on:
 lead: words
