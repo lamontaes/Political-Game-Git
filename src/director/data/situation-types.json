@@ -4044,6 +4044,8 @@
       ],
       "setting": ["office", "phone"],
       "timing": "at-cause",
+      "stopsDay": true,
+      "stopSwitch": "desk",
       "causes": [
         {
           "match": {
