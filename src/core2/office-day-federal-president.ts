@@ -36,7 +36,7 @@ import { admitCountedHousehold } from "./modules/residents";
 import type { CoreState } from "./types";
 import { corePlaceByKey } from "./place-lookup";
 import { drawOfficialIdentity } from "./officials-identity";
-import { coarsePlace, metResident } from "./coarse-place";
+import { coarsePlace, metResident, metWork } from "./coarse-place";
 import {
   OFFICIALS_MODULE_ID,
   officialLean,
@@ -920,17 +920,7 @@ export function travelToTown(
       givenName: drawn.givenName,
       familyName: drawn.familyName,
       birthDate: born,
-      ...(counted
-        ? {
-            work: {
-              workplace: counted.job.workplace,
-              title: counted.job.title,
-              occupation: counted.job.occupation,
-              hourlyMinor: counted.job.hourlyMinor,
-              weeklyHours: counted.job.weeklyHours,
-            },
-          }
-        : {}),
+      ...(counted ? { work: metWork(counted) } : {}),
       placeId,
       gender: drawn.gender,
       source: {

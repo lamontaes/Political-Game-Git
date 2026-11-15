@@ -1,9 +1,6 @@
 {
   "schema": "english-pulled/1",
   "pulled": {
-    "conversation.farewell-core.all-right-then-player-fir": [
-      "plain-american-spelling-and-phrasing"
-    ],
     "conversation.farewell-leave-bye.all-right-then": [
       "plain-american-spelling-and-phrasing"
     ],
@@ -86,16 +83,12 @@
       "plain-american-reads-stiff"
     ],
     "conversation.farewell-core.all-right-bye": ["alright-in-dialogue"],
-    "conversation.farewell-core.all-right-then-player-fir": [
-      "alright-in-dialogue"
-    ],
     "conversation.farewell-core.well-all-right": [
       "no-filler",
       "alright-in-dialogue"
     ],
     "conversation.farewell-core.well-bye": ["no-filler"],
     "conversation.farewell-core.well-goodbye-player-first": ["no-filler"],
-    "conversation.farewell-core.well-player-first-goodbye": ["no-filler"],
     "conversation.farewell-core.well-see-you": ["no-filler"],
     "conversation.farewell-core.well-take-care": ["no-filler"],
     "conversation.farewell-core.well-that-s-that": ["no-filler"],
@@ -383,9 +376,6 @@
       "ask-vote/refuse"
     ],
     "scene-talk.follow-thank.good-i-m-writing-you-down": ["ask-vote/refuse"],
-    "scene-talk.follow-thank.good-we-start-tomorrow-their-first": [
-      "ask-to-serve/decline"
-    ],
     "scene-talk.follow-thank.i-knew-i-could-count-on-you": ["ask-vote/refuse"],
     "scene-talk.follow-thank.thank-you-i-know-that-wasn-t-easy": [
       "ask-vote/refuse"
@@ -424,9 +414,6 @@
     ],
     "scene-talk.reply-confront.witness.you-ve-made-up-your-mind-so-there-s-nothing-left-to-say": [
       "conflict-accuse.witness/confront"
-    ],
-    "scene-talk.reply-decline.i-gave-you-my-answer-it-hasn-t-changed": [
-      "ask-to-serve/thank"
     ],
     "scene-talk.reply-leave.i-ve-got-to-run-call-me-tonight": [
       "ask-vote.watched/accept"
@@ -482,6 +469,6 @@
   "awaitingVerdict": {
     "narration-assumes-no-reason": 0,
     "player-never-says-unchosen (pairs)": 0,
-    "reply-second-move-follows-the-first (pairs)": 11675
+    "reply-second-move-follows-the-first (pairs)": 11611
   }
 }

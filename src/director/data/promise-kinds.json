@@ -30,6 +30,17 @@
       "purpose": "introduction",
       "ending": "took-them-in-hand",
       "kind": "show-around"
+    },
+    {
+      "purpose": "ask-to-serve",
+      "ending": "promised",
+      "kind": "hold-question",
+      "causeKinds": ["serve-asked"]
+    },
+    {
+      "purpose": "friend-ask",
+      "ending": "said-yes-to-friend",
+      "kind": "attend"
     }
   ],
   "kinds": [
@@ -82,6 +93,23 @@
       "renewable": true
     },
     {
+      "id": "attend",
+      "about": "Coming to a town body's posted meeting with a friend who asked (words-friend-ask-leads-to-a-held-day): the yes marks the player to attend (office-day's attendMeeting) and writes the friend onto the meeting; the meeting's public-meeting record settles it, kept if the player was there, broken if not. The meeting comes from the scene's own fact (meeting-facts.ts nextMeetingFacts).",
+      "tie": {
+        "meetingId": "meeting"
+      },
+      "settle": [
+        {
+          "operation": "meeting-held",
+          "eventKind": "public-meeting"
+        }
+      ],
+      "windowDays": "promiseAttendWindowDays",
+      "windowEnds": "lapsed",
+      "countedOn": true,
+      "renewable": false
+    },
+    {
       "id": "reach-someone",
       "about": "No settling act yet: a call, a letter, a visit, a dinner at their home or a stay. The player has no act that reaches a relative or friend outside a talk where both are. Named so the record takes it unchanged when that act is built (pool item design-player-reaches-a-relative-or-friend).",
       "tie": {},
@@ -99,6 +127,29 @@
       "windowDays": "promiseShowAroundWindowDays",
       "windowEnds": "broken",
       "countedOn": false,
+      "renewable": false
+    },
+    {
+      "id": "hold-question",
+      "about": "The player's word, given as the price of a yes to serve with them (gov-serve-ask-price-end), to hold the side the one asked holds on the question they care most about: settled by the player's next vote at a roll call or signature or veto on a bill that moves that question, kept if it moves the question their way, broken if against. Held by the player (the second person on the scene reply) and owed to the one asked. The question and the side come from the ask's record (`serve-asked` facts `price-question` and `price-side`: the question they hold most strongly that the ticket's office can decide).",
+      "heldBy": "second",
+      "tie": {
+        "question": "price-question",
+        "side": "price-side"
+      },
+      "settle": [
+        {
+          "operation": "question-vote",
+          "eventKind": "legislative-vote"
+        },
+        {
+          "operation": "question-signature",
+          "eventKind": "executive-action"
+        }
+      ],
+      "windowDays": "promiseHoldQuestionWindowDays",
+      "windowEnds": "lapsed",
+      "countedOn": true,
       "renewable": false
     }
   ],
@@ -187,7 +238,7 @@
     "promiseBrokenHours": {
       "value": 2,
       "tag": "TUNABLE",
-      "citation": "As scene-talk-rules endingStrain trust-lost: a promise broken costs what trust lost costs (promises.ts).",
+      "citation": "Twice a kept word: a promise broken costs more than one talk's time together (promises.ts). Fixed hours while scene-talk-rules endingStrain trust-lost became a share of the tie (Nov 15); whether a broken promise should be a share too is item people-broken-promise-costs-share-of-tie.",
       "spread": "1 to 4",
       "checkRange": {
         "min": 1,
@@ -212,6 +263,26 @@
       "checkRange": {
         "min": 0.5,
         "max": 2
+      }
+    },
+    "promiseHoldQuestionWindowDays": {
+      "value": 1461,
+      "tag": "TUNABLE",
+      "citation": "One four-year term, the length of the seat the promise was the price of: a word given for a ticket is held until a vote or signature on the question tests it, and lapses with no outcome if none does in that time (promises.ts).",
+      "spread": "730 to 2922",
+      "checkRange": {
+        "min": 730,
+        "max": 2922
+      }
+    },
+    "promiseAttendWindowDays": {
+      "value": 45,
+      "tag": "TUNABLE",
+      "citation": "A town body posts its agenda days before it meets and meets at most monthly in most places; a promise to come whose meeting record never lands within six weeks (a meeting called off) lapses with no outcome (promises.ts).",
+      "spread": "30 to 60",
+      "checkRange": {
+        "min": 30,
+        "max": 60
       }
     }
   }

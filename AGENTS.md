@@ -135,6 +135,7 @@ Load a skill when its trigger fits; descriptions say when. Every session, first:
 - `player-screen-text`: checking every string a player sees
 - `pool-notes`: pool-only changes go in one bundle an hour; the cap on new work
 - `pr-fixer`: finishing sent-back PRs
+- `promises`: a promise made in a scene, kept or broken by the record that settles it, and said at the next talk
 - `red-main`: taking a red on main from report to fix
 - `remove-a-stopgap`: replacing and unregistering a stopgap row
 - `researcher`: turning a stopgap into a sourced number
@@ -157,6 +158,7 @@ Load a skill when its trigger fits; descriptions say when. Every session, first:
 - `trusted-review-pass`: bulk review passes with planted calibration rows
 - `wiring-audit`: auditing a family of mechanics end to end
 - `words-engine`: the English engine and the director
+- `words-stamp-read`: how a words reader reads a pull request before it folds, and what a builder sends to get that read
 
 ## Implementation boundaries
 

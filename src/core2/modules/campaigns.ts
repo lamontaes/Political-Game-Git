@@ -99,6 +99,7 @@ import { ownerOf } from "./business";
 import {
   agreementWith,
   countedStanceProfile,
+  stanceRow,
   viewOn,
   VIEWS_MODULE_ID,
   VIEWS_SPEAKER_KEY,
@@ -109,6 +110,7 @@ import {
   obligationsOwedBetween,
   obligationsOwedTo,
   provisionStance,
+  refuseObligation,
   settleObligation,
   type BillRow,
 } from "./legislature";
@@ -442,8 +444,11 @@ export interface EndorsementRow {
   readonly organizationId: string | null;
   /** Who asked: the candidate; null when a group weighed the race itself. */
   readonly askerId: string | null;
-  /** "withdrawn": a yes ended on the day its speaker filed in the same race (`endedByFilingId`); nothing reads it as a backing. */
-  readonly answer: "yes" | "no" | "withdrawn";
+  /**
+   * "withdrawn": a yes ended on the day its speaker filed in the same race (`endedByFilingId`); nothing reads it as a backing.
+   * "asked": the person asked is the player, who has not answered yet (the scene it stages asks them; their reply writes the yes or the no).
+   */
+  readonly answer: "yes" | "no" | "withdrawn" | "asked";
   /** The day a yes was withdrawn and the filing that ended it. */
   readonly endedOn?: string;
   readonly endedByFilingId?: string;
@@ -636,7 +641,9 @@ export const CAMPAIGNS_MODULE: CoreModule = {
       ? foldClosedRaceCauses(api, String(event.facts?.contestId ?? ""))
       : event.kind === "candidate-filed"
         ? leaveForOwnRun(api, String(event.facts?.filingId ?? ""))
-        : (answerOffer(api, event), answerAskForVote(api, event)),
+        : (answerOffer(api, event),
+          answerAskForVote(api, event),
+          answerEndorsementAsk(api, event)),
   journalSourceProviders: {
     [DONATION_KIND]: (api, reference) => moneySlot(api, reference.id),
     [AD_KIND]: (api, reference) => moneySlot(api, reference.id),
@@ -2620,7 +2627,7 @@ export const RIVAL_WORD_EVENT = "rival-word";
  */
 export const CANVASS_MESSAGE_KIND = "campaign-canvass";
 
-interface MessageRow {
+export interface MessageRow {
   readonly id: string;
   /** The message's kind: an ad, a mailer, a turn's paid message, or an evening of doors. */
   readonly kind?: string;
@@ -2628,7 +2635,31 @@ interface MessageRow {
   readonly candidateId: string;
   readonly date: string;
   readonly topic: string;
+  /** Which side of the topic the message argued: above zero for the change, below for keeping things as they are. */
+  readonly position?: number;
   readonly witnessIds: readonly string[];
+}
+
+/**
+ * What one rival message did to the person who passed word of it on: none
+ * where the views engine kept no cause for it on their stance on its topic
+ * (a night of doors is kept as word and never as a paid message, so it moves
+ * nobody), else a little or a lot by how far that cause moved them toward the
+ * rival's case against `rivalWordMovedALot`. Read-only.
+ */
+export function rivalWordMoved(
+  api: CoreAPI,
+  tellerId: string,
+  messageId: string,
+  topic: string,
+): "none" | "little" | "lot" {
+  const cause = stanceRow(api, tellerId as PersonId, topic)?.causes.find(
+    (row) => row.eventId === messageId,
+  );
+  if (!cause) return "none";
+  return cause.change >= campaignParameter("rivalWordMovedALot")
+    ? "lot"
+    : "little";
 }
 
 /** Whether two people have been in touch after a day: their relationship's last contact is later. */
@@ -2774,6 +2805,10 @@ function rivalWordPassedOn(api: CoreAPI): void {
           rivalId: message.candidateId,
           messageId: message.id,
           contestId: filing.contestId,
+          ...(message.kind ? { how: message.kind } : {}),
+          ...(message.position === undefined
+            ? {}
+            : { side: message.position > 0 ? "for" : "against" }),
           ...(contest ? { office: contest.title } : {}),
         },
       });
@@ -5607,6 +5642,7 @@ function emitMessage(
     candidateId: campaign.candidateId,
     date: api.state.date,
     topic: lead.question,
+    position: lead.position,
     witnessIds,
   } as unknown as ModuleRow);
   // The contest's latest message date moves with the row
@@ -6152,6 +6188,210 @@ export function askForEndorsement(
   return weighing.yes;
 }
 
+/** The kind of the event that asks the player to endorse a candidate: the scene's cause. */
+export const ENDORSEMENT_ASKED_EVENT = "endorsement-asked";
+
+/**
+ * A candidate's campaign asks the player to endorse them (the player is one
+ * of the closest people it asks, or owes the candidate a favor from a deal).
+ * No engine answers for the controlled person: the ask is kept on the same
+ * endorsement row as `asked`, carrying the asker's own reasons (the weighing
+ * as it stands today) and any favor named, and a scene puts it to the
+ * player; their reply writes the yes or the no (`answerEndorsementAsk`).
+ * An ask put off comes back after the offer spacing days, as a new scene,
+ * until the race is decided; a player who is a rival in the race is not asked.
+ */
+function askPlayerForEndorsement(
+  api: CoreAPI,
+  filingId: string,
+  calledIn?: string,
+  renew = false,
+): void {
+  const playerId = (api.state as CoreState).playerId;
+  const player = playerId ? api.state.people.get(playerId) : undefined;
+  if (!player?.alive) return;
+  const campaign = campaignFor(api, filingId);
+  // The favor behind the ask, when the player owes the candidate one: the
+  // deal named by the loop that calls it in, else the first they still owe.
+  const obligationId =
+    calledIn ??
+    obligationsOwedBetween(api, player.id, campaign.candidateId)[0]?.id;
+  const id = `endorsement:${filingId}:${player.id}`;
+  const held = table(api, "endorsements").get(id) as unknown as
+    EndorsementRow | undefined;
+  if (renew && held?.answer !== "asked") return;
+  if (held && held.answer !== "asked") return;
+  if (rivalFiling(api, campaign, player.id)) return;
+  const date = api.state.date;
+  if (held) {
+    // Put off: it comes back once the spacing has passed, and a favor
+    // named later is added to the same ask.
+    const due =
+      held.date <=
+      addDays(makeIsoDate(date), -campaignParameter("offerSpacingDays"));
+    if (!due && !(obligationId && !held.obligationId)) return;
+    if (!due) {
+      table(api, "endorsements").put({
+        ...held,
+        obligationId,
+      } as unknown as ModuleRow);
+      return;
+    }
+  } else if (renew) return;
+  const weighing = endorsementWeighing(api, campaign, player);
+  const base = endorsementRow(campaign, date, {
+    id,
+    speakerId: player.id,
+    organizationId: null,
+    askerId: campaign.candidateId,
+    weighing,
+    reached: 0,
+    volunteerIds: [],
+  });
+  const row: EndorsementRow = {
+    ...base,
+    answer: "asked",
+    ...((obligationId ?? held?.obligationId)
+      ? { obligationId: obligationId ?? held?.obligationId }
+      : {}),
+  };
+  table(api, "endorsements").put(row as unknown as ModuleRow);
+  const contest = elections(api, "contests").get(campaign.contestId) as
+    ContestRow | undefined;
+  api.emit({
+    id: `${ENDORSEMENT_ASKED_EVENT}:${id}:${date}`,
+    date,
+    kind: ENDORSEMENT_ASKED_EVENT,
+    personIds: [campaign.candidateId, player.id],
+    placeId: townRow(api).townPlaceId,
+    source: {
+      tag: "SOURCED",
+      citation: `The campaign of ${campaignFor(api, filingId).candidateId} asks the player to endorse them`,
+      asOf: date,
+    },
+    facts: {
+      endorsementId: id,
+      filingId,
+      contestId: campaign.contestId,
+      candidateId: campaign.candidateId,
+      askedId: player.id,
+      contestTitle: contest?.title ?? "",
+      office: contest?.title ?? "",
+      reason: row.reason,
+      // What the asker can give reasons from, each only where a record holds
+      // it: the deal behind a favor (its bill), how close the two are (kin or
+      // one household, else not), a word the player already gave another
+      // candidate in the race, and that this is the second asking.
+      ...(row.obligationId
+        ? {
+            obligationId: row.obligationId,
+            ...(billOfObligation(api, campaign.candidateId, row.obligationId)
+              ? {
+                  billId: billOfObligation(
+                    api,
+                    campaign.candidateId,
+                    row.obligationId,
+                  ),
+                }
+              : {}),
+          }
+        : {}),
+      closeness:
+        player.familyIds.has(campaign.candidateId) ||
+        player.householdId ===
+          api.state.people.get(campaign.candidateId)?.householdId
+          ? "close"
+          : "distant",
+      ...(givenAnother(api, campaign.contestId, campaign.candidateId, player.id)
+        ? { endorsedAnother: "yes" }
+        : {}),
+      ...(held ? { again: "yes" } : {}),
+    },
+  });
+}
+
+/** The bill a favor was owed over: the deal's own bill, from the obligation row. */
+function billOfObligation(
+  api: CoreAPI,
+  candidateId: string,
+  obligationId: string,
+): string {
+  return (
+    obligationsOwedTo(api, candidateId).find((o) => o.id === obligationId)
+      ?.billId ?? ""
+  );
+}
+
+/** Whether the person already gave their word to another candidate in this race. */
+function givenAnother(
+  api: CoreAPI,
+  contestId: string,
+  candidateId: string,
+  personId: string,
+): boolean {
+  return (
+    table(api, "endorsements").query("byContest", [
+      contestId,
+    ]) as unknown as EndorsementRow[]
+  ).some(
+    (row) =>
+      row.speakerId === personId &&
+      row.answer === "yes" &&
+      row.candidateId !== candidateId,
+  );
+}
+
+/**
+ * The player's reply in the scene that asked them to endorse: an accepting
+ * move is their yes (kept through `keepEndorsement`, so it is public, their
+ * circle hears it and a favor owed is settled); a refusing move is a no, kept
+ * as the row's answer (the scene's ending strains the tie, as it does for
+ * anyone refused); a put-off leaves the ask open for its return.
+ */
+function answerEndorsementAsk(
+  api: CoreAPI,
+  event: Readonly<CoreEventInput>,
+): void {
+  const facts = event.facts ?? {};
+  if (facts.typeKey !== "endorsement-ask") return;
+  const cause = api.state.durableLog.get(String(facts.causeId ?? ""));
+  if (cause?.kind !== ENDORSEMENT_ASKED_EVENT) return;
+  const move = String(facts.move);
+  const yes = ACCEPTING_MOVES.has(move);
+  // "refuse" is the hold on a no after the asker presses.
+  if (!yes && !REFUSING_MOVES.has(move) && move !== "refuse") return;
+  const held = table(api, "endorsements").get(
+    String(cause.facts?.endorsementId ?? ""),
+  ) as unknown as EndorsementRow | undefined;
+  // A yes stands. A no said in this same scene (the day it was asked) may be
+  // given up on the press that follows it; any other no stands too.
+  if (!held || held.answer === "yes" || held.answer === "withdrawn") return;
+  if (held.answer === "no" && !(yes && held.date === api.state.date)) return;
+  const campaign = campaignFor(api, held.filingId);
+  const player = api.state.people.get(held.speakerId);
+  if (!player) return;
+  const reached = yes
+    ? endorsementHeard(
+        api,
+        campaign,
+        player.id,
+        [...player.knownIds, ...player.familyIds],
+        "endorsement",
+        held.score,
+      )
+    : 0;
+  keepEndorsement(api, {
+    ...held,
+    date: api.state.date,
+    answer: yes ? "yes" : "no",
+    reached,
+  });
+  if (held.obligationId) {
+    if (yes) settleObligation(api, held.obligationId, held.id);
+    else refuseObligation(api, held.obligationId, held.id);
+  }
+}
+
 /**
  * Where a group stands on a question, as it weighs a candidate: its own
  * cause where it has one (`OrganizedGroup.stance`), and on every other
@@ -6355,9 +6595,8 @@ export function outletWeighsRace(
       "endorsement",
       weighing.score,
     );
-    keepEndorsement(
-      api,
-      endorsementRow(campaign, api.state.date, {
+    keepEndorsement(api, {
+      ...endorsementRow(campaign, api.state.date, {
         id: `endorsement:${campaign.id}:${outlet.organizationId}`,
         speakerId: head.id,
         organizationId: outlet.organizationId,
@@ -6366,7 +6605,11 @@ export function outletWeighsRace(
         reached,
         volunteerIds: [],
       }),
-    );
+      // A paper is not a group with a cause: its head weighed the platform
+      // by their own views, so no group stance is kept for the paper to be
+      // told by ("The group wants ...", Words lead, Nov 15, on #9466).
+      stance: null,
+    });
     return true;
   }
   return false;
@@ -7029,7 +7272,6 @@ export function askForSupport(api: CoreAPI, filingId: string): void {
     ? [...new Set([...candidate.familyIds, ...candidate.knownIds])]
         .filter(
           (id) =>
-            id !== playerId &&
             id !== candidate.id &&
             !asked.has(id) &&
             !!api.state.people.get(id)?.alive,
@@ -7041,7 +7283,12 @@ export function askForSupport(api: CoreAPI, filingId: string): void {
         .sort((a, b) => b.tie - a.tie || a.id.localeCompare(b.id))
         .slice(0, campaignParameter("endorsementAsksPerTurn"))
     : [];
-  for (const { id } of closest) askForEndorsement(api, filingId, id);
+  for (const { id } of closest)
+    if (id === playerId) askPlayerForEndorsement(api, filingId);
+    else askForEndorsement(api, filingId, id);
+  // The player's ask that was put off comes back after the offer spacing,
+  // until the race is decided (its rows go with it).
+  if (playerId) askPlayerForEndorsement(api, filingId, undefined, true);
   save(api, {
     ...campaignFor(api, filingId),
     volunteerCursor: pool.length ? (from + asks) % pool.length : 0,
@@ -7758,16 +8005,13 @@ export function campaignTurn(
   askOutsideDonors(api, filingId);
   // The candidate calls in the favors owed them from deals in office: each
   // colleague who owes one is asked to endorse (campaign-favor-called-in).
-  // The player is never answered for: a favor asked of them waits for the
-  // player (stopgap SG-GOV-player-favor-asked).
+  // The player is never answered for: a favor owed by them is asked in a
+  // scene and the player's reply is the answer (`askPlayerForEndorsement`).
   if (candidate?.alive)
     for (const owed of obligationsOwedTo(api, candidate.id)) {
-      if (owed.owedBy === (api.state as CoreState).playerId) {
-        // stopgapId: SG-GOV-player-favor-asked
-        api.stopgap("SG-GOV-player-favor-asked");
-        continue;
-      }
-      askForEndorsement(api, filingId, owed.owedBy);
+      if (owed.owedBy === (api.state as CoreState).playerId)
+        askPlayerForEndorsement(api, filingId, owed.id);
+      else askForEndorsement(api, filingId, owed.owedBy);
     }
   let doors = 0;
   let asks = 0;

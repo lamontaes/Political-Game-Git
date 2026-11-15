@@ -1692,7 +1692,10 @@ function review(api: CoreAPI): void {
   releaseVacatedRentals(api);
   rehouse(api);
   renewRentalLeases(api);
-  payRentAssistance(api);
+  payRentAssistance(
+    api,
+    () => townFigures(api, lawChain(api).townPlaceId).monthlyPayMinor,
+  );
   amortize(api);
   // Mortgages behind past the federal period go to the state's foreclosure.
   for (const { caseId, saleAt } of startForeclosures(api, law.usps))

@@ -957,6 +957,11 @@
       "reason": "a party's request; a filing that follows is told"
     },
     {
+      "kind": "endorsement-asked",
+      "from": "event",
+      "reason": "campaign traffic; the campaign's endorsement row holds it"
+    },
+    {
       "kind": "volunteer-offered",
       "from": "event",
       "reason": "campaign traffic; the campaign's record holds it"

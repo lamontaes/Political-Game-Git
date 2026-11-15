@@ -1150,17 +1150,25 @@ function atOrders() {
                 });
                 b.addEventListener("click", async () => {
                   try {
-                    draw(
-                      await post(
-                        `/api/orders?${new URLSearchParams({
-                          entryId: item.entryId,
-                          how,
-                          ...(item.kind === "post" && nominee
-                            ? { nomineeId: nominee }
-                            : {}),
-                        })}`,
-                      ),
+                    const answer = await post(
+                      `/api/orders?${new URLSearchParams({
+                        entryId: item.entryId,
+                        how,
+                        ...(item.kind === "post" && nominee
+                          ? { nomineeId: nominee }
+                          : {}),
+                      })}`,
                     );
+                    if (Array.isArray(answer)) draw(answer);
+                    else {
+                      // Naming someone to a post asks them: the sit-down plays, then the desk
+                      // goes on with what is still waiting (brief J).
+                      if (answer.packet) renderPacket(answer.packet);
+                      show("desk", false);
+                      if (answer.story) await showStory(answer.story);
+                      show("desk", true);
+                      draw(await api("/api/orders"));
+                    }
                   } catch {
                     // The entry is no longer waiting (the day moved, or another stop cleared it): the
                     // desk redraws from what is waiting now, never a stale plate with a dead button.
@@ -2954,24 +2962,35 @@ async function officeParts() {
                   select({
                     options: [
                       { value: "", label: words.ownChoice ?? "" },
-                      ...head.candidates.map((c) => ({
-                        value: c.id,
-                        label: (c.work && c.place
-                          ? words.row
-                          : c.place
-                            ? words.rowPlace
-                            : "{name}"
-                        )
-                          .replace("{name}", c.name)
-                          .replace("{work}", c.work ?? "")
-                          .replace("{place}", c.place ?? ""),
-                      })),
+                      // Only someone who may be asked now is offered; a no stands for a while.
+                      ...head.candidates
+                        .filter((c) => c.mayAsk)
+                        .map((c) => ({
+                          value: c.id,
+                          label: (c.work && c.place
+                            ? words.row
+                            : c.place
+                              ? words.rowPlace
+                              : "{name}"
+                          )
+                            .replace("{name}", c.name)
+                            .replace("{work}", c.work ?? "")
+                            .replace("{place}", c.place ?? ""),
+                        })),
                     ],
+                    // Picking someone asks them (brief J): the sit-down plays, and only
+                    // their yes names them.
                     onChange: async (nomineeId) => {
-                      if (nomineeId)
-                        await post(
-                          `/api/office/name-head-pick?${new URLSearchParams({ post: head.post, nomineeId })}`,
-                        );
+                      if (!nomineeId) return;
+                      const asked = await post(
+                        `/api/office/ask-head?${new URLSearchParams({ post: head.post, nomineeId })}`,
+                      );
+                      if (asked.packet) renderPacket(asked.packet);
+                      const moment = storyStop(asked.packet);
+                      closeSheet();
+                      if (asked.story) await showStory(asked.story);
+                      else if (moment) await showStory(moment.recordId);
+                      await openSheet("office");
                     },
                   }),
                 ),
@@ -6127,6 +6146,16 @@ const sheets = {
           ...group("fullHere", d.fullInTown),
           ...group("fullElsewhere", d.fullElsewhere),
           ...group("counted", d.counted),
+          ...(d.organizations?.count
+            ? [
+                row(
+                  fill(w.organizations, {
+                    n: d.organizations.count.toLocaleString("en-US"),
+                  }),
+                  roundedMoney(d.organizations.amountMinor),
+                ),
+              ]
+            : []),
           ...d.named.map((p) =>
             row(
               p.name,
@@ -6138,6 +6167,9 @@ const sheets = {
               ].join(" · "),
             ),
           ),
+          ...(d.namedOrganizations ?? [])
+            .filter((o) => o.name)
+            .map((o) => row(o.name, roundedMoney(o.amountMinor))),
         ];
       });
       return [stripSection(5, w.title, ...nodes)];

@@ -12,8 +12,15 @@
  * player's answer; nothing else here writes a line.
  */
 import { billNameOf, billTitleSaid } from "../english/bill-names";
+import { questionSaid } from "../english/question-names";
 import type { Fact } from "../english/conversation-words";
-import { LEGISLATURE_MODULE_ID, billOf } from "../core2/modules/legislature";
+import {
+  LEGISLATURE_MODULE_ID,
+  billOf,
+  bodyOf,
+} from "../core2/modules/legislature";
+import { meetingOf, OFFICE_DAY_MODULE_ID } from "../core2/modules/office-day";
+import { daySince } from "../english/day-words";
 import { applyCoreEvent, coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
 import { P as CORE } from "../core2/parameters";
@@ -24,6 +31,7 @@ import {
   kindOf,
   markPromise,
   markPromiseSaid,
+  payTieOwed,
   promiseParam,
   promisesBetween,
   type PromiseAnswerRow,
@@ -76,6 +84,28 @@ export function promiseSubject(
         text: billTitleSaid(name.title),
         sourceRecordIds: [row.billId],
       };
+  }
+  // A word on a question (hold-question) is brought up by the question's
+  // short name, as the scene where it was given said it.
+  const issue = row.question ? questionSaid(row.question) : null;
+  if (issue) facts.issue = fact(issue);
+  // A meeting promised: the body, and the day it was held as a past day
+  // ("yesterday", "the other day", "on March 4th"), from the meeting's record.
+  const meeting =
+    row.meetingId && core.modules.has(OFFICE_DAY_MODULE_ID)
+      ? meetingOf(coreAPI(core as CoreState), row.meetingId)
+      : undefined;
+  const body = meeting
+    ? bodyOf(coreAPI(core as CoreState), meeting.officeId)
+    : undefined;
+  if (meeting && body) {
+    facts["meeting-body"] = {
+      text: body.bodyName ?? body.kind,
+      sourceRecordIds: [body.id, meeting.id],
+    };
+    const held = daySince(meeting.date, core.date);
+    if (held)
+      facts["meeting-held"] = { text: held, sourceRecordIds: [meeting.id] };
   }
   return {
     id: row.id,
@@ -167,6 +197,8 @@ export function promiseSaid(
   subject: PromiseSubject,
 ): void {
   markPromiseSaid(director.ledger, subject.id, core.date);
+  // Said in a talk, the two are together: a tie's move held for it is paid.
+  payTieOwed(coreAPI(core as CoreState), director.ledger, subject.id);
 }
 
 const param = promiseParam;
