@@ -6103,27 +6103,27 @@ export function endorsementWeighing(
 }
 
 /**
- * The filing in a race that someone not standing in it would back, by the one
- * endorsement rule everyone's own word goes through (`endorsementWeighing`):
- * the standing candidate they back most among those they would endorse at all,
- * the earlier filing first on a tie. Nothing is kept; none where they would
- * back no one.
+ * The filings in a race that someone not standing in it would back, by the
+ * one endorsement rule everyone's own word goes through
+ * (`endorsementWeighing`): every standing candidate they would endorse at all,
+ * the one they back most first. Nothing is kept and nothing is chosen for
+ * them; empty where they would back no one.
  */
-export function endorsementChoice(
+export function endorsementChoices(
   api: CoreAPI,
   contestId: string,
   endorserId: string,
-): string | null {
+): readonly string[] {
   const endorser = api.state.people.get(endorserId);
-  if (!endorser?.alive) return null;
-  let best: { readonly id: string; readonly score: number } | null = null;
-  for (const campaign of raceCampaigns(api, contestId)) {
-    if (campaign.candidateId === endorserId) continue;
-    const weighing = endorsementWeighing(api, campaign, endorser);
-    if (weighing.yes && (!best || weighing.score > best.score))
-      best = { id: campaign.id, score: weighing.score };
-  }
-  return best?.id ?? null;
+  if (!endorser?.alive) return [];
+  return raceCampaigns(api, contestId)
+    .filter((campaign) => campaign.candidateId !== endorserId)
+    .flatMap((campaign) => {
+      const weighing = endorsementWeighing(api, campaign, endorser);
+      return weighing.yes ? [{ id: campaign.id, score: weighing.score }] : [];
+    })
+    .sort((a, b) => b.score - a.score || a.id.localeCompare(b.id))
+    .map((row) => row.id);
 }
 
 /**

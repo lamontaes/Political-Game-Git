@@ -3,6 +3,8 @@
   "register": "scene-talk",
   "description": "Scenes with a purpose (owner, Oct 15, evening): the narrator's setup, the asker's opening and statement of purpose, the player's four replies with their stakes, the asker's answer and the close. Authored to calibrated patterns from ordinary American political and family talk (the text rule, Oct 15); no one's text is copied. Each piece serves every scene with its step and move: each use names the purpose it serves, so a line never leaks into a scene it does not fit; a follow that answers one reply names that reply's piece or move in `after`. A piece's bearing is the manner of its wording; the speaker's traits pull toward the bearings they favor. The director's exchange engine (src/director/scene-talk.ts) arranges the pieces by src/director/data/purpose-arcs.json.",
   "slots": {
+    "backable": "The candidate in the race the player would back after their own petition fell short, by the endorsement rule (`endorsementChoices`).",
+    "backable-other": "A second candidate in the race the player would back, when there is one.",
     "area": "A policy area, said after 'with' or 'about', from the town's term read.",
     "stand": "The stand the speaker takes in an address, as a verb phrase after 'to' (\"raise the minimum wage\"), from the speaker's recorded views.",
     "signatures": "The signatures a filing's petition needs, as a number, from the petition record.",
@@ -22666,6 +22668,14 @@
           "role": "asker",
           "purpose": "ask-to-serve",
           "key": "serve-asked"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "petition-checked",
+          "key": "petition-checked"
         }
       ],
       "bearing": "calm",
@@ -186554,6 +186564,729 @@
       "tag": {
         "move": "disagree",
         "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-clerk-s-office-has-finished-checking-your-petition",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The clerk's office has finished checking your petition.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "petition-checked",
+          "key": "petition-checked"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (Nov 15, clerk-petition/lines.md), applied by the builder of #9441; read by the Words lead",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "narrate",
+        "key": "petition-checked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-clerk-has-your-petition-on-the-counter",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The clerk has your petition on the counter.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "petition-checked",
+          "key": "petition-checked"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (Nov 15, clerk-petition/lines.md), applied by the builder of #9441; read by the Words lead",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "narrate",
+        "key": "petition-checked"
+      }
+    },
+    {
+      "key": "scene-talk.state-deliver-news.your-papers-are-in-order",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "Your papers are in order.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "petition-checked",
+          "key": "petition-checked",
+          "requiresFacts": ["on-ballot"],
+          "excludesFacts": ["struck"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (Nov 15, clerk-petition/lines.md), applied by the builder of #9441; read by the Words lead",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "deliver-news",
+        "key": "petition-checked"
+      },
+      "piece": {
+        "of": "petition-result",
+        "part": "core"
+      }
+    },
+    {
+      "key": "scene-talk.state-deliver-news.you-re-on-the-ballot-for-office",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "You're on the ballot for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "petition-checked",
+          "key": "petition-checked",
+          "requiresFacts": ["on-ballot", "office"]
+        },
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "petition-checked",
+          "key": "petition-checked",
+          "requiresFacts": ["on-ballot", "office", "struck"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (Nov 15, clerk-petition/lines.md), applied by the builder of #9441; read by the Words lead",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "deliver-news",
+        "key": "petition-checked"
+      },
+      "piece": {
+        "of": "petition-result",
+        "part": "closer"
+      }
+    },
+    {
+      "key": "scene-talk.state-deliver-news.some-names-came-off-those-people-have-moved-away",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "Some names came off. Those people have moved away.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "petition-checked",
+          "key": "petition-checked",
+          "requiresFacts": ["on-ballot", "struck-moved"]
+        },
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "petition-checked",
+          "key": "petition-checked",
+          "requiresFacts": ["short", "struck-moved"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (Nov 15, clerk-petition/lines.md), applied by the builder of #9441; read by the Words lead",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "deliver-news",
+        "key": "petition-checked"
+      },
+      "piece": {
+        "of": "petition-result",
+        "part": "core"
+      }
+    },
+    {
+      "key": "scene-talk.state-deliver-news.some-names-came-off-those-signers-have-died",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "Some names came off. Those signers have died.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "petition-checked",
+          "key": "petition-checked",
+          "requiresFacts": ["on-ballot", "struck-died"]
+        },
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "petition-checked",
+          "key": "petition-checked",
+          "requiresFacts": ["short", "struck-died"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (Nov 15, clerk-petition/lines.md), applied by the builder of #9441; read by the Words lead",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "deliver-news",
+        "key": "petition-checked"
+      },
+      "piece": {
+        "of": "petition-result",
+        "part": "core"
+      }
+    },
+    {
+      "key": "scene-talk.state-deliver-news.some-names-came-off-those-signers-can-t-vote-right-now",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "Some names came off. Those signers can't vote right now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "petition-checked",
+          "key": "petition-checked",
+          "requiresFacts": ["on-ballot", "struck-barred"]
+        },
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "petition-checked",
+          "key": "petition-checked",
+          "requiresFacts": ["short", "struck-barred"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (Nov 15, clerk-petition/lines.md), applied by the builder of #9441; read by the Words lead",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "deliver-news",
+        "key": "petition-checked"
+      },
+      "piece": {
+        "of": "petition-result",
+        "part": "core"
+      }
+    },
+    {
+      "key": "scene-talk.state-deliver-news.enough-names-stood",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "Enough names stood.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "petition-checked",
+          "key": "petition-checked",
+          "requiresFacts": ["on-ballot", "struck"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (Nov 15, clerk-petition/lines.md), applied by the builder of #9441; read by the Words lead",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "deliver-news",
+        "key": "petition-checked"
+      },
+      "piece": {
+        "of": "petition-result",
+        "part": "reason"
+      }
+    },
+    {
+      "key": "scene-talk.state-deliver-news.i-m-sorry",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "I'm sorry.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "petition-checked",
+          "key": "petition-checked",
+          "requiresFacts": ["short"],
+          "excludesFacts": ["struck"]
+        },
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "petition-checked",
+          "key": "petition-checked",
+          "requiresFacts": ["short", "struck"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (Nov 15, clerk-petition/lines.md), applied by the builder of #9441; read by the Words lead",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "deliver-news",
+        "key": "petition-checked"
+      },
+      "piece": {
+        "of": "petition-result",
+        "part": "opener"
+      }
+    },
+    {
+      "key": "scene-talk.state-deliver-news.your-petition-came-up-short",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "Your petition came up short.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "petition-checked",
+          "key": "petition-checked",
+          "requiresFacts": ["short"],
+          "excludesFacts": ["struck"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (Nov 15, clerk-petition/lines.md), applied by the builder of #9441; read by the Words lead",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "deliver-news",
+        "key": "petition-checked"
+      },
+      "piece": {
+        "of": "petition-result",
+        "part": "core"
+      }
+    },
+    {
+      "key": "scene-talk.state-deliver-news.you-re-not-on-the-ballot-for-office",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "You're not on the ballot for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "petition-checked",
+          "key": "petition-checked",
+          "requiresFacts": ["short", "office"],
+          "excludesFacts": ["struck"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (Nov 15, clerk-petition/lines.md), applied by the builder of #9441; read by the Words lead",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "deliver-news",
+        "key": "petition-checked"
+      },
+      "piece": {
+        "of": "petition-result",
+        "part": "closer"
+      }
+    },
+    {
+      "key": "scene-talk.state-deliver-news.that-left-your-petition-short-for-office",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "That left your petition short for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "petition-checked",
+          "key": "petition-checked",
+          "requiresFacts": ["short", "office", "struck"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (Nov 15, clerk-petition/lines.md), applied by the builder of #9441; read by the Words lead",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "deliver-news",
+        "key": "petition-checked"
+      },
+      "piece": {
+        "of": "petition-result",
+        "part": "closer"
+      }
+    },
+    {
+      "key": "scene-talk.reply-accept.thank-you-that-s-what-i-came-to-hear",
+      "move": "reply-accept",
+      "kind": "spoken",
+      "text": "Thank you. That's what I came to hear.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "accept",
+          "role": "asked",
+          "purpose": "petition-checked",
+          "key": "petition-checked",
+          "requiresFacts": ["on-ballot"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (Nov 15, clerk-petition/lines.md), applied by the builder of #9441; read by the Words lead",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "accept",
+        "key": "petition-checked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-accept.i-understand-thank-you-for-telling-me",
+      "move": "reply-accept",
+      "kind": "spoken",
+      "text": "I understand. Thank you for telling me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "accept",
+          "role": "asked",
+          "purpose": "petition-checked",
+          "key": "petition-checked",
+          "requiresFacts": ["short"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (Nov 15, clerk-petition/lines.md), applied by the builder of #9441; read by the Words lead",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "accept",
+        "key": "petition-checked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-happens-now",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What happens now?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "petition-checked",
+          "key": "petition-checked",
+          "requiresFacts": ["on-ballot"],
+          "excludesFacts": ["struck"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (Nov 15, clerk-petition/lines.md), applied by the builder of #9441; read by the Words lead",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "ask",
+        "key": "petition-checked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.why-did-the-names-come-off",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Why did the names come off?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "petition-checked",
+          "key": "petition-checked",
+          "requiresFacts": ["struck"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (Nov 15, clerk-petition/lines.md), applied by the builder of #9441; read by the Words lead",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "ask",
+        "key": "petition-checked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.then-i-ll-back-backable",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "Then I'll back {backable}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "petition-checked",
+          "key": "petition-checked",
+          "requiresFacts": ["short", "backable"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (Nov 15, clerk-petition/lines.md), applied by the builder of #9441; read by the Words lead",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "promise",
+        "key": "petition-checked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.then-i-ll-back-backable-other",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Then I'll back {backable-other}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "petition-checked",
+          "key": "petition-checked",
+          "requiresFacts": ["short", "backable-other"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (Nov 15, clerk-petition/lines.md), applied by the builder of #9441; read by the Words lead",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "agree",
+        "key": "petition-checked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.now-you-campaign-your-name-is-on-it",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Now you campaign. Your name is on it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "petition-checked",
+          "key": "petition-checked",
+          "after": "ask",
+          "requiresFacts": ["on-ballot"],
+          "excludesFacts": ["struck"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (Nov 15, clerk-petition/lines.md), applied by the builder of #9441; read by the Words lead",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "answer",
+        "key": "petition-checked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.they-moved-out-of-town-only-people-who-live-here-count",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "They moved out of town. Only people who live here count.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "petition-checked",
+          "key": "petition-checked",
+          "after": "ask",
+          "requiresFacts": ["struck-moved"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (Nov 15, clerk-petition/lines.md), applied by the builder of #9441; read by the Words lead",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "answer",
+        "key": "petition-checked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.they-have-died-a-signer-has-to-be-a-living-voter",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "They have died. A signer has to be a living voter.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "petition-checked",
+          "key": "petition-checked",
+          "after": "ask",
+          "requiresFacts": ["struck-died"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (Nov 15, clerk-petition/lines.md), applied by the builder of #9441; read by the Words lead",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "answer",
+        "key": "petition-checked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.they-can-t-vote-right-now-so-they-can-t-sign",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "They can't vote right now, so they can't sign.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "petition-checked",
+          "key": "petition-checked",
+          "after": "ask",
+          "requiresFacts": ["struck-barred"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (Nov 15, clerk-petition/lines.md), applied by the builder of #9441; read by the Words lead",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "answer",
+        "key": "petition-checked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.that-s-yours-to-decide-good-luck-petition",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "That's yours to decide. Good luck.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "petition-checked",
+          "key": "petition-checked",
+          "after": "promise",
+          "requiresFacts": ["backable"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "petition-checked",
+          "key": "petition-checked",
+          "after": "agree",
+          "requiresFacts": ["backable-other"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (Nov 15, clerk-petition/lines.md), applied by the builder of #9441; read by the Words lead",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "thank",
+        "key": "petition-checked"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.good-luck-out-there-petition",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Good luck out there.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "petition-checked",
+          "key": "petition-checked",
+          "requiresFacts": ["on-ballot"],
+          "outcome": "resolved"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (Nov 15, clerk-petition/lines.md), applied by the builder of #9441; read by the Words lead",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "thank",
+        "key": "petition-checked"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.thank-you-for-coming-in",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thank you for coming in.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "petition-checked",
+          "key": "petition-checked",
+          "outcome": "resolved"
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "petition-checked",
+          "key": "petition-checked",
+          "outcome": "refused"
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "petition-checked",
+          "key": "petition-checked",
+          "outcome": "open"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (Nov 15, clerk-petition/lines.md), applied by the builder of #9441; read by the Words lead",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "thank",
+        "key": "petition-checked"
       }
     }
   ]

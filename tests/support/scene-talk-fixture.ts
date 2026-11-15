@@ -74,14 +74,15 @@ const flags = [
   // The clerk's word on a petition: how the check came out and why names came off.
   "short",
   "on-ballot",
+  "struck",
   "struck-moved",
-  "struck-under-age",
   "struck-barred",
   "struck-died",
 ];
 export const facts: Record<string, Fact> = {
   name: fact("Pat Rivera"),
   backable: fact("Dana Lee"),
+  "backable-other": fact("Sam Ortiz"),
   first: fact(core.people.get(askedId)!.givenName),
   bill: fact('"Limit groundwater withdrawal"'),
   section: fact("2"),

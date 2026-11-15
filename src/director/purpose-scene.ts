@@ -193,7 +193,7 @@ import {
 import {
   CAMPAIGNS_MODULE_ID,
   askForEndorsement,
-  endorsementChoice,
+  endorsementChoices,
   enlistVolunteer,
   type CauseRow,
 } from "../core2/modules/campaigns";
@@ -1662,29 +1662,37 @@ function composeBinding(
             sourceRecordIds: [petition.id, ...ids],
           };
       }
+      const struck = Object.keys(petition.check.struckReasons).sort();
+      if (struck.length)
+        facts.struck = {
+          text: "yes",
+          sourceRecordIds: [petition.id, ...struck],
+        };
+      // Whom the player would back in the race, by the endorsement rule, up
+      // to the two the reply menu offers.
       const backing =
         said.status === SHORT_STATUS && said.contestId
-          ? endorsementChoice(
+          ? endorsementChoices(
               coreAPI(core as CoreState),
               said.contestId,
               askedId,
             )
-          : null;
-      const backed = backing
-        ? coreAPI(core as CoreState)
-            .moduleState(ELECTIONS_MODULE_ID)
-            .table("filings")
-            .get(backing)
-        : undefined;
-      const rival = core.people.get(
-        (backed as unknown as { personId?: string } | undefined)
-          ?.personId as PersonId,
-      );
-      if (backing && rival)
-        facts.backable = {
-          text: sayPerson(rival),
-          sourceRecordIds: [backing, rival.id],
-        };
+          : [];
+      const elections = coreAPI(core as CoreState)
+        .moduleState(ELECTIONS_MODULE_ID)
+        .table("filings");
+      backing.slice(P.zero, BACKING_KEYS.length).forEach((filingId, at) => {
+        const personId = (
+          elections.get(filingId) as unknown as
+            { personId?: string } | undefined
+        )?.personId;
+        const rival = core.people.get(personId as PersonId);
+        if (rival)
+          facts[BACKING_KEYS[at]!] = {
+            text: sayPerson(rival),
+            sourceRecordIds: [filingId, rival.id],
+          };
+      });
     }
   }
   // In a race the asked lost, the winner is the opponent the scene may name.
@@ -2910,6 +2918,9 @@ const STRUCK_REASONS: readonly StruckReason[] = [
 ];
 /** The scene type of the clerk's word on a petition (situation-types.json). */
 const PETITION_CHECKED_TYPE = "petition-checked";
+/** The facts for the candidates the player would back, and the reply move that says each. */
+const BACKING_KEYS = ["backable", "backable-other"] as const;
+const BACKING_MOVES = ["promise", "agree"] as const;
 
 /** The scene type of a resident's visit to the official's office (situation-types.json). */
 const OFFICE_HOURS_TYPE = "office-hours";
@@ -3028,9 +3039,11 @@ export function replyInScene(
   // campaign engine through the one rule everyone's backing goes through.
   const backedFiling =
     scene.typeKey === PETITION_CHECKED_TYPE &&
-    line.move === "promise" &&
     core.modules.has(CAMPAIGNS_MODULE_ID)
-      ? scene.facts.find((row) => row.key === "backable")?.recordIds[P.zero]
+      ? scene.facts.find(
+          (row) =>
+            row.key === BACKING_KEYS[BACKING_MOVES.indexOf(line.move as never)],
+        )?.recordIds[P.zero]
       : undefined;
   if (backedFiling)
     askForEndorsement(coreAPI(core), backedFiling, scene.askedId, {

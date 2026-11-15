@@ -20,6 +20,11 @@ import {
 import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
 import { endorsementsOf } from "../core2/modules/campaigns";
+import {
+  JUSTICE_MODULE_ID,
+  type CaseRow,
+  type SentenceRow,
+} from "../core2/modules/justice";
 import { purposeScene, replyInScene } from "./purpose-scene";
 
 // The clerk's word on the player's petition, the morning after its deadline.
@@ -29,7 +34,49 @@ const PLACE = "1600280";
 const SEED = "1110d0796efcdf584767079f512566be41cf3b19d816526056f3f73445ee8eaf";
 const LEAD_DAYS = 30;
 
-function playToTheCheck(moveASigner: boolean, canvassDays = true) {
+/** A person convicted and sentenced, the justice records written as the justice engine writes them (law-reach-felony-voting.test.ts). */
+function convict(api: ReturnType<typeof coreAPI>, personId: string) {
+  const date = api.state.date;
+  const sentence: SentenceRow = {
+    id: `sentence:test:${personId}`,
+    kind: "person",
+    caseId: `case:test:${personId}`,
+    personId,
+    date,
+    severity: 0.5,
+    fineMinor: 0,
+    finePaidMinor: 0,
+    treasuryId: null,
+    probationMonths: 0,
+    custodyMonths: 24,
+    releaseDate: addDays(makeIsoDate(date), 24 * 30),
+    seatsVacated: [],
+    jobsEnded: [],
+    reasons: {},
+    source: { tag: "SOURCED", citation: "test", asOf: date },
+  };
+  const row: CaseRow = {
+    id: sentence.caseId,
+    kind: "person",
+    investigationId: "investigation:test",
+    prosecutorOfficeId: "office:test",
+    defendantId: personId,
+    crimeIds: ["crime:test"],
+    evidence: 1,
+    date,
+    status: "convicted",
+    plea: false,
+    trialDate: null,
+    reasons: {},
+    sentenceId: sentence.id,
+  };
+  const table = (name: string) =>
+    api.moduleState(JUSTICE_MODULE_ID).table(name);
+  table("sentences").put(sentence as never);
+  table("cases").put(row as never);
+}
+
+function playToTheCheck(strike: boolean, canvassDays = true) {
   setBookkeeping(false);
   const { core, director } = buildBenchWorld(SEED, gameStartDate(), {
     twoLevel: true,
@@ -88,7 +135,13 @@ function playToTheCheck(moveASigner: boolean, canvassDays = true) {
   }
   const playerId = core.playerId as PersonId;
   const opened = petitionOf(api, filing!.id)!;
-  let moved: string | null = null;
+  const struck: { moved?: string; died?: string; barred?: string } = {};
+  const source = {
+    tag: "ESTIMATED" as const,
+    asOf: core.date,
+    citation: "Staged: a signer is struck before the deadline.",
+    estimatedFrom: "src/director/petition-checked-scene.test.ts",
+  };
   while (core.date <= opened.due) {
     const canvass = campaignDayChoices(api, filing!.id).find(
       (c) => c.kind === "canvass",
@@ -96,44 +149,57 @@ function playToTheCheck(moveASigner: boolean, canvassDays = true) {
     if (canvassDays && canvass?.available)
       takeCampaignDayChoice(api, filing!.id, "canvass");
     advanceCore(core, addDays(makeIsoDate(core.date), 1));
-    // One signer, with their whole household, moves out of town before the deadline.
-    if (moveASigner && !moved) {
-      const signer = petitionSigners(api, filing!.id)
-        .map((s) => core.people.get(s.personId as PersonId))
-        .find(
-          (p) =>
-            p &&
-            p.alive &&
-            p.id !== playerId &&
-            p.placeId === townPlaceId &&
-            p.householdId !== core.people.get(playerId)!.householdId &&
-            // Nobody in the household holds a job, so the move needs none ended.
-            core.households
-              .get(p.householdId)!
-              .memberIds.every((id) => !core.people.get(id as PersonId)?.jobId),
-        );
-      if (signer) {
-        const home = core.households.get(signer.householdId)!;
-        const elsewhere = [...core.people.values()].find(
-          (p) => p.placeId !== townPlaceId && p.alive,
-        )!.placeId;
-        api.relocatePeopleV1({
-          personIds: [...home.memberIds] as PersonId[],
-          placeId: elsewhere,
-          householdId: signer.householdId,
-          source: {
-            tag: "ESTIMATED",
-            asOf: core.date,
-            citation: "Staged: a signer moves out of town before the deadline.",
-            estimatedFrom: "src/director/petition-checked-scene.test.ts",
-          },
-        });
-        moved = signer.id;
-      }
+    if (!strike) continue;
+    // Three signers, each struck a different way before the deadline, as
+    // soon as three who can be are on the petition: one moves out of town
+    // with their household, one dies, one is convicted (the justice
+    // records written as the justice engine writes them, as
+    // law-reach-felony-voting.test.ts does) and so barred.
+    const mine = core.people.get(playerId)!;
+    const signers = petitionSigners(api, filing!.id)
+      .map((row) => core.people.get(row.personId as PersonId))
+      .filter(
+        (p) =>
+          p &&
+          p.alive &&
+          p.id !== playerId &&
+          p.placeId === townPlaceId &&
+          p.householdId !== mine.householdId &&
+          !Object.values(struck).includes(p.id),
+      );
+    const jobless = (householdId: string) =>
+      core.households
+        .get(householdId)!
+        .memberIds.every((id) => !core.people.get(id as PersonId)?.jobId);
+    const leaver = struck.moved
+      ? undefined
+      : signers.find((p) => jobless(p!.householdId));
+    const rest = signers.filter(
+      (p) => !leaver || p!.householdId !== leaver.householdId,
+    );
+    if (!struck.moved && leaver && rest.length >= 2) {
+      const elsewhere = [...core.people.values()].find(
+        (p) => p.placeId !== townPlaceId && p.alive,
+      )!.placeId;
+      api.relocatePeopleV1({
+        personIds: [
+          ...core.households.get(leaver.householdId)!.memberIds,
+        ] as PersonId[],
+        placeId: elsewhere,
+        householdId: leaver.householdId,
+        source,
+      });
+      struck.moved = leaver.id;
+      struck.died = rest[0]!.id;
+      api.updatePerson(struck.died, { alive: false });
+      struck.barred = rest.find(
+        (p) => p!.id !== struck.died && p!.householdId !== rest[0]!.householdId,
+      )?.id;
+      if (struck.barred) convict(api, struck.barred);
     }
   }
   advanceCore(core, addDays(makeIsoDate(opened.due), 1));
-  return { core, director, api, filing: filing!, playerId, moved, contest };
+  return { core, director, api, filing: filing!, playerId, struck, contest };
 }
 
 const sceneOf = (run: ReturnType<typeof playToTheCheck>) => {
@@ -201,11 +267,17 @@ describe("the clerk's word on the player's petition", () => {
     expect(byPlayer()).toHaveLength(1);
   }, 90_000);
 
-  it("names a signer who moved, by record id and with no count (Acequia, Idaho)", () => {
+  it("names each kind a signer was struck for (moved, died, barred), by record id and with no count (Acequia, Idaho)", () => {
     const run = playToTheCheck(true);
-    const check = petitionOf(run.api, run.filing.id)!.check!;
-    expect(run.moved, "no signer to move").not.toBeNull();
-    expect(check.struckReasons[run.moved!]).toBe("moved");
+    const petition = petitionOf(run.api, run.filing.id)!;
+    const check = petition.check!;
+    const { moved, died, barred } = run.struck;
+    expect(moved, "no signer to move").toBeTruthy();
+    expect(died, "no signer to die").toBeTruthy();
+    expect(barred, "no signer to bar").toBeTruthy();
+    expect(check.struckReasons[moved!]).toBe("moved");
+    expect(check.struckReasons[died!]).toBe("died");
+    expect(check.struckReasons[barred!]).toBe("barred");
     expect(Object.keys(check.struckReasons).sort()).toEqual(
       [...check.struckIds].sort(),
     );
@@ -213,9 +285,16 @@ describe("the clerk's word on the player's petition", () => {
     expect(entry, "no petition-checked scene staged").toBeTruthy();
     expect(scene?.kind).toBe("composed");
     if (scene?.kind !== "composed") return;
-    const moved = scene.scene.facts.find((row) => row.key === "struck-moved");
-    expect(moved?.recordIds).toContain(run.moved);
-    expect(moved?.recordIds).toContain(petitionOf(run.api, run.filing.id)!.id);
+    const fact = (key: string) =>
+      scene.scene.facts.find((row) => row.key === key);
+    for (const [key, id] of [
+      ["struck-moved", moved],
+      ["struck-died", died],
+      ["struck-barred", barred],
+    ] as const) {
+      expect(fact(key)?.recordIds, key).toContain(id);
+      expect(fact(key)?.recordIds, key).toContain(petition.id);
+    }
     for (const line of scene.scene.talk.lines)
       expect(line.text, line.text).not.toMatch(/\d/);
     process.stdout.write(

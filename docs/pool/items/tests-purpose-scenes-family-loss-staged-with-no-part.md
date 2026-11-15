@@ -34,3 +34,5 @@ checked:
 **Waits on.** Nothing.
 
 **Files.** src/director/family-stake.ts, src/director/purpose-scene.ts, src/director/purpose-scenes.test.ts
+
+Seen again, Nov 15, by the builder of #9441 on the clean Train (before its change): the same test failed on a drawn run seed `2f7b8f984324245a` (a race-lost and family-loss sitting); it passed on the next run. Same item, no twin.

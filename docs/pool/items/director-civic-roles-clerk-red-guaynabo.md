@@ -36,3 +36,5 @@ claimed-at:
 **Files.** src/director/civic-roles.test.ts, src/core2/modules/filing-clerk.ts
 
 **Notes.** Found while gating the voter registration record.
+
+Seen again, Nov 15, by the builder of #9441 on the clean Train: `src/director/civic-roles.test.ts` (random-place clerk test) found no clerk at another drawn place; same item, no twin.

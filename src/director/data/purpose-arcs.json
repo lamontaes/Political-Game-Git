@@ -2310,15 +2310,14 @@
     },
     "petition-checked": {
       "state": "deliver-news",
-      "replies": ["accept", "ask", "promise", "leave"],
+      "replies": ["accept", "ask", "promise", "agree", "leave"],
       "follow": {
-        "accept": ["thank"],
         "ask": ["answer"],
-        "promise": ["thank"]
+        "promise": ["thank"],
+        "agree": ["thank"]
       },
       "again": {
-        "answer": ["accept", "promise", "leave"],
-        "thank": ["leave"]
+        "answer": ["accept", "promise", "agree", "leave"]
       },
       "endings": [
         {
@@ -2326,7 +2325,7 @@
           "label": "You said you would back someone else",
           "keeps": "none",
           "when": {
-            "reply": ["promise"]
+            "reply": ["promise", "agree"]
           }
         },
         {
