@@ -1598,6 +1598,24 @@ function composeBinding(
       text: asker.givenName,
       sourceRecordIds: [relation.tieId],
     };
+  // What passed between them in an earlier scene, from its reply records: the
+  // asker came before, and the asked person helped or refused then.
+  const passed = relation.passed;
+  if (passed.askedBefore.length)
+    facts["asked-before"] = {
+      text: asker.givenName,
+      sourceRecordIds: passed.askedBefore,
+    };
+  if (passed.helpedBefore.length)
+    facts["helped-before"] = {
+      text: asker.givenName,
+      sourceRecordIds: passed.helpedBefore,
+    };
+  if (passed.refusedBefore.length)
+    facts["refused-before"] = {
+      text: asker.givenName,
+      sourceRecordIds: passed.refusedBefore,
+    };
   // A committee trade coming due on the floor (legislature.ts
   // recordPromises): the member promised their vote, and the lines about a
   // promised vote need it.
@@ -3291,6 +3309,10 @@ export function replyInScene(
       // SG-WORDS-favor-promise-keeps-unread (endings with no row yet)
       ...promised,
       ...(ending?.firmness ? { firmness: ending.firmness } : {}),
+      // What the ending settles in an engine's own record (office hours: the
+      // case is helped or declined), so a later scene reads help done and
+      // not a promise made (relation-facts.ts passedBetween).
+      ...(ending?.settles ? { settled: ending.settles } : {}),
       // A promise made on a resident's own question names it, for the
       // Journal (ruling 72).
       ...(ending?.keeps === "promise" && aboutQuestion

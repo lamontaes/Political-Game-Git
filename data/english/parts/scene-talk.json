@@ -73639,7 +73639,8 @@
           "step": "open",
           "move": "greet",
           "role": "asker",
-          "requiresFacts": ["law"]
+          "requiresFacts": ["law"],
+          "excludesFacts": ["acquainted", "asked-before"]
         }
       ],
       "bearing": "calm",
@@ -190425,6 +190426,56 @@
           "excludesFacts": ["price-named"]
         }
       ]
+    },
+    {
+      "key": "scene-talk.open-greet.you-helped-me-once",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "You helped me once. I haven't forgotten.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["helped-before"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead, for class H (a person remembers what passed)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "greet",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.you-told-me-no-last-time",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "You told me no last time. I'm asking anyway.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["refused-before"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead, for class H (a person remembers what passed)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "greet",
+        "key": "favor-asked"
+      }
     },
     {
       "key": "scene-talk.reply-bargain.i-could-see-it-but-i-d-need-to-know-you-re-for-about",
