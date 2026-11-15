@@ -799,11 +799,25 @@ function composeBinding(
         row.billId !== named.id &&
         row.provisions.some((other) => other.question === question),
     );
-    if (before.length)
+    if (before.length) {
+      const last = before.at(-P.one)!;
       facts["asked-before"] = {
         text: "yes",
-        sourceRecordIds: [before.at(-P.one)!.id, moment.causeId],
+        sourceRecordIds: [last.id, moment.causeId],
       };
+      // Where they stand on this bill, with what a favor to the player is
+      // worth to them now, is closer to a yes than at the no (the position
+      // and the favor's worth kept with it, `declinedAsks`): a not-yet may
+      // say it is less sure of the no.
+      if (
+        position.total + favorWorth(api, askerId, askedId) >
+        last.position.total + last.standing
+      )
+        facts["leans-closer"] = {
+          text: "yes",
+          sourceRecordIds: [last.id, named.id, moment.causeId],
+        };
+    }
   }
   // A job offer (jobs.ts offerToPlayer): the employer, the position with its
   // article, the pay offered by the hour and the day the offer lapses.

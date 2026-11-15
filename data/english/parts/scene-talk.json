@@ -190980,7 +190980,33 @@
           "role": "asked",
           "purpose": "cosponsor-ask",
           "key": "bill-sign-on",
-          "requiresFacts": ["asked-before"]
+          "requiresFacts": ["asked-before", "leans-closer"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-stall.you-asked-before-i-still-haven-t-made-up-my-mind",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "You asked before. I still haven't made up my mind.",
+      "origin": "authored",
+      "author": "Words lead (Nov 15), second ask of the same person",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "stall",
+        "key": "bill-sign-on"
+      },
+      "bearing": "steady",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "purpose": "cosponsor-ask",
+          "key": "bill-sign-on",
+          "requiresFacts": ["asked-before"],
+          "excludesFacts": ["leans-closer"]
         }
       ]
     },
@@ -191058,31 +191084,6 @@
           "purpose": "ask-vote",
           "key": "vote-wanted",
           "requiresFacts": ["asked-before"]
-        }
-      ]
-    },
-    {
-      "key": "scene-talk.follow-plea.i-was-there-when-you-needed-me-i-m-asking-you-to-be-there-for-this",
-      "move": "follow-plea",
-      "kind": "spoken",
-      "text": "I was there when you needed me. I'm asking you to be there for this.",
-      "origin": "authored",
-      "author": "Words lead (Nov 15), second ask of the same person",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "plea",
-        "key": "bill-sign-on"
-      },
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "plea",
-          "role": "asker",
-          "purpose": "cosponsor-ask",
-          "key": "bill-sign-on",
-          "requiresFacts": ["asked-before"],
-          "onlyWhen": ["read-favor-given"]
         }
       ]
     },

@@ -9,6 +9,7 @@
  * holds such a second ask.
  */
 import { expect, it } from "vitest";
+import { billStage, chooseOwnVote } from "../bench/bill-stage";
 import { seatAct, seatView } from "../bench/legislature";
 import { buildBenchWorld } from "../bench/world";
 import { drawPlace } from "../../scripts/core2-year/place";
@@ -18,8 +19,9 @@ import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
 import {
   billOf,
-  castMemberVote,
+  floorAgendaOn,
   memberKey,
+  memberPosition,
   members,
   votesOn,
 } from "../core2/modules/legislature";
@@ -28,12 +30,41 @@ import { coreAPI } from "../core2/state";
 import type { CoreEventInput, PersonId } from "../core2/types";
 import sceneBank from "../../data/english/parts/scene-talk.json" with { type: "json" };
 import { questionSaid } from "../english/question-names";
-import { purposeScene } from "./purpose-scene";
+import { purposeScene, replyInScene } from "./purpose-scene";
 
-/** Banks, Idaho: the second ask comes on 2025-03-03, before the roll on the redrafted bill. */
-const PIN = { drawSeed: "probe-va-0", name: "Banks, Idaho" } as const;
-/** Days played at most; the second ask falls in the first quarter. */
-const MOST_DAYS = 120;
+/**
+ * Banks, Idaho: a town board; the second ask comes on 2025-03-03, before the
+ * roll on the redrafted bill, and no colleague there drafts a bill of their
+ * own in a played year, so nothing the player did for them is on the record.
+ * Wilmont, Minnesota: the state House; seat 47B drafts HF 66 in the world's
+ * own running, the player votes yes on it through their seat (2025-02-24),
+ * and asks 47B again for a vote on 2025-05-11 (found by a probe outside the
+ * test, Nov 15: four places, a colleague's own bill the player voted for and
+ * that colleague later asked; Manteca, Wiggins and Parrottsville, Tennessee
+ * held none in 300 days).
+ */
+const PINS = [
+  {
+    name: "Banks, Idaho",
+    place: () => drawPlace("probe-va-0", "player-asks-for-a-vote"),
+    state: false,
+    drafts: 6,
+    mostDays: 120,
+    backing: false,
+  },
+  {
+    name: "Wilmont, Minnesota",
+    place: () => ({
+      name: "Wilmont, Minnesota",
+      key: "2770582",
+      seed: "2cb5aaf15d55f6b06548834319221a87402931e3d1570c6e674f546d2ff2025f",
+    }),
+    state: true,
+    drafts: Infinity,
+    mostDays: 140,
+    backing: true,
+  },
+] as const;
 
 function readsAskedBefore(key: string): boolean {
   return (
@@ -48,47 +79,51 @@ function readsAskedBefore(key: string): boolean {
   );
 }
 
+/** A member's position on a bill, term by term, as printed beside a talk. */
+function termsOf(position: Readonly<Record<string, unknown>>): string {
+  return Object.entries(position)
+    .filter(
+      ([key, value]) =>
+        typeof value === "number" && value !== 0 && key !== "openingViews",
+    )
+    .map(([key, value]) => `${key} ${(value as number).toFixed(2)}`)
+    .join(", ");
+}
+
 /** A talk as the player plays it, the player's choices under "You say:". */
-function playedTalk(talk: {
-  narration: readonly { text: string }[];
-  state: { speaker: string; text: string };
-  tree: {
-    lines: readonly { speaker: string; text: string }[];
-    replies: readonly {
-      line: { text: string };
-      next?: { lines: readonly { speaker: string; text: string }[] };
-    }[];
-  };
-}): string {
+function playedTalk(
+  talk: {
+    narration: readonly { text: string }[];
+    state: { speaker: string; text: string };
+    tree: {
+      lines: readonly { speaker: string; text: string }[];
+      replies: readonly {
+        line: { text: string };
+        next?: { lines: readonly { speaker: string; text: string }[] };
+      }[];
+    };
+  },
+  taken?: number,
+): string {
   return [
     ...talk.narration.map((l) => `  ${l.text}`),
     `  ${talk.state.speaker}: ${talk.state.text}`,
     ...talk.tree.lines.map((l) => `  ${l.speaker}: ${l.text}`),
     "  You say:",
     ...talk.tree.replies.flatMap((reply, index) => [
-      `    ${index + 1}. ${reply.line.text}`,
+      `    ${index + 1}. ${reply.line.text}${index === taken ? "  (taken)" : ""}`,
       ...(reply.next?.lines.map((l) => `       ${l.speaker}: ${l.text}`) ?? []),
     ]),
   ].join("\n");
 }
 
-/**
- * Which colleagues the player backed before (a yes on a bill of their own):
- * every other one from the first or from the second, so each colleague asked
- * again is played once backed and once not (Words lead, Nov 15).
- */
-const BACKED = [
-  { name: "the first of each pair backed", parity: 0 },
-  { name: "the second of each pair backed", parity: 1 },
-] as const;
-
-for (const backed of BACKED)
+for (const pin of PINS)
   it(
-    `a colleague asked again for their vote says they were asked before (${PIN.name}, ${PIN.drawSeed}, ${backed.name})`,
+    `a colleague asked again for their vote says they were asked before (${pin.name})`,
     { timeout: 300_000 },
     () => {
-      const place = drawPlace(PIN.drawSeed, "player-asks-for-a-vote");
-      expect(place.name).toBe(PIN.name);
+      const place = pin.place();
+      expect(place.name).toBe(pin.name);
       const where = `${place.name} (${place.key}), world seed ${place.seed}`;
       setBookkeeping(false);
       const { core, director } = buildBenchWorld(place.seed, gameStartDate(), {
@@ -106,8 +141,12 @@ for (const backed of BACKED)
           townSeats(api)
             .filter(
               (row) =>
-                ["city", "county", "township"].includes(row.office.level) &&
-                full(row.office.id).length > 2,
+                (pin.state
+                  ? row.office.level === "state" &&
+                    row.office.kind.startsWith("legislature-")
+                  : ["city", "county", "township"].includes(
+                      row.office.level,
+                    )) && full(row.office.id).length > 2,
             )
             .map((row) => [row.office.id, row.office] as const),
         ).values(),
@@ -115,7 +154,7 @@ for (const backed of BACKED)
       const seated = full(body.id);
       core.playerId = seated[0]! as PersonId;
       const player = core.playerId;
-      for (const id of seated) {
+      for (const id of pin.state ? [player] : seated) {
         core.focusPersonIds.add(id as PersonId);
         director.watch(core, id as PersonId);
       }
@@ -136,32 +175,47 @@ for (const backed of BACKED)
         }
       };
       const questions = seatView(core, player).questions;
-      for (const question of questions.slice(0, 6)) draft(question);
-      // Every other colleague has a bill of their own at the first sitting, and
-      // the player votes yes on it: a time the player backed them, which a plea
-      // on a second ask may say (Words lead, Nov 15). The rest have none.
-      for (const [at, colleague] of seated.slice(1).entries()) {
-        if (at % 2 !== backed.parity) continue;
-        try {
-          const theirs = seatAct(core, colleague, {
-            kind: "draft",
-            officeId: body.id,
-            question: questions.at(-1 - at)!,
-            value: 1,
-          }) as { id: string };
-          castMemberVote(api, theirs.id, player, "yes");
-        } catch {
-          // A bill the body cannot pass is not drafted.
-        }
-      }
+      for (const question of questions.slice(0, pin.drafts)) draft(question);
       // After a roll where a colleague the player asked voted no, the player
       // drafts again on that question.
       const firstTalks = new Map<string, string>();
       const redrafted = new Set<string>();
       const checked = new Set<string>();
       let played = 0;
-      for (let day = 1; day <= MOST_DAYS && !played; day += 1) {
+      let backed = 0;
+      const deferred: { billId: string; colleague: string }[] = [];
+      const told = new Set<string>();
+      // The player votes yes, through their own seat, on every colleague's own
+      // bill as it comes to the floor: what a plea may later say they did.
+      const votedFor = new Set<string>();
+      for (
+        let day = 1;
+        day <= pin.mostDays &&
+        (!played || told.size < deferred.length || (pin.backing && !backed));
+        day += 1
+      ) {
+        for (const ahead of [0, 1])
+          for (const bill of floorAgendaOn(
+            api,
+            makeIsoDate(addDays(makeIsoDate(core.date), ahead)),
+          )) {
+            if (bill.sponsorId === player || votedFor.has(bill.id)) continue;
+            if (!billStage(core, bill.id, player).yours.mayChoose) continue;
+            chooseOwnVote(core, bill.id, "yes");
+            votedFor.add(bill.id);
+          }
         advanceCore(core, addDays(makeIsoDate(gameStartDate()), day));
+        // What came of a not-yet the player left open: their vote at the roll.
+        for (const { billId, colleague } of deferred) {
+          const vote = votesOn(api, billId).find(
+            (row) => row.memberId === colleague,
+          )?.vote;
+          if (!vote || told.has(billId + colleague)) continue;
+          told.add(billId + colleague);
+          process.stdout.write(
+            `VOTE AFTER ${where} ${colleague} on ${billOf(api, billId)?.number}: at the roll, ${vote}\n`,
+          );
+        }
         for (const e of asks) {
           const billId = String(e.facts!.billId);
           const question = billOf(api, billId)?.provisions[0]?.question;
@@ -209,10 +263,36 @@ for (const backed of BACKED)
           const backing = result.scene.facts.some(
             (row) => row.key === "read-favor-given",
           );
+          if (backing) backed += 1;
           played += 1;
           const talk = result.scene.talk;
+          // Where they stand on the bill they voted down and on this one,
+          // term by term: what moved, if anything, between the two.
+          const billId = String(e.facts!.billId);
+          const then = memberPosition(
+            api,
+            String(before!.facts!.billId),
+            colleague,
+          );
+          const now = memberPosition(api, billId, colleague);
+          // Their not-yet left open, where it is offered: the player defers
+          // to them (or, with their bill's yes behind the player, pleads),
+          // and their vote at the roll is what comes of it.
+          const pick = (move: string) =>
+            talk.tree.replies.findIndex((reply) => reply.line.move === move);
+          const defer =
+            backing && pick("plea") >= 0 ? pick("plea") : pick("defer");
+          if (defer >= 0) {
+            expect(
+              replyInScene(core, director, player, entry, [defer], {
+                typeKey: "vote-sought",
+              }),
+              `${where}: the reply is recorded`,
+            ).toBeTruthy();
+            deferred.push({ billId, colleague });
+          }
           process.stdout.write(
-            `VOTE FIRST ASK ${where} ${colleague} (their vote at the roll: ${cast ?? "none"} on ${beforeBill?.number ?? "?"}, a bill on ${subject ? questionSaid(subject) : "?"})\n${firstTalks.get(colleague) ?? ""}\nVOTE ASKED AGAIN ${where} ${core.date} (the player's yes on a bill of theirs on the record: ${backing ? "yes" : "no"})\n${playedTalk(talk)}\n`,
+            `VOTE FIRST ASK ${where} ${colleague} (their vote at the roll: ${cast ?? "none"} on ${beforeBill?.number ?? "?"}, a bill on ${subject ? questionSaid(subject) : "?"})\n${firstTalks.get(colleague) ?? ""}\nVOTE ASKED AGAIN ${where} ${core.date} (the player's yes on a bill of theirs on the record: ${backing ? "yes" : "no"})\n   terms on the bill they voted down: ${termsOf(then)}\n   terms on this bill: ${termsOf(now)}\n${playedTalk(talk, defer >= 0 ? defer : undefined)}\n`,
           );
           expect(
             readsAskedBefore(talk.narration[0]!.parts[0]!),
@@ -246,5 +326,10 @@ for (const backed of BACKED)
         }
       }
       expect(played, `${where}: no second ask played`).toBeGreaterThan(0);
+      if (pin.backing)
+        expect(
+          backed,
+          `${where}: a second ask with the player's yes behind it`,
+        ).toBeGreaterThan(0);
     },
   );

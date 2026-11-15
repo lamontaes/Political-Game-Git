@@ -394,14 +394,7 @@
     "scene-talk.reply-agree.count-me-in-tell-me-when": ["join-cause/thank"],
     "scene-talk.reply-agree.fine-you-have-it": ["ask-vote/plea"],
     "scene-talk.reply-agree.i-m-with-you-on-bill": ["ask-vote/plea"],
-    "scene-talk.reply-agree.i-m-with-you-on-this-one-sign-me-up": [
-      "cosponsor-ask/plea"
-    ],
     "scene-talk.reply-agree.i-m-with-you-tell-me-when": ["join-cause/thank"],
-    "scene-talk.reply-agree.i-was-hoping-somebody-would-bring-this-i-m-in": [
-      "cosponsor-ask/plea"
-    ],
-    "scene-talk.reply-agree.yes-put-my-name-on-it": ["cosponsor-ask/plea"],
     "scene-talk.reply-agree.you-have-my-vote": ["ask-vote/plea"],
     "scene-talk.reply-confront.hearsay.you-took-somebody-s-word-over-mine": [
       "conflict-accuse.hearsay/confront"

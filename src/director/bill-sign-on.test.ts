@@ -16,6 +16,7 @@
  * path: the player's first bills, one on every question, go to the floor at
  * the chamber's next sitting before the second round is drafted.
  */
+import { stateFloorHolds, voteOnStateFloor } from "../core2/office-day-state";
 import { afterAll, describe, expect, it } from "vitest";
 import { seatAct, seatView } from "../bench/legislature";
 import { buildBenchWorld } from "../bench/world";
@@ -25,11 +26,13 @@ import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
 import {
   billOf,
-  castMemberVote,
   chairHears,
+  committeeRecords,
   declinedAsks,
+  favorWorth,
   floorDateOf,
   memberKey,
+  memberPosition,
   members,
   obligationsOf,
   scheduleVote,
@@ -112,7 +115,19 @@ const seen = {
   lines: new Set<string>(),
   votedBefore: 0,
   askedAgain: 0,
+  deferred: 0,
 };
+
+/** A member's position on a bill, term by term, as printed beside a talk. */
+function termsOf(position: Readonly<Record<string, unknown>>): string {
+  return Object.entries(position)
+    .filter(
+      ([key, value]) =>
+        typeof value === "number" && value !== 0 && key !== "openingViews",
+    )
+    .map(([key, value]) => `${key} ${(value as number).toFixed(2)}`)
+    .join(", ");
+}
 
 function livePlayer(core: CoreState, player: PersonId, through: string) {
   let packet: ReturnType<typeof advancePlayerV1> | undefined = advancePlayerV1(
@@ -122,7 +137,13 @@ function livePlayer(core: CoreState, player: PersonId, through: string) {
       through: { date: makeIsoDate(through), minuteOfDay: 0 },
     },
   );
-  while (packet && packet.kind !== "complete")
+  while (packet && packet.kind !== "complete") {
+    if (packet.kind === "stop")
+      // A roll the player sits for holds their clock until they vote: the
+      // player answers through the floor's own call, leaving it to their
+      // character's own position.
+      for (const billId of stateFloorHolds(coreAPI(core)))
+        voteOnStateFloor(coreAPI(core), player, billId, "own");
     packet =
       packet.kind === "stop"
         ? resumePlayerV1(core, { kind: "stop", pauseId: packet.pauseId })
@@ -131,6 +152,7 @@ function livePlayer(core: CoreState, player: PersonId, through: string) {
             pauseId: packet.pauseId,
             offerId: packet.offers[0]!.offerId,
           });
+  }
 }
 
 describe("asking colleagues to sign on", () => {
@@ -180,27 +202,8 @@ describe("asking colleagues to sign on", () => {
       // (a bill the committee holds dies there, as it does in play).
       const questions = seatView(core, player).questions;
       const earlier = questions.map(draft).filter((id): id is string => !!id);
-      // One colleague has a bill of their own at the same sitting, and the
-      // player votes yes on it: a time the player backed them, which a plea
-      // on a second ask may say (Words lead, Nov 15). The rest have none.
-      const theirBills: string[] = [];
-      for (const colleague of full(body!.id).filter((id) => id !== player)) {
-        try {
-          const theirs = seatAct(core, colleague, {
-            kind: "draft",
-            officeId: body!.id,
-            question: questions.at(-1)!,
-            value: 1,
-          }) as { id: string };
-          castMemberVote(api, theirs.id, player, "yes");
-          theirBills.push(theirs.id);
-          break;
-        } catch {
-          // A bill the chamber cannot pass is not drafted.
-        }
-      }
-      for (const id of [...earlier, ...theirBills]) scheduleVote(api, id);
-      const floor = [...earlier, ...theirBills]
+      for (const id of earlier) scheduleVote(api, id);
+      const floor = earlier
         .map((id) => floorDateOf(api, id))
         .filter((date): date is string => !!date)
         .sort()
@@ -208,7 +211,7 @@ describe("asking colleagues to sign on", () => {
       expect(floor, `${where}: the bills have a sitting`).toBeTruthy();
       advanceCore(core, addDays(makeIsoDate(floor!), 1));
       const votedNo = new Set(
-        [...earlier, ...theirBills].flatMap((id) =>
+        earlier.flatMap((id) =>
           votesOn(api, id)
             .filter((v) => v.vote === "no")
             .map(
@@ -255,6 +258,7 @@ describe("asking colleagues to sign on", () => {
       expect(units.length, `${where}: the asks are staged`).toBeGreaterThan(0);
       let signed = 0;
       const refused: { billId: string; colleague: string }[] = [];
+      const deferred: { billId: string; colleague: string }[] = [];
       const firstTalks = new Map<string, string>();
       const reasonsHere = new Set<string>();
       for (const { entry, unit, causeId } of units) {
@@ -394,7 +398,10 @@ describe("asking colleagues to sign on", () => {
         const result = purposeScene(core, director, player, entry, {
           typeKey: unit,
         });
-        expect(result?.kind, where).toBe("composed");
+        expect(
+          result?.kind,
+          `${where}: ${result && "reason" in result ? String(result.reason) : ""}`,
+        ).toBe("composed");
         if (result?.kind !== "composed") continue;
         const facts = new Set(result.scene.facts.map((row) => row.key));
         const talk = result.scene.talk;
@@ -435,8 +442,46 @@ describe("asking colleagues to sign on", () => {
             talk.tree.replies.map((reply) => reply.line.move),
             where,
           ).not.toContain("plea");
+        // Where they stood on the bill they turned down (kept with the no)
+        // and where they stand on this one, term by term: what moved, if
+        // anything, between the two answers.
+        const no = declinedAsks(api, player, colleague, body!.id, "sign-on")
+          .filter((row) =>
+            row.provisions.some((other) => other.question === question),
+          )
+          .at(-1)!;
+        const then = { ...no.position, favor: no.standing };
+        const now = {
+          ...memberPosition(api, billId, colleague),
+          favor: favorWorth(api, colleague, player),
+        };
+        expect(facts.has("leans-closer"), where).toBe(
+          now.total + now.favor > then.total + then.favor,
+        );
+        // Their not-yet left open, where it is offered: the player defers to
+        // them, and what comes of it is read from the record afterward.
+        const defer = talk.tree.replies.findIndex(
+          (reply) => reply.line.move === "defer",
+        );
+        const taken =
+          defer >= 0
+            ? defer
+            : talk.tree.replies.findIndex(
+                (reply) => reply.line.move === "accept",
+              );
+        if (taken >= 0)
+          expect(
+            replyInScene(core, director, player, entry, [taken], {
+              typeKey: unit,
+            }),
+            `${where}: the reply is recorded`,
+          ).toBeTruthy();
+        const named = (billOf(api, billId)!.cosponsors ?? []).includes(
+          colleague,
+        );
+        if (defer >= 0) deferred.push({ billId, colleague });
         process.stdout.write(
-          `SIGN-ON PLAYED ${where} asked again (the player's yes on a bill of theirs on the record: ${backing ? "yes" : "no"}):\n${playedTalk(talk)}\n`,
+          `SIGN-ON PLAYED ${where} asked again (the player's yes on a bill of theirs on the record: ${backing ? "yes" : "no"}):\n   terms then (the bill they turned down, and what a favor to the player was worth to them): ${termsOf(then)}\n   terms now (this bill, and the favor now): ${termsOf(now)}\n${playedTalk(talk, taken >= 0 ? taken : undefined)}\n   afterward: their name ${named ? "is" : "is not"} on ${billOf(api, billId)!.number}\n`,
         );
         process.stdout.write(
           `SIGN-ON ${where} asked again (${[...facts].filter((k) => k === "asked-before" || k === "voted-against-before" || k.startsWith("no-")).join(", ")}): ${lines.join(" | ")}\n`,
@@ -449,6 +494,32 @@ describe("asking colleagues to sign on", () => {
         if (!bill.cosponsors?.length) continue;
         const read = chairHears(api, bill, bill.bodyOfficeId);
         expect(read.cosponsorPull, where).toBeGreaterThanOrEqual(0);
+      }
+      // What came of a not-yet the player left open: the bill goes to the
+      // chamber's next sitting, and the colleague votes there as they stand.
+      for (const { billId } of deferred) scheduleVote(api, billId);
+      const sitting = deferred
+        .map((row) => floorDateOf(api, row.billId))
+        .filter((date): date is string => !!date)
+        .sort()
+        .at(-1);
+      if (sitting) livePlayer(core, player, addDays(makeIsoDate(sitting), 1));
+      for (const { billId, colleague } of deferred) {
+        const bill = billOf(api, billId)!;
+        const vote = votesOn(api, billId).find(
+          (row) => row.memberId === colleague,
+        )?.vote;
+        // A bill that never reached the floor stopped in committee: the
+        // committee's own record says whether the chair heard it and how
+        // the colleague voted there.
+        const held = committeeRecords(api, billId).at(-1);
+        const there = held
+          ? `in committee on ${held.date}: ${held.heard ? `heard, ${held.yes} yes and ${held.no} no, ${held.reported ? "reported" : "not reported"}` : "the chair did not hear it"}${held.votes.some((row) => row.memberId === colleague) ? `, their committee vote ${held.votes.find((row) => row.memberId === colleague)!.vote}` : ""}`
+          : "no committee record";
+        seen.deferred += 1;
+        process.stdout.write(
+          `SIGN-ON DEFERRED ${where}: ${core.people.get(colleague as PersonId)!.givenName} on ${bill.number}, at its roll: ${vote ?? "no roll"}; ${there}; ${bill.number} ${bill.status}\n`,
+        );
       }
       process.stdout.write(
         `SIGN-ON ${where}: ${units.length} asks played, ${signed} signed, ${refused.length} said no (${[...reasonsHere].join(", ")}); ${earlier.length} earlier bills, ${votedNo.size} no votes on them\n`,
