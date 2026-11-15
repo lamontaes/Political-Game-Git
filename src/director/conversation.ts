@@ -82,6 +82,7 @@ import {
   PRESS_MODULE_ID,
   RETIREMENT,
   outletMedium,
+  outletTelling,
   outletsHere,
 } from "../core2/modules/press";
 import { decisionLean, hardshipStress } from "../core2/trait-decisions";
@@ -1924,6 +1925,41 @@ const TOUCHING_STORIES: Readonly<Record<string, string>> = {
 };
 
 /**
+ * An outlet as people say it, from its record: the name as the record has it, what kind it is ("read in" a paper, "saw on" a television or
+ * online outlet, "heard on" a radio station) and whether its name takes "the".
+ */
+export function outletFacts(
+  core: Readonly<CoreState>,
+  outlet: { readonly id: string; readonly name: string },
+  cites: readonly string[],
+): Facts {
+  // The outlet's own masthead or call letters, as its record has them: a
+  // paper's name is already in mixed case and a station's call letters are
+  // capitals, so no case rule is guessed from the shape of the name.
+  const name = outlet.name;
+  const telling = outletTelling(coreAPI(core), outlet.id, name);
+  return {
+    outlet: { text: name, sourceRecordIds: [...cites, outlet.id] },
+    ...(telling
+      ? {
+          [`outlet-${telling.medium}`]: {
+            text: "yes",
+            sourceRecordIds: [...cites, outlet.id],
+          },
+          ...(telling.the
+            ? {
+                "outlet-the": {
+                  text: "yes",
+                  sourceRecordIds: [...cites, outlet.id],
+                },
+              }
+            : {}),
+        }
+      : {}),
+  };
+}
+
+/**
  * A printed story that touches the speaker's own life, told to someone they
  * live with (words composer, talk from what is new on record): one the
  * speaker read lately whose record names their employer (the paper's
@@ -1950,7 +1986,7 @@ function storyTouching(
     const facts: Facts = {
       [mark]: fact("yes"),
       ran: fact(spokenWhen(story.date, core.date)),
-      ...(outlet ? { outlet: fact(outlet.name) } : {}),
+      ...(outlet ? outletFacts(core, outlet, cites) : {}),
     };
     if (mark === "anniversary") {
       if (!employerId || story.facts.organizationId !== employerId) continue;
@@ -2078,10 +2114,7 @@ function playerNews(
           ? core.organizations.get(record.facts.outletId)
           : undefined;
         if (!outlet || record?.facts?.subjectId !== listener.id) continue;
-        facts.outlet = fact(properName(outlet.name), [
-          moment.causeId,
-          outlet.id,
-        ]);
+        Object.assign(facts, outletFacts(core, outlet, [moment.causeId]));
         facts[`ran-${record.facts.subjectFraming ?? "even"}`] = fact("yes");
         facts["knows-paper"] = fact("yes", [
           record.facts.storyId ?? moment.causeId,
@@ -2490,13 +2523,8 @@ function printedSubject(
         },
         ...carried,
         ...(outlet
-          ? {
-              // As the paper's own masthead or call sign has it.
-              outlet: {
-                text: outlet.name,
-                sourceRecordIds: [story.id, outlet.id],
-              },
-            }
+          ? // As the paper's own masthead or call sign has it.
+            outletFacts(core, outlet, [story.id])
           : {}),
       },
     };
@@ -2808,6 +2836,11 @@ export function subjectsBetween(
     )
       continue;
     if (!core.people.get(id)?.alive || !happened(id)) continue;
+    // Nor by someone who saw them today or yesterday: they would tell it,
+    // not ask it (Words lead, Nov 15: "Have you heard from Ariana?" then "I
+    // saw her today."). The gap as a greeting hears it, from their own tie.
+    const seen = lastContact(core, speakerId, id);
+    if (seen && spokenWhenRow(seen.date, core.date).gap === "recent") continue;
     out.push({
       id: `mutual:${id}`,
       kind: "mutual",
@@ -4355,6 +4388,38 @@ function giveBack(
       },
       stage: "working",
       learned: { "their-employer": own },
+    };
+  }
+  if (kind === "asked-mutual" && subject.aboutId) {
+    // When the asker last saw the person they asked about, from their own
+    // tie's last contact: the talk does not end on the player's "Not in a
+    // while." (played-talks, Nov 14). Said by the person's pronoun, from
+    // their record.
+    const aboutId = subject.aboutId as PersonId;
+    const gender = core.people.get(aboutId)?.looks?.gender;
+    const pronoun =
+      gender === "male"
+        ? "mutual-he"
+        : gender === "female"
+          ? "mutual-she"
+          : null;
+    if (!pronoun) return null;
+    // One with no contact of their own has nothing to give back, so the
+    // question is not asked (no asker without a tie asked in the played
+    // talks at seven seeds; Words lead, Nov 15: what is not used is deleted).
+    const seen = lastContact(core, askerId, aboutId);
+    if (!seen) return null;
+    return {
+      facts: {
+        you,
+        [pronoun]: { text: "yes", sourceRecordIds: [aboutId] },
+        "their-when": {
+          text: spokenWhen(seen.date, core.date),
+          sourceRecordIds: [seen.tieId],
+        },
+      },
+      stage: "saw",
+      learned: {},
     };
   }
   if (kind === "asked-kin" && subject.aboutId) {
