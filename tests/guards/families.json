@@ -234,6 +234,8 @@
         "src/core2/work-spans-v1.ts"
       ],
       "paths": [
+        "src/core2/shared-time.ts",
+        "src/core2/work-closeness.ts",
         "src/core2/country-law.ts",
         "src/core2/country-model.ts",
         "src/core2/country-opening.ts",
