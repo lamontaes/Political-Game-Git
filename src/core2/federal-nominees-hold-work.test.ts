@@ -7,7 +7,8 @@
  * from the played town holds theirs. Before, all three lived at the state
  * itself, with no town and no work, so the two passed over sat near the top
  * of a governor's list for every post and nearly always said yes
- * (executive-federal-nominees-passed-over-have-no-work).
+ * (executive-federal-nominees-passed-over-have-no-work). The one confirmed
+ * leaves that work for the post: from the first day, the post is their job.
  *
  * Pinned: Edgar, Wisconsin (5522550), seed edgar-petition-1.
  */
@@ -16,6 +17,8 @@ import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "./bookkeeping";
 import { workFromHome } from "./coarse-place";
 import { gameStartDate } from "./game-start";
+import { addDays, makeIsoDate } from "./kernel/dates";
+import { advanceCore } from "./life";
 import { lawChain } from "./modules/laws";
 import { officialOf } from "./modules/officials";
 import { corePlaceByJurisdictionId } from "./place-lookup";
@@ -55,6 +58,19 @@ it(`${where}: the President's cabinet field lives in towns of the state and hold
     // Someone passed over still holds that work.
     for (const person of passedOver)
       expect(workHeld(core, person.id)?.title, where).toBeTruthy();
+    // The one confirmed leaves it: from the first day the pay engine seats
+    // them (official-pay's seat), the post is their job, and the work they
+    // were filled in with is no longer what they hold.
+    const seated = field.filter((p) => officialOf(api, p.id)?.ended === null);
+    expect(seated.length, `${where}: secretaries`).toBeGreaterThan(10);
+    advanceCore(core, addDays(makeIsoDate(core.date), 1));
+    for (const person of seated) {
+      const now = workHeld(core, person.id);
+      expect(now?.jobId, `${where}: ${person.id}`).toMatch(
+        new RegExp(`^job:office:[^]*:${person.id}$`),
+      );
+      expect(core.jobs.get(now!.jobId!)?.endsAt, where).toBeUndefined();
+    }
   } finally {
     setBookkeeping(previous);
   }
