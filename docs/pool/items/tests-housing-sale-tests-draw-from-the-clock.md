@@ -5,7 +5,7 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: open
+status: in-pr
 standard: 2
 claimed-by: T54
 pr:
