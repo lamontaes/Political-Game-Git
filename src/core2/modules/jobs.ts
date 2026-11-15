@@ -100,6 +100,7 @@ import { townJobRate, townPayPercentile } from "../town-pay";
 import type { EntityId } from "../kernel/brands";
 import { endClaim, fileClaim, payClaims } from "../jobs-benefits";
 import { knownAmong, meetAtWork } from "../encounters";
+import { creditWorkTime } from "../work-closeness";
 import { lawApplied } from "../law-reach/applied";
 import {
   addCountedJob,
@@ -2745,6 +2746,8 @@ function loseAwayWorkByTurnover(
         referenceHourlyMinor: 0,
         // Why, by record: the household's away share lost work by the state's layoff pace.
         reasons: { [AWAY_WORK_LOST]: 1 },
+        // Someone who held an away job knows the wider market already: their search starts where the opening's seekers' do, never from nothing.
+        regionalPull: openingProgress(c, id),
       } as never);
     }
   }
@@ -5641,6 +5644,16 @@ export const JOBS_MODULE: CoreModule = {
     } else if (work.kind === "jobs-week") {
       payClaims(api, store(api).table("claims"));
       runWeek(api);
+      // The week's shared shifts grow the ties between known coworkers.
+      creditWorkTime(api, api.state.date, (organizationId) =>
+        knownAmong(
+          api,
+          Math.max(
+            0,
+            staffHeads(core(api), currentJobs(api, organizationId)) - 1,
+          ),
+        ),
+      );
       scheduleWeek(api);
     }
   },

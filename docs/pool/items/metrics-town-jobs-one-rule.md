@@ -5,10 +5,10 @@ area: world
 kind: bug
 priority: 1
 size: M
-status: open
+status: in-pr
 standard: 2
 claimed-by:
-pr:
+pr: 9391
 after: metrics-output-numbers-registry
 blocked-on:
 lead: jobs
@@ -36,3 +36,5 @@ source: docs/design/output-numbers.md (#8926), owner's ask of Nov 12
 **Files.** src/core2/modules/world-metrics.ts, src/core2/modules/world-panels.ts
 
 **Notes.** From docs/design/output-numbers.md (#8926), owner's ask of Nov 12. Owner, Nov 12, 3:43 p.m. (CTO line on issue 8928): the plan is approved as written, and a small town shows its own count with the people behind it ("13 of 86 looking for work"), never a blend and never the county's figure.
+
+Built (Account lead thread, Nov 15). Cause found: three places counted the town's jobless three ways. The month row counted every person with a job-search record once, so a counted household's seeker weighed 1 and a worker already employed and job-hunting counted as unemployed; the rate used a second loop; the jobs panel used a third, by weight. Seen at Washington, Kansas, July 21, 2025: the Metrics tab said 53 looking while 28 were jobless; at Saugatuck, Connecticut, 131 against 59. Fix: `townLaborByPlace` in `world-panels.ts` is the one pass (people with no job, once each, counted households by weight, out-of-town workers inside the labor force); `townMetrics` and `townJobsPanel` both read it and the duplicate loops in `world-metrics.ts` are deleted. Proof: `src/bench/metrics-jobs-one-rule.test.ts` at Washington, Kansas (599e6f66e9c1d25a) and Everett, Georgia (7a5e19c2b3d84f60).
