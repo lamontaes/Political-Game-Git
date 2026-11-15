@@ -92,12 +92,7 @@ import { billStageSections } from "./ui/bill-stage.mjs";
 import { meetingItem } from "./ui/meeting-item.mjs";
 import { draftCard } from "./ui/draft-card.mjs";
 import { line, prose, heading, labeled, smallText } from "./ui/text.mjs";
-import {
-  engraveMasthead,
-  readerBody,
-  readerMore,
-  sameFor,
-} from "./ui/newspaper.mjs";
+import { engraveMasthead, readerBody, readerMore } from "./ui/newspaper.mjs";
 import { show, mountCloseButtons, mountPanelHeads } from "./ui/panel.mjs";
 import {
   stripScreen,
@@ -144,9 +139,11 @@ let newsFor = null;
 let newsSeen = new Set();
 // The tab on screen while News stays open: a redraw keeps it (closed or left, it clears).
 let newsShowing = null;
-// The game's date is the clock's, the packet's; me.date is only the day the
-// screen loaded (P15, C10: the News kept the opening day).
-const today = () => packet?.at?.date ?? me.date;
+// The game's date is the server's clock: a packet's `at` or the card's (the card is re-read after
+// every change the server made, a dev panel's run of days included, which returns no packet); me.date
+// is only the day the screen loaded (P15, C10: the News kept the opening day).
+let clockAt;
+const today = () => clockAt?.date ?? me.date;
 let talk;
 let openTab;
 let busy = false;
@@ -292,44 +289,11 @@ function drawTalkStrip() {
 const storyHeadline = (story) =>
   story.headline ?? story.lede ?? story.broadcast?.[0]?.text ?? "";
 /**
- * The front-page photo of the room where a state or local government acts.
- * No photo shows the official's own face, which would not match the record;
- * a federal story has none until the art has one without a face.
+ * A story's photo: the painted place its own record is about (the room of the
+ * body that acted, the business, the home), chosen on the server; none when
+ * the record names no painted place.
  */
-const STORY_PHOTOS = {
-  state: ["story-governor-1.jpg"],
-  local: ["story-council-1.jpg", "story-council-2.jpg"],
-};
-/**
- * The level of government a story is about: its own level, else the body,
- * government or law its record names (the nation's ids start "US", a state's
- * "US-" and its postal code, everything else is local).
- */
-function storyLevel(story) {
-  const facts = story.facts ?? {};
-  if (facts.level) return facts.level;
-  if (story.kind === "address") return "federal";
-  const who = String(
-    facts.governmentId ?? facts.body ?? facts.lawId ?? "",
-  ).replace(/^(office|law):/, "");
-  if (!who) return undefined;
-  if (/^US(:|$)/.test(who)) return "federal";
-  if (/^US-[A-Z]{2}:federal\b/.test(who)) return "federal";
-  if (/^US-[A-Z]{2}(:|$)/.test(who)) return "state";
-  return "local";
-}
-/** A lead story about a government acting carries the photo of that level's room. */
-function storyPhoto(story) {
-  const level = storyLevel(story);
-  if (!level || level === "federal") return undefined;
-  const acting = `${story.kind ?? ""} ${story.facts?.recordKind ?? ""}`;
-  if (
-    !/address|inauguration|law|bill|vote|council|budget|veto|sign/.test(acting)
-  )
-    return undefined;
-  const list = STORY_PHOTOS[level] ?? STORY_PHOTOS.local;
-  return `/art/newspaper/${sameFor(list, story.recordId ?? story.id ?? "")}`;
-}
+const storyPhoto = (story) => story.picture?.url;
 function hideNewsToast() {
   hideToast($("news-surface"));
 }
@@ -434,10 +398,11 @@ async function renderScene({ keepBackdrop = false } = {}) {
 async function renderCard() {
   const card = await api(`/api/card?id=${encodeURIComponent(me.id)}`);
   me.card = card;
+  clockAt = card.at ?? clockAt;
   me.names = { ...me.names, [me.id]: card.name };
   $("card-name").textContent = card.name;
   $("card-place").textContent = me.placeName;
-  setClock(packet?.at ?? { date: today(), minuteOfDay: me.minuteOfDay ?? 0 });
+  setClock(clockAt ?? { date: today(), minuteOfDay: me.minuteOfDay ?? 0 });
 }
 
 // The Guide's search, kept so an underlined term opens straight to it.
@@ -630,7 +595,10 @@ function renderPacket(value) {
   const open = packet?.kind === "stop";
   $("hour").disabled = $("day").disabled = $("week").disabled = busy || open;
   show("continue", packet?.kind === "stop");
-  if (packet) setClock(packet.at);
+  if (packet) {
+    clockAt = packet.at;
+    setClock(clockAt);
+  }
 }
 
 /** The newest line of the journal, bottom right. */
@@ -4577,7 +4545,7 @@ const sheets = {
     );
     // Today is the world's day: the later of the clock's last packet and the
     // record, so a day the world has reached never offers a jump to it.
-    const date = [packet?.at.date, recordDate].filter(Boolean).sort().at(-1);
+    const date = [clockAt?.date, recordDate].filter(Boolean).sort().at(-1);
     const labels = controls.calendar;
     return [
       calendarScreen({

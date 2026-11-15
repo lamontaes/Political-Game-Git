@@ -44,6 +44,11 @@ export const LAW_SERIES: Readonly<Record<string, LawDoctrine>> = {
   "income-tax": "additive",
   "sales-tax": "additive",
   "corporate-income-tax": "additive",
+  // A state's estate or inheritance tax is its own, owed beside the federal
+  // estate tax (26 U.S.C. 2001 and each state's own act), so a state with none
+  // has none in force, not the federal rate.
+  "estate-tax": "additive",
+  "inheritance-tax": "additive",
   "property-tax": "single",
   "snap-maximum": "single",
   "unemployment-weekly-maximum": "single",
