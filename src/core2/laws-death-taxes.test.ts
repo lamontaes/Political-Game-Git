@@ -31,9 +31,12 @@ import { shapedRate } from "./modules/legislature";
 import { enactLaw } from "./modules/laws";
 import type { LawRowInput } from "./laws-starting";
 
-const seed =
-  process.env.GOLDEN_PATH_SEED ??
-  createHash("sha256").update(`death-taxes:${Date.now()}`).digest("hex");
+// Pinned (tests-housing-sale-tests-draw-from-the-clock): one fixed seed, so
+// every pick below names the same state and place on every run (the
+// rate-only adoption at Michigan, place 2632980). The old seed hashed
+// Date.now(), on the premise that any state and place reads the same; it
+// gave a different world on every run.
+const seed = "t54-gate-5c3dc321";
 const rows = (
   startingLaw as unknown as {
     jurisdictions: Record<string, (LawRowInput & { series: string })[]>;
