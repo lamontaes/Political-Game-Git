@@ -47,14 +47,24 @@ import type { TreeNode } from "./scene-talk";
 
 const PLACE = "3972242";
 const SEED = "scan-25";
+/** Seeds of this town where a petition runs short for the clerk and for a helper alike, found by hand. */
+const SIBLING_SEEDS = [
+  "scan-3",
+  "scan-5",
+  "scan-6",
+  "scan-9",
+  "scan-12",
+  "scan-14",
+  "scan-24",
+];
 const OUT = process.env.PETITION_SHORT_PLAYED;
 const write = (text: string) => {
   if (OUT) appendFileSync(OUT, `${text}\n`);
 };
 
-function filer() {
+function filer(seed: string = SEED) {
   setBookkeeping(false);
-  const world = buildBenchWorld(SEED, gameStartDate(), {
+  const world = buildBenchWorld(seed, gameStartDate(), {
     twoLevel: true,
     placeKey: PLACE,
   });
@@ -142,16 +152,16 @@ function stagedEntry(world: Case) {
 }
 
 /** Tells the player, writes the arithmetic and the whole talk to the played file, returns the composed scene. */
-function told(world: Case, label: string) {
+function told(world: Case, label: string, seed: string = SEED) {
   const { core, api, director, me, filing } = world;
   const petition = petitionOf(api, filing.id)!;
   const gather = signaturesToGather(petition.needed);
   const day = playToTold(world);
-  expect(day, `${PLACE} ${SEED} ${label}: told as short`).toBeDefined();
+  expect(day, `${PLACE} ${seed} ${label}: told as short`).toBeDefined();
   const record = core.durableLog.get(toldId(filing.id))!;
   const f = record.facts as Readonly<Record<string, string>>;
   write(
-    `## ${label}: ${PLACE} ${SEED}, needed ${petition.needed}, a campaign gathers ${gather}, due ${petition.due}. A canvass shift adds ${petitionShiftYield()} (${campaignParameter("playerCanvassHours")} hours x ${campaignParameter("doorsPerCanvasserHour")} doors an hour x ${campaignParameter("petitionSignOpenness")} sign).\nTold on ${day} by ${f.tellerKind} ${f.tellerId}: ${f.signed} signed of ${f.gathers}, ${f.daysLeft} days left, the days after the next turn can add ${f.canAddAfterNextTurn} against a gap of ${Number(f.gathers) - Number(f.signed)}.\n`,
+    `## ${label}: ${PLACE} ${seed}, needed ${petition.needed}, a campaign gathers ${gather}, due ${petition.due}. A canvass shift adds ${petitionShiftYield()} (${campaignParameter("playerCanvassHours")} hours x ${campaignParameter("doorsPerCanvasserHour")} doors an hour x ${campaignParameter("petitionSignOpenness")} sign).\nTold on ${day} by ${f.tellerKind} ${f.tellerId}: ${f.signed} signed of ${f.gathers}, ${f.daysLeft} days left, the days after the next turn can add ${f.canAddAfterNextTurn} against a gap of ${Number(f.gathers) - Number(f.signed)}.\n`,
   );
   const entry = stagedEntry(world);
   if (!entry) {
@@ -359,3 +369,19 @@ it("dev mode brings on the offer and traces what the engine read", () => {
     `## Dev mode: "${"Petition falls behind"}" advanced to ${result.told}; told by the ${result.tellerKind}; ${result.signed} of ${result.gathers} signed, ${result.daysLeft} days left.\n`,
   );
 }, 1_500_000);
+
+/**
+ * Other worlds at the same place, so each wording of a line that the world's own pick chooses
+ * between is shown: the lead, the opener, the answer and the thank are picked by the record's
+ * id, so another player and filing in the same town draws another sibling. Every talk is
+ * written whole, in the same layout as the cases above.
+ */
+it("other worlds show the other wordings of the clerk's and the helper's talk", () => {
+  for (const seed of SIBLING_SEEDS) {
+    for (const byHelper of [false, true]) {
+      const world = filer(seed);
+      if (byHelper) helperJoins(world);
+      told(world, `${byHelper ? "Helper" : "Clerk"}, another world`, seed);
+    }
+  }
+}, 3_000_000);

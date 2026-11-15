@@ -2150,14 +2150,6 @@
           "role": "asker",
           "purpose": "hearing-ask",
           "key": "favor-asked"
-        },
-        {
-          "subject": "scene",
-          "purpose": "petition-short",
-          "key": "news-received",
-          "step": "open",
-          "move": "greet",
-          "role": "asker"
         }
       ],
       "bearing": "calm",
@@ -190232,54 +190224,6 @@
           "requiresFacts": ["reason-own-seat", "stranger"]
         }
       ]
-    },
-    {
-      "key": "scene-talk.open-greet.do-you-have-a-minute-it-s-about-your-petition",
-      "move": "open-greet",
-      "kind": "spoken",
-      "text": "Do you have a minute? It's about your petition.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "petition-short",
-          "key": "news-received",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "requiresFacts": ["teller-clerk"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (petition-short lines, Nov 15), placed by the record",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "greet",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.open-greet.do-you-have-a-minute-it-s-the-petition",
-      "move": "open-greet",
-      "kind": "spoken",
-      "text": "Do you have a minute? It's the petition.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "petition-short",
-          "key": "news-received",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "requiresFacts": ["teller-helper"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (petition-short lines, Nov 15), placed by the record",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "greet",
-        "key": "news-received"
-      }
     },
     {
       "key": "scene-talk.state-tell.your-petition-for-office-is-thin-and-time-is-short",
