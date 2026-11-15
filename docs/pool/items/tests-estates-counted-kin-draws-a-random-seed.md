@@ -1,7 +1,7 @@
 ---
 id: tests-estates-counted-kin-draws-a-random-seed
 title: "The counted-kin estate test draws a fresh random seed and loops up to eight worlds, so it can run past half an hour and is never the same run twice"
-area: tests
+area: release
 kind: bug
 priority: 2
 size: S

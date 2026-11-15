@@ -26,7 +26,7 @@ source: "found by T54 gating world-counted-renters-buy (#9117), Nov 15; red the 
 
 **Time box.** 2 hours for one Sonnet session at medium effort. When it runs out, write what was read here and stop.
 
-**Rules.** Pinned tests. A marked reading stays marked until a statute replaces it.
+**Rules.** Pinned tests: the test names its state, place and seed in the file instead of drawing one from the clock. Estimate, never UNKNOWN: a marked reading stays marked until a statute replaces it.
 
 **Done when.** The test passes on a fixed seed and a named place in the file, and the Kentucky government heir hits the stopgap again, by its id. A second session, at a drawn place in Kentucky it names with its seed, sees in dev mode's Trace for an estate left to the town that the exemption is marked as a reading.
 
