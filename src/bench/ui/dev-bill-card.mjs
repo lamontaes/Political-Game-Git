@@ -391,6 +391,15 @@ async function outcomeLines({ billId, labels, onDone }) {
         ].join(" · "),
         "dev-bill-reach",
       ),
+      // A government's own record (pay a line commits to positions): its own line, not money moved.
+      ...(r.governmentOwnMinor
+        ? [
+            line(
+              `${labels.reach.governmentOwn} ${dollars(r.governmentOwnMinor)}`,
+              "dev-bill-reach-government-own",
+            ),
+          ]
+        : []),
       ...r.by.map((side) =>
         line(
           [

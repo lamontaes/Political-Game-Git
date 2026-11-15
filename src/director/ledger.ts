@@ -15,8 +15,8 @@ import { recordYearlyAddress } from "./yearly-address";
 import { recordLocalAddresses } from "./local-address";
 import { SCHOOL_STARTED, preStartHistory } from "../core2/past";
 import { addDays, daysBetween, makeIsoDate } from "../core2/kernel/dates";
-import { appraiseEvent } from "../core2/emotion";
-import { closenessBetween, familyFactsOf, formerKin } from "../core2/closeness";
+import type { EventAppraisal } from "../core2/emotion";
+import { familyFactsOf, formerKin } from "../core2/closeness";
 import { sharedHistory, type SharedHistoryKind } from "../core2/shared-history";
 
 /** Where a contact was made, by the record that says so: never a stranger's scene. */
@@ -25,7 +25,7 @@ const MADE_AT: readonly SharedHistoryKind[] = [
   "coworker",
   "schoolmate",
 ];
-import { P, parameterValues } from "../core2/parameters";
+import { P } from "../core2/parameters";
 import { isExplicitlyControlledPersonV1 } from "../core2/player-control-state-v1";
 import {
   playerClockFrontierV1,
@@ -56,6 +56,14 @@ import { scheduleMoment, SITUATION_LIBRARY } from "./scheduling";
 import { ADDRESS_FACT } from "./opening-facts";
 import type { ScheduleEntry } from "./scheduling";
 import { directorStopgap } from "./stopgaps";
+import {
+  closeDuePromises,
+  indexPromise,
+  promiseOfEvent,
+  settlePromisesOnEvent,
+  settlePromisesOnTie,
+  promiseParam,
+} from "./promises";
 import type {
   BackdropEntry,
   CallbackLink,
@@ -257,6 +265,8 @@ export function createDirector(
     broadEvents: new Map(),
     hitBy: new Map(),
     liesByLearner: new Map(),
+    promisesBySettle: new Map(),
+    promisesDue: new Map(),
     stopgapHits: new Set(),
     sceneFilters: new Map(),
     pollingVisits: new Map(),
@@ -321,6 +331,12 @@ export function createDirector(
     if (!row) throw new Error(`Unregistered director channel: ${id}`);
     return row;
   };
+  // The core's appraisal notices for the watched people, by event and person,
+  // held from the notice until the director reads the same event.
+  const appraisals = new Map<string, EventAppraisal>();
+  // The ties the core sent a change notice for since each watched person was
+  // last measured, in the order the notices came.
+  const tieNotices = new Map<PersonId, Set<string>>();
   const pendingFor = (id: PersonId): Pending => {
     let row = pending.get(id);
     if (!row) pending.set(id, (row = { events: [], work: [] }));
@@ -342,14 +358,23 @@ export function createDirector(
     return { total, jobs };
   }
 
-  function snapshot(core: Readonly<CoreState>, actor: PersonState): Snapshot {
+  /**
+   * The person's state at the close of a measure. The ties are taken whole
+   * when watching begins; after that only the ties the core sent a change
+   * notice for are brought up to date (the core's notices name every change).
+   */
+  function snapshot(
+    core: Readonly<CoreState>,
+    actor: PersonState,
+    carried?: { ties: Snapshot["ties"]; touched: Iterable<string> },
+  ): Snapshot {
     const pay = householdPay(core, actor.householdId);
-    const ties = new Map<
-      string,
-      { otherId: PersonId; level: number; lastContact: IsoDate }
-    >();
-    for (const id of core.relationshipsByPerson.get(actor.id) ?? []) {
-      const row = core.relationships.get(id)!;
+    const ties: Snapshot["ties"] = carried?.ties ?? new Map();
+    for (const id of carried
+      ? carried.touched
+      : (core.relationshipsByPerson.get(actor.id) ?? [])) {
+      const row = core.relationships.get(id);
+      if (!row) continue;
       ties.set(id, {
         otherId: row.actorId === actor.id ? row.otherId : row.actorId,
         level: row.level,
@@ -1027,14 +1052,17 @@ export function createDirector(
       if (rule.minDaysApart) spacedToday.add(row.event.kind);
     }
 
-    // Ties: every change in closeness, read once at the end of the day.
-    directorStopgap("SG-P13-tie-day-order", ledger.stopgapHits);
+    // Ties: each change in closeness, read in the order the core sent its
+    // notices (a tie nobody changed is never visited).
+    const touchedTies = [...(tieNotices.get(book.personId) ?? [])];
+    tieNotices.delete(book.personId);
     const fadedBefore = new Map<PersonId, number>();
     // The last day each pair was in touch before today's change, kept for the
     // turn that renews a faded thread (the reunion scene says how long).
     const lastBefore = new Map<PersonId, IsoDate>();
-    for (const id of core.relationshipsByPerson.get(book.personId) ?? []) {
-      const row = core.relationships.get(id)!;
+    for (const id of touchedTies) {
+      const row = core.relationships.get(id);
+      if (!row) continue;
       const otherId = row.actorId === book.personId ? row.otherId : row.actorId;
       const prior = before.ties.get(id);
       const delta = row.level - (prior?.level ?? zero);
@@ -1280,7 +1308,10 @@ export function createDirector(
       storeMoment(core, book, row, label, impact, contributions);
     }
     if (closing && !scored) book.quietDays += one;
-    snapshots.set(book.personId, snapshot(core, actor));
+    snapshots.set(
+      book.personId,
+      snapshot(core, actor, { ties: before.ties, touched: touchedTies }),
+    );
   }
 
   function storeMoment(
@@ -2006,19 +2037,13 @@ export function createDirector(
         actor.alive &&
         (event.moodImpulse !== undefined || event.stressImpulse !== undefined)
       ) {
-        directorStopgap("SG-P13-appraisal-recompute", ledger.stopgapHits);
-        const relation = event.personIds.reduce(
-          (level, subject) =>
-            Math.max(level, closenessBetween(core, id, subject)),
-          zero,
-        );
-        const appraisal = appraiseEvent(
-          actor,
-          event,
-          relation,
-          parameterValues(core.data.parameters),
-          core.data.appraisalTraits,
-        );
+        // The feeling the core applied to this person for this event, as the
+        // core's appraisal notice reported it (no second computation).
+        const appraisal = appraisals.get(`${event.id}|${id}`);
+        if (!appraisal)
+          throw new Error(
+            `No appraisal notice from the core for ${event.id} and ${id}.`,
+          );
         mood = appraisal.moodImpulse;
         stress = appraisal.stressImpulse;
       }
@@ -2029,6 +2054,7 @@ export function createDirector(
         settleLies(core, event, book);
       }
     }
+    for (const id of learnedBy) appraisals.delete(`${event.id}|${id}`);
     return reached;
   }
 
@@ -2065,9 +2091,21 @@ export function createDirector(
 
   function produceKeptFacts(event: CoreEventInput, book: PersonLedger): void {
     for (const kind of data.keptFactKinds) {
-      if (!kind.producedBy.includes(event.kind)) continue;
+      // A kind is recorded by its event kinds, or by an event kind that
+      // carries a fact (a scene reply that keeps a promise or a favor).
+      const byFact = kind.producedByFact?.some((row) => {
+        if (row.eventKind !== event.kind) return false;
+        const value = event.facts?.[row.fact];
+        return row.equals === undefined ? !!value : value === row.equals;
+      });
+      if (!kind.producedBy.includes(event.kind) && !byFact) continue;
       const [holderId, otherId] = event.personIds;
       if (!holderId || !otherId) continue;
+      const promise =
+        kind.endsOn === "settling-record"
+          ? promiseOfEvent(event, promiseParam)
+          : null;
+      if (kind.endsOn === "settling-record" && !promise) continue;
       const fact: KeptFact = {
         id: `${kind.id}:${event.id}`,
         kind: kind.id,
@@ -2077,8 +2115,10 @@ export function createDirector(
         sinceBasis: "recorded",
         sourceId: event.id,
         ...(event.topic ? { concernsKey: event.topic } : {}),
+        ...(promise ? { promise } : {}),
       };
       keepFact(book, fact);
+      if (promise) indexPromise(ledger, book.keptFacts.get(fact.id)!);
       if (kind.endsOn === "contradicting-fact-learned" && fact.concernsKey) {
         const key = `${otherId}|${fact.concernsKey}`;
         let set = ledger.liesByLearner.get(key);
@@ -2121,6 +2161,7 @@ export function createDirector(
     },
     onEvent(api, event, learnedBy) {
       if (!started) return;
+      settlePromisesOnEvent(api, ledger, event, promiseParam);
       if (circumstanceRows.has(event.kind)) {
         const queued = queuedOf(event);
         circumstanceQueue.push(queued);
@@ -2134,9 +2175,21 @@ export function createDirector(
       }
       rateNow(api.state, onEvent(api.state, event, learnedBy));
     },
+    appraisalEventKinds: data.eventKinds,
+    onEventAppraisal(_api, event, appraisal) {
+      if (started && ledger.people.has(appraisal.actorId))
+        appraisals.set(`${event.id}|${appraisal.actorId}`, appraisal);
+    },
     relationshipKinds: data.relationshipKinds,
     onRelationshipChange(api, notice) {
       if (!started) return;
+      settlePromisesOnTie(api, ledger, notice, promiseParam);
+      for (const id of [notice.actorId, notice.otherId]) {
+        if (!ledger.people.has(id)) continue;
+        let queue = tieNotices.get(id);
+        if (!queue) tieNotices.set(id, (queue = new Set()));
+        queue.add(notice.relationshipId);
+      }
       rateNow(api.state, [notice.actorId, notice.otherId]);
     },
     onWorkResult(api, receipt) {
@@ -2147,6 +2200,8 @@ export function createDirector(
     onAfterDay(api) {
       if (!started)
         throw new Error("The story director was installed but not started.");
+      // Promises whose window closes today end as their kind says.
+      closeDuePromises(api, ledger, promiseParam);
       for (const book of ledger.people.values()) measureDay(api.state, book);
       produceCircumstances(api.state);
       // Election day (the polling-place type's producer): the eve's close
@@ -2252,6 +2307,8 @@ export function createDirector(
       refill(ledger.broadEvents, fromLedger.broadEvents);
       refill(ledger.hitBy, fromLedger.hitBy);
       refill(ledger.liesByLearner, fromLedger.liesByLearner);
+      refill(ledger.promisesBySettle, fromLedger.promisesBySettle ?? new Map());
+      refill(ledger.promisesDue, fromLedger.promisesDue ?? new Map());
       ledger.stopgapHits.clear();
       for (const hit of fromLedger.stopgapHits) ledger.stopgapHits.add(hit);
       refill(ledger.sceneFilters, fromLedger.sceneFilters);

@@ -972,6 +972,11 @@
       "reason": "a body's act on a bill; the legislature's record holds it"
     },
     {
+      "kind": "sign-on-asked",
+      "from": "event",
+      "reason": "a body's act on a bill; the legislature's record holds it"
+    },
+    {
       "kind": "serve-asked",
       "from": "event",
       "reason": "the player's ask; the seat it fills is told (candidate-filed, official-appointed)"

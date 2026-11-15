@@ -34,3 +34,5 @@ checked: fable 2026-11-10
 **Waits on.** gov-congress-passes-policy-laws (or dev mode's enact-a-law route) so the law can be enacted.
 
 **Files.** src/core2/data/laws/reach-group-a.json, src/core2/law-reach/group-a.ts, src/core2/modules/business.ts, src/core2/data/stopgaps/laws.json
+
+**Notes (Account lead thread, Nov 14, 2026).** Measured on the train at Eveleth, Minnesota (checker seed take-effect-2): the federal carbon limit is read only by the climate engine (national warming, monthly) and names no person or business; tariffs are read by no engine. Both stay this item's.

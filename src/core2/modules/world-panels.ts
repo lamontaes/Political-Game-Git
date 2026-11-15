@@ -212,5 +212,5 @@ export function homePanel(api: CoreAPI, householdId: string) {
   };
 }
 
-// Re-exported so the bill stage view reads the legislature's sessions through this entry (families guard).
-export { legislativeSessionsOf } from "./world-legislating";
+// Re-exported so the bill stage view and the states screen read the legislature's sessions and roll calls through this entry (families guard).
+export { legislativeSessionsOf, rollCallOf } from "./world-legislating";

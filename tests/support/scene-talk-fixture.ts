@@ -69,6 +69,8 @@ const flags = [
   "winner-is-other",
   // The clerk's petition lines are worded for a first filing or a repeat one.
   "first-filing",
+  // A colleague's no to signing on says the reason its record holds.
+  "no-views",
 ];
 export const facts: Record<string, Fact> = {
   name: fact("Pat Rivera"),
@@ -128,6 +130,7 @@ export const facts: Record<string, Fact> = {
   margin: fact("about 60 votes"),
   signatures: fact("1,250"),
   due: fact("March 5"),
+  said: fact("rent increases"),
   // Asking someone to serve (purpose-scene's serve facts): the asked person's
   // first name and seat, and one reason each way, so both answers can be worded.
   "their-first": fact("Pat"),

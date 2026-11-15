@@ -22,6 +22,7 @@ import {
   lawChain,
   lawInForce,
   lawRows,
+  localPowerBarred,
   yesLevels,
   LAWS_MODULE_ID,
   openLaws,
@@ -40,13 +41,17 @@ import type { LawInForceAnswer } from "./laws-in-force";
 import type { CoreAPI, CoreState } from "./types";
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
-import { getRow, REACH_B_MODULE_ID } from "./law-reach/group-b-store";
+import { getRow, putRow, REACH_B_MODULE_ID } from "./law-reach/group-b-store";
 import type {
   GroupReach,
   OrganizationReach,
   PersonReach,
 } from "./law-reach/group-b-store";
-import { GROUP_B_KEYS, groupBPolicy } from "./law-reach/group-b";
+import {
+  GROUP_B_KEYS,
+  groupBPolicy,
+  WELFARE_WORK_RULE,
+} from "./law-reach/group-b";
 import {
   reachParameter,
   selectResidents,
@@ -63,6 +68,9 @@ import {
 import { spellOn } from "./health-own";
 
 const START = "2026-01-05";
+const MEDICAID_SEED = "0123";
+/** South Fork Estates, Texas: named covered adults at MEDICAID_SEED. */
+const MEDICAID_PLACE = "4868966";
 let seed =
   process.env.GOLDEN_PATH_SEED ??
   createHash("sha256").update(`reach-b:${Date.now()}`).digest("hex");
@@ -169,13 +177,7 @@ function build(options: {
     // The welfare time-limit case needs a household head, named or counted,
     // the assistance work requirement reaches and the welfare line pays.
     const workReached = new Set(
-      selectResidents(
-        facts,
-        groupBPolicy(
-          Q("health-human-services.work-requirement-for-assistance"),
-        )!.people!,
-        stateKey,
-      ).map((r) => r.id),
+      selectResidents(facts, WELFARE_WORK_RULE, stateKey).map((r) => r.id),
     );
     const timeLimitHeads = selectResidents(
       facts,
@@ -391,6 +393,17 @@ function expectEnded(key: string): void {
   if (g) expect(g.endedOn, `${where} ${key} group`).not.toBeNull();
 }
 
+/**
+ * The level that can make the rule: where the state bars its places from it
+ * (a researched preemption, which the state's own law can change) a county or
+ * city act is void and only the state makes it.
+ */
+function actLevel(key: string, level: string): string {
+  return level !== "state" && level !== "federal" && localPowerBarred(api, key)
+    ? "state"
+    : level;
+}
+
 function govFor(line: string): GovernmentRow {
   const govs = governments(api);
   const city = govs.find((g) => g.level === LOCAL)!;
@@ -459,9 +472,7 @@ function assistanceWorkCase(): void {
       stateKey,
     );
     const reachedIds = new Set(
-      selectResidents(facts, groupBPolicy(work)!.people!, stateKey).map(
-        (r) => r.id,
-      ),
+      selectResidents(facts, WELFARE_WORK_RULE, stateKey).map((r) => r.id),
     );
     const rows = open();
     const named = rows.filter((r) => api.state.people.has(r.recipientId));
@@ -481,9 +492,34 @@ function assistanceWorkCase(): void {
       inside.named.some((r) => r.recipientId === head.id),
       `${where} ${head.id} drawing inside the limit`,
     ).toBe(true);
+  // The limit is a lifetime count, so five years of play would be needed to
+  // reach it from nothing. Every other head the rule reaches is given the
+  // earlier months on the line a lifetime count carries (a staged record, an
+  // edge-case fixture: the months sit in earlier calendar years), the rest start
+  // at nothing; the live months then take the staged heads over the limit and
+  // leave the others drawing.
+  const limitMonths = reachParameter("tanfTimeLimitMonths");
+  const liveMonths = 4;
+  const monthBefore = (back: number) => {
+    const total =
+      Number(api.state.date.slice(0, 4)) * 12 +
+      Number(api.state.date.slice(5, 7)) -
+      1 -
+      back;
+    return `${Math.floor(total / 12)}-${String((total % 12) + 1).padStart(2, "0")}`;
+  };
+  const stagedIds = [...inside.reachedIds].sort().filter((_, i) => i % 2 === 0);
+  for (const id of stagedIds)
+    putRow(api, "taken", {
+      id: `welfare-draw|${id}`,
+      key: "welfare-draw",
+      months: Array.from({ length: limitMonths - liveMonths + 1 }, (_, i) =>
+        monthBefore(limitMonths - liveMonths + 1 - i),
+      ),
+    });
   // Live through the limit a month at a time; a new fiscal year's budget
   // starts from the base, so the council raises the line again.
-  for (let m = 0; m < reachParameter("snapWorkTimeLimitMonths") + 2; m += 1) {
+  for (let m = 0; m < liveMonths + 1; m += 1) {
     advanceCore(core, after(api.state.date, 31));
     if (line(gov, "welfareAndMedicaid") < raised)
       amend(
@@ -493,30 +529,18 @@ function assistanceWorkCase(): void {
       );
   }
   const past = standing();
-  // The requirement stops a head it reaches once that person's own months on
-  // the benefit since it took effect reach its limit within its window; a
-  // head it reached later, with fewer months, still draws.
-  const since = (
-    lawInForce(api, work).governing?.effectiveDate ?? api.state.date
-  ).slice(0, 7);
+  // The welfare line stops a head the work rule reaches once that person's
+  // own months on the line (every month on record, a lifetime count) reach
+  // the limit; a head with fewer months still draws.
   const thisMonth = api.state.date.slice(0, 7);
-  const monthsAgo = (m: string) =>
-    (Number(thisMonth.slice(0, 4)) - Number(m.slice(0, 4))) *
-      reachParameter("monthsPerYear") +
-    Number(thisMonth.slice(5, 7)) -
-    Number(m.slice(5, 7));
   const draws = new Map(
     table<{ id: string; months: string[] }>("taken")
-      .filter((r) => r.id.startsWith("draw|"))
-      .map((r) => [r.id.slice("draw|".length), r.months]),
+      .filter((r) => r.id.startsWith("welfare-draw|"))
+      .map((r) => [r.id.slice("welfare-draw|".length), r.months]),
   );
   const usedUp = (id: string) =>
-    (draws.get(id) ?? []).filter(
-      (m) =>
-        m !== thisMonth &&
-        m >= since &&
-        monthsAgo(m) < reachParameter("snapWorkTimeLimitWindowMonths"),
-    ).length >= reachParameter("snapWorkTimeLimitMonths");
+    (draws.get(id) ?? []).filter((m) => m !== thisMonth).length >=
+    reachParameter("tanfTimeLimitMonths");
   const stopped = past.heads.filter(
     (h) => past.reachedIds.has(h.id) && usedUp(h.id),
   );
@@ -801,9 +825,10 @@ describe("law reach, group B: every policy reaches people through its engine", (
 
   it("funding pensions to schedule adds the contribution and reaches public employers and workers", () => {
     const key = Q("fiscal.fund-pensions-to-schedule");
-    const gov = governments(api).find((g) => g.level === LOCAL)!;
+    const at = actLevel(key, LOCAL);
+    const gov = governments(api).find((g) => g.level === at)!;
     const before = line(gov, "retirementContributions");
-    enact(key, 1, LOCAL);
+    enact(key, 1, at);
     const added = Math.round(
       reachParameter("pensionShortfallPerResidentDollars") *
         100 *
@@ -832,7 +857,7 @@ describe("law reach, group B: every policy reaches people through its engine", (
       publicOrgs.length,
     );
     report.pensions = { addedMinor: added, publicEmployers: publicOrgs.length };
-    enact(key, 0, LOCAL);
+    enact(key, 0, at);
     expect(line(gov, "retirementContributions")).toBe(before);
     expectEnded("budget-line:retirementContributions");
   });
@@ -840,7 +865,9 @@ describe("law reach, group B: every policy reaches people through its engine", (
   it("a minimum reserve sets the treasury's cash aside up to its target; repeal releases it", () => {
     const key = Q("fiscal.minimum-reserve-balance");
     const govs = governments(api).filter(
-      (g) => g.level === LOCAL || g.level === "state",
+      (g) =>
+        g.level === "state" ||
+        (g.level === LOCAL && actLevel(key, LOCAL) === LOCAL),
     );
     // The government with a budget to hold a reserve against, richest first.
     const spends = (g: GovernmentRow) =>
@@ -897,7 +924,8 @@ describe("law reach, group B: every policy reaches people through its engine", (
 
   it("a balanced-budget rule cuts spending to revenue", () => {
     const key = Q("fiscal.balanced-operating-budget");
-    const gov = governments(api).find((g) => g.level === LOCAL)!;
+    const at = actLevel(key, LOCAL);
+    const gov = governments(api).find((g) => g.level === at)!;
     const total = (o: Readonly<Record<string, number>>) =>
       Object.values(o).reduce((a, b) => a + b, 0);
     const b0 = budgetNow(api, gov.id)!;
@@ -908,7 +936,7 @@ describe("law reach, group B: every policy reaches people through its engine", (
     expect(total(before.spendingMinor)).toBeGreaterThan(
       total(before.revenueMinor),
     );
-    enact(key, 1, LOCAL);
+    enact(key, 1, at);
     const after_ = budgetsOf(api, gov.id).find((b) => b.id === before.id)!;
     expect(total(after_.spendingMinor), where).toBeLessThanOrEqual(
       total(after_.revenueMinor),
@@ -921,7 +949,7 @@ describe("law reach, group B: every policy reaches people through its engine", (
       spendingAfter: total(after_.spendingMinor),
       revenue: total(after_.revenueMinor),
     };
-    enact(key, 0, LOCAL);
+    enact(key, 0, at);
     expectEnded(key);
   });
 
@@ -1067,8 +1095,18 @@ describe("law reach, group B: a city income tax", () => {
 });
 
 describe("law reach, group B: Medicaid expansion and its work requirement", () => {
-  // Its own town, drawn for only the subjects these cases read, from all 56 and named in every failure.
-  beforeAll(() => build({ pinned: false, need: ["medicaid"] }));
+  // Pinned to a town with named adults the expansion covers and the work
+  // requirement then reaches, found by drawing (seed 0123 at its draw): a
+  // two-level town has few named covered adults, so a fresh draw of forty
+  // towns can find none. The seed is restored for the cases after it.
+  const drawnSeed = seed;
+  beforeAll(() => {
+    seed = MEDICAID_SEED;
+    build({ pinned: false, placeKey: MEDICAID_PLACE, need: ["medicaid"] });
+  });
+  afterAll(() => {
+    seed = drawnSeed;
+  });
 
   // ---- Eligibility from income, work hours and children ----
   it("Medicaid expansion reaches low-income adults 19-64; the work requirement those under 80 hours without young children", () => {
