@@ -8,7 +8,7 @@
  */
 import type { CoreState, PersonId } from "../core2/types";
 import { wordSceneMove } from "../english/scene-talk-words";
-import { tieSide } from "./purpose-scene";
+import { tieSide } from "./relation-facts";
 
 export type CampaignAsk = "volunteer" | "endorse";
 
