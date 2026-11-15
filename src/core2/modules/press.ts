@@ -48,6 +48,7 @@ import type {
 import type { ModuleRow } from "../module-data";
 import type { ModuleCalendarWork } from "../module-calendar";
 import { lawChain } from "./laws";
+import { billOf } from "./legislature";
 import {
   countedResidentsOf,
   engagementOf,
@@ -446,6 +447,7 @@ export const PRESS_MODULE: CoreModule = {
   onCalendarWork: (api, work) => {
     if (work.kind === "press-dig") checkClaim(api, work);
     else if (work.kind === "press-invite") inviteDay(api, work);
+    else if (work.kind === PRESS_CALL_BACK_WORK) callBack(api, work);
     else pressWeek(api, work);
   },
   eventKinds: ["*"],
@@ -454,6 +456,7 @@ export const PRESS_MODULE: CoreModule = {
     if (event.kind === "scene.reply") {
       answerInvitation(api, event);
       keepComment(api, event);
+      keepPutOffComment(api, event);
       reportConcession(api, event);
       return;
     }
@@ -4489,7 +4492,8 @@ function keepComment(api: CoreAPI, event: Readonly<CoreEventInput>): void {
   const facts = event.facts ?? {};
   if (facts.typeKey !== "press-interview" || facts.keeps !== "story-runs")
     return;
-  const causeId = String(facts.causeId ?? "");
+  // A call back's answer is the comment on the record it called back about.
+  const causeId = calledBackAbout(api, String(facts.causeId ?? ""));
   const personId = event.personIds[0];
   if (!causeId || !personId) return;
   const said = facts.ending === "on-record" || facts.ending === "lie-printed";
@@ -4501,6 +4505,91 @@ function keepComment(api: CoreAPI, event: Readonly<CoreEventInput>): void {
     quote: said ? String(facts.line ?? "") || null : null,
     replyId: event.id,
   } satisfies CommentRow as unknown as ModuleRow);
+}
+
+/** A reporter calling back about a comment put off before a vote. */
+export const PRESS_CALL_BACK_EVENT = "press-call-back";
+const PRESS_CALL_BACK_WORK = "press-call-back";
+
+/** The record a call back was about, or the record itself. */
+function calledBackAbout(api: CoreAPI, causeId: string): string {
+  const cause = api.state.durableLog.get(causeId);
+  return cause?.kind === PRESS_CALL_BACK_EVENT
+    ? String(cause.facts?.causeId ?? causeId)
+    : causeId;
+}
+
+/** Whether a bill is still waiting for its vote: drafted, not yet passed or failed. */
+function voteAhead(api: CoreAPI, billId: string): boolean {
+  return !!billId && billOf(api, billId)?.status === "drafted";
+}
+
+/**
+ * An official who put a reporter off about a bill before its vote ("Let me
+ * check and call you back") is called back once, the next day, while the vote
+ * is still ahead (Words lead, Nov 15). The put-off is the no-comment kept on
+ * the comment row; the call back goes only while that row still says nothing.
+ */
+function keepPutOffComment(
+  api: CoreAPI,
+  event: Readonly<CoreEventInput>,
+): void {
+  const facts = event.facts ?? {};
+  if (facts.typeKey !== "press-interview" || facts.move !== "stall") return;
+  const cause = api.state.durableLog.get(String(facts.causeId ?? ""));
+  if (!cause || cause.kind === PRESS_CALL_BACK_EVENT) return;
+  const billId = String(cause.facts?.billId ?? "");
+  if (!voteAhead(api, billId)) return;
+  const day = addDays(makeIsoDate(api.state.date), 1);
+  const [officialId, reporterId] = event.personIds;
+  if (!officialId || !reporterId) return;
+  api.moduleCalendar(PRESS_MODULE_ID).schedule({
+    key: `${PRESS_CALL_BACK_WORK}:${cause.id}`,
+    date: day,
+    kind: PRESS_CALL_BACK_WORK,
+    source: {
+      tag: "SOURCED",
+      citation: `${event.id}: the official said they would call back before the vote on ${billId}`,
+      asOf: api.state.date,
+    },
+    sourceRecordIds: [cause.id, officialId, reporterId, event.id],
+  });
+}
+
+/** The call back's day: the reporter asks again while the vote is ahead and the comment row still says nothing. */
+function callBack(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
+  const [causeId, officialId, reporterId, replyId] = work.sourceRecordIds;
+  const cause = api.state.durableLog.get(causeId ?? "");
+  if (!cause || !officialId || !reporterId) return;
+  if (commentOn(api, cause.id)?.quote) return;
+  const billId = String(cause.facts?.billId ?? "");
+  if (!voteAhead(api, billId)) return;
+  if (
+    !api.state.people.get(officialId as PersonId)?.alive ||
+    !api.state.people.get(reporterId as PersonId)?.alive
+  )
+    return;
+  api.emit({
+    id: `${PRESS_CALL_BACK_EVENT}:${cause.id}`,
+    date: api.state.date,
+    kind: PRESS_CALL_BACK_EVENT,
+    personIds: [officialId as PersonId, reporterId as PersonId],
+    placeId: lawChain(api).townPlaceId,
+    source: {
+      tag: "SOURCED",
+      citation: `Call back about ${cause.id}, put off in ${replyId ?? ""}`,
+      asOf: api.state.date,
+    },
+    facts: {
+      causeId: cause.id,
+      billId,
+      ...(cause.facts?.number ? { number: String(cause.facts.number) } : {}),
+      invitedId: officialId,
+      reporterId,
+      again: "yes",
+      putOffReplyId: replyId ?? "",
+    },
+  });
 }
 
 /**

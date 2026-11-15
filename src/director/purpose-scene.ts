@@ -207,6 +207,7 @@ import {
   townOutlet,
   PRESS_STORY_EVENT,
   INTERVIEW_INVITED_EVENT,
+  PRESS_CALL_BACK_EVENT,
 } from "../core2/modules/press";
 import { closenessBetween } from "../core2/closeness";
 import lineNames from "../core2/data/budgets/line-names.json" with { type: "json" };
@@ -661,6 +662,11 @@ function composeBinding(
       ? billOf(coreAPI(core as CoreState), billId)
       : undefined;
   const number = said.number ?? named?.number;
+  // A reporter told "Let me check and call you back" calls back the next day
+  // while the bill still waits for its vote (press.ts keepPutOffComment): the
+  // put-off is offered only where that call can come.
+  if (named?.status === "drafted")
+    facts["can-call-back"] = { text: "yes", sourceRecordIds: [billId!] };
   if (number) {
     // Said as a clerk reads it: a bare number takes its form's word first.
     facts.bill = {
@@ -1383,7 +1389,8 @@ function composeBinding(
   if (
     (record?.kind === DEBATE_INVITED_EVENT ||
       record?.kind === INTERVIEW_INVITED_EVENT ||
-      record?.kind === JOB_OFFERED_EVENT) &&
+      record?.kind === JOB_OFFERED_EVENT ||
+      record?.kind === PRESS_CALL_BACK_EVENT) &&
     said.again === "yes"
   ) {
     facts["called-back"] = { text: "yes", sourceRecordIds: [moment.causeId] };
@@ -1410,6 +1417,9 @@ function composeBinding(
         text: daysSaid(P.one),
         sourceRecordIds: [moment.causeId],
       };
+    // A reporter's call back: the vote's day as people say it (vote-on).
+    if (record.kind === PRESS_CALL_BACK_EVENT && facts["vote-on"])
+      facts.when = facts["vote-on"];
   }
   // A published interview the official answered only in part (press.ts
   // publish: the record's `declined` counts the questions left unanswered): a

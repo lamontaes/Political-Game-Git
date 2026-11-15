@@ -862,6 +862,11 @@
       "reason": "press traffic; the paper holds it"
     },
     {
+      "kind": "press-call-back",
+      "from": "event",
+      "reason": "press traffic; the comment row holds it"
+    },
+    {
       "kind": "interview-published",
       "from": "event",
       "reason": "press traffic; the paper holds it"

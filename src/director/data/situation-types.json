@@ -2462,6 +2462,18 @@
         },
         {
           "match": {
+            "label": "cause:event:press-call-back",
+            "selfNamed": true,
+            "causeFacts": [{ "key": "invitedId", "is": "subject" }]
+          },
+          "causeEngine": "press",
+          "causeRecord": "press-call-back",
+          "bind": { "reporter": "counterpart", "official": "subject" },
+          "opener": "reporter",
+          "opening": "greet"
+        },
+        {
+          "match": {
             "label": "circumstance:hallway-reporter"
           },
           "causeEngine": "circumstance",

@@ -31,7 +31,7 @@
     "cause": "A cause someone shared, by name, from the views engine's cause-shared record.",
     "kid": "The household's new child, by name, from the household record.",
     "begins": "The day a scene starts on, with the part of the day, as people say it ('First thing on June 7th'), from the clock.",
-    "when": "When a filing was made, said as the director says a date, from the filing record. On a call back about a put-off debate, the day it goes on, as people say it, from the debate invitation record.",
+    "when": "When a filing was made, said as the director says a date, from the filing record. On a call back about a put-off debate, the day it goes on, as people say it, from the debate invitation record; on a reporter's call back before a vote, the vote's day as people say it, from the bill's floor date.",
     "teller": "Whoever told the person of the law, by name, from the record of how they learned.",
     "campaigner": "The campaigner whose people came by, by name, from the campaign record.",
     "title": "How the person is addressed (their office), from their term.",
@@ -2567,7 +2567,8 @@
           "move": "greet",
           "role": "asker",
           "purpose": "press-comment",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "calm",
@@ -2591,7 +2592,8 @@
           "move": "greet",
           "role": "asker",
           "purpose": "press-comment",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "curious",
@@ -3176,7 +3178,7 @@
           "role": "asker",
           "purpose": "press-comment",
           "key": "routine",
-          "excludesFacts": ["vote-held"]
+          "excludesFacts": ["vote-held", "called-back"]
         }
       ],
       "bearing": "curious",
@@ -3195,7 +3197,7 @@
       "text": "How are you planning to vote on {bill}?",
       "uses": [
         {
-          "excludesFacts": ["vote-held"],
+          "excludesFacts": ["vote-held", "called-back"],
           "key": "routine",
           "move": "ask",
           "purpose": "press-comment",
@@ -3220,7 +3222,7 @@
       "text": "Readers keep asking where you are on {bill}. Where are you?",
       "uses": [
         {
-          "excludesFacts": ["vote-held"],
+          "excludesFacts": ["vote-held", "called-back"],
           "key": "routine",
           "move": "ask",
           "purpose": "press-comment",
@@ -3250,7 +3252,8 @@
           "move": "ask",
           "role": "asker",
           "purpose": "press-comment",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "curious",
@@ -3274,7 +3277,8 @@
           "purpose": "press-comment",
           "role": "asker",
           "step": "state",
-          "subject": "scene"
+          "subject": "scene",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "curious",
@@ -3298,7 +3302,8 @@
           "purpose": "press-comment",
           "role": "asker",
           "step": "state",
-          "subject": "scene"
+          "subject": "scene",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "calm",
@@ -3323,7 +3328,8 @@
           "role": "asker",
           "purpose": "press-comment",
           "key": "routine",
-          "requiresFacts": ["story"]
+          "requiresFacts": ["story"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "calm",
@@ -3348,7 +3354,8 @@
           "requiresFacts": ["story"],
           "role": "asker",
           "step": "state",
-          "subject": "scene"
+          "subject": "scene",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "calm",
@@ -3373,7 +3380,8 @@
           "requiresFacts": ["story"],
           "role": "asker",
           "step": "state",
-          "subject": "scene"
+          "subject": "scene",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "curious",
@@ -4913,7 +4921,7 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "excludesFacts": ["vote-held"]
+          "excludesFacts": ["vote-held", "called-back"]
         }
       ],
       "bearing": "guarded",
@@ -4961,7 +4969,8 @@
           "move": "confront",
           "role": "asked",
           "purpose": "press-comment",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "braced",
@@ -7353,7 +7362,8 @@
           "move": "press",
           "role": "asker",
           "purpose": "press-comment",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "braced",
@@ -7377,7 +7387,8 @@
           "move": "press",
           "role": "asker",
           "purpose": "press-comment",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "braced",
@@ -9167,7 +9178,8 @@
           "move": "confront",
           "role": "asked",
           "purpose": "press-comment",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "braced",
@@ -9193,7 +9205,7 @@
           "purpose": "press-comment",
           "key": "routine",
           "onlyWhen": ["bill"],
-          "excludesFacts": ["vote-held"]
+          "excludesFacts": ["vote-held", "called-back"]
         }
       ],
       "bearing": "guarded",
@@ -10987,7 +10999,8 @@
           "move": "lie",
           "role": "asked",
           "purpose": "press-comment",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "calm",
@@ -11011,7 +11024,8 @@
           "purpose": "press-comment",
           "role": "asked",
           "step": "reply",
-          "subject": "scene"
+          "subject": "scene",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "calm",
@@ -11035,7 +11049,8 @@
           "purpose": "press-comment",
           "role": "asked",
           "step": "reply",
-          "subject": "scene"
+          "subject": "scene",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "calm",
@@ -11811,7 +11826,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "confront"
+          "after": "confront",
+          "excludesFacts": ["called-back"]
         },
         {
           "subject": "scene",
@@ -11949,7 +11965,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "confront"
+          "after": "confront",
+          "excludesFacts": ["called-back"]
         },
         {
           "subject": "scene",
@@ -11968,7 +11985,8 @@
           "purpose": "press-comment",
           "key": "routine",
           "after": "scene-talk.follow-confront.source-tells-me-that-isn-t-so-care-to-try-again",
-          "requiresFacts": ["source"]
+          "requiresFacts": ["source"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "braced",
@@ -14282,7 +14300,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-press.the-hearing-is-for-the-lawmakers-this-is-for-the-people-paying-for-it"
+          "after": "scene-talk.follow-press.the-hearing-is-for-the-lawmakers-this-is-for-the-people-paying-for-it",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "guarded",
@@ -14307,7 +14326,8 @@
           "purpose": "press-comment",
           "role": "asked",
           "step": "reply",
-          "subject": "scene"
+          "subject": "scene",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "guarded",
@@ -14336,7 +14356,8 @@
           "purpose": "press-comment",
           "role": "asked",
           "step": "reply",
-          "subject": "scene"
+          "subject": "scene",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "guarded",
@@ -14385,7 +14406,8 @@
           "role": "asker",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "refuse"
+          "after": "refuse",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "braced",
@@ -14410,7 +14432,8 @@
           "role": "asker",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "refuse"
+          "after": "refuse",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "calm",
@@ -14436,7 +14459,7 @@
           "purpose": "press-comment",
           "key": "routine",
           "after": "deflect",
-          "excludesFacts": ["vote-held"]
+          "excludesFacts": ["vote-held", "called-back"]
         }
       ],
       "bearing": "calm",
@@ -14462,7 +14485,7 @@
           "purpose": "press-comment",
           "key": "routine",
           "after": "deflect",
-          "excludesFacts": ["vote-held"]
+          "excludesFacts": ["vote-held", "called-back"]
         }
       ],
       "bearing": "braced",
@@ -14488,7 +14511,7 @@
           "purpose": "press-comment",
           "key": "routine",
           "after": "press",
-          "excludesFacts": ["vote-held"]
+          "excludesFacts": ["vote-held", "called-back"]
         }
       ],
       "bearing": "guarded",
@@ -14514,7 +14537,7 @@
           "purpose": "press-comment",
           "key": "routine",
           "after": "press",
-          "excludesFacts": ["vote-held"]
+          "excludesFacts": ["vote-held", "called-back"]
         }
       ],
       "bearing": "guarded",
@@ -14591,7 +14614,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "press"
+          "after": "press",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "braced",
@@ -14615,7 +14639,8 @@
           "move": "leave",
           "role": "asked",
           "purpose": "press-comment",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "calm",
@@ -14639,7 +14664,8 @@
           "move": "leave",
           "role": "asked",
           "purpose": "press-comment",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "braced",
@@ -15214,7 +15240,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-press.what-changed"
+          "after": "scene-talk.follow-press.what-changed",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "guarded",
@@ -16923,7 +16950,8 @@
           "move": "deflect",
           "role": "asked",
           "purpose": "press-comment",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "guarded",
@@ -16998,7 +17026,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-ask.leaning"
+          "after": "scene-talk.follow-ask.leaning",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "calm",
@@ -17196,7 +17225,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-ask.why-is-source-wrong"
+          "after": "scene-talk.follow-ask.why-is-source-wrong",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "braced",
@@ -17316,7 +17346,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-ask.why-is-source-wrong"
+          "after": "scene-talk.follow-ask.why-is-source-wrong",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "braced",
@@ -18098,7 +18129,8 @@
           "move": "boast",
           "role": "asked",
           "purpose": "press-comment",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "proud",
@@ -18122,7 +18154,8 @@
           "purpose": "press-comment",
           "role": "asked",
           "step": "reply",
-          "subject": "scene"
+          "subject": "scene",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "proud",
@@ -18146,7 +18179,8 @@
           "purpose": "press-comment",
           "role": "asked",
           "step": "reply",
-          "subject": "scene"
+          "subject": "scene",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "proud",
@@ -48918,7 +48952,8 @@
           "move": "greet",
           "role": "asker",
           "purpose": "press-comment",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "calm",
@@ -48942,7 +48977,8 @@
           "move": "greet",
           "role": "asker",
           "purpose": "press-comment",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "calm",
@@ -48966,7 +49002,8 @@
           "move": "greet",
           "role": "asker",
           "purpose": "press-comment",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "guarded",
@@ -48991,7 +49028,8 @@
           "role": "asker",
           "purpose": "press-comment",
           "key": "routine",
-          "requiresFacts": ["title"]
+          "requiresFacts": ["title"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "calm",
@@ -49016,7 +49054,8 @@
           "role": "asker",
           "purpose": "press-comment",
           "key": "routine",
-          "requiresFacts": ["title"]
+          "requiresFacts": ["title"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "calm",
@@ -49040,7 +49079,8 @@
           "move": "greet",
           "role": "asker",
           "purpose": "press-comment",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "guarded",
@@ -49065,7 +49105,8 @@
           "role": "asker",
           "purpose": "press-comment",
           "key": "routine",
-          "requiresFacts": ["signed"]
+          "requiresFacts": ["signed"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "curious",
@@ -49090,7 +49131,8 @@
           "role": "asker",
           "purpose": "press-comment",
           "key": "routine",
-          "requiresFacts": ["introduced"]
+          "requiresFacts": ["introduced"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "curious",
@@ -49165,7 +49207,8 @@
           "role": "asker",
           "purpose": "press-comment",
           "key": "routine",
-          "requiresFacts": ["vote-held", "voted-yes"]
+          "requiresFacts": ["vote-held", "voted-yes"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "curious",
@@ -49190,7 +49233,8 @@
           "role": "asker",
           "purpose": "press-comment",
           "key": "routine",
-          "requiresFacts": ["vote-held", "voted-yes"]
+          "requiresFacts": ["vote-held", "voted-yes"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "curious",
@@ -49215,7 +49259,8 @@
           "role": "asker",
           "purpose": "press-comment",
           "key": "routine",
-          "requiresFacts": ["vote-held", "voted-no"]
+          "requiresFacts": ["vote-held", "voted-no"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "curious",
@@ -49240,7 +49285,8 @@
           "role": "asker",
           "purpose": "press-comment",
           "key": "routine",
-          "requiresFacts": ["vote-held", "voted-no"]
+          "requiresFacts": ["vote-held", "voted-no"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "curious",
@@ -49266,7 +49312,7 @@
           "purpose": "press-comment",
           "key": "routine",
           "requiresFacts": ["vote-held"],
-          "excludesFacts": ["voted-yes", "voted-no"]
+          "excludesFacts": ["voted-yes", "voted-no", "called-back"]
         }
       ],
       "bearing": "curious",
@@ -49285,7 +49331,7 @@
       "text": "You weren't recorded for or against {bill}. What happened?",
       "uses": [
         {
-          "excludesFacts": ["voted-yes", "voted-no"],
+          "excludesFacts": ["voted-yes", "voted-no", "called-back"],
           "key": "routine",
           "move": "ask",
           "purpose": "press-comment",
@@ -49311,7 +49357,7 @@
       "text": "I can't find you on the roll for {bill}. Where were you?",
       "uses": [
         {
-          "excludesFacts": ["voted-yes", "voted-no"],
+          "excludesFacts": ["voted-yes", "voted-no", "called-back"],
           "key": "routine",
           "move": "ask",
           "purpose": "press-comment",
@@ -49418,7 +49464,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.state-ask.what-does-bill-actually-change-for-people-and-when-do-they-feel-it"
+          "after": "scene-talk.state-ask.what-does-bill-actually-change-for-people-and-when-do-they-feel-it",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "guarded",
@@ -49443,7 +49490,8 @@
           "purpose": "press-comment",
           "role": "asked",
           "step": "reply",
-          "subject": "scene"
+          "subject": "scene",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "guarded",
@@ -49468,7 +49516,8 @@
           "purpose": "press-comment",
           "role": "asked",
           "step": "reply",
-          "subject": "scene"
+          "subject": "scene",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "calm",
@@ -49568,7 +49617,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.state-ask.what-does-bill-actually-change-for-people-and-when-do-they-feel-it"
+          "after": "scene-talk.state-ask.what-does-bill-actually-change-for-people-and-when-do-they-feel-it",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "calm",
@@ -49593,7 +49643,8 @@
           "purpose": "press-comment",
           "role": "asked",
           "step": "reply",
-          "subject": "scene"
+          "subject": "scene",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "calm",
@@ -49618,7 +49669,8 @@
           "purpose": "press-comment",
           "role": "asked",
           "step": "reply",
-          "subject": "scene"
+          "subject": "scene",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "calm",
@@ -49693,7 +49745,8 @@
           "role": "asker",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.reply-deflect.read-it-it-s-shorter-than-your-last-story"
+          "after": "scene-talk.reply-deflect.read-it-it-s-shorter-than-your-last-story",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "braced",
@@ -49743,7 +49796,8 @@
           "role": "asker",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.reply-refuse.not-today-you-ll-get-a-statement"
+          "after": "scene-talk.reply-refuse.not-today-you-ll-get-a-statement",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "braced",
@@ -49868,7 +49922,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-ask.and-if-it-doesn-t-do-what-you-say-by-spring"
+          "after": "scene-talk.follow-ask.and-if-it-doesn-t-do-what-you-say-by-spring",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "proud",
@@ -49918,7 +49973,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-ask.and-if-it-doesn-t-do-what-you-say-by-spring"
+          "after": "scene-talk.follow-ask.and-if-it-doesn-t-do-what-you-say-by-spring",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "guarded",
@@ -49968,7 +50024,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-press.i-read-it-that-s-why-i-m-asking-you"
+          "after": "scene-talk.follow-press.i-read-it-that-s-why-i-m-asking-you",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "guarded",
@@ -49993,7 +50050,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-press.i-read-it-that-s-why-i-m-asking-you"
+          "after": "scene-talk.follow-press.i-read-it-that-s-why-i-m-asking-you",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "braced",
@@ -50018,7 +50076,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-press.i-read-it-that-s-why-i-m-asking-you"
+          "after": "scene-talk.follow-press.i-read-it-that-s-why-i-m-asking-you",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "guarded",
@@ -50043,7 +50102,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-press.i-read-it-that-s-why-i-m-asking-you"
+          "after": "scene-talk.follow-press.i-read-it-that-s-why-i-m-asking-you",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "calm",
@@ -50143,7 +50203,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-press.a-statement-doesn-t-answer-questions-you-do"
+          "after": "scene-talk.follow-press.a-statement-doesn-t-answer-questions-you-do",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "guarded",
@@ -50168,7 +50229,8 @@
           "purpose": "press-comment",
           "role": "asked",
           "step": "reply",
-          "subject": "scene"
+          "subject": "scene",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "guarded",
@@ -50193,7 +50255,8 @@
           "purpose": "press-comment",
           "role": "asked",
           "step": "reply",
-          "subject": "scene"
+          "subject": "scene",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "guarded",
@@ -50218,7 +50281,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-press.a-statement-doesn-t-answer-questions-you-do"
+          "after": "scene-talk.follow-press.a-statement-doesn-t-answer-questions-you-do",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "braced",
@@ -50243,7 +50307,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-press.a-statement-doesn-t-answer-questions-you-do"
+          "after": "scene-talk.follow-press.a-statement-doesn-t-answer-questions-you-do",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "guarded",
@@ -50268,7 +50333,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-press.a-statement-doesn-t-answer-questions-you-do"
+          "after": "scene-talk.follow-press.a-statement-doesn-t-answer-questions-you-do",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "calm",
@@ -50602,7 +50668,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-answer.i-decided-nothing-i-m-asking-because-people-will-ask-me"
+          "after": "scene-talk.follow-answer.i-decided-nothing-i-m-asking-because-people-will-ask-me",
+          "excludesFacts": ["called-back"]
         },
         {
           "subject": "scene",
@@ -50611,7 +50678,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-answer.i-want-an-answer-for-the-people-who-watch-at-six"
+          "after": "scene-talk.follow-answer.i-want-an-answer-for-the-people-who-watch-at-six",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "proud",
@@ -50636,7 +50704,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-answer.i-decided-nothing-i-m-asking-because-people-will-ask-me"
+          "after": "scene-talk.follow-answer.i-decided-nothing-i-m-asking-because-people-will-ask-me",
+          "excludesFacts": ["called-back"]
         },
         {
           "subject": "scene",
@@ -50645,7 +50714,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-answer.i-want-an-answer-for-the-people-who-watch-at-six"
+          "after": "scene-talk.follow-answer.i-want-an-answer-for-the-people-who-watch-at-six",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "guarded",
@@ -50670,7 +50740,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-answer.i-decided-nothing-i-m-asking-because-people-will-ask-me"
+          "after": "scene-talk.follow-answer.i-decided-nothing-i-m-asking-because-people-will-ask-me",
+          "excludesFacts": ["called-back"]
         },
         {
           "subject": "scene",
@@ -50679,7 +50750,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-answer.i-want-an-answer-for-the-people-who-watch-at-six"
+          "after": "scene-talk.follow-answer.i-want-an-answer-for-the-people-who-watch-at-six",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "calm",
@@ -50754,7 +50826,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-ask.even-knowing-who-it-costs"
+          "after": "scene-talk.follow-ask.even-knowing-who-it-costs",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "guarded",
@@ -50804,7 +50877,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-ask.the-right-law-for-whom"
+          "after": "scene-talk.follow-ask.the-right-law-for-whom",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "guarded",
@@ -50854,7 +50928,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-ask.fix-it-how-and-who-waits-while-you-do"
+          "after": "scene-talk.follow-ask.fix-it-how-and-who-waits-while-you-do",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "guarded",
@@ -50904,7 +50979,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-ask.then-why-did-so-many-people-vote-against-it"
+          "after": "scene-talk.follow-ask.then-why-did-so-many-people-vote-against-it",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "guarded",
@@ -50954,7 +51030,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.state-ask.which-part-of-bill-are-you-ready-to-give-up-to-get-it-passed"
+          "after": "scene-talk.state-ask.which-part-of-bill-are-you-ready-to-give-up-to-get-it-passed",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "guarded",
@@ -51004,7 +51081,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.state-ask.which-part-of-bill-are-you-ready-to-give-up-to-get-it-passed"
+          "after": "scene-talk.state-ask.which-part-of-bill-are-you-ready-to-give-up-to-get-it-passed",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "calm",
@@ -51079,7 +51157,8 @@
           "role": "asker",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.reply-deflect.ask-me-after-the-committees-have-had-their-turn"
+          "after": "scene-talk.reply-deflect.ask-me-after-the-committees-have-had-their-turn",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "braced",
@@ -51129,7 +51208,8 @@
           "role": "asker",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.reply-refuse.i-m-not-negotiating-it-in-a-hallway-with-you"
+          "after": "scene-talk.reply-refuse.i-m-not-negotiating-it-in-a-hallway-with-you",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "braced",
@@ -51254,7 +51334,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-ask.and-if-the-votes-aren-t-there"
+          "after": "scene-talk.follow-ask.and-if-the-votes-aren-t-there",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "proud",
@@ -51304,7 +51385,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-ask.and-if-the-votes-aren-t-there"
+          "after": "scene-talk.follow-ask.and-if-the-votes-aren-t-there",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "guarded",
@@ -51354,7 +51436,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-press.the-committees-are-asking-the-same-question-what-do-you-tell-them"
+          "after": "scene-talk.follow-press.the-committees-are-asking-the-same-question-what-do-you-tell-them",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "guarded",
@@ -51379,7 +51462,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-press.the-committees-are-asking-the-same-question-what-do-you-tell-them"
+          "after": "scene-talk.follow-press.the-committees-are-asking-the-same-question-what-do-you-tell-them",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "braced",
@@ -51404,7 +51488,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-press.the-committees-are-asking-the-same-question-what-do-you-tell-them"
+          "after": "scene-talk.follow-press.the-committees-are-asking-the-same-question-what-do-you-tell-them",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "guarded",
@@ -51429,7 +51514,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-press.the-committees-are-asking-the-same-question-what-do-you-tell-them"
+          "after": "scene-talk.follow-press.the-committees-are-asking-the-same-question-what-do-you-tell-them",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "calm",
@@ -51479,7 +51565,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-press.somebody-s-going-to-negotiate-it-why-not-out-loud"
+          "after": "scene-talk.follow-press.somebody-s-going-to-negotiate-it-why-not-out-loud",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "guarded",
@@ -51504,7 +51591,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-press.somebody-s-going-to-negotiate-it-why-not-out-loud"
+          "after": "scene-talk.follow-press.somebody-s-going-to-negotiate-it-why-not-out-loud",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "braced",
@@ -51529,7 +51617,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-press.somebody-s-going-to-negotiate-it-why-not-out-loud"
+          "after": "scene-talk.follow-press.somebody-s-going-to-negotiate-it-why-not-out-loud",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "guarded",
@@ -51554,7 +51643,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-press.somebody-s-going-to-negotiate-it-why-not-out-loud"
+          "after": "scene-talk.follow-press.somebody-s-going-to-negotiate-it-why-not-out-loud",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "calm",
@@ -51863,7 +51953,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-answer.i-want-you-to-tell-people-what-s-at-stake"
+          "after": "scene-talk.follow-answer.i-want-you-to-tell-people-what-s-at-stake",
+          "excludesFacts": ["called-back"]
         },
         {
           "subject": "scene",
@@ -51872,7 +51963,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-answer.so-people-know-who-s-deciding-for-them"
+          "after": "scene-talk.follow-answer.so-people-know-who-s-deciding-for-them",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "proud",
@@ -51897,7 +51989,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-answer.i-want-you-to-tell-people-what-s-at-stake"
+          "after": "scene-talk.follow-answer.i-want-you-to-tell-people-what-s-at-stake",
+          "excludesFacts": ["called-back"]
         },
         {
           "subject": "scene",
@@ -51906,7 +51999,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-answer.so-people-know-who-s-deciding-for-them"
+          "after": "scene-talk.follow-answer.so-people-know-who-s-deciding-for-them",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "guarded",
@@ -51931,7 +52025,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-answer.i-want-you-to-tell-people-what-s-at-stake"
+          "after": "scene-talk.follow-answer.i-want-you-to-tell-people-what-s-at-stake",
+          "excludesFacts": ["called-back"]
         },
         {
           "subject": "scene",
@@ -51940,7 +52035,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-answer.so-people-know-who-s-deciding-for-them"
+          "after": "scene-talk.follow-answer.so-people-know-who-s-deciding-for-them",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "calm",
@@ -51990,7 +52086,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-ask.starting-with-whose"
+          "after": "scene-talk.follow-ask.starting-with-whose",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "guarded",
@@ -52040,7 +52137,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-ask.even-if-the-whole-bill-loses"
+          "after": "scene-talk.follow-ask.even-if-the-whole-bill-loses",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "guarded",
@@ -52090,7 +52188,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-ask.so-there-is-a-deal-being-made"
+          "after": "scene-talk.follow-ask.so-there-is-a-deal-being-made",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "guarded",
@@ -52218,7 +52317,8 @@
           "purpose": "press-comment",
           "key": "routine",
           "after": "scene-talk.follow-confront.source-told-me-people-are-already-worse-off-because-of-it-want-to-try-",
-          "requiresFacts": ["source"]
+          "requiresFacts": ["source"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "guarded",
@@ -52244,7 +52344,8 @@
           "purpose": "press-comment",
           "key": "routine",
           "after": "scene-talk.follow-confront.source-says-half-of-it-is-still-being-fought-over-want-to-try-that-aga",
-          "requiresFacts": ["source"]
+          "requiresFacts": ["source"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "guarded",
@@ -52270,7 +52371,8 @@
           "purpose": "press-comment",
           "key": "routine",
           "after": "confront",
-          "requiresFacts": ["source"]
+          "requiresFacts": ["source"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "braced",
@@ -52295,7 +52397,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "confront"
+          "after": "confront",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "braced",
@@ -52370,7 +52473,8 @@
           "role": "asker",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.reply-deflect.source-has-an-angle-ask-what-it-is"
+          "after": "scene-talk.reply-deflect.source-has-an-angle-ask-what-it-is",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "braced",
@@ -52395,7 +52499,8 @@
           "role": "asker",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.reply-deflect.source-doesn-t-speak-for-either-party"
+          "after": "scene-talk.reply-deflect.source-doesn-t-speak-for-either-party",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "braced",
@@ -52445,7 +52550,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-press.everyone-has-an-angle-yours-is-your-signature"
+          "after": "scene-talk.follow-press.everyone-has-an-angle-yours-is-your-signature",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "guarded",
@@ -52470,7 +52576,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-press.everyone-has-an-angle-yours-is-your-signature"
+          "after": "scene-talk.follow-press.everyone-has-an-angle-yours-is-your-signature",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "guarded",
@@ -52520,7 +52627,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-press.everyone-has-an-angle-yours-is-getting-it-passed"
+          "after": "scene-talk.follow-press.everyone-has-an-angle-yours-is-getting-it-passed",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "guarded",
@@ -52545,7 +52653,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-press.everyone-has-an-angle-yours-is-getting-it-passed"
+          "after": "scene-talk.follow-press.everyone-has-an-angle-yours-is-getting-it-passed",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "guarded",
@@ -53491,7 +53600,8 @@
           "role": "asker",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.reply-refuse.i-m-not-counting-votes-for-you"
+          "after": "scene-talk.reply-refuse.i-m-not-counting-votes-for-you",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "braced",
@@ -53541,7 +53651,8 @@
           "role": "asker",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.reply-refuse.i-ve-given-you-plenty-that-s-it-for-today"
+          "after": "scene-talk.reply-refuse.i-ve-given-you-plenty-that-s-it-for-today",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "braced",
@@ -53667,7 +53778,8 @@
           "purpose": "press-comment",
           "key": "routine",
           "after": "answer",
-          "requiresFacts": ["signed"]
+          "requiresFacts": ["signed"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "proud",
@@ -53693,7 +53805,8 @@
           "purpose": "press-comment",
           "key": "routine",
           "after": "answer",
-          "requiresFacts": ["introduced"]
+          "requiresFacts": ["introduced"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "proud",
@@ -53718,7 +53831,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "answer"
+          "after": "answer",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "guarded",
@@ -53743,7 +53857,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "answer"
+          "after": "answer",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "calm",
@@ -53768,7 +53883,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "ask"
+          "after": "ask",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "proud",
@@ -53819,7 +53935,8 @@
           "purpose": "press-comment",
           "key": "routine",
           "after": "scene-talk.follow-press.everyone-has-an-angle-yours-is-your-signature",
-          "requiresFacts": ["source"]
+          "requiresFacts": ["source"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "braced",
@@ -53845,7 +53962,8 @@
           "purpose": "press-comment",
           "key": "routine",
           "after": "scene-talk.follow-press.everyone-has-an-angle-yours-is-getting-it-passed",
-          "requiresFacts": ["source"]
+          "requiresFacts": ["source"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "braced",
@@ -53895,7 +54013,8 @@
           "role": "asker",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.reply-refuse.i-m-not-answering-that-one"
+          "after": "scene-talk.reply-refuse.i-m-not-answering-that-one",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "braced",
@@ -53946,7 +54065,7 @@
           "purpose": "press-comment",
           "key": "routine",
           "after": "press",
-          "excludesFacts": ["vote-held"]
+          "excludesFacts": ["vote-held", "called-back"]
         }
       ],
       "bearing": "guarded",
@@ -53971,7 +54090,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "press"
+          "after": "press",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "braced",
@@ -53996,7 +54116,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "press"
+          "after": "press",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "guarded",
@@ -54021,7 +54142,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "press"
+          "after": "press",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "calm",
@@ -54375,7 +54497,8 @@
           "role": "asker",
           "purpose": "press-comment",
           "key": "routine",
-          "requiresFacts": ["title"]
+          "requiresFacts": ["title"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "calm",
@@ -54400,7 +54523,8 @@
           "role": "asker",
           "purpose": "press-comment",
           "key": "routine",
-          "requiresFacts": ["title"]
+          "requiresFacts": ["title"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "calm",
@@ -54425,7 +54549,8 @@
           "role": "asker",
           "purpose": "press-comment",
           "key": "routine",
-          "requiresFacts": ["introduced"]
+          "requiresFacts": ["introduced"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "curious",
@@ -54450,7 +54575,8 @@
           "role": "asker",
           "purpose": "press-comment",
           "key": "routine",
-          "requiresFacts": ["signed"]
+          "requiresFacts": ["signed"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "curious",
@@ -54500,7 +54626,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.state-ask.who-did-you-have-in-mind-when-you-wrote-bill"
+          "after": "scene-talk.state-ask.who-did-you-have-in-mind-when-you-wrote-bill",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "guarded",
@@ -54550,7 +54677,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.state-ask.who-did-you-have-in-mind-when-you-wrote-bill"
+          "after": "scene-talk.state-ask.who-did-you-have-in-mind-when-you-wrote-bill",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "calm",
@@ -54600,7 +54728,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.state-ask.who-does-bill-help-on-the-first-day-it-s-law-and-who-does-it-cost"
+          "after": "scene-talk.state-ask.who-does-bill-help-on-the-first-day-it-s-law-and-who-does-it-cost",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "guarded",
@@ -54650,7 +54779,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.state-ask.who-does-bill-help-on-the-first-day-it-s-law-and-who-does-it-cost"
+          "after": "scene-talk.state-ask.who-does-bill-help-on-the-first-day-it-s-law-and-who-does-it-cost",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "calm",
@@ -54725,7 +54855,8 @@
           "role": "asker",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.reply-deflect.read-it-tonight-call-me-tomorrow-with-a-better-question"
+          "after": "scene-talk.reply-deflect.read-it-tonight-call-me-tomorrow-with-a-better-question",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "braced",
@@ -54775,7 +54906,8 @@
           "role": "asker",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.reply-refuse.it-s-been-public-three-hours-i-ll-talk-about-it-after-a-hearing"
+          "after": "scene-talk.reply-refuse.it-s-been-public-three-hours-i-ll-talk-about-it-after-a-hearing",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "braced",
@@ -54875,7 +55007,8 @@
           "role": "asker",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.reply-deflect.give-it-a-season-then-ask-the-people-it-was-for"
+          "after": "scene-talk.reply-deflect.give-it-a-season-then-ask-the-people-it-was-for",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "braced",
@@ -54925,7 +55058,8 @@
           "role": "asker",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.reply-refuse.i-signed-it-the-signature-is-my-answer"
+          "after": "scene-talk.reply-refuse.i-signed-it-the-signature-is-my-answer",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "braced",
@@ -55152,7 +55286,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-ask.then-why-does-it-cut-the-program-most-of-them-use"
+          "after": "scene-talk.follow-ask.then-why-does-it-cut-the-program-most-of-them-use",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "proud",
@@ -55202,7 +55337,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-ask.then-why-does-it-cut-the-program-most-of-them-use"
+          "after": "scene-talk.follow-ask.then-why-does-it-cut-the-program-most-of-them-use",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "guarded",
@@ -55252,7 +55388,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-ask.and-on-the-second-day"
+          "after": "scene-talk.follow-ask.and-on-the-second-day",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "proud",
@@ -55302,7 +55439,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-ask.and-on-the-second-day"
+          "after": "scene-talk.follow-ask.and-on-the-second-day",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "guarded",
@@ -55427,7 +55565,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-ask.and-if-a-state-takes-the-money-and-drops-the-program"
+          "after": "scene-talk.follow-ask.and-if-a-state-takes-the-money-and-drops-the-program",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "proud",
@@ -55477,7 +55616,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-ask.and-if-a-state-takes-the-money-and-drops-the-program"
+          "after": "scene-talk.follow-ask.and-if-a-state-takes-the-money-and-drops-the-program",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "guarded",
@@ -55527,7 +55667,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-ask.paid-them-with-what"
+          "after": "scene-talk.follow-ask.paid-them-with-what",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "proud",
@@ -55577,7 +55718,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-ask.paid-them-with-what"
+          "after": "scene-talk.follow-ask.paid-them-with-what",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "guarded",
@@ -55677,7 +55819,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-press.i-read-it-this-morning-that-s-why-the-question-s-this-good"
+          "after": "scene-talk.follow-press.i-read-it-this-morning-that-s-why-the-question-s-this-good",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "guarded",
@@ -55702,7 +55845,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-press.i-read-it-this-morning-that-s-why-the-question-s-this-good"
+          "after": "scene-talk.follow-press.i-read-it-this-morning-that-s-why-the-question-s-this-good",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "braced",
@@ -55727,7 +55871,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-press.i-read-it-this-morning-that-s-why-the-question-s-this-good"
+          "after": "scene-talk.follow-press.i-read-it-this-morning-that-s-why-the-question-s-this-good",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "guarded",
@@ -55752,7 +55897,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-press.i-read-it-this-morning-that-s-why-the-question-s-this-good"
+          "after": "scene-talk.follow-press.i-read-it-this-morning-that-s-why-the-question-s-this-good",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "calm",
@@ -55802,7 +55948,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-press.the-hearing-is-for-the-lawmakers-this-is-for-the-people-paying-for-it"
+          "after": "scene-talk.follow-press.the-hearing-is-for-the-lawmakers-this-is-for-the-people-paying-for-it",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "guarded",
@@ -55827,7 +55974,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-press.the-hearing-is-for-the-lawmakers-this-is-for-the-people-paying-for-it"
+          "after": "scene-talk.follow-press.the-hearing-is-for-the-lawmakers-this-is-for-the-people-paying-for-it",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "braced",
@@ -55852,7 +56000,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-press.the-hearing-is-for-the-lawmakers-this-is-for-the-people-paying-for-it"
+          "after": "scene-talk.follow-press.the-hearing-is-for-the-lawmakers-this-is-for-the-people-paying-for-it",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "calm",
@@ -55902,7 +56051,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-press.i-m-asking-them-now-half-of-them-haven-t-heard-of-it"
+          "after": "scene-talk.follow-press.i-m-asking-them-now-half-of-them-haven-t-heard-of-it",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "guarded",
@@ -55927,7 +56077,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-press.i-m-asking-them-now-half-of-them-haven-t-heard-of-it"
+          "after": "scene-talk.follow-press.i-m-asking-them-now-half-of-them-haven-t-heard-of-it",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "braced",
@@ -55952,7 +56103,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-press.i-m-asking-them-now-half-of-them-haven-t-heard-of-it"
+          "after": "scene-talk.follow-press.i-m-asking-them-now-half-of-them-haven-t-heard-of-it",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "guarded",
@@ -55977,7 +56129,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-press.i-m-asking-them-now-half-of-them-haven-t-heard-of-it"
+          "after": "scene-talk.follow-press.i-m-asking-them-now-half-of-them-haven-t-heard-of-it",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "calm",
@@ -56027,7 +56180,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-press.a-signature-isn-t-a-sentence-give-me-one"
+          "after": "scene-talk.follow-press.a-signature-isn-t-a-sentence-give-me-one",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "guarded",
@@ -56052,7 +56206,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-press.a-signature-isn-t-a-sentence-give-me-one"
+          "after": "scene-talk.follow-press.a-signature-isn-t-a-sentence-give-me-one",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "braced",
@@ -56077,7 +56232,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-press.a-signature-isn-t-a-sentence-give-me-one"
+          "after": "scene-talk.follow-press.a-signature-isn-t-a-sentence-give-me-one",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "guarded",
@@ -56102,7 +56258,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-press.a-signature-isn-t-a-sentence-give-me-one"
+          "after": "scene-talk.follow-press.a-signature-isn-t-a-sentence-give-me-one",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "calm",
@@ -56452,7 +56609,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "answer"
+          "after": "answer",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "proud",
@@ -56477,7 +56635,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "answer"
+          "after": "answer",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "guarded",
@@ -56502,7 +56661,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "answer"
+          "after": "answer",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "calm",
@@ -56679,7 +56839,8 @@
           "purpose": "press-comment",
           "key": "routine",
           "after": "scene-talk.follow-confront.source-tells-me-that-isn-t-so-care-to-try-again",
-          "requiresFacts": ["source"]
+          "requiresFacts": ["source"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "guarded",
@@ -56704,7 +56865,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-confront.source-tells-me-that-isn-t-so-care-to-try-again"
+          "after": "scene-talk.follow-confront.source-tells-me-that-isn-t-so-care-to-try-again",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "braced",
@@ -56755,7 +56917,8 @@
           "purpose": "press-comment",
           "key": "routine",
           "after": "scene-talk.follow-confront.source-sat-in-those-talks-and-says-half-of-it-was-never-settled",
-          "requiresFacts": ["source"]
+          "requiresFacts": ["source"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "guarded",
@@ -56781,7 +56944,8 @@
           "purpose": "press-comment",
           "key": "routine",
           "after": "scene-talk.follow-confront.source-sat-in-those-talks-and-says-half-of-it-was-never-settled",
-          "requiresFacts": ["source"]
+          "requiresFacts": ["source"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "braced",
@@ -56807,7 +56971,8 @@
           "purpose": "press-comment",
           "key": "routine",
           "after": "scene-talk.follow-confront.source-sat-in-those-talks-and-says-half-of-it-was-never-settled",
-          "requiresFacts": ["source"]
+          "requiresFacts": ["source"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "braced",
@@ -56857,7 +57022,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-confront.source-has-seen-the-cost-estimate-it-isn-t-zero"
+          "after": "scene-talk.follow-confront.source-has-seen-the-cost-estimate-it-isn-t-zero",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "guarded",
@@ -56883,7 +57049,8 @@
           "purpose": "press-comment",
           "key": "routine",
           "after": "scene-talk.follow-confront.source-has-seen-the-cost-estimate-it-isn-t-zero",
-          "requiresFacts": ["source"]
+          "requiresFacts": ["source"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "braced",
@@ -56908,7 +57075,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-confront.source-has-seen-the-cost-estimate-it-isn-t-zero"
+          "after": "scene-talk.follow-confront.source-has-seen-the-cost-estimate-it-isn-t-zero",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "braced",
@@ -57009,7 +57177,8 @@
           "purpose": "press-comment",
           "key": "routine",
           "after": "scene-talk.reply-deflect.source-wasn-t-in-every-one-of-those-rooms",
-          "requiresFacts": ["source"]
+          "requiresFacts": ["source"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "braced",
@@ -57034,7 +57203,8 @@
           "role": "asker",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.reply-deflect.source-wasn-t-in-every-room"
+          "after": "scene-talk.reply-deflect.source-wasn-t-in-every-room",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "braced",
@@ -57059,7 +57229,8 @@
           "role": "asker",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.reply-deflect.estimates-change-once-a-law-is-running"
+          "after": "scene-talk.reply-deflect.estimates-change-once-a-law-is-running",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "braced",
@@ -57185,7 +57356,8 @@
           "purpose": "press-comment",
           "key": "routine",
           "after": "press",
-          "excludesFacts": ["vote-held"]
+          "excludesFacts": ["vote-held", "called-back"],
+          "requiresFacts": ["can-call-back"]
         }
       ],
       "bearing": "guarded",
@@ -57210,7 +57382,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "press"
+          "after": "press",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "braced",
@@ -57235,7 +57408,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "press"
+          "after": "press",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "guarded",
@@ -57260,7 +57434,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "press"
+          "after": "press",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "calm",
@@ -57294,32 +57469,6 @@
       "date": "2026-10-15",
       "tag": {
         "move": "thank",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.today-i-ll-be-by-the-phone",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "Today. I'll be by the phone.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "press-comment",
-          "key": "routine",
-          "after": "scene-talk.reply-stall.let-me-check-and-call-you-back-today",
-          "excludesFacts": ["vote-held"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "accept",
         "key": "routine"
       }
     },
@@ -61353,7 +61502,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "confront"
+          "after": "confront",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "guarded",
@@ -61378,7 +61528,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "confront"
+          "after": "confront",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "braced",
@@ -61403,7 +61554,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "confront"
+          "after": "confront",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "braced",
@@ -61453,7 +61605,8 @@
           "role": "asker",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.reply-deflect.that-s-one-person-s-account"
+          "after": "scene-talk.reply-deflect.that-s-one-person-s-account",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "braced",
@@ -61503,7 +61656,8 @@
           "role": "asker",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.reply-refuse.that-s-one-day-further-than-i-m-going-today"
+          "after": "scene-talk.reply-refuse.that-s-one-day-further-than-i-m-going-today",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "braced",
@@ -61553,7 +61707,8 @@
           "role": "asker",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.reply-refuse.read-the-funding-section-it-s-all-there"
+          "after": "scene-talk.reply-refuse.read-the-funding-section-it-s-all-there",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "braced",
@@ -61628,7 +61783,8 @@
           "role": "asker",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.reply-refuse.i-m-not-going-line-by-line-in-a-hallway"
+          "after": "scene-talk.reply-refuse.i-m-not-going-line-by-line-in-a-hallway",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "braced",
@@ -74373,7 +74529,8 @@
           "move": "stall",
           "role": "asked",
           "purpose": "press-comment",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "guarded",
@@ -102777,7 +102934,7 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "excludesFacts": ["vote-held"]
+          "excludesFacts": ["vote-held", "called-back"]
         }
       ],
       "bearing": "guarded",
@@ -102801,7 +102958,8 @@
           "move": "deflect",
           "role": "asked",
           "purpose": "press-comment",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "guarded",
@@ -102825,7 +102983,8 @@
           "move": "deflect",
           "role": "asked",
           "purpose": "press-comment",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "calm",
@@ -102851,7 +103010,7 @@
           "purpose": "press-comment",
           "key": "routine",
           "onlyWhen": ["bill"],
-          "excludesFacts": ["voted-no"]
+          "excludesFacts": ["voted-no", "called-back"]
         },
         {
           "subject": "scene",
@@ -102861,7 +103020,7 @@
           "purpose": "press-comment",
           "key": "routine",
           "onlyWhen": ["bill"],
-          "excludesFacts": ["voted-no"],
+          "excludesFacts": ["voted-no", "called-back"],
           "after": "ask"
         }
       ],
@@ -102886,7 +103045,8 @@
           "move": "deflect",
           "role": "asked",
           "purpose": "press-comment",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "calm",
@@ -102910,7 +103070,8 @@
           "move": "deflect",
           "role": "asked",
           "purpose": "press-comment",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "braced",
@@ -102934,7 +103095,8 @@
           "move": "deflect",
           "role": "asked",
           "purpose": "press-comment",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "calm",
@@ -102960,7 +103122,7 @@
           "purpose": "press-comment",
           "key": "routine",
           "onlyWhen": ["bill"],
-          "excludesFacts": ["vote-held"]
+          "excludesFacts": ["vote-held", "called-back"]
         }
       ],
       "bearing": "calm",
@@ -102985,7 +103147,7 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "excludesFacts": ["vote-held"]
+          "excludesFacts": ["vote-held", "called-back"]
         }
       ],
       "bearing": "calm",
@@ -103010,7 +103172,7 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "excludesFacts": ["vote-held"]
+          "excludesFacts": ["vote-held", "called-back"]
         }
       ],
       "bearing": "guarded",
@@ -103035,7 +103197,7 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "excludesFacts": ["vote-held"]
+          "excludesFacts": ["vote-held", "called-back"]
         }
       ],
       "bearing": "tender",
@@ -103061,7 +103223,7 @@
           "purpose": "press-comment",
           "key": "routine",
           "onlyWhen": ["bill"],
-          "excludesFacts": ["vote-held"]
+          "excludesFacts": ["vote-held", "called-back"]
         }
       ],
       "bearing": "guarded",
@@ -103086,7 +103248,7 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "excludesFacts": ["vote-held"]
+          "excludesFacts": ["vote-held", "called-back"]
         }
       ],
       "bearing": "calm",
@@ -103111,7 +103273,7 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "excludesFacts": ["vote-held"]
+          "excludesFacts": ["vote-held", "called-back"]
         }
       ],
       "bearing": "calm",
@@ -119425,7 +119587,8 @@
           "move": "greet",
           "role": "asker",
           "purpose": "press-comment.friendly",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "warm",
@@ -119449,7 +119612,8 @@
           "move": "greet",
           "role": "asker",
           "purpose": "press-comment.friendly",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "warm",
@@ -119473,7 +119637,8 @@
           "move": "greet",
           "role": "asker",
           "purpose": "press-comment.friendly",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "warm",
@@ -119498,7 +119663,8 @@
           "role": "asker",
           "purpose": "press-comment.friendly",
           "key": "routine",
-          "requiresFacts": ["bill"]
+          "requiresFacts": ["bill"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "calm",
@@ -119523,7 +119689,8 @@
           "role": "asker",
           "purpose": "press-comment.friendly",
           "key": "routine",
-          "requiresFacts": ["bill"]
+          "requiresFacts": ["bill"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "warm",
@@ -119548,7 +119715,8 @@
           "role": "asker",
           "purpose": "press-comment.friendly",
           "key": "routine",
-          "requiresFacts": ["vote-held", "voted-yes"]
+          "requiresFacts": ["vote-held", "voted-yes"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "curious",
@@ -119573,7 +119741,8 @@
           "role": "asker",
           "purpose": "press-comment.friendly",
           "key": "routine",
-          "requiresFacts": ["vote-held", "voted-no"]
+          "requiresFacts": ["vote-held", "voted-no"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "curious",
@@ -119598,7 +119767,8 @@
           "role": "asker",
           "purpose": "press-comment.friendly",
           "key": "routine",
-          "requiresFacts": ["vote-held"]
+          "requiresFacts": ["vote-held"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "calm",
@@ -119622,7 +119792,8 @@
           "move": "ask",
           "role": "asker",
           "purpose": "press-comment.friendly",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "calm",
@@ -119946,7 +120117,8 @@
           "move": "stall",
           "role": "asked",
           "purpose": "press-comment.friendly",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "guarded",
@@ -119970,7 +120142,8 @@
           "move": "deflect",
           "role": "asked",
           "purpose": "press-comment.friendly",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "guarded",
@@ -119994,7 +120167,8 @@
           "move": "deflect",
           "role": "asked",
           "purpose": "press-comment.friendly",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "calm",
@@ -120018,7 +120192,8 @@
           "move": "lie",
           "role": "asked",
           "purpose": "press-comment.friendly",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "guarded",
@@ -120042,7 +120217,8 @@
           "move": "lie",
           "role": "asked",
           "purpose": "press-comment.friendly",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "guarded",
@@ -120066,7 +120242,8 @@
           "move": "boast",
           "role": "asked",
           "purpose": "press-comment.friendly",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "proud",
@@ -120090,7 +120267,8 @@
           "move": "leave",
           "role": "asked",
           "purpose": "press-comment.friendly",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "calm",
@@ -120114,7 +120292,8 @@
           "move": "leave",
           "role": "asked",
           "purpose": "press-comment.friendly",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "warm",
@@ -120239,7 +120418,8 @@
           "role": "asker",
           "purpose": "press-comment.friendly",
           "key": "routine",
-          "after": "stall"
+          "after": "stall",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "braced",
@@ -120265,7 +120445,8 @@
           "purpose": "press-comment.friendly",
           "key": "routine",
           "after": "deflect",
-          "requiresFacts": ["bill"]
+          "requiresFacts": ["bill"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "braced",
@@ -120290,7 +120471,8 @@
           "role": "asker",
           "purpose": "press-comment.friendly",
           "key": "routine",
-          "after": "refuse"
+          "after": "refuse",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "braced",
@@ -120513,7 +120695,8 @@
           "role": "asker",
           "purpose": "press-comment.hostile",
           "key": "routine",
-          "onlyWhen": ["vote-held"]
+          "onlyWhen": ["vote-held"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "braced",
@@ -120538,7 +120721,8 @@
           "role": "asker",
           "purpose": "press-comment.hostile",
           "key": "routine",
-          "onlyWhen": ["bill"]
+          "onlyWhen": ["bill"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "braced",
@@ -120562,7 +120746,8 @@
           "move": "greet",
           "role": "asker",
           "purpose": "press-comment.hostile",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "braced",
@@ -120586,7 +120771,8 @@
           "move": "greet",
           "role": "asker",
           "purpose": "press-comment.hostile",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "braced",
@@ -120612,7 +120798,8 @@
           "purpose": "press-comment.hostile",
           "key": "routine",
           "requiresFacts": ["bill"],
-          "onlyWhen": ["read-town-against"]
+          "onlyWhen": ["read-town-against"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "braced",
@@ -120638,7 +120825,8 @@
           "purpose": "press-comment.hostile",
           "key": "routine",
           "requiresFacts": ["bill"],
-          "onlyWhen": ["vote-held"]
+          "onlyWhen": ["vote-held"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "braced",
@@ -120663,7 +120851,8 @@
           "role": "asker",
           "purpose": "press-comment.hostile",
           "key": "routine",
-          "requiresFacts": ["vote-held", "voted-yes", "read-town-against"]
+          "requiresFacts": ["vote-held", "voted-yes", "read-town-against"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "braced",
@@ -120688,7 +120877,8 @@
           "role": "asker",
           "purpose": "press-comment.hostile",
           "key": "routine",
-          "requiresFacts": ["vote-held", "voted-no", "read-town-against"]
+          "requiresFacts": ["vote-held", "voted-no", "read-town-against"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "braced",
@@ -120714,7 +120904,8 @@
           "purpose": "press-comment.hostile",
           "key": "routine",
           "requiresFacts": ["bill"],
-          "onlyWhen": ["vote-held"]
+          "onlyWhen": ["vote-held"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "braced",
@@ -120740,7 +120931,8 @@
           "purpose": "press-comment.scandal",
           "key": "routine",
           "requiresFacts": ["outlet"],
-          "onlyWhen": ["read-scandal"]
+          "onlyWhen": ["read-scandal"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "braced",
@@ -120766,7 +120958,7 @@
           "purpose": "press-comment.hostile",
           "key": "routine",
           "requiresFacts": ["outlet"],
-          "excludesFacts": ["skipped-some"]
+          "excludesFacts": ["skipped-some", "called-back"]
         }
       ],
       "bearing": "braced",
@@ -120792,7 +120984,7 @@
           "purpose": "press-comment.hostile",
           "key": "routine",
           "requiresFacts": ["outlet"],
-          "excludesFacts": ["bill"]
+          "excludesFacts": ["bill", "called-back"]
         }
       ],
       "bearing": "braced",
@@ -120818,7 +121010,7 @@
           "purpose": "press-comment.hostile",
           "key": "routine",
           "requiresFacts": ["outlet"],
-          "excludesFacts": ["bill"]
+          "excludesFacts": ["bill", "called-back"]
         }
       ],
       "bearing": "braced",
@@ -120844,7 +121036,7 @@
           "purpose": "press-comment.hostile",
           "key": "routine",
           "requiresFacts": ["outlet"],
-          "excludesFacts": ["bill"],
+          "excludesFacts": ["bill", "called-back"],
           "onlyWhen": ["skipped-some"]
         }
       ],
@@ -120871,7 +121063,8 @@
           "purpose": "press-comment.hostile",
           "key": "routine",
           "requiresFacts": ["bill"],
-          "onlyWhen": ["introduced"]
+          "onlyWhen": ["introduced"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "braced",
@@ -120897,7 +121090,8 @@
           "purpose": "press-comment.hostile",
           "key": "routine",
           "requiresFacts": ["bill"],
-          "onlyWhen": ["introduced"]
+          "onlyWhen": ["introduced"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "braced",
@@ -120922,7 +121116,8 @@
           "role": "asker",
           "purpose": "press-comment.hostile",
           "key": "routine",
-          "requiresFacts": ["bill"]
+          "requiresFacts": ["bill"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "braced",
@@ -120948,7 +121143,8 @@
           "purpose": "press-comment.hostile",
           "key": "routine",
           "requiresFacts": ["bill"],
-          "onlyWhen": ["stopped-it"]
+          "onlyWhen": ["stopped-it"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "braced",
@@ -120974,7 +121170,8 @@
           "purpose": "press-comment.hostile",
           "key": "routine",
           "requiresFacts": ["bill"],
-          "onlyWhen": ["stopped-it"]
+          "onlyWhen": ["stopped-it"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "braced",
@@ -121000,7 +121197,8 @@
           "purpose": "press-comment.hostile",
           "key": "routine",
           "requiresFacts": ["bill"],
-          "onlyWhen": ["signed-it"]
+          "onlyWhen": ["signed-it"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "braced",
@@ -121026,7 +121224,8 @@
           "purpose": "press-comment.hostile",
           "key": "routine",
           "requiresFacts": ["bill"],
-          "onlyWhen": ["signed-it"]
+          "onlyWhen": ["signed-it"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "braced",
@@ -121052,7 +121251,8 @@
           "purpose": "press-comment.hostile",
           "key": "routine",
           "requiresFacts": ["bill"],
-          "onlyWhen": ["signed-it"]
+          "onlyWhen": ["signed-it"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "braced",
@@ -121079,7 +121279,7 @@
           "key": "routine",
           "requiresFacts": ["outlet"],
           "onlyWhen": ["skipped-some"],
-          "excludesFacts": ["bill"]
+          "excludesFacts": ["bill", "called-back"]
         }
       ],
       "bearing": "braced",
@@ -121104,7 +121304,8 @@
           "role": "asker",
           "purpose": "press-comment.hostile",
           "key": "routine",
-          "onlyWhen": ["vote-held"]
+          "onlyWhen": ["vote-held"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "braced",
@@ -121377,7 +121578,8 @@
           "move": "confront",
           "role": "asked",
           "purpose": "press-comment.hostile",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "braced",
@@ -121401,7 +121603,8 @@
           "move": "confront",
           "role": "asked",
           "purpose": "press-comment.hostile",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "braced",
@@ -121425,7 +121628,8 @@
           "move": "confront",
           "role": "asked",
           "purpose": "press-comment.hostile",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "braced",
@@ -121497,7 +121701,8 @@
           "move": "lie",
           "role": "asked",
           "purpose": "press-comment.hostile",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "guarded",
@@ -121521,7 +121726,8 @@
           "move": "lie",
           "role": "asked",
           "purpose": "press-comment.hostile",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "guarded",
@@ -121545,7 +121751,8 @@
           "move": "leave",
           "role": "asked",
           "purpose": "press-comment.hostile",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "guarded",
@@ -121569,7 +121776,8 @@
           "move": "leave",
           "role": "asked",
           "purpose": "press-comment.hostile",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "calm",
@@ -121619,7 +121827,8 @@
           "role": "asker",
           "purpose": "press-comment.hostile",
           "key": "routine",
-          "after": "confront"
+          "after": "confront",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "braced",
@@ -121669,7 +121878,8 @@
           "role": "asker",
           "purpose": "press-comment.hostile",
           "key": "routine",
-          "after": "refuse"
+          "after": "refuse",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "braced",
@@ -121694,7 +121904,8 @@
           "role": "asker",
           "purpose": "press-comment.hostile",
           "key": "routine",
-          "after": "refuse"
+          "after": "refuse",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "braced",
@@ -121966,7 +122177,8 @@
           "move": "greet",
           "role": "asker",
           "purpose": "press-comment.scandal",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "braced",
@@ -121991,7 +122203,8 @@
           "role": "asker",
           "purpose": "press-comment.scandal",
           "key": "routine",
-          "requiresFacts": ["read-scandal"]
+          "requiresFacts": ["read-scandal"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "braced",
@@ -122015,7 +122228,8 @@
           "move": "greet",
           "role": "asker",
           "purpose": "press-comment.scandal",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "braced",
@@ -122041,7 +122255,8 @@
           "purpose": "press-comment.scandal",
           "key": "routine",
           "requiresFacts": ["bill", "read-scandal"],
-          "onlyWhen": ["vote-held"]
+          "onlyWhen": ["vote-held"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "braced",
@@ -122066,7 +122281,8 @@
           "role": "asker",
           "purpose": "press-comment.scandal",
           "key": "routine",
-          "requiresFacts": ["vote-held", "read-scandal"]
+          "requiresFacts": ["vote-held", "read-scandal"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "braced",
@@ -122091,7 +122307,8 @@
           "role": "asker",
           "purpose": "press-comment.scandal",
           "key": "routine",
-          "requiresFacts": ["read-scandal"]
+          "requiresFacts": ["read-scandal"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "braced",
@@ -122117,7 +122334,8 @@
           "purpose": "press-comment.scandal",
           "key": "routine",
           "requiresFacts": ["bill", "read-scandal"],
-          "onlyWhen": ["vote-held"]
+          "onlyWhen": ["vote-held"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "braced",
@@ -122141,7 +122359,8 @@
           "move": "confront",
           "role": "asker",
           "purpose": "press-comment.scandal",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "braced",
@@ -122388,7 +122607,8 @@
           "move": "deflect",
           "role": "asked",
           "purpose": "press-comment.scandal",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "guarded",
@@ -122412,7 +122632,8 @@
           "move": "deflect",
           "role": "asked",
           "purpose": "press-comment.scandal",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "guarded",
@@ -122484,7 +122705,8 @@
           "move": "confront",
           "role": "asked",
           "purpose": "press-comment.scandal",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "braced",
@@ -122508,7 +122730,8 @@
           "move": "confront",
           "role": "asked",
           "purpose": "press-comment.scandal",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "braced",
@@ -122532,7 +122755,8 @@
           "move": "lie",
           "role": "asked",
           "purpose": "press-comment.scandal",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "guarded",
@@ -122556,7 +122780,8 @@
           "move": "lie",
           "role": "asked",
           "purpose": "press-comment.scandal",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "guarded",
@@ -122580,7 +122805,8 @@
           "move": "leave",
           "role": "asked",
           "purpose": "press-comment.scandal",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "guarded",
@@ -122604,7 +122830,8 @@
           "move": "leave",
           "role": "asked",
           "purpose": "press-comment.scandal",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "guarded",
@@ -122654,7 +122881,8 @@
           "role": "asker",
           "purpose": "press-comment.scandal",
           "key": "routine",
-          "after": "deflect"
+          "after": "deflect",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "braced",
@@ -122679,7 +122907,8 @@
           "role": "asker",
           "purpose": "press-comment.scandal",
           "key": "routine",
-          "after": "deflect"
+          "after": "deflect",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "braced",
@@ -122704,7 +122933,8 @@
           "role": "asker",
           "purpose": "press-comment.scandal",
           "key": "routine",
-          "after": "refuse"
+          "after": "refuse",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "braced",
@@ -123029,7 +123259,8 @@
           "role": "asker",
           "purpose": "press-comment.national",
           "key": "routine",
-          "requiresFacts": ["outlet"]
+          "requiresFacts": ["outlet"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "calm",
@@ -123054,7 +123285,8 @@
           "role": "asker",
           "purpose": "press-comment.national",
           "key": "routine",
-          "requiresFacts": ["bill", "outlet"]
+          "requiresFacts": ["bill", "outlet"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "calm",
@@ -123079,7 +123311,8 @@
           "role": "asker",
           "purpose": "press-comment.national",
           "key": "routine",
-          "requiresFacts": ["story"]
+          "requiresFacts": ["story"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "calm",
@@ -123104,7 +123337,8 @@
           "role": "asker",
           "purpose": "press-comment.national",
           "key": "routine",
-          "requiresFacts": ["bill"]
+          "requiresFacts": ["bill"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "curious",
@@ -123129,7 +123363,8 @@
           "role": "asker",
           "purpose": "press-comment.national",
           "key": "routine",
-          "requiresFacts": ["bill"]
+          "requiresFacts": ["bill"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "curious",
@@ -123154,7 +123389,8 @@
           "role": "asker",
           "purpose": "press-comment.national",
           "key": "routine",
-          "requiresFacts": ["bill", "vote-held", "voted-yes"]
+          "requiresFacts": ["bill", "vote-held", "voted-yes"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "curious",
@@ -123179,7 +123415,8 @@
           "role": "asker",
           "purpose": "press-comment.national",
           "key": "routine",
-          "requiresFacts": ["bill", "vote-held", "voted-no"]
+          "requiresFacts": ["bill", "vote-held", "voted-no"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "curious",
@@ -123204,7 +123441,8 @@
           "role": "asker",
           "purpose": "press-comment.national",
           "key": "routine",
-          "requiresFacts": ["story"]
+          "requiresFacts": ["story"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "curious",
@@ -123478,7 +123716,8 @@
           "move": "boast",
           "role": "asked",
           "purpose": "press-comment.national",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "proud",
@@ -123502,7 +123741,8 @@
           "move": "boast",
           "role": "asked",
           "purpose": "press-comment.national",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "proud",
@@ -123526,7 +123766,8 @@
           "move": "stall",
           "role": "asked",
           "purpose": "press-comment.national",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "guarded",
@@ -123550,7 +123791,8 @@
           "move": "stall",
           "role": "asked",
           "purpose": "press-comment.national",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "guarded",
@@ -123574,7 +123816,8 @@
           "move": "lie",
           "role": "asked",
           "purpose": "press-comment.national",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "guarded",
@@ -123598,7 +123841,8 @@
           "move": "lie",
           "role": "asked",
           "purpose": "press-comment.national",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "guarded",
@@ -123622,7 +123866,8 @@
           "move": "leave",
           "role": "asked",
           "purpose": "press-comment.national",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "calm",
@@ -123646,7 +123891,8 @@
           "move": "leave",
           "role": "asked",
           "purpose": "press-comment.national",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "calm",
@@ -123749,7 +123995,8 @@
           "purpose": "press-comment.national",
           "key": "routine",
           "requiresFacts": ["story"],
-          "after": "stall"
+          "after": "stall",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "braced",
@@ -181028,7 +181275,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "requiresFacts": ["vote-held"]
+          "requiresFacts": ["vote-held"],
+          "excludesFacts": ["called-back"]
         },
         {
           "subject": "scene",
@@ -181038,7 +181286,8 @@
           "purpose": "press-comment",
           "key": "routine",
           "after": "press",
-          "requiresFacts": ["vote-held"]
+          "requiresFacts": ["vote-held"],
+          "excludesFacts": ["called-back"]
         },
         {
           "subject": "scene",
@@ -181048,7 +181297,8 @@
           "purpose": "press-comment",
           "key": "routine",
           "after": "ask",
-          "requiresFacts": ["vote-held"]
+          "requiresFacts": ["vote-held"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "calm",
@@ -181074,7 +181324,8 @@
           "purpose": "press-comment",
           "key": "routine",
           "after": "press",
-          "requiresFacts": ["vote-held"]
+          "requiresFacts": ["vote-held"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "guarded",
@@ -181099,7 +181350,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "requiresFacts": ["voted-no"]
+          "requiresFacts": ["voted-no"],
+          "excludesFacts": ["called-back"]
         },
         {
           "subject": "scene",
@@ -181109,7 +181361,8 @@
           "purpose": "press-comment",
           "key": "routine",
           "requiresFacts": ["voted-no"],
-          "after": "ask"
+          "after": "ask",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "calm",
@@ -185580,7 +185833,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "requiresFacts": ["vote-held"]
+          "requiresFacts": ["vote-held"],
+          "excludesFacts": ["called-back"]
         },
         {
           "subject": "scene",
@@ -185590,7 +185844,8 @@
           "purpose": "press-comment",
           "key": "routine",
           "requiresFacts": ["vote-held"],
-          "after": "press"
+          "after": "press",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "guarded",
@@ -185615,7 +185870,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "requiresFacts": ["vote-held"]
+          "requiresFacts": ["vote-held"],
+          "excludesFacts": ["called-back"]
         },
         {
           "subject": "scene",
@@ -185625,7 +185881,8 @@
           "purpose": "press-comment",
           "key": "routine",
           "after": "ask",
-          "requiresFacts": ["vote-held"]
+          "requiresFacts": ["vote-held"],
+          "excludesFacts": ["called-back"]
         },
         {
           "subject": "scene",
@@ -185635,7 +185892,8 @@
           "purpose": "press-comment",
           "key": "routine",
           "after": "confront",
-          "requiresFacts": ["vote-held"]
+          "requiresFacts": ["vote-held"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "guarded",
@@ -185660,7 +185918,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "requiresFacts": ["vote-held"]
+          "requiresFacts": ["vote-held"],
+          "excludesFacts": ["called-back"]
         },
         {
           "subject": "scene",
@@ -185670,7 +185929,8 @@
           "purpose": "press-comment",
           "key": "routine",
           "after": "ask",
-          "requiresFacts": ["vote-held"]
+          "requiresFacts": ["vote-held"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "guarded",
@@ -185696,7 +185956,8 @@
           "purpose": "press-comment",
           "key": "routine",
           "after": "press",
-          "requiresFacts": ["vote-held"]
+          "requiresFacts": ["vote-held"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "guarded",
@@ -185722,7 +185983,8 @@
           "purpose": "press-comment",
           "key": "routine",
           "after": "confront",
-          "requiresFacts": ["vote-held"]
+          "requiresFacts": ["vote-held"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "guarded",
@@ -186847,6 +187109,108 @@
       "tag": {
         "move": "accept",
         "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.all-right-i-ll-call-you-back",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "All right. I'll call you back.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "after": "scene-talk.reply-stall.let-me-check-and-call-you-back-today",
+          "excludesFacts": ["vote-held"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (call-back openings), added by Claude Opus (short replies, put-offs)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.you-were-going-to-call-me-back-about-bill",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "You were going to call me back about {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "press-comment",
+          "key": "routine",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "requiresFacts": ["called-back", "bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (call-back openings), added by Claude Opus (short replies, put-offs)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "greet",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.the-vote-is-when-where-do-you-stand",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "The vote is {when}. Where do you stand?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "press-comment",
+          "key": "routine",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "requiresFacts": ["called-back", "when"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (call-back openings), added by Claude Opus (short replies, put-offs)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.the-vote-is-coming-where-do-you-stand",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "The vote is coming. Where do you stand?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "press-comment",
+          "key": "routine",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "requiresFacts": ["called-back"],
+          "excludesFacts": ["when"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (call-back openings), added by Claude Opus (short replies, put-offs)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
       }
     }
   ]
