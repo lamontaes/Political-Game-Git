@@ -2434,7 +2434,7 @@
       "endings": [
         {
           "id": "joined",
-          "label": "You said you'd come",
+          "label": "You joined them",
           "keeps": "promise",
           "when": {
             "reply": ["agree"]
