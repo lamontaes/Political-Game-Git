@@ -2578,6 +2578,10 @@
         "relent": ["thank"],
         "deflect": ["accept"]
       },
+      "repeatable": {
+        "tell-reason": ["agree", "decline", "stall"],
+        "tell-need": ["agree", "decline", "stall"]
+      },
       "again": { "press": ["agree", "relent", "refuse", "deflect"] },
       "endings": [
         {
