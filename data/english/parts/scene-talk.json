@@ -73639,7 +73639,8 @@
           "step": "open",
           "move": "greet",
           "role": "asker",
-          "requiresFacts": ["law"]
+          "requiresFacts": ["law"],
+          "excludesFacts": ["acquainted", "asked-before"]
         }
       ],
       "bearing": "calm",
@@ -190425,6 +190426,688 @@
           "excludesFacts": ["price-named"]
         }
       ]
+    },
+    {
+      "key": "scene-talk.open-greet.governor-it-s-the-disaster",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Governor. It's the {disaster}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["disaster"],
+          "excludesFacts": ["again"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines for the governor's briefing room, added by its builder as written)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "greet",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.we-need-an-emergency-declared-for-the-disaster-by-deadline-will-you",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "We need an emergency declared for the {disaster} by {deadline}. Will you sign it?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["disaster", "deadline"],
+          "excludesFacts": ["again"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines for the governor's briefing room, added by its builder as written)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "request",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.we-asked-you-before-we-re-asking-again-will-you-declare-the-emergency",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "We asked you before. We're asking again. Will you declare the emergency?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["again", "return-midway"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "request",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.declare-it-bring-me-the-order",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Declare it. Bring me the order.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "excludesFacts": ["again"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines for the governor's briefing room, added by its builder as written)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "agree",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.no-we-handle-this-without-a-declaration",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "No. We handle this without a declaration.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "emergency-briefing",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines for the governor's briefing room, added by its builder as written)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "decline",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-does-a-declaration-do",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What does a declaration do?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "excludesFacts": ["again"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines for the governor's briefing room, added by its builder as written)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "ask",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-governor-we-move-now",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you, Governor. We move now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "after": "agree"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines for the governor's briefing room, added by its builder as written)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "thank",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.it-puts-the-state-on-record-as-acting-if-federal-aid-comes-it-comes",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "It puts the state on record as acting. If federal aid comes, it comes through that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "after": "ask",
+          "excludesFacts": ["again"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines for the governor's briefing room, added by its builder as written)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "answer",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.understood-we-ll-work-with-what-we-have",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Understood. We'll work with what we have.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "after": "decline"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines for the governor's briefing room, added by its builder as written)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "accept",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-warn.governor-people-will-ask-why-you-didn-t",
+      "move": "follow-warn",
+      "kind": "spoken",
+      "text": "Governor, people will ask why you didn't.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "after": "decline"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines for the governor's briefing room, added by its builder as written)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "warn",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.then-i-m-declaring-it",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Then I'm declaring it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "after": "answer"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "after": "warn"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines for the governor's briefing room, added by its builder as written)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "agree",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.alright-i-ll-declare-it",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Alright. I'll declare it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["again"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines for the governor's briefing room, added by its builder as written)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "agree",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.my-answer-is-still-no",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "My answer is still no.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "after": "answer"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "after": "warn"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines for the governor's briefing room, added by its builder as written)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "decline",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.that-s-all-for-now",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "That's all for now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "after": "answer"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "after": "warn"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines for the governor's briefing room, added by its builder as written)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "leave",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.not-yet-i-m-still-deciding",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Not yet. I'm still deciding.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["again"],
+          "setsFacts": ["undecided"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines for the governor's briefing room, added by its builder as written)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "leave",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.close-answer.you-have-until-deadline-governor",
+      "move": "close-answer",
+      "kind": "spoken",
+      "text": "You have until {deadline}, Governor.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "after": "leave",
+          "requiresFacts": ["deadline", "undecided", "return-midway"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines for the governor's briefing room, added by its builder as written)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "answer",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.we-ll-do-what-we-can-without-it",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "We'll do what we can without it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "outcome": "refused"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines for the governor's briefing room, added by its builder as written)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "accept",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-stands-when-you-come-in",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} stands when you come in.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "excludesFacts": ["again"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines for the governor's briefing room, added by its builder as written)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "narrate",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-has-been-waiting-for-you",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} has been waiting for you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "excludesFacts": ["again"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines for the governor's briefing room, added by its builder as written)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "narrate",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-is-back-with-the-same-question",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} is back, with the same question.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["return-midway"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines for the governor's briefing room, added by its builder as written)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "narrate",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-is-already-in-your-office",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} is already in your office.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["return-last"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines for the governor's briefing room, added by its builder as written)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "narrate",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.governor-we-re-still-waiting-on-your-answer",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Governor. We're still waiting on your answer.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["return-midway"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines for the governor's briefing room, added by its builder as written)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "greet",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.governor-this-is-the-last-time-i-can-ask",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Governor. This is the last time I can ask.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["return-last"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines for the governor's briefing room, added by its builder as written)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "greet",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.after-deadline-it-s-out-of-your-hands-will-you-declare-the-emergency",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "After {deadline} it's out of your hands. Will you declare the emergency?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["again", "return-last", "deadline"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines for the governor's briefing room, added by its builder as written)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "request",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.close-answer.then-it-runs-out-on-deadline-governor",
+      "move": "close-answer",
+      "kind": "spoken",
+      "text": "Then it runs out on {deadline}, Governor.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "after": "leave",
+          "requiresFacts": ["return-last", "deadline", "undecided"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines for the governor's briefing room, added by its builder as written)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "answer",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.you-helped-me-once",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "You helped me once. I haven't forgotten.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["helped-before"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead, for class H (a person remembers what passed)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "greet",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.you-told-me-no-last-time",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "You told me no last time. I'm asking anyway.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["refused-before"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead, for class H (a person remembers what passed)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "greet",
+        "key": "favor-asked"
+      }
     },
     {
       "key": "scene-talk.reply-bargain.i-could-see-it-but-i-d-need-to-know-you-re-for-about",

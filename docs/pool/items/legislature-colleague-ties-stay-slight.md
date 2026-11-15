@@ -33,3 +33,7 @@ source: Lying builder, Nov 15, from the recount of lies told at three places (Ac
 **Waits on.** Nothing.
 
 **Files.** src/core2/sitting-closeness.ts, src/core2/modules/world-legislating.ts, src/core2/data/parameters.json
+
+Nov 15 (lying thread): the player's own rooms now follow the same rule. A committee, caucus or leaders' meeting is a sitting of a smaller room, shared by the sitting's own reader (`roomTime` in src/core2/sitting-closeness.ts, the sort `nearestInService` shared with the floor; spendTime in src/core2/office-day-state.ts): the meeting's hours times `sittingContactShare`, split among the `knownAmong(room - 1)` colleagues whose service began nearest one's own. Whether every colleague ends up too slight is still this item's question.
+
+Nov 15 (lying thread, D1): this item is the full answer to what D1 leaves. Only the player's own committee, caucus and leaders' meetings write tie rows. Every other member shares those rooms too, but nothing records it, so their ties to one another are the floor's shared hours alone, and they are exactly equal within a class sworn in together. At 4846968 seed 8647-mason (player at seat 016, Feb 1 to 14, 2025), after people-colleagues-company-all-goes-to-the-player, the player still got 57 of the senators' 173 `contact-known-person` acts from 9 colleagues. The row a meeting writes adds hours lost on top of the shared hours, so it beats any colleague's equal body-only pull. Once committee and caucus sittings are read for every member, pulls differ by the rooms people really share, and this goes away.
