@@ -20,6 +20,48 @@
       "spread": "2 to 5",
       "note": "The fewest people who are an action: one person alone is not a walkout, a protest or a rally."
     },
+    "turnoutFewBelow": {
+      "value": 0.015,
+      "role": "level",
+      "tag": "TUNABLE",
+      "spread": "0.005 to 0.03",
+      "note": "Below this share of the town's adults (named and counted people alike, the same cut for both), a turnout is said as a few people; a scene says how it looks and never the figure."
+    },
+    "turnoutCrowdFrom": {
+      "value": 0.08,
+      "role": "level",
+      "tag": "TUNABLE",
+      "spread": "0.04 to 0.15",
+      "note": "From this share of the town's adults, a turnout is said as a crowd; between the two cuts it is a group. Placed from the shares the staged bad term draws at three pinned places (about 0.6 to 11 percent)."
+    },
+    "turnoutGroupMinPeople": {
+      "value": 5,
+      "role": "level",
+      "tag": "TUNABLE",
+      "spread": "3 to 8",
+      "note": "The fewest people who are a group: below this count a turnout is a few people whatever the town's size, so two residents of a small town are never a group that someone steps out of."
+    },
+    "turnoutFewMaxPeople": {
+      "value": 12,
+      "role": "level",
+      "tag": "TUNABLE",
+      "spread": "8 to 20",
+      "note": "From this many people a turnout is never said as a few, whatever the town's size: two hundred in a large city are a small share of it and still not a few people."
+    },
+    "turnoutCrowdAnywhereFrom": {
+      "value": 50,
+      "role": "level",
+      "tag": "TUNABLE",
+      "spread": "30 to 100",
+      "note": "From this many people a turnout is a crowd in any town (and at least the crowd minimum). What someone standing there sees does not depend on the size of the town once enough people are present: the share rule is for small towns, where a dozen people is most of the block, and this headcount rule is for everywhere else."
+    },
+    "turnoutCrowdMinPeople": {
+      "value": 10,
+      "role": "level",
+      "tag": "TUNABLE",
+      "spread": "8 to 20",
+      "note": "The fewest people who are a crowd: below this count a turnout is a group at most, whatever its share of the town."
+    },
     "faded": {
       "value": 0.001,
       "tag": "ESTIMATED",

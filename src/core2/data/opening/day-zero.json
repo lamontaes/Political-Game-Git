@@ -992,6 +992,13 @@
       "knownRedPlaces": ["1150000"]
     },
     {
+      "table": "core2-office-day-v1.pledges",
+      "level": "town",
+      "call": "flow-only",
+      "filledBy": "day 1",
+      "reason": "A word the player gave a friend to come to a town meeting not yet posted; it exists only by the player's own yes in a scene, and is spent when the meeting is posted."
+    },
+    {
       "table": "core2-offices-v1.vacancies",
       "level": "town, state and federal",
       "call": "stock",

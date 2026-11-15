@@ -102,6 +102,10 @@ When a played proof shows an engine's reaction never happening (Nov 1: an incumb
 - **A test that makes an ordinary resident "the player" lets candidacy file them.** Candidacy skips only the explicitly controlled person (`isExplicitlyControlledPersonV1`), and a controlled person cannot be advanced with `advanceCore` (the resumable player clock is required). A test that picks a resident after the world is built and then advances weeks sees that resident file for seats on their own (the walkthrough test saw a coroner filing before its own), so pick the player after the weeks go by, as someone who has not filed, or the first-filing scene counts two filings.
 - **Two runs that alternate commits show a cost; one run shows nothing.** To find what a merge added, time the merge and its parent alternately, twice each, at two years (a year with no race decided shows no difference), then diff the two CPU profiles by inclusive time (`node --cpu-prof`); name the engine whose inclusive time grew, not the one you changed.
 
+## Counting who ran in a seat (Nov 15)
+
+Count a seat's filers by filings whose status is not `withdrawn`, and only for seats whose filing deadline has passed on the day you stop. A count that includes withdrawn filings or open windows reads a major party as present or absent wrongly (the first 12-place count of uncontested seats did). A seat has few filers per place, so a share needs many places; say how many seats it rests on. A weight is never moved until a measured share matches a benchmark: derive it from a person's own sum or a source with its spread, and report the result against the benchmark.
+
 ## Stop condition
 
 Done when every count you report names its places, seeds and branch head; every version of an ablation played the same places; and the result is in the status block or the item's Notes, not only in a message.
