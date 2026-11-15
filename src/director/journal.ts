@@ -74,7 +74,7 @@ import { moneySaid } from "../english/count-words";
 
 import { spanSaid } from "../english/span-words";
 import type { Moment } from "./types";
-import { tieSide } from "./purpose-scene";
+import { tieSide } from "./relation-facts";
 import {
   OFFICE_DAY_MODULE_ID,
   type OfficeActRow,

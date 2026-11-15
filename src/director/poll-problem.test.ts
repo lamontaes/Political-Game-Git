@@ -25,6 +25,7 @@ import { ELECTIONS_MODULE_ID } from "../core2/modules/elections";
 import {
   VOTING_MODULE_ID,
   pollingStatus,
+  registerToVote,
   reviewVoterRegistrations,
 } from "../core2/modules/voting";
 import { coreAPI } from "../core2/state";
@@ -61,7 +62,7 @@ function nextTownElection(api: CoreAPI): string {
 }
 
 /** The player at the polls the day of the election, moved out of the household ten days before so the rolls do not hold them. */
-function playerAtThePolls(key: string, seed: string) {
+function playerAtThePolls(key: string, seed: string, lateForm = false) {
   const world = buildBenchWorld(seed, gameStartDate(), {
     twoLevel: true,
     placeKey: key,
@@ -84,6 +85,8 @@ function playerAtThePolls(key: string, seed: string) {
     },
   });
   reviewVoterRegistrations(api);
+  // A late form: the player files for the rolls ten days before the vote, which is past the state's deadline.
+  if (lateForm) registerToVote(api, player.id);
   advanceCore(core, addDays(makeIsoDate(election), -1));
   const visit = stagedPollingVisit(
     core,
@@ -187,6 +190,38 @@ describe("trouble at the polling place (pinned places, fixed seeds)", () => {
       told.find(
         (line) =>
           /(?:kept me from voting|vote in) /.test(line.text) &&
+          line.sourceRecordIds.includes(`poll-day:${election}:${player.id}`),
+      ),
+      `${where}: the Journal line, among ${JSON.stringify(told.slice(-4).map((line) => [line.text, line.sourceRecordIds]))}`,
+    ).toBeTruthy();
+  }, 150_000);
+
+  it("Sherrodsville OH, seed reg-pin-oh: a form filed after the deadline is refused at the polls, and the Journal says it was too late", () => {
+    const where = "Sherrodsville, Ohio (3972242), seed reg-pin-oh, late form";
+    const { core, api, director, player, election, visit } = playerAtThePolls(
+      "3972242",
+      "reg-pin-oh",
+      true,
+    );
+    expect(visit, `${where}: the polls are staged`).toBeTruthy();
+    expect(visit.standing, where).toBe("after-deadline");
+    const talk = pollProblemTalk(core, visit)!;
+    expect(talk, `${where}: the worker has a scene`).toBeTruthy();
+    const leave = talk.choices.find((choice) => choice.move === "leave");
+    expect(leave, `${where}: a reply leaves`).toBeTruthy();
+    sayAtPolls(core, director.ledger, visit, leave!.index);
+    const day = rowsOf<PollDay>(api, "pollDays").find(
+      (row) => row.date === election && row.personId === player.id,
+    );
+    expect(day?.why, where).toBe("after-deadline");
+    advanceCore(core, addDays(makeIsoDate(election), 1));
+    const told = composeJournal(core, director, player.id).flatMap(
+      (chapter) => chapter.lines,
+    );
+    expect(
+      told.find(
+        (line) =>
+          /^I registered too late to vote in .+\.$/.test(line.text) &&
           line.sourceRecordIds.includes(`poll-day:${election}:${player.id}`),
       ),
       `${where}: the Journal line, among ${JSON.stringify(told.slice(-4).map((line) => [line.text, line.sourceRecordIds]))}`,

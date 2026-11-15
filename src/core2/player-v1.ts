@@ -507,50 +507,65 @@ function finishIntents(core: CoreState, s: Session, day: Day): void {
     }
   }
 }
+/**
+ * One day for a world whose controlled person acts only on the player's answers (life.ts runDay): no
+ * module may choose for that person, whose needs and shifts belong to the clock's continuation; everyone
+ * else's day runs as in any day. The player's clock closes each day through it, and the opening's
+ * warm-up (src/core2/player-warm-up.ts) runs the days before the start through it, so the played person
+ * does nothing in them.
+ */
+export function runControlledDay(
+  core: CoreState,
+  api: CoreAPI,
+  personId: string,
+  due: readonly DuePerson[],
+): { decisions: number; acts: number } {
+  const decide = (
+    actorId: string,
+    offers: readonly ActOffer[],
+    context?: Parameters<typeof chooseAct>[3],
+  ) => {
+    if (actorId === personId)
+      throw new Error("A module attempted an autonomous controlled choice.");
+    return chooseAct(core, actorId, offers, context, false, false);
+  };
+  const refresh = (
+    actor: Parameters<typeof refreshNeeds>[2],
+    ids?: readonly string[],
+  ) => {
+    // A module may read a projection of the controlled person's needs but
+    // never refresh them.
+    if (actor.id === personId)
+      return ids ? projectWorkNeeds(core, api, actor, ids) : undefined;
+    if (ids) return projectWorkNeeds(core, api, actor, ids);
+    refreshNeeds(core, api, actor);
+    return undefined;
+  };
+  return runDay(core, api, due, {
+    decide,
+    refresh,
+    activate: (row) => (activate(core, row.personId, row.days) ? 1 : 0),
+    // The controlled person's own shifts are the clock's; everyone else's
+    // run as in any day.
+    ownDay: new Map([
+      [
+        WORK_MODULE.id,
+        () => {
+          const count = runScheduledWork(api, decide, refresh, personId);
+          runWorkPayrollDay(api);
+          return count;
+        },
+      ],
+    ]),
+  });
+}
 function closeDay(core: CoreState, s: Session, day: Day): void {
   if (day.work.length || day.action)
     throw new Error("Cannot close a day with unfinished controlled acts.");
   try {
     // The one day loop (life.ts runDay): no module may choose for the
     // controlled person, whose needs belong to the clock's continuation.
-    const decide = (
-      actorId: string,
-      offers: readonly ActOffer[],
-      context?: Parameters<typeof chooseAct>[3],
-    ) => {
-      if (actorId === s.personId)
-        throw new Error("A module attempted an autonomous controlled choice.");
-      return chooseAct(core, actorId, offers, context, false, false);
-    };
-    const refresh = (
-      actor: Parameters<typeof refreshNeeds>[2],
-      ids?: readonly string[],
-    ) => {
-      // A module may read a projection of the controlled person's needs but
-      // never refresh them.
-      if (actor.id === s.personId)
-        return ids ? projectWorkNeeds(core, s.api, actor, ids) : undefined;
-      if (ids) return projectWorkNeeds(core, s.api, actor, ids);
-      refreshNeeds(core, s.api, actor);
-      return undefined;
-    };
-    const counted = runDay(core, s.api, day.due, {
-      decide,
-      refresh,
-      activate: (row) => (activate(core, row.personId, row.days) ? 1 : 0),
-      // The controlled person's own shifts are the clock's; everyone else's
-      // run as in any day.
-      ownDay: new Map([
-        [
-          WORK_MODULE.id,
-          () => {
-            const count = runScheduledWork(s.api, decide, refresh, s.personId);
-            runWorkPayrollDay(s.api);
-            return count;
-          },
-        ],
-      ]),
-    });
+    const counted = runControlledDay(core, s.api, s.personId, day.due);
     s.decisions += counted.decisions;
     s.acts += counted.acts;
     s.simulatedDays++;

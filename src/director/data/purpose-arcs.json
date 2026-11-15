@@ -933,6 +933,26 @@
         ["budget-cost", "no-cost"],
         ["opposed-voters", "opposed-groups", "opposed-party", "opposed-views"]
       ],
+      "actEnds": ["deadline"],
+      "acts": {
+        "note": "The replies that say the act in their own words (Account lead, Nov 14): a reply that names the act ends the talk with one closing line from the visitor and signs or vetoes the bill through the desk (Words lead, Nov 14 20:35Z). Any other reply, a no included, leaves it on the desk and the talk goes on.",
+        "sign": [
+          "scene-talk.reply-agree.you-ve-made-your-case-bring-the-pen",
+          "scene-talk.reply-agree.it-passed-i-ll-sign-it",
+          "scene-talk.reply-refuse.no-veto-it-gets-my-signature",
+          "scene-talk.reply-relent.fine-i-ll-sign-it-then",
+          "scene-talk.reply-agree.then-it-deserves-a-signature-bring-the-pen",
+          "scene-talk.reply-agree.so-it-brings-purpose-and-costs-the-budget-nothing-i-ll-sign-it",
+          "scene-talk.reply-agree.that-settles-it-i-ll-sign"
+        ],
+        "veto": [
+          "scene-talk.reply-agree.i-ll-veto-it",
+          "scene-talk.reply-agree.then-it-gets-a-veto",
+          "scene-talk.reply-refuse.it-goes-back-with-a-veto",
+          "scene-talk.reply-relent.all-right-i-ll-veto-it",
+          "scene-talk.reply-agree.that-settles-it-i-ll-veto-it"
+        ]
+      },
       "state": "request",
       "replies": ["agree", "refuse", "bargain", "ask"],
       "follow": {
@@ -942,7 +962,7 @@
         "confront": ["press", "accept"]
       },
       "again": {
-        "answer": ["agree", "refuse", "bargain", "leave"]
+        "answer": ["agree", "refuse", "bargain", "leave", "ask"]
       },
       "endings": [
         {
@@ -957,7 +977,7 @@
         {
           "id": "their-way",
           "label": "Their way",
-          "keeps": "promise",
+          "keeps": "none",
           "when": {
             "reply": ["agree", "relent"]
           }
@@ -3435,7 +3455,9 @@
           "id": "heard-out",
           "label": "You heard the speaker out",
           "keeps": "none",
-          "when": { "reply": ["leave"] }
+          "when": {
+            "reply": ["leave"]
+          }
         },
         {
           "id": "stood-with",
@@ -3449,7 +3471,10 @@
           "id": "held-against",
           "label": "You held your ground",
           "keeps": "relationship-strained",
-          "when": { "reply": ["disagree"], "asker": ["press"] }
+          "when": {
+            "reply": ["disagree"],
+            "asker": ["press"]
+          }
         },
         {
           "id": "spoke-against",
@@ -4112,9 +4137,18 @@
         "first": {
           "tell": "ask",
           "then": [
-            { "move": "answer", "carries": "lean" },
-            { "move": "tell", "carries": "lean" },
-            { "move": "deflect", "carries": "hedged" }
+            {
+              "move": "answer",
+              "carries": "lean"
+            },
+            {
+              "move": "tell",
+              "carries": "lean"
+            },
+            {
+              "move": "deflect",
+              "carries": "hedged"
+            }
           ]
         }
       },
@@ -4288,6 +4322,114 @@
           "keeps": "none",
           "when": {
             "reply": ["stall"]
+          }
+        },
+        {
+          "id": "left-there",
+          "label": "Left it there",
+          "keeps": "none",
+          "when": {}
+        }
+      ]
+    },
+    "study-formed": {
+      "state": "tell",
+      "replies": ["agree", "disagree", "ask", "deflect"],
+      "follow": {
+        "agree": ["thank"],
+        "disagree": ["press"],
+        "ask": ["answer"],
+        "deflect": ["accept"]
+      },
+      "again": {
+        "press": ["agree", "disagree", "leave"],
+        "answer": ["agree", "disagree", "leave"]
+      },
+      "endings": [
+        {
+          "id": "agreed-to-serve",
+          "label": "You said you would serve",
+          "keeps": "promise",
+          "when": {
+            "reply": ["agree"]
+          }
+        },
+        {
+          "id": "called-it-a-delay",
+          "label": "You doubted the study would change anything",
+          "keeps": "relationship-strained",
+          "when": {
+            "reply": ["disagree"]
+          }
+        },
+        {
+          "id": "asked-about-it",
+          "label": "You asked what it is charged with",
+          "keeps": "meeting-set",
+          "when": {
+            "reply": ["ask"]
+          }
+        },
+        {
+          "id": "left-it-for-later",
+          "label": "You left it for the first meeting",
+          "keeps": "none",
+          "when": {
+            "reply": ["deflect", "leave"]
+          }
+        },
+        {
+          "id": "left-there",
+          "label": "Left it there",
+          "keeps": "none",
+          "when": {}
+        }
+      ]
+    },
+    "study-reported": {
+      "state": "tell",
+      "replies": ["agree", "disagree", "ask", "deflect"],
+      "follow": {
+        "agree": ["thank"],
+        "disagree": ["press"],
+        "ask": ["answer"],
+        "deflect": ["accept"]
+      },
+      "again": {
+        "press": ["agree", "disagree", "leave"],
+        "answer": ["agree", "disagree", "leave"]
+      },
+      "endings": [
+        {
+          "id": "backed-the-finding",
+          "label": "You said you would back the finding",
+          "keeps": "promise",
+          "when": {
+            "reply": ["agree"]
+          }
+        },
+        {
+          "id": "not-moved-by-it",
+          "label": "You said the finding did not move you",
+          "keeps": "relationship-strained",
+          "when": {
+            "reply": ["disagree"]
+          }
+        },
+        {
+          "id": "asked-what-it-weighed",
+          "label": "You asked what the committee weighed",
+          "keeps": "none",
+          "when": {
+            "reply": ["ask"]
+          }
+        },
+        {
+          "id": "let-it-stand",
+          "label": "You let the finding stand",
+          "keeps": "none",
+          "when": {
+            "reply": ["deflect", "leave"]
           }
         },
         {

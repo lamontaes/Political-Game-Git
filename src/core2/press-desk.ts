@@ -476,11 +476,10 @@ export function printItem(
       facts: {
         ...item.facts,
         sourceRecordId: item.id,
-        // What a reader can bring up: which outlet printed what. The reporter
-        // makes the story's case, so a reader moves by their standing with
-        // the reporter (views engine); the outlet's line already chose the
-        // change the story argues.
-        [`printed:${outlet.organizationId}:story`]: story.id,
+        // The reporter makes the story's case, so a reader moves by their
+        // standing with the reporter (views engine); the outlet's line already
+        // chose the change the story argues. Which outlet printed it is the
+        // news engine's fact for each story read (news:<story>:outlet).
         [VIEWS_SPEAKER_KEY]: reporterId,
         ...(options.facts ?? {}),
       },

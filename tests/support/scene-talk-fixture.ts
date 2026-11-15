@@ -76,6 +76,9 @@ const flags = [
   "poll-old-address",
   "poll-not-in-book",
   "poll-off-book",
+  // The desk visit always knows what a bill costs; with no budget line the
+  // record says so (deskFacts, purpose-scene.ts).
+  "no-cost",
 ];
 export const facts: Record<string, Fact> = {
   name: fact("Pat Rivera"),
@@ -83,6 +86,8 @@ export const facts: Record<string, Fact> = {
   "moved-when": fact("last spring"),
   first: fact(core.people.get(askedId)!.givenName),
   bill: fact('"Limit groundwater withdrawal"'),
+  // What the bill does, as the desk visit says it (billTitleOf).
+  purpose: fact("a cap on how much groundwater a farm can pump"),
   section: fact("2"),
   chair: fact("Lee Ortiz"),
   office: fact("county commissioner"),
