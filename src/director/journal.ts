@@ -2800,8 +2800,7 @@ export function composeJournal(
       // the line.
       const counterpart = subjectOf(unit.moment);
       const theirWin =
-        !unit.row.hasOwnLine ||
-        unit.facts.winner?.text === counterpart;
+        !unit.row.hasOwnLine || unit.facts.winner?.text === counterpart;
       if (
         !unit.own &&
         (unit.row.turnFor === "self" || unit.row.hasOwnLine) &&
