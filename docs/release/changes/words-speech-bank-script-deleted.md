@@ -3,4 +3,4 @@ id: words-speech-bank-script-deleted
 impact: none
 ---
 
-The old speech-bank script is deleted; nothing a player sees.
+Old one-off Words scripts that nothing called are deleted; nothing a player sees.
