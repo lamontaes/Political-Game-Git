@@ -182,7 +182,7 @@ const ARCS = arcsFile as unknown as Arcs;
 const RULES = rulesFile as unknown as {
   terminalFollow: string[];
   tree: { maxReplies: { value: number }; maxNodes: { value: number } };
-  bluntGreeting: { value: number };
+  bluntGreeting: { value: number; notWhen: string[] };
 };
 export type Outcome = "resolved" | "refused" | "open";
 
@@ -1354,8 +1354,11 @@ export function composeSceneTalk(
     }).find((move) => move !== "greet") ?? "greet";
   // Not everyone says hello first: an asker who keeps to themself goes
   // straight to why they came.
+  // A call back opens on what the player said last time, never a hello, so
+  // it is said whoever calls (rules: bluntGreeting.notWhen).
   const blunt =
     openMove === "greet" &&
+    !RULES.bluntGreeting.notWhen.some((fact) => facts[fact]) &&
     (askerTraits["people-mind-v1:sociability"] ?? zero) <=
       -RULES.bluntGreeting.value;
   const open = blunt

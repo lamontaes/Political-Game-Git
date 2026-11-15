@@ -30,9 +30,9 @@ import { purposeScene, replyInScene } from "./purpose-scene";
 import type { SceneTalk } from "./scene-talk";
 import type { ScheduleEntry } from "./scheduling";
 
-const seed = process.env.JOB_CALL_BACK_SEED ?? "pin-job-call-back";
-const DRAWS = Number(process.env.JOB_CALL_BACK_DRAWS ?? 1);
-const FIRST = Number(process.env.JOB_CALL_BACK_FIRST ?? 0);
+/** Pinned: seed pin-job-call-back, draw 0 is Island Heights, New Jersey. */
+const seed = "pin-job-call-back";
+const draw = 0;
 
 /** How each offer is put off, in order, and what the call back opens on. */
 const WAYS = [
@@ -169,34 +169,24 @@ function play(draw: number): { where: string; seen: Seen[] } | string {
   return { where, seen: [...seen.values()] };
 }
 
-// Three offers, each to its last day, at one pinned place.
+// Three offers, each to its last day, at one pinned place: about 35 s of
+// played days measured, with a limit near twice that.
 it("a put-off job offer is called back on its last day, on what was said, with yes and no only", () => {
-  const tried: string[] = [];
-  for (let draw = FIRST; draw < FIRST + DRAWS; draw += 1) {
-    const played = play(draw);
-    if (typeof played === "string") {
-      tried.push(played);
-      continue;
-    }
-    const { where, seen } = played;
-    for (const row of seen) {
-      const way = WAYS[row.way]!;
-      const label = `${where}: after ${row.said.join(" / ")}`;
-      process.stdout.write(
-        `job-offer-call-back: ${label}: ${row.again!.open?.text} ${row.again!.state.text} -> ${row.answer} (${row.status})\n`,
-      );
-      expect(row.again!.open?.text, label).toBe(way.open);
-      expect(row.again!.state.text, label).toBe(way.state);
-      expect(
-        row.again!.tree.replies.map((r) => r.line.move).sort(),
-        label,
-      ).toEqual(["agree", "decline"]);
-      expect(row.first.open?.text, label).not.toBe(way.open);
-      expect(row.status, label).toBe(
-        row.answer === "agree" ? "accepted" : "declined",
-      );
-    }
-    return;
+  const played = play(draw);
+  if (typeof played === "string") throw new Error(played);
+  const { where, seen } = played;
+  for (const row of seen) {
+    const way = WAYS[row.way]!;
+    const label = `${where}: after ${row.said.join(" / ")}`;
+    expect(row.again!.open?.text, label).toBe(way.open);
+    expect(row.again!.state.text, label).toBe(way.state);
+    expect(
+      row.again!.tree.replies.map((r) => r.line.move).sort(),
+      label,
+    ).toEqual(["agree", "decline"]);
+    expect(row.first.open?.text, label).not.toBe(way.open);
+    expect(row.status, label).toBe(
+      row.answer === "agree" ? "accepted" : "declined",
+    );
   }
-  throw new Error(tried.join("; "));
-}, 600_000);
+}, 90_000);

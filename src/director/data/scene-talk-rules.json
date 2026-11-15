@@ -37,7 +37,9 @@
     "value": 1,
     "tag": "TUNABLE",
     "spread": [0.5, 1.5],
-    "checkedAgainst": "Batch 20: about one asker in six opens without a greeting, the share of adults a full level or more below the middle on the opening temperament's 10/20/40/20/10 cut."
+    "checkedAgainst": "Batch 20: about one asker in six opens without a greeting, the share of adults a full level or more below the middle on the opening temperament's 10/20/40/20/10 cut.",
+    "notWhen": ["called-back"],
+    "notWhenAbout": "Facts under which the open is said whoever speaks: a call back's open names what the player said last time (Words lead, Nov 15), the reason for the call, not a greeting."
   },
   "familyStakes": {
     "about": "Who at home has a stake in a filing (scenes-from-life, spouse-stake-after-filing). A relative reacts to a filing only when the household's records give them one; the strongest stake casts the relative and gives the scene its facts, and with none the scene is not staged. Read from the household's savings and costs, the filing's election date, and the children's birth dates; nothing is rolled.",
