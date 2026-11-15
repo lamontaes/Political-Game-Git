@@ -5,10 +5,10 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/project-thread-csmftn-strain
-pr:
+pr: 9491
 after: legislature-members-have-no-tie-to-each-other
 blocked-on:
 lead: people
