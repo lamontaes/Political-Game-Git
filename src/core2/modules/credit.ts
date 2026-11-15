@@ -1285,10 +1285,14 @@ interface BorrowingHousehold {
 }
 
 /** Current cash and wage receipts; never the counted person's opening liquidMinor. */
-function borrowingHouseholds(api: CoreAPI): BorrowingHousehold[] {
+function borrowingHouseholds(
+  api: CoreAPI,
+  placeId: string,
+): BorrowingHousehold[] {
   const c = core(api);
   const rows: BorrowingHousehold[] = [];
   for (const h of c.households.values()) {
+    if (h.placeId !== placeId) continue;
     const members = h.memberIds.flatMap((id) => {
       const person = c.people.get(id);
       return person?.alive ? [person] : [];
@@ -1306,7 +1310,7 @@ function borrowingHouseholds(api: CoreAPI): BorrowingHousehold[] {
   const cashOf = rt ? householdCashReader(rt) : () => 0;
   if (rt)
     for (const h of rt.store.liveHouseholds()) {
-      if (c.households.has(h.id)) continue;
+      if (h.placeId !== placeId || c.households.has(h.id)) continue;
       const members = rt.store.factsOfHousehold(h);
       if (!members.length) continue;
       rows.push({
@@ -1653,7 +1657,13 @@ function householdApplications(
   );
   const lender = smallLender(api);
   let lenderRoom = lender?.roomMinor ?? 0;
-  for (const household of borrowingHouseholds(api)) {
+  // The town's bank and its storefront lender serve the town's households:
+  // a household that lives elsewhere (an official at the capital, an aide in
+  // Washington) borrows where it lives, not here.
+  for (const household of borrowingHouseholds(
+    api,
+    c.organizations.get(bankId)!.placeId,
+  )) {
     // stopgapId: SG-WORLD-small-dollar-one-open-loan — a household with any
     // open loan, the bank's or the storefront's, asks neither lender.
     if (owing.has(household.id)) {
@@ -1808,14 +1818,8 @@ function householdApplications(
         });
       room -= lent;
     }
-    // The lender is in one place: only its place's households ask it.
-    if (
-      lent > 0 ||
-      !lender ||
-      lenderRoom <= 0 ||
-      household.placeId !== lender.placeId
-    )
-      continue;
+    // The storefront is in the bank's town, whose households alone apply here.
+    if (lent > 0 || !lender || lenderRoom <= 0) continue;
     // stopgapId: SG-WORLD-small-dollar-one-lender — one record stands for the
     // town's storefront, title and online high-cost lenders.
     api.stopgap("SG-WORLD-small-dollar-one-lender");
