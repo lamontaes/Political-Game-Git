@@ -423,6 +423,8 @@ export interface Conversation {
   pointed?: string[];
   /** The player gave their name in this talk, so the other may now say it (internal). */
   nameGiven?: boolean;
+  /** The other person had met the player before the day this talk opened, read before the talk stamps today as the last contact (internal). */
+  metBeforeAtOpen?: boolean;
   /** The minute of the day the talk is had at, when the caller gave it (internal). */
   minuteOfDay?: number;
   /** The organization whose place the player came to for the talk, when the screen knows it (internal). */
@@ -5654,6 +5656,8 @@ function openConversationNow(
       : {}),
     ...(options.byPhone ? { byPhone: true } : {}),
     ...(options.look ? { look: true } : {}),
+    // Read now: the first reply stamps today as the last contact on the tie.
+    metBeforeAtOpen: relationFacts(core, playerId, otherId).metBefore,
   };
   const occasion = options.occasionId
     ? options.director?.ledger.people
@@ -7033,11 +7037,12 @@ function saysName(
   core: Readonly<CoreState>,
   otherId: PersonId,
   playerId: PersonId,
-  conversation?: Pick<Conversation, "nameGiven">,
+  conversation?: Pick<Conversation, "nameGiven" | "metBeforeAtOpen">,
 ): boolean {
   return (
     !!conversation?.nameGiven ||
-    relationFacts(core, playerId, otherId).metBefore
+    (conversation?.metBeforeAtOpen ??
+      relationFacts(core, playerId, otherId).metBefore)
   );
 }
 

@@ -24772,59 +24772,10 @@
       "date": "2026-11-11"
     },
     {
-      "key": "conversation.farewell-core.good-talking-with-you-player-first",
-      "move": "farewell-core",
-      "kind": "spoken",
-      "text": "Good talking with you, {player-first}.",
-      "piece": {
-        "of": "farewell-leave",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "farewell-core",
-          "subject": "farewell",
-          "role": "core",
-          "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first", "met-before"],
-          "excludesFacts": ["by-phone"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
-      "date": "2026-11-11"
-    },
-    {
       "key": "conversation.farewell-core.nice-catching-up-player-first",
       "move": "farewell-core",
       "kind": "spoken",
-      "text": "Nice catching up, {player-first}.",
-      "piece": {
-        "of": "farewell-leave",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "farewell-core",
-          "subject": "farewell",
-          "role": "core",
-          "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first", "met-before"],
-          "closesTalk": true,
-          "excludesFacts": ["by-phone"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.farewell-core.i-ll-let-you-go-player-first",
-      "move": "farewell-core",
-      "kind": "spoken",
-      "text": "I'll let you go, {player-first}.",
+      "text": "Nice catching up.",
       "piece": {
         "of": "farewell-leave",
         "part": "core",
@@ -24849,32 +24800,7 @@
       "key": "conversation.farewell-core.don-t-be-a-stranger-player-first",
       "move": "farewell-core",
       "kind": "spoken",
-      "text": "Don't be a stranger, {player-first}.",
-      "piece": {
-        "of": "farewell-leave",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "farewell-core",
-          "subject": "farewell",
-          "role": "core",
-          "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first", "met-before"],
-          "closesTalk": true,
-          "excludesFacts": ["by-phone"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.farewell-core.see-you-around-player-first",
-      "move": "farewell-core",
-      "kind": "spoken",
-      "text": "See you around, {player-first}.",
+      "text": "Don't be a stranger.",
       "piece": {
         "of": "farewell-leave",
         "part": "core",
@@ -24899,7 +24825,7 @@
       "key": "conversation.farewell-core.glad-you-stopped-by-player-first",
       "move": "farewell-core",
       "kind": "spoken",
-      "text": "Glad you stopped by, {player-first}.",
+      "text": "Glad you stopped by.",
       "piece": {
         "of": "farewell-leave",
         "part": "core",
@@ -24929,7 +24855,7 @@
       "key": "conversation.farewell-core.always-good-to-see-you-player-first",
       "move": "farewell-core",
       "kind": "spoken",
-      "text": "Always good to see you, {player-first}.",
+      "text": "Always good to see you.",
       "piece": {
         "of": "farewell-leave",
         "part": "core",
@@ -24954,7 +24880,7 @@
       "key": "conversation.farewell-core.come-by-again-player-first",
       "move": "farewell-core",
       "kind": "spoken",
-      "text": "Come by again, {player-first}.",
+      "text": "Come by again.",
       "piece": {
         "of": "farewell-leave",
         "part": "core",
@@ -25044,7 +24970,7 @@
       "key": "conversation.farewell-core.you-take-it-easy-player-first",
       "move": "farewell-core",
       "kind": "spoken",
-      "text": "You take it easy, {player-first}.",
+      "text": "You take it easy.",
       "piece": {
         "of": "farewell-leave",
         "part": "core",
@@ -25069,7 +24995,7 @@
       "key": "conversation.farewell-core.stop-in-anytime-player-first",
       "move": "farewell-core",
       "kind": "spoken",
-      "text": "Stop in anytime, {player-first}.",
+      "text": "Stop in anytime.",
       "piece": {
         "of": "farewell-leave",
         "part": "core",
@@ -25099,7 +25025,7 @@
       "key": "conversation.farewell-core.nice-to-see-a-friendly-face-player-first",
       "move": "farewell-core",
       "kind": "spoken",
-      "text": "Nice to see a friendly face, {player-first}.",
+      "text": "Nice to see a friendly face.",
       "piece": {
         "of": "farewell-leave",
         "part": "core",
@@ -25124,7 +25050,7 @@
       "key": "conversation.farewell-core.back-to-work-for-me-player-first",
       "move": "farewell-core",
       "kind": "spoken",
-      "text": "Back to work for me, {player-first}.",
+      "text": "Back to work for me.",
       "piece": {
         "of": "farewell-leave",
         "part": "core",
@@ -27153,32 +27079,7 @@
       "key": "conversation.farewell-core.always-a-pleasure-player-first",
       "move": "farewell-core",
       "kind": "spoken",
-      "text": "Always a pleasure, {player-first}.",
-      "piece": {
-        "of": "farewell-leave",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "farewell-core",
-          "subject": "farewell",
-          "role": "core",
-          "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first", "met-before"],
-          "closesTalk": true,
-          "excludesFacts": ["by-phone"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.farewell-core.good-seeing-you-player-first",
-      "move": "farewell-core",
-      "kind": "spoken",
-      "text": "Good seeing you, {player-first}.",
+      "text": "Always a pleasure.",
       "piece": {
         "of": "farewell-leave",
         "part": "core",
@@ -27203,7 +27104,7 @@
       "key": "conversation.farewell-core.don-t-work-too-hard-player-first",
       "move": "farewell-core",
       "kind": "spoken",
-      "text": "Don't work too hard, {player-first}.",
+      "text": "Don't work too hard.",
       "piece": {
         "of": "farewell-leave",
         "part": "core",
@@ -27233,7 +27134,7 @@
       "key": "conversation.farewell-core.i-d-better-get-back-to-it-player-first",
       "move": "farewell-core",
       "kind": "spoken",
-      "text": "I'd better get back to it, {player-first}.",
+      "text": "I'd better get back to it.",
       "piece": {
         "of": "farewell-leave",
         "part": "core",
@@ -27263,7 +27164,7 @@
       "key": "conversation.farewell-core.stay-out-of-trouble-player-first",
       "move": "farewell-core",
       "kind": "spoken",
-      "text": "Stay out of trouble, {player-first}.",
+      "text": "Stay out of trouble.",
       "piece": {
         "of": "farewell-leave",
         "part": "core",
@@ -27288,7 +27189,7 @@
       "key": "conversation.farewell-core.good-to-catch-you-player-first",
       "move": "farewell-core",
       "kind": "spoken",
-      "text": "Good to catch you, {player-first}.",
+      "text": "Good to catch you.",
       "piece": {
         "of": "farewell-leave",
         "part": "core",
@@ -27313,7 +27214,7 @@
       "key": "conversation.farewell-core.enjoy-the-rest-of-your-day-player-first",
       "move": "farewell-core",
       "kind": "spoken",
-      "text": "Enjoy the rest of your day, {player-first}.",
+      "text": "Enjoy the rest of your day.",
       "piece": {
         "of": "farewell-leave",
         "part": "core",
@@ -27343,7 +27244,7 @@
       "key": "conversation.farewell-core.come-see-us-again-player-first",
       "move": "farewell-core",
       "kind": "spoken",
-      "text": "Come see us again, {player-first}.",
+      "text": "Come see us again.",
       "piece": {
         "of": "farewell-leave",
         "part": "core",
@@ -27373,7 +27274,7 @@
       "key": "conversation.farewell-core.you-know-where-to-find-me-player-first",
       "move": "farewell-core",
       "kind": "spoken",
-      "text": "You know where to find me, {player-first}.",
+      "text": "You know where to find me.",
       "piece": {
         "of": "farewell-leave",
         "part": "core",
@@ -27430,160 +27331,10 @@
       "date": "2026-11-11"
     },
     {
-      "key": "conversation.farewell-core.good-talk-player-first",
-      "move": "farewell-core",
-      "kind": "spoken",
-      "text": "Good talk, {player-first}.",
-      "piece": {
-        "of": "farewell-leave",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "farewell-core",
-          "subject": "farewell",
-          "role": "core",
-          "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first", "met-before"],
-          "closesTalk": true,
-          "excludesFacts": ["by-phone"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.farewell-core.glad-we-talked-player-first",
-      "move": "farewell-core",
-      "kind": "spoken",
-      "text": "Glad we talked, {player-first}.",
-      "piece": {
-        "of": "farewell-leave",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "farewell-core",
-          "subject": "farewell",
-          "role": "core",
-          "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first", "met-before"],
-          "closesTalk": true,
-          "excludesFacts": ["by-phone"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.farewell-core.catch-you-later-player-first",
-      "move": "farewell-core",
-      "kind": "spoken",
-      "text": "Catch you later, {player-first}.",
-      "piece": {
-        "of": "farewell-leave",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "farewell-core",
-          "subject": "farewell",
-          "role": "core",
-          "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first", "met-before"],
-          "closesTalk": true,
-          "excludesFacts": ["by-phone"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.farewell-core.be-good-player-first",
-      "move": "farewell-core",
-      "kind": "spoken",
-      "text": "Be good, {player-first}.",
-      "piece": {
-        "of": "farewell-leave",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "farewell-core",
-          "subject": "farewell",
-          "role": "core",
-          "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first", "met-before"],
-          "closesTalk": true,
-          "excludesFacts": ["by-phone"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.farewell-core.take-it-easy-player-first",
-      "move": "farewell-core",
-      "kind": "spoken",
-      "text": "Take it easy, {player-first}.",
-      "piece": {
-        "of": "farewell-leave",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "farewell-core",
-          "subject": "farewell",
-          "role": "core",
-          "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first", "met-before"],
-          "closesTalk": true,
-          "excludesFacts": ["by-phone"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.farewell-core.until-next-time-player-first",
-      "move": "farewell-core",
-      "kind": "spoken",
-      "text": "Until next time, {player-first}.",
-      "piece": {
-        "of": "farewell-leave",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "farewell-core",
-          "subject": "farewell",
-          "role": "core",
-          "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first", "met-before"],
-          "closesTalk": true,
-          "excludesFacts": ["by-phone"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
-      "date": "2026-11-11"
-    },
-    {
       "key": "conversation.farewell-core.always-nice-talking-player-first",
       "move": "farewell-core",
       "kind": "spoken",
-      "text": "Always nice talking, {player-first}.",
+      "text": "Always nice talking.",
       "piece": {
         "of": "farewell-leave",
         "part": "core",
@@ -27608,7 +27359,7 @@
       "key": "conversation.farewell-core.okay-then-player-first",
       "move": "farewell-core",
       "kind": "spoken",
-      "text": "Okay then, {player-first}.",
+      "text": "Okay then.",
       "piece": {
         "of": "farewell-leave",
         "part": "core",
@@ -27633,7 +27384,7 @@
       "key": "conversation.farewell-core.alright-then-player-first",
       "move": "farewell-core",
       "kind": "spoken",
-      "text": "Alright then, {player-first}.",
+      "text": "Alright then.",
       "piece": {
         "of": "farewell-leave",
         "part": "core",
@@ -27658,7 +27409,7 @@
       "key": "conversation.farewell-core.good-chatting-player-first",
       "move": "farewell-core",
       "kind": "spoken",
-      "text": "Good talking to you, {player-first}.",
+      "text": "Good talking to you.",
       "piece": {
         "of": "farewell-leave",
         "part": "core",
@@ -36421,110 +36172,10 @@
       "date": "2026-11-14"
     },
     {
-      "key": "conversation.farewell-core.take-care-player-first",
-      "move": "farewell-core",
-      "kind": "spoken",
-      "text": "Take care, {player-first}.",
-      "piece": {
-        "of": "farewell-leave",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "farewell-core",
-          "subject": "farewell",
-          "role": "core",
-          "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first", "met-before"],
-          "closesTalk": true,
-          "excludesFacts": ["by-phone"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder A (round 11, rule 80)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.farewell-core.be-well-player-first",
-      "move": "farewell-core",
-      "kind": "spoken",
-      "text": "Be well, {player-first}.",
-      "piece": {
-        "of": "farewell-leave",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "farewell-core",
-          "subject": "farewell",
-          "role": "core",
-          "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first", "met-before"],
-          "closesTalk": true,
-          "excludesFacts": ["by-phone"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder A (round 11, rule 80)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.farewell-core.stay-well-player-first",
-      "move": "farewell-core",
-      "kind": "spoken",
-      "text": "Stay well, {player-first}.",
-      "piece": {
-        "of": "farewell-leave",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "farewell-core",
-          "subject": "farewell",
-          "role": "core",
-          "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first", "met-before"],
-          "closesTalk": true,
-          "excludesFacts": ["by-phone"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder A (round 11, rule 80)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.farewell-core.so-long-player-first",
-      "move": "farewell-core",
-      "kind": "spoken",
-      "text": "So long, {player-first}.",
-      "piece": {
-        "of": "farewell-leave",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "farewell-core",
-          "subject": "farewell",
-          "role": "core",
-          "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first", "met-before"],
-          "closesTalk": true,
-          "excludesFacts": ["by-phone"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder A (round 11, rule 80)",
-      "date": "2026-11-14"
-    },
-    {
       "key": "conversation.farewell-core.have-a-good-one-player-fi",
       "move": "farewell-core",
       "kind": "spoken",
-      "text": "Have a good one, {player-first}.",
+      "text": "Have a good one.",
       "piece": {
         "of": "farewell-leave",
         "part": "core",
@@ -36537,36 +36188,6 @@
           "role": "core",
           "stages": ["default"],
           "requiresFacts": ["about-again", "player-first", "met-before"],
-          "closesTalk": true,
-          "excludesFacts": ["by-phone"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder A (round 11, rule 80)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.farewell-core.enjoy-your-day-player-fir",
-      "move": "farewell-core",
-      "kind": "spoken",
-      "text": "Enjoy your day, {player-first}.",
-      "piece": {
-        "of": "farewell-leave",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "farewell-core",
-          "subject": "farewell",
-          "role": "core",
-          "stages": ["default"],
-          "requiresFacts": [
-            "about-again",
-            "player-first",
-            "daytime",
-            "met-before"
-          ],
           "closesTalk": true,
           "excludesFacts": ["by-phone"]
         }
@@ -36579,32 +36200,7 @@
       "key": "conversation.farewell-core.i-d-best-be-going-player-",
       "move": "farewell-core",
       "kind": "spoken",
-      "text": "I'd best be going, {player-first}.",
-      "piece": {
-        "of": "farewell-leave",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "farewell-core",
-          "subject": "farewell",
-          "role": "core",
-          "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first", "met-before"],
-          "closesTalk": true,
-          "excludesFacts": ["by-phone"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder A (round 11, rule 80)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.farewell-core.got-to-run-player-first",
-      "move": "farewell-core",
-      "kind": "spoken",
-      "text": "Got to run, {player-first}.",
+      "text": "I'd best be going.",
       "piece": {
         "of": "farewell-leave",
         "part": "core",
@@ -36629,57 +36225,7 @@
       "key": "conversation.farewell-core.well-goodbye-player-first",
       "move": "farewell-core",
       "kind": "spoken",
-      "text": "Well, goodbye, {player-first}.",
-      "piece": {
-        "of": "farewell-leave",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "farewell-core",
-          "subject": "farewell",
-          "role": "core",
-          "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first", "met-before"],
-          "closesTalk": true,
-          "excludesFacts": ["by-phone"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder A (round 11, rule 80)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.farewell-core.bye-for-now-player-first",
-      "move": "farewell-core",
-      "kind": "spoken",
-      "text": "Bye for now, {player-first}.",
-      "piece": {
-        "of": "farewell-leave",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "farewell-core",
-          "subject": "farewell",
-          "role": "core",
-          "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first", "met-before"],
-          "closesTalk": true,
-          "excludesFacts": ["by-phone"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder A (round 11, rule 80)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.farewell-core.see-you-player-first",
-      "move": "farewell-core",
-      "kind": "spoken",
-      "text": "See you, {player-first}.",
+      "text": "Well, goodbye.",
       "piece": {
         "of": "farewell-leave",
         "part": "core",
@@ -36704,7 +36250,7 @@
       "key": "conversation.farewell-core.don-t-let-me-keep-you-pla",
       "move": "farewell-core",
       "kind": "spoken",
-      "text": "Don't let me keep you, {player-first}.",
+      "text": "Don't let me keep you.",
       "piece": {
         "of": "farewell-leave",
         "part": "core",
@@ -36729,32 +36275,7 @@
       "key": "conversation.farewell-core.i-won-t-keep-you-player-f",
       "move": "farewell-core",
       "kind": "spoken",
-      "text": "I won't keep you, {player-first}.",
-      "piece": {
-        "of": "farewell-leave",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "farewell-core",
-          "subject": "farewell",
-          "role": "core",
-          "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first", "met-before"],
-          "closesTalk": true,
-          "excludesFacts": ["by-phone"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder A (round 11, rule 80)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.farewell-core.take-care-now-player-firs",
-      "move": "farewell-core",
-      "kind": "spoken",
-      "text": "Take care now, {player-first}.",
+      "text": "I won't keep you.",
       "piece": {
         "of": "farewell-leave",
         "part": "core",
@@ -36779,7 +36300,7 @@
       "key": "conversation.farewell-core.be-well-now-player-first",
       "move": "farewell-core",
       "kind": "spoken",
-      "text": "Be well now, {player-first}.",
+      "text": "Be well now.",
       "piece": {
         "of": "farewell-leave",
         "part": "core",
@@ -36804,7 +36325,7 @@
       "key": "conversation.farewell-core.have-a-good-day-player-fi",
       "move": "farewell-core",
       "kind": "spoken",
-      "text": "Have a good day, {player-first}.",
+      "text": "Have a good day.",
       "piece": {
         "of": "farewell-leave",
         "part": "core",
@@ -36834,7 +36355,7 @@
       "key": "conversation.farewell-core.have-a-good-evening-playe",
       "move": "farewell-core",
       "kind": "spoken",
-      "text": "Have a good evening, {player-first}.",
+      "text": "Have a good evening.",
       "piece": {
         "of": "farewell-leave",
         "part": "core",
@@ -36864,7 +36385,7 @@
       "key": "conversation.farewell-core.have-a-good-night-player-",
       "move": "farewell-core",
       "kind": "spoken",
-      "text": "Have a good night, {player-first}.",
+      "text": "Have a good night.",
       "piece": {
         "of": "farewell-leave",
         "part": "core",
@@ -36891,160 +36412,10 @@
       "date": "2026-11-14"
     },
     {
-      "key": "conversation.farewell-core.all-right-then-player-fir",
-      "move": "farewell-core",
-      "kind": "spoken",
-      "text": "All right, then, {player-first}.",
-      "piece": {
-        "of": "farewell-leave",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "farewell-core",
-          "subject": "farewell",
-          "role": "core",
-          "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first", "met-before"],
-          "closesTalk": true,
-          "excludesFacts": ["by-phone"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder A (round 11, rule 80)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.farewell-core.well-player-first-goodbye",
-      "move": "farewell-core",
-      "kind": "spoken",
-      "text": "Well, {player-first}, goodbye.",
-      "piece": {
-        "of": "farewell-leave",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "farewell-core",
-          "subject": "farewell",
-          "role": "core",
-          "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first", "met-before"],
-          "closesTalk": true,
-          "excludesFacts": ["by-phone"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder A (round 11, rule 80)",
-      "date": "2026-11-14"
-    },
-    {
       "key": "conversation.farewell-core.goodbye-for-now-player-fi",
       "move": "farewell-core",
       "kind": "spoken",
-      "text": "Goodbye for now, {player-first}.",
-      "piece": {
-        "of": "farewell-leave",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "farewell-core",
-          "subject": "farewell",
-          "role": "core",
-          "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first", "met-before"],
-          "closesTalk": true,
-          "excludesFacts": ["by-phone"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder A (round 11, rule 80)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.farewell-core.goodbye-player-first",
-      "move": "farewell-core",
-      "kind": "spoken",
-      "text": "Goodbye, {player-first}.",
-      "piece": {
-        "of": "farewell-leave",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "farewell-core",
-          "subject": "farewell",
-          "role": "core",
-          "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first", "met-before"],
-          "closesTalk": true,
-          "excludesFacts": ["by-phone"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder A (round 11, rule 80)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.farewell-core.bye-player-first",
-      "move": "farewell-core",
-      "kind": "spoken",
-      "text": "Bye, {player-first}.",
-      "piece": {
-        "of": "farewell-leave",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "farewell-core",
-          "subject": "farewell",
-          "role": "core",
-          "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first", "met-before"],
-          "closesTalk": true,
-          "excludesFacts": ["by-phone"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder A (round 11, rule 80)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.farewell-core.bye-now-player-first",
-      "move": "farewell-core",
-      "kind": "spoken",
-      "text": "Bye now, {player-first}.",
-      "piece": {
-        "of": "farewell-leave",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "farewell-core",
-          "subject": "farewell",
-          "role": "core",
-          "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first", "met-before"],
-          "closesTalk": true,
-          "excludesFacts": ["by-phone"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder A (round 11, rule 80)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.farewell-core.see-you-soon-player-first",
-      "move": "farewell-core",
-      "kind": "spoken",
-      "text": "See you soon, {player-first}.",
+      "text": "Goodbye for now.",
       "piece": {
         "of": "farewell-leave",
         "part": "core",
@@ -37069,7 +36440,7 @@
       "key": "conversation.farewell-core.i-ll-let-you-be-player-fi",
       "move": "farewell-core",
       "kind": "spoken",
-      "text": "I'll let you be, {player-first}.",
+      "text": "I'll let you be.",
       "piece": {
         "of": "farewell-leave",
         "part": "core",
