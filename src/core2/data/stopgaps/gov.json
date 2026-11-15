@@ -1563,18 +1563,6 @@
     "resolvedBy": "stand-in triage T2"
   },
   {
-    "id": "SG-GOV-fee-level-by-bill",
-    "kind": "owner-decision",
-    "file": "src/core2/budgets-service-charges.ts",
-    "line": 232,
-    "whatItFakes": "A government's charges and fees follow its budget's charges line; no council or legislature bill sets a fee's level (a transit fare, a park fee), so a player cannot raise one by bill.",
-    "why": "Whether councils set fees by bill is the owner's call: a real-world step the game lacks is a question, not a feature (DECISION-REGISTER, Oct 14). Asked in OWNER-DECISIONS.md, Open.",
-    "addedBy": "claude/outside-revenue-fees",
-    "addedAt": "2026-10-24",
-    "replacement": "The owner's ruling: either the charges line stays the budget's, or a fee-schedule provision on a bill that the budget's charges line and the households' payments read. (pool item gov-fee-level-by-bill).",
-    "status": "open"
-  },
-  {
     "id": "SG-GOV-recall-counted-exposure",
     "kind": "missing-record",
     "file": "src/core2/modules/recalls.ts",

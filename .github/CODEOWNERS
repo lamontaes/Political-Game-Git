@@ -43,6 +43,7 @@
 /src/core2/gov-rules/given-name-cohorts.ts @lamontaes
 /src/core2/gov-rules/person-identity.ts @lamontaes
 /src/core2/government-level.ts @lamontaes
+/src/core2/fee-levels.ts @lamontaes
 
 # Elections and campaigns (elections)
 /src/core2/modules/elections.ts @lamontaes
