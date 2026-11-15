@@ -1,6 +1,4 @@
-import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
-import { drawPlace } from "../../scripts/core2-year/place";
 import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "./bookkeeping";
 import { settleEstate } from "./estates";
@@ -18,7 +16,18 @@ import type { CoreEventInput, CoreState } from "./types";
 // it (world-estate-sells-the-home, world-buyer-pays-the-selling-household):
 // the buyer pays the estate, the lender is paid first, and probate then pays
 // the heirs.
-const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
+//
+// Pinned (tests-housing-sale-tests-draw-from-the-clock): Antreville, South
+// Carolina, a named world seed and a mortgaged owning household. The old
+// test drew up to eight places from randomBytes and took the first mortgaged
+// owner, on the premise that any draw has one; this household is one, 40
+// days in.
+const ANTREVILLE = {
+  key: "4501810",
+  seed: "26566c741618d6b78d3f6830fa9b80315b31b0e87c3c78cb2597f3abc2e0931c",
+  householdId: "household_99ec6b1fafa2b345",
+};
+const seed = ANTREVILLE.seed;
 
 /** The heir payments an `estate.settled` record names: the transfer id `estate:<decedent>:<heir>` and the amount. */
 function heirPayments(
@@ -55,11 +64,9 @@ function expectHeirsPaid(settled: CoreEventInput, where: string): string[] {
 
 it(`the last owner's death sells the home when probate closes, the lender first and the surplus to the heirs, seed ${seed}`, () => {
   setBookkeeping(false);
-  const tried: string[] = [];
-  for (let attempt = 0; attempt < 8; attempt += 1) {
-    const place = drawPlace(seed, `estate-home:${attempt}`);
-    const where = `${place.name} [${place.key}], seed ${seed}`;
-    tried.push(where);
+  {
+    const place = ANTREVILLE;
+    const where = `Antreville, South Carolina [${place.key}], seed ${seed}, ${place.householdId}`;
     const { core } = buildBenchWorld(place.seed, gameStartDate(), {
       twoLevel: true,
       placeKey: place.key,
@@ -75,20 +82,14 @@ it(`the last owner's death sells the home when probate closes, the lender first 
       householdId: string;
       balanceMinor: number;
     }[];
-    const owners = [...state.households.values()].filter((home) => {
-      const dwelling = dwellings.get(`dwelling:${home.id}`) as unknown as
-        { tenure?: string; valueMinor?: number } | undefined;
-      return (
-        dwelling?.tenure === "own" &&
-        (dwelling.valueMinor ?? 0) > 0 &&
-        home.memberIds.some((id) => state.people.get(id)?.alive)
-      );
-    });
-    const owner =
-      owners.find((home) =>
-        mortgages.some((m) => m.householdId === home.id && m.balanceMinor > 0),
-      ) ?? owners[0];
-    if (!owner) continue;
+    const owner = state.households.get(place.householdId)!;
+    expect(
+      (
+        dwellings.get(`dwelling:${owner.id}`) as unknown as
+          { tenure?: string; valueMinor?: number } | undefined
+      )?.tenure,
+      `${where}: an owner`,
+    ).toBe("own");
     const mortgaged = mortgages.some(
       (m) => m.householdId === owner.id && m.balanceMinor > 0,
     );
@@ -194,9 +195,6 @@ it(`the last owner's death sells the home when probate closes, the lender first 
     process.stdout.write(
       `estate home sale: ${where}; ${sale!.id} for ${sale!.decedentId}, price ${sale!.priceMinor}, lender ${sale!.toLenderMinor}, surplus ${sale!.surplusMinor}; ${named.settledEventId}; paid ${JSON.stringify(named.paid)}\n`,
     );
-    return;
   }
-  throw new Error(
-    `no drawn place had a household that owns its home (${tried.join("; ")})`,
-  );
-}, 1_800_000);
+  // About 43 s measured: building Antreville and its 40 plus 280 played days.
+}, 90_000);
