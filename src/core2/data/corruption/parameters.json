@@ -55,21 +55,15 @@
   },
   "corruptionReputationWeight": {
     "value": 1,
-    "tag": "ESTIMATED",
-    "citation": "Weight on what the person who wants a favor has learned about the official: each bribe the official is known to have taken (the offerer's own knowledge record, with its source) raises the offer, with diminishing returns as the count grows. Briberies concentrate on officials already known to be receptive (Rose-Ackerman and Palifka 2016, Corruption and Government, ch. 6, on reputation and networks of exchange). Spread 0.5 to 2.",
-    "estimatedFrom": "Relationship from Rose-Ackerman and Palifka 2016, ch. 6: briberies concentrate on officials already known to be receptive, so each bribe the offerer knows the official took raises the offer, with diminishing returns. It is one of the three terms (favor, tie, reputation) read from each of the 16,228 asks the offer weight was fitted on (see corruptionHonestPull).",
-    "spread": {
-      "low": 0.5,
-      "high": 2,
-      "unit": "weight on bribes known",
-      "citation": "The range in which the offer fit keeps its rate near 6 percent and the ratio between thirds near the latent model's."
-    }
+    "tag": "TUNABLE",
+    "citation": "Weight on what the person who wants a favor has learned about the official: each bribe the official is known to have taken (the offerer's own knowledge record, with its source) raises the offer, with diminishing returns as the count grows. Briberies concentrate on officials already known to be receptive (Rose-Ackerman and Palifka 2016, Corruption and Government, ch. 6, on reputation and networks of exchange). Spread 0.5 to 2. Not fitted: the offer calibration (corruptionHonestPull) is fitted with this weight at 1 and its targets do not move it; kept as a tunable under SG-P15-corruption-weights.",
+    "stopgapId": "SG-P15-corruption-weights"
   },
   "corruptionHonestPull": {
     "value": 3,
     "tag": "ESTIMATED",
     "citation": "The pull of not offering a bribe, against which the favor's worth (its log against a year of the offerer's living costs), the tie and what the offerer has heard of the official are weighed; the take and tell roles have their own pulls. Fitted Oct 24, 2026 on the offers play actually weighs: 16,228 asks kept by the trait audit in eleven played years of buildBenchWorld (Parkway, Missouri; Peacham, Vermont; Holualoa, Hawaii twice; Ilwaco, Washington; New Preston, Connecticut; Ora, Indiana; Arbela, Missouri; Jerry City, Ohio; New Britain, Connecticut; and the money branch's Peacham), each ask's favor, tie and reputation read from its kept case, with temperament carried by the shared chooser's trait term at traitWeightCorruptionOffer. Offers come from a town's lobbyists and bidding owners, not its adults at large, so a fit over every adult at one fixed favor would put the line where only money pressure reaches and no well-off lobbyist would ever offer. At 3 with the trait weight at 2, 6.9 percent of those asks become offers, near Transparency International's Global Corruption Barometer (2019: about 6 percent of Americans paid a bribe for a public service in the past year), and the third leaning most toward corruption offers 7.8 times as often as the third leaning least, against 11.0 from the latent model of Pletzer, Bentvelzen, Oostrom and de Vries 2019 (Journal of Vocational Behavior 112:369-383, honesty-humility against workplace deviance, corrected rho -0.482). The asks come from few pairs, each asked again and again, so a town's offers bunch: New Britain, Connecticut offered at every one of 578 asks, Parkway, Missouri at none of 4,407. Spread 2.5 to 3.1, measured on the same asks: from 2.5 to 2.9 the rate is 9.2 percent and the ratio 11.0 against 9.2; above 3.1 the most honest third never offers.",
-    "estimatedFrom": "Real evidence: fitted on the 16,228 offers asks kept in eleven played years of the bench world (towns named in the earlier citation): 6.9 percent become offers, near Transparency International's Global Corruption Barometer 2019 (about 6 percent of Americans paid a bribe in a year), and the most corruptible third offers 7.8 times as often as the least against 11.0 from the latent model of Pletzer et al. 2019. A higher pull lowers how many asks become offers; a lower one raises them.",
+    "estimatedFrom": "Real targets from outside the game: the share of Americans who paid a bribe for a public service in a year (about 6 percent, Transparency International, Global Corruption Barometer 2019, via the summary in data/research/core/corruption-bands-2014.json) and the ratio between the most and least corruptible thirds that the latent model of Pletzer, Bentvelzen, Oostrom and de Vries 2019 (Journal of Vocational Behavior 112:369-383, honesty-humility against workplace deviance, corrected rho -0.482) gives at that rate (11.0). The pull was set where 16,228 asks kept in eleven played years of the bench world gave 6.9 percent offered and a ratio of 7.8, the nearest the weights reach to those two targets. A higher pull lowers how many asks become offers; a lower one raises them.",
     "spread": {
       "low": 2.5,
       "high": 3.1,
