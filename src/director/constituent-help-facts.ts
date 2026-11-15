@@ -101,15 +101,19 @@ export function caseFacts(
   } else {
     const loss = lastLayoff(core, askerId, cause.date);
     const org = loss ? core.organizations.get(loss.organizationId) : undefined;
-    if (loss && org) {
-      facts.employer = {
-        text: organizationName(org),
-        sourceRecordIds: [loss.id, org.id],
-      };
+    if (loss) {
       facts.since = {
         text: spanSaid(daysBetweenText(loss.date, cause.date)),
         sourceRecordIds: [loss.id],
       };
+      // Only an employer is named as one: a layoff row that points at an
+      // account or any other record that is not an employer leaves the lines
+      // that say {employer} out, and the lines without it play instead.
+      if (org?.kind === "employer")
+        facts.employer = {
+          text: organizationName(org),
+          sourceRecordIds: [loss.id, org.id],
+        };
     }
     // How their savings stand, in words, from the case's severity.
     const band = rules.moneyLeft.value.find(
