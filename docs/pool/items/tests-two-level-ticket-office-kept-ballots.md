@@ -8,7 +8,7 @@ size: S
 status: in-pr
 standard: 2
 claimed-by: claude/project-thread-hjvzia-ticket-test
-pr:
+pr: #9575
 after:
 blocked-on:
 root: design-electorate-one-model
