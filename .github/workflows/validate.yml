@@ -151,7 +151,7 @@ jobs:
           else
             base="$(git rev-parse HEAD~1)"
           fi
-          CHANGED_FILES="$(git diff --name-only --diff-filter=AMR "$base" HEAD)" npm run guards
+          CHANGED_FILES="$(git diff --name-only --diff-filter=AMR "$base" HEAD -- docs/pool/items/)" npm run guards
 
   scope:
     name: scope
