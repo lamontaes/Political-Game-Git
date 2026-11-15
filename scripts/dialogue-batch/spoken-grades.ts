@@ -85,6 +85,34 @@ export function strengthOf(words: string): number | undefined {
   return SOFTENERS.test(t) ? strength / 2 : strength;
 }
 
+/**
+ * Whether a mark is about how a line sounds or about what it means (Words
+ * lead, Nov 15: only a mark on sound spreads through the calibration; a mark
+ * on meaning, such as a line that answers nothing, needs context the player
+ * lacks, contradicts the record or plays in the wrong setting, becomes a rule
+ * the Words lead writes). His reasons decide: a meaning reason anywhere in
+ * the note makes it a meaning mark; otherwise a word about the sound of the
+ * line, or plain praise, makes it a sound mark. A plain "not good" with no
+ * reason is left unsorted for the Words lead.
+ */
+export type MarkKind = "sound" | "meaning";
+
+const MEANING =
+  /\b(context|makes? (no|any) sense|(doesn'?t|does not|don'?t|do not) (even |really |quite )?(make (any )?sense|understand|know (who|what))|because|should (be|have|say)|wouldn'?t (really )?match|doesn'?t match|already said|not our|setting|in the wrong|(talking|speaking) to each other|sounds like (they'?re|it'?s) personal|answers nothing|who is|what (it|that) does)\b/i;
+export function markKind(note: string): MarkKind | undefined {
+  if (MEANING.test(note)) return "meaning";
+  const strength = strengthOf(note);
+  if (strength === undefined) return undefined;
+  if (strength > 0) return "sound";
+  // A fault named for its sound ("a little awkward") is a sound mark; a bare
+  // "not good" is not sorted.
+  return /\b(awkward|stiff|clunky|wordy|robotic|cheesy|filler|unnatural|too long|too short)\b/i.test(
+    note,
+  )
+    ? "sound"
+    : undefined;
+}
+
 /** Where a part he names sits in the line, ignoring case and punctuation at its edges. */
 function find(line: string, part: string): [number, number] | undefined {
   const needle = part

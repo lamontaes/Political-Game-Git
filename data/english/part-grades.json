@@ -13,7 +13,8 @@
     "voice-notes-batches-11-19",
     "voice-notes-oct15-28",
     "2026-11-09-batch-2:voice",
-    "2026-11-09-batch-3:voice"
+    "2026-11-09-batch-3:voice",
+    "2026-11-15-scenes-page:voice"
   ],
   "parts": {
     "address.campaign-thanks.its-great-to-be-back-in-place": {
@@ -976,6 +977,22 @@
       "sharedBad": 0,
       "sharedFix": 0
     },
+    "scene-talk.close-accept.i-ll-be-right-here-when-you-come-back-in": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "scene-talk.close-accept.ten-minutes-i-ll-be-outside-the-door": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
     "scene-talk.close-accept.tomorrow-then-don-t-make-me-chase-you": {
       "good": 1,
       "bad": 0,
@@ -1160,6 +1177,14 @@
       "sharedBad": 0,
       "sharedFix": 0
     },
+    "scene-talk.follow-answer.two-and-they-re-both-opponent-s-even-if-we-took-every-vote-it-s-not-en": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
     "scene-talk.follow-answer.we-d-go-over-all-of-it-on-your-first-day": {
       "good": 0,
       "bad": 1,
@@ -1296,7 +1321,23 @@
       "sharedBad": 0,
       "sharedFix": 0
     },
+    "scene-talk.narrate-narrate.it-s-past-eleven-the-numbers-on-the-screen-stopped-moving-an-hour-ago-": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
     "scene-talk.narrate-narrate.name-a-reporter-for-outlet-catches-you-on-your-way-out": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "scene-talk.narrate-narrate.name-asks-to-say-something-about-bill": {
       "good": 1,
       "bad": 0,
       "fix": 0,
@@ -1337,6 +1378,22 @@
       "sharedFix": 0
     },
     "scene-talk.narrate-narrate.name-your-post-wants-to-talk-about-one-line-in-the-council-s-budget": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "scene-talk.narrate-narrate.the-chair-nods-to-name": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "scene-talk.narrate-narrate.the-last-precincts-came-in-twenty-minutes-ago-name-your-campaign-manag": {
       "good": 1,
       "bad": 0,
       "fix": 0,
@@ -1393,7 +1450,7 @@
       "sharedFix": 0
     },
     "scene-talk.open-greet.do-you-have-a-moment-for-a-couple-of-questions": {
-      "good": 1,
+      "good": 2,
       "bad": 0,
       "fix": 0,
       "sharedGood": 0,
@@ -1408,7 +1465,31 @@
       "sharedBad": 0,
       "sharedFix": 0
     },
+    "scene-talk.open-greet.have-you-got-thirty-seconds-for-outlet": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
     "scene-talk.open-greet.i-ll-keep-this-short": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "scene-talk.open-greet.i-m-on-deadline-can-i-get-you-on-the-record": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "scene-talk.open-greet.i-m-sorry-it-s-not-going-to-turn-around": {
       "good": 1,
       "bad": 0,
       "fix": 0,
@@ -1440,7 +1521,31 @@
       "sharedBad": 0,
       "sharedFix": 0
     },
+    "scene-talk.open-greet.one-question-and-i-m-gone": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "scene-talk.open-greet.quick-one-before-you-go": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
     "scene-talk.open-greet.sorry-to-bother-you": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "scene-talk.open-greet.we-need-to-talk-about-the-call": {
       "good": 1,
       "bad": 0,
       "fix": 0,
@@ -1464,7 +1569,31 @@
       "sharedBad": 0,
       "sharedFix": 0
     },
+    "scene-talk.reply-agree.closer-than-anybody-expected-i-can-live-on-that-dial-it": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "scene-talk.reply-agree.dial-it-i-ll-keep-it-short": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
     "scene-talk.reply-agree.done-put-it-in-writing-tonight": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "scene-talk.reply-agree.give-me-the-phone": {
       "good": 1,
       "bad": 0,
       "fix": 0,
@@ -1688,6 +1817,30 @@
       "sharedBad": 0,
       "sharedFix": 0
     },
+    "scene-talk.reply-leave.i-m-going-to-walk-around-the-block-once": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "scene-talk.reply-leave.i-need-some-air-before-i-do-either": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "scene-talk.reply-leave.i-need-some-air-first-five-minutes": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
     "scene-talk.reply-leave.let-me-sleep-on-it-before-i-answer": {
       "good": 1,
       "bad": 0,
@@ -1697,6 +1850,14 @@
       "sharedFix": 0
     },
     "scene-talk.reply-leave.let-me-sleep-on-it-i-ll-call-you-tuesday": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "scene-talk.reply-leave.not-yet-let-me-read-the-numbers-myself": {
       "good": 1,
       "bad": 0,
       "fix": 0,
@@ -1843,6 +2004,30 @@
     "scene-talk.reply-request.will-you-help-with-the-campaign-i-ll-keep-the-money-out-of-it-if-you-do": {
       "good": 0,
       "bad": 1,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "scene-talk.reply-stall.five-minutes-i-need-to-say-it-to-myself-first": {
+      "good": 0,
+      "bad": 1,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "scene-talk.reply-stall.give-me-ten-minutes-alone-first": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "scene-talk.reply-stall.let-me-talk-to-the-volunteers-first": {
+      "good": 1,
+      "bad": 0,
       "fix": 0,
       "sharedGood": 0,
       "sharedBad": 0,
@@ -2033,6 +2218,22 @@
       "sharedFix": 0
     },
     "scene-talk.state-congratulate.office-you-really-did-it": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "scene-talk.state-request.it-s-time-to-call-opponent-the-longer-we-wait-the-worse-it-looks": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "scene-talk.state-request.opponent-s-team-is-waiting-on-the-call-you-should-be-the-one-to-make-i": {
       "good": 1,
       "bad": 0,
       "fix": 0,

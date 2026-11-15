@@ -51,40 +51,54 @@
       "checkedAgainst": "The least share of its weight a wording keeps when the speaker leans away from its bearing; never zero, so a trait shapes a voice and never bans a line."
     }
   },
-  "folded": ["batch-13"],
+  "folded": ["batch-13", "2026-11-15-scenes-page:spread"],
   "traits": {
     "personality-v1:facet-friendly": {
       "length": 0.5,
       "bearing": {
-        "tender": 0.5,
+        "tender": 0.575,
         "glad": 0.5,
-        "guarded": -0.6
+        "guarded": -0.45,
+        "solemn": 0.175,
+        "hurt": -0.3375,
+        "calm": 0.15
       }
     },
     "personality-v1:facet-affectionate": {
       "length": 0.3,
       "bearing": {
-        "tender": 0.8,
-        "guarded": -0.5
+        "tender": 0.875,
+        "guarded": -0.5,
+        "solemn": 0.625,
+        "hurt": 0.3375,
+        "calm": 0.075
       }
     },
     "personality-v1:facet-comforting": {
       "bearing": {
-        "tender": 0.6
+        "tender": 0.6,
+        "guarded": -0.15,
+        "calm": -0.225
       }
     },
     "personality-v1:facet-generous": {
       "length": 0.2,
       "bearing": {
-        "tender": 0.2
+        "tender": 0.275,
+        "solemn": 0.175,
+        "hurt": -0.3375,
+        "calm": 0.15,
+        "guarded": 0.15
       }
     },
     "personality-v1:facet-guarded": {
       "length": -0.6,
       "bearing": {
-        "guarded": 0.8,
-        "tender": -0.5,
-        "curious": -0.3
+        "guarded": 0.65,
+        "tender": -0.575,
+        "curious": -0.3,
+        "solemn": -0.4,
+        "calm": -0.225
       }
     },
     "personality-v1:facet-hostile": {
@@ -92,61 +106,87 @@
       "bearing": {
         "braced": 0.6,
         "tender": -0.6,
-        "glad": -0.3
+        "glad": -0.3,
+        "guarded": -0.15,
+        "calm": -0.225
       }
     },
     "personality-v1:facet-argumentative": {
       "length": 0.3,
       "bearing": {
         "braced": 0.8,
-        "calm": -0.3
+        "calm": -0.45,
+        "solemn": -0.175,
+        "hurt": 0.3375,
+        "tender": -0.075,
+        "guarded": -0.15
       }
     },
     "personality-v1:facet-persistent": {
       "bearing": {
-        "braced": 0.3
+        "braced": 0.3,
+        "solemn": 0.4,
+        "tender": 0.075
       }
     },
     "personality-v1:facet-defensive": {
       "bearing": {
         "braced": 0.5,
-        "guarded": 0.3
+        "guarded": 0.3,
+        "solemn": -0.4,
+        "tender": -0.075
       }
     },
     "personality-v1:facet-forgiving": {
       "bearing": {
-        "tender": 0.3,
-        "braced": -0.3
+        "tender": 0.225,
+        "braced": -0.3,
+        "solemn": -0.4
       }
     },
     "personality-v1:method-revision": {
       "bearing": {
         "curious": 0.3,
-        "braced": -0.3
+        "braced": -0.3,
+        "solemn": -0.4,
+        "tender": -0.075,
+        "guarded": -0.15,
+        "calm": -0.225
       }
     },
     "personality-v1:self-confidence": {
       "length": 0.2,
       "bearing": {
         "nervous": -0.6,
-        "calm": 0.3
+        "calm": 0.225,
+        "hurt": -0.3375,
+        "solemn": -0.225
       }
     },
     "personality-v1:action-despite-fear": {
       "bearing": {
-        "nervous": -0.4
+        "nervous": -0.4,
+        "guarded": -0.15,
+        "calm": -0.225
       }
     },
     "personality-v1:facet-self-conscious": {
       "length": -0.2,
       "bearing": {
-        "nervous": 0.7
+        "nervous": 0.7,
+        "solemn": -0.4,
+        "tender": -0.075,
+        "guarded": -0.15,
+        "calm": -0.225
       }
     },
     "personality-v1:facet-sensitive": {
       "bearing": {
         "nervous": 0.4,
-        "tender": 0.3
+        "tender": 0.3,
+        "hurt": -0.3375,
+        "calm": -0.075,
+        "solemn": -0.225
       }
     },
     "personality-v1:facet-calm": {
@@ -159,110 +199,652 @@
       "length": 0.4,
       "bearing": {
         "glad": 0.3,
-        "nervous": -0.5
+        "nervous": -0.5,
+        "solemn": -0.625,
+        "hurt": -0.3375,
+        "calm": 0.15,
+        "tender": -0.075,
+        "guarded": 0.15
       }
     },
     "personality-v1:facet-smug": {
       "length": 0.2,
       "bearing": {
         "glad": 0.2,
-        "tender": -0.2
+        "tender": -0.2,
+        "hurt": -0.3375,
+        "calm": -0.3,
+        "solemn": -0.225,
+        "guarded": -0.15
       }
     },
     "personality-v1:facet-proud": {
-      "length": 0.2
+      "length": 0.2,
+      "bearing": {
+        "solemn": -0.175,
+        "hurt": 0.3375,
+        "calm": -0.15,
+        "tender": -0.075,
+        "guarded": -0.15
+      }
     },
     "personality-v1:facet-humble": {
-      "length": -0.2
+      "length": -0.2,
+      "bearing": {
+        "solemn": 0.4,
+        "tender": 0.075,
+        "guarded": -0.15,
+        "calm": -0.225
+      }
     },
     "personality-v1:facet-approval-seeking": {
       "bearing": {
-        "glad": 0.3
+        "glad": 0.3,
+        "hurt": 0.3375,
+        "calm": -0.15,
+        "solemn": 0.225,
+        "guarded": -0.15
       }
     },
     "personality-v1:facet-shy": {
       "length": -0.6,
       "bearing": {
-        "nervous": 0.4
+        "nervous": 0.4,
+        "solemn": -0.175,
+        "hurt": 0.3375,
+        "calm": -0.15,
+        "tender": -0.075,
+        "guarded": -0.15
       }
     },
     "personality-v1:facet-blunt": {
       "length": -0.5,
       "bearing": {
-        "guarded": 0.3
+        "guarded": 0.15,
+        "solemn": -0.625,
+        "hurt": -0.3375,
+        "calm": -0.3,
+        "tender": -0.075
       }
     },
     "personality-v1:facet-polite": {
       "length": 0.3,
       "bearing": {
-        "calm": 0.4
+        "calm": 0.7,
+        "solemn": 0.625,
+        "hurt": 0.3375,
+        "tender": 0.075,
+        "guarded": 0.15
       }
     },
     "personality-v1:facet-curious": {
       "bearing": {
-        "curious": 0.7
+        "curious": 0.7,
+        "solemn": 0.625,
+        "hurt": 0.3375,
+        "calm": 0.3,
+        "tender": 0.075,
+        "guarded": 0.15
       }
     },
     "personality-v1:facet-sincere": {
       "bearing": {
-        "tender": 0.2
+        "tender": 0.2,
+        "guarded": 0.15,
+        "calm": 0.225
       }
     },
-    "personality-v1:truthfulness": {},
+    "personality-v1:truthfulness": {
+      "bearing": {
+        "solemn": 0.4,
+        "tender": 0.075
+      }
+    },
     "personality-v1:facet-manipulative": {
       "bearing": {
-        "glad": 0.2
+        "glad": 0.2,
+        "solemn": 0.175,
+        "hurt": -0.3375,
+        "calm": -0.075,
+        "tender": 0.075
       }
     },
     "people-mind-v1:sociability": {
       "length": 0.3,
       "bearing": {
         "glad": 0.4,
-        "tender": 0.3,
-        "guarded": -0.4
+        "tender": 0.375,
+        "guarded": -0.25,
+        "solemn": 0.625,
+        "hurt": 0.3375,
+        "calm": 0.3
       }
     },
     "people-mind-v1:conflict": {
       "bearing": {
         "braced": 0.6,
-        "calm": -0.3,
-        "tender": -0.3
+        "calm": -0.45,
+        "tender": -0.375,
+        "solemn": -0.175,
+        "hurt": 0.3375,
+        "guarded": -0.15
       }
     },
     "people-mind-v1:deliberation": {
       "length": 0.2,
       "bearing": {
         "calm": 0.5,
-        "braced": -0.3
+        "braced": -0.3,
+        "solemn": -0.4,
+        "tender": -0.075
       }
     },
     "people-mind-v1:risk": {
       "bearing": {
         "braced": 0.3,
         "glad": 0.2,
-        "guarded": -0.3,
-        "nervous": -0.3
+        "guarded": -0.15,
+        "nervous": -0.3,
+        "solemn": 0.175,
+        "hurt": -0.3375,
+        "calm": 0.15,
+        "tender": 0.075
       }
     },
     "people-mind-v1:reliability": {
       "bearing": {
-        "calm": 0.3
+        "calm": 0.225,
+        "solemn": 0.175,
+        "hurt": -0.3375,
+        "tender": 0.075
       }
     },
     "personality-v1:facet-duty-bound": {
       "bearing": {
-        "calm": 0.3,
-        "braced": 0.2
+        "calm": 0.225,
+        "braced": 0.2,
+        "solemn": 0.175,
+        "hurt": -0.3375,
+        "tender": 0.075
       }
     },
     "personality-v1:facet-enterprising": {
       "bearing": {
         "glad": 0.3,
-        "braced": 0.2
+        "braced": 0.2,
+        "solemn": -0.625,
+        "hurt": -0.3375,
+        "calm": -0.3,
+        "tender": -0.075,
+        "guarded": -0.15
       }
     },
     "personality-v1:facet-practical": {
-      "length": -0.3
+      "length": -0.3,
+      "bearing": {
+        "hurt": 0.3375,
+        "calm": 0.3,
+        "solemn": 0.225,
+        "guarded": 0.15
+      }
+    },
+    "legislature-v1:showing-their-hand": {
+      "bearing": {
+        "solemn": -0.4,
+        "tender": -0.075
+      }
+    },
+    "personality-v1:bond-loyalty": {
+      "bearing": {
+        "solemn": 0.4,
+        "tender": 0.075,
+        "guarded": -0.15,
+        "calm": -0.225
+      }
+    },
+    "personality-v1:concern-for-distress": {
+      "bearing": {
+        "solemn": 0.625,
+        "hurt": 0.3375,
+        "calm": 0.3,
+        "tender": 0.075,
+        "guarded": 0.15
+      }
+    },
+    "personality-v1:facet-ambitious": {
+      "bearing": {
+        "solemn": -0.625,
+        "hurt": -0.3375,
+        "calm": -0.3,
+        "tender": -0.075,
+        "guarded": -0.15
+      }
+    },
+    "personality-v1:facet-arbitrary": {
+      "bearing": {
+        "solemn": -0.175,
+        "hurt": 0.3375,
+        "calm": 0.075,
+        "tender": -0.075
+      }
+    },
+    "personality-v1:facet-assertive": {
+      "bearing": {
+        "solemn": 0.625,
+        "hurt": 0.3375,
+        "calm": 0.075,
+        "tender": 0.075
+      }
+    },
+    "personality-v1:facet-brazen": {
+      "bearing": {
+        "solemn": 0.175,
+        "hurt": -0.3375,
+        "calm": 0.15,
+        "tender": 0.075,
+        "guarded": 0.15
+      }
+    },
+    "personality-v1:facet-brooding": {
+      "bearing": {
+        "solemn": 0.625,
+        "hurt": 0.3375,
+        "calm": 0.3,
+        "tender": 0.075,
+        "guarded": 0.15
+      }
+    },
+    "personality-v1:facet-charming": {
+      "bearing": {
+        "solemn": 0.4,
+        "tender": 0.075
+      }
+    },
+    "personality-v1:facet-closeness-seeking": {
+      "bearing": {
+        "solemn": 0.4,
+        "tender": 0.075,
+        "guarded": 0.15,
+        "calm": 0.225
+      }
+    },
+    "personality-v1:facet-contented": {
+      "bearing": {
+        "solemn": -0.4,
+        "tender": -0.075,
+        "guarded": -0.15,
+        "calm": -0.225
+      }
+    },
+    "personality-v1:facet-cynical": {
+      "bearing": {
+        "solemn": 0.4,
+        "tender": 0.075,
+        "guarded": -0.15,
+        "calm": -0.225
+      }
+    },
+    "personality-v1:facet-deferential": {
+      "bearing": {
+        "solemn": 0.625,
+        "hurt": 0.3375,
+        "calm": 0.3,
+        "tender": 0.075,
+        "guarded": 0.15
+      }
+    },
+    "personality-v1:facet-devoted": {
+      "bearing": {
+        "solemn": 0.625,
+        "hurt": 0.3375,
+        "calm": -0.15,
+        "tender": 0.075,
+        "guarded": -0.15
+      }
+    },
+    "personality-v1:facet-dramatic": {
+      "bearing": {
+        "solemn": -0.4,
+        "tender": -0.075,
+        "guarded": 0.15,
+        "calm": 0.225
+      }
+    },
+    "personality-v1:facet-entitled": {
+      "bearing": {
+        "solemn": 0.4,
+        "tender": 0.075,
+        "guarded": 0.15,
+        "calm": 0.225
+      }
+    },
+    "personality-v1:facet-envious": {
+      "bearing": {
+        "solemn": 0.175,
+        "hurt": -0.3375,
+        "calm": -0.3,
+        "tender": 0.075,
+        "guarded": -0.15
+      }
+    },
+    "personality-v1:facet-excitable": {
+      "bearing": {
+        "solemn": -0.625,
+        "hurt": -0.3375,
+        "calm": -0.075,
+        "tender": -0.075
+      }
+    },
+    "personality-v1:facet-fickle": {
+      "bearing": {
+        "solemn": -0.4,
+        "tender": -0.075,
+        "guarded": -0.15,
+        "calm": -0.225
+      }
+    },
+    "personality-v1:facet-hot-headed": {
+      "bearing": {
+        "solemn": -0.4,
+        "tender": -0.075
+      }
+    },
+    "personality-v1:facet-imaginative": {
+      "bearing": {
+        "solemn": 0.175,
+        "hurt": -0.3375,
+        "calm": -0.075,
+        "tender": 0.075
+      }
+    },
+    "personality-v1:facet-independent": {
+      "bearing": {
+        "solemn": -0.175,
+        "hurt": 0.3375,
+        "calm": -0.15,
+        "tender": -0.075,
+        "guarded": -0.15
+      }
+    },
+    "personality-v1:facet-intimacy-guarded": {
+      "bearing": {
+        "solemn": -0.175,
+        "hurt": 0.3375,
+        "calm": 0.075,
+        "tender": -0.075
+      }
+    },
+    "personality-v1:facet-light-hearted": {
+      "bearing": {
+        "solemn": -0.4,
+        "tender": -0.075
+      }
+    },
+    "personality-v1:facet-mediating": {
+      "bearing": {
+        "solemn": -0.4,
+        "tender": -0.075
+      }
+    },
+    "personality-v1:facet-meticulous": {
+      "bearing": {
+        "solemn": 0.4,
+        "tender": 0.075
+      }
+    },
+    "personality-v1:facet-mischievous": {
+      "bearing": {
+        "solemn": -0.175,
+        "hurt": 0.3375,
+        "calm": 0.075,
+        "tender": -0.075
+      }
+    },
+    "personality-v1:facet-open-minded": {
+      "bearing": {
+        "solemn": 0.4,
+        "tender": 0.075,
+        "guarded": 0.15,
+        "calm": 0.225
+      }
+    },
+    "personality-v1:facet-opportunistic": {
+      "bearing": {
+        "solemn": 0.175,
+        "hurt": -0.3375,
+        "calm": -0.075,
+        "tender": 0.075
+      }
+    },
+    "personality-v1:facet-philanthropic": {
+      "bearing": {
+        "solemn": 0.4,
+        "tender": 0.075,
+        "guarded": 0.15,
+        "calm": 0.225
+      }
+    },
+    "personality-v1:facet-sassy": {
+      "bearing": {
+        "solemn": -0.4,
+        "tender": -0.075,
+        "guarded": -0.15,
+        "calm": -0.225
+      }
+    },
+    "personality-v1:facet-self-serving": {
+      "bearing": {
+        "solemn": -0.175,
+        "hurt": 0.3375,
+        "calm": 0.3,
+        "tender": -0.075,
+        "guarded": 0.15
+      }
+    },
+    "personality-v1:facet-skeptical": {
+      "bearing": {
+        "solemn": 0.625,
+        "hurt": 0.3375,
+        "calm": 0.3,
+        "tender": 0.075,
+        "guarded": 0.15
+      }
+    },
+    "personality-v1:facet-slow-to-warm-up": {
+      "bearing": {
+        "solemn": -0.175,
+        "hurt": 0.3375,
+        "calm": -0.15,
+        "tender": -0.075,
+        "guarded": -0.15
+      }
+    },
+    "personality-v1:facet-studious": {
+      "bearing": {
+        "solemn": 0.4,
+        "tender": 0.075
+      }
+    },
+    "personality-v1:facet-supportive": {
+      "bearing": {
+        "solemn": 0.175,
+        "hurt": -0.3375,
+        "calm": 0.15,
+        "tender": 0.075,
+        "guarded": 0.15
+      }
+    },
+    "personality-v1:facet-tactful": {
+      "bearing": {
+        "solemn": 0.4,
+        "tender": 0.075,
+        "guarded": -0.15,
+        "calm": -0.225
+      }
+    },
+    "personality-v1:facet-teasing": {
+      "bearing": {
+        "solemn": -0.625,
+        "hurt": -0.3375,
+        "calm": -0.075,
+        "tender": -0.075
+      }
+    },
+    "personality-v1:facet-tender-hearted": {
+      "bearing": {
+        "solemn": 0.4,
+        "tender": 0.075,
+        "guarded": 0.15,
+        "calm": 0.225
+      }
+    },
+    "personality-v1:facet-work-centered": {
+      "bearing": {
+        "solemn": 0.175,
+        "hurt": -0.3375,
+        "calm": -0.075,
+        "tender": 0.075
+      }
+    },
+    "personality-v1:facet-zealous": {
+      "bearing": {
+        "solemn": -0.625,
+        "hurt": -0.3375,
+        "calm": -0.075,
+        "tender": -0.075
+      }
+    },
+    "personality-v1:initial-trust": {
+      "bearing": {
+        "solemn": 0.625,
+        "hurt": 0.3375,
+        "calm": 0.3,
+        "tender": 0.075,
+        "guarded": 0.15
+      }
+    },
+    "personality-v1:outward-emotional-display": {
+      "bearing": {
+        "solemn": 0.625,
+        "hurt": 0.3375,
+        "calm": 0.075,
+        "tender": 0.075
+      }
+    },
+    "personality-v1:patience": {
+      "bearing": {
+        "solemn": 0.4,
+        "tender": 0.075
+      }
+    },
+    "personality-v1:voluntary-effort": {
+      "bearing": {
+        "solemn": -0.625,
+        "hurt": -0.3375,
+        "calm": -0.075,
+        "tender": -0.075
+      }
+    },
+    "personality-v1:facet-analytical": {
+      "bearing": {
+        "hurt": -0.3375,
+        "calm": -0.075,
+        "solemn": -0.225
+      }
+    },
+    "personality-v1:facet-competitive": {
+      "bearing": {
+        "hurt": -0.3375,
+        "calm": -0.075,
+        "solemn": -0.225
+      }
+    },
+    "personality-v1:facet-daydreaming": {
+      "bearing": {
+        "hurt": 0.3375,
+        "calm": 0.075,
+        "solemn": 0.225
+      }
+    },
+    "personality-v1:facet-fair-minded": {
+      "bearing": {
+        "hurt": 0.3375,
+        "calm": -0.15,
+        "solemn": 0.225,
+        "guarded": -0.15
+      }
+    },
+    "personality-v1:facet-inventive": {
+      "bearing": {
+        "hurt": -0.3375,
+        "calm": -0.075,
+        "solemn": -0.225
+      }
+    },
+    "personality-v1:facet-nostalgic": {
+      "bearing": {
+        "hurt": 0.3375,
+        "calm": -0.15,
+        "solemn": 0.225,
+        "guarded": -0.15
+      }
+    },
+    "personality-v1:facet-restless": {
+      "bearing": {
+        "hurt": -0.3375,
+        "calm": -0.075,
+        "solemn": -0.225
+      }
+    },
+    "personality-v1:uncertain-outlook": {
+      "bearing": {
+        "hurt": -0.3375,
+        "calm": 0.15,
+        "solemn": -0.225,
+        "guarded": 0.15
+      }
+    },
+    "personality-v1:facet-gentle": {
+      "bearing": {
+        "guarded": 0.15,
+        "calm": 0.225
+      }
+    },
+    "personality-v1:facet-informal": {
+      "bearing": {
+        "guarded": -0.15,
+        "calm": -0.225
+      }
+    },
+    "personality-v1:facet-nurturing": {
+      "bearing": {
+        "guarded": -0.15,
+        "calm": -0.225
+      }
+    },
+    "personality-v1:facet-vindictive": {
+      "bearing": {
+        "guarded": -0.15,
+        "calm": -0.225
+      }
+    },
+    "personality-v1:facet-acquisitive": {
+      "bearing": {
+        "guarded": -0.15,
+        "calm": -0.225
+      }
+    },
+    "personality-v1:facet-observant": {
+      "bearing": {
+        "guarded": -0.15,
+        "calm": -0.225
+      }
+    },
+    "personality-v1:playful-manner": {
+      "bearing": {
+        "guarded": 0.15,
+        "calm": 0.225
+      }
     }
   },
   "registers": {
@@ -351,8 +933,8 @@
       "count": 1
     },
     "greet>request": {
-      "mean": 5,
-      "count": 1
+      "mean": 4.3333,
+      "count": 3
     },
     "bargain>bargain": {
       "mean": 4.5,
@@ -417,6 +999,30 @@
     "confront>apologize": {
       "mean": 3,
       "count": 1
+    },
+    "narrate>greet": {
+      "mean": 4.5,
+      "count": 7
+    },
+    "answer>stall": {
+      "mean": 3.75,
+      "count": 3
+    },
+    "ask>answer": {
+      "mean": 4.5,
+      "count": 1
+    },
+    "answer>leave": {
+      "mean": 4.5,
+      "count": 4
+    },
+    "answer>agree": {
+      "mean": 4.5,
+      "count": 3
+    },
+    "leave>accept": {
+      "mean": 4.5,
+      "count": 2
     }
   },
   "traitsSource": "ESTIMATED: the direction of each pull follows research on personality and word use (Mehl, Gosling and Pennebaker 2006, 'Personality in its natural habitat', JPSP 90(5); Yarkoni 2010, 'Personality in 100,000 words', J. Research in Personality 44(3)): extraverted and agreeable people talk more and warmer, neurotic people hedge, disagreeable people argue. Sizes are TUNABLE, spread -1 to 1 each; the owner's trait-fit grades move them. The people-mind traits every person carries (sociability, conflict, deliberation, risk, reliability) and the facets officials are drawn with (duty-bound, enterprising, practical) pull the same way: outgoing toward warm and longer, quarrelsome toward braced, deliberate toward calm, bold away from guarded."

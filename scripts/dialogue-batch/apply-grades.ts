@@ -24,9 +24,11 @@
 import { execSync } from "node:child_process";
 import { existsSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { basename, join } from "node:path";
-import type {
-  CalibrationTable,
-  RunningGrade,
+import {
+  type CalibrationTable,
+  MIDDLE_GRADE,
+  movePairFactor,
+  type RunningGrade,
 } from "../../src/english/calibration";
 import { readBankPieces } from "../words/run-rules";
 import {
@@ -722,9 +724,12 @@ export function withVoiceGrades(
     const id = `${file.batch ?? basename(name, ".json")}:voice`;
     if (only && !only.includes(id)) continue;
     if (!batches.includes(id)) batches.push(id);
-    for (const row of file.grades) {
+    for (const row of file.grades as SpotMarkRow[]) {
       // A line of a text scene that is no bank piece has no key and no part to grade.
       if (!row.key) continue;
+      // A mark from a played scene counts only when it is about how the line
+      // sounds; a mark on meaning goes to the Words lead as a rule.
+      if (row.spot && row.kind !== "sound") continue;
       const net = row.spans.reduce((sum, span) => sum + span.strength, 0);
       if (Math.abs(net) < VOICE_VERDICT) continue;
       const counts = (parts[row.key] ??= {
@@ -742,6 +747,164 @@ export function withVoiceGrades(
     }
   }
   return { ...fold, batches, parts };
+}
+
+/** Where a played line stood when the owner marked it, from the run file it was shown in. */
+export interface MarkSpot {
+  readonly move?: string;
+  readonly previousMove?: string;
+  readonly register?: string;
+  readonly bearing?: string;
+  readonly speakerTraits?: Readonly<Record<string, number>>;
+  readonly words?: number;
+  readonly sentences?: number;
+}
+
+/** A voice-grade row of a mark made on a played scene (scene-marks.ts). */
+export interface SpotMarkRow {
+  readonly id?: string;
+  readonly key: string;
+  readonly spans: readonly { start: number; end: number; strength: number }[];
+  readonly note?: string;
+  /** About how the line sounds or what it means; absent when his words do not say. */
+  readonly kind?: "sound" | "meaning";
+  /** Every span covers the whole line: the note named no part of it. */
+  readonly wholeLine?: boolean;
+  readonly spot?: MarkSpot;
+}
+
+/** His strength from -1 to 1 on the 1 to 5 scale: the inverse of the (grade - 3) / 2 the fold reads. */
+export const gradeOfStrength = (strength: number): number =>
+  Math.min(5, Math.max(1, MIDDLE_GRADE + (MIDDLE_GRADE - 1) * strength));
+
+/**
+ * The owner's sound marks on played lines, as bench grades the calibration
+ * fold reads (owner, Nov 15: "my grades should hit multiple parts of the
+ * engine at once"). A whole-line mark of strength s grades the line's move
+ * pair (naturalness) and the speaker's traits toward its bearing (trait fit)
+ * at 3 + 2s, the same scale the bench grades use, so a mark moves each weight
+ * by the existing step and no new number. His words "too long" or "too short"
+ * grade its length. A mark on part of a line, a mark on meaning and an
+ * unsorted mark move nothing here. One batch per grade file, folded once.
+ */
+export function spreadBatches(gradeDir = GRADE_DIR): GradedBatch[] {
+  if (!existsSync(gradeDir)) return [];
+  const out: GradedBatch[] = [];
+  for (const name of readdirSync(gradeDir)
+    .filter((entry) => entry.endsWith(".json"))
+    .sort()) {
+    const path = join(gradeDir, name);
+    if (!isSpanGradeFile(path)) continue;
+    const file = JSON.parse(readFileSync(path, "utf8")) as {
+      batch?: string;
+      grades: SpotMarkRow[];
+    };
+    const batch = spreadBatch(
+      `${file.batch ?? basename(name, ".json")}:spread`,
+      file.grades,
+    );
+    if (batch) out.push(batch);
+  }
+  return out;
+}
+
+/** One file's sound marks as a bench batch, or null when none spreads. */
+export function spreadBatch(
+  id: string,
+  rows: readonly SpotMarkRow[],
+): GradedBatch | null {
+  const items: BatchFileItem[] = [];
+  const grades: GradeFileRow[] = [];
+  for (const row of rows) {
+    if (row.kind !== "sound" || !row.wholeLine || !row.spot) continue;
+    const strength = row.spans.reduce((sum, span) => sum + span.strength, 0);
+    if (strength === 0) continue;
+    const grade = gradeOfStrength(strength);
+    const i = items.length + 1;
+    items.push({
+      i,
+      parts: [row.key],
+      lines: [{ n: 1, parts: [row.key], ...row.spot }],
+    });
+    const length = /\btoo long\b|\bwordy\b/i.test(row.note ?? "")
+      ? "too long"
+      : /\btoo short\b/i.test(row.note ?? "")
+        ? "too short"
+        : undefined;
+    grades.push({
+      i,
+      line: 1,
+      axes: {
+        naturalness: grade,
+        "trait fit": grade,
+        ...(length ? { length } : {}),
+      },
+    });
+  }
+  return items.length
+    ? { batch: { id, items }, grades: { batch: id, grades } }
+    : null;
+}
+
+/** One calibration row a mark moved, before and after. */
+export interface MovedRow {
+  readonly row: string;
+  readonly before: number;
+  readonly after: number;
+}
+
+/**
+ * What each mark of a spread batch moves on its own against `table`: every
+ * calibration row it changes, before and after (a move pair by its factor,
+ * a trait's pull toward a bearing, a register's target length).
+ */
+export function movedByEach(
+  batch: GradedBatch,
+  table: CalibrationTable,
+): { key: string; moved: MovedRow[] }[] {
+  const items = batch.batch?.items ?? [];
+  return items.map((item) => {
+    const alone: GradedBatch = {
+      batch: { id: `${batch.batch!.id}#${item.i}`, items: [item] },
+      grades: {
+        batch: `${batch.batch!.id}#${item.i}`,
+        grades: rowsOf(batch.grades).filter((row) => row.i === item.i),
+      },
+    };
+    const after = foldCalibration([alone], table);
+    const moved: MovedRow[] = [];
+    const keys = new Set([
+      ...Object.keys(table.movePairs),
+      ...Object.keys(after.movePairs),
+    ]);
+    for (const pair of keys) {
+      const [previous, next] = pair.split(">");
+      const was = movePairFactor(previous, next, table);
+      const now = movePairFactor(previous, next, after);
+      if (was !== now)
+        moved.push({ row: `pair ${pair}`, before: was, after: now });
+    }
+    for (const [trait, row] of Object.entries(after.traits))
+      for (const [bearing, value] of Object.entries(row.bearing ?? {})) {
+        const was = table.traits[trait]?.bearing?.[bearing] ?? 0;
+        if (was !== value)
+          moved.push({
+            row: `${trait} toward ${bearing}`,
+            before: was,
+            after: value,
+          });
+      }
+    for (const [register, row] of Object.entries(after.registers)) {
+      const was = table.registers[register]?.targetWords;
+      if (row.targetWords !== undefined && was !== row.targetWords)
+        moved.push({
+          row: `${register} target words`,
+          before: was ?? 0,
+          after: row.targetWords,
+        });
+    }
+    return { key: item.parts[0]!, moved };
+  });
 }
 
 /**
@@ -801,7 +964,29 @@ function main() {
   const table = JSON.parse(
     readFileSync(CALIBRATION_FILE, "utf8"),
   ) as CalibrationTable;
-  const folded = foldCalibration(graded, table);
+  const spread = spreadBatches();
+  const folded = foldCalibration([...graded, ...spread], table);
+  for (const batch of spread) {
+    if (table.folded.includes(batch.batch!.id)) continue;
+    console.log(`${batch.batch!.id}: what each sound mark moved`);
+    for (const { key, moved } of movedByEach(batch, table))
+      console.log(
+        `- ${key}: ${moved.map((m) => `${m.row} ${m.before} to ${m.after}`).join("; ") || "nothing (no previous move, bearing or traits on its spot)"}`,
+      );
+  }
+  for (const name of readdirSync(GRADE_DIR).filter((entry) =>
+    entry.endsWith(".json"),
+  )) {
+    const path = join(GRADE_DIR, name);
+    if (!isSpanGradeFile(path)) continue;
+    const rows = (
+      JSON.parse(readFileSync(path, "utf8")) as { grades: SpotMarkRow[] }
+    ).grades.filter((row) => row.spot && !row.kind);
+    if (rows.length)
+      console.log(
+        `${name}: ${rows.length} marks not sorted into sound or meaning, for the Words lead: ${rows.map((row) => row.id ?? row.key).join(", ")}`,
+      );
+  }
   if (folded.folded.length !== table.folded.length) {
     writeFileSync(CALIBRATION_FILE, `${JSON.stringify(folded, null, 2)}\n`);
     execSync(`npx prettier --write ${CALIBRATION_FILE}`, { stdio: "ignore" });
