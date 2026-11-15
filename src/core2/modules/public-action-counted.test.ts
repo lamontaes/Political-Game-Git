@@ -172,7 +172,7 @@ it("Port O'Connor and Lincoln: each action's record keeps how its headcount look
     const want =
       row.people < 5 || (row.people < 12 && row.share < 0.015)
         ? "few"
-        : row.share >= 0.08 && row.people >= 10
+        : row.people >= 10 && (row.share >= 0.08 || row.people >= 50)
           ? "crowd"
           : "group";
     expect(row.turnout, `${row.id}: ${row.people} people`).toBe(want);
@@ -185,4 +185,26 @@ it("Port O'Connor and Lincoln: each action's record keeps how its headcount look
   expect(
     [...a, ...b].filter((row) => row.people < 5).map((row) => row.turnout),
   ).not.toContain("group");
+}, 240_000);
+
+// The same look in a large town (owner's rule through the Account lead: what
+// someone standing there sees does not depend on the size of the town once
+// enough people are present): at Gainesville, Georgia (pinned, `pa-l`) the
+// protests of 927 and 205 people are small shares of the adults, and both are
+// a crowd; the paper prints the same headcounts.
+it("Gainesville, Georgia: hundreds of people are a crowd whatever the share of a large town", () => {
+  const { world, adults } = playTerm("pa-l", "Gainesville, Georgia");
+  const records = [...world.core.durableLog.values()]
+    .filter((row) => /^civic\.(protest|strike)$/.test(row.kind))
+    .map((row) => ({
+      id: row.id,
+      people: Number(row.facts?.size),
+      turnout: row.facts?.turnout,
+    }));
+  const big = records.filter((row) => row.people >= 50);
+  expect(big.length, "a protest of fifty or more").toBeGreaterThan(0);
+  // At least one of them is under 8 percent of this town's adults, so the
+  // share rule alone would have said group.
+  expect(big.some((row) => row.people / adults < 0.08)).toBe(true);
+  for (const row of big) expect(row.turnout, row.id).toBe("crowd");
 }, 240_000);

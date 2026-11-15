@@ -48,6 +48,13 @@
       "spread": "8 to 20",
       "note": "From this many people a turnout is never said as a few, whatever the town's size: two hundred in a large city are a small share of it and still not a few people."
     },
+    "turnoutCrowdAnywhereFrom": {
+      "value": 50,
+      "role": "level",
+      "tag": "TUNABLE",
+      "spread": "30 to 100",
+      "note": "From this many people a turnout is a crowd in any town (and at least the crowd minimum). What someone standing there sees does not depend on the size of the town once enough people are present: the share rule is for small towns, where a dozen people is most of the block, and this headcount rule is for everywhere else."
+    },
     "turnoutCrowdMinPeople": {
       "value": 10,
       "role": "level",

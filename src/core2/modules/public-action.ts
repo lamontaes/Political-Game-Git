@@ -428,8 +428,11 @@ export function turnoutLooks(
   if (size < PAR.turnoutGroupMinPeople.value) return "few";
   if (size < PAR.turnoutFewMaxPeople.value && share < PAR.turnoutFewBelow.value)
     return "few";
-  return share >= PAR.turnoutCrowdFrom.value &&
-    size >= PAR.turnoutCrowdMinPeople.value
+  // A crowd is at least the crowd minimum and either a share of a small town's
+  // adults or enough people for any town.
+  return size >= PAR.turnoutCrowdMinPeople.value &&
+    (share >= PAR.turnoutCrowdFrom.value ||
+      size >= PAR.turnoutCrowdAnywhereFrom.value)
     ? "crowd"
     : "group";
 }
