@@ -28,6 +28,7 @@
  * and the President's address weighs by how closely they follow politics.
  * The listener remembers the last talk's topic and doesn't open with it again.
  */
+import { sharedHoursBetween } from "../core2/closeness";
 import { lastContact, relationFacts } from "./relation-facts";
 import { seriousIllnessOf } from "../core2/modules/health";
 import { familyFactsOf, meetInTalk } from "../core2/modules/people";
@@ -2630,7 +2631,11 @@ function introduction(
   if (room.byPhone) return null;
   // Two who have met before are not strangers: no one introduces themselves
   // to someone they have already talked with (Words lead, Nov 14).
-  if (lastContact(core, speaker.id as PersonId, listener.id as PersonId))
+  if (
+    lastContact(core, speaker.id as PersonId, listener.id as PersonId) ||
+    sharedHoursBetween(core, speaker.id as PersonId, listener.id as PersonId) >
+      zero
+  )
     return null;
   if (
     speaker.householdId === listener.householdId ||
