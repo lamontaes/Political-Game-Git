@@ -17,6 +17,12 @@
     "spread": [6, 12],
     "checkedAgainst": "A talk of four exchanges is eight lines, the length at which a thanks for the company is earned (lead, round 11, rule 80)."
   },
+  "closeTieLevel": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "spread": [0.3, 0.7],
+    "checkedAgainst": "How a call is answered and ended depends on the tie: a relative, a housemate or a tie at least this far along the closeness scale (halfway, where the tie has half its hours) is greeted as a person who needs no introduction; everyone else is greeted by name. Checked on three drawn places: the share of calls answered as close moves smoothly across 0.3 to 0.7 (round 12, by-phone lines)."
+  },
   "minutesPerExchange": 2,
   "answerMoves": {
     "school": ["at", "done"]
@@ -422,6 +428,7 @@
     "about": "Owner, Nov 11, 2026: every line through the English engine, with inserts from the world's records. A greeting away from home is composed under `greet` from a plain opener and a core that names the listener or when the two last met; a goodbye under `farewell` from a core that names what the talk was about or someone of the player's they know, and a short closer. `aboutFacts` lists, in order, the facts of the talk's first topic a goodbye may name as {about-said}; the first the topic carries is said, with the mark `about-<fact>` so its wordings fit it. Names only; no sentence.",
     "greet": "greet",
     "farewell": "farewell",
+    "phoneSelf": "greet-phone-self",
     "aboutFacts": ["employer", "school", "place", "topic", "relation"]
   },
   "familyTalk": {

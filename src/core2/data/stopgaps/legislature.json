@@ -1,19 +1,5 @@
 [
   {
-    "id": "SG-LEGISLATURE-phase-in-percent-a-year",
-    "kind": "missing-mechanic",
-    "file": "src/bench/legislature.ts",
-    "line": 264,
-    "whatItFakes": "A bill drafted from the seat phases in an amount only by dated steps the sponsor names (one section per step). The ruling's other form, an amount that rises by a percent a year, cannot be drafted: the seat takes no rate and no span.",
-    "why": "The owner ruled that bills phase in by dated steps or a percent a year (DECISION-REGISTER, Sept 12 travel clarification, item 1); pool item gov-m3-01-phase-in-by-dated-steps built the dated steps first, and how a yearly percent is written into law (a step per year, or one indexed row the laws engine raises each year) is not built.",
-    "addedBy": "governing lead",
-    "addedAt": "2026-10-30",
-    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: seatAct takes a percent a year and the years it runs; the steps are drafted as dated sections of the one bill a year apart, each the law in force raised by the percent, through the same enact path (or one indexed law row the laws engine raises each year on its calendar), with no number typed.",
-    "status": "resolved",
-    "resolvedAt": "2026-11-10",
-    "resolvedBy": "stand-in triage T9 (owner, Nov 10: too in depth)"
-  },
-  {
     "id": "SG-LEGISLATURE-dated-budget-line-amended-on-enactment",
     "kind": "partial-model",
     "file": "src/core2/modules/legislature.ts",
@@ -35,20 +21,6 @@
     "addedBy": "Legislation",
     "addedAt": "2026-11-08",
     "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Record cosponsors for every full person's bill from the same rule, once the position read is cheap enough, and fold the counted members' signatures as a count.",
-    "status": "resolved",
-    "resolvedAt": "2026-11-10",
-    "resolvedBy": "stand-in triage T9 (owner, Nov 10: too in depth)"
-  },
-  {
-    "id": "SG-LEGISLATURE-study-committee-terms",
-    "kind": "research-gap",
-    "file": "src/core2/modules/legislature.ts",
-    "line": 4908,
-    "whatItFakes": "A study committee's size (studyMembers = 5) and term (studyTermDays = 180) are TUNABLE placeholders, and its members are the sponsor and the opponents nearest to changing their vote. Real interim and study committees are formed by constitution, statute or chamber rule, may draw from one or both chambers and sometimes include outsiders (NCSL, from a search snippet only); no outsiders sit here, and no rule of any body's decides when it forms one.",
-    "why": "The NCSL pages on interim and study committees (ncsl.org) and a Montana Legislative Council memo could not be fetched in this session (hosts outside the network allowlist), so no sourced size, term or formation rule was read. The formation cause is the game's own: a narrow floor loss whose closest opponents are less sure than its backers.",
-    "addedBy": "Legislation (study committees)",
-    "addedAt": "2026-11-09",
-    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Per-body formation rules, sizes and terms read from NCSL and each legislature's rules (and mayoral or county task force practice), with outside members drawn from residents by their records.",
     "status": "resolved",
     "resolvedAt": "2026-11-10",
     "resolvedBy": "stand-in triage T9 (owner, Nov 10: too in depth)"
