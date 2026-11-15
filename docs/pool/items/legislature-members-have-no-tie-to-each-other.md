@@ -8,7 +8,7 @@ size: M
 status: in-pr
 standard: 2
 claimed-by: claude/project-thread-csmftn-ties
-pr:
+pr: 9484
 after:
 blocked-on:
 lead: people
