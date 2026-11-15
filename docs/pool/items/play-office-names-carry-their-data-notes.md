@@ -7,7 +7,7 @@ priority: 2
 size: S
 status: in-pr
 claimed-by:
-pr:
+pr: 9435
 blocked-on:
 standard: 2
 model: sonnet
