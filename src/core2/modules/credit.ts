@@ -629,7 +629,14 @@ function lineTerms(
   };
 }
 
-function review(api: CoreAPI): void {
+/**
+ * The monthly review. At the opening (the first day, `opening`) a firm that is
+ * already running holds the line it would have asked for: the same cover, the
+ * same limit and risk rate, with no new choice made (the firm's manager did
+ * its choosing before the world began), so the first payday is not met from
+ * a buffer alone while the first monthly review is still weeks off.
+ */
+function review(api: CoreAPI, opening = false): void {
   const c = core(api),
     p = (key: string) => api.parameter(key);
   const bank = bankOf(api);
@@ -678,6 +685,10 @@ function review(api: CoreAPI): void {
     const cash = c.organizations.get(id)!.liquidMinor;
     const requested = Math.max(0, cover - cash);
     if (!requested) continue;
+    if (opening) {
+      wanted.push({ id, requested });
+      continue;
+    }
     // The owner decides; a firm with no recorded owner (a public employer, an
     // ownerless landlord) is run by its best-paid full worker, who weighs the
     // same reasons. With no full person to decide, its counted people's summed
@@ -993,7 +1004,7 @@ export const CREDIT_MODULE: CoreModule = {
           openedAt: core(api).date,
         });
     // Households' months are reviewed with or without a bank in town.
-    if (bank) review(api);
+    if (bank) review(api, true);
     scheduleReview(api);
   },
 };
