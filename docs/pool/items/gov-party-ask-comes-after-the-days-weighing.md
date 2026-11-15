@@ -8,7 +8,7 @@ priority: 3
 size: S
 status: in-pr
 claimed-by:
-pr: "#PRNUM"
+pr: "#9412"
 blocked-on:
 after:
 source: account lead thread, Nov 14, political-asks advice test
