@@ -254,7 +254,6 @@ describe(`the governor's briefing room (${where})`, () => {
         typeKey: "emergency-briefing",
       });
     };
-    let met = 0;
     for (
       let guard = 0;
       guard < 400 &&
@@ -273,7 +272,6 @@ describe(`the governor's briefing room (${where})`, () => {
         );
       if (waiting && packet?.kind === "stop") {
         expect(leave(waiting), where).toBe(true);
-        met += 1;
         player.resume({ kind: "stop", pauseId: packet.pauseId });
       } else if (player.pollingPlace) player.leavePolls();
       else if (packet?.kind === "stop") {
