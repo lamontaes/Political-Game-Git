@@ -15,7 +15,7 @@ import {
   type GroundedEnglishKnowledge,
   type GroundedEnglishPacket,
 } from "./grounded-english";
-import { journalDataFromBank } from "./mined/journal-bank";
+import { journalDataFromBank, type RACE_MARGINS } from "./mined/journal-bank";
 import articleSounds from "../../data/english/article-sounds.json" with { type: "json" };
 import { ordinalDay } from "./day-words";
 import seatWords from "../../data/english/seat-words.json" with { type: "json" };
@@ -883,3 +883,6 @@ export function employerSaid(name: string, record: EmployerRecord): string {
     ? `the ${name}`
     : name;
 }
+
+/** How a race was decided, as the journal and talk say it (`src/director/race-margin.ts`). */
+export type RaceMargin = (typeof RACE_MARGINS)[number];

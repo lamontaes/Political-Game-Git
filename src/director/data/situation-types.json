@@ -130,7 +130,8 @@
       "cause:event:vote-ahead",
       "cause:event:serve-asked",
       "cause:event:recall-petition",
-      "cause:event:job-offered"
+      "cause:event:job-offered",
+      "cause:event:sign-on-asked"
     ],
     "ownRecordSettings": ["home", "office", "chamber", "phone", "public"],
     "metWhereYouAre": ["circumstance:"]
@@ -491,7 +492,7 @@
       "key": "apology",
       "receive": {
         "age": "any",
-        "counterpart": "apart",
+        "counterpart": "any",
         "seat": "any"
       },
       "roles": [
@@ -1831,7 +1832,7 @@
             "label": "circumstance:bribe-accused"
           },
           "causeEngine": "circumstance",
-          "causeRecord": "scandal.reported",
+          "causeRecord": "news.read",
           "sceneKey": "bribe-reported",
           "bind": {
             "accuser": "counterpart",
@@ -5656,6 +5657,67 @@
       "asker": "officiant",
       "asked": "you",
       "stakes": ["office", "oath"]
+    },
+    {
+      "key": "bill-sign-on",
+      "receive": {
+        "age": "any",
+        "counterpart": "any",
+        "seat": "serving"
+      },
+      "note": "The player drafts a bill and goes to a colleague they know to sign on as a co-sponsor (brief V, stage 2). The colleague answers from where they stand on the bill and what a favor to the player is worth to them, never by a roll; a yes puts their name on the bill, which the committee chair weighs in deciding to hear it (legislature.ts askToSignOn, answerSignOn, chairHears).",
+      "repeatsBy": "bill",
+      "purpose": "cosponsor-ask",
+      "playerAsks": true,
+      "asker": "colleague",
+      "asked": "you",
+      "stakes": ["bill", "asker-position", "tie"],
+      "roles": [
+        {
+          "key": "colleague",
+          "fill": "members",
+          "count": "one",
+          "moves": ["agree", "stall", "refuse", "relent", "accept"],
+          "wants": ["keep-same"],
+          "bearing": "guarded"
+        },
+        {
+          "key": "you",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["request", "plea", "press", "thank", "accept"],
+          "wants": ["commit"],
+          "bearing": "hopeful"
+        }
+      ],
+      "setting": ["office", "chamber", "phone"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "match": {
+            "label": "cause:event:sign-on-asked",
+            "causeFacts": [
+              {
+                "key": "askerId",
+                "is": "subject"
+              }
+            ]
+          },
+          "causeEngine": "legislature",
+          "causeRecord": "sign-on-asked",
+          "bind": {
+            "colleague": "counterpart",
+            "you": "subject"
+          },
+          "opener": "you",
+          "setting": ["office", "chamber", "phone"]
+        }
+      ],
+      "tag": {
+        "key": "bill-sign-on",
+        "endpoint": "bill",
+        "registers": ["scene-talk", "scene-words"]
+      }
     }
   ]
 }

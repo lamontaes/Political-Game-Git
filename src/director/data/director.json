@@ -1,7 +1,10 @@
 {
   "version": "p13-director-v1",
   "note": "Story director on the new core (docs/design/director-on-core2.md). Developer data, never shown to a player. Channels, kept-fact kinds and tie rows are open data rows; the code registers one measure per channel operation.",
-  "chosenJobEnds": ["jobs:quit:", "jobs:left-work:"],
+  "chosenJobEnds": [
+    "jobs:quit:",
+    "jobs:left-work:"
+  ],
   "chosenJobEndsNote": "Sources of a job's end the worker chose (src/core2/modules/jobs.ts: a quit when hired elsewhere, leaving or retiring from work). Those ends are a job left, not a job lost, so no family scene says 'I lost my job.' for them (owner, Oct 14, 2026, night: scenes from the household's records).",
   "parameters": {
     "directorMomentFloor": {
@@ -998,6 +1001,18 @@
         "unit": "lead over the runner-up, as a share of votes cast",
         "citation": "A judgment band for how a journal says a race went, to be checked against published margin-of-victory analyses of U.S. elections (Ballotpedia's state legislative ones bucket races at 10 points or fewer and at half a point or fewer); not yet sourced here."
       }
+    },
+    "bringItUpLeanMinimum": {
+      "value": 0.25,
+      "tag": "ESTIMATED",
+      "citation": "How far from the middle a person's own lean, and the lean of the winner's party, must sit for the result to read as their side's win or loss when they bring it up, on the -1 to 1 lean scale. The Cooperative Election Study's ideo5 places 'moderate' at 0 and 'liberal' and 'conservative' at -1 and +1 of its -2 to +2 scale (ces-2024-views.json); half way from moderate to either is 0.5 on that scale, 0.25 on this one. Below it on either side the person is in the middle and says only who won.",
+      "estimatedFrom": "CES 2024 ideo5 category midpoints (Schaffner, Shih, Ansolabehere and Pope 2025); spread 0.15 to 0.35",
+      "spread": {
+        "low": 0.15,
+        "high": 0.35,
+        "unit": "lean, -1 to 1",
+        "citation": "From a third of the way to two thirds of the way from 'moderate' to 'liberal' or 'conservative' on CES ideo5."
+      }
     }
   },
   "channels": [
@@ -1063,25 +1078,48 @@
     {
       "id": "lie",
       "endsOn": "contradicting-fact-learned",
-      "producedBy": ["conversation.lie"],
-      "stopgapId": "SG-P13-kept-fact-producers"
+      "producedBy": [
+        "conversation.lie"
+      ]
     },
     {
       "id": "favor",
-      "endsOn": "world-event",
+      "endsOn": "never",
       "producedBy": [],
-      "stopgapId": "SG-P13-kept-fact-producers"
+      "producedByFact": [
+        {
+          "eventKind": "scene.reply",
+          "fact": "keeps",
+          "equals": "favor-owed"
+        }
+      ]
     },
     {
       "id": "promise",
-      "endsOn": "world-event",
+      "endsOn": "settling-record",
       "producedBy": [],
-      "stopgapId": "SG-P13-kept-fact-producers"
+      "producedByFact": [
+        {
+          "eventKind": "scene.reply",
+          "fact": "promise"
+        },
+        {
+          "eventKind": "promise.answer",
+          "fact": "promise"
+        }
+      ]
     }
   ],
-  "broadEventFlags": ["publicRecord", "news"],
-  "eventKinds": ["*"],
-  "relationshipKinds": ["*"],
+  "broadEventFlags": [
+    "publicRecord",
+    "news"
+  ],
+  "eventKinds": [
+    "*"
+  ],
+  "relationshipKinds": [
+    "*"
+  ],
   "kinTies": [
     {
       "relation": "parent",
@@ -1283,6 +1321,11 @@
     },
     {
       "eventKind": "vote-ahead",
+      "channel": "cause",
+      "impactParameter": "directorFloorVoteImpact"
+    },
+    {
+      "eventKind": "sign-on-asked",
       "channel": "cause",
       "impactParameter": "directorFloorVoteImpact"
     },

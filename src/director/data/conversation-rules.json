@@ -130,6 +130,14 @@
       "kind": "rent-due",
       "stage": "default"
     },
+    "promise-kept": {
+      "kind": "promise-kept",
+      "stage": "default"
+    },
+    "promise-broken": {
+      "kind": "promise-broken",
+      "stage": "default"
+    },
     "work-done": {
       "kind": "work-done",
       "stage": "default"

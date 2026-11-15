@@ -6250,6 +6250,86 @@ function groupsWeighRace(api: CoreAPI, contestId: string): void {
 }
 
 /**
+ * An outlet weighs a race it covers (owner, Oct 16: papers endorse, "if it
+ * happens in real life, sure"; its endorsement follows its own leanings and
+ * the record, no dice). Its head, who sets its line, weighs every candidate
+ * standing by the one endorsement rule (`weighEndorsement`), reading their
+ * own views as a group's speaker reads the group's stance: the outlet backs
+ * the one candidate its head agrees with above every rival, among those whose
+ * platform shares a question with those views, and no one when none stands
+ * out (weighed again on a later week as the field and its platforms change).
+ * It endorses once in a race, under the outlet's own name (its
+ * organization): its followers hear it as an endorsement, and the paper
+ * prints it as every endorsement is printed (`campaign-endorsed`). True once
+ * the outlet has backed someone in the race.
+ */
+export function outletWeighsRace(
+  api: CoreAPI,
+  contestId: string,
+  outlet: {
+    readonly organizationId: string;
+    readonly headId: string | null;
+    readonly followerIds: readonly string[];
+  },
+): boolean {
+  const field = raceCampaigns(api, contestId);
+  if (!field.length) return false;
+  if (
+    (
+      table(api, "endorsements").query("byContest", [
+        contestId,
+      ]) as unknown as EndorsementRow[]
+    ).some(
+      (row) =>
+        row.organizationId === outlet.organizationId && row.answer === "yes",
+    )
+  )
+    return true;
+  const head = outlet.headId ? api.state.people.get(outlet.headId) : undefined;
+  if (!head?.alive) return false;
+  const lean = personLean(api.state.people, head, townRow(api).lean);
+  const agreementOf = (platform: readonly Stance[]) => ({
+    ...platformRead(platform, (question) =>
+      viewOn(api, head.id, question, lean),
+    ),
+    agreement: agreementWith(api, head.id, lean, platform),
+  });
+  for (const campaign of field) {
+    const weighing = weighEndorsement(
+      api,
+      head,
+      campaign,
+      field,
+      agreementOf,
+      "group",
+    );
+    if (!weighing.yes) continue;
+    const reached = endorsementHeard(
+      api,
+      campaign,
+      head.id,
+      outlet.followerIds.filter((id) => id !== head.id),
+      "endorsement",
+      weighing.score,
+    );
+    keepEndorsement(
+      api,
+      endorsementRow(campaign, api.state.date, {
+        id: `endorsement:${campaign.id}:${outlet.organizationId}`,
+        speakerId: head.id,
+        organizationId: outlet.organizationId,
+        askerId: null,
+        weighing,
+        reached,
+        volunteerIds: [],
+      }),
+    );
+    return true;
+  }
+  return false;
+}
+
+/**
  * A poll's 95 percent margin of error on the leader's share, from the
  * Agresti-Coull interval (Agresti and Coull 1998): two more answers for and
  * two against, so a poll where every respondent names the same candidate
@@ -7992,3 +8072,6 @@ export function campaignRecognition(api: CoreAPI, filingId: string): number {
 }
 
 export type { ContestRow };
+
+/** A party's lean, read by other families through this entry (`campaign-stances.ts`). */
+export { partyLean } from "../campaign-stances";

@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "later-replies-move-the-talk-on",
   "rubric": "After the first exchange the replies offered do not rehash the first options; they move the talk on.",
-  "judged": 1232,
+  "judged": 1204,
   "no": {
     "00084oe3x4o": {
       "keys": [
@@ -15,19 +15,6 @@
         "scene-talk.reply-leave.hearsay.i-ll-answer-when-i-know-who-said-it"
       ],
       "why": "Most of the replies offered now repeat the first replies' denial, explanation, question about the source or push-back in new words."
-    },
-    "0012mo3zvry": {
-      "keys": [
-        "scene-talk.follow-answer.what-we-both-need-is-a-plan-a-place-to-start-and-someone-in-our-corner",
-        "scene-talk.reply-agree.alright-we-ll-work-it-out-together",
-        "scene-talk.reply-promise.i-ll-do-my-part-you-ll-see",
-        "scene-talk.reply-ask.what-do-you-need-most-right-now",
-        "scene-talk.reply-deflect.not-tonight-give-me-a-few-days-to-think-it-over",
-        "scene-talk.reply-agree.alright-i-can-do-that",
-        "scene-talk.reply-promise.i-ll-start-on-it-tomorrow-and-i-ll-tell-you-how-it-goes",
-        "scene-talk.reply-deflect.let-me-think-it-over-before-i-say-yes"
-      ],
-      "why": "'Alright. I can do that' and 'Let me think it over before I say yes' restate the first agree and think-it-over options, so most of the set rehashes."
     },
     "00hg2m3h12p": {
       "keys": [
@@ -250,18 +237,6 @@
         "scene-talk.reply-confront.repeat.if-it-s-going-to-be-a-fight-every-time-why-should-i-bother"
       ],
       "why": "The after-last-time apology, the word to hold you to and walking away reword three first options."
-    },
-    "04bcz03olnh": {
-      "keys": [
-        "scene-talk.follow-press.will-you-really-follow-through-first-i-m-asking-because-i-was-the-one-who-called-for-help",
-        "scene-talk.reply-agree.alright-you-were-the-one-who-called-for-help-so-i-won-t-argue",
-        "scene-talk.reply-promise.you-have-my-word-i-ll-do-it-and-i-won-t-put-it-off",
-        "scene-talk.reply-ask.why-are-you-asking-me-now-what-did-you-see-when-i-got-sick",
-        "scene-talk.reply-decline.i-know-you-were-scared-but-i-can-t-do-that-right-now-i-m-sorry",
-        "scene-talk.reply-agree.alright-i-ll-do-it-thank-you-for-asking-me-instead-of-deciding-for-me",
-        "scene-talk.reply-promise.i-promise-i-know-what-it-cost-you-to-stand-there-and-wait-for-help"
-      ],
-      "why": "Most of the replies offered now say yes, promise or decline again, which the first replies already covered."
     },
     "04d2dkxd9wa": {
       "keys": [
@@ -938,19 +913,6 @@
       ],
       "why": "The replies offered now restate the first replies' apology, push-back and walk-away in new words, so the talk does not move on."
     },
-    "0ege4e7jrsb": {
-      "keys": [
-        "scene-talk.follow-press.will-you-really-follow-through-first-i-m-asking-because-i-was-the-one-who-called-for-help",
-        "scene-talk.reply-agree.yes-you-re-right-i-ll-do-that",
-        "scene-talk.reply-promise.i-promise-i-know-what-it-cost-you-to-stand-there-and-wait-for-help",
-        "scene-talk.reply-ask.why-are-you-asking-me-now-what-did-you-see-when-i-got-sick",
-        "scene-talk.reply-decline.i-understand-why-you-re-asking-but-i-can-t-promise-that-i-hope-you-ll-forgive-me",
-        "scene-talk.reply-agree.alright-i-ll-do-it-thank-you-for-asking-me-instead-of-deciding-for-me",
-        "scene-talk.reply-promise.i-ll-do-exactly-that-and-i-promise-to-keep-my-word",
-        "scene-talk.reply-leave.i-m-tired-and-i-can-t-keep-talking-about-my-illness-today-i-ll-come-to-you-when-i-m-ready"
-      ],
-      "why": "Most of the replies offered now say yes, promise or decline again, which the first replies already covered."
-    },
     "0ejc9ljg8ia": {
       "keys": [
         "scene-talk.follow-ask.friend.is-that-all-of-it-first",
@@ -988,19 +950,6 @@
         "scene-talk.reply-leave.close.i-can-t-talk-about-the-missed-payment-anymore-today-i-ll-find-you-when-i-m-ready"
       ],
       "why": "Most of the replies offered now say the first apology, promise or excuse again in new words instead of moving the talk on."
-    },
-    "0ffm78faz5k": {
-      "keys": [
-        "scene-talk.follow-answer.i-only-want-you-taken-care-of-first-whatever-you-can-manage-is-enough-for-me",
-        "scene-talk.reply-agree.yes-i-owe-you-more-than-i-can-say-so-i-ll-do-what-you-re-asking",
-        "scene-talk.reply-promise.i-ll-do-exactly-that-and-i-promise-to-keep-my-word",
-        "scene-talk.reply-ask.what-are-you-most-afraid-will-happen-if-i-don-t",
-        "scene-talk.reply-decline.i-owe-you-more-than-i-can-say-and-i-still-can-t-do-that-right-now",
-        "scene-talk.reply-agree.alright-i-ll-do-it-thank-you-for-asking-me-instead-of-deciding-for-me",
-        "scene-talk.reply-promise.i-promise-you-were-there-when-i-needed-someone-and-i-won-t-forget-it",
-        "scene-talk.reply-decline.i-understand-why-you-re-asking-but-i-can-t-promise-that-i-hope-you-ll-forgive-me"
-      ],
-      "why": "Most of the replies offered now say yes, promise or decline again, which the first replies already covered."
     },
     "0fu0shxkigt": {
       "keys": [
@@ -1121,19 +1070,6 @@
         "scene-talk.reply-promise.i-m-running-again-and-i-want-you-in-it-again"
       ],
       "why": "'Couldn't have run it without you' and 'I'm running again' restate the first you-gave-your-time and run-again options."
-    },
-    "0hgxp7j8kls": {
-      "keys": [
-        "scene-talk.follow-press.can-i-count-on-that-first-i-was-frightened-when-i-called-for-help-and-i-don-t-want-to-feel-that-way-again",
-        "scene-talk.reply-agree.yes-you-re-right-i-ll-do-that",
-        "scene-talk.reply-promise.i-promise-i-know-what-it-cost-you-to-stand-there-and-wait-for-help",
-        "scene-talk.reply-ask.why-are-you-asking-me-now-what-did-you-see-when-i-got-sick",
-        "scene-talk.reply-decline.i-understand-why-you-re-asking-but-i-can-t-promise-that-i-hope-you-ll-forgive-me",
-        "scene-talk.reply-agree.yes-i-owe-you-more-than-i-can-say-so-i-ll-do-what-you-re-asking",
-        "scene-talk.reply-promise.i-promise-you-were-there-when-i-needed-someone-and-i-won-t-forget-it",
-        "scene-talk.reply-leave.i-m-tired-and-i-can-t-keep-talking-about-my-illness-today-i-ll-come-to-you-when-i-m-ready"
-      ],
-      "why": "Most of the replies offered now say yes, promise or decline again, which the first replies already covered."
     },
     "0i69h6qm6db": {
       "keys": [
@@ -1377,32 +1313,6 @@
         "scene-talk.reply-confront.pressed.you-re-not-the-only-one-counting-every-dollar"
       ],
       "why": "'It's late' and 'not the only one counting every dollar' repeat the first exit and stretched-thin line, leaving only the warn-before-due promise new."
-    },
-    "0lqgabrnony": {
-      "keys": [
-        "scene-talk.follow-press.can-i-count-on-that-first-i-was-frightened-when-i-called-for-help-and-i-don-t-want-to-feel-that-way-again",
-        "scene-talk.reply-agree.yes-i-owe-you-more-than-i-can-say-so-i-ll-do-what-you-re-asking",
-        "scene-talk.reply-promise.i-ll-do-exactly-that-and-i-promise-to-keep-my-word",
-        "scene-talk.reply-ask.what-are-you-most-afraid-will-happen-if-i-don-t",
-        "scene-talk.reply-decline.i-owe-you-more-than-i-can-say-and-i-still-can-t-do-that-right-now",
-        "scene-talk.reply-agree.alright-you-were-the-one-who-called-for-help-so-i-won-t-argue",
-        "scene-talk.reply-promise.you-have-my-word-i-ll-do-it-and-i-won-t-put-it-off",
-        "scene-talk.reply-leave.i-m-tired-and-i-can-t-keep-talking-about-my-illness-today-i-ll-come-to-you-when-i-m-ready"
-      ],
-      "why": "Most of the replies offered now say yes, promise or decline again, which the first replies already covered."
-    },
-    "0ltj14d1gsc": {
-      "keys": [
-        "scene-talk.follow-press.a-few-days-is-a-long-time-when-everything-is-on-hold",
-        "scene-talk.reply-agree.alright-we-ll-work-it-out-together",
-        "scene-talk.reply-promise.i-ll-do-my-part-you-ll-see",
-        "scene-talk.reply-ask.what-do-you-need-most-right-now",
-        "scene-talk.reply-deflect.not-tonight-give-me-a-few-days-to-think-it-over",
-        "scene-talk.reply-agree.alright-we-ll-do-it-your-way",
-        "scene-talk.reply-promise.i-mean-it-you-ll-see-it-this-week",
-        "scene-talk.reply-leave.i-can-t-keep-doing-this-tonight-we-ll-finish-tomorrow"
-      ],
-      "why": "All three replies re-offer the first agree, 'You'll see' promise and put-it-off-tonight choices with only new wording."
     },
     "0lxo0r2fp9e": {
       "keys": [
@@ -1796,19 +1706,6 @@
         "scene-talk.reply-leave.time-s-up-i-ll-write-before-i-come-back"
       ],
       "why": "\"I'll do it\" and \"I'll do it this week\" restate the first agreement; only the time-up exit is new."
-    },
-    "0q63vx3wbgi": {
-      "keys": [
-        "scene-talk.follow-press.can-i-count-on-that-first-i-was-frightened-when-i-called-for-help-and-i-don-t-want-to-feel-that-way-again",
-        "scene-talk.reply-agree.yes-i-owe-you-more-than-i-can-say-so-i-ll-do-what-you-re-asking",
-        "scene-talk.reply-promise.i-ll-do-exactly-that-and-i-promise-to-keep-my-word",
-        "scene-talk.reply-ask.what-are-you-most-afraid-will-happen-if-i-don-t",
-        "scene-talk.reply-decline.i-owe-you-more-than-i-can-say-and-i-still-can-t-do-that-right-now",
-        "scene-talk.reply-agree.alright-you-were-the-one-who-called-for-help-so-i-won-t-argue",
-        "scene-talk.reply-promise.i-promise-i-know-what-it-cost-you-to-stand-there-and-wait-for-help",
-        "scene-talk.reply-leave.i-m-tired-and-i-can-t-keep-talking-about-my-illness-today-i-ll-come-to-you-when-i-m-ready"
-      ],
-      "why": "Most of the replies offered now say yes, promise or decline again, which the first replies already covered."
     },
     "0qe4qevxsnh": {
       "keys": [
@@ -2283,18 +2180,6 @@
       ],
       "why": "All three replies restate first options: the offer to explain, the denial of the rumor and asking who said it."
     },
-    "0z79le4n2f1": {
-      "keys": [
-        "scene-talk.follow-press.will-you-really-follow-through-first-i-m-asking-because-i-was-the-one-who-called-for-help",
-        "scene-talk.reply-agree.yes-you-re-right-i-ll-do-that",
-        "scene-talk.reply-promise.i-promise-i-know-what-it-cost-you-to-stand-there-and-wait-for-help",
-        "scene-talk.reply-ask.why-are-you-asking-me-now-what-did-you-see-when-i-got-sick",
-        "scene-talk.reply-decline.i-understand-why-you-re-asking-but-i-can-t-promise-that-i-hope-you-ll-forgive-me",
-        "scene-talk.reply-agree.alright-i-ll-do-it-thank-you-for-asking-me-instead-of-deciding-for-me",
-        "scene-talk.reply-promise.i-ll-do-exactly-that-and-i-promise-to-keep-my-word"
-      ],
-      "why": "Most of the replies offered now say yes, promise or decline again, which the first replies already covered."
-    },
     "0zdduy7ltyn": {
       "keys": [
         "scene-talk.follow-plea.your-volunteers-are-in-that-room-they-want-to-hear-it-from-you-not-fro",
@@ -2346,19 +2231,6 @@
         "scene-talk.reply-leave.hearsay.i-ll-answer-when-i-know-who-said-it"
       ],
       "why": "Two of the three replies ask again where it came from or who said it, rewording the opener 'Who told you that?'."
-    },
-    "10ivixpzvkg": {
-      "keys": [
-        "scene-talk.follow-press.can-i-count-on-that-first-i-was-frightened-when-i-called-for-help-and-i-don-t-want-to-feel-that-way-again",
-        "scene-talk.reply-agree.alright-you-were-the-one-who-called-for-help-so-i-won-t-argue",
-        "scene-talk.reply-promise.you-have-my-word-i-ll-do-it-and-i-won-t-put-it-off",
-        "scene-talk.reply-ask.why-are-you-asking-me-now-what-did-you-see-when-i-got-sick",
-        "scene-talk.reply-decline.i-know-you-were-scared-but-i-can-t-do-that-right-now-i-m-sorry",
-        "scene-talk.reply-agree.yes-i-owe-you-more-than-i-can-say-so-i-ll-do-what-you-re-asking",
-        "scene-talk.reply-promise.i-promise-you-were-there-when-i-needed-someone-and-i-won-t-forget-it",
-        "scene-talk.reply-leave.i-m-tired-and-i-can-t-keep-talking-about-my-illness-today-i-ll-come-to-you-when-i-m-ready"
-      ],
-      "why": "Most of the replies offered now say yes, promise or decline again, which the first replies already covered."
     },
     "118qgxqxvib": {
       "keys": [
@@ -2467,18 +2339,6 @@
       ],
       "why": "'I'll take it up' and 'I can't make them say yes' restate the first take-it-up-in-their-name reply and 'I need some air' restates the not-today exit."
     },
-    "1470tcnntg0": {
-      "keys": [
-        "scene-talk.follow-press.will-you-really-follow-through-first-i-m-asking-because-i-was-the-one-who-called-for-help",
-        "scene-talk.reply-agree.yes-i-owe-you-more-than-i-can-say-so-i-ll-do-what-you-re-asking",
-        "scene-talk.reply-promise.i-ll-do-exactly-that-and-i-promise-to-keep-my-word",
-        "scene-talk.reply-ask.what-are-you-most-afraid-will-happen-if-i-don-t",
-        "scene-talk.reply-decline.i-owe-you-more-than-i-can-say-and-i-still-can-t-do-that-right-now",
-        "scene-talk.reply-agree.alright-i-ll-do-it-thank-you-for-asking-me-instead-of-deciding-for-me",
-        "scene-talk.reply-promise.i-promise-i-know-what-it-cost-you-to-stand-there-and-wait-for-help"
-      ],
-      "why": "Most of the replies offered now say yes, promise or decline again, which the first replies already covered."
-    },
     "147an8t261n": {
       "keys": [
         "scene-talk.follow-plea.hold-on-you-dont-have-to-go-and-do-that-first",
@@ -2516,32 +2376,6 @@
         "scene-talk.reply-confront.repeat.then-stop-reminding-me-of-every-mistake"
       ],
       "why": "The replies offered now restate the first replies' apology, push-back and walk-away in new words, so the talk does not move on."
-    },
-    "14rf5o23y43": {
-      "keys": [
-        "scene-talk.follow-answer.i-only-want-you-taken-care-of-first-whatever-you-can-manage-is-enough-for-me",
-        "scene-talk.reply-agree.alright-you-were-the-one-who-called-for-help-so-i-won-t-argue",
-        "scene-talk.reply-promise.you-have-my-word-i-ll-do-it-and-i-won-t-put-it-off",
-        "scene-talk.reply-ask.why-are-you-asking-me-now-what-did-you-see-when-i-got-sick",
-        "scene-talk.reply-decline.i-know-you-were-scared-but-i-can-t-do-that-right-now-i-m-sorry",
-        "scene-talk.reply-agree.yes-you-re-right-i-ll-do-that",
-        "scene-talk.reply-promise.i-ll-do-exactly-that-and-i-promise-to-keep-my-word",
-        "scene-talk.reply-decline.i-owe-you-more-than-i-can-say-and-i-still-can-t-do-that-right-now"
-      ],
-      "why": "Most of the replies offered now say yes, promise or decline again, which the first replies already covered."
-    },
-    "14ycjtky1n2": {
-      "keys": [
-        "scene-talk.follow-press.a-few-days-is-a-long-time-when-everything-is-on-hold",
-        "scene-talk.reply-agree.alright-we-ll-work-it-out-together",
-        "scene-talk.reply-promise.i-ll-do-my-part-you-ll-see",
-        "scene-talk.reply-ask.what-do-you-need-most-right-now",
-        "scene-talk.reply-deflect.not-tonight-give-me-a-few-days-to-think-it-over",
-        "scene-talk.reply-agree.alright-we-ll-do-it-your-way",
-        "scene-talk.reply-promise.i-mean-it-you-ll-see-it-this-week",
-        "scene-talk.reply-leave.that-s-all-i-have-tonight-i-ll-find-you-in-the-morning"
-      ],
-      "why": "'We'll do it your way', 'You'll see it this week' and 'I'll find you in the morning' repeat the first agree, 'You'll see' and not-tonight options in new words."
     },
     "1517ghr5fkc": {
       "keys": [
@@ -3300,19 +3134,6 @@
       ],
       "why": "Same answer, telling the clerk, not here and said all restate every one of the first options."
     },
-    "1h1h47imauj": {
-      "keys": [
-        "scene-talk.follow-answer.i-m-asking-for-a-little-of-your-time-and-i-thought-of-you-first-tell-me-what-you-can-do",
-        "scene-talk.reply-agree.yes-of-course-i-ll-do-it",
-        "scene-talk.reply-promise.i-ll-write-you-again-soon-and-i-ll-make-it-happen",
-        "scene-talk.reply-ask.why-now-i-m-glad-to-hear-from-you-and-i-d-like-to-know-what-s-behind-it",
-        "scene-talk.reply-decline.i-wish-i-could-but-i-can-t-right-now-i-hope-you-ll-understand",
-        "scene-talk.reply-agree.okay-i-see-i-ll-do-it",
-        "scene-talk.reply-promise.you-can-count-on-me-i-ll-do-it",
-        "scene-talk.reply-decline.thanks-for-explaining-i-still-can-t-though-i-m-sorry"
-      ],
-      "why": "'I'll do it', 'You can count on me' and 'I still can't' are the first yes, I'll-make-it-happen and refusal choices reworded."
-    },
     "1h33ctnhl5l": {
       "keys": [
         "scene-talk.follow-plea.twice-ive-come-to-you-doesnt-that-count-for-something",
@@ -3447,18 +3268,6 @@
         "scene-talk.reply-leave.let-me-splash-some-water-on-my-face-first"
       ],
       "why": "'The call first', 'Not yet' and splashing water are the opening dial, wait and time-alone choices in new words."
-    },
-    "1k4d5qay872": {
-      "keys": [
-        "scene-talk.follow-press.can-i-count-on-that-first-i-was-frightened-when-i-called-for-help-and-i-don-t-want-to-feel-that-way-again",
-        "scene-talk.reply-agree.yes-you-re-right-i-ll-do-that",
-        "scene-talk.reply-promise.i-promise-i-know-what-it-cost-you-to-stand-there-and-wait-for-help",
-        "scene-talk.reply-ask.why-are-you-asking-me-now-what-did-you-see-when-i-got-sick",
-        "scene-talk.reply-decline.i-understand-why-you-re-asking-but-i-can-t-promise-that-i-hope-you-ll-forgive-me",
-        "scene-talk.reply-agree.yes-i-owe-you-more-than-i-can-say-so-i-ll-do-what-you-re-asking",
-        "scene-talk.reply-promise.you-have-my-word-i-ll-do-it-and-i-won-t-put-it-off"
-      ],
-      "why": "Most of the replies offered now say yes, promise or decline again, which the first replies already covered."
     },
     "1kf24isfou9": {
       "keys": [
@@ -3615,19 +3424,6 @@
         "scene-talk.reply-leave.you-need-to-rest-i-ll-come-back-in-the-morning"
       ],
       "why": "\"I'll do it. Tonight\" repeats \"I'll go over there tonight\" and \"staying here first\" repeats \"get you better first.\""
-    },
-    "1ofp2s4s0jd": {
-      "keys": [
-        "scene-talk.follow-press.will-you-really-follow-through-first-i-m-asking-because-i-was-the-one-who-called-for-help",
-        "scene-talk.reply-agree.alright-you-were-the-one-who-called-for-help-so-i-won-t-argue",
-        "scene-talk.reply-promise.you-have-my-word-i-ll-do-it-and-i-won-t-put-it-off",
-        "scene-talk.reply-ask.why-are-you-asking-me-now-what-did-you-see-when-i-got-sick",
-        "scene-talk.reply-decline.i-know-you-were-scared-but-i-can-t-do-that-right-now-i-m-sorry",
-        "scene-talk.reply-agree.alright-i-ll-do-it-thank-you-for-asking-me-instead-of-deciding-for-me",
-        "scene-talk.reply-promise.i-promise-i-know-what-it-cost-you-to-stand-there-and-wait-for-help",
-        "scene-talk.reply-leave.i-m-tired-and-i-can-t-keep-talking-about-my-illness-today-i-ll-come-to-you-when-i-m-ready"
-      ],
-      "why": "Most of the replies offered now say yes, promise or decline again, which the first replies already covered."
     },
     "1oov9id84c1": {
       "keys": [
@@ -3851,18 +3647,6 @@
         "scene-talk.reply-leave.friend.i-can-t-do-this-right-now-i-ll-find-you-when-i-can"
       ],
       "why": "Two of three replies restate first options: the offer of the truth and the apology."
-    },
-    "1sfcquhzjh9": {
-      "keys": [
-        "scene-talk.follow-press.will-you-really-follow-through-first-i-m-asking-because-i-was-the-one-who-called-for-help",
-        "scene-talk.reply-agree.yes-i-owe-you-more-than-i-can-say-so-i-ll-do-what-you-re-asking",
-        "scene-talk.reply-promise.i-ll-do-exactly-that-and-i-promise-to-keep-my-word",
-        "scene-talk.reply-ask.what-are-you-most-afraid-will-happen-if-i-don-t",
-        "scene-talk.reply-decline.i-owe-you-more-than-i-can-say-and-i-still-can-t-do-that-right-now",
-        "scene-talk.reply-agree.yes-you-re-right-i-ll-do-that",
-        "scene-talk.reply-promise.you-have-my-word-i-ll-do-it-and-i-won-t-put-it-off"
-      ],
-      "why": "Most of the replies offered now say yes, promise or decline again, which the first replies already covered."
     },
     "1sion640ggo": {
       "keys": [
@@ -4141,19 +3925,6 @@
       ],
       "why": "'I'll help you', 'I'll take care of it' and 'tell you tomorrow' are the first glad-to-help, I-will and find-me-tomorrow replies again."
     },
-    "1wxdec5lkfp": {
-      "keys": [
-        "scene-talk.follow-answer.whatever-you-can-manage-first-a-kind-word-from-you-would-go-a-long-way",
-        "scene-talk.reply-agree.yes-of-course-i-ll-get-in-touch-with-them",
-        "scene-talk.reply-promise.you-have-my-word-i-ll-make-sure-they-hear-from-me",
-        "scene-talk.reply-ask.why-are-you-asking-me-about-this-and-why-now",
-        "scene-talk.reply-decline.i-m-sorry-but-i-m-not-the-right-person-to-do-that",
-        "scene-talk.reply-agree.that-helps-count-me-in",
-        "scene-talk.reply-promise.i-ll-see-to-it-you-have-my-word",
-        "scene-talk.reply-decline.thank-you-for-asking-but-i-can-t-do-it-i-m-sorry"
-      ],
-      "why": "Most of the replies offered now say yes, promise or decline again, which the first replies already covered."
-    },
     "1xd2e7s4j5b": {
       "keys": [
         "scene-talk.follow-answer.you-know-i-can-t-tell-you-that",
@@ -4167,18 +3938,6 @@
         "scene-talk.reply-leave.i-have-to-go"
       ],
       "why": "'It's true. I made a mistake' rewords the first 'It's true, and I should have said so sooner', and 'Show me what you have' rewords 'I'd like to see the document', so two of three rehash."
-    },
-    "1xlrieeouj2": {
-      "keys": [
-        "scene-talk.follow-press.can-i-count-on-that-first-i-was-frightened-when-i-called-for-help-and-i-don-t-want-to-feel-that-way-again",
-        "scene-talk.reply-agree.alright-you-were-the-one-who-called-for-help-so-i-won-t-argue",
-        "scene-talk.reply-promise.you-have-my-word-i-ll-do-it-and-i-won-t-put-it-off",
-        "scene-talk.reply-ask.why-are-you-asking-me-now-what-did-you-see-when-i-got-sick",
-        "scene-talk.reply-decline.i-know-you-were-scared-but-i-can-t-do-that-right-now-i-m-sorry",
-        "scene-talk.reply-agree.yes-you-re-right-i-ll-do-that",
-        "scene-talk.reply-promise.i-promise-you-were-there-when-i-needed-someone-and-i-won-t-forget-it"
-      ],
-      "why": "Most of the replies offered now say yes, promise or decline again, which the first replies already covered."
     },
     "1xmn8nl0aag": {
       "keys": [
@@ -4313,19 +4072,6 @@
       ],
       "why": "'I'll run' and 'I'm not the one for it' are the first sign-me-up and can't options again, with only a polite exit added."
     },
-    "1zrf6anh9it": {
-      "keys": [
-        "scene-talk.follow-answer.soon-if-you-can-and-i-thought-of-you-because-i-trust-you-with-it",
-        "scene-talk.reply-agree.sure-you-can-count-on-me",
-        "scene-talk.reply-promise.i-ll-make-it-work-you-have-my-word",
-        "scene-talk.reply-ask.what-made-you-think-of-me-for-it",
-        "scene-talk.reply-decline.i-m-sorry-but-i-can-t-make-that-work-this-time",
-        "scene-talk.reply-agree.alright-that-makes-sense-i-ll-do-it",
-        "scene-talk.reply-promise.i-ll-be-there-and-you-can-count-on-me",
-        "scene-talk.reply-decline.i-m-sorry-but-i-still-can-t-do-it-i-just-don-t-have-the-time-for-it"
-      ],
-      "why": "'I'll do it', 'I'll be there, count on me' and 'I still can't do it' are the first yes, promise and refusal again."
-    },
     "20i8aw7tyj4": {
       "keys": [
         "scene-talk.follow-press.go-ahead-and-tell-them-see-who-believes-you",
@@ -4351,19 +4097,6 @@
         "scene-talk.reply-leave.enough-please-leave"
       ],
       "why": "Both replies restate first options: the answer is still no, and the talk is finished."
-    },
-    "21qply46e0m": {
-      "keys": [
-        "scene-talk.follow-press.you-ll-really-do-it-i-d-like-to-know-i-can-plan-around-it",
-        "scene-talk.reply-agree.yes-i-d-be-glad-to",
-        "scene-talk.reply-promise.i-will-do-it-and-you-won-t-have-to-remind-me",
-        "scene-talk.reply-ask.when-do-you-need-me",
-        "scene-talk.reply-decline.i-wish-i-could-but-i-don-t-have-the-time-to-do-it-right-just-now",
-        "scene-talk.reply-agree.alright-you-re-right-i-ll-make-it-work",
-        "scene-talk.reply-promise.i-ll-do-it-i-promise-let-me-look-at-what-i-have",
-        "scene-talk.reply-leave.i-m-sorry-but-i-can-t-stay-and-argue-about-it-let-s-pick-it-back-up-tomorrow"
-      ],
-      "why": "'I'll make it work' and 'I'll do it, I promise' repeat the first yes and promise, leaving only the 'pick it back up tomorrow' line new."
     },
     "22mjntoinzv": {
       "keys": [
@@ -4484,19 +4217,6 @@
       ],
       "why": "\"I promise\" and the soup offer restate the first yes and the food deflection after being told not to change the subject."
     },
-    "265eldavrdr": {
-      "keys": [
-        "scene-talk.follow-answer.whatever-time-you-have-this-week-would-be-fine-i-thought-of-you-because-you-re-easy-to-be-around",
-        "scene-talk.reply-agree.yes-i-d-be-glad-to",
-        "scene-talk.reply-promise.i-will-do-it-and-you-won-t-have-to-remind-me",
-        "scene-talk.reply-ask.when-do-you-need-me",
-        "scene-talk.reply-decline.i-wish-i-could-but-i-don-t-have-the-time-to-do-it-right-just-now",
-        "scene-talk.reply-agree.alright-that-makes-sense-i-ll-do-it",
-        "scene-talk.reply-promise.i-ll-be-there-and-you-can-count-on-me",
-        "scene-talk.reply-decline.i-m-sorry-but-i-still-can-t-do-it-i-just-don-t-have-the-time-for-it"
-      ],
-      "why": "The three replies are the first yes, promise and no-time refusal reworded."
-    },
     "267tl3obc23": {
       "keys": [
         "scene-talk.follow-ask.hearsay.then-why-would-someone-tell-me-something-different",
@@ -4588,19 +4308,6 @@
         "scene-talk.reply-leave.i-have-to-go-call-me-tonight"
       ],
       "why": "Going over all of it, hearing him out but not voting as a friend and 'I can't' repeat the first read-every-page, can't-promise and sorry options."
-    },
-    "27jhvgejyos": {
-      "keys": [
-        "scene-talk.follow-answer.i-m-afraid-of-walking-in-and-finding-you-worse-first-that-s-all-it-is",
-        "scene-talk.reply-agree.yes-you-re-right-i-ll-do-that",
-        "scene-talk.reply-promise.i-promise-i-know-what-it-cost-you-to-stand-there-and-wait-for-help",
-        "scene-talk.reply-ask.why-are-you-asking-me-now-what-did-you-see-when-i-got-sick",
-        "scene-talk.reply-decline.i-understand-why-you-re-asking-but-i-can-t-promise-that-i-hope-you-ll-forgive-me",
-        "scene-talk.reply-agree.alright-you-were-the-one-who-called-for-help-so-i-won-t-argue",
-        "scene-talk.reply-promise.you-have-my-word-i-ll-do-it-and-i-won-t-put-it-off",
-        "scene-talk.reply-decline.i-know-you-were-scared-but-i-can-t-do-that-right-now-i-m-sorry"
-      ],
-      "why": "Most of the replies offered now say yes, promise or decline again, which the first replies already covered."
     },
     "27v6j0srigs": {
       "keys": [
@@ -4708,19 +4415,6 @@
         "scene-talk.reply-leave.taken.i-ve-said-enough-for-today-let-the-prosecutor-do-the-rest"
       ],
       "why": "All three replies restate first options: offering to explain, apologizing and declining to say more."
-    },
-    "29ok5y7qw5t": {
-      "keys": [
-        "scene-talk.follow-press.i-hear-you-what-s-standing-in-the-way",
-        "scene-talk.reply-agree.yes-of-course-i-ll-do-it",
-        "scene-talk.reply-promise.i-ll-write-you-again-soon-and-i-ll-make-it-happen",
-        "scene-talk.reply-ask.why-now-i-m-glad-to-hear-from-you-and-i-d-like-to-know-what-s-behind-it",
-        "scene-talk.reply-decline.i-wish-i-could-but-i-can-t-right-now-i-hope-you-ll-understand",
-        "scene-talk.reply-agree.alright-yes-i-m-glad-you-asked-me",
-        "scene-talk.reply-promise.you-have-my-word-i-need-to-clear-my-days-first",
-        "scene-talk.reply-leave.let-me-think-it-over-i-ll-write-when-i-can"
-      ],
-      "why": "After being asked what stands in the way, two of three replies ('Alright, yes' and 'You have my word') just repeat the first yes and promise."
     },
     "2airtamc2sx": {
       "keys": [
@@ -4961,19 +4655,6 @@
       ],
       "why": "'Okay. For them', 'Not yet' and splashing water reword dial, not tonight and step away from the start."
     },
-    "2ebrr05791u": {
-      "keys": [
-        "scene-talk.follow-press.i-thought-of-you-first-first-can-you-tell-me-what-s-in-the-way",
-        "scene-talk.reply-agree.yes-i-d-be-glad-to",
-        "scene-talk.reply-promise.i-will-do-it-and-you-won-t-have-to-remind-me",
-        "scene-talk.reply-ask.when-do-you-need-me",
-        "scene-talk.reply-decline.i-wish-i-could-but-i-don-t-have-the-time-to-do-it-right-just-now",
-        "scene-talk.reply-agree.alright-you-re-right-i-ll-make-it-work",
-        "scene-talk.reply-promise.i-ll-do-it-i-promise-let-me-look-at-what-i-have",
-        "scene-talk.reply-leave.i-m-sorry-but-i-can-t-stay-and-argue-about-it-let-s-pick-it-back-up-tomorrow"
-      ],
-      "why": "Most of the replies offered now say yes, promise or decline again, which the first replies already covered."
-    },
     "2edkova0qdc": {
       "keys": [
         "scene-talk.follow-plea.lets-not-turn-this-into-something-first-we-can-still-be-friends",
@@ -5077,20 +4758,7 @@
         "scene-talk.reply-leave.taken.i-can-t-discuss-it-not-yet"
       ],
       "why": "Two of three replies restate first options: the denial of any payment repeats the first denial, and declining to discuss it repeats having to go."
-    },
-    "2ggv78bpdbx": {
-      "keys": [
-        "scene-talk.follow-press.i-hear-you-what-s-standing-in-the-way",
-        "scene-talk.reply-agree.yes-of-course-i-ll-do-it",
-        "scene-talk.reply-promise.i-ll-write-you-again-soon-and-i-ll-make-it-happen",
-        "scene-talk.reply-ask.why-now-i-m-glad-to-hear-from-you-and-i-d-like-to-know-what-s-behind-it",
-        "scene-talk.reply-decline.i-wish-i-could-but-i-can-t-right-now-i-hope-you-ll-understand",
-        "scene-talk.reply-agree.alright-yes-i-m-glad-you-asked-me",
-        "scene-talk.reply-promise.i-will-give-me-a-little-time-to-clear-my-schedule",
-        "scene-talk.reply-leave.let-me-think-it-over-i-ll-write-when-i-can"
-      ],
-      "why": "'Alright, yes' and 'I will. Give me a little time' restate the first yes and promise options, leaving only 'think it over' as new."
     }
   },
-  "yesHash": "097d4r3e5mv"
+  "yesHash": "01wa7gsp6ri"
 }

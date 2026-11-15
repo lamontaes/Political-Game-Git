@@ -93,7 +93,8 @@
     "official": "The office or body of the official a refused bribe was offered to, said as someone outside government says it (\"someone on the Starr County Board of Commissioners\", \"the mayor\"), from the corruption crime row.",
     "contested": "A mark: convicted at a trial the defendant fought (no guilty plea on the case).",
     "said": "The subject of a policy question as a person names it after 'on' or 'about' (\"drug prices\"), from the question's `said` in data/english/question-names.json; never a side (the side is said as what it does to the speaker). `about` stays for lines that name the thing itself.",
-    "seat": "The seat a race is for, as people say it (\"the Mutual Village Council\", \"mayor\"), from the elections engine's contest and the office's record through the one seat wording."
+    "seat": "The seat a race is for, as people say it (\"the Mutual Village Council\", \"mayor\"), from the elections engine's contest and the office's record through the one seat wording.",
+    "bill": "A bill, by its title, from the legislature record."
   },
   "maxWords": 10,
   "lineWords": {
@@ -3196,7 +3197,8 @@
           "move": "news-answer-react",
           "subject": "news",
           "role": "answer",
-          "choice": "react"
+          "choice": "react",
+          "excludesFacts": ["result-known"]
         },
         {
           "move": "lie-doubt-question",
@@ -3970,7 +3972,8 @@
           "move": "news-answer-react",
           "subject": "news",
           "role": "answer",
-          "choice": "react"
+          "choice": "react",
+          "excludesFacts": ["result"]
         },
         {
           "move": "tenure-reply-answer-ack",
@@ -6659,7 +6662,8 @@
           "move": "news-answer-react",
           "subject": "news",
           "role": "answer",
-          "choice": "react"
+          "choice": "react",
+          "excludesFacts": ["result"]
         },
         {
           "move": "mutual-answer-turn",
@@ -8180,7 +8184,8 @@
           "move": "news-answer-react",
           "subject": "news",
           "role": "answer",
-          "choice": "react"
+          "choice": "react",
+          "excludesFacts": ["result"]
         }
       ],
       "transcriptsUsing": 41,
@@ -8302,7 +8307,8 @@
           "move": "news-answer-react",
           "subject": "news",
           "role": "answer",
-          "choice": "react"
+          "choice": "react",
+          "excludesFacts": ["result"]
         }
       ],
       "transcriptsUsing": 51,
@@ -8342,7 +8348,8 @@
           "move": "news-answer-react",
           "subject": "news",
           "role": "answer",
-          "choice": "react"
+          "choice": "react",
+          "excludesFacts": ["result-known", "result-not-close"]
         }
       ],
       "transcriptsUsing": 23,
@@ -21921,7 +21928,8 @@
           "subject": "news",
           "role": "answer",
           "choice": "yes",
-          "stages": ["heard"]
+          "stages": ["heard"],
+          "requiresFacts": ["broadcast"]
         }
       ],
       "origin": "authored",
@@ -21939,7 +21947,8 @@
           "subject": "news",
           "role": "answer",
           "choice": "yes",
-          "stages": ["heard"]
+          "stages": ["heard"],
+          "excludesFacts": ["before-feeling"]
         }
       ],
       "origin": "authored",
@@ -21957,7 +21966,8 @@
           "subject": "news",
           "role": "answer",
           "choice": "yes",
-          "stages": ["heard"]
+          "stages": ["heard"],
+          "requiresFacts": ["broadcast"]
         }
       ],
       "origin": "authored",
@@ -21976,7 +21986,7 @@
           "role": "answer",
           "choice": "yes",
           "stages": ["heard"],
-          "requiresFacts": ["paper"]
+          "requiresFacts": ["outlet-said", "paper"]
         }
       ],
       "origin": "authored",
@@ -22030,7 +22040,8 @@
           "subject": "news",
           "role": "answer",
           "choice": "no",
-          "stages": ["not-heard"]
+          "stages": ["not-heard"],
+          "requiresFacts": ["broadcast"]
         }
       ],
       "origin": "authored",
@@ -24400,7 +24411,7 @@
       "key": "conversation.own-view-answer-disagree.i-come-down-the-other-side-first",
       "move": "own-view-answer-disagree",
       "kind": "spoken",
-      "text": "I come down on the other side, {first}.",
+      "text": "I come down on the other side.",
       "uses": [
         {
           "move": "own-view-answer-disagree",
@@ -28528,30 +28539,6 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.work-done-back-core.long-hours-at-wage-an-hour-adds-up-slow",
-      "move": "work-done-back-core",
-      "kind": "spoken",
-      "text": "Long. {hours} at {wage} an hour adds up slow.",
-      "uses": [
-        {
-          "move": "work-done-back-core",
-          "subject": "work-done-back",
-          "role": "core",
-          "stages": ["ask"],
-          "requiresFacts": ["hours", "wage", "longer"]
-        }
-      ],
-      "piece": {
-        "of": "work-done-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
-      "date": "2026-11-12"
-    },
-    {
       "key": "conversation.work-done-back-core.you-don-t-have-to-tell-me-twice-you",
       "move": "work-done-back-core",
       "kind": "spoken",
@@ -28570,30 +28557,6 @@
         "required": true
       },
       "bearing": "glad",
-      "origin": "authored",
-      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "conversation.work-done-back-core.i-will-hours-at-wage-an-hour-and-my-feet-know-it",
-      "move": "work-done-back-core",
-      "kind": "spoken",
-      "text": "I will. {hours} at {wage} an hour, and my feet know it.",
-      "uses": [
-        {
-          "move": "work-done-back-core",
-          "subject": "work-done-back",
-          "role": "core",
-          "stages": ["rest"],
-          "requiresFacts": ["hours", "wage"]
-        }
-      ],
-      "piece": {
-        "of": "work-done-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "tender",
       "origin": "authored",
       "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
       "date": "2026-11-12"
@@ -30047,7 +30010,7 @@
       "key": "conversation.own-view-back-core.because-i-make-wage-an-hour-you-do-the-math",
       "move": "own-view-back-core",
       "kind": "spoken",
-      "text": "Because I make {wage} an hour, {you}. Do the math.",
+      "text": "Because the pay is thin, {you}. Do the math.",
       "piece": {
         "of": "own-view-back",
         "part": "core",
@@ -30070,7 +30033,7 @@
       "key": "conversation.own-view-back-core.wage-an-hour-doesn-t-stretch-far-you",
       "move": "own-view-back-core",
       "kind": "spoken",
-      "text": "{wage} an hour doesn't stretch far, {you}.",
+      "text": "The pay doesn't stretch far, {you}.",
       "piece": {
         "of": "own-view-back",
         "part": "core",
@@ -30093,7 +30056,7 @@
       "key": "conversation.own-view-back-core.you-try-living-on-wage-an-hour-you",
       "move": "own-view-back-core",
       "kind": "spoken",
-      "text": "You try living on {wage} an hour, {you}.",
+      "text": "You try living on what I make, {you}.",
       "piece": {
         "of": "own-view-back",
         "part": "core",
@@ -31476,7 +31439,7 @@
       "key": "conversation.player-news-answer-take.very-funny-first-thanks-though",
       "move": "player-news-answer-take",
       "kind": "spoken",
-      "text": "Very funny, {first}. Thanks, though.",
+      "text": "Very funny. Thanks, though.",
       "uses": [
         {
           "move": "player-news-answer-take",
@@ -31530,7 +31493,7 @@
       "key": "conversation.player-news-answer-take.i-know-first-i-ll-take-my-chances",
       "move": "player-news-answer-take",
       "kind": "spoken",
-      "text": "I know, {first}. I'll take my chances.",
+      "text": "I know. I'll take my chances.",
       "uses": [
         {
           "move": "player-news-answer-take",
@@ -31567,7 +31530,7 @@
       "key": "conversation.player-news-answer-tell.we-ll-see-how-employer-goes-first",
       "move": "player-news-answer-tell",
       "kind": "spoken",
-      "text": "We'll see how {employer} goes, {first}.",
+      "text": "We'll see how {employer} goes.",
       "uses": [
         {
           "move": "player-news-answer-tell",
@@ -31604,7 +31567,7 @@
       "key": "conversation.player-news-answer-ask.you-d-really-vote-against-me-first",
       "move": "player-news-answer-ask",
       "kind": "spoken",
-      "text": "You'd really vote against me, {first}?",
+      "text": "You'd really vote against me?",
       "uses": [
         {
           "move": "player-news-answer-ask",
@@ -32654,14 +32617,13 @@
       "key": "conversation.government-news-answer-for.i-d-be-for-it-first",
       "move": "government-news-answer-for",
       "kind": "spoken",
-      "text": "I'd be for it, {first}.",
+      "text": "I'd be for it.",
       "uses": [
         {
           "move": "government-news-answer-for",
           "subject": "government-news",
           "role": "answer",
-          "choice": "for",
-          "requiresFacts": ["first"]
+          "choice": "for"
         }
       ],
       "origin": "authored",
@@ -32672,14 +32634,13 @@
       "key": "conversation.government-news-answer-for.i-m-for-it-first-somebody-had-to",
       "move": "government-news-answer-for",
       "kind": "spoken",
-      "text": "I'm for it, {first}. Somebody had to.",
+      "text": "I'm for it. Somebody had to.",
       "uses": [
         {
           "move": "government-news-answer-for",
           "subject": "government-news",
           "role": "answer",
-          "choice": "for",
-          "requiresFacts": ["first"]
+          "choice": "for"
         }
       ],
       "origin": "authored",
@@ -32690,14 +32651,13 @@
       "key": "conversation.government-news-answer-against.i-d-be-against-it-first",
       "move": "government-news-answer-against",
       "kind": "spoken",
-      "text": "I'd be against it, {first}.",
+      "text": "I'd be against it.",
       "uses": [
         {
           "move": "government-news-answer-against",
           "subject": "government-news",
           "role": "answer",
-          "choice": "against",
-          "requiresFacts": ["first"]
+          "choice": "against"
         }
       ],
       "origin": "authored",
@@ -32708,14 +32668,13 @@
       "key": "conversation.government-news-answer-against.i-m-against-it-first-it-s-the-wrong-call",
       "move": "government-news-answer-against",
       "kind": "spoken",
-      "text": "I'm against it, {first}. It's the wrong call.",
+      "text": "I'm against it. It's the wrong call.",
       "uses": [
         {
           "move": "government-news-answer-against",
           "subject": "government-news",
           "role": "answer",
-          "choice": "against",
-          "requiresFacts": ["first"]
+          "choice": "against"
         }
       ],
       "origin": "authored",
@@ -37550,6 +37509,395 @@
       "date": "2026-11-14"
     },
     {
+      "key": "conversation.promise-kept-raise.you-said-youd-vote-for-bill-and-you-did",
+      "move": "promise-kept-raise",
+      "kind": "spoken",
+      "text": "You said you'd vote for {bill}, and you did.",
+      "uses": [
+        {
+          "move": "promise-kept-raise",
+          "subject": "promise-kept",
+          "role": "raise",
+          "requiresFacts": ["promise-vote", "bill"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (promises rulings-1, Nov 14)",
+      "date": "2026-11-14",
+      "bearing": "warm"
+    },
+    {
+      "key": "conversation.promise-kept-raise.you-kept-your-word-on-bill",
+      "move": "promise-kept-raise",
+      "kind": "spoken",
+      "text": "You kept your word on {bill}.",
+      "uses": [
+        {
+          "move": "promise-kept-raise",
+          "subject": "promise-kept",
+          "role": "raise",
+          "requiresFacts": ["promise-vote", "bill"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (promises rulings-1, Nov 14)",
+      "date": "2026-11-14",
+      "bearing": "calm"
+    },
+    {
+      "key": "conversation.promise-kept-raise.you-voted-the-way-you-said-i-noticed",
+      "move": "promise-kept-raise",
+      "kind": "spoken",
+      "text": "You voted the way you said on {bill}. I noticed.",
+      "uses": [
+        {
+          "move": "promise-kept-raise",
+          "subject": "promise-kept",
+          "role": "raise",
+          "requiresFacts": ["promise-vote", "bill"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (promises rulings-1, Nov 14)",
+      "date": "2026-11-14",
+      "bearing": "guarded"
+    },
+    {
+      "key": "conversation.promise-kept-raise.you-did-what-you-said-not-everyone-does",
+      "move": "promise-kept-raise",
+      "kind": "spoken",
+      "text": "You did what you said on {bill}. Not everyone does.",
+      "uses": [
+        {
+          "move": "promise-kept-raise",
+          "subject": "promise-kept",
+          "role": "raise",
+          "requiresFacts": ["promise-vote", "bill"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (promises rulings-1, Nov 14)",
+      "date": "2026-11-14",
+      "bearing": "braced"
+    },
+    {
+      "key": "conversation.promise-broken-raise.you-told-me-yes-on-bill-then-you-voted-no",
+      "move": "promise-broken-raise",
+      "kind": "spoken",
+      "text": "You told me yes on {bill}. Then you voted no.",
+      "uses": [
+        {
+          "move": "promise-broken-raise",
+          "subject": "promise-broken",
+          "role": "raise",
+          "requiresFacts": ["promise-vote", "bill"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (promises rulings-1, Nov 14)",
+      "date": "2026-11-14",
+      "bearing": "calm"
+    },
+    {
+      "key": "conversation.promise-broken-raise.i-counted-on-your-vote-for-bill-i-wont-again",
+      "move": "promise-broken-raise",
+      "kind": "spoken",
+      "text": "I counted on your vote for {bill}. I won't again.",
+      "uses": [
+        {
+          "move": "promise-broken-raise",
+          "subject": "promise-broken",
+          "role": "raise",
+          "requiresFacts": ["promise-vote", "bill"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (promises rulings-1, Nov 14)",
+      "date": "2026-11-14",
+      "bearing": "guarded"
+    },
+    {
+      "key": "conversation.promise-broken-raise.you-gave-me-your-word-on-bill-what-happened",
+      "move": "promise-broken-raise",
+      "kind": "spoken",
+      "text": "You gave me your word on {bill}. What happened?",
+      "uses": [
+        {
+          "move": "promise-broken-raise",
+          "subject": "promise-broken",
+          "role": "raise",
+          "requiresFacts": ["promise-vote", "bill"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (promises rulings-1, Nov 14)",
+      "date": "2026-11-14",
+      "bearing": "braced"
+    },
+    {
+      "key": "conversation.promise-kept-raise.youve-paid-on-time-since-thank-you",
+      "move": "promise-kept-raise",
+      "kind": "spoken",
+      "text": "You've paid on time since. Thank you.",
+      "uses": [
+        {
+          "move": "promise-kept-raise",
+          "subject": "promise-kept",
+          "role": "raise",
+          "requiresFacts": ["promise-pay-on-time"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (promises rulings-1, Nov 14)",
+      "date": "2026-11-14",
+      "bearing": "warm"
+    },
+    {
+      "key": "conversation.promise-kept-raise.the-bills-have-been-paid-i-noticed",
+      "move": "promise-kept-raise",
+      "kind": "spoken",
+      "text": "The bills have been paid. I noticed.",
+      "uses": [
+        {
+          "move": "promise-kept-raise",
+          "subject": "promise-kept",
+          "role": "raise",
+          "requiresFacts": ["promise-pay-on-time"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (promises rulings-1, Nov 14)",
+      "date": "2026-11-14",
+      "bearing": "calm"
+    },
+    {
+      "key": "conversation.promise-kept-raise.you-said-youd-pay-on-time-you-have",
+      "move": "promise-kept-raise",
+      "kind": "spoken",
+      "text": "You said you'd pay on time. You have.",
+      "uses": [
+        {
+          "move": "promise-kept-raise",
+          "subject": "promise-kept",
+          "role": "raise",
+          "requiresFacts": ["promise-pay-on-time"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (promises rulings-1, Nov 14)",
+      "date": "2026-11-14",
+      "bearing": "guarded"
+    },
+    {
+      "key": "conversation.promise-broken-raise.we-talked-about-this-already",
+      "move": "promise-broken-raise",
+      "kind": "spoken",
+      "text": "We talked about this already.",
+      "uses": [
+        {
+          "move": "promise-broken-raise",
+          "subject": "promise-broken",
+          "role": "raise",
+          "requiresFacts": ["promise-pay-on-time"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (promises rulings-1, Nov 14)",
+      "date": "2026-11-14",
+      "bearing": "guarded"
+    },
+    {
+      "key": "conversation.promise-kept-raise.thanks-for-showing-me-around",
+      "move": "promise-kept-raise",
+      "kind": "spoken",
+      "text": "Thanks for showing me around.",
+      "uses": [
+        {
+          "move": "promise-kept-raise",
+          "subject": "promise-kept",
+          "role": "raise",
+          "requiresFacts": ["promise-show-around"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (promises rulings-1, Nov 14)",
+      "date": "2026-11-14",
+      "bearing": "warm"
+    },
+    {
+      "key": "conversation.promise-broken-raise.i-figured-the-place-out-myself",
+      "move": "promise-broken-raise",
+      "kind": "spoken",
+      "text": "I figured the place out myself.",
+      "uses": [
+        {
+          "move": "promise-broken-raise",
+          "subject": "promise-broken",
+          "role": "raise",
+          "requiresFacts": ["promise-show-around"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (promises rulings-1, Nov 14)",
+      "date": "2026-11-14",
+      "bearing": "calm"
+    },
+    {
+      "key": "conversation.promise-broken-raise.you-said-youd-show-me-around",
+      "move": "promise-broken-raise",
+      "kind": "spoken",
+      "text": "You said you'd show me around.",
+      "uses": [
+        {
+          "move": "promise-broken-raise",
+          "subject": "promise-broken",
+          "role": "raise",
+          "requiresFacts": ["promise-show-around"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (promises rulings-1, Nov 14)",
+      "date": "2026-11-14",
+      "bearing": "guarded"
+    },
+    {
+      "key": "conversation.promise-broken-raise.i-thought-youd-forgotten-me",
+      "move": "promise-broken-raise",
+      "kind": "spoken",
+      "text": "I thought you'd forgotten me.",
+      "uses": [
+        {
+          "move": "promise-broken-raise",
+          "subject": "promise-broken",
+          "role": "raise",
+          "requiresFacts": ["promise-show-around"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (promises rulings-1, Nov 14)",
+      "date": "2026-11-14",
+      "bearing": "nervous"
+    },
+    {
+      "key": "conversation.promise-kept-answer-plain.i-said-i-would",
+      "move": "promise-kept-answer-plain",
+      "kind": "spoken",
+      "text": "I said I would.",
+      "uses": [
+        {
+          "move": "promise-kept-answer-plain",
+          "subject": "promise-kept",
+          "role": "answer",
+          "choice": "plain"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (promises rulings-2, Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.promise-kept-answer-modest.it-was-the-right-thing-to-do",
+      "move": "promise-kept-answer-modest",
+      "kind": "spoken",
+      "text": "It was the right thing to do.",
+      "uses": [
+        {
+          "move": "promise-kept-answer-modest",
+          "subject": "promise-kept",
+          "role": "answer",
+          "choice": "modest"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (promises rulings-2, Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.promise-kept-answer-warm.im-glad-it-helped",
+      "move": "promise-kept-answer-warm",
+      "kind": "spoken",
+      "text": "I'm glad it helped.",
+      "uses": [
+        {
+          "move": "promise-kept-answer-warm",
+          "subject": "promise-kept",
+          "role": "answer",
+          "choice": "warm"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (promises rulings-2, Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.promise-broken-answer-own-it.youre-right-i-didnt-do-what-i-said",
+      "move": "promise-broken-answer-own-it",
+      "kind": "spoken",
+      "text": "You're right. I didn't do what I said.",
+      "uses": [
+        {
+          "move": "promise-broken-answer-own-it",
+          "subject": "promise-broken",
+          "role": "answer",
+          "choice": "own-it"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (promises rulings-2, Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.promise-broken-answer-explain.things-changed-i-couldnt-do-it",
+      "move": "promise-broken-answer-explain",
+      "kind": "spoken",
+      "text": "Things changed. I couldn't do it.",
+      "uses": [
+        {
+          "move": "promise-broken-answer-explain",
+          "subject": "promise-broken",
+          "role": "answer",
+          "choice": "explain"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (promises rulings-2, Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.promise-broken-answer-deny.thats-not-how-i-remember-it",
+      "move": "promise-broken-answer-deny",
+      "kind": "spoken",
+      "text": "That's not how I remember it.",
+      "uses": [
+        {
+          "move": "promise-broken-answer-deny",
+          "subject": "promise-broken",
+          "role": "answer",
+          "choice": "deny"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (promises rulings-2, Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.promise-broken-answer-make-it-right.ill-make-it-right",
+      "move": "promise-broken-answer-make-it-right",
+      "kind": "spoken",
+      "text": "I'll make it right.",
+      "uses": [
+        {
+          "move": "promise-broken-answer-make-it-right",
+          "subject": "promise-broken",
+          "role": "answer",
+          "choice": "make-it-right"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (promises rulings-2, Nov 14)",
+      "date": "2026-11-14"
+    },
+    {
       "key": "conversation.address-point-opener-lead.the-president-blocked-about",
       "move": "address-point-opener-lead",
       "kind": "spoken",
@@ -41099,55 +41447,6 @@
       "date": "2026-11-14"
     },
     {
-      "key": "conversation.death-news-back-core.nobody-has-told-us-how-kin-died",
-      "move": "death-news-back-core",
-      "kind": "spoken",
-      "text": "Nobody has told us how {kin} died.",
-      "uses": [
-        {
-          "move": "death-news-back-core",
-          "subject": "death-news-back",
-          "role": "core",
-          "stages": ["ask"],
-          "excludesFacts": ["cause", "illness-known"],
-          "requiresFacts": ["kin"]
-        }
-      ],
-      "piece": {
-        "of": "death-news-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "solemn",
-      "origin": "authored",
-      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.death-news-back-core.nobody-has-told-us-how-relation-died-no-tie",
-      "move": "death-news-back-core",
-      "kind": "spoken",
-      "text": "Nobody has told us how {relation} died.",
-      "uses": [
-        {
-          "move": "death-news-back-core",
-          "subject": "death-news-back",
-          "role": "core",
-          "stages": ["ask"],
-          "excludesFacts": ["cause", "kin", "illness-known"]
-        }
-      ],
-      "piece": {
-        "of": "death-news-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "solemn",
-      "origin": "authored",
-      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
-      "date": "2026-11-14"
-    },
-    {
       "key": "conversation.death-news-back-core.not-really-you-i-keep-expecting-a-call",
       "move": "death-news-back-core",
       "kind": "spoken",
@@ -41533,10 +41832,10 @@
       "date": "2026-11-14"
     },
     {
-      "key": "conversation.prison-news-back-core.that-s-all-i-know-you",
+      "key": "conversation.prison-news-back-core.that-s-all-i-know",
       "move": "prison-news-back-core",
       "kind": "spoken",
-      "text": "That's all I know, {you}.",
+      "text": "That's all I know.",
       "uses": [
         {
           "move": "prison-news-back-core",
@@ -41550,7 +41849,13 @@
           "subject": "death-news-back",
           "role": "core",
           "stages": ["ask"],
-          "excludesFacts": ["cause", "illness-known"]
+          "excludesFacts": [
+            "cause",
+            "illness-known",
+            "cause-suicide",
+            "cause-shot",
+            "house-illness"
+          ]
         }
       ],
       "bearing": "calm",
@@ -41801,6 +42106,54 @@
         "part": "core",
         "required": true
       }
+    },
+    {
+      "key": "conversation.death-news-back-core.i-wanted-you-to-hear-it-from-me",
+      "move": "death-news-back-core",
+      "kind": "spoken",
+      "text": "I wanted you to hear it from me.",
+      "uses": [
+        {
+          "move": "death-news-back-core",
+          "subject": "death-news-back",
+          "role": "core",
+          "stages": ["condole"],
+          "requiresFacts": ["kin"]
+        }
+      ],
+      "piece": {
+        "of": "death-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14: answers that close without a promise)",
+      "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.death-news-back-core.we-knew-it-was-coming-it-s-still-hard",
+      "move": "death-news-back-core",
+      "kind": "spoken",
+      "text": "We knew it was coming. It's still hard.",
+      "uses": [
+        {
+          "move": "death-news-back-core",
+          "subject": "death-news-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["illness-known"]
+        }
+      ],
+      "piece": {
+        "of": "death-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14: answers that close without a promise)",
+      "date": "2026-11-14"
     },
     {
       "key": "conversation.illness-news-say-core.it-s-kin-you-something-s-wrong",
@@ -45251,6 +45604,807 @@
       "origin": "authored",
       "author": "Words lead (rulings-2 with 06:55Z additions, Nov 14, 2026)",
       "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.death-news-back-core.he-took-his-own-life",
+      "move": "death-news-back-core",
+      "kind": "spoken",
+      "text": "He took his own life.",
+      "uses": [
+        {
+          "move": "death-news-back-core",
+          "subject": "death-news-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["cause-suicide", "he"]
+        }
+      ],
+      "piece": {
+        "of": "death-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Words builder S3 (Words lead's ruling of Nov 14, 22:50Z: how a relative says how someone died)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.death-news-back-core.he-did-it-himself-i-can-t-say-more-than-that",
+      "move": "death-news-back-core",
+      "kind": "spoken",
+      "text": "He did it himself. I can't say more than that.",
+      "uses": [
+        {
+          "move": "death-news-back-core",
+          "subject": "death-news-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["cause-suicide", "he"]
+        }
+      ],
+      "piece": {
+        "of": "death-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder S3 (Words lead's ruling of Nov 14, 22:50Z: how a relative says how someone died)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.death-news-back-core.he-killed-himself",
+      "move": "death-news-back-core",
+      "kind": "spoken",
+      "text": "He killed himself.",
+      "uses": [
+        {
+          "move": "death-news-back-core",
+          "subject": "death-news-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["cause-suicide", "he"]
+        }
+      ],
+      "piece": {
+        "of": "death-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "blunt",
+      "origin": "authored",
+      "author": "Words builder S3 (Words lead's ruling of Nov 14, 22:50Z: how a relative says how someone died)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.death-news-back-core.he-was-shot",
+      "move": "death-news-back-core",
+      "kind": "spoken",
+      "text": "He was shot.",
+      "uses": [
+        {
+          "move": "death-news-back-core",
+          "subject": "death-news-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["cause-shot", "he"]
+        }
+      ],
+      "piece": {
+        "of": "death-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Words builder S3 (Words lead's ruling of Nov 14, 22:50Z: how a relative says how someone died)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.death-news-back-core.somebody-shot-him-i-can-t-believe-i-m-saying-it",
+      "move": "death-news-back-core",
+      "kind": "spoken",
+      "text": "Somebody shot him. I can't believe I'm saying it.",
+      "uses": [
+        {
+          "move": "death-news-back-core",
+          "subject": "death-news-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["cause-shot", "he"]
+        }
+      ],
+      "piece": {
+        "of": "death-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder S3 (Words lead's ruling of Nov 14, 22:50Z: how a relative says how someone died)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.death-news-back-core.he-was-killed-i-don-t-want-to-go-through-it",
+      "move": "death-news-back-core",
+      "kind": "spoken",
+      "text": "He was killed. I don't want to go through it.",
+      "uses": [
+        {
+          "move": "death-news-back-core",
+          "subject": "death-news-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["cause-shot", "he"]
+        }
+      ],
+      "piece": {
+        "of": "death-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder S3 (Words lead's ruling of Nov 14, 22:50Z: how a relative says how someone died)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.death-news-back-core.somebody-shot-him",
+      "move": "death-news-back-core",
+      "kind": "spoken",
+      "text": "Somebody shot him.",
+      "uses": [
+        {
+          "move": "death-news-back-core",
+          "subject": "death-news-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["cause-shot", "he"]
+        }
+      ],
+      "piece": {
+        "of": "death-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "blunt",
+      "origin": "authored",
+      "author": "Words builder S3 (Words lead's ruling of Nov 14, 22:50Z: how a relative says how someone died)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.death-news-back-core.he-had-illness",
+      "move": "death-news-back-core",
+      "kind": "spoken",
+      "text": "He had {illness}.",
+      "uses": [
+        {
+          "move": "death-news-back-core",
+          "subject": "death-news-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["house-illness", "he"],
+          "excludesFacts": ["illness-known"]
+        }
+      ],
+      "piece": {
+        "of": "death-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Words builder S3 (Words lead's ruling of Nov 14, 22:50Z: how a relative says how someone died)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.death-news-back-core.he-had-illness-i-thought-you-knew",
+      "move": "death-news-back-core",
+      "kind": "spoken",
+      "text": "He had {illness}. I thought you knew.",
+      "uses": [
+        {
+          "move": "death-news-back-core",
+          "subject": "death-news-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["house-illness", "he"],
+          "excludesFacts": ["illness-known"]
+        }
+      ],
+      "piece": {
+        "of": "death-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder S3 (Words lead's ruling of Nov 14, 22:50Z: how a relative says how someone died)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.death-news-back-core.he-had-illness-i-m-sorry-nobody-told-you",
+      "move": "death-news-back-core",
+      "kind": "spoken",
+      "text": "He had {illness}. I'm sorry nobody told you.",
+      "uses": [
+        {
+          "move": "death-news-back-core",
+          "subject": "death-news-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["house-illness", "he"],
+          "excludesFacts": ["illness-known"]
+        }
+      ],
+      "piece": {
+        "of": "death-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder S3 (Words lead's ruling of Nov 14, 22:50Z: how a relative says how someone died)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.death-news-back-core.she-took-her-own-life",
+      "move": "death-news-back-core",
+      "kind": "spoken",
+      "text": "She took her own life.",
+      "uses": [
+        {
+          "move": "death-news-back-core",
+          "subject": "death-news-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["cause-suicide", "she"]
+        }
+      ],
+      "piece": {
+        "of": "death-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Words builder S3 (Words lead's ruling of Nov 14, 22:50Z: how a relative says how someone died)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.death-news-back-core.she-did-it-herself-i-can-t-say-more-than-that",
+      "move": "death-news-back-core",
+      "kind": "spoken",
+      "text": "She did it herself. I can't say more than that.",
+      "uses": [
+        {
+          "move": "death-news-back-core",
+          "subject": "death-news-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["cause-suicide", "she"]
+        }
+      ],
+      "piece": {
+        "of": "death-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder S3 (Words lead's ruling of Nov 14, 22:50Z: how a relative says how someone died)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.death-news-back-core.she-killed-herself",
+      "move": "death-news-back-core",
+      "kind": "spoken",
+      "text": "She killed herself.",
+      "uses": [
+        {
+          "move": "death-news-back-core",
+          "subject": "death-news-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["cause-suicide", "she"]
+        }
+      ],
+      "piece": {
+        "of": "death-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "blunt",
+      "origin": "authored",
+      "author": "Words builder S3 (Words lead's ruling of Nov 14, 22:50Z: how a relative says how someone died)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.death-news-back-core.she-was-shot",
+      "move": "death-news-back-core",
+      "kind": "spoken",
+      "text": "She was shot.",
+      "uses": [
+        {
+          "move": "death-news-back-core",
+          "subject": "death-news-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["cause-shot", "she"]
+        }
+      ],
+      "piece": {
+        "of": "death-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Words builder S3 (Words lead's ruling of Nov 14, 22:50Z: how a relative says how someone died)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.death-news-back-core.somebody-shot-her-i-can-t-believe-i-m-saying-it",
+      "move": "death-news-back-core",
+      "kind": "spoken",
+      "text": "Somebody shot her. I can't believe I'm saying it.",
+      "uses": [
+        {
+          "move": "death-news-back-core",
+          "subject": "death-news-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["cause-shot", "she"]
+        }
+      ],
+      "piece": {
+        "of": "death-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder S3 (Words lead's ruling of Nov 14, 22:50Z: how a relative says how someone died)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.death-news-back-core.she-was-killed-i-don-t-want-to-go-through-it",
+      "move": "death-news-back-core",
+      "kind": "spoken",
+      "text": "She was killed. I don't want to go through it.",
+      "uses": [
+        {
+          "move": "death-news-back-core",
+          "subject": "death-news-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["cause-shot", "she"]
+        }
+      ],
+      "piece": {
+        "of": "death-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder S3 (Words lead's ruling of Nov 14, 22:50Z: how a relative says how someone died)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.death-news-back-core.somebody-shot-her",
+      "move": "death-news-back-core",
+      "kind": "spoken",
+      "text": "Somebody shot her.",
+      "uses": [
+        {
+          "move": "death-news-back-core",
+          "subject": "death-news-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["cause-shot", "she"]
+        }
+      ],
+      "piece": {
+        "of": "death-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "blunt",
+      "origin": "authored",
+      "author": "Words builder S3 (Words lead's ruling of Nov 14, 22:50Z: how a relative says how someone died)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.death-news-back-core.she-had-illness",
+      "move": "death-news-back-core",
+      "kind": "spoken",
+      "text": "She had {illness}.",
+      "uses": [
+        {
+          "move": "death-news-back-core",
+          "subject": "death-news-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["house-illness", "she"],
+          "excludesFacts": ["illness-known"]
+        }
+      ],
+      "piece": {
+        "of": "death-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Words builder S3 (Words lead's ruling of Nov 14, 22:50Z: how a relative says how someone died)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.death-news-back-core.she-had-illness-i-thought-you-knew",
+      "move": "death-news-back-core",
+      "kind": "spoken",
+      "text": "She had {illness}. I thought you knew.",
+      "uses": [
+        {
+          "move": "death-news-back-core",
+          "subject": "death-news-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["house-illness", "she"],
+          "excludesFacts": ["illness-known"]
+        }
+      ],
+      "piece": {
+        "of": "death-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder S3 (Words lead's ruling of Nov 14, 22:50Z: how a relative says how someone died)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.death-news-back-core.she-had-illness-i-m-sorry-nobody-told-you",
+      "move": "death-news-back-core",
+      "kind": "spoken",
+      "text": "She had {illness}. I'm sorry nobody told you.",
+      "uses": [
+        {
+          "move": "death-news-back-core",
+          "subject": "death-news-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["house-illness", "she"],
+          "excludesFacts": ["illness-known"]
+        }
+      ],
+      "piece": {
+        "of": "death-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder S3 (Words lead's ruling of Nov 14, 22:50Z: how a relative says how someone died)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.death-news-back-core.they-took-their-own-life",
+      "move": "death-news-back-core",
+      "kind": "spoken",
+      "text": "They took their own life.",
+      "uses": [
+        {
+          "move": "death-news-back-core",
+          "subject": "death-news-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["cause-suicide", "they"]
+        }
+      ],
+      "piece": {
+        "of": "death-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Words builder S3 (Words lead's ruling of Nov 14, 22:50Z: how a relative says how someone died)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.death-news-back-core.they-did-it-themself-i-can-t-say-more-than-that",
+      "move": "death-news-back-core",
+      "kind": "spoken",
+      "text": "They did it themself. I can't say more than that.",
+      "uses": [
+        {
+          "move": "death-news-back-core",
+          "subject": "death-news-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["cause-suicide", "they"]
+        }
+      ],
+      "piece": {
+        "of": "death-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder S3 (Words lead's ruling of Nov 14, 22:50Z: how a relative says how someone died)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.death-news-back-core.they-killed-themself",
+      "move": "death-news-back-core",
+      "kind": "spoken",
+      "text": "They killed themself.",
+      "uses": [
+        {
+          "move": "death-news-back-core",
+          "subject": "death-news-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["cause-suicide", "they"]
+        }
+      ],
+      "piece": {
+        "of": "death-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "blunt",
+      "origin": "authored",
+      "author": "Words builder S3 (Words lead's ruling of Nov 14, 22:50Z: how a relative says how someone died)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.death-news-back-core.they-were-shot",
+      "move": "death-news-back-core",
+      "kind": "spoken",
+      "text": "They were shot.",
+      "uses": [
+        {
+          "move": "death-news-back-core",
+          "subject": "death-news-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["cause-shot", "they"]
+        }
+      ],
+      "piece": {
+        "of": "death-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Words builder S3 (Words lead's ruling of Nov 14, 22:50Z: how a relative says how someone died)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.death-news-back-core.somebody-shot-them-i-can-t-believe-i-m-saying-it",
+      "move": "death-news-back-core",
+      "kind": "spoken",
+      "text": "Somebody shot them. I can't believe I'm saying it.",
+      "uses": [
+        {
+          "move": "death-news-back-core",
+          "subject": "death-news-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["cause-shot", "they"]
+        }
+      ],
+      "piece": {
+        "of": "death-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder S3 (Words lead's ruling of Nov 14, 22:50Z: how a relative says how someone died)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.death-news-back-core.they-were-killed-i-don-t-want-to-go-through-it",
+      "move": "death-news-back-core",
+      "kind": "spoken",
+      "text": "They were killed. I don't want to go through it.",
+      "uses": [
+        {
+          "move": "death-news-back-core",
+          "subject": "death-news-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["cause-shot", "they"]
+        }
+      ],
+      "piece": {
+        "of": "death-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder S3 (Words lead's ruling of Nov 14, 22:50Z: how a relative says how someone died)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.death-news-back-core.somebody-shot-them",
+      "move": "death-news-back-core",
+      "kind": "spoken",
+      "text": "Somebody shot them.",
+      "uses": [
+        {
+          "move": "death-news-back-core",
+          "subject": "death-news-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["cause-shot", "they"]
+        }
+      ],
+      "piece": {
+        "of": "death-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "blunt",
+      "origin": "authored",
+      "author": "Words builder S3 (Words lead's ruling of Nov 14, 22:50Z: how a relative says how someone died)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.death-news-back-core.they-had-illness",
+      "move": "death-news-back-core",
+      "kind": "spoken",
+      "text": "They had {illness}.",
+      "uses": [
+        {
+          "move": "death-news-back-core",
+          "subject": "death-news-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["house-illness", "they"],
+          "excludesFacts": ["illness-known"]
+        }
+      ],
+      "piece": {
+        "of": "death-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Words builder S3 (Words lead's ruling of Nov 14, 22:50Z: how a relative says how someone died)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.death-news-back-core.they-had-illness-i-thought-you-knew",
+      "move": "death-news-back-core",
+      "kind": "spoken",
+      "text": "They had {illness}. I thought you knew.",
+      "uses": [
+        {
+          "move": "death-news-back-core",
+          "subject": "death-news-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["house-illness", "they"],
+          "excludesFacts": ["illness-known"]
+        }
+      ],
+      "piece": {
+        "of": "death-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder S3 (Words lead's ruling of Nov 14, 22:50Z: how a relative says how someone died)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.death-news-back-core.they-had-illness-i-m-sorry-nobody-told-you",
+      "move": "death-news-back-core",
+      "kind": "spoken",
+      "text": "They had {illness}. I'm sorry nobody told you.",
+      "uses": [
+        {
+          "move": "death-news-back-core",
+          "subject": "death-news-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["house-illness", "they"],
+          "excludesFacts": ["illness-known"]
+        }
+      ],
+      "piece": {
+        "of": "death-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder S3 (Words lead's ruling of Nov 14, 22:50Z: how a relative says how someone died)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.death-news-back-core.he-took-his-own-life-none-of-us-knew",
+      "move": "death-news-back-core",
+      "kind": "spoken",
+      "text": "He took his own life. None of us knew.",
+      "uses": [
+        {
+          "move": "death-news-back-core",
+          "subject": "death-news-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["cause-suicide", "he"]
+        }
+      ],
+      "piece": {
+        "of": "death-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder S3 (Words lead's ruling of Nov 14, 22:50Z: how a relative says how someone died)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.death-news-back-core.she-took-her-own-life-none-of-us-knew",
+      "move": "death-news-back-core",
+      "kind": "spoken",
+      "text": "She took her own life. None of us knew.",
+      "uses": [
+        {
+          "move": "death-news-back-core",
+          "subject": "death-news-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["cause-suicide", "she"]
+        }
+      ],
+      "piece": {
+        "of": "death-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder S3 (Words lead's ruling of Nov 14, 22:50Z: how a relative says how someone died)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.death-news-back-core.they-took-their-own-life-none-of-us-knew",
+      "move": "death-news-back-core",
+      "kind": "spoken",
+      "text": "They took their own life. None of us knew.",
+      "uses": [
+        {
+          "move": "death-news-back-core",
+          "subject": "death-news-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["cause-suicide", "they"]
+        }
+      ],
+      "piece": {
+        "of": "death-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder S3 (Words lead's ruling of Nov 14, 22:50Z: how a relative says how someone died)",
+      "date": "2026-11-15"
     }
   ]
 }

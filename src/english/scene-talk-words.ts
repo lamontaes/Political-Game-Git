@@ -72,15 +72,21 @@ export interface PartUse {
   outcome?: "resolved" | "refused" | "open";
   requiresFacts?: string[];
   /**
-   * Facts the line needs only to be true, never to be preferred: they filter
-   * exactly as `requiresFacts` does and add nothing to its rank, so a guarded
-   * line ties with its siblings and the speaker's bearing picks.
+   * Facts the line needs to be true but need not name: they filter exactly as
+   * `requiresFacts` does and rank the same, one per fact, because a line that
+   * checks more of the record is more specific (most-specific-line-wins).
    * `requiresFacts` is for a fact the line is about; `onlyWhen` for one that
    * only keeps the line from being false.
    */
   onlyWhen?: string[];
   /** Facts that rule the piece out ("elder": nobody tells an 80-year-old to wait a cycle). */
   excludesFacts?: string[];
+  /**
+   * Facts that hold for the rest of the talk once the piece is said (an
+   * answer sets what it told, so the question it answered is held back and
+   * the replies that take it up can follow).
+   */
+  setsFacts?: string[];
 }
 
 export interface BankPart {
@@ -261,8 +267,11 @@ export function useFit(
     (u.set ? four + two : zero) +
     (u.key ? two : zero) +
     (u.after ? (u.after === use.afterPiece ? four + four : one) : zero) +
-    // A piece that needs a fact the record holds says more than one that does not.
-    (u.requiresFacts?.length ?? zero)
+    // A piece that checks a fact the record holds says more than one that
+    // does not: every fact it checks counts once, whether the words name it
+    // (requiresFacts) or only rely on it (onlyWhen).
+    (u.requiresFacts?.length ?? zero) +
+    (u.onlyWhen?.length ?? zero)
   );
 }
 

@@ -12,7 +12,8 @@ import { makeIsoDate } from "../core2/kernel/dates";
 import { memberKey, members } from "../core2/modules/legislature";
 import { upcomingMeeting } from "../core2/modules/office-day";
 import { coreAPI } from "../core2/state";
-import { seatAct, seatView } from "./legislature";
+import { billPageView } from "./bill-stage";
+import { billPaper, seatAct, seatView } from "./legislature";
 import { buildBenchWorld } from "./world";
 
 const PLACE = process.env.PHASE_IN_PERCENT_PLACE ?? "4625741";
@@ -90,4 +91,81 @@ it(`a bill phases in an amount by a percent a year, one dated section a year (${
       risePerYear: { percent: 10, years: 1, firstDate: first },
     }),
   ).toThrow(/two years or more/);
+  // Nothing rises by a percent from zero: a law amount with none in force is refused.
+  const items = seatView(core, seat!.member)
+    .bodies.find((b) => b.officeId === seat!.office.id)!
+    .menus.flatMap((m) => m.items);
+  const none = items.find(
+    (row) => row.series && row.allowed && !(Number(row.inForce) > 0),
+  );
+  expect(none, `${PLACE}: a law amount with nothing in force`).toBeDefined();
+  expect(() =>
+    seatAct(core, seat!.member, {
+      kind: "draft",
+      officeId: seat!.office.id,
+      series: none!.series,
+      risePerYear: { percent: 10, years: 3, firstDate: first },
+    }),
+  ).toThrow(/above zero/);
+}, 120_000);
+
+it(`a bill's paper says a rate in force as the law reads it and one rounding throughout (${PLACE}, seed ${WORLD_SEED})`, () => {
+  setBookkeeping(false);
+  const { core } = buildBenchWorld(WORLD_SEED, gameStartDate(), {
+    twoLevel: true,
+    placeKey: PLACE,
+  });
+  const api = coreAPI(core);
+  const offices = api
+    .moduleState("core2-offices-v1")
+    .table("offices")
+    .rows() as unknown as { id: string; kind: string }[];
+  // A member whose body may set a rate with something in force, found by reading each body's menu.
+  const found = ["council", "township-board", "county-board"]
+    .flatMap((kind) => offices.filter((o) => o.kind === kind))
+    .filter((office) => upcomingMeeting(api, office.id))
+    .flatMap((office) =>
+      members(api, office.id).flatMap((term) =>
+        term.personId && core.people.has(term.personId)
+          ? [{ office, member: memberKey(term) }]
+          : [],
+      ),
+    )
+    .flatMap(({ office, member }) =>
+      (
+        seatView(core, member)
+          .bodies.find((b) => b.officeId === office.id)
+          ?.menus.flatMap((m) => m.items) ?? []
+      )
+        .filter(
+          (item) =>
+            item.series &&
+            item.allowed &&
+            String(item.unit).startsWith("percent") &&
+            Number(item.inForce) > 0,
+        )
+        .map((item) => ({ office, member, item })),
+    )[0];
+  expect(found, `${PLACE}: a rate with something in force`).toBeDefined();
+  const base = Number(found!.item.inForce);
+  // A raise by a tenth of today's rate, so the new rate has more than two decimals.
+  const drafted = seatAct(core, found!.member, {
+    kind: "draft",
+    officeId: found!.office.id,
+    series: found!.item.series,
+    value: base * 1.1,
+  }) as ReturnType<typeof seatAct>;
+  const view = billPageView(core, (drafted as unknown as { id: string }).id);
+  const section = view.sections[0]!;
+  // The struck side says what the law in force says, never a raise from a rate to itself.
+  expect(section.struck).toMatch(/ is [\d.]+ percent\.?$/);
+  expect(section.struck).not.toMatch(/raised from/);
+  // The estimate says today's rate and the new one in one unit: a bill sets the law's amount, never its unit.
+  const estimate = billPaper(core, (drafted as unknown as { id: string }).id)
+    .sections[0]!.estimate;
+  expect(estimate.afterUnit).toBe(estimate.beforeUnit);
+  // A rate reads to at most two decimals in every line of the paper's text.
+  for (const line of [section.inserted ?? "", section.struck ?? ""])
+    for (const rate of line.match(/\d+\.\d+(?= percent)/g) ?? [])
+      expect(rate.split(".")[1]!.length, line).toBeLessThanOrEqual(2);
 }, 120_000);

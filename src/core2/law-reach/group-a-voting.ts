@@ -66,7 +66,11 @@ import {
   type GovernmentRow,
 } from "../modules/budgets";
 import { chargeLine } from "../budgets-treasury";
-import { electorateRoll, type RollVoter } from "../modules/voting";
+import {
+  electorateRoll,
+  registeredAtPollsShare,
+  type RollVoter,
+} from "../modules/voting";
 import { onReachCalendar } from "./reach-workers";
 import {
   ageOn,
@@ -154,11 +158,30 @@ export function electionLawTurnoutCost(
     Pick<PersonState, "id" | "traits"> & { readonly birthDate?: string }
   >,
   weeklyWorkMinutes: number,
+  /**
+   * The town's own voters, whose registrations are records (`electorate-
+   * registration.ts`): automatic and same-day registration reach them
+   * through those records, so their flat parts are left out here and no law
+   * moves turnout twice. Places counted from afar keep the flat parts.
+   */
+  registrationIsRecord = false,
 ): number {
   const laws = electionLaws(api);
   if (!laws.size) return 0;
   const parts = electionLawParts(api, laws, voter, weeklyWorkMinutes);
-  return parts.photoId + parts.automatic + parts.sameDay + parts.allMail;
+  return registrationIsRecord
+    ? parts.photoId + parts.allMail
+    : parts.photoId + parts.automatic + parts.sameDay + parts.allMail;
+}
+
+/** Whether the state registers a person when their address changes or they turn 18. */
+export function automaticRegistrationInForce(api: CoreAPI): boolean {
+  return electionLaws(api).has(AUTO_REGISTRATION);
+}
+
+/** Whether the state registers a person at the polls on election day. */
+export function sameDayRegistrationInForce(api: CoreAPI): boolean {
+  return electionLaws(api).has(SAME_DAY);
 }
 
 /** Each election law's signed turnout cost for one voter (zero where not in force). */
@@ -265,10 +288,8 @@ const SPECS: readonly LawSpec[] = [
     what: "registers-at-polls",
     cost: "sameDayRegistrationCostMinor",
     paidAt: "vote",
-    share: (api, v) =>
-      sameDayWeight(
-        ageOn(v.birthDate, api.state.date) - reachParameter("votingAge"),
-      ),
+    // The share of them the day's record says registered at the polls.
+    share: (api, v) => registeredAtPollsShare(api, v.id),
   },
   {
     key: ALL_MAIL,
