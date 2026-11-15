@@ -83648,32 +83648,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-refuse.i-can-t-put-my-name-on-this-as-it-stands",
-      "move": "reply-refuse",
-      "kind": "spoken",
-      "text": "I can't put my name on this as it stands.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "refuse",
-          "role": "asked",
-          "purpose": "desk-visit",
-          "key": "desk-visit",
-          "requiresFacts": ["for"],
-          "after": "request"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Helper D (words and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "refuse",
-        "key": "desk-visit"
-      }
-    },
-    {
       "key": "scene-talk.reply-refuse.it-goes-back-with-a-veto",
       "move": "reply-refuse",
       "kind": "spoken",
