@@ -139,6 +139,7 @@ export function countryLaw(
           byLaw.set(level.row.id, {
             lawId: level.row.id,
             level: level.level,
+            tax: "income",
             dollars: 0,
           });
       for (const line of lines) {
@@ -151,6 +152,7 @@ export function countryLaw(
           byLaw.set(line.lawId, {
             lawId: line.lawId,
             level: line.level,
+            tax: line.tax,
             dollars: line.minor / minor,
           });
       }

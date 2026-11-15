@@ -71,11 +71,16 @@ const flags = [
   "first-filing",
   // A colleague's no to signing on says the reason its record holds.
   "no-views",
+  // The desk visit always knows what a bill costs; with no budget line the
+  // record says so (deskFacts, purpose-scene.ts).
+  "no-cost",
 ];
 export const facts: Record<string, Fact> = {
   name: fact("Pat Rivera"),
   first: fact(core.people.get(askedId)!.givenName),
   bill: fact('"Limit groundwater withdrawal"'),
+  // What the bill does, as the desk visit says it (billTitleOf).
+  purpose: fact("a cap on how much groundwater a farm can pump"),
   section: fact("2"),
   chair: fact("Lee Ortiz"),
   office: fact("county commissioner"),
@@ -135,7 +140,10 @@ export const facts: Record<string, Fact> = {
   // first name and seat, and one reason each way, so both answers can be worded.
   "their-first": fact("Pat"),
   "their-office": fact("state senator"),
-  "reason-yes-trust": fact("yes"),
+  stranger: fact("Pat"),
+  "self-full": fact("Pat Rivera"),
+  "race-office": fact("governor"),
+  "reason-yes-step-up": fact("yes"),
   "reason-own-seat": fact("yes"),
 };
 // The engine is tested the way the grading page composes, with every part in,

@@ -503,7 +503,9 @@ function unplacedShare(rt: ResidentsRuntime, h: CountedHousehold): number {
 
 /**
  * A counted household's share of its group's money: the group's account
- * times its people over the group's people.
+ * times its people over the group's people, its people being those of one
+ * real household or, for a record standing for less than one, the people the
+ * record stands for.
  */
 export function householdCash(
   rt: ResidentsRuntime,
@@ -550,11 +552,16 @@ export function householdCashReader(
       };
       groups.set(h.group, group);
     }
-    // One household of the record: its members at its savings weight.
+    // One household of the record: its members at its savings weight, and
+    // never more than the record's own claim: a record that stands for less
+    // than one household holds only the part of the group's money its own
+    // people hold, so a household filled in from it cannot ask for more than
+    // the group's fund (Central Falls and the lender replay, Nov 14: a sole
+    // record of weight 0.34 asked three times the whole fund).
     return group.claims > 0
       ? Math.floor(
           (group.balance *
-            rt.store.countedCount(h) *
+            Math.min(rt.store.countedCount(h), rt.store.weightedCount(h)) *
             savingWeight(rt.api.state.seed, h)) /
             group.claims,
         )

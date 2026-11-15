@@ -920,6 +920,48 @@ function publicPayShortfallOf(api: CoreAPI, gov: GovernmentRow): number {
 }
 
 /**
+ * What the country tier's states withheld from pay in the last month it stepped, in dollars:
+ * the federal income tax and the two payroll taxes, summed over every state's rest (the part
+ * the town's own records count is paid by the town's own people, so it is not here).
+ */
+export interface CountryWithholding {
+  readonly month: number;
+  readonly federalIncome: number;
+  readonly federalPayroll: number;
+}
+/**
+ * What the country tier's states withheld in the last month each stepped, read from the macro
+ * module's own table (this file cannot import the module). Each state's row is its rest: the
+ * part the town's own records count is taken out before the state steps, so the town's own
+ * people are not counted twice. None where the world keeps no tier.
+ */
+function countryWithholdingOf(api: CoreAPI): CountryWithholding | undefined {
+  if (!(api.state as CoreState).modules.has("macro")) return undefined;
+  let month = 0;
+  let federalIncome = 0;
+  let federalPayroll = 0;
+  for (const row of api.moduleState("macro").table("countryStates").rows()) {
+    const moved = (
+      row as unknown as {
+        whatMoved: {
+          month: number;
+          withheld: { level: string; tax: string; dollars: number }[];
+        }[];
+      }
+    ).whatMoved;
+    const last = moved[moved.length - 1];
+    if (!last) continue;
+    month = Math.max(month, last.month);
+    for (const line of last.withheld) {
+      if (line.level !== "federal") continue;
+      if (line.tax === "income") federalIncome += line.dollars;
+      else federalPayroll += line.dollars;
+    }
+  }
+  return month > 0 ? { month, federalIncome, federalPayroll } : undefined;
+}
+
+/**
  * What a treasury receives from outside the town's flows in a month: each
  * revenue line, less the part the town's own flows pay (withholding, sales
  * tax, property tax). A line with named payers (charges and fees among them)
@@ -930,11 +972,14 @@ export function outsideRevenueMonthly(
   gov: GovernmentRow,
   budget: BudgetRow,
   aided: ReadonlySet<string>,
+  /** Lines the country tier's own withholding pays instead (federal income tax). */
+  paidByTier: ReadonlySet<string> = new Set(),
 ): number {
   const away = 1 - townShareOf(api, gov);
   let annual = 0;
   for (const [line, amount] of Object.entries(budget.revenueMinor)) {
     if (aided.has(`${gov.level}|${line}`)) continue;
+    if (paidByTier.has(line)) continue;
     // A line with named payers is paid by them on its due dates, below.
     if (PAYERS.lines[line]) continue;
     annual += TOWN_PAID_LINES.has(line) ? amount * away : amount;
@@ -1173,6 +1218,102 @@ function collectedThisMonth(
 }
 
 /** The month's close for every treasury: revenue in, then each budget line out, top down. */
+/**
+ * What the tier withheld under the federal income-tax rows in the month this treasury first read
+ * it, the base later months are measured against. None while the tier has withheld nothing and
+ * nothing is kept (a world whose federal law has no income tax at the start): that line stays on
+ * its plan until there is a base to measure from.
+ */
+function tierBaseOf(
+  api: CoreAPI,
+  gov: GovernmentRow,
+  tier: CountryWithholding,
+): number | undefined {
+  const id = `${gov.id}:individualIncomeTax`;
+  const kept = table(api, "tierBases").get(id) as unknown as
+    { dollars: number } | undefined;
+  if (kept) return kept.dollars > 0 ? kept.dollars : undefined;
+  if (tier.federalIncome <= 0) return undefined;
+  table(api, "tierBases").put({
+    id,
+    dollars: tier.federalIncome,
+    month: tier.month,
+  } as unknown as ModuleRow);
+  return tier.federalIncome;
+}
+
+/**
+ * The federal treasury's individual income tax from the country tier: the month's plan for what
+ * the rest of the country pays (the line less the town's share) moves with what the tier's
+ * workers had withheld under the federal income-tax rows in force, against the month the
+ * treasury first read it. A federal rate change reaches this line the next month; the payers are
+ * the tier's households and employers, recorded with the tier's month.
+ */
+function payFromTier(
+  api: CoreAPI,
+  gov: GovernmentRow,
+  budget: BudgetRow,
+  tier: CountryWithholding,
+  base: number,
+  outside: string,
+  date: string,
+  source: Source,
+  namedCollected: Map<string, number>,
+): void {
+  const line = "individualIncomeTax";
+  const planned = budget.revenueMinor[line] ?? 0;
+  if (planned <= 0) return;
+  const index = tier.federalIncome / base;
+  const away = 1 - townShareOf(api, gov);
+  const amount = Math.round(
+    ((planned * away) / treasuryParameter("monthsPerYear")) * index,
+  );
+  if (amount <= 0) {
+    // A tax at nothing pays nothing, and the month says so.
+    table(api, "taxPayments").put({
+      id: `treasury-withholding:${line}:country:${gov.id}:${date}`,
+      governmentId: gov.id,
+      line,
+      payerId: "country-workers",
+      payerName: "Workers and employers elsewhere in the country",
+      dueOn: date,
+      date,
+      amountMinor: 0,
+      installmentMinor: 0,
+      baseIndex: index,
+      townPaidMinor: 0,
+      tierMonth: tier.month,
+    } as unknown as ModuleRow);
+    return;
+  }
+  const receipt = api.accounts().transfer({
+    id: `treasury-withholding:${line}:country:${gov.id}:${date}`,
+    from: api.accounts().main(outside),
+    to: api.accounts().main(gov.organizationId),
+    amountMinor: amount,
+    reasonKey: "treasury-withholding",
+    source,
+  });
+  table(api, "taxPayments").put({
+    id: receipt.id,
+    governmentId: gov.id,
+    line,
+    payerId: "country-workers",
+    payerName: "Workers and employers elsewhere in the country",
+    dueOn: date,
+    date,
+    amountMinor: receipt.paidMinor,
+    installmentMinor: amount,
+    baseIndex: index,
+    townPaidMinor: 0,
+    tierMonth: tier.month,
+  } as unknown as ModuleRow);
+  namedCollected.set(
+    gov.id,
+    (namedCollected.get(gov.id) ?? 0) + receipt.paidMinor,
+  );
+}
+
 export function closeTreasuries(api: CoreAPI, source: Source): void {
   const outside = outsideAccountOf(api);
   if (!outside) return;
@@ -1190,10 +1331,37 @@ export function closeTreasuries(api: CoreAPI, source: Source): void {
   const aided = aidedLines(api, govs);
   const fromOutside = new Map<string, number>();
   const namedCollected = new Map<string, number>();
+  const tier = countryWithholdingOf(api);
+  const tierBase = new Map<string, number>();
+  if (tier)
+    for (const gov of govs) {
+      if (gov.level !== "federal") continue;
+      const base = tierBaseOf(api, gov, tier);
+      if (base !== undefined) tierBase.set(gov.id, base);
+    }
   for (const gov of govs) {
     const budget = budgets.get(gov.id);
     if (!budget) continue;
-    const monthly = outsideRevenueMonthly(api, gov, budget, aided);
+    const base = tierBase.get(gov.id);
+    const monthly = outsideRevenueMonthly(
+      api,
+      gov,
+      budget,
+      aided,
+      base !== undefined ? new Set(["individualIncomeTax"]) : undefined,
+    );
+    if (tier && base !== undefined)
+      payFromTier(
+        api,
+        gov,
+        budget,
+        tier,
+        base,
+        outside,
+        date,
+        source,
+        namedCollected,
+      );
     if (monthly <= 0) continue;
     const receipt = accounts.transfer({
       id: `outside-revenue:${gov.id}:${date}`,
@@ -1929,8 +2097,13 @@ export function treasuryMonthsOf(
   ]) as unknown as TreasuryMonthRow[];
 }
 
-/** The federal Social Security line in force against its base (1 = base). */
-export function socialSecurityLevel(api: CoreAPI): number {
+/**
+ * A federal budget line in force against its base (1 = base): the line the
+ * budget in force carries over the line it would carry without the bills
+ * that changed it. The benefit engines that pay from a federal line scale
+ * what their own laws work out by it.
+ */
+export function federalLineLevel(api: CoreAPI, line: string): number {
   const federal = governments(api).find((g) => g.level === "federal");
   const budget = federal && budgetInForce(api, federal.id);
   if (!federal || !budget) return 1;
@@ -1938,10 +2111,15 @@ export function socialSecurityLevel(api: CoreAPI): number {
     api,
     federal,
     Number(budget.startsOn.slice(0, 4)),
-    "socialSecurity",
+    line,
   );
-  const now = budget.spendingMinor.socialSecurity;
+  const now = budget.spendingMinor[line];
   return base && now !== undefined ? now / base : 1;
+}
+
+/** The federal Social Security line in force against its base (1 = base). */
+export function socialSecurityLevel(api: CoreAPI): number {
+  return federalLineLevel(api, "socialSecurity");
 }
 
 const CAUSE_ROW = "cause:socialSecurity";

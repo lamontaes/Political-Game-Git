@@ -1,6 +1,6 @@
 {
   "version": "words-bring-it-up-v1",
-  "about": "The structure of bringing up a change: the events a person learns of and the ways they hold someone to blame. It holds no sentences; they come from the mined bank (data/english/parts/bring-it-up.json) through src/english/mined/scene-bank.ts. A change row marked story is a printed story a reader remembers: its subject is the outlet that printed it and its topic is read from the story record; no one is blamed for it.",
+  "about": "The structure of bringing up a change: the events a person learns of and the ways they hold someone to blame. It holds no sentences; they come from the mined bank (data/english/parts/bring-it-up.json) through src/english/mined/scene-bank.ts. A change row marked story is a printed story a reader remembers, one fact for each story read whose value is the outlet that printed it: its subject is that outlet and its topic is read from the story record; no one is blamed for it.",
   "toldEvent": "conversation.told",
   "heardKey": "heard",
   "blameKey": "blame",
@@ -15,8 +15,8 @@
     {
       "eventKind": "news.read",
       "institutionFact": {
-        "prefix": "printed:",
-        "suffix": ":story"
+        "prefix": "news:",
+        "suffix": ":outlet"
       },
       "story": true,
       "eventIdPrefix": "news.read:"

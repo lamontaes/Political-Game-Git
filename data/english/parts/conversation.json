@@ -94,7 +94,8 @@
     "contested": "A mark: convicted at a trial the defendant fought (no guilty plea on the case).",
     "said": "The subject of a policy question as a person names it after 'on' or 'about' (\"drug prices\"), from the question's `said` in data/english/question-names.json; never a side (the side is said as what it does to the speaker). `about` stays for lines that name the thing itself.",
     "seat": "The seat a race is for, as people say it (\"the Mutual Village Council\", \"mayor\"), from the elections engine's contest and the office's record through the one seat wording.",
-    "bill": "A bill, by its title, from the legislature record."
+    "bill": "A bill, by its title, from the legislature record.",
+    "their_when": "When the asker last saw someone both know, said as people say it (\"last week\"), from the asker's own tie's last contact."
   },
   "maxWords": 10,
   "lineWords": {
@@ -7802,7 +7803,8 @@
           "subject": "news",
           "role": "answer",
           "choice": "yes",
-          "stages": ["heard"]
+          "stages": ["heard"],
+          "excludesFacts": ["outlet-radio"]
         }
       ],
       "transcriptsUsing": 44,
@@ -8901,40 +8903,6 @@
         "date": "2025-06-16",
         "granule": "DCPD-202500700",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202500700/html/DCPD-202500700.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "farewell"
-      },
-      "bearing": "tender"
-    },
-    {
-      "key": "conversation.farewell-leave-bye.take-care-of-yourself",
-      "move": "farewell-leave-bye",
-      "kind": "spoken",
-      "text": "Take care of yourself.",
-      "piece": {
-        "of": "farewell-leave",
-        "part": "closer"
-      },
-      "uses": [
-        {
-          "move": "farewell-closer",
-          "subject": "farewell",
-          "role": "closer",
-          "stages": ["default"]
-        }
-      ],
-      "transcriptsUsing": 8,
-      "bySource": {
-        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 1,
-        "dcpd": 7
-      },
-      "source": {
-        "document": "Commencement Address at the United States Coast Guard Academy in New London, Connecticut",
-        "date": "2026-05-20",
-        "granule": "DCPD-202600354",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600354/html/DCPD-202600354.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       },
       "tag": {
@@ -15468,7 +15436,7 @@
       "key": "conversation.interview-question-ask.would-you-vote-to-to",
       "move": "interview-question-ask",
       "kind": "spoken",
-      "text": "Would you vote to {to}?",
+      "text": "Would you vote for {about}?",
       "uses": [
         {
           "move": "interview-question-ask",
@@ -15664,7 +15632,7 @@
       "key": "conversation.interview-question-answer-plain.i-want-to-to-thats-my-platform",
       "move": "interview-question-answer-plain",
       "kind": "spoken",
-      "text": "I want to {to}. That's my platform.",
+      "text": "I'd vote for {about}. That's my platform.",
       "uses": [
         {
           "move": "interview-question-answer-plain",
@@ -15730,7 +15698,7 @@
       "key": "conversation.interview-question-answer-plain.i-wouldnt-to-thats-my-platform",
       "move": "interview-question-answer-plain",
       "kind": "spoken",
-      "text": "I wouldn't {to}. That's my platform.",
+      "text": "I'd vote against {about}. That's my platform.",
       "uses": [
         {
           "move": "interview-question-answer-plain",
@@ -16763,7 +16731,7 @@
       "key": "conversation.debate-question-ask.tell-us-would-you-vote-to-to",
       "move": "debate-question-ask",
       "kind": "spoken",
-      "text": "Tell us: would you vote to {to}?",
+      "text": "Tell us: would you vote for {about}?",
       "uses": [
         {
           "move": "debate-question-ask",
@@ -21929,7 +21897,8 @@
           "role": "answer",
           "choice": "yes",
           "stages": ["heard"],
-          "requiresFacts": ["broadcast"]
+          "requiresFacts": ["broadcast"],
+          "excludesFacts": ["outlet-radio"]
         }
       ],
       "origin": "authored",
@@ -22060,7 +22029,8 @@
           "role": "answer",
           "choice": "no",
           "stages": ["not-heard"],
-          "requiresFacts": ["broadcast"]
+          "requiresFacts": ["broadcast"],
+          "excludesFacts": ["outlet-radio"]
         }
       ],
       "origin": "authored",
@@ -24228,46 +24198,10 @@
       "date": "2026-11-11"
     },
     {
-      "key": "conversation.own-view-answer-agree.same-here-first",
-      "move": "own-view-answer-agree",
-      "kind": "spoken",
-      "text": "Same here, {first}.",
-      "uses": [
-        {
-          "move": "own-view-answer-agree",
-          "subject": "own-view",
-          "role": "answer",
-          "choice": "agree",
-          "requiresFacts": ["my-same"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
-      "date": "2026-11-11"
-    },
-    {
       "key": "conversation.own-view-answer-agree.you-and-me-both-first",
       "move": "own-view-answer-agree",
       "kind": "spoken",
       "text": "You and me both, {first}.",
-      "uses": [
-        {
-          "move": "own-view-answer-agree",
-          "subject": "own-view",
-          "role": "answer",
-          "choice": "agree",
-          "requiresFacts": ["my-same"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.own-view-answer-agree.i-m-with-you-first",
-      "move": "own-view-answer-agree",
-      "kind": "spoken",
-      "text": "I'm with you, {first}.",
       "uses": [
         {
           "move": "own-view-answer-agree",
@@ -24573,7 +24507,7 @@
       "key": "conversation.news-answer-for.i-m-for-it-myself-first",
       "move": "news-answer-for",
       "kind": "spoken",
-      "text": "I'm for it myself, {first}.",
+      "text": "I'm for it myself.",
       "uses": [
         {
           "move": "news-answer-for",
@@ -24591,7 +24525,7 @@
       "key": "conversation.news-answer-for.i-d-vote-for-it-first",
       "move": "news-answer-for",
       "kind": "spoken",
-      "text": "I'd vote for it, {first}.",
+      "text": "I'd vote for it.",
       "uses": [
         {
           "move": "news-answer-for",
@@ -24609,7 +24543,7 @@
       "key": "conversation.news-answer-for.count-me-in-on-that-first",
       "move": "news-answer-for",
       "kind": "spoken",
-      "text": "Count me in on that, {first}.",
+      "text": "Count me in on that.",
       "uses": [
         {
           "move": "news-answer-for",
@@ -24627,7 +24561,7 @@
       "key": "conversation.news-answer-for.about-time-if-you-ask-me-first",
       "move": "news-answer-for",
       "kind": "spoken",
-      "text": "About time, if you ask me, {first}.",
+      "text": "About time, if you ask me.",
       "uses": [
         {
           "move": "news-answer-for",
@@ -24645,7 +24579,7 @@
       "key": "conversation.news-answer-for.i-ve-wanted-that-a-while-first",
       "move": "news-answer-for",
       "kind": "spoken",
-      "text": "I've wanted that a while, {first}.",
+      "text": "I've wanted that a while.",
       "uses": [
         {
           "move": "news-answer-for",
@@ -24663,7 +24597,7 @@
       "key": "conversation.news-answer-against.i-m-against-it-myself-first",
       "move": "news-answer-against",
       "kind": "spoken",
-      "text": "I'm against it myself, {first}.",
+      "text": "I'm against it myself.",
       "uses": [
         {
           "move": "news-answer-against",
@@ -24681,7 +24615,7 @@
       "key": "conversation.news-answer-against.i-d-vote-against-it-first",
       "move": "news-answer-against",
       "kind": "spoken",
-      "text": "I'd vote against it, {first}.",
+      "text": "I'd vote against it.",
       "uses": [
         {
           "move": "news-answer-against",
@@ -24699,7 +24633,7 @@
       "key": "conversation.news-answer-against.count-me-out-on-that-first",
       "move": "news-answer-against",
       "kind": "spoken",
-      "text": "Count me out on that, {first}.",
+      "text": "Count me out on that.",
       "uses": [
         {
           "move": "news-answer-against",
@@ -24717,7 +24651,7 @@
       "key": "conversation.news-answer-against.that-s-a-mistake-if-you-ask-me-first",
       "move": "news-answer-against",
       "kind": "spoken",
-      "text": "That's a mistake, if you ask me, {first}.",
+      "text": "That's a mistake, if you ask me.",
       "uses": [
         {
           "move": "news-answer-against",
@@ -24735,7 +24669,7 @@
       "key": "conversation.news-answer-against.i-ve-never-liked-that-idea-first",
       "move": "news-answer-against",
       "kind": "spoken",
-      "text": "I've never liked that idea, {first}.",
+      "text": "I've never liked that idea.",
       "uses": [
         {
           "move": "news-answer-against",
@@ -45604,6 +45538,98 @@
       "origin": "authored",
       "author": "Words lead (rulings-2 with 06:55Z additions, Nov 14, 2026)",
       "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.asked-mutual-give-core.i-saw-him-their-when",
+      "move": "asked-mutual-give-core",
+      "kind": "spoken",
+      "text": "I saw him {their_when}.",
+      "uses": [
+        {
+          "move": "asked-mutual-give-core",
+          "subject": "asked-mutual-give",
+          "role": "core",
+          "stages": ["saw"],
+          "requiresFacts": ["mutual-he", "their_when"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (thread: election results brought up), for the Words lead's stamp",
+      "date": "2026-11-14",
+      "piece": {
+        "of": "asked-mutual-give",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "conversation.asked-mutual-give-core.i-ran-into-him-their-when",
+      "move": "asked-mutual-give-core",
+      "kind": "spoken",
+      "text": "I ran into him {their_when}.",
+      "uses": [
+        {
+          "move": "asked-mutual-give-core",
+          "subject": "asked-mutual-give",
+          "role": "core",
+          "stages": ["saw"],
+          "requiresFacts": ["mutual-he", "their_when"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (thread: election results brought up), for the Words lead's stamp",
+      "date": "2026-11-14",
+      "piece": {
+        "of": "asked-mutual-give",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "conversation.asked-mutual-give-core.i-saw-her-their-when",
+      "move": "asked-mutual-give-core",
+      "kind": "spoken",
+      "text": "I saw her {their_when}.",
+      "uses": [
+        {
+          "move": "asked-mutual-give-core",
+          "subject": "asked-mutual-give",
+          "role": "core",
+          "stages": ["saw"],
+          "requiresFacts": ["mutual-she", "their_when"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (thread: election results brought up), for the Words lead's stamp",
+      "date": "2026-11-14",
+      "piece": {
+        "of": "asked-mutual-give",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "conversation.asked-mutual-give-core.i-ran-into-her-their-when",
+      "move": "asked-mutual-give-core",
+      "kind": "spoken",
+      "text": "I ran into her {their_when}.",
+      "uses": [
+        {
+          "move": "asked-mutual-give-core",
+          "subject": "asked-mutual-give",
+          "role": "core",
+          "stages": ["saw"],
+          "requiresFacts": ["mutual-she", "their_when"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (thread: election results brought up), for the Words lead's stamp",
+      "date": "2026-11-14",
+      "piece": {
+        "of": "asked-mutual-give",
+        "part": "core",
+        "required": true
+      }
     },
     {
       "key": "conversation.death-news-back-core.he-took-his-own-life",
