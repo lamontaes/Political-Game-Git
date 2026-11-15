@@ -26,11 +26,11 @@
  * resident, each as many as their record stands for (one model, two tiers).
  */
 import { countedPersonOf } from "../counted-actor";
-import { countedResidents, type CountedVoter } from "../electorate";
-import { groupStance, personLean } from "../campaign-views";
 import { townLean } from "./campaigns";
-import { voterLean, weeklyWorkOf } from "./voting";
-import { countedStanceProfile, viewOn } from "./views";
+import { countedVoters, voterLean, weeklyWorkOf } from "./voting";
+import { countedViewOn, viewOn } from "./views";
+
+type CountedVoter = ReturnType<typeof countedVoters>[number];
 import { residentsRuntime } from "./residents";
 import { registerModule } from "../state";
 import { addDays, makeIsoDate } from "../kernel/dates";
@@ -338,11 +338,7 @@ export function joinCase(
   if ("voter" in who) {
     weeklyMinutes = who.voter.weeklyMinutes;
     if (rule.question)
-      view = groupStance(
-        personLean(core.people, who.voter, townLean(api)),
-        rule.question,
-        countedStanceProfile(api, who.voter),
-      );
+      view = countedViewOn(api, who.voter, rule.question, townLean(api));
   } else {
     weeklyMinutes = weeklyWorkOf(core, who.person.id);
     if (rule.question)
@@ -384,7 +380,7 @@ function gatherCounted(
   level: number,
 ): number {
   const core = api.state as CoreState;
-  const voters = new Map(countedResidents(core).map((row) => [row.id, row]));
+  const voters = new Map(countedVoters(api).map((row) => [row.id, row]));
   let joined = 0;
   for (const asked of counted) {
     const person = countedPersonOf(core, asked.id);

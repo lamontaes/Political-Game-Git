@@ -144,3 +144,9 @@ Done when every timed claim names the place, seed, years and machine, every spee
 ## Unattended-world changes: the speed table
 
 A change to anything that runs without the player watching (monthly engines, skipped time, counted groups) carries two tables in the PR body: year 1 of `npm run speed:year`, and time per record, each at three drawn places, with and without the change. Container noise is 10 to 20 percent, so one process at a time and say the machine. A change that makes a year more than 20 percent slower than its base fails the bar even if each table looks small.
+
+## With and without, twice each side, when the change is a few files (Account lead, Nov 15)
+
+- Put the base's copy of the changed files in one folder and the branch's copy in another, mirroring their paths, and let one script copy a side into `src/`, run a small year-1 test at three pinned places (`buildBenchWorld`, `advanceCore` one year, print milliseconds, `durableLog.size` and the milliseconds per record into a file), and repeat: base, branch, base, branch, then copy the branch's side back and delete the test. Record counts must match exactly when the change should not reach a year with no bad term; times inside the same few percent are noise.
+- Start it with the harness's own background run, never `nohup`: a worker restart killed the `nohup` copy twice and left the first side's file half-written.
+- The slowest of three places (a town with hundreds of counted people) decides how long it runs; pick the three first and write down the ten minutes it takes.
