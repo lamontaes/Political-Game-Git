@@ -444,6 +444,12 @@ function reachLines(r, labels, line) {
         "dev-bill-reach-person",
       ),
     ),
+    ...(r.namedOrganizations ?? []).map((o) =>
+      line(
+        [o.name || o.organizationId, dollars(o.amountMinor)].join(" · "),
+        "dev-bill-reach-organization",
+      ),
+    ),
   );
   return out;
 }
