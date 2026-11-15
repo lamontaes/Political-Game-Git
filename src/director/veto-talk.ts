@@ -11,7 +11,8 @@
  * whip-answer step). A reply moves it through the same writer: owning that
  * it hurt gives back a share of the veto's step, by how readily the sponsor
  * smooths things over (their conflict trait, as an owned broken promise
- * does); standing by it or leaving moves nothing more.
+ * does); standing by it or leaving is a second quarrel, by how much they
+ * hold on to one.
  *
  * The conversation engine asks `vetoSubject` for the subject between the
  * two and calls `answerVeto` with the player's reply; nothing else here
@@ -185,9 +186,12 @@ const share = (traits: Readonly<Record<string, number>>, key: string) =>
  * and read at once: owning that it hurt (`gives`) gives back a share of the
  * step the veto took off the tie, as the tie writer counted it, both ways,
  * by how readily the sponsor smooths things over (one minus their conflict
- * trait as a share), so it never wins back more than the veto took; where the
- * veto took nothing (the two had no tie to cool) it gives nothing. Standing
- * by it (`holds`) or leaving moves nothing more. Returns the record's id, or
+ * trait as a share), so it never wins back more than the veto took. Standing
+ * by it (`holds`) or leaving is the talk going badly: a second quarrel of the
+ * veto's step by how much the sponsor holds on (their conflict trait as a
+ * share), so the tie's latest change says how the talk went. Where the
+ * veto took nothing (the two had no tie to cool) the apology gives nothing.
+ * Returns the record's id, or
  * null when the act or the reply is not one.
  */
 export function answerVeto(
@@ -216,19 +220,30 @@ export function answerVeto(
       asOf: core.date,
     },
   });
-  // Nothing to give back where the veto took nothing (no tie to cool).
-  if (reply !== "gives" || !act.cooled) return id;
   const sponsor = core.people.get(sponsorId);
   const answerer = core.people.get(answererId);
+  const holdsOn = share(sponsor?.traits ?? {}, CONFLICT);
+  // Standing by it, or walking off, is the talk going badly: a second
+  // quarrel through the same writer, the veto's own step by how much the
+  // sponsor holds on to a quarrel, written last so the tie's latest change
+  // is what the talk came to.
+  if (reply !== "gives") {
+    const quarrel = -vetoCloseness() * holdsOn;
+    if (!(quarrel < P.zero)) return id;
+    const why = { cause: `veto-answer:${reply}`, sourceId: id };
+    api.relationship(sponsorId, answererId, "contact", quarrel, undefined, why);
+    api.relationship(answererId, sponsorId, "contact", quarrel, undefined, why);
+    return id;
+  }
+  // Nothing to give back where the veto took nothing (no tie to cool).
+  if (!act.cooled) return id;
   // What the veto took, as the tie writer counted it (temperament weighs a
   // quarrel and time together differently), and the hours that give back
   // the sponsor's share of it: never more than the veto took.
   const taken = -temperedHours(core, sponsor, answerer, -vetoCloseness());
   const perHour = temperedHours(core, sponsor, answerer, P.one);
   const step =
-    perHour > P.zero
-      ? (taken * (P.one - share(sponsor?.traits ?? {}, CONFLICT))) / perHour
-      : P.zero;
+    perHour > P.zero ? (taken * (P.one - holdsOn)) / perHour : P.zero;
   if (!(step > P.zero)) return id;
   const why = { cause: "veto-answer:gives", sourceId: id };
   api.relationship(sponsorId, answererId, "contact", step, undefined, why);

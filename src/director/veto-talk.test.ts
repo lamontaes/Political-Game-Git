@@ -27,6 +27,7 @@ import { townSeats } from "../core2/modules/offices";
 import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
 import { noteHeard, openConversation, say } from "./conversation";
+import { relationFacts } from "./relation-facts";
 
 // A veto said at the next talk (Words lead, desk ruling 5): the mayor vetoes
 // a council member's bill with a reason the record supports; the act keeps
@@ -123,6 +124,18 @@ it(`the sponsor brings up a veto once at the next talk, seed ${seed}`, () => {
     const metOn = core.date;
     advanceCore(core, addDays(makeIsoDate(core.date), 1));
     expect(billOf(api, bill.id).status, where).toBe("awaiting-signature");
+    // A second member's bill, vetoed the same morning with no reason: its
+    // sponsor's talk is the one the player stands by the veto in.
+    const sponsor2 = council[2]!.holder!.personId as PersonId;
+    const bill2 = draftBill(api, {
+      bodyOfficeId: council[0]!.office.id,
+      sponsorId: sponsor2,
+      provisions: [provisions[0]!],
+    });
+    for (const seat of council)
+      castMemberVote(api, bill2.id, seat.holder!.personId!, "yes");
+    expect(holdVote(api, bill2.id).status, where).toBe("awaiting-signature");
+    decideDesk(api, bill2.id, false, "none");
     const before = closenessBetween(core, mayor!, sponsor);
     decideDesk(api, bill.id, false, reason);
     const tieKey =
@@ -217,6 +230,31 @@ it(`the sponsor brings up a veto once at the next talk, seed ${seed}`, () => {
       act!.cooled,
       `${where}: the act keeps what the veto took`,
     ).toBeGreaterThan(0);
+
+    // Standing by it is the talk going badly: whatever else was said first
+    // (a greeting's exchange is time together), the tie's last word is a
+    // second quarrel, and the sponsor reads as a rival after the talk.
+    let other = openConversation(core, mayor!, sponsor2, { director });
+    noteHeard(core, other);
+    for (
+      let press = 0;
+      press < 4 &&
+      !other.lines.some((line) => line.kind === "veto-reply") &&
+      other.choices.length;
+      press += 1
+    )
+      other = say(core, other, other.choices[0]!.key);
+    const holds = other.choices.find((row) => row.move === "holds");
+    expect(holds, `${where}: no way to stand by the veto`).toBeTruthy();
+    say(core, other, holds!.key);
+    const tie2 = core.relationships.get(
+      mayor! < sponsor2 ? `${mayor}:${sponsor2}` : `${sponsor2}:${mayor}`,
+    );
+    expect(tie2?.latestChange?.reason?.cause, where).toBe("veto-answer:holds");
+    expect(
+      relationFacts(core, sponsor2, mayor!).side,
+      `${where}: standing by the veto left them no rival`,
+    ).toBe("rival");
 
     // Said once: the next day's talk does not bring it up again.
     advanceCore(core, addDays(makeIsoDate(core.date), 1));
