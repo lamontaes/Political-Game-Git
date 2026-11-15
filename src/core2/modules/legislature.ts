@@ -2012,10 +2012,7 @@ function costOf(api: CoreAPI, provisions: readonly Provision[]) {
 
 const { series: seriesPowers, questions: questionPowers } =
   powers as unknown as {
-    series: Record<
-      string,
-      { levels: string[]; source: string; retainTerms?: boolean }
-    >;
+    series: Record<string, { levels: string[]; source: string }>;
     questions: Record<string, { levels: string[]; source: string }>;
   };
 
@@ -2187,6 +2184,63 @@ export function shapedRate(
       ),
     },
   };
+}
+
+/**
+ * The row a bill's amount amends: the bill's own government's row in force, or,
+ * where that government keeps its law filed per state (the SNAP maximum by
+ * state, a territory's wage), the row in force at the bill's level on the
+ * place's chain.
+ */
+function amendedRow(
+  api: CoreAPI,
+  series: string,
+  jurisdiction: string,
+  level: string,
+): LawRowInput | null {
+  const levels = lawInForce(api, series).levels;
+  return (
+    levels.find((l) => l.jurisdiction === jurisdiction && l.level === level)
+      ?.row ??
+    levels.find((l) => l.jurisdiction === jurisdiction)?.row ??
+    levels.find((l) => l.level === level)?.row ??
+    null
+  );
+}
+
+/** What a law row records of the bill that enacted or repealed it; an amendment writes its own. */
+const BILL_RECORD_TERMS = new Set([
+  "enactedBy",
+  "enactedByBill",
+  "enactedSequence",
+  "margin",
+  "decidedBy",
+  "decision",
+  "repealedBy",
+  "repealedByBill",
+]);
+
+/**
+ * An amendment's terms: every term of the row it amends (a program's table,
+ * a tax's wage base, its eligibility and indexing) but the old bill's own
+ * record, with the bill's shape on top. A flat tax drops the bracket
+ * schedules it replaces.
+ */
+export function amendedTerms(
+  current: LawRowInput | null,
+  shaped: Record<string, unknown> | undefined,
+): Record<string, unknown> {
+  const kept = Object.fromEntries(
+    Object.entries(current?.terms ?? {}).filter(
+      ([key]) =>
+        !BILL_RECORD_TERMS.has(key) &&
+        !(key === "schedules" && shaped?.system === "flat"),
+    ),
+  );
+  const shapedKept = Object.fromEntries(
+    Object.entries(shaped ?? {}).filter(([key]) => !BILL_RECORD_TERMS.has(key)),
+  );
+  return { ...kept, ...shapedKept };
 }
 
 /**
@@ -7167,10 +7221,7 @@ function enact(
       continue;
     }
     if (provision.kind === "law-amount" && provision.series) {
-      const current =
-        lawInForce(api, provision.series).levels.find(
-          (l) => l.jurisdiction === jurisdiction,
-        )?.row ?? null;
+      const current = amendedRow(api, provision.series, jurisdiction, level);
       const shaped = shapedRate(current, provision);
       enactLaw(api, {
         jurisdiction,
@@ -7188,12 +7239,7 @@ function enact(
         // The bill itself, not only its number: numbers repeat across bodies
         // and sessions, and a recall or the record finds the bill by this.
         terms: {
-          // A program's on/off amount changes availability; its formula and
-          // eligibility terms remain available when the body restores it.
-          ...(seriesPowers[provision.series]?.retainTerms
-            ? current?.terms
-            : {}),
-          ...(shaped?.terms ?? {}),
+          ...amendedTerms(current, shaped?.terms),
           ...(terms ?? {}),
           enactedByBill: bill.id,
         },
