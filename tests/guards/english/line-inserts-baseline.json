@@ -31,7 +31,7 @@
     "placed": 4641
   },
   "vocativeNames": {
-    "conversation": 0,
+    "conversation": 4,
     "scene-talk": 14
   },
   "pendingQuestion": "conversation.farewell-leave-bye.take-care-of-yourself is counted here only until the Words lead's second reader answers whether it stays as a goodbye a fact places or \"Take care.\" stands for it; then this line and the +1 in conversation go."
