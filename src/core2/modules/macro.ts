@@ -91,11 +91,12 @@ import {
 import { coreStateKeyOfPlaceholderId } from "../place-lookup";
 import { firmStaffing } from "./jobs";
 import { LAWS_MODULE_ID, stateLawInForce } from "./laws";
-import { openingRegionMonths, stateFigures } from "../regional-model";
+import { openingRegionMonths, stateOfRegions } from "../regional-model";
 import { coarseSteps, type PreStartModule } from "../pre-start";
 import {
   LATEST_MONTH_LAG,
   REGIONAL_PARAMETERS,
+  yearBefore,
   openRegional,
   regionalFactors,
   regionalRegistered,
@@ -452,6 +453,10 @@ export interface CountryStateMonth {
   hourlyPay: number;
   prices: number;
   population: number;
+  /** What a state's prices stand at against the nation's, in the regional series' own units (100 is the nation). */
+  priceLevelPct: number;
+  /** What the state's jobs pay in a month for each resident: jobs times hourly pay over people. */
+  earnedPerResident: number;
 }
 
 const stateMonthId = (fips: string, month: string) =>
@@ -461,6 +466,7 @@ function stateMonthRow(
   state: CountryState,
   month: string,
   rules: CountryRules,
+  priceIndex: number,
 ): CountryStateMonth {
   const { unemploymentPct, jobs, hourlyPay, population, prices } =
     countryStateFigures(state, rules);
@@ -473,21 +479,27 @@ function stateMonthRow(
     hourlyPay,
     prices,
     population,
+    priceLevelPct: (100 * state.priceLevel * prices) / priceIndex,
+    earnedPerResident: population > 0 ? (jobs * hourlyPay) / population : 0,
   };
 }
 
 /** Every state's figures for `month`, kept: the last year and the months Metrics may read in full, then each December and the opening month. */
 function recordStateMonths(
   api: CoreAPI,
-  states: readonly CountryState[],
+  tier: CountryTier,
   month: string,
   openingMonth: string,
 ): void {
   const p = params(api);
   const table = store(api).table("countryStateMonths");
   const rules = rulesOf(api);
-  for (const state of states)
-    table.put(stateMonthRow(state, month, rules) as unknown as { id: string });
+  for (const state of tier.states)
+    table.put(
+      stateMonthRow(state, month, rules, tier.priceIndex) as unknown as {
+        id: string;
+      },
+    );
   const gone = shiftMonth(
     month,
     -(p("macroMonthsPerYear") + LATEST_MONTH_LAG),
@@ -495,6 +507,84 @@ function recordStateMonths(
   );
   if (!gone.endsWith("-12") && gone !== openingMonth)
     for (const row of table.query("byMonth", [gone])) table.remove(row.id);
+}
+
+/**
+ * The months before the opening, kept for each state so a term that began
+ * before the world did reads from the same rows as one that began after
+ * (term-read). The real coarse months the tier is fitted from, summed to the
+ * state by population, with the regional table's retention: the year before
+ * the opening in full, and each December before that. The tier is the truth
+ * at the opening (it scales every state's unemployment so the states sum to
+ * the nation's rate, and holds its own jobs and people), so each figure of the
+ * history is shifted by the tier's opening over the regions' opening: the
+ * history keeps its own movements and meets the tier exactly at the opening.
+ */
+/** The regional series counts jobs in thousands: a unit, not a tuning number. */
+const JOBS_PER_THOUSAND = 1000;
+
+function recordStateHistory(
+  api: CoreAPI,
+  history: readonly Readonly<MacroMonth>[],
+  opening: Readonly<MacroMonth>,
+): void {
+  const p = params(api);
+  const table = store(api).table("countryStateMonths");
+  const { startedAt, seed } = api.state;
+  const sums = (month: Readonly<MacroMonth>, fips: string) => {
+    const regions = openingRegionMonths(month, startedAt, seed, p).filter(
+      (row) => row.stateFips === fips,
+    );
+    const state = stateOfRegions(regions, fips);
+    return {
+      unemploymentPct: state.unemploymentPct,
+      jobs: state.jobsThousands * JOBS_PER_THOUSAND,
+      hourlyPay: state.hourlyEarnings,
+      priceLevelPct: state.priceLevelPct,
+      earnedPerResident: state.earnedPerResident,
+      population: regions.reduce((sum, row) => sum + row.population, p("zero")),
+    };
+  };
+  const kept = yearBefore(opening.month);
+  const months = history.filter(
+    (row) =>
+      row.month !== opening.month &&
+      (row.month > kept || row.month.endsWith("-12")),
+  );
+  for (const state of countryStates(api)) {
+    const tier = countryStateMonth(api, state.fips, opening.month);
+    if (!tier) continue;
+    const regions = sums(opening, state.fips);
+    const shift = (own: number, theirs: number) =>
+      theirs > p("zero") ? own / theirs : p("one");
+    const k = {
+      unemploymentPct: shift(tier.unemploymentPct, regions.unemploymentPct),
+      jobs: shift(tier.jobs, regions.jobs),
+      hourlyPay: shift(tier.hourlyPay, regions.hourlyPay),
+      priceLevelPct: shift(tier.priceLevelPct, regions.priceLevelPct),
+      earnedPerResident: shift(
+        tier.earnedPerResident,
+        regions.earnedPerResident,
+      ),
+      population: shift(tier.population, regions.population),
+    };
+    for (const month of months) {
+      const was = sums(month, state.fips);
+      table.put({
+        id: stateMonthId(state.fips, month.month),
+        fips: state.fips,
+        month: month.month,
+        unemploymentPct: was.unemploymentPct * k.unemploymentPct,
+        jobs: was.jobs * k.jobs,
+        hourlyPay: was.hourlyPay * k.hourlyPay,
+        // The state's own price index against the opening, the regions' level against theirs.
+        prices: shift(was.priceLevelPct, regions.priceLevelPct),
+        population: was.population * k.population,
+        priceLevelPct: was.priceLevelPct * k.priceLevelPct,
+        earnedPerResident: was.earnedPerResident * k.earnedPerResident,
+      } satisfies CountryStateMonth as unknown as { id: string });
+    }
+  }
 }
 
 /** A state's kept figures for a month (null where the tier kept none that month). */
@@ -727,7 +817,7 @@ function runMonth(api: CoreAPI, state: MacroStateRow): void {
     p,
   );
   months.put(row as unknown as { id: string });
-  recordStateMonths(api, tier.states, row.month, state.openingMonth);
+  recordStateMonths(api, tier, row.month, state.openingMonth);
   if (regionalRegistered(api)) {
     const prices = tier.priceIndex;
     stepRegional(api, previous, row, (fips) => {
@@ -780,7 +870,7 @@ function openedTier(api: CoreAPI, opening: Readonly<MacroMonth>): CountryTier {
   const tier = openCountry(
     countryOpening(
       (fips) => {
-        const own = stateFigures(regionMonths, fips);
+        const own = stateOfRegions(regionMonths, fips);
         return {
           unemploymentPct: own.unemploymentPct,
           hourlyPay: own.hourlyEarnings,
@@ -822,7 +912,10 @@ export function openingStateMonth(
     rows = new Map();
     const tier = openedTier(api, opening);
     for (const state of tier.states)
-      rows.set(state.fips, stateMonthRow(state, opening.month, rulesOf(api)));
+      rows.set(
+        state.fips,
+        stateMonthRow(state, opening.month, rulesOf(api), tier.priceIndex),
+      );
     openingStateRows.set(api.state, rows);
   }
   return rows.get(fips) ?? null;
@@ -836,7 +929,7 @@ function openCountryTier(
     rules = rulesOf(api);
   const tier = openedTier(api, opening);
   writeCountry(api, tier);
-  recordStateMonths(api, tier.states, opening.month, opening.month);
+  recordStateMonths(api, tier, opening.month, opening.month);
   let jobs = p("zero"),
     paid = p("zero");
   for (const state of tier.states) {
@@ -955,6 +1048,7 @@ function open(api: CoreAPI): MacroStateRow {
   store(api)
     .table("state")
     .put(state as unknown as { id: string });
+  recordStateHistory(api, rows, opening);
   if (regionalRegistered(api)) openRegional(api, opening, placeIds, rows);
   if (monthKey(core.date) === shiftMonth(opening.month, p("one"), p))
     runMonth(api, state);

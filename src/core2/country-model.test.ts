@@ -37,7 +37,7 @@ import type { LawInForceAnswer } from "./laws-in-force";
 import type { TaxIndex } from "./tax-index";
 import { historyMonths } from "./macro-model";
 import { macroCoreData } from "./modules/macro";
-import { openingRegionMonths, stateFigures } from "./regional-model";
+import { openingRegionMonths, stateOfRegions } from "./regional-model";
 
 const seed = process.env.COUNTRY_SEED ?? randomBytes(6).toString("hex");
 const rows = macroCoreData().parameters;
@@ -52,7 +52,7 @@ const national = historyMonths(start, seed, p).at(-1)!;
 const regionMonths = openingRegionMonths(national, start, seed, p);
 const opening = countryOpening(
   (fips) => {
-    const own = stateFigures(regionMonths, fips);
+    const own = stateOfRegions(regionMonths, fips);
     return {
       unemploymentPct: own.unemploymentPct,
       hourlyPay: own.hourlyEarnings,

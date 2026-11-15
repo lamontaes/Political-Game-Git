@@ -64,7 +64,7 @@ export function regionOfPlace(placeId: string): string | undefined {
  */
 export const LATEST_MONTH_LAG = 3;
 
-function yearBefore(month: string): string {
+export function yearBefore(month: string): string {
   return `${Number(month.slice(0, 4)) - 1}${month.slice(4)}`;
 }
 
