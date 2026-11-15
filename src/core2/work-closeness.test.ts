@@ -18,6 +18,7 @@ import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { pairKey } from "./kernel/ids";
 import { advanceCore } from "./life";
+import { knownAmong } from "./encounters";
 import { creditWorkTime } from "./work-closeness";
 import { acceptJobOffer, jobOffersFor, quitJob } from "./modules/jobs";
 import { countedJobsOf } from "./residents-economy";
@@ -91,7 +92,7 @@ it("known coworkers grow closer from shared shifts and the tie fades once the pl
 
   // One more week of shared shifts adds to the tie; once the player has left
   // the same call credits nothing, so the old tie only fades.
-  const staff = () => 40;
+  const staff = () => knownAmong(api, 39);
   const week = () => creditWorkTime(api, core.date, staff);
   const still = mates.filter((id) => {
     const job = core.jobs.get(core.people.get(id)!.jobId ?? "");

@@ -5523,7 +5523,13 @@ export const JOBS_MODULE: CoreModule = {
       runWeek(api);
       // The week's shared shifts grow the ties between known coworkers.
       creditWorkTime(api, api.state.date, (organizationId) =>
-        staffHeads(core(api), currentJobs(api, organizationId)),
+        knownAmong(
+          api,
+          Math.max(
+            0,
+            staffHeads(core(api), currentJobs(api, organizationId)) - 1,
+          ),
+        ),
       );
       scheduleWeek(api);
     }

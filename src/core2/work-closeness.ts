@@ -6,13 +6,12 @@
  * own work schedules overlap are credited as hours together through the one
  * relationship writer. A person's time with any one coworker falls as the
  * workplace grows: the contact share of the overlap is split among the
- * people a workplace that size lets one know (`knownAmong`). Nobody new is
+ * people a workplace that size lets one know (`knownAmong`, passed in as `knownIn`). Nobody new is
  * met here (hire, group and visit meet people, `encounters.ts`); a tie to
  * someone who has left the employer is no longer credited and fades by its
  * half-life as before. Nothing rolls a die.
  */
 import { daysBetweenText } from "./kernel/dates";
-import { knownAmong } from "./encounters";
 import type { CoreAPI, IsoDate, PersonId, WorkCommitmentInput } from "./types";
 
 export const WORK_TIME_CAUSE = "worked the same hours at one employer";
@@ -51,7 +50,7 @@ function overlapOn(
 export function creditWorkTime(
   api: CoreAPI,
   today: IsoDate,
-  staffOf: (organizationId: string) => number,
+  knownIn: (organizationId: string) => number,
 ): void {
   const core = api.state;
   const p = (key: string) => api.parameter(key);
@@ -94,10 +93,7 @@ export function creditWorkTime(
       if (minutes <= 0) continue;
       let room = known.get(jobA.organizationId);
       if (room === undefined) {
-        room = Math.max(
-          p("one"),
-          knownAmong(api, Math.max(0, staffOf(jobA.organizationId) - 1)),
-        );
+        room = Math.max(p("one"), knownIn(jobA.organizationId));
         known.set(jobA.organizationId, room);
       }
       api.relationship(
