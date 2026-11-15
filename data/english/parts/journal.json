@@ -10664,6 +10664,58 @@
       }
     },
     {
+      "key": "journal.home-line-met.i-met-named-in-place",
+      "move": "home-line-met",
+      "kind": "spoken",
+      "text": "I met {named} in {place}.",
+      "uses": [
+        {
+          "move": "home-line-met",
+          "subject": "home",
+          "role": "met",
+          "choice": "met",
+          "journal": [
+            {
+              "kindPrefix": "household:partners-met",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.home-line-met.named-and-i-met-in-place",
+      "move": "home-line-met",
+      "kind": "spoken",
+      "text": "{named} and I met in {place}.",
+      "uses": [
+        {
+          "move": "home-line-met",
+          "subject": "home",
+          "role": "met",
+          "choice": "met",
+          "journal": [
+            {
+              "kindPrefix": "household:partners-met",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
       "key": "journal.office-line-town-hall.i-held-a-town-hall-in-place-as-office",
       "move": "office-line-town-hall",
       "kind": "spoken",
@@ -10762,6 +10814,36 @@
       ],
       "origin": "authored",
       "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.work-line-lost.i-lost-my-job-in-place",
+      "move": "work-line-lost",
+      "kind": "spoken",
+      "text": "I lost my job in {place}.",
+      "uses": [
+        {
+          "move": "work-line-lost",
+          "subject": "work",
+          "role": "line",
+          "choice": "i-lost-my-job-in-place",
+          "journal": [
+            {
+              "kindPrefix": "job-ended",
+              "field": "line"
+            },
+            {
+              "kindPrefix": "job-ended:let-go",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "W3 words builder (claude/words-w3-journal, db2c83d08d), carried by the journal composer",
       "date": "2026-11-12",
       "tag": {
         "move": "tell"

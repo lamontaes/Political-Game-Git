@@ -1575,6 +1575,17 @@ export function composeJournal(
       const place = placeName(person.placeId);
       if (place) facts.place = place;
     }
+    // A lost job with no employer on record is told by where the person
+    // lived: "I lost my job in Sunbury, North Carolina." (W3, Nov 12: four
+    // losses in Delphos, Iowa were untold once "I lost my job." went).
+    if (
+      moment.causeKind.startsWith("job-ended") &&
+      !facts.employer &&
+      !facts.place
+    ) {
+      const place = placeName(person.placeId);
+      if (place) facts.place = place;
+    }
     // How old they were on the day, from the birth record they stand on.
     const ageThen = (born: string, recordId: string): Fact => ({
       text: String(ageOnDate(makeIsoDate(born), makeIsoDate(moment.date))),
@@ -2718,21 +2729,7 @@ export function composeJournal(
           ids,
         );
         if (frame) {
-          // The frame says the age: a wording that says it too is told again
-          // without it ("When I was 18, I met John when I was 18").
-          const saysAge =
-            unit.facts.age && event.text.includes(` ${unit.facts.age.text}`);
-          const bare =
-            saysAge && unit.retell
-              ? unit.retell(
-                  Object.fromEntries(
-                    Object.entries(unit.facts).filter(
-                      ([name]) => !AGE_FACTS.has(name),
-                    ),
-                  ),
-                  `${unit.moment.id}:bare`,
-                )
-              : null;
+          const bare = withoutAgeSaid(unit, event);
           event = framedByAge(frame, bare ?? event, unit.facts);
           aged = true;
         }
@@ -2784,7 +2781,11 @@ export function composeJournal(
           ids,
         );
         if (frame) {
-          event = framedByAge(frame, event, unit.facts);
+          event = framedByAge(
+            frame,
+            withoutAgeSaid(unit, event) ?? event,
+            unit.facts,
+          );
           aged = true;
         }
       }
@@ -3855,6 +3856,29 @@ export function composeJournal(
     }
   }
   return kept;
+}
+
+/**
+ * A frame that says the person's age ("When I was 18 years old, ...") takes
+ * the event told again without its own age ("I met John when I was 18"), or
+ * null when the event says none.
+ */
+function withoutAgeSaid(
+  unit: {
+    moment: { id: string };
+    facts: Facts;
+    retell?: (given: Facts, key?: string) => JournalWorded | null;
+  },
+  event: JournalWorded,
+): JournalWorded | null {
+  const age = unit.facts.age;
+  if (!age || !unit.retell || !event.text.includes(` ${age.text}`)) return null;
+  return unit.retell(
+    Object.fromEntries(
+      Object.entries(unit.facts).filter(([name]) => !AGE_FACTS.has(name)),
+    ),
+    `${unit.moment.id}:bare`,
+  );
 }
 
 /**
