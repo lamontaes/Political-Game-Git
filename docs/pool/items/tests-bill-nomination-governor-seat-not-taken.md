@@ -36,4 +36,4 @@ checked:
 
 **Files.** src/bench/bill-nomination.test.ts, src/core2/modules/executive.ts
 
-**Notes.** Filed by hand by the civic roles builder.
+**Notes.** Filed by hand by the civic roles builder. Nov 15: red the same way at Albion, New York (3601033), `NOMINATION_SEED=28b358851c9cdbc3`, on the Train head d82bf47e and on #9438 at bf89c51b: the post still holds `person:cabinet:US-NY:agriculture:0` after the player names `person_72255d52d0d87b8b`.
