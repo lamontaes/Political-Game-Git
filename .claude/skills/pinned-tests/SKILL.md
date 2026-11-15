@@ -32,6 +32,8 @@ Lead ruling, Nov 13 to 14: a test is pinned in the test file to named places wit
 12. **A test that takes "the first ask" breaks when an ask moves earlier (Nov 15).** Moving a party's ask before the day's weighing made the first ask an ask to a member who weighs the seat, so the player's-answer test registered the wrong person. Pick the case by what the records say (the ask came after the contest's weighed row had `filedOn` set), never by order, and say why in a comment. Narrowing which case a test stages is not loosening it; removing or weakening an assertion is, and goes to the lead.
 13. **Check that a break-it edit changed the file (Nov 15).** A `sed` that matches nothing leaves the code intact and the test green. Print the changed line, or count matches, before reading the result.
 
+14. **When a merge stops a pinned place drawing its case (Nov 15).** First find what changed (the world still makes the case, or the director stopped staging it), say so to the lead, and ask before swapping the place. Scan ten drawn seeds in a throwaway test that logs to a file (never commits), pin the one that plays every case, and write the old premise and why it stopped in the test's comment and the PR body. A lone place that covers every case is better than three that each cover some.
+
 ## Checking a reported pass
 
 Ask where it ran and at what head. A unit test that builds its own small world proves an edge case only; the played-world proof is separate.
