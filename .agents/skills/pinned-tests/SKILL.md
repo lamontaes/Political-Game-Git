@@ -69,6 +69,11 @@ Ask where it ran and at what head. A unit test that builds its own small world p
 
 - **Break it before you trust it.** Two press tests at their pinned places passed with the change and without it, because the place's tip never ran, so the asserts sat inside `if (ran)`. Undo the line under test and run the file. If it still passes, stage the case through the game's own path (here: the player takes the bribe in the offer scene, the offerer leaks it with `leakToReporter`), and assert outside any branch.
 
+## Lesson of Nov 15 (an at-large race has one result record per seat)
+
+- **A race is not one filed contest and one result.** A test that looks up `election-result:<the contest the player filed for>` and judges a win by that contest's winner calls an at-large win a loss and finds no Journal line (New Llano, Louisiana, a three-seat race: filed under `council:0`, elected to the seat counted as `council:4`). Read the result events whose `contestId` or `race` is the filed contest and that name the player, and take a win from any of them. Pin the place and say in the comment which premise changed.
+- **A played step to a distant date is the cost.** Playing a new life to April 2026 took 8 minutes at one place, so a test of a rule that sits inside it stages the rule on the opening day (a minute) and leaves the played-year read to the PR body, with the break-it run on the staged rule.
+
 ## Playing a controlled person through days
 
 `advanceCore` refuses a controlled person. To play days for the player in a test, build the world with `buildBenchWorld`, wrap the person in `BenchPlayer`, `select` them, and loop: on a `stop` packet vote their floor holds with `voteOnStateFloor(api, id, bill, "own")` and `resume`, on a `choice` packet `resume` with `own-choice`, otherwise `advance("day")`. `src/core2/bill-floor-date-holds.test.ts` is the worked case (Holiday Lakes, Texas, seed aa11, about a minute); a fix test should be run once with the fix stashed to see it fail where the defect was.
