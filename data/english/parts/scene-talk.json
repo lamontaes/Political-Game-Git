@@ -74582,7 +74582,8 @@
           "move": "answer",
           "role": "asked",
           "purpose": "press-comment",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "guarded",
@@ -119899,7 +119900,8 @@
           "role": "asked",
           "purpose": "press-comment.friendly",
           "key": "routine",
-          "requiresFacts": ["voted-no"]
+          "requiresFacts": ["voted-no"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "calm",
@@ -119923,7 +119925,8 @@
           "move": "answer",
           "role": "asked",
           "purpose": "press-comment.friendly",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "calm",
@@ -121389,7 +121392,8 @@
           "role": "asked",
           "purpose": "press-comment.hostile",
           "key": "routine",
-          "requiresFacts": ["voted-no"]
+          "requiresFacts": ["voted-no"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "proud",
@@ -121414,7 +121418,8 @@
           "role": "asked",
           "purpose": "press-comment.hostile",
           "key": "routine",
-          "requiresFacts": ["bill"]
+          "requiresFacts": ["bill"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "braced",
@@ -121438,7 +121443,8 @@
           "move": "answer",
           "role": "asked",
           "purpose": "press-comment.hostile",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "calm",
@@ -122421,7 +122427,8 @@
           "move": "answer",
           "role": "asked",
           "purpose": "press-comment.scandal",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "calm",
@@ -122470,7 +122477,8 @@
           "role": "asked",
           "purpose": "press-comment.scandal",
           "key": "routine",
-          "requiresFacts": ["bill"]
+          "requiresFacts": ["bill"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "steady",
@@ -123531,7 +123539,8 @@
           "role": "asked",
           "purpose": "press-comment.national",
           "key": "routine",
-          "requiresFacts": ["voted-yes"]
+          "requiresFacts": ["voted-yes"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "steady",
@@ -123556,7 +123565,8 @@
           "role": "asked",
           "purpose": "press-comment.national",
           "key": "routine",
-          "requiresFacts": ["voted-no"]
+          "requiresFacts": ["voted-no"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "calm",
@@ -123581,7 +123591,8 @@
           "role": "asked",
           "purpose": "press-comment.national",
           "key": "routine",
-          "requiresFacts": ["bill"]
+          "requiresFacts": ["bill"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "calm",
