@@ -4,7 +4,7 @@ title: '"It''s not about you" is a colleague''s first answer to a plain ask to s
 area: words
 kind: bug
 priority: 3
-size: XS
+size: S
 status: open
 claimed-by:
 pr:
