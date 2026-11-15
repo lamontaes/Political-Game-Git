@@ -1,0 +1,56 @@
+{
+  "claimTruthPull": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "The pull of saying the true thing about one's own record when asked, against which what the truth would cost is weighed (truth-default: most people tell the truth most of the time, and a few people tell most lies; Serota, Levine and Boster 2010, Human Communication Research 36:2-25, a national sample of 1,000 U.S. adults: a mean of 1.65 lies a day, about 60 percent telling none in a day and about 5 percent telling half of all lies). Checked against that skew in totals across drawn places, never used to pick one person's answer.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Not yet fitted against the skew in played towns; range 0.25 to 2."
+    }
+  },
+  "claimCostWeight": {
+    "value": 1.5,
+    "tag": "TUNABLE",
+    "citation": "Weight on what the true answer would cost the speaker, read from their record as a share between 0 and 1: the tie to the one asking that a refusal strains (their closeness), or, about running, a rival in the same race who would learn it early. Truth that costs nothing is never weighed (Levine 2014, truth-default theory: people lie when the truth is a problem for them).",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Not yet fitted; checked against the same skew as claimTruthPull, range 0.5 to 3."
+    }
+  },
+  "claimPublicityWeight": {
+    "value": 2,
+    "tag": "TUNABLE",
+    "citation": "Weight on how public the fact is, between 0 (only the speaker knows) and 1 (a roll call or a filing already on record): a lie the record already contradicts is told only by someone very low in truthfulness. The risk of being caught deters lying (Levine 2014).",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Not yet fitted; range 1 to 4."
+    }
+  },
+  "claimSettledLaterShare": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "How public a fact counts as when it is not on record yet but a public record will settle it (a vote the roll call will show, a run the filing list will show): between not public (0) and on record (1).",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Not yet fitted; range 0.25 to 0.75."
+    }
+  },
+  "claimHolderWeight": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "Weight on each person present who already knows the truth, as the speaker would expect them to say it.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Not yet fitted; range 0.25 to 1."
+    }
+  },
+  "claimFoundOutStrainHours": {
+    "value": 6,
+    "tag": "TUNABLE",
+    "citation": "Hours of time together taken off a tie when a record shows the one told that the teller lied to them, times one plus the tie's closeness (a closer tie is hurt more by the same lie). The same writer and unit as a family quarrel (quarrelStrainHours).",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Not yet fitted; range 2 to 12."
+    }
+  }
+}

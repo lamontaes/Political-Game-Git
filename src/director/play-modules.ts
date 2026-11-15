@@ -22,6 +22,7 @@ import { speechModule } from "../core2/modules/speech";
 import { viewsModule } from "../core2/modules/views";
 import type { CoreData, CoreModule } from "../core2/types";
 import { beliefsModule } from "./conversation";
+import { toldClaimsModule } from "../core2/told-claims";
 
 /** The core data the people engines need (drives' actions and parameters, the newborn tier). */
 export function peopleData(data: CoreData = DEFAULT_DATA): CoreData {
@@ -43,5 +44,6 @@ export function peopleModules(): CoreModule[] {
     movesModule,
     partnershipsModule,
     beliefsModule,
+    toldClaimsModule,
   ];
 }

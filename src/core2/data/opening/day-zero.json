@@ -1354,6 +1354,13 @@
       "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
     },
     {
+      "table": "told-claims.lies",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "year 1",
+      "reason": "A false claim exists only once a scene asks someone about their own record and they answer falsely, and it leaves the table when the record that settles it is made; it has no stock on an ordinary day."
+    },
+    {
       "table": "credit.applications",
       "level": "town (people and places)",
       "call": "flow-only",
@@ -2608,6 +2615,7 @@
     "core2-voting-v1": "classified in rows",
     "core2-world-legislating-v1": "classified in rows",
     "corruption": "classified in rows",
+    "told-claims": "classified in rows",
     "credit": "classified in rows",
     "federal-courts": "classified in rows",
     "grievance": "classified in rows",

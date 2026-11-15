@@ -30,6 +30,7 @@
  */
 import { seriousIllnessOf } from "../core2/modules/health";
 import { closenessBetween } from "../core2/closeness";
+import { CLAIM_FOUND_OUT_EVENT } from "../core2/told-claims";
 import { familyFactsOf, meetInTalk } from "../core2/modules/people";
 import { jobTitleByKind } from "../core2/person-work";
 import {
@@ -7527,7 +7528,7 @@ function sayNow(
         access: "told",
       });
       if (!keeps) continue;
-      beliefs(api).put({
+      keepBelief(api, {
         id: `${hearerId}:${claim.key}`,
         hearerId,
         subjectId: playerId,
@@ -7536,7 +7537,6 @@ function sayNow(
         truth: last.subject.own!.value,
         lieEventId: eventId,
       });
-      believers(api).add(hearerId);
     }
   } else if (last.subject.own && conversation.lines.at(-one)?.act === "ask") {
     // A true answer tells everyone present the fact.
@@ -8128,6 +8128,16 @@ function believers(api: CoreAPI): Set<PersonId> {
   return set;
 }
 
+/**
+ * Keeps a false claim as the hearer's belief, whoever told it: the player's
+ * lie (the scales) or another person's (`told-claims.ts`), the teller as the
+ * subject. Found out by the same path either way.
+ */
+export function keepBelief(api: CoreAPI, belief: Belief): void {
+  beliefs(api).put({ ...belief });
+  believers(api).add(belief.hearerId);
+}
+
 /** The false beliefs a person holds from lies told to them. */
 export function beliefsOf(api: CoreAPI, personId: PersonId): Belief[] {
   return beliefs(api).query("byHearer", [personId]) as unknown as Belief[];
@@ -8143,6 +8153,16 @@ export const beliefsModule: CoreModule = {
   state: {
     schemaVersion: one,
     tables: { beliefs: { indexes: { byHearer: { fields: ["hearerId"] } } } },
+  },
+  // A record showed the one told the truth (a roll call, a filing): the
+  // belief it settles is done.
+  eventKinds: [CLAIM_FOUND_OUT_EVENT],
+  onEvent(api, event) {
+    const [hearerId] = event.personIds;
+    const key = event.facts?.key;
+    if (!hearerId || typeof key !== "string") return;
+    beliefs(api).remove(`${hearerId}:${key}`);
+    if (!beliefsOf(api, hearerId).length) believers(api).delete(hearerId);
   },
   relationshipKinds: ["*"],
   onRelationshipChange(api, notice) {

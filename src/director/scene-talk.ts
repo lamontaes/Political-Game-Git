@@ -23,6 +23,7 @@
  * asker's lines as the choices and the one asked answers from where they
  * stand (the arc's `asks`). One numbering and one ending decider serve both.
  */
+import type { ToldClaim } from "../core2/told-claims";
 import { traitLean } from "../core2/choice";
 import { decisionKinds } from "../core2/trait-decision-table";
 import { P } from "../core2/parameters";
@@ -317,6 +318,11 @@ export interface PurposeType {
 export interface AskStanding {
   /** Their position today: above zero for it. */
   lean: number;
+  /**
+   * Their answer said against their own record (`tellsTruth`): where the
+   * truth would cost them, they say yes and the roll call will show no.
+   */
+  told?: ToldClaim;
   /** What a yes given as a favor to the player adds at the roll. */
   favor: number;
   /** They ask the player one thing before they answer (`asks.first`). */
@@ -1082,7 +1088,11 @@ export function composeSceneTalk(
             ? [ask.absent ?? ask.relent[zero]!]
             : ask.relent;
     const first = theirs(
-      standing.lean > zero ? [ask.yes] : carried ? [ask.carried] : [ask.no],
+      standing.lean > zero || standing.told
+        ? [ask.yes]
+        : carried
+          ? [ask.carried]
+          : [ask.no],
       request,
       "first",
       said,

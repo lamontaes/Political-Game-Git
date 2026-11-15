@@ -383,6 +383,23 @@
       ]
     },
     {
+      "id": "claims.tell",
+      "site": "src/core2/told-claims.ts",
+      "owner": "OPUS-PEOPLE",
+      "route": "chooser",
+      "traitWeightParameter": "traitWeightClaimsTell",
+      "options": [
+        {
+          "id": "claim-truth",
+          "actKinds": ["follow-rules", "speak-out"]
+        },
+        {
+          "id": "claim-false",
+          "actKinds": ["bend-rules", "self-interest"]
+        }
+      ]
+    },
+    {
       "id": "corruption.tell",
       "site": "src/core2/modules/corruption.ts",
       "owner": "OPUS-GOV",

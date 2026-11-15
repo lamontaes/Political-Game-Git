@@ -466,6 +466,9 @@ function keepReply(api: CoreAPI, event: CoreEventInput): void {
     answerSignOn(api, event, causeId);
     return;
   }
+  // An answer said against the member's own record (told-claims) is a
+  // false yes: it leaves no favor, and the roll call shows the truth.
+  if (event.facts?.told) return;
   const sign = replyMoves.favor.includes(move)
     ? 1
     : replyMoves.strain.includes(move)
@@ -839,7 +842,9 @@ function askBeforeTheRoll(api: CoreAPI): void {
         margin += Math.sign(lean);
         // Only a full person who has not chosen is asked, and only where a
         // favor from the sponsor, the price their record names, or their
-        // staying out would carry them over.
+        // staying out would carry them over. The player as sponsor cannot
+        // see that, so asks each one the bill needs, and each answers from
+        // their own record, the truth or not (told-claims).
         if (
           !chosen &&
           lean <= 0 &&
@@ -848,6 +853,7 @@ function askBeforeTheRoll(api: CoreAPI): void {
         ) {
           const yes =
             key === player ||
+            bill.sponsorId === player ||
             lean + dealValue(api, "favor", key, bill.sponsorId) > 0 ||
             askPrice(api, bill.id, key, bill.sponsorId) !== null;
           if (yes) soft.push({ id: key, lean, gain: lean < 0 ? 2 : 1 });

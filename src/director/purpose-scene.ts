@@ -7,6 +7,13 @@
  * the cause record, its kind and date, and every fact with the records it
  * came from.
  */
+import {
+  keepToldClaim,
+  tellsTruth,
+  type Claim,
+  type ToldClaim,
+} from "../core2/told-claims";
+import { BELIEFS_MODULE_ID, keepBelief } from "./conversation";
 import { saidAs } from "../english/said-as";
 import { tellingOf } from "../english/telling";
 import { saidPersonOf } from "./said-person";
@@ -246,6 +253,8 @@ export interface PurposeScene {
    * and the reply kept is the colleague's answer, said by the colleague.
    */
   playerAsks?: boolean;
+  /** The colleague's answer said against their own record (`tellsTruth`), kept once the player replies. */
+  told?: { readonly claim: Claim; readonly told: ToldClaim };
   /** Why it is happening: the record that fired it. */
   cause: {
     id: string;
@@ -2135,6 +2144,14 @@ function composeBinding(
       askerId,
       askedId,
       ...(standing ? { playerAsks: true } : {}),
+      ...(standing?.told && said.billId
+        ? {
+            told: {
+              claim: { kind: "vote" as const, billId: said.billId },
+              told: standing.told,
+            },
+          }
+        : {}),
       cause: {
         id: moment.causeId,
         kind: moment.causeKind,
@@ -2454,11 +2471,29 @@ function askStanding(
   const api = coreAPI(core as CoreState);
   if (!billOf(api, said.billId)) return undefined;
   const price = askPrice(api, said.billId, colleagueId, playerId);
+  const lean = memberPosition(api, said.billId, colleagueId).total;
+  const favor = favorWorth(api, colleagueId, playerId);
+  // Where their own vote is no, the colleague weighs saying yes anyway,
+  // rather than saying no or trading their vote for a favor or a price: what
+  // the no would cost them with the player against their temperament and the
+  // roll call that will show it (told-claims).
+  const absence = absenceCarries(api, said.billId, colleagueId, playerId);
+  const told =
+    lean > P.zero
+      ? null
+      : tellsTruth(
+          api,
+          colleagueId,
+          playerId,
+          { kind: "vote", billId: said.billId },
+          { wanted: "yes" },
+        );
   return {
-    lean: memberPosition(api, said.billId, colleagueId).total,
-    favor: favorWorth(api, colleagueId, playerId),
+    lean,
+    favor,
+    ...(told && !told.truthful ? { told } : {}),
     ...(price ? { price: price.after } : {}),
-    absence: absenceCarries(api, said.billId, colleagueId, playerId),
+    absence,
   };
 }
 
@@ -3001,6 +3036,30 @@ export function replyInScene(
         ? "no"
         : undefined
     : undefined;
+  // The colleague's false answer is kept once said: the lie's record, and
+  // the player's belief in it, until the roll call shows the truth.
+  const lieId = scene.told
+    ? keepToldClaim(
+        coreAPI(core),
+        scene.askerId,
+        scene.askedId,
+        scene.told.claim,
+        scene.told.told,
+        id,
+      )
+    : null;
+  if (lieId && scene.told && core.modules.has(BELIEFS_MODULE_ID)) {
+    const fact = scene.told.told.fact;
+    keepBelief(coreAPI(core), {
+      id: `${scene.askedId}:${fact.key}`,
+      hearerId: scene.askedId,
+      subjectId: scene.askerId,
+      key: fact.key,
+      claimed: scene.told.told.said,
+      truth: fact.truth,
+      lieEventId: lieId,
+    });
+  }
   applyCoreEvent(core, {
     id,
     date: core.date,
@@ -3031,6 +3090,7 @@ export function replyInScene(
         ? { about: aboutQuestion.text }
         : {}),
       ...(conceded ? { conceded } : {}),
+      ...(lieId ? { told: lieId } : {}),
     },
     source: {
       tag: "SOURCED",

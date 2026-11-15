@@ -6004,6 +6004,16 @@
       "citation": "Measured on both sets of fourteen towns at the fitted reasons and pull: at 2.0 the fit towns' ratio between thirds is 0.66 of the latent model's and at 2.4 the check towns' is 1.54 of it; at 2.2 both sets are within a factor of 1.2."
     }
   },
+  "traitWeightClaimsTell": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "role": "coefficient",
+    "citation": "The trait weight of the claims.tell decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+    }
+  },
   "traitWeightCorruptionTell": {
     "value": 1,
     "tag": "TUNABLE",
