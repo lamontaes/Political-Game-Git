@@ -17,7 +17,15 @@
         "voted-against",
         "reason-last-vote"
       ],
-      "exemptMoves": ["reply-lie"]
+      "exemptMoves": ["reply-lie"],
+      "type": "states"
+    },
+    "opening-reads-its-cause": {
+      "type": "opening",
+      "rule": "Rule 110",
+      "says": "A scene type's opening narration is placed by its cause: at least one narration piece of the type carries a key other than the shared one, so the opening says what just happened. A type with no narration at all is listed, not flagged.",
+      "step": "narrate",
+      "sharedKey": "routine"
     }
   }
 }

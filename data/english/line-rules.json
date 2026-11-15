@@ -5685,6 +5685,11 @@
         {
           "date": "2026-11-14",
           "words": "Be sure that it's talking in American English... I cut the levy by 2 mils. Come on, these are rules and guards already. There better not be any British English in this word session."
+        },
+        {
+          "date": "2026-11-14",
+          "words": "The roll on the free fares for rioters ordinance is recorded. Olivia from the... I'm not sure why it's saying the roll. Maybe, I don't know, is that finishing an event or something?",
+          "via": "Words lead, rule 110"
         }
       ],
       "status": "enforced",
@@ -5710,13 +5715,17 @@
           "\\b(?:b[a]nk r[a]te|c[e]ntral b[a]nk's r[a]te)\\b",
           "\\bj[u]risdictions?\\b",
           "\\bc[o]lleagues,",
-          "\\b(?:b[a]sis p[o]ints?|per c[a]pita|s[i]ne die|m[a]rkups?|c[l]oture|p[r]esentment|e[n]grossed|s[u]permajority|q[u]orum|g[e]rmane|e[a]rmark|c[o]ntinuing r[e]solution|u[n]funded m[a]ndate|r[o]llback r[a]te|d[e]bt s[e]rvice|l[i]ne i[t]em|s[u]nset c[l]ause|f[u]nd b[a]lance|b[i]ennium)\\b"
+          "\\b(?:b[a]sis p[o]ints?|per c[a]pita|s[i]ne die|m[a]rkups?|c[l]oture|p[r]esentment|e[n]grossed|s[u]permajority|q[u]orum|g[e]rmane|e[a]rmark|c[o]ntinuing r[e]solution|u[n]funded m[a]ndate|r[o]llback r[a]te|d[e]bt s[e]rvice|l[i]ne i[t]em|s[u]nset c[l]ause|f[u]nd b[a]lance|b[i]ennium)\\b",
+          "\\bis recorded\\b",
+          "\\b(?:the roll on|on the roll)\\b"
         ]
       },
       "catches": [
         "I cut the levy by two mills.",
         "The ad valorem assessment was promulgated pursuant to the ordinance.",
-        "We must secure the appropriation before the fiscal year lapses, colleagues."
+        "We must secure the appropriation before the fiscal year lapses, colleagues.",
+        "The roll on {bill} is recorded.",
+        "I can't find you on the roll for {bill}."
       ],
       "spares": ["I cut your property taxes.", "It's on the mayor's desk."],
       "applies": [
@@ -5834,6 +5843,23 @@
         }
       ],
       "note": "Rule 113. A counted report, not a pull: `npm run words:placement` lists the reply uses that state a vote or stance and require none of the facts that say it (data/english/placement-checks.json); the count may only fall (tests/guards/english/placement-checks.test.ts).",
+      "status": "awaiting-test",
+      "test": {
+        "kind": "place"
+      }
+    },
+    {
+      "id": "opening-reads-its-cause",
+      "says": "A scene opens on what just happened, in words a person would use: the opening reads the cause record and says the event, never record status (\"The roll on the bill is recorded\").",
+      "judges": "line",
+      "from": [
+        {
+          "date": "2026-11-14",
+          "words": "I'm not sure why it's saying the roll... is that finishing an event or something? I need more context, at least what it thinks the context will be. That will also help scene generation.",
+          "via": "Words lead, rule 110"
+        }
+      ],
+      "note": "Rule 110. The words \"is recorded\" and \"the roll on\" joined plain-american-no-jargon. The rest is a counted report, not a pull: `npm run words:placement` lists the scene types whose every narration piece is keyed routine (placed by no cause); the count may only fall (tests/guards/english/placement-checks.test.ts). Types with no narration are listed, not flagged.",
       "status": "awaiting-test",
       "test": {
         "kind": "place"

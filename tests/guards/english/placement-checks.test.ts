@@ -20,6 +20,15 @@ const pieces = (
     readFileSync(path.join(ROOT, "data/english/parts/scene-talk.json"), "utf8"),
   ) as { parts: PlacedPiece[] }
 ).parts;
+const pulled = new Set<string>(
+  Object.keys(
+    (
+      JSON.parse(
+        readFileSync(path.join(ROOT, "data/english/pulled.json"), "utf8"),
+      ) as { pulled: Record<string, unknown> }
+    ).pulled,
+  ),
+);
 const baseline = (
   JSON.parse(
     readFileSync(
@@ -35,7 +44,7 @@ it("every placement check has a baseline", () => {
 
 for (const id of PLACEMENT_CHECK_IDS)
   it(`${id}: the uses that break it may only fall`, () => {
-    const breaks = placementBreaks(id, pieces);
+    const breaks = placementBreaks(id, pieces, pulled);
     expect(
       breaks.length,
       `${breaks.length} uses break ${id}, more than the ${baseline[id]} on record; place each with the fact it needs or remove it. List: npm run words:placement`,
