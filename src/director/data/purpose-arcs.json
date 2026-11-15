@@ -466,7 +466,7 @@
     },
     "constituent-help": {
       "state": "request",
-      "replies": ["promise", "ask", "decline", "offer", "lie"],
+      "replies": ["promise", "ask", "decline", "offer"],
       "follow": {
         "promise": ["thank", "press"],
         "ask": ["answer"],
@@ -476,7 +476,7 @@
       "again": {
         "answer": ["promise", "offer", "decline", "leave"],
         "plea": ["promise", "offer", "decline"],
-        "press": ["apologize", "leave", "lie"]
+        "press": ["apologize", "leave"]
       },
       "repeatable": {
         "answer": ["promise", "offer"]
@@ -507,22 +507,6 @@
           "keeps": "relationship-strained",
           "when": {
             "reply": ["decline"]
-          }
-        },
-        {
-          "id": "caught",
-          "label": "Caught in a lie",
-          "keeps": "trust-lost",
-          "when": {
-            "caught": true
-          }
-        },
-        {
-          "id": "false-call",
-          "label": "A call you never made",
-          "keeps": "promise",
-          "when": {
-            "believed": true
           }
         },
         {

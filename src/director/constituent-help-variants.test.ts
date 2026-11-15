@@ -371,8 +371,8 @@ it(`office hours plays the variant the constituent's records give (seed ${seed})
         name: fact("Pat Rivera", askerId),
         first: fact(core.people.get(asked)!.givenName, asked),
         // What the case on the office's books gives every visit (caseFacts):
-        // where the office refers it, and when it decides.
-        agency: fact("the workforce office", askerId),
+        // its problem, and when the office decides it.
+        "problem-work": fact("yes", askerId),
         "respond-in": fact("in seven days", askerId),
         ...extra,
       };

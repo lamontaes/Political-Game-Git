@@ -140,7 +140,6 @@ const helpFacts: Record<string, Fact> = {
   "read-household-illness": fact("yes"),
   "problem-work": fact("yes"),
   "money-left": fact("running low"),
-  agency: fact("the workforce office"),
   "respond-in": fact("in seven days"),
 };
 const factsOf = (family: string) =>

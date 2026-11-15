@@ -147,14 +147,18 @@ describe("the case-help lines read as an American resident and an official would
       );
     }
   });
-  it("names the agency only in the official's own replies; the resident says 'them' or nothing", () => {
-    for (const part of pieces)
-      if (part.uses.some((use) => use.role === "asker"))
-        expect(part.text, part.key).not.toContain("{agency}");
+  it("names no office that no record holds (rule 138: the line says the act)", () => {
+    for (const part of pieces) {
+      expect(part.text, part.key).not.toContain("{agency}");
+      for (const use of part.uses)
+        expect(use.requiresFacts ?? [], part.key).not.toContain("agency");
+    }
   });
-  it("tells no one how many other cases are open", () => {
+  it("says the other open cases only in the official's own turning away, never in the resident's lines", () => {
     for (const part of pieces)
-      expect(part.text, part.key).not.toContain("{other-cases}");
+      if (part.text.includes("{other-cases}"))
+        for (const use of part.uses)
+          expect(`${use.role} ${use.move}`, part.key).toBe("asked decline");
   });
   it("says how long ago a layoff was with a span that takes 'ago'", () => {
     for (let days = 1; days < 4000; days += 7)

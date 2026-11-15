@@ -29,6 +29,13 @@ import type { Fact } from "../english/scene-talk-words";
 import { organizationName, spokenDate } from "./words";
 import type { VariantChoice } from "./arc-variant";
 
+/** The fact that says which problem a case was opened for, one per problem. */
+const PROBLEM_FACT: Record<CaseRow["problem"], string> = {
+  "looking-for-work": "problem-work",
+  "paid-under-minimum-wage": "problem-wage",
+  "family-in-custody": "problem-custody",
+};
+
 /** The job a person lost most recently before a day: the jobs module's newest layoff row. */
 export function lastLayoff(
   core: Readonly<CoreState>,
@@ -58,8 +65,8 @@ export function lastLayoff(
  * What the constituent's case on the office's books says (constituent-cases.ts
  * CaseRow), for the moves of the case-help set (data/english/scene-move-sets.json):
  *
- * - `problem-work` / `problem-wage`: the problem the case was opened for;
- * - `agency`: the office the official refers it to by taking it up;
+ * - `problem-work` / `problem-wage` / `problem-custody`: the problem the case
+ *   was opened for (out of work, paid under the floor, a relative in custody);
  * - `respond-in`: when the office decides it if nobody does sooner ("in
  *   seven days"), from the case's deadline;
  * - `employer` and `since` (a job seeker's last layoff), `money-left` (how
@@ -83,13 +90,7 @@ export function caseFacts(
   if (!row) return facts;
   const ids = [caseId];
   const said = (text: string) => ({ text, sourceRecordIds: ids });
-  facts[
-    row.problem === "paid-under-minimum-wage" ? "problem-wage" : "problem-work"
-  ] = said("yes");
-  const agency = (rules.agencyByProblem.value as Record<string, string>)[
-    row.problem
-  ];
-  if (agency) facts.agency = said(agency);
+  facts[PROBLEM_FACT[row.problem]] = said("yes");
   facts["respond-in"] = said(
     daysSaid(Math.max(P.one, daysBetweenText(cause.date, row.respondBy))),
   );
@@ -98,7 +99,7 @@ export function caseFacts(
     const floor = Number(row.facts.floorMinor ?? P.zero);
     if (hourly > P.zero) facts.pay = said(dollars(hourly));
     if (floor > P.zero) facts.floor = said(dollars(floor));
-  } else {
+  } else if (row.problem === "looking-for-work") {
     const loss = lastLayoff(core, askerId, cause.date);
     const org = loss ? core.organizations.get(loss.organizationId) : undefined;
     if (loss) {
