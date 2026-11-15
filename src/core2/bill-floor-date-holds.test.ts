@@ -39,22 +39,28 @@ it("names the floor date once and the floor takes the bill up that day", () => {
   const player = new BenchPlayer(core, world.director);
   player.select(rep);
   const floor = lawInForce(api, "minimum-wage").value ?? 0;
-  const bill: any = seatAct(core, rep, {
+  const bill = seatAct(core, rep, {
     kind: "draft",
     officeId: seat.office.id,
     series: "minimum-wage",
     value: floor + 100,
   });
   expect(bill.status).not.toBe("blocked");
-  const id: string = bill.id ?? bill.billId;
-  const named = (billPaper(core, id) as any).floorDate as string | null;
+  const { id } = bill as unknown as { id: string };
+  const named = billPaper(core, id).floorDate;
   expect(
     named,
     "the paper names a floor date the day it is drafted",
   ).toBeTruthy();
   const status = () =>
-    (api.moduleState(LEGISLATURE_MODULE_ID).table("bills").get(id) as any)
-      ?.status as string;
+    (
+      api
+        .moduleState(LEGISLATURE_MODULE_ID)
+        .table("bills")
+        .get(id) as unknown as {
+        status: string;
+      }
+    ).status;
   const first = status();
   let tookUpOn: string | null = null;
   for (let n = 0; n < 400 && !tookUpOn; n += 1) {
@@ -72,7 +78,7 @@ it("names the floor date once and the floor takes the bill up that day", () => {
     if (status() !== first) tookUpOn = core.date;
     else
       expect(
-        (billPaper(core, id) as any).floorDate,
+        billPaper(core, id).floorDate,
         `${core.date}: the date the paper named slid`,
       ).toBe(named);
   }

@@ -2679,7 +2679,7 @@ export function draftBill(
     titled = {
       ...(table(api, "bills").get(titled.id) as unknown as BillRow),
       floorOn: on,
-    };
+    } as typeof titled;
     table(api, "bills").put(titled as unknown as ModuleRow);
   }
   return titled;
