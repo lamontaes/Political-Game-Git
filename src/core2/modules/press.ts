@@ -199,7 +199,7 @@ const NATIONAL = nationalJson as unknown as {
   basedIn: string;
   kinds: readonly NationalKindRow[];
 };
-/** The kinds of outlet that endorse in an editorial (data/press/endorsements.json). */
+/** The kinds of outlet that endorse in an editorial (src/core2/data/press/endorsements.json). */
 const ENDORSING_KINDS: ReadonlySet<string> = new Set(endorsing.kinds);
 
 const ALL_KINDS: readonly OutletKind[] = [
@@ -439,6 +439,7 @@ export const PRESS_MODULE: CoreModule = {
   onDay: enrollPressEmployers,
   onCalendarWork: (api, work) => {
     if (work.kind === "press-dig") checkClaim(api, work);
+    else if (work.kind === "press-run") runExposure(api, work);
     else if (work.kind === "press-invite") inviteDay(api, work);
     else pressWeek(api, work);
   },
@@ -471,6 +472,9 @@ export const PRESS_MODULE: CoreModule = {
     const policeLog =
       event.kind === CRIME_EVENT && event.placeId === lawChain(api).townPlaceId;
     if (!event.publicRecord && !policeLog) return;
+    // An exposure the paper holds for comment goes on the wire when it runs
+    // (runExposure), so no desk prints it before the one exposed is asked.
+    if (event.kind === "press.exposed" && event.facts?.runsOn) return;
     const chain = lawChain(api);
     const item = wireItem(api, event, {
       placeId: chain.townPlaceId,
@@ -2806,7 +2810,7 @@ function tipOff(api: CoreAPI, event: Readonly<CoreEventInput>): void {
       staff,
       leak: false,
     });
-    if (row?.storyId) return;
+    if (row?.exposedId) return;
   }
 }
 
@@ -2914,6 +2918,12 @@ function weighTip(
   row.run = dig > 0 ? run : null;
   if (dig > 0 && run > 0) {
     const exposedId = `press.exposed:${act.id}:${outlet.id}`;
+    // A reporter asks the one exposed for comment before the story runs: it
+    // runs in the outlet's next edition (`exposureCommentDays`, runExposure).
+    const runsOn = addDays(
+      makeIsoDate(api.state.date),
+      p("exposureCommentDays"),
+    );
     api.emit({
       id: exposedId,
       date: api.state.date,
@@ -2927,6 +2937,7 @@ function weighTip(
         [act.fact[0]]: act.fact[1],
         ...act.facts,
         outletId: outlet.id,
+        runsOn,
       },
       source: {
         tag: "SOURCED",
@@ -2934,45 +2945,93 @@ function weighTip(
         asOf: api.state.date,
       },
     });
-    const ctx = deskContext(api);
-    const story = printItem(
-      api,
-      ctx,
-      outlet,
-      reporterId,
-      {
-        id: exposedId,
-        kind: "press.exposed",
-        date: api.state.date,
-        level: "town",
-        topic: `conduct:${officialId}`,
-        desiredChange: "remove",
-        ending: false,
-        subjectIds: api.state.people.has(officialId) ? [officialId] : [],
+    row.exposedId = exposedId;
+    row.outletId = outlet.id;
+    row.runsOn = runsOn;
+    row.fact = [...act.fact];
+    api.moduleCalendar(PRESS_MODULE_ID).schedule({
+      key: `press-run:${exposedId}`,
+      date: runsOn,
+      kind: "press-run",
+      source: {
+        tag: "ESTIMATED",
+        citation:
+          "An exposure runs in the outlet's next edition, after the one exposed is asked for comment",
+        asOf: api.state.date,
+        estimatedFrom: "exposureCommentDays",
       },
-      null,
-      {
-        slant: {
-          slant: -Math.min(1, run),
-          reasons: { lean: 0, tie: 0, publisher: 0, advertiser: 0 },
-        },
-        facts: { [act.fact[0]]: act.fact[1] },
-      },
-    );
-    row.storyId = story.id;
-    for (const id of ctx.followers(outlet.id))
-      if (id !== officialId)
-        touchImpression(api, {
-          voterId: id,
-          officialId,
-          act: "interview",
-          target: -1,
-          weight: p("exposureWeight") * Math.min(1, run),
-          rapport: 0,
-        });
+      sourceRecordIds: [String(row.id)],
+    });
   }
   table(api, "tips").put(row as unknown as ModuleRow);
   return row;
+}
+
+/**
+ * An exposure runs on its day (weighTip set it): the outlet prints the story,
+ * puts it on the wire for the other outlets, and the one exposed's standing
+ * with the outlet's followers falls as the story is read.
+ */
+function runExposure(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
+  const row = table(api, "tips").get(work.sourceRecordIds[0]!) as unknown as
+    Record<string, unknown> | undefined;
+  if (!row?.exposedId || row.storyId) return;
+  const exposedId = String(row.exposedId);
+  const officialId = String(row.officialId);
+  const reporterId = String(row.reporterId);
+  const outlet = outletsHere(api).find((o) => o.id === row.outletId);
+  if (!outlet || !api.state.people.get(reporterId as PersonId)?.alive) return;
+  const run = Number(row.run);
+  const [factKey, factWord] = row.fact as [string, string];
+  const ctx = deskContext(api);
+  const story = printItem(
+    api,
+    ctx,
+    outlet,
+    reporterId,
+    {
+      id: exposedId,
+      kind: "press.exposed",
+      date: api.state.date,
+      level: "town",
+      topic: `conduct:${officialId}`,
+      desiredChange: "remove",
+      ending: false,
+      subjectIds: api.state.people.has(officialId) ? [officialId] : [],
+    },
+    null,
+    {
+      slant: {
+        slant: -Math.min(1, run),
+        reasons: { lean: 0, tie: 0, publisher: 0, advertiser: 0 },
+      },
+      facts: { [factKey]: factWord },
+    },
+  );
+  table(api, "tips").put({
+    ...row,
+    storyId: story.id,
+  } as unknown as ModuleRow);
+  // In print, it is on the wire for the other outlets to carry.
+  const exposure = api.state.durableLog.get(exposedId);
+  if (exposure) {
+    const chain = lawChain(api);
+    const item = wireItem(api, exposure, {
+      placeId: chain.townPlaceId,
+      stateKey: chain.stateKey,
+    });
+    if (item) table(api, "wire").put(item as unknown as ModuleRow);
+  }
+  for (const id of ctx.followers(outlet.id))
+    if (id !== officialId)
+      touchImpression(api, {
+        voterId: id,
+        officialId,
+        act: "interview",
+        target: -1,
+        weight: pressParameter("exposureWeight") * Math.min(1, run),
+        rapport: 0,
+      });
 }
 
 /**
@@ -3034,7 +3093,7 @@ function conflictBeat(api: CoreAPI): void {
           staff,
           leak: false,
         });
-        if (row?.storyId) break;
+        if (row?.exposedId) break;
       }
     }
 }
@@ -3101,7 +3160,7 @@ export function leakToReporter(
     throw new Error(`${input.reporterId} reports for no outlet here.`);
   const had = table(api, "tips").get(input.crimeId) as unknown as
     Record<string, unknown> | undefined;
-  if (had?.storyId) return had;
+  if (had?.exposedId) return had;
   const row = weighTip(api, {
     act: bribeAct(input.crimeId),
     officialId: crime.officialId,

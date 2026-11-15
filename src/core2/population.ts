@@ -90,7 +90,11 @@ import {
   openingFamilyIndex,
   openingUpbringingTraits,
 } from "./opening-upbringing";
-import { medianTransactionBalance } from "./starting-cash";
+import {
+  householdOpeningCash,
+  medianTransactionBalance,
+} from "./starting-cash";
+import { placeEarningsOf } from "./residents";
 import { seedableTraits } from "./opening-trait-table";
 import type { EntityId, IsoDate as WorldDate } from "./kernel/brands";
 import {
@@ -1570,6 +1574,11 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
       ? coreStateJurisdiction(place.stateJurisdictionKey)?.id
       : undefined,
     stateKey: place.stateJurisdictionKey ?? undefined,
+    // One worker's earnings at the town, as the county's sampled households read them.
+    earnings:
+      placeEarningsOf(place.key, options.seed) ??
+      nationalMedianAnnualWage("occupation:customer-service", options.seed) ??
+      p("zero"),
     startedAt,
     plans: options.kinHouseholdIds
       ? plans.filter((plan) => options.kinHouseholdIds!.has(plan.id))
@@ -1652,6 +1661,8 @@ interface OpeningFamilyInput {
   stateId?: string;
   /** The state's USPS jurisdiction key ("US-CA"), for its ACS leaving rates. */
   stateKey?: string;
+  /** A year's earnings of one worker of the town, which the relatives' opening cash reads. */
+  earnings: number;
   startedAt: WorldDate;
   plans: readonly HouseholdPlan[];
   people: readonly PersonInput[];
@@ -1925,12 +1936,24 @@ function openingFamilies(input: OpeningFamilyInput): {
   const kinRent = hudRentRowFor(input.town, input.seed);
   const kinBirth = new Map(kin.people.map((row) => [row.id, row.birthDate]));
   const kinLiving = new Map<string, number>();
+  // Its opening cash: the survey's median balance at one earner's pay, shared
+  // among its adults, by the rule the county's sampled households open by
+  // (a relative has no recorded job; its pay comes from the place's work once
+  // play starts).
+  const kinCash = new Map<string, number>();
   for (const row of kin.households) {
     const adults = row.memberIds.filter(
       (id) =>
         ageOnDate(makeIsoDate(kinBirth.get(id)!), startedAt) >= p("votingAge"),
     );
     if (!adults.length) continue;
+    const cash = householdOpeningCash(
+      input.earnings,
+      p("zero"),
+      adults.length,
+      input.seed,
+    );
+    adults.forEach((id, index) => kinCash.set(id, cash[index]!));
     const daily = householdDailyCostMinor({
       seed: input.seed,
       stateKey: input.stateKey ?? "",
@@ -1961,7 +1984,7 @@ function openingFamilies(input: OpeningFamilyInput): {
       // One shared source for the relative's temperament, not one per trait.
       traits: { ...(temperament.get(person.id) ?? {}) },
       sharedTraitSource: temperamentSource,
-      liquidMinor: p("zero"),
+      liquidMinor: kinCash.get(person.id) ?? p("zero"),
       livingCostDailyMinor: kinLiving.get(person.id) ?? p("zero"),
       source: kinSource,
       familyIds: [...ids].sort(),

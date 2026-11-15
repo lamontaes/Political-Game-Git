@@ -4891,7 +4891,8 @@
           "move": "answer",
           "role": "asked",
           "purpose": "press-comment",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["voted-no"]
         }
       ],
       "bearing": "calm",
@@ -7362,7 +7363,8 @@
           "move": "press",
           "role": "asker",
           "purpose": "press-comment",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["acted"]
         }
       ],
       "bearing": "braced",
@@ -9177,7 +9179,8 @@
           "move": "confront",
           "role": "asked",
           "purpose": "press-comment",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["acted"]
         }
       ],
       "bearing": "braced",
@@ -9228,7 +9231,8 @@
           "role": "asker",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.reply-confront.why-are-you-asking-me-before-the-vote"
+          "after": "scene-talk.reply-confront.why-are-you-asking-me-before-the-vote",
+          "excludesFacts": ["acted"]
         }
       ],
       "bearing": "calm",
@@ -10997,7 +11001,8 @@
           "move": "lie",
           "role": "asked",
           "purpose": "press-comment",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["voted-no"]
         }
       ],
       "bearing": "calm",
@@ -11021,7 +11026,8 @@
           "purpose": "press-comment",
           "role": "asked",
           "step": "reply",
-          "subject": "scene"
+          "subject": "scene",
+          "excludesFacts": ["voted-no"]
         }
       ],
       "bearing": "calm",
@@ -14399,7 +14405,8 @@
           "role": "asker",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "refuse"
+          "after": "refuse",
+          "requiresFacts": ["acted"]
         }
       ],
       "bearing": "braced",
@@ -14703,7 +14710,8 @@
           "purpose": "press-comment",
           "role": "asker",
           "step": "follow",
-          "subject": "scene"
+          "subject": "scene",
+          "excludesFacts": ["acted"]
         }
       ],
       "bearing": "calm",
@@ -14753,7 +14761,8 @@
           "role": "asker",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.reply-answer.fine-i-m-leaning-yes-that-s-all-you-get"
+          "after": "scene-talk.reply-answer.fine-i-m-leaning-yes-that-s-all-you-get",
+          "excludesFacts": ["acted"]
         }
       ],
       "bearing": "calm",
@@ -14778,7 +14787,8 @@
           "purpose": "press-comment",
           "role": "asker",
           "step": "follow",
-          "subject": "scene"
+          "subject": "scene",
+          "excludesFacts": ["acted"]
         }
       ],
       "bearing": "calm",
@@ -16963,7 +16973,8 @@
           "role": "asker",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.reply-answer.fine-i-m-leaning-yes-that-s-all-you-get"
+          "after": "scene-talk.reply-answer.fine-i-m-leaning-yes-that-s-all-you-get",
+          "excludesFacts": ["acted"]
         }
       ],
       "bearing": "curious",
@@ -16988,7 +16999,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-ask.leaning"
+          "after": "scene-talk.follow-ask.leaning",
+          "excludesFacts": ["acted"]
         }
       ],
       "bearing": "braced",
@@ -22438,7 +22450,8 @@
           "move": "confront",
           "role": "asker",
           "purpose": "recall-confront",
-          "key": "threat"
+          "key": "threat",
+          "requiresFacts": ["voted-yes"]
         }
       ],
       "bearing": "braced",
@@ -22511,7 +22524,8 @@
           "role": "asker",
           "purpose": "recall-confront",
           "key": "threat",
-          "after": "deflect"
+          "after": "deflect",
+          "requiresFacts": ["voted-yes"]
         }
       ],
       "bearing": "braced",
@@ -22535,7 +22549,9 @@
           "move": "offer",
           "role": "asked",
           "purpose": "recall-confront",
-          "key": "threat"
+          "key": "threat",
+          "after": "scene-talk.follow-press.don-t-walk-past-tell-me-why-you-voted-for-it",
+          "requiresFacts": ["voted-yes"]
         }
       ],
       "bearing": "calm",
@@ -24806,7 +24822,8 @@
           "move": "greet",
           "role": "asker",
           "purpose": "neighbor-argument",
-          "key": "threat"
+          "key": "threat",
+          "requiresFacts": ["voted-yes"]
         }
       ],
       "bearing": "braced",
@@ -24904,7 +24921,8 @@
           "role": "asker",
           "purpose": "neighbor-argument",
           "key": "threat",
-          "after": "scene-talk.reply-confront.you-think-i-wanted-this"
+          "after": "scene-talk.reply-confront.you-think-i-wanted-this",
+          "requiresFacts": ["voted-yes"]
         }
       ],
       "bearing": "braced",
@@ -28493,7 +28511,8 @@
           "move": "ask",
           "role": "asked",
           "purpose": "neighbor-argument",
-          "key": "threat"
+          "key": "threat",
+          "requiresFacts": ["acted"]
         }
       ],
       "bearing": "calm",
@@ -28518,7 +28537,8 @@
           "role": "asked",
           "purpose": "neighbor-argument",
           "key": "threat",
-          "after": "answer"
+          "after": "answer",
+          "requiresFacts": ["voted-yes"]
         }
       ],
       "bearing": "contrite",
@@ -31285,30 +31305,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-leave.i-need-some-air-first-five-minutes",
-      "move": "reply-leave",
-      "kind": "spoken",
-      "text": "I need some air first. Five minutes.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "concession-call",
-          "key": "loss"
-        }
-      ],
-      "bearing": "hurt",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "leave",
-        "key": "loss"
-      }
-    },
-    {
       "key": "scene-talk.reply-confront.fine-i-ll-stand-right-here-and-answer-anybody-who-walks-up",
       "move": "reply-confront",
       "kind": "spoken",
@@ -31827,7 +31823,8 @@
           "role": "asked",
           "purpose": "neighbor-argument",
           "key": "threat",
-          "after": "scene-talk.follow-confront.you-voted-for-it-didn-t-you"
+          "after": "scene-talk.follow-confront.you-voted-for-it-didn-t-you",
+          "requiresFacts": ["voted-yes"]
         }
       ],
       "bearing": "braced",
@@ -32817,32 +32814,6 @@
       }
     },
     {
-      "key": "scene-talk.close-accept.five-minutes-i-ll-be-right-outside-the-door",
-      "move": "close-accept",
-      "kind": "spoken",
-      "text": "Five minutes. I'll be right outside the door.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "concession-call",
-          "key": "loss",
-          "after": "scene-talk.reply-leave.i-need-some-air-first-five-minutes",
-          "outcome": "open"
-        }
-      ],
-      "bearing": "solemn",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "accept",
-        "key": "loss"
-      }
-    },
-    {
       "key": "scene-talk.state-offer.the-executive-read-your-vote-on-bill-and-wants-you-as-office-i-ll-be-h",
       "move": "state-offer",
       "kind": "spoken",
@@ -33103,7 +33074,8 @@
           "role": "asked",
           "purpose": "recall-confront",
           "key": "threat",
-          "after": "confront"
+          "after": "confront",
+          "requiresFacts": ["voted-yes"]
         }
       ],
       "bearing": "braced",
@@ -33153,7 +33125,8 @@
           "role": "asker",
           "purpose": "neighbor-argument",
           "key": "threat",
-          "after": "scene-talk.reply-ask.what-happened-exactly"
+          "after": "scene-talk.reply-ask.what-happened-exactly",
+          "requiresFacts": ["acted"]
         }
       ],
       "bearing": "braced",
@@ -34830,7 +34803,7 @@
           "role": "asker",
           "purpose": "neighbor-argument",
           "key": "threat",
-          "requiresFacts": ["effect"]
+          "requiresFacts": ["effect", "voted-yes"]
         }
       ],
       "bearing": "braced",
@@ -34878,7 +34851,8 @@
           "move": "tell",
           "role": "asked",
           "purpose": "neighbor-argument",
-          "key": "threat"
+          "key": "threat",
+          "requiresFacts": ["voted-yes"]
         }
       ],
       "bearing": "calm",
@@ -35403,7 +35377,8 @@
           "role": "asked",
           "purpose": "neighbor-argument",
           "key": "threat",
-          "after": "disagree"
+          "after": "disagree",
+          "requiresFacts": ["voted-yes"]
         }
       ],
       "bearing": "calm",
@@ -41384,7 +41359,8 @@
           "role": "asked",
           "purpose": "recall-confront",
           "key": "threat",
-          "after": "press"
+          "after": "press",
+          "requiresFacts": ["voted-yes"]
         }
       ],
       "bearing": "calm",
@@ -41434,7 +41410,8 @@
           "role": "asker",
           "purpose": "recall-confront",
           "key": "threat",
-          "after": "scene-talk.reply-offer.two-minutes-then-ask-me-anything-about-the-vote"
+          "after": "scene-talk.reply-offer.two-minutes-then-ask-me-anything-about-the-vote",
+          "requiresFacts": ["voted-yes"]
         }
       ],
       "bearing": "curious",
@@ -48458,7 +48435,8 @@
           "role": "asked",
           "purpose": "recall-confront",
           "key": "threat",
-          "after": "confront"
+          "after": "confront",
+          "requiresFacts": ["acted"]
         }
       ],
       "bearing": "braced",
@@ -50107,7 +50085,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-ask.and-if-it-doesn-t-do-what-you-say-by-spring"
+          "after": "scene-talk.follow-ask.and-if-it-doesn-t-do-what-you-say-by-spring",
+          "excludesFacts": ["bill-failed"]
         }
       ],
       "bearing": "proud",
@@ -50182,7 +50161,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-press.i-read-it-that-s-why-i-m-asking-you"
+          "after": "scene-talk.follow-press.i-read-it-that-s-why-i-m-asking-you",
+          "requiresFacts": ["acted"]
         }
       ],
       "bearing": "calm",
@@ -50307,7 +50287,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-press.a-statement-doesn-t-answer-questions-you-do"
+          "after": "scene-talk.follow-press.a-statement-doesn-t-answer-questions-you-do",
+          "excludesFacts": ["voted-no", "bill-failed"]
         }
       ],
       "bearing": "calm",
@@ -50332,7 +50313,9 @@
           "purpose": "press-comment",
           "role": "asked",
           "step": "reply",
-          "subject": "scene"
+          "subject": "scene",
+          "requiresFacts": ["acted"],
+          "excludesFacts": ["voted-no"]
         }
       ],
       "bearing": "calm",
@@ -50357,7 +50340,8 @@
           "purpose": "press-comment",
           "role": "asked",
           "step": "reply",
-          "subject": "scene"
+          "subject": "scene",
+          "excludesFacts": ["bill-failed"]
         }
       ],
       "bearing": "calm",
@@ -50807,7 +50791,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-answer.i-decided-nothing-i-m-asking-because-people-will-ask-me"
+          "after": "scene-talk.follow-answer.i-decided-nothing-i-m-asking-because-people-will-ask-me",
+          "requiresFacts": ["acted"]
         },
         {
           "subject": "scene",
@@ -50816,7 +50801,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-answer.i-want-an-answer-for-the-people-who-watch-at-six"
+          "after": "scene-talk.follow-answer.i-want-an-answer-for-the-people-who-watch-at-six",
+          "requiresFacts": ["acted"]
         }
       ],
       "bearing": "calm",
@@ -50841,7 +50827,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-answer.i-decided-nothing-i-m-asking-because-people-will-ask-me"
+          "after": "scene-talk.follow-answer.i-decided-nothing-i-m-asking-because-people-will-ask-me",
+          "excludesFacts": ["bill-failed"]
         },
         {
           "subject": "scene",
@@ -50850,7 +50837,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-answer.i-want-an-answer-for-the-people-who-watch-at-six"
+          "after": "scene-talk.follow-answer.i-want-an-answer-for-the-people-who-watch-at-six",
+          "excludesFacts": ["bill-failed"]
         }
       ],
       "bearing": "proud",
@@ -51268,7 +51256,8 @@
           "role": "asker",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.reply-answer.none-of-it-it-passes-as-written-or-we-start-over"
+          "after": "scene-talk.reply-answer.none-of-it-it-passes-as-written-or-we-start-over",
+          "excludesFacts": ["acted"]
         }
       ],
       "bearing": "curious",
@@ -51493,7 +51482,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-ask.and-if-the-votes-aren-t-there"
+          "after": "scene-talk.follow-ask.and-if-the-votes-aren-t-there",
+          "excludesFacts": ["acted"]
         }
       ],
       "bearing": "proud",
@@ -51893,7 +51883,8 @@
           "role": "asker",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.reply-answer.the-same-thing-i-tell-you-the-whole-bill"
+          "after": "scene-talk.reply-answer.the-same-thing-i-tell-you-the-whole-bill",
+          "excludesFacts": ["acted"]
         }
       ],
       "bearing": "curious",
@@ -52102,7 +52093,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-answer.i-want-you-to-tell-people-what-s-at-stake"
+          "after": "scene-talk.follow-answer.i-want-you-to-tell-people-what-s-at-stake",
+          "excludesFacts": ["acted"]
         },
         {
           "subject": "scene",
@@ -52111,7 +52103,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-answer.so-people-know-who-s-deciding-for-them"
+          "after": "scene-talk.follow-answer.so-people-know-who-s-deciding-for-them",
+          "excludesFacts": ["acted"]
         }
       ],
       "bearing": "proud",
@@ -52279,7 +52272,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-ask.even-if-the-whole-bill-loses"
+          "after": "scene-talk.follow-ask.even-if-the-whole-bill-loses",
+          "excludesFacts": ["acted"]
         }
       ],
       "bearing": "guarded",
@@ -54159,7 +54153,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "press"
+          "after": "press",
+          "requiresFacts": ["acted"]
         }
       ],
       "bearing": "calm",
@@ -54168,32 +54163,6 @@
       "date": "2026-10-15",
       "tag": {
         "move": "answer",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.reply-stall.ask-me-next-week-when-there-s-more-to-say",
-      "move": "reply-stall",
-      "kind": "spoken",
-      "text": "Ask me next week, when there's more to say.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "stall",
-          "role": "asked",
-          "purpose": "press-comment",
-          "key": "routine",
-          "after": "press",
-          "excludesFacts": ["vote-held"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "stall",
         "key": "routine"
       }
     },
@@ -54294,31 +54263,6 @@
       "date": "2026-10-15",
       "tag": {
         "move": "thank",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.next-week-i-ll-call-monday",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "Next week. I'll call Monday.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "press-comment",
-          "key": "routine",
-          "after": "scene-talk.reply-stall.ask-me-next-week-when-there-s-more-to-say"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "accept",
         "key": "routine"
       }
     },
@@ -54864,7 +54808,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.state-ask.who-does-bill-help-on-the-first-day-it-s-law-and-who-does-it-cost"
+          "after": "scene-talk.state-ask.who-does-bill-help-on-the-first-day-it-s-law-and-who-does-it-cost",
+          "requiresFacts": ["signed-it"]
         }
       ],
       "bearing": "guarded",
@@ -54914,7 +54859,8 @@
           "role": "asker",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.reply-answer.people-who-work-two-jobs-and-still-come-up-short-it-s-written-for-them"
+          "after": "scene-talk.reply-answer.people-who-work-two-jobs-and-still-come-up-short-it-s-written-for-them",
+          "requiresFacts": ["bill-cuts"]
         }
       ],
       "bearing": "curious",
@@ -55391,7 +55337,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-ask.then-why-does-it-cut-the-program-most-of-them-use"
+          "after": "scene-talk.follow-ask.then-why-does-it-cut-the-program-most-of-them-use",
+          "excludesFacts": ["bill-failed"]
         }
       ],
       "bearing": "proud",
@@ -55491,7 +55438,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-ask.and-on-the-second-day"
+          "after": "scene-talk.follow-ask.and-on-the-second-day",
+          "excludesFacts": ["bill-failed"]
         }
       ],
       "bearing": "proud",
@@ -56241,7 +56189,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-press.a-signature-isn-t-a-sentence-give-me-one"
+          "after": "scene-talk.follow-press.a-signature-isn-t-a-sentence-give-me-one",
+          "excludesFacts": ["voted-no", "bill-failed"]
         }
       ],
       "bearing": "calm",
@@ -56691,7 +56640,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "answer"
+          "after": "answer",
+          "excludesFacts": ["bill-failed"]
         }
       ],
       "bearing": "proud",
@@ -56798,6 +56748,56 @@
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.i-will-i-ll-print-what-i-find",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "I will. I'll print what I find.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "after": "scene-talk.reply-boast.check-the-archive-i-ve-said-the-same-thing-for-years"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.then-i-ll-run-the-old-quote",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Then I'll run the old quote.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "after": "scene-talk.reply-boast.print-what-i-said-last-time-it-s-still-true"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead",
+      "date": "2026-11-15",
       "tag": {
         "move": "accept",
         "key": "routine"
@@ -74449,30 +74449,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-answer.off-the-record-fine-but-you-didn-t-hear-it-from-me",
-      "move": "reply-answer",
-      "kind": "spoken",
-      "text": "Off the record? Fine. But you didn't hear it from me.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "answer",
-          "role": "asked",
-          "purpose": "press-comment",
-          "key": "routine"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Claude Opus (pool item words-scene-web-home-and-family)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "answer",
-        "key": "routine"
-      }
-    },
-    {
       "key": "scene-talk.narrate-narrate.there-s-a-message-from-name-at-outlet-it-s-about-you",
       "move": "narrate-narrate",
       "kind": "spoken",
@@ -89655,7 +89631,8 @@
           "role": "asker",
           "purpose": "recall-confront",
           "key": "threat",
-          "after": "scene-talk.reply-ask.what-does-it-say-i-did"
+          "after": "scene-talk.reply-ask.what-does-it-say-i-did",
+          "requiresFacts": ["voted-yes"]
         }
       ],
       "bearing": "braced",
@@ -102510,7 +102487,8 @@
           "move": "deflect",
           "role": "asked",
           "purpose": "press-comment",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["acted"]
         }
       ],
       "bearing": "calm",
@@ -102558,7 +102536,8 @@
           "move": "deflect",
           "role": "asked",
           "purpose": "press-comment",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["acted"]
         }
       ],
       "bearing": "calm",
@@ -119594,7 +119573,8 @@
           "move": "deflect",
           "role": "asked",
           "purpose": "press-comment.friendly",
-          "key": "routine"
+          "key": "routine",
+          "requiresFacts": ["acted"]
         }
       ],
       "bearing": "guarded",
@@ -120827,7 +120807,8 @@
           "move": "answer",
           "role": "asked",
           "purpose": "press-comment.hostile",
-          "key": "routine"
+          "key": "routine",
+          "requiresFacts": ["acted"]
         }
       ],
       "bearing": "calm",
@@ -121097,7 +121078,8 @@
           "move": "refuse",
           "role": "asked",
           "purpose": "press-comment.hostile",
-          "key": "routine"
+          "key": "routine",
+          "requiresFacts": ["acted"]
         }
       ],
       "bearing": "guarded",
@@ -121121,7 +121103,8 @@
           "move": "lie",
           "role": "asked",
           "purpose": "press-comment.hostile",
-          "key": "routine"
+          "key": "routine",
+          "requiresFacts": ["acted"]
         }
       ],
       "bearing": "guarded",
@@ -121145,7 +121128,8 @@
           "move": "lie",
           "role": "asked",
           "purpose": "press-comment.hostile",
-          "key": "routine"
+          "key": "routine",
+          "requiresFacts": ["acted"]
         }
       ],
       "bearing": "guarded",
@@ -185673,6 +185657,1183 @@
           "key": "bill-sign-on"
         }
       ]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-asks-for-a-minute-of-your-time",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} asks for a minute of your time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (endorsement ask, Nov 15)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-has-come-to-ask-you-for-something",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} has come to ask you for something.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (endorsement ask, Nov 15)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-waits-until-the-two-of-you-can-talk",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} waits until the two of you can talk.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (endorsement ask, Nov 15)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell-reason.you-know-me-better-than-anyone",
+      "move": "state-tell-reason",
+      "kind": "spoken",
+      "text": "You know me better than anyone.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell-reason",
+          "role": "asker",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "requiresFacts": ["reason-tie-close"],
+          "excludesFacts": ["asked-again"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (endorsement ask, Nov 15)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "tell-reason",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell-need.i-d-like-you-to-say-so",
+      "move": "state-tell-need",
+      "kind": "spoken",
+      "text": "I'd like you to say so.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell-need",
+          "role": "asker",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "requiresFacts": ["reason-tie-close"],
+          "excludesFacts": ["asked-again"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (endorsement ask, Nov 15)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "tell-need",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell-reason.we-don-t-know-each-other-well",
+      "move": "state-tell-reason",
+      "kind": "spoken",
+      "text": "We don't know each other well.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell-reason",
+          "role": "asker",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "requiresFacts": ["reason-tie-distant"],
+          "excludesFacts": ["asked-again"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (endorsement ask, Nov 15)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "tell-reason",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell-need.your-word-carries-here",
+      "move": "state-tell-need",
+      "kind": "spoken",
+      "text": "Your word carries here.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell-need",
+          "role": "asker",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "requiresFacts": ["reason-tie-distant"],
+          "excludesFacts": ["asked-again"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (endorsement ask, Nov 15)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "tell-need",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell-reason.i-stood-with-you-on-bill",
+      "move": "state-tell-reason",
+      "kind": "spoken",
+      "text": "I stood with you on {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell-reason",
+          "role": "asker",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "requiresFacts": ["reason-favor"],
+          "excludesFacts": ["asked-again"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (endorsement ask, Nov 15)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "tell-reason",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell-need.i-m-running-for-office-now",
+      "move": "state-tell-need",
+      "kind": "spoken",
+      "text": "I'm running for {office} now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell-need",
+          "role": "asker",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "requiresFacts": ["reason-favor"],
+          "excludesFacts": ["asked-again"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (endorsement ask, Nov 15)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "tell-need",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.will-you-endorse-me",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Will you endorse me?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "excludesFacts": ["asked-again"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (endorsement ask, Nov 15)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-m-asking-for-it",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I'm asking for it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "requiresFacts": ["reason-tie-distant"],
+          "excludesFacts": ["asked-again"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (endorsement ask, Nov 15)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-m-asking-you-to-stand-with-me",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I'm asking you to stand with me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "requiresFacts": ["reason-favor"],
+          "excludesFacts": ["asked-again"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (endorsement ask, Nov 15)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-need-your-endorsement",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I need your endorsement.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "requiresFacts": ["reason-favor"],
+          "excludesFacts": ["asked-again"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (endorsement ask, Nov 15)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell-reason.you-said-a-few-days-i-m-back",
+      "move": "state-tell-reason",
+      "kind": "spoken",
+      "text": "You said a few days. I'm back.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell-reason",
+          "role": "asker",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "requiresFacts": ["asked-again"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (endorsement ask, Nov 15)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "tell-reason",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.will-you-endorse-me-for-office",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Will you endorse me for {office}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "requiresFacts": ["asked-again"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (endorsement ask, Nov 15)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.you-have-my-endorsement",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "You have my endorsement.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (endorsement ask, Nov 15)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.you-stood-by-me-i-ll-stand-by-you",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "You stood by me. I'll stand by you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "requiresFacts": ["reason-tie-close"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (endorsement ask, Nov 15)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.i-owe-you-you-have-it",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I owe you. You have it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "requiresFacts": ["reason-favor"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (endorsement ask, Nov 15)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-m-not-endorsing-anyone-in-this-race",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I'm not endorsing anyone in this race.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (endorsement ask, Nov 15)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-ve-already-given-my-word-to-someone-else",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I've already given my word to someone else.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "requiresFacts": ["endorsed-other"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (endorsement ask, Nov 15)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-know-what-i-owe-you-i-can-t-pay-it-this-way",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I know what I owe you. I can't pay it this way.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "requiresFacts": ["reason-favor"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (endorsement ask, Nov 15)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-stall.give-me-a-few-days-i-ll-have-an-answer",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "Give me a few days. I'll have an answer.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "excludesFacts": ["asked-again"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (endorsement ask, Nov 15)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "stall",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-i-ll-tell-people",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you. I'll tell people.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "after": "agree",
+          "excludesFacts": ["reason-favor"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "after": "relent",
+          "excludesFacts": ["reason-favor"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (endorsement ask, Nov 15)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.that-means-a-lot-i-won-t-waste-it",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "That means a lot. I won't waste it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "after": "agree",
+          "excludesFacts": ["reason-favor"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "after": "relent",
+          "excludesFacts": ["reason-favor"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (endorsement ask, Nov 15)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.then-we-re-even-thank-you",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Then we're even. Thank you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "after": "agree",
+          "requiresFacts": ["reason-favor"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "after": "relent",
+          "requiresFacts": ["reason-favor"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (endorsement ask, Nov 15)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.can-i-ask-why",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Can I ask why?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "after": "decline",
+          "excludesFacts": ["reason-favor"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (endorsement ask, Nov 15)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.i-didn-t-ask-what-it-cost-me-on-bill",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "I didn't ask what it cost me on {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "after": "decline",
+          "requiresFacts": ["reason-favor"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (endorsement ask, Nov 15)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.the-election-is-vote-day-i-can-t-wait-long",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "The election is {vote-day}. I can't wait long.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "after": "stall",
+          "excludesFacts": ["reason-favor"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (endorsement ask, Nov 15)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.i-didn-t-make-you-wait-on-bill",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "I didn't make you wait on {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "after": "stall",
+          "requiresFacts": ["reason-favor"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (endorsement ask, Nov 15)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.i-can-t-wait-long-people-are-deciding-now",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "I can't wait long. People are deciding now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "after": "stall",
+          "excludesFacts": ["reason-favor"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (endorsement ask, Nov 15)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.a-few-days-is-a-long-time-in-a-race",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "A few days is a long time in a race.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "after": "stall",
+          "excludesFacts": ["reason-favor"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (endorsement ask, Nov 15)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.the-answer-is-no-it-isn-t-about-you",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "The answer is no. It isn't about you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "after": "scene-talk.follow-press.can-i-ask-why"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "after": "scene-talk.follow-press.i-didn-t-ask-what-it-cost-me-on-bill"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (endorsement ask, Nov 15)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "refuse",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.i-m-backing-someone-else-i-gave-my-word",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I'm backing someone else. I gave my word.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "after": "scene-talk.follow-press.can-i-ask-why",
+          "requiresFacts": ["endorsed-other"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "after": "scene-talk.follow-press.i-didn-t-ask-what-it-cost-me-on-bill",
+          "requiresFacts": ["endorsed-other"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (endorsement ask, Nov 15)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "refuse",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-relent.i-don-t-have-a-good-reason-you-have-my-endorsement",
+      "move": "reply-relent",
+      "kind": "spoken",
+      "text": "I don't have a good reason. You have my endorsement.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "relent",
+          "role": "asked",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "after": "scene-talk.follow-press.can-i-ask-why"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (endorsement ask, Nov 15)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "relent",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-relent.you-re-right-you-have-my-endorsement",
+      "move": "reply-relent",
+      "kind": "spoken",
+      "text": "You're right. You have my endorsement.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "relent",
+          "role": "asked",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "after": "scene-talk.follow-press.i-didn-t-ask-what-it-cost-me-on-bill"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (endorsement ask, Nov 15)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "relent",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.then-you-have-it-tell-people",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Then you have it. Tell people.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "after": "scene-talk.follow-press.the-election-is-vote-day-i-can-t-wait-long"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "after": "scene-talk.follow-press.i-didn-t-make-you-wait-on-bill"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "after": "scene-talk.follow-press.i-can-t-wait-long-people-are-deciding-now"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "after": "scene-talk.follow-press.a-few-days-is-a-long-time-in-a-race"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (endorsement ask, Nov 15)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.then-the-answer-is-no",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "Then the answer is no.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "after": "scene-talk.follow-press.the-election-is-vote-day-i-can-t-wait-long"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "after": "scene-talk.follow-press.i-didn-t-make-you-wait-on-bill"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "after": "scene-talk.follow-press.i-can-t-wait-long-people-are-deciding-now"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "after": "scene-talk.follow-press.a-few-days-is-a-long-time-in-a-race"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (endorsement ask, Nov 15)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "refuse",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.a-few-days-that-s-all-i-m-asking",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "A few days. That's all I'm asking.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "after": "scene-talk.follow-press.the-election-is-vote-day-i-can-t-wait-long"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "after": "scene-talk.follow-press.i-didn-t-make-you-wait-on-bill"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "after": "scene-talk.follow-press.i-can-t-wait-long-people-are-deciding-now"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "after": "scene-talk.follow-press.a-few-days-is-a-long-time-in-a-race"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (endorsement ask, Nov 15)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "deflect",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.alright-i-heard-you",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Alright. I heard you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "after": "decline"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "after": "refuse"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (endorsement ask, Nov 15)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.i-won-t-forget-it-good-luck-to-you",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "I won't forget it. Good luck to you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "after": "decline",
+          "requiresFacts": ["reason-favor"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "after": "decline",
+          "requiresFacts": ["reason-tie-close"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "after": "refuse",
+          "requiresFacts": ["reason-favor"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "after": "refuse",
+          "requiresFacts": ["reason-tie-close"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (endorsement ask, Nov 15)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.a-few-days-then-i-m-coming-back",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "A few days. Then I'm coming back.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "after": "stall"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "after": "deflect"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (endorsement ask, Nov 15)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
     },
     {
       "key": "scene-talk.narrate-narrate.the-sponsor-of-bill-gathers-the-committees-papers-and-looks-for",
