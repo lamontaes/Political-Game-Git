@@ -1,8 +1,8 @@
 /**
  * Papers endorse (owner, Oct 16: "if it happens in real life, sure"; an
  * outlet's endorsement follows its own leanings and the record, no dice).
- * An outlet of a kind that endorses (data/press/endorsements.json) weighs
- * the races on its beat by the one endorsement rule (`outletWeighsRace` in
+ * An outlet of a kind that endorses (src/core2/data/press/endorsements.json)
+ * weighs the races on its beat by the one endorsement rule (`outletWeighsRace` in
  * src/core2/modules/campaigns.ts): its head backs the candidate they agree
  * with above every rival, under the outlet's own name. Its followers hear it
  * (their impressions of the candidate, which the voting engine reads).
