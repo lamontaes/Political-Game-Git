@@ -2,7 +2,7 @@
 id: words-family-loss-heavy-gift-needs-a-giver
 title: "After a lost race, a household that gave most of its savings is heard"
 area: director
-kind: gap
+kind: feature
 priority: 3
 size: S
 status: open
@@ -30,7 +30,7 @@ Seen: pull request 9512, where every candidate's own gift in its played places c
 
 **Rules.** No hand-set gift: the amount goes through the bench handler. A statement no played scene says is not shipped.
 
-**Done when.** At a place drawn from all 56 (name the place and seed), a played life that gave most of its cash to its own race hears the heavy statement in the talk after the loss, and the pinned test src/director/family-loss-stake-scene.test.ts names the scene's record id.
+**Done when.** A second session sees, in the running game at a place drawn from all 56 (name the place and seed), that a played life that gave most of its cash to its own race hears the heavy statement in the talk after the loss, and the pinned test src/director/family-loss-stake-scene.test.ts names the scene's record id.
 
 **Waits on.** Pull request 9512 folding.
 

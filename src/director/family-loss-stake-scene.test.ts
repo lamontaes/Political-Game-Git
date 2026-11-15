@@ -317,7 +317,6 @@ const run = (
         ) as Record<string, number>,
       ).sort((a, b) => b[1] - a[1]);
       const cast = votes.reduce((sum, row) => sum + row[1], 0);
-      const lead = votes.length > 1 ? (votes[0]![1] - votes[1]![1]) / cast : 0;
       const given = facts.find((row) => row.key === "given")?.text;
       const seats =
         Number(core.durableLog.get(causeId)?.facts?.seats ?? 1) || 1;

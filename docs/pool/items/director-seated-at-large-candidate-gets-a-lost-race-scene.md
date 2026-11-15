@@ -19,6 +19,8 @@ root: none
 ---
 
 **What.** In a three-seat council race a candidate who finished second, inside the seats, was given the "you lost the race" narration ("by 1 vote") and the concession call.
+The count had seated them, so the player is told someone lost who won a seat.
+The same causes serve every at-large body, so the fault is not one town's.
 Seen: Walled Lake MI, seed losscan:25, a filer with 215 votes against a last winning seat of 200.
 
 **Cause.** Found in code: the `race-lost` and `family-loss` causes in src/director/data/situation-types.json match on `winnerId` being someone else, and an at-large race names one winner while the count seats several; the result record's `outIds` names who missed the cut.
@@ -27,9 +29,9 @@ Seen: Walled Lake MI, seed losscan:25, a filer with 215 votes against a last win
 
 **Time box.** 2 hours for a Sonnet session.
 
-**Rules.** No second lost-race rule: the count's own list decides.
+**Rules.** Replace, never layer: the count's own list of who missed the cut decides who lost, and no second lost-race rule is written beside it.
 
-**Done when.** At Walled Lake MI seed losscan:25 a seated filer has no lost-race scene and src/bench/election-day.test.ts and src/director/family-loss-stake-scene.test.ts pass.
+**Done when.** A second session sees, in the running game at a place drawn from all 56 (name the place and seed), that a candidate the count seated in an at-large race gets no lost-race scene or concession call. At Walled Lake MI seed losscan:25 the played world no longer names a seated filer in the played file, and the test src/bench/election-day.test.ts and the test src/director/family-loss-stake-scene.test.ts pass.
 
 **Waits on.** Nothing.
 
