@@ -8,7 +8,7 @@ import { amountWords } from "./bill-sections";
 import billSections from "../../data/english/bill-sections.json" with { type: "json" };
 import health from "../core2/data/health.json" with { type: "json" };
 import { questionAbout } from "./question-names";
-import { RELATIVE_NEWS_WORDS } from "./relative-news-words";
+import causeForms from "../../data/english/cause-forms.json" with { type: "json" };
 
 interface Policy {
   question?: string;
@@ -58,13 +58,16 @@ export function topicInSentence(topic: string): string | null {
  * What a cause is about, as a sentence says it mid-line, for any topic a
  * cause can carry (drives.ts takes it from the event that formed the cause):
  * a policy question or a law's amount (`topicInSentence`), a budget line by
- * what it is about (question-names.json `about`), an illness by its common
- * name (relative-news-words.json `illnesses`). Null where no bank names it,
- * and the scene picks a wording that does not need it or is not staged.
+ * what it is about (question-names.json `about`), an illness by what the
+ * people in it want (cause-forms.json `illness`: "better care after a
+ * stroke"). Null where no bank names it, and the scene picks a wording that
+ * does not need it or is not staged.
  */
 export function causeTopicSaid(topic: string): string | null {
   const illness = topic.startsWith(`${health.topicPrefix}:`)
-    ? RELATIVE_NEWS_WORDS.illnesses[topic.slice(health.topicPrefix.length + 1)]
+    ? (causeForms.illness as Readonly<Record<string, string>>)[
+        topic.slice(health.topicPrefix.length + 1)
+      ]
     : undefined;
   return topicInSentence(topic) ?? questionAbout(topic) ?? illness ?? null;
 }

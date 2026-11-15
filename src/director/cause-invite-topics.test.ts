@@ -30,7 +30,7 @@ const SEED = "edgar-petition-1";
 const where = `Edgar, Wisconsin (${PLACE}), seed ${SEED}`;
 
 describe("a cause invite says what the cause is about", () => {
-  for (const topic of ["budget-line:naturalResources", "health:cancer"])
+  for (const topic of ["budget-line:naturalResources", "health:stroke"])
     it(`${where}: an invite about ${topic} is staged and names it`, () => {
       const said = causeTopicSaid(topic);
       expect(said, topic).toBeTruthy();
