@@ -274,7 +274,7 @@ export interface TreeNode {
 export function playedNode(node: TreeNode): TreeNode {
   const branches = node.branches;
   if (!branches?.length) return node;
-  const branch = branches.find((row) => row.knows) ?? branches[0]!;
+  const branch = branches.find((row) => row.knows) ?? branches[zero]!;
   return {
     ...branch.node,
     lines: [...node.lines, ...branch.node.lines],
