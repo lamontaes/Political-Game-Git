@@ -10973,7 +10973,7 @@
       "key": "journal.poll-day-registered.i-registered-at-the-polls-and-voted",
       "move": "poll-day-registered",
       "kind": "spoken",
-      "text": "I registered at the polls and voted.",
+      "text": "I registered at the polls in {place} and voted.",
       "uses": [
         {
           "move": "poll-day-registered",
@@ -10999,7 +10999,7 @@
       "key": "journal.poll-day-old-address.i-was-still-registered-at-my-old-address",
       "move": "poll-day-old-address",
       "kind": "spoken",
-      "text": "I was still registered at my old address. I did not vote.",
+      "text": "My old address kept me from voting in {place}.",
       "uses": [
         {
           "move": "poll-day-old-address",
@@ -11025,7 +11025,7 @@
       "key": "journal.poll-day-not-registered.i-was-not-registered",
       "move": "poll-day-not-registered",
       "kind": "spoken",
-      "text": "I was not registered. I did not vote.",
+      "text": "I was not registered, so I couldn't vote in {place}.",
       "uses": [
         {
           "move": "poll-day-not-registered",
@@ -11051,7 +11051,7 @@
       "key": "journal.poll-day-after-deadline.i-registered-too-late-for-this-election",
       "move": "poll-day-after-deadline",
       "kind": "spoken",
-      "text": "I registered too late for this election. I did not vote.",
+      "text": "I registered too late to vote in {place}.",
       "uses": [
         {
           "move": "poll-day-after-deadline",

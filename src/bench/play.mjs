@@ -2,6 +2,7 @@
 // The game screen on the new core: one scene, the player card, the menus.
 // Words on screen are record data, engine text and control names only.
 import { makeButton, buttonRow, buttonTray } from "./ui/button.mjs";
+import { pollTalk } from "./ui/poll-talk.mjs";
 import { face as drawFace } from "./ui/face.mjs";
 import {
   talkLine,
@@ -58,7 +59,7 @@ import { listRow, factRow, noteLine } from "./ui/list-row.mjs";
 import { picture as pictureFrame } from "./ui/picture.mjs";
 import { select, optionsOf, numberBox, statusLine } from "./ui/fields.mjs";
 import { lookRow } from "./ui/look-row.mjs";
-import { el, fitUiScale, uiScale, viewHeight, viewWidth } from "./ui/dom.mjs";
+import { fitUiScale, uiScale, viewHeight, viewWidth } from "./ui/dom.mjs";
 import { termWord } from "./ui/term.mjs";
 import { watchTerms } from "./ui/term-mark.mjs";
 import { recordScreen } from "./ui/screen.mjs";
@@ -1304,25 +1305,6 @@ function atThePolls(scene) {
     };
     // The poll worker's scene where the voter is not on the rolls (poll-problem.ts): the
     // lines said so far and the replies offered; the words come from the bank.
-    const talkPanel = (talk, onSay) =>
-      el(
-        "div",
-        { className: "poll-talk" },
-        ...talk.lines.map((line) =>
-          el("p", {
-            className: `poll-line poll-${line.speaker}`,
-            textContent: line.text,
-          }),
-        ),
-        ...talk.choices.map((choice) => {
-          const button = makeButton({
-            className: "action",
-            textContent: choice.text,
-          });
-          button.addEventListener("click", () => onSay(choice.index));
-          return button;
-        }),
-      );
     const said = async (index) => {
       const result = await post(
         `/api/polling-place/say?${new URLSearchParams({ index })}`,
@@ -1334,18 +1316,11 @@ function atThePolls(scene) {
       else if (result.pollingPlace) draw(result.pollingPlace, result.talk);
       else
         $("ballot").replaceChildren(
-          el(
-            "div",
-            { className: "ballot-paper" },
-            talkPanel(result.talk, () => {}),
-            Object.assign(
-              makeButton({
-                className: "action",
-                textContent: controls.polling?.leave,
-              }),
-              { onclick: finish },
-            ),
-          ),
+          pollTalk({
+            talk: result.talk,
+            leave: controls.polling?.leave,
+            onLeave: finish,
+          }),
         );
     };
     const draw = (value, heard) => {
@@ -1354,28 +1329,20 @@ function atThePolls(scene) {
       drawHere(scene);
       if (scene.talk && scene.standing !== "on") {
         $("ballot").replaceChildren(
-          el(
-            "div",
-            { className: "ballot-paper" },
-            talkPanel(scene.talk, said),
-            Object.assign(
-              makeButton({
-                className: "action",
-                textContent: controls.polling?.leave,
-              }),
-              {
-                onclick: async () => {
-                  await post("/api/polling-place/leave").catch(() => null);
-                  finish();
-                },
-              },
-            ),
-          ),
+          pollTalk({
+            talk: scene.talk,
+            leave: controls.polling?.leave,
+            onSay: said,
+            onLeave: async () => {
+              await post("/api/polling-place/leave").catch(() => null);
+              finish();
+            },
+          }),
         );
         return;
       }
       $("ballot").replaceChildren(
-        ...(heard ? [talkPanel({ ...heard, choices: [] }, () => {})] : []),
+        ...(heard ? [pollTalk({ talk: { ...heard, choices: [] } })] : []),
         ballotPaper({
           contests: scene.contests,
           labels: { ...labels, blank: controls.polling?.leaveBlank },

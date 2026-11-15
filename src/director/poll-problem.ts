@@ -12,6 +12,7 @@
  * `scene.reply` record, as every scene's reply is. The scene is staged by the
  * visit (`polling-place.ts`), not by a moment, so it holds no cause of its own.
  */
+import { P } from "../core2/parameters";
 import { applyCoreEvent, coreAPI } from "../core2/state";
 import { type PollingStatus } from "../core2/modules/voting";
 import { dwellingMovedIn } from "../core2/modules/housing";
@@ -130,7 +131,7 @@ function pollFacts(
 /** The scene for a visit, or null where the voter is on the rolls or no worker is on record to speak. */
 function pollScene(core: Readonly<CoreState>, visit: PollingVisit) {
   if (visit.standing === "on") return null;
-  const workerId = visit.pollWorkerIds[0];
+  const workerId = visit.pollWorkerIds[P.zero];
   if (!workerId) return null;
   const result = composeSceneTalk(
     core,

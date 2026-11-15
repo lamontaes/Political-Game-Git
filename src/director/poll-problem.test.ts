@@ -144,7 +144,7 @@ describe("trouble at the polling place (pinned places, fixed seeds)", () => {
     expect(
       told.find(
         (line) =>
-          line.text === "I registered at the polls and voted." &&
+          /^I registered at the polls in .+ and voted\.$/.test(line.text) &&
           line.sourceRecordIds.includes(`poll-day:${election}:${player.id}`),
       ),
       `${where}: the Journal line`,
@@ -186,7 +186,7 @@ describe("trouble at the polling place (pinned places, fixed seeds)", () => {
     expect(
       told.find(
         (line) =>
-          /I did not vote\.$/.test(line.text) &&
+          /(?:kept me from voting|vote in) /.test(line.text) &&
           line.sourceRecordIds.includes(`poll-day:${election}:${player.id}`),
       ),
       `${where}: the Journal line, among ${JSON.stringify(told.slice(-4).map((line) => [line.text, line.sourceRecordIds]))}`,

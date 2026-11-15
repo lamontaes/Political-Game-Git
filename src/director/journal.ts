@@ -887,6 +887,7 @@ function pollDayMoments(
 ): JournalMoment[] {
   if (!core.modules.has(VOTING_MODULE_ID)) return [];
   const api = coreAPI(core as CoreState);
+  const town = placeLabel(core.people.get(personId)?.placeId);
   return (
     api.moduleState(VOTING_MODULE_ID).table("pollDays").rows() as unknown as {
       id: string;
@@ -905,6 +906,10 @@ function pollDayMoments(
         day.outcome === "registers-at-polls"
           ? "poll-day:registers-at-polls"
           : `poll-day:${day.outcome}:${day.why}`,
+      // The town, as the Journal says it, from the person's own place record.
+      ...(town
+        ? { actFacts: { place: { text: town, sourceRecordIds: [day.id] } } }
+        : {}),
       counterpartIds: [],
       selfNamed: true,
       hindsight: zero,
