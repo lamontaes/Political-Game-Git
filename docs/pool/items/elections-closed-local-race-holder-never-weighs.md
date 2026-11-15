@@ -8,7 +8,7 @@ size: S
 status: in-pr
 standard: 2
 claimed-by: claude/project-thread-hjvzia-incumbent-flag
-pr:
+pr: #9580
 after:
 blocked-on:
 root: design-electorate-one-model
