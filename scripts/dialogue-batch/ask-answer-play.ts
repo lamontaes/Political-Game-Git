@@ -312,5 +312,9 @@ for (let draw = first; draw < first + draws; draw += 1) {
     );
     married = answer.answer === "yes";
   }
+  if (!married)
+    say(
+      `\n### No yes to a proposal by ${core.date}: the couple's stage is ${stage() ?? "gone (they parted)"}`,
+    );
 }
 writeFileSync(out, lines.join("\n") + "\n");
