@@ -1887,6 +1887,20 @@ function composeBinding(
     // Nov 14: the term that moved most since the no).
     if (serve.moved && serve.standing.lean > P.zero)
       facts[`changed-${serve.moved}`] = { text: "yes", sourceRecordIds: why };
+    // Asked again after a no: the talk says so, and a no that rests on the
+    // same reason as the first says nothing has changed for them rather than
+    // the first no again.
+    if (serve.askedBefore) {
+      facts["asked-before"] = {
+        text: "yes",
+        sourceRecordIds: [...why, serve.askedBefore],
+      };
+      if (serve.standing.lean <= P.zero && serve.reasonBefore === serve.reason)
+        facts["nothing-moved"] = {
+          text: "yes",
+          sourceRecordIds: [...why, serve.askedBefore],
+        };
+    }
     // A stranger is introduced to the player by their full name; the race
     // the player runs in is said from its contest record.
     facts["self-full"] = {
@@ -2217,6 +2231,8 @@ function serveStanding(
       terms: Readonly<Record<string, number>>;
       raceOffice: string;
       moved: string | null;
+      askedBefore: string | null;
+      reasonBefore: string | null;
     }
   | undefined {
   const row = serveAsk(coreAPI(core as CoreState), said.askId ?? "");
@@ -2242,6 +2258,8 @@ function serveStanding(
     yesReason: row.standing.yesReason,
     grounds: row.standing.grounds,
     moved: row.moved ?? null,
+    askedBefore: row.askedBefore ?? null,
+    reasonBefore: row.reasonBefore ?? null,
   };
 }
 

@@ -38,6 +38,7 @@ import { corePlaceByKey } from "../core2/place-lookup";
 import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
 import type { Director } from "./ledger";
+import sceneBank from "../../data/english/parts/scene-talk.json" with { type: "json" };
 import { purposeScene, replyInScene } from "./purpose-scene";
 import type { TreeNode } from "./scene-talk";
 
@@ -139,6 +140,23 @@ const ends = (node: TreeNode): TreeNode[] => [
   ...node.replies.flatMap((reply) => (reply.next ? ends(reply.next) : [])),
 ];
 
+/** Whether a bank piece is placed by a fact (or a fact family, "reason-"). */
+function placedBy(key: string, fact: string): boolean {
+  return (
+    (
+      sceneBank as unknown as {
+        parts: { key: string; uses?: { requiresFacts?: string[] }[] }[];
+      }
+    ).parts
+      .find((part) => part.key === key)
+      ?.uses?.some((use) =>
+        use.requiresFacts?.some((name) =>
+          fact.endsWith("-") ? name.startsWith(fact) : name === fact,
+        ),
+      ) ?? false
+  );
+}
+
 /**
  * The player asks one person; an hour passes on the clock; the scene the
  * director staged plays and the player takes the reply named (`thank`,
@@ -198,6 +216,7 @@ function ask(w: World, personId: string, take: "thank" | "accept") {
   ];
   return {
     row,
+    scene,
     reply,
     lines,
     after: serveAsk(api, row.id) as ServeAskRow | undefined,
@@ -273,7 +292,31 @@ for (const place of PLACES)
         `   terms now:  ${terms(again.row.standing.terms)}`,
         ...again.lines,
       );
+      // The second ask reads the first from the record (#9369): the opening
+      // says they turned the player down once; a second no on the same
+      // reason says nothing has changed for them, and is let go, never
+      // pressed again.
+      const factsAgain = new Set(again.scene.facts.map((row) => row.key));
+      expect(factsAgain.has("asked-before"), w.where).toBe(true);
+      expect(
+        placedBy(again.scene.talk.narration[0]!.parts[0]!, "asked-before"),
+        `${w.where}: ${again.scene.talk.narration[0]!.text}`,
+      ).toBe(true);
       if (place.later === "no") {
+        const answer = again.scene.talk.tree.lines[0]!;
+        expect(
+          placedBy(
+            answer.parts[0]!,
+            again.row.reasonBefore === again.row.standing.reason
+              ? "nothing-moved"
+              : "reason-",
+          ),
+          `${w.where}: ${answer.text}`,
+        ).toBe(true);
+        expect(
+          again.scene.talk.tree.replies.map((reply) => reply.line.move),
+          w.where,
+        ).toEqual(["accept"]);
         expect(again.reply.facts?.ending, w.where).toBe("turned-down");
         expect(again.after?.answer, w.where).toBe("no");
         // 3. A yes from someone willing: seated on the ticket, and the asks

@@ -38,6 +38,7 @@ import { townSeats } from "../core2/modules/offices";
 import { advancePlayerV1, resumePlayerV1 } from "../core2/player-v1";
 import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
+import sceneBank from "../../data/english/parts/scene-talk.json" with { type: "json" };
 import { purposeScene, replyInScene } from "./purpose-scene";
 
 const PLACES = [
@@ -59,6 +60,46 @@ const PLACES = [
 ] as const;
 const TYPE = "bill-sign-on";
 /** What the three places played, together: the reasons said for a no, and the lines that need a record. */
+/** Whether a bank piece is placed by the record of an earlier ask. */
+function readsAskedBefore(key: string): boolean {
+  return (
+    (
+      sceneBank as unknown as {
+        parts: { key: string; uses?: { requiresFacts?: string[] }[] }[];
+      }
+    ).parts
+      .find((part) => part.key === key)
+      ?.uses?.some((use) => use.requiresFacts?.includes("asked-before")) ??
+    false
+  );
+}
+
+/** A talk as the player plays it: what each says, the player's choices under "You say:". */
+function playedTalk(talk: {
+  narration: readonly { text: string }[];
+  state: { speaker: string; text: string };
+  tree: {
+    lines: readonly { speaker: string; text: string }[];
+    replies: readonly {
+      line: { text: string };
+      next?: { lines: readonly { speaker: string; text: string }[] };
+    }[];
+  };
+}): string {
+  return [
+    ...talk.narration.map((line) => `  ${line.text}`),
+    `  ${talk.state.speaker}: ${talk.state.text}`,
+    ...talk.tree.lines.map((line) => `  ${line.speaker}: ${line.text}`),
+    "  You say:",
+    ...talk.tree.replies.flatMap((reply, index) => [
+      `    ${index + 1}. ${reply.line.text}`,
+      ...(reply.next?.lines.map(
+        (line) => `       ${line.speaker}: ${line.text}`,
+      ) ?? []),
+    ]),
+  ].join("\n");
+}
+
 const seen = {
   reasons: new Set<string>(),
   lines: new Set<string>(),
@@ -188,6 +229,7 @@ describe("asking colleagues to sign on", () => {
       expect(units.length, `${where}: the asks are staged`).toBeGreaterThan(0);
       let signed = 0;
       const refused: { billId: string; colleague: string }[] = [];
+      const firstTalks = new Map<string, string>();
       const reasonsHere = new Set<string>();
       for (const { entry, unit, causeId } of units) {
         const cause = core.durableLog.get(causeId)!;
@@ -198,6 +240,10 @@ describe("asking colleagues to sign on", () => {
         const talk = result.scene.talk;
         const colleague = cause.facts!.askedId!;
         expect(talk.askerId, where).toBe(colleague);
+        firstTalks.set(
+          cause.facts!.billId! + "|" + colleague,
+          playedTalk(talk),
+        );
         const said: string[] = [talk.state.text];
         const walk = (node: typeof talk.tree | null) => {
           if (!node) return;
@@ -291,6 +337,11 @@ describe("asking colleagues to sign on", () => {
         })),
       ];
       for (const { question, colleague } of again) {
+        const firstTalk = refused.find((row) => row.colleague === colleague);
+        if (firstTalk)
+          process.stdout.write(
+            `SIGN-ON PLAYED ${where} first ask:\n${firstTalks.get(firstTalk.billId + "|" + colleague) ?? ""}\n`,
+          );
         const billId = draft(question);
         if (!billId) continue;
         const id = `sign-on:${billId}:${colleague}`;
@@ -307,14 +358,39 @@ describe("asking colleagues to sign on", () => {
         expect(result?.kind, where).toBe("composed");
         if (result?.kind !== "composed") continue;
         const facts = new Set(result.scene.facts.map((row) => row.key));
+        const talk = result.scene.talk;
         const lines = [
-          result.scene.talk.tree.lines[0]!.text,
-          ...result.scene.talk.tree.replies.flatMap(
+          talk.tree.lines[0]!.text,
+          ...talk.tree.replies.flatMap(
             (reply) => reply.next?.lines.map((line) => line.text) ?? [],
           ),
         ];
         for (const line of lines) seen.lines.add(line);
-        if (facts.has("asked-before")) seen.askedAgain += 1;
+        // The second ask reads the first from the record: the opening, the
+        // player's ask and every no say it was asked before, and a second no
+        // is let go, never pressed a third time.
+        expect(facts.has("asked-before"), where).toBe(true);
+        seen.askedAgain += 1;
+        const saysBefore = (line: { parts: readonly string[] }) =>
+          readsAskedBefore(line.parts[0]!);
+        expect(saysBefore(talk.narration[0]!), talk.narration[0]!.text).toBe(
+          true,
+        );
+        expect(saysBefore(talk.state), talk.state.text).toBe(true);
+        const theirs = [
+          talk.tree.lines[0]!,
+          ...talk.tree.replies.flatMap((reply) => reply.next?.lines ?? []),
+        ];
+        for (const line of theirs.filter((row) => row.move === "refuse"))
+          expect(saysBefore(line), `${where}: ${line.text}`).toBe(true);
+        if (talk.tree.lines[0]!.move === "refuse")
+          expect(
+            talk.tree.replies.map((reply) => reply.line.move),
+            where,
+          ).toEqual(["accept"]);
+        process.stdout.write(
+          `SIGN-ON PLAYED ${where} asked again:\n${playedTalk(talk)}\n`,
+        );
         process.stdout.write(
           `SIGN-ON ${where} asked again (${[...facts].filter((k) => k === "asked-before" || k === "voted-against-before" || k.startsWith("no-")).join(", ")}): ${lines.join(" | ")}\n`,
         );

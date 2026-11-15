@@ -1095,10 +1095,16 @@ export function composeSceneTalk(
     let count = one;
     // A yes is thanked; a not yet or a no is asked again, or let go.
     const yes = first.move === ask.yes;
+    // A second no (asked before and turned down, and nothing carries them
+    // now) is let go, never pressed a third time (Words lead, Nov 15).
+    const secondNo =
+      !yes && !carried && standing.lean <= zero && !!facts["asked-before"];
     const afterLed = new Map<TreeNode, TreeReply>();
     for (const again of yes
       ? [{ move: ask.thanks, carries: "none" as const }]
-      : ask.again) {
+      : secondNo
+        ? ask.again.filter((row) => row.carries === "none")
+        : ask.again) {
       if (!offered(again.carries)) continue;
       const line = mine(
         {
@@ -1290,8 +1296,9 @@ export function composeSceneTalk(
       } else gap("follow", ask.middle.ask, first.move);
     }
     // One button is not a choice: a scene whose middle can be worded never
-    // leaves the player a single reply.
-    if (!yes && root.replies.length < two)
+    // leaves the player a single reply, save the thanks for a yes and the
+    // plain close after a second no.
+    if (!yes && !secondNo && root.replies.length < two)
       return {
         kind: "skipped",
         reason: `fewer than two asks after ${first.move} can be worded for ${type.key}`,

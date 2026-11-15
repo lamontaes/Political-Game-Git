@@ -1517,7 +1517,8 @@
           "role": "narrator",
           "purpose": "ask-vote",
           "requiresFacts": ["vote-tomorrow"],
-          "key": "vote-sought"
+          "key": "vote-sought",
+          "excludesFacts": ["asked-before"]
         }
       ],
       "bearing": "calm",
@@ -1542,7 +1543,8 @@
           "role": "narrator",
           "purpose": "ask-vote",
           "requiresFacts": ["vote-today"],
-          "key": "vote-sought"
+          "key": "vote-sought",
+          "excludesFacts": ["asked-before"]
         }
       ],
       "bearing": "calm",
@@ -1567,7 +1569,8 @@
           "role": "narrator",
           "purpose": "ask-vote",
           "requiresFacts": ["vote-tomorrow"],
-          "key": "vote-sought"
+          "key": "vote-sought",
+          "excludesFacts": ["asked-before"]
         }
       ],
       "bearing": "calm",
@@ -1592,7 +1595,8 @@
           "role": "narrator",
           "purpose": "ask-vote",
           "requiresFacts": ["vote-tomorrow"],
-          "key": "vote-sought"
+          "key": "vote-sought",
+          "excludesFacts": ["asked-before"]
         }
       ],
       "bearing": "calm",
@@ -1617,7 +1621,8 @@
           "role": "narrator",
           "purpose": "ask-vote",
           "requiresFacts": ["vote-today"],
-          "key": "vote-sought"
+          "key": "vote-sought",
+          "excludesFacts": ["asked-before"]
         }
       ],
       "bearing": "calm",
@@ -3871,7 +3876,8 @@
           "move": "refuse",
           "role": "asked",
           "purpose": "ask-vote",
-          "key": "vote-wanted"
+          "key": "vote-wanted",
+          "excludesFacts": ["asked-before"]
         },
         {
           "subject": "scene",
@@ -3911,7 +3917,8 @@
           "move": "refuse",
           "role": "asked",
           "purpose": "ask-vote",
-          "key": "vote-wanted"
+          "key": "vote-wanted",
+          "excludesFacts": ["asked-before"]
         },
         {
           "subject": "scene",
@@ -3951,7 +3958,8 @@
           "move": "refuse",
           "role": "asked",
           "purpose": "ask-vote",
-          "key": "vote-wanted"
+          "key": "vote-wanted",
+          "excludesFacts": ["asked-before"]
         },
         {
           "subject": "scene",
@@ -158004,7 +158012,8 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "ask-to-serve",
-          "key": "serve-asked"
+          "key": "serve-asked",
+          "excludesFacts": ["asked-before"]
         }
       ],
       "bearing": "calm",
@@ -158028,7 +158037,8 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "ask-to-serve",
-          "key": "serve-asked"
+          "key": "serve-asked",
+          "excludesFacts": ["asked-before"]
         }
       ],
       "bearing": "calm",
@@ -158052,7 +158062,8 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "ask-to-serve",
-          "key": "serve-asked"
+          "key": "serve-asked",
+          "excludesFacts": ["asked-before"]
         }
       ],
       "bearing": "braced",
@@ -158076,7 +158087,8 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "ask-to-serve",
-          "key": "serve-asked"
+          "key": "serve-asked",
+          "excludesFacts": ["asked-before"]
         }
       ],
       "bearing": "hopeful",
@@ -158101,7 +158113,8 @@
           "role": "narrator",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["stranger"]
+          "requiresFacts": ["stranger"],
+          "excludesFacts": ["asked-before"]
         }
       ],
       "bearing": "calm",
@@ -158126,7 +158139,8 @@
           "role": "narrator",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["acquainted"]
+          "requiresFacts": ["acquainted"],
+          "excludesFacts": ["asked-before"]
         }
       ],
       "bearing": "warm",
@@ -158549,7 +158563,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["reason-own-seat"]
+          "requiresFacts": ["reason-own-seat"],
+          "excludesFacts": ["nothing-moved"]
         }
       ],
       "bearing": "calm",
@@ -158574,7 +158589,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["reason-own-seat"]
+          "requiresFacts": ["reason-own-seat"],
+          "excludesFacts": ["nothing-moved"]
         }
       ],
       "bearing": "guarded",
@@ -158599,7 +158615,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["reason-own-race"]
+          "requiresFacts": ["reason-own-race"],
+          "excludesFacts": ["nothing-moved"]
         }
       ],
       "bearing": "braced",
@@ -158624,7 +158641,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["reason-own-race"]
+          "requiresFacts": ["reason-own-race"],
+          "excludesFacts": ["nothing-moved"]
         }
       ],
       "bearing": "calm",
@@ -158649,7 +158667,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["reason-apart"]
+          "requiresFacts": ["reason-apart"],
+          "excludesFacts": ["nothing-moved"]
         }
       ],
       "bearing": "firm",
@@ -158674,7 +158693,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["reason-apart"]
+          "requiresFacts": ["reason-apart"],
+          "excludesFacts": ["nothing-moved"]
         }
       ],
       "bearing": "guarded",
@@ -158699,7 +158719,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["reason-heard", "outlet"]
+          "requiresFacts": ["reason-heard", "outlet"],
+          "excludesFacts": ["nothing-moved"]
         }
       ],
       "bearing": "braced",
@@ -158724,7 +158745,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["reason-heard"]
+          "requiresFacts": ["reason-heard"],
+          "excludesFacts": ["nothing-moved"]
         }
       ],
       "bearing": "guarded",
@@ -158749,7 +158771,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["reason-stranger"]
+          "requiresFacts": ["reason-stranger"],
+          "excludesFacts": ["nothing-moved"]
         }
       ],
       "bearing": "guarded",
@@ -158774,7 +158797,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["reason-stranger"]
+          "requiresFacts": ["reason-stranger"],
+          "excludesFacts": ["nothing-moved"]
         }
       ],
       "bearing": "calm",
@@ -158799,7 +158823,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["reason-long-shot"]
+          "requiresFacts": ["reason-long-shot"],
+          "excludesFacts": ["nothing-moved"]
         }
       ],
       "bearing": "calm",
@@ -158824,7 +158849,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["reason-long-shot"]
+          "requiresFacts": ["reason-long-shot"],
+          "excludesFacts": ["nothing-moved"]
         }
       ],
       "bearing": "braced",
@@ -159520,7 +159546,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["reason-own-seat"]
+          "requiresFacts": ["reason-own-seat"],
+          "excludesFacts": ["nothing-moved"]
         }
       ],
       "bearing": "braced",
@@ -159545,7 +159572,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["reason-own-seat"]
+          "requiresFacts": ["reason-own-seat"],
+          "excludesFacts": ["nothing-moved"]
         }
       ],
       "bearing": "firm",
@@ -159570,7 +159598,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["reason-own-race"]
+          "requiresFacts": ["reason-own-race"],
+          "excludesFacts": ["nothing-moved"]
         }
       ],
       "bearing": "guarded",
@@ -159595,7 +159624,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["reason-own-race"]
+          "requiresFacts": ["reason-own-race"],
+          "excludesFacts": ["nothing-moved"]
         }
       ],
       "bearing": "firm",
@@ -159620,7 +159650,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["reason-apart"]
+          "requiresFacts": ["reason-apart"],
+          "excludesFacts": ["nothing-moved"]
         }
       ],
       "bearing": "calm",
@@ -159645,7 +159676,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["reason-apart"]
+          "requiresFacts": ["reason-apart"],
+          "excludesFacts": ["nothing-moved"]
         }
       ],
       "bearing": "braced",
@@ -159670,7 +159702,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["reason-heard"]
+          "requiresFacts": ["reason-heard"],
+          "excludesFacts": ["nothing-moved"]
         }
       ],
       "bearing": "calm",
@@ -159695,7 +159728,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["reason-heard"]
+          "requiresFacts": ["reason-heard"],
+          "excludesFacts": ["nothing-moved"]
         }
       ],
       "bearing": "firm",
@@ -159720,7 +159754,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["reason-stranger"]
+          "requiresFacts": ["reason-stranger"],
+          "excludesFacts": ["nothing-moved"]
         }
       ],
       "bearing": "braced",
@@ -159745,7 +159780,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["reason-stranger"]
+          "requiresFacts": ["reason-stranger"],
+          "excludesFacts": ["nothing-moved"]
         }
       ],
       "bearing": "firm",
@@ -159770,7 +159806,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["reason-long-shot"]
+          "requiresFacts": ["reason-long-shot"],
+          "excludesFacts": ["nothing-moved"]
         }
       ],
       "bearing": "guarded",
@@ -159795,7 +159832,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["reason-long-shot"]
+          "requiresFacts": ["reason-long-shot"],
+          "excludesFacts": ["nothing-moved"]
         }
       ],
       "bearing": "firm",
@@ -179354,7 +179392,8 @@
           "step": "reply",
           "move": "refuse",
           "role": "asked",
-          "requiresFacts": ["reason-own-view"]
+          "requiresFacts": ["reason-own-view"],
+          "excludesFacts": ["asked-before"]
         }
       ],
       "bearing": "firm",
@@ -179379,7 +179418,8 @@
           "step": "reply",
           "move": "refuse",
           "role": "asked",
-          "requiresFacts": ["reason-party"]
+          "requiresFacts": ["reason-party"],
+          "excludesFacts": ["asked-before"]
         }
       ],
       "bearing": "guarded",
@@ -179404,7 +179444,8 @@
           "step": "reply",
           "move": "refuse",
           "role": "asked",
-          "requiresFacts": ["reason-group"]
+          "requiresFacts": ["reason-group"],
+          "excludesFacts": ["asked-before"]
         }
       ],
       "bearing": "braced",
@@ -179429,7 +179470,8 @@
           "step": "reply",
           "move": "refuse",
           "role": "asked",
-          "requiresFacts": ["reason-next-election"]
+          "requiresFacts": ["reason-next-election"],
+          "excludesFacts": ["asked-before"]
         }
       ],
       "bearing": "guarded",
@@ -179454,7 +179496,8 @@
           "step": "reply",
           "move": "refuse",
           "role": "asked",
-          "requiresFacts": ["reason-sponsor"]
+          "requiresFacts": ["reason-sponsor"],
+          "excludesFacts": ["asked-before"]
         }
       ],
       "bearing": "braced",
@@ -179479,7 +179522,8 @@
           "step": "reply",
           "move": "refuse",
           "role": "asked",
-          "requiresFacts": ["reason-last-vote"]
+          "requiresFacts": ["reason-last-vote"],
+          "excludesFacts": ["asked-before"]
         }
       ],
       "bearing": "firm",
@@ -179855,7 +179899,8 @@
           "step": "reply",
           "move": "refuse",
           "role": "asked",
-          "after": "request"
+          "after": "request",
+          "excludesFacts": ["asked-before"]
         },
         {
           "subject": "scene",
@@ -179900,7 +179945,8 @@
           "step": "reply",
           "move": "refuse",
           "role": "asked",
-          "after": "request"
+          "after": "request",
+          "excludesFacts": ["asked-before"]
         },
         {
           "subject": "scene",
@@ -179945,7 +179991,8 @@
           "step": "reply",
           "move": "refuse",
           "role": "asked",
-          "after": "request"
+          "after": "request",
+          "excludesFacts": ["asked-before"]
         },
         {
           "subject": "scene",
@@ -186640,7 +186687,8 @@
           "role": "narrator",
           "purpose": "cosponsor-ask",
           "key": "bill-sign-on",
-          "requiresFacts": ["bill"]
+          "requiresFacts": ["bill"],
+          "excludesFacts": ["asked-before"]
         }
       ]
     },
@@ -186663,7 +186711,8 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "cosponsor-ask",
-          "key": "bill-sign-on"
+          "key": "bill-sign-on",
+          "excludesFacts": ["asked-before"]
         }
       ]
     },
@@ -186686,7 +186735,8 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "cosponsor-ask",
-          "key": "bill-sign-on"
+          "key": "bill-sign-on",
+          "excludesFacts": ["asked-before"]
         }
       ]
     },
@@ -186711,7 +186761,8 @@
           "role": "asker",
           "purpose": "cosponsor-ask",
           "key": "bill-sign-on",
-          "requiresFacts": ["said"]
+          "requiresFacts": ["said"],
+          "excludesFacts": ["asked-before"]
         }
       ]
     },
@@ -186736,7 +186787,8 @@
           "role": "asker",
           "purpose": "cosponsor-ask",
           "key": "bill-sign-on",
-          "requiresFacts": ["said"]
+          "requiresFacts": ["said"],
+          "excludesFacts": ["asked-before"]
         }
       ]
     },
@@ -186761,7 +186813,8 @@
           "role": "asker",
           "purpose": "cosponsor-ask",
           "key": "bill-sign-on",
-          "requiresFacts": ["said"]
+          "requiresFacts": ["said"],
+          "excludesFacts": ["asked-before"]
         }
       ]
     },
@@ -186992,7 +187045,8 @@
           "role": "asked",
           "purpose": "cosponsor-ask",
           "key": "bill-sign-on",
-          "requiresFacts": ["no-views"]
+          "requiresFacts": ["no-views"],
+          "excludesFacts": ["asked-before"]
         }
       ]
     },
@@ -187017,7 +187071,8 @@
           "role": "asked",
           "purpose": "cosponsor-ask",
           "key": "bill-sign-on",
-          "requiresFacts": ["no-views"]
+          "requiresFacts": ["no-views"],
+          "excludesFacts": ["asked-before"]
         }
       ]
     },
@@ -187042,7 +187097,8 @@
           "role": "asked",
           "purpose": "cosponsor-ask",
           "key": "bill-sign-on",
-          "requiresFacts": ["no-constituents"]
+          "requiresFacts": ["no-constituents"],
+          "excludesFacts": ["asked-before"]
         }
       ]
     },
@@ -187067,7 +187123,8 @@
           "role": "asked",
           "purpose": "cosponsor-ask",
           "key": "bill-sign-on",
-          "requiresFacts": ["no-constituents"]
+          "requiresFacts": ["no-constituents"],
+          "excludesFacts": ["asked-before"]
         }
       ]
     },
@@ -187092,7 +187149,8 @@
           "role": "asked",
           "purpose": "cosponsor-ask",
           "key": "bill-sign-on",
-          "requiresFacts": ["no-party"]
+          "requiresFacts": ["no-party"],
+          "excludesFacts": ["asked-before"]
         }
       ]
     },
@@ -187117,7 +187175,8 @@
           "role": "asked",
           "purpose": "cosponsor-ask",
           "key": "bill-sign-on",
-          "requiresFacts": ["no-party"]
+          "requiresFacts": ["no-party"],
+          "excludesFacts": ["asked-before"]
         }
       ]
     },
@@ -187142,7 +187201,8 @@
           "role": "asked",
           "purpose": "cosponsor-ask",
           "key": "bill-sign-on",
-          "requiresFacts": ["no-consistency", "voted-against-before"]
+          "requiresFacts": ["no-consistency", "voted-against-before"],
+          "excludesFacts": ["asked-before"]
         }
       ]
     },
@@ -187167,7 +187227,8 @@
           "role": "asked",
           "purpose": "cosponsor-ask",
           "key": "bill-sign-on",
-          "requiresFacts": ["no-consistency", "voted-against-before"]
+          "requiresFacts": ["no-consistency", "voted-against-before"],
+          "excludesFacts": ["asked-before"]
         }
       ]
     },
@@ -187433,6 +187494,250 @@
           "role": "asked",
           "purpose": "cosponsor-ask",
           "key": "bill-sign-on"
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.first-said-no-the-last-time-you-brought-a-bill-on-said-you-ask-again",
+      "move": "narrate-narrate",
+      "kind": "written",
+      "text": "{first} said no the last time you brought a bill on {said}. You ask again.",
+      "origin": "authored",
+      "author": "Words lead (Nov 15), second ask of the same person",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "narrate",
+        "key": "bill-sign-on"
+      },
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "cosponsor-ask",
+          "key": "bill-sign-on",
+          "requiresFacts": ["asked-before", "said"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.you-ve-asked-first-to-sign-on-to-a-bill-on-said-before-the-answer-was-no",
+      "move": "narrate-narrate",
+      "kind": "written",
+      "text": "You've asked {first} to sign on to a bill on {said} before. The answer was no.",
+      "origin": "authored",
+      "author": "Words lead (Nov 15), second ask of the same person",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "narrate",
+        "key": "bill-sign-on"
+      },
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "cosponsor-ask",
+          "key": "bill-sign-on",
+          "requiresFacts": ["asked-before", "said"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.state-request.i-m-asking-you-again-on-said-will-you-sign-on-this-time",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I'm asking you again on {said}. Will you sign on this time?",
+      "origin": "authored",
+      "author": "Words lead (Nov 15), second ask of the same person",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "request",
+        "key": "bill-sign-on"
+      },
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "cosponsor-ask",
+          "key": "bill-sign-on",
+          "requiresFacts": ["asked-before", "said"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-vote-on-bill-is-tomorrow-first-voted-against-your-last-bill-on-said",
+      "move": "narrate-narrate",
+      "kind": "written",
+      "text": "The vote on {bill} is tomorrow. {first} voted against your last bill on {said}.",
+      "origin": "authored",
+      "author": "Words lead (Nov 15), second ask of the same person",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "narrate",
+        "key": "vote-sought"
+      },
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "ask-vote",
+          "key": "vote-sought",
+          "requiresFacts": ["asked-before", "said", "vote-tomorrow"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-vote-on-bill-is-today-first-voted-against-your-last-bill-on-said",
+      "move": "narrate-narrate",
+      "kind": "written",
+      "text": "The vote on {bill} is today. {first} voted against your last bill on {said}.",
+      "origin": "authored",
+      "author": "Words lead (Nov 15), second ask of the same person",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "narrate",
+        "key": "vote-sought"
+      },
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "ask-vote",
+          "key": "vote-sought",
+          "requiresFacts": ["asked-before", "said", "vote-today"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-refuse.you-asked-me-last-time-and-i-voted-no-i-m-voting-no-again",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "You asked me last time, and I voted no. I'm voting no again.",
+      "origin": "authored",
+      "author": "Words lead (Nov 15), second ask of the same person",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "refuse",
+        "key": "vote-wanted"
+      },
+      "bearing": "steady",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "ask-vote",
+          "key": "vote-wanted",
+          "requiresFacts": ["asked-before"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-refuse.i-voted-no-on-your-last-one-nothing-s-different-for-me",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I voted no on your last one. Nothing's different for me.",
+      "origin": "authored",
+      "author": "Words lead (Nov 15), second ask of the same person",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "refuse",
+        "key": "vote-wanted"
+      },
+      "bearing": "steady",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "ask-vote",
+          "key": "vote-wanted",
+          "requiresFacts": ["asked-before"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-turned-you-down-for-office-once-you-ask-again",
+      "move": "narrate-narrate",
+      "kind": "written",
+      "text": "{name} turned you down for {office} once. You ask again.",
+      "origin": "authored",
+      "author": "Words lead (Nov 15), second ask of the same person",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "narrate",
+        "key": "serve-asked"
+      },
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["asked-before"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-decline.nothing-s-changed-for-me-since-you-asked-it-s-still-no",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "Nothing's changed for me since you asked. It's still no.",
+      "origin": "authored",
+      "author": "Words lead (Nov 15), second ask of the same person",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "decline",
+        "key": "serve-asked"
+      },
+      "bearing": "steady",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["nothing-moved"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-decline.i-gave-you-my-answer-it-hasn-t-changed",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I gave you my answer. It hasn't changed.",
+      "origin": "authored",
+      "author": "Words lead (Nov 15), second ask of the same person",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "decline",
+        "key": "serve-asked"
+      },
+      "bearing": "steady",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["nothing-moved"]
         }
       ]
     }

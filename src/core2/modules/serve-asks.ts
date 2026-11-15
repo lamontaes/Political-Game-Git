@@ -144,6 +144,13 @@ export interface ServeAskRow {
    * Null on a first ask or where nothing moved for the ask.
    */
   readonly moved: ServeMoved | null;
+  /**
+   * Asked again after a no: the event of the ask they turned down, so the
+   * talk can say it was asked before. Null on a first ask.
+   */
+  readonly askedBefore?: string | null;
+  /** The reason that weighed most against the ask at that no. */
+  readonly reasonBefore?: string | null;
 }
 
 export type ServeMoved = "met" | "standing" | "agree" | "heard" | "seat";
@@ -627,6 +634,8 @@ export function askToServe(
     answeredOn: null,
     moved:
       earlier?.answer === "no" ? movedSince(earlier.standing, standing) : null,
+    askedBefore: earlier?.answer === "no" ? earlier.eventId : null,
+    reasonBefore: earlier?.answer === "no" ? earlier.standing.reason : null,
   };
   table(api).put(row as unknown as ModuleRow);
   api.emit({
