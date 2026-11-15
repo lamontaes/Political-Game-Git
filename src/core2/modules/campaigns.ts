@@ -109,6 +109,7 @@ import {
   obligationsOwedBetween,
   obligationsOwedTo,
   provisionStance,
+  refuseObligation,
   settleObligation,
   type BillRow,
 } from "./legislature";
@@ -6171,13 +6172,18 @@ export const ENDORSEMENT_ASKED_EVENT = "endorsement-asked";
 function askPlayerForEndorsement(
   api: CoreAPI,
   filingId: string,
-  obligationId?: string,
+  calledIn?: string,
   renew = false,
 ): void {
   const playerId = (api.state as CoreState).playerId;
   const player = playerId ? api.state.people.get(playerId) : undefined;
   if (!player?.alive) return;
   const campaign = campaignFor(api, filingId);
+  // The favor behind the ask, when the player owes the candidate one: the
+  // deal named by the loop that calls it in, else the first they still owe.
+  const obligationId =
+    calledIn ??
+    obligationsOwedBetween(api, player.id, campaign.candidateId)[0]?.id;
   const id = `endorsement:${filingId}:${player.id}`;
   const held = table(api, "endorsements").get(id) as unknown as
     EndorsementRow | undefined;
@@ -6347,8 +6353,10 @@ function answerEndorsementAsk(
     answer: yes ? "yes" : "no",
     reached,
   });
-  if (yes && held.obligationId)
-    settleObligation(api, held.obligationId, held.id);
+  if (held.obligationId) {
+    if (yes) settleObligation(api, held.obligationId, held.id);
+    else refuseObligation(api, held.obligationId, held.id);
+  }
 }
 
 /**

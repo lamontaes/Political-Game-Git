@@ -3,7 +3,17 @@ import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
 import { addDays, ageOnDate, makeIsoDate } from "../core2/kernel/dates";
+import { billCatalog, provisionFor } from "../core2/bill-catalog";
+import { closenessBetween } from "../core2/closeness";
 import { advanceCore } from "../core2/life";
+import {
+  LEGISLATURE_MODULE_ID,
+  draftBill,
+  memberKey,
+  members,
+  obligationsOwedTo,
+} from "../core2/modules/legislature";
+import { townSeats } from "../core2/modules/offices";
 import {
   ENDORSEMENT_ASKED_EVENT,
   endorsementsOf,
@@ -21,6 +31,7 @@ import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
 import { purposeScene, replyInScene } from "./purpose-scene";
 import type { ScheduleEntry } from "./director";
+import type { TreeNode } from "./scene-talk";
 
 // A candidate's campaign asks the people closest to them for an endorsement
 // each turn; the player was skipped. Now the player is asked in a scene
@@ -36,7 +47,7 @@ const PLACE = {
 };
 const where = `${PLACE.name} (${PLACE.key}), seed ${PLACE.seed}`;
 
-function world() {
+function world(favor = false) {
   setBookkeeping(false);
   const { core, director } = buildBenchWorld(PLACE.seed, gameStartDate(), {
     twoLevel: true,
@@ -54,7 +65,19 @@ function world() {
     );
   for (let day = 0; !open().length && day < 365; day += 7)
     advanceCore(core, addDays(makeIsoDate(core.date), 7));
-  const race = open()[0] as ContestRow | undefined;
+  // A favor is owed over a bill before the race's own body: a body with
+  // members to sponsor one.
+  const race = (
+    favor
+      ? open().find((row) =>
+          townSeats(api).some(
+            (seat) =>
+              seat.office.id === row.officeId &&
+              members(api, row.officeId).length > 1,
+          ),
+        )
+      : open()[0]
+  ) as ContestRow | undefined;
   const clerkId = race ? filingClerkFor(api, race.id)?.personId : undefined;
   const town = lawChain(api).townPlaceId;
   // The first adult the player knows (their circle, by id) who files.
@@ -88,7 +111,44 @@ function world() {
       .table("filings")
       .rows() as unknown as FilingRow[]
   ).find((row) => row.personId === candidate.id)!;
-  return { core, director, api, race, filing, candidate, playerId };
+  // Edge case by hand (a fixture, not a played deal): the player owes the
+  // candidate a favor from a deal over a bill the body has before it.
+  let obligationId: string | undefined;
+  if (favor) {
+    const sponsor = members(api, race.officeId)[0]!;
+    const policy = billCatalog(api, race.level as "city" | "county" | "state")
+      .flatMap((subject) => subject.topics.flatMap((t) => t.policies))
+      .find((row) => row.kind === "policy-question" && row.authority.allowed)!;
+    const bill = draftBill(api, {
+      bodyOfficeId: race.officeId,
+      sponsorId: memberKey(sponsor),
+      provisions: [provisionFor({ policyId: policy.id, operation: "enact" })],
+    });
+    obligationId = `obligation:${bill.id}:${candidate.id}:fixture`;
+    api
+      .moduleState(LEGISLATURE_MODULE_ID)
+      .table("obligations")
+      .put({
+        id: obligationId,
+        owedBy: playerId,
+        owedTo: candidate.id,
+        kind: "trade",
+        billId: bill.id,
+        measure: bill.number,
+        date: core.date,
+        settled: false,
+      } as never);
+  }
+  return {
+    core,
+    director,
+    api,
+    race,
+    filing,
+    candidate,
+    playerId,
+    obligationId,
+  };
 }
 
 function asked(ctx: ReturnType<typeof world>) {
@@ -126,7 +186,12 @@ function asked(ctx: ReturnType<typeof world>) {
 function scene(
   ctx: ReturnType<typeof world>,
   recordId: string,
-): { entry: ScheduleEntry; replies: string[]; text: string } {
+): {
+  entry: ScheduleEntry;
+  replies: string[];
+  text: string;
+  tree: TreeNode;
+} {
   const { core, director, playerId } = ctx;
   const book = director.ledger.people.get(playerId)!;
   const entry = book.schedule.find(
@@ -145,7 +210,12 @@ function scene(
   console.log(
     `ENDORSEMENT ASK ${where}: "${result.scene.talk.state.text}" replies ${replies.join(", ")}`,
   );
-  return { entry: entry!, replies, text: result.scene.talk.state.text };
+  return {
+    entry: entry!,
+    replies,
+    text: result.scene.talk.state.text,
+    tree: result.scene.talk.tree,
+  };
 }
 
 const say = (
@@ -162,6 +232,25 @@ const say = (
     [replies.indexOf(move)],
     { typeKey: "endorsement-ask" },
   );
+
+/** The player says each move in turn as far as the talk goes, to the end of the exchange. */
+function sayThrough(
+  ctx: ReturnType<typeof world>,
+  shown: { entry: ScheduleEntry; tree: TreeNode },
+  moves: string[],
+) {
+  const path: number[] = [];
+  let node: TreeNode | null = shown.tree;
+  for (const move of moves) {
+    const at = node?.replies.findIndex((r) => r.line.move === move) ?? -1;
+    if (at < 0) break;
+    path.push(at);
+    node = node!.replies[at]!.next;
+  }
+  return replyInScene(ctx.core, ctx.director, ctx.playerId, shown.entry, path, {
+    typeKey: "endorsement-ask",
+  });
+}
 
 const endorsed = (ctx: ReturnType<typeof world>, rowId: string) =>
   [...ctx.core.durableLog.values()].some(
@@ -232,4 +321,35 @@ it(`a put-off comes back as a second asking, with no put-off offered (${PLACE.na
   expect(two.replies).not.toContain("stall");
   expect(say(ctx, two.entry, two.replies, "agree")).toBeTruthy();
   expect(answerOf(ctx)).toBe("yes");
+}, 900_000);
+
+it(`a favor the player owes is asked by name, a no is final, and a yes settles it (${PLACE.name})`, () => {
+  const no = world(true);
+  const ask = asked(no);
+  expect(ask.record.facts?.obligationId).toBe(no.obligationId);
+  expect(ask.record.facts?.billId).toBeTruthy();
+  const one = scene(no, ask.record.id);
+  const before = closenessBetween(no.core, no.playerId, no.candidate.id);
+  expect(sayThrough(no, one, ["decline", "decline"])).toBeTruthy();
+  expect(answerOf(no)).toBe("no");
+  // The no is final: the favor is not owed any more, and no later
+  // campaign of the candidate's calls it in again.
+  expect(
+    obligationsOwedTo(no.api, no.candidate.id).map((o) => o.id),
+  ).not.toContain(no.obligationId);
+  // The scene's ending strains the tie, as a refusal does for anyone.
+  expect(closenessBetween(no.core, no.playerId, no.candidate.id)).toBeLessThan(
+    before,
+  );
+  advanceCore(no.core, addDays(makeIsoDate(no.core.date), 40));
+  expect(answerOf(no)).toBe("no");
+
+  const yes = world(true);
+  const ask2 = asked(yes);
+  const two = scene(yes, ask2.record.id);
+  expect(say(yes, two.entry, two.replies, "agree")).toBeTruthy();
+  expect(answerOf(yes)).toBe("yes");
+  expect(
+    obligationsOwedTo(yes.api, yes.candidate.id).map((o) => o.id),
+  ).not.toContain(yes.obligationId);
 }, 900_000);
