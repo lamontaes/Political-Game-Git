@@ -1765,6 +1765,16 @@ const ROUTES: readonly Route[] = [
                 })),
               }
             : {}),
+          // A phase-in by a percent a year.
+          ...(q("risePercent")
+            ? {
+                risePerYear: {
+                  percent: Number(q("risePercent")),
+                  years: Number(q("riseYears")),
+                  firstDate: String(q("riseFirstDate")),
+                },
+              }
+            : {}),
         }),
       );
       return;
