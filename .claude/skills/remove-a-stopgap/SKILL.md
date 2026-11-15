@@ -31,3 +31,7 @@ A row lives in a family file under `src/core2/data/stopgaps/` (the director's in
 ## No new stopgaps (owner's rule, Nov 14)
 
 This overrides any older note, item or skill line that says a builder may leave or register a new stopgap. Build the real thing through the engine that exists, or say in the PR what is missing and stop.
+
+## Weights and the owner's source rule (S3, Nov 15)
+
+A row that is a weight or a pull (corruption's offer, take and tell weights, SG-P15-corruption-weights) is cleared without a source hunt (owner, Nov 14: sources only establish relationships and effects, never exact figures). Turn each TUNABLE row into an ESTIMATED row: `estimatedFrom` says in plain words what raises and what lowers the chance, and `spread` is `{ low, high, unit, citation }` from the range the fit and checks already held. Delete the row's `stopgapId`, the stopgap row and every marker in the same pull request, and grep for the id (data, code, tests) before pushing.

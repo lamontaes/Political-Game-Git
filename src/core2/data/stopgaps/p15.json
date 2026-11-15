@@ -237,18 +237,6 @@
     "status": "resolved"
   },
   {
-    "id": "SG-P15-corruption-weights",
-    "kind": "uncalibrated-tunable",
-    "file": "src/core2/data/corruption/parameters.json",
-    "line": 6,
-    "whatItFakes": "How much traits, money pressure and ties weigh in offering, taking and telling about a bribe.",
-    "why": "Basic corruption (M3-09) needs a first version; the research gives directions, not these coefficients.",
-    "addedBy": "OPUS-PEOPLE",
-    "addedAt": "2026-10-12",
-    "replacement": "Weights checked against bribery incidence surveys and public-corruption case counts by office (DOJ Public Integrity Section reports, data/research/corruption/roadmap-r29-aggregate-enforcement.json), with audits and the news surfacing records; the take calibration is people-corruption-honest-pull-calibrated. Researched Oct 23, 2026 (data/research/core/corruption-bands-2014.json): bribes averaged 10.9% of a deal's value and 34.5% of its profit in 427 OECD foreign-bribery cases (OECD Foreign Bribery Report 2014, via a secondary summary; the OECD pages refused the session), the figure bribeShareOfStake would take as ESTIMATED, and 7% of U.S. adults paid a bribe to a public service in a year (Transparency International, Global Corruption Barometer 2013, via Pew Research Center), the band scripts/research/core-parameters-year.ts reports offers against. The trait, need, tie, tell, quiet, report, vote and breach weights have no published effect that converts and stay TUNABLE.",
-    "status": "open"
-  },
-  {
     "id": "SG-P15-bribe-falling-out-rare",
     "kind": "uncalibrated-tunable",
     "file": "src/core2/modules/corruption.ts",
