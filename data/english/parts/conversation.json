@@ -38469,25 +38469,6 @@
       "date": "2026-11-14"
     },
     {
-      "key": "conversation.farewell-core.thanks-again",
-      "move": "farewell-core",
-      "kind": "spoken",
-      "text": "Thanks again.",
-      "uses": [
-        {
-          "move": "farewell-core",
-          "subject": "farewell",
-          "role": "core",
-          "stages": ["default"],
-          "closesTalk": true,
-          "excludesFacts": ["by-phone"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder A (plain goodbyes, first meetings carry no name, round 11)",
-      "date": "2026-11-14"
-    },
-    {
       "key": "conversation.farewell-core.thanks-bye",
       "move": "farewell-core",
       "kind": "spoken",
