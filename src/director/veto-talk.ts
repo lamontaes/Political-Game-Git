@@ -37,6 +37,7 @@ import { placeNameSaid } from "../core2/place-lookup";
 import { applyCoreEvent, coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
 import { P } from "../core2/parameters";
+import { temperedHours } from "../core2/closeness";
 import type { Director } from "./ledger";
 
 /** The conversation subject a veto is said as. */
@@ -182,8 +183,9 @@ const share = (traits: Readonly<Record<string, number>>, key: string) =>
 /**
  * The player's reply to a veto brought up, written as a `veto.answer` record
  * and read at once: owning that it hurt (`gives`) gives back a share of the
- * step the veto took off the tie, both ways, by how readily the sponsor
- * smooths things over (one minus their conflict trait as a share); where the
+ * step the veto took off the tie, as the tie writer counted it, both ways,
+ * by how readily the sponsor smooths things over (one minus their conflict
+ * trait as a share), so it never wins back more than the veto took; where the
  * veto took nothing (the two had no tie to cool) it gives nothing. Standing
  * by it (`holds`) or leaving moves nothing more. Returns the record's id, or
  * null when the act or the reply is not one.
@@ -216,9 +218,18 @@ export function answerVeto(
   });
   // Nothing to give back where the veto took nothing (no tie to cool).
   if (reply !== "gives" || !act.cooled) return id;
-  const traits = core.people.get(sponsorId)?.traits ?? {};
-  const step = vetoCloseness() * (P.one - share(traits, CONFLICT));
-  if (!step) return id;
+  const sponsor = core.people.get(sponsorId);
+  const answerer = core.people.get(answererId);
+  // What the veto took, as the tie writer counted it (temperament weighs a
+  // quarrel and time together differently), and the hours that give back
+  // the sponsor's share of it: never more than the veto took.
+  const taken = -temperedHours(core, sponsor, answerer, -vetoCloseness());
+  const perHour = temperedHours(core, sponsor, answerer, P.one);
+  const step =
+    perHour > P.zero
+      ? (taken * (P.one - share(sponsor?.traits ?? {}, CONFLICT))) / perHour
+      : P.zero;
+  if (!(step > P.zero)) return id;
   const why = { cause: "veto-answer:gives", sourceId: id };
   api.relationship(sponsorId, answererId, "contact", step, undefined, why);
   api.relationship(answererId, sponsorId, "contact", step, undefined, why);

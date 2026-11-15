@@ -201,6 +201,12 @@ it(`the sponsor brings up a veto once at the next talk, seed ${seed}`, () => {
     expect(warmed, `${where}: the apology moves the tie`).toBeGreaterThan(
       cooled,
     );
+    // Part of what the veto took, never more: the tie stays below where it
+    // stood before the veto.
+    expect(
+      warmed,
+      `${where}: the apology won back more than the veto took`,
+    ).toBeLessThan(before);
     // The last word on the tie is the apology's, by its record.
     const tie = core.relationships.get(tieKey);
     expect(tie?.latestChange?.reason, where).toEqual({
