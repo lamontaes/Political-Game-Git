@@ -278,6 +278,8 @@ export interface CountryState {
 export interface CountryWithheldLine {
   lawId: string;
   level: "state" | "federal";
+  /** Which tax the row is: the income tax, or one of the two payroll taxes. */
+  tax: "income" | "social-security" | "medicare";
   dollars: number;
 }
 
@@ -580,7 +582,12 @@ function incomes(
       if (!kept)
         out.withheld.set(
           line.lawId,
-          (kept = { lawId: line.lawId, level: line.level, dollars: 0 }),
+          (kept = {
+            lawId: line.lawId,
+            level: line.level,
+            tax: line.tax,
+            dollars: 0,
+          }),
         );
       kept.dollars += (cell.workers * line.dollars) / months;
     }

@@ -45,7 +45,7 @@ import {
   startingLawReader,
 } from "../country-law";
 import { BUDGETS_MODULE_ID, budgetsOf, governments } from "./budgets";
-import { stateStake } from "../budgets-treasury";
+import { registerCountryWithholding, stateStake } from "../budgets-treasury";
 import {
   COUNTRY_AGE_BANDS,
   countryMoney,
@@ -414,6 +414,29 @@ export function countryStateNow(api: CoreAPI, fips: string) {
     ? { now: countryStateFigures(state, rulesOf(api)), base, state }
     : undefined;
 }
+
+/**
+ * What the tier's states withheld from pay in the last month each stepped, under the federal
+ * rows in force: the income tax, and the two payroll taxes together. Each state's figures are
+ * its rest (the part the town's own records count is out of it, so the town's own people are
+ * not counted twice). The federal treasury reads this for its individual income tax.
+ */
+registerCountryWithholding((api) => {
+  let month = 0;
+  let federalIncome = 0;
+  let federalPayroll = 0;
+  for (const state of countryStates(api)) {
+    const last = state.whatMoved[state.whatMoved.length - 1];
+    if (!last) continue;
+    month = Math.max(month, last.month);
+    for (const row of last.withheld) {
+      if (row.level !== "federal") continue;
+      if (row.tax === "income") federalIncome += row.dollars;
+      else federalPayroll += row.dollars;
+    }
+  }
+  return month > 0 ? { month, federalIncome, federalPayroll } : undefined;
+});
 
 /** A state's part held in full (the played town and its county), as the tables keep it: one row per state, replaced each month. */
 export interface CountryPartRow extends CountryPart {

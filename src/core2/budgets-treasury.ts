@@ -916,6 +916,25 @@ function publicPayShortfallOf(api: CoreAPI, gov: GovernmentRow): number {
 }
 
 /**
+ * What the country tier's states withheld from pay in the last month it stepped, in dollars:
+ * the federal income tax and the two payroll taxes, summed over every state's rest (the part
+ * the town's own records count is paid by the town's own people, so it is not here).
+ */
+export interface CountryWithholding {
+  readonly month: number;
+  readonly federalIncome: number;
+  readonly federalPayroll: number;
+}
+let countryWithholdingReader:
+  ((api: CoreAPI) => CountryWithholding | undefined) | null = null;
+/** The macro module registers how the tier's withholding is read (budgets cannot import it). */
+export function registerCountryWithholding(
+  reader: (api: CoreAPI) => CountryWithholding | undefined,
+): void {
+  countryWithholdingReader = reader;
+}
+
+/**
  * What a treasury receives from outside the town's flows in a month: each
  * revenue line, less the part the town's own flows pay (withholding, sales
  * tax, property tax). A line with named payers (charges and fees among them)
@@ -926,11 +945,14 @@ export function outsideRevenueMonthly(
   gov: GovernmentRow,
   budget: BudgetRow,
   aided: ReadonlySet<string>,
+  /** Lines the country tier's own withholding pays instead (federal income tax). */
+  paidByTier: ReadonlySet<string> = new Set(),
 ): number {
   const away = 1 - townShareOf(api, gov);
   let annual = 0;
   for (const [line, amount] of Object.entries(budget.revenueMinor)) {
     if (aided.has(`${gov.level}|${line}`)) continue;
+    if (paidByTier.has(line)) continue;
     // A line with named payers is paid by them on its due dates, below.
     if (PAYERS.lines[line]) continue;
     annual += TOWN_PAID_LINES.has(line) ? amount * away : amount;
@@ -1169,6 +1191,70 @@ function collectedThisMonth(
 }
 
 /** The month's close for every treasury: revenue in, then each budget line out, top down. */
+/**
+ * The federal treasury's individual income tax from the country tier: the month's plan for what
+ * the rest of the country pays (the line less the town's share) moves with what the tier's
+ * workers had withheld under the federal income-tax rows in force, against the month the
+ * treasury first read it. A federal rate change reaches this line the next month; the payers are
+ * the tier's households and employers, recorded with the tier's month.
+ */
+function payFromTier(
+  api: CoreAPI,
+  gov: GovernmentRow,
+  budget: BudgetRow,
+  tier: CountryWithholding,
+  outside: string,
+  date: string,
+  source: Source,
+  namedCollected: Map<string, number>,
+): void {
+  const line = "individualIncomeTax";
+  const planned = budget.revenueMinor[line] ?? 0;
+  if (planned <= 0) return;
+  const baseId = `${gov.id}:${line}`;
+  const kept = table(api, "tierBases").get(baseId) as unknown as
+    { dollars: number } | undefined;
+  const base = kept?.dollars ?? tier.federalIncome;
+  if (!kept)
+    table(api, "tierBases").put({
+      id: baseId,
+      dollars: base,
+      month: tier.month,
+    } as unknown as ModuleRow);
+  const index = tier.federalIncome / base;
+  const away = 1 - townShareOf(api, gov);
+  const amount = Math.round(
+    ((planned * away) / treasuryParameter("monthsPerYear")) * index,
+  );
+  if (amount <= 0) return;
+  const receipt = api.accounts().transfer({
+    id: `treasury-withholding:${line}:country:${gov.id}:${date}`,
+    from: api.accounts().main(outside),
+    to: api.accounts().main(gov.organizationId),
+    amountMinor: amount,
+    reasonKey: "treasury-withholding",
+    source,
+  });
+  table(api, "taxPayments").put({
+    id: receipt.id,
+    governmentId: gov.id,
+    line,
+    payerId: "country-workers",
+    payerName: "Workers and employers elsewhere in the country",
+    dueOn: date,
+    date,
+    amountMinor: receipt.paidMinor,
+    installmentMinor: amount,
+    baseIndex: index,
+    townPaidMinor: 0,
+    tierMonth: tier.month,
+  } as unknown as ModuleRow);
+  namedCollected.set(
+    gov.id,
+    (namedCollected.get(gov.id) ?? 0) + receipt.paidMinor,
+  );
+}
+
 export function closeTreasuries(api: CoreAPI, source: Source): void {
   const outside = outsideAccountOf(api);
   if (!outside) return;
@@ -1186,10 +1272,31 @@ export function closeTreasuries(api: CoreAPI, source: Source): void {
   const aided = aidedLines(api, govs);
   const fromOutside = new Map<string, number>();
   const namedCollected = new Map<string, number>();
+  const tier = countryWithholdingReader?.(api);
+  const tierPays = new Set<string>(
+    tier && tier.federalIncome > 0 ? ["individualIncomeTax"] : [],
+  );
   for (const gov of govs) {
     const budget = budgets.get(gov.id);
     if (!budget) continue;
-    const monthly = outsideRevenueMonthly(api, gov, budget, aided);
+    const monthly = outsideRevenueMonthly(
+      api,
+      gov,
+      budget,
+      aided,
+      gov.level === "federal" ? tierPays : undefined,
+    );
+    if (gov.level === "federal" && tier && tierPays.size > 0)
+      payFromTier(
+        api,
+        gov,
+        budget,
+        tier,
+        outside,
+        date,
+        source,
+        namedCollected,
+      );
     if (monthly <= 0) continue;
     const receipt = accounts.transfer({
       id: `outside-revenue:${gov.id}:${date}`,
