@@ -15,7 +15,12 @@ import type { CoreAPI, CoreState } from "./types";
 import { OUTCOME_WEB_MODULE_ID } from "./outcome-web-model";
 import areaData from "./data/term-read/areas.json" with { type: "json" };
 import { placeStateKey } from "./place-map";
-import { REGIONS, stateFigures, type RegionMonth } from "./regional-model";
+import {
+  earnedPerResident,
+  REGIONS,
+  stateFigures,
+  type RegionMonth,
+} from "./regional-model";
 import type { MacroMonth } from "./macro-model";
 import catalog from "./data/legislature/bill-catalog.json" with { type: "json" };
 
@@ -266,7 +271,20 @@ function nationRowAt(api: CoreAPI, month: string): FigureRow | null {
     .table("months")
     .get(`macro-month:${month}`) as unknown as MacroMonth | undefined;
   if (!row) return null;
-  const values = row as unknown as Record<string, number>;
+  // What the jobs pay per resident is the sum over every region the regional
+  // module keeps that month; the macro row holds no population.
+  const regions = (api.state as CoreState).modules.has(REGIONAL_ID)
+    ? (api
+        .moduleState(REGIONAL_ID)
+        .table("months")
+        .query("byMonth", [month]) as unknown as RegionMonth[])
+    : [];
+  const values: Record<string, number> = {
+    ...(row as unknown as Record<string, number>),
+    ...(regions.length
+      ? { earnedPerResident: earnedPerResident(regions) }
+      : {}),
+  };
   const figures: Record<string, number> = {};
   for (const [measure, field] of Object.entries(
     DATA.jurisdictionFigures.measures,
