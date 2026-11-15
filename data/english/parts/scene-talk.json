@@ -146394,8 +146394,9 @@
           "step": "narrate",
           "move": "narrate",
           "role": "narrator",
-          "purpose": "constituent-help.lost-job",
-          "key": "favor-asked"
+          "key": "favor-asked",
+          "set": "case-help",
+          "requiresFacts": ["problem-work"]
         }
       ],
       "bearing": "calm",
@@ -146418,8 +146419,9 @@
           "step": "narrate",
           "move": "narrate",
           "role": "narrator",
-          "purpose": "constituent-help.lost-job",
-          "key": "favor-asked"
+          "key": "favor-asked",
+          "set": "case-help",
+          "requiresFacts": ["problem-work"]
         }
       ],
       "bearing": "anxious",
@@ -146442,9 +146444,9 @@
           "step": "narrate",
           "move": "narrate",
           "role": "narrator",
-          "purpose": "constituent-help.lost-job",
           "key": "favor-asked",
-          "requiresFacts": ["employer"]
+          "requiresFacts": ["employer", "problem-work"],
+          "set": "case-help"
         }
       ],
       "bearing": "calm",
@@ -146453,31 +146455,6 @@
       "date": "2026-11-09",
       "tag": {
         "move": "narrate",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.open-greet.i-used-to-work-for-employer-that-s-why-i-m-here",
-      "move": "open-greet",
-      "kind": "spoken",
-      "text": "I used to work for {employer}. That's why I'm here.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "purpose": "constituent-help.lost-job",
-          "key": "favor-asked",
-          "requiresFacts": ["employer"]
-        }
-      ],
-      "bearing": "anxious",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, constituent-help variants)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "greet",
         "key": "favor-asked"
       }
     },
@@ -146492,34 +146469,9 @@
           "step": "state",
           "move": "request",
           "role": "asker",
-          "purpose": "constituent-help.lost-job",
           "key": "favor-asked",
-          "requiresFacts": ["employer", "since"]
-        }
-      ],
-      "bearing": "anxious",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, constituent-help variants)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "request",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.state-request.i-don-t-want-a-handout-i-want-a-job-and-employer-was-the-last-one-i-had",
-      "move": "state-request",
-      "kind": "spoken",
-      "text": "I don't want a handout. I want a job, and {employer} was the last one I had.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "request",
-          "role": "asker",
-          "purpose": "constituent-help.lost-job",
-          "key": "favor-asked",
-          "requiresFacts": ["employer"]
+          "requiresFacts": ["employer", "since", "problem-work"],
+          "set": "case-help"
         }
       ],
       "bearing": "anxious",
@@ -146542,9 +146494,9 @@
           "step": "state",
           "move": "request",
           "role": "asker",
-          "purpose": "constituent-help.lost-job",
           "key": "favor-asked",
-          "requiresFacts": ["since", "place"]
+          "requiresFacts": ["since", "place", "problem-work"],
+          "set": "case-help"
         }
       ],
       "bearing": "anxious",
@@ -146567,9 +146519,9 @@
           "step": "state",
           "move": "request",
           "role": "asker",
-          "purpose": "constituent-help.lost-job",
           "key": "favor-asked",
-          "requiresFacts": ["employer", "place"]
+          "requiresFacts": ["employer", "place", "problem-work"],
+          "set": "case-help"
         }
       ],
       "bearing": "braced",
@@ -147548,54 +147500,6 @@
       "date": "2026-11-09",
       "tag": {
         "move": "accept",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.narrate-narrate.name-has-a-pay-stub-in-one-hand-and-a-printout-of-the-minimum-wage-law-in-the-ot",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "{name} has a paycheck in one hand and a printout of the minimum wage law in the other, folded to the same page.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "constituent-help.short-pay",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, constituent-help variants)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "narrate",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.narrate-narrate.name-waits-until-the-person-ahead-leaves-then-lays-a-pay-stub-on-the-table-and-t",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "{name} waits until the person ahead leaves, then lays a paycheck on the table and turns it to face you.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "constituent-help.short-pay",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, constituent-help variants)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "narrate",
         "key": "favor-asked"
       }
     },
@@ -182039,9 +181943,9 @@
           "step": "narrate",
           "move": "narrate",
           "role": "narrator",
-          "purpose": "constituent-help.short-pay",
           "key": "favor-asked",
-          "requiresFacts": ["pay"]
+          "requiresFacts": ["pay", "problem-wage"],
+          "set": "case-help"
         }
       ],
       "bearing": "calm",
@@ -182064,9 +181968,9 @@
           "step": "state",
           "move": "request",
           "role": "asker",
-          "purpose": "constituent-help.short-pay",
           "key": "favor-asked",
-          "requiresFacts": ["problem-wage"]
+          "requiresFacts": ["problem-wage"],
+          "set": "case-help"
         }
       ],
       "bearing": "braced",
@@ -182089,9 +181993,9 @@
           "step": "state",
           "move": "request",
           "role": "asker",
-          "purpose": "constituent-help.short-pay",
           "key": "favor-asked",
-          "requiresFacts": ["problem-wage"]
+          "requiresFacts": ["problem-wage"],
+          "set": "case-help"
         }
       ],
       "bearing": "braced",
@@ -182114,9 +182018,9 @@
           "step": "state",
           "move": "request",
           "role": "asker",
-          "purpose": "constituent-help.short-pay",
           "key": "favor-asked",
-          "requiresFacts": ["problem-wage"]
+          "requiresFacts": ["problem-wage"],
+          "set": "case-help"
         }
       ],
       "bearing": "braced",
