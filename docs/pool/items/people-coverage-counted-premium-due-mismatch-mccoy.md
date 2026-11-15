@@ -33,3 +33,5 @@ root: rc8-law-judged-by-paperwork
 **Waits on.** Nothing.
 
 **Files.** src/core2/health-coverage-counted.test.ts, src/core2/modules/coverage.ts
+
+**Notes (laws thread, Nov 15, 2026).** Not one place: the same test at seed 28ac47ac2d77e301 drew McElhattan, Pennsylvania [4246112] and failed with the same figures on Train d82bf47eeba5859e55bb556b705b444945568fea (journal:2025-06-01:46067, counted household_001be3c3df3e6896, against journal:2025-06-01:45604, full person_57e5ff2880293ab2: expected 11400 to be 52467). The same $114.00 against $524.67 in two states points at one rule, not a place's data.
