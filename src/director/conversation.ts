@@ -28,6 +28,7 @@
  * and the President's address weighs by how closely they follow politics.
  * The listener remembers the last talk's topic and doesn't open with it again.
  */
+import { closenessBetween } from "../core2/closeness";
 import { familyFactsOf, meetInTalk } from "../core2/modules/people";
 import { jobTitleByKind } from "../core2/person-work";
 import {
@@ -112,6 +113,7 @@ import { questionSubject } from "../english/policy-names";
 import {
   NAMED_QUESTIONS,
   questionAbout,
+  questionSaid,
   questionSide,
   questionTo,
   townFigureWords,
@@ -125,8 +127,8 @@ import {
   conversationHas,
   conversationMoves,
   CONVERSATION_WORDS,
-  HELD_SAID,
-  heldPieces,
+  SAID_ONCE_FACTS,
+  piecesSaidOnce,
   joinedReply,
   wordConversationMove,
   type ConversationPart,
@@ -162,6 +164,7 @@ import { directorStopgap, WORDS_STOPGAP_HITS } from "./stopgaps";
 import {
   clockSaid,
   daysSaid,
+  countSaid,
   hoursSaid,
   lateSaid,
   lengthSaid,
@@ -843,6 +846,29 @@ function seekingOf(
     : undefined;
 }
 
+/**
+ * Whether a moment is the day the person's job ended when the ledger kept the
+ * day's one cause under another kind: a closure that also formed a drive
+ * shares the drive's cause id, so the moment is labeled for the drive and its
+ * money channel carries the pay lost. The jobs record says which: the person's
+ * own record of a job ending was learned that day.
+ */
+function jobEndedWithMoment(
+  core: Readonly<CoreState>,
+  personId: PersonId,
+  moment: { date: string; channels?: readonly { channel: string }[] },
+): boolean {
+  if (!moment.channels?.some((row) => row.channel === "money")) return false;
+  for (const [key, row] of core.knowledgeByPerson.get(personId) ?? [])
+    if (
+      /^job:.+:status$/.test(key) &&
+      row.value === "ended" &&
+      row.learnedAt === moment.date
+    )
+      return true;
+  return false;
+}
+
 /** The job a person last saw end, from their own record of it. */
 function lastEndedJob(core: Readonly<CoreState>, personId: PersonId) {
   let best: { jobId: string; at: string } | undefined;
@@ -1308,14 +1334,22 @@ function caseFacts(
   const pretrial = core.durableLog.get(
     `justice.pretrial:${row.id}` as never,
   ) as { facts?: Readonly<Record<string, string>> } | undefined;
-  if (pretrial?.facts?.decision === "held") facts.held = fact("yes");
-  else if (Number(pretrial?.facts?.bailMinor) > zero) {
-    const bailMinor = Number(pretrial!.facts!.bailMinor);
-    facts.bail = fact(moneySaid(bailMinor));
-    // Said first as what it means to them (the person's own cash against it);
-    // the sum is said only when asked (Words lead, rule 104, Nov 14).
-    const cash = core.people.get(row.defendantId)?.liquidMinor ?? zero;
-    facts[cash >= bailMinor ? "bailCovered" : "bailOver"] = fact("yes");
+  // Read from the pretrial decision, never from the cash on hand now: posting
+  // bail moves the money out of the accused's hands, so their cash afterward
+  // always reads short of it.
+  const decision = pretrial?.facts?.decision;
+  if (decision === "held") facts.held = fact("yes");
+  if (
+    (decision === "held" || decision === "posted") &&
+    Number(pretrial?.facts?.bailMinor) > zero
+  ) {
+    facts.bail = fact(moneySaid(Number(pretrial!.facts!.bailMinor)));
+    // Said first as what it means to them; the sum is said only when asked
+    // (Words lead, rule 104, Nov 14). Held means they could not cover it.
+    if (decision === "posted") {
+      facts.bailCovered = fact("yes");
+      facts.bailPosted = fact("yes");
+    } else facts.bailOver = fact("yes");
   }
   const sentence = row.sentenceId
     ? (api.table("sentences").get(row.sentenceId) as
@@ -1334,7 +1368,11 @@ function caseFacts(
     if ((sentence.custodyMonths ?? zero) > zero)
       facts.term = fact(lengthSaid(sentence.custodyMonths!), ids);
     if ((sentence.probationMonths ?? zero) > zero)
-      facts.probation = fact(lengthSaid(sentence.probationMonths!), ids);
+      facts.probation = fact(
+        // A telling opens a sentence on it ("Thirteen months of probation").
+        lengthSaid(sentence.probationMonths!),
+        ids,
+      );
     if ((sentence.fineMinor ?? zero) > zero)
       facts.fine = fact(moneySaid(sentence.fineMinor!), ids);
   }
@@ -1345,6 +1383,61 @@ function caseFacts(
  * The justice engine's events a person can talk about, by the ledger label
  * of the moment they made and the subject each is told as.
  */
+/**
+ * A job the speaker lost, as they tell it (words composer, a subject of
+ * their own: `job-lost-say`, answered back under `job-lost-back` by the
+ * reply's move), from the jobs engine's records: the employer and what they
+ * did there (the ended job's record), how long they had been there (their
+ * working life's record of the start), when it ended (the money moment),
+ * why (the search record's reason: a layoff, the employer closing) and
+ * that they are looking (the search record), with what it paid an hour.
+ */
+function jobLost(
+  core: Readonly<CoreState>,
+  speaker: Readonly<PersonState>,
+  lost: Moment,
+): Subject | null {
+  const ended = lastEndedJob(core, speaker.id);
+  const org = ended ? core.organizations.get(ended.organizationId) : undefined;
+  const employer = org ? employerWords(org) : null;
+  if (!ended || !org || !employer) return null;
+  const cites = [lost.causeId, ended.id];
+  const fact = (text: string, ids: readonly string[] = cites): Fact => ({
+    text,
+    sourceRecordIds: [...ids],
+  });
+  const facts: Facts = {
+    employer: fact(employer, [ended.id, org.id]),
+    when: fact(spokenWhen(lost.date, core.date)),
+  };
+  const position = sayableTitle(ended.title)
+    ? withArticle(ended.title)
+    : undefined;
+  if (position) facts.position = fact(position, [ended.id]);
+  const held = heldSinceRecord(core as CoreState, speaker.id, ended.id);
+  const years = tenureYears(
+    held ? { date: String(held.facts.startedAt), factId: held.id } : null,
+    lost.date,
+  );
+  if (years)
+    facts.years = { ...years, text: countSaid(Number(years.text), Infinity) };
+  Object.assign(facts, hourlyFact(core, ended.id));
+  const seeking = seekingOf(core, speaker.id);
+  const reason = seeking && JOB_LOSS_STAGES[seeking.reasonKey];
+  if (seeking) {
+    facts.seeking = fact("yes", [seeking.id]);
+    if (reason) facts[reason] = fact("yes", [seeking.id, ...cites]);
+  }
+  const place = corePlaceByJurisdictionId(speaker.placeId as never);
+  if (place) facts.place = fact(spoken(place), [speaker.householdId]);
+  return {
+    id: `job-lost:${lost.causeId}`,
+    kind: "job-lost",
+    aboutId: lost.causeId,
+    facts,
+  };
+}
+
 const JUSTICE_SUBJECTS: Readonly<Record<string, string>> = {
   "feeling:event:justice.charged": "charge",
   "feeling:event:justice.convicted": "conviction",
@@ -2151,6 +2244,7 @@ function governmentNews(
     out["knows-record"] = fact("yes");
     const question = about ? QUESTION_BY_ABOUT.get(about) : undefined;
     if (about) out.about = fact(about);
+    if (about) out.said = fact((question && questionSaid(question)) || about);
     if (question && lean !== undefined) {
       const held = viewOn(api, speaker.id, question, lean);
       if (held !== zero) {
@@ -2357,6 +2451,10 @@ function printedSubject(
       news,
       facts: {
         about: { text: about, sourceRecordIds: [story.id] },
+        said: {
+          text: questionSaid(story.topic!) ?? about,
+          sourceRecordIds: [story.id],
+        },
         ...stakeMarks(stake, "their-"),
         // A printed story, told by what it is about (never its headline).
         story: { text: "yes", sourceRecordIds: cited },
@@ -2394,8 +2492,14 @@ function introduction(
   speaker: Readonly<PersonState>,
   listener: Readonly<PersonState>,
   work: ReturnType<typeof sayJob>,
-  room: { visitOrganizationId?: string },
+  room: { visitOrganizationId?: string; byPhone?: boolean },
 ): Subject | null {
+  // A call is never to a stranger, so nobody introduces themselves on one.
+  if (room.byPhone) return null;
+  // Two who have met before are not strangers: no one introduces themselves
+  // to someone they have already talked with (Words lead, Nov 14).
+  if (lastContact(core, speaker.id as PersonId, listener.id as PersonId))
+    return null;
   if (
     speaker.householdId === listener.householdId ||
     speaker.familyIds.has(listener.id as PersonId) ||
@@ -2430,6 +2534,8 @@ export function subjectsBetween(
     presentIds?: readonly PersonId[];
     minuteOfDay?: number;
     visitOrganizationId?: string;
+    /** The talk is a phone call. */
+    byPhone?: boolean;
   } = {},
 ): Subject[] {
   const speaker = core.people.get(speakerId)!;
@@ -2473,7 +2579,9 @@ export function subjectsBetween(
   const lost =
     recentMoments(core, director, speakerId).find(
       (moment) =>
-        moment.label === "money:job-ended" && !moment.counterpartIds.length,
+        !moment.counterpartIds.length &&
+        (moment.label === "money:job-ended" ||
+          jobEndedWithMoment(core, speakerId, moment)),
     ) ??
     recentMoments(core, director, listenerId).find(
       (moment) =>
@@ -2481,46 +2589,8 @@ export function subjectsBetween(
         moment.counterpartIds.includes(speakerId),
     );
   if (lost && !mine) {
-    out.push({
-      id: `job-lost:${lost.causeId}`,
-      kind: "job-lost",
-      aboutId: lost.causeId,
-      facts: { lost: { text: "yes", sourceRecordIds: [lost.causeId] } },
-    });
-    // Why, and what now: the jobs engine's record of their search, which
-    // names the reason (a layoff, the employer closing) and that they are
-    // looking.
-    const seeking = seekingOf(core, speakerId);
-    const ended = lastEndedJob(core, speakerId);
-    const stage = seeking && JOB_LOSS_STAGES[seeking.reasonKey];
-    if (seeking && stage) {
-      const org = ended
-        ? core.organizations.get(ended.organizationId)
-        : undefined;
-      out.push({
-        id: `job-cause:${lost.causeId}`,
-        kind: "job-cause",
-        aboutId: lost.causeId,
-        stage,
-        facts: {
-          reason: { text: "", sourceRecordIds: [seeking.id] },
-          ...(org
-            ? {
-                employer: {
-                  text: organizationName(org),
-                  sourceRecordIds: [ended!.id, org.id],
-                },
-              }
-            : {}),
-        },
-      });
-      out.push({
-        id: `job-hope:${seeking.id}`,
-        kind: "job-hope",
-        aboutId: lost.causeId,
-        facts: { seeking: { text: "", sourceRecordIds: [seeking.id] } },
-      });
-    }
+    const told = jobLost(core, speaker, lost);
+    if (told) out.push(told);
   }
   // A new job of the speaker's own, from the money moment of its start: the
   // job record names the employer, so the talk opens on it ("I got a job at
@@ -3036,6 +3106,10 @@ export function subjectsBetween(
         ...(top
           ? {
               about: { text: top.about, sourceRecordIds: [top.recordId] },
+              said: {
+                text: questionSaid(top.question) ?? top.about,
+                sourceRecordIds: [top.recordId],
+              },
               [`side-${top.side}`]: {
                 text: "yes",
                 sourceRecordIds: [top.recordId],
@@ -3471,6 +3545,13 @@ function pointSubject(
   const who = [eventId, ...president.sourceRecordIds];
   const facts: Facts = {
     about: { text: pick.point.about, sourceRecordIds: said },
+    said: {
+      text:
+        (pick.point.kind === "policy"
+          ? questionSaid(pick.point.question)
+          : null) ?? pick.point.about,
+      sourceRecordIds: said,
+    },
     president: {
       text: personSlot(president.id, "subject"),
       sourceRecordIds: who,
@@ -3640,19 +3721,26 @@ export function composedLine(
   momentKey: string,
   recentPartKeys: readonly string[] = [],
 ): Said | null {
-  // How long they have held a stand, said once in this talk (the parts this
-  // speaker said in it), is not said again (lead, Nov 13).
-  const held = heldPieces();
-  const heldSaid = recentPartKeys.some((key) => held.has(key));
+  // What is said once in a talk (how long they have held a stand; being
+  // glad to hear the player's voice) is not said again in it (lead, Nov 13;
+  // Words lead, Nov 14).
+  const onceSaid = SAID_ONCE_FACTS.filter((fact) =>
+    recentPartKeys.some((key) => piecesSaidOnce(fact).has(key)),
+  );
   const line = composeConversationLine({
     seed: core.seed,
     subject,
     speakerId,
     traits: core.people.get(speakerId)?.traits ?? {},
-    facts: heldSaid
+    facts: onceSaid.length
       ? {
           ...facts,
-          [HELD_SAID]: { text: "yes", sourceRecordIds: [speakerId] },
+          ...Object.fromEntries(
+            onceSaid.map((fact) => [
+              fact,
+              { text: "yes", sourceRecordIds: [speakerId] },
+            ]),
+          ),
         }
       : facts,
     stage,
@@ -4948,8 +5036,6 @@ const talkedKey = (playerId: PersonId, topic: string) =>
 /** The subjects a person tells as news of their own life; a reaction to one is never answered with small talk. */
 const NEWS_SUBJECTS: ReadonlySet<string> = new Set([
   "job-lost",
-  "job-cause",
-  "job-hope",
   "eviction",
   "victimization",
   "death-news",
@@ -5250,9 +5336,12 @@ function openConversationNow(
   // People who live together don't greet each other at home.
   const housemate =
     core.people.get(otherId)?.householdId === player.householdId;
-  const greeting = housemate
-    ? null
-    : greetingLine(core, data, playerId, otherId, !!knows, !!options.byPhone);
+  // A call opens as a call even to someone in the player's own house: the
+  // person answering says hello first (Words lead, Nov 14).
+  const greeting =
+    housemate && !options.byPhone
+      ? null
+      : greetingLine(core, data, playerId, otherId, !!knows, !!options.byPhone);
   if (greeting) {
     // The hello is its own short turn, as people say it ("Hi." then "Back
     // again?"): a composed greeting's opener is said first, the rest after.
@@ -5280,7 +5369,20 @@ function openConversationNow(
             },
           ]
         : [greeting];
-    for (const line of said)
+    // On a call the other person answers, the player says who it is, and the
+    // other person goes on: the player's own words, from the same facts.
+    const self =
+      options.byPhone && said.length > one
+        ? composedLine(
+            core,
+            playerId,
+            GREET_AND_PART.phoneSelf,
+            phoneFacts(core, playerId, otherId),
+            "default",
+            `${playerId}:${otherId}:${core.date}:greet-self`,
+          )
+        : null;
+    said.forEach((line, at) => {
       conversation.lines.push({
         speakerId: otherId,
         subjectId: `greet:${otherId}`,
@@ -5288,6 +5390,15 @@ function openConversationNow(
         act: "tell",
         ...line,
       });
+      if (at === zero && self)
+        conversation.lines.push({
+          speakerId: playerId,
+          subjectId: `greet:${otherId}`,
+          kind: "greet",
+          act: "tell",
+          ...self,
+        });
+    });
   }
   // At home, a scene with the household's hard news opens by asking for the player's attention
   // ("We need to talk.") instead of a greeting (owner, Oct 14, 2026, night: a
@@ -5758,9 +5869,14 @@ function questionOnce(conversation: Conversation): void {
       [
         ...(conversation.questions ?? [])
           .filter((question) => !question.startsWith("="))
-          .map((question) => questionAbout(question)),
+          .flatMap((question) => [
+            questionAbout(question),
+            questionSaid(question),
+          ]),
         conversation.topicFacts?.about?.text,
+        conversation.topicFacts?.said?.text,
         conversation.last?.facts.about?.text,
+        conversation.last?.facts.said?.text,
       ].filter((text): text is string => !!text),
     ),
   ].sort((a, b) => b.length - a.length);
@@ -6089,6 +6205,17 @@ function offerChoices(
     // The other person's given name, as the player says it to them.
     ...(other
       ? { "their-first": { text: other.givenName, sourceRecordIds: [otherId] } }
+      : {}),
+    // News of their own life: each fact the telling just said is marked
+    // `told-<fact>`, so a reply that would ask it again ("How?" after "It
+    // was a car crash.") is held back (`excludesFacts`; W1's strict review).
+    ...(DAY_TALK.backOmitsTold.includes(last.kind)
+      ? Object.fromEntries(
+          (conversation.lines.at(-one)?.wording?.facts ?? []).map((key) => [
+            `told-${key}`,
+            { text: "yes", sourceRecordIds: [otherId] },
+          ]),
+        )
       : {}),
     // They have held the job long enough to say how long: the question
     // "How long?" is offered only then (a question is answered).
@@ -6640,6 +6767,7 @@ const GREET_AND_PART = (
     greetAndPart: {
       greet: string;
       farewell: string;
+      phoneSelf: string;
       aboutFacts: readonly string[];
     };
   }
@@ -6672,6 +6800,59 @@ function saysName(
   return !!seen && seen.date < core.date;
 }
 
+/** How close a tie must be, on the closeness scale, for a call to be answered as one from a voice they know (conversation-rules.json, TUNABLE). */
+const CLOSE_TIE_LEVEL = (
+  rulesFile as unknown as { closeTieLevel: { value: number } }
+).closeTieLevel.value;
+
+/**
+ * What a call's words need to know about the tie: a relative or someone of
+ * the house (`kin-or-household`), or a tie that has stayed close
+ * (`close-tie`). Each cites the tie record the answer rests on.
+ */
+function phoneTieFacts(
+  core: Readonly<CoreState>,
+  playerId: PersonId,
+  otherId: PersonId,
+): Facts {
+  const facts: Facts = {};
+  const mark = (name: string, ids: readonly string[]) => {
+    facts[name] = { text: "yes", sourceRecordIds: [...ids] };
+  };
+  const player = core.people.get(playerId);
+  const other = core.people.get(otherId);
+  const ties = [...(core.relationshipsByPerson.get(playerId) ?? [])]
+    .map((id) => core.relationships.get(id)!)
+    .filter((row) => row.actorId === otherId || row.otherId === otherId);
+  const family = ties.find((row) => row.kind === "family");
+  if (player && other && player.householdId === other.householdId)
+    mark("kin-or-household", [player.householdId]);
+  else if (family) mark("kin-or-household", [family.id]);
+  if (
+    ties[zero] &&
+    closenessBetween(core, playerId, otherId) >= CLOSE_TIE_LEVEL
+  )
+    mark("close-tie", [ties[zero].id]);
+  return facts;
+}
+
+/** What a call's greeting knows: it is a call, the tie, and the player's own name (said by the player on the line). */
+function phoneFacts(
+  core: Readonly<CoreState>,
+  playerId: PersonId,
+  otherId: PersonId,
+): Facts {
+  const facts = phoneTieFacts(core, playerId, otherId);
+  facts["by-phone"] = { text: "yes", sourceRecordIds: [playerId] };
+  const player = core.people.get(playerId);
+  if (player?.givenName)
+    facts["player-first"] = {
+      text: player.givenName,
+      sourceRecordIds: [playerId],
+    };
+  return facts;
+}
+
 function greetingLine(
   core: Readonly<CoreState>,
   data: ConversationData,
@@ -6695,7 +6876,7 @@ function greetingLine(
     : {};
   const facts: Facts = { ...name };
   // A call: the greetings that fit only in person ("Good to see you") wait on this.
-  if (byPhone) facts["by-phone"] = { text: "yes", sourceRecordIds: [playerId] };
+  if (byPhone) Object.assign(facts, phoneFacts(core, playerId, otherId));
   // When they last met, said in passing, from the tie's own contact date;
   // never a meeting earlier today.
   const seen = lastContact(core, otherId, playerId);
@@ -6796,11 +6977,13 @@ function partingLine(
     conversation.lines.some((line) => line.text.includes(topic[found]!.text));
   const key = named ? undefined : found;
   const player = core.people.get(conversation.playerId);
-  if (conversation.byPhone)
+  if (conversation.byPhone) {
+    Object.assign(facts, phoneTieFacts(core, conversation.playerId, speakerId));
     facts["by-phone"] = {
       text: "yes",
       sourceRecordIds: [conversation.playerId],
     };
+  }
   // A name given in this talk (the introduction) is a name to say goodbye by.
   const introduced = found === undefined && !!conversation.nameGiven;
   if (
@@ -6899,7 +7082,9 @@ function endConversation(
   const lastFromOther = [...conversation.lines]
     .reverse()
     .find((line) => line.speakerId === otherId && line.kind !== "ack");
+  // A call is the exception: it is closed by the person called, or it hangs.
   if (
+    !conversation.byPhone &&
     lastFromOther &&
     asksQuestion(lastFromOther) &&
     conversation.lines.indexOf(lastFromOther) < conversation.lines.length - one
@@ -6907,9 +7092,12 @@ function endConversation(
     return;
   // People who live together close a talk as housemates do: never "Come
   // back soon." at home, and no hello passed on to their own family.
+  // A call is ended as a call, even between people who live together: the
+  // goodbye is the phone's own (Words lead, Nov 14: calls ended with none).
   const housemate =
+    !conversation.byPhone &&
     core.people.get(otherId)?.householdId ===
-    core.people.get(playerId)?.householdId;
+      core.people.get(playerId)?.householdId;
   // A talk between people who live together ends on its last line that says
   // something: nobody at home announces where they will be or that they will
   // check in (owner, Nov 12: "the same bullshit ... with the just
@@ -6919,7 +7107,11 @@ function endConversation(
   // a job lost, a death): it ends on their last answer, never "Come back
   // soon." or "Say hello to Mom." to someone who just lost their home (W1's
   // strict review, Nov 12).
-  if (NEWS_SUBJECTS.has(subjectKindOf(conversation.topics[zero] ?? ""))) return;
+  if (
+    !conversation.byPhone &&
+    NEWS_SUBJECTS.has(subjectKindOf(conversation.topics[zero] ?? ""))
+  )
+    return;
   // "Say hello to {name}." only for someone in the player's family they know.
   const family = housemate
     ? undefined

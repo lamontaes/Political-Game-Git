@@ -36,3 +36,5 @@ checked:
 **Files.** src/director/data/speech-outlines.json, src/director/speech-outline.ts (read), src/director/local-address.test.ts
 
 **Notes.** Filed by the Speeches builder (D), from the finding behind the jobs, pay and prices lines (/mnt/project-files/words-lead/8878/lines-local-work-pay-prices.md).
+
+**Resolved.** The term read's one map (areas.json `answeredBy`) now names the questions and budget lines that answer jobs, pay and prices, so a hurt address of a governor opens on pay and prices, and a mayor's on pay; PR 1 of the town-level jobs, pay and prices work. What a town still lacks is `core-town-wage-and-price-questions`.

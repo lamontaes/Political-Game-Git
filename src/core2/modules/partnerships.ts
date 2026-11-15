@@ -53,7 +53,7 @@ import {
   type GenderIdentityKey,
 } from "../gov-rules/person-identity";
 import { birthCohortGivenName } from "../gov-rules/given-name-cohorts";
-import { livesElsewhere } from "./moves";
+import { inGroupQuarters, livesElsewhere } from "./moves";
 import { takeCoarsePerson } from "./counted-moves";
 import { reviewMentorship } from "./mentorship";
 import { rescueOnset } from "./rescue";
@@ -231,7 +231,7 @@ function meetPartner(
     api,
     `${givenName} ${named.familyName} met ${person.givenName} ${person.familyName}.`,
   );
-  return api.addPersonV1({
+  const partner = api.addPersonV1({
     id,
     givenName,
     familyName: named.familyName,
@@ -249,6 +249,19 @@ function meetPartner(
     knownIds: [],
     looks: { gender: partnerSex, pronouns: defaultPronounsForGender(gender) },
   });
+  // A room's residents are admitted and discharged by their institution, so
+  // the partner of one does not join the room (a third person in a two-person
+  // room): they have a home of their own, as any arriving single adult does,
+  // and the couple shares one when the resident leaves the room.
+  if (inGroupQuarters(core, person))
+    api.relocatePeopleV1({
+      personIds: [partner.id],
+      placeId: partner.placeId,
+      ...(partner.countyId ? { countyId: partner.countyId } : {}),
+      householdId: `${person.householdId}:partner:${partner.id}`,
+      source: source(api, `${partner.givenName} has a place of their own.`),
+    });
+  return partner;
 }
 
 /** A couple parts: the link ends, and the one who did not keep the home starts their own at the same place. */
@@ -417,10 +430,16 @@ function review(api: CoreAPI): void {
             together: true,
             source: source(
               api,
-              `${person.givenName} and ${met.givenName} married.`,
+              inGroupQuarters(core, person)
+                ? `${person.givenName} and ${met.givenName} started dating.`
+                : `${person.givenName} and ${met.givenName} married.`,
             ),
             witnessIds: witnessesOf(core, [person.id, met.id]),
-            facts: { [UNION_FACT]: "married" },
+            facts: {
+              [UNION_FACT]: inGroupQuarters(core, person)
+                ? "dating"
+                : "married",
+            },
           });
           // A new couple starts at the beginning of its pull to part.
           for (const id of [person.id, met.id])
@@ -599,7 +618,8 @@ function knownSingle(
 /**
  * Who of a couple would move in with the other, and with whom: the one with
  * less cash goes, unless they cannot leave; `chosenBy` is the one whose yes
- * lets their own household change. Undefined when neither can leave.
+ * lets their own household change. Undefined when neither can leave, and
+ * while either lives in a room.
  */
 export function movingOrder(
   api: CoreAPI,
@@ -607,6 +627,11 @@ export function movingOrder(
   b: Readonly<PersonState>,
   chosenBy?: PersonId,
 ): [PersonState, PersonState] | undefined {
+  const core = api.state as CoreState;
+  // Nobody moves into a room, and a room's resident leaves it only by the
+  // institution's own discharge: while either lives in one, nobody is asked
+  // and nobody moves (so a yes can never be given and then undone).
+  if (inGroupQuarters(core, a) || inGroupQuarters(core, b)) return undefined;
   const adultAge = api.parameter("votingAge");
   const [mover, host]: [PersonState, PersonState] =
     a.liquidMinor < b.liquidMinor ||
@@ -824,17 +849,25 @@ function reviewTown(api: CoreAPI): void {
             together: true,
             source: source(
               api,
-              `${person.givenName} and ${met.givenName} moved in together.`,
+              inGroupQuarters(core, person)
+                ? `${person.givenName} and ${met.givenName} started dating.`
+                : `${person.givenName} and ${met.givenName} moved in together.`,
             ),
             witnessIds: witnessesOf(core, [person.id, met.id]),
-            facts: { [UNION_FACT]: "living-together" },
+            facts: {
+              [UNION_FACT]: inGroupQuarters(core, person)
+                ? "dating"
+                : "living-together",
+            },
           });
           const link = linkOf.get(person.id) ?? partnerLinkOf(core, person.id)!;
           store(api)
             .table("couples")
             .put({
               id: link.id,
-              stage: "living-together",
+              stage: inGroupQuarters(core, person)
+                ? "dating"
+                : "living-together",
               since: core.date,
               progress: p("zero"),
             } as never);

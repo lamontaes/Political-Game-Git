@@ -416,6 +416,8 @@
     "proposal-answered:home": ["@home"],
     "proposal-answered:public": ["park"],
     "proposal-answered:venue": ["tavern"],
+    "hearing-witness:seat": ["@seatroom", "@office"],
+    "hearing-witness:venue": ["public-meeting-room"],
     "party-welcome:venue": ["campaign-office-storefront"],
     "party-welcome:public": ["campaign-office-storefront"]
   },

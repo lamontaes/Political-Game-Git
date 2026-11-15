@@ -8,6 +8,7 @@ import {
   businessEnergyCostYear,
   energyPriceRule,
   monthlyChange,
+  useFactor,
   worldGoods,
   setPlacePrice,
 } from "./modules/place-prices";
@@ -176,8 +177,11 @@ describe("prices a law sets", () => {
     advanceCore(core, "2021-02-04");
     // The retiree has no pay: they spend as the lowest income group does.
     const floor = api.parameter("pricesIncomeFloorShare");
+    // One retired adult, no worker: the household's own use scales the pay's.
+    const alone = { persons: 1, adults: 1, workers: 0 };
     const power = (good: "electricity" | "transit-fare") =>
-      floor ** api.parameter(goods.goods[good].elasticityParameter);
+      floor ** api.parameter(goods.goods[good].elasticityParameter) *
+      useFactor(api, good, good === "electricity" ? "share" : "price", alone);
     const electricity = monthlyChange(
       { good: "electricity", kind: "share", value: 0.1 },
       power("electricity"),

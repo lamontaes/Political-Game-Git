@@ -54,6 +54,7 @@ import {
   executiveOf,
   executiveItemVeto,
   executiveLean,
+  holdFloorDebate,
   LEGISLATURE_MODULE_ID,
   memberKey,
   members,
@@ -196,6 +197,7 @@ export const OFFICE_DAY_MODULE: CoreModule = {
   // Filled from every registered level's kit when the engine opens.
   offerProviders: {},
   effectHandlers: {},
+  reasonProviders: {},
   onDay(api) {
     // A job starts or ends before a day's work, so the roster is read here
     // and the office jobs change in the next day's calendar work: when the
@@ -207,7 +209,10 @@ export const OFFICE_DAY_MODULE: CoreModule = {
       scheduleOfficeReview(api);
       holdNewlySeated(api);
     }
-    if (payday) payStipends(api);
+    if (payday) {
+      payStipends(api);
+      for (const kit of officeActKits()) kit.onMonth?.(api);
+    }
     for (const kit of officeActKits()) kit.onDay?.(api);
     return undefined;
   },
@@ -261,9 +266,13 @@ export const officeHost: OfficeActHost = {
   clearPrepared: (api, personId, actId) =>
     table(api, "prepared").remove(`${personId}|${actId}`),
   given: (api, personId, kind, year) => gaveInYear(api, personId, kind, year),
-  lastGiven: (api, personId, kind) =>
+  lastGiven: (api, personId, kind, recordId) =>
     officeActsOf(api, personId)
-      .filter((row) => row.kind === kind)
+      .filter(
+        (row) =>
+          row.kind === kind &&
+          (recordId === undefined || row.recordId === recordId),
+      )
       .map((row) => row.date)
       .sort()
       .at(-1),
@@ -278,7 +287,9 @@ export function openOfficeDay(core: CoreState, worldSeed: string): void {
   registerBudgetMeeting({ place: placeBudgetVote, votes: votesBudgetToday });
   const providers = OFFICE_DAY_MODULE.offerProviders as Record<string, unknown>;
   const handlers = OFFICE_DAY_MODULE.effectHandlers as Record<string, unknown>;
+  const reasons = OFFICE_DAY_MODULE.reasonProviders as Record<string, unknown>;
   for (const kit of officeActKits()) {
+    Object.assign(reasons, kit.reasonProviders ?? {});
     Object.assign(providers, kit.providers ?? {});
     Object.assign(handlers, kit.handlers ?? {});
   }
@@ -648,9 +659,14 @@ export function leaveMeeting(api: CoreAPI, meetingIdValue: string): void {
  */
 function holdPlayerIfDue(api: CoreAPI, row: MeetingRow): void {
   if (row.status !== "scheduled" || row.date < api.state.date) return;
+  const player = playerOf(api);
+  if (player !== undefined && members(api, row.officeId).some(sits(player)))
+    // The floor speaks the day the agenda is posted, so a member the player
+    // plays hears it on the morning of the meeting, before the roll (the
+    // same record the state and federal floor day holds the evening before).
+    for (const billId of row.agenda) holdFloorDebate(api, billId, row.officeId);
   const held = tokens.get(api.state) ?? new Map<string, ModuleStopTokenV1>();
   if (held.has(row.id)) return;
-  const player = playerOf(api);
   if (player === undefined) return;
   const body = members(api, row.officeId);
   const seated = body.some(sits(player));
