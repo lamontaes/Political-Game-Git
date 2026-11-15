@@ -24255,7 +24255,7 @@
       "key": "conversation.own-view-answer-agree.i-d-vote-your-way-first",
       "move": "own-view-answer-agree",
       "kind": "spoken",
-      "text": "I'd vote your way.",
+      "text": "I'd vote your way, {first}.",
       "uses": [
         {
           "move": "own-view-answer-agree",
@@ -24273,7 +24273,7 @@
       "key": "conversation.own-view-answer-agree.no-argument-from-me-first",
       "move": "own-view-answer-agree",
       "kind": "spoken",
-      "text": "No argument from me.",
+      "text": "No argument from me, {first}.",
       "uses": [
         {
           "move": "own-view-answer-agree",
@@ -24381,7 +24381,7 @@
       "key": "conversation.own-view-answer-disagree.you-won-t-get-me-there-first",
       "move": "own-view-answer-disagree",
       "kind": "spoken",
-      "text": "You won't get me there.",
+      "text": "You won't get me there, {first}.",
       "uses": [
         {
           "move": "own-view-answer-disagree",
