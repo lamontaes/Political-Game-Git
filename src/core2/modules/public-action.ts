@@ -423,11 +423,10 @@ export function turnoutLooks(
     adults += row.weight;
   const share = adults > 0 ? size / adults : 1;
   // A look is true of the count as well as the share: too few people are never
-  // a group, and a handful never a crowd, whatever the town's size.
-  if (
-    share < PAR.turnoutFewBelow.value ||
-    size < PAR.turnoutGroupMinPeople.value
-  )
+  // a group, a handful never a crowd, and a few hundred never "a few", whatever
+  // the town's size.
+  if (size < PAR.turnoutGroupMinPeople.value) return "few";
+  if (size < PAR.turnoutFewMaxPeople.value && share < PAR.turnoutFewBelow.value)
     return "few";
   return share >= PAR.turnoutCrowdFrom.value &&
     size >= PAR.turnoutCrowdMinPeople.value

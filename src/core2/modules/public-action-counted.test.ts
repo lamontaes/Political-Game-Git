@@ -170,7 +170,7 @@ it("Port O'Connor and Lincoln: each action's record keeps how its headcount look
   expect(b.length).toBeGreaterThan(0);
   for (const row of [...a, ...b]) {
     const want =
-      row.share < 0.015 || row.people < 5
+      row.people < 5 || (row.people < 12 && row.share < 0.015)
         ? "few"
         : row.share >= 0.08 && row.people >= 10
           ? "crowd"
