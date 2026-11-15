@@ -23,6 +23,8 @@ Lead ruling, Nov 13 to 14: a test is pinned in the test file to named places wit
 4. **Fail by name.** When the case is missing, fail at that point with the place, the seed and what was passed over.
 5. **Never loosen a test, raise a baseline or widen a number to get green** without the lead's word. If a builder respells a line or a number to slip past a check, send it back.
 6. **A test that needs a rare case that does not exist is a finding**, not a license to skip: file an item.
+7. **Read a body's level from its record, never guess it from its kind.** A test that enacted an earlier law at "city" for any body but a county board failed in Machias, Maine, whose town board legislates for its township (Nov 15, #9376). Use `billJurisdiction(api, bill)` and the law-chain level with that jurisdiction.
+8. **Set the time limit near twice the measured run**, and say the measurement in a comment beside it.
 
 ## Checking a reported pass
 

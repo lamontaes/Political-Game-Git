@@ -25,6 +25,7 @@ A row lives in a family file under `src/core2/data/stopgaps/` (the director's in
 ## Traps
 
 - "Resolved" does not mean removed. About 378 rows were closed Nov 10 as "dropped: too in depth" while the estimate still runs, and 176 of them still have a live marker. Reading a resolved row, check the code.
+- A resolved row records no hit. `stopgap()` in `src/core2/stopgaps.ts` adds a hit only for an `open` row, so a test that asserts a hit on a resolved row's marker fails (Nov 15: `laws-death-taxes` at Kentucky, after the Nov 10 triage resolved `SG-LAW-government-heir-exempt-assumed`). Resolving a row means its marker and the test's hit assertions go in the same change.
 - A stand-in row with no player effect and no data is dropped without asking. One a player can see stays until replaced.
 - A design call about the player's own experience is an `owner-decision` row plus a decision card, never a wait.
 

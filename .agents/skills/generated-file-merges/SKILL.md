@@ -44,6 +44,7 @@ Check a file's header or the script in `package.json` before assuming a file is 
 - **The same key changed on both sides is a real conflict.** Read both and keep the newer ruling; if you cannot tell, ask the row's owner on the pull request.
 - **Bank lines are Story's (owner, Nov 10).** Re-adding a piece that exists on one side, by its key and word for word, is mechanical and allowed. Writing, rewording or dropping a line is not: leave it and say so on the pull request.
 - After merging a rules or bank file, run `npm run words:rules` twice and the English guards (`npx vitest run tests/guards/english`).
+- **After uniting a judged store (`data/english/judged/*.yes.txt` and its `.json`), run `npm run words:verdicts`.** A union by id keeps verdicts on lines one side had already dropped, and `tests/guards/english/line-rules.test.ts` ("every verdict is about lines the bank holds") goes red. The command drops them; commit what it changes (Nov 15: 1,213 stale yes ids after one train merge).
 
 ## Several pull requests on one rules file
 

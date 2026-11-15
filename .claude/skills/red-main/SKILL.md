@@ -93,3 +93,9 @@ A check failed 3 runs in 9 on a pull request that had just merged. The lead name
 - **Check the route still reads what the check sends.** A browser check asked for a world on a date in 2026. The route has opened every game on the one start date since Oct 14 and ignores the date, so the check failed wherever no filing window was open on the first day. Read the route before blaming the screen.
 - **Run the failing seed on main before you own the failure.** A changed-file test failed on a fix branch; with the same seed (`DEV_MODE_SEED`) it failed on main too. It was a separate red by draw and got its own owner.
 - **A failure that does not reproduce on the train head may be a branch that lacks the train.** A leak report held on a branch about 680 commits behind; the same run on the clean train head matched exactly. Reproduce on the clean base before naming a cause, and say which head each run used.
+
+## Lessons of Nov 15 (reds on a train pull request)
+
+- **A drawn test compared against the train runs with the same seed.** A changed-file test that reads `GOLDEN_PATH_SEED` draws different places when the seed is unset, so "it passes on the train" proves nothing. Run both sides with the same `GOLDEN_PATH_SEED` (and place key) before you own or disown a red.
+- **Replaying one golden-path row from CI.** The runner hands each command `GOLDEN_PATH_SEED`, `GOLDEN_PATH_PLACE_KEY` and `GOLDEN_PATH_SPEC_ID`. The seed is in the CI summary table; the key comes from `drawPlace(<head sha>, <spec id>).key` in `tests/golden-path/place.ts` (`npx tsx -e`). Run the row's command from `docs/roadmap/features.json` with all three. The receipt artifact cannot be downloaded from a cloud container (its storage host is refused), so read the job log instead.
+- **A "validate" failure whose jobs say `cancelled` is a superseded commit**, not a test: the aggregate counts cancelled jobs as failed. Say so once on the pull request; nothing to fix.
