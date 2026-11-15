@@ -5,10 +5,10 @@ area: people
 kind: bug
 priority: 2
 size: S
-status: open
+status: in-pr
 standard: 2
 claimed-by:
-pr:
+pr: 9514
 after:
 blocked-on:
 lead: m0-m2
@@ -35,3 +35,5 @@ root: rc8-law-judged-by-paperwork
 **Files.** src/core2/health-coverage-counted.test.ts, src/core2/modules/coverage.ts
 
 **Notes (laws thread, Nov 15, 2026).** Not one place: the same test at seed 28ac47ac2d77e301 drew McElhattan, Pennsylvania [4246112] and failed with the same figures on Train d82bf47eeba5859e55bb556b705b444945568fea (journal:2025-06-01:46067, counted household_001be3c3df3e6896, against journal:2025-06-01:45604, full person_57e5ff2880293ab2: expected 11400 to be 52467). The same $114.00 against $524.67 in two states points at one rule, not a place's data.
+
+**Notes (Fable B, Nov 15).** Built in #9514. `GOLDEN_PATH_SEED=420d72d82b58b7a4` (McCoy, Colorado) and `GOLDEN_PATH_SEED=28ac47ac2d77e301` (McElhattan, Pennsylvania): the whole file passes 2 of 2 at each, and at a third seed, fb9511a, that passed before. Both failures were people born in June 1960.
