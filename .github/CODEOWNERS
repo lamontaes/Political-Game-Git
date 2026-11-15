@@ -43,6 +43,7 @@
 /src/core2/gov-rules/given-name-cohorts.ts @lamontaes
 /src/core2/gov-rules/person-identity.ts @lamontaes
 /src/core2/government-level.ts @lamontaes
+/src/core2/fee-levels.ts @lamontaes
 
 # Elections and campaigns (elections)
 /src/core2/modules/elections.ts @lamontaes
@@ -50,6 +51,7 @@
 /src/core2/modules/campaigns.ts @lamontaes
 /src/core2/modules/candidacy.ts @lamontaes
 /src/core2/modules/filing-clerk.ts @lamontaes
+/src/core2/filing-rule-office.ts @lamontaes
 /src/core2/modules/serve-asks.ts @lamontaes
 /src/core2/recount-rules.ts @lamontaes
 /src/core2/modules/ballot-measures.ts @lamontaes
@@ -267,6 +269,7 @@
 /src/core2/closeness.ts @lamontaes
 /src/core2/family-origin.ts @lamontaes
 /src/core2/encounters.ts @lamontaes
+/src/core2/sitting-closeness.ts @lamontaes
 /src/core2/knowledge-retention.ts @lamontaes
 /src/core2/event-id-retention.ts @lamontaes
 /src/core2/estates.ts @lamontaes

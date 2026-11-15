@@ -317,6 +317,12 @@ type BuildOptions = {
    */
   warmUpDays?: number;
   /**
+   * The creator's choice of who the player is, applied before the warm-up runs, while the world is still on
+   * the day it was built: the player picks who they are before their first day, and the weeks the world
+   * runs on its own are lived as that person (core chooseIdentityV1 takes only that day).
+   */
+  chooseIdentity?: (core: CoreState, playerId: string) => void;
+  /**
    * Sees the finished opening input just before the core starts from it
    * (the speed guard measures and hashes it; scripts/core2-guard/month.mjs).
    */
@@ -650,6 +656,7 @@ function* benchWorldStages(
   // Last, so everyone the opening seated has a health coverage record on day one
   // (people who arrive later get theirs on the next 1st); the household pays its premium.
   openCoverage(core);
+  if (playerId) options.chooseIdentity?.(core, playerId);
   if (warmUp) {
     yield "warmup";
     director.whileWarming(() => warmUpOpening(core, startDate, playerId));

@@ -51,3 +51,7 @@ A long wait can be real: a town whose first race an 18-year-old may enter opens 
 ## A calibration test went red on my change
 
 The trait and calibration tests (`src/core2/modules/*.traits.test.ts`) draw a fresh town per run, so one red proves nothing about your change. Replay both sides on the same seeds: run the file with `GOLDEN_PATH_SEED=<40 hex digits>` on your tree, `git stash`, run it again with the same seeds, `git stash pop`, and compare the printed odds. Equal numbers mean the draw was red and your change left the measure alone; numbers that moved mean your change reached what the weight was fitted on (Nov 15: narrowing a town hall's room as well as its question cut the rooms filled by a third and moved the take-part odds from 3.8 to -0.3). Change the part that moved, never the test or the weight. A file takes five to ten minutes: run it in the background and read the output file.
+
+## A name check that matches inside another word
+
+A drawn place can name a business after a person, so a check that counts the player's name in a line must match the whole word (`\bSam\b`), or "Sampson's Market" counts as saying "Sam" (Nov 15, the coworker test at Anderson Island WA, seed 666aac4c9a33aa4fddd8). When a drawn test goes red, rerun that file pinned to the failing seed (`GOLDEN_PATH_SEED=<seed>`) before and after the fix. That shows the fix, not a new draw, turned it green.

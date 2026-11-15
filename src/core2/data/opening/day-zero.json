@@ -978,9 +978,9 @@
     {
       "table": "core2-office-day-v1.acts",
       "level": "town, state and federal",
-      "call": "flow-only",
-      "filledBy": "day 1",
-      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+      "call": "stock",
+      "filledBy": "day 0",
+      "reason": "A holder of an office has given office hours and held a town hall within their custom's interval on any ordinary day, and the executives gave last year's address; the opening writes the last of each as a dated act row (openingActs)."
     },
     {
       "table": "core2-office-day-v1.agendaItems",
@@ -990,6 +990,13 @@
       "reason": "Agenda items a board has on any day.",
       "knownRed": "opening-first-step-empty-at-day-0",
       "knownRedPlaces": ["1150000"]
+    },
+    {
+      "table": "core2-office-day-v1.pledges",
+      "level": "town",
+      "call": "flow-only",
+      "filledBy": "day 1",
+      "reason": "A word the player gave a friend to come to a town meeting not yet posted; it exists only by the player's own yes in a scene, and is spent when the meeting is posted."
     },
     {
       "table": "core2-offices-v1.vacancies",

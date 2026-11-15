@@ -78,8 +78,6 @@ export function jobTitleSaid(
   );
 }
 
-/** A form's note in parentheses, innermost first so a nested note goes whole. */
-const FORM_NOTE = /\s*\([^()]*\)/;
 /** A title that names a body of several members, not one seat in it. */
 const BODY_TITLE = /\b(?:board|commission|council|committee)\b/i;
 /** A body named first and then by what it serves ("Board of Elections"). */
@@ -97,11 +95,7 @@ const SEAT_WORD =
  * "member of the board of elections" for a body named first; it reads in every frame ("served as", "the race for", "sworn in as").
  */
 export const officeInSentence = (title: string): string => {
-  let plain = title;
-  // A form's note ("(nonpartisan)", "(3 members, statewide, staggered 6-year
-  // terms)") is never said, as `seatSaid` drops it.
-  while (FORM_NOTE.test(plain)) plain = plain.replace(FORM_NOTE, "");
-  const said = plain
+  const said = title
     .trim()
     .split(/(\s+)/)
     .map((word) =>
@@ -190,5 +184,51 @@ export function personWorkOf(
           }
         : null,
     offices,
+  };
+}
+
+/** The work a person holds now and what it pays, wherever they hold it. */
+export interface WorkHeld {
+  readonly title: string;
+  /** Pay per hour in minor units; null where no published wage covers it. */
+  readonly hourlyMinor: number | null;
+  /** The job record, for work held in the played world; null for work kept as their identity's record. */
+  readonly jobId: string | null;
+  /** The record that says so: the job, or their identity's work fact. */
+  readonly recordId: string;
+}
+
+/**
+ * The work a person holds now: the open job they hold here (the jobs table),
+ * else the work they were filled in with where they live (their
+ * `identity:work` record, from that town's counts: `workFromHome`). One reader
+ * for every engine that weighs what someone would give up; null when they
+ * hold none.
+ */
+export function workHeld(
+  core: Readonly<CoreState>,
+  personId: string,
+): WorkHeld | null {
+  const person = core.people.get(personId as never);
+  if (!person) return null;
+  const job = person.jobId ? core.jobs.get(person.jobId) : undefined;
+  if (job && job.endsAt === undefined)
+    return {
+      title: job.title,
+      hourlyMinor:
+        job.hourlyMinor ??
+        job.wageDailyMinor / Math.max(job.hoursDaily, Number.EPSILON),
+      jobId: job.id,
+      recordId: job.id,
+    };
+  if (job) return null;
+  const kept = person.pastFacts?.find((f) => f.kind === "identity:work");
+  if (!kept) return null;
+  const hourly = kept.facts?.hourlyMinor;
+  return {
+    title: String(kept.facts?.title ?? kept.summary),
+    hourlyMinor: hourly === undefined ? null : Number(hourly),
+    jobId: null,
+    recordId: kept.id,
   };
 }

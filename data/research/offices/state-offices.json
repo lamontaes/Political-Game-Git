@@ -264,7 +264,7 @@
         },
         {
           "key": "public-service-commission",
-          "title": "Public Service Commission (president + 2 associate commissioners, statewide)",
+          "title": "Public Service Commission",
           "termYears": 4,
           "termLimit": {
             "kind": "none"
@@ -590,7 +590,7 @@
         },
         {
           "key": "lieutenant-governor",
-          "title": "Lieutenant Governor (new office, first elected 2026 on ticket with governor; Prop. 131 of 2022)",
+          "title": "Lieutenant Governor",
           "termYears": 4,
           "termLimit": {
             "kind": "consecutive",
@@ -770,7 +770,7 @@
         },
         {
           "key": "corporation-commission",
-          "title": "Corporation Commission (5 members, statewide, staggered 4-year terms)",
+          "title": "Corporation Commission",
           "termYears": 4,
           "termLimit": {
             "kind": "none"
@@ -1379,7 +1379,7 @@
         },
         {
           "key": "superintendent",
-          "title": "Superintendent of Public Instruction (nonpartisan)",
+          "title": "Superintendent of Public Instruction",
           "termYears": 4,
           "termLimit": {
             "kind": "lifetime",
@@ -2728,7 +2728,7 @@
         },
         {
           "key": "public-service-commission",
-          "title": "Public Service Commission (5 members, elected statewide from residency districts, staggered 6-year terms)",
+          "title": "Public Service Commission",
           "termYears": 6,
           "termLimit": {
             "kind": "none"
@@ -2917,7 +2917,7 @@
         },
         {
           "key": "office-of-hawaiian-affairs-trustees",
-          "title": "Office of Hawaiian Affairs Board of Trustees (9; 4 at-large statewide, 5 island-residency, nonpartisan)",
+          "title": "Office of Hawaiian Affairs Board of Trustees",
           "termYears": 4,
           "termLimit": {
             "kind": "none"
@@ -5720,7 +5720,7 @@
         },
         {
           "key": "state-board-of-education",
-          "title": "State Board of Education (8 members, statewide, 8-year staggered terms)",
+          "title": "State Board of Education",
           "termYears": 8,
           "termLimit": {
             "kind": "none"
@@ -5747,8 +5747,8 @@
           "sourceRetrieved": false
         },
         {
-          "key": "university-boards",
-          "title": "University of Michigan Regents, Michigan State Trustees, Wayne State Governors (8 each, statewide, 8-year staggered)",
+          "key": "university-of-michigan-regents",
+          "title": "University of Michigan Regents",
           "termYears": 8,
           "termLimit": {
             "kind": "none"
@@ -5765,9 +5765,65 @@
             "estimate": true,
             "sourceRetrieved": false
           },
-          "seats": 24,
+          "seats": 8,
           "staggered": true,
-          "notes": "2 seats per board each even year.",
+          "notes": "2 seats each even year.",
+          "citation": "State constitution executive article and election code",
+          "source": "https://ballotpedia.org/State_executive_offices",
+          "retrievedDate": "2026-10-12",
+          "estimate": true,
+          "sourceRetrieved": false
+        },
+        {
+          "key": "michigan-state-university-trustees",
+          "title": "Michigan State University Trustees",
+          "termYears": 8,
+          "termLimit": {
+            "kind": "none"
+          },
+          "nextRegularElectionYear": 2026,
+          "vacancyRule": {
+            "method": "appointment",
+            "appointedBy": "governor (until next general election)",
+            "successor": null,
+            "notes": "Generic rule for elected commissions/boards; verify statute.",
+            "citation": "State constitution executive article / election code (generic rule; not verified per office)",
+            "source": "https://ballotpedia.org/State_executive_offices",
+            "retrievedDate": "2026-10-12",
+            "estimate": true,
+            "sourceRetrieved": false
+          },
+          "seats": 8,
+          "staggered": true,
+          "notes": "2 seats each even year.",
+          "citation": "State constitution executive article and election code",
+          "source": "https://ballotpedia.org/State_executive_offices",
+          "retrievedDate": "2026-10-12",
+          "estimate": true,
+          "sourceRetrieved": false
+        },
+        {
+          "key": "wayne-state-university-governors",
+          "title": "Wayne State University Governors",
+          "termYears": 8,
+          "termLimit": {
+            "kind": "none"
+          },
+          "nextRegularElectionYear": 2026,
+          "vacancyRule": {
+            "method": "appointment",
+            "appointedBy": "governor (until next general election)",
+            "successor": null,
+            "notes": "Generic rule for elected commissions/boards; verify statute.",
+            "citation": "State constitution executive article / election code (generic rule; not verified per office)",
+            "source": "https://ballotpedia.org/State_executive_offices",
+            "retrievedDate": "2026-10-12",
+            "estimate": true,
+            "sourceRetrieved": false
+          },
+          "seats": 8,
+          "staggered": true,
+          "notes": "2 seats each even year.",
           "citation": "State constitution executive article and election code",
           "source": "https://ballotpedia.org/State_executive_offices",
           "retrievedDate": "2026-10-12",
@@ -6797,7 +6853,7 @@
         },
         {
           "key": "auditor",
-          "title": "State Auditor (Commissioner of Securities and Insurance)",
+          "title": "State Auditor",
           "termYears": 4,
           "termLimit": {
             "kind": "consecutive",
@@ -6821,7 +6877,8 @@
           "source": "https://ballotpedia.org/State_executive_offices",
           "retrievedDate": "2026-10-12",
           "estimate": false,
-          "sourceRetrieved": false
+          "sourceRetrieved": false,
+          "notes": "Also called the Commissioner of Securities and Insurance."
         },
         {
           "key": "superintendent",
@@ -8844,7 +8901,7 @@
         },
         {
           "key": "superintendent",
-          "title": "Superintendent of Public Instruction (nonpartisan)",
+          "title": "Superintendent of Public Instruction",
           "termYears": 4,
           "termLimit": {
             "kind": "none"
@@ -8944,7 +9001,7 @@
         },
         {
           "key": "public-service-commission",
-          "title": "Public Service Commission (3 members, statewide, staggered 6-year terms)",
+          "title": "Public Service Commission",
           "termYears": 6,
           "termLimit": {
             "kind": "none"
@@ -9582,7 +9639,7 @@
         },
         {
           "key": "corporation-commission",
-          "title": "Corporation Commission (3 members, statewide, staggered 6-year terms)",
+          "title": "Corporation Commission",
           "termYears": 6,
           "termLimit": {
             "kind": "none"
@@ -9818,7 +9875,7 @@
         },
         {
           "key": "labor-commissioner",
-          "title": "Commissioner of Labor and Industries (nonpartisan)",
+          "title": "Commissioner of Labor and Industries",
           "termYears": 4,
           "termLimit": {
             "kind": "consecutive",
@@ -10947,7 +11004,7 @@
         },
         {
           "key": "public-utilities-commission",
-          "title": "Public Utilities Commission (3 members, statewide, staggered 6-year terms)",
+          "title": "Public Utilities Commission",
           "termYears": 6,
           "termLimit": {
             "kind": "none"
@@ -11355,7 +11412,7 @@
         },
         {
           "key": "railroad-commission",
-          "title": "Railroad Commission (3 members, statewide, staggered 6-year terms)",
+          "title": "Railroad Commission",
           "termYears": 6,
           "termLimit": {
             "kind": "none"
@@ -12323,7 +12380,7 @@
         },
         {
           "key": "superintendent",
-          "title": "Superintendent of Public Instruction (nonpartisan)",
+          "title": "Superintendent of Public Instruction",
           "termYears": 4,
           "termLimit": {
             "kind": "none"
@@ -12852,7 +12909,7 @@
         },
         {
           "key": "superintendent",
-          "title": "Superintendent of Public Instruction (nonpartisan, spring election)",
+          "title": "Superintendent of Public Instruction",
           "termYears": 4,
           "termLimit": {
             "kind": "none"
@@ -12873,7 +12930,8 @@
           "source": "https://ballotpedia.org/State_executive_offices",
           "retrievedDate": "2026-10-12",
           "estimate": false,
-          "sourceRetrieved": false
+          "sourceRetrieved": false,
+          "notes": "Elected in the spring election."
         }
       ],
       "usSenateVacancy": {
@@ -13223,7 +13281,7 @@
         },
         {
           "key": "council-chair",
-          "title": "Chairman of the Council (elected citywide)",
+          "title": "Chairman of the Council",
           "termYears": 4,
           "termLimit": {
             "kind": "none"
@@ -13248,7 +13306,7 @@
         },
         {
           "key": "state-board-of-education-president",
-          "title": "State Board of Education at-large member/president (citywide, nonpartisan)",
+          "title": "State Board of Education at-large member",
           "termYears": 4,
           "termLimit": {
             "kind": "none"
@@ -13269,7 +13327,8 @@
           "source": "https://ballotpedia.org/State_executive_offices",
           "retrievedDate": "2026-10-12",
           "estimate": true,
-          "sourceRetrieved": false
+          "sourceRetrieved": false,
+          "notes": "The board's president is chosen from its members each year; this seat is the president's."
         }
       ],
       "districtElectedStateBodies": {
@@ -13564,7 +13623,7 @@
         },
         {
           "key": "public-auditor",
-          "title": "Public Auditor (nonpartisan)",
+          "title": "Public Auditor",
           "termYears": 4,
           "termLimit": {
             "kind": "none"
@@ -13589,7 +13648,7 @@
         },
         {
           "key": "consolidated-commission-on-utilities",
-          "title": "Consolidated Commission on Utilities (5, islandwide, nonpartisan)",
+          "title": "Consolidated Commission on Utilities",
           "termYears": 4,
           "termLimit": {
             "kind": "none"
@@ -13751,7 +13810,7 @@
         },
         {
           "key": "board-of-education",
-          "title": "Board of Education (territory-wide/district, nonpartisan)",
+          "title": "Board of Education",
           "termYears": 4,
           "termLimit": {
             "kind": "none"
@@ -13776,7 +13835,7 @@
         },
         {
           "key": "board-of-elections",
-          "title": "Board of Elections (district, nonpartisan)",
+          "title": "Board of Elections",
           "termYears": 4,
           "termLimit": {
             "kind": "none"
@@ -14122,7 +14181,7 @@
         },
         {
           "key": "attorney-general",
-          "title": "Attorney General (elected since 2014)",
+          "title": "Attorney General",
           "termYears": 4,
           "termLimit": {
             "kind": "none"
@@ -14147,7 +14206,7 @@
         },
         {
           "key": "board-of-education",
-          "title": "Board of Education (elected)",
+          "title": "Board of Education",
           "termYears": 4,
           "termLimit": {
             "kind": "none"

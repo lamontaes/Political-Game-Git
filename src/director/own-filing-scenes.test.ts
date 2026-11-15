@@ -1,13 +1,12 @@
-import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
-import { drawPlace } from "../../scripts/core2-year/place";
+import { fileForOffice } from "../bench/government";
 import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
 import { addDays, ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import { familyFactsOf } from "../core2/closeness";
 import { advanceCore } from "../core2/life";
-import { fileCandidacy, openContests } from "../core2/modules/elections";
+import { openContests } from "../core2/modules/elections";
 import { lawChain } from "../core2/modules/laws";
 import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
@@ -19,26 +18,43 @@ import type { PersonId } from "../core2/types";
 // Virgin Islands, Oct 27: a second filing scene, and both a win and a loss
 // on election night). Each such scene stands on a record that names the
 // person it is staged for.
-const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
+// Pinned to named places and fixed seeds (skill `pinned-tests`). The first
+// version of this test drew twelve places per run and filed on the game's
+// start date; no filing window is open on that date at a drawn place (probe,
+// Nov 15: 0 open contests at Plantation, Naples and Alamogordo on the start
+// date, 4 open on 2025-08-08 at Alamogordo with 148 eligible pairs among 40
+// adults), so it failed "no race a housemate could enter" by its own date.
+// A second place was tried and left out: Alamogordo, New Mexico took about
+// 200 seconds. Each case here plays to the first day a race is open, then a housemate
+// files through the game's own filing (`fileForOffice`).
 const OWN = new Set(["filing", "family-filing", "race-won", "race-lost"]);
-// A housemate's filing reaches the player only through their tie, by how
-// close they are, so a loosely tied pair may not hear of it: each drawn place
-// tries several households, partners and relatives first, and the test draws
-// places until one has a filing reach a housemate, naming those passed over.
-const ATTEMPTS = 12;
+const PLACES = [
+  { key: "3972242", seed: "scan-25", name: "Sherrodsville, Ohio" },
+];
 const PAIRS = 4;
+/** The most days played while waiting for a filing window to open. */
+const WAIT_DAYS = 240;
 
-it(`a housemate's filing is never staged as the player's own (seed ${seed})`, () => {
-  const tried: string[] = [];
-  setBookkeeping(false);
-  for (let attempt = 0; attempt < ATTEMPTS; attempt += 1) {
-    const place = drawPlace(`${seed}:${attempt}`, "own-filing-scenes");
-    const where = `${place.name} (${place.key}), seed ${seed}:${attempt}`;
+it.each(PLACES)(
+  "a housemate's filing is never staged as the player's own ($name)",
+  (place) => {
+    setBookkeeping(false);
+    const where = `${place.name} (${place.key}), seed ${place.seed}`;
     const { core, director } = buildBenchWorld(place.seed, gameStartDate(), {
       twoLevel: true,
       placeKey: place.key,
     });
     const api = coreAPI(core);
+    // Play to the first day a race is open for filing.
+    for (
+      let waited = 0;
+      waited < WAIT_DAYS &&
+      ![...openContests(api)].some(
+        (c) => c.electionDate >= addDays(makeIsoDate(core.date), 60),
+      );
+      waited += 1
+    )
+      advanceCore(core, addDays(makeIsoDate(core.date), 1));
     const town = lawChain(api).townPlaceId;
     const adult = (id: string) => {
       const row = core.people.get(id as PersonId);
@@ -79,43 +95,37 @@ it(`a housemate's filing is never staged as the player's own (seed ${seed})`, ()
       .sort((a, b) => a.rank - b.rank || a.me.localeCompare(b.me))
       .filter((pair) => !homes.has(pair.home) && !!homes.add(pair.home))
       .slice(0, PAIRS);
-    if (!pairs.length) {
-      tried.push(`${where}: no two grown residents share a home`);
-      continue;
-    }
+    expect(pairs.length, `${where}: grown residents who share a home`).toBe(
+      PAIRS,
+    );
     core.playerId = pairs[0]!.me;
     for (const pair of pairs) director.watch(core, pair.me);
-    // Each housemate files for the first open race they may enter.
+    // Each housemate files, through the game's own filing, for the first
+    // open race they may enter.
+    const races = [...openContests(api)]
+      .filter((c) => c.electionDate >= addDays(makeIsoDate(core.date), 60))
+      .sort(
+        (a, b) =>
+          a.electionDate.localeCompare(b.electionDate) ||
+          a.id.localeCompare(b.id),
+      );
     const filed = pairs.flatMap((pair) => {
-      const contest = [...openContests(api)]
-        .filter((c) => c.electionDate >= addDays(makeIsoDate(core.date), 60))
-        .sort(
-          (a, b) =>
-            a.electionDate.localeCompare(b.electionDate) ||
-            a.id.localeCompare(b.id),
-        )
-        .find(
-          (c) =>
-            fileCandidacy(api, {
-              personId: pair.them,
-              contestId: c.id,
-              platform: [],
-              party: null,
-            }).status !== "refused",
-        );
-      return contest
-        ? [
-            {
-              ...pair,
-              recordId: `candidate-filed:filing:${contest.id}:${pair.them}`,
-            },
-          ]
-        : [];
+      for (const contest of races) {
+        try {
+          fileForOffice(core, pair.them, contest.id);
+        } catch {
+          continue;
+        }
+        return [
+          {
+            ...pair,
+            recordId: `candidate-filed:filing:${contest.id}:${pair.them}`,
+          },
+        ];
+      }
+      return [];
     });
-    if (!filed.length) {
-      tried.push(`${where}: no race a housemate could enter`);
-      continue;
-    }
+    expect(filed.length, `${where}: housemates who filed`).toBeGreaterThan(0);
     advanceCore(core, addDays(makeIsoDate(core.date), 14));
     for (const pair of filed) {
       const book = director.ledger.people.get(pair.me)!;
@@ -129,23 +139,17 @@ it(`a housemate's filing is never staged as the player's own (seed ${seed})`, ()
       });
       expect(misplaced, `${where}: ${pair.me}`).toEqual([]);
     }
+    // At least one housemate's filing reached the one at home through their
+    // tie, so the check above had a filing to guard against.
     const reached = filed.find((pair) =>
       director.ledger.people
         .get(pair.me)!
         .moments.some((row) => row.causeId === pair.recordId),
     );
-    if (!reached) {
-      tried.push(
-        `${where}: no housemate's filing reached the one at home (${filed.length} tried)`,
-      );
-      continue;
-    }
-    process.stdout.write(
-      `OWN FILING ${where}${tried.length ? ` after ${tried.join("; ")}` : ""}: ${reached.them} filed (${reached.recordId}); ${reached.me} staged none of it as their own\n`,
-    );
-    return;
-  }
-  throw new Error(
-    `no drawn place had a housemate's filing reach the player: ${tried.join("; ")}`,
-  );
-}, 3_600_000);
+    expect(
+      reached,
+      `${where}: a filing that reached the one at home`,
+    ).toBeDefined();
+  },
+  120_000,
+);

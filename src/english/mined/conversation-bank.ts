@@ -165,11 +165,12 @@ export function conversationDataFromBank(
           use.choice === "at" && /\b(?:went|graduated)\b/.test(part.text)
             ? ["graduated"]
             : ["enrolled"];
-      // A bare question turned back ("And you?") follows the plain answer, so
-      // the question is never answered with a question.
+      // A bare question turned back ("And you?"), or asking why it was asked
+      // ("Why do you ask?"), follows the plain answer, so the question is
+      // never answered with a question.
       if (
         field === "answers" &&
-        use.choice === "turn" &&
+        (use.choice === "turn" || use.choice === "ask-why") &&
         /\?$/.test(part.text) &&
         !SLOT.test(part.text)
       )
