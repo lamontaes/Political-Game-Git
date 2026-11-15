@@ -22,7 +22,7 @@ effort: medium
 
 **Cause.** Found in code: `src/core2/opening-people.ts` gives every person the birthplace fact `input.birthplaceJurisdictionId ?? input.homeJurisdictionId`, and no caller passes a birthplace (SG-HIST-birthplace-is-home). A resident the opening's families do not reach, and a person made to hold a role, gets `person:birth` naming where they live when opened (`bornWhere`, src/core2/modules/people.ts, SG-PEOPLE-role-people-have-no-past).
 
-**Fix.** One birthplace record per person, drawn once as seeded generation of who exists (src/core2/person-birthplace.ts): their state's B05002 shares (born in the state, another state, Puerto Rico, the island areas, abroad to American parents, foreign-born), held to their citizenship (a noncitizen was born abroad). Born in the state: where their family of origin lived (opening-kin.ts). A child: where their parent lived that day, after the moves pass. Anyone else (no family record): drawn before the moves pass, so one born outside is brought from there. Every reader (the card, the conversation, the life record, the moves pass) reads that one record through `bornIn`. Delete SG-HIST-birthplace-is-home and the opening's default.
+**Fix.** One birthplace record per person, drawn once as seeded generation of who exists (src/core2/person-birthplace.ts): their state's B05002 shares (born in the state, another state, Puerto Rico, the island areas, abroad to American parents, foreign-born), held to their citizenship (a noncitizen was born abroad). Born in the state: where their family of origin lived (opening-kin.ts). A child: where their parent lived that day, after the moves pass. Anyone else (no family record): drawn before the moves pass, so one born outside is brought from there. Every reader (the card, the life record, the moves pass) reads that one record through `bornIn`. The conversation's answer about home is left on its own read, because no player can reach it (item words-where-are-you-from-reads-where-they-live). Delete SG-HIST-birthplace-is-home and the opening's default.
 
 **Time box.** 3 hours, Opus.
 
@@ -32,6 +32,6 @@ effort: medium
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/person-birthplace.ts (new), src/core2/opening-kin.ts, src/core2/population.ts, src/core2/opening-people.ts, src/core2/past-moves.ts, src/core2/modules/people.ts, src/bench/card.ts, src/director/conversation.ts, src/core2/data/stopgaps/hist.json, src/core2/data/life/remembered.json
+**Files.** src/core2/person-birthplace.ts (new), src/core2/opening-kin.ts, src/core2/population.ts, src/core2/opening-people.ts, src/core2/past-moves.ts, src/core2/modules/people.ts, src/bench/card.ts, src/core2/data/stopgaps/hist.json, src/core2/data/life/remembered.json
 
 **Notes.** Filed by hand by the civic roles builder, Nov 15. A birth abroad has no place record to name, so the card says the year only ("Born in {year}."), an existing line; a line naming a birth abroad is for the Words lead to ask for if wanted.
