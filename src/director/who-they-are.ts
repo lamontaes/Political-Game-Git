@@ -32,7 +32,8 @@ import rulesFile from "./data/conversation-rules.json" with { type: "json" };
 import { officeSaid } from "./cause-facts";
 import { relationFacts } from "./relation-facts";
 import { organizationName } from "./words";
-import { sharedHistory } from "../core2/shared-history";
+import { sharedHistory } from "../core2/past";
+import { P } from "../core2/parameters";
 import { coreAPI } from "../core2/state";
 import { officialOf } from "../core2/modules/officials";
 import {
@@ -177,9 +178,9 @@ function officeOf(
     if (office)
       return {
         kind: "office",
-        stage: officeSeats(core, term!.officeId) > 1 ? "member" : "alone",
+        stage: officeSeats(core, term!.officeId) > P.one ? "member" : "alone",
         facts: {
-          [officeSeats(core, term!.officeId) > 1 ? "body" : "office"]: fact(
+          [officeSeats(core, term!.officeId) > P.one ? "body" : "office"]: fact(
             office.text,
             ...office.ids,
             official.id,
@@ -201,7 +202,7 @@ function officeOf(
     for (const term of servingTermsOf(api, personId)) {
       const office = officeSaid(core, { officeId: term.officeId });
       if (!office) continue;
-      const member = officeSeats(core, term.officeId) > 1;
+      const member = officeSeats(core, term.officeId) > P.one;
       return {
         kind: "office",
         stage: member ? "member" : "alone",
@@ -219,7 +220,7 @@ function officeOf(
     for (const id of core.logByPerson.get(personId) ?? []) {
       const record = core.durableLog.get(id);
       if (record?.kind !== "official-appointed") continue;
-      if (record.personIds[0] !== personId) continue;
+      if (record.personIds[P.zero] !== personId) continue;
       // Still in the post: the post's row names them, and the post's job is theirs.
       const post = appointmentOf(core, id);
       const jobId = (record as unknown as { jobId?: string }).jobId;
@@ -244,7 +245,7 @@ function officeSeats(core: Readonly<CoreState>, officeId: string): number {
     .moduleState(OFFICES_MODULE_ID)
     .table("offices")
     .get(officeId) as unknown as { seats?: number } | undefined;
-  return office?.seats ?? 1;
+  return office?.seats ?? P.one;
 }
 
 /** The seat the player is sworn into today or runs for, and the other's hold on it. */
@@ -258,7 +259,7 @@ function seatHolder(
   const terms = api.moduleState(OFFICES_MODULE_ID).table("terms");
   // The seat handed over at the swearing-in: the term that ended the day the
   // player's began (swearing-in.ts outgoingHolder), said only around that day.
-  const yesterday = addDays(makeIsoDate(core.date), -1);
+  const yesterday = addDays(makeIsoDate(core.date), -P.one);
   for (const own of servingTermsOf(api, playerId)) {
     if (own.startDate < yesterday || own.startDate > core.date) continue;
     const before = (
@@ -285,7 +286,7 @@ function seatHolder(
         contest.seatId,
         "serving",
       ]) as unknown as TermRow[]
-    )[0];
+    )[P.zero];
     if (holder?.personId === otherId)
       return { kind: "seat-holder", stage: "holding", facts: {} };
   }
