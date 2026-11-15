@@ -65,8 +65,7 @@ import {
 import { appointGovernor, prepareAct } from "./office-day";
 import { campaignParameter } from "../campaign-data";
 import { viewOn } from "./views";
-import { levelMayDecide } from "./world-legislating";
-import type { OfficeLevel } from "./offices";
+import { contestPositions } from "../contest-positions";
 import {
   chooseRunningMate,
   runningMateChoice,
@@ -304,7 +303,7 @@ export function ticketStanding(
   const player = api.state.people.get(filing.personId);
   if (!asked || !player) return null;
   const seat = "ticket";
-  const price = priceRead(api, asked, ticket.level as OfficeLevel);
+  const price = priceRead(api, asked, contestPositions(api, ticket));
   const { question, theirStance, playerStance, heard, knows } = sharedRead(
     api,
     asked,
@@ -420,24 +419,22 @@ export function ticketStanding(
 
 /**
  * The question the asked person holds most strongly among those the office
- * can decide, either way (`levelMayDecide`, the one check a body files by),
- * and their stance on it; null where it can decide none they hold.
+ * can decide (`contestPositions`: the questions its government may decide,
+ * the same check a body files by), and their stance on it; null where it can
+ * decide none they hold.
  */
 function priceRead(
   api: CoreAPI,
   asked: Readonly<PersonState>,
-  level: OfficeLevel,
+  decided: readonly string[],
 ): { question: string; stance: number } | null {
   const theirLean = voterLean(api, asked);
+  const can = new Set(decided);
   let best: { question: string; stance: number } | null = null;
   for (const question of PLATFORM_QUESTIONS) {
+    if (!can.has(question)) continue;
     const stance = viewOn(api, asked.id, question, theirLean);
     if (stance === 0 || Math.abs(stance) <= Math.abs(best?.stance ?? 0))
-      continue;
-    if (
-      !levelMayDecide(api, level, question, 1) &&
-      !levelMayDecide(api, level, question, -1)
-    )
       continue;
     best = { question, stance };
   }

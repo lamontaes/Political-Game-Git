@@ -57,8 +57,7 @@ import {
   ticketStanding,
   type ServeAskRow,
 } from "../core2/modules/serve-asks";
-import type { OfficeLevel } from "../core2/modules/offices";
-import { levelMayDecide } from "../core2/modules/world-legislating";
+import { contestPositions } from "../core2/contest-positions";
 import { corePlaceByKey } from "../core2/place-lookup";
 import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
@@ -155,9 +154,8 @@ function everyPriceDecidable(
   ticket: ContestRow,
   where: string,
 ) {
-  const decides = (q: string) =>
-    levelMayDecide(api, ticket.level as OfficeLevel, q, 1) ||
-    levelMayDecide(api, ticket.level as OfficeLevel, q, -1);
+  const decided = new Set(contestPositions(api, ticket));
+  const decides = (q: string) => decided.has(q);
   return offeredRunningMates(api, filing.id)!.choices.map((choice) => {
     const read = ticketStanding(api, filing, ticket, choice.id)!;
     const priceQuestion = read.grounds.priceQuestion;
