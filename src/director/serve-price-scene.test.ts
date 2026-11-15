@@ -304,9 +304,14 @@ for (const c of CASES)
           .filter((line) => line.momentIds.includes(replyId!));
         expect(told.length, `${where}: the Journal tells the promise`).toBe(1);
         const about = questionAbout(question)!;
-        expect(told[0]!.text, where).toBe(
-          `I promised ${c.asked} I'd ${side > 0 ? "back" : "oppose"} ${about}.`,
-        );
+        // The old premise was that no Journal line came before this one in
+        // the world, so the line had no lead-in. Once an earlier line is
+        // written, the Journal's own rule opens a line after a month or more
+        // on the time that passed ("One month later, ..."). The promise is
+        // the sentence after that lead-in (Account lead, Nov 15 16:15Z).
+        const said = `I promised ${c.asked} I'd ${side > 0 ? "back" : "oppose"} ${about}.`;
+        expect(told[0]!.plain ?? told[0]!.text, where).toBe(said);
+        expect(told[0]!.text.endsWith(said), `${where}: ${told[0]!.text}`).toBe(true);
         out.push(
           `  -> ${reply.facts?.ending}; seated; ${factId} ${find().kind} held by ${player} on ${question}, side ${side}`,
           `  Journal: ${told[0]!.text}`,
