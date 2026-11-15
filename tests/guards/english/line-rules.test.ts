@@ -5,6 +5,7 @@ import {
   caseBreaksRule,
   caseIsOwners,
   caseText,
+  placeRuleProblems,
   ruleFlags,
   textBreaksRule,
   type LineRule,
@@ -36,6 +37,23 @@ import {
  */
 
 const ROOT = path.resolve(__dirname, "../../..");
+/**
+ * A test file the gate's run picks up: a Vitest test file by name that the
+ * test settings in vite.config.ts do not exclude by path or folder.
+ */
+const VITE_CONFIG = readFileSync(path.join(ROOT, "vite.config.ts"), "utf8");
+const REPO_FILES = {
+  exists: (file: string) => existsSync(path.join(ROOT, file)),
+  read: (file: string) => readFileSync(path.join(ROOT, file), "utf8"),
+  inTestSet: (file: string) =>
+    /\.(?:test|spec)\.[cm]?[jt]sx?$/.test(file) &&
+    !VITE_CONFIG.includes(`"${file}"`) &&
+    !file
+      .split("/")
+      .some((_, at, parts) =>
+        VITE_CONFIG.includes(`"${parts.slice(0, at + 1).join("/")}/**"`),
+      ),
+};
 const run = freshRun();
 const tested = (rule: LineRule) =>
   !["place", "judged", "composed"].includes(rule.test.kind);
@@ -137,11 +155,9 @@ describe("line rules: each rule does what it says", () => {
         const file = JSON.parse(readFileSync(store, "utf8")) as JudgedFile;
         expect(file.judged, rule.id).toBeGreaterThan(0);
       } else if (rule.test.kind === "place") {
-        // An enforced place rule is judged: it names the verdict file its reader folds.
-        expect(rule.test.reads, rule.id).toBeTruthy();
-        expect(existsSync(path.join(ROOT, rule.test.reads!)), rule.id).toBe(
-          true,
-        );
+        // An enforced place rule names the verdict file its reader folds, or
+        // the test that proves the composer places it.
+        expect(placeRuleProblems(rule, REPO_FILES), rule.id).toEqual([]);
       } else expect(tested(rule), rule.id).toBe(true);
   });
 });
