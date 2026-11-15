@@ -330,7 +330,7 @@ it(`a favor the player owes is asked by name, a no is final, and a yes settles i
   expect(ask.record.facts?.billId).toBeTruthy();
   const one = scene(no, ask.record.id);
   const before = closenessBetween(no.core, no.playerId, no.candidate.id);
-  expect(sayThrough(no, one, ["decline", "decline"])).toBeTruthy();
+  expect(sayThrough(no, one, ["decline", "refuse"])).toBeTruthy();
   expect(answerOf(no)).toBe("no");
   // The no is final: the favor is not owed any more, and no later
   // campaign of the candidate's calls it in again.

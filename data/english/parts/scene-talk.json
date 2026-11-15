@@ -186829,6 +186829,16 @@
           "key": "favor-asked",
           "after": "agree",
           "excludesFacts": ["reason-favor"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "after": "relent",
+          "excludesFacts": ["reason-favor"]
         }
       ],
       "origin": "authored",
@@ -186854,6 +186864,16 @@
           "key": "favor-asked",
           "after": "agree",
           "excludesFacts": ["reason-favor"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "after": "relent",
+          "excludesFacts": ["reason-favor"]
         }
       ],
       "origin": "authored",
@@ -186878,6 +186898,16 @@
           "purpose": "ask-endorsement",
           "key": "favor-asked",
           "after": "agree",
+          "requiresFacts": ["reason-favor"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "after": "relent",
           "requiresFacts": ["reason-favor"]
         }
       ],
@@ -186990,15 +187020,65 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.the-answer-is-no-it-isn-t-about-you",
-      "move": "reply-decline",
+      "key": "scene-talk.follow-press.i-can-t-wait-long-people-are-deciding-now",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "I can't wait long. People are deciding now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "after": "stall",
+          "excludesFacts": ["reason-favor"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (endorsement ask, Nov 15)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.a-few-days-is-a-long-time-in-a-race",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "A few days is a long time in a race.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "after": "stall",
+          "excludesFacts": ["reason-favor"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (endorsement ask, Nov 15)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.the-answer-is-no-it-isn-t-about-you",
+      "move": "reply-refuse",
       "kind": "spoken",
       "text": "The answer is no. It isn't about you.",
       "uses": [
         {
           "subject": "scene",
           "step": "reply",
-          "move": "decline",
+          "move": "refuse",
           "role": "asked",
           "purpose": "ask-endorsement",
           "key": "favor-asked",
@@ -187007,7 +187087,7 @@
         {
           "subject": "scene",
           "step": "reply",
-          "move": "decline",
+          "move": "refuse",
           "role": "asked",
           "purpose": "ask-endorsement",
           "key": "favor-asked",
@@ -187018,20 +187098,20 @@
       "author": "Words lead (endorsement ask, Nov 15)",
       "date": "2026-11-15",
       "tag": {
-        "move": "decline",
+        "move": "refuse",
         "key": "favor-asked"
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-m-backing-someone-else-i-gave-my-word",
-      "move": "reply-decline",
+      "key": "scene-talk.reply-refuse.i-m-backing-someone-else-i-gave-my-word",
+      "move": "reply-refuse",
       "kind": "spoken",
       "text": "I'm backing someone else. I gave my word.",
       "uses": [
         {
           "subject": "scene",
           "step": "reply",
-          "move": "decline",
+          "move": "refuse",
           "role": "asked",
           "purpose": "ask-endorsement",
           "key": "favor-asked",
@@ -187041,7 +187121,7 @@
         {
           "subject": "scene",
           "step": "reply",
-          "move": "decline",
+          "move": "refuse",
           "role": "asked",
           "purpose": "ask-endorsement",
           "key": "favor-asked",
@@ -187053,20 +187133,20 @@
       "author": "Words lead (endorsement ask, Nov 15)",
       "date": "2026-11-15",
       "tag": {
-        "move": "decline",
+        "move": "refuse",
         "key": "favor-asked"
       }
     },
     {
-      "key": "scene-talk.reply-agree.you-re-right-you-have-my-endorsement",
-      "move": "reply-agree",
+      "key": "scene-talk.reply-relent.you-re-right-you-have-my-endorsement",
+      "move": "reply-relent",
       "kind": "spoken",
       "text": "You're right. You have my endorsement.",
       "uses": [
         {
           "subject": "scene",
           "step": "reply",
-          "move": "agree",
+          "move": "relent",
           "role": "asked",
           "purpose": "ask-endorsement",
           "key": "favor-asked",
@@ -187075,7 +187155,7 @@
         {
           "subject": "scene",
           "step": "reply",
-          "move": "agree",
+          "move": "relent",
           "role": "asked",
           "purpose": "ask-endorsement",
           "key": "favor-asked",
@@ -187086,7 +187166,7 @@
       "author": "Words lead (endorsement ask, Nov 15)",
       "date": "2026-11-15",
       "tag": {
-        "move": "agree",
+        "move": "relent",
         "key": "favor-asked"
       }
     },
@@ -187113,6 +187193,24 @@
           "purpose": "ask-endorsement",
           "key": "favor-asked",
           "after": "scene-talk.follow-press.i-didn-t-make-you-wait-on-bill"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "after": "scene-talk.follow-press.i-can-t-wait-long-people-are-deciding-now"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "after": "scene-talk.follow-press.a-few-days-is-a-long-time-in-a-race"
         }
       ],
       "origin": "authored",
@@ -187124,15 +187222,15 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.then-the-answer-is-no",
-      "move": "reply-decline",
+      "key": "scene-talk.reply-refuse.then-the-answer-is-no",
+      "move": "reply-refuse",
       "kind": "spoken",
       "text": "Then the answer is no.",
       "uses": [
         {
           "subject": "scene",
           "step": "reply",
-          "move": "decline",
+          "move": "refuse",
           "role": "asked",
           "purpose": "ask-endorsement",
           "key": "favor-asked",
@@ -187141,31 +187239,49 @@
         {
           "subject": "scene",
           "step": "reply",
-          "move": "decline",
+          "move": "refuse",
           "role": "asked",
           "purpose": "ask-endorsement",
           "key": "favor-asked",
           "after": "scene-talk.follow-press.i-didn-t-make-you-wait-on-bill"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "after": "scene-talk.follow-press.i-can-t-wait-long-people-are-deciding-now"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "after": "scene-talk.follow-press.a-few-days-is-a-long-time-in-a-race"
         }
       ],
       "origin": "authored",
       "author": "Words lead (endorsement ask, Nov 15)",
       "date": "2026-11-15",
       "tag": {
-        "move": "decline",
+        "move": "refuse",
         "key": "favor-asked"
       }
     },
     {
-      "key": "scene-talk.reply-stall.a-few-days-that-s-all-i-m-asking",
-      "move": "reply-stall",
+      "key": "scene-talk.reply-deflect.a-few-days-that-s-all-i-m-asking",
+      "move": "reply-deflect",
       "kind": "spoken",
       "text": "A few days. That's all I'm asking.",
       "uses": [
         {
           "subject": "scene",
           "step": "reply",
-          "move": "stall",
+          "move": "deflect",
           "role": "asked",
           "purpose": "ask-endorsement",
           "key": "favor-asked",
@@ -187174,18 +187290,36 @@
         {
           "subject": "scene",
           "step": "reply",
-          "move": "stall",
+          "move": "deflect",
           "role": "asked",
           "purpose": "ask-endorsement",
           "key": "favor-asked",
           "after": "scene-talk.follow-press.i-didn-t-make-you-wait-on-bill"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "after": "scene-talk.follow-press.i-can-t-wait-long-people-are-deciding-now"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "after": "scene-talk.follow-press.a-few-days-is-a-long-time-in-a-race"
         }
       ],
       "origin": "authored",
       "author": "Words lead (endorsement ask, Nov 15)",
       "date": "2026-11-15",
       "tag": {
-        "move": "stall",
+        "move": "deflect",
         "key": "favor-asked"
       }
     },
@@ -187203,6 +187337,15 @@
           "purpose": "ask-endorsement",
           "key": "favor-asked",
           "after": "decline"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "after": "refuse"
         }
       ],
       "origin": "authored",
@@ -187238,6 +187381,26 @@
           "key": "favor-asked",
           "after": "decline",
           "requiresFacts": ["reason-tie-close"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "after": "refuse",
+          "requiresFacts": ["reason-favor"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "after": "refuse",
+          "requiresFacts": ["reason-tie-close"]
         }
       ],
       "origin": "authored",
@@ -187262,6 +187425,15 @@
           "purpose": "ask-endorsement",
           "key": "favor-asked",
           "after": "stall"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "after": "deflect"
         }
       ],
       "origin": "authored",

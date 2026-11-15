@@ -2573,27 +2573,30 @@
       "follow": {
         "agree": ["thank"],
         "decline": ["press"],
-        "stall": ["press"]
+        "stall": ["press"],
+        "refuse": ["accept"],
+        "relent": ["thank"],
+        "deflect": ["accept"]
       },
-      "again": { "press": ["agree", "decline", "stall"] },
+      "again": { "press": ["agree", "relent", "refuse", "deflect"] },
       "endings": [
         {
           "id": "endorsed",
           "label": "You gave them your endorsement",
           "keeps": "none",
-          "when": { "reply": ["agree"] }
+          "when": { "reply": ["agree", "relent"] }
         },
         {
           "id": "refused",
           "label": "You said no",
           "keeps": "relationship-strained",
-          "when": { "reply": ["decline"] }
+          "when": { "reply": ["decline", "refuse"] }
         },
         {
           "id": "thinking",
           "label": "You said you would think about it",
           "keeps": "none",
-          "when": { "reply": ["stall"] }
+          "when": { "reply": ["stall", "deflect"] }
         },
         {
           "id": "left-there",

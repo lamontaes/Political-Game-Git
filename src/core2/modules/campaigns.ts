@@ -6326,7 +6326,8 @@ function answerEndorsementAsk(
   if (cause?.kind !== ENDORSEMENT_ASKED_EVENT) return;
   const move = String(facts.move);
   const yes = ACCEPTING_MOVES.has(move);
-  if (!yes && !REFUSING_MOVES.has(move)) return;
+  // "refuse" is the hold on a no after the asker presses.
+  if (!yes && !REFUSING_MOVES.has(move) && move !== "refuse") return;
   const held = table(api, "endorsements").get(
     String(cause.facts?.endorsementId ?? ""),
   ) as unknown as EndorsementRow | undefined;
