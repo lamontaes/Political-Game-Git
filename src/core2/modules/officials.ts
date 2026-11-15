@@ -25,6 +25,7 @@ import calibration from "../../../data/source/electoral-calibration-2024/corpus.
 import senateClasses from "../../../data/research/offices/senate-classes-2026.json" with { type: "json" };
 import tenure from "../data/offices/tenure.json" with { type: "json" };
 import { coreAPI, fillInIdentity, registerModule } from "../state";
+import { workFromHome } from "../places";
 import { registerHuskIdentity, registerHuskPromoter } from "../husk-promoters";
 import type { RecordedIdentity } from "../state";
 import type {
@@ -403,6 +404,8 @@ interface Spec {
   readonly legalMinimumAge?: number;
   /** Who the holder is where a race already named them (a special election's winner). */
   readonly identity?: TermRow["identity"];
+  /** The town they live in, for someone drawn to a post rather than elected from a place: they hold the work that town's counts show. */
+  readonly home?: { readonly jurisdictionId: string; readonly key: string };
 }
 
 /** Congress is one body however the offices engine files its seats. */
@@ -661,6 +664,12 @@ function constitutionalAge(officeKind: string): number {
   return officeKind === "president" || officeKind === "vice-president" ? 35 : 0;
 }
 
+/** The work a person who lives in the town `homeKey` holds, as a fill-in's `work`. */
+function homeWork(api: CoreAPI, homeKey: string, personId: string) {
+  const work = workFromHome(api.state.seed, homeKey, personId);
+  return work ? { work } : {};
+}
+
 /** What a state asks of a candidate for its legislature or its statewide offices (the filing rules' age). */
 function stateAge(
   spec: Pick<Spec, "bodyKind" | "officeKind" | "stateKey">,
@@ -776,7 +785,7 @@ function seatAll(
       givenName: identity.givenName,
       familyName: identity.familyName,
       birthDate: identity.birthDate,
-      placeId: spec.stateKey,
+      placeId: spec.home?.jurisdictionId ?? spec.stateKey,
       gender: identity.gender,
       ...(spec.party ? { party: spec.party } : {}),
       seatKey: spec.seatId,
@@ -795,6 +804,10 @@ function seatAll(
     else
       fillInIdentity(api.state as CoreState, {
         ...recorded,
+        // Someone drawn to a post who lives in a town of the state holds the
+        // work that town's counts show, as every person filled in far from
+        // the played town holds theirs.
+        ...(spec.home ? homeWork(api, spec.home.key, personId) : {}),
         source: source(api.state.date),
       });
     if (spec.term)
@@ -1214,6 +1227,8 @@ export function seatOfficial(
     readonly serviceStart?: string;
     /** The seat's next election; today plus a term by default. */
     readonly nextElectionYear?: number | null;
+    /** The town they live in, for someone drawn to a post (Spec.home). */
+    readonly home?: { readonly jurisdictionId: string; readonly key: string };
   },
 ): OfficialRow {
   const personId = input.term

@@ -4,6 +4,7 @@ import { registerDerivedCache } from "./snapshot";
 import { residentsRuntime } from "./modules/residents";
 import {
   countedEngagement,
+  countedGroupViewOn,
   countedLean,
   stanceAfterCase,
   standingWith,
@@ -278,6 +279,81 @@ export function hearCountedNews(
           (prior
             ? (prior.desiredChange === event.desiredChange ? 1 : -1) *
               prior.strength
+            : 0)) *
+        group.count,
+    });
+}
+
+/** One month's victimizations of one counted group, as the crime engine tallied them. */
+export interface CountedCrimeTally {
+  /** The question the crime ties to (`livedQuestion` of the victimization's kind). */
+  readonly question: string;
+  /** The tally row (crime's `tallies` table): what the moved stance cites. */
+  readonly tallyId: string;
+  /** The crime engine's unit: the resident group's id. */
+  readonly groupId: string;
+  /** The crime's kind (burglary, assault ...), for the stance's cause. */
+  readonly type: string;
+  /** Whole victimizations of the group this month, from the owed-share order. */
+  readonly count: number;
+  /** A crime against one person (assault, robbery) or a whole household. */
+  readonly againstPerson: boolean;
+  /** The group's households, by weight, as the crime engine counted them. */
+  readonly households: number;
+}
+
+/**
+ * A counted group lives the crimes the crime engine tallied for it, by the
+ * full victim's rule (the views engine's `onEvent` for a lived condition):
+ * each victim takes it as a reason for the side their own view already
+ * holds on the question the crime ties to, at full size and nearness (it
+ * happened to them). The group's stance is its members' mean, so the
+ * victims move it by the share of the group's counted adults they are: one
+ * person for a crime against a person, the group's adults per household for
+ * one against a household. No member is chosen; a share under one adult is
+ * a small exposure. The stance cites the tally row.
+ */
+export function liveCountedCrime(api: CoreAPI, tally: CountedCrimeTally): void {
+  const question = tally.question;
+  if (tally.count <= 0 || tally.households <= 0) return;
+  const id = groupPersonId(tally.groupId);
+  const group = countedNewsGroups(api).find((row) => row.id === id);
+  if (!group || group.count <= 0) return;
+  const prior = countedStanceRow(api, group.id, question);
+  const current = countedGroupViewOn(api, group.lean, question, prior);
+  if (current === 0) return;
+  const desiredChange = current > 0 ? "enact" : "repeal";
+  const reached = tally.againstPerson
+    ? tally.count
+    : (tally.count * group.count) / tally.households;
+  const stance = stanceAfterCase(api, {
+    view: group,
+    hearer: group,
+    prior,
+    event: { id: `${tally.tallyId}:${tally.type}`, date: api.state.date },
+    topic: question,
+    desiredChange,
+    size: 1,
+    nearness: 1,
+    learnedFrom: tally.tallyId,
+    keepCauses: false,
+    exposure: Math.min(1, reached / group.count),
+  });
+  if (!stance) return;
+  // stopgapId: SG-PEOPLE-counted-victims-lived-crime (counted ballots do not read the group's stance; a member filled in does not carry it)
+  api.stopgap("SG-PEOPLE-counted-victims-lived-crime");
+  api
+    .moduleState(VIEWS_MODULE_ID)
+    .table("countedStances")
+    .putOwned({
+      ...stance,
+      groupId: group.id,
+      representedCount: group.count,
+      reachedCount: Math.min(group.count, reached),
+      totalChange:
+        ((stance.desiredChange === desiredChange ? 1 : -1) * stance.strength -
+          (prior
+            ? (prior.desiredChange === desiredChange ? 1 : -1) * prior.strength
             : 0)) *
         group.count,
     });
