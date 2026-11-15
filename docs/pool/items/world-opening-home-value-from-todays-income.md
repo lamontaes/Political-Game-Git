@@ -9,7 +9,7 @@ status: open
 standard: 2
 claimed-by:
 pr:
-after: world-full-workers-first-paycheck-cut-at-the-opening
+after:
 blocked-on:
 root: none
 lead: money
@@ -24,7 +24,7 @@ source: "found by T54 checking a Carmel, IN estate sale for the Account lead, No
 - It opens at $147,933, against the town's typical home value of $426,819 (`townFigures`) and a median of $398,080 across 3,307 owned homes.
 - At its death the estate sale (home-sale:household_5148c94484d9721c:2025-11-01) sold at $142,284 a home.
 
-A player sees it as the home value on their own household's page when a parent or grandparent is retired, as an inherited home that brings a fraction of the street's prices, and as a retiree's property tax bill.
+Seen: the home value on the player's own household page when a parent or grandparent is retired, an inherited home that brings a fraction of the street's prices, and a retiree's property tax bill.
 
 **Cause.** Found in code: in src/core2/modules/housing.ts, the opening's owner rows set `valueMinor` to the county median times `incomeScale(row.income) / ownerMedianScale`. `incomeScale` is the household's income today against the town's median, raised to `housingRentIncomeElasticity`. That rule fits a rent, which is paid from today's income. A home's worth was set when it was bought, and income falling later does not shrink the house.
 
@@ -42,6 +42,6 @@ The value at purchase is the town's typical value then, scaled by income at purc
 
 **Done when.** A test pinned at Carmel (1810342) with a fixed seed shows household_5148c94484d9721c, or a named retired owner, opening within the spread of the town's typical value for a home bought when it was. The owners' median still matches the calibration point. Year 1 and time per record at three named places, before and after, are in the pull request body. A second session, at a drawn place it names with its seed, sees in dev mode a retired owner's home valued near its street's homes and an estate sale bringing that price.
 
-**Waits on.** world-full-workers-first-paycheck-cut-at-the-opening (the builder's queue, not the code).
+**Waits on.** Nothing in the code; the builder takes it after the first-paycheck item.
 
 **Files.** src/core2/modules/housing.ts, src/core2/housing-price-path.ts

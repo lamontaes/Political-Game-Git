@@ -8,7 +8,7 @@ size: M
 status: in-pr
 standard: 2
 claimed-by: T54
-pr:
+pr: 9542
 after: world-counted-renters-buy
 blocked-on:
 root: none
