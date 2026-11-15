@@ -5,10 +5,10 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/talk-double-press
+pr: #9541
 blocked-on:
 after:
 lead: words
@@ -50,3 +50,5 @@ Released (2026-11-11): Cap is on (AGENTS.md, owner Nov 11: no new item while ove
 Claimed by next for sonnet-2698 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 10:14 UTC) on branch claude/pool-words-talk-reply-not-offered-after-one-engine.
 
 Released (2026-11-11): Cap is on (260 game PRs open, cap 150); next prints the cap and still claims this bug item, which is not a red, rule, check or skill. Not started. Continue on branch claude/pool-words-talk-reply-not-offered-after-one-engine.
+
+Nov 15 (Words builder A, branch claude/talk-double-press): reproduced in the real page by src/bench/talk-double-press.browser.mjs at a new life: two clicks on the first reply threw "Not an offered line: 1:agree" from /api/talk/say. The Journal walk at New Haven, Vermont (seed c9053b03e98d459361bb0fc1feab0c7eaaa5f1ad789861d85de6bc69a18ad2f8) threw "1:yes" the same way: its playTalk reread the box after 600 ms and pressed the same button again while the first answer was in flight. Fixed three ways: `sayLine` in src/bench/play.mjs ignores a second press while one is in flight and disables the buttons; `/api/talk/say` in src/bench/handler.ts answers a stale key with the talk as it stands (the engine's `say()` still throws; nothing is said twice or dropped); the walk's playTalk waits for the box to change after a press. The browser check now passes and src/bench/talk-stale-press.test.ts (Sheridan WY, seed 7) fails without the handler change.

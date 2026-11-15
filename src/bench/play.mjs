@@ -1497,9 +1497,23 @@ function renderTalk(value) {
   // Dim when there is nothing false to say; tipped and red while lying.
   setScales({ available: lies.length > 0, on: lying });
 }
+// A reply counts once: while its answer is on the way the other presses (a
+// double click, a number key) do nothing, and the buttons show it. A refused
+// answer gives the buttons back so the player can press again.
+let saying = false;
 async function sayLine(key) {
+  if (saying) return;
+  saying = true;
   lying = false;
-  renderTalk(await post(`/api/talk/say?key=${encodeURIComponent(key)}`));
+  for (const button of $("talk-choices").children) button.disabled = true;
+  try {
+    renderTalk(await post(`/api/talk/say?key=${encodeURIComponent(key)}`));
+  } catch (error) {
+    for (const button of $("talk-choices").children) button.disabled = false;
+    throw error;
+  } finally {
+    saying = false;
+  }
 }
 async function talkTo(otherId, momentId) {
   // The menu hides the conversation, so a conversation closes it first.
