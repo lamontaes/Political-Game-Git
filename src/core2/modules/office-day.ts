@@ -321,7 +321,105 @@ export function openOfficeDay(core: CoreState, worldSeed: string): void {
   const bodies = new Set(townSeats(api).map((s) => s.office.id));
   for (const officeId of [...bodies].sort())
     scheduleMeeting(api, officeId, api.state.date);
+  openingActs(api);
 }
+
+/**
+ * What each holder of an office had already given when the world opens (owner,
+ * Nov 14, 2026: "the town must be in motion on day one"; skill
+ * day-one-in-motion). A real office-holder is mid-cycle on any day: the last
+ * office hours and the last town hall were some days ago, spread over the
+ * custom's interval, and the yearly address was given in last year's season.
+ * The holders are taken in id order and each is put a share of the way
+ * through the interval (the first near the start of it, the last near the
+ * end), so the town's holders are not all due on one day; nothing is drawn.
+ * The rows are the office-day engine's own act rows, read as the date of the
+ * latest act by what comes due (`dueOf`, the duty need, the address's
+ * season), so a mayor played from day one finds office hours coming round
+ * rather than all of them owed at once. Taken before the warm-up, so the
+ * dates are the build date minus the offset.
+ */
+export function openingActs(api: CoreAPI): void {
+  const today = makeIsoDate(api.state.date);
+  const year = Number(api.state.date.slice(0, 4));
+  // Each serving holder's first day of service: nobody is given an act from
+  // before they held the office, since they did not do it.
+  const since = new Map<string, string>();
+  for (const term of api
+    .moduleState(OFFICES_MODULE_ID)
+    .table("terms")
+    .rows() as unknown as TermRow[]) {
+    if (
+      term.status !== "serving" ||
+      !term.personId ||
+      !api.state.people.has(term.personId)
+    )
+      continue;
+    const from = term.serviceStart ?? term.startDate;
+    const known = since.get(term.personId);
+    if (known === undefined || from < known) since.set(term.personId, from);
+  }
+  const holders = [...since.keys()]
+    .filter((id) => officeHost.officesOf(api, id).length > 0)
+    .sort();
+  const n = holders.length;
+  for (const [kind, parameter] of OPENING_KINDS) {
+    const interval = api.parameter(parameter);
+    holders.forEach((personId, at) => {
+      const ago = Math.floor((interval * (at + 1)) / (n + 1));
+      const date = addDays(today, -ago);
+      if (since.get(personId)! > date) return;
+      keepAct(
+        api,
+        {
+          personId,
+          kind,
+          how: "own-choice",
+          recordId: `${kind}:before-start`,
+          position: null,
+          detail: "before the start",
+        },
+        date,
+      );
+    });
+  }
+  // The yearly address, in last year's season: the executives of the town's
+  // seats, in the season's months in turn, when they held the seat by then.
+  const season = api.parameter("stateOfCityLastMonth");
+  const executives = [
+    ...new Set(
+      townSeats(api)
+        .filter((row) => ADDRESS_KINDS.has(row.office.kind))
+        .map((row) => row.holder?.personId)
+        .filter((id): id is string => !!id && api.state.people.has(id)),
+    ),
+  ].sort();
+  executives.forEach((personId, at) => {
+    const month = 1 + (at % season);
+    const date = `${year - 1}-${String(month).padStart(2, "0")}-15`;
+    if (since.get(personId)! > date) return;
+    keepAct(
+      api,
+      {
+        personId,
+        kind: "state-of-the-city",
+        how: "own-choice",
+        recordId: `state-of-the-city:${year - 1}`,
+        position: null,
+        detail: "before the start",
+      },
+      date,
+    );
+  });
+}
+
+/** The acts that come round on an interval, with the parameter that sets it. */
+const OPENING_KINDS: readonly (readonly [string, string])[] = [
+  ["office-hours", "officeHoursIntervalDays"],
+  ["town-hall", "townHallIntervalDays"],
+];
+/** The seats whose holder gives the yearly address (a mayor or county executive). */
+const ADDRESS_KINDS = new Set(["mayor", "county-executive"]);
 
 // ---- Stops -------------------------------------------------------------
 
@@ -1148,11 +1246,15 @@ function leavingToCharacter<T>(
   }
 }
 
-function keepAct(api: CoreAPI, act: Omit<OfficeActRow, "id" | "date">): void {
+function keepAct(
+  api: CoreAPI,
+  act: Omit<OfficeActRow, "id" | "date">,
+  date: string = api.state.date,
+): void {
   const row: OfficeActRow = {
     ...act,
     id: `office-act:${act.kind}:${act.recordId}:${act.personId}`,
-    date: api.state.date,
+    date,
   };
   table(api, "acts").put(row as unknown as ModuleRow);
 }

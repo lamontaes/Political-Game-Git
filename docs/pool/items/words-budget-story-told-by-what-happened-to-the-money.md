@@ -5,10 +5,10 @@ area: words
 kind: bug
 priority: 2
 size: M
-status: open
+status: in-pr
 standard: 2
 claimed-by:
-pr:
+pr: 9500
 blocked-on:
 after:
 lead: words
@@ -32,4 +32,6 @@ source: Second reader on #9455 and Account lead, Nov 15
 
 **Waits on.** Nothing.
 
-**Files.** src/director/conversation.ts,src/core2/press-desk.ts,src/english/question-names.ts,data/english/parts/conversation.json,src/director/outlet-ask-talk.test.ts
+**Files.** src/director/conversation.ts,src/core2/press-desk.ts,src/english/bill-names.ts,data/english/parts/conversation.json,src/director/outlet-ask-talk.test.ts
+
+**Notes.** Built from the existing said form for a budget line (`budgetPurposeSaid` in src/english/bill-names.ts, the bill catalog's more/less purposes), not a new data row. A budget story is asked and told as more or less money for what the line pays for; its row's `carried` and `level` give "The council passed it."; a cut reverses the neighbor's stand on the question (`news.reverses` in `newsStake`), so a neighbor for a bigger police budget is glad of a raise and wishes a cut had not passed. Where their own view is on another question, the stand follows the telling as its own line (six pieces, for and against, on a decided story). Played at Creve Coeur, Illinois (1717549), seed pl5, in src/director/outlet-ask-talk.test.ts.

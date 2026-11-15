@@ -205,6 +205,8 @@ export interface ObservedPair {
   readonly step: string;
   readonly move: string;
   readonly scene: string;
+  /** The pieces said on the path before the reply, oldest first: the facts they set (setsFacts) hold for the reply. */
+  readonly said: readonly string[];
   /** What the picker was asked, to ask it again. */
   readonly ask: {
     readonly purpose: string;
@@ -224,7 +226,11 @@ export interface ObservedPair {
 export function observedPairs(talk: SceneTalk): ObservedPair[] {
   const out: ObservedPair[] = [];
   const scene = `${talk.purpose}/${talk.typeKey}`;
-  const note = (before: SceneTalkLine | undefined, line: SceneTalkLine) => {
+  const note = (
+    before: SceneTalkLine | undefined,
+    line: SceneTalkLine,
+    said: readonly string[],
+  ) => {
     if (!line.after || !before) return;
     if (before.move !== line.after)
       throw new Error(
@@ -236,6 +242,7 @@ export function observedPairs(talk: SceneTalk): ObservedPair[] {
       step: line.step,
       move: line.move,
       scene,
+      said,
       ask: {
         purpose: line.purpose,
         ...(line.family ? { family: line.family } : {}),
@@ -247,7 +254,11 @@ export function observedPairs(talk: SceneTalk): ObservedPair[] {
   };
   const spoken = (line: SceneTalkLine | undefined) =>
     !!line && line.role !== "narrator";
-  const walkLines = (parent: SceneTalkLine, lines: SceneTalkLine[]) => {
+  const walkLines = (
+    parent: SceneTalkLine,
+    lines: SceneTalkLine[],
+    said: string[],
+  ) => {
     let previous: SceneTalkLine = parent;
     for (const line of lines) {
       if (line.role === "narrator") continue;
@@ -256,26 +267,42 @@ export function observedPairs(talk: SceneTalk): ObservedPair[] {
         line.step === "continue" ||
         line.step === "state" ||
         (previous !== parent && previous.move !== line.after);
-      note(goesOn ? parent : previous, line);
+      note(goesOn ? parent : previous, line, [...said]);
+      said.push(...line.parts);
       previous = line;
     }
   };
   /** The line the replies at a node answer: the asker's last line, else what came before. */
   const answered = (parent: SceneTalkLine, node: TreeNode) =>
     [...node.lines].reverse().find((line) => line.role === "asker") ?? parent;
-  const walk = (parent: SceneTalkLine, node: TreeNode) => {
-    walkLines(parent, node.lines);
+  const walk = (
+    parent: SceneTalkLine,
+    node: TreeNode,
+    before: readonly string[],
+  ) => {
+    const said = [...before];
+    walkLines(parent, node.lines, said);
     const last = answered(parent, node);
-    if (node.end?.close) note(parent, node.end.close);
+    if (node.end?.close) note(parent, node.end.close, said);
     for (const reply of node.replies) {
-      note(last, reply.line);
-      if (reply.next) walk(reply.line, reply.next);
+      note(last, reply.line, said);
+      if (reply.next)
+        walk(reply.line, reply.next, [...said, ...reply.line.parts]);
     }
-    for (const branch of node.branches ?? []) walk(parent, branch.node);
+    for (const branch of node.branches ?? []) walk(parent, branch.node, said);
   };
   const { open } = talk;
-  if (open && talk.intro[0]) note(open, talk.intro[0]);
-  if (talk.intro[0] && talk.intro[1]) note(talk.intro[0], talk.intro[1]);
-  if (spoken(talk.state)) walk(talk.state, talk.tree);
+  const opening = [
+    ...(open?.parts ?? []),
+    ...talk.intro.flatMap((line) => line.parts),
+  ];
+  if (open && talk.intro[0]) note(open, talk.intro[0], open.parts);
+  if (talk.intro[0] && talk.intro[1])
+    note(talk.intro[0], talk.intro[1], [
+      ...(open?.parts ?? []),
+      ...talk.intro[0].parts,
+    ]);
+  if (spoken(talk.state))
+    walk(talk.state, talk.tree, [...opening, ...talk.state.parts]);
   return out;
 }

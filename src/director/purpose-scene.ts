@@ -61,6 +61,7 @@ import {
   coreStateName,
 } from "../core2/place-lookup";
 import { applyCoreEvent, coreAPI } from "../core2/state";
+import { tieHoursBetween } from "../core2/closeness";
 import type { CoreState, PersonId } from "../core2/types";
 import {
   billNameFor,
@@ -108,7 +109,7 @@ import conversationRules from "./data/conversation-rules.json" with { type: "jso
 import type { Director } from "./ledger";
 import { knockFacts, petitionAtDoor } from "./doors";
 import { officeSaid, raceMemberTitle } from "./cause-facts";
-import { officeInSentence } from "../core2/person-work";
+import { officeInSentence, workHeld } from "../core2/person-work";
 import {
   SITUATION_LIBRARY,
   type ScheduleEntry,
@@ -119,6 +120,7 @@ import { beatenRunnerUp } from "../core2/modules/voting";
 import {
   SERVE_ASKED_EVENT,
   leanIfHedged,
+  promiseWorth,
   serveAsk,
   type ServeGrounds,
 } from "../core2/modules/serve-asks";
@@ -2057,6 +2059,13 @@ function composeBinding(
     // weighed: the player can say so when asked why them.
     if ((serve.terms.question ?? P.zero) > P.zero)
       facts["near-on-issue"] = { text: "yes", sourceRecordIds: why };
+    // Short of yes by less than the player's word is worth to them: they name
+    // it as their price, for the proposal they hold (a read against one names
+    // no price: promiseWorth, Words lead and Account lead, Nov 15 12:26Z).
+    if (serve.priced) {
+      facts["price-named"] = { text: "yes", sourceRecordIds: why };
+      facts["price-side-for"] = { text: "yes", sourceRecordIds: why };
+    }
     // Asked again after a no: a yes says what changed, as felt (Words lead,
     // Nov 14: the term that moved most since the no).
     if (serve.moved && serve.standing.lean > P.zero)
@@ -2076,21 +2085,23 @@ function composeBinding(
       if (serve.grounds.confirmed)
         facts.confirm = { text: "yes", sourceRecordIds: why };
       // Pay, from two different records: out of work, or a raise.
-      const job = serve.grounds.jobId
-        ? core.jobs.get(serve.grounds.jobId)
-        : undefined;
+      // The work is a job in the played world or, for someone filled in from
+      // elsewhere, their home town's work on their identity's record. The
+      // person asked is the one who answers (`askerId`, serveStanding's
+      // prospect); `askedId` is still the player's seat.
+      const job = workHeld(core, askerId);
       if (!job) facts["out-of-work"] = { text: "yes", sourceRecordIds: why };
       else if ((serve.terms.pay ?? P.zero) > P.zero)
         facts["pay-raise"] = {
           text: "yes",
-          sourceRecordIds: [...why, job.id],
+          sourceRecordIds: [...why, job.recordId],
         };
       // Their work is in the post's own field: the player can say they have
       // done the work, as the job they hold.
       if (job && serve.grounds.inField) {
         facts["post-field"] = {
           text: "yes",
-          sourceRecordIds: [...why, job.id],
+          sourceRecordIds: [...why, job.recordId],
         };
         // An occupation group's plural name ("Registered Nurses") is not one
         // person's job, so it is not said.
@@ -2102,7 +2113,7 @@ function composeBinding(
         )
           facts["their-office"] = {
             text: jobSaid(job.title),
-            sourceRecordIds: [...why, job.id],
+            sourceRecordIds: [...why, job.recordId],
           };
       }
     }
@@ -2141,6 +2152,18 @@ function composeBinding(
     if (issue)
       facts.issue = {
         text: issue,
+        sourceRecordIds: [moment.causeId, serve.askId],
+      };
+    // A price names the proposal itself, so the player knows which way they
+    // give their word (Words lead, Nov 15 10:35Z, rule 116), on the question
+    // the ticket's office can decide (Account lead, Nov 15 10:45Z).
+    const about =
+      serve.priced && serve.grounds.priceQuestion
+        ? questionAbout(serve.grounds.priceQuestion)
+        : null;
+    if (about)
+      facts.about = {
+        text: about,
         sourceRecordIds: [moment.causeId, serve.askId],
       };
   }
@@ -2431,14 +2454,24 @@ function serveStanding(
       raceOffice: string;
       moved: string | null;
       seat: string;
+      /** They named the player's word on their question as their price. */
+      priced: boolean;
     }
   | undefined {
   const row = serveAsk(coreAPI(core as CoreState), said.askId ?? "");
   if (!row || row.askedId !== prospectId) return undefined;
+  // Short of yes by less than the player's word on their own question is
+  // worth to them: they name that promise as their price (gov-serve-ask-
+  // price-end). Taking it carries them; refusing it does not.
+  const worth = promiseWorth(row);
+  const priced =
+    row.standing.lean <= P.zero && row.standing.lean + worth > P.zero;
   return {
+    priced,
     standing: {
       lean: row.standing.lean,
-      favor: P.zero,
+      favor: priced ? worth : P.zero,
+      ...(priced ? { price: row.standing.lean + worth } : {}),
       // A stranger who would say yes asks the player one thing first; on
       // their own question, a hedge is weighed as the player's stance unsaid.
       asksFirst: !row.standing.grounds.knows && row.standing.lean > P.zero,
@@ -3117,10 +3150,29 @@ function keepDoorPieces(
 /** The player's move at a door that asks after the resident (the door arcs' `asks.middle.ask`). */
 const DOOR_ASK_AFTER = "ask";
 
-/** Hours of quarrel an ending that strains a tie writes to closeness, by what it keeps. */
+/**
+ * What an ending that strains a tie writes to closeness, by what it keeps:
+ * hours of quarrel, or (`unit` "share of the tie") a share of the hours the
+ * tie stands on today.
+ */
 const ENDING_STRAIN = rulesFile.endingStrain as unknown as Readonly<
-  Record<string, { value: number } | undefined>
+  Record<string, { value: number; unit?: string } | undefined>
 >;
+const SHARE_OF_TIE = "share of the tie";
+
+/** The hours an ending's strain takes off the tie between two people today. */
+export function endingStrainHours(
+  core: Pick<CoreState, "data" | "date" | "relationships">,
+  keeps: string,
+  a: PersonId,
+  b: PersonId,
+): number | undefined {
+  const row = ENDING_STRAIN[keeps];
+  if (!row) return undefined;
+  return row.unit === SHARE_OF_TIE
+    ? row.value * tieHoursBetween(core, a, b)
+    : row.value;
+}
 
 /**
  * The player's reply in a scene with a purpose, by its path through the tree
@@ -3347,7 +3399,9 @@ export function replyInScene(
       undefined,
       { cause: "scene-reply", sourceId: id },
     );
-  const strain = ending ? ENDING_STRAIN[ending.keeps]?.value : undefined;
+  const strain = ending
+    ? endingStrainHours(core, ending.keeps, scene.askedId, scene.askerId)
+    : undefined;
   if (strain)
     coreAPI(core).relationship(
       scene.askedId,
