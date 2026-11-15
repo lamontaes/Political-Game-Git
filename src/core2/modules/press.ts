@@ -4536,26 +4536,53 @@ export function commentOn(api: CoreAPI, causeId: string): CommentRow | null {
   );
 }
 
+/** The scandal call's answers the paper quotes: owning it, denying it, or a lie. */
+const CALL_ANSWERS: ReadonlySet<string> = new Set(["confess", "deny", "lie"]);
+/** The endings whose story quotes what the person said (purpose-arcs.json). */
+const SAID_ENDINGS: ReadonlySet<string> = new Set([
+  "on-record",
+  "on-the-record",
+  "denial-printed",
+  "lie-printed",
+  "caught",
+]);
+
 /**
  * A press interview that ends on the record keeps what the person said; one
  * that ends in no comment or a walk-off keeps that they declined. A story
  * that runs (the ending's keeps) is told in the paper's story of the record
- * the reporter asked about.
+ * the reporter asked about. The reporter's call on an exposure (a scandal
+ * call) is kept the same way, before the story runs (runExposure): what the
+ * paper quotes is the official's own answer on the call (owning it, denying
+ * it or a lie), not a parting line after it; an answer is kept as it is said,
+ * so a call that stops after it still reaches the story; a call that ends
+ * without one is a decline. With no call there is no row, and the story
+ * says nothing of comment.
  */
 function keepComment(api: CoreAPI, event: Readonly<CoreEventInput>): void {
   const facts = event.facts ?? {};
-  if (facts.typeKey !== "press-interview" || facts.keeps !== "story-runs")
-    return;
+  const call = facts.typeKey === "scandal";
+  const answer = call && CALL_ANSWERS.has(String(facts.move ?? ""));
+  const kept =
+    (facts.typeKey === "press-interview" && facts.keeps === "story-runs") ||
+    (call && (answer || Boolean(facts.ending)));
+  if (!kept) return;
   const causeId = String(facts.causeId ?? "");
   const personId = event.personIds[0];
   if (!causeId || !personId) return;
-  const said = facts.ending === "on-record" || facts.ending === "lie-printed";
+  const line = String(facts.line ?? "") || null;
+  const answered = call ? (commentOn(api, causeId)?.quote ?? null) : null;
+  const quote = answer
+    ? line
+    : SAID_ENDINGS.has(String(facts.ending ?? ""))
+      ? (answered ?? line)
+      : null;
   table(api, "comments").put({
     id: causeId,
     causeId,
     personId,
     date: api.state.date,
-    quote: said ? String(facts.line ?? "") || null : null,
+    quote,
     replyId: event.id,
   } satisfies CommentRow as unknown as ModuleRow);
 }

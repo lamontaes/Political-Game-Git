@@ -33,6 +33,8 @@ claimed-at: 2026-11-15
 
 **Waits on.** Nothing.
 
-**Files.** src/director/scandal-call.test.ts (new), src/director/purpose-scene.ts, src/core2/modules/press.ts, src/core2/modules/corruption.ts, data/english/parts/scene-talk.json
+**Files.** src/director/scandal-call.test.ts (new), src/director/scandal-call-printed.test.ts (new), src/director/purpose-scene.ts, src/core2/modules/press.ts, src/core2/modules/corruption.ts, data/english/parts/scene-talk.json
 
 **Notes.** The interview thread builds reporter, press-story, subject and stand for interview-published on top of the outlet fix. A conflict needs an award, and no award is made in a world's first weeks, so the conflict cases are a fixture exposure on a real government's road line and a real firm and owner.
+
+- Nov 15: carries the comment from the order fix (Account lead's ruling 08:49Z): `keepComment` keeps the scandal call, and the story quotes the official's own answer on the call (owning it, denying it or a lie), not a parting line; a call that ends without one prints a decline; with no call the story says nothing of comment. Played through the game's own call in src/director/scandal-call-printed.test.ts. An unattended official's answer is press-exposure-unattended-answer.

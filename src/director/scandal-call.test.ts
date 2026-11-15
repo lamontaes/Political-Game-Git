@@ -11,6 +11,7 @@ import {
   crimeRecord,
 } from "../core2/modules/corruption";
 import {
+  commentOn,
   leakToReporter,
   outletsHere,
   PRESS_EXPOSED,
@@ -195,18 +196,20 @@ it("a scandal call names who paid and what for (Gilbert IA, seed reporters-call-
   for (const text of said)
     expect(text).not.toMatch(/minutes|sign anything|a story about you/i);
   // The player owns it ("It's true. I was wrong, and I'll say so.", then "I
-  // don't have a good answer for you."); the story runs on its day with that.
-  expect(
-    replyInScene(core, director, me, entry!, [0, 0], { typeKey: "scandal" }),
-  ).toBeTruthy();
+  // don't have a good answer for you."), a click at a time as play posts
+  // them; the story runs on its day quoting their own answer.
+  for (const path of [[0], [0, 0]])
+    expect(
+      replyInScene(core, director, me, entry!, path, { typeKey: "scandal" }),
+    ).toBeTruthy();
   expect(tips.get(offered!.id)?.storyId, "not before its day").toBeFalsy();
   advanceCore(core, runsOn);
   const ran = tips.get(offered!.id) as unknown as Record<string, unknown>;
   expect(ran.storyId, "runs on its day").toBeTruthy();
-  expect(ran.comment).toBe("admitted");
-  process.stdout.write(
-    `RAN ${String(ran.storyId)} comment ${String(ran.comment)}\n`,
+  expect(commentOn(api, String(exposedId))?.quote).toBe(
+    talk.tree.replies[0]!.line.text,
   );
+  process.stdout.write(`RAN ${String(ran.storyId)}\n`);
 }, 60_000);
 
 // A conflict on an award: no award is made in a world's first weeks, so the
