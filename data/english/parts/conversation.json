@@ -37334,24 +37334,6 @@
       "bearing": "calm"
     },
     {
-      "key": "conversation.promise-kept-raise.you-kept-your-word-on-payment-thank-you",
-      "move": "promise-kept-raise",
-      "kind": "spoken",
-      "text": "You kept your word on {payment}. Thank you.",
-      "uses": [
-        {
-          "move": "promise-kept-raise",
-          "subject": "promise-kept",
-          "role": "raise",
-          "requiresFacts": ["promise-pay-on-time", "payment"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (pay-on-time raises, Nov 15)",
-      "date": "2026-11-15",
-      "bearing": "warm"
-    },
-    {
       "key": "conversation.promise-kept-raise.thanks-for-showing-me-around",
       "move": "promise-kept-raise",
       "kind": "spoken",

@@ -2,7 +2,7 @@
   "about": "How people name a payment they owe, by the kind of loan behind it (the credit engine's loan kinds, src/core2/modules/credit.ts), read by src/english/payment-words.ts. Said after a verb or preposition, never first in a line ('You said you'd pay the mortgage on time.'). Words lead, Nov 15.",
   "payments": {
     "mortgage": "the mortgage",
-    "personal": "the loan payment",
+    "personal": "the loan",
     "small-dollar": "the payday loan",
     "medical": "the medical bill",
     "startup": "the business loan"
