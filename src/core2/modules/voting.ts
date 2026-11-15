@@ -1057,13 +1057,9 @@ export function seatHolder(
     TermRow | undefined;
 }
 
-/** Whether a candidate id is a term's holder: the person, or the official the world doesn't name yet. */
+/** Whether a candidate id is a term's holder. */
 function holds(term: TermRow | undefined, candidateId: string): boolean {
-  return (
-    !!term &&
-    (term.personId === candidateId ||
-      candidateId === officialCandidateId(term.id))
-  );
+  return !!term && term.personId === candidateId;
 }
 
 /**
@@ -4724,11 +4720,8 @@ function publicReasons(
         id: f.personId,
         party: f.party ?? null,
         filingId: f.id,
-        // The holder standing again, a full person or an official the world
-        // doesn't name yet.
-        incumbent:
-          candidateFacts(api, f, contest).isIncumbent ||
-          (seat !== undefined && f.personId === officialCandidateId(seat.id)),
+        // The holder standing again.
+        incumbent: candidateFacts(api, f, contest).isIncumbent,
         seatParty: seat?.party ?? null,
         raceLean: 2 * right - 1,
       }),
@@ -5408,12 +5401,6 @@ function takeOffice(api: CoreAPI, resultId: string): void {
   const filing = ballot(api, contest.id).find(
     (f) => f.personId === (result.winnerCandidateId ?? result.winnerId),
   );
-  // The incumbent who stood again: the seat's holder when filing closed.
-  const previous = result.winnerId.startsWith(officialCandidateId(""))
-    ? (terms.get(
-        result.winnerId.slice(officialCandidateId("").length),
-      ) as unknown as TermRow | undefined)
-    : undefined;
   // A named official who isn't a full person yet keeps (or gets) an identity;
   // a person keeps the identity their earlier terms recorded (a drawn
   // official later filled in keeps the gender drawn for them).
@@ -5430,9 +5417,7 @@ function takeOffice(api: CoreAPI, resultId: string): void {
         birthDate: winner.birthDate,
         homeState: town(api).stateKey,
       }
-    : previous
-      ? previous.identity
-      : officialIdentity(api, contest, result.winnerId);
+    : officialIdentity(api, contest, result.winnerId);
   seatWinner(api, {
     seatId: contest.seatId,
     officeId: contest.officeId,

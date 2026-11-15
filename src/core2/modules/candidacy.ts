@@ -1021,8 +1021,6 @@ export function weighContest(
   api: CoreAPI,
   contest: ContestRow,
   localRank: number = LOCAL_RANK,
-  /** The incumbent's own filing is already on record (a race that closed before the opening). */
-  incumbentFiled = false,
   /** Those who stayed out weigh it again from today's record (filing opens). */
   reconsider = false,
 ): WeighedContest {
@@ -1136,7 +1134,6 @@ export function weighContest(
     p.liquidMinor >= rules.feeMinor &&
     !isExplicitlyControlledPersonV1(api.state, p.id) &&
     !committed.has(p.id) &&
-    !(incumbentFiled && p.id === incumbentId) &&
     (!wide ||
       !checkEligibility(api, p.id, contest.id, null).some(
         (check) => check.rule === "residency" && !check.met,
@@ -1448,7 +1445,7 @@ export function fileRunners(
   const askedFirst = askBeforeWeighing(api, contest);
   const row =
     first.date < api.state.date
-      ? weighContest(api, contest, localRank, false, true)
+      ? weighContest(api, contest, localRank, true)
       : first;
   // Every drawn counted runner is filled in before any platform is read, so
   // the electorate the platforms weigh is rebuilt once for the contest, not
@@ -2016,22 +2013,20 @@ function answerPartyAsk(api: CoreAPI, event: Readonly<CoreEventInput>): void {
 }
 
 /**
- * A race whose filing closed before the record began: the town's adults
- * weighed it then, and each runner's filing is part of the opening record
- * (dated at the deadline), beside the incumbent's. Its petition was checked
- * before the record began, so the filing stands on the ballot.
+ * A race whose filing closed before the record began: the seat's holder and
+ * the town's adults weighed it then, and each runner's filing, the holder's
+ * among them, is part of the opening record (dated at the deadline). Its
+ * petition was checked before the record began, so the filing stands on the
+ * ballot.
  */
 function weighClosedContest(
   api: CoreAPI,
   contest: ContestRow,
   localRank: number,
 ): void {
-  const row = weighContest(
-    api,
-    contest,
-    localRank,
-    contest.level !== "state" && contest.level !== "federal",
-  );
+  // The seat's holder weighs standing again like anyone (`standsAgain`):
+  // nothing filed for them before the record began.
+  const row = weighContest(api, contest, localRank);
   const filings = api.moduleState(ELECTIONS_MODULE_ID).table("filings");
   const positions = contestPositions(api, contest);
   // A counted adult who decided to run on their counted record is made a
