@@ -83848,7 +83848,9 @@
           "purpose": "desk-visit",
           "key": "desk-visit",
           "requiresFacts": ["against"],
-          "after": "request"
+          "after": "request",
+          "setsFacts": ["asked-fix"],
+          "excludesFacts": ["asked-fix"]
         }
       ],
       "bearing": "calm",
@@ -83924,7 +83926,7 @@
           "key": "desk-visit",
           "after": "request",
           "requiresFacts": ["against"],
-          "excludesFacts": ["cost-claimed", "heard-cost"]
+          "excludesFacts": ["heard-cost"]
         }
       ],
       "bearing": "curious",
@@ -83963,33 +83965,6 @@
           "after": "answer",
           "requiresFacts": ["for", "opposed", "heard-who"],
           "excludesFacts": ["heard-why"]
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Helper D (words and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "ask",
-        "key": "desk-visit"
-      }
-    },
-    {
-      "key": "scene-talk.reply-ask.what-does-it-cost-you-exactly",
-      "move": "reply-ask",
-      "kind": "spoken",
-      "text": "What does it cost you, exactly?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "purpose": "desk-visit",
-          "key": "desk-visit",
-          "requiresFacts": ["against", "cost-claimed"],
-          "after": "request",
-          "excludesFacts": ["heard-cost"]
         }
       ],
       "bearing": "curious",
@@ -84206,32 +84181,6 @@
       "date": "2026-10-27",
       "tag": {
         "move": "accept",
-        "key": "desk-visit"
-      }
-    },
-    {
-      "key": "scene-talk.follow-press.that-s-a-hope-not-a-promise",
-      "move": "follow-press",
-      "kind": "spoken",
-      "text": "That's a hope, not a promise.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "purpose": "desk-visit",
-          "key": "desk-visit",
-          "after": "bargain",
-          "requiresFacts": ["against"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Helper D (words and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "press",
         "key": "desk-visit"
       }
     },
@@ -85144,7 +85093,9 @@
           "purpose": "desk-visit",
           "key": "desk-visit",
           "after": "plea",
-          "requiresFacts": ["against"]
+          "requiresFacts": ["against"],
+          "setsFacts": ["asked-fix"],
+          "excludesFacts": ["asked-fix"]
         },
         {
           "subject": "scene",
@@ -85154,7 +85105,9 @@
           "purpose": "desk-visit",
           "key": "desk-visit",
           "after": "press",
-          "requiresFacts": ["against"]
+          "requiresFacts": ["against"],
+          "setsFacts": ["asked-fix"],
+          "excludesFacts": ["asked-fix"]
         },
         {
           "subject": "scene",
@@ -85164,53 +85117,9 @@
           "purpose": "desk-visit",
           "key": "desk-visit",
           "after": "answer",
-          "requiresFacts": ["against", "heard-cost"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Helper D (words and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "bargain",
-        "key": "desk-visit"
-      }
-    },
-    {
-      "key": "scene-talk.reply-bargain.show-me-what-you-would-accept-and-i-ll-ask-for-it",
-      "move": "reply-bargain",
-      "kind": "spoken",
-      "text": "Show me what you would accept, and I'll ask for it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "bargain",
-          "role": "asked",
-          "purpose": "desk-visit",
-          "key": "desk-visit",
-          "after": "plea",
-          "requiresFacts": ["against"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "bargain",
-          "role": "asked",
-          "purpose": "desk-visit",
-          "key": "desk-visit",
-          "after": "press",
-          "requiresFacts": ["against"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "bargain",
-          "role": "asked",
-          "purpose": "desk-visit",
-          "key": "desk-visit",
-          "after": "answer",
-          "requiresFacts": ["against", "heard-cost"]
+          "requiresFacts": ["against", "heard-cost"],
+          "setsFacts": ["asked-fix"],
+          "excludesFacts": ["asked-fix"]
         }
       ],
       "bearing": "calm",
@@ -187272,32 +187181,6 @@
           "key": "bill-sign-on"
         }
       ]
-    },
-    {
-      "key": "scene-talk.state-request.bill-takes-real-money-from-the-people-i-speak-for-we-d-like-a-veto",
-      "move": "state-request",
-      "kind": "spoken",
-      "text": "{bill} takes real money from the people I speak for. We'd like a veto.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "request",
-          "role": "asker",
-          "purpose": "desk-visit",
-          "key": "desk-visit",
-          "requiresFacts": ["against", "bill", "cost"],
-          "setsFacts": ["cost-claimed"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words lead (ruling on #9292, Nov 14 20:35Z)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "request",
-        "key": "desk-visit"
-      }
     },
     {
       "key": "scene-talk.reply-agree.then-it-gets-a-veto",

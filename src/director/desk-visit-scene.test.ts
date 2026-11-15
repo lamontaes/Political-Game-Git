@@ -99,9 +99,16 @@ function talkPaths(
   const paths: string[] = [];
   (function walk(node: TreeNode, before: string[]) {
     for (const reply of node.replies) {
+      // The menu as the player sees it (Words lead rule 114): every reply
+      // offered at this turn under "You say:", the pressed one marked.
+      const menu = node.replies.map(
+        (row) =>
+          `  ${row === reply ? "[pressed]" : "         "} ${row.line.text}`,
+      );
       const here = [
         ...before,
-        `PLAYER: ${reply.line.text}`,
+        "You say:",
+        ...menu,
         ...(reply.next?.lines ?? []).map(spoken),
       ];
       const end = reply.next?.end;
@@ -623,16 +630,18 @@ it(`a governor's year of presented bills brings each living sponsor in, seed ${s
           visits += 1;
           expectApart(scene.scene.facts, `${where}: ${record.id}`);
           first ||= `${record.id}, sponsor ${sponsor!.sponsorId}`;
-          shown ||= scene.scene.talk.lines
-            .slice(0, 4)
-            .map((row) => row.text)
-            .join(" / ");
+          if (!shown)
+            shown = talkPaths(
+              `DESK-TALK-GOVERNOR ${record.id}`,
+              where,
+              scene.scene.talk,
+            );
         }
       }
     }
     expect(visits, `${where}: no visit composed`).toBeGreaterThan(0);
     process.stdout.write(
-      `DESK-VISIT-GOVERNOR ${where}: ${presented.length} bills presented, ${staged} staged, ${visits} brought a sponsor; first ${first}.\n  ${shown}\n`,
+      `DESK-VISIT-GOVERNOR ${where}: ${presented.length} bills presented, ${staged} staged, ${visits} brought a sponsor; first ${first}.\n${shown}`,
     );
     return;
   }
