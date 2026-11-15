@@ -29,6 +29,7 @@ Learned by the path-check runners A and B and the speed lead, Oct 29 to Nov 1, a
 
 ## During the run
 
+- **Give a background run a timeout longer than the run (Nov 15).** A background shell command is stopped at its default limit (30 minutes) unless it is given a longer one; a 30-day door canvass at 8 places took over half an hour and was killed with nothing written. `/usr/bin/time` is not in the container: time a run with `S=$(date +%s)` and `$(( $(date +%s)-S ))`. Never change the working tree while a run or a gate reads it: commit, then run at that sha, and do skill edits in a separate sparse worktree.
 - **Write the exit code to a file:** `node … > row.out 2> row.err; echo "$? $SECONDS" > row.done`. A bare `&` loses the exit code, and a killed run leaves none.
 - **Log progress to stderr as it happens** (`LOG …` lines), with stdout and stderr in separate files per row. A run that dies with nothing printed tells you nothing.
 - **Silence is not a hang.** Before calling a run stuck, read its memory (RSS) and when stderr last changed. Ringwood, New Jersey's race 2 (Nov 1) was one call living 22 months (to a petition due date) while the heap climbed from 567 MB to the 8 GB cap and the collector thrashed. That's memory, not a loop.
