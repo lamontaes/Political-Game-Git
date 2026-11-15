@@ -5,9 +5,9 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: claimed
 standard: 2
-claimed-by: interviews thread
+claimed-by: interviews thread (branch claude/project-thread-sew1gc-police-log-pin)
 pr:
 after:
 blocked-on:
