@@ -4192,7 +4192,8 @@
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
-      }
+      },
+      "note": "Counted, not judged (Words lead, Nov 14, 9133/ruling-many.md): `npm run words:many` counts each scene type's arcs (src/director/data/arc-variants.json) against floors of 30 for corruption, 12 for legislating and negotiating, 3 for each part of campaigning and 3 for the rest, and lists the thin ones for the scene's owner. It never fails a build and never pulls a line."
     },
     {
       "id": "player-never-says-unchosen",
@@ -4463,7 +4464,8 @@
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
-      }
+      },
+      "note": "Counted, not judged (Words lead, Nov 14, 9133/ruling-many.md): `npm run words:many` counts the variants of each spot in the scene-talk bank that differ under variants-differ-in-what-they-say, against floors of 8 for a line met in most talks, 4 for a line met once in a talk of its kind and 2 for a line tied to a rare record, and lists the thin ones for the scene's owner. It never fails a build and never pulls a line."
     },
     {
       "id": "never-met-is-never-the-only-line",
@@ -4671,7 +4673,11 @@
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
-      }
+      },
+      "applies": {
+        "banks": ["opening-speech", "speech-stages"]
+      },
+      "note": "Read whole, not by bank line (Words lead, Nov 14, 9133/ruling-many.md: the plan's speech reader). scripts/words/speech-sheets.ts composes, in pinned played worlds, the President's opening address, the governor's and the local head's address, a town member's campaign speech and the speech the player builds in steps, through the game's own composers; `npm run words:review` gives each to a fresh reviewer with planted speeches. The verdicts are a report for the speeches' owners, not a store: a composed speech is not a bank piece, so no saved verdict could be kept true to the bank."
     },
     {
       "id": "lie-names-another-place",

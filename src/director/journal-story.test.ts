@@ -7,6 +7,8 @@ import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
 import { preStartHistory } from "../core2/pre-start";
 import { composeJournal } from "./journal";
+import { tieSide } from "./relation-facts";
+import journalBank from "../../data/english/parts/journal.json";
 import type { PersonId } from "../core2/types";
 
 // The Journal is a story from birth (owner, Oct 27: "this journal needs to be
@@ -227,6 +229,29 @@ describe("the journal as a story from birth", () => {
     expect(told.map((moment) => moment.causeId)).toEqual([
       "took-office:seat:gus2025:135840:council:4:2026-01-01",
     ]);
+    // Another's turn told as what it meant, from the tie on record: a
+    // friend's as the friendship (never a mood word), a rival's with doubt.
+    const meant = (field: string) =>
+      (
+        journalBank as {
+          parts: { text: string; uses: { role?: string }[] }[];
+        }
+      ).parts
+        .filter((part) => part.uses.some((use) => use.role === field))
+        .map((part) => part.text);
+    for (const moment of told) {
+      const line = journal
+        .flatMap((chapter) => chapter.lines)
+        .find((row) => row.momentIds.includes(moment.id))!;
+      const otherId = moment.counterpartIds.find((pid) => pid !== id);
+      const side = otherId ? tieSide(core, id, otherId) : null;
+      for (const [field, want] of [
+        ["meantFriend", "friend"],
+        ["meantRival", "rival"],
+      ] as const)
+        if (meant(field).some((text) => line.text.endsWith(text)))
+          expect(side?.side, `"${line.text}" on ${otherId}`).toBe(want);
+    }
     // The opposite case: the other filings and oaths never name the subject
     // or anyone near them, so none is told alone, and no chapter opens on one.
     expect(others.length).toBeGreaterThan(told.length);

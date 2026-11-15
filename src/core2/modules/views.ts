@@ -42,6 +42,8 @@ import { livedQuestion } from "../outcome-news";
 import { addDays, ageOnDate, daysBetween, makeIsoDate } from "../kernel/dates";
 import { PROFILE_FACT_KINDS, profileFor } from "../opening-profile";
 import {
+  groupStance,
+  personLean,
   personStance,
   popularity,
   STANCE_LOADINGS,
@@ -647,6 +649,8 @@ export function setPastViewShifts(
   personId: PersonId,
   shifts: readonly PastShift[],
 ): void {
+  // A view forms only where the views module keeps it (a small world may run without it).
+  if (!api.state.modules.has(VIEWS_MODULE_ID)) return;
   const held = viewOf(api, personId);
   if (!held) return;
   if (JSON.stringify(held.pastShifts ?? []) === JSON.stringify(shifts)) return;
@@ -998,6 +1002,28 @@ export function countedStanceProfile(
   // Their circumstances are read again as their household's record changes.
   const life = countedLifeStake(api.state as CoreState, voter.id);
   return life ? { ...kept, life } : kept;
+}
+
+/**
+ * A counted resident's view of one question, -1 to 1: the same read a full
+ * person's view is made from (their lean on the town's scale, the question's
+ * popularity, their life's stake), without making them a full person (one
+ * model, two tiers). `town` is the town's own lean.
+ */
+export function countedViewOn(
+  api: CoreAPI,
+  voter: Pick<
+    PersonState,
+    "id" | "traits" | "householdId" | "birthDate" | "placeId"
+  >,
+  question: string,
+  town: number,
+): number {
+  return groupStance(
+    personLean(api.state.people, voter, town),
+    question,
+    countedStanceProfile(api, voter),
+  );
 }
 
 /**

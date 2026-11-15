@@ -48,6 +48,7 @@ Stop at the first hit that answers; read it whole.
 - **Nothing found:** say so with the reading line, then ask or register the stopgap. The reading line names what you read and searched:
   `Read: OWNER-DECISIONS (through <date>), DECISION-REGISTER, prior-rulings/<area>.md, LAW; searched docs/ and pool for: <terms>; Drive: <searched | no connector>.`
   A question without the line is sent back (merger, CTO, the owner's local session).
+- **A design question or an inference is a question too (owner, Nov 15, 2026, 02:32Z: "Anytime there are design questions or inferences, you first need to check the entire repo, because I've ruled on that before. I've ruled on that multiple times").** That night a scene planner wrote three questions for him (party conventions, whether an election can be cheated, how the player learns of a lie) and all three were already ruled: `prior-rulings/elections.md` lines 105 to 114 and line 27, `DECISION-REGISTER.md` line 394, `OWNER-DECISIONS.md` lines 108 and 889. Search the prior-rulings digest of every area the question touches, not only your own (a scene question was answered in the elections and press digests), and search the subject's synonyms (cheating is also fraud, crime, unlawful conduct, corruption).
 - **Two rulings conflict:** the newer wins unless the older makes more sense; flag it in OWNER-DECISIONS under the CTO's hand.
 - **Before a question goes to the owner's page, open the item, the code it names and `docs/coordination/OWNER-DECISIONS.md` (grep the subject).** A sweeper's or a helper's one-line reason is not a reading. On Nov 10 three questions were written from one-line reasons and sent to him. Two were already answered (the discrimination ban, ruled Oct 24 and Oct 26, "I said yes"; town events, asked for Nov 1) and one named laws that already worked. He answered a question he had settled twice. This is the CTO's rule for both of them from that night.
 
@@ -58,9 +59,12 @@ Stop at the first hit that answers; read it whole.
 - Speeches, scenes and lines differ by the speaker's traits, party, wants and what is happening in the world; nothing reads the same in two worlds (Oct 27).
 - Employers are generated to fit each town from calibrated business tables; no fixed list, no generic cooperatives, no real brands (Sept 22, Sept 28, Sept 29, in prior-rulings/economy.md and words.md and OWNER-DECISIONS).
 - Developer ID, signing, licenses and rights are never raised (Oct 26, Oct 27).
+- A scene has an outcome or it is not a scene: "If a scene doesn't have an outcome and it's just happening to happen, then it shouldn't be a scene", except a step inside an event's arc (a feeler or exposition scene) that unlocks later ones (Nov 15, 02:32Z).
+- A speech is built by the player a short sentence at a time, and its length fits the occasion: short as the Gettysburg Address or 5 to 20 picks for a president's; speeches do not all follow one format (Nov 15, 02:27Z and 02:39Z).
 - Only the Story session writes, changes or deletes lines under `data/english/parts/`; every note he gives about words becomes a rule a program tests (owner, Nov 10, "Split by role"; `words-engine`).
 - A rule, a check or a skill merges before other pull requests (owner, Nov 10).
 - Nothing is done until a second session saw it in the running game (owner, Nov 3; `seen-in-game`).
+- Old material is deleted, not kept; a design question gets the whole-repository search before it is asked (Nov 15; `words-reads`, rules 127 to 135).
 - Election day is the player's choice; discrimination is simulated; the Wildermyth standard for scenes; one UI and one scene system (Oct 26).
 
 ## Self-check before you send anything to the owner

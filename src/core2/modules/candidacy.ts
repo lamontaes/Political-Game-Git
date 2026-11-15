@@ -655,6 +655,17 @@ export function decideToRun(
     table(api).put(row as unknown as { id: string });
     return row;
   }
+  // A member their party asked for this seat weighs the ask among their
+  // reasons, as one asked in the scene does.
+  const ask = contest.askedBy
+    ? undefined
+    : askOf(api, contest.contestId, personId);
+  if (ask)
+    contest = {
+      ...contest,
+      askedBy: ask,
+      sourceIds: [...contest.sourceIds, ask.recordId],
+    };
   pending.set(api.state, contest);
   const offers: ActOffer[] = [STAY_OUT, RUN].map((definition) => ({
     definition,
@@ -784,6 +795,75 @@ interface Queues {
   opening: ContestRow[];
 }
 const queues = new WeakMap<object, Queues>();
+
+/**
+ * Those who decided to run and were refused at the counter only for the filing
+ * fee, by contest: they try again each day until they file or the window
+ * closes, since what they hold changes with pay days (owner, Nov 15: a person
+ * who decided to stand and could not pay on one day keeps trying). Kept for
+ * the people refused, a handful at a time.
+ */
+const refiling = new WeakMap<object, Map<string, Set<PersonId>>>();
+
+/** A refusal that only the person's cash can change. */
+function refusedOnlyForFee(
+  filing: NonNullable<CandidacyDecision["filing"]>,
+): boolean {
+  return (
+    filing.status === "refused" &&
+    filing.unmet.length > 0 &&
+    filing.unmet.every((rule) => rule === "filing-fee")
+  );
+}
+
+/** A person refused only for the fee is kept to try again while the window is open. */
+function keepTryingForFee(
+  api: CoreAPI,
+  contestId: string,
+  personId: PersonId,
+  filing: NonNullable<CandidacyDecision["filing"]>,
+): void {
+  if (!refusedOnlyForFee(filing)) return;
+  const held = refiling.get(api.state) ?? new Map<string, Set<PersonId>>();
+  refiling.set(api.state, held);
+  const people = held.get(contestId) ?? new Set<PersonId>();
+  held.set(contestId, people);
+  people.add(personId);
+}
+
+/** Try again for each person refused only for the fee, while their window is open. */
+function refileRefused(api: CoreAPI): void {
+  const held = refiling.get(api.state);
+  if (!held?.size) return;
+  const today = api.state.date;
+  const contests = api.moduleState(ELECTIONS_MODULE_ID).table("contests");
+  for (const [contestId, people] of [...held]) {
+    const contest = contests.get(contestId) as unknown as
+      ContestRow | undefined;
+    if (!contest || contest.filingDeadline < today) {
+      held.delete(contestId);
+      continue;
+    }
+    for (const personId of [...people]) {
+      const decision = decisionOf(api, contestId, personId);
+      const person = api.state.people.get(personId);
+      if (!decision?.run || !person?.alive) {
+        people.delete(personId);
+        continue;
+      }
+      const filing = fileFor(
+        api,
+        person,
+        contest,
+        Boolean(seatParty(api, contest)),
+      );
+      if (refusedOnlyForFee(filing)) continue;
+      table(api).put({ ...decision, filing } as unknown as { id: string });
+      people.delete(personId);
+    }
+    if (!people.size) held.delete(contestId);
+  }
+}
 
 /** Contests to weigh and runners to file, soonest first; rebuilt when contests are added. */
 function queuesFor(api: CoreAPI): Queues | null {
@@ -1361,6 +1441,8 @@ export function fileRunners(
   const first = weighed.get(contest.id) as unknown as
     WeighedContest | undefined;
   if (!first || first.filedOn !== null) return;
+  // Filing opens: each party asks first, so the day's weighing counts the ask.
+  const askedFirst = askBeforeWeighing(api, contest);
   const row =
     first.date < api.state.date
       ? weighContest(api, contest, localRank, false, true)
@@ -1382,6 +1464,7 @@ export function fileRunners(
       ? fileFor(api, person, contest, Boolean(seatParty(api, contest)))
       : { status: "refused", filingId: null, unmet: ["not-available"] };
     table(api).put({ ...decision, filing } as unknown as { id: string });
+    keepTryingForFee(api, contest.id, personId, filing);
   }
   // A runner the filing day's weighing no longer holds (gone from the town,
   // dead) is refused for the rules they no longer meet, so every decision to
@@ -1394,18 +1477,24 @@ export function fileRunners(
           .filter((check) => !check.met)
           .map((check) => check.rule)
       : [];
-    table(api).put({
-      ...decision,
-      filing: {
-        status: "refused",
-        filingId: null,
-        unmet: unmet.length ? unmet : ["not-available"],
-      },
-    } as unknown as { id: string });
+    const refused: NonNullable<CandidacyDecision["filing"]> = {
+      status: "refused",
+      filingId: null,
+      unmet: unmet.length ? unmet : ["not-available"],
+    };
+    table(api).put({ ...decision, filing: refused } as unknown as {
+      id: string;
+    });
+    keepTryingForFee(api, contest.id, decision.personId, refused);
   }
   weighed.put({ ...row, filedOn: api.state.date } as unknown as {
     id: string;
   });
+  // A member the day's weighing did not reach (it weighs only some of a
+  // wide seat's people) still weighs the ask they were given.
+  for (const { person, chairId, recordId } of askedFirst)
+    if (!decisionOf(api, contest.id, person.id))
+      decideAsked(api, contest, person, chairId, recordId);
   askForCandidates(api, contest);
   askForSuccessor(api, contest);
 }
@@ -1640,17 +1729,116 @@ function askForSuccessor(api: CoreAPI, contest: ContestRow): void {
   }
 }
 
-function askForCandidates(
+/** One party's ask to one member, kept as the record the member and the chair both hold. */
+function writeAsk(
   api: CoreAPI,
   contest: ContestRow,
-  /** Only this party asks: its next member, after the player's answer. */
-  onlyPartyId?: string,
+  party: PartyRow,
+  chairId: PersonId,
+  person: PersonState,
+  recordId: string,
 ): void {
-  const date = api.state.date;
   const town = api
     .moduleState(ELECTIONS_MODULE_ID)
     .table("town")
     .get("town") as unknown as { townPlaceId: string };
+  const rules = filingRulesFor(api, contest, "party");
+  const date = api.state.date;
+  askedToday(api).add(person.id);
+  api.emit({
+    id: recordId,
+    date,
+    kind: PARTY_ASKED_EVENT,
+    personIds: [person.id, chairId],
+    placeId: town.townPlaceId,
+    source: {
+      tag: "SOURCED",
+      citation: `The ${party.name} party's chair asks a member to run for ${contest.title}`,
+      asOf: date,
+    },
+    facts: {
+      askedId: person.id,
+      chairId,
+      partyId: party.id,
+      party: party.name,
+      contestId: contest.id,
+      office: contest.title,
+      filingDeadline: rules.deadline ?? contest.filingDeadline,
+    },
+  });
+  // A seasoned officeholder of the party takes the member under their wing;
+  // the next day's advice scene reads who.
+  takeUnderWing(api, person.id, party.id, recordId);
+}
+
+/**
+ * Filing opens, before the day's weighing: each party asks the member it
+ * would ask first for the seat, as a party recruits while the window is open
+ * (owner, Oct 14). Being asked is one of the reasons that member weighs the
+ * seat that day (`askOf`), so an ask can bring in someone who had not yet
+ * decided to run. A party whose member says no, and a party with no one
+ * filed after the weighing, goes on to its next member (`askForCandidates`).
+ */
+function askBeforeWeighing(
+  api: CoreAPI,
+  contest: ContestRow,
+): { person: PersonState; chairId: PersonId; recordId: string }[] {
+  const written: {
+    person: PersonState;
+    chairId: PersonId;
+    recordId: string;
+  }[] = [];
+  for (const { party, chairId, members } of partyProspects(api, contest)) {
+    // The first member who has not already decided to run: an ask is for
+    // someone who might be brought in.
+    // The day's weighing is the member's own: one who could not cover the
+    // fee does not weigh it, and the player answers in the scene their ask
+    // stages (after the weighing, for a party with no one filed), never in it.
+    const fee = filingRulesFor(api, contest, "party").feeMinor;
+    const person = members.find(
+      (member) =>
+        !decisionOf(api, contest.id, member.id)?.run &&
+        !isExplicitlyControlledPersonV1(api.state, member.id) &&
+        member.liquidMinor >= fee,
+    );
+    if (!person) continue;
+    const recordId = `${PARTY_ASKED_EVENT}:${contest.id}:${party.id}:${person.id}`;
+    if (api.state.eventIds.has(recordId)) continue;
+    writeAsk(api, contest, party, chairId, person, recordId);
+    written.push({ person, chairId, recordId });
+  }
+  return written;
+}
+
+/** The ask that reached this person for this seat from their party, if one was written. */
+function askOf(
+  api: CoreAPI,
+  contestId: string,
+  personId: PersonId,
+): { readonly recordId: string; readonly chairId: PersonId } | undefined {
+  if (!api.state.modules.has(PARTIES_MODULE_ID)) return undefined;
+  const tie = partyTie(api, personId);
+  if (!tie?.partyId) return undefined;
+  const recordId = `${PARTY_ASKED_EVENT}:${contestId}:${tie.partyId}:${personId}`;
+  if (!api.state.eventIds.has(recordId)) return undefined;
+  const chairId = partiesHere(api).find(
+    (row) => row.id === tie.partyId,
+  )?.leaderId;
+  return chairId ? { recordId, chairId: chairId as PersonId } : undefined;
+}
+
+/**
+ * A member the party asked weighs running with the ask as a reason: the
+ * decision is kept, and one who decides to run files. True when a filing
+ * stands.
+ */
+function decideAsked(
+  api: CoreAPI,
+  contest: ContestRow,
+  person: PersonState,
+  chairId: PersonId,
+  recordId: string,
+): boolean {
   const rules = filingRulesFor(api, contest, "party");
   const incumbent = (
     api
@@ -1673,63 +1861,44 @@ function askForCandidates(
     !incumbentDecision.run
       ? incumbentDecision
       : undefined;
+  const decision = decideToRun(
+    api,
+    person.id,
+    {
+      contestId: contest.id,
+      officeName: contest.title,
+      filingDeadline: rules.deadline ?? contest.filingDeadline,
+      ...(incumbent?.personId && !standDown
+        ? { incumbentId: incumbent.personId as PersonId }
+        : {}),
+      askedBy: { recordId, chairId },
+      sourceIds: [contest.id, recordId, ...(standDown ? [standDown.id] : [])],
+    },
+    true,
+  );
+  if (!decision?.run) return false;
+  const filing = fileFor(api, person, contest, true);
+  table(api).put({ ...decision, filing } as unknown as { id: string });
+  return filing.status !== "refused";
+}
+
+function askForCandidates(
+  api: CoreAPI,
+  contest: ContestRow,
+  /** Only this party asks: its next member, after the player's answer. */
+  onlyPartyId?: string,
+): void {
   for (const { party, chairId, members } of partyProspects(api, contest)) {
     if (onlyPartyId && party.id !== onlyPartyId) continue;
     for (const person of members) {
       const recordId = `${PARTY_ASKED_EVENT}:${contest.id}:${party.id}:${person.id}`;
       if (api.state.eventIds.has(recordId)) continue;
-      askedToday(api).add(person.id);
-      api.emit({
-        id: recordId,
-        date,
-        kind: PARTY_ASKED_EVENT,
-        personIds: [person.id, chairId],
-        placeId: town.townPlaceId,
-        source: {
-          tag: "SOURCED",
-          citation: `The ${party.name} party's chair asks a member to run for ${contest.title}`,
-          asOf: date,
-        },
-        facts: {
-          askedId: person.id,
-          chairId,
-          partyId: party.id,
-          party: party.name,
-          contestId: contest.id,
-          office: contest.title,
-          filingDeadline: rules.deadline ?? contest.filingDeadline,
-        },
-      });
-      // A seasoned officeholder of the party takes the member under their
-      // wing; the next day's advice scene reads who.
-      takeUnderWing(api, person.id, party.id, recordId);
+      writeAsk(api, contest, party, chairId, person, recordId);
       // The player answers in the scene the ask stages, and the party waits
       // on that answer: a yes is the decision to run (`answerPartyAsk`), a no
       // or a not-now sends the party on to its next member.
       if (isExplicitlyControlledPersonV1(api.state, person.id)) break;
-      const decision = decideToRun(
-        api,
-        person.id,
-        {
-          contestId: contest.id,
-          officeName: contest.title,
-          filingDeadline: rules.deadline ?? contest.filingDeadline,
-          ...(incumbent?.personId && !standDown
-            ? { incumbentId: incumbent.personId as PersonId }
-            : {}),
-          askedBy: { recordId, chairId },
-          sourceIds: [
-            contest.id,
-            recordId,
-            ...(standDown ? [standDown.id] : []),
-          ],
-        },
-        true,
-      );
-      if (!decision?.run) continue;
-      const filing = fileFor(api, person, contest, true);
-      table(api).put({ ...decision, filing } as unknown as { id: string });
-      if (filing.status !== "refused") break;
+      if (decideAsked(api, contest, person, chairId, recordId)) break;
     }
   }
 }
@@ -1973,6 +2142,7 @@ function candidacyDay(api: CoreAPI): void {
   const held = queuesFor(api);
   if (!held) return;
   const today = api.state.date;
+  refileRefused(api);
   while (held.opening.length) {
     const contest = held.opening.shift()!;
     weighClosedContest(api, contest, held.localRank);

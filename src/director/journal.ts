@@ -94,6 +94,7 @@ import { changeSaid, countSaid, moneySaid } from "../english/count-words";
 
 import { spanSaid } from "../english/span-words";
 import type { Moment, PersonLedger } from "./types";
+import { tieSide } from "./relation-facts";
 import {
   OFFICE_DAY_MODULE_ID,
   type OfficeActRow,
@@ -2188,6 +2189,8 @@ export function composeJournal(
     event: JournalWorded;
     /** The age already said by the sentence's own frame ("When I was 7, ..."). */
     framed: boolean;
+    /** Whether the record is the person's own turn, not another's. */
+    own: boolean;
     paragraph: string;
     turn: boolean;
     /** The record's line again from fewer facts, when the paragraph said some already. */
@@ -2444,6 +2447,7 @@ export function composeJournal(
       facts,
       event,
       framed: framed || !!row.ownTime,
+      own,
       paragraph: paragraphOf(moment),
       turn: turnOf(row, moment),
       ...(plainLine
@@ -2789,6 +2793,35 @@ export function composeJournal(
           remember(follow.text, followFacts);
           break;
         }
+      }
+      // Another's turn in public life (their filing, their oath, a race they
+      // won) is told as what it meant to the person, from their tie: a
+      // friend's is the friendship, a rival's is doubt; anyone else's is only
+      // the line.
+      const counterpart = subjectOf(unit.moment);
+      const theirWin =
+        !unit.row.hasOwnLine ||
+        unit.facts.winner?.text === counterpart;
+      if (
+        !unit.own &&
+        (unit.row.turnFor === "self" || unit.row.hasOwnLine) &&
+        theirWin &&
+        counterpart &&
+        sentences[sentences.length - one] === event
+      ) {
+        const side = tieSide(core, personId, counterpart);
+        const meant = side
+          ? render(
+              {
+                part: "memoir",
+                field: side.side === "friend" ? "meantFriend" : "meantRival",
+              },
+              {},
+              `${unit.moment.id}:meant`,
+              [side.tieId, unit.moment.causeId],
+            )
+          : null;
+        if (meant) sentences.push(meant);
       }
       const view = viewMovedBy(unit);
       if (view) sentences.push(view);

@@ -70,6 +70,12 @@ import {
 } from "./modules/legislature";
 
 export const OFFICE_DUTY = "office-duty";
+/**
+ * The need the seat's work answers. Holding an office puts it on the person
+ * as the share of the seat's scheduled acts that have come due, the way the
+ * children at home put the dependents need on them.
+ */
+export const OFFICE_DUTY_NEED = "duty";
 const DEPARTMENT_HEAD = "department-head";
 const TOWN_POST = "town-post";
 const COLLEAGUE = "colleague";
@@ -84,7 +90,7 @@ const act = (
   id,
   actKinds,
   goalKinds: ["change-condition"],
-  need: "safety",
+  need: OFFICE_DUTY_NEED,
   effortParameter,
   effectParameter: "one",
   targetKind,
@@ -287,6 +293,14 @@ export function localOfficeKit(host: OfficeActHost): OfficeActKit {
     providers: officeActProviders(host),
     reasonProviders: officeActReasons(host),
     onMonth: worldAddresses(host),
+    duty: (api, personId) => {
+      if (host.officesOf(api, personId).length === 0) return null;
+      const kinds = DUTY_KINDS;
+      return (
+        kinds.reduce((sum, kind) => sum + dueOf(host, api, personId, kind), 0) /
+        kinds.length
+      );
+    },
     handlers: officeActHandlers(host) as unknown as OfficeActKit["handlers"],
   };
 }
@@ -295,6 +309,15 @@ export function localOfficeKit(host: OfficeActHost): OfficeActKit {
 export function officeDayData(base: CoreData): CoreData {
   const kits = officeActKits();
   return extendData(base, {
+    needs: [
+      {
+        id: OFFICE_DUTY_NEED,
+        evaluator: "office-duty",
+        goalKind: "change-condition",
+        parameters: {},
+        stopgapId: "SG-P8-life-utility",
+      },
+    ],
     actions: kits.flatMap((kit) => kit.acts),
     parameters: Object.assign(
       {},
@@ -364,6 +387,13 @@ export interface Prepared {
   readonly changes?: Readonly<Record<string, number>>;
 }
 
+/**
+ * The scheduled acts the seat's duty is made of. Meetings are with each head
+ * in turn, offered when that head's meeting has come due, and an interview
+ * waits on the paper, so neither is read as a standing duty of the seat.
+ */
+const DUTY_KINDS: readonly string[] = ["office-hours", "town-hall"];
+
 /** The days between acts of each kind that come round on a schedule. */
 const DUE_INTERVALS: Readonly<Record<string, string>> = {
   "office-hours": "officeHoursIntervalDays",
@@ -371,6 +401,24 @@ const DUE_INTERVALS: Readonly<Record<string, string>> = {
   interview: "interviewIntervalDays",
   "meet-department-head": "meetHeadIntervalDays",
 };
+
+/** How much an act on a schedule has come due: the days since the holder last took it over its interval, one if never. */
+function dueOf(
+  host: OfficeActHost,
+  api: CoreAPI,
+  personId: string,
+  kind: string,
+  targetId?: string,
+): number {
+  const interval = DUE_INTERVALS[kind];
+  const last = host.lastGiven(api, personId, kind, targetId);
+  return !interval || !last
+    ? 1
+    : Math.min(
+        1,
+        daysBetweenText(last, api.state.date) / api.parameter(interval),
+      );
+}
 
 /**
  * How much an offered act has come due, from nothing to one: an act on a
@@ -388,21 +436,13 @@ export function officeActReasons(host: OfficeActHost) {
       binding: { readonly arguments?: Readonly<Record<string, string>> },
     ) => {
       const kind = binding.arguments?.act ?? "";
-      const interval = DUE_INTERVALS[kind];
-      // A meeting is with someone: each head comes due on their own.
-      const last = host.lastGiven(
+      const due = dueOf(
+        host,
         api,
         actor.id,
         kind,
         kind === "meet-department-head" ? offer.targetId : undefined,
       );
-      const due =
-        !interval || !last
-          ? 1
-          : Math.min(
-              1,
-              daysBetweenText(last, api.state.date) / api.parameter(interval),
-            );
       return { value: due, sourceIds: [actor.id] };
     },
   };
@@ -420,6 +460,11 @@ export function officeActProviders(host: OfficeActHost) {
       holds(api, actor) &&
       (action.id !== "state-of-the-city" || addressDue(api, host, actor.id)) &&
       (action.id !== "town-hall" || townHallDue(api, host, actor.id)) &&
+      // Acts on a schedule are offered when their interval has come due,
+      // as the town hall and the address are.
+      (!(action.id in DUE_INTERVALS) ||
+        action.id === "town-hall" ||
+        dueOf(host, api, actor.id, action.id) >= 1) &&
       (action.id !== "propose-budget" ||
         budgetProposalDue(api, host, actor.id) !== null)
         ? [
@@ -440,7 +485,15 @@ export function officeActProviders(host: OfficeActHost) {
             .filter(
               (row) =>
                 row.holderId !== actor.id &&
-                api.state.people.get(row.holderId)?.alive,
+                api.state.people.get(row.holderId)?.alive &&
+                // A head is offered when their own meeting has come due.
+                dueOf(
+                  host,
+                  api,
+                  actor.id,
+                  "meet-department-head",
+                  row.holderId,
+                ) >= 1,
             )
             .map((row) => ({
               definition: action,

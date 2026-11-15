@@ -80,7 +80,7 @@ import {
   type MeetingRule,
 } from "../office-day-calendar";
 // The meeting rule, for readers outside the family.
-export { meetingRule } from "../office-day-calendar";
+export { meetingRule, officeDayParameter } from "../office-day-calendar";
 // The federal holidays, for the calendar screen.
 export {
   federalHolidayName,
@@ -148,6 +148,12 @@ export interface MeetingRow {
    * held at its hour like a member, to speak at public comment and not to vote.
    */
   readonly audience?: string;
+  /**
+   * People who said they would come to this meeting with the player (a
+   * friend's ask, src/director/promises.ts): they are there at its hour,
+   * whether or not the player comes, and the public-meeting record names them.
+   */
+  readonly with?: readonly string[];
   /** The members' filings for this meeting are on its agenda (an empty agenda is posted too). */
   readonly posted?: boolean;
   readonly citation: string;
@@ -188,11 +194,22 @@ export const OFFICE_DAY_MODULE: CoreModule = {
       officeJobs: { indexes: { byPerson: { fields: ["personId"] } } },
       world: {},
       prepared: {},
+      /** Words to come to a meeting not yet posted (a friend's ask): merged into it when it is. */
+      pledges: {},
     },
   },
   onCalendarWork: officeDayCalendar,
   onAfterDay(api) {
     for (const kit of officeActKits()) kit.onAfterDay?.(api);
+  },
+  needEvaluators: {
+    // The duty of the seat a person holds: the most that any level's kit says
+    // has come due, zero for someone who holds none.
+    "office-duty": (api, actor) =>
+      officeActKits().reduce(
+        (most, kit) => Math.max(most, kit.duty?.(api, actor.id) ?? 0),
+        api.parameter("zero"),
+      ),
   },
   // Filled from every registered level's kit when the engine opens.
   offerProviders: {},
@@ -304,7 +321,105 @@ export function openOfficeDay(core: CoreState, worldSeed: string): void {
   const bodies = new Set(townSeats(api).map((s) => s.office.id));
   for (const officeId of [...bodies].sort())
     scheduleMeeting(api, officeId, api.state.date);
+  openingActs(api);
 }
+
+/**
+ * What each holder of an office had already given when the world opens (owner,
+ * Nov 14, 2026: "the town must be in motion on day one"; skill
+ * day-one-in-motion). A real office-holder is mid-cycle on any day: the last
+ * office hours and the last town hall were some days ago, spread over the
+ * custom's interval, and the yearly address was given in last year's season.
+ * The holders are taken in id order and each is put a share of the way
+ * through the interval (the first near the start of it, the last near the
+ * end), so the town's holders are not all due on one day; nothing is drawn.
+ * The rows are the office-day engine's own act rows, read as the date of the
+ * latest act by what comes due (`dueOf`, the duty need, the address's
+ * season), so a mayor played from day one finds office hours coming round
+ * rather than all of them owed at once. Taken before the warm-up, so the
+ * dates are the build date minus the offset.
+ */
+export function openingActs(api: CoreAPI): void {
+  const today = makeIsoDate(api.state.date);
+  const year = Number(api.state.date.slice(0, 4));
+  // Each serving holder's first day of service: nobody is given an act from
+  // before they held the office, since they did not do it.
+  const since = new Map<string, string>();
+  for (const term of api
+    .moduleState(OFFICES_MODULE_ID)
+    .table("terms")
+    .rows() as unknown as TermRow[]) {
+    if (
+      term.status !== "serving" ||
+      !term.personId ||
+      !api.state.people.has(term.personId)
+    )
+      continue;
+    const from = term.serviceStart ?? term.startDate;
+    const known = since.get(term.personId);
+    if (known === undefined || from < known) since.set(term.personId, from);
+  }
+  const holders = [...since.keys()]
+    .filter((id) => officeHost.officesOf(api, id).length > 0)
+    .sort();
+  const n = holders.length;
+  for (const [kind, parameter] of OPENING_KINDS) {
+    const interval = api.parameter(parameter);
+    holders.forEach((personId, at) => {
+      const ago = Math.floor((interval * (at + 1)) / (n + 1));
+      const date = addDays(today, -ago);
+      if (since.get(personId)! > date) return;
+      keepAct(
+        api,
+        {
+          personId,
+          kind,
+          how: "own-choice",
+          recordId: `${kind}:before-start`,
+          position: null,
+          detail: "before the start",
+        },
+        date,
+      );
+    });
+  }
+  // The yearly address, in last year's season: the executives of the town's
+  // seats, in the season's months in turn, when they held the seat by then.
+  const season = api.parameter("stateOfCityLastMonth");
+  const executives = [
+    ...new Set(
+      townSeats(api)
+        .filter((row) => ADDRESS_KINDS.has(row.office.kind))
+        .map((row) => row.holder?.personId)
+        .filter((id): id is string => !!id && api.state.people.has(id)),
+    ),
+  ].sort();
+  executives.forEach((personId, at) => {
+    const month = 1 + (at % season);
+    const date = `${year - 1}-${String(month).padStart(2, "0")}-15`;
+    if (since.get(personId)! > date) return;
+    keepAct(
+      api,
+      {
+        personId,
+        kind: "state-of-the-city",
+        how: "own-choice",
+        recordId: `state-of-the-city:${year - 1}`,
+        position: null,
+        detail: "before the start",
+      },
+      date,
+    );
+  });
+}
+
+/** The acts that come round on an interval, with the parameter that sets it. */
+const OPENING_KINDS: readonly (readonly [string, string])[] = [
+  ["office-hours", "officeHoursIntervalDays"],
+  ["town-hall", "townHallIntervalDays"],
+];
+/** The seats whose holder gives the yearly address (a mayor or county executive). */
+const ADDRESS_KINDS = new Set(["mayor", "county-executive"]);
 
 // ---- Stops -------------------------------------------------------------
 
@@ -546,8 +661,66 @@ function postAgenda(
     ...(budgetDay ? { posted: true } : {}),
     citation: rule.rule.source.citation,
   };
-  table(api, "meetings").put(row as unknown as ModuleRow);
-  holdPlayerIfDue(api, row);
+  table(api, "meetings").put(withPledge(api, row) as unknown as ModuleRow);
+  holdPlayerIfDue(api, meetingOf(api, row.id)!);
+}
+
+interface PledgeRow {
+  readonly id: string;
+  /** The player, marked to attend once it is posted. */
+  readonly audience?: string;
+  readonly with: readonly string[];
+}
+
+/** A posted meeting with the words given to come to it before it was posted, which are then spent. */
+function withPledge(api: CoreAPI, row: MeetingRow): MeetingRow {
+  const pledges = table(api, "pledges");
+  const pledge = pledges.get(row.id) as unknown as PledgeRow | undefined;
+  if (!pledge) return row;
+  pledges.remove(row.id);
+  const resident =
+    pledge.audience !== undefined &&
+    !members(api, row.officeId).some(sits(pledge.audience));
+  return {
+    ...row,
+    ...(resident ? { audience: pledge.audience } : {}),
+    with: [...new Set([...(row.with ?? []), ...pledge.with])],
+  };
+}
+
+/**
+ * The player says they will come to a meeting with someone (a friend's ask):
+ * marked to attend it and the other written onto it, now if it is posted
+ * (`attendMeeting`, `comeWith`), else when it is (`withPledge`).
+ */
+export function pledgeToCome(
+  api: CoreAPI,
+  meetingIdValue: string,
+  withId: string,
+): void {
+  // The id says the body and the day (`meetingId`).
+  const date = meetingIdValue.slice(-"YYYY-MM-DD".length);
+  const officeId = meetingIdValue.slice(
+    "meeting:".length,
+    -":YYYY-MM-DD".length,
+  );
+  if (meetingId(officeId, date) !== meetingIdValue) return;
+  const row = meetingOf(api, meetingIdValue);
+  if (row) {
+    if (meetingToAttend(api, officeId, date))
+      attendMeeting(api, officeId, date, true);
+    comeWith(api, meetingIdValue, withId);
+    return;
+  }
+  const pledges = table(api, "pledges");
+  const before = pledges.get(meetingIdValue) as unknown as
+    PledgeRow | undefined;
+  const player = playerOf(api);
+  pledges.put({
+    id: meetingIdValue,
+    ...(player !== undefined ? { audience: player } : {}),
+    with: [...new Set([...(before?.with ?? []), withId])],
+  } as unknown as ModuleRow);
 }
 
 /** Whether the player's clock has reached a meeting's hour (or its day is behind them). */
@@ -593,6 +766,27 @@ export function meetingToAttend(
   };
 }
 
+/**
+ * The body's next meeting a resident may still come to, posted or not: the
+ * one the body's rule (or a budget day) sets next, of a body the player does
+ * not sit on. Once its agenda is posted it is the one `meetingToAttend`
+ * offers, which the player marks; before that it is the day on the body's
+ * calendar, by the id the meeting will be posted under.
+ */
+export function meetingAhead(
+  api: CoreAPI,
+  officeId: string,
+): { id: string; date: string; row?: MeetingRow } | null {
+  const player = playerOf(api);
+  const date = nextMeetingDate(api, officeId);
+  if (player === undefined || !date || date < api.state.date) return null;
+  if (members(api, officeId).some(sits(player))) return null;
+  const id = meetingId(officeId, date);
+  const row = meetingOf(api, id);
+  if (!row) return date > api.state.date ? { id, date } : null;
+  return meetingToAttend(api, officeId, date) ? { id, date, row } : null;
+}
+
 /** The meeting with nobody of the player's in its audience, and its hold on them gone. */
 function withoutAudience(row: MeetingRow): MeetingRow {
   const next: { -readonly [K in keyof MeetingRow]: MeetingRow[K] } = {
@@ -624,6 +818,23 @@ export function attendMeeting(
   if (attend) holdPlayerIfDue(api, next);
   else releaseHeld(api, next.id);
   return meetingOf(api, next.id)!;
+}
+
+/**
+ * Someone who said they would come to a posted meeting with the player is
+ * written onto it (a friend's ask): the public-meeting record names them.
+ */
+export function comeWith(
+  api: CoreAPI,
+  meetingIdValue: string,
+  personId: string,
+): MeetingRow | undefined {
+  const row = meetingOf(api, meetingIdValue);
+  if (!row || row.status === "adjourned") return undefined;
+  if (row.with?.includes(personId)) return row;
+  const next: MeetingRow = { ...row, with: [...(row.with ?? []), personId] };
+  table(api, "meetings").put(next as unknown as ModuleRow);
+  return next;
 }
 
 /**
@@ -775,9 +986,12 @@ function finish(api: CoreAPI, row: MeetingRow): void {
     id: `meeting-held:${row.id}`,
     date: api.state.date,
     kind: "public-meeting",
-    personIds: members(api, row.officeId).flatMap((m) =>
-      m.personId ? [m.personId] : [],
-    ),
+    personIds: [
+      ...members(api, row.officeId).flatMap((m) =>
+        m.personId ? [m.personId] : [],
+      ),
+      ...(row.with ?? []),
+    ],
     placeId: lawChain(api).townPlaceId,
     source: {
       tag: "SOURCED",
@@ -790,6 +1004,8 @@ function finish(api: CoreAPI, row: MeetingRow): void {
       officeId: row.officeId,
       items: String(row.takenUp.length),
       playerPresent: String(row.playerPresent),
+      // Who came with the player's word to come (a friend's ask).
+      ...(row.with?.length ? { with: row.with.join(",") } : {}),
       // A sitting that runs past the hour a town body meets in the evening
       // keeps its members from home that evening.
       evening: String(
@@ -1030,11 +1246,15 @@ function leavingToCharacter<T>(
   }
 }
 
-function keepAct(api: CoreAPI, act: Omit<OfficeActRow, "id" | "date">): void {
+function keepAct(
+  api: CoreAPI,
+  act: Omit<OfficeActRow, "id" | "date">,
+  date: string = api.state.date,
+): void {
   const row: OfficeActRow = {
     ...act,
     id: `office-act:${act.kind}:${act.recordId}:${act.personId}`,
-    date: api.state.date,
+    date,
   };
   table(api, "acts").put(row as unknown as ModuleRow);
 }

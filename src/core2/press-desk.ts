@@ -109,6 +109,8 @@ const MEETING_KIND = "public-meeting";
 const NOTICE_KIND = "election-notice";
 /** A reader's letter to the editor (the press's weekly letters step). */
 const LETTER_KIND = "press.letter";
+/** An endorsement kept and announced; the outlet's own prints in its own pages. */
+const ENDORSED_KIND = "campaign-endorsed";
 /** The week's sittings that took up nothing, printed as one brief. */
 export const MEETINGS_WEEK_KIND = "meetings-week";
 
@@ -476,11 +478,10 @@ export function printItem(
       facts: {
         ...item.facts,
         sourceRecordId: item.id,
-        // What a reader can bring up: which outlet printed what. The reporter
-        // makes the story's case, so a reader moves by their standing with
-        // the reporter (views engine); the outlet's line already chose the
-        // change the story argues.
-        [`printed:${outlet.organizationId}:story`]: story.id,
+        // The reporter makes the story's case, so a reader moves by their
+        // standing with the reporter (views engine); the outlet's line already
+        // chose the change the story argues. Which outlet printed it is the
+        // news engine's fact for each story read (news:<story>:outlet).
         [VIEWS_SPEAKER_KEY]: reporterId,
         ...(options.facts ?? {}),
       },
@@ -907,8 +908,27 @@ export function runDesk(
   const letters = open.filter(
     (item) => item.kind === LETTER_KIND && item.facts?.outletId === outlet.id,
   );
+  // The outlet's own endorsement is news of its own pages, filed under its
+  // head's name: printed after the column, as a letter is, never a
+  // reporter's pick. It is told as news of the endorsement, not an editorial
+  // in the paper's voice (Words lead, Nov 15; item
+  // words-paper-endorsement-in-its-own-voice). It is the race's endorsement
+  // story at this outlet that week, so no group's endorsement of the same
+  // race takes its place (Marshfield, Massachusetts, seed 75d9b7ad: five
+  // papers' endorsements went unprinted behind cause groups' of the same
+  // races, Sep 29 to Oct 8, 2025).
+  const ownEndorsements = open.filter(
+    (item) =>
+      item.kind === ENDORSED_KIND &&
+      item.facts?.organizationId === outlet.organizationId,
+  );
   const base = open
-    .filter((item) => !told.has(item.id) && item.kind !== LETTER_KIND)
+    .filter(
+      (item) =>
+        !told.has(item.id) &&
+        item.kind !== LETTER_KIND &&
+        !ownEndorsements.includes(item),
+    )
     .map((item) => ({
       item,
       proximity: p(
@@ -936,7 +956,9 @@ export function runDesk(
   // 3c91e07a5d2f8b14:agree:0, printed council seats 0 and 2 of one race).
   const bills = new Set<string>();
   // The races whose money or backing this outlet has told this week.
-  const racesTold = new Set<string>();
+  const racesTold = new Set<string>(
+    ownEndorsements.flatMap((item) => raceTold(item) ?? []),
+  );
   const out: PrintedStory[] = [];
   for (const reporterId of outlet.reporterIds) {
     if (!api.state.people.get(reporterId)?.alive) continue;
@@ -1163,6 +1185,36 @@ export function runDesk(
           },
           facts: { [VIEWS_SPEAKER_KEY]: writer },
         },
+      ),
+    );
+  }
+  // The outlet's own endorsements of the week, under the name of
+  // the head who weighed the race, its readers moved by their standing with
+  // them.
+  for (const item of ownEndorsements) {
+    const head = item.facts?.speakerId;
+    if (!head || !api.state.people.get(head)?.alive) continue;
+    const proximity = p(
+      (outlet.tier === "national" ? NATIONAL_PROXIMITY : PROXIMITY)[item.level],
+    );
+    out.push(
+      printItem(
+        api,
+        ctx,
+        outlet,
+        head,
+        item,
+        {
+          proximity,
+          readerCare: 0,
+          people: 0,
+          renown: 0,
+          drive: 0,
+          score: proximity,
+          rank: 1,
+          weighed: ownEndorsements.length,
+        },
+        { facts: { [VIEWS_SPEAKER_KEY]: head } },
       ),
     );
   }

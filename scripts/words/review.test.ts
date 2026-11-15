@@ -69,4 +69,31 @@ describe("words:review", () => {
     );
     expect(short.refused[0]).toMatch(/1 entries with no verdict/);
   });
+
+  it("reads a whole speech, by its parts or its steps, and plants speeches for speech-has-a-core", () => {
+    const speeches = entriesOf({
+      speeches: [
+        {
+          id: "s1",
+          kind: "the governor's address",
+          parts: ["Hello.", "The core.", "Good night."],
+        },
+        {
+          id: "s2",
+          kind: "the speech the player builds in steps",
+          stages: [
+            { stage: "opener", offered: ["Hi.", "Evening."], chosen: "Hi." },
+          ],
+        },
+      ],
+    });
+    expect(speeches.map((e) => e.id)).toEqual(["s1", "s2"]);
+    expect(speeches[0]!.text).toContain('Part 2: "The core."');
+    expect(speeches[1]!.text).toContain('Taken: "Hi."');
+    const speechRule = { ...rule, id: "speech-has-a-core" } as LineRule;
+    const { files, key } = plantedBatches(speechRule, speeches);
+    const text = [...files.values()][0]!;
+    expect(Object.values(key).sort()).toEqual([false, true, true]);
+    expect(text).toContain('Part 2: "Vote for me!"');
+  });
 });

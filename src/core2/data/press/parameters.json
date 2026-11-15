@@ -346,6 +346,13 @@
       "source": "How far one printed story moves a reader's stance on its topic, against a speech heard in person (1).",
       "spread": [0.2, 0.8]
     },
+    "exposureCommentDays": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "source": "Days from a reporter's finding to the story running, while the one exposed is asked for comment. The practice is sourced: the Society of Professional Journalists Code of Ethics, 'Seek Truth and Report It', asks reporters to diligently seek subjects of news coverage to allow them to respond to criticism or allegations of wrongdoing. No published figure gives how long a paper holds such a story; the spread is the edition cycle, a daily paper or newscast's next edition (1) to a weekly's (7).",
+      "spread": [1, 7],
+      "role": "coefficient"
+    },
     "digDelayDays": {
       "value": 14,
       "tag": "TUNABLE",
