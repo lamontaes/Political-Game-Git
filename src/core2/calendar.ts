@@ -89,8 +89,9 @@ function inactive(core: CoreState, actor: Readonly<PersonState>): boolean {
 
 function hasDailyFocus(core: CoreState, actor: Readonly<PersonState>): boolean {
   if (inactive(core, actor)) return false;
+  // The debug observer keeps more of the record and never sets who chooses
+  // when (core-observer-changes-choices).
   return (
-    core.observer ||
     actor.id === core.playerId ||
     (core.focusPersonIds.has(actor.id) && seenLately(core, actor)) ||
     core.focusPlaceIds.has(actor.placeId) ||
