@@ -214,5 +214,18 @@
       "unit": "days a week",
       "citation": "Sensitivity range around the estimated five-day workweek."
     }
+  },
+  "countedSavingsSpreadLog": {
+    "value": 1.39,
+    "tag": "ESTIMATED",
+    "role": "coefficient",
+    "citation": "Federal Reserve Board, Survey of Consumer Finances 2022: Changes in U.S. Family Finances from 2019 to 2022 (Federal Reserve Bulletin, October 2023), Table 3: transaction accounts median $8,000 and mean $62,500 among holders; data/research/money/scf-transaction-accounts-2022.json for the medians by income group.",
+    "estimatedFrom": "The spread of the logarithm of a family's transaction-account balance among families alike in income. A log-normal with the survey's mean over median (62.5 / 8.0) has a variance of 2 ln(7.81) = 4.11 across all families; the six income groups' medians (900 to 111,600, weighted by their shares of families) account for 2.20 of it, leaving 1.91 within a group, a spread of 1.39. Each counted household's share of its group's account is exp(1.39 z - 1.39^2/2) of the group's per-person average.",
+    "spread": {
+      "low": 1.0,
+      "high": 1.6,
+      "unit": "standard deviation of the log balance within an income group",
+      "citation": "Low: half the within-group variance (families in a counted group also share age, tenure and work, which the survey's income groups do not); high: the variance with the top income group's mean taken at its median."
+    }
   }
 }

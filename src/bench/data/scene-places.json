@@ -410,6 +410,8 @@
     "address:seat": ["@seatroom", "@office", "council-chamber"],
     "floor-debate:seat": ["@seatroom", "@office", "council-chamber"],
     "floor-debate:venue": ["public-meeting-room"],
+    "emergency-briefing:office": ["governor-office"],
+    "emergency-briefing:venue": ["governor-office"],
     "bill-sign-on:office": ["@office"],
     "bill-sign-on:chamber": ["@seatroom", "@office"],
     "bill-sign-on:phone": ["@office"],
