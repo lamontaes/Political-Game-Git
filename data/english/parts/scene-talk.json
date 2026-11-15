@@ -186137,6 +186137,316 @@
           "key": "bill-sign-on"
         }
       ]
+    },
+    {
+      "key": "scene-talk.open-greet.you-helped-me-once",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "You helped me once. I haven't forgotten.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "appointment-offer",
+          "key": "honor",
+          "requiresFacts": ["helped-before"]
+        },
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["helped-before"]
+        },
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["helped-before"]
+        },
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "favor-job",
+          "key": "favor-asked",
+          "requiresFacts": ["helped-before"]
+        },
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "hearing-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["helped-before"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead, for class H (a person remembers what passed)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "greet",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.you-came-through-for-me",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "You came through for me before. So I came to you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "appointment-offer",
+          "key": "honor",
+          "requiresFacts": ["helped-before"]
+        },
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["helped-before"]
+        },
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["helped-before"]
+        },
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "favor-job",
+          "key": "favor-asked",
+          "requiresFacts": ["helped-before"]
+        },
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "hearing-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["helped-before"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead, for class H (a person remembers what passed)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "greet",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.you-told-me-no-last-time",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "You told me no last time. I'm asking anyway.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "appointment-offer",
+          "key": "honor",
+          "requiresFacts": ["refused-before"]
+        },
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["refused-before"]
+        },
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["refused-before"]
+        },
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "favor-job",
+          "key": "favor-asked",
+          "requiresFacts": ["refused-before"]
+        },
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "hearing-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["refused-before"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead, for class H (a person remembers what passed)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "greet",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.i-know-what-you-said-before",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I know what you said before. Hear me out.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "appointment-offer",
+          "key": "honor",
+          "requiresFacts": ["refused-before"]
+        },
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["refused-before"]
+        },
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["refused-before"]
+        },
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "favor-job",
+          "key": "favor-asked",
+          "requiresFacts": ["refused-before"]
+        },
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "hearing-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["refused-before"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead, for class H (a person remembers what passed)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "greet",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.i-came-to-you-before",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I came to you about this before. Nothing came of it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "appointment-offer",
+          "key": "honor",
+          "requiresFacts": ["asked-before"],
+          "excludesFacts": ["helped-before", "refused-before"]
+        },
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["asked-before"],
+          "excludesFacts": ["helped-before", "refused-before"]
+        },
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["asked-before"],
+          "excludesFacts": ["helped-before", "refused-before"]
+        },
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "favor-job",
+          "key": "favor-asked",
+          "requiresFacts": ["asked-before"],
+          "excludesFacts": ["helped-before", "refused-before"]
+        },
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "hearing-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["asked-before"],
+          "excludesFacts": ["helped-before", "refused-before"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead, for class H (a person remembers what passed)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "greet",
+        "key": "favor-asked"
+      }
     }
   ]
 }
