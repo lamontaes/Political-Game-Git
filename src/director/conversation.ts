@@ -8210,17 +8210,20 @@ function sayNow(
   if (raised.own) tell(`${eventId}:told`, raised.own);
   for (const also of saidOwn(raised, choice.wording))
     tell(`${eventId}:told:${also.key}`, also);
-  // What the talk already said (the give-back told where they work) is not
-  // told again by the answer; with nothing new left the talk carries on.
   const replied = replyFacts(core, otherId, raised);
-  const fresh = replied && unsaidFacts(conversation, replied.facts);
+  // What the give-back just told (where they work) is not told again by the
+  // answer to the question it turned back: the answer says what is new, or
+  // the talk carries on when nothing is.
+  const fresh =
+    gave && replied ? unsaidFacts(conversation, replied.facts) : null;
   if (replied && fresh && !Object.keys(fresh).length) {
     carryOn(core, conversation, data);
     return conversation;
   }
   const reply = replied && fresh ? { ...replied, facts: fresh } : replied;
-  const kind = data.replyKinds[raised.kind] ?? raised.kind;
-  const line = reply
+  let kind = data.replyKinds[raised.kind] ?? raised.kind;
+  const momentKey = `${playerId}:${otherId}:${conversation.lines.length}:${raised.id}:reply`;
+  let line = reply
     ? words(
         core,
         data,
@@ -8229,11 +8232,30 @@ function sayNow(
         "reply",
         ALL,
         reply.facts,
-        `${playerId}:${otherId}:${conversation.lines.length}:${raised.id}:reply`,
+        momentKey,
         reply.stage,
         raised,
       )
     : null;
+  // Where they work was just told, the answer is only what they do there
+  // ("I'm a cook."), said as the answer to what they do (their-position).
+  const doing = fresh?.position;
+  const doingKind = data.replyKinds["their-position"];
+  if (!line && reply && doing && doingKind) {
+    line = words(
+      core,
+      data,
+      otherId,
+      doingKind,
+      "reply",
+      ALL,
+      { position: doing },
+      momentKey,
+      "default",
+      raised,
+    );
+    if (line) kind = doingKind;
+  }
   if (!line || !reply) {
     endConversation(core, conversation, data);
     return conversation;
