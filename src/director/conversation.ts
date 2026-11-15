@@ -7355,7 +7355,7 @@ function partingLine(
     const mark = (name: string, ids: readonly string[]) => {
       facts[name] = { text: "yes", sourceRecordIds: ids };
     };
-    const theirJob = jobOf(core, core.people.get(speakerId)!);
+    const theirJob = sayJob(core, core.people.get(speakerId)!);
     if (
       theirJob &&
       conversation.visitOrganizationId &&
