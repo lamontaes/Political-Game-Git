@@ -38,8 +38,9 @@ describe("a state's and the country's term read", () => {
         const areas = reads.map((row) => row.area);
         expect(areas, `${where} ${jurisdiction}`).toContain("jobs");
         expect(areas, `${where} ${jurisdiction}`).toContain("prices");
+        expect(areas, `${where} ${jurisdiction}`).toContain("pay");
         for (const row of reads.filter((read) =>
-          ["jobs", "prices"].includes(read.area),
+          ["jobs", "prices", "pay"].includes(read.area),
         )) {
           expect(
             row.slide,

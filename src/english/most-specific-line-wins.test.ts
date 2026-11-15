@@ -160,9 +160,13 @@ describe("the shipped scene-talk bank says its most specific line", () => {
     const passedOver: string[] = [];
     const wrong: string[] = [];
     for (const [spot, rows] of bySpot) {
+      // A line that checks any fact (requiresFacts or onlyWhen) is not
+      // generic: both rank alike (words-a-line-ranks-by-every-fact-it-checks).
       const generic = rows.filter(
         (row) =>
-          !row.use.requiresFacts?.length && !row.use.excludesFacts?.length,
+          !row.use.requiresFacts?.length &&
+          !row.use.onlyWhen?.length &&
+          !row.use.excludesFacts?.length,
       );
       const tied = rows.filter(
         (row) =>
@@ -191,9 +195,14 @@ describe("the shipped scene-talk bank says its most specific line", () => {
       // Every other slot the spot's pieces name is filled, so a piece is
       // never passed over for a word the record would give it.
       const slots: Facts = {};
-      for (const row of rows)
+      for (const row of rows) {
         for (const [, slot] of row.part.text.matchAll(/\{([\w-]+)\}/g))
           if (slot !== name) slots[slot] = fact("x");
+        // A truth guard (`onlyWhen`) only keeps a line from being false and
+        // adds nothing to its rank: the record holds it in both cases.
+        for (const guard of row.use.onlyWhen ?? [])
+          if (guard !== name) slots[guard] = fact("x");
+      }
       const withFact = said(
         at,
         { ...slots, [name]: fact("x") },

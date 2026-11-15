@@ -5,10 +5,10 @@ area: play
 kind: bug
 priority: 3
 size: S
-status: open
+status: in-pr
 standard: 2
 claimed-by:
-pr:
+pr: #9371
 after:
 blocked-on:
 lead: play
@@ -22,15 +22,15 @@ checked:
 
 **What.** On News, the heading's date line shows the day the life started while the stories under it are months later. Show the world's current date. Seen: the News screen's date line under the outlet heading.
 
-**Cause.** Needs cause. Measured: Rock Cave, West Virginia (place key 5469244, world seed rockcave-a), `node src/bench/states.browser.mjs` at head 15b289d4 after 240 days plus 56 more, dev mode run-until: the Nation heading reads `Monday, January 20, 2025` above a story dated `November 6` that opens a roll call dated `November 6, 2025` (the world date then is 2025-11-12). Looked at: `src/bench/play.mjs` passes `date: today()` to `newsBoard`, and `today` (line 149) is `packet?.at?.date ?? me.date`; I did not confirm which of the two is stale on this screen or why (a stale player card after dev mode's run-until, or a packet with no date).
+**Cause.** Found in code: the screen keeps its own copy of the game's date (`packet?.at` in `src/bench/play.mjs`), set only when a time button returns a packet. A dev panel's run of days (`src/bench/dev-mode.ts` `advance`) lets the character go (`BenchPlayer.release()` clears the server's packet) and returns no packet, so the card had no clock to show and `today()` and the card clock kept the old day. Measured: Rock Cave, West Virginia (place key 5469244, seed rockcave-a), the dev panel's Run said 2025-01-20 to 2025-02-19 and the card clock still read "Monday, January 20, 2025". Every `today()` reader (News, the elections pages, the Calendar's day titles) had the same fault.
 
-**Fix.** None until the cause is found.
+**Fix.** `/api/card` carries `at` (the player's clock while it runs, else the world's day at 12:00 AM); the screen keeps one `clockAt`, set from a packet or the card, which `today()` and the card clock read. `src/bench/dev-run-date.browser.mjs` (Rock Cave, seed rockcave-a) fails before and passes after.
 
 **Time box.** 2 hours for one Sonnet session. When it runs out, push what passes and set the state honestly with a one-line note.
 
 **Rules.** A view of the one record: the date comes from the same place every other screen reads (`player-screen-text`); nothing new is stored.
 
-**Done when.** A second session, on main, plays the same world (Rock Cave, West Virginia, seed rockcave-a) 296 days in dev mode, opens News, and sees the date line equal the calendar's date; the bench check names the place and seed.
+**Done when.** A second session, on main, plays the same world (Rock Cave, West Virginia, seed rockcave-a), runs days with the dev panel on the Calendar, and sees the card clock and the News date line equal the day the run reached; the bench check names the place and seed.
 
 **Waits on.** Nothing.
 
