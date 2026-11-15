@@ -8,7 +8,7 @@ size: M
 status: in-pr
 standard: 2
 claimed-by:
-pr:
+pr: (next PR)
 after: metrics-output-numbers-registry
 blocked-on:
 lead: laws
