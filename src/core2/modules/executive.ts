@@ -43,7 +43,7 @@ import {
   coreSeatOfGovernmentPlace,
   type CorePlace,
 } from "../place-lookup";
-import { drawStateHome } from "../places";
+import { drawStateHome, workFromHome } from "../places";
 import { placeReferencePopulation } from "../gov-rules/place-population";
 import { MACRO_MODULE_ID, countryStateParts } from "./macro";
 import { temperamentOf } from "./officials";
@@ -857,6 +857,12 @@ function cabinetCandidate(
   };
 }
 
+/** The work a person who lives in `homeKey` holds, as a fill-in's `work`. */
+function withWork(seed: string, homeKey: string | undefined, key: string) {
+  const work = homeKey ? workFromHome(seed, homeKey, key) : undefined;
+  return work ? { work } : {};
+}
+
 function seatCabinetPerson(
   api: CoreAPI,
   input: {
@@ -894,6 +900,9 @@ function seatCabinetPerson(
         placeId: (chosen.home?.context.jurisdiction.id ?? input.state) as never,
         gender: identity.gender,
         traits: chosen.resident.traits,
+        // The work they hold where they live, from that town's counts, as
+        // every person filled in far from the played town holds theirs.
+        ...withWork(core.seed, chosen.home?.key, personId),
         source: {
           tag: "ESTIMATED",
           asOf: makeIsoDate(api.state.date),

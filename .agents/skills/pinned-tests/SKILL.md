@@ -42,6 +42,8 @@ Lead ruling, Nov 13 to 14: a test is pinned in the test file to named places wit
 
 13. **To play a different person than the world's player, finish the day first.** A test that needs an eligible entrant (a housemate with a race open) plays to a whole day (`minuteOfDay` 0) with the world's player, calls `retirePlayerV1(core)`, sets `core.playerId`, calls `director.watch` and `core.focusPersonIds.add`, then plays on with the new person; retiring mid-evening throws "Finish the controlled day before retiring its clock". `advanceCore` alone never feeds the director's ledger, so a home-talk test must play through `advancePlayerV1` (`src/director/home-talk-own-race-only.test.ts`).
 
+17. **Before you pin a person, read who they are.** A pinned "yes" or "no" must be someone the engine should offer at all. On Nov 15 the governor's pinned "no" at Fern Prairie, Washington was a sitting U.S. Senator from Rhode Island, offered only because the list did not filter by state; fixing the list broke the pin. Print the pinned person's place, job and any official row before pinning, and state the old premise in the PR body when a fix moves one.
+
 ## Checking a reported pass
 
 Ask where it ran and at what head. A unit test that builds its own small world proves an edge case only; the played-world proof is separate. 7. **Stage a law by the game's own enactment and start from the row the game reads (Nov 15).** A test that waits played days for a bill to pass took 352 seconds and was red on a tie. Pin the place, take the starting amount from `billValueInForce` (the floor doctrine keeps the federal row on a tie, so "the local row" is the wrong start), and enact through `enactLaw`. Say in the comment why no played days are needed.
