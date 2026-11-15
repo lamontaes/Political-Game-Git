@@ -84,6 +84,8 @@ the player, with "Before:" and "After:" where that helps.
    doesn't cover pull request bodies. Where the hook does not run (another tool, a pull request body), run step 1 yourself.
    A report about an item goes on the item's own pull request, which is the item's thread (owner, Nov 10); the owner's Drive or `docs/reports/` holds the ones meant for him alone.
 
+A count or a build quoted from a page that other sessions keep publishing (the Scenes page, a tracker) is re-read from the live page just before the report is saved, and the report names the build and the time it was read. On Nov 15 a read made half an hour earlier gave 183 scenes, while the live page had 281 and then 229 after a republish. Ask the thread that owns the page for its newest head and count rather than trusting your own earlier read. Stamp every refresh of a report with the real time it was saved, never the time it is due.
+
 `npm run test:skill-ops` runs `report:check` over every report under
 `docs/reports/` written after the standard, so a report pushed without its
 own check turns every skills PR red (Nov 1, the U2 build spec, fixed at
