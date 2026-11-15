@@ -15470,7 +15470,7 @@
       "key": "conversation.interview-question-ask.would-you-vote-to-to",
       "move": "interview-question-ask",
       "kind": "spoken",
-      "text": "Would you vote to {to}?",
+      "text": "Would you vote for {about}?",
       "uses": [
         {
           "move": "interview-question-ask",
@@ -15666,7 +15666,7 @@
       "key": "conversation.interview-question-answer-plain.i-want-to-to-thats-my-platform",
       "move": "interview-question-answer-plain",
       "kind": "spoken",
-      "text": "I want to {to}. That's my platform.",
+      "text": "I'd vote for {about}. That's my platform.",
       "uses": [
         {
           "move": "interview-question-answer-plain",
@@ -15732,7 +15732,7 @@
       "key": "conversation.interview-question-answer-plain.i-wouldnt-to-thats-my-platform",
       "move": "interview-question-answer-plain",
       "kind": "spoken",
-      "text": "I wouldn't {to}. That's my platform.",
+      "text": "I'd vote against {about}. That's my platform.",
       "uses": [
         {
           "move": "interview-question-answer-plain",
@@ -16765,7 +16765,7 @@
       "key": "conversation.debate-question-ask.tell-us-would-you-vote-to-to",
       "move": "debate-question-ask",
       "kind": "spoken",
-      "text": "Tell us: would you vote to {to}?",
+      "text": "Tell us: would you vote for {about}?",
       "uses": [
         {
           "move": "debate-question-ask",
