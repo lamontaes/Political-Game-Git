@@ -208,6 +208,7 @@ import {
 } from "../english/said-as";
 import { personWorkOf } from "../core2/person-work";
 import localAddressData from "./data/local-address.json" with { type: "json" };
+import { bodySaid } from "./local-address";
 import { saidPersonOf } from "./said-person";
 import {
   answerPromise,
@@ -2459,6 +2460,49 @@ function storySponsor(core: Readonly<CoreState>, story: Story): Fact | null {
     : null;
 }
 
+/**
+ * What a printed story reports, from the record it was written from: a
+ * vote the body carried (passed) or lost (failed), a bill that failed on
+ * the floor, a law taking effect, or a budget line moved up or down; and the
+ * body that voted, as people say it ("council", never "the council"). Null
+ * where the story's row holds none of these, so no line claims more than
+ * the row holds.
+ */
+function storyEvent(
+  core: Readonly<CoreState>,
+  story: Story,
+): { readonly event: string; readonly body: string | null } | null {
+  const facts = story.facts;
+  const voted = (): { event: string; body: string | null } | null => {
+    const chamber = facts.chamber;
+    const office = chamber
+      ? (coreAPI(core as CoreState)
+          .moduleState(OFFICES_MODULE_ID)
+          .table("offices")
+          .get(chamber) as { bodyName?: string } | undefined)
+      : undefined;
+    const body = office
+      ? (bodySaid(office)?.replace(/^the\s+/, "") ?? null)
+      : null;
+    if (facts.stage === "floor" && facts.sponsorId)
+      return { event: "failed", body };
+    if (facts.billId && facts.yes !== undefined && facts.no !== undefined)
+      return {
+        event: Number(facts.yes) > Number(facts.no) ? "passed" : "failed",
+        body,
+      };
+    return null;
+  };
+  if (facts.lawId) return { event: "took-effect", body: null };
+  if (facts.line && facts.deltaMinor !== undefined && facts.carried !== "no") {
+    const delta = Number(facts.deltaMinor);
+    return delta === zero
+      ? null
+      : { event: delta > zero ? "budget-up" : "budget-down", body: null };
+  }
+  return voted();
+}
+
 function printedSubject(
   core: Readonly<CoreState>,
   story: Story,
@@ -2493,6 +2537,7 @@ function printedSubject(
     const about = story.topic ? questionAbout(story.topic) : null;
     if (!about) return null;
     const news = { question: story.topic! };
+    const reported = storyEvent(core, story);
     // What the teller makes of it: their side on the question, from their
     // own view record. None, and they have nothing of their own to say.
     const stake = newsStake(core, tellerId, { news });
@@ -2512,6 +2557,21 @@ function printedSubject(
         ...stakeMarks(stake, "their-"),
         // A printed story, told by what it is about (never its headline).
         story: { text: "yes", sourceRecordIds: cited },
+        // What it reports, where its row holds it (storyEvent).
+        ...(reported
+          ? {
+              "story-event": { text: "yes", sourceRecordIds: [story.id] },
+              [`story-${reported.event}`]: {
+                text: "yes",
+                sourceRecordIds: [story.id],
+              },
+              ...(reported.body
+                ? {
+                    body: { text: reported.body, sourceRecordIds: [story.id] },
+                  }
+                : {}),
+            }
+          : {}),
         // Who brought the bill it covers, where the bill's record names a
         // sponsor: the answer to "Who's behind it?" (lead, Nov 13).
         ...(sponsor ? { sponsor } : {}),
@@ -4802,19 +4862,34 @@ function raiseSubject(
     conversation.lines.some((row) =>
       row.text.toLowerCase().includes(aboutText),
     );
+  const theyOpened = !!conversation.topics[zero]?.startsWith(`${otherId}>`);
   const composed =
     !said && composedRaise
       ? composedLine(
           core,
           otherId,
           composedRaise,
-          named
+          named || theyOpened
             ? {
                 ...subject.facts,
-                "about-named": {
-                  text: "yes",
-                  sourceRecordIds: subject.facts.about!.sourceRecordIds,
-                },
+                ...(named
+                  ? {
+                      "about-named": {
+                        text: "yes",
+                        sourceRecordIds: subject.facts.about!.sourceRecordIds,
+                      },
+                    }
+                  : {}),
+                // They raised the talk's subject themselves, so a line that
+                // invites the player to ask them is not said (Words lead).
+                ...(theyOpened
+                  ? {
+                      "they-opened": {
+                        text: "yes",
+                        sourceRecordIds: [otherId],
+                      },
+                    }
+                  : {}),
               }
             : subject.facts,
           subject.stage ?? "default",
@@ -8128,6 +8203,7 @@ function answerNews(
     asksQuestion(theirLast) &&
     ["yes", "no", "react"].includes(choice.move)
   ) {
+    let told = false;
     if (choice.move === "no") {
       const plain = Object.fromEntries(
         Object.entries(facts).filter(
@@ -8148,6 +8224,7 @@ function answerNews(
         `${eventId}:what`,
         saidParts(conversation, otherId),
       );
+      told = !!what;
       if (what)
         conversation.lines.push({
           speakerId: otherId,
@@ -8187,7 +8264,7 @@ function answerNews(
           `${eventId}:stand`,
           saidParts(conversation, otherId),
         );
-    if (stand || ownViewFollows) {
+    if (stand || ownViewFollows || told) {
       if (stand)
         conversation.lines.push({
           speakerId: otherId,

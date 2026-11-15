@@ -7797,40 +7797,6 @@
       "date": "2026-11-15"
     },
     {
-      "key": "conversation.news-raise-heard.did-you-see-what-outlet-had-on-about",
-      "move": "news-raise-heard",
-      "kind": "spoken",
-      "text": "Did you see what {outlet} had on {about}?",
-      "uses": [
-        {
-          "move": "news-raise-heard",
-          "subject": "news",
-          "role": "raise",
-          "choice": "heard",
-          "requiresFacts": ["about", "outlet", "outlet-paper"],
-          "excludesFacts": ["outlet-the"]
-        }
-      ],
-      "transcriptsUsing": 4,
-      "bySource": {
-        "dcpd": 1,
-        "nps": 3
-      },
-      "source": {
-        "document": "Remarks in an Exchange With Reporters at Joint Base Andrews, Maryland",
-        "date": "2020-02-18",
-        "granule": "DCPD-202000078",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202000078/html/DCPD-202000078.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      },
-      "author": "Words builder M3 (words-neighbor-asks-the-player-about-a-printed-story-by-its-medium)",
-      "date": "2026-11-15"
-    },
-    {
       "key": "conversation.news-raise-heard.did-you-see-what-the-outlet-had-on-about",
       "move": "news-raise-heard",
       "kind": "spoken",
@@ -22203,7 +22169,7 @@
           "role": "answer",
           "choice": "no",
           "stages": ["not-heard"],
-          "requiresFacts": ["asked-by-medium"]
+          "requiresFacts": ["asked-by-medium", "story-event"]
         }
       ],
       "origin": "authored",
@@ -23428,7 +23394,8 @@
           "move": "own-view-say-core",
           "subject": "own-view-say",
           "role": "core",
-          "requiresFacts": ["side-for"]
+          "requiresFacts": ["side-for"],
+          "excludesFacts": ["they-opened"]
         }
       ],
       "origin": "authored",
@@ -23632,7 +23599,8 @@
           "move": "own-view-say-core",
           "subject": "own-view-say",
           "role": "core",
-          "requiresFacts": ["side-against"]
+          "requiresFacts": ["side-against"],
+          "excludesFacts": ["they-opened"]
         }
       ],
       "origin": "authored",
@@ -24422,28 +24390,6 @@
       "origin": "authored",
       "author": "Words builder W3 (words-home-news-lines-are-composed)",
       "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.news-back-core.it-ran-ran-the-whole-thing-is-about-said",
-      "move": "news-back-core",
-      "kind": "spoken",
-      "text": "It ran {ran}. The whole thing is about {said}.",
-      "piece": {
-        "of": "news-back",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "news-back-core",
-          "subject": "news-back",
-          "role": "core",
-          "requiresFacts": ["said-no", "ask-told", "said", "ran"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder M3 (words-neighbor-asks-the-player-about-a-printed-story-by-its-medium)",
-      "date": "2026-11-15"
     },
     {
       "key": "conversation.news-back-core.it-ran-ran-the-whole-thing-is-about-about",
@@ -46792,6 +46738,194 @@
       "bearing": "tender",
       "origin": "authored",
       "author": "Words builder S3 (Words lead's ruling of Nov 14, 22:50Z: how a relative says how someone died)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.news-back-core.the-body-passed-it",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "The {body} passed it.",
+      "piece": {
+        "of": "news-back",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-no", "ask-told", "story-passed", "body"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder M3 (words-neighbor-asks-the-player-about-a-printed-story-by-its-medium)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.news-back-core.the-body-voted-it-down",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "The {body} voted it down.",
+      "piece": {
+        "of": "news-back",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-no", "ask-told", "story-failed", "body"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder M3 (words-neighbor-asks-the-player-about-a-printed-story-by-its-medium)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.news-back-core.it-took-effect-it-s-the-law-now",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "It took effect. It's the law now.",
+      "piece": {
+        "of": "news-back",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-no", "ask-told", "story-took-effect"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder M3 (words-neighbor-asks-the-player-about-a-printed-story-by-its-medium)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.news-back-core.the-body-put-more-money-into-said",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "The {body} put more money into {said}.",
+      "piece": {
+        "of": "news-back",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": [
+            "said-no",
+            "ask-told",
+            "story-budget-up",
+            "body",
+            "said"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder M3 (words-neighbor-asks-the-player-about-a-printed-story-by-its-medium)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.news-back-core.the-body-cut-the-money-for-said",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "The {body} cut the money for {said}.",
+      "piece": {
+        "of": "news-back",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": [
+            "said-no",
+            "ask-told",
+            "story-budget-down",
+            "body",
+            "said"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder M3 (words-neighbor-asks-the-player-about-a-printed-story-by-its-medium)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.news-back-core.they-put-more-money-into-said",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "They put more money into {said}.",
+      "piece": {
+        "of": "news-back",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-no", "ask-told", "story-budget-up", "said"],
+          "excludesFacts": ["body"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder M3 (words-neighbor-asks-the-player-about-a-printed-story-by-its-medium)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.news-back-core.they-cut-the-money-for-said",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "They cut the money for {said}.",
+      "piece": {
+        "of": "news-back",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-no", "ask-told", "story-budget-down", "said"],
+          "excludesFacts": ["body"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder M3 (words-neighbor-asks-the-player-about-a-printed-story-by-its-medium)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.news-answer-no.no-i-missed-it",
+      "move": "news-answer-no",
+      "kind": "spoken",
+      "text": "No. I missed it.",
+      "uses": [
+        {
+          "move": "news-answer-no",
+          "subject": "news",
+          "role": "answer",
+          "choice": "no",
+          "stages": ["not-heard"],
+          "requiresFacts": ["asked-by-medium"],
+          "excludesFacts": ["story-event"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder M3 (words-neighbor-asks-the-player-about-a-printed-story-by-its-medium)",
       "date": "2026-11-15"
     }
   ]
