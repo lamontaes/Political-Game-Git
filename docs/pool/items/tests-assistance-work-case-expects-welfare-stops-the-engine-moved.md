@@ -5,10 +5,10 @@ area: laws
 kind: bug
 priority: 3
 size: S
-status: open
+status: in-pr
 standard: 2
 claimed-by:
-pr:
+pr: #9282
 blocked-on:
 source: "asked for by the Account lead on the group B test setup fix, Nov 14"
 claimed-at:

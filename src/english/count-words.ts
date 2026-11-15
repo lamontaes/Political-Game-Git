@@ -186,26 +186,32 @@ export function daysSaid(days: number): string {
 }
 
 /**
- * A length of time in months as people say it: "a month", "eight months", "a
- * year", "three years". A line that opens on the length asks for it in words
- * ("thirteen months"), as far as countSaid goes.
+ * A length of time in months as people say it in talk, always in words: under
+ * two years in months ("thirteen months"), longer in years rounded to the half
+ * year the way a person would ("almost three years" for 34 months, "two and a
+ * half years" for 30). Digits stay only in printed pieces (Words lead, Nov 14).
  */
-export function lengthSaid(months: number, inWords = false): string {
+export function lengthSaid(months: number): string {
   const count = Math.max(1, Math.round(months));
-  const said = (n: number) =>
-    inWords
-      ? countSaid(n, Infinity)
-      : n <= HOURS_ON_A_CLOCK
-        ? data.clock.numbers[n]!
-        : String(n);
-  const term = data.length as Readonly<Record<string, string>>;
-  if (count % MONTHS_PER_YEAR === 0) {
-    const years = count / MONTHS_PER_YEAR;
-    return years === 1
-      ? term.year!
-      : term.years!.replace("{count}", said(years));
-  }
-  return count === 1
-    ? term.month!
-    : term.months!.replace("{count}", said(count));
+  const term = data.length as unknown as Readonly<Record<string, string>> & {
+    yearsFromMonths: { value: number };
+    roundToMonths: { value: number };
+  };
+  const said = (n: number) => countSaid(n, Infinity);
+  if (count < term.yearsFromMonths.value)
+    return count === 1
+      ? term.month!
+      : term.months!.replace("{count}", said(count));
+  const step = term.roundToMonths.value;
+  const rounded = Math.round(count / step) * step;
+  const wholeYears = Math.floor(rounded / MONTHS_PER_YEAR);
+  const said_ =
+    rounded % MONTHS_PER_YEAR === 0
+      ? term.years!.replace("{count}", said(wholeYears))
+      : term.andAHalf!.replace("{count}", said(wholeYears));
+  if (rounded === count) return said_;
+  return (rounded > count ? term.almost! : term.over!).replace(
+    "{length}",
+    said_,
+  );
 }

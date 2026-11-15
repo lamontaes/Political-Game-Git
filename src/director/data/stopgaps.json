@@ -68,30 +68,6 @@
     "status": "resolved"
   },
   {
-    "id": "SG-P13-appraisal-recompute",
-    "kind": "missing-hook",
-    "file": "src/director/ledger.ts",
-    "line": 1,
-    "whatItFakes": "The director recomputes each event's feeling with the core's exported appraisal function instead of reading the appraisal the core applied.",
-    "why": "The core keeps only the resulting mood and stress (src/core2/modules/life.ts:319); hook requested from SOL-1258.",
-    "addedBy": "OPUS-DIRECTOR",
-    "addedAt": "2026-10-09",
-    "replacement": "Read the appraisal receipt the core passes with each event.",
-    "status": "open"
-  },
-  {
-    "id": "SG-P13-tie-day-order",
-    "kind": "missing-hook",
-    "file": "src/director/ledger.ts",
-    "line": 970,
-    "whatItFakes": "The director reads each watched person's tie changes once at the end of the day, so their order within the day is lost, although the core now sends a notice for each change.",
-    "why": "Relationship changes emit no event (src/core2/state.ts:561); hook requested from SOL-1258.",
-    "addedBy": "OPUS-DIRECTOR",
-    "addedAt": "2026-10-09",
-    "replacement": "A relationship change notice from the core.",
-    "status": "open"
-  },
-  {
     "id": "SG-P13-kept-fact-producers",
     "kind": "missing-producer",
     "file": "src/director/data/director.json",
