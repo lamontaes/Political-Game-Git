@@ -26,9 +26,9 @@ source: "found by T54 gating world-counted-renters-buy (#9117) on Train 88b5b879
 
 **Time box.** 2 hours for one Sonnet session at medium effort. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
 
-**Rules.** Pinned tests: named place, fixed seed, no draw loops. Never loosen an assertion to get green.
+**Rules.** Pinned tests: the test names one place and seed and stages the death through the estates engine, with no draw loops. Never loosen an assertion to get green.
 
-**Done when.** The test names its place and seed in its header, has no loop over draws or random seed, runs under two minutes, and passes; its break-it check (the counted child's payment removed) fails it.
+**Done when.** The test names its place and seed in its header, has no loop over draws or random seed, runs under two minutes, and passes; its break-it check (the counted child's payment removed) fails it. A second session, at a drawn place it names with its seed, sees in dev mode a counted parent's death pay the counted child, filled in as the same person.
 
 **Waits on.** Nothing.
 
