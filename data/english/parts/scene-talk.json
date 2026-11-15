@@ -85062,13 +85062,39 @@
           "purpose": "desk-visit",
           "key": "desk-visit",
           "after": "answer",
-          "requiresFacts": ["for", "heard-cost"]
+          "requiresFacts": ["for", "heard-cost", "budget-cost"]
         }
       ],
       "bearing": "calm",
       "origin": "authored",
       "author": "Helper D (words and scenes)",
       "date": "2026-10-27",
+      "tag": {
+        "move": "agree",
+        "key": "desk-visit"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.so-it-brings-purpose-and-costs-the-budget-nothing-i-ll-sign-it",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "So it brings {purpose} and costs the budget nothing. I'll sign it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "answer",
+          "requiresFacts": ["for", "heard-cost", "no-cost", "purpose"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Account lead (desk visit)",
+      "date": "2026-11-15",
       "tag": {
         "move": "agree",
         "key": "desk-visit"
