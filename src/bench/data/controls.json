@@ -963,6 +963,7 @@
       "fullHere": "{n} people here",
       "fullElsewhere": "{n} people elsewhere",
       "counted": "{n} more in households here",
+      "organizations": "{n} businesses and organizations",
       "stopped": "stopped {date}"
     },
     "repealed": "Repealed",
@@ -1428,9 +1429,6 @@
     "joint-issue": "Give the address",
     "address": "The State of the State",
     "address-issue": "Give the address",
-    "emergency": "State of emergency",
-    "emergency-issue": "Declare it",
-    "emergency-decline": "Let it pass",
     "budget": "The state budget",
     "budget-issue": "Send the budget",
     "budget-decline": "Leave it to my staff",

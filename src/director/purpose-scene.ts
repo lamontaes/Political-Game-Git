@@ -14,7 +14,7 @@ import { placeStateKey } from "../core2/place-map";
 import { BUDGETS_MODULE_ID, type BudgetRow } from "../core2/modules/budgets";
 import { gameStartDate } from "../core2/game-start";
 import { personLean } from "../core2/campaign-views";
-import { appointmentsIn } from "../core2/modules/executive";
+import { appointmentsIn, EMERGENCY_OFFERED } from "../core2/modules/executive";
 import {
   LAWS_MODULE_ID,
   lawChain,
@@ -120,6 +120,7 @@ import { beatenRunnerUp } from "../core2/modules/voting";
 import {
   SERVE_ASKED_EVENT,
   leanIfHedged,
+  promiseWorth,
   serveAsk,
   type ServeGrounds,
 } from "../core2/modules/serve-asks";
@@ -1597,6 +1598,24 @@ function composeBinding(
       text: asker.givenName,
       sourceRecordIds: [relation.tieId],
     };
+  // What passed between them in an earlier scene, from its reply records: the
+  // asker came before, and the asked person helped or refused then.
+  const passed = relation.passed;
+  if (passed.askedBefore.length)
+    facts["asked-before"] = {
+      text: asker.givenName,
+      sourceRecordIds: passed.askedBefore,
+    };
+  if (passed.helpedBefore.length)
+    facts["helped-before"] = {
+      text: asker.givenName,
+      sourceRecordIds: passed.helpedBefore,
+    };
+  if (passed.refusedBefore.length)
+    facts["refused-before"] = {
+      text: asker.givenName,
+      sourceRecordIds: passed.refusedBefore,
+    };
   // A committee trade coming due on the floor (legislature.ts
   // recordPromises): the member promised their vote, and the lines about a
   // promised vote need it.
@@ -1875,6 +1894,8 @@ function composeBinding(
     cutFacts(core, facts, said, moment.causeId, askerId);
   if (record?.kind === "bill-presented")
     deskFacts(core, facts, said, moment.causeId, askerId);
+  if (record?.kind === EMERGENCY_OFFERED)
+    briefingFacts(core, facts, said, moment.causeId);
 
   // A recall petition names the member's vote; a promise to vote against
   // the bill (`promised-against`) is said only from a record of one, which no
@@ -2058,6 +2079,13 @@ function composeBinding(
     // weighed: the player can say so when asked why them.
     if ((serve.terms.question ?? P.zero) > P.zero)
       facts["near-on-issue"] = { text: "yes", sourceRecordIds: why };
+    // Short of yes by less than the player's word is worth to them: they name
+    // it as their price, for the proposal they hold (a read against one names
+    // no price: promiseWorth, Words lead and Account lead, Nov 15 12:26Z).
+    if (serve.priced) {
+      facts["price-named"] = { text: "yes", sourceRecordIds: why };
+      facts["price-side-for"] = { text: "yes", sourceRecordIds: why };
+    }
     // Asked again after a no: a yes says what changed, as felt (Words lead,
     // Nov 14: the term that moved most since the no).
     if (serve.moved && serve.standing.lean > P.zero)
@@ -2144,6 +2172,18 @@ function composeBinding(
     if (issue)
       facts.issue = {
         text: issue,
+        sourceRecordIds: [moment.causeId, serve.askId],
+      };
+    // A price names the proposal itself, so the player knows which way they
+    // give their word (Words lead, Nov 15 10:35Z, rule 116), on the question
+    // the ticket's office can decide (Account lead, Nov 15 10:45Z).
+    const about =
+      serve.priced && serve.grounds.priceQuestion
+        ? questionAbout(serve.grounds.priceQuestion)
+        : null;
+    if (about)
+      facts.about = {
+        text: about,
         sourceRecordIds: [moment.causeId, serve.askId],
       };
   }
@@ -2434,14 +2474,24 @@ function serveStanding(
       raceOffice: string;
       moved: string | null;
       seat: string;
+      /** They named the player's word on their question as their price. */
+      priced: boolean;
     }
   | undefined {
   const row = serveAsk(coreAPI(core as CoreState), said.askId ?? "");
   if (!row || row.askedId !== prospectId) return undefined;
+  // Short of yes by less than the player's word on their own question is
+  // worth to them: they name that promise as their price (gov-serve-ask-
+  // price-end). Taking it carries them; refusing it does not.
+  const worth = promiseWorth(row);
+  const priced =
+    row.standing.lean <= P.zero && row.standing.lean + worth > P.zero;
   return {
+    priced,
     standing: {
       lean: row.standing.lean,
-      favor: P.zero,
+      favor: priced ? worth : P.zero,
+      ...(priced ? { price: row.standing.lean + worth } : {}),
       // A stranger who would say yes asks the player one thing first; on
       // their own question, a hedge is weighed as the player's stance unsaid.
       asksFirst: !row.standing.grounds.knows && row.standing.lean > P.zero,
@@ -2768,6 +2818,37 @@ function cutFacts(
     facts.years = {
       text: String(years),
       sourceRecordIds: [post.id],
+    };
+}
+
+/**
+ * What a department head says in the governor's emergency briefing: the kind of disaster the offer's
+ * record names and whether this is a later meeting on it, each with the records it came from. Said as people say it (never a count).
+ */
+function briefingFacts(
+  core: Readonly<CoreState>,
+  facts: Record<string, Fact>,
+  said: Readonly<Record<string, string>>,
+  causeId: string,
+): void {
+  const kind = said.incidentType?.toLowerCase().replace(/\//g, " or ");
+  if (kind) facts.disaster = { text: kind, sourceRecordIds: [causeId] };
+  // The briefing is a later meeting on the same disaster (the offer was left unanswered).
+  // The day the offer lapses, said as people say a date, from the same record the lapse reads.
+  if (said.closes)
+    facts.deadline = {
+      text: spokenDate(
+        said.closes,
+        core.durableLog.get(causeId)?.date ?? core.date,
+      ),
+      sourceRecordIds: [causeId],
+    };
+  if (said.again) facts.again = { text: "", sourceRecordIds: [causeId] };
+  // Which return it is: the midway one (half the window gone) or the last before the deadline.
+  if (said.returnWhen === "midway" || said.returnWhen === "last")
+    facts[`return-${said.returnWhen}`] = {
+      text: "",
+      sourceRecordIds: [causeId],
     };
 }
 
@@ -3261,6 +3342,10 @@ export function replyInScene(
       // SG-WORDS-favor-promise-keeps-unread (endings with no row yet)
       ...promised,
       ...(ending?.firmness ? { firmness: ending.firmness } : {}),
+      // What the ending settles in an engine's own record (office hours: the
+      // case is helped or declined), so a later scene reads help done and
+      // not a promise made (relation-facts.ts passedBetween).
+      ...(ending?.settles ? { settled: ending.settles } : {}),
       // A promise made on a resident's own question names it, for the
       // Journal (ruling 72).
       ...(ending?.keeps === "promise" && aboutQuestion

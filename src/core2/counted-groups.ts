@@ -129,6 +129,13 @@ export interface CountedHousehold {
    * Every reader of a count multiplies by it (`CountedStore.weightOf`).
    */
   weight?: number;
+  /**
+   * How much of its group's account is this household's, per person, against
+   * the group's average of one (`savingWeight` in counted-money.ts): drawn once
+   * from the world's seed and its id, so households alike in income, age and
+   * tenure still differ in what they have saved.
+   */
+  saving?: number;
   /** The day it moved into its place. */
   since?: IsoDate;
   /** Its sampled county workers' employers (see HouseholdInput.employment). */
@@ -282,6 +289,8 @@ export class CountedStore {
   version = 0;
   /** Bumped only when someone joins or leaves the counts (not on a regroup). */
   membersVersion = 0;
+  /** Bumped when a household record's weight changes (not on a regroup). */
+  weightsVersion = 0;
 
   get groupsVersion(): number {
     return groupReadRevisions.get(this)?.version ?? 0;
@@ -607,6 +616,7 @@ export class CountedStore {
     const survivors = share * (this.countedCount(h) - 1);
     h.weight = weight - share;
     this.version++;
+    this.weightsVersion++;
     this.changedGroup(h.group);
     h.wagesMinorYear = this.wagesOf(h);
     return survivors > 0 ? this.spreadPeople(h, survivors) : 0;
@@ -655,6 +665,7 @@ export class CountedStore {
         if (!this.jobHeads.has(job.id))
           this.jobHeads.set(job.id, this.weightOf(other));
       other.weight = this.weightOf(other) + added;
+      this.weightsVersion++;
       this.changedGroup(other.group);
       other.wagesMinorYear = this.wagesOf(other);
     }
@@ -995,6 +1006,7 @@ export function encodeStore(store: CountedStore): unknown {
             // Cache keys, not state: a restored store starts its own count.
             "version",
             "membersVersion",
+            "weightsVersion",
           ].includes(key),
       ),
     ),

@@ -343,7 +343,13 @@ export interface AskStanding {
 }
 
 /** What a second ask of the one asked weighs. */
-export type AskCarries = "favor" | "lean" | "none" | "price" | "absence";
+/**
+ * What a second ask weighs. `price-refused` is the player turning down a
+ * price the one asked named: offered only where a price is on the record,
+ * and it never carries them.
+ */
+export type AskCarries =
+  "favor" | "lean" | "none" | "price" | "price-refused" | "absence";
 
 export interface SceneTalkCast {
   /**
@@ -1096,7 +1102,7 @@ export function composeSceneTalk(
     // An ask that weighs a price, or staying out, is offered only where the
     // record holds the act that pays it; undefined carries leaves no answer.
     const offered = (weighs: AskCarries) =>
-      weighs === "price"
+      weighs === "price" || weighs === "price-refused"
         ? standing.price !== undefined
         : weighs === "absence"
           ? standing.absence !== undefined && standing.lean <= zero
@@ -1110,7 +1116,9 @@ export function composeSceneTalk(
             ? (standing.price ?? zero) > zero
             : weighs === "absence"
               ? standing.absence === true
-              : undefined;
+              : weighs === "price-refused"
+                ? false
+                : undefined;
     const answerOf = (weighs: AskCarries, carries: boolean) =>
       !carries
         ? [ask.no]
