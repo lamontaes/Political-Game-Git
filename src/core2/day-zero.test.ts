@@ -7,6 +7,7 @@
  */
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
+import { healthReport } from "./modules/health";
 import { buildBenchWorld, OPENING_WARMUP_DAYS } from "../bench/world";
 import { coreAPI } from "./state";
 import { ELECTIONS_MODULE_ID } from "./modules/elections";
@@ -24,6 +25,13 @@ interface Row {
   when?: "filing-window-open";
   /** The mark applies only at these place keys (a gap that depends on the place). */
   knownRedPlaces?: string[];
+  /**
+   * A place whose pinned seed holds none of this table's rows at the start and
+   * should not: a true zero, not a gap (the vacancies table at a place whose
+   * 31-day warm-up window held no death). The table must be empty there, and
+   * the test below shows the cause.
+   */
+  zeroAtPlaces?: string[];
 }
 const file = JSON.parse(
   readFileSync(
@@ -66,6 +74,11 @@ describe("day zero: the world opens already running", () => {
         if (row.when === "filing-window-open" && !windowOpen) continue;
         // A part's table that nothing has written yet is absent from the proof: no rows.
         const rows = tables[row.table]?.rows ?? 0;
+        if (row.zeroAtPlaces?.includes(place.placeKey)) {
+          if (rows > 0)
+            fixed.push(`${row.table}: has ${rows} rows; remove zeroAtPlaces`);
+          continue;
+        }
         const red =
           row.knownRed &&
           (!row.knownRedPlaces || row.knownRedPlaces.includes(place.placeKey));
@@ -76,6 +89,22 @@ describe("day zero: the world opens already running", () => {
             `${row.table}: has ${rows} rows; remove knownRed (${row.knownRed})`,
           );
       }
+      for (const row of stock)
+        if (row.zeroAtPlaces?.includes(place.placeKey)) {
+          // The vacancies table's only writer is a death, so the true zero shows as no death in the
+          // warm-up window while illnesses are already under way.
+          const report = healthReport(world.core);
+          expect(
+            report.deaths,
+            `${place.name}: ${row.table} is empty because no one died in the warm-up window`,
+          ).toBe(0);
+          expect(
+            (report.cases as { onsetEventId?: string }[]).filter(
+              (c) => c.onsetEventId,
+            ).length,
+            `${place.name}: illnesses are in progress on day one`,
+          ).toBeGreaterThan(0);
+        }
       expect(
         empty,
         `${place.name}: empty at day 0, not marked known-red`,
