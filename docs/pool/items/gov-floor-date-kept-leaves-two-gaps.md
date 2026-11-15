@@ -7,7 +7,7 @@ priority: 2
 size: S
 status: in-pr
 claimed-by: claude/cluster11-floor-gaps
-pr:
+pr: #9474
 blocked-on:
 source: the Account lead's two questions on the floor-date fix (Nov 15), answered from the code of #9459
 after:
