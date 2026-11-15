@@ -3276,6 +3276,33 @@ export function sponsorsStrongestSection(
   return best;
 }
 
+/**
+ * Whether a member voted yes before on the question one section of a bill
+ * speaks to, the same way the section points: their latest vote on it on the
+ * record (another measure's) was a yes, on a measure that moved it this way.
+ * "I've voted for this before" is said only where this holds.
+ */
+export function votedYesBeforeOn(
+  api: CoreAPI,
+  memberId: string,
+  bill: BillRow,
+  section: Provision,
+): boolean {
+  const stance = provisionStance(
+    api,
+    section,
+    billLevel(api, bill),
+    billJurisdiction(api, bill),
+  );
+  if (!stance || stance.position === 0) return false;
+  const last = lastVoteOn(api, memberId, stance.question, bill.id);
+  if (!last || Math.sign(last.stance.position) !== Math.sign(stance.position))
+    return false;
+  return votesOn(api, last.billId).some(
+    (row) => row.memberId === memberId && row.vote === "yes",
+  );
+}
+
 const tieRules = (
   ties as unknown as {
     states: Record<string, Record<string, { who: string } | undefined>>;

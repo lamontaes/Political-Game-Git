@@ -183820,6 +183820,31 @@
       }
     },
     {
+      "key": "scene-talk.state-request.i-ve-voted-for-this-before-i-need-your-vote",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I've voted for this before. I need your vote.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-vote",
+          "key": "vote-wanted",
+          "requiresFacts": ["own-amount", "own-reason-last-vote"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Opus (brief O, amount bills; wording from the Words lead, Nov 14)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "request",
+        "key": "vote-wanted"
+      }
+    },
+    {
       "key": "scene-talk.state-request.the-caucus-is-behind-this-one-and-i-need-your-vote",
       "move": "state-request",
       "kind": "spoken",

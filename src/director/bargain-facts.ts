@@ -11,6 +11,7 @@ import {
   billOf,
   memberPosition,
   sponsorsStrongestSection,
+  votedYesBeforeOn,
 } from "../core2/modules/legislature";
 import { P } from "../core2/parameters";
 import { coreAPI } from "../core2/state";
@@ -127,6 +128,13 @@ export function sponsorAmountFacts(
       value: Number((position as unknown as Record<string, unknown>)[term]),
     }))
     .filter((row) => Number.isFinite(row.value) && row.value > P.zero)
+    // Their own record is a reason to say only where it holds an earlier yes
+    // on this question, the same way (Words lead's ruling, Nov 14).
+    .filter(
+      (row) =>
+        row.key !== "last-vote" ||
+        votedYesBeforeOn(api, sponsorId, bill, section),
+    )
     .sort((a, b) => b.value - a.value || a.key.localeCompare(b.key));
   if (!reason) return;
   facts["own-amount"] = {
