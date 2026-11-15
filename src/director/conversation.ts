@@ -211,6 +211,7 @@ import { personWorkOf } from "../core2/person-work";
 import localAddressData from "./data/local-address.json" with { type: "json" };
 import { bodySaid } from "./local-address";
 import { saidPersonOf } from "./said-person";
+import { actBetween } from "./who-they-are";
 import {
   answerPromise,
   promiseAnswers,
@@ -2641,42 +2642,6 @@ const KNOWN_BY_ACT = (
     };
   }
 ).knownByAct;
-
-/**
- * The newest record of an act made apart that names both people (a veto or
- * signing of one's bill by the other, an appointment), and what it was;
- * null when none (conversation-rules.json knownByAct).
- */
-function actBetween(
-  core: Readonly<CoreState>,
-  a: PersonId,
-  b: PersonId,
-): { id: string; what: string; byA: boolean } | null {
-  const ofA = core.logByPerson.get(a);
-  const ofB = core.logByPerson.get(b);
-  if (!ofA || !ofB) return null;
-  const [few, many] = ofA.size <= ofB.size ? [ofA, ofB] : [ofB, ofA];
-  let best: { id: string; what: string; byA: boolean; date: string } | null =
-    null;
-  for (const id of few) {
-    if (!many.has(id)) continue;
-    const record = core.durableLog.get(id);
-    const rule = record && KNOWN_BY_ACT.kinds[record.kind];
-    if (!record || !rule) continue;
-    const what = rule.said
-      ? rule.said[String(record.facts?.[rule.what] ?? "")]
-      : rule.what;
-    if (!what) continue;
-    if (best && record.date <= best.date) continue;
-    best = {
-      id,
-      what,
-      byA: record.facts?.[rule.doer] === a,
-      date: record.date,
-    };
-  }
-  return best && { id: best.id, what: best.what, byA: best.byA };
-}
 
 function introduction(
   core: Readonly<CoreState>,

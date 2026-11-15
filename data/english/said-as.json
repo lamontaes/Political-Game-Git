@@ -93,10 +93,22 @@
       "before": "County Executive",
       "again": "the county executive"
     },
-    "county-board": { "before": "Commissioner", "again": "the commissioner" },
-    "township-board": { "before": "Trustee", "again": "the trustee" },
-    "county-board:presiding": { "before": "Chair", "again": "the chair" },
-    "township-board:presiding": { "before": "Chair", "again": "the chair" }
+    "county-board": {
+      "before": "Commissioner",
+      "again": "the commissioner"
+    },
+    "township-board": {
+      "before": "Trustee",
+      "again": "the trustee"
+    },
+    "county-board:presiding": {
+      "before": "Chair",
+      "again": "the chair"
+    },
+    "township-board:presiding": {
+      "before": "Chair",
+      "again": "the chair"
+    }
   },
   "they": {
     "about": "Someone with no he or she on record is said again as they (src/english/said-as.ts wordPersonSlots), never by their role twice in one line (owner, Nov 12: \"There needs to be pronouns and titles\"). A line's verbs are written for one person, so the word after they (\"knows\" to \"know\") and a question's verb before it (\"does\" to \"do\") take the plural.",
@@ -154,7 +166,10 @@
     "office": "the {agency}",
     "ownOffice": "the {agency}'s office",
     "namedAsOffice": ["Secretary of State"],
-    "copies": { "kept": "original", "dropped": "duplicate" }
+    "copies": {
+      "kept": "original",
+      "dropped": "duplicate"
+    }
   },
   "federal": {
     "about": "How talk says the federal government (src/director/conversation.ts pointSubject): by its capital, or plainly in a state that goes by the capital's name (composed-checks.json placeSaidOnlyAs), so \"whatever Washington says\" never means the state (owner, Nov 12: \"Which Washington?\").",
@@ -181,5 +196,47 @@
     "against": "say no to it",
     "to": "pass it",
     "it": "it"
+  },
+  "whatTheyAre": {
+    "about": "What a person is to the player, said once after their name the first time narration names someone the player has not met (owner, Nov 15, rule 136). Lines by the Words lead, Nov 15 (/mnt/project-files/words-lead/who-they-are/lines.md), read by whatSaid in src/english/said-as.ts from the kind and stage src/director/who-they-are.ts reads from the records. Lower case, no period: the line it joins carries both.",
+    "office": {
+      "alone": "the {office}",
+      "member": "a member of {body}"
+    },
+    "presides": {
+      "chair": "who chairs {body}"
+    },
+    "seat-holder": {
+      "outgoing": "who held this seat until today",
+      "holding": "who holds the seat you are running for"
+    },
+    "staff": {
+      "aide": "who works for {official}"
+    },
+    "tie": {
+      "schoolmate": "who went to {school} with you",
+      "campaign": "who worked on your campaign for {campaign_office}",
+      "act-vetoed-mine": "whose bill you vetoed",
+      "act-vetoed-theirs": "who vetoed your bill",
+      "act-signed-mine": "whose bill you signed",
+      "act-signed-theirs": "who signed your bill",
+      "act-unsigned-mine": "whose bill became law without your signature",
+      "act-unsigned-theirs": "who let your bill become law unsigned",
+      "act-appointed-mine": "whom you appointed {office}",
+      "act-appointed-theirs": "who appointed you {office}",
+      "act-appointed-mine-untitled": "whom you appointed",
+      "act-appointed-theirs-untitled": "who appointed you"
+    },
+    "constituent": {
+      "district": "who lives in your district",
+      "place": "who lives in {place}"
+    },
+    "workplace": {
+      "apart": "who works at {employer}",
+      "with-you": "who works with you at {employer}"
+    },
+    "resident": {
+      "elsewhere": "from {place}"
+    }
   }
 }
