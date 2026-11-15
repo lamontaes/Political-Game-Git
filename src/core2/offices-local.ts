@@ -21,17 +21,43 @@ import {
 import { localChiefExecutiveRules } from "./gov-rules/local-chief-executive-rules";
 import { countyElectedRowOffices } from "./gov-rules/county-row-offices";
 import { councilElectionMethod } from "./gov-rules/council-election-method";
-import { boardGoverningBodyRules } from "./gov-rules/township-governing-body-rules";
+import {
+  boardGoverningBodyRules,
+  townshipBoardTerm,
+} from "./gov-rules/township-governing-body-rules";
 import type { GovernmentUnitIdentity } from "./reference/government-units";
 import { countyDisplayName } from "./business-names";
 import { governmentProperName } from "./government-proper-name";
 
 /**
+ * The place as its body's name says it: a town's, village's or city's class
+ * word goes where the body's own name follows ("Town of Montville" seats the
+ * "Montville Board of Selectmen"), a township's follows its name ("Township
+ * of Ocean" seats the "Ocean Township Committee", and so does a charter
+ * township's: "Charter Township of Green" seats the "Green Township Board"), and a Puerto Rico
+ * municipio is said by its name alone ("Ciales Municipal Legislature").
+ * Counties, parishes and boroughs keep theirs ("Example County Commission").
+ * One rule in the name reader (Words lead, Nov 14), so the paper, the
+ * meeting panel and every other view read one name from the office record.
+ */
+function placeOfBody(area: string): string {
+  // A charter, civil or metro township is a township: the listing's extra word
+  // is its legal form, which people leave out ("Charter Township of Green" is
+  // "Green Township").
+  const of =
+    /^(Town|Village|City|Plantation|(?:Charter |Civil |Metro )?Township) of (.+)$/.exec(
+      area,
+    );
+  if (of) return of[1]!.endsWith("Township") ? `${of[2]} Township` : of[2]!;
+  return area.replace(/ Municipio$/, "");
+}
+
+/**
  * What a board of a county, parish or township is called: its government as
  * people say it plus the board's own name, without saying "County" twice.
  * "COUNTY OF POCAHONTAS" with "County Commission" is "Pocahontas County
- * Commission"; with "Board of County Commissioners" it is "Board of County
- * Commissioners of Pocahontas County"; with "Board of Supervisors" it is
+ * Commission"; with "Board of County Commissioners" it is "Pocahontas County
+ * Board of Commissioners", the kind said once; with "Board of Supervisors" it is
  * "Pocahontas County Board of Supervisors".
  */
 export function boardBodyName(
@@ -39,11 +65,16 @@ export function boardBodyName(
   bodyName: string,
   governmentId?: string,
 ): string {
-  const area = countyDisplayName(listed, governmentId);
+  const area = placeOfBody(countyDisplayName(listed, governmentId));
   const kind = area.split(" ").at(-1)!;
   if (bodyName.startsWith(`${kind} `))
     return `${area.slice(0, -kind.length)}${bodyName}`;
-  if (bodyName.split(" ").includes(kind)) return `${bodyName} of ${area}`;
+  // The board's own name says the place's kind once the place has said it:
+  // "Board of Township Trustees" for Auglaize Township is the "Auglaize
+  // Township Board of Trustees" (Words lead, Nov 14).
+  const words = bodyName.split(" ");
+  if (words.includes(kind))
+    return `${area} ${words.filter((word) => word !== kind).join(" ")}`;
   return `${area} ${bodyName}`;
 }
 
@@ -62,6 +93,11 @@ export interface OfficeInput {
   readonly title: string;
   readonly seats: number;
   readonly termYears: number | null;
+  /**
+   * False where the law elects every seat of the body at once (a "vote for
+   * N" board); absent or true where the seats take turns over the term.
+   */
+  readonly staggered?: boolean;
   /** The next regular election for a single-seat office, where read. */
   readonly nextElectionYear?: number;
   /** An office created after the opening exists from this day: no one holds it before (its first election fills it). */
@@ -85,6 +121,12 @@ export interface OfficeInput {
   };
   /** True when the office's seats represent the player's town. */
   readonly coversTown: boolean;
+  /**
+   * An executive office whose holder presides over the government's board (a commission
+   * county's probate judge): the holder puts a bill before the board in their own name, as its
+   * chair, instead of asking a member. From the place's own county data.
+   */
+  readonly presidesOverBody?: boolean;
   readonly source: string;
   readonly estimate: boolean;
 }
@@ -141,8 +183,8 @@ export function townAndBody(town: string, body: string): string {
  * The council's name: as its charter names it where the town's government is
  * compiled, else the usual body of its kind of municipality in its state
  * ("VILLAGE OF EOLIA" in a state whose villages elect a board of trustees is
- * "Eolia Board of Trustees"), else the generic municipal name
- * (SG-GOV-municipal-body-name).
+ * "Eolia Board of Trustees"), else the generic municipal name, an ESTIMATED
+ * row in `src/core2/data/offices/body-names.json`.
  */
 function municipalBodyName(unit: GovernmentUnitIdentity): string {
   const charter = localGoverningBodyName(unit);
@@ -156,7 +198,7 @@ function municipalBodyName(unit: GovernmentUnitIdentity): string {
   const proper = governmentProperName(unit.name, unit.id);
   if (usual)
     return townAndBody(proper.split(" ").slice(2).join(" "), usual.value);
-  // stopgapId: SG-GOV-municipal-body-name (a listing name that gives no kind)
+  // A listing name that gives no kind: the estimated generic body name.
   return `${proper} ${bodyNames.municipal.value}`;
 }
 
@@ -223,8 +265,14 @@ function boardOffices(
   const offices: OfficeInput[] = [];
   const board = boardGoverningBodyRules(unit);
   const schedule = scheduleByState.get(unit.stateUsps);
+  // A county's term from its state's schedule; a town's or township's from
+  // its state's statute (`townshipBoardTerm`), with whether its seats take
+  // turns. Without a term every seat would come up at every election.
+  const townTerm = level === "township" ? townshipBoardTerm(unit) : null;
   const termYears =
-    level === "county" ? (schedule?.body?.termYears ?? null) : null;
+    level === "county"
+      ? (schedule?.body?.termYears ?? null)
+      : (townTerm?.years ?? null);
   if (board) {
     offices.push({
       id: `office:${unit.id}:board`,
@@ -236,11 +284,14 @@ function boardOffices(
       title: board.memberTitle,
       seats: board.seats,
       termYears,
+      ...(townTerm && !townTerm.staggered ? { staggered: false } : {}),
       elected: true,
       districted: level === "county",
       coversTown: true,
-      source: `${board.citation} ${board.url}`.trim(),
-      estimate: board.basis === "estimated",
+      source: [board.citation, board.url, townTerm?.citation, townTerm?.url]
+        .filter(Boolean)
+        .join(" "),
+      estimate: board.basis === "estimated" || townTerm?.basis === "estimated",
     });
     if (board.executive.kind === "elected" && board.executive.title)
       offices.push({
@@ -255,6 +306,7 @@ function boardOffices(
         elected: true,
         districted: false,
         coversTown: true,
+        ...(board.executive.presidesOverBody ? { presidesOverBody: true } : {}),
         source: `${board.citation} ${board.url}`.trim(),
         estimate: board.executive.status !== "SOURCED",
       });

@@ -69,6 +69,8 @@ const flags = [
   "winner-is-other",
   // The clerk's petition lines are worded for a first filing or a repeat one.
   "first-filing",
+  // A colleague's no to signing on says the reason its record holds.
+  "no-views",
 ];
 export const facts: Record<string, Fact> = {
   name: fact("Pat Rivera"),
@@ -84,6 +86,9 @@ export const facts: Record<string, Fact> = {
   opponent: fact("Dana Lee"),
   winner: fact("Dana Lee"),
   party: fact("Democratic"),
+  // The party chair answers "what does the party do here" from one of three
+  // records the director always supplies; the fixture holds a seat.
+  "office-held": fact("the mayor's office"),
   ...Object.fromEntries(flags.map((name) => [name, fact("yes")])),
   deceased: fact("Sam Ortiz"),
   cause: fact("a long illness"),
@@ -101,6 +106,11 @@ export const facts: Record<string, Fact> = {
   home: fact("apartment"),
   rent: fact("$900 a month"),
   stake: fact("your seat"),
+  // What the partnerships engine's records give a partner's ask to live
+  // together (`moveInFacts`, src/director/move-in-facts.ts): who would move,
+  // here the asker, and that the one asked has a place of their own.
+  "asker-moves": fact(adults[1]!.givenName),
+  "asked-has-own-place": fact(core.people.get(askedId)!.givenName),
   "what-happened": fact("your vote on the bill"),
   self: fact("Pat Rivera"),
   effect: fact("my rent went up"),
@@ -120,6 +130,13 @@ export const facts: Record<string, Fact> = {
   margin: fact("about 60 votes"),
   signatures: fact("1,250"),
   due: fact("March 5"),
+  said: fact("rent increases"),
+  // Asking someone to serve (purpose-scene's serve facts): the asked person's
+  // first name and seat, and one reason each way, so both answers can be worded.
+  "their-first": fact("Pat"),
+  "their-office": fact("state senator"),
+  "reason-yes-trust": fact("yes"),
+  "reason-own-seat": fact("yes"),
 };
 // The engine is tested the way the grading page composes, with every part in,
 // even the ones the owner rejected; "plays every purpose in play" checks play.

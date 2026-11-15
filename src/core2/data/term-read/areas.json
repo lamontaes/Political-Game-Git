@@ -56,10 +56,131 @@
       "env.drinking-water-violations": -1
     }
   },
+  "answeredBy": {
+    "about": "The bill catalog topics whose questions answer each area of the term read: a hurt address's answer to its worst condition (a governor or mayor), and the question a campaign speaks on when the town's own record went that way. A subject is wider than its area (restoring the vote after a sentence is justice, and no answer to crime; the words lead read it so on Leonidas, Minnesota, Nov 12), so a question answers an area through its catalog topic. TUNABLE wording of the match, checked by reading composed addresses and a campaign's acts in three named places. A budget line (\"budget-line:<line>\") answers an area when the line bears on it (a line the speaker backs in that area is a response; owner rule via the words lead, Nov 12: a hurt address answers its own bad news), so a mayor, who holds a few policy questions and the town's budget lines, answers pay through welfare and income security, and jobs through regional development.",
+    "jobs": {
+      "topics": [
+        "Wages and working hours",
+        "Unemployment benefits",
+        "Unions and collective bargaining",
+        "Hiring and employment protections",
+        "Employment training",
+        "Business formation and licensing",
+        "Small-business finance",
+        "Development incentives",
+        "Manufacturing and industry",
+        "Commercial development"
+      ],
+      "lines": ["budget-line:communityAndRegionalDevelopment"]
+    },
+    "pay": {
+      "topics": [
+        "Wages and working hours",
+        "Cash assistance",
+        "Food assistance",
+        "Child-care assistance",
+        "Unemployment benefits",
+        "Paid and unpaid leave",
+        "Taxes"
+      ],
+      "lines": ["budget-line:incomeSecurity", "budget-line:welfareAndMedicaid"]
+    },
+    "prices": {
+      "topics": [
+        "Taxes",
+        "Fees and charges",
+        "Utility-bill assistance",
+        "Utility regulation",
+        "Electricity and the grid",
+        "Competition and market rules",
+        "Consumer contracts and products",
+        "Fraud and unfair practices",
+        "Food assistance"
+      ],
+      "lines": []
+    },
+    "rent": {
+      "topics": [
+        "Rental rules",
+        "Affordable and public housing",
+        "Planning and zoning",
+        "Homelessness services"
+      ],
+      "lines": ["budget-line:housing"]
+    },
+    "crime": {
+      "topics": [
+        "Policing",
+        "Criminal law and sentencing",
+        "Courts and legal aid",
+        "Juvenile justice",
+        "Firearms and weapons rules"
+      ],
+      "lines": ["budget-line:corrections", "budget-line:police"]
+    },
+    "schools": {
+      "topics": [
+        "K-12 schools",
+        "School funding",
+        "Teachers and support staff",
+        "Early childhood and preschool",
+        "Special education"
+      ],
+      "lines": ["budget-line:higherEducation", "budget-line:schools"]
+    },
+    "health": {
+      "topics": [
+        "Coverage and insurance",
+        "Hospitals and clinics",
+        "Mental health and addiction services",
+        "Public health",
+        "Medicines and medical products"
+      ],
+      "lines": [
+        "budget-line:healthAndHospitals",
+        "budget-line:welfareAndMedicaid"
+      ]
+    },
+    "roads": {
+      "topics": ["Transportation"],
+      "lines": ["budget-line:highways"]
+    },
+    "environment": {
+      "topics": [
+        "Air and emissions",
+        "Water quality",
+        "Pollution cleanup",
+        "Climate and resilience",
+        "Electricity and the grid"
+      ],
+      "lines": ["budget-line:naturalResources", "budget-line:parks"]
+    }
+  },
   "warmupMonths": {
     "value": 12,
     "tag": "ESTIMATED",
     "spread": "6 to 18",
     "note": "The months a world's town needs before its records show a trend and not the settling in from the records it opened with. Read from one played year in Algiers, Vermont (seed r7): unemployment ran 0.3 percent to 5.7 percent and poverty 9.6 percent to 18.6 percent across the first twelve months and was still rising in the fourteenth. The warm-up is a stopgap for that drift (SG-WORDS-term-read-warmup): the economy's start is the owner of the fix."
+  },
+  "jurisdictionFigures": {
+    "about": "The measures a state's or the country's own monthly records keep, by the web measure they stand for (owner, Nov 14: 'it's all one simulation'). A state reads the regional module's months, weighted by population (`stateFigures`); the country reads the macro module's months, real history included, so a term already under way at the opening reads from real months with no warm-up. Household income is what the regions' jobs pay for each resident (jobs times hourly earnings over people); poverty is not kept for a state or the country, so a pay read is the income measure alone and no poverty figure is invented. An area none of its measures appear here for is read the old way, as the mean over the places the web keeps.",
+    "measures": {
+      "labor.unemployment-pct": {
+        "state": "unemploymentPct",
+        "nation": "unemploymentPct"
+      },
+      "labor.wages": {
+        "state": "hourlyEarnings",
+        "nation": "hourlyEarnings"
+      },
+      "household.prices": {
+        "state": "priceLevelPct",
+        "nation": "priceIndex"
+      },
+      "household.income": {
+        "state": "earnedPerResident",
+        "nation": "earnedPerResident"
+      }
+    }
   }
 }

@@ -14,6 +14,15 @@
 import type { CoreAPI, CoreState } from "./types";
 import { OUTCOME_WEB_MODULE_ID } from "./outcome-web-model";
 import areaData from "./data/term-read/areas.json" with { type: "json" };
+import { placeStateKey } from "./place-map";
+import {
+  earnedPerResident,
+  REGIONS,
+  stateFigures,
+  type RegionMonth,
+} from "./regional-model";
+import type { MacroMonth } from "./macro-model";
+import catalog from "./data/legislature/bill-catalog.json" with { type: "json" };
 
 /** The web's month row, as far as the read needs it. */
 interface WebRow {
@@ -45,6 +54,15 @@ const DATA = areaData as unknown as {
   minimumMonths: { value: number };
   warmupMonths: { value: number };
   areas: Readonly<Record<string, Readonly<Record<string, number>>>>;
+  jurisdictionFigures: {
+    measures: Readonly<Record<string, { state: string; nation: string }>>;
+  };
+  answeredBy: Readonly<
+    Record<
+      string,
+      { topics: readonly string[]; lines: readonly string[] } | string
+    >
+  >;
 };
 
 /** Every area the read keeps, in the data's order. */
@@ -64,6 +82,58 @@ export function measureSlide(
   if (!Number.isFinite(from) || !Number.isFinite(to)) return 0;
   const scale = Math.max(Math.abs(from), Number.EPSILON);
   return Math.tanh((direction * (to - from)) / scale / DATA.fullChange.value);
+}
+
+/**
+ * The catalog topic each policy question sits under ("Wages and working
+ * hours"), read once from the bill catalog's own rows.
+ */
+const TOPIC_OF_QUESTION: ReadonlyMap<string, string> = new Map(
+  (
+    catalog as unknown as {
+      subjects: {
+        topics: { name: string; policies?: { question?: string }[] }[];
+      }[];
+    }
+  ).subjects.flatMap((subject) =>
+    subject.topics.flatMap((topic) =>
+      (topic.policies ?? []).flatMap((policy) =>
+        policy.question ? [[policy.question, topic.name] as const] : [],
+      ),
+    ),
+  ),
+);
+
+/**
+ * The catalog topics whose questions answer an area of the term read
+ * (`answeredBy.<area>.topics` in the area data), or none for a name that is
+ * not an area (a measure of the macro year).
+ */
+export function topicsAnsweringArea(area: string): readonly string[] {
+  const row = DATA.answeredBy[area];
+  return typeof row === "object" ? row.topics : [];
+}
+
+/** The budget lines ("budget-line:<line>") that bear on an area of the term read. */
+function linesAnsweringArea(area: string): readonly string[] {
+  const row = DATA.answeredBy[area];
+  return typeof row === "object" ? row.lines : [];
+}
+
+/**
+ * Whether a question answers an area of the term read: a budget line that
+ * bears on it, or a policy question under one of its catalog topics.
+ */
+export function questionAnswersArea(question: string, area: string): boolean {
+  if (question.startsWith("budget-line:"))
+    return linesAnsweringArea(area).includes(question);
+  const topic = TOPIC_OF_QUESTION.get(question);
+  return !!topic && topicsAnsweringArea(area).includes(topic);
+}
+
+/** Every area of the term read a policy question answers, in the area data's order. */
+export function areasAnswered(question: string): readonly string[] {
+  return TERM_AREAS.filter((area) => questionAnswersArea(question, area));
 }
 
 /** The month `months` after `month`, both as "YYYY-MM". */
@@ -155,14 +225,168 @@ export function termReadPlaces(api: CoreAPI): string[] {
   ].sort();
 }
 
+/** The module ids of the regional and macro modules (modules/regional.ts and modules/macro.ts), read here by id so this file imports no module. */
+const REGIONAL_ID = "regional";
+const MACRO_ID = "macro";
+
+/** One month's figures for a state or the country, by web measure, and the record that holds them. */
+interface FigureRow {
+  readonly id: string;
+  readonly month: string;
+  readonly figures: Readonly<Record<string, number>>;
+}
+
+const monthIndexOf = (month: string) =>
+  Number(month.slice(0, 4)) * 12 + Number(month.slice(5, 7));
+
+/** The row of a state's regions at `month`, as the web's measures (null while the regional module keeps none that month). */
+function stateRowAt(
+  api: CoreAPI,
+  stateFips: string,
+  month: string,
+): FigureRow | null {
+  const rows = (
+    api
+      .moduleState(REGIONAL_ID)
+      .table("months")
+      .query("byMonth", [month]) as unknown as RegionMonth[]
+  ).filter((row) => row.stateFips === stateFips);
+  if (!rows.length) return null;
+  const sums = stateFigures(rows, stateFips) as unknown as Record<
+    string,
+    number
+  >;
+  const figures: Record<string, number> = {};
+  for (const [measure, row] of Object.entries(
+    DATA.jurisdictionFigures.measures,
+  ))
+    if (Number.isFinite(sums[row.state])) figures[measure] = sums[row.state]!;
+  return { id: rows[0]!.id, month, figures };
+}
+
+/** The country's row at `month`, from the macro module's months (real history before the opening, the economy since). */
+function nationRowAt(api: CoreAPI, month: string): FigureRow | null {
+  const row = api
+    .moduleState(MACRO_ID)
+    .table("months")
+    .get(`macro-month:${month}`) as unknown as MacroMonth | undefined;
+  if (!row) return null;
+  // What the jobs pay per resident is the sum over every region the regional
+  // module keeps that month; the macro row holds no population.
+  const regions = (api.state as CoreState).modules.has(REGIONAL_ID)
+    ? (api
+        .moduleState(REGIONAL_ID)
+        .table("months")
+        .query("byMonth", [month]) as unknown as RegionMonth[])
+    : [];
+  const values: Record<string, number> = {
+    ...(row as unknown as Record<string, number>),
+    ...(regions.length
+      ? { earnedPerResident: earnedPerResident(regions) }
+      : {}),
+  };
+  const figures: Record<string, number> = {};
+  for (const [measure, field] of Object.entries(
+    DATA.jurisdictionFigures.measures,
+  ))
+    if (Number.isFinite(values[field.nation]))
+      figures[measure] = values[field.nation]!;
+  return { id: row.id, month, figures };
+}
+
 /**
- * The country's term read: each area's mean slide over the places the web
- * keeps (the player's town and every place the economy records). Other
+ * The areas a state's or the country's own monthly records keep figures for,
+ * read from the first kept month at or after the term began to the newest
+ * (one reader with the town's: `measureSlide`, the same areas and
+ * directions). A month the module keeps no row for is skipped to the next
+ * kept one (the regional module keeps the last twelve months, each December
+ * and the opening). Nothing is read for a measure the records do not keep.
+ */
+function figuredRead(
+  api: CoreAPI,
+  jurisdiction: string,
+  sinceMonth: string,
+): AreaRead[] {
+  const state = jurisdiction === "US" ? null : jurisdiction.slice(3);
+  const modules = (api.state as CoreState).modules;
+  if (!modules.has(state ? REGIONAL_ID : MACRO_ID)) return [];
+  const stateFips = state
+    ? REGIONS.find((row) => row.stateUsps === state)?.stateFips
+    : undefined;
+  if (state && !stateFips) return [];
+  const rowAt = (month: string) =>
+    state ? stateRowAt(api, stateFips!, month) : nationRowAt(api, month);
+  const today = String(api.state.date).slice(0, "YYYY-MM".length);
+  let last: FigureRow | null = null;
+  for (
+    let month = today, tries = 0;
+    !last && tries < 3;
+    month = monthAfter(month, -1), tries += 1
+  )
+    last = rowAt(month);
+  if (!last) return [];
+  let first: FigureRow | null = null;
+  for (
+    let month = sinceMonth;
+    !first && month < last.month;
+    month = monthAfter(month, 1)
+  )
+    first = rowAt(month);
+  if (
+    !first ||
+    monthIndexOf(last.month) - monthIndexOf(first.month) + 1 <
+      DATA.minimumMonths.value
+  )
+    return [];
+  const reads: AreaRead[] = [];
+  for (const [area, measures] of Object.entries(DATA.areas)) {
+    const read: MeasureRead[] = [];
+    for (const [measure, direction] of Object.entries(measures)) {
+      const from = first.figures[measure];
+      const to = last.figures[measure];
+      if (from === undefined || to === undefined) continue;
+      read.push({
+        measure,
+        from,
+        to,
+        slide: measureSlide(from, to, direction),
+      });
+    }
+    if (!read.length) continue;
+    reads.push({
+      area,
+      slide: read.reduce((sum, row) => sum + row.slide, 0) / read.length,
+      measures: read,
+      sourceRecordIds: [first.id, last.id],
+    });
+  }
+  return reads;
+}
+
+/** A jurisdiction's own figured areas first, then the old read (the mean over the places the web keeps) for each area they do not cover. */
+function withFigured(
+  figured: readonly AreaRead[],
+  rest: readonly AreaRead[],
+): AreaRead[] {
+  const have = new Set(figured.map((row) => row.area));
+  return TERM_AREAS.flatMap((area) => [
+    ...figured.filter((row) => row.area === area),
+    ...rest.filter((row) => row.area === area && !have.has(area)),
+  ]);
+}
+
+/**
+ * The country's term read: each area's slide from the country's own monthly
+ * figures where it keeps them (jobs and prices, from the macro months, real
+ * history included), and for the other areas the mean over the places the
+ * web keeps (the player's town and every place the economy records). Other
  * places keep only results (owner, Nov 5), so this is those results, not a
  * count of every place.
  */
 export function countryTermRead(api: CoreAPI, sinceDate: string): AreaRead[] {
-  if (!(api.state as CoreState).modules.has(OUTCOME_WEB_MODULE_ID)) return [];
+  const figured = figuredRead(api, "US", sinceDate.slice(0, "YYYY-MM".length));
+  if (!(api.state as CoreState).modules.has(OUTCOME_WEB_MODULE_ID))
+    return figured;
   const places = termReadPlaces(api);
   const byArea = new Map<string, AreaRead[]>();
   for (const placeId of places)
@@ -171,7 +395,7 @@ export function countryTermRead(api: CoreAPI, sinceDate: string): AreaRead[] {
       list.push(read);
       byArea.set(read.area, list);
     }
-  return TERM_AREAS.flatMap((area): AreaRead[] => {
+  const rest = TERM_AREAS.flatMap((area): AreaRead[] => {
     const list = byArea.get(area);
     if (!list?.length) return [];
     return [
@@ -185,6 +409,7 @@ export function countryTermRead(api: CoreAPI, sinceDate: string): AreaRead[] {
       },
     ];
   });
+  return withFigured(figured, rest);
 }
 
 /** The term as a whole: the mean of its areas' slides (0 when nothing is read yet). */
@@ -192,4 +417,42 @@ export function overallSlide(reads: readonly AreaRead[]): number {
   return reads.length
     ? reads.reduce((sum, row) => sum + row.slide, 0) / reads.length
     : 0;
+}
+
+/**
+ * The term read of a jurisdiction an office serves, from a date: the country
+ * ("US"), a state ("US-NJ", the mean over the places the web keeps inside it)
+ * or one town's own place. One reader for every address and campaign that
+ * speaks of how a place's term went.
+ */
+export function jurisdictionTermRead(
+  api: CoreAPI,
+  jurisdiction: string,
+  sinceDate: string,
+): AreaRead[] {
+  if (jurisdiction === "US") return countryTermRead(api, sinceDate);
+  if (!jurisdiction.startsWith("US-"))
+    return placeTermRead(api, jurisdiction, sinceDate);
+  const reads = termReadPlaces(api)
+    .filter((place) => placeStateKey(place) === jurisdiction)
+    .flatMap((place) => placeTermRead(api, place, sinceDate));
+  const rest = TERM_AREAS.flatMap((area): AreaRead[] => {
+    const rows = reads.filter((row) => row.area === area);
+    return rows.length
+      ? [
+          {
+            area,
+            slide: rows.reduce((sum, row) => sum + row.slide, 0) / rows.length,
+            measures: rows.flatMap((row) => row.measures),
+            sourceRecordIds: [
+              ...new Set(rows.flatMap((row) => row.sourceRecordIds)),
+            ],
+          },
+        ]
+      : [];
+  });
+  return withFigured(
+    figuredRead(api, jurisdiction, sinceDate.slice(0, "YYYY-MM".length)),
+    rest,
+  );
 }

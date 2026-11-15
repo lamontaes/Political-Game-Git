@@ -1,49 +1,91 @@
 {
   "readOn": "2026-09-29",
   "readBy": "Build 25",
-  "note": "How many members sit on a town or township board, from the state statute that sets it where the town has not changed it. A town that voted to enlarge its board, or that adopted a charter of its own, is not read yet and takes its state's size: a known gap. Population bands read the town's residents from data/research/money/place-towns-acs-2024.json (ACS 2020-2024).",
+  "note": "How many members sit on a town or township board, from the state statute that sets it where the town has not changed it. A town that voted to enlarge its board, or that adopted a charter of its own, is not read yet and takes its state's size: a known gap. Population bands read the town's residents from data/research/money/place-towns-acs-2024.json (ACS 2020-2024). Each state's `term` says how long a member serves and whether the seats are staggered (a share of the board up at each regular election) or elected together, from the statute cited.",
   "states": {
     "CT": {
       "seats": 3,
       "bodyName": "Board of Selectmen",
       "memberTitle": "Selectman",
       "citation": "Conn. Gen. Stat. § 9-188: \"each town shall, at its regular municipal election, elect a first selectman ... and two other selectmen\" unless otherwise provided by law; a town of ten thousand or more may elect more.",
-      "url": "https://law.justia.com/codes/connecticut/title-9/chapter-146/section-9-188/"
+      "url": "https://law.justia.com/codes/connecticut/title-9/chapter-146/section-9-188/",
+      "term": {
+        "years": 2,
+        "staggered": false,
+        "basis": "read",
+        "citation": "Conn. Gen. Stat. § 9-187(b): selectmen's terms \"shall be two years or four years\" as the town's charter or ordinance sets; § 9-188: the first selectman and the other selectmen are elected together at the regular municipal election, so the board is chosen at once. The game takes two years until a town's own term is read; the first selectman's separate race and § 9-167a's minority-representation limit are not modeled yet (pool item gov-board-seats-that-are-separate-offices).",
+        "url": "https://law.justia.com/codes/connecticut/title-9/chapter-146/section-9-187/"
+      }
     },
     "IL": {
       "seats": 5,
       "bodyName": "Township Board",
       "memberTitle": "Trustee",
       "citation": "60 ILCS 1/80-5: \"the township board shall consist of the supervisor and 4 other members elected at large\".",
-      "url": "https://ilga.gov/documents/legislation/ilcs/documents/006000010K80-5.htm"
+      "url": "https://ilga.gov/documents/legislation/ilcs/documents/006000010K80-5.htm",
+      "term": {
+        "years": 4,
+        "staggered": false,
+        "basis": "read",
+        "citation": "60 ILCS 1/50-40: at the regular township election \"there shall be elected 4 members to serve on the township board\" for \"a term of 4 years\"; 60 ILCS 1/50-5: the supervisor too holds office for 4 years, elected at the same township election.",
+        "url": "https://ilga.gov/legislation/ilcs/documents/006000010K50-40.htm"
+      }
     },
     "IN": {
       "seats": 3,
       "bodyName": "Township Board",
       "memberTitle": "Township board member",
       "citation": "IC 36-6-6-2: the township board, the township's legislative body, has three members (seven in Marion County's townships).",
-      "url": "https://law.justia.com/codes/indiana/title-36/article-6/chapter-6/"
+      "url": "https://law.justia.com/codes/indiana/title-36/article-6/chapter-6/",
+      "term": {
+        "years": 4,
+        "staggered": false,
+        "basis": "read",
+        "citation": "IC 36-6-6-2: the three-member township board \"shall be elected under IC 3-10-2-13\" for \"four (4) years, beginning January 1 after election\"; all three are elected at the same general election.",
+        "url": "https://law.justia.com/codes/indiana/title-36/article-6/chapter-6/"
+      }
     },
     "KS": {
       "seats": 3,
       "bodyName": "Township Board",
       "memberTitle": "Township officer",
       "citation": "K.S.A. 80-302: \"The township trustee, clerk and treasurer of each municipal township shall constitute\" its board, which allows every claim against the township.",
-      "url": "https://ksrevisor.gov/statutes/chapters/ch80/080_003_0002.html"
+      "url": "https://ksrevisor.gov/statutes/chapters/ch80/080_003_0002.html",
+      "term": {
+        "years": 4,
+        "staggered": false,
+        "basis": "estimated",
+        "citation": "K.S.A. 25-1601 and 80-201: the township trustee, clerk and treasurer are elected at the November general election of even-numbered years for four-year terms (Harvey County Clerk, 2024 township candidate packet). Whether the three offices are up in the same year everywhere is not read; the game elects them together.",
+        "url": "https://www.harveycounty.com/images/clerk/2024Townshippacket.pdf"
+      }
     },
     "MA": {
       "seats": 3,
       "bodyName": "Select Board",
       "memberTitle": "Select board member",
       "citation": "M.G.L. c. 41, § 1: every town elects \"three or more selectmen\"; the game seats the three the law requires until a town's own vote is read.",
-      "url": "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleVII/Chapter41/section1"
+      "url": "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleVII/Chapter41/section1",
+      "term": {
+        "years": 3,
+        "staggered": true,
+        "basis": "read",
+        "citation": "M.G.L. c. 41, § 1: \"three or more selectmen for the term of not more than three years\"; where three or more members of a board serve more than one year, \"as nearly one-third as may be shall be elected annually.\"",
+        "url": "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleVII/Chapter41/Section1"
+      }
     },
     "ME": {
       "seats": 3,
       "bodyName": "Select Board",
       "memberTitle": "Select board member",
       "citation": "30-A M.R.S. § 2526: a town may choose 3, 5 or 7 members, and \"if a town fails to fix the number, 3 shall be elected.\"",
-      "url": "https://legislature.maine.gov/statutes/30-A/title30-Asec2526.html"
+      "url": "https://legislature.maine.gov/statutes/30-A/title30-Asec2526.html",
+      "term": {
+        "years": 1,
+        "staggered": false,
+        "basis": "read",
+        "citation": "30-A M.R.S. § 2526(4)(A)(2): a town fixes its officials' terms, and \"if a town fails to fix the term, it is for one year\"; the whole board is then chosen at each annual town meeting.",
+        "url": "https://legislature.maine.gov/statutes/30-A/title30-Asec2526.html"
+      }
     },
     "MI": {
       "bands": [
@@ -59,28 +101,56 @@
       "bodyName": "Township Board",
       "memberTitle": "Township board member",
       "citation": "MCL 41.70: the supervisor, clerk, treasurer and 2 trustees constitute the township board; in a township of 5,000 or more residents, the supervisor, treasurer, clerk and 4 trustees.",
-      "url": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-41-70"
+      "url": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-41-70",
+      "term": {
+        "years": 4,
+        "staggered": false,
+        "basis": "read",
+        "citation": "Mich. Const. art. VII, § 18: township officers serve \"terms of not less than two nor more than four years as prescribed by law\"; MCL 168.358: the supervisor, clerk, treasurer and trustees are elected at the November general election; Michigan Townships Association: \"The term of office for all elected officials is four years.\"",
+        "url": "https://www.michigantownships.org/runforoffice.asp"
+      }
     },
     "MN": {
       "seats": 3,
       "bodyName": "Town Board",
       "memberTitle": "Supervisor",
       "citation": "Minn. Stat. § 367.03: \"three supervisors shall be elected in each town\" unless it adopts option A's five-member board.",
-      "url": "https://www.revisor.mn.gov/statutes/cite/367.03"
+      "url": "https://www.revisor.mn.gov/statutes/cite/367.03",
+      "term": {
+        "years": 3,
+        "staggered": true,
+        "basis": "read",
+        "citation": "Minn. Stat. § 367.03, subd. 1 and 2: \"Each supervisor shall be elected for a term of three years\", the first three \"one for three years, one for two years, and one for one year, so that the term of one shall expire each year.\" (A town that moved its election to November elects for four years, subd. 4: not read per town.)",
+        "url": "https://www.revisor.mn.gov/statutes/cite/367.03"
+      }
     },
     "NH": {
       "seats": 3,
       "bodyName": "Board of Selectmen",
       "memberTitle": "Selectman",
       "citation": "RSA 41:8 and 41:8-b: a town elects three selectmen unless its voters increase the board to five.",
-      "url": "https://gc.nh.gov/rsa/html/iii/41/41-8.htm"
+      "url": "https://gc.nh.gov/rsa/html/iii/41/41-8.htm",
+      "term": {
+        "years": 3,
+        "staggered": true,
+        "basis": "read",
+        "citation": "RSA 41:8: \"Every town, at the annual meeting, shall choose, by ballot, one selectman to hold office for 3 years.\"",
+        "url": "https://www.gencourt.state.nh.us/rsa/html/III/41/41-8.htm"
+      }
     },
     "NJ": {
       "seats": 3,
       "bodyName": "Township Committee",
       "memberTitle": "Committee member",
       "citation": "N.J.S.A. 40A:63-2: \"The township committee shall consist of three or five members elected at large\"; the game seats three until the township's own choice, or its other form of government, is read.",
-      "url": "https://law.justia.com/codes/new-jersey/title-40a/section-40a-63-2/"
+      "url": "https://law.justia.com/codes/new-jersey/title-40a/section-40a-63-2/",
+      "term": {
+        "years": 3,
+        "staggered": true,
+        "basis": "read",
+        "citation": "N.J.S.A. 40A:63-2(b): committee members \"shall hold office for a term of three years\", arranged \"so that there will be an election of one member of the committee every year\" (no more than two a year on a board of five).",
+        "url": "https://law.justia.com/codes/new-jersey/title-40a/section-40a-63-2/"
+      }
     },
     "NY": {
       "bands": [
@@ -96,42 +166,84 @@
       "bodyName": "Town Board",
       "memberTitle": "Town board member",
       "citation": "N.Y. Town Law § 60: the supervisor and the town council members constitute the town board; a town of the first class (Town Law § 10: ten thousand or more residents) has four council members, a town of the second class two.",
-      "url": "https://www.nysenate.gov/legislation/laws/TWN/60"
+      "url": "https://www.nysenate.gov/legislation/laws/TWN/60",
+      "term": {
+        "years": 4,
+        "staggered": true,
+        "basis": "read",
+        "citation": "N.Y. Town Law § 24: \"at each biennial town election there shall be elected two town council members for terms of four years each.\" The supervisor is a separate office with its own term, not modeled yet (pool item gov-board-seats-that-are-separate-offices).",
+        "url": "https://www.nysenate.gov/legislation/laws/TWN/24"
+      }
     },
     "OH": {
       "seats": 3,
       "bodyName": "Board of Township Trustees",
       "memberTitle": "Trustee",
       "citation": "Ohio Rev. Code § 505.01: \"In each township there shall be a board of township trustees consisting of three members.\"",
-      "url": "https://codes.ohio.gov/ohio-revised-code/section-505.01"
+      "url": "https://codes.ohio.gov/ohio-revised-code/section-505.01",
+      "term": {
+        "years": 4,
+        "staggered": true,
+        "basis": "read",
+        "citation": "Ohio Rev. Code § 505.01: trustees \"hold office for a term of four years\"; two are elected at the general election of 1949 \"and quadrennially thereafter\" and the third at the general election of 1951 \"and quadrennially thereafter.\"",
+        "url": "https://codes.ohio.gov/ohio-revised-code/section-505.01"
+      }
     },
     "PA": {
       "seats": 3,
       "bodyName": "Board of Supervisors",
       "memberTitle": "Supervisor",
       "citation": "Second Class Township Code § 402 (53 P.S. § 65402): the board of supervisors consists of three members, or five if the township's voters approve.",
-      "url": "https://www.legis.state.pa.us/WU01/LI/LI/US/HTM/1933/0/0069..htm"
+      "url": "https://www.legis.state.pa.us/WU01/LI/LI/US/HTM/1933/0/0069..htm",
+      "term": {
+        "years": 6,
+        "staggered": true,
+        "basis": "read",
+        "citation": "Second Class Township Code § 402 (53 P.S. § 65402): supervisors serve six-year terms, elected at the municipal election; § 402(e)'s three-member board is seated for six, four and two years so that one seat is filled at each municipal election (Pennsylvania Municipal League, on Section 402(e)).",
+        "url": "https://www.pml.org/?p=11881"
+      }
     },
     "RI": {
       "seats": 5,
       "bodyName": "Town Council",
       "memberTitle": "Town council member",
       "citation": "Rhode Island towns govern by a town council under each town's charter; the state's town directory lists Hopkinton's as five members, and Barrington's and Smithfield's charters also seat five. Elections fall on the November general election day of even years under the charters read (Coventry, Lincoln). The game seats five until a town's own charter is read.",
-      "url": "https://www.ri.gov/towns/view/hopkinton/"
+      "url": "https://www.ri.gov/towns/view/hopkinton/",
+      "term": {
+        "years": 2,
+        "staggered": false,
+        "basis": "estimated",
+        "citation": "ESTIMATED: the charters read elect the town council at the November general election of even years (see this row's citation); the game takes a two-year term with the whole council elected together until each town's charter term is read.",
+        "url": "https://www.ri.gov/towns/view/hopkinton/"
+      }
     },
     "VT": {
       "seats": 3,
       "bodyName": "Selectboard",
       "memberTitle": "Selectboard member",
       "citation": "17 V.S.A. § 2646: one selectboard member is elected each year for three years, a board of three, unless the town votes to elect two more.",
-      "url": "https://legislature.vermont.gov/statutes/section/17/055/02646"
+      "url": "https://legislature.vermont.gov/statutes/section/17/055/02646",
+      "term": {
+        "years": 3,
+        "staggered": true,
+        "basis": "read",
+        "citation": "17 V.S.A. § 2649(a)(2): \"at each annual meeting, one selectboard member\" is elected for a three-year term; 17 V.S.A. § 2646(4).",
+        "url": "https://legislature.vermont.gov/statutes/section/17/055/02649"
+      }
     },
     "WI": {
       "seats": 3,
       "bodyName": "Town Board",
       "memberTitle": "Supervisor",
       "citation": "Wis. Stat. § 60.20 and § 60.21: a town board of three supervisors, one of them its chairperson, unless the town meeting increases it to five.",
-      "url": "https://docs.legis.wisconsin.gov/statutes/statutes/60/iv/20"
+      "url": "https://docs.legis.wisconsin.gov/statutes/statutes/60/iv/20",
+      "term": {
+        "years": 2,
+        "staggered": false,
+        "basis": "read",
+        "citation": "Wis. Stat. § 60.30(1)(a) and (4)(a): \"At the annual spring election in odd-numbered years, each town shall elect\" its supervisors, and \"every elected town officer shall hold the office for 2 years\"; the supervisors are elected together. The chairperson's separate ballot line is not modeled yet (pool item gov-board-seats-that-are-separate-offices).",
+        "url": "https://docs.legis.wisconsin.gov/document/statutes/60.30(2)"
+      }
     }
   },
   "nationalAverage": {
@@ -139,6 +251,13 @@
     "bodyName": "Township Board",
     "memberTitle": "Township board member",
     "citation": "ESTIMATED FROM AVERAGE: the state has not been read, so the town takes the most common size: 12 of the 16 township states read here set a board of three.",
-    "url": "https://www.census.gov/programs-surveys/cog.html"
+    "url": "https://www.census.gov/programs-surveys/cog.html",
+    "term": {
+      "years": 3,
+      "staggered": true,
+      "basis": "estimated",
+      "citation": "ESTIMATED FROM AVERAGE: the median term of the 16 township states read here is three years, and every state read with a three-year term elects one seat a year (MA, MN, NH, NJ, VT).",
+      "url": "https://www.census.gov/programs-surveys/cog.html"
+    }
   }
 }

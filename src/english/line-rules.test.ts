@@ -9,6 +9,7 @@ import {
   caseBreaksRule,
   caseText,
   gradedGood,
+  placeRuleProblems,
   ruleApplies,
   ruleFlags,
   runRules,
@@ -119,6 +120,51 @@ describe("a rule's own test", () => {
     expect(ruleFlags(judged, piece("a", "x"), storesSaying("a", "x"))).toBe(
       true,
     );
+  });
+});
+
+describe("where an enforced place rule points", () => {
+  const files = (
+    present: Record<string, string>,
+    tested: readonly string[] = Object.keys(present),
+  ) => ({
+    exists: (file: string) => file in present,
+    read: (file: string) => present[file] ?? "",
+    inTestSet: (file: string) => tested.includes(file),
+  });
+  const placed = (test: { reads?: string; by?: string }) =>
+    rule({
+      id: "placed-rule",
+      status: "enforced",
+      test: { kind: "place", ...test },
+    });
+
+  it("holds when it names a verdict file that exists, and not when the file is gone", () => {
+    const reads = placed({ reads: "data/english/judged/x.json" });
+    expect(
+      placeRuleProblems(reads, files({ "data/english/judged/x.json": "{}" })),
+    ).toEqual([]);
+    expect(placeRuleProblems(reads, files({}))).toEqual([
+      "data/english/judged/x.json does not exist",
+    ]);
+  });
+
+  it("holds when it names a test that exists, names the rule and runs in the gate, and says which of those fails", () => {
+    const by = placed({ by: "src/english/x.test.ts" });
+    const test = { "src/english/x.test.ts": "// Words rule placed-rule" };
+    expect(placeRuleProblems(by, files(test))).toEqual([]);
+    expect(placeRuleProblems(by, files({}))).toEqual([
+      "src/english/x.test.ts does not exist",
+    ]);
+    expect(
+      placeRuleProblems(by, files({ "src/english/x.test.ts": "// another" })),
+    ).toEqual(["src/english/x.test.ts does not name the rule"]);
+    expect(placeRuleProblems(by, files(test, []))).toEqual([
+      "src/english/x.test.ts is not in the gate's test set",
+    ]);
+    expect(placeRuleProblems(placed({}), files({}))).toEqual([
+      "names neither a verdict file nor a test",
+    ]);
   });
 });
 
@@ -636,6 +682,9 @@ describe("the rules that judge a piece in its spot, over the banks", () => {
         return row.note?.trim() ? [] : [`${row.id} waits with no reason`];
       // A composed rule reads whole texts; tests/guards/english/composed-rules.test.ts holds it.
       if (row.test.kind === "composed") return [];
+      // A judged rule is held by its saved verdicts, its catches and its
+      // spares: tests/guards/english/line-rules.test.ts holds it.
+      if (row.test.kind === "judged") return [];
       const tested = ["phrases", "patterns", "sentences"].includes(
         row.test.kind,
       );
@@ -687,13 +736,18 @@ describe("the rules that judge a piece in its spot, over the banks", () => {
   });
 
   it('"can\'t afford a yes" is flagged outside a bribe offer and spared inside one', () => {
-    const talk = bank("scene-talk");
-    const keys = flagged("trade-not-bribe", talk);
-    expect(keys).toEqual([
-      "scene-talk.follow-answer.because-those-three-can-t-afford-a-yes-and-you-can",
-    ]);
-    const line = talk.find((p) => p.key === keys[0])!;
+    // The one talk line this rule flagged ("Because those three can't afford
+    // a yes, and you can.") went with the scenes that only talked in #8922
+    // (c87a517a79), so the bank holds none now. The rule is held by its own
+    // cases here, never by a count of bank lines.
+    expect(flagged("trade-not-bribe", bank("scene-talk"))).toEqual([]);
     const rule = byId.get("trade-not-bribe")!;
+    const line = piece(
+      "afford",
+      "Because those two can't afford a yes, and you can.",
+      [{ subject: "s", role: "asker", move: "m", purpose: "ask-vote" }],
+    );
+    expect(ruleFlags(rule, line)).toBe(true);
     expect(
       ruleFlags(rule, {
         ...line,
@@ -794,7 +848,7 @@ describe("the rules that judge one line", () => {
     expect(
       ruleFlags(
         traits,
-        piece("t", "Neither, much", [], { bank: "person-sketch" }),
+        piece("t", "Neither, much", [], { bank: "person-history" }),
       ),
     ).toBe(true);
     expect(ruleFlags(traits, piece("t", "Neither, much"))).toBe(false);

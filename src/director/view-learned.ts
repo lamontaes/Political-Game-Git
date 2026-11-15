@@ -16,6 +16,7 @@
  * taught it. Nothing here decides what anyone believes: it only moves what
  * the views engine already holds into what the player knows.
  */
+import { organizationName } from "./words";
 import { closenessBetween } from "../core2/closeness";
 import {
   VIEWS_MODULE_ID,
@@ -30,7 +31,6 @@ import { P } from "../core2/parameters";
 import { coreAPI } from "../core2/state";
 import { decisionLean, hardshipStress } from "../core2/trait-decisions";
 import { NAMED_QUESTIONS, questionAbout } from "../english/question-names";
-import { questionSubject } from "../english/policy-names";
 import rulesFile from "./data/conversation-rules.json" with { type: "json" };
 import type { CoreAPI, CoreState, PersonId } from "../core2/types";
 import type { Story } from "../core2/modules/news";
@@ -105,27 +105,6 @@ export function viewTopicWeight(willingness: number): number {
 export const viewQuestionKey = (personId: string) =>
   `person:${personId}:view-question`;
 
-/** The question areas that read a person's work or money, by the bill catalog's subjects and questions by name. */
-const AREAS = (
-  rulesFile as unknown as {
-    addressPoint: {
-      work: { subjects: readonly string[] };
-      money: { subjects: readonly string[]; questions: readonly string[] };
-    };
-  }
-).addressPoint;
-
-/** Whether a question is about work or pay, or about prices, rent or taxes, or neither. */
-function questionArea(question: string): "work" | "money" | null {
-  const subject = questionSubject(question);
-  if (
-    AREAS.money.questions.includes(question) ||
-    (subject && AREAS.money.subjects.includes(subject))
-  )
-    return "money";
-  return subject && AREAS.work.subjects.includes(subject) ? "work" : null;
-}
-
 /**
  * The question a person holds the strongest view on: of the questions their
  * stances name (or, with none, every question with a spoken name), the one
@@ -136,6 +115,8 @@ function questionArea(question: string): "work" | "money" | null {
 export function strongestQuestion(
   api: CoreAPI,
   personId: PersonId,
+  /** Only the questions this accepts (a question the person has a reason of their own for). */
+  accept: (question: string) => boolean = () => true,
 ): {
   question: string;
   about: string;
@@ -150,6 +131,7 @@ export function strongestQuestion(
   const strongest = (questions: readonly string[]) => {
     let found: { question: string; about: string; view: number } | null = null;
     for (const question of [...new Set(questions)].sort()) {
+      if (!accept(question)) continue;
       const about = questionAbout(question);
       if (!about) continue;
       const view = viewOn(api, personId, question, lean);
@@ -172,48 +154,98 @@ export function strongestQuestion(
   };
 }
 
+/** Which reason from a person's own life fits each side of a question (conversation-rules.json stands.reasonFits). */
+const FITS = (
+  rulesFile as unknown as {
+    stands: {
+      reasonFits: {
+        payNear: { value: number };
+        payrollTitles: readonly string[];
+        wages: Readonly<Record<string, { value: number } | string>>;
+        questions: Readonly<
+          Record<string, Partial<Record<"for" | "against", string>>>
+        >;
+      };
+    };
+  }
+).stands.reasonFits;
+
 /**
- * Why a person holds their strongest view, from their own life: their work
- * (the question is about work or pay, and they hold a job or lost one), else
- * money (the question is about prices, rent or taxes, and the trait engine's
- * hardship stress is past zero), else none. Each cites its record.
+ * Why a person holds a view on one side of a question, from their own life,
+ * only when the record supports that side (lead, Nov 12: "At about $15 an
+ * hour, it's my own paycheck on the line" from someone against the raise that
+ * would pay her more). The rules name, by question and side, the reason that
+ * fits: their pay at or near the proposed wage (`pay-near`), a job that sets
+ * pay (`payroll`), a job that does not (`worker`), or the household's
+ * hardship (`hardship`). A side with no fit, or a record that does not bear
+ * it, gives none: they say the principle. Each reason cites its record.
  */
-function viewReason(
+export function viewReason(
   core: Readonly<CoreState>,
   personId: PersonId,
   question: string,
+  side: "for" | "against",
 ):
-  | { reason: "work"; employer: string; recordIds: readonly string[] }
+  | {
+      reason: "work";
+      employer: string;
+      recordIds: readonly string[];
+      /** Which fit it is: their pay against the proposal, a job that sets pay, or a job. */
+      fit: string;
+    }
   | { reason: "money"; recordIds: readonly string[] }
   | null {
   const person = core.people.get(personId);
-  if (!person) return null;
-  const area = questionArea(question);
-  if (area === "work") {
-    let job = person.jobId ? core.jobs.get(person.jobId) : undefined;
-    if (!job)
-      for (const [key, row] of core.knowledgeByPerson.get(personId) ?? []) {
-        const match = /^job:(.+):status$/.exec(key);
-        if (match && row.value === "ended") job = core.jobs.get(match[one]!);
-      }
-    const employer = job ? core.organizations.get(job.organizationId) : null;
-    // Never the outside account or a government's treasury as an employer
-    // ("I see it every day at Town of Plymouth treasury."): no work reason.
-    if (
-      job &&
-      employer &&
-      !employer.outsideFlow &&
-      employer.kind !== "government-treasury"
-    )
-      return {
+  const fit = FITS.questions[question]?.[side];
+  if (!person || !fit) return null;
+  if (fit === "hardship")
+    return hardshipStress(core, person) > zero
+      ? { reason: "money", recordIds: [person.householdId] }
+      : null;
+  let job = person.jobId ? core.jobs.get(person.jobId) : undefined;
+  // A job lost still speaks for the worker's side (pay, not payroll).
+  if (!job && fit !== "payroll")
+    for (const [key, row] of core.knowledgeByPerson.get(personId) ?? []) {
+      const match = /^job:(.+):status$/.exec(key);
+      if (match && row.value === "ended") job = core.jobs.get(match[one]!);
+    }
+  const employer = job ? core.organizations.get(job.organizationId) : null;
+  // Never the outside account or a government's treasury as an employer
+  // ("I see it every day at Town of Plymouth treasury."): no work reason.
+  if (
+    !job ||
+    !employer ||
+    employer.outsideFlow ||
+    employer.kind === "government-treasury"
+  )
+    return null;
+  const title = job.title.toLowerCase();
+  const setsPay = FITS.payrollTitles.some((word) =>
+    new RegExp(`\\b${word}\\b`).test(title),
+  );
+  const wage = FITS.wages[question];
+  const hourly =
+    job.hourlyMinor ??
+    (job.hoursDaily > zero ? job.wageDailyMinor / job.hoursDaily : undefined);
+  const fits =
+    fit === "payroll"
+      ? setsPay
+      : fit === "worker"
+        ? !setsPay
+        : fit === "pay-near"
+          ? !setsPay &&
+            typeof wage === "object" &&
+            hourly !== undefined &&
+            hourly <= wage.value * FITS.payNear.value
+          : false;
+  return fits
+    ? {
         reason: "work",
-        employer: employer.name,
+        employer: organizationName(employer),
         recordIds: [job.id, employer.id],
-      };
-  }
-  if (area === "money" && hardshipStress(core, person) > zero)
-    return { reason: "money", recordIds: [person.householdId] };
-  return null;
+        fit,
+      }
+    : null;
 }
 
 /**
@@ -226,6 +258,8 @@ export function viewSubjectOf(
   core: Readonly<CoreState>,
   speakerId: PersonId,
   listenerId: PersonId,
+  /** Questions not to stand on here (one the house named today). */
+  skip: (question: string) => boolean = () => false,
 ): {
   stage: string;
   recordId: string;
@@ -240,13 +274,33 @@ export function viewSubjectOf(
   const api = coreAPI(core as CoreState);
   const view = viewOf(api, speakerId);
   if (!view) return null;
-  const strongest = strongestQuestion(api, speakerId);
+  // The stand they say is the one their own life gives a reason for (their
+  // work, their money), the strongest of those; only with none is it their
+  // strongest view, said without a reason (words composer, Nov 12: "each
+  // speaker's own why"; the strongest view alone was a question their life
+  // never touched, so the has-reason path never fired in four drawn places).
+  const lean = view.lean;
+  const sideOf = (question: string): "for" | "against" | null => {
+    const held = viewOn(api, speakerId, question, lean);
+    return held > zero ? "for" : held < zero ? "against" : null;
+  };
+  const reasoned = strongestQuestion(api, speakerId, (question) => {
+    const side = sideOf(question);
+    return (
+      !skip(question) && !!side && !!viewReason(core, speakerId, question, side)
+    );
+  });
+  const strongest =
+    reasoned ??
+    strongestQuestion(api, speakerId, (question) => !skip(question));
   return {
     stage: view.label,
     recordId: viewRecordId(speakerId),
     weight: viewTopicWeight(viewWillingness(core, speakerId, listenerId)),
     strongest,
-    reason: strongest ? viewReason(core, speakerId, strongest.question) : null,
+    reason: strongest
+      ? viewReason(core, speakerId, strongest.question, strongest.side)
+      : null,
   };
 }
 

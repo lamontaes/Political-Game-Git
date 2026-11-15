@@ -43,6 +43,22 @@ interface StateReading {
   readonly memberTitle: string;
   readonly citation: string;
   readonly url: string;
+  /** How long a member serves and whether the seats take turns, from statute. */
+  readonly term?: TownshipBoardTerm;
+}
+
+/**
+ * A town or township board member's term: its years, and whether the seats
+ * are staggered (a share of the board up at each regular election, as in
+ * Vermont's one selectboard member a year) or all elected together (a "vote
+ * for N" race, as in Wisconsin's town board).
+ */
+export interface TownshipBoardTerm {
+  readonly years: number;
+  readonly staggered: boolean;
+  readonly basis: "read" | "estimated";
+  readonly citation: string;
+  readonly url: string;
 }
 
 interface TownCharter {
@@ -63,6 +79,7 @@ const CHARTERS = charters.towns as Readonly<Record<string, TownCharter>>;
 const STATES = readings.states as Readonly<Record<string, StateReading>>;
 const AVERAGE = readings.nationalAverage as StateReading & {
   readonly seats: number;
+  readonly term: TownshipBoardTerm;
 };
 
 /** Each place's residents by county subdivision, largest first. */
@@ -187,6 +204,19 @@ export function townshipGoverningBodyRules(
     url: reading.url,
     inForceSince: null,
   };
+}
+
+/**
+ * A town or township board member's term, from its state's statute where
+ * read, else the median of the states read (ESTIMATED FROM AVERAGE). A town
+ * whose own charter or vote set another term is not read yet and takes its
+ * state's. Null for any government that is not a township.
+ */
+export function townshipBoardTerm(
+  unit: GovernmentUnitIdentity,
+): TownshipBoardTerm | null {
+  if (unit.unitType !== "township") return null;
+  return STATES[unit.stateUsps]?.term ?? AVERAGE.term;
 }
 
 /**

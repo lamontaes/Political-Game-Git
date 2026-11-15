@@ -7,6 +7,7 @@
  */
 import forms from "./data/legislature/bill-forms.json" with { type: "json" };
 import clauses from "./data/legislature/enacting-clauses.json" with { type: "json" };
+import localStyle from "../../data/research/gov/local-ordinance-style-2026.json" with { type: "json" };
 import {
   gameDefaultBillNumberingStyle,
   recordedStateBillNumberingStyle,
@@ -26,6 +27,56 @@ export interface BodyNumbering {
   /** The enacting clause as the law prescribes it, `{body}` for a local body's name. */
   readonly enactingClause: string;
   readonly enactingSource: string;
+  /** A body that numbers by the council's period (`{period}` in the template): the period's own number. */
+  readonly periodLabel?: number;
+}
+
+interface LocalClauseRow {
+  readonly clause: string;
+  readonly kinds?: readonly string[];
+  readonly statute?: string;
+  readonly tag: string;
+}
+interface LocalNumberingRow {
+  readonly template: string;
+  readonly period: string;
+  /** A council-period numbering: the period that opened in `periodAnchorYear`, and its number. */
+  readonly periodAnchorYear?: number;
+  readonly periodAnchorNumber?: number;
+  readonly statute?: string;
+}
+const LOCAL_PLACES = (
+  localStyle as unknown as {
+    places: Record<
+      string,
+      {
+        municipal: LocalClauseRow;
+        county: LocalClauseRow;
+        numbering: LocalNumberingRow;
+      }
+    >;
+  }
+).places;
+
+/**
+ * The place a local body sits in, for the clause and the numbering its state's general law gives it:
+ * the state's key and the government's own name ("City of Boise"). Where none is given, or the place
+ * has no row, the national default in bill-forms.json stands.
+ */
+export interface LocalPlace {
+  readonly state: string;
+  readonly governmentName: string;
+}
+
+/** A government's class word and name as its listing says it ("City of Boise" is a city called Boise). */
+function classOf(governmentName: string): { kind: string; name: string } {
+  const named =
+    /^(City|Town|Village|Borough|Township|County|Parish|Plantation|(?:Charter |Civil |Metro )?Township) of (.+)$/i.exec(
+      governmentName,
+    );
+  return named
+    ? { kind: named[1]!.toLowerCase(), name: named[2]! }
+    : { kind: "city", name: governmentName };
 }
 
 interface ClauseRow {
@@ -46,6 +97,19 @@ function periodOpened(
 }
 
 /**
+ * The form a body's measures take by its office kind: Congress and a state
+ * chamber pass acts (said "bill"), every local body ordinances. The one rule
+ * `bodyNumbering` and a speech saying what the body passes both read.
+ */
+export function formKindOf(officeKind: string): BillFormKind {
+  return /^(?:us-house|us-senate|legislature-(?:lower|upper|unicameral))/.test(
+    officeKind,
+  )
+    ? "act"
+    : "ordinance";
+}
+
+/**
  * The numbering of the body a bill goes to, from the body's office kind and
  * jurisdiction ("US", "US-XX", or a local government id).
  */
@@ -56,6 +120,7 @@ export function bodyNumbering(
     readonly jurisdiction: string;
   },
   date: string,
+  place?: LocalPlace,
 ): BodyNumbering {
   const year = Number(date.slice(0, 4));
   if (body.kind.startsWith("us-house") || body.kind === "us-senate") {
@@ -74,6 +139,25 @@ export function bodyNumbering(
   }
   const chamber = /^legislature-(lower|upper|unicameral)$/.exec(body.kind)?.[1];
   if (chamber) {
+    // A legislature whose own rules number by the council's period (the District's Council): the
+    // place's row in local-ordinance-style-2026.json says so, so no place is named here.
+    const byPeriod =
+      LOCAL_PLACES[body.jurisdiction.replace(/^US-/, "")]?.numbering;
+    if (byPeriod?.period === "council-period") {
+      const opened = periodOpened(year, "biennial", "odd");
+      return {
+        kind: "act",
+        template: byPeriod.template,
+        runKey: `${body.jurisdiction}:${opened}`,
+        periodOpened: opened,
+        firstNumber: forms.local.firstNumber,
+        enactingClause: CLAUSES[body.jurisdiction]?.text ?? "",
+        enactingSource: CLAUSES[body.jurisdiction]?.citation ?? "",
+        periodLabel:
+          (byPeriod.periodAnchorNumber ?? 1) +
+          (opened - (byPeriod.periodAnchorYear ?? opened)) / 2,
+      };
+    }
     const style =
       recordedStateBillNumberingStyle(body.jurisdiction) ??
       gameDefaultBillNumberingStyle(body.jurisdiction);
@@ -96,14 +180,36 @@ export function bodyNumbering(
     };
   }
   const f = forms.local;
+  const row = place ? LOCAL_PLACES[place.state] : undefined;
+  if (!place || !row)
+    return {
+      kind: "ordinance",
+      template: f.template,
+      runKey: `${body.id}:${year}`,
+      periodOpened: year,
+      firstNumber: f.firstNumber,
+      enactingClause: f.enactingClause,
+      enactingSource: f.enactingSource,
+    };
+  const { kind, name } = classOf(place.governmentName);
+  // The clause the state's general law gives this kind of government; a government of a kind the
+  // statute does not cover keeps the national default.
+  const clauseRow = body.kind === "county-board" ? row.county : row.municipal;
+  const covered =
+    clauseRow.tag === "SOURCED" &&
+    (!clauseRow.kinds || clauseRow.kinds.includes(kind));
+  const clause = covered ? clauseRow.clause : f.enactingClause;
+  const numbering = row.numbering;
   return {
     kind: "ordinance",
-    template: f.template,
+    template: numbering.template,
     runKey: `${body.id}:${year}`,
     periodOpened: year,
     firstNumber: f.firstNumber,
-    enactingClause: f.enactingClause,
-    enactingSource: f.enactingSource,
+    enactingClause: clause.replace("{place}", name).replace("{kind}", kind),
+    enactingSource: covered
+      ? (clauseRow.statute ?? f.enactingSource)
+      : f.enactingSource,
   };
 }
 
@@ -113,5 +219,6 @@ export function designation(numbering: BodyNumbering, n: number): string {
   return numbering.template
     .replace("{n}", String(n))
     .replace("{yyyy}", yyyy)
-    .replace("{yy}", yyyy.slice(2));
+    .replace("{yy}", yyyy.slice(2))
+    .replace("{period}", String(numbering.periodLabel ?? ""));
 }

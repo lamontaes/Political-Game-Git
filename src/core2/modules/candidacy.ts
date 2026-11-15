@@ -30,7 +30,7 @@ import { votesOf } from "./record";
 import { leanOf } from "./legislature";
 import { viewOn } from "./views";
 import { bookkeeping } from "../bookkeeping";
-import { ageOnDate } from "../kernel/dates";
+import { ageOnDate, daysBetweenText } from "../kernel/dates";
 import { scoreOffers, decisionFromScores } from "../choice";
 import rows from "../data/candidacy/parameters.json" with { type: "json" };
 import type { Parameter } from "../parameters";
@@ -56,6 +56,7 @@ import {
   ELECTIONS_MODULE_ID,
   fileCandidacy,
   filingRulesFor,
+  filledByTickets,
   checkEligibility,
   filingWindowOpens as electionsFilingWindowOpens,
   officeFamily,
@@ -68,6 +69,7 @@ import { OFFICES_MODULE_ID, type TermRow } from "./offices";
 import {
   PARTIES_MODULE_ID,
   partiesHere,
+  partyMeetings,
   partyTie,
   type PartyRow,
   type TieRow,
@@ -79,7 +81,10 @@ import { countedResidents, type CountedVoter } from "../electorate";
 import { presidentSide, tideAgainstPresident } from "../electorate-inputs";
 import { partySide } from "../appointments";
 import { approvalGapPoints } from "./national-opinion";
-import { revolvingDoorFor } from "../law-reach/group-a-voting";
+import {
+  prisonersBarredHere,
+  revolvingDoorFor,
+} from "../law-reach/group-a-voting";
 import { fillInPerson } from "../state";
 import { campaignParameter } from "../campaign-data";
 
@@ -186,16 +191,46 @@ function cashShareOf(
 }
 
 /** A named person's roles, read from the same record a counted resident's are (opening-roles.ts). */
-function rolesOfNamed(person: Readonly<PersonState>) {
+function rolesOfNamed(api: CoreAPI, person: Readonly<PersonState>) {
   const looks = person.looks ?? {};
   return {
     partyActivity: Number(looks.partyActivity ?? 0) || 0,
     owner: Boolean(looks.ownedEmployerId),
-    civicRoles: looks.civicRoles
-      ? String(looks.civicRoles).split(",").length
-      : 0,
+    civicRoles: civicRolesOf(api, person.id),
   };
 }
+
+/**
+ * How many civic roles a person holds, read from the records that name them:
+ * a party's chair here, and a seat at a party's committee meetings in the
+ * last year (the meeting's own attendance). The same rule for a counted
+ * resident, whom no such record names. Read once a day for the whole town.
+ */
+export function civicRolesOf(api: CoreAPI, personId: string): number {
+  const date = api.state.date;
+  const kept = civicRoleCounts.get(api.state);
+  if (kept?.date === date) return kept.counts.get(personId) ?? 0;
+  const counts = new Map<string, number>();
+  const add = (id: string) => counts.set(id, (counts.get(id) ?? 0) + 1);
+  if (api.state.modules.has(PARTIES_MODULE_ID)) {
+    const year = api.parameter("daysPerMeanYear");
+    const committee = new Set<string>();
+    for (const party of partiesHere(api)) {
+      if (party.leaderId) add(party.leaderId);
+      for (const meeting of partyMeetings(api, party.id))
+        if (daysBetweenText(meeting.date, date) <= year)
+          for (const id of meeting.attendeeIds)
+            if (id !== meeting.leaderId) committee.add(id);
+    }
+    for (const id of committee) add(id);
+  }
+  civicRoleCounts.set(api.state, { date, counts });
+  return counts.get(personId) ?? 0;
+}
+const civicRoleCounts = new WeakMap<
+  object,
+  { readonly date: string; readonly counts: ReadonlyMap<string, number> }
+>();
 
 /** Each recorded reason for running, as a signed pull. */
 export function candidacyReasons(
@@ -235,7 +270,7 @@ export function candidacyReasons(
       cause,
       incumbentTie,
       recordGap,
-      ...rolesOfNamed(person),
+      ...rolesOfNamed(api, person),
       dependents: (
         api.state.households.get(person.householdId)?.memberIds ?? []
       )
@@ -451,7 +486,7 @@ export function countedCandidacyReasons(
       recordGap: recordGapOf(api, voter, contest, true),
       partyActivity: voter.partyActivity ?? zero,
       owner: Boolean(voter.ownedEmployerId),
-      civicRoles: voter.civicRoles?.length ?? 0,
+      civicRoles: civicRolesOf(api, voter.id),
       dependents: countedChildrenOf(
         api.state as CoreState,
         voter.id,
@@ -757,9 +792,12 @@ function queuesFor(api: CoreAPI): Queues | null {
   const held = queues.get(api.state);
   if (held && held.size === contests.size) return held;
   const weighed = api.moduleState(CANDIDACY_MODULE_ID).table("weighed");
-  const rows = (contests.rows() as unknown as ContestRow[]).filter(
-    (row) => row.filingDeadline >= api.state.date,
+  // A running mate's office is filled by the governor candidates' tickets:
+  // nobody weighs running for it on their own (`filledByTickets`).
+  const own = (contests.rows() as unknown as ContestRow[]).filter(
+    (row) => !filledByTickets(api, row),
   );
+  const rows = own.filter((row) => row.filingDeadline >= api.state.date);
   const built: Queues = {
     size: contests.size,
     localRank: Math.max(
@@ -782,7 +820,7 @@ function queuesFor(api: CoreAPI): Queues | null {
     // (a tie's second election reuses its field).
     opening: held
       ? []
-      : (contests.rows() as unknown as ContestRow[])
+      : own
           .filter(
             (row) =>
               row.filingDeadline < api.state.date &&
@@ -823,6 +861,25 @@ export function platformFromViews(
     positions,
     c(api, "candidacyPlatformQuestions"),
   ).map(({ question, position }) => `${question}=${position}`);
+}
+
+/**
+ * The stands a filing for this contest carries when none are handed in: the
+ * filer's own views on the questions the seat takes up. The counter files
+ * the player this way, as a simulated runner's filing does.
+ */
+export function platformForContest(
+  api: CoreAPI,
+  personId: PersonId,
+  party: string | null,
+  contest: { readonly officeId: string },
+): string[] {
+  return platformFromViews(
+    api,
+    personId,
+    party,
+    contestPositions(api, contest),
+  );
 }
 
 /** File for a runner: no fee; the filing's petition circulates until the clerk's check. */
@@ -954,6 +1011,19 @@ export function weighContest(
     if (term?.status === "serving" && term.personId)
       committed.add(term.personId);
   }
+  // A member serving another seat of the same body past this election (a
+  // staggered board's seats take turns) keeps that seat: they don't run
+  // for a second seat they could not hold with it.
+  for (const term of terms.query("byOfficeStatus", [
+    contest.officeId,
+    "serving",
+  ]) as unknown as TermRow[])
+    if (
+      term.personId &&
+      term.seatId !== contest.seatId &&
+      (!term.endDate || term.endDate > contest.electionDate)
+    )
+      committed.add(term.personId);
   // An at-large race is one race: those already running for its other seats
   // are in the field each would-be candidate weighs (the same field term).
   const weighedTable = api.moduleState(CANDIDACY_MODULE_ID).table("weighed");
@@ -977,6 +1047,10 @@ export function weighContest(
       p.id === incumbentId) &&
     !appointed.has(p.id) &&
     ageOnDate(p.birthDate, date) >= rules.minimumAge &&
+    // The filing fee weighs in the decision: someone who cannot cover it from
+    // their own cash does not decide to run (the counter's refusal is left
+    // for the player and for money that ran out in between).
+    p.liquidMinor >= rules.feeMinor &&
     !isExplicitlyControlledPersonV1(api.state, p.id) &&
     !committed.has(p.id) &&
     !(incumbentFiled && p.id === incumbentId) &&
@@ -1051,6 +1125,49 @@ export function weighContest(
       } as unknown as { id: string });
       asked.push(voter.id);
       running.push(voter.id);
+    }
+    // Filing opens: a counted adult who decided to run but whose pull no
+    // longer clears the bar today (the field grew) is not drawn, so they
+    // decide again by the same rule as the first time, on today's date, as a
+    // full person does. Still over the bar, they run and file; under it, the
+    // decision reads run false with its reasons.
+    if (reconsider) {
+      const drawnIds = new Set(screen.drawn.map((voter) => voter.id));
+      const stranded = new Set(
+        candidatesFor(api, field.contestId)
+          .map((decision) => decision.personId)
+          .filter(
+            (id) =>
+              !drawnIds.has(id) &&
+              !asked.includes(id) &&
+              !committed.has(id) &&
+              !api.state.people.has(id),
+          ),
+      );
+      const voters = stranded.size
+        ? countedResidents(api.state as CoreState).filter(
+            (voter) =>
+              stranded.has(voter.id) &&
+              (contest.family === "countyOffice"
+                ? [town.townPlaceId, countyPlaceOfWorld(api.state)]
+                : [town.townPlaceId]
+              ).includes(voter.placeId),
+          )
+        : [];
+      for (const voter of voters.sort((a, b) => a.id.localeCompare(b.id))) {
+        const id = `${field.contestId}:${voter.id}`;
+        const held = decisions.get(id) as unknown as CandidacyDecision;
+        const seat = { ...field, runners: running.length + raceRunners };
+        const reasons = countedCandidacyReasons(api, voter, seat);
+        let pull = api.parameter("zero");
+        for (const value of Object.values(reasons)) pull += value;
+        const run = pull > bar;
+        decisions.put({ ...held, date, run, reasons } as unknown as {
+          id: string;
+        });
+        asked.push(voter.id);
+        if (run) running.push(voter.id);
+      }
     }
   }
   const people = [...api.state.people.values()]
@@ -1158,8 +1275,9 @@ function countedScreen(
     held.year !== year ||
     !placeIds.every((id) => held!.places.includes(id))
   ) {
-    // Counted residents of adult correctional rooms may be drawn to run.
-    // stopgapId: SG-GQ-counted-prisoners-vote
+    // Counted residents of adult correctional rooms are not drawn to run
+    // where the state bars people held in prison (`incarceratedMayVote`).
+    const barredRooms = prisonersBarredHere(api);
     const places = [
       ...new Set([...(held?.year === year ? held.places : []), ...placeIds]),
     ];
@@ -1167,7 +1285,11 @@ function countedScreen(
       year,
       places,
       rows: countedResidents(api.state as CoreState)
-        .filter((voter) => places.includes(voter.placeId))
+        .filter(
+          (voter) =>
+            places.includes(voter.placeId) &&
+            !(barredRooms && voter.quarters === "adultCorrectional"),
+        )
         .map((voter) => {
           // The pull apart from the seat: an open town seat with no one
           // running yet, which bounds every seat's pull from above but for
@@ -1294,6 +1416,8 @@ export const PARTY_ASKED_EVENT = "party-asked";
 export const SUCCESSOR_ASKED_EVENT = "successor-asked";
 /** The replies in an ask's scene that mean yes. */
 const AGREEING_MOVES: ReadonlySet<string> = new Set(["agree", "relent"]);
+/** The replies in an ask's scene that mean no, or not now. */
+const REFUSING_MOVES: ReadonlySet<string> = new Set(["decline", "stall"]);
 
 /**
  * A party with no one filed for a partisan seat looks for someone to run
@@ -1370,9 +1494,20 @@ export function partyProspects(
             (check) => !check.met,
           ),
       )
-      // Inroads first, then standing (owner, Oct 15: "The party asks someone
-      // to run only with some inroads on record"; Oct 14: a high-standing
-      // member may be propositioned).
+      // Only with some inroads on record (owner, Oct 15: "The party asks
+      // someone to run only with some inroads on record"): the member knows
+      // the chair or the two have a tie. A stranger is never asked.
+      .filter(
+        (person) =>
+          person.knownIds.has(chairId) ||
+          api.state.relationships.has(
+            person.id < chairId
+              ? `${person.id}:${chairId}`
+              : `${chairId}:${person.id}`,
+          ),
+      )
+      // Inroads first, then standing (Oct 14: a high-standing member may be
+      // propositioned).
       .map((person) => ({
         person,
         closeness: closenessBetween(api.state, person.id, chairId),
@@ -1505,7 +1640,12 @@ function askForSuccessor(api: CoreAPI, contest: ContestRow): void {
   }
 }
 
-function askForCandidates(api: CoreAPI, contest: ContestRow): void {
+function askForCandidates(
+  api: CoreAPI,
+  contest: ContestRow,
+  /** Only this party asks: its next member, after the player's answer. */
+  onlyPartyId?: string,
+): void {
   const date = api.state.date;
   const town = api
     .moduleState(ELECTIONS_MODULE_ID)
@@ -1534,6 +1674,7 @@ function askForCandidates(api: CoreAPI, contest: ContestRow): void {
       ? incumbentDecision
       : undefined;
   for (const { party, chairId, members } of partyProspects(api, contest)) {
+    if (onlyPartyId && party.id !== onlyPartyId) continue;
     for (const person of members) {
       const recordId = `${PARTY_ASKED_EVENT}:${contest.id}:${party.id}:${person.id}`;
       if (api.state.eventIds.has(recordId)) continue;
@@ -1559,13 +1700,13 @@ function askForCandidates(api: CoreAPI, contest: ContestRow): void {
           filingDeadline: rules.deadline ?? contest.filingDeadline,
         },
       });
+      // A seasoned officeholder of the party takes the member under their
+      // wing; the next day's advice scene reads who.
+      takeUnderWing(api, person.id, party.id, recordId);
       // The player answers in the scene the ask stages, and the party waits
-      // on that answer.
-      if (isExplicitlyControlledPersonV1(api.state, person.id)) {
-        // stopgapId: SG-P15-party-ask-after-player
-        api.stopgap("SG-P15-party-ask-after-player");
-        break;
-      }
+      // on that answer: a yes is the decision to run (`answerPartyAsk`), a no
+      // or a not-now sends the party on to its next member.
+      if (isExplicitlyControlledPersonV1(api.state, person.id)) break;
       const decision = decideToRun(
         api,
         person.id,
@@ -1647,14 +1788,35 @@ function noteHouseholdBacking(
     } satisfies BackingRow as unknown as ModuleRow);
 }
 
+/**
+ * The player said no, or not now, to a party's ask: the party goes on to its
+ * next member for the seat while filing is open, by the same asking the
+ * first round used. The next member weighs it with the new ask as a reason.
+ */
+function askNextAfterRefusal(
+  api: CoreAPI,
+  ask: Readonly<CoreEventInput>,
+): void {
+  const contest = api
+    .moduleState(ELECTIONS_MODULE_ID)
+    .table("contests")
+    .get(String(ask.facts?.contestId ?? "")) as unknown as
+    ContestRow | undefined;
+  if (!contest) return;
+  const rules = filingRulesFor(api, contest, "party");
+  if (api.state.date > (rules.deadline ?? contest.filingDeadline)) return;
+  askForCandidates(api, contest, String(ask.facts?.partyId ?? ""));
+}
+
 function answerPartyAsk(api: CoreAPI, event: Readonly<CoreEventInput>): void {
   const facts = event.facts ?? {};
   const ask = api.state.durableLog.get(String(facts.causeId ?? ""));
-  if (
-    ask?.kind !== PARTY_ASKED_EVENT ||
-    !AGREEING_MOVES.has(String(facts.move))
-  )
+  if (ask?.kind !== PARTY_ASKED_EVENT) return;
+  if (REFUSING_MOVES.has(String(facts.move))) {
+    askNextAfterRefusal(api, ask);
     return;
+  }
+  if (!AGREEING_MOVES.has(String(facts.move))) return;
   const personId = ask.facts?.askedId as PersonId | undefined;
   const contest = api
     .moduleState(ELECTIONS_MODULE_ID)
@@ -1874,6 +2036,16 @@ export const candidacyModule: CoreModule = {
     candidacyDay(api);
     dropPastNonRunners(api);
   },
+  // A skipped day weighs and files the races whose day has come, so a race
+  // decided in skipped time has its incumbent and runners on the ballot.
+  onResultsDay: (api) => {
+    // No campaign is played in skipped time: the count reads the voters'
+    // standing views and the candidates' records, with no campaign's effect.
+    // stopgapId: SG-SPEED-results-mode-no-campaign-effect
+    api.stopgap("SG-SPEED-results-mode-no-campaign-effect");
+    candidacyDay(api);
+    dropPastNonRunners(api);
+  },
   eventKinds: ["scene.reply"],
   onEvent: (api, event) => {
     answerPartyAsk(api, event);
@@ -1899,3 +2071,160 @@ export const candidacyModule: CoreModule = {
 
 /** The filing clerk who takes a local race's papers, read by other families through this entry. */
 export { localClerkFor } from "./filing-clerk";
+
+export const PARTY_MENTORSHIP = "party.mentorship-formed";
+
+/** A party member's mentor in politics: who took them under their wing, and the party's ask that brought it about. */
+export interface PartyMentorRow {
+  readonly id: string;
+  readonly partyId: string;
+  readonly mentorId: string;
+  readonly since: string;
+  readonly askId: string;
+}
+
+/**
+ * When a party asks a member to run, one of its seated officeholders in town
+ * who has held a seat for a year or more takes the newcomer under their wing:
+ * the one closest to them already, then the longest seated. Written once per
+ * member and party, as a tie between the two and a `party.mentorship-formed`
+ * record the advice scene reads (`partyMentorOf`). Nothing is rolled; no
+ * seasoned officeholder of the party in town, no mentor. Returns the mentor.
+ */
+export function takeUnderWing(
+  api: CoreAPI,
+  personId: PersonId,
+  partyId: string,
+  askId: string,
+): PersonId | null {
+  const core = api.state as CoreState;
+  const mentors = api.moduleState(PARTIES_MODULE_ID).table("mentors");
+  const id = `${partyId}:${personId}`;
+  const held = mentors.get(id) as unknown as PartyMentorRow | undefined;
+  if (held) return held.mentorId as PersonId;
+  const person = core.people.get(personId);
+  if (!person) return null;
+  const mentor = seasonedOfficeholders(api, partyId, person.placeId)
+    .filter((held) => held.id !== personId)
+    .map((held) => ({
+      ...held,
+      tie: closenessBetween(core, personId, held.id),
+    }))
+    .sort(
+      (a, b) =>
+        b.tie - a.tie ||
+        a.since.localeCompare(b.since) ||
+        a.id.localeCompare(b.id),
+    )[0];
+  if (!mentor) return null;
+  const recordId = `${PARTY_MENTORSHIP}:${partyId}:${personId}:${mentor.id}`;
+  mentors.put({
+    id,
+    partyId,
+    mentorId: mentor.id,
+    since: core.date,
+    askId,
+  } satisfies PartyMentorRow as unknown as ModuleRow);
+  api.relationship(
+    personId,
+    mentor.id,
+    "contact",
+    api.parameter("mentorFirstHours"),
+    undefined,
+    { cause: "mentorship", sourceId: recordId },
+  );
+  const holder = core.people.get(mentor.id)!;
+  api.emit({
+    id: recordId,
+    date: core.date,
+    kind: PARTY_MENTORSHIP,
+    personIds: [personId, mentor.id],
+    placeId: person.placeId,
+    publicRecord: false,
+    source: {
+      tag: "ESTIMATED",
+      asOf: core.date,
+      citation: `${holder.givenName} ${holder.familyName} took ${person.givenName} ${person.familyName} under their wing when the party asked them to run.`,
+      estimatedFrom:
+        "The party's ask and its seated officeholders in town of a year or more, the closest to the member first.",
+    },
+    facts: { partyId, mentorId: mentor.id, askId },
+  });
+  return mentor.id;
+}
+
+/** The member's mentor in a party, where one took them under their wing and is still alive and in their town. */
+export function partyMentorOf(
+  api: CoreAPI,
+  personId: string,
+  partyId: string,
+): PersonId | null {
+  const core = api.state as CoreState;
+  if (!core.modules.has(PARTIES_MODULE_ID)) return null;
+  const row = api
+    .moduleState(PARTIES_MODULE_ID)
+    .table("mentors")
+    .get(`${partyId}:${personId}`) as unknown as PartyMentorRow | undefined;
+  const mentor = row ? core.people.get(row.mentorId as PersonId) : undefined;
+  const person = core.people.get(personId as PersonId);
+  return mentor?.alive && person && mentor.placeId === person.placeId
+    ? mentor.id
+    : null;
+}
+
+/**
+ * A party's seated officeholders living in a place who have held a seat for a
+ * year or more, with the day their service began: the veterans who can take a
+ * newcomer under their wing. Read from the offices engine's serving terms.
+ */
+export function seasonedOfficeholders(
+  api: CoreAPI,
+  partyId: string,
+  placeId: string,
+): { readonly id: PersonId; readonly since: string }[] {
+  const core = api.state as CoreState;
+  if (
+    !core.modules.has(OFFICES_MODULE_ID) ||
+    !core.modules.has(PARTIES_MODULE_ID)
+  )
+    return [];
+  const members = new Set(
+    (
+      api
+        .moduleState(PARTIES_MODULE_ID)
+        .table("ties")
+        .query("byParty", [partyId]) as unknown as {
+        personId: string;
+        tie: string;
+      }[]
+    )
+      .filter((tie) => tie.tie === "party")
+      .map((tie) => tie.personId),
+  );
+  const seasoned = addDays(
+    core.date,
+    -Math.round(api.parameter("daysPerMeanYear")),
+  );
+  return (
+    api
+      .moduleState(OFFICES_MODULE_ID)
+      .table("terms")
+      .query("byStatus", ["serving"]) as unknown as TermRow[]
+  )
+    .filter((term) => {
+      const holder = term.personId
+        ? core.people.get(term.personId as PersonId)
+        : undefined;
+      return (
+        !!holder &&
+        holder.alive &&
+        holder.placeId === placeId &&
+        members.has(holder.id) &&
+        (term.serviceStart ?? term.startDate) <= seasoned
+      );
+    })
+    .map((term) => ({
+      id: term.personId as PersonId,
+      since: term.serviceStart ?? term.startDate,
+    }));
+}

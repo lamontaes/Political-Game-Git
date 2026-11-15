@@ -1,14 +1,14 @@
 ---
 id: play-calendar-jump-hangs-brookside-2025
-title: "Go to this day stops answering on the way through Brookside, Delaware's first year"
+title: "Go to this day is offered while a stop is open, and the browser checks click through it"
 area: play
 kind: bug
 priority: 2
 size: S
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: account-lead-t29
+pr: 9062
 blocked-on:
 source: added with npm run pool -- add
 after:
@@ -21,7 +21,7 @@ checked: fable 2026-11-10
 
 **What.** Go to this day stops answering on the way through Brookside, Delaware's first year, which blocks anyone who jumps the calendar. A confirmer replay of Lane 4 path 6 on main (BENCH_SEED=4d50e1f88df997f9 BENCH_PLACE=1009850 BENCH_JUMP=2026-05-16 node src/bench/office-hours.browser.mjs; the filing first opens May 15, 2026) stopped at a talk each time ('Your mother has news for you.', 'Your mother has something to tell you as soon as you're in the door.'), twice answered 400 'Answer the open choice or stop first.' even after Continue, and after 'Robert Moran went to school with you all year, and wants a word before everyone scatters.' on Wednesday, June 11, 2025 the next request got no response in 600 seconds. The same failure shows in src/bench/calendar.browser.mjs, which fails 2 of 3 runs on main at e34de8c1ee in Papago, Northern Mariana Islands and La Madera, New Mexico, when a jump ends on chained stops: Continue stays visible but a click on it times out, or Week never becomes enabled. Path 6 (closed at night, visited next morning) cannot be reached in Brookside until this is fixed.
 
-**Cause.** Found in code: src/bench/play.mjs `renderPacket` (line 557) disables Hour, Day and Week while a stop is open (`packet.kind === "stop"`) and shows the card's Continue, but the calendar's Go to this day (`calendarScreen`'s `onAdvance`, line 3832, drawn in src/bench/ui/calendar.mjs line 141) is offered whatever the packet. A jump chosen while a stop waits reaches `BenchPlayer.advance` (src/bench/player.ts line 179), which refuses it: 400 'Answer the open choice or stop first.' Measured on main b957363c (Brookside, Delaware, 1009850, seed 4d50e1f88df997f9, `BENCH_JUMP=2026-05-16`): Continue on a stop resumes the jump, which plays on about two months and stops again ("First thing on March 2nd, you open a letter from Faith Moran", then May 2nd, then July 2nd), and the check's Go to this day, pressed while each new stop was pending, got the 400 three times. The check adds a race of its own: src/bench/office-hours.browser.mjs `leaveScenes` waits only 3 seconds for a scene, but a resumed jump takes longer to reach its next stop, so the unchanged check fails earlier on main (the Calendar ring is covered by the next talk and its click times out), and its count-then-click on `#continue` times out when the button hides between the two. The 600-second hang after the Robert Moran talk did not reproduce: every request answered, and the run ended in 364 seconds on the check's race.
+**Cause.** Measured: the hang does not reproduce on the train. Server-side jumps with every stop resumed and the polls left on election day answered every request: Brookside, Delaware (1009850, seed 4d50e1f88df997f9, to 2026-05-16: 22 stops, longest request 25 s, 233 s in all; the Robert Moran stop on 2025-06-11 resumed in 0.2 s), East Valley, Nevada (seed aa11bb22cc33dd44, to 2027-01-05 across two year ends and the Nov 2026 election: 111 s) and El Adobe, California (seed 7e5f01a9b2c4d6e8, same jump: 143 s). A jump is slow by what plays on the way (about 2 to 8 s per jumped month, the played-year cost), not stuck. What does happen: the calendar offered Go to this day while a stop was open, and the server refused it (400, "Answer the open choice or stop first."; the page then takes the stop back and shows Continue, or else prints the server's refusal on the card's place line). The browser check pressed it through stops and gave up after a fixed 3 seconds. The page now draws no Go to this day while a stop is open (`offersJump` in src/bench/ui/calendar.mjs, `held` from play.mjs) and the checks wait on the server's answers. Found in code: src/bench/ui/calendar.mjs `calendarScreen` drew Go to this day whatever the packet, while src/bench/player.ts `advance` refuses a jump with a stop open.
 
 **Fix.** 1. In src/bench/play.mjs, pass `open: packet?.kind === "stop"` (or the packet) to `calendarScreen`, and in src/bench/ui/calendar.mjs do not draw the Go to this day button while a stop is open, the same rule that disables Week; the day's list still shows. Do not change player.ts: refusing is right. 2. In src/bench/office-hours.browser.mjs and src/bench/calendar.browser.mjs, make `leaveScenes` wait on the server, not a fixed 3 seconds: after clicking an exit, wait for that request's `/api/resume` or `/api/advance` response and for `#talk`, `#continue` or `#election-day` to settle, and click a located button only through Playwright's own click (no count-then-click). Treat a visible `#continue` on the card as a scene to leave before choosing a day. 3. Add a check to src/bench/calendar.browser.mjs: with a stop open, the calendar shows no Go to this day button.
 

@@ -31,8 +31,11 @@ import { incompatibleOffices } from "../office-incompatibility";
  * jurisdiction (`person.moved-away`), resignation or removal opens a vacancy
  * filled by the office's real rule: a successor in line takes the
  * office; an appointment is made by the appointing authority; a special
- * election is put on the calendar (stand-in until M2's elections:
- * SG-GOV-special-election-appointee).
+ * election is a real race, opened by the engine that counts the seat (the
+ * town's own seats in the voting engine's contests, every other seat in the
+ * world's races). Only a seat no engine can count (a territory's, which has
+ * no counted electorate) is filled on its election day by a stand-in
+ * (SG-GOV-territory-legislature-race).
  */
 import { countedResidents, registerElectorate } from "../electorate";
 import { partyName } from "../appointments";
@@ -66,6 +69,9 @@ import {
   type SeatInput,
   type VacancyRule,
 } from "../offices-state";
+// The record shapes, for engines that read offices through this entry (families guard).
+export type { OfficeInput, SeatInput };
+import stateOfficesResearch from "../../../data/research/offices/state-offices.json" with { type: "json" };
 import { worldSeatParty } from "./elections";
 // A screen reads which district a town votes in through this entry.
 // Another state's offices as plain definitions (titles, seats), for a view
@@ -82,6 +88,8 @@ import { pressConflict } from "../press-conflict";
 import { researchedHolderParty } from "../offices-holder-parties";
 
 export const OFFICES_MODULE_ID = "core2-offices-v1";
+/** How a holder in office the day the world opened reached their seat, as their term records it. */
+const OPENING_REACHED = "in office at the opening";
 
 // The family's entry for a statewide executive's term limit (read from the state's constitution research).
 export {
@@ -210,6 +218,8 @@ export const OFFICES_MODULE: PreStartModule = {
       vacancies: { indexes: { byStatus: { fields: ["status"] } } },
       incompatibilities: {},
       loaded: {},
+      // Another place's terms whose earlier terms have been written on opening (`openPastTerms`).
+      opened: {},
     },
   },
   eventKinds: ["life.death", MOVED_AWAY_EVENT, "took-office"],
@@ -307,7 +317,6 @@ export function enforceIncompatibility(
     ) as unknown as OfficeInput;
     const law = incompatibleOffices(previous, office, loaded.stateKey);
     if (!law) continue;
-    if (law.tag === "ESTIMATED") api.stopgap("SG-GOV-dual-office-law");
     table(api, "incompatibilities").put({
       id: `incompatible:${term.id}:${acquired.id}`,
       personId,
@@ -389,11 +398,17 @@ function termEnd(
       ? // Asked from the year before: a spring election's filing can close
         // in the winter before its year.
         electionInYear({ ...where, year, onDate: `${year - 1}-07-01` })
-      : staggeredSeatElection({ ...where, onDate: date, index: seat.index });
+      : // A board elected all at once has every seat on the first cycle.
+        staggeredSeatElection({
+          ...where,
+          onDate: date,
+          index: office.staggered === false ? 0 : seat.index,
+        });
   if (election) return termStartAfter(office, election.electionDate);
   const starts = office.termStarts ?? "01-01";
   if (year !== undefined) return `${year + 1}-${starts}`;
-  const offset = seat.index % Math.max(1, office.termYears);
+  const offset =
+    office.staggered === false ? 0 : seat.index % Math.max(1, office.termYears);
   return `${Number(date.slice(0, 4)) + offset + 1}-${starts}`;
 }
 
@@ -863,7 +878,7 @@ function seatOutsideOffices(
   entries: readonly OfficeWithSeats[],
   date: string,
 ): void {
-  const reached = "in office at the opening";
+  const reached = OPENING_REACHED;
   let unread = false;
   for (const entry of entries) {
     if (entry.office.jurisdiction === "US") continue;
@@ -881,12 +896,15 @@ function seatOutsideOffices(
           : undefined;
       const seat = read ? { ...listed, ...read } : listed;
       if (seat.party === null && !read) unread = true;
+      // Another place's holder's earlier terms of the seat wait until they
+      // are met or opened (owner, Nov 5: "generate on demand"; `openPastTerms`).
       pastTerms(
         api,
         worldSeed,
         office,
         seat,
         seatNamedOfficial(api, worldSeed, office, seat, date, reached),
+        false,
       );
     }
   }
@@ -964,9 +982,12 @@ function pastTerms(
   office: OfficeInput,
   seat: SeatInput,
   term: TermRow,
+  /** Whether the holder's earlier terms of the seat are written now; the serving term keeps its whole service either way. */
+  withPast = true,
 ): void {
   const years = office.termYears;
-  const opening = api.state.date;
+  // The day the world opened, also when a holder is opened later (openPastTerms).
+  const opening = api.state.startedAt;
   if (!years || !term.endDate) return;
   const start = termStartInYear(office, shiftYears(term.endDate, -years));
   // The federal executive keeps its real record: the current term began a
@@ -1088,7 +1109,7 @@ function pastTerms(
     serviceStart,
     ...won(start),
   } as unknown as ModuleRow);
-  for (let k = prior; k >= 1; k -= 1) {
+  for (let k = withPast ? prior : 0; k >= 1; k -= 1) {
     const from = termStartInYear(office, shiftYears(start, -k * years));
     table(api, "terms").put({
       ...term,
@@ -1102,6 +1123,31 @@ function pastTerms(
       ...won(from),
     } as unknown as ModuleRow);
   }
+}
+
+/**
+ * The earlier terms of a seat's holder from another place, written the first
+ * time someone meets or opens them (their card, their filling-in): the same
+ * terms the opening would have written, from the world's seed and the seat,
+ * so they are the same whenever they are opened. A term of the town's own
+ * offices, a term that began after the opening, or one already opened is left
+ * as it is.
+ */
+export function openPastTerms(api: CoreAPI, termId: string): void {
+  if (!api.state.modules.has(OFFICES_MODULE_ID)) return;
+  const term = table(api, "terms").get(termId) as unknown as
+    TermRow | undefined;
+  if (!term || term.reached !== OPENING_REACHED) return;
+  if (table(api, "opened").get(termId)) return;
+  const office = table(api, "offices").get(term.officeId) as unknown as
+    OfficeInput | undefined;
+  const seat = table(api, "seats").get(term.seatId) as unknown as
+    SeatInput | undefined;
+  const town = table(api, "loaded").get("town") as unknown as
+    { worldSeed?: string } | undefined;
+  if (!office || !seat || seat.coversTown || !town?.worldSeed) return;
+  table(api, "opened").put({ id: termId });
+  pastTerms(api, town.worldSeed, office, seat, term);
 }
 
 /**
@@ -1521,6 +1567,12 @@ function recordFill(
   seat: SeatInput,
   term: TermRow,
   vacancy: VacancyRow,
+  /** A race's winner the record names (a seat with no term of its own): who they are, their party, the count. */
+  elected?: {
+    readonly winnerParty: string;
+    readonly winnerIdentity: TermRow["identity"];
+    readonly resultId: string;
+  },
 ): void {
   const date = api.state.date;
   const id = `took-office:${seat.id}:${date}`;
@@ -1545,6 +1597,17 @@ function recordFill(
       winnerId: term.personId ?? term.id,
       vacancyId: vacancy.id,
       how: term.reached,
+      ...(elected
+        ? {
+            winnerParty: elected.winnerParty,
+            resultId: elected.resultId,
+            winnerGivenName: elected.winnerIdentity.givenName,
+            winnerFamilyName: elected.winnerIdentity.familyName,
+            winnerGender: elected.winnerIdentity.gender,
+            winnerBirthDate: elected.winnerIdentity.birthDate,
+            winnerHomeState: elected.winnerIdentity.homeState,
+          }
+        : {}),
     },
   });
 }
@@ -1692,6 +1755,7 @@ function fillVacancy(
     seatId: seat.id,
     electionDate: scheduled.electionDate!,
     termEnd: previous.endDate,
+    ...(vacancy.unheld ? { unheld: vacancy.unheld } : {}),
   });
   if (!opened)
     api.moduleCalendar(OFFICES_MODULE_ID).schedule({
@@ -1717,6 +1781,8 @@ type SpecialElectionOpener = (
     readonly seatId: string;
     readonly electionDate: string;
     readonly termEnd: string | null;
+    /** A seat the offices engine keeps no term for (another state's member of Congress). */
+    readonly unheld?: VacancyRow["unheld"];
   },
 ) => boolean;
 /** Each engine that opens real races for a seat awaiting a special election, by name. */
@@ -1769,6 +1835,7 @@ export function repeatSpecialElection(
     seatId: vacancy.seatId,
     electionDate: next.electionDate,
     termEnd,
+    ...(vacancy.unheld ? { unheld: vacancy.unheld } : {}),
   });
   if (!opened)
     api.moduleCalendar(OFFICES_MODULE_ID).schedule({
@@ -1874,6 +1941,45 @@ export function seatWinner(
   return termId;
 }
 
+/**
+ * A special election for a seat the offices engine keeps no term for (another
+ * state's member of Congress) is won: the vacancy is filled, and the record
+ * of the seating names the winner and their party. The officials engine seats
+ * the new member from it.
+ */
+export function unheldVacancyWon(
+  api: CoreAPI,
+  vacancyId: string,
+  winner: {
+    readonly winnerParty: string;
+    readonly winnerIdentity: TermRow["identity"];
+    readonly resultId: string;
+  },
+): void {
+  const vacancy = table(api, "vacancies").get(vacancyId) as unknown as
+    VacancyRow | undefined;
+  if (!vacancy?.unheld || vacancy.status === "filled") return;
+  const office = unheldOffice(api, vacancy.unheld);
+  if (!office) return;
+  recordFill(
+    api,
+    office,
+    unheldSeat(office, vacancy.seatId),
+    {
+      id: vacancy.id,
+      personId: null,
+      reached: `elected in a special election ${api.state.date}`,
+    } as unknown as TermRow,
+    vacancy,
+    winner,
+  );
+  table(api, "vacancies").put({
+    ...vacancy,
+    status: "filled",
+    filledBy: vacancy.id,
+  } as unknown as ModuleRow);
+}
+
 /** A special election's winner fills the vacancy. */
 export function vacancyFilled(
   api: CoreAPI,
@@ -1899,8 +2005,8 @@ function officesCalendarWork(
     work.sourceRecordIds[0]!,
   ) as unknown as VacancyRow | undefined;
   if (!vacancy || vacancy.status !== "awaiting-election") return;
-  // stopgapId: SG-GOV-special-election-appointee
-  api.stopgap("SG-GOV-special-election-appointee");
+  // stopgapId: SG-GOV-territory-legislature-race (a seat no engine can count, a territory's, is filled on its election day by the best-suited eligible person)
+  api.stopgap("SG-GOV-territory-legislature-race");
   const office = vacancy.unheld
     ? unheldOffice(api, vacancy.unheld)
     : (table(api, "offices").get(vacancy.officeId) as unknown as
@@ -1949,7 +2055,67 @@ function officesCalendarWork(
 }
 
 // Re-exported so other engine families import through this entry, not the file (families guard).
-export { CASES_MODULE_ID, casesOpenFor, handleCase } from "./constituent-cases";
+export {
+  CASES_MODULE_ID,
+  casesOpenFor,
+  handleCase,
+  openCasesOf,
+  type CaseRow,
+} from "./constituent-cases";
 export type { OfficeLevel } from "../offices-local";
+/** A government's title as people say it, read through the executive family's entry. */
 export { partySide } from "../appointments";
 export { nextMeeting } from "../office-day-calendar";
+
+const ticketPlaces = (
+  stateOfficesResearch as unknown as {
+    places: Record<
+      string,
+      | {
+          executives?: {
+            key: string;
+            electedWithGovernorOnTicket?: boolean;
+            ticketJoins?: { stage: GovernorTicketStage };
+          }[];
+        }
+      | undefined
+    >;
+  }
+).places;
+
+/**
+ * Whether the law elects a state's office of this kind on one ticket with its
+ * governor (a lieutenant governor in about thirty places), read from the
+ * office's research row. The one reader: the offices, elections and voting
+ * engines all ask here.
+ */
+export function electedWithGovernorOnTicket(
+  stateKey: string,
+  kind: string,
+): boolean {
+  return (
+    ticketPlaces[stateKey]?.executives?.find((e) => e.key === kind)
+      ?.electedWithGovernorOnTicket === true
+  );
+}
+
+/**
+ * When a ticket office joins its governor's ticket, by the state's law: the
+ * governor candidate files with a running mate ("at-filing"), the governor
+ * nominee names one after the primary ("after-primary"), or the office wins
+ * a primary of its own and runs on the ticket in the general election
+ * ("separate-primary"). Null for an office the law elects on its own.
+ */
+export type GovernorTicketStage =
+  "at-filing" | "after-primary" | "separate-primary";
+
+export function governorTicketStage(
+  stateKey: string,
+  kind: string,
+): GovernorTicketStage | null {
+  if (!electedWithGovernorOnTicket(stateKey, kind)) return null;
+  return (
+    ticketPlaces[stateKey]?.executives?.find((e) => e.key === kind)?.ticketJoins
+      ?.stage ?? "at-filing"
+  );
+}

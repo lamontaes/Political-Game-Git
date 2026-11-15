@@ -5,7 +5,7 @@ area: laws
 kind: wiring
 priority: 1
 size: M
-status: open
+status: done
 standard: 2
 claimed-by:
 pr: #5669
@@ -41,3 +41,5 @@ checked: fable 2026-11-10
 Sent back 2026-10-25 from PR #5669 (branch claude/law-wiring-rights-env): family Done-when still partly met at 9 of 13 laws; two stopgap web links and two partial reach/allPlaces chains cannot complete the all-laws item; complete them or bound the landed subset while retaining family open; finish on that branch, merge main into it first.
 
 Nov 11 (cause finder for Fable B): regraded on main 3039a3fa1d in Hettinger, North Dakota (seed 3f77f7d1d2688e09629641c1c0fa3cc2) and read main's 25-place matrix. All thirteen laws are wired there. The three that Hettinger does not show (clean air, groundwater, age verification) bind a county, a farm or a business the town does not have. I propose the CTO closes the item.
+
+Closed as done Nov 13, 2026 (Account lead T43, CTO's ruling on #8928 comment 6865473498, checked against the code on the train, draft PR #9052, eb349e5d76): its own Fix says nothing is left to build. Code check: all thirteen laws of the family grade wired on every link in the train's `docs/reports/law-wiring-matrix.json` (consumer-data-privacy-law's web link is n/a); the three that show nothing in one town bind a county, farm or business that town lacks.

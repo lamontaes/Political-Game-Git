@@ -741,12 +741,28 @@ function playWorld(seed: string) {
         : undefined;
     }),
   );
-  const wantedToRun = rowsOf(core, "candidacy", "decisions").filter(
+  const decidedToRun = rowsOf(core, "candidacy", "decisions").filter(
     (d) =>
       d.run &&
       heldIds.has(String(d.contestId)) &&
       !incumbentIds.has(String(d.personId)),
   );
+  // `ballot` lists only the living, so a decider who died after reaching the
+  // ballot ran: their filing reads on-ballot, as in Mashantucket,
+  // Connecticut, where a filer for board seat 1 died before the election.
+  // A living decider with no ballot row still fails.
+  const filings = rowsOf(core, "core2-elections-v1", "filings");
+  const diedOnBallot = decidedToRun.filter(
+    (d) =>
+      core.people.get(String(d.personId))?.alive === false &&
+      filings.some(
+        (f) =>
+          f.personId === d.personId &&
+          f.contestId === d.contestId &&
+          f.status === "on-ballot",
+      ),
+  );
+  const wantedToRun = decidedToRun.filter((d) => !diedOnBallot.includes(d));
   // A challenger who filed and lost a primary ran too: the primary marks the
   // losing filing withdrawn (src/core2/modules/voting.ts, its `lose`), as in
   // Crosspointe, Virginia, where the one challenger lost the Democratic
@@ -766,13 +782,33 @@ function playWorld(seed: string) {
         ? pass(
             `${primaryLosers.length} named challengers filed and lost a primary in ${held.length} races (${String(primaryLosers[0]!.id)})`,
           )
-        : !wantedToRun.length
-          ? unobserved(
-              `${held.length} races decided and no adult other than an incumbent chose to run (the stay-out pull held)`,
+        : !wantedToRun.length && diedOnBallot.length
+          ? pass(
+              `${diedOnBallot.length} named challengers reached the ballot and died before the end of the run in ${held.length} races (${String(diedOnBallot[0]!.id)})`,
             )
-          : fail(
-              `${wantedToRun.length} adults other than the incumbent chose to run in the ${held.length} races decided, and none was on the ballot. Who runs (src/core2/modules/candidacy.ts, filing) must put a decision to run on the ballot.`,
-            );
+          : !wantedToRun.length
+            ? unobserved(
+                `${held.length} races decided and no adult other than an incumbent chose to run (the stay-out pull held)`,
+              )
+            : fail(
+                `${wantedToRun.length} adults other than the incumbent chose to run in the ${held.length} races decided, and none was on the ballot (${wantedToRun
+                  .slice(0, 3)
+                  .map((d) => {
+                    const f = filings.find(
+                      (r) =>
+                        r.personId === d.personId &&
+                        r.contestId === d.contestId,
+                    );
+                    const filing = (d.filing ?? {}) as {
+                      status?: string;
+                      unmet?: string[];
+                    };
+                    return `${String(d.id)} decided ${String(d.date)}, ${core.people.get(String(d.personId))?.alive === false ? "dead" : core.people.has(String(d.personId)) ? "living" : "counted"}, decision filing ${filing.status ?? "none"}${filing.unmet?.length ? ` (${filing.unmet.join(", ")})` : ""}, filing row ${f ? `${String(f.id)} ${String(f.status)}` : "none"}`;
+                  })
+                  .join(
+                    "; ",
+                  )}). Who runs (src/core2/modules/candidacy.ts, filing) must put a decision to run on the ballot.`,
+              );
 
   // Break 10: the counted population votes in local races.
   const local = held.filter(
@@ -804,9 +840,30 @@ function playWorld(seed: string) {
   const judged = countedAdultsLive
     ? local.filter((c) => ballot(api, String(c.id)).length > 0)
     : [];
-  const unkept = judged.filter((c) => !countedOf(String(c.id)));
+  // The ballot-by-ballot detail of a race leaves the books countedBallotRetentionDays
+  // after its election (play runs with bookkeeping off, `dropOldCountedBallots`),
+  // while the result keeps the counted votes: a race past that date is read
+  // from its result, and the ballot record is required for the races whose
+  // detail is still kept.
+  const keptSince = addDays(
+    core.date,
+    -api.parameter("countedBallotRetentionDays"),
+  );
+  const detailKept = (c: { date?: unknown; electionDate?: unknown }) =>
+    String(c.electionDate ?? c.date) >= keptSince;
+  const unkept = judged.filter(
+    (c) => detailKept(c) && !countedOf(String(c.id)),
+  );
   const silent = judged.filter((c) => {
     const kept = countedOf(String(c.id));
+    if (!kept && !detailKept(c)) {
+      const result = resultOf(api, String(c.id));
+      const recorded = Object.values(result?.countedVotes ?? {}).reduce(
+        (n, v) => n + v,
+        0,
+      );
+      return (result?.countedEligible ?? 0) >= 2 && recorded === 0;
+    }
     if (!kept) return true;
     const backing = kept.split.map((row) => row.reduce((n, x) => n + x, 0));
     const chose = backing.some((x) => x > 0);

@@ -37,6 +37,7 @@ import type { LawRowInput } from "../laws-starting";
 import {
   graduatedSchedule,
   reachParameter,
+  reachParameterSpread,
   townFacts,
   type ResidentFacts,
   type TownFacts,
@@ -486,6 +487,10 @@ export interface AssistanceTimeLimit {
   readonly reachedIds: ReadonlySet<string>;
   /** The people each counted row it reaches stands for. */
   readonly counts: ReadonlyMap<string, number>;
+  /** Months a person may draw under the requirement. */
+  readonly limitMonths: number;
+  /** The months the limit counts within; null counts every month on record (a lifetime limit). */
+  readonly windowMonths: number | null;
 }
 
 /** Whole months from one day to another. */
@@ -531,6 +536,14 @@ function appliedToReached(
     });
 }
 
+/**
+ * Whose months are counted: food aid's and the welfare line's are separate
+ * programs, each with its own months on the rolls for a person.
+ */
+export type DrawKind = "draw" | "welfare-draw";
+export const FOOD_AID_DRAWS: DrawKind = "draw";
+export const WELFARE_DRAWS: DrawKind = "welfare-draw";
+
 /** The months ("YYYY-MM") a person has drawn the benefit under the work requirement. */
 interface DrawRow {
   readonly id: string;
@@ -546,20 +559,23 @@ interface DrawRow {
 export function timeLimitUsed(
   api: CoreAPI,
   id: string,
-  since: string,
+  limit: Pick<AssistanceTimeLimit, "since" | "limitMonths" | "windowMonths">,
+  kind: DrawKind = FOOD_AID_DRAWS,
 ): boolean {
   const today = api.state.date;
   const thisMonth = today.slice(0, 7);
-  const window = reachParameter("snapWorkTimeLimitWindowMonths");
   const drawn = (
-    getRow<DrawRow>(api, "taken", `draw|${id}`)?.months ?? []
+    getRow<DrawRow>(api, "taken", `${kind}|${id}`)?.months ?? []
   ).filter(
     (m) =>
       m !== thisMonth &&
-      m >= since.slice(0, 7) &&
-      monthsBetween(`${m}-01`, today) < window,
+      // A lifetime limit counts every month on record; a windowed one counts
+      // the months since the requirement took effect and within its window.
+      (limit.windowMonths === null ||
+        (m >= limit.since.slice(0, 7) &&
+          monthsBetween(`${m}-01`, today) < limit.windowMonths)),
   );
-  return drawn.length >= reachParameter("snapWorkTimeLimitMonths");
+  return drawn.length >= limit.limitMonths;
 }
 
 /**
@@ -574,12 +590,13 @@ export function timeLimitedNow(
   governmentId: string,
   key: string,
   limit: AssistanceTimeLimit | null | undefined,
+  kind: DrawKind = FOOD_AID_DRAWS,
 ): Set<string> {
   const stopped = new Set<string>();
   if (!limit) return stopped;
   const today = api.state.date;
   for (const id of limit.reachedIds) {
-    if (!timeLimitUsed(api, id, limit.since)) continue;
+    if (!timeLimitUsed(api, id, limit, kind)) continue;
     stopped.add(id);
     if (api.state.people.has(id))
       putRow(api, "taken", {
@@ -599,17 +616,38 @@ export function recordDraws(
   api: CoreAPI,
   limit: AssistanceTimeLimit | null | undefined,
   drawing: Iterable<string>,
+  kind: DrawKind = FOOD_AID_DRAWS,
 ): void {
   if (!limit) return;
   const month = api.state.date.slice(0, 7);
   const reached = [...drawing].filter((id) => limit.reachedIds.has(id));
   appliedToReached(api, limit, reached, "assistance-draw-counted");
   for (const id of reached) {
-    const row = getRow<DrawRow>(api, "taken", `draw|${id}`);
+    const row = getRow<DrawRow>(api, "taken", `${kind}|${id}`);
     if (row?.months.includes(month)) continue;
     putRow(api, "taken", {
-      id: `draw|${id}`,
-      key: "draw",
+      id: `${kind}|${id}`,
+      key: kind,
+      months: [...(row?.months ?? []), month],
+    } satisfies DrawRow);
+  }
+}
+
+/**
+ * Every month a person draws the welfare line goes on their own record, rule
+ * in force or not, so a lifetime limit counts months from before the rule.
+ */
+export function recordWelfareMonths(
+  api: CoreAPI,
+  drawing: Iterable<string>,
+): void {
+  const month = api.state.date.slice(0, 7);
+  for (const id of drawing) {
+    const row = getRow<DrawRow>(api, "taken", `${WELFARE_DRAWS}|${id}`);
+    if (row?.months.includes(month)) continue;
+    putRow(api, "taken", {
+      id: `${WELFARE_DRAWS}|${id}`,
+      key: WELFARE_DRAWS,
       months: [...(row?.months ?? []), month],
     } satisfies DrawRow);
   }
@@ -630,6 +668,8 @@ export function payBenefits(
     readonly service: ServiceRow;
     readonly heads: readonly ResidentFacts[];
     readonly modeledShare: number;
+    /** The work requirement in force, whose time limit the welfare line carries as its own. */
+    readonly timeLimit?: AssistanceTimeLimit | null;
   },
 ): Map<string, Record<string, number>> {
   const core = api.state as CoreState;
@@ -637,15 +677,25 @@ export function payBenefits(
   const months = reachParameter("monthsPerYear");
   const want = new Map<string, number>();
   const out = new Map<string, Record<string, number>>();
+  const paid: string[] = [];
   // What each household that draws is owed a month, named or counted: the
   // cash assistance the poverty measure counts as income.
   const monthlyByHousehold: Record<string, number> = {};
   for (const [govId, delta] of Object.entries(input.service.byGovernment)) {
     const gov = governments(api).find((g) => g.id === govId);
     if (!gov || delta <= 0 || !input.heads.length) continue;
-    // This is cash assistance from a budget amendment, not SNAP. Only the
-    // food-aid engine applies and consumes 7 USC 2015(o)'s SNAP month limit.
-    const drawing = input.heads;
+    // Cash welfare carries its own time limit and work rule: a head the
+    // requirement reaches whose own months on the welfare line have passed the
+    // limit drops off it, with a record of the stop. Food aid counts its own
+    // months, separately.
+    const stopped = timeLimitedNow(
+      api,
+      govId,
+      input.key,
+      input.timeLimit,
+      WELFARE_DRAWS,
+    );
+    const drawing = input.heads.filter((h) => !stopped.has(h.id));
     const named = drawing.filter((h) => h.named);
     // Real heads: a counted row stands for as many households as its weight says.
     const everyone = drawing.reduce((n, h) => n + (h.scale ?? 1), 0);
@@ -655,6 +705,7 @@ export function payBenefits(
       (delta * input.modeledShare) / months / everyone,
     );
     if (perHousehold <= 0) continue;
+    paid.push(...drawing.map((h) => h.id));
     for (const head of drawing)
       monthlyByHousehold[head.householdId] =
         (monthlyByHousehold[head.householdId] ?? 0) + perHousehold;
@@ -684,6 +735,7 @@ export function payBenefits(
       }
     }
   }
+  recordWelfareMonths(api, paid);
   putRow(api, "taken", {
     id: `assist|${input.key}`,
     key: "assist",
@@ -1573,6 +1625,8 @@ interface MoveRow {
   readonly governmentId: string;
   readonly budgetId: string;
   readonly moves: Readonly<Record<string, number>>;
+  /** Changes to revenue lines (aid a higher treasury pays), by line. */
+  readonly revenueMoves?: Readonly<Record<string, number>>;
   readonly undone: boolean;
 }
 
@@ -1589,6 +1643,11 @@ export function moveBudget(
     readonly inForce: boolean;
     readonly lawId: string;
     readonly plan: (
+      gov: GovernmentRow,
+      budget: BudgetRow,
+    ) => Record<string, number>;
+    /** Changes to this government's revenue lines, applied and undone with the spending moves. */
+    readonly revenuePlan?: (
       gov: GovernmentRow,
       budget: BudgetRow,
     ) => Record<string, number>;
@@ -1613,6 +1672,15 @@ export function moveBudget(
           deltaMinor: -delta,
           measureId: `${stamp}#undo`,
         });
+    for (const [line, delta] of Object.entries(prior.revenueMoves ?? {}))
+      if (delta)
+        amendBudget(api, {
+          governmentId: gov.id,
+          line,
+          deltaMinor: -delta,
+          measureId: `${stamp}#undo`,
+          side: "revenue",
+        });
     const row = { ...prior, undone: true };
     putRow(api, "taken", row);
     return row;
@@ -1633,12 +1701,23 @@ export function moveBudget(
         deltaMinor: delta,
         measureId: stamp,
       });
+  const revenueMoves = input.revenuePlan?.(gov, budget) ?? {};
+  for (const [line, delta] of Object.entries(revenueMoves))
+    if (delta)
+      amendBudget(api, {
+        governmentId: gov.id,
+        line,
+        deltaMinor: delta,
+        measureId: stamp,
+        side: "revenue",
+      });
   const row: MoveRow = {
     id,
     key: input.key,
     governmentId: gov.id,
     budgetId: budget.id,
     moves,
+    revenueMoves,
     undone: false,
   };
   putRow(api, "taken", row);
@@ -1915,6 +1994,33 @@ function graduatedTax(row: LawRowInput | null): boolean {
 }
 
 /**
+ * The flat rate a repeal of a graduated tax writes: the place's old top rate
+ * times the share a sponsor chooses. A sponsor who holds the question hard
+ * writes the deepest cut real conversions chose (the low end of the share's
+ * spread) and one who barely holds it the shallowest (the high end), sliding
+ * between by the strength of their own stance; a repeal that recorded no
+ * sponsor's stance (a measure voters passed) takes the median share. The
+ * share's median and ends are measured from five real conversions (Mississippi
+ * 1.0, Georgia 0.955, Iowa 0.667, Louisiana 0.706, Ohio 0.786; Tax Foundation
+ * January 1 tables, data/research/laws/taxfoundation-2022-2026-flat-tax-conversions.json)
+ * and tagged ESTIMATED with that spread in `graduatedRepealFlatShareOfTopRate`;
+ * the linear slide with conviction is an estimate
+ * (pool item research-flat-tax-share-sponsor-conviction).
+ */
+export function flatRateOf(
+  topRate: number,
+  sponsorStance: number | undefined,
+  medianShare: number,
+  [low, high]: readonly [number, number],
+): number {
+  const share =
+    typeof sponsorStance === "number" && Number.isFinite(sponsorStance)
+      ? high - (high - low) * Math.min(1, Math.abs(sponsorStance))
+      : medianShare;
+  return Math.round(topRate * share * 1000) / 1000;
+}
+
+/**
  * An income-tax act at a level: adopt a flat tax where the level has none, or
  * replace a flat tax with a graduated schedule. The new row is law today, and
  * payroll withholding (budgets module) collects it from the next paycheck. A
@@ -1928,6 +2034,8 @@ export function incomeTaxAct(
     readonly lawId: string;
     readonly enacting: boolean;
     readonly graduated: boolean;
+    /** The sponsor's own stance on the question when the act was written (-1 to 1), where the bill recorded it. */
+    readonly sponsorStance?: number;
   },
 ): TaxRow | null {
   const chain = lawChain(api);
@@ -1981,14 +2089,12 @@ export function incomeTaxAct(
           "remove",
         );
       } else {
-        // stopgapId: SG-GOV-REACH-B-flat-tax-replacement — the catalog's binary
-        // question carries no enacted replacement rate or deduction rules.
-        api.stopgap("SG-GOV-REACH-B-flat-tax-replacement");
         replacement = enact(
-          reachParameter(
-            scope === "state"
-              ? "stateFlatIncomeTaxPercent"
-              : "localFlatIncomeTaxPercent",
+          flatRateOf(
+            current!.value!,
+            input.sponsorStance,
+            reachParameter("graduatedRepealFlatShareOfTopRate"),
+            reachParameterSpread("graduatedRepealFlatShareOfTopRate"),
           ),
           "percent-flat",
           undefined,

@@ -5,6 +5,8 @@ import { drawPlace } from "../../scripts/core2-year/place";
 import { coreAPI } from "../core2/state";
 import {
   ELECTIONS_MODULE_ID,
+  ticketGovernorContest,
+  ticketOfficeContest,
   type ContestRow,
 } from "../core2/modules/elections";
 import {
@@ -78,12 +80,28 @@ describe("election day at the polls", () => {
     expect(voterId, "no one in the household may vote").toBeTruthy();
     const visit = stagedPollingVisit(core, director.ledger, voterId, date)!;
     expect(visit).toBeTruthy();
+    // An office the law elects on the governor's ticket is marked with the
+    // governor, on the governor's block: not a race of its own.
     expect(visit.contests.map((row) => row.id)).toEqual(
       contests
-        .filter((row) => row.electionDate === date)
+        .filter(
+          (row) =>
+            row.electionDate === date && !ticketGovernorContest(api, row),
+        )
         .map((row) => row.id)
         .sort((a, b) => a.localeCompare(b)),
     );
+    for (const row of visit.contests) {
+      const ticket = ticketOfficeContest(
+        api,
+        contests.find((c) => c.id === row.id)!,
+      );
+      expect(row.ticketTitle ?? null).toBe(ticket?.title ?? null);
+      // Each party's governor candidate's line carries their running mate.
+      if (ticket)
+        for (const c of row.candidates.filter((c) => c.party))
+          expect(c.runningMate, `${row.id} ${c.personId}`).toBeTruthy();
+    }
     for (const id of visit.withIds) expect(adult(id)).toBe(true);
     expect(visit.withIds).not.toContain(voterId);
     // No polls the day before, and none for someone too young to vote.

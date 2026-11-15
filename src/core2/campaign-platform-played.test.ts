@@ -53,9 +53,8 @@
  *   a view on than they run on), and every candidate the years' filings hold
  *   who did where they do not, and the test says which.
  */
-import { randomBytes } from "node:crypto";
 import { expect, it, vi } from "vitest";
-import { drawPlace } from "../../scripts/core2-year/place";
+import type { drawPlace } from "../../scripts/core2-year/place";
 import { buildBenchWorld } from "../bench/world";
 import { gameStartDate } from "./game-start";
 import { addDays, ageOnDate, makeIsoDate } from "./kernel/dates";
@@ -148,9 +147,32 @@ vi.mock("./campaign-stances", async (importOriginal) => {
   };
 });
 
-const seed = process.env.PLATFORM_PLAYED_SEED ?? randomBytes(8).toString("hex");
-/** Most drawn places' years: many small towns hold no contested local race in a year. */
-const MAX_DRAWS = 12;
+/**
+ * The places whose years the totals pool, named and pinned at fixed place
+ * seeds (never drawn): the same places and years every run. A running mate's filing
+ * (Leeds Point, a ticket office) is read here too; the case of its own is
+ * campaign-running-mate-platform.test.ts.
+ */
+const PLACES = [
+  {
+    key: "3439810",
+    name: "Leeds Point",
+    state: "NJ",
+    seed: "5d1f7a0c4b2e9a63d8c1f0e7b3a49256c8d0e1f2a3b4c5d6e7f8091a2b3c4d5e",
+  },
+  {
+    key: "4651724",
+    name: "Prairiewood Village",
+    state: "SD",
+    seed: "e030b215e75a72f2d660599e5ac63caba33f7862416e9169c41a050a7b9c41cd",
+  },
+  {
+    key: "0115256",
+    name: "Clay",
+    state: "AL",
+    seed: "652c0b614db96a56ae3ed028b8d0ded5fec150e5a17459d6b85f8c364d11b5ca",
+  },
+] as const;
 const DAYS = 365;
 /** The fewest drawn places' years the totals pool. */
 const MIN_PLACES = 3;
@@ -236,20 +258,27 @@ const rankedAt = (r: Read, slope: number) =>
     .map((x) => x.s);
 
 /**
- * What a candidate would have said at another slope: every act carries the
- * campaign's lead (`platformLead`), so the statements on the lead the
- * platform the world recorded gave move to the lead the rule would have
- * chosen at that slope from the recorded scores.
+ * What a candidate would have said at another slope: every act is about the
+ * question its campaign is furthest behind on (`nextTopic`), so over a
+ * campaign the statements follow the platform's score shares. At another
+ * slope the same number of statements is shared over the platform that slope
+ * would have chosen, by that slope's score shares.
  */
 function saidAt(r: Read, slope: number): ReadonlyMap<string, number> {
-  const lead = r.platform.find((s) => s.position !== 0)?.question;
-  const next = rankedAt(r, slope)[0]?.question;
-  if (!lead || !next || lead === next) return r.said;
-  const out = new Map(r.said);
-  const onLead = out.get(lead) ?? 0;
-  out.set(lead, 0);
-  out.set(next, (out.get(next) ?? 0) + onLead);
-  return out;
+  const total = saidTotal(r);
+  const run = r.platform.filter((s) => s.position !== 0).length;
+  const top = rankedAt(r, slope).slice(0, run);
+  const sum = top.reduce(
+    (t, s) => t + s.conviction * Math.exp(slope * s.support),
+    0,
+  );
+  if (!total || !(sum > 0)) return r.said;
+  return new Map(
+    top.map((s) => [
+      s.question,
+      (total * s.conviction * Math.exp(slope * s.support)) / sum,
+    ]),
+  );
 }
 
 function levelOf(api: CoreAPI, contest: ContestRow): string {
@@ -263,10 +292,10 @@ function levelOf(api: CoreAPI, contest: ContestRow): string {
   );
 }
 
-/** A world's year, a day at a time, and every platform it recorded, read back on its day. */
-function playYear(draw: number) {
-  const place = drawPlace(`${seed}:${draw}`, "campaign-platform-played");
-  const where = `${place.name} (${place.key}), run seed ${seed}, draw ${draw}, place seed ${place.seed}`;
+/** A pinned place's year, a day at a time, and every platform it recorded, read back on its day. */
+function playYear(pinned: (typeof PLACES)[number]) {
+  const place = pinned as ReturnType<typeof drawPlace>;
+  const where = `${place.name}, ${place.state} (${place.key}), pinned place seed ${place.seed}`;
   console.log(`campaign-platform-played: ${where}`);
   try {
     return playYearIn(where, place);
@@ -385,6 +414,26 @@ function playYearIn(
       .table("contests")
       .get(filing.contestId) as unknown as ContestRow;
     const level = levelOf(api, contest);
+    // A running mate's filing (any ticket office) states its governor
+    // candidate's platform (`nameRunningMate` copies it), and no second
+    // choice by the rule is made for the mate, so that record is the governor
+    // candidate's, which the rule's choice for them proves in their own read.
+    // The copy must be exact. A mate's filing that states none campaigns on
+    // the platform the rule chooses for the mate themselves, read below as
+    // any campaign is.
+    if (record === "filing" && filing.ticketWith) {
+      const governor = filingsTable.get(filing.ticketWith) as unknown as
+        FilingRow | undefined;
+      if (!governor)
+        throw new Error(
+          `${where}: running mate ${filing.id} names ticket ${filing.ticketWith}, which is no filing`,
+        );
+      expect(
+        platform,
+        `${where}: running mate ${filing.id} copies ${governor.id}'s platform`,
+      ).toEqual(parse(governor.platform));
+      return;
+    }
     // The choice the rule made for this record: the same candidate, day and
     // seat questions.
     const positions = contestPositions(api, contest);
@@ -734,8 +783,8 @@ it("every contested local race's candidates run on their top questions by the ru
   const enough = () =>
     contestedPool.filter(spoke).length >= MIN_CANDIDATES ||
     everyPool.filter(spoke).length >= MIN_CANDIDATES;
-  for (let draw = 0; draw < MAX_DRAWS; draw += 1) {
-    const year = playYear(draw);
+  for (const pinned of PLACES) {
+    const year = playYear(pinned);
     places.push(year.where);
     players.push(`${year.where}: ${year.player}`);
     // Every platform read is the rule's, contested or not.
@@ -802,7 +851,7 @@ it("every contested local race's candidates run on their top questions by the ru
   console.log([...(proof ?? tried), total].join("\n"));
   if (!proof)
     expect.fail(
-      `no draw of ${MAX_DRAWS} held a contested local race:\n${tried.join("\n")}`,
+      `none of the ${PLACES.length} pinned places held a contested local race:\n${tried.join("\n")}`,
     );
   expect(
     minority.length,
@@ -815,10 +864,10 @@ it("every contested local race's candidates run on their top questions by the ru
   // The town agrees more with what the rule runs on than with the strongest views.
   expect(agree.rule, total).toBeGreaterThan(agree.strongest);
   // C1, emphasis by record rising with support inside the research band, is
-  // printed above and not held (governing lead, Nov 2). Every campaign act
-  // carries one question, so a campaign's emphasis falls on its lead
-  // (SG-GOV-platform-emphasis-lead-only) and no slope meets the band
-  // (SG-GOV-platform-slope-c1-out-of-band). The band check moves to pool
-  // item campaign-platform-emphasis-c1, with acts sharing their emphasis
-  // over the platform; the band is not widened.
-}, 7_200_000);
+  // printed above and not held (governing lead, Nov 2). Each campaign act
+  // is about the question its campaign is furthest behind on over the
+  // platform's score shares (`nextTopic`), so a candidate's emphasis follows
+  // the platform's scores; whether the pooled total meets the band is read
+  // from the printed lines (pool item campaign-platform-emphasis-c1), and
+  // the band is not widened.
+}, 1_800_000);

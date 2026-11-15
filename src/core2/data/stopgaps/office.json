@@ -12,6 +12,18 @@
     "status": "open"
   },
   {
+    "id": "SG-OFFICE-budget-meeting-on-the-year-start",
+    "kind": "calendar",
+    "file": "src/core2/modules/office-day.ts",
+    "line": 1097,
+    "whatItFakes": "A town or county body votes its budget at a meeting on the fiscal year's first day, held at its usual hour when no regular meeting falls that day, because the budgets calendar adopts every budget on that day.",
+    "why": "Keeps the budget's vote day where the budgets engine already puts it, so the budget waits on the meeting panel for the player without moving every world's adoption date (Account lead, Nov 13, 2026).",
+    "addedBy": "opus T35 (office-board-vote-cast-for-the-player-without-a-stop-again)",
+    "addedAt": "2026-11-13",
+    "replacement": "Each body adopts its budget at its own regular meeting before the fiscal year starts, as its charter or state law sets (pool item gov-budget-adopted-before-the-fiscal-year).",
+    "status": "open"
+  },
+  {
     "id": "SG-OFFICE-gov-meeting-dates",
     "kind": "calendar",
     "file": "src/core2/office-day-calendar.ts",

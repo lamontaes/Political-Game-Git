@@ -16,6 +16,7 @@ import { openOffices } from "./modules/offices";
 import { openRecord } from "./modules/record";
 import {
   fileCandidacy,
+  atLargeGroup,
   openContests,
   openElections,
   type FilingRow,
@@ -65,7 +66,7 @@ const runSeed =
 
 function setupAt(
   drawSeed: string,
-  options: { meetings?: boolean; local?: boolean } = {},
+  options: { meetings?: boolean; local?: boolean; bare?: boolean } = {},
 ) {
   const place = drawPlace(drawSeed, "campaign-day");
   const core = createLifeCore(
@@ -99,7 +100,9 @@ function setupAt(
     )
     .sort((a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id));
   let filing: FilingRow | null = null;
-  for (const candidate of adults.slice(0, options.local ? 30 : 5)) {
+  for (const candidate of options.bare
+    ? []
+    : adults.slice(0, options.local ? 30 : 5)) {
     core.playerId = candidate.id;
     for (const contest of openContests(api)) {
       // A town or county race, where a forum is held (never state or federal).
@@ -325,6 +328,164 @@ describe("a campaign day", () => {
     const rest = takeCampaignDayChoice(api, id, "rest");
     expect(rest.causeIds.length + rest.giftIds.length, where).toBe(0);
   });
+
+  /** Up to `count` other residents file in `contestId`, each known to the player; their ids and filings. */
+  function fileRivals(
+    core: CoreState,
+    api: ReturnType<typeof coreAPI>,
+    playerId: string,
+    contestId: string,
+    count: number,
+    skip: readonly string[] = [],
+  ): FilingRow[] {
+    const rivals: FilingRow[] = [];
+    for (const p of [...core.people.values()]
+      .filter(
+        (q) =>
+          q.alive &&
+          q.id !== playerId &&
+          !skip.includes(q.id) &&
+          q.tier !== "husk" &&
+          Number(START.slice(0, 4)) - Number(q.birthDate.slice(0, 4)) >= 35,
+      )
+      .sort((a, b) => a.id.localeCompare(b.id))
+      .slice(0, 120)) {
+      const filed = fileCandidacy(api, {
+        personId: p.id,
+        contestId,
+        platform: [],
+      });
+      if (filed.status !== "refused") {
+        rivals.push(filed.filing);
+        core.people.get(playerId)?.knownIds.add(p.id);
+      }
+      if (rivals.length === count) break;
+    }
+    return rivals;
+  }
+
+  /** A drawn place where the player can file, from a fixed seed (seed, seed:1, ...), as `setup` redraws. */
+  const setupFrom = (seed: string) => {
+    for (let redraw = 0; ; redraw += 1) {
+      const drawSeed = redraw ? `${seed}:${redraw}` : seed;
+      console.log(`rival call list: draw seed ${drawSeed}`);
+      const drawn = setupAt(drawSeed, { local: true });
+      if (drawn.filing || redraw === DRAWS - 1) return drawn;
+    }
+  };
+
+  for (const seed of ["aaa111", "bbb222"]) {
+    it(`never calls a rival in the same race, or the rival's household, for money, and a rival's list never reaches the player (seed ${seed})`, () => {
+      const { core, api, filing, where } = setupFrom(seed);
+      expect(
+        filing,
+        `the player could file for nothing: ${where}`,
+      ).not.toBeNull();
+      const id = filing!.id;
+      const playerId = filing!.personId;
+      const rivals = fileRivals(core, api, playerId, filing!.contestId, 2);
+      expect(
+        rivals.length,
+        `nobody else could file in the race: ${where}`,
+      ).toBeGreaterThan(0);
+      const rivalIds = rivals.map((f) => f.personId);
+      // The rival's spouse or housemate, who is also someone the player knows.
+      const rivalHome = core.households.get(
+        core.people.get(rivalIds[0]!)!.householdId,
+      )!;
+      const housemates = rivalHome.memberIds.filter(
+        (m) => m !== rivalIds[0] && m !== playerId,
+      );
+      for (const m of housemates) core.people.get(playerId)!.knownIds.add(m);
+      core.people.get(rivalIds[0]!)!.knownIds.add(playerId);
+      const list = reachablePeople(api, campaignFor(api, id));
+      for (const r of [...rivalIds, ...housemates])
+        expect(
+          list,
+          `a rival or their household is on the player's list: ${where}`,
+        ).not.toContain(r);
+      expect(
+        reachablePeople(api, campaignFor(api, rivals[0]!.id)),
+        `the player is on a rival's list: ${where}`,
+      ).not.toContain(playerId);
+      let asked = 0;
+      for (let session = 0; session < 8; session += 1) {
+        const ask = campaignDayChoices(api, id).find(
+          (c) => c.kind === "raise-money",
+        )!;
+        if (!ask.available) break;
+        const got = takeCampaignDayChoice(api, id, "raise-money");
+        asked += got.asked ?? 0;
+        const answered = got.answers?.map((a) => a.personId) ?? [];
+        for (const r of [...rivalIds, ...housemates]) {
+          expect(
+            answered,
+            `the player's own opponent or their household was asked for money: ${where}`,
+          ).not.toContain(r);
+          expect(giftOf(api, id, r)?.totalMinor ?? 0, where).toBe(0);
+        }
+      }
+      expect(asked, `someone else was asked: ${where}`).toBeGreaterThan(0);
+    });
+  }
+
+  // Two drawn places that hold at-large seats up together (found by scanning
+  // draw seeds); each is a fixed case, so nothing here depends on the draw.
+  for (const drawSeed of ["g1:atlarge:7", "g2:atlarge:9"])
+    it(`also passes over a rival filed in a sibling at-large seat, and keeps a candidate for another office on the same day reachable (draw seed ${drawSeed})`, () => {
+      console.log(`sibling seats: draw seed ${drawSeed}`);
+      const { core, api, where } = setupAt(drawSeed, {
+        local: true,
+        bare: true,
+      });
+      // Two at-large seats of one body up the same day, and a seat of another office.
+      const open = openContests(api);
+      const mine = open.find((c) => atLargeGroup(api, c).length > 1);
+      expect(
+        mine,
+        `no at-large seats with siblings open: ${where}`,
+      ).toBeDefined();
+      const sibling = atLargeGroup(api, mine!).find((c) => c.id !== mine!.id)!;
+      const other = open.find(
+        (c) =>
+          c.officeId !== mine!.officeId &&
+          atLargeGroup(api, c).every((g) => g.id !== mine!.id),
+      );
+      expect(other, `no other office open for filing: ${where}`).toBeDefined();
+      const home = (id: string) =>
+        core.households.get(core.people.get(id)!.householdId)?.memberIds ?? [];
+      const [first] = fileRivals(core, api, "", mine!.id, 1);
+      expect(first, `nobody could file: ${where}`).toBeDefined();
+      const [inSibling] = fileRivals(
+        core,
+        api,
+        first!.personId,
+        sibling.id,
+        1,
+        [...home(first!.personId)],
+      );
+      expect(
+        inSibling,
+        `nobody could file in the sibling seat: ${where}`,
+      ).toBeDefined();
+      const [elsewhere] = fileRivals(core, api, first!.personId, other!.id, 1, [
+        ...home(first!.personId),
+        ...home(inSibling!.personId),
+      ]);
+      expect(
+        elsewhere,
+        `nobody could file for the other office: ${where}`,
+      ).toBeDefined();
+      const list = reachablePeople(api, campaignFor(api, first!.id));
+      expect(
+        list,
+        `a rival in a sibling at-large seat is on the first candidate's list: ${where}`,
+      ).not.toContain(inSibling!.personId);
+      expect(
+        list,
+        `a candidate for another office was dropped: ${where}`,
+      ).toContain(elsewhere!.personId);
+    });
 
   it("goes round again once every door in town is knocked, and every knock counts", () => {
     const { api, filing, where } = setup();

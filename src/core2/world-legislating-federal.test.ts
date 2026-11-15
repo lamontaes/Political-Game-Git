@@ -16,7 +16,13 @@ import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
-import { FEDERAL_HOUSE, FEDERAL_SENATE, members } from "./modules/legislature";
+import {
+  FEDERAL_HOUSE,
+  FEDERAL_SENATE,
+  LEGISLATURE_MODULE_ID,
+  members,
+  memberKey,
+} from "./modules/legislature";
 import {
   federalQuestionAdmitted,
   legislativeSessionsOf,
@@ -87,3 +93,72 @@ it(`Congress files on the research list's questions, from both chambers (seed ${
     `no drawn place filed from both chambers: ${passed.join("; ")} (seed ${base})`,
   );
 }, 3_600_000);
+
+// Congress opens its session by filing each chamber on its own. When no member
+// of a chamber carries a change, the President asks a member of that chamber,
+// so the one asked is always among the chamber's filers. Before the fix the
+// Senate's pass was handed the House as its body, the President's asked member
+// was a House member, and opening the session threw
+// "Cannot read properties of undefined (reading 'personId')" at memberKey.
+// The three places below are the ones that threw (Sheyenne ND, Twin Creeks MT,
+// Booth WV), with the seeds that reproduced it.
+const THREW: readonly { name: string; key: string; seed: string }[] = [
+  {
+    name: "Sheyenne, North Dakota",
+    key: "3872580",
+    seed: "43d7ce9fd8df624bfdc912a579284207969b6124ba2c7780436d571a4bf7fcdf",
+  },
+  {
+    name: "Twin Creeks, Montana",
+    key: "3075550",
+    seed: "d888b20564f96beac8772cf19a02d37f8e6ca065c294cc49e35b9327a498592f",
+  },
+  {
+    name: "Booth, West Virginia",
+    key: "5409148",
+    seed: "4c34cc968c8412093378375288816b724fa98501f454e802c3eb42a3dceb801f",
+  },
+];
+
+for (const place of THREW) {
+  it(`Congress opens its session and each bill the President asks a member to carry sits in that member's chamber (${place.name} ${place.key}, seed ${place.seed})`, () => {
+    const was = setBookkeeping(false);
+    try {
+      const { core } = buildBenchWorld(place.seed, gameStartDate(), {
+        twoLevel: true,
+        placeKey: place.key,
+      });
+      // Congress convenes on January 3, 2026, in the world's first year.
+      advanceCore(core, makeIsoDate("2026-01-10"));
+      const api = coreAPI(core);
+      const seats = new Map(
+        [FEDERAL_HOUSE, FEDERAL_SENATE].map((body) => [
+          body,
+          new Set(members(api, body).map(memberKey)),
+        ]),
+      );
+      const asked = (
+        api
+          .moduleState(LEGISLATURE_MODULE_ID)
+          .table("bills")
+          .rows() as unknown as {
+          id: string;
+          bodyOfficeId: string;
+          sponsorId: string;
+          requestedBy?: string;
+        }[]
+      ).filter((b) => b.requestedBy && seats.has(b.bodyOfficeId));
+      for (const bill of asked)
+        expect(
+          seats.get(bill.bodyOfficeId)!.has(bill.sponsorId),
+          `${bill.id}: asked of ${bill.sponsorId}, who holds no seat on ${bill.bodyOfficeId}`,
+        ).toBe(true);
+      expect(
+        legislativeSessionsOf(api).some((row) => row.jurisdiction === "US"),
+        "Congress has an open session",
+      ).toBe(true);
+    } finally {
+      setBookkeeping(was);
+    }
+  }, 600_000);
+}

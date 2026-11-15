@@ -3,7 +3,9 @@ import path from "path";
 import { describe, expect, it } from "vitest";
 import {
   caseBreaksRule,
+  caseIsOwners,
   caseText,
+  placeRuleProblems,
   ruleFlags,
   textBreaksRule,
   type LineRule,
@@ -35,6 +37,23 @@ import {
  */
 
 const ROOT = path.resolve(__dirname, "../../..");
+/**
+ * A test file the gate's run picks up: a Vitest test file by name that the
+ * test settings in vite.config.ts do not exclude by path or folder.
+ */
+const VITE_CONFIG = readFileSync(path.join(ROOT, "vite.config.ts"), "utf8");
+const REPO_FILES = {
+  exists: (file: string) => existsSync(path.join(ROOT, file)),
+  read: (file: string) => readFileSync(path.join(ROOT, file), "utf8"),
+  inTestSet: (file: string) =>
+    /\.(?:test|spec)\.[cm]?[jt]sx?$/.test(file) &&
+    !VITE_CONFIG.includes(`"${file}"`) &&
+    !file
+      .split("/")
+      .some((_, at, parts) =>
+        VITE_CONFIG.includes(`"${parts.slice(0, at + 1).join("/")}/**"`),
+      ),
+};
 const run = freshRun();
 const tested = (rule: LineRule) =>
   !["place", "judged", "composed"].includes(rule.test.kind);
@@ -61,7 +80,7 @@ describe("line rules: each rule does what it says", () => {
       (rule) => rule.status === "enforced" && !rule.applies,
     );
     const liked = run.rules.flatMap((rule) =>
-      (rule.spares ?? []).map(caseText),
+      (rule.spares ?? []).filter(caseIsOwners).map(caseText),
     );
     const wrong = enforced.flatMap((rule) =>
       liked
@@ -136,11 +155,9 @@ describe("line rules: each rule does what it says", () => {
         const file = JSON.parse(readFileSync(store, "utf8")) as JudgedFile;
         expect(file.judged, rule.id).toBeGreaterThan(0);
       } else if (rule.test.kind === "place") {
-        // An enforced place rule is judged: it names the verdict file its reader folds.
-        expect(rule.test.reads, rule.id).toBeTruthy();
-        expect(existsSync(path.join(ROOT, rule.test.reads!)), rule.id).toBe(
-          true,
-        );
+        // An enforced place rule names the verdict file its reader folds, or
+        // the test that proves the composer places it.
+        expect(placeRuleProblems(rule, REPO_FILES), rule.id).toEqual([]);
       } else expect(tested(rule), rule.id).toBe(true);
   });
 });
@@ -259,5 +276,56 @@ describe("line rules: the saved verdicts", () => {
     const file = JSON.parse(read("reply-follows.json")) as JudgedFile;
     expect(row.pulled + row.waiting + row.flagged).toBe(0);
     expect(row.report!.judged).toBe(file.judged);
+  });
+});
+
+/**
+ * Nov 14, 2026: two merges dropped `sets` and `applies` from three set rules in
+ * data/english/line-rules.json. With no reply sets to read, `npm run
+ * words:verdicts` found nothing the rules judged and dropped every good
+ * verdict (928, 716 and 196), and nothing failed because a store with only
+ * bad verdicts is a valid store. These two checks fail where that shows first.
+ */
+describe("line rules: a rule keeps what its verdicts were about", () => {
+  const stored = run.rules
+    .filter(storeRule)
+    .map((rule) => ({ rule, name: storeName(rule) }))
+    .filter(({ name }) =>
+      existsSync(path.join(ROOT, JUDGED_DIR, `${name}.json`)),
+    )
+    .map(({ rule, name }) => ({
+      rule,
+      name,
+      file: JSON.parse(
+        readFileSync(path.join(ROOT, JUDGED_DIR, `${name}.json`), "utf8"),
+      ) as JudgedFile,
+    }))
+    .filter(({ file }) => file.judged > 0);
+
+  it("a set rule with saved verdicts still says which reply sets it reads and where", () => {
+    const lost = stored
+      .filter(({ rule }) => rule.judges === "set")
+      .filter(({ rule }) => !rule.sets || !rule.applies)
+      .map(
+        ({ rule }) =>
+          `${rule.id} has saved verdicts but no ${rule.sets ? "applies" : "sets"} in data/english/line-rules.json: a merge may have dropped it, and the next npm run words:verdicts would drop every good verdict`,
+      );
+    expect(lost).toEqual([]);
+  });
+
+  it("a judged rule with saved verdicts has some judged good", () => {
+    const none = stored
+      .filter(({ name }) => {
+        const yes = path.join(ROOT, JUDGED_DIR, `${name}.yes.txt`);
+        return (
+          !existsSync(yes) ||
+          readFileSync(yes, "utf8").split("\n").filter(Boolean).length === 0
+        );
+      })
+      .map(
+        ({ rule, file }) =>
+          `${rule.id}: ${file.judged} verdicts saved and none judged good; did a fold drop the good ones?`,
+      );
+    expect(none).toEqual([]);
   });
 });

@@ -94,7 +94,7 @@ function severeDisasterReading(
   return { value, recordId };
 }
 
-/** The outcomes whose level the school engine measures (spending is recorded but stays the web's ledger, which no link reads from it). */
+/** The outcomes whose level the school engine measures (spending is not here: the web keeps no spending figure; the school engine's row is the one figure). */
 const SCHOOL_MEASURED = new Set([
   "school.math-proficient-pct",
   "school.reading-proficient-pct",
@@ -250,9 +250,6 @@ const ENGINE_READERS: Readonly<
   // have closed (press.local-newspaper), counted from the finance ledger's
   // closing dates; null where the press keeps no outlet for the place.
   "newspapers-closed": (api, placeId) => {
-    // stopgapId: SG-WEB-voting-newspaper-closure (a paper closes only by its
-    // owner's choice, and no paper's books show the losses that choice weighs)
-    api.stopgap("SG-WEB-voting-newspaper-closure");
     const closed = closedNewspapers(api, placeId);
     return closed ? { value: closed.count, recordId: closed.recordId } : null;
   },

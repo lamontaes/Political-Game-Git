@@ -1,6 +1,8 @@
 import { governmentProperName } from "../core2/government-proper-name";
+import { townGovernment } from "../core2/output-number-readers";
 import { coreAPI } from "../core2/state";
 import {
+  BUDGETS_MODULE_ID,
   budgetPriorities,
   budgetsOf,
   governments,
@@ -141,6 +143,37 @@ export function booksOf(core: CoreState, organizationId: string) {
 }
 
 /**
+ * Whether a government's savings are still the game's opening estimate: the
+ * cash it opened with is a calibrated estimate (fundOpeningTreasury, under
+ * SG-WORLD-government-opening-fund-balance), and play replaces it once a
+ * monthly close has swept the treasury to its reserve (a reserveSweeps row)
+ * or the treasury has paid out more than it opened with. Each from the
+ * government's own records; no place is named.
+ */
+function savingsEstimated(
+  core: CoreState,
+  gov: {
+    readonly id: string;
+    readonly organizationId: string;
+    readonly openingCash?: { readonly minor: number };
+  },
+): boolean {
+  if (!gov.openingCash?.minor) return false;
+  const swept = (
+    coreAPI(core)
+      .moduleState(BUDGETS_MODULE_ID)
+      .table("reserveSweeps")
+      .rows() as unknown as { governmentId: string }[]
+  ).some((row) => row.governmentId === gov.id);
+  if (swept) return false;
+  const paidOut = Number(
+    core.cashJournal.totalsByOwner.get(gov.organizationId)?.grossDebitMinor ??
+      0,
+  );
+  return paidOut < gov.openingCash.minor;
+}
+
+/**
  * A budget as the screens show it: its lines largest first and the sums the
  * screen reads (revenue, spending and the balance between them), so no screen
  * adds the lines up itself.
@@ -231,7 +264,7 @@ function chiefOf(core: CoreState, governmentId: string, viewerId: string) {
 /** Every government over the town, its latest budget, and the player's taxes. */
 export function budgetView(core: CoreState, personId: string) {
   if (!core.modules.has("core2-budgets-v1"))
-    return { governments: [], withholding: null };
+    return { townGovernmentId: undefined, governments: [], withholding: null };
   const api = coreAPI(core);
   const executive = executiveOf(core, personId);
   const withheld = withholdingOf(api, personId);
@@ -241,7 +274,11 @@ export function budgetView(core: CoreState, personId: string) {
       const key = `${line.level} ${line.tax}`;
       byLine[key] = (byLine[key] ?? 0) + line.minor;
     }
+  const home = core.people.get(personId as never)?.placeId;
   return {
+    // The town's own books: the government whose jurisdiction is the place the person lives in
+    // (its city, or the county that runs a town with no city government), never another town's.
+    townGovernmentId: home ? townGovernment(api, home)?.id : undefined,
     governments: governments(api).map((gov) => {
       const years = [...budgetsOf(api, gov.id)].sort(
         (a, b) => b.fiscalYear - a.fiscalYear,
@@ -259,6 +296,7 @@ export function budgetView(core: CoreState, personId: string) {
         youAreExecutive: [...executive].some((j) => gov.id.includes(j)),
         priorities: budgetPriorities(api, gov.id),
         books: booksOf(core, gov.organizationId),
+        savingsEstimated: savingsEstimated(core, gov),
         latest:
           latest &&
           withTrend(

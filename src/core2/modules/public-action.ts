@@ -334,17 +334,21 @@ function inviteThePlayer(
 function playerJoins(api: CoreAPI, event: { facts?: Record<string, string> }) {
   const facts = event.facts ?? {};
   if (facts.typeKey !== "cause-invite" || facts.ending !== "joined") return;
-  const match = /^cause\.shared:(action:.+):[^:]+:([^:]+)$/.exec(
-    facts.causeId ?? "",
+  // `cause.shared:<action id>:<recruiter id>:<player id>`: a recruiter's id may
+  // hold colons (a newspaper's owner), the player's does not, so the action is
+  // the recorded one whose id the rest begins with.
+  const causeId = facts.causeId ?? "";
+  const prefix = "cause.shared:";
+  if (!causeId.startsWith(prefix)) return;
+  const rest = causeId.slice(prefix.length);
+  const playerId = rest.slice(rest.lastIndexOf(":") + 1);
+  const action = (table(api, "actions").rows() as unknown as ActionRow[]).find(
+    (row) => rest.startsWith(`${row.id}:`),
   );
-  if (!match) return;
-  const [, actionId, playerId] = match;
-  const action = table(api, "actions").get(actionId!) as unknown as
-    ActionRow | undefined;
-  if (!action || action.participantIds.includes(playerId!)) return;
+  if (!action || action.participantIds.includes(playerId)) return;
   table(api, "actions").put({
     ...action,
-    participantIds: [...action.participantIds, playerId!].sort(),
+    participantIds: [...action.participantIds, playerId].sort(),
     playerTouched: true,
   } as unknown as ModuleRow);
   const rule = RULES[action.area]!;
@@ -352,7 +356,7 @@ function playerJoins(api: CoreAPI, event: { facts?: Record<string, string> }) {
   if (rule.question && action.side === "grievance")
     makeCase(api, {
       id: `case:${action.id}:${api.state.date}:player`,
-      speakerId: playerId!,
+      speakerId: playerId,
       listenerIds: officialsOfTown(api),
       placeId: action.placeId,
       topic: rule.question,
