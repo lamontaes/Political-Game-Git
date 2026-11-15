@@ -138,6 +138,7 @@ describe("a scene reads what an earlier scene's reply left (played)", () => {
           row.alive &&
           row.tier !== "husk" &&
           row.id !== me &&
+          row.placeId === core.people.get(me)?.placeId &&
           row.birthDate <= "2000-01-01" &&
           row.livingCostDailyMinor > 0 &&
           row.liquidMinor > 0,
