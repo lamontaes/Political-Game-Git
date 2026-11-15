@@ -123,6 +123,7 @@ Load a skill when its trigger fits; descriptions say when. Every session, first:
 - `merge-trains`: merging game pull requests in trains by area, with the heavy checks run once
 - `merger`: merging and validating PRs
 - `money-economy`: the national economy and the dollar: cycles, outside money, household income, and proving them
+- `money-trace`: following one household's money in a played world, with and without a change, to the line that makes it short
 - `nation`: the rest of the country as results: national opinion, other states' disasters, budgets and measures, the President's acts, the federal courts
 - `owners-words-to-threads`: the owner's words go to threads verbatim, his examples are generalities, the standing rules for words
 - `people-pack`: drawing people from the pack, on mannequin plates
