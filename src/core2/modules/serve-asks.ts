@@ -28,6 +28,7 @@ import willingness from "../data/serve/willingness.json" with { type: "json" };
 import { ambitionOf } from "../candidate-pool";
 import { closenessBetween } from "../closeness";
 import { meetInTalk } from "./people";
+import { workHeld } from "../person-work";
 import { PLATFORM_QUESTIONS, type Stance } from "../campaign-data";
 import { addDays, makeIsoDate } from "../kernel/dates";
 import type { ModuleRow } from "../module-data";
@@ -55,6 +56,7 @@ import {
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
 import { officialOf } from "./officials";
 import {
+  fillInStateCandidate,
   headCandidates,
   postConfirmed,
   postRecord,
@@ -125,7 +127,7 @@ export interface ServeGrounds {
   readonly raisedMinor: number;
   /** The player's filing's standing (petitioning, on the ballot, nominee). */
   readonly filingStatus: string;
-  /** For a post: the job they hold now (its id), and its hourly pay. */
+  /** For a post: the record of the work they hold now (a job, or their identity's work fact), and its hourly pay. */
   readonly jobId?: string | null;
   readonly hourlyMinor?: number;
   /** For a post: whether their work on the record is in the post's own field. */
@@ -489,15 +491,13 @@ export function postStanding(
     player,
     lastPlatform(api, player.id),
   );
-  // The job they hold now and its hourly pay, against the post's.
-  const job = asked.jobId
-    ? (api.state as CoreState).jobs.get(asked.jobId)
-    : undefined;
-  const working = !!job && job.endsAt === undefined;
-  const hourlyMinor = working
-    ? (job.hourlyMinor ??
-      job.wageDailyMinor / Math.max(job.hoursDaily, Number.EPSILON))
-    : 0;
+  // The work they hold now and its hourly pay, against the post's: a job in
+  // the played world, or the work their home town's records give someone
+  // filled in from elsewhere. Work with no published wage pulls neither way
+  // on pay; the job itself is still given up.
+  const held = workHeld(api.state as CoreState, asked.id);
+  const working = held !== null;
+  const hourlyMinor = held?.hourlyMinor ?? 0;
   const postHourly = campaignParameter("appointeeHourlyMinor");
   const distance = Math.abs(theirStance - playerStance) / 2;
   const terms: Record<string, number> = {
@@ -511,8 +511,10 @@ export function postStanding(
     // A raise pulls toward yes and a cut away, on a sliding scale; someone
     // out of work has the whole pull.
     pay:
-      w(seat, "pay") *
-      ((postHourly - hourlyMinor) / (postHourly + hourlyMinor)),
+      held && held.hourlyMinor === null
+        ? 0
+        : w(seat, "pay") *
+          ((postHourly - hourlyMinor) / (postHourly + hourlyMinor)),
     "own-job": working ? -w(seat, "ownJob") : 0,
     question: w(seat, "apart") * (w(seat, "agreeAt") - distance),
     heard: -w(seat, "heard") * share(heard.length, w(seat, "heardScale")),
@@ -557,7 +559,7 @@ export function postStanding(
       endorsements: 0,
       raisedMinor: 0,
       filingStatus: "",
-      jobId: working ? job.id : null,
+      jobId: held?.recordId ?? null,
       hourlyMinor,
       inField:
         postRecord(api, asked, post.key, api.state.date).relatedYears > 0,
@@ -932,9 +934,17 @@ function askToTakePost(
   if (!found) throw new Error("Not an open post you appoint.");
   if (!found.offered.includes(input.personId))
     throw new Error("Not someone this post could go to.");
-  const standing = postStanding(api, input.appointerId, input.personId, found);
+  // One of the state's people the list names without holding them in full is
+  // filled in where they live before they are asked, so they answer as
+  // themselves (executive's fillInStateCandidate); the same person after.
+  const personId =
+    found.level === "state"
+      ? fillInStateCandidate(api, found.key, input.personId)
+      : input.personId;
+  if (!personId) throw new Error("Not someone this post could go to.");
+  const standing = postStanding(api, input.appointerId, personId, found);
   if (!standing) throw new Error("That person can't be asked.");
-  const id = `${found.seatKey}|${input.personId}`;
+  const id = `${found.seatKey}|${personId}`;
   const earlier = serveAsk(api, id);
   if (!mayAskAgain(api, earlier, standing))
     throw new Error("They turned you down; it is too soon to ask again.");
@@ -948,7 +958,7 @@ function askToTakePost(
     raceOffice: appointerOffice(api, input.appointerId),
     filingId: "",
     askerId: input.appointerId,
-    askedId: input.personId,
+    askedId: personId,
     date: api.state.date,
     eventId,
     standing,
@@ -962,7 +972,7 @@ function askToTakePost(
     id: eventId,
     date: api.state.date,
     kind: SERVE_ASKED_EVENT,
-    personIds: [input.appointerId as PersonId, input.personId as PersonId],
+    personIds: [input.appointerId as PersonId, personId as PersonId],
     placeId: api.state.people.get(input.appointerId as PersonId)!.placeId,
     source: {
       tag: "SOURCED",
@@ -975,7 +985,7 @@ function askToTakePost(
       office: found.title,
       post: found.key,
       askerId: input.appointerId,
-      askedId: input.personId,
+      askedId: personId,
       question: standing.grounds.question,
       reason: standing.reason,
     },
