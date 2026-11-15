@@ -165273,10 +165273,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.self-you-knew-you-had-me-before-you-knocked",
+      "key": "scene-talk.reply-agree.i-know-you-i-d-rather-it-be-somebody-i-know-in-there-you-have-my-vote",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "You knew you had me before you knocked.",
+      "text": "I know you. I'd rather it be somebody I know in there. You have my vote.",
       "uses": [
         {
           "subject": "scene",
@@ -165292,7 +165292,7 @@
       "bearing": "glad",
       "origin": "authored",
       "author": "Claude Opus (door scenes, brief G)",
-      "date": "2026-11-14",
+      "date": "2026-11-15",
       "tag": {
         "move": "agree",
         "key": "door"
