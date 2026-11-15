@@ -18,7 +18,7 @@ import housingData from "./data/housing/housing.json" with { type: "json" };
 import { countedLeaseStart } from "./housing-counted-buy";
 import { buyMarket, weighHome } from "./housing-buy";
 import { countedMortgageFlowId } from "./housing-mortgages";
-import { ageInYears, makeIsoDate } from "./kernel/dates";
+import { ageInYears, daysBetweenText, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import { bankYes, heldMortgages, mortgageRoom } from "./modules/credit";
 import {
@@ -32,6 +32,7 @@ import {
   residentsRuntime,
 } from "./modules/residents";
 import { claimsInGroup, fundBalance } from "./counted-money";
+import { depositsHeld } from "./modules/budgets";
 import { coreAPI } from "./state";
 
 const PLACE = "2204685";
@@ -59,15 +60,21 @@ it("counted renters on their lease month buy from their own savings, short ones 
     if (h.tenure !== "rent" || h.quarters) return [];
     const start = countedLeaseStart(api, h);
     if (!start || start.slice(5, 7) !== month) return [];
-    if (ageInYears(start, today) < 1) return [];
+    // The review's own bar: a lease eleven months old or more weighs buying on its anniversary month.
+    if (
+      daysBetweenText(start, today) <
+      api.parameter("daysPerMeanYear") *
+        (1 - 1 / api.parameter("macroMonthsPerYear"))
+    )
+      return [];
     const rent = rt.flows.get(`rent:${h.id}`);
     const value = rent && rentHomeValue(api, h.placeId, rent.amountMinor);
     if (!value) return [];
     return [
       {
         id: h.id,
-        // Its own savings: its share of its group's account, for every household the record stands for.
-        savings: departingCash(rt, h),
+        // Its own savings: its share of its group's account and its savings at the bank, for every household the record stands for.
+        savings: departingCash(rt, h) + depositsHeld(core, h.id),
         down: value * share * rt.store.weightOf(h),
       },
     ];
@@ -114,7 +121,14 @@ it("counted renters on their lease month buy from their own savings, short ones 
   const shareBefore = new Map(
     weighing.map((row) => {
       const h = rt.store.liveHousehold(row.id)!;
-      return [row.id, { group: h.group, cash: departingCash(rt, h) }];
+      return [
+        row.id,
+        {
+          group: h.group,
+          cash: departingCash(rt, h),
+          banked: depositsHeld(core, h.id),
+        },
+      ];
     }),
   );
   // Each household's claim is its people at its savings weight: the money per claim is what every household's share reads.
@@ -180,10 +194,11 @@ it("counted renters on their lease month buy from their own savings, short ones 
       row.id,
     ).toBe(true);
   }
-  // Its share of its renter group's account covered the down payment for every household it stands for.
+  // Its share of its renter group's account and its savings at the bank covered the down payment for every household it stands for.
   for (const row of bought)
     expect(
-      shareBefore.get(row.householdId)!.cash,
+      shareBefore.get(row.householdId)!.cash +
+        shareBefore.get(row.householdId)!.banked,
       `${detail}: ${row.id}`,
     ).toBeGreaterThanOrEqual(row.downMinor * row.weight);
   // The renters left behind paid none of it: each renter group a buyer left holds the same money per claim (to the cent each move rounds), so every household left keeps its share.

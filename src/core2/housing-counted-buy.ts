@@ -382,7 +382,7 @@ function buy(
   // The down payment, to each seller for its homes: first what it brought from the home it sold (paid in from the outside market that bought that home), then from the account its share moved to.
   let downPaid = 0;
   // Its share pays first; past it, the savings it needs are drawn from the bank into the account its share moved to, just before each payment.
-  let shareLeft = deal.shareMinor * weight;
+  let shareLeft = Math.floor(deal.shareMinor * weight);
   let bankedLeft = depositsHeld(c, h.id);
   for (const seller of sellers) {
     const amount = Math.round(deal.down * seller.scale * seller.homes);
@@ -532,7 +532,7 @@ function buy(
     rate: deal.rate,
     rentBeforeMinor: deal.rentMinor,
     monthlyIncomeMinor: Math.round(deal.incomeMinor),
-    savingsMinor: deal.shareMinor,
+    savingsMinor: deal.shareMinor + deal.bankedMinor,
     ...(deal.broughtMinor > 0 ? { broughtMinor: deal.broughtMinor } : {}),
     leaseMonths: Math.round(deal.leaseMonths),
     // What decided it: each reason's contribution to the buy option.
