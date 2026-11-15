@@ -7896,7 +7896,7 @@
       "date": "2026-11-15"
     },
     {
-      "key": "conversation.news-raise-heard.did-you-catch-outlet-on-about-radio",
+      "key": "conversation.news-raise-heard.did-you-catch-outlet-on-about",
       "move": "news-raise-heard",
       "kind": "spoken",
       "text": "Did you catch {outlet} on {about}?",
@@ -7906,7 +7906,7 @@
           "subject": "news",
           "role": "raise",
           "choice": "heard",
-          "requiresFacts": ["about", "outlet", "outlet-radio"]
+          "requiresFacts": ["about", "outlet", "broadcast"]
         }
       ],
       "transcriptsUsing": 4,
@@ -7940,39 +7940,6 @@
           "role": "raise",
           "choice": "heard",
           "requiresFacts": ["about", "outlet-television"]
-        }
-      ],
-      "transcriptsUsing": 4,
-      "bySource": {
-        "dcpd": 1,
-        "nps": 3
-      },
-      "source": {
-        "document": "Remarks in an Exchange With Reporters at Joint Base Andrews, Maryland",
-        "date": "2020-02-18",
-        "granule": "DCPD-202000078",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202000078/html/DCPD-202000078.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      },
-      "author": "Words builder M3 (words-neighbor-asks-the-player-about-a-printed-story-by-its-medium)",
-      "date": "2026-11-15"
-    },
-    {
-      "key": "conversation.news-raise-heard.did-you-catch-outlet-on-about-tv",
-      "move": "news-raise-heard",
-      "kind": "spoken",
-      "text": "Did you catch {outlet} on {about}?",
-      "uses": [
-        {
-          "move": "news-raise-heard",
-          "subject": "news",
-          "role": "raise",
-          "choice": "heard",
-          "requiresFacts": ["about", "outlet", "outlet-television"]
         }
       ],
       "transcriptsUsing": 4,

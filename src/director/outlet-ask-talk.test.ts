@@ -1,8 +1,8 @@
 /**
  * A neighbor asks the player about a printed story, by the outlet's medium
  * (Words lead, Nov 15), and the player answers yes or no from their own
- * record. Pinned at Creve Coeur, Illinois (seed pl5): the neighbor is Martha
- * Nichols, the story is the player's own strongest question, printed and
+ * record. Pinned at Creve Coeur, Illinois (seed pl5): the neighbor is a member
+ * of the player's household, the story is the player's own strongest question, printed and
  * delivered by the news engine's route (printStory) with a radio station, a
  * television station or a paper as its outlet. The talks are written to a
  * file for the readers.
@@ -45,7 +45,12 @@ for (const kind of KINDS)
       )!;
       const org = core.organizations.get(outlet.organizationId as never)!;
       const neighbor = [...core.people.values()]
-        .filter((p) => p.alive && p.id !== me)
+        .filter(
+          (p) =>
+            p.alive &&
+            p.id !== me &&
+            p.householdId === core.people.get(me)!.householdId,
+        )
         .sort((a, b) => a.id.localeCompare(b.id))
         .find((p) => strongestQuestion(api, p.id as PersonId));
       expect(neighbor, "a neighbor with a stand").toBeTruthy();
@@ -82,7 +87,10 @@ for (const kind of KINDS)
       ];
       const pressed = playerHeard ? "yes" : "no";
       const asked = talk.lines.find((l) => l.kind === "news")!;
-      expect(asked, "the neighbor asks about the story").toBeTruthy();
+      expect(
+        asked,
+        `the neighbor asks about the story: ${talk.lines.map((l) => `${l.kind}: ${l.text}`).join(" | ")}`,
+      ).toBeTruthy();
       // The verb fits the medium: read of a paper only, the radio of a station only.
       if (kind !== "newspaper")
         expect(asked.text).not.toMatch(/\bread\b|paper/);
