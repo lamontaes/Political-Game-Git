@@ -5,10 +5,10 @@ area: gov
 kind: bug
 priority: 3
 size: M
-status: open
+status: in-pr
 standard: 2
 claimed-by:
-pr:
+pr: (next PR)
 after: metrics-state-figures-one-owner
 blocked-on:
 lead: nation
@@ -33,3 +33,5 @@ source: Account lead thread, Nov 15, after metrics-state-figures-one-owner
 **Waits on.** metrics-state-figures-one-owner.
 
 **Files.** src/core2/term-read.ts, src/core2/regional-model.ts, src/core2/modules/macro.ts
+
+Built (Account lead thread, Nov 15). The tier's kept months (`countryStateMonths`, src/core2/modules/macro.ts) now also hold the real coarse months before the opening, on the regional table's retention (the year before the opening in full, each December before), summed to the state by population from the same months the tier is fitted from. Why they needed a shift: the tier opens every state's unemployment scaled by one factor so the states sum to the nation's rate on day one (0.9803 in the world drawn at Everett, seed 7a5e19c2b3d84f60), and its jobs and people are its own fit (pay matches the regions exactly), so the regions' sums and the tier's are two honest fits, not a fault in either. The tier is the truth at the opening; each history figure is multiplied by the tier's opening over the regions' opening, so the history keeps its own movements and meets the tier exactly. `term-read.ts` reads those rows (`stateRowAt`); the regional read of a state is gone, and the regional-model function that sums a state's regions is renamed `stateOfRegions`, so one name reads a state. Proof: `src/core2/term-read-state-tier.test.ts`.
