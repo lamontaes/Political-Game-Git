@@ -57,3 +57,7 @@ Ask where it ran and at what head. A unit test that builds its own small world p
 ## Lesson of Nov 15 (the paper's hold for comment)
 
 - **Break it before you trust it.** Two press tests at their pinned places passed with the change and without it, because the place's tip never ran, so the asserts sat inside `if (ran)`. Undo the line under test and run the file. If it still passes, stage the case through the game's own path (here: the player takes the bribe in the offer scene, the offerer leaks it with `leakToReporter`), and assert outside any branch.
+
+## Lesson of Nov 15 (a red that is the world drifting)
+
+- **A test that ends in "nothing happened" for a person may be resting on one other person's lean.** The Sherrodsville filer case was green only because one volunteer sat just over the line; a fold that moved every world's money moved the volunteer's lean across it and the petition stayed at 0. Print who did the work (door hours, signers, the reason) before editing the test, and ask whether the game does the thing for the person when it should (here: the controlled person's own-choice day never walked their petition). Fix the game, keep the assertions, and break the fix once (comment out the call) to see the test go red: it did, at 0 of 10 signed.

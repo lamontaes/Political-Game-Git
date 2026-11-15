@@ -38,7 +38,11 @@ import {
   leanedYes,
   termOfLean,
 } from "../trait-decisions";
-import { campaignDayOpen, takeCampaignDayChoice } from "../campaign-day";
+import {
+  campaignDayOpen,
+  takeCampaignDayChoice,
+  type DayMode,
+} from "../campaign-day";
 import limits from "../../../data/research/campaign-reality/campaign-contribution-limits.json" with { type: "json" };
 import unitPrices from "../../../data/research/campaign-reality/campaign-unit-prices.json" with { type: "json" };
 import finance from "../../../data/research/campaigns/campaign-finance-2026.json" with { type: "json" };
@@ -196,6 +200,8 @@ export interface CampaignRow {
   readonly managerWeighedIds?: readonly string[];
   /** The day the last offer to help came. */
   readonly lastOfferOn?: string;
+  /** The last day the player took one of the campaign's day choices by hand (`noteHandDay`): on that day the character makes none of its own. */
+  readonly handDay?: string;
   /** The candidate's circle already asked to sign the petition (each ask is made once). */
   readonly petitionAskedIds?: readonly string[];
   /** The day the candidate last asked their circle to sign. */
@@ -7633,8 +7639,9 @@ export function rivalDay(
   filingId: string,
   candidate: Readonly<PersonState>,
   town: string,
+  mode: DayMode = true,
 ): RivalDay {
-  const day = campaignDayOpen(api, filingId, true);
+  const day = campaignDayOpen(api, filingId, mode);
   const offered = (kind: string) =>
     day.find((c) => c.kind === kind)?.available ?? false;
   const calls = offered("raise-money");
@@ -7945,6 +7952,52 @@ function holdsTheSeat(
 }
 
 /**
+ * The player took one of this campaign's day choices by hand today: the day
+ * is theirs, so `ownChoicePetitionDoors` does nothing for them (owner, Oct
+ * 14, night: the player's choices are the player's).
+ */
+export function noteHandDay(api: CoreAPI, filingId: string): void {
+  const campaign = campaignFor(api, filingId);
+  if (campaign.handDay !== api.state.date)
+    save(api, { ...campaign, handDay: api.state.date });
+}
+
+/** The hours a day on own-choice gives the controlled filer's petition doors (zero where none are open or none are due). */
+export function ownChoiceDoorHours(api: CoreAPI, filingId: string): number {
+  if (!petitionCirculating(api, filingId)) return 0;
+  const campaign = campaignFor(api, filingId);
+  if (campaign.handDay === api.state.date) return 0;
+  const candidate = api.state.people.get(campaign.candidateId);
+  if (!candidate?.alive) return 0;
+  return rivalDay(
+    api,
+    filingId,
+    candidate,
+    townRow(api).townPlaceId,
+    "own-choice",
+  ).doorHours;
+}
+
+/**
+ * The controlled person's petition on a day they make their own choices (no
+ * day choice taken by hand today): they walk its doors for signatures the
+ * way a world candidate does (owner, Oct 28: "signatures should happen
+ * somewhat naturally ... the count fills as the candidate campaigns"). The
+ * hours are the day a world candidate of their means leaves for doors
+ * (`rivalDay`: the base hours with or without a job first), doors only: no
+ * asks and nothing spent, so the character never moves the player's money
+ * (owner, Oct 16). A player who directs the day by hand is left to it.
+ */
+export function ownChoicePetitionDoors(api: CoreAPI, filingId: string): void {
+  const doorHours = ownChoiceDoorHours(api, filingId);
+  if (doorHours > 0)
+    takeCampaignDayChoice(api, filingId, "canvass", {
+      world: "own-choice",
+      hours: doorHours,
+    });
+}
+
+/**
  * One world candidate's campaign turn. They ask for money from the people
  * the campaign can reach (a few dozen a turn, in turn), knock doors in town
  * for the hours their own day leaves free (a candidate who is a full person
@@ -8237,6 +8290,7 @@ function campaignWork(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
       circulatorShift(api, filing.id);
       if (filing.personId !== playerId)
         campaignTurn(api, filing.id, race.electionDate);
+      else ownChoicePetitionDoors(api, filing.id);
     }
   }
   foldRivalWord(api);

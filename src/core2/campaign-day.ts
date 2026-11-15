@@ -33,6 +33,7 @@ import {
   hostCircle,
   holdEvent,
   knockDoors,
+  noteHandDay,
   reachablePeople,
   rentVenue,
   type CampaignRow,
@@ -210,7 +211,7 @@ export interface CampaignDayOptions {
    * the player): the same acts for any living candidate on the ballot, whose
    * money and doors the campaign engine runs, never the controlled person's.
    */
-  readonly world?: boolean;
+  readonly world?: DayMode;
   /** The hours this day takes, where a candidate's own day leaves fewer or more than the player's. */
   readonly hours?: number;
 }
@@ -261,7 +262,14 @@ export function raceLive(
   );
 }
 
-function contextOf(api: CoreAPI, filingId: string, world = false) {
+/**
+ * Whose day the engine reads: the controlled person's own (false), a world
+ * candidate's (true), or the controlled person's on a day the character makes
+ * its own choices ("own-choice", doors for a petition only).
+ */
+export type DayMode = boolean | "own-choice";
+
+function contextOf(api: CoreAPI, filingId: string, world: DayMode = false) {
   const filing = elections(api, "filings").get(filingId) as unknown as
     FilingRow | undefined;
   if (!filing) throw new Error(`No filing ${filingId}`);
@@ -273,7 +281,12 @@ function contextOf(api: CoreAPI, filingId: string, world = false) {
     raceLive(api, filing) &&
     (world
       ? !!api.state.people.get(filing.personId)?.alive &&
-        filing.personId !== (api.state as CoreState).playerId
+        // A world candidate is anyone but the controlled person; on a day the
+        // character makes its own choices the controlled person's day is read
+        // the same way, and only then.
+        (world === "own-choice"
+          ? filing.personId === (api.state as CoreState).playerId
+          : filing.personId !== (api.state as CoreState).playerId)
       : filing.personId === (api.state as CoreState).playerId) &&
     filing.filedOn <= api.state.date &&
     api.state.date <= contest.electionDate;
@@ -303,7 +316,11 @@ function askableFor(api: CoreAPI, campaign: CampaignRow) {
 }
 
 /** Who the player could ask for money today: reachable adults who haven't given. */
-function peopleToAsk(api: CoreAPI, campaign: CampaignRow, world = false) {
+function peopleToAsk(
+  api: CoreAPI,
+  campaign: CampaignRow,
+  world: DayMode = false,
+) {
   // The controlled person's money moves only by their own choice, so a world
   // candidate's asks skip them.
   const playerId = (api.state as CoreState).playerId;
@@ -316,7 +333,7 @@ function peopleToAsk(api: CoreAPI, campaign: CampaignRow, world = false) {
 }
 
 /** Whether anyone is left to ask: `peopleToAsk`'s askable list not empty, read to the first one. */
-function anyoneToAsk(api: CoreAPI, campaign: CampaignRow, world: boolean) {
+function anyoneToAsk(api: CoreAPI, campaign: CampaignRow, world: DayMode) {
   const playerId = (api.state as CoreState).playerId;
   const askableId = askableFor(api, campaign);
   return reachablePeople(api, campaign).some(
@@ -394,7 +411,7 @@ function interviewOpen(api: CoreAPI, filing: FilingRow): boolean {
 function dayHost(
   api: CoreAPI,
   campaign: CampaignRow,
-  world: boolean,
+  world: DayMode,
 ): string | null {
   // A world candidate's day (`rivalDay`) never takes the donor meeting, so
   // their turn reads no host: the choice stands unavailable for them.
@@ -426,7 +443,7 @@ function openToday(
   filing: FilingRow,
   campaign: CampaignRow,
   kind: CampaignDayKind,
-  world: boolean,
+  world: DayMode,
 ): boolean {
   const candidateAlive = () =>
     !!api.state.people.get(campaign.candidateId)?.alive;
@@ -639,7 +656,7 @@ export function contestStanding(
 export function campaignDayChoices(
   api: CoreAPI,
   filingId: string,
-  world = false,
+  world: DayMode = false,
 ): readonly CampaignDayChoice[] {
   const { filing, open } = contextOf(api, filingId, world);
   if (!open) return [];
@@ -774,7 +791,7 @@ export function campaignDayChoices(
 export function campaignDayOpen(
   api: CoreAPI,
   filingId: string,
-  world = false,
+  world: DayMode = false,
 ): readonly {
   readonly kind: CampaignDayKind;
   readonly available: boolean;
@@ -803,7 +820,7 @@ function chosenToday(
   api: CoreAPI,
   filingId: string,
   kind: CampaignDayKind,
-  world: boolean,
+  world: DayMode,
 ) {
   const { filing, open } = contextOf(api, filingId, world);
   if (!open) return undefined;
@@ -843,6 +860,8 @@ export function takeCampaignDayChoice(
   // While the petition circulates, the candidate's day starts with asking
   // the people closest to them to sign.
   askCircleToSign(api, filingId);
+  // A choice taken by hand makes the day the player's own.
+  if (!world) noteHandDay(api, filingId);
   const campaign = campaignFor(api, filingId);
   const player = campaign.candidateId;
   const hours = options.hours ?? offered.hours;
