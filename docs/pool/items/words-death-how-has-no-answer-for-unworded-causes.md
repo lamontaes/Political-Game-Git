@@ -5,10 +5,10 @@ area: words
 kind: feature
 priority: 2
 size: S
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: S3
+pr: 9384
 after:
 blocked-on:
 lead: words
@@ -36,3 +36,5 @@ checked: s3 2026-11-14
 **Files.** data/english/relative-news-words.json, src/director/conversation.ts
 
 **Notes.** Filed on the #9336 branch (claude/words-s3-relative-news-three-answers).
+
+Nov 15 (S3, #9384): built the wordings for firearm-suicide, firearm-homicide and a named illness the house knew of. Still unanswered: a death whose cause is "other" with an onset that has no named condition (the answer falls to "That's all I know."); see words-death-how-lines-wait-on-record-facts.
