@@ -2,8 +2,40 @@
   "schema": "english-judged/2",
   "rule": "escalation-can-be-answered-in-kind",
   "rubric": "When the other person escalates, the player can escalate back, not only calm down or leave.",
-  "judged": 44,
+  "judged": 86,
   "no": {
+    "005uy0thp82": {
+      "keys": [
+        "scene-talk.follow-confront.prove-it-by-lunch",
+        "scene-talk.reply-apologize.sorry-i-talk-too-much-when-i-m-nervous",
+        "scene-talk.reply-leave.let-me-get-my-bearings-first"
+      ],
+      "why": "The challenge \"Prove it by lunch.\" gets only an apology or a request for time; nothing meets it in kind."
+    },
+    "0js8xi6cy7r": {
+      "keys": [
+        "scene-talk.follow-confront.witness.i-m-not-afraid-of-what-you-have-to-say-first-the-prosecutor-has-my-account",
+        "scene-talk.reply-apologize.witness.i-was-wrong-to-put-you-in-that-position-and-i-m-sorry-for-it",
+        "scene-talk.reply-leave.witness.this-isn-t-getting-us-anywhere-i-m-done-talking"
+      ],
+      "why": "After \"The prosecutor has my account,\" the only replies are an apology and leaving; none pushes back."
+    },
+    "0jvb9qfviww": {
+      "keys": [
+        "scene-talk.follow-confront.prove-it-by-lunch",
+        "scene-talk.reply-apologize.sorry-first-day-nerves",
+        "scene-talk.reply-leave.let-me-get-my-bearings-first"
+      ],
+      "why": "The challenge \"Prove it by lunch.\" gets only an apology or a request for time; nothing meets it in kind."
+    },
+    "0o3tbqgc7a0": {
+      "keys": [
+        "scene-talk.follow-confront.sure-you-did-barely",
+        "scene-talk.reply-apologize.fine-fine-i-couldn-t-have-done-it-alone",
+        "scene-talk.reply-thank.okay-thanks-for-putting-up-with-me"
+      ],
+      "why": "The dig \"Sure you did. Barely.\" gets only a giving-in reply and a thank-you; no reply ribs back in kind."
+    },
     "0qi61rmyp9f": {
       "keys": [
         "scene-talk.state-confront.taken.i-m-told-the-money-changed-hands-first-this-isn-t-only-a-rumor-about-an-offer",
@@ -13,7 +45,47 @@
         "scene-talk.reply-leave.taken.i-can-t-discuss-it-not-yet"
       ],
       "why": "The replies explain, apologize, deny, or decline to talk, and none answers the accusation in kind."
+    },
+    "0qtkyplla7y": {
+      "keys": [
+        "scene-talk.follow-confront.hearsay.don-t-call-it-a-rumor-when-the-prosecutor-has-it-first",
+        "scene-talk.reply-tell.hearsay.part-of-it-s-true-and-i-ll-tell-you-which-part",
+        "scene-talk.reply-leave.hearsay.i-won-t-be-pulled-into-this-we-re-finished"
+      ],
+      "why": "After \"Don't call it a rumor when the prosecutor has it,\" the only replies are a partial admission and leaving; none pushes back."
+    },
+    "0rrh65iidfu": {
+      "keys": [
+        "scene-talk.follow-confront.witness.don-t-turn-this-on-me-first-i-m-the-one-who-was-offered-the-money",
+        "scene-talk.reply-apologize.witness.i-was-wrong-to-put-you-in-that-position-and-i-m-sorry-for-it",
+        "scene-talk.reply-leave.witness.whatever-happens-next-it-won-t-be-settled-here"
+      ],
+      "why": "After \"Don't turn this on me,\" the only replies are an apology and leaving; none pushes back."
+    },
+    "1m3xw1qfdw7": {
+      "keys": [
+        "scene-talk.follow-threaten.youve-made-your-choice-dont-come-to-me-when-it-goes-wrong",
+        "scene-talk.reply-deflect.im-not-discussing-this-here",
+        "scene-talk.reply-leave.i-ve-said-all-i-m-going-to-say"
+      ],
+      "why": "The threat \"Don't come to me when it goes wrong\" gets only replies that close the talk; none answers it in kind."
+    },
+    "1pycxcdg4jb": {
+      "keys": [
+        "scene-talk.follow-confront.prove-it-by-lunch",
+        "scene-talk.reply-apologize.fair-i-ll-keep-my-head-down",
+        "scene-talk.reply-leave.let-me-get-my-bearings-first"
+      ],
+      "why": "The challenge \"Prove it by lunch.\" gets only backing down or a request for time; no reply takes it up in kind."
+    },
+    "1x67y37ugxv": {
+      "keys": [
+        "scene-talk.follow-confront.sure-you-did-barely",
+        "scene-talk.reply-apologize.you-re-right-i-had-a-lot-of-people-behind-me",
+        "scene-talk.reply-thank.i-know-i-wasn-t-easy-thank-you"
+      ],
+      "why": "The dig \"Sure you did. Barely.\" gets only agreement and thanks; no reply answers it in kind."
     }
   },
-  "yesHash": "0796f6jts1n"
+  "yesHash": "1v0cfcz6qdu"
 }
