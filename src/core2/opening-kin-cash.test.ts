@@ -4,8 +4,8 @@
  * (place 2204685, the seed home-price-paths draws from "c3"): before this,
  * every relative opened with $0, 21,798 of its 25,986 weighted households
  * outside the town. Each relatives' household with an adult now holds the
- * survey's median balance at one earner's pay of the town, shared among its
- * adults, by the rule the county's sampled households open by.
+ * survey's median balance at one earner's pay of the town and its head's age,
+ * shared among its adults, by the rule the county's sampled households open by.
  */
 import { expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
@@ -55,6 +55,11 @@ it("every relatives' household with an adult opens with the survey's balance at 
       0,
       adults.length,
       drawn.seed,
+      Math.max(
+        ...adults.map((person) =>
+          ageOnDate(makeIsoDate(person.birthDate), makeIsoDate(startedAt)),
+        ),
+      ),
     ).reduce((n, cents) => n + cents, 0);
     expect(median, `${detail}: ${id}`).toBeGreaterThan(0);
     expect(held, `${detail}: ${id}`).toBe(median);
