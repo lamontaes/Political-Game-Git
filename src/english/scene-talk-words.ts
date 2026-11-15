@@ -107,6 +107,25 @@ const PARTS = (sceneTalkBank as unknown as { parts: BankPart[] }).parts;
 /** What play may say: a part the owner's grades hold back is not. */
 const SHIPPED = admittedParts(PARTS);
 const SHIPPED_KEYS = new Set(SHIPPED.map((part) => part.key));
+const SHIPPED_BY_KEY = new Map(SHIPPED.map((part) => [part.key, part]));
+
+/**
+ * The facts the pieces said so far in a talk have set (`setsFacts` on a use
+ * that serves this spot), in the order they were said; each holds for the
+ * rest of the talk.
+ */
+export function factsSetBy(
+  said: Iterable<string>,
+  spot: SceneSpot,
+  parts: ReadonlyMap<string, BankPart> = SHIPPED_BY_KEY,
+): string[] {
+  const set: string[] = [];
+  for (const key of said)
+    for (const u of parts.get(key)?.uses ?? [])
+      if (u.subject === "scene" && u.setsFacts && usesSpot(u, spot))
+        set.push(...u.setsFacts);
+  return [...new Set(set)];
+}
 /**
  * A piece that calls the other person by their first name ("Thank you,
  * {first}."). A voice that has done it on a branch does not do it on every

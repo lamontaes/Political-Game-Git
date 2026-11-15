@@ -157,6 +157,7 @@ Load a skill when its trigger fits; descriptions say when. Every session, first:
 - `trusted-review-pass`: bulk review passes with planted calibration rows
 - `wiring-audit`: auditing a family of mechanics end to end
 - `words-engine`: the English engine and the director
+- `words-stamp-read`: how a words reader reads a pull request before it folds, and what a builder sends to get that read
 
 ## Implementation boundaries
 

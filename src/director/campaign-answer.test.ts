@@ -6,7 +6,7 @@ import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
 import type { PersonId } from "../core2/types";
 import { campaignAnswer } from "./campaign-answer";
-import { tieSide } from "./purpose-scene";
+import { tieSide } from "./relation-facts";
 
 /**
  * Each person answers the player's campaign ask in their own spoken words

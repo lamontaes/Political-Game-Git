@@ -14,16 +14,23 @@ description: >
 
 `npm run pool -- add`, `claim` and `next` push to main. On this account nothing pushes to main, so edit the item file yourself, on the thread's own branch.
 
-1. **Search first** (`look-first`): `docs/pool/items` for a match. If one exists, add your evidence to its Notes instead of a twin.
-2. Copy a neighboring item's frontmatter: `id`, `lead`, `standard: 2`, `model`, `effort`, time box, `Files`, `Waits on`. The id is the file name.
-3. **Cause begins with one of four prefixes** and nothing else (`.agents/rules/pool-item-standard.md`):
-   - `Found in code:` a path that exists, with a function or line, and the record ids followed.
-   - `Measured:` the place and seed, or the command that shows it.
-   - `Design:` the owner's ruling or the design page it follows.
-   - `Needs cause.` an item that is not built until someone finds it (`docs/pool/FIND-A-CAUSE.md`).
-4. **Fix** names the existing function it changes and says where the player sees it; an item with no place the player sees is dropped. **Done when** keeps the words "second session".
-5. Do not set `checked:`; the lead does.
-6. Add a release declaration `docs/release/changes/<id>.md`. `impact: none` has no section or title; any title is under 140 characters.
-7. Run `npm run pool -- --check` and prettier on the file. Known reds on two words items are not yours.
-8. The item goes in the thread's own PR, not a PR of its own.
-9. An item you set `status: in-pr` needs `pr:` filled, and the PR number exists only after the PR is opened: open the draft, then set `pr: <number>` in a second commit (the pool guard reads 19 of 20 until you do; Nov 15, the town hall stop).
+- **Search first** (`look-first`): `docs/pool/items` for a match. If one exists, add your evidence to its Notes instead of a twin.
+- Copy a neighboring item's frontmatter: `id`, `lead`, `standard: 2`, `model`, `effort`, time box, `Files`, `Waits on`. The id is the file name.
+- **Cause begins with one of four prefixes** and nothing else (`.agents/rules/pool-item-standard.md`):
+  - `Found in code:` a path that exists, with a function or line, and the record ids followed.
+  - `Measured:` the place and seed, or the command that shows it.
+  - `Design:` the owner's ruling or the design page it follows.
+  - `Needs cause.` an item that is not built until someone finds it (`docs/pool/FIND-A-CAUSE.md`).
+- **Fix** names the existing function it changes and says where the player sees it; an item with no place the player sees is dropped. **Done when** keeps the words "second session".
+- Do not set `checked:`; the lead does.
+- Add a release declaration `docs/release/changes/<id>.md`. `impact: none` has no section or title; any title is under 140 characters.
+- Run `npm run pool -- --check` and prettier on the file. Known reds on two words items are not yours.
+- The item goes in the thread's own PR, not a PR of its own.
+- An item you set `status: in-pr` needs `pr:` filled, and the PR number exists only after the PR is opened: open the draft, then set `pr: <number>` in a second commit (the pool guard reads 19 of 20 until you do; Nov 15, the town hall stop).
+- **Write an item with every field named, never positionally (Nov 15).** A shell function that filled the template by argument position shifted each field down one (the Cause text landed under What, the file list under Waits on) and CI's pool guard failed on all three items; the local check had not looked at them yet. Write the file with named fields, then open it, run `npm run pool -- --check` and read what it says of your items.
+- **What the checker enforces on a hand-written item (Nov 15).** Sections come in this order: What, Cause, Fix, Time box, Rules, Done when, Waits on, Files, Notes. `area` is one of the listed areas (a press fix is `director`). The last sentence of What begins `Seen:`, `Feeds: <item id>` or `Guards:` and sits on its own line (a sentence that follows a closing quote on the same line is not found). A "Found in code:" cause names an existing path and a line number or function. Done when says what a second session sees and names a drawn place. `status: open` until the PR has a number.
+- **What the pool check refuses** (Nov 15, filing `metrics-paper-looking-for-work-line-pinned`): the What paragraph must end with a sentence that begins `Seen:`, `Feeds: <item id>` or `Guards:`, and Done when must name a drawn place. A `pr:` is required once the status is `in-pr`, so name the PR number the moment the PR exists and rerun the gate on that head.
+
+## A new item fails the pool check on its own words (Nov 15, fee-bills thread)
+
+- The What must end in a sentence beginning `Seen:`, `Feeds:` or `Guards:`, and a `Measured:` Cause must contain the word "seed" (`REALISTIC_SEED=` alone does not count). Run the pool check right after filing.

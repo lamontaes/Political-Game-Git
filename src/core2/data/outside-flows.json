@@ -182,6 +182,12 @@
     },
     {
       "kind": "accounts.transfer",
+      "idPrefix": "treasury-withholding",
+      "matchedBy": "tax-payment",
+      "what": "The federal treasury's individual income tax from the rest of the country: the plan's monthly figure moved by what the country tier's workers had withheld under the federal income-tax rows in force, one transfer a month (payFromTier)."
+    },
+    {
+      "kind": "accounts.transfer",
       "idPrefix": "treasury-charges",
       "matchedBy": "goods-and-services",
       "what": "People elsewhere who use a state or local government's services paying its charges and fees (tuition, fares, hospital and utility bills), less what the town's own households paid out of their living costs (taxPayments)."
