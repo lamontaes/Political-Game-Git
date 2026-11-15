@@ -4698,11 +4698,29 @@ function raiseSubject(
   const momentKey = `${playerId}:${otherId}:${core.date}:${conversation.lines.length}:${subject.id}:theirs`;
   // A subject whose raise the engine composes: the address's point, or one
   // with a `<kind>-say` sentence in the bank (where they stand).
+  // A printed story is first asked about ("Did you read about it?") by the
+  // outlet's medium, the closed-place news' own asking path; the player's yes
+  // or no comes from their own record, and the story is told after.
+  const asksFirst =
+    subject.kind === "news" &&
+    !!subject.facts.story &&
+    !!words(
+      core,
+      data,
+      otherId,
+      subject.kind,
+      "raise",
+      ALL,
+      subject.facts,
+      momentKey,
+      subject.stage ?? "default",
+      subject,
+    );
   const composedRaise =
     subject.kind === POINT
       ? POINT
       : // A printed story, told by its reader: what it is about and their stand.
-        subject.kind === "news" && subject.facts.story
+        subject.kind === "news" && subject.facts.story && !asksFirst
         ? "news-ask"
         : composedConversationBank(`${subject.kind}-say`)
           ? `${subject.kind}-say`
@@ -7945,6 +7963,47 @@ function answerNews(
       text: spokenWhen(at, core.date),
       sourceRecordIds: [learned?.sourceId ?? known?.eventId ?? otherId],
     };
+  // A printed story the neighbor asked about is then told from their side:
+  // whatever the player answered (yes, no or a reaction), they say where
+  // they stand, in the words a telling uses, naming the question once.
+  const theirLast = conversation.lines
+    .filter((l) => l.speakerId === otherId)
+    .at(-1);
+  if (
+    last.facts.story &&
+    theirLast &&
+    asksQuestion(theirLast) &&
+    ["yes", "no", "react"].includes(choice.move)
+  ) {
+    const told = composedLine(
+      core,
+      otherId,
+      "news-ask",
+      {
+        ...last.facts,
+        ...stakeMarks(theirs, "their-"),
+        "about-named": {
+          text: "yes",
+          sourceRecordIds: last.facts.about?.sourceRecordIds ?? [eventId],
+        },
+      },
+      "default",
+      `${eventId}:told`,
+      saidParts(conversation, otherId),
+    );
+    if (told) {
+      conversation.lines.push({
+        speakerId: otherId,
+        subjectId: choice.answers,
+        kind: "news",
+        act: "tell",
+        ...told,
+        sourceRecordIds: [...new Set([...told.sourceRecordIds, eventId])],
+      });
+      carryOn(core, conversation, data);
+      return;
+    }
+  }
   const back = composedLine(
     core,
     otherId,
