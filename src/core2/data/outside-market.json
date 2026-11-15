@@ -147,6 +147,7 @@
       "low": 0.55,
       "high": 0.7,
       "tag": "ESTIMATED",
+      "role": "coefficient",
       "citation": "U.S. Energy Information Administration, Electric Power Annual, retail sales of electricity by sector, 2023 (from memory; the container cannot reach eia.gov): residential about 1,470 of about 3,870 billion kilowatt-hours, about 38%.",
       "estimatedFrom": "A town utility's buyers outside the town's households are the commercial, industrial and transportation customers (about 62% of retail kilowatt-hours) and the grid it sells power to for resale; town firms buy their power from outside suppliers in the books (outside-costs), so none of that share is a recorded local route. The trade area lifts a plant that sells beyond its town to its books."
     }
