@@ -1666,13 +1666,16 @@ export function levelAudienceShare(
 
 /**
  * The people an outlet answers to: those it serves (`audiencePeople`), but
- * the town's own for its outlet of record (`townOutlet`), whose beat is
+ * the town's own for the outlet that holds its record (`recordOutletOf`), whose beat is
  * the town's government and record however wide it reaches. None for a
  * national outlet.
  */
 function servedPeople(api: CoreAPI, outlet: OutletRow): number | undefined {
   if (!outlet.audiencePeople) return undefined;
-  return outlet.id === townOutlet(api)?.id
+  // The outlet that holds the town's record now: the outlet of record, or,
+  // once it has no reporter living to file, the local outlet that took the
+  // record over (`recordOutletOf`, which the police log reads too).
+  return outlet.id === (recordOutletOf(api) ?? townOutlet(api)?.id)
     ? Math.min(outlet.audiencePeople, peopleAt(api, "town"))
     : outlet.audiencePeople;
 }
