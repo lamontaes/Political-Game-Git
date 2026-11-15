@@ -935,6 +935,8 @@ export function settleBribe(
     {
       cause: "bribe-unrewarded",
       sourceId: crime.id,
+      // The vote that broke the deal, read from the record: not a meeting.
+      apart: true,
     },
   );
 }
