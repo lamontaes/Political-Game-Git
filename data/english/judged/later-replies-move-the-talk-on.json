@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "later-replies-move-the-talk-on",
   "rubric": "After the first exchange the replies offered do not rehash the first options; they move the talk on.",
-  "judged": 1004,
+  "judged": 1003,
   "no": {
     "00084oe3x4o": {
       "keys": [
@@ -2410,20 +2410,6 @@
         "scene-talk.reply-confront.repeat.you-can-list-everything-i-ve-ever-done-wrong-and-it-still-won-t-fix-the-payment"
       ],
       "why": "The replies offered now restate the first replies' apology, push-back and walk-away in new words, so the talk does not move on."
-    },
-    "15skb09pwec": {
-      "keys": [
-        "scene-talk.follow-answer.two-and-they-re-both-opponent-s-even-if-we-took-every-vote-it-s-not-en",
-        "scene-talk.reply-agree.dial-it-i-ll-keep-it-short",
-        "scene-talk.reply-ask.what-s-still-out-tell-me-the-precincts",
-        "scene-talk.reply-refuse.i-m-not-calling-anybody-until-the-county-certifies-it",
-        "scene-talk.reply-stall.give-me-ten-minutes-alone-first",
-        "scene-talk.reply-agree.then-let-s-do-it-right-get-them-on-the-line",
-        "scene-talk.reply-refuse.then-it-s-close-enough-to-wait-for-the-last-count",
-        "scene-talk.reply-stall.let-me-talk-to-the-volunteers-first",
-        "scene-talk.reply-leave.i-need-some-air-before-i-do-either"
-      ],
-      "why": "'Get them on the line', 'wait for the last count' and 'I need some air' reword 'Dial it', the certify wait and 'ten minutes alone', three of four."
     },
     "168ef32uudj": {
       "keys": [

@@ -43,7 +43,7 @@ import {
   coreSeatOfGovernmentPlace,
   type CorePlace,
 } from "../place-lookup";
-import { drawStateHome } from "../places";
+import { drawStateHome, workFromHome } from "../places";
 import { placeReferencePopulation } from "../gov-rules/place-population";
 import { MACRO_MODULE_ID, countryStateParts } from "./macro";
 import { temperamentOf } from "./officials";
@@ -857,6 +857,12 @@ function cabinetCandidate(
   };
 }
 
+/** The work a person who lives in `homeKey` holds, as a fill-in's `work`. */
+function withWork(seed: string, homeKey: string | undefined, key: string) {
+  const work = homeKey ? workFromHome(seed, homeKey, key) : undefined;
+  return work ? { work } : {};
+}
+
 function seatCabinetPerson(
   api: CoreAPI,
   input: {
@@ -894,6 +900,9 @@ function seatCabinetPerson(
         placeId: (chosen.home?.context.jurisdiction.id ?? input.state) as never,
         gender: identity.gender,
         traits: chosen.resident.traits,
+        // The work they hold where they live, from that town's counts, as
+        // every person filled in far from the played town holds theirs.
+        ...withWork(core.seed, chosen.home?.key, personId),
         source: {
           tag: "ESTIMATED",
           asOf: makeIsoDate(api.state.date),
@@ -1361,6 +1370,27 @@ export function statePostsToFill(
   return (RESEARCH.places[state]?.cabinet?.positions ?? [])
     .filter((p) => /governor/.test(p.appointedBy) && !held.has(p.key))
     .map((p) => ({ key: p.key, title: p.title }));
+}
+
+/**
+ * Whether a post the player appoints still goes to a confirming body: a town
+ * post to the council where its form says so, a state post to the chamber
+ * where the state's law says so.
+ */
+export function postConfirmed(
+  api: CoreAPI,
+  level: "town" | "state",
+  post: string,
+): boolean {
+  if (level === "town")
+    return /council/.test(
+      townPosts(api).find((s) => s.key === post)?.confirmedBy ?? "",
+    );
+  return /senate|legislature/.test(
+    RESEARCH.places[lawChain(api).stateKey]?.cabinet?.positions?.find(
+      (p) => p.key === post,
+    )?.confirmedBy ?? "",
+  );
 }
 
 /** The people a state post could go to, best first by the governor's own reasons. */

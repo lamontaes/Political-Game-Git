@@ -1,4 +1,5 @@
 /** Opening cash: what a family at a given income keeps in its accounts (SCF 2022). */
+import { parameter as p } from "./parameters";
 import { worldLevel } from "./world-draw";
 import scf from "../../data/research/money/scf-transaction-accounts-2022.json" with { type: "json" };
 
@@ -48,5 +49,31 @@ export function medianTransactionBalance(
     seed,
     "world-cash-level",
     "worldCashSpreadShare",
+  );
+}
+
+/**
+ * A household's opening cash shared among its adults: the median balance at
+ * its pay, its workers times the place's earnings, where a household with no
+ * recorded worker keeps that of one earner. The county's sampled households
+ * and the relatives placed around the town open by this one rule. Returns
+ * each adult's share in cents, in the order given.
+ */
+export function householdOpeningCash(
+  earnings: number,
+  workers: number,
+  adults: number,
+  seed: string,
+): number[] {
+  if (adults <= p("zero")) return [];
+  const reserve = Math.round(
+    medianTransactionBalance(earnings * Math.max(p("one"), workers), seed) *
+      p("minorPerDollar"),
+  );
+  return Array.from(
+    { length: adults },
+    (_, n) =>
+      Math.floor(reserve / adults) +
+      (n < reserve % adults ? p("one") : p("zero")),
   );
 }
