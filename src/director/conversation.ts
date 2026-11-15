@@ -274,12 +274,6 @@ export interface ConversationData {
    * opinion, not by having heard of it).
    */
   answersTo?: Readonly<Record<string, readonly string[]>>;
-  /**
-   * The fact that answers a question raised as a subject (how long: the
-   * years; what they do there: the position). A reply that asks it is not
-   * offered once the line before already said it.
-   */
-  answeredBy?: Readonly<Record<string, string>>;
   /** The kinds of line whose replies never say the same record's words twice on one screen. */
   namesOnce?: { kinds: readonly string[] };
   /** The ledger labels, by prefix, that are something happening to a person. */
@@ -4113,6 +4107,29 @@ function nameOnce(
   return rest;
 }
 
+/**
+ * Whether the talk already said what a question asks for: every fact the
+ * question's subject holds is in an earlier line, by either speaker, with its
+ * words said and its record cited. One reading of what was said, never a
+ * list of question kinds.
+ */
+function alreadyAnswered(
+  conversation: Pick<Conversation, "lines">,
+  asked: Readonly<Record<string, Fact>>,
+): boolean {
+  const facts = Object.values(asked);
+  return (
+    facts.length > zero &&
+    facts.every((fact) =>
+      conversation.lines.some(
+        (line) =>
+          line.text.includes(fact.text) &&
+          fact.sourceRecordIds.some((id) => line.sourceRecordIds.includes(id)),
+      ),
+    )
+  );
+}
+
 /** What the other person said since the player last spoke. */
 function toldSince(
   lines: readonly ConversationLine[],
@@ -6839,10 +6856,12 @@ function offerChoices(
       !fitting.includes(choiceKey)
     )
       return;
-    // Never asked what the line before already said ("I've been there six
-    // years." "How long have you been at Kroger?").
-    const answeredBy = raised && data.answeredBy?.[raised.kind];
-    if (answeredBy && said?.wording?.facts.includes(answeredBy)) return;
+    // Never asked what the talk already said, by either of them: a question
+    // whose answer is in an earlier line (its record cited and its words
+    // said) is not offered ("McKenzie's Kitchen for me, 18 years now." then
+    // "How long have you worked there?"; item
+    // words-everyday-talk-asks-the-same-question).
+    if (raised && alreadyAnswered(conversation, raised.facts)) return;
     // Turning the question back asks it; nothing more is said.
     if (raised === last.subject && !answer.asks) return;
     // A move that turns the question back says nothing without its subject.
