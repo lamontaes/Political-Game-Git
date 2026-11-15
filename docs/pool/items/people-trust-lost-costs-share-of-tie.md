@@ -8,7 +8,7 @@ size: S
 status: in-pr
 standard: 2
 claimed-by: claude/project-thread-csmftn-share
-pr:
+pr: 9498
 after: core-strain-lost-on-shared-time-ties
 blocked-on:
 lead: people
