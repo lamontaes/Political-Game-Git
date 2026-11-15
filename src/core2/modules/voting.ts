@@ -3881,8 +3881,7 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
     }
     for (const id of choices) namedVotes[id] = (namedVotes[id] ?? 0) + 1;
     if (t.votes && choices.length) {
-      const home =
-        (voter as { householdId?: string }).householdId ?? voter.id;
+      const home = (voter as { householdId?: string }).householdId ?? voter.id;
       const here = (precinctVotes[
         precinctOfHousehold(api, home, namedPrecincts)
       ] ??= {});
