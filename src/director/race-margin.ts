@@ -1,3 +1,47 @@
+/** The votes each candidate got, highest first, and the seats the race filled. */
+function countOf(
+  core: Readonly<CoreState>,
+  resultId: string,
+): { totals: Record<string, number>; votes: number[]; seats: number } {
+  let totals: Record<string, number> = {};
+  try {
+    totals = JSON.parse(
+      String(
+        core.durableLog.get(resultId)?.facts?.totals ??
+          core.durableLog.get(resultId)?.facts?.votes ??
+          "{}",
+      ),
+    ) as Record<string, number>;
+  } catch {
+    totals = {};
+  }
+  const votes = Object.values(totals)
+    .map(Number)
+    .filter(Number.isFinite)
+    .sort((a, b) => b - a);
+  const seats = Math.max(
+    P.one,
+    Number(core.durableLog.get(resultId)?.facts?.seats ?? P.one) || P.one,
+  );
+  return { totals, votes, seats };
+}
+
+/**
+ * The votes a candidate who lost came short by: the gap to the last winning
+ * seat (the winner, where one seat was filled). The count the scenes say once
+ * and the size words read are this one gap.
+ */
+export function votesShort(
+  core: Readonly<CoreState>,
+  resultId: string,
+  loserId: string,
+): number {
+  const { totals, votes, seats } = countOf(core, resultId);
+  const own = Number(totals[loserId] ?? P.zero);
+  const cutoff = votes[Math.min(seats, votes.length) - P.one] ?? own;
+  return Math.max(P.zero, cutoff - own);
+}
+
 /**
  * The one margin function: how a race was decided, read from its result
  * record. The Journal says one's own race by it ("We won, but it was
@@ -18,22 +62,23 @@ import { DEFAULT_DIRECTOR_DATA } from "./ledger";
 export function raceMargin(
   core: Readonly<CoreState>,
   resultId: string,
+  /**
+   * A candidate who lost: their scenes read their own gap (the votes between
+   * them and the last winning seat, over the votes cast) against the same two
+   * parameters, not the winner's lead over the runner-up, which says nothing
+   * about how near they came. Left out, the race is read as the Journal reads it.
+   */
+  loserId?: string,
 ): RaceMargin {
-  let votes: number[] = [];
-  try {
-    votes = Object.values(
-      JSON.parse(String(core.durableLog.get(resultId)?.facts?.totals ?? "{}")),
-    )
-      .map(Number)
-      .filter(Number.isFinite)
-      .sort((a, b) => b - a);
-  } catch {
-    votes = [];
-  }
+  const { totals, votes, seats } = countOf(core, resultId);
   if (votes.length === P.one) return "alone";
   const cast = votes.reduce((sum, count) => sum + count, P.zero);
   if (votes.length < P.two || !(cast > P.zero)) return "middle";
-  const lead = (votes[P.zero]! - votes[P.one]!) / cast;
+  const own = loserId === undefined ? undefined : Number(totals[loserId]);
+  const lead =
+    own !== undefined && Number.isFinite(own)
+      ? (votes[Math.min(seats, votes.length) - P.one]! - own) / cast
+      : (votes[P.zero]! - votes[P.one]!) / cast;
   const { journalRaceCloseMargin, journalRaceWideMargin } =
     DEFAULT_DIRECTOR_DATA.parameters;
   if (lead <= journalRaceCloseMargin!.value) return "close";

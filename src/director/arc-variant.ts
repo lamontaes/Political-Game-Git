@@ -758,7 +758,7 @@ export function chooseVariant(
   // would match it to the wrong line. The first choice stands.
   let kept = CHOSEN.get(core);
   if (!kept) CHOSEN.set(core, (kept = new Map()));
-  const memo = `${input.family}|${input.cause.id}`;
+  const memo = `${input.family}|${input.cause.id}|${input.askerId}`;
   const chosen = kept.get(memo);
   if (chosen) return chosen;
   // No variant is open to this cause: the purpose plays its own arc

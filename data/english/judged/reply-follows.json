@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "reply-follows-the-line-before",
   "rubric": "You are checking lines of dialogue for a game set in American politics and ordinary life. For each pair, the first line (A) was just said by one person and the second (B) is the other person's reply. Words in {braces} stand for a name, a place or a number. Each pair also names its scene: what the whole conversation is about (for example \"conflict accuse\", \"floor switch\", \"family loss\"). Earlier lines of the scene are not shown. B may refer to the scene's own subject (the bill, the vote, the firm, the loss) even when A does not repeat it; that alone is never a reason to say B does not follow.\n\nFor each pair, do this in order:\n1. Say to yourself what A does: asks something (what?), offers something (what?), states something (what?), agrees to something, thanks, refuses, or says it is leaving.\n2. Find what B reacts to. B's main point is the thing it answers, agrees with, thanks for, pushes back on, promises, or asks about. Look for that thing in A.\n3. B FOLLOWS when that thing is in A: a real person could say B right after hearing A, and a listener would know what B is responding to. A reply may dodge, refuse, joke or change the subject on purpose and still follow, if a listener would understand it as a response to A.\n4. B does NOT follow when any of these is true:\n   - B answers a question A did not ask, or acts as if A had told a story, made a case, made an offer, given a plan or apologized when A did not;\n   - A asked a direct question or made a direct request and B neither answers it, refuses it, nor visibly dodges it;\n   - B agrees or disagrees with, or thanks A for, something A did not say;\n   - B leans on \"it\", \"that\", \"them\", \"the third\" or the like and A gives nothing it could mean;\n   - A already did the thing B asks for (A gave the plan and B asks what the plan is; A said yes and B treats it as a no; A has not told the story yet and B asks whether that is all of it);\n   - B's tone answers a different situation (A agrees warmly and B shrugs it off as if overruled).\n5. Do not judge whether either line is well written, only whether B follows A. Do not give B the benefit of an imagined earlier conversation: only A was said. If a listener would have to guess what B refers to, it does not follow.\n\nExamples that do NOT follow:\n- A: \"Give me a minute. I'll explain how it happened.\" B: \"And that's everything?\" (A has not explained anything yet.)\n- A: \"I'll call the landlord tomorrow and set up a payment by Friday.\" B: \"Sorry isn't enough. What's your plan?\" (A just gave the plan and did not say sorry.)\n- A: \"Count me in. I'll tell them tonight.\" B: \"Have it your way.\" (B answers a refusal, and A agreed.)\n- A: \"We open at nine on Saturdays.\" B: \"I never said that about your brother.\" (Nothing in A is about a brother or a claim.)\nExamples that DO follow:\n- A: \"Would you sign my petition?\" B: \"I don't really follow local politics.\" (A dodge a listener understands.)\n- A: \"You can't avoid me forever.\" B: \"I've said all I'm going to say.\"\n- A: \"I need your vote on this.\" B: \"What's in it for my district?\"",
-  "judged": 3402,
+  "judged": 3465,
   "no": {
     "005r70dinlx": {
       "keys": [
@@ -10,6 +10,20 @@
         "scene-talk.reply-confront.i-m-not-planning-on-being-the-third"
       ],
       "why": "'The third' has no referent in A."
+    },
+    "00b7l96xlp8": {
+      "keys": [
+        "scene-talk.state-comfort.i-put-money-in-and-we-lost-tell-me-what-happens-now",
+        "scene-talk.reply-blame.i-should-have-knocked-on-more-doors"
+      ],
+      "why": "A asked what happens now, and a regret about knocking on doors looks back instead of answering."
+    },
+    "00xu75qi4ir": {
+      "keys": [
+        "scene-talk.reply-blame.opponent-ran-a-dirty-race",
+        "scene-talk.state-comfort.we-lost-i-gave-to-that-campaign-and-i-d-give-again"
+      ],
+      "why": "The household member skips past the player's claim about the opponent to make their own point about the gift (M5 overrule for consistency with round 1, where every partner statement after this line failed)."
     },
     "010ckajk5hi": {
       "keys": [
@@ -59,6 +73,20 @@
         "scene-talk.close-accept.best-of-luck-to-you"
       ],
       "why": "The reply treats a request for time as a refusal, and the line before refused nothing."
+    },
+    "061xl03o1ze": {
+      "keys": [
+        "scene-talk.state-comfort.i-put-money-in-and-we-lost-tell-me-what-happens-now",
+        "scene-talk.reply-deflect.i-m-fine-really"
+      ],
+      "why": "A asked what happens now, not how they are, so I'm fine. Really. answers the wrong question."
+    },
+    "07jljbavajr": {
+      "keys": [
+        "scene-talk.state-comfort.i-put-money-in-and-we-lost-tell-me-what-happens-now",
+        "scene-talk.reply-promise.i-ll-run-again-and-next-time-i-ll-tell-you-before-i-put-in-a-dollar-of-ours"
+      ],
+      "why": "A says A put the money in, so promising to tell A before putting in a dollar of ours treats A as someone who did not know, which does not follow."
     },
     "07nhc2mdyc8": {
       "keys": [
@@ -130,12 +158,26 @@
       ],
       "why": "A asks a question; \"I will\" answers nothing"
     },
+    "0e6utwx69gr": {
+      "keys": [
+        "scene-talk.state-comfort.i-put-money-in-and-we-lost-tell-me-what-happens-now",
+        "scene-talk.reply-blame.i-put-given-in-and-lost-that-s-on-me"
+      ],
+      "why": "A asked what happens now, and echoing that money went in and was lost does not answer it."
+    },
     "0f0mtplffmf": {
       "keys": [
         "scene-talk.follow-plea.i-don-t-want-us-to-end-with-shouting-can-you-give-me-that-much-and-let",
         "scene-talk.reply-confront.you-sit-me-down-and-hand-me-a-finished-plan-you-could-have-said-someth"
       ],
       "why": "A gave no finished plan; B reacts as if it did."
+    },
+    "0fh7yx74di3": {
+      "keys": [
+        "scene-talk.state-comfort.we-lost-i-m-glad-i-gave-anyway",
+        "scene-talk.reply-promise.i-ll-run-again-and-next-time-i-ll-tell-you-before-i-put-in-a-dollar-of-ours"
+      ],
+      "why": "A just said they gave gladly, so promising to tell A before spending a dollar treats A as someone who did not know, which does not fit A's line."
     },
     "0fmfeznegq9": {
       "keys": [
@@ -150,6 +192,13 @@
         "scene-talk.close-accept.okay-i-hope-something-good-comes-your-way"
       ],
       "why": "The reply treats a request for time as a refusal, and the line before refused nothing."
+    },
+    "0gbelzr3gza": {
+      "keys": [
+        "scene-talk.state-comfort.we-lost-i-m-glad-i-gave-anyway",
+        "scene-talk.reply-deflect.don-t-ask-me-about-the-money-tonight"
+      ],
+      "why": "A did not ask about the money; A said they were glad they gave, so Don't ask me does not answer anything said."
     },
     "0gi5qgw614k": {
       "keys": [
@@ -200,6 +249,13 @@
       ],
       "why": "The candidate just said something, so \"say something to me\" ignores the line before."
     },
+    "0hyhz82d7e0": {
+      "keys": [
+        "scene-talk.state-comfort.we-lost-i-gave-to-that-campaign-and-i-d-give-again",
+        "scene-talk.reply-promise.i-ll-run-again-and-next-time-i-ll-tell-you-before-i-put-in-a-dollar-of-ours"
+      ],
+      "why": "A just said they gave willingly, so promising to tell A before spending a dollar treats A as someone who did not know, which does not fit A's line."
+    },
     "0i8e0laa1yw": {
       "keys": [
         "scene-talk.follow-comfort.sit-down-i-ll-heat-it-up",
@@ -220,6 +276,20 @@
         "scene-talk.reply-decline.speaking-at-meetings-isn-t-me-sorry"
       ],
       "why": "The reply picks a job from a list the line before never gave."
+    },
+    "0ja1vngstg2": {
+      "keys": [
+        "scene-talk.reply-blame.opponent-ran-a-dirty-race",
+        "scene-talk.state-comfort.we-lost-i-m-glad-i-gave-anyway"
+      ],
+      "why": "The household member skips past the player's claim about the opponent to make their own point about the gift (M5 overrule for consistency with round 1, where every partner statement after this line failed)."
+    },
+    "0jfg1lnm7ly": {
+      "keys": [
+        "scene-talk.reply-blame.opponent-ran-a-dirty-race",
+        "scene-talk.state-comfort.i-put-money-in-and-we-lost-tell-me-what-happens-now"
+      ],
+      "why": "The household member skips past the player's claim about the opponent to make their own point about the gift (M5 overrule for consistency with round 1, where every partner statement after this line failed)."
     },
     "0jr9cjjfmfz": {
       "keys": [
@@ -277,12 +347,26 @@
       ],
       "why": "A says it will step out; B asks for a letter A never mentioned"
     },
+    "0mmx664vchy": {
+      "keys": [
+        "scene-talk.state-comfort.i-put-money-in-and-we-lost-tell-me-what-happens-now",
+        "scene-talk.reply-thank.you-stood-behind-me-while-i-spent-it-thank-you"
+      ],
+      "why": "A asked what happens now, and thanking A for standing behind the spending leaves the question unanswered."
+    },
     "0nnvpsranb1": {
       "keys": [
         "scene-talk.reply-blame.we-lost-that-s-on-me-not-on-you",
         "scene-talk.state-comfort.the-money-is-spent-and-the-race-is-lost-tell-me-what-happens-now"
       ],
       "why": "It restates the loss and asks what happens now, ignoring that the candidate just took the blame."
+    },
+    "0nuewgla0q2": {
+      "keys": [
+        "scene-talk.state-comfort.i-put-money-in-and-we-lost-tell-me-what-happens-now",
+        "scene-talk.reply-blame.opponent-ran-a-dirty-race"
+      ],
+      "why": "A asked what happens now, and blaming the opponent does not answer it."
     },
     "0o087msunuv": {
       "keys": [
@@ -445,6 +529,13 @@
       ],
       "why": "The reply agrees to come to a meeting, but the line before only offered the pages."
     },
+    "0ydxbbyi80e": {
+      "keys": [
+        "scene-talk.state-comfort.i-put-money-in-and-we-lost-tell-me-what-happens-now",
+        "scene-talk.reply-blame.i-spent-more-than-i-should-have-and-this-is-all-it-came-to"
+      ],
+      "why": "A asked what happens now, and regretting the spending does not answer it."
+    },
     "0ys7uhggitn": {
       "keys": [
         "scene-talk.reply-blame.i-spent-more-than-i-should-have-and-this-is-all-it-came-to",
@@ -479,6 +570,13 @@
         "scene-talk.reply-tell.because-the-rule-says-i-can-and-the-people-who-sent-me-sent-me-to-vote"
       ],
       "why": "A asks if B thought A would take it; B answers about the rule."
+    },
+    "107xbdipb0u": {
+      "keys": [
+        "scene-talk.state-comfort.we-lost-i-gave-to-that-campaign-and-i-d-give-again",
+        "scene-talk.reply-deflect.don-t-ask-me-about-the-money-tonight"
+      ],
+      "why": "A did not ask about the money; A said they would give again, so Don't ask me does not answer anything said."
     },
     "10dljzisj1r": {
       "keys": [
@@ -536,6 +634,13 @@
       ],
       "why": "A offers to tell how it went; B asks why vote at all."
     },
+    "14u6v37x4af": {
+      "keys": [
+        "scene-talk.state-comfort.i-put-money-in-and-we-lost-tell-me-what-happens-now",
+        "scene-talk.reply-thank.you-never-once-told-me-to-stop-i-know-what-that-was-worth"
+      ],
+      "why": "A asked what happens now, and praising A's support leaves the question unanswered."
+    },
     "15tak2w8b5h": {
       "keys": [
         "scene-talk.follow-press.i-understand-but-it-matters-to-me-can-you-tell-me-what-s-in-the-way",
@@ -592,6 +697,13 @@
       ],
       "why": "A agreed to apologize in public; B treats it as a parking-lot apology."
     },
+    "19j4b7royd5": {
+      "keys": [
+        "scene-talk.state-comfort.we-lost-i-gave-to-that-campaign-and-i-d-give-again",
+        "scene-talk.reply-deflect.i-m-fine-really"
+      ],
+      "why": "A never asked how they are, so I'm fine. Really. answers a question nobody put."
+    },
     "1be12c5o9mw": {
       "keys": [
         "scene-talk.reply-leave.let-me-call-you-back",
@@ -641,6 +753,13 @@
       ],
       "why": "B agrees with a point A never made; A only asks a question or says it wants to plan around the answer."
     },
+    "1fr6mf5hulm": {
+      "keys": [
+        "scene-talk.state-comfort.we-lost-i-gave-to-that-campaign-and-i-d-give-again",
+        "scene-talk.reply-deflect.give-me-a-day-before-we-add-it-up"
+      ],
+      "why": "A proposed no reckoning and said they would give again, so asking for a day before adding it up does not follow."
+    },
     "1glmf8fb2xp": {
       "keys": [
         "scene-talk.reply-leave.the-library-closes-soon-i-have-to-return-these-books",
@@ -682,6 +801,13 @@
         "scene-talk.reply-agree.phone-calls-i-can-do-put-me-down"
       ],
       "why": "The reply accepts phone calls, but the line before only said how long a talk lasts."
+    },
+    "1hymmxt8uty": {
+      "keys": [
+        "scene-talk.state-comfort.i-put-money-in-and-we-lost-tell-me-what-happens-now",
+        "scene-talk.reply-thank.thank-you-for-everything"
+      ],
+      "why": "A asked what happens now, and a thank-you does not answer it."
     },
     "1iqfvz8ehzw": {
       "keys": [
@@ -767,6 +893,13 @@
       ],
       "why": "B talks of signing a clipboard; A only said bring a chair."
     },
+    "1qm6ufamzy6": {
+      "keys": [
+        "scene-talk.state-comfort.we-lost-i-m-glad-i-gave-anyway",
+        "scene-talk.reply-deflect.i-m-fine-really"
+      ],
+      "why": "A never asked how they are, so I'm fine. Really. answers a question nobody put."
+    },
     "1qmteavzgji": {
       "keys": [
         "scene-talk.follow-answer.you-d-get-three-minutes-they-stop-you-after-that",
@@ -822,6 +955,13 @@
         "scene-talk.reply-relent.alright-youve-made-your-case-put-it-on-the-calendar-id-rather-have-thi"
       ],
       "why": "B says case was made; A only asked a question"
+    },
+    "1usdidr1zy3": {
+      "keys": [
+        "scene-talk.reply-blame.we-lost-that-s-on-me-not-on-you",
+        "scene-talk.state-comfort.we-lost-i-m-glad-i-gave-anyway"
+      ],
+      "why": "It opens by repeating We lost right after A said it, so it does not take up A's That's on me, not on you."
     },
     "1vn0brq2mlq": {
       "keys": [
@@ -892,6 +1032,13 @@
         "scene-talk.state-comfort.we-lost-you-put-our-money-in-and-i-d-do-it-again"
       ],
       "why": "The reply ignores the claim about the opponent's dirty race and turns to the speaker's own point."
+    },
+    "21y386funl0": {
+      "keys": [
+        "scene-talk.state-comfort.we-lost-i-m-glad-i-gave-anyway",
+        "scene-talk.reply-deflect.give-me-a-day-before-we-add-it-up"
+      ],
+      "why": "A proposed no reckoning and said they were glad they gave, so asking for a day before adding it up does not follow."
     },
     "238fyxz5dig": {
       "keys": [
@@ -970,6 +1117,13 @@
       ],
       "why": "It restates the loss and ignores the candidate's regret about asking for help."
     },
+    "27zfjvasqm9": {
+      "keys": [
+        "scene-talk.state-comfort.i-put-money-in-and-we-lost-tell-me-what-happens-now",
+        "scene-talk.reply-tell.i-really-thought-we-had-it"
+      ],
+      "why": "A asked what happens now, and saying they thought they had it does not answer it."
+    },
     "28gmm76b35l": {
       "keys": [
         "scene-talk.follow-ask.friend.is-that-all-of-it-first",
@@ -1018,6 +1172,13 @@
         "scene-talk.reply-agree.okay-for-them"
       ],
       "why": "\"For them\" has no one to point to, since the line before names no people, only that the call should be made tonight."
+    },
+    "2cq8somrkeq": {
+      "keys": [
+        "scene-talk.reply-blame.we-lost-that-s-on-me-not-on-you",
+        "scene-talk.state-comfort.we-lost-i-gave-to-that-campaign-and-i-d-give-again"
+      ],
+      "why": "It opens by repeating We lost as if it were news right after A said it, so it reads as if A was not heard."
     },
     "2d234yfzyyh": {
       "keys": [
@@ -1076,5 +1237,5 @@
       "why": "The line before asked when, and the reply neither says when nor sidesteps the question."
     }
   },
-  "yesHash": "1pqe1tzc1am"
+  "yesHash": "0vzi6zsmcc5"
 }

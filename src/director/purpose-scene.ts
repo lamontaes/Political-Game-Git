@@ -1658,7 +1658,7 @@ function composeBinding(
   // margin function the Journal reads: a line that judges the size (close,
   // not close) requires the fact, and says no figure of its own.
   if (/^(election|primary)-result:/.test(moment.causeId)) {
-    const margin = raceMargin(core, moment.causeId);
+    const margin = raceMargin(core, moment.causeId, askedId);
     if (margin !== "alone")
       facts[`race-${margin}`] = {
         text: "yes",
@@ -2221,7 +2221,24 @@ function composeBinding(
   // talk about (a layoff, a rent notice, an illness in the house); on a
   // second knock they raise the next record down, so the same door is not
   // the same scene twice.
-  const variantFacts = door ? { ...said, ...door.knock } : said;
+  // A lost race's relative who gave money: the gift's size (read against their
+  // own year by the variants), and which stake it is, so a gift's variants play
+  // only for a relative who gave.
+  const lossStake =
+    type.purpose === "family-loss"
+      ? stakeOf(core, askedId, moment.causeId, askerId)
+      : null;
+  const variantFacts = door
+    ? { ...said, ...door.knock }
+    : lossStake
+      ? {
+          ...said,
+          stake: lossStake.kind,
+          ...(lossStake.facts.amountMinor
+            ? { amountMinor: lossStake.facts.amountMinor.text }
+            : {}),
+        }
+      : said;
   // A cause no variant was written for (a speech heard, for the door
   // families, whose variants are a resident's records at a door) plays the
   // purpose's own arc and its own lines; a purpose with neither is not

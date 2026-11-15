@@ -42,16 +42,20 @@ import { expectUpToFourDifferent } from "./reply-set-check";
 // people do not say the figure); a line that judges its size ("it was that
 // close", the answer to "How close was it?" in the concession call) is placed by
 // the one margin function the Journal reads (raceMargin), never asserted.
-// Two named places on fixed seeds, found by scanning drawn seeds once: Pomeroy
-// WA (a relative who worked it) and Vineyard UT (a relative who gave money). The
-// time is the game's own played season from filing to the count at each place
-// (about 80 and 290 seconds), and a relative's stake is made through the game's
+// Three named places on fixed seeds, found by scanning drawn seeds once: Pomeroy
+// WA (a relative who worked it, a wide gap), Vineyard UT (relatives who gave
+// money, $1,800 and $100, a middle gap) and Walled Lake MI (a gap of a point
+// from the last seat, a small gift). The time is the game's own played season
+// from filing to the count at each place (about 80, 290 and 200 seconds), plus
+// the wording replay; measured 740 seconds for all three on one process, so the
+// limit is twice that, and a relative's stake is made through the game's
 // own enlistVolunteer and contributeOwnMoney calls; a shorter run has no count
 // for either. Measured 402 seconds for both places on one process; the limit
 // (800 seconds) is twice that.
 const PLACES = [
   { key: "5355120", seed: "losscan:4" },
   { key: "4980420", seed: "losscan:1" },
+  { key: "2683060", seed: "losscan:25" },
 ].map((row) => {
   const place = drawPlace(row.seed, "family-loss-stake-scene");
   if (place.key !== row.key)
@@ -143,7 +147,8 @@ const run = (
 
   // The households' parts in the race, as the engines would have written them
   // (a hand-set fixture for the edge: the first filer's household worked it,
-  // the second gave their own money, the rest did neither).
+  // the second and third gave their own money, one a quarter of what the
+  // household held and the other most of it).
   const adultMate = (filer: PersonId) =>
     (core.households.get(core.people.get(filer)!.householdId)?.memberIds ?? [])
       .map((id) => core.people.get(id)!)
@@ -170,6 +175,14 @@ const run = (
     Math.max(10000, giver.liquidMinor / 4),
   );
   if (!given) return { done: false, note: `${where}: nothing to give` };
+  // The third filer puts most of what their household has into it: a gift
+  // that reads large against the household's own year (the second filer's
+  // quarter reads small or plain), so the .large statements are played.
+  if (neither) {
+    campaignFor(api, neither.id);
+    const third = core.people.get(neither.personId as PersonId)!;
+    contributeOwnMoney(api, neither.id, Math.floor(third.liquidMinor * 0.9));
+  }
   // Each filer canvasses for signatures until the clerk's check.
   gatherSignatures(core, ...filings.map((f) => f.id));
 
@@ -265,7 +278,7 @@ const run = (
     const margin = facts.find((row) => row.key === "margin")!;
     // The count is said once, in the narration; nothing the relative or the
     // player says repeats it, and no line asserts a size the count does not.
-    const how = raceMargin(core, causeId);
+    const how = raceMargin(core, causeId, filer);
     expect(
       facts.some((row) => row.key === `race-${how}`),
       `${here}: the scene holds race-${how}`,
@@ -281,11 +294,61 @@ const run = (
     for (const text of said)
       if (text.includes("that close"))
         expect(how, `${here}: "${text}"`).toBe("close");
+    // What the count was, so a reader can judge "close": every candidate's
+    // votes, the winner's lead as a share of the votes cast, and (for money)
+    // what was given.
+    const countFacts = (() => {
+      const votes = Object.entries(
+        JSON.parse(
+          String(core.durableLog.get(causeId)?.facts?.totals ?? "{}"),
+        ) as Record<string, number>,
+      ).sort((a, b) => b[1] - a[1]);
+      const cast = votes.reduce((sum, row) => sum + row[1], 0);
+      const lead = votes.length > 1 ? (votes[0]![1] - votes[1]![1]) / cast : 0;
+      const given = facts.find((row) => row.key === "given")?.text;
+      return `votes ${votes.map((row) => row[1]).join(", ")} of ${cast} cast, lead ${(lead * 100).toFixed(1)} points${given ? `, given ${given}` : ""}`;
+    })();
+    // The wording the same record gets in other worlds: the English engine
+    // picks among a move's pieces by world seed and moment, so the same lost
+    // race composed under other world seeds shows the pieces this one did not
+    // pick. Only the seed changes; the record, the facts and the count are the
+    // played ones.
+    const variants = new Map<string, string>();
+    const statements = new Set<string>([talk.state.text]);
+    const worldSeed = core.seed;
+    try {
+      for (let k = 1; k <= 120; k += 1) {
+        (core as { seed: string }).seed = `${worldSeed}:wording-${k}`;
+        const other = purposeScene(core, director, filer, entry!, {
+          typeKey: "family-loss",
+        });
+        if (other?.kind !== "composed") continue;
+        const lines: string[] = [];
+        treeLines(other.scene.talk.tree, [], lines);
+        for (const text of [other.scene.talk.state.text, ...lines])
+          if (!variants.has(text)) variants.set(text, `seed ${k}`);
+        statements.add(other.scene.talk.state.text);
+        // A move has four statements at most: stop once all four have shown.
+        if (statements.size >= 4) break;
+      }
+    } finally {
+      (core as { seed: string }).seed = worldSeed;
+    }
     if (file)
       appendFileSync(
         file,
         [
-          `### ${where}: ${filing.id}, the count was ${how}`,
+          `### Other wording for ${here}, ${part!.key}, same record, ${variants.size} lines under 120 other world seeds`,
+          ...[...variants.keys()].map((text) => `- ${text}`),
+          "",
+          "",
+        ].join("\n"),
+      );
+    if (file)
+      appendFileSync(
+        file,
+        [
+          `### ${where}: ${filing.id}, the count was ${how} (${countFacts})`,
           ...talk.narration.map((line) => `Narration: ${line.text}`),
           `They say: ${talk.state.text}`,
           ...said.map((text) => `- ${text}`),
@@ -419,4 +482,4 @@ it("the talk after a lost race is for the relative who put in work or money, say
     expect(out.done, out.note).toBe(true);
     process.stdout.write(`${out.note}\n`);
   }
-}, 800_000);
+}, 1_500_000);
