@@ -692,22 +692,15 @@ function runGasBan(drawn: Pinned): boolean {
     ).toHaveLength(0);
   }
 
-  // Phase 1: the town's own body enacts it.
-  const town = (["city", "county", "state"] as const)
-    .map((level) => lawChain(api).levels.find((l) => l.level === level))
-    .find((l) => l);
-  expect(town, `${where}: a level that can enact the ban`).toBeDefined();
-  enactLaw(api, {
-    jurisdiction: town!.jurisdiction,
-    level: town!.level,
-    series: GAS_BAN,
-    value: 1,
-    effectiveDate: api.state.date,
-    measureId: "test:gas-ban:on",
-    citation: "Controlled law case in a generated year.",
-  });
-  const governing = lawInForce(api, GAS_BAN).governing;
+  // Phase 1: the ban enacted at every level of the chain, as phase 0 took it
+  // off at every level: a town's own ban alone does not govern where the
+  // state's row (here the phase-0 repeal) stands above it (Wilton, Maine,
+  // whose state ban is in force on day one).
+  setAll(api, GAS_BAN, 1, "on");
+  const answer = lawInForce(api, GAS_BAN);
+  const governing = answer.governing;
   expect(governing, `${where}: the ban in force`).toBeTruthy();
+  expect(answer.value, `${where}: ${governing!.id} bans gas hookups`).toBe(1);
   const lawId = governing!.id;
   const enactedOn = core.date;
 
