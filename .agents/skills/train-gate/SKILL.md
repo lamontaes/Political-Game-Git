@@ -51,6 +51,10 @@ A `Words lead: train-ready` stamp is for one sha. If the head moves afterward, t
 
 A new file under `src/core2` fails `tests/guards/families.test.ts` until it is in a family in `tests/guards/families.json`, and is in `.github/CODEOWNERS` (the test compares the two). When another family's file (the bench, the executive) imports it, list it under the family's `entry` too, or the guard says "Import the family's entry instead." Run that one test before pushing a PR that adds a core2 file.
 
+## Counting conflicts (Nov 15, Visit/Call thread)
+
+After a merge stops on conflicts, count them with `git diff --name-only --diff-filter=U`: data files (judged stores, `scene-places.json`) conflict beside the code, and a count of code files alone misses them.
+
 ## Carrying an old PR (Nov 15)
 
 - Bring the old PR's change with `git diff <old>~N <old> -- . ':!docs/play-first/shots' | git apply --3way`, then resolve each conflict by reading both sides; where the train already does what the old PR added (a label, a briefs-only lead), keep the train's side and say so in the PR body.
