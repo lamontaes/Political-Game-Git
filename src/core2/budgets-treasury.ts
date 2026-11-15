@@ -925,13 +925,36 @@ export interface CountryWithholding {
   readonly federalIncome: number;
   readonly federalPayroll: number;
 }
-let countryWithholdingReader:
-  ((api: CoreAPI) => CountryWithholding | undefined) | null = null;
-/** The macro module registers how the tier's withholding is read (budgets cannot import it). */
-export function registerCountryWithholding(
-  reader: (api: CoreAPI) => CountryWithholding | undefined,
-): void {
-  countryWithholdingReader = reader;
+/**
+ * What the country tier's states withheld in the last month each stepped, read from the macro
+ * module's own table (this file cannot import the module). Each state's row is its rest: the
+ * part the town's own records count is taken out before the state steps, so the town's own
+ * people are not counted twice. None where the world keeps no tier.
+ */
+function countryWithholdingOf(api: CoreAPI): CountryWithholding | undefined {
+  if (!(api.state as CoreState).modules.has("macro")) return undefined;
+  let month = 0;
+  let federalIncome = 0;
+  let federalPayroll = 0;
+  for (const row of api.moduleState("macro").table("countryStates").rows()) {
+    const moved = (
+      row as unknown as {
+        whatMoved: {
+          month: number;
+          withheld: { level: string; tax: string; dollars: number }[];
+        }[];
+      }
+    ).whatMoved;
+    const last = moved[moved.length - 1];
+    if (!last) continue;
+    month = Math.max(month, last.month);
+    for (const line of last.withheld) {
+      if (line.level !== "federal") continue;
+      if (line.tax === "income") federalIncome += line.dollars;
+      else federalPayroll += line.dollars;
+    }
+  }
+  return month > 0 ? { month, federalIncome, federalPayroll } : undefined;
 }
 
 /**
@@ -1192,6 +1215,30 @@ function collectedThisMonth(
 
 /** The month's close for every treasury: revenue in, then each budget line out, top down. */
 /**
+ * What the tier withheld under the federal income-tax rows in the month this treasury first read
+ * it, the base later months are measured against. None while the tier has withheld nothing and
+ * nothing is kept (a world whose federal law has no income tax at the start): that line stays on
+ * its plan until there is a base to measure from.
+ */
+function tierBaseOf(
+  api: CoreAPI,
+  gov: GovernmentRow,
+  tier: CountryWithholding,
+): number | undefined {
+  const id = `${gov.id}:individualIncomeTax`;
+  const kept = table(api, "tierBases").get(id) as unknown as
+    { dollars: number } | undefined;
+  if (kept) return kept.dollars > 0 ? kept.dollars : undefined;
+  if (tier.federalIncome <= 0) return undefined;
+  table(api, "tierBases").put({
+    id,
+    dollars: tier.federalIncome,
+    month: tier.month,
+  } as unknown as ModuleRow);
+  return tier.federalIncome;
+}
+
+/**
  * The federal treasury's individual income tax from the country tier: the month's plan for what
  * the rest of the country pays (the line less the town's share) moves with what the tier's
  * workers had withheld under the federal income-tax rows in force, against the month the
@@ -1203,6 +1250,7 @@ function payFromTier(
   gov: GovernmentRow,
   budget: BudgetRow,
   tier: CountryWithholding,
+  base: number,
   outside: string,
   date: string,
   source: Source,
@@ -1211,22 +1259,29 @@ function payFromTier(
   const line = "individualIncomeTax";
   const planned = budget.revenueMinor[line] ?? 0;
   if (planned <= 0) return;
-  const baseId = `${gov.id}:${line}`;
-  const kept = table(api, "tierBases").get(baseId) as unknown as
-    { dollars: number } | undefined;
-  const base = kept?.dollars ?? tier.federalIncome;
-  if (!kept)
-    table(api, "tierBases").put({
-      id: baseId,
-      dollars: base,
-      month: tier.month,
-    } as unknown as ModuleRow);
   const index = tier.federalIncome / base;
   const away = 1 - townShareOf(api, gov);
   const amount = Math.round(
     ((planned * away) / treasuryParameter("monthsPerYear")) * index,
   );
-  if (amount <= 0) return;
+  if (amount <= 0) {
+    // A tax at nothing pays nothing, and the month says so.
+    table(api, "taxPayments").put({
+      id: `treasury-withholding:${line}:country:${gov.id}:${date}`,
+      governmentId: gov.id,
+      line,
+      payerId: "country-workers",
+      payerName: "Workers and employers elsewhere in the country",
+      dueOn: date,
+      date,
+      amountMinor: 0,
+      installmentMinor: 0,
+      baseIndex: index,
+      townPaidMinor: 0,
+      tierMonth: tier.month,
+    } as unknown as ModuleRow);
+    return;
+  }
   const receipt = api.accounts().transfer({
     id: `treasury-withholding:${line}:country:${gov.id}:${date}`,
     from: api.accounts().main(outside),
@@ -1272,26 +1327,32 @@ export function closeTreasuries(api: CoreAPI, source: Source): void {
   const aided = aidedLines(api, govs);
   const fromOutside = new Map<string, number>();
   const namedCollected = new Map<string, number>();
-  const tier = countryWithholdingReader?.(api);
-  const tierPays = new Set<string>(
-    tier && tier.federalIncome > 0 ? ["individualIncomeTax"] : [],
-  );
+  const tier = countryWithholdingOf(api);
+  const tierBase = new Map<string, number>();
+  if (tier)
+    for (const gov of govs) {
+      if (gov.level !== "federal") continue;
+      const base = tierBaseOf(api, gov, tier);
+      if (base !== undefined) tierBase.set(gov.id, base);
+    }
   for (const gov of govs) {
     const budget = budgets.get(gov.id);
     if (!budget) continue;
+    const base = tierBase.get(gov.id);
     const monthly = outsideRevenueMonthly(
       api,
       gov,
       budget,
       aided,
-      gov.level === "federal" ? tierPays : undefined,
+      base !== undefined ? new Set(["individualIncomeTax"]) : undefined,
     );
-    if (gov.level === "federal" && tier && tierPays.size > 0)
+    if (tier && base !== undefined)
       payFromTier(
         api,
         gov,
         budget,
         tier,
+        base,
         outside,
         date,
         source,
