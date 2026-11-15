@@ -22,7 +22,7 @@ root: rc8-law-judged-by-paperwork
 
 **Cause.** Found in code: the medical bills (`billMembers` in src/core2/medical-bills.ts) charge a Medicare member the fixed share `medicalPatientShareMedicare` of their care's cost, and nothing reads the federal Medicare line in force. Measured: Eveleth, Minnesota (2719934), world seed 9ea5b0b1cf7f19c41c24ddba458a95377a45443e44227b6ec9f33db30cc8c8ad, the line raised a tenth and 40 days run: the bill's reach holds only `budget-line-paid` to one organization.
 
-**Fix.** Medicare's own part of a member's care is scaled by the line in force over its base (`federalBenefitLine`, the rule income security reads), so the member's share falls by those dollars; the federal treasury pays them to the seller the household pays (`payMedicareLinePart` in src/core2/law-reach/group-b-money.ts, counted against the Medicare line so the close pays only the rest outside), and each member is recorded on the bill's own record under `budget-line:medicare`, counted members by their household's weight. The player sees it on the law page and the bill card.
+**Fix.** Medicare's own part of a member's care is scaled by the line in force over its base (`federalBenefitLine`, the rule income security reads), so the member's share falls by those dollars; the federal treasury pays them to the seller the household pays (`payMedicareLinePart` in src/core2/law-reach/group-b-money.ts, counted against the Medicare line so the close pays only the rest outside), and each member is recorded on the bill's own record under `budget-line:medicare`, counted members by their household's weight. A budget-line bill makes no law row, so dev mode's bill outcome (`billOutcome` in src/bench/dev-mode.ts) now carries the bill's budget lines and their reach under the bill's number, and the dev bill card (src/bench/ui/dev-bill-card.mjs) shows them. The player sees it on the law page and the bill card.
 
 **Time box.** 3 hours for one Opus session at medium effort.
 
@@ -32,4 +32,4 @@ root: rc8-law-judged-by-paperwork
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/medical-bills.ts, src/core2/law-reach/group-b-money.ts, src/core2/modules/laws.ts, src/core2/law-reach/medicare-line-reach.test.ts (new)
+**Files.** src/core2/medical-bills.ts, src/core2/law-reach/group-b-money.ts, src/core2/modules/laws.ts, src/core2/law-reach/medicare-line-reach.test.ts (new), src/bench/dev-mode.ts, src/bench/ui/dev-bill-card.mjs, src/bench/dev-bill-budget-reach.test.ts (new)
