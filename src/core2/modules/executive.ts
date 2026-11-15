@@ -46,7 +46,7 @@ import {
 import { drawStateHome, workFromHome } from "../places";
 import { placeReferencePopulation } from "../gov-rules/place-population";
 import { MACRO_MODULE_ID, countryStateParts } from "./macro";
-import { temperamentOf } from "./officials";
+import { officialOf, temperamentOf } from "./officials";
 import { admitCountedHousehold } from "./residents";
 import type {
   CoreAPI,
@@ -423,6 +423,14 @@ export function postRecord(
   return { relatedYears, workYears, schooling, recordIds };
 }
 
+/** What is known of the work of someone not yet filled in: nothing. */
+const NO_POST_RECORD = {
+  relatedYears: 0,
+  workYears: 0,
+  schooling: undefined,
+  recordIds: [] as string[],
+};
+
 /** Whether the records show related work or schooling past high school. */
 const hasRecord = (record: ReturnType<typeof postRecord>) =>
   record.relatedYears > 0 ||
@@ -535,12 +543,6 @@ function townPostInput(
   const pool = shown.length ? shown : adults;
   // The whole town can supply a head: three residents of the wider population drawn for the post
   // (as for a cabinet), scored by the one rule; only the one named is admitted and filled in.
-  const noRecord = {
-    relatedYears: 0,
-    workYears: 0,
-    schooling: undefined,
-    recordIds: [] as string[],
-  };
   const residents = drawn
     ? [0, 1, 2].flatMap((n) => {
         const record = drawnAdult(
@@ -581,7 +583,7 @@ function townPostInput(
       ...residents.map(({ resident }) => ({
         id: resident.id,
         lean: leanOf(api, resident.id, resident),
-        qualification: appointmentQualification(resident, noRecord),
+        qualification: appointmentQualification(resident, NO_POST_RECORD),
         known: false,
       })),
     ],
@@ -863,6 +865,50 @@ function withWork(seed: string, homeKey: string | undefined, key: string) {
   return work ? { work } : {};
 }
 
+/**
+ * A drawn cabinet candidate made a full person: one of the
+ * town's own is admitted from the wider population and filled in; someone from
+ * elsewhere in the state is filled in where they live, never moved into the
+ * played town. The same seeded identity the office panel named, so the person
+ * asked is the person seated. Returns their id.
+ */
+function fillInCabinetPerson(
+  api: CoreAPI,
+  chosen: CabinetCandidate,
+  state: string,
+  citation: string,
+): string {
+  const core = api.state as CoreState;
+  if (chosen.lives === "town") {
+    admitCountedHousehold(core, chosen.record);
+    const named = chosen.record.people[0]!.id;
+    return personOrFillIn(core, named)?.id ?? named;
+  }
+  const { identity } = chosen;
+  const personId = chosen.resident.id;
+  if (!core.people.has(personId as PersonId))
+    fillInIdentity(core, {
+      id: personId as PersonId,
+      givenName: identity.givenName,
+      familyName: identity.familyName,
+      birthDate: makeIsoDate(identity.birthDate),
+      placeId: (chosen.home?.context.jurisdiction.id ?? state) as never,
+      gender: identity.gender,
+      traits: chosen.resident.traits,
+      // The work they hold where they live, from that town's counts, as
+      // every person filled in far from the played town holds theirs.
+      ...withWork(core.seed, chosen.home?.key, personId),
+      source: {
+        tag: "ESTIMATED",
+        asOf: makeIsoDate(api.state.date),
+        citation,
+        estimatedFrom:
+          "world seed: a home in the state drawn by who lives in each town, a name and birth date as an official's (officials-identity)",
+      },
+    });
+  return personId;
+}
+
 function seatCabinetPerson(
   api: CoreAPI,
   input: {
@@ -880,38 +926,12 @@ function seatCabinetPerson(
   ) as unknown as AppointmentRow | undefined;
   const priorJob = prior ? core.people.get(prior.holderId)?.jobId : undefined;
   if (priorJob) endReplacedPostJob(api, priorJob, input.appointmentId);
-  let personId: string;
-  if (chosen.lives === "town") {
-    // One of the town's own: admitted from the wider population and filled in.
-    admitCountedHousehold(core, chosen.record);
-    const named = chosen.record.people[0]!.id;
-    personId = personOrFillIn(core, named)?.id ?? named;
-  } else {
-    // Someone from elsewhere in the state: filled in where they live, never
-    // moved into the played town.
-    const { identity } = chosen;
-    personId = chosen.resident.id;
-    if (!core.people.has(personId as PersonId))
-      fillInIdentity(core, {
-        id: personId as PersonId,
-        givenName: identity.givenName,
-        familyName: identity.familyName,
-        birthDate: makeIsoDate(identity.birthDate),
-        placeId: (chosen.home?.context.jurisdiction.id ?? input.state) as never,
-        gender: identity.gender,
-        traits: chosen.resident.traits,
-        // The work they hold where they live, from that town's counts, as
-        // every person filled in far from the played town holds theirs.
-        ...withWork(core.seed, chosen.home?.key, personId),
-        source: {
-          tag: "ESTIMATED",
-          asOf: makeIsoDate(api.state.date),
-          citation: `Appointment ${input.appointmentId}`,
-          estimatedFrom:
-            "world seed: a home in the state drawn by who lives in each town, a name and birth date as an official's (officials-identity)",
-        },
-      });
-  }
+  const personId = fillInCabinetPerson(
+    api,
+    chosen,
+    input.state,
+    `Appointment ${input.appointmentId}`,
+  );
   const employer = (
     api.state.modules.has(BUDGETS_MODULE_ID) ? governments(api) : []
   ).find((g) => g.level === "state")?.organizationId;
@@ -1274,6 +1294,112 @@ export function appointmentsIn(
   return [...rows.values()].sort((a, b) => a.id.localeCompare(b.id));
 }
 
+/**
+ * The state's people the governor is offered for an open post, beside the
+ * full people the world already holds: three drawn as the opening draws a
+ * cabinet (`cabinetCandidate`), keyed by the post and the vacancy (the
+ * appointment it left, or none), so the list stays the same while the post
+ * stands open. Nobody is created by reading the list; only the one appointed
+ * is admitted or filled in (`seatCabinetPerson`).
+ */
+/**
+ * A drawn cabinet candidate, drawn once a day: the office panel, the desk and
+ * the asks each read the same post's list on one screen, and the draw reads
+ * the state's counts, which move only as days pass.
+ */
+const drawnToday = new WeakMap<
+  object,
+  { date: string; byKey: Map<string, CabinetCandidate | null> }
+>();
+function drawnForDay(api: CoreAPI, key: string): CabinetCandidate | null {
+  const date = String(api.state.date);
+  let kept = drawnToday.get(api.state);
+  if (!kept || kept.date !== date) {
+    kept = { date, byKey: new Map() };
+    drawnToday.set(api.state, kept);
+  }
+  if (!kept.byKey.has(key))
+    kept.byKey.set(key, cabinetCandidate(api, api.state.seed, key));
+  return kept.byKey.get(key)!;
+}
+
+/** How many of the state's people are drawn for an open post, as the opening draws three. */
+const STATE_DRAWN = 3;
+
+function stateDrawnCandidates(
+  api: CoreAPI,
+  spec: { readonly key: string },
+): ReadonlyMap<
+  string,
+  CabinetCandidate & { readonly name: string; readonly n: number }
+> {
+  const state = lawChain(api).stateKey;
+  const prior = appointmentsIn(api, state).find((p) => p.post === spec.key);
+  const vacancy = prior ? `${prior.holderId}:${prior.since}` : "unfilled";
+  const drawn = new Map<
+    string,
+    CabinetCandidate & { readonly name: string; readonly n: number }
+  >();
+  for (let n = 0; n < STATE_DRAWN; n += 1) {
+    const candidate = drawnForDay(api, `${state}:${spec.key}:${vacancy}:${n}`);
+    if (!candidate || api.state.people.has(candidate.resident.id as PersonId))
+      continue;
+    const named =
+      candidate.lives === "town"
+        ? candidate.record.people[0]!
+        : candidate.identity;
+    drawn.set(candidate.resident.id, {
+      ...candidate,
+      name: `${named.givenName} ${named.familyName}`,
+      n,
+    });
+  }
+  return drawn;
+}
+
+/** The names of the drawn people a state post could go to, by candidate id, for the office panel (full people are named by their record). */
+export function stateCandidateNames(
+  api: CoreAPI,
+  post: string,
+): ReadonlyMap<string, string> {
+  return new Map(
+    [...stateDrawnCandidates(api, { key: post })].map(([id, c]) => [
+      id,
+      c.name,
+    ]),
+  );
+}
+
+/**
+ * Fills in one drawn person the office panel offers for a state post, so a
+ * governor can ask them to serve and they can answer as themselves (the
+ * serve-asks engine's post seat). Once filled in, the person is one of the
+ * world's own and `appointStatePost` seats them by the full-person path.
+ * Returns their id, or null when `personId` is not one the post offers.
+ */
+export function fillInStateCandidate(
+  api: CoreAPI,
+  post: string,
+  personId: string,
+): string | null {
+  if (api.state.people.has(personId as PersonId)) return personId;
+  const chosen = stateDrawnCandidates(api, { key: post }).get(personId);
+  if (!chosen) return null;
+  return fillInCabinetPerson(
+    api,
+    chosen,
+    lawChain(api).stateKey,
+    `Asked to serve as ${post}`,
+  );
+}
+
+/** Whether a place is in the state (the state itself, or a place within it). */
+function livesInState(placeId: string, state: string): boolean {
+  if (placeId === state) return true;
+  const place = corePlaceByJurisdictionId(placeId as never);
+  return (place?.stateJurisdictionKey ?? place?.key) === state;
+}
+
 /** The governor's candidates for a state post and the chamber that confirms them, as the engine weighs them. */
 function stateNominationInput(
   api: CoreAPI,
@@ -1286,10 +1412,13 @@ function stateNominationInput(
 ) {
   const state = lawChain(api).stateKey;
   const offices = api.moduleState(OFFICES_MODULE_ID);
+  // Anyone who holds an appointed post now, in this state or any other
+  // government (a federal cabinet officer), this post's own holder among them:
+  // naming the person who holds it already is not filling it.
   const holding = new Set(
-    appointmentsIn(api, state)
-      .filter((p) => p.post !== input.post)
-      .map((p) => p.holderId),
+    (table(api, "appointments").rows() as unknown as AppointmentRow[]).map(
+      (p) => p.holderId,
+    ),
   );
   const pool = [...api.state.people.values()]
     .filter(
@@ -1300,6 +1429,10 @@ function stateNominationInput(
         ageOn(person, api.state.date) >=
           campaignParameter("appointmentAdulthoodAge") &&
         !holding.has(person.id) &&
+        // The state's own people: someone who lives in another state, or
+        // who serves now as a state or federal official, could not take it.
+        livesInState(person.placeId, state) &&
+        officialOf(api, person.id)?.ended !== null &&
         !(
           offices
             .table("terms")
@@ -1308,7 +1441,12 @@ function stateNominationInput(
         !workedToday(api.state as CoreState, person),
     )
     .sort((a, b) => a.id.localeCompare(b.id));
-  if (input.personId && !pool.length)
+  // The state's people beyond those the world holds in full, drawn as the
+  // opening draws a cabinet; each leans by their own record, by the one rule.
+  const drawn = [...stateDrawnCandidates(api, spec)].filter(
+    ([id]) => !input.personId || id === input.personId,
+  );
+  if (input.personId && !pool.length && !drawn.length)
     throw new Error(
       "The nominee must be a living adult who holds no other office.",
     );
@@ -1326,28 +1464,45 @@ function stateNominationInput(
   if (confirmation && !senate)
     throw new Error("No confirming chamber is recorded.");
   return {
-    seatKey: `cabinet:${state}:${spec.key}`,
-    appointerSide: leanOf(api, input.executiveId),
-    weighing: appointerWeighing(api.state as CoreState, input.executiveId),
-    candidates: pool.map((person) => {
-      const record = postRecord(api, person, spec.key, api.state.date);
-      return {
-        id: person.id,
-        lean: personLean(api.state.people, person, 0),
-        qualification: appointmentQualification(person, record),
-        qualificationRecords: record.recordIds,
-        known: (api.state as CoreState).relationships.has(
-          pairKey(input.executiveId, person.id),
-        ),
-      };
-    }),
-    confirmingBody: confirmation
-      ? {
-          name: senate!.title,
-          sides: members(api, senate!.id).map((t) => partySide(t.party)),
-        }
-      : null,
-    tolerance: campaignParameter("confirmationTolerance"),
+    drawn: new Map(drawn),
+    nomination: {
+      seatKey: `cabinet:${state}:${spec.key}`,
+      appointerSide: leanOf(api, input.executiveId),
+      weighing: appointerWeighing(api.state as CoreState, input.executiveId),
+      candidates: [
+        ...pool.map((person) => {
+          const record = postRecord(api, person, spec.key, api.state.date);
+          return {
+            id: person.id,
+            lean: personLean(api.state.people, person, 0),
+            qualification: appointmentQualification(person, record),
+            qualificationRecords: record.recordIds,
+            known: (api.state as CoreState).relationships.has(
+              pairKey(input.executiveId, person.id),
+            ),
+          };
+        }),
+        // Someone of the state drawn for the post, weighed by the rule the
+        // opening weighs its drawn cabinet by (the state's own pick of people
+        // fit for the post), until they are filled in and their record is read.
+        ...drawn.map(([id, { resident, n }]) => ({
+          id,
+          lean: leanOf(api, id, resident),
+          qualification:
+            campaignParameter("cabinetQualificationBase") +
+            campaignParameter("cabinetQualificationStep") *
+              (STATE_DRAWN - 1 - n),
+          known: false,
+        })),
+      ],
+      confirmingBody: confirmation
+        ? {
+            name: senate!.title,
+            sides: members(api, senate!.id).map((t) => partySide(t.party)),
+          }
+        : null,
+      tolerance: campaignParameter("confirmationTolerance"),
+    },
   };
 }
 
@@ -1405,7 +1560,11 @@ export function stateCandidates(
     (p) => p.key === post && /governor/.test(p.appointedBy),
   );
   if (!spec) return [];
-  const input = stateNominationInput(api, { executiveId, post }, spec);
+  const input = stateNominationInput(
+    api,
+    { executiveId, post },
+    spec,
+  ).nomination;
   if (!input.candidates.length) return [];
   return nominateAndConfirm({ ...input, confirmingBody: null }).reasons;
 }
@@ -1429,9 +1588,8 @@ export function appointStatePost(
     (p) => p.key === input.post && /governor/.test(p.appointedBy),
   );
   if (!spec) throw new Error("This post is not appointed by the governor.");
-  const appointment = nominateAndConfirm(
-    stateNominationInput(api, input, spec),
-  );
+  const { drawn, nomination } = stateNominationInput(api, input, spec);
+  const appointment = nominateAndConfirm(nomination);
   const nominationId = `nomination:${state}:${spec.key}:${input.personId ?? "own-choice"}:${api.state.date}`;
   table(api, "nominations").put({
     id: nominationId,
@@ -1444,16 +1602,31 @@ export function appointStatePost(
     appointed: false,
   } as unknown as ModuleRow);
   if (!appointment.nomineeId) return null;
-  const person = api.state.people.get(appointment.nomineeId)!;
   const gov = governments(api).find((g) => g.id === state);
   if (!gov) throw new Error("No state treasury is recorded.");
+  // Someone drawn from the state's people is filled in where they live and
+  // put on the state payroll by the opening's own seating step.
+  const chosen = drawn.get(appointment.nomineeId);
+  const appointmentId = `appointment:${state}:${spec.key}`;
+  const seatedId = chosen
+    ? seatCabinetPerson(api, {
+        state,
+        spec,
+        chosen,
+        appointmentId,
+        posts: (RESEARCH.places[state]?.cabinet?.positions ?? []).filter((p) =>
+          /governor/.test(p.appointedBy),
+        ),
+      })
+    : undefined;
+  const person = api.state.people.get(seatedId ?? appointment.nomineeId)!;
   const prior = appointmentsIn(api, state).find((p) => p.post === spec.key);
   const priorPerson = prior ? api.state.people.get(prior.holderId) : undefined;
   const priorJob = priorPerson?.jobId
     ? (api.state as CoreState).jobs.get(priorPerson.jobId)
     : undefined;
   const row: AppointmentRow = {
-    id: `appointment:${state}:${spec.key}`,
+    id: appointmentId,
     government: state,
     post: spec.key,
     title: spec.title,
@@ -1464,16 +1637,20 @@ export function appointStatePost(
     reasons: appointment.reasons,
     since: api.state.date,
   };
-  const jobId = startPublicJob(api, {
-    personId: person.id,
-    employerId: gov.organizationId,
-    post: `state:${spec.key}`,
-    title: spec.title,
-    hourlyMinor: campaignParameter("appointeeHourlyMinor"),
-    citation: `Appointment ${row.id}`,
-  });
+  // The seating step has already put a drawn appointee on the payroll and
+  // ended the job of the one they replace.
+  const jobId = seatedId
+    ? person.jobId
+    : startPublicJob(api, {
+        personId: person.id,
+        employerId: gov.organizationId,
+        post: `state:${spec.key}`,
+        title: spec.title,
+        hourlyMinor: campaignParameter("appointeeHourlyMinor"),
+        citation: `Appointment ${row.id}`,
+      });
   if (!jobId) return null;
-  if (priorJob?.organizationId === gov.organizationId)
+  if (!seatedId && priorJob?.organizationId === gov.organizationId)
     endReplacedPostJob(
       api,
       priorJob.id,
@@ -1938,9 +2115,15 @@ function deskReview(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     table(api, "review").get("seed") as unknown as
       { worldSeed: string } | undefined
   )?.worldSeed;
+  // A newly seated governor names their own cabinet, unless the governor is
+  // the player: the player's choices are the player's (OWNER-DECISIONS, Oct
+  // 14: "No engine accepts a job, a home, a filing or any choice for the
+  // controlled person"), so the sitting cabinet serves until the player names
+  // someone in its place (`appointStatePost`), as the town's posts wait.
   if (
     worldSeed &&
     cabinet.length &&
+    memberKey(governor) !== playerId &&
     memberKey(governor) !== cabinet[0]!.appointedBy &&
     (!before || holderOf(before) !== holderOf(governor))
   )

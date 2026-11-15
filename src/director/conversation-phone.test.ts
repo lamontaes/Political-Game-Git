@@ -320,7 +320,7 @@ describe("the bank holds the doorway words off a call", () => {
       "See you again.",
       "Thanks for stopping, {player-first}.",
       "Thanks for stopping by, {player-first}.",
-      "Nice to see a friendly face, {player-first}.",
+      "Nice to see a friendly face.",
       "You again. I saw you {when}.",
       "Back again? I saw you just {when}.",
       "{name}, back again? I saw you {when}.",

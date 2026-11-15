@@ -4020,6 +4020,19 @@
       "citation": "From a mostly solitary job (a tenth of the overlap) to a mostly team job (two fifths); the time-use survey's coworker time was not fetched, so the ends are estimates."
     }
   },
+  "sittingContactShare": {
+    "value": 0.15,
+    "role": "coefficient",
+    "tag": "TUNABLE",
+    "citation": "The share of a body's sitting a member spends in contact with the colleagues they know there (talk before the gavel, in recess, after adjournment, beside them on the floor), before it is split among them (sitting-closeness.ts). No source was found for how much of a sitting members spend in contact with each other, so the number is tunable. The direction is sourced: members who sit together in session come to act together, and the effect weakens when they sit less and is absent out of session (Christensen, Jin, Walther and Wellman, U.S. Senate seating and senators' trades 2012 to 2018, Journal of Financial and Quantitative Analysis; Northwestern University news, Aug. 2026).",
+    "estimatedFrom": "Below a workplace's quarter (workContactShare), because most of a sitting is formal business addressed to the chair, with contact in its breaks and at its ends. Set when the reader was built, before any count of lies or votes was read.",
+    "spread": {
+      "low": 0.05,
+      "high": 0.3,
+      "unit": "share of a sitting's minutes spent in contact with known colleagues",
+      "citation": "From a body whose members meet only in formal session (a twentieth) to one that recesses and confers often (three tenths); unmeasured ends, to be checked against a source when one is found."
+    }
+  },
   "groupKnownScale": {
     "value": 4.5,
     "tag": "ESTIMATED",

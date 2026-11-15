@@ -372,6 +372,7 @@
         "src/core2/closeness.ts",
         "src/core2/family-origin.ts",
         "src/core2/encounters.ts",
+        "src/core2/sitting-closeness.ts",
         "src/core2/knowledge-retention.ts",
         "src/core2/event-id-retention.ts",
         "src/core2/estates.ts",

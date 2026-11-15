@@ -36,6 +36,8 @@ Run this checklist over every result before it goes out. Each hit needs a cause,
 4. For a lopsided total, find the argmax or sort that picks the winner, and what feeds it (traits, money, law in force).
 5. For an empty seat, a missed meeting or an unheld race, find the function that should have created it and the condition that skipped it.
 6. For a person with no job and $0, read the record the person was filled in from, then the job and ledger writers.
+7. For a figure that is the same for every row (closeness 0 for every pair, a cost of 0 for every actor), find the writer that should have filled it before reporting any rate built on it. On Nov 15 a lying count read 0 false yeses in 186 council asks; closeness was 0 because nothing tied members of a body to each other, so both cost terms were switched off and temperament alone decided.
+8. For a group that sits at one end of a scale (every council member leaning truthful while a quarter of adults lean false), find what selected them, and check that two decisions do not share an act kind that measures something else. claims.tell's truth option shared `speak-out` with candidacy-run; being outspoken is not being honest, so the shared kind made the seated look honest.
 
 ## Rules
 

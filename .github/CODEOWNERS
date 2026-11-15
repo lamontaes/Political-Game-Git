@@ -269,6 +269,7 @@
 /src/core2/closeness.ts @lamontaes
 /src/core2/family-origin.ts @lamontaes
 /src/core2/encounters.ts @lamontaes
+/src/core2/sitting-closeness.ts @lamontaes
 /src/core2/knowledge-retention.ts @lamontaes
 /src/core2/event-id-retention.ts @lamontaes
 /src/core2/estates.ts @lamontaes

@@ -12116,7 +12116,7 @@
           "subject": "news",
           "role": "public-action",
           "choice": "lede",
-          "requiresFacts": ["rally", "several", "area"]
+          "requiresFacts": ["rally", "crowd", "area"]
         }
       ],
       "origin": "authored",

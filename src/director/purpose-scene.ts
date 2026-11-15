@@ -61,6 +61,7 @@ import {
   coreStateName,
 } from "../core2/place-lookup";
 import { applyCoreEvent, coreAPI } from "../core2/state";
+import { tieHoursBetween } from "../core2/closeness";
 import type { CoreState, PersonId } from "../core2/types";
 import {
   billNameFor,
@@ -108,7 +109,7 @@ import conversationRules from "./data/conversation-rules.json" with { type: "jso
 import type { Director } from "./ledger";
 import { knockFacts, petitionAtDoor } from "./doors";
 import { officeSaid, raceMemberTitle } from "./cause-facts";
-import { officeInSentence } from "../core2/person-work";
+import { officeInSentence, workHeld } from "../core2/person-work";
 import {
   SITUATION_LIBRARY,
   type ScheduleEntry,
@@ -119,6 +120,7 @@ import { beatenRunnerUp } from "../core2/modules/voting";
 import {
   SERVE_ASKED_EVENT,
   leanIfHedged,
+  promiseWorth,
   serveAsk,
   type ServeGrounds,
 } from "../core2/modules/serve-asks";
@@ -150,6 +152,7 @@ import {
   OFFICE_DAY_MODULE_ID,
   decideDesk,
   deskWaiting,
+  pledgeToCome,
 } from "../core2/modules/office-day";
 import {
   chooseVariant,
@@ -200,7 +203,10 @@ import {
 } from "../core2/modules/elections";
 import {
   CAMPAIGNS_MODULE_ID,
+  CANVASS_MESSAGE_KIND,
+  RIVAL_WORD_EVENT,
   enlistVolunteer,
+  rivalWordMoved,
   type CauseRow,
 } from "../core2/modules/campaigns";
 import rulesFile from "./data/scene-talk-rules.json" with { type: "json" };
@@ -238,6 +244,12 @@ import {
   swornOffice,
   titleInSentence,
 } from "./swearing-in";
+
+/** How a rival's message reached the one who passed word of it on, by the message record's kind: the word each opener is placed by (`how-canvass`, `how-message`); a world candidate's campaign sends only these (the player's own bought ads and mail are never a rival's word). */
+const HOW_WORD_REACHED: Readonly<Record<string, string>> = {
+  [CANVASS_MESSAGE_KIND]: "canvass",
+  "campaign-message": "message",
+};
 
 export interface PurposeScene {
   typeKey: string;
@@ -1144,11 +1156,15 @@ function composeBinding(
       // protest in the street or workers who walked out.
       const flag = record?.kind === "civic.strike" ? "strike" : "protest";
       facts[flag] = { text: "yes", sourceRecordIds: [said.actionId] };
-      if (said.size)
-        facts.number = {
-          text: said.size,
-          sourceRecordIds: [said.actionId],
-        };
+      // A protest is held outside: the narration puts everyone in the street,
+      // so the replies that belong to a meeting (a seat, a stay-after) are not
+      // offered, and their outdoor twins are.
+      if (flag === "protest")
+        facts.outdoors = { text: "yes", sourceRecordIds: [said.actionId] };
+      Object.assign(
+        facts,
+        turnoutFacts(turnoutOf(record?.facts?.turnout), said.actionId),
+      );
     }
   }
   // A rally in the town (public-action.ts): the area the term read well in,
@@ -1161,8 +1177,10 @@ function composeBinding(
         sourceRecordIds: [said.actionId, moment.causeId],
       };
     facts.rally = { text: "yes", sourceRecordIds: [said.actionId] };
-    if (said.size)
-      facts.number = { text: said.size, sourceRecordIds: [said.actionId] };
+    Object.assign(
+      facts,
+      turnoutFacts(turnoutOf(record?.facts?.turnout), said.actionId),
+    );
   }
   // What an offer asks in return (a vote, a contract): the lines about that
   // favor need it, and the thing itself is named so the one offering says
@@ -1637,6 +1655,42 @@ function composeBinding(
       text: sayPerson(rival),
       sourceRecordIds: [moment.causeId, rival.id],
     };
+  // Word of a rival's message passed on: how it reached the teller, what it
+  // argued (the subject and the rival's side of it) and how far it moved the
+  // teller, each from the message's own record. Nothing here quotes it.
+  if (record?.kind === RIVAL_WORD_EVENT && record.topic) {
+    const how = HOW_WORD_REACHED[said.how ?? ""];
+    if (how)
+      facts[`how-${how}`] = {
+        text: "yes",
+        sourceRecordIds: [said.messageId ?? moment.causeId],
+      };
+    const issue = questionSaid(record.topic);
+    if (issue) facts.issue = { text: issue, sourceRecordIds: [moment.causeId] };
+    // What the question proposes, said whole ("civilian oversight of the
+    // police"), for the line that says which side the rival is on.
+    const about = questionAbout(record.topic);
+    if (about) facts.about = { text: about, sourceRecordIds: [moment.causeId] };
+    if (said.side === "for" || said.side === "against")
+      facts[`side-${said.side}`] = {
+        text: "yes",
+        sourceRecordIds: [said.messageId ?? moment.causeId],
+      };
+    // The player's own stand on it, where the views engine keeps one.
+    const own = core.modules.has(VIEWS_MODULE_ID)
+      ? stanceRow(coreAPI(core as CoreState), askedId, record.topic)
+      : undefined;
+    if (own && own.strength > P.zero)
+      facts["own-stand"] = {
+        text: "yes",
+        sourceRecordIds: [own.id, moment.causeId],
+      };
+    if (said.tellerId && said.messageId) {
+      facts[
+        `moved-${rivalWordMoved(coreAPI(core as CoreState), said.tellerId, said.messageId, record.topic)}`
+      ] = { text: "yes", sourceRecordIds: [said.messageId, said.tellerId] };
+    }
+  }
   // A rival who runs under the candidate's own party label: a primary
   // challenge. The lines that call it one need both filings to say so.
   if (rival && said.contestId && core.modules.has(ELECTIONS_MODULE_ID)) {
@@ -2005,6 +2059,13 @@ function composeBinding(
     // weighed: the player can say so when asked why them.
     if ((serve.terms.question ?? P.zero) > P.zero)
       facts["near-on-issue"] = { text: "yes", sourceRecordIds: why };
+    // Short of yes by less than the player's word is worth to them: they name
+    // it as their price, for the proposal they hold (a read against one names
+    // no price: promiseWorth, Words lead and Account lead, Nov 15 12:26Z).
+    if (serve.priced) {
+      facts["price-named"] = { text: "yes", sourceRecordIds: why };
+      facts["price-side-for"] = { text: "yes", sourceRecordIds: why };
+    }
     // Asked again after a no: a yes says what changed, as felt (Words lead,
     // Nov 14: the term that moved most since the no).
     if (serve.moved && serve.standing.lean > P.zero)
@@ -2024,21 +2085,23 @@ function composeBinding(
       if (serve.grounds.confirmed)
         facts.confirm = { text: "yes", sourceRecordIds: why };
       // Pay, from two different records: out of work, or a raise.
-      const job = serve.grounds.jobId
-        ? core.jobs.get(serve.grounds.jobId)
-        : undefined;
+      // The work is a job in the played world or, for someone filled in from
+      // elsewhere, their home town's work on their identity's record. The
+      // person asked is the one who answers (`askerId`, serveStanding's
+      // prospect); `askedId` is still the player's seat.
+      const job = workHeld(core, askerId);
       if (!job) facts["out-of-work"] = { text: "yes", sourceRecordIds: why };
       else if ((serve.terms.pay ?? P.zero) > P.zero)
         facts["pay-raise"] = {
           text: "yes",
-          sourceRecordIds: [...why, job.id],
+          sourceRecordIds: [...why, job.recordId],
         };
       // Their work is in the post's own field: the player can say they have
       // done the work, as the job they hold.
       if (job && serve.grounds.inField) {
         facts["post-field"] = {
           text: "yes",
-          sourceRecordIds: [...why, job.id],
+          sourceRecordIds: [...why, job.recordId],
         };
         // An occupation group's plural name ("Registered Nurses") is not one
         // person's job, so it is not said.
@@ -2050,7 +2113,7 @@ function composeBinding(
         )
           facts["their-office"] = {
             text: jobSaid(job.title),
-            sourceRecordIds: [...why, job.id],
+            sourceRecordIds: [...why, job.recordId],
           };
       }
     }
@@ -2089,6 +2152,18 @@ function composeBinding(
     if (issue)
       facts.issue = {
         text: issue,
+        sourceRecordIds: [moment.causeId, serve.askId],
+      };
+    // A price names the proposal itself, so the player knows which way they
+    // give their word (Words lead, Nov 15 10:35Z, rule 116), on the question
+    // the ticket's office can decide (Account lead, Nov 15 10:45Z).
+    const about =
+      serve.priced && serve.grounds.priceQuestion
+        ? questionAbout(serve.grounds.priceQuestion)
+        : null;
+    if (about)
+      facts.about = {
+        text: about,
         sourceRecordIds: [moment.causeId, serve.askId],
       };
   }
@@ -2379,14 +2454,24 @@ function serveStanding(
       raceOffice: string;
       moved: string | null;
       seat: string;
+      /** They named the player's word on their question as their price. */
+      priced: boolean;
     }
   | undefined {
   const row = serveAsk(coreAPI(core as CoreState), said.askId ?? "");
   if (!row || row.askedId !== prospectId) return undefined;
+  // Short of yes by less than the player's word on their own question is
+  // worth to them: they name that promise as their price (gov-serve-ask-
+  // price-end). Taking it carries them; refusing it does not.
+  const worth = promiseWorth(row);
+  const priced =
+    row.standing.lean <= P.zero && row.standing.lean + worth > P.zero;
   return {
+    priced,
     standing: {
       lean: row.standing.lean,
-      favor: P.zero,
+      favor: priced ? worth : P.zero,
+      ...(priced ? { price: row.standing.lean + worth } : {}),
       // A stranger who would say yes asks the player one thing first; on
       // their own question, a hedge is weighed as the player's stance unsaid.
       asksFirst: !row.standing.grounds.knows && row.standing.lean > P.zero,
@@ -3065,10 +3150,29 @@ function keepDoorPieces(
 /** The player's move at a door that asks after the resident (the door arcs' `asks.middle.ask`). */
 const DOOR_ASK_AFTER = "ask";
 
-/** Hours of quarrel an ending that strains a tie writes to closeness, by what it keeps. */
+/**
+ * What an ending that strains a tie writes to closeness, by what it keeps:
+ * hours of quarrel, or (`unit` "share of the tie") a share of the hours the
+ * tie stands on today.
+ */
 const ENDING_STRAIN = rulesFile.endingStrain as unknown as Readonly<
-  Record<string, { value: number } | undefined>
+  Record<string, { value: number; unit?: string } | undefined>
 >;
+const SHARE_OF_TIE = "share of the tie";
+
+/** The hours an ending's strain takes off the tie between two people today. */
+export function endingStrainHours(
+  core: Pick<CoreState, "data" | "date" | "relationships">,
+  keeps: string,
+  a: PersonId,
+  b: PersonId,
+): number | undefined {
+  const row = ENDING_STRAIN[keeps];
+  if (!row) return undefined;
+  return row.unit === SHARE_OF_TIE
+    ? row.value * tieHoursBetween(core, a, b)
+    : row.value;
+}
 
 /**
  * The player's reply in a scene with a purpose, by its path through the tree
@@ -3160,6 +3264,9 @@ export function replyInScene(
         ? "no"
         : undefined
     : undefined;
+  const promised = ending
+    ? promiseReplyFacts({ ...scene, endingId: ending.id })
+    : {};
   applyCoreEvent(core, {
     id,
     date: core.date,
@@ -3182,7 +3289,7 @@ export function replyInScene(
       // A promise a record can settle: its kind and its tie, from the
       // ending's row in src/director/data/promise-kinds.json (promises.ts). stopgapId:
       // SG-WORDS-favor-promise-keeps-unread (endings with no row yet)
-      ...(ending ? promiseReplyFacts({ ...scene, endingId: ending.id }) : {}),
+      ...promised,
       ...(ending?.firmness ? { firmness: ending.firmness } : {}),
       // A promise made on a resident's own question names it, for the
       // Journal (ruling 72).
@@ -3198,6 +3305,12 @@ export function replyInScene(
     },
   });
   entry.replies = [...(entry.replies ?? []), id];
+  // A yes to come to a meeting with a friend: the player is marked to attend
+  // it (the calendar's own mark) and the friend is written onto it, so the
+  // meeting's record says who came (promises.ts settles the promise on it).
+  const meetingPromised = promised["promise-meetingId"];
+  if (meetingPromised && core.modules.has(OFFICE_DAY_MODULE_ID))
+    pledgeToCome(coreAPI(core), meetingPromised, scene.askerId);
   // Office hours: the official's answer settles the resident's case through the
   // cases engine, the way the desk's decision does, citing this reply. "I'll
   // make the call" and "Let me refer you" are help; "I can't help" is a decline;
@@ -3286,7 +3399,9 @@ export function replyInScene(
       undefined,
       { cause: "scene-reply", sourceId: id },
     );
-  const strain = ending ? ENDING_STRAIN[ending.keeps]?.value : undefined;
+  const strain = ending
+    ? endingStrainHours(core, ending.keeps, scene.askedId, scene.askerId)
+    : undefined;
   if (strain)
     coreAPI(core).relationship(
       scene.askedId,
@@ -3306,4 +3421,33 @@ export function replyInScene(
       { cause: "scene-put-off", sourceId: id },
     );
   return id;
+}
+
+/**
+ * How a turnout looks, read from the action's own record as it stands when the
+ * scene is composed (`turnoutOf`, public-action.ts, from its share of the
+ * town's adults): a scene says "a few",
+ * "a group" or "a crowd" and never the figure (owner's rule, no count in a
+ * scene). `turnout-many` is set for the two larger looks, for lines that
+ * serve both.
+ */
+function turnoutFacts(
+  turnout: "few" | "group" | "crowd" | undefined,
+  actionId: string,
+): Record<string, Fact> {
+  if (!turnout) return {};
+  const fact = (text: string): Fact => ({ text, sourceRecordIds: [actionId] });
+  return {
+    [`turnout-${turnout}`]: fact("yes"),
+    ...(turnout !== "few" ? { "turnout-many": fact("yes") } : {}),
+  };
+}
+
+/** How the turnout looked when the action formed: the fact its civic record keeps (public-action.ts, `turnout`), the same one the paper reads. */
+function turnoutOf(
+  value: string | undefined,
+): "few" | "group" | "crowd" | undefined {
+  return value === "few" || value === "group" || value === "crowd"
+    ? value
+    : undefined;
 }

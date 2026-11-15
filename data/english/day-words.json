@@ -104,5 +104,13 @@
     "Thursday",
     "Friday",
     "Saturday"
-  ]
+  ],
+  "ahead": {
+    "about": "A later day as a friend says it when asking the player along (Words lead, Nov 15: the day is said as 'tonight', 'tomorrow night' or the day): the same day or the next, by whether the thing starts in the evening, else 'on' and the day from dayAhead. Read by dayAheadSaid in src/english/day-words.ts.",
+    "today": "today",
+    "tonight": "tonight",
+    "tomorrow": "tomorrow",
+    "tomorrowNight": "tomorrow night",
+    "on": "on {day}"
+  }
 }

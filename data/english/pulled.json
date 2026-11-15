@@ -1,9 +1,6 @@
 {
   "schema": "english-pulled/1",
   "pulled": {
-    "conversation.farewell-core.all-right-then-player-fir": [
-      "plain-american-spelling-and-phrasing"
-    ],
     "conversation.farewell-leave-bye.all-right-then": [
       "plain-american-spelling-and-phrasing"
     ],
@@ -86,16 +83,12 @@
       "plain-american-reads-stiff"
     ],
     "conversation.farewell-core.all-right-bye": ["alright-in-dialogue"],
-    "conversation.farewell-core.all-right-then-player-fir": [
-      "alright-in-dialogue"
-    ],
     "conversation.farewell-core.well-all-right": [
       "no-filler",
       "alright-in-dialogue"
     ],
     "conversation.farewell-core.well-bye": ["no-filler"],
     "conversation.farewell-core.well-goodbye-player-first": ["no-filler"],
-    "conversation.farewell-core.well-player-first-goodbye": ["no-filler"],
     "conversation.farewell-core.well-see-you": ["no-filler"],
     "conversation.farewell-core.well-take-care": ["no-filler"],
     "conversation.farewell-core.well-that-s-that": ["no-filler"],
@@ -330,6 +323,6 @@
   "awaitingVerdict": {
     "narration-assumes-no-reason": 0,
     "player-never-says-unchosen (pairs)": 0,
-    "reply-second-move-follows-the-first (pairs)": 11673
+    "reply-second-move-follows-the-first (pairs)": 11616
   }
 }

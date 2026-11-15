@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "variants-differ-in-what-they-say",
   "rubric": "Variants of a slot differ in what they say, each tied to a fact in the record, not only in wording; a bank grows by adding conditions and specifics, not more generic lines.",
-  "judged": 1200,
+  "judged": 1188,
   "no": {
     "006el8dj9s1": {
       "keys": [
@@ -2078,13 +2078,6 @@
         "scene-talk.state-confront.pressed.money-s-tight-for-me-too-first-so-a-missed-payment-hits-hard-i-need-you-to-own-it"
       ],
       "why": "Both lines say money is tight and ask the player to own it."
-    },
-    "0xfitzgld25": {
-      "keys": [
-        "scene-talk.reply-deflect.i-ll-take-the-next-hand",
-        "scene-talk.reply-deflect.that-s-a-good-one-for-another-night"
-      ],
-      "why": "Both put the question off, a rewording."
     },
     "0xq94lfvewy": {
       "keys": [
@@ -4694,13 +4687,6 @@
       ],
       "why": "Both say the player will think it over, nearly identical."
     },
-    "25qirgaqgkk": {
-      "keys": [
-        "scene-talk.reply-promise.i-ll-answer-that-thanks-for-telling-me",
-        "scene-talk.reply-promise.then-i-d-better-say-where-i-stand-on-it"
-      ],
-      "why": "Both lines say the same thing, that the player will answer the rival's claim."
-    },
     "25y6gx6i6h1": {
       "keys": [
         "scene-talk.close-promise.i-ll-hold-it-for-you-until-deadline",
@@ -4817,13 +4803,6 @@
         "scene-talk.reply-ask.what-about-you-you-go-first"
       ],
       "why": "Both turn the question back on the other person, nearly identical."
-    },
-    "27zaqio78ml": {
-      "keys": [
-        "scene-talk.reply-deflect.i-m-not-going-to-chase-every-flyer",
-        "scene-talk.reply-deflect.let-them-talk-i-m-running-my-own-race"
-      ],
-      "why": "Both lines are the same brush-off of the rival's message in different words."
     },
     "280xrxg8jkt": {
       "keys": [
@@ -5373,5 +5352,5 @@
       "why": "Both lines promise to look into it before the deadline, the second only adding detail to the same promise."
     }
   },
-  "yesHash": "27dndy3vdwj"
+  "yesHash": "0wdxh2x6mg0"
 }

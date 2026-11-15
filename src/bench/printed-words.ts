@@ -3805,7 +3805,19 @@ const publicAction =
       {
         place: read.fact(place, f.actionId ?? ""),
         date: read.date(),
-        ...(f.size ? { number: read.fact(f.size, f.actionId ?? "") } : {}),
+        ...(f.size
+          ? {
+              number: read.fact(
+                new Intl.NumberFormat("en-US").format(Number(f.size)),
+                f.actionId ?? "",
+              ),
+            }
+          : {}),
+        // A turnout that looks like a crowd, as the record kept it when the
+        // action formed (the same fact a scene reads), is the one a story calls one.
+        ...(f.turnout === "crowd"
+          ? { crowd: read.fact("yes", f.actionId ?? "") }
+          : {}),
         ...issue,
         ...(area ? { area: read.fact(area, f.actionId ?? "") } : {}),
         [kind]: read.fact("yes", f.actionId ?? ""),

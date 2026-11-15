@@ -35,5 +35,5 @@ checked:
 
 **Files.** src/director/conversation.ts, data/english/parts/conversation.json, tests/guards/english/line-inserts-baseline.json
 
-**Notes.** Reworded text for the 33 lines is in the history of branch claude/project-thread-nue48y-p8 at e48dc1a5 (the farewell-core entries of data/english/parts/conversation.json).
+**Notes.** Built on branch claude/project-thread-nue48y-p11: the conversation keeps whether the other person had met the player when the talk opened (`metBeforeAtOpen`), and `saysName` reads that. The reworded text of the 33 goodbyes is in; twins cut onto them are deleted without moving their uses, and "Good talking with you." is deleted because it was not said in any played talk at four places. Pinned test: src/director/goodbye-met-before.test.ts (Kingston 3238100, seed c1).
 ---

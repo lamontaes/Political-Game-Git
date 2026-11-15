@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "later-replies-move-the-talk-on",
   "rubric": "After the first exchange the replies offered do not rehash the first options; they move the talk on.",
-  "judged": 1018,
+  "judged": 1008,
   "no": {
     "00084oe3x4o": {
       "keys": [
@@ -2640,20 +2640,6 @@
       ],
       "why": "Most of the replies offered now restate the first replies' apology, excuse, push-back or stopping point in new words."
     },
-    "1athb2eqm9b": {
-      "keys": [
-        "scene-talk.follow-press.then-tell-us-it-will-last-not-just-that-youre-glad",
-        "scene-talk.reply-agree.happy-to-thank-you-for-asking-me",
-        "scene-talk.reply-thank.thank-you-for-coming-out-it-means-a-lot-to-see-this",
-        "scene-talk.reply-promise.thank-you-ill-keep-working-to-make-it-last",
-        "scene-talk.reply-deflect.you-did-this-not-me-ill-stay-at-the-back",
-        "scene-talk.reply-agree.lead-the-way-id-like-to-say-something",
-        "scene-talk.reply-promise.better-doesnt-mean-done-ill-keep-at-it",
-        "scene-talk.reply-thank.thank-you-all-i-didnt-expect-a-crowd",
-        "scene-talk.reply-leave.i-have-to-go-thank-you-all-for-this"
-      ],
-      "why": "Agreeing to speak, promising to keep at it and thanking the crowd reword three of the first four replies."
-    },
     "1b18tyz8w5p": {
       "keys": [
         "scene-talk.follow-press.you-cant-ignore-me-forever-first",
@@ -4637,5 +4623,5 @@
       "why": "Two of three replies restate first options: the denial of any payment repeats the first denial, and declining to discuss it repeats having to go."
     }
   },
-  "yesHash": "1f6pnawfbgt"
+  "yesHash": "0etlok9c23p"
 }

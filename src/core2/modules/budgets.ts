@@ -1457,32 +1457,51 @@ export function baseBudget(
 }
 
 /**
- * What a government collected over the fiscal year before `fy`, over what that
- * year's budget expected: 1 until a whole year of its treasury's months is
- * recorded, and for governments whose receipts are not voted from
- * (SG-GOV-spending-vote-state-county).
+ * What a government collected over the fiscal year before `fy` (its own
+ * receipts, borrowing left out), over the Census base's revenue for that
+ * year: 1 until a whole year of its treasury's months is recorded. The nation,
+ * every state and every county re-budget their revenue from it each year, so
+ * the plan follows what the law in force actually brought in (owner, Nov 12:
+ * budgeted revenue must move; `outside-budgets.ts` does the same for the other
+ * states from the country tier's ledgers). Other governments hold 1.
  */
-function receiptsFactor(api: CoreAPI, gov: GovernmentRow, fy: number): number {
-  if (gov.level !== "state" && gov.level !== "county") return 1;
-  api.stopgap("SG-GOV-spending-vote-state-county");
+function collectionsOverBase(
+  api: CoreAPI,
+  gov: GovernmentRow,
+  fy: number,
+): number {
+  if (
+    gov.level !== "federal" &&
+    gov.level !== "state" &&
+    gov.level !== "county"
+  )
+    return 1;
   const from = `${fy - 1}-${gov.fiscalYearStart}`;
   const to = `${fy}-${gov.fiscalYearStart}`;
-  const planned = budgetsOf(api, gov.id).find((b) => b.fiscalYear === fy - 1);
-  if (!planned) return 1;
-  const expected = Object.values(planned.revenueMinor).reduce(
-    (a, v) => a + v,
-    0,
-  );
+  const expected = Object.values(
+    baseBudget(api, gov, fy - 1).revenueMinor,
+  ).reduce((a, v) => a + v, 0);
   let collected = 0;
   let months = 0;
   for (const m of treasuryMonthsOf(api, gov.id))
     if (m.date >= from && m.date < to) {
-      collected += m.collectedMinor;
+      collected += m.collectedMinor - m.borrowedMinor;
       months += 1;
     }
   return months === treasuryMonthsPerYear() && expected > 0
     ? collected / expected
     : 1;
+}
+
+/**
+ * The factor a government's spending follows: what a state or county collected
+ * last fiscal year over its Census base. The nation's spending is voted, not
+ * read from receipts (SG-GOV-spending-vote-state-county), so it holds 1.
+ */
+function receiptsFactor(api: CoreAPI, gov: GovernmentRow, fy: number): number {
+  if (gov.level !== "state" && gov.level !== "county") return 1;
+  api.stopgap("SG-GOV-spending-vote-state-county");
+  return collectionsOverBase(api, gov, fy);
 }
 
 function legislatedBudget(
@@ -1503,6 +1522,15 @@ function legislatedBudget(
   // A state or county spends in proportion to what it collected last fiscal
   // year over what its plan expected (a sliding scale, no threshold).
   const receipts = receiptsFactor(api, gov, fy);
+  // Revenue is re-budgeted every year from what the government collected under
+  // the law in force, in the published mix of lines.
+  const collected = collectionsOverBase(api, gov, fy);
+  const revenue = Object.fromEntries(
+    Object.entries(base.revenueMinor).map(([line, v]) => [
+      line,
+      Math.round(v * collected),
+    ]),
+  );
   const spending = Object.fromEntries(
     Object.entries(base.spendingMinor).map(([line, v]) => [
       line,
@@ -1512,7 +1540,12 @@ function legislatedBudget(
   for (const set of [enactedBudgetChanges(api, gov.id), changes])
     for (const [line, delta] of Object.entries(set))
       spending[line] = Math.max(0, (spending[line] ?? 0) + delta);
-  return { ...base, spendingMinor: spending, receiptsFactor: receipts };
+  return {
+    ...base,
+    revenueMinor: revenue,
+    spendingMinor: spending,
+    receiptsFactor: receipts,
+  };
 }
 
 /**

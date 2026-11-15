@@ -6,10 +6,10 @@ lead: laws
 kind: bug
 priority: 3
 size: M
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: account-lead-builder
+pr: 9472
 after:
 blocked-on:
 model: opus
@@ -24,6 +24,8 @@ checked:
 **Cause.** Found in code: the speech module's `addresses` table (src/core2/modules/speech.ts, `addressesGivenBy`) and the office-day acts table start empty at the opening; no past module (housing-past.ts and macro-world-past.test.ts are the pattern) writes an address.
 
 **Fix.** Add the past address to the opening the way the other past records are written (a speech row and an act row dated last year for each executive by the custom, from the same decision as the world's), with no new engine.
+
+**Built (Nov 15).** `openingActs` in src/core2/modules/office-day.ts, called at the end of `openOfficeDay`, writes for every serving holder who has office duties one office-hours row and one town-hall row dated inside that kind's interval before the start (spread by position, no draw), and for each mayor and county executive a state-of-the-city row dated last year in the address season. Governors and the President are not written: their addresses run through the state and federal calendars. No speech-table row is written, because no engine reads one. Pinned test src/bench/opening-acts.test.ts (Edmore ND, Odessa WA). Four weeks of play show the same act counts with and without; what changes is the day-one duty need (0.94 and 0.97 instead of due).
 
 **Time box.** 4 hours for one Opus session.
 

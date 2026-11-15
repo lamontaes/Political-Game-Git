@@ -47,6 +47,30 @@ describe(`a town hall is held on a cadence (seed ${seed})`, () => {
           ]) as unknown as TermRow[]
       )[0]!.personId!;
       const offered = () => (townHallDue(api, officeHost, member) ? 1 : 0);
+      const interval = api.parameter("townHallIntervalDays");
+      const date = (days: number) => {
+        const at = new Date(`${core.date}T00:00:00Z`);
+        at.setUTCDate(at.getUTCDate() + days);
+        return at.toISOString().slice(0, 10);
+      };
+      // A world opens with the last town hall some days back (day one in
+      // motion), so the next one comes due once the interval since it has
+      // passed; a holder with none behind them is due at once.
+      const opening = officeHost.lastGiven(api, member, "town-hall");
+      if (opening) {
+        const ago = Math.round(
+          (Date.parse(`${core.date}T00:00:00Z`) -
+            Date.parse(`${opening}T00:00:00Z`)) /
+            86_400_000,
+        );
+        expect(
+          ago,
+          "the opening's last town hall is inside the interval",
+        ).toBeLessThan(interval);
+        if (offered())
+          throw new Error(`due on day one with one ${ago} days back`);
+        advanceCore(core, date(Math.ceil(interval) - ago));
+      }
       expect(offered(), `${place.name}; seed ${place.seed}`).toBeGreaterThan(0);
       // One a day: a town hall they already hosted today (an incumbent's
       // forum for their race is one) keeps the office's town hall off the
@@ -57,7 +81,7 @@ describe(`a town hall is held on a cadence (seed ${seed})`, () => {
       expect(
         officeHost.lastGiven(api, member, "town-hall"),
         "the act held none",
-      ).toBeFalsy();
+      ).toBe(opening);
       expect(
         api.moduleState(MEETINGS_MODULE_ID).table("townHalls").get(hall.id),
         "today's town hall stands",
@@ -71,18 +95,15 @@ describe(`a town hall is held on a cadence (seed ${seed})`, () => {
         detail: "fixture",
       });
       expect(offered(), "just held one").toBe(0);
-      const interval = api.parameter("townHallIntervalDays");
-      const date = (days: number) => {
-        const at = new Date(`${core.date}T00:00:00Z`);
-        at.setUTCDate(at.getUTCDate() + days);
-        return at.toISOString().slice(0, 10);
-      };
       advanceCore(core, date(Math.floor(interval) - 1));
       expect(offered(), "a day short of the interval").toBe(0);
       advanceCore(core, date(1));
       expect(offered(), "the interval has passed").toBeGreaterThan(0);
       expect(
-        officeActsOf(api, member).filter((row) => row.kind === "town-hall"),
+        officeActsOf(api, member).filter(
+          (row) =>
+            row.kind === "town-hall" && row.detail !== "before the start",
+        ),
       ).toHaveLength(1);
       return;
     }
