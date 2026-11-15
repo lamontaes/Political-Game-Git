@@ -206,13 +206,17 @@ function ask(w: World, personId: string, take: "thank" | "accept") {
   expect(index, `${w.where}: no ${take} reply`).toBeGreaterThanOrEqual(0);
   const replyId = replyInScene(w.core, w.director, w.playerId, entry!, [index]);
   const reply = w.core.durableLog.get(replyId!)!;
-  const chosen = scene.talk.tree.replies[index]!;
+  // As the player plays it: the replies offered under "You say:", each with
+  // the answer it draws, and the one taken marked.
   const lines = [
     ...scene.talk.narration.map((l) => `Narrator: ${l.text}`),
     `${scene.talk.state.speaker}: ${scene.talk.state.text}`,
     `${first.speaker}: ${first.text}`,
-    `${chosen.line.speaker}: ${chosen.line.text}`,
-    ...(chosen.next?.lines.map((l) => `${l.speaker}: ${l.text}`) ?? []),
+    "You say:",
+    ...scene.talk.tree.replies.flatMap((r, i) => [
+      `  ${i + 1}. ${r.line.text}${i === index ? "  (taken)" : ""}`,
+      ...(r.next?.lines.map((l) => `     ${l.speaker}: ${l.text}`) ?? []),
+    ]),
   ];
   return {
     row,
@@ -319,6 +323,18 @@ for (const place of PLACES)
         ).toEqual(["accept"]);
         expect(again.reply.facts?.ending, w.where).toBe("turned-down");
         expect(again.after?.answer, w.where).toBe("no");
+        // A third ask a month later reads the second no the same way.
+        advanceCore(w.core, addDays(makeIsoDate(w.core.date), 31));
+        const third = ask(w, no.id, "accept");
+        out.push("-- asked a third time a month on:", ...third.lines);
+        expect(
+          third.scene.facts.some((row) => row.key === "asked-before"),
+          w.where,
+        ).toBe(true);
+        expect(
+          third.scene.talk.tree.replies.map((reply) => reply.line.move),
+          w.where,
+        ).toEqual(["accept"]);
         // 3. A yes from someone willing: seated on the ticket, and the asks
         // for the seat are dropped (the table holds only open seats' asks).
         const pick = offeredRunningMates(api, w.filing.id)!.choices.find(

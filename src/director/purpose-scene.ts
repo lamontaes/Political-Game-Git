@@ -1896,6 +1896,13 @@ function composeBinding(
         text: "yes",
         sourceRecordIds: [...why, serve.askedBefore],
       };
+      // More than one no before: the opening says so (never the count), and
+      // a no may now be short with the player, earned by being asked again.
+      if (serve.noesBefore > P.one)
+        facts["asked-more-than-once"] = {
+          text: "yes",
+          sourceRecordIds: [...why, serve.askedBefore],
+        };
       if (serve.standing.lean <= P.zero && serve.reasonBefore === serve.reason)
         facts["nothing-moved"] = {
           text: "yes",
@@ -2234,6 +2241,7 @@ function serveStanding(
       moved: string | null;
       askedBefore: string | null;
       reasonBefore: string | null;
+      noesBefore: number;
     }
   | undefined {
   const row = serveAsk(coreAPI(core as CoreState), said.askId ?? "");
@@ -2261,6 +2269,7 @@ function serveStanding(
     moved: row.moved ?? null,
     askedBefore: row.askedBefore ?? null,
     reasonBefore: row.reasonBefore ?? null,
+    noesBefore: row.noesBefore ?? P.zero,
   };
 }
 

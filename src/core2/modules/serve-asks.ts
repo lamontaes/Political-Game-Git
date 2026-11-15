@@ -151,6 +151,8 @@ export interface ServeAskRow {
   readonly askedBefore?: string | null;
   /** The reason that weighed most against the ask at that no. */
   readonly reasonBefore?: string | null;
+  /** How many times they have said no to this seat before this ask. */
+  readonly noesBefore?: number;
 }
 
 export type ServeMoved = "met" | "standing" | "agree" | "heard" | "seat";
@@ -636,6 +638,7 @@ export function askToServe(
       earlier?.answer === "no" ? movedSince(earlier.standing, standing) : null,
     askedBefore: earlier?.answer === "no" ? earlier.eventId : null,
     reasonBefore: earlier?.answer === "no" ? earlier.standing.reason : null,
+    noesBefore: (earlier?.noesBefore ?? 0) + (earlier?.answer === "no" ? 1 : 0),
   };
   table(api).put(row as unknown as ModuleRow);
   api.emit({

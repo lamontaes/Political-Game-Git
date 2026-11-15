@@ -1102,12 +1102,23 @@ export function composeSceneTalk(
     const secondNo =
       !yes && !carried && standing.lean <= zero && !!facts["asked-before"];
     const afterLed = new Map<TreeNode, TreeReply>();
+    // On a second ask a plea is offered only where the favor record holds
+    // something, and pressing only where they lean for it already (Words
+    // lead, Nov 15): asking again with nothing behind it is not offered.
+    const askedAgain = !!facts["asked-before"];
+    const backed = (weighs: AskCarries) =>
+      !askedAgain ||
+      (weighs === "favor"
+        ? standing.favor > zero
+        : weighs === "lean"
+          ? standing.lean > zero
+          : true);
     for (const again of yes
       ? [{ move: ask.thanks, carries: "none" as const }]
       : secondNo
         ? ask.again.filter((row) => row.carries === "none")
         : ask.again) {
-      if (!offered(again.carries)) continue;
+      if (!offered(again.carries) || !backed(again.carries)) continue;
       const line = mine(
         {
           step: "follow",

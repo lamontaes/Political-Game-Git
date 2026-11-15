@@ -60,6 +60,9 @@ const PLACES = [
 ] as const;
 const TYPE = "bill-sign-on";
 /** What the three places played, together: the reasons said for a no, and the lines that need a record. */
+/** Colleagues who said no that each place asks again, so every second-ask line plays. */
+const AGAIN = 3;
+
 /** Whether a bank piece is placed by the record of an earlier ask. */
 function readsAskedBefore(key: string): boolean {
   return (
@@ -240,6 +243,14 @@ describe("asking colleagues to sign on", () => {
         const talk = result.scene.talk;
         const colleague = cause.facts!.askedId!;
         expect(talk.askerId, where).toBe(colleague);
+        // The narration names the colleague the player goes to, never the
+        // player.
+        expect(talk.narration[0]!.text, where).toContain(
+          core.people.get(colleague as PersonId)!.givenName,
+        );
+        expect(talk.narration[0]!.text, where).not.toContain(
+          core.people.get(player)!.givenName,
+        );
         firstTalks.set(
           cause.facts!.billId! + "|" + colleague,
           playedTalk(talk),
@@ -331,7 +342,7 @@ describe("asking colleagues to sign on", () => {
       // Asked again on the same question: the colleague who said no knows it,
       // and the one who voted no before says so.
       const again = [
-        ...refused.slice(0, 1).map((row) => ({
+        ...refused.slice(0, AGAIN).map((row) => ({
           question: billOf(api, row.billId)!.provisions[0]!.question!,
           colleague: row.colleague,
         })),
