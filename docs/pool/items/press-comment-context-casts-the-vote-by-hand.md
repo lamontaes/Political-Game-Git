@@ -36,3 +36,5 @@ Seen: on the reporter's call after a council vote, in the lines a words reader s
 **Files.** src/director/press-comment-context.test.ts
 
 **Notes.**
+
+- Nov 15, builder: the test still words each call with `composeSceneTalk`, the purpose swapped to each variant and the reporter's traits set by hand, so the lines it prints are composed, not played. This item fixes only the vote, as the Account lead ordered; the played after-vote lines are src/director/press-comment-after-vote.test.ts on #9584.
