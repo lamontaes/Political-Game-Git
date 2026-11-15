@@ -37,21 +37,21 @@
     "turnoutGroupMinPeople": {
       "value": 5,
       "role": "level",
-      "tag": "ESTIMATED",
+      "tag": "TUNABLE",
       "spread": "3 to 8",
       "note": "The fewest people who are a group: below this count a turnout is a few people whatever the town's size, so two residents of a small town are never a group that someone steps out of."
     },
     "turnoutFewMaxPeople": {
       "value": 12,
       "role": "level",
-      "tag": "ESTIMATED",
+      "tag": "TUNABLE",
       "spread": "8 to 20",
       "note": "From this many people a turnout is never said as a few, whatever the town's size: two hundred in a large city are a small share of it and still not a few people."
     },
     "turnoutCrowdMinPeople": {
       "value": 10,
       "role": "level",
-      "tag": "ESTIMATED",
+      "tag": "TUNABLE",
       "spread": "8 to 20",
       "note": "The fewest people who are a crowd: below this count a turnout is a group at most, whatever its share of the town."
     },
