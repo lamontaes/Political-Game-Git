@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "reply-follows-the-line-before",
   "rubric": "You are checking lines of dialogue for a game set in American politics and ordinary life. For each pair, the first line (A) was just said by one person and the second (B) is the other person's reply. Words in {braces} stand for a name, a place or a number. Each pair also names its scene: what the whole conversation is about (for example \"conflict accuse\", \"floor switch\", \"family loss\"). Earlier lines of the scene are not shown. B may refer to the scene's own subject (the bill, the vote, the firm, the loss) even when A does not repeat it; that alone is never a reason to say B does not follow.\n\nFor each pair, do this in order:\n1. Say to yourself what A does: asks something (what?), offers something (what?), states something (what?), agrees to something, thanks, refuses, or says it is leaving.\n2. Find what B reacts to. B's main point is the thing it answers, agrees with, thanks for, pushes back on, promises, or asks about. Look for that thing in A.\n3. B FOLLOWS when that thing is in A: a real person could say B right after hearing A, and a listener would know what B is responding to. A reply may dodge, refuse, joke or change the subject on purpose and still follow, if a listener would understand it as a response to A.\n4. B does NOT follow when any of these is true:\n   - B answers a question A did not ask, or acts as if A had told a story, made a case, made an offer, given a plan or apologized when A did not;\n   - A asked a direct question or made a direct request and B neither answers it, refuses it, nor visibly dodges it;\n   - B agrees or disagrees with, or thanks A for, something A did not say;\n   - B leans on \"it\", \"that\", \"them\", \"the third\" or the like and A gives nothing it could mean;\n   - A already did the thing B asks for (A gave the plan and B asks what the plan is; A said yes and B treats it as a no; A has not told the story yet and B asks whether that is all of it);\n   - B's tone answers a different situation (A agrees warmly and B shrugs it off as if overruled).\n5. Do not judge whether either line is well written, only whether B follows A. Do not give B the benefit of an imagined earlier conversation: only A was said. If a listener would have to guess what B refers to, it does not follow.\n\nExamples that do NOT follow:\n- A: \"Give me a minute. I'll explain how it happened.\" B: \"And that's everything?\" (A has not explained anything yet.)\n- A: \"I'll call the landlord tomorrow and set up a payment by Friday.\" B: \"Sorry isn't enough. What's your plan?\" (A just gave the plan and did not say sorry.)\n- A: \"Count me in. I'll tell them tonight.\" B: \"Have it your way.\" (B answers a refusal, and A agreed.)\n- A: \"We open at nine on Saturdays.\" B: \"I never said that about your brother.\" (Nothing in A is about a brother or a claim.)\nExamples that DO follow:\n- A: \"Would you sign my petition?\" B: \"I don't really follow local politics.\" (A dodge a listener understands.)\n- A: \"You can't avoid me forever.\" B: \"I've said all I'm going to say.\"\n- A: \"I need your vote on this.\" B: \"What's in it for my district?\"",
-  "judged": 3491,
+  "judged": 3401,
   "no": {
     "005r70dinlx": {
       "keys": [
@@ -11,33 +11,12 @@
       ],
       "why": "'The third' has no referent in A."
     },
-    "007b5exubhe": {
-      "keys": [
-        "scene-talk.reply-thank.i-couldn-t-have-run-it-without-you-not-one-day-of-it",
-        "scene-talk.follow-thank.then-we-do-it-with-a-number-before-we-start"
-      ],
-      "why": "The line before is a thank-you, so a reply starting with \"Then\" about another run answers a plan nobody mentioned."
-    },
-    "00twl66sfau": {
-      "keys": [
-        "scene-talk.follow-disagree.don-t-carry-it-by-yourself-i-was-in-it-too",
-        "scene-talk.reply-tell.it-s-hard-to-hear-it-was-that-close"
-      ],
-      "why": "Nobody in the talk has said the race was close, so there is nothing for this reply to answer (M5 overrule for consistency: the same reply failed after every other line that does not mention the margin)."
-    },
     "010ckajk5hi": {
       "keys": [
         "scene-talk.follow-press.two-pages-and-i-have-them-right-here",
         "scene-talk.reply-agree.all-right-one-meeting-then-we-ll-see"
       ],
       "why": "The reply agrees to come to a meeting, but the line before only offered the pages."
-    },
-    "017ole24y1c": {
-      "keys": [
-        "scene-talk.follow-plea.talk-to-me-that-was-ours-and-i-d-like-to-hear-you-say-something",
-        "scene-talk.reply-thank.you-gave-it-your-time-when-you-didn-t-have-to-i-won-t-forget-that"
-      ],
-      "why": "A says the money was theirs together, and thanking them for their time passes over that complaint."
     },
     "01afwmhcrxb": {
       "keys": [
@@ -60,6 +39,13 @@
       ],
       "why": "A asks how it won't recur and says sorry helped; B just apologizes first time."
     },
+    "02olrtovp6u": {
+      "keys": [
+        "scene-talk.reply-leave.i-need-to-go-thanks-though",
+        "scene-talk.close-accept.anyway-good-luck"
+      ],
+      "why": "M5 withdraws its earlier overrule: a second fresh reviewer also read \"Anyway\" as changing the subject after the player leaves. Two readers agree, so it fails; a plain close (\"Sure. Good luck.\") would follow."
+    },
     "03c6h9995mb": {
       "keys": [
         "scene-talk.follow-press.five-i-ll-hold-the-phone",
@@ -67,47 +53,12 @@
       ],
       "why": "The aide has just granted five minutes and is waiting, so \"Not yet\" pushes back on a demand to call now that the line did not make."
     },
-    "03v630hqcjq": {
-      "keys": [
-        "scene-talk.follow-ask.are-you-sure-that-s-what-you-want",
-        "scene-talk.reply-tell.i-really-thought-we-had-it"
-      ],
-      "why": "The reply restates the loss instead of saying whether the player is sure about the plan they were asked about."
-    },
-    "04qcphwje3i": {
-      "keys": [
-        "scene-talk.follow-plea.talk-to-me-i-worked-this-race-and-tonight-i-d-like-to-hear-you-say-something",
-        "scene-talk.reply-thank.thanks-for-waiting-up"
-      ],
-      "why": "Thanking them for waiting up does not answer what A just said."
-    },
     "04qttiyvz5v": {
       "keys": [
         "scene-talk.reply-leave.i-can-t-decide-this-right-now",
         "scene-talk.close-accept.best-of-luck-to-you"
       ],
       "why": "The reply treats a request for time as a refusal, and the line before refused nothing."
-    },
-    "054s7ambrhh": {
-      "keys": [
-        "scene-talk.follow-comfort.you-did-what-a-candidate-does-sit-down-with-me-for-a-minute",
-        "scene-talk.reply-deflect.don-t-ask-me-about-the-money-tonight"
-      ],
-      "why": "The line before says nothing about counting or the money, so putting off adding it up answers a question nobody asked."
-    },
-    "05dg7igkpho": {
-      "keys": [
-        "scene-talk.follow-comfort.you-spent-it-on-something-you-believed-in-sit-down-with-me-for-a-minute",
-        "scene-talk.reply-tell.it-s-hard-to-hear-it-was-that-close"
-      ],
-      "why": "Nobody just said the race was close, so \"hard to hear\" answers a line that was never spoken."
-    },
-    "06mlybunvgx": {
-      "keys": [
-        "scene-talk.reply-promise.i-ll-run-again-this-time-we-agree-on-a-number-first",
-        "scene-talk.follow-ask.again-then-tell-me-what-s-different-next-time"
-      ],
-      "why": "A just said they will agree on a number first, so asking what is different ignores the answer A gave."
     },
     "07nhc2mdyc8": {
       "keys": [
@@ -123,33 +74,12 @@
       ],
       "why": "A did not apologize; B says sorry doesn't tell who was involved."
     },
-    "08oqhxixe91": {
-      "keys": [
-        "scene-talk.follow-comfort.it-isn-t-on-you-we-put-it-in-knowing-it-might-not-come-back",
-        "scene-talk.reply-tell.it-s-hard-to-hear-it-was-that-close"
-      ],
-      "why": "Nobody in the talk has said the race was close, so there is nothing for this reply to answer (M5 overrule for consistency: the same reply failed after every other line that does not mention the margin)."
-    },
-    "09658exwl1w": {
-      "keys": [
-        "scene-talk.follow-disagree.don-t-add-it-up-tonight-we-knew-it-could-go-this-way-when-we-put-it-in",
-        "scene-talk.reply-tell.it-s-hard-to-hear-it-was-that-close"
-      ],
-      "why": "Nobody just said the race was close, so \"hard to hear\" answers a line that was never spoken."
-    },
     "09bkodv88x4": {
       "keys": [
         "scene-talk.reply-deny.taken.whoever-put-my-name-in-your-complaint-was-wrong",
         "scene-talk.follow-press.taken.sorry-doesn-t-tell-me-who-else-was-involved-first"
       ],
       "why": "B answers an apology A never made."
-    },
-    "0bbx1ix2mqi": {
-      "keys": [
-        "scene-talk.reply-promise.this-isn-t-the-end-of-it",
-        "scene-talk.follow-ask.again-then-i-ll-want-a-number-in-writing-before-another-dollar-goes-in"
-      ],
-      "why": "The reply echoes \"again\" as if the player had said they would run again, which this line does not say."
     },
     "0bghh99u4t5": {
       "keys": [
@@ -186,40 +116,12 @@
       ],
       "why": "The aide says the last precincts cannot change the result and says nothing about the race being close, so \"It was close\" answers a line that was not said."
     },
-    "0cxmmg6y2xk": {
-      "keys": [
-        "scene-talk.follow-ask.again-then-tell-me-what-we-have-left-to-put-in",
-        "scene-talk.reply-tell.i-really-thought-we-had-it"
-      ],
-      "why": "A asked what money is left to put in, and this reply does not answer it."
-    },
-    "0cy6mptsq70": {
-      "keys": [
-        "scene-talk.reply-blame.opponent-ran-a-dirty-race",
-        "scene-talk.follow-comfort.you-did-what-a-candidate-does-sit-down-with-me-for-a-minute"
-      ],
-      "why": "The player blamed the opponent, but the reply answers as if the player were blaming themselves or tallying the cost."
-    },
-    "0czdwwfncn9": {
-      "keys": [
-        "scene-talk.follow-plea.talk-to-me-that-was-ours-and-i-d-like-to-hear-you-say-something",
-        "scene-talk.reply-thank.thank-you-for-everything"
-      ],
-      "why": "A says the money was theirs together, and a general thank-you passes over that complaint."
-    },
     "0d1sct9aff9": {
       "keys": [
         "scene-talk.follow-confront.welcome-to-public-service",
         "scene-talk.reply-confront.i-m-not-planning-on-being-the-third"
       ],
       "why": "'The third' has no referent in A's welcome."
-    },
-    "0d6uboc1ulp": {
-      "keys": [
-        "scene-talk.follow-ask.again-then-i-ll-want-to-know-the-plan-before-i-give-you-another-month",
-        "scene-talk.reply-promise.i-m-running-again-and-i-want-you-in-it-again"
-      ],
-      "why": "The other person has already said \"again\" and set a condition first, so repeating the vow to run gives neither the plan nor the number asked for."
     },
     "0dgd9gtuh0v": {
       "keys": [
@@ -228,40 +130,12 @@
       ],
       "why": "A asks a question; \"I will\" answers nothing"
     },
-    "0dqxqcjx5iz": {
-      "keys": [
-        "scene-talk.follow-ask.again-then-i-ll-want-a-number-in-writing-before-another-dollar-goes-in",
-        "scene-talk.reply-promise.we-will-be-back"
-      ],
-      "why": "The other person has already said \"again\" and set a condition first, so repeating the vow to run gives neither the plan nor the number asked for."
-    },
-    "0elelg8qllt": {
-      "keys": [
-        "scene-talk.follow-plea.talk-to-me",
-        "scene-talk.reply-tell.it-s-hard-to-hear-it-was-that-close"
-      ],
-      "why": "Nobody in the talk has said the race was close, so there is nothing for this reply to answer (M5 overrule for consistency: the same reply failed after every other line that does not mention the margin)."
-    },
     "0f0mtplffmf": {
       "keys": [
         "scene-talk.follow-plea.i-don-t-want-us-to-end-with-shouting-can-you-give-me-that-much-and-let",
         "scene-talk.reply-confront.you-sit-me-down-and-hand-me-a-finished-plan-you-could-have-said-someth"
       ],
       "why": "A gave no finished plan; B reacts as if it did."
-    },
-    "0f6pmldc87j": {
-      "keys": [
-        "scene-talk.reply-thank.thank-you-for-everything",
-        "scene-talk.follow-thank.then-i-m-in-again-wake-me-when-you-ve-decided"
-      ],
-      "why": "\"Then\" picks up a plan to run again that the thank-you never raised, so the reply follows nothing in the line before."
-    },
-    "0f9gjyesqtv": {
-      "keys": [
-        "scene-talk.reply-promise.i-ll-run-again-this-time-we-agree-on-a-number-first",
-        "scene-talk.follow-thank.then-count-me-in-tell-me-when-you-decide"
-      ],
-      "why": "A just said they will run again, so asking to be told when they decide ignores that they already decided."
     },
     "0fmfeznegq9": {
       "keys": [
@@ -270,33 +144,12 @@
       ],
       "why": "B agrees with a point A never made; A only asks a question or says it wants to plan around the answer."
     },
-    "0frr9uvpxnj": {
-      "keys": [
-        "scene-talk.follow-comfort.it-isn-t-on-you-we-put-it-in-knowing-it-might-not-come-back",
-        "scene-talk.reply-thank.thanks-for-waiting-up"
-      ],
-      "why": "Thanking them for waiting up does not answer what A just said."
-    },
-    "0fxle7tjpiy": {
-      "keys": [
-        "scene-talk.follow-ask.again-then-i-ll-want-to-know-the-plan-before-i-give-you-another-month",
-        "scene-talk.reply-promise.this-isn-t-the-end-of-it"
-      ],
-      "why": "The other person has already said \"again\" and set a condition first, so repeating the vow to run gives neither the plan nor the number asked for."
-    },
     "0fzpe4an0w1": {
       "keys": [
         "scene-talk.reply-leave.let-me-call-you-back",
         "scene-talk.close-accept.okay-i-hope-something-good-comes-your-way"
       ],
       "why": "The reply treats a request for time as a refusal, and the line before refused nothing."
-    },
-    "0gfwu3vd8xl": {
-      "keys": [
-        "scene-talk.reply-stall.give-me-ten-minutes-alone-first",
-        "scene-talk.follow-press.people-are-watching-what-you-do-tonight-more-than-they-watched-the-rac"
-      ],
-      "why": "The candidate asks for ten minutes alone, and the reply neither grants nor refuses the minutes but lectures as if the candidate had refused to concede."
     },
     "0gi5qgw614k": {
       "keys": [
@@ -347,13 +200,6 @@
       ],
       "why": "The candidate just said something, so \"say something to me\" ignores the line before."
     },
-    "0hakdus2cvg": {
-      "keys": [
-        "scene-talk.follow-plea.look-at-me-i-worked-this-race-too-and-i-need-you-to-say-one-true-thing",
-        "scene-talk.reply-deflect.don-t-ask-me-about-the-money-tonight"
-      ],
-      "why": "The line before says nothing about counting or the money, so putting off adding it up answers a question nobody asked."
-    },
     "0i8e0laa1yw": {
       "keys": [
         "scene-talk.follow-comfort.sit-down-i-ll-heat-it-up",
@@ -368,27 +214,6 @@
       ],
       "why": "Nobody said the race was close, so the reply answers something that was never said."
     },
-    "0ilgfmf45te": {
-      "keys": [
-        "scene-talk.follow-disagree.don-t-carry-it-by-yourself-i-was-in-it-too",
-        "scene-talk.reply-thank.thanks-for-waiting-up"
-      ],
-      "why": "Thanking them for waiting up does not answer what A just said."
-    },
-    "0iny2kkp1wm": {
-      "keys": [
-        "scene-talk.follow-disagree.don-t-do-that-to-yourself",
-        "scene-talk.reply-thank.you-stood-behind-me-while-i-spent-it-thank-you"
-      ],
-      "why": "Being told not to blame yourself is not answered by thanking the speaker for their time and support."
-    },
-    "0j05gmdv8vq": {
-      "keys": [
-        "scene-talk.follow-ask.again-then-i-ll-want-a-number-in-writing-before-another-dollar-goes-in",
-        "scene-talk.reply-promise.i-m-running-again-and-i-want-you-in-it-again"
-      ],
-      "why": "The other person has already said \"again\" and set a condition first, so repeating the vow to run gives neither the plan nor the number asked for."
-    },
     "0j6afjghqut": {
       "keys": [
         "scene-talk.follow-answer.about-twenty-of-us-mostly-neighbors",
@@ -396,26 +221,12 @@
       ],
       "why": "The reply picks a job from a list the line before never gave."
     },
-    "0jjmh80vdxv": {
-      "keys": [
-        "scene-talk.reply-thank.you-gave-it-your-time-when-you-didn-t-have-to-i-won-t-forget-that",
-        "scene-talk.follow-thank.then-i-m-in-again-wake-me-when-you-ve-decided"
-      ],
-      "why": "The line before is a thank-you, so a reply starting with \"Then\" about another run answers a plan nobody mentioned."
-    },
     "0jr9cjjfmfz": {
       "keys": [
         "scene-talk.follow-confront.fine-i-will-tuesday-at-the-mic",
         "scene-talk.reply-confront.and-mine-pays-for-half-the-projects-in-yours"
       ],
       "why": "A agrees to apologize Tuesday; B's remark about paying for projects is unrelated."
-    },
-    "0jtvxomdkeb": {
-      "keys": [
-        "scene-talk.follow-ask.again-then-tell-me-what-s-different-next-time",
-        "scene-talk.reply-tell.we-didnt-win"
-      ],
-      "why": "A asked what will be different next time, and this reply does not say."
     },
     "0jutidahoca": {
       "keys": [
@@ -431,13 +242,6 @@
       ],
       "why": "A asks who else knew; B gives a voting justification"
     },
-    "0k2igdylfbd": {
-      "keys": [
-        "scene-talk.follow-disagree.you-re-counting-what-we-spent-not-what-we-tried",
-        "scene-talk.reply-thank.thanks-for-waiting-up"
-      ],
-      "why": "Thanking them for waiting up does not answer what A just said."
-    },
     "0ka019j8b85": {
       "keys": [
         "scene-talk.follow-ask.again-then-i-ll-want-to-know-the-plan-before-i-give-you-another-month",
@@ -451,20 +255,6 @@
         "scene-talk.reply-leave.we-re-not-getting-anywhere-out-here"
       ],
       "why": "A agrees to apologize; B's complaint answers a refusal."
-    },
-    "0l1q1zv0l8g": {
-      "keys": [
-        "scene-talk.follow-plea.talk-to-me-i-worked-this-race-and-tonight-i-d-like-to-hear-you-say-something",
-        "scene-talk.reply-deflect.give-me-a-day-before-we-add-it-up"
-      ],
-      "why": "A asked nothing about the money or the morning, so putting off a question nobody asked does not follow A's line."
-    },
-    "0l3cf4ng718": {
-      "keys": [
-        "scene-talk.follow-plea.look-at-me-i-worked-this-race-too-and-i-need-you-to-say-one-true-thing",
-        "scene-talk.reply-deflect.i-can-t-count-it-yet-give-me-a-day"
-      ],
-      "why": "The line before says nothing about counting or the money, so putting off adding it up answers a question nobody asked."
     },
     "0lctwmt3y20": {
       "keys": [
@@ -486,20 +276,6 @@
         "scene-talk.follow-accept.send-me-the-letter-that-s-all-i-need"
       ],
       "why": "A says it will step out; B asks for a letter A never mentioned"
-    },
-    "0mo5txy12k5": {
-      "keys": [
-        "scene-talk.follow-comfort.it-isn-t-on-you-we-put-it-in-knowing-it-might-not-come-back",
-        "scene-talk.reply-deflect.not-tonight-ask-me-in-the-morning"
-      ],
-      "why": "A asked nothing about the money or the morning, so putting off a question nobody asked does not follow A's line."
-    },
-    "0mt6fz3k985": {
-      "keys": [
-        "scene-talk.reply-promise.i-ll-run-again-next-time-we-start-earlier-and-count-what-it-costs-first",
-        "scene-talk.follow-thank.then-count-me-in-tell-me-when-you-decide"
-      ],
-      "why": "The candidate just said they will run again, so waiting for them to decide contradicts the line before."
     },
     "0nnvpsranb1": {
       "keys": [
@@ -536,13 +312,6 @@
       ],
       "why": "A asks why vote; B asks where A heard something."
     },
-    "0oqcj6svh3k": {
-      "keys": [
-        "scene-talk.reply-promise.i-ll-run-again-next-time-we-start-earlier-and-count-what-it-costs-first",
-        "scene-talk.follow-ask.again-then-tell-me-what-s-different-next-time"
-      ],
-      "why": "The candidate just said what is different next time, so asking for it ignores the line before."
-    },
     "0pebh7ousy6": {
       "keys": [
         "scene-talk.reply-blame.opponent-ran-a-dirty-race",
@@ -571,48 +340,6 @@
       ],
       "why": "B answers a question A never asked"
     },
-    "0px8czwdrpg": {
-      "keys": [
-        "scene-talk.reply-blame.opponent-ran-a-dirty-race",
-        "scene-talk.follow-disagree.don-t-add-it-up-tonight-we-knew-it-could-go-this-way-when-we-put-it-in"
-      ],
-      "why": "The player blamed the opponent, but the reply answers as if the player were blaming themselves or tallying the cost."
-    },
-    "0py17o1bvdx": {
-      "keys": [
-        "scene-talk.follow-ask.again-then-tell-me-what-we-have-left-to-put-in",
-        "scene-talk.reply-promise.i-ll-run-again"
-      ],
-      "why": "A asked what money is left to put in, and this reply does not answer it."
-    },
-    "0pzw74hg45w": {
-      "keys": [
-        "scene-talk.follow-comfort.you-did-what-a-candidate-does-sit-down-with-me-for-a-minute",
-        "scene-talk.reply-deflect.i-can-t-count-it-yet-give-me-a-day"
-      ],
-      "why": "The line before says nothing about counting or the money, so putting off adding it up answers a question nobody asked."
-    },
-    "0q3tagqk41a": {
-      "keys": [
-        "scene-talk.follow-ask.again-then-i-ll-want-a-number-in-writing-before-another-dollar-goes-in",
-        "scene-talk.reply-tell.we-didnt-win"
-      ],
-      "why": "The other person is setting terms for the next run, and dwelling on the loss does not answer that condition."
-    },
-    "0q8epg3rmh3": {
-      "keys": [
-        "scene-talk.reply-promise.i-ll-run-again-and-next-time-i-ll-tell-you-before-i-put-in-a-dollar-of-ours",
-        "scene-talk.follow-thank.then-i-m-in-again-wake-me-when-you-ve-decided"
-      ],
-      "why": "A just said they will run again, so asking to be told when they decide ignores that they already decided."
-    },
-    "0qevysjg5a5": {
-      "keys": [
-        "scene-talk.follow-ask.again-then-i-ll-want-to-know-the-plan-before-i-give-you-another-month",
-        "scene-talk.reply-promise.we-will-be-back"
-      ],
-      "why": "The other person has already said \"again\" and set a condition first, so repeating the vow to run gives neither the plan nor the number asked for."
-    },
     "0qlgjxp22l5": {
       "keys": [
         "scene-talk.follow-ask.how-much-did-they-give",
@@ -634,47 +361,12 @@
       ],
       "why": "The reply agrees to come to a meeting, but the line before only offered the pages."
     },
-    "0rtliqzkn4m": {
+    "0ritm4offd5": {
       "keys": [
-        "scene-talk.reply-blame.opponent-ran-a-dirty-race",
-        "scene-talk.follow-disagree.you-re-counting-what-we-spent-not-what-we-tried"
+        "scene-talk.reply-leave.i-have-to-go-thank-you-for-telling-me",
+        "scene-talk.close-accept.anyway-good-luck"
       ],
-      "why": "The player blamed the opponent, but the reply answers as if the player were blaming themselves or tallying the cost."
-    },
-    "0rxiyd0bsf6": {
-      "keys": [
-        "scene-talk.reply-thank.thanks-for-waiting-up",
-        "scene-talk.follow-thank.then-we-start-with-what-s-left-in-the-account-and-we-say-it-out-loud"
-      ],
-      "why": "The household member answers a thank-you for waiting up as if the player had announced a decision to run again."
-    },
-    "0rxo2mu9b7g": {
-      "keys": [
-        "scene-talk.reply-promise.i-m-running-again-and-i-want-you-in-it-again",
-        "scene-talk.follow-thank.then-i-m-in-again-wake-me-when-you-ve-decided"
-      ],
-      "why": "The candidate just said they decided, so \"wake me when you've decided\" contradicts the line before."
-    },
-    "0ryz8s3mnua": {
-      "keys": [
-        "scene-talk.follow-plea.talk-to-me-that-was-ours-and-i-d-like-to-hear-you-say-something",
-        "scene-talk.reply-thank.thanks-for-waiting-up"
-      ],
-      "why": "Thanking them for waiting up does not answer what A just said."
-    },
-    "0s2dmsubcxl": {
-      "keys": [
-        "scene-talk.follow-plea.talk-to-me",
-        "scene-talk.reply-thank.thank-you-for-everything"
-      ],
-      "why": "A general thank-you does not answer being told not to blame yourself or being asked to talk."
-    },
-    "0s2lb5j1s0a": {
-      "keys": [
-        "scene-talk.reply-thank.thank-you-for-everything",
-        "scene-talk.follow-thank.then-we-start-with-what-s-left-in-the-account-and-we-say-it-out-loud"
-      ],
-      "why": "\"Then\" picks up a plan to run again that the thank-you never raised, so the reply follows nothing in the line before."
+      "why": "Opening with \"Anyway\" brushes aside a thank-you as if changing the subject, so the reply does not follow the goodbye it answers."
     },
     "0scxgz8krij": {
       "keys": [
@@ -683,13 +375,6 @@
       ],
       "why": "A agreed to apologize; B treats it as keeping score"
     },
-    "0takpfzfzm8": {
-      "keys": [
-        "scene-talk.reply-thank.you-never-once-told-me-to-stop-i-know-what-that-was-worth",
-        "scene-talk.follow-thank.then-count-me-in-tell-me-when-you-decide"
-      ],
-      "why": "The line before is a thank-you, so a reply starting with \"Then\" about another run answers a plan nobody mentioned."
-    },
     "0tcjnpeoyd9": {
       "keys": [
         "scene-talk.follow-confront.i-will",
@@ -697,61 +382,12 @@
       ],
       "why": "A's 'I will' is not something B answers with 'Where did you hear that?'"
     },
-    "0towlv0co1n": {
-      "keys": [
-        "scene-talk.follow-disagree.don-t-do-that-to-yourself",
-        "scene-talk.reply-tell.it-s-hard-to-hear-it-was-that-close"
-      ],
-      "why": "Nobody in the talk has said the race was close, so there is nothing for this reply to answer (M5 overrule for consistency: the same reply failed after every other line that does not mention the margin)."
-    },
     "0tw45fjmewk": {
       "keys": [
         "scene-talk.reply-tell.friend.i-ll-tell-you-everything-and-i-m-not-going-to-dress-it-up",
         "scene-talk.follow-ask.then-why-vote-at-all"
       ],
       "why": "A promises to tell everything; B asks 'why vote at all', unconnected."
-    },
-    "0u23ltbl7l0": {
-      "keys": [
-        "scene-talk.follow-comfort.you-spent-it-on-something-you-believed-in-sit-down-with-me-for-a-minute",
-        "scene-talk.reply-tell.we-didnt-win"
-      ],
-      "why": "The other person is already consoling them about the loss, so announcing it reads as an opening line, not a reply."
-    },
-    "0u8qaqhv2q9": {
-      "keys": [
-        "scene-talk.reply-thank.you-stood-behind-me-while-i-spent-it-thank-you",
-        "scene-talk.follow-thank.then-we-start-with-what-s-left-in-the-account-and-we-say-it-out-loud"
-      ],
-      "why": "The line before is a thank-you, so a reply starting with \"Then\" about another run answers a plan nobody mentioned."
-    },
-    "0v6vyuzql9q": {
-      "keys": [
-        "scene-talk.follow-plea.look-at-me-that-money-was-ours-and-i-need-you-to-say-one-true-thing",
-        "scene-talk.reply-thank.you-gave-it-your-time-when-you-didn-t-have-to-i-won-t-forget-that"
-      ],
-      "why": "The other person just raised the money that was theirs, and thanking them for their time talks past it."
-    },
-    "0v8qrbewap7": {
-      "keys": [
-        "scene-talk.follow-disagree.don-t-do-that-to-yourself",
-        "scene-talk.reply-thank.i-couldn-t-have-run-it-without-you-not-one-day-of-it"
-      ],
-      "why": "Being told not to blame yourself is not answered by thanking the speaker for their time and support."
-    },
-    "0vbh7k56sk8": {
-      "keys": [
-        "scene-talk.reply-thank.you-gave-it-your-time-when-you-didn-t-have-to-i-won-t-forget-that",
-        "scene-talk.follow-thank.then-count-me-in-tell-me-when-you-decide"
-      ],
-      "why": "The line before is a thank-you, so a reply starting with \"Then\" about another run answers a plan nobody mentioned."
-    },
-    "0vgh66hhwg0": {
-      "keys": [
-        "scene-talk.follow-plea.look-at-me-that-money-was-ours-and-i-need-you-to-say-one-true-thing",
-        "scene-talk.reply-thank.thanks-for-waiting-up"
-      ],
-      "why": "Asked to look up and say one true thing, a stock thank-you dodges the demand instead of answering it."
     },
     "0vkn00t8ls0": {
       "keys": [
@@ -767,13 +403,6 @@
       ],
       "why": "The reply disagrees with something the line before never claimed."
     },
-    "0vzk8o5zp05": {
-      "keys": [
-        "scene-talk.reply-blame.opponent-ran-a-dirty-race",
-        "scene-talk.follow-comfort.it-isn-t-on-you-we-put-it-in-knowing-it-might-not-come-back"
-      ],
-      "why": "The player blamed the opponent, but the reply answers as if the player were blaming themselves or tallying the cost."
-    },
     "0w3alip8x2v": {
       "keys": [
         "scene-talk.follow-confront.hearsay.i-didn-t-make-it-up-first-somebody-did-tell-me",
@@ -787,13 +416,6 @@
         "scene-talk.reply-tell.it-s-hard-to-hear-it-was-that-close"
       ],
       "why": "A asked what will be different next time, and this reply does not say."
-    },
-    "0wu1uxk9t4p": {
-      "keys": [
-        "scene-talk.follow-comfort.you-did-what-a-candidate-does-sit-down-with-me-for-a-minute",
-        "scene-talk.reply-thank.thank-you-for-everything"
-      ],
-      "why": "A invites them to sit down for a minute, and this reply neither takes up nor turns down the invitation."
     },
     "0ww3c1bv7km": {
       "keys": [
@@ -809,13 +431,6 @@
       ],
       "why": "A's 'I will' is no question or claim; B gives a rebuttal."
     },
-    "0xs4tjba6gv": {
-      "keys": [
-        "scene-talk.follow-plea.look-at-me-that-money-was-ours-and-i-need-you-to-say-one-true-thing",
-        "scene-talk.reply-thank.thank-you-for-everything"
-      ],
-      "why": "Asked to look up and say one true thing, a stock thank-you dodges the demand instead of answering it."
-    },
     "0y7ausza23g": {
       "keys": [
         "scene-talk.follow-press.people-are-watching-what-you-do-tonight-more-than-they-watched-the-rac",
@@ -830,33 +445,12 @@
       ],
       "why": "The reply agrees to come to a meeting, but the line before only offered the pages."
     },
-    "0y9lfm8f3hn": {
-      "keys": [
-        "scene-talk.follow-ask.again-then-tell-me-what-s-different-next-time",
-        "scene-talk.reply-promise.this-isn-t-the-end-of-it"
-      ],
-      "why": "A asked what will be different next time, and this reply does not say."
-    },
-    "0ykb6czoz3p": {
-      "keys": [
-        "scene-talk.follow-disagree.you-re-counting-what-we-spent-not-what-we-tried",
-        "scene-talk.reply-tell.it-s-hard-to-hear-it-was-that-close"
-      ],
-      "why": "Nobody in the talk has said the race was close, so there is nothing for this reply to answer (M5 overrule for consistency: the same reply failed after every other line that does not mention the margin)."
-    },
     "0ys7uhggitn": {
       "keys": [
         "scene-talk.reply-blame.i-spent-more-than-i-should-have-and-this-is-all-it-came-to",
         "scene-talk.state-comfort.we-lost-i-gave-that-campaign-my-time-and-i-d-like-to-know-what-we-do-with-that"
       ],
       "why": "It reopens with \"We lost\" and its own complaint, ignoring the candidate's admission."
-    },
-    "0yulogmiq0c": {
-      "keys": [
-        "scene-talk.follow-answer.it-wasn-t-close",
-        "scene-talk.reply-leave.i-need-some-air-before-i-do-either"
-      ],
-      "why": "\"Before I do either\" points at two choices the line before never offered; the aide only said it wasn't close."
     },
     "0yvpwsle4tn": {
       "keys": [
@@ -879,13 +473,6 @@
       ],
       "why": "The line before asked who on the council would listen, and the reply never answers or dodges that."
     },
-    "0zki9w4ixa0": {
-      "keys": [
-        "scene-talk.reply-thank.you-never-once-told-me-to-stop-i-know-what-that-was-worth",
-        "scene-talk.follow-thank.then-we-start-with-what-s-left-in-the-account-and-we-say-it-out-loud"
-      ],
-      "why": "The line before is a thank-you, so a reply starting with \"Then\" about another run answers a plan nobody mentioned."
-    },
     "0znm0a68bss": {
       "keys": [
         "scene-talk.follow-ask.witness.and-you-thought-i-d-take-it",
@@ -899,13 +486,6 @@
         "scene-talk.reply-refuse.then-we-wait-if-i-m-wrong-i-ll-eat-it-in-the-morning"
       ],
       "why": "The aide offers a minute and then the call, and \"Then we wait\" treats that as a reason to wait for a count no one mentioned."
-    },
-    "10eezuxjtq6": {
-      "keys": [
-        "scene-talk.reply-promise.this-isn-t-the-end-of-it",
-        "scene-talk.follow-ask.again-then-tell-me-what-s-different-next-time"
-      ],
-      "why": "The reply echoes \"again\" as if the player had said they would run again, which this line does not say."
     },
     "10jrh1fglio": {
       "keys": [
@@ -935,33 +515,12 @@
       ],
       "why": "A made no accusation; B excuses itself as if accused."
     },
-    "11bit4luftt": {
-      "keys": [
-        "scene-talk.follow-answer.two-and-they-re-both-opponent-s-even-if-we-took-every-vote-it-s-not-en",
-        "scene-talk.reply-refuse.not-tonight-not-until-every-ballot-s-counted"
-      ],
-      "why": "The aide just said the remaining ballots cannot change the outcome, and the reply insists on waiting for those ballots as if it had not heard."
-    },
-    "12ap3qf5tdm": {
-      "keys": [
-        "scene-talk.reply-blame.opponent-ran-a-dirty-race",
-        "scene-talk.follow-comfort.you-spent-it-on-something-you-believed-in-sit-down-with-me-for-a-minute"
-      ],
-      "why": "The player blamed the opponent, but the reply answers as if the player were blaming themselves or tallying the cost."
-    },
     "12inx8c101n": {
       "keys": [
         "scene-talk.follow-ask.friend.why-didn-t-you-tell-me-yourself-first",
         "scene-talk.reply-tell.because-the-rule-says-i-can-and-the-people-who-sent-me-sent-me-to-vote"
       ],
       "why": "A asks why B didn't tell them; B answers about the rule to vote."
-    },
-    "13k4wtr4iv1": {
-      "keys": [
-        "scene-talk.follow-ask.again-then-tell-me-what-we-have-left-to-put-in",
-        "scene-talk.reply-promise.this-is-not-the-end"
-      ],
-      "why": "A asked what money is left to put in, and this reply does not answer it."
     },
     "142jeqe18nd": {
       "keys": [
@@ -970,13 +529,6 @@
       ],
       "why": "The reply agrees with a point the line before never made, since that line only asked a question."
     },
-    "144iutuv1u5": {
-      "keys": [
-        "scene-talk.follow-comfort.you-did-what-a-candidate-does-sit-down-with-me-for-a-minute",
-        "scene-talk.reply-thank.i-couldn-t-have-run-it-without-you-not-one-day-of-it"
-      ],
-      "why": "A invites them to sit down for a minute, and this reply neither takes up nor turns down the invitation."
-    },
     "14hw8ksy70d": {
       "keys": [
         "scene-talk.reply-tell.taken.i-ll-tell-you-exactly-how-it-went-and-you-can-judge",
@@ -984,40 +536,12 @@
       ],
       "why": "A offers to tell how it went; B asks why vote at all."
     },
-    "154mu9kx0tf": {
-      "keys": [
-        "scene-talk.follow-ask.again-then-i-ll-want-to-know-the-plan-before-i-give-you-another-month",
-        "scene-talk.reply-tell.i-really-thought-we-had-it"
-      ],
-      "why": "The other person is setting terms for the next run, and dwelling on the loss does not answer that condition."
-    },
-    "15rzt43v97v": {
-      "keys": [
-        "scene-talk.follow-plea.look-at-me-i-worked-this-race-too-and-i-need-you-to-say-one-true-thing",
-        "scene-talk.reply-thank.thank-you-for-everything"
-      ],
-      "why": "Asked to look up and say one true thing, a stock thank-you dodges the demand instead of answering it."
-    },
     "15tak2w8b5h": {
       "keys": [
         "scene-talk.follow-press.i-understand-but-it-matters-to-me-can-you-tell-me-what-s-in-the-way",
         "scene-talk.reply-agree.you-re-right-and-i-ll-do-it"
       ],
       "why": "A asks what is in the way; B agrees as if told something."
-    },
-    "16e4jksqz3k": {
-      "keys": [
-        "scene-talk.follow-answer.close-a-few-more-doors-might-have-done-it",
-        "scene-talk.reply-leave.i-need-some-air-before-i-do-either"
-      ],
-      "why": "\"Before I do either\" points at two choices the line before never offered; the aide only said the race was close."
-    },
-    "16itdpwdxzc": {
-      "keys": [
-        "scene-talk.follow-disagree.don-t-do-that-to-yourself",
-        "scene-talk.reply-thank.you-never-once-told-me-to-stop-i-know-what-that-was-worth"
-      ],
-      "why": "Being told not to blame yourself is not answered by thanking the speaker for their time and support."
     },
     "16scfax8sdc": {
       "keys": [
@@ -1068,62 +592,6 @@
       ],
       "why": "A agreed to apologize in public; B treats it as a parking-lot apology."
     },
-    "1949th9uzdw": {
-      "keys": [
-        "scene-talk.follow-ask.again-then-i-ll-want-a-number-in-writing-before-another-dollar-goes-in",
-        "scene-talk.reply-promise.i-ll-run-again"
-      ],
-      "why": "The other person has already said \"again\" and set a condition first, so repeating the vow to run gives neither the plan nor the number asked for."
-    },
-    "19d6q22hogo": {
-      "keys": [
-        "scene-talk.follow-plea.look-at-me-that-money-was-ours-and-i-need-you-to-say-one-true-thing",
-        "scene-talk.reply-tell.it-s-hard-to-hear-it-was-that-close"
-      ],
-      "why": "Nobody just said the race was close, so \"hard to hear\" answers a line that was never spoken."
-    },
-    "19mumfaph9h": {
-      "keys": [
-        "scene-talk.follow-ask.again-then-tell-me-what-we-have-left-to-put-in",
-        "scene-talk.reply-promise.we-will-be-back"
-      ],
-      "why": "A asked what money is left to put in, and this reply does not answer it."
-    },
-    "1a15zhv1ktj": {
-      "keys": [
-        "scene-talk.follow-ask.again-then-tell-me-what-we-have-left-to-put-in",
-        "scene-talk.reply-promise.i-m-running-again-and-i-want-you-in-it-again"
-      ],
-      "why": "A asked what money is left to put in, and this reply does not answer it."
-    },
-    "1a2w9zrgglp": {
-      "keys": [
-        "scene-talk.follow-comfort.it-isn-t-on-you-we-put-it-in-knowing-it-might-not-come-back",
-        "scene-talk.reply-deflect.give-me-a-day-before-we-add-it-up"
-      ],
-      "why": "A asked nothing about the money or the morning, so putting off a question nobody asked does not follow A's line."
-    },
-    "1a5yvt6no5m": {
-      "keys": [
-        "scene-talk.reply-thank.i-couldn-t-have-run-it-without-you-not-one-day-of-it",
-        "scene-talk.follow-thank.then-i-m-in-again-wake-me-when-you-ve-decided"
-      ],
-      "why": "The line before is a thank-you, so a reply starting with \"Then\" about another run answers a plan nobody mentioned."
-    },
-    "1a88okbmvjm": {
-      "keys": [
-        "scene-talk.follow-plea.look-at-me-i-worked-this-race-too-and-i-need-you-to-say-one-true-thing",
-        "scene-talk.reply-deflect.give-me-a-day-before-we-add-it-up"
-      ],
-      "why": "The line before says nothing about counting or the money, so putting off adding it up answers a question nobody asked."
-    },
-    "1azb6b6fydz": {
-      "keys": [
-        "scene-talk.follow-plea.talk-to-me-that-was-ours-and-i-d-like-to-hear-you-say-something",
-        "scene-talk.reply-tell.it-s-hard-to-hear-it-was-that-close"
-      ],
-      "why": "Nobody in the talk has said the race was close, so there is nothing for this reply to answer (M5 overrule for consistency: the same reply failed after every other line that does not mention the margin)."
-    },
     "1be12c5o9mw": {
       "keys": [
         "scene-talk.reply-leave.let-me-call-you-back",
@@ -1131,40 +599,12 @@
       ],
       "why": "The reply treats a request for time as a refusal, and the line before refused nothing."
     },
-    "1c5zxgj5yb6": {
-      "keys": [
-        "scene-talk.follow-ask.again-then-tell-me-what-s-different-next-time",
-        "scene-talk.reply-promise.i-m-running-again-and-i-want-you-in-it-again"
-      ],
-      "why": "A asked what will be different next time, and this reply does not say."
-    },
     "1c61qwtv5v6": {
       "keys": [
         "scene-talk.follow-press.you-keep-saying-that-what-changes-by-next-week",
         "scene-talk.reply-relent.you-ve-made-your-point-count-me-in"
       ],
       "why": "A asks what changes; B agrees as if A made a case."
-    },
-    "1c90am59elk": {
-      "keys": [
-        "scene-talk.follow-disagree.don-t-add-it-up-tonight-we-knew-it-could-go-this-way-when-we-put-it-in",
-        "scene-talk.reply-tell.we-didnt-win"
-      ],
-      "why": "The other person is already consoling them about the loss, so announcing it reads as an opening line, not a reply."
-    },
-    "1cq0yapeqmh": {
-      "keys": [
-        "scene-talk.reply-thank.you-stood-behind-me-while-i-spent-it-thank-you",
-        "scene-talk.follow-thank.then-we-do-it-with-a-number-before-we-start"
-      ],
-      "why": "The line before is a thank-you, so a reply starting with \"Then\" about another run answers a plan nobody mentioned."
-    },
-    "1cxlelz75cc": {
-      "keys": [
-        "scene-talk.follow-plea.look-at-me-i-worked-this-race-too-and-i-need-you-to-say-one-true-thing",
-        "scene-talk.reply-thank.thanks-for-waiting-up"
-      ],
-      "why": "Asked to look up and say one true thing, a stock thank-you dodges the demand instead of answering it."
     },
     "1d4ukpzqj1b": {
       "keys": [
@@ -1179,13 +619,6 @@
         "scene-talk.reply-tell.it-s-hard-to-hear-it-was-that-close"
       ],
       "why": "A asked what money is left to put in, and this reply does not answer it."
-    },
-    "1di0twvp27r": {
-      "keys": [
-        "scene-talk.reply-blame.opponent-ran-a-dirty-race",
-        "scene-talk.follow-disagree.stop-adding-it-up-tonight-we-both-knew-it-could-go-this-way"
-      ],
-      "why": "The player blamed the opponent, but the reply answers as if the player were blaming themselves or tallying the cost."
     },
     "1fk4mpi6ysw": {
       "keys": [
@@ -1250,27 +683,6 @@
       ],
       "why": "The reply accepts phone calls, but the line before only said how long a talk lasts."
     },
-    "1hs9hivevqm": {
-      "keys": [
-        "scene-talk.follow-plea.talk-to-me-i-worked-this-race-and-tonight-i-d-like-to-hear-you-say-something",
-        "scene-talk.reply-deflect.i-can-t-count-it-yet-give-me-a-day"
-      ],
-      "why": "A asked nothing about the money or the morning, so putting off a question nobody asked does not follow A's line."
-    },
-    "1hwdmlbdsdt": {
-      "keys": [
-        "scene-talk.follow-comfort.you-did-what-a-candidate-does-sit-down-with-me-for-a-minute",
-        "scene-talk.reply-deflect.give-me-a-day-before-we-add-it-up"
-      ],
-      "why": "The line before says nothing about counting or the money, so putting off adding it up answers a question nobody asked."
-    },
-    "1icylf9mwte": {
-      "keys": [
-        "scene-talk.follow-ask.again-then-tell-me-what-s-different-next-time",
-        "scene-talk.reply-promise.we-will-be-back"
-      ],
-      "why": "A asked what will be different next time, and this reply does not say."
-    },
     "1iqfvz8ehzw": {
       "keys": [
         "scene-talk.follow-answer.exactly-what-i-told-you-wait-and-work",
@@ -1285,13 +697,6 @@
       ],
       "why": "The reply ignores the claim about the opponent's dirty race and turns to the speaker's own point."
     },
-    "1j0vgtmuutt": {
-      "keys": [
-        "scene-talk.follow-ask.again-then-tell-me-what-s-different-next-time",
-        "scene-talk.reply-promise.this-is-not-the-end"
-      ],
-      "why": "A asked what will be different next time, and this reply does not say."
-    },
     "1j3qvw7duz8": {
       "keys": [
         "scene-talk.reply-blame.opponent-ran-a-dirty-race",
@@ -1299,61 +704,12 @@
       ],
       "why": "The reply ignores the claim about the opponent's dirty race and turns to the speaker's own point."
     },
-    "1j9k727typ1": {
-      "keys": [
-        "scene-talk.follow-ask.again-then-i-ll-want-to-know-the-plan-before-i-give-you-another-month",
-        "scene-talk.reply-promise.this-is-not-the-end"
-      ],
-      "why": "The other person has already said \"again\" and set a condition first, so repeating the vow to run gives neither the plan nor the number asked for."
-    },
-    "1jimrpg5iwa": {
-      "keys": [
-        "scene-talk.reply-thank.thank-you-for-everything",
-        "scene-talk.follow-thank.then-we-do-it-with-a-number-before-we-start"
-      ],
-      "why": "\"Then\" picks up a plan to run again that the thank-you never raised, so the reply follows nothing in the line before."
-    },
-    "1jos0601zjs": {
-      "keys": [
-        "scene-talk.follow-ask.again-then-tell-me-what-we-have-left-to-put-in",
-        "scene-talk.reply-promise.this-isn-t-the-end-of-it"
-      ],
-      "why": "A asked what money is left to put in, and this reply does not answer it."
-    },
     "1k7soz35rxr": {
       "keys": [
         "scene-talk.reply-leave.i-ve-got-to-run-call-me-tonight",
         "scene-talk.close-accept.then-we-ll-each-answer-for-our-own-vote"
       ],
       "why": "Nothing in A about voting or answering for votes."
-    },
-    "1m32ue5zucv": {
-      "keys": [
-        "scene-talk.reply-thank.thanks-for-waiting-up",
-        "scene-talk.follow-thank.then-i-m-in-again-wake-me-when-you-ve-decided"
-      ],
-      "why": "The household member answers a thank-you for waiting up as if the player had announced a decision to run again."
-    },
-    "1mja5ejo8gq": {
-      "keys": [
-        "scene-talk.follow-ask.again-then-i-ll-want-to-know-the-plan-before-i-give-you-another-month",
-        "scene-talk.reply-promise.i-ll-run-again"
-      ],
-      "why": "The other person has already said \"again\" and set a condition first, so repeating the vow to run gives neither the plan nor the number asked for."
-    },
-    "1mmzb6bsm39": {
-      "keys": [
-        "scene-talk.follow-ask.again-then-tell-me-what-s-different-next-time",
-        "scene-talk.reply-tell.i-really-thought-we-had-it"
-      ],
-      "why": "A asked what will be different next time, and this reply does not say."
-    },
-    "1ms12usd3ml": {
-      "keys": [
-        "scene-talk.reply-promise.i-ll-run-again-and-next-time-i-ll-tell-you-before-i-put-in-a-dollar-of-ours",
-        "scene-talk.follow-ask.again-then-tell-me-what-s-different-next-time"
-      ],
-      "why": "A just said what will be different, so asking what is different ignores the answer A gave."
     },
     "1nhv0tgdb6z": {
       "keys": [
@@ -1368,13 +724,6 @@
         "scene-talk.close-accept.ten-minutes-i-ll-be-outside-the-door"
       ],
       "why": "The candidate wants to read the numbers, not leave the room, so \"I'll be outside the door\" answers a request that was not made."
-    },
-    "1nzwl2trvlc": {
-      "keys": [
-        "scene-talk.follow-ask.again-then-i-ll-want-to-know-the-plan-before-i-give-you-another-month",
-        "scene-talk.reply-tell.we-didnt-win"
-      ],
-      "why": "The other person is setting terms for the next run, and dwelling on the loss does not answer that condition."
     },
     "1o69lay5te0": {
       "keys": [
@@ -1397,20 +746,6 @@
       ],
       "why": "The reply agrees to come to a meeting, but the line before only offered the pages."
     },
-    "1osdfdc54p5": {
-      "keys": [
-        "scene-talk.follow-plea.talk-to-me",
-        "scene-talk.reply-deflect.don-t-ask-me-about-the-money-tonight"
-      ],
-      "why": "Nobody asked about money, so refusing to talk about the money does not answer the invitation to talk."
-    },
-    "1osn89lycbb": {
-      "keys": [
-        "scene-talk.follow-disagree.don-t-do-that-to-yourself",
-        "scene-talk.reply-tell.we-didnt-win"
-      ],
-      "why": "Announcing that the race was lost does not follow being told not to blame yourself, which shows the loss is already known."
-    },
     "1osy11dw22b": {
       "keys": [
         "scene-talk.reply-blame.i-put-given-in-and-lost-that-s-on-me",
@@ -1425,61 +760,12 @@
       ],
       "why": "The line before asked when, and the reply neither says when nor sidesteps the question."
     },
-    "1p79jaxy9aq": {
-      "keys": [
-        "scene-talk.reply-thank.thanks-for-waiting-up",
-        "scene-talk.follow-thank.then-count-me-in-tell-me-when-you-decide"
-      ],
-      "why": "The household member answers a thank-you for waiting up as if the player had announced a decision to run again."
-    },
-    "1p8m7f859l9": {
-      "keys": [
-        "scene-talk.follow-plea.talk-to-me-i-worked-this-race-and-tonight-i-d-like-to-hear-you-say-something",
-        "scene-talk.reply-deflect.don-t-ask-me-about-the-money-tonight"
-      ],
-      "why": "A asked nothing about the money or the morning, so putting off a question nobody asked does not follow A's line."
-    },
-    "1pvtgzlp88u": {
-      "keys": [
-        "scene-talk.follow-disagree.stop-adding-it-up-tonight-we-both-knew-it-could-go-this-way",
-        "scene-talk.reply-tell.it-s-hard-to-hear-it-was-that-close"
-      ],
-      "why": "Nobody just said the race was close, so \"hard to hear\" answers a line that was never spoken."
-    },
     "1q2j2b5iqu3": {
       "keys": [
         "scene-talk.follow-confront.bring-a-chair-it-s-a-long-morning",
         "scene-talk.reply-confront.put-that-clipboard-in-front-of-me-again-and-i-ll-sign-it-myself-just-t"
       ],
       "why": "B talks of signing a clipboard; A only said bring a chair."
-    },
-    "1q65sigu002": {
-      "keys": [
-        "scene-talk.follow-comfort.you-did-what-a-candidate-does-sit-down-with-me-for-a-minute",
-        "scene-talk.reply-thank.you-gave-it-your-time-when-you-didn-t-have-to-i-won-t-forget-that"
-      ],
-      "why": "A invites them to sit down for a minute, and this reply neither takes up nor turns down the invitation."
-    },
-    "1qb0xmbs29q": {
-      "keys": [
-        "scene-talk.reply-thank.you-never-once-told-me-to-stop-i-know-what-that-was-worth",
-        "scene-talk.follow-thank.then-we-do-it-with-a-number-before-we-start"
-      ],
-      "why": "The line before is a thank-you, so a reply starting with \"Then\" about another run answers a plan nobody mentioned."
-    },
-    "1qciijttjr2": {
-      "keys": [
-        "scene-talk.follow-comfort.you-did-what-a-candidate-does-sit-down-with-me-for-a-minute",
-        "scene-talk.reply-tell.it-s-hard-to-hear-it-was-that-close"
-      ],
-      "why": "Nobody just said the race was close, so \"hard to hear\" answers a line that was never spoken."
-    },
-    "1qjllff1rfg": {
-      "keys": [
-        "scene-talk.follow-answer.two-and-they-re-both-opponent-s-even-if-we-took-every-vote-it-s-not-en",
-        "scene-talk.reply-refuse.not-until-the-last-box-is-counted"
-      ],
-      "why": "The aide just said the remaining ballots cannot change the outcome, and the reply insists on waiting for the last box as if it had not heard."
     },
     "1qmteavzgji": {
       "keys": [
@@ -1516,26 +802,12 @@
       ],
       "why": "B agrees with a point A never made; A only asks a question or says it wants to plan around the answer."
     },
-    "1skmp25ngtm": {
-      "keys": [
-        "scene-talk.follow-ask.are-you-sure-that-s-what-you-want",
-        "scene-talk.reply-tell.we-didnt-win"
-      ],
-      "why": "The reply restates the loss instead of saying whether the player is sure about the plan they were asked about."
-    },
     "1sp6kmb0ain": {
       "keys": [
         "scene-talk.reply-confront.hearsay.you-took-somebody-s-word-over-mine",
         "scene-talk.follow-confront.i-will"
       ],
       "why": "'I will' answers nothing A said."
-    },
-    "1sqs3oygwyt": {
-      "keys": [
-        "scene-talk.follow-disagree.stop-adding-it-up-tonight-we-both-knew-it-could-go-this-way",
-        "scene-talk.reply-tell.we-didnt-win"
-      ],
-      "why": "The other person is already consoling them about the loss, so announcing it reads as an opening line, not a reply."
     },
     "1t2rqdl6crd": {
       "keys": [
@@ -1551,27 +823,6 @@
       ],
       "why": "B says case was made; A only asked a question"
     },
-    "1unihapr0yp": {
-      "keys": [
-        "scene-talk.follow-comfort.you-did-what-a-candidate-does-sit-down-with-me-for-a-minute",
-        "scene-talk.reply-tell.we-didnt-win"
-      ],
-      "why": "The other person is already consoling them about the loss, so announcing it reads as an opening line, not a reply."
-    },
-    "1vajwofhzs0": {
-      "keys": [
-        "scene-talk.follow-ask.again-then-i-ll-want-a-number-in-writing-before-another-dollar-goes-in",
-        "scene-talk.reply-tell.i-really-thought-we-had-it"
-      ],
-      "why": "The other person is setting terms for the next run, and dwelling on the loss does not answer that condition."
-    },
-    "1vc8x6ynzqe": {
-      "keys": [
-        "scene-talk.reply-thank.i-couldn-t-have-run-it-without-you-not-one-day-of-it",
-        "scene-talk.follow-thank.then-we-start-with-what-s-left-in-the-account-and-we-say-it-out-loud"
-      ],
-      "why": "The line before is a thank-you, so a reply starting with \"Then\" about another run answers a plan nobody mentioned."
-    },
     "1vn0brq2mlq": {
       "keys": [
         "scene-talk.follow-press.it-s-only-two-pages-here-take-a-look",
@@ -1586,26 +837,12 @@
       ],
       "why": "A never said B brings up the past; B answers a claim not made."
     },
-    "1vx2k31j85k": {
-      "keys": [
-        "scene-talk.follow-plea.talk-to-me-i-worked-this-race-and-tonight-i-d-like-to-hear-you-say-something",
-        "scene-talk.reply-tell.it-s-hard-to-hear-it-was-that-close"
-      ],
-      "why": "Nobody in the talk has said the race was close, so there is nothing for this reply to answer (M5 overrule for consistency: the same reply failed after every other line that does not mention the margin)."
-    },
     "1wu5rdlx5qc": {
       "keys": [
         "scene-talk.follow-press.is-there-something-i-can-fix-i-d-like-to-understand",
         "scene-talk.reply-agree.you-re-right-i-ll-get-it-done"
       ],
       "why": "B agrees with a point A never made; A only asks a question or says it wants to plan around the answer."
-    },
-    "1x360s8vbdi": {
-      "keys": [
-        "scene-talk.reply-thank.you-gave-it-your-time-when-you-didn-t-have-to-i-won-t-forget-that",
-        "scene-talk.follow-thank.then-we-start-with-what-s-left-in-the-account-and-we-say-it-out-loud"
-      ],
-      "why": "The line before is a thank-you, so a reply starting with \"Then\" about another run answers a plan nobody mentioned."
     },
     "1x9mlcjm68n": {
       "keys": [
@@ -1628,33 +865,12 @@
       ],
       "why": "Nobody said the race was close, so the reply answers something that was never said."
     },
-    "1xp6eojqdvt": {
-      "keys": [
-        "scene-talk.reply-thank.thanks-for-waiting-up",
-        "scene-talk.follow-thank.then-we-do-it-with-a-number-before-we-start"
-      ],
-      "why": "The household member answers a thank-you for waiting up as if the player had announced a decision to run again."
-    },
     "1y0hw2lmtqb": {
       "keys": [
         "scene-talk.reply-agree.count-me-in-tell-me-when",
         "scene-talk.follow-thank.good-we-ll-see-you-there"
       ],
       "why": "The line before asked when, and the reply neither says when nor sidesteps the question."
-    },
-    "1zoyla3nj2i": {
-      "keys": [
-        "scene-talk.follow-comfort.it-isn-t-on-you-we-put-it-in-knowing-it-might-not-come-back",
-        "scene-talk.reply-deflect.i-can-t-count-it-yet-give-me-a-day"
-      ],
-      "why": "A asked nothing about the money or the morning, so putting off a question nobody asked does not follow A's line."
-    },
-    "20mkumv3699": {
-      "keys": [
-        "scene-talk.reply-promise.i-ll-run-again-next-time-we-start-earlier-and-count-what-it-costs-first",
-        "scene-talk.follow-thank.then-i-m-in-again-wake-me-when-you-ve-decided"
-      ],
-      "why": "The candidate just said they will run again, so waiting for them to decide contradicts the line before."
     },
     "20nlb7s0urv": {
       "keys": [
@@ -1669,20 +885,6 @@
         "scene-talk.reply-leave.let-me-drop-my-bag-and-i-m-all-yours"
       ],
       "why": "A comments on quiet people; B's bag remark answers nothing in A."
-    },
-    "20x0u4d8r65": {
-      "keys": [
-        "scene-talk.follow-ask.again-then-tell-me-what-we-have-left-to-put-in",
-        "scene-talk.reply-tell.we-didnt-win"
-      ],
-      "why": "A asked what money is left to put in, and this reply does not answer it."
-    },
-    "21f1mrwo8dw": {
-      "keys": [
-        "scene-talk.reply-promise.i-ll-run-again-this-time-we-agree-on-a-number-first",
-        "scene-talk.follow-thank.then-i-m-in-again-wake-me-when-you-ve-decided"
-      ],
-      "why": "A just said they will run again, so asking to be told when they decide ignores that they already decided."
     },
     "21kng92rjpo": {
       "keys": [
@@ -1712,20 +914,6 @@
       ],
       "why": "The line before asked who on the council would listen, and the reply never answers or dodges that."
     },
-    "23xlrsb9yxp": {
-      "keys": [
-        "scene-talk.reply-thank.i-couldn-t-have-run-it-without-you-not-one-day-of-it",
-        "scene-talk.follow-thank.then-count-me-in-tell-me-when-you-decide"
-      ],
-      "why": "The line before is a thank-you, so a reply starting with \"Then\" about another run answers a plan nobody mentioned."
-    },
-    "240q8b0fo6e": {
-      "keys": [
-        "scene-talk.follow-plea.talk-to-me",
-        "scene-talk.reply-thank.thanks-for-waiting-up"
-      ],
-      "why": "Thanking someone for waiting up is an arrival line and does not answer what was just said."
-    },
     "24cvwm9e1y0": {
       "keys": [
         "scene-talk.follow-answer.three-minutes-after-that-they-cut-you-off-anyway",
@@ -1739,13 +927,6 @@
         "scene-talk.reply-accept.then-we-understand-each-other"
       ],
       "why": "A asks for a number; B says \"we understand each other\""
-    },
-    "25qv8xbgcij": {
-      "keys": [
-        "scene-talk.reply-blame.opponent-ran-a-dirty-race",
-        "scene-talk.follow-disagree.don-t-carry-it-by-yourself-i-was-in-it-too"
-      ],
-      "why": "The player blamed the opponent, but the reply answers as if the player were blaming themselves or tallying the cost."
     },
     "25yxng5wizp": {
       "keys": [
@@ -1761,26 +942,12 @@
       ],
       "why": "A offers to tell what happened; B questions voting, unrelated."
     },
-    "262maggfr35": {
-      "keys": [
-        "scene-talk.reply-thank.you-stood-behind-me-while-i-spent-it-thank-you",
-        "scene-talk.follow-thank.then-count-me-in-tell-me-when-you-decide"
-      ],
-      "why": "The line before is a thank-you, so a reply starting with \"Then\" about another run answers a plan nobody mentioned."
-    },
     "26e2wk0k210": {
       "keys": [
         "scene-talk.follow-press.the-volunteers-already-know-they-re-waiting-on-you-to-say-it",
         "scene-talk.reply-refuse.then-we-wait-if-i-m-wrong-i-ll-eat-it-in-the-morning"
       ],
       "why": "\"Then we wait\" draws a conclusion that the aide's line about volunteers waiting to hear it does not lead to."
-    },
-    "26ojrlmvg6y": {
-      "keys": [
-        "scene-talk.follow-disagree.don-t-do-that-to-yourself",
-        "scene-talk.reply-thank.thanks-for-waiting-up"
-      ],
-      "why": "Thanking someone for waiting up is an arrival line and does not answer what was just said."
     },
     "26ue1wvfgqu": {
       "keys": [
@@ -1789,26 +956,12 @@
       ],
       "why": "The reply ignores the claim about the opponent's dirty race and turns to the speaker's own point."
     },
-    "26yciyfan1e": {
-      "keys": [
-        "scene-talk.reply-promise.this-isn-t-the-end-of-it",
-        "scene-talk.follow-ask.again-then-tell-me-what-we-have-left-to-put-in"
-      ],
-      "why": "The reply echoes \"again\" as if the player had said they would run again, which this line does not say."
-    },
     "272rsrmuh8x": {
       "keys": [
         "scene-talk.follow-answer.twenty-or-so-mostly-folks-from-around-here",
         "scene-talk.reply-decline.speaking-at-meetings-isn-t-me-sorry"
       ],
       "why": "The reply picks a job from a list the line before never gave."
-    },
-    "272vwvtzmd2": {
-      "keys": [
-        "scene-talk.follow-comfort.it-isn-t-on-you-we-put-it-in-knowing-it-might-not-come-back",
-        "scene-talk.reply-deflect.don-t-ask-me-about-the-money-tonight"
-      ],
-      "why": "A asked nothing about the money or the morning, so putting off a question nobody asked does not follow A's line."
     },
     "27c0f6ri8xo": {
       "keys": [
@@ -1831,82 +984,12 @@
       ],
       "why": "A asks where the money went; B answers about the rule to vote."
     },
-    "28ure6mqbnf": {
-      "keys": [
-        "scene-talk.follow-disagree.don-t-do-that-to-yourself",
-        "scene-talk.reply-thank.thank-you-for-everything"
-      ],
-      "why": "A general thank-you does not answer being told not to blame yourself or being asked to talk."
-    },
-    "28wm1sud7dy": {
-      "keys": [
-        "scene-talk.follow-comfort.you-did-what-a-candidate-does-sit-down-with-me-for-a-minute",
-        "scene-talk.reply-thank.thanks-for-waiting-up"
-      ],
-      "why": "A invites them to sit down for a minute, and this reply neither takes up nor turns down the invitation."
-    },
-    "2937h1peewy": {
-      "keys": [
-        "scene-talk.reply-thank.you-never-once-told-me-to-stop-i-know-what-that-was-worth",
-        "scene-talk.follow-thank.then-i-m-in-again-wake-me-when-you-ve-decided"
-      ],
-      "why": "The line before is a thank-you, so a reply starting with \"Then\" about another run answers a plan nobody mentioned."
-    },
-    "2972oz2kmco": {
-      "keys": [
-        "scene-talk.reply-promise.this-isn-t-the-end-of-it",
-        "scene-talk.follow-ask.again-then-i-ll-want-to-know-the-plan-before-i-give-you-another-month"
-      ],
-      "why": "The reply echoes \"again\" as if the player had said they would run again, which this line does not say."
-    },
     "29e6o7o0wgc": {
       "keys": [
         "scene-talk.reply-leave.i-can-t-decide-this-right-now",
         "scene-talk.close-accept.i-understand-take-care-of-yourself"
       ],
       "why": "The reply treats a request for time as a refusal, and the line before refused nothing."
-    },
-    "29oj0w7zqq6": {
-      "keys": [
-        "scene-talk.follow-disagree.don-t-do-that-to-yourself",
-        "scene-talk.reply-thank.you-gave-it-your-time-when-you-didn-t-have-to-i-won-t-forget-that"
-      ],
-      "why": "Being told not to blame yourself is not answered by thanking the speaker for their time and support."
-    },
-    "2a6ln9f9rmh": {
-      "keys": [
-        "scene-talk.reply-thank.you-stood-behind-me-while-i-spent-it-thank-you",
-        "scene-talk.follow-thank.then-i-m-in-again-wake-me-when-you-ve-decided"
-      ],
-      "why": "The line before is a thank-you, so a reply starting with \"Then\" about another run answers a plan nobody mentioned."
-    },
-    "2acmo52uz75": {
-      "keys": [
-        "scene-talk.reply-blame.opponent-ran-a-dirty-race",
-        "scene-talk.follow-disagree.don-t-do-that-to-yourself"
-      ],
-      "why": "The player blamed the opponent, but the reply answers as if the player were blaming themselves or tallying the cost."
-    },
-    "2ae76jc7q19": {
-      "keys": [
-        "scene-talk.reply-thank.thank-you-for-everything",
-        "scene-talk.follow-thank.then-count-me-in-tell-me-when-you-decide"
-      ],
-      "why": "\"Then\" picks up a plan to run again that the thank-you never raised, so the reply follows nothing in the line before."
-    },
-    "2agtcj11eow": {
-      "keys": [
-        "scene-talk.follow-plea.look-at-me-i-worked-this-race-too-and-i-need-you-to-say-one-true-thing",
-        "scene-talk.reply-tell.it-s-hard-to-hear-it-was-that-close"
-      ],
-      "why": "Nobody just said the race was close, so \"hard to hear\" answers a line that was never spoken."
-    },
-    "2ajpd5n51g9": {
-      "keys": [
-        "scene-talk.reply-thank.you-gave-it-your-time-when-you-didn-t-have-to-i-won-t-forget-that",
-        "scene-talk.follow-thank.then-we-do-it-with-a-number-before-we-start"
-      ],
-      "why": "The line before is a thank-you, so a reply starting with \"Then\" about another run answers a plan nobody mentioned."
     },
     "2b1a2d04uw9": {
       "keys": [
@@ -1936,26 +1019,12 @@
       ],
       "why": "\"For them\" has no one to point to, since the line before names no people, only that the call should be made tonight."
     },
-    "2ck0zv0oooy": {
-      "keys": [
-        "scene-talk.reply-promise.i-ll-run-again",
-        "scene-talk.follow-thank.then-i-m-in-again-wake-me-when-you-ve-decided"
-      ],
-      "why": "The player has already said they will run again, so asking to be told when they decide contradicts the line."
-    },
     "2d234yfzyyh": {
       "keys": [
         "scene-talk.reply-blame.opponent-ran-a-dirty-race",
         "scene-talk.state-comfort.i-worked-this-race-with-you-we-lost-and-i-d-work-it-again"
       ],
       "why": "The reply ignores the claim about the opponent's dirty race and turns to the speaker's own point."
-    },
-    "2d38tvo1zhc": {
-      "keys": [
-        "scene-talk.follow-answer.two-and-they-re-both-opponent-s-even-if-we-took-every-vote-it-s-not-en",
-        "scene-talk.reply-leave.i-need-some-air-before-i-do-either"
-      ],
-      "why": "\"Before I do either\" points at two choices the line before never offered."
     },
     "2d8dnvjsn9x": {
       "keys": [
@@ -1964,54 +1033,12 @@
       ],
       "why": "The reply treats a request for time as a refusal, and the line before refused nothing."
     },
-    "2dtd14tk8gk": {
-      "keys": [
-        "scene-talk.follow-ask.again-then-tell-me-what-s-different-next-time",
-        "scene-talk.reply-promise.i-ll-run-again"
-      ],
-      "why": "A asked what will be different next time, and this reply does not say."
-    },
-    "2dyc9lb8uq6": {
-      "keys": [
-        "scene-talk.reply-promise.i-ll-run-again",
-        "scene-talk.follow-thank.then-count-me-in-tell-me-when-you-decide"
-      ],
-      "why": "The player has already said they will run again, so asking to be told when they decide contradicts the line."
-    },
-    "2e2sixto6xe": {
-      "keys": [
-        "scene-talk.follow-ask.again-then-i-ll-want-a-number-in-writing-before-another-dollar-goes-in",
-        "scene-talk.reply-promise.this-isn-t-the-end-of-it"
-      ],
-      "why": "The other person has already said \"again\" and set a condition first, so repeating the vow to run gives neither the plan nor the number asked for."
-    },
     "2efd6mkrlgv": {
       "keys": [
         "scene-talk.reply-confront.witness.i-m-not-afraid-of-an-investigation",
         "scene-talk.follow-confront.i-will"
       ],
       "why": "'I will' has no referent in A's statement of not fearing."
-    },
-    "2eq6uq6kp5q": {
-      "keys": [
-        "scene-talk.reply-blame.i-should-have-knocked-on-more-doors",
-        "scene-talk.follow-disagree.you-re-counting-what-we-spent-not-what-we-tried"
-      ],
-      "why": "The player blamed missed doors, not spending, so telling them they are counting what was spent misreads the line."
-    },
-    "2erzoa197zh": {
-      "keys": [
-        "scene-talk.reply-promise.i-ll-run-again-and-next-time-i-ll-tell-you-before-i-put-in-a-dollar-of-ours",
-        "scene-talk.follow-thank.then-count-me-in-tell-me-when-you-decide"
-      ],
-      "why": "A just said they will run again, so asking to be told when they decide ignores that they already decided."
-    },
-    "2ewiyh1vwf7": {
-      "keys": [
-        "scene-talk.follow-ask.again-then-i-ll-want-a-number-in-writing-before-another-dollar-goes-in",
-        "scene-talk.reply-promise.this-is-not-the-end"
-      ],
-      "why": "The other person has already said \"again\" and set a condition first, so repeating the vow to run gives neither the plan nor the number asked for."
     },
     "2ewpztwc89r": {
       "keys": [
@@ -2049,5 +1076,5 @@
       "why": "The line before asked when, and the reply neither says when nor sidesteps the question."
     }
   },
-  "yesHash": "1arowpckbir"
+  "yesHash": "06moq6fsjd1"
 }

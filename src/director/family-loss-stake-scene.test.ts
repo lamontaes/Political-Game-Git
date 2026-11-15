@@ -47,7 +47,8 @@ import { expectUpToFourDifferent } from "./reply-set-check";
 // time is the game's own played season from filing to the count at each place
 // (about 80 and 290 seconds), and a relative's stake is made through the game's
 // own enlistVolunteer and contributeOwnMoney calls; a shorter run has no count
-// for either.
+// for either. Measured 402 seconds for both places on one process; the limit
+// (800 seconds) is twice that.
 const PLACES = [
   { key: "5355120", seed: "losscan:4" },
   { key: "4980420", seed: "losscan:1" },

@@ -15,6 +15,7 @@ import { coreAPI } from "../core2/state";
 import { OFFICES_MODULE_ID } from "../core2/modules/offices";
 import { OFFICE_DAY_MODULE_ID, stopsOf } from "../core2/modules/office-day";
 import { CAMPAIGN_ACTS } from "../core2/modules/campaigns";
+import { ELECTIONS_MODULE_ID, contestPassed } from "../core2/modules/elections";
 import { coreSeatOfGovernmentPlace } from "../core2/place-lookup";
 import { addDays, ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import { P } from "../core2/parameters";
@@ -25,6 +26,10 @@ import { stakeholders } from "./family-stake";
 import { attendedSchool } from "../core2/past";
 import type { Moment, PersonLedger } from "./types";
 import { LETTER_TYPE, letterFacts } from "./letter-facts";
+import { nextMeetingFacts } from "./meeting-facts";
+
+/** A tie that grew: the friend's ask (situation-types.json). */
+const FRIENDS_TYPE = "becoming-friends";
 
 const zero = P.zero;
 const one = P.one;
@@ -201,6 +206,12 @@ export interface SituationType {
    * a bill's vote after its introduction is a new scene.
    */
   repeatsBy?: string;
+  /**
+   * What keeps the scene worth staging: "contest-open" for a scene about a
+   * race (a rival's word of it), which is not staged once the cause's
+   * contest has had its election day. Absent: no such condition.
+   */
+  liveWhile?: "contest-open";
   /** The decision the scene is for, when it has one ("ballot": the vote is cast here). */
   choice?: string;
   /**
@@ -300,9 +311,14 @@ export interface ScheduleEntry {
   /**
    * The types this cause bound that were held back, and why: the type's
    * season was full (`season-cap`), or a letter would have asked the same with
-   * nothing on record since (`nothing-changed`). The journal tells these.
+   * nothing on record since (`nothing-changed`), or a friend has nothing
+   * to ask that the game can settle (`nothing-to-ask`: no town meeting
+   * posted that the player may come to). The journal tells these.
    */
-  heldBack?: { typeKey: string; reason: "season-cap" | "nothing-changed" }[];
+  heldBack?: {
+    typeKey: string;
+    reason: "season-cap" | "nothing-changed" | "nothing-to-ask";
+  }[];
   /**
    * The bound scenes with a purpose the player has answered, by type: a
    * record that stages several plays each in turn, the next once one ends.
@@ -907,6 +923,18 @@ export function scheduleMoment(
   // One cause stages one scene: a type that yields to another bound for this
   // moment is dropped (what the player allows is decided after, below).
   const staged = found.filter((row) => {
+    if (
+      library.types.find((type) => type.key === row.typeKey)?.liveWhile ===
+        "contest-open" &&
+      core.modules.has(ELECTIONS_MODULE_ID)
+    ) {
+      const contestId = core.durableLog.get(moment.causeId)?.facts?.contestId;
+      if (
+        typeof contestId === "string" &&
+        contestPassed(coreAPI(core as CoreState), contestId)
+      )
+        return false;
+    }
     const yields =
       library.types.find((type) => type.key === row.typeKey)?.yieldsTo ?? [];
     return !found.some((other) => yields.includes(other.typeKey));
@@ -1031,6 +1059,12 @@ export function scheduleMoment(
     );
     return Object.keys(said).length === zero;
   };
+  // A friend asks only for what the game can settle now (the Words lead,
+  // Nov 15; owner's ruling: a colleague asks only for what the game can do):
+  // the next posted town meeting the player may come to. With none, the
+  // scene is not staged rather than dropped at its request.
+  const nothingToAsk = (row: SceneBinding) =>
+    row.typeKey === FRIENDS_TYPE && !nextMeetingFacts(core).meeting;
   const seasonFull = (row: SceneBinding) =>
     (inSeason.get(row.typeKey) ?? zero) >= library.scheduling.seasonCap.value;
   const heldBack = wanted.flatMap(
@@ -1039,7 +1073,9 @@ export function scheduleMoment(
         ? [{ typeKey: row.typeKey, reason: "season-cap" }]
         : sameLetter(row)
           ? [{ typeKey: row.typeKey, reason: "nothing-changed" }]
-          : [],
+          : nothingToAsk(row)
+            ? [{ typeKey: row.typeKey, reason: "nothing-to-ask" }]
+            : [],
   );
   const held = new Set(heldBack.map((row) => row.typeKey));
   const bindings = wanted.filter(

@@ -123,6 +123,29 @@ export function dayAhead(targetIso: string, playIso: string): string | null {
     : dateSaid(targetIso);
 }
 
+/**
+ * A day ahead as said when asking someone along: "tonight" or "today" on the
+ * same day, "tomorrow night" or "tomorrow" on the next (night when the thing
+ * starts in the evening), else "on" and `dayAhead`'s day. Null for a day
+ * already past.
+ */
+export function dayAheadSaid(
+  targetIso: string,
+  playIso: string,
+  evening: boolean,
+): string | null {
+  const day = targetIso.slice(0, 10);
+  const today = playIso.slice(0, 10);
+  if (day === today) return evening ? data.ahead.tonight : data.ahead.today;
+  const next = new Date(Date.parse(`${today}T00:00:00Z`) + 24 * 60 * 60 * 1000)
+    .toISOString()
+    .slice(0, 10);
+  if (day === next)
+    return evening ? data.ahead.tomorrowNight : data.ahead.tomorrow;
+  const on = dayAhead(day, today);
+  return on ? data.ahead.on.replace("{day}", on) : null;
+}
+
 /** Whether a later day falls in the calendar month after the day a scene plays. */
 export function inNextMonth(targetIso: string, playIso: string): boolean {
   const months =
