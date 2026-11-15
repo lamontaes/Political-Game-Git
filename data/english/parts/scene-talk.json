@@ -187406,10 +187406,10 @@
       }
     },
     {
-      "key": "scene-talk.state-request.the-disaster-is-on-the-ground-now-we-need-an-emergency-declared-will",
+      "key": "scene-talk.state-request.the-disaster-is-on-the-ground-now-we-need-an-emergency-declared-by",
       "move": "state-request",
       "kind": "spoken",
-      "text": "The {disaster} is on the ground now. We need an emergency declared. Will you sign it?",
+      "text": "The {disaster} is on the ground now. We need an emergency declared by {deadline}. Will you sign it?",
       "uses": [
         {
           "subject": "scene",
@@ -187418,7 +187418,7 @@
           "role": "asker",
           "purpose": "emergency-briefing",
           "key": "threat",
-          "requiresFacts": ["disaster"],
+          "requiresFacts": ["disaster", "deadline"],
           "excludesFacts": ["again"]
         }
       ],
@@ -187479,10 +187479,10 @@
       }
     },
     {
-      "key": "scene-talk.state-request.we-asked-you-last-week-we-re-asking-again-will-you-declare",
+      "key": "scene-talk.state-request.we-asked-you-before-we-re-asking-again-will-you-declare-the-emergency",
       "move": "state-request",
       "kind": "spoken",
-      "text": "We asked you last week. We're asking again. Will you declare the emergency?",
+      "text": "We asked you before. We're asking again. Will you declare the emergency?",
       "uses": [
         {
           "subject": "scene",
@@ -187561,7 +187561,8 @@
           "move": "ask",
           "role": "asked",
           "purpose": "emergency-briefing",
-          "key": "threat"
+          "key": "threat",
+          "excludesFacts": ["again"]
         }
       ],
       "origin": "authored",
@@ -187609,7 +187610,8 @@
           "role": "asker",
           "purpose": "emergency-briefing",
           "key": "threat",
-          "after": "ask"
+          "after": "ask",
+          "excludesFacts": ["again"]
         }
       ],
       "origin": "authored",
@@ -187691,15 +187693,30 @@
           "purpose": "emergency-briefing",
           "key": "threat",
           "after": "warn"
-        },
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines for the governor's briefing room, added by its builder as written)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "agree",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.alright-i-ll-declare-it",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Alright. I'll declare it.",
+      "uses": [
         {
+          "subject": "scene",
           "step": "reply",
           "move": "agree",
           "role": "asked",
           "purpose": "emergency-briefing",
           "key": "threat",
-          "requiresFacts": ["again"],
-          "subject": "scene"
+          "requiresFacts": ["again"]
         }
       ],
       "origin": "authored",

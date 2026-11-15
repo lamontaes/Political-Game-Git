@@ -6475,10 +6475,10 @@
       }
     },
     {
-      "key": "headlines.emergency-lapsed.name-declares-no-emergency-over-the-disaster",
+      "key": "headlines.emergency-lapsed.no-emergency-from-name-over-the-disaster",
       "move": "emergency-lapsed",
       "kind": "written",
-      "text": "{name} declares no emergency over the {disaster}",
+      "text": "No emergency from {name} over the {disaster}",
       "uses": [
         {
           "move": "emergency-lapsed",

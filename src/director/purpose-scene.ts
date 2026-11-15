@@ -2667,6 +2667,15 @@ function briefingFacts(
   const kind = said.incidentType?.toLowerCase().replace(/\//g, " or ");
   if (kind) facts.disaster = { text: kind, sourceRecordIds: [causeId] };
   // The briefing is a later meeting on the same disaster (the offer was left unanswered).
+  // The day the offer lapses, said as people say a date, from the same record the lapse reads.
+  if (said.closes)
+    facts.deadline = {
+      text: spokenDate(
+        said.closes,
+        core.durableLog.get(causeId)?.date ?? core.date,
+      ),
+      sourceRecordIds: [causeId],
+    };
   if (said.again) facts.again = { text: "", sourceRecordIds: [causeId] };
 }
 

@@ -1716,6 +1716,9 @@ function emitEmergencyOffer(
   again: string,
 ): void {
   const hazard = (api.state as CoreState).durableLog.get(hazardRecordId);
+  // The governor's own office is the room (the scene reads the cause's `officeId`), not the briefer's department.
+  const officeId = townSeats(api).find((s) => s.office.kind === "governor")
+    ?.office.id;
   api.emit({
     id: `${OFFERED_PREFIX}${hazardRecordId}${again ? `${AGAIN_MARK}${again}` : ""}`,
     date: api.state.date,
@@ -1730,6 +1733,9 @@ function emitEmergencyOffer(
     facts: {
       hazardRecordId,
       incidentType: String(hazard?.facts?.incidentType ?? ""),
+      ...(officeId ? { officeId } : {}),
+      // The last day the offer is theirs (the lapse reads the same day), so the briefer can tell the governor the deadline.
+      closes: offerLapseDate(api, hazardRecordId),
       // A meeting after the first says so, so the briefing is not worded as the first time.
       ...(again ? { again: "true" } : {}),
     },
