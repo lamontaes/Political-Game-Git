@@ -17027,10 +17027,10 @@
       }
     },
     {
-      "key": "conversation.debate-question-ask.rival-is-for-about-youre-against-it-why",
+      "key": "conversation.debate-question-ask.rival-is-for-about-youre-against-it-is-that-still-right",
       "move": "debate-question-ask",
       "kind": "spoken",
-      "text": "{rival} is for {about}. You're against it. Why?",
+      "text": "{rival} is for {about}. You're against it. Is that still right?",
       "uses": [
         {
           "move": "debate-question-ask",
@@ -17049,10 +17049,10 @@
       }
     },
     {
-      "key": "conversation.debate-question-ask.rival-is-against-about-youre-for-it-why",
+      "key": "conversation.debate-question-ask.rival-is-against-about-youre-for-it-is-that-still-right",
       "move": "debate-question-ask",
       "kind": "spoken",
-      "text": "{rival} is against {about}. You're for it. Why?",
+      "text": "{rival} is against {about}. You're for it. Is that still right?",
       "uses": [
         {
           "move": "debate-question-ask",
@@ -43476,29 +43476,43 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.interview-take-plain-reply-take.still-undecided",
+      "key": "conversation.interview-take-plain-reply-take.then-your-record-will-have-to-speak-for-you",
       "move": "interview-take-plain-reply-take",
       "kind": "spoken",
-      "text": "Still undecided.",
+      "text": "Then your record will have to speak for you.",
       "uses": [
         {
-          "move": "interview-take-plain-reply-take",
-          "subject": "interview-take-plain",
+          "move": "interview-take-brief-reply-take",
+          "subject": "interview-take-brief",
           "role": "reply",
           "choice": "take",
-          "requiresFacts": ["said-none"]
+          "requiresFacts": ["said-none", "stance-for"]
         },
         {
-          "move": "debate-take-plain-reply-take",
-          "subject": "debate-take-plain",
+          "move": "interview-take-brief-reply-take",
+          "subject": "interview-take-brief",
           "role": "reply",
           "choice": "take",
-          "requiresFacts": ["said-none"]
+          "requiresFacts": ["said-none", "stance-against"]
+        },
+        {
+          "move": "debate-take-brief-reply-take",
+          "subject": "debate-take-brief",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-none", "stance-for"]
+        },
+        {
+          "move": "debate-take-brief-reply-take",
+          "subject": "debate-take-brief",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-none", "stance-against"]
         }
       ],
       "origin": "authored",
-      "author": "Words builder W1 (interviews and debates say what was asked and answered)",
-      "date": "2026-11-12"
+      "author": "Campaign events builder, draft for the Words lead (the Words lead's text, Nov 15)",
+      "date": "2026-11-15"
     },
     {
       "key": "conversation.interview-take-further-reply-take.as-you-voted",
@@ -46397,6 +46411,124 @@
       ],
       "origin": "authored",
       "author": "Words builder M3 (words-neighbor-asks-the-player-about-a-printed-story-by-its-medium)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.shared-school-give-core.it-s-been-years-years-now",
+      "move": "shared-school-give-core",
+      "kind": "spoken",
+      "text": "It's been {years} years now.",
+      "uses": [
+        {
+          "move": "shared-school-give-core",
+          "subject": "shared-school-give",
+          "role": "core",
+          "stages": ["years"],
+          "requiresFacts": ["years"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (thread: election results brought up), for the Words lead's stamp",
+      "date": "2026-11-15",
+      "piece": {
+        "of": "shared-school-give",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "conversation.shared-school-give-core.seems-like-yesterday-and-it-s-been-years-years",
+      "move": "shared-school-give-core",
+      "kind": "spoken",
+      "text": "Seems like yesterday, and it's been {years} years.",
+      "uses": [
+        {
+          "move": "shared-school-give-core",
+          "subject": "shared-school-give",
+          "role": "core",
+          "stages": ["years"],
+          "requiresFacts": ["years"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (thread: election results brought up), for the Words lead's stamp",
+      "date": "2026-11-15",
+      "piece": {
+        "of": "shared-school-give",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "conversation.shared-school-give-core.time-flies",
+      "move": "shared-school-give-core",
+      "kind": "spoken",
+      "text": "Time flies.",
+      "uses": [
+        {
+          "move": "shared-school-give-core",
+          "subject": "shared-school-give",
+          "role": "core",
+          "stages": ["agree"],
+          "requiresFacts": []
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (thread: election results brought up), for the Words lead's stamp",
+      "date": "2026-11-15",
+      "piece": {
+        "of": "shared-school-give",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "conversation.news-ask-core.told-i-m-glad-they-did",
+      "move": "news-ask-core",
+      "kind": "spoken",
+      "text": "I'm glad they did.",
+      "piece": {
+        "of": "news-ask",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "news-ask-core",
+          "subject": "news-ask",
+          "role": "core",
+          "requiresFacts": ["story", "story-decided", "player-saw", "their-for"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder M3, Claude Sonnet 5.5 (a stand after a decided story is told)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.news-ask-core.told-i-wish-they-hadn-t",
+      "move": "news-ask-core",
+      "kind": "spoken",
+      "text": "I wish they hadn't.",
+      "piece": {
+        "of": "news-ask",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "news-ask-core",
+          "subject": "news-ask",
+          "role": "core",
+          "requiresFacts": [
+            "story",
+            "story-decided",
+            "player-saw",
+            "their-against"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder M3, Claude Sonnet 5.5 (a stand after a decided story is told)",
       "date": "2026-11-15"
     }
   ]

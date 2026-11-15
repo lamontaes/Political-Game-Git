@@ -342,7 +342,12 @@ export interface Subject {
   /** For the address's point a hearer raises: the question and why they raised it. */
   point?: { question: string; reason: PointReason };
   /** For news: the policy question a story is about, or the place a change in town names. */
-  news?: { question?: string; institutionId?: string };
+  news?: {
+    question?: string;
+    institutionId?: string;
+    /** The story does the opposite of the question (a cut of a line the question would raise): a stand on the question is the other side of the story. */
+    reverses?: boolean;
+  };
   /**
    * How much it weighs as a talk's topic when the speaker's willingness to
    * raise it is what decides (where they stand politically), not a recorded
@@ -2390,7 +2395,7 @@ export function newsStake(
     if (view !== zero)
       return {
         reason: "stance",
-        side: view > zero ? "for" : "against",
+        side: view > zero !== !!subject.news?.reverses ? "for" : "against",
         recordIds: [stanceRow(api, personId, question)?.id ?? personId],
       };
   }
@@ -2490,6 +2495,15 @@ function storyEvent(
     return null;
   };
   if (facts.lawId) return { event: "took-effect", body: null };
+  // A budget line the body carried: it passed, said by the body's name.
+  if (facts.line !== undefined && facts.deltaMinor !== undefined) {
+    const level = facts.level
+      ? (saidAsData.deciders as Readonly<Record<string, string>>)[facts.level]
+      : undefined;
+    return facts.carried === "yes" && level
+      ? { event: "passed", body: level.replace(/^the\s+/, "") }
+      : null;
+  }
   return voted();
 }
 
@@ -2524,10 +2538,26 @@ function printedSubject(
       : {};
     // The policy question the story is about, as people say it, where the
     // story names one ("a mileage fee in place of the fuel tax").
-    const about = story.topic ? questionAbout(story.topic) : null;
-    if (!about) return null;
-    const news = { question: story.topic! };
     const reported = storyEvent(core, story);
+    // A budget line moved is told by what happened to the money: more or
+    // less for what the line pays for, never by the proposal the question
+    // names; its row says which way (the sign of the change).
+    const moved =
+      story.facts.line !== undefined && story.facts.deltaMinor !== undefined
+        ? Number(story.facts.deltaMinor)
+        : undefined;
+    if (moved !== undefined && (!reported || !moved)) return null;
+    const about =
+      moved !== undefined
+        ? budgetPurposeSaid(story.facts.line!, moved < zero)
+        : story.topic
+          ? questionAbout(story.topic)
+          : null;
+    if (!about) return null;
+    const news = {
+      question: story.topic!,
+      ...(moved !== undefined && moved < zero ? { reverses: true } : {}),
+    };
     // What the teller makes of it: their side on the question, from their
     // own view record. None, and they have nothing of their own to say.
     const stake = newsStake(core, tellerId, { news });
@@ -2541,18 +2571,13 @@ function printedSubject(
       facts: {
         about: { text: about, sourceRecordIds: [story.id] },
         said: {
-          text: questionSaid(story.topic!) ?? about,
+          text:
+            (moved === undefined ? questionSaid(story.topic!) : null) ?? about,
           sourceRecordIds: [story.id],
         },
         ...stakeMarks(stake, "their-"),
         // A printed story, told by what it is about (never its headline).
         story: { text: "yes", sourceRecordIds: cited },
-        // A budget line moved: the question names a proposal and the row an
-        // outcome, so the talk does not ask about it (pool item).
-        ...(story.facts.line !== undefined &&
-        story.facts.deltaMinor !== undefined
-          ? { "story-budget": { text: "yes", sourceRecordIds: [story.id] } }
-          : {}),
         // What it reports, where its row holds it (storyEvent).
         ...(reported
           ? {
@@ -4090,6 +4115,26 @@ function youIn(
   return said ? {} : { you };
 }
 
+/**
+ * The one rule for a name in a talk (rule 105): facts a line is composed
+ * from, with the speaker's name for the player left out where the speaker
+ * already said it earlier in this talk. Every composer that places the name
+ * asks here, so no bank keeps its own count.
+ */
+function nameOnce(
+  core: Readonly<CoreState>,
+  conversation: Pick<Conversation, "lines">,
+  speakerId: PersonId,
+  playerId: PersonId,
+  facts: Facts,
+): Facts {
+  if (!facts.you || youIn(core, conversation, speakerId, playerId).you)
+    return facts;
+  const rest = { ...facts };
+  delete rest.you;
+  return rest;
+}
+
 /** What the other person said since the player last spoke. */
 function toldSince(
   lines: readonly ConversationLine[],
@@ -4558,6 +4603,21 @@ function giveBack(
       learned: {},
     };
   }
+  if (kind === "shared-school") {
+    // How long it has been since they were at school together, the asker's
+    // own sense of the years, after the player answers "Remember {school}?":
+    // a question answered is followed up, never the talk's last word (owner,
+    // Oct 15; the played talks at Cumming, Iowa, seed 7952d3f3e3253ee4, Nov
+    // 15). After an answer that already said the years, they agree instead
+    // (the stage the player's move names in the rules).
+    const years = subject.facts.years;
+    if (!years || said.includes("years")) return null;
+    return {
+      facts: { you, years },
+      stage: GIVES_ANSWER[kind]?.[move ?? ""] ?? "years",
+      learned: {},
+    };
+  }
   if (kind === "asked-kin" && subject.aboutId) {
     // From the relative's own facts the subject carries (their work, where
     // they live), less what the player already holds and what the question
@@ -4662,7 +4722,7 @@ function sayGiveBack(
         core,
         otherId,
         `${last.kind}-give`,
-        back.facts,
+        nameOnce(core, conversation, otherId, playerId, back.facts),
         back.stage,
         `${eventId}:give`,
         saidParts(conversation, otherId),
@@ -4903,7 +4963,6 @@ function raiseSubject(
   const asksFirst =
     subject.kind === "news" &&
     !!subject.facts.story &&
-    !subject.facts["story-budget"] &&
     !!words(
       core,
       data,
@@ -8234,8 +8293,10 @@ function answerNews(
   }
   const theirs = newsStake(core, otherId, last.subject);
   const facts: Facts = {
-    ...last.facts,
-    you: calledBy(core, otherId, playerId),
+    ...nameOnce(core, conversation, otherId, playerId, {
+      ...last.facts,
+      you: calledBy(core, otherId, playerId),
+    }),
     ...stakeMarks(theirs, "their-"),
     // No side of their own and no tie to the place: the answer says so.
     ...(theirs.reason === "none"

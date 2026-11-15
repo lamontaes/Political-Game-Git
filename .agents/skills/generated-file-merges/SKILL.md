@@ -82,6 +82,7 @@ The train branch takes finished pull requests one named sha at a time, sometimes
 - **Gate every push on what changed since the last push:** typecheck, the guards, release check, zero-dice, eslint on changed `.ts` and `.mjs` files (the repository check in CI fails on lint even when typecheck passes; an empty file list lints the whole repository, so guard it), and the changed test files by name. Put the commands in a script file; `$(...)` inside a quoted `bash -c` string expands wrong.
 - **A new test in one pull request can turn another fold red.** A test that reads the whole world (law reach, most specific line) finds a regression from a different fold; name the failing call chain in the report and the fold that added the call, and do not revert it yourself.
 - **Run a long test file alone before calling a timeout real.** A test that passes alone in 40 seconds and fails at its limit while the gate runs other suites is a limit too close to its run time; tell its builder.
+- **In a criss-cross merge the merge base can hold conflict markers.** When `git show :1:<bank>` has `<<<<<<<` lines, the three-way bank merge has no clean base; use your own earlier merge of the other side (the last commit where you settled the same bank) as the base instead, then run `words:verdicts` and `words:rules` twice (Nov 15, S6 on #9324).
 
 ## Two skills appended by two branches (Nov 15, S3)
 
