@@ -24,12 +24,14 @@ source: director-after-race-turned-precinct (#9446), the Account lead's call Nov
 
 **Fix.** Add a fact for each case the records can show true, read from `precinctTotals` of this count and the earlier count for the office (same candidate, same precinct cut), cited by result id, and `stateMoves` for the arc that says it. Each sentence from /mnt/project-files/words-lead/after-the-race/turned-precinct-lines.md ships only after a played run at the final head shows the case and both counts' precinct votes beside the line. A world where the player leads a precinct and then loses needs finding: the player filing in the first seat never led in the places tried, so try a place with few candidates or a player who ran and won first. The played script is in git history at commit 0c98839a on branch claude/project-thread-p37c46.
 
+**To record when it is built.** In five towns (Bountiful UT, Stoneham MA, Marengo IL, Wabaunsee KS, Meadville MO) the player never led a precinct in either election. Seen so far: Bountiful precinct 5, 162 of 1,217 votes in 2025 (fourth), 59 of about 770 in 2027; Stoneham precinct 4, 98 of 706 in 2025 (fourth of four), 111 of 1,100 in 2027. For every played race print the player's share overall, their rank, and the precinct they did best in with its rank there. If a played candidate almost never carries a precinct, "It was ours last time." has no case to find and the question becomes why (how a player's votes spread over precincts), not which place to draw.
+
 **Time box.** 4 hours, most of it played runs (about 20 minutes each).
 
 **Rules.** No count spoken. A sentence ships only if it played at the final head and the records show it true.
 
 **Done when.** A second session sees each added sentence played at its exact head in the played file, naming the place, the seed and both counts.
 
-**Waits on.** #9446 folding; the morning lines wait on world-race-lost-day-after-keeps-night-narration.
+**Waits on.** Built on the #9446 branch and folds together with it, because the saved split has no reader until this lands (a fact no line reads does not ship; Account lead, Nov 15). The morning lines wait on world-race-lost-day-after-keeps-night-narration.
 
 **Files.** src/director/race-turnout-facts.ts, src/director/data/purpose-arcs.json, data/english/parts/scene-talk.json
