@@ -83747,58 +83747,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-refuse.it-passed-i-m-not-going-to-veto-it",
-      "move": "reply-refuse",
-      "kind": "spoken",
-      "text": "It passed. I'm not going to veto it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "refuse",
-          "role": "asked",
-          "purpose": "desk-visit",
-          "key": "desk-visit",
-          "requiresFacts": ["against"],
-          "after": "request"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Helper D (words and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "refuse",
-        "key": "desk-visit"
-      }
-    },
-    {
-      "key": "scene-talk.reply-refuse.the-people-who-voted-for-it-have-spoken-i-ll-sign",
-      "move": "reply-refuse",
-      "kind": "spoken",
-      "text": "The people who voted for it have spoken. I'll sign.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "refuse",
-          "role": "asked",
-          "purpose": "desk-visit",
-          "key": "desk-visit",
-          "requiresFacts": ["against"],
-          "after": "request"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Helper D (words and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "refuse",
-        "key": "desk-visit"
-      }
-    },
-    {
       "key": "scene-talk.reply-refuse.no-veto-it-gets-my-signature",
       "move": "reply-refuse",
       "kind": "spoken",
