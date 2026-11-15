@@ -84081,58 +84081,6 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.a-fix-i-can-do-you-ll-have-it-in-writing",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "A fix I can do. You'll have it in writing.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "desk-visit",
-          "key": "desk-visit",
-          "after": "bargain",
-          "requiresFacts": ["for"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Helper D (words and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "accept",
-        "key": "desk-visit"
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.done-i-ll-get-the-follow-up-drafted",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "Done. I'll get the follow-up drafted.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "desk-visit",
-          "key": "desk-visit",
-          "after": "bargain",
-          "requiresFacts": ["for"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Helper D (words and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "accept",
-        "key": "desk-visit"
-      }
-    },
-    {
       "key": "scene-talk.follow-accept.i-ll-have-it-written-up-for-you",
       "move": "follow-accept",
       "kind": "spoken",
@@ -84205,58 +84153,6 @@
       "origin": "authored",
       "author": "Helper D (words and scenes)",
       "date": "2026-10-27",
-      "tag": {
-        "move": "press",
-        "key": "desk-visit"
-      }
-    },
-    {
-      "key": "scene-talk.follow-press.it-passed-as-written-i-won-t-open-it-back-up",
-      "move": "follow-press",
-      "kind": "spoken",
-      "text": "It passed as written. I won't open it back up.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "purpose": "desk-visit",
-          "key": "desk-visit",
-          "after": "bargain",
-          "requiresFacts": ["for"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Desk thread (Words lead ruling, #9240 replay 2)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "press",
-        "key": "desk-visit"
-      }
-    },
-    {
-      "key": "scene-talk.follow-press.i-m-not-carrying-a-second-bill-to-get-the-first-one-signed",
-      "move": "follow-press",
-      "kind": "spoken",
-      "text": "I'm not carrying a second bill to get the first one signed.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "purpose": "desk-visit",
-          "key": "desk-visit",
-          "after": "bargain",
-          "requiresFacts": ["for"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Desk thread (Words lead ruling, #9240 replay 2)",
-      "date": "2026-11-14",
       "tag": {
         "move": "press",
         "key": "desk-visit"
