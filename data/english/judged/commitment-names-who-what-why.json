@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "commitment-names-who-what-why",
   "rubric": "A line that commits (a stance, a threat, a refusal) names who, what or why in plain words.",
-  "judged": 485,
+  "judged": 476,
   "no": {
     "000kvn97gfw": {
       "keys": [
@@ -2337,5 +2337,5 @@
       "why": "Bribe for 'it goes my way'; what 'it' is never appears."
     }
   },
-  "yesHash": "16qmsm9g6mn"
+  "yesHash": "16copbs3uso"
 }

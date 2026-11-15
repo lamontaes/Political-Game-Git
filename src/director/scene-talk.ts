@@ -264,6 +264,23 @@ export interface TreeNode {
   };
 }
 
+/**
+ * The node a reply leads to as play reaches it. After a lie the tree holds
+ * both outcomes as branches; the one the staged records give is the one
+ * played: "if {name} knows" when the staging holds what catches the lie
+ * (that branch exists only then), otherwise "if not" (scene-talk.ts
+ * lieBranches, the same choice the trait-led path takes).
+ */
+export function playedNode(node: TreeNode): TreeNode {
+  const branches = node.branches;
+  if (!branches?.length) return node;
+  const branch = branches.find((row) => row.knows) ?? branches[zero]!;
+  return {
+    ...branch.node,
+    lines: [...node.lines, ...branch.node.lines],
+  };
+}
+
 export interface TreeReply {
   line: SceneTalkLine;
   /** Null where the tree is cut at its node bound. */
@@ -2225,7 +2242,8 @@ export function lastAnswerAlong(
   let node: TreeNode | null = tree;
   let last = tree.lines.filter((row) => row.role === "asker").at(-one)?.move;
   for (const index of path) {
-    node = node?.replies[index]?.next ?? null;
+    const next: TreeNode | null = node?.replies[index]?.next ?? null;
+    node = next ? playedNode(next) : null;
     if (!node) break;
     last =
       node.lines.filter((row) => row.role === "asker").at(-one)?.move ?? last;
