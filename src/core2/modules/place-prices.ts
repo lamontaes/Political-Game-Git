@@ -19,6 +19,7 @@ import { worldLevel, worldRate } from "../world-draw";
 import pricesParameters from "../data/prices/parameters.json" with { type: "json" };
 import { parameter, type Parameter } from "../parameters";
 import { residentsRuntime } from "./residents";
+import { ageOfMajority } from "../age-of-majority";
 import { notifySalesReceipt } from "./finance";
 import { countedPayment } from "../counted-money";
 import { LAWS_MODULE_ID, lawChain, lawInForce } from "./laws";
@@ -516,7 +517,7 @@ function scaleFor(api: CoreAPI, monthlyPayMinor: number, good: Good): number {
 /** Who lives in a household, from its records: what its use of a good follows. */
 export interface Composition {
   persons: number;
-  /** Members at the voting age (the `votingAge` parameter). */
+  /** Members of age where they live (`ageOfMajority`, not the voting age a law can change). */
   adults: number;
   /** Members with a job (a recorded one, or work outside the recorded firms). */
   workers: number;
@@ -1418,8 +1419,7 @@ function withWebRules(api: CoreAPI, rules: Rule[]): Rule[] {
   return out;
 }
 
-function fullComposition(
-  api: CoreAPI,
+export function householdComposition(
   c: CoreState,
   members: readonly string[],
 ): Composition {
@@ -1427,7 +1427,8 @@ function fullComposition(
     workers = 0;
   for (const id of members) {
     const person = c.people.get(id)!;
-    if (ageOn(c.date, person.birthDate) >= api.parameter("votingAge")) adults++;
+    if (ageOn(c.date, person.birthDate) >= ageOfMajority(person.placeId))
+      adults++;
     const job = person.jobId ? c.jobs.get(person.jobId) : undefined;
     if (job && job.endsAt === undefined) workers++;
   }
@@ -1435,7 +1436,6 @@ function fullComposition(
 }
 
 function countedComposition(
-  api: CoreAPI,
   date: string,
   store: NonNullable<ReturnType<typeof residentsRuntime>>["store"],
   household: Parameters<typeof store.countedCount>[0],
@@ -1443,7 +1443,7 @@ function countedComposition(
 ): Composition {
   let adults = 0;
   for (const facts of store.factsOfHousehold(household))
-    if (ageOn(date, facts.birthDate) >= api.parameter("votingAge")) adults++;
+    if (ageOn(date, facts.birthDate) >= ageOfMajority(facts.placeId)) adults++;
   const workers =
     household.jobs.filter((job) => job.endsAt === undefined).length +
     household.unplacedWorkers;
@@ -1538,7 +1538,7 @@ function month(api: CoreAPI): void {
           pay +=
             (job.wageDailyMinor * api.parameter("jobsDaysPerYear")) / MONTHS;
       }
-      const who = fullComposition(api, c, members);
+      const who = householdComposition(c, members);
       const use = useFor(rule, pay);
       const change = monthlyChange(
         use.rule,
@@ -1598,13 +1598,7 @@ function month(api: CoreAPI): void {
           pay +=
             (job.wageDailyMinor * api.parameter("jobsDaysPerYear")) / MONTHS;
       }
-      const who = countedComposition(
-        api,
-        c.date,
-        rt!.store,
-        household,
-        persons,
-      );
+      const who = countedComposition(c.date, rt!.store, household, persons);
       const use = useFor(rule, pay);
       const change = monthlyChange(
         use.rule,

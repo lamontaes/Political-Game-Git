@@ -492,7 +492,7 @@
       "key": "apology",
       "receive": {
         "age": "any",
-        "counterpart": "apart",
+        "counterpart": "any",
         "seat": "any"
       },
       "roles": [
@@ -1832,7 +1832,7 @@
             "label": "circumstance:bribe-accused"
           },
           "causeEngine": "circumstance",
-          "causeRecord": "scandal.reported",
+          "causeRecord": "news.read",
           "sceneKey": "bribe-reported",
           "bind": {
             "accuser": "counterpart",

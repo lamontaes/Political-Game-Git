@@ -608,6 +608,10 @@
           "actKinds": ["delay", "play-safe"]
         },
         {
+          "id": "come-back",
+          "actKinds": ["delay", "play-safe"]
+        },
+        {
           "id": "deflect",
           "actKinds": ["delay", "stay-quiet"]
         },

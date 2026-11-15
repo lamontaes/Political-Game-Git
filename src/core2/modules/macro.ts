@@ -1198,7 +1198,12 @@ const OUTLOOK_PROBLEMS_KEPT = 8;
  */
 /** Whether the national economy has opened: it opens on the game's first day, and there is no outlook before it. */
 export function countryOpened(api: CoreAPI): boolean {
-  return readState(api) !== undefined;
+  // A world built without the economy (the law-reach tests' small worlds) has no tier: the same
+  // test the outside-money reader makes. The game's worlds always install it (modules/world.ts).
+  return (
+    (api.state as CoreState).modules.has(MACRO_MODULE_ID) &&
+    readState(api) !== undefined
+  );
 }
 
 /** The tier's own check for counts that cannot be (negative, more working than people, jobs not matching workers); empty before the economy opens. */
