@@ -29,3 +29,7 @@ Lead ruling, Nov 13 to 14: a test is pinned in the test file to named places wit
 ## Checking a reported pass
 
 Ask where it ran and at what head. A unit test that builds its own small world proves an edge case only; the played-world proof is separate.
+
+## A comparison across two counts (step 12, Nov 15)
+
+A test of "this race against the last race for the office" cannot stage two town counts inside a minute: opening at the game start and running to the second election took 14 minutes at Bountiful, Utah, and a world opened in late October has no filings for the year before. Stage one count (open a world on Oct 27 of an election year, run to Nov 10, about 80 seconds, a pinned place) and test the comparison as a pure function on counts shaped like the real rows (`precinctShift` in `src/director/race-turnout-facts.ts`). Say in the PR body that the two-count played proof was not run and why.

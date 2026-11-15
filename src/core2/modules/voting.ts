@@ -351,6 +351,15 @@ export interface ResultRow {
   readonly recountId?: string;
   /** The day the result was certified, where a recount held it until then. */
   readonly certifiedOn?: string;
+  /**
+   * The town's own votes (named and counted, not the wider places) by
+   * precinct: precinct number to candidate to votes, saved once at the count
+   * so a later read names the part of town that turned. Each candidate's
+   * precincts add up to `namedVotes` plus `countedVotes`.
+   */
+  readonly precinctTotals?: Readonly<
+    Record<string, Readonly<Record<string, number>>>
+  >;
 }
 
 /**
@@ -3719,6 +3728,9 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
   const playerId = (api.state as CoreState).playerId ?? null;
   const namedVotes: Record<string, number> = {};
   const exitPoll: Record<string, number> = {};
+  /** The town's votes by precinct, named ballots as cast and counted records at their share (`precinctTotalsOf`). */
+  const precinctVotes: Record<number, Record<string, number>> = {};
+  const countedByPrecinct: Record<number, Record<string, number>> = {};
   let voted = 0;
   for (const voter of named) {
     const { appeal, lean, recordReasons, basis } = appealFor(
@@ -3800,6 +3812,10 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
       exitPoll[told!] = (exitPoll[told!] ?? 0) + 1;
     }
     for (const id of choices) namedVotes[id] = (namedVotes[id] ?? 0) + 1;
+    if (t.votes && choices.length) {
+      const here = (precinctVotes[precinctIndexOf(api, voter) + 1] ??= {});
+      for (const id of choices) here[id] = (here[id] ?? 0) + 1;
+    }
     // The reasons behind a ballot (each candidate's appeal terms, the record
     // reasons, why they turned out) are kept for the player's circle (and
     // everyone's under the keep-everyone's-why switch); everyone else's ballot
@@ -3876,8 +3892,10 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
     /** Each record's voters for each candidate before turnout, in field order (`countedDivision`). */
     split: [] as number[][],
   };
-  const countedAdults = wards > 0 ? countedAdultsToday(api) : 0;
+  const countedAdults = countedAdultsToday(api);
+  const precinctCount = pollingPlaces(api).length;
   let countedAdultIndex = 0;
+  let countedRunIndex = 0;
   // How a record's people divide in this race, read once for the count.
   const oneSeat = countedShareRule(field);
   const shares =
@@ -3892,6 +3910,16 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
     // Wards are drawn to equal population: the counted residents divide
     // among them in equal runs of the voters each stands for, as the named
     // households do.
+    // A precinct is likewise an equal run of the voters each record stands
+    // for, in the town's order (the named households' rule, per record).
+    const precinct =
+      Math.min(
+        precinctCount - 1,
+        Math.floor(
+          (countedRunIndex * precinctCount) / Math.max(1, countedAdults),
+        ),
+      ) + 1;
+    countedRunIndex += voter.weight;
     if (wards > 0) {
       const mine =
         Math.min(
@@ -3963,9 +3991,12 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
         : -1,
     );
     countedVoted += t.propensity * voter.weight;
-    for (const [backed, weight] of Object.entries(division.votes))
+    for (const [backed, weight] of Object.entries(division.votes)) {
       countedVotes[backed] =
         (countedVotes[backed] ?? 0) + t.propensity * weight;
+      const here = (countedByPrecinct[precinct] ??= {});
+      here[backed] = (here[backed] ?? 0) + t.propensity * weight;
+    }
     // The record tells the pollster as a named voter would: a reluctant one
     // declines, so its whole turnout share counts as declined.
     const tells = leanedYes(
@@ -4039,6 +4070,12 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
       eligible: countedEligible,
     },
     wider,
+    precinctTotals: precinctTotalsOf(
+      precinctVotes,
+      countedByPrecinct,
+      scale,
+      countedVotes,
+    ),
     reasons: publicReasons(api, contest, filings),
     // The one with the most votes; a tie for first by the place's law for
     // the office; one name on the ballot wins unopposed, whatever the
@@ -4708,6 +4745,8 @@ function keepCount(
       readonly cast: number;
       readonly places: readonly PlaceResult[];
     } | null;
+    /** The town's own votes by precinct (`precinctTotalsOf`), where the count has them. */
+    readonly precinctTotals?: ResultRow["precinctTotals"];
     readonly reasons: readonly CandidateReasons[] | null;
     /** The winner on the totals, by the race's law; null for none. */
     readonly decide: (
@@ -4765,6 +4804,7 @@ function keepCount(
     exitPoll: named.exitPoll,
     ...(input.reasons ? { electorateReasons: input.reasons } : {}),
     ...(wider ? { placesCast: wider.cast } : {}),
+    ...(input.precinctTotals ? { precinctTotals: input.precinctTotals } : {}),
   };
   table(api, "results").put(result as unknown as ModuleRow);
   if (!bookkeeping()) dropOlderTownReturns(api, input.id, input.date);
@@ -4784,6 +4824,48 @@ function keepCount(
   };
   table(api, "results").put(held as unknown as ModuleRow);
   return held;
+}
+
+/**
+ * A town count's votes by precinct (saved once at the count, read later to
+ * name the part of town that turned): the named voters' ballots as cast and
+ * each counted record's share at its precinct, scaled and rounded so a
+ * candidate's precincts add up to exactly their named and counted votes
+ * (the running total is rounded, each precinct takes the step).
+ */
+function precinctTotalsOf(
+  named: Readonly<Record<number, Readonly<Record<string, number>>>>,
+  countedRaw: Readonly<Record<number, Readonly<Record<string, number>>>>,
+  scale: number,
+  countedVotes: Readonly<Record<string, number>>,
+): Record<string, Record<string, number>> {
+  const precincts = [
+    ...new Set([...Object.keys(named), ...Object.keys(countedRaw)].map(Number)),
+  ].sort((a, b) => a - b);
+  const out: Record<string, Record<string, number>> = {};
+  const running: Record<string, number> = {};
+  const given: Record<string, number> = {};
+  for (const [n, precinct] of precincts.entries()) {
+    const here: Record<string, number> = {};
+    for (const id of new Set([
+      ...Object.keys(named[precinct] ?? {}),
+      ...Object.keys(countedRaw[precinct] ?? {}),
+    ])) {
+      running[id] =
+        (running[id] ?? 0) + (countedRaw[precinct]?.[id] ?? 0) * scale;
+      // The last precinct takes what is left of the counted total, so the
+      // parts never drift from it.
+      const to =
+        n === precincts.length - 1
+          ? (countedVotes[id] ?? 0)
+          : Math.round(running[id]!);
+      const counted = Math.max(0, to - (given[id] ?? 0));
+      given[id] = (given[id] ?? 0) + counted;
+      here[id] = (named[precinct]?.[id] ?? 0) + counted;
+    }
+    out[String(precinct)] = here;
+  }
+  return out;
 }
 
 /** A count's totals: each candidate's named, counted and coarsely counted votes. */
