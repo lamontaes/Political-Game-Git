@@ -295,6 +295,8 @@ export interface BillRow {
     /** Where a trade was made: the committee's markup or the floor. */
     readonly stage?: "committee" | "floor";
     readonly chamber?: string;
+    /** The section a trade or a poison pill added: someone else's, not the sponsor's. */
+    readonly section?: Provision;
     /**
      * Both sides' reasons, from their positions on the bill before and after
      * the section went in: the member's, the sponsor's (who gives it only
@@ -3236,6 +3238,44 @@ export function memberPosition(
   );
 }
 
+/**
+ * The sections a bill's sponsor wrote: every section but those a trade or a
+ * poison pill added (each recorded on its deal), and of them the one that
+ * weighs most for the sponsor, weighed alone. A sponsor's reason for their
+ * bill rests on what they wrote, never on someone else's price; their vote
+ * still reads the whole bill.
+ */
+export function sponsorsStrongestSection(
+  api: CoreAPI,
+  bill: BillRow,
+): { readonly section: Provision; readonly position: MemberPosition } | null {
+  const added = bill.deals
+    .filter(
+      (d) =>
+        d.status === "accepted" &&
+        (d.kind === "trade-amendment" || d.kind === "poison-pill") &&
+        d.section,
+    )
+    .map((d) => JSON.stringify(d.section));
+  const own = bill.provisions.filter((p) => {
+    const at = added.indexOf(JSON.stringify(p));
+    if (at < 0) return true;
+    added.splice(at, 1);
+    return false;
+  });
+  let best: { section: Provision; position: MemberPosition } | null = null;
+  for (const section of own) {
+    const position = positionOn(
+      api,
+      { ...bill, provisions: [section] },
+      bill.sponsorId,
+    );
+    if (!best || position.total > best.position.total)
+      best = { section, position };
+  }
+  return best;
+}
+
 const tieRules = (
   ties as unknown as {
     states: Record<string, Record<string, { who: string } | undefined>>;
@@ -5330,6 +5370,7 @@ function floorAmendmentsRun(
           status: "accepted",
           stage,
           chamber,
+          section,
         },
       ],
     };

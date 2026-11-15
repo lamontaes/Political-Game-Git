@@ -10,6 +10,7 @@ import {
   askPrice,
   billOf,
   memberPosition,
+  sponsorsStrongestSection,
 } from "../core2/modules/legislature";
 import { P } from "../core2/parameters";
 import { coreAPI } from "../core2/state";
@@ -108,14 +109,16 @@ export function sponsorAmountFacts(
   if (!core.modules.has(LEGISLATURE_MODULE_ID)) return;
   const api = coreAPI(core as CoreState);
   const bill = billOf(api, billId);
-  // The section the sponsor filed is the bill's first; sections added since
-  // (a trade on the floor) are not the figure they came to say.
-  const [section] = bill?.provisions ?? [];
   if (!bill || bill.sponsorId !== sponsorId) return;
-  if (section?.kind !== "law-amount" || !section.series) return;
+  // The figure and the reason are the sponsor's own: the section they wrote
+  // that weighs most for them, weighed alone. A section a trade or a poison
+  // pill added is someone else's price (coordinator's ruling, Nov 15).
+  const strongest = sponsorsStrongestSection(api, bill);
+  if (!strongest) return;
+  const { section, position } = strongest;
+  if (section.kind !== "law-amount" || !section.series) return;
   const words = amountWords(section.series);
   if (!words || words.grant) return;
-  const position = memberPosition(api, billId, sponsorId);
   const terms = bargainData.reasonTerms as Record<string, string>;
   const [reason] = Object.entries(terms)
     .filter(([term]) => term !== "sponsor")

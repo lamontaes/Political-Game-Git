@@ -22,7 +22,7 @@ root: none
 
 **Cause.** Found in code: the sponsor's trade in src/core2/modules/legislature.ts (the holdout loop that gives "a holdout their own section for their vote", `provisions: [...current.provisions, section]`) adds sections before the vote, and `sponsorAmountFacts` weighs the whole bill. The figure it says already comes from the first section only. The first guess, a senator weighed as a town member with no officials row, was measured and is wrong.
 
-**Fix.** `sponsorAmountFacts` weighs the sponsor's position on the bill's first section alone, the section they filed, the same way it takes the figure from that section. This needs a reader in legislature.ts for a member's position on one section of a bill, by the same rule `memberPosition` uses. The two reason lines taken out of #9310 ("the next election", "the people back home") may then become reachable. Bring them back only with a played case each.
+**Fix.** Ruled by the coordinator (Nov 15, 01:11Z and 01:20Z): the sponsor states a reason only from sections they wrote, never from a traded-in section or a poison pill, and of their own sections from the one that weighs most for them, weighed alone. The vote keeps reading the whole bill. `sponsorsStrongestSection` in legislature.ts reads the bill's sections minus those an accepted trade or pill deal added (each deal now records its section), weighs each alone with the rule `memberPosition` uses, and `sponsorAmountFacts` takes the figure and reason from it. Test: src/director/sponsor-own-section.test.ts at Nathrop CO.
 
 **Time box.** 2 hours.
 
