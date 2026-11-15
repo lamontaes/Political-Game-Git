@@ -12,6 +12,7 @@ import { screenLine } from "../english/screen-words";
 import { questionReasons } from "../english/question-names";
 import { pronounSetOfGender, pronounWords } from "../english/pronoun-words";
 import { budgetLineNames, policyNames } from "./words";
+import { FEE_LEVEL_BASELINE, isFeeLevelSeries } from "../core2/fee-levels";
 import {
   billForm,
   bodyOf,
@@ -37,6 +38,11 @@ import { placeOnAgenda, upcomingMeeting } from "../core2/modules/office-day";
 import { townSeats, type TermRow } from "../core2/modules/offices";
 import { appointmentsIn } from "../core2/modules/executive";
 import { billCatalog } from "../core2/bill-catalog";
+import {
+  chargedServicesOf,
+  governmentOfJurisdiction,
+} from "../core2/modules/budgets";
+import { FEE_LEVEL_SERVICES } from "../core2/fee-levels";
 import type { CoreState } from "../core2/types";
 import { backdropFor, faceOf, peopleHere } from "./scene";
 import { hasBackdrop } from "./backdrop-places";
@@ -407,6 +413,7 @@ export function seatAct(
               menusFor(api, body.level, input.officeId!)
                 .flatMap((menu) => menu.items)
                 .find((row) => row.series === input.series)?.unit ?? undefined,
+            ...feeNaming(input.series, value),
           }
         : {
             kind: "policy-question",
@@ -629,6 +636,15 @@ export function billPaper(core: CoreState, billId: string) {
     budgetFor: bill.budgetFor,
   });
   const names = { ...policyNames(), ...budgetLineNames() };
+  // A fee's section cites what the government's charge is today: the records the draft card reads.
+  const billBody = bodyOf(api, bill.bodyOfficeId);
+  const billGovernment = governmentOfJurisdiction(
+    api,
+    bodyRow(billBody?.kind ?? "")?.jurisdiction ?? billBody?.jurisdiction ?? "",
+  );
+  const billCharges = billGovernment
+    ? chargedServicesOf(api, billGovernment.id)
+    : [];
   const sections = bill.provisions.map((provision, index) => {
     const subject = bill.title?.subjects[index] ?? null;
     const purpose =
@@ -674,6 +690,17 @@ export function billPaper(core: CoreState, billId: string) {
         lawId: section?.before.lawId ?? null,
         beforeValue: section?.before.value ?? null,
         beforeUnit: section?.before.unit ?? null,
+        ...feeCharge(
+          provision.series,
+          section,
+          billCharges,
+          // The level in force is the first section's "before"; a later step of the same fee follows an earlier one.
+          form.sections[
+            bill.provisions.findIndex((p) => p.series === provision.series)
+          ]?.before.value ?? null,
+          bill.provisions.findIndex((p) => p.series === provision.series) ===
+            index,
+        ),
         afterValue: section?.after.value ?? null,
         afterUnit: section?.after.unit ?? null,
         // The date this section names for itself (a phase-in's step), or
@@ -865,6 +892,8 @@ function menusFor(
         ...(row.line ? { line: row.line } : {}),
         ...(row.series ? { series: row.series } : {}),
         ...(row.unit ? { unit: row.unit } : {}),
+        // A fee: what the government's charge for it brings in, which the draft card shows as today's.
+        ...(row.charge ? { charge: row.charge } : {}),
         inForce: row.inForce,
         // The amount the law in force holds, as the bill's paper cites it ("before"): the
         // draft card shows this beside the new amount so both screens say one thing.
@@ -898,6 +927,70 @@ export function isByRequest(
  * they said and the bill when they carried it; a refusal files nothing.
  */
 /** The one provision an executive's ask names, from the menu item and amount the player picked. */
+/**
+ * A fee bill names the fee it sets and whether it raises or lowers it (the
+ * level is a percent of today's fee, so above 100 raises and below lowers),
+ * which is what the bill's title is made from.
+ */
+/** A fee section's charge: what it brings in a year, the home's monthly figure, and the home's figure at the level the bill sets. */
+function feeCharge(
+  series: string | undefined,
+  section: {
+    before: { value: number | null };
+    after: { value: number | null };
+  } | null,
+  charges: readonly {
+    service: string;
+    yearlyMinor: number | bigint;
+    perHomeMonthMinor?: number | bigint | null;
+  }[],
+  inForceLevel: number | null,
+  first: boolean,
+) {
+  const service =
+    series && isFeeLevelSeries(series) ? FEE_LEVEL_SERVICES[series] : undefined;
+  const row = service ? charges.find((c) => c.service === service) : undefined;
+  if (!row) return {};
+  // The charge row is at the level in force today; a section's new home figure scales it to its own level.
+  const before = inForceLevel ?? FEE_LEVEL_BASELINE;
+  const after = section?.after.value;
+  return {
+    charge: {
+      // Only the first step reads today's figure; later steps say what the step before made it.
+      first,
+      yearlyMinor: String(row.yearlyMinor),
+      perHomeMonthMinor:
+        row.perHomeMonthMinor == null ? null : String(row.perHomeMonthMinor),
+      // What a home pays at the level this step starts from (a later step starts from the one before).
+      beforePerHomeMonthMinor:
+        row.perHomeMonthMinor != null && inForceLevel
+          ? String(
+              Math.round(
+                (Number(row.perHomeMonthMinor) *
+                  (section?.before.value ?? inForceLevel)) /
+                  inForceLevel,
+              ),
+            )
+          : null,
+      newPerHomeMonthMinor:
+        row.perHomeMonthMinor != null && typeof after === "number" && before
+          ? String(Math.round((Number(row.perHomeMonthMinor) * after) / before))
+          : null,
+    },
+  };
+}
+
+function feeNaming(
+  series: string,
+  value: number | undefined,
+): { policyId?: string; operation?: "raise" | "lower" } {
+  if (!isFeeLevelSeries(series) || value === undefined) return {};
+  return {
+    policyId: `law:${series}`,
+    operation: value >= FEE_LEVEL_BASELINE ? "raise" : "lower",
+  };
+}
+
 function askProvision(
   api: ReturnType<typeof coreAPI>,
   body: { level: string },
@@ -920,6 +1013,7 @@ function askProvision(
             menusFor(api, body.level, input.officeId!)
               .flatMap((menu) => menu.items)
               .find((row) => row.series === input.series)?.unit ?? undefined,
+          ...feeNaming(input.series, input.value),
         }
       : {
           kind: "policy-question",
