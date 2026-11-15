@@ -14,6 +14,7 @@ import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
 import { drawPlace } from "../../scripts/core2-year/place";
+import { countedVoters } from "./law-reach/group-a-voting";
 import { corePlaceByKey } from "./place-lookup";
 import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
@@ -117,16 +118,20 @@ it(`voter groups are the counted electorate in ${place.name}, seed ${place.seed}
   expect(weighted, where).toBeLessThanOrEqual(recorded + rounding);
   expect(weighted, where).toBeGreaterThan(0);
 
-  // The sample is the town's counted adults, in lean order by real voters.
-  // The eligible set is read here from the counted rows checked above (the
-  // town is the player's place), not from the sample: every counted adult of
-  // the town is in it once, with their household's weight, and nobody else.
-  // Only a town with no counted adult falls back to its named adults.
+  // The sample is the town's counted voters, in lean order by real voters.
+  // The eligible set is read here from the electorate's one reader,
+  // `countedVoters` (the counted rows checked above, but for the rooms of
+  // people the state bars while held in prison), not from the sample: every
+  // counted adult voter of the town is in it once, with their household's
+  // weight, and nobody else. Only a town with no counted adult falls back to
+  // its named adults. The spec's premise until Nov 15 was every counted
+  // resident of the town by age; #9145 took barred correctional rooms out of
+  // the electorate, and the premise follows it.
   const sample = electorateSample(api, core.date, 0);
   expect(sample.length, where).toBeGreaterThan(0);
   const townId = core.people.get(playerId!)!.placeId;
   const adults = new Map(
-    voters
+    countedVoters(api)
       .filter((v) => v.placeId === townId && ageOn(v, core.date) >= 18)
       .map((v) => [v.id, v.weight]),
   );

@@ -36,7 +36,7 @@ import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 import { buildBenchWorld } from "../bench/world";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { gameStartDate } from "./game-start";
-import { countedResidents } from "./electorate";
+import { countedVoters } from "./law-reach/group-a-voting";
 import { lawChain } from "./modules/laws";
 import { resolveRequiredSignatures } from "./gov-rules/municipal-election-rules";
 import { VOTING_MODULE_ID, type ResultRow } from "./modules/voting";
@@ -236,8 +236,8 @@ describe("M3-10 recalls", () => {
       const rule = recallRule(api);
       if (!recall || !rule) continue;
       const town = lawChain(api).townPlaceId;
-      const counted = countedResidents(core).filter((c) => c.placeId === town);
-      expect(counted.length, `${key}: counted residents`).toBeGreaterThan(0);
+      const counted = countedVoters(api).filter((c) => c.placeId === town);
+      expect(counted.length, `${key}: counted voters`).toBeGreaterThan(0);
       // The requirement is the rule's percentage of the base its own rule
       // names, a whole count of voters read from the world's records or
       // sized from the real averages, and the petition names which.
@@ -257,7 +257,7 @@ describe("M3-10 recalls", () => {
       expect(recall.required, `${key}: required of ${base.count}`).toBe(
         resolveRequiredSignatures(rule.threshold, base.count),
       );
-      // The counted residents signed too, by the same rule.
+      // The counted voters signed too, by the same rule.
       expect(recall.signatures, key).toBeGreaterThan(
         recall.namedSigners.length,
       );
@@ -299,7 +299,7 @@ describe("M3-10 recalls", () => {
       setBookkeeping(before);
     }
   };
-  it("counts the town's counted residents as signers and voters by the same rule", () => {
+  it("counts the town's counted voters as signers and voters by the same rule", () => {
     inPlay(() => countedSigners());
   }, 900_000);
   it("counts them the same when their weights are fractions", () => {
