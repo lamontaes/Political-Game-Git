@@ -22513,6 +22513,7 @@
           "role": "asked",
           "purpose": "recall-confront",
           "key": "threat",
+          "after": "scene-talk.follow-press.don-t-walk-past-tell-me-why-you-voted-for-it",
           "requiresFacts": ["voted-yes"]
         }
       ],
@@ -28473,7 +28474,8 @@
           "move": "ask",
           "role": "asked",
           "purpose": "neighbor-argument",
-          "key": "threat"
+          "key": "threat",
+          "requiresFacts": ["acted"]
         }
       ],
       "bearing": "calm",
@@ -41370,7 +41372,8 @@
           "role": "asked",
           "purpose": "recall-confront",
           "key": "threat",
-          "after": "press"
+          "after": "press",
+          "requiresFacts": ["voted-yes"]
         }
       ],
       "bearing": "calm",
@@ -54177,31 +54180,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-stall.ask-me-next-week-when-there-s-more-to-say",
-      "move": "reply-stall",
-      "kind": "spoken",
-      "text": "Ask me next week, when there's more to say.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "stall",
-          "role": "asked",
-          "purpose": "press-comment",
-          "key": "routine",
-          "after": "press"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "stall",
-        "key": "routine"
-      }
-    },
-    {
       "key": "scene-talk.reply-confront.asking-twice-won-t-get-you-a-better-quote",
       "move": "reply-confront",
       "kind": "spoken",
@@ -54298,31 +54276,6 @@
       "date": "2026-10-15",
       "tag": {
         "move": "thank",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.next-week-i-ll-call-monday",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "Next week. I'll call Monday.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "press-comment",
-          "key": "routine",
-          "after": "scene-talk.reply-stall.ask-me-next-week-when-there-s-more-to-say"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "accept",
         "key": "routine"
       }
     },
@@ -54868,7 +54821,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.state-ask.who-does-bill-help-on-the-first-day-it-s-law-and-who-does-it-cost"
+          "after": "scene-talk.state-ask.who-does-bill-help-on-the-first-day-it-s-law-and-who-does-it-cost",
+          "requiresFacts": ["signed-it"]
         }
       ],
       "bearing": "guarded",
@@ -56807,6 +56761,56 @@
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.i-will-i-ll-print-what-i-find",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "I will. I'll print what I find.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "after": "scene-talk.reply-boast.check-the-archive-i-ve-said-the-same-thing-for-years"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.then-i-ll-run-the-old-quote",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Then I'll run the old quote.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "after": "scene-talk.reply-boast.print-what-i-said-last-time-it-s-still-true"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead",
+      "date": "2026-11-15",
       "tag": {
         "move": "accept",
         "key": "routine"
@@ -74628,30 +74632,6 @@
       "date": "2026-10-27",
       "tag": {
         "move": "stall",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.reply-answer.off-the-record-fine-but-you-didn-t-hear-it-from-me",
-      "move": "reply-answer",
-      "kind": "spoken",
-      "text": "Off the record? Fine. But you didn't hear it from me.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "answer",
-          "role": "asked",
-          "purpose": "press-comment",
-          "key": "routine"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Claude Opus (pool item words-scene-web-home-and-family)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "answer",
         "key": "routine"
       }
     },
