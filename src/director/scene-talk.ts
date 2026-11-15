@@ -30,7 +30,11 @@ import { stableHash } from "../core2/kernel/ids";
 import type { CoreState, PersonId } from "../core2/types";
 import arcsFile from "./data/purpose-arcs.json" with { type: "json" };
 import { variantArc, variantFamilies } from "./arc-variant";
-import type { ReplyFollowsTable } from "../english/reply-follows";
+import {
+  follows,
+  REPLY_FOLLOWS,
+  type ReplyFollowsTable,
+} from "../english/reply-follows";
 import situationFile from "./data/situation-types.json" with { type: "json" };
 import rulesFile from "./data/scene-talk-rules.json" with { type: "json" };
 import {
@@ -1699,7 +1703,10 @@ export function composeSceneTalk(
           stableHash(`${scene}:${path.id}:leave:${b}`),
         ),
     );
-    for (const move of moves) {
+    // A move whose line follows what the player said comes before one whose
+    // only line is a reply the verdicts bar: a barred close is served only
+    // when no move has another (the picker's own rule, applied across moves).
+    const worded = moves.flatMap((move) => {
       const line = render(
         {
           step: "close",
@@ -1715,9 +1722,16 @@ export function composeSceneTalk(
         `${path.id}:${reply.move}`,
         path.said,
       );
-      if (line) return line;
-    }
-    return undefined;
+      return line ? [line] : [];
+    });
+    const barred = options.replyFollows ?? REPLY_FOLLOWS;
+    return (
+      worded.find(
+        (line) =>
+          !reply.parts[zero] ||
+          follows(line.parts[zero] ?? "", reply.parts[zero], barred),
+      ) ?? worded[zero]
+    );
   };
 
   const ledBranch = new Map<
