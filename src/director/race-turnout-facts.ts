@@ -14,12 +14,12 @@ import {
 import { P } from "../core2/parameters";
 import {
   VOTING_MODULE_ID,
+  pollingPlaceOf,
   pollingPlaces,
   placesOf,
   type ResultRow,
 } from "../core2/modules/voting";
 import { coreAPI } from "../core2/state";
-import type { EntityId } from "../core2/kernel/brands";
 import type { CoreState } from "../core2/types";
 
 export interface RaceFact {
@@ -32,9 +32,8 @@ export interface TurnedPrecinct {
   readonly precinct: number;
   /** "for": they did better there than last time; "against": worse. */
   readonly direction: "for" | "against";
-  /** The polling place's record and its building's, where the town's records hold one. */
+  /** The polling place's record. */
   readonly pollingPlaceId: string;
-  readonly buildingId: string | null;
   /** The record ids the answer rests on: this result, the earlier one it was set against and the polling place. */
   readonly sourceRecordIds: readonly string[];
 }
@@ -144,7 +143,6 @@ export function turnedPrecinct(
     precinct: place.precinct,
     direction: best.delta > P.zero ? "for" : "against",
     pollingPlaceId: place.id,
-    buildingId: place.buildingId,
     sourceRecordIds: [now.id, before.id, place.id],
   };
 }
@@ -211,13 +209,14 @@ export function raceTurnoutFacts(
       text: "yes",
       sourceRecordIds: [...turned.sourceRecordIds],
     };
-    const building = turned.buildingId
-      ? core.organizations.get(turned.buildingId as EntityId)
-      : undefined;
-    if (building)
-      facts["turned-building"] = {
-        text: building.name,
-        sourceRecordIds: [...turned.sourceRecordIds, building.id],
+    // The player's own precinct: said as "your own precinct".
+    const own = candidateId
+      ? pollingPlaceOf(api, candidateId, core.date)
+      : null;
+    if (own && own.precinct === turned.precinct)
+      facts["turned-own"] = {
+        text: "yes",
+        sourceRecordIds: [...turned.sourceRecordIds, candidateId!],
       };
   }
   return facts;

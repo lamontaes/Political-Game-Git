@@ -2033,6 +2033,7 @@
     },
     "concession-call": {
       "state": "request",
+      "stateMoves": ["turned", "turned-then", "request"],
       "replies": ["agree", "ask", "refuse", "stall"],
       "follow": {
         "agree": ["thank"],
@@ -2106,6 +2107,7 @@
     },
     "victory-night": {
       "state": "ask",
+      "stateMoves": ["turned", "turned-then", "ask"],
       "replies": ["answer", "tell", "ask", "boast"],
       "follow": {
         "answer": ["accept", "press"],
