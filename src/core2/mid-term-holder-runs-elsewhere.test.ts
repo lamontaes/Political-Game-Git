@@ -12,7 +12,8 @@
  * engine fills the seat.
  *
  * The runs are the game's own days from the opening in October 2026 to the
- * swearing-in of January 2029, so each takes about two minutes.
+ * swearing-in of January 2029, so each takes about 105 seconds alone and
+ * 109 beside another file; the limit is twice the slower.
  */
 import { createHash } from "node:crypto";
 import { expect, it } from "vitest";
@@ -150,7 +151,7 @@ it("a state senator mid-term on the lieutenant governor's ballot who loses keeps
   expect(
     w.vacancies.filter((v) => v.seatId === "seat:US-UT:upper:010:0"),
   ).toEqual([]);
-}, 300_000);
+}, 220_000);
 
 it("a lieutenant governor mid-term who wins a state senate seat leaves the old seat to the vacancy engine", () => {
   const w = playTo("bb22", "2029-01-10");
@@ -181,4 +182,4 @@ it("a lieutenant governor mid-term who wins a state senate seat leaves the old s
   const lieutenant = serving(w.terms, "seat:US-NV:lieutenant-governor");
   expect(lieutenant.length).toBe(1);
   expect(lieutenant[0]!.personId).not.toBe(filing.personId);
-}, 300_000);
+}, 220_000);
