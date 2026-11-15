@@ -8,8 +8,7 @@ import { corePlaceStateIdentities } from "../core2/place-lookup";
 import { placeStateKey } from "../core2/place-map";
 import { lawChain } from "../core2/modules/laws";
 import { coreAPI } from "../core2/state";
-import type { CoreState } from "../core2/state";
-import type { PersonId } from "../core2/types";
+import type { CoreState, PersonId } from "../core2/types";
 import { otherStateSaid, ownGovernmentSaid } from "../english/said-as";
 
 interface GovernmentRecord {
