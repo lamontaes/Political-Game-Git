@@ -69,5 +69,5 @@ describe("opening warm-up", () => {
     // The golden path: the 17-year-old whose 18th birthday comes soonest after the start.
     expect(ageOnDate(makeIsoDate(player.birthDate), start)).toBe(17);
     expect(typeof entrantChoice).toBe("function");
-  }, 180_000);
+  }, 140_000);
 });

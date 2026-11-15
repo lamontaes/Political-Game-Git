@@ -5,6 +5,7 @@ import { gameStartDate } from "../../src/core2/game-start";
 import { setBookkeeping } from "../../src/core2/bookkeeping";
 import { advanceCore } from "../../src/core2/life";
 import { addDays, makeIsoDate } from "../../src/core2/kernel/dates";
+import { recordProof } from "../../src/bench/dev-proof";
 import { drawPlace } from "../core2-year/place";
 setBookkeeping(false);
 const [where, seedArg, k, days = "0"] = process.argv.slice(2);
