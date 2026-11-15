@@ -213,7 +213,7 @@ for (const pin of PINS)
           if (!vote || told.has(billId + colleague)) continue;
           told.add(billId + colleague);
           process.stdout.write(
-            `VOTE AFTER ${where} ${colleague} on ${billOf(api, billId)?.number}: at the roll, ${vote}\n`,
+            `VOTE AFTER ${where} ${[core.people.get(colleague as PersonId)?.givenName, core.people.get(colleague as PersonId)?.familyName].join(" ")} on ${billOf(api, billId)?.number}: at the roll, ${vote}\n`,
           );
         }
         for (const e of asks) {
