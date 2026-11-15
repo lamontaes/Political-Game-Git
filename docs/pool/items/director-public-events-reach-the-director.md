@@ -1,6 +1,6 @@
 ---
 id: director-public-events-reach-the-director
-title: "The country's big public events (other states' disasters, the President's acts, court rulings, a turn in national opinion) reach the director as moments, not only the three yearly addresses"
+title: "The country's big public events reach the people the player knows as stories they read, so someone in the player's life can bring them up"
 area: director
 kind: feature
 priority: 2
@@ -18,19 +18,19 @@ effort: medium
 root: none
 ---
 
-**What.** The owner wants people in the player's life to bring them news of the world after a big public event, his example a friend calling after the president's speech. Only the three yearly addresses reach the director today; everything the nation module keeps about the rest of the country never becomes a moment a scene can start from.
-Seen: in Advanced, the day after another state's disaster or a court ruling is printed, the director's moments list holds it as a cause.
+**What.** The owner wants people in the player's life to bring them news of the world after a big public event, his example a friend calling after the president's speech. A person can only bring up what they learned (the standing rule "Ask why"), so the catch-up starts from a story the person read, not from the raw event. Most national records already reach the national desk and its readers; the President's approval, which the nation module keeps every month, is never published, so no one in the game can read or talk about it.
+Seen: in a played year, the paper's national pages carry the month's approval poll beside the disasters, nominations and addresses they already print, and the people who follow those outlets are listed as having read it.
 
-**Cause.** Found in code: src/director/data/director.json `eventImpacts` holds 81 rows, and the only public events among them are president.address, governor.address and mayor.address; the nation module's records (the `nation` skill: other states' disasters, the President's acts, the federal courts, national opinion), which the press already prints as national news, have no row.
+**Cause.** Found in code: national records reach readers through the press desk (src/core2/press-desk.ts, the national tier and `nationalCarries`, line 59) and each reader's read is a `news.read` event naming them (src/core2/modules/news.ts, `NEWS_READ`, line 157, emitted around line 734), which circumstance rows already use as a scene cause (src/director/data/circumstances.json, read by src/director/circumstance.ts). Another state's disaster is emitted as a public news record (src/core2/modules/national-events.ts, `emitDue`, line 471, kind `national.disaster`), and cabinet nominations and the President's addresses are public records (src/core2/office-day-federal-president.ts). The monthly approval (src/core2/modules/national-opinion.ts, `ApprovalRow`, line 33) is kept as a row and emits nothing. The federal courts keep counts and no ruling (src/core2/modules/federal-courts.ts, header), so there is no ruling to report.
 
-**Fix.** For each record kind the nation module emits that the press prints as national news, add one `eventImpacts` row in director.json with channel `cause` and an impact parameter (TUNABLE, with its spread) in the director's parameter table; how big the event is comes from that parameter's place in the ranking, never from a cutoff. Read the nation module's event kinds from its code, not from memory, and list them in the PR body. No scene type changes and no lines. Where the player sees it: Advanced's moments list, and later the catch-up scene that starts from these moments.
+**Fix.** First list, from a played year at a pinned place, each national record kind the national desk printed and how many people in town read each (by `news.read`), and put that list in the PR body. Then close the one gap: when the month's approval row is written, emit one public news record for it (`publicRecord: true`, `news: true`, the month's percent and its change as facts, sourced as the row is), so the national desk can print it and its readers read it. Add no `eventImpacts` row and no scene: the catch-up item reads `news.read`. Courts stay out until the courts keep rulings. Where the player sees it: the national page of the paper, and the Journal's list of what people read.
 
 **Time box.** 3 hours for one Sonnet session, one PR. It waits on nothing.
 
-**Rules.** Sliding scales and causes: an event is a moment because its record exists, and its weight is a parameter row, never a fixed share. Cadence and summaries: a row adds no daily scan; the moment is made when the record is.
+**Rules.** Ask why: a person can bring up only a story whose read names them, so nothing is said from the raw event. Cadence and summaries: one record a month, written when the row is, never a daily scan.
 
-**Done when.** A second session, on main, in a drawn place and a seed nobody chose, plays a year with Advanced open and sees, the day after each printed national story (a disaster in another state, an act of the President, a court ruling), a moment naming that record by id, and the year still runs under two minutes.
+**Done when.** A second session, on main, in a drawn place and a seed nobody chose, plays a year and sees the President's approval printed on a national page each month it is written, finds named readers of it by `news.read` id, and the year still runs under two minutes.
 
 **Waits on.** Nothing.
 
-**Files.** src/director/data/director.json, src/director/data/stopgaps.json
+**Files.** src/core2/modules/national-opinion.ts, src/core2/press-desk.ts, src/core2/modules/news.ts
