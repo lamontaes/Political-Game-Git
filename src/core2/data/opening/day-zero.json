@@ -4,7 +4,8 @@
     "trainHead": "8bb1ff9d6eeb81f07b995d916b888f640f0a9c42",
     "days": 365,
     "command": "node --import tsx scripts/dev-tests/day-zero-year.ts <seed> 365",
-    "seeds": ["a1", "b2"]
+    "seeds": ["a1", "b2"],
+    "warmUp": "Known-red marks measured with a 31-day warm-up (OPENING_WARMUP_DAYS in src/bench/world.ts, src/core2/player-warm-up.ts) at the two pinned places on train head b7ed6337: a table is red where it is still empty after the warm-up."
   },
   "pinnedPlaces": [
     {
@@ -60,7 +61,8 @@
       "call": "stock",
       "filledBy": "day 31",
       "reason": "Businesses operating state.",
-      "knownRed": "opening-town-life-empty-at-day-0"
+      "knownRed": "opening-town-life-empty-at-day-0",
+      "knownRedPlaces": ["2338740"]
     },
     {
       "table": "business.outsideCosts",
@@ -74,8 +76,7 @@
       "level": "town (people and places)",
       "call": "stock",
       "filledBy": "day 1",
-      "reason": "Businesses have owners on any day.",
-      "knownRed": "opening-first-step-empty-at-day-0"
+      "reason": "Businesses have owners on any day."
     },
     {
       "table": "business.state",
@@ -124,8 +125,7 @@
       "level": "town (people and places)",
       "call": "stock",
       "filledBy": "day 1",
-      "reason": "Climate state at day 0.",
-      "knownRed": "opening-first-step-empty-at-day-0"
+      "reason": "Climate state at day 0."
     },
     {
       "table": "contracts.awards",
@@ -447,16 +447,14 @@
       "level": "town, state and federal",
       "call": "stock",
       "filledBy": "day 31",
-      "reason": "Overdue bills a government carries.",
-      "knownRed": "opening-budgets-empty-at-day-0"
+      "reason": "Overdue bills a government carries."
     },
     {
       "table": "core2-budgets-v1.awardBase",
       "level": "town, state and federal",
       "call": "stock",
       "filledBy": "day 31",
-      "reason": "Contract bases.",
-      "knownRed": "opening-budgets-empty-at-day-0"
+      "reason": "Contract bases."
     },
     {
       "table": "core2-budgets-v1.creditMarks",
@@ -471,15 +469,15 @@
       "call": "stock",
       "filledBy": "year 1",
       "reason": "Every government has a budget in force on any day.",
-      "knownRed": "opening-budgets-empty-at-day-0"
+      "knownRed": "opening-budgets-empty-at-day-0",
+      "knownRedPlaces": ["1150000"]
     },
     {
       "table": "core2-budgets-v1.federalDebt",
       "level": "federal",
       "call": "stock",
       "filledBy": "day 31",
-      "reason": "The federal government carries debt on any day.",
-      "knownRed": "opening-budgets-empty-at-day-0"
+      "reason": "The federal government carries debt on any day."
     },
     {
       "table": "core2-budgets-v1.landed",
@@ -556,8 +554,7 @@
       "level": "town, state and federal",
       "call": "stock",
       "filledBy": "day 31",
-      "reason": "Year-to-date spending at day 0 depends on the fiscal year start.",
-      "knownRed": "opening-budgets-empty-at-day-0"
+      "reason": "Year-to-date spending at day 0 depends on the fiscal year start."
     },
     {
       "table": "core2-campaigns-v1.campaigns",
@@ -629,8 +626,7 @@
       "level": "town, state and federal",
       "call": "stock",
       "filledBy": "day 31",
-      "reason": "Races with campaigns under way.",
-      "knownRed": "opening-campaigns-and-filings-empty-at-day-0"
+      "reason": "Races with campaigns under way."
     },
     {
       "table": "core2-constituent-cases-v1.cases",
@@ -790,16 +786,14 @@
       "level": "federal",
       "call": "stock",
       "filledBy": "day 1",
-      "reason": "Executive orders already issued.",
-      "knownRed": "opening-first-step-empty-at-day-0"
+      "reason": "Executive orders already issued."
     },
     {
       "table": "core2-homeless-count-v1.counts",
       "level": "town (people and places)",
       "call": "stock",
       "filledBy": "day 31",
-      "reason": "A count of homeless people exists on any day.",
-      "knownRed": "opening-town-life-empty-at-day-0"
+      "reason": "A count of homeless people exists on any day."
     },
     {
       "table": "core2-interest-groups-v1.dues",
@@ -815,7 +809,8 @@
       "call": "stock",
       "filledBy": "year 1",
       "reason": "Groups (unions, chambers, advocacy groups) exist before anyone watches.",
-      "knownRed": "opening-interest-groups-empty-at-day-0"
+      "knownRed": "opening-interest-groups-empty-at-day-0",
+      "knownRedPlaces": ["1150000"]
     },
     {
       "table": "core2-interest-groups-v1.meetings",
@@ -829,16 +824,14 @@
       "level": "town (people and places)",
       "call": "stock",
       "filledBy": "day 31",
-      "reason": "Cases pending in court on any day.",
-      "knownRed": "opening-justice-custody-empty-at-day-0"
+      "reason": "Cases pending in court on any day."
     },
     {
       "table": "core2-justice-v1.complaints",
       "level": "town (people and places)",
       "call": "stock",
       "filledBy": "day 31",
-      "reason": "Open complaints.",
-      "knownRed": "opening-justice-custody-empty-at-day-0"
+      "reason": "Open complaints."
     },
     {
       "table": "core2-justice-v1.cursor",
@@ -874,8 +867,7 @@
       "level": "town (people and places)",
       "call": "stock",
       "filledBy": "day 31",
-      "reason": "Open investigations.",
-      "knownRed": "opening-justice-custody-empty-at-day-0"
+      "reason": "Open investigations."
     },
     {
       "table": "core2-justice-v1.pretrial",
@@ -943,7 +935,8 @@
       "call": "stock",
       "filledBy": "year 1",
       "reason": "Votes already taken this term.",
-      "knownRed": "opening-record-votes-empty-at-day-0"
+      "knownRed": "opening-record-votes-empty-at-day-0",
+      "knownRedPlaces": ["1150000"]
     },
     {
       "table": "core2-meetings-v1.remarks",
@@ -958,15 +951,15 @@
       "call": "stock",
       "filledBy": "day 31",
       "reason": "Town halls scheduled.",
-      "knownRed": "opening-officials-working-life-empty-at-day-0"
+      "knownRed": "opening-officials-working-life-empty-at-day-0",
+      "knownRedPlaces": ["1150000"]
     },
     {
       "table": "core2-office-day-federal-v1.cabinet",
       "level": "federal",
       "call": "stock",
       "filledBy": "day 1",
-      "reason": "A president has a cabinet on any day.",
-      "knownRed": "opening-first-step-empty-at-day-0"
+      "reason": "A president has a cabinet on any day."
     },
     {
       "table": "core2-office-day-state-v1.perDiem",
@@ -995,7 +988,8 @@
       "call": "stock",
       "filledBy": "day 1",
       "reason": "Agenda items a board has on any day.",
-      "knownRed": "opening-first-step-empty-at-day-0"
+      "knownRed": "opening-first-step-empty-at-day-0",
+      "knownRedPlaces": ["1150000"]
     },
     {
       "table": "core2-offices-v1.vacancies",
@@ -1017,8 +1011,7 @@
       "level": "town (people and places)",
       "call": "stock",
       "filledBy": "year 1",
-      "reason": "Laws tracked by the outcome web.",
-      "knownRed": "opening-town-life-empty-at-day-0"
+      "reason": "Laws tracked by the outcome web."
     },
     {
       "table": "core2-outcome-web-v1.months",
@@ -1091,8 +1084,7 @@
       "level": "town (people and places)",
       "call": "stock",
       "filledBy": "day 31",
-      "reason": "The paper has stories on any day; its archive is already there.",
-      "knownRed": "opening-press-stories-empty-at-day-0"
+      "reason": "The paper has stories on any day; its archive is already there."
     },
     {
       "table": "core2-press-v1.tips",
@@ -1128,7 +1120,8 @@
       "call": "stock",
       "filledBy": "day 31",
       "reason": "Permits held (carry, storage).",
-      "knownRed": "opening-town-life-empty-at-day-0"
+      "knownRed": "opening-town-life-empty-at-day-0",
+      "knownRedPlaces": ["2338740"]
     },
     {
       "table": "core2-public-safety-v1.storage",
@@ -1186,8 +1179,7 @@
       "level": "town (people and places)",
       "call": "stock",
       "filledBy": "day 1",
-      "reason": "People are partnered on any day.",
-      "knownRed": "opening-first-step-empty-at-day-0"
+      "reason": "People are partnered on any day."
     },
     {
       "table": "core2-renewal-v1.exposure",
@@ -1201,8 +1193,7 @@
       "level": "town (people and places)",
       "call": "stock",
       "filledBy": "day 1",
-      "reason": "Family plans people hold.",
-      "knownRed": "opening-first-step-empty-at-day-0"
+      "reason": "Family plans people hold."
     },
     {
       "table": "core2-renewal-v1.pregnancies",
@@ -1282,8 +1273,7 @@
       "level": "town, state and federal",
       "call": "stock",
       "filledBy": "day 31",
-      "reason": "Officials' staff on any day.",
-      "knownRed": "opening-officials-working-life-empty-at-day-0"
+      "reason": "Officials' staff on any day."
     },
     {
       "table": "core2-staff-v1.work",
@@ -1337,7 +1327,8 @@
       "call": "stock",
       "filledBy": "day 1",
       "reason": "Other states hold sessions on any day (OWNER-DECISIONS, Sept 26: all 50 legislatures seated from day one).",
-      "knownRed": "opening-first-step-empty-at-day-0"
+      "knownRed": "opening-first-step-empty-at-day-0",
+      "knownRedPlaces": ["1150000"]
     },
     {
       "table": "corruption.crimes",
@@ -1365,8 +1356,7 @@
       "level": "town (people and places)",
       "call": "stock",
       "filledBy": "day 1",
-      "reason": "A town has banks.",
-      "knownRed": "opening-first-step-empty-at-day-0"
+      "reason": "A town has banks."
     },
     {
       "table": "credit.books",
@@ -1395,8 +1385,7 @@
       "level": "town (people and places)",
       "call": "stock",
       "filledBy": "day 1",
-      "reason": "Mortgages already live in housing.mortgages (1,295 at day 0 at Washington); this ledger may be for the other loans.",
-      "knownRed": "opening-bank-credit-empty-at-day-0"
+      "reason": "Mortgages already live in housing.mortgages (1,295 at day 0 at Washington); this ledger may be for the other loans."
     },
     {
       "table": "credit.payments",
@@ -1424,8 +1413,7 @@
       "level": "federal",
       "call": "stock",
       "filledBy": "day 1",
-      "reason": "Federal courts' state at day 0.",
-      "knownRed": "opening-first-step-empty-at-day-0"
+      "reason": "Federal courts' state at day 0."
     },
     {
       "table": "grievance.counts",
@@ -1439,16 +1427,14 @@
       "level": "town (people and places)",
       "call": "stock",
       "filledBy": "day 31",
-      "reason": "Grievances people hold on any day.",
-      "knownRed": "opening-town-life-empty-at-day-0"
+      "reason": "Grievances people hold on any day."
     },
     {
       "table": "housing.assessments",
       "level": "town (people and places)",
       "call": "stock",
       "filledBy": "day 31",
-      "reason": "Every home carries an assessed value on any day.",
-      "knownRed": "opening-housing-assessments-empty-at-day-0"
+      "reason": "Every home carries an assessed value on any day."
     },
     {
       "table": "housing.cases",
@@ -1506,8 +1492,7 @@
       "level": "town (people and places)",
       "call": "stock",
       "filledBy": "day 31",
-      "reason": "Homes behind on property tax.",
-      "knownRed": "opening-housing-assessments-empty-at-day-0"
+      "reason": "Homes behind on property tax."
     },
     {
       "table": "jobs.absence",
@@ -1528,16 +1513,14 @@
       "level": "town (people and places)",
       "call": "stock",
       "filledBy": "day 31",
-      "reason": "People on unemployment insurance on any day; may be held in benefit payments.",
-      "knownRed": "opening-jobs-claims-empty-at-day-0"
+      "reason": "People on unemployment insurance on any day; may be held in benefit payments."
     },
     {
       "table": "jobs.countedSeekers",
       "level": "town (people and places)",
       "call": "stock",
       "filledBy": "day 1",
-      "reason": "The jobs builder is building the opening jobs stock and vacancies now (Account lead, Nov 14): not filed here.",
-      "knownRed": "opening-first-step-empty-at-day-0"
+      "reason": "The jobs builder is building the opening jobs stock and vacancies now (Account lead, Nov 14): not filed here."
     },
     {
       "table": "jobs.elsewhere",
@@ -1551,8 +1534,7 @@
       "level": "town (people and places)",
       "call": "stock",
       "filledBy": "day 1",
-      "reason": "The jobs builder is building the opening jobs stock and vacancies now (Account lead, Nov 14): not filed here.",
-      "knownRed": "opening-first-step-empty-at-day-0"
+      "reason": "The jobs builder is building the opening jobs stock and vacancies now (Account lead, Nov 14): not filed here."
     },
     {
       "table": "jobs.fullHours",
@@ -1580,8 +1562,7 @@
       "level": "town (people and places)",
       "call": "stock",
       "filledBy": "day 1",
-      "reason": "The jobs builder is building the opening jobs stock and vacancies now (Account lead, Nov 14): not filed here.",
-      "knownRed": "opening-first-step-empty-at-day-0"
+      "reason": "The jobs builder is building the opening jobs stock and vacancies now (Account lead, Nov 14): not filed here."
     },
     {
       "table": "jobs.raises",
@@ -1609,16 +1590,14 @@
       "level": "town (people and places)",
       "call": "stock",
       "filledBy": "day 1",
-      "reason": "The jobs builder is building the opening jobs stock and vacancies now (Account lead, Nov 14): not filed here.",
-      "knownRed": "opening-first-step-empty-at-day-0"
+      "reason": "The jobs builder is building the opening jobs stock and vacancies now (Account lead, Nov 14): not filed here."
     },
     {
       "table": "jobs.spells",
       "level": "town (people and places)",
       "call": "stock",
       "filledBy": "day 1",
-      "reason": "Employment spells  current jobs instead of kept.",
-      "knownRed": "opening-first-step-empty-at-day-0"
+      "reason": "Employment spells  current jobs instead of kept."
     },
     {
       "table": "jobs.state",
@@ -1639,16 +1618,14 @@
       "level": "federal",
       "call": "stock",
       "filledBy": "day 1",
-      "reason": "The country has an economy on any day.",
-      "knownRed": "opening-first-step-empty-at-day-0"
+      "reason": "The country has an economy on any day."
     },
     {
       "table": "macro.countryBases",
       "level": "federal",
       "call": "stock",
       "filledBy": "day 1",
-      "reason": "Opening bases per state.",
-      "knownRed": "opening-first-step-empty-at-day-0"
+      "reason": "Opening bases per state."
     },
     {
       "table": "macro.countryParts",
@@ -1662,16 +1639,14 @@
       "level": "federal",
       "call": "stock",
       "filledBy": "day 1",
-      "reason": "Every state has an economy on any day.",
-      "knownRed": "opening-first-step-empty-at-day-0"
+      "reason": "Every state has an economy on any day."
     },
     {
       "table": "macro.lines",
       "level": "federal",
       "call": "stock",
       "filledBy": "day 1",
-      "reason": "The economy's published lines.",
-      "knownRed": "opening-first-step-empty-at-day-0"
+      "reason": "The economy's published lines."
     },
     {
       "table": "macro.meetings",
@@ -1686,8 +1661,7 @@
       "level": "federal",
       "call": "stock",
       "filledBy": "day 1",
-      "reason": "The Fed has members on any day.",
-      "knownRed": "opening-first-step-empty-at-day-0"
+      "reason": "The Fed has members on any day."
     },
     {
       "table": "macro.months",
@@ -1750,8 +1724,7 @@
       "level": "federal",
       "call": "stock",
       "filledBy": "day 1",
-      "reason": "The president has an approval rating on any day.",
-      "knownRed": "opening-first-step-empty-at-day-0"
+      "reason": "The president has an approval rating on any day."
     },
     {
       "table": "national-opinion.state",
@@ -1793,8 +1766,7 @@
       "level": "town (people and places)",
       "call": "stock",
       "filledBy": "day 1",
-      "reason": "Bank deposits; may be held in core accounts instead.",
-      "knownRed": "opening-bank-credit-empty-at-day-0"
+      "reason": "Bank deposits; may be held in core accounts instead."
     },
     {
       "table": "part.core2-accounts.depositsByBank",
@@ -1808,16 +1780,14 @@
       "level": "town (people and places)",
       "call": "stock",
       "filledBy": "day 1",
-      "reason": "Index of deposits.",
-      "knownRed": "opening-bank-credit-empty-at-day-0"
+      "reason": "Index of deposits."
     },
     {
       "table": "part.core2-accounts.heldDeposits",
       "level": "town (people and places)",
       "call": "stock",
       "filledBy": "day 1",
-      "reason": "Index of deposits.",
-      "knownRed": "opening-bank-credit-empty-at-day-0"
+      "reason": "Index of deposits."
     },
     {
       "table": "part.core2-accounts.outflowsByPerson",
@@ -1957,8 +1927,7 @@
       "level": "town (people and places)",
       "call": "stock",
       "filledBy": "year 1",
-      "reason": "Index of drives.",
-      "knownRed": "opening-town-life-empty-at-day-0"
+      "reason": "Index of drives."
     },
     {
       "table": "part.core2-drives-runtime.causeGroups",
@@ -1972,8 +1941,7 @@
       "level": "town (people and places)",
       "call": "stock",
       "filledBy": "day 31",
-      "reason": "Index of counted drives.",
-      "knownRed": "opening-town-life-empty-at-day-0"
+      "reason": "Index of counted drives."
     },
     {
       "table": "part.core2-drives-runtime.countedFormedByYearKind",
@@ -1987,8 +1955,7 @@
       "level": "town (people and places)",
       "call": "stock",
       "filledBy": "year 1",
-      "reason": "Goals people hold on any day.",
-      "knownRed": "opening-town-life-empty-at-day-0"
+      "reason": "Goals people hold on any day."
     },
     {
       "table": "part.core2-drives-runtime.formedByYearKind",
@@ -2192,8 +2159,7 @@
       "level": "town (people and places)",
       "call": "stock",
       "filledBy": "day 31",
-      "reason": "Retirement benefit level per retiree.",
-      "knownRed": "opening-retirement-claims-empty-at-day-0"
+      "reason": "Retirement benefit level per retiree."
     },
     {
       "table": "part.core2-residents.sellerMonth",
@@ -2249,8 +2215,7 @@
       "level": "town (people and places)",
       "call": "stock",
       "filledBy": "day 31",
-      "reason": "Retirees draw Social Security on any day.",
-      "knownRed": "opening-retirement-claims-empty-at-day-0"
+      "reason": "Retirees draw Social Security on any day."
     },
     {
       "table": "part.core2-sewer-taken",
@@ -2278,8 +2243,7 @@
       "level": "town (people and places)",
       "call": "stock",
       "filledBy": "day 1",
-      "reason": "Current cases of illness.",
-      "knownRed": "opening-first-step-empty-at-day-0"
+      "reason": "Current cases of illness."
     },
     {
       "table": "part.health-runtime.causeOfDeath",
@@ -2293,8 +2257,7 @@
       "level": "town (people and places)",
       "call": "stock",
       "filledBy": "day 1",
-      "reason": "People have chronic conditions on any day.",
-      "knownRed": "opening-first-step-empty-at-day-0"
+      "reason": "People have chronic conditions on any day."
     },
     {
       "table": "part.health-runtime.deathsByDate",
@@ -2315,8 +2278,7 @@
       "level": "town (people and places)",
       "call": "stock",
       "filledBy": "day 1",
-      "reason": "Treatment plans for those conditions.",
-      "knownRed": "opening-first-step-empty-at-day-0"
+      "reason": "Treatment plans for those conditions."
     },
     {
       "table": "part.health-runtime.resilienceLines",
@@ -2372,8 +2334,7 @@
       "level": "town (people and places)",
       "call": "stock",
       "filledBy": "day 31",
-      "reason": "May duplicate renewal couples.",
-      "knownRed": "opening-first-step-empty-at-day-0"
+      "reason": "May duplicate renewal couples."
     },
     {
       "table": "partnerships.jobsSeen",
@@ -2401,16 +2362,14 @@
       "level": "town (people and places)",
       "call": "stock",
       "filledBy": "day 31",
-      "reason": "Prices people know and feel.",
-      "knownRed": "opening-town-life-empty-at-day-0"
+      "reason": "Prices people know and feel."
     },
     {
       "table": "place-prices.learned",
       "level": "town (people and places)",
       "call": "stock",
       "filledBy": "day 31",
-      "reason": "Same.",
-      "knownRed": "opening-town-life-empty-at-day-0"
+      "reason": "Same."
     },
     {
       "table": "place-prices.rules",
@@ -2438,8 +2397,7 @@
       "level": "town (people and places)",
       "call": "stock",
       "filledBy": "day 1",
-      "reason": "Regional rows.",
-      "knownRed": "opening-first-step-empty-at-day-0"
+      "reason": "Regional rows."
     },
     {
       "table": "regional.shocks",
@@ -2453,8 +2411,7 @@
       "level": "town (people and places)",
       "call": "stock",
       "filledBy": "day 31",
-      "reason": "Last year's yearly address is history the opening's past holds, filled by the past module.",
-      "knownRed": "opening-officials-working-life-empty-at-day-0"
+      "reason": "Last year's yearly address is history the opening's past holds, filled by the past module."
     },
     {
       "table": "speech.retellings",
@@ -2469,7 +2426,8 @@
       "call": "stock",
       "filledBy": "year 1",
       "reason": "Counted people hold views on any day (one model, two tiers).",
-      "knownRed": "opening-views-stances-empty-at-day-0"
+      "knownRed": "opening-views-stances-empty-at-day-0",
+      "knownRedPlaces": ["1150000"]
     },
     {
       "table": "views.openings",
@@ -2483,8 +2441,7 @@
       "level": "town (people and places)",
       "call": "stock",
       "filledBy": "day 31",
-      "reason": "People hold views on any day (\"people with something to say on day 0\").",
-      "knownRed": "opening-views-stances-empty-at-day-0"
+      "reason": "People hold views on any day (\"people with something to say on day 0\")."
     },
     {
       "table": "world-metrics.months",
