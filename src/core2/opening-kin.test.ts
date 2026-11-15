@@ -66,7 +66,7 @@ describe("generated opening kin", () => {
     const town = residents[0]!.placeId;
     for (const person of kin) {
       expect(person.placeId, where).not.toBe(town);
-      // A relative's household opens with cash, held by its adults (world-kin-households-open-with-no-cash; opening-kin-cash.test.ts checks the amount).
+      // Until Nov 15 every relative held $0: on Oct 10 relatives were named records that never played (husks). Since Nov 8 they are counted households that earn and pay a living cost, so a relative's household opens with cash, held by its adults (world-kin-households-open-with-no-cash; opening-kin-cash.test.ts checks the amount).
       if (age(person.birthDate) >= p("votingAge"))
         expect(person.liquidMinor, `${where}: ${person.id}`).toBeGreaterThan(0);
       else expect(person.liquidMinor, `${where}: ${person.id}`).toBe(0);
