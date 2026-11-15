@@ -8,7 +8,7 @@ size: S
 status: in-pr
 standard: 2
 claimed-by: The federal treasury paid every month an even twelfth of the individual income tax line (the share earned away from the town) through the outside-revenue plug, so a federal income tax change moved only the town's own share. Measured at Alofau AS over 400 days: 4.67 trillion dollars of federal revenue went through the plug. Seen: the federal budget screen's income tax line and the treasury's balance.
-pr: #PR
+pr: #9393
 after: gov-outside-revenue-retire-plug
 blocked-on:
 lead: governing
