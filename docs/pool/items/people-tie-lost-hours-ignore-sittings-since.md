@@ -28,7 +28,7 @@ source: Found by the lying thread, Nov 15 2026, building legislature-colleague-t
 
 **Rules.** Wire to the world: the pull feeds the free-time chooser every person uses. One rule, all places.
 
-**Done when.** At 4846968 seed 8647-mason (Texas senate, player at seat 016), a colleague with a tie row who sat with the player at the last sitting reads lost hours from that sitting, not from the row's last contact (pinned test, seen red on the parent); a played year at three places runs within the speed bar; a second session sees it in dev mode on main.
+**Done when.** At the named place 4846968 seed 8647-mason (Texas senate, player at seat 016), a colleague with a tie row who sat with the player at the last sitting reads lost hours from that sitting, not from the row's last contact (pinned test, seen red on the parent); a played year at three places runs within the speed bar; a second session sees it in dev mode on main.
 
 **Waits on.** Nothing.
 
