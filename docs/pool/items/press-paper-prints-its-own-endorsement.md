@@ -36,4 +36,4 @@ source: Voters' views thread, Nov 15 (the press endorsements build)
 
 **Notes.**
 
-- Nov 15 (views thread): built on claude/project-thread-hjvzia. The outlet's own endorsement prints as its editorial in runDesk (src/core2/press-desk.ts), outside the reporters' slots, and is the race's endorsement story at that outlet that week. At Marshfield, every paper endorsement prints by Oct 8, each under its head; the test failed before the fix with no printed story.
+- Nov 15 (views thread): built on claude/project-thread-hjvzia. The outlet's own endorsement prints in its own pages as a news item about it in runDesk (src/core2/press-desk.ts), under its head's name, outside the reporters' slots, and is the race's endorsement story at that outlet that week. Nothing on the page calls it an editorial (Words lead's ruling); the paper's own voice with its reason is item words-paper-endorsement-in-its-own-voice. At Marshfield, every paper endorsement prints by Oct 8, each under its head; the test failed before the fix with no printed story.

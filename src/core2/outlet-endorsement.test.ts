@@ -6,7 +6,7 @@
  * src/core2/modules/campaigns.ts): its head backs the candidate they agree
  * with above every rival, under the outlet's own name. Its followers hear it
  * (their impressions of the candidate, which the voting engine reads), and
- * the paper prints it as its editorial in its next press week.
+ * the paper prints the news of it in its own pages in its next press week.
  *
  * Pinned: Marshfield, Massachusetts, world seed 75d9b7ad, the township board
  * races of Nov 4, 2025. The papers weigh them in the first press week the
@@ -104,7 +104,7 @@ describe("an outlet endorses in a race on its beat", () => {
     expect(told.length, `${where}: ${heard!.id}`).toBeGreaterThanOrEqual(
       heard!.reached,
     );
-    // Each paper prints its own endorsement as its editorial in its next
+    // Each paper prints its own endorsement in its own pages in its next
     // press week, under its head's name, whatever other endorsements of the
     // race that week held.
     advanceCore(core as CoreState, makeIsoDate("2025-10-08"));

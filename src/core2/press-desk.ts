@@ -109,7 +109,7 @@ const MEETING_KIND = "public-meeting";
 const NOTICE_KIND = "election-notice";
 /** A reader's letter to the editor (the press's weekly letters step). */
 const LETTER_KIND = "press.letter";
-/** An endorsement kept and announced; the outlet's own is its editorial. */
+/** An endorsement kept and announced; the outlet's own prints in its own pages. */
 const ENDORSED_KIND = "campaign-endorsed";
 /** The week's sittings that took up nothing, printed as one brief. */
 export const MEETINGS_WEEK_KIND = "meetings-week";
@@ -908,14 +908,16 @@ export function runDesk(
   const letters = open.filter(
     (item) => item.kind === LETTER_KIND && item.facts?.outletId === outlet.id,
   );
-  // The outlet's own endorsement is its editorial, the paper speaking for
-  // itself under its head's name: printed in its own pages after the column,
-  // as a letter is, never a reporter's pick. It is the race's endorsement
+  // The outlet's own endorsement is news of its own pages, filed under its
+  // head's name: printed after the column, as a letter is, never a
+  // reporter's pick. It is told as news of the endorsement, not an editorial
+  // in the paper's voice (Words lead, Nov 15; item
+  // words-paper-endorsement-in-its-own-voice). It is the race's endorsement
   // story at this outlet that week, so no group's endorsement of the same
   // race takes its place (Marshfield, Massachusetts, seed 75d9b7ad: five
   // papers' endorsements went unprinted behind cause groups' of the same
   // races, Sep 29 to Oct 8, 2025).
-  const editorials = open.filter(
+  const ownEndorsements = open.filter(
     (item) =>
       item.kind === ENDORSED_KIND &&
       item.facts?.organizationId === outlet.organizationId,
@@ -925,7 +927,7 @@ export function runDesk(
       (item) =>
         !told.has(item.id) &&
         item.kind !== LETTER_KIND &&
-        !editorials.includes(item),
+        !ownEndorsements.includes(item),
     )
     .map((item) => ({
       item,
@@ -955,7 +957,7 @@ export function runDesk(
   const bills = new Set<string>();
   // The races whose money or backing this outlet has told this week.
   const racesTold = new Set<string>(
-    editorials.flatMap((item) => raceTold(item) ?? []),
+    ownEndorsements.flatMap((item) => raceTold(item) ?? []),
   );
   const out: PrintedStory[] = [];
   for (const reporterId of outlet.reporterIds) {
@@ -1186,10 +1188,10 @@ export function runDesk(
       ),
     );
   }
-  // The week's editorial: the outlet's own endorsement, under the name of
+  // The outlet's own endorsements of the week, under the name of
   // the head who weighed the race, its readers moved by their standing with
   // them.
-  for (const item of editorials) {
+  for (const item of ownEndorsements) {
     const head = item.facts?.speakerId;
     if (!head || !api.state.people.get(head)?.alive) continue;
     const proximity = p(
@@ -1210,7 +1212,7 @@ export function runDesk(
           drive: 0,
           score: proximity,
           rank: 1,
-          weighed: editorials.length,
+          weighed: ownEndorsements.length,
         },
         { facts: { [VIEWS_SPEAKER_KEY]: head } },
       ),
