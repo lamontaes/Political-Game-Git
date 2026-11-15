@@ -29,9 +29,15 @@ if (Number(days) > 0) {
   advanceCore(w.core, addDays(makeIsoDate(w.core.date), Number(days)));
   yearMs = Date.now() - t1;
 }
+const rows = Object.values(recordProof(w.core).tables).reduce(
+  (n, t) => n + t.rows,
+  0,
+);
 console.log(
   JSON.stringify({
     placeKey,
+    rows,
+    msPerThousandRows: rows ? Math.round(yearMs / (rows / 1000)) : 0,
     warmUpDays: Number(k),
     buildSeconds: Math.round(buildMs / 1000),
     yearSeconds: Math.round(yearMs / 1000),
