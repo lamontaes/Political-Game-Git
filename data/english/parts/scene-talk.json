@@ -178576,10 +178576,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-ask.can-i-ask-why",
+      "key": "scene-talk.reply-ask.can-i-ask-why-not",
       "move": "reply-ask",
       "kind": "spoken",
-      "text": "Can I ask why?",
+      "text": "Can I ask why not?",
       "uses": [
         {
           "subject": "scene",
