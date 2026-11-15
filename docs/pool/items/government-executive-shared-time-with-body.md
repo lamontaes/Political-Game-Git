@@ -8,7 +8,7 @@ size: M
 status: in-pr
 standard: 2
 claimed-by: claude/project-thread-hkqdh2-executive-ties
-pr:
+pr: 9543
 after: legislature-members-have-no-tie-to-each-other
 blocked-on:
 lead: people
