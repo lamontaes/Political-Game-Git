@@ -1,7 +1,7 @@
 ---
 id: words-bank-answer-piece-keeps-each-use
 title: "An answer piece used twice for one subject keeps only its first use"
-area: english
+area: words
 kind: bug
 priority: 2
 size: S
@@ -26,9 +26,9 @@ root: none
 
 **Time box.** 1 hour for one Sonnet session.
 
-**Rules.** No new lines. No dice.
+**Rules.** No dice: each use is offered by the facts and stages its own row names. No new lines: the second use comes from the words pull request.
 
-**Done when.** src/english/mined/conversation-bank-uses.test.ts (the shipped bank with a second use added to the steady reply) fails without the change and passes with it; a second session sees the worried use said in a played talk once the words pull request is in.
+**Done when.** src/english/mined/conversation-bank-uses.test.ts (the shipped bank with a second use added to the steady reply) fails without the change and passes with it; a second session, in a drawn place with its seed named, sees the worried use said in a played talk once the words pull request is in.
 
 **Waits on.** nothing.
 
