@@ -50,7 +50,7 @@ const SEED = "scan-25";
 /** Seeds of this town where the petition runs short and the clerk tells the player, found by hand. */
 const CLERK_SEEDS = ["scan-3", "scan-9", "scan-12", "scan-14", "scan-24"];
 /** Seeds where a played yes to an offer of help puts a helper on the campaign who then tells the player, found by hand. */
-const HELPER_SEEDS = ["scan-4", "scan-6", "scan-19"];
+const HELPER_SEEDS = ["scan-6", "scan-19"];
 /** A seed of this town where a household member's offer to run the campaign comes and the player's yes puts them on its staff. */
 const HELPER_SEED = "scan-7";
 const OUT = process.env.PETITION_SHORT_PLAYED;
@@ -196,6 +196,9 @@ function told(world: Case, label: string, seed: string = SEED) {
   expect(day, `${PLACE} ${seed} ${label}: told as short`).toBeDefined();
   const record = core.durableLog.get(toldId(filing.id))!;
   const f = record.facts as Readonly<Record<string, string>>;
+  expect(f.tellerKind, `${seed} ${label}: told by`).toBe(
+    world.helped ? "helper" : "clerk",
+  );
   write(
     `## ${label}: ${PLACE} ${seed}, needed ${petition.needed}, a campaign gathers ${gather}, due ${petition.due}. A canvass shift adds ${petitionShiftYield()} (${campaignParameter("playerCanvassHours")} hours x ${campaignParameter("doorsPerCanvasserHour")} doors an hour x ${campaignParameter("petitionSignOpenness")} sign).\nTold on ${day} by ${f.tellerKind} ${f.tellerId}: ${f.signed} signed of ${f.gathers}, ${f.daysLeft} days left, the days after the next turn can add ${f.canAddAfterNextTurn} against a gap of ${Number(f.gathers) - Number(f.signed)}.\n`,
   );

@@ -8435,8 +8435,8 @@ export function petitionShortReading(
 /**
  * Who would really tell a candidate their petition is short, from who the
  * records have there: someone on the campaign who has been watching the sheets
- * (staff first, then a volunteer, the one named first by id), else the clerk
- * who takes the filing. Null where the records name no one: no scene is staged
+ * (staff first, then a volunteer, the one named first by id, and only one the
+ * player knows), else the clerk who takes the filing. Null where the records name no one: no scene is staged
  * and nothing is invented.
  */
 export function petitionTeller(
@@ -8445,8 +8445,16 @@ export function petitionTeller(
 ): { readonly id: string; readonly kind: "clerk" | "helper" } | null {
   const campaign = campaignFor(api, filingId);
   const alive = (id: string) => api.state.people.get(id)?.alive === true;
+  // Only someone the player can be told by: a helper the player does not
+  // know by name cannot be named in the scene, so the clerk tells them instead.
+  const player = api.state.people.get(campaign.candidateId);
+  const knownToPlayer = (id: string) =>
+    !!player && player.knownIds.has(id as PersonId);
   const named = (ids: readonly string[]) =>
-    ids.filter((id) => id !== campaign.candidateId && alive(id)).sort()[0];
+    ids
+      .filter((id) => id !== campaign.candidateId && alive(id))
+      .filter(knownToPlayer)
+      .sort()[0];
   const helper = named(campaign.staffIds) ?? named(campaign.volunteerIds);
   if (helper) return { id: helper, kind: "helper" };
   const clerk = filingClerkFor(api, campaign.contestId);
