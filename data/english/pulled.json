@@ -128,6 +128,7 @@
     "scene-talk.close-press.we-still-have-to-settle-this-you-know": [
       "no-filler"
     ],
+    "scene-talk.follow-accept.all-right-i-heard-you": ["alright-in-dialogue"],
     "scene-talk.follow-accept.i-hear-you-the-ring-goes-back-in-the-drawer-and-we-re-still-us-i-ll-ta": [
       "no-stock-phrases"
     ],

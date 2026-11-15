@@ -2566,6 +2566,43 @@
         }
       ]
     },
+    "ask-endorsement": {
+      "state": "request",
+      "stateMoves": ["tell-reason", "tell-need", "request"],
+      "replies": ["agree", "decline", "stall"],
+      "follow": {
+        "agree": ["thank"],
+        "decline": ["press", "accept"],
+        "stall": ["press", "accept"]
+      },
+      "again": { "press": ["agree", "decline", "stall"] },
+      "endings": [
+        {
+          "id": "endorsed",
+          "label": "You gave them your endorsement",
+          "keeps": "none",
+          "when": { "reply": ["agree"] }
+        },
+        {
+          "id": "refused",
+          "label": "You said no",
+          "keeps": "relationship-strained",
+          "when": { "reply": ["decline"] }
+        },
+        {
+          "id": "thinking",
+          "label": "You said you would think about it",
+          "keeps": "none",
+          "when": { "reply": ["stall"] }
+        },
+        {
+          "id": "left-there",
+          "label": "Left it there",
+          "keeps": "none",
+          "when": {}
+        }
+      ]
+    },
     "offer-help": {
       "state": "request",
       "replies": ["ask", "agree", "decline", "stall"],
