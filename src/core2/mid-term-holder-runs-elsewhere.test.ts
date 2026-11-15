@@ -99,9 +99,10 @@ function playTo(seed: string, date: string) {
       cause: string;
       status: string;
     }[],
-    incompatibilities: offices
-      .table("incompatibilities")
-      .rows() as unknown as { personId: string; previousTermId: string }[],
+    incompatibilities: offices.table("incompatibilities").rows() as unknown as {
+      personId: string;
+      previousTermId: string;
+    }[],
     /** The filing of someone who held `held` that day, for a contest on `seat` and `date`. */
     midTermFiling: (held: string, seat: string, date: string) => {
       const contest = contests.find(
@@ -167,9 +168,9 @@ it("a lieutenant governor mid-term who wins a state senate seat leaves the old s
   );
   expect(old.length).toBeGreaterThan(0);
   expect(old.every((t) => t.status === "ended")).toBe(true);
-  expect(
-    w.incompatibilities.some((i) => i.personId === filing.personId),
-  ).toBe(true);
+  expect(w.incompatibilities.some((i) => i.personId === filing.personId)).toBe(
+    true,
+  );
   const vacancy = w.vacancies.filter(
     (v) =>
       v.seatId === "seat:US-NV:lieutenant-governor" &&
