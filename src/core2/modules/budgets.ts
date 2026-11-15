@@ -2603,5 +2603,6 @@ export {
   householdOpeningCash,
   medianTransactionBalance,
 } from "../starting-cash";
+export { depositsHeld, withdrawSavings } from "../accounts";
 // Re-exported so the climate engine reads the states' bases through this entry (families guard).
 export { residentsOf, STATES } from "./outside-budgets";

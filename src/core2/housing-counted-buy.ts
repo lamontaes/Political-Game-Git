@@ -26,7 +26,7 @@ import { buyMarket, monthlyPayment, weighHome } from "./housing-buy";
 import { countUnmetBuyer, takeHomes } from "./housing-listings";
 import { countedMortgageFlowId, MORTGAGE_PREFIX } from "./housing-mortgages";
 import { countBuyer, placePriceLevel } from "./housing-price-level";
-import { depositsHeld, withdrawSavings } from "./accounts";
+import { depositsHeld, withdrawSavings } from "./modules/budgets";
 import {
   countedHousingInArrears,
   countedPayment,
