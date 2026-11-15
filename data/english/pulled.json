@@ -349,6 +349,9 @@
     "scene-talk.reply-tell.taken.i-ll-tell-you-exactly-how-it-went-and-you-can-judge": [
       "conflict-accuse.taken/ask"
     ],
+    "scene-talk.state-comfort.i-put-a-little-in-and-we-lost-i-d-do-it-again": [
+      "family-loss.small/blame"
+    ],
     "scene-talk.state-comfort.i-worked-this-race-with-you-and-we-lost-it-what-do-we-do-with-all-of-it": [
       "family-loss.small/tell",
       "family-loss/tell"

@@ -44,21 +44,20 @@ import { expectUpToFourDifferent } from "./reply-set-check";
 // the one margin function the Journal reads (raceMargin), never asserted.
 // Three named places on fixed seeds, found by scanning drawn seeds once: Pomeroy
 // WA (a relative who worked it, a wide gap), Vineyard UT (relatives who gave
-// money, $1,800 and $100, a middle gap) and Walled Lake MI (a gap of a point
-// from the last seat, a small gift). The time is the game's own played season
-// from filing to the count at each place (about 80, 290 and 200 seconds), plus
-// the wording replay; measured 740 seconds for all three on one process, so the
-// limit is twice that, and a relative's stake is made through the game's
-// own enlistVolunteer and contributeOwnMoney calls; a shorter run has no count
-// for either. Measured 402 seconds for both places on one process; the limit
-// (800 seconds) is twice that.
-const ONLY = process.env.PLACE_ONLY;
+// $1,800 and $100, a middle gap) and Walled Lake MI (a gap of 78 votes to the
+// last of three seats, a worker and a $100 gift). The gate plays Pomeroy (79
+// seconds alone; the limit is about three times that). Vineyard and Walled
+// Lake take about 270 seconds each, the game's own season from filing to the
+// count, so only scripts/words/family-loss-played.ts plays them, to write the
+// played file the readers stamp. A relative's stake is made through the game's
+// own enlistVolunteer and contributeOwnMoney calls.
 const PLACES = [
   { key: "5355120", seed: "losscan:4" },
   { key: "4980420", seed: "losscan:1" },
   { key: "2683060", seed: "losscan:25" },
 ]
-  .filter((row) => !ONLY || row.key === ONLY)
+  // The gate plays Pomeroy; the played file's script plays all three.
+  .filter((row) => process.env.PLAYED_FILE || row.key === "5355120")
   .map((row) => {
     const place = drawPlace(row.seed, "family-loss-stake-scene");
     if (place.key !== row.key)
@@ -246,12 +245,18 @@ const run = (
       ),
     ) as string[];
     if (outIds.includes(filer)) continue;
-    // A seat of an at-large race that the count gave them is no loss: the
-    // count's own list of those who missed the cut names who lost.
+    // A seat of an at-large race that the count gave them is no loss, yet
+    // the lost-race scene still fires for them (item
+    // director-seated-at-large-candidate-gets-a-lost-race-scene); the played
+    // file says so where it happens.
     const missed = JSON.parse(
       String(core.durableLog.get(causeId)?.facts?.outIds ?? "[]"),
     ) as string[];
-    if (!missed.includes(filer)) continue;
+    if (file && !missed.includes(filer))
+      appendFileSync(
+        file,
+        `### ${here}: the count seated this candidate, and the scene below still says they lost (the item above)\n\n`,
+      );
     const entry = director.ledger.people
       .get(filer)!
       .schedule.find((row) =>
@@ -446,19 +451,23 @@ const run = (
   return { done: promised, note: lines.join("\n") };
 };
 
-it("the talk after a lost race is for the relative who put in work or money, says the count once, places its size words by the count, and what is said about running again is read by the next contest", () => {
-  const file = process.env.PLAYED_FILE;
-  if (file)
-    writeFileSync(
-      file,
-      `# After the loss, played (head ${process.env.PLAYED_SHA ?? "unknown"})\n\n`,
-    );
-  for (const place of PLACES) {
-    const began = Date.now();
-    const out = run(place);
-    expect(out.done, out.note).toBe(true);
-    process.stdout.write(
-      `${out.note}\n${place.name}: ${Math.round((Date.now() - began) / 1000)} s\n`,
-    );
-  }
-}, 1_500_000);
+it(
+  "the talk after a lost race is for the relative who put in work or money, says the count once, places its size words by the count, and what is said about running again is read by the next contest",
+  () => {
+    const file = process.env.PLAYED_FILE;
+    if (file)
+      writeFileSync(
+        file,
+        `# After the loss, played (head ${process.env.PLAYED_SHA ?? "unknown"})\n\n`,
+      );
+    for (const place of PLACES) {
+      const began = Date.now();
+      const out = run(place);
+      expect(out.done, out.note).toBe(true);
+      process.stdout.write(
+        `${out.note}\n${place.name}: ${Math.round((Date.now() - began) / 1000)} s\n`,
+      );
+    }
+  },
+  process.env.PLAYED_FILE ? 1_500_000 : 240_000,
+);

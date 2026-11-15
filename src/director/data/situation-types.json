@@ -2124,8 +2124,8 @@
             "selfNamed": true,
             "causeFacts": [
               {
-                "key": "outIds",
-                "includes": "subject"
+                "key": "winnerId",
+                "is": "other"
               }
             ]
           },
@@ -3847,8 +3847,8 @@
             "label": "cause:event:election-result",
             "causeFacts": [
               {
-                "key": "outIds",
-                "includes": "subject"
+                "key": "winnerId",
+                "is": "other"
               }
             ]
           },
