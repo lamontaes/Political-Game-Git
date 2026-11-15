@@ -1,6 +1,6 @@
 ---
 id: people-free-company-goes-to-one-tie
-title: "A person gives all their free company to one other person, the tie with the most hours to lose"
+title: "The chooser always visits the hardest pull, so one person draws a quarter of all visits and others are never visited"
 area: people
 kind: bug
 priority: 2
@@ -18,7 +18,7 @@ root: none
 source: Found by the lying thread, Nov 15 2026, tracing people-colleagues-company-all-goes-to-the-player (the Account lead asked for it as its own item, the next PR after legislature-colleague-ties-stay-slight)
 ---
 
-**What.** A person's free time with someone they know (`contact-known-person`, about 1.92 hours a day) goes, day after day, to whichever tie has the most hours to lose. That is always the tie they renewed last, so after the first pick they give all of it to one other person and nobody else. At 4846968 (Texas) seed 8647-mason, from Feb 1 to 14, 2025, most senators visited the same one colleague every day for the whole fortnight (004 to 006, 008 to 010, 012 to 014 and so on). On the town council, members 78bac2d6 and 63001615 reached a closeness of 0.274 by March 30 from free company alone, against 0.0035 without it. That decided the council's March 31 police budget vote (78bac2d6 voted yes on 63001615's bill), and the council's calendar shifted after it. Real people spread their social time over several friends. Seen: in dev mode, one colleague or friend fills every evening of a person's Journal for weeks, and their other friends fade.
+**What.** When a person spends free time with someone they know (`contact-known-person`), the chooser takes the candidate with the hardest pull every time. Nothing else enters, so whoever leads the pulls draws the visits, and anyone in the middle of everyone's table is never visited. At 4846968 (Texas) seed 8647-mason, player at seat 016, Feb 1 to 14, 2025 (on #9557 d1d43521, counted from every change notice), the senators made 181 visits to colleagues. Senator 022 drew 46 (a quarter), 019 drew 24 and 030 drew 15, and the player drew none, because the player's pull is mid-table for every colleague. Across the town, Feb 1 to Mar 31: of the 211 people with 5 or more visits, 65 give 90% or more to one person, 23 of them to kin and 42 to someone else. On the town council, 78bac2d6 gave all 9 of its visits to 63001615. That closeness decided the March 31 police budget vote (78bac2d6 voted yes on 63001615's bill). Real people spread their time over the people they know, and someone others know is visited now and then. Where the player sees it: nobody ever comes to see them. Colleagues and friends keep company with one favorite, and the player's evenings and Journal never show a visitor.
 
 **Cause.** Found in code: `tiePull` (src/core2/modules/people.ts, the `tie-fading` reason) weighs `tieHoursLost`. That is a tie's hours lost since the two were last together, so it grows with the tie's size: a tie of 40 hours loses more hours in a day than a tie of 2 loses in a month. Each visit makes the visited tie the biggest, so it pulls hardest the next day too. Closeness itself is concave in hours (closeness.ts, hours / (hours + `closenessHoursAtHalf`)), but the pull reads hours, not closeness.
 
