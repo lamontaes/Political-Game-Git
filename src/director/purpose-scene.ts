@@ -23,7 +23,7 @@ import {
   type PolicyLevel,
 } from "../core2/modules/laws";
 import { meetingsOn } from "../core2/modules/interest-groups";
-import { townSeats } from "../core2/modules/offices";
+import { OFFICES_MODULE_ID, townSeats } from "../core2/modules/offices";
 import {
   LEGISLATURE_MODULE_ID,
   absenceCarries,
@@ -37,6 +37,7 @@ import {
   memberPosition,
   signOnRecord,
   votesOn,
+  type StudyRow,
 } from "../core2/modules/legislature";
 import {
   MEETINGS_MODULE_ID,
@@ -45,6 +46,7 @@ import {
 } from "../core2/modules/meetings";
 import {
   VIEWS_MODULE_ID,
+  stanceRow,
   stancesOf,
   viewOf,
   viewOn,
@@ -142,6 +144,12 @@ import { rescueFacts } from "./rescue-facts";
 import { birthFacts } from "./birth-facts";
 import { constituentFacts } from "./constituent-help-facts";
 import { CASES_MODULE_ID, handleCase } from "../core2/modules/offices";
+import purposeArcs from "./data/purpose-arcs.json" with { type: "json" };
+import {
+  OFFICE_DAY_MODULE_ID,
+  decideDesk,
+  deskWaiting,
+} from "../core2/modules/office-day";
 import {
   chooseVariant,
   favorsGiven,
@@ -1280,6 +1288,86 @@ function composeBinding(
       sourceRecordIds: [moment.causeId, askerId],
     };
     floorDebateFacts(core, facts, said, moment.causeId, askerId);
+  }
+  // A study committee (legislature.ts referToStudy and reportStudy): who chairs
+  // it (the asker), who else sits on it and the body that sent the bill; at its
+  // report, what it found and whether the chair's speech to the body moved the
+  // player's own stance on the question.
+  if (
+    (record?.kind === "study-formed" || record?.kind === "study-reported") &&
+    said.studyId &&
+    core.modules.has(LEGISLATURE_MODULE_ID)
+  ) {
+    const study = coreAPI(core as CoreState)
+      .moduleState(LEGISLATURE_MODULE_ID)
+      .table("studies")
+      .get(said.studyId) as unknown as StudyRow | undefined;
+    if (study) {
+      const cited = [moment.causeId, study.id];
+      // Who chairs it: the asker. A committee another member chairs is not
+      // worded yet (no played scene for it), so the scene is skipped there.
+      if (study.chairId === askerId)
+        facts["asker-chairs"] = {
+          text: said.number ?? "",
+          sourceRecordIds: [...cited, study.chairId],
+        };
+      // The members besides the two talking, by name: the answer to who else
+      // sits on it.
+      const others = study.memberIds
+        .filter(
+          (id) => id !== askerId && id !== askedId && id !== study.chairId,
+        )
+        .map((id) => core.people.get(id as PersonId))
+        .filter((person) => !!person?.alive);
+      if (others.length) {
+        const names = others.map(
+          (person) => `${person!.givenName} ${person!.familyName}`,
+        );
+        facts.members = {
+          text:
+            names.length === P.one
+              ? names[P.zero]!
+              : `${names.slice(P.zero, -P.one).join(", ")} and ${names.at(-P.one)}`,
+          sourceRecordIds: [...cited, ...others.map((person) => person!.id)],
+        };
+      }
+      // The body that sent the bill to study, by the name its office row
+      // gives it ("City Council"), said after the article: "The {body} sent ...".
+      const bodyName = (
+        coreAPI(core as CoreState)
+          .moduleState(OFFICES_MODULE_ID)
+          .table("offices")
+          .get(study.bodyOfficeId) as { bodyName?: string } | undefined
+      )?.bodyName
+        ?.trim()
+        .replace(/^the\s+/i, "");
+      if (bodyName)
+        facts.body = {
+          text: bodyName,
+          sourceRecordIds: [...cited, study.bodyOfficeId],
+        };
+      if (study.report) {
+        facts[
+          study.report.finding > P.zero ? "finding-for" : "finding-against"
+        ] = { text: said.number ?? "", sourceRecordIds: [...cited, study.id] };
+        // The speech moved the player's stance on the question toward the
+        // finding, by the stance record's own cause for that speech (a speaker
+        // is not moved by their own).
+        const stance =
+          study.report.speechId && study.topic && askedId !== study.chairId
+            ? stanceRow(coreAPI(core as CoreState), askedId, study.topic)
+            : undefined;
+        const cause = stance?.causes.find(
+          (row) => row.eventId === study.report!.speechId,
+        );
+        if (stance && cause && cause.change > P.zero)
+          facts[study.report.finding > P.zero ? "moved-for" : "moved-against"] =
+            {
+              text: said.number ?? "",
+              sourceRecordIds: [...cited, study.report.speechId!, stance.id],
+            };
+      }
+    }
   }
   // A witness at a committee's hearing (legislature.ts committeeStage): their
   // side on the bill and what it reaches in their own life, from the record's
@@ -2854,6 +2942,13 @@ function walkThroughFacts(
 
 /** The scene type of a resident's visit to the official's office (situation-types.json). */
 const OFFICE_HOURS_TYPE = "office-hours";
+const DESK_VISIT_TYPE = "desk-visit";
+/** The desk visit's replies that say the act: their pieces, by the act. */
+const DESK_ACTS = (
+  purposeArcs as unknown as {
+    purposes: Record<string, { acts?: { sign: string[]; veto: string[] } }>;
+  }
+).purposes[DESK_VISIT_TYPE]!.acts!;
 
 /**
  * The pieces each door scene said, by the player and the cause, kept the
@@ -3065,6 +3160,28 @@ export function replyInScene(
     core.modules.has(CASES_MODULE_ID)
   )
     handleCase(coreAPI(core), caseId, caseDecision, null, id);
+
+  // The visit is the desk (Words lead, desk ruling 2): a reply that says the
+  // act in its own words ("Bring the pen.", "It goes back with a veto.") and
+  // ends the talk signs or vetoes the bill through the desk's own decision,
+  // the same one the panel's buttons call. Any other reply, a plain no
+  // included, a fix asked for or a put-off, leaves it on the desk (Account
+  // lead, Nov 14).
+  const deskBillId = scene.cause.facts.billId;
+  const deskAct = DESK_ACTS.sign.includes(line.parts[P.zero] ?? "")
+    ? "sign"
+    : DESK_ACTS.veto.includes(line.parts[P.zero] ?? "")
+      ? "veto"
+      : undefined;
+  if (
+    scene.typeKey === DESK_VISIT_TYPE &&
+    typeof deskBillId === "string" &&
+    deskAct &&
+    ending &&
+    core.modules.has(OFFICE_DAY_MODULE_ID) &&
+    deskWaiting(coreAPI(core)).some((bill) => bill.id === deskBillId)
+  )
+    decideDesk(coreAPI(core), deskBillId, deskAct === "sign");
 
   // Asked at the door what matters to them, a resident says their strongest
   // question and their side (ruling 72): the player holds it as a talk's
