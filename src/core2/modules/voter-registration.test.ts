@@ -7,7 +7,7 @@
  *   registration, so a person not on the rolls on election day is turned away.
  * - Adell, Wisconsin (key 5500450): same-day registration, so they register
  *   at the polls and vote.
- * - Newark, New York (key 3649891): automatic registration, so a move
+ * - North Hyde Park, Vermont (key 5050725): automatic registration, so a move
  *   registers the person at the new address the day it is seen.
  *
  * Each world opens already in motion (the survey's share off the rolls), a
@@ -134,6 +134,11 @@ function moveOut(api: CoreAPI, movers: readonly PersonState[]) {
   );
 }
 
+// Why two of these run long: the time is the game's own played days. Sherrodsville
+// plays 289 days (the world opens 2025-01-20, the town's election is 2025-11-04,
+// staged moves land 10 days before it) and Adell plays 443 days (the election is
+// 2026-04-07); a world builds in about 7 s. North Hyde Park is a small place that
+// plays 71 days. The limits are near twice the measured time.
 describe("voter registration (pinned places, fixed seeds)", () => {
   it("Sherrodsville OH, seed reg-pin-oh: the world opens in motion, a mover is at the old address and is turned away at the polls", () => {
     const where = "Sherrodsville, Ohio (3972242), seed reg-pin-oh";
@@ -250,9 +255,9 @@ describe("voter registration (pinned places, fixed seeds)", () => {
     }
   }, 225_000);
 
-  it("Newark NY, seed reg-pin-ny: a move registers the person at the new address when it is seen, in a state with automatic registration", () => {
-    const where = "Newark, New York (3649891), seed reg-pin-ny";
-    const { core, api } = worldAt("3649891", "reg-pin-ny");
+  it("North Hyde Park VT, seed reg-pin-vt: a move registers the person at the new address when it is seen, in a state with automatic registration", () => {
+    const where = "North Hyde Park, Vermont (5050725), seed reg-pin-vt";
+    const { core, api } = worldAt("5050725", "reg-pin-vt");
     expect(automaticRegistrationInForce(api), where).toBe(true);
     advanceCore(core, addDays(makeIsoDate(core.date), 40));
     const movers = leavers(api, 10).filter((p) => registrationOf(api, p.id));
