@@ -8,7 +8,7 @@ import { advanceCore } from "../life";
 import { coreAPI } from "../state";
 import { OUTCOME_WEB_MODULE_ID } from "../outcome-web-model";
 import { TERM_MEASURES } from "../term-read";
-import { actionsOf, areaRule, joinCase } from "./public-action";
+import { actionsOf, areaRule, joinCase, turnoutOf } from "./public-action";
 import { residentsRuntime } from "./residents";
 
 // Who joins a strike, protest or rally (owner, Oct 14: one model, two tiers).
@@ -146,19 +146,16 @@ it("Lincoln, Vermont: the same issue costs a person who works more of the week m
 }, 180_000);
 
 // A scene says how a turnout looks and never the figure (owner's rule, Words
-// lead's ruling for #9418): the record keeps the size and one fact, read at
-// one scale (its share of the town's adults) for named and counted alike.
-it("Port O'Connor and Lincoln: each protest's record says how its turnout looks, by its share of the adults", () => {
+// lead's ruling for #9418): one fact, read from the action's own record as it
+// stands when the scene is composed, at one scale (its share of the town's
+// adults) for named and counted people alike.
+it("Port O'Connor and Lincoln: each protest is told by how its turnout looks now, by its share of the adults", () => {
   const looks = (label: string, name: string) => {
-    const { world, adults } = playTerm(label, name);
-    const records = [...world.core.durableLog.values()].filter(
-      (row) => row.kind === "civic.protest",
-    );
-    // The record is written when the action forms, so its own size is read.
-    return records.map((rec) => ({
-      area: rec.facts!.area,
-      share: Number(rec.facts!.size) / adults,
-      turnout: rec.facts!.turnout,
+    const { actions, adults, api } = playTerm(label, name);
+    return actions.map((row) => ({
+      area: row.area,
+      share: share(row, adults),
+      turnout: turnoutOf(api, row.id),
     }));
   };
   const a = looks("pa-a", "Port O'Connor, Texas");
@@ -168,9 +165,9 @@ it("Port O'Connor and Lincoln: each protest's record says how its turnout looks,
       row.share < 0.015 ? "few" : row.share >= 0.08 ? "crowd" : "group",
     );
   }
-  // The scale is used both ways: a few at one place, a group at the other. The
-  // record is written when the action forms, so a protest that later grows
-  // is told by its size at the start (a crowd looks only at a big first turnout).
+  // The scale is used all three ways at these two places: a few at one, a
+  // crowd (the rent protest, a tenth of the adults) and a group at the other.
   expect(a.some((row) => row.turnout === "few")).toBe(true);
+  expect(b.some((row) => row.turnout === "crowd")).toBe(true);
   expect(b.some((row) => row.turnout === "group")).toBe(true);
 }, 240_000);

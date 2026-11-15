@@ -426,6 +426,27 @@ export function turnoutLooks(
   return share >= PAR.turnoutCrowdFrom.value ? "crowd" : "group";
 }
 
+/**
+ * How an action's turnout looks as it stands now, from its own record: the one
+ * fact a scene and the paper both read, so a protest that grew is told at its
+ * size the day it is told. Undefined for an action not on record.
+ */
+export function turnoutOf(
+  api: CoreAPI,
+  actionId: string,
+): "few" | "group" | "crowd" | undefined {
+  const row = table(api, "actions").get(actionId) as unknown as
+    ActionRow | undefined;
+  return row
+    ? turnoutLooks(
+        api,
+        api.state as CoreState,
+        row.placeId,
+        row.participantIds.length + row.countedParticipants,
+      )
+    : undefined;
+}
+
 function gather(
   api: CoreAPI,
   pool: readonly PersonState[],
@@ -657,12 +678,6 @@ function monthlyRun(api: CoreAPI): void {
             side: stock.side,
             question: rule.question ?? "",
             size: String(participants.length + countedJoined),
-            turnout: turnoutLooks(
-              api,
-              core,
-              placeId,
-              participants.length + countedJoined,
-            ),
           },
           source: {
             tag: "SOURCED",

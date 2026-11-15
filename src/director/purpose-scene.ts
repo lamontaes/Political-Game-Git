@@ -59,6 +59,7 @@ import {
   coreStateName,
 } from "../core2/place-lookup";
 import { applyCoreEvent, coreAPI } from "../core2/state";
+import { turnoutOf } from "../core2/modules/public-action";
 import type { CoreState, PersonId } from "../core2/types";
 import {
   billNameFor,
@@ -1144,7 +1145,13 @@ function composeBinding(
       // protest in the street or workers who walked out.
       const flag = record?.kind === "civic.strike" ? "strike" : "protest";
       facts[flag] = { text: "yes", sourceRecordIds: [said.actionId] };
-      Object.assign(facts, turnoutFacts(said.turnout, said.actionId));
+      Object.assign(
+        facts,
+        turnoutFacts(
+          turnoutOf(coreAPI(core as CoreState), said.actionId),
+          said.actionId,
+        ),
+      );
     }
   }
   // A rally in the town (public-action.ts): the area the term read well in,
@@ -1157,7 +1164,13 @@ function composeBinding(
         sourceRecordIds: [said.actionId, moment.causeId],
       };
     facts.rally = { text: "yes", sourceRecordIds: [said.actionId] };
-    Object.assign(facts, turnoutFacts(said.turnout, said.actionId));
+    Object.assign(
+      facts,
+      turnoutFacts(
+        turnoutOf(coreAPI(core as CoreState), said.actionId),
+        said.actionId,
+      ),
+    );
   }
   // What an offer asks in return (a vote, a contract): the lines about that
   // favor need it, and the thing itself is named so the one offering says
@@ -3097,18 +3110,18 @@ export function replyInScene(
 }
 
 /**
- * How a turnout looks, read from the action's own record (`turnout`, set by
- * public-action.ts from its share of the town's adults): a scene says "a few",
+ * How a turnout looks, read from the action's own record as it stands when the
+ * scene is composed (`turnoutOf`, public-action.ts, from its share of the
+ * town's adults): a scene says "a few",
  * "a group" or "a crowd" and never the figure (owner's rule, no count in a
  * scene). `turnout-many` is set for the two larger looks, for lines that
  * serve both.
  */
 function turnoutFacts(
-  turnout: string | undefined,
+  turnout: "few" | "group" | "crowd" | undefined,
   actionId: string,
 ): Record<string, Fact> {
-  if (turnout !== "few" && turnout !== "group" && turnout !== "crowd")
-    return {};
+  if (!turnout) return {};
   const fact = (text: string): Fact => ({ text, sourceRecordIds: [actionId] });
   return {
     [`turnout-${turnout}`]: fact("yes"),
