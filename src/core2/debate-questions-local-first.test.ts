@@ -25,12 +25,15 @@ import {
 import { coreAPI } from "./state";
 import type { PersonId } from "./types";
 
-// The place the filing-platform test pins as its first: Lansdowne,
-// Pennsylvania, which has a contested local race open for the player. (The
-// second place that test pins, Plankinton, South Dakota, has no contest; five
-// other tags tried had no local race to file for.)
+// Burlington, Colorado (tag k of the filing-platform draw): a council race is
+// open for the player, the debate is held, and the vote is 127 days after the
+// player first may file, so the played days are the weeks to the debate on the
+// eve of the vote (measured 99 s in all, with the world build about 13 s of it). The
+// first place that draw gives, Lansdowne, Pennsylvania, is nine months from its
+// vote and runs over three minutes; Plankinton, South Dakota, has a race but
+// holds no debate.
 const SEED = "c1-filing-platform-from-views";
-const PINNED = ["filing-platform-a"];
+const PINNED = ["filing-platform-k"];
 const WEEKS = 52;
 
 it.each(PINNED)(
@@ -61,7 +64,12 @@ it.each(PINNED)(
       contest,
       `${where}: no local race the player may file for`,
     ).toBeTruthy();
-    fileForOffice(core, playerId, contest!.id);
+    // The player starts with no cash and the place charges a filing fee at
+    // the counter, so stage the cash the fee takes.
+    const me = core.people.get(playerId)!;
+    me.liquidMinor = Math.max(me.liquidMinor, 1_000_000);
+    const filed = fileForOffice(core, playerId, contest!.id);
+    expect(filed.status, `${where}: the player's filing`).not.toBe("refused");
     advanceCore(core, addDays(makeIsoDate(contest!.electionDate), 1));
     const held = debatesIn(api, contest!.id);
     expect(held.length, `${where}: the race's debate was held`).toBe(1);
@@ -77,5 +85,5 @@ it.each(PINNED)(
     expect(stood, where).not.toContain(playerId);
     expect(stood.length, where).toBeGreaterThan(0);
   },
-  240_000,
+  200_000,
 );

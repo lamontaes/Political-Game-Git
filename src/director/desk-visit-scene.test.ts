@@ -13,9 +13,11 @@ import {
   type LobbyMeeting,
 } from "../core2/modules/interest-groups";
 import { lawInForce } from "../core2/modules/laws";
+import { deskWaiting } from "../core2/modules/office-day";
 import {
   LEGISLATURE_MODULE_ID,
   authorityFor,
+  billOf,
   castMemberVote,
   draftBill,
   holdVote,
@@ -27,11 +29,15 @@ import { coreAPI } from "../core2/state";
 import type { ModuleRow } from "../core2/module-data";
 import type { PersonId } from "../core2/types";
 import type { Fact } from "../english/scene-talk-words";
-import { purposeScene } from "./purpose-scene";
-import { composeSceneTalk, type PurposeType } from "./scene-talk";
+import { purposeScene, replyInScene } from "./purpose-scene";
+import {
+  composeSceneTalk,
+  type PurposeType,
+  type TreeNode,
+} from "./scene-talk";
+import purposeArcs from "./data/purpose-arcs.json" with { type: "json" };
 import { SITUATION_LIBRARY } from "./scheduling";
 import { expectUpToFourDifferent } from "./reply-set-check";
-import purposeArcs from "./data/purpose-arcs.json" with { type: "json" };
 
 // The arc's apart sets say at most one of their facts holds in one visit;
 // the pair sheets leave out pairs that need two of one set, so every visit
@@ -70,6 +76,68 @@ const ATTEMPTS = 8;
 const TYPE = SITUATION_LIBRARY.types.find(
   (row) => row.key === "desk-visit",
 ) as unknown as PurposeType;
+
+/** The desk visit's replies that say the act, by the piece the reply says. */
+const DESK_ACTS = (
+  purposeArcs as unknown as {
+    purposes: Record<string, { acts: { sign: string[]; veto: string[] } }>;
+  }
+).purposes["desk-visit"]!.acts;
+
+/**
+ * Every path of a talk with a speaker on every line, what each ending keeps,
+ * and what the player's last reply does to the bill (Words lead, Nov 14: the
+ * replay shows who says what and what each ending does).
+ */
+function talkPaths(
+  tag: string,
+  where: string,
+  talk: { lines: { speaker: string; text: string }[]; tree: TreeNode },
+): string {
+  const spoken = (line: { speaker: string; text: string }) =>
+    `${line.speaker}: ${line.text}`;
+  const paths: string[] = [];
+  (function walk(node: TreeNode, before: string[]) {
+    for (const reply of node.replies) {
+      // The menu as the player sees it (Words lead rule 114): every reply
+      // offered at this turn under "You say:", the pressed one marked.
+      const menu = node.replies.map(
+        (row) =>
+          `  ${row === reply ? "[pressed]" : "         "} ${row.line.text}`,
+      );
+      const here = [
+        ...before,
+        "You say:",
+        ...menu,
+        ...(reply.next?.lines ?? []).map(spoken),
+      ];
+      const end = reply.next?.end;
+      const piece = reply.line.parts[0] ?? "";
+      const act = DESK_ACTS.sign.includes(piece)
+        ? "the bill is signed"
+        : DESK_ACTS.veto.includes(piece)
+          ? "the bill is vetoed"
+          : "the bill stays on the desk";
+      if (end?.ending)
+        paths.push(
+          [
+            ...here,
+            ...(end.close ? [spoken(end.close)] : []),
+            `ENDING ${end.ending.id}, keeps ${end.ending.keeps}; ${act}`,
+          ].join("\n    "),
+        );
+      if (reply.next) walk(reply.next, here);
+    }
+  })(talk.tree, []);
+  const firstReply = talk.lines.findIndex(
+    (line) => line.text === talk.tree.replies[0]?.line.text,
+  );
+  const opening = talk.lines
+    .slice(0, firstReply < 0 ? 0 : firstReply)
+    .map(spoken)
+    .join("\n    ");
+  return `${tag} ${where}:\n  opening:\n    ${opening}\n${paths.map((path, n) => `  path ${n + 1}:\n    ${path}`).join("\n")}\n`;
+}
 
 it(`a bill on the desk brings its sponsor, or the group against it, in to argue, seed ${seed}`, () => {
   const tried: string[] = [];
@@ -232,38 +300,7 @@ it(`a bill on the desk brings its sponsor, or the group against it, in to argue,
     ];
     // Every path of the tree, a speaker on every line, and what each ending
     // writes (Words lead, Nov 14: the replay shows who says what).
-    const spoken = (line: { speaker: string; text: string }) =>
-      `${line.speaker}: ${line.text}`;
-    const paths: string[] = [];
-    (function walk(node: typeof scene.talk.tree, before: string[]) {
-      for (const reply of node.replies) {
-        const here = [
-          ...before,
-          `PLAYER: ${reply.line.text}`,
-          ...(reply.next?.lines ?? []).map(spoken),
-        ];
-        const end = reply.next?.end;
-        if (end?.ending)
-          paths.push(
-            [
-              ...here,
-              ...(end.close ? [spoken(end.close)] : []),
-              `ENDING ${end.ending.id}, keeps ${end.ending.keeps}`,
-            ].join("\n    "),
-          );
-        if (reply.next) walk(reply.next, here);
-      }
-    })(scene.talk.tree, []);
-    const firstReply = scene.talk.lines.findIndex(
-      (line) => line.text === scene.talk.tree.replies[0]?.line.text,
-    );
-    const opening = scene.talk.lines
-      .slice(0, firstReply < 0 ? 0 : firstReply)
-      .map(spoken)
-      .join("\n    ");
-    process.stdout.write(
-      `DESK-TALK ${where}:\n  opening:\n    ${opening}\n${paths.map((path, n) => `  path ${n + 1}:\n    ${path}`).join("\n")}\n`,
-    );
+    process.stdout.write(talkPaths("DESK-TALK", where, scene.talk));
     for (const line of lines)
       expect(line.text, where).not.toMatch(
         /\d{4}-\d{2}-\d{2}|\b[a-z]+[-.:][a-z-]+:|\{|\}|undefined/,
@@ -280,6 +317,69 @@ it(`a bill on the desk brings its sponsor, or the group against it, in to argue,
       for (const reply of node.replies) if (reply.next) walk(reply.next);
     })(scene.talk.tree);
     expect(ends.length, where).toBeGreaterThan(0);
+
+    // The visit is the desk (Words lead, desk ruling 2): a put-off leaves the
+    // bill on the desk; a yes said to the sponsor signs it through the
+    // desk's own decision, and the desk no longer holds it.
+    const pathTo = (id: string): number[] | undefined => {
+      let found: number[] | undefined;
+      (function walk(node: typeof scene.talk.tree, at: number[]) {
+        node.replies.forEach((reply, index) => {
+          if (found || !reply.next) return;
+          if (reply.next.end?.ending?.id === id) found = [...at, index];
+          else walk(reply.next, [...at, index]);
+        });
+      })(scene.talk.tree, []);
+      return found;
+    };
+    const onDesk = () =>
+      deskWaiting(api).some((row) => row.id === first.bill.id);
+    const putOff = pathTo("until-the-deadline");
+    if (putOff) {
+      expect(
+        replyInScene(core, director, mayor!, first.entry!, putOff),
+      ).toBeTruthy();
+      expect(onDesk(), `${where}: a put-off took the bill off the desk`).toBe(
+        true,
+      );
+    }
+    // A plain no that does not say "veto" ends the talk the other way and
+    // leaves the bill on the desk (Account lead, Nov 14: the press is the act
+    // only where the words say it).
+    let plainNo: number[] | undefined;
+    (function walk(node: typeof scene.talk.tree, at: number[]) {
+      node.replies.forEach((reply, index) => {
+        if (plainNo || !reply.next) return;
+        if (
+          reply.next.end?.ending?.id === "other-way" &&
+          !/veto|sign/i.test(reply.line.text)
+        )
+          plainNo = [...at, index];
+        else walk(reply.next, [...at, index]);
+      });
+    })(scene.talk.tree, []);
+    if (plainNo) {
+      expect(
+        replyInScene(core, director, mayor!, first.entry!, plainNo),
+      ).toBeTruthy();
+      expect(onDesk(), `${where}: a plain no vetoed the bill`).toBe(true);
+    }
+    const yes = pathTo("their-way");
+    expect(yes, `${where}: no path where the mayor says yes`).toBeTruthy();
+    expect(onDesk(), where).toBe(true);
+    expect(
+      replyInScene(core, director, mayor!, first.entry!, yes!),
+    ).toBeTruthy();
+    expect(
+      onDesk(),
+      `${where}: a yes to the sponsor left the bill on the desk`,
+    ).toBe(false);
+    expect(billOf(api, first.bill.id)?.status, where).not.toBe(
+      "awaiting-signature",
+    );
+    process.stdout.write(
+      `DESK-DECIDED ${where}: ${first.bill.id} ${billOf(api, first.bill.id)?.status} after the yes\n`,
+    );
 
     // A different speaker says it differently; the same one says it the same.
     const facts = Object.fromEntries(
@@ -366,6 +466,36 @@ it(`a bill on the desk brings its sponsor, or the group against it, in to argue,
       asked.scene.talk.lines.map((row) => row.text).join(" "),
       where,
     ).not.toBe(scene.talk.lines.map((row) => row.text).join(" "));
+    process.stdout.write(
+      talkPaths("DESK-TALK-AGAINST", where, asked.scene.talk),
+    );
+    // A veto said to the group's lobbyist vetoes the bill through the desk.
+    let veto: number[] | undefined;
+    (function walk(node: TreeNode, at: number[]) {
+      node.replies.forEach((reply, index) => {
+        if (veto || !reply.next) return;
+        if (
+          reply.next.end?.ending &&
+          DESK_ACTS.veto.includes(reply.line.parts[0] ?? "")
+        )
+          veto = [...at, index];
+        else walk(reply.next, [...at, index]);
+      });
+    })(asked.scene.talk.tree, []);
+    expect(veto, `${where}: no path where the mayor vetoes`).toBeTruthy();
+    expect(
+      replyInScene(core, director, mayor!, second.entry!, veto!),
+    ).toBeTruthy();
+    expect(billOf(api, second.bill.id).status, where).not.toBe(
+      "awaiting-signature",
+    );
+    expect(
+      deskWaiting(api).some((row) => row.id === second.bill.id),
+      where,
+    ).toBe(false);
+    process.stdout.write(
+      `DESK-VETOED ${where}: ${second.bill.id} ${billOf(api, second.bill.id).status} after the veto\n`,
+    );
 
     // 3. Neither can come: no visit is cast (the aide's desk scene keeps
     // the bill, where the town has an aide or a clerk).
@@ -500,16 +630,18 @@ it(`a governor's year of presented bills brings each living sponsor in, seed ${s
           visits += 1;
           expectApart(scene.scene.facts, `${where}: ${record.id}`);
           first ||= `${record.id}, sponsor ${sponsor!.sponsorId}`;
-          shown ||= scene.scene.talk.lines
-            .slice(0, 4)
-            .map((row) => row.text)
-            .join(" / ");
+          if (!shown)
+            shown = talkPaths(
+              `DESK-TALK-GOVERNOR ${record.id}`,
+              where,
+              scene.scene.talk,
+            );
         }
       }
     }
     expect(visits, `${where}: no visit composed`).toBeGreaterThan(0);
     process.stdout.write(
-      `DESK-VISIT-GOVERNOR ${where}: ${presented.length} bills presented, ${staged} staged, ${visits} brought a sponsor; first ${first}.\n  ${shown}\n`,
+      `DESK-VISIT-GOVERNOR ${where}: ${presented.length} bills presented, ${staged} staged, ${visits} brought a sponsor; first ${first}.\n${shown}`,
     );
     return;
   }
