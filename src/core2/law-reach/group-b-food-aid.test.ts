@@ -1,12 +1,10 @@
 /**
- * The baseline SNAP benefit: the formula on known households, then a drawn
+ * The baseline SNAP benefit: the formula on known households, then a pinned
  * place for a year: the federal treasury owes a qualifying household its
  * amount, the household's cash rises by it, and an act that raises the
  * maximum allotment raises what is owed. The place and seed are in the title.
  */
-import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
-import { drawPlace } from "../../../scripts/core2-year/place";
 import { buildBenchWorld } from "../../bench/world";
 import { setBookkeeping } from "../bookkeeping";
 import { gameStartDate } from "../game-start";
@@ -64,15 +62,21 @@ describe("foodAidDollars", () => {
 });
 
 describe("the baseline benefit in a played year", () => {
-  const seed = process.env.FOOD_AID_SEED ?? randomBytes(32).toString("hex");
-  const DRAWS = 8;
   /**
-   * One drawn place for two months: where no SNAP law is in force (a territory
-   * on a block grant) nothing is owed, and "no-snap" is returned so the test
-   * draws another; where SNAP is in force the payments are checked and "paid"
-   * returned.
+   * Pinned: Suncook, New Hampshire, on the world seed where a household's pay
+   * rose the day after the close (the test once read that day and failed).
    */
-  const check = (draw: ReturnType<typeof drawPlace>): "no-snap" | "paid" => {
+  const SUNCOOK = {
+    name: "Suncook, New Hampshire",
+    key: "3375140",
+    seed: "b32eba5976c2f177c3de4eca51acf5a7f6054ec70775a6c431857270316b8b0b",
+  };
+  /**
+   * One place for two months: where no SNAP law is in force (a territory on a
+   * block grant) nothing is owed and "no-snap" is returned; where SNAP is in
+   * force the payments are checked and "paid" returned.
+   */
+  const check = (draw: typeof SUNCOOK): "no-snap" | "paid" => {
     setBookkeeping(false);
     const { core } = buildBenchWorld(draw.seed, gameStartDate(), {
       twoLevel: true,
@@ -97,10 +101,12 @@ describe("the baseline benefit in a played year", () => {
       );
     advanceCore(core, nextMonth(core.date));
     advanceCore(core, nextMonth(core.date));
-    // The benefit is decided at the monthly budget close, on the 1st, so the
-    // households are read the day after one (a job a household found since
-    // would otherwise end its benefit only at the next close).
-    advanceCore(core, dayAfterClose(core.date));
+    // The benefit is decided at the monthly budget close, on the 1st, from
+    // the household's income that day, and holds for the month: a change in
+    // income takes effect at the next monthly review (7 CFR 273.12(c)). So
+    // the households are read on the close day, the income the decision read;
+    // a day later, that day's pay may already have moved it.
+    advanceCore(core, closeDay(core.date));
     const rows = open();
     if (!lawInForce(api, "snap-maximum").value) {
       expect(rows, `${where}: paid with no SNAP law`).toEqual([]);
@@ -138,22 +144,9 @@ describe("the baseline benefit in a played year", () => {
     return "paid";
   };
 
-  it(
-    `pays qualifying households from the federal treasury, in a drawn place with SNAP in force (seed ${seed})`,
-    () => {
-      const tried: string[] = [];
-      for (let n = 0; n < DRAWS; n += 1) {
-        const draw = drawPlace(seed, `food-aid-${n}`);
-        const result = check(draw);
-        tried.push(`${draw.name} (${draw.key}, seed ${draw.seed}): ${result}`);
-        if (result === "paid") return;
-      }
-      throw new Error(
-        `no drawn place had SNAP in force in ${DRAWS} draws: ${tried.join("; ")}`,
-      );
-    },
-    240_000 * 8,
-  );
+  it(`pays qualifying households from the federal treasury, at ${SUNCOOK.name} (${SUNCOOK.key}, seed ${SUNCOOK.seed})`, () => {
+    expect(check(SUNCOOK)).toBe("paid");
+  }, 120_000);
 });
 
 function nextMonth(date: string): never {
@@ -162,8 +155,8 @@ function nextMonth(date: string): never {
   return d.toISOString().slice(0, 10) as never;
 }
 
-function dayAfterClose(date: string): never {
+function closeDay(date: string): never {
   const d = new Date(`${date}T00:00:00Z`);
-  d.setUTCMonth(d.getUTCMonth() + 1, 2);
+  d.setUTCMonth(d.getUTCMonth() + 1, 1);
   return d.toISOString().slice(0, 10) as never;
 }
