@@ -21,6 +21,12 @@
     ],
     "opening-speech.to-states.polished-ina-sta-all-core-you-know-hardest-better-than-anyone-here-and-i": [
       "plain-american-spelling-and-phrasing"
+    ],
+    "scene-talk.follow-answer.on-bill-they-re-scared-of-their-own-voters-that-s-the-whole-of-it": [
+      "plain-american-spelling-and-phrasing"
+    ],
+    "scene-talk.state-request.bill-means-purpose-that-s-the-whole-of-it": [
+      "plain-american-spelling-and-phrasing"
     ]
   },
   "waiting": {},
@@ -30,6 +36,12 @@
     ],
     "conversation.charge-answer-refuse.i-m-not-going-to-talk-about-that": [
       "evasion-points-somewhere"
+    ],
+    "conversation.eviction-back-core.host-s-i-ll-sort-out-the-rest-from-there": [
+      "plain-american-reads-stiff"
+    ],
+    "conversation.eviction-back-core.host-s-we-ll-sort-out-the-rest-from-there": [
+      "plain-american-reads-stiff"
     ],
     "conversation.farewell-core.all-right-bye": ["alright-in-dialogue"],
     "conversation.farewell-core.all-right-then-player-fir": [
@@ -47,8 +59,9 @@
     "conversation.farewell-core.well-that-s-that": ["no-filler"],
     "conversation.farewell-leave-bye.all-right-then": ["alright-in-dialogue"],
     "conversation.greet-answer-fine.im-all-right": ["alright-in-dialogue"],
+    "conversation.greet-core.phone-well-hello-it-s-been-a-while": ["no-filler"],
     "conversation.here-back-core.well-you-now-we-ve-met": ["no-filler"],
-    "conversation.job-lost-reply-answer-brief.oh-no-are-you-all-right": [
+    "conversation.job-lost-back-core.thanks-you-i-ll-be-all-right": [
       "alright-in-dialogue"
     ],
     "conversation.job-new-detail-reply-answer-brief.well-it-s-a-start": [
@@ -96,9 +109,6 @@
     "scene-talk.narrate-narrate.name-is-back-the-last-time-name-asked-you-put-it-off": [
       "narration-assumes-no-reason"
     ],
-    "scene-talk.narrate-narrate.witness.name-is-the-one-you-offered-money-to-and-has-reported-it-now-they-have-come-to-say-so-to-your-face": [
-      "narration-assumes-no-reason"
-    ],
     "scene-talk.open-greet.deceased-talked-about-you-you-know": ["no-filler"],
     "scene-talk.open-greet.hey-sit-down-for-a-minute-would-you-it-s-not-about-the-bills-well-not-": [
       "no-filler"
@@ -108,6 +118,9 @@
     ],
     "scene-talk.open-greet.well-look-who-it-is": ["no-filler"],
     "scene-talk.open-greet.well-that-s-the-year": ["no-filler"],
+    "scene-talk.reply-accept.all-right-you-ve-got-me-on-this-one": [
+      "alright-in-dialogue"
+    ],
     "scene-talk.reply-accept.i-hear-you-i-wish-it-had-gone-another-way-we-did-try-and-i-want-to-rem": [
       "no-stock-phrases"
     ],
@@ -130,20 +143,17 @@
     "scene-talk.reply-confront.witness.then-let-the-prosecutor-sort-out-which-of-us-is-lying": [
       "plain-american-reads-stiff"
     ],
-    "scene-talk.reply-decline.i-hear-you-the-city-still-can-t-change-it-by-itself": [
-      "no-stock-phrases"
-    ],
     "scene-talk.reply-leave.i-hear-you-and-i-have-to-take-the-next-question": [
       "no-stock-phrases"
     ],
     "scene-talk.reply-leave.i-hear-you-i-m-late-and-i-won-t-do-this-justice-standing-here": [
       "no-stock-phrases"
     ],
-    "scene-talk.reply-leave.i-hear-you-let-me-get-to-the-next-question": [
-      "no-stock-phrases"
-    ],
     "scene-talk.reply-refuse.i-hear-you-the-answer-is-still-no": [
       "no-stock-phrases"
+    ],
+    "scene-talk.reply-relent.all-right-put-me-down-i-ll-answer-for-it-at-home": [
+      "alright-in-dialogue"
     ],
     "scene-talk.reply-tell.i-hear-you-i-m-still-leaning-toward-running": [
       "no-stock-phrases"
@@ -214,6 +224,15 @@
     "scene-talk.follow-press.two-pages-and-i-have-them-right-here": [
       "join-cause/decline"
     ],
+    "scene-talk.follow-press.what-would-change-it": [
+      "ask-vote.friend/relent",
+      "ask-vote.trade/relent",
+      "ask-vote.watched/relent",
+      "ask-vote.whip/relent",
+      "ask-vote/relent",
+      "confirm-vote/relent",
+      "section-bargain/relent"
+    ],
     "scene-talk.follow-press.you-d-say-it-plainly-and-they-would-listen-to-you": [
       "join-cause/decline"
     ],
@@ -252,8 +271,8 @@
   },
   "barred": {},
   "awaitingVerdict": {
-    "narration-assumes-no-reason": 35,
+    "narration-assumes-no-reason": 0,
     "player-never-says-unchosen (pairs)": 0,
-    "reply-second-move-follows-the-first (pairs)": 14772
+    "reply-second-move-follows-the-first (pairs)": 13907
   }
 }

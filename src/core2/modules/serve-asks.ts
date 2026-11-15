@@ -509,6 +509,19 @@ function ticketFor(api: CoreAPI, filingId: string) {
   };
 }
 
+/**
+ * Where an asked person would stand were the player to leave their own
+ * stance on the asked person's question unsaid (a hedge): the question term
+ * read again with the player's stance at the middle, the other terms as kept.
+ */
+export function leanIfHedged(row: ServeAskRow): number {
+  const { terms, grounds } = row.standing;
+  const hedged =
+    w(row.seat, "apart") *
+    (w(row.seat, "agreeAt") - Math.abs(grounds.theirStance) / 2);
+  return row.standing.lean - (terms.question ?? 0) + hedged;
+}
+
 /** The running mate choice as the player is offered it: with the willing read. */
 export function offeredRunningMates(api: CoreAPI, filingId: string) {
   return ticketFor(api, filingId)?.choice ?? runningMateChoice(api, filingId);

@@ -24,6 +24,7 @@ import type {
 
 interface ParameterRow {
   readonly value: number;
+  readonly spread?: readonly [number, number];
 }
 const table = parameters as unknown as {
   parameters: Record<string, ParameterRow>;
@@ -51,6 +52,14 @@ export function reachParameter(key: string): number {
   return row.value;
 }
 
+/** The low and high ends of a law-reach parameter's spread. */
+export function reachParameterSpread(key: string): readonly [number, number] {
+  const row = table.parameters[key];
+  if (!row?.spread)
+    throw new Error(`No spread for law-reach parameter: ${key}`);
+  return row.spread as unknown as readonly [number, number];
+}
+
 export function graduatedSchedule(scope: "state" | "local") {
   return table.graduatedSchedules[scope];
 }
@@ -65,6 +74,8 @@ export interface PeopleSelector {
   readonly hoursBelowPerMonth?: string;
   /** No child of the household is younger than this (an exemption). */
   readonly noChildBelow?: string;
+  /** A child of the household is younger than this (a program for families with a minor child). */
+  readonly withChildBelow?: string;
   /** One record per household: its oldest member who matches. */
   readonly householdHead?: boolean;
   /**
@@ -335,6 +346,7 @@ export function selectResidents(
           reachParameter("weeksPerYear")
         : undefined;
   const childBelow = p(selector.noChildBelow);
+  const needsChildBelow = p(selector.withChildBelow);
   const adult = reachParameter("votingAge");
   const out: ResidentFacts[] = [];
   for (const r of facts.residents) {
@@ -364,6 +376,11 @@ export function selectResidents(
     if (
       childBelow !== undefined &&
       household.ages.some((age) => age < Math.min(childBelow, adult))
+    )
+      continue;
+    if (
+      needsChildBelow !== undefined &&
+      !household.ages.some((age) => age < Math.min(needsChildBelow, adult))
     )
       continue;
     out.push(weight === 1 ? r : { ...r, weight });

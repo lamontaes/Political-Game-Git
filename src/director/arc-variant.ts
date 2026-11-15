@@ -35,7 +35,9 @@ import {
   LEADERSHIP_MODULE_ID,
   LEGISLATURE_MODULE_ID,
   billOf,
+  favorReturnedSince,
   provisionStance,
+  votesOn,
 } from "../core2/modules/legislature";
 import { partyTie } from "../core2/modules/elections";
 import { electorateSides, scandalStoriesOf } from "../core2/modules/voting";
@@ -43,6 +45,7 @@ import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
 import { directorStopgap, WORDS_STOPGAP_HITS } from "./stopgaps";
 import variantFile from "./data/arc-variants.json" with { type: "json" };
+import arcsFile from "./data/purpose-arcs.json" with { type: "json" };
 
 interface Tagged {
   value: number;
@@ -264,6 +267,11 @@ interface VariantData {
 
 const DATA = variantFile as unknown as VariantData;
 
+/** The purposes that keep their own arc in purpose-arcs.json. */
+const OWN_ARCS = new Set(
+  Object.keys((arcsFile as { purposes: Record<string, unknown> }).purposes),
+);
+
 /** Every variant's arc by its purpose id. */
 const ARCS = new Map<string, unknown>(
   Object.values(DATA.families).flatMap((family) =>
@@ -301,15 +309,35 @@ export function favorsGiven(
 ): readonly { readonly voteId: string; readonly billId: string }[] {
   if (!core.modules.has(LEGISLATURE_MODULE_ID)) return [];
   const api = coreAPI(core as CoreState);
+  // A favor is a yes the asker cast. The record's stance is the vote's side
+  // times the bill's own direction, so a no on a bill that repeals or cuts
+  // reads positive there: the roll call's own vote decides where it holds
+  // one, and the record's side only where it does not.
+  const castYes = (billId: string, position: number) => {
+    const cast = votesOn(api, billId).find(
+      (vote) =>
+        vote.memberId === askerId && !(vote as { override?: boolean }).override,
+    );
+    return cast ? cast.vote === "yes" : position > P.zero;
+  };
+  const seen = new Set<string>();
   return votesOf(api, askerId)
-    .filter(
-      (row) =>
-        row.date < before &&
-        row.billId !== exceptBillId &&
-        row.stance.position > P.zero &&
+    .filter((row) => {
+      if (
+        row.date >= before ||
+        row.billId === exceptBillId ||
+        seen.has(row.billId) ||
         (billOf(api, row.billId) as { sponsorId?: string } | undefined)
-          ?.sponsorId === askedId,
-    )
+          ?.sponsorId !== askedId ||
+        !castYes(row.billId, row.stance.position) ||
+        // Once the asked person gave a yes back, the two are square.
+        favorReturnedSince(api, askedId, askerId, row.date)
+      )
+        return false;
+      // A bill with several questions has a record row for each: one favor.
+      seen.add(row.billId);
+      return true;
+    })
     .reverse()
     .map((row) => ({ voteId: row.id, billId: row.billId }));
 }
@@ -678,6 +706,40 @@ function readOf(
   return clamp(value);
 }
 
+/**
+ * Whether a variant can play for a cause: a variant kept for one kind of
+ * cause (`onlyFor`, such as a door while the petition circulates) plays only
+ * where the cause's facts say so, and one written for a named circumstance
+ * (`forCause`) only where the cause names that one or none.
+ */
+function variantOpen(
+  row: VariantRow,
+  facts: Readonly<Record<string, string>>,
+): boolean {
+  if (row.onlyFor && facts[row.onlyFor.fact] !== row.onlyFor.is) return false;
+  const named = row.forCause && facts[row.forCause.fact];
+  return !named || named === row.forCause!.is;
+}
+
+/**
+ * Whether a scene of this purpose has an arc to play for a cause with these
+ * facts: one of its variants open to the cause, or the purpose's own arc
+ * (`purpose-arcs.json`), which a cause no variant was written for plays (a
+ * speech heard, for the door families, plays ask-support's own arc and its
+ * own lines). A caller asks this before composing and does not offer a scene
+ * that has neither.
+ */
+export function hasArcFor(
+  family: string,
+  facts: Readonly<Record<string, string>>,
+): boolean {
+  if (OWN_ARCS.has(family)) return true;
+  const variants = DATA.families[family]?.variants;
+  return (
+    !!variants && Object.values(variants).some((row) => variantOpen(row, facts))
+  );
+}
+
 /** The variant that plays a family's plain arc when the family keeps its own. */
 const PLAIN_VARIANT = "plain";
 
@@ -699,6 +761,12 @@ export function chooseVariant(
   const memo = `${input.family}|${input.cause.id}`;
   const chosen = kept.get(memo);
   if (chosen) return chosen;
+  // No variant is open to this cause: the purpose plays its own arc
+  // (`hasArcFor`, which the scene's caller asks before composing).
+  const open = Object.entries(family.variants).filter(([, row]) =>
+    variantOpen(row, input.cause.facts),
+  );
+  if (!open.length) return null;
   directorStopgap("SG-STORY-arc-variant-weights", WORDS_STOPGAP_HITS);
   const recordIds = new Set<string>();
   const reads: Record<string, number> = {};
@@ -709,13 +777,7 @@ export function chooseVariant(
   // still true of the asker.
   for (const row of Object.values(family.variants))
     for (const term of row.terms ?? []) read(term.read);
-  const scores: VariantScore[] = Object.entries(family.variants)
-    .filter(([, row]) => {
-      if (row.onlyFor && input.cause.facts[row.onlyFor.fact] !== row.onlyFor.is)
-        return false;
-      const named = row.forCause && input.cause.facts[row.forCause.fact];
-      return !named || named === row.forCause!.is;
-    })
+  const scores: VariantScore[] = open
     .map(([variant, row]) => {
       const world = (row.terms ?? []).reduce((total, term) => {
         const value = read(term.read);

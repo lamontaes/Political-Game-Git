@@ -38,9 +38,9 @@ const composed = rules.filter((rule) => rule.test.kind === "composed");
 const PLAYER = "p";
 const HOUSE = ["p", "sis", "dad"];
 const people = [
-  { id: "p", full: "Dana Rivers", given: "Dana" },
-  { id: "sis", full: "Nora Rivers", given: "Nora" },
-  { id: "dad", full: "Owen Rivers", given: "Owen" },
+  { id: "p", full: "Dana Rivers", given: "Dana", pronoun: "they" as const },
+  { id: "sis", full: "Nora Rivers", given: "Nora", pronoun: "she" as const },
+  { id: "dad", full: "Owen Rivers", given: "Owen", pronoun: "he" as const },
   { id: "vp", full: "Grace Talbot", given: "Grace", role: "Vice President" },
   { id: "pres", full: "Hal Brenner", given: "Hal", role: "President" },
 ];
@@ -462,6 +462,21 @@ const FIXTURES: Record<
       talk("sis", [
         [["sis", "Times are hard. Nobody's hiring."]],
         [[PLAYER, "My rent went up two hundred dollars."]],
+      ]),
+    ),
+  },
+  "pronoun-fits-the-person": {
+    catches: sampleOf(
+      text("scene", [["Nora is waiting by your car. They don't say hello."]]),
+      text("scene", [
+        ["Before the vote, Owen leans over and lowers their voice."],
+      ]),
+    ),
+    spares: sampleOf(
+      text("scene", [["Nora is waiting by your car. She doesn't say hello."]]),
+      text("scene", [["Dana is waiting by your car. They don't say hello."]]),
+      text("scene", [
+        ["The Hansens are waiting by your car. They don't say hello."],
       ]),
     ),
   },

@@ -1290,3 +1290,9 @@ export type { LawRowInput } from "../laws-starting";
 export { TERM_AREAS, placeTermRead, type AreaRead } from "../term-read";
 export { termReadPlaces } from "../term-read";
 export { countryTermRead } from "../term-read";
+export {
+  areasAnswered,
+  jurisdictionTermRead,
+  questionAnswersArea,
+  topicsAnsweringArea,
+} from "../term-read";

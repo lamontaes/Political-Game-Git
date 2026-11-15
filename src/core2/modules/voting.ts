@@ -159,10 +159,12 @@ import {
   unfilledTerm,
   repeatSpecialElection,
   electedWithGovernorOnTicket,
+  unheldVacancyWon,
   type TermRow,
 } from "./offices";
 import {
   INDEPENDENT,
+  lastUnheldParty,
   type WeighedPerson,
   candidateChoices,
   currentOfficial,
@@ -583,6 +585,29 @@ function scheduleContest(
       source,
       sourceRecordIds: [contest.id],
     });
+  // The town's clerk posts one notice of election for each election day, some
+  // days ahead, naming every office on that ballot (`postElectionNotice`).
+  const noticeOn = addDays(
+    makeIsoDate(contest.electionDate),
+    -api.parameter("electionNoticeLeadDays"),
+  );
+  if (
+    noticeOn > date &&
+    !calendar.get(`election-notice:${contest.electionDate}`)
+  )
+    calendar.schedule({
+      key: `election-notice:${contest.electionDate}`,
+      date: noticeOn,
+      kind: "election-notice",
+      source: {
+        tag: "ESTIMATED",
+        citation: "electionNoticeLeadDays",
+        asOf: date,
+        estimatedFrom:
+          "Places post the notice of election weeks ahead; the lead is a tagged parameter (electionNoticeLeadDays)",
+      },
+      sourceRecordIds: [contest.electionDate],
+    });
   calendar.schedule({
     key: `election:${contest.id}`,
     date: contest.electionDate,
@@ -901,6 +926,40 @@ export function openNextCycle(api: CoreAPI, seatId: string): void {
   if (next) scheduleContest(api, next);
 }
 
+/**
+ * The notice of election: a public record the town's paper prints, naming the
+ * election day and every office the town votes on that day. Its offices are
+ * read from the contests when the paper prints it (the record keeps their ids).
+ */
+function postElectionNotice(api: CoreAPI, electionDate: string): void {
+  const contests = contestsOnDate(api, electionDate).filter(
+    (c) => c.electionDate === electionDate,
+  );
+  if (!contests.length) return;
+  const { townPlaceId } = town(api);
+  api.emit({
+    id: `election-notice:${townPlaceId}:${electionDate}`,
+    date: api.state.date,
+    kind: "election-notice",
+    personIds: [],
+    placeId: townPlaceId,
+    topic: `election-notice:${electionDate}`,
+    source: {
+      tag: "ESTIMATED",
+      citation: "electionNoticeLeadDays",
+      asOf: api.state.date,
+      estimatedFrom:
+        "The lead before election day is a tagged parameter (electionNoticeLeadDays)",
+    },
+    publicRecord: true,
+    news: true,
+    facts: {
+      electionDate,
+      contestIds: JSON.stringify(contests.map((c) => c.id).sort()),
+    },
+  });
+}
+
 function votingCalendarWork(
   api: CoreAPI,
   work: Readonly<ModuleCalendarWork>,
@@ -913,6 +972,8 @@ function votingCalendarWork(
   // A ticket office's count is the governor race's (`decideTicket`).
   if (work.kind === "election-day" && !decidedWithGovernor(api, work))
     holdElection(api, work.sourceRecordIds[0]!);
+  if (work.kind === "election-notice")
+    postElectionNotice(api, work.sourceRecordIds[0]!);
   if (work.kind === "take-office") takeOffice(api, work.sourceRecordIds[0]!);
   if (work.kind === "recount-ends") endRecount(api, work.sourceRecordIds[0]!);
   if (work.kind === "empty-term")
@@ -1901,9 +1962,6 @@ export function electorateSides(
   }
   const kept = held.byQuestion.get(question);
   if (kept) return kept;
-  if (question.startsWith("budget-line:"))
-    // stopgapId: SG-GOV-budget-line-stance-lean-only (a spending line's stance is the lean times the line's party axis alone, so every line splits the electorate the same way)
-    api.stopgap("SG-GOV-budget-line-stance-lean-only");
   let yes = 0,
     no = 0,
     sum = 0;
@@ -5429,10 +5487,64 @@ const dayAfter = (date: string) =>
     .slice(0, 10);
 
 /**
- * A vacancy in a seat outside the town (a House district or a state
- * legislative district) is filled by a real race: on the special election
- * day its places vote as they do in the general election, between the two
- * major parties' named candidates, and the winner serves the unexpired term.
+ * What a seat outside the town is, for a special election: its office's kind
+ * and state, where the world's races count it. A House seat, a senator, a
+ * state legislator and another place's statewide executive are counted (a
+ * place with no counted electorate, a territory, is not, as in the general
+ * election); a seat the offices engine keeps no term for (another state's
+ * member of Congress) is named by its vacancy. Null for any other seat: the
+ * town's own seats are the voting engine's contests.
+ */
+function specialSeatKind(
+  api: CoreAPI,
+  seatId: string,
+  unheld?: { readonly stateKey: string; readonly officeKind: string },
+): { kind: string; stateKey: string; jurisdiction: string } | null {
+  if (unheld)
+    return unheld.officeKind === "us-house" || unheld.officeKind === "us-senate"
+      ? {
+          kind: unheld.officeKind,
+          stateKey: unheld.stateKey,
+          jurisdiction: unheld.stateKey,
+        }
+      : null;
+  const offices = api.moduleState(OFFICES_MODULE_ID);
+  const seat = offices.table("seats").get(seatId) as unknown as
+    { coversTown: boolean; officeId: string } | undefined;
+  const office = seat
+    ? (offices.table("offices").get(seat.officeId) as unknown as
+        | {
+            kind: string;
+            elected: boolean;
+            level: string;
+            jurisdiction: string;
+          }
+        | undefined)
+    : undefined;
+  if (!seat || !office?.elected || seat.coversTown) return null;
+  // The town's own seats are the voting engine's.
+  if (townSeats(api).some((entry) => entry.seat.id === seatId)) return null;
+  const house = office.kind === "us-house";
+  const counted =
+    office.kind === "us-senate" ||
+    office.kind.startsWith("legislature-") ||
+    isOutsideOffice(api, office);
+  if (!house && !counted) return null;
+  // A territory has no counted electorate: its seats are not raced.
+  if (!house && !countedPlace(api, office.jurisdiction)) return null;
+  return {
+    kind: office.kind,
+    stateKey: office.jurisdiction,
+    jurisdiction: office.jurisdiction,
+  };
+}
+
+/**
+ * A vacancy in a seat outside the town (a House district, a senator, a state
+ * legislative district, another place's statewide executive, another state's
+ * member of Congress) is filled by a real race: on the special election day
+ * its places vote as they do in the general election, between the two major
+ * parties' named candidates, and the winner serves the unexpired term.
  * Returns false for any other seat, which the other engines or the
  * stand-in fill.
  */
@@ -5443,29 +5555,14 @@ function openSpecialRace(
     readonly seatId: string;
     readonly electionDate: string;
     readonly termEnd: string | null;
+    readonly unheld?: {
+      readonly stateKey: string;
+      readonly officeKind: string;
+    };
   },
 ): boolean {
   if (!worldRacesOpen(api)) return false;
-  const offices = api.moduleState(OFFICES_MODULE_ID);
-  const seat = offices.table("seats").get(input.seatId) as unknown as
-    { coversTown: boolean; officeId: string } | undefined;
-  const office = seat
-    ? (offices.table("offices").get(seat.officeId) as unknown as
-        { kind: string; elected: boolean; jurisdiction: string } | undefined)
-    : undefined;
-  if (!seat || !office?.elected || seat.coversTown) return false;
-  if (office.kind !== "us-house" && !office.kind.startsWith("legislature-"))
-    return false;
-  // A territory's legislature has no counted electorate: the offices
-  // engine's stand-in fills the seat (SG-GOV-territory-legislature-race).
-  if (
-    office.kind.startsWith("legislature-") &&
-    !countedPlace(api, office.jurisdiction)
-  )
-    return false;
-  // The town's own seats are the voting engine's.
-  if (townSeats(api).some((entry) => entry.seat.id === input.seatId))
-    return false;
+  if (!specialSeatKind(api, input.seatId, input.unheld)) return false;
   // A special election whose day has already come is held the day after
   // (the calendar takes only a day not yet run).
   api.moduleCalendar(VOTING_MODULE_ID).schedule({
@@ -5480,7 +5577,11 @@ function openSpecialRace(
       citation: `Special election for ${input.vacancyId}`,
       asOf: api.state.date,
     },
-    sourceRecordIds: [input.vacancyId, input.seatId, input.termEnd ?? ""],
+    sourceRecordIds: [
+      input.vacancyId,
+      input.seatId,
+      ...(input.termEnd ? [input.termEnd] : []),
+    ],
   });
   return true;
 }
@@ -5490,8 +5591,39 @@ function decideSpecial(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   const [vacancyId, seatId, termEnd] = work.sourceRecordIds;
   const offices = api.moduleState(OFFICES_MODULE_ID);
   const vacancy = offices.table("vacancies").get(vacancyId!) as unknown as
-    { status: string } | undefined;
+    | {
+        status: string;
+        unheld?: { stateKey: string; officeKind: string };
+      }
+    | undefined;
   if (!vacancy || vacancy.status !== "awaiting-election") return;
+  const year = Number(api.state.date.slice(0, 4));
+  const special = { vacancyId: vacancyId!, termEnd: termEnd || null };
+  // A seat the offices engine keeps no term for: its race is named by the
+  // vacancy, and its last holder's party is the seat's side.
+  if (vacancy.unheld) {
+    const kind = vacancy.unheld.officeKind;
+    const code =
+      kind === "us-house" ? (seatId!.split(":").at(-1) ?? "00") : "00";
+    decide(
+      api,
+      {
+        seatId: seatId!,
+        office: kind,
+        usps: vacancy.unheld.stateKey.slice(3),
+        code,
+        incumbentParty: lastUnheldParty(api, seatId!),
+        leanSource:
+          kind === "us-house"
+            ? "2024 House vote in the district"
+            : "2024 presidential vote in the state's counties",
+        seatedOn: dayAfter(api.state.date),
+      },
+      year,
+      special,
+    );
+    return;
+  }
   const seat = offices.table("seats").get(seatId!) as unknown as
     | {
         id: string;
@@ -5506,15 +5638,23 @@ function decideSpecial(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
         | undefined)
     : undefined;
   if (!seat || !office) return;
-  const year = Number(api.state.date.slice(0, 4));
+  const race = seatRace(api, seat, office, year);
+  // Another place's office elected without party labels is counted by the
+  // places' lean and its winner takes the seat with no party.
+  const nonpartisan =
+    isOutsideOffice(api, office) &&
+    !office.kind.startsWith("legislature-") &&
+    researchedHolderParty(office.jurisdiction!, seat.id, "elected")?.party ===
+      null;
   decide(
     api,
     {
-      ...seatRace(api, seat, office, year),
+      ...race,
       seatedOn: dayAfter(api.state.date),
+      ...(nonpartisan ? { nonpartisan: true } : {}),
     },
     year,
-    { vacancyId: vacancyId!, termEnd: termEnd || null },
+    special,
   );
 }
 
@@ -7083,6 +7223,41 @@ function seatRaceWinner(api: CoreAPI, raceId: string): void {
       since: api.state.date,
       raceId,
     } as unknown as ModuleRow);
+    // A special election's winner fills the vacancy of a seat the offices
+    // engine keeps no term for (another state's member of Congress): the
+    // record of the seating names who they are and their party.
+    if (race.special) {
+      const loaded = api
+        .moduleState(OFFICES_MODULE_ID)
+        .table("loaded")
+        .get("town") as unknown as { worldSeed: string };
+      const fielded = race.candidates?.find(
+        (c) => c.party === race.winnerParty,
+      );
+      const stateUsps = race.seatId.split(":")[1]!.slice(3);
+      const drawn = fielded
+        ? null
+        : drawOfficialIdentity({
+            worldSeed: loaded.worldSeed,
+            seatKey: raceId,
+            stateUsps,
+            role: "state-executive-challenger",
+            referenceDate: api.state.date,
+          });
+      unheldVacancyWon(api, race.special.vacancyId, {
+        winnerParty: race.winnerParty,
+        winnerIdentity:
+          fielded?.identity ??
+          ({
+            givenName: drawn!.givenName,
+            familyName: drawn!.familyName,
+            gender: drawn!.gender,
+            birthDate: drawn!.birthDate,
+            homeState: `US-${stateUsps}`,
+          } as TermRow["identity"]),
+        resultId: raceId,
+      });
+    }
     return;
   }
   // A seat the offices engine holds: the one term writer ends the term and

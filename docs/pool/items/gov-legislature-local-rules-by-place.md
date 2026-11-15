@@ -38,3 +38,5 @@ checked: fable 2026-11-10
 **Notes.** TODO
 
 Deferred Oct 25: nothing on screen reads it yet. Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). Each place's rule for who carries a mayor's bill and how ordinances are numbered; the national rule already plays.
+
+Nov 14 (Account lead cluster 11, branch claude/project-thread-bph275): the numbering and enacting-clause half is built. bodyNumbering reads the place's row by postal code (localPlaceOf in legislature.ts; a kind of government the statute does not cover keeps the national row; the District's Council numbers by Council Period). SG-GOV-local-bill-numbering is deleted. The mayor's-bill half (proposalRight) is cluster 12's.

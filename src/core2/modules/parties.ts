@@ -23,8 +23,14 @@ import parameters from "../data/campaigns/parameters.json" with { type: "json" }
 import { partySide } from "../appointments";
 import { worldRoster, worldSwing } from "../electorate-places";
 import { partyLean } from "../campaign-stances";
-import { coreAPI, registerModule } from "../state";
-import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
+import { coreAPI, fillInPerson, registerModule } from "../state";
+import type {
+  CoreAPI,
+  CoreModule,
+  CoreState,
+  PersonId,
+  PersonState,
+} from "../types";
 import type { ModuleRow } from "../module-data";
 import { corePlaceByKey } from "../place-lookup";
 import { personLean } from "../campaign-views";
@@ -83,6 +89,8 @@ export const PARTIES_MODULE: CoreModule = {
       },
       meetings: { indexes: { byParty: { fields: ["partyId"] } } },
       chairs: { indexes: { byParty: { fields: ["partyId"] } } },
+      /** Who took a member under their wing when the party asked them to run (`takeUnderWing`), by the member. */
+      mentors: {},
     },
   },
   // A chair who dies or moves away is replaced the same day.
@@ -378,6 +386,18 @@ export function openParties(core: CoreState): void {
         // in play (a player the creator made an adult is one of its members).
         leaderId: members.find((m) => m.id !== core.playerId)?.id ?? null,
       } as unknown as ModuleRow);
+    // The party met every month before the world opens: the members who
+    // would have come, by the same rule as every meeting since, already know
+    // the chair (parties-opening-chair-knows-no-members).
+    const leaderId = members.find((m) => m.id !== core.playerId)?.id;
+    if (leaderId)
+      meetTheChair(
+        api,
+        leaderId,
+        members.filter((m) =>
+          core.memberships.has(`${m.id}:${party.organizationId}`),
+        ),
+      );
   }
   scheduleMeeting(api, core.date);
 }
@@ -481,10 +501,13 @@ export function joinParty(
     : undefined;
   if (left && left.id !== party.id) api.leave(personId, left.organizationId);
   api.join(personId, party.organizationId);
-  // stopgapId: SG-PLAY-party-joined-scene-awaits-words
   // Joining is an act at a place with a person: the record the director's
   // scene, the journal and Travel read, at the party's office, with the
   // party's leader (its chair) as the one who signs them up.
+  // The leader is met the moment the person joins, so one still in the wider
+  // population is filled in as a full person.
+  if (party.leaderId && !api.state.people.has(party.leaderId))
+    fillInPerson(api.state as CoreState, party.leaderId as PersonId);
   const greeter =
     party.leaderId && api.state.people.has(party.leaderId)
       ? party.leaderId
@@ -566,6 +589,43 @@ export interface PartyMeetingRow {
 
 const ageOn = (p: Readonly<Pick<PersonState, "birthDate">>, date: string) =>
   ageInYears(p.birthDate, date);
+
+/**
+ * Who comes to a party meeting: the chair and each member whose case for
+ * going outweighs the evening's cost (`attendCase`, then temperament). Each
+ * one who comes spends the evening in the room with the chair, a contact tie
+ * between them. Returns the ids in the room, the chair first.
+ */
+function meetTheChair(
+  api: CoreAPI,
+  leaderId: PersonId,
+  members: readonly Readonly<PersonState>[],
+): PersonId[] {
+  const core = api.state as CoreState;
+  const attendeeIds = members
+    .filter(
+      (m) =>
+        m.id === leaderId ||
+        leanedYes(
+          core,
+          m,
+          "parties.attend",
+          "attend",
+          "stay-home",
+          attendCase(core, m),
+        ),
+    )
+    .map((m) => m.id);
+  for (const id of attendeeIds)
+    if (id !== leaderId)
+      api.relationship(
+        leaderId,
+        id,
+        "contact",
+        value("partyMeetingContactHours"),
+      );
+  return attendeeIds;
+}
 
 /** The party's next local committee meeting. */
 function scheduleMeeting(api: CoreAPI, from: string): void {
@@ -868,22 +928,7 @@ function partyMeeting(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
       party.leaderId && members.some((m) => m.id === party.leaderId)
         ? party.leaderId
         : chooseChair(api, party, "left the party")!.chosenId;
-    const attendeeIds = members
-      .filter(
-        (m) =>
-          m.id === leaderId ||
-          leanedYes(
-            core,
-            m,
-            "parties.attend",
-            "attend",
-            "stay-home",
-            attendCase(core, m),
-          ),
-      )
-      .map((m) => m.id);
-    for (const id of attendeeIds)
-      if (id !== leaderId) api.relationship(leaderId, id, "contact", 0.1);
+    const attendeeIds = meetTheChair(api, leaderId, members);
     // The leader addresses the room on what they feel most strongly about.
     const audienceIds = attendeeIds.filter((id) => id !== leaderId);
     const leader = core.people.get(leaderId)!;

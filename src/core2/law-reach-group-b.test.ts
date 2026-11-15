@@ -21,6 +21,8 @@ import {
   enactLaw,
   lawChain,
   lawInForce,
+  lawRows,
+  yesLevels,
   LAWS_MODULE_ID,
   openLaws,
 } from "./modules/laws";
@@ -38,13 +40,17 @@ import type { LawInForceAnswer } from "./laws-in-force";
 import type { CoreAPI, CoreState } from "./types";
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
-import { getRow, REACH_B_MODULE_ID } from "./law-reach/group-b-store";
+import { getRow, putRow, REACH_B_MODULE_ID } from "./law-reach/group-b-store";
 import type {
   GroupReach,
   OrganizationReach,
   PersonReach,
 } from "./law-reach/group-b-store";
-import { GROUP_B_KEYS, groupBPolicy } from "./law-reach/group-b";
+import {
+  GROUP_B_KEYS,
+  groupBPolicy,
+  WELFARE_WORK_RULE,
+} from "./law-reach/group-b";
 import {
   reachParameter,
   selectResidents,
@@ -167,13 +173,7 @@ function build(options: {
     // The welfare time-limit case needs a household head, named or counted,
     // the assistance work requirement reaches and the welfare line pays.
     const workReached = new Set(
-      selectResidents(
-        facts,
-        groupBPolicy(
-          Q("health-human-services.work-requirement-for-assistance"),
-        )!.people!,
-        stateKey,
-      ).map((r) => r.id),
+      selectResidents(facts, WELFARE_WORK_RULE, stateKey).map((r) => r.id),
     );
     const timeLimitHeads = selectResidents(
       facts,
@@ -457,9 +457,7 @@ function assistanceWorkCase(): void {
       stateKey,
     );
     const reachedIds = new Set(
-      selectResidents(facts, groupBPolicy(work)!.people!, stateKey).map(
-        (r) => r.id,
-      ),
+      selectResidents(facts, WELFARE_WORK_RULE, stateKey).map((r) => r.id),
     );
     const rows = open();
     const named = rows.filter((r) => api.state.people.has(r.recipientId));
@@ -479,9 +477,34 @@ function assistanceWorkCase(): void {
       inside.named.some((r) => r.recipientId === head.id),
       `${where} ${head.id} drawing inside the limit`,
     ).toBe(true);
+  // The limit is a lifetime count, so five years of play would be needed to
+  // reach it from nothing. Every other head the rule reaches is given the
+  // earlier months on the line a lifetime count carries (a staged record, an
+  // edge-case fixture: the months sit in earlier calendar years), the rest start
+  // at nothing; the live months then take the staged heads over the limit and
+  // leave the others drawing.
+  const limitMonths = reachParameter("tanfTimeLimitMonths");
+  const liveMonths = 4;
+  const monthBefore = (back: number) => {
+    const total =
+      Number(api.state.date.slice(0, 4)) * 12 +
+      Number(api.state.date.slice(5, 7)) -
+      1 -
+      back;
+    return `${Math.floor(total / 12)}-${String((total % 12) + 1).padStart(2, "0")}`;
+  };
+  const stagedIds = [...inside.reachedIds].sort().filter((_, i) => i % 2 === 0);
+  for (const id of stagedIds)
+    putRow(api, "taken", {
+      id: `welfare-draw|${id}`,
+      key: "welfare-draw",
+      months: Array.from({ length: limitMonths - liveMonths + 1 }, (_, i) =>
+        monthBefore(limitMonths - liveMonths + 1 - i),
+      ),
+    });
   // Live through the limit a month at a time; a new fiscal year's budget
   // starts from the base, so the council raises the line again.
-  for (let m = 0; m < reachParameter("snapWorkTimeLimitMonths") + 2; m += 1) {
+  for (let m = 0; m < liveMonths + 1; m += 1) {
     advanceCore(core, after(api.state.date, 31));
     if (line(gov, "welfareAndMedicaid") < raised)
       amend(
@@ -491,30 +514,18 @@ function assistanceWorkCase(): void {
       );
   }
   const past = standing();
-  // The requirement stops a head it reaches once that person's own months on
-  // the benefit since it took effect reach its limit within its window; a
-  // head it reached later, with fewer months, still draws.
-  const since = (
-    lawInForce(api, work).governing?.effectiveDate ?? api.state.date
-  ).slice(0, 7);
+  // The welfare line stops a head the work rule reaches once that person's
+  // own months on the line (every month on record, a lifetime count) reach
+  // the limit; a head with fewer months still draws.
   const thisMonth = api.state.date.slice(0, 7);
-  const monthsAgo = (m: string) =>
-    (Number(thisMonth.slice(0, 4)) - Number(m.slice(0, 4))) *
-      reachParameter("monthsPerYear") +
-    Number(thisMonth.slice(5, 7)) -
-    Number(m.slice(5, 7));
   const draws = new Map(
     table<{ id: string; months: string[] }>("taken")
-      .filter((r) => r.id.startsWith("draw|"))
-      .map((r) => [r.id.slice("draw|".length), r.months]),
+      .filter((r) => r.id.startsWith("welfare-draw|"))
+      .map((r) => [r.id.slice("welfare-draw|".length), r.months]),
   );
   const usedUp = (id: string) =>
-    (draws.get(id) ?? []).filter(
-      (m) =>
-        m !== thisMonth &&
-        m >= since &&
-        monthsAgo(m) < reachParameter("snapWorkTimeLimitWindowMonths"),
-    ).length >= reachParameter("snapWorkTimeLimitMonths");
+    (draws.get(id) ?? []).filter((m) => m !== thisMonth).length >=
+    reachParameter("tanfTimeLimitMonths");
   const stopped = past.heads.filter(
     (h) => past.reachedIds.has(h.id) && usedUp(h.id),
   );
@@ -626,7 +637,7 @@ describe("law reach, group B: every policy reaches people through its engine", (
   beforeAll(() => build({ pinned: false }));
 
   it("registers a handler for every group B policy and budget line", () => {
-    expect(GROUP_B_KEYS.length).toBe(34);
+    expect(GROUP_B_KEYS.length).toBe(38);
   });
 
   // ---- Records reaching named people, counted residents and employers ----
@@ -939,15 +950,37 @@ describe("law reach, group B: a city income tax", () => {
     const had =
       (lawInForce(api, "income-tax").levels.find((l) => l.level === LOCAL)?.row
         ?.value ?? 0) > 0;
+    const start = api.state.date;
     enact(key, 1, LOCAL);
     const row = lawInForce(api, "income-tax").levels.find(
       (l) => l.level === LOCAL,
     )?.row;
     if (!had) {
-      expect(row?.value, where).toBe(
-        reachParameter("localFlatIncomeTaxPercent"),
-      );
-      expect(row?.unit).toBe("percent-flat");
+      // Adopting restores the level's own latest positive rate when its
+      // history holds one (a territory that mirrors the federal tax); else it
+      // writes the flat rate of its scope.
+      const own = lawRows(api, "income-tax")
+        .filter(
+          (r) =>
+            r.level === LOCAL &&
+            r.tier === "general" &&
+            Number(r.value) > 0 &&
+            r.effectiveDate <= start,
+        )
+        .sort((a, b) => a.effectiveDate.localeCompare(b.effectiveDate))
+        .at(-1);
+      if (own) {
+        expect(row?.value, `${where} restores ${own.id}`).toBe(own.value);
+      } else {
+        expect(row?.value, where).toBe(
+          reachParameter(
+            LOCAL === "state"
+              ? "stateFlatIncomeTaxPercent"
+              : "localFlatIncomeTaxPercent",
+          ),
+        );
+        expect(row?.unit).toBe("percent-flat");
+      }
     }
     const since = api.state.date;
     advanceCore(core, after(api.state.date, 30));
@@ -983,10 +1016,18 @@ describe("law reach, group B: a city income tax", () => {
       treasury: city.organizationId,
     };
     enact(key, 0, LOCAL);
-    expectEnded(key);
-    expect(appliedOn(api, key), `${where}: applied rows after repeal`).toEqual(
-      [],
-    );
+    // Where a higher level's own act still says yes to the question (a
+    // territory whose income tax is the federal mandate), repealing the lower
+    // level's tax does not end the policy and its rows stay open; the tax is
+    // zero on the day of the repeal. At one seed it stood at 37 again 40 days
+    // later (pool item world-territory-income-tax-returns-after-repeal).
+    if (yesLevels(api, key).length === 0) {
+      expectEnded(key);
+      expect(
+        appliedOn(api, key),
+        `${where}: applied rows after repeal`,
+      ).toEqual([]);
+    }
     if (!had)
       expect(
         lawInForce(api, "income-tax").levels.find((l) => l.level === LOCAL)?.row
@@ -1473,7 +1514,7 @@ describe("law reach, group B: a graduated income tax", () => {
       // The level's tax was a graduated schedule (Guam's follows the federal
       // one, and an earlier case in this file may have flattened it): repealing
       // the act replaces the schedule with the level's flat rate
-      // (SG-GOV-REACH-B-flat-tax-replacement), a tax it wrote that still
+      // (the sponsor's flat rate), a tax it wrote that still
       // reaches workers, so the person rows stand and the schedule is gone.
       expect(restored?.terms?.schedules, `${where} schedule`).toBeUndefined();
       expect(restored?.unit, `${where} flat tax`).toBe("percent-flat");
@@ -1482,7 +1523,7 @@ describe("law reach, group B: a graduated income tax", () => {
     expectEnded(key);
     expect(restored?.value ?? 0).toBe(prior?.value ?? 0);
     // Where the level's own tax is graduated, a "no" flattens it
-    // (SG-GOV-REACH-B-flat-tax-replacement), and that flat law reaches the
+    // (the sponsor's flat rate), and that flat law reaches the
     // taxpayers: the records still open belong to the repeal's own act, never
     // to the earlier one it undid.
     const stillOpen = openPeople(key);

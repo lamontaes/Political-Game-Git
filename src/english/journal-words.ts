@@ -701,6 +701,24 @@ export interface SeatRecord {
 }
 
 /**
+ * The one member of a body named for its members ("alderman" for the Board
+ * of Aldermen, "trustee" for the Board of Trustees), or null for a body named
+ * as a body ("City Council"). The same table `seatSaid` reads for a candidate's
+ * own seat (data/english/seat-words.json), so a paper that names the race and
+ * a screen that names the seat say the same word.
+ */
+export function memberOfBody(
+  bodyName: string | null | undefined,
+): string | null {
+  const last = (bodyName ?? "").trim().split(/\s+/).at(-1) ?? "";
+  return (
+    (seatWords.memberBodies as Readonly<Record<string, string>>)[
+      last.toLowerCase()
+    ] ?? null
+  );
+}
+
+/**
  * A seat as people say it in a sentence (words in `data/english/seat-words.json`):
  * a seat on a body by the body, "the Mutual Village Council" the first time a
  * screen says it and "the council" after (`first: false`); a single office by
@@ -779,9 +797,7 @@ export function seatSaid(
     if (level === "county") return seatWords.body.replace("{body}", named);
     const last = body.split(/\s+/).at(-one) ?? body;
     // A body named for its members is one member where a candidate runs for it.
-    const member = (seatWords.memberBodies as Readonly<Record<string, string>>)[
-      last.toLowerCase()
-    ];
+    const member = memberOfBody(body);
     if (member && options.asMember) return member;
     return seatWords.body.replace("{body}", first ? named : jobSaid(last));
   }

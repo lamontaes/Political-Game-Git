@@ -103,10 +103,19 @@ export function changeSaid(
   return said === percentSaid(0) ? null : words.by.replace("{change}", said);
 }
 
-/** A whole count as people say it: below ten in words ("two years"), else in digits. */
-export function countSaid(count: number): string {
-  const word = data.smallCounts.words[count];
-  return word && Number.isInteger(count) ? word : count.toLocaleString("en-US");
+/**
+ * A whole count as people say it: below ten in words ("two years"), else in
+ * digits. A line that opens on the count passes a higher limit (Infinity: as far as the table goes, ninety-nine) and
+ * gets "thirteen" or "forty-two".
+ */
+export function countSaid(count: number, limit = 9): string {
+  const { words, tens } = data.smallCounts;
+  if (!Number.isInteger(count) || count < 0 || count > Math.min(limit, 99))
+    return count.toLocaleString("en-US");
+  if (count < words.length) return words[count]!;
+  const rest = count % 10;
+  const ten = tens[Math.floor(count / 10)]!;
+  return rest ? `${ten}-${words[rest]}` : ten;
 }
 
 /**
@@ -121,6 +130,7 @@ export function filedSoFarSaid(count: number): string {
 
 const MINUTES_PER_HOUR = 60;
 const HOURS_ON_A_CLOCK = 12;
+const MONTHS_PER_YEAR = 12;
 const HOURS_IN_A_DAY = 24;
 
 /**
@@ -172,5 +182,36 @@ export function daysSaid(days: number): string {
   return said.more!.replace(
     "{count}",
     days <= HOURS_ON_A_CLOCK ? data.clock.numbers[days]! : String(days),
+  );
+}
+
+/**
+ * A length of time in months as people say it in talk, always in words: under
+ * two years in months ("thirteen months"), longer in years rounded to the half
+ * year the way a person would ("almost three years" for 34 months, "two and a
+ * half years" for 30). Digits stay only in printed pieces (Words lead, Nov 14).
+ */
+export function lengthSaid(months: number): string {
+  const count = Math.max(1, Math.round(months));
+  const term = data.length as unknown as Readonly<Record<string, string>> & {
+    yearsFromMonths: { value: number };
+    roundToMonths: { value: number };
+  };
+  const said = (n: number) => countSaid(n, Infinity);
+  if (count < term.yearsFromMonths.value)
+    return count === 1
+      ? term.month!
+      : term.months!.replace("{count}", said(count));
+  const step = term.roundToMonths.value;
+  const rounded = Math.round(count / step) * step;
+  const wholeYears = Math.floor(rounded / MONTHS_PER_YEAR);
+  const said_ =
+    rounded % MONTHS_PER_YEAR === 0
+      ? term.years!.replace("{count}", said(wholeYears))
+      : term.andAHalf!.replace("{count}", said(wholeYears));
+  if (rounded === count) return said_;
+  return (rounded > count ? term.almost! : term.over!).replace(
+    "{length}",
+    said_,
   );
 }

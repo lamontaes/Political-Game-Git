@@ -4,12 +4,13 @@
  * people with no private health plan hold different stances on the questions
  * their circumstances bear on, read from the records the engines keep, for a
  * counted resident and a full person alike, and a view moves when a life
- * changes. Pinned to named places and world seeds so it never passes or
+ * changes. Spending on a budget line reads the same circumstances (cut 3a).
+ * Pinned to named places and world seeds so it never passes or
  * fails by the draw.
  */
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
-import { groupStance } from "./campaign-views";
+import { groupStance, popularity } from "./campaign-views";
 import { setBookkeeping } from "./bookkeeping";
 import { countedResidents } from "./electorate";
 import { gameStartDate } from "./game-start";
@@ -18,7 +19,11 @@ import { advanceCore } from "./life";
 import { stakeReasons, stakeShift } from "./life-stake-rule";
 import { countedLifeStake, fullLifeStake } from "./life-stakes";
 import { ELECTIONS_MODULE_ID } from "./modules/elections";
-import { countedStanceProfile, lifeShift } from "./modules/views";
+import {
+  countedStanceProfile,
+  lifeShift,
+  openingStance,
+} from "./modules/views";
 import { coreAPI, fillInPerson } from "./state";
 import type { CoreState, PersonId } from "./types";
 
@@ -33,6 +38,8 @@ const MARSHFIELD = {
 };
 const RENT = "us-policy-positions:housing-land-use.rent-stabilization";
 const TAX_CAP = "us-policy-positions:fiscal.cap-property-tax-growth";
+const HOUSING_LINE = "budget-line:housing";
+const SCHOOLS_LINE = "budget-line:schools";
 const WORK_RULE =
   "us-policy-positions:health-human-services.medicaid-work-requirement";
 
@@ -112,6 +119,54 @@ describe("views from the person's own life", () => {
       expect(mean(renters), where(place)).toBeGreaterThan(0);
       expect(mean(owners), where(place)).toBeLessThan(0);
     }
+  }, 120_000);
+
+  it("spending lines read the same circumstances: renters on housing aid, young families on schools", () => {
+    const place = MARSHFIELD;
+    const { core, api, town } = world;
+    const read = countedResidents(core)
+      .filter(
+        (voter) => voter.placeId === town && voter.birthDate < "2000-01-01",
+      )
+      .map((voter) => ({
+        voter,
+        life: countedStanceProfile(api, voter).life,
+      }));
+    const mean = (rows: typeof read, question: string) =>
+      rows.reduce(
+        (sum, row) => sum + stakeShift(row.life, question) * row.voter.weight,
+        0,
+      ) / rows.reduce((sum, row) => sum + row.voter.weight, 0);
+    const split = (fact: "rents" | "youngChild", question: string) => {
+      const yes = read.filter((row) => row.life?.facts[fact] === 1);
+      const no = read.filter((row) => row.life?.facts[fact] === 0);
+      expect(yes.length, `${where(place)}: ${fact}`).toBeGreaterThan(5);
+      expect(no.length, `${where(place)}: no ${fact}`).toBeGreaterThan(5);
+      return { yes: mean(yes, question), no: mean(no, question) };
+    };
+    const housing = split("rents", HOUSING_LINE);
+    expect(housing.yes, where(place)).toBeGreaterThan(housing.no);
+    const schools = split("youngChild", SCHOOLS_LINE);
+    expect(schools.yes, where(place)).toBeGreaterThan(schools.no);
+    // A full person's view on a spending line carries their own term, by the
+    // same rule the counted residents' stances do.
+    const full = [...core.people.values()].find(
+      (person) =>
+        person.alive &&
+        person.placeId === town &&
+        Math.abs(lifeShift(api, person.id, HOUSING_LINE)) > 0.01,
+    );
+    expect(full, where(place)).toBeDefined();
+    // At a centered lean, with no survey loading on a spending line, the
+    // opening stance is the country's view of the line plus the life term.
+    expect(
+      openingStance(api, full!.id, HOUSING_LINE, 0),
+      `${where(place)}: ${full!.id}`,
+    ).toBeCloseTo(
+      popularity(HOUSING_LINE, core.seed) +
+        stakeShift(fullLifeStake(core, full!), HOUSING_LINE),
+      12,
+    );
   }, 120_000);
 
   it("a counted resident filled in keeps the circumstances their household's record gave them", () => {

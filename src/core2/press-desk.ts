@@ -66,11 +66,47 @@ const raceTold = (item: WireItem): string | null =>
 
 /** The record kinds a local outlet prints in its briefs column. */
 const BRIEF_KINDS: ReadonlySet<string> = new Set(briefs.kinds);
+/** Briefs of the town's own that its paper of record runs; another outlet runs one only in a month well over usual. */
+const RECORD_BRIEFS: ReadonlySet<string> = new Set(briefs.recordOutletOnly);
+
+/**
+ * A month the town's own record puts well over its usual: the usual rests on
+ * enough months and chance rarely gives a month this busy (the wire item's
+ * `busier`). The one case an outlet that is not the town's paper of record
+ * runs the town's own log, in its own words.
+ */
+function wellOverUsual(item: {
+  readonly facts?: Readonly<Record<string, unknown>>;
+}): boolean {
+  return item.facts?.busier === "yes";
+}
+
+/**
+ * The share of a brief's space a measure that stands off the place's own
+ * usual gets (Words lead, Nov 14: a police log's space slides with how far
+ * the month is from the town's usual, down to nothing). The record carries
+ * `vsUsual`, this month's measure over the place's usual; a share at or under
+ * the floor has no space, one at the ceiling or over it has all of it, and
+ * every share between has its own. A brief with no usual to compare keeps all
+ * its space.
+ */
+function usualSpace(
+  item: { readonly facts?: Readonly<Record<string, unknown>> },
+  p: (key: string) => number,
+): number {
+  const share = Number(item.facts?.vsUsual);
+  if (!Number.isFinite(share)) return 1;
+  const floor = p("briefUsualFloor");
+  const ceiling = p("briefUsualCeiling");
+  return Math.min(1, Math.max(0, (share - floor) / (ceiling - floor)));
+}
 /** The briefs about the whole town, which name no one: they involve every follower. */
 const TOWN_WIDE_BRIEFS: ReadonlySet<string> = new Set(briefs.townWide);
 
 /** A body's regular sitting, as office-day records it. */
 const MEETING_KIND = "public-meeting";
+/** The clerk's notice of an election: a legal notice, run once in the paper of record. */
+const NOTICE_KIND = "election-notice";
 /** A reader's letter to the editor (the press's weekly letters step). */
 const LETTER_KIND = "press.letter";
 /** The week's sittings that took up nothing, printed as one brief. */
@@ -155,13 +191,22 @@ export interface DeskContext {
   readonly parameter: (key: string) => number;
   readonly followers: (outletId: string) => readonly string[];
   readonly townPlaceId: string;
+  /** The town's paper of record, the one outlet that runs a town's own log every month. */
+  readonly recordOutletId?: () => string | undefined;
   /** Yearly ad money a person's campaign spent at this outlet. */
   readonly adMoney: (outlet: DeskOutlet, personId: string) => number;
   /** The candidates running against a person in their open races. */
   readonly rivals: (personId: string) => readonly string[];
   readonly printed: (wireId: string, outletId: string) => boolean;
+  /** Whether any outlet has printed this wire item (the town's one log runs once). */
+  readonly printedAnywhere?: (wireId: string) => boolean;
   /** The town's counted residents who follow an outlet. */
   readonly countedFollowers: (outlet: DeskOutlet) => number;
+  /**
+   * Whether this outlet is the town's paper of record: the local outlet with
+   * the widest audience (where a legal notice runs). Absent, every outlet is.
+   */
+  readonly paperOfRecord?: (outlet: DeskOutlet) => boolean;
   readonly save: (story: PrintedStory) => void;
 }
 
@@ -383,7 +428,16 @@ export function printItem(
     slant < 0
       ? (FLIP[item.desiredChange] ?? item.desiredChange)
       : item.desiredChange;
-  const readers = ctx.followers(outlet.id);
+  // The one person a story is about hears it the day it runs, whether or not
+  // they follow the outlet (a candidate knows their own interview aired), as
+  // the news of the years before the start does (past-news.ts).
+  const named = item.subjectIds.filter((id) => api.state.people.has(id));
+  const subject = named.length === 1 ? (named[0] as PersonId) : null;
+  const followers = ctx.followers(outlet.id);
+  const readers =
+    subject && !followers.includes(subject)
+      ? [...followers, subject]
+      : followers;
   const story: PrintedStory = {
     id: `printed:${outlet.id}:${item.id}`,
     outletId: outlet.id,
@@ -400,7 +454,7 @@ export function printItem(
     slant,
     pick,
     slantReasons: reasons,
-    readers: readers.length,
+    readers: followers.length,
     receivedNamed: 0,
     receivedCounted: 0,
     interviewId: options.interviewId ?? null,
@@ -432,8 +486,14 @@ export function printItem(
       },
     },
     readers as PersonId[],
+    subject ? [subject] : [],
   );
-  const share = readers.length ? received / readers.length : 0;
+  // The counted followers it reached, by the share of named followers who did
+  // (the subject who does not follow the outlet is not one of them).
+  const share = followers.length
+    ? Math.max(0, received - (readers.length - followers.length)) /
+      followers.length
+    : 0;
   const saved: PrintedStory = {
     ...story,
     receivedNamed: received,
@@ -679,7 +739,9 @@ export function runDesk(
     (item) =>
       item.date >= since &&
       !ctx.printed(item.id, outlet.id) &&
-      !(outlet.tier === "national" && !nationalCarries(item)),
+      !(outlet.tier === "national" && !nationalCarries(item)) &&
+      // A legal notice runs in the town's paper of record only.
+      !(item.kind === NOTICE_KIND && ctx.paperOfRecord?.(outlet) === false),
   );
   if (!open.length || !outlet.reporterIds.length) return [];
   // A body's sitting is news for what it did, not that it sat (CTO, Nov 1,
@@ -978,11 +1040,22 @@ export function runDesk(
   if (outlet.tier !== "national" && filer) {
     const column = base
       .filter(
-        (row) => !taken.has(row.item.id) && BRIEF_KINDS.has(row.item.kind),
+        (row) =>
+          !taken.has(row.item.id) &&
+          BRIEF_KINDS.has(row.item.kind) &&
+          usualSpace(row.item, p) > 0 &&
+          (!RECORD_BRIEFS.has(row.item.kind) ||
+            wellOverUsual(row.item) ||
+            // The town's one log runs in its paper of record, and once: if
+            // the record changed hands after another outlet printed it, the
+            // new record does not print it again.
+            (outlet.id === ctx.recordOutletId?.() &&
+              !ctx.printedAnywhere?.(row.item.id))),
       )
       .map((row) => ({
         ...row,
         score:
+          usualSpace(row.item, p) *
           row.proximity *
           (1 +
             p("storyReaderCareWeight") * row.readerCare +
