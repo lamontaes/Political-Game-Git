@@ -3,11 +3,11 @@
  * pays its seller, as housing-listings.ts `takeHomes` and a buyer's purchase
  * do in play, so a test of what a sale pays (the lender first, the rest to the
  * household or the estate) can close one sale on the day it chooses. The buyer
- * pays the home's value today by the one value rule.
+ * pays the home's value today by the one value rule. Test buyers are a full
+ * person or an outside organization, paid account to account.
  */
 import { closeSale, type HomeSale } from "./housing-sale";
 import { homeValueToday } from "./housing-price-level";
-import { transferCash } from "./world-transfer";
 import type { CoreAPI } from "./types";
 
 export function buyListedHome(
@@ -38,12 +38,20 @@ export function buyListedHome(
   const paid =
     buyerId === sale.payeeId
       ? price
-      : transferCash(api, `${purchaseId}:price`, buyerId, sale.payeeId, price, {
-          tag: "ESTIMATED",
-          asOf: api.state.date,
-          citation: "Test buyer for a listed home.",
-          estimatedFrom: "The home's value today.",
-        });
+      : api.accounts().transfer({
+          id: `${purchaseId}:price`,
+          from: api.accounts().main(buyerId),
+          to: api.accounts().main(sale.payeeId),
+          amountMinor: price,
+          reasonKey: "purchase",
+          source: {
+            tag: "ESTIMATED",
+            asOf: api.state.date,
+            citation: "Test buyer for a listed home.",
+            estimatedFrom: "The home's value today.",
+          },
+          partial: true,
+        }).paidMinor;
   closeSale(api, saleId, sale.homesLeft, paid, purchaseId);
   return housing.table("sales").get(saleId) as unknown as HomeSale;
 }
