@@ -283,15 +283,18 @@ describe(`the governor's briefing room (${where})`, () => {
         player.resume({ kind: "own-choice", pauseId: packet.pauseId });
       else player.advance("day");
     }
-    // It met them again a week apart while it was theirs, each time its own record.
-    const offers = [...(core.logByKind.get(EMERGENCY_OFFERED) ?? [])]
+    // It met them again twice while it was theirs, each time its own record: once at the midpoint of the window, once on the last day a meeting can still be held.
+    const offered = [...(core.logByKind.get(EMERGENCY_OFFERED) ?? [])]
       .filter((id) => id.startsWith(`emergency-offered:${hazardId}`))
-      .map((id) => core.durableLog.get(id)!.date)
-      .sort();
+      .map((id) => core.durableLog.get(id)!)
+      .sort((a, b) => (a.date < b.date ? -1 : 1));
+    const offers = offered.map((row) => row.date);
     expect(
-      offers.length,
+      offered.map((row) => row.facts?.returnWhen),
       `${where}: offers on ${offers.join(", ")}`,
-    ).toBeGreaterThan(2);
+    ).toEqual([undefined, "midway", "last"]);
+    expect(offers[1], where).toBe(addDays(makeIsoDate(hazard.date), 15));
+    expect(offers[2], where).toBe(addDays(closes, -2));
     // Every offer before the lapse, the last included, was staged as a meeting the player was in (the season cap never swallows an open decision).
     const staged = (world.director.ledger.people.get(playerId)?.schedule ?? [])
       .filter(

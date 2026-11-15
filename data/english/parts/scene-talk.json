@@ -190217,54 +190217,6 @@
       ]
     },
     {
-      "key": "scene-talk.narrate-narrate.your-department-heads-are-on-their-feet-when-you-come-in",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "Your department heads are on their feet when you come in.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "emergency-briefing",
-          "key": "threat",
-          "excludesFacts": ["again"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (lines for the governor's briefing room, added by its builder as written)",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "narrate",
-        "key": "threat"
-      }
-    },
-    {
-      "key": "scene-talk.narrate-narrate.the-room-goes-quiet-when-you-sit-down",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "The room goes quiet when you sit down.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "emergency-briefing",
-          "key": "threat",
-          "excludesFacts": ["again"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (lines for the governor's briefing room, added by its builder as written)",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "narrate",
-        "key": "threat"
-      }
-    },
-    {
       "key": "scene-talk.open-greet.governor-it-s-the-disaster",
       "move": "open-greet",
       "kind": "spoken",
@@ -190315,54 +190267,6 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.the-same-people-are-in-the-room-with-the-same-question",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "The same people are in the room, with the same question.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "emergency-briefing",
-          "key": "threat",
-          "requiresFacts": ["again"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "narrate",
-        "key": "threat"
-      }
-    },
-    {
-      "key": "scene-talk.open-greet.governor-nothing-has-changed-out-there",
-      "move": "open-greet",
-      "kind": "spoken",
-      "text": "Governor. Nothing has changed out there.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "purpose": "emergency-briefing",
-          "key": "threat",
-          "requiresFacts": ["again"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "greet",
-        "key": "threat"
-      }
-    },
-    {
       "key": "scene-talk.state-request.we-asked-you-before-we-re-asking-again-will-you-declare-the-emergency",
       "move": "state-request",
       "kind": "spoken",
@@ -190375,7 +190279,7 @@
           "role": "asker",
           "purpose": "emergency-briefing",
           "key": "threat",
-          "requiresFacts": ["again"]
+          "requiresFacts": ["return-midway"]
         }
       ],
       "origin": "authored",
@@ -190716,7 +190620,7 @@
           "purpose": "emergency-briefing",
           "key": "threat",
           "after": "leave",
-          "requiresFacts": ["deadline", "undecided"]
+          "requiresFacts": ["deadline", "undecided", "return-midway"]
         }
       ],
       "origin": "authored",
@@ -190748,6 +190652,199 @@
       "date": "2026-11-15",
       "tag": {
         "move": "accept",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-stands-when-you-come-in",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} stands when you come in.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "excludesFacts": ["again"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines for the governor's briefing room, added by its builder as written)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "narrate",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-has-been-waiting-for-you",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} has been waiting for you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "excludesFacts": ["again"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines for the governor's briefing room, added by its builder as written)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "narrate",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-is-back-with-the-same-question",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} is back, with the same question.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["return-midway"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines for the governor's briefing room, added by its builder as written)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "narrate",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-is-already-in-your-office",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} is already in your office.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["return-last"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines for the governor's briefing room, added by its builder as written)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "narrate",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.governor-we-re-still-waiting-on-your-answer",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Governor. We're still waiting on your answer.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["return-midway"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines for the governor's briefing room, added by its builder as written)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "greet",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.governor-this-is-the-last-time-i-can-ask",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Governor. This is the last time I can ask.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["return-last"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines for the governor's briefing room, added by its builder as written)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "greet",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.after-deadline-it-s-out-of-your-hands-will-you-declare-the-emergency",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "After {deadline} it's out of your hands. Will you declare the emergency?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "requiresFacts": ["return-last", "deadline"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines for the governor's briefing room, added by its builder as written)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "request",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.close-answer.then-it-runs-out-on-deadline-governor",
+      "move": "close-answer",
+      "kind": "spoken",
+      "text": "Then it runs out on {deadline}, Governor.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "emergency-briefing",
+          "key": "threat",
+          "after": "leave",
+          "requiresFacts": ["return-last", "deadline", "undecided"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (lines for the governor's briefing room, added by its builder as written)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "answer",
         "key": "threat"
       }
     }

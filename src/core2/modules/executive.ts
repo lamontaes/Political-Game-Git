@@ -163,7 +163,10 @@ export const EXECUTIVE_MODULE: CoreModule = {
   onCalendarWork: (api, work) => {
     if (work.kind === POST_JOB_END) return endPostJobOnCalendar(api, work);
     if (work.kind === OFFER_LAPSE) return lapseEmergencyOffer(api, work);
-    if (work.kind === OFFER_AGAIN) return meetEmergencyOfferAgain(api, work);
+    if (work.kind === OFFER_MIDWAY)
+      return meetEmergencyOfferAgain(api, work, "midway");
+    if (work.kind === OFFER_LAST)
+      return meetEmergencyOfferAgain(api, work, "last");
     deskReview(api, work);
   },
   // A disaster on the record reaches the governor's desk the day it is
@@ -221,7 +224,7 @@ function governorAnswersDisaster(api: CoreAPI, hazardRecordId: string): void {
       },
       sourceRecordIds: [`${OFFER_PREFIX}${hazardRecordId}`, hazardRecordId],
     });
-    scheduleBriefingAgain(
+    scheduleBriefingReturns(
       api,
       `${OFFER_PREFIX}${hazardRecordId}`,
       hazardRecordId,
@@ -1960,7 +1963,8 @@ export function emergencyBriefingPosts(
 }
 
 const OFFER_LAPSE = "emergency-offer-lapse";
-const OFFER_AGAIN = "emergency-offer-again";
+const OFFER_MIDWAY = "emergency-offer-midway";
+const OFFER_LAST = "emergency-offer-last";
 /** The mark between a disaster's id and the day a briefing meets the governor again, in an offered record's id. */
 const AGAIN_MARK = "~again~";
 export const EMERGENCY_LAPSED = "executive.emergency-lapsed";
@@ -1971,6 +1975,7 @@ function emitEmergencyOffer(
   hazardRecordId: string,
   executiveId: string,
   again: string,
+  returnWhen?: "midway" | "last",
 ): void {
   const hazard = (api.state as CoreState).durableLog.get(hazardRecordId);
   // The governor's own office is the room (the scene reads the cause's `officeId`), not the briefer's department.
@@ -1995,6 +2000,8 @@ function emitEmergencyOffer(
       closes: offerLapseDate(api, hazardRecordId),
       // A meeting after the first says so, so the briefing is not worded as the first time.
       ...(again ? { again: "true" } : {}),
+      // Which return it is, so the briefer says the right thing (the midway one, or the last before the deadline).
+      ...(returnWhen ? { returnWhen } : {}),
     },
   });
 }
@@ -2003,7 +2010,7 @@ function emitEmergencyOffer(
  * The player governor's answer in the briefing scene settles the offer: declaring is the engine's own
  * declaration; letting it pass declares nothing (the engine never declares for them). Leaving the
  * briefing with no answer settles nothing: the offer stays theirs, and the briefing meets them again
- * on the weekly cadence until the request window closes (`meetEmergencyOfferAgain`).
+ * at the midway and last returns until the request window closes (`scheduleBriefingReturns`).
  */
 function answerEmergencyBriefing(
   api: CoreAPI,
@@ -2035,34 +2042,49 @@ function offerLapseDate(api: CoreAPI, hazardRecordId: string) {
   return closes > tomorrow ? closes : tomorrow;
 }
 
-/** Schedules the briefing to meet the governor again a cadence from today, while that day is before the window closes. */
-function scheduleBriefingAgain(
+/**
+ * The briefing meets the governor again at most twice, each from a cause on the offer: once when half the answer window
+ * is gone (if their first meeting came before that), and once on the last day a meeting can still be held before the
+ * deadline. A weekly count would bring the same scene back four times (Words lead, Nov 15).
+ */
+function scheduleBriefingReturns(
   api: CoreAPI,
   offerId: string,
   hazardRecordId: string,
 ): void {
-  const next = addDays(
-    makeIsoDate(api.state.date),
-    emergencyData.briefing.answerable.meetAgainAfterDays,
+  const answerable = emergencyData.briefing.answerable;
+  const hazard = (api.state as CoreState).durableLog.get(hazardRecordId);
+  const today = makeIsoDate(api.state.date);
+  const last = addDays(
+    offerLapseDate(api, hazardRecordId),
+    -answerable.lastOfferDaysBeforeClose.value,
   );
-  if (next >= offerLapseDate(api, hazardRecordId)) return;
-  api.moduleCalendar(EXECUTIVE_MODULE_ID).schedule({
-    key: `${OFFER_AGAIN}:${offerId}:${next}`,
-    date: next,
-    kind: OFFER_AGAIN,
-    source: {
-      tag: "SOURCED",
-      citation: emergencyData.briefing.answerable.source,
-      asOf: api.state.date,
-    },
-    sourceRecordIds: [offerId, hazardRecordId],
-  });
+  const midway = addDays(
+    makeIsoDate(hazard?.date ?? api.state.date),
+    Math.round(answerable.days * answerable.midwayShare.value),
+  );
+  const at = (date: ReturnType<typeof makeIsoDate>, kind: string) =>
+    api.moduleCalendar(EXECUTIVE_MODULE_ID).schedule({
+      key: `${kind}:${offerId}:${date}`,
+      date,
+      kind,
+      source: {
+        tag: "SOURCED",
+        citation: answerable.source,
+        asOf: api.state.date,
+      },
+      sourceRecordIds: [offerId, hazardRecordId],
+    });
+  if (last <= today) return;
+  if (midway > today && midway < last) at(midway, OFFER_MIDWAY);
+  at(last, OFFER_LAST);
 }
 
-/** A week after the last briefing, with the offer still the governor's and the window open, it meets them again: a new record, so the same scene stages again. */
+/** A return day, with the offer still the governor's and the window open: a new record, so the same scene stages again. */
 function meetEmergencyOfferAgain(
   api: CoreAPI,
   work: Readonly<ModuleCalendarWork>,
+  returnWhen: "midway" | "last",
 ): void {
   const [offerId, hazardRecordId] = work.sourceRecordIds;
   const offer = offerId
@@ -2070,8 +2092,13 @@ function meetEmergencyOfferAgain(
         EmergencyOfferRow | undefined)
     : undefined;
   if (!offer || offer.answered || !hazardRecordId) return;
-  emitEmergencyOffer(api, hazardRecordId, offer.executiveId, api.state.date);
-  scheduleBriefingAgain(api, offerId!, hazardRecordId);
+  emitEmergencyOffer(
+    api,
+    hazardRecordId,
+    offer.executiveId,
+    api.state.date,
+    returnWhen,
+  );
 }
 
 /**

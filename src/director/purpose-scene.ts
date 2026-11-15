@@ -2796,6 +2796,12 @@ function briefingFacts(
       sourceRecordIds: [causeId],
     };
   if (said.again) facts.again = { text: "", sourceRecordIds: [causeId] };
+  // Which return it is: the midway one (half the window gone) or the last before the deadline.
+  if (said.returnWhen === "midway" || said.returnWhen === "last")
+    facts[`return-${said.returnWhen}`] = {
+      text: "",
+      sourceRecordIds: [causeId],
+    };
 }
 
 /**
