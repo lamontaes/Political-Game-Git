@@ -6474,6 +6474,50 @@
       }
     },
     {
+      "key": "headlines.emergency-lapsed.name-declares-no-emergency-over-the-incident",
+      "move": "emergency-lapsed",
+      "kind": "written",
+      "text": "{name} declares no emergency over the {incident}",
+      "uses": [
+        {
+          "move": "emergency-lapsed",
+          "subject": "headline",
+          "role": "emergency-lapsed",
+          "choice": "headline",
+          "requiresFacts": ["name", "incident"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.emergency-lapsed.no-emergency-declared-over-the-incident",
+      "move": "emergency-lapsed",
+      "kind": "written",
+      "text": "No emergency declared over the {incident}",
+      "uses": [
+        {
+          "move": "emergency-lapsed",
+          "subject": "headline",
+          "role": "emergency-lapsed",
+          "choice": "headline",
+          "requiresFacts": ["incident"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
       "key": "headlines.succession.name-becomes-office",
       "move": "succession",
       "kind": "written",

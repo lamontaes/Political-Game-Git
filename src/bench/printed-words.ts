@@ -2910,6 +2910,24 @@ const emergency: Builder = (read, f) => {
   );
 };
 
+/** A governor's disaster window closing with nothing declared: the act not taken, and the disaster it was about. */
+const emergencyLapsed: Builder = (read, f) => {
+  const id = read.first();
+  const title = f.title ?? "";
+  const incident = title === title.toUpperCase() ? title.toLowerCase() : title;
+  return story(
+    "emergency-lapsed",
+    {
+      ...read.who(id, "name", false),
+      ...(incident
+        ? { incident: read.fact(incident, f.hazardRecordId ?? "") }
+        : {}),
+    },
+    ["incident"],
+    id,
+  );
+};
+
 /** Who took an office by the line of succession, and whether as acting. */
 const succession: Builder = (read, f) => {
   const id = read.first();
@@ -4123,6 +4141,7 @@ const BUILDERS: Readonly<Record<string, Builder>> = {
   "official-trip": officialTrip,
   "ribbon-cut": ribbonCut,
   "emergency-declared": emergency,
+  "executive.emergency-lapsed": emergencyLapsed,
   succession,
   "recall-answer": recallReply,
   "ballot-measure-result": measureResult,
