@@ -153,18 +153,17 @@ try {
   await page.waitForTimeout(800);
   const nation = page.locator('[data-outlet="nation"]');
   // The Nation heading tells the laws another state passed in the last two weeks that reach this
-  // reader, so a day with none has no paper: play on a week at a time (at most 120 days) to a day with one.
-  for (let more = 0; more < 120 && !(await nation.count()); more += 7) {
-    await page.keyboard.press("Escape");
-    await run(7);
-    // A talk a day stopped on is played to its end, as a player would.
-    await playOpening(page, null);
-    await page
-      .locator('#rings [data-tab="news"]')
-      .first()
-      .evaluate((e) => e.click());
-    await page.waitForTimeout(800);
-  }
+  // reader. At Rock Cave on seed rockcave-a day 240 is 2025-09-17, and Pennsylvania's groundwater law
+  // takes effect on 2025-11-06, so 56 days on (2025-11-12) the Nation heading has its story. The whole
+  // check measured 71 and 73 s on the bench (cloud container, Nov 15); no step waits on a draw or a scan.
+  await page.keyboard.press("Escape");
+  await run(56);
+  await playOpening(page, null);
+  await page
+    .locator('#rings [data-tab="news"]')
+    .first()
+    .evaluate((e) => e.click());
+  await page.waitForTimeout(800);
   assert.ok(await nation.count(), "the named world has a Nation paper");
   {
     await nation.first().click();
