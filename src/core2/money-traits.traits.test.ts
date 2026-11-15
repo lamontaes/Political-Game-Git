@@ -10,7 +10,7 @@
 import { describe, expect, it } from "vitest";
 import { scoreOffers, decisionFromScores } from "./choice";
 import { ownerDrawCase, ownerDrawReasons } from "./modules/business";
-import { homeBuyReasons } from "./modules/housing";
+import { homeBuyReasons } from "./housing-buy";
 import { applyNeed } from "./modules/jobs";
 import { parameter } from "./parameters";
 import { claimWaitCase, retirementClaimAgeMonths } from "./retirement-claim";

@@ -36,3 +36,5 @@ checked:
 **Files.** data/english/parts/conversation.json, src/director/conversation.ts
 
 **Notes.** Older than the home-talk race fix (the lines were always said to the candidate); seen by the second words reader on Nov 15.
+
+Nov 15, more evidence (second reader, #9421 played talks): Kingston, Nevada (place key 3238100, world seed c1), #9421 head 193c056c584106e3ab416d759540c06fcfbc2708 on Train b22cd350; the player Quinn filed for County Commissioner through fileForOffice on 2026-01-12, and Karen says "I saw how County Commissioner came out." on 2026-06-09 and "I'm sorry about County Commissioner." on 2026-11-03. The run wrote cash onto the player by hand for the filing fee, so it is not a clean played case. The replies offered after the loss are the separate item words-player-news-replies-ignore-the-race-result.
