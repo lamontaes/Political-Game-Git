@@ -84,7 +84,11 @@ import {
   storyOfReadEvent,
   type Story,
 } from "../core2/modules/news";
-import { MOVED_AWAY_EVENT, departureOf } from "../core2/modules/moves";
+import {
+  MOVED_AWAY_EVENT,
+  departureOf,
+  householdIncome,
+} from "../core2/modules/moves";
 import { disasterSaid, homeSaid } from "../english/disaster-words";
 import { jobSaid, seatSaid, withArticle } from "../english/journal-words";
 import { causeGroupName } from "../english/group-names";
@@ -97,7 +101,7 @@ import {
   staffCount,
 } from "../core2/modules/jobs";
 import conversationRules from "./data/conversation-rules.json" with { type: "json" };
-import type { Director } from "./ledger";
+import { DEFAULT_DIRECTOR_DATA, type Director } from "./ledger";
 import { knockFacts, petitionAtDoor } from "./doors";
 import { officeSaid } from "./cause-facts";
 import { officeInSentence } from "../core2/person-work";
@@ -2274,12 +2278,22 @@ function doorViewFacts(
       text: reason.employer,
       sourceRecordIds: [...reason.recordIds],
     };
-  // A renter may say the rent they pay: their own money (rule 101).
-  else if (reason.reason === "rent" && reason.rentMinor)
-    facts.rent = {
-      text: moneySaid(reason.rentMinor),
-      sourceRecordIds: [...reason.recordIds],
-    };
+  // A renter says how the rent feels, never the figure (Words lead, Nov 15):
+  // that it takes too much, where it is a heavy share of what the household
+  // brings in (the director's burden share, HUD's measure).
+  else if (reason.reason === "rent" && reason.rentMinor) {
+    const householdId = core.people.get(residentId)?.householdId ?? "";
+    const income = householdIncome(coreAPI(core as CoreState), householdId);
+    if (
+      reason.rentMinor >
+      income.minor *
+        DEFAULT_DIRECTOR_DATA.parameters.directorRentBurdenShare!.value
+    )
+      facts["rent-heavy"] = {
+        text: "yes",
+        sourceRecordIds: [...reason.recordIds, ...income.ids],
+      };
+  }
   return facts;
 }
 

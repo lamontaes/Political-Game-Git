@@ -146,7 +146,6 @@
     "price-section": "The number of the section of the player's bill a colleague would take half of, from the legislature record (askPrice).",
     "office-held": "A seat or office the party holds in the place, said as 'a seat on the council' or 'the mayor's office', from the offices' terms.",
     "race-run": "A local race the party has a candidate in, by its office title, from the open contest's filings.",
-    "rent": "The rent a renter pays each month, as said money, from their home's record.",
     "own-workplace": "The business where a witness works, by its name, from their job's record (the witness after the hearing).",
     "own-child": "The given name of a witness's child at home, from the child's record (the witness after the hearing).",
     "purpose": "What a bill does, as a short phrase, from the bill record's own sections.",
@@ -168978,10 +168977,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-tell.rent-we-pay-rent-a-month-something-has-to-give",
+      "key": "scene-talk.reply-tell.rent-we-can-barely-make-it-something-has-to-give",
       "move": "reply-tell",
       "kind": "spoken",
-      "text": "Rent. We pay {rent} a month. Something has to give.",
+      "text": "Rent. We can barely make it. Something has to give.",
       "uses": [
         {
           "subject": "scene",
@@ -168991,7 +168990,7 @@
           "purpose": "ask-signature.plain",
           "key": "door",
           "after": "ask",
-          "requiresFacts": ["side-for", "why-rent", "rent"]
+          "requiresFacts": ["side-for", "why-rent", "rent-heavy"]
         },
         {
           "subject": "scene",
@@ -169001,13 +169000,13 @@
           "purpose": "ask-support.plain",
           "key": "door",
           "after": "ask",
-          "requiresFacts": ["side-for", "why-rent", "rent"]
+          "requiresFacts": ["side-for", "why-rent", "rent-heavy"]
         }
       ],
       "bearing": "braced",
       "origin": "authored",
       "author": "Claude Opus (door scenes, brief G)",
-      "date": "2026-11-14",
+      "date": "2026-11-15",
       "tag": {
         "move": "tell",
         "key": "door"
@@ -169185,42 +169184,6 @@
         }
       ],
       "bearing": "braced",
-      "origin": "authored",
-      "author": "Claude Opus (door scenes, brief G)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "tell",
-        "key": "door"
-      }
-    },
-    {
-      "key": "scene-talk.reply-tell.i-rent-it-s-rent-a-month-don-t-mess-with-it",
-      "move": "reply-tell",
-      "kind": "spoken",
-      "text": "I rent. It's {rent} a month. Don't mess with it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "ask-signature.plain",
-          "key": "door",
-          "after": "ask",
-          "requiresFacts": ["side-against", "why-rent", "rent"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "ask-support.plain",
-          "key": "door",
-          "after": "ask",
-          "requiresFacts": ["side-against", "why-rent", "rent"]
-        }
-      ],
-      "bearing": "guarded",
       "origin": "authored",
       "author": "Claude Opus (door scenes, brief G)",
       "date": "2026-11-14",
