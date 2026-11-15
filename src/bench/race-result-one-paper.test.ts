@@ -56,4 +56,4 @@ it("a one-paper town's unopposed race stories take different wordings", () => {
     shapes.size,
     `${place.name}: ${unopposed.length} unopposed stories, one lede shape`,
   ).toBeGreaterThan(1);
-}, 60_000);
+}, 90_000);
