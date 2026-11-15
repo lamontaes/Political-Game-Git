@@ -5,10 +5,10 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: account-lead-skills
+pr: 9454
 blocked-on:
 source: "found by the family life thread at train head d82bf47e, Nov 15; fixed in the same pull request"
 claimed-at:
