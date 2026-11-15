@@ -43,6 +43,7 @@ import { addDays, ageOnDate, daysBetween, makeIsoDate } from "../kernel/dates";
 import { PROFILE_FACT_KINDS, profileFor } from "../opening-profile";
 import {
   personStance,
+  popularity,
   STANCE_LOADINGS,
   type StanceProfile,
 } from "../campaign-views";
@@ -890,12 +891,16 @@ export function openingRecord(
 }
 
 /**
- * The person's stance on a question before what they have heard: where their
- * lean puts them on its axis, plus their stored opening record (what their
- * faith and degree add beyond the lean, CES 2020 loadings), plus what their
- * own circumstances add today (`lifeShift`).
+ * The person's own stance on a question before what they have heard and
+ * before the country's view of it: where their lean puts them on its axis,
+ * plus their stored opening record (what their faith and degree add beyond
+ * the lean, CES 2020 loadings), plus what their own circumstances add today
+ * (`lifeShift`). A candidate's platform stands here (`StanceReader` in
+ * `src/core2/campaign-stances.ts`): a platform answers to the candidate's
+ * party, record and own life, not to national polls, so rivals of opposite
+ * parties stay apart on the questions most people favor.
  */
-export function openingStance(
+export function ownOpeningStance(
   api: CoreAPI,
   personId: PersonId,
   question: string,
@@ -905,6 +910,25 @@ export function openingStance(
     personStance(lean, question) +
     (openingRecord(api, personId, question)?.total ?? v("zero")) +
     lifeShift(api, personId, question)
+  );
+}
+
+/**
+ * The person's view of a question before what they have heard: their own
+ * opening (`ownOpeningStance`) plus how popular the question is across their
+ * world's country (`popularity`, the term a counted voter's stance carries
+ * too), so a voter in a race, on a ballot measure and in a poll holds one
+ * view.
+ */
+export function openingStance(
+  api: CoreAPI,
+  personId: PersonId,
+  question: string,
+  lean: number,
+): number {
+  return (
+    ownOpeningStance(api, personId, question, lean) +
+    popularity(question, api.state.seed)
   );
 }
 
@@ -965,7 +989,10 @@ export function countedStanceProfile(
   profiles.set(api.state, held);
   let kept = held.get(voter.id);
   if (!kept) {
-    kept = profileFromAverage(voter, api.state.startedAt, api.state.seed);
+    kept = {
+      ...profileFromAverage(voter, api.state.startedAt, api.state.seed),
+      seed: api.state.seed,
+    };
     held.set(voter.id, kept);
   }
   // Their circumstances are read again as their household's record changes.

@@ -411,18 +411,6 @@
     "status": "open"
   },
   {
-    "id": "SG-WORLD-prices-household-shares",
-    "kind": "faked-mechanic",
-    "file": "src/core2/modules/place-prices.ts",
-    "line": 254,
-    "whatItFakes": "Each household takes a public broadband offer as the subscribing share of one household, not by its own choice.",
-    "why": "Household subscriptions and switching choices are not modeled per household.",
-    "addedBy": "OPUS-WORLD",
-    "addedAt": "2026-10-12",
-    "replacement": "Each household's subscription and its own choice to switch, from its price and service.",
-    "status": "open"
-  },
-  {
     "id": "SG-WORLD-housing-new-home-buyers",
     "kind": "faked-mechanic",
     "file": "src/core2/housing-construction.ts",

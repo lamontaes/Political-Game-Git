@@ -436,6 +436,7 @@
       "paths": [
         "src/core2/modules/world.ts",
         "src/core2/modules/world-metrics.ts",
+        "src/core2/labor-past.ts",
         "src/core2/output-numbers.ts",
         "src/core2/output-number-readers.ts",
         "src/core2/modules/disasters.ts",

@@ -33,7 +33,7 @@ import {
   type OfficialRow,
 } from "./modules/officials";
 import {
-  openingStance,
+  ownOpeningStance,
   stanceOn,
   viewOf,
   VIEWS_DATA,
@@ -282,13 +282,19 @@ export class StanceReader {
     if (this.lean === null) return null;
     // Where they start on it: their lean on its axis and, for someone the
     // views engine knows, what their faith, degree and own circumstances add
-    // (`openingStance`, the same reading a voter's view starts from). Then
-    // what they've come to want on the question itself (speeches, ads and
-    // news that reached them).
+    // (`ownOpeningStance`, a voter's opening without the country's view of
+    // the question: a platform answers to party, record and own life, not to
+    // national polls). Then what they've come to want on the question itself
+    // (speeches, ads and news that reached them).
     if (!this.api.state.modules.has(VIEWS_MODULE_ID))
       return clamp(this.lean * questionAxis(question));
     const opening = this.api.state.people.has(this.personId as PersonId)
-      ? openingStance(this.api, this.personId as PersonId, question, this.lean)
+      ? ownOpeningStance(
+          this.api,
+          this.personId as PersonId,
+          question,
+          this.lean,
+        )
       : this.lean * questionAxis(question);
     // Their own row and, if heard among like hearers, their group's.
     return clamp(opening + stanceOn(this.api, this.personId, question));
