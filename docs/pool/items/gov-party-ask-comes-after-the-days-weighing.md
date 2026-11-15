@@ -6,9 +6,9 @@ lead: governing
 kind: bug
 priority: 3
 size: S
-status: open
+status: in-pr
 claimed-by:
-pr:
+pr: "#PRNUM"
 blocked-on:
 after:
 source: account lead thread, Nov 14, political-asks advice test
