@@ -190082,32 +190082,6 @@
       }
     },
     {
-      "key": "scene-talk.follow-promise.i-can-promise-you-that",
-      "move": "follow-promise",
-      "kind": "spoken",
-      "text": "I can promise you that.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "promise",
-          "role": "asker",
-          "purpose": "ask-to-serve",
-          "key": "serve-asked",
-          "after": "bargain",
-          "requiresFacts": ["price-named"]
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "S6 (gov-serve-ask-price-end; Words lead rulings Nov 14 16:15Z)",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "promise",
-        "key": "serve-asked"
-      }
-    },
-    {
       "key": "scene-talk.follow-refuse.i-won-t-make-that-promise-not-to-anyone",
       "move": "follow-refuse",
       "kind": "spoken",

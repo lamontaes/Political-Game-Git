@@ -850,11 +850,20 @@ function sceneEndingMoments(
           // (ruling 72, a door); one given only as "I'll look at it" is told
           // as that.
           causeKind:
-            keeps === "promise" && typeof reply.facts?.about === "string"
-              ? "scene-ending:view-promise"
-              : keeps === "promise" && reply.facts?.firmness === "vague"
-                ? "scene-ending:vague-promise"
-                : `scene-ending:${keeps}`,
+            // A word given on a side (the price of a yes to serve,
+            // hold-question) is told as that side, never as a soft promise
+            // to keep a subject in mind (Words lead, Nov 15 10:58Z).
+            keeps === "promise" &&
+            typeof reply.facts?.about === "string" &&
+            reply.facts?.promise === "hold-question"
+              ? reply.facts?.["promise-side"] === "no"
+                ? "scene-ending:side-word-against"
+                : "scene-ending:side-word-for"
+              : keeps === "promise" && typeof reply.facts?.about === "string"
+                ? "scene-ending:view-promise"
+                : keeps === "promise" && reply.facts?.firmness === "vague"
+                  ? "scene-ending:vague-promise"
+                  : `scene-ending:${keeps}`,
           ...(keeps === "promise" && typeof reply.facts?.about === "string"
             ? {
                 actFacts: {

@@ -660,6 +660,16 @@
       "entry": "story"
     },
     {
+      "kindPrefix": "scene-ending:side-word-for",
+      "turn": false,
+      "entry": "story"
+    },
+    {
+      "kindPrefix": "scene-ending:side-word-against",
+      "turn": false,
+      "entry": "story"
+    },
+    {
       "kindPrefix": "scene-ending:favor-owed",
       "turn": false,
       "entry": "story"

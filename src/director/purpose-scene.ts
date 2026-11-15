@@ -2013,7 +2013,7 @@ function composeBinding(
     if (serve.priced) {
       facts["price-named"] = { text: "yes", sourceRecordIds: why };
       facts[
-        serve.grounds.theirStance < P.zero
+        (serve.grounds.priceStance ?? P.zero) < P.zero
           ? "price-side-against"
           : "price-side-for"
       ] = { text: "yes", sourceRecordIds: why };
@@ -2105,8 +2105,12 @@ function composeBinding(
         sourceRecordIds: [moment.causeId, serve.askId],
       };
     // A price names the proposal itself, so the player knows which way they
-    // give their word (Words lead, Nov 15 10:35Z, rule 116).
-    const about = serve.priced ? questionAbout(serve.question) : null;
+    // give their word (Words lead, Nov 15 10:35Z, rule 116), on the question
+    // the ticket's office can decide (Account lead, Nov 15 10:45Z).
+    const about =
+      serve.priced && serve.grounds.priceQuestion
+        ? questionAbout(serve.grounds.priceQuestion)
+        : null;
     if (about)
       facts.about = {
         text: about,

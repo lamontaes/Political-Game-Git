@@ -65,6 +65,8 @@ import {
 import { appointGovernor, prepareAct } from "./office-day";
 import { campaignParameter } from "../campaign-data";
 import { viewOn } from "./views";
+import { levelMayDecide } from "./world-legislating";
+import type { OfficeLevel } from "./offices";
 import {
   chooseRunningMate,
   runningMateChoice,
@@ -133,6 +135,15 @@ export interface ServeGrounds {
   readonly inField?: boolean;
   /** For a post: whether a council or chamber still confirms whoever is named. */
   readonly confirmed?: boolean;
+  /**
+   * For a ticket: the question they hold most strongly among those the
+   * ticket's office can decide, and their stance on it. Their price is named
+   * on it, since only a question the player's own vote or signature in that
+   * office can settle is one a promise can be kept or broken on (Account
+   * lead, Nov 15 10:45Z). Null where the office can decide none they hold.
+   */
+  readonly priceQuestion?: string | null;
+  readonly priceStance?: number;
 }
 
 export interface ServeStanding {
@@ -293,6 +304,7 @@ export function ticketStanding(
   const player = api.state.people.get(filing.personId);
   if (!asked || !player) return null;
   const seat = "ticket";
+  const price = priceRead(api, asked, ticket.level as OfficeLevel);
   const { question, theirStance, playerStance, heard, knows } = sharedRead(
     api,
     asked,
@@ -400,8 +412,36 @@ export function ticketStanding(
       endorsements,
       raisedMinor,
       filingStatus: filing.status ?? "",
+      priceQuestion: price?.question ?? null,
+      priceStance: price?.stance ?? 0,
     },
   };
+}
+
+/**
+ * The question the asked person holds most strongly among those the office
+ * can decide, either way (`levelMayDecide`, the one check a body files by),
+ * and their stance on it; null where it can decide none they hold.
+ */
+function priceRead(
+  api: CoreAPI,
+  asked: Readonly<PersonState>,
+  level: OfficeLevel,
+): { question: string; stance: number } | null {
+  const theirLean = voterLean(api, asked);
+  let best: { question: string; stance: number } | null = null;
+  for (const question of PLATFORM_QUESTIONS) {
+    const stance = viewOn(api, asked.id, question, theirLean);
+    if (stance === 0 || Math.abs(stance) <= Math.abs(best?.stance ?? 0))
+      continue;
+    if (
+      !levelMayDecide(api, level, question, 1) &&
+      !levelMayDecide(api, level, question, -1)
+    )
+      continue;
+    best = { question, stance };
+  }
+  return best;
 }
 
 const share = (count: number, scale: number) => count / (count + scale);
@@ -712,8 +752,8 @@ export function leanIfHedged(row: ServeAskRow): number {
  */
 export function promiseWorth(row: ServeAskRow): number {
   const { grounds } = row.standing;
-  if (!grounds.question) return 0;
-  return w(row.seat, "promise") * Math.abs(grounds.theirStance);
+  if (!grounds.priceQuestion) return 0;
+  return w(row.seat, "promise") * Math.abs(grounds.priceStance ?? 0);
 }
 
 /** The running mate choice as the player is offered it: with the willing read. */
@@ -850,9 +890,18 @@ export function askToServe(
       askerId: found.filing.personId,
       askedId: input.personId,
       question: standing.grounds.question,
-      // The side they hold on it: a promise they ask for is to hold it
-      // (promise-kinds.json `hold-question`).
+      // The side they hold on it.
       side: standing.grounds.theirStance < 0 ? "no" : "yes",
+      // The question a price is named on, one the office can decide, and
+      // their side on it: a promise they ask for is to hold it
+      // (promise-kinds.json `hold-question`).
+      ...(standing.grounds.priceQuestion
+        ? {
+            "price-question": standing.grounds.priceQuestion,
+            "price-side":
+              (standing.grounds.priceStance ?? 0) < 0 ? "no" : "yes",
+          }
+        : {}),
       reason: standing.reason,
     },
   });

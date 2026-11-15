@@ -109,11 +109,11 @@
     },
     {
       "id": "hold-question",
-      "about": "The player's word, given as the price of a yes to serve with them (gov-serve-ask-price-end), to hold the side the one asked holds on the question they care most about: settled by the player's next vote at a roll call or signature or veto on a bill that moves that question, kept if it moves the question their way, broken if against. Held by the player (the second person on the scene reply) and owed to the one asked. The question and the side come from the ask's record (`serve-asked`).",
+      "about": "The player's word, given as the price of a yes to serve with them (gov-serve-ask-price-end), to hold the side the one asked holds on the question they care most about: settled by the player's next vote at a roll call or signature or veto on a bill that moves that question, kept if it moves the question their way, broken if against. Held by the player (the second person on the scene reply) and owed to the one asked. The question and the side come from the ask's record (`serve-asked` facts `price-question` and `price-side`: the question they hold most strongly that the ticket's office can decide).",
       "heldBy": "second",
       "tie": {
-        "question": "question",
-        "side": "side"
+        "question": "price-question",
+        "side": "price-side"
       },
       "settle": [
         {

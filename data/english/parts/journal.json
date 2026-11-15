@@ -10918,6 +10918,58 @@
       }
     },
     {
+      "key": "journal.scene-line-side-word-for.i-promised-other-i-d-back-about",
+      "move": "scene-line-side-word-for",
+      "kind": "spoken",
+      "text": "I promised {other} I'd back {about}.",
+      "uses": [
+        {
+          "move": "scene-line-side-word-for",
+          "subject": "scene",
+          "role": "line",
+          "choice": "side-word-for",
+          "journal": [
+            {
+              "kindPrefix": "scene-ending:side-word-for",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (Nov 15 10:58Z); S6 (gov-serve-ask-price-end)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.scene-line-side-word-against.i-promised-other-i-d-oppose-about",
+      "move": "scene-line-side-word-against",
+      "kind": "spoken",
+      "text": "I promised {other} I'd oppose {about}.",
+      "uses": [
+        {
+          "move": "scene-line-side-word-against",
+          "subject": "scene",
+          "role": "line",
+          "choice": "side-word-against",
+          "journal": [
+            {
+              "kindPrefix": "scene-ending:side-word-against",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (Nov 15 10:58Z); S6 (gov-serve-ask-price-end)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
       "key": "journal.scene-line-view-promise.i-promised-other-i-d-take-a-close-look-at-about",
       "move": "scene-line-view-promise",
       "kind": "spoken",
