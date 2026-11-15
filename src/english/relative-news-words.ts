@@ -10,6 +10,10 @@ import words from "../../data/english/relative-news-words.json" with { type: "js
 export interface RelativeNewsWords {
   readonly deathCauses: Readonly<Record<string, string>>;
   readonly illnesses: Readonly<Record<string, string>>;
+  /** The mark a cause of death with no plain wording sets, by the health engine's cause. */
+  readonly deathMarks: Readonly<Record<string, string>>;
+  /** An illness the dead person had, in family words, by the health engine's condition. */
+  readonly illnessesInFamily: Readonly<Record<string, string>>;
   readonly offenses: Readonly<Record<string, string>>;
   /** An official as someone outside government says them, by body or by office. */
   readonly officials: { readonly onBody: string; readonly sole: string };

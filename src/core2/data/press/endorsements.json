@@ -1,0 +1,6 @@
+{
+  "about": "Which kinds of outlet endorse candidates in an editorial (owner, Oct 16: papers endorse, \"if it happens in real life, sure\"). An outlet of a kind listed here weighs the races on its beat (outletWeighsRace in src/core2/modules/campaigns.ts); the rest report on races and endorse no one.",
+  "source": "Newspapers and opinion magazines have long endorsed candidates on their editorial pages. Broadcast stations largely stopped: the FCC's political editorial rule (47 CFR 73.1930) required a licensee that endorsed a candidate to offer the rivals reply time, and stations stopped endorsing rather than give the time; the rule was repealed in 2000 and the practice did not come back. Cable news networks and online-only outlets do not endorse as institutions.",
+  "tag": "ESTIMATED",
+  "kinds": ["newspaper", "national-paper", "magazine"]
+}
