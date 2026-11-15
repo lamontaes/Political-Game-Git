@@ -19,7 +19,7 @@ source: owner Nov 15 02:23Z, scene P33 (race lost) graded good, "build it out"; 
 claimed-at: 2026-11-15T05:30:00.000Z
 ---
 
-**What.** A count kept no split by precinct, so no one could say where in town the player did better or worse than last time. The count now saves the town's own votes by precinct, and the director hands the race scenes a fact naming the precinct that turned and which way.
+**What.** A count kept no split by precinct, so no one could say where in town the player did better or worse than last time. The count now saves the town's own votes by precinct, and the director hands the race scenes a fact naming the precinct that turned and which way. Seen: in the race-lost and victory-night scenes, once the lines for the facts exist.
 
 **Cause.** Found in code: src/core2/modules/voting.ts `ResultRow` keeps `namedVotes`, `countedVotes`, `placeVotes` and `totals` and no precinct split, though `pollingPlaces` and `precinctOfHousehold` place every household in a precinct; src/director/race-turnout-facts.ts `best-place` reads only the wider places.
 
