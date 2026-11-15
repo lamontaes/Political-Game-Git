@@ -4,6 +4,7 @@
  * and the same path in two scenes is one subject. Fixtures in our own words.
  */
 import { describe, expect, it } from "vitest";
+import lineRules from "../../data/english/line-rules.json";
 import type {
   SceneTalk,
   SceneTalkLine,
@@ -158,6 +159,27 @@ describe("scene paths", () => {
       talk("a"),
     ]);
     expect(sets.map((set) => set.lines.at(-1)!.key)).toEqual(["press"]);
+  });
+
+  it("reads no-quick-resolution as the set of replies to a plea, press, request, confront, bargain or warning", () => {
+    // Words lead, Nov 14 (ruling-many.md): pass when at least one offered
+    // reply pushes back, deflects or raises the stakes; the set is judged.
+    const shipped = (lineRules as unknown as { rules: LineRule[] }).rules.find(
+      (row) => row.id === "no-quick-resolution",
+    )!;
+    expect([shipped.judges, shipped.sets, shipped.test.kind]).toEqual([
+      "set",
+      "every",
+      "judged",
+    ]);
+    const sets = scenePaths(shipped, PIECES, [talk("a")]);
+    expect(sets.map((set) => set.lines.at(-1)!.key)).toEqual(["ask", "press"]);
+    const threat = { ...PIECES[1]!, move: "state-threaten" };
+    expect(
+      scenePaths(shipped, [threat, ...PIECES.slice(2)], [talk("a")]).map(
+        (set) => set.lines.at(-1)!.key,
+      ),
+    ).toEqual(["press"]);
   });
 
   it("leaves a set rule with no sets field to its own reader", () => {

@@ -1,0 +1,42 @@
+Seed: 8568-litchfield Place: Litchfield, Illinois
+Place: Litchfield, Illinois Seed: 8568-litchfield
+day-1-tab-1: no lead (nothing in print)
+day-1-tab-2: no lead (nothing in print)
+day-1-tab-3: no lead (nothing in print)
+day-1-tab-4: no lead (nothing in print)
+day-1-tab-5: no lead (nothing in print)
+day-1-tab-6: "Montgomery County budget puts $12.3 million into health and hospitals" -> county-commission from office:gus2025:194544:board
+week-1-tab-1: no lead (nothing in print)
+week-1-tab-2: no lead (nothing in print)
+week-1-tab-3: no lead (nothing in print)
+week-1-tab-4: no lead (nothing in print)
+week-1-tab-5: no lead (nothing in print)
+week-1-tab-6: "Montgomery County budget puts $12.3 million into health and hospitals" -> county-commission from office:gus2025:194544:board
+week-2-tab-1: no lead (nothing in print)
+week-2-tab-2: no lead (nothing in print)
+week-2-tab-3: no lead (nothing in print)
+week-2-tab-4: no lead (nothing in print)
+week-2-tab-5: no lead (nothing in print)
+week-2-tab-6: "Congress sets federal benefit rate for supplemental security income at $994" -> us-capitol-exterior from law:US:federal:ssi-federal-benefit-rate:general:2026-01-01 (federal)
+week-2-tab-7: "Debra Wade sworn in as president" -> us-capitol-exterior from president.address:2025-01-20 (federal)
+week-3-tab-1: no lead (nothing in print)
+week-3-tab-2: no lead (nothing in print)
+week-3-tab-3: no lead (nothing in print)
+week-3-tab-4: no lead (nothing in print)
+week-3-tab-5: no lead (nothing in print)
+week-3-tab-6: "Congress sets federal benefit rate for supplemental security income at $994" -> us-capitol-exterior from law:US:federal:ssi-federal-benefit-rate:general:2026-01-01 (federal)
+week-3-tab-7: "President nominates Robert McLean to be Secretary of Agriculture" -> white-house-exterior from agriculture (federal)
+week-3-tab-8: "Debra Wade takes the oath of office" -> us-capitol-exterior from president.address:2025-01-20 (federal)
+week-3-tab-9: "President nominates Robert McLean to be Secretary of Agriculture" -> white-house-exterior from agriculture (federal)
+week-4-tab-1: no lead (nothing in print)
+week-4-tab-2: no lead (nothing in print)
+week-4-tab-3: no lead (nothing in print)
+week-4-tab-4: no lead (nothing in print)
+week-4-tab-5: no lead (nothing in print)
+week-4-tab-6: "Congress sets federal benefit rate for supplemental security income at $994" -> us-capitol-exterior from law:US:federal:ssi-federal-benefit-rate:general:2026-01-01 (federal)
+week-4-tab-7: "Senate confirms Robert McLean as Secretary of Agriculture" -> white-house-exterior from agriculture (federal)
+week-4-tab-8: "Debra Wade takes the oath of office" -> us-capitol-exterior from president.address:2025-01-20 (federal)
+week-4-tab-9: "Profile: President Debra Wade" -> oval-office-standard from term:seat:US:president:2025-01-20 (federal)
+Leads 12, pictured 12, federal 10, business 0
+NOTE: no business lead in this run
+PASS every lead carries the picture of its record

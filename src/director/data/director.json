@@ -1030,20 +1030,24 @@
     {
       "id": "lie",
       "endsOn": "contradicting-fact-learned",
-      "producedBy": ["conversation.lie"],
-      "stopgapId": "SG-P13-kept-fact-producers"
+      "producedBy": ["conversation.lie"]
     },
     {
       "id": "favor",
-      "endsOn": "world-event",
+      "endsOn": "never",
       "producedBy": [],
-      "stopgapId": "SG-P13-kept-fact-producers"
+      "producedByFact": [
+        { "eventKind": "scene.reply", "fact": "keeps", "equals": "favor-owed" }
+      ]
     },
     {
       "id": "promise",
-      "endsOn": "world-event",
+      "endsOn": "settling-record",
       "producedBy": [],
-      "stopgapId": "SG-P13-kept-fact-producers"
+      "producedByFact": [
+        { "eventKind": "scene.reply", "fact": "promise" },
+        { "eventKind": "promise.answer", "fact": "promise" }
+      ]
     }
   ],
   "broadEventFlags": ["publicRecord", "news"],
