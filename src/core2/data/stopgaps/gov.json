@@ -218,18 +218,6 @@
     "status": "open"
   },
   {
-    "id": "SG-GOV-group-endorsement-stance",
-    "kind": "estimated-rule",
-    "file": "src/core2/modules/campaigns.ts",
-    "line": 3236,
-    "whatItFakes": "What an organization stands for when it weighs a candidate for endorsement is read from the little its engine keeps: a cause group's topic, for it unless its founder's drive wants a repeal (a desired change like building a park or cutting a hazard counts as for); an employers' group formed over a wage bill states nothing, so it endorses no one; a party chapter holds its lean along the 54 platform questions only, so a budget-line plank weighs nothing with it. Only a group's full members hear its endorsement and are asked to volunteer; counted residents who hold the same cause are not reached.",
-    "why": "No group engine yet writes a group platform (a candidate questionnaire, a slate of positions) or keeps the question an employers' wage group argued, and groups enlist only full people.",
-    "addedBy": "governing/campaign-group-endorsements",
-    "addedAt": "2026-10-29",
-    "replacement": "Each organization keeps its own platform (the positions its members adopt, a questionnaire it sends candidates) that the endorsement weighing reads, and its counted supporters are reached by the same rule times their count.",
-    "status": "open"
-  },
-  {
     "id": "SG-GOV-staff-unpaid",
     "kind": "missing-engine",
     "file": "src/core2/modules/staff.ts",
@@ -1563,18 +1551,6 @@
     "resolvedBy": "stand-in triage T2"
   },
   {
-    "id": "SG-GOV-fee-level-by-bill",
-    "kind": "owner-decision",
-    "file": "src/core2/budgets-service-charges.ts",
-    "line": 232,
-    "whatItFakes": "A government's charges and fees follow its budget's charges line; no council or legislature bill sets a fee's level (a transit fare, a park fee), so a player cannot raise one by bill.",
-    "why": "Whether councils set fees by bill is the owner's call: a real-world step the game lacks is a question, not a feature (DECISION-REGISTER, Oct 14). Asked in OWNER-DECISIONS.md, Open.",
-    "addedBy": "claude/outside-revenue-fees",
-    "addedAt": "2026-10-24",
-    "replacement": "The owner's ruling: either the charges line stays the budget's, or a fee-schedule provision on a bill that the budget's charges line and the households' payments read. (pool item gov-fee-level-by-bill).",
-    "status": "open"
-  },
-  {
     "id": "SG-GOV-recall-counted-exposure",
     "kind": "missing-record",
     "file": "src/core2/modules/recalls.ts",
@@ -1918,18 +1894,6 @@
     "addedAt": "2026-11-04",
     "replacement": "Resolved Nov 8 (Legislation): the disaster waits as an offer (`emergencyOffers`), the state day brings it to the governor as an `emergency` entry that holds the player, and the player declares through declareEmergency or lets it pass. Was: an office-screen stop the day a federally declared disaster is recorded in the player governor's state, offering declareEmergency with the hazard record and the state's power named, or leaving it to the character.",
     "status": "resolved"
-  },
-  {
-    "id": "SG-GOV-player-favor-asked",
-    "kind": "missing-mechanic",
-    "file": "src/core2/modules/campaigns.ts",
-    "line": 6331,
-    "whatItFakes": "A colleague the player owes a favor from a deal never asks the player to repay it: their campaign skips the player when it calls in favors, because the engine never answers for the player and no scene puts the ask to them.",
-    "why": "The engine does not decide for the player; the ask needs a scene the director stages from the obligation record (Lane 3) and an answer the player gives.",
-    "addedBy": "Lane 1 (campaign-favor-called-in)",
-    "addedAt": "2026-11-04",
-    "replacement": "The colleague's campaign writes a favor-asked record naming the obligation; the director stages the ask, and the player's answer endorses (settling the obligation) or refuses.",
-    "status": "open"
   },
   {
     "id": "SG-GOV-outside-session-result-only",

@@ -113,7 +113,9 @@ type TownSeat = ReturnType<typeof townSeats>[number];
 const HEADS = DATA.levels.town.heads!;
 
 /** A local body as people say it, by the first of `bodyWords` its recorded name holds ("Clark Fork City Council" is "the council"), else its name's last word. */
-function bodySaid(office: TownSeat["office"]): string | null {
+export function bodySaid(office: {
+  readonly bodyName?: string | undefined;
+}): string | null {
   const words = (office.bodyName ?? "")
     .trim()
     .toLocaleLowerCase("en-US")

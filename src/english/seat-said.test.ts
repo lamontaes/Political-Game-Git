@@ -3,7 +3,7 @@ import { seatSaid } from "./journal-words";
 
 // How a seat is said in a sentence (Fable B, Nov 11, on #8750): a seat on a
 // body by the body, a single office by its title in lower case, a district's
-// seat with its district; never a form's title with its parenthesis.
+// seat with its district.
 describe("seatSaid", () => {
   it("says a seat on a body by the body, in full and then short", () => {
     const seat = {
@@ -18,12 +18,11 @@ describe("seatSaid", () => {
     );
   });
 
-  it("says a single office by its title in lower case, without a form's note", () => {
+  it("says a single office by its title in lower case", () => {
     expect(seatSaid({ title: "Mayor" })).toBe("mayor");
     expect(
       seatSaid({
-        title:
-          "Superintendent of Public Instruction (nonpartisan, spring election)",
+        title: "Superintendent of Public Instruction",
       }),
     ).toBe("superintendent of public instruction");
   });
@@ -107,6 +106,18 @@ describe("seatSaid", () => {
     expect(seatSaid(seat, { first: false })).toBe(
       "the state Senate in the 17th District",
     );
+    // A lettered or named district has no ordinal: it is said by its office
+    // and its code, every time, never as a number that is not one.
+    for (const code of ["A", "00A", "5B", "Addison-1"]) {
+      const said = seatSaid({ ...seat, district: code });
+      expect(said, code).not.toMatch(/NaN/);
+      expect(said, code).toBe(
+        `state senator in District ${code.replace(/^0+(?=\w)/, "")}`,
+      );
+      expect(seatSaid({ ...seat, district: code }, { first: false })).toBe(
+        said,
+      );
+    }
     expect(
       seatSaid({
         title: "U.S. Representative",

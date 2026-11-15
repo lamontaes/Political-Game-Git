@@ -71,6 +71,7 @@ import {
   partiesHere,
   partyMeetings,
   partyTie,
+  tieBeforeFiling,
   type PartyRow,
   type TieRow,
 } from "./parties";
@@ -900,6 +901,8 @@ function fileFor(
   contest: ContestRow,
   partisan: boolean,
 ): NonNullable<CandidacyDecision["filing"]> {
+  if (partisan && api.state.modules.has(PARTIES_MODULE_ID))
+    tieBeforeFiling(api, person.id);
   let party: string | null = partisan ? partyOf(api, person.id) : null;
   if (partisan && api.state.modules.has(PARTIES_MODULE_ID)) {
     const tie = partyTie(api, person.id);
@@ -1058,10 +1061,6 @@ export function weighContest(
       p.id === incumbentId) &&
     !appointed.has(p.id) &&
     ageOnDate(p.birthDate, date) >= rules.minimumAge &&
-    // The filing fee weighs in the decision: someone who cannot cover it from
-    // their own cash does not decide to run (the counter's refusal is left
-    // for the player and for money that ran out in between).
-    p.liquidMinor >= rules.feeMinor &&
     !isExplicitlyControlledPersonV1(api.state, p.id) &&
     !committed.has(p.id) &&
     !(incumbentFiled && p.id === incumbentId) &&
@@ -1407,14 +1406,14 @@ export function fileRunners(
           .filter((check) => !check.met)
           .map((check) => check.rule)
       : [];
-    table(api).put({
-      ...decision,
-      filing: {
-        status: "refused",
-        filingId: null,
-        unmet: unmet.length ? unmet : ["not-available"],
-      },
-    } as unknown as { id: string });
+    const refused: NonNullable<CandidacyDecision["filing"]> = {
+      status: "refused",
+      filingId: null,
+      unmet: unmet.length ? unmet : ["not-available"],
+    };
+    table(api).put({ ...decision, filing: refused } as unknown as {
+      id: string;
+    });
   }
   weighed.put({ ...row, filedOn: api.state.date } as unknown as {
     id: string;
@@ -1720,15 +1719,13 @@ function askBeforeWeighing(
   for (const { party, chairId, members } of partyProspects(api, contest)) {
     // The first member who has not already decided to run: an ask is for
     // someone who might be brought in.
-    // The day's weighing is the member's own: one who could not cover the
-    // fee does not weigh it, and the player answers in the scene their ask
-    // stages (after the weighing, for a party with no one filed), never in it.
-    const fee = filingRulesFor(api, contest, "party").feeMinor;
+    // The day's weighing is the member's own; the player answers in the scene
+    // their ask stages (after the weighing, for a party with no one filed),
+    // never in it.
     const person = members.find(
       (member) =>
         !decisionOf(api, contest.id, member.id)?.run &&
-        !isExplicitlyControlledPersonV1(api.state, member.id) &&
-        member.liquidMinor >= fee,
+        !isExplicitlyControlledPersonV1(api.state, member.id),
     );
     if (!person) continue;
     const recordId = `${PARTY_ASKED_EVENT}:${contest.id}:${party.id}:${person.id}`;

@@ -5,6 +5,7 @@ import { properName } from "../director/words";
 import { ageOnDate } from "../core2/kernel/dates";
 import { parameter } from "../core2/parameters";
 import { coreAPI } from "../core2/state";
+import { isFeeLevelSeries } from "../core2/fee-levels";
 import { AMOUNT_SERIES, lawHere } from "../core2/modules/laws";
 import { BUDGETS_MODULE_ID, governments } from "../core2/modules/budgets";
 import { keyPeopleOf } from "../core2/opening-key-people";
@@ -255,7 +256,8 @@ export function governmentView(core: CoreState, personId: string) {
     // has a law on, answered yes or no.
     law: lawHere(api).map((row) => ({
       series: row.series,
-      yesNo: !AMOUNT_SERIES.includes(row.series),
+      yesNo:
+        !AMOUNT_SERIES.includes(row.series) && !isFeeLevelSeries(row.series),
       // An additive tax is each level's own law; the screen lists them apart.
       additive: LAW_SERIES[row.series] === "additive",
       value: row.value,

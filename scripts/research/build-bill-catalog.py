@@ -186,6 +186,12 @@ SERIES = {
     # A state's grant of its towns' power to tax income: raised to 1 it
     # grants, lowered to 0 it withdraws (no unit; the Words row words each).
     "local-income-tax-authority": ("taxes-finance", "Taxes", "Local income tax authority", None),
+    # A fee's level as a percent of today's (src/core2/fee-levels.ts): a council
+    # or legislature sets what the people who use a service pay.
+    "fee-level:parks-and-recreation": ("taxes-finance", "Fees and charges", "Park and recreation fees", "percent of today's fee"),
+    "fee-level:sewerage-and-solid-waste": ("taxes-finance", "Fees and charges", "Sewer and trash fees", "percent of today's fee"),
+    "fee-level:hospitals": ("taxes-finance", "Fees and charges", "Public hospital charges", "percent of today's fee"),
+    "fee-level:education": ("taxes-finance", "Fees and charges", "Tuition and school fees", "percent of today's fee"),
 }
 
 

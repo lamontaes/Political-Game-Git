@@ -210,3 +210,4 @@ export function drawStateHome(
     unitOf(`${seed}:${id}:home`) * towns.reduce((sum, t) => sum + t.people, 0);
   return towns.find((t) => (at -= t.people) < 0)?.place ?? towns[0]?.place;
 }
+export { workFromHome, type CountedWork } from "./coarse-place";

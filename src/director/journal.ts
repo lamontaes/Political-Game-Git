@@ -73,7 +73,7 @@ import { moneySaid } from "../english/count-words";
 
 import { spanSaid } from "../english/span-words";
 import type { Moment } from "./types";
-import { tieSide } from "./purpose-scene";
+import { tieSide } from "./relation-facts";
 import {
   OFFICE_DAY_MODULE_ID,
   type OfficeActRow,
@@ -850,11 +850,18 @@ function sceneEndingMoments(
           // (ruling 72, a door); one given only as "I'll look at it" is told
           // as that.
           causeKind:
-            keeps === "promise" && typeof reply.facts?.about === "string"
-              ? "scene-ending:view-promise"
-              : keeps === "promise" && reply.facts?.firmness === "vague"
-                ? "scene-ending:vague-promise"
-                : `scene-ending:${keeps}`,
+            // A word given on a side (the price of a yes to serve,
+            // hold-question) is told as that side, never as a soft promise
+            // to keep a subject in mind (Words lead, Nov 15 10:58Z).
+            keeps === "promise" &&
+            typeof reply.facts?.about === "string" &&
+            reply.facts?.promise === "hold-question"
+              ? "scene-ending:side-word-for"
+              : keeps === "promise" && typeof reply.facts?.about === "string"
+                ? "scene-ending:view-promise"
+                : keeps === "promise" && reply.facts?.firmness === "vague"
+                  ? "scene-ending:vague-promise"
+                  : `scene-ending:${keeps}`,
           ...(keeps === "promise" && typeof reply.facts?.about === "string"
             ? {
                 actFacts: {

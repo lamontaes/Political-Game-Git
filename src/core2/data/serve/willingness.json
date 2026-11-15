@@ -1,5 +1,5 @@
 {
-  "about": "Whether a person the player asks to serve (a running mate first; department heads, cabinet and aides by the same read later) says yes, read from their own record and never rolled (brief J, Nov 14, 2026; owner's card 05:17Z: 'Yes, but ask again later'). The read is a sum of terms: what the seat offers someone ambitious, how well they know the player, what they would give up, how far apart the two stand on the question the asked person cares most about, and the scandal stories against the player they could have read. Yes where the sum is above zero. A no gives its reason from the term that weighs most against the ask. Real tickets are formed this way: a running mate is chosen from people who would accept and whose standing helps (Sigelman and Wahlbeck 1997, 'The Veepstakes', APSR 91(4)); prospects decline over the seat they would give up and over fit with the top of the ticket.",
+  "about": "Whether a person the player asks to serve (a running mate, a department head or a cabinet member; aides by the same read later) says yes, read from their own record and never rolled (brief J, Nov 14, 2026; owner's card 05:17Z: 'Yes, but ask again later'). The read is a sum of terms: what the seat offers someone ambitious, how well they know the player, what they would give up, how far apart the two stand on the question the asked person cares most about, and the scandal stories against the player they could have read. Yes where the sum is above zero. A no gives its reason from the term that weighs most against the ask. Real tickets are formed this way: a running mate is chosen from people who would accept and whose standing helps (Sigelman and Wahlbeck 1997, 'The Veepstakes', APSR 91(4)); prospects decline over the seat they would give up and over fit with the top of the ticket.",
   "seats": {
     "ticket": {
       "about": "A governor's running mate on the player's ticket.",
@@ -100,6 +100,100 @@
         "tag": "TUNABLE",
         "source": "Dollars raised at which that part of standing is half: $100,000, a modest early statewide treasury.",
         "spread": [2500000, 50000000]
+      },
+      "dodgeNoticed": {
+        "value": 0.01,
+        "role": "level",
+        "tag": "TUNABLE",
+        "source": "In a person's terms: the smallest drop in their willingness they would feel when the player won't say where they stand on the question that person cares most about. Below it the dodge costs them nothing they can feel, so it is not offered as a dodge (Words lead, Nov 14 21:35Z). Checked across its spread at the pinned places: Mary Conway's 0.0001 falls under every value in it, Elliott Tate's 0.26 above every one. What would replace it: what that person can actually notice on the record, namely how strongly they hold the question and how often they have spoken of it or heard it argued, so that someone who cares more notices a smaller dodge.",
+        "spread": [0.005, 0.03]
+      },
+      "promise": {
+        "value": 0.3,
+        "role": "coefficient",
+        "tag": "TUNABLE",
+        "source": "What the player's word on the question a person holds most strongly is worth to them, times how strongly they hold it (their stance's size, 0 to 1). Someone short of yes by less than that names the promise as their price (Words lead, Nov 14 05:24Z: a yes with a price). Checked across its spread at 16 drawn worlds of Santa Rita, Guam (one player each, every person offered): of 36 who would say no, 5 name a price at 0.15, 15 at 0.3 and 21 at 0.5, so at the middle a price is a minority of noes and most noes stay noes; what would replace it is how often that person has spoken of the question or heard it argued, from the record.",
+        "spread": [0.15, 0.5]
+      }
+    },
+    "post": {
+      "about": "A post the player appoints as mayor or governor: a town department head or a state cabinet member. The ticket's terms for a race (standing, long shot, own seat and own race) do not apply: the player already holds the office, and the people offered hold no seat.",
+      "base": {
+        "value": 0.1,
+        "role": "level",
+        "tag": "TUNABLE",
+        "source": "Running a department is steady public work, less of a step up than a statewide ticket; the base is the pull of the offer before pay and the job they would leave are weighed.",
+        "spread": [0, 0.3]
+      },
+      "ambition": {
+        "value": 0.4,
+        "role": "coefficient",
+        "tag": "TUNABLE",
+        "source": "Per unit of ambition (candidate-pool ambitionOf): ambitious people take a public post as a step toward office (Fox and Lawless 2005, AJPS 49(3)).",
+        "spread": [0.2, 0.7]
+      },
+      "known": {
+        "value": 0.4,
+        "role": "coefficient",
+        "tag": "TUNABLE",
+        "source": "Per unit of closeness to the player, as for the ticket: people work for someone they trust.",
+        "spread": [0.2, 0.8]
+      },
+      "stranger": {
+        "value": 0.1,
+        "role": "coefficient",
+        "tag": "TUNABLE",
+        "source": "Against the ask where neither knows the other: smaller than a ticket's, since a post is a job, not a name tied to a candidate.",
+        "spread": [0.05, 0.25]
+      },
+      "pay": {
+        "value": 0.5,
+        "role": "coefficient",
+        "tag": "TUNABLE",
+        "source": "Per unit of the pay difference (post minus their hourly pay now, over the sum, -1 to 1): a raise pulls toward yes, a cut away; someone out of work is the whole pull. A post pays what its budget line carries, so for many people it is a cut.",
+        "spread": [0.25, 0.8]
+      },
+      "ownJob": {
+        "value": 0.15,
+        "role": "coefficient",
+        "tag": "TUNABLE",
+        "source": "Against the ask where they hold a job now: they leave work they know for a post that ends with the official's term.",
+        "spread": [0.05, 0.3]
+      },
+      "apart": {
+        "value": 0.6,
+        "role": "coefficient",
+        "tag": "TUNABLE",
+        "source": "Per unit of distance (0 to 1) between their stance and the player's on the question they hold most strongly, measured from agreeAt: a head carries out the official's policy, less publicly than a running mate defends it.",
+        "spread": [0.3, 1]
+      },
+      "agreeAt": {
+        "value": 0.3,
+        "role": "level",
+        "tag": "TUNABLE",
+        "source": "The distance on their question at which it neither helps nor hurts; a little wider than a ticket's, since a head is not on stage with the player.",
+        "spread": [0.15, 0.45]
+      },
+      "heard": {
+        "value": 0.5,
+        "role": "coefficient",
+        "tag": "TUNABLE",
+        "source": "Against the ask, as stories / (stories + scale), for scandal stories against the player they heard, as for the ticket.",
+        "spread": [0.2, 0.9]
+      },
+      "heardScale": {
+        "value": 1,
+        "role": "level",
+        "tag": "TUNABLE",
+        "source": "Stories at which the scandal term is half its weight.",
+        "spread": [0.5, 2]
+      },
+      "dodgeNoticed": {
+        "value": 0.01,
+        "role": "level",
+        "tag": "TUNABLE",
+        "source": "In a person's terms: the smallest drop in their willingness they would feel when the player won't say where they stand on the question that person cares most about. Below it the dodge costs them nothing they can feel, so it is not offered as a dodge (Words lead, Nov 14 21:35Z). Checked across its spread at the pinned places: Mary Conway's 0.0001 falls under every value in it, Elliott Tate's 0.26 above every one. What would replace it: what that person can actually notice on the record, namely how strongly they hold the question and how often they have spoken of it or heard it argued, so that someone who cares more notices a smaller dodge.",
+        "spread": [0.005, 0.03]
       }
     }
   },

@@ -39,6 +39,7 @@ import { POLICY_QUESTIONS } from "../core2/policy-answers";
 import { POLICIES as REACH_A_POLICIES } from "../core2/law-reach/group-a-records";
 import { GROUP_B_KEYS } from "../core2/law-reach/group-b";
 import { jobsAt } from "../core2/law-reach/group-b-money";
+import { organizationName } from "../core2/past";
 import { lawReach } from "../core2/law-reach/applied";
 import {
   PUBLIC_EMPLOYER_CLASSES,
@@ -615,9 +616,20 @@ export class DevMode {
    * the full people it reached, the most money first. It reads only.
    */
   reach(lawId: string) {
-    const { people, ...reach } = lawReach(this.api, lawId, this.townId());
+    const { people, organizationsReached, ...reach } = lawReach(
+      this.api,
+      lawId,
+      this.townId(),
+    );
     return {
       ...reach,
+      /** The first of the organizations it reached (businesses whose price it raised, groups it paid). */
+      namedOrganizations: organizationsReached
+        .slice(0, REACH_NAMED)
+        .map((row) => ({
+          ...row,
+          name: organizationName(this.core, row.organizationId) ?? "",
+        })),
       /** The first of the full people it named; a screen lists these. */
       named: people.slice(0, REACH_NAMED).map((row) => {
         const person = this.core.people.get(row.personId)!;
@@ -670,6 +682,21 @@ export class DevMode {
       },
       addedSections: sectionsAddedTo(bill),
       sections: bill.provisions.length,
+      /**
+       * An enacted bill's budget-line sections make no law row: the treasury
+       * credits the line's change to the bill's number (`carriedMeasureOf`),
+       * and each engine that pays from the line writes its reach there.
+       */
+      budget:
+        bill.status === "enacted" &&
+        bill.provisions.some((p) => p.kind === "budget-line")
+          ? {
+              lines: bill.provisions
+                .filter((p) => p.kind === "budget-line")
+                .map((p) => ({ line: p.line ?? "", value: p.value })),
+              reach: this.reach(bill.number),
+            }
+          : null,
       laws: laws.map((row) => ({
         id: row.id,
         series: row.series,

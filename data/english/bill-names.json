@@ -633,6 +633,30 @@
       "purpose": "new terms for the corporate income tax",
       "repealName": "Corporate Tax Terms Restoration",
       "repealPurpose": "the earlier terms of the corporate income tax"
+    },
+    "law:fee-level:parks-and-recreation": {
+      "name": "Park Fee Increase",
+      "purpose": "higher park fees",
+      "repealName": "Park Fee Reduction",
+      "repealPurpose": "lower park fees"
+    },
+    "law:fee-level:sewerage-and-solid-waste": {
+      "name": "Sewer and Trash Fee Increase",
+      "purpose": "higher sewer and trash fees",
+      "repealName": "Sewer and Trash Fee Reduction",
+      "repealPurpose": "lower sewer and trash fees"
+    },
+    "law:fee-level:hospitals": {
+      "name": "Hospital Charges Increase",
+      "purpose": "higher public hospital charges",
+      "repealName": "Hospital Charges Reduction",
+      "repealPurpose": "lower public hospital charges"
+    },
+    "law:fee-level:education": {
+      "name": "Tuition Increase",
+      "purpose": "higher tuition and school fees",
+      "repealName": "Tuition Reduction",
+      "repealPurpose": "lower tuition and school fees"
     }
   },
   "list": {

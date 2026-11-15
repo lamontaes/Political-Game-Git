@@ -73,7 +73,9 @@ const RECORD_BRIEFS: ReadonlySet<string> = new Set(briefs.recordOutletOnly);
  * A month the town's own record puts well over its usual: the usual rests on
  * enough months and chance rarely gives a month this busy (the wire item's
  * `busier`). The one case an outlet that is not the town's paper of record
- * runs the town's own log, in its own words.
+ * runs the town's own log, in its own words, and only when the town's share
+ * of its audience leaves it room (`levelRoom`), so a market station does not
+ * carry a village's busy month.
  */
 function wellOverUsual(item: {
   readonly facts?: Readonly<Record<string, unknown>>;
@@ -109,6 +111,8 @@ const MEETING_KIND = "public-meeting";
 const NOTICE_KIND = "election-notice";
 /** A reader's letter to the editor (the press's weekly letters step). */
 const LETTER_KIND = "press.letter";
+/** An endorsement kept and announced; the outlet's own prints in its own pages. */
+const ENDORSED_KIND = "campaign-endorsed";
 /** The week's sittings that took up nothing, printed as one brief. */
 export const MEETINGS_WEEK_KIND = "meetings-week";
 
@@ -203,11 +207,19 @@ export interface DeskContext {
   /** The town's counted residents who follow an outlet. */
   readonly countedFollowers: (outlet: DeskOutlet) => number;
   /**
-   * Whether this outlet is the town's paper of record: the local outlet with
-   * the widest audience (where a legal notice runs). Absent, every outlet is.
+   * Whether this outlet is the town's outlet of record (`townOutlet`: its own
+   * paper, else the local outlet most of the town follows), where a legal
+   * notice runs. Absent, every outlet is.
    */
   readonly paperOfRecord?: (outlet: DeskOutlet) => boolean;
   readonly save: (story: PrintedStory) => void;
+  /**
+   * The stories of each level an outlet has room for this week, which the
+   * desk spends as it prints: a level that is a sliver of the outlet's
+   * audience (a village at a market's station) has room only now and then.
+   * Absent, every level has all the outlet's space.
+   */
+  readonly levelRoom?: (outlet: DeskOutlet) => Map<WireLevel, number>;
 }
 
 const clamp = (x: number, lo = -1, hi = 1) => Math.max(lo, Math.min(hi, x));
@@ -906,8 +918,27 @@ export function runDesk(
   const letters = open.filter(
     (item) => item.kind === LETTER_KIND && item.facts?.outletId === outlet.id,
   );
+  // The outlet's own endorsement is news of its own pages, filed under its
+  // head's name: printed after the column, as a letter is, never a
+  // reporter's pick. It is told as news of the endorsement, not an editorial
+  // in the paper's voice (Words lead, Nov 15; item
+  // words-paper-endorsement-in-its-own-voice). It is the race's endorsement
+  // story at this outlet that week, so no group's endorsement of the same
+  // race takes its place (Marshfield, Massachusetts, seed 75d9b7ad: five
+  // papers' endorsements went unprinted behind cause groups' of the same
+  // races, Sep 29 to Oct 8, 2025).
+  const ownEndorsements = open.filter(
+    (item) =>
+      item.kind === ENDORSED_KIND &&
+      item.facts?.organizationId === outlet.organizationId,
+  );
   const base = open
-    .filter((item) => !told.has(item.id) && item.kind !== LETTER_KIND)
+    .filter(
+      (item) =>
+        !told.has(item.id) &&
+        item.kind !== LETTER_KIND &&
+        !ownEndorsements.includes(item),
+    )
     .map((item) => ({
       item,
       proximity: p(
@@ -935,8 +966,16 @@ export function runDesk(
   // 3c91e07a5d2f8b14:agree:0, printed council seats 0 and 2 of one race).
   const bills = new Set<string>();
   // The races whose money or backing this outlet has told this week.
-  const racesTold = new Set<string>();
+  const racesTold = new Set<string>(
+    ownEndorsements.flatMap((item) => raceTold(item) ?? []),
+  );
   const out: PrintedStory[] = [];
+  const room = ctx.levelRoom?.(outlet);
+  const hasRoom = (item: Pick<WireItem, "level">) =>
+    !room || (room.get(item.level) ?? 1) >= 1;
+  const spend = (item: Pick<WireItem, "level">) => {
+    if (room?.has(item.level)) room.set(item.level, room.get(item.level)! - 1);
+  };
   for (const reporterId of outlet.reporterIds) {
     if (!api.state.people.get(reporterId)?.alive) continue;
     // Briefs are the column's, never a reporter's story.
@@ -981,6 +1020,9 @@ export function runDesk(
     for (const row of scored) {
       if (rank >= count) break;
       if (taken.has(row.item.id)) continue;
+      // The space a level's stories have at this outlet: the rest of the
+      // week goes to the levels its audience is more of.
+      if (!hasRoom(row.item)) continue;
       rank += 1;
       // A local body's sitting is covered whole: the reporter who files one
       // of its votes files the others it took that day, one story a bill, as
@@ -1013,6 +1055,7 @@ export function runDesk(
         );
         if (bills.has(billId)) continue;
         bills.add(billId);
+        spend(one.item);
         out.push(
           printItem(api, ctx, outlet, reporterId, one.item, {
             proximity: one.proximity,
@@ -1062,10 +1105,14 @@ export function runDesk(
             p("storyRenownWeight") * row.renown),
       }))
       .sort((a, b) => b.score - a.score || tieOrder(a.item, b.item));
-    const space = Math.min(p("briefsPerOutletWeek"), column.length);
-    for (let rank = 0; rank < space; rank += 1) {
-      const row = column[rank]!;
+    const space = p("briefsPerOutletWeek");
+    let rank = 0;
+    for (const row of column) {
+      if (rank >= space) break;
+      if (!hasRoom(row.item)) continue;
+      rank += 1;
       taken.add(row.item.id);
+      spend(row.item);
       out.push(
         printItem(api, ctx, outlet, filer, row.item, {
           proximity: row.proximity,
@@ -1074,7 +1121,7 @@ export function runDesk(
           renown: row.renown,
           drive: 0,
           score: row.score,
-          rank: rank + 1,
+          rank,
           weighed: column.length,
         }),
       );
@@ -1091,8 +1138,9 @@ export function runDesk(
     const bodies = [
       ...new Set(sat.flatMap((item) => item.facts?.officeId ?? [])),
     ];
-    if (bodies.length) {
+    if (bodies.length && hasRoom({ level: "town" })) {
       const proximity = p(PROXIMITY.town);
+      spend({ level: "town" });
       out.push(
         printItem(
           api,
@@ -1136,6 +1184,10 @@ export function runDesk(
   for (const item of letters) {
     const writer = item.subjectIds[0];
     if (!writer || !api.state.people.get(writer)?.alive) continue;
+    // A county paper prints the town's letters in the town's share of its
+    // readers, as it does the town's stories.
+    if (!hasRoom(item)) continue;
+    spend(item);
     const proximity = p(PROXIMITY.town);
     out.push(
       printItem(
@@ -1162,6 +1214,36 @@ export function runDesk(
           },
           facts: { [VIEWS_SPEAKER_KEY]: writer },
         },
+      ),
+    );
+  }
+  // The outlet's own endorsements of the week, under the name of
+  // the head who weighed the race, its readers moved by their standing with
+  // them.
+  for (const item of ownEndorsements) {
+    const head = item.facts?.speakerId;
+    if (!head || !api.state.people.get(head)?.alive) continue;
+    const proximity = p(
+      (outlet.tier === "national" ? NATIONAL_PROXIMITY : PROXIMITY)[item.level],
+    );
+    out.push(
+      printItem(
+        api,
+        ctx,
+        outlet,
+        head,
+        item,
+        {
+          proximity,
+          readerCare: 0,
+          people: 0,
+          renown: 0,
+          drive: 0,
+          score: proximity,
+          rank: 1,
+          weighed: ownEndorsements.length,
+        },
+        { facts: { [VIEWS_SPEAKER_KEY]: head } },
       ),
     );
   }

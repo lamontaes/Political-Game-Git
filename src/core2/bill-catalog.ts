@@ -9,6 +9,7 @@
  * warning or block). `provisionFor` turns a pick and an operation into a bill
  * provision. Outcomes never appear in the drafting controls.
  */
+import type { EntityId } from "./kernel/brands";
 import type { GovernmentLevel } from "./government-level";
 import catalog from "./data/legislature/bill-catalog.json" with { type: "json" };
 import type { CoreAPI } from "./types";
@@ -20,6 +21,17 @@ import {
 } from "./modules/legislature";
 import { billLevelJurisdiction, billValueInForce } from "./modules/laws";
 import { policyAuthority } from "./modules/laws";
+import {
+  budgetsOf,
+  chargedServicesOf,
+  governmentOfJurisdiction,
+} from "./modules/budgets";
+import { localInstitutionsFor } from "./reference/local-institutions";
+import {
+  FEE_LEVEL_RUNS,
+  FEE_LEVEL_SERVICES,
+  isFeeLevelSeries,
+} from "./fee-levels";
 
 export type Operation =
   "raise" | "lower" | "expand" | "restrict" | "enact" | "repeal";
@@ -41,6 +53,11 @@ export interface DraftablePolicy extends CatalogPolicy {
   readonly inForce: number | null;
   readonly inForceRecordId: string | null;
   readonly inForceUnit: string | null;
+  /** For a fee: what the government's charge for it brings in over a year, and for sewer and trash what a home pays a month. */
+  readonly charge?: {
+    readonly yearlyMinor: number;
+    readonly perHomeMonthMinor: number | null;
+  };
   readonly authority: Authority;
 }
 
@@ -70,6 +87,38 @@ export function billCatalog(
   level: Level,
   jurisdiction: string = billLevelJurisdiction(api, level),
 ): readonly CatalogMenu[] {
+  const government = governmentOfJurisdiction(api, jurisdiction);
+  const charged = new Map(
+    (government ? chargedServicesOf(api, government.id) : []).map((c) => [
+      c.service,
+      c,
+    ]),
+  );
+  // A government is offered a fee only where its records show it runs the thing: its charges row
+  // holds the service and, where a facility is needed, its own budget spends on it.
+  const spending = government
+    ? budgetsOf(api, government.id)
+        .filter((b) => b.startsOn <= api.state.date)
+        .sort((a, b) => b.startsOn.localeCompare(a.startsOn))[0]?.spendingMinor
+    : undefined;
+  const charges = {
+    has: (service: string) => {
+      if (!charged.has(service)) return false;
+      const runs = FEE_LEVEL_RUNS[service];
+      if (runs === null || runs === undefined) return runs === null;
+      if (!runs.some((line) => (spending?.[line] ?? 0) > 0)) return false;
+      // A town or county is offered hospital charges only where a hospital stands in its place
+      // (who owns it is not recorded yet: pool item gov-fee-facility-record-for-tolls-and-parking).
+      return !(
+        service === "hospitals" &&
+        government &&
+        government.level !== "state" &&
+        !localInstitutionsFor(
+          government.jurisdictionId as EntityId,
+        ).hospitals.some((row) => row.kind === "hospital")
+      );
+    },
+  };
   return subjects.map((subject) => ({
     id: subject.id,
     name: subject.name,
@@ -78,6 +127,13 @@ export function billCatalog(
       supported: topic.supported,
       policies: topic.policies
         .filter((p) => p.levels.includes(level))
+        // A fee is offered only where that government's own charges row holds
+        // the service it sets (a government with no toll is not offered one).
+        .filter(
+          (p) =>
+            !(p.series && isFeeLevelSeries(p.series)) ||
+            charges.has(FEE_LEVEL_SERVICES[p.series]!),
+        )
         .map((p) => {
           const provision = {
             kind: p.kind,
@@ -88,8 +144,20 @@ export function billCatalog(
             value: 1,
           } as Provision;
           const inForce = billValueInForce(api, provision, jurisdiction);
+          const fee =
+            p.series && isFeeLevelSeries(p.series)
+              ? charged.get(FEE_LEVEL_SERVICES[p.series]!)
+              : undefined;
           return {
             ...p,
+            ...(fee
+              ? {
+                  charge: {
+                    yearlyMinor: fee.yearlyMinor,
+                    perHomeMonthMinor: fee.perHomeMonthMinor,
+                  },
+                }
+              : {}),
             inForce: inForce.value,
             inForceRecordId: inForce.recordId,
             inForceUnit: inForce.unit,

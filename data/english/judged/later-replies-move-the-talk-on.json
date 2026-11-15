@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "later-replies-move-the-talk-on",
   "rubric": "After the first exchange the replies offered do not rehash the first options; they move the talk on.",
-  "judged": 1139,
+  "judged": 1008,
   "no": {
     "00084oe3x4o": {
       "keys": [
@@ -1220,22 +1220,6 @@
       ],
       "why": "All three replies restate first options: offering to explain, apologizing and declining to say more."
     },
-    "0ku9my2hj94": {
-      "keys": [
-        "scene-talk.follow-press.written-answers-get-written-headlines-do-you-deny-it-or-not",
-        "scene-talk.reply-answer.my-vote-on-bill-was-my-own-ask-anyone-who-sat-in-the-room",
-        "scene-talk.reply-deflect.i-ll-answer-in-writing-once-i-ve-talked-to-the-people-named",
-        "scene-talk.reply-refuse.not-until-i-ve-seen-what-you-plan-to-print-send-it-to-my-office",
-        "scene-talk.reply-confront.you-printed-one-side-already-print-mine-this-time-whole",
-        "scene-talk.reply-lie.i-knew-nothing-about-it-until-you-called",
-        "scene-talk.reply-answer.all-right-plainly-i-stand-by-it",
-        "scene-talk.reply-refuse.i-can-t-discuss-it-while-it-s-still-being-looked-at-ask-me-after",
-        "scene-talk.reply-confront.show-me-what-you-have-and-then-i-ll-answer",
-        "scene-talk.reply-leave.not-here-call-my-office-and-they-ll-set-a-time-to-go-through-it",
-        "scene-talk.reply-lie.none-of-it-is-true-i-ve-never-seen-that-money"
-      ],
-      "why": "Pressed \"do you deny it or not,\" most replies replay the openers: \"Show me what you have\" rewords not-until-I've-seen, \"Call my office\" rewords send-it-to-my-office, and \"None of it is true\" rewords \"I knew nothing about it.\""
-    },
     "0kvoy7d64xy": {
       "keys": [
         "scene-talk.follow-press.deflect-all-you-like-ill-be-around-when-youre-done-deflecting",
@@ -2427,20 +2411,6 @@
       ],
       "why": "The replies offered now restate the first replies' apology, push-back and walk-away in new words, so the talk does not move on."
     },
-    "15skb09pwec": {
-      "keys": [
-        "scene-talk.follow-answer.two-and-they-re-both-opponent-s-even-if-we-took-every-vote-it-s-not-en",
-        "scene-talk.reply-agree.dial-it-i-ll-keep-it-short",
-        "scene-talk.reply-ask.what-s-still-out-tell-me-the-precincts",
-        "scene-talk.reply-refuse.i-m-not-calling-anybody-until-the-county-certifies-it",
-        "scene-talk.reply-stall.give-me-ten-minutes-alone-first",
-        "scene-talk.reply-agree.then-let-s-do-it-right-get-them-on-the-line",
-        "scene-talk.reply-refuse.then-it-s-close-enough-to-wait-for-the-last-count",
-        "scene-talk.reply-stall.let-me-talk-to-the-volunteers-first",
-        "scene-talk.reply-leave.i-need-some-air-before-i-do-either"
-      ],
-      "why": "'Get them on the line', 'wait for the last count' and 'I need some air' reword 'Dial it', the certify wait and 'ten minutes alone', three of four."
-    },
     "168ef32uudj": {
       "keys": [
         "scene-talk.follow-press.write-it-down-so-you-don-t-lose-it-please",
@@ -2669,20 +2639,6 @@
         "scene-talk.reply-confront.pressed.you-think-i-m-hiding-money-i-m-drowning-just-like-you-are"
       ],
       "why": "Most of the replies offered now restate the first replies' apology, excuse, push-back or stopping point in new words."
-    },
-    "1athb2eqm9b": {
-      "keys": [
-        "scene-talk.follow-press.then-tell-us-it-will-last-not-just-that-youre-glad",
-        "scene-talk.reply-agree.happy-to-thank-you-for-asking-me",
-        "scene-talk.reply-thank.thank-you-for-coming-out-it-means-a-lot-to-see-this",
-        "scene-talk.reply-promise.thank-you-ill-keep-working-to-make-it-last",
-        "scene-talk.reply-deflect.you-did-this-not-me-ill-stay-at-the-back",
-        "scene-talk.reply-agree.lead-the-way-id-like-to-say-something",
-        "scene-talk.reply-promise.better-doesnt-mean-done-ill-keep-at-it",
-        "scene-talk.reply-thank.thank-you-all-i-didnt-expect-a-crowd",
-        "scene-talk.reply-leave.i-have-to-go-thank-you-all-for-this"
-      ],
-      "why": "Agreeing to speak, promising to keep at it and thanking the crowd reword three of the first four replies."
     },
     "1b18tyz8w5p": {
       "keys": [
@@ -4667,5 +4623,5 @@
       "why": "Two of three replies restate first options: the denial of any payment repeats the first denial, and declining to discuss it repeats having to go."
     }
   },
-  "yesHash": "1pome8i1yjn"
+  "yesHash": "0etlok9c23p"
 }

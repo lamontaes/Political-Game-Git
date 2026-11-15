@@ -22,10 +22,12 @@ import {
   budgetWorldShares,
   BUDGETS_MODULE_ID,
   governments,
+  governmentOfJurisdiction,
   type GovernmentRow,
 } from "./modules/budgets";
 import { registerWorldMapPart } from "./snapshot";
-import { lawChain } from "./modules/laws";
+import { lawChain, lawInForce } from "./modules/laws";
+import { FEE_LEVEL_BASELINE, FEE_LEVEL_SERVICES } from "./fee-levels";
 import { monthlyLivingCostMinor, residentsRuntime } from "./modules/residents";
 import type { ModuleRow } from "./module-data";
 import type { CoreAPI, CoreState } from "./types";
@@ -72,6 +74,8 @@ export interface ServiceChargeShareRow {
   readonly share: number;
   readonly tag: "SOURCED" | "ESTIMATED";
   readonly services: readonly { service: string; share: number }[];
+  /** What the government's charges bring in over a year at the fees in force, here and elsewhere. */
+  readonly annualMinor: number;
   /** Sewer and trash for one month, flat per dwelling (a full household or a counted one); the rest is the uniform share. */
   readonly sewerPerDwellingMinor: number;
   /** The same service for one firm (its weight times a dwelling's). */
@@ -201,6 +205,55 @@ function servicesOf(
 }
 
 /**
+ * What a government charges for, by service, with what each brings in over a
+ * year at the fees in force; the sewer and trash line also says what a home
+ * pays a month. The services are the ones the government's charges row holds
+ * (a service the row does not hold is not offered to a bill). Read by the bill
+ * paper's Fees and charges list.
+ */
+export function chargedServicesOf(
+  api: CoreAPI,
+  governmentId: string,
+): readonly {
+  service: string;
+  yearlyMinor: number;
+  perHomeMonthMinor: number | null;
+}[] {
+  const row = serviceChargeShares(api).find(
+    (r) => r.governmentId === governmentId,
+  );
+  if (!row) return [];
+  return row.services.map(({ service, share }) => ({
+    service,
+    yearlyMinor: Math.round(row.annualMinor * share),
+    perHomeMonthMinor:
+      service === SEWER && row.sewerPerDwellingMinor > 0
+        ? row.sewerPerDwellingMinor
+        : null,
+  }));
+}
+
+/**
+ * The fee levels in force for a government, by service, as a multiplier of
+ * the schedule its budget assumes: the law row of the fee series that this
+ * government's level set (a bill's enactment), read as it stands today.
+ */
+function feeLevels(api: CoreAPI, gov: GovernmentRow): Map<string, number> {
+  const out = new Map<string, number>();
+  for (const [series, service] of Object.entries(FEE_LEVEL_SERVICES)) {
+    const row = lawInForce(api, series).levels.find(
+      (l) =>
+        l.row &&
+        !l.setAside &&
+        governmentOfJurisdiction(api, l.jurisdiction)?.id === gov.id,
+    )?.row;
+    if (row && row.value !== null && row.value !== undefined && row.value >= 0)
+      out.set(service, row.value / FEE_LEVEL_BASELINE);
+  }
+  return out;
+}
+
+/**
  * Work out each government's part of the town's living cost for the next
  * month, from its budget in force and the households' living costs, and hand
  * it to the residents engine. Run when the treasuries open, at each close,
@@ -228,10 +281,28 @@ export function syncServiceCharges(api: CoreAPI): void {
   const months = treasuryParameter("monthsPerYear");
   for (const gov of governments(api)) {
     if (gov.level === "federal") continue;
-    // A charge's level is the budget's charges line; no bill sets a fee.
-    api.stopgap("SG-GOV-fee-level-by-bill");
-    const annual = budgetInForce(api, gov.id)?.revenueMinor.chargesAndFees ?? 0;
-    const { tag, services } = servicesOf(api, chain.stateKey, gov);
+    const planned =
+      budgetInForce(api, gov.id)?.revenueMinor.chargesAndFees ?? 0;
+    const base = servicesOf(api, chain.stateKey, gov);
+    const { tag } = base;
+    // A bill sets each fee's level, a percent of the schedule the budget's
+    // charges line assumes (100 with no bill): the service's users pay that
+    // level, so the mix of what is charged and the charges line follow it.
+    const levels = feeLevels(api, gov);
+    const weighted = base.services.map(({ service, share }) => ({
+      service,
+      share: share * (levels.get(service) ?? 1),
+    }));
+    const weight0 = base.services.reduce((n, s) => n + s.share, 0);
+    const weight1 = weighted.reduce((n, s) => n + s.share, 0);
+    const annual = weight0 > 0 ? (planned * weight1) / weight0 : planned;
+    const services =
+      weight1 > 0
+        ? weighted.map(({ service, share }) => ({
+            service,
+            share: share / weight1,
+          }))
+        : base.services;
     // The people the town models pay their part; the rest of what the
     // government's residents pay stays the outside account's.
     const residents =
@@ -253,6 +324,7 @@ export function syncServiceCharges(api: CoreAPI): void {
       organizationId: gov.organizationId,
       date: api.state.date,
       modeledShare,
+      annualMinor: Math.round(annual),
       targetMonthlyMinor: target,
       livingMonthlyMinor: living,
       share:

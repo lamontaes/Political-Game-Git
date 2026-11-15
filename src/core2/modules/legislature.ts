@@ -280,6 +280,13 @@ export interface BillRow {
   }[];
   /** The other chamber's sitting the bill is booked on, once one chamber passed it. */
   readonly nextChamberOn?: string;
+  /**
+   * The floor week the floor leader put the bill on the calendar for when it
+   * was introduced to a sitting legislature. The date holds: the pace is
+   * worked out again each week, but a bill calendared keeps its week, and
+   * later bills take the weeks after it.
+   */
+  readonly floorOn?: string;
   /** Sections of an enacted bill that only repeated law already made: no new law row, the row they repeat named. */
   readonly repeats?: readonly (SettledQuestion & {
     readonly question: string;
@@ -1803,7 +1810,7 @@ function billLevel(api: CoreAPI, bill: BillRow): LawLevel {
  * section with no date of its own takes effect with the bill, before any
  * dated step; of two on one date, the later in the bill's text.
  */
-function billStances(
+export function billStances(
   api: CoreAPI,
   bill: BillRow,
 ): readonly {
@@ -2665,7 +2672,26 @@ export function draftBill(
       publicRecord: true,
       facts: { billId: titled.id, number: titled.number },
     });
+  // The floor leader of a sitting legislature puts the bill on the calendar the
+  // day it is introduced, so the date its paper names is the date it gets.
+  const on = floorCalendarer?.(api, titled.id) ?? null;
+  if (on) {
+    titled = {
+      ...(table(api, "bills").get(titled.id) as unknown as BillRow),
+      floorOn: on,
+    } as typeof titled;
+    table(api, "bills").put(titled as unknown as ModuleRow);
+  }
   return titled;
+}
+
+let floorCalendarer: ((api: CoreAPI, billId: string) => string | null) | null =
+  null;
+/** The engine that keeps the floor leaders' calendars says which week a newly introduced bill goes on. */
+export function registerFloorCalendarer(
+  calendarer: (api: CoreAPI, billId: string) => string | null,
+): void {
+  floorCalendarer = calendarer;
 }
 
 /**
@@ -4340,6 +4366,9 @@ export interface ObligationRow {
   /** The record that called it in (an endorsement given), and when. */
   readonly settledBy?: string;
   readonly settledOn?: string;
+  /** The record that refused it (the debtor's no when it was called in), and when: a refused favor is not called in again. */
+  readonly refusedBy?: string;
+  readonly refusedOn?: string;
 }
 
 /** The favors still owed to a person: the deals they took that the sponsor has not repaid (campaign-favor-called-in). */
@@ -4349,7 +4378,7 @@ export function obligationsOwedTo(
 ): readonly ObligationRow[] {
   if (!api.state.modules.has(LEGISLATURE_MODULE_ID)) return [];
   return (table(api, "obligations").rows() as unknown as ObligationRow[])
-    .filter((o) => o.owedTo === personId && !o.settled)
+    .filter((o) => o.owedTo === personId && !o.settled && !o.refusedOn)
     .sort((a, b) => a.id.localeCompare(b.id));
 }
 
@@ -4376,6 +4405,25 @@ export function settleObligation(
     settled: true,
     settledBy: recordId,
     settledOn: api.state.date,
+    // A no given up on the same day is no longer a refusal.
+    refusedBy: undefined,
+    refusedOn: undefined,
+  } as unknown as ModuleRow);
+}
+
+/** A favor called in and refused: the debtor's no, kept on the ledger, so no campaign calls it in again. */
+export function refuseObligation(
+  api: CoreAPI,
+  obligationId: string,
+  recordId: string,
+): void {
+  const row = table(api, "obligations").get(obligationId) as unknown as
+    ObligationRow | undefined;
+  if (!row || row.settled || row.refusedOn) return;
+  table(api, "obligations").put({
+    ...row,
+    refusedBy: recordId,
+    refusedOn: api.state.date,
   } as unknown as ModuleRow);
 }
 

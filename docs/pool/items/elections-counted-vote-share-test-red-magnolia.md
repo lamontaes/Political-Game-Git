@@ -34,3 +34,5 @@ claimed-at:
 **Waits on.** Nothing.
 
 **Files.** src/core2/counted-vote-share.test.ts, src/core2/modules/voting.ts
+
+Nov 15 (views thread): still red on the train at ff9703d7 with GOLDEN_PATH_SEED=677b2a035fef1f4f, at Clyde Park, Montana (3015550), world seed c777ff85: in contest:seat:gus2025:169466:council:0:2025-11-04, record person_03a575eda173eaaf for person_0e4c0b3cdbd4be63 has a kept split of 1 where the formula gives 0.40.

@@ -1577,6 +1577,13 @@
       "source": "How strong the pull must be, before personality, for someone who knows a candidate and heard they filed to offer to help unasked: the same reasons as an ask (warmth, closeness, family, against work hours) against this bar instead of the ask's. Set where about one in ten of a candidate's ties who hear of the filing offer (campaign guides put a local candidate's first volunteers among friends and family, docs/research/words-scenes-2026-10-26.md section 1); checked by src/director/campaign-season.test.ts, which prints the share.",
       "spread": [-0.5, 1]
     },
+    "rivalWordMovedALot": {
+      "role": "level",
+      "value": 0.002,
+      "tag": "TUNABLE",
+      "source": "How far a rival's message must move the person who passed word of it on, toward the rival's case, for them to say it moved them a lot and not a little. Set where about one message in eight did so over three played places (Millston WI, Patricksburg IN and Grafton VT: moves from 0.0001 to 0.003, most under 0.001; the views engine's ceiling for one campaign message is stanceStep 0.1 times adViewsImpulse 0.15). Only picks which of two honest wordings the teller uses; nothing in the world reads it. Checked by src/director/rival-word-record.test.ts.",
+      "spread": [0.001, 0.003]
+    },
     "rivalWordDays": {
       "value": 7,
       "tag": "TUNABLE",
