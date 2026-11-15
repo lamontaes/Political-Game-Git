@@ -199,6 +199,21 @@ describe("bill names", () => {
         budgetFor: { governmentId: "government:x", fiscalYear: 2025 },
       })?.title,
     ).toBe("Budget Ordinance");
+    // The aid and catch-all lines have names of their own.
+    expect(
+      billTitleOf({
+        form,
+        provisions: [{ kind: "budget-line", line: "localAid", value: -62134 }],
+      })?.title,
+    ).toBe("Aid to Other Governments Reduction Ordinance");
+    expect(
+      billTitleOf({
+        form,
+        provisions: [
+          { kind: "budget-line", line: "otherPrograms", value: 500 },
+        ],
+      })?.title,
+    ).toBe("Other Programs Funding Increase Ordinance");
     expect(police?.reverses).toBe(false);
     expect(parks?.reverses).toBe(true);
     // A line with no authored name, or a request carried at its enacted
@@ -206,7 +221,7 @@ describe("bill names", () => {
     expect(
       billTitleOf({
         form,
-        provisions: [{ kind: "budget-line", line: "localAid", value: -62134 }],
+        provisions: [{ kind: "budget-line", line: "interest", value: -62134 }],
       })?.title,
     ).toBe("Budget Ordinance");
     expect(
