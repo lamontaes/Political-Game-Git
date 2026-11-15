@@ -708,7 +708,6 @@ async function act(path) {
       else if (office.reasonKey === "office-day.desk") await atDesk();
       else if (
         office.reasonKey === "office-day.executive-order" ||
-        office.reasonKey === "office-day.emergency" ||
         office.reasonKey === "office-day.state-of-the-state" ||
         office.reasonKey === "office-day.own-hearing" ||
         office.reasonKey === "office-day.appointment" ||
@@ -1116,15 +1115,13 @@ function atOrders() {
                 ? words[`hearing-${how}`]
                 : item.kind === "address"
                   ? words[`address-${how}`]
-                  : item.kind === "emergency"
-                    ? words[`emergency-${how}`]
-                    : item.kind === "post"
-                      ? words[`post-${how}`]
-                      : item.kind === "budget"
-                        ? words[`budget-${how}`]
-                        : how === "issue" && item.revoke
-                          ? words.revoke
-                          : words[how];
+                  : item.kind === "post"
+                    ? words[`post-${how}`]
+                    : item.kind === "budget"
+                      ? words[`budget-${how}`]
+                      : how === "issue" && item.revoke
+                        ? words.revoke
+                        : words[how];
           return plate(
             item.kind === "request" || item.kind === "joint"
               ? words[item.kind]
@@ -1132,11 +1129,9 @@ function atOrders() {
                 ? words.hearing
                 : item.kind === "address"
                   ? words.address
-                  : item.kind === "emergency"
-                    ? words.emergency
-                    : item.kind === "budget"
-                      ? words.budget
-                      : (item.name ?? ""),
+                  : item.kind === "budget"
+                    ? words.budget
+                    : (item.name ?? ""),
             ...picker,
             ...lines,
             buttonRow(
@@ -6146,6 +6141,16 @@ const sheets = {
           ...group("fullHere", d.fullInTown),
           ...group("fullElsewhere", d.fullElsewhere),
           ...group("counted", d.counted),
+          ...(d.organizations?.count
+            ? [
+                row(
+                  fill(w.organizations, {
+                    n: d.organizations.count.toLocaleString("en-US"),
+                  }),
+                  roundedMoney(d.organizations.amountMinor),
+                ),
+              ]
+            : []),
           ...d.named.map((p) =>
             row(
               p.name,
@@ -6157,6 +6162,9 @@ const sheets = {
               ].join(" · "),
             ),
           ),
+          ...(d.namedOrganizations ?? [])
+            .filter((o) => o.name)
+            .map((o) => row(o.name, roundedMoney(o.amountMinor))),
         ];
       });
       return [stripSection(5, w.title, ...nodes)];

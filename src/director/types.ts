@@ -212,7 +212,9 @@ export interface KeptPromise {
   /** The day its window closes. */
   dueOn: IsoDate;
   billId?: string;
-  /** The side promised on a bill: 1 for, -1 against. */
+  /** The policy question promised on (a `hold-question` promise). */
+  question?: string;
+  /** The side promised on a bill or a question: 1 for, -1 against. */
   side?: number;
   /** The meeting promised to come to (office-day's meetings), for an "attend" promise. */
   meetingId?: string;
