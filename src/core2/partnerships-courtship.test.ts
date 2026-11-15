@@ -7,6 +7,8 @@ import { advanceCore } from "./life";
 import { moduleState } from "./module-state";
 import { addDays, ageOnDate, makeIsoDate } from "./kernel/dates";
 import { closenessBetween } from "./closeness";
+import { meetInTalk } from "./encounters";
+import { partnerAgeLikelihood } from "./opening-partnership";
 import {
   askOut,
   canAsk,
@@ -94,7 +96,8 @@ function world() {
     },
     facts: { union: "dating" },
   });
-  return { core, api, me, singles: singlesKnown(), taken, where };
+  const free = pool.filter((row) => row !== taken && row !== theirs);
+  return { core, api, me, singles: singlesKnown(), free, taken, where };
 }
 
 describe("the player's own courtship acts (Pulaski, Ohio)", () => {
@@ -118,23 +121,76 @@ describe("the player's own courtship acts (Pulaski, Ohio)", () => {
   }, 120_000);
 
   it("asks out someone the player has spent time with: a yes starts them dating, then a proposal is answered", () => {
-    const { core, api, me, singles, where } = world();
-    const born = core.people.get(me)!.birthDate;
-    // The single nearest the player's age (Samantha, born 2001, at this
-    // seed); first asked cold, then after twenty evenings spent together
-    // (the visits the card's Visit act writes, as the closeness engine's own
-    // "visit" contact). Asked at the first rise in closeness, she still says
-    // no, reason age-gap: a single she knows fits her age better, and the
-    // player's tie is not yet enough to outweigh it. Twenty evenings are.
-    const other = [...singles].sort(
-      (a, b) =>
-        Math.abs(Date.parse(a.birthDate) - Date.parse(born)) -
-          Math.abs(Date.parse(b.birthDate) - Date.parse(born)) ||
-        a.id.localeCompare(b.id),
+    const { core, api, me, free, where } = world();
+    const player = core.people.get(me)!;
+    const today = makeIsoDate(core.date);
+    const ageOf = (born: string) => ageOnDate(makeIsoDate(born), today);
+    const gender = (row: { looks?: { gender?: string } }) =>
+      row.looks?.gender === "female" || row.looks?.gender === "male"
+        ? row.looks.gender
+        : undefined;
+    // The single in town whose age fits the player best, as they would weigh
+    // the player (the engine's own age fit); who that is moves with the
+    // world's draw, so it is found, not named. If the two have not met, they
+    // meet the way a talk meets them (the encounters engine's writer). First
+    // asked cold, then after twenty evenings spent together (the visits the
+    // card's Visit act writes, as the closeness engine's own "visit"
+    // contact). Twenty evenings outweigh the cold no.
+    //
+    // The premise before (to Nov 15): the single the player already knew
+    // nearest their age (Samantha, born 2001, for a player born 2007) said no
+    // for the age gap cold and yes after twenty evenings. The Train's later
+    // changes moved the draw: at 18 the player now knows five singles, born
+    // 1958, 1960, 1966, 1977 and 1993, and the nearest (born 1993) fits him at
+    // 121 against 4,317 for her best other single, so no time together turns
+    // it. The engine's rule is unchanged; who is asked is now found by fit
+    // (Account lead's yes, Nov 15).
+    const fitFor = (row: (typeof free)[number]) =>
+      partnerAgeLikelihood(
+        ageOf(row.birthDate),
+        gender(row),
+        ageOf(player.birthDate),
+        gender(player),
+      );
+    const other = [...free].sort(
+      (a, b) => fitFor(b) - fitFor(a) || a.id.localeCompare(b.id),
     )[0]!;
+    meetInTalk(
+      api,
+      me,
+      other.id,
+      player.placeId,
+      1,
+      `talk:${core.date}:${me}:${other.id}`,
+    );
     const cold = askOut(api, me, other.id);
     const answers = [`cold: ${cold.answer} ${cold.reason ?? ""}`];
-    if (cold.answer === "no") {
+    // Both halves are the proof: a cold ask is refused, and the same person
+    // says yes after time together. Asked cold, the best-fitting single knows
+    // another single who fits as well and is closer: the no is barely-know.
+    expect(
+      [cold.answer, cold.reason],
+      `${where}: ${other.givenName} cold`,
+    ).toEqual(["no", "barely-know"]);
+    // The age gap: the single whose age fits the player least (but at all),
+    // met the same way and asked cold, says no for the age gap.
+    const far = [...free]
+      .filter((row) => row !== other && fitFor(row) > 0)
+      .sort((a, b) => fitFor(a) - fitFor(b) || a.id.localeCompare(b.id))[0]!;
+    meetInTalk(
+      api,
+      me,
+      far.id,
+      player.placeId,
+      1,
+      `talk:${core.date}:${me}:${far.id}`,
+    );
+    const gap = askOut(api, me, far.id);
+    expect(
+      [gap.answer, gap.reason],
+      `${where}: ${far.givenName} (born ${far.birthDate}) cold`,
+    ).toEqual(["no", "age-gap"]);
+    {
       expect(canAsk(api, me, other.id, "ask-out"), where).toEqual({
         open: false,
         reason: "nothing-changed",
