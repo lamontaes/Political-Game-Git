@@ -30,6 +30,11 @@
       "purpose": "introduction",
       "ending": "took-them-in-hand",
       "kind": "show-around"
+    },
+    {
+      "purpose": "friend-ask",
+      "ending": "said-yes-to-friend",
+      "kind": "attend"
     }
   ],
   "kinds": [
@@ -80,6 +85,23 @@
       "windowEnds": "broken",
       "countedOn": false,
       "renewable": true
+    },
+    {
+      "id": "attend",
+      "about": "Coming to a town body's posted meeting with a friend who asked (words-friend-ask-leads-to-a-held-day): the yes marks the player to attend (office-day's attendMeeting) and writes the friend onto the meeting; the meeting's public-meeting record settles it, kept if the player was there, broken if not. The meeting comes from the scene's own fact (meeting-facts.ts nextMeetingFacts).",
+      "tie": {
+        "meetingId": "meeting"
+      },
+      "settle": [
+        {
+          "operation": "meeting-held",
+          "eventKind": "public-meeting"
+        }
+      ],
+      "windowDays": "promiseAttendWindowDays",
+      "windowEnds": "lapsed",
+      "countedOn": true,
+      "renewable": false
     },
     {
       "id": "reach-someone",
@@ -187,7 +209,7 @@
     "promiseBrokenHours": {
       "value": 2,
       "tag": "TUNABLE",
-      "citation": "As scene-talk-rules endingStrain trust-lost: a promise broken costs what trust lost costs (promises.ts).",
+      "citation": "Twice a kept word: a promise broken costs more than one talk's time together (promises.ts). Fixed hours while scene-talk-rules endingStrain trust-lost became a share of the tie (Nov 15); whether a broken promise should be a share too is item people-broken-promise-costs-share-of-tie.",
       "spread": "1 to 4",
       "checkRange": {
         "min": 1,
@@ -212,6 +234,16 @@
       "checkRange": {
         "min": 0.5,
         "max": 2
+      }
+    },
+    "promiseAttendWindowDays": {
+      "value": 45,
+      "tag": "TUNABLE",
+      "citation": "A town body posts its agenda days before it meets and meets at most monthly in most places; a promise to come whose meeting record never lands within six weeks (a meeting called off) lapses with no outcome (promises.ts).",
+      "spread": "30 to 60",
+      "checkRange": {
+        "min": 30,
+        "max": 60
       }
     }
   }
