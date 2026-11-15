@@ -4,6 +4,13 @@
  * an election called with its contest in the elections engine (pool item
  * opening-offices-vacancies-empty-at-day-0; skill day-one-in-motion). Pinned to the day-zero
  * file's first place and seed, so the result never depends on a draw.
+ *
+ * Where to look: a special race for a seat outside the town (another state's legislature, a
+ * senator, a House district) is on the voting engine's calendar under `special:<vacancy id>:<date>`
+ * and has no contest row; the offices engine's own calendar holds only the stand-in for a seat no
+ * engine counts. Looking on the offices calendar makes a called election look never called.
+ *
+ * Time: 60 s measured (a world opening with the 31-day warm-up, then 9 days); the limit is twice that.
  */
 import { readFileSync } from "node:fs";
 import { expect, it } from "vitest";
@@ -111,4 +118,4 @@ it("every vacancy a death before the start left is filled, or has its election c
       ).toBe(true);
     }
   }
-}, 240_000);
+}, 120_000);
