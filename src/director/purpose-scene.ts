@@ -3183,21 +3183,6 @@ export function endingStrainHours(
     : row.value;
 }
 
-/** The hours an ending's strain takes off the tie between two people today. */
-function endingStrainHours(
-  core: CoreState,
-  keeps: string,
-  a: PersonId,
-  b: PersonId,
-): number | undefined {
-  const row = ENDING_STRAIN[keeps];
-  if (!row) return undefined;
-  return row.unit === SHARE_OF_TIE
-    ? row.value * Math.max(tieHoursBetween(core, a, b), 0)
-    : row.value;
-}
-const SHARE_OF_TIE = "share of the tie";
-
 /**
  * The player's reply in a scene with a purpose, by its path through the tree
  * (the index of each reply chosen, from the first). The reply is a record of
