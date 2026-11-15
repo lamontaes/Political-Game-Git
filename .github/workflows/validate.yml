@@ -94,10 +94,10 @@ jobs:
           if [[ ${#changed[@]} -eq 0 ]]; then
             exit 0
           fi
-          npx prettier --check --ignore-unknown "${changed[@]}"
+          printf '%s\n' "${changed[@]}" | xargs -r -d '\n' -n 400 npx prettier --check --ignore-unknown
           mapfile -t code < <(printf '%s\n' "${changed[@]}" | grep -E '\.(ts|tsx|js|mjs|cjs)$' || true)
           if [[ ${#code[@]} -gt 0 ]]; then
-            npx eslint --no-warn-ignored "${code[@]}"
+            printf '%s\n' "${code[@]}" | xargs -r -d '\n' -n 400 npx eslint --no-warn-ignored
           fi
           RELEASE_DECLARATION_BASE="$declaration_base" \
           RELEASE_DECLARATION_HEAD="$VALIDATED_HEAD_SHA" \

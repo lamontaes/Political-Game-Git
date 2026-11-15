@@ -180,8 +180,38 @@ export function webReach(
   except?: ReadonlySet<string>,
 ): WebReach {
   const row = latestRow(api, placeId);
+  return row ? reachOnRow(row, measure, subject, except) : NONE;
+}
+
+/**
+ * The web's reach on an outcome in a place as one month's row stood (a price
+ * a business set at a review and carried since reads the month it was set
+ * in), with the day that row was written; null where the web kept no row for
+ * that month.
+ */
+export function webReachInMonth(
+  api: WebHost,
+  placeId: string,
+  month: string,
+  measure: string,
+): { readonly reach: WebReach; readonly date: string } | null {
+  const core = api.state as CoreState;
+  if (!core.modules.has(OUTCOME_WEB_MODULE_ID)) return null;
+  const row = api
+    .moduleState(OUTCOME_WEB_MODULE_ID)
+    .table("months")
+    .get(`web:${placeId}:${month}`) as unknown as WebMonth | undefined;
+  return row ? { reach: reachOnRow(row, measure), date: row.date } : null;
+}
+
+function reachOnRow(
+  row: WebMonth,
+  measure: string,
+  subject?: Subject,
+  except?: ReadonlySet<string>,
+): WebReach {
   const links = WIRED_INTO.get(measure);
-  if (!row || !links) return NONE;
+  if (!links) return NONE;
   const level = scaleOf(measure) === "level";
   const base = row.bases[measure];
   let product = 1,
