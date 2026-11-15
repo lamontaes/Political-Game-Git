@@ -1,6 +1,5 @@
 import { describe, expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
-import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "./game-start";
 import { coreAPI } from "./state";
@@ -16,7 +15,13 @@ import type { CoreState, PersonState } from "./types";
  * hour and every post-holder was offered a short-pay case). A worker who is
  * truly paid under the minimum wage still opens one.
  */
-const place = drawPlace("case-help-pinned-1:help:37", "case-help-moves");
+// Woolstock, Iowa, pinned by name and seed (it is the place the 94-cent
+// City Attorney was found at).
+const place = {
+  name: "Woolstock, Iowa",
+  key: "1987015",
+  seed: "a6bc7bc6b5a348493264a233f7dcf3e34b4864dcc1b094808f825c4db4300664",
+};
 const where = `${place.name} (${place.key}), seed ${place.seed}`;
 
 describe(`stipend posts keep a real rate at ${where}`, () => {
@@ -85,5 +90,5 @@ describe(`stipend posts keep a real rate at ${where}`, () => {
     state.work.commitments.set(shorted.id, shorted);
     const found = problemOf(api, state.people.get(shorted.personId)!);
     expect(found?.problem, where).toBe("paid-under-minimum-wage");
-  }, 120_000);
+  }, 15_000);
 });
