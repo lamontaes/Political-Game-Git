@@ -1602,6 +1602,7 @@ export function composeSceneTalk(
     outcome: Outcome,
     path: Path,
     lastAsker: SceneTalkLine | undefined,
+    answering?: SceneTalkLine,
   ): SceneTalkLine | undefined => {
     if (lastAsker && RULES.terminalFollow.includes(lastAsker.move))
       return undefined;
@@ -1621,13 +1622,33 @@ export function composeSceneTalk(
     );
     if (!move) return undefined;
     const line = render(
-      { step: "close", move, role: "asker", ...base, outcome },
+      {
+        step: "close",
+        move,
+        role: "asker",
+        ...base,
+        outcome,
+        ...(answering?.parts[zero]
+          ? { after: answering.move, afterPiece: answering.parts[zero] }
+          : {}),
+      },
       cast.askerId,
       askerTraits,
       `${path.id}:close`,
       path.said,
     );
-    // The close never says again what was just said.
+    // The close never says again what was just said, and never answers a
+    // line the verdicts say it does not follow.
+    if (
+      line &&
+      answering?.parts[zero] &&
+      !follows(
+        line.parts[zero] ?? "",
+        answering.parts[zero],
+        options.replyFollows ?? REPLY_FOLLOWS,
+      )
+    )
+      return undefined;
     return line && line.parts[zero] !== lastAsker?.parts[zero]
       ? line
       : undefined;
@@ -1725,12 +1746,13 @@ export function composeSceneTalk(
       return line ? [line] : [];
     });
     const barred = options.replyFollows ?? REPLY_FOLLOWS;
-    return (
-      worded.find(
-        (line) =>
-          !reply.parts[zero] ||
-          follows(line.parts[zero] ?? "", reply.parts[zero], barred),
-      ) ?? worded[zero]
+    // A close the verdicts bar is never served: the next fallback is the
+    // scene's shared close (closeFor), and if that is barred too the scene ends
+    // on the player's reply.
+    return worded.find(
+      (line) =>
+        !reply.parts[zero] ||
+        follows(line.parts[zero] ?? "", reply.parts[zero], barred),
     );
   };
 
@@ -1971,7 +1993,7 @@ export function composeSceneTalk(
       if (reply.move === "leave") {
         const farewell =
           leaveClose(childPath, reply) ??
-          closeFor("open", childPath, undefined);
+          closeFor("open", childPath, undefined, reply);
         next.end = { outcome: "open", ...closed(farewell) };
         if (!farewell) gap("close", "leave", reply.parts[zero]);
         continue;
@@ -1988,7 +2010,7 @@ export function composeSceneTalk(
           outcome: "open",
           ...closed(
             leaveClose(childPath, reply) ??
-              closeFor("open", childPath, undefined),
+              closeFor("open", childPath, undefined, reply),
           ),
         };
         if (!next.end.close) gap("close", "warn", `${reply.move} (caught)`);

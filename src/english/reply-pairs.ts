@@ -311,7 +311,11 @@ export function replyPairs(
                   const following = chosen.filter(([part]) =>
                     follows(part.key, before.part.key, verdicts),
                   );
+                  // A close every verdict bars is not served (the scene ends on
+                  // the reply), so no pair is listed; a reply that is the only
+                  // one is still served, so a spot is never silent.
                   if (following.length) chosen = following;
+                  else if (close) chosen = [];
                   else if (chosen.length && options.onSilenced)
                     options.onSilenced({
                       before: before.part.key,
