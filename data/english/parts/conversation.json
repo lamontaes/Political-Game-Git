@@ -6723,7 +6723,8 @@
           "subject": "news",
           "role": "answer",
           "choice": "no",
-          "stages": ["not-heard"]
+          "stages": ["not-heard"],
+          "excludesFacts": ["asked-by-medium"]
         },
         {
           "move": "asked-mutual-answer-not",
@@ -7763,6 +7764,105 @@
       }
     },
     {
+      "key": "conversation.news-raise-heard.did-you-read-about-about",
+      "move": "news-raise-heard",
+      "kind": "spoken",
+      "text": "Did you read about {about}?",
+      "uses": [
+        {
+          "move": "news-raise-heard",
+          "subject": "news",
+          "role": "raise",
+          "choice": "heard",
+          "requiresFacts": ["about", "outlet-paper"]
+        }
+      ],
+      "transcriptsUsing": 4,
+      "bySource": {
+        "dcpd": 1,
+        "nps": 3
+      },
+      "source": {
+        "document": "Remarks in an Exchange With Reporters at Joint Base Andrews, Maryland",
+        "date": "2020-02-18",
+        "granule": "DCPD-202000078",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202000078/html/DCPD-202000078.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      },
+      "author": "Words builder M3 (words-neighbor-asks-the-player-about-a-printed-story-by-its-medium)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.news-raise-heard.did-you-see-the-news-about-about",
+      "move": "news-raise-heard",
+      "kind": "spoken",
+      "text": "Did you see the news about {about}?",
+      "uses": [
+        {
+          "move": "news-raise-heard",
+          "subject": "news",
+          "role": "raise",
+          "choice": "heard",
+          "requiresFacts": ["about", "outlet-television"]
+        }
+      ],
+      "transcriptsUsing": 4,
+      "bySource": {
+        "dcpd": 1,
+        "nps": 3
+      },
+      "source": {
+        "document": "Remarks in an Exchange With Reporters at Joint Base Andrews, Maryland",
+        "date": "2020-02-18",
+        "granule": "DCPD-202000078",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202000078/html/DCPD-202000078.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      },
+      "author": "Words builder M3 (words-neighbor-asks-the-player-about-a-printed-story-by-its-medium)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.news-raise-heard.did-you-hear-about-about",
+      "move": "news-raise-heard",
+      "kind": "spoken",
+      "text": "Did you hear about {about}?",
+      "uses": [
+        {
+          "move": "news-raise-heard",
+          "subject": "news",
+          "role": "raise",
+          "choice": "heard",
+          "requiresFacts": ["about", "outlet"]
+        }
+      ],
+      "transcriptsUsing": 4,
+      "bySource": {
+        "dcpd": 1,
+        "nps": 3
+      },
+      "source": {
+        "document": "Remarks in an Exchange With Reporters at Joint Base Andrews, Maryland",
+        "date": "2020-02-18",
+        "granule": "DCPD-202000078",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202000078/html/DCPD-202000078.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      },
+      "author": "Words builder M3 (words-neighbor-asks-the-player-about-a-printed-story-by-its-medium)",
+      "date": "2026-11-15"
+    },
+    {
       "key": "conversation.news-answer-yes.i-heard",
       "move": "news-answer-yes",
       "kind": "spoken",
@@ -7773,7 +7873,8 @@
           "subject": "news",
           "role": "answer",
           "choice": "yes",
-          "stages": ["heard"]
+          "stages": ["heard"],
+          "excludesFacts": ["asked-by-medium"]
         }
       ],
       "transcriptsUsing": 2,
@@ -7804,7 +7905,7 @@
           "role": "answer",
           "choice": "yes",
           "stages": ["heard"],
-          "excludesFacts": ["outlet-radio"]
+          "excludesFacts": ["asked-by-medium", "outlet-radio"]
         }
       ],
       "transcriptsUsing": 44,
@@ -7843,7 +7944,8 @@
           "subject": "news",
           "role": "answer",
           "choice": "yes",
-          "stages": ["heard"]
+          "stages": ["heard"],
+          "excludesFacts": ["asked-by-medium"]
         }
       ],
       "transcriptsUsing": 513,
@@ -7891,7 +7993,8 @@
           "subject": "news",
           "role": "answer",
           "choice": "no",
-          "stages": ["not-heard"]
+          "stages": ["not-heard"],
+          "excludesFacts": ["asked-by-medium"]
         }
       ],
       "transcriptsUsing": 1887,
@@ -7952,7 +8055,8 @@
           "subject": "news",
           "role": "answer",
           "choice": "no",
-          "stages": ["not-heard"]
+          "stages": ["not-heard"],
+          "excludesFacts": ["asked-by-medium"]
         }
       ],
       "transcriptsUsing": 7,
@@ -7983,7 +8087,8 @@
           "subject": "news",
           "role": "answer",
           "choice": "no",
-          "stages": ["not-heard"]
+          "stages": ["not-heard"],
+          "excludesFacts": ["asked-by-medium"]
         }
       ],
       "transcriptsUsing": 12,
@@ -8017,7 +8122,8 @@
           "subject": "news",
           "role": "answer",
           "choice": "no",
-          "stages": ["not-heard"]
+          "stages": ["not-heard"],
+          "excludesFacts": ["asked-by-medium"]
         }
       ],
       "transcriptsUsing": 104,
@@ -8062,7 +8168,8 @@
           "subject": "news",
           "role": "answer",
           "choice": "no",
-          "stages": ["not-heard"]
+          "stages": ["not-heard"],
+          "excludesFacts": ["asked-by-medium"]
         }
       ],
       "transcriptsUsing": 538,
@@ -8113,7 +8220,8 @@
           "subject": "news",
           "role": "answer",
           "choice": "no",
-          "stages": ["not-heard"]
+          "stages": ["not-heard"],
+          "excludesFacts": ["asked-by-medium"]
         }
       ],
       "transcriptsUsing": 24,
@@ -8148,7 +8256,8 @@
           "subject": "news",
           "role": "answer",
           "choice": "no",
-          "stages": ["not-heard"]
+          "stages": ["not-heard"],
+          "excludesFacts": ["asked-by-medium"]
         }
       ],
       "transcriptsUsing": 69,
@@ -21898,7 +22007,7 @@
           "choice": "yes",
           "stages": ["heard"],
           "requiresFacts": ["broadcast"],
-          "excludesFacts": ["outlet-radio"]
+          "excludesFacts": ["asked-by-medium", "outlet-radio"]
         }
       ],
       "origin": "authored",
@@ -21917,12 +22026,88 @@
           "role": "answer",
           "choice": "yes",
           "stages": ["heard"],
-          "excludesFacts": ["before-feeling"]
+          "excludesFacts": ["asked-by-medium", "before-feeling", "outlet-the"]
         }
       ],
       "origin": "authored",
       "author": "Words builder W3 (words-home-news-lines-are-composed)",
       "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.news-answer-yes.i-read-it",
+      "move": "news-answer-yes",
+      "kind": "spoken",
+      "text": "I read it.",
+      "uses": [
+        {
+          "move": "news-answer-yes",
+          "subject": "news",
+          "role": "answer",
+          "choice": "yes",
+          "stages": ["heard"],
+          "requiresFacts": ["asked-by-medium", "outlet-paper"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder M3 (words-neighbor-asks-the-player-about-a-printed-story-by-its-medium)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.news-answer-yes.i-saw-it",
+      "move": "news-answer-yes",
+      "kind": "spoken",
+      "text": "I saw it.",
+      "uses": [
+        {
+          "move": "news-answer-yes",
+          "subject": "news",
+          "role": "answer",
+          "choice": "yes",
+          "stages": ["heard"],
+          "requiresFacts": ["asked-by-medium", "outlet-television"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder M3 (words-neighbor-asks-the-player-about-a-printed-story-by-its-medium)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.news-answer-yes.i-heard-it",
+      "move": "news-answer-yes",
+      "kind": "spoken",
+      "text": "I heard it.",
+      "uses": [
+        {
+          "move": "news-answer-yes",
+          "subject": "news",
+          "role": "answer",
+          "choice": "yes",
+          "stages": ["heard"],
+          "requiresFacts": ["asked-by-medium", "outlet-radio"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder M3 (words-neighbor-asks-the-player-about-a-printed-story-by-its-medium)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.news-answer-no.no-tell-me-what-happened",
+      "move": "news-answer-no",
+      "kind": "spoken",
+      "text": "No. Tell me what happened.",
+      "uses": [
+        {
+          "move": "news-answer-no",
+          "subject": "news",
+          "role": "answer",
+          "choice": "no",
+          "stages": ["not-heard"],
+          "requiresFacts": ["asked-by-medium", "story-event"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder M3 (words-neighbor-asks-the-player-about-a-printed-story-by-its-medium)",
+      "date": "2026-11-15"
     },
     {
       "key": "conversation.news-answer-yes.i-caught-that-one-on-outlet",
@@ -21936,7 +22121,8 @@
           "role": "answer",
           "choice": "yes",
           "stages": ["heard"],
-          "requiresFacts": ["broadcast"]
+          "requiresFacts": ["broadcast"],
+          "excludesFacts": ["asked-by-medium"]
         }
       ],
       "origin": "authored",
@@ -21955,7 +22141,8 @@
           "role": "answer",
           "choice": "yes",
           "stages": ["heard"],
-          "requiresFacts": ["outlet-said", "paper"]
+          "requiresFacts": ["outlet-said", "paper"],
+          "excludesFacts": ["asked-by-medium", "outlet-the"]
         }
       ],
       "origin": "authored",
@@ -21973,7 +22160,8 @@
           "subject": "news",
           "role": "answer",
           "choice": "no",
-          "stages": ["not-heard"]
+          "stages": ["not-heard"],
+          "excludesFacts": ["asked-by-medium"]
         }
       ],
       "origin": "authored",
@@ -21991,7 +22179,8 @@
           "subject": "news",
           "role": "answer",
           "choice": "no",
-          "stages": ["not-heard"]
+          "stages": ["not-heard"],
+          "excludesFacts": ["asked-by-medium"]
         }
       ],
       "origin": "authored",
@@ -22010,7 +22199,8 @@
           "role": "answer",
           "choice": "no",
           "stages": ["not-heard"],
-          "requiresFacts": ["broadcast"]
+          "requiresFacts": ["broadcast"],
+          "excludesFacts": ["asked-by-medium"]
         }
       ],
       "origin": "authored",
@@ -22030,7 +22220,7 @@
           "choice": "no",
           "stages": ["not-heard"],
           "requiresFacts": ["broadcast"],
-          "excludesFacts": ["outlet-radio"]
+          "excludesFacts": ["asked-by-medium", "outlet-radio"]
         }
       ],
       "origin": "authored",
@@ -23137,7 +23327,8 @@
           "move": "own-view-say-core",
           "subject": "own-view-say",
           "role": "core",
-          "requiresFacts": ["side-for"]
+          "requiresFacts": ["side-for"],
+          "excludesFacts": ["they-opened"]
         }
       ],
       "origin": "authored",
@@ -23341,7 +23532,8 @@
           "move": "own-view-say-core",
           "subject": "own-view-say",
           "role": "core",
-          "requiresFacts": ["side-against"]
+          "requiresFacts": ["side-against"],
+          "excludesFacts": ["they-opened"]
         }
       ],
       "origin": "authored",
@@ -24036,7 +24228,8 @@
           "move": "news-back-core",
           "subject": "news-back",
           "role": "core",
-          "requiresFacts": ["said-why", "about", "ran", "about-unsaid"]
+          "requiresFacts": ["said-why", "about", "ran", "about-unsaid"],
+          "excludesFacts": ["broadcast"]
         }
       ],
       "origin": "authored",
@@ -27694,7 +27887,8 @@
           "move": "news-ask-core",
           "subject": "news-ask",
           "role": "core",
-          "requiresFacts": ["story", "their-for"]
+          "requiresFacts": ["story", "their-for"],
+          "excludesFacts": ["broadcast", "player-saw"]
         }
       ],
       "origin": "authored",
@@ -27716,7 +27910,8 @@
           "move": "news-ask-core",
           "subject": "news-ask",
           "role": "core",
-          "requiresFacts": ["story", "their-for"]
+          "requiresFacts": ["story", "their-for"],
+          "excludesFacts": ["player-saw"]
         }
       ],
       "origin": "authored",
@@ -27738,7 +27933,8 @@
           "move": "news-ask-core",
           "subject": "news-ask",
           "role": "core",
-          "requiresFacts": ["story", "their-against"]
+          "requiresFacts": ["story", "their-against"],
+          "excludesFacts": ["broadcast", "player-saw"]
         }
       ],
       "origin": "authored",
@@ -27760,7 +27956,8 @@
           "move": "news-ask-core",
           "subject": "news-ask",
           "role": "core",
-          "requiresFacts": ["story", "their-against"]
+          "requiresFacts": ["story", "their-against"],
+          "excludesFacts": ["player-saw"]
         }
       ],
       "origin": "authored",
@@ -27805,7 +28002,8 @@
           "move": "news-back-core",
           "subject": "news-back",
           "role": "core",
-          "requiresFacts": ["said-why", "about-said", "their-for"]
+          "requiresFacts": ["said-why", "about-said", "their-for"],
+          "excludesFacts": ["broadcast"]
         }
       ],
       "origin": "authored",
@@ -27850,7 +28048,8 @@
           "move": "news-back-core",
           "subject": "news-back",
           "role": "core",
-          "requiresFacts": ["said-why", "about-said", "their-against"]
+          "requiresFacts": ["said-why", "about-said", "their-against"],
+          "excludesFacts": ["broadcast"]
         }
       ],
       "origin": "authored",
@@ -27872,7 +28071,8 @@
           "move": "news-back-core",
           "subject": "news-back",
           "role": "core",
-          "requiresFacts": ["said-who", "sponsor"]
+          "requiresFacts": ["said-who", "sponsor"],
+          "excludesFacts": ["broadcast"]
         }
       ],
       "origin": "authored",
@@ -29809,7 +30009,8 @@
           "subject": "own-view-take",
           "role": "core",
           "stages": ["agree"],
-          "requiresFacts": ["has-reason", "decider", "wants-it"]
+          "requiresFacts": ["has-reason", "decider", "wants-it"],
+          "excludesFacts": ["story-decided"]
         }
       ],
       "piece": {
@@ -29881,7 +30082,8 @@
           "subject": "own-view-take",
           "role": "core",
           "stages": ["disagree"],
-          "requiresFacts": ["has-reason", "decider"]
+          "requiresFacts": ["has-reason", "decider"],
+          "excludesFacts": ["story-decided"]
         }
       ],
       "piece": {
@@ -29904,7 +30106,8 @@
           "move": "own-view-take-core",
           "subject": "own-view-take",
           "role": "core",
-          "stages": ["disagree"]
+          "stages": ["disagree"],
+          "excludesFacts": ["story-decided"]
         }
       ],
       "piece": {
@@ -29927,7 +30130,8 @@
           "move": "own-view-take-core",
           "subject": "own-view-take",
           "role": "core",
-          "stages": ["agree"]
+          "stages": ["agree"],
+          "excludesFacts": ["story-decided"]
         }
       ],
       "piece": {
@@ -32107,7 +32311,8 @@
           "subject": "own-view-take",
           "role": "core",
           "stages": ["agree"],
-          "requiresFacts": ["has-reason", "decider", "wants-not"]
+          "requiresFacts": ["has-reason", "decider", "wants-not"],
+          "excludesFacts": ["story-decided"]
         }
       ],
       "piece": {
@@ -32131,7 +32336,8 @@
           "subject": "own-view-take",
           "role": "core",
           "stages": ["agree"],
-          "requiresFacts": ["has-reason", "decider", "wants-not"]
+          "requiresFacts": ["has-reason", "decider", "wants-not"],
+          "excludesFacts": ["story-decided"]
         }
       ],
       "piece": {
@@ -35722,7 +35928,8 @@
           "move": "own-view-say-core",
           "subject": "own-view-say",
           "role": "core",
-          "requiresFacts": ["side-for"]
+          "requiresFacts": ["side-for"],
+          "excludesFacts": ["about-named"]
         }
       ],
       "piece": {
@@ -35772,7 +35979,8 @@
           "move": "own-view-say-core",
           "subject": "own-view-say",
           "role": "core",
-          "requiresFacts": ["side-against"]
+          "requiresFacts": ["side-against"],
+          "excludesFacts": ["about-named"]
         }
       ],
       "piece": {
@@ -43331,7 +43539,8 @@
           "move": "news-ask-core",
           "subject": "news-ask",
           "role": "core",
-          "requiresFacts": ["story", "their-for"]
+          "requiresFacts": ["story", "their-for"],
+          "excludesFacts": ["player-saw"]
         }
       ],
       "origin": "authored",
@@ -43353,7 +43562,8 @@
           "move": "news-ask-core",
           "subject": "news-ask",
           "role": "core",
-          "requiresFacts": ["story", "their-against"]
+          "requiresFacts": ["story", "their-against"],
+          "excludesFacts": ["player-saw"]
         }
       ],
       "origin": "authored",
@@ -44217,7 +44427,8 @@
           "move": "news-answer-no",
           "role": "answer",
           "stages": ["not-heard"],
-          "subject": "news"
+          "subject": "news",
+          "excludesFacts": ["asked-by-medium"]
         },
         {
           "choice": "ask",
@@ -46430,6 +46641,92 @@
       "bearing": "tender",
       "origin": "authored",
       "author": "Words builder S3 (Words lead's ruling of Nov 14, 22:50Z: how a relative says how someone died)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.news-back-core.the-body-passed-it",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "The {body} passed it.",
+      "piece": {
+        "of": "news-back",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-no", "ask-told", "story-passed", "body"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder M3 (words-neighbor-asks-the-player-about-a-printed-story-by-its-medium)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.news-back-core.the-body-voted-it-down",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "The {body} voted it down.",
+      "piece": {
+        "of": "news-back",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-no", "ask-told", "story-failed", "body"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder M3 (words-neighbor-asks-the-player-about-a-printed-story-by-its-medium)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.news-back-core.it-took-effect-it-s-the-law-now",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "It took effect. It's the law now.",
+      "piece": {
+        "of": "news-back",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-no", "ask-told", "story-took-effect"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder M3 (words-neighbor-asks-the-player-about-a-printed-story-by-its-medium)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.news-answer-no.no-i-missed-it",
+      "move": "news-answer-no",
+      "kind": "spoken",
+      "text": "No. I missed it.",
+      "uses": [
+        {
+          "move": "news-answer-no",
+          "subject": "news",
+          "role": "answer",
+          "choice": "no",
+          "stages": ["not-heard"],
+          "requiresFacts": ["asked-by-medium"],
+          "excludesFacts": ["story-event"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder M3 (words-neighbor-asks-the-player-about-a-printed-story-by-its-medium)",
       "date": "2026-11-15"
     }
   ]
