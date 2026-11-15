@@ -78,3 +78,24 @@ false`; `tieOwed` holds the hours, and `payTieOwed` moves the tie when the
   `nothing-to-ask`, rather than dropping it at its request. A yes before the
   agenda is posted is held in office-day's `pledges` table and merged into the
   meeting row when the meeting is posted.
+
+- **Who is in control.** office-day offers a meeting to a resident only
+  while the player is the one in control (`meetingToAttend` reads
+  `snapshotExplicitControlV1`). A test that builds a world and only calls
+  `advanceCore` never sees a posted meeting; take one day on the player's
+  clock first (`advancePlayerV1`), and from then on use the player's clock,
+  since `advanceCore` throws while a person is controlled.
+- **Module tables.** A module state table is removed from with `.remove(id)`,
+  not `.delete(id)`; `.delete` is not a function and fails only at run time.
+- **A day said in a line.** Put the day in one slot filled from the record
+  (`{meeting-when}` from `dayAheadSaid`: tonight, today, tomorrow night,
+  tomorrow, on Tuesday, on February 4th), never one copy of a line per day
+  form; the friend-ask bank caps its pieces and the copies blow it. Check
+  that no line puts "a" before a filled name ("a Arab City Council"): lead
+  with the name instead.
+- **Ten words.** A conversation raise is at most ten words outside its slots
+  (`maxWords` in the bank, `tests/english-parts-banks.test.ts`). A line over
+  it goes back to the Words lead to reword; the builder does not trim it.
+- **A question the ask already answers.** When a request names its day, a
+  reply that asks "when" asks for something already said; the Words lead
+  deletes it and any answer that only it reached.

@@ -18,7 +18,12 @@
  * (promise-talk.ts). Other engines read outcomes through `promisesBetween`.
  */
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
-import { votesOn, LEGISLATURE_MODULE_ID } from "../core2/modules/legislature";
+import {
+  billOf,
+  billStances,
+  votesOn,
+  LEGISLATURE_MODULE_ID,
+} from "../core2/modules/legislature";
 import { officeActsOf } from "../core2/modules/office-day";
 import type {
   CoreAPI,
@@ -51,6 +56,12 @@ interface PromiseKindRow {
   countedOn: boolean;
   /** A record can settle a new promise of this kind ("I'll make it right"). */
   renewable: boolean;
+  /**
+   * Who gave their word: the first person on the scene reply (the one who
+   * answered, by default) or the second (the player who asked, where the
+   * promise was the price of a yes: `hold-question`).
+   */
+  heldBy?: "first" | "second";
 }
 
 export interface PromiseAnswerRow {
@@ -162,11 +173,29 @@ const settleKeys: Record<
   "pair-talk": {
     ofFact: (fact) => `pair-talk|${pairKey(fact.holderId, fact.otherId)}`,
   },
+  // A word on a question is tested by the holder's own act on it, whether a
+  // vote at a roll call or a signature or veto at the desk: one key for both.
+  "question-vote": {
+    ofFact: (fact) => questionKey(fact),
+  },
+  "question-signature": {
+    ofFact: (fact) => questionKey(fact),
+  },
   "meeting-held": {
     ofFact: (fact) =>
       fact.promise?.meetingId ? `meeting-held|${fact.promise.meetingId}` : null,
   },
 };
+
+const questionKey = (fact: KeptFact): string | null =>
+  fact.promise?.question
+    ? `question|${fact.holderId}|${fact.promise.question}`
+    : null;
+
+/** Who gave their word on a scene reply that keeps a promise of this kind. */
+export function promiseHeldBySecond(kindId: string): boolean {
+  return kindOf(kindId).heldBy === "second";
+}
 
 const pairKey = (a: string, b: string) => [a, b].sort().join(":");
 
@@ -182,12 +211,14 @@ export function promiseOfEvent(
   if (typeof kindId !== "string" || !kindId) return null;
   const kind = kindOf(kindId);
   const billId = event.facts?.["promise-billId"];
+  const question = event.facts?.["promise-question"];
   const side = event.facts?.["promise-side"];
   const meetingId = event.facts?.["promise-meetingId"];
   return {
     kind: kind.id,
     dueOn: addDays(makeIsoDate(event.date), param(kind.windowDays)),
     ...(typeof billId === "string" && billId ? { billId } : {}),
+    ...(typeof question === "string" && question ? { question } : {}),
     ...(typeof side === "string" && side
       ? { side: side === "no" || side === "-1" ? minusOne : one }
       : {}),
@@ -329,11 +360,14 @@ export function settlePromisesOnEvent(
 ): void {
   if (!SETTLE_EVENT_KINDS.has(event.kind) || !ledger.promisesBySettle.size)
     return;
-  if (event.kind === "legislative-vote") {
+  if (event.kind === "legislative-vote" || event.kind === "executive-action") {
     const billId = event.facts?.billId;
     if (typeof billId !== "string") return;
+    if (!api.state.modules.has(LEGISLATURE_MODULE_ID)) return;
+    settleQuestionPromises(api, ledger, event, billId, param);
+    if (event.kind === "executive-action") return;
     const ids = ledger.promisesBySettle.get(`bill-roll|${billId}`);
-    if (!ids || !api.state.modules.has(LEGISLATURE_MODULE_ID)) return;
+    if (!ids) return;
     const rows = votesOn(api, billId);
     for (const id of [...ids]) {
       const fact = copiesOf(ledger, id)[zero];
@@ -399,6 +433,64 @@ export function settlePromisesOnEvent(
   }
 }
 
+/**
+ * A roll call, or a signature or veto, on a bill that moves a question some
+ * open `hold-question` promise is about: each person who voted, or the
+ * executive who acted, and holds such a word is held to it. The direction
+ * they moved the question is their vote (yes 1, no -1; a signature 1, a veto
+ * -1) times the way the bill points on it; kept if that is the side promised,
+ * broken if against. A member who did not vote moves nothing.
+ */
+function settleQuestionPromises(
+  api: CoreAPI,
+  ledger: Ledger,
+  event: CoreEventInput,
+  billId: string,
+  param: (key: string) => number,
+): void {
+  const bill = billOf(api, billId);
+  const stances = billStances(api, bill);
+  if (!stances.length) return;
+  const acts: { personId: string; vote: number }[] =
+    event.kind === "executive-action"
+      ? event.facts?.action === "signed" || event.facts?.action === "vetoed"
+        ? event.personIds[zero]
+          ? [
+              {
+                personId: event.personIds[zero],
+                vote: event.facts.action === "signed" ? one : minusOne,
+              },
+            ]
+          : []
+        : []
+      : votesOn(api, billId).flatMap((row) =>
+          row.vote === "yes"
+            ? [{ personId: row.memberId, vote: one }]
+            : row.vote === "no"
+              ? [{ personId: row.memberId, vote: minusOne }]
+              : [],
+        );
+  for (const act of acts)
+    for (const stance of stances) {
+      const ids = ledger.promisesBySettle.get(
+        `question|${act.personId}|${stance.question}`,
+      );
+      for (const id of [...(ids ?? [])]) {
+        const fact = copiesOf(ledger, id)[zero];
+        if (!fact?.promise) continue;
+        const moved = act.vote * Math.sign(stance.position);
+        endPromise(
+          api,
+          ledger,
+          id,
+          moved === (fact.promise.side ?? one) ? "kept" : "broken",
+          event.id,
+          param,
+        );
+      }
+    }
+}
+
 /** Time together that may settle open promises between the two (a talk). */
 export function settlePromisesOnTie(
   api: CoreAPI,
@@ -460,6 +552,7 @@ export interface PromiseBetween {
   sourceId: string;
   since: IsoDate;
   billId?: string;
+  question?: string;
   side?: number;
   meetingId?: string;
   outcome: "open" | "kept" | "broken" | "lapsed";
@@ -497,6 +590,7 @@ export function promisesBetween(
         sourceId: fact.sourceId,
         since: fact.since,
         ...(fact.promise.billId ? { billId: fact.promise.billId } : {}),
+        ...(fact.promise.question ? { question: fact.promise.question } : {}),
         ...(fact.promise.side ? { side: fact.promise.side } : {}),
         ...(fact.promise.meetingId
           ? { meetingId: fact.promise.meetingId }

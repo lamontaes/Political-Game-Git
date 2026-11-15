@@ -71,6 +71,7 @@ import {
   partiesHere,
   partyMeetings,
   partyTie,
+  tieBeforeFiling,
   type PartyRow,
   type TieRow,
 } from "./parties";
@@ -796,6 +797,75 @@ interface Queues {
 }
 const queues = new WeakMap<object, Queues>();
 
+/**
+ * Those who decided to run and were refused at the counter only for the filing
+ * fee, by contest: they try again each day until they file or the window
+ * closes, since what they hold changes with pay days (owner, Nov 15: a person
+ * who decided to stand and could not pay on one day keeps trying). Kept for
+ * the people refused, a handful at a time.
+ */
+const refiling = new WeakMap<object, Map<string, Set<PersonId>>>();
+
+/** A refusal that only the person's cash can change. */
+function refusedOnlyForFee(
+  filing: NonNullable<CandidacyDecision["filing"]>,
+): boolean {
+  return (
+    filing.status === "refused" &&
+    filing.unmet.length > 0 &&
+    filing.unmet.every((rule) => rule === "filing-fee")
+  );
+}
+
+/** A person refused only for the fee is kept to try again while the window is open. */
+function keepTryingForFee(
+  api: CoreAPI,
+  contestId: string,
+  personId: PersonId,
+  filing: NonNullable<CandidacyDecision["filing"]>,
+): void {
+  if (!refusedOnlyForFee(filing)) return;
+  const held = refiling.get(api.state) ?? new Map<string, Set<PersonId>>();
+  refiling.set(api.state, held);
+  const people = held.get(contestId) ?? new Set<PersonId>();
+  held.set(contestId, people);
+  people.add(personId);
+}
+
+/** Try again for each person refused only for the fee, while their window is open. */
+function refileRefused(api: CoreAPI): void {
+  const held = refiling.get(api.state);
+  if (!held?.size) return;
+  const today = api.state.date;
+  const contests = api.moduleState(ELECTIONS_MODULE_ID).table("contests");
+  for (const [contestId, people] of [...held]) {
+    const contest = contests.get(contestId) as unknown as
+      ContestRow | undefined;
+    if (!contest || contest.filingDeadline < today) {
+      held.delete(contestId);
+      continue;
+    }
+    for (const personId of [...people]) {
+      const decision = decisionOf(api, contestId, personId);
+      const person = api.state.people.get(personId);
+      if (!decision?.run || !person?.alive) {
+        people.delete(personId);
+        continue;
+      }
+      const filing = fileFor(
+        api,
+        person,
+        contest,
+        Boolean(seatParty(api, contest)),
+      );
+      if (refusedOnlyForFee(filing)) continue;
+      table(api).put({ ...decision, filing } as unknown as { id: string });
+      people.delete(personId);
+    }
+    if (!people.size) held.delete(contestId);
+  }
+}
+
 /** Contests to weigh and runners to file, soonest first; rebuilt when contests are added. */
 function queuesFor(api: CoreAPI): Queues | null {
   if (!api.state.modules.has(ELECTIONS_MODULE_ID)) return null;
@@ -900,6 +970,8 @@ function fileFor(
   contest: ContestRow,
   partisan: boolean,
 ): NonNullable<CandidacyDecision["filing"]> {
+  if (partisan && api.state.modules.has(PARTIES_MODULE_ID))
+    tieBeforeFiling(api, person.id);
   let party: string | null = partisan ? partyOf(api, person.id) : null;
   if (partisan && api.state.modules.has(PARTIES_MODULE_ID)) {
     const tie = partyTie(api, person.id);
@@ -1395,6 +1467,7 @@ export function fileRunners(
       ? fileFor(api, person, contest, Boolean(seatParty(api, contest)))
       : { status: "refused", filingId: null, unmet: ["not-available"] };
     table(api).put({ ...decision, filing } as unknown as { id: string });
+    keepTryingForFee(api, contest.id, personId, filing);
   }
   // A runner the filing day's weighing no longer holds (gone from the town,
   // dead) is refused for the rules they no longer meet, so every decision to
@@ -1407,14 +1480,15 @@ export function fileRunners(
           .filter((check) => !check.met)
           .map((check) => check.rule)
       : [];
-    table(api).put({
-      ...decision,
-      filing: {
-        status: "refused",
-        filingId: null,
-        unmet: unmet.length ? unmet : ["not-available"],
-      },
-    } as unknown as { id: string });
+    const refused: NonNullable<CandidacyDecision["filing"]> = {
+      status: "refused",
+      filingId: null,
+      unmet: unmet.length ? unmet : ["not-available"],
+    };
+    table(api).put({ ...decision, filing: refused } as unknown as {
+      id: string;
+    });
+    keepTryingForFee(api, contest.id, decision.personId, refused);
   }
   weighed.put({ ...row, filedOn: api.state.date } as unknown as {
     id: string;
@@ -2071,6 +2145,7 @@ function candidacyDay(api: CoreAPI): void {
   const held = queuesFor(api);
   if (!held) return;
   const today = api.state.date;
+  refileRefused(api);
   while (held.opening.length) {
     const contest = held.opening.shift()!;
     weighClosedContest(api, contest, held.localRank);
