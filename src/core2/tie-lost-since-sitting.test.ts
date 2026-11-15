@@ -11,8 +11,11 @@
  * last talked on Feb 3, and have sat on the floor together since. Measured on
  * this head: the row's own lost hours 0.14433; the tie's 0.02785. Every
  * senator pair who last talked a week or more before and know each other
- * through the floor (103 on this head) has lost less than its row says; on
- * the parent none had, since the row's part never counted the sittings.
+ * through the floor (103 on this head) has lost less than its row says.
+ * Seen red in this world: with the old form of tieHoursLost read at the same
+ * date (the row's part from its last contact, each reader's from its own
+ * last day), 026 and 030 read 0.14939 against 0.02785. On the parent itself
+ * the world differs and no such pair exists, so the count reads 0.
  */
 import { expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
