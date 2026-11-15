@@ -214,6 +214,15 @@ export interface KeptPromise {
   billId?: string;
   /** The side promised on a bill: 1 for, -1 against. */
   side?: number;
+  /** The meeting promised to come to (office-day's meetings), for an "attend" promise. */
+  meetingId?: string;
+  /**
+   * Hours of the tie's move held for the two's next time together: a promise
+   * settled while the one owed was not with the one who promised (a meeting
+   * they did not come to) is not time together, so it moves the tie when it
+   * is said (promise-talk.ts), not on the day it was settled.
+   */
+  tieOwed?: number;
   /** Kept, broken, or lapsed (its window closed with nothing to settle it). */
   outcome?: "kept" | "broken" | "lapsed";
   /** Once the one owed has said it to the one who promised (promise-talk.ts). */

@@ -151,6 +151,7 @@ import {
   OFFICE_DAY_MODULE_ID,
   decideDesk,
   deskWaiting,
+  pledgeToCome,
 } from "../core2/modules/office-day";
 import {
   chooseVariant,
@@ -201,7 +202,10 @@ import {
 } from "../core2/modules/elections";
 import {
   CAMPAIGNS_MODULE_ID,
+  CANVASS_MESSAGE_KIND,
+  RIVAL_WORD_EVENT,
   enlistVolunteer,
+  rivalWordMoved,
   type CauseRow,
 } from "../core2/modules/campaigns";
 import rulesFile from "./data/scene-talk-rules.json" with { type: "json" };
@@ -241,6 +245,12 @@ import {
   swornOffice,
   titleInSentence,
 } from "./swearing-in";
+
+/** How a rival's message reached the one who passed word of it on, by the message record's kind: the word each opener is placed by (`how-canvass`, `how-message`); a world candidate's campaign sends only these (the player's own bought ads and mail are never a rival's word). */
+const HOW_WORD_REACHED: Readonly<Record<string, string>> = {
+  [CANVASS_MESSAGE_KIND]: "canvass",
+  "campaign-message": "message",
+};
 
 export interface PurposeScene {
   typeKey: string;
@@ -1153,11 +1163,15 @@ function composeBinding(
       // protest in the street or workers who walked out.
       const flag = record?.kind === "civic.strike" ? "strike" : "protest";
       facts[flag] = { text: "yes", sourceRecordIds: [said.actionId] };
-      if (said.size)
-        facts.number = {
-          text: said.size,
-          sourceRecordIds: [said.actionId],
-        };
+      // A protest is held outside: the narration puts everyone in the street,
+      // so the replies that belong to a meeting (a seat, a stay-after) are not
+      // offered, and their outdoor twins are.
+      if (flag === "protest")
+        facts.outdoors = { text: "yes", sourceRecordIds: [said.actionId] };
+      Object.assign(
+        facts,
+        turnoutFacts(turnoutOf(record?.facts?.turnout), said.actionId),
+      );
     }
   }
   // A rally in the town (public-action.ts): the area the term read well in,
@@ -1170,8 +1184,10 @@ function composeBinding(
         sourceRecordIds: [said.actionId, moment.causeId],
       };
     facts.rally = { text: "yes", sourceRecordIds: [said.actionId] };
-    if (said.size)
-      facts.number = { text: said.size, sourceRecordIds: [said.actionId] };
+    Object.assign(
+      facts,
+      turnoutFacts(turnoutOf(record?.facts?.turnout), said.actionId),
+    );
   }
   // What an offer asks in return (a vote, a contract): the lines about that
   // favor need it, and the thing itself is named so the one offering says
@@ -1731,6 +1747,42 @@ function composeBinding(
       text: sayPerson(rival),
       sourceRecordIds: [moment.causeId, rival.id],
     };
+  // Word of a rival's message passed on: how it reached the teller, what it
+  // argued (the subject and the rival's side of it) and how far it moved the
+  // teller, each from the message's own record. Nothing here quotes it.
+  if (record?.kind === RIVAL_WORD_EVENT && record.topic) {
+    const how = HOW_WORD_REACHED[said.how ?? ""];
+    if (how)
+      facts[`how-${how}`] = {
+        text: "yes",
+        sourceRecordIds: [said.messageId ?? moment.causeId],
+      };
+    const issue = questionSaid(record.topic);
+    if (issue) facts.issue = { text: issue, sourceRecordIds: [moment.causeId] };
+    // What the question proposes, said whole ("civilian oversight of the
+    // police"), for the line that says which side the rival is on.
+    const about = questionAbout(record.topic);
+    if (about) facts.about = { text: about, sourceRecordIds: [moment.causeId] };
+    if (said.side === "for" || said.side === "against")
+      facts[`side-${said.side}`] = {
+        text: "yes",
+        sourceRecordIds: [said.messageId ?? moment.causeId],
+      };
+    // The player's own stand on it, where the views engine keeps one.
+    const own = core.modules.has(VIEWS_MODULE_ID)
+      ? stanceRow(coreAPI(core as CoreState), askedId, record.topic)
+      : undefined;
+    if (own && own.strength > P.zero)
+      facts["own-stand"] = {
+        text: "yes",
+        sourceRecordIds: [own.id, moment.causeId],
+      };
+    if (said.tellerId && said.messageId) {
+      facts[
+        `moved-${rivalWordMoved(coreAPI(core as CoreState), said.tellerId, said.messageId, record.topic)}`
+      ] = { text: "yes", sourceRecordIds: [said.messageId, said.tellerId] };
+    }
+  }
   // A rival who runs under the candidate's own party label: a primary
   // challenge. The lines that call it one need both filings to say so.
   if (rival && said.contestId && core.modules.has(ELECTIONS_MODULE_ID)) {
@@ -3257,6 +3309,9 @@ export function replyInScene(
         ? "no"
         : undefined
     : undefined;
+  const promised = ending
+    ? promiseReplyFacts({ ...scene, endingId: ending.id })
+    : {};
   applyCoreEvent(core, {
     id,
     date: core.date,
@@ -3279,7 +3334,7 @@ export function replyInScene(
       // A promise a record can settle: its kind and its tie, from the
       // ending's row in src/director/data/promise-kinds.json (promises.ts). stopgapId:
       // SG-WORDS-favor-promise-keeps-unread (endings with no row yet)
-      ...(ending ? promiseReplyFacts({ ...scene, endingId: ending.id }) : {}),
+      ...promised,
       ...(ending?.firmness ? { firmness: ending.firmness } : {}),
       // A promise made on a resident's own question names it, for the
       // Journal (ruling 72).
@@ -3295,6 +3350,12 @@ export function replyInScene(
     },
   });
   entry.replies = [...(entry.replies ?? []), id];
+  // A yes to come to a meeting with a friend: the player is marked to attend
+  // it (the calendar's own mark) and the friend is written onto it, so the
+  // meeting's record says who came (promises.ts settles the promise on it).
+  const meetingPromised = promised["promise-meetingId"];
+  if (meetingPromised && core.modules.has(OFFICE_DAY_MODULE_ID))
+    pledgeToCome(coreAPI(core), meetingPromised, scene.askerId);
   // Office hours: the official's answer settles the resident's case through the
   // cases engine, the way the desk's decision does, citing this reply. "I'll
   // make the call" and "Let me refer you" are help; "I can't help" is a decline;
@@ -3403,4 +3464,33 @@ export function replyInScene(
       { cause: "scene-put-off", sourceId: id },
     );
   return id;
+}
+
+/**
+ * How a turnout looks, read from the action's own record as it stands when the
+ * scene is composed (`turnoutOf`, public-action.ts, from its share of the
+ * town's adults): a scene says "a few",
+ * "a group" or "a crowd" and never the figure (owner's rule, no count in a
+ * scene). `turnout-many` is set for the two larger looks, for lines that
+ * serve both.
+ */
+function turnoutFacts(
+  turnout: "few" | "group" | "crowd" | undefined,
+  actionId: string,
+): Record<string, Fact> {
+  if (!turnout) return {};
+  const fact = (text: string): Fact => ({ text, sourceRecordIds: [actionId] });
+  return {
+    [`turnout-${turnout}`]: fact("yes"),
+    ...(turnout !== "few" ? { "turnout-many": fact("yes") } : {}),
+  };
+}
+
+/** How the turnout looked when the action formed: the fact its civic record keeps (public-action.ts, `turnout`), the same one the paper reads. */
+function turnoutOf(
+  value: string | undefined,
+): "few" | "group" | "crowd" | undefined {
+  return value === "few" || value === "group" || value === "crowd"
+    ? value
+    : undefined;
 }
