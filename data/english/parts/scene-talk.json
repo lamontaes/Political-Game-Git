@@ -63312,7 +63312,8 @@
           "role": "asker",
           "purpose": "donor-ask",
           "key": "favor-asked",
-          "requiresFacts": ["gift"]
+          "requiresFacts": ["gift"],
+          "excludesFacts": ["asked-before", "helped-before", "refused-before"]
         }
       ],
       "bearing": "calm",
@@ -187378,15 +187379,6 @@
           "step": "open",
           "move": "greet",
           "role": "asker",
-          "purpose": "appointment-offer",
-          "key": "honor",
-          "requiresFacts": ["helped-before"]
-        },
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
           "purpose": "constituent-help",
           "key": "favor-asked",
           "requiresFacts": ["helped-before"]
@@ -187434,15 +187426,6 @@
       "kind": "spoken",
       "text": "You came through for me before. So I came to you.",
       "uses": [
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "purpose": "appointment-offer",
-          "key": "honor",
-          "requiresFacts": ["helped-before"]
-        },
         {
           "subject": "scene",
           "step": "open",
@@ -187617,16 +187600,6 @@
       "kind": "spoken",
       "text": "I came to you about this before. Nothing came of it.",
       "uses": [
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "purpose": "appointment-offer",
-          "key": "honor",
-          "requiresFacts": ["asked-before"],
-          "excludesFacts": ["helped-before", "refused-before"]
-        },
         {
           "subject": "scene",
           "step": "open",
