@@ -227,10 +227,12 @@ for (const pin of PINS)
           note(`- player: ${back!.text}`);
           expect(state.visit.lines.at(-1)!.text, where).toBe(back!.text);
           expect(
-            core.durableLog.has(
-              `scene-reply:filing-counter:${found.contestId}:${me}:`,
-            ),
-            `${where}: the reply is recorded`,
+            [...core.durableLog.keys()].filter((id) =>
+              id.startsWith(
+                `scene-reply:filing-counter:${found.contestId}:${me}:`,
+              ),
+            ).length >= 2,
+            `${where}: both the try and the come-back reply are recorded`,
           ).toBe(true);
           expect(core.people.get(me)!.liquidMinor, where).toBe(before);
           seen.short = where;

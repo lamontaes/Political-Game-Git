@@ -81,6 +81,12 @@ export interface PartUse {
   onlyWhen?: string[];
   /** Facts that rule the piece out ("elder": nobody tells an 80-year-old to wait a cycle). */
   excludesFacts?: string[];
+  /**
+   * Facts that hold for the rest of the talk once the piece is said (an
+   * answer sets what it told, so the question it answered is held back and
+   * the replies that take it up can follow).
+   */
+  setsFacts?: string[];
 }
 
 export interface BankPart {

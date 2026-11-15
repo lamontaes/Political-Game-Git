@@ -80,7 +80,7 @@ for (let draw = 0; draw < draws; draw += 1) {
   let passedOver = 0;
   for (let day = 0; day < days && talks < wanted; day += 1) {
     advanceCore(core, addDays(makeIsoDate(core.date), 1));
-    if (stage === "illness" && day === 1) {
+    if ((stage === "illness" || stage === "death") && day === 1) {
       // STAGED, never natural: the health engine's own onset is started for
       // the first living relative of the player who lives elsewhere.
       const home = core.households.get(
@@ -105,6 +105,9 @@ for (let draw = 0; draw < draws; draw += 1) {
         continue;
       for (const subject of subjectsBetween(core, id, playerId, director)) {
         if (!KINDS.has(subject.kind) || told.has(subject.id)) continue;
+        // "death" stages the same illness but tells only the death, so the
+        // house was never told of the illness (no illness on the player's record).
+        if (stage === "death" && subject.kind !== "death-news") continue;
         told.add(subject.id);
         // The talk the director's household scene opens: the occasion is the
         // player's own moment for the news (its cause is the record).
