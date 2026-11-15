@@ -6384,8 +6384,7 @@ function laterMentions(
   conversation: Conversation,
   from: number,
 ): void {
-  publicEmployerFor(core, conversation, from);
-  employerOnce(conversation, from);
+  employerOnce(conversation, from, publicEmployerFor(core, conversation, from));
   presidentOnce(core, conversation, from);
   questionOnce(conversation);
 }
@@ -6451,8 +6450,9 @@ function publicEmployerFor(
   core: Readonly<CoreState>,
   conversation: Conversation,
   from: number,
-): void {
+): string[] {
   const { playerId, otherId } = conversation;
+  const spoken: string[] = [];
   const fix = (
     row: { text: string; sourceRecordIds: readonly string[] },
     speakerId: PersonId,
@@ -6466,14 +6466,25 @@ function publicEmployerFor(
       // A government of the talk's own place is said by its class
       // (Words lead ruling, Nov 15), anything else by its full name.
       const said = employerInTalk(core, org, speakerId, listenerId) ?? name;
-      if (said !== name) row.text = row.text.split(name).join(said);
+      // A name at the start of a sentence is capitalized, so it is found
+      // whatever its first letter ("The Township of Wallace for me").
+      if (said !== name)
+        row.text = row.text.replace(
+          new RegExp(name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "gi"),
+          (found) =>
+            /^[A-Z]/.test(found)
+              ? `${said.charAt(zero).toUpperCase()}${said.slice(1)}`
+              : said,
+        );
       row.text = publicEmployerSaid(row.text, said);
+      if (!spoken.includes(said)) spoken.push(said);
     }
   };
   for (const line of conversation.lines.slice(from))
     fix(line, line.speakerId, line.speakerId === playerId ? otherId : playerId);
   for (const choice of [...conversation.choices, ...conversation.lies])
     fix(choice, playerId, otherId);
+  return spoken;
 }
 
 /**
@@ -6482,16 +6493,22 @@ function publicEmployerFor(
  * Supply Company?" / "Walters Supply Company wears me out."), across the
  * talk's lines and each reply offered.
  */
-function employerOnce(conversation: Conversation, from: number): void {
-  const names = new Set(
-    [conversation.topicFacts?.employer, conversation.last?.facts.employer]
+function employerOnce(
+  conversation: Conversation,
+  from: number,
+  /** A government as the talk now says it ("the township"), named once like a business. */
+  spoken: readonly string[] = [],
+): void {
+  const names = new Set([
+    ...[conversation.topicFacts?.employer, conversation.last?.facts.employer]
       .map((fact) => fact?.text)
       .filter((text): text is string => !!text),
-  );
+    ...spoken,
+  ]);
   for (const name of names) {
     const before = conversation.lines
       .slice(zero, from)
-      .some((line) => line.text.includes(name));
+      .some((line) => line.text.toLowerCase().includes(name.toLowerCase()));
     const lines = conversation.lines.slice(from);
     const said = nameOnceThen(
       lines.map((line) => line.text),
@@ -7614,7 +7631,14 @@ function partingLine(
   }
   if (key) {
     const ids = topic[key]!.sourceRecordIds;
-    facts["about-said"] = topic[key]!;
+    // The closing names the topic only when the talk said it: an employer
+    // the player never named is not one the other person knows
+    // (owner rule 113).
+    const said = conversation.lines
+      .map((line) => line.text.toLowerCase())
+      .join(" ");
+    if (said.includes(topic[key]!.text.toLowerCase()))
+      facts["about-said"] = topic[key]!;
     facts[`about-${key}`] = { text: "yes", sourceRecordIds: ids };
     // Whose it is: the player's own (they were asked about it) or the
     // speaker's (they raised their own), by the topic's subject.

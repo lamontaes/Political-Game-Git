@@ -262,3 +262,16 @@ describe("a state's own government said in talk", () => {
     expect(said("District", "US-DC")).toBe("the District");
   });
 });
+
+describe("an employer named at the start of a sentence", () => {
+  it("counts as named, so the later mention is 'there' however it is capitalized", () => {
+    const said = nameOnceThen(
+      ["The township for me, 3 years now.", "I'm with the township."],
+      "the township",
+      "worker",
+      false,
+    );
+    expect(said.texts[0]).toBe("The township for me, 3 years now.");
+    expect(said.texts[1]).toBe("I'm there.");
+  });
+});

@@ -465,7 +465,7 @@ export function nameOnceThen(
 ): { texts: string[]; named: boolean } {
   const word = ownPlaceSaid(tie);
   const escaped = name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-  const pattern = new RegExp(`(?<![\\w'])${escaped}(?![\\w'])`, "g");
+  const pattern = new RegExp(`(?<![\\w'])${escaped}(?![\\w'])`, "gi");
   // A worker's later mention after a frame that already says work, or that
   // takes "with" or "for", is "there" (said-as.json ownPlaceThere).
   const frames =
