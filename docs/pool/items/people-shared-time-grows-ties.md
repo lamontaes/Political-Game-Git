@@ -5,9 +5,9 @@ area: core
 kind: feature
 priority: 2
 size: M
-status: open
+status: in-pr
 claimed-by:
-pr:
+pr: #9364
 blocked-on:
 lead: laws-effects
 source: director lead, director-tie-turn-scenes-never-fire (#6335), Oct 27
@@ -36,3 +36,9 @@ checked: fable 2026-11-10
 **Files.** src/core2/closeness.ts, src/core2/data/closeness.json
 
 **Notes.** Found by the director lead while diagnosing why becoming-friends never fired.
+
+Nov 14 (Account lead thread, built locally, PR to follow): the weekly jobs step now credits each known pair at one employer with the minutes their own work schedules overlap, times `workContactShare` (ESTIMATED, spread 0.1 to 0.4) split over the people the workplace lets one know (`knownAmong`), through the one relationship writer: `src/core2/work-closeness.ts`, called from the `jobs-week` handler in `modules/jobs.ts`; test `src/core2/work-closeness.test.ts` (Iron Station NC 3733820). Housemates are already credited weekly (`shareHomeTime` in `modules/people.ts`). Next steps, not in that PR: neighbors on one street or building (nothing credits shared time there), classmates once the school engine records a class, and group members from meeting attendance.
+
+**Why a year ends with about 2% fewer relationship rows (Nov 15, Sheridan WY 5669845 seed a1: 10205 without, 10042 with).** Every row that differs between the two years is a person-to-person contact row, and 5313 contact row ends without the change against 4960 with it sit on people whose ties the change credited (1190 rows changed level, 732 up, 458 down), while everyone else gains 24. The weekly credit lifts ties between known colleagues, the contact chooser's pull on those ties is the hours each has lost, so more of those people's weekly contacts go to colleagues they already have a tie with and fewer reach a new person. No limit on how many ties a person holds is involved: ties are never removed, and the weekly shortlist of fifteen (`SG-PEOPLE-cause-holder-weekly-contacts`, people.ts) was ruled out by running both years with it set above any person's ties, where the gap stayed (10187 against 9996). The gap is therefore a read of the new closeness, not a cap.
+
+**Whether meeting new people has its own engine (Nov 15).** It has: `encounters.ts` meets people (at work, on joining, on a visit, in a meeting, in talk). It has no share of the chooser's time of its own, though: a visit to someone new competes with visits to known ties inside the same contact chooser (`contact-candidate` in `modules/people.ts` offers every tied person plus one untied person they know), so the fall in new ties that closer colleagues cause falls out of that competition and is not a second effect. If the owner wants a person's meeting of strangers to keep its own room, it is a change to that chooser's offers, not to this mechanism.

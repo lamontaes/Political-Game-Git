@@ -160,9 +160,13 @@ describe("the shipped scene-talk bank says its most specific line", () => {
     const passedOver: string[] = [];
     const wrong: string[] = [];
     for (const [spot, rows] of bySpot) {
+      // A line that checks any fact (requiresFacts or onlyWhen) is not
+      // generic: both rank alike (words-a-line-ranks-by-every-fact-it-checks).
       const generic = rows.filter(
         (row) =>
-          !row.use.requiresFacts?.length && !row.use.excludesFacts?.length,
+          !row.use.requiresFacts?.length &&
+          !row.use.onlyWhen?.length &&
+          !row.use.excludesFacts?.length,
       );
       const tied = rows.filter(
         (row) =>

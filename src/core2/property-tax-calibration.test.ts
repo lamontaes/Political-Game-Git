@@ -91,7 +91,7 @@ it(`combined survey taxes are calibration, not county law: ${place.name}, replay
       level: bodyReach(api, body!.office.id),
       series,
       value: 0,
-      unit: "percent of home value per year",
+      unit: "percent-of-home-value",
       effectiveDate: api.state.date,
       measureId: "reader-property-zero",
       citation: "Property-tax calibration reader fixture, not a vote",

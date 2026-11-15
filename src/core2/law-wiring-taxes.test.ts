@@ -376,7 +376,7 @@ describe(`tax and public finance laws in a played world (seed ${seed})`, () => {
   it(
     "applies each law to people, groups and treasuries, moves money, and ends on repeal",
     // Each draw builds a town; only the first with a subject for every law
-    // runs its 170 days. Dennis, Massachusetts takes about 156 s, and the time
+    // runs its 170 days. Dennis, Massachusetts takes about 250 s, and the time
     // is the game's own: the estate case plays the 270 days probate waits.
     { timeout: 320_000 },
     () => {

@@ -22,7 +22,7 @@ export interface PartUse {
   subject: string;
   role: string;
   requiresFacts?: string[];
-  /** Facts that keep the line true without ranking it (scene talk's `onlyWhen`). */
+  /** Facts that keep the line true without being named in it (scene talk's `onlyWhen`); they rank as `requiresFacts` do. */
   onlyWhen?: string[];
   /** Facts that rule the piece out where the record holds them, as in scene talk. */
   excludesFacts?: string[];
