@@ -105,7 +105,7 @@ When a played proof shows an engine's reaction never happening (Nov 1: an incumb
 
 ## Counting who ran in a seat (Nov 15)
 
-Count a seat's filers by filings whose status is not `withdrawn`, and only for seats whose filing deadline has passed on the day you stop. A count that includes withdrawn filings or open windows reads a major party as present or absent wrongly (the first 12-place count of uncontested seats did). A seat has few filers per place, so a share needs many places; say how many seats it rests on. A weight is never moved until a measured share matches a benchmark: derive it from a person's own sum or a source with its spread, and report the result against the benchmark.
+Count a seat's filers by filings whose status is not `withdrawn`, and only for seats whose filing deadline has passed on the day you stop. A count that includes withdrawn filings or open windows reads a major party as present or absent wrongly (the first 12-place count of uncontested seats did). A seat has few filers per place, so a share needs many places; say how many seats it rests on. A weight is never moved until a measured share matches a benchmark: derive it from a person's own sum or a source with its spread, and report the result against the benchmark. A filer whose ballot label is empty is not a missing party: a resident the town's monthly party meeting has not met yet has no tie, so the filing carried no label until the meeting tied them days later. Read the label against the person's party on the day you count (`partyOf`) before reporting a seat as missing a major party; 4 of 11 House seats read as missing a party that way and 1 of 11 did once filers took their tie first (#9528). A seat's count by label is a count of tied filers.
 
 ## Stop condition
 
