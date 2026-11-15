@@ -84107,32 +84107,6 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.we-can-do-that-you-ll-have-it-in-a-page",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "We can do that. You'll have it in a page.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "desk-visit",
-          "key": "desk-visit",
-          "after": "bargain",
-          "requiresFacts": ["against"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Helper D (words and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "accept",
-        "key": "desk-visit"
-      }
-    },
-    {
       "key": "scene-talk.follow-press.a-fix-that-comes-later-doesn-t-help-the-people-it-hits-now",
       "move": "follow-press",
       "kind": "spoken",
