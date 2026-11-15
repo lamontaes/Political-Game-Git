@@ -2,13 +2,15 @@
 function countOf(
   core: Readonly<CoreState>,
   resultId: string,
+  /** A count that kept its totals under `votes` (a primary's) reads from there too. */
+  orVotes = false,
 ): { totals: Record<string, number>; votes: number[]; seats: number } {
   let totals: Record<string, number> = {};
   try {
     totals = JSON.parse(
       String(
         core.durableLog.get(resultId)?.facts?.totals ??
-          core.durableLog.get(resultId)?.facts?.votes ??
+          (orVotes ? core.durableLog.get(resultId)?.facts?.votes : undefined) ??
           "{}",
       ),
     ) as Record<string, number>;
@@ -36,7 +38,7 @@ export function votesShort(
   resultId: string,
   loserId: string,
 ): number {
-  const { totals, votes, seats } = countOf(core, resultId);
+  const { totals, votes, seats } = countOf(core, resultId, true);
   const own = Number(totals[loserId] ?? P.zero);
   const cutoff = votes[Math.min(seats, votes.length) - P.one] ?? own;
   return Math.max(P.zero, cutoff - own);
@@ -70,7 +72,11 @@ export function raceMargin(
    */
   loserId?: string,
 ): RaceMargin {
-  const { totals, votes, seats } = countOf(core, resultId);
+  const { totals, votes, seats } = countOf(
+    core,
+    resultId,
+    loserId !== undefined,
+  );
   if (votes.length === P.one) return "alone";
   const cast = votes.reduce((sum, count) => sum + count, P.zero);
   if (votes.length < P.two || !(cast > P.zero)) return "middle";
