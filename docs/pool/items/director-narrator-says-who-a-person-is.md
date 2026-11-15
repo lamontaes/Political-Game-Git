@@ -5,10 +5,10 @@ area: words
 kind: feature
 priority: 1
 size: M
-status: open
+status: in-pr
 standard: 2
 claimed-by: desk thread
-pr:
+pr: 9581
 after: people-act-at-a-distance-is-not-contact
 blocked-on:
 lead: words
