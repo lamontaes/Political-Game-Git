@@ -49,8 +49,7 @@ import {
 } from "../english/journal-words";
 import { DEFAULT_DIRECTOR_DATA, type Director } from "./ledger";
 import { comingOfAgeOn } from "./coming-of-age";
-import { raceMemberTitle } from "./cause-facts";
-import { titleInSentence } from "./filing-visit";
+import { causeRecordFacts } from "./cause-facts";
 import { raceMargin } from "./race-margin";
 import {
   organizationName,
@@ -830,12 +829,7 @@ function petitionOffice(
   core: Readonly<CoreState>,
   reply: { facts?: Record<string, unknown> },
 ): string | undefined {
-  const facts = core.durableLog.get(String(reply.facts?.causeId))?.facts;
-  const office = facts?.office;
-  return typeof office === "string"
-    ? (raceMemberTitle(core, String(facts?.contestId)) ??
-        titleInSentence(office))
-    : undefined;
+  return causeRecordFacts(core, String(reply.facts?.causeId)).office?.text;
 }
 
 /** Who told the petition was short, from the scene's own record. */

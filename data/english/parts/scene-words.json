@@ -6109,52 +6109,10 @@
       }
     },
     {
-      "key": "scene-words.lead-petition-short-other.other-comes-by-the-house-with-the-petition-sheets",
-      "move": "lead-petition-short-other",
-      "kind": "spoken",
-      "text": "{other} comes by the house with the petition sheets.",
-      "uses": [
-        {
-          "move": "lead-petition-short-other",
-          "subject": "lead",
-          "role": "petition-short",
-          "choice": "other",
-          "settings": ["home"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (petition-short lines, Nov 15), placed by the record",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
-      "key": "scene-words.lead-petition-short-other.other-is-at-your-door-and-it-s-about-the-petition",
-      "move": "lead-petition-short-other",
-      "kind": "spoken",
-      "text": "{other} is at your door, and it's about the petition.",
-      "uses": [
-        {
-          "move": "lead-petition-short-other",
-          "subject": "lead",
-          "role": "petition-short",
-          "choice": "other",
-          "settings": ["home"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (petition-short lines, Nov 15), placed by the record",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
-      "key": "scene-words.lead-petition-short-alone.someone-wants-a-word-about-your-petition-for-office",
+      "key": "scene-words.lead-petition-short-alone.it-s-about-your-petition-for-office",
       "move": "lead-petition-short-alone",
       "kind": "spoken",
-      "text": "Someone wants a word about your petition for {office}.",
+      "text": "It's about your petition for {office}.",
       "uses": [
         {
           "move": "lead-petition-short-alone",

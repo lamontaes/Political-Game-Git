@@ -19,6 +19,7 @@ import { spanSaid } from "../english/span-words";
 import type { Fact } from "../english/scene-words";
 import { billName, lawName, lawTopic } from "./journal";
 import { organizationName } from "./words";
+import { titleInSentence } from "./filing-visit";
 
 interface OfficeRow {
   readonly title: string;
@@ -146,6 +147,16 @@ export function causeRecordFacts(
   if (record) {
     const office = officeSaid(core, facts);
     if (office) put("office", office.text, office.ids);
+    // A petition said to be short names its race the way the talk and the
+    // Journal do, by the seat's member ("council member"), so one scene says
+    // the office one way.
+    if (record.kind === "petition-short" && typeof facts.office === "string")
+      put(
+        "office",
+        raceMemberTitle(core, String(facts.contestId)) ??
+          titleInSentence(facts.office),
+        [String(facts.contestId)],
+      );
     if (typeof facts.billId === "string")
       put("bill", billName(core, facts.billId), [facts.billId]);
     // A closure names the organization in its status fact's key.

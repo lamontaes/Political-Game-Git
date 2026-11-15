@@ -8386,7 +8386,7 @@ export function petitionShiftYield(): number {
 
 /** How a controlled filer's petition stands against the days left, and whether it is the day to say so. */
 export interface PetitionShortReading {
-  /** Signatures still wanted to reach what a campaign gathers (`signaturesToGather`). */
+  /** Signatures still wanted to reach what the teller measures it by (see `petitionShortReading`). */
   readonly gap: number;
   readonly daysLeft: number;
   /** What the days left, one canvass shift each, can add. */
@@ -8398,21 +8398,27 @@ export interface PetitionShortReading {
 
 /**
  * Whether a filed player's petition is behind enough to say so today: the
- * gap to what a campaign gathers is more than the days left after the next
- * turn can close at one canvass shift a day (`petitionShiftYield`), so waiting
- * for the next turn would leave it out of reach. A petition on pace never
- * reads as due; one that the count has already filled is not behind. Null when
- * nothing is circulating.
+ * gap is more than the days left after the next turn can close at one canvass
+ * shift a day (`petitionShiftYield`), so waiting for the next turn would leave
+ * it out of reach. The clerk measures the petition by what the office
+ * requires (`needed`, the count the clerk will check it against); someone on
+ * the campaign measures it by what the campaign aims to gather
+ * (`signaturesToGather`, the cushion for names that will not count). A
+ * petition on pace never reads as due; one at its measure is not behind. Null
+ * when nothing is circulating.
  */
 export function petitionShortReading(
   api: CoreAPI,
   filingId: string,
   turnWait: number,
+  by: "clerk" | "helper" = "helper",
 ): PetitionShortReading | null {
   if (!petitionAsksAtDoors(api, filingId)) return null;
   const petition = petitionOf(api, filingId);
   if (!petition?.needed) return null;
-  const gap = signaturesToGather(petition.needed) - petition.signed;
+  const measure =
+    by === "clerk" ? petition.needed : signaturesToGather(petition.needed);
+  const gap = measure - petition.signed;
   const daysLeft = daysBetween(api.state.date, petition.due);
   const shift = petitionShiftYield();
   const canAdd = shift * daysLeft;
@@ -8466,10 +8472,10 @@ export function tellPetitionShort(
   if (campaign.candidateId !== (api.state as CoreState).playerId) return false;
   const id = `${PETITION_SHORT_EVENT}:${filingId}`;
   if (api.state.durableLog.has(id)) return false;
-  const reading = petitionShortReading(api, filingId, turnWait);
-  if (!reading?.due) return false;
   const teller = petitionTeller(api, filingId);
   if (!teller) return false;
+  const reading = petitionShortReading(api, filingId, turnWait, teller.kind);
+  if (!reading?.due) return false;
   const petition = petitionOf(api, filingId)!;
   const contest = elections(api, "contests").get(campaign.contestId) as
     ContestRow | undefined;
@@ -8481,7 +8487,7 @@ export function tellPetitionShort(
     placeId: townRow(api).townPlaceId,
     source: {
       tag: "SOURCED",
-      citation: `Petition ${petition.id}: ${petition.signed} signed of ${signaturesToGather(petition.needed)} a campaign gathers, ${reading.daysLeft} days left`,
+      citation: `Petition ${petition.id}: ${petition.signed} signed, ${petition.needed} needed (${signaturesToGather(petition.needed)} a campaign gathers), ${reading.daysLeft} days left`,
       asOf: api.state.date,
     },
     facts: {
@@ -8495,6 +8501,7 @@ export function tellPetitionShort(
       // What the engine read the day it told them, for the trace.
       signed: String(petition.signed),
       gathers: String(signaturesToGather(petition.needed)),
+      needed: String(petition.needed),
       daysLeft: String(reading.daysLeft),
       canAddAfterNextTurn: reading.canAddAfterNextTurn.toFixed(1),
       ...(contest ? { office: contest.title } : {}),

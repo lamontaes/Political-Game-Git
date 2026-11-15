@@ -5536,7 +5536,7 @@
         "counterpart": "any",
         "seat": "any"
       },
-      "note": "A filed player's petition is behind what the days left can still close, and someone who would really tell them says so: the campaigns engine's petition-short record (written once per filing, on the last day a canvass shift a day can still close the gap to what a campaign gathers) names the candidate and the one who tells, the clerk who took the filing or else a helper on the campaign. The player's answer is the pause; a yes (going-out) takes their canvass day, anything else changes nothing (OWNER-DECISIONS Oct 14: the engine offers, the player decides).",
+      "note": "A filed player's petition is behind what the days left can still close, and someone who would really tell them says so: the campaigns engine's petition-short record (written once per filing, on the last day a canvass shift a day can still close the gap: to the count the office requires when the clerk tells, to what the campaign aims to gather when a helper does) names the candidate and the one who tells, the clerk who took the filing or else a helper on the campaign. The player's answer is the pause; a yes (going-out) takes their canvass day, anything else changes nothing (OWNER-DECISIONS Oct 14: the engine offers, the player decides).",
       "roles": [
         {
           "key": "teller",

@@ -27,7 +27,6 @@ import { advanceCore } from "../core2/life";
 import {
   campaignFor,
   PETITION_SHORT_EVENT,
-  enlistVolunteer,
   petitionShiftYield,
   signaturesToGather,
 } from "../core2/modules/campaigns";
@@ -39,6 +38,7 @@ import {
 } from "../core2/modules/elections";
 import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
+import controls from "../bench/data/controls.json" with { type: "json" };
 import { DevMode } from "../bench/dev-mode";
 import { composeJournal } from "./journal";
 import { purposeScene, replyInScene } from "./purpose-scene";
@@ -47,22 +47,18 @@ import type { TreeNode } from "./scene-talk";
 
 const PLACE = "3972242";
 const SEED = "scan-25";
-/** Seeds of this town where a petition runs short for the clerk and for a helper alike, found by hand. */
-const SIBLING_SEEDS = [
-  "scan-3",
-  "scan-5",
-  "scan-6",
-  "scan-9",
-  "scan-12",
-  "scan-14",
-  "scan-24",
-];
+/** Seeds of this town where the petition runs short and the clerk tells the player, found by hand. */
+const CLERK_SEEDS = ["scan-3", "scan-9", "scan-12", "scan-14", "scan-24"];
+/** Seeds where a played yes to an offer of help puts a helper on the campaign who then tells the player, found by hand. */
+const HELPER_SEEDS = ["scan-4", "scan-6", "scan-7", "scan-19"];
+/** A seed of this town where a household member's offer to run the campaign comes and the player's yes puts them on its staff. */
+const HELPER_SEED = "scan-5";
 const OUT = process.env.PETITION_SHORT_PLAYED;
 const write = (text: string) => {
   if (OUT) appendFileSync(OUT, `${text}\n`);
 };
 
-function filer(seed: string = SEED) {
+function filer(seed: string = SEED, helped = false) {
   setBookkeeping(false);
   const world = buildBenchWorld(seed, gameStartDate(), {
     twoLevel: true,
@@ -109,7 +105,15 @@ function filer(seed: string = SEED) {
       .table("filings")
       .rows() as unknown as FilingRow[]
   ).find((f) => f.personId === entrant && f.contestId === contestId)!;
-  return { core, api, director, me: entrant!, filing };
+  return {
+    core,
+    api,
+    director,
+    me: entrant!,
+    filing,
+    helped,
+    filedOn: core.date,
+  };
 }
 
 const toldId = (filingId: string) => `${PETITION_SHORT_EVENT}:${filingId}`;
@@ -129,12 +133,44 @@ function lines(node: TreeNode | null, path: string[], out: string[]): void {
 
 type Case = ReturnType<typeof filer>;
 
-/** Plays days until the record is written, or the deadline passes. */
+/**
+ * Plays days until the record is written, or the deadline passes. A player
+ * with `helped` says yes to the offers of help that come (the game's own
+ * manager-offer and offer-help scenes), as a player who wants a helper would;
+ * the others leave every offer unanswered.
+ */
 function playToTold(world: Case): string | undefined {
-  const { core, api, filing } = world;
+  const { core, api, director, me, filing } = world;
   const petition = petitionOf(api, filing.id)!;
-  while (core.date <= petition.due && !core.durableLog.has(toldId(filing.id)))
+  const answered = new Set<string>();
+  while (core.date <= petition.due && !core.durableLog.has(toldId(filing.id))) {
     advanceCore(core, addDays(makeIsoDate(core.date), 1));
+    if (!world.helped) continue;
+    const book = director.ledger.people.get(me)!;
+    for (const entry of book.schedule)
+      for (const binding of entry.bindings) {
+        if (!["manager-offer", "offer-help"].includes(binding.typeKey))
+          continue;
+        const key = `${entry.momentId}:${binding.typeKey}`;
+        if (answered.has(key)) continue;
+        const result = purposeScene(core, director, me, entry, {
+          typeKey: binding.typeKey,
+        });
+        if (result?.kind !== "composed") continue;
+        const yes = result.scene.talk.tree.replies.findIndex(
+          (r) => r.line.move === "agree",
+        );
+        if (yes < 0) continue;
+        answered.add(key);
+        const said = result.scene.talk.tree.replies[yes]!;
+        write(
+          `Played ask on ${core.date} (${binding.typeKey}): ${core.people.get(result.scene.askerId)!.givenName} offers. Opener: ${result.scene.talk.state.text}\nYou say: "${said.line.text}" => ${said.next?.lines.map((l) => l.text).join(" ") ?? ""}\n`,
+        );
+        replyInScene(core, director, me, entry, [yes], {
+          typeKey: binding.typeKey,
+        });
+      }
+  }
   return core.durableLog.has(toldId(filing.id)) ? core.date : undefined;
 }
 
@@ -196,39 +232,27 @@ function told(world: Case, label: string, seed: string = SEED) {
 function journalAbout(world: Case): string[] {
   return composeJournal(world.core, world.director, world.me)
     .flatMap((chapter) => chapter.lines)
-    .filter((line) => line.date >= "2025-08-03")
+    .filter((line) => line.date >= world.filedOn)
     .map((line) => `${line.date}: ${line.text}`);
 }
 
-/** The player's one canvass hour by hand, as the Campaign tab lets them: some names, not all. */
-function startedByHand(world: Case) {
-  const { api, filing } = world;
-  takeCampaignDayChoice(api, filing.id, "canvass", { hours: 1 });
-  expect(petitionOf(api, filing.id)!.signed).toBeGreaterThan(0);
-  expect(petitionOf(api, filing.id)!.signed).toBeLessThan(
-    signaturesToGather(petitionOf(api, filing.id)!.needed),
-  );
-}
-
 /**
- * STAGED: someone from the player's household joins the campaign by the
- * game's own enlisting (what a yes to a helper's offer does), the day before
- * the petition can no longer wait, so a helper is there to tell them. A
- * helper who joined earlier would walk the doors and fill the petition, and
- * nothing would be told.
+ * Some hours of canvass by hand, as the Campaign tab lets them: some names, not
+ * all. `short` is what they must still be below: the count the office requires
+ * (what the clerk measures by) or what a campaign gathers (what a helper does).
  */
-function helperJoins(world: Case) {
-  const { core, api, me, filing } = world;
+function startedByHand(
+  world: Case,
+  hours: number,
+  short: "needed" | "gathers",
+) {
+  const { api, filing } = world;
+  takeCampaignDayChoice(api, filing.id, "canvass", { hours });
   const petition = petitionOf(api, filing.id)!;
-  while (core.date < addDays(makeIsoDate(petition.due), -4))
-    advanceCore(core, addDays(makeIsoDate(core.date), 1));
-  const mate = [
-    ...(core.households.get(core.people.get(me)!.householdId)?.memberIds ?? []),
-  ]
-    .filter((id) => id !== me)
-    .sort()
-    .find((id) => enlistVolunteer(api, filing.id, id));
-  expect(mate, "a housemate joins the campaign").toBeDefined();
+  expect(petition.signed).toBeGreaterThan(0);
+  expect(petition.signed).toBeLessThan(
+    short === "needed" ? petition.needed : signaturesToGather(petition.needed),
+  );
 }
 
 const doorsOf = (world: Case) =>
@@ -281,10 +305,9 @@ it("a no changes nothing: no door is walked for the player", () => {
     ["Clerk, then a no", false],
     ["Helper, then a no", true],
   ] as const) {
-    const world = filer();
-    if (byHelper) helperJoins(world);
+    const world = filer(byHelper ? HELPER_SEED : SEED, byHelper);
     const { core, director, me } = world;
-    const { entry, scene } = told(world, label);
+    const { entry, scene } = told(world, label, byHelper ? HELPER_SEED : SEED);
     const no = scene.talk.tree.replies.findIndex(
       (r) => r.line.move === "deflect",
     );
@@ -305,7 +328,7 @@ it("a no changes nothing: no door is walked for the player", () => {
     const journal = journalAbout(world).join(" ");
     expect(journal, "the Journal keeps the no").toMatch(
       byHelper
-        ? /my mother said my petition was short\. I let it wait\./
+        ? /said my petition was short\. I let it wait\./
         : /[Tt]he clerk said my .+ petition was short\. I waited\./,
     );
     write(`Said no (${label}). Journal: ${journalAbout(world).join(" | ")}\n`);
@@ -315,22 +338,42 @@ it("a no changes nothing: no door is walked for the player", () => {
   }
 }, 1_500_000);
 
-it("the clerk's words once something is on the petition, and a helper's words, in both cases", () => {
+it("the clerk's words once some names are on the petition, below what the office requires, and a helper's words in both cases", () => {
   const started = filer();
-  startedByHand(started);
-  const a = told(started, "Clerk, something signed");
+  startedByHand(started, 0.5, "needed");
+  const a = told(
+    started,
+    "Clerk, some names but fewer than the office requires",
+  );
   expect(a.record.facts?.tellerKind).toBe("clerk");
   expect(a.record.facts?.started).toBe("yes");
-  const helped = filer();
-  helperJoins(helped);
-  const b = told(helped, "Helper, as the day goes");
+  expect(Number(a.record.facts?.signed)).toBeLessThan(
+    Number(a.record.facts?.needed),
+  );
+  const helped = filer(HELPER_SEED, true);
+  const b = told(helped, "Helper, as the day goes", HELPER_SEED);
   expect(b.record.facts?.tellerKind).toBe("helper");
-  const both = filer();
-  helperJoins(both);
-  startedByHand(both);
-  const c = told(both, "Helper, something signed");
+  const both = filer(HELPER_SEED, true);
+  startedByHand(both, 0.5, "gathers");
+  const c = told(both, "Helper, something signed", HELPER_SEED);
   expect(c.record.facts?.tellerKind).toBe("helper");
   expect(c.record.facts?.started).toBe("yes");
+}, 1_500_000);
+
+it("a clerk says nothing when the names already meet what the office requires", () => {
+  const world = filer();
+  const { core, api, filing } = world;
+  takeCampaignDayChoice(api, filing.id, "canvass", { hours: 1 });
+  const petition = petitionOf(api, filing.id)!;
+  expect(
+    petition.signed,
+    "an hour of canvass met the requirement",
+  ).toBeGreaterThanOrEqual(petition.needed);
+  expect(playToTold(world), "nothing told").toBeUndefined();
+  advanceCore(core, addDays(makeIsoDate(petition.due), 1));
+  write(
+    `## Clerk, names meet the requirement: ${PLACE} ${SEED}, ${petition.signed} signed, ${petition.needed} needed, a campaign gathers ${signaturesToGather(petition.needed)}. No one tells them; the clerk's check: ${statusOf(world)}.\n`,
+  );
 }, 1_500_000);
 
 it("a petition the count has filled is never told", () => {
@@ -365,8 +408,22 @@ it("dev mode brings on the offer and traces what the engine read", () => {
   expect(result.gathers).toBe(15);
   expect(result.canAddAfterNextTurn).toBe(0);
   expect(core.durableLog.has(toldId(filing.id))).toBe(true);
+  const labels = controls.devCampaign;
   write(
-    `## Dev mode: "${"Petition falls behind"}" advanced to ${result.told}; told by the ${result.tellerKind}; ${result.signed} of ${result.gathers} signed, ${result.daysLeft} days left.\n`,
+    `## Dev mode, a petition that falls behind: the button "${labels.petitionBehind}" advanced to ${result.told}; the line shown: "${labels.petitionTold}". Told by the ${result.tellerKind}; ${result.signed} of ${result.gathers} signed, ${result.daysLeft} days left.\n`,
+  );
+  // A petition on pace is never told, and the control says so.
+  const onPace = filer();
+  takeCampaignDayChoice(onPace.api, onPace.filing.id, "canvass", { hours: 1 });
+  const none = new DevMode(
+    onPace.core,
+    onPace.director,
+    undefined,
+    PLACE,
+  ).petitionShort(onPace.filing.id);
+  expect(none.told).toBeNull();
+  write(
+    `## Dev mode, a petition that meets the requirement: the button "${labels.petitionBehind}"; the line shown: "${labels.petitionNotTold}".\n`,
   );
 }, 1_500_000);
 
@@ -377,18 +434,20 @@ it("dev mode brings on the offer and traces what the engine read", () => {
  * written whole, in the same layout as the cases above.
  */
 it("other worlds show the other wordings of the clerk's and the helper's talk", () => {
-  for (const seed of SIBLING_SEEDS) {
-    for (const byHelper of [false, true]) {
+  for (const [byHelper, seeds] of [
+    [false, CLERK_SEEDS],
+    [true, HELPER_SEEDS],
+  ] as const) {
+    for (const seed of seeds) {
       for (const started of [false, true]) {
-        const world = filer(seed);
-        if (byHelper) helperJoins(world);
+        const world = filer(seed, byHelper);
         if (started) {
           try {
-            startedByHand(world);
+            startedByHand(world, 0.5, byHelper ? "gathers" : "needed");
           } catch {
-            // A town where one hour fills the petition has nothing short to tell.
+            // A town where half an hour already meets the count has nothing short to tell.
             write(
-              `## ${seed}: one canvass hour fills the petition; no talk to show.\n`,
+              `## ${seed}: half an hour of canvass meets the count; no talk to show.\n`,
             );
             continue;
           }

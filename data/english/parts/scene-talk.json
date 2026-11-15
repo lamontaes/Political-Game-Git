@@ -190563,10 +190563,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.good-i-ll-be-here-when-you-bring-the-sheets-in",
+      "key": "scene-talk.follow-thank.good-bring-the-sheets-in-before-the-deadline",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "Good. I'll be here when you bring the sheets in.",
+      "text": "Good. Bring the sheets in before the deadline.",
       "uses": [
         {
           "subject": "scene",
