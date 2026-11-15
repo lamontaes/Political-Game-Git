@@ -14,9 +14,9 @@ import { generatedOpening } from "./tooling/generated-world";
 
 // Pinned places and seeds (skill pinned-tests). The workers who live in town and work out of town lose work by the rule everyone's work is (the state's layoff pace), so a year on the town has some of them out of work and looking, and the town's residents in work read lower than they would if only the town's own jobs ever ended.
 const PLACES: readonly [string, string, number][] = [
-  ["9e95b68a47a0d28082fc4d0185f47064", "outcome-web-unemployment", 12], // Tanapag, Northern Mariana Islands
-  ["probe-a", "exit-a", 4], // Staples, Connecticut
-  ["probe-b", "exit-b", 18], // Maloata, American Samoa
+  ["9e95b68a47a0d28082fc4d0185f47064", "outcome-web-unemployment", 7], // Tanapag, Northern Mariana Islands
+  ["probe-a", "exit-a", 3], // Staples, Connecticut
+  ["probe-b", "exit-b", 15], // Maloata, American Samoa
 ];
 
 describe("workers who live in town and work out of town lose work by the layoff rule", () => {
@@ -42,8 +42,14 @@ describe("workers who live in town and work out of town lose work by the layoff 
         const year = Number(core.date.slice(0, 4));
         advanceCore(core, `${year}-02-01`);
         const opening = townMetrics(api).find((row) => row.placeId === town)!;
-        advanceCore(core, `${year}-12-01`);
-        const later = townMetrics(api).find((row) => row.placeId === town)!;
+        // A resident let go from an away job starts their search at the
+        // opening's progress, so most are hired again within the year. The
+        // count of those still looking is read in June, where the stock peaks
+        // and where it is true that they show up looking (re-pinned Nov 14
+        // from December, when the search began from nothing and Staples,
+        // Maloata and Tanapag read 7, 27 and 19 in December; with the search
+        // seeded they read 3, 16 and 18 in December and 6, 31 and 14 in June, which the floors below halve).
+        advanceCore(core, `${year}-06-01`);
         // Looking now, out of work because their household's away share lost work, since the opening month:
         // the counted people the away workers' share made jobless.
         const looking = (
@@ -63,10 +69,12 @@ describe("workers who live in town and work out of town lose work by the layoff 
             row.reasons?.[AWAY_WORK_LOST] === 1 &&
             row.since > `${year}-02-01`,
         ).length;
+        advanceCore(core, `${year}-12-01`);
+        const later = townMetrics(api).find((row) => row.placeId === town)!;
         const where = `${place.name}, ${place.state}, seed ${seed}`;
         expect(
           looking,
-          `${where}: away workers let go and still looking in December (jobless ${opening.unemployed} then, ${later.unemployed} now)`,
+          `${where}: away workers let go and still looking in June (jobless ${opening.unemployed} then, ${later.unemployed} now)`,
         ).toBeGreaterThanOrEqual(least);
         // Not drained and not run away: the jobless stay within half and twice
         // what the town opened with, and the labor force holds.

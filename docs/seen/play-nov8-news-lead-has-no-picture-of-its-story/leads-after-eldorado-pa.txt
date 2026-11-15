@@ -1,0 +1,47 @@
+Seed: 8568-eldorado Place: Eldorado, Pennsylvania
+Place: Eldorado, Pennsylvania Seed: 8568-eldorado
+day-1-tab-1: no lead (nothing in print)
+day-1-tab-2: no lead (nothing in print)
+day-1-tab-3: no lead (nothing in print)
+day-1-tab-4: no lead (nothing in print)
+day-1-tab-5: no lead (nothing in print)
+day-1-tab-6: no lead (nothing in print)
+day-1-tab-7: no lead (nothing in print)
+day-1-tab-8: "Blair County adopts its budget" -> county-commission from office:gus2025:111836:board
+week-1-tab-1: no lead (nothing in print)
+week-1-tab-2: no lead (nothing in print)
+week-1-tab-3: no lead (nothing in print)
+week-1-tab-4: no lead (nothing in print)
+week-1-tab-5: no lead (nothing in print)
+week-1-tab-6: no lead (nothing in print)
+week-1-tab-7: no lead (nothing in print)
+week-1-tab-8: "Blair County adopts its budget" -> county-commission from office:gus2025:111836:board
+week-2-tab-1: "Janice Rodgers gives $143 to John Navarro" -> main-street from campaign-gift:filing:contest:seat:gus2025:112116:board:0:2025-11-04:person_17481956795946e2:person_a36f832b34479917:2025-01-23:14300
+week-2-tab-2: no lead (nothing in print)
+week-2-tab-3: "Janice Rodgers backs John Navarro for the Logan Township Board of Supervisors" -> courthouse-square from campaign-endorsed:endorsement:filing:contest:seat:gus2025:112116:board:0:2025-11-04:person_17481956795946e2:person_a36f832b34479917
+week-2-tab-4: no lead (nothing in print)
+week-2-tab-5: no lead (nothing in print)
+week-2-tab-6: no lead (nothing in print)
+week-2-tab-7: "Janice Rodgers gives $143 to John Navarro" -> main-street from campaign-gift:filing:contest:seat:gus2025:112116:board:0:2025-11-04:person_17481956795946e2:person_a36f832b34479917:2025-01-23:14300
+week-2-tab-8: "Charles Tillman takes the oath of office" -> us-capitol-exterior from president.address:2025-01-20 (federal)
+week-3-tab-1: "Eldorado jobless rate rises to 1%" -> main-street from web:jurisdiction_7fe86dae8169a564:2025-02
+week-3-tab-2: no lead (nothing in print)
+week-3-tab-3: "Eldorado jobless rate rises to 1%" -> main-street from web:jurisdiction_7fe86dae8169a564:2025-02
+week-3-tab-4: no lead (nothing in print)
+week-3-tab-5: "Janice Rodgers gives $143 to John Navarro" -> main-street from campaign-gift:filing:contest:seat:gus2025:112116:board:0:2025-11-04:person_17481956795946e2:person_a36f832b34479917:2025-01-23:14300
+week-3-tab-6: no lead (nothing in print)
+week-3-tab-7: "Janice Rodgers gives $143 to John Navarro" -> main-street from campaign-gift:filing:contest:seat:gus2025:112116:board:0:2025-11-04:person_17481956795946e2:person_a36f832b34479917:2025-01-23:14300
+week-3-tab-8: "Michael McClain named for Secretary of Agriculture" -> white-house-exterior from agriculture (federal)
+week-3-tab-9: "Charles Tillman takes the oath of office" -> us-capitol-exterior from president.address:2025-01-20 (federal)
+week-4-tab-1: "Logan Township Board of Supervisors passes Ordinance 2025-2, 3 to 0" -> council-chamber-small from office:gus2025:112116:board
+week-4-tab-2: no lead (nothing in print)
+week-4-tab-3: "Eldorado jobless rate rises to 1%" -> main-street from web:jurisdiction_7fe86dae8169a564:2025-02
+week-4-tab-4: no lead (nothing in print)
+week-4-tab-5: "Eldorado jobless rate rises to 1%" -> main-street from web:jurisdiction_7fe86dae8169a564:2025-02
+week-4-tab-6: no lead (nothing in print)
+week-4-tab-7: "Eldorado jobless rate rises to 1%" -> main-street from web:jurisdiction_7fe86dae8169a564:2025-02
+week-4-tab-8: "Senate confirms Michael McClain as Secretary of Agriculture" -> white-house-exterior from agriculture (federal)
+week-4-tab-9: "Michael McClain is the president's pick for Secretary of Agriculture" -> white-house-exterior from agriculture (federal)
+Leads 18, pictured 18, federal 5, business 0
+NOTE: no business lead in this run
+PASS every lead carries the picture of its record

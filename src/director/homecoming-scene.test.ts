@@ -195,9 +195,7 @@ it(`a homecoming is about the term and what it asks, from the records (seed ${se
         const root = scene.talk.tree.replies.map((reply) => reply.line);
         expectUpToFourDifferent(root, where);
         for (const row of root)
-          expect(["agree", "promise", "ask", "deflect"], where).toContain(
-            row.move,
-          );
+          expect(["agree", "ask", "deflect"], where).toContain(row.move);
         expect(scene.talk.depth, where).toBeGreaterThan(1);
         expect(
           scene.talk.gaps.filter((gap) => gap.includes("/ending/")),
@@ -208,14 +206,16 @@ it(`a homecoming is about the term and what it asks, from the records (seed ${se
             /\d{4}-\d{2}-\d{2}|\b[a-z]+[-.:][a-z-]+:|\{|\}|undefined|\d{5,}/,
           );
         // Every end keeps something; the path that settles what comes next
-        // is written back on a reply record with the promise it keeps.
+        // is written back on a reply record with what it settles in the scene.
         const ends = paths(scene.talk.tree).flatMap((full) => {
           let node: TreeNode | null = scene.talk.tree;
           for (const index of full) node = node?.replies[index]?.next ?? null;
           return node?.end?.ending ? [{ full, ending: node.end.ending }] : [];
         });
-        const settled = ends.find((row) => row.ending.keeps === "promise");
-        expect(settled, `${where}: no path keeps a promise`).toBeTruthy();
+        const settled = ends.find(
+          (row) => row.ending.keeps === "kept-in-scene",
+        );
+        expect(settled, `${where}: no path settles in the scene`).toBeTruthy();
         const id = replyInScene(
           core,
           director,
@@ -227,7 +227,7 @@ it(`a homecoming is about the term and what it asks, from the records (seed ${se
         expect(reply?.facts?.typeKey, where).toBe("return");
         expect(reply?.facts?.causeId, where).toBe(moment.causeId);
         expect(reply?.facts?.ending, where).toBe("settled-what-comes-next");
-        expect(reply?.facts?.keeps, where).toBe("promise");
+        expect(reply?.facts?.keeps, where).toBe("kept-in-scene");
         expect(reply?.personIds, where).toContain(scene.askerId);
         const told = composeJournal(core, director, playerId!)
           .flatMap((chapter) => chapter.lines)
