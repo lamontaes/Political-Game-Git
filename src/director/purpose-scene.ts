@@ -131,6 +131,7 @@ import {
 } from "./scene-talk";
 import type { Fact } from "../english/scene-talk-words";
 import { bargainFacts } from "./bargain-facts";
+import { voteStandFacts } from "./vote-stand-facts";
 import { custodyFacts } from "./custody-facts";
 import { meetingFacts } from "./meeting-facts";
 import { letterFacts } from "./letter-facts";
@@ -1257,6 +1258,11 @@ function composeBinding(
         sourceRecordIds: [moment.causeId, ownId],
       };
   }
+  // What the asked person did on a bill they voted on and why, from their row
+  // of the roll (vote-stand-facts.ts), so no reply says the opposite of the
+  // vote and a "why" is answered by a reason the record holds.
+  if (said.billId)
+    voteStandFacts(core, facts, said.billId, askedId, moment.causeId);
   // A member's own vote (legislature.ts): the lines a group's lobbyist says
   // about it need which side the member took.
   if (
