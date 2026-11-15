@@ -321,17 +321,18 @@
     "donor-ask": {
       "state": "request",
       "replies": ["agree", "decline", "deflect", "leave"],
-      "follow": {
-        "agree": ["thank"],
-        "decline": ["threaten", "accept"],
-        "apologize": ["accept"]
-      },
+      "follow": { "agree": ["thank"], "decline": ["threaten", "accept"] },
       "again": {
-        "confront": ["deflect", "apologize", "leave"],
         "press": ["agree", "decline", "leave"],
-        "threaten": ["confront", "leave"]
+        "threaten": ["decline", "leave"]
       },
       "endings": [
+        {
+          "id": "refused",
+          "label": "Turned down",
+          "keeps": "relationship-strained",
+          "when": { "asker": ["threaten"] }
+        },
         {
           "id": "hearing-only",
           "label": "You heard them out",
@@ -342,7 +343,7 @@
           "id": "put-off",
           "label": "Put off",
           "keeps": "relationship-strained",
-          "when": { "reply": ["deflect", "leave", "apologize"] }
+          "when": { "reply": ["deflect", "leave"] }
         },
         {
           "id": "left-there",

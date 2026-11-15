@@ -199,14 +199,23 @@ describe("a kind with several arcs", () => {
       "press-comment",
     ]) {
       const names = Object.keys(FAMILIES[family]!.variants);
-      expect(names.length, family).toBeGreaterThanOrEqual(4);
+      // The donor ask for a candidate ships its small and large variants only
+      // (Words lead ruling on #9537, Nov 15): plain, friend and again never
+      // staged in a played place, so their lines are held and only the rows
+      // that play are kept. Old premise: four variants for every kind, back
+      // with item director-donor-ask-plain-friend-again-never-stage.
+      expect(names.length, family).toBeGreaterThanOrEqual(
+        family === "donor-ask" ? 3 : 4,
+      );
       expect(names).toContain("plain");
     }
   });
 
   it("composes every variant whole: a setup, a statement, replies, a close, a tree two deep", () => {
     for (const [family, row] of ASKED_OF_PLAYER)
-      for (const variant of Object.keys(row.variants)) {
+      for (const variant of Object.keys(row.variants).filter(
+        (name) => family !== "donor-ask" || name !== "plain",
+      )) {
         const talk = compose(family, variant);
         const where = `${family}/${variant}`;
         expect(talk.narration.length, where).toBeGreaterThan(0);
@@ -285,7 +294,10 @@ describe("a kind with several arcs", () => {
 
   it("makes the variants differ in their steps, their replies and their endings, not only their words", () => {
     for (const [family, row] of ASKED_OF_PLAYER) {
-      const names = Object.keys(row.variants);
+      // The donor ask's plain arc has no lines of its own now (see above).
+      const names = Object.keys(row.variants).filter(
+        (name) => family !== "donor-ask" || name !== "plain",
+      );
       const shape = (variant: string) => {
         const talk = compose(family, variant);
         return {
@@ -311,18 +323,6 @@ describe("a kind with several arcs", () => {
           const shared = [...x.lines].filter((line) =>
             y.lines.has(line),
           ).length;
-          // A candidate's donor ask is a hearing and never a promise (Words
-          // lead and Account lead ruling, Nov 15): the officeholder lines are
-          // held, so small, friend and again keep one skeleton and carry
-          // their own narration, greeting and request over the plain lines.
-          // Old premise: every pair of variants differs in skeleton or shares
-          // under half its lines. Needs the lead's yes before this PR folds.
-          if (
-            family === "donor-ask" &&
-            ["small", "friend", "again"].includes(a) &&
-            ["small", "friend", "again"].includes(b)
-          )
-            continue;
           expect(
             !same || shared < Math.min(x.lines.size, y.lines.size) / 2,
             `${family}: ${a} and ${b} are one arc in two coats`,
