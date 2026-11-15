@@ -22,7 +22,12 @@ source: "owner, Nov 15 21:09Z (industries, coal and farms, a town at one plant t
 
 **Cause.** Found in code: `stateUnemployment` (src/core2/modules/counted-moves.ts:280) builds the jobless table by state, and `pullBetween` (counted-moves.ts:320) reads `jobless.get(from)` for the home side, so the town's groups carry their state's rate.
 
-**Fix.** For the played town's own groups (and the full households weighed the same way), the home side of the pull reads the town's unemployment from its own records (seekers against workers, the jobs engine's counts), the state's elsewhere. One rule with one parameter (`countedMovesUnemploymentPull`); no new mover engine.
+Evidence (factories/freight tracer, Lebanon KY on 29ef4685, /mnt/project-files/account-lead/industry-law-traces/factories-freight.md): the larger plant's outside orders cut through the engine's own output limit; it laid off in months 4 to 6 and closed in month 7, 430 jobs, a third of the town's; nobody moved away (369 out against 370 left alone), nobody rehired them, stores lost 4.5% of sales and the wholesaler 3.8%; no paper story, scene or journal line. `layOff` (src/core2/modules/jobs.ts:2069) does emit `work.job-lost` for a counted worker (as `counted-subject`, line 2178), so the counted layoffs and the closing that fire none go by another path; the plan names it by function and line before building.
+
+**Fix.** Two halves, in this order (Account lead, Nov 15 22:14Z).
+
+1. The people. A counted layoff or closing is a job lost for the people who held it: the path that ends their jobs goes through the one `layOff` separation (or emits the same `work.job-lost` and claim), so the same leaving, job search and spending steps act on them as on anyone who loses a job, with no second path. For the played town's own groups (and the full households weighed the same way), the home side of the pull reads the town's unemployment from its own records (seekers against workers, the jobs engine's counts), the state's elsewhere. One rule with one parameter (`countedMovesUnemploymentPull`); no new mover engine.
+2. The telling. The closing reaches the paper and the player through the records the first half writes, with lines from the Words lead (pool item play-local-layoffs-on-screen, claimed for it).
 
 **Time box.** 3 hours, Opus, medium.
 
