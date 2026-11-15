@@ -15,6 +15,8 @@ import {
   type ContestRow,
 } from "../core2/modules/elections";
 import { registerControlledPersonV1 } from "../core2/player-control-state-v1";
+import { CANDIDACY_MODULE_ID } from "../core2/modules/candidacy";
+import { PARTIES_MODULE_ID } from "../core2/modules/parties";
 import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
 import { purposeScene, replyInScene } from "./purpose-scene";
@@ -27,10 +29,17 @@ import { purposeScene, replyInScene } from "./purpose-scene";
 // the scene, and the party's next ask is a record for another member that
 // the member's decision cites.
 const SEED = "c29-party-ask-refused";
+// Old premise: Floydale and Denver, Pennsylvania, pinned inside a 600 s limit;
+// Denver spends over two minutes playing its first eight days. New premise:
+// two small named places, about 55 s each, limit 120 s each (Account lead,
+// Nov 15).
 // Pinned drawn places (one seed, fixed tags): "a" is Floydale, South
-// Carolina; "d" is Denver, Pennsylvania. Other tags drawn from this seed
-// stage no scene for the ask at home that day, so they are not pinned.
-const TAGS = ["a", "d"];
+// Carolina; "f" is Fox Chase, Kentucky. Both stage the ask at home the day
+// filing opens and run in under a minute. Denver, Pennsylvania (tag "d")
+// passes too but spends over two minutes playing its first days, so it is
+// not pinned; tags "c", "e", "g" and "h" have no ask left for the player
+// on the opening day, so they are not pinned either.
+const TAGS = ["a", "f"];
 
 it.each(TAGS)(
   "the party asks its next member after the player says no (%s)",
@@ -69,7 +78,15 @@ it.each(TAGS)(
           partyId: f.partyId!,
           contestId: f.contestId!,
         });
-        if (player) return;
+        // Only an ask written after the day's weighing waits on an answer (the
+        // party has no one filed); the asks before it go to members who weigh
+        // the seat that day (gov-party-ask-comes-after-the-days-weighing).
+        const weighed = api
+          .moduleState(CANDIDACY_MODULE_ID)
+          .table("weighed")
+          .get(f.contestId!) as unknown as
+          { filedOn: string | null } | undefined;
+        if (player || !weighed?.filedOn) return;
         player = f.askedId as PersonId;
         registerControlledPersonV1(core, player);
         core.focusPersonIds.add(player);
@@ -81,18 +98,29 @@ it.each(TAGS)(
       .map((c) => filingWindowOpens(api, c))
       .filter((date) => date > core.date)
       .sort()[0]!;
+    // The day before filing opens, every party member is in the player's
+    // circle, as the member the party asks is in a played game before the ask
+    // is written, so the game's own rule keeps the ask's record (it keeps a
+    // record that names someone in the circle, when the record is written).
+    advanceCore(core, addDays(makeIsoDate(opens), -1));
+    for (const tie of api
+      .moduleState(PARTIES_MODULE_ID)
+      .table("ties")
+      .rows() as unknown as { tie: string; personId: string }[])
+      if (tie.tie === "party") core.focusPersonIds.add(tie.personId);
     advanceCore(core, addDays(makeIsoDate(opens), 1));
     expect(ask, `${where}: no party asked the player`).toBeDefined();
     const before = asks.length;
     // The party waits on the player: no other member of that party has been
-    // asked for that seat yet.
+    // asked for that seat since (one asked before the day's weighing said no
+    // or was not weighed in, which is why the party is asking the player).
     expect(
-      asks.filter(
-        (row) =>
-          row.partyId === ask!.partyId &&
-          row.contestId === ask!.contestId &&
-          row.id !== ask!.id,
-      ),
+      asks
+        .slice(asks.findIndex((row) => row.id === ask!.id) + 1)
+        .filter(
+          (row) =>
+            row.partyId === ask!.partyId && row.contestId === ask!.contestId,
+        ),
       where,
     ).toEqual([]);
     const book = director.ledger.people.get(player!)!;
@@ -135,5 +163,5 @@ it.each(TAGS)(
       `PARTY ASK REFUSED ${where}: ${ask!.id} refused (${replyId}); next ${next!.id}\n`,
     );
   },
-  600_000,
+  120_000,
 );

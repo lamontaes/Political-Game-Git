@@ -7,7 +7,7 @@
  */
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
-import { buildBenchWorld } from "../bench/world";
+import { buildBenchWorld, OPENING_WARMUP_DAYS } from "../bench/world";
 import { coreAPI } from "./state";
 import { ELECTIONS_MODULE_ID } from "./modules/elections";
 import { recordProof } from "../bench/dev-proof";
@@ -43,6 +43,8 @@ describe("day zero: the world opens already running", () => {
       const world = buildBenchWorld(place.seed, gameStartDate(), {
         twoLevel: true,
         placeKey: place.placeKey,
+        // The world the New game route builds: the 31 days before the start run first.
+        warmUpDays: OPENING_WARMUP_DAYS,
       });
       const tables = recordProof(world.core).tables;
       const today = world.core.date;
@@ -82,6 +84,6 @@ describe("day zero: the world opens already running", () => {
         fixed,
         `${place.name}: fixed, so the known-red mark must go`,
       ).toEqual([]);
-    }, 90_000);
+    }, 150_000);
   }
 });

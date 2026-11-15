@@ -17,12 +17,6 @@
     "spread": [6, 12],
     "checkedAgainst": "A talk of four exchanges is eight lines, the length at which a thanks for the company is earned (lead, round 11, rule 80)."
   },
-  "closeTieLevel": {
-    "value": 0.5,
-    "tag": "TUNABLE",
-    "spread": [0.3, 0.7],
-    "checkedAgainst": "How a call is answered and ended depends on the tie: a relative, a housemate or a tie at least this far along the closeness scale (halfway, where the tie has half its hours) is greeted as a person who needs no introduction; everyone else is greeted by name. Checked on three drawn places: the share of calls answered as close moves smoothly across 0.3 to 0.7 (round 12, by-phone lines)."
-  },
   "minutesPerExchange": 2,
   "answerMoves": {
     "school": ["at", "done"]
@@ -806,7 +800,13 @@
   },
   "givesBack": {
     "about": "Lead, Nov 13, 2026 (conversation.test, Jackson Center: every talk away from home ended on the player's answer): a person who asks the player a small question gives their own answer back after the player's, from their own record, and that closes the talk with something said; a question with nothing to give back is not asked. The asked kinds; their give-back lines are composed under `<kind>-give`.",
-    "kinds": ["home-new", "own-work-new", "asked-kin", "school"],
+    "kinds": [
+      "home-new",
+      "own-work-new",
+      "asked-kin",
+      "school",
+      "asked-mutual"
+    ],
     "covers": {
       "about": "Lead, Nov 14, rule 53 (one fact, once): a give-back already said where the asker lives, so the player's own question about it (a raised `home`) is not answered a second time. The asked kind, then the raised kinds its give-back covers.",
       "home-new": ["home"]

@@ -28,8 +28,8 @@
  * and the President's address weighs by how closely they follow politics.
  * The listener remembers the last talk's topic and doesn't open with it again.
  */
+import { lastContact, relationFacts } from "./relation-facts";
 import { seriousIllnessOf } from "../core2/modules/health";
-import { closenessBetween } from "../core2/closeness";
 import { familyFactsOf, meetInTalk } from "../core2/modules/people";
 import { jobTitleByKind } from "../core2/person-work";
 import {
@@ -82,6 +82,7 @@ import {
   PRESS_MODULE_ID,
   RETIREMENT,
   outletMedium,
+  outletTelling,
   outletsHere,
 } from "../core2/modules/press";
 import { decisionLean, hardshipStress } from "../core2/trait-decisions";
@@ -90,7 +91,6 @@ import type {
   CoreAPI,
   CoreModule,
   CoreState,
-  IsoDate,
   KnownFact,
   OrganizationInput,
   PersonId,
@@ -595,21 +595,6 @@ function startedOf(
 ): { date: string; factId: string } | null {
   const held = heldSinceRecord(core as CoreState, person.id, person.jobId);
   return held ? { date: String(held.facts.startedAt), factId: held.id } : null;
-}
-
-function lastContact(
-  core: Readonly<CoreState>,
-  personId: PersonId,
-  otherId: PersonId,
-): { date: IsoDate; tieId: string } | null {
-  let best: { date: IsoDate; tieId: string } | null = null;
-  for (const id of core.relationshipsByPerson.get(personId) ?? []) {
-    const row = core.relationships.get(id)!;
-    if (row.actorId !== otherId && row.otherId !== otherId) continue;
-    if (!best || row.lastContactDate > best.date)
-      best = { date: row.lastContactDate, tieId: id };
-  }
-  return best;
 }
 
 /** How far back a recorded event still makes something to talk about. */
@@ -1803,6 +1788,8 @@ function playerDay(
   // A filing the player made yesterday or today, from the director's ledger.
   for (const moment of recentMoments(core, director, listener.id)) {
     if (moment.causeKind !== "event:candidate-filed") continue;
+    // Another person's filing the player saw is not the player's own.
+    if (moment.selfNamed !== true) continue;
     const age = daysBetween(makeIsoDate(moment.date), makeIsoDate(core.date));
     if (age > one) break;
     const office = (
@@ -1924,6 +1911,41 @@ const TOUCHING_STORIES: Readonly<Record<string, string>> = {
 };
 
 /**
+ * An outlet as people say it, from its record: the name as the record has it, what kind it is ("read in" a paper, "saw on" a television or
+ * online outlet, "heard on" a radio station) and whether its name takes "the".
+ */
+export function outletFacts(
+  core: Readonly<CoreState>,
+  outlet: { readonly id: string; readonly name: string },
+  cites: readonly string[],
+): Facts {
+  // The outlet's own masthead or call letters, as its record has them: a
+  // paper's name is already in mixed case and a station's call letters are
+  // capitals, so no case rule is guessed from the shape of the name.
+  const name = outlet.name;
+  const telling = outletTelling(coreAPI(core), outlet.id, name);
+  return {
+    outlet: { text: name, sourceRecordIds: [...cites, outlet.id] },
+    ...(telling
+      ? {
+          [`outlet-${telling.medium}`]: {
+            text: "yes",
+            sourceRecordIds: [...cites, outlet.id],
+          },
+          ...(telling.the
+            ? {
+                "outlet-the": {
+                  text: "yes",
+                  sourceRecordIds: [...cites, outlet.id],
+                },
+              }
+            : {}),
+        }
+      : {}),
+  };
+}
+
+/**
  * A printed story that touches the speaker's own life, told to someone they
  * live with (words composer, talk from what is new on record): one the
  * speaker read lately whose record names their employer (the paper's
@@ -1950,7 +1972,7 @@ function storyTouching(
     const facts: Facts = {
       [mark]: fact("yes"),
       ran: fact(spokenWhen(story.date, core.date)),
-      ...(outlet ? { outlet: fact(outlet.name) } : {}),
+      ...(outlet ? outletFacts(core, outlet, cites) : {}),
     };
     if (mark === "anniversary") {
       if (!employerId || story.facts.organizationId !== employerId) continue;
@@ -2028,6 +2050,13 @@ function playerNews(
   for (const moment of recentMoments(core, director, listener.id)) {
     const mark = PLAYER_NEWS.causes[moment.causeKind];
     if (!mark) continue;
+    // A filing or a race is the player's news only when it names them. The
+    // ledger also holds the town's other races the player merely saw
+    // (journal-own-race), and a housemate who says "I'm sorry about Council
+    // member" to a player who never ran has read another person's race as
+    // the player's (pool item play-player-entered-in-races-without-filing-press).
+    if ((mark === "filed" || mark === "result") && moment.selfNamed !== true)
+      continue;
     if (
       daysBetween(makeIsoDate(moment.date), makeIsoDate(core.date)) >
       PLAYER_NEWS.withinDays.value
@@ -2078,10 +2107,7 @@ function playerNews(
           ? core.organizations.get(record.facts.outletId)
           : undefined;
         if (!outlet || record?.facts?.subjectId !== listener.id) continue;
-        facts.outlet = fact(properName(outlet.name), [
-          moment.causeId,
-          outlet.id,
-        ]);
+        Object.assign(facts, outletFacts(core, outlet, [moment.causeId]));
         facts[`ran-${record.facts.subjectFraming ?? "even"}`] = fact("yes");
         facts["knows-paper"] = fact("yes", [
           record.facts.storyId ?? moment.causeId,
@@ -2490,13 +2516,8 @@ function printedSubject(
         },
         ...carried,
         ...(outlet
-          ? {
-              // As the paper's own masthead or call sign has it.
-              outlet: {
-                text: outlet.name,
-                sourceRecordIds: [story.id, outlet.id],
-              },
-            }
+          ? // As the paper's own masthead or call sign has it.
+            outletFacts(core, outlet, [story.id])
           : {}),
       },
     };
@@ -2808,6 +2829,11 @@ export function subjectsBetween(
     )
       continue;
     if (!core.people.get(id)?.alive || !happened(id)) continue;
+    // Nor by someone who saw them today or yesterday: they would tell it,
+    // not ask it (Words lead, Nov 15: "Have you heard from Ariana?" then "I
+    // saw her today."). The gap as a greeting hears it, from their own tie.
+    const seen = lastContact(core, speakerId, id);
+    if (seen && spokenWhenRow(seen.date, core.date).gap === "recent") continue;
     out.push({
       id: `mutual:${id}`,
       kind: "mutual",
@@ -4355,6 +4381,38 @@ function giveBack(
       },
       stage: "working",
       learned: { "their-employer": own },
+    };
+  }
+  if (kind === "asked-mutual" && subject.aboutId) {
+    // When the asker last saw the person they asked about, from their own
+    // tie's last contact: the talk does not end on the player's "Not in a
+    // while." (played-talks, Nov 14). Said by the person's pronoun, from
+    // their record.
+    const aboutId = subject.aboutId as PersonId;
+    const gender = core.people.get(aboutId)?.looks?.gender;
+    const pronoun =
+      gender === "male"
+        ? "mutual-he"
+        : gender === "female"
+          ? "mutual-she"
+          : null;
+    if (!pronoun) return null;
+    // One with no contact of their own has nothing to give back, so the
+    // question is not asked (no asker without a tie asked in the played
+    // talks at seven seeds; Words lead, Nov 15: what is not used is deleted).
+    const seen = lastContact(core, askerId, aboutId);
+    if (!seen) return null;
+    return {
+      facts: {
+        you,
+        [pronoun]: { text: "yes", sourceRecordIds: [aboutId] },
+        "their-when": {
+          text: spokenWhen(seen.date, core.date),
+          sourceRecordIds: [seen.tieId],
+        },
+      },
+      stage: "saw",
+      learned: {},
     };
   }
   if (kind === "asked-kin" && subject.aboutId) {
@@ -6977,20 +7035,11 @@ function saysName(
   playerId: PersonId,
   conversation?: Pick<Conversation, "nameGiven">,
 ): boolean {
-  if (conversation?.nameGiven) return true;
-  const other = core.people.get(otherId);
-  if (!other?.knownIds.has(playerId)) return false;
-  if (other.familyIds.has(playerId)) return true;
-  const learned = other.knownIdSources?.[playerId]?.learnedAt;
-  if (learned !== undefined) return learned < core.date;
-  const seen = lastContact(core, otherId, playerId);
-  return !!seen && seen.date < core.date;
+  return (
+    !!conversation?.nameGiven ||
+    relationFacts(core, playerId, otherId).metBefore
+  );
 }
-
-/** How close a tie must be, on the closeness scale, for a call to be answered as one from a voice they know (conversation-rules.json, TUNABLE). */
-const CLOSE_TIE_LEVEL = (
-  rulesFile as unknown as { closeTieLevel: { value: number } }
-).closeTieLevel.value;
 
 /**
  * What a call's words need to know about the tie: a relative or someone of
@@ -7006,20 +7055,9 @@ function phoneTieFacts(
   const mark = (name: string, ids: readonly string[]) => {
     facts[name] = { text: "yes", sourceRecordIds: [...ids] };
   };
-  const player = core.people.get(playerId);
-  const other = core.people.get(otherId);
-  const ties = [...(core.relationshipsByPerson.get(playerId) ?? [])]
-    .map((id) => core.relationships.get(id)!)
-    .filter((row) => row.actorId === otherId || row.otherId === otherId);
-  const family = ties.find((row) => row.kind === "family");
-  if (player && other && player.householdId === other.householdId)
-    mark("kin-or-household", [player.householdId]);
-  else if (family) mark("kin-or-household", [family.id]);
-  if (
-    ties[zero] &&
-    closenessBetween(core, playerId, otherId) >= CLOSE_TIE_LEVEL
-  )
-    mark("close-tie", [ties[zero].id]);
+  const relation = relationFacts(core, playerId, otherId);
+  if (relation.kinSource) mark("kin-or-household", [relation.kinSource]);
+  if (relation.close && relation.tieId) mark("close-tie", [relation.tieId]);
   return facts;
 }
 

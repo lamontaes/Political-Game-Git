@@ -9,7 +9,7 @@
  * English engine (`src/english/bring-it-up-words.ts`) words them.
  */
 import { P } from "../core2/parameters";
-import { storyOfReadEvent } from "../core2/modules/news";
+import { newsKey, storyOfReadEvent } from "../core2/modules/news";
 import {
   PRESS_MODULE_ID,
   outletMedium,
@@ -99,10 +99,11 @@ export function changesKnownTo(
         out.set(fact.sourceId, {
           eventId: fact.sourceId,
           kind: change.eventKind,
-          institutionId: fact.key.slice(
-            prefix.length,
-            fact.key.length - suffix.length,
-          ),
+          // A story's fact is kept per story read and holds the outlet that
+          // printed it; another change's fact is named for its institution.
+          institutionId: change.story
+            ? fact.value
+            : fact.key.slice(prefix.length, fact.key.length - suffix.length),
           learnedAt: fact.learnedAt,
           route: "seen",
         });
@@ -532,10 +533,9 @@ export function bringItUp(
     );
   };
   const speakables = changesKnownTo(core, speakerId, data).filter(speakable);
-  // What they read about the listener, by story: an outlet's latest story
-  // replaces the one before it, but each story read is kept as its own
-  // news fact, so a vote on the listener's bill printed beside newer stories
-  // is still theirs to raise with them, the newest first.
+  // What they read about the listener, by story: each story read is kept as
+  // its own news fact, so a vote on the listener's bill printed beside newer
+  // stories is still theirs to raise with them, the newest first.
   const storyRow = data.changes.find((row) => row.story);
   let readAbout: KnownChange | undefined;
   // The newest race result they read whose winner has not yet taken the
@@ -606,10 +606,17 @@ export function bringItUp(
     });
   const lines: BroughtUp["lines"] = [];
   const topic = story ? storyTopic(change) : null;
+  // A story's outlet is what the speaker holds of that story (its
+  // news:<story>:outlet fact, read in print or told of it).
+  const storyId = story ? storyOfReadEvent(change.eventId) : null;
   const facts = {
     subject: {
       text: subject,
-      sourceRecordIds: [change.eventId, change.institutionId],
+      sourceRecordIds: [
+        change.eventId,
+        change.institutionId,
+        ...(storyId ? [`${newsKey(storyId)}:outlet`] : []),
+      ],
     },
     ...(topic
       ? { topic: { text: topic, sourceRecordIds: [change.eventId] } }

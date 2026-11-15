@@ -9,7 +9,7 @@ import type { CoreState } from "../core2/types";
 import { advanceCore } from "../core2/life";
 import { coreAPI } from "../core2/state";
 import { applyChosenPerson } from "./creator";
-import { buildBenchWorld } from "./world";
+import { buildBenchWorld, OPENING_WARMUP_DAYS } from "./world";
 
 // The New game creator sets the player's name, birth date and looks through
 // the core's identity call, which only the controlled player takes, and only
@@ -59,6 +59,50 @@ it(`gives the player the chosen identity through the core call in ${place.name},
     }),
   ).toThrow(/first day/);
 }, 600_000);
+
+// The warm-up (src/core2/player-warm-up.ts) builds the world 31 days before the start date and runs it
+// forward, so the world is on the start date, not its build date, when the New game route has built it.
+// The creator's choice (POST /api/newlife with a person) was refused as "An identity is chosen before the
+// first day passes" until it was made part of the build, before the weeks run (BuildOptions.chooseIdentity).
+// Pinned place and seed: Lewiston, ME (the day-zero test's place).
+it("gives the chosen identity to a player whose world was warmed up, at Lewiston ME, pinned seed", () => {
+  setBookkeeping(false);
+  const lewiston = {
+    key: "2338740",
+    seed: "23142a2761a616b9618e425db3c9591cc9cba0aaf1f83ab37d888944e039ab3b",
+  };
+  const world = buildBenchWorld(lewiston.seed, gameStartDate(), {
+    twoLevel: true,
+    placeKey: lewiston.key,
+    warmUpDays: OPENING_WARMUP_DAYS,
+    chooseIdentity: (core, id) =>
+      applyChosenPerson(core, id, {
+        givenName: "Avery",
+        familyName: "Stone",
+        gender: "female",
+        birthYear: 1990,
+        birthMonth: 3,
+        birthDay: 14,
+      }),
+  });
+  const { core } = world;
+  const player = core.people.get(world.playerId!)!;
+  // The world opens on the start date, after the weeks it ran; the player is who they chose.
+  expect(core.date).toBe(gameStartDate());
+  expect(core.startedAt).not.toBe(core.date);
+  expect(player.givenName).toBe("Avery");
+  expect(player.familyName).toBe("Stone");
+  expect(player.birthDate).toBe("1990-03-14");
+  // After the weeks have run the first day is gone: a late choice is still refused.
+  expect(() =>
+    coreAPI(core).chooseIdentityV1(world.playerId!, {
+      givenName: "A",
+      familyName: "B",
+      birthDate: makeIsoDate("1980-01-01"),
+      looks: {},
+    }),
+  ).toThrow(/first day/);
+}, 150_000);
 
 // Owner's playtest, Oct 24 (play-stop-20): a birthday chosen a week from a
 // sister's left them born seven days apart. Brothers and sisters move to stay
