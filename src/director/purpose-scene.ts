@@ -56,11 +56,7 @@ import {
   coreStateKeyOfJurisdictionId,
   coreStateName,
 } from "../core2/place-lookup";
-import {
-  crimeRecord,
-  motiveOf,
-  wantedFacts,
-} from "../core2/modules/corruption";
+import { crimeFacts, crimeRecord } from "../core2/modules/corruption";
 import { applyCoreEvent, coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
 import {
@@ -632,17 +628,9 @@ function composeBinding(
     record.facts.officialId
       ? crimeRecord(coreAPI(core as CoreState), String(record.facts.crimeId))
       : undefined;
-  const reportedMotive = reported ? motiveOf(reported, askedId) : null;
   const said = {
     ...(record?.facts ?? {}),
-    ...(reported
-      ? {
-          ...wantedFacts(reported.subjectId),
-          moneyMoved: reported.taken ? "yes" : "no",
-          accusedAs: askedId === reported.offererId ? "offered" : "took",
-          ...(reportedMotive ? { motive: reportedMotive } : {}),
-        }
-      : {}),
+    ...(reported ? crimeFacts(reported, askedId) : {}),
   } as Readonly<Record<string, string>>;
   const facts: Record<string, Fact> = {
     name: {

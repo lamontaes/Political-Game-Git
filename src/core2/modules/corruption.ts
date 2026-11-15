@@ -380,6 +380,26 @@ export function wantedFacts(subjectId: string): Record<string, string> {
   };
 }
 
+/**
+ * What a crime record says about one party to it, on every record a scene
+ * reads it from (a complaint naming the accused, a reader of the story that
+ * reported it): what the money was for (`wantedFacts`), whether it moved, the
+ * party's part in it and the reason that weighed most in their own decision
+ * (`motiveOf`). The one path from the crime to the words.
+ */
+export function crimeFacts(
+  crime: Readonly<CrimeRecord>,
+  partyId: PersonId,
+): Record<string, string> {
+  const motive = motiveOf(crime, partyId);
+  return {
+    ...wantedFacts(crime.subjectId),
+    moneyMoved: crime.taken ? "yes" : "no",
+    accusedAs: partyId === crime.offererId ? "offered" : "took",
+    ...(motive ? { motive } : {}),
+  };
+}
+
 /** The circumstances each side's decision weighs, in the order a tie between them is broken. */
 const MOTIVES: Readonly<Record<"offer" | "take", readonly string[]>> = {
   offer: ["stake", "tie", "reputation"],

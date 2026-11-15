@@ -49,8 +49,7 @@ import type {
 } from "../types";
 import {
   CORRUPTION_MODULE_ID,
-  motiveOf,
-  wantedFacts,
+  crimeFacts,
   type CrimeRecord,
 } from "./corruption";
 import { BUDGETS_MODULE_ID, governments } from "./budgets";
@@ -432,11 +431,8 @@ export function considerReport(
           complaintId: complaint.id,
           accuserId: reporterId,
           offense: "bribery",
-          ...wantedFacts(crime.subjectId),
-          moneyMoved: crime.taken ? "yes" : "no",
-          accusedAs: accusedId === crime.offererId ? "offered" : "took",
+          ...crimeFacts(crime, accusedId),
           basis: complaint.basis,
-          ...motiveFact(crime, accusedId),
         },
       });
   weighInvestigation(api, complaint, crime, prosecutor);
@@ -445,15 +441,6 @@ export function considerReport(
 
 // ---------------------------------------------------------------------------
 // 2. Investigation
-
-/** The accused's own main reason, when one weighed. */
-function motiveFact(
-  crime: CrimeRecord,
-  accusedId: PersonId,
-): Record<string, string> {
-  const motive = motiveOf(crime, accusedId);
-  return motive ? { motive } : {};
-}
 
 /** Who a complaint accuses: the offerer always, and the official when they took it, never the reporter. */
 function accusedBy(complaint: ComplaintRow, crime: CrimeRecord): PersonId[] {
