@@ -70,6 +70,10 @@ import { placeStateKey } from "../place-map";
 import { registerStanceListener, stanceMoved } from "../stance-listeners";
 import { VIEWS_KEYS, type CellKey } from "../views-keys";
 import { PAST_WORK_SPELL, pastWorkOf } from "../past-module";
+import {
+  liveCountedCrime,
+  type CountedCrimeTally,
+} from "../counted-news-views";
 
 export const VIEWS_DATA = viewsJson as {
   version: string;
@@ -1409,3 +1413,17 @@ export {
   hearCountedNews,
   type CountedNewsAudience,
 } from "../counted-news-views";
+
+/**
+ * A counted group lives the victimizations the crime engine tallied for it
+ * (`liveCountedCrime` in src/core2/counted-news-views.ts), on the question
+ * the full victim's record of that kind ties to.
+ */
+export function liveCountedCrimeTally(
+  api: CoreAPI,
+  eventKind: string,
+  tally: Omit<CountedCrimeTally, "question">,
+): void {
+  const question = livedQuestion(eventKind);
+  if (question) liveCountedCrime(api, { ...tally, question });
+}

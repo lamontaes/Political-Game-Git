@@ -2,7 +2,6 @@
 import { ageOnDate, dateAtAge, makeIsoDate } from "./kernel/dates";
 import { registerDerivedCache } from "./snapshot";
 import { residentsRuntime } from "./modules/residents";
-import { livedQuestion } from "./outcome-news";
 import {
   countedEngagement,
   countedGroupViewOn,
@@ -287,12 +286,12 @@ export function hearCountedNews(
 
 /** One month's victimizations of one counted group, as the crime engine tallied them. */
 export interface CountedCrimeTally {
+  /** The question the crime ties to (`livedQuestion` of the victimization's kind). */
+  readonly question: string;
   /** The tally row (crime's `tallies` table): what the moved stance cites. */
   readonly tallyId: string;
   /** The crime engine's unit: the resident group's id. */
   readonly groupId: string;
-  /** The kind of record a full household's victimization is (crime.victimized). */
-  readonly eventKind: string;
   /** The crime's kind (burglary, assault ...), for the stance's cause. */
   readonly type: string;
   /** Whole victimizations of the group this month, from the owed-share order. */
@@ -315,8 +314,8 @@ export interface CountedCrimeTally {
  * a small exposure. The stance cites the tally row.
  */
 export function liveCountedCrime(api: CoreAPI, tally: CountedCrimeTally): void {
-  const question = livedQuestion(tally.eventKind);
-  if (!question || tally.count <= 0 || tally.households <= 0) return;
+  const question = tally.question;
+  if (tally.count <= 0 || tally.households <= 0) return;
   const id = groupPersonId(tally.groupId);
   const group = countedNewsGroups(api).find((row) => row.id === id);
   if (!group || group.count <= 0) return;

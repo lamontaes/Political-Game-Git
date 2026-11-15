@@ -169,7 +169,7 @@
     "id": "SG-PEOPLE-counted-victims-lived-crime",
     "kind": "missing-mechanic",
     "file": "src/core2/counted-news-views.ts",
-    "line": 344,
+    "line": 343,
     "whatItFakes": "A counted group lives its victimizations through its tally row: its stance on the question the crime ties to moves by the full victim's rule times the share of its adults the crimes reached (liveCountedCrime), as news moves a counted group. Two parts are still missing: counted ballots read a counted voter's view from their opening profile (countedViewOn), not the group's countedStances row, so the moved stance reaches what the press reads (countedNewsConcern) but not votes; and a member filled in from the group does not carry the group's stance.",
     "why": "The counted ballot and the fill-in read neither news nor lived stances from the group row today; both are the same gap as SG-PEOPLE-counted-readers-stories and are built once for every countedStances row.",
     "addedBy": "effects lead (web-views-lived-crime-moves-stance)",
