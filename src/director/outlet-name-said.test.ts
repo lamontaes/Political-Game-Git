@@ -57,7 +57,6 @@ it("says an outlet's name as its record has it when its staff say where they wor
       job.personId as PersonId,
       "outlet-name-said",
       undefined,
-      () => 0,
     ).employer?.text;
     return org && employer ? [{ name: org.name, employer }] : [];
   });

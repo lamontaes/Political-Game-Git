@@ -1,26 +1,17 @@
 /**
  * What a donor's ask may say about the donor, from the records the world
- * already keeps: where they work (their job and its organization), and, when
- * the gift's record names the bill they hold the strongest view on, what that
- * bill is about (the bill catalog's question, as `questionAbout` words it)
- * and which side of it they are on (the sign of their view on the question,
- * `viewOn`, against the bill's own position). Each fact is cited to the
- * records it came from; a fact with no record behind it is left out, so the
- * lines that need it never play, and a retiree with no job gives no reason
- * from work.
+ * already keeps: where they work (their job and its organization), the bill
+ * the gift's record names, and what they care about most (their own strongest
+ * view on record). Each fact is cited to the records it came from; a fact
+ * with no record behind it is left out, so the lines that need it never play,
+ * and a retiree with no job gives no reason from work.
  */
-import { townLean } from "../core2/modules/campaigns";
-import {
-  LEGISLATURE_MODULE_ID,
-  billOf,
-  provisionStance,
-} from "../core2/modules/legislature";
-import { viewOn } from "../core2/modules/views";
-import { P } from "../core2/parameters";
+import { LEGISLATURE_MODULE_ID, billOf } from "../core2/modules/legislature";
+import { VIEWS_MODULE_ID } from "../core2/modules/views";
 import { coreAPI } from "../core2/state";
-import type { CoreState, PersonId, PersonState } from "../core2/types";
+import type { CoreState, PersonId } from "../core2/types";
 import type { Fact } from "../english/scene-talk-words";
-import { questionAbout } from "../english/question-names";
+import { strongestQuestion } from "./view-learned";
 import { billTitleOf, billTitleSaid } from "../english/bill-names";
 import { employerSaid } from "../english/journal-words";
 import { businessNameSaid } from "./words";
@@ -30,21 +21,13 @@ export const DONOR_ASK_TYPE = "donor-ask";
 
 /**
  * The facts for `donorId`'s ask: `donor-first` (their given name), `employer` (their job's organization, as `employerSaid` says it), `bill` and `donor-bill` (the bill by its title),
- * `about` (the question of the bill `billId` names), and `side-for` or
- * `side-against` (where the donor stands on that bill), each with the
- * records behind it. `causeId` is the gift's record.
+ * each with the records behind it. `causeId` is the gift's record.
  */
 export function donorAskFacts(
   core: Readonly<CoreState>,
   donorId: PersonId,
   causeId: string,
   billId: string | undefined,
-  /** How far left or right a person leans (the campaign views' `personLean`, handed in so this file reaches no other engine's insides). */
-  leanOf: (
-    people: CoreState["people"],
-    person: Readonly<PersonState>,
-    townLean: number,
-  ) => number,
 ): Record<string, Fact> {
   const facts: Record<string, Fact> = {};
   const donor = core.people.get(donorId);
@@ -74,22 +57,31 @@ export function donorAskFacts(
     facts.bill = said;
     facts["donor-bill"] = said;
   }
-  const provision = bill?.provisions[P.zero];
-  const stance = provision ? provisionStance(api, provision) : null;
-  const about = stance ? questionAbout(stance.question) : null;
-  if (!stance || !about) return facts;
-  facts.about = { text: about, sourceRecordIds: [billId, causeId] };
-  const view = viewOn(
-    api,
-    donorId,
-    stance.question,
-    leanOf(core.people, donor, townLean(api)),
-  );
-  const leaning = view * stance.position;
-  if (leaning !== P.zero)
-    facts[leaning > P.zero ? "side-for" : "side-against"] = {
-      text: leaning > P.zero ? "for" : "against",
-      sourceRecordIds: [billId, donorId, causeId],
-    };
   return facts;
 }
+
+/**
+ * What the donor cares about most, from their own strongest view on record
+ * (the views engine's `strongestQuestion`, the same reader the door scene
+ * uses): `about` (the question as `questionAbout` words it), `side-for` or
+ * `side-against`, and `view-question` (the question's id, which the scene's
+ * reply writes through `learnView` and `learnViewQuestion` when the player
+ * hears it). A donor whose view is past zero on no question gives none, and
+ * the ask is not staged.
+ */
+export function donorViewFacts(
+  core: Readonly<CoreState>,
+  donorId: PersonId,
+  causeId: string,
+): Record<string, Fact> {
+  if (!core.modules.has(VIEWS_MODULE_ID)) return {};
+  const top = strongestQuestion(coreAPI(core as CoreState), donorId);
+  if (!top) return {};
+  const ids = [top.recordId, causeId];
+  return {
+    about: { text: top.about, sourceRecordIds: ids },
+    [`side-${top.side}`]: { text: top.side, sourceRecordIds: ids },
+    "view-question": { text: top.question, sourceRecordIds: ids },
+  };
+}
+

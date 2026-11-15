@@ -1050,25 +1050,18 @@
           ],
           "arc": {
             "state": "request",
-            "replies": ["agree", "decline", "deflect"],
+            "replies": ["agree", "deflect", "leave"],
             "follow": {
-              "agree": ["thank"],
-              "decline": ["threaten", "accept"],
+              "agree": ["tell"],
               "deflect": ["press"]
             },
-            "again": { "press": ["agree", "decline", "leave"] },
+            "again": { "press": ["agree", "leave"], "tell": [] },
             "endings": [
-              {
-                "id": "refused",
-                "label": "Turned down",
-                "keeps": "relationship-strained",
-                "when": { "asker": ["threaten"] }
-              },
               {
                 "id": "hearing-only",
                 "label": "You heard them out",
                 "keeps": "heard",
-                "when": { "reply": ["agree", "decline"] }
+                "when": { "reply": ["agree"] }
               },
               {
                 "id": "put-off",
@@ -1112,10 +1105,11 @@
             "state": "request",
             "replies": ["agree", "decline", "leave", "leave", "leave"],
             "follow": {
-              "agree": ["thank"],
+              "agree": ["tell"],
               "decline": ["threaten", "press", "accept"]
             },
             "again": {
+              "tell": [],
               "press": ["agree", "decline", "leave"],
               "threaten": ["agree", "decline", "leave"]
             },

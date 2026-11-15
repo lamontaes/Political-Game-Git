@@ -78,7 +78,11 @@ import {
 } from "../english/question-names";
 import { floorDebateFacts } from "./floor-debate-facts";
 import { raceTurnoutFacts } from "./race-turnout-facts";
-import { DONOR_ASK_TYPE, donorAskFacts } from "./donor-ask-facts";
+import {
+  DONOR_ASK_TYPE,
+  donorAskFacts,
+  donorViewFacts,
+} from "./donor-ask-facts";
 import {
   causeTopicSaid,
   questionSubject,
@@ -1577,9 +1581,16 @@ function composeBinding(
         record?.kind === "campaign-gift" && facts["donor-bill"]
           ? said.billId
           : undefined,
-        personLean,
       ),
     );
+  // What the donor cares about, from their strongest view on record; a donor
+  // with none past zero is not asked about (the ask is not staged).
+  if (type.key === DONOR_ASK_TYPE) {
+    const view = donorViewFacts(core, askerId, moment.causeId);
+    if (!view.about)
+      return { kind: "skipped", reason: "the donor holds no view to name" };
+    Object.assign(facts, view);
+  }
   // How the two stand, from the one reader (relation-facts.ts): the asked
   // person's family (`kin`), known people (`acquainted`, else `stranger`), and
   // which side of the tie they stand (`tie-friend`, `tie-rival`). A partner is
@@ -3363,6 +3374,18 @@ export function replyInScene(
       scene.askerId === personId ? scene.askedId : scene.askerId;
     learnView(coreAPI(core), personId, residentId, question.recordIds, id);
     learnViewQuestion(coreAPI(core), personId, residentId, question.text, id);
+  }
+  // Agreeing to hear a donor out is hearing what they care about: the player
+  // learns the donor's strongest question and side as a talk's listener does
+  // (the same learned-view keys the door scene writes), citing this reply.
+  if (
+    scene.typeKey === DONOR_ASK_TYPE &&
+    question &&
+    asked?.move === "agree" &&
+    core.modules.has(VIEWS_MODULE_ID)
+  ) {
+    learnView(coreAPI(core), personId, scene.askerId, question.recordIds, id);
+    learnViewQuestion(coreAPI(core), personId, scene.askerId, question.text, id);
   }
   // A swearing-in that ended in an address: the speech engine records it as
   // heard by the people the scene named in the room (swearing-in.ts).

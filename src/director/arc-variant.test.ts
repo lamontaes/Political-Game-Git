@@ -98,6 +98,10 @@ const donorFacts: Record<string, Fact> = {
   gift: fact("$2,500"),
   bill: fact("Bill 14"),
   "donor-bill": fact("Bill 14"),
+  // What the donor cares about, from their strongest view (donorViewFacts).
+  about: fact("the rent ordinance"),
+  "side-for": fact("for"),
+  "view-question": fact("rent"),
 };
 // What a reporter's call hands the scene (purpose-scene.ts, press-interview):
 // the bill, the outlet, and the facts the variant's reads add to the scene

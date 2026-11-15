@@ -111884,31 +111884,6 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.a-hearing-is-more-than-i-expected-i-ll-take-it",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "A hearing is more than I expected. I'll take it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "donor-ask.small",
-          "key": "favor-asked",
-          "after": "decline"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story overnight, donor-ask variants)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "accept",
-        "key": "favor-asked"
-      }
-    },
-    {
       "key": "scene-talk.close-thank.thank-you-for-listening-that-s-more-than-i-expected",
       "move": "close-thank",
       "kind": "spoken",
@@ -111916,12 +111891,12 @@
       "uses": [
         {
           "subject": "scene",
-          "step": "follow",
+          "step": "close",
           "move": "thank",
           "role": "asker",
           "purpose": "donor-ask.small",
           "key": "favor-asked",
-          "after": "agree"
+          "outcome": "resolved"
         }
       ],
       "bearing": "warm",
@@ -111934,10 +111909,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-gave-money-to-your-campaign-the-check-is-the-first-thing-name-br",
+      "key": "scene-talk.narrate-narrate.name-gave-money-to-your-campaign-now-name-wants-something-for-it",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} gave {money} to your campaign. The check is the first thing {name} brings up.",
+      "text": "{name} gave {money} to your campaign. Now {name} wants something for it.",
       "uses": [
         {
           "subject": "scene",
@@ -112037,12 +112012,12 @@
       "uses": [
         {
           "subject": "scene",
-          "step": "follow",
+          "step": "close",
           "move": "thank",
           "role": "asker",
           "purpose": "donor-ask.large",
           "key": "favor-asked",
-          "after": "agree"
+          "outcome": "resolved"
         }
       ],
       "bearing": "calm",
@@ -182867,6 +182842,58 @@
       "date": "2026-11-15",
       "tag": {
         "move": "decline",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-tell.it-s-about-i-m-for-it-that-s-why-i-gave",
+      "move": "follow-tell",
+      "kind": "spoken",
+      "text": "It's {about}. I'm for it. That's why I gave.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "after": "agree",
+          "requiresFacts": ["about", "side-for"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Words lead call a, Nov 15)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "tell",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-tell.it-s-about-i-m-against-it-that-s-why-i-gave",
+      "move": "follow-tell",
+      "kind": "spoken",
+      "text": "It's {about}. I'm against it. That's why I gave.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "after": "agree",
+          "requiresFacts": ["about", "side-against"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Words lead call a, Nov 15)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "tell",
         "key": "favor-asked"
       }
     }
