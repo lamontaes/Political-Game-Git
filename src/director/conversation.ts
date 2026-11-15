@@ -1804,6 +1804,8 @@ function playerDay(
   // A filing the player made yesterday or today, from the director's ledger.
   for (const moment of recentMoments(core, director, listener.id)) {
     if (moment.causeKind !== "event:candidate-filed") continue;
+    // Another person's filing the player saw is not the player's own.
+    if (moment.selfNamed !== true) continue;
     const age = daysBetween(makeIsoDate(moment.date), makeIsoDate(core.date));
     if (age > one) break;
     const office = (
@@ -2064,6 +2066,16 @@ function playerNews(
   for (const moment of recentMoments(core, director, listener.id)) {
     const mark = PLAYER_NEWS.causes[moment.causeKind];
     if (!mark) continue;
+    // A filing or a race is the player's news only when it names them. The
+    // ledger also holds the town's other races the player merely saw
+    // (journal-own-race), and a housemate who says "I'm sorry about Council
+    // member" to a player who never ran has read another person's race as
+    // the player's (pool item play-player-entered-in-races-without-filing-press).
+    if (
+      (mark === "filed" || mark === "result") &&
+      moment.selfNamed !== true
+    )
+      continue;
     if (
       daysBetween(makeIsoDate(moment.date), makeIsoDate(core.date)) >
       PLAYER_NEWS.withinDays.value
