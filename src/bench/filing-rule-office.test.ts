@@ -27,8 +27,6 @@ describe("a filing counter whose office is a rule is cast at the body it points 
         placeKey: place.key,
       });
       const api = coreAPI(core);
-      const rule = (row: { id: string }) =>
-        /most populous/.test(filingOfficeFor(api, row.id).filedWith);
       for (let week = 0; week < 60; week += 1) {
         const row = playerContests(api).find((c) => c.family === "usHouse");
         if (row) {
