@@ -265,12 +265,4 @@ describe("the journal as a story from birth", () => {
       expect(others.map((moment) => moment.id)).not.toContain(opened.id);
     }
   }, 600_000);
-  // The case the Stockton, Utah pin held until the Train's b22cd350 (Nov 15):
-  // an oath by someone in the subject's circle (a relative or housemate) is
-  // told, in the chapter being lived, and carries the tie's meaning (friend or
-  // rival) when the tie is on record. The Train's world build no longer puts
-  // such an oath at that place within 400 days, and no other pinned place has
-  // been found yet; the case stays here, skipped, until a named place and seed
-  // hold it (Account lead's yes needed for the gap, #9119 body).
-  it.skip("tells an oath by someone in the subject's circle, in the chapter being lived", () => {});
 });
