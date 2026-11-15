@@ -2384,20 +2384,31 @@ const exposed: Builder = (read, f) => {
     Object.keys(facts ?? {}).find((key) => key.startsWith("award:"));
   const mine = award(f);
   const earlier = new Set<string>();
-  if (conflict && firm && id && mine)
-    for (const logId of read.core.logByKind.get("press.exposed") ?? []) {
-      const row = read.core.durableLog.get(logId as EntityId);
-      const theirs = award(row?.facts);
-      if (
-        row &&
-        theirs &&
-        theirs !== mine &&
-        row.personIds[0] === id &&
-        row.facts?.organizationId === f.organizationId &&
-        row.date <= (read.happened || read.story.date)
-      )
-        earlier.add(theirs);
-    }
+  const when = read.happened || read.story.date;
+  const exposures =
+    conflict && firm && id && mine
+      ? [...(read.core.logByKind.get("press.exposed") ?? [])]
+          .map((logId) => read.core.durableLog.get(logId as EntityId))
+          .filter((row) => row?.personIds[0] === id)
+      : [];
+  // This story's own finding: two found the same day are told in award
+  // order, so the first is not called the second (Wall, South Dakota, seed
+  // conflict-scan-1).
+  const found =
+    exposures.find((row) => award(row?.facts) === mine)?.date ?? when;
+  for (const row of exposures) {
+    const theirs = award(row?.facts);
+    if (
+      row &&
+      theirs &&
+      theirs !== mine &&
+      row.personIds[0] === id &&
+      row.facts?.organizationId === f.organizationId &&
+      row.date <= when &&
+      (row.date < found || (row.date === found && theirs < (mine ?? "")))
+    )
+      earlier.add(theirs);
+  }
   const time = earlier.size + 1;
   return story(
     "exposed",
@@ -2472,7 +2483,8 @@ const chamber: Builder = (read, f) => {
   )?.[1];
   const body = read.body(officeId);
   const posts = Object.entries(f).filter(
-    ([post, holder]) => post !== "level" && read.name(holder),
+    ([post, holder]) =>
+      post !== "level" && post !== "mid-term" && read.name(holder),
   );
   const [post, holder] =
     posts.find(([key]) => /^(?:speaker|president)$/.test(key)) ??
@@ -2495,6 +2507,7 @@ const chamber: Builder = (read, f) => {
       ...(post && /^(?:speaker|president)$/.test(post)
         ? { presides: read.yes() }
         : {}),
+      ...(f["mid-term"] ? { "mid-term": read.yes() } : {}),
       ...(body ? { body: read.fact(body, officeId ?? "") } : {}),
     },
     ["name", "post"],
@@ -2906,6 +2919,22 @@ const emergency: Builder = (read, f) => {
       ...(moved ? { money: read.fact(dollars(Math.abs(moved))) } : {}),
     },
     ["name"],
+    id,
+  );
+};
+
+/** A governor's disaster window closing with nothing declared: the act not taken, and the disaster it was about. */
+const emergencyLapsed: Builder = (read, f) => {
+  const id = read.first();
+  // The disaster as the room says it ("the flood"), from the incident type on the record.
+  const kind = f.incidentType?.toLowerCase().replace(/\//g, " or ");
+  return story(
+    "emergency-lapsed",
+    {
+      ...read.who(id, "name", false),
+      ...(kind ? { disaster: read.fact(kind, f.hazardRecordId ?? "") } : {}),
+    },
+    ["disaster"],
     id,
   );
 };
@@ -4135,6 +4164,7 @@ const BUILDERS: Readonly<Record<string, Builder>> = {
   "official-trip": officialTrip,
   "ribbon-cut": ribbonCut,
   "emergency-declared": emergency,
+  "executive.emergency-lapsed": emergencyLapsed,
   succession,
   "recall-answer": recallReply,
   "ballot-measure-result": measureResult,

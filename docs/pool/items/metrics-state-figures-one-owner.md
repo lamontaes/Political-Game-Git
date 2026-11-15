@@ -5,10 +5,10 @@ area: gov
 kind: bug
 priority: 2
 size: M
-status: open
+status: in-pr
 standard: 2
 claimed-by:
-pr:
+pr: 9532
 after: metrics-output-numbers-registry
 blocked-on:
 lead: nation
@@ -35,3 +35,5 @@ source: docs/design/output-numbers.md (#8926), owner's ask of Nov 12
 **Files.** src/core2/regional-model.ts, src/core2/modules/world-legislating.ts, src/bench/metrics.ts
 
 **Notes.** From docs/design/output-numbers.md (#8926), owner's ask of Nov 12.
+
+Built (Account lead thread, Nov 15). The country tier (`src/core2/modules/macro.ts`) keeps one row per state per month (`countryStateMonths`: unemployment, jobs, pay, prices, people): the last year and the months Metrics may read in full, then each December and the opening month, written once on the tier's first day and each month after. Metrics' state rows (`country-state` reader), the state's session agenda (`stateFigures` in world-legislating.ts, now over the kept month) and `stateUnemployment` (counted-moves.ts, read by the working lives elsewhere) all read it. Before the tier's first day Metrics reads the tier's own opening (`openingStateMonth`), the same figures the first day keeps. The regional months stay the town's region inside its state. Left for its own item: a state's term-read still reads the regional months (`term-read-state-figures-from-the-tier`), because it also needs the real coarse months before the opening, which the tier does not hold. Proof: `src/bench/metrics-state-one-owner.test.ts`.

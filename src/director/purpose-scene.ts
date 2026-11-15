@@ -14,7 +14,7 @@ import { placeStateKey } from "../core2/place-map";
 import { BUDGETS_MODULE_ID, type BudgetRow } from "../core2/modules/budgets";
 import { gameStartDate } from "../core2/game-start";
 import { personLean } from "../core2/campaign-views";
-import { appointmentsIn } from "../core2/modules/executive";
+import { appointmentsIn, EMERGENCY_OFFERED } from "../core2/modules/executive";
 import {
   LAWS_MODULE_ID,
   lawChain,
@@ -128,6 +128,7 @@ import {
 import {
   composeSceneTalk,
   lastAnswerAlong,
+  playedNode,
   type AskStanding,
   type PurposeType,
   type SceneTalk,
@@ -216,6 +217,8 @@ import {
   PRESS_MODULE_ID,
   townOutlet,
   PRESS_STORY_EVENT,
+  PRESS_EXPOSED,
+  exposedFinding,
 } from "../core2/modules/press";
 import { relationFacts, tieSide } from "./relation-facts";
 import lineNames from "../core2/data/budgets/line-names.json" with { type: "json" };
@@ -647,7 +650,13 @@ function composeBinding(
       text: "yes",
       sourceRecordIds: [remark.id, moment.causeId],
     };
-  const billId = said.billId ?? remark?.billId;
+  // What a paper found when it exposed the asked person (press.ts exposedFinding):
+  // the bill a bribe bought a vote on is the scene's bill.
+  const exposed =
+    record?.kind === PRESS_EXPOSED
+      ? exposedFinding(coreAPI(core as CoreState), said)
+      : null;
+  const billId = said.billId ?? remark?.billId ?? exposed?.billId;
   const named =
     billId && core.modules.has(LEGISLATURE_MODULE_ID)
       ? billOf(coreAPI(core as CoreState), billId)
@@ -1201,6 +1210,77 @@ function composeBinding(
     const wanted = said.favor === "vote" ? facts.bill : facts.contract;
     if (wanted) facts.wanted = wanted;
   }
+  // The finding a reporter calls about (press.ts press.exposed): a bribe, by
+  // who paid it and the vote or contract it bought; a conflict, by the award,
+  // the firm and whose it is. The reporter says what the story says, not only
+  // that there is one (owner, Nov 15). Every exposure ran after the reporter
+  // dug through the paper trail (press.ts weighTip), so the papers are in hand:
+  // a denial is a lie the reporter can show is one (`knows-truth`).
+  if (exposed) {
+    const cited = [moment.causeId, exposed.recordId];
+    facts[`found-${exposed.found}`] = { text: "yes", sourceRecordIds: cited };
+    facts["knows-truth"] = { text: "yes", sourceRecordIds: cited };
+    // The paper holds the story for the official's comment until its next
+    // print day (press.ts weighTip `runsOn`); the reporter says when it runs.
+    const runsOn = said.runsOn ? dayAhead(said.runsOn, core.date) : null;
+    if (runsOn)
+      facts["runs-on"] = { text: runsOn, sourceRecordIds: [moment.causeId] };
+    if (exposed.contractLine)
+      facts.contract = {
+        text: contractSaid(exposed.contractLine),
+        sourceRecordIds: [...cited, exposed.contractId ?? exposed.recordId],
+      };
+    if (exposed.found === "bribe") {
+      const wanted = facts.bill ?? facts.contract;
+      if (wanted) facts.wanted = wanted;
+    }
+    const briber = core.people.get((exposed.briberId ?? "") as PersonId);
+    if (briber) {
+      facts.briber = {
+        text: sayPerson(briber),
+        sourceRecordIds: [...cited, briber.id],
+      };
+      // One who paid is family, or a friend by the tie's record: the player
+      // can say they could not refuse them.
+      const tie = tieSide(core, askedId, briber.id);
+      if (asked.familyIds.has(briber.id) || tie?.side === "friend")
+        facts["briber-close"] = {
+          text: "yes",
+          sourceRecordIds: [...cited, tie?.tieId ?? briber.id],
+        };
+      // The tip came from the one who paid (press.ts leakToReporter): the
+      // papers the reporter holds are theirs.
+      const tip = coreAPI(core as CoreState)
+        .moduleState(PRESS_MODULE_ID)
+        .table("tips")
+        .get(exposed.recordId) as unknown as
+        { readonly knowerId?: string } | undefined;
+      if (tip?.knowerId === briber.id)
+        facts["leak-from-briber"] = { text: "yes", sourceRecordIds: cited };
+    }
+    const firm = core.organizations.get(exposed.firmId ?? "");
+    if (firm)
+      facts.firm = {
+        text: organizationName(firm),
+        sourceRecordIds: [...cited, firm.id],
+      };
+    const owner = core.people.get((exposed.ownerId ?? "") as PersonId);
+    if (exposed.ownFirm)
+      facts["firm-yours"] = { text: "yes", sourceRecordIds: cited };
+    else if (owner) {
+      facts.relative = {
+        text: sayPerson(owner),
+        sourceRecordIds: [...cited, owner.id],
+      };
+      // The owner shares the asked person's home: the reporter says so, as
+      // the player may not hold in mind who owns the firm.
+      if (owner.householdId === asked.householdId)
+        facts["relative-lives-with"] = {
+          text: "yes",
+          sourceRecordIds: [...cited, owner.id, asked.householdId],
+        };
+    }
+  }
   // A printed story that runs against the person or their bill (press-desk.ts
   // recordNamed): the outlet that ran it, who wrote it, and what it is about.
   if (record?.kind === PRESS_STORY_EVENT) {
@@ -1462,9 +1542,23 @@ function composeBinding(
       };
   }
   // An outlet any other cause names (an invitation to an interview or a
-  // debate), by name.
+  // debate, an exposure), by name. The press names an outlet by its outlet
+  // row (press.ts `outletId: outlet.id`), the meetings by its organization;
+  // the row says which organization it is.
   if (record?.kind !== PRESS_STORY_EVENT && said.outletId) {
-    const outlet = core.organizations.get(said.outletId);
+    const row = core.modules.has(PRESS_MODULE_ID)
+      ? outletsHere(coreAPI(core as CoreState)).find(
+          (o) => o.id === said.outletId,
+        )
+      : undefined;
+    const outlet = core.organizations.get(row?.organizationId ?? said.outletId);
+    // How the outlet carries the story decides how a reporter says when it
+    // comes out (a paper runs it, a station airs it, a site puts it up).
+    if (row)
+      facts[`outlet-${row.kind}`] = {
+        text: "yes",
+        sourceRecordIds: [moment.causeId, row.id],
+      };
     if (outlet)
       facts.outlet = {
         text: organizationName(outlet),
@@ -1598,6 +1692,24 @@ function composeBinding(
     facts[`tie-${relation.side}`] = {
       text: asker.givenName,
       sourceRecordIds: [relation.tieId],
+    };
+  // What passed between them in an earlier scene, from its reply records: the
+  // asker came before, and the asked person helped or refused then.
+  const passed = relation.passed;
+  if (passed.askedBefore.length)
+    facts["asked-before"] = {
+      text: asker.givenName,
+      sourceRecordIds: passed.askedBefore,
+    };
+  if (passed.helpedBefore.length)
+    facts["helped-before"] = {
+      text: asker.givenName,
+      sourceRecordIds: passed.helpedBefore,
+    };
+  if (passed.refusedBefore.length)
+    facts["refused-before"] = {
+      text: asker.givenName,
+      sourceRecordIds: passed.refusedBefore,
     };
   // A committee trade coming due on the floor (legislature.ts
   // recordPromises): the member promised their vote, and the lines about a
@@ -1888,6 +2000,8 @@ function composeBinding(
     cutFacts(core, facts, said, moment.causeId, askerId);
   if (record?.kind === "bill-presented")
     deskFacts(core, facts, said, moment.causeId, askerId);
+  if (record?.kind === EMERGENCY_OFFERED)
+    briefingFacts(core, facts, said, moment.causeId);
 
   // A recall petition names the member's vote; a promise to vote against
   // the bill (`promised-against`) is said only from a record of one, which no
@@ -2831,6 +2945,37 @@ function cutFacts(
 }
 
 /**
+ * What a department head says in the governor's emergency briefing: the kind of disaster the offer's
+ * record names and whether this is a later meeting on it, each with the records it came from. Said as people say it (never a count).
+ */
+function briefingFacts(
+  core: Readonly<CoreState>,
+  facts: Record<string, Fact>,
+  said: Readonly<Record<string, string>>,
+  causeId: string,
+): void {
+  const kind = said.incidentType?.toLowerCase().replace(/\//g, " or ");
+  if (kind) facts.disaster = { text: kind, sourceRecordIds: [causeId] };
+  // The briefing is a later meeting on the same disaster (the offer was left unanswered).
+  // The day the offer lapses, said as people say a date, from the same record the lapse reads.
+  if (said.closes)
+    facts.deadline = {
+      text: spokenDate(
+        said.closes,
+        core.durableLog.get(causeId)?.date ?? core.date,
+      ),
+      sourceRecordIds: [causeId],
+    };
+  if (said.again) facts.again = { text: "", sourceRecordIds: [causeId] };
+  // Which return it is: the midway one (half the window gone) or the last before the deadline.
+  if (said.returnWhen === "midway" || said.returnWhen === "last")
+    facts[`return-${said.returnWhen}`] = {
+      text: "",
+      sourceRecordIds: [causeId],
+    };
+}
+
+/**
  * What someone who comes to a bill's presentment may say of it: the day the
  * decision is due, how the chambers voted, and whose side the visitor is on
  * (the sponsor is for it; a group's lobbyist is against it and says what it
@@ -3225,11 +3370,14 @@ export function replyInScene(
   let node: TreeNode | null = scene.talk.tree;
   let reply: TreeReply | undefined;
   for (const index of path) {
-    reply = node?.replies[index];
+    reply = node ? playedNode(node).replies[index] : undefined;
     if (!reply) return null;
     node = reply.next;
   }
   const line = reply!.line;
+  // Where the reply leads, as play reaches it (after a lie, the outcome the
+  // records give).
+  const reached = reply!.next ? playedNode(reply!.next) : null;
   // One record per scene of the moment and reply path: a record that stages
   // several scenes keeps each one's replies apart.
   const unit = scene.unit ?? scene.typeKey;
@@ -3250,7 +3398,7 @@ export function replyInScene(
     : scene.facts.some((row) => row.key === "stake-time")
       ? "time"
       : undefined;
-  const answer = reply!.next?.lines.find((row) => row.role === "asker");
+  const answer = reached?.lines.find((row) => row.role === "asker");
   const filingId = scene.cause.facts.filingId;
   const enlists =
     !!stakeKind &&
@@ -3282,7 +3430,7 @@ export function replyInScene(
   // is written on its record for the engines that read it, and a tie it
   // strains is written to closeness (the plan, section 3: "Each 'keeps'
   // becomes a write to the engine that owns it").
-  const ending = reply!.next?.end?.ending;
+  const ending = reached?.end?.ending;
   const aboutQuestion = scene.facts.find((row) => row.key === "about");
   // The concession call: conceding, or refusing to that night, is marked on
   // the reply for the press to put on the public record.
@@ -3320,6 +3468,10 @@ export function replyInScene(
       // SG-WORDS-favor-promise-keeps-unread (endings with no row yet)
       ...promised,
       ...(ending?.firmness ? { firmness: ending.firmness } : {}),
+      // What the ending settles in an engine's own record (office hours: the
+      // case is helped or declined), so a later scene reads help done and
+      // not a promise made (relation-facts.ts passedBetween).
+      ...(ending?.settles ? { settled: ending.settles } : {}),
       // A promise made on a resident's own question names it, for the
       // Journal (ruling 72).
       ...(ending?.keeps === "promise" && aboutQuestion

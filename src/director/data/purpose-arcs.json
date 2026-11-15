@@ -1071,6 +1071,39 @@
         }
       ]
     },
+    "emergency-briefing": {
+      "state": "request",
+      "replies": ["agree", "decline", "ask", "leave"],
+      "follow": {
+        "agree": ["thank"],
+        "decline": ["accept", "warn"],
+        "ask": ["answer"]
+      },
+      "again": {
+        "answer": ["agree", "decline"],
+        "warn": ["agree", "decline", "leave"]
+      },
+      "endings": [
+        {
+          "id": "declared",
+          "label": "You declared the emergency",
+          "keeps": "promise",
+          "when": { "anyReply": ["agree"] }
+        },
+        {
+          "id": "let-pass",
+          "label": "You let it pass",
+          "keeps": "none",
+          "when": { "anyReply": ["decline"] }
+        },
+        {
+          "id": "left-there",
+          "label": "Left it there",
+          "keeps": "none",
+          "when": {}
+        }
+      ]
+    },
     "hearing-ask": {
       "state": "request",
       "replies": ["agree", "refuse", "bargain", "stall"],
@@ -1223,17 +1256,17 @@
     },
     "scandal-comment": {
       "state": "ask",
-      "replies": ["confess", "deny", "refuse", "confront", "lie"],
+      "replies": ["confess", "refuse", "confront", "lie"],
       "follow": {
         "confess": ["ask", "thank"],
-        "deny": ["press", "accept"],
         "refuse": ["accept", "press"],
-        "confront": ["answer"]
+        "confront": ["answer"],
+        "answer": ["accept"]
       },
       "again": {
         "ask": ["answer", "refuse", "leave"],
-        "press": ["deny", "confess", "leave"],
-        "answer": ["confess", "deny", "leave"],
+        "press": ["confess", "leave"],
+        "answer": ["confess", "lie", "refuse"],
         "confront": ["deflect", "confess", "leave"]
       },
       "endings": [
@@ -1243,14 +1276,6 @@
           "keeps": "story-runs",
           "when": {
             "anyReply": ["confess"]
-          }
-        },
-        {
-          "id": "denial-printed",
-          "label": "Story runs with your denial",
-          "keeps": "story-runs",
-          "when": {
-            "anyReply": ["deny"]
           }
         },
         {

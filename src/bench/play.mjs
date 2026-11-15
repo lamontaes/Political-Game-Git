@@ -708,7 +708,6 @@ async function act(path) {
       else if (office.reasonKey === "office-day.desk") await atDesk();
       else if (
         office.reasonKey === "office-day.executive-order" ||
-        office.reasonKey === "office-day.emergency" ||
         office.reasonKey === "office-day.state-of-the-state" ||
         office.reasonKey === "office-day.own-hearing" ||
         office.reasonKey === "office-day.appointment" ||
@@ -1116,15 +1115,13 @@ function atOrders() {
                 ? words[`hearing-${how}`]
                 : item.kind === "address"
                   ? words[`address-${how}`]
-                  : item.kind === "emergency"
-                    ? words[`emergency-${how}`]
-                    : item.kind === "post"
-                      ? words[`post-${how}`]
-                      : item.kind === "budget"
-                        ? words[`budget-${how}`]
-                        : how === "issue" && item.revoke
-                          ? words.revoke
-                          : words[how];
+                  : item.kind === "post"
+                    ? words[`post-${how}`]
+                    : item.kind === "budget"
+                      ? words[`budget-${how}`]
+                      : how === "issue" && item.revoke
+                        ? words.revoke
+                        : words[how];
           return plate(
             item.kind === "request" || item.kind === "joint"
               ? words[item.kind]
@@ -1132,11 +1129,9 @@ function atOrders() {
                 ? words.hearing
                 : item.kind === "address"
                   ? words.address
-                  : item.kind === "emergency"
-                    ? words.emergency
-                    : item.kind === "budget"
-                      ? words.budget
-                      : (item.name ?? ""),
+                  : item.kind === "budget"
+                    ? words.budget
+                    : (item.name ?? ""),
             ...picker,
             ...lines,
             buttonRow(
@@ -1502,9 +1497,23 @@ function renderTalk(value) {
   // Dim when there is nothing false to say; tipped and red while lying.
   setScales({ available: lies.length > 0, on: lying });
 }
+// A reply counts once: while its answer is on the way the other presses (a
+// double click, a number key) do nothing, and the buttons show it. A refused
+// answer gives the buttons back so the player can press again.
+let saying = false;
 async function sayLine(key) {
+  if (saying) return;
+  saying = true;
   lying = false;
-  renderTalk(await post(`/api/talk/say?key=${encodeURIComponent(key)}`));
+  for (const button of $("talk-choices").children) button.disabled = true;
+  try {
+    renderTalk(await post(`/api/talk/say?key=${encodeURIComponent(key)}`));
+  } catch (error) {
+    for (const button of $("talk-choices").children) button.disabled = false;
+    throw error;
+  } finally {
+    saying = false;
+  }
 }
 async function talkTo(otherId, momentId) {
   // The menu hides the conversation, so a conversation closes it first.
@@ -2638,28 +2647,15 @@ async function personCardNode(
           : labels.sharedWords[s.kind],
       ),
     );
-  // How close you are and why that last changed, read from the tie's own record
-  // (the card's tie row: its closeness and its latestChange); a person with no
-  // tie to you has neither line.
-  const closeness = Number.isFinite(person.level)
-    ? labels.closenessWords[
-        Math.min(
-          labels.closenessWords.length - 1,
-          Math.floor(Math.max(0, person.level) * labels.closenessWords.length),
-        )
-      ]
-    : null;
+  // When you were last in touch and why, read from the tie's own record (the
+  // card's tie row: its latestChange); an event only, never how close you are
+  // (owner, Oct 29: no band word for how someone feels, on any screen); a
+  // person with no tie to you has no line.
   const change = person.latestChange;
   const changeLine = change
     ? introText(
         [
-          labels.tieChange[
-            change.after > change.before
-              ? "closer"
-              : change.after < change.before
-                ? "apart"
-                : "same"
-          ],
+          labels.lastInTouch,
           labels.tieCauses[change.cause],
           dateWords(change.date),
         ]
@@ -2667,7 +2663,6 @@ async function personCardNode(
           .join(" · "),
       )
     : null;
-  if (closeness) sharedLines.unshift(introText(closeness));
   if (changeLine) sharedLines.push(changeLine);
   // Their public record, from the past module's public tier: a fact the record does not hold is left out.
   const recordRows = known

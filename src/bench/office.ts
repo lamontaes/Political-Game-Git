@@ -756,7 +756,7 @@ export function colleagueDeal(
   return officeView(core, personId);
 }
 
-/** What the governor's staff has brought for the player to decide today: executive orders and emergency offers. */
+/** What the governor's staff has brought for the player to decide today: executive orders. */
 export function ordersView(core: CoreState) {
   const api = coreAPI(core);
   const person = controlledPerson(api);
@@ -786,7 +786,6 @@ export function ordersView(core: CoreState) {
     .filter(
       (entry) =>
         entry.kind === "executive-order" ||
-        entry.kind === "emergency" ||
         entry.kind === "state-of-the-state" ||
         stopKindOf(api, entry) === "own-hearing" ||
         entry.kind === "appointment" ||
@@ -855,28 +854,20 @@ export function ordersView(core: CoreState) {
                   name: null,
                   revoke: false,
                 }
-              : entry.kind === "emergency"
-                ? {
-                    entryId: entry.id,
-                    kind: "emergency" as const,
-                    order: entry.subject,
-                    name: null,
-                    revoke: false,
-                  }
-                : {
-                    entryId: entry.id,
-                    kind: "order" as const,
-                    order: entry.subject,
-                    // The order's own question, worded by the bill catalog's name for it.
-                    name: names[orderQuestionOf(entry.subject) ?? ""] ?? null,
-                    revoke:
-                      brought.find((row) => row.order === entry.subject)
-                        ?.revoke ?? false,
-                  },
+              : {
+                  entryId: entry.id,
+                  kind: "order" as const,
+                  order: entry.subject,
+                  // The order's own question, worded by the bill catalog's name for it.
+                  name: names[orderQuestionOf(entry.subject) ?? ""] ?? null,
+                  revoke:
+                    brought.find((row) => row.order === entry.subject)
+                      ?.revoke ?? false,
+                },
     );
 }
 
-/** The player issues the order (or declares the emergency), or sets it aside. */
+/** The player issues the order, or sets it aside. */
 export function ordersDecide(
   core: CoreState,
   entryId: string,
@@ -939,10 +930,6 @@ export function ordersDecide(
     // The address is given by the governor's own priorities (the staff's draft); it has no
     // "set aside": the day's hold ends once it is given.
     actOn(api, entry);
-    return;
-  }
-  if (entry.kind === "emergency") {
-    doEntry(api, entryId, { kind: "emergency", declare: how === "issue" });
     return;
   }
   const revoke =
