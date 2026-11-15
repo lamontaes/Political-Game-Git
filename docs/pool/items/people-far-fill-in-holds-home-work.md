@@ -5,11 +5,11 @@ area: people
 kind: bug
 priority: 1
 size: M
-status: open
+status: in-pr
 standard: 2
 root: none
 claimed-by: civic roles builder
-pr:
+pr: 9470
 after:
 blocked-on:
 lead: people
