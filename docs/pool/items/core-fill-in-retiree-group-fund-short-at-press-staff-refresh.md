@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: open
+status: merged
 claimed-by:
-pr:
+pr: #9428
 blocked-on:
 lead: laws-effects
 source: Account lead thread, CI golden-path-year M0-13 on PR #9364, Nov 15
@@ -21,9 +21,9 @@ checked: fable 2026-11-15
 
 **What.** A played year at East Setauket, New York stops with an error when the press week fills in a household from the counted population and the fund that holds that household's group's money has less than the household's share. It was found by the golden path's year run in CI, not by a player. Seen: the player's year stops in a played world with a thrown error.
 
-**Cause.** Needs cause. Measured: place East Setauket, New York (key 3622964), seed 0ecaac254b3bf4a290cd7169a7bb9e4e34066b3bdb0cbeed2df7b00e34135bed, the played-world test (`GOLDEN_PATH_SEED` and `GOLDEN_PATH_PLACE_KEY` set to those, `node --import tsx tests/golden-path/played-world.node-test.ts`), about 89 s in, on the train head 2190669e with and without PR #9364. The error is "Insufficient funds in fund:group:jurisdiction_d1ef7e7093ac6f83:town:with-children:income-4:other:65-plus:retired for fill-in:household_b6bc489444597599:76:cash", thrown in `transferSplit` (accounts.ts:596) from `releaseResidentHousehold` (modules/residents.ts:2155), called by `fillInPerson` (state.ts:2506) from `refreshPressStaff` (modules/press.ts:3864) in `pressWeek`. What is not yet known is why the retired group's fund holds less than the sum its households are due: the opening fund, an earlier fill-in taking more than its share, or retirees' flows drawing it down.
+**Cause.** Measured: East Setauket, New York (key 3622964), seed 0ecaac254b3bf4a290cd7169a7bb9e4e34066b3bdb0cbeed2df7b00e34135bed, the played-world test at the train head 2190669e with a log line where a fill-in fixes its cash and where it pays it. On April 14, 2025 the press week filled in household_b6bc489444597599, the only record of its group (retired, 65 and over, with children). The record had four members and a weight of 0.00146, so it stood for 0.0058 people. `householdCashReader` (src/core2/modules/residents.ts) then shared the group's fund by the record's member count over the group's weighted people: 140,280 cents times 4 over 0.0058 is 95,946,954 cents, asked of a fund that held 140,280. The fund was never short; the share was wrong. The same reader was corrected on Nov 15 by pull request #9428 ("A fill-in takes only the record's own share of its group's fund", commit 16161897ec, folded into the train at 156d19d4fb): a record that stands for less than one household takes only the part its own people hold.
 
-**Fix.** None until the cause is found.
+**Fix.** Built by pull request #9428: `householdCashReader` (src/core2/modules/residents.ts) shares the fund by the smaller of the record's member count and the people it stands for, so a fill-in never asks for more than its group holds. The player no longer loses a year to the stopped game at this place.
 
 **Time box.** 3 hours for one Opus session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
 
@@ -35,4 +35,4 @@ checked: fable 2026-11-15
 
 **Files.** src/core2/modules/residents.ts, src/core2/modules/press.ts, src/core2/state.ts
 
-**Notes.** Red on the train head without PR #9364 (checked at 2190669e, same place and seed), so not caused by it. Found in CI's golden-path-year run, which is outside the PR gate.
+**Notes.** Red on the train head without PR #9364 (checked at 2190669e, same place and seed), so not caused by it. Found in CI's golden-path-year run, which is outside the PR gate. Checked by Fable B, Nov 15, 2026: the same test, place and seed on the train at 32a994212b passes 21 of 21 with 2 skipped; 45 households were filled in over the year and none asked for more than its group held. Fixed by #9428; nothing further to build.
