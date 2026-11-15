@@ -19,6 +19,7 @@ import bases from "../../../data/research/money/public-budget-bases.json" with {
 import rows from "../data/press/parameters.json" with { type: "json" };
 import briefs from "../data/press/briefs.json" with { type: "json" };
 import nationalJson from "../data/press/national.json" with { type: "json" };
+import endorsing from "../data/press/endorsements.json" with { type: "json" };
 import { bookkeeping } from "../bookkeeping";
 import { coreAPI, fillInPerson, registerModule } from "../state";
 import {
@@ -69,6 +70,7 @@ import {
   registerAdOutlet,
   parsePlatform,
   contestPositions,
+  outletWeighsRace,
   type CampaignRow,
   type ImpressionRow,
 } from "./campaigns";
@@ -161,6 +163,29 @@ export type NationalKind = "cable" | "magazine" | "online" | "national-paper";
 export type OutletKind = LocalKind | NationalKind;
 const KINDS: readonly LocalKind[] = ["newspaper", "television", "radio"];
 
+/**
+ * How an outlet of each kind carries the news: printed on paper, shown on a
+ * screen, or said on the air; a site online is none of the three. Talk says
+ * "I read in" a paper, "I saw on" a station, "I heard on" the radio.
+ */
+const MEDIA: Readonly<
+  Partial<Record<OutletKind, "paper" | "television" | "radio">>
+> = {
+  newspaper: "paper",
+  "national-paper": "paper",
+  magazine: "paper",
+  television: "television",
+  cable: "television",
+  radio: "radio",
+};
+
+/** How an outlet's kind carries the news, or null for one online. */
+export function outletMedium(
+  kind: OutletKind,
+): "paper" | "television" | "radio" | null {
+  return MEDIA[kind] ?? null;
+}
+
 interface NationalKindRow {
   readonly kind: NationalKind;
   readonly followShare: number;
@@ -174,6 +199,9 @@ const NATIONAL = nationalJson as unknown as {
   basedIn: string;
   kinds: readonly NationalKindRow[];
 };
+/** The kinds of outlet that endorse in an editorial (data/press/endorsements.json). */
+const ENDORSING_KINDS: ReadonlySet<string> = new Set(endorsing.kinds);
+
 const ALL_KINDS: readonly OutletKind[] = [
   ...KINDS,
   ...NATIONAL.kinds.map((row) => row.kind),
@@ -2610,6 +2638,19 @@ export function writeArchiveStory(
   return written.story;
 }
 
+/**
+ * The outlet that runs the town's own police log: the town's outlet of record
+ * (`townOutlet`), or, when it has no reporter living to file it, the first
+ * local outlet that has one.
+ */
+export function recordOutletOf(api: CoreAPI): string | undefined {
+  const alive = (o: OutletRow) =>
+    (o.reporterIds ?? []).some((id) => api.state.people.get(id)?.alive);
+  const town = townOutlet(api);
+  if (town && alive(town)) return town.id;
+  return outletsHere(api).find((o) => o.tier === "local" && alive(o))?.id;
+}
+
 /** What the reporter's desk reads from the press. */
 export function deskContext(api: CoreAPI): DeskContext {
   // Read once per desk run: a race's rivals and a campaign's ad money hold
@@ -2620,6 +2661,7 @@ export function deskContext(api: CoreAPI): DeskContext {
     parameter: pressParameter,
     followers: (outletId) => followersOf(api, outletId),
     townPlaceId: lawChain(api).townPlaceId,
+    recordOutletId: () => recordOutletOf(api),
     adMoney: (outlet, personId) => {
       const key = `${outlet.organizationId}|${personId}`;
       let held = ads.get(key);
@@ -2643,6 +2685,8 @@ export function deskContext(api: CoreAPI): DeskContext {
           wireId,
         ]) as unknown as PrintedStory[]
       ).some((s) => s.outletId === outletId),
+    printedAnywhere: (wireId) =>
+      (table(api, "stories").query("byWire", [wireId]) as unknown[]).length > 0,
     save: (story) => table(api, "stories").put(story as unknown as ModuleRow),
     countedFollowers: (outlet) => countedFollowersOf(api, outlet as OutletRow),
     paperOfRecord: (outlet) =>
@@ -3598,12 +3642,26 @@ function policeLog(api: CoreAPI): void {
       ...(usual
         ? {
             vsUsual: String(Math.round((reported / usual.total) * 1000) / 1000),
-            usual: String(Math.round(usual.total * 10) / 10),
-            ...(usual.rising ? { rising: usual.rising } : {}),
-            // Halfway from the usual to the share where a brief has all its
-            // space: the log may say "busier" only from here on.
-            ...(reported / usual.total >=
-            1 + (pressParameter("briefUsualCeiling") - 1) / 2
+            // The words may compare the month with the town's usual only
+            // once the usual rests on enough closed months (two months are
+            // not a usual month), and only by how far the month stands off
+            // the usual against the town's own spread of months.
+            ...(usual.months >= pressParameter("briefUsualMinMonths")
+              ? {
+                  usual: String(Math.round(usual.total * 10) / 10),
+                  spread: String(Math.round(usual.spread * 10) / 10),
+                  ...(usual.rising ? { rising: usual.rising } : {}),
+                }
+              : {}),
+            // How many closed months the usual rests on, and how often a
+            // month this busy comes by chance at that usual: a town with a
+            // short record or a small usual is not called busy on chance.
+            monthsOfRecord: String(usual.months),
+            chance: String(
+              Math.round(chanceOfMonthAtLeast(reported, usual.total) * 10000) /
+                10000,
+            ),
+            ...(monthIsWellOver(usual.months, reported, usual.total)
               ? { busier: "yes" }
               : {}),
           }
@@ -3623,7 +3681,9 @@ function usualMonth(
   api: CoreAPI,
   town: string,
   month: string,
-): { total: number; rising?: string } | undefined {
+):
+  | { total: number; months: number; spread: number; rising?: string }
+  | undefined {
   type Month = {
     readonly month: string;
     readonly types?: Record<string, { readonly reported?: number }>;
@@ -3647,6 +3707,18 @@ function usualMonth(
     ),
   );
   if (!(total > 0)) return undefined;
+  // How far the town's own closed months stand off their mean: what is
+  // unusual for this town is read from its own months, never picked.
+  const monthTotals = rows.map((row) =>
+    Object.values(row.types ?? {}).reduce(
+      (sum, type) => sum + (type.reported ?? 0),
+      0,
+    ),
+  );
+  const spread = Math.sqrt(
+    monthTotals.reduce((sum, n) => sum + (n - total) ** 2, 0) /
+      Math.max(1, monthTotals.length - 1),
+  );
   const now = api
     .moduleState(CRIME_MODULE_ID)
     .table("months")
@@ -3669,7 +3741,36 @@ function usualMonth(
       rising = type;
     }
   }
-  return { total, ...(rising ? { rising } : {}) };
+  return { total, months: rows.length, spread, ...(rising ? { rising } : {}) };
+}
+
+/** True when the usual rests on enough months and chance rarely gives a month this busy. */
+export function monthIsWellOver(
+  months: number,
+  count: number,
+  usual: number,
+): boolean {
+  return (
+    months >= pressParameter("briefUsualMinMonths") &&
+    chanceOfMonthAtLeast(count, usual) < pressParameter("briefChanceBar")
+  );
+}
+
+/**
+ * How often a month at least this busy comes by chance in a town whose usual
+ * month is `usual`: the chance of `count` or more reports when reports arrive
+ * independently at the usual rate (the upper tail of a count with that mean).
+ * A measure of the record against its own history, never a roll for what
+ * anyone does.
+ */
+export function chanceOfMonthAtLeast(count: number, usual: number): number {
+  let term = Math.exp(-usual);
+  let below = 0;
+  for (let k = 0; k < count; k += 1) {
+    below += term;
+    term *= usual / (k + 1);
+  }
+  return Math.max(0, 1 - below);
 }
 
 function freshWire(api: CoreAPI): WireItem[] {
@@ -3905,8 +4006,6 @@ function pressWeek(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   );
   pressPeopleLive(api);
   conflictBeat(api);
-  // stopgapId: SG-PEOPLE-press-endorsements
-  api.stopgap("SG-PEOPLE-press-endorsements");
   schoolResults(api);
   policeLog(api);
   milestones(api);
@@ -4037,6 +4136,33 @@ function pressWeek(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
           ?.status === "invited",
     );
     if (open.length) invited(api, open);
+  }
+  // Each outlet weighs the races on its beat once its interviews in a race
+  // are settled, or in the last week before the vote however they stand
+  // (the final edition before it): an editorial board hears the candidates
+  // before it endorses (`outletWeighsRace`).
+  const lastWeek = addDays(makeIsoDate(api.state.date), 7);
+  for (const outlet of outletsHere(api)) {
+    // Papers and magazines endorse; a station or network reports the race.
+    if (!ENDORSING_KINDS.has(outlet.kind)) continue;
+    const waiting = new Set(
+      (
+        table(api, "interviews").query("byOutlet", [
+          outlet.id,
+        ]) as unknown as InterviewRow[]
+      ).flatMap((row) =>
+        row.status === "invited" && row.contestId ? [row.contestId] : [],
+      ),
+    );
+    for (const contest of contests) {
+      if (!outletCoversContest(outlet, contest)) continue;
+      if (waiting.has(contest.id) && contest.electionDate >= lastWeek) continue;
+      outletWeighsRace(api, contest.id, {
+        organizationId: outlet.organizationId,
+        headId: outlet.headId,
+        followerIds: followersOf(api, outlet.id),
+      });
+    }
   }
 }
 

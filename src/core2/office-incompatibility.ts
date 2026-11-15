@@ -20,7 +20,8 @@ export function incompatibleOffices(
   // fed-filing-1: the House seat was lost on winning a council seat).
   const local = (o: OfficeInput) => !["federal", "state"].includes(o.level);
   if ((legislative(a) && local(b)) || (legislative(b) && local(a))) return null;
-  // stopgapId: SG-GOV-dual-office-law — exceptions await per-place research.
+  // Where a place's own exceptions are not read, two elected mandates are
+  // taken as incompatible: an ESTIMATED row in data/offices/incompatibility.json.
   const row = (
     laws.places as Record<
       string,

@@ -7,6 +7,7 @@ import startingLaw from "../core2/data/laws/starting-law.json" with { type: "jso
 import { placeStateKey } from "../core2/place-map";
 import {
   LEGISLATURE_MODULE_ID,
+  billJurisdiction,
   employerCosts,
   memberKey,
   members,
@@ -330,10 +331,15 @@ describe(`a bill on paper (${place.name}, seed ${seed})`, () => {
         .moduleState(LEGISLATURE_MODULE_ID)
         .table("bills")
         .get(earlier.id) as unknown as BillRow;
-      const level = council.kind === "county-board" ? "county" : "city";
-      const at = lawChain(api).levels.find((l) => l.level === level);
+      // The earlier law sits at the body's own level of the law chain, read
+      // from the bill's record: a town or township board legislates for its
+      // township, not for the place inside it.
+      const jurisdiction = billJurisdiction(api, row);
+      const at = lawChain(api).levels.find(
+        (l) => l.jurisdiction === jurisdiction,
+      );
       if (!at) {
-        tried.push(`${where}: no ${level} level`);
+        tried.push(`${where}: no level for ${jurisdiction}`);
         continue;
       }
       // The law that bill enacted is in force: its row names the enacting bill.

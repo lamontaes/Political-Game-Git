@@ -521,3 +521,92 @@ describe("every bank line carries an insert from the world's records", () => {
     ).toBe("short");
   });
 });
+
+/**
+ * A listener's name tacked onto a line (owner, Nov 14, 2026, 06:38Z: "Lines
+ * keep saying the listener's name ('Thanks, Alice.' 'Not yet, Eva.') only to
+ * pass a rule... The padded names come out."). The check above counts a line
+ * as carrying an insert the moment it names any slot, and excuses a line the
+ * world places, so a line with a gate on a fact AND a name on its end passed
+ * both: eighteen such lines came in on Nov 12 to 14 (Words lead's reader,
+ * Nov 14). The name is read here by itself: the listener's given name
+ * (`{first}`, `{their-first}`, `{player-first}`) at the head of a sentence or
+ * before its closing punctuation. The Words lead's rulings let it stay for a
+ * thank-you, an apology, a plea (a line with thank, thanks, sorry, apolog or
+ * please in it) and for a call across a room (a part of a greeting, an
+ * `open-greet` move). A speaker's own name (`{self}`, "I'm {self}") is an
+ * introduction, never read as padding. Every other line with the name is
+ * counted by bank in ./line-inserts-baseline.json (`vocativeNames`); a count
+ * may only go down, and a bank the baseline does not name may hold none.
+ */
+const VOCATIVE =
+  /(^\{(?:first|their-first|player-first)\}[,.!?] )|(, \{(?:first|their-first|player-first)\}(?=[,.!?]))/;
+const NAME_MAY_STAY = /\b(thank|thanks|sorry|apolog\w*|please|dear)\b/i;
+
+/** Whether a spoken line carries the listener's name as padding. */
+export function padsTheListenersName(part: BankPart): boolean {
+  const text = part.text ?? "";
+  if (!VOCATIVE.test(text) || NAME_MAY_STAY.test(text)) return false;
+  return !/\.open-greet\./.test(part.key ?? "");
+}
+
+/** For each bank, the keys of its lines that carry the listener's name as padding. */
+export function linesWithPaddedNames(dir: string): Record<string, string[]> {
+  const out: Record<string, string[]> = {};
+  for (const file of readdirSync(dir).sort()) {
+    if (!file.endsWith(".json")) continue;
+    const parts =
+      (
+        JSON.parse(readFileSync(path.join(dir, file), "utf8")) as {
+          parts?: readonly BankPart[];
+        }
+      ).parts ?? [];
+    const keys = parts
+      .filter(padsTheListenersName)
+      .map((part) => part.key ?? part.text ?? "");
+    if (keys.length) out[file.slice(0, -".json".length)] = keys;
+  }
+  return out;
+}
+
+describe("a listener's name is not tacked onto a line", () => {
+  const found = linesWithPaddedNames(path.join(ROOT, BANK_DIR));
+  const known =
+    (baseline as { vocativeNames?: Record<string, number> }).vocativeNames ??
+    {};
+
+  it("adds no padded name to any bank", () => {
+    const over = Object.entries(found)
+      .filter(([bank, keys]) => keys.length > (known[bank] ?? 0))
+      .map(
+        ([bank, keys]) =>
+          `${bank}: ${keys.length} lines carry the listener's name as padding, more than the ${known[bank] ?? 0} known. Leave the name off, or keep it only for a thank-you, an apology, a plea or a call across a room. First lines: ${keys.slice(0, 3).join(", ")}`,
+      );
+    expect(over).toEqual([]);
+  });
+
+  it("lowers a bank's known count as soon as its names come out", () => {
+    const stale = Object.entries(known)
+      .filter(([bank, count]) => (found[bank]?.length ?? 0) < count)
+      .map(
+        ([bank, count]) =>
+          `${bank}: ${found[bank]?.length ?? 0} lines carry the name now, below the ${count} in line-inserts-baseline.json; lower it.`,
+      );
+    expect(stale).toEqual([]);
+  });
+
+  it("reads the name where a line says it, and nothing else", () => {
+    const pads = (text: string, key = "x.y.z") =>
+      padsTheListenersName({ text, key });
+    expect(pads("I'm for it, {first}.")).toBe(true);
+    expect(pads("{first}, you know how these go.")).toBe(true);
+    expect(pads("Thanks, {first}. That means a lot.")).toBe(false);
+    expect(pads("Please, {first}. I have nothing else.")).toBe(false);
+    expect(pads("Hey, {first}.", "scene-talk.open-greet.hey-first")).toBe(
+      false,
+    );
+    expect(pads("{self}. Good to meet you.")).toBe(false);
+    expect(pads("I'm {self}, from {place}.")).toBe(false);
+    expect(pads("I'm for it.")).toBe(false);
+  });
+});

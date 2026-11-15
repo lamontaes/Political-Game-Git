@@ -21,9 +21,9 @@ root: none
 
 **What.** In CI on #9252 at 32df871d, golden-path M2-06 ("Polls", `npx vitest run src/core2/campaigns.test.ts --testTimeout=300000`) at Palma Sola, Puerto Rico (seed 2a3f5af22f413d71fc5d1001479d560addb34cd50eceba480d986f66b175b2c6) ended as `timeout` after 143,910 ms, and the five accepted specs after it (M2-07, M2-08, M2-04, M2-09, M3-09) were `not-reached`, so the run stood red on a spec the change does not touch. The spec reads the polls a player sees. Seen: the golden-path table in CI and the polls a player reads.
 
-**Cause.** Needs cause. Measured: the CI run above spent 143,910 ms on the spec at that place and seed before it was cut off; the same spec has not been timed on its own at this place.
+**Cause.** Measured: with `npx vitest run src/core2/campaigns.test.ts -t "polls report what people said"`, the test waits for a race's filing window with `advanceToFilingOpen`; under test bookkeeping (the deep-transition guard and read tracing, on by default under vitest) that wait took 157 s of a 160 s test, and 21 s with bookkeeping off, the same records either way. CI cut the spec off at 143,910 ms.
 
-**Fix.** None until the cause is found.
+**Fix.** The test waits for the filing window with bookkeeping off (`waitForFiling`, restored in a finally and asserted back on), and the golden-path rows M2-05 and M2-06 each run only their own named tests with a 300 s test timeout. No limit is loosened and no test is skipped.
 
 **Time box.** 2 hours for one opus session.
 

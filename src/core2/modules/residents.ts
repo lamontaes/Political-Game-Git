@@ -4059,6 +4059,21 @@ export function stopRegionalWork(core: CoreState, personId: string): boolean {
 }
 
 /**
+ * A counted household loses out-of-town workers (the jobs engine's layoff of
+ * the household's away workers): the same writer as an ended regional job
+ * takes them off the household and the place's pool pay. False where there
+ * is nothing to take.
+ */
+export function loseAwayWork(
+  core: CoreState,
+  h: CountedHousehold,
+  workers: number,
+): boolean {
+  const rt = runtimes.get(core);
+  return !!rt && shedUnplacedWorkers(rt, h, workers, core.date);
+}
+
+/**
  * The one writer that takes out-of-town workers off a counted household:
  * `workers` per household of the record, and from the place's pool's pay as
  * many workers as the record stands for, each at the pool's pay per worker.
@@ -4259,6 +4274,36 @@ export function rerateCountedRetirement(
     changed.push({ flowId: flow.id, fromMinor, toMinor: flow.amountMinor });
   }
   return changed;
+}
+
+/**
+ * The counted residents' Social Security awards running now, for the law
+ * reach: each pooled flow's payee, its amount, the retirees it pays and the
+ * line level it was last rated at (`rerateCountedRetirement`).
+ */
+export function countedRetirementAwards(core: CoreState): {
+  readonly flowId: string;
+  readonly payeeId: string;
+  readonly placeId: string;
+  readonly amountMinor: number;
+  readonly retirees: number;
+  readonly level: number;
+}[] {
+  const rt = runtimes.get(core);
+  if (!rt) return [];
+  const out = [];
+  for (const flow of rt.flows.values()) {
+    if (flow.kind !== "retirement" || flow.endedAt) continue;
+    out.push({
+      flowId: flow.id,
+      payeeId: flow.payeeId,
+      placeId: flow.placeId,
+      amountMinor: flow.amountMinor,
+      retirees: Math.max(1, Object.keys(flow.amountByContract ?? {}).length),
+      level: rt.retirementLevel.get(flow.id) ?? 1,
+    });
+  }
+  return out;
 }
 
 /** The counted households' moves, for the engines outside the people family (the family's entry). */
