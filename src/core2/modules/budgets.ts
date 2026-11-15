@@ -467,6 +467,8 @@ export const BUDGETS_MODULE: PreStartModule = {
       taxPayments: {
         indexes: { byGovernment: { fields: ["governmentId"] } },
       },
+      /** What the country tier's workers had withheld in the month a line first read it, the base its later months are measured against. */
+      tierBases: {},
       /** Each treasury's monthly close: every line's money, where it went. */
       treasuryMonths: {
         indexes: { byGovernment: { fields: ["governmentId"] } },
