@@ -2836,6 +2836,11 @@ export function subjectsBetween(
     )
       continue;
     if (!core.people.get(id)?.alive || !happened(id)) continue;
+    // Nor by someone who saw them today or yesterday: they would tell it,
+    // not ask it (Words lead, Nov 15: "Have you heard from Ariana?" then "I
+    // saw her today."). The gap as a greeting hears it, from their own tie.
+    const seen = lastContact(core, speakerId, id);
+    if (seen && spokenWhenRow(seen.date, core.date).gap === "recent") continue;
     out.push({
       id: `mutual:${id}`,
       kind: "mutual",
@@ -4383,6 +4388,38 @@ function giveBack(
       },
       stage: "working",
       learned: { "their-employer": own },
+    };
+  }
+  if (kind === "asked-mutual" && subject.aboutId) {
+    // When the asker last saw the person they asked about, from their own
+    // tie's last contact: the talk does not end on the player's "Not in a
+    // while." (played-talks, Nov 14). Said by the person's pronoun, from
+    // their record.
+    const aboutId = subject.aboutId as PersonId;
+    const gender = core.people.get(aboutId)?.looks?.gender;
+    const pronoun =
+      gender === "male"
+        ? "mutual-he"
+        : gender === "female"
+          ? "mutual-she"
+          : null;
+    if (!pronoun) return null;
+    // One with no contact of their own has nothing to give back, so the
+    // question is not asked (no asker without a tie asked in the played
+    // talks at seven seeds; Words lead, Nov 15: what is not used is deleted).
+    const seen = lastContact(core, askerId, aboutId);
+    if (!seen) return null;
+    return {
+      facts: {
+        you,
+        [pronoun]: { text: "yes", sourceRecordIds: [aboutId] },
+        "their-when": {
+          text: spokenWhen(seen.date, core.date),
+          sourceRecordIds: [seen.tieId],
+        },
+      },
+      stage: "saw",
+      learned: {},
     };
   }
   if (kind === "asked-kin" && subject.aboutId) {
