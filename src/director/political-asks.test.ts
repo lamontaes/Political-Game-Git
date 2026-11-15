@@ -309,7 +309,7 @@ describe("the political asks: a bribe in the press and a party that asks you to 
     throw new Error(
       `no accusation scene: ${tried.join("; ")} (seed ${accusationSeed})`,
     );
-  }, 3_600_000);
+  }, 55_000);
 
   it(`the advice: a seated officeholder of the party weighs in the day after a party asks the player to run (seed ${seed})`, () => {
     setBookkeeping(false);
