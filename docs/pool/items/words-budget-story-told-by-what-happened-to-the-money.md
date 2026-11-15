@@ -5,7 +5,7 @@ area: words
 kind: bug
 priority: 2
 size: M
-status: in-pr
+status: open
 standard: 2
 claimed-by:
 pr:
