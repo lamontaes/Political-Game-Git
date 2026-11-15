@@ -1,5 +1,6 @@
 ---
 id: world-opening-firm-without-line-dies-at-first-payday
+title: A business open at the start holds its credit line
 impact: patch
 section: Fixed
 ---
