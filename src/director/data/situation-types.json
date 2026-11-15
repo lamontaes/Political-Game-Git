@@ -3462,7 +3462,7 @@
           "bearing": "guarded"
         }
       ],
-      "setting": ["office", "phone", "public"],
+      "setting": ["public"],
       "timing": "at-cause",
       "causes": [
         {

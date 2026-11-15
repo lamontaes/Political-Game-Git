@@ -34,3 +34,5 @@ checked:
 **Waits on.** #9205 and #9192 folded.
 
 **Files.** src/director/data/promise-kinds.json (new), src/director/promises.ts (new), data/english/parts/scene-talk.json
+
+**Notes.** Nov 15 (campaign events thread): the candidate's donor ask no longer offers a meeting. The Words lead ruled the scene a hearing now, and the `process` ending and its offer lines went to /mnt/project-files/words-lead/donor-ask/held-officeholder-lines.md until a played officeholder ask shows them. This item now belongs to that later officeholder pull request: the meeting promise is built there, with the offer lines, not for the candidate.
