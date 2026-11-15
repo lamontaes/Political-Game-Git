@@ -58,6 +58,7 @@ it("an exposure waits for the official's comment and prints it on the paper's ne
   expect(members.length, "two resident members").toBeGreaterThan(1);
   const reporterId = townOutlet(api)!.reporterIds[0]!;
   const tips = api.moduleState(PRESS_MODULE_ID).table("tips");
+  const wire = api.moduleState(PRESS_MODULE_ID).table("wire");
 
   /** The richest neighbor not on a paper's staff bribes this member, who takes it, and leaks it. */
   const exposeTaker = (memberId: PersonId) => {
@@ -128,6 +129,11 @@ it("an exposure waits for the official's comment and prints it on the paper's ne
     expect(core.durableLog.get(tip.exposedId!), "the exposure").toBeTruthy();
     const held = tips.get(crimeId) as unknown as TipRow;
     expect(held.storyId ?? null, "held for comment").toBeNull();
+    // Nor on the wire, where the week's desk would print it first.
+    expect(
+      wire.get(tip.exposedId!),
+      "not on the wire before it runs",
+    ).toBeFalsy();
     expect(held.runsOn! > core.date, "runs on a later day").toBe(true);
     return { crimeId, runsOn: held.runsOn! };
   };
@@ -167,6 +173,11 @@ it("an exposure waits for the official's comment and prints it on the paper's ne
     expect(story?.facts?.comment, `${who}: the story's comment`).toBe(
       ran.comment,
     );
+    // In print, it is on the wire for the other outlets to carry.
+    expect(
+      wire.get(String(story?.facts?.sourceRecordId ?? "")),
+      `${who}: on the wire once printed`,
+    ).toBeTruthy();
     process.stdout.write(`HELD ${who} ${ran.storyId} comment ${ran.comment}\n`);
   }
   expect((tips.get(b.crimeId) as unknown as TipRow).comment).toBe("declined");
