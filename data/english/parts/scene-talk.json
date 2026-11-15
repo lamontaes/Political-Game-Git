@@ -190279,7 +190279,7 @@
           "role": "asker",
           "purpose": "emergency-briefing",
           "key": "threat",
-          "requiresFacts": ["return-midway"]
+          "requiresFacts": ["again", "return-midway"]
         }
       ],
       "origin": "authored",
@@ -190812,7 +190812,7 @@
           "role": "asker",
           "purpose": "emergency-briefing",
           "key": "threat",
-          "requiresFacts": ["return-last", "deadline"]
+          "requiresFacts": ["again", "return-last", "deadline"]
         }
       ],
       "origin": "authored",

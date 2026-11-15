@@ -28,12 +28,14 @@
       "days": 30,
       "midwayShare": {
         "value": 0.5,
+        "role": "coefficient",
         "tag": "TUNABLE",
         "source": "Half the answer window gone is the point a staff that has been waiting asks again; no statute fixes it. The briefing returns once then, only if the governor's first meeting came before it.",
         "spread": "A third to two thirds of the window reads as natural; checked only against the played year keeping one return in the middle of the window."
       },
       "lastOfferDaysBeforeClose": {
         "value": 2,
+        "role": "level",
         "tag": "ESTIMATED",
         "source": "The offer lapses on its closing date; the scene meets the governor the day after an offer, so an offer two days before the close meets them the day before it, the last day a meeting can be held.",
         "spread": "One day if the scene met the governor on the offer day itself."
