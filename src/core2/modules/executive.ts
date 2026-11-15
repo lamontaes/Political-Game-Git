@@ -1302,6 +1302,27 @@ export function appointmentsIn(
  * stands open. Nobody is created by reading the list; only the one appointed
  * is admitted or filled in (`seatCabinetPerson`).
  */
+/**
+ * A drawn cabinet candidate, drawn once a day: the office panel, the desk and
+ * the asks each read the same post's list on one screen, and the draw reads
+ * the state's counts, which move only as days pass.
+ */
+const drawnToday = new WeakMap<
+  object,
+  { date: string; byKey: Map<string, CabinetCandidate | null> }
+>();
+function drawnForDay(api: CoreAPI, key: string): CabinetCandidate | null {
+  const date = String(api.state.date);
+  let kept = drawnToday.get(api.state);
+  if (!kept || kept.date !== date) {
+    kept = { date, byKey: new Map() };
+    drawnToday.set(api.state, kept);
+  }
+  if (!kept.byKey.has(key))
+    kept.byKey.set(key, cabinetCandidate(api, api.state.seed, key));
+  return kept.byKey.get(key)!;
+}
+
 /** How many of the state's people are drawn for an open post, as the opening draws three. */
 const STATE_DRAWN = 3;
 
@@ -1320,11 +1341,7 @@ function stateDrawnCandidates(
     CabinetCandidate & { readonly name: string; readonly n: number }
   >();
   for (let n = 0; n < STATE_DRAWN; n += 1) {
-    const candidate = cabinetCandidate(
-      api,
-      api.state.seed,
-      `${state}:${spec.key}:${vacancy}:${n}`,
-    );
+    const candidate = drawnForDay(api, `${state}:${spec.key}:${vacancy}:${n}`);
     if (!candidate || api.state.people.has(candidate.resident.id as PersonId))
       continue;
     const named =
@@ -1396,11 +1413,12 @@ function stateNominationInput(
   const state = lawChain(api).stateKey;
   const offices = api.moduleState(OFFICES_MODULE_ID);
   // Anyone who holds an appointed post now, in this state or any other
-  // government (a federal cabinet officer), other than this post's own.
+  // government (a federal cabinet officer), this post's own holder among them:
+  // naming the person who holds it already is not filling it.
   const holding = new Set(
-    (table(api, "appointments").rows() as unknown as AppointmentRow[])
-      .filter((p) => !(p.government === state && p.post === input.post))
-      .map((p) => p.holderId),
+    (table(api, "appointments").rows() as unknown as AppointmentRow[]).map(
+      (p) => p.holderId,
+    ),
   );
   const pool = [...api.state.people.values()]
     .filter(
