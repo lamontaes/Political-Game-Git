@@ -19,17 +19,17 @@ source: Account lead, Nov 14, 2026: the 81 padded names the guard baseline let s
 checked:
 ---
 
-**What.** Owner, Nov 14, 06:38Z: "Lines keep saying the listener's name ('Thanks, Alice.' 'Not yet, Eva.') only to pass a rule... The padded names come out." The padding pass left conversation.json out, so 81 lines still end or open on the listener's name: farewells (57), own-view answers (14) and news answers (10). A talk at home says goodbye to the player with their name tacked on. Seen: a played goodbye at home reads without the player's name on the end.
+**What.** Owner, Nov 14, 06:38Z: "Lines keep saying the listener's name ('Thanks, Alice.' 'Not yet, Eva.') only to pass a rule... The padded names come out." The padding pass left conversation.json out, so 81 lines still end or open on the listener's name. This pull request takes the names off the ones shown said in a played talk (fourteen changed lines: own-view answers and news answers) and cuts the twins; the 33 reworded goodbyes and 8 own-view wordings that no played talk reached stay as they are and wait for their own items. Seen: a played talk at home or with a neighbor reads without the player's name added to the reply.
 
-**Cause.** Found in code: `hasInsert` in `tests/guards/english/line-inserts.test.ts` counts a name slot as the line's insert, so these lines passed the old rule by carrying `{player-first}` or `{first}`.
+**Cause.** Found in code: `hasInsert` in `tests/guards/english/line-inserts.test.ts` counts a name slot as the line's insert, so these lines passed the old rule by carrying `{player-first}` or `{first}`. The goodbyes that speak to someone known (farewell-core) cannot be shown said until the engine reads the contact date from before the talk (pool item words-goodbyes-never-say-the-name-of-someone-met-before).
 
-**Fix.** The listener's name comes off the padded lines, named lines that say the same as a plain one are cut onto it (uses move over only where a fact places them), and "Take care of yourself." is cut onto "Take care."; the thank-yous and the like stay, and the no-insert baseline does not rise. Four replies that still carry a name wait for their own pull request, so the padded-name baseline for conversation goes to four.
+**Fix.** The listener's name comes off the shown lines; named lines that say the same as a plain one are cut onto it ("Take care of yourself." is cut onto "Take care."); the thank-yous and the like stay; the no-insert baseline does not rise and the padded-name baseline for conversation goes from 85 to 69.
 
 **Time box.** 1 hour, Sonnet.
 
 **Rules.** No hand-written player text in code; reworded lines go to the second reader; lines changed are shown played in /mnt/project-files/words-lead/padding/conversation-names-lines.md.
 
-**Done when.** The padded-name count for `conversation` in `line-inserts-baseline.json` is four and the guard passes. Every changed text is shown said in a played talk at the final head, in the played file, with people the player has met before for the goodbyes; none says a name that only pads. A second session, on main, plays a life, talks with household members and neighbors, and sees goodbyes and views about the news read without the player's name added.
+**Done when.** The padded-name count for `conversation` in `line-inserts-baseline.json` is 69 and the guard passes. Every changed text is shown said in a played talk at the final head, in the played file, at drawn places named in it (Sherrodsville, place key 3972242, seed scan-25; Kingston, 3238100, c1; Onton, 2158116, c2; Grand Rapids, 2725118, c3). A second session, on main, plays a life, talks with household members and neighbors, and sees views about the news read without the player's name added.
 
 **Waits on.** The eighteen-line item (words-padded-names-out-of-talk-lines-that-came-in-after-the-pass) folding.
 
