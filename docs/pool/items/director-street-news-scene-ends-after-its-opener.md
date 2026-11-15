@@ -5,9 +5,9 @@ area: director
 kind: bug
 priority: 2
 size: M
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/project-thread-5efbu8-arrival
 pr:
 after:
 blocked-on:
@@ -17,7 +17,7 @@ effort: medium
 root: rc2-done-from-records
 source: "Playtester P3, Nov 13, 2026 (crew line #8928)"
 checked:
-claimed-at:
+claimed-at: 2026-11-15
 ---
 
 **What.** About every other week, a seated selectboard member's Wednesday 8:00 AM street scene shows only its opener, such as 'First thing on August 27th, Sasha Neal walks up to you in the street. Sasha has news for you.' or 'Stephen Pugh stops you in the street about what happened yesterday.' The talk box offers one Continue. Pressing it ends the scene with nothing said and puts a second Continue on the clock bar. In four played months this happened on Jun 18, Jun 25, Jul 16, Jul 23, Aug 20, Aug 27, Sep 10, Sep 17, Oct 1, Oct 22 and Oct 29. Three of them (Sep 10, Sep 17 and Oct 1) were followed straight away by a Journal toast about the income tax changing the player's costs. Seen: the street scene, and the clock bar after it.
@@ -34,6 +34,8 @@ claimed-at:
 
 **Waits on.** Nothing.
 
-**Files.** src/director/data/situation-types.json, src/director/scene.ts, data/english/parts/scene-words.json
+**Files.** src/director/data/situation-types.json, src/director/scene.ts, data/english/parts/scene-words.json, data/english/happened-words.json, src/english/happened-words.ts, src/director/arrival-says-what-happened.test.ts
 
 **Notes.** More cases (Account lead T25, Nov 13, 2026; Danville, Iowa, seed 4b0fc31d-ba59-4168-8b84-d7c0e3f826b6, train c39bbb71): 'First thing on May 2nd, at school, you talk with David Norman.' then a bare Continue; 'First thing on December 16th, you stay in. Your father has news for you.' / 'We have to move.' / 'Wait. We have to move?' / 'I'll be around this morning if you need me.' and nothing more. 'about what happened yesterday' opens most door and visit scenes where nothing happened the day before.
+
+Arrival part (election-results thread, Nov 15, 2026, branch claude/project-thread-5efbu8-arrival; Account lead's order, Words lead's lines in /mnt/project-files/words-lead/arrivals/happened-lines.md). Measured: Sheridan, Wyoming (5669845), seed 7, Advanced start as selectboard member person_0f713cf2e3e20027, Train 29ef4685: in 30 days 21 first lines read "thinking about what happened on January 21st" or "talk over what happened yesterday", and none said what. Found in code: src/director/scene.ts gave every arrival a `since` date from the cause and no fact for what the cause was. Fixed there: `since` is gone; a first line says what happened only through the `happened` fact, filled from the cause record's bill, law, topic or offense (words table data/english/happened-words.json); 16 arrival pieces reworded and 6 deleted (they spoke for nobody). Each of the six settings keeps its plain arrivals. Still open on this item: the scene that ends after its opener (the street and news scenes with no turns); the arrival fix does not touch it.

@@ -1,0 +1,9 @@
+{
+  "about": "How a scene's first line says what happened (the fact `happened`), by which fact of the cause record (causeRecordFacts, src/director/cause-facts.ts) names it, the first that the record holds in this order (Words lead, Nov 15: 'about minimum wage' and 'about assault' do not read). A cause record with none of these names no happening, and its scene opens on the plain first line. Read by happenedSaid in src/english/happened-words.ts.",
+  "said": [
+    { "fact": "law", "said": "{law}" },
+    { "fact": "bill", "said": "{bill}" },
+    { "fact": "topic", "said": "the law on {topic}" },
+    { "fact": "offense", "said": "the {offense} charge" }
+  ]
+}
