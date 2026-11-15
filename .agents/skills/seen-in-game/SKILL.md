@@ -72,7 +72,11 @@ Turn it on from the game's options (the "On" button under dev mode). What each c
 - **Run.** "Or until" stops on your own town, county, state and nation, and on your own people. Light "Anywhere in the world" only when another place's event is what you are testing.
 - **Trace.** Any record id opens what caused it. Ask it about the record the Journal or the News names.
 
+- **Every effect has a control (owner, Nov 14).** For the effect you are checking, name the dev mode control that causes it through the game's own calls and the Trace or "What came of it" line that shows it. No control, or a control that reaches only part of the effect (a state or country law the bill page cannot introduce), is a finding the lead files as its own item; the effect is not seen until it can be triggered and traced.
+
 ## Traps that give a false pass
+
+- **After any dev-panel time jump, read the clock.** The client once kept its own copy of the date, so a run of days left the card clock and every date shown (News, elections pages, Calendar) on the old day (Rock Cave WV, seed rockcave-a: Run said 2025-01-20 to 2025-02-19 while the clock still read January 20). Check that the card clock and the News date equal the run's `to` before reading anything else the run changed.
 
 - **A record is not an effect.** A reach row, a log entry or a table that "names the law" proves the paperwork. Follow the dollars or the changed choice to a named person.
 - **A twin differs by process as well as by the law.** Any bill passing starts town halls and public comment (`dev-tester`). Judge the direction and size of the money, name who paid, and repeat in a second place before calling a law wrong or right.
