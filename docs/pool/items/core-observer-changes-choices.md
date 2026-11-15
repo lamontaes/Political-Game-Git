@@ -20,9 +20,9 @@ source: Found by the lying thread, Nov 15 2026, tracing people-free-company-goes
 
 **What.** Setting `core.observer` should only keep each decision's full scores so a session can read why someone chose what they did. It changes the choices instead. At 4846968 (Texas) seed 8647-mason, two-level population, with the state senate filled in and the player at seat 016: with the observer off, person 8ccd5ae0 gave all 11 of their company acts from Feb 1 to Mar 31, 2025 to 63001515. With `core.observer = true` set before Jan 31, the same person visited 027fc7c7 every other day through February. And the decisions still kept no scores (`latestChange.decision.scores` was empty). So a trace moves the world it traces, and a dev-mode reading of why someone acted is a reading of a different world. Guards: the dev-mode "why" a player reads for a choice describes the world the player is in.
 
-**Cause.** Needs cause. Looked at: src/core2/decision-detail.ts `keptDecision` and src/core2/state.ts (the `fullTrace` read near `savedDecision`) only choose what is kept. Something else reads `core.observer` while choosing. Find every read of `observer` on the path from the chooser to the act.
+**Cause.** Found in code: two routes. (1) src/core2/calendar.ts `hasDailyFocus` (about line 93) starts with `core.observer ||`, so with the observer on every full person chooses every day instead of at their tier's cadence. At 4846968 seed 8647-mason, Feb 1 to Mar 31, 2025, counted from every relationship change notice (not from kept evidence): 2,751 visits with the observer off and 10,346 with it on; 26 of the 31 state senators visit nobody with it off (they are tier `calendar`) and most visit a colleague daily with it on. (2) A smaller route: with every read of `core.observer` turned off except the tie writer's `fullTrace` (src/core2/state.ts, about line 1241), 8ccd5ae0's acts still differ from Feb 2. That switch keeps every tie's full decision and its `latestChange`. The director's two reads of `latestChange` (src/director/relation-facts.ts:139, src/director/arc-variant.ts:595) are not the route: with both off it still diverges. What on that path moves the world is not yet found.
 
-**Fix.** None until the cause is found.
+**Fix.** (1) Drop `core.observer` from `hasDailyFocus`: the observer keeps more of the record, never a different cadence. (2) Trace the `fullTrace` route before fixing it: run the bisect with route (1) removed, then read what holds the full decision object (`copyRelationshipEvidence`, the condensing queue in src/core2/decision-detail.ts, which replaces the row object with `core.relationships.set(id, {...row})` only when the observer is off).
 
 **Time box.** 2 hours for one Opus session at medium effort. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
 
@@ -32,4 +32,6 @@ source: Found by the lying thread, Nov 15 2026, tracing people-free-company-goes
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/decision-detail.ts, src/core2/state.ts
+**Files.** src/core2/calendar.ts, src/core2/decision-detail.ts, src/core2/state.ts
+
+Nov 15 (lying thread): the first report above counted from `latestChange`, which a tie keeps only when it touches the player's circle (state.ts `retainRelationshipEvidence`), so "11 of 11 to 63001515" was the circle's share. Counted from every change notice, 8ccd5ae0 with the observer off visits every other day, turn about among 63001515, 63001615, 00541b92, 027fc7c7 and three others (29 visits to 7 people); with it on, 027fc7c7 on 27 of 27. Counted by the lying thread's scripts (project files, lying, company), head ee4c3740.
