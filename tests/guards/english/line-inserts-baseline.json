@@ -12,7 +12,7 @@
     "calendar": 0,
     "campaign-standing": 0,
     "choice-names": 0,
-    "conversation": 73,
+    "conversation": 69,
     "headlines": 0,
     "hearing": 0,
     "journal": 44,
@@ -31,7 +31,7 @@
     "placed": 4641
   },
   "vocativeNames": {
-    "conversation": 73,
+    "conversation": 16,
     "scene-talk": 14
   }
 }
