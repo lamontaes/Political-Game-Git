@@ -112,10 +112,13 @@ for (const kind of KINDS)
       const mine = talk.lines.findIndex(
         (l) => l.speakerId === me && l.kind === "news",
       );
+      // A player who did not hear is told what it was about, then the stand;
+      // one who did hear gets the stand alone.
+      const after = talk.lines.slice(mine + 1).map((l) => l.kind);
       expect(
-        talk.lines[mine + 1]?.kind,
-        "the neighbor then says where they stand",
-      ).toBe("news");
+        after.slice(0, playerHeard ? 1 : 2),
+        `lines after the answer: ${after.join()}`,
+      ).toEqual(playerHeard ? ["news"] : ["news-back", "news"]);
       shown.push(
         `  Lines: ${talk.lines.map((l) => `${l.kind}/${l.speakerId === id ? "they" : "you"}: ${l.text}`).join(" | ")}`,
       );

@@ -4180,6 +4180,13 @@ function playerFacts(
       : knowsNews(core, playerId, last.subject.aboutId);
     const asked = !!before && asksQuestion(before);
     stage = heard ? "heard" : asked ? "not-heard" : "told";
+    // A printed story the neighbor asked about, by its outlet's medium, is
+    // answered in short: by what kind of outlet it was, never by a draw.
+    if (asked && last.facts.story)
+      facts["asked-by-medium"] = {
+        text: "yes",
+        sourceRecordIds: [last.subject.aboutId],
+      };
     if (before?.feeling && !asked)
       facts["before-feeling"] = {
         text: "yes",
@@ -8098,9 +8105,9 @@ function answerNews(
       text: spokenWhen(at, core.date),
       sourceRecordIds: [learned?.sourceId ?? known?.eventId ?? otherId],
     };
-  // A printed story the neighbor asked about is then told from their side:
-  // whatever the player answered (yes, no or a reaction), they say where
-  // they stand, in the words a telling uses, naming the question once.
+  // A printed story the neighbor asked about: the player who did not hear it
+  // is told what it was about, and whatever the player answered (yes, no or a
+  // reaction) the neighbor then says where they stand.
   const theirLast = conversation.lines
     .filter((l) => l.speakerId === otherId)
     .at(-1);
@@ -8110,30 +8117,53 @@ function answerNews(
     asksQuestion(theirLast) &&
     ["yes", "no", "react"].includes(choice.move)
   ) {
-    const told = composedLine(
+    if (choice.move === "no") {
+      const { "about-said": _said, "about-unsaid": _unsaid, ...plain } = facts;
+      const what = composedLine(
+        core,
+        otherId,
+        NEWS_BACK,
+        {
+          ...plain,
+          // What it was about, by the question's full name: the ask already
+          // named it, so a bare "it" would say nothing.
+          "ask-told": { text: "yes", sourceRecordIds: [eventId] },
+        },
+        "default",
+        `${eventId}:what`,
+        saidParts(conversation, otherId),
+      );
+      if (what)
+        conversation.lines.push({
+          speakerId: otherId,
+          subjectId: choice.answers,
+          kind: NEWS_BACK,
+          act: "tell",
+          ...what,
+          sourceRecordIds: [...new Set([...what.sourceRecordIds, eventId])],
+        });
+    }
+    const stand = composedLine(
       core,
       otherId,
       "news-ask",
       {
         ...last.facts,
         ...stakeMarks(theirs, "their-"),
-        "about-named": {
-          text: "yes",
-          sourceRecordIds: last.facts.about?.sourceRecordIds ?? [eventId],
-        },
+        "player-saw": { text: "yes", sourceRecordIds: [eventId] },
       },
       "default",
-      `${eventId}:told`,
+      `${eventId}:stand`,
       saidParts(conversation, otherId),
     );
-    if (told) {
+    if (stand) {
       conversation.lines.push({
         speakerId: otherId,
         subjectId: choice.answers,
         kind: "news",
         act: "tell",
-        ...told,
-        sourceRecordIds: [...new Set([...told.sourceRecordIds, eventId])],
+        ...stand,
+        sourceRecordIds: [...new Set([...stand.sourceRecordIds, eventId])],
       });
       carryOn(core, conversation, data);
       return;
