@@ -250,6 +250,10 @@ export const STORY_KINDS = {
   trip: { headline: ["trip"], lede: ["trip"] },
   "ribbon-cut": { headline: ["ribbon-cut"], lede: ["ribbon-cut"] },
   emergency: { headline: ["emergency"], lede: ["emergency"] },
+  "emergency-lapsed": {
+    headline: ["emergency-lapsed"],
+    lede: ["emergency-lapsed"],
+  },
   succession: { headline: ["succession"], lede: ["succession"] },
   "recall-reply": { headline: ["recall-reply"], lede: ["recall-reply"] },
   "measure-result": { headline: ["measure-result"], lede: ["measure-result"] },

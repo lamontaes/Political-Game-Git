@@ -3,11 +3,11 @@ id: world-counted-renters-buy
 title: "A counted renter household buys a new house through its group's accounts: rent part ends, mortgage part starts"
 area: world
 kind: feature
-priority: 3
+priority: 2
 size: M
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: Account lead T54 (claude/project-thread-w31iec)
 pr: #5367
 blocked-on:
 after:
@@ -46,3 +46,13 @@ Sent back 2026-10-20 from PR #5367 (branch claude/housing-construction-stopgap):
 Oct 25 audit: PR #5367 changes notes and a declaration only; the build is still to do (from the dropped world-counted-renters-buy-build).
 
 Deferred Oct 25: nothing on screen reads it yet.
+
+Nov 14, 2026 (Account lead T49): until counted renters buy, a town's home price level (world-home-prices-from-housing) counts counted owners' sales as homes offered but no counted purchases, so its buyers-against-homes-offered pressure leans down. Measured with `node --import tsx scripts/research/home-price-paths.ts --seed d4 --place 2132428 --years 30` (Gratz, Kentucky): no buyers in 30 years, 45 owned homes down to 9, the level flat in dollars over 30 years.
+
+Ruling, Nov 14, 2026 (Account lead, from the standing rules "one model, two tiers" and "no dice"; not put to the owner): a counted renter household's down payment comes from its own savings, worked out from its own record on the day it weighs buying (what its income left after rent and living costs since its lease began), paid from the place's pooled account; a household short of the down payment does not buy. Not an income share of the pool, and never a purchase with no savings check. Raised to P2 and built next with world-home-prices-from-housing (#9104), whose price level leans down until counted renters buy; the two fold together.
+
+Nov 14, 2026 (Account lead T54): built on claude/project-thread-w31iec, folding with #9104. The shared decision is src/core2/housing-buy.ts (buyHomes calls it); counted renters weigh on their lease's anniversary month in src/core2/housing-counted-buy.ts. Owner decision not needed: the down payment is the household's own savings from its record (the Account lead's ruling above); the estimate of past months at today's pay is SG-WORLD-housing-counted-savings-from-today. Found while building: credit's held mortgages ignore a counted record's weight (credit-held-mortgages-read-counted-weight).
+
+Nov 15, 2026 (T54, measured, a true finding and not a target to tune toward): `src/core2/housing-counted-renter-rate.test.ts` reads the year's renter-to-owner rate among the town's counted renter households at Bastrop, Louisiana (place 2204685, world seed 452a3c32cb1dec08db7647f6288fecab595bf56002a3112926e035d4f043a7c0), from the opening (2025-01-20) for twelve months, against the band 2% to 6% a year (the Account lead's ruling, from PSID and SIPP, sources in the test). Seen red on the #9117 branch at 6b496298, before the opening-pay fix: 41.0 of 2,057.0 renter households bought (41 records), 1.99% a year, just under the floor. The earlier working figure of about 0.5% came from part of a year; the whole year reads 1.99%.
+
+Nov 15, 2026 (T54): the band test now allows the sampling spread (two standard errors for the number of renter households; the Account lead's ruling). At Bastrop, 41 of 2,057 (1.99%) is one household short of 2.00% and inside the spread; at Bloomingdale, 14 of 969 (1.44%) is inside it too. The earlier "about 0.5%" was a wrong count and is withdrawn. Storrs, Connecticut (0 of 921) fails the band because almost no home is for sale there all year; that is recorded on world-home-turnover, and the test checks at Storrs only what counted buying owns (renters left searching, no purchase beyond the homes for sale).
