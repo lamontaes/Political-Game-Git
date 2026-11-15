@@ -204,10 +204,14 @@ export function raceTurnoutFacts(
       text: String(turned.precinct),
       sourceRecordIds: [...turned.sourceRecordIds],
     };
-    facts[`turned-${turned.direction}`] = {
-      text: "yes",
-      sourceRecordIds: [...turned.sourceRecordIds],
-    };
+    // Only the swing against has a line that reads it; the swing for the
+    // player returns with its sentence (pool item
+    // director-after-race-turned-precinct-more-cases).
+    if (turned.direction === "against")
+      facts["turned-against"] = {
+        text: "yes",
+        sourceRecordIds: [...turned.sourceRecordIds],
+      };
   }
   return facts;
 }
