@@ -87,7 +87,10 @@ import {
   describesByRule,
   ruleOfficeBody,
   ruleOfficeCounty,
+  type StateDistrict,
 } from "../filing-rule-office";
+import { placeDistrictMembershipCatalog } from "../../districts/place-membership";
+import { placeDistrictPopulations } from "../../districts/place-population-share";
 import { localClerkFor } from "./candidacy";
 import { pairKey } from "../kernel/ids";
 
@@ -1126,25 +1129,43 @@ export const RULE_FILING_OFFICER_POST = "rule-filing-officer";
  */
 function seatRuleFilingOfficers(api: CoreAPI, worldSeed: string): void {
   const { stateKey, placeKey, countyGeoids } = lawChain(api);
-  for (const family of ["usHouse", "stateLegislative"] as const) {
+  const catalog = placeDistrictMembershipCatalog();
+  // Each body the rule points to for this town: the U.S. House race's, and one
+  // per chamber for the state legislative races (the town's own district).
+  const wanted: {
+    family: "usHouse" | "stateLegislative";
+    district?: StateDistrict;
+  }[] = [{ family: "usHouse" }];
+  for (const chamber of ["lower", "upper"] as const) {
+    // A town split between districts is placed in the one holding most of its people.
+    const shares = Object.entries(
+      placeDistrictPopulations(placeKey, `state-${chamber}`),
+    ).sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
+    const home =
+      catalog.wholePlaceByKey[`${placeKey}:state-${chamber}`] ?? shares[0]?.[0];
+    if (home)
+      wanted.push({
+        family: "stateLegislative",
+        district: { chamber, code: home.slice(2) },
+      });
+  }
+  for (const { family, district } of wanted) {
     const office = filingRequirements(stateKey, family).filedWith;
     if (!describesByRule(office)) continue;
-    const body = ruleOfficeBody(office, family, placeKey);
-    if (!body) continue;
-    const own = countyGeoids.includes(
-      ruleOfficeCounty(office, family, placeKey) ?? "",
-    );
+    const county = ruleOfficeCounty(office, family, placeKey, district);
+    const body = ruleOfficeBody(office, family, placeKey, district);
+    if (!county || !body) continue;
     seatDrawnOfficer(api, worldSeed, {
       government: stateKey,
-      post: `${RULE_FILING_OFFICER_POST}:${family}`,
+      post: `${RULE_FILING_OFFICER_POST}:${county}`,
       title: body,
-      seatKey: `rule-filing-officer:${stateKey}:${family}:${body}`,
-      personKey: `rule-filing-officer:${stateKey}:${family}:${body}`,
+      seatKey: `rule-filing-officer:${stateKey}:${body}`,
+      personKey: `rule-filing-officer:${stateKey}:${body}`,
       placeId: stateKey,
-      payroll: own ? "county" : null,
-      citation: `The person at the counter of the ${body}, which takes filings for ${family} races in ${stateKey}.`,
+      payroll: countyGeoids.includes(county) ? "county" : null,
+      citation: `The person at the counter of the ${body}, which takes filings for the races whose office the filing data gives as a rule in ${stateKey}.`,
       estimatedFrom:
-        "The filing data gives the office as a rule; the rule is resolved to the body it points to, and the person is drawn from the world's seed like any invented official.",
+        "The filing data gives the office as a rule; the rule is resolved to the body it points to (a state district's county is estimated from the Census place-to-district relationship and ACS place populations by county), and the person is drawn from the world's seed like any invented official.",
     });
   }
 }

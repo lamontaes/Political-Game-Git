@@ -12,7 +12,22 @@ describe("an office given as a rule resolves to the body it points to", () => {
       "Franklin County board of elections",
     );
   });
-  it("has no body where the game holds no district lines for the race", () => {
+  it("estimates the most populous county of a state legislative district from its places", () => {
+    // South Vienna, Ohio: state Senate district 010 and state House district 071.
+    expect(
+      ruleOfficeBody(OHIO_HOUSE, "stateLegislative", "3973796", {
+        chamber: "upper",
+        code: "010",
+      }),
+    ).toBe("Clark County board of elections");
+    expect(
+      ruleOfficeBody(OHIO_HOUSE, "stateLegislative", "3973796", {
+        chamber: "lower",
+        code: "071",
+      }),
+    ).toBe("Greene County board of elections");
+  });
+  it("has no body where the race names no district", () => {
     expect(
       ruleOfficeBody(OHIO_HOUSE, "stateLegislative", "3973796"),
     ).toBeNull();

@@ -41,6 +41,13 @@ describe("a filing counter whose office is a rule is cast at the body it points 
           const said = visit.visit.lines.map((line) => line.text).join(" ");
           expect(said).toContain("Franklin County board of elections");
           expect(said).not.toContain("most populous");
+          // The state races at the same town resolve too: each district's
+          // most populous county, estimated from its places.
+          const boards = playerContests(api)
+            .filter((other) => other.family === "stateLegislative")
+            .map((other) => filingClerkFor(api, other.id)?.title);
+          expect(boards).toContain("Clark County board of elections");
+          expect(boards).toContain("Greene County board of elections");
           return;
         }
         advanceCore(core, addDays(makeIsoDate(core.date), 7));

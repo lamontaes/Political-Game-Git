@@ -622,7 +622,18 @@ export function filingRulesFor(
   // town; where the game cannot tell (a state legislative district) the
   // rule's own wording stays.
   const body = describesByRule(dated.filedWith)
-    ? ruleOfficeBody(dated.filedWith, contest.family, town(api).geoid)
+    ? ruleOfficeBody(
+        dated.filedWith,
+        contest.family,
+        town(api).geoid,
+        /legislature-(?<chamber>lower|upper)$/.exec(contest.officeId)?.groups
+          ?.chamber && contest.district
+          ? {
+              chamber: contest.officeId.endsWith("lower") ? "lower" : "upper",
+              code: contest.district,
+            }
+          : undefined,
+      )
     : null;
   return body ? { ...dated, filedWith: body } : dated;
 }
