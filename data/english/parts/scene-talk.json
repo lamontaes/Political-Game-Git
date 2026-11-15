@@ -178275,7 +178275,8 @@
           "role": "asker",
           "purpose": "ask-out-answer",
           "key": "favor-asked",
-          "requiresFacts": ["said-yes"]
+          "requiresFacts": ["said-yes"],
+          "excludesFacts": ["asked-before"]
         }
       ],
       "bearing": "warm",
@@ -178450,7 +178451,8 @@
           "role": "asker",
           "purpose": "proposal-answer",
           "key": "favor-asked",
-          "requiresFacts": ["said-yes"]
+          "requiresFacts": ["said-yes"],
+          "excludesFacts": ["asked-before"]
         }
       ],
       "bearing": "guarded",

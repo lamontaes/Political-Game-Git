@@ -1307,6 +1307,7 @@ function keepAnswer(
   answer: "yes" | "no",
   weight: number,
   reason?: AskReason,
+  where?: string,
 ) {
   const core = api.state as CoreState;
   const id = askRowId(kind, me.id, other.id);
@@ -1332,7 +1333,8 @@ function keepAnswer(
     date: core.date,
     kind: kind === "ask-out" ? FAMILY_ASKED_OUT : FAMILY_PROPOSAL_ANSWERED,
     personIds: ids,
-    placeId: me.placeId,
+    // Where the ask was made (the room the player stands in), else the town.
+    placeId: where ?? me.placeId,
     publicRecord: false,
     source: source(
       api,
@@ -1359,6 +1361,8 @@ export function askOut(
   api: CoreAPI,
   playerId: PersonId,
   otherId: PersonId,
+  /** Where the ask is made: the room the player stands in (an organization or a household). */
+  where?: string,
 ): {
   asked: boolean;
   answer?: "yes" | "no";
@@ -1381,6 +1385,7 @@ export function askOut(
       "no",
       api.parameter("zero"),
       "with-someone",
+      where,
     );
     return { asked: true, answer: "no", reason: "with-someone", recordId };
   }
@@ -1394,6 +1399,7 @@ export function askOut(
       "no",
       weight,
       reason,
+      where,
     );
     return { asked: true, answer: "no", reason, recordId };
   }
@@ -1416,7 +1422,16 @@ export function askOut(
       since: core.date,
       progress: api.parameter("zero"),
     } as never);
-  const recordId = keepAnswer(api, "ask-out", me, other, "yes", weight);
+  const recordId = keepAnswer(
+    api,
+    "ask-out",
+    me,
+    other,
+    "yes",
+    weight,
+    undefined,
+    where,
+  );
   return { asked: true, answer: "yes", recordId };
 }
 
@@ -1430,6 +1445,8 @@ export function propose(
   api: CoreAPI,
   playerId: PersonId,
   otherId: PersonId,
+  /** Where the ask is made: the room the player stands in (an organization or a household). */
+  where?: string,
 ): {
   asked: boolean;
   answer?: "yes" | "no";
@@ -1455,6 +1472,7 @@ export function propose(
       "no",
       weight,
       reason,
+      where,
     );
     return { asked: true, answer: "no", reason, recordId };
   }
@@ -1466,7 +1484,16 @@ export function propose(
       since: core.date,
       progress: api.parameter("zero"),
     } as never);
-  const recordId = keepAnswer(api, "propose", me, other, "yes", weight);
+  const recordId = keepAnswer(
+    api,
+    "propose",
+    me,
+    other,
+    "yes",
+    weight,
+    undefined,
+    where,
+  );
   return { asked: true, answer: "yes", recordId };
 }
 

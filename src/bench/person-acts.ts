@@ -272,12 +272,15 @@ export function askFromCard(
   playerId: string,
   otherId: string,
   kind: "ask-out" | "propose",
+  /** The room the player stands in (an organization or a household): the answer is given there. */
+  where?: string,
 ): { momentId?: string } {
   const ask = kind === "ask-out" ? askOut : propose;
   const answered = ask(
     coreAPI(core),
     playerId as PersonId,
     otherId as PersonId,
+    where,
   );
   const recordId = answered.recordId;
   if (!recordId) return {};

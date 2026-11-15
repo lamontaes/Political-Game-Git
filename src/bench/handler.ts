@@ -432,6 +432,23 @@ function playerMinute(core: CoreState, playerId: string): number {
   );
 }
 
+/**
+ * The room the player stands in now: the place or home they went to, else
+ * their workplace on a shift, else their own home.
+ */
+function playerRoom(): string | undefined {
+  const playerId = state.player?.personId;
+  if (!playerId) return undefined;
+  const core = requireCore();
+  if (state.visit?.organizationId) return state.visit.organizationId;
+  if (state.visit?.hostId)
+    return core.people.get(state.visit.hostId)?.householdId;
+  const at = whereIs(core, playerId, playerMinute(core, playerId));
+  return at.kind === "work"
+    ? at.organizationId
+    : core.people.get(playerId)?.householdId;
+}
+
 /** The acts the card offers for a person, from where the player stands now. */
 function actsFor(otherId: string) {
   const player = state.player;
@@ -2560,6 +2577,7 @@ const ROUTES: readonly Route[] = [
             state.player.personId,
             otherId,
             kind,
+            playerRoom(),
           ),
         });
         return;

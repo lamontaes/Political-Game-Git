@@ -2,6 +2,7 @@ import { expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import { benchRequest, benchWorld } from "./handler";
+import { whereIs } from "./person-acts";
 
 /*
  * Ask out and Propose on a person's card (family life question 1, ruled Nov
@@ -90,6 +91,19 @@ it("the card's Ask out is answered at once as a scene (ask-out-card-1)", async (
     .map((line) => line.text)
     .join(" ");
   expect(narration, where).toMatch(/You asked .+ out\./);
+  // The answer is given where the ask was made: the record is in the room
+  // the player stands in (home, or work on a shift), the scene is set there,
+  // and nobody arrives or is met out in town.
+  const record = [...(core.logByKind.get("family.asked-out") ?? [])]
+    .map((id) => core.durableLog.get(id)!)
+    .find((row) => row.personIds.includes(other! as never));
+  const at = whereIs(core, me, world.player!.packet!.at.minuteOfDay);
+  expect(record?.placeId, where).toBe(
+    at.kind === "work" ? at.organizationId : core.people.get(me)!.householdId,
+  );
+  expect(narration, where).not.toMatch(
+    /out and about|walks up to you|on the street|downtown|comes to the house|at your door/,
+  );
   // The other person speaks first, and says their answer.
   const opening = story.json.talk?.opening as { text: string }[] | undefined;
   expect(opening?.length, `${where}: the answer is said`).toBeGreaterThan(0);

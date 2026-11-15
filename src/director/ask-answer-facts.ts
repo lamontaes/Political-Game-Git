@@ -4,7 +4,8 @@
  * asked them out, `family.proposal-answered` when the player proposed):
  * `said-yes` or `said-no`, and for a no exactly one `reason-<why>` (they
  * barely know the player, the ages are far apart for them, they are seeing
- * someone, or it is too soon). The answer was decided by the engine before
+ * someone, or it is too soon), and `asked-before` when the player asked the
+ * same thing of them before. The answer was decided by the engine before
  * the scene; the lines only say it. A fact with no record behind it is left
  * out, so the lines that need it never play.
  */
@@ -36,6 +37,10 @@ export function askAnswerFacts(
   const answer = record.facts?.answer;
   const name = core.people.get(askerId)?.givenName ?? "";
   const facts: Record<string, NewsFact> = {};
+  // An ask of the same kind made to the same person before (the engine's
+  // count of asks): a yes then is not one that was waited for.
+  if (Number(record.facts?.asks) > 1)
+    facts["asked-before"] = { text: name, sourceRecordIds: ids };
   if (answer === "yes")
     facts["said-yes"] = { text: name, sourceRecordIds: ids };
   if (answer === "no") {

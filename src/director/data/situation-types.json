@@ -1373,7 +1373,8 @@
           "bearing": "nervous"
         }
       ],
-      "setting": ["public", "venue"],
+      "arrivesBy": "day",
+      "setting": ["venue", "public"],
       "timing": "at-cause",
       "stopsDay": true,
       "repeatsBy": "cause",
@@ -1429,7 +1430,8 @@
           "bearing": "nervous"
         }
       ],
-      "setting": ["home", "public", "venue"],
+      "arrivesBy": "day",
+      "setting": ["venue", "home", "public"],
       "timing": "at-cause",
       "stopsDay": true,
       "repeatsBy": "cause",

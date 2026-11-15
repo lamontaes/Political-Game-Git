@@ -4,6 +4,8 @@ import { buildBenchWorld } from "../bench/world";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "../core2/bookkeeping";
 import { closenessBetween } from "../core2/closeness";
+import { meetInTalk } from "../core2/encounters";
+import { partnerAgeLikelihood } from "../core2/opening-partnership";
 import { gameStartDate } from "../core2/game-start";
 import { advanceCore } from "../core2/life";
 import { addDays, ageOnDate, makeIsoDate } from "../core2/kernel/dates";
@@ -65,7 +67,7 @@ function world() {
         adult(core, row.birthDate),
     )
     .sort((a, b) => a.id.localeCompare(b.id));
-  return { core, director, api, me, singles, where };
+  return { core, director, api, bench, me, singles, where };
 }
 
 /** The player's scene staged by the answer record, composed. */
@@ -189,4 +191,76 @@ it("the player proposes on the first day of dating: the partner says not yet, an
     expect.arrayContaining(["said-no", `reason-${answer.reason}`]),
   );
   expect(scene.scene.talk.state.text, where).not.toMatch(/^Yes/);
+}, 120_000);
+
+it('asked out a second time, a yes is not one that was waited for: no "I was hoping you\'d ask" (Pulaski, Ohio)', () => {
+  const { core, director, api, bench, me, singles, where } = world();
+  const player = core.people.get(me)!;
+  const today = makeIsoDate(core.date);
+  const ageOf = (born: string) => ageOnDate(makeIsoDate(born), today);
+  const gender = (row: { looks?: { gender?: string } }) =>
+    row.looks?.gender === "female" || row.looks?.gender === "male"
+      ? row.looks.gender
+      : undefined;
+  // The single whose age fits the player best (as the courtship test finds
+  // them), met as a talk meets them: a cold no, then a yes after twenty
+  // evenings together.
+  const fitFor = (row: (typeof singles)[number]) =>
+    partnerAgeLikelihood(
+      ageOf(row.birthDate),
+      gender(row),
+      ageOf(player.birthDate),
+      gender(player),
+    );
+  const other = [...singles].sort(
+    (a, b) => fitFor(b) - fitFor(a) || a.id.localeCompare(b.id),
+  )[0]!;
+  meetInTalk(
+    api,
+    me,
+    other.id,
+    player.placeId,
+    1,
+    `talk:${core.date}:${me}:${other.id}`,
+  );
+  expect(askOut(api, me, other.id), where).toMatchObject({ answer: "no" });
+  // Another day: an answer given today stands for the day. The player's
+  // clock lands on the next morning; the world's date follows it.
+  const asked = core.date;
+  for (let press = 0; press < 20 && core.date === asked; press += 1) {
+    const packet = bench.packet;
+    if (packet?.kind === "stop")
+      bench.resume({ kind: "stop", pauseId: packet.pauseId });
+    else if (packet?.kind === "choice")
+      bench.resume({ kind: "own-choice", pauseId: packet.pauseId });
+    else bench.advance("day");
+  }
+  expect(core.date, where).not.toBe(asked);
+  const kind = core.relationships.get(
+    me < other.id ? `${me}:${other.id}` : `${other.id}:${me}`,
+  )?.kind;
+  for (let evening = 0; evening < 20; evening += 1)
+    api.relationship(me, other.id, kind ?? ("friend" as never), 3, undefined, {
+      cause: "visit",
+    });
+  const again = askOut(api, me, other.id);
+  expect(again, `${where}: ${other.givenName} on ${core.date}`).toMatchObject({
+    answer: "yes",
+  });
+  const book = director.ledger.people.get(me)!;
+  const entry = book.schedule.find(
+    (row) => book.momentsById.get(row.momentId)?.causeId === again.recordId,
+  );
+  const scene = entry
+    ? purposeScene(core, director, me, entry, { typeKey: "asked-out" })
+    : undefined;
+  expect(scene?.kind, `${where}: ${JSON.stringify(scene)}`).toBe("composed");
+  if (scene?.kind !== "composed") return;
+  const keys = scene.scene.facts.map((row) => row.key);
+  expect(keys, where).toEqual(
+    expect.arrayContaining(["said-yes", "asked-before"]),
+  );
+  expect(scene.scene.talk.state.text, where).not.toBe(
+    "I was hoping you'd ask.",
+  );
 }, 120_000);

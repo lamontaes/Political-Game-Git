@@ -742,8 +742,20 @@ function resolveSetting(
       return peopleBound > one ? { kind, recordId: moment.causeId } : undefined;
     case "public":
       return { kind, recordId: subject.placeId };
-    case "venue":
+    case "venue": {
+      // A record made in someone's home (the player's own ask, pressed
+      // where they stand) is set in that home: the subject's own, or the
+      // other's.
+      const home = moment.placeId
+        ? core.households.get(moment.placeId)
+        : undefined;
+      if (home)
+        return {
+          kind: home.id === subject.householdId ? "home" : "other-home",
+          recordId: home.id,
+        };
       return moment.placeId ? { kind, recordId: moment.placeId } : undefined;
+    }
     case "chamber": {
       // The body the cause record names (the chamber a vote trade was made in).
       const chamber = core.durableLog.get(moment.causeId)?.facts?.chamber;
