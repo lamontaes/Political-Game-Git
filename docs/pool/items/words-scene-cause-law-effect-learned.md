@@ -24,3 +24,5 @@ claimed-at: 2026-11-04T08:24:54.755Z
 **Notes.** Found by the laws lead on Oct 24 (branch claude/laws-end-to-end-proof).
 
 Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): correct the item: drop the graded hold; ship the piece.
+
+**Notes.** Nov 15 (laws thread): `src/director/law-effect-scene.test.ts` is red by draw on 54dfea07 (laws-web-price-trace, train c43bf7e0 plus #9516) at GOLDEN_PATH_SEED=6d66b7f51248daba: Washington, D.C. (1150000), Bancroft, Iowa (1904420), Baxter Village, South Carolina (4504528), Slater, Iowa (1973515), "no watched resident learned the effect in 60 days". Same with and without the electricity once-charge change.

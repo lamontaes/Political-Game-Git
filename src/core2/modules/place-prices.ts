@@ -178,6 +178,8 @@ const PERCENT = 100;
 /** The web's outcomes the price engine reads: tons of carbon per person, and the percent of beverage containers recycled. */
 const EMISSIONS = "env.emissions";
 const RECYCLED = "env.container-recycling-pct";
+/** The outcome web's measure for the price of electricity at a place. */
+const ELECTRICITY_PRICE = "energy.electricity-price";
 /** Every state sets 21 as the purchase age (NCSL, Cannabis Overview, 2024). */
 const CANNABIS_AGE = 21;
 
@@ -1296,11 +1298,16 @@ export function businessEnergyCostYear(
 }
 
 /**
- * What the outcome web adds to a place's use of a good this month. Electricity
- * is the exception that replaces rather than adds: a clean-electricity
- * standard's recorded compliance cost stands in for the price until the web's
- * own link to the electricity price is running, then the web's price is the
- * price (the same cause is never charged twice). A carbon price is a price on
+ * What the outcome web adds to a place's use of a good this month. The price
+ * of electricity at a place is one figure: the web's factor on it sets it
+ * once (its own rule, `withWebRules`), and each electricity statute in force
+ * applies its own share to that one figure, so a household is asked once per
+ * cause however many statutes there are. A clean-electricity standard's
+ * recorded compliance cost stands in for its effect until the web's own link
+ * to the electricity price is running; from then its effect is inside the
+ * web's figure and its own share is none (the same cause is never charged
+ * twice). With no web factor (one), each statute's share applies to the good's
+ * own cost, the same path. A carbon price is a price on
  * tons, so the tons a household emits take the web's factor on emissions; a
  * deposit nets out the containers returned, which is the web's level of the
  * share recycled (the research's start for the state where the web keeps no
@@ -1319,22 +1326,19 @@ function webUse(
 } {
   const same = { rule, trips: 1, subscribe: 1 };
   if (rule.good === "electricity" && rule.kind === "share") {
-    const reach = webReach(
-      api,
-      rule.placeId,
-      "energy.electricity-price",
-      subject,
-    );
+    const reach = webReach(api, rule.placeId, ELECTRICITY_PRICE, subject);
     if (!reach.parts.length) return same;
-    const carried = reach.parts.some(
-      (part) => part.link === "clean-electricity-to-price",
-    );
+    // The web's own rule carries the change in the one figure; a statute's
+    // share applies to the figure, and the standard's is inside it once its
+    // link runs.
+    if (rule.cause === `web:${ELECTRICITY_PRICE}`)
+      return { ...same, rule: { ...rule, value: reach.factor - 1 } };
+    const carried =
+      rule.cause.includes(PRICE_LAWS.cleanElectricity) &&
+      reach.parts.some((part) => part.link === "clean-electricity-to-price");
     return {
       ...same,
-      rule: {
-        ...rule,
-        value: (carried ? 1 : 1 + rule.value) * reach.factor - 1,
-      },
+      rule: { ...rule, value: carried ? 0 : rule.value * reach.factor },
     };
   }
   if (rule.good === "fuel" && rule.kind === "share")
@@ -1390,8 +1394,11 @@ function withWebRules(api: CoreAPI, rules: Rule[]): Rule[] {
     kind: Rule["kind"],
     measure: string,
     value: number,
+    /** The web's change is a rule of its own beside the statutes (a price), not only where none is (a count of trips). */
+    besideStatutes = false,
   ) => {
     if (
+      !besideStatutes &&
       rules.some(
         (r) => r.placeId === placeId && r.good === good && r.kind === kind,
       )
@@ -1409,7 +1416,7 @@ function withWebRules(api: CoreAPI, rules: Rule[]): Rule[] {
       source,
     });
   };
-  add("electricity", "share", "energy.electricity-price", 0);
+  add("electricity", "share", ELECTRICITY_PRICE, 0, true);
   add(
     "transit-fare",
     "price",
