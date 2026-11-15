@@ -28,8 +28,8 @@ root: rc8-law-judged-by-paperwork
 
 **Rules.** One rule, all 56 places: every place's builders read the same base. Estimate, never UNKNOWN: no stand-in price of 1.
 
-**Done when.** A second session plays a drawn place with a construction business for a year and sees houses started in town (Housing's new homes for sale, or dev mode's reach of the gas hookup ban once it is enacted), and src/core2/law-wiring-prices.test.ts passes on main.
+**Done when.** A second session plays a drawn place with a construction business for a year and sees houses started in town (Housing's new homes for sale, or dev mode's reach of the gas hookup ban once it is enacted), and src/core2/housing-builders-start.test.ts passes on main.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/housing-construction.ts, src/core2/modules/housing.ts, src/core2/law-wiring-prices.test.ts
+**Files.** src/core2/housing-construction.ts, src/core2/modules/housing.ts, src/core2/housing-builders-start.test.ts (new)
