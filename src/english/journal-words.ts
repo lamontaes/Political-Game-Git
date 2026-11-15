@@ -654,8 +654,7 @@ export function memberOfBody(
  * its title in lower case, "mayor"; a district's seat with its district,
  * "state representative in District 38", then "the seat". A county, state or
  * federal body is said whole every time ("the U.S. Senate", "the
- * state Senate"), never by its last word. The title's parenthesis (a form's
- * note) is never said. Nothing here names an office or
+ * state Senate"), never by its last word. Nothing here names an office or
  * a place: each comes from the record.
  */
 export function seatSaid(
@@ -671,7 +670,7 @@ export function seatSaid(
   } = {},
 ): string {
   const first = options.first ?? true;
-  const title = seat.title.replace(/\s*\([^)]*\)/g, "").trim();
+  const title = seat.title.trim();
   // A seat for a district (a House or legislative seat) is said by its
   // district, whatever body it sits in.
   const district = (seat.district ?? "").trim().replace(/^0+(?=\w)/, "");
@@ -700,7 +699,11 @@ export function seatSaid(
     seatWords.body.replace("{body}", named.replace(/^state\s+/i, ""));
   const congress =
     level === "federal" && /house of representatives/i.test(named);
-  if (districted && aboveTown && bodied && seat.bodyName?.trim()) {
+  // A district is said as an ordinal only where its code is a whole number.
+  // A lettered or named district ("A", "5B", "Addison-1") has no ordinal: it
+  // is said by its office and its code, as a county's district is, below.
+  const numbered = /^\d+$/.test(district);
+  if (districted && numbered && aboveTown && bodied && seat.bodyName?.trim()) {
     // Above the town a district's seat is said whole every time, by its body
     // and its district as an ordinal, never as "the seat".
     if (congress)

@@ -104,3 +104,10 @@ Two Words builders each had an item that said "the engine joins a sentence from 
 
 - **Read your queued messages every pass.** A message from another session waits in the notification queue while your turn runs and is not shown until you read the queue. On Nov 11 eleven messages sat for up to 49 minutes, four of them builders holding for a call. Read the queue at the start of each pass and after every long command, before you start anything of your own.
 - **A builder who stopped still owns an open pull request, and nobody is gating it.** A pull request whose builder hit the usage limit sat ready and ungated for nine hours. When a session stops, the lead lists its open pull requests and hands each to a gate desk by name, with who finishes the mechanical part.
+
+## The hourly crew line check (Nov 15, from the crew-check thread)
+
+- Read the crew issue's newest comments from the highest page number down: `gh api repos/<repo>/issues/8928/comments?per_page=100&page=N`, filtered on `.user.login` and a `^(CTO|Coordinator):` start. `--paginate` fails through the proxy.
+- `list_threads` with `since` and a limit of 100 shows only threads active since then. Running = total minus this thread, minus done, failed and resolved; say in the report when the list is partial. `list_prs` is truncated, so a PR count is a carried-over estimate and is labeled as one.
+- When several hourly fires pile up after a usage limit or a restart, post one comment, not one per fire.
+- After a usage-limit stop many threads show "failed" until their wake triggers resume them; report that to the coordinator once and do not count them as running.

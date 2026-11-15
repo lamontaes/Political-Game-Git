@@ -429,6 +429,20 @@
       "tag": "SOURCED",
       "role": "level",
       "source": "42 U.S.C. 608: a family with a minor child (under 18) is the unit cash assistance serves. The federal rule, unverified here (written from knowledge, not checked against the text): Personal Responsibility and Work Opportunity Reconciliation Act of 1996, Pub. L. 104-193, 42 U.S.C. 608(a)(7) and 607. States may set shorter limits and exempt a share of cases for hardship (per-state limits: pool item research-cash-welfare-time-limits-by-state)."
+    },
+    "veteransMonthlyBenefitDollars": {
+      "role": "coefficient",
+      "value": 1900,
+      "tag": "ESTIMATED",
+      "source": "VA Veterans Benefits Administration Annual Benefits Report, fiscal year 2023: disability compensation paid to about 5.6 million veterans, about $1,900 a month on average once pensions are folded in. Read from memory of the report; the container cannot reach va.gov. Spread: the average between a 10 percent and a 100 percent rating's share of recipients.",
+      "spread": [1500, 2400]
+    },
+    "veteransDrawShare": {
+      "role": "level",
+      "value": 0.3,
+      "tag": "ESTIMATED",
+      "source": "About 5.6 million veterans drawing compensation or pension (VA Annual Benefits Report, fiscal year 2023) out of about 18 million veterans (ACS 2024, B21001): about three in ten. Each veteran in town is paid this share of the average benefit; nobody is picked. Spread: the states' range of the recipient share.",
+      "spread": [0.22, 0.42]
     }
   },
   "povertyGuidelineByState": {

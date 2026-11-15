@@ -2238,22 +2238,15 @@
     },
     "filing-clerk": {
       "state": "tell",
-      "stateMoves": [
-        "tell-running",
-        "tell-race",
-        "tell-duty",
-        "tell-deadline",
-        "tell-filing-fee"
-      ],
+      "stateMoves": ["tell-running", "tell-race", "tell-duty", "tell-deadline"],
       "replies": ["agree", "ask", "confront", "leave"],
       "follow": {
-        "agree": ["accept", "refuse"],
+        "agree": ["accept"],
         "ask": ["answer"],
         "confront": ["answer"]
       },
       "again": {
-        "answer": ["agree", "leave"],
-        "refuse": ["come-back", "leave"]
+        "answer": ["agree", "leave"]
       },
       "endings": [
         {
@@ -2577,6 +2570,50 @@
           "when": {
             "reply": ["decline"]
           }
+        },
+        {
+          "id": "left-there",
+          "label": "Left it there",
+          "keeps": "none",
+          "when": {}
+        }
+      ]
+    },
+    "ask-endorsement": {
+      "state": "request",
+      "stateMoves": ["tell-reason", "tell-need", "request"],
+      "replies": ["agree", "decline", "stall"],
+      "follow": {
+        "agree": ["thank"],
+        "decline": ["press"],
+        "stall": ["press"],
+        "refuse": ["accept"],
+        "relent": ["thank"],
+        "deflect": ["accept"]
+      },
+      "repeatable": {
+        "tell-reason": ["agree", "decline", "stall"],
+        "tell-need": ["agree", "decline", "stall"]
+      },
+      "again": { "press": ["agree", "relent", "refuse", "deflect"] },
+      "endings": [
+        {
+          "id": "endorsed",
+          "label": "You gave them your endorsement",
+          "keeps": "none",
+          "when": { "reply": ["agree", "relent"] }
+        },
+        {
+          "id": "refused",
+          "label": "You said no",
+          "keeps": "relationship-strained",
+          "when": { "reply": ["decline", "refuse"] }
+        },
+        {
+          "id": "thinking",
+          "label": "You said you would think about it",
+          "keeps": "none",
+          "when": { "reply": ["stall", "deflect"] }
         },
         {
           "id": "left-there",
@@ -4127,9 +4164,9 @@
     "ask-to-serve": {
       "state": "request",
       "asks": {
-        "note": "The player asks someone to serve (brief J): the one asked answers from where the serve-asks engine reads them (their ambition, the seat they would give up, how far apart the two stand on their question, what they have read about the player, whether they know the player). Yes where that read is above zero, no otherwise; pressing holds them where they stood, and letting it go wins nothing. A price comes later.",
+        "note": "The player asks someone to serve (brief J): the one asked answers from where the serve-asks engine reads them (their ambition, the seat they would give up, how far apart the two stand on their question, what they have read about the player, whether they know the player). Yes where that read is above zero, no otherwise; pressing holds them where they stood, and letting it go wins nothing. Short of yes by less than the player's word on their own question is worth to them, they name that promise as their price (bargain): giving their word carries them and keeps a hold-question promise the player's next vote or signature on the question settles; refusing it does not carry them (gov-serve-ask-price-end).",
         "yes": "agree",
-        "carried": "decline",
+        "carried": "bargain",
         "no": "decline",
         "relent": ["agree"],
         "thanks": "thank",
@@ -4141,6 +4178,14 @@
           {
             "move": "accept",
             "carries": "none"
+          },
+          {
+            "move": "promise",
+            "carries": "price"
+          },
+          {
+            "move": "refuse",
+            "carries": "price-refused"
           }
         ],
         "first": {
@@ -4159,13 +4204,23 @@
               "carries": "hedged"
             }
           ]
-        }
+        },
+        "paid": "agree"
       },
-      "replies": ["agree", "decline"],
+      "replies": ["agree", "decline", "ask"],
       "again": {
-        "ask": ["answer", "decline", "leave"]
+        "answer": ["agree", "decline"]
       },
       "endings": [
+        {
+          "id": "promised",
+          "label": "On your ticket, on your word",
+          "keeps": "promise",
+          "when": {
+            "reply": ["agree"],
+            "asker": ["promise"]
+          }
+        },
         {
           "id": "serving",
           "label": "On your ticket",

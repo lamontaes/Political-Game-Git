@@ -28,6 +28,12 @@ describe("a local body is named the way people write it", () => {
     expect(boardBodyName("PARISH OF ST EXAMPLE", "Parish Council")).toBe(
       "St. Example Parish Council",
     );
+    expect(boardBodyName("CITY AND COUNTY OF EXAMPLE", "County Council")).toBe(
+      "Example City Council",
+    );
+    expect(
+      boardBodyName("CITY AND COUNTY OF EXAMPLE", "Board of Supervisors"),
+    ).toBe("Example Board of Supervisors");
     expect(boardBodyName("PARISH OF EXAMPLE", "Police Jury")).toBe(
       "Example Parish Police Jury",
     );
@@ -123,9 +129,17 @@ describe("a local body is named the way people write it", () => {
         continue;
       }
       if (!council) continue;
-      expect(council.bodyName, government.key).toBe(
-        government.reading.bodyName,
-      );
+      // The charter's own name, said with whose it is: "Board of
+      // Commissioners" at Bowling Green is "Bowling Green Board of
+      // Commissioners", so a calendar holding a city's body and its
+      // county's tells them apart.
+      const charter = government.reading.bodyName!;
+      const rest = charter.split(" ").slice(1).join(" ") || charter;
+      expect(council.bodyName.endsWith(rest), government.key).toBe(true);
+      expect(
+        council.bodyName.length,
+        `${government.key}: ${council.bodyName}`,
+      ).toBeGreaterThanOrEqual(charter.length);
       checked += 1;
     }
     expect(checked, "compiled councils checked").toBeGreaterThan(20);

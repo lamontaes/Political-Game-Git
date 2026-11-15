@@ -593,7 +593,7 @@
       "stop-off": "Absent: you did not attend",
       "district": "Absent: at home in the district"
     },
-    "nameHeadPick": "Name to the job"
+    "nameHeadPick": "Ask someone"
   },
   "floor": {
     "status": {
@@ -963,6 +963,7 @@
       "fullHere": "{n} people here",
       "fullElsewhere": "{n} people elsewhere",
       "counted": "{n} more in households here",
+      "organizations": "{n} businesses and organizations",
       "stopped": "stopped {date}"
     },
     "repealed": "Repealed",
@@ -1138,6 +1139,24 @@
   },
   "handoff": {
     "play": "Play"
+  },
+  "fees": {
+    "today": "Brings in {amount} a year here",
+    "aside": "{amount} a year",
+    "todayHome": "{home} a month for each home; brings in {amount} a year here",
+    "unit": "% of today's fee",
+    "levels": {
+      "0": "no fee",
+      "50": "half of today's fee",
+      "75": "three quarters of today's fee",
+      "100": "the fee as it is now",
+      "125": "one and a quarter times today's fee",
+      "150": "one and a half times today's fee",
+      "200": "twice today's fee",
+      "300": "three times today's fee"
+    },
+    "newHome": "{level}: {home} a month for each home",
+    "other": "{percent}% of today's fee"
   },
   "seat": {
     "draft": "Draft",

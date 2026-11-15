@@ -8,7 +8,7 @@ import { gameStartDate } from "../core2/game-start";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
 import { advancePlayerV1, resumePlayerV1 } from "../core2/player-v1";
-import { joinParty, partiesHere, partyTie } from "../core2/modules/parties";
+import { partiesHere, partyTie } from "../core2/modules/parties";
 import { sharedHistory } from "../core2/shared-history";
 import { coreAPI } from "../core2/state";
 import type { CoreState, JobInput, PersonId } from "../core2/types";
@@ -272,10 +272,12 @@ it(`a new coworker introduces themselves and asks something from the records (se
       ).toEqual([]);
       for (const row of scene.talk.lines)
         expect(row.text, where).not.toMatch(SLOP);
-      // The one who asks does not say the player's name twice in a line.
+      // The one who asks does not say the player's name twice in a line (as a
+      // whole word: "Sam" is not said in "Sampson's Market").
       for (const row of scene.talk.lines)
         expect(
-          (row.text.match(new RegExp(player.givenName, "g")) ?? []).length,
+          (row.text.match(new RegExp(`\\b${player.givenName}\\b`, "g")) ?? [])
+            .length,
           `${where}: ${row.text}`,
         ).toBeLessThanOrEqual(1);
       // A promise settles the introduction and is written on the reply by id.
@@ -322,9 +324,9 @@ it(`a new coworker introduces themselves and asks something from the records (se
 it(`a tie that grew asks for an invitation or a favor, from the two people's records (Arab, Alabama, seed s32151)`, () => {
   setBookkeeping(false);
   try {
-    // Pinned to Arab, Alabama: a town where the player starts in no party, so
-    // the one request left (the next meeting of a party) needs the friend's
-    // party to be joined first. One fixed seed, never a draw.
+    // Pinned to Arab, Alabama: a town whose council has a meeting ahead, so
+    // the one request a friend makes (come with them to the next town body
+    // meeting, Nov 15) has a meeting to name. One fixed seed, never a draw.
     const place = drawPlace("s32151", "friend-ask", (key) => key === "0102116");
     const where = `${place.name} (${place.key}), seed ${place.seed}`;
     const { core, director, playerId } = buildBenchWorld(
@@ -335,13 +337,16 @@ it(`a tie that grew asks for an invitation or a favor, from the two people's rec
     const id = playerId as PersonId;
     const player = core.people.get(id)!;
     director.watch(core, id);
+    // The player's clock takes the first day, so the player is the one in
+    // control, as in play: a meeting is offered to a resident only then
+    // (office-day's meetingToAttend).
+    play(core, id, 1);
     const api = coreAPI(core);
     // A townsperson the player has no tie to yet, met as the encounters
     // engine meets a group's members, then time together until the tie turns
     // (the same cause tie-turns.test.ts reads). The one request a friend can
-    // make that an engine holds is the next meeting of their party (the other
-    // eleven were cut, Nov 14), so the friend belongs to a party and the
-    // player has joined it, as a new friend's party is joined in play.
+    // make that an engine settles is the next meeting of a town body (the
+    // party line was cut, Nov 15); a friend with nothing to ask is not staged.
     const stranger = [...core.people.values()]
       .filter(
         (row) =>
@@ -351,12 +356,10 @@ it(`a tie that grew asks for an invitation or a favor, from the two people's rec
           row.id !== id &&
           row.householdId !== player.householdId &&
           !player.familyIds.has(row.id) &&
-          !sharedHistory(core, id, row.id as PersonId).length &&
-          partyTie(api, row.id)?.tie === "party",
+          !sharedHistory(core, id, row.id as PersonId).length,
       )
       .sort((a, b) => a.id.localeCompare(b.id))[0];
-    expect(stranger, `${where}: no townsperson in a party`).toBeTruthy();
-    joinParty(api, id, partyTie(api, stranger!.id)!.partyId!);
+    expect(stranger, `${where}: no townsperson to meet`).toBeTruthy();
     const otherId = stranger!.id as PersonId;
     api.meet(id, otherId, {
       placeId: player.placeId,
@@ -367,9 +370,9 @@ it(`a tie that grew asks for an invitation or a favor, from the two people's rec
     const book = director.ledger.people.get(id)!;
     const grew = () =>
       book.threads.get(otherId)?.turns.find((turn) => turn.turn === "grew");
-    for (let days = 0; days < MAX_DAYS && !grew(); days += 1) {
-      api.relationship(id, otherId, "contact", HOURS_A_DAY);
-      advanceCore(core, addDays(makeIsoDate(core.date), 1));
+    for (let days = 0; days < MAX_DAYS && !grew(); days += 2) {
+      api.relationship(id, otherId, "contact", 2 * HOURS_A_DAY);
+      play(core, id, 2);
     }
     const turn = grew();
     expect(turn, `${where}: no grew turn`).toBeTruthy();
@@ -391,6 +394,8 @@ it(`a tie that grew asks for an invitation or a favor, from the two people's rec
     expect(scene.askerId, where).toBe(otherId);
     expect(scene.askedId, where).toBe(id);
     const fact = (key: string) => scene.facts.find((row) => row.key === key);
+    // The meeting asked to, from the office-day engine's calendar.
+    expect(fact("meeting")?.recordIds[0], where).toMatch(/^meeting:/);
     // The other's town, said only where it is not the player's.
     expect(!!fact("hometown"), where).toBe(
       stranger!.placeId !== player.placeId &&

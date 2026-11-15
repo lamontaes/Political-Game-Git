@@ -241,11 +241,11 @@
     "kind": "uncalibrated-tunable",
     "file": "src/core2/data/corruption/parameters.json",
     "line": 6,
-    "whatItFakes": "How much traits, money pressure and ties weigh in offering, taking and telling about a bribe.",
-    "why": "Basic corruption (M3-09) needs a first version; the research gives directions, not these coefficients.",
+    "whatItFakes": "How much what an offerer has heard of an official, the pull of pressing again after a refusal, a soured tie, keeping quiet, reporting, a taken bribe's vote and a breached bargain weigh (corruptionReputationWeight, corruptionLeanLeverageWeight, corruptionTellWeight, corruptionQuietPull, corruptionReportWeight, bribeVoteWeight, bribeBreachHoursPerDayOfCost).",
+    "why": "Each has a published relationship (Rose-Ackerman and Palifka 2016; Lambsdorff 2002) but no measured figure in the repository to check its size against, so each stays TUNABLE with its spread.",
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-12",
-    "replacement": "Weights checked against bribery incidence surveys and public-corruption case counts by office (DOJ Public Integrity Section reports, data/research/corruption/roadmap-r29-aggregate-enforcement.json), with audits and the news surfacing records; the take calibration is people-corruption-honest-pull-calibrated. Researched Oct 23, 2026 (data/research/core/corruption-bands-2014.json): bribes averaged 10.9% of a deal's value and 34.5% of its profit in 427 OECD foreign-bribery cases (OECD Foreign Bribery Report 2014, via a secondary summary; the OECD pages refused the session), the figure bribeShareOfStake would take as ESTIMATED, and 7% of U.S. adults paid a bribe to a public service in a year (Transparency International, Global Corruption Barometer 2013, via Pew Research Center), the band scripts/research/core-parameters-year.ts reports offers against. The trait, need, tie, tell, quiet, report, vote and breach weights have no published effect that converts and stay TUNABLE.",
+    "replacement": "A measured rate for each: how often a bribe's parties tell or report, how often an official presses again after a refusal, how far a bought vote moves, from public-integrity case counts (data/research/corruption/doj-pin-2023-local-state-prosecutions.json, DOJ Public Integrity Section reports) and the played-year audits. Narrowed Nov 15, 2026: the offer pull, take pull, need, pressure, tie and bribe-share weights are ESTIMATED rows with the evidence they were fitted and checked against (src/core2/data/corruption/parameters.json).",
     "status": "open"
   },
   {

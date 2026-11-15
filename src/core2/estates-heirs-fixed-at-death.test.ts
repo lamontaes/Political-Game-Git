@@ -3,7 +3,7 @@ import { piecesInput, piecesSource } from "./core-pieces-fixture";
 import { advanceCore, createLifeCore } from "./life";
 import { coreAPI } from "./state";
 import { addDays, makeIsoDate } from "./kernel/dates";
-import { openEstates, settleEstate } from "./estates";
+import { openEstates, settleEstate, willOf } from "./estates";
 import type { CoreInput, CoreState, PersonInput } from "./types";
 
 // The estate is left to the kin the law names on the day of death; someone
@@ -108,5 +108,65 @@ describe("estate heirs are fixed at death", () => {
     });
     probateDone(core, 1);
     expect(core.people.get("late")!.liquidMinor).toBe(0);
+  });
+
+  describe("a will is read on the day of death", () => {
+    const old = (relations: Record<string, string>) => ({
+      ...person("dead", 30_000, relations),
+      birthDate: "1925-01-01",
+    });
+
+    it("passes a beneficiary who dies during probate's share to that beneficiary's own child", () => {
+      const core = world([
+        old({ a: "child", b: "child" }),
+        person("a", 0, { dead: "parent", grandkid: "child" }),
+        person("b", 0, { dead: "parent" }),
+        person("grandkid", 0, { a: "parent" }),
+      ]);
+      const api = coreAPI(core);
+      api.relationship("dead", "a", "family", 900);
+      api.relationship("dead", "b", "family", 100);
+      expect(
+        willOf(api, core.people.get("dead")!)?.map((row) => row.id),
+        "the old decedent made a will naming both",
+      ).toEqual(["a", "b"]);
+      const shares = Object.fromEntries(
+        willOf(api, core.people.get("dead")!)?.map((r) => [r.id, r.weight]) ??
+          [],
+      );
+      api.updatePerson("dead", { alive: false });
+      settleEstate(api, "dead", "event:death");
+      api.updatePerson("a", { alive: false });
+      probateDone(core, 1);
+      // The will's shares (by closeness, read at the death): a's share goes to a's child.
+      expect(core.people.get("grandkid")!.liquidMinor).toBeGreaterThan(0);
+      expect(
+        Math.abs(
+          core.people.get("grandkid")!.liquidMinor -
+            (30_000 * shares.a!) / (shares.a! + shares.b!),
+        ),
+      ).toBeLessThan(2);
+      expect(
+        core.people.get("grandkid")!.liquidMinor +
+          core.people.get("b")!.liquidMinor,
+      ).toBe(30_000);
+      expect(core.people.get("dead")!.liquidMinor).toBe(0);
+    });
+
+    it("leaves the estate to the law when every beneficiary died with no one to represent them", () => {
+      const core = world([
+        old({ a: "child", sis: "sibling" }),
+        person("a", 0, { dead: "parent" }),
+        person("sis", 0, { dead: "sibling" }),
+      ]);
+      const api = coreAPI(core);
+      api.relationship("dead", "a", "family", 900);
+      api.relationship("dead", "sis", "family", 100);
+      api.updatePerson("dead", { alive: false });
+      settleEstate(api, "dead", "event:death");
+      api.updatePerson("a", { alive: false });
+      probateDone(core, 1);
+      expect(core.people.get("sis")!.liquidMinor).toBe(30_000);
+    });
   });
 });

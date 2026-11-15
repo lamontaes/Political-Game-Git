@@ -548,9 +548,31 @@ const words = (key) => {
 };
 // A key as a person would say it (a name inside a screen that has its own `words`).
 const keyWords = words;
+// The unit a fee's level is kept in (src/core2/fee-levels.ts): a percent of the fee as it is now.
+const FEE_UNIT = "percent of today's fee";
+// What a fee's government charge brings in, as the draft card's "today" line.
+const feeToday = (charge) =>
+  charge
+    ? (charge.perHomeMonthMinor
+        ? (controls.fees?.todayHome ?? "").replace(
+            "{home}",
+            moneyWords(Number(charge.perHomeMonthMinor)),
+          )
+        : (controls.fees?.today ?? "")
+      ).replace("{amount}", roundedMoney(Number(charge.yearlyMinor)))
+    : null;
 // Money amounts are kept in cents; "minor/hour" reads as dollars an hour; a plain amount is rounded.
 // A percent reads with its sign, any other unit in words.
 const amount = (value, unit) => {
+  // A fee is said against today's: "one and a half times today's fee", never a bare 150%.
+  if (unit === FEE_UNIT)
+    return (
+      controls.fees?.levels?.[String(Math.round(Number(value)))] ??
+      (controls.fees?.other ?? "").replace(
+        "{percent}",
+        String(Math.round(Number(value))),
+      )
+    );
   if (unit?.startsWith("minor"))
     // A rate per hour or day keeps its cents; a plain amount reads rounded, as Budgets does.
     return unit.includes("/")
@@ -567,11 +589,13 @@ const amount = (value, unit) => {
 const amountUnit = (unit) =>
   !unit
     ? ""
-    : unit.startsWith("percent")
-      ? "%"
-      : unit.startsWith("minor")
-        ? `$${unit.includes("/") ? `/${unit.split("/")[1]}` : ""}`
-        : unit.replace(/-/g, " ");
+    : unit === FEE_UNIT
+      ? (controls.fees?.unit ?? "")
+      : unit.startsWith("percent")
+        ? "%"
+        : unit.startsWith("minor")
+          ? `$${unit.includes("/") ? `/${unit.split("/")[1]}` : ""}`
+          : unit.replace(/-/g, " ");
 /** A policy question by its name on the bill catalog, else its key's last part in words. */
 const policyLabel = (question) =>
   controls.policyNames?.[question] ?? words(question);
@@ -1126,17 +1150,25 @@ function atOrders() {
                 });
                 b.addEventListener("click", async () => {
                   try {
-                    draw(
-                      await post(
-                        `/api/orders?${new URLSearchParams({
-                          entryId: item.entryId,
-                          how,
-                          ...(item.kind === "post" && nominee
-                            ? { nomineeId: nominee }
-                            : {}),
-                        })}`,
-                      ),
+                    const answer = await post(
+                      `/api/orders?${new URLSearchParams({
+                        entryId: item.entryId,
+                        how,
+                        ...(item.kind === "post" && nominee
+                          ? { nomineeId: nominee }
+                          : {}),
+                      })}`,
                     );
+                    if (Array.isArray(answer)) draw(answer);
+                    else {
+                      // Naming someone to a post asks them: the sit-down plays, then the desk
+                      // goes on with what is still waiting (brief J).
+                      if (answer.packet) renderPacket(answer.packet);
+                      show("desk", false);
+                      if (answer.story) await showStory(answer.story);
+                      show("desk", true);
+                      draw(await api("/api/orders"));
+                    }
                   } catch {
                     // The entry is no longer waiting (the day moved, or another stop cleared it): the
                     // desk redraws from what is waiting now, never a stale plate with a dead button.
@@ -2930,24 +2962,35 @@ async function officeParts() {
                   select({
                     options: [
                       { value: "", label: words.ownChoice ?? "" },
-                      ...head.candidates.map((c) => ({
-                        value: c.id,
-                        label: (c.work && c.place
-                          ? words.row
-                          : c.place
-                            ? words.rowPlace
-                            : "{name}"
-                        )
-                          .replace("{name}", c.name)
-                          .replace("{work}", c.work ?? "")
-                          .replace("{place}", c.place ?? ""),
-                      })),
+                      // Only someone who may be asked now is offered; a no stands for a while.
+                      ...head.candidates
+                        .filter((c) => c.mayAsk)
+                        .map((c) => ({
+                          value: c.id,
+                          label: (c.work && c.place
+                            ? words.row
+                            : c.place
+                              ? words.rowPlace
+                              : "{name}"
+                          )
+                            .replace("{name}", c.name)
+                            .replace("{work}", c.work ?? "")
+                            .replace("{place}", c.place ?? ""),
+                        })),
                     ],
+                    // Picking someone asks them (brief J): the sit-down plays, and only
+                    // their yes names them.
                     onChange: async (nomineeId) => {
-                      if (nomineeId)
-                        await post(
-                          `/api/office/name-head-pick?${new URLSearchParams({ post: head.post, nomineeId })}`,
-                        );
+                      if (!nomineeId) return;
+                      const asked = await post(
+                        `/api/office/ask-head?${new URLSearchParams({ post: head.post, nomineeId })}`,
+                      );
+                      if (asked.packet) renderPacket(asked.packet);
+                      const moment = storyStop(asked.packet);
+                      closeSheet();
+                      if (asked.story) await showStory(asked.story);
+                      else if (moment) await showStory(moment.recordId);
+                      await openSheet("office");
                     },
                   }),
                 ),
@@ -3116,7 +3159,23 @@ function billEstimate(paper, section) {
       : null;
   // Today's amount beside the new one, as two cells: the law in force, and what the bill makes it.
   let compare = null;
-  if (before && after)
+  if (before && after && est.charge) {
+    // A fee's paper cites the record's own figure for the first step; a later step starts from what the step before made it.
+    const home = (level, minor) =>
+      minor
+        ? (controls.fees?.newHome ?? "")
+            .replace("{level}", level)
+            .replace("{home}", moneyWords(Number(minor)))
+        : level;
+    compare = {
+      todayLabel: words.today ?? "",
+      today: est.charge.first
+        ? feeToday(est.charge)
+        : home(before, est.charge.beforePerHomeMonthMinor),
+      newLabel: words.proposed ?? "",
+      proposed: home(after, est.charge.newPerHomeMonthMinor),
+    };
+  } else if (before && after)
     compare = {
       todayLabel: words.today ?? "",
       today: before,
@@ -3616,15 +3675,25 @@ async function seatRows() {
           }${item.allowed === false ? ` · ${controls.authority?.[item.reason] ?? ""}` : ""}`,
           // What the law in force holds, as the bill's paper cites it: a
           // yes-or-no question reads Yes or No, as the Issues tab says it.
-          today:
-            item.today?.value == null
+          today: item.charge
+            ? feeToday(item.charge)
+            : item.today?.value == null
               ? null
               : item.kind === "policy-question"
                 ? item.today.value
                   ? controls.politics.yes
                   : controls.politics.no
                 : amount(item.today.value, item.today.unit),
+          // The list's short side note: a fee's yearly take, the card's long line is `today`.
+          aside: item.charge
+            ? (controls.fees?.aside ?? "").replace(
+                "{amount}",
+                roundedMoney(Number(item.charge.yearlyMinor)),
+              )
+            : undefined,
           unit: item.series ? amountUnit(item.unit) : item.line ? "$" : "",
+          // As the player types a fee's level, the words the paper will print.
+          say: item.charge ? (typed) => amount(typed, item.unit) : undefined,
           cents: item.unit?.startsWith("minor") || Boolean(item.line),
           blocked: item.allowed === false,
           // A percent a year needs an amount in force above zero to start from.
@@ -6077,6 +6146,16 @@ const sheets = {
           ...group("fullHere", d.fullInTown),
           ...group("fullElsewhere", d.fullElsewhere),
           ...group("counted", d.counted),
+          ...(d.organizations?.count
+            ? [
+                row(
+                  fill(w.organizations, {
+                    n: d.organizations.count.toLocaleString("en-US"),
+                  }),
+                  roundedMoney(d.organizations.amountMinor),
+                ),
+              ]
+            : []),
           ...d.named.map((p) =>
             row(
               p.name,
@@ -6088,6 +6167,9 @@ const sheets = {
               ].join(" · "),
             ),
           ),
+          ...(d.namedOrganizations ?? [])
+            .filter((o) => o.name)
+            .map((o) => row(o.name, roundedMoney(o.amountMinor))),
         ];
       });
       return [stripSection(5, w.title, ...nodes)];

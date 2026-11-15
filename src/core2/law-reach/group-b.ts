@@ -18,6 +18,7 @@
  * people it serves.
  */
 import reach from "../data/laws/reach-group-b.json" with { type: "json" };
+import { payVeterans } from "./group-b-veterans";
 import type { CoreAPI } from "../types";
 import { registerPolicyHandler } from "./host";
 import { povertyLineDollars } from "./poverty-line";
@@ -1132,6 +1133,8 @@ function runBenefitPrograms(api: CoreAPI): void {
   forgetTownFacts(api);
   for (const row of rowsOf<ActiveRow>(api, "active"))
     if (PROGRAM_KEYS.has(row.id)) rerun(api, row);
+  // Veterans' benefits are the federal veterans line's own: paid every close.
+  payVeterans(api);
 }
 
 /**

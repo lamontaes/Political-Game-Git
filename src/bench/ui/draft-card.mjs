@@ -12,7 +12,7 @@ import { rosterScreen } from "./roster-screen.mjs";
 import { rosterTitle, stripSection } from "./strips.mjs";
 
 /**
- * `groups`: [{ name, items: [{ value, label, today, unit, cents, note, blocked }] }];
+ * `groups`: [{ name, items: [{ value, label, today, aside, unit, cents, note, blocked }] }]; `aside` is the short note on the list row (else `today`); `say(typed)` is the words a typed amount reads as, shown under the box;
  * `words`: { title, issue, today, newAmount, draft, none, risePerYear, risePercent,
  * riseYears, riseFirstDate, riseBack, riseNeedsAmount, risePercentNeeded, riseYearsNeeded, riseDateNeeded }; `onDraft(item, typed, steps, rise)` drafts the bill (`rise` is
  * the percent a year, its years and its first day, in place of a value or steps). Returns the screen's node.
@@ -46,6 +46,14 @@ export function draftCard({ groups, words, onDraft }) {
       ),
       when,
     );
+    // Where the item can say what a typed amount reads as (a fee's level), it does so under the box.
+    const live = item.say
+      ? el("p", { className: "draft-live", textContent: item.say(typed.value) })
+      : null;
+    if (live)
+      typed.addEventListener("input", () => {
+        live.textContent = item.say(typed.value);
+      });
     let firstDate = null;
     const dateField = (name) =>
       el("input", {
@@ -204,6 +212,7 @@ export function draftCard({ groups, words, onDraft }) {
         2,
         words.newAmount,
         firstRow,
+        ...(live ? [live] : []),
         steps,
         ...(item.value.startsWith("series:")
           ? [addStep, riseToggle, riseWhy, rise, riseNeeds]
@@ -226,7 +235,7 @@ export function draftCard({ groups, words, onDraft }) {
         entries: group.items.map((item) => ({
           key: item.value,
           label: item.label,
-          aside: item.today ?? "",
+          aside: item.aside ?? item.today ?? "",
           // A subject this body may not write a bill about is listed dimmed.
           data: {
             value: item.value,

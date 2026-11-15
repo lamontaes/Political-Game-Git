@@ -28,6 +28,8 @@ export {
   workAgeFactor,
   workLeans,
 } from "./past-work";
+// Who served in the military, and the share of a place's adults who did, for the veterans line.
+export { serviceOf, veteranShare } from "./past-work";
 // A school or employer's name, the organization's own record or the elsewhere kind, for the person card.
 export { organizationName } from "./places-elsewhere";
 export {

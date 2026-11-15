@@ -27,7 +27,7 @@ import {
 } from "./modules/jobs";
 import { corePlaceByKey } from "./place-lookup";
 import { placeCountyPopulationShares, placeStateKey } from "./place-map";
-import { medianTransactionBalance } from "./modules/budgets";
+import { householdOpeningCash } from "./modules/budgets";
 import { citizenShareOf } from "./modules/voting";
 import { parameter as p } from "./parameters";
 import { stopgap } from "./stopgaps";
@@ -282,16 +282,14 @@ export function withCountySample(
     const adultsHere = home.memberIds
       .map((id) => byId.get(id)!)
       .filter((row) => ageInYears(row.birthDate, start) >= p("votingAge"));
-    if (!adultsHere.length) continue;
-    const pay =
-      earnings * Math.max(p("one"), employment.get(home.id)?.length ?? 0);
-    const reserve = Math.round(
-      medianTransactionBalance(pay, input.seed) * p("minorPerDollar"),
+    const cash = householdOpeningCash(
+      earnings,
+      employment.get(home.id)?.length ?? p("zero"),
+      adultsHere.length,
+      input.seed,
     );
     adultsHere.forEach((row, n) => {
-      row.liquidMinor =
-        Math.floor(reserve / adultsHere.length) +
-        (n < reserve % adultsHere.length ? p("one") : p("zero"));
+      row.liquidMinor = cash[n]!;
     });
   }
   // Each sampled household stands for the same number of real ones, so the

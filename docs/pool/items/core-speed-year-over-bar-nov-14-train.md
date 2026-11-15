@@ -35,3 +35,5 @@ root: none
 **Files.** src/core2 (a cause found by profile), scripts/speed-years/run.ts.
 
 **Notes.** Filed Nov 14 by hand. Look for the rows: 66,696 law-effect applied rows and 58,082 doors in one year point at the first places to profile.
+
+Nov 15 (views thread): Marshfield, Massachusetts (2538820), seed speed-press-a, `npm run speed:year -- --years 1 --exclusive` on the train at 07919bd2, before #9383: year 1 ran 121.3 s and 116.6 s, with 453,976 records (core2-law-effects-v1.applied 40,988, core2-coverage-v1.countedCoverage 32,403, news.heard 20,921). Wilton, Iowa (1986070) ran 83 s, and Gilliam, Missouri (2927028) ran 27 s.

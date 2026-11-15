@@ -9,6 +9,7 @@ import {
   openFilingVisit,
   pickContest,
   saidOffice,
+  describesByRule,
   spokenOffice,
   type FilingCheck,
 } from "./filing-visit";
@@ -282,4 +283,22 @@ it("says a choice of office as the kind of place the races are for", () => {
   ).toBe("City clerk");
   expect(saidOffice("City or town clerk", [{ title: "Board" }])).toBeNull();
   expect(saidOffice("Town clerk (party)", [])).toBe("Town clerk");
+});
+
+// An office the research gives as a rule is resolved to its body before it is
+// said (`ruleOfficeBody`); only where the game cannot tell does the rule's own
+// wording stand (Words lead, second reader, Nov 15, South Vienna, Ohio).
+it("marks the offices given as a rule and no others", () => {
+  for (const note of [
+    "Board of elections of the most populous county in the district",
+    "General registrar of the city or county where the town lies",
+  ])
+    expect(describesByRule(spokenOffice(note))).toBe(true);
+  for (const note of [
+    "County board of elections (counter: director)",
+    "Secretary of State (multi-county districts) or the county clerk",
+    "County elections official of the candidate's home county",
+    "Town clerk",
+  ])
+    expect(describesByRule(spokenOffice(note))).toBe(false);
 });

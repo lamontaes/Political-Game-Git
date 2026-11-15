@@ -33,3 +33,5 @@ root: none
 **Waits on.** gov-governor-running-mates (#9080) on the train.
 
 **Files.** data/source/career-occupations/corpus.json, src/core2/data/press/staff.json, src/core2/modules/residents.ts, src/director/conversation.ts, src/director/celebration-facts.ts, src/bench/campaign.ts
+
+**Notes (Words builder A, Nov 15).** The press staff's job titles were the SOC group names ("Editors", "Chief Executives", "News Analysts, Reporters, and Journalists"); src/core2/data/press/staff.json now carries the one-person titles ("Editor", "Chief executive", "Reporter"), pinned by src/director/press-staff-said-work.test.ts at Salado TX (seed review1:2). Resident jobs read singular at Salado ("a cook", "a fire chief", "a caseworker"), so the corpus plural named in the Cause was not met in that run; `groupName` in campaign.ts stays until a plural title is shown to still reach a reader. The "I work at work" / "I'm working for work" lines Words lead saw come from said-as `ownPlace.worker` ("work" once the employer has been named): not reproduced at Salado with seed review1:2 on this head (twenty-five first meetings read employer by name); needs the exact talk.

@@ -102,7 +102,7 @@ import {
   meetingSceneView,
   colleagueDeal,
   hireAide,
-  nameHeadPick,
+  askHead,
   nominationDecide,
   nominationsView,
   budgetLinePick,
@@ -301,6 +301,27 @@ const talkView = (value: Conversation | undefined) =>
     // The scales' set: the same choices made false (empty dims the scales).
     lies: value.lies,
   };
+/**
+ * The sit-down when the player asks someone to serve opens at once: the ask
+ * is the player's own press, so its scene is staged now and shown, not held
+ * for the day's close, and the hour it takes is spent.
+ */
+function sitDown(
+  personId: PersonId,
+  asked: { readonly hours: number; readonly eventId: string },
+) {
+  const staged = state.director?.stageOwnPress(
+    requireCore(),
+    personId,
+    asked.eventId,
+  );
+  const spent = state.player?.spend(asked.hours);
+  return {
+    ...(staged ? { story: staged.momentId } : {}),
+    ...(spent ? { packet: spent.packet, names: namesFor(spent.packet) } : {}),
+  };
+}
+
 /** Names for the people and places a packet's offers point at. */
 function namesFor(value: unknown): Record<string, string> {
   const current = requireCore();
@@ -428,6 +449,13 @@ const ROUTES: readonly Route[] = [
           {
             twoLevel: true,
             warmUpDays: OPENING_WARMUP_DAYS,
+            // Who the player is, chosen before the world's first weeks run.
+            ...(chosen
+              ? {
+                  chooseIdentity: (core: CoreState, playerId: string) =>
+                    applyChosenPerson(core, playerId, chosen),
+                }
+              : {}),
             onWorld: (built, id) => {
               if (id) state.loadingPeek = loadingStory(built, id);
             },
@@ -456,8 +484,6 @@ const ROUTES: readonly Route[] = [
         state.placeId = world.placeId;
         state.placeName = world.place.displayName;
         const entrant = { personId: world.playerId! };
-        // The person chosen in the creator becomes the player.
-        if (chosen) applyChosenPerson(world.core, entrant.personId, chosen);
         state.player.select(entrant.personId);
         // Between the drawing steps the server answers the loading
         // screen, which plays the world's story meanwhile (loading.ts).
@@ -1578,13 +1604,16 @@ const ROUTES: readonly Route[] = [
     match: ({ request, url }) =>
       request.method === "POST" && url.pathname === "/api/orders",
     run: async ({ url, send }) => {
-      ordersDecide(
+      const asked = ordersDecide(
         requireCore(),
         url.searchParams.get("entryId") ?? "",
         url.searchParams.get("how") ?? "",
         url.searchParams.get("nomineeId") ?? undefined,
       );
-      send(200, ordersView(requireCore()));
+      // Naming someone to a post asks them: the sit-down plays first.
+      if (asked && state.player?.personId)
+        send(200, sitDown(state.player.personId as PersonId, asked));
+      else send(200, ordersView(requireCore()));
       return;
     },
   },
@@ -1619,21 +1648,20 @@ const ROUTES: readonly Route[] = [
       return;
     },
   },
+  // The official asks someone offered for one of their open posts: the ask
+  // plays as a scene, and only its ending names anyone (brief J).
   {
     match: ({ request, url }) =>
-      request.method === "POST" &&
-      url.pathname === "/api/office/name-head-pick",
+      request.method === "POST" && url.pathname === "/api/office/ask-head",
     run: async ({ url, send }) => {
       if (!state.player?.personId) throw new Error("Choose a resident first.");
-      send(
-        200,
-        nameHeadPick(
-          requireCore(),
-          state.player.personId,
-          url.searchParams.get("post") ?? "",
-          url.searchParams.get("nomineeId") ?? "",
-        ),
+      const asked = askHead(
+        requireCore(),
+        state.player.personId,
+        url.searchParams.get("post") ?? "",
+        url.searchParams.get("nomineeId") ?? "",
       );
+      send(200, sitDown(state.player.personId as PersonId, asked));
       return;
     },
   },
@@ -1966,20 +1994,7 @@ const ROUTES: readonly Route[] = [
         url.searchParams.get("filingId") ?? "",
         url.searchParams.get("personId") ?? "",
       );
-      // The sit-down opens at once: the ask is the player's own press, so
-      // its scene is staged now and shown, not held for the day's close.
-      const staged = state.director?.stageOwnPress(
-        requireCore(),
-        state.player.personId as PersonId,
-        asked.eventId,
-      );
-      const spent = state.player.spend(asked.hours);
-      send(200, {
-        ...(staged ? { story: staged.momentId } : {}),
-        ...(spent
-          ? { packet: spent.packet, names: namesFor(spent.packet) }
-          : {}),
-      });
+      send(200, sitDown(state.player.personId as PersonId, asked));
       return;
     },
   },

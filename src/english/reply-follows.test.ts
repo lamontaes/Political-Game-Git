@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { playable } from "./bank-parts";
 import sceneBank from "../../data/english/parts/scene-talk.json" with { type: "json" };
 import {
+  factsSetBy,
   fitting,
   type BankPart,
   type Fact,
@@ -12,14 +13,47 @@ import { replyPairs } from "./reply-pairs";
 import { talkReplyFlow, talkScenes } from "../director/scene-talk";
 import {
   buildTalks,
+  fact,
   facts as factsOfFixture,
   observedPairs,
+  type ObservedPair,
 } from "../../tests/support/scene-talk-fixture";
 
 const parts = (sceneBank as unknown as { parts: BankPart[] }).parts.filter(
   playable,
 );
 const NONE: ReplyFollowsTable = new Map();
+
+/**
+ * The facts that hold where a pair's reply is said: the fixture's, and the
+ * facts the lines said before it on the path set (setsFacts), read through
+ * the picker's own reader. Old premise: the rival check read only the
+ * fixture's facts, so after a line that sets a fact (the desk visit's
+ * deadline line sets asked-only) it counted a reply the fact rules out
+ * ("You've made your case. Bring the pen.") as a rival that fit, though
+ * play never offers it there. New premise: the check reads the set facts
+ * as the picker does.
+ */
+function factsAt(pair: ObservedPair): Record<string, Fact> {
+  const spot = {
+    purpose: pair.ask.purpose,
+    family: pair.ask.family,
+    key: pair.ask.key,
+  };
+  return {
+    ...factsOfFixture,
+    ...Object.fromEntries(
+      factsSetBy(pair.said, spot).map((key) => [key, fact("yes")]),
+    ),
+  };
+}
+/** A pair said after a line that set a fact for its spot. */
+const afterSetFact = (pair: ObservedPair) =>
+  factsSetBy(pair.said, {
+    purpose: pair.ask.purpose,
+    family: pair.ask.family,
+    key: pair.ask.key,
+  }).length > 0;
 const tagged = (part: BankPart) =>
   part.uses.some((u) => u.requiresFacts?.some((n) => n.startsWith("asked_")));
 
@@ -104,7 +138,11 @@ describe("a reply that does not follow is not offered after that line", () => {
     const seen = new Map(baseline.map((p) => [`${p.reply}|${p.before}`, p]));
     const ordered = [...seen.keys()].sort();
     expect(ordered.length).toBeGreaterThan(200);
-    const chosen = ordered.filter((_, index) => index % 20 === 0);
+    // A chosen 5 percent, and every pair said after a line that set a fact
+    // (the setsFacts path is always checked, whatever the sample draws).
+    const chosen = ordered.filter(
+      (id, index) => index % 20 === 0 || afterSetFact(seen.get(id)!),
+    );
     const no: Record<string, string[]> = {};
     for (const id of chosen) {
       const [reply, before] = id.split("|");
@@ -142,7 +180,7 @@ describe("a reply that does not follow is not offered after that line", () => {
       };
       const rivals = fitting(
         ask,
-        factsOfFixture,
+        factsAt(pair),
         (part) => tagged(part) === pair.ask.tagged,
         parts,
         NONE,
