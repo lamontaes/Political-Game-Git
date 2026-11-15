@@ -59,6 +59,20 @@ function elapsed(p: Lookup, from: IsoDate, to: IsoDate): number {
   return Math.max(daysBetweenText(from, to), p("zero"));
 }
 
+/**
+ * The day one tie row last had its two people together, or null when it never
+ * did: a change made apart (a veto, an answer to the whip) moves the tie
+ * without being time together. The row's own fact, for the writer that keeps
+ * it (state.ts) and for readers that follow one row's changes (the director's
+ * threads, a tie moment); when two people were last together by every record,
+ * sittings included, is `lastTogether`.
+ */
+export function lastMetOnRow(
+  row: Pick<Relationship, "lastContactDate" | "lastMetDate">,
+): IsoDate | null {
+  return row.lastMetDate === undefined ? row.lastContactDate : row.lastMetDate;
+}
+
 /** Closeness today: the closeness at the last contact, faded since. */
 export function currentCloseness(
   core: Pick<CoreState, "data" | "date">,
@@ -186,9 +200,9 @@ export function metThrough(
 }
 
 /**
- * The last day two people were together: their row's last contact, or the
- * last sitting of a body both sit on, whichever is later; null when neither
- * says they ever were. The one answer to "when did these two last see each
+ * The last day two people were together: the last day their row had them
+ * together (`lastMetOnRow`), or the last sitting of a body both sit on,
+ * whichever is later; null when neither says they ever were. The one answer to "when did these two last see each
  * other", for the hours a tie has lost and for whether the player has seen
  * someone lately (calendar.ts).
  */
@@ -213,7 +227,7 @@ function timeTogether(
 } {
   const row = core.relationships.get(a < b ? `${a}:${b}` : `${b}:${a}`);
   const shared: { now: number; kind: string }[] = [];
-  let last: IsoDate | null = row ? row.lastContactDate : null;
+  let last: IsoDate | null = row ? lastMetOnRow(row) : null;
   for (const [reader, known] of knownReaders) {
     const met = known.together(core, a, b);
     if (!met) continue;
@@ -226,8 +240,7 @@ function timeTogether(
 /**
  * The hours a tie has lost since the two were last together, over all its
  * time: the row's own and each reader's shared hours, each at its half-life,
- * since the last day any of them had the two together (the row's last
- * contact, or the last sitting both sat). Two colleagues who sat together
+ * since the last day any of them had the two together (`lastTogether`). Two colleagues who sat together
  * yesterday have lost a day, however long ago their row's last contact was.
  * What a person misses about someone they have not seen.
  */

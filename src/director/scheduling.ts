@@ -10,6 +10,7 @@
  * line. Everything else is a journal line. A moment no type can stage writes
  * a coverage row with the reason. Nothing is drawn by chance.
  */
+import { lastMetOnRow } from "../core2/closeness";
 import { SPEECH_OCCASION_KIND, familyFactsOf } from "../core2/modules/people";
 import { coreAPI } from "../core2/state";
 import { OFFICES_MODULE_ID } from "../core2/modules/offices";
@@ -1144,7 +1145,10 @@ export function scheduleMoment(
   // cause is the relationship record, contacted on the day its change was
   // measured or the day before, as a day's ties are read once it closes.
   const contacted = moment.label.startsWith("tie:")
-    ? core.relationships.get(moment.causeId)?.lastContactDate
+    ? (() => {
+        const row = core.relationships.get(moment.causeId);
+        return row ? (lastMetOnRow(row) ?? undefined) : undefined;
+      })()
     : undefined;
   const tieMet =
     !!contacted &&

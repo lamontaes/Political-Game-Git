@@ -36,6 +36,8 @@ import {
   floorDateOf,
   memberPosition,
   signOnRecord,
+  opposedReasons,
+  type VetoReason,
   votesOn,
   type StudyRow,
 } from "../core2/modules/legislature";
@@ -59,6 +61,7 @@ import {
   corePlaceByJurisdictionId,
   coreStateKeyOfJurisdictionId,
   coreStateName,
+  placeNameSaid,
 } from "../core2/place-lookup";
 import { applyCoreEvent, coreAPI } from "../core2/state";
 import { tieHoursBetween } from "../core2/closeness";
@@ -97,7 +100,7 @@ import {
 import { MOVED_AWAY_EVENT, departureOf } from "../core2/modules/moves";
 import { disasterSaid, homeSaid } from "../english/disaster-words";
 import { jobSaid, seatSaid, withArticle } from "../english/journal-words";
-import { causeGroupName } from "../english/group-names";
+import { opposingGroup } from "./veto-talk";
 import { contractSaid } from "../english/contract-words";
 import {
   JOBS_MODULE_ID,
@@ -134,7 +137,7 @@ import {
   type TreeNode,
   type TreeReply,
 } from "./scene-talk";
-import type { Fact } from "../english/scene-talk-words";
+import { factsSetBy, type Fact } from "../english/scene-talk-words";
 import { bargainFacts } from "./bargain-facts";
 import { voteStandFacts } from "./vote-stand-facts";
 import { custodyFacts } from "./custody-facts";
@@ -2998,27 +3001,14 @@ function deskFacts(
     facts.opposed = { text: "yes", sourceRecordIds: cited };
     const group = opposingGroup(
       core,
+      placeNameSaid(lawChain(api).townPlaceId as never),
       meetingsOn(api, bill.id),
       new Set(against.map((row) => row.memberId)),
     );
     if (group) facts.group = { text: group.said, sourceRecordIds: [group.id] };
-    const weight = {
-      voters: P.zero,
-      groups: P.zero,
-      party: P.zero,
-      views: P.zero,
-    };
-    for (const { position } of against) {
-      weight.voters += position.constituents;
-      weight.groups += position.lobby;
-      weight.party += (position.party ?? P.zero) + (position.wing ?? P.zero);
-      weight.views += position.views + position.trait + position.consistency;
-    }
-    const reason = Object.entries(weight)
-      .map(([why, most]) => ({ why, most }))
-      .filter(({ why, most }) => most < P.zero && (why !== "groups" || group))
-      .sort((a, b) => a.most - b.most || a.why.localeCompare(b.why))
-      .at(P.zero)?.why;
+    const reason = opposedReasons(api, bill.id).find(
+      ({ why }) => why !== "groups" || group,
+    )?.why;
     if (reason)
       facts[`opposed-${reason}`] = { text: "yes", sourceRecordIds: cited };
     // Who they are: by name when they are few enough to say (Words lead,
@@ -3068,51 +3058,6 @@ function deskFacts(
       text: roundedDollars(largest.annualCostMinor),
       sourceRecordIds: [causeId, largest.id],
     };
-}
-
-/**
- * The group that pressed the members who voted no hardest (the most
- * meetings with them, then the largest case), as people say its name, or
- * null when none met them or its record has no name to say.
- */
-function opposingGroup(
-  core: Readonly<CoreState>,
-  meetings: readonly {
-    groupId: string;
-    memberId: string;
-    side?: number;
-    annualCostMinor: number;
-  }[],
-  noVoters: ReadonlySet<string>,
-): { id: string; said: string } | null {
-  const tally = new Map<string, { met: number; cost: number }>();
-  for (const row of meetings) {
-    if ((row.side ?? -P.one) >= P.zero || !noVoters.has(row.memberId)) continue;
-    const seen = tally.get(row.groupId) ?? { met: P.zero, cost: P.zero };
-    tally.set(row.groupId, {
-      met: seen.met + P.one,
-      cost: Math.max(seen.cost, row.annualCostMinor),
-    });
-  }
-  const ranked = [...tally]
-    .map(([groupId, seen]) => ({ groupId, ...seen }))
-    .sort(
-      (a, b) =>
-        b.met - a.met || b.cost - a.cost || a.groupId.localeCompare(b.groupId),
-    );
-  for (const { groupId } of ranked) {
-    const org = core.organizations.get(`organization:${groupId}` as never) as
-      { id: string; name: string; kind?: string; topic?: string } | undefined;
-    if (!org) continue;
-    const said =
-      org.kind === "cause-group" && org.topic
-        ? causeGroupName(org.id, org.topic)
-        : /[:_]/.test(org.name)
-          ? null
-          : `the ${org.name.charAt(P.zero).toLowerCase()}${org.name.slice(P.one)}`;
-    if (said) return { id: org.id, said };
-  }
-  return null;
 }
 
 /** The petition a filing opened, as the clerk says it, or nothing where none is on record. */
@@ -3234,6 +3179,40 @@ function walkThroughFacts(
 const OFFICE_HOURS_TYPE = "office-hours";
 const DESK_VISIT_TYPE = "desk-visit";
 /** The desk visit's replies that say the act: their pieces, by the act. */
+/**
+ * The reason a veto said in the visit gives, from what the player asked
+ * before it: the opposition's case the sponsor told (the visit's
+ * `opposed-*` fact), or the cost on the budget; a veto with neither asked
+ * gives none (Words lead, desk ruling 5).
+ */
+function vetoSaid(
+  scene: { facts: readonly { key: string }[]; talk: { tree: TreeNode } },
+  path: readonly number[],
+): VetoReason["key"] {
+  const asked = new Set<string>();
+  let node: TreeNode | null | undefined = scene.talk.tree;
+  for (const index of path) {
+    const reply: TreeNode["replies"][number] | undefined = node?.replies[index];
+    if (!reply) break;
+    for (const part of reply.line.parts) asked.add(part);
+    node = reply.next;
+  }
+  const heard = new Set(
+    factsSetBy(asked, {
+      purpose: DESK_VISIT_TYPE,
+      family: undefined,
+      key: DESK_VISIT_TYPE,
+    }),
+  );
+  const held = (key: string) => scene.facts.some((row) => row.key === key);
+  if (heard.has("heard-why")) {
+    const why = scene.facts.find((row) => row.key.startsWith("opposed-"));
+    if (why) return why.key as VetoReason["key"];
+  }
+  if (heard.has("heard-cost") && held("budget-cost")) return "cost";
+  return "none";
+}
+
 const DESK_ACTS = (
   purposeArcs as unknown as {
     purposes: Record<string, { acts?: { sign: string[]; veto: string[] } }>;
@@ -3497,7 +3476,12 @@ export function replyInScene(
     core.modules.has(OFFICE_DAY_MODULE_ID) &&
     deskWaiting(coreAPI(core)).some((bill) => bill.id === deskBillId)
   )
-    decideDesk(coreAPI(core), deskBillId, deskAct === "sign");
+    decideDesk(
+      coreAPI(core),
+      deskBillId,
+      deskAct === "sign",
+      deskAct === "veto" ? vetoSaid(scene, path) : undefined,
+    );
 
   // Asked at the door what matters to them, a resident says their strongest
   // question and their side (ruling 72): the player holds it as a talk's

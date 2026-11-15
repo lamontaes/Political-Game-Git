@@ -123,9 +123,9 @@ function knowsThePlayer(core: CoreState, id: string): boolean {
 /**
  * A focus person chooses daily while the player sees them: the player's
  * family and household always, anyone else while they and the player were
- * last together within `focusDailyContactDays` days: their tie's last contact
- * or the last sitting both sat (closeness.ts `lastTogether`). Out of touch,
- * they choose at their tier's cadence until the two meet again. Someone in
+ * last together within `focusDailyContactDays` days by any record, their tie
+ * or a sitting both sat (closeness.ts `lastTogether`). Out of touch, they
+ * choose at their tier's cadence until the two meet again. Someone in
  * focus who has never been with the player (a coworker, or a person a caller
  * put in focus) keeps choosing daily.
  */
