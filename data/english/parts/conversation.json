@@ -5208,14 +5208,14 @@
           "subject": "shared-school",
           "role": "ask",
           "choice": "remember",
-          "requiresFacts": ["long-ago"]
+          "requiresFacts": ["long-ago", "only-past"]
         },
         {
           "move": "shared-school-raise-remember",
           "subject": "shared-school",
           "role": "raise",
           "choice": "remember",
-          "requiresFacts": ["long-ago"]
+          "requiresFacts": ["long-ago", "only-past"]
         }
       ],
       "transcriptsUsing": 33,
@@ -5255,14 +5255,14 @@
           "subject": "shared-school",
           "role": "ask",
           "choice": "remember",
-          "requiresFacts": ["long-ago"]
+          "requiresFacts": ["long-ago", "only-past"]
         },
         {
           "move": "shared-school-raise-remember",
           "subject": "shared-school",
           "role": "raise",
           "choice": "remember",
-          "requiresFacts": ["long-ago"]
+          "requiresFacts": ["long-ago", "only-past"]
         }
       ],
       "transcriptsUsing": 23,
@@ -5299,14 +5299,14 @@
           "subject": "shared-school",
           "role": "ask",
           "choice": "remember",
-          "requiresFacts": ["long-ago"]
+          "requiresFacts": ["long-ago", "only-past"]
         },
         {
           "move": "shared-school-raise-remember",
           "subject": "shared-school",
           "role": "raise",
           "choice": "remember",
-          "requiresFacts": ["long-ago"]
+          "requiresFacts": ["long-ago", "only-past"]
         }
       ],
       "transcriptsUsing": 10,
@@ -14504,14 +14504,14 @@
           "subject": "shared-school",
           "role": "ask",
           "choice": "remember",
-          "requiresFacts": ["long-ago"]
+          "requiresFacts": ["long-ago", "only-past"]
         },
         {
           "move": "shared-school-raise-remember",
           "subject": "shared-school",
           "role": "raise",
           "choice": "remember",
-          "requiresFacts": ["long-ago"]
+          "requiresFacts": ["long-ago", "only-past"]
         }
       ],
       "origin": "authored",
@@ -14523,20 +14523,20 @@
       }
     },
     {
-      "key": "conversation.shared-school-ask-remember.we-were-at-school-together-weren-t-we",
-      "move": "shared-school-ask-remember",
+      "key": "conversation.shared-school-ask-together.we-were-at-school-together-weren-t-we",
+      "move": "shared-school-ask-together",
       "kind": "spoken",
       "text": "We were at {school} together, weren't we?",
       "uses": [
         {
-          "move": "shared-school-ask-remember",
+          "move": "shared-school-ask-together",
           "subject": "shared-school",
           "role": "ask",
           "choice": "remember",
           "requiresFacts": ["long-ago"]
         },
         {
-          "move": "shared-school-raise-remember",
+          "move": "shared-school-raise-together",
           "subject": "shared-school",
           "role": "raise",
           "choice": "remember",
@@ -24666,24 +24666,6 @@
       "date": "2026-11-11"
     },
     {
-      "key": "conversation.own-view-answer-disagree.we-ll-have-to-differ-first",
-      "move": "own-view-answer-disagree",
-      "kind": "spoken",
-      "text": "We'll have to agree to disagree, {first}.",
-      "uses": [
-        {
-          "move": "own-view-answer-disagree",
-          "subject": "own-view",
-          "role": "answer",
-          "choice": "disagree",
-          "requiresFacts": ["my-other"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
-      "date": "2026-11-11"
-    },
-    {
       "key": "conversation.own-view-answer-disagree.i-ve-never-seen-it-your-way-first",
       "move": "own-view-answer-disagree",
       "kind": "spoken",
@@ -31423,7 +31405,7 @@
       "key": "conversation.player-news-answer-take.i-ll-be-careful-first-i-promise",
       "move": "player-news-answer-take",
       "kind": "spoken",
-      "text": "I'll be careful, {first}. I promise.",
+      "text": "I'll be careful. I promise.",
       "uses": [
         {
           "move": "player-news-answer-take",
@@ -31459,7 +31441,7 @@
       "key": "conversation.player-news-answer-tell.somebody-has-to-run-for-office-first",
       "move": "player-news-answer-tell",
       "kind": "spoken",
-      "text": "Somebody has to run for {office}, {first}.",
+      "text": "Somebody has to run for {office}.",
       "uses": [
         {
           "move": "player-news-answer-tell",
@@ -31497,7 +31479,7 @@
       "key": "conversation.player-news-answer-ask.you-think-it-s-a-mistake-first",
       "move": "player-news-answer-ask",
       "kind": "spoken",
-      "text": "You think it's a mistake, {first}?",
+      "text": "You think it's a mistake?",
       "uses": [
         {
           "move": "player-news-answer-ask",
@@ -38454,25 +38436,6 @@
       "move": "farewell-core",
       "kind": "spoken",
       "text": "Talk later.",
-      "uses": [
-        {
-          "move": "farewell-core",
-          "subject": "farewell",
-          "role": "core",
-          "stages": ["default"],
-          "closesTalk": true,
-          "excludesFacts": ["by-phone"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder A (plain goodbyes, first meetings carry no name, round 11)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.farewell-core.thanks-again",
-      "move": "farewell-core",
-      "kind": "spoken",
-      "text": "Thanks again.",
       "uses": [
         {
           "move": "farewell-core",

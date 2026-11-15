@@ -82,8 +82,11 @@ import { policySeriesAtLevel } from "./laws";
 import stateReach from "../data/places/state-reach.json" with { type: "json" };
 import { OFFICES_MODULE_ID, servingTermsOf, type TermRow } from "./offices";
 import agendaData from "../data/legislature/outside-agenda.json" with { type: "json" };
+import executiveSittings from "../data/legislature/executive-sittings.json" with { type: "json" };
+import localExecutiveRules from "../../../data/research/gov/local-executive-introduction-2026.json" with { type: "json" };
+import { placeStateKey } from "../place-map";
 import { seededUnit } from "../seeded";
-import { countryStateNow, countryStates } from "./macro";
+import { countryStateMonth, countryStates } from "./macro";
 import type { OfficeLevel } from "./offices";
 import { partySide } from "./offices";
 import { decisionLean, termOfLean } from "./people";
@@ -1156,17 +1159,113 @@ function sittingsBetween(
   return out;
 }
 
+/**
+ * Whether the executive of a body sits with it at its regular sittings
+ * (src/core2/data/legislature/executive-sittings.json): a mayor always, a
+ * county executive where the place's research row says they preside over the
+ * board, a governor or the President never.
+ */
+function executiveSits(
+  api: CoreAPI,
+  executiveKind: string,
+  jurisdiction: string,
+): boolean {
+  const row = (
+    executiveSittings.kinds as Record<string, { sits: string } | undefined>
+  )[executiveKind];
+  if (row?.sits === "always") return true;
+  if (row?.sits !== "where-presides") return false;
+  const usps = (placeStateKey(jurisdiction) ?? "").replace(/^US-/, "");
+  return (
+    (
+      localExecutiveRules.places as Record<
+        string,
+        { countyExecutive?: { mode?: string } } | undefined
+      >
+    )[usps]?.countyExecutive?.mode === "presides"
+  );
+}
+
+/** The executive who sits with a body at its sittings, as a seat, or null; kept per body for the day. */
+const sittingKept = new WeakMap<
+  object,
+  {
+    date: string;
+    byBody: Map<string, { personId: string; since: string } | null>;
+  }
+>();
+function sittingExecutive(
+  api: CoreAPI,
+  officeId: string,
+): { personId: string; since: string } | null {
+  let kept = sittingKept.get(api.state);
+  if (!kept || kept.date !== api.state.date) {
+    kept = { date: api.state.date, byBody: new Map() };
+    sittingKept.set(api.state, kept);
+  }
+  if (!kept.byBody.has(officeId))
+    kept.byBody.set(officeId, sittingExecutiveNow(api, officeId));
+  return kept.byBody.get(officeId)!;
+}
+function sittingExecutiveNow(
+  api: CoreAPI,
+  officeId: string,
+): { personId: string; since: string } | null {
+  const body = bodyOf(api, officeId);
+  if (!body) return null;
+  const { office, term } = executiveOf(api, officeId);
+  if (!office || !term || !executiveSits(api, office.kind, body.jurisdiction))
+    return null;
+  return {
+    personId: memberKey(term),
+    since: term.serviceStart ?? term.startDate,
+  };
+}
+
 const SITTING_CALENDAR = {
   owns: (api: CoreAPI, officeId: string) => bodyOf(api, officeId) !== undefined,
-  seats: (api: CoreAPI, officeId: string) =>
-    members(api, officeId).map((term) => ({
+  // The members, and the executive who sits with them (a mayor at the
+  // council's meetings), each from the day their service began.
+  seats: (api: CoreAPI, officeId: string) => {
+    const seats = members(api, officeId).map((term) => ({
       personId: memberKey(term),
       since: term.serviceStart ?? term.startDate,
-    })),
-  bodiesOf: (api: CoreAPI, personId: string) =>
-    servingTermsOf(api, personId)
+    }));
+    const executive = sittingExecutive(api, officeId);
+    return executive &&
+      !seats.some((seat) => seat.personId === executive.personId)
+      ? [...seats, executive]
+      : seats;
+  },
+  // The bodies a person sits on, and for an executive the bodies of their
+  // own government they sit with.
+  bodiesOf: (api: CoreAPI, personId: string) => {
+    const terms = servingTermsOf(api, personId);
+    const sitsOn = terms
       .map((term) => term.officeId)
-      .filter((officeId) => bodyOf(api, officeId) !== undefined),
+      .filter((officeId) => bodyOf(api, officeId) !== undefined);
+    for (const term of terms) {
+      const office = api
+        .moduleState(OFFICES_MODULE_ID)
+        .table("offices")
+        .get(term.officeId) as unknown as
+        { kind: string; jurisdiction: string } | undefined;
+      if (!office || !/^(mayor|county-executive)$/.test(office.kind)) continue;
+      for (const other of api
+        .moduleState(OFFICES_MODULE_ID)
+        .table("offices")
+        .query("byJurisdiction", [office.jurisdiction]) as unknown as {
+        id: string;
+      }[])
+        if (
+          !sitsOn.includes(other.id) &&
+          bodyOf(api, other.id) !== undefined &&
+          sittingExecutive(api, other.id)?.personId === personId
+        )
+          sitsOn.push(other.id);
+    }
+    return sitsOn;
+  },
   sittings: sittingsBetween,
   contactHoursPerDay: sittingContactHours,
 };
@@ -1745,14 +1844,19 @@ interface AgendaCause {
   readonly opening: boolean;
 }
 
-/** A state's figures today from the country tier: people out of work, prices, pay, and revenue against budget. */
+/** A state's figures today from the country tier's kept month: people out of work, prices, pay, and revenue against budget. */
 function stateFigures(
   api: CoreAPI,
   jurisdiction: string,
 ): Record<string, number> | null {
   if (!api.state.modules.has("macro")) return null;
   const state = countryStates(api).find((row) => row.key === jurisdiction);
-  const now = state ? countryStateNow(api, state.fips) : undefined;
+  const month = api.moduleState("macro").table("state").get("macro:state") as
+    { latestMonth?: string } | undefined;
+  const now =
+    state && month?.latestMonth
+      ? countryStateMonth(api, state.fips, month.latestMonth)
+      : null;
   if (!state || !now) return null;
   const months = state.ledger.revenueMonths;
   const revenueYear = months.length
@@ -1760,9 +1864,9 @@ function stateFigures(
       api.parameter("monthsPerYear")
     : state.ledger.budgetYear;
   return {
-    unemploymentPct: now.now.unemploymentPct,
-    prices: now.now.prices,
-    hourlyPay: now.now.hourlyPay,
+    unemploymentPct: now.unemploymentPct,
+    prices: now.prices,
+    hourlyPay: now.hourlyPay,
     budgetGap:
       state.ledger.budgetYear > 0 ? revenueYear / state.ledger.budgetYear : 1,
   };
