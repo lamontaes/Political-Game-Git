@@ -112608,6 +112608,15 @@
           "purpose": "conflict-accuse",
           "key": "bribe-reported",
           "after": "press"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "conflict-accuse",
+          "key": "bribe-reported",
+          "after": "scene-talk.follow-confront.i-stood-up-for-you-i-m-allowed-to-ask"
         }
       ],
       "bearing": "guarded",
@@ -144241,6 +144250,26 @@
           "purpose": "conflict-accuse.taken",
           "key": "threat",
           "requiresFacts": ["you-took", "wanted"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "conflict-accuse",
+          "key": "bribe-reported",
+          "after": "confront",
+          "requiresFacts": ["you-took", "wanted"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "conflict-accuse",
+          "key": "bribe-reported",
+          "after": "request",
+          "requiresFacts": ["you-took", "wanted"]
         }
       ],
       "origin": "authored",
@@ -144248,6 +144277,77 @@
       "date": "2026-11-14",
       "tag": {
         "move": "tell",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.standing-up-for-me-doesn-t-give-you-the-right-to-judge",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "Standing up for me doesn't give you the right to judge me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "conflict-accuse",
+          "key": "bribe-reported",
+          "after": "scene-talk.follow-confront.i-stood-up-for-you-i-m-allowed-to-ask"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (short replies, conflict-accuse)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "confront",
+        "key": "bribe-reported"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.then-i-ll-believe-what-the-paper-printed",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "Then I'll believe what the paper printed.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "conflict-accuse",
+          "key": "bribe-reported"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (short replies, conflict-accuse)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "warn",
+        "key": "bribe-reported"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.taken.you-could-have-sat-on-it-long-enough-to-ask-me",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "You could have sat on it long enough to ask me. One day would have done it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "conflict-accuse.taken",
+          "key": "threat",
+          "after": "scene-talk.follow-confront.taken.i-didn-t-go-looking-for-this-somebody-brought-it-to-me"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (short replies, conflict-accuse)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "confront",
         "key": "threat"
       }
     },

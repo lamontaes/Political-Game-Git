@@ -2715,7 +2715,7 @@
             "again": {
               "ask": ["tell", "leave"],
               "press": ["tell", "leave"],
-              "confront": ["tell", "leave"]
+              "confront": ["tell", "confront", "leave"]
             },
             "endings": [
               {

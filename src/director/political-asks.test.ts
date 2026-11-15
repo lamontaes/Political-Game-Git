@@ -150,7 +150,9 @@ describe("the political asks: a bribe in the press and a party that asks you to 
           offererId: offerer.id,
           officialId: me,
           stakeMinor: 50000000,
-          subjectId: `fixture-contract:${offerer.id}`,
+          // The subject in contracts.ts shape (contract:<government>:<line>:<date>),
+          // so the scene can name what the money was for.
+          subjectId: `contract:${offerer.id}:highways:${core.date}`,
         });
         if (!record?.pending) continue;
         offers += 1;
@@ -284,6 +286,21 @@ describe("the political asks: a bribe in the press and a party that asks you to 
             `${here}: the asker read the story`,
           ).toBe(true);
           expect(scene.askerId, here).not.toBe(me);
+          // The reader learned what a complaint would say from the crime the
+          // story reports: the money moved and the player took it, each cited
+          // to that crime record, and what it was for (the contract).
+          const crimeId = String(
+            core.durableLog.get(reported as never)?.facts?.crimeId,
+          );
+          for (const name of ["money-moved", "you-took"])
+            expect(
+              scene.facts.find((row) => row.key === name)?.recordIds,
+              `${here}: ${name}`,
+            ).toContain(crimeId);
+          expect(
+            scene.facts.find((row) => row.key === "wanted")?.text,
+            `${here}: wanted`,
+          ).toBeTruthy();
           const asker = core.people.get(scene.askerId)!;
           expect(
             asker.knownIds.has(me) ||

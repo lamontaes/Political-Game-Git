@@ -56,6 +56,11 @@ import {
   coreStateKeyOfJurisdictionId,
   coreStateName,
 } from "../core2/place-lookup";
+import {
+  crimeRecord,
+  motiveOf,
+  wantedFacts,
+} from "../core2/modules/corruption";
 import { applyCoreEvent, coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
 import {
@@ -616,7 +621,29 @@ function composeBinding(
     return { kind: "skipped", reason: "the cast is not on record" };
 
   const record = core.durableLog.get(moment.causeId);
-  const said = (record?.facts ?? {}) as Readonly<Record<string, string>>;
+  // A reader of the paper's story of a bribe (news.ts carries the report's
+  // crime and official onto the read): the crime itself says what a
+  // complaint would (justice.ts considerReport), so the accused's replies
+  // give the same reasons: what the money was for, whether it moved, the
+  // accused's part in it and the reason that weighed most in their decision.
+  const reported =
+    record?.kind === NEWS_READ &&
+    record.facts?.crimeId &&
+    record.facts.officialId
+      ? crimeRecord(coreAPI(core as CoreState), String(record.facts.crimeId))
+      : undefined;
+  const reportedMotive = reported ? motiveOf(reported, askedId) : null;
+  const said = {
+    ...(record?.facts ?? {}),
+    ...(reported
+      ? {
+          ...wantedFacts(reported.subjectId),
+          moneyMoved: reported.taken ? "yes" : "no",
+          accusedAs: askedId === reported.offererId ? "offered" : "took",
+          ...(reportedMotive ? { motive: reportedMotive } : {}),
+        }
+      : {}),
+  } as Readonly<Record<string, string>>;
   const facts: Record<string, Fact> = {
     name: {
       text: sayPerson(asker),
@@ -1112,17 +1139,18 @@ function composeBinding(
     const wanted = said.favor === "vote" ? facts.bill : facts.contract;
     if (wanted) facts.wanted = wanted;
   }
-  // A complaint to the prosecutor naming the asked (justice.ts considerReport):
-  // what the accused's own replies may give as a reason. The bribe-question
+  // A complaint to the prosecutor naming the asked (justice.ts considerReport),
+  // or the paper's story of the bribe (above): what the accused's own replies
+  // may give as a reason. The bribe-question
   // lines of the plain arc are kept off it (`read-complaint`); the rest say
   // whether the money moved, which part the accused had, the reason that
   // weighed most in their own decision (corruption.ts motiveOf), and whether
   // the accuser saw it or was told. What it was for is the favor, above.
-  if (record?.kind === "justice.accused") {
+  if (record?.kind === "justice.accused" || reported) {
     const at = [moment.causeId, said.crimeId ?? moment.causeId];
     const fact = (name: string) =>
       (facts[name] = { text: "yes", sourceRecordIds: at });
-    fact("read-complaint");
+    if (!reported) fact("read-complaint");
     if (said.moneyMoved)
       fact(said.moneyMoved === "yes" ? "money-moved" : "no-money-moved");
     if (said.accusedAs) fact(`you-${said.accusedAs}`);
