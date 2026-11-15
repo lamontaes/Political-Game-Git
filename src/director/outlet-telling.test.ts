@@ -80,10 +80,10 @@ it("writes each outlet's name and facts as the talk carries them (played file)",
   // the outlet's facts, plus "paper" or "broadcast" as the story's carrier.
   const said = (facts: Record<string, Fact>, choice: "yes" | "no") => {
     const out = new Set<string>();
-    // Four pinned seeds, chosen so that a radio station is heard on (1) and
+    // Four pinned seeds, chosen so that a radio station is heard on (2) and
     // not listened to (3), and a television station is seen on (0) and not
     // watched (24): named, never drawn.
-    for (const n of [0, 1, 3, 24]) {
+    for (const n of [0, 2, 3, 24]) {
       const line = wordConversationMove({
         seed: `outlet-telling:${n}`,
         subject: "news",
