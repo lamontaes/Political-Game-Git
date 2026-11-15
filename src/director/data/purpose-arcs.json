@@ -1071,6 +1071,39 @@
         }
       ]
     },
+    "emergency-briefing": {
+      "state": "request",
+      "replies": ["agree", "decline", "ask", "leave"],
+      "follow": {
+        "agree": ["thank"],
+        "decline": ["accept", "warn"],
+        "ask": ["answer"]
+      },
+      "again": {
+        "answer": ["agree", "decline"],
+        "warn": ["agree", "decline", "leave"]
+      },
+      "endings": [
+        {
+          "id": "declared",
+          "label": "You declared the emergency",
+          "keeps": "promise",
+          "when": { "anyReply": ["agree"] }
+        },
+        {
+          "id": "let-pass",
+          "label": "You let it pass",
+          "keeps": "none",
+          "when": { "anyReply": ["decline"] }
+        },
+        {
+          "id": "left-there",
+          "label": "Left it there",
+          "keeps": "none",
+          "when": {}
+        }
+      ]
+    },
     "hearing-ask": {
       "state": "request",
       "replies": ["agree", "refuse", "bargain", "stall"],
