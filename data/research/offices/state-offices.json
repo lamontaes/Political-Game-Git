@@ -5747,8 +5747,8 @@
           "sourceRetrieved": false
         },
         {
-          "key": "university-boards",
-          "title": "University of Michigan Regents, Michigan State Trustees, Wayne State Governors",
+          "key": "university-of-michigan-regents",
+          "title": "University of Michigan Regents",
           "termYears": 8,
           "termLimit": {
             "kind": "none"
@@ -5765,9 +5765,65 @@
             "estimate": true,
             "sourceRetrieved": false
           },
-          "seats": 24,
+          "seats": 8,
           "staggered": true,
-          "notes": "2 seats per board each even year.",
+          "notes": "2 seats each even year.",
+          "citation": "State constitution executive article and election code",
+          "source": "https://ballotpedia.org/State_executive_offices",
+          "retrievedDate": "2026-10-12",
+          "estimate": true,
+          "sourceRetrieved": false
+        },
+        {
+          "key": "michigan-state-university-trustees",
+          "title": "Michigan State University Trustees",
+          "termYears": 8,
+          "termLimit": {
+            "kind": "none"
+          },
+          "nextRegularElectionYear": 2026,
+          "vacancyRule": {
+            "method": "appointment",
+            "appointedBy": "governor (until next general election)",
+            "successor": null,
+            "notes": "Generic rule for elected commissions/boards; verify statute.",
+            "citation": "State constitution executive article / election code (generic rule; not verified per office)",
+            "source": "https://ballotpedia.org/State_executive_offices",
+            "retrievedDate": "2026-10-12",
+            "estimate": true,
+            "sourceRetrieved": false
+          },
+          "seats": 8,
+          "staggered": true,
+          "notes": "2 seats each even year.",
+          "citation": "State constitution executive article and election code",
+          "source": "https://ballotpedia.org/State_executive_offices",
+          "retrievedDate": "2026-10-12",
+          "estimate": true,
+          "sourceRetrieved": false
+        },
+        {
+          "key": "wayne-state-university-governors",
+          "title": "Wayne State University Governors",
+          "termYears": 8,
+          "termLimit": {
+            "kind": "none"
+          },
+          "nextRegularElectionYear": 2026,
+          "vacancyRule": {
+            "method": "appointment",
+            "appointedBy": "governor (until next general election)",
+            "successor": null,
+            "notes": "Generic rule for elected commissions/boards; verify statute.",
+            "citation": "State constitution executive article / election code (generic rule; not verified per office)",
+            "source": "https://ballotpedia.org/State_executive_offices",
+            "retrievedDate": "2026-10-12",
+            "estimate": true,
+            "sourceRetrieved": false
+          },
+          "seats": 8,
+          "staggered": true,
+          "notes": "2 seats each even year.",
           "citation": "State constitution executive article and election code",
           "source": "https://ballotpedia.org/State_executive_offices",
           "retrievedDate": "2026-10-12",
@@ -13250,7 +13306,7 @@
         },
         {
           "key": "state-board-of-education-president",
-          "title": "State Board of Education at-large member/president",
+          "title": "State Board of Education at-large member",
           "termYears": 4,
           "termLimit": {
             "kind": "none"
@@ -13271,7 +13327,8 @@
           "source": "https://ballotpedia.org/State_executive_offices",
           "retrievedDate": "2026-10-12",
           "estimate": true,
-          "sourceRetrieved": false
+          "sourceRetrieved": false,
+          "notes": "The board's president is chosen from its members each year; this seat is the president's."
         }
       ],
       "districtElectedStateBodies": {

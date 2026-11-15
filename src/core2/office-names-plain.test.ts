@@ -27,6 +27,8 @@ describe("a statewide office is named by its name alone", () => {
       for (const { office } of stateOffices(key, "x", "2025-01-20")) {
         const said = `${office.title}|${office.bodyName ?? ""}|${office.governmentName}`;
         expect(said, `${key} ${office.id}`).not.toMatch(/[()]/);
+        // One office is one name: no slash between two, no list of boards.
+        expect(office.title, `${key} ${office.id}`).not.toMatch(/[/,]/);
         checked += 1;
       }
     }
