@@ -1841,6 +1841,7 @@ function lapseEmergencyOffer(
       asOf: api.state.date,
     },
     publicRecord: true,
+    news: true,
     facts: {
       hazardRecordId,
       incidentType: String(hazard?.facts?.incidentType ?? ""),

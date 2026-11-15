@@ -4,6 +4,7 @@ import {
   ordersDecide,
   ordersView,
 } from "../bench/office";
+import { wordPrintedStory } from "../bench/archive-words";
 import { BenchPlayer } from "../bench/player";
 import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "../core2/bookkeeping";
@@ -294,6 +295,19 @@ describe(`the governor's briefing room (${where})`, () => {
     expect(lapsed?.date, where).toBe(closes);
     expect(lapsed?.publicRecord, where).toBe(true);
     expect(lapsed?.personIds, where).toEqual([governorId]);
+    // The paper's words for it report the act not taken and do not say why. The press's own
+    // choice to print a record is its reporters' (not staged here); this words the real record.
+    const worded = wordPrintedStory(core, {
+      id: `story:${lapsed!.id}`,
+      kind: "press.printed",
+      date: lapsed!.date,
+      facts: { sourceRecordId: lapsed!.id },
+    } as never);
+    const headline = worded?.headline ?? "";
+    console.log(
+      `emergency-briefing: printed "${headline}" / "${worded?.lede ?? ""}"`,
+    );
+    expect(headline, where).toMatch(/no emergency (declared )?over the /i);
     expect(
       api.moduleState(EXECUTIVE_MODULE_ID).table("emergencies").rows().length,
       where,
