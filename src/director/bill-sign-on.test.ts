@@ -348,7 +348,12 @@ describe("asking colleagues to sign on", () => {
         })),
       ];
       for (const { question, colleague } of again) {
-        const firstTalk = refused.find((row) => row.colleague === colleague);
+        // The earlier ask on this same question, which the second ask reads.
+        const firstTalk = refused.find(
+          (row) =>
+            row.colleague === colleague &&
+            billOf(api, row.billId)?.provisions[0]?.question === question,
+        );
         if (firstTalk)
           process.stdout.write(
             `SIGN-ON PLAYED ${where} first ask:\n${firstTalks.get(firstTalk.billId + "|" + colleague) ?? ""}\n`,
