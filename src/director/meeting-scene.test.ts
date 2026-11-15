@@ -272,10 +272,12 @@ it(`a new coworker introduces themselves and asks something from the records (se
       ).toEqual([]);
       for (const row of scene.talk.lines)
         expect(row.text, where).not.toMatch(SLOP);
-      // The one who asks does not say the player's name twice in a line.
+      // The one who asks does not say the player's name twice in a line (as a
+      // whole word: "Sam" is not said in "Sampson's Market").
       for (const row of scene.talk.lines)
         expect(
-          (row.text.match(new RegExp(player.givenName, "g")) ?? []).length,
+          (row.text.match(new RegExp(`\\b${player.givenName}\\b`, "g")) ?? [])
+            .length,
           `${where}: ${row.text}`,
         ).toBeLessThanOrEqual(1);
       // A promise settles the introduction and is written on the reply by id.
