@@ -2,14 +2,17 @@
  * Pool item macro-mortgage-rate-fhfa-transition-index: an owner who bought
  * from June 2019 on carries the 30-year rate FHFA's MIRS Transition Index
  * gives for June of the year they bought, moved by this world's long-rate
- * offset (housing-mortgages.ts reads worldMortgageRate), and pays it through a played year. A place is
- * drawn from all 56 on a seed nobody chose (MORTGAGE_HISTORY_SEED pins one),
- * redrawn (bounded) until an owner there bought since 2019.
+ * offset (housing-mortgages.ts reads worldMortgageRate), and pays it through a played year, at
+ * Belfast, Pennsylvania.
+ *
+ * Pinned (tests-housing-sale-tests-draw-from-the-clock): the old test drew up
+ * to eight places from randomBytes until an owner there bought since 2019,
+ * on the premise that a few draws always find one, and followed the first
+ * such loan by id. Belfast at this seed has 75 such loans; the one followed
+ * is named.
  */
-import { randomBytes } from "node:crypto";
 import { readFileSync } from "node:fs";
 import { expect, it } from "vitest";
-import { drawPlace } from "../../scripts/core2-year/place";
 import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
@@ -19,8 +22,12 @@ import { coreAPI } from "./state";
 import { worldMortgageRate } from "./macro-model";
 import { housingMacroParameter } from "./modules/housing";
 
-const seed =
-  process.env.MORTGAGE_HISTORY_SEED ?? randomBytes(8).toString("hex");
+const BELFAST = {
+  name: "Belfast, Pennsylvania",
+  key: "4205152",
+  seed: "3836c2c129d6e60cf20b911e8a17101b163ac9e608d649a65d66135cdc736b0c",
+  loanId: "mortgage:household_b744e28931e15936",
+};
 
 /** FHFA's index, each value under the month two before its release. */
 function transitionIndex(): Map<string, number> {
@@ -59,71 +66,62 @@ interface MortgageRow {
   missedMonths?: number;
 }
 
-it(
-  "an owner who bought since June 2019 pays FHFA's index rate for that June",
-  () => {
-    const index = transitionIndex();
-    const tried: string[] = [];
-    for (let draw = 0; draw < 8; draw += 1) {
-      const place = drawPlace(`${seed}:${draw}`, "mortgage-history");
-      const where = `${place.name} (${place.key}), seed ${place.seed}`;
-      setBookkeeping(false);
-      const { core } = buildBenchWorld(place.seed, gameStartDate(), {
-        twoLevel: true,
-        placeKey: place.key,
-      });
-      const api = coreAPI(core);
-      const started = core.date;
-      // The housing engine writes the opening's loans on its first day.
-      advanceCore(core, addDays(makeIsoDate(core.date), 1));
-      const mortgages = () =>
-        api
-          .moduleState("housing")
-          .table("mortgages")
-          .rows() as unknown as MortgageRow[];
-      const recent = mortgages()
-        .filter((row) => row.boughtYear >= 2019 && row.boughtYear <= 2025)
-        .sort((a, b) => a.id.localeCompare(b.id));
-      tried.push(
-        `${where}: ${recent.length} of ${mortgages().length} bought since 2019`,
-      );
-      if (!recent.length) continue;
-      // This world's rate that June: FHFA's index moved by the world's own
-      // long-rate offset (worldMortgageRate), the rate the economy's past
-      // and the home price path read too.
-      for (const row of recent) {
-        expect(index.get(`${row.boughtYear}-06`), where).toBeDefined();
-        expect(
-          row.rate * 100,
-          `${where} ${row.id} bought ${row.boughtYear}`,
-        ).toBeCloseTo(
-          worldMortgageRate(
-            `${row.boughtYear}-06`,
-            started,
-            core.seed,
-            housingMacroParameter,
-          ),
-          10,
-        );
-      }
-      const loan = recent[0]!;
-      const before = loan.balanceMinor;
-      advanceCore(core, addDays(makeIsoDate(core.date), 364));
-      const after = api
+it("an owner who bought since June 2019 pays FHFA's index rate for that June", () => {
+  const index = transitionIndex();
+  {
+    const place = BELFAST;
+    const where = `${place.name} (${place.key}), seed ${place.seed}`;
+    setBookkeeping(false);
+    const { core } = buildBenchWorld(place.seed, gameStartDate(), {
+      twoLevel: true,
+      placeKey: place.key,
+    });
+    const api = coreAPI(core);
+    const started = core.date;
+    // The housing engine writes the opening's loans on its first day.
+    advanceCore(core, addDays(makeIsoDate(core.date), 1));
+    const mortgages = () =>
+      api
         .moduleState("housing")
         .table("mortgages")
-        .get(loan.id) as unknown as MortgageRow;
-      // A year's payments at that rate went to the loan.
-      expect(after.balanceMinor, `${where} ${loan.id}`).toBeLessThan(before);
-      process.stdout.write(
-        `MORTGAGE ${where}: ${loan.id} bought ${loan.boughtYear} at ${(loan.rate * 100).toFixed(2)}% (index for ${loan.boughtYear}-06), balance ${before} to ${after.balanceMinor}, missed ${after.missedMonths ?? 0}; ${recent.length} loans bought since 2019\n`,
-      );
-      return;
-    }
-    throw new Error(
-      `no owner who bought since 2019 in 8 places (${seed}): ${tried.join("; ")}`,
+        .rows() as unknown as MortgageRow[];
+    const recent = mortgages()
+      .filter((row) => row.boughtYear >= 2019 && row.boughtYear <= 2025)
+      .sort((a, b) => a.id.localeCompare(b.id));
+    expect(recent.length, `${where}: loans bought since 2019`).toBeGreaterThan(
+      0,
     );
-    // A drawn town's year took 50 to 190 seconds on a 4-core container.
-  },
-  8 * 240_000,
-);
+    // This world's rate that June: FHFA's index moved by the world's own
+    // long-rate offset (worldMortgageRate), the rate the economy's past
+    // and the home price path read too.
+    for (const row of recent) {
+      expect(index.get(`${row.boughtYear}-06`), where).toBeDefined();
+      expect(
+        row.rate * 100,
+        `${where} ${row.id} bought ${row.boughtYear}`,
+      ).toBeCloseTo(
+        worldMortgageRate(
+          `${row.boughtYear}-06`,
+          started,
+          core.seed,
+          housingMacroParameter,
+        ),
+        10,
+      );
+    }
+    const loan = recent.find((row) => row.id === place.loanId)!;
+    expect(loan, `${where}: ${place.loanId} bought since 2019`).toBeTruthy();
+    const before = loan.balanceMinor;
+    advanceCore(core, addDays(makeIsoDate(core.date), 364));
+    const after = api
+      .moduleState("housing")
+      .table("mortgages")
+      .get(loan.id) as unknown as MortgageRow;
+    // A year's payments at that rate went to the loan.
+    expect(after.balanceMinor, `${where} ${loan.id}`).toBeLessThan(before);
+    process.stdout.write(
+      `MORTGAGE ${where}: ${loan.id} bought ${loan.boughtYear} at ${(loan.rate * 100).toFixed(2)}% (index for ${loan.boughtYear}-06), balance ${before} to ${after.balanceMinor}, missed ${after.missedMonths ?? 0}; ${recent.length} loans bought since 2019\n`,
+    );
+  }
+  // About 104 s measured: building Belfast and its played year (loan payments settle only on played days).
+}, 900_000);
