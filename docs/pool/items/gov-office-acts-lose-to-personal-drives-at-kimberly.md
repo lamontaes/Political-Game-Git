@@ -6,10 +6,10 @@ lead: laws
 kind: bug
 priority: 3
 size: M
-status: open
+status: in-pr
 standard: 2
 claimed-by:
-pr:
+pr: 9425
 after:
 blocked-on:
 model: opus
@@ -30,6 +30,8 @@ checked:
 **Rules.** No dice; one engine per mechanic; an effect is a read, not a record.
 
 **Done when.** A one-year played run of a sitting mayor at Kimberly, Idaho and two other drawn places (names and seeds in the PR) records office hours, department-head meetings and an interview by record id, and a second session plays that mayor and sees them in the Journal.
+
+**Built.** A need "duty" (content row added by `officeDayData`, evaluator `office-duty` on the office-day module) reads each registered level's kit `duty(api, personId)`: for the local kit the mean of how far office hours and the town hall have come due (days since the holder last gave them over each interval, one if never); zero for anyone without a seat. The local office acts bind to it in place of "safety", so the same need and goal terms every personal act reads rank the seat's work with no weight of its own. The score log at Kimberly showed the second cause: every department head never met was offered at once at full due (score 3.0 against care 2.49), and office hours and interviews were offered every day. Scheduled acts (office hours, interview, each head's meeting) are now offered when their interval has come due, as the town hall and the address already were. The town hall has no reason of its own, being offered only when due. Measured, same seed with and without on the current train, 20 weeks as the played mayor: Kimberly (`mayor-acts-1:4`) office hours 0 to 4, town hall 0 to 1, address 0 to 1, care-for-relative 5 to 6, contact acts 116 to 101; Edmore (`:1`) office hours 8 to 5, meetings 42 to 24, rest 61 to 77; Odessa (`:3`) office hours 9 to 5, meetings 85 to 24, contact acts 36 to 101. Removing every reason of an act's own (tried) lost Kimberly's office hours again, so the other acts keep theirs. Not built: the state and federal kits still bind "safety" (file: gov-state-federal-office-acts-bind-duty-need).
 
 **Waits on.** The mayor-acts PR merged.
 
