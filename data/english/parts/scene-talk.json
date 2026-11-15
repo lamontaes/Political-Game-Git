@@ -33051,6 +33051,15 @@
           "purpose": "first-day-ropes",
           "key": "arrival",
           "after": "scene-talk.reply-thank.good-to-know-thanks"
+        },
+        {
+          "subject": "scene",
+          "purpose": "rival-word",
+          "key": "news-received",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "after": "thank"
         }
       ],
       "bearing": "glad",
@@ -76807,202 +76816,6 @@
       }
     },
     {
-      "key": "scene-talk.state-tell.opponent-s-campaign-reached-me-this-week-it-was-all-about-cause",
-      "move": "state-tell",
-      "kind": "spoken",
-      "text": "{opponent}'s campaign reached me this week. It was all about {cause}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "rival-word",
-          "key": "news-received",
-          "step": "state",
-          "move": "tell",
-          "role": "asker",
-          "requiresFacts": ["opponent", "cause"]
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
-      "date": "2026-10-26",
-      "tag": {
-        "move": "tell",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.state-tell.i-heard-from-opponent-s-campaign-they-re-running-on-cause",
-      "move": "state-tell",
-      "kind": "spoken",
-      "text": "I heard from {opponent}'s campaign. They're running on {cause}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "rival-word",
-          "key": "news-received",
-          "step": "state",
-          "move": "tell",
-          "role": "asker",
-          "requiresFacts": ["opponent", "cause"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
-      "date": "2026-10-26",
-      "tag": {
-        "move": "tell",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.state-tell.opponent-is-making-cause-the-issue-you-ll-want-an-answer",
-      "move": "state-tell",
-      "kind": "spoken",
-      "text": "{opponent} is making {cause} the issue. You'll want an answer.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "rival-word",
-          "key": "news-received",
-          "step": "state",
-          "move": "tell",
-          "role": "asker",
-          "requiresFacts": ["opponent", "cause"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
-      "date": "2026-10-26",
-      "tag": {
-        "move": "tell",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.state-tell.i-don-t-know-if-you-ve-seen-it-but-opponent-s-campaign-is-talking-about-cause",
-      "move": "state-tell",
-      "kind": "spoken",
-      "text": "I don't know if you've seen it, but {opponent}'s campaign is talking about {cause}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "rival-word",
-          "key": "news-received",
-          "step": "state",
-          "move": "tell",
-          "role": "asker",
-          "requiresFacts": ["opponent", "cause"]
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
-      "date": "2026-10-26",
-      "tag": {
-        "move": "tell",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.state-tell.first-opponent-s-people-got-to-me-about-cause-thought-you-should-know",
-      "move": "state-tell",
-      "kind": "spoken",
-      "text": "{opponent}'s people got to me about {cause}. Thought you should know.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "rival-word",
-          "key": "news-received",
-          "step": "state",
-          "move": "tell",
-          "role": "asker",
-          "requiresFacts": ["acquainted", "opponent", "cause"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
-      "date": "2026-10-26",
-      "tag": {
-        "move": "tell",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.state-tell.opponent-s-campaign-reached-me-this-week-thought-you-should-know",
-      "move": "state-tell",
-      "kind": "spoken",
-      "text": "{opponent}'s campaign reached me this week. Thought you should know.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "rival-word",
-          "key": "news-received",
-          "step": "state",
-          "move": "tell",
-          "role": "asker",
-          "requiresFacts": ["opponent"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
-      "date": "2026-10-26",
-      "tag": {
-        "move": "tell",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.reply-ask.what-did-it-say-exactly",
-      "move": "reply-ask",
-      "kind": "spoken",
-      "text": "What did it say, exactly?",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "rival-word",
-          "key": "news-received",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked"
-        }
-      ],
-      "origin": "authored",
-      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
-      "date": "2026-10-26",
-      "tag": {
-        "move": "ask",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.reply-ask.did-it-change-your-mind",
-      "move": "reply-ask",
-      "kind": "spoken",
-      "text": "Did it change your mind?",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "rival-word",
-          "key": "news-received",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked"
-        }
-      ],
-      "origin": "authored",
-      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
-      "date": "2026-10-26",
-      "tag": {
-        "move": "ask",
-        "key": "news-received"
-      }
-    },
-    {
       "key": "scene-talk.reply-promise.i-ll-answer-that-thanks-for-telling-me",
       "move": "reply-promise",
       "kind": "spoken",
@@ -77014,30 +76827,17 @@
           "key": "news-received",
           "step": "reply",
           "move": "promise",
-          "role": "asked"
-        }
-      ],
-      "origin": "authored",
-      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
-      "date": "2026-10-26",
-      "tag": {
-        "move": "promise",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.reply-promise.then-i-d-better-say-where-i-stand-on-it",
-      "move": "reply-promise",
-      "kind": "spoken",
-      "text": "Then I'd better say where I stand on it.",
-      "uses": [
+          "role": "asked",
+          "after": "tell"
+        },
         {
           "subject": "scene",
           "purpose": "rival-word",
           "key": "news-received",
           "step": "reply",
           "move": "promise",
-          "role": "asked"
+          "role": "asked",
+          "after": "scene-talk.follow-answer.opponent-is-for-about"
         }
       ],
       "origin": "authored",
@@ -77060,30 +76860,17 @@
           "key": "news-received",
           "step": "reply",
           "move": "deflect",
-          "role": "asked"
-        }
-      ],
-      "origin": "authored",
-      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
-      "date": "2026-10-26",
-      "tag": {
-        "move": "deflect",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.reply-deflect.i-m-not-going-to-chase-every-flyer",
-      "move": "reply-deflect",
-      "kind": "spoken",
-      "text": "I'm not going to chase every flyer.",
-      "uses": [
+          "role": "asked",
+          "after": "tell"
+        },
         {
           "subject": "scene",
           "purpose": "rival-word",
           "key": "news-received",
           "step": "reply",
           "move": "deflect",
-          "role": "asked"
+          "role": "asked",
+          "after": "scene-talk.follow-answer.opponent-is-for-about"
         }
       ],
       "origin": "authored",
@@ -77152,7 +76939,8 @@
           "key": "news-received",
           "step": "reply",
           "move": "leave",
-          "role": "asked"
+          "role": "asked",
+          "after": "press"
         }
       ],
       "origin": "authored",
@@ -77164,51 +76952,35 @@
       }
     },
     {
-      "key": "scene-talk.follow-answer.mostly-their-side-of-it-you-should-see-it-yourself",
-      "move": "follow-answer",
+      "key": "scene-talk.reply-leave.i-have-to-go-thank-you-for-telling-me",
+      "move": "reply-leave",
       "kind": "spoken",
-      "text": "Mostly their side of it. You should see it yourself.",
+      "text": "I have to go. Thank you for telling me.",
       "uses": [
         {
           "subject": "scene",
           "purpose": "rival-word",
           "key": "news-received",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
-      "date": "2026-10-26",
-      "tag": {
-        "move": "answer",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.it-made-their-case-on-cause-that-s-all",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "It made their case on {cause}, that's all.",
-      "uses": [
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "after": "tell"
+        },
         {
           "subject": "scene",
           "purpose": "rival-word",
           "key": "news-received",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "requiresFacts": ["cause"]
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "after": "scene-talk.follow-answer.opponent-is-for-about"
         }
       ],
-      "bearing": "curious",
       "origin": "authored",
       "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
       "date": "2026-10-26",
       "tag": {
-        "move": "answer",
+        "move": "leave",
         "key": "news-received"
       }
     },
@@ -77237,54 +77009,6 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.people-read-these-things-though",
-      "move": "follow-press",
-      "kind": "spoken",
-      "text": "People read these things, though.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "rival-word",
-          "key": "news-received",
-          "step": "follow",
-          "move": "press",
-          "role": "asker"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
-      "date": "2026-10-26",
-      "tag": {
-        "move": "press",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.follow-press.folks-around-here-will-ask-you-about-it",
-      "move": "follow-press",
-      "kind": "spoken",
-      "text": "Folks around here will ask you about it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "rival-word",
-          "key": "news-received",
-          "step": "follow",
-          "move": "press",
-          "role": "asker"
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
-      "date": "2026-10-26",
-      "tag": {
-        "move": "press",
-        "key": "news-received"
-      }
-    },
-    {
       "key": "scene-talk.follow-accept.your-call-just-thought-you-should-know",
       "move": "follow-accept",
       "kind": "spoken",
@@ -77296,7 +77020,8 @@
           "key": "news-received",
           "step": "follow",
           "move": "accept",
-          "role": "asker"
+          "role": "asker",
+          "after": "deflect"
         }
       ],
       "bearing": "calm",
@@ -77320,7 +77045,8 @@
           "key": "news-received",
           "step": "follow",
           "move": "accept",
-          "role": "asker"
+          "role": "asker",
+          "after": "deflect"
         }
       ],
       "bearing": "glad",
@@ -77351,6 +77077,31 @@
       "origin": "authored",
       "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
       "date": "2026-10-26",
+      "tag": {
+        "move": "accept",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.sure-good-luck-out-there",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Sure. Good luck out there.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-word",
+          "key": "news-received",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "after": "leave"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (rival-word lines, Nov 15), placed by the line before",
+      "date": "2026-11-15",
       "tag": {
         "move": "accept",
         "key": "news-received"
@@ -188361,6 +188112,393 @@
       "tag": {
         "move": "disagree",
         "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.opponent-s-people-knocked-on-my-door-this-week-they-wanted-to-talk-about-issue",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "{opponent}'s people knocked on my door this week. They wanted to talk about {issue}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-word",
+          "key": "news-received",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "requiresFacts": ["how-canvass", "opponent", "issue"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Words lead (rival-word lines, Nov 15), placed by the record",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.opponent-s-campaign-is-talking-about-issue-everywhere-it-reached-me",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "{opponent}'s campaign is talking about {issue} everywhere. It reached me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-word",
+          "key": "news-received",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "requiresFacts": ["how-message", "opponent", "issue"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words lead (rival-word lines, Nov 15), placed by the record",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.i-heard-from-opponent-s-campaign-about-issue",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "I heard from {opponent}'s campaign about {issue}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-word",
+          "key": "news-received",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "requiresFacts": ["how-message", "opponent", "issue"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (rival-word lines, Nov 15), placed by the record",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-are-they-saying-about-issue",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What are they saying about {issue}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-word",
+          "key": "news-received",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "requiresFacts": ["issue", "about", "side-for"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (rival-word lines, Nov 15), placed by the record",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "ask",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.did-it-change-how-you-see-issue",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Did it change how you see {issue}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-word",
+          "key": "news-received",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "requiresFacts": ["issue", "side-for", "moved-lot", "about"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "rival-word",
+          "key": "news-received",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "requiresFacts": ["issue", "side-against", "moved-lot", "about"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "rival-word",
+          "key": "news-received",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "requiresFacts": ["issue", "side-for", "about"],
+          "excludesFacts": ["moved-little"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "rival-word",
+          "key": "news-received",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "requiresFacts": ["issue", "side-against", "about"],
+          "excludesFacts": ["moved-little"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (rival-word lines, Nov 15), placed by the record",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "ask",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.they-know-where-i-stand-on-issue-i-ll-say-it-again-louder",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "They know where I stand on {issue}. I'll say it again, louder.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-word",
+          "key": "news-received",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "requiresFacts": ["issue", "own-stand"],
+          "after": "tell"
+        },
+        {
+          "subject": "scene",
+          "purpose": "rival-word",
+          "key": "news-received",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "requiresFacts": ["issue", "own-stand"],
+          "after": "scene-talk.follow-answer.opponent-is-for-about"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (rival-word lines, Nov 15), placed by the record",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "promise",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.they-can-knock-on-every-door-in-town-so-can-i",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "They can knock on every door in town. So can I.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-word",
+          "key": "news-received",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "requiresFacts": ["how-canvass"],
+          "after": "scene-talk.state-tell.opponent-s-people-knocked-on-my-door-this-week-they-wanted-to-talk-about-issue"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (rival-word lines, Nov 15), placed by the record",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "deflect",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.no-i-think-what-i-thought-before",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "No. I think what I thought before.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-word",
+          "key": "news-received",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "scene-talk.reply-ask.did-it-change-how-you-see-issue",
+          "requiresFacts": ["moved-none"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (rival-word lines, Nov 15), placed by the record",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "answer",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.some-i-m-still-making-up-my-mind-about-issue",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Some. I'm still making up my mind about {issue}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-word",
+          "key": "news-received",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "scene-talk.reply-ask.did-it-change-how-you-see-issue",
+          "requiresFacts": ["moved-lot", "issue"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (rival-word lines, Nov 15), placed by the record",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "answer",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.people-are-going-to-ask-you-about-issue-whether-you-chase-it-or-not",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "People are going to ask you about {issue} whether you chase it or not.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-word",
+          "key": "news-received",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "requiresFacts": ["issue"],
+          "after": "scene-talk.reply-deflect.let-them-talk-i-m-running-my-own-race",
+          "excludesFacts": ["moved-little", "moved-lot"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (rival-word lines, Nov 15), placed by the record",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "press",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.then-start-knocking-they-ve-already-been-here",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Then start knocking. They've already been here.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-word",
+          "key": "news-received",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "requiresFacts": ["how-canvass"],
+          "after": "scene-talk.reply-deflect.they-can-knock-on-every-door-in-town-so-can-i"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (rival-word lines, Nov 15), placed by the record",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "press",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.opponent-is-for-about",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "{opponent} is for {about}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-word",
+          "key": "news-received",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "scene-talk.reply-ask.what-are-they-saying-about-issue",
+          "requiresFacts": ["opponent", "about", "side-for"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (rival-word lines, Nov 15), placed by the record",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "answer",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.i-figured-you-d-want-to-know",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "I figured you'd want to know.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-word",
+          "key": "news-received",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "after": "thank"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (rival-word lines, Nov 15), placed by the record",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "accept",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.i-d-answer-this-one-it-landed-with-me",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "I'd answer this one. It landed with me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-word",
+          "key": "news-received",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "requiresFacts": ["moved-lot"],
+          "after": "scene-talk.reply-deflect.let-them-talk-i-m-running-my-own-race"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (rival-word lines, Nov 15), placed by the record",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "press",
+        "key": "news-received"
       }
     },
     {

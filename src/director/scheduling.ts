@@ -15,6 +15,7 @@ import { coreAPI } from "../core2/state";
 import { OFFICES_MODULE_ID } from "../core2/modules/offices";
 import { OFFICE_DAY_MODULE_ID, stopsOf } from "../core2/modules/office-day";
 import { CAMPAIGN_ACTS } from "../core2/modules/campaigns";
+import { ELECTIONS_MODULE_ID, contestPassed } from "../core2/modules/elections";
 import { coreSeatOfGovernmentPlace } from "../core2/place-lookup";
 import { addDays, ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import { P } from "../core2/parameters";
@@ -205,6 +206,12 @@ export interface SituationType {
    * a bill's vote after its introduction is a new scene.
    */
   repeatsBy?: string;
+  /**
+   * What keeps the scene worth staging: "contest-open" for a scene about a
+   * race (a rival's word of it), which is not staged once the cause's
+   * contest has had its election day. Absent: no such condition.
+   */
+  liveWhile?: "contest-open";
   /** The decision the scene is for, when it has one ("ballot": the vote is cast here). */
   choice?: string;
   /**
@@ -916,6 +923,18 @@ export function scheduleMoment(
   // One cause stages one scene: a type that yields to another bound for this
   // moment is dropped (what the player allows is decided after, below).
   const staged = found.filter((row) => {
+    if (
+      library.types.find((type) => type.key === row.typeKey)?.liveWhile ===
+        "contest-open" &&
+      core.modules.has(ELECTIONS_MODULE_ID)
+    ) {
+      const contestId = core.durableLog.get(moment.causeId)?.facts?.contestId;
+      if (
+        typeof contestId === "string" &&
+        contestPassed(coreAPI(core as CoreState), contestId)
+      )
+        return false;
+    }
     const yields =
       library.types.find((type) => type.key === row.typeKey)?.yieldsTo ?? [];
     return !found.some((other) => yields.includes(other.typeKey));
