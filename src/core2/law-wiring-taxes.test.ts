@@ -376,7 +376,7 @@ describe(`tax and public finance laws in a played world (seed ${seed})`, () => {
   it(
     "applies each law to people, groups and treasuries, moves money, and ends on repeal",
     // Each draw builds a town; only the first with a subject for every law
-    // runs its 170 days. Dennis, Massachusetts takes about 156 s, and the time
+    // runs its 170 days. Dennis, Massachusetts takes about 250 s, and the time
     // is the game's own: the estate case plays the 270 days probate waits.
     { timeout: 320_000 },
     () => {
@@ -830,7 +830,14 @@ describe(`tax and public finance laws in a played world (seed ${seed})`, () => {
         const rt = residentsRuntime(core)!;
         const store = rt.store;
         const house = [...store.liveHouseholds()]
-          .filter((h) => store.countedMembers(h).length >= 2)
+          // A record that stands for a whole household or more: one the game's own
+          // deaths have worn down to a fraction (0.076 here, after a part death on
+          // 2026-05-01) has paid its estate once already this month, and its applied
+          // rows hold that earlier settlement's money, not this one's.
+          .filter(
+            (h) =>
+              store.countedMembers(h).length >= 2 && store.weightOf(h) >= 1,
+          )
           .sort(
             (a, b) =>
               householdCash(rt, b) - householdCash(rt, a) ||

@@ -5,9 +5,9 @@ area: gov
 kind: feature
 priority: 3
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/project-thread-xy4wd4
+pr: #9308
 blocked-on:
 source: added with npm run pool -- add
 after:
@@ -38,3 +38,5 @@ checked: fable 2026-11-10
 **Notes.** Split from gov-outside-revenue-fees (#5926). The owner question is under Open in docs/coordination/OWNER-DECISIONS.md.
 
 Deferred Oct 25: nothing on screen reads it yet.
+
+In PR on the train (branch claude/project-thread-xy4wd4). Built on the bill catalog's "Fees and charges" topic (empty until now) and the law series read by budgets-service-charges.ts; PR #8399 was an empty draft and is superseded. `SG-GOV-fee-level-by-bill` removed from gov.json. Follow-ups: `SG-GOV-service-charges-by-living-cost` and `SG-GOV-rent-help-population-share` (the other two rows of this cluster) are not in this PR.

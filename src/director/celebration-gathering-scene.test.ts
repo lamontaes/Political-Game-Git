@@ -14,12 +14,8 @@ import type { CoreState, PersonId } from "../core2/types";
 import sceneBank from "../../data/english/parts/scene-talk.json" with { type: "json" };
 import { celebrationFacts } from "./celebration-facts";
 import { gatheringFacts } from "./gathering-facts";
-import {
-  destinationSaid,
-  purposeScene,
-  replyInScene,
-  tieSide,
-} from "./purpose-scene";
+import { destinationSaid, purposeScene, replyInScene } from "./purpose-scene";
+import { tieSide } from "./relation-facts";
 import { SITUATION_LIBRARY } from "./scheduling";
 import type { TreeNode } from "./scene-talk";
 import { expectUpToFourDifferent } from "./reply-set-check";

@@ -1,15 +1,17 @@
 /**
  * Asking someone to serve (brief J, Nov 14, 2026): the player asks a person
- * to take a seat the player fills (a running mate first; department heads,
- * cabinet and aides by the same read later), and the person answers from
- * their own record. Nothing is rolled: the answer is a sum of named terms
+ * to take a seat the player fills (a running mate on their ticket, a town
+ * department head as mayor or a cabinet member as governor; aides by the same
+ * read later), and the person answers from their own record. Nothing is rolled: the answer is a sum of named terms
  * (`src/core2/data/serve/willingness.json`), yes where it is above zero, and the same
  * person asked on the same record gives the same answer.
  *
  * The ask is a scene: `askToServe` keeps the ask and emits `serve-asked`, the
  * director plays it as the player's ask (`ask-to-serve`), and only the
  * scene's ending seats anyone: a yes names the person through the seat's own
- * engine (`chooseRunningMate`), a no is kept with its reason and date and the
+ * engine (`chooseRunningMate` for a ticket; the "name a department head" act
+ * or `appointGovernor` for a post, with the council's or the chamber's
+ * confirmation as before), a no is kept with its reason and date and the
  * seat stays open. A no stands for now (owner, Nov 14 05:17Z: "Yes, but ask
  * again later"): the player may ask again after `askAgain.days`, or sooner
  * once what the no rested on has changed on the record.
@@ -17,7 +19,8 @@
  * One row per seat and person, written over when asked again: the table
  * holds at most the people offered for the player's own open seats.
  *
- * "Choose for me" plays no scene and seats the world's pick as before, and
+ * "Choose for me" (or a post left to the official's own choice) plays no
+ * scene and seats the world's pick as before, and
  * the world's own picks do not read this willingness (pool item
  * world-picks-read-serve-willingness).
  */
@@ -25,6 +28,7 @@ import willingness from "../data/serve/willingness.json" with { type: "json" };
 import { ambitionOf } from "../candidate-pool";
 import { closenessBetween } from "../closeness";
 import { meetInTalk } from "./people";
+import { workHeld } from "../person-work";
 import { PLATFORM_QUESTIONS, type Stance } from "../campaign-data";
 import { addDays, makeIsoDate } from "../kernel/dates";
 import type { ModuleRow } from "../module-data";
@@ -51,7 +55,19 @@ import {
 } from "./elections";
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
 import { officialOf } from "./officials";
+import {
+  fillInStateCandidate,
+  headCandidates,
+  postConfirmed,
+  postRecord,
+  postsToFill,
+  stateCandidates,
+  statePostsToFill,
+} from "./executive";
+import { appointGovernor, prepareAct } from "./office-day";
+import { campaignParameter } from "../campaign-data";
 import { viewOn } from "./views";
+import { contestPositions } from "../contest-positions";
 import {
   chooseRunningMate,
   runningMateChoice,
@@ -64,7 +80,8 @@ export const SERVE_ASKS_MODULE_ID = "core2-serve-asks-v1";
 export const SERVE_ASKED_EVENT = "serve-asked";
 
 /** The scene endings that seat the person, and the ones that keep a no. */
-const YES_ENDINGS: ReadonlySet<string> = new Set(["serving"]);
+/** A yes, and a yes on the player's promise (the price end). */
+const YES_ENDINGS: ReadonlySet<string> = new Set(["serving", "promised"]);
 const NO_ENDINGS: ReadonlySet<string> = new Set(["turned-down"]);
 
 type Tagged = { readonly value: number };
@@ -77,10 +94,18 @@ const w = (seat: string, key: string): number =>
 
 /** The terms a no can rest on, as its reason; the words name each. */
 export type ServeReason =
-  "own-seat" | "own-race" | "apart" | "heard" | "stranger" | "long-shot";
+  | "own-seat"
+  | "own-race"
+  | "apart"
+  | "heard"
+  | "stranger"
+  | "long-shot"
+  | "pays-less"
+  | "own-job";
 
 /** The terms a yes rests on, as its reason. */
-export type ServeYesReason = "trust" | "step-up" | "agree" | "real-race";
+export type ServeYesReason =
+  "trust" | "step-up" | "agree" | "real-race" | "pay";
 
 /** What the read stood on: kept with the ask, so a change on the record lets the player ask again. */
 export interface ServeGrounds {
@@ -104,6 +129,22 @@ export interface ServeGrounds {
   readonly raisedMinor: number;
   /** The player's filing's standing (petitioning, on the ballot, nominee). */
   readonly filingStatus: string;
+  /** For a post: the record of the work they hold now (a job, or their identity's work fact), and its hourly pay. */
+  readonly jobId?: string | null;
+  readonly hourlyMinor?: number;
+  /** For a post: whether their work on the record is in the post's own field. */
+  readonly inField?: boolean;
+  /** For a post: whether a council or chamber still confirms whoever is named. */
+  readonly confirmed?: boolean;
+  /**
+   * For a ticket: the question they hold most strongly among those the
+   * ticket's office can decide, and their stance on it. Their price is named
+   * on it, since only a question the player's own vote or signature in that
+   * office can settle is one a promise can be kept or broken on (Account
+   * lead, Nov 15 10:45Z). Null where the office can decide none they hold.
+   */
+  readonly priceQuestion?: string | null;
+  readonly priceStance?: number;
 }
 
 export interface ServeStanding {
@@ -119,13 +160,16 @@ export interface ServeStanding {
 export interface ServeAskRow {
   /** `<seat key>|<person id>`. */
   readonly id: string;
-  /** The kind of seat: "ticket". */
+  /** The kind of seat: "ticket" or "post". */
   readonly seat: string;
-  /** The seat being filled: a ticket's id. */
+  /** The seat being filled: a ticket's id, or a post and its appointer. */
   readonly seatKey: string;
+  /** A post's key and whether the town or the state fills it. */
+  readonly post?: { readonly key: string; readonly level: "town" | "state" };
   /** The office the seat is, as its record titles it, and the office the player runs for. */
   readonly office: string;
   readonly raceOffice: string;
+  /** The filing a ticket is for; empty for a post. */
   readonly filingId: string;
   readonly askerId: string;
   readonly askedId: string;
@@ -261,22 +305,13 @@ export function ticketStanding(
   const player = api.state.people.get(filing.personId);
   if (!asked || !player) return null;
   const seat = "ticket";
-  // The question they hold most strongly, and where each stands on it: the
-  // player by their stated platform, else their own view.
-  const theirLean = voterLean(api, asked);
-  const stated = platformOf(api, filing);
-  let question = PLATFORM_QUESTIONS[0]!;
-  let theirStance = 0;
-  for (const q of PLATFORM_QUESTIONS) {
-    const stance = viewOn(api, asked.id, q, theirLean);
-    if (Math.abs(stance) > Math.abs(theirStance)) {
-      question = q;
-      theirStance = stance;
-    }
-  }
-  const playerStance =
-    stated.find((s) => s.question === question)?.position ??
-    viewOn(api, player.id, question, voterLean(api, player));
+  const price = priceRead(api, asked, contestPositions(api, ticket));
+  const { question, theirStance, playerStance, heard, knows } = sharedRead(
+    api,
+    asked,
+    player,
+    platformOf(api, filing),
+  );
   // The seat they hold, and whether its race is on the ticket's own ballot.
   const term = servingTerm(api, asked.id);
   const year = Number(ticket.electionDate.slice(0, 4));
@@ -294,13 +329,6 @@ export function ticketStanding(
           .get(term.officeId) as { title?: string } | undefined
       )?.title ?? null)
     : null;
-  // The scandal stories against the player that they heard (ask-why: a
-  // person weighs only what reached them), newest first.
-  const scandals = new Set(scandalStoriesOf(api, player.id, api.state.date));
-  const heard = api.state.modules.has(NEWS_MODULE_ID)
-    ? storiesHeard(api, asked.id).filter((story) => scandals.has(story.id))
-    : [];
-  const knows = knowsEachOther(asked, player);
   // The player's own standing in the race, from what the race keeps.
   const heldOffice = everHeldOffice(api, player.id);
   const endorsements = api.state.modules.has(CAMPAIGNS_MODULE_ID)
@@ -315,7 +343,6 @@ export function ticketStanding(
           .get(filing.id) as unknown as { raisedMinor?: number } | undefined
       )?.raisedMinor ?? 0)
     : 0;
-  const share = (count: number, scale: number) => count / (count + scale);
   const distance = Math.abs(theirStance - playerStance) / 2;
   const terms: Record<string, number> = {
     base: w(seat, "base"),
@@ -346,10 +373,6 @@ export function ticketStanding(
   // The term weighing most against them and the one weighing most for them;
   // a tie goes to the first named. Giving up a seat is one reason, said as
   // the race where the seat is up.
-  const pick = <K extends string>(rows: Record<K, number>, most: 1 | -1) =>
-    (Object.keys(rows) as K[]).reduce((best, key) =>
-      most * rows[key] > most * rows[best] ? key : best,
-    );
   const reason = pick<ServeReason>(
     {
       [seatUp ? "own-race" : "own-seat"]:
@@ -367,7 +390,7 @@ export function ticketStanding(
       "step-up": terms.ambition!,
       agree: terms.question!,
       "real-race": terms.standing!,
-    },
+    } as Record<ServeYesReason, number>,
     1,
   );
   return {
@@ -390,6 +413,195 @@ export function ticketStanding(
       endorsements,
       raisedMinor,
       filingStatus: filing.status ?? "",
+      priceQuestion: price?.question ?? null,
+      priceStance: price?.stance ?? 0,
+    },
+  };
+}
+
+/**
+ * The question the asked person holds most strongly among those the office
+ * can decide (`contestPositions`: the questions its government may decide,
+ * the same check a body files by), and their stance on it; null where it can
+ * decide none they hold.
+ */
+function priceRead(
+  api: CoreAPI,
+  asked: Readonly<PersonState>,
+  decided: readonly string[],
+): { question: string; stance: number } | null {
+  const theirLean = voterLean(api, asked);
+  const can = new Set(decided);
+  let best: { question: string; stance: number } | null = null;
+  for (const question of PLATFORM_QUESTIONS) {
+    if (!can.has(question)) continue;
+    const stance = viewOn(api, asked.id, question, theirLean);
+    if (stance === 0 || Math.abs(stance) <= Math.abs(best?.stance ?? 0))
+      continue;
+    best = { question, stance };
+  }
+  return best;
+}
+
+const share = (count: number, scale: number) => count / (count + scale);
+
+/** The term weighing most (for, 1; against, -1); a tie goes to the first named. */
+const pick = <K extends string>(rows: Record<K, number>, most: 1 | -1) =>
+  (Object.keys(rows) as K[]).reduce((best, key) =>
+    most * rows[key] > most * rows[best] ? key : best,
+  );
+
+/**
+ * What every seat's read stands on: the question the asked person holds most
+ * strongly and where each stands on it (the player by their stated platform,
+ * else their own view), the scandal stories against the player that reached
+ * them (ask-why: a person weighs only what reached them), newest first, and
+ * whether the two know each other.
+ */
+function sharedRead(
+  api: CoreAPI,
+  asked: Readonly<PersonState>,
+  player: Readonly<PersonState>,
+  stated: readonly Stance[],
+) {
+  const theirLean = voterLean(api, asked);
+  let question = PLATFORM_QUESTIONS[0]!;
+  let theirStance = 0;
+  for (const q of PLATFORM_QUESTIONS) {
+    const stance = viewOn(api, asked.id, q, theirLean);
+    if (Math.abs(stance) > Math.abs(theirStance)) {
+      question = q;
+      theirStance = stance;
+    }
+  }
+  const playerStance =
+    stated.find((s) => s.question === question)?.position ??
+    viewOn(api, player.id, question, voterLean(api, player));
+  const scandals = new Set(scandalStoriesOf(api, player.id, api.state.date));
+  const heard = api.state.modules.has(NEWS_MODULE_ID)
+    ? storiesHeard(api, asked.id).filter((story) => scandals.has(story.id))
+    : [];
+  return {
+    question,
+    theirStance,
+    playerStance,
+    heard,
+    knows: knowsEachOther(asked, player),
+  };
+}
+
+/**
+ * The platform the player last stood on: their newest filing's (a sitting
+ * official's is the one they won on). Empty where they never filed.
+ */
+function lastPlatform(api: CoreAPI, personId: string): readonly Stance[] {
+  if (!api.state.modules.has(ELECTIONS_MODULE_ID)) return [];
+  const newest = (
+    api
+      .moduleState(ELECTIONS_MODULE_ID)
+      .table("filings")
+      .query("byPerson", [personId]) as unknown as FilingRow[]
+  ).reduce<FilingRow | undefined>(
+    (best, row) => (!best || row.id.localeCompare(best.id) > 0 ? row : best),
+    undefined,
+  );
+  return newest ? platformOf(api, newest) : [];
+}
+
+/**
+ * Where the asked person stands on being asked to take a post the player
+ * appoints: the shared read, and what the post pays against what they earn
+ * now, and the job they would leave. A ticket's race terms do not apply.
+ */
+export function postStanding(
+  api: CoreAPI,
+  appointerId: string,
+  askedId: string,
+  post: { readonly key: string; readonly level: "town" | "state" },
+): ServeStanding | null {
+  const asked = api.state.people.get(askedId);
+  const player = api.state.people.get(appointerId);
+  if (!asked || !player) return null;
+  const seat = "post";
+  const { question, theirStance, playerStance, heard, knows } = sharedRead(
+    api,
+    asked,
+    player,
+    lastPlatform(api, player.id),
+  );
+  // The work they hold now and its hourly pay, against the post's: a job in
+  // the played world, or the work their home town's records give someone
+  // filled in from elsewhere. Work with no published wage pulls neither way
+  // on pay; the job itself is still given up.
+  const held = workHeld(api.state as CoreState, asked.id);
+  const working = held !== null;
+  const hourlyMinor = held?.hourlyMinor ?? 0;
+  const postHourly = campaignParameter("appointeeHourlyMinor");
+  const distance = Math.abs(theirStance - playerStance) / 2;
+  const terms: Record<string, number> = {
+    base: w(seat, "base"),
+    ambition: w(seat, "ambition") * ambitionOf(asked),
+    known: knows
+      ? w(seat, "known") *
+        closenessBetween(api.state, asked.id, player.id as PersonId)
+      : 0,
+    stranger: knows ? 0 : -w(seat, "stranger"),
+    // A raise pulls toward yes and a cut away, on a sliding scale; someone
+    // out of work has the whole pull.
+    pay:
+      held && held.hourlyMinor === null
+        ? 0
+        : w(seat, "pay") *
+          ((postHourly - hourlyMinor) / (postHourly + hourlyMinor)),
+    "own-job": working ? -w(seat, "ownJob") : 0,
+    question: w(seat, "apart") * (w(seat, "agreeAt") - distance),
+    heard: -w(seat, "heard") * share(heard.length, w(seat, "heardScale")),
+  };
+  const lean = Object.values(terms).reduce((sum, value) => sum + value, 0);
+  const reason = pick<ServeReason>(
+    {
+      "pays-less": terms.pay!,
+      "own-job": terms["own-job"]!,
+      apart: terms.question!,
+      heard: terms.heard!,
+      stranger: terms.stranger!,
+    } as Record<ServeReason, number>,
+    -1,
+  );
+  const yesReason = pick<ServeYesReason>(
+    {
+      trust: terms.known!,
+      "step-up": terms.ambition!,
+      agree: terms.question!,
+      pay: terms.pay!,
+    } as Record<ServeYesReason, number>,
+    1,
+  );
+  return {
+    lean,
+    terms,
+    reason,
+    yesReason,
+    grounds: {
+      question,
+      theirStance,
+      playerStance,
+      seatTermId: null,
+      seatTitle: null,
+      seatUp: false,
+      seatEnds: false,
+      stories: heard.map((story) => story.id).sort(),
+      storyOutletId: heard[0]?.outletId ?? null,
+      knows,
+      heldOffice: true,
+      endorsements: 0,
+      raisedMinor: 0,
+      filingStatus: "",
+      jobId: held?.recordId ?? null,
+      hourlyMinor,
+      inField:
+        postRecord(api, asked, post.key, api.state.date).relatedYears > 0,
+      confirmed: postConfirmed(api, post.level, post.key),
     },
   };
 }
@@ -456,6 +668,9 @@ export function mayAskAgain(
         is.endorsements !== was.endorsements ||
         is.raisedMinor !== was.raisedMinor
       );
+    case "pays-less":
+    case "own-job":
+      return is.jobId !== was.jobId || is.hourlyMinor !== was.hourlyMinor;
   }
 }
 
@@ -519,7 +734,31 @@ export function leanIfHedged(row: ServeAskRow): number {
   const hedged =
     w(row.seat, "apart") *
     (w(row.seat, "agreeAt") - Math.abs(grounds.theirStance) / 2);
-  return row.standing.lean - (terms.question ?? 0) + hedged;
+  const lean = row.standing.lean - (terms.question ?? 0) + hedged;
+  // A drop too small for them to feel costs nothing: the dodge weighs as
+  // the stance on the record (willingness.json `dodgeNoticed`).
+  return row.standing.lean - lean < w(row.seat, "dodgeNoticed")
+    ? row.standing.lean
+    : lean;
+}
+
+/**
+ * What the player's word on the asked person's own question is worth to them
+ * (willingness.json `promise`, times how strongly they hold it). Someone whose
+ * read is short of yes by less than this names the promise as their price;
+ * the player accepts it or refuses (gov-serve-ask-price-end). Zero where the
+ * seat weighs no promise or they hold no question.
+ */
+export function promiseWorth(row: ServeAskRow): number {
+  const { grounds } = row.standing;
+  if (!grounds.priceQuestion) return 0;
+  // A price is named only for the side a played world has shown: no place
+  // probed (about 77 worlds, Nov 15) gave a price against a question, so the
+  // lines for one were taken out, and a read against falls to no price, never
+  // to an empty line (Words lead and Account lead, Nov 15 12:26Z; pool item
+  // views-strongest-state-view-always-for).
+  if ((grounds.priceStance ?? 0) < 0) return 0;
+  return w(row.seat, "promise") * Math.abs(grounds.priceStance ?? 0);
 }
 
 /** The running mate choice as the player is offered it: with the willing read. */
@@ -588,12 +827,20 @@ export function ticketAsks(
  */
 export function askToServe(
   api: CoreAPI,
-  input: {
-    readonly seat: "ticket";
-    readonly filingId: string;
-    readonly personId: string;
-  },
+  input:
+    | {
+        readonly seat: "ticket";
+        readonly filingId: string;
+        readonly personId: string;
+      }
+    | {
+        readonly seat: "post";
+        readonly appointerId: string;
+        readonly post: string;
+        readonly personId: string;
+      },
 ): ServeAskRow {
+  if (input.seat === "post") return askToTakePost(api, input);
   const found = ticketFor(api, input.filingId);
   if (!found || found.choice.mateId !== null)
     throw new Error("There is no running mate to ask for this race.");
@@ -648,10 +895,192 @@ export function askToServe(
       askerId: found.filing.personId,
       askedId: input.personId,
       question: standing.grounds.question,
+      // The side they hold on it.
+      side: standing.grounds.theirStance < 0 ? "no" : "yes",
+      // The question a price is named on, one the office can decide, and
+      // their side on it: a promise they ask for is to hold it
+      // (promise-kinds.json `hold-question`).
+      ...(standing.grounds.priceQuestion
+        ? {
+            "price-question": standing.grounds.priceQuestion,
+            "price-side":
+              (standing.grounds.priceStance ?? 0) < 0 ? "no" : "yes",
+          }
+        : {}),
       reason: standing.reason,
     },
   });
   return row;
+}
+
+/**
+ * An open post the player appoints (a town department head as mayor, a
+ * cabinet member as governor), the people the official's own reasons offer
+ * for it, best first, and the seat its asks are kept under.
+ */
+function postFor(api: CoreAPI, appointerId: string, post: string) {
+  const town = postsToFill(api, appointerId).find((p) => p.key === post);
+  const state = town
+    ? undefined
+    : statePostsToFill(api, appointerId).find((p) => p.key === post);
+  const spec = town ?? state;
+  if (!spec) return null;
+  const level: "town" | "state" = town ? "town" : "state";
+  const offered = (
+    town ? headCandidates(api, post) : stateCandidates(api, appointerId, post)
+  ).map((r) => r.candidateId);
+  return {
+    key: spec.key,
+    title: spec.title,
+    level,
+    offered,
+    seatKey: `post:${level}:${spec.key}|${appointerId}`,
+  };
+}
+
+/** The office the player holds that appoints: its title, from their serving term. */
+function appointerOffice(api: CoreAPI, personId: string): string {
+  const term = servingTerm(api, personId);
+  return term
+    ? ((
+        api
+          .moduleState(OFFICES_MODULE_ID)
+          .table("offices")
+          .get(term.officeId) as { title?: string } | undefined
+      )?.title ?? "")
+    : "";
+}
+
+/**
+ * Each person offered for one of the player's open posts, with whether they
+ * turned the player down and whether the player may ask them now.
+ */
+export function postAsks(
+  api: CoreAPI,
+  appointerId: string,
+  post: string,
+): readonly {
+  readonly personId: string;
+  readonly declined: {
+    readonly reason: ServeReason;
+    readonly on: string;
+  } | null;
+  readonly mayAsk: boolean;
+}[] {
+  const found = postFor(api, appointerId, post);
+  if (!found) return [];
+  // Someone already asked stays listed while their answer is kept, even on a
+  // day the official's list has moved past them (bounded by the asks kept).
+  const shown = new Set(found.offered);
+  const kept = asksFor(api, found.seatKey)
+    .map((row) => row.askedId)
+    .filter((id) => !shown.has(id));
+  return [...found.offered, ...kept].map((id) => {
+    const row = serveAsk(api, `${found.seatKey}|${id}`);
+    const now =
+      row?.answer === "no" ? postStanding(api, appointerId, id, found) : null;
+    return {
+      personId: id,
+      declined:
+        row?.answer === "no"
+          ? { reason: row.standing.reason, on: row.answeredOn ?? row.date }
+          : null,
+      mayAsk: mayAskAgain(api, row, now),
+    };
+  });
+}
+
+/** The player asks someone offered for one of their open posts; the ask plays as a scene. */
+function askToTakePost(
+  api: CoreAPI,
+  input: {
+    readonly appointerId: string;
+    readonly post: string;
+    readonly personId: string;
+  },
+): ServeAskRow {
+  const found = postFor(api, input.appointerId, input.post);
+  if (!found) throw new Error("Not an open post you appoint.");
+  if (!found.offered.includes(input.personId))
+    throw new Error("Not someone this post could go to.");
+  // One of the state's people the list names without holding them in full is
+  // filled in where they live before they are asked, so they answer as
+  // themselves (executive's fillInStateCandidate); the same person after.
+  const personId =
+    found.level === "state"
+      ? fillInStateCandidate(api, found.key, input.personId)
+      : input.personId;
+  if (!personId) throw new Error("Not someone this post could go to.");
+  const standing = postStanding(api, input.appointerId, personId, found);
+  if (!standing) throw new Error("That person can't be asked.");
+  const id = `${found.seatKey}|${personId}`;
+  const earlier = serveAsk(api, id);
+  if (!mayAskAgain(api, earlier, standing))
+    throw new Error("They turned you down; it is too soon to ask again.");
+  const eventId = `${SERVE_ASKED_EVENT}:${id}:${api.state.date}`;
+  const row: ServeAskRow = {
+    id,
+    seat: "post",
+    seatKey: found.seatKey,
+    post: { key: found.key, level: found.level },
+    office: found.title,
+    raceOffice: appointerOffice(api, input.appointerId),
+    filingId: "",
+    askerId: input.appointerId,
+    askedId: personId,
+    date: api.state.date,
+    eventId,
+    standing,
+    answer: "asked",
+    answeredOn: null,
+    moved:
+      earlier?.answer === "no" ? movedSince(earlier.standing, standing) : null,
+  };
+  table(api).put(row as unknown as ModuleRow);
+  api.emit({
+    id: eventId,
+    date: api.state.date,
+    kind: SERVE_ASKED_EVENT,
+    personIds: [input.appointerId as PersonId, personId as PersonId],
+    placeId: api.state.people.get(input.appointerId as PersonId)!.placeId,
+    source: {
+      tag: "SOURCED",
+      citation: `The player asked someone to serve as ${found.title}`,
+      asOf: api.state.date,
+    },
+    facts: {
+      askId: id,
+      seat: "post",
+      office: found.title,
+      post: found.key,
+      askerId: input.appointerId,
+      askedId: personId,
+      question: standing.grounds.question,
+      // The side they hold on it: a promise they ask for is to hold it
+      // (promise-kinds.json `hold-question`).
+      side: standing.grounds.theirStance < 0 ? "no" : "yes",
+      reason: standing.reason,
+    },
+  });
+  return row;
+}
+
+/**
+ * A yes to a post seats the person through the engine that seats a post
+ * today: a town post is named at the official's "name a department head"
+ * act (the council confirms where the form asks), a state post at once
+ * (the chamber confirms where the law asks).
+ */
+function takePost(api: CoreAPI, row: ServeAskRow): void {
+  const found = row.post && postFor(api, row.askerId, row.post.key);
+  // The post may have been filled since the ask (the scene played late).
+  if (!found || !found.offered.includes(row.askedId)) return;
+  if (found.level === "town")
+    prepareAct(api, row.askerId, "name-department-head", {
+      nominee: { post: found.key, personId: row.askedId },
+    });
+  else appointGovernor(api, found.key, row.askedId);
+  dropAsks(api, row.seatKey);
 }
 
 /** The scene's ending, read: a yes seats the person, a no is kept with its reason and date. */
@@ -675,6 +1104,10 @@ function answerAsk(api: CoreAPI, event: Readonly<CoreEventInput>): void {
     cause.id,
   );
   const yes = YES_ENDINGS.has(ending);
+  if (yes && row.seat === "post") {
+    takePost(api, row);
+    return;
+  }
   if (yes) {
     const found = ticketFor(api, row.filingId);
     // The seat may have been filled since the ask (the scene played late).

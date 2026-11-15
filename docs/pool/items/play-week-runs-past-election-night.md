@@ -5,10 +5,10 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: merged
 standard: 2
 claimed-by: claude/p1-week-stops-for-election-night
-pr: 9027
+pr: #9027
 after:
 blocked-on:
 lead: play-first
@@ -17,6 +17,7 @@ effort: medium
 root: none
 source: Playtester P1, Nov 13
 claimed-at: 2026-11-13
+merged-at: 2026-11-15T22:27:12.034Z
 ---
 
 **What.** Bryant, South Dakota (bench seed c23677ce-6e29-4a2c-b6f2-210084c22c56, main 5e68cde1): the player filed for the Bryant Common Council, campaigned, and on April 1, 2025 went canvassing and voted. The next thing on screen was April 3: "Luna Gonzales knows you were on the ballot in the council member race. They have the result, and they came to tell you." / "You won't like this. Jamie Rice won the council member race." No returns were ever shown. Henlopen Acres, Delaware (bench seed 4e72516e-1566-405f-b6f6-76c7fe9af3c1) did the same for the April 7, 2026 council race: the next stop was April 9, and a neighbor told the result on April 10. In Curtisville, Pennsylvania the returns showed only because a scene stopped the clock the morning after. Seen: election night's returns and the call, the night of the player's own race.

@@ -35,3 +35,5 @@ source: found by M5 while gating PR 9284, Nov 14, 2026
 **Files.** src/core2/campaign-rival-help.test.ts
 
 **Notes.** The test's subject was done under campaign-candidates-never-help-a-rival; this item is only its draw.
+
+Nov 15 (views thread): still red on the train at ff9703d7, run seed be22ffb0f1f8f347280d9c18135c92ce0348c9a65666e5f44735c95d81c985cd: all four tests fail with "no draw held a rival race". The draws were Merryville LA, Unionville NC, Washington DC, Joiner AR, Avoca AR, Statesboro GA, Ansonia CT and Greenwood DE. Most could file nobody for a local seat; two found a resident whose own reasons said no to volunteering. The lead ruled that this test must stop hunting by draw: stage a rival race through the game's own path (two residents file for one contest, then the asks) at one named place and seed.

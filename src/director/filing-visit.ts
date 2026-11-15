@@ -34,6 +34,9 @@ import { seatSaid, type SeatRecord } from "../english/journal-words";
 import { agencyHeadSaid, counterSaid } from "../english/said-as";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { placeCounty } from "../core2/place-map";
+import { describesByRule } from "../core2/filing-rule-office";
+
+export { describesByRule };
 
 const zero = P.zero;
 const one = P.one;
@@ -88,8 +91,6 @@ export type FilingAction =
   | { kind: "file"; contestId: string }
   /** A reply in the clerk's scene that is not filing or leaving: its place among the replies offered. */
   | { kind: "say"; contestId: string; index: number }
-  /** The player says they will come back with what the clerk asked for. */
-  | { kind: "return"; contestId: string; index: number }
   | { kind: "done" };
 
 export interface FilingVisit {
@@ -139,6 +140,11 @@ export function openFilingVisit(
    * from it (Fable A, Nov 13: "Back again? Your papers for {office} are in.").
    */
   back?: { filingId: string; seat: SeatRecord },
+  /**
+   * The body the clerk works for, as the records name it, said where the
+   * filing note gives the office only as a rule (`describesByRule`).
+   */
+  clerkBody?: string,
 ): FilingVisit {
   const visit: FilingVisit = {
     playerId,
@@ -162,14 +168,21 @@ export function openFilingVisit(
         // An office the record names only as a choice ("City or town clerk") is
         // said as the place's own kind; where the records do not settle it, the
         // town is said instead.
-        ...(filedWith && saidOffice(filedWith, contests)
-          ? {
-              where: {
-                text: titleInSentence(saidOffice(filedWith, contests)!),
-                sourceRecordIds: contests.map((row) => row.id),
-              },
-            }
-          : {}),
+        ...((): Record<string, Fact> => {
+          // The body a person works for, named in the records, is a proper
+          // name ("Franklin County board of elections"), said as it stands.
+          const named = filedWith && clerkBody ? clerkBody : null;
+          const said =
+            named ?? (filedWith ? saidOffice(filedWith, contests) : null);
+          return said
+            ? {
+                where: {
+                  text: named ? said : titleInSentence(said),
+                  sourceRecordIds: contests.map((row) => row.id),
+                },
+              }
+            : {};
+        })(),
         ...clerkFact(core, clerkId),
       });
   if (greet) visit.lines.push({ speaker: "clerk", ...greet });
@@ -306,15 +319,6 @@ export function pickContest(
         }
       : {}),
   };
-  // Where the place's law charges a fee, the clerk's scene tells it with the
-  // race (Words lead, Nov 14), and a candidate who cannot pay it is refused
-  // as the scene's own turn after they say they will file.
-  const feeCheck = checks.find((row) => row.rule === "filing-fee");
-  if (feeCheck) {
-    facts.fee = { text: feeCheck.required, sourceRecordIds: ids };
-    if (!feeCheck.met)
-      facts["fee-short"] = { text: "yes", sourceRecordIds: [visit.playerId] };
-  }
   visit.choices = [];
   visit.picked = { contestId, facts, path: [] };
   // The clerk tells the candidate about the race before the paperwork
@@ -327,10 +331,7 @@ export function pickContest(
   const talk = clerkScene(core, visit);
   if (talk) visit.lines.push(clerkSaid(talk.state));
   // Each rule that stops the filing, in the clerk's words, from its record.
-  // The fee is not one of them here: the clerk has named it, and refuses for
-  // it only when the player tries to file without it (the scene's own turn),
-  // never before the player has moved.
-  const unmet = checks.filter((row) => !row.met && row.rule !== "filing-fee");
+  const unmet = checks.filter((row) => !row.met);
   for (const check of unmet) {
     const required =
       check.rule === "filing-deadline"
@@ -367,21 +368,6 @@ export function pickContest(
     offerReplies(visit, talk.tree);
   }
   return visit;
-}
-
-/**
- * The player tried to file and the fee stopped it: the reply they chose is
- * the scene's own turn, and the clerk's refusal is the scene's answer to it
- * (`follow` after `agree`, worded only for a candidate short of the fee), so
- * the refusal follows the player's move and the replies after it, "I'll come
- * back with it." and leaving, are the scene's next replies.
- */
-export function refusedAtCounter(
-  core: Readonly<CoreState>,
-  visit: FilingVisit,
-  choice: FilingVisit["choices"][number],
-): FilingVisit {
-  return followReply(core, visit, visit.choices.indexOf(choice));
 }
 
 /** The clerk's scene at the counter: the `filing-clerk` arc, cast by the records. */
@@ -450,13 +436,6 @@ function offerReplies(visit: FilingVisit, node: TreeNode): void {
         key: "file",
         control: "file" as const,
         action: { kind: "file" as const, contestId },
-      };
-    if (move === "come-back")
-      return {
-        ...base,
-        key: "come-back",
-        control: "leave" as const,
-        action: { kind: "return" as const, contestId, index },
       };
     if (move === "leave")
       return {
@@ -566,30 +545,7 @@ export function filedAtCounter(
   filingId?: string,
 ): FilingVisit {
   const index = visit.choices.indexOf(choice);
-  const kept = followReply(core, visit, index, filingId);
-  // The fee, where there was one, is paid at the counter: the clerk says so.
-  if (filingId && visit.picked?.facts.fee) {
-    const paid = visitLine(
-      core,
-      kept,
-      "clerk",
-      "filing-fee-paid",
-      visit.picked.facts,
-    );
-    if (paid) kept.lines.push({ speaker: "clerk", ...paid });
-  }
-  return kept;
-}
-
-/** The player says they will come back with the fee: the scene's reply, recorded as every reply is. */
-export function comeBackLater(
-  core: Readonly<CoreState>,
-  visit: FilingVisit,
-  choice: FilingVisit["choices"][number],
-): FilingVisit {
-  if (choice.action.kind !== "return")
-    throw new Error("Not a way to come back later.");
-  return followReply(core, visit, choice.action.index);
+  return followReply(core, visit, index, filingId);
 }
 
 /**

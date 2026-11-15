@@ -44,6 +44,13 @@ export interface OfficeActKit {
   readonly providers?: Readonly<Record<string, OfficeOfferProvider>>;
   /** By effect; an act's `effect` names its handler. */
   readonly handlers?: Readonly<Record<string, OfficeEffectHandler>>;
+  /**
+   * How much of the seat's scheduled work has come due for a holder, from
+   * nothing to one; null where the person holds no seat of this level. The
+   * "duty" need reads it, so the seat's work ranks beside the person's other
+   * needs from their own record.
+   */
+  readonly duty?: (api: CoreAPI, personId: string) => number | null;
   /** By provider id; an act's reason bindings name them. */
   readonly reasonProviders?: Readonly<Record<string, ReasonProvider>>;
 }

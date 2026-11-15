@@ -65,7 +65,7 @@ import { campaignAnswer } from "../director/campaign-answer";
 import { spokenDate as dateSaid, stateInSentence } from "../director/words";
 import { seatSaid } from "../english/journal-words";
 import { OFFICES_MODULE_ID } from "../core2/modules/offices";
-import { officeInSentence, personWorkOf } from "../core2/person-work";
+import { officeInSentence, personWorkOf, workHeld } from "../core2/person-work";
 import {
   corePlaceByJurisdictionId,
   corePlaceStateIdentities,
@@ -349,9 +349,8 @@ function ticketView(api: CoreAPI, core: CoreState, filingId: string) {
           ?.name ?? null;
       const person = core.people.get(c.id as PersonId);
       const work = personWorkOf(core, c.id);
-      const filledWork = person?.pastFacts?.find(
-        (f) => f.kind === "identity:work",
-      )?.summary;
+      const kept = workHeld(core, c.id);
+      const filledWork = kept && kept.jobId === null ? kept.title : undefined;
       // A seat their record names that they no longer hold: held before.
       const seatOffice = c.seatId
         ? (offices

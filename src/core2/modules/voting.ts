@@ -48,7 +48,9 @@ import {
   partyStrength,
   engagementOf,
   type CountedAppeal,
+  countedEndorsed,
   type CountedFieldEntry,
+  type EndorsedBy,
   type CountedVoter,
   type PlaceResult,
   type RacePlace,
@@ -99,7 +101,7 @@ import {
   raceScope,
   standingPool,
 } from "../candidate-pool";
-import { coarsePlace, metResident } from "../coarse-place";
+import { workFromHome } from "../coarse-place";
 import { drawStateHome } from "../places";
 import { closenessBetween } from "../closeness";
 import {
@@ -156,6 +158,7 @@ import {
   CAMPAIGNS_MODULE_ID,
   townLean,
   campaignFor,
+  endorsementsOf,
   impressionOf,
   parsePlatform,
   pledgesOf,
@@ -382,10 +385,15 @@ interface CountedBallotsRow {
   /** Each voter's faith and degree against their age band's average (null where none is recorded; absent on rows kept before the loadings). */
   readonly faith?: readonly (number | null)[];
   readonly college?: readonly (number | null)[];
+  /** Each voter's circumstances as the count read them, and the world's seed (absent on rows kept before the count stored them). */
+  readonly life?: readonly (StanceProfile["life"] | null)[];
+  readonly seed?: string;
   /** Each voter's door "yes" as it held on the day (null where they gave none; absent on rows kept before pledges). */
   readonly pledges?: readonly (Readonly<Record<string, number>> | null)[];
   /** What each voter's decided cases left them feeling toward each official on the ballot (null where they brought none; absent on rows kept before cases counted). */
   readonly warmths?: readonly (Readonly<Record<string, number>> | null)[];
+  /** What the groups whose cause each voter shares brought them, by candidate (null where none; absent on rows kept before groups reached the counted). */
+  readonly endorsed?: readonly (Readonly<Record<string, number>> | null)[];
   /** Where one household of a record's several gave a door "yes", the field index it voted for on its word (-1 otherwise). */
   readonly pledgedChoice?: readonly number[];
   /**
@@ -1557,11 +1565,53 @@ function contestView(
         : {}),
       // A reported scandal as far as its story reached the town's people.
       scandal: scandalAppeal(api, f.personId, named),
+      // The groups that backed them, as far as each reached those who share its cause.
+      endorsed: endorsedOn(api, f.id),
     };
   });
   const view = { field: rows, publicRecord };
   byKey.set(key, view);
   return view;
+}
+
+/**
+ * The groups that backed a candidate, each by the stance it stood on and the
+ * warmth its word brings a counted voter who holds that stance fully: what it
+ * brought each member it reached (`endorsementHeard`: the endorsement weight
+ * toward the group's backing), times the share of the town's holders of the
+ * stance it reached (its members, among everyone who holds it, by how firmly).
+ * A counted voter reads it by how firmly they hold the stance themselves
+ * (`countedAppeal`), so the counted share of a cause's people hears it by the
+ * same rule as its members, times their count (one model, two tiers).
+ */
+export function endorsedOn(
+  api: CoreAPI,
+  filingId: string,
+): readonly EndorsedBy[] {
+  const out: EndorsedBy[] = [];
+  for (const row of endorsementsOf(api, filingId)) {
+    if (
+      row.answer !== "yes" ||
+      !row.organizationId ||
+      !row.stance ||
+      !row.reached ||
+      // A paper's word reaches its readers, not the holders of a cause.
+      api.state.organizations.get(row.organizationId as never)?.kind === "media"
+    )
+      continue;
+    const sides = electorateSides(api, row.stance.question);
+    const holders = row.stance.position > 0 ? sides.heldYes : sides.heldNo;
+    if (holders <= 0) continue;
+    out.push({
+      question: row.stance.question,
+      position: Math.sign(row.stance.position),
+      warmth:
+        campaignParameter("endorsementWeight") *
+        Math.max(-1, Math.min(1, row.score)) *
+        Math.min(1, row.reached / holders),
+    });
+  }
+  return out;
 }
 
 /**
@@ -1812,6 +1862,7 @@ export function doorAppealOf(
       field,
     ),
     warmths: countedWarmths(api, voter, field),
+    endorsed: countedEndorsed(lean, field, countedStanceProfile(api, voter)),
   });
   const met = visit ? appeal[visit.candidateId] : undefined;
   if (visit && met) {
@@ -1855,7 +1906,7 @@ export function incumbentLeanOf(
 }
 
 /** A named person's scheduled weekly work, from their commitments. */
-function weeklyWorkOf(state: CoreState, personId: string): number {
+export function weeklyWorkOf(state: CoreState, personId: string): number {
   return [...(state.work.commitmentsByPerson.get(personId) ?? [])].reduce(
     (sum, id) =>
       sum + (state.work.commitments.get(id)?.expectedWeeklyMinutes ?? 0),
@@ -1914,6 +1965,14 @@ export interface ElectorateSides {
   readonly no: number;
   /** The mean of their stances, -1 to 1, each counted record by the people it stands for. */
   readonly mean: number;
+  /**
+   * How firmly the electorate holds each side, in people: each voter's
+   * stance toward it (0 to 1) times the people they stand for, so the
+   * reach of a group's word among those who share its cause reads as a
+   * share of them (`endorsedOn`).
+   */
+  readonly heldYes: number;
+  readonly heldNo: number;
 }
 
 interface SideVoter {
@@ -1956,7 +2015,7 @@ export function electorateSides(
   question: string,
 ): ElectorateSides {
   if (!api.state.modules.has(ELECTIONS_MODULE_ID))
-    return { yes: 0, no: 0, mean: 0 };
+    return { yes: 0, no: 0, mean: 0, heldYes: 0, heldNo: 0 };
   const core = api.state as CoreState;
   const key = `${core.date}|${core.people.size}|${residentsRuntime(core)?.store.membersVersion ?? 0}`;
   let held = sidesByDay.get(core);
@@ -1996,18 +2055,31 @@ export function electorateSides(
   if (kept) return kept;
   let yes = 0,
     no = 0,
-    sum = 0;
+    sum = 0,
+    heldYes = 0,
+    heldNo = 0;
   for (const voter of held.voters) {
     const stance = voter.named
       ? viewOn(api, voter.id, question, voter.lean)
       : groupStance(voter.lean, question, voter.profile);
-    if (stance > 0) yes += voter.count;
-    else if (stance < 0) no += voter.count;
+    if (stance > 0) {
+      yes += voter.count;
+      heldYes += stance * voter.count;
+    } else if (stance < 0) {
+      no += voter.count;
+      heldNo -= stance * voter.count;
+    }
     sum += stance * voter.count;
   }
   const sides: ElectorateSides = held.total
-    ? { yes: yes / held.total, no: no / held.total, mean: sum / held.total }
-    : { yes: 0, no: 0, mean: 0 };
+    ? {
+        yes: yes / held.total,
+        no: no / held.total,
+        mean: sum / held.total,
+        heldYes,
+        heldNo,
+      }
+    : { yes: 0, no: 0, mean: 0, heldYes: 0, heldNo: 0 };
   held.byQuestion.set(question, sides);
   return sides;
 }
@@ -2547,6 +2619,11 @@ function countPrimary(
         ballotForm: form,
         profile: countedStanceProfile(api, voter),
         warmths: countedWarmths(api, voter, entries),
+        endorsed: countedEndorsed(
+          leanOf.get(voter.id) ?? 0,
+          entries,
+          countedStanceProfile(api, voter),
+        ),
         divides: true,
       };
       const pledges = countedPledges(api, voter.id, trust, contest.id, entries);
@@ -2937,6 +3014,11 @@ function atThePolls(
             api,
             voter,
             countedField(api, race.contest, race.field),
+          ),
+          endorsed: countedEndorsed(
+            lean,
+            countedField(api, race.contest, race.field),
+            null,
           ),
           pledges: countedPledges(
             api,
@@ -3935,9 +4017,13 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
     weight: [] as number[],
     faith: [] as (number | null)[],
     college: [] as (number | null)[],
+    /** Each voter's own circumstances as the count read them (`countedStanceProfile`; null where they have none). */
+    life: [] as (StanceProfile["life"] | null)[],
     /** Each voter's door "yes" as it held on the day (null where they gave none, or where it held for one household of several). */
     pledges: [] as (Readonly<Record<string, number>> | null)[],
     warmths: [] as (Readonly<Record<string, number>> | null)[],
+    /** What the groups whose cause each voter shares brought them, by candidate (null where none). */
+    endorsed: [] as (Readonly<Record<string, number>> | null)[],
     /** Where one household of a record's several gave a door "yes": the field index it voted for on its word (-1 otherwise). */
     pledgedChoice: [] as number[],
     /** Each record's voters for each candidate before turnout, in field order (`countedDivision`). */
@@ -3979,6 +4065,11 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
       field,
     );
     const warmths = countedWarmths(api, voter, field);
+    const endorsed = countedEndorsed(
+      lean,
+      field,
+      countedStanceProfile(api, voter),
+    );
     const where = {
       inTown: true,
       local: true,
@@ -3988,6 +4079,7 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
       ballotForm: kept.voterIds.length,
       profile: countedStanceProfile(api, voter),
       warmths,
+      endorsed,
       divides: true,
     };
     const appeal = countedAppeal(lean, field, { ...where, pledges });
@@ -4022,8 +4114,10 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
     // Module data holds JSON: a missing distance is kept as null.
     kept.faith.push(profile.faithFromAverage ?? null);
     kept.college.push(profile.collegeFromAverage ?? null);
+    kept.life.push(profile.life ?? null);
     kept.pledges.push(division.wholePledged ? (pledges ?? null) : null);
     kept.warmths.push(warmths ?? null);
+    kept.endorsed.push(endorsed ?? null);
     kept.pledgedChoice.push(
       !division.wholePledged && division.pledged
         ? field.findIndex((f) => f.id === division.pledged)
@@ -4061,6 +4155,8 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
     contestId,
     date,
     field,
+    // The world whose view of each question every voter's stance carries.
+    seed: api.state.seed,
     ...kept,
   } as unknown as ModuleRow);
   // Each counted resident stands for the town's people like them; those who
@@ -5444,6 +5540,30 @@ function countedRow(
     CountedBallotsRow | undefined;
 }
 
+/**
+ * The stance profile the count read for one kept voter: their faith and
+ * degree, the world's own view of each question and their circumstances, so
+ * the appeal read back is the appeal that was counted. A row kept before the
+ * count stored the world and the circumstances reads as it did then.
+ */
+function countedProfileAt(
+  row: CountedBallotsRow,
+  i: number,
+): StanceProfile | null {
+  const faith =
+    row.faith && row.college && Number.isFinite(row.faith[i])
+      ? {
+          faithFromAverage: row.faith[i]!,
+          ...(Number.isFinite(row.college[i])
+            ? { collegeFromAverage: row.college[i]! }
+            : {}),
+        }
+      : null;
+  if (row.seed === undefined) return faith;
+  const life = row.life?.[i];
+  return { ...(faith ?? {}), seed: row.seed, ...(life ? { life } : {}) };
+}
+
 /** The engine's own reading of one kept counted ballot. */
 function countedBallotAt(row: CountedBallotsRow, i: number): CountedBallotRow {
   return {
@@ -5470,16 +5590,9 @@ function countedBallotAt(row: CountedBallotsRow, i: number): CountedBallotRow {
       ballotForm: i,
       pledges: row.pledges?.[i] ?? undefined,
       warmths: row.warmths?.[i] ?? undefined,
+      endorsed: row.endorsed?.[i] ?? undefined,
       divides: true,
-      profile:
-        row.faith && row.college && Number.isFinite(row.faith[i])
-          ? {
-              faithFromAverage: row.faith[i]!,
-              ...(Number.isFinite(row.college[i])
-                ? { collegeFromAverage: row.college[i]! }
-                : {}),
-            }
-          : null,
+      profile: countedProfileAt(row, i),
     }),
     basis: "party-name-incumbency",
     lean: row.lean[i]!,
@@ -7247,9 +7360,8 @@ function offerNewcomer(
   if (api.state.people.has(id)) return;
   const seed = (api.state as CoreState).seed;
   const home = drawStateHome(seed, id, newcomer.stateKey);
-  const coarse = home ? coarsePlace(home.key, seed) : null;
-  const met = coarse
-    ? metResident(coarse, seed, `running-mate:${id}`)
+  const work = home
+    ? workFromHome(seed, home.key, `running-mate:${id}`)
     : undefined;
   fillInIdentity(api.state as CoreState, {
     id: id as PersonId,
@@ -7261,17 +7373,7 @@ function offerNewcomer(
     ...(party ? { party } : {}),
     traits: newcomer.traits,
     tier: "monthly",
-    ...(met
-      ? {
-          work: {
-            workplace: met.job.workplace,
-            title: met.job.title,
-            occupation: met.job.occupation,
-            hourlyMinor: met.job.hourlyMinor,
-            weeklyHours: met.job.weeklyHours,
-          },
-        }
-      : {}),
+    ...(work ? { work } : {}),
     source: {
       tag: "ESTIMATED",
       citation: `offered as a running mate on ${api.state.date}`,
@@ -7602,6 +7704,35 @@ function ticketRace(api: CoreAPI, race: Race, year: number): RaceRow | null {
 }
 
 /** Seat the winner on the term's first day. */
+/**
+ * Whether a person has filed for a seat other than `seatId` in the contest
+ * held on `date`: filing for the other office closed their own seat's ballot
+ * (a state legislator who files for Congress is not also up for their own
+ * seat), whether they went on to win, lose the primary or withdraw.
+ */
+function filedForAnotherSeat(
+  api: CoreAPI,
+  personId: string,
+  seatId: string,
+  date: string,
+): boolean {
+  const elections = api.moduleState(ELECTIONS_MODULE_ID);
+  return (
+    elections
+      .table("filings")
+      .query("byPerson", [personId]) as unknown as FilingRow[]
+  ).some((filing) => {
+    const contest = elections
+      .table("contests")
+      .get(filing.contestId) as unknown as ContestRow | undefined;
+    return (
+      contest !== undefined &&
+      contest.seatId !== seatId &&
+      contest.electionDate === date
+    );
+  });
+}
+
 function seatRaceWinner(api: CoreAPI, raceId: string): void {
   const race = table(api, "races").get(raceId) as unknown as
     | (RaceRow & {
@@ -7676,8 +7807,14 @@ function seatRaceWinner(api: CoreAPI, raceId: string): void {
         .sort((a, b) => a.date.localeCompare(b.date))
         .at(-1)
     : undefined;
+  // A holder on another seat's ballot this year is not on this one's: the
+  // seat is open, and its party's winner is a new person.
   const reelected =
     serving[0] &&
+    !(
+      serving[0].personId &&
+      filedForAnotherSeat(api, serving[0].personId, race.seatId, race.date)
+    ) &&
     (race.nonpartisan
       ? lastRace?.winnerParty === race.winnerParty
       : serving[0].party === race.winnerParty);

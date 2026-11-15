@@ -43,3 +43,7 @@ Owner, Oct 27, again: "not just errors, but work processes as well... if somethi
 - Wait for the owner to ask: a skill is created or updated from the record, never from a prompt.
 - Soften a rule, delete a lesson, or write a lesson from one occurrence (one is noise; two is a pattern; a third after the lesson landed means the lesson was written in the wrong skill, so move it).
 - Narrate; the skill line is the output.
+
+## How a rule is added to a skill (Nov 15)
+
+- Rules are appended as unnumbered bullets at the end of their section. A numbered list renumbers every time two pull requests add to it, and that bounced three pull requests off the train on Nov 15; refer to a rule by its words, never by its number.

@@ -28,6 +28,12 @@ import type { TreeNode } from "./scene-talk";
 // night, is put on the public record by the press, and the paper prints it
 // naming the winner. One pinned place and race (see Pin); place and seed in
 // every message.
+// Premise changed Nov 15 (Account lead's yes): the test used to look for a
+// sentence starting with the runner-up's full name. That stopped being true
+// when the wording "After the count, {rival} called {last} to concede." came
+// in (d9c85e4441); now it checks the paper's rule, the full name at the first
+// mention and the family name after, and that the call's sentence names the
+// runner-up.
 const PAPER_DAYS = 10;
 
 /** The reply path that keeps choosing `move` until the talk ends. */
@@ -220,19 +226,40 @@ const run = (
   const words = wordPrintedStory(core, story);
   expect(words, `${here}: ${story.id}`).toBeTruthy();
   const person = core.people.get(loser)!;
+  const winner = core.people.get(result.winnerId as PersonId)!;
   const told = (words!.paragraphs ?? [words!.lede]).join(" ");
-  const said = told
-    .split(/(?<=\.) /)
-    .find(
-      (line) =>
-        line.startsWith(`${person.givenName} ${person.familyName}`) &&
-        /conce/.test(line),
-    );
-  expect(said, `${here}: ${story.id}: ${told}`).toBeTruthy();
+  // The paper's rule: a person is named in full the first time and by family
+  // name after. So the runner-up and the winner are each named in full before
+  // the sentence that reports the call, and that sentence names the runner-up
+  // by family name (whichever wording the outlet's order picked; not every
+  // wording opens with the name).
+  const sentences = told.split(/(?<=\.) /);
+  const at = sentences.findIndex((line) => /conce/.test(line));
+  expect(at, `${here}: ${story.id}: ${told}`).toBeGreaterThanOrEqual(0);
+  const said = sentences[at]!;
+  for (const named of [person, winner]) {
+    const full = `${named.givenName} ${named.familyName}`;
+    const first = told.indexOf(full);
+    expect(
+      first,
+      `${here}: ${full} is named in full: ${told}`,
+    ).toBeGreaterThanOrEqual(0);
+    expect(
+      told.slice(0, first).includes(named.familyName),
+      `${here}: ${named.familyName} is named by family name before the full name: ${told}`,
+    ).toBe(false);
+  }
+  expect(said, `${here}: the call names the runner-up`).toContain(
+    person.familyName,
+  );
+  expect(
+    said.includes(`${person.givenName} ${person.familyName}`),
+    `${here}: the full name is said again after its first mention: ${said}`,
+  ).toBe(false);
   expect(said!, here).toMatch(
     move === "agree"
-      ? /called (?:\S+ \S+ )?to concede/
-      : /not called to concede|would not concede/,
+      ? /^(?!.*\bnot called)(?=.*\bcalled \S+(?: \S+)? to concede)/
+      : /not called (?:\S+(?: \S+)? )?to concede|would not concede/,
   );
   expect(words!.sourceRecordIds, here).toContain(id);
   return {

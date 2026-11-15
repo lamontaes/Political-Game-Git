@@ -5,7 +5,7 @@ area: docs
 kind: bug
 priority: 3
 size: S
-status: in-pr
+status: merged
 claimed-by: claude/pool-release-audit-19-stale-text
 pr: #8575
 blocked-on:
@@ -18,6 +18,7 @@ root: none
 lead: cto
 after:
 checked: fable 2026-11-10
+merged-at: 2026-11-15T22:35:38.296Z
 ---
 
 **What.** The Oct 20 merge audit found stale text that is partly fixed: SG-CORE-territory-places is resolved and src/core2/territory-deposits.test.ts exists. What is left is the deleted file src/core2/tooling/build-place-lookup-data.ts, which a comment in .prettierignore, docs/design/old-core-retirement-map.md and docs/archive/2026-10-23/coordination/core.md still name, and the stopgap SG-WORLD-credit-island-deposits, whose island wording must be reread against the territory test. Skip the audit's pull-request-link and blocked-status edits where the item files already read right.

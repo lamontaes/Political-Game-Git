@@ -3242,7 +3242,7 @@
           "key": "prospect",
           "fill": "counterpart",
           "count": "one",
-          "moves": ["agree", "decline", "relent"],
+          "moves": ["agree", "decline", "relent", "bargain"],
           "wants": ["play-safe"],
           "bearing": "guarded"
         },
@@ -3250,7 +3250,7 @@
           "key": "you",
           "fill": "subject",
           "count": "one",
-          "moves": ["request", "press", "thank", "accept"],
+          "moves": ["request", "press", "thank", "accept", "promise", "refuse"],
           "wants": ["commit"],
           "bearing": "hopeful"
         }
@@ -3986,7 +3986,12 @@
           "match": {
             "label": "cause:event:debate",
             "selfNamed": true,
-            "causeFacts": [{ "key": "stood", "includes": "subject" }]
+            "causeFacts": [
+              {
+                "key": "stood",
+                "includes": "subject"
+              }
+            ]
           },
           "causeEngine": "meetings",
           "causeRecord": "debate",
@@ -5200,6 +5205,54 @@
       "stakes": ["race", "outlet", "opponent"]
     },
     {
+      "key": "endorsement-ask",
+      "receive": { "age": "any", "counterpart": "apart", "seat": "any" },
+      "note": "A candidate's campaign asks the player, one of the people closest to the candidate, to endorse them, or calls in a favor the player owes from a deal in office (the campaigns engine's endorsement-asked record: the endorsement row says `asked` until the player answers). The player's reply writes the row's yes or no. A put-off comes back after the offer spacing days as a second asking until the race is decided; the second asking offers no put-off. The asker gives one reason, the strongest the record holds; only a favor names a deal (owner, Oct 6: endorsements are not trades by default).",
+      "roles": [
+        {
+          "key": "candidate",
+          "fill": "counterpart",
+          "count": "one",
+          "moves": ["greet", "request", "tell", "press", "thank", "accept"],
+          "wants": ["commit"],
+          "bearing": "eager"
+        },
+        {
+          "key": "you",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["agree", "decline", "stall"],
+          "wants": ["play-safe"],
+          "bearing": "guarded"
+        }
+      ],
+      "setting": ["home"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "match": {
+            "label": "cause:event:endorsement-asked",
+            "selfNamed": true,
+            "causeFacts": [{ "key": "askedId", "is": "subject" }]
+          },
+          "causeEngine": "campaigns",
+          "causeRecord": "endorsement-asked",
+          "bind": { "candidate": "counterpart", "you": "subject" },
+          "opener": "candidate",
+          "opening": "request"
+        }
+      ],
+      "tag": {
+        "key": "favor-asked",
+        "endpoint": "political",
+        "registers": ["scene-talk", "scene-words", "journal"]
+      },
+      "purpose": "ask-endorsement",
+      "asker": "candidate",
+      "asked": "you",
+      "stakes": ["race", "tie"]
+    },
+    {
       "key": "volunteer-offer",
       "receive": {
         "age": "any",
@@ -5448,6 +5501,7 @@
       ],
       "setting": ["home"],
       "timing": "at-cause",
+      "liveWhile": "contest-open",
       "causes": [
         {
           "match": {
