@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** TODO
 
 Sent back 2026-10-26 from PR #6123 (branch words/journal-own-unopposed-win): Own Kelly replay and fresh drawn journal-player-race case both fail before result at main press.ts2108 ReferenceError countedResidents; this is the separately claimed red-main repair, not a new journal defect. Merge repaired main and rerun both required played cases; no successful local replay or merge claimed.; finish on that branch, merge main into it first.
+
+**Notes.** Evidence (Journal builder, Nov 15, #9119). `journal-player-race.test.ts` times out at its 600 s limit at seed `2dad12d0b98a6cc66d744b80d6ed34a9c34c8224` on the clean Train (b22cd350, run in a sparse copy of it) and on #9119's head; the test is not changed by #9119. It draws places by attempt (`drawPlace(seed, "journal-player-race:<n>")`) until one has a race and builds a world each time, so how long it takes depends on the seed (another seed on the clean Train passed in 440 s). The fix is the test's: name a place and a seed whose player's first race is reached by the game's own path, about a minute, limit near twice the measured time.
