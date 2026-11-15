@@ -85257,6 +85257,16 @@
           "key": "desk-visit",
           "after": "answer",
           "requiresFacts": ["against", "heard-cost"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "desk-visit",
+          "key": "desk-visit",
+          "after": "answer",
+          "requiresFacts": ["for", "heard-cost"]
         }
       ],
       "bearing": "calm",
