@@ -2892,9 +2892,10 @@ registerCommand<{ method: string; url: string }>(BENCH_REQUEST, () => {
 const UNRECORDED = new Set(["/api/grade", "/api/gap", "/api/load"]);
 
 /**
- * The folder the saves are kept in, one file per life: OCD_SAVE_DIR (the
- * desktop app points it at its own data folder), else a folder in the
- * system's temporary folder, which the system may clear.
+ * The folder the saves are kept in, one file per life: OCD_SAVE_DIR, which
+ * every way the game is launched sets (the desktop app to its own data
+ * folder, the bench server to the home folder), else a folder in the
+ * system's temporary folder for tests and scripts.
  */
 export function saveFolder(): string {
   return process.env.OCD_SAVE_DIR ?? join(tmpdir(), "ocd-saves");
