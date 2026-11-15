@@ -5,9 +5,9 @@ area: director
 kind: wiring
 priority: 3
 size: S
-status: open
+status: in-pr
 claimed-by:
-pr:
+pr: 9192
 after: words-scene-ending-writes-its-record-part-1-favor-and-promise
 blocked-on:
 source: stand-in triage Nov 10
