@@ -404,6 +404,14 @@ export type CoreRelationshipListener = (
  */
 export type OfferRound = Map<string, unknown>;
 
+/**
+ * Set on a round that only predicts the day's act (the drives engine's "why"
+ * before the act): a provider reads as usual but keeps nothing it would hold
+ * past the call, so a prediction made with bookkeeping on and skipped in play
+ * changes no later choice (core-bookkeeping-changes-the-played-year).
+ */
+export const OFFER_ROUND_PREDICTION = "core2-offer-round-prediction";
+
 export interface ActOffer {
   definition: ActionDefinition;
   targetId: string;

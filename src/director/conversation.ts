@@ -80,8 +80,8 @@ import {
   MILESTONE_BIRTHDAY,
   PRESS_MODULE_ID,
   RETIREMENT,
+  outletMedium,
   outletsHere,
-  type OutletKind,
 } from "../core2/modules/press";
 import { decisionLean, hardshipStress } from "../core2/trait-decisions";
 import { believesClaim } from "../core2/heard-claims";
@@ -96,7 +96,13 @@ import type {
   PersonState,
   Source,
 } from "../core2/types";
-import { BRING_IT_UP_ROWS, bringItUp, changesKnownTo } from "./bring-it-up";
+import {
+  BRING_IT_UP_ROWS,
+  bringItUp,
+  changesKnownTo,
+  resultsKnownTo,
+} from "./bring-it-up";
+import { raceMargin } from "./race-margin";
 import { DEFAULT_DIRECTOR_DATA, type Director } from "./ledger";
 import { SITUATION_LIBRARY } from "./scheduling";
 import type { Moment } from "./types";
@@ -348,6 +354,11 @@ export interface ConversationLine {
   text: string;
   sourceRecordIds: readonly string[];
   wording?: Wording;
+  /**
+   * A told line that says how the teller feels about the news, not the news
+   * itself ("Good night for our side."): the reply answers the feeling.
+   */
+  feeling?: boolean;
 }
 
 export interface ConversationChoice {
@@ -2285,16 +2296,6 @@ function governmentNews(
 /** The news engine's kind for a story an outlet printed (press desk). */
 const PRINTED_STORY = "press.printed";
 
-/** How each kind of outlet carries a story: printed on paper or broadcast. */
-const MEDIUM: Readonly<Partial<Record<OutletKind, "paper" | "broadcast">>> = {
-  newspaper: "paper",
-  "national-paper": "paper",
-  magazine: "paper",
-  television: "broadcast",
-  radio: "broadcast",
-  cable: "broadcast",
-};
-
 /** Whether a person knows of a change or a story: learned of the change, or heard the story. */
 function knowsNews(
   core: Readonly<CoreState>,
@@ -2430,7 +2431,8 @@ function printedSubject(
           (entry) => entry.organizationId === story.outletId,
         )
       : undefined;
-    const medium = row ? MEDIUM[row.kind] : undefined;
+    const media = row ? outletMedium(row.kind) : null;
+    const medium = media ? (media === "paper" ? "paper" : "broadcast") : null;
     const carried = medium
       ? { [medium]: { text: "", sourceRecordIds: [story.id, row!.id] } }
       : {};
@@ -3973,12 +3975,29 @@ function youIn(
   return said ? {} : { you };
 }
 
+/** What the other person said since the player last spoke. */
+function toldSince(
+  lines: readonly ConversationLine[],
+  playerId: PersonId,
+): ConversationLine[] {
+  const run: ConversationLine[] = [];
+  for (let at = lines.length - one; at >= zero; at -= one) {
+    if (lines[at]!.speakerId === playerId) break;
+    run.unshift(lines[at]!);
+  }
+  return run;
+}
+
 /** The facts the player's own answers can add, from the player's records. */
 function playerFacts(
   core: Readonly<CoreState>,
   playerId: PersonId,
   last: LastLine,
   otherId?: PersonId,
+  /** The other person's line the answer follows. */
+  before?: ConversationLine,
+  /** What the other person said since the player last spoke. */
+  told: readonly ConversationLine[] = [],
 ): { facts: Facts; stage?: string } {
   const player = core.people.get(playerId)!;
   const facts: Facts = {};
@@ -4091,10 +4110,36 @@ function playerFacts(
       };
     else facts["my-not"] = { text: "", sourceRecordIds: [playerId] };
   }
-  if (last.kind === "news" && last.subject.aboutId)
-    stage = knowsNews(core, playerId, last.subject.aboutId)
-      ? "heard"
-      : "not-heard";
+  // News, by what the line before was (M5's pairs, Nov 14): a question
+  // ("Did you hear ...?") is answered yes or no; the news told outright is
+  // never answered "I haven't heard." or "Tell me." (only by taking it in,
+  // or by saying the player knew); a feeling about it is never answered
+  // "Yes, ... had it." (`before-feeling` holds that wording back).
+  if (last.kind === "news" && last.subject.aboutId) {
+    // A race's result is known to the player when they knew it before this
+    // telling (`result-known`, from any outlet's story or an earlier telling).
+    const heard = last.facts.result
+      ? !!last.facts["result-known"]
+      : knowsNews(core, playerId, last.subject.aboutId);
+    const asked = !!before && asksQuestion(before);
+    stage = heard ? "heard" : asked ? "not-heard" : "told";
+    if (before?.feeling && !asked)
+      facts["before-feeling"] = {
+        text: "yes",
+        sourceRecordIds: before.sourceRecordIds,
+      };
+    // Where they got it, when they said so: "I read it in ... too" answers
+    // only a teller who named that outlet (Words lead, Nov 14).
+    const outlet = last.facts.outlet;
+    const named = outlet
+      ? told.find((line) => line.text.includes(outlet.text))
+      : undefined;
+    if (named)
+      facts["outlet-said"] = {
+        text: "yes",
+        sourceRecordIds: named.sourceRecordIds,
+      };
+  }
   if (last.kind === "school") stage = schoolStage(core, player);
   if (last.kind === "kin" && last.subject.aboutId) {
     const relative = core.people.get(last.subject.aboutId);
@@ -4562,6 +4607,39 @@ function askSubject(
   return true;
 }
 
+/**
+ * A race's result as a talk's subject: the paper's story with the question
+ * the winner ran on taken out (its `about` and the news question), so the
+ * player answers who won ("Really?", "I saw that.") and never takes a stand
+ * on, or says they have no view of, a question nobody said. It is marked a
+ * result (`result`), and one not close on the record (`result-not-close`),
+ * so a reply that doubts it ("You're kidding.") follows only a close race
+ * and a bare noise ("Huh.") follows none (Words lead, Nov 14).
+ */
+function resultSubject(
+  core: Readonly<CoreState>,
+  subject: Subject,
+  resultId: string,
+  /** The player knew the result before this telling. */
+  known: boolean,
+): Subject {
+  const facts: Facts = {
+    ...subject.facts,
+    result: { text: "yes", sourceRecordIds: [resultId] },
+    ...(known
+      ? { "result-known": { text: "yes", sourceRecordIds: [resultId] } }
+      : {}),
+    ...(raceMargin(core, resultId) === "close"
+      ? {}
+      : { "result-not-close": { text: "yes", sourceRecordIds: [resultId] } }),
+  };
+  delete facts.about;
+  const { news, ...rest } = subject;
+  const said = { ...news };
+  delete said.question;
+  return { ...rest, facts, ...(news ? { news: said } : {}) };
+}
+
 /** The other person raises one of their own subjects. */
 function raiseSubject(
   core: Readonly<CoreState>,
@@ -4571,7 +4649,11 @@ function raiseSubject(
   /** A side remark on the topic in hand, not a topic of its own. */
   remark = false,
   /** Lines already worded that raise it (what they brought up), said instead. */
-  said?: readonly { text: string; sourceRecordIds: readonly string[] }[],
+  said?: readonly {
+    text: string;
+    sourceRecordIds: readonly string[];
+    feeling?: boolean;
+  }[],
 ): boolean {
   const { playerId, otherId } = conversation;
   conversation.used.push(`${otherId}>${subject.id}`);
@@ -5431,6 +5513,10 @@ function openConversationNow(
       ...opener,
       sourceRecordIds: [occasion!.causeId, ...opener.sourceRecordIds],
     });
+  // The race results the player knew before anyone here tells them one.
+  const knewResults = occasion
+    ? new Set<string>()
+    : resultsKnownTo(core, coreAPI(core as CoreState), playerId);
   // Away from a scene's occasion, they mention the newest change they know
   // of and who they blame (bring-it-up, which passes both on). Those lines
   // are the talk's raise of that news, said once: the talk goes on from it.
@@ -5499,7 +5585,8 @@ function openConversationNow(
       ...(storyId ? [`news:${storyId}`] : []),
     ];
     // A printed story is raised by its own headline and outlet ("I saw it in
-    // the Courier: ..."); other news by the lines bring-it-up worded.
+    // the Courier: ..."), a race's result and other news by the lines
+    // bring-it-up worded.
     const story = storyId
       ? storiesHeard(coreAPI(core), otherId).find((row) => row.id === storyId)
       : undefined;
@@ -5522,9 +5609,21 @@ function openConversationNow(
           core,
           conversation,
           data,
-          news,
+          // A race's result is told by who won, not by a question the
+          // winner ran on: the player answers who won, never a stand on a
+          // question nobody said.
+          brought.resultId
+            ? resultSubject(
+                core,
+                news,
+                brought.resultId,
+                knewResults.has(brought.resultId),
+              )
+            : news,
           false,
-          headline ? undefined : brought.lines,
+          // A race's result is told by who won and how it sits with them,
+          // not by the paper's headline.
+          headline && !brought.resultId ? undefined : brought.lines,
         )
       : false;
     // News the talk can't go on from is still said, and not raised again.
@@ -6197,7 +6296,14 @@ function offerChoices(
   const last = conversation.last!;
   conversation.choices = [];
   conversation.lies = [];
-  const own = playerFacts(core, playerId, last, otherId);
+  const own = playerFacts(
+    core,
+    playerId,
+    last,
+    otherId,
+    conversation.lines.at(-one),
+    toldSince(conversation.lines, playerId),
+  );
   const other = core.people.get(otherId);
   const facts: Facts = {
     ...own.facts,

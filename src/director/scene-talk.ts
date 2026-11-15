@@ -75,6 +75,8 @@ interface Ending {
 }
 
 interface PurposeArc {
+  /** Facts of which at most one holds in one talk (the visitor is for the bill or against it). */
+  apart?: string[][];
   state: string;
   /**
    * A statement said as several moves in order, one breath (the clerk tells
@@ -2269,5 +2271,13 @@ export const talkReplyFlow = {
     let flow = FLOWS.get(at);
     if (!flow) FLOWS.set(at, (flow = talkFlow(scene)));
     return flow.next(step, move);
+  },
+  apart(scene: { purpose: string; key: string }): readonly string[][] {
+    const arc = (
+      scene.purpose === "*"
+        ? ARCS.keys?.[scene.key]
+        : (ARCS.purposes[scene.purpose] ?? variantArc(scene.purpose))
+    ) as PurposeArc | undefined;
+    return arc?.apart ?? [];
   },
 };
