@@ -1,6 +1,6 @@
 ---
 id: words-i-work-for-a-public-employer-is-said-as-people-say-it
-title: "Say a public employer as people say it: for the state, for the county"
+title: "Say an employer as people say it: for the state, for the county, and 'there' (not 'work') after the line already says work"
 area: words
 kind: bug
 priority: 2
@@ -20,6 +20,8 @@ checked:
 ---
 
 **What.** A person who works for a government says "I work at the government of Ohio." or "I work at the County of Webster." People say "I work for the state", "for the county", "for the town of Salado", "for the federal government" or "for the school district". The wrong wording reaches every talk where a public employee says where they work, for every public employer class (town, county, state, federal, school district), not only two examples. Seen: M5 and the second reader read "I work at the government of Ohio.", "I work at the government of Minnesota.", "I work at the government of Kentucky." and "I work at the County of Webster" in the played goodbye scenes of #9479.
+
+**Also (M5's read of #9502 at b8c816cb, 7 of 15 talks).** The employer said a second time comes out as "work" inside lines that already say work or take a person's own: "I work over at work.", "I'm with work.", "I work for work.". "I'm at work." and "At work." read right and stay. Cause, found in code: `nameOnceThen` in `src/english/said-as.ts` replaces every later mention of the name with `ownPlace.worker` ("work", said-as.json, owner via the coordinator, Nov 12) whatever words stand in front of the slot, so a frame that already says "work" or takes "with"/"for" gets a second "work". The fix is in the same reader: a later mention after a work verb plus its preposition, or after "with", is said "there" (a row in said-as.json `ownPlace`), and every other later mention stays "work".
 
 **Cause.** Found in code: the work lines in conversation.json place the employer as "I work at {employer}", and `employerWords` in `src/director/conversation.ts` fills `{employer}` with `employerSaidAs` (src/english/said-as.ts), which returns the journal's name for a government payroll ("the government of Ohio", "the County of Webster"); the line's preposition is fixed as "at", which fits a business and not a government.
 
