@@ -270,17 +270,20 @@ A composed rule reads whole texts a player met, never one bank line: its row's t
 - **A test red on the train is checked on the clean train before it is blamed on your change** (stash, run the one test, pop).
 
 <<<<<<< HEAD
+
 ## What the scene reply record says, and bisecting a red (Nov 15)
 
 - **A `scene.reply` record names the player first** in `personIds`; its `asked` fact is there only where the player asked, and its `move` is always the answerer's (the player's reply, or the colleague's answer where the player asked). `relationFacts(...).passed` reads those; read them there, never count replies in a scene or a variant.
 - **A test cannot write an earlier day:** events enter on the current date, so a test that needs "before" writes the record, then `advanceCore`s a day.
 - **A talk with no line is no talk:** the bench handler opens nothing when `openConversation` returns no lines (owner, Nov 1), so an empty talk in a test is by rule; a test that opens the same person twice in a day depends on a repeated introduction and must open each person once.
 - **Bisecting a red across folds:** `git bisect start <bad> <good>` then `git bisect run` on one test works, but a merge-graph can name a commit that touches nothing the test reads (the celebration-ask count named an opening-landing commit); read the named commit's files before believing it, and file the item with the next step if they do not fit.
-=======
+  \=======
+
 ## Playing a relative's news for a words pull request (S3, Nov 15)
 
 - **The proof script is `scripts/words/relative-news-proof.ts`.** `--stage death` starts a dev illness for the first relative who lives elsewhere and tells the death; `--cause <health cause>`, `--illness <condition or none>`, `--gender`, `--no-illness` stage what is too rare to wait for (firearm causes are under 1 in 100 deaths) and each prints a `STAGED` line; `--replays N` asks "How?" again on later days, because the wording the composer draws depends on the day. A played file says exactly what was staged.
 - **The reader stamps only lines played at the exact head, in a file headed with that head's sha.** After merging the Train, rerun every staged run at the new head before posting it; a comment-only commit is a new head. Run the whole gate on that head, including eslint and prettier on every file changed against the Train.
 - **A line placed on a fact needs a path to the fact.** Before writing a mark, read whether the engine ever produces it: every full person's death in health.ts is booked by a case with an onset event, so "nothing was wrong" was unreachable and its four lines were deleted (#9384). Ask M5 for the reach check on the fact, not only the wording.
 - **JSON data files: never edit one with `sed` after prettier.** A quote inside a string broke `relative-news-words.json` and every proof run failed at start; parse the file after any scripted edit.
->>>>>>> origin/claude/project-thread-lhbwzt
+
+> > > > > > > origin/claude/project-thread-lhbwzt
