@@ -80,8 +80,8 @@
     "friendCloseness": {
       "value": 0.5,
       "tag": "TUNABLE",
-      "spread": [0.4, 0.6],
-      "checkedAgainst": "The middle of the closeness scale (0 none, 1 full): a tie at or past it is nearer friendship than no tie. Checked in concession-reported.test.ts: forty hours together put a tie at about 0.46 to 0.5."
+      "spread": [0.3, 0.7],
+      "checkedAgainst": "The one closeness threshold (src/director/relation-facts.ts), read by the talk box, scenes and the Journal alike. The middle of the closeness scale (0 none, 1 full): a tie at or past it is nearer friendship than no tie, and a call from one is answered as from a voice they know. Checked in concession-reported.test.ts (forty hours together put a tie at about 0.46 to 0.5) and on three drawn places, where the share of calls answered as close moved smoothly across 0.3 to 0.7 (round 12, by-phone lines)."
     }
   },
   "endingStrain": {

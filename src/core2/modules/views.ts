@@ -649,6 +649,8 @@ export function setPastViewShifts(
   personId: PersonId,
   shifts: readonly PastShift[],
 ): void {
+  // A view forms only where the views module keeps it (a small world may run without it).
+  if (!api.state.modules.has(VIEWS_MODULE_ID)) return;
   const held = viewOf(api, personId);
   if (!held) return;
   if (JSON.stringify(held.pastShifts ?? []) === JSON.stringify(shifts)) return;

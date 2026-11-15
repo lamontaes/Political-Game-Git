@@ -7,7 +7,7 @@ import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
 import { preStartHistory } from "../core2/pre-start";
 import { composeJournal } from "./journal";
-import { tieSide } from "./purpose-scene";
+import { tieSide } from "./relation-facts";
 import journalBank from "../../data/english/parts/journal.json";
 import type { PersonId } from "../core2/types";
 

@@ -28,7 +28,11 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { randomUUID } from "node:crypto";
 import { BenchPlayer } from "./player";
-import { buildBenchWorld, buildBenchWorldInStages } from "./world";
+import {
+  buildBenchWorld,
+  buildBenchWorldInStages,
+  OPENING_WARMUP_DAYS,
+} from "./world";
 import { gameStartDate } from "../core2/game-start";
 import { knownCard, personCard } from "./card";
 import { openingArrivalMinute, openingFrames } from "./opening";
@@ -423,6 +427,14 @@ const ROUTES: readonly Route[] = [
           gameStartDate(),
           {
             twoLevel: true,
+            warmUpDays: OPENING_WARMUP_DAYS,
+            // Who the player is, chosen before the world's first weeks run.
+            ...(chosen
+              ? {
+                  chooseIdentity: (core: CoreState, playerId: string) =>
+                    applyChosenPerson(core, playerId, chosen),
+                }
+              : {}),
             onWorld: (built, id) => {
               if (id) state.loadingPeek = loadingStory(built, id);
             },
@@ -451,8 +463,6 @@ const ROUTES: readonly Route[] = [
         state.placeId = world.placeId;
         state.placeName = world.place.displayName;
         const entrant = { personId: world.playerId! };
-        // The person chosen in the creator becomes the player.
-        if (chosen) applyChosenPerson(world.core, entrant.personId, chosen);
         state.player.select(entrant.personId);
         // Between the drawing steps the server answers the loading
         // screen, which plays the world's story meanwhile (loading.ts).
