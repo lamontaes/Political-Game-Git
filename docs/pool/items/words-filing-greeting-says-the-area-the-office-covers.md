@@ -16,11 +16,11 @@ source: second words reader on #9348, Nov 14
 lead: words
 ---
 
-**What.** At the filing counter in Vicco KY and West Point KY the same Secretary of State clerk opens one talk "This is the Secretary of State" and another "I keep the candidate list for Vicco" or "I take the filings for West Point", a town clerk's line in a state office's mouth.  Seen: the clerk's greeting at the filing counter.
+**What.** At the filing counter in Vicco KY and West Point KY the same Secretary of State clerk opens one talk "This is the Secretary of State" and another "I keep the candidate list for Vicco" or "I take the filings for West Point", a town clerk's line in a state office's mouth. Seen: the clerk's greeting at the filing counter.
 
 **Cause.** Found in code: `openFilingVisit` in `src/director/filing-visit.ts` gave the `greet-counter` move `placeFact`, which is always the player's town, even when the counter takes only state, federal or county races.
 
-**Fix.** `counterAreaFact` in `src/director/filing-visit.ts` says the town at a town's counter, the state at a counter that takes only state and federal races, and no place at a county's; the greeting pieces that need `place` then stand down. No bank line changes. The player sees it at the clerk's greeting when filing for a state or federal office.
+**Fix.** `counterAreaFact` in `src/director/filing-visit.ts` says the town at a town's counter, the state at a counter that takes only state and federal races, and the county at a county's (none where the place map holds no county for the town); the greeting pieces that need `place` then stand down. No bank line changes. The player sees it at the clerk's greeting when filing for a state or federal office.
 
 **Time box.** 1 hour.
 

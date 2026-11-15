@@ -33,6 +33,7 @@ import { filedSaid, filedSoFarSaid } from "../english/count-words";
 import { seatSaid, type SeatRecord } from "../english/journal-words";
 import { agencyHeadSaid, counterSaid } from "../english/said-as";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
+import { placeCounty } from "../core2/place-map";
 
 const zero = P.zero;
 const one = P.one;
@@ -617,7 +618,8 @@ function placeFact(
  * The area a counter's greeting says it takes filings for ("I take the
  * filings for {place}"): the town at a town's own counter, the state at a
  * counter that takes only state and federal races (a Secretary of State), and
- * no place at a county's, where the records hold no county name to say. A
+ * the county at a county's (from the place map; none said where the map holds
+ * no county for the town). A
  * town clerk's line is never put in a state office's mouth (Words lead,
  * second reader, Nov 14: Vicco and West Point KY).
  */
@@ -631,11 +633,22 @@ function counterAreaFact(
     level === "county" || level === "state" || level === "federal";
   if (levels.length === zero || !levels.every(above))
     return placeFact(core, playerId);
-  if (levels.some((level) => level === "county")) return {};
   const person = core.people.get(playerId);
-  const state = person
-    ? corePlaceByJurisdictionId(person.placeId as never)?.withinName
+  const town = person
+    ? corePlaceByJurisdictionId(person.placeId as never)
     : null;
+  if (levels.some((level) => level === "county")) {
+    const county = town ? placeCounty(town.key) : null;
+    return county
+      ? {
+          place: {
+            text: county.name,
+            sourceRecordIds: [person!.placeId],
+          },
+        }
+      : {};
+  }
+  const state = town?.withinName;
   return state
     ? {
         place: {
