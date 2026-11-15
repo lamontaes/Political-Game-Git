@@ -4,7 +4,8 @@ import { buildBenchWorld } from "./world";
 import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
 import { applyChosenPerson } from "./creator";
-import { bloodKin, familyRelation } from "../core2/closeness";
+import { familyRelation } from "../core2/closeness";
+import { parentsOf } from "../core2/family-origin";
 import { bustPeople } from "./bust";
 import { bustPersonOf, toneOf } from "./whole-figures";
 import { looksOf } from "./scene";
@@ -46,16 +47,23 @@ it("a chosen look's family shares its origin", () => {
   setBookkeeping(false);
   let totalBlood = 0;
   let totalOther = 0;
-  for (const place of PINS) {
-    const where = `${place.name} (${place.key}), seed ${place.seed}`;
+  let totalParents = 0;
+  // A grown woman with a partner and children, then the entrant the world
+  // opens with (parents and brothers and sisters at home).
+  for (const [place, grown] of PINS.flatMap((row) => [
+    [row, true] as const,
+    [row, false] as const,
+  ])) {
+    const where = `${place.name} (${place.key}), seed ${place.seed}${grown ? ", grown" : ", young"}`;
     const { core, playerId } = buildBenchWorld(place.seed, gameStartDate(), {
       twoLevel: true,
       placeKey: place.key,
       // As the creator asks for it: the resident born nearest the chosen
       // birthday, a grown woman with a partner and children where the town
       // has one.
-      playerBirthDate: "1980-06-01",
-      playerGender: "female",
+      ...(grown
+        ? { playerBirthDate: "1980-06-01", playerGender: "female" as const }
+        : {}),
     });
     const me = playerId!;
     const drawn = core.people.get(me)!.looks!.origin!;
@@ -78,19 +86,28 @@ it("a chosen look's family shares its origin", () => {
     const members = core.households.get(player.householdId)!.memberIds;
     const seen: string[] = [];
     let blood = 0;
+    const originOf = (id: string) => core.people.get(id)!.looks!.origin!;
+    const parents = parentsOf(core, me);
+    // One of the player's parents carries the chosen origin, so the player is
+    // still a child of one parent; the other may keep the drawn one.
+    totalParents += parents.length;
+    if (parents.length)
+      expect(
+        parents.map(originOf),
+        `${where}: one parent of the player's origin`,
+      ).toContain(origin);
     for (const id of members) {
       const person = core.people.get(id)!;
-      const kin = id === me || bloodKin(core, me, id);
       const relation = id === me ? "me" : (familyRelation(core, me, id) ?? "?");
-      // The player's blood family takes the chosen origin; a partner or a
-      // housemate keeps the one they were drawn with.
-      if (kin) {
-        blood += id === me ? 0 : 1;
-        expect(person.looks?.origin, `${where}: ${relation} ${id}`).toBe(
-          origin,
-        );
-      } else
-        expect(person.looks?.origin, `${where}: ${relation} ${id}`).toBe(drawn);
+      const mine = originOf(id);
+      if (relation === "partner" || relation === "household")
+        expect(mine, `${where}: ${relation} ${id}`).toBe(drawn);
+      if (["sibling", "child"].includes(relation)) {
+        blood += 1;
+        // Each is one of their own parents' origins (the player's among them).
+        const own = parentsOf(core, id).map(originOf);
+        expect(own, `${where}: ${relation} ${id}`).toContain(mine);
+      }
       const looks = looksOf(core, id)!;
       const face = bustPersonOf({
         ...looks,
@@ -99,7 +116,7 @@ it("a chosen look's family shares its origin", () => {
       const tones = TONES[person.looks!.origin!];
       if (face)
         expect(tones, `${where}: ${relation} ${id}`).toContain(toneOf(face));
-      seen.push(`${person.givenName} (${relation}) ${face?.id}`);
+      seen.push(`${person.givenName} (${relation}, ${mine}) ${face?.id}`);
     }
     totalBlood += blood;
     totalOther += members.length - 1 - blood;
@@ -109,6 +126,7 @@ it("a chosen look's family shares its origin", () => {
   }
   // Across the four towns there are blood relatives who took the chosen
   // origin and a partner or housemate who kept their own.
-  expect(totalBlood, "blood kin seen").toBeGreaterThan(0);
+  expect(totalParents, "parents seen").toBeGreaterThan(0);
+  expect(totalBlood, "children or siblings seen").toBeGreaterThan(0);
   expect(totalOther, "partners or housemates seen").toBeGreaterThan(0);
 }, 900_000);

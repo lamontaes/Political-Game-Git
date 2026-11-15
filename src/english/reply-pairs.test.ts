@@ -127,4 +127,98 @@ describe("reply pairs", () => {
       ),
     ).toEqual([]);
   });
+
+  // Pairs only lines whose facts can hold together (M5's ruling on the
+  // pair-sheet rule, Nov 14): a fact the line before sets counts as held, so
+  // a take-up reply after an answer stays on the sheet.
+  describe("facts that can hold together", () => {
+    const scene: ReplyScene = { purpose: "test-visit", key: "test-visit" };
+    const use = (more: Partial<BankPart["uses"][number]>) =>
+      ({
+        subject: "scene",
+        role: "asked",
+        purpose: "test-visit",
+        key: "test-visit",
+        ...more,
+      }) as BankPart["uses"][number];
+    const piece = (key: string, u: BankPart["uses"][number]): BankPart => ({
+      key,
+      text: key,
+      uses: [u],
+    });
+    const answer = (more: Partial<BankPart["uses"][number]>) =>
+      piece(
+        "answer",
+        use({ step: "follow", move: "answer", role: "asker", ...more }),
+      );
+    const reply = (more: Partial<BankPart["uses"][number]>) =>
+      piece("reply", use({ step: "reply", move: "agree", ...more }));
+    const flow = (apart: string[][] = []): ReplyFlow => ({
+      next: () => new Set(["agree"]),
+      apart: () => apart,
+    });
+    const paired = (before: BankPart, after: BankPart, apart?: string[][]) =>
+      replyPairs([before, after], { scenes: [scene], flow: flow(apart) }).some(
+        (pair) => pair.before === "answer" && pair.reply === "reply",
+      );
+
+    it("keeps a reply that needs a fact the line before rules out and sets", () => {
+      expect(
+        paired(
+          answer({ excludesFacts: ["told"], setsFacts: ["told"] }),
+          reply({ requiresFacts: ["told"] }),
+        ),
+      ).toBe(true);
+    });
+    it("keeps a reply that needs a fact only the line before sets, and drops it after a line that does not", () => {
+      const needs = reply({ requiresFacts: ["told"] });
+      expect(paired(answer({ setsFacts: ["told"] }), needs)).toBe(true);
+      const other = piece(
+        "other",
+        use({
+          step: "follow",
+          move: "answer",
+          role: "asker",
+          setsFacts: ["told"],
+        }),
+      );
+      expect(
+        replyPairs([answer({}), other, needs], {
+          scenes: [scene],
+          flow: flow(),
+        }).some((pair) => pair.before === "answer" && pair.reply === "reply"),
+      ).toBe(false);
+    });
+    it("drops a reply that rules out a fact the line before needs or sets", () => {
+      expect(
+        paired(
+          answer({ requiresFacts: ["for"] }),
+          reply({ excludesFacts: ["for"] }),
+        ),
+      ).toBe(false);
+      expect(
+        paired(
+          answer({ setsFacts: ["told"] }),
+          reply({ excludesFacts: ["told"] }),
+        ),
+      ).toBe(false);
+    });
+    it("drops two facts the arc keeps apart, and keeps one", () => {
+      const apart = [["for", "against"]];
+      expect(
+        paired(
+          answer({ requiresFacts: ["for"] }),
+          reply({ requiresFacts: ["against"] }),
+          apart,
+        ),
+      ).toBe(false);
+      expect(
+        paired(
+          answer({ requiresFacts: ["for"] }),
+          reply({ requiresFacts: ["for"] }),
+          apart,
+        ),
+      ).toBe(true);
+    });
+  });
 });
