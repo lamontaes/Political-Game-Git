@@ -77,7 +77,8 @@ export const SERVE_ASKS_MODULE_ID = "core2-serve-asks-v1";
 export const SERVE_ASKED_EVENT = "serve-asked";
 
 /** The scene endings that seat the person, and the ones that keep a no. */
-const YES_ENDINGS: ReadonlySet<string> = new Set(["serving"]);
+/** A yes, and a yes on the player's promise (the price end). */
+const YES_ENDINGS: ReadonlySet<string> = new Set(["serving", "promised"]);
 const NO_ENDINGS: ReadonlySet<string> = new Set(["turned-down"]);
 
 type Tagged = { readonly value: number };
@@ -702,6 +703,19 @@ export function leanIfHedged(row: ServeAskRow): number {
     : lean;
 }
 
+/**
+ * What the player's word on the asked person's own question is worth to them
+ * (willingness.json `promise`, times how strongly they hold it). Someone whose
+ * read is short of yes by less than this names the promise as their price;
+ * the player accepts it or refuses (gov-serve-ask-price-end). Zero where the
+ * seat weighs no promise or they hold no question.
+ */
+export function promiseWorth(row: ServeAskRow): number {
+  const { grounds } = row.standing;
+  if (!grounds.question) return 0;
+  return w(row.seat, "promise") * Math.abs(grounds.theirStance);
+}
+
 /** The running mate choice as the player is offered it: with the willing read. */
 export function offeredRunningMates(api: CoreAPI, filingId: string) {
   return ticketFor(api, filingId)?.choice ?? runningMateChoice(api, filingId);
@@ -836,6 +850,9 @@ export function askToServe(
       askerId: found.filing.personId,
       askedId: input.personId,
       question: standing.grounds.question,
+      // The side they hold on it: a promise they ask for is to hold it
+      // (promise-kinds.json `hold-question`).
+      side: standing.grounds.theirStance < 0 ? "no" : "yes",
       reason: standing.reason,
     },
   });
@@ -977,6 +994,9 @@ function askToTakePost(
       askerId: input.appointerId,
       askedId: input.personId,
       question: standing.grounds.question,
+      // The side they hold on it: a promise they ask for is to hold it
+      // (promise-kinds.json `hold-question`).
+      side: standing.grounds.theirStance < 0 ? "no" : "yes",
       reason: standing.reason,
     },
   });

@@ -6798,7 +6798,8 @@
           "move": "accept",
           "role": "asker",
           "purpose": "ask-to-serve",
-          "key": "serve-asked"
+          "key": "serve-asked",
+          "excludesFacts": ["price-named"]
         }
       ],
       "bearing": "calm",
@@ -157055,7 +157056,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["reason-yes-trust"]
+          "requiresFacts": ["reason-yes-trust"],
+          "excludesFacts": ["price-named"]
         }
       ],
       "bearing": "warm",
@@ -157080,7 +157082,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["reason-yes-trust"]
+          "requiresFacts": ["reason-yes-trust"],
+          "excludesFacts": ["price-named"]
         }
       ],
       "bearing": "calm",
@@ -157106,7 +157109,7 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "requiresFacts": ["reason-yes-step-up"],
-          "excludesFacts": ["stranger"]
+          "excludesFacts": ["stranger", "price-named"]
         }
       ],
       "bearing": "eager",
@@ -157132,7 +157135,7 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "requiresFacts": ["reason-yes-step-up"],
-          "excludesFacts": ["stranger"]
+          "excludesFacts": ["stranger", "price-named"]
         }
       ],
       "bearing": "proud",
@@ -157158,7 +157161,7 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "requiresFacts": ["reason-yes-agree"],
-          "excludesFacts": ["serve-post"]
+          "excludesFacts": ["serve-post", "price-named"]
         }
       ],
       "bearing": "calm",
@@ -157183,7 +157186,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["reason-yes-agree"]
+          "requiresFacts": ["reason-yes-agree"],
+          "excludesFacts": ["price-named"]
         }
       ],
       "bearing": "glad",
@@ -157209,7 +157213,7 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "requiresFacts": ["reason-yes-real-race"],
-          "excludesFacts": ["stranger"]
+          "excludesFacts": ["stranger", "price-named"]
         }
       ],
       "bearing": "calm",
@@ -157235,7 +157239,7 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "requiresFacts": ["reason-yes-real-race"],
-          "excludesFacts": ["stranger"]
+          "excludesFacts": ["stranger", "price-named"]
         }
       ],
       "bearing": "guarded",
@@ -157260,7 +157264,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["reason-own-seat"]
+          "requiresFacts": ["reason-own-seat"],
+          "excludesFacts": ["price-named"]
         }
       ],
       "bearing": "calm",
@@ -157286,7 +157291,7 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "requiresFacts": ["reason-own-seat"],
-          "excludesFacts": ["stranger"]
+          "excludesFacts": ["stranger", "price-named"]
         }
       ],
       "bearing": "guarded",
@@ -157311,7 +157316,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["reason-own-race"]
+          "requiresFacts": ["reason-own-race"],
+          "excludesFacts": ["price-named"]
         }
       ],
       "bearing": "braced",
@@ -157337,7 +157343,7 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "requiresFacts": ["reason-own-race"],
-          "excludesFacts": ["stranger"]
+          "excludesFacts": ["stranger", "price-named"]
         }
       ],
       "bearing": "calm",
@@ -157362,7 +157368,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["reason-apart"]
+          "requiresFacts": ["reason-apart"],
+          "excludesFacts": ["price-named"]
         }
       ],
       "bearing": "firm",
@@ -157388,7 +157395,7 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "requiresFacts": ["reason-apart"],
-          "excludesFacts": ["serve-post"]
+          "excludesFacts": ["serve-post", "price-named"]
         }
       ],
       "bearing": "guarded",
@@ -157413,7 +157420,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["reason-heard", "outlet"]
+          "requiresFacts": ["reason-heard", "outlet"],
+          "excludesFacts": ["price-named"]
         }
       ],
       "bearing": "braced",
@@ -157439,7 +157447,7 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "requiresFacts": ["reason-heard"],
-          "excludesFacts": ["stranger"]
+          "excludesFacts": ["stranger", "price-named"]
         }
       ],
       "bearing": "guarded",
@@ -157465,7 +157473,7 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "requiresFacts": ["reason-long-shot"],
-          "excludesFacts": ["stranger"]
+          "excludesFacts": ["stranger", "price-named"]
         }
       ],
       "bearing": "calm",
@@ -157491,7 +157499,7 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "requiresFacts": ["reason-long-shot"],
-          "excludesFacts": ["stranger"]
+          "excludesFacts": ["stranger", "price-named"]
         }
       ],
       "bearing": "braced",
@@ -157590,7 +157598,8 @@
           "move": "press",
           "role": "asker",
           "purpose": "ask-to-serve",
-          "key": "serve-asked"
+          "key": "serve-asked",
+          "excludesFacts": ["price-named"]
         }
       ],
       "bearing": "calm",
@@ -157614,7 +157623,8 @@
           "move": "press",
           "role": "asker",
           "purpose": "ask-to-serve",
-          "key": "serve-asked"
+          "key": "serve-asked",
+          "excludesFacts": ["price-named"]
         }
       ],
       "bearing": "firm",
@@ -157638,7 +157648,8 @@
           "move": "press",
           "role": "asker",
           "purpose": "ask-to-serve",
-          "key": "serve-asked"
+          "key": "serve-asked",
+          "excludesFacts": ["price-named"]
         }
       ],
       "bearing": "braced",
@@ -157662,7 +157673,8 @@
           "move": "press",
           "role": "asker",
           "purpose": "ask-to-serve",
-          "key": "serve-asked"
+          "key": "serve-asked",
+          "excludesFacts": ["price-named"]
         }
       ],
       "bearing": "curious",
@@ -157686,7 +157698,8 @@
           "move": "accept",
           "role": "asker",
           "purpose": "ask-to-serve",
-          "key": "serve-asked"
+          "key": "serve-asked",
+          "excludesFacts": ["price-named"]
         }
       ],
       "bearing": "warm",
@@ -157710,7 +157723,8 @@
           "move": "accept",
           "role": "asker",
           "purpose": "ask-to-serve",
-          "key": "serve-asked"
+          "key": "serve-asked",
+          "excludesFacts": ["price-named"]
         }
       ],
       "bearing": "calm",
@@ -157734,7 +157748,8 @@
           "move": "accept",
           "role": "asker",
           "purpose": "ask-to-serve",
-          "key": "serve-asked"
+          "key": "serve-asked",
+          "excludesFacts": ["price-named"]
         }
       ],
       "bearing": "steady",
@@ -157758,7 +157773,8 @@
           "move": "accept",
           "role": "asker",
           "purpose": "ask-to-serve",
-          "key": "serve-asked"
+          "key": "serve-asked",
+          "excludesFacts": ["price-named"]
         }
       ],
       "bearing": "warm",
@@ -157784,7 +157800,8 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "after": "press",
-          "requiresFacts": ["reason-own-seat", "their-term-ends"]
+          "requiresFacts": ["reason-own-seat", "their-term-ends"],
+          "excludesFacts": ["price-named"]
         }
       ],
       "bearing": "calm",
@@ -157811,7 +157828,7 @@
           "key": "serve-asked",
           "after": "press",
           "requiresFacts": ["reason-own-seat"],
-          "excludesFacts": ["their-term-ends"]
+          "excludesFacts": ["their-term-ends", "price-named"]
         }
       ],
       "bearing": "calm",
@@ -157838,7 +157855,7 @@
           "key": "serve-asked",
           "after": "press",
           "requiresFacts": ["reason-own-race"],
-          "excludesFacts": ["stranger"]
+          "excludesFacts": ["stranger", "price-named"]
         }
       ],
       "bearing": "calm",
@@ -157864,7 +157881,8 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "after": "press",
-          "requiresFacts": ["reason-apart"]
+          "requiresFacts": ["reason-apart"],
+          "excludesFacts": ["price-named"]
         }
       ],
       "bearing": "firm",
@@ -157891,7 +157909,7 @@
           "key": "serve-asked",
           "after": "press",
           "requiresFacts": ["reason-heard"],
-          "excludesFacts": ["stranger"]
+          "excludesFacts": ["stranger", "price-named"]
         }
       ],
       "bearing": "braced",
@@ -157918,7 +157936,7 @@
           "key": "serve-asked",
           "after": "press",
           "requiresFacts": ["reason-long-shot"],
-          "excludesFacts": ["stranger"]
+          "excludesFacts": ["stranger", "price-named"]
         }
       ],
       "bearing": "calm",
@@ -157943,7 +157961,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["reason-yes-trust"]
+          "requiresFacts": ["reason-yes-trust"],
+          "excludesFacts": ["price-named"]
         }
       ],
       "bearing": "eager",
@@ -157968,7 +157987,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["reason-yes-trust"]
+          "requiresFacts": ["reason-yes-trust"],
+          "excludesFacts": ["price-named"]
         }
       ],
       "bearing": "guarded",
@@ -157994,7 +158014,7 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "requiresFacts": ["reason-yes-step-up"],
-          "excludesFacts": ["serve-post", "stranger"]
+          "excludesFacts": ["serve-post", "stranger", "price-named"]
         }
       ],
       "bearing": "calm",
@@ -158020,7 +158040,7 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "requiresFacts": ["reason-yes-step-up"],
-          "excludesFacts": ["stranger"]
+          "excludesFacts": ["stranger", "price-named"]
         }
       ],
       "bearing": "guarded",
@@ -158046,7 +158066,7 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "requiresFacts": ["reason-yes-agree"],
-          "excludesFacts": ["serve-post", "stranger"]
+          "excludesFacts": ["serve-post", "stranger", "price-named"]
         }
       ],
       "bearing": "eager",
@@ -158071,7 +158091,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["reason-yes-agree"]
+          "requiresFacts": ["reason-yes-agree"],
+          "excludesFacts": ["price-named"]
         }
       ],
       "bearing": "firm",
@@ -158097,7 +158118,7 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "requiresFacts": ["reason-yes-real-race"],
-          "excludesFacts": ["stranger"]
+          "excludesFacts": ["stranger", "price-named"]
         }
       ],
       "bearing": "eager",
@@ -158123,7 +158144,7 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "requiresFacts": ["reason-yes-real-race"],
-          "excludesFacts": ["stranger"]
+          "excludesFacts": ["stranger", "price-named"]
         }
       ],
       "bearing": "firm",
@@ -158149,7 +158170,7 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "requiresFacts": ["reason-own-seat"],
-          "excludesFacts": ["stranger"]
+          "excludesFacts": ["stranger", "price-named"]
         }
       ],
       "bearing": "braced",
@@ -158175,7 +158196,7 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "requiresFacts": ["reason-own-seat"],
-          "excludesFacts": ["stranger"]
+          "excludesFacts": ["stranger", "price-named"]
         }
       ],
       "bearing": "firm",
@@ -158201,7 +158222,7 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "requiresFacts": ["reason-own-race"],
-          "excludesFacts": ["stranger"]
+          "excludesFacts": ["stranger", "price-named"]
         }
       ],
       "bearing": "guarded",
@@ -158227,7 +158248,7 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "requiresFacts": ["reason-own-race"],
-          "excludesFacts": ["stranger"]
+          "excludesFacts": ["stranger", "price-named"]
         }
       ],
       "bearing": "firm",
@@ -158253,7 +158274,7 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "requiresFacts": ["reason-apart"],
-          "excludesFacts": ["stranger"]
+          "excludesFacts": ["stranger", "price-named"]
         }
       ],
       "bearing": "calm",
@@ -158279,7 +158300,7 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "requiresFacts": ["reason-apart"],
-          "excludesFacts": ["stranger"]
+          "excludesFacts": ["stranger", "price-named"]
         }
       ],
       "bearing": "braced",
@@ -158305,7 +158326,7 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "requiresFacts": ["reason-heard"],
-          "excludesFacts": ["stranger"]
+          "excludesFacts": ["stranger", "price-named"]
         }
       ],
       "bearing": "calm",
@@ -158331,7 +158352,7 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "requiresFacts": ["reason-heard"],
-          "excludesFacts": ["stranger"]
+          "excludesFacts": ["stranger", "price-named"]
         }
       ],
       "bearing": "firm",
@@ -158357,7 +158378,7 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "requiresFacts": ["reason-long-shot"],
-          "excludesFacts": ["stranger"]
+          "excludesFacts": ["stranger", "price-named"]
         }
       ],
       "bearing": "guarded",
@@ -158383,7 +158404,7 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "requiresFacts": ["reason-long-shot"],
-          "excludesFacts": ["stranger"]
+          "excludesFacts": ["stranger", "price-named"]
         }
       ],
       "bearing": "firm",
@@ -158410,7 +158431,7 @@
           "key": "serve-asked",
           "after": "press",
           "requiresFacts": ["reason-own-race"],
-          "excludesFacts": ["stranger"]
+          "excludesFacts": ["stranger", "price-named"]
         }
       ],
       "bearing": "firm",
@@ -158437,7 +158458,7 @@
           "key": "serve-asked",
           "after": "press",
           "requiresFacts": ["reason-apart"],
-          "excludesFacts": ["stranger"]
+          "excludesFacts": ["stranger", "price-named"]
         }
       ],
       "bearing": "calm",
@@ -158464,7 +158485,7 @@
           "key": "serve-asked",
           "after": "press",
           "requiresFacts": ["reason-heard"],
-          "excludesFacts": ["stranger"]
+          "excludesFacts": ["stranger", "price-named"]
         }
       ],
       "bearing": "calm",
@@ -158491,7 +158512,7 @@
           "key": "serve-asked",
           "after": "press",
           "requiresFacts": ["reason-long-shot"],
-          "excludesFacts": ["stranger"]
+          "excludesFacts": ["stranger", "price-named"]
         }
       ],
       "bearing": "guarded",
@@ -158518,7 +158539,7 @@
           "key": "serve-asked",
           "after": "press",
           "requiresFacts": ["reason-own-seat"],
-          "excludesFacts": ["stranger"]
+          "excludesFacts": ["stranger", "price-named"]
         }
       ],
       "bearing": "firm",
@@ -158544,7 +158565,7 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "requiresFacts": ["changed-met", "self"],
-          "excludesFacts": ["serve-post"]
+          "excludesFacts": ["serve-post", "price-named"]
         }
       ],
       "bearing": "warm",
@@ -158569,7 +158590,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["changed-met", "self"]
+          "requiresFacts": ["changed-met", "self"],
+          "excludesFacts": ["price-named"]
         }
       ],
       "bearing": "calm",
@@ -158595,7 +158617,7 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "requiresFacts": ["changed-standing", "self"],
-          "excludesFacts": ["serve-post"]
+          "excludesFacts": ["serve-post", "price-named"]
         }
       ],
       "bearing": "eager",
@@ -158620,7 +158642,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["changed-standing", "self"]
+          "requiresFacts": ["changed-standing", "self"],
+          "excludesFacts": ["price-named"]
         }
       ],
       "bearing": "calm",
@@ -158646,7 +158669,7 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "requiresFacts": ["changed-agree", "self"],
-          "excludesFacts": ["serve-post"]
+          "excludesFacts": ["serve-post", "price-named"]
         }
       ],
       "bearing": "warm",
@@ -158671,7 +158694,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["changed-agree", "self"]
+          "requiresFacts": ["changed-agree", "self"],
+          "excludesFacts": ["price-named"]
         }
       ],
       "bearing": "calm",
@@ -158696,7 +158720,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["changed-heard", "self"]
+          "requiresFacts": ["changed-heard", "self"],
+          "excludesFacts": ["price-named"]
         }
       ],
       "bearing": "guarded",
@@ -158721,7 +158746,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["changed-heard", "self"]
+          "requiresFacts": ["changed-heard", "self"],
+          "excludesFacts": ["price-named"]
         }
       ],
       "bearing": "calm",
@@ -158746,7 +158772,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["changed-seat", "self"]
+          "requiresFacts": ["changed-seat", "self"],
+          "excludesFacts": ["price-named"]
         }
       ],
       "bearing": "calm",
@@ -158772,7 +158799,7 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "requiresFacts": ["changed-seat", "self"],
-          "excludesFacts": ["serve-post"]
+          "excludesFacts": ["serve-post", "price-named"]
         }
       ],
       "bearing": "calm",
@@ -159994,7 +160021,8 @@
           "move": "accept",
           "role": "asker",
           "purpose": "ask-to-serve",
-          "key": "serve-asked"
+          "key": "serve-asked",
+          "excludesFacts": ["price-named"]
         }
       ],
       "bearing": "tender",
@@ -182143,7 +182171,7 @@
           "key": "serve-asked",
           "after": "deflect",
           "requiresFacts": ["reason-yes-agree"],
-          "excludesFacts": ["serve-post"]
+          "excludesFacts": ["serve-post", "price-named"]
         }
       ],
       "bearing": "firm",
@@ -182169,7 +182197,8 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "after": "deflect",
-          "requiresFacts": ["reason-yes-agree"]
+          "requiresFacts": ["reason-yes-agree"],
+          "excludesFacts": ["price-named"]
         }
       ],
       "bearing": "guarded",
@@ -182196,7 +182225,7 @@
           "key": "serve-asked",
           "after": "deflect",
           "requiresFacts": ["reason-yes-agree"],
-          "excludesFacts": ["serve-post"]
+          "excludesFacts": ["serve-post", "price-named"]
         }
       ],
       "bearing": "braced",
@@ -182222,7 +182251,8 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "after": "answer",
-          "requiresFacts": ["stranger", "reason-yes-step-up"]
+          "requiresFacts": ["stranger", "reason-yes-step-up"],
+          "excludesFacts": ["price-named"]
         },
         {
           "subject": "scene",
@@ -182232,7 +182262,8 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "after": "tell",
-          "requiresFacts": ["stranger", "reason-yes-step-up"]
+          "requiresFacts": ["stranger", "reason-yes-step-up"],
+          "excludesFacts": ["price-named"]
         },
         {
           "subject": "scene",
@@ -182241,7 +182272,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["reason-yes-step-up", "stranger"]
+          "requiresFacts": ["reason-yes-step-up", "stranger"],
+          "excludesFacts": ["price-named"]
         }
       ],
       "bearing": "eager",
@@ -182267,7 +182299,8 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "after": "answer",
-          "requiresFacts": ["stranger", "reason-yes-step-up"]
+          "requiresFacts": ["stranger", "reason-yes-step-up"],
+          "excludesFacts": ["price-named"]
         },
         {
           "subject": "scene",
@@ -182277,7 +182310,8 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "after": "tell",
-          "requiresFacts": ["stranger", "reason-yes-step-up"]
+          "requiresFacts": ["stranger", "reason-yes-step-up"],
+          "excludesFacts": ["price-named"]
         }
       ],
       "bearing": "calm",
@@ -182303,7 +182337,8 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "after": "answer",
-          "requiresFacts": ["stranger", "reason-yes-agree"]
+          "requiresFacts": ["stranger", "reason-yes-agree"],
+          "excludesFacts": ["price-named"]
         }
       ],
       "bearing": "glad",
@@ -182329,7 +182364,8 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "after": "answer",
-          "requiresFacts": ["stranger", "reason-yes-agree"]
+          "requiresFacts": ["stranger", "reason-yes-agree"],
+          "excludesFacts": ["price-named"]
         }
       ],
       "bearing": "calm",
@@ -182355,7 +182391,8 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "after": "deflect",
-          "requiresFacts": ["stranger", "reason-yes-agree"]
+          "requiresFacts": ["stranger", "reason-yes-agree"],
+          "excludesFacts": ["price-named"]
         }
       ],
       "bearing": "guarded",
@@ -186209,7 +186246,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["serve-post", "reason-pays-less"]
+          "requiresFacts": ["serve-post", "reason-pays-less"],
+          "excludesFacts": ["price-named"]
         }
       ],
       "bearing": "braced",
@@ -186234,7 +186272,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["serve-post", "reason-pays-less"]
+          "requiresFacts": ["serve-post", "reason-pays-less"],
+          "excludesFacts": ["price-named"]
         }
       ],
       "bearing": "guarded",
@@ -186259,7 +186298,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["serve-post", "reason-own-job"]
+          "requiresFacts": ["serve-post", "reason-own-job"],
+          "excludesFacts": ["price-named"]
         }
       ],
       "bearing": "firm",
@@ -186284,7 +186324,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["serve-post", "reason-own-job"]
+          "requiresFacts": ["serve-post", "reason-own-job"],
+          "excludesFacts": ["price-named"]
         }
       ],
       "bearing": "calm",
@@ -186309,7 +186350,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["serve-post", "reason-yes-pay", "out-of-work"]
+          "requiresFacts": ["serve-post", "reason-yes-pay", "out-of-work"],
+          "excludesFacts": ["price-named"]
         }
       ],
       "bearing": "glad",
@@ -186334,7 +186376,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["serve-post", "reason-yes-pay", "pay-raise"]
+          "requiresFacts": ["serve-post", "reason-yes-pay", "pay-raise"],
+          "excludesFacts": ["price-named"]
         }
       ],
       "bearing": "calm",
@@ -186359,7 +186402,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["serve-post", "reason-yes-pay", "pay-raise"]
+          "requiresFacts": ["serve-post", "reason-yes-pay", "pay-raise"],
+          "excludesFacts": ["price-named"]
         }
       ],
       "bearing": "calm",
@@ -186411,7 +186455,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["serve-post", "confirm"]
+          "requiresFacts": ["serve-post", "confirm"],
+          "excludesFacts": ["price-named"]
         }
       ],
       "bearing": "guarded",
@@ -186436,7 +186481,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["serve-post", "confirm"]
+          "requiresFacts": ["serve-post", "confirm"],
+          "excludesFacts": ["price-named"]
         }
       ],
       "bearing": "calm",
@@ -186520,7 +186566,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["reason-yes-step-up", "stranger"]
+          "requiresFacts": ["reason-yes-step-up", "stranger"],
+          "excludesFacts": ["price-named"]
         }
       ]
     },
@@ -186545,7 +186592,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["reason-yes-real-race", "stranger"]
+          "requiresFacts": ["reason-yes-real-race", "stranger"],
+          "excludesFacts": ["price-named"]
         }
       ]
     },
@@ -186570,7 +186618,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["reason-yes-real-race", "stranger"]
+          "requiresFacts": ["reason-yes-real-race", "stranger"],
+          "excludesFacts": ["price-named"]
         }
       ]
     },
@@ -186595,7 +186644,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["reason-own-seat", "stranger"]
+          "requiresFacts": ["reason-own-seat", "stranger"],
+          "excludesFacts": ["price-named"]
         }
       ]
     },
@@ -186620,7 +186670,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["reason-own-race", "stranger"]
+          "requiresFacts": ["reason-own-race", "stranger"],
+          "excludesFacts": ["price-named"]
         }
       ]
     },
@@ -186645,7 +186696,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["reason-heard", "stranger"]
+          "requiresFacts": ["reason-heard", "stranger"],
+          "excludesFacts": ["price-named"]
         }
       ]
     },
@@ -186670,7 +186722,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["reason-stranger", "stranger"]
+          "requiresFacts": ["reason-stranger", "stranger"],
+          "excludesFacts": ["price-named"]
         }
       ]
     },
@@ -186695,7 +186748,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["reason-stranger", "stranger"]
+          "requiresFacts": ["reason-stranger", "stranger"],
+          "excludesFacts": ["price-named"]
         }
       ]
     },
@@ -186720,7 +186774,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["reason-long-shot", "stranger"]
+          "requiresFacts": ["reason-long-shot", "stranger"],
+          "excludesFacts": ["price-named"]
         }
       ]
     },
@@ -186745,7 +186800,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["reason-long-shot", "stranger"]
+          "requiresFacts": ["reason-long-shot", "stranger"],
+          "excludesFacts": ["price-named"]
         }
       ]
     },
@@ -186771,7 +186827,8 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "after": "press",
-          "requiresFacts": ["reason-own-race", "stranger"]
+          "requiresFacts": ["reason-own-race", "stranger"],
+          "excludesFacts": ["price-named"]
         }
       ]
     },
@@ -186797,7 +186854,8 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "after": "press",
-          "requiresFacts": ["reason-heard", "stranger"]
+          "requiresFacts": ["reason-heard", "stranger"],
+          "excludesFacts": ["price-named"]
         }
       ]
     },
@@ -186823,7 +186881,8 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "after": "press",
-          "requiresFacts": ["reason-stranger", "stranger"]
+          "requiresFacts": ["reason-stranger", "stranger"],
+          "excludesFacts": ["price-named"]
         }
       ]
     },
@@ -186849,7 +186908,8 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "after": "press",
-          "requiresFacts": ["reason-long-shot", "stranger"]
+          "requiresFacts": ["reason-long-shot", "stranger"],
+          "excludesFacts": ["price-named"]
         }
       ]
     },
@@ -186875,7 +186935,7 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "requiresFacts": ["reason-yes-step-up", "stranger"],
-          "excludesFacts": ["serve-post"]
+          "excludesFacts": ["serve-post", "price-named"]
         }
       ]
     },
@@ -186900,7 +186960,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["reason-yes-step-up", "stranger"]
+          "requiresFacts": ["reason-yes-step-up", "stranger"],
+          "excludesFacts": ["price-named"]
         }
       ]
     },
@@ -186926,7 +186987,7 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "requiresFacts": ["reason-yes-agree", "stranger"],
-          "excludesFacts": ["serve-post"]
+          "excludesFacts": ["serve-post", "price-named"]
         }
       ]
     },
@@ -186951,7 +187012,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["reason-yes-real-race", "stranger"]
+          "requiresFacts": ["reason-yes-real-race", "stranger"],
+          "excludesFacts": ["price-named"]
         }
       ]
     },
@@ -186976,7 +187038,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["reason-yes-real-race", "stranger"]
+          "requiresFacts": ["reason-yes-real-race", "stranger"],
+          "excludesFacts": ["price-named"]
         }
       ]
     },
@@ -187001,7 +187064,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["reason-own-seat", "stranger"]
+          "requiresFacts": ["reason-own-seat", "stranger"],
+          "excludesFacts": ["price-named"]
         }
       ]
     },
@@ -187026,7 +187090,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["reason-own-seat", "stranger"]
+          "requiresFacts": ["reason-own-seat", "stranger"],
+          "excludesFacts": ["price-named"]
         }
       ]
     },
@@ -187051,7 +187116,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["reason-own-race", "stranger"]
+          "requiresFacts": ["reason-own-race", "stranger"],
+          "excludesFacts": ["price-named"]
         }
       ]
     },
@@ -187076,7 +187142,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["reason-own-race", "stranger"]
+          "requiresFacts": ["reason-own-race", "stranger"],
+          "excludesFacts": ["price-named"]
         }
       ]
     },
@@ -187101,7 +187168,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["reason-apart", "stranger"]
+          "requiresFacts": ["reason-apart", "stranger"],
+          "excludesFacts": ["price-named"]
         }
       ]
     },
@@ -187126,7 +187194,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["reason-apart", "stranger"]
+          "requiresFacts": ["reason-apart", "stranger"],
+          "excludesFacts": ["price-named"]
         }
       ]
     },
@@ -187151,7 +187220,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["reason-heard", "stranger"]
+          "requiresFacts": ["reason-heard", "stranger"],
+          "excludesFacts": ["price-named"]
         }
       ]
     },
@@ -187176,7 +187246,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["reason-heard", "stranger"]
+          "requiresFacts": ["reason-heard", "stranger"],
+          "excludesFacts": ["price-named"]
         }
       ]
     },
@@ -187202,7 +187273,7 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "requiresFacts": ["reason-stranger", "stranger"],
-          "excludesFacts": ["serve-post"]
+          "excludesFacts": ["serve-post", "price-named"]
         }
       ]
     },
@@ -187227,7 +187298,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["reason-stranger", "stranger"]
+          "requiresFacts": ["reason-stranger", "stranger"],
+          "excludesFacts": ["price-named"]
         }
       ]
     },
@@ -187252,7 +187324,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["reason-long-shot", "stranger"]
+          "requiresFacts": ["reason-long-shot", "stranger"],
+          "excludesFacts": ["price-named"]
         }
       ]
     },
@@ -187277,7 +187350,8 @@
           "role": "asked",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["reason-long-shot", "stranger"]
+          "requiresFacts": ["reason-long-shot", "stranger"],
+          "excludesFacts": ["price-named"]
         }
       ]
     },
@@ -187303,7 +187377,8 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "after": "press",
-          "requiresFacts": ["reason-own-race", "stranger"]
+          "requiresFacts": ["reason-own-race", "stranger"],
+          "excludesFacts": ["price-named"]
         }
       ]
     },
@@ -187329,7 +187404,8 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "after": "press",
-          "requiresFacts": ["reason-apart", "stranger"]
+          "requiresFacts": ["reason-apart", "stranger"],
+          "excludesFacts": ["price-named"]
         }
       ]
     },
@@ -187355,7 +187431,8 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "after": "press",
-          "requiresFacts": ["reason-heard", "stranger"]
+          "requiresFacts": ["reason-heard", "stranger"],
+          "excludesFacts": ["price-named"]
         }
       ]
     },
@@ -187381,7 +187458,8 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "after": "press",
-          "requiresFacts": ["reason-stranger", "stranger"]
+          "requiresFacts": ["reason-stranger", "stranger"],
+          "excludesFacts": ["price-named"]
         }
       ]
     },
@@ -187407,7 +187485,8 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "after": "press",
-          "requiresFacts": ["reason-long-shot", "stranger"]
+          "requiresFacts": ["reason-long-shot", "stranger"],
+          "excludesFacts": ["price-named"]
         }
       ]
     },
@@ -187433,9 +187512,374 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "after": "press",
-          "requiresFacts": ["reason-own-seat", "stranger"]
+          "requiresFacts": ["reason-own-seat", "stranger"],
+          "excludesFacts": ["price-named"]
         }
       ]
+    },
+    {
+      "key": "scene-talk.reply-bargain.i-could-see-it-but-i-d-need-to-know-you-ll-hold-the-line-on-issue",
+      "move": "reply-bargain",
+      "kind": "spoken",
+      "text": "I could see it. But I'd need to know you'll hold the line on {issue}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "request",
+          "requiresFacts": ["price-named", "price-side-for"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "S6 (gov-serve-ask-price-end; Words lead rulings Nov 14 16:15Z)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "bargain",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-bargain.i-want-to-say-yes-first-tell-me-you-won-t-give-ground-on-issue",
+      "move": "reply-bargain",
+      "kind": "spoken",
+      "text": "I want to say yes. First tell me you won't give ground on {issue}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "request",
+          "requiresFacts": ["price-named", "price-side-for"]
+        }
+      ],
+      "bearing": "eager",
+      "origin": "authored",
+      "author": "S6 (gov-serve-ask-price-end; Words lead rulings Nov 14 16:15Z)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "bargain",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-bargain.there-s-one-thing-it-s-about-issue-i-can-t-run-next-to-someone-who-d-give-ground-on-it",
+      "move": "reply-bargain",
+      "kind": "spoken",
+      "text": "There's one thing. It's about {issue}. I can't run next to someone who'd give ground on it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "request",
+          "requiresFacts": ["price-named", "price-side-for"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "S6 (gov-serve-ask-price-end; Words lead rulings Nov 14 16:15Z)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "bargain",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-bargain.give-me-your-word-on-issue-then-we-can-talk",
+      "move": "reply-bargain",
+      "kind": "spoken",
+      "text": "Give me your word on {issue}. Then we can talk.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "request",
+          "requiresFacts": ["price-named", "price-side-for"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "S6 (gov-serve-ask-price-end; Words lead rulings Nov 14 16:15Z)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "bargain",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-bargain.i-d-need-you-to-leave-things-as-they-are-on-issue-i-couldn-t-stand-on-a-stage-defending-a-change",
+      "move": "reply-bargain",
+      "kind": "spoken",
+      "text": "I'd need you to leave things as they are on {issue}. I couldn't stand on a stage defending a change.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "request",
+          "requiresFacts": ["price-named", "price-side-against"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "S6 (gov-serve-ask-price-end; Words lead rulings Nov 14 16:15Z)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "bargain",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-bargain.promise-me-you-won-t-push-on-issue-that-s-the-one-thing",
+      "move": "reply-bargain",
+      "kind": "spoken",
+      "text": "Promise me you won't push on {issue}. That's the one thing.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "request",
+          "requiresFacts": ["price-named", "price-side-against"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "S6 (gov-serve-ask-price-end; Words lead rulings Nov 14 16:15Z)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "bargain",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-promise.you-have-my-word-on-issue",
+      "move": "follow-promise",
+      "kind": "spoken",
+      "text": "You have my word on {issue}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "bargain",
+          "requiresFacts": ["price-named"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "S6 (gov-serve-ask-price-end; Words lead rulings Nov 14 16:15Z)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "promise",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-promise.i-can-promise-you-that",
+      "move": "follow-promise",
+      "kind": "spoken",
+      "text": "I can promise you that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "bargain",
+          "requiresFacts": ["price-named"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "S6 (gov-serve-ask-price-end; Words lead rulings Nov 14 16:15Z)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "promise",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-refuse.i-won-t-make-that-promise-not-to-anyone",
+      "move": "follow-refuse",
+      "kind": "spoken",
+      "text": "I won't make that promise. Not to anyone.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "refuse",
+          "role": "asker",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "bargain",
+          "requiresFacts": ["price-named"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "S6 (gov-serve-ask-price-end; Words lead rulings Nov 14 16:15Z)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "refuse",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-refuse.i-can-t-promise-that-i-d-be-lying-to-you",
+      "move": "follow-refuse",
+      "kind": "spoken",
+      "text": "I can't promise that. I'd be lying to you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "refuse",
+          "role": "asker",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "bargain",
+          "requiresFacts": ["price-named"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "S6 (gov-serve-ask-price-end; Words lead rulings Nov 14 16:15Z)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "refuse",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.then-yes-i-ll-run-with-you",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Then yes. I'll run with you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "promise",
+          "requiresFacts": ["price-named"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "S6 (gov-serve-ask-price-end; Words lead rulings Nov 14 16:15Z)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "agree",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.alright-count-me-in",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Alright. Count me in.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "promise",
+          "requiresFacts": ["price-named"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "S6 (gov-serve-ask-price-end; Words lead rulings Nov 14 16:15Z)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "agree",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.then-i-can-t-do-it-i-wish-you-luck",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "Then I can't do it. I wish you luck.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "refuse",
+          "requiresFacts": ["price-named"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "S6 (gov-serve-ask-price-end; Words lead rulings Nov 14 16:15Z)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "decline",
+        "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-respect-that-but-my-answer-is-no",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I respect that, but my answer is no.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "after": "refuse",
+          "requiresFacts": ["price-named"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "S6 (gov-serve-ask-price-end; Words lead rulings Nov 14 16:15Z)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "decline",
+        "key": "serve-asked"
+      }
     }
   ]
 }

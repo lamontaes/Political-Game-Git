@@ -30,6 +30,12 @@
       "purpose": "introduction",
       "ending": "took-them-in-hand",
       "kind": "show-around"
+    },
+    {
+      "purpose": "ask-to-serve",
+      "ending": "promised",
+      "kind": "hold-question",
+      "causeKinds": ["serve-asked"]
     }
   ],
   "kinds": [
@@ -99,6 +105,29 @@
       "windowDays": "promiseShowAroundWindowDays",
       "windowEnds": "broken",
       "countedOn": false,
+      "renewable": false
+    },
+    {
+      "id": "hold-question",
+      "about": "The player's word, given as the price of a yes to serve with them (gov-serve-ask-price-end), to hold the side the one asked holds on the question they care most about: settled by the player's next vote at a roll call or signature or veto on a bill that moves that question, kept if it moves the question their way, broken if against. Held by the player (the second person on the scene reply) and owed to the one asked. The question and the side come from the ask's record (`serve-asked`).",
+      "heldBy": "second",
+      "tie": {
+        "question": "question",
+        "side": "side"
+      },
+      "settle": [
+        {
+          "operation": "question-vote",
+          "eventKind": "legislative-vote"
+        },
+        {
+          "operation": "question-signature",
+          "eventKind": "executive-action"
+        }
+      ],
+      "windowDays": "promiseHoldQuestionWindowDays",
+      "windowEnds": "lapsed",
+      "countedOn": true,
       "renewable": false
     }
   ],
@@ -212,6 +241,16 @@
       "checkRange": {
         "min": 0.5,
         "max": 2
+      }
+    },
+    "promiseHoldQuestionWindowDays": {
+      "value": 1461,
+      "tag": "TUNABLE",
+      "citation": "One four-year term, the length of the seat the promise was the price of: a word given for a ticket is held until a vote or signature on the question tests it, and lapses with no outcome if none does in that time (promises.ts).",
+      "spread": "730 to 2922",
+      "checkRange": {
+        "min": 730,
+        "max": 2922
       }
     }
   }

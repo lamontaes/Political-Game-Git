@@ -117,6 +117,7 @@ import { beatenRunnerUp } from "../core2/modules/voting";
 import {
   SERVE_ASKED_EVENT,
   leanIfHedged,
+  promiseWorth,
   serveAsk,
   type ServeGrounds,
 } from "../core2/modules/serve-asks";
@@ -1886,6 +1887,18 @@ function composeBinding(
     // weighed: the player can say so when asked why them.
     if ((serve.terms.question ?? P.zero) > P.zero)
       facts["near-on-issue"] = { text: "yes", sourceRecordIds: why };
+    // Short of yes by less than the player's word is worth to them: they name
+    // it as their price, on the side they hold (Words lead, Nov 14 16:15Z:
+    // to hold the line where they want the change, to leave things as they
+    // are where they do not).
+    if (serve.priced) {
+      facts["price-named"] = { text: "yes", sourceRecordIds: why };
+      facts[
+        serve.grounds.theirStance < P.zero
+          ? "price-side-against"
+          : "price-side-for"
+      ] = { text: "yes", sourceRecordIds: why };
+    }
     // Asked again after a no: a yes says what changed, as felt (Words lead,
     // Nov 14: the term that moved most since the no).
     if (serve.moved && serve.standing.lean > P.zero)
@@ -2260,14 +2273,24 @@ function serveStanding(
       raceOffice: string;
       moved: string | null;
       seat: string;
+      /** They named the player's word on their question as their price. */
+      priced: boolean;
     }
   | undefined {
   const row = serveAsk(coreAPI(core as CoreState), said.askId ?? "");
   if (!row || row.askedId !== prospectId) return undefined;
+  // Short of yes by less than the player's word on their own question is
+  // worth to them: they name that promise as their price (gov-serve-ask-
+  // price-end). Taking it carries them; refusing it does not.
+  const worth = promiseWorth(row);
+  const priced =
+    row.standing.lean <= P.zero && row.standing.lean + worth > P.zero;
   return {
+    priced,
     standing: {
       lean: row.standing.lean,
-      favor: P.zero,
+      favor: priced ? worth : P.zero,
+      ...(priced ? { price: row.standing.lean + worth } : {}),
       // A stranger who would say yes asks the player one thing first; on
       // their own question, a hedge is weighed as the player's stance unsaid.
       asksFirst: !row.standing.grounds.knows && row.standing.lean > P.zero,
