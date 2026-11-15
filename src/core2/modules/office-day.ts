@@ -334,23 +334,24 @@ export function openOfficeDay(core: CoreState, worldSeed: string): void {
 function openingActs(api: CoreAPI): void {
   const today = makeIsoDate(api.state.date);
   const year = Number(api.state.date.slice(0, 4));
-  const holders = [
-    ...new Set(
-      (
-        api
-          .moduleState(OFFICES_MODULE_ID)
-          .table("terms")
-          .rows() as unknown as TermRow[]
-      )
-        .filter(
-          (term) =>
-            term.status === "serving" &&
-            term.personId &&
-            api.state.people.has(term.personId),
-        )
-        .map((term) => term.personId as string),
-    ),
-  ]
+  // Each serving holder's first day of service: nobody is given an act from
+  // before they held the office, since they did not do it.
+  const since = new Map<string, string>();
+  for (const term of api
+    .moduleState(OFFICES_MODULE_ID)
+    .table("terms")
+    .rows() as unknown as TermRow[]) {
+    if (
+      term.status !== "serving" ||
+      !term.personId ||
+      !api.state.people.has(term.personId)
+    )
+      continue;
+    const from = term.serviceStart ?? term.startDate;
+    const known = since.get(term.personId);
+    if (known === undefined || from < known) since.set(term.personId, from);
+  }
+  const holders = [...since.keys()]
     .filter((id) => officeHost.officesOf(api, id).length > 0)
     .sort();
   const n = holders.length;
@@ -358,6 +359,8 @@ function openingActs(api: CoreAPI): void {
     const interval = api.parameter(parameter);
     holders.forEach((personId, at) => {
       const ago = Math.floor((interval * (at + 1)) / (n + 1));
+      const date = addDays(today, -ago);
+      if (since.get(personId)! > date) return;
       keepAct(
         api,
         {
@@ -368,12 +371,12 @@ function openingActs(api: CoreAPI): void {
           position: null,
           detail: "before the start",
         },
-        addDays(today, -ago),
+        date,
       );
     });
   }
   // The yearly address, in last year's season: the executives of the town's
-  // seats, in the season's months in turn.
+  // seats, in the season's months in turn, when they held the seat by then.
   const season = api.parameter("stateOfCityLastMonth");
   const executives = [
     ...new Set(
@@ -386,6 +389,7 @@ function openingActs(api: CoreAPI): void {
   executives.forEach((personId, at) => {
     const month = 1 + (at % season);
     const date = `${year - 1}-${String(month).padStart(2, "0")}-15`;
+    if (since.get(personId)! > date) return;
     keepAct(
       api,
       {

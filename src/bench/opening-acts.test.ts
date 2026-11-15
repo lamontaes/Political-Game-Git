@@ -81,15 +81,34 @@ describe.each(PINNED)(
           api.state.people.has(row.holder.personId),
       );
       expect(mayors.length).toBeGreaterThan(0);
+      // Each gave it only when they held the seat by then: a holder whose term
+      // began after last year's address season did not give it.
+      let gave = 0;
       for (const row of mayors) {
         const last = officeActsOf(api, row.holder!.personId!).filter(
           (a) => a.kind === "state-of-the-city",
         );
+        const began = row.holder!.serviceStart ?? row.holder!.startDate;
+        if (last.length === 0) {
+          expect(
+            began > `${year - 1}-01-15`,
+            `${place.name}: ${row.holder!.id}`,
+          ).toBe(true);
+          continue;
+        }
+        gave += 1;
         expect(last.map((a) => a.date.slice(0, 4))).toEqual([`${year - 1}`]);
+        expect(began <= last[0]!.date, `${place.name}: began ${began}`).toBe(
+          true,
+        );
         expect(Number(last[0]!.date.slice(5, 7))).toBeLessThanOrEqual(
           api.parameter("stateOfCityLastMonth"),
         );
       }
+      expect(
+        gave,
+        `${place.name}: executives who gave last year's address`,
+      ).toBeGreaterThan(0);
       // The duty of the seat is partly come due on day one, not all of it.
       const lead = mayors.find((row) => row.office.kind === kind);
       expect(lead, `${place.name}: a ${kind}`).toBeDefined();
