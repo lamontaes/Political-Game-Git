@@ -55,6 +55,7 @@ import {
   journalBackdrop,
   JOURNAL_WORDS,
   journalEntry,
+  jobSaid,
   journalRows,
   possessivePronoun,
   relationPhrase,
@@ -2489,10 +2490,18 @@ export function composeJournal(
       (entry) => entry.kindPrefix === "household:children-together",
     );
     if (row && together.length > one) {
-      const names = together.map((unit) => unit.facts.name?.text ?? "");
-      const first = yearOf(together[zero]!.moment.date);
-      const last = yearOf(together.at(-one)!.moment.date);
-      const ids = together.flatMap((unit) => [unit.moment.causeId]);
+      // The family's children are all of them, told alone or together: one
+      // told alone in a busy year is still one of "our children".
+      const all = units.filter(
+        (unit) =>
+          unit.paragraph !== "play" &&
+          unit.moment.causeKind === "family:child" &&
+          unit.facts.other,
+      );
+      const names = all.map((unit) => unit.facts.name?.text ?? "");
+      const first = yearOf(all[zero]!.moment.date);
+      const last = yearOf(all.at(-one)!.moment.date);
+      const ids = all.flatMap((unit) => [unit.moment.causeId]);
       const [partnerId, partnerFact] =
         [...kin.entries()].find(([, fact]) => fact.relation === "partner") ??
         [];
@@ -2507,7 +2516,7 @@ export function composeJournal(
             )
           : undefined;
       const facts: Facts = {
-        count: { text: countSaid(together.length), sourceRecordIds: ids },
+        count: { text: countSaid(all.length), sourceRecordIds: ids },
         first: { text: first, sourceRecordIds: ids },
         last: { text: last, sourceRecordIds: ids },
         names: { text: listOf(names), sourceRecordIds: ids },
@@ -2709,7 +2718,22 @@ export function composeJournal(
           ids,
         );
         if (frame) {
-          event = framedByAge(frame, event, unit.facts);
+          // The frame says the age: a wording that says it too is told again
+          // without it ("When I was 18, I met John when I was 18").
+          const saysAge =
+            unit.facts.age && event.text.includes(` ${unit.facts.age.text}`);
+          const bare =
+            saysAge && unit.retell
+              ? unit.retell(
+                  Object.fromEntries(
+                    Object.entries(unit.facts).filter(
+                      ([name]) => !AGE_FACTS.has(name),
+                    ),
+                  ),
+                  `${unit.moment.id}:bare`,
+                )
+              : null;
+          event = framedByAge(frame, bare ?? event, unit.facts);
           aged = true;
         }
       } else if (last && !unit.framed && key !== "roots") {
@@ -3571,6 +3595,7 @@ export function composeJournal(
     if (typeof contestId === "string") byContest.set(contestId, fresh);
   }
   let chapterKind: string | undefined;
+  let chapterContest: string | undefined;
   for (const raw of groups) {
     // A race is told by its certified result once (playtest, Nov 13: "We
     // lost. ... So, I was elected"): of one contest's results, the last.
@@ -3598,14 +3623,31 @@ export function composeJournal(
             title.text === `${row.givenName} ${row.familyName}`)
         );
       });
+    // Taking the seat a race won is the same chapter as the race, under the
+    // office's one name ("The New Llano Board of Aldermen"), never a second
+    // chapter for the same office under its title.
+    const factsOf = (unit: Unit | undefined, name: string) => {
+      const value = unit
+        ? core.durableLog.get(unit.moment.causeId)?.facts?.[name]
+        : undefined;
+      return typeof value === "string" ? value : undefined;
+    };
+    const seatTaken = factsOf(turn, "seatId");
+    const sameOffice =
+      turn?.row.kindPrefix === "event:took-office" &&
+      chapterKind === "event:candidate-filed" &&
+      !!seatTaken &&
+      !!chapterContest?.startsWith(`contest:${seatTaken}:`);
     if (
       !chapter ||
       (turn &&
         title &&
         !byName &&
+        !sameOffice &&
         (chapterKind !== turn.row.kindPrefix || title.text !== chapter.title))
     ) {
       chapterKind = turn?.row.kindPrefix;
+      chapterContest = factsOf(turn, "contestId");
       const place = placeName(person.placeId);
       const opening =
         (title && !byName ? title : null) ??
@@ -3840,12 +3882,12 @@ function officeHolding(
       : undefined;
     if (!office?.title) return undefined;
     // One of several seats takes an article: "a council member", but "mayor".
-    const article = /^[aeiou]/i.test(office.title) ? "an" : "a";
+    // An office's title is a common noun inside a sentence ("as state's
+    // attorney"), as the record keeps it for a heading.
+    const title = jobSaid(office.title);
+    const article = /^[aeiou]/i.test(title) ? "an" : "a";
     return {
-      text:
-        (office.seats ?? one) > one
-          ? `${article} ${office.title}`
-          : office.title,
+      text: (office.seats ?? one) > one ? `${article} ${title}` : title,
       sourceRecordIds: [term!.id],
     };
   };
