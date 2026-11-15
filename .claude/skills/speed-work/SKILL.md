@@ -144,3 +144,5 @@ Done when every timed claim names the place, seed, years and machine, every spee
 ## Unattended-world changes: the speed table
 
 A change to anything that runs without the player watching (monthly engines, skipped time, counted groups) carries two tables in the PR body: year 1 of `npm run speed:year`, and time per record, each at three drawn places, with and without the change. Container noise is 10 to 20 percent, so one process at a time and say the machine. A change that makes a year more than 20 percent slower than its base fails the bar even if each table looks small.
+
+- **Read the run-to-run spread before blaming a change (Nov 15).** At the big places (Klamath Falls, Delta City, about 190 seconds a year) the same code differs by 5 to 10 seconds between two runs. A +4.7% reading at Delta City on the federal income tax PR disappeared when base and branch were alternated twice (base 190.3 and 200.8 seconds, branch 199.7 and 201.4) and the added call was timed on its own (reading the country tier's 56 state rows costs 0.0 ms a call). Alternate base and branch, report both pairs, and time the one added call directly instead of rerunning the year.

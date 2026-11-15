@@ -25,6 +25,7 @@ Lead ruling, Nov 13 to 14: a test is pinned in the test file to named places wit
 6. **A test that needs a rare case that does not exist is a finding**, not a license to skip: file an item.
 7. **A late start changes who runs.** A test that opens a world later in the year to save time changes who files, who is in office and what is under way (the views thread, Nov 14: a moderate files on a cause from a Feb 3 board meeting at Marshfield MA, and in a world opened Aug 1 or Sep 1 only two liberals file; at Monument Beach MA opened Jun 1 the conservative never files). Check that the case still exists in the late world before moving the start date.
 8. **A pinned case must fail on the old behavior.** Put the old line back once and see the test go red (the warm-up test: without the hold the played person acts 69 times in the window, with it 0) before calling the case pinned.
+9. **A test's played days are a cost; say why in a comment and use the smallest named place.** A test that plays months must say what the months are for (the federal income tax test plays 40 days, then 62 after each law change, because a law reaches the tier at its next month step and the treasury at the close after that), and it runs at the smallest place that holds the case (Roy, Montana is about 28 seconds a year; Klamath Falls and Delta City about 190). A first version at Klamath Falls took 152 seconds and was sent back; at Roy it takes 23. The explicit limit is near twice the measured test time.
 
 ## Checking a reported pass
 

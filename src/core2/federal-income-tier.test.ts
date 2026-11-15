@@ -1,9 +1,15 @@
 // @vitest-environment node
 /**
  * The federal treasury's individual income tax from the rest of the country, read from the
- * country tier's own withholding (pinned to Klamath Falls, Oregon, draw meet-a1:2). The law
+ * country tier's own withholding (pinned to Roy, Montana, draw meet-a1:1). The law
  * changes are controlled fixtures through `enactLaw`; the tier, the withholding reader and the
  * treasury's close run as in play.
+ *
+ * Why it plays about five months: the treasury closes once a month and reads the tier's last
+ * month, and a law enacted tomorrow reaches the tier at its next month step and the treasury at
+ * the close after that. So the world plays 40 days (two closes, the first sets the base), then
+ * 62 days after each of the two law changes (two month starts each). A smaller place (Roy,
+ * Montana, about 28 seconds a year) keeps those days to about 25 seconds.
  */
 import { expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
@@ -18,7 +24,7 @@ import { enactLaw, lawChain } from "./modules/laws";
 import { countryStateParts, countryStates } from "./modules/macro";
 import { coreAPI } from "./state";
 
-const place = drawPlace("meet-a1:2", "meetings-floor");
+const place = drawPlace("meet-a1:1", "meetings-floor");
 const LINE = "individualIncomeTax";
 
 it("the federal income tax follows the tier's withholding, once, under the law in force", () => {
@@ -41,7 +47,7 @@ it("the federal income tax follows the tier's withholding, once, under the law i
   const run = (days: number) =>
     advanceCore(world.core, addDays(makeIsoDate(api.state.date), days));
 
-  run(75);
+  run(40);
   const first = rows();
   expect(first.length).toBeGreaterThanOrEqual(2);
   const base = first.at(-1)!;
@@ -98,7 +104,7 @@ it("the federal income tax follows the tier's withholding, once, under the law i
         "Controlled fixture: an income tax set to nothing; not a played vote",
     });
   fixture("state", chain.stateKey, "tier-state-zero");
-  run(70);
+  run(62);
   expect(tierIncome(chain.stateKey)).toBeLessThan(stateBefore * 0.05);
   expect(tierIncome(otherKey)).toBeGreaterThan(otherBefore * 0.9);
   const afterState = rows().at(-1)!;
@@ -108,9 +114,9 @@ it("the federal income tax follows the tier's withholding, once, under the law i
 
   // A federal change moves the federal line the next month.
   fixture("federal", "US", "tier-federal-zero");
-  run(70);
+  run(62);
   const afterFederal = rows().at(-1)!;
   expect(afterFederal.date > afterState.date).toBe(true);
   expect(afterFederal.baseIndex).toBeLessThan(afterState.baseIndex * 0.05);
   expect(afterFederal.amountMinor).toBeLessThan(afterState.amountMinor * 0.05);
-}, 300_000);
+}, 60_000);

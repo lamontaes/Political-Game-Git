@@ -26,3 +26,4 @@ description: >
 6. Add a release declaration `docs/release/changes/<id>.md`. `impact: none` has no section or title; any title is under 140 characters.
 7. Run `npm run pool -- --check` and prettier on the file. Known reds on two words items are not yours.
 8. The item goes in the thread's own PR, not a PR of its own.
+9. **Write an item with every field named, never positionally (Nov 15).** A shell function that filled the template by argument position shifted each field down one (the Cause text landed under What, the file list under Waits on) and CI's pool guard failed on all three items; the local check had not looked at them yet. Write the file with named fields, then open it, run `npm run pool -- --check` and read what it says of your items.
