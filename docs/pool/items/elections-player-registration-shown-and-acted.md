@@ -5,10 +5,10 @@ area: elections
 kind: feature
 priority: 3
 size: M
-status: open
+status: in-pr
 standard: 2
 claimed-by:
-pr:
+pr: 9400
 after: elections-voter-registration-record
 blocked-on:
 model: sonnet
