@@ -2976,6 +2976,7 @@ const CALL_COMMENT: Readonly<Record<string, ExposureComment>> = {
   "no-comment": "declined",
   "left-there": "declined",
   "source-fight": "declined",
+  "denial-printed": "denied",
   "lie-printed": "denied",
   caught: "denied",
 };
@@ -4602,7 +4603,15 @@ function keepComment(api: CoreAPI, event: Readonly<CoreEventInput>): void {
   const causeId = String(facts.causeId ?? "");
   const personId = event.personIds[0];
   if (!causeId || !personId) return;
-  const said = facts.ending === "on-record" || facts.ending === "lie-printed";
+  // What they said goes in the story: an interview on the record, a scandal
+  // call answered on the record, a denial printed, or a lie printed or
+  // caught; any other ending is a decline.
+  const said =
+    facts.ending === "on-record" ||
+    facts.ending === "on-the-record" ||
+    facts.ending === "denial-printed" ||
+    facts.ending === "lie-printed" ||
+    facts.ending === "caught";
   table(api, "comments").put({
     id: causeId,
     causeId,
