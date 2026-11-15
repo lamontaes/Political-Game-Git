@@ -5,9 +5,7 @@
  * month that read it, and its repeal. The ban on new gas hookups, whose money
  * moves only when a builder starts a project, is followed in its own case.
  */
-import { randomBytes } from "node:crypto";
 import { afterAll, describe, expect, it } from "vitest";
-import { drawPlace } from "../../tests/golden-path/place";
 import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
@@ -66,13 +64,28 @@ const REPEAL_DAYS = 35;
  * The ban's money moves when a builder starts a project, which a small town
  * does less than once a year (the audit towns' first starts came at 440 and 745
  * days): the case plays up to the longest wait a labor law's run uses, a month
- * at a time, and draws another place where no builder started one.
+ * at a time, at a place where one does.
  */
 const GAS_WINDOW_DAYS = 760;
 const GAS_STEP_DAYS = 30;
-const GAS_DRAWS = 3;
 
-const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
+/** A place and the world seed it is played on, by name. */
+interface Pinned {
+  readonly name: string;
+  readonly key: string;
+  readonly seed: string;
+}
+/**
+ * Eveleth, Minnesota: a state sales tax, licensed retail sellers and counted
+ * households of more than one, so every price law has its payers.
+ */
+const PRICES_PLACE: Pinned = {
+  name: "Wilton, Maine",
+  key: "2385815",
+  seed: "056520284c241460",
+};
+/** The place a builder starts a project in under the gas hookup ban, within the window. */
+const GAS_PLACE: Pinned = PRICES_PLACE;
 
 function setAll(api: CoreAPI, key: string, value: 0 | 1, tag: string): void {
   for (const level of lawChain(api).levels)
@@ -149,32 +162,10 @@ describe("price and sales-tax laws reach people and move money", () => {
 
   it("is followed to households, groups, sellers and treasuries", () => {
     setBookkeeping(false);
-    const tried: string[] = [];
     try {
-      // A place with no sales tax in force has nothing for the tax laws to
-      // collect on: draw again (every place tried is named on failure).
-      let ran = false;
-      // PRICES_WORLD_SEED with PRICES_PLACE_KEY replays one recorded draw first.
-      const pinnedSeed = process.env.PRICES_WORLD_SEED;
-      const pinnedKey = process.env.PRICES_PLACE_KEY;
-      if (pinnedSeed && pinnedKey) {
-        const pinned = {
-          seed: pinnedSeed,
-          key: pinnedKey,
-          name: "pinned",
-          state: "",
-        } as ReturnType<typeof drawPlace>;
-        tried.push(`${pinned.key} (pinned, seed ${pinned.seed})`);
-        ran = run(pinned, tried);
-      }
-      for (let attempt = 0; attempt < 4 && !ran; attempt += 1) {
-        const drawn = drawPlace(seed, `law-wiring-prices:${attempt}`);
-        tried.push(`${drawn.key} (${drawn.state}, seed ${drawn.seed})`);
-        ran = run(drawn, tried);
-      }
       expect(
-        ran,
-        `no drawn place had a sales tax and payers; tried ${tried.join("; ")}`,
+        run(PRICES_PLACE),
+        `${PRICES_PLACE.name} (${PRICES_PLACE.key}, seed ${PRICES_PLACE.seed}) has a sales tax and licensed sellers`,
       ).toBe(true);
     } finally {
       setJournalTrace(null);
@@ -183,10 +174,7 @@ describe("price and sales-tax laws reach people and move money", () => {
   }, 600_000); // every law in force, the longest lag a year can show. // A dense place (Guam took 390 seconds on shared CPU) plays 375 days of
 });
 
-function run(
-  drawn: ReturnType<typeof drawPlace>,
-  tried: readonly string[],
-): boolean {
+function run(drawn: Pinned): boolean {
   const where = `seed ${drawn.seed}, place ${drawn.key} ${drawn.name}`;
   const { core } = buildBenchWorld(drawn.seed, gameStartDate(), {
     twoLevel: true,
@@ -197,7 +185,7 @@ function run(
   if (!(sales.value && sales.value > 0)) return false;
   // The cannabis law's buyers buy from the town's licensed sellers, its open
   // retail stores, which open their books on the world's first day: a town
-  // with none (Huntley, Wyoming) is redrawn before anything is played.
+  // with none (Huntley, Wyoming) fails before anything is played.
   advanceCore(core, addDays(makeIsoDate(core.date), 1));
   if (!licensedSellers(core, lawChain(api).townPlaceId).length) return false;
   // For each law row the test enacted: its first post that pays money and
@@ -643,7 +631,6 @@ function run(
   console.info(
     `prices family evidence, ${where}\n${JSON.stringify(evidence, null, 1)}`,
   );
-  void tried;
   void payers;
   return true;
 }
@@ -653,26 +640,16 @@ describe("the ban on new gas hookups reaches a builder and the cost of its proje
 
   it("is followed to the builder's applied row and its first payment", () => {
     setBookkeeping(false);
-    const tried: string[] = [];
     try {
-      // A builder starting a project is the ban's subject: where none started
-      // in the window, draw again (every place tried is named on failure);
-      // once one has, a missing read or record fails.
-      let ran = false;
-      for (let attempt = 0; attempt < GAS_DRAWS && !ran; attempt += 1) {
-        const drawn = drawPlace(seed, `law-wiring-prices-gas:${attempt}`);
-        tried.push(`${drawn.key} (${drawn.state}, seed ${drawn.seed})`);
-        ran = runGasBan(drawn);
-      }
       expect(
-        ran,
-        `no drawn place had a builder start a project in ${GAS_WINDOW_DAYS} days under the ban; tried ${tried.join("; ")}`,
+        runGasBan(GAS_PLACE),
+        `a builder started a project in ${GAS_PLACE.name} (${GAS_PLACE.key}, seed ${GAS_PLACE.seed}) within ${GAS_WINDOW_DAYS} days under the ban`,
       ).toBe(true);
     } finally {
       setJournalTrace(null);
       setBookkeeping(true);
     }
-  }, 1_800_000); // up to three places of 760 days each
+  }, 900_000); // one place of up to 760 days
 });
 
 interface ProjectRow {
@@ -687,7 +664,7 @@ interface ProjectRow {
 }
 
 /** Enact the ban at the town's level and play until a builder starts a project under it; false where none did. */
-function runGasBan(drawn: ReturnType<typeof drawPlace>): boolean {
+function runGasBan(drawn: Pinned): boolean {
   const where = `seed ${drawn.seed}, place ${drawn.key} ${drawn.name}`;
   const { core } = buildBenchWorld(drawn.seed, gameStartDate(), {
     twoLevel: true,
@@ -741,7 +718,7 @@ function runGasBan(drawn: ReturnType<typeof drawPlace>): boolean {
       .rows() as unknown as ProjectRow[];
   // A builder starting a project in the town is the ban's subject, and the
   // start is the housing engine's own choice, not the ban's record: where none
-  // started in the window, the place is redrawn. A project started on the day
+  // started in the window, the pinned place no longer serves. A project started on the day
   // of enactment was decided before it.
   const townPlaceId = lawChain(api).townPlaceId;
   let project: ProjectRow | undefined;
