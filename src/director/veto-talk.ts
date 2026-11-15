@@ -31,7 +31,9 @@ import {
   type OfficeActRow,
 } from "../core2/modules/office-day";
 import { meetingsOn } from "../core2/modules/elections";
-import { causeGroupName } from "../english/group-names";
+import { causeGroupName, stanceGroupAmong } from "../english/group-names";
+import { lawChain } from "../core2/modules/laws";
+import { placeNameSaid } from "../core2/place-lookup";
 import { applyCoreEvent, coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
 import { P } from "../core2/parameters";
@@ -112,6 +114,7 @@ export function vetoSubject(
     if (act.reason === "opposed-groups") {
       const group = opposingGroup(
         core,
+        placeNameSaid(lawChain(api).townPlaceId as never),
         meetingsOn(api, bill.id),
         new Set(
           votesOn(api, bill.id)
@@ -119,8 +122,10 @@ export function vetoSubject(
             .map((row) => row.memberId),
         ),
       );
-      if (group)
-        facts.group = { text: group.said, sourceRecordIds: [group.id] };
+      // Every group residents form is said by its name; a veto for a group
+      // with no name to say (none in play) has no line to say it with.
+      if (!group) continue;
+      facts.group = { text: group.said, sourceRecordIds: [group.id] };
     }
     const weight = momentWeight(director, listenerId, record, act.date);
     return {
@@ -228,6 +233,7 @@ export function answerVeto(
  */
 export function opposingGroup(
   core: Readonly<CoreState>,
+  town: string | null,
   meetings: readonly {
     groupId: string;
     memberId: string;
@@ -253,14 +259,32 @@ export function opposingGroup(
     );
   for (const { groupId } of ranked) {
     const org = core.organizations.get(`organization:${groupId}` as never) as
-      { id: string; name: string; kind?: string; topic?: string } | undefined;
+      | {
+          id: string;
+          name: string;
+          kind?: string;
+          topic?: string;
+          placeId?: string;
+        }
+      | undefined;
     if (!org) continue;
+    // A group residents formed over the bill's question is named as the
+    // printed words name it (`stanceGroupAmong`), the town's own groups
+    // first; it is said by its name, as a sign would carry it.
     const said =
       org.kind === "cause-group" && org.topic
         ? causeGroupName(org.id, org.topic)
-        : /[:_]/.test(org.name)
-          ? null
-          : `the ${org.name.charAt(P.zero).toLowerCase()}${org.name.slice(P.one)}`;
+        : org.kind === "interest-group"
+          ? (stanceGroupAmong(
+              core.organizations as never,
+              org.id,
+              org.placeId === lawChain(coreAPI(core as CoreState)).townPlaceId
+                ? town
+                : null,
+            )?.name ?? null)
+          : /[:_]/.test(org.name)
+            ? null
+            : `the ${org.name.charAt(P.zero).toLowerCase()}${org.name.slice(P.one)}`;
     if (said) return { id: org.id, said };
   }
   return null;

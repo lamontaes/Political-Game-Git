@@ -406,6 +406,12 @@ export function corePlaceByKey(key: string): CorePlace | null {
   return row ? synthesizeNationwidePlace(row) : null;
 }
 
+/** A place's name as a sentence says it ("Havre", not "Havre, Montana"), or null when the place is unknown. */
+export function placeNameSaid(jurisdictionId: EntityId): string | null {
+  const place = corePlaceByJurisdictionId(jurisdictionId);
+  return place ? (place.formalName ?? place.displayName.split(",")[0]!) : null;
+}
+
 export function corePlaceByJurisdictionId(
   jurisdictionId: EntityId,
 ): CorePlace | null {

@@ -38203,29 +38203,6 @@
       "date": "2026-11-15"
     },
     {
-      "key": "conversation.veto-say-core.you-listened-to-the-people-fighting-it",
-      "move": "veto-say-core",
-      "kind": "spoken",
-      "text": "You listened to the people fighting it.",
-      "uses": [
-        {
-          "move": "veto-say-core",
-          "subject": "veto-say",
-          "role": "core",
-          "requiresFacts": ["reason-opposed-groups"],
-          "excludesFacts": ["group"]
-        }
-      ],
-      "piece": {
-        "of": "veto-say",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Words lead (desk ruling 5: a veto said at the next talk, Nov 15)",
-      "date": "2026-11-15"
-    },
-    {
       "key": "conversation.veto-say-core.you-went-with-your-party-on-it",
       "move": "veto-say-core",
       "kind": "spoken",

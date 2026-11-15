@@ -61,6 +61,7 @@ import {
   corePlaceByJurisdictionId,
   coreStateKeyOfJurisdictionId,
   coreStateName,
+  placeNameSaid,
 } from "../core2/place-lookup";
 import { applyCoreEvent, coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
@@ -2770,6 +2771,7 @@ function deskFacts(
     facts.opposed = { text: "yes", sourceRecordIds: cited };
     const group = opposingGroup(
       core,
+      placeNameSaid(lawChain(api).townPlaceId as never),
       meetingsOn(api, bill.id),
       new Set(against.map((row) => row.memberId)),
     );
