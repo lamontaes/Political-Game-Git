@@ -50,6 +50,7 @@ import { temperamentOf } from "./officials";
 import { admitCountedHousehold } from "./residents";
 import type {
   CoreAPI,
+  CoreEventInput,
   CoreModule,
   CoreState,
   PersonId,
@@ -160,8 +161,11 @@ export const EXECUTIVE_MODULE: CoreModule = {
   },
   // A disaster on the record reaches the governor's desk the day it is
   // recorded (world-governor-declares-emergency-in-play).
-  eventKinds: ["hazard.disaster"],
-  onEvent: (api, event) => governorAnswersDisaster(api, event.id),
+  eventKinds: ["hazard.disaster", "scene.reply"],
+  onEvent: (api, event) => {
+    if (event.kind === "scene.reply") answerEmergencyBriefing(api, event);
+    else governorAnswersDisaster(api, event.id);
+  },
 };
 
 /**
@@ -190,12 +194,29 @@ function governorAnswersDisaster(api: CoreAPI, hazardRecordId: string): void {
     // A player governor decides for themselves: the disaster waits as an offer on their desk
     // (the state day's `emergency` entry), and the engine never declares for them.
     table(api, "emergencyOffers").put({
-      id: `emergency-offer:${hazardRecordId}`,
+      id: `${OFFER_PREFIX}${hazardRecordId}`,
       hazardRecordId,
       executiveId,
       date: api.state.date,
       answered: false,
     } as unknown as ModuleRow);
+    // The offer is the governor's own day: the briefing scene stages from this record, and their answer in it settles the offer.
+    api.emit({
+      id: `${OFFERED_PREFIX}${hazardRecordId}`,
+      date: api.state.date,
+      kind: EMERGENCY_OFFERED,
+      personIds: [executiveId as PersonId],
+      placeId: lawChain(api).townPlaceId,
+      source: {
+        tag: "SOURCED",
+        citation: `Disaster ${hazardRecordId}: the state's emergency powers`,
+        asOf: api.state.date,
+      },
+      facts: {
+        hazardRecordId,
+        incidentType: String(hazard.facts?.incidentType ?? ""),
+      },
+    });
     return;
   }
   const id = `emergency:${lawChain(api).stateKey}:${hazardRecordId}`;
@@ -1653,6 +1674,47 @@ export interface EmergencyRow {
   readonly line: string;
   readonly deltaMinor: number;
   readonly date: string;
+}
+
+/** The record that makes the governor's briefing due, and the ids an offer and its record are kept under. */
+export const EMERGENCY_OFFERED = "executive.emergency-offered";
+const OFFER_PREFIX = "emergency-offer:";
+const OFFERED_PREFIX = "emergency-offered:";
+
+/**
+ * The state cabinet posts in the governor's room for a disaster of this incident type, lead
+ * department first (data/executive/emergency.json, `briefing`). A type no row names uses the default.
+ */
+export function emergencyBriefingPosts(
+  incidentType: string,
+): readonly string[] {
+  const rows = emergencyData.briefing.rows as readonly {
+    readonly types: readonly string[];
+    readonly posts: readonly string[];
+  }[];
+  return (
+    rows.find((row) => row.types.includes(incidentType))?.posts ??
+    emergencyData.briefing.default
+  );
+}
+
+/**
+ * The player governor's answer in the briefing scene settles the offer: declaring is the engine's own
+ * declaration; letting it pass or leaving it there declares nothing (the engine never declares for them).
+ */
+function answerEmergencyBriefing(
+  api: CoreAPI,
+  event: Readonly<CoreEventInput>,
+): void {
+  const facts = event.facts ?? {};
+  if (facts.typeKey !== "emergency-briefing" || !facts.ending) return;
+  const causeId = String(facts.causeId ?? "");
+  if (!causeId.startsWith(OFFERED_PREFIX)) return;
+  const offerId = `${OFFER_PREFIX}${causeId.slice(OFFERED_PREFIX.length)}`;
+  const offer = table(api, "emergencyOffers").get(offerId) as unknown as
+    EmergencyOfferRow | undefined;
+  if (!offer || offer.answered) return;
+  answerEmergencyOffer(api, offerId, facts.ending === "declared");
 }
 
 export interface EmergencyOfferRow {
