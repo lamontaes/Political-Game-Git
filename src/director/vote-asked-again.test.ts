@@ -46,6 +46,30 @@ function readsAskedBefore(key: string): boolean {
   );
 }
 
+/** A talk as the player plays it, the player's choices under "You say:". */
+function playedTalk(talk: {
+  narration: readonly { text: string }[];
+  state: { speaker: string; text: string };
+  tree: {
+    lines: readonly { speaker: string; text: string }[];
+    replies: readonly {
+      line: { text: string };
+      next?: { lines: readonly { speaker: string; text: string }[] };
+    }[];
+  };
+}): string {
+  return [
+    ...talk.narration.map((l) => `  ${l.text}`),
+    `  ${talk.state.speaker}: ${talk.state.text}`,
+    ...talk.tree.lines.map((l) => `  ${l.speaker}: ${l.text}`),
+    "  You say:",
+    ...talk.tree.replies.flatMap((reply, index) => [
+      `    ${index + 1}. ${reply.line.text}`,
+      ...(reply.next?.lines.map((l) => `       ${l.speaker}: ${l.text}`) ?? []),
+    ]),
+  ].join("\n");
+}
+
 it(
   `a colleague asked again for their vote says they were asked before (${PIN.name}, ${PIN.drawSeed})`,
   { timeout: 300_000 },
@@ -102,6 +126,7 @@ it(
       draft(question);
     // After a roll where a colleague the player asked voted no, the player
     // drafts again on that question.
+    const firstTalks = new Map<string, string>();
     const redrafted = new Set<string>();
     const checked = new Set<string>();
     let played = 0;
@@ -129,23 +154,15 @@ it(
           typeKey: "vote-sought",
         });
         if (result?.kind !== "composed") continue;
-        if (!result.scene.facts.some((row) => row.key === "asked-before"))
+        const colleague = String(e.facts!.askedId);
+        if (!result.scene.facts.some((row) => row.key === "asked-before")) {
+          firstTalks.set(colleague, playedTalk(result.scene.talk));
           continue;
+        }
         played += 1;
         const talk = result.scene.talk;
         process.stdout.write(
-          `VOTE ASKED AGAIN ${where} ${core.date} ${e.id}\n${[
-            ...talk.narration.map((l) => `  ${l.text}`),
-            `  ${talk.state.speaker}: ${talk.state.text}`,
-            ...talk.tree.lines.map((l) => `  ${l.speaker}: ${l.text}`),
-            "  You say:",
-            ...talk.tree.replies.flatMap((reply, index) => [
-              `    ${index + 1}. ${reply.line.text}`,
-              ...(reply.next?.lines.map(
-                (l) => `       ${l.speaker}: ${l.text}`,
-              ) ?? []),
-            ]),
-          ].join("\n")}\n`,
+          `VOTE FIRST ASK ${where} ${colleague}\n${firstTalks.get(colleague) ?? ""}\nVOTE ASKED AGAIN ${where} ${core.date} ${e.id}\n${playedTalk(talk)}\n`,
         );
         expect(
           readsAskedBefore(talk.narration[0]!.parts[0]!),
