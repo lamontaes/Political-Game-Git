@@ -2,7 +2,7 @@ import type {
   GovernmentLevelWithTownship,
   GovernmentLevel,
 } from "../government-level";
-import { townLean } from "./campaigns";
+import { parsePlatform, townLean } from "./campaigns";
 import { keepsWhy } from "../why-kept";
 import { lawApplied } from "../law-reach/applied";
 import type { OfficeInput } from "../offices-local";
@@ -141,7 +141,7 @@ import {
 } from "../legislature-bill-form";
 import { governmentProperName } from "../government-proper-name";
 import bodyRows from "../data/offices/bodies.json" with { type: "json" };
-import { worldRoster } from "./elections";
+import { ELECTIONS_MODULE_ID, worldRoster, type FilingRow } from "./elections";
 
 export const LEGISLATURE_MODULE_ID = "core2-legislature-v1";
 
@@ -7770,6 +7770,97 @@ export function whipCount(
     }
     return { ...count, undecided };
   });
+}
+
+/** Why the members who voted no on a bill did, by kind of reason. */
+export type OpposedReason = "voters" | "groups" | "party" | "views";
+
+/**
+ * The reasons the members who voted no on a bill weigh most against it, from
+ * their positions on record (their voters, the groups that pressed them,
+ * their party, their own views), the heaviest first; only reasons that weigh
+ * against it at all. The one reading the desk visit and the veto's reasons
+ * share.
+ */
+export function opposedReasons(
+  api: CoreAPI,
+  billId: string,
+): readonly { why: OpposedReason; weight: number }[] {
+  const against = votesOn(api, billId).filter((row) => row.vote === "no");
+  const weight: Record<OpposedReason, number> = {
+    voters: 0,
+    groups: 0,
+    party: 0,
+    views: 0,
+  };
+  for (const { position } of against) {
+    weight.voters += position.constituents;
+    weight.groups += position.lobby;
+    weight.party += (position.party ?? 0) + (position.wing ?? 0);
+    weight.views += position.views + position.trait + position.consistency;
+  }
+  return (Object.entries(weight) as [OpposedReason, number][])
+    .map(([why, most]) => ({ why, weight: most }))
+    .filter((row) => row.weight < 0)
+    .sort((a, b) => a.weight - b.weight || a.why.localeCompare(b.why));
+}
+
+/** A reason an executive can give for a veto, and the records it rests on. */
+export interface VetoReason {
+  readonly key: `opposed-${OpposedReason}` | "cost" | "stance" | "none";
+  readonly recordIds: readonly string[];
+}
+
+/**
+ * The reasons the record supports for vetoing a bill (Words lead, desk
+ * ruling 5): the opposition's case (each reason the no votes weigh against it,
+ * the heaviest first),
+ * the cost on the budget (the budget lines it adds), the executive's own
+ * stand (a filed platform against the bill's direction on one of its
+ * questions), and always giving no reason.
+ */
+export function vetoReasons(
+  api: CoreAPI,
+  billId: string,
+  executiveId: string,
+): readonly VetoReason[] {
+  const bill = table(api, "bills").get(billId) as unknown as
+    BillRow | undefined;
+  if (!bill) return [];
+  const out: VetoReason[] = [];
+  const noes = votesOn(api, billId)
+    .filter((row) => row.vote === "no")
+    .map((row) => `vote:${billId}:${row.memberId}`);
+  for (const opposed of opposedReasons(api, billId))
+    out.push({ key: `opposed-${opposed.why}`, recordIds: noes });
+  if (bill.provisions.some((p) => p.kind === "budget-line" && p.value > 0))
+    out.push({ key: "cost", recordIds: [billId] });
+  if (api.state.modules.has(ELECTIONS_MODULE_ID)) {
+    const filed = (
+      api
+        .moduleState(ELECTIONS_MODULE_ID)
+        .table("filings")
+        .query("byPerson", [executiveId]) as unknown as FilingRow[]
+    )
+      .filter((row) => row.platform.length)
+      .sort(
+        (a, b) =>
+          b.filedOn.localeCompare(a.filedOn) || a.id.localeCompare(b.id),
+      )[0];
+    const stances = billStances(api, bill);
+    if (
+      filed &&
+      parsePlatform(filed.platform).some((stand) =>
+        stances.some(
+          (s) =>
+            s.question === stand.question && stand.position * s.position < 0,
+        ),
+      )
+    )
+      out.push({ key: "stance", recordIds: [filed.id] });
+  }
+  out.push({ key: "none", recordIds: [] });
+  return out;
 }
 
 export function votesOn(

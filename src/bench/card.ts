@@ -13,7 +13,7 @@ import {
 } from "../core2/kernel/dates";
 import { reachOn } from "../core2/law-reach/host";
 import { coreAPI, personOrFillIn } from "../core2/state";
-import { currentCloseness } from "../core2/closeness";
+import { currentCloseness, lastTogether } from "../core2/closeness";
 import {
   COUNTED_MOVES_MODULE_ID,
   countedMoves,
@@ -172,7 +172,7 @@ export function personCard(core: CoreState, personId: string) {
     .sort((a, b) => b.level - a.level);
   const ties = known.slice(0, CLOSEST).map(({ row, ...tie }) => ({
     ...tie,
-    lastContactDate: row.lastContactDate,
+    lastContactDate: lastTogether(row),
     recordId: row.id,
     face: faceOf(core, tie.personId, place),
     // Why the tie last changed, from its own record.
@@ -1902,7 +1902,7 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
           recordId: tie.id,
           kind: tie.kind,
           level: currentCloseness(core, tie),
-          lastContactDate: tie.lastContactDate,
+          lastContactDate: lastTogether(tie),
         }
       : null,
     known: viewer.knownIds.has(otherId) || family,

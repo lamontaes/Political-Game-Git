@@ -886,6 +886,13 @@ function inMeeting() {
 function atDesk() {
   return new Promise((resolve) => {
     const words = controls.desk ?? {};
+    // A veto is given with a reason the record supports, or none: Veto opens
+    // the reasons for that bill, and the sponsor hears the one given.
+    let choosing = null;
+    const decide = (billId, how, reason) =>
+      post(
+        `/api/desk?${new URLSearchParams({ billId, how, ...(reason ? { reason } : {}) })}`,
+      );
     const draw = (bills) => {
       if (!bills.length) return finish();
       $("desk-items").replaceChildren(
@@ -894,20 +901,46 @@ function atDesk() {
             item,
             [],
             [
-              ["sign", "veto", "own"].map((how) => {
-                const b = makeButton({
-                  className: "action",
-                  textContent: words[how] ?? how,
-                });
-                b.addEventListener("click", async () =>
-                  draw(
-                    await post(
-                      `/api/desk?${new URLSearchParams({ billId: item.billId, how })}`,
-                    ),
-                  ),
-                );
-                return b;
-              }),
+              choosing === item.billId
+                ? [
+                    prose(words.vetoWhy ?? "", "meeting-note"),
+                    ...(item.vetoReasons ?? []).map((reason) => {
+                      const b = makeButton({
+                        className: "action",
+                        textContent: words.reasons?.[reason] ?? "",
+                      });
+                      b.addEventListener("click", async () => {
+                        choosing = null;
+                        draw(await decide(item.billId, "veto", reason));
+                      });
+                      return b;
+                    }),
+                    (() => {
+                      const b = makeButton({
+                        className: "action",
+                        textContent: words.back ?? "",
+                      });
+                      b.addEventListener("click", () => {
+                        choosing = null;
+                        draw(bills);
+                      });
+                      return b;
+                    })(),
+                  ]
+                : ["sign", "veto", "own"].map((how) => {
+                    const b = makeButton({
+                      className: "action",
+                      textContent: words[how] ?? how,
+                    });
+                    b.addEventListener("click", async () => {
+                      if (how === "veto") {
+                        choosing = item.billId;
+                        return draw(bills);
+                      }
+                      draw(await decide(item.billId, how));
+                    });
+                    return b;
+                  }),
             ],
             (billId) =>
               openBillPaper(

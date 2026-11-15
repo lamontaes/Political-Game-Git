@@ -1592,6 +1592,7 @@ const ROUTES: readonly Route[] = [
         requireCore(),
         url.searchParams.get("billId") ?? "",
         url.searchParams.get("how") ?? "",
+        url.searchParams.get("reason") ?? undefined,
       );
       send(200, deskView(requireCore()));
       return;

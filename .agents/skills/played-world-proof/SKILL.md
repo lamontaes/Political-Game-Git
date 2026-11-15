@@ -46,6 +46,7 @@ Name the few people it reached by record id. Most people are untouched; say so.
 
 ## Rules
 
+- **What the player sees of a tie is its relationship row (Nov 15, #9543).** The person card (`src/bench/card.ts` personCard) lists only people with a relationship row and words its closeness from that row alone (`currentCloseness`); hours read through `registerSharedHours` count in `closenessBetween` and in whether two have met, but a pair with shared sittings and no row is not on the card. A proof of a tie reports both: the closeness and the card's line, at day one and after a played year.
 - An effect is a read: a record nobody else reads is a placeholder. Register it as a stopgap.
 - Hand-inserted fixtures prove edge cases only.
 - **Run on the latest main (owner, Nov 8, 11:05):** "anything that requires them to run a world should update with like the speed update, so that way there isn't a speed update that's sitting there all merged, but it's running it on an old one." Before any run that plays a world (a proof, test, drift or twin run, golden-path replay or timing), merge the latest main into the branch. A run on a branch more than a few hours behind main is not proof. Name the main commit in the proof line ("on main abc1234 + this branch").

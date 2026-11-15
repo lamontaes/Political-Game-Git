@@ -219,6 +219,12 @@ import {
   promiseSubject,
 } from "./promise-talk";
 import {
+  VETO_SUBJECT,
+  answerVeto,
+  vetoOfRaised,
+  vetoSubject,
+} from "./veto-talk";
+import {
   learnView,
   learnViewQuestion,
   stanceRecordId,
@@ -2620,6 +2626,58 @@ function printedSubject(
  * two are at the speaker's work, the work; the stage says why the two are in
  * one place (working there, a customer or visitor, or the street).
  */
+const MET_THROUGH_PAST = (
+  rulesFile as unknown as { metThroughPast: { kinds: string[] } }
+).metThroughPast.kinds;
+
+const KNOWN_BY_ACT = (
+  rulesFile as unknown as {
+    knownByAct: {
+      kinds: Record<
+        string,
+        { what: string; doer: string; said?: Record<string, string> }
+      >;
+      stage: string;
+    };
+  }
+).knownByAct;
+
+/**
+ * The newest record of an act made apart that names both people (a veto or
+ * signing of one's bill by the other, an appointment), and what it was;
+ * null when none (conversation-rules.json knownByAct).
+ */
+function actBetween(
+  core: Readonly<CoreState>,
+  a: PersonId,
+  b: PersonId,
+): { id: string; what: string; byA: boolean } | null {
+  const ofA = core.logByPerson.get(a);
+  const ofB = core.logByPerson.get(b);
+  if (!ofA || !ofB) return null;
+  const [few, many] = ofA.size <= ofB.size ? [ofA, ofB] : [ofB, ofA];
+  let best: { id: string; what: string; byA: boolean; date: string } | null =
+    null;
+  for (const id of few) {
+    if (!many.has(id)) continue;
+    const record = core.durableLog.get(id);
+    const rule = record && KNOWN_BY_ACT.kinds[record.kind];
+    if (!record || !rule) continue;
+    const what = rule.said
+      ? rule.said[String(record.facts?.[rule.what] ?? "")]
+      : rule.what;
+    if (!what) continue;
+    if (best && record.date <= best.date) continue;
+    best = {
+      id,
+      what,
+      byA: record.facts?.[rule.doer] === a,
+      date: record.date,
+    };
+  }
+  return best && { id: best.id, what: best.what, byA: best.byA };
+}
+
 function introduction(
   core: Readonly<CoreState>,
   speaker: Readonly<PersonState>,
@@ -2631,8 +2689,15 @@ function introduction(
   if (room.byPhone) return null;
   // Two who have met before are not strangers: no one introduces themselves
   // to someone they have already talked with (Words lead, Nov 14).
+  // A contact written today is this meeting's own (a visit's first contact),
+  // not an earlier one.
+  const seen = lastContact(
+    core,
+    speaker.id as PersonId,
+    listener.id as PersonId,
+  );
   if (
-    lastContact(core, speaker.id as PersonId, listener.id as PersonId) ||
+    (seen && seen.date < core.date) ||
     sharedHoursBetween(core, speaker.id as PersonId, listener.id as PersonId) >
       zero
   )
@@ -2643,9 +2708,32 @@ function introduction(
     saysName(core, speaker.id as PersonId, listener.id as PersonId)
   )
     return null;
+  // Schoolmates and a campaign's people spent time together, however
+  // long ago (conversation-rules.json metThroughPast).
+  if (
+    sharedHistory(core, speaker.id as PersonId, listener.id as PersonId).some(
+      (row) => MET_THROUGH_PAST.includes(row.kind),
+    )
+  )
+    return null;
   const facts: Facts = {
     "their-name": { text: speaker.givenName, sourceRecordIds: [speaker.id] },
   };
+  // Known from an act on the public record between them, never met: they
+  // know who each other is (conversation-rules.json knownByAct).
+  const act = actBetween(core, speaker.id as PersonId, listener.id as PersonId);
+  if (act) {
+    const cites = { text: "yes", sourceRecordIds: [act.id] };
+    facts.known = cites;
+    facts[`act-${act.what}`] = cites;
+    facts[act.byA ? "act-theirs" : "act-mine"] = cites;
+    return {
+      id: `here:${speaker.id}`,
+      kind: "here",
+      facts,
+      stage: KNOWN_BY_ACT.stage,
+    };
+  }
   let stage = "street";
   if (room.visitOrganizationId) {
     stage = "customer";
@@ -3390,6 +3478,12 @@ export function subjectsBetween(
   const promise =
     director && promiseSubject(core, director, speakerId, listenerId);
   if (promise) out.push(promise);
+  // A veto of a bill the speaker sponsored, said once at the pair's next
+  // talk, with the reason the listener gave and how it ended (veto-talk.ts).
+  const veto = vetoSubject(core, director, speakerId, listenerId, (id) =>
+    heardRows.some((row) => row.key === `${HEARD_SUBJECT}${id}`),
+  );
+  if (veto) out.push(veto);
   // A stranger who meets the player says who they are (Words lead, Nov 14,
   // rules 51, 52 and 56): their own name, and why the two are in one place.
   const introduces = introduction(core, speaker, listener, mine, room);
@@ -5499,6 +5593,8 @@ const NEWS_SUBJECTS: ReadonlySet<string> = new Set([
   // (promise-talk.ts): told before the day's news, until it is said.
   "promise-kept",
   "promise-broken",
+  // A veto of a bill they sponsored, said by the sponsor (veto-talk.ts).
+  VETO_SUBJECT,
 ]);
 
 /** The reply pieces that ask who is behind a story (conversation-rules.json askedWho). */
@@ -7827,6 +7923,42 @@ function sayNow(
     !choice.lie && conversation.director ? promiseOfRaised(last.subject) : null;
   if (promise)
     answerPromise(core, conversation.director!, promise, playerId, choice.move);
+  // The player's reply to a veto brought up moves the tie through the
+  // writer the veto used (veto-talk.ts); the sponsor answers it, and the
+  // talk ends there: on their answer, or on the player's leaving.
+  const veto = !choice.lie ? vetoOfRaised(last.subject) : null;
+  if (veto) {
+    const answered = answerVeto(
+      core,
+      veto.actId,
+      playerId,
+      otherId,
+      choice.move,
+    );
+    const back = composedLine(
+      core,
+      otherId,
+      `${last.kind}-back`,
+      last.facts,
+      choice.move,
+      `${eventId}:back`,
+      saidParts(conversation, otherId),
+    );
+    if (back)
+      conversation.lines.push({
+        speakerId: otherId,
+        subjectId: choice.answers,
+        kind: `${last.kind}-back`,
+        act: "tell",
+        ...back,
+        sourceRecordIds: [
+          ...new Set([...back.sourceRecordIds, answered ?? eventId]),
+        ],
+      });
+    conversation.choices = [];
+    conversation.lies = [];
+    return conversation;
+  }
   // A listener who doubts the lie says so; the conversation carries on.
   if (doubted) {
     const doubt = words(
