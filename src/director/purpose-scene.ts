@@ -2025,8 +2025,10 @@ function composeBinding(
         facts.confirm = { text: "yes", sourceRecordIds: why };
       // Pay, from two different records: out of work, or a raise.
       // The work is a job in the played world or, for someone filled in from
-      // elsewhere, their home town's work on their identity's record.
-      const job = workHeld(core, askedId);
+      // elsewhere, their home town's work on their identity's record. The
+      // person asked is the one who answers (`askerId`, serveStanding's
+      // prospect); `askedId` is still the player's seat.
+      const job = workHeld(core, askerId);
       if (!job) facts["out-of-work"] = { text: "yes", sourceRecordIds: why };
       else if ((serve.terms.pay ?? P.zero) > P.zero)
         facts["pay-raise"] = {
