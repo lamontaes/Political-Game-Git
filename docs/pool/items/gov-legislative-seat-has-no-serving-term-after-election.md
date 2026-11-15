@@ -7,7 +7,7 @@ priority: 2
 size: M
 status: in-pr
 claimed-by:
-pr:
+pr: #9364
 blocked-on:
 lead: wire-office-budgets-justice
 source: "Account lead T1, Nov 13, 2026, while gating #8939; the failure is also on clean main"
