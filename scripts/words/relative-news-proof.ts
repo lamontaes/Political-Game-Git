@@ -25,7 +25,10 @@ import {
   subjectsBetween,
 } from "../../src/director/conversation";
 import { coreAPI } from "../../src/core2/state";
-import { beginSeriousIllness } from "../../src/core2/modules/health";
+import {
+  beginSeriousIllness,
+  healthReport,
+} from "../../src/core2/modules/health";
 import { familyFactsOf } from "../../src/core2/modules/people";
 import { drawPlace } from "../core2-year/place";
 import { gameStartDate } from "../../src/core2/game-start";
@@ -50,6 +53,12 @@ const days = Number(option("days", "365"));
 const draws = Number(option("draws", "1"));
 const wanted = Number(option("talks", "2"));
 const stage = option("stage", "");
+// STAGED, never natural: tells a death as if the health engine had given it
+// this cause (the death event's own cause fact is replaced before the talk).
+const staged = option("cause", "");
+// STAGED, never natural: the dead person's illness is taken off their health
+// record, so the death is told as one with no illness on record.
+const noIllness = process.argv.includes("--no-illness");
 const KINDS = new Set(["death-news", "illness-news", "prison-news"]);
 
 const nameOf = (core: CoreState, id: string) => {
@@ -115,6 +124,27 @@ for (let draw = 0; draw < draws; draw += 1) {
         const occasion = director.ledger.people
           .get(playerId)
           ?.moments.find((m) => m.causeId === cause);
+        if (noIllness && subject.kind === "death-news") {
+          const row = healthReport(core).cases.find(
+            (found) => found.personId === (subject.aboutId as PersonId),
+          );
+          if (row) {
+            delete row.onsetEventId;
+            console.log(
+              "  STAGED: the dead person's illness is taken off their health record",
+            );
+          }
+        }
+        if (staged && subject.kind === "death-news") {
+          const event = core.durableLog.get(cause as never) as
+            { id: string; facts?: Record<string, string> } | undefined;
+          if (event?.facts) {
+            event.facts[`event:${event.id}:causeOfDeath`] = staged;
+            console.log(
+              `  STAGED: the death's cause is told as ${staged}, not the health engine's own`,
+            );
+          }
+        }
         const first = openConversation(core, playerId, id, {
           director,
           ...(occasion ? { occasionId: occasion.id } : {}),

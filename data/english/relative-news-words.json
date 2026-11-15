@@ -1,5 +1,5 @@
 {
-  "about": "How people at home say what happened to a relative, in talk, from the health engine's records (Words builder W1, Nov 12, 2026). A cause of death is said only where people say it plainly to family; the rest are told by the age at death alone. An illness is said by its common name. Read by src/director/conversation.ts (relativeNews). Words only; no sentence. A stroke is told without its name, since \"It's a stroke\" is not how people say it. A case's offense is said from the defendant's own side: taking bribes, paying a bribe or offering one (bribe-taken, bribe-paid, bribe-offered). An official is said as someone outside government says them: by the body they sit on or the office they hold alone (Words builder S3, Nov 14, 2026).",
+  "about": "How people at home say what happened to a relative, in talk, from the health engine's records (Words builder W1, Nov 12, 2026). A cause of death is said only where people say it plainly to family; the rest are told by the age at death alone. An illness is said by its common name. Read by src/director/conversation.ts (relativeNews). Words only; no sentence. A stroke is told without its name, since \"It's a stroke\" is not how people say it. A case's offense is said from the defendant's own side: taking bribes, paying a bribe or offering one (bribe-taken, bribe-paid, bribe-offered). An official is said as someone outside government says them: by the body they sit on or the office they hold alone (Words builder S3, Nov 14, 2026). A death the health engine gives no common wording for is told by the mark its cause names (deathMarks), and an illness the dead person had is said in family words (illnessesInFamily) (Words builder S3, Nov 15, 2026).",
   "deathCauses": {
     "motor-vehicle": "a car crash",
     "drug-overdose": "an overdose"
@@ -25,5 +25,16 @@
   "officials": {
     "onBody": "someone on the {body}",
     "sole": "the {office}"
+  },
+  "deathMarks": {
+    "firearm-suicide": "cause-suicide",
+    "firearm-homicide": "cause-shot",
+    "other": "cause-sudden"
+  },
+  "illnessesInFamily": {
+    "heart-disease": "heart trouble",
+    "cancer": "cancer",
+    "copd": "bad lungs",
+    "diabetes": "diabetes"
   }
 }
