@@ -29,7 +29,6 @@ import {
   requestBudget,
 } from "../core2/modules/office-day";
 import {
-  appointGovernor,
   actOn,
   doEntry,
   stopKindOf,
@@ -39,6 +38,11 @@ import {
   orderQuestionOf,
   pendingGovernorOrders,
 } from "../core2/modules/executive";
+import {
+  askToServe,
+  postAsks,
+  serveAskHours,
+} from "../core2/modules/serve-asks";
 import controls from "./data/controls.json" with { type: "json" };
 import { policyNames } from "./words";
 import {
@@ -450,6 +454,13 @@ export function officeStops(
 export function officeView(core: CoreState, personId: string) {
   const api = coreAPI(core);
   const jobs = officeJobsOf(api, personId);
+  // The staff list is read first: weighing the aides fills in the residents
+  // it weighs (two-level population), and a filled-in adult is one of the
+  // town's people a post can go to. Read after, the posts' lists below are
+  // the one ranked list the engine names from (headCandidates).
+  const aides = jobs.length
+    ? aidesView(core, personId)
+    : { serving: [], candidates: [] };
   return {
     jobs: jobs.map((j) => ({
       title: j.title,
@@ -481,24 +492,32 @@ export function officeView(core: CoreState, personId: string) {
         post,
         candidates: stateCandidates(api, personId, post.key),
       })),
-    ].map(({ post, candidates }) => ({
-      post: post.key,
-      title: post.title,
-      candidates: candidates.slice(0, 8).map((reasons) => {
-        const person = core.people.get(reasons.candidateId);
-        const job = person?.jobId ? core.jobs.get(person.jobId) : undefined;
-        return {
-          id: reasons.candidateId,
-          name: personName(core, reasons.candidateId),
-          job: job && job.endsAt === undefined ? job.title : null,
-          total: reasons.total,
-        };
-      }),
-    })),
+    ].map(({ post, candidates }) => {
+      // Who turned the player down, and who may be asked now (owner, Nov 14:
+      // a no stands for now; ask again later).
+      const asks = new Map(
+        postAsks(api, personId, post.key).map((a) => [a.personId, a]),
+      );
+      return {
+        post: post.key,
+        title: post.title,
+        candidates: candidates.slice(0, 8).map((reasons) => {
+          const person = core.people.get(reasons.candidateId);
+          const job = person?.jobId ? core.jobs.get(person.jobId) : undefined;
+          const asked = asks.get(reasons.candidateId);
+          return {
+            id: reasons.candidateId,
+            name: personName(core, reasons.candidateId),
+            job: job && job.endsAt === undefined ? job.title : null,
+            total: reasons.total,
+            mayAsk: asked?.mayAsk ?? true,
+            declined: !!asked?.declined,
+          };
+        }),
+      };
+    }),
     // The aides who serve now and the people the staff engine would weigh for the post, best first by its own score, each with its reasons.
-    aides: jobs.length
-      ? aidesView(core, personId)
-      : { serving: [], candidates: [] },
+    aides,
     // The budget the official may send now, line by line, with the change set for each (null outside the season).
     budget: budgetToSend(core, personId),
     // Each of the player's bills waiting for a vote, with the colleagues who will vote and the deal set to offer each when they talk.
@@ -594,33 +613,25 @@ export function hireAide(core: CoreState, personId: string, hireId: string) {
   return { staffId: row.id, view: officeView(core, personId) };
 }
 
-/** The player picks who the next "name a department head" names to an open post; left alone, the official's own first choice stands. */
-export function nameHeadPick(
+/**
+ * The player asks someone offered for one of their open posts to take it
+ * (brief J): the ask plays as a scene, and only a yes names them, through the
+ * "name a department head" act for a town post or at once for a state post,
+ * confirmed as before. Left alone, the official's own first choice stands.
+ */
+export function askHead(
   core: CoreState,
   personId: string,
   post: string,
   nomineeId: string,
 ) {
-  const api = coreAPI(core);
-  // A governor names a state post at once: the chamber's confirmation is on the record they get back.
-  if (statePostsToFill(api, personId).some((row) => row.key === post)) {
-    if (
-      !stateCandidates(api, personId, post).some(
-        (r) => r.candidateId === nomineeId,
-      )
-    )
-      throw new Error("Not someone this post could go to.");
-    appointGovernor(api, post, nomineeId);
-    return officeView(core, personId);
-  }
-  if (!postsToFill(api, personId).some((row) => row.key === post))
-    throw new Error("Not an open post you appoint.");
-  if (!headCandidates(api, post).some((row) => row.candidateId === nomineeId))
-    throw new Error("Not someone this post could go to.");
-  prepareAct(api, personId, "name-department-head", {
-    nominee: { post, personId: nomineeId },
+  const row = askToServe(coreAPI(core), {
+    seat: "post",
+    appointerId: personId,
+    post,
+    personId: nomineeId,
   });
-  return officeView(core, personId);
+  return { hours: serveAskHours(), eventId: row.eventId };
 }
 
 /** The budget the official may send now, with each line and the change set to send with it. */
@@ -795,7 +806,14 @@ export function ordersView(core: CoreState) {
                   (p) => p.key === entry.subject,
                 )?.title ?? null,
               revoke: false,
+              // Only someone who may be asked now is offered; a no stands for a while.
               candidates: stateCandidates(api, person, entry.subject)
+                .filter(
+                  (reasons) =>
+                    postAsks(api, person, entry.subject).find(
+                      (a) => a.personId === reasons.candidateId,
+                    )?.mayAsk ?? true,
+                )
                 .slice(0, 8)
                 .map((reasons) => {
                   const who = core.people.get(reasons.candidateId);
@@ -885,16 +903,15 @@ export function ordersDecide(
     return;
   }
   if (entry.kind === "appointment") {
-    if (how === "issue" && nomineeId)
-      if (
-        !stateCandidates(api, person, entry.subject).some(
-          (r) => r.candidateId === nomineeId,
-        )
-      )
-        throw new Error("Not someone this post could go to.");
+    // Naming someone is asking them (brief J): the post stays open on the
+    // desk while the sit-down plays, and only their yes seats them.
+    if (how === "issue" && nomineeId) {
+      const asked = askHead(core, person, entry.subject, nomineeId);
+      doEntry(api, entryId, { kind: "appointment", leave: true });
+      return asked;
+    }
     doEntry(api, entryId, {
       kind: "appointment",
-      ...(how === "issue" && nomineeId ? { personId: nomineeId } : {}),
       ...(how === "decline" ? { leave: true } : {}),
     });
     return;

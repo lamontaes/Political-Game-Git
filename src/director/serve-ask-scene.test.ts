@@ -28,12 +28,14 @@ import {
 import {
   askToServe,
   chooseRunningMateForMe,
+  leanIfHedged,
   offeredRunningMates,
   serveAsk,
   ticketAsks,
   ticketStanding,
   type ServeAskRow,
 } from "../core2/modules/serve-asks";
+import { memberKey, members } from "../core2/modules/legislature";
 import { corePlaceByKey } from "../core2/place-lookup";
 import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
@@ -46,7 +48,12 @@ import type { TreeNode } from "./scene-talk";
  * each pinned place's record gives it. At Santa Rita (seed 8d04db587cd640d7)
  * Kyle Vazquez says yes: the first ask made them acquainted (the stranger
  * term goes) and the player's campaign has since raised money (the standing
- * term moves from -0.30 to -0.24). At Santa Rita (seed 3f1a9c2e7b6d4058)
+ * term moves from -0.30 to -0.24); STAGED, the player's platform states
+ * Kyle Vazquez's own side on the question they hold most strongly, so their question
+ * term stays where it is whatever the world's stances do (re-pinned Nov 15:
+ * once the country's view of each question joined every opening stance,
+ * #9323, their question term fell and the second answer stayed no). At Santa
+ * Rita (seed 3f1a9c2e7b6d4058)
  * Susan Guzman, whose own race is this year, says no again.
  */
 const PLACES = [
@@ -55,6 +62,7 @@ const PLACES = [
     seed: "8d04db587cd640d7",
     asked: "Kyle Vazquez",
     later: "yes",
+    sameSide: true,
   },
   {
     key: "territory:GU:santa-rita",
@@ -64,8 +72,20 @@ const PLACES = [
   },
 ] as const;
 
-/** A no that rests on the player's stated stance (Tonya Aguilar, "apart"). */
-const CHANGED = { key: "territory:GU:yona", seed: "a7c3e9150b2f6d84" } as const;
+/**
+ * A no that rests on the player's stated stance (Tonya Aguilar, "apart").
+ * STAGED through the filing's platform, as a player states one: the player
+ * states the side opposite theirs on the question they hold most strongly, so
+ * what their no rests on is the player's word and not where the world's
+ * stances happen to fall (re-pinned Nov 15: once the country's view of each
+ * question joined every person's opening stance, #9323, their unstaged no
+ * rested on the long shot instead).
+ */
+const CHANGED = {
+  key: "territory:GU:yona",
+  seed: "a7c3e9150b2f6d84",
+  asked: "Tonya Aguilar",
+} as const;
 
 interface World {
   core: CoreState;
@@ -77,7 +97,12 @@ interface World {
 }
 
 /** A bench world whose player files for governor (a fixture: filing's own rules are the elections engine's tests). */
-function world(place: { key: string; seed: string }): World {
+function world(place: {
+  key: string;
+  seed: string;
+  /** The player is the first full member of the territory's legislature (they have held office). */
+  legislator?: boolean;
+}): World {
   setBookkeeping(false);
   const { core, director } = buildBenchWorld(place.seed, gameStartDate(), {
     twoLevel: true,
@@ -97,15 +122,23 @@ function world(place: { key: string; seed: string }): World {
   const ticket = ticketOfficeContest(api, governor!);
   expect(ticket, where).not.toBeNull();
   const town = corePlaceByKey(place.key)?.context.jurisdiction.id;
-  const player = [...core.people.values()]
-    .filter(
-      (p) =>
-        p.alive &&
-        p.placeId === town &&
-        p.tier !== "husk" &&
-        ageOnDate(makeIsoDate(p.birthDate), makeIsoDate(core.date)) >= 35,
-    )
-    .sort((a, b) => a.id.localeCompare(b.id))[0]!;
+  const sitting = place.legislator
+    ? members(api, "office:US-GU:legislature-unicameral")
+        .map(memberKey)
+        .filter((id) => core.people.get(id as PersonId)?.alive)
+        .sort()[0]
+    : undefined;
+  const player = sitting
+    ? core.people.get(sitting as PersonId)!
+    : [...core.people.values()]
+        .filter(
+          (p) =>
+            p.alive &&
+            p.placeId === town &&
+            p.tier !== "husk" &&
+            ageOnDate(makeIsoDate(p.birthDate), makeIsoDate(core.date)) >= 35,
+        )
+        .sort((a, b) => a.id.localeCompare(b.id))[0]!;
   core.playerId = player.id;
   core.focusPersonIds.add(player.id);
   director.watch(core, player.id);
@@ -185,7 +218,10 @@ function ask(w: World, personId: string, take: "thank" | "accept") {
   const index = scene.talk.tree.replies.findIndex(
     (r) => r.line.move === (asksFirst ? "answer" : take),
   );
-  expect(index, `${w.where}: no ${take} reply`).toBeGreaterThanOrEqual(0);
+  expect(
+    index,
+    `${w.where}: no ${take} reply; lean ${row.standing.lean} ${JSON.stringify(row.standing.terms)} q ${row.standing.grounds.question}`,
+  ).toBeGreaterThanOrEqual(0);
   const replyId = replyInScene(w.core, w.director, w.playerId, entry!, [index]);
   const reply = w.core.durableLog.get(replyId!)!;
   const chosen = scene.talk.tree.replies[index]!;
@@ -229,6 +265,17 @@ for (const place of PLACES)
       // date; the seat stays open.
       const no = offered.choices.find((c) => c.name === place.asked)!;
       expect(no, `${w.where}: ${place.asked} offered`).toBeDefined();
+      if ("sameSide" in place) {
+        const held = standing(no.id).grounds;
+        w.filing = {
+          ...w.filing,
+          platform: [`${held.question}=${held.theirStance}`],
+        };
+        api
+          .moduleState(ELECTIONS_MODULE_ID)
+          .table("filings")
+          .put(w.filing as unknown as ModuleRow);
+      }
       expect(
         standing(no.id).lean,
         `${w.where}: ${place.asked} unwilling`,
@@ -317,10 +364,22 @@ it(
     const standing = (id: string) =>
       ticketStanding(api, w.filing, w.ticket, id)!;
     const out: string[] = [`SERVE ASK CHANGE ${w.where}`];
-    const no = offered.choices.find(
-      (c) => standing(c.id).lean <= 0 && standing(c.id).reason === "apart",
-    )!;
-    expect(no, `${w.where}: a no that rests on the stance`).toBeDefined();
+    const no = offered.choices.find((c) => c.name === CHANGED.asked)!;
+    expect(no, `${w.where}: ${CHANGED.asked} offered`).toBeDefined();
+    const held = standing(no.id).grounds;
+    w.filing = {
+      ...w.filing,
+      platform: [`${held.question}=${-held.theirStance}`],
+    };
+    api
+      .moduleState(ELECTIONS_MODULE_ID)
+      .table("filings")
+      .put(w.filing as unknown as ModuleRow);
+    expect(standing(no.id).lean, w.where).toBeLessThanOrEqual(0);
+    expect(
+      standing(no.id).reason,
+      `${w.where}: a no that rests on the stance`,
+    ).toBe("apart");
     const first = ask(w, no.id, "accept");
     out.push(`-- a no (${first.row.standing.reason}):`, ...first.lines);
     expect(first.after?.answer, w.where).toBe("no");
@@ -384,9 +443,28 @@ it(
  * A stranger who would say yes asks the player one thing first, chosen by
  * their reason for the yes (Words lead, Nov 14 16:30Z): the player's answers
  * come from the record, and a hedge on their own question is weighed as no
- * stance. Each case pins a place, a seed and the person asked.
+ * stance. A dodge is offered only when it costs them something they feel
+ * (Words lead, Nov 14 21:35Z): where the player's platform says nothing
+ * either way on the asked person's question, leaving it unsaid costs nothing,
+ * so no dodge is offered, and with one answer left there is no choice to
+ * make: they say yes at once (`answer: null`). Each case pins a place, a seed
+ * and the person asked. Re-pinned Nov 15 (old: seed 11aa22bb33cc44dd, Mary
+ * Conway, the town's first adult as the player): once the country's view of
+ * each question joined every opening stance (#9323), Mary Conway's yes turned
+ * to a no; the case is now STAGED, a player who sits in the legislature (the
+ * standing a held office gives) with a platform silent on the question.
  */
-const ASKS_FIRST = [
+const ASKS_FIRST: {
+  key: string;
+  seed: string;
+  legislator?: boolean;
+  /** STAGED: the player's platform says nothing either way on the asked person's question. */
+  unsaid?: boolean;
+  asked: string;
+  question: string;
+  reply: string;
+  answer: string | null;
+}[] = [
   {
     key: "territory:GU:santa-rita",
     seed: "8d04db587cd640d7",
@@ -398,10 +476,12 @@ const ASKS_FIRST = [
   {
     key: "territory:GU:santa-rita",
     seed: "11aa22bb33cc44dd",
-    asked: "Mary Conway",
-    question: "ask",
+    legislator: true,
+    unsaid: true,
+    asked: "Samantha Warner",
+    question: "agree",
     reply: "deflect",
-    answer: "agree",
+    answer: null,
   },
   {
     key: "territory:GU:yona",
@@ -423,6 +503,15 @@ for (const place of ASKS_FIRST)
       const offered = offeredRunningMates(api, w.filing.id)!;
       const pick = offered.choices.find((c) => c.name === place.asked);
       expect(pick, `${w.where}: ${place.asked} offered`).toBeDefined();
+      if (place.unsaid) {
+        const question = ticketStanding(api, w.filing, w.ticket, pick!.id)!
+          .grounds.question;
+        w.filing = { ...w.filing, platform: [`${question}=0`] };
+        api
+          .moduleState(ELECTIONS_MODULE_ID)
+          .table("filings")
+          .put(w.filing as unknown as ModuleRow);
+      }
       const row = askToServe(api, {
         seat: "ticket",
         filingId: w.filing.id,
@@ -441,6 +530,24 @@ for (const place of ASKS_FIRST)
         throw new Error(`${w.where}: ${JSON.stringify(result)}`);
       const tree = result.scene.talk.tree;
       expect(tree.lines[0]?.move, w.where).toBe(place.question);
+      if (place.answer === null) {
+        expect(
+          tree.replies.map((r) => r.line.move),
+          `${w.where}: a ${place.reply} that costs nothing`,
+        ).not.toContain(place.reply);
+        expect(leanIfHedged(row), w.where).toBe(row.standing.lean);
+        process.stdout.write(
+          [
+            `SERVE ASKS FIRST ${w.where} (no ${place.reply} offered)`,
+            `  lean ${row.standing.lean.toFixed(4)} (question ${(row.standing.terms.question ?? 0).toFixed(4)}); after a dodge ${leanIfHedged(row).toFixed(4)}`,
+            `${tree.lines[0]!.speaker}: ${tree.lines[0]!.text}`,
+            ...tree.replies.map(
+              (r) => `  (choice) ${r.line.speaker}: ${r.line.text}`,
+            ),
+          ].join("\n") + "\n",
+        );
+        return;
+      }
       expect(tree.replies.length, w.where).toBeGreaterThanOrEqual(2);
       const index = tree.replies.findIndex((r) => r.line.move === place.reply);
       expect(index, `${w.where}: no ${place.reply}`).toBeGreaterThanOrEqual(0);
@@ -449,6 +556,9 @@ for (const place of ASKS_FIRST)
       process.stdout.write(
         [
           `SERVE ASKS FIRST ${w.where}`,
+          // What a dodge weighs: the question term read with the player's
+          // stance unsaid, in place of the stance on their record.
+          `  lean ${row.standing.lean.toFixed(4)} (question ${(row.standing.terms.question ?? 0).toFixed(4)}); after a dodge ${leanIfHedged(row).toFixed(4)}`,
           ...result.scene.talk.narration.map((l) => `Narrator: ${l.text}`),
           `${result.scene.talk.state.speaker}: ${result.scene.talk.state.text}`,
           `${tree.lines[0]!.speaker}: ${tree.lines[0]!.text}`,

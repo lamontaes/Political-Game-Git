@@ -95,6 +95,8 @@ import {
   stateJurisdictionId,
 } from "../government-jurisdictions";
 import { syncServiceCharges } from "../budgets-service-charges";
+export { chargedServicesOf } from "../budgets-service-charges";
+import { isFeeLevelSeries } from "../fee-levels";
 
 export {
   budgetInForce,
@@ -511,6 +513,8 @@ export const BUDGETS_MODULE: PreStartModule = {
     const series = event.facts?.series;
     if (series === "sales-tax" || series === GROCERY_EXEMPTION)
       syncSalesTax(api);
+    if (typeof series === "string" && isFeeLevelSeries(series))
+      syncServiceCharges(api);
     if (event.kind === "budget-line-changed") {
       syncServiceCharges(api);
       const f = event.facts ?? {};
@@ -2595,6 +2599,9 @@ export function withholdingOf(
   ]) as unknown as WithholdingRecord[];
 }
 // Re-exported so the opening county sample reads it through this entry (families guard).
-export { medianTransactionBalance } from "../starting-cash";
+export {
+  householdOpeningCash,
+  medianTransactionBalance,
+} from "../starting-cash";
 // Re-exported so the climate engine reads the states' bases through this entry (families guard).
 export { residentsOf, STATES } from "./outside-budgets";
