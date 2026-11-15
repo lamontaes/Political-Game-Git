@@ -188,6 +188,7 @@ import { COMPOSED_CHECKS_DATA as composedChecksData } from "../english/composed-
 import { budgetPurposeSaid } from "../english/bill-names";
 import {
   organizationName,
+  businessNameSaid,
   properName,
   spoken,
   spokenDate,
@@ -487,7 +488,7 @@ function jobOf(core: Readonly<CoreState>, person: Readonly<PersonState>) {
  */
 function employerWords(org: Readonly<OrganizationInput>): string | null {
   return employerSaidAs({
-    name: organizationName(org),
+    name: businessNameSaid(org),
     kind: org.kind,
     outside: !!org.outsideFlow,
     ...(org.classification ? { classification: org.classification } : {}),
@@ -1979,7 +1980,7 @@ function storyTouching(
       if (!employerId || story.facts.organizationId !== employerId) continue;
       const org = core.organizations.get(employerId);
       if (!org || !story.facts.years) continue;
-      facts.employer = fact(organizationName(org));
+      facts.employer = fact(businessNameSaid(org));
       facts.years = fact(story.facts.years);
     } else {
       const aboutId = story.facts.personId as PersonId | undefined;
@@ -6425,7 +6426,7 @@ function lieClaims(
         value: other.id,
         facts: {
           claimed: {
-            text: employerWords(other) ?? organizationName(other),
+            text: employerWords(other) ?? businessNameSaid(other),
             sourceRecordIds: [other.id],
           },
         },
