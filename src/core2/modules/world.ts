@@ -24,6 +24,8 @@ import { WORLD_METRICS_MODULE } from "./world-metrics";
 
 /** The towns' figures as the economy engines record them, read through this family's entry. */
 export { townMetrics } from "./world-metrics";
+/** The town's disasters, read through this family's entry. */
+export { DISASTERS_MODULE_ID, townDisasters } from "./disasters";
 import { PLACE_PRICES_MODULE, PRICES_PARAMETERS } from "./place-prices";
 import { withMembershipDues } from "../membership-dues";
 

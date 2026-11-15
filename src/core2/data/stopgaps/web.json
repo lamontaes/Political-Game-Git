@@ -143,18 +143,6 @@
     "resolvedBy": "stand-in-triage"
   },
   {
-    "id": "SG-WEB-voting-newspaper-closure",
-    "kind": "missing-engine",
-    "file": "src/core2/modules/outcome-web.ts",
-    "line": 212,
-    "whatItFakes": "The newspaper-closure-to-engagement link into local turnout runs (the web counts the town's closed local newspapers from the press module, and the voting engine multiplies a voter's turnout propensity by its effect on a day with a local race), but its cause does not occur in play: no local newspaper closes, so the count stays at zero and the link moves no one.",
-    "why": "A paper closes only by its owner's choice, which the business engine weighs from the paper's operating losses and the owner's age, and the press books each paper's shortfall to its wider audience every week (SG-PEOPLE-press-bureau-shortfall), so a paper's books show no losses; in four drawn places over 800 days none closed.",
-    "addedBy": "EFFECT-WEB-VOTING",
-    "addedAt": "2026-10-20",
-    "replacement": "An outlet whose revenue from its own readers and advertisers falls short of its costs without the wider audience's weekly top-up, so its books show the operating losses the owner's closing decision weighs; the web then counts it closed with no change to the link.",
-    "status": "open"
-  },
-  {
     "id": "SG-WEB-voting-corruption-reelection",
     "kind": "missing-engine",
     "file": "src/core2/turnout-web.ts",
@@ -333,49 +321,49 @@
     "id": "SG-WEB-unread-health-premature-births",
     "kind": "missing-record",
     "file": "src/core2/data/outcome-web/unwired.json",
-    "line": 56,
-    "whatItFakes": "congestion-to-premature-births moves health.premature-births only in the outcome web's monthly ledger; no person, household or organization record changes.",
+    "line": 20,
+    "whatItFakes": "congestion-to-premature-births is not run by the outcome web, so it moves nothing (no measure: the web does not keep health.premature-births and no engine produces it; its research gives no size the game can apply, so the web does not run it); no person, household or organization record changes.",
     "why": "no measure: the web does not keep health.premature-births and no engine produces it; its research gives no size the game can apply, so the web does not run it",
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
-    "replacement": "Superseded by SG-EW-HEALTH-unsized-links: the links this row named that still do not reach an engine's records now wait on that stopgap instead (src/core2/data/outcome-web/unwired.json); any others reach an engine's records (scripts/outcome-web/effect-matrix.ts). It is off the unwired list.",
-    "status": "resolved"
+    "replacement": "An engine that records health.premature-births for each place from its own people or organizations, read by the web as an engine measure, and whose own rates read webReach for these links.",
+    "status": "open"
   },
   {
     "id": "SG-WEB-unread-labor-earnings-at-30",
     "kind": "missing-record",
     "file": "src/core2/data/outcome-web/unwired.json",
-    "line": 62,
-    "whatItFakes": "birth-year-pollution-to-adult-earnings moves labor.earnings-at-30 only in the outcome web's monthly ledger; no person, household or organization record changes.",
+    "line": 26,
+    "whatItFakes": "birth-year-pollution-to-adult-earnings is not run by the outcome web, so it moves nothing (no measure: the web does not keep labor.earnings-at-30 and no engine produces it; it needs each person's own exposure record, which no engine keeps); no person, household or organization record changes.",
     "why": "no measure: the web does not keep labor.earnings-at-30 and no engine produces it; it needs each person's own exposure record, which no engine keeps",
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
-    "replacement": "Superseded by SG-LABOR-person-exposure: the links this row named that still do not reach an engine's records now wait on that stopgap instead (src/core2/data/outcome-web/unwired.json); any others reach an engine's records (scripts/outcome-web/effect-matrix.ts). It is off the unwired list.",
-    "status": "resolved"
+    "replacement": "An engine that records labor.earnings-at-30 for each place from its own people or organizations, read by the web as an engine measure, and whose own rates read webReach for these links.",
+    "status": "open"
   },
   {
     "id": "SG-WEB-unread-health-low-birthweight",
     "kind": "missing-mechanic",
     "file": "src/core2/data/outcome-web/unwired.json",
-    "line": 68,
+    "line": 32,
     "whatItFakes": "water-violations-to-infant-health, eitc-to-low-birthweight move health.low-birthweight only in the outcome web's monthly ledger; no person, household or organization record changes.",
     "why": "engine doesn't read the factor: health.low-birthweight moves only in the web's monthly ledger; no engine multiplies its own rates by it",
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
-    "replacement": "Superseded by SG-EW-HEALTH-condition-record, SG-EW-HEALTH-person-level: the links this row named that still do not reach an engine's records now wait on those stopgaps instead (src/core2/data/outcome-web/unwired.json); any others reach an engine's records (scripts/outcome-web/effect-matrix.ts). It is off the unwired list.",
-    "status": "resolved"
+    "replacement": "The engine that owns health.low-birthweight multiplies its own person, household or organization rate by webReach(api, placeId, \"health.low-birthweight\", subject), as counted births do, so these links change its records.",
+    "status": "open"
   },
   {
     "id": "SG-WEB-unread-health-heat-deaths",
     "kind": "missing-record",
     "file": "src/core2/data/outcome-web/unwired.json",
-    "line": 74,
-    "whatItFakes": "heat-to-deaths moves health.heat-deaths only in the outcome web's monthly ledger; no person, household or organization record changes.",
+    "line": 38,
+    "whatItFakes": "heat-to-deaths is not run by the outcome web, so it moves nothing (no measure: the web does not keep health.heat-deaths and no engine produces it; its research gives no size the game can apply, so the web does not run it); no person, household or organization record changes.",
     "why": "no measure: the web does not keep health.heat-deaths and no engine produces it; its research gives no size the game can apply, so the web does not run it",
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
-    "replacement": "Superseded by SG-EW-HEALTH-unsized-links: the links this row named that still do not reach an engine's records now wait on that stopgap instead (src/core2/data/outcome-web/unwired.json); any others reach an engine's records (scripts/outcome-web/effect-matrix.ts). It is off the unwired list.",
-    "status": "resolved"
+    "replacement": "An engine that records health.heat-deaths for each place from its own people or organizations, read by the web as an engine measure, and whose own rates read webReach for these links.",
+    "status": "open"
   },
   {
     "id": "SG-WEB-unread-housing-ac-share",
@@ -386,11 +374,8 @@
     "why": "engine doesn't read the factor: housing.ac-share moves only in the web's monthly ledger; no engine multiplies its own rates by it; its research gives no size the game can apply, so the web does not run it",
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
-    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: The engine that owns housing.ac-share multiplies its own person, household or organization rate by webReach(api, placeId, \"housing.ac-share\", subject), as counted births do, so these links change its records.",
-    "status": "resolved",
-    "resolvedAt": "2026-11-10",
-    "resolvedBy": "owner-ruling-2026-11-10",
-    "resolution": "Dropped Nov 10, 2026 (stand-in triage, too in depth, owner): no screen, scene, paper, bill card, household dollar or election the player reaches shows it, and no ruling asks for it. The marker stays in the code."
+    "replacement": "The engine that owns housing.ac-share multiplies its own person, household or organization rate by webReach(api, placeId, \"housing.ac-share\", subject), as counted births do, so these links change its records.",
+    "status": "open"
   },
   {
     "id": "SG-WEB-unread-gov-nondisaster-transfers",
@@ -420,13 +405,13 @@
     "id": "SG-WEB-unread-health-catastrophic-medical-bills",
     "kind": "missing-record",
     "file": "src/core2/data/outcome-web/unwired.json",
-    "line": 104,
-    "whatItFakes": "coverage-to-catastrophic-bills moves health.catastrophic-medical-bills only in the outcome web's monthly ledger; no person, household or organization record changes.",
+    "line": 62,
+    "whatItFakes": "coverage-to-catastrophic-bills is not run by the outcome web, so it moves nothing (no measure: the web does not keep health.catastrophic-medical-bills and no engine produces it; nothing in the core records its cause, health.coverage); no person, household or organization record changes.",
     "why": "no measure: the web does not keep health.catastrophic-medical-bills and no engine produces it; nothing in the core records its cause, health.coverage",
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
-    "replacement": "Superseded by SG-EW-HEALTH-person-level: the links this row named that still do not reach an engine's records now wait on that stopgap instead (src/core2/data/outcome-web/unwired.json); any others reach an engine's records (scripts/outcome-web/effect-matrix.ts). It is off the unwired list.",
-    "status": "resolved"
+    "replacement": "An engine that records health.catastrophic-medical-bills for each place from its own people or organizations, read by the web as an engine measure, and whose own rates read webReach for these links.",
+    "status": "open"
   },
   {
     "id": "SG-WEB-unread-finance-medical-debt-in-collections",
@@ -447,13 +432,13 @@
     "id": "SG-WEB-unread-health-depression",
     "kind": "missing-record",
     "file": "src/core2/data/outcome-web/unwired.json",
-    "line": 116,
-    "whatItFakes": "coverage-to-depression moves health.depression only in the outcome web's monthly ledger; no person, household or organization record changes.",
+    "line": 68,
+    "whatItFakes": "coverage-to-depression is not run by the outcome web, so it moves nothing (no measure: the web does not keep health.depression and no engine produces it; nothing in the core records its cause, health.coverage); no person, household or organization record changes.",
     "why": "no measure: the web does not keep health.depression and no engine produces it; nothing in the core records its cause, health.coverage",
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
-    "replacement": "Superseded by SG-EW-HEALTH-person-level: the links this row named that still do not reach an engine's records now wait on that stopgap instead (src/core2/data/outcome-web/unwired.json); any others reach an engine's records (scripts/outcome-web/effect-matrix.ts). It is off the unwired list.",
-    "status": "resolved"
+    "replacement": "An engine that records health.depression for each place from its own people or organizations, read by the web as an engine measure, and whose own rates read webReach for these links.",
+    "status": "open"
   },
   {
     "id": "SG-WEB-unread-health-blood-pressure",
@@ -471,13 +456,13 @@
     "id": "SG-WEB-unread-labor-employment-rate",
     "kind": "missing-record",
     "file": "src/core2/data/outcome-web/unwired.json",
-    "line": 128,
-    "whatItFakes": "work-requirement-to-employment, broadband-to-employment move labor.employment-rate only in the outcome web's monthly ledger; no person, household or organization record changes.",
-    "why": "no measure: the web does not keep labor.employment-rate and no engine produces it; its research finds no effect (about zero), so an engine would multiply by one",
+    "line": 158,
+    "whatItFakes": "broadband-to-employment is not run by the outcome web, so it moves nothing (no measure: the web does not keep labor.employment-rate and no engine produces it; its research gives no size the game can apply, so the web does not run it); no person, household or organization record changes.",
+    "why": "no measure: the web does not keep labor.employment-rate and no engine produces it; its research gives no size the game can apply, so the web does not run it",
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
-    "replacement": "Superseded by SG-LABOR-unsized-links: the links this row named that still do not reach an engine's records now wait on that stopgap instead (src/core2/data/outcome-web/unwired.json); any others reach an engine's records (scripts/outcome-web/effect-matrix.ts). It is off the unwired list.",
-    "status": "resolved"
+    "replacement": "An engine that records labor.employment-rate for each place from its own people or organizations, read by the web as an engine measure, and whose own rates read webReach for these links.",
+    "status": "open"
   },
   {
     "id": "SG-WEB-unread-health-death-risk",
@@ -519,25 +504,25 @@
     "id": "SG-WEB-unread-health-adult-metabolic-syndrome",
     "kind": "missing-record",
     "file": "src/core2/data/outcome-web/unwired.json",
-    "line": 158,
-    "whatItFakes": "child-food-stamps-to-adult-health moves health.adult-metabolic-syndrome only in the outcome web's monthly ledger; no person, household or organization record changes.",
+    "line": 80,
+    "whatItFakes": "child-food-stamps-to-adult-health is not run by the outcome web, so it moves nothing (no measure: the web does not keep health.adult-metabolic-syndrome and no engine produces it; it needs each person's own exposure record, which no engine keeps); no person, household or organization record changes.",
     "why": "no measure: the web does not keep health.adult-metabolic-syndrome and no engine produces it; it needs each person's own exposure record, which no engine keeps",
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
-    "replacement": "Superseded by SG-EW-HEALTH-person-level: the links this row named that still do not reach an engine's records now wait on that stopgap instead (src/core2/data/outcome-web/unwired.json); any others reach an engine's records (scripts/outcome-web/effect-matrix.ts). It is off the unwired list.",
-    "status": "resolved"
+    "replacement": "An engine that records health.adult-metabolic-syndrome for each place from its own people or organizations, read by the web as an engine measure, and whose own rates read webReach for these links.",
+    "status": "open"
   },
   {
     "id": "SG-WEB-unread-household-child-poverty",
     "kind": "missing-record",
     "file": "src/core2/data/outcome-web/unwired.json",
-    "line": 92,
-    "whatItFakes": "child-benefit-to-child-poverty is not run by the outcome web, so it moves nothing (no measure: the web does not keep household.child-poverty and no engine produces it; its research gives no size the game can apply, so the web does not run it); no person, household or organization record changes.",
-    "why": "no measure: the web does not keep household.child-poverty and no engine produces it; its research gives no size the game can apply, so the web does not run it",
+    "line": 86,
+    "whatItFakes": "child-benefit-to-child-poverty is not run by the outcome web, so it moves nothing (no measure: the web does not keep household.child-poverty and no engine produces it; nothing in the core records its cause, program.child-benefit-dollars); no person, household or organization record changes.",
+    "why": "no measure: the web does not keep household.child-poverty and no engine produces it; nothing in the core records its cause, program.child-benefit-dollars",
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
-    "replacement": "Superseded by SG-FAMILY-child-benefit-not-paid: the links this row named that still do not reach an engine's records now wait on that stopgap instead (src/core2/data/outcome-web/unwired.json); any others reach an engine's records (scripts/outcome-web/effect-matrix.ts). It is off the unwired list.",
-    "status": "resolved"
+    "replacement": "An engine that records household.child-poverty for each place from its own people or organizations, read by the web as an engine measure, and whose own rates read webReach for these links.",
+    "status": "open"
   },
   {
     "id": "SG-WEB-unread-household-food-insecurity",
@@ -567,37 +552,37 @@
     "id": "SG-WEB-unread-labor-earnings-at-28",
     "kind": "missing-record",
     "file": "src/core2/data/outcome-web/unwired.json",
-    "line": 194,
-    "whatItFakes": "teacher-quality-to-earnings moves labor.earnings-at-28 only in the outcome web's monthly ledger; no person, household or organization record changes.",
+    "line": 92,
+    "whatItFakes": "teacher-quality-to-earnings is not run by the outcome web, so it moves nothing (no measure: the web does not keep labor.earnings-at-28 and no engine produces it; it needs each person's own exposure record, which no engine keeps); no person, household or organization record changes.",
     "why": "no measure: the web does not keep labor.earnings-at-28 and no engine produces it; it needs each person's own exposure record, which no engine keeps",
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
-    "replacement": "Superseded by SG-LABOR-person-exposure: the links this row named that still do not reach an engine's records now wait on that stopgap instead (src/core2/data/outcome-web/unwired.json); any others reach an engine's records (scripts/outcome-web/effect-matrix.ts). It is off the unwired list.",
-    "status": "resolved"
+    "replacement": "An engine that records labor.earnings-at-28 for each place from its own people or organizations, read by the web as an engine measure, and whose own rates read webReach for these links.",
+    "status": "open"
   },
   {
     "id": "SG-WEB-unread-labor-adult-earnings",
     "kind": "missing-record",
     "file": "src/core2/data/outcome-web/unwired.json",
-    "line": 218,
-    "whatItFakes": "neighborhood-years-to-adult-outcomes moves labor.adult-earnings only in the outcome web's monthly ledger; no person, household or organization record changes.",
+    "line": 98,
+    "whatItFakes": "neighborhood-years-to-adult-outcomes is not run by the outcome web, so it moves nothing (no measure: the web does not keep labor.adult-earnings and no engine produces it; it needs each person's own exposure record, which no engine keeps); no person, household or organization record changes.",
     "why": "no measure: the web does not keep labor.adult-earnings and no engine produces it; it needs each person's own exposure record, which no engine keeps",
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
-    "replacement": "Superseded by SG-LABOR-person-exposure: the links this row named that still do not reach an engine's records now wait on that stopgap instead (src/core2/data/outcome-web/unwired.json); any others reach an engine's records (scripts/outcome-web/effect-matrix.ts). It is off the unwired list.",
-    "status": "resolved"
+    "replacement": "An engine that records labor.adult-earnings for each place from its own people or organizations, read by the web as an engine measure, and whose own rates read webReach for these links.",
+    "status": "open"
   },
   {
     "id": "SG-WEB-unread-school-hispanic-enrollment",
     "kind": "missing-mechanic",
     "file": "src/core2/data/outcome-web/unwired.json",
-    "line": 194,
+    "line": 128,
     "whatItFakes": "enforcement-to-hispanic-enrollment moves school.hispanic-enrollment only in the outcome web's monthly ledger; no person, household or organization record changes.",
     "why": "engine doesn't read the factor: school.hispanic-enrollment moves only in the web's monthly ledger; no engine multiplies its own rates by it; no engine produces school.hispanic-enrollment",
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
-    "replacement": "Superseded by SG-SCHOOL-hispanic-enrollment: the links this row named that still do not reach an engine's records now wait on that stopgap instead (src/core2/data/outcome-web/unwired.json); any others reach an engine's records (scripts/outcome-web/effect-matrix.ts). It is off the unwired list.",
-    "status": "resolved"
+    "replacement": "The engine that owns school.hispanic-enrollment multiplies its own person, household or organization rate by webReach(api, placeId, \"school.hispanic-enrollment\", subject), as counted births do, so these links change its records.",
+    "status": "open"
   },
   {
     "id": "SG-WEB-unread-labor-earnings",
@@ -627,25 +612,25 @@
     "id": "SG-WEB-unread-health-hospital-visits",
     "kind": "missing-record",
     "file": "src/core2/data/outcome-web/unwired.json",
-    "line": 290,
-    "whatItFakes": "eviction-to-hospital-visits moves health.hospital-visits only in the outcome web's monthly ledger; no person, household or organization record changes.",
+    "line": 146,
+    "whatItFakes": "eviction-to-hospital-visits is not run by the outcome web, so it moves nothing (no measure: the web does not keep health.hospital-visits and no engine produces it; its research gives no size the game can apply, so the web does not run it); no person, household or organization record changes.",
     "why": "no measure: the web does not keep health.hospital-visits and no engine produces it; its research gives no size the game can apply, so the web does not run it",
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
-    "replacement": "Superseded by SG-EW-HEALTH-unsized-links: the links this row named that still do not reach an engine's records now wait on that stopgap instead (src/core2/data/outcome-web/unwired.json); any others reach an engine's records (scripts/outcome-web/effect-matrix.ts). It is off the unwired list.",
-    "status": "resolved"
+    "replacement": "An engine that records health.hospital-visits for each place from its own people or organizations, read by the web as an engine measure, and whose own rates read webReach for these links.",
+    "status": "open"
   },
   {
     "id": "SG-WEB-unread-labor-unemployment-pct",
     "kind": "missing-mechanic",
     "file": "src/core2/data/outcome-web/unwired.json",
-    "line": 554,
-    "whatItFakes": "social-security-tax-to-unemployment, medicare-tax-to-unemployment, federal-unemployment-tax-to-unemployment, state-unemployment-tax-to-unemployment move labor.unemployment-pct only in the outcome web's monthly ledger; no person, household or organization record changes.",
-    "why": "engine doesn't read the factor: an engine records labor.unemployment-pct, but nothing multiplies its rates by the link's effect; its research finds no effect (about zero), so an engine would multiply by one",
+    "line": 152,
+    "whatItFakes": "transit-loss-to-unemployment moves labor.unemployment-pct only in the outcome web's monthly ledger; no person, household or organization record changes.",
+    "why": "engine doesn't read the factor: an engine records labor.unemployment-pct, but nothing multiplies its rates by the link's effect; its research gives no size the game can apply, so the web does not run it",
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
-    "replacement": "Resolved: the research finds every link this row named about zero, so there is no effect for an engine to read (scripts/outcome-web/effect-matrix.ts grades it not applicable), and it is off the unwired list.",
-    "status": "resolved"
+    "replacement": "The engine that owns labor.unemployment-pct multiplies its own person, household or organization rate by webReach(api, placeId, \"labor.unemployment-pct\", subject), as counted births do, so these links change its records.",
+    "status": "open"
   },
   {
     "id": "SG-WEB-unread-household-vehicle-costs",
@@ -663,13 +648,13 @@
     "id": "SG-WEB-unread-labor-deal-industry-jobs",
     "kind": "missing-record",
     "file": "src/core2/data/outcome-web/unwired.json",
-    "line": 314,
-    "whatItFakes": "incentive-deal-to-industry-jobs moves labor.deal-industry-jobs only in the outcome web's monthly ledger; no person, household or organization record changes.",
+    "line": 164,
+    "whatItFakes": "incentive-deal-to-industry-jobs is not run by the outcome web, so it moves nothing (no measure: the web does not keep labor.deal-industry-jobs and no engine produces it; its research gives no size the game can apply, so the web does not run it); no person, household or organization record changes.",
     "why": "no measure: the web does not keep labor.deal-industry-jobs and no engine produces it; its research gives no size the game can apply, so the web does not run it",
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
-    "replacement": "Superseded by SG-LABOR-unsized-links: the links this row named that still do not reach an engine's records now wait on that stopgap instead (src/core2/data/outcome-web/unwired.json); any others reach an engine's records (scripts/outcome-web/effect-matrix.ts). It is off the unwired list.",
-    "status": "resolved"
+    "replacement": "An engine that records labor.deal-industry-jobs for each place from its own people or organizations, read by the web as an engine measure, and whose own rates read webReach for these links.",
+    "status": "open"
   },
   {
     "id": "SG-WEB-unread-economy-broad-growth",
@@ -711,24 +696,24 @@
     "id": "SG-WEB-unread-family-same-sex-marriages",
     "kind": "missing-record",
     "file": "src/core2/data/outcome-web/unwired.json",
-    "line": 206,
-    "whatItFakes": "marriage-equality-to-marriages is not run by the outcome web, so it moves nothing (no measure: the web does not keep family.same-sex-marriages and no engine produces it; its research gives no size the game can apply, so the web does not run it); no person, household or organization record changes.",
-    "why": "no measure: the web does not keep family.same-sex-marriages and no engine produces it; its research gives no size the game can apply, so the web does not run it",
+    "line": 176,
+    "whatItFakes": "marriage-equality-to-marriages is not run by the outcome web, so it moves nothing (no measure: the web does not keep family.same-sex-marriages and no engine produces it; its cause, law.marriage-equality, is national law that no place differs on, so it cannot vary); no person, household or organization record changes.",
+    "why": "no measure: the web does not keep family.same-sex-marriages and no engine produces it; its cause, law.marriage-equality, is national law that no place differs on, so it cannot vary",
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
-    "replacement": "Superseded by SG-FAMILY-marriage-not-recorded: the links this row named that still do not reach an engine's records now wait on that stopgap instead (src/core2/data/outcome-web/unwired.json); any others reach an engine's records (scripts/outcome-web/effect-matrix.ts). It is off the unwired list.",
-    "status": "resolved"
+    "replacement": "An engine that records family.same-sex-marriages for each place from its own people or organizations, read by the web as an engine measure, and whose own rates read webReach for these links.",
+    "status": "open"
   },
   {
     "id": "SG-WEB-unread-finance-past-due-debt",
     "kind": "missing-record",
     "file": "src/core2/data/outcome-web/unwired.json",
-    "line": 194,
-    "whatItFakes": "abortion-denied-to-financial-distress is not run by the outcome web, so it moves nothing (no measure: the web does not keep finance.past-due-debt and no engine produces it; nothing in the core records its cause, person.abortion-denied); no person, household or household-bill record changes. The student-debt-relief link was dropped Nov 10 (too in depth, owner): no screen shows it.",
+    "line": 188,
+    "whatItFakes": "abortion-denied-to-financial-distress is not run by the outcome web, so it moves nothing (no measure: the web does not keep finance.past-due-debt and no engine produces it; nothing in the core records its cause, person.abortion-denied); student-debt-relief-to-finances is not run by the outcome web, so it moves nothing (no measure: the web does not keep finance.past-due-debt and no engine produces it; its research gives no size the game can apply, so the web does not run it); no person, household or organization record changes.",
     "why": "no measure: the web does not keep finance.past-due-debt and no engine produces it; nothing in the core records its cause, person.abortion-denied",
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
-    "replacement": "An engine that records finance.past-due-debt for households from their own bills, read by the web as an engine measure, and whose own rates read webReach for the abortion link (pool item outcome-causes-health-programs-part-3-lead-and-abortion-links).",
+    "replacement": "An engine that records finance.past-due-debt for each place from its own people or organizations, read by the web as an engine measure, and whose own rates read webReach for these links.",
     "status": "open"
   },
   {
@@ -747,58 +732,49 @@
     "id": "SG-WEB-unread-gov-borrowing-cost",
     "kind": "missing-mechanic",
     "file": "src/core2/data/outcome-web/unwired.json",
-    "line": 200,
+    "line": 194,
     "whatItFakes": "newspaper-closure-to-borrowing-cost is not run by the outcome web, so it moves nothing (it has no researched size; its research gives no size the game can apply, so the web does not run it); no person, household or organization record changes.",
     "why": "the web does not run it: it has no researched size; its research gives no size the game can apply, so the web does not run it",
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
-    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: The engine that owns gov.borrowing-cost multiplies its own person, household or organization rate by webReach(api, placeId, \"gov.borrowing-cost\", subject), as counted births do, so these links change its records.",
-    "status": "resolved",
-    "resolvedAt": "2026-11-10",
-    "resolvedBy": "owner-ruling-2026-11-10",
-    "resolution": "Dropped Nov 10, 2026 (stand-in triage, too in depth, owner): no screen, scene, paper, bill card, household dollar or election the player reaches shows it, and no ruling asks for it. The marker stays in the code."
+    "replacement": "The engine that owns gov.borrowing-cost multiplies its own person, household or organization rate by webReach(api, placeId, \"gov.borrowing-cost\", subject), as counted births do, so these links change its records.",
+    "status": "open"
   },
   {
     "id": "SG-WEB-unread-press-media-trust",
     "kind": "missing-record",
     "file": "src/core2/data/outcome-web/unwired.json",
-    "line": 206,
+    "line": 200,
     "whatItFakes": "press-attacks-to-media-trust is not run by the outcome web, so it moves nothing (no measure: the web does not keep press.media-trust and no engine produces it; its research gives no size the game can apply, so the web does not run it); no person, household or organization record changes.",
     "why": "no measure: the web does not keep press.media-trust and no engine produces it; its research gives no size the game can apply, so the web does not run it",
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
-    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: An engine that records press.media-trust for each place from its own people or organizations, read by the web as an engine measure, and whose own rates read webReach for these links.",
-    "status": "resolved",
-    "resolvedAt": "2026-11-10",
-    "resolvedBy": "owner-ruling-2026-11-10",
-    "resolution": "Dropped Nov 10, 2026 (stand-in triage, too in depth, owner): no screen, scene, paper, bill card, household dollar or election the player reaches shows it, and no ruling asks for it. The marker stays in the code."
+    "replacement": "An engine that records press.media-trust for each place from its own people or organizations, read by the web as an engine measure, and whose own rates read webReach for these links.",
+    "status": "open"
   },
   {
     "id": "SG-WEB-unread-election-incumbent-vote",
     "kind": "missing-mechanic",
     "file": "src/core2/data/outcome-web/unwired.json",
-    "line": 386,
-    "whatItFakes": "preparedness-spending-to-votes moves election.incumbent-vote only in the outcome web's monthly ledger; no person, household or organization record changes.",
-    "why": "engine doesn't read the factor: an engine records election.incumbent-vote, but nothing multiplies its rates by the link's effect; its research finds no effect (about zero), so an engine would multiply by one",
+    "line": 206,
+    "whatItFakes": "relief-spending-to-votes moves election.incumbent-vote only in the outcome web's monthly ledger; no person, household or organization record changes.",
+    "why": "engine doesn't read the factor: an engine records election.incumbent-vote, but nothing multiplies its rates by the link's effect; its research gives no size the game can apply, so the web does not run it",
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
-    "replacement": "Resolved: the research finds every link this row named about zero, so there is no effect for an engine to read (scripts/outcome-web/effect-matrix.ts grades it not applicable), and it is off the unwired list.",
-    "status": "resolved"
+    "replacement": "The engine that owns election.incumbent-vote multiplies its own person, household or organization rate by webReach(api, placeId, \"election.incumbent-vote\", subject), as counted births do, so these links change its records.",
+    "status": "open"
   },
   {
     "id": "SG-WEB-unread-disaster-damage",
     "kind": "missing-record",
     "file": "src/core2/data/outcome-web/unwired.json",
-    "line": 218,
+    "line": 212,
     "whatItFakes": "preparedness-to-disaster-damage is not run by the outcome web, so it moves nothing (no measure: the web does not keep disaster.damage and no engine produces it; its research gives no size the game can apply, so the web does not run it); no person, household or organization record changes.",
     "why": "no measure: the web does not keep disaster.damage and no engine produces it; its research gives no size the game can apply, so the web does not run it",
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
-    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: An engine that records disaster.damage for each place from its own people or organizations, read by the web as an engine measure, and whose own rates read webReach for these links.",
-    "status": "resolved",
-    "resolvedAt": "2026-11-10",
-    "resolvedBy": "owner-ruling-2026-11-10",
-    "resolution": "Dropped Nov 10, 2026 (stand-in triage, too in depth, owner): no screen, scene, paper, bill card, household dollar or election the player reaches shows it, and no ruling asks for it. The marker stays in the code."
+    "replacement": "An engine that records disaster.damage for each place from its own people or organizations, read by the web as an engine measure, and whose own rates read webReach for these links.",
+    "status": "open"
   },
   {
     "id": "SG-WEB-unread-program-snap-receipt",
@@ -888,31 +864,25 @@
     "id": "SG-WEB-unread-env-litter",
     "kind": "missing-mechanic",
     "file": "src/core2/data/outcome-web/unwired.json",
-    "line": 230,
+    "line": 224,
     "whatItFakes": "container-deposit-to-litter moves env.litter only in the outcome web's monthly ledger; no person, household or organization record changes.",
     "why": "engine doesn't read the factor: env.litter moves only in the web's monthly ledger; no engine multiplies its own rates by it",
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
-    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: The engine that owns env.litter multiplies its own person, household or organization rate by webReach(api, placeId, \"env.litter\", subject), as counted births do, so these links change its records.",
-    "status": "resolved",
-    "resolvedAt": "2026-11-10",
-    "resolvedBy": "owner-ruling-2026-11-10",
-    "resolution": "Dropped Nov 10, 2026 (stand-in triage, too in depth, owner): no screen, scene, paper, bill card, household dollar or election the player reaches shows it, and no ruling asks for it. The marker stays in the code."
+    "replacement": "The engine that owns env.litter multiplies its own person, household or organization rate by webReach(api, placeId, \"env.litter\", subject), as counted births do, so these links change its records.",
+    "status": "open"
   },
   {
     "id": "SG-WEB-unread-disaster-flood-damage",
     "kind": "missing-record",
     "file": "src/core2/data/outcome-web/unwired.json",
-    "line": 236,
+    "line": 230,
     "whatItFakes": "flood-zone-limits-to-damage is not run by the outcome web, so it moves nothing (no measure: the web does not keep disaster.flood-damage and no engine produces it); no person, household or organization record changes.",
     "why": "no measure: the web does not keep disaster.flood-damage and no engine produces it",
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
-    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: An engine that records disaster.flood-damage for each place from its own people or organizations, read by the web as an engine measure, and whose own rates read webReach for these links.",
-    "status": "resolved",
-    "resolvedAt": "2026-11-10",
-    "resolvedBy": "owner-ruling-2026-11-10",
-    "resolution": "Dropped Nov 10, 2026 (stand-in triage, too in depth, owner): no screen, scene, paper, bill card, household dollar or election the player reaches shows it, and no ruling asks for it. The marker stays in the code."
+    "replacement": "An engine that records disaster.flood-damage for each place from its own people or organizations, read by the web as an engine measure, and whose own rates read webReach for these links.",
+    "status": "open"
   },
   {
     "id": "SG-WEB-unread-env-container-recycling-pct",
@@ -954,13 +924,13 @@
     "id": "SG-WEB-unread-labor-workforce",
     "kind": "missing-record",
     "file": "src/core2/data/outcome-web/unwired.json",
-    "line": 458,
-    "whatItFakes": "more-immigration-to-workforce moves labor.workforce only in the outcome web's monthly ledger; no person, household or organization record changes.",
+    "line": 248,
+    "whatItFakes": "more-immigration-to-workforce is not run by the outcome web, so it moves nothing (no measure: the web does not keep labor.workforce and no engine produces it; its research gives no size the game can apply, so the web does not run it); no person, household or organization record changes.",
     "why": "no measure: the web does not keep labor.workforce and no engine produces it; its research gives no size the game can apply, so the web does not run it",
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
-    "replacement": "Superseded by SG-LABOR-unsized-links: the links this row named that still do not reach an engine's records now wait on that stopgap instead (src/core2/data/outcome-web/unwired.json); any others reach an engine's records (scripts/outcome-web/effect-matrix.ts). It is off the unwired list.",
-    "status": "resolved"
+    "replacement": "An engine that records labor.workforce for each place from its own people or organizations, read by the web as an engine measure, and whose own rates read webReach for these links.",
+    "status": "open"
   },
   {
     "id": "SG-WEB-unread-crime-rate-index",
@@ -978,13 +948,13 @@
     "id": "SG-WEB-unread-health-child-asthma-pct",
     "kind": "missing-mechanic",
     "file": "src/core2/data/outcome-web/unwired.json",
-    "line": 494,
+    "line": 260,
     "whatItFakes": "gas-hookup-ban-to-child-asthma moves health.child-asthma-pct only in the outcome web's monthly ledger; no person, household or organization record changes.",
     "why": "engine doesn't read the factor: health.child-asthma-pct moves only in the web's monthly ledger; no engine multiplies its own rates by it",
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
-    "replacement": "Superseded by SG-EW-HEALTH-condition-record: the links this row named that still do not reach an engine's records now wait on that stopgap instead (src/core2/data/outcome-web/unwired.json); any others reach an engine's records (scripts/outcome-web/effect-matrix.ts). It is off the unwired list.",
-    "status": "resolved"
+    "replacement": "The engine that owns health.child-asthma-pct multiplies its own person, household or organization rate by webReach(api, placeId, \"health.child-asthma-pct\", subject), as counted births do, so these links change its records.",
+    "status": "open"
   },
   {
     "id": "SG-WEB-unread-school-college-completion-pct",
@@ -1041,31 +1011,25 @@
     "id": "SG-WEB-unread-farmland-value-per-acre",
     "kind": "missing-mechanic",
     "file": "src/core2/data/outcome-web/unwired.json",
-    "line": 278,
+    "line": 266,
     "whatItFakes": "farm-payments-cut-to-land-values moves farmland.value-per-acre only in the outcome web's monthly ledger; no person, household or organization record changes.",
     "why": "engine doesn't read the factor: farmland.value-per-acre moves only in the web's monthly ledger; no engine multiplies its own rates by it",
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
-    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: The engine that owns farmland.value-per-acre multiplies its own person, household or organization rate by webReach(api, placeId, \"farmland.value-per-acre\", subject), as counted births do, so these links change its records.",
-    "status": "resolved",
-    "resolvedAt": "2026-11-10",
-    "resolvedBy": "owner-ruling-2026-11-10",
-    "resolution": "Dropped Nov 10, 2026 (stand-in triage, too in depth, owner): no screen, scene, paper, bill card, household dollar or election the player reaches shows it, and no ruling asks for it. The marker stays in the code."
+    "replacement": "The engine that owns farmland.value-per-acre multiplies its own person, household or organization rate by webReach(api, placeId, \"farmland.value-per-acre\", subject), as counted births do, so these links change its records.",
+    "status": "open"
   },
   {
     "id": "SG-WEB-unread-rail-intercity-ridership",
     "kind": "missing-mechanic",
     "file": "src/core2/data/outcome-web/unwired.json",
-    "line": 284,
+    "line": 272,
     "whatItFakes": "federal-rail-expansion-to-riders moves rail.intercity-ridership only in the outcome web's monthly ledger; no person, household or organization record changes.",
     "why": "engine doesn't read the factor: rail.intercity-ridership moves only in the web's monthly ledger; no engine multiplies its own rates by it",
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
-    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: The engine that owns rail.intercity-ridership multiplies its own person, household or organization rate by webReach(api, placeId, \"rail.intercity-ridership\", subject), as counted births do, so these links change its records.",
-    "status": "resolved",
-    "resolvedAt": "2026-11-10",
-    "resolvedBy": "owner-ruling-2026-11-10",
-    "resolution": "Dropped Nov 10, 2026 (stand-in triage, too in depth, owner): no screen, scene, paper, bill card, household dollar or election the player reaches shows it, and no ruling asks for it. The marker stays in the code."
+    "replacement": "The engine that owns rail.intercity-ridership multiplies its own person, household or organization rate by webReach(api, placeId, \"rail.intercity-ridership\", subject), as counted births do, so these links change its records.",
+    "status": "open"
   },
   {
     "id": "SG-WEB-unread-parks-access-to-exercise",
@@ -1143,13 +1107,13 @@
     "id": "SG-WEB-unread-births-rate",
     "kind": "missing-mechanic",
     "file": "src/core2/data/outcome-web/unwired.json",
-    "line": 200,
-    "whatItFakes": "baby-bonus-to-births is not run by the outcome web, so it moves nothing (it waits on program.birth-bonus-dollars, and it has no researched size; its research gives no size the game can apply, so the web does not run it); no person, household or organization record changes.",
-    "why": "the web does not run it: it waits on program.birth-bonus-dollars, and it has no researched size; its research gives no size the game can apply, so the web does not run it",
+    "line": 170,
+    "whatItFakes": "baby-bonus-to-births is not run by the outcome web, so it moves nothing (it waits on program.birth-bonus-dollars, and it has no researched size; nothing in the core records its cause, program.birth-bonus-dollars); no person, household or organization record changes.",
+    "why": "the web does not run it: it waits on program.birth-bonus-dollars, and it has no researched size; nothing in the core records its cause, program.birth-bonus-dollars",
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
-    "replacement": "Superseded by SG-FAMILY-birth-bonus-not-paid: the links this row named that still do not reach an engine's records now wait on that stopgap instead (src/core2/data/outcome-web/unwired.json); any others reach an engine's records (scripts/outcome-web/effect-matrix.ts). It is off the unwired list.",
-    "status": "resolved"
+    "replacement": "The engine that owns births.rate multiplies its own person, household or organization rate by webReach(api, placeId, \"births.rate\", subject), as counted births do, so these links change its records.",
+    "status": "open"
   },
   {
     "id": "SG-WEB-unread-school-graduation-pct",
@@ -1206,15 +1170,15 @@
     "resolution": "Dropped Nov 10, 2026 (stand-in triage, too in depth, owner): no screen, scene, paper, bill card, household dollar or election the player reaches shows it, and no ruling asks for it. The marker stays in the code."
   },
   {
-    "id": "SG-WEB-fare-free-riders-unread",
+    "id": "SG-WEB-unread-health-uninsured-pct",
     "kind": "missing-mechanic",
-    "file": "src/core2/modules/place-prices.ts",
-    "line": 104,
-    "whatItFakes": "fare-free-transit-to-ridership raises transit ridership 42 percent, but the added riders move no money or record: the fare they would pay is zero under the law that causes them, and no engine reads transit.ridership.",
-    "why": "The price engine scales a household's transit trips by the web's ridership factor, so it prices trips only where a fare is charged; what a rider no longer drives (vehicle-miles, fuel) is not read from riders. The golden path does not need it (this is a game, not a spreadsheet).",
-    "addedBy": "builder sonnet-8597",
-    "addedAt": "2026-11-11",
-    "replacement": "A reader of transit.ridership that moves the vehicle-miles or fuel spending of the households who ride, sized from a fetched source, or the link dropped.",
+    "file": "src/core2/data/outcome-web/unwired.json",
+    "line": 182,
+    "whatItFakes": "marriage-equality-to-coverage is not run by the outcome web, so it moves nothing (it waits on law.marriage-equality; its cause, law.marriage-equality, is national law that no place differs on, so it cannot vary); no person, household or organization record changes.",
+    "why": "the web does not run it: it waits on law.marriage-equality; its cause, law.marriage-equality, is national law that no place differs on, so it cannot vary",
+    "addedBy": "EFFECT-WEB-WIRING",
+    "addedAt": "2026-10-20",
+    "replacement": "The engine that owns health.uninsured-pct multiplies its own person, household or organization rate by webReach(api, placeId, \"health.uninsured-pct\", subject), as counted births do, so these links change its records.",
     "status": "open"
   }
 ]

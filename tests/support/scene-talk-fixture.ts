@@ -69,11 +69,18 @@ const flags = [
   "winner-is-other",
   // The clerk's petition lines are worded for a first filing or a repeat one.
   "first-filing",
+  // A colleague's no to signing on says the reason its record holds.
+  "no-views",
+  // The desk visit always knows what a bill costs; with no budget line the
+  // record says so (deskFacts, purpose-scene.ts).
+  "no-cost",
 ];
 export const facts: Record<string, Fact> = {
   name: fact("Pat Rivera"),
   first: fact(core.people.get(askedId)!.givenName),
   bill: fact('"Limit groundwater withdrawal"'),
+  // What the bill does, as the desk visit says it (billTitleOf).
+  purpose: fact("a cap on how much groundwater a farm can pump"),
   section: fact("2"),
   chair: fact("Lee Ortiz"),
   office: fact("county commissioner"),
@@ -84,6 +91,9 @@ export const facts: Record<string, Fact> = {
   opponent: fact("Dana Lee"),
   winner: fact("Dana Lee"),
   party: fact("Democratic"),
+  // The party chair answers "what does the party do here" from one of three
+  // records the director always supplies; the fixture holds a seat.
+  "office-held": fact("the mayor's office"),
   ...Object.fromEntries(flags.map((name) => [name, fact("yes")])),
   deceased: fact("Sam Ortiz"),
   cause: fact("a long illness"),
@@ -101,6 +111,11 @@ export const facts: Record<string, Fact> = {
   home: fact("apartment"),
   rent: fact("$900 a month"),
   stake: fact("your seat"),
+  // What the partnerships engine's records give a partner's ask to live
+  // together (`moveInFacts`, src/director/move-in-facts.ts): who would move,
+  // here the asker, and that the one asked has a place of their own.
+  "asker-moves": fact(adults[1]!.givenName),
+  "asked-has-own-place": fact(core.people.get(askedId)!.givenName),
   "what-happened": fact("your vote on the bill"),
   self: fact("Pat Rivera"),
   effect: fact("my rent went up"),
@@ -120,6 +135,16 @@ export const facts: Record<string, Fact> = {
   margin: fact("about 60 votes"),
   signatures: fact("1,250"),
   due: fact("March 5"),
+  said: fact("rent increases"),
+  // Asking someone to serve (purpose-scene's serve facts): the asked person's
+  // first name and seat, and one reason each way, so both answers can be worded.
+  "their-first": fact("Pat"),
+  "their-office": fact("state senator"),
+  stranger: fact("Pat"),
+  "self-full": fact("Pat Rivera"),
+  "race-office": fact("governor"),
+  "reason-yes-step-up": fact("yes"),
+  "reason-own-seat": fact("yes"),
 };
 // The engine is tested the way the grading page composes, with every part in,
 // even the ones the owner rejected; "plays every purpose in play" checks play.
@@ -180,6 +205,8 @@ export interface ObservedPair {
   readonly step: string;
   readonly move: string;
   readonly scene: string;
+  /** The pieces said on the path before the reply, oldest first: the facts they set (setsFacts) hold for the reply. */
+  readonly said: readonly string[];
   /** What the picker was asked, to ask it again. */
   readonly ask: {
     readonly purpose: string;
@@ -199,7 +226,11 @@ export interface ObservedPair {
 export function observedPairs(talk: SceneTalk): ObservedPair[] {
   const out: ObservedPair[] = [];
   const scene = `${talk.purpose}/${talk.typeKey}`;
-  const note = (before: SceneTalkLine | undefined, line: SceneTalkLine) => {
+  const note = (
+    before: SceneTalkLine | undefined,
+    line: SceneTalkLine,
+    said: readonly string[],
+  ) => {
     if (!line.after || !before) return;
     if (before.move !== line.after)
       throw new Error(
@@ -211,6 +242,7 @@ export function observedPairs(talk: SceneTalk): ObservedPair[] {
       step: line.step,
       move: line.move,
       scene,
+      said,
       ask: {
         purpose: line.purpose,
         ...(line.family ? { family: line.family } : {}),
@@ -222,7 +254,11 @@ export function observedPairs(talk: SceneTalk): ObservedPair[] {
   };
   const spoken = (line: SceneTalkLine | undefined) =>
     !!line && line.role !== "narrator";
-  const walkLines = (parent: SceneTalkLine, lines: SceneTalkLine[]) => {
+  const walkLines = (
+    parent: SceneTalkLine,
+    lines: SceneTalkLine[],
+    said: string[],
+  ) => {
     let previous: SceneTalkLine = parent;
     for (const line of lines) {
       if (line.role === "narrator") continue;
@@ -231,26 +267,42 @@ export function observedPairs(talk: SceneTalk): ObservedPair[] {
         line.step === "continue" ||
         line.step === "state" ||
         (previous !== parent && previous.move !== line.after);
-      note(goesOn ? parent : previous, line);
+      note(goesOn ? parent : previous, line, [...said]);
+      said.push(...line.parts);
       previous = line;
     }
   };
   /** The line the replies at a node answer: the asker's last line, else what came before. */
   const answered = (parent: SceneTalkLine, node: TreeNode) =>
     [...node.lines].reverse().find((line) => line.role === "asker") ?? parent;
-  const walk = (parent: SceneTalkLine, node: TreeNode) => {
-    walkLines(parent, node.lines);
+  const walk = (
+    parent: SceneTalkLine,
+    node: TreeNode,
+    before: readonly string[],
+  ) => {
+    const said = [...before];
+    walkLines(parent, node.lines, said);
     const last = answered(parent, node);
-    if (node.end?.close) note(parent, node.end.close);
+    if (node.end?.close) note(parent, node.end.close, said);
     for (const reply of node.replies) {
-      note(last, reply.line);
-      if (reply.next) walk(reply.line, reply.next);
+      note(last, reply.line, said);
+      if (reply.next)
+        walk(reply.line, reply.next, [...said, ...reply.line.parts]);
     }
-    for (const branch of node.branches ?? []) walk(parent, branch.node);
+    for (const branch of node.branches ?? []) walk(parent, branch.node, said);
   };
   const { open } = talk;
-  if (open && talk.intro[0]) note(open, talk.intro[0]);
-  if (talk.intro[0] && talk.intro[1]) note(talk.intro[0], talk.intro[1]);
-  if (spoken(talk.state)) walk(talk.state, talk.tree);
+  const opening = [
+    ...(open?.parts ?? []),
+    ...talk.intro.flatMap((line) => line.parts),
+  ];
+  if (open && talk.intro[0]) note(open, talk.intro[0], open.parts);
+  if (talk.intro[0] && talk.intro[1])
+    note(talk.intro[0], talk.intro[1], [
+      ...(open?.parts ?? []),
+      ...talk.intro[0].parts,
+    ]);
+  if (spoken(talk.state))
+    walk(talk.state, talk.tree, [...opening, ...talk.state.parts]);
   return out;
 }

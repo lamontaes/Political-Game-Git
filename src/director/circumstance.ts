@@ -8,7 +8,7 @@
  * street, a coworker brings up the national news, a colleague catches them
  * in the capitol's hallway after a committee hearing.
  *
- * The rows (`data/circumstances.json`) hold the structure and no sentence.
+ * The rows (`src/director/data/circumstances.json`) hold the structure and no sentence.
  * This file is pure over the core: it reads only the records written today
  * (each kept as it is recorded, `CircumstanceQueue`), never history or the
  * whole world, and casts the person with the highest score; the record id
@@ -21,18 +21,18 @@ import {
   INTEREST_GROUPS_MODULE_ID,
   meetingsOn,
 } from "../core2/modules/elections";
-import { LEGISLATURE_MODULE_ID } from "../core2/modules/legislature";
+import {
+  LEGISLATURE_MODULE_ID,
+  type StudyRow,
+} from "../core2/modules/legislature";
 import { NEWS_MODULE_ID, storyOfReadEvent } from "../core2/modules/news";
 import { PRESS_MODULE_ID, outletsHere } from "../core2/modules/press";
 import { OFFICES_MODULE_ID, type TermRow } from "../core2/modules/offices";
-import {
-  ballot,
-  ELECTIONS_MODULE_ID,
-  PARTIES_MODULE_ID,
-} from "../core2/modules/elections";
+import { ELECTIONS_MODULE_ID } from "../core2/modules/elections";
 import { addDays, ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import { P } from "../core2/parameters";
 import { coreAPI } from "../core2/state";
+import { partyMentorOf } from "../core2/modules/candidacy";
 import type {
   CoreEventInput,
   CoreState,
@@ -76,6 +76,14 @@ export interface CircumstanceRow {
    * as it follows one thing the player lived through.
    */
   afterDays?: number;
+  /**
+   * The news keeps: the most days after the record that the circumstance may
+   * still come, where the day it was due went to another scene. The record
+   * is offered again each day from `afterDays` until the row has staged its
+   * scene for it or the news is stale (a committee formed is news for a
+   * week or two). A row without it comes on its one day or not at all.
+   */
+  keepsDays?: number;
   /**
    * The row follows a record of the player's own life (their school year
    * ending): the week's spacing between scenes from circumstance does not
@@ -265,6 +273,9 @@ function bodyOfRecord(
 ): string | undefined {
   if (record.facts.officeId && !record.facts.billId)
     return record.facts.officeId;
+  // A debate on the floor is the chamber it was heard in: a House member does
+  // not hear the Senate's floor.
+  if (record.facts.chamber) return record.facts.chamber;
   const billId = record.facts.billId;
   if (!billId || !core.modules.has(LEGISLATURE_MODULE_ID)) return undefined;
   const bill = coreAPI(core as CoreState)
@@ -272,6 +283,19 @@ function bodyOfRecord(
     .table("bills")
     .get(billId) as unknown as { bodyOfficeId?: string } | undefined;
   return bill?.bodyOfficeId;
+}
+
+/** The study committee a record names (legislature.ts referToStudy), or undefined. */
+function studyOf(
+  core: Readonly<CoreState>,
+  record: Pick<QueuedRecord, "facts">,
+): StudyRow | undefined {
+  const studyId = record.facts.studyId;
+  if (!studyId || !core.modules.has(LEGISLATURE_MODULE_ID)) return undefined;
+  return coreAPI(core as CoreState)
+    .moduleState(LEGISLATURE_MODULE_ID)
+    .table("studies")
+    .get(studyId) as unknown as StudyRow | undefined;
 }
 
 /** Whether the player filed in the contest and someone else won it. */
@@ -316,7 +340,14 @@ export function earlierLosses(
       `election-result:${filing.contestId}` as never,
     );
     const winner = result?.facts?.winnerId;
-    return !!winner && winner !== playerId && result.date < beforeDate;
+    // Lost: among those who missed the cut (an at-large race seats several,
+    // and a winner of another seat lost nothing); a record kept before
+    // `outIds` reads the winner.
+    const out = result?.facts?.outIds;
+    const lost = out
+      ? (JSON.parse(String(out)) as string[]).includes(playerId)
+      : !!winner && winner !== playerId;
+    return !!result && lost && result.date < beforeDate;
   }).length;
 }
 
@@ -367,15 +398,6 @@ function playerHolds(
           .query("byPerson", [playerId]) as unknown as { contestId: string }[]
       ).some((filing) => filing.contestId === contestId);
     }
-    case "filed-late": {
-      // The player's own filing in a contest where others filed before them:
-      // someone is already on its ballot to be told of.
-      const contestId = record.facts.contestId;
-      if (!contestId || !core.modules.has(ELECTIONS_MODULE_ID)) return false;
-      return ballot(coreAPI(core as CoreState), contestId).some(
-        (filing) => filing.personId !== playerId,
-      );
-    }
     case "lost-again":
       // The player ran in the contest the record settled, lost it, and has
       // lost another before.
@@ -387,12 +409,23 @@ function playerHolds(
           record.facts.winnerId,
         ) && earlierLosses(core, playerId, record.facts.contestId) > zero
       );
+    case "official-in-it":
+      // A story of a bribe the player took (the report names the official).
+      return record.facts.officialId === playerId;
     case "named-in-it":
       // The record is the player's own (their school year's end).
       return record.personIds.includes(playerId);
     case "same-body": {
       const body = bodyOfRecord(core, record);
       return !!body && standing.officeIds.has(body);
+    }
+    case "on-study": {
+      // The player chairs the study committee the record names or sits on it.
+      const study = studyOf(core, record);
+      return (
+        !!study &&
+        (study.chairId === playerId || study.memberIds.includes(playerId))
+      );
     }
     default:
       if (rule.startsWith("listed:"))
@@ -406,57 +439,20 @@ function playerHolds(
 }
 
 /**
- * The seated officeholders of the party that asked a member to run, who live
- * in the member's town and have held a seat for a year or more: the veterans
- * a member asked to run would hear from. Read from the offices engine's
- * serving terms; a term whose holder is not a full person is left out.
+ * The member's mentor in the party that asked them to run: the seated
+ * officeholder who took them under their wing on the ask (`takeUnderWing`,
+ * the party mentorship record), while they are alive and in the member's
+ * town. None where no seasoned officeholder of the party lives there.
  */
-export function partyOfficeholders(
+export function partyMentor(
   core: Readonly<CoreState>,
   record: Pick<QueuedRecord, "personIds" | "facts">,
-  on: IsoDate,
 ): PersonId[] {
-  // stopgapId: SG-WORDS-mentor-is-officeholder
-  const asked = core.people.get(record.personIds[zero] ?? ("" as PersonId));
+  const askedId = record.personIds[zero];
   const partyId = record.facts.partyId;
-  if (
-    !asked ||
-    !partyId ||
-    !core.modules.has(OFFICES_MODULE_ID) ||
-    !core.modules.has(PARTIES_MODULE_ID)
-  )
-    return [];
-  const api = coreAPI(core as CoreState);
-  const members = new Set(
-    (
-      api
-        .moduleState(PARTIES_MODULE_ID)
-        .table("ties")
-        .query("byParty", [partyId]) as unknown as {
-        personId: string;
-        tie: string;
-      }[]
-    )
-      .filter((tie) => tie.tie === "party")
-      .map((tie) => tie.personId),
-  );
-  const heldSince = addDays(makeIsoDate(on), -Math.round(P.daysPerMeanYear));
-  const serving = api
-    .moduleState(OFFICES_MODULE_ID)
-    .table("terms")
-    .query("byStatus", ["serving"]) as unknown as TermRow[];
-  return serving
-    .filter(
-      (term) =>
-        !!term.personId &&
-        members.has(term.personId) &&
-        term.personId !== asked.id &&
-        core.people.get(term.personId as PersonId)?.alive === true &&
-        core.people.get(term.personId as PersonId)?.placeId === asked.placeId &&
-        (term.serviceStart ?? term.startDate) <= heldSince,
-    )
-    .map((term) => term.personId as PersonId)
-    .sort();
+  if (!askedId || !partyId) return [];
+  const mentor = partyMentorOf(coreAPI(core as CoreState), askedId, partyId);
+  return mentor ? [mentor] : [];
 }
 
 /** Who has a reason from the record to be there, before where is checked. */
@@ -486,22 +482,6 @@ function poolOf(
       .filter((id) => id !== first?.id)
       .map((id) => ({ id, named: false }));
   }
-  if (source === "ties-of-named") {
-    // The people tied to the first person the record names (whom a death is
-    // about): their family on record, their household, the people they knew.
-    const first = core.people.get(record.personIds[zero] ?? ("" as PersonId));
-    if (!first) return [];
-    return [
-      ...new Set([
-        ...first.familyIds,
-        ...(core.households.get(first.householdId)?.memberIds ?? []),
-        ...first.knownIds,
-      ]),
-    ]
-      .filter((id) => id !== first.id)
-      .sort()
-      .map((id) => ({ id, named: false }));
-  }
   if (source === "ties-of-each-named") {
     // The people tied to anyone the record names (each candidate a count
     // settled): their family on record, their household, the people they knew.
@@ -522,10 +502,8 @@ function poolOf(
       named: record.personIds.includes(id),
     }));
   }
-  if (source === "party-officeholders")
-    return partyOfficeholders(core, record, record.dueOn ?? core.date).map(
-      (id) => ({ id, named: false }),
-    );
+  if (source === "party-mentor")
+    return partyMentor(core, record).map((id) => ({ id, named: false }));
   if (source === "classmates")
     // The others at the player's school that year.
     return classmatesOf(core, playerId).map((id) => ({ id, named: false }));
@@ -556,12 +534,27 @@ function poolOf(
       )
       .map((meeting) => ({ id: meeting.lobbyistId as PersonId, named: false }));
   }
-  if (source.startsWith("fact:")) {
-    // The person a fact of the record names (a message's candidate).
-    const id = record.facts[source.slice("fact:".length)];
-    return id && core.people.has(id as PersonId)
-      ? [{ id: id as PersonId, named: true }]
+  if (source === "study-members") {
+    // The study committee's chair first, then its members: whoever sits on it
+    // with the player (legislature.ts referToStudy, from the closest opponents).
+    const study = studyOf(core, record);
+    return study
+      ? [
+          { id: study.chairId as PersonId, named: true },
+          ...study.memberIds.map((id) => ({
+            id: id as PersonId,
+            named: false,
+          })),
+        ]
       : [];
+  }
+  if (source.startsWith("fact:")) {
+    // The people a fact of the record names (a message's candidate), or the
+    // list it names in order, comma-joined (a hearing's witnesses).
+    return (record.facts[source.slice("fact:".length)] ?? "")
+      .split(",")
+      .filter((id) => id && core.people.has(id as PersonId))
+      .map((id) => ({ id: id as PersonId, named: true }));
   }
   if (source.startsWith("civic:")) {
     // A civic role the record's bill or body names (the press corps that

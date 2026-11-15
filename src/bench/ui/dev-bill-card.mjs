@@ -339,7 +339,7 @@ async function outcomeLines({ billId, labels, onDone }) {
       "dev-bill-added-sections",
     ),
   ];
-  if (outcome.ending.how === "law" && !outcome.laws.length)
+  if (outcome.ending.how === "law" && !outcome.laws.length && !outcome.budget)
     out.push(line(labels.noLaw));
   for (const law of outcome.laws) {
     const r = law.reach;
@@ -374,48 +374,82 @@ async function outcomeLines({ billId, labels, onDone }) {
       });
       out.push(el("div", { className: "acts" }, run));
     }
-    out.push(el("h4", { className: "label", textContent: labels.reach.title }));
-    if (!r.records) {
-      out.push(line(labels.reach.none, "dev-bill-reach-none"));
-      continue;
-    }
+    out.push(...reachLines(r, labels, line));
+  }
+  if (outcome.budget) {
     out.push(
       line(
-        [
-          `${labels.reach.records} ${r.records}`,
-          `${labels.reach.fullPeople} ${r.fullPeople} (${labels.reach.inTown} ${r.fullPeopleInTown}, ${labels.reach.elsewhere} ${r.fullPeopleElsewhere})`,
-          `${labels.reach.counted} ${Math.round(r.counted)}`,
-          `${labels.reach.organizations} ${r.organizations}`,
-          `${labels.reach.governments} ${r.governments}`,
-          `${labels.reach.money} ${dollars(r.amountMinor)} (${labels.reach.inTown} ${dollars(r.amountInTownMinor)}, ${labels.reach.elsewhere} ${dollars(r.amountElsewhereMinor)})`,
-        ].join(" · "),
-        "dev-bill-reach",
+        outcome.budget.lines
+          .map((l) => `${l.line} ${dollars(l.value)}`)
+          .join(" · "),
+        "dev-bill-budget-lines",
       ),
-      ...r.by.map((side) =>
-        line(
-          [
-            side.engine,
-            side.what,
-            `${labels.reach.records} ${side.records}`,
-            `${labels.reach.fullPeople} ${side.fullPeople}`,
-            `${labels.reach.counted} ${Math.round(side.counted)}`,
-            dollars(side.amountMinor),
-          ].join(" · "),
-          "dev-bill-reach-side",
-        ),
-      ),
-      ...r.named.map((person) =>
-        line(
-          [
-            person.name,
-            person.inTown ? labels.reach.inTown : labels.reach.elsewhere,
-            person.what,
-            dollars(person.amountMinor),
-          ].join(" · "),
-          "dev-bill-reach-person",
-        ),
-      ),
+      ...reachLines(outcome.budget.reach, labels, line),
     );
   }
+  return out;
+}
+
+/** Who a law or a bill's budget lines reached, by the core's one reach reader. */
+function reachLines(r, labels, line) {
+  const out = [
+    el("h4", { className: "label", textContent: labels.reach.title }),
+  ];
+  if (!r.records) {
+    out.push(line(labels.reach.none, "dev-bill-reach-none"));
+    return out;
+  }
+  out.push(
+    line(
+      [
+        `${labels.reach.records} ${r.records}`,
+        `${labels.reach.fullPeople} ${r.fullPeople} (${labels.reach.inTown} ${r.fullPeopleInTown}, ${labels.reach.elsewhere} ${r.fullPeopleElsewhere})`,
+        `${labels.reach.counted} ${Math.round(r.counted)}`,
+        `${labels.reach.organizations} ${r.organizations}`,
+        `${labels.reach.governments} ${r.governments}`,
+        `${labels.reach.money} ${dollars(r.amountMinor)} (${labels.reach.inTown} ${dollars(r.amountInTownMinor)}, ${labels.reach.elsewhere} ${dollars(r.amountElsewhereMinor)})`,
+      ].join(" · "),
+      "dev-bill-reach",
+    ),
+    // A government's own record (pay a line commits to positions): its own line, not money moved.
+    ...(r.governmentOwnMinor
+      ? [
+          line(
+            `${labels.reach.governmentOwn} ${dollars(r.governmentOwnMinor)}`,
+            "dev-bill-reach-government-own",
+          ),
+        ]
+      : []),
+    ...r.by.map((side) =>
+      line(
+        [
+          side.engine,
+          side.what,
+          `${labels.reach.records} ${side.records}`,
+          `${labels.reach.fullPeople} ${side.fullPeople}`,
+          `${labels.reach.counted} ${Math.round(side.counted)}`,
+          dollars(side.amountMinor),
+        ].join(" · "),
+        "dev-bill-reach-side",
+      ),
+    ),
+    ...r.named.map((person) =>
+      line(
+        [
+          person.name,
+          person.inTown ? labels.reach.inTown : labels.reach.elsewhere,
+          person.what,
+          dollars(person.amountMinor),
+        ].join(" · "),
+        "dev-bill-reach-person",
+      ),
+    ),
+    ...(r.namedOrganizations ?? []).map((o) =>
+      line(
+        [o.name || o.organizationId, dollars(o.amountMinor)].join(" · "),
+        "dev-bill-reach-organization",
+      ),
+    ),
+  );
   return out;
 }

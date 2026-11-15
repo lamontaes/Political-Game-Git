@@ -776,43 +776,74 @@
         },
         "note": "All eight member pages give start dates before January 20, 2025, so 6 D and 2 R on both dates."
       },
-      "university-boards": {
+      "university-of-michigan-regents": {
         "party": "Democratic",
         "partisanElection": true,
         "sourceId": "checked-2026-10-23",
         "url": "https://ballotpedia.org/Michigan_State_University_Board_of_Trustees",
         "quote": "University of Michigan Board of Regents | Jordan Acker | Democratic ... Michigan State University Board of Trustees | Mike Balow | Republican ... Wayne State University Board of Governors | Terri Lynn Land | Republican",
         "holderOnOpening": "UM Regents 6 D, 2 R; MSU Trustees 6 D, 1 R, 1 party not given (Sandy Pierce, appointed 2022); WSU Governors 5 D, 3 R",
-        "holderJan2026": "Same 24 members",
+        "holderJan2026": "Same members as on the opening day",
         "bodyCounts": {
-          "seats": 24,
+          "seats": 8,
           "onOpening": {
-            "Democratic": 17,
-            "Republican": 6,
+            "Democratic": 6,
+            "Republican": 2
+          },
+          "jan2026": {
+            "Democratic": 6,
+            "Republican": 2
+          },
+          "majorityOnOpening": "Democratic",
+          "majorityJan2026": "Democratic"
+        },
+        "note": "The URL serves the combined Ballotpedia page titled \"Michigan State Board of Regents\". Members elected in 2024 (Meyers, Bahar-Cook, Balow, Reddy) assumed office January 1, 2025; every other member started earlier, so composition was the same on both dates. Democrats hold the majority on each of the three boards."
+      },
+      "michigan-state-university-trustees": {
+        "party": "Democratic",
+        "partisanElection": true,
+        "sourceId": "checked-2026-10-23",
+        "url": "https://ballotpedia.org/Michigan_State_University_Board_of_Trustees",
+        "quote": "University of Michigan Board of Regents | Jordan Acker | Democratic ... Michigan State University Board of Trustees | Mike Balow | Republican ... Wayne State University Board of Governors | Terri Lynn Land | Republican",
+        "holderOnOpening": "UM Regents 6 D, 2 R; MSU Trustees 6 D, 1 R, 1 party not given (Sandy Pierce, appointed 2022); WSU Governors 5 D, 3 R",
+        "holderJan2026": "Same members as on the opening day",
+        "bodyCounts": {
+          "seats": 8,
+          "onOpening": {
+            "Democratic": 6,
+            "Republican": 1,
             "not stated": 1
           },
           "jan2026": {
-            "Democratic": 17,
-            "Republican": 6,
+            "Democratic": 6,
+            "Republican": 1,
             "not stated": 1
           },
           "majorityOnOpening": "Democratic",
-          "majorityJan2026": "Democratic",
-          "byBoard": {
-            "UM Regents": {
-              "Democratic": 6,
-              "Republican": 2
-            },
-            "MSU Trustees": {
-              "Democratic": 6,
-              "Republican": 1,
-              "not stated": 1
-            },
-            "WSU Governors": {
-              "Democratic": 5,
-              "Republican": 3
-            }
-          }
+          "majorityJan2026": "Democratic"
+        },
+        "note": "The URL serves the combined Ballotpedia page titled \"Michigan State Board of Regents\". Members elected in 2024 (Meyers, Bahar-Cook, Balow, Reddy) assumed office January 1, 2025; every other member started earlier, so composition was the same on both dates. Democrats hold the majority on each of the three boards."
+      },
+      "wayne-state-university-governors": {
+        "party": "Democratic",
+        "partisanElection": true,
+        "sourceId": "checked-2026-10-23",
+        "url": "https://ballotpedia.org/Michigan_State_University_Board_of_Trustees",
+        "quote": "University of Michigan Board of Regents | Jordan Acker | Democratic ... Michigan State University Board of Trustees | Mike Balow | Republican ... Wayne State University Board of Governors | Terri Lynn Land | Republican",
+        "holderOnOpening": "UM Regents 6 D, 2 R; MSU Trustees 6 D, 1 R, 1 party not given (Sandy Pierce, appointed 2022); WSU Governors 5 D, 3 R",
+        "holderJan2026": "Same members as on the opening day",
+        "bodyCounts": {
+          "seats": 8,
+          "onOpening": {
+            "Democratic": 5,
+            "Republican": 3
+          },
+          "jan2026": {
+            "Democratic": 5,
+            "Republican": 3
+          },
+          "majorityOnOpening": "Democratic",
+          "majorityJan2026": "Democratic"
         },
         "note": "The URL serves the combined Ballotpedia page titled \"Michigan State Board of Regents\". Members elected in 2024 (Meyers, Bahar-Cook, Balow, Reddy) assumed office January 1, 2025; every other member started earlier, so composition was the same on both dates. Democrats hold the majority on each of the three boards."
       }

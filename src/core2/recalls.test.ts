@@ -18,12 +18,16 @@ import { openCampaigns } from "./modules/campaigns";
 import { openRecord } from "./modules/record";
 import { openOfficeDay } from "./modules/office-day";
 import { openOfficeDayState } from "./office-day-state";
+import { openWorldLegislating } from "./modules/world-legislating";
 import { draftBill, holdVote, openLegislature } from "./modules/legislature";
 import {
   openRecalls,
-  recallBarsFor,
+  recallWindowFor,
+  type RecallClock,
   recallRule,
   recallsOf,
+  openToRecall,
+  RECALLS_MODULE_ID,
 } from "./modules/recalls";
 import { personStance } from "./campaign-views";
 import { PLATFORM_QUESTIONS } from "./campaign-data";
@@ -93,8 +97,10 @@ describe("M3-10 recalls", () => {
       openRecord(core);
       openLegislature(core);
       openRecalls(core);
-      // Every played world installs the office day; the legislature reads it
-      // when a body meets.
+      // Every played world installs the lawmaking calendar and then the office
+      // day; the legislature reads the office day when a body meets, and the
+      // office day reads the calendar's agenda filings when a meeting closes.
+      openWorldLegislating(core);
       openOfficeDay(core, seed);
       openOfficeDayState(core);
       const api = coreAPI(core);
@@ -302,34 +308,84 @@ describe("M3-10 recalls", () => {
 });
 
 describe("each state's recall timing bars", () => {
-  it("come from the state's row, with the national estimate only where none is read", () => {
-    expect(recallBarsFor("CA", 4)).toEqual({
-      openingDays: 90,
-      closingDays: 182,
+  const clock = (over: Partial<RecallClock>): RecallClock => ({
+    since: "2023-01-01",
+    endDate: "2027-01-01",
+    termYears: 4,
+    election: null,
+    recallElectionDays: 100,
+    ...over,
+  });
+  it("count days, calendar months and a fraction of the term from the term's own dates", () => {
+    // Days: Kansas bars the first 120 and last 180 days.
+    expect(recallWindowFor("KS", clock({}))).toMatchObject({
+      opensOn: "2023-05-01",
+      closesOn: "2026-07-05",
     });
-    expect(recallBarsFor("KS", 4)).toEqual({
-      openingDays: 120,
-      closingDays: 180,
+    // Calendar months: Louisiana bars a petition with under six months left in
+    // the term, so July 2, 2026 is barred and June 30 is not.
+    const la = recallWindowFor("LA", clock({}))!;
+    expect(la.closesOn).toBe("2026-07-01");
+    expect(la.opensOn).toBe("2023-01-01");
+    // Six months from August 31 is the last day of February, not a day count.
+    expect(
+      recallWindowFor(
+        "AZ",
+        clock({ since: "2026-08-31", endDate: "2030-08-31" }),
+      )!.opensOn,
+    ).toBe("2027-02-28");
+    expect(
+      recallWindowFor(
+        "MT",
+        clock({ since: "2026-12-31", endDate: "2030-12-31" }),
+      )!.opensOn,
+    ).toBe("2027-02-28");
+    // A fraction of the term: Florida's one-fourth, for terms of 2, 3 and 4 years.
+    const fl = (since: string, endDate: string) =>
+      recallWindowFor("FL", clock({ since, endDate }))!.opensOn;
+    expect(fl("2025-01-01", "2027-01-01")).toBe("2025-07-03");
+    expect(fl("2024-01-01", "2027-01-01")).toBe("2024-10-01");
+    expect(fl("2023-01-01", "2027-01-01")).toBe("2024-01-01");
+    // A banded row still returns its two values.
+    expect(
+      recallWindowFor(
+        "MI",
+        clock({ since: "2025-01-01", endDate: "2027-01-01", termYears: 2 }),
+      ),
+    ).toMatchObject({ opensOn: "2025-07-02", closesOn: "2026-07-03" });
+    expect(recallWindowFor("MI", clock({}))).toMatchObject({
+      opensOn: "2024-01-01",
+      closesOn: "2026-01-01",
     });
-    // Michigan counts a term of more than two years in whole years.
-    expect(recallBarsFor("MI", 2)).toEqual({
-      openingDays: 182,
-      closingDays: 182,
+    // A state with no row is read as the national estimate, by the caller.
+    expect(recallWindowFor("NC", clock({}))).toBeNull();
+  });
+  it("count back from the seat's next election or its incumbent filing deadline", () => {
+    const election = {
+      electionDate: "2026-11-03",
+      filingDeadline: "2026-03-01",
+    };
+    // Washington: six months before the general election.
+    expect(recallWindowFor("WA", clock({ election }))!.closesOn).toBe(
+      "2026-05-03",
+    );
+    // North Dakota: a year before, plus the days a recall election takes.
+    expect(recallWindowFor("ND", clock({ election }))!.closesOn).toBe(
+      "2025-07-26",
+    );
+    // Nebraska: six months before the incumbent filing deadline, and a
+    // second petition waits twelve months after a failed one.
+    const ne = recallWindowFor("NE", clock({ election }))!;
+    expect(ne.closesOn).toBe("2025-09-01");
+    expect(ne.afterFailed).toEqual({ months: 12 });
+    expect(recallWindowFor("AK", clock({}))!.afterFailed).toEqual({
+      months: 6,
     });
-    expect(recallBarsFor("MI", 4)).toEqual({
-      openingDays: 365,
-      closingDays: 365,
+    expect(recallWindowFor("DC", clock({}))!.afterFailed).toEqual({
+      days: 365,
     });
-    expect(recallBarsFor("WI", 4)).toEqual({
-      openingDays: 365,
-      closingDays: 0,
-    });
-    expect(recallBarsFor("NJ", 3)).toEqual({
-      openingDays: 315,
-      closingDays: 0,
-    });
-    // A state whose statute is unread has no row, so no state bar is invented.
-    expect(recallBarsFor("NC", 4)).toBeNull();
+    // Where a statute says nothing, the rest of the term.
+    expect(recallWindowFor("GA", clock({}))!.afterFailed).toBeNull();
   });
 });
 
@@ -388,4 +444,74 @@ describe("each state's recall rule as its statute reads", () => {
       `recall-statute: ${where}: ${rule.doctrine}, scope ${rule.scope}; grounds ${rule.grounds}; ${rule.citation}; ${recallsOf(api).length} recalls in a year, all for cause\n`,
     );
   }, 900_000);
+});
+
+describe("a state's bar after a failed recall", () => {
+  // Fixed seed and states: the world is built through the game's own opening,
+  // then a failed petition is staged on a serving council member's term, as
+  // the petition-due work leaves it.
+  const PINNED_SEED = "recall-timing-pins-1";
+  it.each([
+    ["US-AK", "six months", 120, 190, true],
+    ["US-NE", "twelve months", 200, 400, true],
+    ["US-GA", "the rest of the term", 120, 5000, false],
+  ])(
+    "%s keeps a second petition away for %s",
+    (stateKey, _label, recentDays, oldDays, oldOpens) => {
+      let place = drawPlace(PINNED_SEED, `pin:${stateKey}:0`);
+      for (let i = 1; i < 6000 && place.state !== stateKey; i += 1)
+        place = drawPlace(PINNED_SEED, `pin:${stateKey}:${i}`);
+      expect(place.state, `seed ${PINNED_SEED}`).toBe(stateKey);
+      const before = setBookkeeping(false);
+      let core: ReturnType<typeof buildBenchWorld>["core"];
+      try {
+        core = buildBenchWorld(place.seed, gameStartDate(), {
+          twoLevel: true,
+          placeKey: place.key,
+        }).core;
+      } finally {
+        setBookkeeping(before);
+      }
+      const api = coreAPI(core);
+      const holder = townSeats(api)
+        .filter((s) => s.holder && s.holder.endDate)
+        .map((s) => s.holder!)
+        .find((term) => openToRecall(api, term));
+      // A place whose council holds no member open to a petition today has
+      // nothing to stage; name it so the draw is visible.
+      const where = `${place.name} (${place.key}), seed ${place.seed}`;
+      if (!holder) {
+        process.stdout.write(
+          `recall-after-failed: ${where}: no member open today\n`,
+        );
+        return;
+      }
+      const put = (id: string, status: "failed" | "kept", daysAgo: number) =>
+        api
+          .moduleState(RECALLS_MODULE_ID)
+          .table("recalls")
+          .put({
+            id,
+            termId: holder.id,
+            seatId: holder.seatId,
+            memberId: holder.personId ?? "",
+            status,
+            decided: after(api.state.date, -daysAgo),
+          } as never);
+      put("staged", "failed", 1);
+      expect(openToRecall(api, holder), `${where}: failed yesterday`).toBe(
+        false,
+      );
+      put("staged", "kept", recentDays);
+      const afterRecent = openToRecall(api, holder);
+      put("staged", "kept", oldDays);
+      const afterOld = openToRecall(api, holder);
+      process.stdout.write(
+        `recall-after-failed: ${where}: ${recentDays} days after, open ${afterRecent}; ${oldDays} days after, open ${afterOld}\n`,
+      );
+      expect(afterRecent, `${where}: ${recentDays} days after`).toBe(false);
+      expect(afterOld, `${where}: ${oldDays} days after`).toBe(oldOpens);
+    },
+    900_000,
+  );
 });

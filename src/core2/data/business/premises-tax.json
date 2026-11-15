@@ -1,0 +1,13 @@
+{
+  "valueShareOfAnnualSales": 0.4,
+  "quartersPerYear": 4,
+  "tag": "ESTIMATED",
+  "asOf": "2026-11-14",
+  "citation": "A business's premises are assessed at about 0.4 of a year's sales: the net stock of private nonresidential structures (BEA Fixed Assets, about 17 trillion dollars in 2022) over private industries' gross output (BEA, about 40 trillion dollars in 2022); figures from the published tables as remembered, not fetched this session.",
+  "estimatedFrom": "BEA Fixed Assets Table 3.1ESI over BEA gross output by industry; the ratio runs from about 0.2 (services that lease) to about 0.8 (retail and lodging that own large buildings) across industries.",
+  "spread": {
+    "low": 0.2,
+    "high": 0.8,
+    "unit": "premises value per dollar of a year's sales"
+  }
+}

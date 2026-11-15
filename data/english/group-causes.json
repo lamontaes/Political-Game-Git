@@ -1,0 +1,331 @@
+{
+  "about": "What each side of a platform question would put on a sign (Words lead, Nov 14 2026; /mnt/project-files/words-lead/group-causes.md): a few words, in title case, written to follow \"for\" (\"Neighbors for Fair Rents\"). Read by src/english/group-names.ts (`stanceGroupName`) to name a group formed over a stance; the side the group stands on picks the list, so a name never says the other side's cause. Never a bill catalog heading.",
+  "questions": {
+    "fare-free-transit": {
+      "for": ["Free Buses", "Rides for Everyone"],
+      "against": ["Fair Fares", "Buses That Pay Their Way"]
+    },
+    "mileage-fee-replaces-fuel-tax": {
+      "for": ["Fair Road Funding", "Roads That Pay for Themselves"],
+      "against": ["Drivers' Privacy", "No Tax by the Mile"]
+    },
+    "public-broadband": {
+      "for": ["Internet for Everyone", "Public Internet"],
+      "against": [
+        "Private Internet Choice",
+        "Keeping Government Out of Internet"
+      ]
+    },
+    "shift-highway-funds-to-transit": {
+      "for": ["Better Buses", "Transit First"],
+      "against": ["Good Roads", "Fixing Our Highways"]
+    },
+    "expand-medicaid-eligibility": {
+      "for": ["Covering Our Neighbors", "Health Care for Working Families"],
+      "against": ["Responsible Medicaid", "Protecting the Safety Net"]
+    },
+    "medicaid-work-requirement": {
+      "for": ["Work and Health Care", "Work First"],
+      "against": ["Care Without Red Tape", "Keeping People Covered"]
+    },
+    "work-requirement-for-assistance": {
+      "for": ["Work Before Welfare", "A Hand Up"],
+      "against": ["Help Without Hurdles", "Feeding Families"]
+    },
+    "universal-preschool": {
+      "for": ["Preschool for Every Child", "An Early Start"],
+      "against": ["Parents' Choice in Preschool", "Family-First Child Care"]
+    },
+    "public-funds-for-private-schooling": {
+      "for": ["School Choice", "Parents' Choice"],
+      "against": ["Public Schools", "Public Money for Public Schools"]
+    },
+    "raise-teacher-minimum-salary": {
+      "for": ["Teacher Pay", "Keeping Good Teachers"],
+      "against": ["Local Control of School Budgets", "Affordable Schools"]
+    },
+    "adopt-income-tax": {
+      "for": ["Fair Taxes", "Funding What We Need"],
+      "against": ["No Income Tax", "Keeping Our Paychecks"]
+    },
+    "cap-property-tax-growth": {
+      "for": ["Property Tax Relief", "Staying in Our Homes"],
+      "against": ["Strong Local Services", "Fully Funded Schools"]
+    },
+    "exempt-groceries-from-sales-tax": {
+      "for": ["Tax-Free Groceries", "Lower Grocery Bills"],
+      "against": ["A Steady Budget", "Keeping Services Funded"]
+    },
+    "graduated-income-tax": {
+      "for": ["A Fair Share", "Tax Fairness"],
+      "against": ["A Flat Tax", "One Rate for Everyone"]
+    },
+    "balanced-operating-budget": {
+      "for": ["A Balanced Budget", "Living Within Our Means"],
+      "against": ["Budget Flexibility", "Room to Respond"]
+    },
+    "fund-pensions-to-schedule": {
+      "for": ["Keeping Pension Promises", "Secure Retirements"],
+      "against": ["Affordable Pensions", "Budget Priorities"]
+    },
+    "minimum-reserve-balance": {
+      "for": ["A Rainy-Day Fund", "Saving for Hard Times"],
+      "against": ["Putting Tax Dollars to Work", "Spending Where It's Needed"]
+    },
+    "allow-multifamily-in-single-family-zones": {
+      "for": ["More Homes", "Homes for Everyone"],
+      "against": ["Neighborhood Character", "Protecting Our Neighborhoods"]
+    },
+    "inclusionary-requirement": {
+      "for": ["Affordable Homes", "Homes Working People Can Afford"],
+      "against": ["Building More Housing", "Fewer Housing Mandates"]
+    },
+    "rent-stabilization": {
+      "for": ["Fair Rents", "Stable Rents"],
+      "against": ["Property Owners' Rights", "Housing Supply"]
+    },
+    "right-to-counsel-in-eviction": {
+      "for": ["Tenants' Rights", "A Lawyer for Every Tenant"],
+      "against": ["Small Landlords", "Fair Housing Courts"]
+    },
+    "raise-federal-minimum-wage": {
+      "for": ["A Living Wage", "Raising Wages"],
+      "against": ["Small Business Jobs", "Main Street Employers"]
+    },
+    "local-minimum-wage-authority": {
+      "for": ["Local Wage Control", "Letting Towns Decide Wages"],
+      "against": ["One Wage Law", "A Level Playing Field"]
+    },
+    "raise-minimum-wage": {
+      "for": ["Better Pay", "A Raise for Workers"],
+      "against": ["Saving Local Jobs", "Keeping Small Businesses Open"]
+    },
+    "paid-family-leave": {
+      "for": ["Paid Family Leave", "Time to Care"],
+      "against": ["Employer Flexibility", "Small Business Freedom"]
+    },
+    "public-sector-collective-bargaining": {
+      "for": ["Public Workers' Rights", "A Voice on the Job"],
+      "against": ["Taxpayer Control", "Accountable Government"]
+    },
+    "ban-the-box-public-hiring": {
+      "for": ["Second Chances", "Fair Hiring"],
+      "against": ["Safe Hiring", "Informed Employers"]
+    },
+    "right-to-work": {
+      "for": ["Worker Freedom", "Right to Work"],
+      "against": ["Strong Unions", "Workers Standing Together"]
+    },
+    "legalize-cannabis-sales": {
+      "for": ["Legal Marijuana", "Regulated Marijuana"],
+      "against": ["Drug-Free Communities", "Keeping Kids Safe from Drugs"]
+    },
+    "cap-consumer-loan-rates": {
+      "for": ["Fair Lending", "Ending Predatory Loans"],
+      "against": ["Access to Credit", "Borrowers' Choice"]
+    },
+    "ban-new-gas-hookups": {
+      "for": ["Clean Homes", "All-Electric Buildings"],
+      "against": ["Energy Choice", "Keeping Our Gas Stoves"]
+    },
+    "allow-retail-electric-choice": {
+      "for": ["Electric Choice", "Lower Power Bills"],
+      "against": ["Reliable Power", "Protecting Ratepayers"]
+    },
+    "clean-electricity-standard": {
+      "for": ["Clean Power", "Clean Energy Jobs"],
+      "against": ["Affordable Energy", "Keeping the Lights On"]
+    },
+    "clean-air-plan-for-polluted-counties": {
+      "for": ["Clean Air", "Healthy Air"],
+      "against": ["Local Industry", "Jobs and Growth"]
+    },
+    "bottle-deposit": {
+      "for": ["Clean Roadsides", "A Bottle Bill"],
+      "against": ["Lower Grocery Costs", "Curbside Recycling"]
+    },
+    "price-carbon": {
+      "for": ["Climate Action", "Making Polluters Pay"],
+      "against": ["Affordable Gas and Power", "No Energy Tax"]
+    },
+    "civilian-oversight-of-police": {
+      "for": ["Police Accountability", "Community Oversight"],
+      "against": ["Public Safety", "Backing Our Police"]
+    },
+    "partner-with-federal-immigration-enforcement": {
+      "for": ["Secure Communities", "Enforcing the Law"],
+      "against": ["Community Trust", "Welcoming Neighbors"]
+    },
+    "end-cash-bail": {
+      "for": ["Bail Reform", "Justice Before Trial"],
+      "against": ["Safe Streets", "Accountability in Court"]
+    },
+    "restore-voting-after-sentence": {
+      "for": ["Voting Rights Restoration", "A Second Chance to Vote"],
+      "against": ["Election Integrity", "Finishing the Full Sentence"]
+    },
+    "raise-juvenile-court-age": {
+      "for": ["Raising the Age", "Treating Kids as Kids"],
+      "against": ["Accountability for Crime", "Victims' Rights"]
+    },
+    "child-access-prevention": {
+      "for": ["Safe Gun Storage", "Keeping Guns from Kids"],
+      "against": ["Gun Owners' Rights", "Home Defense"]
+    },
+    "permit-to-carry-concealed": {
+      "for": ["Responsible Carry", "Carry Permits"],
+      "against": ["Constitutional Carry", "The Second Amendment"]
+    },
+    "raise-handgun-purchase-age": {
+      "for": ["Gun Safety", "Safer Schools"],
+      "against": ["Young Adults' Rights", "Equal Rights at Eighteen"]
+    },
+    "stand-your-ground": {
+      "for": ["Self-Defense Rights", "Standing Our Ground"],
+      "against": ["Safer Streets", "De-escalation"]
+    },
+    "all-mail-voting": {
+      "for": ["Voting by Mail", "Voting at Home"],
+      "against": ["Voting in Person", "Election Day"]
+    },
+    "automatic-voter-registration": {
+      "for": ["Every Voter Registered", "Easy Registration"],
+      "against": ["Voter Choice", "Clean Voter Rolls"]
+    },
+    "independent-redistricting": {
+      "for": ["Fair Districts", "Fair Maps"],
+      "against": ["Elected Mapmakers", "Accountable Redistricting"]
+    },
+    "require-photo-id-to-vote": {
+      "for": ["Voter ID", "Secure Elections"],
+      "against": ["Voting Access", "Every Vote Counted"]
+    },
+    "same-day-voter-registration": {
+      "for": ["Same-Day Registration", "Open Elections"],
+      "against": ["Orderly Elections", "Verified Voters"]
+    },
+    "ban-lobbying-after-office": {
+      "for": ["Closing the Revolving Door", "Clean Government"],
+      "against": ["Experience in Government", "Open Careers"]
+    },
+    "broaden-local-authority": {
+      "for": ["Home Rule", "Local Control"],
+      "against": ["One State Standard", "Statewide Rules"]
+    },
+    "legislative-term-limits": {
+      "for": ["Term Limits", "New Voices"],
+      "against": ["Voters' Choice", "Experienced Leaders"]
+    },
+    "ban-discrimination-in-housing-and-work": {
+      "for": ["Equal Rights", "Fairness for All"],
+      "against": ["Religious Liberty", "Freedom of Conscience"]
+    },
+    "dedicated-parks-funding": {
+      "for": ["Our Parks", "Parks and Trails"],
+      "against": ["Budget Priorities First", "Flexible Funding"]
+    },
+    "restrict-abortion": {
+      "for": ["Life", "Protecting the Unborn"],
+      "against": ["Reproductive Freedom", "Women's Health"]
+    },
+    "age-verification-for-social-media": {
+      "for": ["Kids' Online Safety", "Protecting Children Online"],
+      "against": ["Online Privacy", "A Free Internet"]
+    },
+    "restrict-government-facial-recognition": {
+      "for": ["Privacy from Surveillance", "Limits on Face Scanning"],
+      "against": ["Modern Policing", "Tools for Public Safety"]
+    },
+    "consumer-data-privacy-law": {
+      "for": ["Data Privacy", "Owning Our Data"],
+      "against": ["Innovation", "Small Tech Businesses"]
+    },
+    "limit-groundwater-withdrawal": {
+      "for": ["Protecting Our Water", "Saving the Aquifer"],
+      "against": ["Water Rights", "Family Farms and Wells"]
+    },
+    "protect-farmland-from-development": {
+      "for": ["Saving Farmland", "Keeping Farms Farming"],
+      "against": ["Landowners' Rights", "Room to Grow"]
+    },
+    "pay-for-a-higher-debt-limit": {
+      "for": ["Paying Down the Debt", "Fiscal Responsibility"],
+      "against": ["Protecting America's Credit", "Paying Our Bills"]
+    },
+    "raise-top-income-tax-rate": {
+      "for": ["Taxing the Rich", "Tax Fairness for Working People"],
+      "against": ["Lower Taxes", "Growth and Opportunity"]
+    },
+    "cap-consumer-loan-interest": {
+      "for": ["Fair Interest Rates", "Ending Loan Sharks"],
+      "against": ["Credit Access", "Free Lending"]
+    },
+    "grow-defense-spending": {
+      "for": ["A Strong Military", "Peace Through Strength"],
+      "against": ["Priorities at Home", "Smarter Defense"]
+    },
+    "increase-foreign-aid": {
+      "for": ["American Leadership", "Helping Abroad"],
+      "against": ["America First", "Spending at Home"]
+    },
+    "raise-tariffs": {
+      "for": ["American Jobs", "Buying American"],
+      "against": ["Free Trade", "Lower Prices"]
+    },
+    "admit-more-immigrants": {
+      "for": ["Welcoming Immigrants", "New Americans"],
+      "against": ["Secure Borders", "Immigration Limits"]
+    },
+    "medicare-drug-price-negotiation": {
+      "for": ["Lower Drug Prices", "Affordable Medicine"],
+      "against": ["New Cures", "Medical Innovation"]
+    },
+    "raise-retirement-age": {
+      "for": ["Saving Social Security", "A Solvent Social Security"],
+      "against": ["Retiring on Time", "Protecting Our Benefits"]
+    },
+    "forgive-student-loans": {
+      "for": ["Student Debt Relief", "Canceling Student Debt"],
+      "against": ["Paying What You Owe", "Fairness for Taxpayers"]
+    },
+    "vouchers-for-every-eligible-family": {
+      "for": ["Housing Help", "A Home for Every Family"],
+      "against": ["Responsible Housing Spending", "Housing Self-Reliance"]
+    },
+    "expand-passenger-rail": {
+      "for": ["More Trains", "Passenger Rail"],
+      "against": ["Roads First", "Sensible Transportation"]
+    },
+    "limit-power-plant-carbon": {
+      "for": ["Cleaner Power Plants", "Cutting Carbon"],
+      "against": ["Reliable Electricity", "Coal and Gas Jobs"]
+    },
+    "cut-farm-subsidies": {
+      "for": ["Ending Farm Handouts", "Free-Market Farming"],
+      "against": ["Family Farmers", "Protecting the Farm Safety Net"]
+    },
+    "states-share-disaster-costs": {
+      "for": ["Shared Disaster Costs", "Responsible Disaster Aid"],
+      "against": [
+        "Full Federal Disaster Relief",
+        "Standing by Disaster Victims"
+      ]
+    },
+    "reduce-mandatory-minimums": {
+      "for": ["Sentencing Reform", "Fair Sentences"],
+      "against": ["Truth in Sentencing", "Tough Sentences"]
+    },
+    "ban-congressional-stock-trading": {
+      "for": ["Honest Congress", "No Stock Trading in Congress"],
+      "against": ["Lawmakers' Property Rights", "Disclosure Not Bans"]
+    },
+    "national-data-privacy": {
+      "for": ["A National Privacy Law", "Privacy Rights"],
+      "against": ["State Privacy Laws", "Light-Touch Tech Rules"]
+    },
+    "statehood-for-dc": {
+      "for": ["D.C. Statehood", "Representation for D.C."],
+      "against": ["The Federal District", "Keeping the Capital Neutral"]
+    }
+  }
+}

@@ -140,9 +140,12 @@ describe(`dev mode: ${world.place.displayName} (seed ${seed})`, () => {
 
   it("passes the $70,000 public pay floor as a law the law engine reads", () => {
     const before = dev.paySplit();
-    const experiment = DevMode.experiments()[0]!;
-    const { results } = dev.applySteps(experiment.id, experiment.steps);
-    const { law } = results[0] as { law: { id: string; series: string } };
+    const { law } = dev.setLaw({
+      level: "federal",
+      series: "public-pay-floor",
+      value: 70000,
+      unit: "dollars/year",
+    });
     expect(law.series).toBe("public-pay-floor");
     // The law engine's raises name the law; a counted job's wage flow pays it.
     const api = coreAPI(core);

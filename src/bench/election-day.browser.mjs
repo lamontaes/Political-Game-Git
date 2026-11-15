@@ -10,8 +10,14 @@
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
 import { drawPlace } from "../../scripts/core2-year/place.ts";
+import { devModeOn, devRunUntilMayFile } from "./dev-setup.mjs";
 
-const runSeed = process.env.EDAY_SEED ?? String(Date.now());
+// Pinned: without EDAY_SEED the check plays the place the polling check plays
+// (Hampstead, Maryland), whose House race files straight onto the ballot, so
+// it never goes red by draw. EDAY_SEED draws up to six places from that seed.
+const PINNED_SEED = "39ec0fdc-2c02-4e33-a7b7-e193551af953";
+const runSeed = process.env.EDAY_SEED ?? PINNED_SEED;
+const drawn = Boolean(process.env.EDAY_SEED);
 const shots = process.env.EDAY_SHOTS;
 const base = `http://localhost:${process.env.BENCH_PORT ?? 3000}`;
 const browser = await chromium.launch({
@@ -39,8 +45,10 @@ try {
   let filed = null;
   let place = null;
   let personId = null;
-  for (let draw = 0; draw < 6 && !filed; draw += 1) {
-    place = drawPlace(`${runSeed}:${draw}`, "election-day");
+  for (let draw = 0; draw < (drawn ? 6 : 1) && !filed; draw += 1) {
+    place = drawn
+      ? drawPlace(`${runSeed}:${draw}`, "election-day")
+      : drawPlace(runSeed, "polling-0");
     const made = await page.request.post(
       `${base}/api/newlife?${new URLSearchParams({ seed: place.seed, placeKey: place.key, person })}`,
       { timeout: 600000 },
@@ -52,6 +60,11 @@ try {
     await page.waitForFunction(() =>
       document.getElementById("card-name").textContent.trim(),
     );
+    // A race is open for filing only once its window has come: dev mode runs
+    // the world until one does, as the polling check does.
+    await devModeOn(page);
+    const opened = await devRunUntilMayFile(page);
+    assert.equal(opened.reason, "event", "no seat opened its filing window");
     filed = await page.evaluate(async () => {
       const gov = await (await fetch("/api/government")).json();
       const contests = (gov.contests ?? [])
@@ -255,9 +268,23 @@ try {
       continue;
     }
     const talk = page.locator("#talk-leave");
+    // A narration's own Continue, then a reply where a talk asks for one, as a
+    // player reads on (a canvass visit's line offers only Continue).
+    const nextLine = page.locator("#talk-next:visible");
+    const reply = page.locator("#talk-choices .reply:visible");
     // A control can hide between the look and the click (a panel opens):
     // each click waits briefly and the loop looks again.
-    if (await talk.isVisible().catch(() => false))
+    if (await nextLine.count())
+      await nextLine
+        .first()
+        .click({ timeout: 5000 })
+        .catch(() => {});
+    else if (await reply.count())
+      await reply
+        .first()
+        .click({ timeout: 5000 })
+        .catch(() => {});
+    else if (await talk.isVisible().catch(() => false))
       await talk.click({ timeout: 5000 }).catch(() => {});
     else {
       const resume = page.locator("#continue:not([hidden])");

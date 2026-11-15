@@ -1,7 +1,7 @@
 /**
- * M1-02 golden-path check, on the whole economy. Uses GOLDEN_PATH_SEED and
- * GOLDEN_PATH_PLACE_KEY from the runner. A drawn town on the two-level world
- * with every economy engine runs two years from its start date. Passes when:
+ * M1-02 golden-path check, on the whole economy. A pinned town on the
+ * two-level world with every economy engine runs the days given (default two
+ * years) from its start date. Passes when:
  * (1) UNCHECKED (owner, Nov 8: real ranges are not targets): the simulated
  * 12-month changes and quarterly output growth are printed beside the
  * 1990-2026 bands and never tested against them. The national cycle has no
@@ -11,10 +11,8 @@
  * latest simulated month's unemployment is the sum of their cells; (3) every board vote records
  * its reasons; (4) at every rate change, each of the town bank's prime-linked
  * business lines reprices on the decision's effective date. The loan-cost
- * witness (4) needs a town with a bank line open at a rate change; where the
- * drawn town has none (Swanton, Nebraska has no bank), further places are drawn
- * from all 56, every attempted place and seed reported. Exits nonzero on
- * failure.
+ * witness (4) needs a town with a bank line open at a rate change, so the
+ * town is pinned below. Exits nonzero on failure.
  */
 import { advanceCore, createLifeCore } from "../life";
 import { checkBands, type MacroMonth } from "../macro-model";
@@ -26,13 +24,32 @@ import {
 } from "../modules/world";
 import { parameter } from "../parameters";
 import { coreAPI } from "../state";
-import { drawPlace } from "../../../scripts/core2-year/place";
 import { generatedOpening } from "./generated-world";
 
-const seed = process.env.GOLDEN_PATH_SEED ?? process.argv[2],
-  placeKey = process.env.GOLDEN_PATH_PLACE_KEY ?? process.argv[3];
-if (!seed || !placeKey)
-  throw new Error("GOLDEN_PATH_SEED and GOLDEN_PATH_PLACE_KEY are required.");
+/**
+ * This check names its own place by design, and the runner's drawn place is
+ * ignored: the loan-cost witness (4) needs a town with a bank line open at a
+ * rate change, which a drawn town often lacks, and a check that draws further
+ * places until one has it is a draw loop. Ridgewood, New Jersey at this world
+ * seed has a bank line open at the first rate change (2025-01-23, repriced the
+ * day it took effect; measured Nov 14).
+ *
+ * How many days it plays is the argument, in days from the start date: 730
+ * (two years, the long job) holds every clause over five rate changes; 120
+ * (the quick job) holds the first two rate changes (2025-01-23 and
+ * 2025-03-20) with their votes, reasons and repricing, in about a third of
+ * the time. The days are the world's own played days (about 0.09 s each after
+ * a 17.6 s build), so they cannot be skipped, only chosen.
+ */
+const PIN = {
+  seed: "4f76e802069c3914723aad11a315bab328faf3c66c4ec6e783a1ed7664433966",
+  placeKey: "3463000",
+};
+const days = Number(process.argv[2] ?? 730);
+if (!Number.isInteger(days) || days < 90)
+  throw new Error("the days to play must be a whole number of at least 90");
+const seed = PIN.seed,
+  placeKey = PIN.placeKey;
 const data = worldCoreData(),
   p = (key: string) => parameter(key, data.parameters);
 
@@ -44,7 +61,7 @@ function check(seed: string, placeKey: string) {
   const core = createLifeCore(input, { data, modules: [...WORLD_MODULES] });
   const api = coreAPI(core);
   const end = new Date(`${input.startedAt}T00:00:00Z`);
-  end.setUTCFullYear(end.getUTCFullYear() + 2);
+  end.setUTCDate(end.getUTCDate() + days);
   advanceCore(core, end.toISOString().slice(0, 10));
 
   const macro = api.moduleState("macro");
@@ -142,7 +159,7 @@ function check(seed: string, placeKey: string) {
           `${line.facilityId} not repriced on ${meeting.effectiveAt} after ${meeting.id}`,
         );
     }
-  if (!changes.length) failures.push("no rate change in two years");
+  if (!changes.length) failures.push(`no rate change in ${days} days`);
   if (changes.length && !repriced)
     failures.push("no town bank line was open at a rate change");
 
@@ -167,33 +184,13 @@ function check(seed: string, placeKey: string) {
   return { failures, report, changes: changes.length, repriced };
 }
 
-// The drawn town first. A town with no bank line open at a rate change cannot
-// show the loan-cost chain, so further places are drawn from all 56 (bounded)
-// until one does; every attempt is reported, and the zero-line town's other
-// clauses (board votes, the country tier) still have to hold.
-const NO_WITNESS = "no town bank line was open at a rate change";
-const attempts: unknown[] = [];
-const first = check(seed, placeKey);
-const reasons = first.failures.filter((f) => f !== NO_WITNESS);
-attempts.push(first.report);
-let witness = first;
-for (
-  let draw = 0;
-  !reasons.length && !witness.repriced && draw < 12;
-  draw += 1
-) {
-  const place = drawPlace(seed, `m1-02-loan-witness-${draw}`);
-  witness = check(place.seed, place.key);
-  attempts.push(witness.report);
-  if (witness.failures.filter((f) => f !== NO_WITNESS).length)
-    reasons.push(...witness.failures.filter((f) => f !== NO_WITNESS));
-}
-if (!reasons.length && !witness.repriced)
-  reasons.push(
-    "no town bank line was open at a rate change in twelve more drawn places",
+// The pinned town only: it must show the loan-cost chain, and fails naming
+// the place and the seed if it does not.
+const result = check(seed, placeKey);
+console.log(JSON.stringify({ days, report: result.report }));
+if (result.failures.length) {
+  console.error(
+    `place ${placeKey} seed ${seed}, ${days} days:\n${result.failures.join("\n")}`,
   );
-console.log(JSON.stringify({ attempts, witness: witness.report }));
-if (reasons.length) {
-  console.error(reasons.join("\n"));
   process.exit(1);
 }

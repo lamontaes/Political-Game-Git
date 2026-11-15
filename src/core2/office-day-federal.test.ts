@@ -28,7 +28,7 @@ import {
   committeeRecords,
   draftBill,
   floorAgendaOn,
-  holdVote,
+  holdEveryChamber,
   LEGISLATURE_MODULE_ID,
   votesOn,
 } from "./modules/legislature";
@@ -345,12 +345,13 @@ describe(`the federal day (${place.name}, seed ${seed})`, () => {
     chooseWeek(api, member, voteOn, "district");
     playThrough(voteOn);
     if (!voter || !votesOn(api, bill.id).length) return;
+    // Away from the floor: absent on the roll, nothing cast in their name.
     expect(votesOn(api, bill.id).find((v) => v.memberId === member)?.vote).toBe(
-      "abstain",
+      "absent",
     );
-    expect(
-      officeActsOf(api, member).find((a) => a.recordId === bill.id)?.detail,
-    ).toMatch(/missed/);
+    const act = officeActsOf(api, member).find((a) => a.recordId === bill.id);
+    expect(act?.how).toBe("absent");
+    expect(act?.detail).toBe("district");
   });
 
   it("puts the nominee to the Senate's vote on its sitting day", () => {
@@ -372,25 +373,33 @@ describe(`the federal day (${place.name}, seed ${seed})`, () => {
     }
     const senator = holderOf(seat.seat.id)!;
     expect(senator, "the town's state has a sitting senator").toBeTruthy();
-    // A bill filed in the House reaches the Senate in the same count; the
-    // player, now a senator, has not chosen and has turned the floor-vote stop off, so the
-    // character votes it and the act is on the record (with the stop on, the evening before
-    // holds the player for it instead, and the character does not vote a week early).
+    // A bill filed in the House reaches the Senate on the Senate's own sitting (held here at
+    // once, chamber after chamber); the
+    // player, now a senator, has not chosen and has turned the floor-vote stop off, so they
+    // are not on the floor: the roll records them absent and nothing is cast in their name
+    // (owner's card, Nov 14, 2026, 02:03Z; with the stop on, the evening before holds them).
     player.select(senator);
     setStops(api, senator, { "floor-vote": false });
     // The clock binds to the character the day it runs for them.
     playThrough(addDays(core.date, 1));
     const { bill } = ownBill(3, nthSitting("house", core.date, 3));
-    holdVote(api, bill.id);
+    holdEveryChamber(api, bill.id);
     expect(
       officeActsOf(api, senator).some(
         (a) =>
-          a.kind === "vote" && a.recordId === bill.id && a.how === "own-choice",
+          a.kind === "vote" && a.recordId === bill.id && a.how === "absent",
       ),
     ).toBe(true);
     expect(
-      votesOn(api, bill.id).some((v) => v.memberId === senator) ||
-        billOf(api, bill.id).status === "failed",
+      officeActsOf(api, senator).some(
+        (a) => a.recordId === bill.id && a.how === "own-choice",
+      ),
+      "nothing is cast for the senator from their position",
+    ).toBe(false);
+    expect(
+      votesOn(api, bill.id).some(
+        (v) => v.memberId === senator && v.vote === "absent",
+      ) || billOf(api, bill.id).status === "failed",
       "the senator's vote is counted, or the bill died in committee first",
     ).toBe(true);
     player.select(member);

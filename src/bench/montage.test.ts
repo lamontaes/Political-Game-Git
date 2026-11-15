@@ -11,7 +11,7 @@ import { expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
-import { addressMontage, beatKinds, partLevels } from "./montage";
+import { addressMontage, namedInParts, beatKinds, partLevels } from "./montage";
 import { buildBenchWorld } from "./world";
 
 const runSeed =
@@ -75,13 +75,36 @@ it.each(["a", "b", "c"])(
     // The real address of the world: one beat per part, keyed to its level.
     const parts = story.address.parts.length;
     const levels = partLevels(story.address.sentences, parts);
+    const named = namedInParts(
+      world.core,
+      story.address.sentences,
+      parts,
+      story.president.id,
+    );
     const beats = addressMontage(
       world.core,
       world.playerId!,
       story.president.id,
       levels,
       20 * 60 + 30,
+      named,
     );
+    // Each beat shows the people its part names (owner, Nov 12: "random
+    // busts of people ... unless it's people that he's introducing"): an
+    // "america" beat shows no one else, and every other beat but home
+    // includes them (the Vice President when the part names her).
+    beats.forEach((beat, at) => {
+      const shown = beat.people.map((person) => person.personId);
+      if (beat.kind === "america")
+        for (const id of shown)
+          expect(named[at], `${where}: part ${at} shows ${id}`).toContain(id);
+      if (beat.kind !== "home")
+        for (const id of named[at]!)
+          expect(
+            beat.sourceRecordIds,
+            `${where}: part ${at} names ${id}`,
+          ).toContain(id);
+    });
     expect(
       beats.map((beat) => beat.kind),
       where,
@@ -106,10 +129,10 @@ it.each(["a", "b", "c"])(
           beat.people.map((person) => person.personId),
           `${where}: ${kind}`,
         ).toContain(story.president.id);
-    // Every address has the officials' parts (congress, the Vice President,
-    // the states): their cutaways name them by office.
+    // An officials' part (an address's asks of Congress said on their own)
+    // names its people by office. Since the speech outline (Nov 12) the asks
+    // close the theme's paragraph, so an address may have none.
     const officials = beats.filter((beat) => beat.kind === "officials");
-    expect(officials.length, where).toBeGreaterThan(0);
     for (const beat of officials)
       for (const person of beat.people)
         expect(person.role, `${where}: ${person.name}`).toMatch(/\S/);

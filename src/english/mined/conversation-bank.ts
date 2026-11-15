@@ -34,6 +34,12 @@ export interface MinedUse {
   stages?: string[];
   raises?: string;
   requiresFacts?: string[];
+  /** Facts whose presence holds the piece back. */
+  excludesFacts?: string[];
+  /** A core that is itself a goodbye: no closer follows it (round 11, rule 80). */
+  closesTalk?: boolean;
+  /** Facts the piece sets for the parts after it (a lead that fixes how its stance reads, round 11, rule 75). */
+  setsFacts?: string[];
   /** A `reason` piece: the role of the lines it may follow (`raise`, `reply`, `answer`), joined after them by the engine. */
   for?: string;
 }
@@ -96,6 +102,9 @@ function directorMove(key: string, part: MinedPart, use: MinedUse): Move {
     ...(use.requiresFacts
       ? { requiresFacts: use.requiresFacts.map((f) => f.replace(/_/g, "-")) }
       : {}),
+    ...(use.excludesFacts?.length
+      ? { excludesFacts: use.excludesFacts.map((f) => f.replace(/_/g, "-")) }
+      : {}),
     ...(pronoun ? { pronoun } : {}),
     ...(part.bearing ? { bearing: part.bearing } : {}),
   };
@@ -156,11 +165,12 @@ export function conversationDataFromBank(
           use.choice === "at" && /\b(?:went|graduated)\b/.test(part.text)
             ? ["graduated"]
             : ["enrolled"];
-      // A bare question turned back ("And you?") follows the plain answer, so
-      // the question is never answered with a question.
+      // A bare question turned back ("And you?"), or asking why it was asked
+      // ("Why do you ask?"), follows the plain answer, so the question is
+      // never answered with a question.
       if (
         field === "answers" &&
-        use.choice === "turn" &&
+        (use.choice === "turn" || use.choice === "ask-why") &&
         /\?$/.test(part.text) &&
         !SLOT.test(part.text)
       )

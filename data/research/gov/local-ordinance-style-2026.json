@@ -1018,7 +1018,9 @@
         "tag": "SOURCED",
         "statute": "Council Rules, Period 26, Rule 805(b)-(c)",
         "sourceUrl": "https://dccouncil.gov/wp-content/uploads/2025/01/CP-26-Council-Rules-FINAL-12-31-24.pdf",
-        "quote": "The Secretary shall assign 2-part numbers to Council documents identified in subsection (b) of this section in the order of introduction, filing, adoption, or approval. The first part of the number consists of the current Council Period, and the second part consists of a consecutive serial number beginning with the number \"1\" in each Council Period."
+        "quote": "The Secretary shall assign 2-part numbers to Council documents identified in subsection (b) of this section in the order of introduction, filing, adoption, or approval. The first part of the number consists of the current Council Period, and the second part consists of a consecutive serial number beginning with the number \"1\" in each Council Period.",
+        "periodAnchorYear": 2025,
+        "periodAnchorNumber": 26
       }
     },
     "PR": {

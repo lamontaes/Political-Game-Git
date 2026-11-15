@@ -18,6 +18,7 @@
  * people it serves.
  */
 import reach from "../data/laws/reach-group-b.json" with { type: "json" };
+import { payVeterans } from "./group-b-veterans";
 import type { CoreAPI } from "../types";
 import { registerPolicyHandler } from "./host";
 import { povertyLineDollars } from "./poverty-line";
@@ -28,7 +29,11 @@ import {
   poorRoadShareAt,
   setRoadCondition,
 } from "../modules/place-prices";
-import { registerMonthlyProgram } from "../modules/budgets";
+import {
+  carriedMeasureOf,
+  governments,
+  registerMonthlyProgram,
+} from "../modules/budgets";
 import {
   lawChain,
   lawInForce,
@@ -48,6 +53,7 @@ import {
   type TownFacts,
 } from "./group-b-people";
 import {
+  getRow,
   reconcile,
   rowsOf,
   putRow,
@@ -79,6 +85,7 @@ import {
   serviceLevel,
   source,
 } from "./group-b-money";
+import { equalizeSchoolFunding } from "./group-b-school-aid";
 import { runFoodAid } from "./group-b-food-aid";
 import { lawNoLongerApplies } from "./applied";
 
@@ -92,6 +99,7 @@ type Mechanic =
   | "compliance-cost"
   | "assistance-time-limit"
   | "school-voucher"
+  | "school-aid"
   | "farm-output"
   | "property-assessment"
   | "price-payment"
@@ -275,6 +283,46 @@ function assistanceTimeLimit(
         .filter((r) => !r.named)
         .map((r) => [r.id, (r.weight ?? 1) * (r.scale ?? 1)]),
     ),
+    limitMonths: reachParameter("snapWorkTimeLimitMonths"),
+    windowMonths: reachParameter("snapWorkTimeLimitWindowMonths"),
+  };
+}
+
+/** Who the cash welfare work rule reaches; each number is a parameter key. */
+export const WELFARE_WORK_RULE: PeopleSelector = {
+  ageFrom: "snapWorkAgeFrom",
+  ageBelow: "snapWorkAgeBelow",
+  incomeBelowPovertyShare: "assistanceIncomeShare",
+  hoursBelowPerWeek: "tanfWorkHoursPerWeek",
+  withChildBelow: "tanfChildBelowAge",
+};
+
+/**
+ * The cash welfare line's own limit and work rule while a work requirement is
+ * law: families with a minor child, adults working under the cash assistance
+ * hours, stopped after a lifetime count of months on the line. Food aid's
+ * three months in 36 is a different rule (assistanceTimeLimit above).
+ */
+function welfareTimeLimit(
+  api: CoreAPI,
+  facts: TownFacts,
+  stateKey: string,
+): AssistanceTimeLimit | null {
+  const row = yesLevels(api, ASSISTANCE_WORK)[0]?.row;
+  if (!row) return null;
+  const reached = selectResidents(facts, WELFARE_WORK_RULE, stateKey);
+  return {
+    key: ASSISTANCE_WORK,
+    lawId: row.id,
+    since: row.effectiveDate,
+    reachedIds: new Set(reached.map((r) => r.id)),
+    counts: new Map(
+      reached
+        .filter((r) => !r.named)
+        .map((r) => [r.id, (r.weight ?? 1) * (r.scale ?? 1)]),
+    ),
+    limitMonths: reachParameter("tanfTimeLimitMonths"),
+    windowMonths: null,
   };
 }
 
@@ -496,6 +544,8 @@ function runPolicy(
         lawId: input.lawId,
         enacting: input.enacting,
         graduated: def.mechanic === "income-tax-graduated",
+        sponsorStance: lawRow(api, input.lawId)?.terms?.sponsorStance as
+          number | undefined,
       });
       terms.wroteLaw = act?.lawRowId && !act.undone ? 1 : 0;
       // The act reaches people only through the tax it wrote. Where the level
@@ -530,6 +580,15 @@ function runPolicy(
         if (row.id === FOOD_AID_ACTIVE) payFoodAid(api);
       }
       return;
+    case "school-aid":
+      // The state pays the aid through its treasury into the town's schools
+      // lines; the school engine reads them (group-b-school-aid.ts).
+      equalizeSchoolFunding(api, {
+        key,
+        lawId: input.lawId,
+        inForce: input.enacting,
+      });
+      break;
     case "school-voucher": {
       // The state treasury pays its share of the tuition the town's
       // households pay the private school; the records are the households paid.
@@ -880,8 +939,20 @@ export const PUBLIC_EMPLOYERS = [
   "service:public-health",
 ];
 
-/** A budget line's change against its base reaches what the line pays for. */
-function runBudgetLine(api: CoreAPI, line: string, lawId: string): void {
+/**
+ * A budget line's change against its base reaches what the line pays for.
+ * `level` is the government whose measure changed the line (an event); a
+ * review reads again without one. Each government's law is credited with its
+ * share of the change, as the treasury pays a line's money by the laws that
+ * raised it (budgets-treasury.ts `raisedBy`): a state's raise and a town's
+ * ordinance on the same line each keep their own reach.
+ */
+function runBudgetLine(
+  api: CoreAPI,
+  line: string,
+  lawId: string,
+  level?: string,
+): void {
   const def = data.budgetLines[line]!;
   const key = `budget-line:${line}`;
   const chain = lawChain(api);
@@ -921,6 +992,7 @@ function runBudgetLine(api: CoreAPI, line: string, lawId: string): void {
       service,
       heads: selected,
       modeledShare: share,
+      timeLimit: welfareTimeLimit(api, facts, chain.stateKey),
     });
   }
   if (def.roadCondition && api.state.modules.has(PLACE_PRICES_MODULE_ID)) {
@@ -944,11 +1016,39 @@ function runBudgetLine(api: CoreAPI, line: string, lawId: string): void {
     personTerms,
     selected,
   });
+  // Each government's change, credited to the law that last changed its line.
+  const prior = getRow<ActiveRow>(api, "active", key);
+  const byLevel: Record<string, string> = { ...prior?.byLevel };
+  if (level) byLevel[level] = lawId;
+  const changed = new Map<string, number>();
+  for (const [govId, delta] of Object.entries(service.byGovernment)) {
+    const gov = governments(api).find((g) => g.id === govId);
+    // The treasury's own credit for the line's money (the measure that last
+    // carried a change into it), else the last act this level passed.
+    const law =
+      (gov && (carriedMeasureOf(api, gov.id, line) ?? byLevel[gov.level])) ||
+      lawId;
+    changed.set(law, (changed.get(law) ?? 0) + Math.abs(delta));
+  }
+  const whole = [...changed.values()].reduce((n, d) => n + d, 0);
+  const credits =
+    changed.size > 1 && whole > 0
+      ? Object.fromEntries(
+          [...changed.keys()]
+            .sort()
+            .map((law) => [law, changed.get(law)! / whole]),
+        )
+      : undefined;
+  // The law with the largest part of the change carries the row.
+  const lead =
+    [...changed.keys()].sort(
+      (a, b) => changed.get(b)! - changed.get(a)! || a.localeCompare(b),
+    )[0] ?? lawId;
   reconcile(api, {
     key,
     effect: def.effect,
     kind: "service",
-    lawId,
+    lawId: lead,
     placeId: chain.townPlaceId,
     reach: inForce
       ? {
@@ -956,10 +1056,13 @@ function runBudgetLine(api: CoreAPI, line: string, lawId: string): void {
           organizations: new Map([...orgs].map((id) => [id, { ...terms }])),
         }
       : null,
+    ...(credits ? { credits } : {}),
   });
   setActive(
     api,
-    inForce ? { id: key, lawId, level: "", since: api.state.date } : null,
+    inForce
+      ? { id: key, lawId: lead, level: "", since: api.state.date, byLevel }
+      : null,
     key,
   );
 }
@@ -1030,6 +1133,8 @@ function runBenefitPrograms(api: CoreAPI): void {
   forgetTownFacts(api);
   for (const row of rowsOf<ActiveRow>(api, "active"))
     if (PROGRAM_KEYS.has(row.id)) rerun(api, row);
+  // Veterans' benefits are the federal veterans line's own: paid every close.
+  payVeterans(api);
 }
 
 /**
@@ -1107,6 +1212,6 @@ export function registerGroupB(): void {
   for (const line of Object.keys(data.budgetLines))
     registerPolicyHandler(`budget-line:${line}`, (api, change) => {
       forgetTownFacts(api);
-      runBudgetLine(api, line, change.lawId);
+      runBudgetLine(api, line, change.lawId, change.level || undefined);
     });
 }

@@ -68,6 +68,7 @@ Detail and self-checks are in the matching `.agents/rules/standing-skills/<name>
 - **Wire to the world.** Every feature moves money, people or places, proven in a generated world, and applies to its whole module, not just the named example. See `wire-to-the-world`.
 - **This is a game, not a spreadsheet (owner, Oct 14).** Research calibrates the simulation; it never adds a step to the player's life. A mechanic exists only when the golden path needs it, _The Political Process_ has it, or the owner asked for it by name. A real-world step the player would have to take is a question for the owner in the PR body, not a feature; a real-world mechanic the background simulation lacks is built from research, not asked (Oct 24). Depth comes from how people, money and places react, told through the director and the English engine.
 - **An effect is a read, not a record (owner, Oct 13).** A law, a measure, a health record, a drive or a view has an effect only when a different engine reads it at the moment it decides or pays: a dollar on the journal, a price, who is marked eligible and then served, a decision's recorded reasons, or a kept measure that views, budgets, news or a screen reads. A record nobody else reads is an unregistered placeholder. A module is finished when a one-year run of the played world (`buildBenchWorld`, every module installed, a seed the builder did not choose) shows another engine reading what it wrote, named by record id. A unit test that builds its own small world proves nothing about play.
+- **Old material is deleted, everywhere (owner, Nov 14: "If there's old shit, this goes for everything, don't leave old shit in the files. Delete it. No need to keep a copy of everything. Just delete it. Treat it like a real game.").** Code, banks, tests, docs, review pages and the shared project folder hold what is current and nothing else: no "old", "superseded" or "-old" copies, no archive of what was replaced, no held copy "just in case"; git keeps history. A handoff says what it deleted. (The Account lead's reading, not the owner's words: a line a ruling says will be built soon and that waits on a named pool item is work in hand, not old.)
 - **Replace, never layer (owner, Oct 14).** A new look, engine, screen or rule replaces the old one in the same change: the old code, styles, data and markers are deleted, not left beside the new. The PR body counts what was removed. **One place says what is current (owner, Nov 11: "have somewhere as like a master updater... to where in the future old things aren't pointing at all different things at all different times"):** `docs/current.json`, read as `docs/CURRENT.md`. Whoever replaces or removes something adds the old path to its replaced list and fixes every pointer to it in the same pull request (`current-pointers`).
 - **One model, two tiers (owner, Oct 14).** The counted population is not a second simulation. A counted group is read by every engine with the same rule as a full person, times its count. A rule that applies only to full people is an unregistered placeholder.
 - **The chain is the acceptance (owner, Oct 14).** A bill, a budget line or an executive act is finished only when one dollar or one rule is followed to a named person and back out: the record, the law in force changing, the payment or price that changed, the person it reached, the choice or view that moved, and the director's scene or journal line, by record id.
@@ -75,6 +76,9 @@ Detail and self-checks are in the matching `.agents/rules/standing-skills/<name>
 - **Ask why (owner, Oct 14).** Every proof answers why, by record. Nobody attributes a change to a law unless they learned of it (news received, a conversation, a notice, an ad), and the stance cites that source. See `ask-why`.
 - **Owner decisions are flagged, never waited on (owner, Oct 14).** Build the simplest version that follows this file, register a stopgap of kind `owner-decision`, and write the question under **OWNER DECISIONS NEEDED** in the PR body and in `OWNER-DECISIONS.md`. The CTO brings the open list to the owner in one sitting.
 - **No hand-written player text in code.** Words come from the English engine's banks (`scene-standard`); screens show record data only through worded labels and control names, never raw kinds, ids, ISO dates or unrounded numbers (`player-screen-text`). Every bank piece plays unless the owner's grades reject it; a grade run sets every bank at once, and nothing waits on his grading (owner, Oct 24; `words-engine`).
+- **Every scene has a picture row; a missing picture never holds work back (owner, Nov 14: "do not let pics hold it back. it can be generated later"; `.agents/rules/scene-pictures.md`).** Every scene type is mapped to a picture in `situationPlaces`; one with no fitting picture ships on its fallback with a line in the generated pictures-wanted list, and no session generates pictures in that step. Skill `scene-pictures`; guard `scene-pictures`.
+- **Day one is in motion, at every level (owner, Nov 14: "The town must be in motion on day one... And not just town, but country and state. Remember, it's all one simulation."; skill `day-one-in-motion`).** A world opens as a place already running, not one that starts from empty. Before a module that keeps a record ships, say what that record holds on day 0 at the town, state and federal level; if a real place would not have it empty, build the opening stock by running the engine that makes the flow, never a hand-filled list and never a second engine. `src/core2/data/opening/day-zero.json` lists what a real place already has, `src/core2/day-zero.test.ts` checks it at two pinned places, and `tests/guards/day-zero.test.ts` makes every new module answer the question.
+- **Every effect can be triggered from the game's own code in dev mode and its effect seen and traced there (owner, Nov 14: "every single one of those should be able to be triggered using the game code and advanced in order to see the effect"; dev mode and advanced are the same).** A law (town, county, state and country), budget line, executive act, event or scene has a dev mode control that causes it through the game's own calls and a Trace or "What came of it" line that shows its effect. A build that adds an effect dev mode cannot trigger and trace is not done (`standing-rules-self-check`, `seen-in-game`).
 - **Research before building.** Real data checks the simulation and never decides an outcome by itself. See `research-habit`.
 - **Speed (owner, Oct 29: "It has to be a country's year... I want simulations to be able to go hundreds of years").** A country's year (the whole played world, not one town) runs in under two minutes on `npm run speed:year`, which measures four years so every check includes an election year; the bar holds for each year. No change may make a year more than 20% slower than its base, measured on the same base and machine, one process at a time. Over one save, years 97 to 100 run at most 1.2 times as long as years 1 to 4, and memory and records kept hold the same way: old records fold into summaries once play no longer reads them. Never scan the whole world or history every day; use indexes or act on the day something changed. See `OWNER-DECISIONS.md`, Oct 30 01:55.
 - **Saves don't matter** until early-access preparation, when a versioned save format is built.
@@ -100,11 +104,13 @@ Load a skill when its trigger fits; descriptions say when. Every session, first:
 - `checker`: running the gate on every PR so builders only build
 - `civic-prose`: writing bank pieces in the owner's style
 - `civic-reports`: reports and PR bodies for the owner
-- `cto`: the CTO role
 - `crew-messages`: how sessions message each other, and processes as skills
+- `cto`: the CTO role
 - `current-pointers`: the master file that says what is current, and keeping every pointer on a path that exists
+- `day-one-in-motion`: every world opens already running, at town, state and federal level; the day-zero file, test and guard
 - `dev-tester`: proving laws, bodies and drifting worlds with scripts/dev-tests, and its traps
 - `drawn-place-tests`: a test that needs a case in the world finds one by drawing and waiting, and names what it passed over
+- `file-a-pool-item`: adding a pool item by hand, with its Cause prefix
 - `gap-trace`: tracing a problem seen in play to its cause, its fix and its ruling, and the gap sheet row
 - `generated-file-merges`: merging main when the conflict is in a file a command writes, or a rules or bank file keyed by id
 - `governing-measurement`: path-check runners, the re-election totals and ablation, records per race or per person
@@ -120,16 +126,22 @@ Load a skill when its trigger fits; descriptions say when. Every session, first:
 - `merger`: merging and validating PRs
 - `money-economy`: the national economy and the dollar: cycles, outside money, household income, and proving them
 - `nation`: the rest of the country as results: national opinion, other states' disasters, budgets and measures, the President's acts, the federal courts
-- `play-first`: one item of the play-first lane; the screenshot and browser check
+- `owners-words-to-threads`: the owner's words go to threads verbatim, his examples are generalities, the standing rules for words
 - `people-pack`: drawing people from the pack, on mannequin plates
+- `pinned-tests`: tests pinned to named places and seeds, never red by draw
+- `play-first`: one item of the play-first lane; the screenshot and browser check
 - `play-walks`: playing a new life with scripts that click what a player clicks and write down every line
 - `played-world-proof`: proving a feature in a played year
 - `player-screen-text`: checking every string a player sees
 - `pool-notes`: pool-only changes go in one bundle an hour; the cap on new work
 - `pr-fixer`: finishing sent-back PRs
+- `promises`: a promise made in a scene, kept or broken by the record that settles it, and said at the next talk
 - `red-main`: taking a red on main from report to fix
+- `remove-a-stopgap`: replacing and unregistering a stopgap row
 - `researcher`: turning a stopgap into a sourced number
 - `room-spots`: rooms and where people stand or sit in them
+- `scene-first-report`: a scene builder's report before any line
+- `scene-pictures`: giving a scene its picture: the one list, the lookup, the gap report, wanted pictures
 - `scene-producers`: a scene's cause wired to an engine's record
 - `scene-standard`: the standard every scene meets
 - `scenes-from-life`: new scenes from real lives
@@ -139,10 +151,14 @@ Load a skill when its trigger fits; descriptions say when. Every session, first:
 - `skill-lessons`: the skills learn from each day
 - `slim-down`: removing dead and duplicate code with no behavior change
 - `speed-work`: timing a year, proving a cut changes nothing, folding what grows
+- `standing-rules-self-check`: one-line answers for the standing rules no other skill covers, and the dev-mode rule for every effect
 - `term-read`: reading a term by policy area, the kind of an address and the town's strikes, protests and rallies
 - `trace-audit`: the 56-place trace audit
+- `train-gate`: the gate a PR passes before it is named for the train
+- `trusted-review-pass`: bulk review passes with planted calibration rows
 - `wiring-audit`: auditing a family of mechanics end to end
 - `words-engine`: the English engine and the director
+- `words-stamp-read`: how a words reader reads a pull request before it folds, and what a builder sends to get that read
 
 ## Implementation boundaries
 

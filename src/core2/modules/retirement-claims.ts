@@ -107,7 +107,11 @@ const AGE_LAWS = [
 ] as const;
 
 /** The laws that set a named person's claim ages reached them: the engine read them to decide when they claim. */
-function recordAgesReach(api: CoreAPI, personId: PersonId): void {
+function recordAgesReach(
+  api: CoreAPI,
+  personId: PersonId,
+  counted = false,
+): void {
   if (!api.state.modules.has(LAWS_MODULE_ID)) return;
   for (const series of AGE_LAWS) {
     const governing = lawInForce(api, series).governing;
@@ -116,7 +120,8 @@ function recordAgesReach(api: CoreAPI, personId: PersonId): void {
         key: series,
         lawId: governing.id,
         targetId: personId,
-        target: "person",
+        // A counted claimant is one of the counts, not a full person.
+        target: counted ? "group" : "person",
         engine: "core2-retirement-claims-v1",
         what: "retirement-claim-age-set",
       });
@@ -196,7 +201,11 @@ function index(api: CoreAPI, rt: Runtime): void {
           livingCostDailyMinor: store!.living[member]!,
           traits: store!.packedTraits(member),
         });
-        if (date && date > core.date) schedule(rt, date, id);
+        if (date && date > core.date) {
+          // The age laws reached the counted claimant as they reach a full one.
+          recordAgesReach(api, id, true);
+          schedule(rt, date, id);
+        }
       }
   }
   const fillIns = residentsRuntime(core)?.fillIns;

@@ -10,5 +10,100 @@
     "health": "health care",
     "roads": "our roads",
     "environment": "the air and the water"
+  },
+  "measuresAbout": "Each measure the term read keeps, as a speech names it after \"we have seen\" (\"we have seen rents here rise by about 9 percent\"): `said` is the noun phrase, and `share` is true for a measure that is itself a percent of people or things, said by where it stood and where it stands. Authored by the words builder (hurt terms), November 12; read by measureWords in src/english/area-names.ts.",
+  "measures": {
+    "labor.unemployment-pct": {
+      "said": "the share of people out of work",
+      "share": true
+    },
+    "labor.wages": {
+      "said": "wages here",
+      "share": false
+    },
+    "household.income": {
+      "said": "what households here earn",
+      "share": false
+    },
+    "household.poverty-pct": {
+      "said": "the share of people in poverty",
+      "share": true
+    },
+    "household.prices": {
+      "said": "prices here",
+      "share": false
+    },
+    "housing.rent": {
+      "said": "rents here",
+      "share": false
+    },
+    "housing.rent-to-income-pct": {
+      "said": "the share of income that goes to rent",
+      "share": true
+    },
+    "housing.eviction-orders": {
+      "said": "eviction orders",
+      "share": false
+    },
+    "crime.violent": {
+      "said": "violent crime",
+      "share": false
+    },
+    "crime.reported-per-capita": {
+      "said": "reported crime",
+      "share": false
+    },
+    "crime.robbery": {
+      "said": "robberies",
+      "share": false
+    },
+    "crime.assault": {
+      "said": "assaults",
+      "share": false
+    },
+    "school.math-proficient-pct": {
+      "said": "the share of students who pass in math",
+      "share": true
+    },
+    "school.reading-proficient-pct": {
+      "said": "the share of students who read at grade level",
+      "share": true
+    },
+    "school.graduation-pct": {
+      "said": "the share of students who graduate",
+      "share": true
+    },
+    "health.uninsured-pct": {
+      "said": "the share of people with no health insurance",
+      "share": true
+    },
+    "health.overdose-deaths": {
+      "said": "overdose deaths",
+      "share": false
+    },
+    "health.infant-mortality": {
+      "said": "the deaths of babies before their first birthday",
+      "share": false
+    },
+    "health.mortality-55-64": {
+      "said": "deaths among people in their late fifties and early sixties",
+      "share": false
+    },
+    "roads.poor-condition-pct": {
+      "said": "the share of our roads in poor condition",
+      "share": true
+    },
+    "traffic.fatality-rate": {
+      "said": "traffic deaths",
+      "share": false
+    },
+    "env.particulates": {
+      "said": "the soot in our air",
+      "share": false
+    },
+    "env.drinking-water-violations": {
+      "said": "drinking water violations",
+      "share": false
+    }
   }
 }

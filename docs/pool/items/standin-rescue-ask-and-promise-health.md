@@ -33,3 +33,7 @@ root: design-life-record
 **Waits on.** Nothing.
 
 **Files.** src/core2/modules/rescue.ts, src/core2/modules/health.ts, src/director/rescue-facts.ts, src/director/purpose-scene.ts, src/director/data/stopgaps.json
+
+**Notes.**
+
+- Nov 14: on branch claude/project-thread-yq65dx the promise half is cut under the Words lead's ruling 1 (no act takes the player to a doctor; the yes settles in the scene) and SG-WORDS-rescue-promise-unread removed; the build waiting on the act is design-player-goes-to-a-doctor. The ask half (SG-WORDS-rescue-ask-unrecorded) stays with this item.

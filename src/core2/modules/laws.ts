@@ -8,6 +8,7 @@
  * record; for a minimum wage, every job in the town paying under the new floor
  * is raised to it that day. Later engines read law through `lawInForce`.
  */
+import { FEE_LEVEL_SERIES } from "../fee-levels";
 import { addDays, makeIsoDate } from "../kernel/dates";
 export { billLevelJurisdiction, billValueInForce } from "../laws-bill-values";
 import type {
@@ -61,6 +62,8 @@ import {
 export { webReach, webFactorFor } from "../outcome-web-reach";
 // The town's modeled people (named and counted), for the screens.
 export { townFacts } from "../law-reach/group-b-people";
+/** Who a law reached, by key, for the speeches that say what a law did. */
+export { reachedBy } from "../law-reach/host";
 export { assistanceIncomeByHousehold } from "../law-reach/group-b-money";
 /** The researched starting answers by state, for an engine in another family that reads which states' law lets a product operate (the credit engine's small-dollar lenders). */
 export { POLICY_QUESTIONS } from "../policy-answers";
@@ -73,8 +76,11 @@ export { WEB_LINKS } from "../outcome-web-model";
  */
 export {
   ENDED_BY_REQUIREMENT,
+  federalBenefitLine,
+  MEDICARE_LINE,
   medicaidCoverageSpells,
   payMedicaidCare,
+  payMedicareLinePart,
   type CoverageSpell,
 } from "../law-reach/group-b-money";
 
@@ -1118,6 +1124,7 @@ export function lawHere(
   date: string = api.state.date,
   series: readonly string[] = [
     ...AMOUNT_SERIES,
+    ...FEE_LEVEL_SERIES,
     ...Object.keys(POLICY_QUESTIONS),
   ],
 ): readonly LawInForceAnswer[] {
@@ -1281,10 +1288,16 @@ export {
 } from "./corruption";
 
 // Re-exported so other engine families import through this entry, not the file (families guard).
-export { policyAuthority } from "../policy-authority";
+export { policyAuthority, type PolicyLevel } from "../policy-authority";
 export { stateActEffectiveDate } from "../state-effective-date";
 export { policySeriesAtLevel } from "../policy-answers";
 export type { LawRowInput } from "../laws-starting";
 export { TERM_AREAS, placeTermRead, type AreaRead } from "../term-read";
 export { termReadPlaces } from "../term-read";
 export { countryTermRead } from "../term-read";
+export {
+  areasAnswered,
+  jurisdictionTermRead,
+  questionAnswersArea,
+  topicsAnsweringArea,
+} from "../term-read";

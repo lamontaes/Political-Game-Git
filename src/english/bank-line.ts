@@ -25,6 +25,8 @@ export interface Variant {
   bearing?: string;
   /** The bank part it comes from, for its running grade. */
   pieceKey?: string;
+  /** Facts the line is said only with, though it names none of them. */
+  requiresFacts?: readonly string[];
 }
 export interface RenderedLine {
   text: string;
@@ -121,6 +123,9 @@ export function renderLine(input: {
         ...(row.stages ? { stages: row.stages } : {}),
         ...(row.bearing ? { bearing: row.bearing } : {}),
         ...(row.pieceKey ? { pieceKey: row.pieceKey } : {}),
+        ...(row.requiresFacts?.length
+          ? { requiresFacts: row.requiresFacts }
+          : {}),
       })),
     },
   );

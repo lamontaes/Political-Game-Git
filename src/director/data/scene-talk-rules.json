@@ -80,12 +80,12 @@
     "friendCloseness": {
       "value": 0.5,
       "tag": "TUNABLE",
-      "spread": [0.4, 0.6],
-      "checkedAgainst": "The middle of the closeness scale (0 none, 1 full): a tie at or past it is nearer friendship than no tie. Checked in concession-reported.test.ts: forty hours together put a tie at about 0.46 to 0.5."
+      "spread": [0.3, 0.7],
+      "checkedAgainst": "The one closeness threshold (src/director/relation-facts.ts), read by the talk box, scenes and the Journal alike. The middle of the closeness scale (0 none, 1 full): a tie at or past it is nearer friendship than no tie, and a call from one is answered as from a voice they know. Checked in concession-reported.test.ts (forty hours together put a tie at about 0.46 to 0.5) and on three drawn places, where the share of calls answered as close moved smoothly across 0.3 to 0.7 (round 12, by-phone lines)."
     }
   },
   "endingStrain": {
-    "about": "What an ending that strains a tie writes to closeness (the plan of Oct 28, section 3: each ending's keeps is a write to the engine that owns it). The closeness engine reads negative hours as a quarrel, tempered by who holds on to it. An ending that keeps a favor or a promise is written on the scene's record (facts keeps and ending) for the legislature's obligations and the campaigns engine's promises to read (SG-WORDS-favor-promise-keeps-unread).",
+    "about": "What an ending that strains a tie writes to closeness (the plan of Oct 28, section 3: each ending's keeps is a write to the engine that owns it). Each row is hours, or (unit \"share of the tie\") a share of the hours the tie stands on today (closeness.ts tieHoursBetween). The closeness engine reads negative hours as a quarrel, tempered by who holds on to it. A negative value warms the tie (an ending settled in the scene). An ending that keeps a favor or a promise is written on the scene's record (facts keeps and ending, and for a promise its kind and tie from promise-kinds.json); the director keeps it and settles it (src/director/promises.ts).",
     "relationship-strained": {
       "value": 1,
       "tag": "TUNABLE",
@@ -93,10 +93,26 @@
       "checkedAgainst": "One talk's length of quarrel, as familyStakes.putOffHours: a scene left on a strained note cancels about one talk's time together."
     },
     "trust-lost": {
-      "value": 2,
+      "value": 0.25,
+      "unit": "share of the tie",
       "tag": "TUNABLE",
-      "spread": [1, 4],
-      "checkedAgainst": "Twice a strained ending: trust lost (a lie found out, a promise broken to their face) costs more than a talk left unfinished."
+      "spread": [0.1, 0.5],
+      "checkedAgainst": "Trust lost (a lie found out, a promise broken to their face) takes a share of the hours the tie stands on today, so it costs a close tie more than a slight one: people tell fewer everyday lies to those they are close to and are more uncomfortable telling them (DePaulo and Kashy 1998, Everyday lies in close and casual relationships, Journal of Personality and Social Psychology 74(1)), which gives the direction only. The share is not fitted to a lie rate; it is checked by recounting the lies told at three named places by closeness band (Account lead's ruling and Words lead's yes, Nov 15)."
+    },
+    "kept-in-scene": {
+      "value": -1,
+      "tag": "TUNABLE",
+      "spread": [-2, -0.5],
+      "checkedAgainst": "A yes the scene itself settles (a toast at the party, a yes with nothing owed later; Words lead, promises rulings 1, Nov 14): it warms the tie by one talk's time now, the mirror of a strained ending, and nothing is kept to settle later."
+    }
+  },
+  "floorRegister": {
+    "about": "How a floor debate is worded by the body that holds it (Words lead, Nov 14: three registers, chosen from the body's data row). A state or federal chamber is formal whatever its size; a local body with at most this many seats is a small board (a hand up, first names); a bigger local body is a council or county board (the chair calls on people, no yielding, no recognizing). The register reaches the scene as one fact: body-formal, body-council or body-small.",
+    "smallBoardSeats": {
+      "value": 7,
+      "tag": "TUNABLE",
+      "spread": [5, 9],
+      "checkedAgainst": "The seat counts of the local boards the generated world seats (three to nine); the register guide for the town meeting (register/town-meeting.md section 4) puts the small board at three to five and the city council above, and a county commission of five to nine is the case between."
     }
   },
   "timeOfDay": {

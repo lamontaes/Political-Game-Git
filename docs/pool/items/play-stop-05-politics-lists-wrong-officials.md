@@ -5,11 +5,11 @@ area: gov
 kind: bug
 priority: 1
 size: S
-status: blocked
+status: open
 claimed-by: claude/pool-play-stop-05-politics-lists-wrong-officials
 pr: #8261
 after:
-blocked-on: parties-list-shows-ballot-lines-as-parties
+blocked-on:
 standard: 2
 model: sonnet
 effort: low
@@ -85,3 +85,5 @@ Claimed by next for opus-d23b (Claude Opus 5.5 in Claude Code (cloud session), t
 Released (2026-11-11): A split parent (parts -a and -b carry the work; the CTO sets it done) handed out while the game PR cap is on; nothing to build here. Continue on branch claude/pool-play-stop-05-politics-lists-wrong-officials and pull request #8261.
 
 Claimed by next for opus-d23b (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 07:49 UTC) on branch claude/pool-play-stop-05-politics-lists-wrong-officials.
+
+Cleanup Nov 13, 2026 (Account lead T33, pool cleanup PR): the `blocked-on` pointed at `parties-list-shows-ballot-lines-as-parties`, an id that is not an item in the pool, and the Waits on line already says Nothing, so the blocked mark is cleared and the item is open. #9012 (folded on the train) removes ballot count lines ("Blank Votes", "Over Votes", "Scattering") from Politics, Parties in 13 states; it does not replay this item's finish line (mayor, council terms, senators, one representative, every party holding seats), so a second session's replay in a drawn place is still owed. Not done.

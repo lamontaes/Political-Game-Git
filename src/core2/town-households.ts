@@ -4,6 +4,7 @@
  * invented-person age table. Drawn from the world's seed, so the same
  * household comes back every time. Ported from the old engine's town residents.
  */
+import { shareValue } from "./shares";
 import {
   inventedPersonAge,
   inventedPersonBirthDate,
@@ -136,17 +137,6 @@ export function townHouseholdSkeleton(
 }
 
 /**
- * CALIBRATION, not a sourced figure: the share of the town's couples who are
- * two women or two men. Claude CTO ruled on September 27, 2026 that the
- * opening pairs couples by the real share of mixed-sex and same-sex
- * households, one rule for every state. About 1.5 percent is inferred from
- * the Census Bureau's American Community Survey same-sex couple tables (about
- * 1.3 million of roughly 65 million couple households), not read from a file
- * in the repository.
- */
-export const SAME_SEX_COUPLE_SHARE = 0.015;
-
-/**
  * The second partner's identity in a couple. Before this, each partner's
  * gender was drawn on its own, so about half of the town's couples were two
  * women or two men. A partner who is nonbinary, or partnered with somebody
@@ -159,7 +149,7 @@ function partnerIdentity(
 ): PersonIdentity {
   const binary = (gender: string) => gender === "female" || gender === "male";
   if (!binary(first.gender) || !binary(drawn.gender)) return drawn;
-  const sameSex = rng.next() < SAME_SEX_COUPLE_SHARE;
+  const sameSex = rng.next() < shareValue("sameSexCoupleShare");
   const gender = sameSex === (first.gender === "female") ? "female" : "male";
   return gender === drawn.gender
     ? drawn

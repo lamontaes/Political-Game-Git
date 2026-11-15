@@ -4,7 +4,7 @@
  * through the existing writers; an end stops future work the way an employer
  * closure does, keeping any wages already earned for the next recorded payday.
  */
-import { makeIsoDate } from "./kernel/dates";
+import { addDays, makeIsoDate } from "./kernel/dates";
 import { financeIndex } from "./finance-state";
 import { refreshOfficeStaff } from "./civic-inputs";
 import { admitPublicPayAuthority } from "./public-work-pay";
@@ -117,6 +117,8 @@ export function endRecordedJob(
   api: CoreAPI,
   jobId: string,
   sourceId: string,
+  /** The holder already worked today and the end comes after that shift: the job's last day is today. */
+  afterShift = false,
 ): void {
   const job = core.jobs.get(jobId);
   if (!job || job.endsAt !== undefined)
@@ -125,9 +127,13 @@ export function endRecordedJob(
   if (!actor || !core.knowledgeByPerson.has(actor.id))
     throw new Error("Ending job has no recorded worker or knowledge index.");
   // An end takes effect before the day's work (calendar work runs first); a shift already worked today stays a closure's case.
-  if (core.work.lastAttendanceByJob.get(jobId)?.date === core.date)
+  const workedToday =
+    core.work.lastAttendanceByJob.get(jobId)?.date === core.date;
+  if (workedToday && !afterShift)
     throw new Error("A job ends before its day's work, from calendar work.");
-  job.endsAt = core.date;
+  // After a shift worked today, the job's end date is tomorrow (exclusive for new work), so
+  // today's shift lies inside the job and its payroll stands; the work commitment ends today.
+  job.endsAt = workedToday ? addDays(makeIsoDate(core.date), 1) : core.date;
   if (actor.jobId === jobId) delete actor.jobId;
   refreshOfficeStaff(core, job.organizationId);
   for (const commitmentId of core.work.commitmentsByPerson.get(actor.id) ??

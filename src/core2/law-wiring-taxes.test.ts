@@ -8,9 +8,7 @@
  * death tax the test sets low enough to reach it; a local body drafts an
  * income-tax bill under the state's authority; and the rows end on repeal.
  */
-import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
-import { drawPlace } from "../../tests/golden-path/place";
 import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "./bookkeeping";
 import { setJournalTrace } from "./journal-state";
@@ -44,22 +42,36 @@ import {
   chambersOf,
   draftBill,
   executiveDecision,
-  holdVote,
+  holdEveryChamber,
   LEGISLATURE_MODULE_ID,
   memberKey,
   members,
 } from "./modules/legislature";
 import { provisionFor } from "./bill-catalog";
-import { enactLaw, lawChain, lawInForce, LAWS_MODULE_ID } from "./modules/laws";
+import {
+  enactLaw,
+  lawChain,
+  lawInForce,
+  LAWS_MODULE_ID,
+  localPowerBarred,
+} from "./modules/laws";
 import { OFFICES_MODULE_ID, townSeats } from "./modules/offices";
 import { coreAPI } from "./state";
-import type { CoreAPI, CoreState, Source } from "./types";
+import type { CoreAPI, CoreState, PersonState, Source } from "./types";
 
-const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
-// A draw reads only the opening records of the place it builds; one missing
-// a subject a law needs (no state corporate rate, no grant row, no public
-// worker a pension rule funds) is redrawn before anything is played.
-const TRIES = 8;
+// Pinned to named places: each case builds one place at one world seed, found
+// by a one-off search outside the test (nothing is drawn here).
+const seed = "f090a9034b487078ca7c3d2a2c1a40207804ca4e";
+const TAXES_PLACE = {
+  name: "Dennis, Massachusetts",
+  key: "2516740",
+  seed: "9b87fa9d713b54ecc27f071016da6e4ecd4f220b5f459bbd5c86bc14e9fc9f97",
+};
+const ARREARS_PLACE = {
+  name: "Newport, Delaware",
+  key: "1051190",
+  seed: "bcec8e618da02898a8683f650833e2f690143a5dad2836ad4616af412ede243d",
+};
 const ADOPT = "us-policy-positions:fiscal.adopt-income-tax";
 const GRADUATED = "us-policy-positions:fiscal.graduated-income-tax";
 const CAP = "us-policy-positions:fiscal.cap-property-tax-growth";
@@ -67,6 +79,15 @@ const BALANCED = "us-policy-positions:fiscal.balanced-operating-budget";
 const PENSIONS = "us-policy-positions:fiscal.fund-pensions-to-schedule";
 const RESERVE = "us-policy-positions:fiscal.minimum-reserve-balance";
 const QUESTIONS = [ADOPT, GRADUATED, CAP, BALANCED, PENSIONS, RESERVE];
+
+/**
+ * The level an act is passed at: the town's own for the growth cap, unless the
+ * state bars its places from making it (Dennis, Massachusetts, seed f090a903:
+ * a town's cap is void there, so the state legislature passes it); the state's
+ * for the rest.
+ */
+const levelFor = (api: CoreAPI, key: string): string | undefined =>
+  key !== CAP || localPowerBarred(api, key) ? "state" : undefined;
 
 const run = (core: CoreState, days: number) =>
   advanceCore(core, addDays(makeIsoDate(core.date), days));
@@ -248,12 +269,11 @@ interface Attempt {
 }
 
 /** Builds a drawn place and reads, from its opening records, what subjects it lacks. */
-function draw(index: number): {
+function draw(drawn: typeof TAXES_PLACE): {
   where: string;
   core: CoreState;
   lacks: string[];
 } {
-  const drawn = drawPlace(seed, `law-wiring-taxes:${index}`);
   const where = `${drawn.name} (${drawn.key}), seed ${seed}`;
   const world = buildBenchWorld(drawn.seed, gameStartDate(), {
     twoLevel: true,
@@ -271,8 +291,7 @@ function play(where: string, core: CoreState): Attempt {
   let profited = false;
   const lastProfit = new Map<string, number>();
   const ids: Record<string, string> = {};
-  for (const key of QUESTIONS)
-    setQuestion(api, key, 1, key === CAP ? undefined : "state");
+  for (const key of QUESTIONS) setQuestion(api, key, 1, levelFor(api, key));
   // The acts take effect first (adopting or graduating writes its own income-tax
   // row); the rates are then raised on the rows in force.
   run(core, 3);
@@ -299,8 +318,7 @@ function play(where: string, core: CoreState): Attempt {
   try {
     const putBack = () => {
       const back = QUESTIONS.filter((key) => lawInForce(api, key).value !== 1);
-      for (const key of back)
-        setQuestion(api, key, 1, key === CAP ? undefined : "state");
+      for (const key of back) setQuestion(api, key, 1, levelFor(api, key));
       if (back.includes(ADOPT) || back.includes(GRADUATED)) {
         run(core, 2);
         ids.income = scaleAmount(api, "income-tax", 1.1);
@@ -358,44 +376,27 @@ describe(`tax and public finance laws in a played world (seed ${seed})`, () => {
   it(
     "applies each law to people, groups and treasuries, moves money, and ends on repeal",
     // Each draw builds a town; only the first with a subject for every law
-    // runs its 170 days.
-    { timeout: 900_000 },
+    // runs its 170 days. Dennis, Massachusetts takes about 250 s, and the time
+    // is the game's own: the estate case plays the 270 days probate waits.
+    { timeout: 320_000 },
     () => {
       setBookkeeping(false);
       try {
-        const tried: string[] = [];
-        let found: ReturnType<typeof play> | null = null;
-        for (let i = 0; i < TRIES && !found; i++) {
-          const d = draw(i);
-          tried.push(`${d.where}: lacks ${d.lacks.join(", ") || "nothing"}`);
-          // A place whose opening records lack a subject for a law (no owners,
-          // no business an organization owns) is redrawn before play; every
-          // place tried is named on failure.
-          if (d.lacks.length) continue;
-          const played = play(d.where, d.core);
-          // A profit tax needs a profit: where every business an organization
-          // owns ran at a loss through the run (Quinhagak, Alaska, seed
-          // 29d2c082...: three owned businesses, each losing millions of
-          // minor units in the quarter), the corporate law has nothing to
-          // tax, and the place is redrawn like one with no owned business.
-          const lossOnly =
-            played.absent.length === 1 &&
-            played.absent[0] === "corporate-income-tax" &&
-            !played.profited;
-          if (lossOnly) {
-            tried.push(`${d.where}: every owned business lost money in play`);
-            continue;
-          }
-          found = played;
-        }
+        const d = draw(TAXES_PLACE);
+        expect(d.lacks, `${d.where}: a subject for every law`).toEqual([]);
+        const found = play(d.where, d.core);
+        // A profit tax needs a profit: where every owned business lost money
+        // the corporate law has nothing to tax.
         expect(
-          found,
-          `no drawn place had a subject for every law: ${tried.join("; ")}`,
-        ).not.toBeNull();
-        const { api, core, ids, where, posts: runPosts } = found!;
+          found.absent.length === 1 &&
+            found.absent[0] === "corporate-income-tax" &&
+            !found.profited,
+          `${d.where}: every owned business lost money in play`,
+        ).toBe(false);
+        const { api, core, ids, where, posts: runPosts } = found;
         // The place had a subject for every law, so each must have applied it.
         expect(
-          found!.absent,
+          found.absent,
           `${where}: laws with no applied record after play`,
         ).toEqual([]);
         const rows = (key: string) => keysOf(api, key);
@@ -659,7 +660,7 @@ describe(`tax and public finance laws in a played world (seed ${seed})`, () => {
         );
         expect(chamber, `${where}: the state's chamber`).toBeDefined();
         const sponsors = members(api, chamber!.id).map(memberKey);
-        let passed: ReturnType<typeof holdVote> | undefined;
+        let passed: ReturnType<typeof holdEveryChamber> | undefined;
         for (const sponsorId of sponsors.slice(0, 10)) {
           const grantBill = draftBill(api, {
             bodyOfficeId: chamber!.id,
@@ -677,7 +678,8 @@ describe(`tax and public finance laws in a played world (seed ${seed})`, () => {
             for (const member of members(api, office))
               castMemberVote(api, grantBill.id, memberKey(member), "yes");
           executiveDecision(api, grantBill.id, true);
-          const after = holdVote(api, grantBill.id);
+          // Each chamber votes in its turn, held now rather than on each sitting.
+          const after = holdEveryChamber(api, grantBill.id);
           if (["enacted", "signed"].includes(after.status)) {
             passed = after;
             break;
@@ -765,15 +767,20 @@ describe(`tax and public finance laws in a played world (seed ${seed})`, () => {
           },
         });
         run(core, 2);
+        // Probate waits nine months, and an heir who dies in that time leaves
+        // the estate with none (it escheats, assessed on nothing; Dennis,
+        // Massachusetts, seed f090a903: a House member's only heir, her
+        // partner at 37, died of heart disease on 2025-10-25). The decedent
+        // with the most heirs, up to two, is the one likeliest to keep one.
+        const heirCount = (p: Readonly<PersonState>) =>
+          Math.min(2, heirsOf(api, p).heirs.length);
         const decedent = [...core.people.values()]
-          .filter(
-            (p) =>
-              p.alive &&
-              p.liquidMinor > 100_00 &&
-              heirsOf(api, p).heirs.length > 0,
-          )
+          .filter((p) => p.alive && p.liquidMinor > 100_00 && heirCount(p) > 0)
           .sort(
-            (a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id),
+            (a, b) =>
+              heirCount(b) - heirCount(a) ||
+              b.liquidMinor - a.liquidMinor ||
+              a.id.localeCompare(b.id),
           )[0];
         expect(
           decedent,
@@ -823,7 +830,14 @@ describe(`tax and public finance laws in a played world (seed ${seed})`, () => {
         const rt = residentsRuntime(core)!;
         const store = rt.store;
         const house = [...store.liveHouseholds()]
-          .filter((h) => store.countedMembers(h).length >= 2)
+          // A record that stands for a whole household or more: one the game's own
+          // deaths have worn down to a fraction (0.076 here, after a part death on
+          // 2026-05-01) has paid its estate once already this month, and its applied
+          // rows hold that earlier settlement's money, not this one's.
+          .filter(
+            (h) =>
+              store.countedMembers(h).length >= 2 && store.weightOf(h) >= 1,
+          )
           .sort(
             (a, b) =>
               householdCash(rt, b) - householdCash(rt, a) ||
@@ -977,7 +991,7 @@ describe(`tax and public finance laws in a played world (seed ${seed})`, () => {
   it(
     "keeps a corporation's unpaid profit tax owed to each treasury, through a zero-profit quarter and a repealed state rate",
     // Each attempt builds a town and runs to October 1 (three quarter days).
-    { timeout: 900_000 },
+    { timeout: 110_000 },
     () => {
       setBookkeeping(false);
       const testSource: Source = {
@@ -986,9 +1000,14 @@ describe(`tax and public finance laws in a played world (seed ${seed})`, () => {
         citation: "Law-wiring test: a corporation's arrears and cash are set",
       };
       try {
-        const tried: string[] = [];
-        for (let i = 0; i < TRIES; i++) {
-          const drawn = drawPlace(seed, `law-wiring-taxes-arrears:${i}`);
+        // Pinned to Newport, Delaware: a small place with a federal and a state
+        // corporate rate and eight corporation locations, all open through July
+        // 1 (33 s to that day). Not used: Grace, Mississippi, whose one location
+        // closes on July 1; Bethel, Vermont, with no state corporate rate; and
+        // University at Buffalo, New York, a large town (about 130 s for the
+        // same three quarter days).
+        {
+          const drawn = ARREARS_PLACE;
           const where = `${drawn.name} (${drawn.key}), seed ${seed}`;
           const core = buildBenchWorld(drawn.seed, gameStartDate(), {
             twoLevel: true,
@@ -1029,10 +1048,9 @@ describe(`tax and public finance laws in a played world (seed ${seed})`, () => {
           const julyBusinesses = corporations();
           const business = julyBusinesses[0];
           if (!federal || !state || !outside || !business) {
-            tried.push(
+            throw new Error(
               `${where}: ${!state ? "no state corporate rate" : !business ? "no business an organization owns" : "no federal treasury or outside account"}`,
             );
-            continue;
           }
           const accounts = api.accounts();
           const setCash = (id: string, tag: string, minor: number) => {
@@ -1044,7 +1062,7 @@ describe(`tax and public finance laws in a played world (seed ${seed})`, () => {
                 : [accounts.main(outside), cash];
             if (held !== minor)
               accounts.transfer({
-                id: `law-wiring-taxes-cash:${tag}:${i}`,
+                id: `law-wiring-taxes-cash:${tag}`,
                 from,
                 to,
                 amountMinor: Math.abs(held - minor),
@@ -1101,6 +1119,19 @@ describe(`tax and public finance laws in a played world (seed ${seed})`, () => {
             julyBusinesses.find(
               (id) => (paidOn(id, `${year}-07-01`).record?.paidMinor ?? 0) > 0,
             ) ?? business;
+          // A location that closed on the quarter day is not taxed (its books
+          // are closed), so a place whose every location closed then is
+          // redrawn, like one with none open (Grace, Mississippi, seed
+          // f090a903: its one location closed on July 1, losing money).
+          if (
+            julyBusinesses.every(
+              (id) => core.finance.businesses.get(id)?.closedAt,
+            )
+          ) {
+            throw new Error(
+              `${where}: every corporation location closed on July 1`,
+            );
+          }
           const july = paidOn(paying, `${year}-07-01`);
           expect(
             july.record,
@@ -1149,8 +1180,9 @@ describe(`tax and public finance laws in a played world (seed ${seed})`, () => {
           // cash), each given the cash to pay.
           const octoberBusinesses = corporations(julyBusinesses);
           if (!octoberBusinesses.length) {
-            tried.push(`${where}: no corporation location open in September`);
-            continue;
+            throw new Error(
+              `${where}: no corporation location open in September`,
+            );
           }
           for (const id of octoberBusinesses)
             owe(id, { [state.id]: 1_000_000 }, (held) => held + 1_000_000);
@@ -1175,9 +1207,6 @@ describe(`tax and public finance laws in a played world (seed ${seed})`, () => {
           );
           return;
         }
-        throw new Error(
-          `No drawn place had a corporation under a state corporate rate (seed ${seed}); tried ${tried.join("; ")}`,
-        );
       } finally {
         setBookkeeping(true);
       }

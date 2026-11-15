@@ -15,8 +15,8 @@ import { recordYearlyAddress } from "./yearly-address";
 import { recordLocalAddresses } from "./local-address";
 import { SCHOOL_STARTED, preStartHistory } from "../core2/past";
 import { addDays, daysBetween, makeIsoDate } from "../core2/kernel/dates";
-import { appraiseEvent } from "../core2/emotion";
-import { closenessBetween, familyFactsOf, formerKin } from "../core2/closeness";
+import type { EventAppraisal } from "../core2/emotion";
+import { familyFactsOf, formerKin } from "../core2/closeness";
 import { sharedHistory, type SharedHistoryKind } from "../core2/shared-history";
 
 /** Where a contact was made, by the record that says so: never a stranger's scene. */
@@ -25,7 +25,7 @@ const MADE_AT: readonly SharedHistoryKind[] = [
   "coworker",
   "schoolmate",
 ];
-import { P, parameterValues } from "../core2/parameters";
+import { P } from "../core2/parameters";
 import { isExplicitlyControlledPersonV1 } from "../core2/player-control-state-v1";
 import {
   playerClockFrontierV1,
@@ -53,8 +53,18 @@ import { stagePollingVisits } from "./polling-place";
 import { doorsKnocked } from "./doors";
 import { schoolFinished } from "./school";
 import { scheduleMoment, SITUATION_LIBRARY } from "./scheduling";
+import { ADDRESS_FACT } from "./opening-facts";
 import type { ScheduleEntry } from "./scheduling";
 import { directorStopgap } from "./stopgaps";
+import {
+  closeDuePromises,
+  indexPromise,
+  promiseOfEvent,
+  promiseHeldBySecond,
+  settlePromisesOnEvent,
+  settlePromisesOnTie,
+  promiseParam,
+} from "./promises";
 import type {
   BackdropEntry,
   CallbackLink,
@@ -135,6 +145,11 @@ export interface Director {
   storyWords?: StoryWords;
   /** Snapshot every watched person; call once after the core is created. */
   start(core: Readonly<CoreState>): void;
+  /**
+   * Runs the opening's warm-up (src/core2/player-warm-up.ts) before the director starts: its days watch
+   * no one, make no scene, stop or journal line, and are not an error.
+   */
+  whileWarming(run: () => void): void;
   /** Begin watching another person, such as someone the player clicks into. */
   watch(core: Readonly<CoreState>, personId: PersonId): void;
   /** "live" or "skipping": while skipping, waiting scenes become journal lines. */
@@ -154,6 +169,17 @@ export interface Director {
    * Not part of a save.
    */
   preferSetting(typeKey: string, kind: string | null): void;
+  /**
+   * A record the controlled person made by their own press (asking someone
+   * to serve): rated now, so the press opens its own scene at once instead
+   * of at the day's close. No stop is registered for it, since the press
+   * shows it. Returns the schedule entry staged for the record, if any.
+   */
+  stageOwnPress(
+    core: CoreState,
+    personId: PersonId,
+    causeId: string,
+  ): ScheduleEntry | undefined;
   /** A thread's importance on a date: the tie plus faded moment impacts. Pure. */
   importance(personId: PersonId, otherId: PersonId, date: IsoDate): number;
   /** How far a thread has faded on a date, from 0 to 1. Pure. */
@@ -166,6 +192,33 @@ export interface Director {
   save(): DirectorSave;
   /** Takes back a save from `save()`: the director continues as it was. */
   restore(data: DirectorSave): void;
+  /**
+   * A watched person's scenes that wait for them, highest rank first, as
+   * dev mode lists them: type, rank against the life's pace, the day it was
+   * staged, the last day it may open and whether it is due on this date.
+   */
+  /**
+   * A waiting scene the player was shown by another route (the opening
+   * evening's scene, sent with a new life) is marked opened, so the clock
+   * does not stop for it again. False when it is not waiting.
+   */
+  openWaiting(
+    personId: PersonId,
+    momentId: string,
+    at: { date: IsoDate; minuteOfDay: number },
+  ): boolean;
+  waitingScenes(
+    personId: PersonId,
+    date: IsoDate,
+  ): readonly {
+    momentId: string;
+    typeKey: string;
+    rank: number;
+    pace: number;
+    date: IsoDate;
+    openUntil: IsoDate;
+    due: boolean;
+  }[];
 }
 
 /** What `Director.save` holds: the ledger and the memory kept between days. */
@@ -197,6 +250,17 @@ export function createDirector(
     watch: readonly PersonId[];
     data?: DirectorData;
     storyWords?: StoryWords;
+    /**
+     * Whether a purpose scene's talk can be worded from the records given
+     * (the bench passes the purpose scene's own composer; the ledger cannot
+     * import it without a load-order cycle). A stop opens only when it can.
+     */
+    wordsPurpose?: (
+      core: Readonly<CoreState>,
+      director: Director,
+      personId: PersonId,
+      entry: ScheduleEntry,
+    ) => boolean;
   } = { watch: [] },
 ): Director {
   const data = options.data ?? DEFAULT_DIRECTOR_DATA;
@@ -207,6 +271,8 @@ export function createDirector(
     broadEvents: new Map(),
     hitBy: new Map(),
     liesByLearner: new Map(),
+    promisesBySettle: new Map(),
+    promisesDue: new Map(),
     stopgapHits: new Set(),
     sceneFilters: new Map(),
     pollingVisits: new Map(),
@@ -221,7 +287,19 @@ export function createDirector(
   const laterDays = new Map<string, number[]>();
   for (const [kind, rows] of circumstanceRows) {
     const days = [
-      ...new Set(rows.flatMap((row) => (row.afterDays ? [row.afterDays] : []))),
+      ...new Set(
+        rows.flatMap((row) =>
+          row.afterDays
+            ? Array.from(
+                {
+                  length:
+                    (row.keepsDays ?? row.afterDays) - row.afterDays + P.one,
+                },
+                (_, step) => row.afterDays! + step,
+              )
+            : [],
+        ),
+      ),
     ];
     if (days.length) laterDays.set(kind, days);
   }
@@ -239,8 +317,18 @@ export function createDirector(
   const pending = new Map<PersonId, Pending>();
   /** Today's interrupting moments, registered as player stops once the day's measuring ends. */
   const interrupts: { moment: Moment; entry: ScheduleEntry }[] = [];
+  /**
+   * Each watched person's scenes that wait for them (outcome
+   * `scene-waiting`), by moment id in the order they were staged: the one
+   * list `registerWaiting` and `waitingScenes` read, so nothing scans a
+   * schedule. Rebuilt from the schedules on `restore`.
+   */
+  const waiting = new Map<PersonId, string[]>();
+  /** The people whose interrupt took this day's stop: a waiting scene waits a morning more. */
+  const interruptedToday = new Set<PersonId>();
   const initial = [...options.watch];
   let started = false;
+  let warming = false;
   let mode: "live" | "skipping" = "live";
 
   const param = (key: string): number => {
@@ -262,6 +350,12 @@ export function createDirector(
     if (!row) throw new Error(`Unregistered director channel: ${id}`);
     return row;
   };
+  // The core's appraisal notices for the watched people, by event and person,
+  // held from the notice until the director reads the same event.
+  const appraisals = new Map<string, EventAppraisal>();
+  // The ties the core sent a change notice for since each watched person was
+  // last measured, in the order the notices came.
+  const tieNotices = new Map<PersonId, Set<string>>();
   const pendingFor = (id: PersonId): Pending => {
     let row = pending.get(id);
     if (!row) pending.set(id, (row = { events: [], work: [] }));
@@ -283,14 +377,23 @@ export function createDirector(
     return { total, jobs };
   }
 
-  function snapshot(core: Readonly<CoreState>, actor: PersonState): Snapshot {
+  /**
+   * The person's state at the close of a measure. The ties are taken whole
+   * when watching begins; after that only the ties the core sent a change
+   * notice for are brought up to date (the core's notices name every change).
+   */
+  function snapshot(
+    core: Readonly<CoreState>,
+    actor: PersonState,
+    carried?: { ties: Snapshot["ties"]; touched: Iterable<string> },
+  ): Snapshot {
     const pay = householdPay(core, actor.householdId);
-    const ties = new Map<
-      string,
-      { otherId: PersonId; level: number; lastContact: IsoDate }
-    >();
-    for (const id of core.relationshipsByPerson.get(actor.id) ?? []) {
-      const row = core.relationships.get(id)!;
+    const ties: Snapshot["ties"] = carried?.ties ?? new Map();
+    for (const id of carried
+      ? carried.touched
+      : (core.relationshipsByPerson.get(actor.id) ?? [])) {
+      const row = core.relationships.get(id);
+      if (!row) continue;
       ties.set(id, {
         otherId: row.actorId === actor.id ? row.otherId : row.actorId,
         level: row.level,
@@ -968,14 +1071,17 @@ export function createDirector(
       if (rule.minDaysApart) spacedToday.add(row.event.kind);
     }
 
-    // Ties: every change in closeness, read once at the end of the day.
-    directorStopgap("SG-P13-tie-day-order", ledger.stopgapHits);
+    // Ties: each change in closeness, read in the order the core sent its
+    // notices (a tie nobody changed is never visited).
+    const touchedTies = [...(tieNotices.get(book.personId) ?? [])];
+    tieNotices.delete(book.personId);
     const fadedBefore = new Map<PersonId, number>();
     // The last day each pair was in touch before today's change, kept for the
     // turn that renews a faded thread (the reunion scene says how long).
     const lastBefore = new Map<PersonId, IsoDate>();
-    for (const id of core.relationshipsByPerson.get(book.personId) ?? []) {
-      const row = core.relationships.get(id)!;
+    for (const id of touchedTies) {
+      const row = core.relationships.get(id);
+      if (!row) continue;
       const otherId = row.actorId === book.personId ? row.otherId : row.actorId;
       const prior = before.ties.get(id);
       const delta = row.level - (prior?.level ?? zero);
@@ -1221,7 +1327,10 @@ export function createDirector(
       storeMoment(core, book, row, label, impact, contributions);
     }
     if (closing && !scored) book.quietDays += one;
-    snapshots.set(book.personId, snapshot(core, actor));
+    snapshots.set(
+      book.personId,
+      snapshot(core, actor, { ties: before.ties, touched: touchedTies }),
+    );
   }
 
   function storeMoment(
@@ -1375,6 +1484,11 @@ export function createDirector(
     });
     book.schedule.push(entry);
     if (entry.interrupt) interrupts.push({ moment, entry });
+    else if (entry.outcome === "scene-waiting")
+      waiting.set(moment.personId, [
+        ...(waiting.get(moment.personId) ?? []),
+        moment.id,
+      ]);
   }
 
   /**
@@ -1562,7 +1676,15 @@ export function createDirector(
           b.score - a.score ||
           a.row.id.localeCompare(b.row.id),
       );
-      const pick = picks[zero];
+      // A row whose news keeps stages its scene for a record once: the first
+      // morning it wins the day, not the mornings after.
+      const pick = picks.find(
+        (row) =>
+          !row.row.keepsDays ||
+          !ledger.circumstanceLast.has(
+            `${book.personId}|${row.row.id}|${row.record.id}`,
+          ),
+      );
       if (!pick) continue;
       const base = param(pick.row.impactParameter);
       const raw = one + pick.closeness;
@@ -1602,6 +1724,11 @@ export function createDirector(
       ledger.circumstanceLast.set(`${book.personId}|${pick.row.id}`, date);
       ledger.circumstanceLast.set(`${book.personId}|*`, date);
       ledger.circumstanceLast.set(`${book.personId}|cast|${pick.castId}`, date);
+      if (pick.row.keepsDays)
+        ledger.circumstanceLast.set(
+          `${book.personId}|${pick.row.id}|${pick.record.id}`,
+          date,
+        );
     }
   }
 
@@ -1639,6 +1766,63 @@ export function createDirector(
    * A one-shot stop: the client's acknowledgment consumes it. Moments of
    * anyone not controlled stop nothing.
    */
+  /**
+   * Whether a staged scene has someone to speak or something for the player
+   * to choose: one of its scenes has a purpose (a talk with replies), or casts
+   * someone besides the player. A scene with neither is only narration, and
+   * goes to the journal rather than stopping the clock (the lead's review of
+   * #8812: "the house is quiet" stopped a morning). One rule for interrupting
+   * and waiting scenes.
+   */
+  function speaks(
+    core: Readonly<CoreState>,
+    entry: ScheduleEntry,
+    personId: PersonId,
+  ): boolean {
+    const cause = core.durableLog.get(
+      ledger.people.get(personId)?.momentsById.get(entry.momentId)?.causeId ??
+        "",
+    );
+    const cast = (
+      row: ScheduleEntry["bindings"][number],
+      role: string | undefined,
+    ) => row.roles.find((r) => r.role === role)?.personIds[zero];
+    return entry.bindings.some((row) => {
+      // The library's rows carry the purpose talk's fields too (PurposeType).
+      const type = SITUATION_LIBRARY.types.find(
+        (t) => t.key === row.typeKey,
+      ) as
+        | ((typeof SITUATION_LIBRARY.types)[number] & {
+            purpose?: string;
+            asked?: string;
+          })
+        | undefined;
+      // A purpose talk speaks when the one who asks, and the one asked, are
+      // people on record: the same cast the purpose scene composes from.
+      if (type?.purpose) {
+        const askerId = cast(row, type.asker);
+        return (
+          !!askerId &&
+          core.people.has(askerId) &&
+          core.people.has(cast(row, type.asked) ?? personId) &&
+          // and the talk can be worded from the records given: a purpose
+          // scene the bank cannot word opens on an empty talk (a constituent
+          // stop on a state law, Campanilla, Puerto Rico, Feb 4).
+          (options.wordsPurpose?.(core, self, personId, entry) ?? true)
+        );
+      }
+      return (
+        // A speech heard plays only when its record kept the words.
+        row.said
+          ? typeof cause?.facts?.[ADDRESS_FACT.text] === "string" &&
+              !!cause.facts[ADDRESS_FACT.text]
+          : row.roles.some((role) =>
+              role.personIds.some((id) => id !== personId),
+            )
+      );
+    });
+  }
+
   function registerInterrupts(core: CoreState): void {
     const line = param("directorInterruptImpact");
     for (const { moment, entry } of interrupts.splice(zero)) {
@@ -1647,6 +1831,11 @@ export function createDirector(
         !core.people.get(moment.personId)?.alive
       )
         continue;
+      if (!speaks(core, entry, moment.personId)) {
+        entry.outcome = "journal-line";
+        entry.closed = data.waitingStop.silent;
+        continue;
+      }
       const at = openedAt(
         core,
         playerClockFrontierV1(core, moment.personId) ?? {
@@ -1671,7 +1860,131 @@ export function createDirector(
         hold: false,
       });
       entry.stop = { recordId: moment.id, at };
+      interruptedToday.add(moment.personId);
     }
+  }
+
+  /**
+   * A watched person's waiting scenes as they stand on a date, highest rank
+   * first: each with its type, rank, the life's pace, the last day it may
+   * open and whether it is due now. A scene whose timing is the cause or an
+   * effective date is due from its own day; one that waits for the two
+   * people to be in one place (`next-together`) is not due on the clock.
+   * Reads only that person's list.
+   */
+  function waitingFor(personId: PersonId, date: IsoDate) {
+    const book = ledger.people.get(personId);
+    const rows: {
+      momentId: string;
+      typeKey: string;
+      rank: number;
+      pace: number;
+      date: IsoDate;
+      openUntil: IsoDate;
+      due: boolean;
+      entry: ScheduleEntry;
+    }[] = [];
+    for (const momentId of waiting.get(personId) ?? []) {
+      let entry: ScheduleEntry | undefined;
+      for (let at = (book?.schedule.length ?? zero) - one; at >= zero; at--)
+        if (book!.schedule[at]!.momentId === momentId) {
+          entry = book!.schedule[at];
+          break;
+        }
+      const first = entry?.bindings[zero];
+      if (!entry || !first || entry.outcome !== "scene-waiting" || entry.stop)
+        continue;
+      const openUntil = entry.bindings
+        .map((row) => row.openUntil)
+        .reduce((a, b) => (a > b ? a : b));
+      rows.push({
+        momentId,
+        typeKey: first.typeKey,
+        rank: entry.rank,
+        pace: entry.pace,
+        date: entry.date,
+        openUntil,
+        // A scene that waits for the two people to be in one place is not due
+        // on the clock; the visit that meets them opening it is the item's fix
+        // 3 (director-a-waiting-scene-is-never-played), not built here. Until
+        // then it waits out its open days and closes as a journal line.
+        due:
+          entry.date <= date &&
+          entry.bindings.some((row) => row.timing !== "next-together"),
+        entry,
+      });
+    }
+    return rows.sort(
+      (a, b) =>
+        a.rank - b.rank ||
+        a.date.localeCompare(b.date) ||
+        a.momentId.localeCompare(b.momentId),
+    );
+  }
+
+  /**
+   * The clock stops for one waiting scene a morning (director-a-waiting-
+   * scene-is-never-played; docs/design/story-director.md, part 4, When): for
+   * the controlled person, once the day's interrupts are registered and none
+   * took the next morning, the highest-ranked waiting scene that is due opens
+   * when its setting next opens. A scene past its open days closes as a
+   * journal line with its reason. Reads only the controlled person's list.
+   */
+  function registerWaiting(core: CoreState): void {
+    const date = makeIsoDate(core.date);
+    for (const personId of waiting.keys()) {
+      if (
+        !isExplicitlyControlledPersonV1(core, personId) ||
+        !core.people.get(personId)?.alive
+      )
+        continue;
+      const rows = waitingFor(personId, date);
+      for (const row of rows)
+        if (row.openUntil < date) {
+          row.entry.outcome = "journal-line";
+          row.entry.closed = data.waitingStop.notMet;
+        } else if (!speaks(core, row.entry, personId)) {
+          row.entry.outcome = "journal-line";
+          row.entry.closed = data.waitingStop.silent;
+        }
+      const open = rows.filter((row) => row.entry.outcome === "scene-waiting");
+      waiting.set(
+        personId,
+        open.map((row) => row.momentId),
+      );
+      if (interruptedToday.has(personId)) continue;
+      const next = open.find((row) => row.due);
+      if (!next) continue;
+      const at = openedAt(
+        core,
+        playerClockFrontierV1(core, personId) ?? {
+          date: addDays(date, one),
+          minuteOfDay: zero,
+        },
+        next.entry.bindings[zero]?.setting.kind,
+      );
+      registerModuleStopV1(core, {
+        moduleId: module.id,
+        recordId: next.momentId,
+        controlledPersonId: personId,
+        at,
+        kind: "interrupt",
+        reasonKey: data.waitingStop.reasonKey,
+        source: {
+          tag: "ESTIMATED",
+          citation: data.waitingStop.citation,
+          asOf: core.date,
+          estimatedFrom: `Director moment ${next.momentId}: a ${next.typeKey} scene ranked ${next.rank} of the life's pace ${next.pace}, waiting since ${next.date}.`,
+        },
+        hold: false,
+      });
+      next.entry.stop = { recordId: next.momentId, at };
+      waiting.set(
+        personId,
+        open.filter((row) => row !== next).map((row) => row.momentId),
+      );
+    }
+    interruptedToday.clear();
   }
 
   /**
@@ -1756,19 +2069,13 @@ export function createDirector(
         actor.alive &&
         (event.moodImpulse !== undefined || event.stressImpulse !== undefined)
       ) {
-        directorStopgap("SG-P13-appraisal-recompute", ledger.stopgapHits);
-        const relation = event.personIds.reduce(
-          (level, subject) =>
-            Math.max(level, closenessBetween(core, id, subject)),
-          zero,
-        );
-        const appraisal = appraiseEvent(
-          actor,
-          event,
-          relation,
-          parameterValues(core.data.parameters),
-          core.data.appraisalTraits,
-        );
+        // The feeling the core applied to this person for this event, as the
+        // core's appraisal notice reported it (no second computation).
+        const appraisal = appraisals.get(`${event.id}|${id}`);
+        if (!appraisal)
+          throw new Error(
+            `No appraisal notice from the core for ${event.id} and ${id}.`,
+          );
         mood = appraisal.moodImpulse;
         stress = appraisal.stressImpulse;
       }
@@ -1779,6 +2086,7 @@ export function createDirector(
         settleLies(core, event, book);
       }
     }
+    for (const id of learnedBy) appraisals.delete(`${event.id}|${id}`);
     return reached;
   }
 
@@ -1815,8 +2123,26 @@ export function createDirector(
 
   function produceKeptFacts(event: CoreEventInput, book: PersonLedger): void {
     for (const kind of data.keptFactKinds) {
-      if (!kind.producedBy.includes(event.kind)) continue;
-      const [holderId, otherId] = event.personIds;
+      // A kind is recorded by its event kinds, or by an event kind that
+      // carries a fact (a scene reply that keeps a promise or a favor).
+      const byFact = kind.producedByFact?.some((row) => {
+        if (row.eventKind !== event.kind) return false;
+        const value = event.facts?.[row.fact];
+        return row.equals === undefined ? !!value : value === row.equals;
+      });
+      if (!kind.producedBy.includes(event.kind) && !byFact) continue;
+      const promise =
+        kind.endsOn === "settling-record"
+          ? promiseOfEvent(event, promiseParam)
+          : null;
+      if (kind.endsOn === "settling-record" && !promise) continue;
+      // The word was given by the first person on the reply, or, where the
+      // promise was the price of a yes, by the second (promise-kinds.json).
+      const [first, second] = event.personIds;
+      const [holderId, otherId] =
+        promise && promiseHeldBySecond(promise.kind)
+          ? [second, first]
+          : [first, second];
       if (!holderId || !otherId) continue;
       const fact: KeptFact = {
         id: `${kind.id}:${event.id}`,
@@ -1827,8 +2153,10 @@ export function createDirector(
         sinceBasis: "recorded",
         sourceId: event.id,
         ...(event.topic ? { concernsKey: event.topic } : {}),
+        ...(promise ? { promise } : {}),
       };
       keepFact(book, fact);
+      if (promise) indexPromise(ledger, book.keptFacts.get(fact.id)!);
       if (kind.endsOn === "contradicting-fact-learned" && fact.concernsKey) {
         const key = `${otherId}|${fact.concernsKey}`;
         let set = ledger.liesByLearner.get(key);
@@ -1871,6 +2199,7 @@ export function createDirector(
     },
     onEvent(api, event, learnedBy) {
       if (!started) return;
+      settlePromisesOnEvent(api, ledger, event, promiseParam);
       if (circumstanceRows.has(event.kind)) {
         const queued = queuedOf(event);
         circumstanceQueue.push(queued);
@@ -1884,9 +2213,21 @@ export function createDirector(
       }
       rateNow(api.state, onEvent(api.state, event, learnedBy));
     },
+    appraisalEventKinds: data.eventKinds,
+    onEventAppraisal(_api, event, appraisal) {
+      if (started && ledger.people.has(appraisal.actorId))
+        appraisals.set(`${event.id}|${appraisal.actorId}`, appraisal);
+    },
     relationshipKinds: data.relationshipKinds,
     onRelationshipChange(api, notice) {
       if (!started) return;
+      settlePromisesOnTie(api, ledger, notice, promiseParam);
+      for (const id of [notice.actorId, notice.otherId]) {
+        if (!ledger.people.has(id)) continue;
+        let queue = tieNotices.get(id);
+        if (!queue) tieNotices.set(id, (queue = new Set()));
+        queue.add(notice.relationshipId);
+      }
       rateNow(api.state, [notice.actorId, notice.otherId]);
     },
     onWorkResult(api, receipt) {
@@ -1895,24 +2236,44 @@ export function createDirector(
         pendingFor(receipt.personId).work.push({ ...receipt });
     },
     onAfterDay(api) {
+      if (!started && warming) return;
       if (!started)
         throw new Error("The story director was installed but not started.");
+      // Promises whose window closes today end as their kind says.
+      closeDuePromises(api, ledger, promiseParam);
       for (const book of ledger.people.values()) measureDay(api.state, book);
       produceCircumstances(api.state);
       // Election day (the polling-place type's producer): the eve's close
       // stages the polls for each watched voter the count will count.
       stagePollingVisits(api.state, ledger);
       registerInterrupts(api.state);
+      registerWaiting(api.state);
       // Once a month, each watched person forgets what no longer matters.
-      if (api.state.date.endsWith("-01"))
+      if (api.state.date.endsWith("-01")) {
         for (const book of ledger.people.values()) forget(api.state, book);
+        // Only the controlled player's waiting scenes are read: the lists of
+        // anyone else are dropped, so they never grow.
+        for (const personId of [...waiting.keys()])
+          if (!isExplicitlyControlledPersonV1(api.state, personId))
+            waiting.delete(personId);
+      }
     },
   };
 
-  return {
+  const self: Director = {
     module,
     ledger,
     ...(options.storyWords ? { storyWords: options.storyWords } : {}),
+    whileWarming(run) {
+      if (started)
+        throw new Error("Warm the world before the director starts.");
+      warming = true;
+      try {
+        run();
+      } finally {
+        warming = false;
+      }
+    },
     start(core) {
       if (started) return;
       started = true;
@@ -1949,6 +2310,18 @@ export function createDirector(
       if (kind === null) preferredSettings.delete(typeKey);
       else preferredSettings.set(typeKey, kind);
     },
+    stageOwnPress(core, personId, causeId) {
+      const book = ledger.people.get(personId);
+      if (!book || !started) return undefined;
+      measureDay(core, book, false);
+      // The press shows the scene itself: no stop for it at the day's close.
+      for (let i = interrupts.length - one; i >= zero; i -= one)
+        if (interrupts[i]!.moment.causeId === causeId)
+          interrupts.splice(i, one);
+      return book.schedule.find(
+        (entry) => book.momentsById.get(entry.momentId)?.causeId === causeId,
+      );
+    },
     importance(personId, otherId, date) {
       const book = ledger.people.get(personId);
       const thread = book?.threads.get(otherId);
@@ -1983,6 +2356,8 @@ export function createDirector(
       refill(ledger.broadEvents, fromLedger.broadEvents);
       refill(ledger.hitBy, fromLedger.hitBy);
       refill(ledger.liesByLearner, fromLedger.liesByLearner);
+      refill(ledger.promisesBySettle, fromLedger.promisesBySettle ?? new Map());
+      refill(ledger.promisesDue, fromLedger.promisesDue ?? new Map());
       ledger.stopgapHits.clear();
       for (const hit of fromLedger.stopgapHits) ledger.stopgapHits.add(hit);
       refill(ledger.sceneFilters, fromLedger.sceneFilters);
@@ -2010,6 +2385,37 @@ export function createDirector(
       );
       started = data.started;
       mode = data.mode;
+      // The waiting lists are read from the schedules the save carries.
+      waiting.clear();
+      for (const [personId, book] of ledger.people) {
+        const ids = book.schedule
+          .filter((row) => row.outcome === "scene-waiting" && !row.stop)
+          .map((row) => row.momentId);
+        if (ids.length) waiting.set(personId, ids);
+      }
+    },
+    openWaiting(personId, momentId, at) {
+      const row = waitingFor(personId, at.date).find(
+        (item) => item.momentId === momentId,
+      );
+      if (!row) return false;
+      row.entry.stop = { recordId: momentId, at };
+      waiting.set(
+        personId,
+        (waiting.get(personId) ?? []).filter((id) => id !== momentId),
+      );
+      return true;
+    },
+    waitingScenes(personId, date) {
+      return waitingFor(personId, date).map((row) => ({
+        momentId: row.momentId,
+        typeKey: row.typeKey,
+        rank: row.rank,
+        pace: row.pace,
+        date: row.date,
+        openUntil: row.openUntil,
+        due: row.due,
+      }));
     },
     fading(personId, otherId, date) {
       const book = ledger.people.get(personId);
@@ -2017,6 +2423,7 @@ export function createDirector(
       return book && thread ? fadingOf(thread, book, date) : one;
     },
   };
+  return self;
 }
 
 /** Whether the person has a moment of this kind within the last `days` days. */

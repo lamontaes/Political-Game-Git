@@ -33,7 +33,6 @@ import contingentData from "../data/elections/contingent-election.json" with { t
 import electorsData from "../data/elections/electoral-votes.json" with { type: "json" };
 import { contingentElection } from "../contingent-election";
 import { lawChain } from "./laws";
-import territoryPlaces from "../data/places/territory-places.json" with { type: "json" };
 import {
   NATIONAL_ENGAGEMENT,
   townEngagementCenter,
@@ -49,7 +48,9 @@ import {
   partyStrength,
   engagementOf,
   type CountedAppeal,
+  countedEndorsed,
   type CountedFieldEntry,
+  type EndorsedBy,
   type CountedVoter,
   type PlaceResult,
   type RacePlace,
@@ -58,9 +59,28 @@ import {
 import {
   applyElectionLaws,
   barredFromVoting,
+  prisonPartOfBarredShare,
+  prisonersBarredHere,
   recordRedistricting,
   electionLawTurnoutCost,
+  automaticRegistrationInForce,
+  sameDayRegistrationInForce,
 } from "../law-reach/group-a-voting";
+import {
+  countedParts,
+  ensureKeptOff,
+  keptOffOf,
+  addressKeyOf,
+  onTheList,
+  registrationRow,
+  reviewRegistrations,
+  waitAnchor,
+  daysSince,
+  type RegistrationDeps,
+  type RollEntry,
+} from "../electorate-registration";
+import { departureRateFor, withinCountyRateFor } from "./moves";
+import { dwellingMovedIn } from "./housing";
 import { breakElectionTie } from "../election-ties";
 import { ageOnElection, turnoutWeb } from "../turnout-web";
 import {
@@ -74,7 +94,15 @@ import {
   stakesOf,
   type TurnoutParts,
 } from "../turnout";
-import { coreAPI, registerModule } from "../state";
+import { coreAPI, fillInIdentity, registerModule } from "../state";
+import {
+  ambitionOf,
+  partyOf,
+  raceScope,
+  standingPool,
+} from "../candidate-pool";
+import { workFromHome } from "../coarse-place";
+import { drawStateHome } from "../places";
 import { closenessBetween } from "../closeness";
 import {
   decisionLean,
@@ -83,12 +111,20 @@ import {
   leanedYes,
   reportOutcome,
 } from "../trait-decisions";
-import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
+import type {
+  CoreAPI,
+  CoreModule,
+  CoreState,
+  PersonId,
+  PersonState,
+  PlaceId,
+} from "../types";
 import type { ModuleCalendarWork } from "../module-calendar";
 import type { ModuleRow } from "../module-data";
 import { groupStance, personLean, type StanceProfile } from "../campaign-views";
 import { campaignParameter, platformLead, type Stance } from "../campaign-data";
-import { basePlaces } from "../race-places";
+import { basePlaces, wideElectorate } from "../race-places";
+import { shareValue } from "../shares";
 import { holdoverRule } from "../office-holdover";
 import electionParameters from "../data/elections/parameters.json" with { type: "json" };
 import {
@@ -112,11 +148,17 @@ import {
   type PetitionRule,
   type FilingRow,
   atLargeGroup,
+  filledByTickets,
+  runningMateOf,
+  ticketGovernorContest,
+  ticketOfficeContest,
+  ticketStageOf,
 } from "./elections";
 import {
   CAMPAIGNS_MODULE_ID,
   townLean,
   campaignFor,
+  endorsementsOf,
   impressionOf,
   parsePlatform,
   pledgesOf,
@@ -124,6 +166,7 @@ import {
   type DoorVisit,
   type PledgeRow,
 } from "./campaigns";
+import { caseWarmthsOf } from "./constituent-cases";
 import {
   isOutsideOffice,
   OFFICES_MODULE_ID,
@@ -133,15 +176,21 @@ import {
   endServingTerms,
   unfilledTerm,
   repeatSpecialElection,
+  electedWithGovernorOnTicket,
+  unheldVacancyWon,
   type TermRow,
 } from "./offices";
 import {
+  INDEPENDENT,
+  lastUnheldParty,
+  type WeighedPerson,
+  candidateChoices,
+  currentOfficial,
   holderOf,
   officialCandidate,
   researchedHolderParty,
 } from "./officials";
-import type { SeatInput } from "../offices-state";
-import type { OfficeInput } from "../offices-local";
+import type { OfficeInput, SeatInput } from "./offices";
 import {
   novemberGeneralElectionDay,
   termEndAfter,
@@ -184,6 +233,7 @@ import {
   worldRoster,
   type ElectoratePlace,
   cpsAgeBand,
+  cpsRegistered,
   cpsTurnout,
 } from "../electorate-places";
 import {
@@ -337,6 +387,10 @@ interface CountedBallotsRow {
   readonly college?: readonly (number | null)[];
   /** Each voter's door "yes" as it held on the day (null where they gave none; absent on rows kept before pledges). */
   readonly pledges?: readonly (Readonly<Record<string, number>> | null)[];
+  /** What each voter's decided cases left them feeling toward each official on the ballot (null where they brought none; absent on rows kept before cases counted). */
+  readonly warmths?: readonly (Readonly<Record<string, number>> | null)[];
+  /** What the groups whose cause each voter shares brought them, by candidate (null where none; absent on rows kept before groups reached the counted). */
+  readonly endorsed?: readonly (Readonly<Record<string, number>> | null)[];
   /** Where one household of a record's several gave a door "yes", the field index it voted for on its word (-1 otherwise). */
   readonly pledgedChoice?: readonly number[];
   /**
@@ -412,6 +466,14 @@ export const VOTING_MODULE: CoreModule = {
       turnout: {},
       /** The town's polling places, one per precinct, and who works each. */
       pollingPlaces: {},
+      /** Each named adult's voter registration: on the rolls or not, at which address, since when. */
+      registrations: {},
+      /** The share of each age band that keeps off the rolls, found at the opening. */
+      registrationBase: {},
+      /** The precinct each household votes in, kept until a move on record changes it. */
+      householdPrecincts: {},
+      /** What an election day did to people not on the rolls: turned away, or registered at the polls. */
+      pollDays: {},
       emptyRaces: { indexes: { byContest: { fields: ["contestId"] } } },
       results: { indexes: { byContest: { fields: ["contestId"] } } },
       /** A close count's recount, by the place's own rule (recount-rules-2026). */
@@ -445,7 +507,18 @@ export const VOTING_MODULE: CoreModule = {
       return;
     }
     const filingId = event.facts?.filingId;
-    if (typeof filingId === "string") openFilingPetition(api, filingId);
+    if (typeof filingId !== "string") return;
+    openFilingPetition(api, filingId);
+    // A governor candidate whose state's law joins the ticket at filing
+    // files with a running mate.
+    const contestId = event.facts?.contestId;
+    if (typeof contestId === "string") {
+      const contest = api
+        .moduleState(ELECTIONS_MODULE_ID)
+        .table("contests")
+        .get(contestId) as unknown as ContestRow | undefined;
+      if (contest) formTickets(api, contest, "filing");
+    }
   },
 };
 
@@ -470,6 +543,10 @@ export function openVoting(core: CoreState): void {
   registerDoorChoice(doorChoiceOf);
   rememberOpeningElectorate(api);
   pollingPlaces(api);
+  // The world opens already in motion: who is registered, and who moved
+  // lately and has not yet registered at the new address.
+  registrations(api);
+  scheduleRegistrationReview(api);
   // A vacancy's special election runs as a real race.
   registerSpecialElections((a, race) => {
     if (!a.state.modules.has(VOTING_MODULE_ID)) return false;
@@ -541,6 +618,29 @@ function scheduleContest(
       source,
       sourceRecordIds: [contest.id],
     });
+  // The town's clerk posts one notice of election for each election day, some
+  // days ahead, naming every office on that ballot (`postElectionNotice`).
+  const noticeOn = addDays(
+    makeIsoDate(contest.electionDate),
+    -api.parameter("electionNoticeLeadDays"),
+  );
+  if (
+    noticeOn > date &&
+    !calendar.get(`election-notice:${contest.electionDate}`)
+  )
+    calendar.schedule({
+      key: `election-notice:${contest.electionDate}`,
+      date: noticeOn,
+      kind: "election-notice",
+      source: {
+        tag: "ESTIMATED",
+        citation: "electionNoticeLeadDays",
+        asOf: date,
+        estimatedFrom:
+          "Places post the notice of election weeks ahead; the lead is a tagged parameter (electionNoticeLeadDays)",
+      },
+      sourceRecordIds: [contest.electionDate],
+    });
   calendar.schedule({
     key: `election:${contest.id}`,
     date: contest.electionDate,
@@ -577,7 +677,7 @@ function openFilingPetition(api: CoreAPI, filingId: string): void {
   ).petition;
   const petition = openPetition(api, filing, {
     rule,
-    needed: petitionNeededHere(api, contest, rule),
+    needed: petitionNeededHere(api, contest, rule, filing.party ?? null),
   });
   // Where the law asks no signatures, the clerk takes the filing at the
   // counter: nothing to circulate.
@@ -593,17 +693,10 @@ function openFilingPetition(api: CoreAPI, filingId: string): void {
     date: dayAfter(petition.due),
     kind: "petition-check",
     source: {
-      tag: rule.basis === "read" ? "SOURCED" : "ESTIMATED",
+      tag: rule.scale ? "ESTIMATED" : "SOURCED",
       citation: rule.source,
       asOf: api.state.date,
-      ...(rule.basis === "read"
-        ? {}
-        : {
-            estimatedFrom:
-              rule.basis === "scaled"
-                ? SCALED_PETITION_ESTIMATE
-                : "SG-GOV-petition-count-estimated",
-          }),
+      ...(rule.scale ? { estimatedFrom: SCALED_PETITION_ESTIMATE } : {}),
     },
     sourceRecordIds: [petition.id],
   });
@@ -738,80 +831,96 @@ export function recordedBase(
 }
 
 /**
- * The signatures a petition needs in this world. Where the law scales the
- * count to the town (a municipal "scaled" rule), the town's own voters set
- * it. Otherwise the law's count where the town is the district; where the
- * district reaches past the town, the world holds no one outside it to sign,
- * so the clerk counts the town's share of the law's count by eligible voters,
- * at least one; where the district's voters are not on record (an island
- * area's), by the town's share of its people (`districtPeopleShare`). No
- * petition asks more signatures than the town has voters.
+ * The signatures a petition needs in this world: the number the race's own
+ * law sets for the race's own electorate (owner, Nov 14). A town race reads
+ * the town's voters, and its petition asks no more names than the town has.
+ * A county, district, state or federal race reads its whole electorate
+ * (`wideElectorate`): the law's count, or its formula computed from those
+ * voters (the votes the world recorded for the office, else the two-party
+ * votes the race's places last cast), gathered in the town and, outside it,
+ * by the campaign's paid circulators (`circulatorShift`).
  */
-function petitionNeededHere(
+export function petitionNeededHere(
   api: CoreAPI,
   contest: ContestRow,
   rule: PetitionRule,
+  party: string | null,
 ): number {
   const voters = electorateRoll(api).reduce((n, v) => n + v.count, 0);
-  if (rule.basis === "scaled" && rule.scale)
+  const population = Number(api.state.placeMetadata.referencePopulation) || 0;
+  const wide = wideElectorate(api, contest, { voters, population });
+  if (rule.basis === "scaled" && rule.scale) {
+    if (!wide)
+      return petitionSignatures(rule.scale, {
+        eligible: voters,
+        votesCast: recordedBase(api, contest, rule.scale),
+        population,
+      });
+    const side = partySide(party);
+    const recorded =
+      rule.scale.election === "office"
+        ? lastVotesForOffice(api, contest.officeId)?.votes
+        : undefined;
     return petitionSignatures(rule.scale, {
-      eligible: voters,
-      votesCast: recordedBase(api, contest, rule.scale),
-      population: Number(api.state.placeMetadata.referencePopulation) || 0,
+      eligible: wide.eligible,
+      population: voters > 0 ? (wide.eligible * population) / voters : 0,
+      votesCast:
+        recorded ??
+        (wide.votes > 0
+          ? wide.votes * namedElectionTurnout(api, contest, rule.scale.election)
+          : undefined),
+      aligned:
+        side > 0
+          ? wide.rightShare
+          : side < 0
+            ? 1 - wide.rightShare
+            : shareValue("evenSplit"),
+      winnerShare: Math.max(wide.rightShare, 1 - wide.rightShare),
     });
+  }
   const count = rule.count;
   if (count <= 0) return 0;
-  const { places } = basePlaces(api, contest);
-  const total = places.reduce((n, p) => n + p.eligible, 0);
-  const share =
-    places.length && total > 0
-      ? Math.min(1, voters / total)
-      : contest.level === "state" || contest.level === "federal"
-        ? districtPeopleShare(api, contest)
-        : 1;
-  let scaled = count;
-  if (share < 1) {
-    // stopgapId: SG-GOV-petition-town-share
-    api.stopgap("SG-GOV-petition-town-share");
-    scaled = Math.max(1, Math.ceil(count * share));
-  }
-  if (contest.level === "state" || contest.level === "federal") return scaled;
-  // A local petition cannot ask more names than the town has voters.
-  return voters > 0
-    ? Math.max(1, Math.min(scaled, Math.floor(voters)))
-    : scaled;
+  // No petition asks more names than its electorate has voters.
+  const most = Math.floor(wide ? wide.eligible : voters);
+  return most > 0 ? Math.max(1, Math.min(count, most)) : count;
 }
 
-const islandPeople = new Map<string, number>();
-for (const row of territoryPlaces.rows as readonly (readonly unknown[])[])
-  islandPeople.set(
-    String(row[2]),
-    (islandPeople.get(String(row[2])) ?? 0) + Number(row[5]),
-  );
-
 /**
- * The town's share of a state or federal district's people where its
- * voters are not on record: the town's people over the island area's
- * villages' people (their 2020 counts), shared among the office's
- * districts; the whole count where neither is recorded.
+ * The turnout of the election a petition's law names, against the
+ * presidential year whose votes the race's places last cast: a president's
+ * race whole; a U.S. House race at the last even-year November before the
+ * contest; a governor's or secretary of state's at their own race's cycle
+ * where the world has one open, else a midterm's; the office's own (and any
+ * other) at the contest's own cycle (`cycleTurnout`).
  */
-function districtPeopleShare(api: CoreAPI, contest: ContestRow): number {
-  const people = islandPeople.get(town(api).stateKey.slice(3)) ?? 0;
-  const districts =
-    contest.family === "stateLegislative"
-      ? new Set(
-          (
-            api
-              .moduleState(OFFICES_MODULE_ID)
-              .table("seats")
-              .query("byOffice", [contest.officeId]) as unknown as {
-              district?: string | null;
-            }[]
-          ).map((s) => s.district ?? ""),
-        ).size || 1
-      : 1;
-  const own = Number(api.state.placeMetadata.referencePopulation);
-  return people > 0 && own > 0 ? Math.min(1, (own * districts) / people) : 1;
+function namedElectionTurnout(
+  api: CoreAPI,
+  contest: ContestRow,
+  election: string | undefined,
+): number {
+  if (election === "president") return 1;
+  if (election === "us-house") {
+    const year = Number(contest.electionDate.slice(0, 4));
+    const last = year % 2 ? year - 1 : year - 2;
+    return cycleTurnout(`${last}-11-03`).share;
+  }
+  if (election === "governor" || election === "secretary-of-state") {
+    const offices = api.moduleState(OFFICES_MODULE_ID).table("offices");
+    const theirs = (
+      api
+        .moduleState(ELECTIONS_MODULE_ID)
+        .table("contests")
+        .rows() as unknown as ContestRow[]
+    ).find(
+      (c) =>
+        (offices.get(c.officeId) as unknown as { kind?: string } | undefined)
+          ?.kind === election,
+    );
+    return theirs
+      ? cycleTurnout(theirs.electionDate).share
+      : campaignParameter("midtermShareOfPresidential");
+  }
+  return cycleTurnout(contest.electionDate).share;
 }
 
 /**
@@ -824,17 +933,22 @@ function checkPetition(api: CoreAPI, petitionId: string): void {
   const filingId = petitionId.slice("petition:".length);
   const petition = petitionOf(api, filingId);
   if (!petition || petition.check) return;
-  // A counted resident who signs stands for the people like them, as at the
-  // count (one rule for both tiers, times the count).
-  const roll = new Map(electorateRoll(api).map((v) => [v.id, v.count]));
+  // One standing signature row is one signature, a counted resident's as a
+  // full person's (pool item elections-petition-check-miscount): the clerk
+  // counts names on paper, so every row ends up counted or struck.
+  const roll = new Set(electorateRoll(api).map((v) => v.id));
   const signers = petitionSigners(api, filingId);
   const struckIds = signers
     .filter((s) => !roll.has(s.personId))
     .map((s) => s.personId);
+  // The signatures circulators gathered outside the town are the counted
+  // voters of the race's places beyond it, on that place's roll.
+  const outside = Object.values(petition.outsideSigned ?? {}).reduce(
+    (n, k) => n + k,
+    0,
+  );
   keepPetitionCheck(api, filingId, {
-    valid: Math.round(
-      signers.reduce((n, s) => n + (roll.get(s.personId) ?? 0), 0),
-    ),
+    valid: signers.length - struckIds.length + outside,
     struckIds,
   });
 }
@@ -845,6 +959,40 @@ export function openNextCycle(api: CoreAPI, seatId: string): void {
   if (next) scheduleContest(api, next);
 }
 
+/**
+ * The notice of election: a public record the town's paper prints, naming the
+ * election day and every office the town votes on that day. Its offices are
+ * read from the contests when the paper prints it (the record keeps their ids).
+ */
+function postElectionNotice(api: CoreAPI, electionDate: string): void {
+  const contests = contestsOnDate(api, electionDate).filter(
+    (c) => c.electionDate === electionDate,
+  );
+  if (!contests.length) return;
+  const { townPlaceId } = town(api);
+  api.emit({
+    id: `election-notice:${townPlaceId}:${electionDate}`,
+    date: api.state.date,
+    kind: "election-notice",
+    personIds: [],
+    placeId: townPlaceId,
+    topic: `election-notice:${electionDate}`,
+    source: {
+      tag: "ESTIMATED",
+      citation: "electionNoticeLeadDays",
+      asOf: api.state.date,
+      estimatedFrom:
+        "The lead before election day is a tagged parameter (electionNoticeLeadDays)",
+    },
+    publicRecord: true,
+    news: true,
+    facts: {
+      electionDate,
+      contestIds: JSON.stringify(contests.map((c) => c.id).sort()),
+    },
+  });
+}
+
 function votingCalendarWork(
   api: CoreAPI,
   work: Readonly<ModuleCalendarWork>,
@@ -853,13 +1001,33 @@ function votingCalendarWork(
     fileStandingCandidates(api, work.sourceRecordIds[0]!);
   if (work.kind === "petition-check")
     checkPetition(api, work.sourceRecordIds[0]!);
+  if (work.kind === REGISTRATION_REVIEW) {
+    registrations(api);
+    scheduleRegistrationReview(api);
+  }
   if (work.kind === "primary") holdPrimary(api, work.sourceRecordIds[0]!);
-  if (work.kind === "election-day") holdElection(api, work.sourceRecordIds[0]!);
+  // A ticket office's count is the governor race's (`decideTicket`).
+  if (work.kind === "election-day" && !decidedWithGovernor(api, work))
+    holdElection(api, work.sourceRecordIds[0]!);
+  if (work.kind === "election-notice")
+    postElectionNotice(api, work.sourceRecordIds[0]!);
   if (work.kind === "take-office") takeOffice(api, work.sourceRecordIds[0]!);
   if (work.kind === "recount-ends") endRecount(api, work.sourceRecordIds[0]!);
   if (work.kind === "empty-term")
     resolveEmptyRace(api, work.sourceRecordIds[0]!);
   raceWork(api, work);
+}
+
+/** Whether a contest's election day is its governor race's: a ticket office decided with it. */
+function decidedWithGovernor(
+  api: CoreAPI,
+  work: Readonly<ModuleCalendarWork>,
+): boolean {
+  const contest = api
+    .moduleState(ELECTIONS_MODULE_ID)
+    .table("contests")
+    .get(work.sourceRecordIds[0]!) as unknown as ContestRow | undefined;
+  return !!contest && ticketGovernorContest(api, contest) !== null;
 }
 
 function town(api: CoreAPI) {
@@ -1005,6 +1173,26 @@ export function pledgeDoubt(
   ).length;
   const brokenShare = heard.length ? broken / heard.length : 0;
   return Math.min(1, Math.max(0, scandal + rival + brokenShare));
+}
+
+/**
+ * What a counted voter's decided cases left them feeling toward the officials
+ * on this ballot (one model, two tiers): the warmth a full person's impression
+ * would hold, at the share of the record who brought the case.
+ */
+function countedWarmths(
+  api: CoreAPI,
+  voter: { readonly id: string; readonly weight?: number },
+  field: readonly CountedFieldEntry[],
+): Readonly<Record<string, number>> | undefined {
+  const kept = caseWarmthsOf(api, voter.id);
+  const share = 1 / Math.max(1, voter.weight ?? 1);
+  let out: Record<string, number> | undefined;
+  for (const entry of field) {
+    const w = kept[entry.id];
+    if (w) (out ??= {})[entry.id] = w * share;
+  }
+  return out;
 }
 
 /**
@@ -1374,11 +1562,53 @@ function contestView(
         : {}),
       // A reported scandal as far as its story reached the town's people.
       scandal: scandalAppeal(api, f.personId, named),
+      // The groups that backed them, as far as each reached those who share its cause.
+      endorsed: endorsedOn(api, f.id),
     };
   });
   const view = { field: rows, publicRecord };
   byKey.set(key, view);
   return view;
+}
+
+/**
+ * The groups that backed a candidate, each by the stance it stood on and the
+ * warmth its word brings a counted voter who holds that stance fully: what it
+ * brought each member it reached (`endorsementHeard`: the endorsement weight
+ * toward the group's backing), times the share of the town's holders of the
+ * stance it reached (its members, among everyone who holds it, by how firmly).
+ * A counted voter reads it by how firmly they hold the stance themselves
+ * (`countedAppeal`), so the counted share of a cause's people hears it by the
+ * same rule as its members, times their count (one model, two tiers).
+ */
+export function endorsedOn(
+  api: CoreAPI,
+  filingId: string,
+): readonly EndorsedBy[] {
+  const out: EndorsedBy[] = [];
+  for (const row of endorsementsOf(api, filingId)) {
+    if (
+      row.answer !== "yes" ||
+      !row.organizationId ||
+      !row.stance ||
+      !row.reached ||
+      // A paper's word reaches its readers, not the holders of a cause.
+      api.state.organizations.get(row.organizationId as never)?.kind === "media"
+    )
+      continue;
+    const sides = electorateSides(api, row.stance.question);
+    const holders = row.stance.position > 0 ? sides.heldYes : sides.heldNo;
+    if (holders <= 0) continue;
+    out.push({
+      question: row.stance.question,
+      position: Math.sign(row.stance.position),
+      warmth:
+        campaignParameter("endorsementWeight") *
+        Math.max(-1, Math.min(1, row.score)) *
+        Math.min(1, row.reached / holders),
+    });
+  }
+  return out;
 }
 
 /**
@@ -1489,7 +1719,7 @@ function countedAdultsToday(api: CoreAPI): number {
   const adultAge = api.parameter("votingAge");
   const date = api.state.date;
   let n = 0;
-  for (const v of countedResidents(api.state as CoreState))
+  for (const v of countedVoters(api))
     if (v.placeId === townPlaceId && ageOn(v, date) >= adultAge) n += v.weight;
   countedByDay.set(api.state, { date, n });
   return n;
@@ -1553,7 +1783,7 @@ function townIncumbentLean(api: CoreAPI): number {
   const adultAge = api.parameter("votingAge");
   let sum = 0,
     weight = 0;
-  for (const voter of countedResidents(api.state as CoreState)) {
+  for (const voter of countedVoters(api)) {
     if (
       voter.placeId !== townPlaceId ||
       ageOn(voter, api.state.date) < adultAge
@@ -1628,6 +1858,8 @@ export function doorAppealOf(
       contestId,
       field,
     ),
+    warmths: countedWarmths(api, voter, field),
+    endorsed: countedEndorsed(lean, field, countedStanceProfile(api, voter)),
   });
   const met = visit ? appeal[visit.candidateId] : undefined;
   if (visit && met) {
@@ -1671,7 +1903,7 @@ export function incumbentLeanOf(
 }
 
 /** A named person's scheduled weekly work, from their commitments. */
-function weeklyWorkOf(state: CoreState, personId: string): number {
+export function weeklyWorkOf(state: CoreState, personId: string): number {
   return [...(state.work.commitmentsByPerson.get(personId) ?? [])].reduce(
     (sum, id) =>
       sum + (state.work.commitments.get(id)?.expectedWeeklyMinutes ?? 0),
@@ -1709,7 +1941,7 @@ export function electorateRoll(api: CoreAPI): readonly RollVoter[] {
     weeklyMinutes: weeklyWorkOf(state, p.id),
   }));
   const scale = countedScale(api);
-  for (const v of countedResidents(state))
+  for (const v of countedVoters(api))
     if (v.placeId === townPlaceId && ageOn(v, date) >= adultAge)
       rows.push({
         id: v.id,
@@ -1730,6 +1962,14 @@ export interface ElectorateSides {
   readonly no: number;
   /** The mean of their stances, -1 to 1, each counted record by the people it stands for. */
   readonly mean: number;
+  /**
+   * How firmly the electorate holds each side, in people: each voter's
+   * stance toward it (0 to 1) times the people they stand for, so the
+   * reach of a group's word among those who share its cause reads as a
+   * share of them (`endorsedOn`).
+   */
+  readonly heldYes: number;
+  readonly heldNo: number;
 }
 
 interface SideVoter {
@@ -1772,7 +2012,7 @@ export function electorateSides(
   question: string,
 ): ElectorateSides {
   if (!api.state.modules.has(ELECTIONS_MODULE_ID))
-    return { yes: 0, no: 0, mean: 0 };
+    return { yes: 0, no: 0, mean: 0, heldYes: 0, heldNo: 0 };
   const core = api.state as CoreState;
   const key = `${core.date}|${core.people.size}|${residentsRuntime(core)?.store.membersVersion ?? 0}`;
   let held = sidesByDay.get(core);
@@ -1810,23 +2050,33 @@ export function electorateSides(
   }
   const kept = held.byQuestion.get(question);
   if (kept) return kept;
-  if (question.startsWith("budget-line:"))
-    // stopgapId: SG-GOV-budget-line-stance-lean-only (a spending line's stance is the lean times the line's party axis alone, so every line splits the electorate the same way)
-    api.stopgap("SG-GOV-budget-line-stance-lean-only");
   let yes = 0,
     no = 0,
-    sum = 0;
+    sum = 0,
+    heldYes = 0,
+    heldNo = 0;
   for (const voter of held.voters) {
     const stance = voter.named
       ? viewOn(api, voter.id, question, voter.lean)
       : groupStance(voter.lean, question, voter.profile);
-    if (stance > 0) yes += voter.count;
-    else if (stance < 0) no += voter.count;
+    if (stance > 0) {
+      yes += voter.count;
+      heldYes += stance * voter.count;
+    } else if (stance < 0) {
+      no += voter.count;
+      heldNo -= stance * voter.count;
+    }
     sum += stance * voter.count;
   }
   const sides: ElectorateSides = held.total
-    ? { yes: yes / held.total, no: no / held.total, mean: sum / held.total }
-    : { yes: 0, no: 0, mean: 0 };
+    ? {
+        yes: yes / held.total,
+        no: no / held.total,
+        mean: sum / held.total,
+        heldYes,
+        heldNo,
+      }
+    : { yes: 0, no: 0, mean: 0, heldYes: 0, heldNo: 0 };
   held.byQuestion.set(question, sides);
   return sides;
 }
@@ -1848,6 +2098,12 @@ export function turnoutReasons(
   recordedWeeklyMinutes?: number,
   /** What this election adds to the cost of voting. */
   extraCost = 0,
+  /**
+   * Whether the voter's registration is a record the turnout rule reads
+   * (the town's own voters), so the flat parts of automatic and same-day
+   * registration are left out of their cost.
+   */
+  registrationIsRecord = false,
 ): {
   readonly duty: number;
   readonly cost: number;
@@ -1874,7 +2130,10 @@ export function turnoutReasons(
   const weeklyWork = recordedWeeklyMinutes ?? weeklyWorkOf(state, voter.id);
   const cost =
     (weeklyWork / campaignParameter("turnoutWorkWeekMinutes") +
-      electionLawTurnoutCost(api, voter, weeklyWork)) /
+      electionLawTurnoutCost(api, voter, weeklyWork, registrationIsRecord) -
+      (registrationIsRecord
+        ? campaignParameter("registrationCalibrationRelief")
+        : 0)) /
       customPolitics(state).turnout +
     extraCost;
   return { duty, cost, trait, lean };
@@ -1921,6 +2180,14 @@ export interface TurnoutDecision extends TurnoutParts {
   };
   /** A named voter's act; a counted voter votes at their propensity. */
   readonly votes: boolean;
+  /** The share of the voter's people on the rolls for the election (1 or 0 for a named person). */
+  readonly registered: number;
+  /** The survey's registered share of citizens like them, which their propensity on the rolls is divided by. */
+  readonly surveyRegistered: number;
+  /** The share of them who registered at the polls and voted. */
+  readonly atPolls: number;
+  /** The share of them who would have voted and were turned away for not being on the rolls. */
+  readonly turnedAway: number;
 }
 
 /** A named voter's record of election days: what their habit reads, and their carry. */
@@ -1967,6 +2234,7 @@ function decideTurnout(
     voter,
     input.recordedWeeklyMinutes,
     input.extraCost,
+    true,
   );
   // Kept where the voting engine runs (a measure or recall can be counted
   // without it, with no record kept).
@@ -2007,7 +2275,25 @@ function decideTurnout(
           input.local ?? false,
         )
       : null;
-  const propensity = Math.min(1, propensityOf(parts) * (web ? web.factor : 1));
+  // Registration: the turnout calibration is of the whole population, the
+  // unregistered among it, so a voter on the rolls turns out at their
+  // propensity over the survey's registered share of people like them, and
+  // one not on them (an old address, never registered, after the deadline)
+  // only where the state registers people at the polls, at a cost.
+  const reg = registrationReading(api, voter, input.date, duty);
+  const webFactor = web ? web.factor : 1;
+  const base = Math.min(1, propensityOf(parts) * webFactor);
+  const onRolls = Math.min(1, base / Math.max(0.01, reg.surveyShare));
+  const atPolls = reg.sameDay
+    ? Math.min(
+        1,
+        propensityOf({
+          ...parts,
+          cost: parts.cost + campaignParameter("sameDayPollRegistrationCost"),
+        }) * webFactor,
+      )
+    : 0;
+  const propensity = reg.share * onRolls + (1 - reg.share) * atPolls;
   // The audit's probe (off in play) sees the propensity with and without the trait term.
   reportOutcome("voting.turnout", voter.id, lean, "probability", (withTerm) =>
     withTerm
@@ -2019,12 +2305,26 @@ function decideTurnout(
         ),
   );
   let votes = false;
+  let registeredAtPolls = 0;
+  let turnedAway = 0;
   if (named) {
-    const act = namedTurnout(
-      record?.carry ?? openingVoterCarry(voter.id),
-      propensity,
-    );
+    const carry = record?.carry ?? openingVoterCarry(voter.id);
+    const act = namedTurnout(carry, propensity);
     votes = act.votes;
+    // Not on the rolls: where they would have gone to vote, the day keeps
+    // that they registered at the polls or were turned away.
+    // The player's own day is the player's to act: the engine keeps no
+    // poll-day row for a guess about them.
+    if (reg.share < 1 && voter.id !== (api.state as CoreState).playerId) {
+      const person = api.state.people.get(voter.id)!;
+      if (reg.sameDay && votes) {
+        registeredAtPolls = 1;
+        keepPollDay(api, person, input.date, "registers-at-polls", reg.why);
+      } else if (!reg.sameDay && namedTurnout(carry, onRolls).votes) {
+        turnedAway = 1;
+        keepPollDay(api, person, input.date, "not-on-the-list", reg.why);
+      }
+    }
     records?.put({
       id: voter.id,
       elections: (record?.elections ?? 0) + 1,
@@ -2038,6 +2338,14 @@ function decideTurnout(
     interest: input.interest,
     propensity,
     votes,
+    registered: reg.share,
+    surveyRegistered: reg.surveyShare,
+    atPolls: named ? registeredAtPolls : (1 - reg.share) * atPolls,
+    turnedAway: named
+      ? turnedAway
+      : reg.sameDay
+        ? 0
+        : (1 - reg.share) * onRolls,
     ...(web?.recordId && web.links.length
       ? { web: { recordId: web.recordId, links: web.links } }
       : {}),
@@ -2058,6 +2366,15 @@ export function fileStandingCandidates(api: CoreAPI, contestId: string): void {
     .moduleState(ELECTIONS_MODULE_ID)
     .table("contests")
     .get(contestId) as unknown as ContestRow;
+  // A running mate's office is filled by the governor candidates' tickets.
+  if (filledByTickets(api, contest)) return;
+  fileNominees(api, contest);
+  formTickets(api, contest, "filing");
+}
+
+/** Each major party's nominee for a statewide partisan race where none of that side filed. */
+function fileNominees(api: CoreAPI, contest: ContestRow): void {
+  const contestId = contest.id;
   const filings = api.moduleState(ELECTIONS_MODULE_ID).table("filings");
   // Whoever holds the seat when filing closes: an appointee to a vacancy,
   // never a holder who died or moved away.
@@ -2174,6 +2491,21 @@ export function holdPrimary(
     .moduleState(ELECTIONS_MODULE_ID)
     .table("contests")
     .get(contestId) as unknown as ContestRow;
+  // A running mate's office is nominated with its governor's ticket.
+  if (filledByTickets(api, contest)) return { votes: {}, namedVotes: 0 };
+  const counted = countPrimary(api, contest);
+  formTickets(api, contest, "primary");
+  return counted;
+}
+
+function countPrimary(
+  api: CoreAPI,
+  contest: ContestRow,
+): {
+  readonly votes: Readonly<Record<string, number>>;
+  readonly namedVotes: number;
+} {
+  const contestId = contest.id;
   const filings = ballot(api, contestId);
   const parties = partiesHere(api);
   const method = parties[0]?.nominationMethod ?? "party-primary";
@@ -2193,7 +2525,7 @@ export function holdPrimary(
         !barredFromVoting(api, p.id),
     )
     .sort((a, b) => a.id.localeCompare(b.id));
-  const counted = countedResidents(api.state as CoreState).filter(
+  const counted = countedVoters(api).filter(
     (v) => v.placeId === townPlaceId && ageOn(v, date) >= adultAge,
   );
   // Who identifies with a party: the firmest leans in town, at the real
@@ -2283,6 +2615,12 @@ export function holdPrimary(
         // The town's people hold each form of a rotated ballot in turn.
         ballotForm: form,
         profile: countedStanceProfile(api, voter),
+        warmths: countedWarmths(api, voter, entries),
+        endorsed: countedEndorsed(
+          leanOf.get(voter.id) ?? 0,
+          entries,
+          countedStanceProfile(api, voter),
+        ),
         divides: true,
       };
       const pledges = countedPledges(api, voter.id, trust, contest.id, entries);
@@ -2669,6 +3007,16 @@ function atThePolls(
           inTown: true,
           local: true,
           incumbentLean,
+          warmths: countedWarmths(
+            api,
+            voter,
+            countedField(api, race.contest, race.field),
+          ),
+          endorsed: countedEndorsed(
+            lean,
+            countedField(api, race.contest, race.field),
+            null,
+          ),
           pledges: countedPledges(
             api,
             voter.id,
@@ -2835,43 +3183,52 @@ export function pollingPlaces(api: CoreAPI): readonly PollingPlaceRow[] {
   return out;
 }
 
-/** The precinct a household votes in: its place in the order of the town's households. */
+/**
+ * The precinct a household votes in, assigned once and kept: the precinct
+ * with the fewest households when the household first votes here (ties to the
+ * lowest number), and changed only by a move on record (its home's start day
+ * changes). Other households coming and going never move it.
+ */
 function precinctOfHousehold(
   api: CoreAPI,
   householdId: string,
   precincts: number,
 ): number {
-  const memo = precinctMemo.get(api.state);
-  const map =
-    memo?.date === api.state.date && memo.precincts === precincts
-      ? memo.map
-      : precinctMap(api, precincts);
-  return map.get(householdId) ?? 1;
+  const rows = table(api, "householdPrecincts");
+  const dwelt = dwellingMovedIn(api, householdId) ?? "";
+  const held = rows.get(`household-precinct:${householdId}`) as unknown as
+    { precinct: number; movedIn: string } | undefined;
+  if (held && held.movedIn === dwelt && held.precinct <= precincts)
+    return held.precinct;
+  const fill = precinctFill(api, precincts);
+  let precinct = 1;
+  for (let i = 2; i <= precincts; i += 1)
+    if (fill[i - 1]! < fill[precinct - 1]!) precinct = i;
+  if (held && held.precinct <= precincts) fill[held.precinct - 1]! -= 1;
+  fill[precinct - 1]! += 1;
+  rows.put({
+    id: `household-precinct:${householdId}`,
+    householdId,
+    precinct,
+    movedIn: dwelt,
+    since: api.state.date,
+  } as unknown as ModuleRow);
+  return precinct;
 }
 
-/** Every town household's precinct, once a day. */
-function precinctMap(api: CoreAPI, precincts: number): Map<string, number> {
-  const homes = [
-    ...new Set(
-      townAdults(api).map(
-        (p) => (p as { householdId?: string }).householdId ?? p.id,
-      ),
-    ),
-  ].sort();
-  const map = new Map(
-    homes.map((home, index) => [
-      home,
-      Math.min(precincts - 1, Math.floor((index * precincts) / homes.length)) +
-        1,
-    ]),
-  );
-  precinctMemo.set(api.state, { date: api.state.date, precincts, map });
-  return map;
+/** How many households each precinct holds, read from the kept assignments once and then kept in step. */
+function precinctFill(api: CoreAPI, precincts: number): number[] {
+  const held = precinctFills.get(api.state);
+  if (held && held.length === precincts) return held;
+  const fill = new Array<number>(precincts).fill(0);
+  for (const row of table(api, "householdPrecincts").rows() as unknown as {
+    precinct: number;
+  }[])
+    if (row.precinct <= precincts) fill[row.precinct - 1]! += 1;
+  precinctFills.set(api.state, fill);
+  return fill;
 }
-const precinctMemo = new WeakMap<
-  object,
-  { date: string; precincts: number; map: Map<string, number> }
->();
+const precinctFills = new WeakMap<object, number[]>();
 
 /**
  * How many wards a council contest's seat is one of: the seats its office
@@ -3013,6 +3370,311 @@ export function pollingPlaceOf(
   return { ...place, pollWorkers: { date, ids: ranked.map((r) => r.id) } };
 }
 
+// --- voter registration ----------------------------------------------------
+
+/** What the registration records need from this engine (`electorate-registration.ts`). */
+function registrationDeps(api: CoreAPI): RegistrationDeps {
+  return {
+    api,
+    table: (name) => table(api, name),
+    adults: () => townAdults(api),
+    dutyOf: (person) => turnoutReasons(api, person, undefined, 0, true).duty,
+    usps: town(api).stateKey.slice(3),
+    automatic: () => automaticRegistrationInForce(api),
+  };
+}
+
+/** The opening roll's people, for the part of each age band that keeps off the rolls. */
+function registrationRoll(api: CoreAPI): readonly RollEntry[] {
+  const date = api.state.date;
+  const adultAge = api.parameter("votingAge");
+  const automatic = automaticRegistrationInForce(api);
+  const deadlineDays = campaignParameter("registrationDeadlineDays");
+  const { townPlaceId } = town(api);
+  const named = townAdults(api).map((person): RollEntry => {
+    const { anchor, grown } = waitAnchor(api, person);
+    const age = ageOn(person, date);
+    return {
+      age,
+      weight: 1,
+      inputs: {
+        duty: turnoutReasons(api, person, undefined, 0, true).duty,
+        yearsInPlace: Math.floor(daysSince(anchor, date) / 365),
+        yearsAdult: Math.floor(daysSince(grown, date) / 365),
+        moveRate: 0,
+        automatic,
+        deadlineDays,
+      },
+    };
+  });
+  const scale = countedScale(api);
+  const counted = countedVoters(api)
+    .filter((v) => v.placeId === townPlaceId && ageOn(v, date) >= adultAge)
+    .map((v): RollEntry => {
+      const age = ageOn(v, date);
+      return {
+        age,
+        weight: v.weight * scale,
+        inputs: {
+          duty: turnoutReasons(api, v, v.weeklyMinutes, 0, true).duty,
+          yearsInPlace: v.yearsInPlace,
+          yearsAdult: age - adultAge,
+          moveRate:
+            departureRateFor(townPlaceId, age) +
+            withinCountyRateFor(townPlaceId, age),
+          automatic,
+          deadlineDays,
+        },
+      };
+    });
+  return [...named, ...counted];
+}
+
+/** The registration records, found at the opening and brought up to the day. */
+function registrations(api: CoreAPI): RegistrationDeps {
+  const deps = registrationDeps(api);
+  ensureKeptOff(deps, () => registrationRoll(api));
+  reviewRegistrations(deps);
+  assignPrecincts(api);
+  return deps;
+}
+
+/** Every household that votes here has its precinct, assigned the day it is first seen (so a reading writes nothing). */
+function assignPrecincts(api: CoreAPI): void {
+  if (assigned.get(api.state) === api.state.date) return;
+  assigned.set(api.state, api.state.date);
+  const precincts = pollingPlaces(api).length;
+  if (!precincts) return;
+  for (const home of new Set(townAdults(api).map((p) => p.householdId)))
+    precinctOfHousehold(api, home, precincts);
+}
+const assigned = new WeakMap<object, string>();
+
+/**
+ * The registration records brought up to today (a review of who moved and
+ * who finished registering), for the engines and tests that read them.
+ */
+export function reviewVoterRegistrations(api: CoreAPI): RegistrationDeps {
+  return registrations(api);
+}
+
+/**
+ * The share of the town's adult citizens on the rolls today: a named person
+ * by their record, a counted record by the same rule at its weight.
+ */
+export function registeredShareOfRoll(api: CoreAPI): number {
+  registrations(api);
+  const date = api.state.date;
+  const counted = new Map(countedVoters(api).map((c) => [c.id, c]));
+  let people = 0,
+    registered = 0;
+  for (const v of electorateRoll(api)) {
+    const voter = api.state.people.get(v.id) ?? counted.get(v.id)!;
+    const { duty } = turnoutReasons(api, voter, v.weeklyMinutes, 0, true);
+    const reading = registrationReading(api, voter, date, duty);
+    people += v.count;
+    registered += v.count * reading.share;
+  }
+  return people ? registered / people : 0;
+}
+
+const REGISTRATION_REVIEW = "registration-review";
+
+/** Books the next month's review of who has registered or moved, on its first day. */
+function scheduleRegistrationReview(api: CoreAPI): void {
+  const date = addDays(makeIsoDate(api.state.date), 30);
+  api.moduleCalendar(VOTING_MODULE_ID).schedule({
+    key: `${REGISTRATION_REVIEW}:${date}`,
+    date,
+    kind: REGISTRATION_REVIEW,
+    source: {
+      tag: "ESTIMATED",
+      citation:
+        "Each month the voting engine sees who moved and who finished registering (registrationLagMedianDays).",
+      asOf: api.state.date,
+      estimatedFrom: "src/core2/data/campaigns/parameters.json",
+    },
+    sourceRecordIds: ["registration-base"],
+  });
+}
+
+/** What an election day found about one voter's registration, as the turnout rule reads it. */
+interface RegistrationReading {
+  /** The share of the voter's people who are on the rolls in time: 1 or 0 for a named person. */
+  readonly share: number;
+  /** Why a named person is not on the rolls. */
+  readonly why: "on" | "old-address" | "not-registered" | "after-deadline";
+  /** The survey's registered share of citizens like them (the turnout calibration's), 0 to 1. */
+  readonly surveyShare: number;
+  readonly sameDay: boolean;
+}
+
+/** One voter's registration on a day: the record for a named person, the same rule's share for a counted record. */
+function registrationReading(
+  api: CoreAPI,
+  voter: Readonly<Pick<PersonState, "id" | "traits">>,
+  date: string,
+  duty: number,
+): RegistrationReading {
+  const deps = registrations(api);
+  const sameDay = sameDayRegistrationInForce(api);
+  const deadlineDays = sameDay
+    ? 0
+    : campaignParameter("registrationDeadlineDays");
+  const person = api.state.people.get(voter.id);
+  const birthDate =
+    (voter as { birthDate?: string }).birthDate ?? person?.birthDate;
+  const age = birthDate ? ageOn({ birthDate }, date) : 40;
+  const usps = deps.usps;
+  const rate =
+    cpsRegistered(usps, cpsAgeBand(age)) ?? cpsRegistered(usps) ?? 0.7;
+  if (person) {
+    const deadline = sameDay ? null : addDays(makeIsoDate(date), -deadlineDays);
+    const why = onTheList(deps, person, deadline);
+    return { share: why === "on" ? 1 : 0, why, surveyShare: rate, sameDay };
+  }
+  const counted = voter as {
+    readonly weight?: number;
+    readonly yearsInPlace?: number;
+    readonly placeId?: string;
+  };
+  const placeId = counted.placeId ?? town(api).townPlaceId;
+  const adultAge = api.parameter("votingAge");
+  const { a, b } = countedParts({
+    duty,
+    yearsInPlace: counted.yearsInPlace,
+    yearsAdult: age - adultAge,
+    moveRate:
+      departureRateFor(placeId, age) + withinCountyRateFor(placeId, age),
+    automatic: automaticRegistrationInForce(api),
+    deadlineDays,
+  });
+  const share = Math.min(1, Math.max(0, (1 - keptOffOf(deps, age)) * a + b));
+  return { share, why: "on", surveyShare: rate, sameDay };
+}
+
+/**
+ * A named person who goes to the polls and is not on the rolls: where the
+ * state registers people there they register and vote; elsewhere they are
+ * turned away. The day keeps what happened.
+ */
+function keepPollDay(
+  api: CoreAPI,
+  person: PersonState,
+  date: string,
+  outcome: "registers-at-polls" | "not-on-the-list",
+  why: string,
+): void {
+  const precincts = pollingPlaces(api).length;
+  table(api, "pollDays").put({
+    id: `poll-day:${date}:${person.id}`,
+    date,
+    personId: person.id,
+    outcome,
+    why,
+    precinct: precincts
+      ? precinctOfHousehold(api, person.householdId, precincts)
+      : 1,
+    addressKey: `${person.householdId}@${dwellingMovedIn(api, person.householdId) ?? ""}`,
+  } as unknown as ModuleRow);
+  if (outcome !== "registers-at-polls") return;
+  const rows = table(api, "registrations");
+  const row = rows.get(`registration:${person.id}`) as unknown as
+    Record<string, unknown> | undefined;
+  if (row)
+    rows.put({
+      ...row,
+      registered: true,
+      addressKey: `${person.householdId}@${dwellingMovedIn(api, person.householdId) ?? ""}`,
+      since: date,
+      how: "at-the-polls",
+      staleSince: null,
+      lastAddress: `${person.householdId}@${dwellingMovedIn(api, person.householdId) ?? ""}`,
+    } as unknown as ModuleRow);
+}
+
+/**
+ * What the election day did to the counted residents not on the rolls, as
+ * the one record of the day's count (the named people's are one row each):
+ * how many of them registered at the polls and voted, and how many who
+ * would have voted were not on the list.
+ */
+function keepCountedPollDay(api: CoreAPI, date: string): void {
+  const held = decisions.get(api.state);
+  if (!held) return;
+  const scale = countedScale(api);
+  let registeredAtPolls = 0,
+    notOnTheList = 0;
+  for (const v of countedVoters(api)) {
+    const d = held.get(`${date}|${v.id}`);
+    if (!d) continue;
+    const people = v.weight * scale;
+    registeredAtPolls += people * d.atPolls;
+    notOnTheList += people * d.turnedAway;
+  }
+  if (registeredAtPolls < 0.5 && notOnTheList < 0.5) return;
+  table(api, "pollDays").put({
+    id: `poll-day:${date}:counted`,
+    date,
+    registeredAtPolls: Math.round(registeredAtPolls),
+    notOnTheList: Math.round(notOnTheList),
+  } as unknown as ModuleRow);
+}
+
+/** The share of a voter's people who registered at the polls and voted on the day (named: 1 or 0), for the law's record. */
+export function registeredAtPollsShare(api: CoreAPI, voterId: string): number {
+  return (
+    decisions.get(api.state)?.get(`${api.state.date}|${voterId}`)?.atPolls ?? 0
+  );
+}
+
+/** Where a named person stands with the rolls for an election day: on them, able to register at the polls (a state that does), or why not. */
+export type PollingStatus =
+  "on" | "same-day" | "old-address" | "not-registered" | "after-deadline";
+
+/** The one read of a named person's standing for a day's election, from their registration record and the state's laws in force. */
+export function pollingStatus(
+  api: CoreAPI,
+  personId: string,
+  date: string,
+): PollingStatus {
+  const person = api.state.people.get(personId);
+  if (!person) return "not-registered";
+  const reading = registrationReading(api, person, date, 0);
+  return reading.why === "on"
+    ? "on"
+    : reading.sameDay
+      ? "same-day"
+      : reading.why;
+}
+
+/**
+ * A person registers to vote at the address they live at, today, by their
+ * own act (a form, in a state that has one). It counts for an election whose
+ * deadline is still ahead; the record names who acted. False where they are
+ * on the rolls at this address already or may not vote here.
+ */
+export function registerToVote(api: CoreAPI, personId: string): boolean {
+  const person = api.state.people.get(personId);
+  if (!person || !mayVoteOn(api, personId, api.state.date)) return false;
+  const deps = registrations(api);
+  const row = registrationRow(deps, personId);
+  if (!row) return false;
+  const key = addressKeyOf(api, person);
+  if (row.registered && row.addressKey === key) return false;
+  table(api, "registrations").put({
+    ...row,
+    registered: true,
+    addressKey: key,
+    since: api.state.date,
+    how: "by-the-player",
+    staleSince: null,
+    lastAddress: key,
+    willing: true,
+  } as unknown as ModuleRow);
+  return true;
+}
+
 /**
  * A named voter's own ballot in a race, cast before election day (the
  * player's): a candidate, or null to leave the race blank.
@@ -3050,6 +3712,62 @@ export function winningPersonId(api: CoreAPI, candidateId: string): string {
 }
 
 /**
+ * Who an at-large race's count put inside its seats: the top finishers, as
+ * many as there are seats with a candidate ranked, each above the next, and
+ * the names tied across the last seat (the place's tie law decides those).
+ * Everyone else on the ballot missed the cut. With one seat, the cut is the
+ * first finisher, or the names tied for first.
+ */
+function atLargeCut(
+  ranked: readonly (readonly [string, number])[],
+  seats: number,
+): { top: string[]; straddled: string[] } {
+  const live = ranked.filter(([, votes]) => votes > 0);
+  const top: string[] = [];
+  let straddled: string[] = [];
+  for (const [n, [id, votes]] of live.entries()) {
+    if (top.length >= seats) break;
+    // A tie straddling the last seat decides none of the tied by the count.
+    const next = live[n + 1];
+    if (top.length === seats - 1 && next && next[1] === votes) {
+      straddled = live.filter(([, v]) => v === votes).map(([tied]) => tied);
+      break;
+    }
+    top.push(id);
+  }
+  return { top, straddled };
+}
+
+/**
+ * The candidate a race's winner beat: the first finisher among those who
+ * missed the cut, by the result record's `outIds` and `totals` (in an
+ * at-large race the other winners are not beaten, they were seated too). A
+ * record kept before `outIds` reads everyone but the winner. Ties go by id.
+ */
+export function beatenRunnerUp(
+  facts: Readonly<Record<string, unknown>> | undefined,
+  winnerId: string,
+): { id: string; votes: number } | null {
+  const totals = parseTally(facts?.totals);
+  const out = facts?.outIds
+    ? (JSON.parse(String(facts.outIds)) as string[])
+    : Object.keys(totals).filter((id) => id !== winnerId);
+  const best = out
+    .filter((id) => id !== winnerId)
+    .map((id) => ({ id, votes: totals[id] ?? 0 }))
+    .sort((a, b) => b.votes - a.votes || a.id.localeCompare(b.id))[0];
+  return best ?? null;
+}
+
+function parseTally(raw: unknown): Record<string, number> {
+  try {
+    return JSON.parse(String(raw ?? "{}")) as Record<string, number>;
+  } catch {
+    return {};
+  }
+}
+
+/**
  * The winner an at-large race gives one of its seats: the top finishers, as
  * many as there are seats with a candidate ranked, each above the next; a
  * holder among them keeps their own seat, and the rest take the other seats
@@ -3064,22 +3782,8 @@ function atLargeWinner(
   ranked: readonly (readonly [string, number])[],
   electorate?: number,
 ): string | null {
-  const live = ranked.filter(([, votes]) => votes > 0);
   const seats = group.length;
-  const top: string[] = [];
-  // The names tied across the last seat, when a tie straddles it.
-  let straddled: string[] = [];
-  for (const [n, [id, votes]] of live.entries()) {
-    if (top.length >= seats) break;
-    // A tie straddling the last seat decides none of the tied by the count:
-    // the place's tie law decides it below, as for a single seat.
-    const next = live[n + 1];
-    if (top.length === seats - 1 && next && next[1] === votes) {
-      straddled = live.filter(([, v]) => v === votes).map(([tied]) => tied);
-      break;
-    }
-    top.push(id);
-  }
+  const { top, straddled } = atLargeCut(ranked, seats);
   const assigned = new Map<string, string>();
   const placed = new Set<string>();
   for (const row of group) {
@@ -3181,6 +3885,24 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
       continue;
     }
     const decided = atThePolls(api, voter, contest.electionDate, cycleCost);
+    // A ballot the player marked still counts. In a state that registers at
+    // the polls, a player who was not on the rolls registers there, the way
+    // any named voter does, and the day keeps it. (Where the state would turn
+    // them away the ballot is not yet refused: the player has no way to see
+    // their standing or register until the polling-place scenes and the
+    // register act's screen are built; `elections-player-registration-
+    // shown-and-acted` holds that step.)
+    const standing = chosen
+      ? registrationReading(api, voter, contest.electionDate, 0)
+      : null;
+    if (chosen && standing && standing.why !== "on" && standing.sameDay)
+      keepPollDay(
+        api,
+        voter,
+        contest.electionDate,
+        "registers-at-polls",
+        standing.why,
+      );
     if (chosen && !decided.votes) recordChosenVote(api, voter.id);
     const t = chosen ? { ...decided, votes: true } : decided;
     // The same choice rule as every voter's: the one they rank first where
@@ -3294,6 +4016,9 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
     college: [] as (number | null)[],
     /** Each voter's door "yes" as it held on the day (null where they gave none, or where it held for one household of several). */
     pledges: [] as (Readonly<Record<string, number>> | null)[],
+    warmths: [] as (Readonly<Record<string, number>> | null)[],
+    /** What the groups whose cause each voter shares brought them, by candidate (null where none). */
+    endorsed: [] as (Readonly<Record<string, number>> | null)[],
     /** Where one household of a record's several gave a door "yes": the field index it voted for on its word (-1 otherwise). */
     pledgedChoice: [] as number[],
     /** Each record's voters for each candidate before turnout, in field order (`countedDivision`). */
@@ -3308,7 +4033,7 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
       ? (appeal: Parameters<typeof oneSeat>[0]) =>
           blockShares(oneSeat(appeal), seats)
       : oneSeat;
-  for (const voter of countedResidents(api.state as CoreState)) {
+  for (const voter of countedVoters(api)) {
     if (voter.placeId !== townPlaceId) continue;
     const age = ageOn(voter, date);
     if (age < adultAge) continue;
@@ -3334,6 +4059,12 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
       counting.id,
       field,
     );
+    const warmths = countedWarmths(api, voter, field);
+    const endorsed = countedEndorsed(
+      lean,
+      field,
+      countedStanceProfile(api, voter),
+    );
     const where = {
       inTown: true,
       local: true,
@@ -3342,6 +4073,8 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
       // The town's people hold each form of a rotated ballot in turn.
       ballotForm: kept.voterIds.length,
       profile: countedStanceProfile(api, voter),
+      warmths,
+      endorsed,
       divides: true,
     };
     const appeal = countedAppeal(lean, field, { ...where, pledges });
@@ -3377,6 +4110,8 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
     kept.faith.push(profile.faithFromAverage ?? null);
     kept.college.push(profile.collegeFromAverage ?? null);
     kept.pledges.push(division.wholePledged ? (pledges ?? null) : null);
+    kept.warmths.push(warmths ?? null);
+    kept.endorsed.push(endorsed ?? null);
     kept.pledgedChoice.push(
       !division.wholePledged && division.pledged
         ? field.findIndex((f) => f.id === division.pledged)
@@ -3442,25 +4177,7 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
         seats,
       )
     : null;
-  const incumbent = contest.incumbentTermId
-    ? (api
-        .moduleState(OFFICES_MODULE_ID)
-        .table("terms")
-        .get(contest.incumbentTermId) as unknown as TermRow | undefined)
-    : undefined;
-  // A special election's winner takes the vacant seat at once; otherwise
-  // the new term starts on the office's own start day after the regular
-  // election (a second election after a tie keeps the regular one's term).
-  const office = api
-    .moduleState(OFFICES_MODULE_ID)
-    .table("offices")
-    .get(contest.officeId) as unknown as OfficeInput | undefined;
-  const takesOffice = contest.special
-    ? date
-    : office
-      ? termStartAfter(office, regularElectionDate(contest))
-      : (incumbent?.endDate ??
-        `${Number(contest.electionDate.slice(0, 4)) + 1}-01-01`);
+  const takesOffice = termStartsOn(api, contest);
   const result = keepCount(api, {
     id: contestId,
     date,
@@ -3503,6 +4220,42 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
     stateKey: town(api).stateKey,
     office: contest.title,
   });
+  const decided = settleCount(api, {
+    contest,
+    group,
+    filings,
+    result,
+    takesOffice,
+  });
+  // The office the law elects on the governor's ticket is decided with it.
+  const ticket = ticketOfficeContest(api, contest);
+  if (ticket) decideTicket(api, contest, ticket, decided);
+  return decided;
+}
+
+/**
+ * A count's outcome, once kept: the result the town and the press read, and
+ * the winner seated on the office's day, or the seat's law for a race no
+ * one won. Every count of a town contest ends here, a ticket office's too
+ * (`decideTicket`).
+ */
+function settleCount(
+  api: CoreAPI,
+  input: {
+    readonly contest: ContestRow;
+    /** A body's at-large seats up together, else the contest alone. */
+    readonly group: readonly ContestRow[];
+    readonly filings: readonly FilingRow[];
+    readonly result: ResultRow;
+    readonly takesOffice: string;
+  },
+): ResultRow {
+  const { contest, group, filings, result, takesOffice } = input;
+  const contestId = contest.id;
+  const counting = group[0]!;
+  const seats = group.length;
+  const date = api.state.date;
+  const { townPlaceId } = town(api);
   const tied = tiedFirst(rankTotals(result.totals));
   const { winnerId, totals } = result;
   const winnerCandidateId = result.winnerCandidateId ?? null;
@@ -3510,13 +4263,52 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
   // mailed a ballot, who registered at the polls, and what the election's
   // administration cost the government that ran it.
   applyElectionLaws(api, "vote", electorateRoll(api), contestId);
+  keepCountedPollDay(api, date);
+  // One race, one result every reader agrees on: those the count put inside
+  // the race's seats, and those who missed the cut (`outIds`, on every seat's
+  // record). A seat of an at-large race names its own winner, the names tied
+  // across the last seat where it is that seat, and those who missed the cut
+  // and filed for that seat (their campaign is that seat's): each candidate
+  // is named once, so nobody is both elected and beaten by one count.
+  // A tie across the last seat that this count settled (a lot, a vote of
+  // the body) leaves the other tied names out; one still to be settled (a
+  // second election) keeps them in the race.
+  const cut = atLargeCut(rankTotals(totals), seats);
+  const settledTie =
+    !!winnerCandidateId && cut.straddled.includes(winnerCandidateId);
+  const inside = new Set([
+    ...cut.top,
+    ...(settledTie ? [] : cut.straddled),
+    ...(winnerCandidateId ? [winnerCandidateId] : []),
+  ]);
+  const person = (id: string) => winningPersonId(api, id);
+  const missed = filings.filter((f) => !inside.has(f.personId));
+  const out = missed
+    .map((f) => person(f.personId))
+    .filter((id) => api.state.people.has(id))
+    .sort();
+  const undecided = !winnerCandidateId || settledTie;
+  const naming =
+    seats > 1
+      ? [
+          ...(winnerCandidateId ? [winnerCandidateId] : []),
+          ...(undecided ? cut.straddled : []),
+        ].map(person)
+      : filings.map((f) => person(f.personId));
   api.emit({
     id: `election-result:${contestId}`,
     date,
     kind: "election-result",
-    personIds: filings
-      .map((f) => winningPersonId(api, f.personId))
-      .filter((id) => api.state.people.has(id)),
+    personIds: [
+      ...new Set([
+        ...naming,
+        ...(seats > 1
+          ? missed
+              .filter((f) => f.contestId === contestId)
+              .map((f) => person(f.personId))
+          : []),
+      ]),
+    ].filter((id) => api.state.people.has(id)),
     placeId: townPlaceId,
     source: { tag: "SOURCED", citation: `Count of ${contestId}`, asOf: date },
     publicRecord: true,
@@ -3527,6 +4319,9 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
       office: contest.title,
       winnerId: winnerId ?? "",
       totals: JSON.stringify(totals),
+      outIds: JSON.stringify(out),
+      // An at-large race: the race (its first seat's contest) and its seats.
+      ...(seats > 1 ? { race: counting.id, seats: String(seats) } : {}),
       ...mandateLean(api, winnerId),
       // A recount the margin opened, or the player's to ask for: the
       // election night scene and the paper read it by its id.
@@ -3608,6 +4403,31 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
     else resolveEmptyRace(api, contest.id);
   }
   return result;
+}
+
+/**
+ * The day a contest's winner takes office: at once for a special election;
+ * otherwise the office's own start day after the regular election (a second
+ * election after a tie keeps the regular one's term).
+ */
+function termStartsOn(api: CoreAPI, contest: ContestRow): string {
+  const date = api.state.date;
+  const incumbent = contest.incumbentTermId
+    ? (api
+        .moduleState(OFFICES_MODULE_ID)
+        .table("terms")
+        .get(contest.incumbentTermId) as unknown as TermRow | undefined)
+    : undefined;
+  const office = api
+    .moduleState(OFFICES_MODULE_ID)
+    .table("offices")
+    .get(contest.officeId) as unknown as OfficeInput | undefined;
+  return contest.special
+    ? date
+    : office
+      ? termStartAfter(office, regularElectionDate(contest))
+      : (incumbent?.endDate ??
+        `${Number(contest.electionDate.slice(0, 4)) + 1}-01-01`);
 }
 
 /** Apply failure-to-elect law at the term boundary, never on election night. */
@@ -3731,17 +4551,35 @@ export function cycleTurnout(date: string): { share: number; cost: number } {
  */
 function countedScale(api: CoreAPI): number {
   const usps = town(api).stateKey.slice(3);
-  // Counted residents of adult correctional rooms vote at this scale too.
-  // stopgapId: SG-GQ-counted-prisoners-vote
+  // The prison part of the barred share is left out: those rooms are not in
+  // the counted electorate where the state bars them (`countedVoters`).
   return (
     citizenShareOf(
       api.state.placeMetadata.placeKey as string | undefined,
       usps,
       api.state.seed,
     ) *
-    (1 - electorateChange(api).barred)
+    (1 - (electorateChange(api).barred - prisonPartOfBarredShare(api)))
   );
 }
+
+/**
+ * The counted residents who vote: every counted resident but those of adult
+ * correctional rooms where the state's law bars people held in prison
+ * (`incarceratedMayVote`, through `prisonersBarredHere`). The one list every
+ * counted voter loop reads.
+ */
+export function countedVoters(api: CoreAPI): readonly CountedVoter[] {
+  const all = countedResidents(api.state as CoreState);
+  if (!prisonersBarredHere(api)) return all;
+  // Kept for as long as `countedResidents` keeps the list (a day).
+  const held = votersOfList.get(all);
+  if (held) return held;
+  const voters = all.filter((v) => v.quarters !== "adultCorrectional");
+  votersOfList.set(all, voters);
+  return voters;
+}
+const votersOfList = new WeakMap<readonly CountedVoter[], CountedVoter[]>();
 
 /**
  * The town's eligible voters past its named and counted adults: its
@@ -3923,7 +4761,7 @@ export function electorateSample(
   const { townPlaceId } = town(api);
   const adultAge = api.parameter("votingAge");
   const today = api.state.date;
-  const counted = countedResidents(api.state as CoreState).filter(
+  const counted = countedVoters(api).filter(
     (v) => v.placeId === townPlaceId && ageOn(v, today) >= adultAge,
   );
   const voters: {
@@ -4038,6 +4876,8 @@ function keepCount(
     readonly stateKey: string;
     /** The office, as the race's records name it. */
     readonly office: string;
+    /** False for a count that follows another's (a ticket office's): that race's recount is its own. */
+    readonly recount?: boolean;
   },
 ): ResultRow {
   const named = input.named ?? {
@@ -4083,7 +4923,10 @@ function keepCount(
   };
   table(api, "results").put(result as unknown as ModuleRow);
   if (!bookkeeping()) dropOlderTownReturns(api, input.id, input.date);
-  const recount = openRecount(api, result, input.stateKey, input.office);
+  const recount =
+    input.recount === false
+      ? null
+      : openRecount(api, result, input.stateKey, input.office);
   if (!recount) return result;
   // A recount holds the result until it ends: the winner is seated no
   // earlier than the day it is certified.
@@ -4714,6 +5557,8 @@ function countedBallotAt(row: CountedBallotsRow, i: number): CountedBallotRow {
       trust: row.trust?.[i] ?? 1,
       ballotForm: i,
       pledges: row.pledges?.[i] ?? undefined,
+      warmths: row.warmths?.[i] ?? undefined,
+      endorsed: row.endorsed?.[i] ?? undefined,
       divides: true,
       profile:
         row.faith && row.college && Number.isFinite(row.faith[i])
@@ -4749,6 +5594,20 @@ export function countedBallotsOf(
 ): readonly CountedBallotRow[] {
   const row = countedRow(api, contestId);
   return row ? row.voterIds.map((_, i) => countedBallotAt(row, i)) : [];
+}
+
+/**
+ * Whether a person was on a count's roll: a named voter the count gave a
+ * ballot in the contest, cast or not (every eligible adult in its ward, or
+ * in town for an at-large or wider seat). The press reads it for who a
+ * race's result concerns.
+ */
+export function onContestRoll(
+  api: CoreAPI,
+  contestId: string,
+  personId: string,
+): boolean {
+  return !!table(api, "ballots").get(`ballot:${contestId}:${personId}`);
 }
 
 export function resultOf(api: CoreAPI, contestId: string): ResultRow | null {
@@ -5099,7 +5958,13 @@ function raceWork(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
       last: api.state.date,
     } as unknown as ModuleRow);
     scheduleElection(api, nextRaceYear(api, year + 1));
-    for (const race of racesIn(api, year)) decide(api, race, year);
+    // A ticket office is decided with its governor's race, counted first.
+    const races = racesIn(api, year);
+    for (const race of [
+      ...races.filter((r) => !onGovernorTicket(api, r)),
+      ...races.filter((r) => onGovernorTicket(api, r)),
+    ])
+      decide(api, race, year);
     if (year % 4 === 0)
       api.moduleCalendar(VOTING_MODULE_ID).schedule({
         key: `electors:${year}`,
@@ -5134,10 +5999,64 @@ const dayAfter = (date: string) =>
     .slice(0, 10);
 
 /**
- * A vacancy in a seat outside the town (a House district or a state
- * legislative district) is filled by a real race: on the special election
- * day its places vote as they do in the general election, between the two
- * major parties' named candidates, and the winner serves the unexpired term.
+ * What a seat outside the town is, for a special election: its office's kind
+ * and state, where the world's races count it. A House seat, a senator, a
+ * state legislator and another place's statewide executive are counted (a
+ * place with no counted electorate, a territory, is not, as in the general
+ * election); a seat the offices engine keeps no term for (another state's
+ * member of Congress) is named by its vacancy. Null for any other seat: the
+ * town's own seats are the voting engine's contests.
+ */
+function specialSeatKind(
+  api: CoreAPI,
+  seatId: string,
+  unheld?: { readonly stateKey: string; readonly officeKind: string },
+): { kind: string; stateKey: string; jurisdiction: string } | null {
+  if (unheld)
+    return unheld.officeKind === "us-house" || unheld.officeKind === "us-senate"
+      ? {
+          kind: unheld.officeKind,
+          stateKey: unheld.stateKey,
+          jurisdiction: unheld.stateKey,
+        }
+      : null;
+  const offices = api.moduleState(OFFICES_MODULE_ID);
+  const seat = offices.table("seats").get(seatId) as unknown as
+    { coversTown: boolean; officeId: string } | undefined;
+  const office = seat
+    ? (offices.table("offices").get(seat.officeId) as unknown as
+        | {
+            kind: string;
+            elected: boolean;
+            level: string;
+            jurisdiction: string;
+          }
+        | undefined)
+    : undefined;
+  if (!seat || !office?.elected || seat.coversTown) return null;
+  // The town's own seats are the voting engine's.
+  if (townSeats(api).some((entry) => entry.seat.id === seatId)) return null;
+  const house = office.kind === "us-house";
+  const counted =
+    office.kind === "us-senate" ||
+    office.kind.startsWith("legislature-") ||
+    isOutsideOffice(api, office);
+  if (!house && !counted) return null;
+  // A territory has no counted electorate: its seats are not raced.
+  if (!house && !countedPlace(api, office.jurisdiction)) return null;
+  return {
+    kind: office.kind,
+    stateKey: office.jurisdiction,
+    jurisdiction: office.jurisdiction,
+  };
+}
+
+/**
+ * A vacancy in a seat outside the town (a House district, a senator, a state
+ * legislative district, another place's statewide executive, another state's
+ * member of Congress) is filled by a real race: on the special election day
+ * its places vote as they do in the general election, between the two major
+ * parties' named candidates, and the winner serves the unexpired term.
  * Returns false for any other seat, which the other engines or the
  * stand-in fill.
  */
@@ -5148,29 +6067,14 @@ function openSpecialRace(
     readonly seatId: string;
     readonly electionDate: string;
     readonly termEnd: string | null;
+    readonly unheld?: {
+      readonly stateKey: string;
+      readonly officeKind: string;
+    };
   },
 ): boolean {
   if (!worldRacesOpen(api)) return false;
-  const offices = api.moduleState(OFFICES_MODULE_ID);
-  const seat = offices.table("seats").get(input.seatId) as unknown as
-    { coversTown: boolean; officeId: string } | undefined;
-  const office = seat
-    ? (offices.table("offices").get(seat.officeId) as unknown as
-        { kind: string; elected: boolean; jurisdiction: string } | undefined)
-    : undefined;
-  if (!seat || !office?.elected || seat.coversTown) return false;
-  if (office.kind !== "us-house" && !office.kind.startsWith("legislature-"))
-    return false;
-  // A territory's legislature has no counted electorate: the offices
-  // engine's stand-in fills the seat (SG-GOV-territory-legislature-race).
-  if (
-    office.kind.startsWith("legislature-") &&
-    !countedPlace(api, office.jurisdiction)
-  )
-    return false;
-  // The town's own seats are the voting engine's.
-  if (townSeats(api).some((entry) => entry.seat.id === input.seatId))
-    return false;
+  if (!specialSeatKind(api, input.seatId, input.unheld)) return false;
   // A special election whose day has already come is held the day after
   // (the calendar takes only a day not yet run).
   api.moduleCalendar(VOTING_MODULE_ID).schedule({
@@ -5185,7 +6089,11 @@ function openSpecialRace(
       citation: `Special election for ${input.vacancyId}`,
       asOf: api.state.date,
     },
-    sourceRecordIds: [input.vacancyId, input.seatId, input.termEnd ?? ""],
+    sourceRecordIds: [
+      input.vacancyId,
+      input.seatId,
+      ...(input.termEnd ? [input.termEnd] : []),
+    ],
   });
   return true;
 }
@@ -5195,8 +6103,39 @@ function decideSpecial(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   const [vacancyId, seatId, termEnd] = work.sourceRecordIds;
   const offices = api.moduleState(OFFICES_MODULE_ID);
   const vacancy = offices.table("vacancies").get(vacancyId!) as unknown as
-    { status: string } | undefined;
+    | {
+        status: string;
+        unheld?: { stateKey: string; officeKind: string };
+      }
+    | undefined;
   if (!vacancy || vacancy.status !== "awaiting-election") return;
+  const year = Number(api.state.date.slice(0, 4));
+  const special = { vacancyId: vacancyId!, termEnd: termEnd || null };
+  // A seat the offices engine keeps no term for: its race is named by the
+  // vacancy, and its last holder's party is the seat's side.
+  if (vacancy.unheld) {
+    const kind = vacancy.unheld.officeKind;
+    const code =
+      kind === "us-house" ? (seatId!.split(":").at(-1) ?? "00") : "00";
+    decide(
+      api,
+      {
+        seatId: seatId!,
+        office: kind,
+        usps: vacancy.unheld.stateKey.slice(3),
+        code,
+        incumbentParty: lastUnheldParty(api, seatId!),
+        leanSource:
+          kind === "us-house"
+            ? "2024 House vote in the district"
+            : "2024 presidential vote in the state's counties",
+        seatedOn: dayAfter(api.state.date),
+      },
+      year,
+      special,
+    );
+    return;
+  }
   const seat = offices.table("seats").get(seatId!) as unknown as
     | {
         id: string;
@@ -5211,15 +6150,23 @@ function decideSpecial(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
         | undefined)
     : undefined;
   if (!seat || !office) return;
-  const year = Number(api.state.date.slice(0, 4));
+  const race = seatRace(api, seat, office, year);
+  // Another place's office elected without party labels is counted by the
+  // places' lean and its winner takes the seat with no party.
+  const nonpartisan =
+    isOutsideOffice(api, office) &&
+    !office.kind.startsWith("legislature-") &&
+    researchedHolderParty(office.jurisdiction!, seat.id, "elected")?.party ===
+      null;
   decide(
     api,
     {
-      ...seatRace(api, seat, office, year),
+      ...race,
       seatedOn: dayAfter(api.state.date),
+      ...(nonpartisan ? { nonpartisan: true } : {}),
     },
     year,
-    { vacancyId: vacancyId!, termEnd: termEnd || null },
+    special,
   );
 }
 
@@ -5807,10 +6754,6 @@ function racesIn(api: CoreAPI, year: number): readonly Race[] {
       api.stopgap("SG-GOV-outside-nonpartisan-race");
       nonpartisan = true;
     }
-    if (executive) {
-      // stopgapId: SG-GOV-outside-ticket-raced-alone (a statewide officer the law elects on the governor's ticket is raced on its own seat)
-      api.stopgap("SG-GOV-outside-ticket-raced-alone");
-    }
     races.push({
       ...seatRace(api, seat, office, year),
       ...(nonpartisan ? { nonpartisan: true } : {}),
@@ -6001,6 +6944,29 @@ function decide(
   year: number,
   special?: SpecialRace,
 ): void {
+  const governor = special ? null : ticketRace(api, race, year);
+  if (governor) {
+    keepRace(
+      api,
+      race,
+      {
+        id: `race:${race.seatId}:${year}`,
+        seatId: race.seatId,
+        office: race.office,
+        date: api.state.date,
+        incumbentParty: race.incumbentParty,
+        lean: governor.lean,
+        winnerParty: governor.winnerParty,
+        seatedOn: race.seatedOn,
+        leanSource: `the governor's race, ${governor.id}`,
+        resultId: governor.resultId,
+        votes: governor.votes,
+        cast: governor.cast,
+      },
+      {},
+    );
+    return;
+  }
   const side = sideOf(race.incumbentParty);
   // stopgapId: SG-GOV-world-race-lean
   api.stopgap("SG-GOV-world-race-lean");
@@ -6093,37 +7059,57 @@ function decide(
     stateKey,
     office: race.office,
   });
-  const row: RaceRow = {
-    id: raceId,
-    seatId: race.seatId,
-    office: race.office,
-    date,
-    incumbentParty: race.incumbentParty,
-    lean,
-    winnerParty,
-    seatedOn: race.seatedOn,
-    leanSource: race.leanSource,
-    resultId: result.id,
-    votes: {
-      republican: result.totals["party:R"] ?? 0,
-      democratic: result.totals["party:D"] ?? 0,
+  keepRace(
+    api,
+    race,
+    {
+      id: raceId,
+      seatId: race.seatId,
+      office: race.office,
+      date,
+      incumbentParty: race.incumbentParty,
+      lean,
+      winnerParty,
+      seatedOn: race.seatedOn,
+      leanSource: race.leanSource,
+      resultId: result.id,
+      votes: {
+        republican: result.totals["party:R"] ?? 0,
+        democratic: result.totals["party:D"] ?? 0,
+      },
+      cast: result.placesCast ?? result.electorate,
+      ...(race.nonpartisan ? { nonpartisan: true } : {}),
     },
-    cast: result.placesCast ?? result.electorate,
-    ...(race.nonpartisan ? { nonpartisan: true } : {}),
-  };
+    special
+      ? { special, candidates: specialCandidates(api, race, parties, raceId) }
+      : {},
+    result.takesOffice,
+  );
+}
+
+/**
+ * Keep a decided race's row and, where it names a winner, schedule the
+ * winner's seating on the term's first day (the morning after the count where
+ * that day has come by then; the calendar takes only a day not yet run).
+ */
+function keepRace(
+  api: CoreAPI,
+  race: Race,
+  row: RaceRow,
+  extra: { special?: SpecialRace; candidates?: readonly SpecialCandidate[] },
+  takesOffice?: string | null,
+): void {
   table(api, "races").put({
     ...row,
     offices: race.offices ?? null,
-    ...(special
-      ? { special, candidates: specialCandidates(api, race, parties, row.id) }
-      : {}),
+    ...extra,
   } as unknown as ModuleRow);
   // An even split with no holder's side seats no one.
-  if (!winnerParty) return;
+  if (!row.winnerParty) return;
   // The winner is seated on the term's first day, or the day a recount ends
   // where that is later; where that day has come by the count's own day, the
   // morning after (the calendar takes only a day not yet run).
-  const seatedOn = result.takesOffice ?? race.seatedOn;
+  const seatedOn = takesOffice ?? race.seatedOn;
   api.moduleCalendar(VOTING_MODULE_ID).schedule({
     key: `seat:${row.id}`,
     date: seatedOn > api.state.date ? seatedOn : dayAfter(api.state.date),
@@ -6137,7 +7123,592 @@ function decide(
   });
 }
 
+/** The ticket a running mate is weighed for: one governor candidate's, in the ticket office's contest. */
+function ticketOf(governorFiling: FilingRow, ticketContest: ContestRow) {
+  // No "|" in the id: a newcomer offered takes their person id from it, and
+  // the money engines key payments as "<government>|<person>" (a "|" in a
+  // person id cut the payee short at the month's food aid, Nov 14).
+  return {
+    id: `${ticketContest.id}:ticket:${governorFiling.personId}`,
+    seatId: ticketContest.seatId,
+    electionDate: ticketContest.electionDate,
+  };
+}
+
+/** How many people of their party a player running for governor chooses a running mate from (owner, Nov 14). */
+const RUNNING_MATE_CHOICES = 4;
+
+/**
+ * A governor candidate's ticket, as their campaign shows it: the ticket
+ * office's contest, the running mate once named, and, while the candidate
+ * may still name one (the player, from filing where the state's law joins
+ * the ticket then, else from the primary), the people of their party the
+ * world's own pick ranks, strongest first (owner, Nov 14: the player picks,
+ * or "Choose for me" takes the world's pick). Null where the governor's
+ * state elects no office on the ticket.
+ */
+export function runningMateChoice(
+  api: CoreAPI,
+  governorFilingId: string,
+  /**
+   * Whether a person offered would say yes to the player's ask (the
+   * serve-asks engine's read). Where none of the people offered would, the
+   * strongest of the wider ranking who would takes the last place, so a
+   * player is never offered only people who will turn them down.
+   */
+  willing?: (personId: string) => boolean,
+): {
+  readonly ticketContestId: string;
+  readonly office: string;
+  readonly mateId: string | null;
+  readonly choices: readonly {
+    readonly id: string;
+    readonly name: string;
+    /** The seat their officials' record names: held now, or held before. */
+    readonly seatId: string | null;
+    /** Their standing in the state beyond a seat (`standingPool`): party officer, former candidate, prominent. */
+    readonly roles: readonly string[];
+  }[];
+} | null {
+  const elections = api.moduleState(ELECTIONS_MODULE_ID);
+  const filing = elections.table("filings").get(governorFilingId) as unknown as
+    FilingRow | undefined;
+  if (!filing) return null;
+  const governor = elections
+    .table("contests")
+    .get(filing.contestId) as unknown as ContestRow | undefined;
+  const ticket = governor ? ticketOfficeContest(api, governor) : null;
+  if (!governor || !ticket) return null;
+  const mate = runningMateOf(api, filing, ticket);
+  return {
+    ticketContestId: ticket.id,
+    office: ticket.title,
+    mateId: mate?.personId ?? null,
+    choices:
+      mate || !mayNameRunningMate(api, governor, ticket)
+        ? []
+        : offeredMates(api, filing, governor, ticket, willing),
+  };
+}
+
+/** How many of the wider ranking are weighed for a willing person when none of those offered would say yes. */
+const RUNNING_MATE_WIDER = 3;
+
+/**
+ * The people of the player's party offered as running mates, strongest
+ * first, each filled in when offered; where a `willing` read is given and
+ * none of them would say yes, the strongest willing person further down the
+ * ranking takes the last place (filled in only until one is found).
+ */
+function offeredMates(
+  api: CoreAPI,
+  filing: FilingRow,
+  governor: ContestRow,
+  ticket: ContestRow,
+  willing?: (personId: string) => boolean,
+) {
+  const party = filing.party ?? INDEPENDENT;
+  // Nobody who holds or runs for the office the candidate seeks is offered
+  // to run beside them (Words lead, Nov 14: Glencoe KY offered the sitting
+  // governor as a challenger's running mate).
+  const holder = seatHolder(api, governor);
+  const rivals = new Set<string>(
+    (
+      api
+        .moduleState(ELECTIONS_MODULE_ID)
+        .table("filings")
+        .query("byContest", [governor.id]) as unknown as FilingRow[]
+    )
+      .filter((f) => f.status !== "withdrawn")
+      .map((f) => f.personId),
+  );
+  const official = currentOfficial(api, governor.seatId)?.id;
+  const seeks = (id: string) =>
+    rivals.has(id) || holds(holder, id) || id === official;
+  const ranked = candidateChoices(
+    api,
+    ticketOf(filing, ticket),
+    party,
+    (willing
+      ? RUNNING_MATE_CHOICES * RUNNING_MATE_WIDER
+      : RUNNING_MATE_CHOICES) + RUNNING_MATE_CHOICES,
+    weighableFor(api, filing, ticket),
+  )
+    .filter((c) => !seeks(c.id))
+    .slice(
+      0,
+      willing
+        ? RUNNING_MATE_CHOICES * RUNNING_MATE_WIDER
+        : RUNNING_MATE_CHOICES,
+    );
+  // A newcomer offered is filled in now (two-level rule: a person is filled
+  // in when the player meets them), with a home town and work, so the choice
+  // can be weighed.
+  const offer = (c: (typeof ranked)[number]) => {
+    if (c.newcomer) offerNewcomer(api, c.id, c.newcomer, filing.party ?? null);
+    return {
+      id: c.id,
+      name: `${c.givenName} ${c.familyName}`,
+      seatId: c.fromSeatId,
+      roles:
+        standingPool(api, raceScope(api, ticket))
+          .find((m) => m.personId === c.id)
+          ?.roles.filter((r) => r !== "officeholder") ?? [],
+    };
+  };
+  const shown = ranked.slice(0, RUNNING_MATE_CHOICES).map(offer);
+  if (!willing || shown.some((c) => willing(c.id))) return shown;
+  for (const c of ranked.slice(RUNNING_MATE_CHOICES)) {
+    const row = offer(c);
+    if (willing(row.id))
+      return [...shown.slice(0, RUNNING_MATE_CHOICES - 1), row];
+  }
+  return shown;
+}
+
+/**
+ * Who a ticket's pick may be weighed among beyond the officeholders: the
+ * people with standing in the state (party officers, former candidates,
+ * prominent people: `standingPool`) and, for the player's own ticket, the
+ * people they know, each of the candidate's party, old enough and living in
+ * the state for the office (`checkEligibility`), with their ambition and
+ * lean from their own record. Anyone already on that day's ballot is out.
+ */
+function weighableFor(
+  api: CoreAPI,
+  filing: FilingRow,
+  ticket: ContestRow,
+): {
+  readonly people: readonly WeighedPerson[];
+  readonly exclude: ReadonlySet<string>;
+} {
+  const party = filing.party ?? null;
+  const exclude = new Set<string>([filing.personId]);
+  const elections = api.moduleState(ELECTIONS_MODULE_ID);
+  for (const contest of contestsOnDate(api, ticket.electionDate))
+    for (const f of elections
+      .table("filings")
+      .query("byContest", [contest.id]) as unknown as FilingRow[])
+      if (f.status !== "withdrawn") exclude.add(f.personId);
+  const playerId = (api.state as CoreState).playerId;
+  const ids = new Set<string>(
+    standingPool(api, raceScope(api, ticket)).map((m) => m.personId),
+  );
+  if (filing.personId === playerId)
+    for (const id of api.state.people.get(playerId)?.knownIds ?? [])
+      ids.add(id);
+  const people: WeighedPerson[] = [];
+  for (const id of [...ids].sort()) {
+    if (exclude.has(id)) continue;
+    const person = api.state.people.get(id);
+    if (!person || person.alive === false) continue;
+    if ((partyOf(api, id as PersonId) ?? null) !== party) continue;
+    if (
+      checkEligibility(api, id, ticket.id, party).some(
+        (c) => !c.met && (c.rule === "minimum-age" || c.rule === "residency"),
+      )
+    )
+      continue;
+    people.push({
+      id,
+      ambition: ambitionOf(person),
+      lean: voterLean(api, person),
+    });
+  }
+  return { people, exclude };
+}
+
+/**
+ * A newcomer offered as a running mate, filled in: their name, birthday and
+ * temperament as the officials engine drew them, a home town in the state
+ * drawn from the world's seed among its towns by how many people live in
+ * each, and the work that town's counts show (`metResident`, as a person
+ * met on a trip is filled in). Seeded, so the same person comes back.
+ */
+function offerNewcomer(
+  api: CoreAPI,
+  id: string,
+  newcomer: NonNullable<
+    ReturnType<typeof candidateChoices>[number]["newcomer"]
+  >,
+  party: string | null,
+): void {
+  if (api.state.people.has(id)) return;
+  const seed = (api.state as CoreState).seed;
+  const home = drawStateHome(seed, id, newcomer.stateKey);
+  const work = home
+    ? workFromHome(seed, home.key, `running-mate:${id}`)
+    : undefined;
+  fillInIdentity(api.state as CoreState, {
+    id: id as PersonId,
+    givenName: newcomer.identity.givenName,
+    familyName: newcomer.identity.familyName,
+    birthDate: makeIsoDate(newcomer.identity.birthDate),
+    placeId: (home?.context.jurisdiction.id ?? newcomer.stateKey) as PlaceId,
+    gender: newcomer.identity.gender,
+    ...(party ? { party } : {}),
+    traits: newcomer.traits,
+    tier: "monthly",
+    ...(work ? { work } : {}),
+    source: {
+      tag: "ESTIMATED",
+      citation: `offered as a running mate on ${api.state.date}`,
+      asOf: makeIsoDate(api.state.date),
+      estimatedFrom:
+        "world seed and the home town's counts (officials-identity)",
+    },
+  });
+}
+
+/**
+ * Whether a governor candidate may name their running mate today, by the
+ * state's law for when the ticket forms: from filing, or once the primary
+ * is past; never where the office wins a primary of its own.
+ */
+function mayNameRunningMate(
+  api: CoreAPI,
+  governor: ContestRow,
+  ticket: ContestRow,
+): boolean {
+  const stage = ticketStageOf(api, ticket);
+  if (stage === "at-filing") return true;
+  if (stage === "after-primary")
+    return !governor.primaryDate || governor.primaryDate < api.state.date;
+  return false;
+}
+
+/**
+ * The player names their running mate: one of `runningMateChoice`'s people,
+ * or, with none named, the world's own pick ("Choose for me").
+ */
+export function chooseRunningMate(
+  api: CoreAPI,
+  governorFilingId: string,
+  personId: string | null,
+  /** The same willing read the choice was offered with (`runningMateChoice`). */
+  willing?: (personId: string) => boolean,
+  /** People the player already asked, who stay theirs to name though the ranking moved on. */
+  asked: readonly string[] = [],
+): FilingRow {
+  const choice = runningMateChoice(api, governorFilingId, willing);
+  if (!choice || choice.mateId !== null || !choice.choices.length)
+    throw new Error("There is no running mate to name for this race.");
+  if (
+    personId !== null &&
+    !choice.choices.some((c) => c.id === personId) &&
+    !asked.includes(personId)
+  )
+    throw new Error(
+      "That person isn't one of the running mates to choose from.",
+    );
+  const elections = api.moduleState(ELECTIONS_MODULE_ID);
+  const filing = elections
+    .table("filings")
+    .get(governorFilingId) as unknown as FilingRow;
+  const ticket = elections
+    .table("contests")
+    .get(choice.ticketContestId) as unknown as ContestRow;
+  return nameRunningMate(api, filing, ticket, personId ?? undefined)!;
+}
+
+/**
+ * A governor candidate's running mate, named once: the ticket office's
+ * candidate the state's own pick for that party would field, weighed for
+ * this ticket alone (`officialCandidate`: the officeholder one step down the
+ * ladder or a newcomer, whoever has the strongest reason), so two
+ * candidates of one party in a primary never share a running mate. Filed in
+ * the ticket office's contest on the governor candidate's ticket, with no
+ * petition of its own: it stands while the governor candidate does (`ballot`).
+ */
+export function nameRunningMate(
+  api: CoreAPI,
+  governorFiling: FilingRow,
+  ticketContest: ContestRow,
+  /** One of `runningMateChoice`'s people, where the candidate picked (the player); else the strongest. */
+  chosenId?: string,
+): FilingRow | null {
+  const held = runningMateOf(api, governorFiling, ticketContest);
+  if (held) return held;
+  const filings = api.moduleState(ELECTIONS_MODULE_ID).table("filings");
+  const picked = officialCandidate(
+    api,
+    ticketOf(governorFiling, ticketContest),
+    governorFiling.party ?? INDEPENDENT,
+    chosenId,
+    true,
+    chosenId ? weighableFor(api, governorFiling, ticketContest) : undefined,
+  );
+  // Where the officials engine isn't installed: a named official not yet
+  // filled in, as a party's nominee is (`fileStandingCandidates`).
+  if (!picked) {
+    // stopgapId: SG-GOV-who-runs-stand-in
+    api.stopgap("SG-GOV-who-runs-stand-in");
+  }
+  const personId =
+    picked ?? officialCandidateId(`running-mate:${governorFiling.id}`);
+  const filing: FilingRow = {
+    id: `filing:${ticketContest.id}:${personId}`,
+    contestId: ticketContest.id,
+    personId,
+    filedOn: api.state.date,
+    filedWith: governorFiling.filedWith,
+    platform: [...governorFiling.platform],
+    party: governorFiling.party ?? null,
+    status: "on-ballot",
+    how: "running mate",
+    ticketWith: governorFiling.id,
+  };
+  // A partyHere member, as a party's nominee joins it the day they file.
+  const partyHere =
+    filing.party && api.state.modules.has(PARTIES_MODULE_ID)
+      ? partiesHere(api).find((row) => row.name === filing.party)
+      : undefined;
+  if (partyHere && api.state.people.has(personId) && !partyTie(api, personId))
+    joinParty(api, personId, partyHere.id);
+  filings.put(filing as unknown as ModuleRow);
+  announce(api, filing, ticketContest);
+  return filing;
+}
+
+/**
+ * Put each governor candidate's running mate on the ticket, by the state's
+ * law for when the ticket forms (`ticketStageOf`): at filing; after the
+ * primary, by the nominee; or, where the ticket office wins a primary of its
+ * own, its party's one nominee joins its party's one governor nominee. On
+ * election day every governor candidate still alone names a running mate
+ * and a ticket office candidate with no governor beside them leaves the
+ * race: the law elects the two together.
+ */
+export function formTickets(
+  api: CoreAPI,
+  contest: ContestRow,
+  when: "filing" | "primary" | "election",
+): void {
+  const governor =
+    ticketOfficeContest(api, contest) !== null
+      ? contest
+      : ticketGovernorContest(api, contest);
+  if (!governor) return;
+  const ticket = ticketOfficeContest(api, governor);
+  if (!ticket) return;
+  const stage = ticketStageOf(api, ticket);
+  const filings = api.moduleState(ELECTIONS_MODULE_ID).table("filings");
+  // A running mate whose governor candidate left the race (a primary lost,
+  // a withdrawal) leaves it with them.
+  const standingIds = new Set(ballot(api, governor.id).map((f) => f.id));
+  for (const m of filings.query("byContest", [
+    ticket.id,
+  ]) as unknown as FilingRow[])
+    if (
+      m.ticketWith &&
+      m.status !== "withdrawn" &&
+      !standingIds.has(m.ticketWith)
+    )
+      filings.put({ ...m, status: "withdrawn" } as unknown as ModuleRow);
+  const alone = () =>
+    ballot(api, governor.id).filter((f) => !runningMateOf(api, f, ticket));
+  if (stage === "separate-primary") {
+    const unpaired = () => ballot(api, ticket.id).filter((f) => !f.ticketWith);
+    // Once both nominations are made, every ticket is whole: a nominee
+    // with no governor candidate of their party leaves the race.
+    const settled =
+      when === "election" ||
+      (when === "primary" &&
+        nominated(api, governor) &&
+        nominated(api, ticket));
+    for (const f of alone()) {
+      const mates = unpaired().filter((m) => f.party && m.party === f.party);
+      const sameParty = ballot(api, governor.id).filter(
+        (g) => g.party === f.party,
+      );
+      if (mates.length === 1 && sameParty.length === 1)
+        filings.put({
+          ...mates[0]!,
+          ticketWith: f.id,
+        } as unknown as ModuleRow);
+      else if (!f.party || settled) nameRunningMate(api, f, ticket);
+    }
+    if (settled)
+      for (const m of unpaired())
+        filings.put({ ...m, status: "withdrawn" } as unknown as ModuleRow);
+    return;
+  }
+  const playerId = (api.state as CoreState).playerId;
+  // The player names their own running mate (`chooseRunningMate`): the
+  // world names one for them only once the ticket must be whole, at the
+  // primary where the law joins it at filing, else on election day.
+  const playerWaits = (f: FilingRow) =>
+    f.personId === playerId &&
+    (when === "filing" || (when === "primary" && stage === "after-primary"));
+  if (
+    stage === "at-filing" ||
+    when !== "filing" ||
+    // Where the state holds no primary for the office, its candidates are
+    // its nominees when filing closes.
+    !governor.primaryDate
+  )
+    for (const f of alone())
+      if (!playerWaits(f)) nameRunningMate(api, f, ticket);
+}
+
+/**
+ * Whether a contest's nominees are settled: no primary, or its primary
+ * counted (a primary later today has not run yet), so a ticket formed now
+ * is the one on the ballot.
+ */
+function nominated(api: CoreAPI, contest: ContestRow): boolean {
+  if (!contest.primaryDate || contest.primaryDate < api.state.date) return true;
+  if (contest.primaryDate > api.state.date) return false;
+  return (
+    api.moduleCalendar(VOTING_MODULE_ID).get(`primary:${contest.id}`)
+      ?.status !== "pending"
+  );
+}
+
+/**
+ * A ticket office's count, decided with its governor's: each vote for a
+ * governor candidate is a vote for their running mate, in the town, among
+ * its counted residents and across the rest of the state, so the ticket
+ * wins or loses together and one vote counts both. Seated by the same rule
+ * as any count (`settleCount`); a recount is the governor race's.
+ */
+function decideTicket(
+  api: CoreAPI,
+  governor: ContestRow,
+  ticket: ContestRow,
+  counted: ResultRow,
+): ResultRow {
+  formTickets(api, governor, "election");
+  const mates = new Map<string, string>();
+  for (const f of ballot(api, governor.id)) {
+    const mate = runningMateOf(api, f, ticket);
+    if (mate) mates.set(f.personId, mate.personId);
+  }
+  const map = (votes: Readonly<Record<string, number>>, keep = false) =>
+    Object.fromEntries(
+      Object.entries(votes).flatMap(([id, n]) =>
+        mates.has(id) ? [[mates.get(id)!, n]] : keep ? [[id, n]] : [],
+      ),
+    );
+  const filings = ballot(api, ticket.id);
+  const places = placesOf(api, governor.id);
+  const takesOffice = termStartsOn(api, ticket);
+  const result = keepCount(api, {
+    id: ticket.id,
+    date: api.state.date,
+    candidates: filings.map((f) => f.personId),
+    named: {
+      votes: map(counted.namedVotes),
+      turnout: counted.namedTurnout,
+      eligible: counted.namedEligible,
+      exitPoll: map(counted.exitPoll, true),
+    },
+    counted: {
+      votes: map(counted.countedVotes),
+      turnout: counted.countedTurnout,
+      eligible: counted.countedEligible,
+    },
+    wider:
+      counted.placesCast === undefined
+        ? null
+        : {
+            votes: map(counted.placeVotes),
+            cast: counted.placesCast,
+            places: places.map(({ placeId, ...place }) => ({
+              ...place,
+              id: placeId,
+              votes: map(place.votes),
+            })),
+          },
+    reasons: null,
+    decide: () =>
+      counted.winnerCandidateId
+        ? (mates.get(counted.winnerCandidateId) ?? null)
+        : null,
+    winnerOf: (candidateId) => winningPersonId(api, candidateId),
+    // A recount that holds the governor's result holds the ticket's.
+    takesOffice:
+      counted.takesOffice && counted.takesOffice > takesOffice
+        ? counted.takesOffice
+        : takesOffice,
+    stateKey: town(api).stateKey,
+    office: ticket.title,
+    recount: false,
+  });
+  return settleCount(api, {
+    contest: ticket,
+    group: [ticket],
+    filings,
+    result,
+    takesOffice,
+  });
+}
+
+/**
+ * Whether the law elects this race's office on one ticket with its state's
+ * governor (a lieutenant governor in about thirty places, read from the
+ * office's research row): its race is decided with the governor's.
+ */
+function onGovernorTicket(api: CoreAPI, race: Race): boolean {
+  if (!race.offices) return false;
+  const office = api
+    .moduleState(OFFICES_MODULE_ID)
+    .table("offices")
+    .get(race.offices.officeId) as unknown as
+    { kind: string; jurisdiction: string } | undefined;
+  return office
+    ? electedWithGovernorOnTicket(office.jurisdiction, office.kind)
+    : false;
+}
+
+/**
+ * A ticket office's race, decided with its governor's: the governor race's
+ * winning party seats the running mate the same day. Null for any other race
+ * and where the state's governor is not raced this year, so the office is
+ * counted on its own.
+ */
+function ticketRace(api: CoreAPI, race: Race, year: number): RaceRow | null {
+  if (!onGovernorTicket(api, race)) return null;
+  const office = api
+    .moduleState(OFFICES_MODULE_ID)
+    .table("offices")
+    .get(race.offices!.officeId) as unknown as { jurisdiction: string };
+  const governor = table(api, "races").get(
+    `race:seat:${office.jurisdiction}:governor:${year}`,
+  ) as unknown as RaceRow | undefined;
+  return governor ?? null;
+}
+
 /** Seat the winner on the term's first day. */
+/**
+ * Whether a person has filed for a seat other than `seatId` in the contest
+ * held on `date`: filing for the other office closed their own seat's ballot
+ * (a state legislator who files for Congress is not also up for their own
+ * seat), whether they went on to win, lose the primary or withdraw.
+ */
+function filedForAnotherSeat(
+  api: CoreAPI,
+  personId: string,
+  seatId: string,
+  date: string,
+): boolean {
+  const elections = api.moduleState(ELECTIONS_MODULE_ID);
+  return (
+    elections
+      .table("filings")
+      .query("byPerson", [personId]) as unknown as FilingRow[]
+  ).some((filing) => {
+    const contest = elections
+      .table("contests")
+      .get(filing.contestId) as unknown as ContestRow | undefined;
+    return (
+      contest !== undefined &&
+      contest.seatId !== seatId &&
+      contest.electionDate === date
+    );
+  });
+}
+
 function seatRaceWinner(api: CoreAPI, raceId: string): void {
   const race = table(api, "races").get(raceId) as unknown as
     | (RaceRow & {
@@ -6156,6 +7727,41 @@ function seatRaceWinner(api: CoreAPI, raceId: string): void {
       since: api.state.date,
       raceId,
     } as unknown as ModuleRow);
+    // A special election's winner fills the vacancy of a seat the offices
+    // engine keeps no term for (another state's member of Congress): the
+    // record of the seating names who they are and their party.
+    if (race.special) {
+      const loaded = api
+        .moduleState(OFFICES_MODULE_ID)
+        .table("loaded")
+        .get("town") as unknown as { worldSeed: string };
+      const fielded = race.candidates?.find(
+        (c) => c.party === race.winnerParty,
+      );
+      const stateUsps = race.seatId.split(":")[1]!.slice(3);
+      const drawn = fielded
+        ? null
+        : drawOfficialIdentity({
+            worldSeed: loaded.worldSeed,
+            seatKey: raceId,
+            stateUsps,
+            role: "state-executive-challenger",
+            referenceDate: api.state.date,
+          });
+      unheldVacancyWon(api, race.special.vacancyId, {
+        winnerParty: race.winnerParty,
+        winnerIdentity:
+          fielded?.identity ??
+          ({
+            givenName: drawn!.givenName,
+            familyName: drawn!.familyName,
+            gender: drawn!.gender,
+            birthDate: drawn!.birthDate,
+            homeState: `US-${stateUsps}`,
+          } as TermRow["identity"]),
+        resultId: raceId,
+      });
+    }
     return;
   }
   // A seat the offices engine holds: the one term writer ends the term and
@@ -6177,8 +7783,14 @@ function seatRaceWinner(api: CoreAPI, raceId: string): void {
         .sort((a, b) => a.date.localeCompare(b.date))
         .at(-1)
     : undefined;
+  // A holder on another seat's ballot this year is not on this one's: the
+  // seat is open, and its party's winner is a new person.
   const reelected =
     serving[0] &&
+    !(
+      serving[0].personId &&
+      filedForAnotherSeat(api, serving[0].personId, race.seatId, race.date)
+    ) &&
     (race.nonpartisan
       ? lastRace?.winnerParty === race.winnerParty
       : serving[0].party === race.winnerParty);

@@ -6,14 +6,26 @@
  */
 import type { TaxIndex } from "./tax-index";
 import type {
+  CountryFederalDestination,
+  CountryFederalLine,
   CountryLaw,
   CountryState,
   CountryWithheldLine,
 } from "./country-model";
+import federalLines from "./data/country/federal-lines.json" with { type: "json" };
+import spending from "../../data/research/federal/federal-spending-by-state-fy2024.json" with { type: "json" };
 import { unemploymentTermsOf } from "./jobs-benefits";
 import { withholdingFor } from "./budgets-treasury";
 import { resolveLawInForce, type LawInForceAnswer } from "./laws-in-force";
 import { stateOpeningLawRows } from "./modules/laws";
+import moverRates from "../../data/research/migration/mover-rates-acs-2024.json" with { type: "json" };
+
+/** The federal position whose law admits more immigrants (the moves research's own series). */
+const ADMIT_MORE_IMMIGRANTS =
+  "us-federal-positions:immigration.admit-more-immigrants";
+const MOVER_RATES = moverRates as unknown as {
+  national: { admitMoreImmigrantsLaw: { shareOfArrivalsFromAbroad: number } };
+};
 
 const DAYS_PER_YEAR = 365;
 const WEEKS_PER_YEAR = 52;
@@ -28,12 +40,64 @@ function atLevel(
   return typeof found.row.value === "number" ? found.row.value : null;
 }
 
+/** Where each federal budget line reaches a state (src/core2/data/country/federal-lines.json). */
+const DESTINATIONS = federalLines.lines as Readonly<
+  Record<string, CountryFederalDestination>
+>;
+/** Each place's population in the federal spending research, by jurisdiction key. */
+const POPULATION = spending.population as Readonly<Record<string, number>>;
+
+/** A federal budget row as the tier reads it: its id and its spending lines, minor units a year. */
+export interface CountryFederalBudget {
+  readonly id: string;
+  readonly spendingMinor: Readonly<Record<string, number>>;
+}
+
+/**
+ * The federal budget in force as it reaches each state, line by line: each line's dollars shared
+ * among the 56 places by population times the place's stake in the line (`stake`, the world's
+ * stake around data/research/federal/federal-spending-by-state-fy2024.json), sent where the
+ * line pays (src/core2/data/country/federal-lines.json). Shares are worked out once per reader.
+ */
+export function federalSpendingReader(
+  budget: CountryFederalBudget | undefined,
+  stake: (stateKey: string, line: string) => number,
+  minorPerDollar: number,
+): (state: CountryState) => readonly CountryFederalLine[] {
+  if (!budget) return () => [];
+  const keys = Object.keys(POPULATION);
+  const byState = new Map<string, CountryFederalLine[]>();
+  for (const [line, minor] of Object.entries(budget.spendingMinor)) {
+    let total = 0;
+    const own = new Map<string, number>();
+    for (const key of keys) {
+      const weight = POPULATION[key]! * stake(key, line);
+      own.set(key, weight);
+      total += weight;
+    }
+    if (total <= 0) continue;
+    for (const key of keys) {
+      const rows = byState.get(key) ?? [];
+      byState.set(key, rows);
+      rows.push({
+        line,
+        budgetId: budget.id,
+        to: DESTINATIONS[line] ?? "elsewhere",
+        dollarsYear: ((minor / minorPerDollar) * own.get(key)!) / total,
+      });
+    }
+  }
+  return (state) => byState.get(state.key) ?? [];
+}
+
 export function countryLaw(
   read: (stateKey: string, series: string) => LawInForceAnswer,
   parameter: (key: string) => number,
   asOf: string,
   /** How far prices and pay have moved since the law's dollar year: what the law indexes moves with it. */
   index?: TaxIndex,
+  /** The federal budget in force by state (`federalSpendingReader`); none where the world keeps no budgets. */
+  federal: (state: CountryState) => readonly CountryFederalLine[] = () => [],
 ): CountryLaw {
   const answers = new Map<string, LawInForceAnswer>();
   const law = (state: CountryState, series: string) => {
@@ -47,6 +111,7 @@ export function countryLaw(
   const hours = parameter("countryHoursPerYear");
   const terms = new Map<string, ReturnType<typeof unemploymentTermsOf>>();
   return {
+    federalSpendingYear: federal,
     withheld(state, payYear) {
       // One paycheck for the year: the percentage method gives the year's tax, the wage base and
       // the added Medicare rate apply to the year's pay.
@@ -74,6 +139,7 @@ export function countryLaw(
           byLaw.set(level.row.id, {
             lawId: level.row.id,
             level: level.level,
+            tax: "income",
             dollars: 0,
           });
       for (const line of lines) {
@@ -86,6 +152,7 @@ export function countryLaw(
           byLaw.set(line.lawId, {
             lawId: line.lawId,
             level: line.level,
+            tax: line.tax,
             dollars: line.minor / minor,
           });
       }
@@ -122,6 +189,13 @@ export function countryLaw(
       );
       return weekly * WEEKS_PER_YEAR;
     },
+    // While Congress's law to admit more immigrants stands, more come: the
+    // researched extra admissions as a share of today's arrivals from abroad.
+    abroadFactor: (state) =>
+      law(state, ADMIT_MORE_IMMIGRANTS).value === 1
+        ? 1 +
+          MOVER_RATES.national.admitMoreImmigrantsLaw.shareOfArrivalsFromAbroad
+        : 1,
   };
 }
 

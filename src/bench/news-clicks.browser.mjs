@@ -129,6 +129,77 @@ try {
   );
   if (shots)
     await page.screenshot({ path: `${shots}/story-opened-1440x900.png` });
+  // A brief with a body opens (owner, Nov 14: stories that are not politics
+  // open too): its headline is the button, the story takes the lead, and the
+  // Back control returns it to the strip.
+  await page.evaluate(async () => {
+    const { newsBoard } = await import("/ui/news-board.mjs");
+    document.getElementById("sheet-body").replaceChildren(
+      newsBoard({
+        outlets: new Map([
+          [
+            "a",
+            {
+              name: "The Courier",
+              layout: "broadsheet",
+              stories: [
+                {
+                  id: "s1",
+                  headline: "Council meets",
+                  paragraphs: ["It met.", "It adjourned."],
+                },
+                {
+                  id: "b1",
+                  brief: true,
+                  headline: "Town spelling bee crowns its champion",
+                  paragraphs: [
+                    "A student won this year's town spelling bee.",
+                    "The winner is a student at the middle school.",
+                    "Next comes the regional bee in March.",
+                  ],
+                },
+                {
+                  id: "b2",
+                  brief: true,
+                  headline: "Crime",
+                  paragraphs: ["One."],
+                },
+              ],
+            },
+          ],
+        ]),
+        labels: {
+          title: "News",
+          briefs: "Briefs",
+          backFront: "Back to the front page",
+        },
+        date: "2025-02-20",
+        headlineOf: (item) => item.headline,
+      }),
+    );
+  });
+  assert.equal(await page.locator(".news-brief-opens").count(), 1);
+  assert.equal(
+    await page.locator(".news-brief:not(.news-brief-opens)").count(),
+    1,
+  );
+  if (shots)
+    await page.screenshot({ path: `${shots}/brief-with-body-1440x900.png` });
+  await page.locator(".news-brief-opens .news-headline").click();
+  assert.equal(
+    (await page.locator(".news-headline.lead").innerText()).trim(),
+    "Town spelling bee crowns its champion",
+  );
+  assert.equal(await page.locator(".news-story.lead .news-text p").count(), 3);
+  assert.equal(
+    await page.locator(".news-back").innerText(),
+    "Back to the front page",
+  );
+  if (shots)
+    await page.screenshot({ path: `${shots}/brief-opened-1440x900.png` });
+  await page.locator(".news-back").click();
+  assert.equal(await page.locator(".news-back").count(), 0);
+  assert.equal(await page.locator(".news-brief-opens").count(), 1);
   // A paper with a column of long briefs (a week of meetings, a home sale,
   // a police log): each brief takes the room its words need, and none is
   // printed over the next (seen overprinted in two drawn places on Nov 11).

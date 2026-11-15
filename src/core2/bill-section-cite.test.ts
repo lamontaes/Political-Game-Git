@@ -4,23 +4,19 @@
  * the real starting law). A law in force when the game began cites the
  * statute its research recorded, or nothing: its research source (a web
  * page, a survey, a note) only calibrated the row. A law passed in play
- * cites the bill that enacted it, by its designation and form. A random
- * place from all 56, played until its bodies have passed laws of their own.
+ * cites the bill that enacted it, by its designation and form.
  */
-import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
-import { drawPlace } from "../../scripts/core2-year/place";
 import { composeBill } from "../english/bill-sections";
 import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
-import { addDays, makeIsoDate } from "./kernel/dates";
-import { advanceCore } from "./life";
-import type { LawRowInput } from "./laws-starting";
-import { LAWS_MODULE_ID, lawInForce } from "./modules/laws";
+import { billValueInForce, enactLaw, lawInForce } from "./modules/laws";
 import {
   billOf,
   billSections,
+  bodyJurisdiction,
+  bodyReach,
   draftBill,
   memberKey,
   members,
@@ -28,21 +24,39 @@ import {
 import { townSeats } from "./modules/offices";
 import { coreAPI } from "./state";
 
-const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
-/** Places tried before giving up on a law passed in play that a section amends. */
-const DRAWS = 4;
-/** Days played, long enough for a body's first laws to take effect. */
-const DAYS = 150;
+/**
+ * Pinned to two places that gave two wrong answers when a test took the first level's wage row: a
+ * state whose floor is above the nation's (Dale City, Virginia) and one whose floor ties the
+ * nation's (Rhinelander, Wisconsin), where the bill amends the nation's row. The law "passed in
+ * play" is staged through the laws module's own enactment (`enactLaw`, as the legislature calls it
+ * when a bill passes): what the test proves is how the next section cites it, not how the body
+ * votes, so it needs no played days.
+ */
+const PLACES = [
+  {
+    name: "Dale City, Virginia",
+    key: process.env.BILL_CITE_PLACE_A ?? "5121088",
+    seed:
+      process.env.BILL_CITE_SEED_A ??
+      "47f7857949a3a62878b3eb94a67104767ff11155b08c552f7051d1e006e2e4e8",
+  },
+  {
+    name: "Rhinelander, Wisconsin",
+    key: process.env.BILL_CITE_PLACE_B ?? "5567200",
+    seed:
+      process.env.BILL_CITE_SEED_B ??
+      "599137bd9f211c930716542e3e18c2eb01c25214e82da4ae3969909b90cf5df2",
+  },
+];
 
-it(`a section cites a law passed in play by its bill and a starting law by its recorded statute or nothing (seed ${seed})`, () => {
-  const tried: string[] = [];
-  for (let draw = 0; draw < DRAWS; draw += 1) {
-    const place = drawPlace(`${seed}:${draw}`, "bill-section-cite");
-    const where = `${place.name} (${place.key}), run seed ${seed} draw ${draw}, world seed ${place.seed}`;
+it.each(PLACES)(
+  "a section cites a law passed in play by its bill and a starting law by its recorded statute or nothing ($name)",
+  ({ name, key, seed }) => {
+    const where = `${name} (${key}), world seed ${seed}`;
     setBookkeeping(false);
-    const { core } = buildBenchWorld(place.seed, gameStartDate(), {
+    const { core } = buildBenchWorld(seed, gameStartDate(), {
       twoLevel: true,
-      placeKey: place.key,
+      placeKey: key,
     });
     const api = coreAPI(core);
     const bodies = [
@@ -56,23 +70,25 @@ it(`a section cites a law passed in play by its bill and a starting law by its r
       bodies.find((o) => o.level === "state" && o.id.endsWith("-lower")) ??
       bodies.find((o) => o.level === "state") ??
       bodies[0];
-    if (!body) {
-      tried.push(`${where}: no body with members`);
-      continue;
-    }
+    expect(body, `${where}: a body with members`).toBeDefined();
     // At the opening: the wage floor in force is a starting law, calibrated
     // from research. A bill amending it says the old and new amounts and
     // cites nothing.
-    const floor = lawInForce(api, "minimum-wage");
-    const start = floor.levels.find((l) => l.row)?.row;
+    // The row a bill amends is the one the drafting reader gives the body's own jurisdiction: the
+    // highest wage floor among the nation and its governing levels, the nation's where they tie.
+    const start = billValueInForce(
+      api,
+      { kind: "law-amount", series: "minimum-wage" },
+      bodyJurisdiction(api, body!.id),
+    ).row;
     expect(start, `${where}: no wage floor in force`).toBeTruthy();
     expect(
       start!.terms?.enactedByBill,
       `${where}: ${start!.id}`,
     ).toBeUndefined();
     const raise = draftBill(api, {
-      bodyOfficeId: body.id,
-      sponsorId: memberKey(members(api, body.id)[0]!),
+      bodyOfficeId: body!.id,
+      sponsorId: memberKey(members(api, body!.id)[0]!),
       provisions: [
         {
           kind: "law-amount",
@@ -108,8 +124,8 @@ it(`a section cites a law passed in play by its bill and a starting law by its r
     const cite = grant?.terms?.cite;
     if (grant && typeof cite === "string") {
       const change = draftBill(api, {
-        bodyOfficeId: body.id,
-        sponsorId: memberKey(members(api, body.id)[0]!),
+        bodyOfficeId: body!.id,
+        sponsorId: memberKey(members(api, body!.id)[0]!),
         provisions: [
           {
             kind: "law-amount",
@@ -124,45 +140,30 @@ it(`a section cites a law passed in play by its bill and a starting law by its r
       expect(granted!.before.statuteForm, `${where}: ${grant.id}`).toBeNull();
     }
 
-    // Played on: a law a body passed in play, in force here, that a new
-    // section on the same question or amount would amend.
-    advanceCore(core, addDays(makeIsoDate(gameStartDate()), DAYS));
-    const passed = (
-      api
-        .moduleState(LAWS_MODULE_ID)
-        .table("laws")
-        .rows() as unknown as LawRowInput[]
-    ).filter(
-      (row) =>
-        typeof row.terms?.enactedByBill === "string" &&
-        lawInForce(api, row.series).levels.find((l) => l.row)?.row?.id ===
-          row.id,
-    );
-    const law = passed[0];
-    if (!law) {
-      tried.push(`${where}: no law passed in play in force after ${DAYS} days`);
-      continue;
-    }
-    const enacting = billOf(api, String(law.terms!.enactedByBill));
-    const provision = enacting.provisions.find(
-      (p) => p.question === law.series || p.series === law.series,
-    )!;
+    // A law a body passed in play, in force here: the raise above becomes law through the laws
+    // module's own enactment, and a new section on the same amount amends it.
+    const law = enactLaw(api, {
+      jurisdiction: bodyJurisdiction(api, body!.id),
+      level: bodyReach(api, body!.id),
+      series: "minimum-wage",
+      value: (start!.value ?? 0) + 100,
+      unit: start!.unit ?? "minor/hour",
+      effectiveDate: api.state.date,
+      measureId: raise.id,
+      citation: `${raise.number}, enacted by the bill's own record`,
+      terms: { enactedByBill: raise.id },
+    });
+    const enacting = billOf(api, raise.id);
     const again = draftBill(api, {
-      bodyOfficeId: enacting.bodyOfficeId,
-      sponsorId: memberKey(members(api, enacting.bodyOfficeId)[0]!),
+      bodyOfficeId: body!.id,
+      sponsorId: memberKey(members(api, body!.id)[0]!),
       provisions: [
-        provision.kind === "policy-question"
-          ? {
-              kind: "policy-question",
-              question: law.series,
-              value: (law.value ?? 0) > 0 ? 0 : 1,
-            }
-          : {
-              kind: "law-amount",
-              series: law.series,
-              value: (law.value ?? 0) + 100,
-              ...(law.unit ? { unit: law.unit } : {}),
-            },
+        {
+          kind: "law-amount",
+          series: "minimum-wage",
+          value: (law.value ?? 0) + 100,
+          ...(law.unit ? { unit: law.unit } : {}),
+        },
       ],
     });
     const [cited] = billSections(api, again);
@@ -171,10 +172,6 @@ it(`a section cites a law passed in play by its bill and a starting law by its r
     expect(cited!.before.statuteForm, `${where}: ${law.id}`).toBe(
       enacting.form.kind,
     );
-    console.log(
-      `${where}: the starting floor ${start!.id} cites nothing; ${again.number} amends ${law.id}, citing ${enacting.number} (${enacting.id})`,
-    );
-    return;
-  }
-  throw new Error(`no law passed in play to amend: ${tried.join("; ")}`);
-}, 600_000);
+  },
+  120_000,
+);

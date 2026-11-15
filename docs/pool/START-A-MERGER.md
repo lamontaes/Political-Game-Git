@@ -82,6 +82,10 @@ Owner, Nov 11, 2:03 a.m., through the CTO. A pull request that changes lines the
 
 Then the gate adds: `tests/english-parts-banks.test.ts` and `tests/guards/english` on the merged result, and `npm run words:rules` run twice with no file changed the second time. **Never merge words on a lighter gate.** Nobody waives the bar but the CTO, in a `CTO:` line. The lines under `data/english/parts/` are the Words builders' to write; you never edit them, even to fix a failure.
 
+## Pictures never hold a merge
+
+Owner, Nov 14: "do not let pics hold it back. it can be generated later." A scene with no fitting picture ships on its fallback with a row or a `wantedScenes` line (skill `scene-pictures`). Never send a pull request back for a missing or unpainted picture; send it back only when `npm run guards -- scene-pictures` fails (a row naming something that does not exist, or a new scene type with no row and no wanted line).
+
 ## Trains by area
 
 When more than about five pull requests are ready in one area (screens, engines, words), follow the skill `merge-trains`: the light checks on each one, then the heavy checks once on a branch that holds the area's passed pull requests in merge order, halving a red train to find the one that broke it. Post the train as one comment listing each rider with its full sha, read from GitHub, never a commit you made locally. Then merge the riders top to bottom, each with its own pinned command. A rider whose head moved is skipped and named.

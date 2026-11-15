@@ -27,7 +27,14 @@ export interface BringWords {
   blame: Readonly<Record<BlameHow, Variant[]>>;
   /** The sentences that tell the listener what came of their own bill, by outcome. */
   yours: Readonly<Record<BillOutcome, Variant[]>>;
+  /** The sentences that say who won a race the speaker read about, staged "named", "unnamed" or "known". */
+  election: Variant[];
+  /** How the result sits with the speaker, by their lean against the winner's party. */
+  lean: Readonly<Record<LeanSide, Variant[]>>;
 }
+
+/** Whether a speaker leans with the winner's party or against it. */
+export type LeanSide = "with" | "against";
 
 /** How a vote on a bill came out. */
 export type BillOutcome = "passed" | "failed";
@@ -43,7 +50,15 @@ export type BringMove =
   | { part: "change"; eventKind: string }
   | { part: "blame"; how: BlameHow; named: boolean }
   /** What came of the listener's own bill; `form` is the bill's (an act, an ordinance), which its lines name. */
-  | { part: "yours"; outcome: BillOutcome; form: string };
+  | { part: "yours"; outcome: BillOutcome; form: string }
+  /**
+   * Who won a race read about: `named` when this line is the one to name the
+   * winner, `unnamed` when the line after it does, `known` when the listener
+   * already knows and it is said with the feeling in one line.
+   */
+  | { part: "election"; form: "named" | "unnamed" | "known" }
+  /** How the result sits with the speaker. */
+  | { part: "lean"; side: LeanSide };
 
 /** Words one line of bringing it up, or null when no sentence fits its facts. */
 export function wordBringMove(request: {
@@ -63,15 +78,29 @@ export function wordBringMove(request: {
       ? "change"
       : move.part === "yours"
         ? `yours:${move.outcome}`
-        : `blame:${move.how}`;
+        : move.part === "election"
+          ? "election"
+          : move.part === "lean"
+            ? `lean:${move.side}`
+            : `blame:${move.how}`;
   const variants =
     move.part === "change"
       ? (words.changes[move.eventKind] ?? [])
       : move.part === "yours"
         ? words.yours[move.outcome]
-        : move.named
-          ? (words.blame[move.how] ?? [])
-          : [];
+        : move.part === "election"
+          ? words.election
+          : move.part === "lean"
+            ? words.lean[move.side]
+            : move.named
+              ? (words.blame[move.how] ?? [])
+              : [];
+  const stage =
+    move.part === "yours"
+      ? move.form
+      : move.part === "election"
+        ? move.form
+        : undefined;
   return renderLine({
     seed: request.seed,
     surface: "dialogue",
@@ -81,7 +110,7 @@ export function wordBringMove(request: {
     variants,
     facts: request.facts,
     momentKey: `${request.momentKey}:${part}`,
-    ...(move.part === "yours" ? { stage: move.form } : {}),
+    ...(stage ? { stage } : {}),
     fallbackSourceId: request.fallbackSourceId,
     voice: { traits: request.traits, register: "conversation" },
   });

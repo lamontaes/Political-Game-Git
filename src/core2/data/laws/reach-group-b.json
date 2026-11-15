@@ -13,24 +13,21 @@
         "fareboxPerResidentDollars": "transitFareboxPerResidentDollars"
       },
       "enforcer": "transit authority",
-      "source": "Model of fare-free transit programs (Kansas City 2020, Albuquerque 2021; APTA fare-free transit survey 2023)",
-      "stopgapId": "SG-GOV-REACH-B-transit-fare-price"
+      "source": "Model of fare-free transit programs (Kansas City 2020, Albuquerque 2021; APTA fare-free transit survey 2023)"
     },
     "us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax": {
       "mechanic": "price-payment",
       "effect": "mileage-fee-instead-of-fuel-tax",
       "kind": "price",
       "enforcer": "department of transportation",
-      "source": "Model of road usage charge laws (Oregon ORS 319.885 OReGO; Utah Code 72-1-213.1)",
-      "stopgapId": "SG-GOV-REACH-B-mileage-fee-price"
+      "source": "Model of road usage charge laws (Oregon ORS 319.885 OReGO; Utah Code 72-1-213.1)"
     },
     "us-policy-positions:transportation-infrastructure.public-broadband": {
       "mechanic": "price-payment",
       "effect": "public-broadband-offered",
       "kind": "eligibility",
       "enforcer": "public utility board",
-      "source": "Model of municipal broadband utilities (Institute for Local Self-Reliance community network list 2024)",
-      "stopgapId": "SG-GOV-REACH-B-broadband-bill"
+      "source": "Model of municipal broadband utilities (Institute for Local Self-Reliance community network list 2024)"
     },
     "us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit": {
       "mechanic": "highway-shift",
@@ -49,7 +46,8 @@
       "people": {
         "ageFrom": "medicaidExpansionAgeFrom",
         "ageBelow": "medicaidExpansionAgeBelow",
-        "incomeBelowPovertyShare": "medicaidExpansionIncomeShare"
+        "incomeBelowPovertyShare": "medicaidExpansionIncomeShare",
+        "servesGroupQuarters": ["nursing", "otherInstitutional"]
       },
       "terms": {
         "incomeLimitShare": "medicaidExpansionIncomeShare"
@@ -67,7 +65,8 @@
         "ageBelow": "medicaidExpansionAgeBelow",
         "incomeBelowPovertyShare": "medicaidExpansionIncomeShare",
         "hoursBelowPerMonth": "medicaidWorkHoursPerMonth",
-        "noChildBelow": "medicaidWorkExemptChildBelow"
+        "noChildBelow": "medicaidWorkExemptChildBelow",
+        "servesGroupQuarters": ["nursing", "otherInstitutional"]
       },
       "terms": {
         "hoursPerMonth": "medicaidWorkHoursPerMonth"
@@ -116,6 +115,14 @@
       "stopgapId": "SG-GOV-REACH-B-voucher-payment",
       "employersGain": true
     },
+    "us-policy-positions:education.equalize-school-funding": {
+      "appliedByEngine": true,
+      "mechanic": "school-aid",
+      "effect": "school-aid-paid",
+      "kind": "service",
+      "enforcer": "state treasurer and education department",
+      "source": "Model of school finance equalization (Lafortune, Rothstein and Schanzenbach 2018, AEJ: Applied)"
+    },
     "us-policy-positions:education.raise-teacher-minimum-salary": {
       "mechanic": "teacher-floor",
       "effect": "teacher-salary-floor",
@@ -150,8 +157,7 @@
         "capShare": "propertyTaxGrowthCapShare"
       },
       "enforcer": "county assessor",
-      "source": "California Constitution art. XIII A; Lincoln Institute, Significant Features of the Property Tax (2023)",
-      "stopgapId": "SG-GOV-REACH-B-property-tax-bills"
+      "source": "California Constitution art. XIII A; Lincoln Institute, Significant Features of the Property Tax (2023)"
     },
     "us-policy-positions:fiscal.exempt-groceries-from-sales-tax": {
       "mechanic": "records",
@@ -237,8 +243,7 @@
       "effect": "clean-electricity-standard",
       "kind": "price",
       "enforcer": "public utility commission",
-      "source": "LBNL, U.S. State Renewables Portfolio and Clean Electricity Standards: 2023 Status Update",
-      "stopgapId": "SG-GOV-REACH-B-energy-price"
+      "source": "LBNL, U.S. State Renewables Portfolio and Clean Electricity Standards: 2023 Status Update"
     },
     "us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties": {
       "mechanic": "compliance-cost",
@@ -257,16 +262,14 @@
       "effect": "collects-container-deposit",
       "kind": "compliance",
       "enforcer": "the state or city environmental agency",
-      "source": "Model of container deposit laws (Container Recycling Institute)",
-      "stopgapId": "SG-GOV-REACH-B-retail-price"
+      "source": "Model of container deposit laws (Container Recycling Institute)"
     },
     "us-policy-positions:environment-energy.price-carbon": {
       "mechanic": "price-payment",
       "effect": "carbon-priced",
       "kind": "price",
       "enforcer": "state environmental agency",
-      "source": "Model of carbon pricing (Washington Climate Commitment Act, RCW 70A.65)",
-      "stopgapId": "SG-GOV-REACH-B-energy-price"
+      "source": "Model of carbon pricing (Washington Climate Commitment Act, RCW 70A.65)"
     },
     "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal": {
       "mechanic": "farm-output",
@@ -347,8 +350,7 @@
       "effect": "transit-service-level",
       "people": {
         "ageFrom": "transitRiderAgeFrom"
-      },
-      "stopgapId": "SG-GOV-REACH-B-transit-fare-price"
+      }
     },
     "healthAndHospitals": {
       "effect": "public-health-service-level",

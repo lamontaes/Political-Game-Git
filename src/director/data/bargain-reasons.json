@@ -1,0 +1,15 @@
+{
+  "note": "Which term of a member's position on a bill (legislature MemberPosition) is said as their reason when the player asks for their vote, and the fact key it sets (reason-<key>): the term weighing most against the bill is the one said (brief O; the Words lead's rule 93: \"Why?\" gets a reason on record). Lines that need a reason name the fact in requiresFacts.",
+  "reasonTerms": {
+    "views": "own-view",
+    "constituents": "district",
+    "sponsor": "sponsor",
+    "lobby": "group",
+    "party": "party",
+    "wing": "party",
+    "ambition": "next-election",
+    "press": "next-election",
+    "consistency": "last-vote",
+    "trait": "temper"
+  }
+}

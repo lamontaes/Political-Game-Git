@@ -60,3 +60,5 @@ Released (2026-11-11): Needs an elections-side record the paper can print from a
 Claimed by next for sonnet-8597 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 05:35 UTC) on branch claude/pool-words-election-notice-printed.
 
 Released by next (2026-11-13): no push to claude/pool-words-election-notice-printed since 2026-11-11 02:36 UTC, more than twice its 5-hour time box. Continue on branch claude/pool-words-election-notice-printed.
+
+**Notes (Nov 14, 2026, Account lead).** Draft #8481 holds only a handoff note (6 lines, no code); everything in it is already in the Fix above, so it can close. Not on the train as of ee82407b5d. Still open and unbuilt: the three pieces (an election-notice record in elections.ts, the `election-notice` builder, and the route from notice.json) are one cross-module build for a Words-reviewed session.

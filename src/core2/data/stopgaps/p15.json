@@ -233,19 +233,19 @@
     "why": "Speeches (M4-04) need a first reception model; persuasion research gives directions and small averages, not these coefficients.",
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-12",
-    "replacement": "Reception calibrated to persuasion experiments by audience and message, retelling through friends and the news module, and memory by age (M4-04). Researched Oct 23, 2026: Coppock, Hill and Vavreck 2020 (Science Advances 6(36):eabc4046) measure 0.049 points on a 1 to 5 favorability scale per advertisement (SD 0.07 across 59 experiments), held as a band of 0.012 (0 to 0.030) stance strength per message in data/research/core/coppock-2020-ad-persuasion.json and reported against by scripts/research/core-parameters-year.ts. No published effect converts to speechImpulse or speechRetellWeight, so they stay TUNABLE. Oct 25, 2026 (traits-retell-circumstances): speechKeepPull and the two engagement weights of the retelling case are ESTIMATED from ANES 2020 talk at home by interest, and the retelling weighs who is at home to hear it.",
-    "status": "open"
+    "replacement": "Resolved Nov 14, 2026 (elections-read-your-record, speech): a retelling reaches the household and, past it, the listener's ties outside it (family elsewhere, friends, coworkers), each deciding to take it in by closeness to the teller (believesClaim); speechImpulse and speechRetellWeight are TUNABLE with spreads. Was: Reception calibrated to persuasion experiments by audience and message, retelling through friends and the news module, and memory by age (M4-04). Researched Oct 23, 2026: Coppock, Hill and Vavreck 2020 (Science Advances 6(36):eabc4046) measure 0.049 points on a 1 to 5 favorability scale per advertisement (SD 0.07 across 59 experiments), held as a band of 0.012 (0 to 0.030) stance strength per message in data/research/core/coppock-2020-ad-persuasion.json and reported against by scripts/research/core-parameters-year.ts. No published effect converts to speechImpulse or speechRetellWeight, so they stay TUNABLE. Oct 25, 2026 (traits-retell-circumstances): speechKeepPull and the two engagement weights of the retelling case are ESTIMATED from ANES 2020 talk at home by interest, and the retelling weighs who is at home to hear it.",
+    "status": "resolved"
   },
   {
     "id": "SG-P15-corruption-weights",
     "kind": "uncalibrated-tunable",
     "file": "src/core2/data/corruption/parameters.json",
     "line": 6,
-    "whatItFakes": "How much traits, money pressure and ties weigh in offering, taking and telling about a bribe.",
-    "why": "Basic corruption (M3-09) needs a first version; the research gives directions, not these coefficients.",
+    "whatItFakes": "How much what an offerer has heard of an official, the pull of pressing again after a refusal, a soured tie, keeping quiet, reporting, a taken bribe's vote and a breached bargain weigh (corruptionReputationWeight, corruptionLeanLeverageWeight, corruptionTellWeight, corruptionQuietPull, corruptionReportWeight, bribeVoteWeight, bribeBreachHoursPerDayOfCost).",
+    "why": "Each has a published relationship (Rose-Ackerman and Palifka 2016; Lambsdorff 2002) but no measured figure in the repository to check its size against, so each stays TUNABLE with its spread.",
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-12",
-    "replacement": "Weights checked against bribery incidence surveys and public-corruption case counts by office (DOJ Public Integrity Section reports, data/research/corruption/roadmap-r29-aggregate-enforcement.json), with audits and the news surfacing records; the take calibration is people-corruption-honest-pull-calibrated. Researched Oct 23, 2026 (data/research/core/corruption-bands-2014.json): bribes averaged 10.9% of a deal's value and 34.5% of its profit in 427 OECD foreign-bribery cases (OECD Foreign Bribery Report 2014, via a secondary summary; the OECD pages refused the session), the figure bribeShareOfStake would take as ESTIMATED, and 7% of U.S. adults paid a bribe to a public service in a year (Transparency International, Global Corruption Barometer 2013, via Pew Research Center), the band scripts/research/core-parameters-year.ts reports offers against. The trait, need, tie, tell, quiet, report, vote and breach weights have no published effect that converts and stay TUNABLE.",
+    "replacement": "A measured rate for each: how often a bribe's parties tell or report, how often an official presses again after a refusal, how far a bought vote moves, from public-integrity case counts (data/research/corruption/doj-pin-2023-local-state-prosecutions.json, DOJ Public Integrity Section reports) and the played-year audits. Narrowed Nov 15, 2026: the offer pull, take pull, need, pressure, tie and bribe-share weights are ESTIMATED rows with the evidence they were fitted and checked against (src/core2/data/corruption/parameters.json).",
     "status": "open"
   },
   {
@@ -339,18 +339,6 @@
     "addedAt": "2026-10-12",
     "replacement": "Agreements re-resolve their qualifying worker when a job ends (WORLD/CORE), and the jobs engine exports its pinned-job lookup; then these holders can move like anyone else. Resolved by Same change, October 19, 2026: the moves engine's copy of the lookup is deleted, so a holder of a job a saved agreement names moves like anyone else and the agreement re-resolves at its next payment (finance-cash.ts productJobRelations).",
     "status": "resolved"
-  },
-  {
-    "id": "SG-P15-party-ask-after-player",
-    "kind": "missing-mechanic",
-    "file": "src/core2/modules/candidacy.ts",
-    "line": 1194,
-    "whatItFakes": "A party's asks for a seat stop at the player: when the player says no or not now in the ask's scene, the party asks none of its other members for that seat.",
-    "why": "The party asks on the day filing opens, and the player's answer comes later, from the scene; nothing returns the party to its list once the player has answered.",
-    "addedBy": "words/party-asks-you-to-run",
-    "addedAt": "2026-10-26",
-    "replacement": "The candidacy engine reads the player's no or not-now reply (a scene.reply naming the party-asked record) and asks the party's next member for the seat while filing is open.",
-    "status": "open"
   },
   {
     "id": "SG-P15-party-ask-order",

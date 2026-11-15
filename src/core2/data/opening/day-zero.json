@@ -1,0 +1,2603 @@
+{
+  "header": "Day zero: which tables a real place would already have rows in on an ordinary day before anyone started watching. Skill day-one-in-motion; owner, Nov 14, 2026: 'The town must be in motion on day one... not just town, but country and state. Remember, it's all one simulation.' A row says stock (a real place has this on day 0), flow-only (a log or event after day 0), or unsure (none left: the Account lead called all 67 on Nov 14). Every stock row is checked by src/core2/day-zero.test.ts at the two pinned places. A stock row that is still empty carries knownRed: the id of the pool item that fixes it, never a stopgap id (no new stopgaps). The known-red list may only shrink: the test fails if a known-red table has rows (remove the mark), and tests/guards/day-zero.test.ts fails if a knownRed table is not in tests/guards/day-zero-baseline.json. Adding to that baseline needs the CTO's word, since it means a new gap in the opening. A new module (a MODULE_ID in src/core2) must appear in modules below or the guard fails: answer the day-0 question for it, at town, state and federal level. filledBy says how soon the world fills the table: day 1 (the first step seats it), day 31, or year 1 (measured at the two pinned places, the later of the two). A knownRed row with knownRedPlaces is red only at those place keys; elsewhere the table must have rows. Test for a call (Account lead, Nov 14): would a real place on the start date already have this under way? A row with when: filing-window-open is required only where a contest's filing window is open on the start date. Only a table that exists solely because of a player act may be left empty, and those are listed in playActOnly. Who may add a known-red entry: the CTO, by editing tests/guards/day-zero-baseline.json in the same pull request; the guard fails any known-red table that is not in the baseline or whose pool item file does not exist.",
+  "measured": {
+    "trainHead": "8bb1ff9d6eeb81f07b995d916b888f640f0a9c42",
+    "days": 365,
+    "command": "node --import tsx scripts/dev-tests/day-zero-year.ts <seed> 365",
+    "seeds": ["a1", "b2"],
+    "warmUp": "Known-red marks measured with a 31-day warm-up (OPENING_WARMUP_DAYS in src/bench/world.ts, src/core2/player-warm-up.ts) at the two pinned places on train head b7ed6337: a table is red where it is still empty after the warm-up."
+  },
+  "pinnedPlaces": [
+    {
+      "name": "Washington, District of Columbia",
+      "placeKey": "1150000",
+      "seed": "122fae980ca0154537c6a8c7af1093cdb691b8d39f5d373b519bd763d8980285"
+    },
+    {
+      "name": "Lewiston, Maine",
+      "placeKey": "2338740",
+      "seed": "23142a2761a616b9618e425db3c9591cc9cba0aaf1f83ab37d888944e039ab3b"
+    }
+  ],
+  "rows": [
+    {
+      "table": "business.choices",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "year 1",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "business.closures",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "year 1",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "business.compliance",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "business.draws",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "A log, tally or running total of what happens after day 0; a real place keeps no such record to inspect on an ordinary day."
+    },
+    {
+      "table": "business.foundings",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "business.operating",
+      "level": "town (people and places)",
+      "call": "stock",
+      "filledBy": "day 31",
+      "reason": "Businesses operating state.",
+      "knownRed": "opening-town-life-empty-at-day-0",
+      "knownRedPlaces": ["2338740"]
+    },
+    {
+      "table": "business.outsideCosts",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "year 1",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "business.owners",
+      "level": "town (people and places)",
+      "call": "stock",
+      "filledBy": "day 1",
+      "reason": "Businesses have owners on any day."
+    },
+    {
+      "table": "business.state",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 1",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "business.successions",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "business.trading",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "candidacy.decisions",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "year 1",
+      "reason": "A log, tally or running total of what happens after day 0; a real place keeps no such record to inspect on an ordinary day."
+    },
+    {
+      "table": "candidacy.weighed",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "year 1",
+      "reason": "A log, tally or running total of what happens after day 0; a real place keeps no such record to inspect on an ordinary day."
+    },
+    {
+      "table": "climate.months",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 1",
+      "reason": "A log, tally or running total of what happens after day 0; a real place keeps no such record to inspect on an ordinary day."
+    },
+    {
+      "table": "climate.state",
+      "level": "town (people and places)",
+      "call": "stock",
+      "filledBy": "day 1",
+      "reason": "Climate state at day 0."
+    },
+    {
+      "table": "contracts.awards",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "core.actCounters",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 1",
+      "reason": "A log, tally or running total of what happens after day 0; a real place keeps no such record to inspect on an ordinary day."
+    },
+    {
+      "table": "core.actCountersByMonth",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 1",
+      "reason": "A log, tally or running total of what happens after day 0; a real place keeps no such record to inspect on an ordinary day."
+    },
+    {
+      "table": "core.actsByMonthKind",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 1",
+      "reason": "A log, tally or running total of what happens after day 0; a real place keeps no such record to inspect on an ordinary day."
+    },
+    {
+      "table": "core.cashJournal.detailedByOwner",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 1",
+      "reason": "An index over another table."
+    },
+    {
+      "table": "core.cashJournal.detailedReceipts",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 1",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "core.cashJournal.requiredBySource",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "An index over another table."
+    },
+    {
+      "table": "core.finance.cashLatestContractSource",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 1",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "core.finance.cashLatestCreditSource",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "year 1",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "core.finance.cashRequiredReceipts",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "core.finance.cashSources",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 1",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "core.finance.closures",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "year 1",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "core.finance.conditionsByPlace",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 1",
+      "reason": "An index over another table."
+    },
+    {
+      "table": "core.finance.detailedReceipts",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "core.finance.facilities",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 1",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "core.finance.facilitiesByBorrower",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 1",
+      "reason": "An index over another table."
+    },
+    {
+      "table": "core.finance.latestCreditByFacility",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "year 1",
+      "reason": "An index over another table."
+    },
+    {
+      "table": "core.finance.latestReceiptsByContract",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 1",
+      "reason": "An index over another table."
+    },
+    {
+      "table": "core.finance.paidIncomeByPlaceMonth",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "A log, tally or running total of what happens after day 0; a real place keeps no such record to inspect on an ordinary day."
+    },
+    {
+      "table": "core.finance.paidIncomeByPlaceMonthKind",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "A log, tally or running total of what happens after day 0; a real place keeps no such record to inspect on an ordinary day."
+    },
+    {
+      "table": "core.finance.salesBudgetPoolsByPayer",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 1",
+      "reason": "An index over another table."
+    },
+    {
+      "table": "core.finance.salesReceivedThroughByPayer",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 1",
+      "reason": "An index over another table."
+    },
+    {
+      "table": "core.finance.totalsByKind",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 1",
+      "reason": "A log, tally or running total of what happens after day 0; a real place keeps no such record to inspect on an ordinary day."
+    },
+    {
+      "table": "core.organizedTopicsByPerson",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "year 1",
+      "reason": "An index over another table."
+    },
+    {
+      "table": "core.pendingCallbacks",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "year 1",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "core.work.countedPayByQuarter",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "A log, tally or running total of what happens after day 0; a real place keeps no such record to inspect on an ordinary day."
+    },
+    {
+      "table": "core.work.currentAttendanceJobByRecordId",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 1",
+      "reason": "An index over another table."
+    },
+    {
+      "table": "core.work.detailedAttendance",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "year 1",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "core.work.detailedPayroll",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "year 1",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "core.work.earnedPayPeriodByCommitmentIndex",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 1",
+      "reason": "An index over another table."
+    },
+    {
+      "table": "core.work.earnedPayPeriods",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 1",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "core.work.hourChanges",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "year 1",
+      "reason": "A log, tally or running total of what happens after day 0; a real place keeps no such record to inspect on an ordinary day."
+    },
+    {
+      "table": "core.work.lastAttendanceByJob",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 1",
+      "reason": "An index over another table."
+    },
+    {
+      "table": "core.work.latestPayrollByJob",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "An index over another table."
+    },
+    {
+      "table": "core.work.payByQuarter",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "A log, tally or running total of what happens after day 0; a real place keeps no such record to inspect on an ordinary day."
+    },
+    {
+      "table": "core.work.payChanges",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "year 1",
+      "reason": "A log, tally or running total of what happens after day 0; a real place keeps no such record to inspect on an ordinary day."
+    },
+    {
+      "table": "core.work.payrollArrearsByDue",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "An index over another table."
+    },
+    {
+      "table": "core.work.payrollCashSources",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "core.work.payrollLedgerByCommitment",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 1",
+      "reason": "An index over another table."
+    },
+    {
+      "table": "core.work.payrollPeriodsByDue",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 1",
+      "reason": "An index over another table."
+    },
+    {
+      "table": "core.work.primaryTimeTotals",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 1",
+      "reason": "A log, tally or running total of what happens after day 0; a real place keeps no such record to inspect on an ordinary day."
+    },
+    {
+      "table": "core.work.rollups",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 1",
+      "reason": "A log, tally or running total of what happens after day 0; a real place keeps no such record to inspect on an ordinary day."
+    },
+    {
+      "table": "core.work.rollupsByWeek",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 1",
+      "reason": "A log, tally or running total of what happens after day 0; a real place keeps no such record to inspect on an ordinary day."
+    },
+    {
+      "table": "core.work.timeByPerson",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 1",
+      "reason": "An index over another table."
+    },
+    {
+      "table": "core.work.totalsByJob",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 1",
+      "reason": "A log, tally or running total of what happens after day 0; a real place keeps no such record to inspect on an ordinary day."
+    },
+    {
+      "table": "core2-budgets-v1.arrears",
+      "level": "town, state and federal",
+      "call": "stock",
+      "filledBy": "day 31",
+      "reason": "Overdue bills a government carries."
+    },
+    {
+      "table": "core2-budgets-v1.awardBase",
+      "level": "town, state and federal",
+      "call": "stock",
+      "filledBy": "day 31",
+      "reason": "Contract bases."
+    },
+    {
+      "table": "core2-budgets-v1.creditMarks",
+      "level": "town, state and federal",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "core2-budgets-v1.enacted",
+      "level": "town, state and federal",
+      "call": "stock",
+      "filledBy": "year 1",
+      "reason": "Every government has a budget in force on any day.",
+      "knownRed": "opening-budgets-empty-at-day-0",
+      "knownRedPlaces": ["1150000"]
+    },
+    {
+      "table": "core2-budgets-v1.federalDebt",
+      "level": "federal",
+      "call": "stock",
+      "filledBy": "day 31",
+      "reason": "The federal government carries debt on any day."
+    },
+    {
+      "table": "core2-budgets-v1.landed",
+      "level": "town, state and federal",
+      "call": "flow-only",
+      "filledBy": "year 1",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "core2-budgets-v1.outsideRevenue",
+      "level": "town, state and federal",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "core2-budgets-v1.reserveSweeps",
+      "level": "town, state and federal",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "core2-budgets-v1.serviceChargeMonths",
+      "level": "town, state and federal",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "A log, tally or running total of what happens after day 0; a real place keeps no such record to inspect on an ordinary day."
+    },
+    {
+      "table": "core2-budgets-v1.sinceClose",
+      "level": "town, state and federal",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "core2-budgets-v1.spendingPayments",
+      "level": "town, state and federal",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "A log, tally or running total of what happens after day 0; a real place keeps no such record to inspect on an ordinary day."
+    },
+    {
+      "table": "core2-budgets-v1.taxPayments",
+      "level": "town, state and federal",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "A log, tally or running total of what happens after day 0; a real place keeps no such record to inspect on an ordinary day."
+    },
+    {
+      "table": "core2-budgets-v1.townRevenue",
+      "level": "town, state and federal",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "core2-budgets-v1.treasuryMonths",
+      "level": "town, state and federal",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "A log, tally or running total of what happens after day 0; a real place keeps no such record to inspect on an ordinary day."
+    },
+    {
+      "table": "core2-budgets-v1.withholding",
+      "level": "town, state and federal",
+      "call": "flow-only",
+      "filledBy": "year 1",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "core2-budgets-v1.yearToDate",
+      "level": "town, state and federal",
+      "call": "stock",
+      "filledBy": "day 31",
+      "reason": "Year-to-date spending at day 0 depends on the fiscal year start."
+    },
+    {
+      "table": "core2-campaigns-v1.campaigns",
+      "level": "town, state and federal",
+      "call": "stock",
+      "filledBy": "year 1",
+      "reason": "Campaigns in progress on day 0 (money raised and set aside).",
+      "knownRed": "opening-campaigns-and-filings-empty-at-day-0"
+    },
+    {
+      "table": "core2-campaigns-v1.causeSummaries",
+      "level": "town, state and federal",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "core2-campaigns-v1.causes",
+      "level": "town, state and federal",
+      "call": "flow-only",
+      "filledBy": "year 1",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "core2-campaigns-v1.doors",
+      "level": "town, state and federal",
+      "call": "flow-only",
+      "filledBy": "year 1",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "core2-campaigns-v1.emphasis",
+      "level": "town, state and federal",
+      "call": "flow-only",
+      "filledBy": "year 1",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "core2-campaigns-v1.endorsements",
+      "level": "town, state and federal",
+      "call": "stock",
+      "filledBy": "year 1",
+      "reason": "Endorsements already given.",
+      "knownRed": "opening-campaigns-and-filings-empty-at-day-0"
+    },
+    {
+      "table": "core2-campaigns-v1.gifts",
+      "level": "town, state and federal",
+      "call": "flow-only",
+      "filledBy": "year 1",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "core2-campaigns-v1.messages",
+      "level": "town, state and federal",
+      "call": "flow-only",
+      "filledBy": "year 1",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "core2-campaigns-v1.pledges",
+      "level": "town, state and federal",
+      "call": "flow-only",
+      "filledBy": "year 1",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "core2-campaigns-v1.races",
+      "level": "town, state and federal",
+      "call": "stock",
+      "filledBy": "day 31",
+      "reason": "Races with campaigns under way."
+    },
+    {
+      "table": "core2-constituent-cases-v1.cases",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "core2-counted-demotion-v1.demotions",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "year 1",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "core2-counted-demotion-v1.state",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 1",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "core2-counted-moves-v1.moves",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "core2-counted-moves-v1.pulls",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "A log, tally or running total of what happens after day 0; a real place keeps no such record to inspect on an ordinary day."
+    },
+    {
+      "table": "core2-coverage-v1.medicalBills",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "core2-crime-v1.carry",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "A log, tally or running total of what happens after day 0; a real place keeps no such record to inspect on an ordinary day."
+    },
+    {
+      "table": "core2-crime-v1.months",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "A log, tally or running total of what happens after day 0; a real place keeps no such record to inspect on an ordinary day."
+    },
+    {
+      "table": "core2-crime-v1.openings",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "core2-crime-v1.pressure",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "core2-crime-v1.tallies",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "A log, tally or running total of what happens after day 0; a real place keeps no such record to inspect on an ordinary day."
+    },
+    {
+      "table": "core2-disasters-v1.state",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 1",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "core2-elections-v1.filings",
+      "level": "town, state and federal",
+      "call": "stock",
+      "filledBy": "year 1",
+      "reason": "Filings, petitions and signatures exist at a place whose filing window is open on the start date or whose race is under way; nowhere else is it required.",
+      "knownRed": "opening-campaigns-and-filings-empty-at-day-0",
+      "when": "filing-window-open"
+    },
+    {
+      "table": "core2-elections-v1.petitionSignatures",
+      "level": "town, state and federal",
+      "call": "stock",
+      "filledBy": "year 1",
+      "reason": "Filings, petitions and signatures exist at a place whose filing window is open on the start date or whose race is under way; nowhere else is it required.",
+      "knownRed": "opening-campaigns-and-filings-empty-at-day-0",
+      "when": "filing-window-open"
+    },
+    {
+      "table": "core2-elections-v1.petitions",
+      "level": "town, state and federal",
+      "call": "stock",
+      "filledBy": "year 1",
+      "reason": "Filings, petitions and signatures exist at a place whose filing window is open on the start date or whose race is under way; nowhere else is it required.",
+      "knownRed": "opening-campaigns-and-filings-empty-at-day-0",
+      "when": "filing-window-open"
+    },
+    {
+      "table": "core2-employer-taxes-v1.arrears",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "core2-employer-taxes-v1.passThroughs",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "year 1",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "core2-employer-taxes-v1.profits",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "year 1",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "core2-employer-taxes-v1.quarters",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "year 1",
+      "reason": "A log, tally or running total of what happens after day 0; a real place keeps no such record to inspect on an ordinary day."
+    },
+    {
+      "table": "core2-employer-taxes-v1.shares",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "core2-employer-taxes-v1.yearToDate",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "core2-executive-v1.orderDecisions",
+      "level": "federal",
+      "call": "stock",
+      "filledBy": "day 1",
+      "reason": "Executive orders already issued."
+    },
+    {
+      "table": "core2-homeless-count-v1.counts",
+      "level": "town (people and places)",
+      "call": "stock",
+      "filledBy": "day 31",
+      "reason": "A count of homeless people exists on any day."
+    },
+    {
+      "table": "core2-interest-groups-v1.dues",
+      "level": "town (people and places)",
+      "call": "stock",
+      "filledBy": "year 1",
+      "reason": "Dues groups collect.",
+      "knownRed": "opening-interest-groups-empty-at-day-0"
+    },
+    {
+      "table": "core2-interest-groups-v1.groups",
+      "level": "town (people and places)",
+      "call": "stock",
+      "filledBy": "year 1",
+      "reason": "Groups (unions, chambers, advocacy groups) exist before anyone watches.",
+      "knownRed": "opening-interest-groups-empty-at-day-0",
+      "knownRedPlaces": ["1150000"]
+    },
+    {
+      "table": "core2-interest-groups-v1.meetings",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "year 1",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "core2-justice-v1.cases",
+      "level": "town (people and places)",
+      "call": "stock",
+      "filledBy": "day 31",
+      "reason": "Cases pending in court on any day."
+    },
+    {
+      "table": "core2-justice-v1.complaints",
+      "level": "town (people and places)",
+      "call": "stock",
+      "filledBy": "day 31",
+      "reason": "Open complaints."
+    },
+    {
+      "table": "core2-justice-v1.cursor",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "core2-justice-v1.custody",
+      "level": "town (people and places)",
+      "call": "stock",
+      "filledBy": "year 1",
+      "reason": "Some people are in jail or prison on any day.",
+      "knownRed": "opening-justice-custody-empty-at-day-0"
+    },
+    {
+      "table": "core2-justice-v1.custodyReferrals",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "year 1",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "core2-justice-v1.fines",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "year 1",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "core2-justice-v1.investigations",
+      "level": "town (people and places)",
+      "call": "stock",
+      "filledBy": "day 31",
+      "reason": "Open investigations."
+    },
+    {
+      "table": "core2-justice-v1.pretrial",
+      "level": "town (people and places)",
+      "call": "stock",
+      "filledBy": "year 1",
+      "reason": "People held before trial.",
+      "knownRed": "opening-justice-custody-empty-at-day-0"
+    },
+    {
+      "table": "core2-justice-v1.sentences",
+      "level": "town (people and places)",
+      "call": "stock",
+      "filledBy": "year 1",
+      "reason": "Some people are serving sentences on any day.",
+      "knownRed": "opening-justice-custody-empty-at-day-0"
+    },
+    {
+      "table": "core2-law-reach-a-v1.premiums",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "core2-law-reach-a-v1.staffing",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "core2-legislature-v1.budgetHearings",
+      "level": "town, state and federal",
+      "call": "flow-only",
+      "filledBy": "year 1",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "core2-legislature-v1.committees",
+      "level": "town, state and federal",
+      "call": "stock",
+      "filledBy": "year 1",
+      "reason": "Legislative bodies have committees on any day.",
+      "knownRed": "opening-legislature-committees-empty-at-day-0"
+    },
+    {
+      "table": "core2-legislature-v1.learnedStakes",
+      "level": "town, state and federal",
+      "call": "flow-only",
+      "filledBy": "year 1",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "core2-legislature-v1.studies",
+      "level": "town, state and federal",
+      "call": "stock",
+      "filledBy": "year 1",
+      "reason": "Studies a body has under way.",
+      "knownRed": "opening-officials-working-life-empty-at-day-0"
+    },
+    {
+      "table": "core2-legislature-v1.votes",
+      "level": "town, state and federal",
+      "call": "stock",
+      "filledBy": "year 1",
+      "reason": "Votes already taken this term.",
+      "knownRed": "opening-record-votes-empty-at-day-0",
+      "knownRedPlaces": ["1150000"]
+    },
+    {
+      "table": "core2-meetings-v1.remarks",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "core2-meetings-v1.townHalls",
+      "level": "town (people and places)",
+      "call": "stock",
+      "filledBy": "day 31",
+      "reason": "Town halls scheduled.",
+      "knownRed": "opening-officials-working-life-empty-at-day-0",
+      "knownRedPlaces": ["1150000"]
+    },
+    {
+      "table": "core2-office-day-federal-v1.cabinet",
+      "level": "federal",
+      "call": "stock",
+      "filledBy": "day 1",
+      "reason": "A president has a cabinet on any day."
+    },
+    {
+      "table": "core2-office-day-state-v1.perDiem",
+      "level": "state",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "core2-office-day-state-v1.results",
+      "level": "state",
+      "call": "flow-only",
+      "filledBy": "year 1",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "core2-office-day-v1.acts",
+      "level": "town, state and federal",
+      "call": "stock",
+      "filledBy": "day 0",
+      "reason": "A holder of an office has given office hours and held a town hall within their custom's interval on any ordinary day, and the executives gave last year's address; the opening writes the last of each as a dated act row (openingActs)."
+    },
+    {
+      "table": "core2-office-day-v1.agendaItems",
+      "level": "town, state and federal",
+      "call": "stock",
+      "filledBy": "day 1",
+      "reason": "Agenda items a board has on any day.",
+      "knownRed": "opening-first-step-empty-at-day-0",
+      "knownRedPlaces": ["1150000"]
+    },
+    {
+      "table": "core2-office-day-v1.pledges",
+      "level": "town",
+      "call": "flow-only",
+      "filledBy": "day 1",
+      "reason": "A word the player gave a friend to come to a town meeting not yet posted; it exists only by the player's own yes in a scene, and is spent when the meeting is posted."
+    },
+    {
+      "table": "core2-offices-v1.vacancies",
+      "level": "town, state and federal",
+      "call": "stock",
+      "filledBy": "year 1",
+      "reason": "Some seats are vacant on any day (resigned, died, not yet filled).",
+      "knownRed": "opening-offices-vacancies-empty-at-day-0"
+    },
+    {
+      "table": "core2-outcome-web-v1.baselines",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 1",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "core2-outcome-web-v1.laws",
+      "level": "town (people and places)",
+      "call": "stock",
+      "filledBy": "year 1",
+      "reason": "Laws tracked by the outcome web."
+    },
+    {
+      "table": "core2-outcome-web-v1.months",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 1",
+      "reason": "A log, tally or running total of what happens after day 0; a real place keeps no such record to inspect on an ordinary day."
+    },
+    {
+      "table": "core2-outcome-web-v1.state",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 1",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "core2-parties-v1.chairs",
+      "level": "town, state and federal",
+      "call": "stock",
+      "filledBy": "year 1",
+      "reason": "Each party has a chair on any day.",
+      "knownRed": "opening-parties-chairs-empty-at-day-0"
+    },
+    {
+      "table": "core2-parties-v1.meetings",
+      "level": "town, state and federal",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "core2-parties-v1.mentors",
+      "level": "town, state and federal",
+      "call": "stock",
+      "filledBy": "year 1",
+      "reason": "Party mentors.",
+      "knownRed": "opening-parties-chairs-empty-at-day-0"
+    },
+    {
+      "table": "core2-patrol-v1.months",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "A log, tally or running total of what happens after day 0; a real place keeps no such record to inspect on an ordinary day."
+    },
+    {
+      "table": "core2-press-v1.adBuys",
+      "level": "town (people and places)",
+      "call": "stock",
+      "filledBy": "year 1",
+      "reason": "Ads in the paper on day 0.",
+      "knownRed": "opening-press-stories-empty-at-day-0"
+    },
+    {
+      "table": "core2-press-v1.employerEnrollment",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 1",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "core2-press-v1.revenueMonths",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "A log, tally or running total of what happens after day 0; a real place keeps no such record to inspect on an ordinary day."
+    },
+    {
+      "table": "core2-press-v1.stories",
+      "level": "town (people and places)",
+      "call": "stock",
+      "filledBy": "day 31",
+      "reason": "The paper has stories on any day; its archive is already there."
+    },
+    {
+      "table": "core2-press-v1.tips",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "year 1",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "core2-public-action-v1.mobilization",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "core2-public-action-v1.state",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 1",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "core2-public-safety-v1.carry",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "A log, tally or running total of what happens after day 0; a real place keeps no such record to inspect on an ordinary day."
+    },
+    {
+      "table": "core2-public-safety-v1.permits",
+      "level": "town (people and places)",
+      "call": "stock",
+      "filledBy": "day 31",
+      "reason": "Permits held (carry, storage).",
+      "knownRed": "opening-town-life-empty-at-day-0",
+      "knownRedPlaces": ["2338740"]
+    },
+    {
+      "table": "core2-public-safety-v1.storage",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "core2-record-v1.votes",
+      "level": "town, state and federal",
+      "call": "stock",
+      "filledBy": "year 1",
+      "reason": "Officials have voting records from the prior term (OWNER-DECISIONS, Oct: officials have voting records from the prior term). Empty at creation at Washington (and filled by year 1) but already 9,938 rows at Lewiston, so the mark applies at Washington only.",
+      "knownRed": "opening-record-votes-empty-at-day-0",
+      "knownRedPlaces": ["1150000"]
+    },
+    {
+      "table": "core2-renewal-v1.births",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "core2-renewal-v1.countedCarry",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "A log, tally or running total of what happens after day 0; a real place keeps no such record to inspect on an ordinary day."
+    },
+    {
+      "table": "core2-renewal-v1.countedExposure",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "core2-renewal-v1.countedIllness",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "core2-renewal-v1.countedUnplanned",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "core2-renewal-v1.couples",
+      "level": "town (people and places)",
+      "call": "stock",
+      "filledBy": "day 1",
+      "reason": "People are partnered on any day."
+    },
+    {
+      "table": "core2-renewal-v1.exposure",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 1",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "core2-renewal-v1.plans",
+      "level": "town (people and places)",
+      "call": "stock",
+      "filledBy": "day 1",
+      "reason": "Family plans people hold."
+    },
+    {
+      "table": "core2-renewal-v1.pregnancies",
+      "level": "town (people and places)",
+      "call": "stock",
+      "filledBy": "year 1",
+      "reason": "Some people are pregnant on any day.",
+      "knownRed": "opening-town-life-empty-at-day-0"
+    },
+    {
+      "table": "core2-resting-stress-v1.months",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 1",
+      "reason": "A log, tally or running total of what happens after day 0; a real place keeps no such record to inspect on an ordinary day."
+    },
+    {
+      "table": "core2-school-days-v1.attended",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 1",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "core2-school-days-v1.carry",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "A log, tally or running total of what happens after day 0; a real place keeps no such record to inspect on an ordinary day."
+    },
+    {
+      "table": "core2-school-days-v1.college",
+      "level": "town (people and places)",
+      "call": "stock",
+      "filledBy": "year 1",
+      "reason": "Students in college on any day.",
+      "knownRed": "opening-town-life-empty-at-day-0"
+    },
+    {
+      "table": "core2-school-days-v1.done",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "core2-school-days-v1.groups",
+      "level": "town (people and places)",
+      "call": "stock",
+      "filledBy": "day 31",
+      "reason": "Classes and school groups on any school day.",
+      "knownRed": "opening-town-life-empty-at-day-0"
+    },
+    {
+      "table": "core2-school-days-v1.honors",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "core2-school-days-v1.measures",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "core2-school-days-v1.results",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "core2-staff-v1.staff",
+      "level": "town, state and federal",
+      "call": "stock",
+      "filledBy": "day 31",
+      "reason": "Officials' staff on any day."
+    },
+    {
+      "table": "core2-staff-v1.work",
+      "level": "town, state and federal",
+      "call": "flow-only",
+      "filledBy": "year 1",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "core2-trait-change-v1.changes",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "A log, tally or running total of what happens after day 0; a real place keeps no such record to inspect on an ordinary day."
+    },
+    {
+      "table": "core2-voting-v1.places",
+      "level": "town, state and federal",
+      "call": "stock",
+      "filledBy": "year 1",
+      "reason": "Per-place returns for past races.",
+      "knownRed": "opening-voting-results-empty-at-day-0"
+    },
+    {
+      "table": "core2-voting-v1.races",
+      "level": "town, state and federal",
+      "call": "stock",
+      "filledBy": "year 1",
+      "reason": "Past races are part of the world having a past; may be held in the past module.",
+      "knownRed": "opening-voting-results-empty-at-day-0"
+    },
+    {
+      "table": "core2-voting-v1.results",
+      "level": "town, state and federal",
+      "call": "stock",
+      "filledBy": "year 1",
+      "reason": "The prior election for every seat has results (OWNER-DECISIONS, Oct: the world has a past).",
+      "knownRed": "opening-voting-results-empty-at-day-0"
+    },
+    {
+      "table": "core2-voting-v1.returns",
+      "level": "town, state and federal",
+      "call": "stock",
+      "filledBy": "year 1",
+      "reason": "Same as results.",
+      "knownRed": "opening-voting-results-empty-at-day-0"
+    },
+    {
+      "table": "core2-world-legislating-v1.sessions",
+      "level": "federal",
+      "call": "stock",
+      "filledBy": "day 1",
+      "reason": "Other states hold sessions on any day (OWNER-DECISIONS, Sept 26: all 50 legislatures seated from day one).",
+      "knownRed": "opening-first-step-empty-at-day-0",
+      "knownRedPlaces": ["1150000"]
+    },
+    {
+      "table": "corruption.crimes",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "corruption.settled",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "year 1",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "credit.applications",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 1",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "credit.banks",
+      "level": "town (people and places)",
+      "call": "stock",
+      "filledBy": "day 1",
+      "reason": "A town has banks."
+    },
+    {
+      "table": "credit.books",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 1",
+      "reason": "A monthly record written when the bank closes its month; the loans it summarizes are the stock (opening-bank-credit-empty-at-day-0)."
+    },
+    {
+      "table": "credit.households",
+      "level": "town (people and places)",
+      "call": "stock",
+      "filledBy": "year 1",
+      "reason": "Households' credit profiles.",
+      "knownRed": "opening-bank-credit-empty-at-day-0"
+    },
+    {
+      "table": "credit.lenders",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 1",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "credit.loans",
+      "level": "town (people and places)",
+      "call": "stock",
+      "filledBy": "day 1",
+      "reason": "Mortgages already live in housing.mortgages (1,295 at day 0 at Washington); this ledger may be for the other loans."
+    },
+    {
+      "table": "credit.payments",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "A log, tally or running total of what happens after day 0; a real place keeps no such record to inspect on an ordinary day."
+    },
+    {
+      "table": "credit.pulls",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 1",
+      "reason": "A log, tally or running total of what happens after day 0; a real place keeps no such record to inspect on an ordinary day."
+    },
+    {
+      "table": "federal-courts.months",
+      "level": "federal",
+      "call": "flow-only",
+      "filledBy": "day 1",
+      "reason": "A log, tally or running total of what happens after day 0; a real place keeps no such record to inspect on an ordinary day."
+    },
+    {
+      "table": "federal-courts.state",
+      "level": "federal",
+      "call": "stock",
+      "filledBy": "day 1",
+      "reason": "Federal courts' state at day 0."
+    },
+    {
+      "table": "grievance.counts",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "grievance.grievances",
+      "level": "town (people and places)",
+      "call": "stock",
+      "filledBy": "day 31",
+      "reason": "Grievances people hold on any day."
+    },
+    {
+      "table": "housing.assessments",
+      "level": "town (people and places)",
+      "call": "stock",
+      "filledBy": "day 31",
+      "reason": "Every home carries an assessed value on any day."
+    },
+    {
+      "table": "housing.cases",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "year 1",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "housing.foreclosures",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "year 1",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "housing.purchases",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "year 1",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "housing.sales",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "year 1",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "housing.settlements",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "housing.statusByPerson",
+      "level": "town (people and places)",
+      "call": "stock",
+      "filledBy": "year 1",
+      "reason": "Same.",
+      "knownRed": "opening-housing-assessments-empty-at-day-0"
+    },
+    {
+      "table": "housing.statuses",
+      "level": "town (people and places)",
+      "call": "stock",
+      "filledBy": "year 1",
+      "reason": "Renter/owner status  the dwellings table.",
+      "knownRed": "opening-housing-assessments-empty-at-day-0"
+    },
+    {
+      "table": "housing.taxArrears",
+      "level": "town (people and places)",
+      "call": "stock",
+      "filledBy": "day 31",
+      "reason": "Homes behind on property tax."
+    },
+    {
+      "table": "jobs.absence",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "jobs.changes",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "A log, tally or running total of what happens after day 0; a real place keeps no such record to inspect on an ordinary day."
+    },
+    {
+      "table": "jobs.claims",
+      "level": "town (people and places)",
+      "call": "stock",
+      "filledBy": "day 31",
+      "reason": "People on unemployment insurance on any day; may be held in benefit payments."
+    },
+    {
+      "table": "jobs.countedSeekers",
+      "level": "town (people and places)",
+      "call": "stock",
+      "filledBy": "day 1",
+      "reason": "The jobs builder is building the opening jobs stock and vacancies now (Account lead, Nov 14): not filed here."
+    },
+    {
+      "table": "jobs.elsewhere",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "jobs.employers",
+      "level": "town (people and places)",
+      "call": "stock",
+      "filledBy": "day 1",
+      "reason": "The jobs builder is building the opening jobs stock and vacancies now (Account lead, Nov 14): not filed here."
+    },
+    {
+      "table": "jobs.fullHours",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "jobs.offers",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "jobs.pay",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "A wage payment is an event after day 0; the wage itself lives on the position and job rows."
+    },
+    {
+      "table": "jobs.positions",
+      "level": "town (people and places)",
+      "call": "stock",
+      "filledBy": "day 1",
+      "reason": "The jobs builder is building the opening jobs stock and vacancies now (Account lead, Nov 14): not filed here."
+    },
+    {
+      "table": "jobs.raises",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "year 1",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "jobs.referrals",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "year 1",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "jobs.regional",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "jobs.seekers",
+      "level": "town (people and places)",
+      "call": "stock",
+      "filledBy": "day 1",
+      "reason": "The jobs builder is building the opening jobs stock and vacancies now (Account lead, Nov 14): not filed here."
+    },
+    {
+      "table": "jobs.spells",
+      "level": "town (people and places)",
+      "call": "stock",
+      "filledBy": "day 1",
+      "reason": "Employment spells  current jobs instead of kept."
+    },
+    {
+      "table": "jobs.state",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 1",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "jobs.turnover",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "A log, tally or running total of what happens after day 0; a real place keeps no such record to inspect on an ordinary day."
+    },
+    {
+      "table": "macro.country",
+      "level": "federal",
+      "call": "stock",
+      "filledBy": "day 1",
+      "reason": "The country has an economy on any day."
+    },
+    {
+      "table": "macro.countryBases",
+      "level": "federal",
+      "call": "stock",
+      "filledBy": "day 1",
+      "reason": "Opening bases per state."
+    },
+    {
+      "table": "macro.countryParts",
+      "level": "federal",
+      "call": "flow-only",
+      "filledBy": "day 1",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "macro.countryStates",
+      "level": "federal",
+      "call": "stock",
+      "filledBy": "day 1",
+      "reason": "Every state has an economy on any day."
+    },
+    {
+      "table": "macro.lines",
+      "level": "federal",
+      "call": "stock",
+      "filledBy": "day 1",
+      "reason": "The economy's published lines."
+    },
+    {
+      "table": "macro.meetings",
+      "level": "federal",
+      "call": "stock",
+      "filledBy": "day 31",
+      "reason": "Fed meetings already held.",
+      "knownRed": "opening-first-step-empty-at-day-0"
+    },
+    {
+      "table": "macro.members",
+      "level": "federal",
+      "call": "stock",
+      "filledBy": "day 1",
+      "reason": "The Fed has members on any day."
+    },
+    {
+      "table": "macro.months",
+      "level": "federal",
+      "call": "flow-only",
+      "filledBy": "day 1",
+      "reason": "A log, tally or running total of what happens after day 0; a real place keeps no such record to inspect on an ordinary day."
+    },
+    {
+      "table": "macro.repricings",
+      "level": "federal",
+      "call": "flow-only",
+      "filledBy": "year 1",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "macro.state",
+      "level": "federal",
+      "call": "flow-only",
+      "filledBy": "day 1",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "macro.votes",
+      "level": "federal",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "moves.pulls",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "A log, tally or running total of what happens after day 0; a real place keeps no such record to inspect on an ordinary day."
+    },
+    {
+      "table": "moves.state",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 1",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "national-events.events",
+      "level": "federal",
+      "call": "flow-only",
+      "filledBy": "day 1",
+      "reason": "A log, tally or running total of what happens after day 0; a real place keeps no such record to inspect on an ordinary day."
+    },
+    {
+      "table": "national-events.state",
+      "level": "federal",
+      "call": "flow-only",
+      "filledBy": "day 1",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "national-opinion.approval",
+      "level": "federal",
+      "call": "stock",
+      "filledBy": "day 1",
+      "reason": "The president has an approval rating on any day."
+    },
+    {
+      "table": "national-opinion.state",
+      "level": "federal",
+      "call": "flow-only",
+      "filledBy": "day 1",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "news.delivered",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "outside-budgets.shares",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 1",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "outside-budgets.state",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 1",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "part.core2-accounts.depositTotals",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 1",
+      "reason": "A log, tally or running total of what happens after day 0; a real place keeps no such record to inspect on an ordinary day."
+    },
+    {
+      "table": "part.core2-accounts.deposits",
+      "level": "town (people and places)",
+      "call": "stock",
+      "filledBy": "day 1",
+      "reason": "Bank deposits; may be held in core accounts instead."
+    },
+    {
+      "table": "part.core2-accounts.depositsByBank",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 1",
+      "reason": "An index over another table."
+    },
+    {
+      "table": "part.core2-accounts.depositsByHolder",
+      "level": "town (people and places)",
+      "call": "stock",
+      "filledBy": "day 1",
+      "reason": "Index of deposits."
+    },
+    {
+      "table": "part.core2-accounts.heldDeposits",
+      "level": "town (people and places)",
+      "call": "stock",
+      "filledBy": "day 1",
+      "reason": "Index of deposits."
+    },
+    {
+      "table": "part.core2-accounts.outflowsByPerson",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "An index over another table."
+    },
+    {
+      "table": "part.core2-counted-moves",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "part.core2-counted-moves.arriveAt",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "part.core2-counted-moves.attract",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "part.core2-counted-moves.holdNorm",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "part.core2-counted-moves.leave",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "part.core2-counted-moves.roomCapacity",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "part.core2-counted-moves.roomOwed",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "year 1",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "part.core2-counted-moves.roomQueue",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "year 1",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "part.core2-counted-moves.roomRelease",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "year 1",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "part.core2-counted-moves.states",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "part.core2-counted-moves.totals",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "A log, tally or running total of what happens after day 0; a real place keeps no such record to inspect on an ordinary day."
+    },
+    {
+      "table": "part.core2-decision-detail-campaign-queue",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "year 1",
+      "reason": "A retention queue the engine drains; not a record about the world."
+    },
+    {
+      "table": "part.core2-decision-detail-drop-queue",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "A retention queue the engine drains; not a record about the world."
+    },
+    {
+      "table": "part.core2-decision-detail-entry-queue",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "A retention queue the engine drains; not a record about the world."
+    },
+    {
+      "table": "part.core2-decision-detail-player-queue",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "A retention queue the engine drains; not a record about the world."
+    },
+    {
+      "table": "part.core2-decision-detail-queue",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 1",
+      "reason": "A retention queue the engine drains; not a record about the world."
+    },
+    {
+      "table": "part.core2-decision-detail-relationship-queue",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 1",
+      "reason": "A retention queue the engine drains; not a record about the world."
+    },
+    {
+      "table": "part.core2-decision-detail-short-queue",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "year 1",
+      "reason": "A retention queue the engine drains; not a record about the world."
+    },
+    {
+      "table": "part.core2-drives-runtime.byPerson",
+      "level": "town (people and places)",
+      "call": "stock",
+      "filledBy": "year 1",
+      "reason": "Index of drives."
+    },
+    {
+      "table": "part.core2-drives-runtime.causeGroups",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "year 1",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "part.core2-drives-runtime.countedByPerson",
+      "level": "town (people and places)",
+      "call": "stock",
+      "filledBy": "day 31",
+      "reason": "Index of counted drives."
+    },
+    {
+      "table": "part.core2-drives-runtime.countedFormedByYearKind",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "An index over another table."
+    },
+    {
+      "table": "part.core2-drives-runtime.drives",
+      "level": "town (people and places)",
+      "call": "stock",
+      "filledBy": "year 1",
+      "reason": "Goals people hold on any day."
+    },
+    {
+      "table": "part.core2-drives-runtime.formedByYearKind",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "year 1",
+      "reason": "An index over another table."
+    },
+    {
+      "table": "part.core2-drives-runtime.given",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "year 1",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "part.core2-drives-runtime.groupChange",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "year 1",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "part.core2-drives-runtime.groupFounder",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "year 1",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "part.core2-drives-runtime.groupsByTopic",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "year 1",
+      "reason": "An index over another table."
+    },
+    {
+      "table": "part.core2-drives-runtime.mayKnow",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "year 1",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "part.core2-drives-runtime.predicted",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "year 1",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "part.core2-drives-runtime.responsesByRole",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "An index over another table."
+    },
+    {
+      "table": "part.core2-drives-runtime.responsesByRule",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "An index over another table."
+    },
+    {
+      "table": "part.core2-drives-runtime.serving",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "year 1",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "part.core2-free-block-plans",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "part.core2-knowledge-retention-queue",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "A retention queue the engine drains; not a record about the world."
+    },
+    {
+      "table": "part.core2-news-refused-stories",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 1",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "part.core2-news-tell-carry",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 1",
+      "reason": "A log, tally or running total of what happens after day 0; a real place keeps no such record to inspect on an ordinary day."
+    },
+    {
+      "table": "part.core2-office-day-seen-terms",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 1",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "part.core2-outside-bases",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 1",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "part.core2-outside-factors",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 1",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "part.core2-outside-shares",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "year 1",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "part.core2-people-home-seeded",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 1",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "part.core2-people-weekly-contacts",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "year 1",
+      "reason": "A log, tally or running total of what happens after day 0; a real place keeps no such record to inspect on an ordinary day."
+    },
+    {
+      "table": "part.core2-residents.arrears",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "part.core2-residents.housingDue",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "year 1",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "part.core2-residents.housingMonth",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "A log, tally or running total of what happens after day 0; a real place keeps no such record to inspect on an ordinary day."
+    },
+    {
+      "table": "part.core2-residents.incomeHistory",
+      "level": "town (people and places)",
+      "call": "stock",
+      "filledBy": "year 1",
+      "reason": "Past income per person.",
+      "knownRed": "opening-town-life-empty-at-day-0"
+    },
+    {
+      "table": "part.core2-residents.livingArrears",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "part.core2-residents.monthly",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "A log, tally or running total of what happens after day 0; a real place keeps no such record to inspect on an ordinary day."
+    },
+    {
+      "table": "part.core2-residents.outsideByPlace",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "An index over another table."
+    },
+    {
+      "table": "part.core2-residents.regionalGains",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "part.core2-residents.retirementLevel",
+      "level": "town (people and places)",
+      "call": "stock",
+      "filledBy": "day 31",
+      "reason": "Retirement benefit level per retiree."
+    },
+    {
+      "table": "part.core2-residents.sellerMonth",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "A log, tally or running total of what happens after day 0; a real place keeps no such record to inspect on an ordinary day."
+    },
+    {
+      "table": "part.core2-residents.shortfalls",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "year 1",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "part.core2-residents.spendScale",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "year 1",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "part.core2-residents.withheld",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "part.core2-residents.withholdingYtd",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "part.core2-retirement-claims",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 1",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "part.core2-retirement-claims.byDate",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 1",
+      "reason": "A log, tally or running total of what happens after day 0; a real place keeps no such record to inspect on an ordinary day."
+    },
+    {
+      "table": "part.core2-retirement-claims.claimed",
+      "level": "town (people and places)",
+      "call": "stock",
+      "filledBy": "day 31",
+      "reason": "Retirees draw Social Security on any day."
+    },
+    {
+      "table": "part.core2-sewer-taken",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "part.core2-sewer-taken.taken",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "part.death-cause-carry",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "year 1",
+      "reason": "A log, tally or running total of what happens after day 0; a real place keeps no such record to inspect on an ordinary day."
+    },
+    {
+      "table": "part.health-runtime.cases",
+      "level": "town (people and places)",
+      "call": "stock",
+      "filledBy": "day 1",
+      "reason": "Current cases of illness."
+    },
+    {
+      "table": "part.health-runtime.causeOfDeath",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "year 1",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "part.health-runtime.conditionsByPerson",
+      "level": "town (people and places)",
+      "call": "stock",
+      "filledBy": "day 1",
+      "reason": "People have chronic conditions on any day."
+    },
+    {
+      "table": "part.health-runtime.deathsByDate",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "A log, tally or running total of what happens after day 0; a real place keeps no such record to inspect on an ordinary day."
+    },
+    {
+      "table": "part.health-runtime.onsetsByDate",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 1",
+      "reason": "A log, tally or running total of what happens after day 0; a real place keeps no such record to inspect on an ordinary day."
+    },
+    {
+      "table": "part.health-runtime.plans",
+      "level": "town (people and places)",
+      "call": "stock",
+      "filledBy": "day 1",
+      "reason": "Treatment plans for those conditions."
+    },
+    {
+      "table": "part.health-runtime.resilienceLines",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 1",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "part.health-runtime.traitNorm",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 1",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "part.health-runtime.youthCannabis",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "part.health-runtime.youthCannabisCarry",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "A log, tally or running total of what happens after day 0; a real place keeps no such record to inspect on an ordinary day."
+    },
+    {
+      "table": "part.trait-change-runtime.birthdays",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 1",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "part.trait-change-runtime.scores",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 1",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "partnerships.contacts",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "partnerships.couples",
+      "level": "town (people and places)",
+      "call": "stock",
+      "filledBy": "day 31",
+      "reason": "May duplicate renewal couples."
+    },
+    {
+      "table": "partnerships.jobsSeen",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "partnerships.pulls",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "A log, tally or running total of what happens after day 0; a real place keeps no such record to inspect on an ordinary day."
+    },
+    {
+      "table": "partnerships.state",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 1",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "place-prices.felt",
+      "level": "town (people and places)",
+      "call": "stock",
+      "filledBy": "day 31",
+      "reason": "Prices people know and feel."
+    },
+    {
+      "table": "place-prices.learned",
+      "level": "town (people and places)",
+      "call": "stock",
+      "filledBy": "day 31",
+      "reason": "Same."
+    },
+    {
+      "table": "place-prices.rules",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "place-prices.state",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 1",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "regional.months",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 1",
+      "reason": "A log, tally or running total of what happens after day 0; a real place keeps no such record to inspect on an ordinary day."
+    },
+    {
+      "table": "regional.places",
+      "level": "town (people and places)",
+      "call": "stock",
+      "filledBy": "day 1",
+      "reason": "Regional rows."
+    },
+    {
+      "table": "regional.shocks",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "speech.addresses",
+      "level": "town (people and places)",
+      "call": "stock",
+      "filledBy": "day 31",
+      "reason": "Last year's yearly address is history the opening's past holds, filled by the past module."
+    },
+    {
+      "table": "speech.retellings",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "views.countedStances",
+      "level": "town (people and places)",
+      "call": "stock",
+      "filledBy": "year 1",
+      "reason": "Counted people hold views on any day (one model, two tiers).",
+      "knownRed": "opening-views-stances-empty-at-day-0",
+      "knownRedPlaces": ["1150000"]
+    },
+    {
+      "table": "views.openings",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 1",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "views.stances",
+      "level": "town (people and places)",
+      "call": "stock",
+      "filledBy": "day 31",
+      "reason": "People hold views on any day (\"people with something to say on day 0\")."
+    },
+    {
+      "table": "world-metrics.months",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 31",
+      "reason": "A log, tally or running total of what happens after day 0; a real place keeps no such record to inspect on an ordinary day."
+    },
+    {
+      "table": "world-metrics.state",
+      "level": "town (people and places)",
+      "call": "flow-only",
+      "filledBy": "day 1",
+      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "core2-legislature-v1.bills",
+      "level": "town, state and federal",
+      "call": "stock",
+      "reason": "Bills are in progress on any day."
+    },
+    {
+      "table": "core2-offices-v1.seats",
+      "level": "town, state and federal",
+      "call": "stock",
+      "reason": "Every office has its seats on any day."
+    },
+    {
+      "table": "core2-parties-v1.ties",
+      "level": "town, state and federal",
+      "call": "stock",
+      "reason": "Party members have ties on any day."
+    },
+    {
+      "table": "housing.mortgages",
+      "level": "town (people and places)",
+      "call": "stock",
+      "reason": "People owe mortgages on any day."
+    },
+    {
+      "table": "core2-press-v1.archive",
+      "level": "town (people and places)",
+      "call": "stock",
+      "reason": "The paper has an archive on any day."
+    },
+    {
+      "table": "core2-laws-v1.laws",
+      "level": "town, state and federal",
+      "call": "stock",
+      "reason": "Laws are in force on any day."
+    },
+    {
+      "table": "core2-budgets-v1.budgets",
+      "level": "town, state and federal",
+      "call": "stock",
+      "reason": "Budgets exist on any day."
+    },
+    {
+      "table": "core2-elections-v1.contests",
+      "level": "town, state and federal",
+      "call": "stock",
+      "reason": "Contests are scheduled on any day."
+    }
+  ],
+  "modules": {
+    "business": "classified in rows",
+    "candidacy": "classified in rows",
+    "climate": "classified in rows",
+    "contracts": "classified in rows",
+    "core2-accounts-v1": "no table is empty at creation and filled later at the two measured places",
+    "core2-ballot-measures-v1": "no table is empty at creation and filled later at the two measured places",
+    "core2-budgets-v1": "classified in rows",
+    "core2-campaigns-v1": "classified in rows",
+    "core2-constituent-cases-v1": "classified in rows",
+    "core2-counted-demotion-v1": "classified in rows",
+    "core2-counted-moves-v1": "classified in rows",
+    "core2-coverage-v1": "classified in rows",
+    "core2-crime-v1": "classified in rows",
+    "core2-disasters-v1": "classified in rows",
+    "core2-elections-v1": "classified in rows",
+    "core2-employer-taxes-v1": "classified in rows",
+    "core2-estates-v1": "no table is empty at creation and filled later at the two measured places",
+    "core2-executive-v1": "classified in rows",
+    "core2-health-producer-p10-v1": "no table is empty at creation and filled later at the two measured places",
+    "core2-homeless-count-v1": "classified in rows",
+    "core2-interest-groups-v1": "classified in rows",
+    "core2-justice-v1": "classified in rows",
+    "core2-law-reach-a-v1": "classified in rows",
+    "core2-law-reach-b-v1": "no table is empty at creation and filled later at the two measured places",
+    "core2-laws-v1": "classified in rows",
+    "core2-leadership-v1": "no table is empty at creation and filled later at the two measured places",
+    "core2-legislature-v1": "classified in rows",
+    "core2-meetings-v1": "classified in rows",
+    "core2-office-day-federal-v1": "classified in rows",
+    "core2-office-day-state-v1": "classified in rows",
+    "core2-office-day-v1": "classified in rows",
+    "core2-offices-v1": "classified in rows",
+    "core2-official-pay-v1": "no table is empty at creation and filled later at the two measured places",
+    "core2-officials-v1": "no table is empty at creation and filled later at the two measured places",
+    "core2-outcome-web-v1": "classified in rows",
+    "core2-parties-v1": "classified in rows",
+    "core2-past-v1": "no table is empty at creation and filled later at the two measured places",
+    "core2-patrol-v1": "classified in rows",
+    "core2-people-p15-v1": "no table is empty at creation and filled later at the two measured places",
+    "core2-press-v1": "classified in rows",
+    "core2-public-action-v1": "classified in rows",
+    "core2-public-projects-v1": "no table is empty at creation and filled later at the two measured places",
+    "core2-public-safety-v1": "classified in rows",
+    "core2-purchase-tax-v1": "no table is empty at creation and filled later at the two measured places",
+    "core2-recalls-v1": "no table is empty at creation and filled later at the two measured places",
+    "core2-record-v1": "classified in rows",
+    "core2-renewal-v1": "classified in rows",
+    "core2-residents-v1": "no table is empty at creation and filled later at the two measured places",
+    "core2-resting-stress-v1": "classified in rows",
+    "core2-retirement-claims-v1": "no table is empty at creation and filled later at the two measured places",
+    "core2-school-days-v1": "classified in rows",
+    "core2-serve-asks-v1": "no table is empty at creation and filled later at the two measured places",
+    "core2-staff-v1": "classified in rows",
+    "core2-succession-v1": "no table is empty at creation and filled later at the two measured places",
+    "core2-trait-change-v1": "classified in rows",
+    "core2-voting-v1": "classified in rows",
+    "core2-world-legislating-v1": "classified in rows",
+    "corruption": "classified in rows",
+    "credit": "classified in rows",
+    "federal-courts": "classified in rows",
+    "grievance": "classified in rows",
+    "housing": "classified in rows",
+    "jobs": "classified in rows",
+    "macro": "classified in rows",
+    "moves": "classified in rows",
+    "national-events": "classified in rows",
+    "national-opinion": "classified in rows",
+    "news": "classified in rows",
+    "outside-budgets": "classified in rows",
+    "partnerships": "classified in rows",
+    "place-prices": "classified in rows",
+    "president-acts": "no table is empty at creation and filled later at the two measured places",
+    "regional": "classified in rows",
+    "speech": "classified in rows",
+    "views": "classified in rows",
+    "world-metrics": "classified in rows"
+  },
+  "playActOnly": {
+    "tables": [
+      "candidacy.decisions",
+      "candidacy.weighed",
+      "part.core2-decision-detail-player-queue",
+      "part.core2-free-block-plans"
+    ],
+    "reason": "Each exists only because the player chose or planned something; no real place has it before then."
+  }
+}

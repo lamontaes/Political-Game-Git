@@ -63,8 +63,8 @@ export function queueShortEntry(
 }
 
 /**
- * The public log rows of campaign gifts and endorsements, dropped
- * `campaignRecordRetentionMonths` after the day. The money and the answers
+ * The log rows of campaign gifts and endorsements (public, or seen by the
+ * player's circle), dropped `campaignRecordRetentionMonths` after the day. The money and the answers
  * stay in the campaigns engine's own tables (`money`, `gifts`, `endorsements`);
  * the news printed the day it happened and a scene reads the row within days.
  */
@@ -77,7 +77,7 @@ export const CAMPAIGN_RECORD_KINDS: ReadonlySet<string> = new Set([
   "campaign-endorsed",
 ]);
 
-/** A public campaign gift or endorsement row, to drop when a year old. */
+/** A campaign gift or endorsement row, to drop when a year old (the player's own stay). */
 export function queueCampaignRecord(
   core: CoreState,
   date: string,

@@ -14,12 +14,8 @@ import type { CoreState, PersonId } from "../core2/types";
 import sceneBank from "../../data/english/parts/scene-talk.json" with { type: "json" };
 import { celebrationFacts } from "./celebration-facts";
 import { gatheringFacts } from "./gathering-facts";
-import {
-  destinationSaid,
-  purposeScene,
-  replyInScene,
-  tieSide,
-} from "./purpose-scene";
+import { destinationSaid, purposeScene, replyInScene } from "./purpose-scene";
+import { tieSide } from "./relation-facts";
 import { SITUATION_LIBRARY } from "./scheduling";
 import type { TreeNode } from "./scene-talk";
 import { expectUpToFourDifferent } from "./reply-set-check";
@@ -185,9 +181,7 @@ it(`a birthday with a relative missing asks the player to reach out, from the en
           const root = scene.talk.tree.replies.map((reply) => reply.line);
           expectUpToFourDifferent(root, where);
           for (const row of root)
-            expect(["agree", "promise", "ask", "decline"], where).toContain(
-              row.move,
-            );
+            expect(["agree", "ask", "decline"], where).toContain(row.move);
           expect(scene.talk.depth, where).toBeGreaterThan(1);
           expect(
             scene.talk.gaps.filter((gap) => gap.includes("/ending/")),
@@ -203,8 +197,11 @@ it(`a birthday with a relative missing asks the player to reach out, from the en
           const said = scene.talk.lines.map((row) => row.text).join(" | ");
           if (!replied) {
             replied = true;
-            const settled = endsKeeping(scene.talk.tree, "promise")[0];
-            expect(settled, `${where}: no path keeps a promise`).toBeTruthy();
+            const settled = endsKeeping(scene.talk.tree, "kept-in-scene")[0];
+            expect(
+              settled,
+              `${where}: no path settles in the scene`,
+            ).toBeTruthy();
             const replyId = replyInScene(
               core,
               director,
@@ -221,7 +218,7 @@ it(`a birthday with a relative missing asks the player to reach out, from the en
             expect(reply?.facts?.ending, where).toBe(
               "said-you-would-reach-out",
             );
-            expect(reply?.facts?.keeps, where).toBe("promise");
+            expect(reply?.facts?.keeps, where).toBe("kept-in-scene");
             expect(reply?.personIds, where).toContain(scene.askerId);
             const sour = endsKeeping(
               scene.talk.tree,
@@ -419,8 +416,8 @@ it(`a wedding celebration asks the player for something, and a new job's facts c
           `${where}: ${row.text}`,
         ).toBeLessThanOrEqual(1);
       }
-      const settled = endsKeeping(scene.talk.tree, "promise")[0];
-      expect(settled, `${where}: no path keeps a promise`).toBeTruthy();
+      const settled = endsKeeping(scene.talk.tree, "kept-in-scene")[0];
+      expect(settled, `${where}: no path settles in the scene`).toBeTruthy();
       const replyId = replyInScene(core, director, id, entry, settled!.full, {
         typeKey: "celebration",
       });
@@ -428,7 +425,7 @@ it(`a wedding celebration asks the player for something, and a new job's facts c
       expect(reply?.facts?.typeKey, where).toBe("celebration");
       expect(reply?.facts?.causeId, where).toBe(moment.causeId);
       expect(reply?.facts?.ending, where).toBe("said-yes-at-the-party");
-      expect(reply?.facts?.keeps, where).toBe("promise");
+      expect(reply?.facts?.keeps, where).toBe("kept-in-scene");
       expect(reply?.personIds, where).toContain(scene.askerId);
       const sour = endsKeeping(scene.talk.tree, "relationship-strained")[0];
       const sourId = sour

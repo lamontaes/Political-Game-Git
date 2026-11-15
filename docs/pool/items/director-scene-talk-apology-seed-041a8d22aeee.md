@@ -5,7 +5,7 @@ area: director
 kind: bug
 priority: 2
 size: S
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -40,3 +40,5 @@ checked: fable 2026-11-10
 **Notes (re-run, 2026-11-11, main 79d23fa596).** `GOLDEN_PATH_SEED=041a8d22aeee npx vitest run src/director/scene-talk.test.ts`: green, exit 0. Fresh draw `GOLDEN_PATH_SEED=760f630ebaa03cea`: green, exit 0. The place is not printed on a pass. Proposed for the CTO: drop as fixed on main.
 
 Nov 11 (cause finder for Fable B): ran the file on the item's seed and one fresh seed on main 986f946b; both pass all 9 tests. I agree with this morning's re-run: drop it as fixed on main.
+
+Dropped Nov 13, 2026 (Account lead T33, CTO's Nov 12 drop rule): its own Fix section says "Nothing to build. The CTO drops the item as done by main." and its Cause says the fault does not reproduce on main. The reproduce-again advice in that Fix stays the way back: file a new item from the place and seed if it returns.

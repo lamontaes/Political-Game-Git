@@ -8,10 +8,14 @@
 import { lawApplied } from "./law-reach/applied";
 import { lawInForce } from "./modules/laws";
 import type { WithholdingLine } from "./tax-withholding";
+import {
+  ADOPT_INCOME_TAX_QUESTION,
+  GRADUATED_INCOME_TAX_QUESTION,
+} from "./tax-listeners";
 import type { CoreAPI } from "./types";
 
-const ADOPT = "us-policy-positions:fiscal.adopt-income-tax";
-const GRADUATED = "us-policy-positions:fiscal.graduated-income-tax";
+const ADOPT = ADOPT_INCOME_TAX_QUESTION;
+const GRADUATED = GRADUATED_INCOME_TAX_QUESTION;
 const ENGINE = "core2-budgets-v1";
 
 interface QuestionLaw {

@@ -5,7 +5,7 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -40,3 +40,5 @@ checked: fable 2026-11-10
 **Notes (re-run, 2026-11-11, main 79d23fa596).** `GOLDEN_PATH_PLACE_KEY=3678454 GOLDEN_PATH_SEED=e2ddb122b8bfe482 npx vitest run src/director/conversation.test.ts` (Washington Mills, New York): green, 21 of 21. Fresh draw `GOLDEN_PATH_SEED=fbd20867a28a0e8b`: green. The place is not printed on a pass. Proposed for the CTO: drop as fixed on main.
 
 Nov 11 (cause finder for Fable B): passed again on main d64255aa at the item's seed and on a fresh draw, cause-fresh-7731. I propose dropping the item as done by main, as this morning's re-run did.
+
+Dropped Nov 13, 2026 (Account lead T33, CTO's Nov 12 drop rule): its own Fix section says "Nothing to build. The CTO drops the item as done by main." and its Cause says the fault does not reproduce on main. The reproduce-again advice in that Fix stays the way back: file a new item from the place and seed if it returns.

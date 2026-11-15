@@ -7,7 +7,7 @@
  * - **The calendar** comes from data: each place's regular session windows
  *   (`state-session-calendar.ts`), a session week's floor and district days,
  *   the interim's monthly committee day, the State of the State and the
- *   budget proposal after convening (`data/office-day/state-parameters.json`).
+ *   budget proposal after convening (`src/core2/data/office-day/state-parameters.json`).
  *   Nothing names a place; a place whose legislature doesn't meet this year is
  *   in the interim all year.
  * - **Acts of office** are done by the player or simulated: the character
@@ -20,7 +20,7 @@
  *   election day); every other entry runs in the background and still counts.
  * - **Per diem**: every member of the state's legislature is paid their
  *   state's per diem for the session days its basis counts
- *   (`data/office-day/state-legislator-per-diem.json`, cited), from the state's
+ *   (`src/core2/data/office-day/state-legislator-per-diem.json`, cited), from the state's
  *   treasury, on the 1st for the month before.
  *
  * State entries use the shared engine’s holds, settings and act ledger.
@@ -76,6 +76,7 @@ import {
   memberKey,
   members,
   scheduleVote,
+  voteKeyOf,
   LEGISLATURE_MODULE_ID,
 } from "./modules/legislature";
 import {
@@ -111,6 +112,7 @@ import type {
   CoreState,
   PersonState,
 } from "./types";
+import type { ModuleCalendarWork } from "./module-calendar";
 
 export const OFFICE_DAY_STATE_MODULE_ID = "core2-office-day-state-v1";
 import {
@@ -344,9 +346,13 @@ export function sessionOn(
 /** The first regular session window of a date's year, if the legislature meets that year. */
 function firstWindow(stateKey: string, year: number) {
   const { windows, tag, url } = windowsOf(stateKey, year);
-  const first = [...windows].sort((a, b) =>
+  // The first window that convenes in the year: a legislature that
+  // organizes in December (Indiana's organization day) is not that year's.
+  const sorted = [...windows].sort((a, b) =>
     a.conveneAt.localeCompare(b.conveneAt),
-  )[0];
+  );
+  const first =
+    sorted.find((w) => w.conveneAt.startsWith(`${year}-`)) ?? sorted[0];
   return first ? { window: first, tag, url } : null;
 }
 
@@ -890,7 +896,14 @@ export function actOn(
         stances: ownPriorities(api, person),
       };
       if (chosen.kind !== "address") throw new Error("Choose what to say.");
-      recordIds.push(...stateOfTheState(api, office, entry, chosen.stances));
+      // Another state's governor keeps only the result (owner, Nov 5, 12:49
+      // p.m. Eastern, OWNER-DECISIONS.md: for a government outside the
+      // player's own chain, simulate from the people there and keep the
+      // result): the address and the stances said stay on this entry's
+      // result row, and no speech is delivered to a full audience. The
+      // player's own state's governor is in the chain and speaks to it.
+      if (office.stateKey === lawChain(api).stateKey)
+        recordIds.push(...stateOfTheState(api, office, entry, chosen.stances));
       break;
     }
     case "budget-proposal": {
@@ -1320,6 +1333,18 @@ function liveToday(api: CoreAPI): void {
 function computerGovernorsDay(api: CoreAPI): void {
   const today = api.state.date;
   if (weekday(today) !== stateDayParameter("clemencyReviewWeekday")) return;
+  for (const personId of worldGovernors(api)) {
+    const office = stateOfficeOf(api, personId);
+    if (office?.role !== "governor") continue;
+    if (!prisonersServing(api, office.stateKey).length) continue;
+    for (const entry of stateDay(api, office, today))
+      if (entry.kind === "clemency" && !table(api, "results").get(entry.id))
+        actOn(api, entry);
+  }
+}
+
+/** The governors the player does not control, in order, as every engine reads a seat's holder. */
+function worldGovernors(api: CoreAPI): string[] {
   const playerId = controlled(api);
   const offices = api.moduleState(OFFICES_MODULE_ID).table("offices");
   const governors = new Set<string>();
@@ -1334,24 +1359,82 @@ function computerGovernorsDay(api: CoreAPI): void {
     // meets or opens them.
     const office = offices.get(term.officeId) as unknown as
       { kind?: string; level?: string; jurisdiction?: string } | undefined;
+    if (office?.kind !== "governor") continue;
     const held =
-      term.personId ||
-      office?.kind !== "governor" ||
-      isOutsideOffice(api, office)
+      term.personId || isOutsideOffice(api, office)
         ? term
         : holderOf(api, term);
     if (held.personId) governors.add(held.personId);
   }
-  for (const personId of [...governors].sort()) {
-    if (personId === playerId || !api.state.people.get(personId)?.alive)
-      continue;
+  return [...governors]
+    .sort()
+    .filter((id) => id !== playerId && api.state.people.get(id)?.alive);
+}
+
+/**
+ * On the first of each month, each governor the player does not control whose
+ * State of the State falls in the month has it put on the calendar for its
+ * day: the same date rule the player's governor's day uses (the session's
+ * convening and the days after it), so a world governor and a played one
+ * speak on the same kind of day. The calendar gives it on the day itself.
+ */
+export function scheduleGovernorAddresses(api: CoreAPI): void {
+  if (!api.state.modules.has(OFFICE_DAY_STATE_MODULE_ID)) return;
+  const today = api.state.date;
+  const [year, month] = [Number(today.slice(0, 4)), Number(today.slice(5, 7))];
+  const monthEnd = addDays(
+    makeIsoDate(
+      month === 12
+        ? `${year + 1}-01-01`
+        : `${year}-${String(month + 1).padStart(2, "0")}-01`,
+    ),
+    -1,
+  );
+  const calendar = api.moduleCalendar(OFFICE_DAY_STATE_MODULE_ID);
+  for (const personId of worldGovernors(api)) {
     const office = stateOfficeOf(api, personId);
     if (office?.role !== "governor") continue;
-    if (!prisonersServing(api, office.stateKey).length) continue;
-    for (const entry of stateDay(api, office, today))
-      if (entry.kind === "clemency" && !table(api, "results").get(entry.id))
-        actOn(api, entry);
+    const first = firstWindow(office.stateKey, year);
+    if (!first) continue;
+    const date = addDays(
+      makeIsoDate(first.window.conveneAt),
+      stateDayParameter("stateOfTheStateDaysAfterConvening"),
+    );
+    if (date < today || date > monthEnd) continue;
+    const key = `governor-address:${personId}:${date}`;
+    if (calendar.get(key)) continue;
+    calendar.schedule({
+      key,
+      date,
+      kind: "governor-address",
+      source: {
+        tag: "ESTIMATED",
+        estimatedFrom:
+          "Each state's own session calendar (the first window's convening date)",
+        citation: `The State of the State, ${office.stateKey}: ${stateDayParameter("stateOfTheStateDaysAfterConvening")} days after the session convenes`,
+        asOf: today,
+      },
+      sourceRecordIds: [personId],
+      payload: { personId },
+    });
   }
+}
+
+/** The day a world governor's address comes: the governor gives it as the character gives their own. */
+function governorAddressDay(
+  api: CoreAPI,
+  work: Readonly<ModuleCalendarWork>,
+): void {
+  if (work.kind !== "governor-address") return;
+  const personId = (work.payload as { personId?: string } | undefined)
+    ?.personId;
+  if (!personId || !api.state.people.get(personId)?.alive) return;
+  const office = stateOfficeOf(api, personId);
+  if (office?.role !== "governor" || personId === controlled(api)) return;
+  const entry = stateDay(api, office, work.date).find(
+    (e) => e.kind === "state-of-the-state",
+  );
+  if (entry && !table(api, "results").get(entry.id)) actOn(api, entry);
 }
 
 /** Seat the day's entries for a player just seated in a state office (the dev start, or taking office). */
@@ -1378,6 +1461,13 @@ function holdForFloorVotes(api: CoreAPI): void {
   if (office?.role !== "legislator") return;
   if (!stopsOf(api, playerId)["state-floor-vote"]) return;
   const tomorrow = addDays(makeIsoDate(api.state.date), 1);
+  // The floor is heard a day ahead of the roll, so the scene plays on the day
+  // before and never after the vote (Words lead, Nov 14): the debate is
+  // recorded the evening before the day before.
+  for (const bill of floorAgendaOn(api, addDays(tomorrow, 1)))
+    for (const chamber of chambersOf(api, bill))
+      if (members(api, chamber).some((term) => memberKey(term) === playerId))
+        holdFloorDebate(api, bill.id, chamber);
   const choices = api.moduleState(LEGISLATURE_MODULE_ID).table("choices");
   for (const bill of floorAgendaOn(api, tomorrow)) {
     const sits = chambersOf(api, bill).some((chamber) =>
@@ -1396,6 +1486,7 @@ function holdForFloorVotes(api: CoreAPI): void {
       minuteOfDay: stateDayParameter("holdMinute"),
       reasonKey: "office-day-state.floor-vote",
       source: { tag: "SOURCED", citation: bill.id, asOf: api.state.date },
+      voteOn: bill.id,
     });
     if (held) {
       table(api, "floorHolds").put({
@@ -1462,7 +1553,8 @@ export const OFFICE_DAY_STATE_MODULE: CoreModule = {
       perDiem: { indexes: { byPerson: { fields: ["personId"] } } },
     },
   },
-  // Records only: the shared office-day engine drives the lifecycle below.
+  // The shared office-day engine drives the lifecycle below; a world governor's address comes on its calendar day.
+  onCalendarWork: governorAddressDay,
 };
 
 // The treasury pays these obligations after revenue arrives and before residual spending.
@@ -1550,6 +1642,7 @@ registerOfficeActs({
     computerGovernorsDay(api);
   },
   onAfterDay: startStateDay,
+  onMonth: scheduleGovernorAddresses,
 });
 
 export function openOfficeDayState(core: CoreState): void {
@@ -1808,7 +1901,7 @@ export function askLeaderForHearing(
   const granted = bare + traits > 0;
   const schedule = options?.schedule ?? true;
   const already = schedule
-    ? api.moduleCalendar(LEGISLATURE_MODULE_ID).get(`meeting:${billId}`)
+    ? api.moduleCalendar(LEGISLATURE_MODULE_ID).get(voteKeyOf(bill))
     : undefined;
   const row: LeaderRequestRow = {
     id,

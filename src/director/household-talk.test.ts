@@ -6,7 +6,13 @@ import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import type { IsoDate, PersonId } from "../core2/types";
-import { openConversation, say, subjectsBetween } from "./conversation";
+import {
+  noteHeard,
+  openConversation,
+  say,
+  subjectsBetween,
+  takesStands,
+} from "./conversation";
 import { OPENING_ADDRESS_EVENT } from "./opening-story";
 import { expectUpToFourDifferent } from "./reply-set-check";
 
@@ -46,6 +52,8 @@ it(`a household member opens from the day, and each reply moves the talk on (see
       continue;
     }
     const address = `${OPENING_ADDRESS_EVENT}:${core.date}`;
+    let opened = 0;
+    let onAddress = 0;
     household.forEach((member, index) => {
       const here = `${where}: ${member.id}`;
       // They watched it with the player.
@@ -58,26 +66,73 @@ it(`a household member opens from the day, and each reply moves the talk on (see
       const talk = openConversation(core, player.id, member.id as PersonId, {
         director,
       });
-      // The opener is theirs, about the day's address, and asks the player.
+      // The opener is theirs: their own point of the address they watched
+      // together, never "Did you see the speech?" (owner, Nov 12: "settle in
+      // to listen to the president's address"; what a household did together
+      // each of them knows).
       const [opener] = talk.lines;
-      expect(opener?.speakerId, here).toBe(member.id);
-      expect(opener?.kind, here).toBe("address");
-      expect(opener?.act, here).toBe("ask");
+      // Someone who takes no stand (under the youngest age the rules name,
+      // or under the voting age without following politics closely; lead,
+      // Nov 12) has no point of their own to open on, and nobody asks
+      // whether the player saw what they watched together: they raise
+      // nothing about the address, and with nothing else on record today the
+      // talk does not open (owner, Oct 24).
+      if (!takesStands(core, member.id as PersonId)) {
+        expect(
+          talk.lines.filter(
+            (line) => line.kind === "address" || line.kind === "address-point",
+          ),
+          here,
+        ).toEqual([]);
+        if (!talk.lines.length) expect(talk.choices, here).toEqual([]);
+        return;
+      }
+      opened += 1;
+      // One person in the house raises the address in a day; every other
+      // housemate who speaks opens on something of their own, and says
+      // nothing when they have nothing (lead, Nov 14, rule 61).
+      if (opener?.kind !== "address-point") {
+        if (opener) {
+          expect(opener.speakerId, here).toBe(member.id);
+          expect(opener.kind, here).not.toBe("address");
+        }
+        return;
+      }
+      onAddress += 1;
+      expect(opener.speakerId, here).toBe(member.id);
       // Up to four replies, each a different move (owner, Nov 10).
       expectUpToFourDifferent(talk.choices, here);
-      // Each reply moves the talk: they answer with their own take, and four
-      // new replies follow. Members take the replies in turn.
+      // Each reply is answered: they take it up in their own words.
+      // Members take the replies in turn.
       const pick = talk.choices[index % talk.choices.length]!;
       const said = talk.lines.length;
       const next = say(core, talk, pick.key);
       const answer = next.lines[said + 1];
+      // Every reply is answered, agree and disagree included, with what
+      // comes next for the side they took (round 9: an answer fits the
+      // side), so no talk ends on the player's line.
       expect(answer?.speakerId, `${here}: ${pick.text}`).toBe(member.id);
-      expect(answer?.kind, `${here}: ${pick.text}`).toBe("address-point");
-      expectUpToFourDifferent(next.choices, `${here}: ${pick.text}`);
+      expect(answer?.kind, `${here}: ${pick.text}`).toBe("address-point-back");
+      noteHeard(core, next);
       console.log(
         `HOUSEHOLD TALK ${here}: "${opener!.text}" / you: "${pick.text}" / "${answer!.text}" / ${next.choices.map((row) => `"${row.text}"`).join(" ")}`,
       );
     });
+    // The address is raised once in the house, and is not lost: a household
+    // where it was raised by none is passed over, and named.
+    expect(
+      onAddress,
+      `${where}: housemates who opened on the address`,
+    ).toBeLessThanOrEqual(1);
+    if (opened && !onAddress) {
+      tried.push(`${place.name} (no housemate had a point of the address)`);
+      continue;
+    }
+    // A household where nobody takes a stand is passed over, and named.
+    if (!opened) {
+      tried.push(`${place.name} (nobody at home takes a stand)`);
+      continue;
+    }
     // A month on, the address is no longer the day's news: nobody opens on
     // it, however late they heard of it (golden-address-talk-fades).
     const startedOn = core.date;
@@ -92,6 +147,6 @@ it(`a household member opens from the day, and each reply moves the talk on (see
     return;
   }
   throw new Error(
-    `the player lived alone in ${tried.join("; ")} (seed ${seed})`,
+    `no one at home opened on the address in ${tried.join("; ")} (seed ${seed})`,
   );
 }, 1_800_000);

@@ -11,6 +11,7 @@ import { CAMPAIGN_MONEY_KINDS } from "../core2/modules/campaigns";
 import { LAWS_MODULE_ID } from "../core2/modules/laws";
 import { LEGISLATURE_MODULE_ID, votesOn } from "../core2/modules/legislature";
 import { residentsRuntime } from "../core2/modules/residents";
+import { fullLifeStake } from "../core2/modules/views";
 import { raceById, VOTING_MODULE_ID } from "../core2/modules/voting";
 
 // The counted people's store and household, named through the residents entry
@@ -851,6 +852,25 @@ function reverseLinks(
         via: `views.pastShifts.${shift.kind}`,
         value: shift.change,
       });
+    // What their own life adds to their stance today: each circumstance read
+    // from their records and how much they weigh their own stake.
+    const person = core.people.get(id as PersonId);
+    if (person) {
+      const stake = fullLifeStake(core, person);
+      for (const [fact, value] of Object.entries(stake.facts))
+        out.push({
+          id: `${id}#life.${fact}`,
+          kind: "reason",
+          via: `views.life.${fact}`,
+          value,
+        });
+      out.push({
+        id: `${id}#life.care`,
+        kind: "reason",
+        via: "views.life.care",
+        value: stake.care,
+      });
+    }
   }
   return out;
 }

@@ -87,10 +87,142 @@ export function closenessBetween(
   a: PersonId,
   b: PersonId,
 ): number {
+  return closenessBetweenAfter(
+    core,
+    a,
+    b,
+    parameter("zero", core.data.parameters),
+  );
+}
+
+/**
+ * Hours two people have spent together that no relationship row keeps,
+ * read from another engine's record when asked (the sittings two members of
+ * one body have shared, `sitting-closeness.ts`), already faded to today.
+ * Every engine that keeps such a record registers its reader; the hours add.
+ */
+type SharedHours = (core: object, a: PersonId, b: PersonId) => number;
+const sharedReaders = new Set<SharedHours>();
+export function registerSharedHours(reader: SharedHours): void {
+  sharedReaders.add(reader);
+}
+
+/** The hours every registered reader says two people shared, faded to today. */
+export function sharedHoursBetween(
+  core: object,
+  a: PersonId,
+  b: PersonId,
+): number {
+  if (a === b) return 0;
+  let hours = 0;
+  for (const reader of sharedReaders) hours += reader(core, a, b);
+  return hours;
+}
+
+/**
+ * Strain on a row the row's own hours did not cover (`owedHours`, kept as of
+ * its last contact), faded as the tie fades, so it is taken off the shared
+ * hours too and wears away as they do.
+ */
+function owedToday(
+  p: Lookup,
+  row: Pick<Relationship, "owedHours" | "lastContactDate" | "kind">,
+  date: IsoDate,
+): number {
+  return row.owedHours
+    ? faded(p, row.owedHours, elapsed(p, row.lastContactDate, date), row.kind)
+    : p("zero");
+}
+
+/**
+ * How close two people would be after `hours` more together today (negative
+ * takes time away): their tie's hours faded to today, less any strain the
+ * row owes, plus the hours another engine's record says they shared
+ * (`registerSharedHours`). Never below zero. With no tie and nothing shared
+ * it is zero; with `hours` zero it is today's closeness.
+ */
+export function closenessBetweenAfter(
+  core: Pick<CoreState, "data" | "date" | "relationships">,
+  a: PersonId,
+  b: PersonId,
+  hours: number,
+): number {
   const row = core.relationships.get(a < b ? `${a}:${b}` : `${b}:${a}`);
+  const shared = sharedHoursBetween(core, a, b);
+  // Nothing shared and nothing added: the tie as it stands (the common read).
+  if (!shared && !hours)
+    return row
+      ? currentCloseness(core, row)
+      : parameter("zero", core.data.parameters);
+  const p = lookup(core);
+  return levelFromHours(p, rowHours(core, p, row) + shared + hours);
+}
+
+/** A row's hours faded to today, less the strain it owes; zero with no row. */
+function rowHours(
+  core: Pick<CoreState, "date">,
+  p: Lookup,
+  row: Relationship | undefined,
+): number {
   return row
-    ? currentCloseness(core, row)
-    : parameter("zero", core.data.parameters);
+    ? faded(
+        p,
+        hoursFromLevel(p, row.level),
+        elapsed(p, row.lastContactDate, core.date),
+        row.kind,
+      ) - owedToday(p, row, core.date)
+    : p("zero");
+}
+
+/**
+ * The hours a tie stands on today: its row's hours faded to today, less any
+ * strain the row owes, plus the hours another engine's record says the two
+ * shared (`registerSharedHours`). What a share of the tie is taken from (a
+ * lie found out, scene-talk-rules endingStrain trust-lost).
+ */
+export function tieHoursBetween(
+  core: Pick<CoreState, "data" | "date" | "relationships">,
+  a: PersonId,
+  b: PersonId,
+): number {
+  const row = core.relationships.get(a < b ? `${a}:${b}` : `${b}:${a}`);
+  return rowHours(core, lookup(core), row) + sharedHoursBetween(core, a, b);
+}
+
+/**
+ * A tie after `hours` more together today (negative is a strain): its level,
+ * and the strain its own hours did not cover. The strain beyond the row's
+ * own hours is kept only up to the hours the two shared elsewhere
+ * (`shared`, read only when the row runs out), so a strain takes off at most
+ * the whole tie and closeness never goes below zero; with nothing shared it
+ * stops at zero as it always has.
+ */
+export function tieAfter(
+  core: Pick<CoreState, "data" | "date">,
+  row:
+    | Pick<Relationship, "level" | "lastContactDate" | "kind" | "owedHours">
+    | undefined,
+  kind: string,
+  hours: number,
+  shared: () => number,
+): { readonly level: number; readonly owedHours: number } {
+  stopgap(data.stopgapId);
+  const p = lookup(core);
+  const net =
+    (row
+      ? faded(
+          p,
+          hoursFromLevel(p, row.level),
+          elapsed(p, row.lastContactDate, core.date),
+          row.kind,
+        ) - owedToday(p, row, core.date)
+      : p("zero")) + hours;
+  if (net >= p("zero"))
+    return { level: levelFromHours(p, net), owedHours: p("zero") };
+  return {
+    level: p("zero"),
+    owedHours: Math.min(-net, Math.max(shared(), p("zero"))),
+  };
 }
 
 /** Hours of time together the tie has lost since its last contact. */
@@ -301,6 +433,23 @@ export function familyRelation(
 }
 
 /**
+ * Whether two people are blood relatives by the records (a parent, child,
+ * sibling, grandparent, grandchild, aunt or uncle, niece or nephew), as
+ * opposed to a partner, a former partner or someone who only shares a home.
+ */
+export function bloodKin(
+  core: Pick<CoreState, "people">,
+  a: PersonId,
+  b: PersonId,
+): boolean {
+  const relation = familyRelation(core, a, b);
+  return (
+    relation !== null &&
+    (data.bloodKinRelations as readonly string[]).includes(relation)
+  );
+}
+
+/**
  * The hours a contact counts for, by the two people's temperaments: time
  * together builds closeness faster between warm, outgoing people and slower
  * between reserved ones (relationships.warm-to), and a falling-out (negative
@@ -334,3 +483,12 @@ export function temperedHours(
   );
   return hours * Math.exp(decisionTraitWeight(core, id) * (lean - center));
 }
+
+// Members of a body know each other from the sittings they share: the engine
+// that keeps the bodies' calendars registers them through this entry.
+export {
+  noSittingTie,
+  registerSittingCalendar,
+  sittingHours,
+  type SittingDay,
+} from "./sitting-closeness";

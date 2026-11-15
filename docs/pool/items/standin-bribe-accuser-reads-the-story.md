@@ -5,9 +5,9 @@ area: director
 kind: bug
 priority: 3
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: S3
+pr: 9359
 after:
 blocked-on:
 source: stand-in triage Nov 10
@@ -22,7 +22,9 @@ root: design-story-director
 
 **Cause.** Found in code: src/director/data/circumstances.json, circumstance `bribe-accused` (pool "ties-of-named") is cast by src/director/circumstance.ts line 479 (the `ties-of-named` source), which returns family, household and known people with no reading of the news. The news engine records readers per story as `news.read:<story id>:<date>` events (src/core2/modules/news.ts line 157, storyOfReadEvent line 164, storiesHeard line 246).
 
-**Fix.** Give the `bribe-accused` circumstance a pool that keeps only the people of ties-of-named whom the news engine's records say heard the story the scandal.reported record became (storiesHeard for that story), citing the news.read id; keep the closest and most sociable of those, and no scene when none read it. Delete the stopgap's marker row in src/director/data/stopgaps.json.
+**Measured (S3, Nov 14, three drawn places: Lake Michigan Beach MI, Shiloh TN, Chalan Pago-Ordot GU, seed scandal-days:0-2).** The paper prints a reported bribe on day 7 (4 to 8 stories) and its readers begin on day 8 (12 to 41), reaching 70 to 160 by day 21; at day 1 nothing is printed or read. A cast at the report's day plus one therefore can never name a reader. Also, a scandal story carried no news.read record at all (the news engine emits one only for a story that argues a change or names a law).
+
+**Fix.** Cast the accusation from the readers' own record, the way law-news-street does: the news engine emits news.read for a story that names a crime and an official (`crimeId` and `officialId`); the `bribe-accused` circumstance reads news.read, takes the official from the story (player rule `official-in-it`), and casts among the readers (`witnessed`) who know the official, scored on tie and sociability; the scene cites the news.read id. The old scandal.reported cast, the ties-of-named pool and the stopgap's marker row are deleted.
 
 **Time box.** 3 hours for one Sonnet session. It stays cheap because it reads the readers of one story when the circumstance is called.
 

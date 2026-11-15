@@ -24,13 +24,14 @@
       "value": 0.5,
       "tag": "TUNABLE",
       "citation": "Owner ruling on answer 2, October 9, 2026: the scale's anchor event, 'Marriage', 50 life-change units divided by 100 (Holmes and Rahe 1967), so losing a household's only pay takes over the screen.",
-      "stopgapId": "SG-P13-param-directorInterruptImpact",
       "checkRange": {
         "ref": "P13-OWNER-INTERRUPT-LINE"
       },
       "spread": {
-        "status": "unmeasured",
-        "reason": "A pacing choice by the owner, not a quantity any study measures; the marriage anchor is 50 life-change units in both the 1967 scale and its 2021 replication (Wallace and others 2023), so the line does not move if the scale is updated."
+        "low": 0.35,
+        "high": 0.65,
+        "unit": "impact",
+        "citation": "Unverified estimate (Nov 14, 2026): the range the value is checked across in a played year; no study measures it. A pacing choice by the owner, not a quantity any study measures; the marriage anchor is 50 life-change units in both the 1967 scale and its 2021 replication (Wallace and others 2023), so the line does not move if the scale is updated."
       }
     },
     "directorScaleFeeling": {
@@ -75,13 +76,14 @@
       "value": 1,
       "tag": "TUNABLE",
       "citation": "The watched person's own death ends the watched life; scale 1 places it at the top of the life-change scale. No direct source for the director's weighting.",
-      "stopgapId": "SG-P13-param-directorScaleHealth",
       "checkRange": {
         "ref": "P13-CALIBRATION-YEAR"
       },
       "spread": {
-        "status": "unmeasured",
-        "reason": "The watched person's own death is a design weight at the top of the scale; no stress scale rates one's own death (the top row, a spouse's death, is 100 in 1967 and 86.83 in the 2021 replication)."
+        "low": 0.8,
+        "high": 1,
+        "unit": "impact",
+        "citation": "Unverified estimate (Nov 14, 2026): the range the value is checked across in a played year; no study measures it. The watched person's own death is a design weight at the top of the scale; no stress scale rates one's own death (the top row, a spouse's death, is 100 in 1967 and 86.83 in the 2021 replication)."
       }
     },
     "directorWeightTieSociability": {
@@ -123,65 +125,70 @@
       "value": 0.5,
       "tag": "TUNABLE",
       "citation": "Story director design, part 2, October 8, 2026 calibration (data/content/story-threads.json).",
-      "stopgapId": "SG-P13-param-directorTies",
       "checkRange": {
         "ref": "P13-CALIBRATION-YEAR"
       },
       "spread": {
-        "status": "unmeasured",
-        "reason": "The anchor of the tie scale: a close family member's death on the Holmes and Rahe scale; ranked against other ties by no source found."
+        "low": 0.35,
+        "high": 0.65,
+        "unit": "tie weight",
+        "citation": "Unverified estimate (Nov 14, 2026): the range the value is checked across in a played year; no study measures it. The anchor of the tie scale: a close family member's death on the Holmes and Rahe scale; ranked against other ties by no source found."
       }
     },
     "directorTieChild": {
       "value": 0.5,
       "tag": "TUNABLE",
       "citation": "Story director design, part 2, October 8, 2026 calibration (data/content/story-threads.json).",
-      "stopgapId": "SG-P13-param-directorTies",
       "checkRange": {
         "ref": "P13-CALIBRATION-YEAR"
       },
       "spread": {
-        "status": "unmeasured",
-        "reason": "The anchor of the tie scale: a close family member's death on the Holmes and Rahe scale; ranked against other ties by no source found."
+        "low": 0.35,
+        "high": 0.65,
+        "unit": "tie weight",
+        "citation": "Unverified estimate (Nov 14, 2026): the range the value is checked across in a played year; no study measures it. The anchor of the tie scale: a close family member's death on the Holmes and Rahe scale; ranked against other ties by no source found."
       }
     },
     "directorTieSibling": {
       "value": 0.35,
       "tag": "TUNABLE",
       "citation": "Story director design, part 2, October 8, 2026 calibration (data/content/story-threads.json).",
-      "stopgapId": "SG-P13-param-directorTies",
       "checkRange": {
         "ref": "P13-CALIBRATION-YEAR"
       },
       "spread": {
-        "status": "unmeasured",
-        "reason": "No source ranks this tie against parents and children; kept as the October 8, 2026 design weight until a replay calibration of thread importance against recorded closeness."
+        "low": 0.25,
+        "high": 0.45,
+        "unit": "tie weight",
+        "citation": "Unverified estimate (Nov 14, 2026): the range the value is checked across in a played year; no study measures it. No source ranks this tie against parents and children; kept as the October 8, 2026 design weight until a replay calibration of thread importance against recorded closeness."
       }
     },
     "directorTieGrandparent": {
       "value": 0.2,
       "tag": "TUNABLE",
       "citation": "Story director design, part 2, October 8, 2026 calibration (data/content/story-threads.json).",
-      "stopgapId": "SG-P13-param-directorTies",
       "checkRange": {
         "ref": "P13-CALIBRATION-YEAR"
       },
       "spread": {
-        "status": "unmeasured",
-        "reason": "No source ranks this tie against parents and children; kept as the October 8, 2026 design weight until a replay calibration of thread importance against recorded closeness."
+        "low": 0.1,
+        "high": 0.3,
+        "unit": "tie weight",
+        "citation": "Unverified estimate (Nov 14, 2026): the range the value is checked across in a played year; no study measures it. No source ranks this tie against parents and children; kept as the October 8, 2026 design weight until a replay calibration of thread importance against recorded closeness."
       }
     },
     "directorTieGrandchild": {
       "value": 0.2,
       "tag": "TUNABLE",
       "citation": "Story director design, part 2, October 8, 2026 calibration (data/content/story-threads.json).",
-      "stopgapId": "SG-P13-param-directorTies",
       "checkRange": {
         "ref": "P13-CALIBRATION-YEAR"
       },
       "spread": {
-        "status": "unmeasured",
-        "reason": "No source ranks this tie against parents and children; kept as the October 8, 2026 design weight until a replay calibration of thread importance against recorded closeness."
+        "low": 0.1,
+        "high": 0.3,
+        "unit": "tie weight",
+        "citation": "Unverified estimate (Nov 14, 2026): the range the value is checked across in a played year; no study measures it. No source ranks this tie against parents and children; kept as the October 8, 2026 design weight until a replay calibration of thread importance against recorded closeness."
       }
     },
     "directorTiePartner": {
@@ -189,7 +196,6 @@
       "tag": "ESTIMATED",
       "citation": "Not in the October 8, 2026 calibration, which had no partner row. Scaled from the parent and child anchor (0.5) by the ratio of a spouse's death to a close family member's on the 1967 scale the director uses: 100 / 63 x 0.5 = 0.79 (0.57 on the 2021 replication, 86.83 / 75.84 x 0.5). Derived, not published (data/research/stand-in-figures-2026-10-12.json).",
       "estimatedFrom": "October 8, 2026 parent tie scaled by the Holmes and Rahe (1967) spouse-to-close-family ratio",
-      "stopgapId": "SG-P13-param-directorTies",
       "spread": {
         "low": 0.57,
         "high": 0.79,
@@ -201,8 +207,9 @@
       "value": 7,
       "tag": "TUNABLE",
       "citation": "Scenes from circumstance (owner, Oct 27, 2026, 01:30 Eastern: any record can call a scene when the circumstances fit; Oct 26: Wildermyth pacing, scenes cluster where records give cause). A pacing and casting weight, not a measured quantity; set by the director lead on Oct 27, 2026.",
-      "stopgapId": "SG-DIRECTOR-circumstance-weights",
-      "checkRange": { "ref": "DIRECTOR-CIRCUMSTANCE-YEAR" },
+      "checkRange": {
+        "ref": "DIRECTOR-CIRCUMSTANCE-YEAR"
+      },
       "spread": {
         "low": 3,
         "high": 14,
@@ -211,11 +218,12 @@
       }
     },
     "directorCircumstanceDoorEveryDays": {
-      "value": 1,
+      "value": 3,
       "tag": "TUNABLE",
-      "citation": "Every campaign act is a scene (owner, Oct 27, 2026, 5 PM Eastern: door knocking is \"a short scene at 1 or 2 doors, maybe sometimes it's uneventful\"; OWNER-DECISIONS). A pacing weight, not a measured quantity; set by the director lead on Oct 27, 2026.",
-      "stopgapId": "SG-DIRECTOR-circumstance-weights",
-      "checkRange": { "ref": "DIRECTOR-CIRCUMSTANCE-YEAR" },
+      "citation": "Every campaign act is a scene (owner, Oct 27, 2026, 5 PM Eastern: door knocking is \"a short scene at 1 or 2 doors, maybe sometimes it's uneventful\"; OWNER-DECISIONS), and gathering signatures at the doors has \"scenes every now and then, maybe sometimes no scenes\" (owner, chat, Nov 14, 2026, 00:50Z). At 1 a day's doors staged a porch scene on each of the first six outings and then none for the rest of the season (the seasonCap of six in 91 days; three drawn places, pool item play-petition-signatures-come-from-door-days); at 3 the six spread over about three weeks of daily canvassing with outings between that stage none. A pacing weight, not a measured quantity; set by the director lead on Oct 27, 2026, retuned Nov 14, 2026.",
+      "checkRange": {
+        "ref": "DIRECTOR-CIRCUMSTANCE-YEAR"
+      },
       "spread": {
         "low": 1,
         "high": 7,
@@ -227,8 +235,9 @@
       "value": 14,
       "tag": "TUNABLE",
       "citation": "Scenes from circumstance (owner, Oct 27, 2026, 01:30 Eastern: any record can call a scene when the circumstances fit; Oct 26: Wildermyth pacing, scenes cluster where records give cause). A pacing and casting weight, not a measured quantity; set by the director lead on Oct 27, 2026.",
-      "stopgapId": "SG-DIRECTOR-circumstance-weights",
-      "checkRange": { "ref": "DIRECTOR-CIRCUMSTANCE-YEAR" },
+      "checkRange": {
+        "ref": "DIRECTOR-CIRCUMSTANCE-YEAR"
+      },
       "spread": {
         "low": 7,
         "high": 30,
@@ -240,8 +249,9 @@
       "value": 30,
       "tag": "TUNABLE",
       "citation": "Scenes from circumstance (owner, Oct 27, 2026, 01:30 Eastern: any record can call a scene when the circumstances fit; Oct 26: Wildermyth pacing, scenes cluster where records give cause). A pacing and casting weight, not a measured quantity; set by the director lead on Oct 27, 2026.",
-      "stopgapId": "SG-DIRECTOR-circumstance-weights",
-      "checkRange": { "ref": "DIRECTOR-CIRCUMSTANCE-YEAR" },
+      "checkRange": {
+        "ref": "DIRECTOR-CIRCUMSTANCE-YEAR"
+      },
       "spread": {
         "low": 7,
         "high": 45,
@@ -253,8 +263,9 @@
       "value": 14,
       "tag": "TUNABLE",
       "citation": "Scenes from circumstance (owner, Oct 27, 2026, 01:30 Eastern: any record can call a scene when the circumstances fit; Oct 26: Wildermyth pacing, scenes cluster where records give cause). A pacing and casting weight, not a measured quantity; set by the director lead on Oct 27, 2026.",
-      "stopgapId": "SG-DIRECTOR-circumstance-weights",
-      "checkRange": { "ref": "DIRECTOR-CIRCUMSTANCE-YEAR" },
+      "checkRange": {
+        "ref": "DIRECTOR-CIRCUMSTANCE-YEAR"
+      },
       "spread": {
         "low": 7,
         "high": 30,
@@ -266,8 +277,9 @@
       "value": 14,
       "tag": "TUNABLE",
       "citation": "Scenes from circumstance (owner, Oct 27, 2026, 01:30 Eastern: any record can call a scene when the circumstances fit; Oct 26: Wildermyth pacing, scenes cluster where records give cause). A pacing and casting weight, not a measured quantity; set by the director lead on Oct 27, 2026.",
-      "stopgapId": "SG-DIRECTOR-circumstance-weights",
-      "checkRange": { "ref": "DIRECTOR-CIRCUMSTANCE-YEAR" },
+      "checkRange": {
+        "ref": "DIRECTOR-CIRCUMSTANCE-YEAR"
+      },
       "spread": {
         "low": 7,
         "high": 30,
@@ -279,8 +291,9 @@
       "value": 0.15,
       "tag": "TUNABLE",
       "citation": "Scenes from circumstance (owner, Oct 27, 2026, 01:30 Eastern: any record can call a scene when the circumstances fit; Oct 26: Wildermyth pacing, scenes cluster where records give cause). A pacing and casting weight, not a measured quantity; set by the director lead on Oct 27, 2026.",
-      "stopgapId": "SG-DIRECTOR-circumstance-weights",
-      "checkRange": { "ref": "DIRECTOR-CIRCUMSTANCE-YEAR" },
+      "checkRange": {
+        "ref": "DIRECTOR-CIRCUMSTANCE-YEAR"
+      },
       "spread": {
         "low": 0.11,
         "high": 0.3,
@@ -292,8 +305,9 @@
       "value": 0.12,
       "tag": "TUNABLE",
       "citation": "Scenes from circumstance (owner, Oct 27, 2026, 01:30 Eastern: any record can call a scene when the circumstances fit; Oct 26: Wildermyth pacing, scenes cluster where records give cause). A pacing and casting weight, not a measured quantity; set by the director lead on Oct 27, 2026.",
-      "stopgapId": "SG-DIRECTOR-circumstance-weights",
-      "checkRange": { "ref": "DIRECTOR-CIRCUMSTANCE-YEAR" },
+      "checkRange": {
+        "ref": "DIRECTOR-CIRCUMSTANCE-YEAR"
+      },
       "spread": {
         "low": 0.11,
         "high": 0.25,
@@ -305,8 +319,9 @@
       "value": 0.12,
       "tag": "TUNABLE",
       "citation": "Scenes from circumstance (owner, Oct 27, 2026, 01:30 Eastern: any record can call a scene when the circumstances fit; Oct 26: Wildermyth pacing, scenes cluster where records give cause). A pacing and casting weight, not a measured quantity; set by the director lead on Oct 27, 2026.",
-      "stopgapId": "SG-DIRECTOR-circumstance-weights",
-      "checkRange": { "ref": "DIRECTOR-CIRCUMSTANCE-YEAR" },
+      "checkRange": {
+        "ref": "DIRECTOR-CIRCUMSTANCE-YEAR"
+      },
       "spread": {
         "low": 0.11,
         "high": 0.25,
@@ -318,8 +333,9 @@
       "value": 0.2,
       "tag": "TUNABLE",
       "citation": "Scenes from circumstance (owner, Oct 27, 2026, 01:30 Eastern: any record can call a scene when the circumstances fit; Oct 26: Wildermyth pacing, scenes cluster where records give cause). A pacing and casting weight, not a measured quantity; set by the director lead on Oct 27, 2026.",
-      "stopgapId": "SG-DIRECTOR-circumstance-weights",
-      "checkRange": { "ref": "DIRECTOR-CIRCUMSTANCE-YEAR" },
+      "checkRange": {
+        "ref": "DIRECTOR-CIRCUMSTANCE-YEAR"
+      },
       "spread": {
         "low": 0.11,
         "high": 0.4,
@@ -331,8 +347,9 @@
       "value": 0.15,
       "tag": "TUNABLE",
       "citation": "Scenes from circumstance (owner, Oct 27, 2026, 01:30 Eastern: any record can call a scene when the circumstances fit; Oct 26: Wildermyth pacing, scenes cluster where records give cause). A pacing and casting weight, not a measured quantity; set by the director lead on Oct 27, 2026.",
-      "stopgapId": "SG-DIRECTOR-circumstance-weights",
-      "checkRange": { "ref": "DIRECTOR-CIRCUMSTANCE-YEAR" },
+      "checkRange": {
+        "ref": "DIRECTOR-CIRCUMSTANCE-YEAR"
+      },
       "spread": {
         "low": 0.1,
         "high": 0.3,
@@ -344,8 +361,9 @@
       "value": 0.2,
       "tag": "TUNABLE",
       "citation": "Scenes from circumstance (owner, Oct 27, 2026, 01:30 Eastern: any record can call a scene when the circumstances fit; Oct 26: Wildermyth pacing, scenes cluster where records give cause). A pacing and casting weight, not a measured quantity; set by the director lead on Oct 27, 2026.",
-      "stopgapId": "SG-DIRECTOR-circumstance-weights",
-      "checkRange": { "ref": "DIRECTOR-CIRCUMSTANCE-YEAR" },
+      "checkRange": {
+        "ref": "DIRECTOR-CIRCUMSTANCE-YEAR"
+      },
       "spread": {
         "low": 0.15,
         "high": 0.4,
@@ -357,8 +375,9 @@
       "value": 0.2,
       "tag": "TUNABLE",
       "citation": "Scenes from circumstance (owner, Oct 27, 2026, 01:30 Eastern: any record can call a scene when the circumstances fit; Oct 26: Wildermyth pacing, scenes cluster where records give cause). A pacing and casting weight, not a measured quantity; set by the director lead on Oct 27, 2026.",
-      "stopgapId": "SG-DIRECTOR-circumstance-weights",
-      "checkRange": { "ref": "DIRECTOR-CIRCUMSTANCE-YEAR" },
+      "checkRange": {
+        "ref": "DIRECTOR-CIRCUMSTANCE-YEAR"
+      },
       "spread": {
         "low": 0.15,
         "high": 0.4,
@@ -370,8 +389,9 @@
       "value": 0.15,
       "tag": "TUNABLE",
       "citation": "Scenes from circumstance (owner, Oct 27, 2026, 01:30 Eastern: any record can call a scene when the circumstances fit; Oct 26: Wildermyth pacing, scenes cluster where records give cause). A pacing and casting weight, not a measured quantity; set by the director lead on Oct 27, 2026.",
-      "stopgapId": "SG-DIRECTOR-circumstance-weights",
-      "checkRange": { "ref": "DIRECTOR-CIRCUMSTANCE-YEAR" },
+      "checkRange": {
+        "ref": "DIRECTOR-CIRCUMSTANCE-YEAR"
+      },
       "spread": {
         "low": 0.11,
         "high": 0.3,
@@ -383,8 +403,9 @@
       "value": 1,
       "tag": "TUNABLE",
       "citation": "Scenes from circumstance (owner, Oct 27, 2026, 01:30 Eastern: any record can call a scene when the circumstances fit; Oct 26: Wildermyth pacing, scenes cluster where records give cause). A pacing and casting weight, not a measured quantity; set by the director lead on Oct 27, 2026.",
-      "stopgapId": "SG-DIRECTOR-circumstance-weights",
-      "checkRange": { "ref": "DIRECTOR-CIRCUMSTANCE-YEAR" },
+      "checkRange": {
+        "ref": "DIRECTOR-CIRCUMSTANCE-YEAR"
+      },
       "spread": {
         "low": 0.5,
         "high": 2,
@@ -396,8 +417,9 @@
       "value": 0.5,
       "tag": "TUNABLE",
       "citation": "Scenes from circumstance (owner, Oct 27, 2026, 01:30 Eastern: any record can call a scene when the circumstances fit; Oct 26: Wildermyth pacing, scenes cluster where records give cause). A pacing and casting weight, not a measured quantity; set by the director lead on Oct 27, 2026.",
-      "stopgapId": "SG-DIRECTOR-circumstance-weights",
-      "checkRange": { "ref": "DIRECTOR-CIRCUMSTANCE-YEAR" },
+      "checkRange": {
+        "ref": "DIRECTOR-CIRCUMSTANCE-YEAR"
+      },
       "spread": {
         "low": 0.25,
         "high": 1,
@@ -409,8 +431,9 @@
       "value": 1,
       "tag": "TUNABLE",
       "citation": "Scenes from circumstance (owner, Oct 27, 2026, 01:30 Eastern: any record can call a scene when the circumstances fit; Oct 26: Wildermyth pacing, scenes cluster where records give cause). A pacing and casting weight, not a measured quantity; set by the director lead on Oct 27, 2026.",
-      "stopgapId": "SG-DIRECTOR-circumstance-weights",
-      "checkRange": { "ref": "DIRECTOR-CIRCUMSTANCE-YEAR" },
+      "checkRange": {
+        "ref": "DIRECTOR-CIRCUMSTANCE-YEAR"
+      },
       "spread": {
         "low": 0.5,
         "high": 2,
@@ -422,8 +445,9 @@
       "value": 0.25,
       "tag": "TUNABLE",
       "citation": "Scenes from circumstance (owner, Oct 27, 2026, 01:30 Eastern: any record can call a scene when the circumstances fit; Oct 26: Wildermyth pacing, scenes cluster where records give cause). A pacing and casting weight, not a measured quantity; set by the director lead on Oct 27, 2026.",
-      "stopgapId": "SG-DIRECTOR-circumstance-weights",
-      "checkRange": { "ref": "DIRECTOR-CIRCUMSTANCE-YEAR" },
+      "checkRange": {
+        "ref": "DIRECTOR-CIRCUMSTANCE-YEAR"
+      },
       "spread": {
         "low": 0,
         "high": 0.5,
@@ -435,8 +459,9 @@
       "value": 13,
       "tag": "TUNABLE",
       "citation": "Fable A, Nov 13, 2026, rule 28: a child under 13 is never cast to tell news of politics, money, law or work, and never opens with an adult's line; from 13 to 17 they may tell what they heard at school or at home; adults as now. Playtester P1, Commack NY: a 4-year-old son cast to tell his mother who filed for town board.",
-      "stopgapId": "SG-DIRECTOR-circumstance-weights",
-      "checkRange": { "ref": "DIRECTOR-CIRCUMSTANCE-YEAR" },
+      "checkRange": {
+        "ref": "DIRECTOR-CIRCUMSTANCE-YEAR"
+      },
       "spread": {
         "low": 10,
         "high": 16,
@@ -448,26 +473,28 @@
       "value": 0.3,
       "tag": "TUNABLE",
       "citation": "Story director design, part 2, October 8, 2026 calibration (data/content/story-threads.json).",
-      "stopgapId": "SG-P13-param-directorTies",
       "checkRange": {
         "ref": "P13-CALIBRATION-YEAR"
       },
       "spread": {
-        "status": "unmeasured",
-        "reason": "No source ranks this tie against parents and children; kept as the October 8, 2026 design weight until a replay calibration of thread importance against recorded closeness."
+        "low": 0.2,
+        "high": 0.4,
+        "unit": "tie weight",
+        "citation": "Unverified estimate (Nov 14, 2026): the range the value is checked across in a played year; no study measures it. No source ranks this tie against parents and children; kept as the October 8, 2026 design weight until a replay calibration of thread importance against recorded closeness."
       }
     },
     "directorFadingDiscount": {
       "value": 0.75,
       "tag": "TUNABLE",
       "citation": "Story director design, part 2, October 8, 2026 calibration: fading discounts a pair's moments by up to three quarters.",
-      "stopgapId": "SG-P13-param-directorTies",
       "checkRange": {
         "ref": "P13-CALIBRATION-YEAR"
       },
       "spread": {
-        "status": "unmeasured",
-        "reason": "No measured decay of how much a faded tie still matters; kept as the October 8, 2026 design weight."
+        "low": 0.5,
+        "high": 0.9,
+        "unit": "discount",
+        "citation": "Unverified estimate (Nov 14, 2026): the range the value is checked across in a played year; no study measures it. No measured decay of how much a faded tie still matters; kept as the October 8, 2026 design weight."
       }
     },
     "directorRenewedFading": {
@@ -487,13 +514,14 @@
       "value": 7,
       "tag": "TUNABLE",
       "citation": "Owner answer 7, October 9, 2026: a weight highest on the anniversary that falls smoothly over two weeks either side; it halves every 7 days from the date, with no cut-off. No direct source.",
-      "stopgapId": "SG-P13-param-directorAnniversaryHalfDays",
       "checkRange": {
         "ref": "P13-OWNER-ANNIVERSARY"
       },
       "spread": {
-        "status": "unmeasured",
-        "reason": "The owner's answer 7: no study measures how many days grief or recall stays raised around an anniversary; the only measured window is one week."
+        "low": 3,
+        "high": 14,
+        "unit": "days",
+        "citation": "Unverified estimate (Nov 14, 2026): the range the value is checked across in a played year; no study measures it. The owner's answer 7: no study measures how many days grief or recall stays raised around an anniversary; the only measured window is one week."
       }
     },
     "directorPastChildBorn": {
@@ -552,18 +580,28 @@
       "value": 91,
       "tag": "TUNABLE",
       "citation": "No study sets how long a person keeps every moment in full. A season (91 days) keeps the recent past whole for scenes, callbacks and the journal; older moments keep only the strongest by hindsight. Checked by a watched person's stored moments staying about the same size across a year (P15 two-level population).",
-      "stopgapId": "SG-P15-memory-forgetting",
       "checkRange": {
         "ref": "P15-MEMORY-SIZE-FLAT-YEAR"
+      },
+      "spread": {
+        "low": 60,
+        "high": 182,
+        "unit": "days",
+        "citation": "Unverified estimate: two to six months of whole memory around the season kept now (91 days); checked so a watched person's memory stays about the same size across a played year (P15-MEMORY-SIZE-FLAT-YEAR)."
       }
     },
     "directorMemoryKeptMoments": {
       "value": 24,
       "tag": "TUNABLE",
       "citation": "No study sets how many older moments a person keeps one by one. Two a month over a year, matching the Social Readjustment Rating Scale's twelve-month window (Holmes and Rahe 1967); the rest stay as monthly summaries and as each pair's summed impact. Checked by stored moments staying about the same size across a year.",
-      "stopgapId": "SG-P15-memory-forgetting",
       "checkRange": {
         "ref": "P15-MEMORY-SIZE-FLAT-YEAR"
+      },
+      "spread": {
+        "low": 12,
+        "high": 48,
+        "unit": "moments",
+        "citation": "Unverified estimate: one to four older moments kept a month over a year (24 kept now); checked against memory staying about the same size across a played year (P15-MEMORY-SIZE-FLAT-YEAR)."
       }
     },
     "directorBribeOfferImpact": {
@@ -582,7 +620,9 @@
       "value": 0.6,
       "tag": "TUNABLE",
       "stopgapId": "SG-LIVES-director-kin-contact-impact",
-      "checkRange": { "ref": "LIVES-KIN-CONTACT-RANK" },
+      "checkRange": {
+        "ref": "LIVES-KIN-CONTACT-RANK"
+      },
       "citation": "Word from a relative living elsewhere at full closeness, scaled by the tie's closeness on the record (scaleFact), a small event that is told at home and never stops the day (SG-LIVES-kin-contact-traits).",
       "spread": {
         "low": 0.3,
@@ -619,8 +659,9 @@
       "value": 0.7,
       "tag": "TUNABLE",
       "citation": "An offer of help at its full weight (a close tie, in a candidate's first small local race), scaled by the offer's own weight (offerWeight in src/core2/modules/campaigns.ts: the race's size, the candidate's earlier campaigns and the tie). At full weight it is over the interrupt line (0.5) and stops the day as a scene; a stranger's offer in a first council race sits near filing to run (0.28) and waits its turn among the year's moments; an offer in a statewide or presidential race is a journal line (owner, Oct 27, 4 PM Eastern: volunteers stop the player only when they matter, in small local races or a first campaign).",
-      "stopgapId": "SG-P13-param-directorInterruptImpact",
-      "checkRange": { "ref": "P13-OWNER-INTERRUPT-LINE" },
+      "checkRange": {
+        "ref": "P13-OWNER-INTERRUPT-LINE"
+      },
       "spread": {
         "low": 0.5,
         "high": 0.9,
@@ -711,6 +752,12 @@
       "citation": "Release from prison, sized like the Social Readjustment Rating Scale's 'Marital reconciliation', 45 life-change units divided by 100 (Holmes and Rahe 1967): a return to the household after a separation.",
       "estimatedFrom": "Holmes and Rahe (1967); spread 0.3 to 0.5"
     },
+    "directorAddressHeardImpact": {
+      "value": 0.5,
+      "tag": "ESTIMATED",
+      "citation": "A governor's or the town's yearly address the household watches at home is staged as the President's opening address is, in its speaker's own words (owner, Nov 8: addresses by \"the President, and governors' and mayors'\"; words builder, Nov 12: at the election-result size, 0.28, it never reached the screen). Set at the interrupt line so the evening it is given stops the clock once a year for each.",
+      "estimatedFrom": "The interrupt line, directorInterruptImpact (owner ruling, Oct 9: 'Marriage', 50 life-change units divided by 100, Holmes and Rahe 1967); spread 0.5 to 0.6"
+    },
     "directorElectionResultImpact": {
       "value": 0.28,
       "tag": "ESTIMATED",
@@ -738,8 +785,12 @@
       "value": 90,
       "tag": "TUNABLE",
       "citation": "Owner, Oct 14, 2026, night: a talk starts from the biggest recorded event of either person, and someone not in the room is asked after only when something recorded happened to them. How long ago an event still counts as news between two people: one season.",
-      "spread": "30 to 180 days, checked by reading the talks of a played year (src/director/conversation.test.ts)",
-      "stopgapId": "SG-WORDS-param-directorTalkRecentDays",
+      "spread": {
+        "low": 30,
+        "high": 180,
+        "unit": "days",
+        "citation": "30 to 180 days, checked by reading the talks of a played year (src/director/conversation.test.ts)"
+      },
       "checkRange": {
         "min": 30,
         "max": 180,
@@ -755,8 +806,12 @@
       "value": 14,
       "tag": "TUNABLE",
       "citation": "The President's address is the day's news for a couple of weeks after it is given, counted from the day it was given, not from the day a person first heard of it: in play (Gilbert, West Virginia, Oct 28, 2026) people met in March still opened with \"Did you catch the President's speech?\" because they were filled in that day. Owner, Oct 27: scenes and talks read what is happening in the world now.",
-      "spread": "7 to 30 days, checked by reading the talks of a played season (src/director/conversation.test.ts)",
-      "stopgapId": "SG-WORDS-param-directorTalkRecentDays",
+      "spread": {
+        "low": 7,
+        "high": 30,
+        "unit": "days",
+        "citation": "7 to 30 days, checked by reading the talks of a played season (src/director/conversation.test.ts)"
+      },
       "checkRange": {
         "min": 7,
         "max": 30,
@@ -767,8 +822,12 @@
       "value": 7,
       "tag": "TUNABLE",
       "citation": "The fewest days since two people last spent time together for \"Haven't seen much of you since ...\" to fit: in play (Amanave, American Samoa, Oct 29, 2026) a household member said it of yesterday. A week is when Americans say they have not seen much of someone they live with or know; a reading of the line, not a measured quantity.",
-      "spread": "3 to 14 days, checked by reading the household talks of a played month (src/director/household-quiet.test.ts)",
-      "stopgapId": "SG-WORDS-param-directorTalkSeenLittleDays",
+      "spread": {
+        "low": 3,
+        "high": 14,
+        "unit": "days",
+        "citation": "3 to 14 days, checked by reading the household talks of a played month (src/director/household-quiet.test.ts)"
+      },
       "checkRange": {
         "min": 3,
         "max": 14,
@@ -865,6 +924,18 @@
       "citation": "A crime against one's household or oneself, sized as the Social Readjustment Rating Scale's 'Change in living conditions', 25 life-change units divided by 100, up to 'Personal injury or illness', 53, for a robbery or an assault (Holmes and Rahe 1967, J Psychosom Res 11(2):213-8; the scale has no crime item). It reaches the people the crime engine's record names.",
       "estimatedFrom": "Holmes and Rahe (1967); spread 0.25 to 0.53"
     },
+    "bringItUpLeanMinimum": {
+      "value": 0.25,
+      "tag": "ESTIMATED",
+      "citation": "How far from the middle a person's own lean, and the lean of the winner's party, must sit for the result to read as their side's win or loss when they bring it up, on the -1 to 1 lean scale. The Cooperative Election Study's ideo5 places 'moderate' at 0 and 'liberal' and 'conservative' at -1 and +1 of its -2 to +2 scale (ces-2024-views.json); half way from moderate to either is 0.5 on that scale, 0.25 on this one. Below it on either side the person is in the middle and says only who won.",
+      "estimatedFrom": "CES 2024 ideo5 category midpoints (Schaffner, Shih, Ansolabehere and Pope 2025); spread 0.15 to 0.35",
+      "spread": {
+        "low": 0.15,
+        "high": 0.35,
+        "unit": "lean, -1 to 1",
+        "citation": "From a third of the way to two thirds of the way from 'moderate' to 'liberal' or 'conservative' on CES ideo5."
+      }
+    },
     "journalRaceCloseMargin": {
       "value": 0.05,
       "tag": "TUNABLE",
@@ -959,20 +1030,24 @@
     {
       "id": "lie",
       "endsOn": "contradicting-fact-learned",
-      "producedBy": ["conversation.lie"],
-      "stopgapId": "SG-P13-kept-fact-producers"
+      "producedBy": ["conversation.lie"]
     },
     {
       "id": "favor",
-      "endsOn": "world-event",
+      "endsOn": "never",
       "producedBy": [],
-      "stopgapId": "SG-P13-kept-fact-producers"
+      "producedByFact": [
+        { "eventKind": "scene.reply", "fact": "keeps", "equals": "favor-owed" }
+      ]
     },
     {
       "id": "promise",
-      "endsOn": "world-event",
+      "endsOn": "settling-record",
       "producedBy": [],
-      "stopgapId": "SG-P13-kept-fact-producers"
+      "producedByFact": [
+        { "eventKind": "scene.reply", "fact": "promise" },
+        { "eventKind": "promise.answer", "fact": "promise" }
+      ]
     }
   ],
   "broadEventFlags": ["publicRecord", "news"],
@@ -1030,17 +1105,53 @@
     "citation": "Ordinary American hours by kind of place: a household awake from its morning to about 10 PM; visits and calls in the daytime and early evening; offices and workplaces on a daytime shift; local councils and boards often meeting in the evening; schools in a school day.",
     "spread": "Openings 6:00 to 10:00 AM and closings 3:00 to 11:00 PM by kind; checked against the American Time Use Survey's share of people at home, at work and in public places by hour.",
     "rows": {
-      "home": { "opens": null, "closes": 1320 },
-      "other-home": { "opens": 600, "closes": 1260 },
-      "phone": { "opens": null, "closes": 1290 },
-      "letter": { "opens": null, "closes": 1320 },
-      "workplace": { "opens": 480, "closes": 1080 },
-      "office": { "opens": 540, "closes": 1020 },
-      "chamber": { "opens": 540, "closes": 1290 },
-      "school": { "opens": 480, "closes": 930 },
-      "public": { "opens": 480, "closes": 1260 },
-      "venue": { "opens": 480, "closes": 1320 }
+      "home": {
+        "opens": null,
+        "closes": 1320
+      },
+      "other-home": {
+        "opens": 600,
+        "closes": 1260
+      },
+      "phone": {
+        "opens": null,
+        "closes": 1290
+      },
+      "letter": {
+        "opens": null,
+        "closes": 1320
+      },
+      "workplace": {
+        "opens": 480,
+        "closes": 1080
+      },
+      "office": {
+        "opens": 540,
+        "closes": 1020
+      },
+      "chamber": {
+        "opens": 540,
+        "closes": 1290
+      },
+      "school": {
+        "opens": 480,
+        "closes": 930
+      },
+      "public": {
+        "opens": 480,
+        "closes": 1260
+      },
+      "venue": {
+        "opens": 480,
+        "closes": 1320
+      }
     }
+  },
+  "waitingStop": {
+    "reasonKey": "p13-story-director:waiting-scene",
+    "citation": "The story director's staged scene that ranked within the life's pace and waited for the player (docs/design/story-director.md, part 4, When: at the cause, the scene opens the first time the player has control after the record is written; on an effective date, that day). One a morning, the highest-ranked first.",
+    "notMet": "not met in time",
+    "silent": "no one there to speak"
   },
   "interruptStop": {
     "reasonKey": "p13-story-director:interrupting-moment",
@@ -1071,6 +1182,11 @@
     },
     {
       "eventKind": "party-asked",
+      "channel": "cause",
+      "impactParameter": "directorFilingImpact"
+    },
+    {
+      "eventKind": "party-joined",
       "channel": "cause",
       "impactParameter": "directorFilingImpact"
     },
@@ -1142,6 +1258,17 @@
       "impactParameter": "directorFloorVoteImpact"
     },
     {
+      "eventKind": "sign-on-asked",
+      "channel": "cause",
+      "impactParameter": "directorFloorVoteImpact"
+    },
+    {
+      "eventKind": "serve-asked",
+      "channel": "cause",
+      "impactParameter": "directorFilingImpact",
+      "counterpartFact": "askedId"
+    },
+    {
       "eventKind": "bill-held-in-committee",
       "channel": "cause",
       "impactParameter": "directorFloorVoteImpact"
@@ -1195,12 +1322,12 @@
     {
       "eventKind": "governor.address",
       "channel": "cause",
-      "impactParameter": "directorElectionResultImpact"
+      "impactParameter": "directorAddressHeardImpact"
     },
     {
       "eventKind": "mayor.address",
       "channel": "cause",
-      "impactParameter": "directorElectionResultImpact"
+      "impactParameter": "directorAddressHeardImpact"
     },
     {
       "eventKind": "president.address",
@@ -1277,6 +1404,11 @@
     },
     {
       "eventKind": "family.engaged",
+      "channel": "feeling",
+      "impactParameter": "directorKinUnionImpact"
+    },
+    {
+      "eventKind": "family.move-in-asked",
       "channel": "feeling",
       "impactParameter": "directorKinUnionImpact"
     },
@@ -1426,6 +1558,11 @@
       "channel": "cause",
       "impactParameter": "directorVolunteerOfferImpact",
       "scaleFact": "weight"
+    },
+    {
+      "eventKind": "endorsement-asked",
+      "channel": "cause",
+      "impactParameter": "directorFilingImpact"
     },
     {
       "eventKind": "job-offered",

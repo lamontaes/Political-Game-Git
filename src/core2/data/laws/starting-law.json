@@ -32453,7 +32453,7 @@
   },
   "propertyTax": {
     "series": "property-tax",
-    "unit": "percent of home value per year",
+    "unit": "percent-of-home-value",
     "source": [
       "https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/data/5YRData/acsdt5y2024-b25103.dat",
       "https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/data/5YRData/acsdt5y2024-b25077.dat"

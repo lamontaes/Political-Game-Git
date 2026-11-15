@@ -6,7 +6,7 @@
     "name": "Butte, Alaska",
     "state": "US-AK"
   },
-  "window": 365,
+  "window": 35,
   "after": 31,
   "results": [
     {
@@ -248,152 +248,6 @@
         "sample": []
       },
       "seconds": 29
-    },
-    {
-      "key": "us-federal-positions:justice-rights.reduce-mandatory-minimums",
-      "kind": "question",
-      "family": "justice",
-      "inForceAtOpening": false,
-      "change": "enacted at federal (law:US:federal:us-federal-positions:justice-rights.reduce-mandatory-minimums:general:2025-01-21:law-wiring-c08da077) effective 2025-01-21; then repealed at federal effective 2025-02-26",
-      "lawIds": [
-        "law:US:federal:us-federal-positions:justice-rights.reduce-mandatory-minimums:general:2025-01-21:law-wiring-c08da077",
-        "law:US:federal:us-federal-positions:justice-rights.reduce-mandatory-minimums:general:2025-02-26:law-wiring-c08da077-b"
-      ],
-      "openingReach": {
-        "fullPeople": 0,
-        "countedGroups": 0,
-        "countedPeople": 0,
-        "households": 0,
-        "organizations": 0,
-        "governments": 0,
-        "other": 0,
-        "open": 0,
-        "ended": 0,
-        "sample": []
-      },
-      "reach": {
-        "fullPeople": 0,
-        "countedGroups": 0,
-        "countedPeople": 0,
-        "households": 0,
-        "organizations": 0,
-        "governments": 0,
-        "other": 0,
-        "open": 0,
-        "ended": 0,
-        "sample": []
-      },
-      "reachAtEnd": {
-        "fullPeople": 0,
-        "countedGroups": 0,
-        "countedPeople": 0,
-        "households": 0,
-        "organizations": 0,
-        "governments": 0,
-        "other": 0,
-        "open": 0,
-        "ended": 0,
-        "sample": []
-      },
-      "inPlay": [],
-      "applied": {
-        "rows": 0,
-        "withAmount": 0,
-        "sample": []
-      },
-      "readers": {
-        "src/core2/modules/outcome-web.ts:208": 12,
-        "src/core2/life.ts:552": 5,
-        "src/core2/modules/federal-courts.ts:164": 4
-      },
-      "openingRow": "law:US:federal:us-federal-positions:justice-rights.reduce-mandatory-minimums:general:starting",
-      "money": {
-        "direct": [],
-        "diff": [],
-        "diffKinds": 0,
-        "cited": [],
-        "controlCited": [],
-        "own": {
-          "targets": 0,
-          "among": "reached",
-          "pairs": [],
-          "paid": 0,
-          "pick": null,
-          "sample": [],
-          "near": []
-        }
-      },
-      "web": {
-        "links": [
-          {
-            "key": "mandatory-minimum-cut-to-federal-prisoners",
-            "status": "built",
-            "to": "justice.federal-incarcerated-per-100k"
-          },
-          {
-            "key": "federal-mandatory-minimums-to-crime",
-            "status": "about-zero",
-            "to": "crime.rate-index"
-          }
-        ],
-        "fired": [],
-        "firedCount": 0,
-        "windowDays": 35,
-        "cause": [
-          {
-            "id": "web:jurisdiction_ffa1a12974173cce:2025-01",
-            "month": "2025-01",
-            "link": "mandatory-minimum-cut-to-federal-prisoners",
-            "from": "law:us-federal-positions:justice-rights.reduce-mandatory-minimums",
-            "lagMonths": 12,
-            "treated": 1,
-            "control": 0
-          },
-          {
-            "id": "web:jurisdiction_ffa1a12974173cce:2025-02",
-            "month": "2025-02",
-            "link": "mandatory-minimum-cut-to-federal-prisoners",
-            "from": "law:us-federal-positions:justice-rights.reduce-mandatory-minimums",
-            "lagMonths": 12,
-            "treated": 1,
-            "control": 0
-          }
-        ],
-        "reenacted": null
-      },
-      "heard": {
-        "people": 108,
-        "sample": [
-          "person_0aaf66a4aef1a3e6:printed:outlet:cable:0:national:law-took-effect:law:US:federal:us-federal-positions:justice-rights.reduce-mandatory-minimums:general:2025-01-21:law-wiring-c08da077",
-          "person_02352023b68716b3:printed:outlet:cable:0:national:law-took-effect:law:US:federal:us-federal-positions:justice-rights.reduce-mandatory-minimums:general:2025-01-21:law-wiring-c08da077",
-          "person_36eb45b694f405d5:printed:outlet:cable:0:national:law-took-effect:law:US:federal:us-federal-positions:justice-rights.reduce-mandatory-minimums:general:2025-01-21:law-wiring-c08da077"
-        ]
-      },
-      "afterUndo": {
-        "fullPeople": 0,
-        "countedGroups": 0,
-        "countedPeople": 0,
-        "households": 0,
-        "organizations": 0,
-        "governments": 0,
-        "other": 0,
-        "open": 0,
-        "ended": 0,
-        "sample": []
-      },
-      "afterUndoChanged": {
-        "fullPeople": 0,
-        "countedGroups": 0,
-        "countedPeople": 0,
-        "households": 0,
-        "organizations": 0,
-        "governments": 0,
-        "other": 0,
-        "open": 0,
-        "ended": 0,
-        "sample": []
-      },
-      "seconds": 30
     },
     {
       "key": "us-federal-positions:emergencies.states-share-disaster-costs",
@@ -1313,6 +1167,169 @@
         "sample": []
       },
       "seconds": 29
+    },
+    {
+      "key": "us-federal-positions:justice-rights.reduce-mandatory-minimums",
+      "kind": "question",
+      "family": "justice",
+      "inForceAtOpening": false,
+      "change": "enacted at federal (law:US:federal:us-federal-positions:justice-rights.reduce-mandatory-minimums:general:2025-01-21:law-wiring-c08da077) effective 2025-01-21; then repealed at federal effective 2025-02-26",
+      "lawIds": [
+        "law:US:federal:us-federal-positions:justice-rights.reduce-mandatory-minimums:general:2025-01-21:law-wiring-c08da077",
+        "law:US:federal:us-federal-positions:justice-rights.reduce-mandatory-minimums:general:2025-02-26:law-wiring-c08da077-b"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 4,
+        "countedPeople": 5161,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 4,
+        "ended": 0,
+        "sample": [
+          "applied|us-federal-positions:justice-rights.reduce-mandatory-minimums|federal-courts:Drug",
+          "applied|us-federal-positions:justice-rights.reduce-mandatory-minimums|federal-courts:Weapons",
+          "applied|us-federal-positions:justice-rights.reduce-mandatory-minimums|federal-courts:SexOffenses",
+          "applied|us-federal-positions:justice-rights.reduce-mandatory-minimums|federal-courts:Fraud"
+        ]
+      },
+      "reachAtEnd": {
+        "fullPeople": 0,
+        "countedGroups": 4,
+        "countedPeople": 5161,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 4,
+        "ended": 0,
+        "sample": [
+          "applied|us-federal-positions:justice-rights.reduce-mandatory-minimums|federal-courts:Drug",
+          "applied|us-federal-positions:justice-rights.reduce-mandatory-minimums|federal-courts:Weapons",
+          "applied|us-federal-positions:justice-rights.reduce-mandatory-minimums|federal-courts:SexOffenses",
+          "applied|us-federal-positions:justice-rights.reduce-mandatory-minimums|federal-courts:Fraud"
+        ]
+      },
+      "inPlay": [],
+      "applied": {
+        "rows": 4,
+        "withAmount": 0,
+        "sample": [
+          "applied|us-federal-positions:justice-rights.reduce-mandatory-minimums|federal-courts:Drug",
+          "applied|us-federal-positions:justice-rights.reduce-mandatory-minimums|federal-courts:Weapons",
+          "applied|us-federal-positions:justice-rights.reduce-mandatory-minimums|federal-courts:SexOffenses"
+        ]
+      },
+      "readers": {
+        "src/core2/modules/legislature.ts:4653": 52,
+        "src/core2/modules/outcome-web.ts:208": 24,
+        "src/core2/modules/world-legislating.ts:375": 18,
+        "src/core2/modules/world-legislating.ts:310": 11,
+        "src/core2/life.ts:552": 5,
+        "src/core2/modules/federal-courts.ts:165": 4
+      },
+      "openingRow": "law:US:federal:us-federal-positions:justice-rights.reduce-mandatory-minimums:general:starting",
+      "money": {
+        "direct": [],
+        "diff": [],
+        "diffKinds": 0,
+        "cited": [],
+        "controlCited": [],
+        "own": {
+          "targets": 4,
+          "among": "reached",
+          "pairs": [],
+          "paid": 0,
+          "pick": null,
+          "sample": [],
+          "near": []
+        }
+      },
+      "web": {
+        "links": [
+          {
+            "key": "mandatory-minimum-cut-to-federal-prisoners",
+            "status": "built",
+            "to": "justice.federal-incarcerated-per-100k"
+          },
+          {
+            "key": "federal-mandatory-minimums-to-crime",
+            "status": "about-zero",
+            "to": "crime.rate-index"
+          }
+        ],
+        "fired": [],
+        "firedCount": 0,
+        "windowDays": 35,
+        "cause": [
+          {
+            "id": "web:jurisdiction_ffa1a12974173cce:2025-01",
+            "month": "2025-01",
+            "link": "mandatory-minimum-cut-to-federal-prisoners",
+            "from": "law:us-federal-positions:justice-rights.reduce-mandatory-minimums",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_ffa1a12974173cce:2025-02",
+            "month": "2025-02",
+            "link": "mandatory-minimum-cut-to-federal-prisoners",
+            "from": "law:us-federal-positions:justice-rights.reduce-mandatory-minimums",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          }
+        ],
+        "reenacted": null
+      },
+      "heard": {
+        "people": 118,
+        "sample": [
+          "person_0aaf66a4aef1a3e6:printed:outlet:cable:0:national:law-took-effect:law:US:federal:us-federal-positions:justice-rights.reduce-mandatory-minimums:general:2025-01-21:law-wiring-c08da077",
+          "person_168a7ae4bab9237d:printed:outlet:cable:0:national:law-took-effect:law:US:federal:us-federal-positions:justice-rights.reduce-mandatory-minimums:general:2025-01-21:law-wiring-c08da077",
+          "person_38beca3061cd6599:printed:outlet:cable:0:national:law-took-effect:law:US:federal:us-federal-positions:justice-rights.reduce-mandatory-minimums:general:2025-01-21:law-wiring-c08da077"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 34
     }
   ]
 }

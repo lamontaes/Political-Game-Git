@@ -5,7 +5,7 @@ area: people
 kind: bug
 priority: 2
 size: S
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -40,3 +40,5 @@ checked: fable 2026-11-10
 **Notes (re-run, 2026-11-11, main 79d23fa596).** `HEALTH_WEB_SEED=e278a4ff7b6b5d53 npx vitest run src/core2/health-web.test.ts` (Bayside, Wisconsin): green. Fresh draw `HEALTH_WEB_SEED=67bdaa02eee90b5d`: green. Proposed for the CTO: drop as fixed on main.
 
 Nov 11 (cause finder for Fable B): passed again on the item's seed. A fresh territory draw stopped on the country tier's jobs check, which is the macro item, not this one. I agree with dropping it as fixed on main.
+
+Dropped Nov 13, 2026 (Account lead T33, CTO's Nov 12 drop rule): its own Fix section says "Nothing to build. The CTO drops the item as done by main." and its Cause says the fault does not reproduce on main. The reproduce-again advice in that Fix stays the way back: file a new item from the place and seed if it returns.

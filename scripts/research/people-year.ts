@@ -444,9 +444,7 @@ const bereavementIds = report.decisions
       (row.role === "family" || row.role === "household"),
   )
   .map((row) => `${row.eventId}:${row.personId}`);
-console.log(
-  "\n## Drives (SG-P10-response-model, SG-P10-perception-model, SG-P10-drive-acts)",
-);
+console.log("\n## Drives (SG-P10-response-model, SG-P10-perception-model)");
 console.log(
   `Carry on after a loss: band ${resilience.low} to ${resilience.high}% resilient (Galatzer-Levy and others 2018; the spousal-loss cohort alone was ${spousal.patterns.find((row) => row.id === "resilient")!.percent}%, Bonanno and others 2002). World (the town and the people other places keep on record), the bereaved, meaning family and household of the person who died who are old enough to form a drive of their own: ${shareOf(bereavedCarry, bereavedAll, resilience.low, resilience.high)} carried on. Everyone who heard of a death, acquaintances included: ${shareOf(heardCarry, heardAll)}. Records: ${sample(bereavementIds)}.`,
 );

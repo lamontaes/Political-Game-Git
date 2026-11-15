@@ -5,10 +5,10 @@ area: people
 kind: feature
 priority: 1
 size: M
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/project-thread-5acrpm
+pr: #9059
 after: metrics-output-numbers-registry
 blocked-on:
 lead: people

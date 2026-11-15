@@ -17,7 +17,7 @@ import {
 } from "../core2/modules/press";
 import sittings from "./data/sittings.json" with { type: "json" };
 import type { Facts, SittingRow, SittingSource } from "./sitting";
-import { outletFact, tieBetween } from "./sitting-ties";
+import { outletFact, seatFact, tieBetween } from "./sitting-ties";
 
 const KIND = "interview";
 /** The record an interview's end writes (`kinds.interview.published`). */
@@ -33,6 +33,7 @@ function tieFacts(core: Readonly<CoreState>, row: InterviewRow): Facts {
       row.reporterId as PersonId,
     ),
     ...outletFact(core, row.outletId, row.id),
+    ...seatFact(core, row.contestId, row.id),
   };
 }
 

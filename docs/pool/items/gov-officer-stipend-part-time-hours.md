@@ -1,13 +1,13 @@
 ---
 id: gov-officer-stipend-part-time-hours
-title: "A town's appointed officers work a part-time schedule sized to their stipend, not a full-time week at a cut hourly rate"
+title: "A stipend post works part-time hours at a real hourly rate, so no officer reads as paid cents an hour and none opens a short-pay case"
 area: gov
 kind: bug
 priority: 2
 size: M
-status: dropped
-claimed-by:
-pr:
+status: in-pr
+claimed-by: account-lead-f1
+pr: 9414
 blocked-on:
 standard: 2
 model: sonnet
@@ -18,27 +18,23 @@ source: added with npm run pool -- add
 after:
 checked: fable 2026-11-10
 claimed-at:
-branch: claude/pool-gov-officer-stipend-part-time-hours
+branch: claude/f1-stipend-posts
 ---
 
-**What.** startPublicJob (src/core2/public-payroll.ts, stopgap SG-GOV-officer-stipend-hours) cuts a post's hourly rate to fit its budget line but keeps the full 8.5-hour public-office week, so Prescott, Michigan's planning director holds an 8.5-hour day at about $1.07 an hour. The pay in total is right; the hours and the hourly rate are not. The minimum wage now skips these posts by law (PR 6190), so nothing breaks, but the schedule, the hourly rate and the work the post attends do not match a part-time stipend.
+**What.** startPublicJob (src/core2/public-payroll.ts) fit a post to its budget line by cutting the hourly rate and keeping the full 8.5-hour public-office week. At Woolstock, Iowa (seed a6bc7bc6b5a348493264a233f7dcf3e34b4864dcc1b094808f825c4db4300664) the City Attorney's commitment read 94 cents an hour against a floor of 725, the City Clerk's 93, the Public Works Superintendent's 406. The minimum wage no longer skips these posts in the case look, so each holder was offered a short-pay case they could not be owed. The pay in total was right; the rate and the hours were not. Seen: at Woolstock, Iowa, in the case look for a town officer.
 
-**Cause.** Found in code: src/core2/public-payroll.ts line 111 (stopgap SG-GOV-officer-stipend-hours in src/core2/data/stopgaps/gov.json): a post whose line carries less than a full-time week is paid by cutting its hourly rate, not its hours.
+**Cause.** Found in code: src/core2/public-payroll.ts, the block that computed `hourlyMinor` from `lineHourlyMinor` (the rate the line's daily room pays over a full-time day) and wrote it onto a commitment that kept the template's full-week slots; `problemOf` (src/core2/modules/constituent-cases.ts) flags any current commitment whose `hourlyMinor` is under the minimum wage in force, so a stipend post read as shorted. `lineHourlyMinor` is also the figure staff.ts compares applicants by, so it keeps its meaning; only the commitment changes.
 
-**Fix.** Give such posts a part-time schedule from real part-time municipal payroll figures (with spread and source) so that scheduled minutes times the going rate equals the line's daily pay, and delete the cut-rate path.
+**Fix.** A post whose line carries less than a full-time week keeps the post's going hourly rate (raised to the public pay floor where the law sets one) and works the part-time week the line pays for: the full-time week's minutes scaled by line rate over going rate, spread over the fewest days of the template's week. Pay in total is unchanged (minutes times rate equals the line's daily room times the days). The cut-rate path and SG-GOV-officer-stipend-hours (row and marker) are deleted. No skip is added to the case look: a truly shorted worker still opens a case.
 
 **Time box.** 3 hours for one Sonnet session. When it runs out, push what passes, set the item's state honestly with a one-line note, and stop.
 
-**Rules.** Estimate, never UNKNOWN: hours and rate start from the real part-time municipal payroll figures with a spread and source. One rule, all 56 places. No dice. Replace, never layer: the cut-rate path is deleted when the part-time schedule lands.
+**Rules.** Estimate, never UNKNOWN. One rule, all 56 places. No dice: a share and a schedule, never a roll. Replace, never layer: the cut-rate path is deleted in the same change. One mechanism for public pay: states and the country use the same startPublicJob.
 
-**Done when.** A second session, in buildBenchWorld in two drawn places (seeds named), including a small town, finds every post whose line carries less than a full-time week holding a part-time schedule whose scheduled minutes times the going hourly rate equals the line's daily pay, no such post scheduled for a full-time day, and SG-GOV-officer-stipend-hours resolved; src/core2/wage-floor-exempt.test.ts and the staff and executive tests pass.
+**Done when.** A second session, in buildBenchWorld at Woolstock, Iowa (draw case-help-pinned-1:help:37) and at a drawn place nobody chose, finds no public post's commitment under the minimum wage, every part-time post's scheduled minutes times its rate equal to its line's daily pay, no short-pay case for any public post holder, and a worker in an ordinary job paid under the floor still opening one; src/core2/stipend-post-pay.test.ts, src/core2/wage-floor-exempt.test.ts and the staff and executive tests pass; SG-GOV-officer-stipend-hours is gone.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/public-payroll.ts, src/core2/work-patterns.ts, src/core2/data/stopgaps/gov.json
+**Files.** src/core2/public-payroll.ts, src/core2/data/stopgaps/gov.json, src/core2/stipend-post-pay.test.ts
 
-**Notes.** Time box: 3 hours, Sonnet, no helpers. Split from gov-town-officers-paid-under-minimum-wage (PR 6190).
-
-Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have sized a stipend post's hours to its pay; the pay in total is already right and no screen shows the hours or hourly rate.
-
-Released (2026-11-11): Read and scoped, not built: startPublicJob (public-payroll.ts lines ~108-170) copies the template's full-week commitment shape and divides the posted rate over its scheduled minutes; a part-time post needs a new weekly schedule (days and minutes per day) written into that commitment and its work calendar, plus a sourced part-time municipal pay figure (hours and going rate, with spread) that is not in the repository. Two parts: the sourced figure first (researcher), then the schedule build. Continue on branch claude/pool-gov-officer-stipend-part-time-hours.
+**Notes.** Revived from dropped (Nov 10) by Account lead F1, Nov 15, 2026, at the coordinator's word after Woolstock's 94-cent commitment. The other thread's `jobs-short-pay-case-pay-is-94-cents-an-hour-at-woolstock` (#9328) names the same case from the case side.

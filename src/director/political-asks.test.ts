@@ -1,4 +1,3 @@
-import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
 import { drawPlace } from "../../scripts/core2-year/place";
@@ -14,10 +13,15 @@ import {
 import { PARTIES_MODULE_ID } from "../core2/modules/parties";
 import { P } from "../core2/parameters";
 import { advancePlayerV1, resumePlayerV1 } from "../core2/player-v1";
+import { storiesHeard, storyOfReadEvent } from "../core2/modules/news";
 import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
 import { variantArc, variantFamilies } from "./arc-variant";
-import { partyOfficeholders } from "./circumstance";
+import { partyMentor } from "./circumstance";
+import {
+  PARTY_ASKED_EVENT,
+  seasonedOfficeholders,
+} from "../core2/modules/candidacy";
 import { purposeScene } from "./purpose-scene";
 import type { Director } from "./ledger";
 import { expectUpToFourDifferent } from "./reply-set-check";
@@ -25,8 +29,9 @@ import { expectUpToFourDifferent } from "./reply-set-check";
 // Two political scenes start from records the engines already write, each
 // proven in a played world: the day after the press carries a taken bribe,
 // someone close to the official asks whether it is true (`bribe-accused`), and
-// the day after a party asks the player to run, a seated officeholder of that
-// party weighs in (`mentor-weighs-in`).
+// the day after a party asks the player to run, the seated officeholder of that
+// party who took them under their wing when it asked weighs in
+// (`mentor-weighs-in`, read from the party's mentors record).
 
 type Core = CoreState;
 
@@ -64,10 +69,26 @@ function clean(text: string, here: string) {
   expect(text, here).not.toMatch(DAY_PATTERN);
 }
 
-const ADVICE_DRAWS = 6;
+/**
+ * Pinned (pinned-tests): a party asks only on the day filing opens for a
+ * partisan seat where it has a living chair, no one filed under its label and
+ * eligible members in town, and at most places the first partisan window opens
+ * after a year's play (Black Hawk, Colorado on day 362, Roslyn, South Dakota
+ * 375, Louisburg, Kansas 437, Esperanza, Puerto Rico in 2028) or the parties
+ * had filed already, so a drawn place asked nobody in the 360 days played (CI
+ * seed cfbeec2e0606127e, six places). Rainelle, West Virginia's window opens
+ * 2025-12-02, and the world seed below writes three asks that day.
+ */
+const ADVICE_PINS = [
+  {
+    name: "Rainelle, West Virginia",
+    key: "5466652",
+    seed: "2f25fb7e430b668e070d0566797f919b69f4d98980ad291944d6a73c00966ea8",
+    start: "2025-11-10",
+  },
+] as const;
 const DAY_PATTERN =
   /\d{4}-\d{2}-\d{2}|\b[a-z]+[-.:][a-z-]+:|\{|\}|undefined|\d{5,}/;
-const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 
 /** Whether any party in town has a seated officeholder who has held a seat a year or more (read from the records). */
 function partyHasVeteran(core: CoreState): boolean {
@@ -77,27 +98,31 @@ function partyHasVeteran(core: CoreState): boolean {
       .moduleState(PARTIES_MODULE_ID)
       .table("parties")
       .rows() as unknown as { id: string; leaderId: string | null }[]
-  ).some(
-    (party) =>
-      !!party.leaderId &&
-      partyOfficeholders(
-        core,
-        {
-          personIds: [party.leaderId as PersonId],
-          facts: { partyId: party.id },
-        },
-        core.date,
-      ).length > 0,
-  );
+  ).some((party) => {
+    const leader = party.leaderId
+      ? core.people.get(party.leaderId as PersonId)
+      : undefined;
+    return (
+      !!leader &&
+      seasonedOfficeholders(coreAPI(core), party.id, leader.placeId).length > 0
+    );
+  });
 }
 
 describe("the political asks: a bribe in the press and a party that asks you to run", () => {
-  it(`the accusation: someone close asks whether the reported bribe is true (seed ${seed})`, () => {
+  // Pinned to Adams, Massachusetts (seed f54fcb0fe1c46cd2, draw 2): the place
+  // where a reported bribe is printed and read inside the window and a reader
+  // who knows the official asks them (nothing here draws).
+  const accusationSeed = "f54fcb0fe1c46cd2";
+  it(`the accusation: a reader of the paper's story asks whether the reported bribe is true (Adams, Massachusetts, seed ${accusationSeed}:2)`, () => {
     setBookkeeping(false);
     const tried: string[] = [];
-    for (let attempt = 0; attempt < 3; attempt += 1) {
-      const place = drawPlace(`${seed}:${attempt}`, "dead-kinds-accusation");
-      const where = `${place.name} (${place.key}), seed ${seed}:${attempt}`;
+    for (const attempt of [2]) {
+      const place = drawPlace(
+        `${accusationSeed}:${attempt}`,
+        "dead-kinds-accusation",
+      );
+      const where = `${place.name} (${place.key}), seed ${accusationSeed}:${attempt}`;
       const { core, director, playerId } = buildBenchWorld(
         place.seed,
         gameStartDate(),
@@ -227,7 +252,7 @@ describe("the political asks: a bribe in the press and a party that asks you to 
         core,
         director,
         me,
-        addDays(makeIsoDate(core.date), 4),
+        addDays(makeIsoDate(core.date), 21),
         (stop) => {
           const entry = book.schedule.find(
             (row) => row.momentId === stop.recordId,
@@ -263,7 +288,19 @@ describe("the political asks: a bribe in the press and a party that asks you to 
             "offer",
             "lie",
           ];
-          expect(moment.causeId, here).toBe(reported);
+          // The accuser is cast from the readers' own record of the paper's
+          // story (printed the paper's week after the report): the cause is
+          // that story's news.read record, and the asker read it.
+          expect(
+            storyOfReadEvent(moment.causeId)?.endsWith(`:${reported}`),
+            here,
+          ).toBe(true);
+          expect(
+            storiesHeard(coreAPI(core), scene.askerId).some((story) =>
+              story.id.endsWith(`:${reported}`),
+            ),
+            `${here}: the asker read the story`,
+          ).toBe(true);
           expect(scene.askerId, here).not.toBe(me);
           const asker = core.people.get(scene.askerId)!;
           expect(
@@ -287,25 +324,24 @@ describe("the political asks: a bribe in the press and a party that asks you to 
         `${where}: no accusation scene after ${reported}${skipped.length ? ` (${skipped.join("; ")})` : ""}`,
       );
     }
-    throw new Error(`no accusation scene: ${tried.join("; ")} (seed ${seed})`);
-  }, 3_600_000);
+    throw new Error(
+      `no accusation scene: ${tried.join("; ")} (seed ${accusationSeed})`,
+    );
+  }, 55_000);
 
-  it(`the advice: a seated officeholder of the party weighs in the day after a party asks the player to run (seed ${seed})`, () => {
+  it(`the advice: a seated officeholder of the party weighs in the day after a party asks the player to run (pinned: ${ADVICE_PINS.map((pin) => `${pin.name} ${pin.start}`).join("; ")})`, () => {
     setBookkeeping(false);
     const tried: string[] = [];
-    // Places are drawn from the run's seed, never named. A town where no party has
-    // a seated veteran in town is read off the built world's records and skipped
-    // before the months are played, so a bad draw costs one build, not two worlds
-    // and a year. The test fails, naming every place it read, if none qualifies.
-    const draws = Array.from(
-      { length: ADVICE_DRAWS },
-      (_, at) => `${seed}:${at}`,
-    );
-    for (const [attempt, drawSeed] of draws.entries()) {
-      const place = drawPlace(drawSeed, "dead-kinds-advice");
-      const where = `${place.name} (${place.key}), seed ${drawSeed} (attempt ${attempt})`;
+    // The place, the world seed and the day the world starts are pinned (see
+    // ADVICE_PINS). A town where no party has a seated veteran is read off the
+    // built world's records before the months are played. The test fails,
+    // naming the place and the seed, if the premise does not hold.
+    for (const [attempt, pin] of ADVICE_PINS.entries()) {
+      const drawSeed = pin.seed;
+      const place = { name: pin.name, key: pin.key, seed: pin.seed };
+      const where = `${place.name} (${place.key}), seed ${drawSeed} (pinned ${attempt})`;
       const open = () =>
-        buildBenchWorld(place.seed, gameStartDate(), {
+        buildBenchWorld(place.seed, pin.start, {
           twoLevel: true,
           placeKey: place.key,
         });
@@ -316,88 +352,112 @@ describe("the political asks: a bribe in the press and a party that asks you to 
         tried.push(`${where}: no party has a seated veteran in town`);
         continue;
       }
-      let asked:
-        { id: string; date: string; meId: PersonId; row: unknown } | undefined;
-      for (let month = 0; month < 12 && !asked; month += 1) {
+      // The asks are read as they are written. A party's ask of someone the
+      // player does not know is not kept in the durable log (only what names
+      // the player's circle is), so the first replay reads the event itself;
+      // the second replay below watches the member and keeps their ask.
+      const written: {
+        id: string;
+        date: string;
+        personIds: readonly string[];
+        facts: Record<string, unknown>;
+      }[] = [];
+      coreAPI(first.core).subscribeEvents(
+        "asks-seen",
+        [PARTY_ASKED_EVENT],
+        (_api, event) =>
+          written.push({
+            id: event.id,
+            date: event.date,
+            personIds: event.personIds,
+            facts: (event.facts ?? {}) as Record<string, unknown>,
+          }),
+      );
+      // Every ask taken under a seated officeholder's wing, in the order it was
+      // written. A party asks several members the same day and the director binds
+      // an advice scene to some of them, not all (the first at Rainelle has none),
+      // so each is replayed in turn and the ones passed over are named.
+      for (let month = 0; month < 12 && !written.length; month += 1)
         advanceCore(first.core, addDays(makeIsoDate(first.core.date), 30));
-        asked = [...(first.core.logByKind.get("party-asked") ?? [])]
-          .map((id) => first.core.durableLog.get(id as never)!)
-          .map((row) => ({
-            id: row.id,
-            date: row.date,
-            meId: row.personIds[P.zero] as PersonId,
-            row,
-          }))
-          .find(
-            ({ meId, row }) =>
-              first.core.people.get(meId)?.alive === true &&
-              partyOfficeholders(first.core, row, row.date).length > 0,
-          );
-      }
-      if (!asked) {
+      const candidates = written
+        .map((row) => ({
+          id: row.id,
+          date: row.date,
+          meId: row.personIds[P.zero] as PersonId,
+          row,
+        }))
+        .filter(
+          ({ meId, row }) =>
+            first.core.people.get(meId)?.alive === true &&
+            partyMentor(first.core, row as never).length > 0,
+        );
+      if (!candidates.length) {
         tried.push(
-          `${where}: no asked member with a seated officeholder of the party in town`,
+          `${where}: no asked member taken under a seated officeholder's wing`,
         );
         continue;
       }
-      const { core, director } = open();
-      // The same world replayed to the day before the ask: the asked member may
-      // be filled in as a full person only along the way (a counted resident the
-      // party's chair knows), so they are watched from there, not from day one.
-      advanceCore(core, addDays(makeIsoDate(asked.date), -P.one));
-      core.focusPersonIds.add(asked.meId);
-      director.watch(core, asked.meId);
-      const book = director.ledger.people.get(asked.meId)!;
-      let found = 0;
-      playThrough(
-        core,
-        director,
-        asked.meId,
-        addDays(makeIsoDate(asked.date), 6),
-        (stop) => {
-          const entry = book.schedule.find(
-            (row) => row.momentId === stop.recordId,
-          );
-          const moment = book.momentsById.get(stop.recordId);
-          if (
-            !entry ||
-            !moment ||
-            !entry.bindings.some((row) => row.typeKey === "advice")
-          )
-            return false;
-          const result = purposeScene(core, director, asked!.meId, entry, {
-            typeKey: "advice",
-          });
-          if (result?.kind !== "composed") return false;
-          const here = `${where}: ${moment.causeId}`;
-          const { scene } = result;
-          expect(scene.purpose, here).toBe("mentor-advice");
-          // The scene stands on a party's ask of this member. A member can be asked
-          // for two seats the same day (the governor's, the attorney general's); the
-          // director takes one scene a day, so the moment's cause is whichever ask
-          // the record names, and the adviser is checked against that ask.
-          const ask = core.durableLog.get(moment.causeId)!;
-          expect(ask?.kind, here).toBe("party-asked");
-          expect(ask.personIds[P.zero], here).toBe(asked!.meId);
-          // The adviser is a seated officeholder of the party that asked.
-          expect(partyOfficeholders(core, ask, ask.date), here).toContain(
-            scene.askerId,
-          );
-          const root = scene.talk.tree.replies.map((reply) => reply.line);
-          expectUpToFourDifferent(root, here);
-          for (const row of root)
-            expect(["ask", "disagree", "thank", "tell"], here).toContain(
-              row.move,
+      for (const asked of candidates) {
+        const { core, director } = open();
+        // The same world replayed to the day before the ask: the asked member may
+        // be filled in as a full person only along the way (a counted resident the
+        // party's chair knows), so they are watched from there, not from day one.
+        advanceCore(core, addDays(makeIsoDate(asked.date), -P.one));
+        core.focusPersonIds.add(asked.meId);
+        director.watch(core, asked.meId);
+        const book = director.ledger.people.get(asked.meId)!;
+        let found = 0;
+        playThrough(
+          core,
+          director,
+          asked.meId,
+          addDays(makeIsoDate(asked.date), 6),
+          (stop) => {
+            const entry = book.schedule.find(
+              (row) => row.momentId === stop.recordId,
             );
-          for (const row of [scene.talk.state, ...root]) clean(row.text, here);
-          process.stdout.write(`ADVICE ${here}\n  ${scene.talk.state.text}\n`);
-          found += 1;
-          return true;
-        },
-      );
-      if (found) return;
-      tried.push(`${where}: no advice scene after ${asked.id}`);
+            const moment = book.momentsById.get(stop.recordId);
+            if (
+              !entry ||
+              !moment ||
+              !entry.bindings.some((row) => row.typeKey === "advice")
+            )
+              return false;
+            const result = purposeScene(core, director, asked!.meId, entry, {
+              typeKey: "advice",
+            });
+            if (result?.kind !== "composed") return false;
+            const here = `${where}: ${moment.causeId}`;
+            const { scene } = result;
+            expect(scene.purpose, here).toBe("mentor-advice");
+            // The scene stands on a party's ask of this member. A member can be asked
+            // for two seats the same day (the governor's, the attorney general's); the
+            // director takes one scene a day, so the moment's cause is whichever ask
+            // the record names, and the adviser is checked against that ask.
+            const ask = core.durableLog.get(moment.causeId)!;
+            expect(ask?.kind, here).toBe("party-asked");
+            expect(ask.personIds[P.zero], here).toBe(asked!.meId);
+            // The adviser is the officeholder the party's mentors record names.
+            expect(partyMentor(core, ask), here).toEqual([scene.askerId]);
+            const root = scene.talk.tree.replies.map((reply) => reply.line);
+            expectUpToFourDifferent(root, here);
+            for (const row of root)
+              expect(["ask", "disagree", "thank", "tell"], here).toContain(
+                row.move,
+              );
+            for (const row of [scene.talk.state, ...root])
+              clean(row.text, here);
+            process.stdout.write(
+              `ADVICE ${here}\n  ${scene.talk.state.text}\n`,
+            );
+            found += 1;
+            return true;
+          },
+        );
+        if (found) return;
+        tried.push(`${where}: no advice scene after ${asked.id}`);
+      }
     }
-    throw new Error(`no advice scene: ${tried.join("; ")} (seed ${seed})`);
-  }, 3_600_000);
+    throw new Error(`no advice scene: ${tried.join("; ")}`);
+  }, 120_000);
 });

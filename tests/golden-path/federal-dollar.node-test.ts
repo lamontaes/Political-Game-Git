@@ -359,4 +359,15 @@ describe(`the federal dollar's chain (seed ${seed})`, () => {
       `the town's last paid-income month did not rise with the passed line (${lastWith} at base ${lastBase}): the dollars landed on no read`,
     );
   });
+
+  it("the country tier's federal ledger paid the line in every state, and national output moved", () => {
+    // The tier reads the federal budget in force line by line (country-law.ts,
+    // federalSpendingReader): the changed line's dollars reach each state's cells,
+    // and the national row, the states' sum, follows.
+    assert.notEqual(
+      chain.realOutput,
+      control.realOutput,
+      "national output is identical with the changed budget and at its base: the country tier's federal ledger read nothing",
+    );
+  });
 });

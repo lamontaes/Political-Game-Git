@@ -5,9 +5,9 @@ area: elections
 kind: stopgap
 priority: 3
 size: S
-status: open
+status: in-pr
 claimed-by:
-pr:
+pr: 9174
 after:
 blocked-on:
 source: stand-in triage Nov 10 2026 (docs/stopgaps/triage-2026-11-10/p15.md)
@@ -33,3 +33,5 @@ root: none
 **Waits on.** Nothing.
 
 **Files.** src/core2/modules/candidacy.ts, src/core2/data/stopgaps/p15.json
+
+**Notes.** Nov 14 (Cluster 29 thread): built in `askNextAfterRefusal` (src/core2/modules/candidacy.ts) by running the same `askForCandidates` for the player's party after a decline or stall reply; no second asking path. Pinned test src/director/party-ask-refused.test.ts (Floydale SC, Denver PA).

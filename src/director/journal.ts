@@ -7,7 +7,7 @@ import { familyFactsOf, FAMILY_PARTNERED } from "../core2/modules/people";
 import { P } from "../core2/parameters";
 import { coreAPI } from "../core2/state";
 import { OFFICES_MODULE_ID } from "../core2/modules/offices";
-import { personWorkOf } from "../core2/person-work";
+import { jobTitleSaid, personWorkOf } from "../core2/person-work";
 import {
   LEGISLATURE_MODULE_ID,
   type BillRow,
@@ -49,8 +49,13 @@ import {
 } from "../english/journal-words";
 import { DEFAULT_DIRECTOR_DATA, type Director } from "./ledger";
 import { comingOfAgeOn } from "./coming-of-age";
-import type { RACE_MARGINS } from "../english/mined/journal-bank";
-import { properName, spokenDate, stateInSentence } from "./words";
+import { raceMargin } from "./race-margin";
+import {
+  organizationName,
+  properName,
+  spokenDate,
+  stateInSentence,
+} from "./words";
 import { graduationResults, schoolResult } from "./school";
 import {
   PAST_WORK_OUT,
@@ -68,7 +73,7 @@ import { moneySaid } from "../english/count-words";
 
 import { spanSaid } from "../english/span-words";
 import type { Moment } from "./types";
-import { tieSide } from "./purpose-scene";
+import { tieSide } from "./relation-facts";
 import {
   OFFICE_DAY_MODULE_ID,
   type OfficeActRow,
@@ -209,38 +214,6 @@ export function lawTopic(
 }
 
 /**
- * How a race was decided, from its result record's totals: "alone" when one
- * candidate stood, "close" or "wide" by the winner's lead over the runner-up
- * as a share of the votes cast, and "middle" between them or when the totals
- * are not on record, so no line claims a margin the record does not show.
- */
-function raceMargin(
-  core: Readonly<CoreState>,
-  resultId: string,
-): (typeof RACE_MARGINS)[number] {
-  let votes: number[] = [];
-  try {
-    votes = Object.values(
-      JSON.parse(String(core.durableLog.get(resultId)?.facts?.totals ?? "{}")),
-    )
-      .map(Number)
-      .filter(Number.isFinite)
-      .sort((a, b) => b - a);
-  } catch {
-    votes = [];
-  }
-  if (votes.length === one) return "alone";
-  const cast = votes.reduce((sum, count) => sum + count, zero);
-  if (votes.length < P.two || !(cast > zero)) return "middle";
-  const lead = (votes[zero]! - votes[one]!) / cast;
-  const { journalRaceCloseMargin, journalRaceWideMargin } =
-    DEFAULT_DIRECTOR_DATA.parameters;
-  if (lead <= journalRaceCloseMargin!.value) return "close";
-  if (lead >= journalRaceWideMargin!.value) return "wide";
-  return "middle";
-}
-
-/**
  * An employer's name as the person says it in a sentence, by the kind of its
  * record ("the Town of Island Falls", "Neal's Market"), citing the records
  * that name it.
@@ -257,7 +230,7 @@ function employerName(
   // town, never an employer to name (skill words-engine).
   return org && org.kind !== "outside-market"
     ? {
-        text: employerSaid(properName(org.name), org),
+        text: employerSaid(organizationName(org), org),
         sourceRecordIds: [...recordIds, org.id],
       }
     : undefined;
@@ -560,7 +533,7 @@ function householdMoments(
           ...(job
             ? {
                 job: {
-                  text: withArticle(job.title),
+                  text: withArticle(jobTitleSaid(core, job)),
                   sourceRecordIds: [job.id],
                 },
                 ...(side ? { workplace: side } : {}),
@@ -611,7 +584,10 @@ function householdMoments(
       counterpartIds: [earner.id],
       beat: "work",
       actFacts: {
-        job: { text: withArticle(job.title), sourceRecordIds: [job.id] },
+        job: {
+          text: withArticle(jobTitleSaid(core, job)),
+          sourceRecordIds: [job.id],
+        },
         ...(employer ? { employer } : {}),
         ...(remembered
           ? {
@@ -870,11 +846,29 @@ function sceneEndingMoments(
           id,
           date: reply.date as IsoDate,
           causeId: id,
-          // A promise given only as "I'll look at it" is told as that.
+          // A promise made on someone's own question is told by its name
+          // (ruling 72, a door); one given only as "I'll look at it" is told
+          // as that.
           causeKind:
-            keeps === "promise" && reply.facts?.firmness === "vague"
-              ? "scene-ending:vague-promise"
-              : `scene-ending:${keeps}`,
+            // A word given on a side (the price of a yes to serve,
+            // hold-question) is told as that side, never as a soft promise
+            // to keep a subject in mind (Words lead, Nov 15 10:58Z).
+            keeps === "promise" &&
+            typeof reply.facts?.about === "string" &&
+            reply.facts?.promise === "hold-question"
+              ? "scene-ending:side-word-for"
+              : keeps === "promise" && typeof reply.facts?.about === "string"
+                ? "scene-ending:view-promise"
+                : keeps === "promise" && reply.facts?.firmness === "vague"
+                  ? "scene-ending:vague-promise"
+                  : `scene-ending:${keeps}`,
+          ...(keeps === "promise" && typeof reply.facts?.about === "string"
+            ? {
+                actFacts: {
+                  about: { text: reply.facts.about, sourceRecordIds: [id] },
+                },
+              }
+            : {}),
           counterpartIds: [otherId as PersonId],
           selfNamed: true,
           hindsight: zero,
@@ -1257,7 +1251,10 @@ export function composeJournal(
       // An organization the event is about is named from its own record.
       const value =
         spec.format === "organization"
-          ? core.organizations.get(logged?.topic ?? "")?.name
+          ? (() => {
+              const org = core.organizations.get(logged?.topic ?? "");
+              return org ? organizationName(org) : undefined;
+            })()
           : spec.format === "billName" || spec.format === "billNumberAndName"
             ? billName(
                 core,
@@ -2019,7 +2016,10 @@ export function composeJournal(
             recordId: row.recordId,
             school:
               row.kind === "schoolmate"
-                ? core.organizations.get(row.recordId)?.name
+                ? (() => {
+                    const org = core.organizations.get(row.recordId);
+                    return org ? organizationName(org) : undefined;
+                  })()
                 : undefined,
           })),
       );

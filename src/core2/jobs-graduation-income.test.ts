@@ -39,7 +39,7 @@ import type { CoreState } from "./types";
 
 const seed = process.env.GRADUATION_PAY_SEED ?? randomBytes(8).toString("hex");
 const DRAWS = 6;
-const LINK = "equalized-funding-to-graduation";
+const LINK = "school-spending-to-attainment";
 const SHIFT = 0.5;
 const before = setBookkeeping(false);
 afterAll(() => {
@@ -81,7 +81,8 @@ interface Hire {
   readonly personId: string;
   readonly date: string;
   readonly kind: string;
-  readonly values: { readonly hourlyMinor: number };
+  /** `regional` marks a job with the place's outside market (jobs.ts hireRegional). */
+  readonly values: { readonly hourlyMinor: number; readonly regional?: number };
 }
 
 function build(placeSeed: string, placeKey: string): CoreState {
@@ -190,7 +191,10 @@ function pairsOf(
     postsB = postingsOf(raised);
   return hiresOf(raised).flatMap((hb) => {
     const graduated = flipped.get(hb.personId);
-    if (!graduated || hb.date < graduated) return [];
+    // A regional job fills no posting: the outside market pays the region's
+    // starting wage for the occupation (jobs.ts hireRegional), so it is not
+    // the same position, nor one posted at a pay, and is passed over.
+    if (!graduated || hb.date < graduated || hb.values.regional) return [];
     const pb = postingOf(postsB, hb);
     // A position's pay is set when it is posted, so the day each world
     // filled it does not matter.
@@ -223,6 +227,7 @@ it("a senior who graduates only where graduation was raised is hired at a diplom
     let flipped: Map<string, string> | undefined;
     let pairs: ReturnType<typeof pairsOf> = [];
     let floored = 0;
+    let regional = 0;
     let records = 0;
     while (day < end && !pairs.length) {
       day = addDays(day, 1);
@@ -265,9 +270,12 @@ it("a senior who graduates only where graduation was raised is hired at a diplom
         (pair) => pair.hb.values.hourlyMinor !== pair.ha.values.hourlyMinor,
       );
       floored = all.length - pairs.length;
+      regional = hiresOf(raised).filter(
+        (h) => h.values.regional && flipped!.has(h.personId),
+      ).length;
     }
     console.info(
-      `graduation-pay ${where}: ${records} senior records, ${flipped?.size ?? 0} graduated only where raised, ${pairs.length} hired to the same job in both by ${day} (${floored} more at a posted floor pay)`,
+      `graduation-pay ${where}: ${records} senior records, ${flipped?.size ?? 0} graduated only where raised, ${pairs.length} hired to the same job in both by ${day} (${floored} more at a posted floor pay, ${regional} hired to regional work)`,
     );
     if (!pairs.length) {
       tried.push(

@@ -7,6 +7,7 @@ import {
   readStore,
   storeFiles,
   subjectsOf,
+  writeStore,
   type SubjectSource,
 } from "../scripts/words/verdicts";
 import { readRules } from "../scripts/words/run-rules";
@@ -190,6 +191,24 @@ describe("the verdict store: one store, one fold", () => {
     const store = readStore(LINE_RULE, judged);
     expect(store.no.size).toBe(0);
     expect(store.yes.has(l1)).toBe(true);
+  });
+
+  it("a spot rule keeps a line's yes from before it judged spots, and drops one for a line it no longer judges", () => {
+    const { judged, source } = fixture(LINES);
+    const spotRule: LineRule = {
+      id: "fits-in-its-spot",
+      says: "A line fits who says it to whom.",
+      from: [{ date: "2026-11-14", words: "Our own fixture." }],
+      status: "sample",
+      judges: "piece-in-context",
+      test: { kind: "judged" },
+    };
+    const kept = id("l2", LINES[1]!.text);
+    const gone = id("l9", "A line the bank no longer holds.");
+    writeStore(spotRule, { no: new Map(), yes: new Set([kept, gone]) }, judged);
+    const result = foldVerdicts(undefined, [spotRule], source, judged);
+    expect(result.perRule[spotRule.id]).toEqual({ yes: 1, no: 0, dropped: 1 });
+    expect([...readStore(spotRule.id, judged).yes]).toEqual([kept]);
   });
 
   it("the store's bytes are what storeFiles says", () => {

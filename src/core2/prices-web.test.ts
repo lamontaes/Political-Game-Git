@@ -5,6 +5,7 @@
  * world is built the way the game builds it, then played with the web's
  * factor held at one value and at another, so only the factor differs.
  */
+import type * as OutcomeWebReach from "./outcome-web-reach";
 import { randomBytes } from "node:crypto";
 import { describe, expect, it, vi } from "vitest";
 import { buildBenchWorld } from "../bench/world";
@@ -41,7 +42,9 @@ const reachOf = (measure: string, subject?: { incomeFifth?: number }) => {
           ],
   };
 };
-vi.mock("./outcome-web-reach", () => ({
+vi.mock("./outcome-web-reach", async (importOriginal) => ({
+  // Every other export (the day cache the death web reads) stays real.
+  ...(await importOriginal<typeof OutcomeWebReach>()),
   webReach: (
     _a: unknown,
     _p: string,

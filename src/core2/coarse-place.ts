@@ -250,3 +250,41 @@ export function metResident(
   if (!job) return undefined;
   return { age, ageRowId: band.id, job };
 }
+
+/** The work a person met in a coarse place holds, as their identity keeps it. */
+export interface CountedWork {
+  readonly workplace: string;
+  readonly title: string;
+  readonly occupation: string;
+  readonly hourlyMinor: number | null;
+  readonly weeklyHours: number;
+}
+
+/** A met resident's job, as the work a filled-in identity keeps. */
+export function metWork(met: MetResident): CountedWork {
+  return {
+    workplace: met.job.workplace,
+    title: met.job.title,
+    occupation: met.job.occupation,
+    hourlyMinor: met.job.hourlyMinor,
+    weeklyHours: met.job.weeklyHours,
+  };
+}
+
+/**
+ * The work a person who lives in another town holds, from that town's counts
+ * (`metResident`): the one rule every fill-in of a person far from the played
+ * town uses (a running mate offered, a cabinet pick, a person met on a trip),
+ * so nobody filled in there is jobless by default. Seeded by the world, the
+ * town and `key`, so the same person holds the same work every time. None
+ * where the town keeps no counts.
+ */
+export function workFromHome(
+  seed: string,
+  homeKey: string,
+  key: string,
+): CountedWork | undefined {
+  const coarse = coarsePlace(homeKey, seed);
+  const met = coarse ? metResident(coarse, seed, key) : undefined;
+  return met ? metWork(met) : undefined;
+}

@@ -284,7 +284,7 @@ function stand(): { held: boolean; takesOffice: string | null } {
   running = enterable.contest.id;
   stillMe();
   // Step 4: campaign. Filing is a petition: the player canvasses each week
-  // until it holds the signatures the clerk will count, or the deadline
+  // until it holds the signatures the law asks, or the deadline
   // comes; the clerk checks it the morning after.
   const filing = governmentView(w.core, me).filings.find(
     (row) => row.contestId === enterable.contest.id,

@@ -15,12 +15,12 @@
     "id": "SG-PEOPLE-press-bureau-shortfall",
     "kind": "owner-decision",
     "file": "src/core2/press-money.ts",
-    "line": 370,
-    "whatItFakes": "Where a town's readers and advertisers pay an outlet less than its people in the town cost, the town's outside customers pay it the rest each press week, in advance, as the outlet's audience elsewhere. The acting CTO ruled on Oct 25 (OWNER-DECISIONS.md, 'Press outlet shortfall') that an outlet short of money cuts staff or closes by its own books and this top-up is removed; the removal is not built.",
-    "why": "Most towns' papers and stations are bureaus of an outlet that serves a wider area; the game models only the town's own payers, and no ruling says what happens when they fall short.",
+    "line": 389,
+    "whatItFakes": "Where a town's readers and advertisers pay a television or radio station less than its people in the town cost, the town's outside customers pay it the rest each press week, in advance, as the station's audience elsewhere. Newspapers no longer get it: a paper is paid by its county's adults beyond the town at the national revenue per reader, carries a cost sized from its own newsroom jobs and circulation, and closes by its owner's choice as any business. The acting CTO ruled on Oct 25 (OWNER-DECISIONS.md, 'Press outlet shortfall') that an outlet short of money cuts staff or closes by its own books and the top-up is removed; the removal is built for newspapers only.",
+    "why": "A station's cost is its town bureau's pay alone and its revenue is the town's readers and advertisers alone; neither is calibrated to the market the station serves, so taking the top-up away would close stations with no market reason (in four drawn places every station closed in its first months). Held for television and radio until their whole-cost and revenue model.",
     "addedBy": "claude/press-outlet-revenue",
     "addedAt": "2026-10-24",
-    "replacement": "The owner's ruling on an outlet whose town pays less than its people cost (docs/coordination/OWNER-DECISIONS.md).",
+    "replacement": "The whole-cost and revenue model for television and radio stations: each station given its market's cost and revenue from sourced figures, as newspapers now have, and this top-up deleted.",
     "status": "open"
   },
   {
@@ -88,18 +88,6 @@
     "status": "resolved",
     "resolvedAt": "2026-11-10",
     "resolvedBy": "stand-in triage T7 (owner, Nov 10)"
-  },
-  {
-    "id": "SG-PEOPLE-press-endorsements",
-    "kind": "missing-mechanic",
-    "file": "src/core2/modules/press.ts",
-    "line": 3585,
-    "whatItFakes": "Outlets never endorse a candidate in an editorial.",
-    "why": "The decision register (docs/coordination/DECISION-REGISTER.md, 'Many ways to win') names endorsements among the channels of campaign support, so an outlet's endorsement is in; it is not built yet.",
-    "addedBy": "OPUS-PEOPLE",
-    "addedAt": "2026-10-14",
-    "replacement": "An outlet's head and owner endorse from the outlet's line, their regard for the candidates and the candidates' records, printed as a story the views and voting engines read.",
-    "status": "open"
   },
   {
     "id": "SG-PEOPLE-press-national-payroll",
@@ -180,13 +168,13 @@
   {
     "id": "SG-PEOPLE-counted-victims-lived-crime",
     "kind": "missing-mechanic",
-    "file": "src/core2/modules/views.ts",
-    "line": 944,
-    "whatItFakes": "A counted group's victimizations are a tally row per place, month and group; the views engine moves only the full victims a crime.victimized record names, so the wider population's view on the police never moves from the crimes it lives.",
-    "why": "A counted group's view is read from its opening profile alone; the views engine keeps no per-group stance a tally could move, and filling a member in would have to carry that moved view.",
+    "file": "src/core2/counted-news-views.ts",
+    "line": 343,
+    "whatItFakes": "A counted group lives its victimizations through its tally row: its stance on the question the crime ties to moves by the full victim's rule times the share of its adults the crimes reached (liveCountedCrime), as news moves a counted group. Two parts are still missing: counted ballots read a counted voter's view from their opening profile (countedViewOn), not the group's countedStances row, so the moved stance reaches what the press reads (countedNewsConcern) but not votes; and a member filled in from the group does not carry the group's stance.",
+    "why": "The counted ballot and the fill-in read neither news nor lived stances from the group row today; both are the same gap as SG-PEOPLE-counted-readers-stories and are built once for every countedStances row.",
     "addedBy": "effects lead (web-views-lived-crime-moves-stance)",
     "addedAt": "2026-10-24",
-    "replacement": "people-counted-victims-lived-crime: each counted group a tally row names moves its view on the police by the full victim's rule times the tally's count, citing the tally row, and a member filled in from that group holds the moved view.",
+    "replacement": "countedViewOn adds the group's countedStances row the way a full person's viewOn adds their stance, and a member filled in from the group starts from the group's stance (one PR for news and lived crime alike).",
     "status": "open"
   },
   {
@@ -306,13 +294,13 @@
   {
     "id": "SG-PEOPLE-role-people-have-no-past",
     "kind": "faked-mechanic",
-    "file": "src/core2/person-life.ts",
+    "file": "src/core2/past-work.ts",
     "line": 1,
-    "whatItFakes": "A person an engine makes to hold a role (a newspaper's owner, an election chief) is made with no past facts and no past records. Opened or met, they get their schooling, but no working life when their place is a state jurisdiction with no businesses on record, and no birthplace, parents or partners, so their life stays short until something happens to them in play.",
-    "why": "The life record's first slice reads the pasts that exist; the past passes run only for the town's residents and the people filled in from the counts. Found by the life record's own test in Hewitt, Wisconsin, seed b8f4c36df5632058.",
+    "whatItFakes": "A person an engine makes to hold a role (a newspaper's owner, a state's election chief) is made with no past facts. Opened or met, they now get their birth date, a birthplace that is the place they live, their schooling and, where they hold a job on day one and live where the world keeps no business, one earlier post at the same organization from their first working day to the day they took the role (an estimate). Still missing: press staff who live outside the town hold no job record, so they get no working life; nobody made for a role gets parents or partners.",
+    "why": "The world keeps no record of an outside organization's earlier staff or of where a person made for a role was born; press staff outside the town are paid as a post, not a job (press-staff.ts seatStaff).",
     "addedBy": "Fable",
     "addedAt": "2026-11-10",
-    "replacement": "The working-life run covers people whose place has no business on record (a role's employer is the office itself), and role holders are made with a birthplace and family from the same generator as residents.",
+    "replacement": "Press staff outside the town hold their post as a job the working-life run reads; role holders are made with a birthplace and family from the same generator as residents; earlier posts read from the organization's own records once the world keeps them.",
     "status": "open"
   },
   {

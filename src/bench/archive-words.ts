@@ -17,7 +17,9 @@ import {
   printedFacts,
 } from "./printed-words";
 import type { ownRace } from "./results";
-import { policyNames } from "./words";
+import { measureSaid, policyNames } from "./words";
+import { coreStateName } from "../core2/place-lookup";
+import { stateInSentence } from "../director/words";
 
 /** A story as the news engine keeps it. */
 interface StoredStory {
@@ -102,10 +104,20 @@ export function wordArchiveStory(
     NAMES ??= policyNames();
     const measure = NAMES[String(story.facts.series ?? "")];
     if (!measure) return null;
+    // Whose law it is, from the record's level: the federal one, or the
+    // state's by name (Fable A, Nov 13, rule 15: two "Income tax rate took
+    // effect" briefs, state and federal, unnamed).
+    const usps = /^US-([A-Z]{2})$/.exec(
+      String(story.facts.jurisdiction ?? ""),
+    )?.[1];
+    const state =
+      story.facts.level === "state" && usps ? coreStateName(usps) : null;
     return worded(core, story.id, "vote-or-law", story.id, {
-      measure: fact(measure, [String(story.facts.lawId ?? "")]),
+      measure: fact(measureSaid(measure), [String(story.facts.lawId ?? "")]),
       date: fact(spokenDate(story.date)),
       [recordKind === "law-enacted" ? "enacted" : "effective"]: fact("yes"),
+      ...(story.facts.level === "federal" ? { federal: fact("yes") } : {}),
+      ...(state ? { place: fact(stateInSentence(state)) } : {}),
     });
   }
   // An election, a budget, a vote, a closing business and a parent who died
@@ -147,6 +159,7 @@ export function wordPrintedStory(
     read.kind,
     read.speaker || story.id,
     read.facts,
+    read.turn,
   );
   if (!text) return null;
   // In talk a bill is said by what it does: the same words, with the
@@ -244,6 +257,7 @@ function worded(
   kind: StoryKind,
   speaker: string,
   facts: Record<string, StoryFact>,
+  turn?: number,
 ): WordedStory | null {
   const packet: GroundedEnglishPacket = {
     surface: "dialogue",
@@ -260,7 +274,7 @@ function worded(
       sourceRecordIds: row.sourceRecordIds,
     })),
   };
-  const composed = composeNewsStory(packet, kind);
+  const composed = composeNewsStory(packet, kind, turn);
   if (!composed.headline && !composed.lede) return null;
   // A headline or sentence opens with a capital, whatever fact starts it.
   const opened = (text: string) => text.charAt(0).toUpperCase() + text.slice(1);

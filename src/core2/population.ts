@@ -90,7 +90,11 @@ import {
   openingFamilyIndex,
   openingUpbringingTraits,
 } from "./opening-upbringing";
-import { medianTransactionBalance } from "./starting-cash";
+import {
+  householdOpeningCash,
+  medianTransactionBalance,
+} from "./starting-cash";
+import { placeEarningsOf } from "./residents";
 import { seedableTraits } from "./opening-trait-table";
 import type { EntityId, IsoDate as WorldDate } from "./kernel/brands";
 import {
@@ -142,6 +146,12 @@ export interface PopulationOptions {
   seed: string;
   placeKey?: string;
   startedAt: string;
+  /**
+   * The date the cohort ages (`cohortAge`, `playerAge`) are read on, when the world is built before its start
+   * date and run forward to it (src/core2/pre-start.ts): the player is the age they read on the start date.
+   * Defaults to `startedAt`.
+   */
+  cohortsOn?: string;
   minimumPeople?: number;
   /** Opening generation only; false preserves the original canonical employment projection. */
   openingEmployment?: boolean;
@@ -371,12 +381,8 @@ function groupQuartersSample(
  * opens: the engines that read room records as households, one marker each.
  */
 function groupQuartersStopgaps(type: GroupQuartersType): void {
-  stopgap("SG-GQ-no-turnover");
-  stopgap("SG-GQ-means-tests-poverty");
   stopgap("SG-GQ-crime-exposure");
-  stopgap("SG-GQ-campaign-doors");
   stopgap("SG-GQ-home-backdrop");
-  if (type === "adultCorrectional") stopgap("SG-GQ-counted-prisoners-vote");
   if (type === "juvenile") stopgap("SG-GQ-juvenile-school");
   if (type === "military") stopgap("SG-GQ-military-pay");
 }
@@ -569,6 +575,7 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
   if (!Number.isSafeInteger(target) || target < p("one"))
     throw new Error("Opening population must be a positive whole count.");
   const startedAt = makeIsoDate(options.startedAt);
+  const cohortsOn = makeIsoDate(options.cohortsOn ?? options.startedAt);
   const place = selectedPlace(options, target);
   // A town smaller than the target opens at its real size (its Census
   // reference population); a size asked for by name is kept as asked.
@@ -849,7 +856,7 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
     const shares = anyShape ? everyShape : families;
     const total = totalOf(shares);
     const ofCohort = (person: CharacterHistoryContextPersonInput) =>
-      ageOnDate(makeIsoDate(person.birthDate), startedAt) === cohortAge;
+      ageOnDate(makeIsoDate(person.birthDate), cohortsOn) === cohortAge;
     if (inputs.some(ofCohort)) continue;
     // Searched no further than as many households again as the town has, and
     // never fewer than the floor: a town of a few people has a few households.
@@ -1567,6 +1574,11 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
       ? coreStateJurisdiction(place.stateJurisdictionKey)?.id
       : undefined,
     stateKey: place.stateJurisdictionKey ?? undefined,
+    // One worker's earnings at the town, as the county's sampled households read them.
+    earnings:
+      placeEarningsOf(place.key, options.seed) ??
+      nationalMedianAnnualWage("occupation:customer-service", options.seed) ??
+      p("zero"),
     startedAt,
     plans: options.kinHouseholdIds
       ? plans.filter((plan) => options.kinHouseholdIds!.has(plan.id))
@@ -1649,6 +1661,8 @@ interface OpeningFamilyInput {
   stateId?: string;
   /** The state's USPS jurisdiction key ("US-CA"), for its ACS leaving rates. */
   stateKey?: string;
+  /** A year's earnings of one worker of the town, which the relatives' opening cash reads. */
+  earnings: number;
   startedAt: WorldDate;
   plans: readonly HouseholdPlan[];
   people: readonly PersonInput[];
@@ -1922,12 +1936,24 @@ function openingFamilies(input: OpeningFamilyInput): {
   const kinRent = hudRentRowFor(input.town, input.seed);
   const kinBirth = new Map(kin.people.map((row) => [row.id, row.birthDate]));
   const kinLiving = new Map<string, number>();
+  // Its opening cash: the survey's median balance at one earner's pay, shared
+  // among its adults, by the rule the county's sampled households open by
+  // (a relative has no recorded job; its pay comes from the place's work once
+  // play starts).
+  const kinCash = new Map<string, number>();
   for (const row of kin.households) {
     const adults = row.memberIds.filter(
       (id) =>
         ageOnDate(makeIsoDate(kinBirth.get(id)!), startedAt) >= p("votingAge"),
     );
     if (!adults.length) continue;
+    const cash = householdOpeningCash(
+      input.earnings,
+      p("zero"),
+      adults.length,
+      input.seed,
+    );
+    adults.forEach((id, index) => kinCash.set(id, cash[index]!));
     const daily = householdDailyCostMinor({
       seed: input.seed,
       stateKey: input.stateKey ?? "",
@@ -1958,7 +1984,7 @@ function openingFamilies(input: OpeningFamilyInput): {
       // One shared source for the relative's temperament, not one per trait.
       traits: { ...(temperament.get(person.id) ?? {}) },
       sharedTraitSource: temperamentSource,
-      liquidMinor: p("zero"),
+      liquidMinor: kinCash.get(person.id) ?? p("zero"),
       livingCostDailyMinor: kinLiving.get(person.id) ?? p("zero"),
       source: kinSource,
       familyIds: [...ids].sort(),

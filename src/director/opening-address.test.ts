@@ -10,9 +10,7 @@ import { LAWS_MODULE_ID } from "../core2/modules/laws";
 import { officialsIn } from "../core2/modules/officials";
 import { ownStance } from "../core2/officials-roster";
 import { historyMonths, type MacroMonth } from "../core2/macro-model";
-import type { ModuleRow } from "../core2/module-data";
 import { NAMED_QUESTIONS } from "../english/question-names";
-import { composeOpeningStory } from "./opening-story";
 
 // The opening address from this world's records (play-first-09). Two worlds
 // drawn from all 56 places on seeds the builder did not choose open with
@@ -56,7 +54,13 @@ describe("the opening address from a world's records", () => {
       const levels = story!.address.sentences.map((row) => row.level);
       expect(levels[0], where).toBe("salutation");
       expect(levels.at(-1), where).toBe("close");
-      expect(levels, where).toContain("country");
+      // The theme's point (the country) or its asks (Congress): since the
+      // speech outline (Nov 12) a theme with no measure of its own, such as
+      // a ban on stock trading, is said through its asks alone.
+      expect(
+        levels.includes("country") || levels.includes("congress"),
+        where,
+      ).toBe(true);
       // Each priority goes to Congress, for a question federal law can answer
       // and has not; the address is national only (opening-asks.test.ts), so
       // a President with no view on a federal question asks nothing (item
@@ -87,7 +91,16 @@ describe("the opening address from a world's records", () => {
     process.stdout.write(
       `ADDRESS STRUCTURES ${seed}:\n  ${[...structures].join("\n  ")}\n`,
     );
-    expect(structures.size, `four worlds at ${seed}`).toBeGreaterThan(1);
+    // Since the speech outline (Nov 12) the order is the kind's own row, so
+    // the variety is in the theme and the points: four worlds give more
+    // than one theme or more than one list of asks.
+    const themes = new Set(
+      worlds.map(({ story }) => `${story!.theme}:${story!.asks.join(",")}`),
+    );
+    expect(
+      Math.max(structures.size, themes.size),
+      `four worlds at ${seed}`,
+    ).toBeGreaterThan(1);
     const asked = (index: number) =>
       worlds[index]!.story!.address.sentences.flatMap((row) =>
         row.sourceRecordIds.filter((id) => id.startsWith("question:")),
@@ -124,7 +137,15 @@ describe("the opening address from a world's records", () => {
         const lawId = sentence.sourceRecordIds.find((id) =>
           id.startsWith("law:"),
         );
-        expect(lawId, `${where}: ${sentence.text}`).toBeTruthy();
+        // A question the laws engine holds no row for is open, cited by the
+        // powers record (SG-WORDS-speech-unseeded-law-open, W-E, Nov 12).
+        if (!lawId) {
+          expect(
+            sentence.facts.includes("law-not-in-force"),
+            `${where}: ${sentence.text}`,
+          ).toBe(true);
+          continue;
+        }
         const row = laws.get(lawId!) as unknown as {
           value: number;
           series: string;
@@ -154,52 +175,39 @@ describe("the opening address from a world's records", () => {
     }
   });
 
-  it("says no figure, and tells the year as its record has it (a test of the old per-number shape)", () => {
-    // No sentence of any world's address holds a digit (owner, Nov 1: "I
-    // don't like where this part of the speech where it just laces
-    // statistics"; Oct 27: "none of that real data in there").
-    for (const { where, story } of worlds)
-      for (const sentence of story!.address.sentences)
-        expect(sentence.text, `${where}: "${sentence.text}"`).not.toMatch(
-          /\d|percent/,
-        );
-    const { where, world, story } = worlds[0]!;
-    const api = coreAPI(world.core);
-    // The opening month and the year before, as the macro engine publishes them.
-    expect(world.core.modules.has(MACRO_MODULE_ID), where).toBe(true);
-    const months = api.moduleState(MACRO_MODULE_ID).table("months");
-    const recorded = months.rows() as unknown as MacroMonth[];
-    const rows = (
-      recorded.length
-        ? recorded
-        : historyMonths(world.core.startedAt, world.core.seed, (key) =>
+  it("says a figure only as a point's context, averaged from the macro engine's months it cites", () => {
+    // Changed with the speech outline (Nov 12). Before, no sentence held a
+    // digit (owner, Nov 1: "I don't like where this part of the speech where
+    // it just laces statistics"). The owner's Nov 12 note allows one figure as
+    // a point's context ("for 30 years we've suffered from terrible
+    // inflation, averaging out to over 12% per year"), so a figure is said
+    // only in the context sentence, and that sentence cites the months it
+    // averages. "Work is always told" is gone: an address tells its theme.
+    for (const { where, world, story } of worlds) {
+      const api = coreAPI(world.core);
+      const recorded = (world.core.modules.has(MACRO_MODULE_ID)
+        ? api.moduleState(MACRO_MODULE_ID).table("months").rows()
+        : []) as unknown as MacroMonth[];
+      const months = new Set(
+        [
+          ...recorded,
+          ...historyMonths(world.core.startedAt, world.core.seed, (key) =>
             api.parameter(key),
-          )
-    )
-      .slice()
-      .sort((a, b) => a.month.localeCompare(b.month));
-    const now = rows
-      .filter((row) => row.month <= world.core.date.slice(0, 7))
-      .at(-1)!;
-    const before = rows[rows.indexOf(now) - 12]!;
-    const work = (told: typeof story) =>
-      told!.address.sentences.flatMap((row) =>
-        row.facts.filter((key) => /^unemployment-(up|down)$/.test(key)),
+          ),
+        ].map((row) => row.id),
       );
-    // Work is always told, in words, citing the months it compares.
-    expect(work(story).length, where).toBeGreaterThan(0);
-    for (const sentence of story!.address.sentences.filter((row) =>
-      row.facts.some((key) => /^unemployment-(up|down)$/.test(key)),
-    ))
-      expect(sentence.sourceRecordIds, sentence.text).toContain(now.id);
-    // Change the record so work got harder to find: the address says so.
-    const moved = { ...now, unemploymentPct: before.unemploymentPct + 1.3 };
-    for (const row of rows)
-      months.put((row === now ? moved : row) as unknown as ModuleRow);
-    const again = composeOpeningStory(world.core, world.playerId!);
-    expect(work(again), where).toContain("unemployment-up");
-    expect(work(again), where).not.toContain("unemployment-down");
-    for (const sentence of again!.address.sentences)
-      expect(sentence.text, `${where}: "${sentence.text}"`).not.toMatch(/\d/);
+      for (const sentence of story!.address.sentences) {
+        if (!/\d/.test(sentence.text)) continue;
+        expect(
+          sentence.facts.some((key) => /^context-/.test(key)),
+          `${where}: "${sentence.text}"`,
+        ).toBe(true);
+        if (sentence.facts.includes("context-amount"))
+          expect(
+            sentence.sourceRecordIds.some((id) => months.has(id)),
+            `${where}: "${sentence.text}"`,
+          ).toBe(true);
+      }
+    }
   });
 }, 600_000);
