@@ -201,18 +201,7 @@
     "record": "Record",
     "publicRecordTitle": "Public record",
     "seat": "Seat held",
-    "closenessWords": [
-      "You barely know each other",
-      "You know each other",
-      "You are friendly",
-      "You are close",
-      "You are very close"
-    ],
-    "tieChange": {
-      "closer": "Grew closer",
-      "apart": "Drifted apart",
-      "same": "Last in touch"
-    },
+    "lastInTouch": "Last in touch",
     "tieCauses": {
       "visit": "a visit",
       "care": "care in a hard time",
