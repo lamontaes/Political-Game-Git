@@ -141265,13 +141265,39 @@
           "move": "accept",
           "role": "asker",
           "purpose": "owed-apology.close",
-          "key": "routine"
+          "key": "routine",
+          "after": "scene-talk.reply-tell.close.i-can-t-prove-it-with-words-watch-what-i-do"
         }
       ],
       "bearing": "warm",
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.close.at-least-that-s-honest-i-ll-take-it",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "At least that's honest. I'll take it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "owed-apology.close",
+          "key": "routine",
+          "after": "scene-talk.reply-tell.close.i-don-t-have-a-plan-i-know-i-was-wrong-and-i-m-not-going-to-argue-it"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the Words lead (apology gaps, pull request 9290)",
+      "date": "2026-11-15",
       "tag": {
         "move": "accept",
         "key": "routine"
@@ -141413,7 +141439,8 @@
           "move": "accept",
           "role": "asker",
           "purpose": "owed-apology.close",
-          "key": "routine"
+          "key": "routine",
+          "after": "leave"
         }
       ],
       "bearing": "calm",
@@ -141422,6 +141449,54 @@
       "date": "2026-11-09",
       "tag": {
         "move": "accept",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-warn.close.it-mattered-to-me-that-should-have-been-enough",
+      "move": "follow-warn",
+      "kind": "spoken",
+      "text": "It mattered to me. That should have been enough.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "owed-apology.close",
+          "key": "routine",
+          "after": "deflect"
+        }
+      ],
+      "origin": "authored",
+      "author": "the Words lead (apology gaps, pull request 9290)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "warn",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-warn.close.that-isn-t-sorry-i-ll-leave-it-there",
+      "move": "follow-warn",
+      "kind": "spoken",
+      "text": "That isn't sorry. I'll leave it there.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "owed-apology.close",
+          "key": "routine",
+          "after": "deflect"
+        }
+      ],
+      "origin": "authored",
+      "author": "the Words lead (apology gaps, pull request 9290)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "warn",
         "key": "routine"
       }
     },
@@ -185176,10 +185251,10 @@
       "date": "2026-11-15"
     },
     {
-      "key": "scene-talk.reply-tell.close.i-can-t-prove-it-tonight-watch-what-i-do",
+      "key": "scene-talk.reply-tell.close.i-can-t-prove-it-with-words-watch-what-i-do",
       "move": "reply-tell",
       "kind": "spoken",
-      "text": "I can't prove it tonight. Watch what I do.",
+      "text": "I can't prove it with words. Watch what I do.",
       "uses": [
         {
           "subject": "scene",
@@ -185188,12 +185263,11 @@
           "role": "asked",
           "purpose": "owed-apology.close",
           "key": "routine",
-          "after": "press",
-          "excludesFacts": ["daytime"]
+          "after": "press"
         }
       ],
       "origin": "authored",
-      "author": "the Words lead (answer-what-I-will-do lines, pull request 9290)",
+      "author": "the Words lead (apology gaps, pull request 9290)",
       "date": "2026-11-15"
     },
     {

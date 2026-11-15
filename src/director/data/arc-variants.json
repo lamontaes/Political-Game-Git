@@ -2314,7 +2314,7 @@
             "follow": {
               "apologize": ["accept", "press"],
               "ask": ["answer"],
-              "deflect": ["press"],
+              "deflect": ["warn"],
               "leave": [],
               "tell": ["accept", "press"]
             },
@@ -2363,7 +2363,8 @@
                 "keeps": "none",
                 "when": {}
               }
-            ]
+            ],
+            "endsOn": ["answer", "warn"]
           }
         },
         "repeat": {

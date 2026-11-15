@@ -101,6 +101,8 @@ interface PurposeArc {
   endings?: Ending[];
   /** Reply moves after which the answer ends the exchange: no goodbye follows it (everyday talk). */
   closes?: string[];
+  /** Asker moves that end the talk themselves: no close is added after one (the Words lead, Nov 15). */
+  endsOn?: string[];
   /** Reply moves that may be offered again after an asker move: { askerMove: [replyMoves] }. */
   repeatable?: Record<string, string[]>;
   /** When an exchange resolves the purpose may go on instead of closing: played once. */
@@ -1604,7 +1606,11 @@ export function composeSceneTalk(
     lastAsker: SceneTalkLine | undefined,
     answering?: SceneTalkLine,
   ): SceneTalkLine | undefined => {
-    if (lastAsker && RULES.terminalFollow.includes(lastAsker.move))
+    if (
+      lastAsker &&
+      (RULES.terminalFollow.includes(lastAsker.move) ||
+        arc.endsOn?.includes(lastAsker.move))
+    )
       return undefined;
     const moves = ARCS.close[outcome]
       .filter((move) => move !== lastAsker?.move)
@@ -2050,7 +2056,7 @@ export function composeSceneTalk(
       if (!unsaid.length && worded.length) {
         next.end = {
           outcome: replyOutcome,
-          ...closed(closeFor(replyOutcome, childPath, undefined)),
+          ...closed(closeFor(replyOutcome, childPath, undefined, reply)),
         };
         continue;
       }
@@ -2077,7 +2083,7 @@ export function composeSceneTalk(
       if (!answer && best) {
         next.end = {
           outcome: replyOutcome,
-          ...closed(closeFor(replyOutcome, childPath, undefined)),
+          ...closed(closeFor(replyOutcome, childPath, undefined, reply)),
         };
         continue;
       }
@@ -2085,7 +2091,7 @@ export function composeSceneTalk(
         gap("follow", reply.move, reply.parts[zero]);
         next.end = {
           outcome: replyOutcome,
-          ...closed(closeFor(replyOutcome, childPath, undefined)),
+          ...closed(closeFor(replyOutcome, childPath, undefined, reply)),
         };
         continue;
       }
