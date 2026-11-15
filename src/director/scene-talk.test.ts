@@ -1,4 +1,5 @@
 import RULES_BOUND from "./data/scene-talk-rules.json" with { type: "json" };
+import directorFile from "./data/director.json" with { type: "json" };
 import { describe, expect, it } from "vitest";
 import { composeSceneTalk } from "./scene-talk";
 import { wordSceneMove, type BankPart } from "../english/scene-talk-words";
@@ -341,6 +342,38 @@ describe(`scenes with a purpose (seed ${seed})`, () => {
     expect(parted).toBeGreaterThan(0);
     // Two trees for every purpose: about 35 seconds on a busy machine.
   }, 120_000);
+
+  // Replies are up to four, never more (owner, Nov 10), at every node of
+  // every purpose's tree. A purpose the fixture cannot compose is named by the
+  // tests above, not passed over here.
+  it("offers at most four replies at every node of every purpose", () => {
+    const most = directorFile.parameters.directorChoicesPerTurn.value;
+    const over: string[] = [];
+    let walked = 0;
+    for (const type of types) {
+      const result = composeSceneTalk(
+        core,
+        director,
+        { askerId, askedId },
+        type,
+        facts,
+        {},
+        HELD,
+      );
+      if (result.kind !== "composed") continue;
+      walked += 1;
+      const walk = (node: typeof result.talk.tree, at: string) => {
+        if (node.replies.length > most)
+          over.push(`${type.key} ${at}: ${node.replies.length}`);
+        for (const reply of node.replies)
+          if (reply.next) walk(reply.next, `${at}.${reply.line.move}`);
+        for (const branch of node.branches ?? []) walk(branch.node, at);
+      };
+      walk(result.talk.tree, "root");
+    }
+    expect(walked).toBeGreaterThan(0);
+    expect(over).toEqual([]);
+  });
 });
 
 describe("a scene line joined from pieces", () => {

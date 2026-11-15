@@ -33,6 +33,7 @@ import { variantArc, variantFamilies } from "./arc-variant";
 import type { ReplyFollowsTable } from "../english/reply-follows";
 import situationFile from "./data/situation-types.json" with { type: "json" };
 import rulesFile from "./data/scene-talk-rules.json" with { type: "json" };
+import directorFile from "./data/director.json" with { type: "json" };
 import {
   pieceAnswers,
   sceneMoveFits,
@@ -178,7 +179,7 @@ const ARCS = arcsFile as unknown as Arcs;
 const RULES = rulesFile as unknown as {
   terminalFollow: string[];
   answerMoves: string[];
-  tree: { maxReplies: { value: number }; maxNodes: { value: number } };
+  tree: { maxNodes: { value: number } };
   bluntGreeting: { value: number };
 };
 
@@ -614,7 +615,9 @@ export function composeSceneTalk(
   const gap = (step: string, move: string, after?: string) =>
     gaps.add(`${gapLabel}/${step}/${move}${after ? ` after ${after}` : ""}`);
   const maxRounds = ARCS.parameters.rounds.value;
-  const maxReplies = RULES.tree.maxReplies.value;
+  // Replies are up to four, never more (owner, Nov 10): the director's one
+  // limit, the same that conversations and speeches read.
+  const maxReplies = directorFile.parameters.directorChoicesPerTurn.value;
   const maxNodes = RULES.tree.maxNodes.value;
 
   /** The pieces said as closes anywhere in this talk. */
@@ -1812,7 +1815,12 @@ export function composeSceneTalk(
     // this path is never offered again.
     const fresh = [...new Set(moves)];
     const seen = new Set([...path.said, ...path.offeredPieces]);
-    const offered = fresh.slice(zero, maxReplies).flatMap((move) => {
+    const byLean = (a: SceneTalkLine, b: SceneTalkLine) =>
+      lean(b) - lean(a) ||
+      stableHash(`${scene}:${path.id}:${a.move}`).localeCompare(
+        stableHash(`${scene}:${path.id}:${b.move}`),
+      );
+    const fitting = fresh.flatMap((move) => {
       const reply = render(
         {
           step: "reply",
@@ -1836,9 +1844,14 @@ export function composeSceneTalk(
       reply.round = round;
       return [reply];
     });
-    // One extra option from the player's own life, where a piece fits.
+    // When more moves fit than the menu holds, the player's own traits keep
+    // the ones they lean toward (the stable hash breaks a tie), in arc order.
+    const kept = new Set([...fitting].sort(byLean).slice(zero, maxReplies));
+    const offered = fitting.filter((row) => kept.has(row));
+    // One extra option from the player's own life, where a piece fits and
+    // the menu has room.
     for (const move of fresh) {
-      if (offered.length >= maxReplies + one) break;
+      if (offered.length >= maxReplies) break;
       const extra = render(
         {
           step: "reply",
@@ -1901,13 +1914,7 @@ export function composeSceneTalk(
       endNode(node, outcome, path, lastAsker);
       continue;
     }
-    const ranked = [...offered].sort(
-      (a, b) =>
-        lean(b) - lean(a) ||
-        stableHash(`${scene}:${path.id}:${a.move}`).localeCompare(
-          stableHash(`${scene}:${path.id}:${b.move}`),
-        ),
-    );
+    const ranked = [...offered].sort(byLean);
     const ledLine = path.led ? ranked[zero] : undefined;
     if (ledLine) ledLine.chosen = true;
     for (const reply of offered) {

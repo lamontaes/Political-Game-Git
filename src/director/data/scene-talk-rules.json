@@ -4,13 +4,7 @@
   "terminalFollow": ["thank", "accept"],
   "answerMoves": ["press", "plea"],
   "tree": {
-    "about": "Owner, Oct 15, night: a scene is a tree, a branch for each thing the player might say. The bounds keep a page readable: past maxNodes only the branch the player's traits lean toward is kept.",
-    "maxReplies": {
-      "value": 5,
-      "tag": "TUNABLE",
-      "spread": [3, 6],
-      "checkedAgainst": "The owner's four dynamic choices a turn (OWNER-DECISIONS, Oct 14) plus the lie, which he asked for as a fifth reply on the purposes that allow one (Oct 15, night); three read thin, six crowd a page."
-    },
+    "about": "Owner, Oct 15, night: a scene is a tree, a branch for each thing the player might say. The bounds keep a page readable: past maxNodes only the branch the player's traits lean toward is kept. The menu's size is the director's directorChoicesPerTurn (up to four, owner, Nov 10).",
     "maxNodes": {
       "value": 600,
       "tag": "TUNABLE",

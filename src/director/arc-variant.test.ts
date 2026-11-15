@@ -19,6 +19,7 @@ import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
 import type { Fact } from "../english/scene-talk-words";
 import variantFile from "./data/arc-variants.json" with { type: "json" };
+import directorFile from "./data/director.json" with { type: "json" };
 import situationFile from "./data/situation-types.json" with { type: "json" };
 import { createDirector } from "./ledger";
 import { chooseVariant } from "./arc-variant";
@@ -371,6 +372,39 @@ describe("a kind with several arcs", () => {
         cause: { id: "x", date: core.date, facts: {} },
       }),
     ).toBeNull();
+  });
+
+  // Replies are up to four, never more (owner, Nov 10): every node of every
+  // variant's tree, whatever its arc lists. A variant the fixture cannot
+  // compose is named by the test above, not passed over here.
+  it("offers at most four replies at every node of every variant", () => {
+    const most = directorFile.parameters.directorChoicesPerTurn.value;
+    const over: string[] = [];
+    let walked = 0;
+    for (const [family, row] of ASKED_OF_PLAYER)
+      for (const variant of Object.keys(row.variants)) {
+        const result = composeSceneTalk(
+          core,
+          director,
+          { askerId, askedId, causeId: "cause-a" },
+          played(family, variant),
+          factsOf(family, variant),
+          {},
+          { includeHeld: true },
+        );
+        if (result.kind !== "composed") continue;
+        walked += 1;
+        const walk = (node: SceneTalk["tree"], at: string) => {
+          if (node.replies.length > most)
+            over.push(`${family}/${variant} ${at}: ${node.replies.length}`);
+          for (const reply of node.replies)
+            if (reply.next) walk(reply.next, `${at}.${reply.line.move}`);
+          for (const branch of node.branches ?? []) walk(branch.node, at);
+        };
+        walk(result.talk.tree, "root");
+      }
+    expect(walked).toBeGreaterThan(0);
+    expect(over).toEqual([]);
   });
 });
 
