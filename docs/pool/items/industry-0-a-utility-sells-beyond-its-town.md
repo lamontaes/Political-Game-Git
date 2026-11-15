@@ -5,10 +5,10 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: T54
-pr:
+pr: "#9579"
 after:
 blocked-on:
 root: none
