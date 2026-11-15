@@ -23,13 +23,13 @@ checked:
 
 **Cause.** Found in code: `hasInsert` in `tests/guards/english/line-inserts.test.ts` counts a name slot as the line's insert, so these lines passed the old rule by carrying `{player-first}` or `{first}`.
 
-**Fix.** 56 lines lose the name; 25 named lines are cut onto the plain line the bank already held (uses move over only where a fact places them); one stock closer ("Take care of yourself.") stays until the second reader answers, and the conversation no-insert baseline is up by one for it; the thank-yous stay. The padded-name baseline for conversation goes to zero.
+**Fix.** The listener's name comes off the padded lines, named lines that say the same as a plain one are cut onto it (uses move over only where a fact places them), and "Take care of yourself." is cut onto "Take care."; the thank-yous and the like stay, and the no-insert baseline does not rise. Four replies that still carry a name wait for their own pull request, so the padded-name baseline for conversation goes to four.
 
 **Time box.** 1 hour, Sonnet.
 
 **Rules.** No hand-written player text in code; reworded lines go to the second reader; lines changed are shown played in /mnt/project-files/words-lead/padding/conversation-names-lines.md.
 
-**Done when.** The padded-name count for `conversation` in `line-inserts-baseline.json` is absent and the guard passes. In three drawn places (pad-conv-1, pad-conv-2, pad-conv-3), `scripts/dialogue-batch/greet-part-probe.ts` plays 40 talks each and no goodbye says the player's first name. A second session, on main, plays a life, talks with household members and neighbors, and sees goodbyes and views about the news read without the player's name added.
+**Done when.** The padded-name count for `conversation` in `line-inserts-baseline.json` is four and the guard passes. Every changed text is shown said in a played talk at the final head, in the played file, with people the player has met before for the goodbyes; none says a name that only pads. A second session, on main, plays a life, talks with household members and neighbors, and sees goodbyes and views about the news read without the player's name added.
 
 **Waits on.** The eighteen-line item (words-padded-names-out-of-talk-lines-that-came-in-after-the-pass) folding.
 
