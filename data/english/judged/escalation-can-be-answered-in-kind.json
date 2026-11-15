@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "escalation-can-be-answered-in-kind",
   "rubric": "When the other person escalates, the player can escalate back, not only calm down or leave.",
-  "judged": 86,
+  "judged": 80,
   "no": {
     "005uy0thp82": {
       "keys": [
@@ -87,5 +87,5 @@
       "why": "The dig \"Sure you did. Barely.\" gets only agreement and thanks; no reply answers it in kind."
     }
   },
-  "yesHash": "1v0cfcz6qdu"
+  "yesHash": "1tjrjm7u39e"
 }

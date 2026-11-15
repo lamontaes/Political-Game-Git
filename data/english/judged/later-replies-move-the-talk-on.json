@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "later-replies-move-the-talk-on",
   "rubric": "After the first exchange the replies offered do not rehash the first options; they move the talk on.",
-  "judged": 607,
+  "judged": 595,
   "no": {
     "00gx3b8ur4y": {
       "keys": [
@@ -194,19 +194,6 @@
         "scene-talk.reply-leave.i-ll-come-back-tomorrow-try-to-sleep"
       ],
       "why": "Both replies repeat first options: the promise to tell them, and the rest-first put-off."
-    },
-    "05ocszftwas": {
-      "keys": [
-        "scene-talk.follow-confront.money.don-t-turn-this-around-on-me-first-we-re-talking-about-your-payment",
-        "scene-talk.reply-apologize.money.you-re-right-i-missed-the-payment-and-that-s-on-me-i-m-sorry",
-        "scene-talk.reply-promise.money.i-ll-pay-what-i-missed-you-have-my-word",
-        "scene-talk.reply-deflect.money.it-was-one-payment-and-money-s-been-tight-lately",
-        "scene-talk.reply-confront.pressed.if-you-can-t-help-don-t-lecture-me-about-what-i-owe",
-        "scene-talk.reply-apologize.money.i-m-sorry-and-i-mean-it-i-know-it-landed-on-you-too",
-        "scene-talk.reply-leave.money.i-m-done-for-now-we-ll-talk-when-we-re-calmer",
-        "scene-talk.reply-confront.money.you-want-a-fight-over-one-payment-fine-but-i-m-not-the-only-one-with-something-to-answer-for"
-      ],
-      "why": "Two of three repeat the first set: a fresh apology, and a counterattack that turns it back on them like 'don't lecture me'."
     },
     "06pxxg8xuqa": {
       "keys": [
@@ -651,19 +638,6 @@
       ],
       "why": "Most replies circle back to the first 'send me the draft, I'll read it tonight' instead of answering the vote count."
     },
-    "0joy1x99m58": {
-      "keys": [
-        "scene-talk.follow-confront.money.don-t-turn-this-around-on-me-first-we-re-talking-about-your-payment",
-        "scene-talk.reply-apologize.money.i-m-sorry-i-should-have-kept-track-of-it-and-i-didn-t",
-        "scene-talk.reply-promise.money.i-ll-pay-it-before-i-spend-on-anything-else",
-        "scene-talk.reply-deflect.money.i-ve-had-a-lot-going-on-lately",
-        "scene-talk.reply-confront.money.you-want-a-fight-over-one-payment-fine-but-i-m-not-the-only-one-with-something-to-answer-for",
-        "scene-talk.reply-apologize.money.you-re-right-i-missed-the-payment-and-that-s-on-me-i-m-sorry",
-        "scene-talk.reply-leave.money.let-s-stop-before-we-say-something-we-can-t-take-back",
-        "scene-talk.reply-confront.pressed.if-you-can-t-help-don-t-lecture-me-about-what-i-owe"
-      ],
-      "why": "Two of three repeat the first set: an apology, and 'don't lecture me', which is the same counterattack the other person just rejected."
-    },
     "0jsmuey3z6e": {
       "keys": [
         "scene-talk.follow-threaten.youve-made-your-choice-dont-come-to-me-when-it-goes-wrong",
@@ -1010,19 +984,6 @@
         "scene-talk.reply-leave.time-s-up-i-ll-write-before-i-come-back"
       ],
       "why": "\"I'll do it\" and \"I'll do it this week\" restate the first agreement; only the time-up exit is new."
-    },
-    "0qjmtu0egmw": {
-      "keys": [
-        "scene-talk.follow-confront.money.don-t-turn-this-around-on-me-first-we-re-talking-about-your-payment",
-        "scene-talk.reply-apologize.money.i-m-sorry-and-i-mean-it-i-know-it-landed-on-you-too",
-        "scene-talk.reply-promise.money.i-ll-pay-what-i-missed-you-have-my-word",
-        "scene-talk.reply-deflect.money.it-was-one-payment-and-money-s-been-tight-lately",
-        "scene-talk.reply-confront.pressed.if-you-can-t-help-don-t-lecture-me-about-what-i-owe",
-        "scene-talk.reply-apologize.money.i-m-sorry-i-should-have-kept-track-of-it-and-i-didn-t",
-        "scene-talk.reply-leave.money.i-m-done-for-now-we-ll-talk-when-we-re-calmer",
-        "scene-talk.reply-confront.money.you-want-a-fight-over-one-payment-fine-but-i-m-not-the-only-one-with-something-to-answer-for"
-      ],
-      "why": "Two of three rehash the first set: another apology, and a counterattack that turns it back on them again."
     },
     "0qtdnvl4i5o": {
       "keys": [
@@ -3203,5 +3164,5 @@
       "why": "\"I'll call tonight\" and the soup offer restate the first yes and \"Have you eaten today?\""
     }
   },
-  "yesHash": "0zmmygm2jyb"
+  "yesHash": "10se3163u5j"
 }

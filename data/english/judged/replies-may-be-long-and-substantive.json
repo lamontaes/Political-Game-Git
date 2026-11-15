@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "replies-may-be-long-and-substantive",
   "rubric": "Replies are not all short; some carry an argument or a reason, so a reply does not kill the talk.",
-  "judged": 735,
+  "judged": 726,
   "no": {
     "005uy0thp82": {
       "keys": [
@@ -150,14 +150,6 @@
         "scene-talk.reply-leave.enough-please-leave"
       ],
       "why": "Every reply is a refusal, a threat to report, an acceptance or an exit, and none of them gives a reason."
-    },
-    "02zij8uu5lf": {
-      "keys": [
-        "scene-talk.follow-press.close.sorry-helps-first-i-d-like-to-know-how-you-ll-make-sure-it-doesn-t-happen-again",
-        "scene-talk.reply-tell.close.i-can-t-prove-it-tonight-watch-what-i-do",
-        "scene-talk.reply-leave.close.i-can-t-talk-about-the-missed-payment-anymore-today-i-ll-find-you-when-i-m-ready"
-      ],
-      "why": "No reply carries a reason or argument; they are agreements, promises, stances, thanks or exits."
     },
     "03ahajt3sk7": {
       "keys": [
@@ -3153,14 +3145,6 @@
       ],
       "why": "No reply carries a reason or argument; they are agreements, promises, stances, thanks or exits."
     },
-    "29w2mo9skol": {
-      "keys": [
-        "scene-talk.follow-press.close.i-believe-you-re-sorry-first-i-just-need-to-see-that-it-counts-for-something",
-        "scene-talk.reply-tell.close.i-don-t-have-a-plan-i-know-i-was-wrong-and-i-m-not-going-to-argue-it",
-        "scene-talk.reply-leave.money.i-m-done-for-now-we-ll-talk-when-we-re-calmer"
-      ],
-      "why": "No reply carries a reason or argument; they are agreements, promises, stances, thanks or exits."
-    },
     "2a2p8r1ug2r": {
       "keys": [
         "scene-talk.follow-ask.so-where-do-you-think-the-votes-are",
@@ -3367,5 +3351,5 @@
       "why": "No reply carries a reason or argument; they are agreements, promises, stances, thanks or exits."
     }
   },
-  "yesHash": "0il87wsx0tc"
+  "yesHash": "1k5fd0azpdw"
 }
