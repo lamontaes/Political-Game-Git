@@ -37,4 +37,3 @@ source: "found by T54 building world-counted-renters-buy (#9117), Nov 15; Accoun
 **Notes.**
 
 Dropped Nov 15 (Account lead's ruling, 09:30Z): the read is right in code, but no world exercises it. Measured from the player's day one (31-day warm-up) on the Train at fd52b031: Matagorda, Texas (4847016, `drawPlace("pt1:0","path-check")`) 7 personal-loan applications to Aug 1; Bastrop, Louisiana (2204685, `drawPlace("c3","home-price-paths")`) 5 to Aug 1; Bloomingdale (3406340, `drawPlace("e5","home-price-paths")`) 29 to Mar 1. Not one applicant held any bank savings. Why: `reviewBankDeposits` (src/core2/credit-deposits.ts) banks only cash above a wallet of `creditDepositWalletMonths` (3) months of costs and refills the wallet at each monthly review, so a household holding deposits does not sit under one month of cash when the bank reviews. A test would have to invent a household the game cannot make. Reopen if the wallet rule or the monthly refill ever changes.
-

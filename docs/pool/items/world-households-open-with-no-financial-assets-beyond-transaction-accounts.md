@@ -23,6 +23,7 @@ source: "found by T54 measuring renters for world-counted-renters-buy (#9117), N
 **Cause.** Found in code: the opening writes only `medianTransactionBalance` (src/core2/starting-cash.ts, from data/research/money/scf-transaction-accounts-2022.json) for every household; no module writes any other financial asset at the opening.
 
 **Fix.** The design is accepted (plan: /mnt/project-files/account-lead/t54-opening-savings-plan.md):
+
 - Certificates of deposit open as the household's deposits at the town's bank, funded as cash is, so `depositsHeld` and the buyers' means read them.
 - Market assets (stocks, pooled funds, bonds, savings bonds, other managed and other) are a record held against the place's outside account, sold to pay.
 - Retirement accounts and cash value life insurance are recorded, not drawn for a down payment.
