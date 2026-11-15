@@ -187,7 +187,7 @@
     "promiseBrokenHours": {
       "value": 2,
       "tag": "TUNABLE",
-      "citation": "As scene-talk-rules endingStrain trust-lost: a promise broken costs what trust lost costs (promises.ts).",
+      "citation": "Twice a kept word: a promise broken costs more than one talk's time together (promises.ts). Fixed hours while scene-talk-rules endingStrain trust-lost became a share of the tie (Nov 15); whether a broken promise should be a share too is item people-broken-promise-costs-share-of-tie.",
       "spread": "1 to 4",
       "checkRange": {
         "min": 1,

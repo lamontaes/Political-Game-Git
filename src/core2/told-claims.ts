@@ -33,7 +33,11 @@
  * the one told learns the truth from that record and the tie strains
  * (`exposeVoteLies`). No screen calls it a lie.
  */
-import { closenessBetween, closenessBetweenAfter } from "./closeness";
+import {
+  closenessBetween,
+  closenessBetweenAfter,
+  tieHoursBetween,
+} from "./closeness";
 import { decisionFromScores, scoreOffers } from "./choice";
 import { decisionKinds } from "./trait-decision-table";
 import { ELECTIONS_MODULE_ID, type FilingRow } from "./modules/elections";
@@ -169,6 +173,20 @@ function strainCost(
   );
 }
 
+/**
+ * Hours a word found out not kept takes off a tie: a share of the hours the
+ * tie stands on today, so a close tie loses more than a slight one
+ * (scene-talk-rules endingStrain trust-lost).
+ */
+function foundOutHours(
+  api: CoreAPI,
+  a: PersonId,
+  b: PersonId,
+  share: number,
+): number {
+  return share * Math.max(tieHoursBetween(api.state, a, b), 0);
+}
+
 /** What a speaker said to a claim, and the record of a false one. */
 export interface ToldClaim {
   readonly fact: ClaimFact;
@@ -220,8 +238,8 @@ export function tellsTruth(
     readonly wanted: "yes" | "no";
     /** Hours a refusal to their face strains the tie by (the scene's strained ending). */
     readonly refusedHours: number;
-    /** Hours a word shown not kept strains the tie by (the scene's trust lost). */
-    readonly foundOutHours: number;
+    /** Share of the tie a word shown not kept takes off (the scene's trust lost). */
+    readonly foundOutShare: number;
   },
 ): ToldClaim | null {
   const fact = claimRecord(api, speakerId, claim);
@@ -241,7 +259,12 @@ export function tellsTruth(
     truth: -strainCost(api, speakerId, hearerId, stakes.refusedHours),
     false:
       -fact.publicity *
-      strainCost(api, speakerId, hearerId, stakes.foundOutHours),
+      strainCost(
+        api,
+        speakerId,
+        hearerId,
+        foundOutHours(api, speakerId, hearerId, stakes.foundOutShare),
+      ),
   };
   const offers: ActOffer[] = OFFERS.map((definition) => ({
     definition,
@@ -284,8 +307,8 @@ export interface LieRow {
   readonly date: string;
   /** The record the claim was said in (a scene reply). */
   readonly saidIn: string;
-  /** Hours the tie is strained by when the record shows the word was not kept. */
-  readonly foundOutHours: number;
+  /** Share of the tie taken off when the record shows the word was not kept. */
+  readonly foundOutShare: number;
 }
 
 const lies = (api: CoreAPI) =>
@@ -304,8 +327,8 @@ export function keepToldClaim(
   claim: Claim,
   told: ToldClaim,
   saidIn: string,
-  /** Hours the tie is strained by when the record shows the word was not kept. */
-  foundOutHours: number,
+  /** Share of the tie taken off when the record shows the word was not kept. */
+  foundOutShare: number,
 ): string | null {
   if (told.truthful || !api.state.modules.has(TOLD_CLAIMS_MODULE_ID))
     return null;
@@ -343,7 +366,7 @@ export function keepToldClaim(
     truth: told.fact.truth,
     date: api.state.date,
     saidIn,
-    foundOutHours,
+    foundOutShare,
   } satisfies LieRow);
   return id;
 }
@@ -356,8 +379,9 @@ export function liesTo(api: CoreAPI, hearerId: PersonId): readonly LieRow[] {
 
 /**
  * The record that settles a lie is made: the one told learns the truth from
- * it (a public fact), the tie strains by the hours a word not kept costs
- * (kept on the row from the scene that heard it), and the lie's row is done.
+ * it (a public fact), the tie strains by the share of it a word not kept
+ * costs (kept on the row from the scene that heard it), and the lie's row is
+ * done.
  */
 function expose(api: CoreAPI, lie: LieRow, recordId: string, truth: string) {
   const hearer = api.state.people.get(lie.hearerId);
@@ -397,7 +421,7 @@ function expose(api: CoreAPI, lie: LieRow, recordId: string, truth: string) {
     lie.hearerId,
     lie.speakerId,
     "contact",
-    -lie.foundOutHours,
+    -foundOutHours(api, lie.hearerId, lie.speakerId, lie.foundOutShare),
     undefined,
     { cause: "found-out", sourceId: id },
   );
