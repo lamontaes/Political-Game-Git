@@ -5,9 +5,9 @@ area: elections
 kind: bug
 priority: 3
 size: S
-status: open
+status: in-pr
 standard: 2
-claimed-by:
+claimed-by: claude/project-thread-hjvzia
 pr:
 after:
 blocked-on:
@@ -35,3 +35,5 @@ source: Voters' views thread, Nov 15 (the press endorsements build)
 **Files.** src/core2/press-desk.ts, src/core2/outlet-endorsement.test.ts
 
 **Notes.**
+
+- Nov 15 (views thread): built on claude/project-thread-hjvzia. The outlet's own endorsement prints as its editorial in runDesk (src/core2/press-desk.ts), outside the reporters' slots, and is the race's endorsement story at that outlet that week. At Marshfield, every paper endorsement prints by Oct 8, each under its head; the test failed before the fix with no printed story.

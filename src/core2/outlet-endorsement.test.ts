@@ -11,7 +11,7 @@
  * Pinned: Marshfield, Massachusetts, world seed 75d9b7ad, the township board
  * races of Nov 4, 2025. The papers weigh them in the first press week the
  * races are on their beat (Sep 29) and print them in the press week after
- * (Oct 6); playing Jan 20 to Oct 8 is the game's own days, about 115
+ * (Oct 6); playing Jan 20 to Oct 8 is the game's own days, about 135
  * seconds, so the test sets its own limit near twice that.
  */
 import { afterAll, describe, expect, it } from "vitest";
