@@ -259,5 +259,17 @@ Each step above can be undone, in reverse, and no history is rewritten.
   cases are listed in the pull request. Adding a new test helper that only
   tests read needs no change: the rule finds it. A game module that imports a
   file named like a test keeps that file on `main`.
+- **Release checks belong on the work branch only.** A promote commit changes
+  hundreds of paths with no declaration in `docs/release/changes/` (the
+  declarations were consumed on `dev`). So `npm run release:check` run on
+  `main` against `main`'s previous tip fails by design ("adds or changes no
+  declaration"). The same check on the stripped tree with an empty range passes.
+  After cutover `release.yml` must not run on pushes to `main`; the table in
+  section c moves its trigger to `dev` for this reason.
+- **Packaging needs one test-named file.** `desktop/scripts/smoke-test.mjs`
+  plays the packaged app inside `release-package.yml`, so the rule keeps it on
+  `main` (the `KEEP` list in `scripts/promote/test-files.mjs`). The rule also
+  keeps other test-named files that a script imports or reads (`--kept` lists
+  them).
 - `docs/` is never stripped, even a file named like a test (a reproduction
   file quoting a browser check). Those are prose for the owner and sessions.
