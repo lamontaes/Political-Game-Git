@@ -26,9 +26,14 @@ root: none
 
 The player sees it in play as a floor vote with no member asking for their vote the evening before, and no chance to ask a colleague for theirs. Seen: the scene the evening before a floor vote, where a colleague asks the player for their vote or the player asks one for theirs.
 
-**Cause.** Needs cause. Looked at: the three commands above, red on the clean train 942bea34 and on #9207's head ceea29e1 with the same places. `askBeforeTheRoll` reads `floorAgendaOn(tomorrow)` and asks only where the player sits in the voting chamber and the margin is short. Not yet known whether no bill reaches that agenda the evening before (the floor week's reader, the meeting's agenda), the margin is never short, or the player's floor-vote stop (owner's card, Nov 14 02:03Z) keeps the asks from being written.
+**Cause.** Measured: Langley, Oklahoma (4041500) and the nine other places named above, run seeds 2fbac58e4f032a6b and a4283ecd1ef6d55c, with the commands `GOLDEN_PATH_SEED=2fbac58e4f032a6b npx vitest run src/director/ask-before-the-roll.test.ts` and `GOLDEN_PATH_SEED=a4283ecd1ef6d55c npx vitest run src/core2/legislature-ask-reaches-roll.test.ts` on the train at 32a994212b, with a counter at each step of `askBeforeTheRoll` (src/core2/modules/legislature.ts): ten places and 2,900 played days in all. `ask-before-the-roll.test.ts` (GOLDEN_PATH_SEED=2fbac58e4f032a6b, six places, 240 days each): 218 bills stood on the next day's agenda, 203 of them in a body the player does not sit in, 15 in the player's chamber, and all 15 already had a majority the evening before. `legislature-ask-reaches-roll.test.ts` (GOLDEN_PATH_SEED=a4283ecd1ef6d55c, four places, 365 days each): 156 on the agenda, 139 in another body, 16 in the player's chamber, and all 16 had a majority, ahead by between 11 and 70 percent of the chamber's seats. No bill came to the eve of its vote short, so the step that asks was never reached; the player's floor-vote stop is not involved. The reason no bill is short: the floor takes filings in the leader's order, the most backed first (`fileChanges` and `floorWeeks`, src/core2/modules/world-legislating.ts), and a legislature takes up a handful of bills a session (#8967), so what reaches the floor is what already has the votes, and a filing short of them dies unreached at adjournment (`closeSession`). The ask is placed after the point where it could matter.
 
-**Fix.** None until the cause is found.
+**Fix.** The sponsor asks for votes while the bill is waiting for the floor, not the evening before a vote it has already won.
+
+1. First measure, in the same two tests' places, how many filings in the player's chamber were short of a majority while they waited and died unreached. If there are none, stop and write that in Notes: the scene then needs a different cause record and the laws lead decides.
+2. `askBeforeTheRoll` reads the bills waiting in the leader's order for the coming floor week (`floorQueue`, through the reader world-legislating already registers), as well as tomorrow's agenda. For a waiting bill that is short but within reach of the members who could be carried, the sponsor asks them, by the same count and the same `vote-ahead` record as today.
+3. The leader's order counts a recorded yes to an ask as backing, so a bill that wins its asks moves up and reaches the floor. One order, read by the floor weeks and by the ask.
+4. The three tests are pinned to named places where a waiting bill is short (skill pinned-tests), and each is shown red with the new read taken out.
 
 **Time box.** 3 hours.
 
@@ -38,4 +43,6 @@ The player sees it in play as a floor vote with no member asking for their vote 
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/legislature.ts, src/director/ask-before-the-roll.test.ts, src/core2/legislature-ask-reaches-roll.test.ts, src/director/ask-vote-variants.test.ts
+**Files.** src/core2/modules/legislature.ts (`askBeforeTheRoll`), src/core2/modules/world-legislating.ts (`floorQueue`, `floorWeeks`, `fileChanges`), src/director/ask-before-the-roll.test.ts, src/core2/legislature-ask-reaches-roll.test.ts, src/director/ask-vote-variants.test.ts
+
+**Notes.** Cause measured by Fable B, Nov 15, 2026. Not measured: how many filings in the player's chamber were short while waiting (step 1 of the Fix). `ask-vote-variants.test.ts` was not run with the counters; it reads the same record.
