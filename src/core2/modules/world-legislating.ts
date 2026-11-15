@@ -2170,14 +2170,17 @@ function floorQueue(api: CoreAPI, row: LegislativeSession): readonly Queued[] {
 /**
  * The floor's weeks from `first` to adjournment, each with the bills it
  * takes up, each once committee has had it, in the leader's order. The
- * leader paces the floor by the session's own calendar: the bills still
- * waiting (filed or yet to be filed) are spread evenly over the floor weeks
- * left before adjournment (a week takes its share, rounded, so a short list
- * is spread out rather than taken a bill a week from the start), at most as
- * many as the week's floor days allow, and the last week takes what is
- * left. The floor sits with business until the session ends instead of
- * clearing it in the first weeks. The floor week votes the first of them; the floor date and
- * the agenda the members read ahead come from the same weeks.
+ * leader paces the floor by the session's own calendar: every bill of the
+ * session (decided, waiting, or yet to be filed) is owed an even share of
+ * the floor weeks, so by the end of a week the floor has taken up its
+ * share of them so far, rounded up. A share under one bill a week is
+ * carried from week to week, so a year-long session with a handful of bills
+ * takes one up every few weeks from its first floor week instead of none
+ * until the weeks left are few. A week takes at most as many as its floor
+ * days allow, and the last week takes what is left. The floor sits with
+ * business until the session ends instead of clearing it in the first
+ * weeks. The floor week votes the first of them; the floor date and the
+ * agenda the members read ahead come from the same weeks.
  */
 function* floorWeeks(
   api: CoreAPI,
@@ -2187,13 +2190,23 @@ function* floorWeeks(
   const committee = campaignParameter("sessionCommitteeDays");
   const queue = floorQueue(api, row);
   const done = new Set<number>();
+  // The session's bills in all, the floor weeks it has in all, and the bills
+  // already decided: what is owed by a week is read from these, so every
+  // reader of the floor's weeks (the vote, the date, the agenda) agrees on it.
+  const decided = row.bills.length;
+  const total = decided + queue.length;
+  const weeks = Math.max(
+    1,
+    Math.ceil(daysBetween(row.firstFloor, row.adjournAt) / 7),
+  );
   for (let date = first; date < row.adjournAt; date = plusDays(date, 7)) {
     const ready = plusDays(date, -committee);
-    const weeksLeft = Math.ceil(daysBetween(date, row.adjournAt) / 7);
-    const pace = Math.min(
-      row.perWeek,
-      Math.round((queue.length - done.size) / Math.max(1, weeksLeft)),
+    const week = Math.min(
+      weeks,
+      Math.max(1, Math.floor(daysBetween(row.firstFloor, date) / 7) + 1),
     );
+    const owed = Math.ceil((total * week) / weeks) - decided - done.size;
+    const pace = Math.max(0, Math.min(row.perWeek, owed));
     const taken: Queued[] = [];
     // The bills the leader calendared for this week keep it, whatever the
     // pace works out to be now; the weeks' other bills fill what room is left.
