@@ -2468,6 +2468,7 @@
           },
           "causeEngine": "press",
           "causeRecord": "press-call-back",
+          "setting": ["phone"],
           "bind": { "reporter": "counterpart", "official": "subject" },
           "opener": "reporter",
           "opening": "greet"

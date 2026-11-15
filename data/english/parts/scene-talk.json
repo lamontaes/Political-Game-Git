@@ -9081,7 +9081,8 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "press-comment",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "guarded",
@@ -9105,7 +9106,8 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "press-comment",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "calm",
@@ -9129,7 +9131,8 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "press-comment",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "guarded",
@@ -21297,6 +21300,15 @@
           "role": "narrator",
           "purpose": "scandal-comment",
           "key": "threat"
+        },
+        {
+          "subject": "scene",
+          "purpose": "press-comment",
+          "key": "routine",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["called-back", "outlet"]
         }
       ],
       "bearing": "braced",
@@ -48653,7 +48665,8 @@
           "role": "narrator",
           "purpose": "press-comment",
           "key": "routine",
-          "requiresFacts": ["signed"]
+          "requiresFacts": ["signed"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "guarded",
@@ -48678,7 +48691,8 @@
           "role": "narrator",
           "purpose": "press-comment",
           "key": "routine",
-          "requiresFacts": ["signed"]
+          "requiresFacts": ["signed"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "guarded",
@@ -48703,7 +48717,8 @@
           "role": "narrator",
           "purpose": "press-comment",
           "key": "routine",
-          "requiresFacts": ["signed"]
+          "requiresFacts": ["signed"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "guarded",
@@ -48728,7 +48743,8 @@
           "role": "narrator",
           "purpose": "press-comment",
           "key": "routine",
-          "requiresFacts": ["introduced", "same-day"]
+          "requiresFacts": ["introduced", "same-day"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "guarded",
@@ -48753,7 +48769,8 @@
           "requiresFacts": ["introduced", "same-day"],
           "role": "narrator",
           "step": "narrate",
-          "subject": "scene"
+          "subject": "scene",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "guarded",
@@ -48778,7 +48795,8 @@
           "requiresFacts": ["introduced", "same-day"],
           "role": "narrator",
           "step": "narrate",
-          "subject": "scene"
+          "subject": "scene",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "calm",
@@ -48803,7 +48821,8 @@
           "role": "narrator",
           "purpose": "press-comment",
           "key": "routine",
-          "requiresFacts": ["vetoed"]
+          "requiresFacts": ["vetoed"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "braced",
@@ -48828,7 +48847,8 @@
           "requiresFacts": ["vetoed"],
           "role": "narrator",
           "step": "narrate",
-          "subject": "scene"
+          "subject": "scene",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "braced",
@@ -48853,7 +48873,8 @@
           "requiresFacts": ["vetoed"],
           "role": "narrator",
           "step": "narrate",
-          "subject": "scene"
+          "subject": "scene",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "guarded",
@@ -48878,7 +48899,8 @@
           "role": "narrator",
           "purpose": "press-comment",
           "key": "routine",
-          "requiresFacts": ["veto-held"]
+          "requiresFacts": ["veto-held"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "braced",
@@ -48903,7 +48925,8 @@
           "requiresFacts": ["veto-held"],
           "role": "narrator",
           "step": "narrate",
-          "subject": "scene"
+          "subject": "scene",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "calm",
@@ -48928,7 +48951,8 @@
           "requiresFacts": ["veto-held"],
           "role": "narrator",
           "step": "narrate",
-          "subject": "scene"
+          "subject": "scene",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "calm",
@@ -49157,7 +49181,8 @@
           "role": "narrator",
           "purpose": "press-comment",
           "key": "routine",
-          "requiresFacts": ["vote-held"]
+          "requiresFacts": ["vote-held"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "guarded",
@@ -49182,7 +49207,8 @@
           "role": "narrator",
           "purpose": "press-comment",
           "key": "routine",
-          "requiresFacts": ["vote-held"]
+          "requiresFacts": ["vote-held"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "guarded",
@@ -54447,7 +54473,8 @@
           "role": "narrator",
           "purpose": "press-comment",
           "key": "routine",
-          "requiresFacts": ["introduced"]
+          "requiresFacts": ["introduced"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "guarded",
@@ -54472,7 +54499,8 @@
           "role": "narrator",
           "purpose": "press-comment",
           "key": "routine",
-          "requiresFacts": ["signed"]
+          "requiresFacts": ["signed"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "guarded",
@@ -119514,7 +119542,8 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "press-comment.friendly",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "calm",
@@ -119538,7 +119567,8 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "press-comment.friendly",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "calm",
@@ -119563,7 +119593,8 @@
           "role": "narrator",
           "purpose": "press-comment.friendly",
           "key": "routine",
-          "requiresFacts": ["bill"]
+          "requiresFacts": ["bill"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "calm",
@@ -120621,7 +120652,8 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "press-comment.hostile",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "guarded",
@@ -120645,7 +120677,8 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "press-comment.hostile",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "guarded",
@@ -120670,7 +120703,8 @@
           "role": "narrator",
           "purpose": "press-comment.hostile",
           "key": "routine",
-          "requiresFacts": ["bill", "same-day"]
+          "requiresFacts": ["bill", "same-day"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "guarded",
@@ -122104,7 +122138,8 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "press-comment.scandal",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "guarded",
@@ -122129,7 +122164,8 @@
           "role": "narrator",
           "purpose": "press-comment.scandal",
           "key": "routine",
-          "requiresFacts": ["read-scandal"]
+          "requiresFacts": ["read-scandal"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "guarded",
@@ -122153,7 +122189,8 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "press-comment.scandal",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "guarded",
@@ -123184,7 +123221,8 @@
           "role": "narrator",
           "purpose": "press-comment.national",
           "key": "routine",
-          "requiresFacts": ["story"]
+          "requiresFacts": ["story"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "calm",
@@ -123209,7 +123247,8 @@
           "role": "narrator",
           "purpose": "press-comment.national",
           "key": "routine",
-          "requiresFacts": ["bill"]
+          "requiresFacts": ["bill"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "calm",
@@ -123234,7 +123273,8 @@
           "role": "narrator",
           "purpose": "press-comment.national",
           "key": "routine",
-          "requiresFacts": ["outlet", "story"]
+          "requiresFacts": ["outlet", "story"],
+          "excludesFacts": ["called-back"]
         }
       ],
       "bearing": "calm",
@@ -187112,10 +187152,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.alright-i-ll-call-you-back",
+      "key": "scene-talk.follow-accept.alright-if-i-don-t-hear-from-you-i-ll-call-tomorrow",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Alright. I'll call you back.",
+      "text": "Alright. If I don't hear from you, I'll call tomorrow.",
       "uses": [
         {
           "subject": "scene",
