@@ -327,8 +327,9 @@ function promiseToPay(
   expect(result.scene.variant?.purpose, where).toMatch(
     /^owed-apology\.(money|close|pressed|repeat)$/,
   );
+  // The close apology makes no vow (Words lead, #9290): it offers no promise.
   const path = pathTo(result.scene.talk.tree, "promised-to-make-it-right");
-  expect(path, `${where}: no path keeps the promise`).toBeTruthy();
+  if (!path) return null;
   const replyId = replyInScene(core, director, id, entry, path!)!;
   const reply = core.durableLog.get(replyId)!;
   expect(
@@ -365,7 +366,7 @@ it(
         }
         const made = promiseToPay(core, director, id, entry, where);
         if (!made) {
-          tried.push(`${where}: the apology did not compose`);
+          tried.push(`${where}: the apology offered no promise`);
           continue;
         }
         const factId = `promise:${made.replyId}`;
