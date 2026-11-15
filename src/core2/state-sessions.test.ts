@@ -9,7 +9,8 @@ import { addDays, makeIsoDate } from "./kernel/dates";
 import type { LawRowInput } from "./laws-starting";
 import { advanceCore } from "./life";
 import { lawChain, LAWS_MODULE_ID } from "./modules/laws";
-import { answerIn, rollCallOf } from "./modules/world-legislating";
+import { rollCallOf } from "./modules/world-legislating";
+import { answerIn } from "./modules/laws";
 import { coreAPI } from "./state";
 
 const replay = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
