@@ -7,12 +7,14 @@
  *
  * Pinned places: each test draws places from all 56 on a fixed seed (named
  * here and in each line it prints) and plays the first that has the case,
- * printing what it passed over. HAND-STAGED, labeled where they stand: the
- * missed payment that starts the quarrel (as apology-variants.test.ts) and
- * the hire that brings the new coworker (as meeting-scene.test.ts). From
- * there the quarrel, the scene, the reply, the record that settles the
- * promise and the tie are the engines' own.
+ * printing what it passed over. The pay-on-time test plays a pinned
+ * borrower (`BORROWERS`) whose loan and missed payments are the credit
+ * engine's own. HAND-STAGED, labeled where they stand: the hire that brings
+ * the new coworker (as meeting-scene.test.ts) and the townsperson met for
+ * the meeting ask. From there the scene, the reply, the record that settles
+ * the promise and the tie are the engines' own.
  */
+import paymentWords from "../../data/english/payment-words.json" with { type: "json" };
 import { expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
 import { drawPlace } from "../../scripts/core2-year/place";
@@ -21,8 +23,8 @@ import { closenessBetween } from "../core2/closeness";
 import { gameStartDate } from "../core2/game-start";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
-import { advancePlayerV1, resumePlayerV1 } from "../core2/player-v1";
-import { applyCoreEvent, coreAPI } from "../core2/state";
+import { JOBS_MODULE_ID } from "../core2/modules/jobs";
+import { coreAPI } from "../core2/state";
 import type { CoreState, JobInput, PersonId } from "../core2/types";
 import { seatAct, seatView } from "../bench/legislature";
 import {
@@ -34,12 +36,7 @@ import {
 } from "../core2/modules/legislature";
 import { townSeats } from "../core2/modules/offices";
 import { partyTie } from "../core2/modules/elections";
-import {
-  attendMeeting,
-  leaveMeeting,
-  meetingInProgress,
-  meetingOf,
-} from "../core2/modules/office-day";
+import { attendMeeting, meetingOf } from "../core2/modules/office-day";
 import { sharedHistory } from "../core2/past";
 import { nextMeetingFacts } from "./meeting-facts";
 import { openConversation, say } from "./conversation";
@@ -51,6 +48,13 @@ import { kindOf, promisesBetween } from "./promises";
 import { purposeScene, replyInScene } from "./purpose-scene";
 import type { ScheduleEntry } from "./scheduling";
 import type { TreeNode } from "./scene-talk";
+import {
+  borrowerWorld,
+  LOAN_SEED,
+  PAYDAY_BORROWER,
+  play,
+  playToQuarrel,
+} from "../../tests/support/real-borrower";
 
 /** The ledger put back as it was, in place (the director keeps its own reference). */
 function restoreInPlace(target: object, saved: object): void {
@@ -253,32 +257,6 @@ function pathTo(tree: TreeNode, ending: string): number[] | undefined {
   });
 }
 
-/** Plays the player's days with the clock, taking the first choice at each pause (meeting-scene.test.ts). */
-function play(core: CoreState, playerId: PersonId, days: number) {
-  let packet: ReturnType<typeof advancePlayerV1> | undefined = advancePlayerV1(
-    core,
-    {
-      controlledPersonId: playerId,
-      through: { date: addDays(makeIsoDate(core.date), days), minuteOfDay: 0 },
-    },
-  );
-  while (packet && packet.kind !== "complete") {
-    // A resident held at a meeting they marked sits through its public
-    // comment and leaves (office-day's own act, which records that they came).
-    const meeting =
-      packet.kind === "stop" ? meetingInProgress(coreAPI(core)) : undefined;
-    if (meeting?.audience === playerId) leaveMeeting(coreAPI(core), meeting.id);
-    packet =
-      packet.kind === "stop"
-        ? resumePlayerV1(core, { kind: "stop", pauseId: packet.pauseId })
-        : resumePlayerV1(core, {
-            kind: "choice",
-            pauseId: packet.pauseId,
-            offerId: packet.offers[0]!.offerId,
-          });
-  }
-}
-
 function world(attempt: number, label: string) {
   const place = drawPlace(SEED, `${label}:${attempt}`);
   const where = `${place.name} (${place.key}), seed ${SEED} draw ${label}:${attempt}, world seed ${place.seed}`;
@@ -289,23 +267,83 @@ function world(attempt: number, label: string) {
   return { ...built, where };
 }
 
-/** HAND-STAGED: the credit engine's missed-payment record for the player. */
-function missPayment(core: CoreState, id: PersonId, tag: string): string {
-  const missedId = `event:credit.payment-missed:${tag}:${core.date}`;
-  applyCoreEvent(core, {
-    id: missedId,
-    date: core.date,
-    kind: "credit.payment-missed",
-    personIds: [id],
-    placeId: core.people.get(id)!.placeId,
-    publicRecord: false,
-    source: {
-      tag: "ESTIMATED",
-      asOf: core.date,
-      citation: "Hand-staged missed payment for the promises test.",
-    },
-  });
-  return missedId;
+/** Each plays the pinned borrower (tests/support/real-borrower.ts); one takes work after the promise. */
+const BORROWERS: readonly {
+  draw: number;
+  birth: string;
+  /** The player says yes to the next job an employer calls about (the jobs engine's offer, in its scene). */
+  takesWork: boolean;
+}[] = [
+  { ...PAYDAY_BORROWER, takesWork: false },
+  { ...PAYDAY_BORROWER, takesWork: true },
+];
+/** Days an employer's call may take to come: the jobs engine makes offers weekly, from its open positions. */
+const OFFER_DAYS = 60;
+/**
+ * The pay test plays the borrower's days twice, about nine months each (the
+ * loan, the missed payment, the promise's window): 578 seconds measured on
+ * Nov 15, so twice that.
+ */
+const PAY_TIMEOUT = 1_200_000;
+/** The player's yes to the next employer's call, said in its scene (as job-offer-through-person.test.ts); the job taken. */
+function takeWork(
+  core: CoreState,
+  director: Director,
+  id: PersonId,
+  where: string,
+): string | undefined {
+  const until = addDays(makeIsoDate(core.date), OFFER_DAYS);
+  const book = director.ledger.people.get(id)!;
+  const jobs = coreAPI(core).moduleState(JOBS_MODULE_ID).table("offers");
+  // The call about an offer still open (an earlier one lapsed at its deadline).
+  const open = (momentId: string) => {
+    const cause = core.durableLog.get(
+      book.momentsById.get(momentId)?.causeId ?? "",
+    );
+    const offer = jobs.get(String(cause?.facts?.offerId ?? "")) as
+      { status: string } | undefined;
+    return offer?.status === "pending";
+  };
+  for (;;) {
+    const entry = book.schedule.find(
+      (item) =>
+        item.bindings.some((binding) => binding.typeKey === "job-offer") &&
+        open(item.momentId),
+    );
+    if (entry) {
+      const composed = purposeScene(core, director, id, entry, {
+        typeKey: "job-offer",
+      });
+      expect(composed?.kind, where).toBe("composed");
+      if (composed?.kind !== "composed") return undefined;
+      const yes = composed.scene.talk.tree.replies.findIndex(
+        (reply) => reply.line.move === "agree",
+      );
+      expect(yes, where).toBeGreaterThanOrEqual(0);
+      replyInScene(core, director, id, entry, [yes], { typeKey: "job-offer" });
+      return core.people.get(id)!.jobId;
+    }
+    if (core.date >= until) return undefined;
+    play(core, id, 5);
+  }
+}
+
+/** The loan a missed payment was on (its record's facts), for the played file. */
+function missedLoan(
+  core: CoreState,
+  endedBy: string | undefined,
+  replyId: string,
+): string {
+  const log = core.durableLog;
+  const broke = log.get(endedBy ?? "");
+  const cause = log.get(log.get(replyId)?.facts?.causeId ?? "");
+  const missed =
+    broke?.kind === "credit.payment-missed"
+      ? broke
+      : log.get(cause?.facts?.missedId ?? "");
+  return missed
+    ? `${missed.facts?.loanKind} ${missed.facts?.loanId} (${missed.id})`
+    : "(none)";
 }
 
 /** The next apology scene staged for the player, by day, a fortnight at most. */
@@ -356,88 +394,97 @@ function promiseToPay(
 }
 
 it(
-  `a promise to pay on time after a money quarrel is broken by the next missed payment and kept when the window closes with none (seed ${SEED})`,
+  `a promise to pay on time after a money quarrel over a real missed payment is broken by the next one, and kept when the player takes work and misses none (seed ${LOAN_SEED})`,
   () => {
     setBookkeeping(false);
-    const tried: string[] = [];
     try {
-      // One promise a place: the first place breaks it, the next keeps it or
-      // breaks it as its own payments say.
       const done: string[] = [];
-      for (
-        let attempt = 0;
-        attempt < ATTEMPTS && done.length < 2;
-        attempt += 1
-      ) {
-        const { core, director, playerId, where } = world(attempt, "pay");
+      for (const { draw, birth, takesWork } of BORROWERS) {
+        const { core, director, playerId, where } = borrowerWorld(draw, birth);
         const id = playerId as PersonId;
         director.watch(core, id);
-        // The opening's addresses wait for the player: the world runs past them.
-        advanceCore(core, addDays(makeIsoDate(core.date), 30));
-        missPayment(core, id, `promises-${attempt}-a`);
+        // The longer run is the game's own: the player's days until the bank
+        // or the storefront lender writes the loan and the payment goes unpaid.
+        const quarrel = playToQuarrel(core, id);
+        expect(
+          quarrel,
+          `${where}: no missed payment by ${core.date}`,
+        ).toBeTruthy();
+        const missed = core.durableLog.get(String(quarrel!.facts?.missedId));
+        expect(missed?.kind, where).toBe("credit.payment-missed");
         const entry = nextApology(core, director, id, new Set());
-        if (!entry) {
-          tried.push(`${where}: no apology staged`);
-          continue;
-        }
-        const made = promiseToPay(core, director, id, entry, where);
-        if (!made) {
-          tried.push(`${where}: the apology did not compose`);
-          continue;
-        }
-        const factId = `promise:${made.replyId}`;
+        expect(entry, `${where}: no apology staged`).toBeTruthy();
+        const made = promiseToPay(core, director, id, entry!, where);
+        expect(made, `${where}: the apology did not compose`).toBeTruthy();
+        const factId = `promise:${made!.replyId}`;
         const find = () =>
-          promisesBetween(director.ledger, id, made.owedId).find(
+          promisesBetween(director.ledger, id, made!.owedId).find(
             (row) => row.id === factId,
           )!;
         expect(find().outcome, where).toBe("open");
-        const before = closenessBetween(core, id, made.owedId);
-        if (!done.length) {
-          // Broken: the borrower's next missed payment (HAND-STAGED) settles it.
-          const missedId = missPayment(core, id, `promises-${attempt}-b`);
-          expect(find().outcome, where).toBe("broken");
-          expect(find().endedBy, where).toBe(missedId);
-          expect(closenessBetween(core, id, made.owedId), where).toBeLessThan(
-            before,
+        const before = closenessBetween(core, id, made!.owedId);
+        // The engine's own payments decide: a missed payment in the window
+        // breaks it, none keeps it on the window's last day.
+        // The promise's own move on the tie, the day it settles (or the day
+        // it is said, when the two were apart), apart from two months at home.
+        const moves: string[] = [];
+        coreAPI(core).subscribeRelationshipChanges(
+          "promises-tie",
+          ["*"],
+          (_, notice) => {
+            if (notice.reason?.sourceId !== factId) return;
+            for (const change of notice.changes)
+              if (change.measure === "level")
+                moves.push(
+                  `${notice.date} ${notice.reason.cause}: tie level ${change.before.toFixed(8)} to ${change.after.toFixed(8)}`,
+                );
+          },
+        );
+        const later: string[] = [];
+        coreAPI(core).subscribeEvents(
+          "promises-test",
+          ["credit.payment-missed"],
+          (_, event) => {
+            if (event.personIds[0] === id) later.push(event.id);
+          },
+        );
+        // Work taken through the game's own call pays the bills that follow.
+        const job = takesWork ? takeWork(core, director, id, where) : undefined;
+        if (takesWork) expect(job, `${where}: no job taken`).toBeTruthy();
+        const windowEnd = addDays(makeIsoDate(find().since), 63);
+        play(
+          core,
+          id,
+          Math.round(
+            (Date.parse(windowEnd) - Date.parse(core.date)) / 86_400_000,
+          ),
+        );
+        expect(find().outcome, `${where}: missed ${later.join(",")}`).toBe(
+          later.length ? "broken" : "kept",
+        );
+        if (later.length) expect(find().endedBy, where).toBe(later[0]);
+        else
+          expect(find().endedAt, where).toBe(
+            addDays(makeIsoDate(find().since), 62),
           );
-        } else {
-          // The engine's own payments decide: a real missed payment in the
-          // window breaks it, none keeps it on the window's last day.
-          const missed: string[] = [];
-          coreAPI(core).subscribeEvents(
-            "promises-test",
-            ["credit.payment-missed"],
-            (_, event) => {
-              if (event.personIds[0] === id) missed.push(event.id);
-            },
-          );
-          play(core, id, 63);
-          expect(find().outcome, `${where}: missed ${missed.join(",")}`).toBe(
-            missed.length ? "broken" : "kept",
-          );
-          if (!missed.length)
-            expect(find().endedAt, where).toBe(
-              addDays(makeIsoDate(find().since), 62),
-            );
-        }
         const ended = find();
-        const said = talkOf(core, director, made.owedId, id, where);
+        const said = talkOf(core, director, made!.owedId, id, where);
+        // The talk names the payment it was about, from the missed payment's loan.
+        const payment = Object.values(paymentWords.payments).find((name) =>
+          said.includes(name),
+        );
+        if (ended.outcome === "broken")
+          expect(payment, `${where}: ${said}`).toBeTruthy();
         done.push(
-          `${where}: ${said}\n    ${factId} owed to ${made.owedId}, ${ended.outcome} by ${ended.endedBy} on ${ended.endedAt}, closeness ${before.toFixed(5)} to ${closenessBetween(core, id, made.owedId).toFixed(5)}`,
+          `${where}${takesWork ? `, took work ${job}` : ""}: ${said}\n    payment ${payment ?? "(not named)"}, the missed payment's loan ${missedLoan(core, ended.endedBy, made!.replyId)}\n    the promise's own move: ${moves.join("; ") || "(none)"}\n    quarrel ${quarrel!.id}\n    ${factId} owed to ${made!.owedId}, ${ended.outcome} by ${ended.endedBy} on ${ended.endedAt}, closeness from the promise to the talk ${before.toFixed(5)} to ${closenessBetween(core, id, made!.owedId).toFixed(5)}`,
         );
       }
-      if (done.length === 2) {
-        process.stdout.write(
-          `PAY ON TIME\n  ${done.join("\n  ")}\n  Passed over: ${tried.join("; ") || "none"}\n`,
-        );
-        return;
-      }
-      throw new Error(`No place played the promise: ${tried.join("; ")}`);
+      process.stdout.write(`PAY ON TIME\n  ${done.join("\n  ")}\n`);
     } finally {
       setBookkeeping(true);
     }
   },
-  TIMEOUT,
+  PAY_TIMEOUT,
 );
 
 /** HAND-STAGED: a person hired into a role as the jobs engine's `hire` does (meeting-scene.test.ts). */

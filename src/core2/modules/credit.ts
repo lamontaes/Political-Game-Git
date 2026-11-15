@@ -1541,6 +1541,8 @@ function serviceLoans(api: CoreAPI): void {
           citation: creditData.source.citation,
           estimatedFrom: `${loan.id}: the borrower's cash covered ${paid} of the ${Math.round(due)} due.`,
         },
+        // The loan behind it, so a talk can name the payment (promise-talk.ts).
+        facts: { loanId: loan.id, loanKind: loan.kind },
         ...severityImpulse(api, DEFAULT_HEALTH_DATA.missedPaymentSeverity),
       });
     const { firstPastDueAt: previousPastDueAt, ...rest } = loan;
