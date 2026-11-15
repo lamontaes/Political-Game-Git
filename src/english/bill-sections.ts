@@ -60,6 +60,8 @@ interface NamesData {
   amounts: Record<string, AmountWords>;
   units: Record<string, string>;
   cited: string;
+  /** A law amount as the law in force reads it: `{subject}` and `{value}` ("the property tax rate is 0.28 percent"). */
+  stands: string;
 }
 export const BILL_SECTIONS = sectionsJson as unknown as NamesData;
 
@@ -90,6 +92,11 @@ export interface BillWordsInput {
    * raise from a cut, to say what it was, and to cite the bill that enacted
    * it, said in that bill's own form, or a starting law's recorded statute.
    */
+  /**
+   * Word each law amount as the law in force reads it, not as a change to it: the struck side of a
+   * Compare view, where a section that raised a value to itself would read as a raise by nothing.
+   */
+  readonly standing?: boolean;
   readonly before?: readonly ({
     readonly value: number | null;
     readonly unit?: string | null;
@@ -127,8 +134,16 @@ export const dollars = (minor: number) =>
     minimumFractionDigits: Number.isInteger(minor / 100) ? 0 : 2,
   })}`;
 
-/** A value as its unit says it: "4.5 percent", "$15 an hour". */
-export function valueWords(value: number, unit: string | undefined): string {
+/**
+ * A value as its unit says it: "4.5 percent", "$15 an hour". A rate reads to at most two decimals
+ * (8.773 reads 8.77), the way every screen says it; `places` asks for more where two would make two
+ * different rates read the same.
+ */
+export function valueWords(
+  value: number,
+  unit: string | undefined,
+  places = 2,
+): string {
   const kind = !unit
     ? "percent"
     : unit.startsWith("percent")
@@ -137,7 +152,7 @@ export function valueWords(value: number, unit: string | undefined): string {
   const template = BILL_SECTIONS.units[kind];
   if (!template) return String(value);
   return fill(template, {
-    value,
+    value: kind === "percent" ? Number(value.toFixed(places)) : value,
     dollars: kind === "minor/hour" ? dollars(value) : dollars(value * 100),
   });
 }
@@ -205,12 +220,26 @@ function wordsOf(
     const lower = p.operation
       ? p.operation === "lower"
       : old != null && p.value < old;
+    if (input.standing)
+      return {
+        key: p.series,
+        subject: row.subject,
+        purpose: row.purpose,
+        clause: fill(BILL_SECTIONS.stands, {
+          subject: row.subject,
+          value: valueWords(p.value, p.unit ?? was?.unit ?? undefined),
+        }),
+        repeal: false,
+      };
     // The value the law had, in its own unit when the record gives one.
-    const slots = {
+    const slotsAt = (places: number) => ({
       // A section that names no unit takes the law row's, never a default percent.
-      value: valueWords(p.value, p.unit ?? was?.unit ?? undefined),
-      before: old != null ? valueWords(old, was?.unit ?? p.unit) : "",
-    };
+      value: valueWords(p.value, p.unit ?? was?.unit ?? undefined, places),
+      before: old != null ? valueWords(old, was?.unit ?? p.unit, places) : "",
+    });
+    // Two rates that differ only past the second decimal read the same at two: say more of both.
+    let slots = slotsAt(2);
+    if (old != null && slots.before === slots.value) slots = slotsAt(4);
     const words =
       old != null
         ? lower
@@ -310,7 +339,7 @@ export function composeBill(input: BillWordsInput): ComposedBill | null {
     // A phase-in's steps each name their own day, so the paper never reads as
     // two changes made at once: the section says when it takes effect.
     const own = input.provisions[i]?.effectiveDate;
-    return dates.size > 1 && own
+    return dates.size > 1 && own && !input.standing
       ? `${text} ${fill(form.effective["section-date"], { number: i + 1, date: spokenDate(own) })}`
       : text;
   });
