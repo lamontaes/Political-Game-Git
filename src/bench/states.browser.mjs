@@ -1,4 +1,4 @@
-/* global process, console, fetch */
+/* global process, console, fetch, URL */
 // Another state's changes and their roll calls (play-states-screen-opens-any-state),
 // on the bench (npm run bench): a new life in a drawn place, 240 days run with
 // dev mode, then Politics, Government, State, and two other states in turn:
