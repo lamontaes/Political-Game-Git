@@ -187806,7 +187806,8 @@
           "role": "asked",
           "purpose": "emergency-briefing",
           "key": "threat",
-          "requiresFacts": ["again"]
+          "requiresFacts": ["again"],
+          "setsFacts": ["undecided"]
         }
       ],
       "origin": "authored",
@@ -187818,20 +187819,20 @@
       }
     },
     {
-      "key": "scene-talk.follow-answer.you-have-until-deadline-governor",
-      "move": "follow-answer",
+      "key": "scene-talk.close-answer.you-have-until-deadline-governor",
+      "move": "close-answer",
       "kind": "spoken",
       "text": "You have until {deadline}, Governor.",
       "uses": [
         {
           "subject": "scene",
-          "step": "follow",
+          "step": "close",
           "move": "answer",
           "role": "asker",
           "purpose": "emergency-briefing",
           "key": "threat",
           "after": "leave",
-          "requiresFacts": ["deadline"]
+          "requiresFacts": ["deadline", "undecided"]
         }
       ],
       "origin": "authored",

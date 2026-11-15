@@ -1077,8 +1077,7 @@
       "follow": {
         "agree": ["thank"],
         "decline": ["accept", "warn"],
-        "ask": ["answer"],
-        "leave": ["answer"]
+        "ask": ["answer"]
       },
       "again": {
         "answer": ["agree", "decline"],
