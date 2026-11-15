@@ -1446,6 +1446,24 @@ function composeBinding(
       text: asker.givenName,
       sourceRecordIds: [relation.tieId],
     };
+  // What passed between them in an earlier scene, from its reply records: the
+  // asker came before, and the asked person helped or refused then.
+  const passed = relation.passed;
+  if (passed.askedBefore.length)
+    facts["asked-before"] = {
+      text: asker.givenName,
+      sourceRecordIds: passed.askedBefore,
+    };
+  if (passed.helpedBefore.length)
+    facts["helped-before"] = {
+      text: asker.givenName,
+      sourceRecordIds: passed.helpedBefore,
+    };
+  if (passed.refusedBefore.length)
+    facts["refused-before"] = {
+      text: asker.givenName,
+      sourceRecordIds: passed.refusedBefore,
+    };
   // A committee trade coming due on the floor (legislature.ts
   // recordPromises): the member promised their vote, and the lines about a
   // promised vote need it.

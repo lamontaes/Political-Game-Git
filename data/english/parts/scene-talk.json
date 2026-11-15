@@ -73620,7 +73620,8 @@
           "step": "open",
           "move": "greet",
           "role": "asker",
-          "requiresFacts": ["law"]
+          "requiresFacts": ["law"],
+          "excludesFacts": ["acquainted", "asked-before"]
         }
       ],
       "bearing": "calm",
