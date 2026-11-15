@@ -391,7 +391,7 @@
       "options": [
         {
           "id": "claim-truth",
-          "actKinds": ["follow-rules", "speak-out"]
+          "actKinds": ["follow-rules"]
         },
         {
           "id": "claim-false",

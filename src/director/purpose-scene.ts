@@ -2561,10 +2561,10 @@ function askStanding(
   const price = askPrice(api, said.billId, colleagueId, playerId);
   const lean = memberPosition(api, said.billId, colleagueId).total;
   const favor = favorWorth(api, colleagueId, playerId);
-  // Where their own vote is no, the colleague weighs saying yes anyway,
-  // rather than saying no or trading their vote for a favor or a price: what
-  // the no would cost them with the player against their temperament and the
-  // roll call that will show it (told-claims).
+  // Where their own vote is no, the colleague weighs saying yes anyway:
+  // refusing the player to their face tonight against a word the roll call
+  // will show was not kept, each as the scene's own strain on their tie, with
+  // their temperament (told-claims).
   const absence = absenceCarries(api, said.billId, colleagueId, playerId);
   const told =
     lean > P.zero
@@ -2574,7 +2574,11 @@ function askStanding(
           colleagueId,
           playerId,
           { kind: "vote", billId: said.billId },
-          { wanted: "yes" },
+          {
+            wanted: "yes",
+            refusedHours: ENDING_STRAIN["relationship-strained"]!.value,
+            foundOutHours: ENDING_STRAIN["trust-lost"]!.value,
+          },
         );
   return {
     lean,
@@ -3141,6 +3145,7 @@ export function replyInScene(
         scene.told.claim,
         scene.told.told,
         id,
+        ENDING_STRAIN["trust-lost"]!.value,
       )
     : null;
   if (lieId && scene.told && core.modules.has(BELIEFS_MODULE_ID)) {

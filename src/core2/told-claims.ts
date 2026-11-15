@@ -7,23 +7,33 @@
  * side is `heard-claims.ts`, and the player's own lie is the conversation
  * engine's scales.
  *
- * Decided only at the moment a scene puts the claim in their mouth, so a
- * played year is unchanged. Two offers go to the core's one chooser: the
- * truth, pulled by the truth-default and by how public the fact is, and the
- * false claim, pulled by what the truth would cost them by their record. The
- * chooser's trait term reads truthfulness and the sincere and manipulative
- * facets through the act kinds of `claims.tell`. Truth that costs nothing is
- * told without weighing.
+ * Decided only at the moment a scene puts the claim in their mouth, and only
+ * where the player is told, so the unattended world is unchanged. Two offers
+ * go to the core's one chooser, each weighed as the closeness it would cost
+ * the speaker's tie with the one asking, from the hours the scene's own
+ * endings already strain a tie by (the caller passes them; no weight here):
+ * - the true answer, refusing them to their face tonight;
+ * - the false answer, a word the roll call will show was not kept, times how
+ *   public that is (1: a public record will settle it).
+ * Temperament is the chooser's trait term over truthfulness and the sincere
+ * and manipulative facets (`claims.tell`), at the general trait weight; the
+ * truth-default lives in that scale. Truth that costs nothing is told
+ * without weighing.
+ *
+ * A lie (said yes meaning no) is kept apart from a word changed later (meant
+ * yes, then voted no; OWNER-DECISIONS, "I know I told you yes, but I can't
+ * this time"): only a lie has a `lies` row, from the moment it was said. The
+ * player cannot tell them apart; the roll call shows only that the vote did
+ * not match the word.
  *
  * A claim is offered as a lie only where a record can show it false later
  * (`claimRecord`): a vote, which the roll call shows; a run, which the filing
  * shows. A promise of a secret ballot has no such record and is never a lie.
- * The lie is kept (`lies`) by its event id; when the record that settles it
- * is made, the one told learns the truth from that record and the tie
- * strains (`exposeVoteLies`, `exposeRunLies`). No screen calls it a lie.
+ * The lie is kept (`lies`) by its event id; when the roll call settles it,
+ * the one told learns the truth from that record and the tie strains
+ * (`exposeVoteLies`). No screen calls it a lie.
  */
-import rows from "./data/claims/parameters.json" with { type: "json" };
-import { closenessBetween } from "./closeness";
+import { closenessAfter, closenessBetween } from "./closeness";
 import { decisionFromScores, scoreOffers } from "./choice";
 import { decisionKinds } from "./trait-decision-table";
 import { ELECTIONS_MODULE_ID, type FilingRow } from "./modules/elections";
@@ -37,7 +47,6 @@ import {
   registerLegislatureHooks,
   type BillRow,
 } from "./modules/legislature";
-import type { Parameter } from "./parameters";
 import type {
   ActionDefinition,
   ActOffer,
@@ -47,16 +56,12 @@ import type {
 } from "./types";
 
 export const TOLD_CLAIMS_MODULE_ID = "told-claims";
-export const CLAIM_PARAMETERS = rows as Readonly<Record<string, Parameter>>;
 /** The record of a false claim told to someone, by the same kind as the player's lie. */
 export const CLAIM_LIE_EVENT = "conversation.lie";
 /** The record that someone told a false claim learned the truth from a record. */
 export const CLAIM_FOUND_OUT_EVENT = "claim.found-out";
 
-function c(api: CoreAPI, key: string): number {
-  const row = CLAIM_PARAMETERS[key];
-  return row ? row.value : api.parameter(key);
-}
+const c = (api: CoreAPI, key: string): number => api.parameter(key);
 
 /** What a scene asks a person about: how they will vote on a bill, or whether they run in a contest. */
 export type Claim =
@@ -71,7 +76,7 @@ export interface ClaimFact {
   readonly truth: "yes" | "no";
   /** The false answer: the other one. */
   readonly claimed: "yes" | "no";
-  /** 0 known only to the speaker, up to 1 on a public record already. */
+  /** 1: a public record holds it now, or will settle it (a roll call, a filing). */
   readonly publicity: number;
   /** The records the fact was read from. */
   readonly sourceIds: readonly string[];
@@ -126,7 +131,7 @@ export function claimRecord(
     return fact(
       key,
       memberPosition(api, bill.id, personId).total > c(api, "zero"),
-      c(api, "claimSettledLaterShare"),
+      c(api, "one"),
       [bill.id],
     );
   }
@@ -144,31 +149,21 @@ export function claimRecord(
   // Not filed: what they decided, which the filing list will show.
   const decided = decisionOf(api, claim.contestId, personId);
   if (!decided) return null;
-  return fact(key, decided.run, c(api, "claimSettledLaterShare"), [decided.id]);
+  return fact(key, decided.run, c(api, "one"), [decided.id]);
 }
 
-/**
- * What the true answer would cost the speaker with this hearer, between 0
- * and 1, read from the record: a vote against what the hearer asks strains
- * the tie between them (their closeness); a run in a race the hearer is in
- * tells a rival early. Nothing else costs anything.
- */
-export function truthCost(
+/** How much closeness `hours` of strain would take off the tie between two people today. */
+function strainCost(
   api: CoreAPI,
-  speakerId: PersonId,
-  hearerId: PersonId,
-  claim: Claim,
-  fact: ClaimFact,
-  wanted?: "yes" | "no",
+  a: PersonId,
+  b: PersonId,
+  hours: number,
 ): number {
-  const zero = c(api, "zero");
-  if (claim.kind === "vote")
-    return wanted && wanted !== fact.truth
-      ? closenessBetween(api.state, speakerId, hearerId)
-      : zero;
-  if (fact.truth !== "yes") return zero;
-  const rival = claimRecord(api, hearerId, claim);
-  return rival?.truth === "yes" ? c(api, "one") : zero;
+  const row = api.state.relationships.get(a < b ? `${a}:${b}` : `${b}:${a}`);
+  return row
+    ? closenessBetween(api.state, a, b) -
+        closenessAfter(api.state, row, row.kind, -hours)
+    : c(api, "zero");
 }
 
 /** What a speaker said to a claim, and the record of a false one. */
@@ -207,9 +202,8 @@ const OFFERS = [action("claim-truth"), action("claim-false")];
 
 /**
  * Whether a person says the true thing to a claim a scene asks of them, from
- * their record: the chooser weighs the truth-default and how public the fact
- * is (and who present already knows it) against what the truth would cost
- * them, with their temperament. Pure: it keeps nothing, so a scene composed
+ * their record: the chooser weighs what the truth would forfeit against the
+ * risk of being found out, with their temperament. Pure: it keeps nothing, so a scene composed
  * twice says the same; `keepToldClaim` keeps a false one once it is said.
  * Null where no record holds the fact.
  */
@@ -218,34 +212,33 @@ export function tellsTruth(
   speakerId: PersonId,
   hearerId: PersonId,
   claim: Claim,
-  options: {
-    /** The answer the hearer asked for, where they asked for one. */
-    readonly wanted?: "yes" | "no";
-    /** Others in the room. */
-    readonly presentIds?: readonly PersonId[];
-  } = {},
+  stakes: {
+    /** The answer the hearer asked for. */
+    readonly wanted: "yes" | "no";
+    /** Hours a refusal to their face strains the tie by (the scene's strained ending). */
+    readonly refusedHours: number;
+    /** Hours a word shown not kept strains the tie by (the scene's trust lost). */
+    readonly foundOutHours: number;
+  },
 ): ToldClaim | null {
   const fact = claimRecord(api, speakerId, claim);
   if (!fact) return null;
   const truthful = { fact, truthful: true, said: fact.truth } as const;
-  const cost = truthCost(api, speakerId, hearerId, claim, fact, options.wanted);
-  if (!(cost > c(api, "zero")) || !api.state.people.get(speakerId)?.alive)
+  // Only a vote the one asking will not get is a refusal; a run's denial
+  // waits on the scene that asks it.
+  if (
+    claim.kind !== "vote" ||
+    stakes.wanted === fact.truth ||
+    !api.state.people.get(speakerId)?.alive
+  )
     return truthful;
-  // Others present who already know the truth, as the speaker would expect.
-  let holders = c(api, "zero");
-  for (const id of options.presentIds ?? [])
-    if (
-      id !== speakerId &&
-      id !== hearerId &&
-      api.state.knowledgeByPerson.get(id)?.get(fact.key)?.value === fact.truth
-    )
-      holders += c(api, "one");
+  // The truth costs the tie a refusal now; the false yes, a broken word at
+  // the roll, as public as the record that settles it.
   const circumstances = {
-    truth:
-      c(api, "claimTruthPull") +
-      c(api, "claimPublicityWeight") * fact.publicity +
-      c(api, "claimHolderWeight") * holders,
-    false: c(api, "claimCostWeight") * cost,
+    truth: -strainCost(api, speakerId, hearerId, stakes.refusedHours),
+    false:
+      -fact.publicity *
+      strainCost(api, speakerId, hearerId, stakes.foundOutHours),
   };
   const offers: ActOffer[] = OFFERS.map((definition) => ({
     definition,
@@ -288,6 +281,8 @@ export interface LieRow {
   readonly date: string;
   /** The record the claim was said in (a scene reply). */
   readonly saidIn: string;
+  /** Hours the tie is strained by when the record shows the word was not kept. */
+  readonly foundOutHours: number;
 }
 
 const lies = (api: CoreAPI) =>
@@ -306,6 +301,8 @@ export function keepToldClaim(
   claim: Claim,
   told: ToldClaim,
   saidIn: string,
+  /** Hours the tie is strained by when the record shows the word was not kept. */
+  foundOutHours: number,
 ): string | null {
   if (told.truthful || !api.state.modules.has(TOLD_CLAIMS_MODULE_ID))
     return null;
@@ -343,6 +340,7 @@ export function keepToldClaim(
     truth: told.fact.truth,
     date: api.state.date,
     saidIn,
+    foundOutHours,
   } satisfies LieRow);
   return id;
 }
@@ -355,8 +353,8 @@ export function liesTo(api: CoreAPI, hearerId: PersonId): readonly LieRow[] {
 
 /**
  * The record that settles a lie is made: the one told learns the truth from
- * it (a public fact), the tie strains by the lie's weight and the tie's
- * closeness, and the lie's row is done.
+ * it (a public fact), the tie strains by the hours a word not kept costs
+ * (kept on the row from the scene that heard it), and the lie's row is done.
  */
 function expose(api: CoreAPI, lie: LieRow, recordId: string, truth: string) {
   const hearer = api.state.people.get(lie.hearerId);
@@ -396,9 +394,7 @@ function expose(api: CoreAPI, lie: LieRow, recordId: string, truth: string) {
     lie.hearerId,
     lie.speakerId,
     "contact",
-    -c(api, "claimFoundOutStrainHours") *
-      (c(api, "one") +
-        closenessBetween(api.state, lie.hearerId, lie.speakerId)),
+    -lie.foundOutHours,
     undefined,
     { cause: "found-out", sourceId: id },
   );
@@ -422,20 +418,6 @@ export function exposeVoteLies(api: CoreAPI, billId: string): void {
   }
 }
 
-/** A filing made (`candidate-filed`): a run someone denied is on the clerk's list now. */
-function exposeRunLies(api: CoreAPI, filingId: string): void {
-  const filing = api
-    .moduleState(ELECTIONS_MODULE_ID)
-    .table("filings")
-    .get(filingId) as unknown as FilingRow | undefined;
-  if (!filing) return;
-  for (const lie of lies(api).query("bySubject", [
-    filing.contestId,
-  ]) as unknown as LieRow[])
-    if (lie.speakerId === filing.personId && lie.claimed === "no")
-      expose(api, lie, filing.id, "yes");
-}
-
 registerLegislatureHooks({ afterVote: exposeVoteLies });
 
 /** The told-claims engine: its lies table and the chooser's reason for a claim. */
@@ -451,11 +433,6 @@ export const toldClaimsModule: CoreModule = {
         },
       },
     },
-  },
-  eventKinds: ["candidate-filed"],
-  onEvent: (api, event) => {
-    const filingId = event.facts?.filingId;
-    if (typeof filingId === "string") exposeRunLies(api, filingId);
   },
   reasonProviders: {
     "claim-circumstances": (api, actor, _offer, binding) => {

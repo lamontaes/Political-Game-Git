@@ -5,10 +5,10 @@ area: gov
 kind: bug
 priority: 1
 size: S
-status: done
+status: blocked
 claimed-by: governing/ask-before-roll-by-seed
 pr: #6983
-blocked-on:
+blocked-on: legislature-vote-asks-never-written-in-drawn-places
 lead: governing
 source: Checker 2, Nov 1; filed by the governing lead
 claimed-at: 2026-11-01T15:39:52.443Z
@@ -23,3 +23,5 @@ claimed-at: 2026-11-01T15:39:52.443Z
 **Files.** src/director/ask-before-the-roll.test.ts, src/core2/modules/legislature.ts
 
 **Notes.** Found by Checker 2 on Nov 1 while regating #6912. The director's staging is the Words session's area: ask before changing src/director code.
+
+Nov 15 (lying builder): red again, so not done. `GOLDEN_PATH_SEED=told1 npx vitest run src/director/ask-before-the-roll.test.ts` fails on the clean Train head 693479ab90 ("0 asks in 240 days" in Avalon, Pennsylvania (4203608) and Newark, Ohio (3954040), among others), the same symptom as the open item legislature-vote-asks-never-written-in-drawn-places, which holds the cause search. Which change turned it red is not found: no bisect was run (a run takes about ten minutes).

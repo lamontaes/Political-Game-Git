@@ -39,3 +39,5 @@ The player sees it in play as a floor vote with no member asking for their vote 
 **Waits on.** Nothing.
 
 **Files.** src/core2/modules/legislature.ts, src/director/ask-before-the-roll.test.ts, src/core2/legislature-ask-reaches-roll.test.ts, src/director/ask-vote-variants.test.ts
+
+Nov 15 (lying builder): also red at GOLDEN_PATH_SEED=told1 on the clean Train head 693479ab90 in src/director/ask-before-the-roll.test.ts ("0 asks in 240 days", Avalon, Pennsylvania (4203608); Newark, Ohio (3954040)); legislature-ask-before-the-roll-test-red-by-seed is set back from done to blocked on this item.
