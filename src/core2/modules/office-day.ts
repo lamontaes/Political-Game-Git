@@ -148,6 +148,12 @@ export interface MeetingRow {
    * held at its hour like a member, to speak at public comment and not to vote.
    */
   readonly audience?: string;
+  /**
+   * People who said they would come to this meeting with the player (a
+   * friend's ask, src/director/promises.ts): they are there at its hour,
+   * whether or not the player comes, and the public-meeting record names them.
+   */
+  readonly with?: readonly string[];
   /** The members' filings for this meeting are on its agenda (an empty agenda is posted too). */
   readonly posted?: boolean;
   readonly citation: string;
@@ -188,6 +194,8 @@ export const OFFICE_DAY_MODULE: CoreModule = {
       officeJobs: { indexes: { byPerson: { fields: ["personId"] } } },
       world: {},
       prepared: {},
+      /** Words to come to a meeting not yet posted (a friend's ask): merged into it when it is. */
+      pledges: {},
     },
   },
   onCalendarWork: officeDayCalendar,
@@ -546,8 +554,66 @@ function postAgenda(
     ...(budgetDay ? { posted: true } : {}),
     citation: rule.rule.source.citation,
   };
-  table(api, "meetings").put(row as unknown as ModuleRow);
-  holdPlayerIfDue(api, row);
+  table(api, "meetings").put(withPledge(api, row) as unknown as ModuleRow);
+  holdPlayerIfDue(api, meetingOf(api, row.id)!);
+}
+
+interface PledgeRow {
+  readonly id: string;
+  /** The player, marked to attend once it is posted. */
+  readonly audience?: string;
+  readonly with: readonly string[];
+}
+
+/** A posted meeting with the words given to come to it before it was posted, which are then spent. */
+function withPledge(api: CoreAPI, row: MeetingRow): MeetingRow {
+  const pledges = table(api, "pledges");
+  const pledge = pledges.get(row.id) as unknown as PledgeRow | undefined;
+  if (!pledge) return row;
+  pledges.remove(row.id);
+  const resident =
+    pledge.audience !== undefined &&
+    !members(api, row.officeId).some(sits(pledge.audience));
+  return {
+    ...row,
+    ...(resident ? { audience: pledge.audience } : {}),
+    with: [...new Set([...(row.with ?? []), ...pledge.with])],
+  };
+}
+
+/**
+ * The player says they will come to a meeting with someone (a friend's ask):
+ * marked to attend it and the other written onto it, now if it is posted
+ * (`attendMeeting`, `comeWith`), else when it is (`withPledge`).
+ */
+export function pledgeToCome(
+  api: CoreAPI,
+  meetingIdValue: string,
+  withId: string,
+): void {
+  // The id says the body and the day (`meetingId`).
+  const date = meetingIdValue.slice(-"YYYY-MM-DD".length);
+  const officeId = meetingIdValue.slice(
+    "meeting:".length,
+    -":YYYY-MM-DD".length,
+  );
+  if (meetingId(officeId, date) !== meetingIdValue) return;
+  const row = meetingOf(api, meetingIdValue);
+  if (row) {
+    if (meetingToAttend(api, officeId, date))
+      attendMeeting(api, officeId, date, true);
+    comeWith(api, meetingIdValue, withId);
+    return;
+  }
+  const pledges = table(api, "pledges");
+  const before = pledges.get(meetingIdValue) as unknown as
+    PledgeRow | undefined;
+  const player = playerOf(api);
+  pledges.put({
+    id: meetingIdValue,
+    ...(player !== undefined ? { audience: player } : {}),
+    with: [...new Set([...(before?.with ?? []), withId])],
+  } as unknown as ModuleRow);
 }
 
 /** Whether the player's clock has reached a meeting's hour (or its day is behind them). */
@@ -593,6 +659,27 @@ export function meetingToAttend(
   };
 }
 
+/**
+ * The body's next meeting a resident may still come to, posted or not: the
+ * one the body's rule (or a budget day) sets next, of a body the player does
+ * not sit on. Once its agenda is posted it is the one `meetingToAttend`
+ * offers, which the player marks; before that it is the day on the body's
+ * calendar, by the id the meeting will be posted under.
+ */
+export function meetingAhead(
+  api: CoreAPI,
+  officeId: string,
+): { id: string; date: string; row?: MeetingRow } | null {
+  const player = playerOf(api);
+  const date = nextMeetingDate(api, officeId);
+  if (player === undefined || !date || date < api.state.date) return null;
+  if (members(api, officeId).some(sits(player))) return null;
+  const id = meetingId(officeId, date);
+  const row = meetingOf(api, id);
+  if (!row) return date > api.state.date ? { id, date } : null;
+  return meetingToAttend(api, officeId, date) ? { id, date, row } : null;
+}
+
 /** The meeting with nobody of the player's in its audience, and its hold on them gone. */
 function withoutAudience(row: MeetingRow): MeetingRow {
   const next: { -readonly [K in keyof MeetingRow]: MeetingRow[K] } = {
@@ -624,6 +711,23 @@ export function attendMeeting(
   if (attend) holdPlayerIfDue(api, next);
   else releaseHeld(api, next.id);
   return meetingOf(api, next.id)!;
+}
+
+/**
+ * Someone who said they would come to a posted meeting with the player is
+ * written onto it (a friend's ask): the public-meeting record names them.
+ */
+export function comeWith(
+  api: CoreAPI,
+  meetingIdValue: string,
+  personId: string,
+): MeetingRow | undefined {
+  const row = meetingOf(api, meetingIdValue);
+  if (!row || row.status === "adjourned") return undefined;
+  if (row.with?.includes(personId)) return row;
+  const next: MeetingRow = { ...row, with: [...(row.with ?? []), personId] };
+  table(api, "meetings").put(next as unknown as ModuleRow);
+  return next;
 }
 
 /**
@@ -775,9 +879,12 @@ function finish(api: CoreAPI, row: MeetingRow): void {
     id: `meeting-held:${row.id}`,
     date: api.state.date,
     kind: "public-meeting",
-    personIds: members(api, row.officeId).flatMap((m) =>
-      m.personId ? [m.personId] : [],
-    ),
+    personIds: [
+      ...members(api, row.officeId).flatMap((m) =>
+        m.personId ? [m.personId] : [],
+      ),
+      ...(row.with ?? []),
+    ],
     placeId: lawChain(api).townPlaceId,
     source: {
       tag: "SOURCED",
@@ -790,6 +897,8 @@ function finish(api: CoreAPI, row: MeetingRow): void {
       officeId: row.officeId,
       items: String(row.takenUp.length),
       playerPresent: String(row.playerPresent),
+      // Who came with the player's word to come (a friend's ask).
+      ...(row.with?.length ? { with: row.with.join(",") } : {}),
       // A sitting that runs past the hour a town body meets in the evening
       // keeps its members from home that evening.
       evening: String(

@@ -149,6 +149,10 @@ import {
   type VariantChoice,
 } from "./arc-variant";
 import { promiseReplyFacts } from "./promises";
+import {
+  OFFICE_DAY_MODULE_ID,
+  pledgeToCome,
+} from "../core2/modules/office-day";
 
 /** A state's key begins with its country (`US-KY`); the rest is its USPS code. */
 const STATE_KEY_PREFIX = "US-";
@@ -2975,6 +2979,9 @@ export function replyInScene(
         ? "no"
         : undefined
     : undefined;
+  const promised = ending
+    ? promiseReplyFacts({ ...scene, endingId: ending.id })
+    : {};
   applyCoreEvent(core, {
     id,
     date: core.date,
@@ -2997,7 +3004,7 @@ export function replyInScene(
       // A promise a record can settle: its kind and its tie, from the
       // ending's row in src/director/data/promise-kinds.json (promises.ts). stopgapId:
       // SG-WORDS-favor-promise-keeps-unread (endings with no row yet)
-      ...(ending ? promiseReplyFacts({ ...scene, endingId: ending.id }) : {}),
+      ...promised,
       ...(ending?.firmness ? { firmness: ending.firmness } : {}),
       // A promise made on a resident's own question names it, for the
       // Journal (ruling 72).
@@ -3013,6 +3020,12 @@ export function replyInScene(
     },
   });
   entry.replies = [...(entry.replies ?? []), id];
+  // A yes to come to a meeting with a friend: the player is marked to attend
+  // it (the calendar's own mark) and the friend is written onto it, so the
+  // meeting's record says who came (promises.ts settles the promise on it).
+  const meetingPromised = promised["promise-meetingId"];
+  if (meetingPromised && core.modules.has(OFFICE_DAY_MODULE_ID))
+    pledgeToCome(coreAPI(core), meetingPromised, scene.askerId);
   // Office hours: the official's answer settles the resident's case through the
   // cases engine, the way the desk's decision does, citing this reply. "I'll
   // make the call" and "Let me refer you" are help; "I can't help" is a decline;

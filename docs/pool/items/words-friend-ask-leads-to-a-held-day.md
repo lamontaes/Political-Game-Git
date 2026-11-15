@@ -5,9 +5,9 @@ area: words
 kind: bug
 priority: 3
 size: M
-status: open
+status: in-pr
 standard: 2
-claimed-by:
+claimed-by: claude/project-thread-yq65dx
 pr:
 after:
 blocked-on:
