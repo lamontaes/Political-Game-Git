@@ -15,7 +15,8 @@ import {
   lastEnactment,
 } from "./modules/laws";
 import { addDays, makeIsoDate } from "./kernel/dates";
-import { answerIn, levelMayDecide } from "./modules/world-legislating";
+import { levelMayDecide } from "./modules/world-legislating";
+import { answerIn } from "./modules/laws";
 import { policySeriesAtLevel } from "./policy-answers";
 import { coreAPI } from "./state";
 
