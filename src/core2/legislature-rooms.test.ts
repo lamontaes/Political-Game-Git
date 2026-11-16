@@ -122,4 +122,4 @@ it("committees and caucuses are rooms of the sitting reader, and a day the playe
   expect((change?.reason as { cause?: string } | undefined)?.cause).not.toBe(
     "office-day-state.meeting",
   );
-}, 90_000);
+}, 55_000);

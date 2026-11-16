@@ -73,4 +73,4 @@ it("a colleague who sat with you since your last talk is missed from that sittin
   expect(metThrough(core, a, b)?.date).toBe("2025-02-04");
   expect(hoursLost(core, row)).toBeCloseTo(0.02985, 5);
   expect(tieHoursLost(core, a, b)).toBeCloseTo(0.02855, 5);
-}, 90_000);
+}, 75_000);
