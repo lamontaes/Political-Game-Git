@@ -5,7 +5,7 @@ area: director
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: merged
 claimed-by: thread cluster 29 part 3
 pr: 9407
 after:

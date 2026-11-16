@@ -58,6 +58,7 @@ Learned by the path-check runners A and B and the speed lead, Oct 29 to Nov 1, a
 - **Compare only like with like:** the same place, seed and key on both heads. Diff the outputs line by line first. Two heads that give identical output for a place (Salida on m5 and m6) mean the change did nothing there, so don't spend an hour reading them.
 - **A crash in a measurement line** (m4's `b.appeal` of undefined): read the first stack frame in stderr and send `file:line` to the lead at once. The run's earlier `LOG` lines still carry the evidence.
 - **Never run a heavy test twice at once while the gate runs.** On Nov 15 the two-seeds-differ guard (zero-real-data, a 12 GB heap) failed twice in a gate while a second copy of the same test ran in the container, then passed 10 runs of 10 alone. A gate keeps each guard's full output in its own log file (not a tail of the last lines), so a failure names its place and seed; a red that was not logged with its place cannot be filed.
+- **A with-and-without run that swaps the change with `git stash` owns the tree for the whole run (Nov 15).** Nothing else can switch branches or merge meanwhile, and a stash left unpopped hides the change. Run the baseline from a second checkout of the same head (sparse, per `helper-checkout`) or take both sides in one script, and print `git stash list` and `git status` when it ends.
 
 ## Stop condition
 

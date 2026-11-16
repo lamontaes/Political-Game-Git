@@ -5,7 +5,7 @@ area: elections
 kind: stopgap
 priority: 3
 size: S
-status: in-pr
+status: merged
 claimed-by:
 pr: 9174
 after:

@@ -25,3 +25,5 @@ branch: lane-2/counted-news-views
 **Notes.** Found by the effects lead on Oct 24 while building web-views-hear-conditions-moves-stance; the full readers' step is on that item's PR.
 
 Released by next (2026-11-10): no push to lane-2/counted-news-views since 2026-11-04 08:26 UTC, more than twice its 4-hour time box. Continue on branch lane-2/counted-news-views.
+
+Nov 15 (views thread): counted ballots now read every countedStances row (news and lived crime) through the voter's stance profile, and a member filled in starts from the group's stance rows (src/core2/modules/views.ts, test src/core2/views-counted-victims.test.ts). Left here: condition stories, counted-only delivery, and carrying views across demotion or a move to another group (SG-PEOPLE-counted-readers-stories, narrowed).

@@ -5,7 +5,7 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: merged
 standard: 2
 claimed-by: Account lead, thread "Write the mayor's and governor's desk"
 pr: 9185

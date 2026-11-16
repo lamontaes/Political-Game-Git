@@ -5,7 +5,7 @@ area: words
 kind: bug
 priority: 3
 size: S
-status: in-pr
+status: merged
 claimed-by:
 pr: 9144
 blocked-on:
