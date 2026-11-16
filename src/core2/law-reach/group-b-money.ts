@@ -829,6 +829,25 @@ export function assistanceIncomeByHousehold(
 }
 
 /**
+ * What the welfare line pays one household a year, read from the same record
+ * (a lookup, never the whole map): the counted households' income reads it a
+ * household at a time.
+ */
+export function assistanceIncomeOf(
+  core: CoreState,
+  householdId: string,
+): number {
+  if (!core.modules.has(REACH_B_MODULE_ID)) return 0;
+  const row = getRow<{ monthlyByHousehold: Record<string, number> }>(
+    coreAPI(core),
+    "taken",
+    "assist|budget-line:welfareAndMedicaid",
+  );
+  const monthly = row?.monthlyByHousehold?.[householdId];
+  return monthly === undefined ? 0 : monthly * reachParameter("monthsPerYear");
+}
+
+/**
  * Medicaid expansion as coverage: who the expansion covers today, named and
  * counted, kept by person id as stretches of coverage (the reach's coverage
  * table): a stretch opens the day after an adult is first covered and ends

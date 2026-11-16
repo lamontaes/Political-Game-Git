@@ -71,6 +71,7 @@ import {
 import type { FinanceContractInput } from "../finance-types";
 import COUNTED_ROWS from "../data/counted/parameters.json" with { type: "json" };
 import { incomeBandOf } from "../counted-income-fifth";
+import { assistanceIncomeOf } from "../law-reach/group-b-money";
 import { parameter } from "../parameters";
 
 export { incomeBandOf };
@@ -277,6 +278,8 @@ interface ResidentMonth {
 const FIXED_SPENDING = "household.outside-living-costs";
 
 const runtimes = new WeakMap<CoreState, ResidentsRuntime>();
+/** The core a runtime belongs to, for the counted households' income reads before the first day opens its api. */
+const coreOfRuntime = new WeakMap<ResidentsRuntime, CoreState>();
 // The store is plain columns; the record views over it are rebuilt.
 registerSnapshotPart("core2-residents", {
   save: (core) => {
@@ -306,7 +309,7 @@ registerSnapshotPart("core2-residents", {
       "store" | "households" | "householdOfPerson"
     > & { store: unknown; moneySerial?: number };
     const store = decodeStore(saved.store);
-    runtimes.set(core, {
+    const restored: ResidentsRuntime = {
       ...saved,
       input: rebuilt.input,
       moneyCache: { serial: moneySerial ?? 0 },
@@ -317,7 +320,9 @@ registerSnapshotPart("core2-residents", {
       store,
       households: new CountedHouseholdMap(store),
       householdOfPerson: new CountedPersonHouseholdMap(store),
-    });
+    };
+    runtimes.set(core, restored);
+    coreOfRuntime.set(restored, core);
   },
 });
 
@@ -377,7 +382,13 @@ function householdKeys(
   return out;
 }
 
-/** A counted household's yearly income: recorded pay, retirement awards and its unplaced workers' pay. */
+/** What the welfare line pays a counted household a year (the Census counts public assistance in income). */
+function assistanceYear(rt: ResidentsRuntime, householdId: string): number {
+  const core = coreOfRuntime.get(rt);
+  return core ? assistanceIncomeOf(core, householdId) : 0;
+}
+
+/** A counted household's yearly income: recorded pay, retirement awards, its unplaced workers' pay and the welfare line's cash assistance. */
 export function householdIncome(
   rt: ResidentsRuntime,
   h: CountedHousehold,
@@ -385,7 +396,8 @@ export function householdIncome(
   return (
     h.wagesMinorYear +
     h.retirementMinorYear +
-    h.unplacedWorkers * unplacedPayPerWorker(rt, h)
+    h.unplacedWorkers * unplacedPayPerWorker(rt, h) +
+    assistanceYear(rt, h.id)
   );
 }
 
@@ -937,6 +949,7 @@ export function admitResidents(core: CoreState, input: ResidentsInput): void {
     schedule(rt, flow);
   }
   runtimes.set(core, rt);
+  coreOfRuntime.set(rt, core);
 }
 
 /** Cash an owner can spend now: its cash less amounts set aside in other funds. */
