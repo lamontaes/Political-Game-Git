@@ -6030,19 +6030,39 @@ function openConversationNow(
       ...SITUATION_LIBRARY.scheduling.householdScenes,
       ...(SITUATION_LIBRARY.scheduling.householdRecordScenes ?? []),
     ].includes(occasion.label);
-  const opener =
-    housemate && familyNews
-      ? words(
-          core,
-          data,
-          otherId,
-          "family-open",
-          "open",
-          ALL,
-          {},
-          `${playerId}:${otherId}:${occasion.id}:family-open`,
-        )
-      : null;
+  // The opener is said only when the housemate has this occasion's hard news
+  // to tell: a relative's death, illness or prison term, a lost job, an
+  // eviction, its subject named by the occasion's record (Account lead, Nov
+  // 16: a housemate who never knew the constituent who died opened "I need
+  // to talk to you about something." and said nothing more, Sheridan,
+  // Wyoming, seed 7, April 26).
+  const hasNews =
+    housemate &&
+    familyNews &&
+    subjectsBetween(
+      core,
+      otherId,
+      playerId,
+      options.director,
+      conversation,
+    ).some(
+      (subject) =>
+        NEWS_SUBJECTS.has(subject.kind) &&
+        subject.id === `${subject.kind}:${occasion!.causeId}` &&
+        !!data.otherRaises[subject.kind],
+    );
+  const opener = hasNews
+    ? words(
+        core,
+        data,
+        otherId,
+        "family-open",
+        "open",
+        ALL,
+        {},
+        `${playerId}:${otherId}:${occasion.id}:family-open`,
+      )
+    : null;
   if (opener)
     conversation.lines.push({
       speakerId: otherId,
@@ -6091,7 +6111,12 @@ function openConversationNow(
     // Hello and goodbye with nothing between is not a talk (owner, Oct 24:
     // "that should be going to the hi, have a good day. That makes no
     // sense."): with nothing on record to say, nothing is said.
-    if (conversation.lines.every((line) => line.kind === "greet")) {
+    // The same for a hard-news opener with nothing after it.
+    if (
+      conversation.lines.every(
+        (line) => line.kind === "greet" || line.kind === "family-open",
+      )
+    ) {
       conversation.lines = [];
       conversation.choices = [];
       conversation.lies = [];

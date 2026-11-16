@@ -261,6 +261,19 @@ export function createDirector(
       personId: PersonId,
       entry: ScheduleEntry,
     ) => boolean;
+    /**
+     * Whether a scene's talk with the one it opens with says anything past
+     * its opener (the bench passes the talk's own composer, looking only;
+     * the ledger cannot import it without a load-order cycle). A scene with
+     * nothing to say is the Journal's line, closed with why
+     * (director-street-news-scene-ends-after-its-opener).
+     */
+    saysPastOpener?: (
+      core: Readonly<CoreState>,
+      director: Director,
+      personId: PersonId,
+      entry: ScheduleEntry,
+    ) => boolean;
   } = { watch: [] },
 ): Director {
   const data = options.data ?? DEFAULT_DIRECTOR_DATA;
@@ -1836,6 +1849,13 @@ export function createDirector(
         entry.closed = data.waitingStop.silent;
         continue;
       }
+      if (
+        options.saysPastOpener?.(core, self, moment.personId, entry) === false
+      ) {
+        entry.outcome = "journal-line";
+        entry.closed = data.waitingStop.nothingSaid;
+        continue;
+      }
       const at = openedAt(
         core,
         playerClockFrontierV1(core, moment.personId) ?? {
@@ -1946,6 +1966,11 @@ export function createDirector(
         } else if (!speaks(core, row.entry, personId)) {
           row.entry.outcome = "journal-line";
           row.entry.closed = data.waitingStop.silent;
+        } else if (
+          options.saysPastOpener?.(core, self, personId, row.entry) === false
+        ) {
+          row.entry.outcome = "journal-line";
+          row.entry.closed = data.waitingStop.nothingSaid;
         }
       const open = rows.filter((row) => row.entry.outcome === "scene-waiting");
       waiting.set(
