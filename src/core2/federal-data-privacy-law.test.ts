@@ -1,8 +1,14 @@
 // @vitest-environment node
-/** Congress's national data privacy law reaches the town's employing businesses through the business engine's monthly cost review, once. */
-import { randomBytes } from "node:crypto";
+/**
+ * Congress's national data privacy law reaches the town's employing businesses
+ * over the statute's size test through the business engine's monthly cost
+ * review, once. Pinned to Pierre, South Dakota, a state with no privacy law of
+ * its own, whose wholesaler and stores sell over the test. Until Nov 16, 2026
+ * it drew up to six places at run time and expected an employer bound in one;
+ * the statute's size test binds none in most small towns, so that premise no
+ * longer holds.
+ */
 import { expect, it } from "vitest";
-import { drawPlace } from "../../scripts/core2-year/place";
 import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
@@ -15,18 +21,19 @@ const FEDERAL =
   "us-federal-positions:science-communications.national-data-privacy";
 const STATE =
   "us-policy-positions:technology-privacy.consumer-data-privacy-law";
-const replay = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
-const TRIES = 6;
+const PLACES = [
+  { name: "Pierre, South Dakota", key: "4649600", seed: "ilt-pierre" },
+];
 
 it(
-  `a federal privacy law charges businesses where the state has none, and ends on repeal (replay ${replay})`,
-  { timeout: 1_800_000 },
+  `a federal privacy law charges businesses where the state has none, and ends on repeal (${PLACES.map((p) => p.name).join(", ")})`,
+  // 85 to 89 s alone and beside the other privacy tests (Nov 16, 2026); about twice that.
+  { timeout: 180_000 },
   () => {
     const bookkeeping = setBookkeeping(false);
     const passed: string[] = [];
     try {
-      for (let attempt = 0; attempt < TRIES; attempt += 1) {
-        const place = drawPlace(replay, `federal-privacy:${attempt}`);
+      for (const place of PLACES) {
         const where = `${place.name} (${place.key}, seed ${place.seed})`;
         const world = buildBenchWorld(place.seed, gameStartDate(), {
           placeKey: place.key,
