@@ -15,196 +15,216 @@ import { coreAPI } from "./state";
 // drive's target is the person or institution the event names. Every employer
 // in a drawn town closes on one day, recorded as the finance writer records a
 // closure; the research is in data/research/drives/economic-losses.json.
-const seed = process.env.GOLDEN_PATH_SEED ?? "drives-economy";
-const input = buildPopulation({
-  seed,
-  ...(process.env.GOLDEN_PATH_SEED
-    ? { placeKey: process.env.GOLDEN_PATH_PLACE_KEY }
-    : {}),
-  startedAt: "2021-01-01",
-  minimumPeople: 800,
-  openingEmployment: true,
-});
-const core = createLifeCore(input, {
-  data: withDrives(DEFAULT_DATA, DEFAULT_DRIVES_DATA),
-  modules: [createDrivesModule(DEFAULT_DRIVES_DATA)],
-});
-const api = coreAPI(core);
-const workersByOrg = new Map<string, string[]>();
-for (const job of core.jobs.values())
-  if (!job.endsAt && core.people.get(job.personId)?.alive)
-    workersByOrg.set(job.organizationId, [
-      ...(workersByOrg.get(job.organizationId) ?? []),
-      job.personId,
-    ]);
-for (const [org, workers] of workersByOrg)
-  api.emit({
-    id: `organization.closed:${org}:${core.date}`,
-    date: core.date,
-    kind: "organization.closed",
-    personIds: workers,
-    placeId: core.organizations.get(org)!.placeId,
-    publicRecord: true,
-    source: { tag: "SOURCED", citation: "Fixture closure.", asOf: core.date },
-    facts: { [`organization:${org}:status`]: "closed" },
-  });
-const report = drivesReport(core);
-const decisions = report.decisions.filter((row) =>
-  row.eventId.startsWith("organization.closed"),
-);
+//
+// Pinned (Nov 16). Before, the golden-path runner's M1-11 check ran this file
+// with GOLDEN_PATH_SEED and GOLDEN_PATH_PLACE_KEY drawn from each commit, so a
+// red came and went with the commit. Christmas, Florida is the place the
+// file's own seed always played. Maytown, Kentucky is the runner's draw for
+// commit 6eb1ff91, where 1.2 percent of displaced workers set out to prove
+// themselves against a floor of 3.0; it stays here as a red case for item
+// tests-drives-economy-prove-oneself-low-maytown (Needs cause).
+// Limit: the whole file runs in 20 s alone and 21 s beside group-quarters
+// (Nov 16, Train 800ae520), nearly all of it building the two worlds at load;
+// each case takes under a second, well inside the default 30 s.
+const PINS = [
+  { seed: "drives-economy", placeKey: "1212250" },
+  {
+    seed: "557be11b36cddcc1a09f8feede0919fb75aa9bf04be095068dbd657c6eae3a6c",
+    placeKey: "2151042",
+  },
+];
 
-describe(`drives answer closures in ${input.placeMetadata?.placeName} (seed ${seed})`, () => {
-  it("forms ambitions at the displaced-worker rate, with most people carrying on", () => {
-    const workers = [...workersByOrg.values()].flat().length;
-    expect(decisions.length).toBe(workers);
-    const share = (id: string) =>
-      decisions.filter((row) => row.chosen.responseId === id).length /
-      decisions.length;
-    // Retraining 10-16% plus a few points of new businesses; the band is for
-    // a whole population and one town's closures are a sample of its workers,
-    // so each bound widens by two standard errors at that sample's size, the
-    // rule the played-year check uses (src/bench/m1-11-check.ts). Mooresville,
-    // Alabama (seed 890a6d11…a73f): 7 of 124, 1.6 standard deviations under
-    // the 9.9% six other drawn towns pooled (109 of 1,102).
-    const n = decisions.length;
-    const slack = (p: number) => 2 * Math.sqrt((p * (1 - p)) / n);
-    expect(share("prove-oneself")).toBeGreaterThan(0.06 - slack(0.06));
-    expect(share("prove-oneself")).toBeLessThan(0.25 + slack(0.25));
-    expect(share("carry-on")).toBeGreaterThan(0.6 - slack(0.6));
+for (const { seed, placeKey } of PINS) {
+  const input = buildPopulation({
+    seed,
+    placeKey,
+    startedAt: "2021-01-01",
+    minimumPeople: 800,
+    openingEmployment: true,
   });
-
-  it("aims every grudge at the business that closed, never a random person", () => {
-    for (const drive of report.drives.filter((row) =>
-      row.sourceEventId.startsWith("organization.closed"),
-    )) {
-      if (drive.kind !== "grudge") continue;
-      const org = drive.sourceEventId.split(":").slice(1, -1).join(":");
-      expect(drive.targetId).toBe(org);
-    }
-  });
-
-  it("forms no drive from a closure in anyone it did not name", () => {
-    const named = new Set([...workersByOrg.values()].flat());
-    for (const row of decisions) expect(named.has(row.personId)).toBe(true);
-  });
-});
-
-// WORLD's job and housing writers name the employer or landlord in the event's
-// topic and carry no impulse of their own; the drives data gives each kind its
-// sourced impact and reads the responsible party from the topic.
-describe(`drives answer WORLD's job losses and evictions (seed ${seed})`, () => {
-  const world = createLifeCore(input, {
+  const core = createLifeCore(input, {
     data: withDrives(DEFAULT_DATA, DEFAULT_DRIVES_DATA),
     modules: [createDrivesModule(DEFAULT_DRIVES_DATA)],
   });
-  const worldApi = coreAPI(world);
-  const jobs = [...world.jobs.values()].filter(
-    (job) => !job.endsAt && world.people.get(job.personId)?.alive,
+  const api = coreAPI(core);
+  const workersByOrg = new Map<string, string[]>();
+  for (const job of core.jobs.values())
+    if (!job.endsAt && core.people.get(job.personId)?.alive)
+      workersByOrg.set(job.organizationId, [
+        ...(workersByOrg.get(job.organizationId) ?? []),
+        job.personId,
+      ]);
+  for (const [org, workers] of workersByOrg)
+    api.emit({
+      id: `organization.closed:${org}:${core.date}`,
+      date: core.date,
+      kind: "organization.closed",
+      personIds: workers,
+      placeId: core.organizations.get(org)!.placeId,
+      publicRecord: true,
+      source: { tag: "SOURCED", citation: "Fixture closure.", asOf: core.date },
+      facts: { [`organization:${org}:status`]: "closed" },
+    });
+  const report = drivesReport(core);
+  const decisions = report.decisions.filter((row) =>
+    row.eventId.startsWith("organization.closed"),
   );
-  // A real business in the town stands as the landlord.
-  const landlord = [...world.organizations.keys()].sort()[0]!;
-  // Half the workers are laid off and the other half evicted, so each event
-  // forms its own drives rather than strengthening the other's.
-  for (const [index, job] of jobs.entries()) {
-    const person = world.people.get(job.personId)!;
-    if (index % 2 === 0)
-      worldApi.emit({
-        id: `work.job-lost:${job.id}:${world.date}`,
-        date: world.date,
-        kind: "work.job-lost",
-        topic: job.organizationId,
-        personIds: [job.personId],
-        placeId: person.placeId,
-        publicRecord: false,
-        source: {
-          tag: "SOURCED",
-          citation: "Fixture layoff.",
-          asOf: world.date,
-        },
-      });
-    else
-      worldApi.emit({
-        id: `housing.eviction:${job.personId}:${world.date}`,
-        date: world.date,
-        kind: "housing.eviction",
-        topic: landlord,
-        personIds: [job.personId],
-        placeId: person.placeId,
-        publicRecord: true,
-        source: {
-          tag: "SOURCED",
-          citation: "Fixture filing.",
-          asOf: world.date,
-        },
-      });
-  }
-  const worldReport = drivesReport(world);
-  const orgOf = new Map(jobs.map((job) => [job.personId, job.organizationId]));
 
-  it("forms drives from both, and aims each grudge at the employer or landlord", () => {
-    const fromJobs = worldReport.drives.filter((row) =>
-      row.sourceEventId.startsWith("work.job-lost"),
+  describe(`drives answer closures in ${input.placeMetadata?.placeName} (seed ${seed})`, () => {
+    it("forms ambitions at the displaced-worker rate, with most people carrying on", () => {
+      const workers = [...workersByOrg.values()].flat().length;
+      expect(decisions.length).toBe(workers);
+      const share = (id: string) =>
+        decisions.filter((row) => row.chosen.responseId === id).length /
+        decisions.length;
+      // Retraining 10-16% plus a few points of new businesses; the band is for
+      // a whole population and one town's closures are a sample of its workers,
+      // so each bound widens by two standard errors at that sample's size, the
+      // rule the played-year check uses (src/bench/m1-11-check.ts). Mooresville,
+      // Alabama (seed 890a6d11…a73f): 7 of 124, 1.6 standard deviations under
+      // the 9.9% six other drawn towns pooled (109 of 1,102).
+      const n = decisions.length;
+      const slack = (p: number) => 2 * Math.sqrt((p * (1 - p)) / n);
+      expect(share("prove-oneself")).toBeGreaterThan(0.06 - slack(0.06));
+      expect(share("prove-oneself")).toBeLessThan(0.25 + slack(0.25));
+      expect(share("carry-on")).toBeGreaterThan(0.6 - slack(0.6));
+    });
+
+    it("aims every grudge at the business that closed, never a random person", () => {
+      for (const drive of report.drives.filter((row) =>
+        row.sourceEventId.startsWith("organization.closed"),
+      )) {
+        if (drive.kind !== "grudge") continue;
+        const org = drive.sourceEventId.split(":").slice(1, -1).join(":");
+        expect(drive.targetId).toBe(org);
+      }
+    });
+
+    it("forms no drive from a closure in anyone it did not name", () => {
+      const named = new Set([...workersByOrg.values()].flat());
+      for (const row of decisions) expect(named.has(row.personId)).toBe(true);
+    });
+  });
+
+  // WORLD's job and housing writers name the employer or landlord in the event's
+  // topic and carry no impulse of their own; the drives data gives each kind its
+  // sourced impact and reads the responsible party from the topic.
+  describe(`drives answer WORLD's job losses and evictions (seed ${seed})`, () => {
+    const world = createLifeCore(input, {
+      data: withDrives(DEFAULT_DATA, DEFAULT_DRIVES_DATA),
+      modules: [createDrivesModule(DEFAULT_DRIVES_DATA)],
+    });
+    const worldApi = coreAPI(world);
+    const jobs = [...world.jobs.values()].filter(
+      (job) => !job.endsAt && world.people.get(job.personId)?.alive,
     );
-    const fromEvictions = worldReport.drives.filter((row) =>
-      row.sourceEventId.startsWith("housing.eviction"),
+    // A real business in the town stands as the landlord.
+    const landlord = [...world.organizations.keys()].sort()[0]!;
+    // Half the workers are laid off and the other half evicted, so each event
+    // forms its own drives rather than strengthening the other's.
+    for (const [index, job] of jobs.entries()) {
+      const person = world.people.get(job.personId)!;
+      if (index % 2 === 0)
+        worldApi.emit({
+          id: `work.job-lost:${job.id}:${world.date}`,
+          date: world.date,
+          kind: "work.job-lost",
+          topic: job.organizationId,
+          personIds: [job.personId],
+          placeId: person.placeId,
+          publicRecord: false,
+          source: {
+            tag: "SOURCED",
+            citation: "Fixture layoff.",
+            asOf: world.date,
+          },
+        });
+      else
+        worldApi.emit({
+          id: `housing.eviction:${job.personId}:${world.date}`,
+          date: world.date,
+          kind: "housing.eviction",
+          topic: landlord,
+          personIds: [job.personId],
+          placeId: person.placeId,
+          publicRecord: true,
+          source: {
+            tag: "SOURCED",
+            citation: "Fixture filing.",
+            asOf: world.date,
+          },
+        });
+    }
+    const worldReport = drivesReport(world);
+    const orgOf = new Map(
+      jobs.map((job) => [job.personId, job.organizationId]),
     );
-    expect(fromJobs.length).toBeGreaterThan(0);
-    expect(fromEvictions.length).toBeGreaterThan(0);
-    for (const drive of fromJobs)
-      if (drive.kind === "grudge")
-        expect(drive.targetId).toBe(orgOf.get(drive.personId));
-    for (const drive of fromEvictions)
-      if (drive.kind === "grudge") expect(drive.targetId).toBe(landlord);
-  });
-});
 
-// A layoff's record names who decided it (the owner or manager); when that is
-// a living full person or one still in the wider population (met when the
-// holder has it out with them), the grudge is held against them, so a
-// confrontation can sour a tie between two people. A decider the world has no
-// person for leaves the grudge on the employer the layoff names.
-describe(`a layoff holds its decider responsible (seed ${seed})`, () => {
-  const job = [...core.jobs.values()]
-    .filter((row) => !row.endsAt && core.people.get(row.personId)?.alive)
-    .sort((a, b) => a.id.localeCompare(b.id))[0]!;
-  const decider = [...core.people.values()]
-    .filter((p) => p.alive && p.id !== job.personId)
-    .sort((a, b) => a.id.localeCompare(b.id))[0]!;
-  const layoff = (decidedBy: string) => ({
-    id: `work.job-lost:${job.id}:${core.date}`,
-    date: core.date,
-    kind: "work.job-lost",
-    topic: job.organizationId,
-    personIds: [job.personId],
-    placeId: core.people.get(job.personId)!.placeId,
-    publicRecord: false,
-    facts: { decidedBy },
-    source: {
-      tag: "SOURCED" as const,
-      citation: "Fixture layoff.",
-      asOf: core.date,
-    },
+    it("forms drives from both, and aims each grudge at the employer or landlord", () => {
+      const fromJobs = worldReport.drives.filter((row) =>
+        row.sourceEventId.startsWith("work.job-lost"),
+      );
+      const fromEvictions = worldReport.drives.filter((row) =>
+        row.sourceEventId.startsWith("housing.eviction"),
+      );
+      expect(fromJobs.length).toBeGreaterThan(0);
+      expect(fromEvictions.length).toBeGreaterThan(0);
+      for (const drive of fromJobs)
+        if (drive.kind === "grudge")
+          expect(drive.targetId).toBe(orgOf.get(drive.personId));
+      for (const drive of fromEvictions)
+        if (drive.kind === "grudge") expect(drive.targetId).toBe(landlord);
+    });
   });
 
-  it("names the person who decided it when the town has them, else the employer", () => {
-    expect(
-      responsibleId(DEFAULT_DRIVES_DATA, layoff(decider.id), core.people),
-    ).toBe(decider.id);
-    expect(
-      responsibleId(
-        DEFAULT_DRIVES_DATA,
-        layoff("person:not-in-town"),
-        core.people,
-      ),
-    ).toBe(job.organizationId);
-    // A decider still in the wider population is the one held responsible.
-    expect(
-      responsibleId(
-        DEFAULT_DRIVES_DATA,
-        layoff("person:not-in-town"),
-        core.people,
-        (id) => id === "person:not-in-town",
-      ),
-    ).toBe("person:not-in-town");
+  // A layoff's record names who decided it (the owner or manager); when that is
+  // a living full person or one still in the wider population (met when the
+  // holder has it out with them), the grudge is held against them, so a
+  // confrontation can sour a tie between two people. A decider the world has no
+  // person for leaves the grudge on the employer the layoff names.
+  describe(`a layoff holds its decider responsible (seed ${seed})`, () => {
+    const job = [...core.jobs.values()]
+      .filter((row) => !row.endsAt && core.people.get(row.personId)?.alive)
+      .sort((a, b) => a.id.localeCompare(b.id))[0]!;
+    const decider = [...core.people.values()]
+      .filter((p) => p.alive && p.id !== job.personId)
+      .sort((a, b) => a.id.localeCompare(b.id))[0]!;
+    const layoff = (decidedBy: string) => ({
+      id: `work.job-lost:${job.id}:${core.date}`,
+      date: core.date,
+      kind: "work.job-lost",
+      topic: job.organizationId,
+      personIds: [job.personId],
+      placeId: core.people.get(job.personId)!.placeId,
+      publicRecord: false,
+      facts: { decidedBy },
+      source: {
+        tag: "SOURCED" as const,
+        citation: "Fixture layoff.",
+        asOf: core.date,
+      },
+    });
+
+    it("names the person who decided it when the town has them, else the employer", () => {
+      expect(
+        responsibleId(DEFAULT_DRIVES_DATA, layoff(decider.id), core.people),
+      ).toBe(decider.id);
+      expect(
+        responsibleId(
+          DEFAULT_DRIVES_DATA,
+          layoff("person:not-in-town"),
+          core.people,
+        ),
+      ).toBe(job.organizationId);
+      // A decider still in the wider population is the one held responsible.
+      expect(
+        responsibleId(
+          DEFAULT_DRIVES_DATA,
+          layoff("person:not-in-town"),
+          core.people,
+          (id) => id === "person:not-in-town",
+        ),
+      ).toBe("person:not-in-town");
+    });
   });
-});
+}
