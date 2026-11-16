@@ -5,10 +5,10 @@ area: words
 kind: feature
 priority: 2
 size: M
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: vote-reasons thread
+pr: 9611
 after: press-comment-why-answered-by-the-roll
 blocked-on:
 lead: words
