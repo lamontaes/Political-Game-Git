@@ -36,3 +36,4 @@ Seen: on the Train at 6d12556a in the trial batch, by `npx vitest run src/bench/
 **Files.** src/bench/card-life.test.ts, src/bench/card.ts
 
 **Notes.**
+Nov 16 (views thread): Both pinned East Merrimack, New Hampshire cases failed on the Train at 544056f5 and pass at 8d26a629 with #9713 and #9710 merged in (all 6 cases, 121 s), so the file is not an expected failure. A Train fold between those heads changed the world there; which one, and whether it fixed the fault or moved it, was not traced. The item stays open for that.

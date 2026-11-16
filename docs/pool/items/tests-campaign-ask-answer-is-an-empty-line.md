@@ -36,3 +36,4 @@ Seen: on the Train at 6d12556a in the trial batch, by `npx vitest run src/bench/
 **Files.** src/bench/campaign-asks-spoken.test.ts
 
 **Notes.**
+Nov 16 (views thread): The pinned St. Hedwig, Texas case failed on the Train at 544056f5 and passes at 8d26a629 with #9713 and #9710 merged in (both cases, 147 s), so the file is not an expected failure. A Train fold between those heads changed the world there; which one, and whether it fixed the fault or moved it, was not traced. The item stays open for that.
