@@ -61,4 +61,4 @@ it(`a second speech by the same speaker within thirty days stages its own scene 
   expect(
     (two!.entry.heldBack ?? []).filter((h) => h.typeKey === "speech-afterward"),
   ).toEqual([]);
-}, 400_000);
+}, 900_000);

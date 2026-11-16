@@ -8,6 +8,10 @@
  * goes to the journal. The place and seed are pinned (Montgomery, Minnesota,
  * seed 27d765b93606854d) and in every message; replay another with
  * LETTER_SEED.
+ *
+ * Old premise: the test drew a place at run time (it once drew Masefau). New:
+ * a named place and seed where the hold was seen red (the letter hold off, the
+ * second letter staged again), so it fails by the rule and never by the draw.
  */
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
