@@ -36,8 +36,7 @@ import {
   lawInForce,
   LAWS_MODULE_ID,
 } from "../core2/modules/laws";
-import type { LawRowInput } from "../core2/laws-starting";
-import { DEFAULT_BUSINESS_BOOKS_DATA } from "../core2/business-books";
+import { DEFAULT_BUSINESS_BOOKS_DATA } from "../core2/modules/business";
 import { coreAPI } from "../core2/state";
 import type { CoreAPI, CoreState } from "../core2/types";
 import {
@@ -132,19 +131,28 @@ export interface RestatedRow {
   why?: "no-row-at-level";
 }
 
-function lawRows(api: CoreAPI): LawRowInput[] {
+/** The fields of a law row the check reads. */
+interface LawRowRead {
+  readonly id: string;
+  readonly series: string;
+  readonly level: string;
+  readonly effectiveDate: string;
+  readonly measureId?: string;
+}
+
+function lawRows(api: CoreAPI): LawRowRead[] {
   return api.state.modules.has(LAWS_MODULE_ID)
     ? (api
         .moduleState(LAWS_MODULE_ID)
         .table("laws")
-        .rows() as unknown as LawRowInput[])
+        .rows() as unknown as LawRowRead[])
     : [];
 }
 
 /** Restate the law in force at this row's level and series on its date, changing no value. */
 function restate(
   api: CoreAPI,
-  row: LawRowInput,
+  row: LawRowRead,
   measureId: string,
 ): RestatedRow {
   const at = lawInForce(api, row.series).levels.find(
@@ -324,7 +332,7 @@ function twinOf(core: CoreState) {
   return { recipe, twin: built.core, built };
 }
 
-function townOf(core: CoreState): string {
+function playedPlaceIdOf(core: CoreState): string {
   return core.modules.has(LAWS_MODULE_ID)
     ? lawChain(coreAPI(core)).townPlaceId
     : "";
@@ -515,8 +523,8 @@ export function industriesAgainstNullBill(
     baseline: { kind: "null-bill", restated },
     changes: changesOf(marks),
     ...compareTallies(
-      industryTally(coreAPI(core), townOf(core)),
-      industryTally(coreAPI(twin), townOf(twin)),
+      industryTally(coreAPI(core), playedPlaceIdOf(core)),
+      industryTally(coreAPI(twin), playedPlaceIdOf(twin)),
     ),
     twinMs: Date.now() - started,
   };
@@ -587,8 +595,8 @@ export function industriesWithoutOpeningLaw(
     },
     changes: changesOf(marks),
     ...compareTallies(
-      industryTally(coreAPI(core), townOf(core)),
-      industryTally(twinApi, townOf(twin)),
+      industryTally(coreAPI(core), playedPlaceIdOf(core)),
+      industryTally(twinApi, playedPlaceIdOf(twin)),
     ),
     twinMs: Date.now() - started,
   };
