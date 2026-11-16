@@ -19,9 +19,9 @@ source: traced by the Account lead from the stores, health and services tracer, 
 claimed-at:
 ---
 
-**What.** A care home's receipts are a flat outside-sales row (0.91 of its plan, from outside-market.json), so a Medicaid cut or expansion cannot reach the care home. Seen: Danville, PA (4218136, seed ilt-danville), Liu Care Home gets 572k a month, all of it the flat row, and none from any bill.
+**What.** A care home's receipts are a flat outside-sales row (0.91 of its plan, from outside-market.json), so a Medicaid cut or expansion cannot reach the care home. A town's residential care is therefore the one health seller no law touches. Seen: Danville, PA (4218136, seed ilt-danville), Liu Care Home gets 572k a month, all of it the flat row, and none from any bill.
 
-**Cause.** Found in code: the bill model (medical-bills.ts) bills households for visits; a care home's residents are not billed per visit, so it has no per-resident record of who pays. The flat row's note names Medicaid 46.6 percent, Medicare 28.1 percent and private insurance 9.4 percent (Census 2017 type of payer, NAICS 6231).
+**Cause.** Found in code: the bill model (`billMedicalCare` in src/core2/medical-bills.ts) bills households for visits; a care home's residents are not billed per visit, so it has no per-resident record of who pays. The flat row's note names Medicaid 46.6 percent, Medicare 28.1 percent and private insurance 9.4 percent (Census 2017 type of payer, NAICS 6231).
 
 **Fix.** Pay a care home per resident from the coverage record: each resident's plan decides who pays their day, Medicaid and Medicare through the same payers as the bills, and the flat row comes out. The player sees it when a Medicaid cut shrinks the town's care home.
 

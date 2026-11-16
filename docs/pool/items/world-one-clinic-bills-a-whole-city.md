@@ -19,7 +19,7 @@ source: traced by the Account lead from the stores, health and services tracer, 
 claimed-at:
 ---
 
-**What.** Every town gets exactly one clinic whatever its size, so a city's clinic bills for the whole town. Seen: Lewiston, Maine (2338740, seed 23142a27) clinic receipts run 3.4M, 5.1M and 4.8M in months 1 to 3 against 1.26M planned a month.
+**What.** Every town gets exactly one clinic whatever its size, so a city's clinic bills for the whole town. Its receipts then dwarf its plan. Seen: Lewiston, Maine (2338740, seed 23142a27) clinic receipts run 3.4M, 5.1M and 4.8M in months 1 to 3 against 1.26M planned a month.
 
 **Cause.** Found in code: `outlets` in src/core2/town-workplaces.ts gives one clinic per town. Measured: Lewiston's clinic received 2.3M a month in patient and Medicaid shares alone on the Train, and 3.4M to 5.1M with the insurer and Medicare parts paid per bill (pool item for the payer parts); Danville, PA (4218136, seed ilt-danville) gets 42 percent of its plan and West Union, OH (3984294, seed ilt-west-union) 100 to 120 percent.
 
