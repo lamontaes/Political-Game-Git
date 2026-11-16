@@ -214,7 +214,9 @@ function personView(core: CoreState, personId: string): OpeningRow[] {
           ? `${pick.age} (chosen ${pick.chosenAge}${pick.estimated ? "; nobody in town was that age, so the nearest age stands in" : ""})`
           : pick.age,
         pick.how === "town-adult"
-          ? { drawKey: `opening-player:${person.placeId}` }
+          ? {
+              drawKey: `opening-player:${person.placeId}: ${shown(pick.unit ?? 0)}, one of ${pick.among} adults in id order`,
+            }
           : {},
       ),
     );

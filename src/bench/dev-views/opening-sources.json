@@ -84,8 +84,7 @@
     },
     "person.cash": {
       "made": "generation",
-      "by": "src/core2/starting-cash.ts: SCF 2022 transaction accounts by income; counted households in src/core2/counted-money.ts drew from a hash with 8 times too many extremes",
-      "replace": "Renters thread: the world's seeded unit"
+      "by": "src/core2/starting-cash.ts: SCF 2022 transaction accounts by income, times each household's own savings draw on the world's seeded unit (src/core2/household-balance-draw.ts)"
     },
     "person.job": {
       "made": "generation",
@@ -168,6 +167,10 @@
     }
   },
   "sites": {
+    "src/bench/world.ts#entrantChoice": {
+      "made": "generation",
+      "what": "Which of the town's adults the player begins as, with no birthday chosen"
+    },
     "src/core2/appearance.ts#derivePersonAppearance": {
       "made": "generation",
       "what": "How a person looks"
@@ -214,11 +217,6 @@
       "made": "ad-hoc-draw",
       "what": "Which illnesses a person has, a hash against rates",
       "replace": "The world's seeded unit keyed by the record's id"
-    },
-    "src/core2/counted-money.ts#savingWeight": {
-      "made": "ad-hoc-draw",
-      "what": "Counted households' savings, a hash with 8 times too many extremes",
-      "replace": "Renters thread: the world's seeded unit keyed by the record's id"
     },
     "src/core2/electorate-places.ts#citizenShareOf": {
       "made": "world-offset",
@@ -270,6 +268,10 @@
       "made": "ad-hoc-draw",
       "what": "Miles to relatives, a hash",
       "replace": "Distance from the relatives' recorded places"
+    },
+    "src/core2/household-balance-draw.ts#balanceDrawZ": {
+      "made": "generation",
+      "what": "A household's savings against the survey median for a family like it"
     },
     "src/core2/housing-construction.ts#phase": {
       "made": "ad-hoc-draw",

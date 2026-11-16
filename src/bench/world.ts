@@ -145,6 +145,9 @@ export interface EntrantPick {
   /** "town-adult": drawn from the town's adults; "chosen-age": the creator's age, a resident that age. */
   readonly how: "town-adult" | "chosen-age";
   readonly chosenAge?: number;
+  /** "town-adult" only: the world's seeded unit that picked, and how many adults it picked among (in id order). */
+  readonly unit?: number;
+  readonly among?: number;
 }
 
 /** The residents a player may be: in a household of the town, never a relative's husk record. */
@@ -190,13 +193,15 @@ export function entrantChoice(
     .filter((row) => row.age >= PLAYER_MIN_AGE)
     .sort((a, b) => a.id.localeCompare(b.id));
   if (!adults.length) throw new Error("No adult resident here.");
-  const pick =
-    adults[
-      Math.floor(
-        seededUnit(input.seed, `opening-player:${placeId}`) * adults.length,
-      )
-    ]!;
-  return { ...pick, estimated: false, how: "town-adult" };
+  const unit = seededUnit(input.seed, `opening-player:${placeId}`);
+  const pick = adults[Math.floor(unit * adults.length)]!;
+  return {
+    ...pick,
+    estimated: false,
+    how: "town-adult",
+    unit,
+    among: adults.length,
+  };
 }
 
 /**

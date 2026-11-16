@@ -81,7 +81,9 @@ it("shows how the town, the player, their household, a business and an office op
   const age = person.rows.find((r) => r.label === "Age when the life began");
   expect(age?.made, where).toBe(SOURCES.kinds.generation);
   expect(Number(age?.value), where).toBeGreaterThanOrEqual(18);
-  expect(age?.drawKey, where).toMatch(/^opening-player:/);
+  expect(age?.drawKey, where).toMatch(
+    /^opening-player:\S+: 0\.\d{3}, one of [\d,]+ adults in id order$/,
+  );
 
   const household = await ask("subject=household");
   expect(household.rows[0]!.value, where).not.toBe("0");
