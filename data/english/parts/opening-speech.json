@@ -121890,22 +121890,6 @@
           "choice": "close",
           "requiresFacts": ["asked", "asked-about"],
           "tie": "law"
-        },
-        {
-          "move": "close",
-          "subject": "state-of-the-state",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["asked", "asked-about"],
-          "tie": "law"
-        },
-        {
-          "move": "close",
-          "subject": "town-address",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["asked", "asked-about"],
-          "tie": "law"
         }
       ],
       "voice": ["plain", "polished"],
@@ -121931,22 +121915,6 @@
         {
           "move": "close",
           "subject": "state-of-the-union",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["asked", "asked-about"],
-          "tie": "law"
-        },
-        {
-          "move": "close",
-          "subject": "state-of-the-state",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["asked", "asked-about"],
-          "tie": "law"
-        },
-        {
-          "move": "close",
-          "subject": "town-address",
           "role": "close",
           "choice": "close",
           "requiresFacts": ["asked", "asked-about"],
@@ -122009,6 +121977,64 @@
           "choice": "close",
           "requiresFacts": ["party-lacks-body", "body-word"],
           "tie": "record"
+        }
+      ],
+      "voice": ["plain", "polished"],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Words lead (turn, event and close lines, Nov 16), added by the desk",
+      "date": "2026-11-16"
+    },
+    {
+      "key": "opening-speech.close.ld-local-i-ve-told-what-i-want-done-on-and-now-i-ll-go-do-it",
+      "move": "close",
+      "kind": "spoken",
+      "text": "I've told {realm-bare} what I want done on {asked-about}, and now I'll go do it.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "state-of-the-state",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["asked", "asked-about", "realm-bare"],
+          "tie": "law"
+        },
+        {
+          "move": "close",
+          "subject": "town-address",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["asked", "asked-about", "realm-bare"],
+          "tie": "law"
+        }
+      ],
+      "voice": ["plain", "polished"],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Words lead (turn, event and close lines, Nov 16), added by the desk",
+      "date": "2026-11-16"
+    },
+    {
+      "key": "opening-speech.close.ld-local-knows-what-i-m-asking-for-on-so-hold-me-to-it",
+      "move": "close",
+      "kind": "spoken",
+      "text": "{realm-bare} knows what I'm asking for on {asked-about}, so hold me to it.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "state-of-the-state",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["asked", "asked-about", "realm-bare"],
+          "tie": "law"
+        },
+        {
+          "move": "close",
+          "subject": "town-address",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["asked", "asked-about", "realm-bare"],
+          "tie": "law"
         }
       ],
       "voice": ["plain", "polished"],
