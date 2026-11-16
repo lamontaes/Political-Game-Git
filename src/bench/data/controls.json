@@ -1383,7 +1383,7 @@
     "askingSignatures": "Signatures",
     "askingVotes": "Votes",
     "askingWhySignatures": "Your petition holds {signed} of the {needed} the clerk asks for. You keep asking for signatures until it holds {target}, enough to cover any names the clerk strikes. After that you ask for the vote.",
-    "askingWhyVotes": "Your petition holds {signed} of the {needed} the clerk asks for, past the {target} you gather. From here you ask for the vote.",
+    "askingWhyVotes": "Your petition holds {signed} of the {needed} the clerk asks for, and you gather {target}. From here you ask for the vote.",
     "endorsements": "Endorsements",
     "go": "Go",
     "howLong": "How long",
