@@ -2,7 +2,7 @@
 id: health-dev-mode-shows-no-business-receipts
 title: "Dev mode can open a clinic's receipts by id but no screen lists a business's receipts by payer"
 area: play
-kind: gap
+kind: wiring
 priority: 3
 size: S
 status: open
