@@ -33,3 +33,5 @@ source: "Industries thread, Nov 16 (the gate on #9627)"
 **Waits on.** Nothing.
 
 **Files.** src/core2/town-jobs-real-work.test.ts
+
+**Notes.** Nov 16 04:00Z: red a second time, run beside day-zero and the wholesaler test on dfa99f94 (67.6 s), green alone a minute later on the same head; the seed of the red run is again lost, which is the defect.

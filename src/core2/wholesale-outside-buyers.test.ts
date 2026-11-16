@@ -11,8 +11,8 @@
  * nothing else bought, and at Thief River Falls the wholesaler (1,848 workers)
  * closed on Jun 1, 2025 with no law passed (industry-law trace, Nov 15).
  *
- * Red on the base at the opening (no outside buyers). Runs about 95 s alone;
- * the limit is 200 s.
+ * Red on the base at the opening (no outside buyers). Runs about 95 s alone and 107 s
+ * beside three other world tests; the limit is 215 s.
  */
 import { expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
@@ -87,4 +87,4 @@ it("keeps Thief River Falls' wholesaler selling to its books and open with its s
     where,
   ).toBeUndefined();
   expect(later, where).toBeGreaterThanOrEqual(opening);
-}, 200_000);
+}, 215_000);
