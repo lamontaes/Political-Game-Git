@@ -268,6 +268,10 @@ describe("elections in the two-level world", () => {
 
     // Each decided seat opens its next cycle's contest once its winner is
     // seated (audit 2, item 2): one contest per seat would end the record.
+    // A race no one won opens it when the empty race is settled by the
+    // state's law on its due day, the term's start (`resolveEmptyRace`), so
+    // the wait is the later of the two.
+    const emptyRaces = api.moduleState(VOTING_MODULE_ID).table("emptyRaces");
     const seatedBy = (
       api
         .moduleState(ELECTIONS_MODULE_ID)
@@ -275,7 +279,12 @@ describe("elections in the two-level world", () => {
         .rows() as unknown as ContestRow[]
     )
       .filter((c) => c.electionDate === "2026-11-03")
-      .map((c) => resultOf(api, c.id)?.takesOffice ?? "2026-11-04")
+      .map(
+        (c) =>
+          resultOf(api, c.id)?.takesOffice ??
+          (emptyRaces.get(`empty:${c.id}`)?.due as string | undefined) ??
+          "2026-11-04",
+      )
       .sort()
       .at(-1)!;
     const after = new Date(Date.parse(`${seatedBy}T00:00:00Z`) + 86_400_000)
