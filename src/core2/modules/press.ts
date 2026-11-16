@@ -4310,7 +4310,7 @@ function pressWeek(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   if (bookkeeping()) {
     const keep = addDays(
       makeIsoDate(api.state.date),
-      -2 * api.parameter("storyFreshDays"),
+      -2 * pressParameter("storyFreshDays"),
     );
     for (const row of table(api, "weighings").rows() as unknown as {
       id: string;
