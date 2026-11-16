@@ -2857,7 +2857,11 @@ function holdStanding(
   terms.trait = (terms.trait ?? P.zero) + kept.hearingTrait;
   const against = Object.entries(terms)
     .filter(([, value]) => value < P.zero)
-    .sort((a, b) => a[1] - b[1] || a[0].localeCompare(b[0]))[P.zero];
+    .sort(
+      ([aTerm, aValue], [bTerm, bValue]) =>
+        aValue - bValue || aTerm.localeCompare(bTerm),
+    )[P.zero];
+  const [againstTerm] = against ?? [];
   return {
     standing: {
       lean:
@@ -2866,7 +2870,7 @@ function holdStanding(
         (kept.cosponsorPull ?? P.zero),
       favor: favorWorth(api, chairId, playerId),
     },
-    ...(against ? { reason: reasonTerms[against[0]]! } : {}),
+    ...(againstTerm ? { reason: reasonTerms[againstTerm]! } : {}),
   };
 }
 
