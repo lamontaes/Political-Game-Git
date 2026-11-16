@@ -81,7 +81,7 @@ describe.each(PLACES)("the Elections page at $name", ({ at, name }) => {
       expect(mine.find((r) => r.title === "Council member")!.seats, where).toBe(
         3,
       );
-  }, 900_000);
+  }, 120_000);
 
   it("offers no refusal for age to a player who is old enough, and a refused filing gives its real reason", () => {
     const { core, where } = opening(at, name, OF_AGE);
@@ -100,7 +100,7 @@ describe.each(PLACES)("the Elections page at $name", ({ at, name }) => {
       () => fileForOffice(core, core.playerId!, row.contestId),
       where,
     ).toThrow(controls.localRaces.refusal["not-your-office"]);
-  }, 900_000);
+  }, 120_000);
 });
 
 describe("dev mode's Election offers (McMinnville)", () => {
@@ -132,5 +132,5 @@ describe("dev mode's Election offers (McMinnville)", () => {
     expect(offers.find((o) => o.title === "Sheriff")?.bar, where).toBe(
       "not-your-office",
     );
-  }, 900_000);
+  }, 120_000);
 });
