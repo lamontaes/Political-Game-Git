@@ -54,6 +54,10 @@
       "made": "real-data",
       "by": "src/core2/household-mix.ts: the place's ACS household shares, or its state's where the place has none"
     },
+    "town.passedOver": {
+      "made": "decision",
+      "by": "src/bench/world.ts passOver: a new game's drawn place where every adult lives in group quarters opens no player, so the draw is taken again without it (the same state's next place by the same ranking in src/bench/place-selection.mjs); no new draw"
+    },
     "town.presidentApproval": {
       "made": "decision",
       "by": "src/core2/modules/national-opinion.ts presidentElection: the share of the two-party vote the 2024 presidential election recorded for the sitting president (src/core2/past-elections.ts, kept on their term), moved from the first month of the term by the economy and the pushes other engines write"
@@ -129,9 +133,8 @@
       "by": "src/core2/town-employment-mix.ts: the county's County Business Patterns industries"
     },
     "business.cash": {
-      "made": "ad-hoc-draw",
-      "by": "src/core2/opening-capital.ts openingEmployerCashBufferPrior: days of cash by industry, placed by a hash",
-      "replace": "The world's seeded unit keyed by business"
+      "made": "generation",
+      "by": "src/core2/opening-capital.ts openingEmployerCashBufferPrior: days of cash by industry (JPMorgan Chase Institute's small-business buffer days), the business's place in that spread read from the world's seeded unit keyed by the business"
     },
     "business.staff": {
       "made": "generation",
@@ -479,9 +482,8 @@
       "replace": "The world's seeded unit keyed by the record's id"
     },
     "src/core2/opening-capital.ts#openingEmployerCashBufferPrior": {
-      "made": "ad-hoc-draw",
-      "what": "A business's cash on day one, placed by a hash",
-      "replace": "The world's seeded unit keyed by the record's id"
+      "made": "generation",
+      "what": "A business's place in its industry's spread of cash on day one, on the world's seeded unit keyed by the business"
     },
     "src/core2/opening-county-sample.ts#<anonymous>": {
       "made": "ad-hoc-draw",

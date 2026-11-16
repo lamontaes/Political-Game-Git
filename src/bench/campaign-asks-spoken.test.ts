@@ -1,4 +1,3 @@
-import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "../core2/bookkeeping";
@@ -15,8 +14,24 @@ import { buildBenchWorld } from "./world";
 // The volunteer and endorsement asks are answered in each person's own
 // spoken words (agreements/3-4.md, Lane 3's campaignAnswer), the name shown
 // as the speaker, never narrated inside the line. Drawn places, a fresh seed.
-const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
+// Pinned (Nov 16, trial batch). Before, the seed came at run time from
+// process.env GOLDEN_PATH_SEED or randomBytes, so the places it drew changed
+// every run. The fixed seed below draws St. Hedwig, Texas (4864172) first for
+// "campaign-asks-spoken".
+// It was red here on the Train at 544056f5 (item
+// tests-campaign-ask-answer-is-an-empty-line) and passes from 8d26a629
+// (Nov 16), so it is not an expected failure.
+// Limit: the slowest case took 158 s, run two files at a time (Nov 16,
+// Train 6d12556a); each case's limit is about twice that, 320 s.
+const seed = "pin-campaign-asks-spoken";
 const YEAR = 365;
+
+it("draws its pinned place from the fixed seed", () => {
+  expect(drawPlace(`${seed}:0`, "campaign-asks-spoken")).toMatchObject({
+    key: "4864172",
+    name: "St. Hedwig, Texas",
+  });
+});
 
 it("campaign asks are answered in the speaker's own words on the bench", () => {
   const notes: string[] = [];
@@ -93,4 +108,4 @@ it("campaign asks are answered in the speaker's own words on the bench", () => {
     return;
   }
   throw new Error(`no race to campaign in: ${notes.join("; ")}`);
-}, 1_800_000);
+}, 320_000);

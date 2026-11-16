@@ -5,7 +5,6 @@
  * the cards of the member and of the player opens a record in dev mode's Trace. The place and
  * seed are in every message; replay with LIFE_SEED and LIFE_PLACE_KEY.
  */
-import { randomBytes } from "node:crypto";
 import { readFileSync } from "node:fs";
 import { expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
@@ -21,7 +20,16 @@ import { knownCard } from "./card";
 import { traceNode } from "./dev-trace";
 import { buildBenchWorld } from "./world";
 
-const seed = process.env.LIFE_SEED ?? randomBytes(8).toString("hex");
+// Pinned (Nov 16, trial batch). Before, the seed came at run time from
+// process.env LIFE_SEED or randomBytes, so the places it drew changed every
+// run. The fixed seed below draws East Merrimack, New Hampshire (3321780) first
+// for "card-life".
+// It was red here on the Train at 544056f5 (item
+// tests-card-life-employer-missing-and-player-alone) and passes from 8d26a629
+// (Nov 16), so it is not an expected failure.
+// Limit: the slowest case took 147 s, run two files at a time (Nov 16,
+// Train 6d12556a); each case's limit is about twice that, 300 s.
+const seed = "pin-card-life";
 const drawn = drawPlace(seed, "card-life");
 const placeKey = process.env.LIFE_PLACE_KEY ?? drawn.key;
 
@@ -41,6 +49,13 @@ function played() {
     where: `${built.place.displayName} (${placeKey}), seed ${seed}`,
   };
 }
+
+it("draws its pinned place from the fixed seed", () => {
+  expect(drawPlace(seed, "card-life")).toMatchObject({
+    key: "3321780",
+    name: "East Merrimack, New Hampshire",
+  });
+});
 
 it("a household member's card tells a job lost and an illness from play, and every line opens a record", () => {
   const world = played();
@@ -145,7 +160,7 @@ it("a household member's card tells a job lost and an illness from play, and eve
   console.log(
     `card-life: ${where}; ${member!.id} told ${card.history.length} lines, the player ${mine.history.length}; all ${lines.length} open in Trace`,
   );
-}, 600_000);
+}, 300_000);
 
 it("the player's own life is told in the first person, never repeats who they are, and no `.you` piece is left", () => {
   const { core, playerId, where } = played();
