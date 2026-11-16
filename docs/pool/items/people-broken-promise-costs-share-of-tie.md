@@ -8,7 +8,7 @@ size: S
 status: in-pr
 standard: 2
 claimed-by: S6 (branch claude/project-thread-d5qa0q-share-of-tie)
-pr:
+pr: "#9624"
 after:
 blocked-on:
 lead: people
