@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "variants-differ-in-what-they-say",
   "rubric": "Variants of a slot differ in what they say, each tied to a fact in the record, not only in wording; a bank grows by adding conditions and specifics, not more generic lines.",
-  "judged": 1176,
+  "judged": 1175,
   "no": {
     "006el8dj9s1": {
       "keys": [
@@ -3690,14 +3690,6 @@
         "scene-talk.follow-thank.youre-kinder-than-i-had-a-right-to-expect"
       ],
       "why": "Both lines give the same grateful thanks."
-    },
-    "1pakw133fbu": {
-      "keys": [
-        "scene-talk.reply-lie.i-ve-always-supported-it",
-        "scene-talk.reply-lie.i-ve-been-for-it-from-the-beginning",
-        "scene-talk.reply-lie.my-position-hasn-t-changed-since-day-one"
-      ],
-      "why": "All three lines say the speaker has always supported it, the same claim reworded."
     },
     "1pfflrgt169": {
       "keys": [
