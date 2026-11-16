@@ -44,6 +44,7 @@ import {
 } from "./modules/voting";
 import { PLATFORM_QUESTIONS } from "./campaign-data";
 import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
+import { townResidentsByCash } from "./resident-adults-test-kit";
 
 const START = "2026-01-05";
 const seed =
@@ -90,11 +91,9 @@ function filedRace(place: string) {
   openCampaigns(core);
   openParties(core);
   const api = coreAPI(core);
-  const adults = [...core.people.values()]
-    .filter(
-      (p) => Number(START.slice(0, 4)) - Number(p.birthDate.slice(0, 4)) >= 35,
-    )
-    .sort((a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id));
+  const adults = townResidentsByCash(core, coreAPI(core)).filter(
+    (p) => Number(START.slice(0, 4)) - Number(p.birthDate.slice(0, 4)) >= 35,
+  );
   const platform = [`${pick(PLATFORM_QUESTIONS, "q1")}=1`];
   // Every race opens its filing on a real day, so at the start most places
   // have none open yet: the world runs a week at a time, at most 60 weeks,

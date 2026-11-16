@@ -51,6 +51,7 @@ import { PLATFORM_QUESTIONS } from "./campaign-data";
 import axes from "../../data/research/campaigns/issue-axes-2026.json" with { type: "json" };
 import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 import { setKeepEveryonesWhy } from "./why-kept";
+import { townResidentsByCash } from "./resident-adults-test-kit";
 
 const START = "2026-01-05";
 const seed =
@@ -149,18 +150,14 @@ describe("M4-06 the record follows you", () => {
     const incumbentFiling = ballot(api, contest!.id)[0]!;
     const incumbent = core!.people.get(incumbentFiling.personId)!;
     // A challenger from town files (by fee or signatures).
-    const challenger = [...core!.people.values()]
-      .filter(
-        (p) =>
-          p.id !== incumbent.id &&
-          // A resident: the press's national staff are people of the world
-          // who live elsewhere and could not file for a town seat.
-          p.placeId === incumbent.placeId &&
-          Number(START.slice(0, 4)) - Number(p.birthDate.slice(0, 4)) >= 30,
-      )
-      .sort(
-        (a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id),
-      )[0]!;
+    const challenger = townResidentsByCash(core!, api).filter(
+      (p) =>
+        p.id !== incumbent.id &&
+        // A resident: the press's national staff are people of the world
+        // who live elsewhere and could not file for a town seat.
+        p.placeId === incumbent.placeId &&
+        Number(START.slice(0, 4)) - Number(p.birthDate.slice(0, 4)) >= 30,
+    )[0]!;
     fileCandidacy(api, {
       personId: challenger.id,
       contestId: contest!.id,

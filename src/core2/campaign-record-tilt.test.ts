@@ -21,6 +21,7 @@ import { platformShares } from "./campaign-stances";
 import { campaignFor } from "./modules/campaigns";
 import { fileCandidacy, openContests } from "./modules/elections";
 import { OFFICES_MODULE_ID } from "./modules/offices";
+import { townResidentsByCash } from "./resident-adults-test-kit";
 
 const SEED = "a7c13e";
 const DRAWS = [0, 1, 2] as const;
@@ -83,9 +84,9 @@ function challengerShares(
 ) {
   const { drawn, built, api, used } = world;
   writeTerm(built, slide);
-  const town = [...built.core.people.values()]
-    .filter((p) => p.alive && p.placeId === built.placeId && !used.has(p.id))
-    .sort((a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id));
+  const town = townResidentsByCash(built.core, coreAPI(built.core)).filter(
+    (p) => p.alive && p.placeId === built.placeId && !used.has(p.id),
+  );
   // Premise (#9342, the account lead's yes): this test writes the town's own
   // web, which only a local seat reads; a state's and the country's seats now
   // read their own monthly records (term-read-figures.test.ts), so a flat

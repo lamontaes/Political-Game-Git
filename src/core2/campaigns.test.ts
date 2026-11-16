@@ -52,6 +52,7 @@ import { discretionaryHours } from "./modules/work";
 import { OPENING_CARRY } from "./turnout";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import type { CoreEventInput, PersonState } from "./types";
+import { townResidentsByCash } from "./resident-adults-test-kit";
 
 // Reads every reached voter's recorded cause for people outside the player's circle.
 setKeepEveryonesWhy(true);
@@ -115,14 +116,9 @@ describe("M2-05 and M2-06 campaigning and polls", { timeout: 180_000 }, () => {
     openCampaigns(core);
     advanceToFilingOpen(core);
     const api = coreAPI(core);
-    const adults = [...core.people.values()]
-      .filter(
-        (p) =>
-          Number(START.slice(0, 4)) - Number(p.birthDate.slice(0, 4)) >= 35,
-      )
-      .sort(
-        (a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id),
-      );
+    const adults = townResidentsByCash(core, coreAPI(core)).filter(
+      (p) => Number(START.slice(0, 4)) - Number(p.birthDate.slice(0, 4)) >= 35,
+    );
     const platformA = [
       `${pick(PLATFORM_QUESTIONS, "q1")}=1`,
       `${pick(PLATFORM_QUESTIONS, "q2")}=-1`,
@@ -300,11 +296,9 @@ describe("M2-05 and M2-06 campaigning and polls", { timeout: 180_000 }, () => {
       openCampaigns(core);
       advanceToFilingOpen(core);
       const api = coreAPI(core);
-      const adults = [...core.people.values()]
-        .filter((p) => year(p) >= 35)
-        .sort(
-          (a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id),
-        );
+      const adults = townResidentsByCash(core, coreAPI(core)).filter(
+        (p) => year(p) >= 35,
+      );
       const platform = [`${pick(PLATFORM_QUESTIONS, "shift-q1", drawSeed)}=1`];
       let filing: FilingRow | null = null;
       for (const contest of openContests(api)) {
