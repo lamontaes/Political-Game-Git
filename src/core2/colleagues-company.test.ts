@@ -91,4 +91,4 @@ it("senators keep company with the colleagues they sit with, not all with the pl
   // read the sitting reader), and it spreads over at least seven of them.
   expect(by.size).toBeGreaterThan(senators.size / 2);
   expect(others.length).toBeGreaterThanOrEqual(7);
-}, 90_000);
+}, 70_000);
