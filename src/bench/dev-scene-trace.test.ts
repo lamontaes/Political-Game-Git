@@ -3,7 +3,7 @@
  * handler on a built world: Abney Crossroads, South Carolina (4500165), the draw "8341-pin"/"p7".
  * (Re-pinned Nov 16 from Ridgeville, Alabama, the draw "8341-pin"/"p6": the default player there is
  * now born in 1947 with no job and no worker in the circle, and forcing a layoff needs a worker. The
- * premise is a player or someone in their circle with a job; Abney Crossroads has the player at work.) Every situation type is listed with how dev mode can cause it (87 types: 5 caused at
+ * premise is a player or someone in their circle with a job; Abney Crossroads has the player at work.) Every situation type is listed with how dev mode can cause it (89 types: 5 caused at
  * once, 81 by running the world until their cause record comes, 1 no engine writes: polling-place),
  * the register's tie class is read for a scene's lines, and a forced scene is a dev mark, never a
  * played scene.
@@ -134,4 +134,26 @@ it("the scene trace lists every scene, ties its lines and marks a forced scene (
   expect(
     devModeMarks(world.core).some((id) => id.includes(":scene-forced:")),
   ).toBe(true);
-}, 30_000);
+
+  // The map: a type a record of its cause kind stages is forced at once; the rest say why not.
+  const byKey = new Map(types.types.map((row) => [row.key, row]));
+  const mapped = types.types as unknown as {
+    key: string;
+    recipe: string | null;
+    why: string | null;
+  }[];
+  expect(
+    mapped.filter((row) => row.recipe === "event").length,
+    `${where}: types forced by a record of their cause kind`,
+  ).toBeGreaterThan(10);
+  expect(mapped.find((row) => row.key === "date")?.why).toBe("journal-line");
+  expect(byKey.has("return")).toBe(true);
+  const event = await ask("POST", "scene-trace/force", { typeKey: "return" });
+  expect(event.status, `${where}: ${JSON.stringify(event.value)}`).toBe(200);
+  const answer = event.value as { recipe: string; staged: boolean };
+  expect(answer.recipe).toBe("event");
+  expect(answer.staged, `${where}: the forced scene staged`).toBe(true);
+  process.stdout.write(
+    `${where}: forcing "return" staged it: ${answer.staged}\n`,
+  );
+}, 60_000);
