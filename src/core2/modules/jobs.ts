@@ -3571,6 +3571,14 @@ function runWeek(api: CoreAPI): void {
   const byPlace = new Map<string, PositionRow[]>();
   for (const row of positions)
     byPlace.set(row.placeId, [...(byPlace.get(row.placeId) ?? []), row]);
+  // The player's applications stand while their opening does: one for a filled or withdrawn opening is dropped.
+  const applied = store(api).table("playerApplications");
+  for (const row of applied.rows()) {
+    const held = store(api)
+      .table("positions")
+      .get(row.id as string) as PositionRow | undefined;
+    if (held?.status !== "open") applied.remove(row.id as string);
+  }
   const applications = new Map<string, SeekerRow[]>();
   const apply = (positionId: string, seeker: SeekerRow) => {
     if (outOfCivilianWork(api, seeker.personId)) return;
