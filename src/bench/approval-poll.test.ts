@@ -12,6 +12,7 @@ import { buildBenchWorld } from "./world";
 import { BenchPlayer } from "./player";
 import { DevMode } from "./dev-mode";
 import { printedFacts } from "./printed-words";
+import { wordPrintedStory } from "./archive-words";
 import { gameStartDate } from "../core2/game-start";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { coreAPI } from "../core2/state";
@@ -100,6 +101,11 @@ it(`a month's approval poll is printed nationally and read by name (${PLACE.name
   const facts = printedFacts(core, story);
   expect(facts?.kind, where).toBe("approval");
   expect(facts?.facts.percent?.text, where).toBe(`${poll!.facts?.pct}%`);
+  // The News page words it from the bank: a headline, and the percent once,
+  // in the lede.
+  const worded = wordPrintedStory(core, story);
+  expect(worded?.headline, `${where}: worded`).toBeTruthy();
+  expect(worded!.headline, where).not.toContain("%");
   // Dev mode's trace of the story: who it reached, and the read it made.
   const trace = dev.trace(found!.storyId);
   const reach = trace.children.find(
@@ -117,6 +123,6 @@ it(`a month's approval poll is printed nationally and read by name (${PLACE.name
   ).toBe(true);
   const first = core.people.get(readers[0]!)!;
   process.stdout.write(
-    `APPROVAL POLL ${where}: ${pollId} ${poll!.facts?.pct}% ${poll!.facts?.direction}; ${found!.storyId}; ${found!.readId} names ${readers.length}, first ${first.givenName} ${first.familyName}; reach ${JSON.stringify(reach!.value)}\n`,
+    `APPROVAL POLL ${where}: "${worded!.headline}" ${pollId} ${poll!.facts?.pct}% ${poll!.facts?.direction}; ${found!.storyId}; ${found!.readId} names ${readers.length}, first ${first.givenName} ${first.familyName}; reach ${JSON.stringify(reach!.value)}\n`,
   );
 }, 120_000);

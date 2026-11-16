@@ -9170,6 +9170,182 @@
       },
       "restoredFrom": "notice.election.notice-of-election",
       "restoredOn": "2026-11-08"
+    },
+    {
+      "key": "headlines.approval.name-s-approval-rises",
+      "move": "approval",
+      "kind": "written",
+      "text": "{name}'s approval rises",
+      "uses": [
+        {
+          "move": "approval",
+          "subject": "headline",
+          "role": "approval",
+          "choice": "headline",
+          "requiresFacts": ["up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (C1, the President's monthly approval)",
+      "date": "2026-11-16",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.approval.more-americans-approve-of-name",
+      "move": "approval",
+      "kind": "written",
+      "text": "More Americans approve of {name}",
+      "uses": [
+        {
+          "move": "approval",
+          "subject": "headline",
+          "role": "approval",
+          "choice": "headline",
+          "requiresFacts": ["up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (C1, the President's monthly approval)",
+      "date": "2026-11-16",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.approval.name-s-approval-falls",
+      "move": "approval",
+      "kind": "written",
+      "text": "{name}'s approval falls",
+      "uses": [
+        {
+          "move": "approval",
+          "subject": "headline",
+          "role": "approval",
+          "choice": "headline",
+          "requiresFacts": ["down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (C1, the President's monthly approval)",
+      "date": "2026-11-16",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.approval.fewer-americans-approve-of-name",
+      "move": "approval",
+      "kind": "written",
+      "text": "Fewer Americans approve of {name}",
+      "uses": [
+        {
+          "move": "approval",
+          "subject": "headline",
+          "role": "approval",
+          "choice": "headline",
+          "requiresFacts": ["down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (C1, the President's monthly approval)",
+      "date": "2026-11-16",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.approval.name-s-approval-holds-steady",
+      "move": "approval",
+      "kind": "written",
+      "text": "{name}'s approval holds steady",
+      "uses": [
+        {
+          "move": "approval",
+          "subject": "headline",
+          "role": "approval",
+          "choice": "headline",
+          "requiresFacts": ["held"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (C1, the President's monthly approval)",
+      "date": "2026-11-16",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.approval.no-change-in-name-s-approval",
+      "move": "approval",
+      "kind": "written",
+      "text": "No change in {name}'s approval",
+      "uses": [
+        {
+          "move": "approval",
+          "subject": "headline",
+          "role": "approval",
+          "choice": "headline",
+          "requiresFacts": ["held"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (C1, the President's monthly approval)",
+      "date": "2026-11-16",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.approval.where-name-stands-with-americans",
+      "move": "approval",
+      "kind": "written",
+      "text": "Where {name} stands with Americans",
+      "uses": [
+        {
+          "move": "approval",
+          "subject": "headline",
+          "role": "approval",
+          "choice": "headline",
+          "excludesFacts": ["up", "down", "held"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (C1, the President's monthly approval)",
+      "date": "2026-11-16",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.approval.name-s-approval-in-month",
+      "move": "approval",
+      "kind": "written",
+      "text": "{name}'s approval in {month}",
+      "uses": [
+        {
+          "move": "approval",
+          "subject": "headline",
+          "role": "approval",
+          "choice": "headline",
+          "excludesFacts": ["up", "down", "held"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (C1, the President's monthly approval)",
+      "date": "2026-11-16",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
     }
   ]
 }
