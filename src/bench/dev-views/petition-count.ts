@@ -39,7 +39,7 @@ export function petitionCountOf(core: CoreState, filingId: string) {
     0,
   );
   const reading = petitionShortReading(api, filingId, 0);
-  const gathers = signaturesToGather(petition.needed);
+  const gathers = signaturesToGather(api, filingId);
   const told = core.durableLog.get(
     `${PETITION_SHORT_EVENT}:${filingId}` as never,
   );
