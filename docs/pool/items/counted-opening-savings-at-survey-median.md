@@ -20,9 +20,9 @@ source: "T54's #9117 trace at Staples CT, Nov 15 23:20Z (fault B); Account lead'
 
 **What.** At Staples CT (`drawPlace("probe-a", "exit-a")`, 1,500 people) the median counted household held 0.56 of its survey median in cash and savings on day 1, with group-held savings (#9597). Since #9117 a counted household's days of money decide whether it starts looking for work, so 57 counted people started looking on day 2 for want of money they would really have (0 before #9117). Seen: the jobless count on day 2 and in dev mode a counted household's cash beside its survey median.
 
-**Cause.** Found in code: the collapse (`collapseToTwoLevels`, src/core2/residents.ts) opened each group's account at its households' survey medians, and `householdCash` then shares the account by savings weights `exp(σz − σ²/2)`, whose mean is one but whose median is `exp(−σ²/2)`, 0.38 at σ 1.39. So the median household held well under its median.
+**Cause.** Found in code: every household's opening cash (`population.ts` for full and counted households, `householdOpeningCash` in src/core2/starting-cash.ts for kin and the county sample) was its survey median with no spread, the collapse (`collapseToTwoLevels`, src/core2/residents.ts) put those medians in each group's account, and `householdCash` then shares the account by savings weights `exp(σz − σ²/2)`, whose mean is one but whose median is `exp(−σ²/2)`, 0.38 at σ 1.39. So the median household held well under its median.
 
-**Fix.** The collapse opens each counted household at its survey median times its own draw, `countedOpeningSpread` = `exp(σz)`, the same draw `savingWeight` keeps (src/core2/counted-money.ts). The group's account holds what its households hold, and each household's share is its own median times its draw, so the median household holds its median. No second weight.
+**Fix.** Where opening cash is set, every household (full, counted, kin and county sample) opens at its survey median times its own draw, `householdBalanceDraw` = `exp(σz)` keyed by the household's id (src/core2/household-balance-draw.ts), and `savingWeight` (src/core2/counted-money.ts) reads the same z. The collapse is unchanged and keeps every dollar; the group's account holds what its households hold, and each household's share is its own median times its draw, so the median household holds its median. No second weight. Account lead's ruling, Nov 16: the draw sits where opening cash is set, keyed by household id, with no re-pin of residents.test.
 
 **Time box.** 3 hours, Opus, medium.
 
@@ -32,4 +32,4 @@ source: "T54's #9117 trace at Staples CT, Nov 15 23:20Z (fault B); Account lead'
 
 **Waits on.** #9597 (counted-savings-banked-by-group).
 
-**Files.** src/core2/residents.ts, src/core2/counted-money.ts, src/core2/counted-opening-savings-median.test.ts (new), src/bench/dev-why.ts, src/bench/dev-why-counted-money.test.ts (new). Dev mode: the trace of a counted household or person shows its Money and Looking for work panels.
+**Files.** src/core2/household-balance-draw.ts (new), src/core2/population.ts, src/core2/starting-cash.ts, src/core2/opening-county-sample.ts, src/core2/modules/residents.ts, src/core2/counted-money.ts, src/core2/opening-kin-cash.test.ts, src/core2/housing-counted-buy.test.ts, src/core2/counted-opening-savings-median.test.ts (new), src/bench/dev-why.ts, src/bench/dev-why-counted-money.test.ts (new). Dev mode: the trace of a counted household or person shows its Money and Looking for work panels, and the trace of a person shows its household's Opening savings draw.
