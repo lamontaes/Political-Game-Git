@@ -5,10 +5,10 @@ area: elections
 kind: bug
 priority: 3
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/project-thread-hjvzia-redraw
-pr:
+pr: 9641
 after:
 blocked-on:
 root: design-electorate-one-model
