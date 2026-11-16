@@ -11,6 +11,7 @@ import path from "node:path";
 import { afterAll, describe, expect, it } from "vitest";
 // @ts-expect-error plain JavaScript module with no types
 import {
+  findPromoted,
   lastPromoted,
   mainPackageJson,
   promote,
@@ -130,6 +131,32 @@ describe("promote: the commit on main", () => {
       ),
     ).toThrow(/does not descend/);
     expect(existsSync(path.join(dir, "src/c.ts"))).toBe(false);
+  });
+
+  it("finds the main commit that carries an older work commit, and none for one never promoted", () => {
+    const dir = setup();
+    const first = promote(
+      dir,
+      { work: "HEAD", main: "main", remote: "origin", push: false },
+      quiet,
+    );
+    g(dir, "update-ref", "refs/heads/main", first);
+    const work1 = g(dir, "rev-parse", "HEAD");
+    put(dir, { "src/c.ts": "export const c = 3;\n" });
+    g(dir, "commit", "-qm", "more work");
+    const work2 = g(dir, "rev-parse", "HEAD");
+    const second = promote(
+      dir,
+      { work: "HEAD", main: "main", remote: "origin", push: false },
+      quiet,
+    );
+    g(dir, "update-ref", "refs/heads/main", second);
+    // A rerun for the older work commit finds its own promote, not the newest.
+    expect(findPromoted(dir, "main", work1)).toBe(first);
+    expect(findPromoted(dir, "main", work2)).toBe(second);
+    put(dir, { "src/e.ts": "export const e = 5;\n" });
+    g(dir, "commit", "-qm", "unpromoted");
+    expect(findPromoted(dir, "main", g(dir, "rev-parse", "HEAD"))).toBeNull();
   });
 
   it("refuses a dirty tree", () => {

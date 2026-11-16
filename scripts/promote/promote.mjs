@@ -20,6 +20,8 @@
 //      its own).
 //   5. Makes ONE commit on top of main's current tip: no force, no history rewrite,
 //      message "Promote <W>: the game without test files".
+//   (With --find <work-sha>: print the main commit that carries that work commit
+//   and exit 0, or exit 2 when main has none. Nothing is built or pushed.)
 //   6. With --push, pushes it to main as a fast-forward and retries when main
 //      moved. Without --push it only prints the commit and leaves it under
 //      refs/promote/candidate for a look.
@@ -115,6 +117,27 @@ export function lastPromoted(root, mainRef) {
   return null;
 }
 
+/**
+ * The main commit that carries exactly `work` (the commit whose subject is
+ * "Promote <work>: ..."), or null when main holds no such commit. The release
+ * package workflow packages that commit, and a rerun after a failure finds the
+ * promote it already made here instead of making a second one.
+ */
+export function findPromoted(root, mainRef, work) {
+  const out = git(root, [
+    "log",
+    mainRef,
+    "--format=%H%x09%s",
+    `--grep=^Promote ${work}: `,
+  ]);
+  for (const line of out.split("\n").filter(Boolean)) {
+    const [hash, subject] = line.split("\t");
+    const m = MARK.exec(subject ?? "");
+    if (m && m[1] === work) return hash;
+  }
+  return null;
+}
+
 export function isAncestor(root, a, b) {
   try {
     execFileSync("git", ["merge-base", "--is-ancestor", a, b], {
@@ -174,13 +197,20 @@ export function buildTree(root, work) {
 const top = (f) => (f.includes("/") ? f.slice(0, f.indexOf("/")) : "(root)");
 
 function parse(argv) {
-  const o = { work: "HEAD", main: null, push: false, remote: "origin" };
+  const o = {
+    work: "HEAD",
+    main: null,
+    push: false,
+    remote: "origin",
+    find: null,
+  };
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
     if (a === "--push") o.push = true;
     else if (a === "--work") o.work = argv[++i];
     else if (a === "--main") o.main = argv[++i];
     else if (a === "--remote") o.remote = argv[++i];
+    else if (a === "--find") o.find = argv[++i];
     else throw new Error(`Unknown argument ${a}`);
   }
   o.main ??= `${o.remote}/main`;
@@ -292,7 +322,15 @@ if (
   import.meta.url === pathToFileURL(process.argv[1]).href
 ) {
   try {
-    promote(process.cwd(), parse(process.argv.slice(2)));
+    const o = parse(process.argv.slice(2));
+    if (o.find) {
+      if (!/^[0-9a-f]{40}$/.test(o.find))
+        throw new Error("--find needs a full 40-character work commit sha.");
+      fetchMain(process.cwd(), o);
+      const found = findPromoted(process.cwd(), o.main, o.find);
+      if (!found) process.exit(2);
+      console.log(found);
+    } else promote(process.cwd(), o);
   } catch (e) {
     console.error(e instanceof Error ? e.message : String(e));
     process.exit(1);

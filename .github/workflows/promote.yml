@@ -6,20 +6,39 @@ name: Promote
 # each time the work branch passes, its files are copied to main with every test
 # file stripped. Builds come from main."). Read docs/coordination/TWO-BRANCHES.md.
 #
-# MANUAL ONLY. It is not wired to any push or schedule yet; the cutover plan
-# (section e of that page) says when to chain it. It does nothing until someone
-# runs it: Actions > "Promote" > Run workflow, or
-# `gh workflow run promote.yml -f work_branch=dev -f push=true`.
-# The default is a dry run (push false): it builds the commit, prints the counts
-# and pushes nothing.
+# Two ways in:
+#   - workflow_call, from release-package.yml: right after the release candidate
+#     pushes its version commit to dev, with that commit's sha (work_sha). The
+#     packaging jobs then build the Mac and Windows apps from the main commit
+#     this workflow returns (main_sha).
+#   - workflow_dispatch, by hand, the fallback: Actions > "Promote" > Run
+#     workflow, or `gh workflow run promote.yml -f work_branch=dev -f push=true`.
+#     The default is a dry run (push false): it builds the commit, prints the
+#     counts and pushes nothing.
 #
 # The script (scripts/promote/promote.mjs) refuses unless the commit descends
 # from the last promoted one, never forces, never rewrites history, and pushes
-# a fast-forward only. The push uses the same token the release workflow uses to
-# push the version commit past branch protection (RELEASE_PUSH_TOKEN); without
-# it the push is refused and nothing changes.
+# a fast-forward only. A sha already promoted is found, not promoted twice, so a
+# rerun after a failure picks up where the last run stopped. The push uses the
+# same token the release workflow uses to push the version commit past branch
+# protection (RELEASE_PUSH_TOKEN); without it the push is refused and nothing
+# changes.
 
 on:
+  workflow_call:
+    inputs:
+      work_sha:
+        description: The work-branch commit to promote (the release's version commit); it must be on dev.
+        type: string
+        required: true
+    secrets:
+      RELEASE_PUSH_TOKEN:
+        description: The owner's token for pushing main past branch protection; the caller passes it.
+        required: false
+    outputs:
+      main_sha:
+        description: The main commit that carries work_sha (made now, or found from an earlier run).
+        value: ${{ jobs.promote.outputs.main_sha }}
   workflow_dispatch:
     inputs:
       work_branch:
@@ -35,20 +54,22 @@ on:
 permissions:
   contents: write
 
-# One promote at a time, and a running one is never canceled.
-concurrency:
-  group: promote
-  cancel-in-progress: false
-
 jobs:
   promote:
     name: Promote the work branch to main
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    # One promote at a time, and a running one is never canceled. At job level
+    # so it holds for a call from the release workflow as well as a manual run.
+    concurrency:
+      group: promote
+      cancel-in-progress: false
+    outputs:
+      main_sha: ${{ steps.promote.outputs.main_sha }}
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ inputs.work_branch }}
+          ref: ${{ inputs.work_sha || inputs.work_branch }}
           # The ancestor check and main's promote messages need history; file
           # contents are checked out, so the test rule can read them.
           fetch-depth: 0
@@ -60,9 +81,12 @@ jobs:
         with:
           node-version: 22.13.0
       - name: Promote
+        id: promote
         env:
           WORK_BRANCH: ${{ inputs.work_branch }}
-          PUSH: ${{ inputs.push }}
+          WORK_SHA: ${{ inputs.work_sha }}
+          # A call from the release workflow always pushes; a manual run says so.
+          PUSH: ${{ inputs.work_sha != '' && 'true' || inputs.push }}
           GIT_AUTHOR_NAME: github-actions[bot]
           GIT_AUTHOR_EMAIL: 41898282+github-actions[bot]@users.noreply.github.com
           GIT_COMMITTER_NAME: github-actions[bot]
@@ -70,8 +94,23 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          [[ "$WORK_BRANCH" =~ ^[A-Za-z0-9._/-]+$ ]]
-          [[ "$WORK_BRANCH" != "main" ]]
+          if [[ -n "$WORK_SHA" ]]; then
+            [[ "$WORK_SHA" =~ ^[0-9a-f]{40}$ ]]
+            [[ "$(git rev-parse HEAD)" == "$WORK_SHA" ]]
+            # Only a commit that is on dev is ever promoted.
+            git fetch --no-tags origin dev
+            git merge-base --is-ancestor "$WORK_SHA" origin/dev
+            # Already promoted by an earlier run (the push worked, a later step
+            # failed): use that main commit and make no second one.
+            if found="$(node scripts/promote/promote.mjs --find "$WORK_SHA")"; then
+              echo "main_sha=$found" >> "$GITHUB_OUTPUT"
+              echo "Main already holds $WORK_SHA as $found; nothing to promote." | tee -a "$GITHUB_STEP_SUMMARY"
+              exit 0
+            fi
+          else
+            [[ "$WORK_BRANCH" =~ ^[A-Za-z0-9._/-]+$ ]]
+            [[ "$WORK_BRANCH" != "main" ]]
+          fi
           args=(--work HEAD)
           if [[ "$PUSH" == "true" ]]; then args+=(--push); fi
           node scripts/promote/promote.mjs "${args[@]}" | tee "$RUNNER_TEMP/promote.txt"
@@ -82,3 +121,8 @@ jobs:
             cat "$RUNNER_TEMP/promote.txt"
             echo '```'
           } >> "$GITHUB_STEP_SUMMARY"
+          if [[ "$PUSH" == "true" ]]; then
+            # The commit just pushed, found by the work sha it names.
+            main_sha="$(node scripts/promote/promote.mjs --find "$(git rev-parse HEAD)")"
+            echo "main_sha=$main_sha" >> "$GITHUB_OUTPUT"
+          fi

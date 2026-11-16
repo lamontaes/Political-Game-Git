@@ -308,3 +308,18 @@ Each step above can be undone, in reverse, and no history is rewritten.
   them).
 - `docs/` is never stripped, even a file named like a test (a reproduction
   file quoting a browser check). Those are prose for the owner and sessions.
+
+## Step 9 as built (the promote-chain pull request)
+
+- `release-package.yml` has a `promote` job between `find_candidate` and the
+  desktop jobs. It calls `promote.yml` (now also `workflow_call`) with the
+  version commit's sha. The desktop jobs check out the returned `main_sha`; the
+  GitHub release targets it and names both commits; a `release-record` artifact
+  holds both.
+- `promote.yml` keeps its manual run. `promote.mjs --find <work-sha>` prints
+  the `main` commit that carries a work commit, so a rerun never promotes twice.
+- The app's update check compares versions, so two shas for one release do
+  no harm. The failure table is in `docs/release/README.md`.
+- **Not chained here:** a promote on every passing `dev` commit. `main` now
+  moves once per release (at most every two hours, and only when a declaration
+  is pending). See the owner questions in the pull request.

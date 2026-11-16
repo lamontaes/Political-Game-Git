@@ -112,6 +112,54 @@ npm run release:recover
 
 `npm run release:check` is part of `npm run validate`.
 
+## From a merge into dev to a Mac app (two branches, owner Nov 15, 2026)
+
+Work lands on `dev`; the apps are built from `main`
+(`docs/coordination/TWO-BRANCHES.md`, section d, choice A).
+
+1. A pull request merges into `dev`. `release.yml` builds and validates it and
+   publishes nothing.
+2. Every two hours (or on request) `release-package.yml` builds and validates
+   the newest `dev` and pushes the version commit to `dev` (`candidate`). It
+   writes the `publish-record` artifact, which names that commit as
+   `publishedSha`.
+3. `find_candidate` takes that record, or the newest earlier record with no
+   GitHub release yet.
+4. `promote` (`promote.yml`, called) copies that version commit to `main` as one
+   commit with every test file taken out, and returns its sha (`main_sha`). If
+   `main` already holds a commit for it, that commit is returned and nothing is
+   pushed.
+5. The Mac and Windows jobs check out `main_sha`, check that its subject is
+   `Promote <version commit>: the game without test files`, build, stage, play
+   the packaged app once and check the update feed.
+6. The publisher makes the GitHub release at tag `v<version>` on `main_sha`.
+   The notes name both commits, and the `release-record` artifact holds
+   `mainSha`, `devSha`, `candidateSha` and `bundleSha256`.
+
+The installed app's update check reads `latest-mac.yml` and compares **versions**
+(electron-updater), then checks the zip's size and sha512 (`check-release-feed.mjs`).
+It never compares commits, so the version commit on `dev` and the promoted
+commit on `main` can differ. The build revision shown in the app is the `main`
+commit.
+
+### When a step fails
+
+The run stops at the failed step. Nothing is half-released: the GitHub release
+is made last, as a draft, and shown only after every file is uploaded.
+
+| Failure                                               | State it leaves                                              | How the next run recovers                                                                                                                                            |
+| ----------------------------------------------------- | ------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Candidate validation fails                            | Nothing published                                            | The next run builds again.                                                                                                                                           |
+| Version commit push to `dev` loses a race, five times | Nothing published                                            | The next run lays the release on the new tip.                                                                                                                        |
+| `promote` loses a push race to another promote        | The script rebuilds on the new tip, up to three tries        | A fourth failure fails the job; `dev` holds the version commit, `main` does not; the next run finds the record without a release, runs `promote` again and succeeds. |
+| `promote` fails (token, protection)                   | `dev` holds the version commit; `main` unchanged; no release | Same: the next run promotes the same version commit, which still descends from the last promoted one.                                                                |
+| `promote` pushes but a later step fails               | `main` holds the promote commit                              | The next run's `promote` finds it with `--find` and makes no second one.                                                                                             |
+| A package job fails                                   | `main` holds the commit; no release                          | The next run finds the record, finds the main commit, packages again.                                                                                                |
+| Publish fails after upload starts                     | A draft release may exist, never shown                       | The next run reuses the draft tag and uploads again with `--clobber`.                                                                                                |
+
+A manual run of `promote.yml` stays as the fallback (Actions > "Promote" > Run
+workflow, `work_branch` `dev`, `push` true).
+
 ## When desktop builds happen, and how to ask for one
 
 A push to `dev` builds and validates only. Publishing the version commit and

@@ -102,10 +102,13 @@ describe("the release event", () => {
       /^concurrency:\n {2}group: release-package\n {2}cancel-in-progress: false/m,
     );
     expect(packaging).not.toContain("cancel-in-progress: true");
-    // It packages the ledger's published commit, never a newer dev.
+    // It packages the main commit promoted from the ledger's published commit, never a newer one.
     expect(packaging).toContain("artifacts?name=publish-record");
     expect(packaging).toContain("workflows/release-package.yml/runs");
-    expect(packaging).toContain(
+    // ... and builds it from the promoted main commit, never from dev
+    // (owner, Nov 15, 2026: "Builds come from main").
+    expect(packaging).toContain("ref: ${{ needs.promote.outputs.main_sha }}");
+    expect(packaging).not.toContain(
       "ref: ${{ needs.find_candidate.outputs.published_sha }}",
     );
     expect(packaging).not.toContain("ref: main");
@@ -117,6 +120,69 @@ describe("the release event", () => {
     expect(workflow).toContain(
       "!contains(github.event.head_commit.message, '[release-automation]')",
     );
+  });
+});
+
+describe("the promote chain", () => {
+  const promoteWorkflow = readFileSync(".github/workflows/promote.yml", "utf8");
+  const promoteJob = packaging.slice(
+    packaging.indexOf("  promote:"),
+    packaging.indexOf("  desktop_package:"),
+  );
+  const desktopPackager = packaging.slice(
+    packaging.indexOf("  desktop_package:"),
+    packaging.indexOf("  desktop_publish:"),
+  );
+
+  it("promotes the ledger's version commit after it is published, before any app is built", () => {
+    expect(promoteJob).toContain("needs: find_candidate");
+    expect(promoteJob).toContain("uses: ./.github/workflows/promote.yml");
+    expect(promoteJob).toContain(
+      "work_sha: ${{ needs.find_candidate.outputs.published_sha }}",
+    );
+    expect(promoteJob).toContain(
+      "RELEASE_PUSH_TOKEN: ${{ secrets.RELEASE_PUSH_TOKEN }}",
+    );
+    expect(desktopPackager).toContain("- promote");
+    expect(packaging.slice(packaging.indexOf("  desktop_publish:"))).toContain(
+      "- promote",
+    );
+  });
+
+  it("checks the promoted commit names the version commit before building from it", () => {
+    expect(desktopPackager).toContain(
+      '[[ "$(git rev-parse HEAD)" == "$MAIN_SHA" ]]',
+    );
+    expect(desktopPackager).toContain(
+      '"Promote ${PUBLISHED_SHA}: the game without test files"',
+    );
+    expect(desktopPackager).toContain(
+      '[[ "$(jq -er \'.revision\' staged/build-identity.json)" == "$MAIN_SHA" ]]',
+    );
+  });
+
+  it("names both commits on the release and in the release record", () => {
+    const publisher = packaging.slice(packaging.indexOf("  desktop_publish:"));
+    expect(publisher).toContain('--target "$MAIN_SHA"');
+    expect(publisher).toContain("${MAIN_SHA}");
+    expect(publisher).toContain("${PUBLISHED_SHA}");
+    expect(publisher).toContain("release-record.json");
+    expect(publisher).toContain("mainSha:$mainSha,devSha:$devSha");
+  });
+
+  it("promotes only a commit that is on dev, finds a promote it already made, and keeps the manual run", () => {
+    expect(promoteWorkflow).toContain("workflow_call:");
+    expect(promoteWorkflow).toContain("workflow_dispatch:");
+    expect(promoteWorkflow).toContain(
+      'git merge-base --is-ancestor "$WORK_SHA" origin/dev',
+    );
+    expect(promoteWorkflow).toContain("promote.mjs --find");
+    expect(promoteWorkflow).toContain(
+      "main_sha: ${{ steps.promote.outputs.main_sha }}",
+    );
+    expect(promoteWorkflow).toContain("cancel-in-progress: false");
+    expect(promoteWorkflow).not.toContain("cancel-in-progress: true");
+    expect(promoteWorkflow).not.toMatch(/push --force|--force-with-lease/);
   });
 });
 
@@ -201,7 +267,9 @@ describe("privilege separation", () => {
     // The clock caller's candidate job (the called publisher) and the
     // desktop release publisher; the push caller names it only because the
     // called workflow does, and passes publish: false.
-    expect(packaging.match(/contents: write/g)).toHaveLength(2);
+    // Before the promote chain this was 2; the promote job is the third (it
+    // pushes main by calling promote.yml).
+    expect(packaging.match(/contents: write/g)).toHaveLength(3);
     expect(pushWorkflow.match(/contents: write/g)).toHaveLength(1);
     expect(publisher).toContain("contents: write");
     expect(desktopPublisher).toContain("contents: write");

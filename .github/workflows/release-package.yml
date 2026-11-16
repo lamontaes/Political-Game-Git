@@ -2,9 +2,10 @@ name: Release package
 
 # WHEN THIS RUNS, AND HOW TO ASK FOR IT (owner, Oct 27, 2026)
 #
-# Builds, validates and PUBLISHES the newest dev, then packages the Mac and
-# Windows desktop apps and publishes the GitHub release the installed app's
-# Check for Updates reads. It runs:
+# Builds, validates and PUBLISHES the newest dev, copies that version commit to
+# main with the promote step, then packages the Mac and Windows desktop apps
+# FROM MAIN (owner, Nov 15, 2026: "Builds come from main") and publishes the
+# GitHub release the installed app's Check for Updates reads. It runs:
 #   - every two hours on a schedule (GitHub cron can lag; that is fine), and
 #   - on workflow_dispatch: Actions > "Release package" > Run workflow, or
 #     `gh workflow run release-package.yml --ref dev`.
@@ -19,9 +20,15 @@ name: Release package
 # bundleSha256, sourceSha, published commit). A red candidate stops the run.
 # (2) `find_candidate` takes that candidate, or, when nothing new needed a
 # version commit, the newest earlier record not yet released. If its version
-# already has a GitHub release it exits cleanly and says so. (3) The apps are
-# packaged from exactly that published commit, never a newer dev, played
-# once by the smoke test (unchanged) and published. See docs/release/README.md.
+# already has a GitHub release it exits cleanly and says so. (3) `promote`
+# (promote.yml) copies that version commit to main without test files, or finds
+# the main commit an earlier run already made for it. (4) The apps are packaged
+# from exactly that promoted main commit, never a newer one, played once by the
+# smoke test (unchanged) and published. The GitHub release and the release
+# record name both commits: the version commit on dev and the main commit the
+# apps were built from. The installed app's update check compares versions,
+# never commits. If a step fails the run stops there, the next run starts from
+# the ledger and finishes what is missing (docs/release/README.md).
 
 on:
   schedule:
@@ -138,11 +145,28 @@ jobs:
             echo "- bundleSha256: \`${bundle_sha256}\`"
           } >> "$GITHUB_STEP_SUMMARY"
 
-  # The Mac and Windows apps are built from the published commit named by the
-  # ledger, launched and played once, and checked against their update feed.
+  # The version commit is on dev. Copy it to main (or find the main commit an
+  # earlier run made for it) so the apps are built from main.
+  promote:
+    name: Promote the version commit to main
+    needs: find_candidate
+    if: needs.find_candidate.outputs.package == 'true'
+    # The called workflow pushes main, so its caller grants write access.
+    permissions:
+      contents: write
+    uses: ./.github/workflows/promote.yml
+    with:
+      work_sha: ${{ needs.find_candidate.outputs.published_sha }}
+    secrets:
+      RELEASE_PUSH_TOKEN: ${{ secrets.RELEASE_PUSH_TOKEN }}
+
+  # The Mac and Windows apps are built from the promoted main commit, launched
+  # and played once, and checked against their update feed.
   desktop_package:
     name: Package desktop release (read only)
-    needs: find_candidate
+    needs:
+      - find_candidate
+      - promote
     if: needs.find_candidate.outputs.package == 'true'
     strategy:
       fail-fast: false
@@ -162,21 +186,26 @@ jobs:
     permissions:
       contents: read
     env:
+      # The version commit on dev, and the main commit that carries it.
       PUBLISHED_SHA: ${{ needs.find_candidate.outputs.published_sha }}
+      MAIN_SHA: ${{ needs.promote.outputs.main_sha }}
       NEXT_VERSION: ${{ needs.find_candidate.outputs.version }}
     steps:
-      - name: Check out the published release commit without write credentials
+      - name: Check out the promoted main commit without write credentials
         uses: actions/checkout@v7
         with:
           fetch-depth: 0
-          ref: ${{ needs.find_candidate.outputs.published_sha }}
+          ref: ${{ needs.promote.outputs.main_sha }}
           persist-credentials: false
 
-      - name: Prove the checkout is the ledger's published commit
+      - name: Prove the checkout is the main commit promoted from the ledger's version commit
         shell: bash
         run: |
           set -euo pipefail
-          [[ "$(git rev-parse HEAD)" == "$PUBLISHED_SHA" ]]
+          [[ "$MAIN_SHA" =~ ^[0-9a-f]{40}$ ]]
+          [[ "$(git rev-parse HEAD)" == "$MAIN_SHA" ]]
+          # The promote commit names the work commit it was made from.
+          [[ "$(git log -1 --format=%s)" == "Promote ${PUBLISHED_SHA}: the game without test files" ]]
           [[ "$(jq -er '.version' package.json)" == "$NEXT_VERSION" ]]
 
       - name: Use Node 22
@@ -207,7 +236,7 @@ jobs:
           set -euo pipefail
           node scripts/stage.mjs
           [[ "$(jq -er '.version' staged/build-identity.json)" == "$NEXT_VERSION" ]]
-          [[ "$(jq -er '.revision' staged/build-identity.json)" == "$PUBLISHED_SHA" ]]
+          [[ "$(jq -er '.revision' staged/build-identity.json)" == "$MAIN_SHA" ]]
 
       - name: Package (unsigned, never uploads)
         env:
@@ -265,6 +294,7 @@ jobs:
     name: Publish desktop release (minimal write authority)
     needs:
       - find_candidate
+      - promote
       - desktop_package
     if: >-
       needs.find_candidate.outputs.package == 'true' &&
@@ -287,10 +317,21 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           PUBLISHED_SHA: ${{ needs.find_candidate.outputs.published_sha }}
+          MAIN_SHA: ${{ needs.promote.outputs.main_sha }}
+          CANDIDATE_SHA: ${{ needs.find_candidate.outputs.candidate_sha }}
+          BUNDLE_SHA256: ${{ needs.find_candidate.outputs.bundle_sha256 }}
+          RUN_ID: ${{ github.run_id }}
           NEXT_VERSION: ${{ needs.find_candidate.outputs.version }}
         shell: bash
         run: |
           set -euo pipefail
+          # The release record: both commits, so nobody has to guess which one
+          # an installed build or a tag came from.
+          jq -n --arg version "$NEXT_VERSION" --arg mainSha "$MAIN_SHA" \
+            --arg devSha "$PUBLISHED_SHA" --arg candidateSha "$CANDIDATE_SHA" \
+            --arg bundleSha256 "$BUNDLE_SHA256" --arg runId "$RUN_ID" \
+            '{schemaVersion:1,version:$version,mainSha:$mainSha,devSha:$devSha,candidateSha:$candidateSha,bundleSha256:$bundleSha256,runId:$runId}' \
+            > "$RUNNER_TEMP/release-record.json"
           cd "$RUNNER_TEMP/desktop-release"
           ls -la
           # Windows may be missing until early access (owner,
@@ -303,9 +344,17 @@ jobs:
           # A draft first, so the updater never sees a half-uploaded release.
           if ! gh release view "$tag" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
             gh release create "$tag" --repo "$GITHUB_REPOSITORY" \
-              --target "$PUBLISHED_SHA" --title "$tag" --draft \
-              --notes "Built from ${PUBLISHED_SHA}."
+              --target "$MAIN_SHA" --title "$tag" --draft \
+              --notes "Built from main ${MAIN_SHA}, the promoted copy of version commit ${PUBLISHED_SHA} on dev."
           fi
           gh release upload "$tag" --repo "$GITHUB_REPOSITORY" --clobber -- *
           gh release edit "$tag" --repo "$GITHUB_REPOSITORY" --draft=false --latest
-          echo "Published desktop release $tag from $PUBLISHED_SHA." >> "$GITHUB_STEP_SUMMARY"
+          echo "Published desktop release $tag from main $MAIN_SHA (version commit $PUBLISHED_SHA on dev)." >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Keep the release record
+        uses: actions/upload-artifact@v7
+        with:
+          name: release-record
+          path: ${{ runner.temp }}/release-record.json
+          if-no-files-found: error
+          retention-days: 90
