@@ -18,7 +18,9 @@ import { buildBenchWorld } from "./world";
 // process.env GOLDEN_PATH_SEED or randomBytes, so the places it drew changed
 // every run. The fixed seed below draws St. Hedwig, Texas (4864172) first for
 // "campaign-asks-spoken".
-// It stays red here for item tests-campaign-ask-answer-is-an-empty-line (Needs cause).
+// It was red here on the Train at 544056f5 (item
+// tests-campaign-ask-answer-is-an-empty-line) and passes from 8d26a629
+// (Nov 16), so it is not an expected failure.
 // Limit: the slowest case took 158 s, run two files at a time (Nov 16,
 // Train 6d12556a); each case's limit is about twice that, 320 s.
 const seed = "pin-campaign-asks-spoken";
