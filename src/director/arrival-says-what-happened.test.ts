@@ -8,7 +8,7 @@ import { causeRecordFacts } from "./cause-facts";
 // without saying what (owner, Nov 15: story points come with context; the
 // second reader at Sheridan, Wyoming: "You stay in, thinking about what
 // happened on January 1st."). The first line names what happened from the
-// cause record (a law, a bill, the law on a topic, a charge), and a cause
+// cause record (a bill, by its name), and a cause
 // that names no happening (a speech heard, a story read) opens on the plain
 // first line (director-street-news-scene-ends-after-its-opener).
 //
@@ -18,9 +18,8 @@ import { causeRecordFacts } from "./cause-facts";
 // 2025; each scene of the player's is then shown as the story screen shows
 // it. On the Train before the change, 21 of them opened "...thinking about
 // what happened on January 21st." or "...to talk over what happened
-// yesterday." Measured at about 27 seconds (16 to make the world, 5 to play,
-// 6 to show the scenes); the limits are 60 seconds for the world and 60 for
-// the rest.
+// yesterday." Measured alone at about 78 seconds (65 to make the world, 13
+// to play and show the scenes); the limits are 180 seconds each.
 const SEED = "7";
 const PLACE = "5669845";
 const MEMBER = "person_0f713cf2e3e20027";
