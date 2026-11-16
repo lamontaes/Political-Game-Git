@@ -26,6 +26,8 @@ import { worldOffsetUnit } from "../../core2/world-draw";
 import { pastElections, townSeats } from "../../core2/modules/offices";
 import {
   latestApproval,
+  OPENING_APPROVAL_KEY,
+  openingApproval,
   opinionParameter,
 } from "../../core2/modules/national-opinion";
 import { healthReport } from "../../core2/modules/health";
@@ -101,6 +103,11 @@ function row(
     ...(made.replace ? { replace: made.replace } : {}),
     ...extra,
   };
+}
+
+/** Today's approval base, or "none" before the first month has run. */
+function approvalNow(pct: number | undefined): string {
+  return pct === undefined ? shown(pct) : `${shown(pct)}%`;
 }
 
 function shown(value: unknown): string {
@@ -182,7 +189,10 @@ function townView(core: CoreState, placeId: string): OpeningRow[] {
     row(
       "town.presidentApproval",
       "President's approval on day one",
-      `${opinionParameter("openingPct")}% (now ${shown(latestApproval(api)?.basePct)})`,
+      `${shown(openingApproval(core.seed))}% (published ${opinionParameter("openingPct")}%; now ${approvalNow(latestApproval(api)?.basePct)})`,
+      {
+        drawKey: `${OPENING_APPROVAL_KEY}: ${shown(worldOffsetUnit(core.seed, OPENING_APPROVAL_KEY))}`,
+      },
     ),
   );
   return rows;

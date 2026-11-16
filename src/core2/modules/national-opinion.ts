@@ -14,6 +14,7 @@
 import { addDays, makeIsoDate } from "../kernel/dates";
 import data from "../data/electorate/national-opinion.json";
 import { registerModule } from "../state";
+import { worldOffsetUnit } from "../world-draw";
 import type { CoreAPI, CoreModule, CoreState } from "../types";
 
 export const NATIONAL_OPINION_MODULE_ID = "national-opinion";
@@ -22,7 +23,9 @@ const RUN_KIND = "national-opinion";
 const OFFICES_MODULE = "core2-offices-v1";
 
 const PARAMS = (
-  data as unknown as { parameters: Record<string, { value: number }> }
+  data as unknown as {
+    parameters: Record<string, { value: number; spread?: [number, number] }>;
+  }
 ).parameters;
 
 /** One number from the opinion table. */
@@ -30,6 +33,24 @@ export function opinionParameter(key: string): number {
   const row = PARAMS[key];
   if (!row) throw new Error(`Unknown opinion parameter: ${key}`);
   return row.value;
+}
+
+/** The key of the world's one draw for the president's approval on the first day of play. */
+export const OPENING_APPROVAL_KEY = "national-opinion:openingPct";
+
+/**
+ * Where the country's approval of the president stands on the first day of play in this world
+ * (owner, Oct 27: "realistic, not real"): the published opening figure moved by the world's offset
+ * (`worldOffsetUnit`) inside its own row's spread, toward the high end for an offset above zero
+ * and toward the low end below it, so no two worlds open on the same figure. Seeded generation
+ * of the starting world; nothing after day one is a draw.
+ */
+export function openingApproval(seed: string): number {
+  const row = PARAMS.openingPct;
+  if (!row?.spread) throw new Error("openingPct needs its spread");
+  const [low, high] = row.spread;
+  const unit = worldOffsetUnit(seed, OPENING_APPROVAL_KEY);
+  return row.value + unit * (unit > 0 ? high - row.value : row.value - low);
 }
 
 export interface ApprovalRow {
@@ -153,7 +174,7 @@ function monthlyRun(api: CoreAPI): void {
     opinionParameter("pointsPerUnemploymentPoint") * unemploymentChange +
     opinionParameter("pointsPerInflationPoint") * inflationChange
   );
-  const lastBase = previous?.basePct ?? opinionParameter("openingPct");
+  const lastBase = previous?.basePct ?? openingApproval(api.state.seed);
   const basePct = lastBase + economyPull;
   let pushPct = 0;
   for (const push of table(api, "pushes").rows() as unknown as OpinionPush[]) {

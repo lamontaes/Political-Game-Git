@@ -12,7 +12,13 @@ import { gameStartDate } from "../core2/game-start";
 import { handleDev } from "./dev-api";
 import type { OpeningView } from "./dev-views/opening";
 import SOURCES from "./dev-views/opening-sources.json" with { type: "json" };
-import { buildBenchWorld } from "./world";
+import { buildBenchWorld, OPENING_WARMUP_DAYS } from "./world";
+import { coreAPI } from "../core2/state";
+import {
+  type ApprovalRow,
+  NATIONAL_OPINION_MODULE_ID,
+  openingApproval,
+} from "../core2/modules/national-opinion";
 
 const PINNED = { run: "8341-pin", purpose: "p6", key: "0164656" };
 
@@ -34,8 +40,10 @@ it("shows how the town, the player, their household, a business and an office op
   const place = drawPlace(PINNED.run, PINNED.purpose);
   const where = `${place.name} (${place.key}), world seed ${place.seed}`;
   expect(place.key, `${where}: the pinned place moved`).toBe(PINNED.key);
+  // New Game's options, its warm-up month included, so the month's engines have run once.
   const world = buildBenchWorld(place.seed, gameStartDate(), {
     twoLevel: true,
+    warmUpDays: OPENING_WARMUP_DAYS,
     placeKey: place.key,
   });
   const ask = async (query: string): Promise<OpeningView> => {
@@ -60,9 +68,29 @@ it("shows how the town, the player, their household, a business and an office op
   expect(population?.made, where).toBe(SOURCES.kinds["world-offset"]);
   expect(population?.value, where).toMatch(/published/);
   expect(population?.drawKey, where).toMatch(/^world-place-population:/);
-  expect(
-    town.rows.find((r) => r.label === "President's approval on day one")?.made,
-  ).toBe(SOURCES.kinds.constant);
+  // The president's approval opens at the world's offset inside its row's 36 to 45 spread.
+  const approval = town.rows.find(
+    (r) => r.label === "President's approval on day one",
+  );
+  expect(approval?.made, where).toBe(SOURCES.kinds["world-offset"]);
+  expect(approval?.drawKey, where).toMatch(/^national-opinion:openingPct: /);
+  const opened = Number.parseFloat(approval?.value ?? "");
+  expect(opened, where).toBeGreaterThanOrEqual(36);
+  expect(opened, where).toBeLessThanOrEqual(45);
+  expect(opened, `${where}: not the published 41`).not.toBe(41);
+  // The country's first month of approval starts from that figure: its base less the month's
+  // economic pull is the world's opening, read by the engine, not only shown here.
+  const first = [
+    ...(coreAPI(world.core)
+      .moduleState(NATIONAL_OPINION_MODULE_ID)
+      .table("approval")
+      .rows() as unknown as ApprovalRow[]),
+  ].sort((a, b) => a.month.localeCompare(b.month))[0];
+  expect(first, `${where}: an approval month after the warm-up`).toBeDefined();
+  expect(first!.basePct - first!.economyPull, where).toBeCloseTo(
+    openingApproval(world.core.seed),
+    9,
+  );
   expect(
     town.rows.some((r) => r.label.startsWith("Share of jobs: ")),
     where,

@@ -55,9 +55,8 @@
       "by": "src/core2/household-mix.ts: the place's ACS household shares, or its state's where the place has none"
     },
     "town.presidentApproval": {
-      "made": "constant",
-      "by": "src/core2/modules/national-opinion.ts reads openingPct (41) from src/core2/data/electorate/national-opinion.json; its own spread is 36 to 45",
-      "replace": "A world offset inside the row's spread"
+      "made": "world-offset",
+      "by": "src/core2/modules/national-opinion.ts openingApproval: the published openingPct (41, Gallup's 2025 readings) moved by the world's offset inside the row's own spread, 36 to 45, in src/core2/data/electorate/national-opinion.json"
     },
     "person.name": {
       "made": "generation",
@@ -377,6 +376,10 @@
     "src/core2/modules/jobs.ts#vacancyDays": {
       "made": "world-offset",
       "what": "Days a job stays open"
+    },
+    "src/core2/modules/national-opinion.ts#openingApproval": {
+      "made": "world-offset",
+      "what": "The president's approval on day one"
     },
     "src/core2/modules/offices.ts#electionBehind": {
       "made": "ad-hoc-draw",
