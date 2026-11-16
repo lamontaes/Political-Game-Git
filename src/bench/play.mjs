@@ -2773,6 +2773,11 @@ async function personCardNode(
         labels: controls.devPerson,
         onDone: () => refresh(),
       }),
+      // Views registered from their own files (ui/dev-views.mjs, slot "person").
+      ...(await devViewNodes("person", {
+        personId: person.personId,
+        onDone: () => refresh(),
+      })),
     );
   if (!stillWanted()) return null;
   return {
