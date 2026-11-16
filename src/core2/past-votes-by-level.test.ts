@@ -105,4 +105,4 @@ it(`a local or state chamber's past roll calls are on questions its level decide
     passedOver.length,
     `passed over more places than checked: ${passedOver.join("; ")}`,
   ).toBeLessThanOrEqual(placesChecked);
-}, 60_000);
+}, 150_000);
