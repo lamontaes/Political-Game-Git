@@ -80,7 +80,7 @@ import {
   questionSaid,
 } from "../english/question-names";
 import { floorDebateFacts } from "./floor-debate-facts";
-import { lossExpectationFacts, raceTurnoutFacts } from "./race-turnout-facts";
+import { raceReadFacts, raceTurnoutFacts } from "./race-turnout-facts";
 import { DONOR_ASK_TYPE, donorAskFacts } from "./donor-ask-facts";
 import {
   causeTopicSaid,
@@ -1940,7 +1940,7 @@ function composeBinding(
   // winner the biggest share.
   if (record?.kind === "election-result" && said.contestId) {
     Object.assign(facts, raceTurnoutFacts(core, said.contestId));
-    Object.assign(facts, lossExpectationFacts(core, said.contestId, askedId));
+    Object.assign(facts, raceReadFacts(core, said.contestId, askedId));
   }
   // The winner's side of a count: how far ahead they finished, from the
   // result record's totals (votes, exact: a count is an integer): over the

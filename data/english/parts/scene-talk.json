@@ -5724,7 +5724,8 @@
           "move": "tell",
           "role": "asked",
           "purpose": "family-loss",
-          "key": "loss"
+          "key": "loss",
+          "requiresFacts": ["recount-automatic"]
         }
       ],
       "bearing": "hurt",
@@ -29703,30 +29704,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-ask.what-s-still-out-tell-me-the-precincts",
-      "move": "reply-ask",
-      "kind": "spoken",
-      "text": "What's still out? Tell me the precincts.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "purpose": "concession-call",
-          "key": "loss"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "ask",
-        "key": "loss"
-      }
-    },
-    {
       "key": "scene-talk.reply-refuse.not-tonight-not-until-every-ballot-s-counted",
       "move": "reply-refuse",
       "kind": "spoken",
@@ -29797,31 +29774,6 @@
       "date": "2026-10-15",
       "tag": {
         "move": "thank",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.two-and-they-re-both-opponent-s-even-if-we-took-every-vote-it-s-not-en",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "Two, and they're both {opponent}'s. Even if we took every vote, it's not enough.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "concession-call",
-          "key": "loss",
-          "after": "ask"
-        }
-      ],
-      "bearing": "solemn",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "answer",
         "key": "loss"
       }
     },
@@ -39207,7 +39159,8 @@
           "move": "ask",
           "role": "asked",
           "purpose": "concession-call",
-          "key": "loss"
+          "key": "loss",
+          "requiresFacts": ["recount-none", "poll-wider"]
         }
       ],
       "bearing": "braced",
@@ -39343,10 +39296,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-answer.closer-than-anybody-expected-not-close-enough-to-count-again",
+      "key": "scene-talk.follow-answer.worse-than-our-poll-had-it-it-wasnt-close",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "Closer than anybody expected. Not close enough to count again.",
+      "text": "Worse than our poll had it. It wasn't close.",
       "uses": [
         {
           "subject": "scene",
@@ -39355,13 +39308,14 @@
           "role": "asker",
           "purpose": "concession-call",
           "key": "loss",
-          "after": "scene-talk.reply-ask.how-close-was-it"
+          "after": "scene-talk.reply-ask.how-close-was-it",
+          "requiresFacts": ["recount-none", "poll-wider"]
         }
       ],
       "bearing": "solemn",
       "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
+      "author": "Words lead",
+      "date": "2026-11-16",
       "tag": {
         "move": "answer",
         "key": "loss"
@@ -39443,10 +39397,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.closer-than-anybody-expected-i-can-live-on-that-dial-it",
+      "key": "scene-talk.reply-agree.then-theres-nothing-to-wait-for-dial-it",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Closer than anybody expected. I can live on that. Dial it.",
+      "text": "Then there's nothing to wait for. Dial it.",
       "uses": [
         {
           "subject": "scene",
@@ -39455,13 +39409,14 @@
           "role": "asked",
           "purpose": "concession-call",
           "key": "loss",
-          "after": "answer"
+          "after": "answer",
+          "requiresFacts": ["recount-none"]
         }
       ],
       "bearing": "solemn",
       "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
+      "author": "Words lead",
+      "date": "2026-11-16",
       "tag": {
         "move": "agree",
         "key": "loss"
@@ -39480,7 +39435,8 @@
           "role": "asked",
           "purpose": "concession-call",
           "key": "loss",
-          "after": "answer"
+          "after": "answer",
+          "requiresFacts": ["recount-automatic"]
         }
       ],
       "bearing": "braced",

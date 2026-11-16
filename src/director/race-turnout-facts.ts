@@ -77,23 +77,31 @@ export function raceTurnoutFacts(
 }
 
 /**
- * How a lost count stood against what the campaign expected and against the
- * state's recount rule, for the one who lost it (the concession call's
- * "How close was it?"). Nothing is said as a figure and no share is chosen:
+ * The one read of how a race went (Account lead, Nov 16: "close" means inside
+ * the state's recount rule and nothing else; no share is chosen). Every reader
+ * of a race's margin (the concession call, the Journal, a person bringing a
+ * race up) reads it here, by record:
  *
- * - `poll-closer`, `poll-as-polled` or `poll-wider`: the gap between the
- *   loser and the winner in the count, against the same gap in the last poll
- *   the loser's own campaign bought before the vote. Inside the poll's own
- *   margin of error (kept on the poll record) it went as polled. A campaign
- *   that bought no poll expected nothing on the record, and none is given.
  * - `recount-automatic`, `recount-offered` or `recount-none`: whether the
- *   margin fell inside the state's recount rule (the voting engine's recount
- *   row): counted again by law, the loser's to ask for, or neither.
+ *   count's margin fell inside the state's recount rule (the voting engine's
+ *   recount row): counted again by law, inside the margin the one behind may
+ *   ask in, or neither. For a candidate the recount does not name (it is
+ *   between the leader and the one just behind), `recount-between-others`:
+ *   their own race was not close, and no line says it was.
+ * - For a candidate whose own campaign bought a poll before the vote:
+ *   `poll-closer`, `poll-as-polled` or `poll-wider`, the gap between the
+ *   candidate and their nearest rival in the count (the winner, or for the
+ *   winner the runner-up) against the same gap in that campaign's last poll.
+ *   Inside the poll's own margin of error (kept on the poll record) it went
+ *   as polled; otherwise the race was closer or wider than polled. With it,
+ *   `poll-ahead` when that poll had the candidate ahead of the rival. A
+ *   campaign that bought no poll expected nothing on the record, and none is
+ *   given.
  */
-export function lossExpectationFacts(
+export function raceReadFacts(
   core: Readonly<CoreState>,
   contestId: string,
-  loserId: string,
+  candidateId?: string,
 ): Record<string, RaceFact> {
   const facts: Record<string, RaceFact> = {};
   if (!core.modules.has(VOTING_MODULE_ID)) return facts;
@@ -103,30 +111,45 @@ export function lossExpectationFacts(
     .moduleState(VOTING_MODULE_ID)
     .table("results")
     .get(resultId) as unknown as ResultRow | undefined;
-  const winner = result?.winnerCandidateId;
-  // Only a candidate in the count lost it.
-  if (!result || !winner || winner === loserId || !(loserId in result.totals))
-    return facts;
+  if (!result?.winnerCandidateId) return facts;
   const recount = recountOf(api, contestId);
-  // Inside the margin a candidate may ask in, the one behind could ask,
-  // whether or not they have yet.
+  // A recount is between the two it names: to any other candidate in the
+  // count it says nothing about how close their own race was.
+  const others =
+    !!recount &&
+    !!candidateId &&
+    candidateId !== recount.leaderId &&
+    candidateId !== recount.trailingId;
   const recountKey = !recount
     ? "recount-none"
-    : recount.kind === "automatic"
-      ? "recount-automatic"
-      : "recount-offered";
+    : others
+      ? "recount-between-others"
+      : recount.kind === "automatic"
+        ? "recount-automatic"
+        : "recount-offered";
   facts[recountKey] = {
     text: "yes",
     sourceRecordIds: recount ? [resultId, recount.id] : [resultId],
   };
+  // Only a candidate in the count has a poll of their own to set it against.
+  if (!candidateId || !(candidateId in result.totals)) return facts;
+  const rival =
+    candidateId === result.winnerCandidateId
+      ? Object.entries(result.totals)
+          .filter(([id]) => id !== candidateId)
+          .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))[P.zero]?.[
+          P.zero
+        ]
+      : result.winnerCandidateId;
   const cast = Object.values(result.totals).reduce((a, b) => a + b, P.zero);
-  if (!core.modules.has(CAMPAIGNS_MODULE_ID) || cast <= P.zero) return facts;
+  if (!rival || cast <= P.zero || !core.modules.has(CAMPAIGNS_MODULE_ID))
+    return facts;
   const filingIds = new Set(
     (
       api
         .moduleState(ELECTIONS_MODULE_ID)
         .table("filings")
-        .query("byPerson", [loserId]) as unknown as FilingRow[]
+        .query("byPerson", [candidateId]) as unknown as FilingRow[]
     )
       .filter((filing) => filing.contestId === contestId)
       .map((filing) => filing.id),
@@ -148,18 +171,23 @@ export function lossExpectationFacts(
     P.zero
   ];
   if (!poll) return facts;
+  // The candidate's lead over the rival (behind is below zero), counted and polled.
   const counted =
-    ((result.totals[winner] ?? P.zero) - (result.totals[loserId] ?? P.zero)) /
+    ((result.totals[candidateId] ?? P.zero) -
+      (result.totals[rival] ?? P.zero)) /
     cast;
   const polled =
-    ((poll.answers[winner] ?? P.zero) - (poll.answers[loserId] ?? P.zero)) /
+    ((poll.answers[candidateId] ?? P.zero) - (poll.answers[rival] ?? P.zero)) /
     poll.contacted;
   const key =
     Math.abs(counted - polled) <= poll.marginOfError!
       ? "poll-as-polled"
-      : counted < polled
+      : Math.abs(counted) < Math.abs(polled)
         ? "poll-closer"
         : "poll-wider";
-  facts[key] = { text: "yes", sourceRecordIds: [resultId, poll.id] };
+  const ids = [resultId, poll.id];
+  facts[key] = { text: "yes", sourceRecordIds: ids };
+  if (polled > P.zero)
+    facts["poll-ahead"] = { text: "yes", sourceRecordIds: ids };
   return facts;
 }

@@ -19,6 +19,7 @@
  *     town and county hold in full and the rest, which add to the state's.
  */
 import { coreAPI } from "../core2/state";
+import { raceReadFacts } from "../director/race-turnout-facts";
 import { parameter } from "../core2/parameters";
 import { isExplicitlyControlledPersonV1 } from "../core2/player-control-state-v1";
 import { LAWS_MODULE_ID } from "../core2/modules/laws";
@@ -718,6 +719,60 @@ function countryStatePartPanels(
   ];
 }
 
+// ---- How a race went (the one race read) ------------------------------------
+
+/** Each race read fact, said for the panel. */
+const RACE_READ_SAID: Record<string, string> = {
+  "recount-automatic": "inside the state's automatic recount margin",
+  "recount-offered": "inside the margin the one behind may ask a recount in",
+  "recount-none": "outside the state's recount margins",
+  "recount-between-others":
+    "a recount between two other candidates; this one was not close",
+  "poll-closer": "closer than the campaign's last poll",
+  "poll-as-polled":
+    "as the campaign's last poll had it, inside its margin of error",
+  "poll-wider": "wider than the campaign's last poll",
+  "poll-ahead": "the campaign's last poll had this candidate ahead",
+};
+
+/** An election result: the race read (src/director/race-turnout-facts.ts) for the race and for each candidate in the count, with the records behind each. */
+function racePanels(
+  core: CoreState,
+  facts: Record<string, string>,
+): WhyPanel[] {
+  const contestId = facts.contestId;
+  if (!contestId) return [];
+  const totals = JSON.parse(facts.totals ?? "{}") as Record<string, number>;
+  const rowsOf = (read: ReturnType<typeof raceReadFacts>, skip: Set<string>) =>
+    Object.entries(read)
+      .filter(([key]) => !skip.has(key))
+      .map(([key, fact]) => ({
+        label: RACE_READ_SAID[key] ?? key,
+        value: fact.sourceRecordIds.join(", "),
+        id: fact.sourceRecordIds.at(-1),
+      }));
+  const race = raceReadFacts(core, contestId);
+  const raceKeys = new Set(Object.keys(race));
+  return [
+    { title: `How the race went: ${contestId}`, rows: rowsOf(race, new Set()) },
+    ...Object.keys(totals)
+      .sort((a, b) => (totals[b] ?? 0) - (totals[a] ?? 0) || a.localeCompare(b))
+      .map((id) => {
+        const person = core.people.get(id as never);
+        const rows = rowsOf(raceReadFacts(core, contestId, id), raceKeys);
+        return {
+          title: `Against the polls: ${person ? `${person.givenName} ${person.familyName}` : id}`,
+          rows,
+          ...(rows.length
+            ? {}
+            : {
+                gap: "This candidate's campaign bought no poll before the vote, so nothing on the record says what it expected.",
+              }),
+        };
+      }),
+  ];
+}
+
 // ---- The entry point -------------------------------------------------------
 
 export function whyPanels(
@@ -738,6 +793,7 @@ export function whyPanels(
   if (found.engine === "core.organizations" && core.finance.businesses.has(id))
     return closingPanels(core, id);
   if (found.kind === "budget-line-changed") return budgetPanels(core, facts);
+  if (found.kind === "election-result") return racePanels(core, facts);
   if (found.engine === `${BUDGETS_MODULE_ID}.budgets`)
     return Object.keys((record.spendingMinor ?? {}) as object).map((line) =>
       linePanel(core, String(record.governmentId), line),
