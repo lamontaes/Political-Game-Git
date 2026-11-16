@@ -33,7 +33,6 @@ import type { CoreEventInput } from "../core2/types";
 import { billTitleOf, spokenDesignation } from "../english/bill-names";
 import { composeJournal } from "./journal";
 import { purposeScene, replyInScene } from "./purpose-scene";
-import { SITUATION_LIBRARY } from "./scheduling";
 import type { PersonLedger } from "./types";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");

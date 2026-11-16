@@ -3,7 +3,7 @@ import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import ts from "typescript";
 import { describe, expect, it } from "vitest";
-import { addDays, makeIsoDate } from "../core2/kernel/dates";
+import { makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore, createLifeCore } from "../core2/life";
 import { P, parameter } from "../core2/parameters";
 import { advancePlayerV1, resumePlayerV1 } from "../core2/player-v1";
