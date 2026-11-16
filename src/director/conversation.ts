@@ -218,7 +218,7 @@ import {
 } from "../english/said-as";
 import { personWorkOf } from "../core2/person-work";
 import localAddressData from "./data/local-address.json" with { type: "json" };
-import { bodySaid } from "./local-address";
+import { bodySaid } from "./body-said";
 import { saidPersonOf } from "./said-person";
 import {
   answerPromise,
