@@ -78,6 +78,8 @@ import {
   firmCharged,
   type FirmChargeKind,
 } from "../firm-charges";
+import { employerTaxShareOfWage, premisesTaxYearMinor } from "./employer-taxes";
+import { businessEnergyLawShare } from "./place-prices";
 
 export { BUSINESS_MODULE_ID };
 /** A household's books as other families read them: its medical debt and what it keeps back for its home. */
@@ -315,6 +317,18 @@ function open(api: CoreAPI): void {
         retainedMinor: 0,
         netThrough: netCash(c, id),
       });
+  }
+  // The opening's costs hold the taxes and duties it pays by name: take them out, once.
+  for (const duty of BUSINESS_DUTIES) readBusinessDuty(api, duty);
+  routeCompliance(api);
+  for (const [id, book] of c.finance.businesses) {
+    if (book.closedAt) continue;
+    const staff = staffNow(c, id);
+    netOutCharges(
+      api,
+      id,
+      staff > 0 ? book.annualPayrollMinor / staff : book.annualPayrollMinor,
+    );
   }
   store(api).table("state").put({ id: "business:state", openedAt: c.date });
   scheduleMonth(api);
@@ -918,6 +932,54 @@ function sweepToParent(api: CoreAPI, row: OwnerRow): void {
       retainedMinor: retained - swept,
       netThrough: net - swept,
     });
+}
+
+/**
+ * A business's other operating costs are sized from its industry's margin
+ * (IRS net income over receipts), which is what is left after every cost,
+ * taxes and licenses included. The taxes and duties the business pays by name
+ * (firm-charges.ts) are charged by their own engines, so they come out of the
+ * lump its suppliers bill, once, at the laws in force when it opens:
+ *
+ *   lump = (margin's other costs - payroll taxes - premises tax) / (1 + duty and energy law shares)
+ *
+ * (the duties and energy law charges are shares of the lump itself). A law
+ * passed later adds its cost on top; a repeal takes its part away.
+ */
+function netOutCharges(
+  api: CoreAPI,
+  organizationId: string,
+  annualWageMinor: number,
+  /** Whose duty rows stand for this one's: itself, or for a new business an incumbent of its kind (its own are routed next month). */
+  dutiesOf = organizationId,
+): void {
+  const c = core(api);
+  const book = c.finance.businesses.get(organizationId);
+  if (!book || book.annualOtherCostsMinor <= 0) return;
+  const payrollTaxes =
+    book.annualPayrollMinor * employerTaxShareOfWage(api, annualWageMinor);
+  const premises = premisesTaxYearMinor(
+    api,
+    organizationId,
+    book.annualDemandMinor,
+  );
+  let shares = businessEnergyLawShare(api);
+  for (const row of store(api)
+    .table("operating")
+    .query("all", [true]) as unknown as {
+    organizationId: string;
+    kind: string;
+    share: number;
+  }[])
+    if (row.organizationId === dutiesOf && row.kind === "cost")
+      shares += row.share;
+  const net = Math.max(
+    0,
+    (book.annualOtherCostsMinor - payrollTaxes - premises) / (1 + shares),
+  );
+  const ratio = net / book.annualOtherCostsMinor;
+  book.annualOtherCostsMinor = net;
+  book.anchorAnnualOtherCostsMinor *= ratio;
 }
 
 /** Staff at a business now: named jobs held plus counted headcount (the rule `businessesIn` uses). */
@@ -2335,6 +2397,19 @@ function found(
     costContractIds: [],
     source,
   });
+  // Its margin holds the taxes it will pay by name: out of the lump, at the incumbents' pay per head.
+  netOutCharges(
+    api,
+    id,
+    market.staff > 0
+      ? market.incumbents.reduce(
+          (n, rid) =>
+            n + (c.finance.businesses.get(rid)?.annualPayrollMinor ?? 0),
+          0,
+        ) / market.staff
+      : annualPayrollMinor,
+    market.incumbents[0] ?? id,
+  );
   // What a business that buys from outside suppliers doesn't buy locally, it buys outside, like every opening firm.
   giveOutsideSuppliers(c, id, market.incumbents);
   const startup =

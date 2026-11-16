@@ -1310,6 +1310,30 @@ export function businessEnergyCostYear(
 }
 
 /**
+ * The share of a business's other operating costs the energy price laws in
+ * force today add to its bills: for each statute `readPriceLaws` would price,
+ * the business share of that fuel times the law's price change, the same rule
+ * the monthly settlement charges before the outcome web adjusts it.
+ */
+export function businessEnergyLawShare(api: CoreAPI): number {
+  if (!api.state.modules.has(LAWS_MODULE_ID)) return 0;
+  let share = 0;
+  for (const question of PRICE_LAW_QUESTIONS) {
+    const law = lawInForce(api, question);
+    if (law.value !== 1 || !law.governing) continue;
+    const row = energyPriceRule(api, question);
+    if (!row) continue;
+    share +=
+      api.parameter(
+        row.good === "electricity"
+          ? "pricesBusinessElectricityShare"
+          : "pricesBusinessFuelShare",
+      ) * row.value;
+  }
+  return share;
+}
+
+/**
  * What the outcome web adds to a place's use of a good this month. Electricity
  * is the exception that replaces rather than adds: a clean-electricity
  * standard's recorded compliance cost stands in for the price until the web's

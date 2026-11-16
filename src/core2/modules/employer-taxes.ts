@@ -200,6 +200,30 @@ export function premisesTaxMinor(
 }
 
 /**
+ * What a business pays in a year in property tax on its premises under the
+ * rate in force where it stands today, on a year's sales: the same arithmetic
+ * `payPremisesTax` charges each quarter. Nothing where no collector is named.
+ */
+export function premisesTaxYearMinor(
+  api: CoreAPI,
+  businessId: string,
+  annualSalesMinor: number,
+): number {
+  const placeId = (api.state as CoreState).organizations.get(
+    businessId,
+  )?.placeId;
+  const terms = (placeId ? propertyTaxTerms(api, placeId) : undefined) as
+    { rate: number; payeeId?: string } | undefined;
+  if (!terms?.payeeId) return 0;
+  return (
+    premisesTaxMinor(
+      annualSalesMinor / premisesData.quartersPerYear,
+      terms.rate,
+    ) * premisesData.quartersPerYear
+  );
+}
+
+/**
  * A business's quarterly tax on its premises: the property tax rate in force
  * where it stands, on premises assessed at an estimated share of a year's
  * sales, from its own cash to the place's tax collector. What it can't pay
