@@ -1467,13 +1467,6 @@
       "source": "How many times the leaders halve the change a failing budget's opponents object to most before dropping it: appropriations are settled by splitting differences line by line (topline deals, then conference) far more often than by striking a line outright (CRS, The Appropriations Process: A Brief Overview, R47106). Three halvings leave an eighth of the change.",
       "spread": [1, 5]
     },
-    "localBudgetAmendmentsPerMeeting": {
-      "value": 1,
-      "tag": "ESTIMATED",
-      "source": "How many budget-line amendments a local body's regular meeting takes up. Council and county board agendas carry a budget adjustment or transfer item at some meetings, rarely several; one item a meeting is an upper estimate, since most meetings carry none (the line gaps close once amended).",
-      "stopgapId": "SG-LAWS-local-line-filing-threshold",
-      "spread": [1, 3]
-    },
     "budgetAmendmentMinShare": {
       "value": 0.01,
       "tag": "ESTIMATED",

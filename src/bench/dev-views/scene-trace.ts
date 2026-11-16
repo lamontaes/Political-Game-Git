@@ -16,10 +16,30 @@
  * Who each person in a scene is named as is the "who is named" view's (who-named), not read here.
  */
 import { lineByKey, linesForPurpose } from "../../english/line-register";
+import { applyCoreEvent } from "../../core2/state";
+import { addDays, makeIsoDate } from "../../core2/kernel/dates";
 import { SITUATION_LIBRARY } from "../../director/scheduling";
 import type { PersonId } from "../../core2/types";
 import type { PurposeType } from "../../director/scene-talk";
 import type { DevView } from "../dev-views";
+import forceMap from "./scene-force-map.json";
+
+/** How each situation type can be forced, measured by scripts/words/force-all-probe.mts: a record of its cause kind that the director stages from, or the reason that takes its module's own writer. */
+const FORCE = (
+  forceMap as {
+    types: Record<
+      string,
+      {
+        how: "event" | "writer";
+        kind?: string;
+        facts?: Record<string, string>;
+        reason?: string;
+      }
+    >;
+  }
+).types;
+/** The recipes that already cause a cause through an engine's own function: the map never overrides them. */
+const OWN_RECIPES = ["death", "illness", "layoff"];
 
 const MOMENTS = 20;
 
@@ -36,6 +56,17 @@ const view: DevView = {
     force: "Make this scene play now",
     unreachable:
       "No engine writes this scene's cause yet, so dev mode cannot cause it",
+    reasons: {
+      "journal-line":
+        "A bare record of its cause only makes a journal line: forcing it takes its module's own writer",
+      circumstance:
+        "Its cause is a circumstance or a turn in a tie that the engines write over time: dev mode runs the world until it comes",
+      "no-event":
+        "A bare record of its cause is refused: forcing it takes its module's own writer",
+    },
+    stagedNow: "Staged on the next day",
+    notStagedNow:
+      "Written, but the director did not stage it in this world: see the held-back reasons",
     forced: "Forced by dev mode: not a played scene",
     lines: "Every line this scene can say",
     why: "Why it played",
@@ -91,15 +122,25 @@ const view: DevView = {
         const lines = type?.purpose ? linesForPurpose(type.purpose) : [];
         const byTie: Record<string, number> = {};
         for (const line of lines) byTie[line.tie] = (byTie[line.tie] ?? 0) + 1;
+        const way = FORCE[scene.key];
+        // A type a record of its cause kind stages is forced at once; the rest name why they are not.
+        const byEvent =
+          way?.how === "event" &&
+          !OWN_RECIPES.includes(scene.recipe ?? "") &&
+          scene.state !== "none";
         return {
           key: scene.key,
+          why:
+            way?.how === "writer" && scene.state !== "none"
+              ? (way.reason ?? null)
+              : null,
           purpose: type?.purpose ?? null,
           settings:
             SITUATION_LIBRARY.types.find((row) => row.key === scene.key)
               ?.setting ?? [],
           causeRecords: scene.causeRecords,
-          recipe: scene.recipe,
-          state: scene.state,
+          recipe: byEvent ? "event" : scene.recipe,
+          state: byEvent ? "plays" : scene.state,
           forceable: scene.state !== "none",
           staged: staged.get(scene.key)?.count ?? 0,
           lastStaged: staged.get(scene.key)?.last ?? null,
@@ -168,6 +209,54 @@ const view: DevView = {
     "GET scene-trace/line": ({ q }) => lineByKey(q("key")) ?? null,
     "POST scene-trace/force": ({ mode, input }) => {
       const typeKey = String(input.typeKey ?? "");
+      const way = FORCE[typeKey];
+      const own = mode.scenes().find((row) => row.key === typeKey);
+      const playerId = mode.core.playerId as PersonId | undefined;
+      if (
+        way?.how === "event" &&
+        way.kind &&
+        playerId &&
+        mode.director &&
+        !OWN_RECIPES.includes(own?.recipe ?? "")
+      ) {
+        // The cause as a record of its kind naming the player, entered through the core's one event
+        // entry; the director measures it at the day's end and stages it as it would any moment.
+        const book = mode.director.ledger.people.get(playerId);
+        const seen = book?.schedule.length ?? 0;
+        const eventId = `dev-force:${typeKey}:${mode.core.date}`;
+        const player = mode.core.people.get(playerId)!;
+        applyCoreEvent(mode.core, {
+          id: eventId,
+          date: mode.core.date,
+          kind: way.kind,
+          personIds: [playerId],
+          witnessIds: [],
+          placeId: player.placeId,
+          facts: { ...way.facts },
+          source: {
+            tag: "ESTIMATED",
+            citation: `Dev mode forced ${typeKey}`,
+            asOf: mode.core.date,
+          },
+        } as never);
+        mode.advance(addDays(makeIsoDate(mode.core.date), 1));
+        const staged = !!book?.schedule
+          .slice(seen)
+          .some((row) =>
+            row.bindings.some((bound) => bound.typeKey === typeKey),
+          );
+        return {
+          recipe: "event",
+          personId: playerId,
+          causeRecords: [eventId],
+          staged,
+          mark: mode.mark("scene-forced", [eventId], {
+            typeKey,
+            recipe: "event",
+            staged: String(staged),
+          }),
+        };
+      }
       const forced = mode.forceScene({
         typeKey,
         ...(typeof input.forId === "string" ? { forId: input.forId } : {}),

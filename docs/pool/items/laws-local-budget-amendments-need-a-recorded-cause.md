@@ -6,10 +6,10 @@ lead: laws
 kind: bug
 priority: 2
 size: L
-status: open
+status: in-pr
 standard: 2
 claimed-by:
-pr:
+pr: 9652
 after:
 blocked-on:
 model: opus
@@ -35,4 +35,4 @@ checked:
 
 **Files.** src/core2/modules/world-legislating.ts, src/core2/modules/budgets.ts, src/core2/data/campaigns/parameters.json, src/core2/data/stopgaps/laws.json
 
-**Notes.** Nov 15: the two budget-season cases stay red as honest findings until this lands; they are not re-pinned. Related item tests-budget-season-line-moves-after-adoption.
+**Notes.** Built (Nov 16): `amendmentRoom` in src/core2/modules/budgets.ts reads the treasury months since the fiscal year began against the months before it, as a share of the year's planned revenue for the months closed, less what the body already amended in; `fileLines` fills that room and each line bill carries its cause (receipts-over-plan or receipts-under-plan) on its provision. The per-meeting cap `localBudgetAmendmentsPerMeeting` is deleted. `SG-LAWS-local-line-filing-threshold` stays for the member-backing threshold `budgetAmendmentMinShare`. Not yet built: the bill paper and news saying the cause (a words item), grants and disasters as causes beyond the aid in the treasury months, and a dev-mode trigger. Nov 15: the two budget-season cases stay red as honest findings until this lands; they are not re-pinned. Related item tests-budget-season-line-moves-after-adoption.

@@ -14,7 +14,10 @@ import {
 import { openingArrivalMinute, openingFrames } from "../../src/bench/opening";
 import { roomIds } from "../../src/bench/scene";
 import {
+  meetOverTalk,
+  noteHeard,
   openConversation,
+  say,
   subjectsBetween,
 } from "../../src/director/conversation";
 
@@ -87,6 +90,13 @@ for (const seed of (process.env.SEEDS ?? "21,22,23").split(",")) {
       console.log(
         `  - reply [${c.move}] "${c.text}" bank=${c.wording?.bank} parts=${(c.wording?.parts ?? []).join("+")} answers=${c.answers}`,
       );
+    // As the talk route does once the player opened it, then the first reply pressed, so the next housemate talks after it.
+    if (talk.lines.length) {
+      meetOverTalk(core, talk);
+      noteHeard(core, talk);
+      const first = talk.choices[0];
+      if (first) say(core, talk, first.key);
+    }
     console.log("");
   }
 }
