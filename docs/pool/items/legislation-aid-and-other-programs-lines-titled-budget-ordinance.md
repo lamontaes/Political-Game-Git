@@ -5,7 +5,7 @@ area: words
 kind: bug
 priority: 3
 size: S
-status: in-pr
+status: merged
 standard: 2
 claimed-by: carry-spend-line-names
 pr: #9347

@@ -5,7 +5,7 @@ area: words
 kind: bug
 priority: 2
 size: M
-status: in-pr
+status: merged
 standard: 2
 claimed-by: Account lead builder (reporter's call thread)
 pr: 9463

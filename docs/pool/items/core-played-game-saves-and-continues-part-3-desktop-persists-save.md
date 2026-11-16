@@ -5,10 +5,10 @@ area: core
 kind: feature
 priority: 1
 size: S
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/saves-part-3-desktop
+pr: #9561
 after: core-played-game-saves-and-continues-part-1-bench-saves-life
 blocked-on:
 lead: play-first

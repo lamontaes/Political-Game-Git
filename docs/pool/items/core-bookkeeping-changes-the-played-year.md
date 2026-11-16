@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 1
 size: M
-status: in-pr
+status: merged
 claimed-by: account lead thread 86yqt4
 pr: 9343
 blocked-on:
