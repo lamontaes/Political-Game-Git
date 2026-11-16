@@ -5,10 +5,10 @@ area: people
 kind: bug
 priority: 3
 size: S
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: S6 (branch claude/project-thread-d5qa0q-share-of-tie)
+pr: "#9624"
 after:
 blocked-on:
 lead: people

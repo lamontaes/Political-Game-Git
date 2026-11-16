@@ -1,6 +1,6 @@
 /**
- * Trust lost takes a share of the tie (scene-talk-rules endingStrain
- * trust-lost; the Account lead's ruling and the Words lead's yes, Nov 15).
+ * Trust lost takes a share of the tie (the core's closenessTrustLostShare,
+ * read by scene-talk-rules endingStrain trust-lost; the Account lead's ruling and the Words lead's yes, Nov 15).
  * At a named place and seed, an ending that loses trust takes the same share
  * of the hours each tie stands on today, so the closest pair in the world
  * loses more hours than two members of the legislature who know each other
@@ -13,13 +13,14 @@ import {
   closenessBetween,
   sharedHoursBetween,
   tieHoursBetween,
+  trustLostHours,
 } from "../core2/closeness";
 import { gameStartDate } from "../core2/game-start";
 import { bodyOf, memberKey, members } from "../core2/modules/legislature";
 import { townSeats } from "../core2/modules/offices";
+import { parameter } from "../core2/parameters";
 import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
-import rules from "./data/scene-talk-rules.json" with { type: "json" };
 import { endingStrainHours } from "./purpose-scene";
 
 const PLACE = {
@@ -58,7 +59,7 @@ it("trust lost takes a share of the tie, so a close tie loses more hours than a 
         sharedHoursBetween(core, a, b) > 0,
     )!;
   expect(slight, `${PLACE.key}: no pair tied only by sittings`).toBeTruthy();
-  const share = rules.endingStrain["trust-lost"].value;
+  const share = parameter("closenessTrustLostShare", core.data.parameters);
   const closeHours = tieHoursBetween(core, close.actorId, close.otherId);
   const slightHours = tieHoursBetween(core, slight[0], slight[1]);
   const lost = (a: PersonId, b: PersonId) =>
@@ -72,6 +73,11 @@ it("trust lost takes a share of the tie, so a close tie loses more hours than a 
     share * closeHours,
     10,
   );
+  // The promises engine reads the same row (closeness.ts trustLostHours).
+  expect(trustLostHours(core, close.actorId, close.otherId)).toBeCloseTo(
+    lost(close.actorId, close.otherId),
+    10,
+  );
   expect(lost(slight[0], slight[1])).toBeCloseTo(share * slightHours, 10);
   expect(lost(close.actorId, close.otherId)).toBeGreaterThan(
     lost(slight[0], slight[1]),
@@ -80,4 +86,4 @@ it("trust lost takes a share of the tie, so a close tie loses more hours than a 
   expect(strained(close.actorId, close.otherId)).toBe(
     strained(slight[0], slight[1]),
   );
-}, 60_000);
+}, 10_000); // 4.7 s alone, 5.2 s beside promises.test.ts (Nov 16)

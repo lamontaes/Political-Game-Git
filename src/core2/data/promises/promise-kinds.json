@@ -111,7 +111,7 @@
       "renewable": false
     }
   ],
-  "answersNote": "The player's answers when the one owed raises a settled promise (Words lead rulings 2, Nov 14). Each is read, or it is not offered. Kept: two of three courtesy answers, the two the player's traits lean to most (a trait's value is -2 to 2; `sign` -1 reads its low end); none moves the tie, which warmed when the promise was kept. Broken: `recovers` gives back a share (promiseOwnShare) of the hours the broken promise cost, times the one owed's lean to smooth things over (low `smoothsOverTrait`), divided by one more than the promises this person broke to them before (the engine's rows); `countedOnFactor` takes it down again by the one owed's own `countsOnTrait` where the kind is one they counted on. `cools` takes more hours off (promiseDeniedHours). `renews` writes a new promise of the same kind, offered only where the kind is renewable (a record can settle the new one). The answer is a `promise.answer` record either way.",
+  "answersNote": "The player's answers when the one owed raises a settled promise (Words lead rulings 2, Nov 14). Each is read, or it is not offered. Kept: two of three courtesy answers, the two the player's traits lean to most (a trait's value is -2 to 2; `sign` -1 reads its low end); none moves the tie, which warmed when the promise was kept. Broken: `recovers` gives back a share (promiseOwnShare) of the hours the broken promise cost (the trust-lost share of the tie it took, kept on the row as `tieCost`), times the one owed's lean to smooth things over (low `smoothsOverTrait`), divided by one more than the promises this person broke to them before (the engine's rows); `countedOnFactor` takes it down again by the one owed's own `countsOnTrait` where the kind is one they counted on. `cools` takes a further share (promiseDeniedShare) of what the broken promise cost. `renews` writes a new promise of the same kind, offered only where the kind is renewable (a record can settle the new one). The answer is a `promise.answer` record either way.",
   "answers": {
     "kept": [
       {
@@ -153,7 +153,7 @@
     "smoothsOverTrait": "people-mind-v1:conflict",
     "countsOnTrait": "people-mind-v1:reliability"
   },
-  "parametersNote": "The sizes promises run on (Words lead brief T and rulings 1 and 2, Nov 14 2026): how long each kind stays open, how much keeping or breaking one moves the tie in hours of contact, and how the answers move it. Tuned values, checked against played talks within each spread.",
+  "parametersNote": "The sizes promises run on (Words lead brief T and rulings 1 and 2, Nov 14 2026): how long each kind stays open, how much keeping one warms the tie in hours of contact (breaking one takes the core's trust-lost share of the tie, closenessTrustLostShare), and how the answers move it. Tuned values, checked against played talks within each spread.",
   "parameters": {
     "promiseVoteWindowDays": {
       "value": 90,
@@ -199,21 +199,10 @@
       },
       "role": "coefficient"
     },
-    "promiseBrokenHours": {
-      "value": 2,
-      "tag": "TUNABLE",
-      "citation": "Twice a kept word: a promise broken costs more than one talk's time together (promises.ts). Fixed hours while scene-talk-rules endingStrain trust-lost became a share of the tie (Nov 15); whether a broken promise should be a share too is item people-broken-promise-costs-share-of-tie.",
-      "spread": "1 to 4",
-      "checkRange": {
-        "min": 1,
-        "max": 4
-      },
-      "role": "coefficient"
-    },
     "promiseOwnShare": {
       "value": 0.5,
       "tag": "TUNABLE",
-      "citation": "Words lead rulings 2 (Nov 14): owning a broken promise wins back a part of what it cost; at most this share, for one who smooths things over and has not been let down before (promise-talk.ts).",
+      "citation": "Words lead rulings 2 (Nov 14): owning a broken promise wins back a part of what it cost (the trust-lost share the break took, kept on the row as tieCost); at most this share, for one who smooths things over and has not been let down before (promises.ts).",
       "spread": "0.25 to 0.75",
       "checkRange": {
         "min": 0.25,
@@ -221,14 +210,14 @@
       },
       "role": "coefficient"
     },
-    "promiseDeniedHours": {
-      "value": 1,
-      "tag": "TUNABLE",
-      "citation": "Words lead rulings 2 (Nov 14): denying a broken promise cools the tie further; half of what the promise cost (promise-talk.ts).",
-      "spread": "0.5 to 2",
+    "promiseDeniedShare": {
+      "value": 0.5,
+      "tag": "ESTIMATED",
+      "citation": "Words lead rulings 2 (Nov 14): denying a broken promise cools the tie further, by half of what the promise cost (the trust-lost share the break took, closeness.ts trustLostHours). New on Nov 16 (people-broken-promise-costs-share-of-tie): it replaces promiseDeniedHours (1 hour), whose citation already said half. From memory, not measured: no study read gives what a denial costs beyond the break. Sizing it from the record is item people-trust-lost-share-sized-from-the-record.",
+      "spread": "0.25 to 1",
       "checkRange": {
-        "min": 0.5,
-        "max": 2
+        "min": 0.25,
+        "max": 1
       },
       "role": "coefficient"
     },

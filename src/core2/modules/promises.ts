@@ -22,6 +22,7 @@
  * promise raised moves the tie by the answer's row (owning it, explaining,
  * denying). The kinds, windows and sizes are src/core2/data/promises/.
  */
+import { trustLostHours } from "../closeness";
 import { addDays, makeIsoDate } from "../kernel/dates";
 import {
   billOf,
@@ -150,6 +151,15 @@ export interface PromiseRow {
    * they did not come to) moves the tie when it is said, not when settled.
    */
   tieOwed?: number;
+  /**
+   * Hours a broken promise took off the tie when it ended: the trust-lost
+   * share of the hours the tie stood on that day (closeness.ts
+   * trustLostHours). What each answer wins back or takes a share of, and what
+   * dev mode's trace shows.
+   */
+  tieCost?: number;
+  /** Hours the answer moved the tie: won back (more than 0) or taken (less). */
+  answerHours?: number;
   /** Once the one owed has said it to the one who promised. */
   saidAt?: IsoDate;
   /** The answer the one who promised gave when it was said. */
@@ -259,8 +269,9 @@ function keepPromise(api: CoreAPI, event: CoreEventInput): void {
 
 /**
  * End an open promise with how it ended and the record that ended it;
- * unfile it; and move the tie once: kept warms it, broken cools it, through
- * the core's writer citing the row. Apart, the move waits for the two's
+ * unfile it; and move the tie once: kept warms it, broken takes trust's
+ * share of it (kept on the row as `tieCost`), through the core's writer
+ * citing the row. Apart, the move waits for the two's
  * next time together (`tieOwed`, paid when it is said).
  */
 function endPromise(
@@ -283,15 +294,21 @@ function endPromise(
     table(api).put(ended as unknown as ModuleRow);
     return;
   }
+  // Kept warms the tie by one talk's time; broken takes trust's share of
+  // the tie it stands on today, so a close tie loses more than a slight one.
+  const cost =
+    outcome === "broken"
+      ? trustLostHours(api.state, row.holderId, row.otherId)
+      : undefined;
   const hours =
-    outcome === "kept"
-      ? promiseParam("promiseKeptHours")
-      : -promiseParam("promiseBrokenHours");
+    outcome === "kept" ? promiseParam("promiseKeptHours") : -(cost ?? zero);
+  const priced: PromiseRow =
+    cost === undefined ? ended : { ...ended, tieCost: cost };
   if (!together) {
-    table(api).put({ ...ended, tieOwed: hours } as unknown as ModuleRow);
+    table(api).put({ ...priced, tieOwed: hours } as unknown as ModuleRow);
     return;
   }
-  table(api).put(ended as unknown as ModuleRow);
+  table(api).put(priced as unknown as ModuleRow);
   moveTie(api, row, `promise-${outcome}`, hours, row.id);
 }
 
@@ -468,8 +485,9 @@ const share = (traits: Readonly<Record<string, number>>, key: string) =>
  * or explaining wins back a share of what it cost, by how readily the one
  * owed smooths things over and how often this person let them down before;
  * explaining goes worse with one who counted on it and keeps their own
- * word. Denying it cools the tie further. Making it right is a new promise
- * of the same kind (the record's own promise fact).
+ * word. Denying it takes a further share of what it cost. Making it right
+ * is a new promise of the same kind (the record's own promise fact). The
+ * hours moved are kept on the row (`answerHours`) beside the cost.
  */
 function answerOnEvent(api: CoreAPI, event: CoreEventInput): void {
   const promiseId = event.facts?.promiseId;
@@ -477,13 +495,16 @@ function answerOnEvent(api: CoreAPI, event: CoreEventInput): void {
   if (typeof promiseId !== "string" || typeof answerId !== "string") return;
   const row = table(api).get(promiseId) as unknown as PromiseRow | undefined;
   if (!row) return;
-  table(api).put({ ...row, answer: answerId } as unknown as ModuleRow);
+  const answered: PromiseRow = { ...row, answer: answerId };
+  table(api).put(answered as unknown as ModuleRow);
   if (row.outcome !== "broken") return;
   const answers = PROMISE_KINDS.answers;
   const rule = answers.broken.find((entry) => entry.id === answerId);
   if (!rule) return;
   const kind = kindOf(row.kind);
   const traits = api.state.people.get(row.otherId)?.traits ?? {};
+  // What the break cost the tie: each answer wins back or takes a share of it.
+  const cost = row.tieCost ?? zero;
   let hours = zero;
   if (rule.recovers) {
     const before = promisesBetween(api, row.holderId, row.otherId).filter(
@@ -495,15 +516,17 @@ function answerOnEvent(api: CoreAPI, event: CoreEventInput): void {
         entry.endedAt <= (row.endedAt ?? api.state.date),
     ).length;
     hours =
-      (promiseParam("promiseBrokenHours") *
+      (cost *
         promiseParam("promiseOwnShare") *
         (one - share(traits, answers.smoothsOverTrait))) /
       (one + before);
     if (rule.countedOnFactor && kind.countedOn)
       hours *= one - share(traits, answers.countsOnTrait);
   }
-  if (rule.cools) hours = -promiseParam("promiseDeniedHours");
-  if (hours) moveTie(api, row, `promise-answer:${answerId}`, hours, event.id);
+  if (rule.cools) hours = -cost * promiseParam("promiseDeniedShare");
+  if (!hours) return;
+  table(api).put({ ...answered, answerHours: hours } as unknown as ModuleRow);
+  moveTie(api, row, `promise-answer:${answerId}`, hours, event.id);
 }
 
 export const PROMISES_MODULE: CoreModule = {

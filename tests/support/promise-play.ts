@@ -387,11 +387,17 @@ export function playPayOnTime(borrower: PayBorrower, check: Check): string {
   );
   check(find().endedBy === later[0], `${where}: ended by ${find().endedBy}`);
   const ended = find();
+  // The break took trust's share of the tie, kept on the row
+  // (people-broken-promise-costs-share-of-tie).
+  check(
+    (ended.tieCost ?? 0) > 0,
+    `${where}: the break cost the tie ${ended.tieCost}`,
+  );
   const said = talkOf(core, director, made!.owedId, id, where, check);
   // The talk names the payment it was about, from the missed payment's loan.
   const payment = Object.values(paymentWords.payments).find((name) =>
     said.includes(name),
   );
   check(Boolean(payment), `${where}: payment not named: ${said}`);
-  return `${where}: ${said}\n    payment ${payment ?? "(not named)"}, the missed payment's loan ${missedLoan(core, ended.endedBy, made!.replyId)}\n    the promise's own move: ${moves.join("; ") || "(none)"}\n    quarrel ${quarrel!.id} over the earlier missed payment ${String(quarrel!.facts?.missedId)}\n    ${factId} owed to ${made!.owedId}, ${ended.outcome} by ${ended.endedBy} on ${ended.endedAt}, closeness from the promise to the talk ${before.toFixed(5)} to ${closenessBetween(core, id, made!.owedId).toFixed(5)}`;
+  return `${where}: ${said}\n    payment ${payment ?? "(not named)"}, the missed payment's loan ${missedLoan(core, ended.endedBy, made!.replyId)}\n    the promise's own move: ${moves.join("; ") || "(none)"}\n    quarrel ${quarrel!.id} over the earlier missed payment ${String(quarrel!.facts?.missedId)}\n    ${factId} owed to ${made!.owedId}, ${ended.outcome} by ${ended.endedBy} on ${ended.endedAt} at a cost of ${ended.tieCost?.toFixed(4)} hours, closeness from the promise to the talk ${before.toFixed(5)} to ${closenessBetween(core, id, made!.owedId).toFixed(5)}`;
 }
