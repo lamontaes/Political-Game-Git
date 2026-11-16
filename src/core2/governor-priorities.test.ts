@@ -67,7 +67,7 @@ describe("M5-02 the governor's budget priorities", () => {
       collapseToTwoLevels({ ...full, playerId: player.id }),
     );
     openLaws(core);
-    openOffices(core, seed);
+    openOffices(core, seed, core.date);
     openElections(core);
     openCampaigns(core);
     openRecord(core);

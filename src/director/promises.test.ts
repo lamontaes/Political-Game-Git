@@ -7,11 +7,12 @@
  *
  * Pinned places: each test draws places from all 56 on a fixed seed (named
  * here and in each line it prints) and plays the first that has the case,
- * printing what it passed over. HAND-STAGED, labeled where they stand: the
- * missed payment that starts the quarrel (as apology-variants.test.ts) and
- * the hire that brings the new coworker (as meeting-scene.test.ts). From
- * there the quarrel, the scene, the reply, the record that settles the
- * promise and the tie are the engines' own.
+ * printing what it passed over. The pay-on-time test plays a pinned
+ * borrower (`BANK_BORROWER`) whose loan and missed payments are the credit
+ * engine's own. HAND-STAGED, labeled where they stand: the hire that brings
+ * the new coworker (as meeting-scene.test.ts) and the townsperson met for
+ * the meeting ask. From there the scene, the reply, the record that settles
+ * the promise and the tie are the engines' own.
  */
 import { expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
@@ -21,8 +22,7 @@ import { closenessBetween } from "../core2/closeness";
 import { gameStartDate } from "../core2/game-start";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
-import { advancePlayerV1, resumePlayerV1 } from "../core2/player-v1";
-import { applyCoreEvent, coreAPI } from "../core2/state";
+import { coreAPI } from "../core2/state";
 import type { CoreState, JobInput, PersonId } from "../core2/types";
 import { seatAct, seatView } from "../bench/legislature";
 import {
@@ -34,250 +34,32 @@ import {
 } from "../core2/modules/legislature";
 import { townSeats } from "../core2/modules/offices";
 import { partyTie } from "../core2/modules/elections";
-import {
-  attendMeeting,
-  leaveMeeting,
-  meetingInProgress,
-  meetingOf,
-} from "../core2/modules/office-day";
+import { attendMeeting, meetingOf } from "../core2/modules/office-day";
 import { sharedHistory } from "../core2/past";
 import { nextMeetingFacts } from "./meeting-facts";
 import { openConversation, say } from "./conversation";
-import { wordConversationMove } from "../english/conversation-words";
-import type { Director } from "./ledger";
-import { promiseAnswers, promiseSubject } from "./promise-talk";
-import { restoreWorld, snapshotWorld } from "../core2/snapshot";
-import { kindOf, promisesBetween } from "./promises";
+import { promisesBetween } from "./promises";
 import { purposeScene, replyInScene } from "./purpose-scene";
-import type { ScheduleEntry } from "./scheduling";
-import type { TreeNode } from "./scene-talk";
+import {
+  LOAN_SEED,
+  BANK_BORROWER,
+  play,
+} from "../../tests/support/real-borrower";
+import {
+  type Check,
+  pathTo,
+  playPayOnTime,
+  talkOf,
+  WAIT_DAYS,
+} from "../../tests/support/promise-play";
 
-/** The ledger put back as it was, in place (the director keeps its own reference). */
-function restoreInPlace(target: object, saved: object): void {
-  for (const [key, value] of Object.entries(structuredClone(saved))) {
-    const now = (target as Record<string, unknown>)[key];
-    if (now instanceof Map && value instanceof Map) {
-      now.clear();
-      for (const [k, v] of value) now.set(k, v);
-    } else if (Array.isArray(now) && Array.isArray(value))
-      now.splice(0, now.length, ...value);
-    else (target as Record<string, unknown>)[key] = value;
-  }
-}
-
-/**
- * The next talk between the one owed and the player, played: the greeting,
- * the promise brought up, the answers offered, and each answer in its own
- * branch (the world and the ledger put back between branches) with what the
- * other says after it and what the answer did. The talk engine says it
- * (subjectsBetween, promiseSaid, answerPromise); nothing is worded here.
- */
-function talkOf(
-  core: CoreState,
-  director: Director,
-  speakerId: PersonId,
-  playerId: PersonId,
-  where: string,
-): string {
-  const subject = promiseSubject(core, director, speakerId, playerId);
-  expect(subject, `${where}: nothing to say`).toBeTruthy();
-  const offered = promiseAnswers(core, subject!, playerId);
-  if (subject!.kind === "promise-kept") {
-    expect(offered.length, where).toBe(2);
-    for (const id of offered)
-      expect(["plain", "modest", "warm"], where).toContain(id);
-  } else {
-    expect(offered.slice(0, 3), where).toEqual(["own-it", "explain", "deny"]);
-    // Making it right promises again, only where the kind can be renewed
-    // (not a vote, not a meeting that is over).
-    expect(offered.includes("make-it-right"), where).toBe(
-      kindOf(subject!.promiseKind).renewable,
-    );
-  }
-  const name = (id: PersonId) => core.people.get(id)?.givenName ?? id;
-  const open = () => openConversation(core, playerId, speakerId, { director });
-  const said = (talk: {
-    lines: readonly { speakerId: PersonId; text: string }[];
-  }) =>
-    talk.lines
-      .map((line) => `${name(line.speakerId)}: ${line.text}`)
-      .join(" / ");
-  // The talks before it is brought up: a bigger subject of the day leads
-  // (each ranked by its own record), and the promise waits for a later talk.
-  const waited: string[] = [];
-  let savedWorld = JSON.parse(JSON.stringify(snapshotWorld(core)));
-  let savedLedger = structuredClone(director.ledger);
-  let first = open();
-  for (
-    let day = 0;
-    day < WAIT_DAYS &&
-    !first.lines.some(
-      (line) => line.kind === subject!.kind && line.speakerId === speakerId,
-    );
-    day += 1
-  ) {
-    waited.push(`${core.date}: ${said(first) || "(nothing to say)"}`);
-    play(core, core.playerId as PersonId, 2);
-    savedWorld = JSON.parse(JSON.stringify(snapshotWorld(core)));
-    savedLedger = structuredClone(director.ledger);
-    first = open();
-  }
-  const raised = first.lines.findIndex(
-    (line) => line.kind === subject!.kind && line.speakerId === speakerId,
-  );
-  const shown = said(first);
-  expect(
-    raised,
-    `${where}: not brought up (weight ${subject!.weight}): ${waited.join("; ")}; ${shown}`,
-  ).toBeGreaterThan(-1);
-  expect(first.lines.at(-1)?.kind, `${where}: ${shown}`).toBe(subject!.kind);
-  const keys = first.choices.map((choice) => choice.move);
-  expect([...keys].sort(), where).toEqual([...offered].sort());
-  // Said once: the next talk does not bring it up again.
-  expect(promiseSubject(core, director, speakerId, playerId), where).toBeNull();
-  // The other wordings of the raise the engine draws for this speaker and
-  // these facts on other days (one moment key a day for a year).
-  const also = new Set<string>();
-  for (let day = 0; day < 365; day += 1) {
-    const line = wordConversationMove({
-      seed: core.seed,
-      subject: subject!.kind,
-      part: "raise",
-      speakerId,
-      traits: core.people.get(speakerId)?.traits ?? {},
-      facts: subject!.facts,
-      momentKey: `${playerId}:${speakerId}:${addDays(makeIsoDate(core.date), day)}:${subject!.id}`,
-    });
-    if (line) also.add(line.text);
-  }
-  // The wordings this speaker never draws, said by others in the town with
-  // the same facts (the bank picks by the speaker's traits and bearing).
-  const others = new Map<string, string>();
-  for (const person of [...core.people.values()]
-    .filter((row) => row.alive && row.tier !== "husk")
-    .sort((a, b) => a.id.localeCompare(b.id))
-    .slice(0, 400)) {
-    const line = wordConversationMove({
-      seed: core.seed,
-      subject: subject!.kind,
-      part: "raise",
-      speakerId: person.id as PersonId,
-      traits: person.traits ?? {},
-      facts: subject!.facts,
-      momentKey: `${playerId}:${person.id}:${core.date}:${subject!.id}`,
-    });
-    if (line && !also.has(line.text) && !others.has(line.text))
-      others.set(line.text, person.givenName);
-  }
-  const out = [
-    ...waited.map((row) => `    an earlier talk, not about it: ${row}`),
-    `talk on ${core.date} (weight ${subject!.weight ?? 0}, the impact of the moment it was promised over): ${shown}`,
-    `    also drawn on other days: ${[...also].map((text) => `"${text}"`).join("; ")}`,
-    `    drawn for others in town with the same facts: ${[...others].map(([text, by]) => `"${text}" (${by})`).join("; ") || "none"}`,
-    `    offered: ${first.choices.map((choice) => `${choice.move} "${choice.text}"`).join("; ")}`,
-  ];
-  // Each branch's closeness after its answer: the talk's own time together
-  // warms every branch alike, so the answers are compared with each other.
-  const closeness = new Map<string, number>();
-  let floor = false;
-  for (const id of offered) {
-    restoreWorld(core, JSON.parse(JSON.stringify(savedWorld)));
-    restoreInPlace(director.ledger, savedLedger);
-    const talk = open();
-    const before = closenessBetween(core, playerId, speakerId);
-    const from = talk.lines.length;
-    const pick = talk.choices.find((choice) => choice.move === id);
-    expect(pick, `${where}: ${id} not offered`).toBeTruthy();
-    say(core, talk, pick!.key);
-    const after = closenessBetween(core, playerId, speakerId);
-    const answer = [...core.durableLog.values()].find(
-      (event) =>
-        event.kind === "promise.answer" &&
-        event.date === core.date &&
-        event.personIds.includes(playerId) &&
-        event.facts?.answer === id,
-    );
-    expect(answer, `${where}: ${id} wrote no answer record`).toBeTruthy();
-    const renewed = promisesBetween(director.ledger, playerId, speakerId).find(
-      (row) => row.sourceId === answer!.id,
-    );
-    if (id === "make-it-right") {
-      expect(renewed?.kind, where).toBe(subject!.promiseKind);
-      expect(renewed?.outcome, where).toBe("open");
-    }
-    closeness.set(id, after);
-    floor ||= before <= 0;
-    out.push(
-      `    ${id}: ${talk.lines
-        .slice(from)
-        .map((line) => `${name(line.speakerId)}: ${line.text}`)
-        .join(
-          " / ",
-        )} [${answer!.id}; closeness ${before.toFixed(5)} to ${after.toFixed(5)}${renewed ? `; new promise ${renewed.id}` : ""}]`,
-    );
-  }
-  // Denying ends below owning it, except where the tie is already at its
-  // floor of zero: nothing is left to cool (Kagman II MP, an unforgiving
-  // newcomer after two weeks of no talk), and they are only held equal.
-  if (closeness.has("deny") && floor)
-    expect(closeness.get("deny")!, where).toBeLessThanOrEqual(
-      closeness.get("own-it")!,
-    );
-  else if (closeness.has("deny"))
-    expect(closeness.get("deny")!, where).toBeLessThan(
-      closeness.get("own-it")!,
-    );
-  return out.join("\n");
-}
+/** A check that holds, as a test assertion. */
+const ok: Check = (holds, message) => expect(holds, message).toBe(true);
 
 /** The fixed seed the places are drawn on. */
 const SEED = "promises-kept-and-broken-1";
 const ATTEMPTS = 4;
-/** How many talks, two days apart, a settled promise may wait behind bigger news. */
-const WAIT_DAYS = 7;
 const TIMEOUT = 600_000;
-
-const paths = (node: TreeNode, prefix: number[] = []): number[][] =>
-  node.replies.flatMap((reply, index) =>
-    reply.next
-      ? [[...prefix, index], ...paths(reply.next, [...prefix, index])]
-      : [[...prefix, index]],
-  );
-
-/** The first path whose end is the named ending. */
-function pathTo(tree: TreeNode, ending: string): number[] | undefined {
-  return paths(tree).find((full) => {
-    let node: TreeNode | null = tree;
-    for (const index of full) node = node?.replies[index]?.next ?? null;
-    return node?.end?.ending?.id === ending;
-  });
-}
-
-/** Plays the player's days with the clock, taking the first choice at each pause (meeting-scene.test.ts). */
-function play(core: CoreState, playerId: PersonId, days: number) {
-  let packet: ReturnType<typeof advancePlayerV1> | undefined = advancePlayerV1(
-    core,
-    {
-      controlledPersonId: playerId,
-      through: { date: addDays(makeIsoDate(core.date), days), minuteOfDay: 0 },
-    },
-  );
-  while (packet && packet.kind !== "complete") {
-    // A resident held at a meeting they marked sits through its public
-    // comment and leaves (office-day's own act, which records that they came).
-    const meeting =
-      packet.kind === "stop" ? meetingInProgress(coreAPI(core)) : undefined;
-    if (meeting?.audience === playerId) leaveMeeting(coreAPI(core), meeting.id);
-    packet =
-      packet.kind === "stop"
-        ? resumePlayerV1(core, { kind: "stop", pauseId: packet.pauseId })
-        : resumePlayerV1(core, {
-            kind: "choice",
-            pauseId: packet.pauseId,
-            offerId: packet.offers[0]!.offerId,
-          });
-  }
-}
 
 function world(attempt: number, label: string) {
   const place = drawPlace(SEED, `${label}:${attempt}`);
@@ -289,155 +71,35 @@ function world(attempt: number, label: string) {
   return { ...built, where };
 }
 
-/** HAND-STAGED: the credit engine's missed-payment record for the player. */
-function missPayment(core: CoreState, id: PersonId, tag: string): string {
-  const missedId = `event:credit.payment-missed:${tag}:${core.date}`;
-  applyCoreEvent(core, {
-    id: missedId,
-    date: core.date,
-    kind: "credit.payment-missed",
-    personIds: [id],
-    placeId: core.people.get(id)!.placeId,
-    publicRecord: false,
-    source: {
-      tag: "ESTIMATED",
-      asOf: core.date,
-      citation: "Hand-staged missed payment for the promises test.",
-    },
-  });
-  return missedId;
-}
-
-/** The next apology scene staged for the player, by day, a fortnight at most. */
-function nextApology(
-  core: CoreState,
-  director: Director,
-  id: PersonId,
-  after: ReadonlySet<string>,
-): ScheduleEntry | undefined {
-  const book = director.ledger.people.get(id)!;
-  const find = () =>
-    book.schedule.find(
-      (row) =>
-        !after.has(row.momentId) &&
-        row.bindings.some((b) => b.typeKey === "apology"),
-    );
-  if (find()) return find();
-  // The scene waits for the two to be together: a fortnight of the player's days.
-  play(core, id, 14);
-  return find();
-}
-
-/** Answers an apology scene with the promise to make it right; the reply's id and the one owed. */
-function promiseToPay(
-  core: CoreState,
-  director: Director,
-  id: PersonId,
-  entry: ScheduleEntry,
-  where: string,
-): { replyId: string; owedId: PersonId } | null {
-  const result = purposeScene(core, director, id, entry, {
-    typeKey: "apology",
-  });
-  if (result?.kind !== "composed") return null;
-  // Every quarrel on record is over a missed payment: each variant but the plain one.
-  expect(result.scene.variant?.purpose, where).toMatch(
-    /^owed-apology\.(money|close|pressed|repeat)$/,
-  );
-  const path = pathTo(result.scene.talk.tree, "promised-to-make-it-right");
-  expect(path, `${where}: no path keeps the promise`).toBeTruthy();
-  const replyId = replyInScene(core, director, id, entry, path!)!;
-  const reply = core.durableLog.get(replyId)!;
-  expect(
-    reply.facts?.promise,
-    `${where}: ${JSON.stringify(reply.facts)} cause ${result.scene.cause.kind}`,
-  ).toBe("pay-on-time");
-  return { replyId, owedId: result.scene.askerId };
-}
-
+/**
+ * The pay test plays the pinned borrower's days about nine months (the loan,
+ * the missed payment, the promise's window): 135 seconds alone and 130 beside
+ * the file's other cases on Nov 16, so twice the slower.
+ *
+ * Old premise, re-pinned Nov 16 (Account lead): a borrower who takes work
+ * pays the next bill on time, so a second run took the next employer's call
+ * and expected the promise kept. It stopped being true with #9532, which
+ * more than doubled the living costs a personal loan is sized from (two
+ * months of them, creditPersonalMonthsOfCosts): the bill falls on the
+ * 1st and the first paycheck after taking work is smaller or later (Ragland:
+ * $161 due Sep 1 at $0, first pay $614 on Sep 5). A one-hour hunt on the
+ * Train found no played borrower who keeps it, so the kept case is a fault in
+ * the world, pool item world-loan-bill-before-first-payday-no-borrower-keeps,
+ * and comes back when that item lands.
+ */
+const PAY_TIMEOUT = 270_000;
 it(
-  `a promise to pay on time after a money quarrel is broken by the next missed payment and kept when the window closes with none (seed ${SEED})`,
+  `a promise to pay on time after a money quarrel over a real missed payment is broken by the next one (seed ${LOAN_SEED})`,
   () => {
     setBookkeeping(false);
-    const tried: string[] = [];
     try {
-      // One promise a place: the first place breaks it, the next keeps it or
-      // breaks it as its own payments say.
-      const done: string[] = [];
-      for (
-        let attempt = 0;
-        attempt < ATTEMPTS && done.length < 2;
-        attempt += 1
-      ) {
-        const { core, director, playerId, where } = world(attempt, "pay");
-        const id = playerId as PersonId;
-        director.watch(core, id);
-        // The opening's addresses wait for the player: the world runs past them.
-        advanceCore(core, addDays(makeIsoDate(core.date), 30));
-        missPayment(core, id, `promises-${attempt}-a`);
-        const entry = nextApology(core, director, id, new Set());
-        if (!entry) {
-          tried.push(`${where}: no apology staged`);
-          continue;
-        }
-        const made = promiseToPay(core, director, id, entry, where);
-        if (!made) {
-          tried.push(`${where}: the apology did not compose`);
-          continue;
-        }
-        const factId = `promise:${made.replyId}`;
-        const find = () =>
-          promisesBetween(director.ledger, id, made.owedId).find(
-            (row) => row.id === factId,
-          )!;
-        expect(find().outcome, where).toBe("open");
-        const before = closenessBetween(core, id, made.owedId);
-        if (!done.length) {
-          // Broken: the borrower's next missed payment (HAND-STAGED) settles it.
-          const missedId = missPayment(core, id, `promises-${attempt}-b`);
-          expect(find().outcome, where).toBe("broken");
-          expect(find().endedBy, where).toBe(missedId);
-          expect(closenessBetween(core, id, made.owedId), where).toBeLessThan(
-            before,
-          );
-        } else {
-          // The engine's own payments decide: a real missed payment in the
-          // window breaks it, none keeps it on the window's last day.
-          const missed: string[] = [];
-          coreAPI(core).subscribeEvents(
-            "promises-test",
-            ["credit.payment-missed"],
-            (_, event) => {
-              if (event.personIds[0] === id) missed.push(event.id);
-            },
-          );
-          play(core, id, 63);
-          expect(find().outcome, `${where}: missed ${missed.join(",")}`).toBe(
-            missed.length ? "broken" : "kept",
-          );
-          if (!missed.length)
-            expect(find().endedAt, where).toBe(
-              addDays(makeIsoDate(find().since), 62),
-            );
-        }
-        const ended = find();
-        const said = talkOf(core, director, made.owedId, id, where);
-        done.push(
-          `${where}: ${said}\n    ${factId} owed to ${made.owedId}, ${ended.outcome} by ${ended.endedBy} on ${ended.endedAt}, closeness ${before.toFixed(5)} to ${closenessBetween(core, id, made.owedId).toFixed(5)}`,
-        );
-      }
-      if (done.length === 2) {
-        process.stdout.write(
-          `PAY ON TIME\n  ${done.join("\n  ")}\n  Passed over: ${tried.join("; ") || "none"}\n`,
-        );
-        return;
-      }
-      throw new Error(`No place played the promise: ${tried.join("; ")}`);
+      const done = [playPayOnTime(BANK_BORROWER, ok)];
+      process.stdout.write(`PAY ON TIME\n  ${done.join("\n  ")}\n`);
     } finally {
       setBookkeeping(true);
     }
   },
-  TIMEOUT,
+  PAY_TIMEOUT,
 );
 
 /** HAND-STAGED: a person hired into a role as the jobs engine's `hire` does (meeting-scene.test.ts). */
@@ -613,7 +275,7 @@ it(
           expect(find().endedAt, where).toBe(addDays(makeIsoDate(since), 14));
         }
         const ended = find();
-        const said = talkOf(core, director, newcomer, id, where);
+        const said = talkOf(core, director, newcomer, id, where, ok);
         done.push(
           `${where}: ${said}\n    ${factId} owed to ${newcomer}, ${ended.outcome} by ${ended.endedBy} on ${ended.endedAt}, closeness ${before.toFixed(5)} to ${closenessBetween(core, id, newcomer).toFixed(5)}`,
         );
@@ -788,7 +450,7 @@ it(
           expect(ended.endedBy, where).toMatch(
             new RegExp(`^bill-vote:${billId}`),
           );
-          const said = talkOf(core, director, askerId, colleagueId, where);
+          const said = talkOf(core, director, askerId, colleagueId, where, ok);
           done.push(
             `${where}: ${said}\n    ${factId} (${path.ending}) held by ${colleagueId}, owed to ${askerId} (player ${player}), on ${billId}; voted ${vote.vote} on ${ended.endedAt} by ${ended.endedBy}: ${ended.outcome}`,
           );
@@ -955,7 +617,7 @@ it(
           expect(tie.lastContactDate < date, where).toBe(true);
           expect(find().outcome, where).toBe("broken");
         }
-        const said = talkOf(core, director, friendId, id, where);
+        const said = talkOf(core, director, friendId, id, where, ok);
         done.push(
           `${where}: asked "${request!.text}"\n    ${factId}, ${find().outcome} by ${held!.id} on ${find().endedAt}\n  ${said}`,
         );

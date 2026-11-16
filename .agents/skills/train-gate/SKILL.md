@@ -33,7 +33,7 @@ A gate line names each command, its exit code and where it ran (which container,
 
 ## Reds that are not yours
 
-Compare against the clean train head, not only main: main's reds and the train's reds differ. Keep the current known-red list in project memory and in the PR body; a red also red on the clean base does not block, and a red the PR introduces does. Never skip, loosen or quarantine a test to get green (`pinned-tests`). An accepted PR can still break the world: when a trace shows it, the lead pulls its sha from the Train order and the fix goes on that PR's own branch. A fault found in another PR's fold goes to that PR's builder with the place, seed and figures; the finder's test waits and does not re-pin.
+Compare against the clean train head, not only main: main's reds and the train's reds differ. Keep the current known-red list in project memory and in the PR body; a red also red on the clean base does not block, and a red the PR introduces does. A red on a drawn seed must name its seed: keep the test's own seed line in any filter on the gate's output. A red whose seed was lost is not attributed until five new draws run on the head and every red seed also runs on the clean train head (Account lead, Nov 15). Never skip, loosen or quarantine a test to get green (`pinned-tests`). An accepted PR can still break the world: when a trace shows it, the lead pulls its sha from the Train order and the fix goes on that PR's own branch. A fault found in another PR's fold goes to that PR's builder with the place, seed and figures; the finder's test waits and does not re-pin.
 
 ## A new test's time limit (Account lead, Nov 15)
 
@@ -50,7 +50,7 @@ Set a new or changed test's limit near twice the slower of two runs: the test al
 
 ## A moved head needs a new stamp
 
-A `Words lead: train-ready` stamp is for one sha. If the head moves afterward, the stamp is void and the PR is read again, unless the diff since the stamp is lint only (prettier or eslint, nothing a player sees). Say in the post what changed between the two heads.
+A `Words lead: train-ready` stamp is for one sha. If the head moves afterward, the stamp is void and the PR is read again, unless the diff since the stamp is lint only (prettier or eslint, nothing a player sees). Say in the post what changed between the two heads. A played-file sha may also be waived when the last commit holds a pool item and its release note and nothing else (Account lead, Nov 16).
 
 ## A new core2 source file needs its family and its owner (Nov 15)
 

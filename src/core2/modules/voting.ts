@@ -4472,7 +4472,7 @@ export function resolveEmptyRace(api: CoreAPI, contestId: string): void {
           api,
           contest.seatId,
           String(row.resultId),
-          termEndAfter(office, regularElectionDate(contest)),
+          contestTermEnd(office, contest),
         )
       : null;
   // An empty special leaves its vacancy open: the next special is dated now.
@@ -5445,7 +5445,7 @@ function takeOffice(api: CoreAPI, resultId: string): void {
     // the term runs to the start of the one elected a full term on.
     endDate: contest.special
       ? contest.special.termEnd
-      : termEndAfter(office, regularElectionDate(contest)),
+      : contestTermEnd(office, contest),
     reached: contest.special
       ? `elected in a special election ${contest.electionDate}`
       : `elected ${contest.electionDate}`,
@@ -5459,6 +5459,17 @@ function takeOffice(api: CoreAPI, resultId: string): void {
 }
 
 /** The regular election a contest decides: a tie's second election keeps its date. */
+/**
+ * The day a regular contest's winner's term ends: the office's term after the
+ * election, or what is left of a held-over seat's term (`ContestRow.termEnd`).
+ */
+function contestTermEnd(
+  office: OfficeInput,
+  contest: ContestRow,
+): string | null {
+  return contest.termEnd ?? termEndAfter(office, regularElectionDate(contest));
+}
+
 function regularElectionDate(contest: ContestRow): string {
   return (
     /:(\d{4}-\d{2}-\d{2})(?::second)+$/.exec(contest.id)?.[1] ??

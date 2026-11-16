@@ -52,7 +52,7 @@ const player = base.people.find(
 const input = { ...base, playerId: player.id };
 const director = createDirector({ watch: [...initialFocusPeople(input)] });
 const core = createLifeCore(input, { modules: [director.module] });
-openOffices(core, seed);
+openOffices(core, seed, core.date);
 director.start(core);
 advanceCore(core, "2021-02-15");
 

@@ -98,7 +98,7 @@ function world(state: string, pinned?: { key: string; seed: string }) {
     collapseToTwoLevels({ ...full, playerId: player.id }),
   );
   openLaws(core);
-  openOffices(core, worldSeed);
+  openOffices(core, worldSeed, core.date);
   openOfficials(core);
   openElections(core);
   openCampaigns(core);

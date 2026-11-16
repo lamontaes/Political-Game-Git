@@ -101,7 +101,7 @@ describe("campaign interviews", () => {
         }),
       );
       openLaws(core);
-      openOffices(core, seed);
+      openOffices(core, seed, core.date);
       openElections(core);
       openCampaigns(core);
       openRecord(core);
@@ -354,7 +354,7 @@ describe("a reporter who runs", () => {
         }),
       );
       openLaws(core);
-      openOffices(core, seed);
+      openOffices(core, seed, core.date);
       openElections(core);
       openCampaigns(core);
       openRecord(core);
@@ -428,7 +428,7 @@ describe("interviews with state and federal candidates", () => {
         }),
       );
       openLaws(core);
-      openOffices(core, seed);
+      openOffices(core, seed, core.date);
       openElections(core);
       openCampaigns(core);
       openParties(core);
