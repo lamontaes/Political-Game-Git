@@ -654,7 +654,13 @@ function reopenHeldBill(
   move: string,
   sign: number,
 ): void {
-  if (event.facts?.typeKey !== "bill-held-chair" || sign < 0) return;
+  if (
+    !["bill-held-chair", "hold-chair-sought"].includes(
+      String(event.facts?.typeKey),
+    ) ||
+    sign < 0
+  )
+    return;
   const held = table(api, "committees").get(causeId) as unknown as
     CommitteeRecord | undefined;
   if (!held || held.heard || !event.personIds.includes(held.chairId)) return;
@@ -5278,7 +5284,10 @@ function committeeStage(
       // The people the record names: the committee's members and chair (its
       // roll call), the bill's sponsor (a held bill is theirs to take up with
       // the chair), then the witnesses it heard.
+      // The chair is named first: it is the one a held bill's sponsor asks (the
+      // scene casts "the first person the cause names").
       ...new Set([
+        record.chairId,
         ...record.memberIds,
         bill.sponsorId,
         ...witnesses.map((w) => w.personId),
