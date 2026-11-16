@@ -11,7 +11,7 @@ claimed-by:
 pr:
 after:
 blocked-on:
-root:
+root: none
 lead: laws-effects
 model: sonnet
 effort: medium
@@ -29,7 +29,7 @@ Seen: the old draw loop at CORRUPTION_SEED s34 (second draw) on the Train at ce7
 
 **Rules.** No dice: whether someone tells is the person's own lean, never a roll. A test never skips a place that meets its own check.
 
-**Done when.** The pinned Smithers case passes on the Train with the reason named in the PR body by record (who fell out, who they told, the record that holds it), and a second session runs the file and sees every case pass.
+**Done when.** The pinned Smithers case passes on the Train with the reason named in the PR body by record (who fell out, who they told, the record that holds it), and a second session runs the file and sees every case pass, then replays the case in a drawn place.
 
 **Waits on.** Nothing.
 
