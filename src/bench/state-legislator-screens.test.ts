@@ -21,7 +21,6 @@ import { resultOf } from "../core2/modules/voting";
 import { coreAPI } from "../core2/state";
 import { fileForOffice, governmentView } from "./government";
 import { buildBenchWorld } from "./world";
-import { townResidentsByCash } from "../core2/resident-adults-test-kit";
 
 const seed = process.env.STATE_SCREEN_SEED ?? randomBytes(8).toString("hex");
 
@@ -64,8 +63,9 @@ it("lists the covering state legislative seats with holders, files for one and r
     expect(seatRow.district, where).toBeTruthy();
     expect(seatRow.holder?.termId, where).toBeTruthy();
     // The person who files: the first resident the rules let in.
-    const runner = townResidentsByCash(core, coreAPI(core))
+    const runner = [...core.people.values()]
       .filter((p) => p.alive && p.tier !== "husk" && p.id.startsWith("person_"))
+      .sort((a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id))
       .find((p) =>
         checkEligibility(coreAPI(core), p.id, race!.contest.id, null).every(
           (c) => c.met,

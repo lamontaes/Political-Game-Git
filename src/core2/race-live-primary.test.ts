@@ -30,7 +30,6 @@ import {
 import { holdPrimary, openVoting, resultOf } from "./modules/voting";
 import { campaignDayChoices, raceLive } from "./campaign-day";
 import { drawPlace } from "../../scripts/core2-year/place";
-import { townResidentsByCash } from "./resident-adults-test-kit";
 
 const START = "2026-01-05";
 const runSeed =
@@ -69,14 +68,14 @@ it("after a primary is counted its nominee's race stays live for the general and
       .rows() as unknown as TieRow[];
     let found = false;
     for (const party of parties) {
-      const memberIds = new Set(
-        ties.filter((t) => t.partyId === party.id).map((t) => t.personId),
-      );
-      const members = townResidentsByCash(core, api).filter(
-        (p) =>
-          memberIds.has(p.id) &&
-          Number(START.slice(0, 4)) - Number(p.birthDate.slice(0, 4)) >= 35,
-      );
+      const members = ties
+        .filter((t) => t.partyId === party.id)
+        .map((t) => core.people.get(t.personId)!)
+        .filter(
+          (p) =>
+            Number(START.slice(0, 4)) - Number(p.birthDate.slice(0, 4)) >= 35,
+        )
+        .sort((a, b) => b.liquidMinor - a.liquidMinor);
       for (const contest of openContests(api).filter(
         (c) => c.primaryDate && c.primaryDate > START,
       )) {
