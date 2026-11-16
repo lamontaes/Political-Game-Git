@@ -423,8 +423,8 @@ export class DevMode {
       : this.placeId;
   }
 
-  /** A dev-mode change record on the core, dated today. */
-  private mark(
+  /** A dev-mode change record on the core, dated today. A view's controls (dev-views.ts) mark through it too. */
+  mark(
     control: string,
     recordIds: readonly string[],
     facts: Record<string, string>,
