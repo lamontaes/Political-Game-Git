@@ -107,13 +107,21 @@ false`; `tieOwed` holds the hours, and the engine's `promiseSaid` moves the
   lends only to a household's oldest member whose cash is short, so a new
   18-year-old at home never borrows (item
   credit-young-adult-at-home-never-borrows). Play the pinned borrower in
-  `tests/support/real-borrower.ts` (`PAYDAY_BORROWER`, picked with the New
-  game creator's birthday) to its first quarrel with `playToQuarrel`.
-- **Kept needs a way out.** A borrower with no income keeps missing, so a
-  kept pay-on-time promise comes from the player taking work: answer the
-  next employer's call with its `agree` reply in the `job-offer` scene. The
-  schedule also holds calls about offers that have lapsed; pick the entry
-  whose cause's offer is still `pending` in the jobs engine's `offers` table.
+  `tests/support/real-borrower.ts` (`BANK_BORROWER`, picked with the New
+  game creator's birthday) to its first quarrel with `playToQuarrel`. The
+  flow from there to the talk is `playPayOnTime` in
+  `tests/support/promise-play.ts`, shared by the test and
+  `scripts/words/pay-on-time-played.ts`, which writes the played file at its
+  head; a borrower the test does not carry goes in the script's list, never
+  in a reader's copy of the test.
+- **No played borrower keeps a pay-on-time promise (Account lead, Nov 16).**
+  Since #9532 a personal loan is two months of living costs billed on the
+  1st, and the first paycheck from new work comes later or smaller, so
+  taking work does not pay the next bill (item
+  world-loan-bill-before-first-payday-no-borrower-keeps). The pay test plays
+  the broken case only, and the kept raise is out of the bank; both come back
+  with that item. A one-hour hunt over draws and birthdays found none, so do
+  not hunt again before it lands.
 - **Drawn is not said.** A raise listed under "also drawn on other days" was
   never said in a talk. The second reader stamps only lines said; a line that
   no played talk says is deleted, or played until a talk says it.
