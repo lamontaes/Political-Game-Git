@@ -2383,6 +2383,11 @@ function build(api: CoreAPI): void {
     }
     const town = townFigures(api, landlord.placeId);
     if (!town.homeValueMinor || !town.rentMinor) continue;
+    // Builders weigh cost against the economy's price level; with the
+    // economy running and no month kept yet, they wait for its first.
+    const prices = macroPrices(api);
+    const priceLevel = prices ? prices(c.date) : 1;
+    if (priceLevel === undefined) continue;
     buildMonth(
       api,
       {
@@ -2399,7 +2404,7 @@ function build(api: CoreAPI): void {
         )?.backfilled,
         homeValueMinor: town.homeValueMinor,
         rentMinor: town.rentMinor,
-        priceLevel: macroPrices(api)?.(c.date) ?? 1,
+        priceLevel,
         medianMonthlyPayMinor: town.monthlyPayMinor,
         source: {
           tag: "ESTIMATED",
@@ -2874,7 +2879,8 @@ export function openHousing(api: CoreAPI): void {
       town.renters,
       town.homeValueMinor,
       town.rentMinor,
-      macroPrices(api)?.(api.state.date) ?? 1,
+      // None yet at the opening: the economy keeps its first month after it.
+      macroPrices(api) ? (macroPrices(api)!(api.state.date) ?? 0) : 1,
     );
     // The place's home price level on day one: the census median, with this
     // world's path walking the past back from it.

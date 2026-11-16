@@ -11,8 +11,9 @@ import { expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { gameStartDate } from "../core2/game-start";
 import { openWholePast } from "../core2/modules/people";
-import { residenceOn } from "../core2/past-module";
+import { bornIn, residenceOn } from "../core2/past-module";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
+import { townWithin } from "../core2/places-elsewhere";
 import { preStartHistory } from "../core2/pre-start";
 import type { PersonId } from "../core2/types";
 import { knownCard } from "./card";
@@ -63,11 +64,16 @@ function checkTown(place: ReturnType<typeof drawPlace>, where: string): number {
     });
     if (!moved) continue;
     movers += 1;
-    // Where they lived on the day they were born is where the move came from.
-    expect(
-      residenceOn(core, person, person.birthDate).placeId,
-      `${person.id}, ${where}`,
-    ).toBe(moved.facts.fromPlaceId);
+    // Where they lived on the day they were born is where the move came
+    // from. A move from a state's own record (a birthplace drawn in another
+    // state, src/core2/person-birthplace.ts) is one of its towns, the same
+    // every time (`townWithin`), and their birthplace names that town too.
+    const from = String(moved.facts.fromPlaceId);
+    const lived = residenceOn(core, person, person.birthDate).placeId;
+    expect(lived, `${person.id}, ${where}`).toBe(
+      townWithin(core, person.id, from) ?? from,
+    );
+    expect(bornIn(core, person).placeId, `${person.id}, ${where}`).toBe(lived);
     const text = JSON.stringify(knownCard(core, core.playerId!, person.id));
     expect(
       text.includes(`Born in ${townName}`),

@@ -53,4 +53,19 @@ Claimed by next for opus-5251 (Claude Opus 5.5 in Claude Code (cloud session), t
 
 **Notes (family life, Nov 15).** Measured: the cap also held back the answer to the player's own Ask out. A created adult at Bridgeville, Delaware (world seed 9ea5d2f8-7322-40f2-8059-c79ef247d828) asked seven people out on January 21st; the seventh answer was scheduled with `heldBack` season-cap and the screen showed "You stay in". PR #9256 marks `asked-out` and `proposal-answered` with `answersPress: true` in situation-types.json, so a press the player made always plays its answer; this item's record-based rule should take that flag's place when it lands (the player's own press is a cause on the record, never a count).
 
+**Notes (stages of a bill, Nov 14, 20:55Z).** The player's own asks no longer count against the season. This is built on branch `claude/project-thread-lcf812` as the next PR after #9305, in `scheduling.ts` `pressedByPlayer`. It covers the types that are `playerAsks` and caused only by an event of the player's own act: `bill-sign-on`, `vote-sought` and `serve-sought`. What limits them is on the record:
+
+- one sitting a day with the same person;
+- the repeat window by bill or by cause;
+- the colleague's own memory of being asked ("You asked me this before. It's still no.").
+
+At Manteca (0645484, world seed 1d3c1565) the second sign-on ask, which the cap held, now plays.
+
+What the other 80 types need before `seasonCap` can be deleted (it stays for them until then):
+
+- **Doors** (`door-ask`, `door-signature`). Each is the circumstance producer's pick of the day, already spaced by its `everyParameter`. The cap is a second count on top. They can drop it once the producer reads "this resident was talked to, and nothing changed since" from the canvass record.
+- **The other 31 types caused by events** (vote asks, reporters, offers, invitations). Each needs what #8424 gave job offers and letters: the caller's earlier ask of the same person, and what changed since, read from records. The floor vote's 121 scenes a year (Neodesha) is the case the cap was set for. There the session calendar is the record that limits it: one sitting folds a floor day's votes, and a vote the player already cast needs no second scene.
+- **The 18 types caused by circumstances.** Their producer keeps the spacing; the cap is redundant once each row's spacing reads what the last scene settled.
+- **Feeling, tie and money types (21).** These are paced by the life's `paces` budget, which already ranks scenes. The cap only stops one feeling from filling a season, which the ranking by importance should do on its own.
+
 Nov 15 evidence (governor's briefing room, #9439): the season cap held back a live emergency. Frankfort, Kentucky (2128900), seed a1b2c3d4e5f6…e9, disaster 3624 on 2025-02-14: the briefing met the player governor on 02-15, 02-22 and 03-01, then the offers of 03-07 and 03-14 went to the journal as `season-cap` (type `emergency-briefing`, cap 6 per 91 days) while the offer was still the governor's to answer until 03-16. Only three briefings for this disaster had played, so the other scenes of the type that filled the cap were other disasters' briefings in the same window (not counted by the builder). The played file shows the schedule rows (momentId, outcome journal-line, heldBack season-cap). Fix by what the earlier scene settled, not by count: an unanswered offer with its request window still open must reach the player.

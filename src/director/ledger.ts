@@ -16,7 +16,7 @@ import { recordLocalAddresses } from "./local-address";
 import { SCHOOL_STARTED, preStartHistory } from "../core2/past";
 import { addDays, daysBetween, makeIsoDate } from "../core2/kernel/dates";
 import type { EventAppraisal } from "../core2/emotion";
-import { familyFactsOf, formerKin } from "../core2/closeness";
+import { familyFactsOf, formerKin, lastTogether } from "../core2/closeness";
 import { sharedHistory, type SharedHistoryKind } from "../core2/shared-history";
 
 /** Where a contact was made, by the record that says so: never a stranger's scene. */
@@ -92,7 +92,10 @@ interface Snapshot {
   alive: boolean;
   householdPay: number;
   memberJobs: Map<PersonId, string | undefined>;
-  ties: Map<string, { otherId: PersonId; level: number; lastContact: IsoDate }>;
+  ties: Map<
+    string,
+    { otherId: PersonId; level: number; lastContact?: IsoDate }
+  >;
   drives: Map<string, number>;
 }
 
@@ -406,7 +409,7 @@ export function createDirector(
       ties.set(id, {
         otherId: row.actorId === actor.id ? row.otherId : row.actorId,
         level: row.level,
-        lastContact: row.lastContactDate,
+        lastContact: lastTogether(row) ?? undefined,
       });
     }
     return {
@@ -581,7 +584,7 @@ export function createDirector(
         home.has(otherId),
       );
       thread.closeness = row.level;
-      thread.lastContact = row.lastContactDate;
+      thread.lastContact = lastTogether(row) ?? thread.lastContact;
     }
     // The recorded past (owner answer 5): personal facts are moments with an
     // impact estimated from the stress scale. Facts dated at or after the
@@ -1095,7 +1098,7 @@ export function createDirector(
       const prior = before.ties.get(id);
       const delta = row.level - (prior?.level ?? zero);
       const contacted =
-        row.lastContactDate === date && prior?.lastContact !== date;
+        lastTogether(row) === date && prior?.lastContact !== date;
       if (delta === zero && !contacted) continue;
       const thread = ensureThread(book, otherId);
       const knew = book.keptFacts.get(
@@ -1145,7 +1148,7 @@ export function createDirector(
       thread.tone =
         delta > zero ? "rising" : delta < zero ? "souring" : thread.tone;
       thread.closeness = row.level;
-      thread.lastContact = row.lastContactDate;
+      thread.lastContact = lastTogether(row) ?? thread.lastContact;
       knewFact(book, otherId, date, "recorded", causeId);
     }
 

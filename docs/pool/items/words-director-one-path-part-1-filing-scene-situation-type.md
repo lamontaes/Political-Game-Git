@@ -5,10 +5,10 @@ area: director
 kind: cleanup
 priority: 1
 size: M
-status: in-pr
+status: merged
 standard: 2
 claimed-by: Words builder W3
-pr: 9029
+pr: #9029
 after: words-director-one-path-part-1a-scene-ending-opens-filing
 blocked-on:
 lead: words
@@ -19,6 +19,7 @@ source: split from words-director-one-path in the pool redo, Nov 10, 2026
 checked: fable 2026-11-10
 claimed-at: 2026-11-13T07:00:00.000Z
 branch: claude/words-w3-counter-main
+merged-at: 2026-11-15T22:47:18.474Z
 ---
 
 **What.** Part of words-director-one-path. The talk before filing at the counter (which office, the race, the dates, the duty and the rules that stop a filing) is still a hand-ordered sequence in src/director/filing-visit.ts (stopgap SG-WORDS-filing-counter-prompts). The scene engine's own `filing-clerk` arc, with its replies, follows and endings, never plays. Make the counter talk that arc, played in the talk box, ending in the counter form, and delete the visit's sequence. The talk after filing is already the scheduled `filing` scene (purpose `filing-petition`) and stays. Seen: at the filing office the player answers the clerk (asks, pushes back or says "Not today" and leaves), hears about a rival who already filed, and the form opens only when the talk ends in filing.

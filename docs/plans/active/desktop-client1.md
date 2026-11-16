@@ -36,7 +36,6 @@ Owner: Cursor Grok 4.6 Medium continuation on isolated branch
   `main.mjs` (hardened main process, `app://game` protocol, disabled
   direct-update seam, native About), `scripts/stage.mjs` (stamps build
   identity from canonical version + actual revision),
-  `scripts/continuity-test.mjs` (installed A→B proof harness),
   `electron-builder.yml` (unsigned internal targets, signing hooks).
 - `.github/workflows/desktop-package.yml` — read-only Mac/Windows CI
   packaging with checksums and exact source identity; no publication.
@@ -105,10 +104,6 @@ represented as accepted main or opened as a PR.
   Disclosed boundaries: pins are shell-session state on this source (no
   pinned key in the payload; same in browser); no wardrobe choice exists
   on accepted main. Nothing was fabricated to close either gap.
-- Save failure/compatibility controls (`save-integrity-test.mjs`):
-  hard-kill interruption recoverable; corrupt record and newer-schema
-  (downgrade) record refused but byte-preserved; healthy life continues
-  beside them. Existing repository semantics only.
 - Update contract: seam extracted to `desktop/updater.mjs` with 17
   deterministic tests (`npm test`) — disabled/unconfigured, Steam
   hard-disable, malformed metadata, untrusted channel, downgrade,
