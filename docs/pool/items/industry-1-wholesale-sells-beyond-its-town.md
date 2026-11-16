@@ -8,7 +8,7 @@ size: S
 status: in-pr
 standard: 2
 claimed-by: industries thread (Account lead)
-pr:
+pr: "#9627"
 after: industry-0-a-utility-sells-beyond-its-town
 blocked-on:
 root: none
