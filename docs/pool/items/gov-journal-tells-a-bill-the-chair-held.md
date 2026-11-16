@@ -8,7 +8,7 @@ size: S
 status: in-pr
 standard: 2
 claimed-by:
-pr: 9592
+pr: 9596
 blocked-on:
 source: "the Account lead, Nov 15: a held player bill got no Journal line, no scene and nothing to press"
 claimed-at:
