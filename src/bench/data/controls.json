@@ -307,6 +307,9 @@
     "donorsGive": "Donors give",
     "raised": "Raised",
     "noneGave": "No one gave",
+    "petitionBehind": "Petition falls behind",
+    "petitionTold": "Told it is short",
+    "petitionNotTold": "Not told before the deadline",
     "saysYes": "Says yes to volunteering",
     "saysNo": "Says no to volunteering",
     "nobody": "No one to ask"

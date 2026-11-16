@@ -5727,6 +5727,26 @@
       "tag": {
         "move": "narrate"
       }
+    },
+    {
+      "key": "scene-words.lead-petition-short-alone.it-s-about-your-petition-for-office",
+      "move": "lead-petition-short-alone",
+      "kind": "spoken",
+      "text": "It's about your petition for {office}.",
+      "uses": [
+        {
+          "move": "lead-petition-short-alone",
+          "subject": "lead",
+          "role": "petition-short",
+          "choice": "alone"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (petition-short lines, Nov 15), placed by the record",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "narrate"
+      }
     }
   ]
 }
