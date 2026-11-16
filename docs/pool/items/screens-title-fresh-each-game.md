@@ -5,10 +5,10 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: open
+status: in-pr
 standard: 2
 claimed-by: screens lane (Nov 16)
-pr:
+pr: 9768
 blocked-on:
 source: owner, Nov 16, crew line item 4d and his Desk answer on title paintings
 after:
