@@ -33,3 +33,5 @@ source: Account lead, Nov 16 01:47Z: in no world found for the circulators scene
 **Files.** src/core2/data (campaign-unit-prices), src/core2/modules/campaigns.ts
 
 **Notes.** Found by the circulators thread (item elections-petition-circulators-scene). The scene promises nothing: no line says the hire will be enough.
+
+**For a later scene (lead, Nov 16).** Say what a real candidate short on cash does in that state instead of paying for names: win the party's nomination or endorsement, or file for a lower office with a smaller count. The circulators scene offers the hire and says plainly, from the record, when the free money buys fewer names than the gap (fact `covers-part`); it does not offer the alternatives. Unreached lines: the plain money lines (helper "Town doors won't get us there. We can pay people to carry it to the voters outside town." and its sibling, the plain hire replies "Then I'll pay people to carry it." and "I'll put the campaign's money into it.") play only where the free money covers the gap; no pinned world does. They stay because without them a player who can pay in full gets no hire reply.

@@ -1673,6 +1673,8 @@ export class DevMode {
       // held money for them that day, from the record's own facts.
       circulators: record ? record.facts?.circulators === "yes" : null,
       money: record ? record.facts?.money === "yes" : null,
+      // The free money buys fewer names than the gap still needs.
+      coversPart: record ? record.facts?.covers === "part" : null,
       // The fund set aside and the signatures held now, after any answer.
       circulatorFundMinor:
         campaignFor(this.api, filingId).circulatorFundMinor ?? 0,

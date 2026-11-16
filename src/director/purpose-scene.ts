@@ -1824,6 +1824,12 @@ function composeBinding(
         text: "yes",
         sourceRecordIds: [moment.causeId],
       };
+      // The campaign's free money buys fewer names than the gap needs.
+      if (said.covers === "part")
+        facts["covers-part"] = {
+          text: "yes",
+          sourceRecordIds: [moment.causeId],
+        };
     }
   }
   // A rival who runs under the candidate's own party label: a primary

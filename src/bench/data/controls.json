@@ -311,6 +311,7 @@
     "petitionTold": "Told it is short",
     "petitionNotTold": "Not told before the deadline",
     "petitionPayOffered": "Paying people to carry it is offered",
+    "petitionPayPart": "Paying people is offered, the money buys part of the gap",
     "petitionPayNoMoney": "Paying people is possible, no money to do it",
     "petitionCount": "Petition count",
     "petitionInTown": "In town",

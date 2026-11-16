@@ -8531,7 +8531,10 @@ function circulatorOffer(
   filingId: string,
 ): Record<string, string> {
   const campaign = campaignFor(api, filingId);
+  const petition = petitionOf(api, filingId);
   if (
+    !petition ||
+    petition.signed >= petition.needed ||
     !circulatorsCanWork(api, filingId) ||
     (campaign.circulatorFundMinor ?? 0) > 0
   )
@@ -8539,9 +8542,19 @@ function circulatorOffer(
   const hasAccount = (api.state as CoreState).cashJournal.accounts.get(
     `cash:${campaign.organizationId}:residual`,
   );
+  const free = hasAccount ? freeMinor(campaign) : 0;
+  if (free <= 0) return { circulators: "yes" };
+  // What the free money buys at the circulators' price, against the gap the
+  // campaign still has: a hire that cannot close it is said to fall short.
+  const buys = Math.floor(free / unitPrice(api, "petition-signature"));
+  const gap = Math.max(
+    0,
+    signaturesToGather(petition.needed) - petition.signed,
+  );
   return {
     circulators: "yes",
-    ...(hasAccount && freeMinor(campaign) > 0 ? { money: "yes" } : {}),
+    money: "yes",
+    ...(buys < gap ? { covers: "part" } : {}),
   };
 }
 

@@ -78,7 +78,13 @@ export async function devCampaignPanel({ labels, onDone }) {
       ...(out.tellerId ? [out.tellerId] : []),
       `${out.signed}/${out.gathers}`,
       ...(out.circulators
-        ? [out.money ? labels.petitionPayOffered : labels.petitionPayNoMoney]
+        ? [
+            out.money
+              ? out.coversPart
+                ? labels.petitionPayPart
+                : labels.petitionPayOffered
+              : labels.petitionPayNoMoney,
+          ]
         : []),
       out.mark.id,
     ].join(" · ");

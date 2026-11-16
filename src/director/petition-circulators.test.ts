@@ -66,13 +66,6 @@ const ASHAWAY = {
   seed: "66b9345be35f492816f71c60a205123d92d42f41d563cf7278e4dae3fd64599a",
 };
 
-/** jpr-pin:7, McKinney, Kentucky: a helper tells, a small race. */
-const MCKINNEY = {
-  name: "McKinney, Kentucky",
-  key: "2149134",
-  seed: "de34994b1ee6e7df065c68790373fe5923230961e679ad9241d976fe85478ca8",
-};
-
 type Place = typeof NEWRY;
 
 /** The player files for the first race they can enter, as a player does. */
@@ -193,6 +186,7 @@ const fundOf = (world: World) =>
   campaignFor(world.api, world.filing.id).circulatorFundMinor ?? 0;
 
 /** The index of the first reply (under a node) whose line says this. */
+const HIRE = /pay people|campaign's money|put in what|pay for what/;
 const replyIndex = (node: TreeNode | null, say: RegExp) =>
   node?.replies.findIndex((reply) => say.test(reply.line.text)) ?? -1;
 
@@ -223,7 +217,7 @@ it("Newry: the clerk, with money raised by the player's own calls, says how peti
   const ask = replyIndex(scene.talk.tree, /How bad|What does it need/);
   expect(ask, "the player can ask").toBeGreaterThanOrEqual(0);
   const answered = scene.talk.tree.replies[ask]!.next;
-  const hire = replyIndex(answered, /pay people|campaign's money/);
+  const hire = replyIndex(answered, HIRE);
   expect(
     hire,
     "a hire reply is offered after the answer",
@@ -239,11 +233,11 @@ it("Newry: the clerk, with money raised by the player's own calls, says how peti
   advanceCore(core, addDays(makeIsoDate(petitionOf(api, filing.id)!.due), 1));
   const after = counted(world, "Newry, after the deadline");
   write(
-    `Journal: ${composeJournal(core, director, me)
+    `Journal, in order, from the filing: ${composeJournal(core, director, me)
       .flatMap((chapter) => chapter.lines)
       .map((line) => `${line.date}: ${line.text}`)
-      .filter((text) => /petition/.test(text))
-      .join(" | ")}\n`,
+      .filter((text) => text >= `${filing.filedOn ?? ""}`)
+      .join("\n  ")}\n`,
   );
   expect(after.outsideTown, "paid circulators brought names").toBeGreaterThan(
     0,
@@ -268,10 +262,7 @@ it("Newry: with no money held the clerk still says how petitions are carried and
   ).toBe(true);
   const ask = replyIndex(scene.talk.tree, /How bad|What does it need/);
   expect(
-    replyIndex(
-      scene.talk.tree.replies[ask]!.next,
-      /pay people|campaign's money/,
-    ),
+    replyIndex(scene.talk.tree.replies[ask]!.next, HIRE),
     "no hire reply when nothing is free",
   ).toBe(-1);
   counted(world, "Newry, no money, told");
@@ -290,7 +281,7 @@ it("Kingston: a helper tells them paid people can carry it past the town line, a
   const before = counted(world, "Kingston, told");
   const ask = replyIndex(scene.talk.tree, /How bad|What does it need/);
   const answered = scene.talk.tree.replies[ask]!.next;
-  const hire = replyIndex(answered, /pay people|campaign's money/);
+  const hire = replyIndex(answered, HIRE);
   if (record.facts?.money === "yes") {
     expect(hire).toBeGreaterThanOrEqual(0);
     replyInScene(core, director, me, entry, [ask, hire]);
@@ -321,7 +312,7 @@ it("Ashaway: the governor's race, the clerk, the yes hires and the count is read
   counted(world, "Ashaway, told");
   const ask = replyIndex(scene.talk.tree, /How bad|What does it need/);
   const answered = scene.talk.tree.replies[ask]?.next ?? null;
-  const hire = replyIndex(answered, /pay people|campaign's money/);
+  const hire = replyIndex(answered, HIRE);
   write(`Ashaway ask ${ask} hire ${hire}\n`);
   if (hire >= 0) replyInScene(core, director, me, entry, [ask, hire]);
   counted(world, "Ashaway, after the yes");
@@ -329,36 +320,20 @@ it("Ashaway: the governor's race, the clerk, the yes hires and the count is read
   counted(world, "Ashaway, after the deadline");
 }, 1_800_000);
 
-for (const raising of [true, false]) {
-  it(`McKinney: a helper tells them, ${raising ? "with money from their own calls" : "with no money"}`, () => {
-    const world = filer(MCKINNEY);
-    const day = playToTold(world, raising);
-    expect(day, `${MCKINNEY.name}: told as short`).toBeDefined();
-    const { core, director, me } = world;
-    const record = core.durableLog.get(toldId(world))!;
-    write(
-      `McKinney (${raising ? "raising" : "not raising"}) facts: ${JSON.stringify(record.facts)}\n`,
-    );
-    expect(record.facts?.tellerKind).toBe("helper");
-    expect(record.facts?.circulators).toBe("yes");
-    const { entry, scene, all } = told(
-      world,
-      `McKinney, a helper, ${raising ? "money" : "no money"}`,
-    );
-    counted(world, "McKinney, told");
-    const ask = replyIndex(scene.talk.tree, /How bad|What does it need/);
-    const answered = scene.talk.tree.replies[ask]!.next;
-    const hire = replyIndex(answered, /pay people|campaign's money/);
-    if (record.facts?.money === "yes") {
-      expect(hire).toBeGreaterThanOrEqual(0);
-      replyInScene(core, director, me, entry, [ask, hire]);
-      expect(fundOf(world)).toBeGreaterThan(0);
-      counted(world, "McKinney, after the yes");
-    } else {
-      expect(hire).toBe(-1);
-      expect(
-        all.some((l) => /can't pay them|doesn't have the money/.test(l)),
-      ).toBe(true);
-    }
-  }, 600_000);
-}
+it("Kingston with no calls for money: the helper says the campaign can't pay, no hire reply is offered", () => {
+  const world = filer(KINGSTON);
+  const day = playToTold(world, false);
+  expect(day, `${KINGSTON.name}: told as short`).toBeDefined();
+  const record = world.core.durableLog.get(toldId(world))!;
+  write(`Kingston, no calls, told facts: ${JSON.stringify(record.facts)}\n`);
+  expect(record.facts?.tellerKind).toBe("helper");
+  expect(record.facts?.circulators).toBe("yes");
+  expect(record.facts?.money).toBeUndefined();
+  const { scene, all } = told(world, "Kingston, a helper, no money");
+  expect(
+    all.some((l) => /we can't pay them|doesn't have the money/.test(l)),
+  ).toBe(true);
+  const ask = replyIndex(scene.talk.tree, /How bad|What does it need/);
+  expect(replyIndex(scene.talk.tree.replies[ask]!.next, HIRE)).toBe(-1);
+  counted(world, "Kingston, no money, told");
+}, 1_800_000);
