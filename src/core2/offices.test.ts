@@ -51,7 +51,7 @@ function world(placeKey: string) {
   const core = createLifeCore(
     buildPopulation({ seed, placeKey, startedAt: START, minimumPeople: 200 }),
   );
-  openOffices(core, seed);
+  openOffices(core, seed, core.date);
   return core;
 }
 

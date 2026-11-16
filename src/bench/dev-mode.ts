@@ -79,11 +79,14 @@ import {
 import { isOutsideOffice, OFFICES_MODULE_ID } from "../core2/modules/offices";
 import {
   ELECTIONS_MODULE_ID,
+  petitionOf,
   playerContests,
 } from "../core2/modules/elections";
 import {
   campaignFor,
   castVolunteer,
+  PETITION_SHORT_EVENT,
+  signaturesToGather,
   volunteerReason,
 } from "../core2/modules/campaigns";
 import { campaignDay, campaignView } from "./campaign";
@@ -426,8 +429,8 @@ export class DevMode {
       : this.placeId;
   }
 
-  /** A dev-mode change record on the core, dated today. */
-  private mark(
+  /** A dev-mode change record on the core, dated today. A view's controls (dev-views.ts) mark through it too. */
+  mark(
     control: string,
     recordIds: readonly string[],
     facts: Record<string, string>,
@@ -1628,6 +1631,42 @@ export class DevMode {
       days,
       gave: calls.filter((c) => c.givenMinor > 0),
       asked: calls.length,
+    };
+  }
+
+  /**
+   * The petition is behind: days pass through the game's own clock, one at a time, until the campaign
+   * engine writes its one petition-short record for the player's filing (the day a canvass shift a day can
+   * no longer wait for the next turn) or the petition's deadline passes. The record is never forged: the
+   * trace names the day, who tells, and the arithmetic the engine read that day. The scene it stages is
+   * the player's to answer.
+   */
+  petitionShort(filingId: string) {
+    if (campaignFor(this.api, filingId).candidateId !== this.core.playerId)
+      throw new Error("That is not your campaign.");
+    const petition = petitionOf(this.api, filingId);
+    if (!petition) throw new Error("That filing has no petition.");
+    const id = `${PETITION_SHORT_EVENT}:${filingId}`;
+    const from = this.core.date;
+    while (!this.core.durableLog.has(id) && this.core.date < petition.due)
+      this.advance(addDays(makeIsoDate(this.core.date), 1));
+    const record = this.core.durableLog.get(id);
+    return {
+      mark: this.mark("petition-short", [filingId], { filingId, from }),
+      told: record ? this.core.date : null,
+      tellerId: record ? String(record.facts?.tellerId) : null,
+      tellerKind: record ? String(record.facts?.tellerKind) : null,
+      // What the engine read the day it told them (the record's own facts).
+      signed: Number(
+        record?.facts?.signed ?? petitionOf(this.api, filingId)!.signed,
+      ),
+      gathers: Number(
+        record?.facts?.gathers ?? signaturesToGather(petition.needed),
+      ),
+      daysLeft: record ? Number(record.facts?.daysLeft) : null,
+      canAddAfterNextTurn: record
+        ? Number(record.facts?.canAddAfterNextTurn)
+        : null,
     };
   }
 

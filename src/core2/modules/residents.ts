@@ -16,7 +16,6 @@ import {
   unplacedPoolOf,
 } from "../residents";
 import {
-  depositsHeld,
   drawSavingsToCover,
   transfer,
   transferSplit,
@@ -98,6 +97,7 @@ import {
   fundGroups,
   HOUSING_KINDS,
   fundBalance,
+  countedDeposits,
   fundOf,
   moveShare,
   payGroups,
@@ -234,6 +234,8 @@ export interface ResidentsRuntime {
     {
       group: number;
       amount: number;
+      /** Its share of its group's bank savings (`countedDeposits`), paid to its people on release. */
+      deposits: number;
       unplaced: number;
       weight: number;
       /** Its share of its group's living-cost arrears, owed on its own flow once it is a full household. */
@@ -481,11 +483,27 @@ export function regroupHousehold(
   // Its claim on the old group's money, and all the claims there, before it leaves.
   const claim = rt.api ? savingClaim(rt, h) : 0;
   const groupBefore = rt.api && before >= 0 ? claimsInGroup(rt, before) : 0;
+  // And its share of the old group's bank savings, for every household of the record.
+  const banked =
+    rt.api && before >= 0
+      ? countedDeposits(rt.api, rt, h, rt.store.weightedCount(h))
+      : 0;
   rt.store.regroup(h, groupKeyOf(rt, h, date));
   if (rt.api) claimMoved(rt, before, h.group, claim);
   // Its share of the old group's money goes with it.
-  if (rt.api && before !== h.group)
+  if (rt.api && before !== h.group) {
     moveShare(rt.api, rt, before, h.group, claim, groupBefore);
+    // Its savings leave the old group's deposits for the new group's account,
+    // whose next bank review banks them with the rest of its savings.
+    if (banked > 0)
+      withdrawSavings(rt.api.state as CoreState, rt.api, {
+        id: `counted-regroup-savings:${h.id}:${date}:${rt.moneyCache.serial++}`,
+        holderId: fundOf(rt.api, rt, before),
+        customerAccountId: fundOf(rt.api, rt, h.group),
+        amountMinor: banked,
+        source: rt.input.source,
+      });
+  }
   // A group left with no people owes nothing: its creditors write it off.
   if (before >= 0 && before !== h.group)
     writeOffEmptyGroup(rt, before, h.placeId);
@@ -2179,17 +2197,16 @@ export function releaseResidentHousehold(
         reasonKey: "residents.fill-in.cash",
         source: rt.input.source,
       });
-    // Its bank savings were banked for every household the record stood
-    // for: the one filled in keeps its own share, and the rest go back to
-    // its group, which still stands for the others.
-    const held = depositsHeld(core, householdId);
-    const others = Math.floor((held * (cash.weight - 1)) / cash.weight);
-    if (others > 0)
+    // Its share of its group's bank savings comes out to its people, as its
+    // share of the group's cash did; the rest stay banked for the households
+    // the group still stands for. Its own bank review banks them again.
+    const saver = record.people.find((row) => core.people.has(row.id));
+    if (cash.deposits > 0 && saver)
       withdrawSavings(core, rt.api, {
         id: `fill-in:${householdId}:${sequence}:deposits`,
-        holderId: householdId,
-        customerAccountId: fundOf(rt.api, rt, cash.group),
-        amountMinor: others,
+        holderId: fundOf(rt.api, rt, cash.group),
+        customerAccountId: rt.api.accounts().main(saver.id),
+        amountMinor: cash.deposits,
         source: rt.input.source,
       });
   }
@@ -2325,6 +2342,7 @@ export function takeResidentHousehold(
   rt.fillInCash.set(h.id, {
     group: h.group,
     amount: householdCash(rt, h),
+    deposits: rt.api ? countedDeposits(rt.api, rt, h) : 0,
     unplaced: unplacedShare(rt, h),
     weight: store.weightOf(h),
     arrears,
@@ -2365,23 +2383,9 @@ export function keepOneCountedHousehold(
   const rt = runtimes.get(core);
   const weight = rt?.store.weightOf(h) ?? 1;
   if (!rt || h.gone || weight === 1) return;
+  // Its bank savings are its group's (`countedDeposits`): the households it
+  // no longer stands for keep their part of them through the group's claims.
   releaseToOne(core, rt, h);
-  // Its bank savings were banked for every household the record stood for:
-  // the one removed keeps its own share, and the rest go back to its group,
-  // which still stands for the others (as at fill-in).
-  if (rt.api && rt.funded) {
-    const others = Math.floor(
-      (depositsHeld(core, h.id) * (weight - 1)) / weight,
-    );
-    if (others > 0)
-      withdrawSavings(core, rt.api, {
-        id: `kept-one:${h.id}:${core.date}:deposits`,
-        holderId: h.id,
-        customerAccountId: fundOf(rt.api, rt, h.group),
-        amountMinor: others,
-        source: rt.input.source,
-      });
-  }
   delete h.weight;
   const members = new Set(rt.store.memberIdsOf(h));
   for (const job of rt.jobs.values())
