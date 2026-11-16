@@ -638,7 +638,11 @@ export function decideToRun(
   if (!person?.alive) return null;
   // Whoever staffs the filing counter takes the filings of the races, so they
   // never weigh standing in one.
-  if (filingOfficerIds(api).has(personId)) return null;
+  // stopgapId: SG-GOV-filing-officer-never-runs
+  if (filingOfficerIds(api).has(personId)) {
+    api.stopgap("SG-GOV-filing-officer-never-runs");
+    return null;
+  }
   const id = `${contest.contestId}:${personId}`;
   const held = table(api).get(id) as unknown as CandidacyDecision | undefined;
   if (held && (held.run || !reconsider)) return held;

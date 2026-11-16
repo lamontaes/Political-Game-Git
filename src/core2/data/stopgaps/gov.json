@@ -1872,6 +1872,18 @@
     "status": "open"
   },
   {
+    "id": "SG-GOV-filing-officer-never-runs",
+    "kind": "estimated-behavior",
+    "file": "src/core2/modules/candidacy.ts",
+    "line": 641,
+    "whatItFakes": "Whoever staffs a filing counter (the state's election chief and the counter officers drawn where the records name no clerk) never weighs standing in any race, as if no one at a counter ever ran. In real life an elected clerk runs for the clerk's own seat, and a deputy can run for another seat after stepping aside.",
+    "why": "A drawn counter officer lived in the town, weighed running like any resident and filed in the race they take filings for (Cross Anchor, South Carolina), so the filing counter's own officer stood in the race it staffs.",
+    "addedBy": "Fable B special-election ballot fix",
+    "addedAt": "2026-11-16",
+    "replacement": "A filing officer who wants a seat leaves the counter first, by the place's own rule: read each place's rule for an official who files for office (resign, take leave or recuse), weigh running as anyone else once the counter is left, and seat a replacement at the counter.",
+    "status": "open"
+  },
+  {
     "id": "SG-GOV-home-local-district",
     "kind": "missing-data",
     "file": "src/core2/modules/elections.ts",
