@@ -98,11 +98,9 @@
       "checkedAgainst": "One talk's length of quarrel, as familyStakes.putOffHours: a scene left on a strained note cancels about one talk's time together."
     },
     "trust-lost": {
-      "value": 0.25,
       "unit": "share of the tie",
-      "tag": "TUNABLE",
-      "spread": [0.1, 0.5],
-      "checkedAgainst": "Trust lost (a lie found out, a promise broken to their face) takes a share of the hours the tie stands on today, so it costs a close tie more than a slight one: people tell fewer everyday lies to those they are close to and are more uncomfortable telling them (DePaulo and Kashy 1998, Everyday lies in close and casual relationships, Journal of Personality and Social Psychology 74(1)), which gives the direction only. The share is not fitted to a lie rate; it is checked by recounting the lies told at three named places by closeness band (Account lead's ruling and Words lead's yes, Nov 15)."
+      "parameter": "closenessTrustLostShare",
+      "checkedAgainst": "Trust lost takes the share of the tie the core's closenessTrustLostShare row gives (src/core2/data/parameters.json), the one row the promises engine reads for a broken promise too (people-broken-promise-costs-share-of-tie, Nov 16)."
     },
     "kept-in-scene": {
       "value": -1,

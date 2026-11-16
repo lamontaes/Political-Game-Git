@@ -302,6 +302,23 @@ export function tieHoursBetween(
 }
 
 /**
+ * The hours trust lost takes off a tie today (a lie found out, a promise
+ * broken): a share of the hours it stands on (`closenessTrustLostShare`), so
+ * it costs a close tie more than a slight one. The one row both the director's
+ * endings and the promises engine read.
+ */
+export function trustLostHours(
+  core: Pick<CoreState, "data" | "date" | "relationships">,
+  a: PersonId,
+  b: PersonId,
+): number {
+  return (
+    parameter("closenessTrustLostShare", core.data.parameters) *
+    tieHoursBetween(core, a, b)
+  );
+}
+
+/**
  * A tie after `hours` more together today (negative is a strain): its level,
  * and the strain its own hours did not cover. The strain beyond the row's
  * own hours is kept only up to the hours the two shared elsewhere

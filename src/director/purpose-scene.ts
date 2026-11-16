@@ -53,7 +53,7 @@ import {
 } from "../core2/modules/views";
 import { addDays, daysBetweenText, makeIsoDate } from "../core2/kernel/dates";
 import { dayAhead, inNextMonth } from "../english/day-words";
-import { P } from "../core2/parameters";
+import { P, parameter } from "../core2/parameters";
 import { dayParts, sceneMinute } from "./day-part";
 import {
   corePlaceByJurisdictionId,
@@ -3207,9 +3207,11 @@ const DOOR_ASK_AFTER = "ask";
  * tie stands on today.
  */
 const ENDING_STRAIN = rulesFile.endingStrain as unknown as Readonly<
-  Record<string, { value: number; unit?: string } | undefined>
+  Record<
+    string,
+    { value?: number; unit?: string; parameter?: string } | undefined
+  >
 >;
-const SHARE_OF_TIE = "share of the tie";
 
 /** The hours an ending's strain takes off the tie between two people today. */
 export function endingStrainHours(
@@ -3220,8 +3222,11 @@ export function endingStrainHours(
 ): number | undefined {
   const row = ENDING_STRAIN[keeps];
   if (!row) return undefined;
-  return row.unit === SHARE_OF_TIE
-    ? row.value * tieHoursBetween(core, a, b)
+  // A share of the tie is a core parameter (trust lost: closeness.ts
+  // trustLostHours, the row the promises engine reads too).
+  return row.parameter
+    ? parameter(row.parameter, core.data.parameters) *
+        tieHoursBetween(core, a, b)
     : row.value;
 }
 

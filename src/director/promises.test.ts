@@ -287,6 +287,20 @@ const OFFER_DAYS = 60;
  * Nov 15, so twice that.
  */
 const PAY_TIMEOUT = 1_200_000;
+
+/**
+ * Each broken promise this file plays, with what the break cost the tie
+ * (the row's `tieCost`, the trust-lost share of the tie that day), so the
+ * last test can compare a close tie with a slight one
+ * (people-broken-promise-costs-share-of-tie).
+ */
+const BROKEN_COSTS: {
+  tie: "close" | "slight";
+  where: string;
+  id: string;
+  cost: number;
+  closeness: [number, number];
+}[] = [];
 /** The player's yes to the next employer's call, said in its scene (as job-offer-through-person.test.ts); the job taken. */
 function takeWork(
   core: CoreState,
@@ -475,8 +489,18 @@ it(
         const payment = Object.values(paymentWords.payments).find((name) =>
           said.includes(name),
         );
-        if (ended.outcome === "broken")
+        if (ended.outcome === "broken") {
           expect(payment, `${where}: ${said}`).toBeTruthy();
+          // The break took trust's share of the tie, kept on the row.
+          expect(ended.tieCost, where).toBeGreaterThan(0);
+          BROKEN_COSTS.push({
+            tie: "close",
+            where: `${where}, housemate ${made!.owedId}`,
+            id: factId,
+            cost: ended.tieCost!,
+            closeness: [before, closenessBetween(core, id, made!.owedId)],
+          });
+        }
         done.push(
           `${where}${takesWork ? `, took work ${job}` : ""}: ${said}\n    payment ${payment ?? "(not named)"}, the missed payment's loan ${missedLoan(core, ended.endedBy, made!.replyId)}\n    the promise's own move: ${moves.join("; ") || "(none)"}\n    quarrel ${quarrel!.id}\n    ${factId} owed to ${made!.owedId}, ${ended.outcome} by ${ended.endedBy} on ${ended.endedAt}, closeness from the promise to the talk ${before.toFixed(5)} to ${closenessBetween(core, id, made!.owedId).toFixed(5)}`,
         );
@@ -660,6 +684,7 @@ it(
           play(core, id, 15);
           expect(find().outcome, where).toBe("broken");
           expect(find().endedAt, where).toBe(addDays(makeIsoDate(since), 14));
+          expect(find().tieCost, where).toBeGreaterThan(0);
         } else {
           // Kept on the last day: the player goes the whole two weeks and
           // talks with the newcomer on the window's last day, which keeps it;
@@ -692,6 +717,14 @@ it(
         }
         const ended = find();
         const said = talkOf(core, director, newcomer, id, where);
+        if (ended.outcome === "broken")
+          BROKEN_COSTS.push({
+            tie: "slight",
+            where: `${where}, new coworker ${newcomer}`,
+            id: factId,
+            cost: ended.tieCost!,
+            closeness: [before, closenessBetween(core, id, newcomer)],
+          });
         done.push(
           `${where}: ${said}\n    ${factId} owed to ${newcomer}, ${ended.outcome} by ${ended.endedBy} on ${ended.endedAt}, closeness ${before.toFixed(5)} to ${closenessBetween(core, id, newcomer).toFixed(5)}`,
         );
@@ -1032,8 +1065,18 @@ it(
         if (!kept) {
           expect(tie.lastContactDate < date, where).toBe(true);
           expect(find().outcome, where).toBe("broken");
+          expect(find().tieCost, where).toBeGreaterThan(0);
         }
+        const beforeTalk = closenessBetween(core, id, friendId);
         const said = talkOf(core, director, friendId, id, where);
+        if (!kept)
+          BROKEN_COSTS.push({
+            tie: "close",
+            where: `${where}, friend ${friendId}`,
+            id: factId,
+            cost: find().tieCost!,
+            closeness: [beforeTalk, closenessBetween(core, id, friendId)],
+          });
         done.push(
           `${where}: asked "${request!.text}"\n    ${factId}, ${find().outcome} by ${held!.id} on ${find().endedAt}\n  ${said}`,
         );
@@ -1051,3 +1094,19 @@ it(
   },
   TIMEOUT,
 );
+
+it("a broken promise costs a close tie more hours than a slight one (the two broken promises played above)", () => {
+  // The friend's tie (attend) or the housemate's (pay on time): either is
+  // closer than a coworker met days before.
+  const close = BROKEN_COSTS.find((row) => row.tie === "close");
+  const slight = BROKEN_COSTS.find((row) => row.tie === "slight");
+  expect(
+    close,
+    "neither the pay-on-time nor the attend test broke a promise",
+  ).toBeTruthy();
+  expect(slight, "the show-around test broke no promise").toBeTruthy();
+  process.stdout.write(
+    `BROKEN COSTS\n${BROKEN_COSTS.map((row) => `  ${row.tie}: ${row.where}: ${row.id} cost ${row.cost.toFixed(4)} hours; closeness ${row.closeness[0].toFixed(8)} to ${row.closeness[1].toFixed(8)}`).join("\n")}\n`,
+  );
+  expect(close!.cost).toBeGreaterThan(slight!.cost);
+});
