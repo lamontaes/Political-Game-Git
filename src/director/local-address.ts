@@ -20,7 +20,7 @@ import { jurisdictionTermRead, type AreaRead } from "../core2/modules/laws";
 import { applyCoreEvent, coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
 import type { AddressKind } from "./address-kind";
-import { ADDRESS_FACT, addressPiecesFact } from "./opening-facts";
+import { ADDRESS_FACT } from "./opening-facts";
 import { composeBlocks, type OpeningSentence } from "./opening-story";
 import { partsOf, saidFact } from "./address-render";
 import {
@@ -380,6 +380,7 @@ export function recordLocalAddress(
       [ADDRESS_FACT.style]: story.addressKind,
       [ADDRESS_FACT.said]: saidFact(
         DATA.levels[level].subject,
+        story.points,
         story.sentences,
       ),
       [ADDRESS_FACT.rememberedAt]: String(
@@ -389,7 +390,6 @@ export function recordLocalAddress(
             story.sentences[P.zero]!,
         ),
       ),
-      [ADDRESS_FACT.pieces]: addressPiecesFact(story.sentences, story.points),
       ...(spoken
         ? {
             [ADDRESS_FACT.office]: spoken.officeWords,

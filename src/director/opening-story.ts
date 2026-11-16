@@ -39,12 +39,13 @@ import type {
   OpeningMove,
   OpeningSpeechKind,
 } from "../english/english-opening-speech";
-import { partsOf, saidFact, sentenceText } from "./address-render";
 import {
-  ADDRESS_FACT,
-  addressPiecesFact,
   earlierAddressPieces,
-} from "./opening-facts";
+  partsOf,
+  saidFact,
+  sentenceText,
+} from "./address-render";
+import { ADDRESS_FACT } from "./opening-facts";
 import { keyChambersOf } from "../core2/opening-key-people";
 import { LEADERSHIP_MODULE_ID, organize } from "../core2/modules/leadership";
 import { markWordsStopgap } from "./stopgaps";
@@ -908,13 +909,13 @@ export function recordOpeningStory(
         addressAiring(core, core.people.get(playerId)!.placeId).minuteOfDay,
       ),
       [ADDRESS_FACT.style]: story.addressKind,
-      [ADDRESS_FACT.said]: saidFact(story.speechKind, story.address.sentences),
+      [ADDRESS_FACT.said]: saidFact(
+        story.speechKind,
+        story.points,
+        story.address.sentences,
+      ),
       [ADDRESS_FACT.rememberedAt]: String(
         story.address.sentences.indexOf(story.address.rememberedLine),
-      ),
-      [ADDRESS_FACT.pieces]: addressPiecesFact(
-        story.address.sentences,
-        story.points,
       ),
     },
   });

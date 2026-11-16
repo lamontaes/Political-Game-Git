@@ -17,6 +17,8 @@ import {
 import type { PartTie } from "../english/bank-parts";
 import { ADDRESS_FACT } from "./opening-facts";
 import { P } from "../core2/parameters";
+import type { CoreState } from "../core2/types";
+import { markWordsStopgap } from "./stopgaps";
 
 /** One sentence of an address, as its record keeps it. */
 export interface SaidSentence {
@@ -80,6 +82,8 @@ export function sentenceText(
  */
 export function saidFact(
   kind: string,
+  /** The address's points: the belief wording each said, filled into a sentence's {belief} slot. */
+  points: readonly { readonly belief: { readonly piece: string } | null }[],
   sentences: readonly {
     readonly part: number;
     readonly level: OpeningLevel;
@@ -89,8 +93,8 @@ export function saidFact(
     readonly sourceRecordIds: readonly string[];
   }[],
 ): string {
-  return JSON.stringify(
-    sentences.map((row): SaidSentence => ({
+  const said: Said = {
+    sentences: sentences.map((row): SaidSentence => ({
       part: row.part,
       level: row.level,
       pieces: row.pieces,
@@ -104,16 +108,67 @@ export function saidFact(
       ),
       sources: row.sourceRecordIds,
     })),
-  );
+    beliefPieces: points.flatMap((row) =>
+      row.belief ? [row.belief.piece] : [],
+    ),
+  };
+  return JSON.stringify(said);
+}
+
+/** What an address's record keeps of what was said. */
+interface Said {
+  readonly sentences: readonly SaidSentence[];
+  /** The belief wordings its points said (the {belief} slots' own pieces), read by later addresses so they say other words. */
+  readonly beliefPieces: readonly string[];
+}
+
+function saidRecord(
+  facts: Readonly<Record<string, unknown>> | undefined,
+): Said | null {
+  const said = facts?.[ADDRESS_FACT.said];
+  return typeof said === "string" && said ? (JSON.parse(said) as Said) : null;
 }
 
 /** The address's sentences as its record keeps them; empty where it keeps none. */
 export function saidOf(
   facts: Readonly<Record<string, unknown>> | undefined,
-): SaidSentence[] {
-  const said = facts?.[ADDRESS_FACT.said];
-  if (typeof said !== "string" || !said) return [];
-  return JSON.parse(said) as SaidSentence[];
+): readonly SaidSentence[] {
+  return saidRecord(facts)?.sentences ?? [];
+}
+
+/**
+ * The bank pieces a speaker said in the addresses on the record before this
+ * one, oldest first, from each address's own record of what was said: the one
+ * writer of every address reads them so a voice prefers a wording it has not
+ * used lately, and says the one used longest ago when every fitting wording
+ * has been said (no dice; owner, Nov 12: the same sentence in address after
+ * address). Read once an address is composed, a few times a year.
+ */
+export function earlierAddressPieces(
+  core: CoreState,
+  /** One speaker's addresses; left out, every address in the world (the frames a governor said are not said again by the town's head). */
+  speakerId?: string,
+): string[] {
+  // stopgapId: SG-WORDS-address-pieces-log-scan
+  markWordsStopgap("SG-WORDS-address-pieces-log-scan");
+  return [...core.durableLog.values()]
+    .filter(
+      (row) =>
+        // Before today, so the day's own address, once recorded, composes
+        // the same again (composed from records, the same every time).
+        row.date < core.date &&
+        (speakerId === undefined ||
+          row.facts?.[ADDRESS_FACT.speaker] === speakerId) &&
+        !!row.facts?.[ADDRESS_FACT.said],
+    )
+    .sort((a, b) => a.date.localeCompare(b.date) || a.id.localeCompare(b.id))
+    .flatMap((row) => {
+      const said = saidRecord(row.facts)!;
+      return [
+        ...said.sentences.flatMap((sentence) => sentence.pieces),
+        ...said.beliefPieces,
+      ];
+    });
 }
 
 /**
