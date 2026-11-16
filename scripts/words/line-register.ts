@@ -125,7 +125,15 @@ export function dataHeldLines(): Record<string, number> {
   return out;
 }
 
-export type Tie = "facts" | "slot" | "subject" | "none";
+/**
+ * What a line is tied to. `facts`: its use names the record facts it needs.
+ * `slot-pair`: it only fills a slot from the speaker's or the hearer's own
+ * record (the slot's own description in the bank says so). `slot-world`: it
+ * only fills slots from other records (a news story, a bill, a calendar).
+ * `weak`: it names only the kind of subject it is said about, so it can be said
+ * to anyone ("Oh, my."). `none`: no use declared.
+ */
+export type Tie = "facts" | "slot-pair" | "slot-world" | "weak" | "none";
 export type Reach = "reached" | "unreached" | "by-bank";
 
 export interface RegisteredLine {
@@ -134,7 +142,7 @@ export interface RegisteredLine {
   move: string;
   text: string;
   uses: number;
-  /** What in the records the line is tied to: required facts, a slot a record fills, only the kind of subject it is said about (the weakest: "Oh, my." is one), or nothing (no use declared). */
+  /** What in the records the line is tied to; see `Tie`. */
   tie: Tie;
   /** The grades or a rule hold it back. */
   held: boolean;
@@ -176,12 +184,20 @@ export function reachedConversationKeys(): Set<string> {
   return seen;
 }
 
-function tieOf(piece: RawPiece): Tie {
+/** A slot's own description says whose record fills it: the speaker's, the player's or a person both know. */
+const PAIR_SLOT =
+  /\b(?:speaker's|player's|listener's|asker's|both people|household record|their own|someone both)\b/i;
+
+function tieOf(piece: RawPiece, slots: Record<string, string>): Tie {
   const uses = piece.uses ?? [];
   if (uses.some((use) => use.requiresFacts?.length || use.onlyWhen?.length))
     return "facts";
-  if (/\{[\w-]+\}/.test(piece.text)) return "slot";
-  return uses.length ? "subject" : "none";
+  const named = [...piece.text.matchAll(/\{([\w-]+)\}/g)].map((m) => m[1]!);
+  if (named.length)
+    return named.some((slot) => PAIR_SLOT.test(slots[slot] ?? ""))
+      ? "slot-pair"
+      : "slot-world";
+  return uses.length ? "weak" : "none";
 }
 
 /** Every bank piece, registered. */
@@ -192,11 +208,10 @@ export function bankLines(): RegisteredLine[] {
     f.endsWith(".json"),
   )) {
     const bank = name.replace(/\.json$/, "");
-    const parts = (
-      JSON.parse(readFileSync(path.join(PARTS_DIR, name), "utf8")) as {
-        parts: RawPiece[];
-      }
-    ).parts;
+    const file = JSON.parse(
+      readFileSync(path.join(PARTS_DIR, name), "utf8"),
+    ) as { parts: RawPiece[]; slots?: Record<string, string> };
+    const parts = file.parts;
     for (const piece of parts)
       lines.push({
         key: piece.key,
@@ -204,7 +219,7 @@ export function bankLines(): RegisteredLine[] {
         move: piece.move ?? "",
         text: piece.text,
         uses: piece.uses?.length ?? 0,
-        tie: tieOf(piece),
+        tie: tieOf(piece, file.slots ?? {}),
         held: !playable(piece),
         reach:
           bank !== "conversation"
@@ -235,13 +250,19 @@ export function unreadBanks(): string[] {
 export function registerCounts() {
   const lines = bankLines();
   const bankCount: Record<string, number> = {};
-  /** Lines tied to no fact and no slot: only the kind of subject, or nothing. */
+  /** Lines tied to nothing of the speaker or the hearer: weak, none, or only a slot of the world. They can be said to anyone. */
   const untied: Record<string, number> = {};
-  const byTie: Record<Tie, number> = { facts: 0, slot: 0, subject: 0, none: 0 };
+  const byTie: Record<Tie, number> = {
+    facts: 0,
+    "slot-pair": 0,
+    "slot-world": 0,
+    weak: 0,
+    none: 0,
+  };
   for (const line of lines) {
     bankCount[line.bank] = (bankCount[line.bank] ?? 0) + 1;
     byTie[line.tie] += 1;
-    if (line.tie === "none" || line.tie === "subject")
+    if (line.tie === "none" || line.tie === "weak" || line.tie === "slot-world")
       untied[line.bank] = (untied[line.bank] ?? 0) + 1;
   }
   return {
