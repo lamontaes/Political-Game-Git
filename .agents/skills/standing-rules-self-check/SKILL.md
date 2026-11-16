@@ -19,3 +19,5 @@ Before a PR opens, answer each line below in the PR body in one sentence, or wri
 ## Rules with their own skill
 
 `no-dice`, `one-rule-all-places`, `estimate-not-unknown`, `wire-to-the-world`, `ask-why` (standing-skills); `look-first`, `day-one-in-motion`, `researcher`, `speed-work`, `scene-pictures`, `scene-standard`, `player-screen-text`, `seen-in-game`, `remove-a-stopgap`, `current-pointers`.
+
+- **No count, span or flag stands in for a rule (Account lead, Nov 15).** A number of years, a count of rows or a boolean that approximates what a person, law or place would do is a stand-in; build the rule from the records that decide it, or register the stopgap naming the engine you could not find (`remove-a-stopgap`).

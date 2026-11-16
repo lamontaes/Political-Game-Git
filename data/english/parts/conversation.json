@@ -98,7 +98,7 @@
     "meeting-body": "The town body whose meeting a friend asked the player to, as its record names it (City Council), from the office-day engine's meeting record.",
     "meeting-held": "The day that meeting was held, told as past (\"yesterday\", \"the other day\", \"on March 4th\"), from the meeting's record.",
     "their_when": "When the asker last saw someone both know, said as people say it (\"last week\"), from the asker's own tie's last contact.",
-    "payment": "The payment a promise to pay on time was about, as people name it (\"the mortgage\", \"the payday loan\"), from the credit engine's missed-payment record and its loan (data/english/payment-words.json)."
+    "payment": "The payment a promise to pay on time was about, as people name it (\"the loan\"), from the credit engine's missed-payment record and its loan (data/english/payment-words.json)."
   },
   "maxWords": 10,
   "lineWords": {
@@ -5209,14 +5209,14 @@
           "subject": "shared-school",
           "role": "ask",
           "choice": "remember",
-          "requiresFacts": ["long-ago"]
+          "requiresFacts": ["long-ago", "only-past"]
         },
         {
           "move": "shared-school-raise-remember",
           "subject": "shared-school",
           "role": "raise",
           "choice": "remember",
-          "requiresFacts": ["long-ago"]
+          "requiresFacts": ["long-ago", "only-past"]
         }
       ],
       "transcriptsUsing": 33,
@@ -5256,14 +5256,14 @@
           "subject": "shared-school",
           "role": "ask",
           "choice": "remember",
-          "requiresFacts": ["long-ago"]
+          "requiresFacts": ["long-ago", "only-past"]
         },
         {
           "move": "shared-school-raise-remember",
           "subject": "shared-school",
           "role": "raise",
           "choice": "remember",
-          "requiresFacts": ["long-ago"]
+          "requiresFacts": ["long-ago", "only-past"]
         }
       ],
       "transcriptsUsing": 23,
@@ -5300,14 +5300,14 @@
           "subject": "shared-school",
           "role": "ask",
           "choice": "remember",
-          "requiresFacts": ["long-ago"]
+          "requiresFacts": ["long-ago", "only-past"]
         },
         {
           "move": "shared-school-raise-remember",
           "subject": "shared-school",
           "role": "raise",
           "choice": "remember",
-          "requiresFacts": ["long-ago"]
+          "requiresFacts": ["long-ago", "only-past"]
         }
       ],
       "transcriptsUsing": 10,
@@ -14505,14 +14505,14 @@
           "subject": "shared-school",
           "role": "ask",
           "choice": "remember",
-          "requiresFacts": ["long-ago"]
+          "requiresFacts": ["long-ago", "only-past"]
         },
         {
           "move": "shared-school-raise-remember",
           "subject": "shared-school",
           "role": "raise",
           "choice": "remember",
-          "requiresFacts": ["long-ago"]
+          "requiresFacts": ["long-ago", "only-past"]
         }
       ],
       "origin": "authored",
@@ -14524,20 +14524,20 @@
       }
     },
     {
-      "key": "conversation.shared-school-ask-remember.we-were-at-school-together-weren-t-we",
-      "move": "shared-school-ask-remember",
+      "key": "conversation.shared-school-ask-together.we-were-at-school-together-weren-t-we",
+      "move": "shared-school-ask-together",
       "kind": "spoken",
       "text": "We were at {school} together, weren't we?",
       "uses": [
         {
-          "move": "shared-school-ask-remember",
+          "move": "shared-school-ask-together",
           "subject": "shared-school",
           "role": "ask",
           "choice": "remember",
           "requiresFacts": ["long-ago"]
         },
         {
-          "move": "shared-school-raise-remember",
+          "move": "shared-school-raise-together",
           "subject": "shared-school",
           "role": "raise",
           "choice": "remember",
@@ -24667,24 +24667,6 @@
       "date": "2026-11-11"
     },
     {
-      "key": "conversation.own-view-answer-disagree.we-ll-have-to-differ-first",
-      "move": "own-view-answer-disagree",
-      "kind": "spoken",
-      "text": "We'll have to agree to disagree, {first}.",
-      "uses": [
-        {
-          "move": "own-view-answer-disagree",
-          "subject": "own-view",
-          "role": "answer",
-          "choice": "disagree",
-          "requiresFacts": ["my-other"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
-      "date": "2026-11-11"
-    },
-    {
       "key": "conversation.own-view-answer-disagree.i-ve-never-seen-it-your-way-first",
       "move": "own-view-answer-disagree",
       "kind": "spoken",
@@ -31424,7 +31406,7 @@
       "key": "conversation.player-news-answer-take.i-ll-be-careful-first-i-promise",
       "move": "player-news-answer-take",
       "kind": "spoken",
-      "text": "I'll be careful, {first}. I promise.",
+      "text": "I'll be careful. I promise.",
       "uses": [
         {
           "move": "player-news-answer-take",
@@ -31460,7 +31442,7 @@
       "key": "conversation.player-news-answer-tell.somebody-has-to-run-for-office-first",
       "move": "player-news-answer-tell",
       "kind": "spoken",
-      "text": "Somebody has to run for {office}, {first}.",
+      "text": "Somebody has to run for {office}.",
       "uses": [
         {
           "move": "player-news-answer-tell",
@@ -31498,7 +31480,7 @@
       "key": "conversation.player-news-answer-ask.you-think-it-s-a-mistake-first",
       "move": "player-news-answer-ask",
       "kind": "spoken",
-      "text": "You think it's a mistake, {first}?",
+      "text": "You think it's a mistake?",
       "uses": [
         {
           "move": "player-news-answer-ask",
@@ -37280,24 +37262,6 @@
       "bearing": "braced"
     },
     {
-      "key": "conversation.promise-kept-raise.you-paid-payment-on-time-i-noticed",
-      "move": "promise-kept-raise",
-      "kind": "spoken",
-      "text": "You paid {payment} on time. I noticed.",
-      "uses": [
-        {
-          "move": "promise-kept-raise",
-          "subject": "promise-kept",
-          "role": "raise",
-          "requiresFacts": ["promise-pay-on-time", "payment"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (pay-on-time raises, Nov 15)",
-      "date": "2026-11-15",
-      "bearing": "calm"
-    },
-    {
       "key": "conversation.promise-kept-raise.thanks-for-showing-me-around",
       "move": "promise-kept-raise",
       "kind": "spoken",
@@ -38473,25 +38437,6 @@
       "move": "farewell-core",
       "kind": "spoken",
       "text": "Talk later.",
-      "uses": [
-        {
-          "move": "farewell-core",
-          "subject": "farewell",
-          "role": "core",
-          "stages": ["default"],
-          "closesTalk": true,
-          "excludesFacts": ["by-phone"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder A (plain goodbyes, first meetings carry no name, round 11)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.farewell-core.thanks-again",
-      "move": "farewell-core",
-      "kind": "spoken",
-      "text": "Thanks again.",
       "uses": [
         {
           "move": "farewell-core",
