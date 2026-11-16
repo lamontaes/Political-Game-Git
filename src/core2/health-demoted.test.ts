@@ -7,12 +7,18 @@
  * record in a counted household stopped the year when the household was met
  * again (Mamaroneck, New York, January 9, 2026, an heir filled in for an
  * estate; Audubon Park, Kentucky, a staff hire). A household the counts move
- * out of town before it can be met again is named by its move record, and
- * the place is drawn again, a bounded number of times.
+ * out of town before it can be met again is named by its move record.
+ *
+ * Pinned (lead, Nov 16): places and world seeds where the case is known
+ * to occur, found by scanning drawPlace("hdpin:<n>", "core2-health-demoted")
+ * for n = 0 to 9 on train3 6e9df72b18: nine of ten showed it; Hagatna, Guam
+ * (hdpin:9) was passed over because an employer hired the person back into
+ * play before their illness. The two fastest are pinned (lead: two prove the
+ * case and keep the cost near the pinned-tests limit). A place that passes over now
+ * fails, by name.
+ * GOLDEN_PATH_SEED with GOLDEN_PATH_PLACE_KEY replays one other place instead.
  */
-import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
-import { drawPlace } from "../../scripts/core2-year/place";
 import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "./bookkeeping";
 import { isDemoted } from "./counted-groups";
@@ -26,13 +32,42 @@ import { healthReport } from "./modules/health";
 import { residentPerson, residentsRuntime } from "./modules/residents";
 import { coreAPI, fillInPerson, personOrFillIn, registerModule } from "./state";
 
-const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(16).toString("hex");
-const DRAWS = 4;
+/** Where the case is known to occur (the scan in the header), smallest first. */
+const PINNED = [
+  {
+    name: "Turbeville, South Carolina",
+    /** 52.0 s alone, 52.6 s beside day-zero (Nov 16); about twice the slower. */
+    limit: 105_000,
+    key: "4572745",
+    seed: "8bd0e1dca037198baaa28e2c866d14d5588530379078c3af4dc10721e7d82eca",
+  },
+  {
+    name: "Crosby, North Dakota",
+    /** 60.7 s alone, 62.6 s beside day-zero (Nov 16); about twice the slower. */
+    limit: 125_000,
+    key: "3816940",
+    seed: "de2ca99797ae744d654ebb148050372647033f9108f0ee6b9cdcacc42e6141ad",
+  },
+];
+const replay =
+  process.env.GOLDEN_PATH_SEED && process.env.GOLDEN_PATH_PLACE_KEY
+    ? [
+        {
+          name: `place ${process.env.GOLDEN_PATH_PLACE_KEY}`,
+          key: process.env.GOLDEN_PATH_PLACE_KEY,
+          seed: process.env.GOLDEN_PATH_SEED,
+          limit: 300_000,
+        },
+      ]
+    : null;
 
 /** One drawn place: the proof line, or why the place could not show it. */
-function attempt(drawSeed: string): { proof: string } | { skipped: string } {
-  const place = drawPlace(drawSeed, "core2-health-demoted");
-  const where = `${place.name} (${place.key}), seed ${drawSeed}`;
+function attempt(place: {
+  name: string;
+  key: string;
+  seed: string;
+}): { proof: string } | { skipped: string } {
+  const where = `${place.name} (${place.key}), seed ${place.seed}`;
   const { core } = buildBenchWorld(place.seed, gameStartDate(), {
     twoLevel: true,
     placeKey: place.key,
@@ -181,24 +216,19 @@ function attempt(drawSeed: string): { proof: string } | { skipped: string } {
   };
 }
 
-it(`leaves a person's booked illness to the counts once their household returns to them, so meeting it again brings everyone back (seed ${seed})`, () => {
-  const was = setBookkeeping(false);
-  try {
-    const skipped: string[] = [];
-    for (let draw = 0; draw < DRAWS; draw += 1) {
-      const result = attempt(draw ? `${seed}:${draw}` : seed);
-      if ("proof" in result) {
-        console.info(
-          `health-demoted ${result.proof}${skipped.length ? `; drawn again after ${skipped.join("; ")}` : ""}`,
-        );
-        return;
+for (const place of replay ?? PINNED)
+  it(
+    `leaves a person's booked illness to the counts once their household returns to them, so meeting it again brings everyone back: ${place.name} (${place.key}), seed ${place.seed}`,
+    () => {
+      const was = setBookkeeping(false);
+      try {
+        const result = attempt(place);
+        if ("skipped" in result)
+          throw new Error(`Passed over: ${result.skipped}`);
+        console.info(`health-demoted ${result.proof}`);
+      } finally {
+        setBookkeeping(was);
       }
-      skipped.push(result.skipped);
-    }
-    throw new Error(
-      `No drawn place kept its returned household in town to meet again: ${skipped.join("; ")}`,
-    );
-  } finally {
-    setBookkeeping(was);
-  }
-}, 1_800_000);
+    },
+    place.limit,
+  );
