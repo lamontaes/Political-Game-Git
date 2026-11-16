@@ -28,6 +28,7 @@ import { attendedSchool } from "../core2/past";
 import type { Moment, PersonLedger } from "./types";
 import { LETTER_TYPE, letterFacts } from "./letter-facts";
 import { nextMeetingFacts } from "./meeting-facts";
+import { isPayrollOrganization } from "../english/journal-words";
 
 /** A tie that grew: the friend's ask (situation-types.json). */
 const FRIENDS_TYPE = "becoming-friends";
@@ -199,6 +200,11 @@ export interface SituationType {
    * by the repeat window.
    */
   eachCause?: boolean;
+  /**
+   * The player asks it of someone (to sign on, to vote, to serve, at a
+   * door): the player's own act is the scene's cause.
+   */
+  playerAsks?: boolean;
   /**
    * The scene is the player's own decision on a record that stays open until
    * they answer or its window closes (a governor's emergency offer): the
@@ -690,8 +696,55 @@ function fillRole(
   }
 }
 
+/**
+ * Whether an organization is somewhere people meet. A government's payroll
+ * body (its treasury) is the employer on an official's job record, not a
+ * room: an official's meeting is in the chamber, at the seat, or wherever
+ * the record puts the two of them, which the type's next setting reads.
+ */
+function isRoom(core: Readonly<CoreState>, organizationId: string): boolean {
+  const organization = core.organizations.get(organizationId);
+  return !organization || !isPayrollOrganization(organization);
+}
+
+/**
+ * Where an officeholder's government sits (an address is given at the
+ * capitol, not in the town that watched it), named as a venue.
+ */
+function seatSetting(
+  core: Readonly<CoreState>,
+  subject: { readonly id: PersonId },
+): { kind: string; recordId: string; seat: true } | undefined {
+  const api = coreAPI(core as CoreState);
+  if (!api.state.modules.has(OFFICES_MODULE_ID)) return undefined;
+  const state = api.moduleState(OFFICES_MODULE_ID);
+  const term = (
+    state.table("terms").rows() as unknown as {
+      personId: string;
+      officeId: string;
+      status: string;
+    }[]
+  ).find((row) => row.personId === subject.id && row.status === "serving");
+  const office = term
+    ? (state.table("offices").get(term.officeId) as unknown as
+        { jurisdiction: string } | undefined)
+    : undefined;
+  const seat = office
+    ? coreSeatOfGovernmentPlace(
+        office.jurisdiction === "US" ? "US-FEDERAL" : office.jurisdiction,
+      )
+    : null;
+  return seat
+    ? {
+        kind: "venue",
+        recordId: seat.place.context.jurisdiction.id,
+        seat: true as const,
+      }
+    : undefined;
+}
+
 /** The first of the type's settings the records can place. */
-function resolveSetting(
+export function resolveSetting(
   kind: string,
   core: Readonly<CoreState>,
   moment: Moment,
@@ -717,38 +770,12 @@ function resolveSetting(
         core.jobs.get(moment.causeId)?.organizationId ??
         job?.organizationId ??
         core.durableLog.get(moment.causeId)?.facts?.organizationId;
-      return employer ? { kind, recordId: employer } : undefined;
-    }
-    case "seat": {
-      // Where an officeholder's government sits (an address is given at the
-      // capitol, not in the town that watched it), named as a venue.
-      const api = coreAPI(core as CoreState);
-      if (!api.state.modules.has(OFFICES_MODULE_ID)) return undefined;
-      const state = api.moduleState(OFFICES_MODULE_ID);
-      const term = (
-        state.table("terms").rows() as unknown as {
-          personId: string;
-          officeId: string;
-          status: string;
-        }[]
-      ).find((row) => row.personId === subject.id && row.status === "serving");
-      const office = term
-        ? (state.table("offices").get(term.officeId) as unknown as
-            { jurisdiction: string } | undefined)
-        : undefined;
-      const seat = office
-        ? coreSeatOfGovernmentPlace(
-            office.jurisdiction === "US" ? "US-FEDERAL" : office.jurisdiction,
-          )
-        : null;
-      return seat
-        ? {
-            kind: "venue",
-            recordId: seat.place.context.jurisdiction.id,
-            seat: true as const,
-          }
+      return employer && isRoom(core, employer)
+        ? { kind, recordId: employer }
         : undefined;
     }
+    case "seat":
+      return seatSetting(core, subject);
     case "office": {
       // The office the cause record names (the executive's, for a bill on
       // the desk); otherwise an officeholder's office is their post's
@@ -756,9 +783,11 @@ function resolveSetting(
       const office = core.durableLog.get(moment.causeId)?.facts?.officeId;
       if (typeof office === "string" && office)
         return { kind, recordId: office };
-      return job?.organizationId
-        ? { kind, recordId: job.organizationId }
-        : undefined;
+      if (job?.organizationId && isRoom(core, job.organizationId))
+        return { kind, recordId: job.organizationId };
+      // An official whose employer is their government's treasury meets at
+      // the government's seat, read from the record the "seat" setting reads.
+      return seatSetting(core, subject);
     }
     case "letter":
     case "phone":
@@ -1067,6 +1096,22 @@ export function scheduleMoment(
     );
     return Object.keys(said).length === zero;
   };
+  // A scene the player pressed for themselves (their own ask to a colleague
+  // to sign on, to vote, to serve) is not counted against a season: each one
+  // is a record of the player's own act, already limited by what is on the
+  // record (one sitting a day with the same person, the same bill asked of
+  // the same person once in the repeat window, a person who said no knows it
+  // and says so). A door on the player's canvass is the circumstance
+  // producer's pick of the day and stays under the cap.
+  const pressedByPlayer = (row: SceneBinding) => {
+    const type = library.types.find((t) => t.key === row.typeKey);
+    return (
+      !!type?.playerAsks &&
+      type.causes.every(
+        (cause) => cause.match?.label?.startsWith("cause:event:") ?? false,
+      )
+    );
+  };
   // A friend asks only for what the game can settle now (the Words lead,
   // Nov 15; owner's ruling: a colleague asks only for what the game can do):
   // the next posted town meeting the player may come to. With none, the
@@ -1074,6 +1119,7 @@ export function scheduleMoment(
   const nothingToAsk = (row: SceneBinding) =>
     row.typeKey === FRIENDS_TYPE && !nextMeetingFacts(core).meeting;
   const seasonFull = (row: SceneBinding) =>
+    !pressedByPlayer(row) &&
     !library.types.find((type) => type.key === row.typeKey)?.openDecision &&
     (inSeason.get(row.typeKey) ?? zero) >= library.scheduling.seasonCap.value;
   const heldBack = wanted.flatMap(

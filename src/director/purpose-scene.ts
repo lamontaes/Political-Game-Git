@@ -2187,6 +2187,27 @@ function composeBinding(
     // Nov 14: the term that moved most since the no).
     if (serve.moved && serve.standing.lean > P.zero)
       facts[`changed-${serve.moved}`] = { text: "yes", sourceRecordIds: why };
+    // Asked again after a no: the talk says so, and a no that rests on the
+    // same reason as the first says nothing has changed for them rather than
+    // the first no again.
+    if (serve.askedBefore) {
+      facts["asked-before"] = {
+        text: "yes",
+        sourceRecordIds: [...why, serve.askedBefore],
+      };
+      // More than one no before: the opening says so (never the count), and
+      // a no may now be short with the player, earned by being asked again.
+      if (serve.noesBefore > P.one)
+        facts["asked-more-than-once"] = {
+          text: "yes",
+          sourceRecordIds: [...why, serve.askedBefore],
+        };
+      if (serve.standing.lean <= P.zero && serve.reasonBefore === serve.reason)
+        facts["nothing-moved"] = {
+          text: "yes",
+          sourceRecordIds: [...why, serve.askedBefore],
+        };
+    }
     // A stranger is introduced to the player by their full name; the race
     // the player runs in is said from its contest record.
     facts["self-full"] = {
@@ -2427,6 +2448,25 @@ function composeBinding(
         sourceRecordIds: [earlier.voteId, bill.id],
       };
   }
+  // The player's own ask on a bill reads the same record: a yes the player
+  // cast on a bill of the asked person's own, not yet given back, is a time
+  // the player backed them, which a plea may say (Words lead, Nov 15).
+  const asking = core.playerId;
+  const other = askerId === asking ? askedId : askerId;
+  if (type.playerAsks && asking && said.billId && !facts["read-favor-given"]) {
+    const [backing] = favorsGiven(
+      core,
+      asking,
+      other,
+      record?.date ?? moment.date,
+      said.billId,
+    );
+    if (backing)
+      facts["read-favor-given"] = {
+        text: "yes",
+        sourceRecordIds: [backing.voteId, backing.billId],
+      };
+  }
   const played =
     variant && variant.purpose !== type.purpose
       ? { ...type, purpose: variant.purpose, family: type.purpose }
@@ -2570,6 +2610,9 @@ function serveStanding(
       terms: Readonly<Record<string, number>>;
       raceOffice: string;
       moved: string | null;
+      askedBefore: string | null;
+      reasonBefore: string | null;
+      noesBefore: number;
       seat: string;
       /** They named the player's word on their question as their price. */
       priced: boolean;
@@ -2606,6 +2649,9 @@ function serveStanding(
     yesReason: row.standing.yesReason,
     grounds: row.standing.grounds,
     moved: row.moved ?? null,
+    askedBefore: row.askedBefore ?? null,
+    reasonBefore: row.reasonBefore ?? null,
+    noesBefore: row.noesBefore ?? P.zero,
     seat: row.seat,
   };
 }
