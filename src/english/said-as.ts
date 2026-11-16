@@ -52,6 +52,68 @@ export interface SaidPerson {
   readonly calledBySpeaker?: string;
   /** Whether the listener knows who they are (met, told of, or family). */
   readonly knownToListener?: boolean;
+  /** What they are to the listener, when the listener has not met them (src/director/who-they-are.ts): said once after the full name. */
+  readonly what?: WhatSaidInput;
+}
+
+/** A kind and stage of what someone is, with its slots already worded (src/director/who-they-are.ts). */
+export interface WhatSaidInput {
+  readonly kind: string;
+  readonly stage: string;
+  readonly facts: Readonly<Record<string, { readonly text: string }>>;
+}
+
+const WHAT = data.whatTheyAre as unknown as Readonly<
+  Record<string, Readonly<Record<string, string>>>
+>;
+
+/** Whether a scene type's own lines say what the person is, so its arrival adds nothing. */
+export function sceneSaysWhat(typeKey: string | undefined): boolean {
+  const says = (
+    WHAT as unknown as { sceneSaysIt?: { types?: readonly string[] } }
+  ).sceneSaysIt?.types;
+  return !!typeKey && !!says?.includes(typeKey);
+}
+
+/**
+ * What someone is, as the narration says it after their name the first time
+ * ("the town clerk", "who lives in your district"); null where no line is
+ * written for the kind and stage or a slot it names is not held.
+ */
+export function whatSaid(what: WhatSaidInput): string | null {
+  const line = WHAT[what.kind]?.[what.stage];
+  if (typeof line !== "string") return null;
+  let missing = false;
+  const text = line.replace(/\{([a-z_]+)\}/g, (_, key: string) => {
+    const slot = what.facts[key];
+    if (!slot) missing = true;
+    return slot?.text ?? "";
+  });
+  return missing ? null : text;
+}
+
+/**
+ * A full name with what they are, once: "Jose Salgado, the town clerk," set off
+ * by commas on both sides; the renderer drops the closing one before the
+ * sentence's own mark (grounded-english.ts).
+ */
+export function nameWithWhat(
+  full: string,
+  what: WhatSaidInput | undefined,
+): string {
+  const said = what ? whatSaid(what) : null;
+  return said ? `${full}, ${said},` : full;
+}
+
+/** A said person's text without what `nameWithWhat` added, or undefined when it added nothing. */
+export function bareName(
+  text: string,
+  person: Pick<SaidPerson, "givenName" | "familyName">,
+): string | undefined {
+  const full = `${person.givenName} ${person.familyName}`;
+  return text !== full && text.startsWith(`${full}, `) && text.endsWith(",")
+    ? full
+    : undefined;
 }
 
 /** Where the slot stands in the sentence. */
@@ -169,9 +231,13 @@ export function saidAs(
       ? finish(office.again, false)
       : finish(`${office.before} ${full}`, true);
   }
-  // Anyone else: the full name once, only for someone the listener knows.
+  // Anyone else: the full name once, only for someone the listener knows,
+  // with what they are when the listener has not met them (rule 136).
   if (person.knownToListener && !telling.text.fullNamed.has(person.id))
-    return finish(full, true);
+    return finish(
+      kase === "possessive" ? full : nameWithWhat(full, person.what),
+      true,
+    );
   return finish(person.givenName, false);
 }
 
@@ -378,6 +444,78 @@ export function ownPlaceSaid(tie: "student" | "worker"): string {
   return data.ownPlace[tie];
 }
 
+/** A government's class as its record's own name carries it ("Village of X", "X County"), or null. */
+function governmentClassWord(name: string): string | null {
+  const words = data.governmentInTalk.classWords as readonly string[];
+  const first = /^(\w+)\s+of\s+/i.exec(name)?.[1]?.toLowerCase();
+  const last = /\s(\w+)$/.exec(name.trim())?.[1]?.toLowerCase();
+  return [first, last].find((word) => word && words.includes(word)) ?? null;
+}
+
+/**
+ * A government of the talk's own place as people say it in talk (said-as.json
+ * governmentInTalk; Words lead ruling, Nov 15): a state by its level word, a
+ * town or county by its record's class word. Null where the record's class
+ * word is none of these, so the full name is said.
+ */
+export function ownGovernmentSaid(
+  government:
+    | {
+        readonly kind: "state";
+        readonly level: string;
+        /** The state identity's jurisdiction key ("US-KY"), for the places that say it their own way. */
+        readonly key?: string;
+      }
+    | { readonly kind: "local"; readonly name: string },
+): string | null {
+  const row = data.governmentInTalk;
+  if (government.kind === "state")
+    return (
+      (government.key
+        ? (row.stateByKey as Record<string, string>)[government.key]
+        : undefined) ??
+      (row.state as Record<string, string>)[government.level] ??
+      null
+    );
+  const word = governmentClassWord(government.name);
+  return word ? row.ownClass.replace("{class}", word) : null;
+}
+
+/**
+ * A government's name in a text said with the preposition people use for it
+ * (said-as.json publicEmployer): a person works for a government, not at it.
+ */
+export function publicEmployerSaid(text: string, name: string): string {
+  const escaped = name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const slot = `(?<![\\w'])${escaped}(?![\\w'])`;
+  return data.publicEmployer.frames.reduce(
+    (now, frame) =>
+      now.replace(
+        new RegExp(frame.from.replace("{name}", slot), "gi"),
+        frame.to.replace("{name}", name),
+      ),
+    text,
+  );
+}
+
+/**
+ * The place said once in one turn: where the frames above made the employer
+ * "there", a later sentence of the same text that ends on "there" drops it
+ * ("I work there. I'm just a sales associate there." is "I work there. I'm
+ * just a sales associate."), by the one word (said-as.json ownPlaceThere).
+ */
+function placeOnce(now: string, before: string): string {
+  const there = data.ownPlaceThere.said;
+  if (now === before) return now;
+  const first = new RegExp(`\\b${there}\\b`, "i").exec(now);
+  if (!first) return now;
+  const at = first.index + first[0].length;
+  return (
+    now.slice(0, at) +
+    now.slice(at).replace(new RegExp(`\\s+${there}(?=[.,!?]|$)`, "gi"), "")
+  );
+}
+
 /**
  * An organization named once in a text, then said by the tie (`ownPlaceSaid`):
  * every later whole-word mention in these texts, in order, becomes the word
@@ -393,11 +531,33 @@ export function nameOnceThen(
 ): { texts: string[]; named: boolean } {
   const word = ownPlaceSaid(tie);
   const escaped = name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-  const pattern = new RegExp(`(?<![\\w'])${escaped}(?![\\w'])`, "g");
+  const pattern = new RegExp(`(?<![\\w'])${escaped}(?![\\w'])`, "gi");
+  // A worker's later mention after a frame that already says work, or that
+  // takes "with" or "for", is "there" (said-as.json ownPlaceThere).
+  const frames =
+    tie === "worker"
+      ? data.ownPlaceThere.frames.map(
+          (frame) =>
+            new RegExp(
+              frame.replace("{name}", `(?<![\\w'])${escaped}(?![\\w'])`),
+              "gi",
+            ),
+        )
+      : [];
   let said = named;
   const out = texts.map((text) =>
     sentenceStarts(
-      text.replace(pattern, (match) => {
+      placeOnce(
+        frames.reduce(
+          (now, frame) =>
+            now.replace(frame, (match, before: string) => {
+              if (!said) return match;
+              return `${before}${data.ownPlaceThere.said}`;
+            }),
+          text,
+        ),
+        text,
+      ).replace(pattern, (match) => {
         if (!said) {
           said = true;
           return match;

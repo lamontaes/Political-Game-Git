@@ -8,6 +8,13 @@
  * account), those short of it do not, and every dollar
  * moved (the group accounts, the bank, the sellers) balances. The same means
  * test applies to a full renter household's head and a counted one's.
+ *
+ * Re-pinned Nov 16 (pool item counted-opening-savings-at-survey-median, the
+ * Account lead's yes). Old premise: the bank's cash moved only by the loans it
+ * made. Once households open at their survey median times their own savings
+ * draw, buyers also draw their group's savings at the bank toward the down
+ * payment, so the bank's cash falls by the loans plus the savings paid out,
+ * read from the bank's deposit records (paid out less paid in).
  */
 import { expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
@@ -31,9 +38,9 @@ import {
   householdIncome,
   residentsRuntime,
 } from "./modules/residents";
-import { claimsInGroup, fundBalance } from "./counted-money";
-import { depositsHeld } from "./modules/budgets";
+import { claimsInGroup, countedDeposits, fundBalance } from "./counted-money";
 import { coreAPI } from "./state";
+import { depositsAtBank } from "./accounts";
 
 const PLACE = "2204685";
 
@@ -74,7 +81,9 @@ it("counted renters on their lease month buy from their own savings, short ones 
       {
         id: h.id,
         // Its own savings: its share of its group's account and its savings at the bank, for every household the record stands for.
-        savings: departingCash(rt, h) + depositsHeld(core, h.id),
+        savings:
+          departingCash(rt, h) +
+          countedDeposits(api, rt, h, rt.store.weightedCount(h)),
         down: value * share * rt.store.weightOf(h),
       },
     ];
@@ -114,8 +123,15 @@ it("counted renters on their lease month buy from their own savings, short ones 
       .filter((row) => row.surplusAccountId)
       .reduce((n, row) => n + row.surplusMinor, 0);
   const before = { funds: funds(), others: others(), toGroups: toGroups() };
+  // What the bank's depositors have taken out, less what they put in, by its deposit records.
+  const paidOut = () =>
+    depositsAtBank(core, bankId).reduce(
+      (n, row) => n + row.paidOutMinor - row.paidInMinor,
+      0,
+    );
   const heldBefore = heldMortgages(api, bankId).now,
-    bankBefore = bankCash();
+    bankBefore = bankCash(),
+    paidOutBefore = paidOut();
 
   // Each weighing household's group and its share of the group's account, and each group's money per person, before.
   const shareBefore = new Map(
@@ -126,7 +142,7 @@ it("counted renters on their lease month buy from their own savings, short ones 
         {
           group: h.group,
           cash: departingCash(rt, h),
-          banked: depositsHeld(core, h.id),
+          banked: countedDeposits(api, rt, h, rt.store.weightedCount(h)),
         },
       ];
     }),
@@ -145,7 +161,8 @@ it("counted renters on their lease month buy from their own savings, short ones 
   weighCountedBuyers(api);
   const after = { funds: funds(), others: others(), toGroups: toGroups() };
   const heldAfter = heldMortgages(api, bankId).now,
-    bankAfter = bankCash();
+    bankAfter = bankCash(),
+    savingsDrawn = paidOut() - paidOutBefore;
 
   const bought = (
     api.moduleState("housing").table("purchases").rows() as unknown as {
@@ -226,9 +243,10 @@ it("counted renters on their lease month buy from their own savings, short ones 
   expect(Math.abs(heldAfter - heldBefore - banked), detail).toBeLessThanOrEqual(
     bought.length,
   );
-  expect(Math.abs(bankBefore - bankAfter - banked), detail).toBeLessThanOrEqual(
-    bought.length,
-  );
+  expect(
+    Math.abs(bankBefore - bankAfter - banked - savingsDrawn),
+    detail,
+  ).toBeLessThanOrEqual(bought.length);
   expect(
     Math.abs(
       before.funds - after.funds - down + (after.toGroups - before.toGroups),
@@ -275,4 +293,4 @@ it("counted renters on their lease month buy from their own savings, short ones 
     weigh(fullHead.id, lease.householdId!, enough.downMinor - 1).buy,
     detail,
   ).toBe(false);
-}, 300_000);
+}, 200_000);

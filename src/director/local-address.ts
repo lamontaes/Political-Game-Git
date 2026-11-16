@@ -40,6 +40,7 @@ import { markWordsStopgap } from "./stopgaps";
 import { recordAddressResponse } from "./address-response";
 import type { OpeningSpeechKind } from "../english/english-opening-speech";
 import localData from "./data/local-address.json" with { type: "json" };
+import { headsLocalExecutive } from "../core2/offices-executives";
 
 export type LocalLevel = "state" | "town";
 
@@ -52,7 +53,6 @@ interface LevelData {
   /** Who heads a local government (local-address.json `heads`). */
   readonly heads?: {
     readonly order: readonly string[];
-    readonly executives: readonly string[];
     readonly bodies: readonly string[];
     readonly bodyWords: readonly string[];
     readonly realmForms: readonly string[];
@@ -224,7 +224,7 @@ function townHead(
   const seats = townSeats(api).filter(alive);
   for (const level of heads.order) {
     const here = seats.filter((row) => row.office.level === level);
-    const head = here.find((row) => heads.executives.includes(row.office.kind));
+    const head = here.find((row) => headsLocalExecutive(row.office.kind));
     const body = here.filter((row) => heads.bodies.includes(row.office.kind));
     const presiding = body[P.zero]
       ? presidingOfficer(api, body[P.zero]!.office.id)

@@ -33,3 +33,5 @@ source: Lying PR (people can lie to the player), Nov 15, when trust lost became 
 **Waits on.** The lying PR (people can lie to the player) on the Train.
 
 **Files.** src/director/promises.ts, src/director/promise-talk.ts, src/director/data/promise-kinds.json
+
+**Notes.** Nov 16, promises thread, from the second reader's question on #9517: the four answers to a broken promise use fixed hours too, in `answerPromise` in src/director/promise-talk.ts (`promiseBrokenHours` times `promiseOwnShare` to recover, `promiseDeniedHours` to cool). They differ, but at a close tie the difference is too small to see. At Ragland, Alabama (seed promises-real-loan-1, draw loan:16, born 1995), a housemate tie of 0.98309828 ends at 0.98310027 after owning it, 0.98309884 after explaining, 0.98309523 after denying, and 0.98309836 after making it right, which also writes a new promise. Each answer also writes its own `promise.answer` record. The same share rule should size these answers.

@@ -33,7 +33,7 @@ A gate line names each command, its exit code and where it ran (which container,
 
 ## Reds that are not yours
 
-Compare against the clean train head, not only main: main's reds and the train's reds differ. Keep the current known-red list in project memory and in the PR body; a red also red on the clean base does not block, and a red the PR introduces does. Never skip, loosen or quarantine a test to get green (`pinned-tests`). An accepted PR can still break the world: when a trace shows it, the lead pulls its sha from the Train order and the fix goes on that PR's own branch. A fault found in another PR's fold goes to that PR's builder with the place, seed and figures; the finder's test waits and does not re-pin.
+Compare against the clean train head, not only main: main's reds and the train's reds differ. Keep the current known-red list in project memory and in the PR body; a red also red on the clean base does not block, and a red the PR introduces does. A red on a drawn seed must name its seed: keep the test's own seed line in any filter on the gate's output. A red whose seed was lost is not attributed until five new draws run on the head and every red seed also runs on the clean train head (Account lead, Nov 15). Never skip, loosen or quarantine a test to get green (`pinned-tests`). An accepted PR can still break the world: when a trace shows it, the lead pulls its sha from the Train order and the fix goes on that PR's own branch. A fault found in another PR's fold goes to that PR's builder with the place, seed and figures; the finder's test waits and does not re-pin.
 
 ## A new test's time limit (Account lead, Nov 15)
 
@@ -50,7 +50,9 @@ Set a new or changed test's limit near twice the slower of two runs: the test al
 
 ## A moved head needs a new stamp
 
-A `Words lead: train-ready` stamp is for one sha. If the head moves afterward, the stamp is void and the PR is read again, unless the diff since the stamp is lint only (prettier or eslint, nothing a player sees). Say in the post what changed between the two heads.
+A `Words lead: train-ready` stamp is for one sha. If the head moves afterward, the stamp is void and the PR is read again, unless the diff since the stamp is lint only (prettier or eslint, nothing a player sees). Say in the post what changed between the two heads. A played-file sha may also be waived when the last commit holds a pool item and its release note and nothing else (Account lead, Nov 16).
+
+Readers' lines are not the lead's acceptance (Nov 15, #9369). Post `Account lead Tn: train-ready` only after the lead's message accepts that exact sha, even when both readers' carry-over lines are already up. A head several Train folds behind is not accepted however clean its gate: merge the newest pushed Train head, gate again, and show each red at the same seed on the clean Train. A line posted early is struck through and marked withdrawn, and the PR goes back to draft.
 
 ## A new core2 source file needs its family and its owner (Nov 15)
 
@@ -96,3 +98,8 @@ After a merge stops on conflicts, count them with `git diff --name-only --diff-f
 - **CI's pool guard counts every pool item the Train carries as touched by your PR.** A Train item that fails the standard fails your guards and validate checks though local `npm run guards` passed (#9422: `words-asked-mutual-no-answer-offered-against-the-record`). Comment once on the PR naming the item and where it came from, and push nothing for it; the fix belongs to that item's own PR. A red golden-path row is compared the same way: run that exact case on the clean Train head, and a red there is the Train's (M2-07 at Dry Valley NV, #9529).
 - **A thread with a second item:** the second item's `pr:` names the same open PR, the PR body's line 1 names the new item with the earlier one below it, and the lead names only the commits after the folded sha to the Train. `npm run guards` fails the pool guard until an in-pr item names its pr.
 - **Pool item files and guard output:** read `npm run pool -- --check 2>&1 | grep <item-id>`, not its tail (see `file-a-pool-item`).
+- **A background job started from a tool call dies when the turn ends.** Use the tool's own background mode (`run_in_background`, with a timeout of two hours at most); a job past the limit is cut, so split a long batch in two lanes and keep each lane's output file, and read what already finished before restarting the rest.
+- **Folding a long queue:** a script folds each named sha in order after checking its train-ready line and that the PR head equals the sha, stops at the first conflict and says where. A conflict in a release declaration whose id release consumed on main is a rename (give the declaration a new id), not a revert; the same id declared twice (a pool-only copy and the real patch) keeps the real patch. Import and export lists that both sides extended are united by hand; an overlap of code goes back to the builder with the files named.
+- **A red that passes alone on a PR's own head but fails at its fold is a collision with an earlier fold,** not the PR's fault alone: binary search the Train's first-parent folds with the one test file in the sparse copy (about a minute a step), and tell the builder the fold it first goes red at. A red that also fails on the pushed head before the fold is old and goes in the push note with its item.
+- **Compare every new red against the last pushed head in the sparse copy** before naming it: many reds on a long batch were already red there (a changed opener, a drawn seed). Run only the failing files, in the order of the batch output.
+- **A Train that merged main resets the pool INDEX guard's base;** a Train that did not is red on it against a newer main until the merge lands, and the push note says so.

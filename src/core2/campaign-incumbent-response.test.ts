@@ -126,7 +126,7 @@ function world(place: PinnedPlace) {
     { modules: [viewsModule] },
   );
   openLaws(core);
-  openOffices(core, place.seed);
+  openOffices(core, place.seed, core.date);
   // A seat's holder is a named official until someone meets them; holderOf
   // fills them in as a person only with this module, as the played world does.
   openOfficials(core);

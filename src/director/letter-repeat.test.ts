@@ -5,10 +5,14 @@
  * twice, a month apart, through the record kin-contact writes
  * (`family.contact`): the first letter is staged as a scene; the second, with
  * no news of the writer's life on record since, a birthday missed or near,
- * goes to the journal. The place and seed are in every message; replay with
+ * goes to the journal. The place and seed are pinned (Montgomery, Minnesota,
+ * seed 27d765b93606854d) and in every message; replay another with
  * LETTER_SEED.
+ *
+ * Old premise: the test drew a place at run time (it once drew Masefau). New:
+ * a named place and seed where the hold was seen red (the letter hold off, the
+ * second letter staged again), so it fails by the rule and never by the draw.
  */
-import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { buildBenchWorld } from "../bench/world";
@@ -23,7 +27,7 @@ import { letterFacts, LETTER_TYPE } from "./letter-facts";
 
 setBookkeeping(false);
 
-const seed = process.env.LETTER_SEED ?? randomBytes(8).toString("hex");
+const seed = process.env.LETTER_SEED ?? "27d765b93606854d";
 const place = drawPlace(seed, "letter-repeat");
 const where = `${place.name} (${place.key}), seed ${seed}`;
 

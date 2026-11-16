@@ -79,8 +79,6 @@
       "adult": 4
     },
     "trailingDays": 365,
-    "repeatDays": 30,
-    "repeatDaysNote": "TUNABLE, spread 14 to 60: the same scene with the same people (an invitation to the same cause, the same reporter after the same kind of act) is staged once a month at most; checked by a played year where one neighbor shared one cause seven days running.",
     "seasonCap": {
       "value": 6,
       "days": 91,
@@ -2373,7 +2371,6 @@
       ],
       "setting": ["venue", "phone"],
       "timing": "at-cause",
-      "repeatsBy": "cause",
       "causes": [
         {
           "match": {
@@ -2945,7 +2942,7 @@
       "stakes": ["job", "years"]
     },
     {
-      "repeatsBy": "bill",
+      "eachCause": true,
       "key": "vote-asked",
       "receive": {
         "age": "any",
@@ -3171,7 +3168,7 @@
         "counterpart": "any",
         "seat": "serving"
       },
-      "repeatsBy": "bill",
+      "eachCause": true,
       "purpose": "ask-vote",
       "playerAsks": true,
       "asker": "colleague",
@@ -4156,7 +4153,7 @@
       }
     },
     {
-      "repeatsBy": "bill",
+      "eachCause": true,
       "key": "section-bargain",
       "receive": {
         "age": "any",
@@ -5593,6 +5590,80 @@
       "stakes": ["race", "opponent", "views"]
     },
     {
+      "key": "petition-short",
+      "receive": {
+        "age": "any",
+        "counterpart": "any",
+        "seat": "any"
+      },
+      "note": "A filed player's petition is behind what the days left can still close, and someone who would really tell them says so: the campaigns engine's petition-short record (written once per filing, on the last day a canvass shift a day can still close the gap: to the count the office requires when the clerk tells, to what the campaign aims to gather when a helper does) names the candidate and the one who tells, the clerk who took the filing or else a helper on the campaign. The player's answer is the pause; a yes (going-out) takes their canvass day, anything else changes nothing (OWNER-DECISIONS Oct 14: the engine offers, the player decides).",
+      "roles": [
+        {
+          "key": "teller",
+          "fill": "counterpart",
+          "count": "one",
+          "moves": ["greet", "tell", "answer", "thank", "press", "accept"],
+          "wants": ["help-others"],
+          "bearing": "calm"
+        },
+        {
+          "key": "you",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["ask", "promise", "deflect", "thank", "leave"],
+          "wants": ["commit"],
+          "bearing": "anxious"
+        }
+      ],
+      "setting": ["venue", "home"],
+      "timing": "at-cause",
+      "liveWhile": "contest-open",
+      "causes": [
+        {
+          "match": {
+            "label": "cause:event:petition-short",
+            "selfNamed": true,
+            "causeFacts": [
+              { "key": "invitedId", "is": "subject" },
+              { "key": "tellerKind", "equals": ["clerk"] }
+            ]
+          },
+          "causeEngine": "campaigns",
+          "causeRecord": "petition-short",
+          "setting": ["venue"],
+          "bind": { "teller": "counterpart", "you": "subject" },
+          "opener": "teller",
+          "opening": "tell"
+        },
+        {
+          "match": {
+            "label": "cause:event:petition-short",
+            "selfNamed": true,
+            "causeFacts": [
+              { "key": "invitedId", "is": "subject" },
+              { "key": "tellerKind", "equals": ["helper"] }
+            ]
+          },
+          "causeEngine": "campaigns",
+          "causeRecord": "petition-short",
+          "setting": ["home"],
+          "bind": { "teller": "counterpart", "you": "subject" },
+          "opener": "teller",
+          "opening": "tell"
+        }
+      ],
+      "tag": {
+        "key": "news-received",
+        "endpoint": "political",
+        "registers": ["scene-talk", "scene-words", "journal"]
+      },
+      "purpose": "petition-short",
+      "asker": "teller",
+      "asked": "you",
+      "stakes": ["race", "petition"],
+      "stopsDay": true
+    },
+    {
       "key": "budget-cut",
       "receive": {
         "age": "any",
@@ -5876,7 +5947,7 @@
         "seat": "serving"
       },
       "note": "The player drafts a bill and goes to a colleague they know to sign on as a co-sponsor (brief V, stage 2). The colleague answers from where they stand on the bill and what a favor to the player is worth to them, never by a roll; a yes puts their name on the bill, which the committee chair weighs in deciding to hear it (legislature.ts askToSignOn, answerSignOn, chairHears).",
-      "repeatsBy": "bill",
+      "eachCause": true,
       "purpose": "cosponsor-ask",
       "playerAsks": true,
       "asker": "colleague",

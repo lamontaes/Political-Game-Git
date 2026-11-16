@@ -16,6 +16,12 @@ export interface GroundedEnglishFact {
   readonly text: string;
   /** Records that establish this value, not a prose explanation of it. */
   readonly sourceRecordIds: readonly EntityId[];
+  /**
+   * The value without what it adds after a name ("Jose Salgado" for "Jose
+   * Salgado, the town clerk,"): said where the line itself sets the name off
+   * with its own comma ("{name}, the police chief, asks"), so nothing is said twice (rule 136).
+   */
+  readonly bare?: string;
 }
 
 export interface GroundedEnglishPerson {
@@ -167,13 +173,25 @@ export function renderGroundedEnglish(
     draw -= weightOf(row.variant);
     return draw < 0;
   })!;
-  const text =
+  // A slot that ends on an appositive's closing comma ("Jose Salgado, the
+  // town clerk,") drops it before the sentence's own mark (said-as
+  // `nameWithWhat`, rule 136): no comma ever stands before . ! ? ; : or another comma.
+  // A slot the line itself follows with a comma or a possessive ("{{name}}'s
+  // name") takes the bare name: no appositive inside a possessive.
+  const text = (
     variant.kind === "verbatim"
       ? packet.facts[variant.factKey]!.text
       : variant.text.replace(
           SLOT,
-          (_slot, key: string) => packet.facts[key]!.text,
-        );
+          (slot, key: string, at: number, whole: string) => {
+            const fact = packet.facts[key]!;
+            return fact.bare !== undefined &&
+              /[,'\u2019]/.test(whole.charAt(at + slot.length))
+              ? fact.bare
+              : fact.text;
+          },
+        )
+  ).replace(/,+(?=[.!?;:,)"\u201d]|$)/g, "");
 
   const sourceRecordIds = new Set<EntityId>(packet.sourceRecordIds);
   for (const key of factKeys)
