@@ -39,6 +39,7 @@ import { incompatibleOffices } from "../office-incompatibility";
  */
 import { countedResidents, registerElectorate } from "../electorate";
 import { partyName } from "../appointments";
+import { recordedRaceShare } from "../past-real-results";
 import { leanedScore } from "../trait-decisions";
 import { coreAPI, fillInPerson, registerModule } from "../state";
 import { makeIsoDate } from "../kernel/dates";
@@ -1031,7 +1032,13 @@ function pastTerms(
       serviceStart: created,
       ...(office.elected
         ? {
-            elected: electionBehind(office, created, `${worldSeed}:${seat.id}`),
+            elected: electionBehind(
+              office,
+              seat.id,
+              term.party,
+              created,
+              worldSeed,
+            ),
           }
         : {}),
     } as unknown as ModuleRow);
@@ -1104,7 +1111,9 @@ function pastTerms(
       : start;
   const won = (from: string) =>
     office.elected
-      ? { elected: electionBehind(office, from, `${worldSeed}:${seat.id}`) }
+      ? {
+          elected: electionBehind(office, seat.id, term.party, from, worldSeed),
+        }
       : {};
   // A holder too young for the office when the current term began came to it
   // partway through, on the day they reached the minimum age (a February 29
@@ -1182,8 +1191,10 @@ export function openPastTerms(api: CoreAPI, termId: string): void {
  */
 function electionBehind(
   office: OfficeInput,
+  seatId: string,
+  party: string | null,
   start: string,
-  seatSeed: string,
+  worldSeed: string,
 ): { date: string; share: number } {
   const year = Number(start.slice(0, 4));
   const date =
@@ -1195,6 +1206,21 @@ function electionBehind(
         )
           .toISOString()
           .slice(0, 10);
+  // The race's real result where the research has it (the 2024 House, the
+  // Senate class last elected, the presidency), as this world drifts it.
+  const recorded = office.jurisdiction.startsWith("US-")
+    ? recordedRaceShare(worldSeed, {
+        officeKind: office.kind,
+        seatId,
+        usps: office.jurisdiction.split("-").at(-1)!,
+        party,
+        date,
+      })
+    : null;
+  if (recorded) return { date, share: recorded.share };
+  // No record of the race: drawn inside the office kind's band
+  // (offices.ts#electionBehind on the opening list, to be replaced by the
+  // past race the election engine runs).
   const key =
     office.kind === "us-senate"
       ? "usSenateWinnerShare"
@@ -1206,7 +1232,7 @@ function electionBehind(
             ? "statewideExecutiveWinnerShare"
             : "localWinnerShare";
   const [low, high] = tenureSpread(key);
-  const u = seededFineUnit(seatSeed, `${start}:winner-share`);
+  const u = seededFineUnit(`${worldSeed}:${seatId}`, `${start}:winner-share`);
   return { date, share: low + (high - low) * u };
 }
 

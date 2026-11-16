@@ -18,7 +18,6 @@
  * where the record engine marks them kept or broken by the prior term's votes
  * and the voting engine weighs them.
  */
-import corpus from "../../data/source/electoral-calibration-2024/corpus.json" with { type: "json" };
 import countyVotes from "./data/county-presidential-2024.json" with { type: "json" };
 import tenure from "./data/offices/tenure.json" with { type: "json" };
 import territoryBallots from "../../data/research/elections/territory-ballots.json" with { type: "json" };
@@ -52,6 +51,7 @@ import { countedResidents } from "./electorate";
 import { cpsAgeBand, cpsTurnout } from "./electorate-places";
 import { viewOf } from "./modules/views";
 import { worldLevel } from "./world-draw";
+import { CORPUS, realResult, worldWinnerShare } from "./past-real-results";
 import viewsData from "./data/views/views.json" with { type: "json" };
 import type { CoreAPI, CoreState, PersonId } from "./types";
 import type { HistoryRecord } from "./pre-start";
@@ -60,29 +60,6 @@ const viewsLeanMax = (): number =>
   (viewsData as unknown as { parameters: Record<string, { value: number }> })
     .parameters.leanMax!.value;
 
-type Corpus = {
-  house: {
-    seatKey: string;
-    stateUsps: string;
-    certifiedWinnerParty: string;
-    democraticTwoPartyShare: number | null;
-    totalVotes: number;
-    electionDate: string;
-  }[];
-  senate: {
-    stateUsps: string;
-    certifiedWinnerParty: string;
-    democraticTwoPartyShare: number | null;
-    totalVotes: number;
-    lastElectionYear: number;
-  }[];
-  presidentialByState: {
-    stateUsps: string;
-    democraticTwoPartyShare: number | null;
-    totalVotes: number;
-  }[];
-};
-const CORPUS = corpus as unknown as Corpus;
 const CORPUS_CITATION =
   "Clerk of the U.S. House, Statistics of the Presidential and Congressional Election of November 5, 2024, and of November 8, 2022 and November 3, 2020 (data/source/electoral-calibration-2024/corpus.json)";
 const COUNTY = countyVotes as unknown as {
@@ -131,63 +108,6 @@ function averageShare(office: PastOffice): number {
             ? "statewideExecutiveWinnerShare"
             : "localWinnerShare";
   return TENURE[key]!.value;
-}
-
-/** The winner's real two-party share where the research has this race. */
-function realResult(
-  town: PastTown,
-  office: PastOffice,
-  seat: { id: string },
-  party: string | null,
-  date: string,
-): { share: number; total: number } | null {
-  const year = Number(date.slice(0, 4));
-  const side = partySide(party);
-  const fromDemShare = (
-    dem: number | null,
-    winner: string,
-    total: number,
-  ): { share: number; total: number } | null => {
-    if (dem === null || side === 0 || partySide(winner) !== side) return null;
-    return { share: side < 0 ? dem : 1 - dem, total };
-  };
-  if (office.kind === "us-house") {
-    const key = `us-house:${town.usps}-${seat.id.split(":").at(-1)}`;
-    const row = CORPUS.house.find((r) => r.seatKey === key);
-    return row && row.electionDate.startsWith(String(year))
-      ? fromDemShare(
-          row.democraticTwoPartyShare,
-          row.certifiedWinnerParty,
-          row.totalVotes,
-        )
-      : null;
-  }
-  if (office.kind === "us-senate") {
-    const rows = CORPUS.senate.filter(
-      (r) => r.stateUsps === town.usps && r.lastElectionYear === year,
-    );
-    const row = rows.find((r) => partySide(r.certifiedWinnerParty) === side);
-    return row
-      ? fromDemShare(
-          row.democraticTwoPartyShare,
-          row.certifiedWinnerParty,
-          row.totalVotes,
-        )
-      : null;
-  }
-  if (office.kind === "president" || office.kind === "vice-president") {
-    if (year !== pastParameter(null, "pastPresidentialElectionYear"))
-      return null;
-    let total = 0;
-    let dem = 0;
-    for (const row of CORPUS.presidentialByState) {
-      if (row.democraticTwoPartyShare === null) continue;
-      total += row.totalVotes;
-      dem += row.democraticTwoPartyShare * row.totalVotes;
-    }
-    return side === 0 ? null : fromDemShare(dem / total, party ?? "", total);
-  }
-  return null;
 }
 
 /** Ballots in the state in the presidential year. */
@@ -523,7 +443,13 @@ export function buildPriorElections(
         if (!date || date >= town.opening) continue;
         const id = `prior-election:${seat.id}:${date}`;
         const key = `${seat.id}:${date}`;
-        const real = realResult(town, office, seat, term.party, date);
+        const real = realResult({
+          officeKind: office.kind,
+          seatId: seat.id,
+          usps: town.usps,
+          party: term.party,
+          date,
+        });
         // The share the offices engine recorded when it seated the holder is
         // the one record of how the race went (wire-opening line 31: one
         // past-elections writer); only a term with no such record (the
@@ -533,17 +459,11 @@ export function buildPriorElections(
         const base = real?.share ?? averageShare(office);
         const share =
           term.elected?.share ??
-          Math.min(
-            pastParameter(api, "pastWinnerShareMax"),
-            Math.max(
-              pastParameter(api, "pastWinnerShareMin"),
-              seededBetween(
-                town.seed,
-                `${key}:share`,
-                base - (real ? drift : spread),
-                base + (real ? drift : spread),
-              ),
-            ),
+          worldWinnerShare(
+            town.seed,
+            { seatId: seat.id, date },
+            base,
+            real ? drift : spread,
           );
         const ratio = turnoutRatio(date);
         // This world's votes cast (realistic, not real; owner, Oct 27): the
