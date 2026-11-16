@@ -72,6 +72,11 @@ export interface PromiseKindRow {
    * promise was the price of a yes: `hold-question`).
    */
   heldBy?: "first" | "second";
+  /**
+   * Kept answers this kind never offers: a courtesy that fits a favor, not
+   * a word kept by a vote ("I'm glad it helped.", Words lead, Nov 15 20:17Z).
+   */
+  keptWithout?: readonly string[];
 }
 
 export interface PromiseAnswerRow {

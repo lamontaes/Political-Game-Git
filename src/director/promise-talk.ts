@@ -41,9 +41,6 @@ import {
 const PAY_ON_TIME = "pay-on-time";
 const PAYMENT_MISSED = "credit.payment-missed";
 
-const PAY_ON_TIME = "pay-on-time";
-const PAYMENT_MISSED = "credit.payment-missed";
-
 /** A settled promise one person may say to another: the conversation subject's shape. */
 export interface PromiseSubject {
   /** The kept fact's id: the listener's topic memory keeps it from coming back. */
