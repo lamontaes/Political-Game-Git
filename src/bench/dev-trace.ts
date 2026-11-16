@@ -14,6 +14,7 @@ import {
   LEGISLATURE_MODULE_ID,
   votesOn,
 } from "../core2/modules/legislature";
+import { NEWS_READ, storyOfReadEvent } from "../core2/modules/news";
 import { OFFICES_MODULE_ID } from "../core2/modules/offices";
 import { residentsRuntime } from "../core2/modules/residents";
 import { fullLifeStake } from "../core2/modules/views";
@@ -29,6 +30,8 @@ type CountedHousehold =
     ? H
     : never;
 const ACCOUNTS_MODULE_ID = "core2-accounts-v1";
+/** The press desk's module id (modules/press.ts), whose stories table holds a story's reach. */
+const PRESS_MODULE = "core2-press-v1";
 import { preStartHistory, type HistoryRecord } from "../core2/past-module";
 import { keepsWhy } from "../core2/why-kept";
 import type { CoreState, PersonId, PlaceId } from "../core2/types";
@@ -843,6 +846,41 @@ function reverseLinks(
           via: `${VOTING_MODULE_ID}.${table}`,
           effect: true,
         });
+  }
+  // A printed story: who it reached, and the reads it made. The desk counts
+  // its named and counted readers on the story's row; each day's read is a
+  // news.read record naming its readers (news.ts), kept in the log when it
+  // names someone in the player's circle (state.ts retainLog) and otherwise
+  // only counted here.
+  if (found.engine === "news.stories" && typeof record.outletId === "string") {
+    const reads = [...(core.logByKind.get(NEWS_READ) ?? [])].filter(
+      (readId) => storyOfReadEvent(String(readId)) === id,
+    );
+    // The desk's row of the same story holds the outlet and its reach.
+    const desk = core.modules.has(PRESS_MODULE)
+      ? (coreAPI(core).moduleState(PRESS_MODULE).table("stories").get(id) as
+          Record<string, unknown> | undefined)
+      : undefined;
+    out.push({
+      id: `${id}#reach`,
+      kind: "reason",
+      via: "press.desk.reach",
+      value: {
+        outletId: desk?.outletId ?? record.outletId,
+        followersNamed: desk?.readers,
+        reachedNamed: desk?.receivedNamed,
+        reachedCounted: desk?.receivedCounted,
+        readsKept: reads.length,
+        keptWhen: "a reader is in the player's circle",
+      },
+    });
+    for (const readId of reads)
+      out.push({
+        id: String(readId),
+        kind: "record",
+        via: "news.onAfterDay.read",
+        effect: true,
+      });
   }
   // A bill: each member's vote with its reasons, and the provisions' laws.
   if (found.engine === `${LEGISLATURE_MODULE_ID}.bills`) {
