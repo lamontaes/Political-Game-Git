@@ -438,6 +438,12 @@ export interface Conversation {
   visitOrganizationId?: string;
   /** The talk is by phone: the greeting and goodbye carry the fact "by-phone" (internal). */
   byPhone?: boolean;
+  /**
+   * Facts the goodbye is said with after a promise answered (internal):
+   * `word-broken` after a broken word, `word-denied` after a denial, so the
+   * close fits what was just said (Words lead, Nov 16).
+   */
+  closeFacts?: Facts;
   /** A look only: whether there is anything to say, with nothing learned (internal). */
   look?: boolean;
   /** The director's ledger, read for what happened to whom (internal). */
@@ -7638,15 +7644,20 @@ function endConversation(
     const momentKey = `${playerId}:${otherId}:${core.date}:${conversation.lines.length}:farewell${attempt ? `:${attempt}` : ""}`;
     // Composed first: what the talk was about, someone of the player's they
     // know, or the hour at home; a short goodbye only when none is on record.
+    // After a promise answered, only a goodbye that fits what was just said:
+    // nothing composed about the talk, and the bank's closes held back by
+    // the fact (Words lead, Nov 16).
     const next =
-      partingLine(
-        core,
-        conversation,
-        otherId,
-        housemate,
-        family ? family.facts.name! : undefined,
-        momentKey,
-      ) ??
+      (conversation.closeFacts
+        ? null
+        : partingLine(
+            core,
+            conversation,
+            otherId,
+            housemate,
+            family ? family.facts.name! : undefined,
+            momentKey,
+          )) ??
       words(
         core,
         data,
@@ -7655,8 +7666,11 @@ function endConversation(
         "leave",
         ALL,
         {
-          ...(family ? { name: family.facts.name! } : {}),
+          ...(family && !conversation.closeFacts
+            ? { name: family.facts.name! }
+            : {}),
           ...nameless,
+          ...conversation.closeFacts,
         },
         momentKey,
         housemate ? "home" : "default",
@@ -7788,7 +7802,53 @@ function sayNow(
   // The player's answer to a promise brought up counts (promise-talk.ts).
   const promise =
     !choice.lie && conversation.director ? promiseOfRaised(last.subject) : null;
-  if (promise) answerPromise(core, promise, playerId, choice.move);
+  if (promise) {
+    const answered = answerPromise(core, promise, playerId, choice.move);
+    // The one owed answers what the player said, in their own words: the
+    // reply to that answer (words-promise-answer-has-no-outcome; Words lead,
+    // Nov 16). It names no bill or question: the raise already did.
+    const replies = (data.subjects[promise.kind]?.reply ?? [])
+      .filter((row) => row.key.startsWith(`${choice.move}.`))
+      .map((row) => row.key);
+    const back = replies.length
+      ? words(
+          core,
+          data,
+          otherId,
+          promise.kind,
+          "reply",
+          { keys: replies },
+          last.facts,
+          `${eventId}:promise-reply`,
+        )
+      : null;
+    if (back)
+      conversation.lines.push({
+        speakerId: otherId,
+        subjectId: choice.answers,
+        kind: promise.kind,
+        act: "tell",
+        ...back,
+        sourceRecordIds: [
+          ...new Set([
+            ...back.sourceRecordIds,
+            ...(answered ? [answered] : []),
+          ]),
+        ],
+      });
+    if (promise.kind === "promise-broken")
+      conversation.closeFacts = {
+        "word-broken": { text: "yes", sourceRecordIds: [promise.id] },
+        ...(choice.move === "deny"
+          ? {
+              "word-denied": {
+                text: "yes",
+                sourceRecordIds: answered ? [answered] : [promise.id],
+              },
+            }
+          : {}),
+      };
+  }
   // A listener who doubts the lie says so; the conversation carries on.
   if (doubted) {
     const doubt = words(

@@ -37615,6 +37615,324 @@
       "bearing": "calm"
     },
     {
+      "key": "conversation.promise-broken-reply-own-it.thank-you-for-saying-it-it-still-stings",
+      "move": "promise-broken-reply-own-it",
+      "kind": "spoken",
+      "text": "Thank you for saying it. It still stings.",
+      "uses": [
+        {
+          "move": "promise-broken-reply-own-it",
+          "subject": "promise-broken",
+          "role": "reply",
+          "choice": "own-it"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (answer replies, Nov 16)",
+      "date": "2026-11-16",
+      "bearing": "warm"
+    },
+    {
+      "key": "conversation.promise-broken-reply-own-it.at-least-you-said-it-plainly",
+      "move": "promise-broken-reply-own-it",
+      "kind": "spoken",
+      "text": "At least you said it plainly.",
+      "uses": [
+        {
+          "move": "promise-broken-reply-own-it",
+          "subject": "promise-broken",
+          "role": "reply",
+          "choice": "own-it"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (answer replies, Nov 16)",
+      "date": "2026-11-16",
+      "bearing": "plain"
+    },
+    {
+      "key": "conversation.promise-broken-reply-own-it.alright-i-heard-you-im-not-over-it",
+      "move": "promise-broken-reply-own-it",
+      "kind": "spoken",
+      "text": "Alright. I heard you. I'm not over it.",
+      "uses": [
+        {
+          "move": "promise-broken-reply-own-it",
+          "subject": "promise-broken",
+          "role": "reply",
+          "choice": "own-it"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (answer replies, Nov 16)",
+      "date": "2026-11-16",
+      "bearing": "cool"
+    },
+    {
+      "key": "conversation.promise-broken-reply-explain.maybe-it-doesnt-change-what-happened",
+      "move": "promise-broken-reply-explain",
+      "kind": "spoken",
+      "text": "Maybe. It doesn't change what happened.",
+      "uses": [
+        {
+          "move": "promise-broken-reply-explain",
+          "subject": "promise-broken",
+          "role": "reply",
+          "choice": "explain"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (answer replies, Nov 16)",
+      "date": "2026-11-16",
+      "bearing": "plain"
+    },
+    {
+      "key": "conversation.promise-broken-reply-explain.that-may-be-true-i-still-counted-on-you",
+      "move": "promise-broken-reply-explain",
+      "kind": "spoken",
+      "text": "That may be true. I still counted on you.",
+      "uses": [
+        {
+          "move": "promise-broken-reply-explain",
+          "subject": "promise-broken",
+          "role": "reply",
+          "choice": "explain"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (answer replies, Nov 16)",
+      "date": "2026-11-16",
+      "bearing": "warm"
+    },
+    {
+      "key": "conversation.promise-broken-reply-explain.ive-heard-reasons-before-id-hoped-for-better-from-you",
+      "move": "promise-broken-reply-explain",
+      "kind": "spoken",
+      "text": "I've heard reasons before. I'd hoped for better from you.",
+      "uses": [
+        {
+          "move": "promise-broken-reply-explain",
+          "subject": "promise-broken",
+          "role": "reply",
+          "choice": "explain"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (answer replies, Nov 16)",
+      "date": "2026-11-16",
+      "bearing": "cool"
+    },
+    {
+      "key": "conversation.promise-broken-reply-deny.we-both-know-what-you-said",
+      "move": "promise-broken-reply-deny",
+      "kind": "spoken",
+      "text": "We both know what you said.",
+      "uses": [
+        {
+          "move": "promise-broken-reply-deny",
+          "subject": "promise-broken",
+          "role": "reply",
+          "choice": "deny"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (answer replies, Nov 16)",
+      "date": "2026-11-16",
+      "bearing": "blunt"
+    },
+    {
+      "key": "conversation.promise-broken-reply-deny.that-isnt-how-i-remember-it",
+      "move": "promise-broken-reply-deny",
+      "kind": "spoken",
+      "text": "That isn't how I remember it.",
+      "uses": [
+        {
+          "move": "promise-broken-reply-deny",
+          "subject": "promise-broken",
+          "role": "reply",
+          "choice": "deny"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (answer replies, Nov 16)",
+      "date": "2026-11-16",
+      "bearing": "plain"
+    },
+    {
+      "key": "conversation.promise-broken-reply-deny.if-thats-your-answer-i-have-nothing-more-to-say-about-it",
+      "move": "promise-broken-reply-deny",
+      "kind": "spoken",
+      "text": "If that's your answer, I have nothing more to say about it.",
+      "uses": [
+        {
+          "move": "promise-broken-reply-deny",
+          "subject": "promise-broken",
+          "role": "reply",
+          "choice": "deny"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (answer replies, Nov 16)",
+      "date": "2026-11-16",
+      "bearing": "cool"
+    },
+    {
+      "key": "conversation.promise-broken-reply-make-it-right.alright-ill-hold-you-to-that",
+      "move": "promise-broken-reply-make-it-right",
+      "kind": "spoken",
+      "text": "Alright. I'll hold you to that.",
+      "uses": [
+        {
+          "move": "promise-broken-reply-make-it-right",
+          "subject": "promise-broken",
+          "role": "reply",
+          "choice": "make-it-right"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (answer replies, Nov 16)",
+      "date": "2026-11-16",
+      "bearing": "plain"
+    },
+    {
+      "key": "conversation.promise-broken-reply-make-it-right.do-it-then-ill-believe-it-when-i-see-it",
+      "move": "promise-broken-reply-make-it-right",
+      "kind": "spoken",
+      "text": "Do it, then. I'll believe it when I see it.",
+      "uses": [
+        {
+          "move": "promise-broken-reply-make-it-right",
+          "subject": "promise-broken",
+          "role": "reply",
+          "choice": "make-it-right"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (answer replies, Nov 16)",
+      "date": "2026-11-16",
+      "bearing": "blunt"
+    },
+    {
+      "key": "conversation.promise-broken-reply-make-it-right.id-like-that-dont-make-me-ask-again",
+      "move": "promise-broken-reply-make-it-right",
+      "kind": "spoken",
+      "text": "I'd like that. Don't make me ask again.",
+      "uses": [
+        {
+          "move": "promise-broken-reply-make-it-right",
+          "subject": "promise-broken",
+          "role": "reply",
+          "choice": "make-it-right"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (answer replies, Nov 16)",
+      "date": "2026-11-16",
+      "bearing": "warm"
+    },
+    {
+      "key": "conversation.promise-kept-reply-plain.you-did-thank-you",
+      "move": "promise-kept-reply-plain",
+      "kind": "spoken",
+      "text": "You did. Thank you.",
+      "uses": [
+        {
+          "move": "promise-kept-reply-plain",
+          "subject": "promise-kept",
+          "role": "reply",
+          "choice": "plain"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (answer replies, Nov 16)",
+      "date": "2026-11-16"
+    },
+    {
+      "key": "conversation.promise-kept-reply-plain.it-mattered-to-me",
+      "move": "promise-kept-reply-plain",
+      "kind": "spoken",
+      "text": "It mattered to me.",
+      "uses": [
+        {
+          "move": "promise-kept-reply-plain",
+          "subject": "promise-kept",
+          "role": "reply",
+          "choice": "plain"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (answer replies, Nov 16)",
+      "date": "2026-11-16"
+    },
+    {
+      "key": "conversation.promise-kept-reply-modest.it-was-and-you-did-it",
+      "move": "promise-kept-reply-modest",
+      "kind": "spoken",
+      "text": "It was. And you did it.",
+      "uses": [
+        {
+          "move": "promise-kept-reply-modest",
+          "subject": "promise-kept",
+          "role": "reply",
+          "choice": "modest"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (answer replies, Nov 16)",
+      "date": "2026-11-16"
+    },
+    {
+      "key": "conversation.promise-kept-reply-modest.not-everybody-would-have",
+      "move": "promise-kept-reply-modest",
+      "kind": "spoken",
+      "text": "Not everybody would have.",
+      "uses": [
+        {
+          "move": "promise-kept-reply-modest",
+          "subject": "promise-kept",
+          "role": "reply",
+          "choice": "modest"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (answer replies, Nov 16)",
+      "date": "2026-11-16"
+    },
+    {
+      "key": "conversation.promise-kept-reply-warm.i-wont-forget-it",
+      "move": "promise-kept-reply-warm",
+      "kind": "spoken",
+      "text": "I won't forget it.",
+      "uses": [
+        {
+          "move": "promise-kept-reply-warm",
+          "subject": "promise-kept",
+          "role": "reply",
+          "choice": "warm"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (answer replies, Nov 16)",
+      "date": "2026-11-16"
+    },
+    {
+      "key": "conversation.promise-kept-reply-warm.that-means-a-lot-to-me",
+      "move": "promise-kept-reply-warm",
+      "kind": "spoken",
+      "text": "That means a lot to me.",
+      "uses": [
+        {
+          "move": "promise-kept-reply-warm",
+          "subject": "promise-kept",
+          "role": "reply",
+          "choice": "warm"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (answer replies, Nov 16)",
+      "date": "2026-11-16"
+    },
+    {
       "key": "conversation.address-point-opener-lead.the-president-blocked-about",
       "move": "address-point-opener-lead",
       "kind": "spoken",
