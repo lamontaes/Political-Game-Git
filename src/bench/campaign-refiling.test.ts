@@ -67,7 +67,7 @@ function qualifies(placeKey: string, seed: string, start: string) {
   const core = createLifeCore(
     buildPopulation({ seed, placeKey, startedAt: start, minimumPeople: 300 }),
   );
-  openOffices(core, seed);
+  openOffices(core, seed, core.date);
   openElections(core);
   const local = (
     coreAPI(core)

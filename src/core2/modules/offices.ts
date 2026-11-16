@@ -138,6 +138,8 @@ export interface VacancyRow {
   readonly cause: string;
   readonly rule: VacancyRule;
   readonly status: "open" | "filled" | "awaiting-election";
+  /** The term that ended when the seat fell vacant: dev mode's Trace names who left and how. */
+  readonly vacatedTermId?: string;
   readonly filledBy?: string;
   readonly electionDate?: string;
   /**
@@ -697,7 +699,9 @@ function seatNamedOfficial(
     },
     party: partyName(seat.party),
     ...(seat.partySource ? { partySource: seat.partySource } : {}),
-    startDate: date,
+    // Held from the day the world is on when it is written (an opening reads
+    // its seats as of a start day later than the world's first day).
+    startDate: date < api.state.date ? date : api.state.date,
     endDate: termEnd(api, office, seat, date),
     endEstimated: true,
     reached,
@@ -725,15 +729,27 @@ function seatResident(
       homeState: office.jurisdiction,
     },
     party: partyName(seat.party),
-    startDate: date,
+    // Held from the day the world is on when it is written (an opening reads
+    // its seats as of a start day later than the world's first day).
+    startDate: date < api.state.date ? date : api.state.date,
     endDate: termEnd(api, office, seat, date),
     endEstimated: true,
     reached,
   });
 }
 
-/** Register the module and seat every office covering the town. */
-export function openOffices(core: CoreState, worldSeed: string): void {
+/**
+ * Register the module and seat every office covering the town, as it stands
+ * on `startDate`, the day the game starts (a world built with a warm-up opens
+ * its core earlier than that day). Each seat is held by the term in office on
+ * `startDate`: a seat whose term of record ended before it has its holder's
+ * next term, from the office's own start day, ending at `termEnd`.
+ */
+export function openOffices(
+  core: CoreState,
+  worldSeed: string,
+  startDate: string,
+): void {
   registerElectorate(core);
   if (!core.modules.has(OFFICES_MODULE_ID))
     registerModule(core, OFFICES_MODULE);
@@ -744,9 +760,11 @@ export function openOffices(core: CoreState, worldSeed: string): void {
   if (!place || !stateKey)
     throw new Error("Offices need the town's place and state.");
   const geoid = place.sourceGeoid ?? place.key;
-  const date = core.date;
+  const date = startDate;
   // stopgapId: SG-GOV-term-end-estimate
   api.stopgap("SG-GOV-term-end-estimate");
+  // The day the offices were seated for, read again when a holder is opened later (`pastTerms`).
+  table(api, "loaded").put({ id: "opening", date });
   table(api, "loaded").put({
     id: "town",
     stateKey,
@@ -986,8 +1004,8 @@ function pastTerms(
   withPast = true,
 ): void {
   const years = office.termYears;
-  // The day the world opened, also when a holder is opened later (openPastTerms).
-  const opening = api.state.startedAt;
+  // The day the offices were seated for, also when a holder is opened later (openPastTerms).
+  const opening = (table(api, "loaded").get("opening") as unknown as { date: string }).date;
   if (!years || !term.endDate) return;
   const start = termStartInYear(office, shiftYears(term.endDate, -years));
   // The federal executive keeps its real record: the current term began a
@@ -996,7 +1014,7 @@ function pastTerms(
     if (start <= opening)
       table(api, "terms").put({
         ...term,
-        startDate: start,
+        startDate: start > api.state.date ? api.state.date : start,
         serviceStart: start,
       } as unknown as ModuleRow);
     return;
@@ -1105,7 +1123,10 @@ function pastTerms(
   }
   table(api, "terms").put({
     ...term,
-    startDate: start,
+    // A term that begins after the world opened (a warm-up's last days) is
+    // held from the day the world opened by the person who takes it, so a
+    // death in between ends a term that had begun (`endDate` never before `startDate`).
+    startDate: start > api.state.date ? api.state.date : start,
     serviceStart,
     ...won(start),
   } as unknown as ModuleRow);
@@ -1320,6 +1341,7 @@ export function vacateSeat(
     cause,
     rule: office.vacancyRule,
     status: "open",
+    vacatedTermId: term.id,
   };
   const citation =
     office.vacancyRule.citation ?? office.vacancyRule.source ?? office.source;

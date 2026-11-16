@@ -91,7 +91,7 @@ describe("M3-10 recalls", () => {
         }),
       );
       openLaws(core);
-      openOffices(core, seed);
+      openOffices(core, seed, core.date);
       openElections(core);
       openCampaigns(core);
       openRecord(core);

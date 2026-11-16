@@ -95,7 +95,7 @@ function playTo(draw: number) {
     collapseToTwoLevels({ ...full, playerId: player.id }),
   );
   openLaws(core);
-  openOffices(core, seed);
+  openOffices(core, seed, core.date);
   openElections(core);
   openCampaigns(core);
   openParties(core);

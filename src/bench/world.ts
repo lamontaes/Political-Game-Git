@@ -565,7 +565,7 @@ function* benchWorldStages(
   // Government: the place's law in force, its offices and seats, and the
   // next elections with their filing rules (OPUS-GOV).
   openLaws(core);
-  openOffices(core, seed);
+  openOffices(core, seed, startDate);
   // Officials outside the town are people before anyone files, so state and
   // federal races draw named candidates from them (OPUS-OFFICIALS).
   openOfficials(core);

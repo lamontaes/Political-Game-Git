@@ -85,7 +85,7 @@ function filedRace(place: string) {
     }),
   );
   openLaws(core);
-  openOffices(core, seed);
+  openOffices(core, seed, core.date);
   openElections(core);
   openCampaigns(core);
   openParties(core);

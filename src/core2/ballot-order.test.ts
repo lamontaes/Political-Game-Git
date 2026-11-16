@@ -142,7 +142,7 @@ describe(`ballot order by the law of the place (${where})`, () => {
           minimumPeople: 300,
         }),
       );
-      openOffices(core, seed);
+      openOffices(core, seed, core.date);
       openElections(core);
       openCampaigns(core);
       openParties(core);
