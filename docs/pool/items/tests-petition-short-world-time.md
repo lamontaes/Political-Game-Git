@@ -1,8 +1,8 @@
 ---
 id: tests-petition-short-world-time
 title: "A played Sherrodsville case takes about 40 seconds; find what in the world's days and build is slow"
-area: speed
-kind: speed
+area: core
+kind: cleanup
 priority: 3
 size: S
 status: open
