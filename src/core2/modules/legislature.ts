@@ -693,7 +693,7 @@ function reopenHeldBill(
   } satisfies ReplyRow as unknown as ModuleRow);
   // A hearing the chair gave after a plea is a favor, owed like any yes the plea
   // carried (`keepReply`); one they gave on their own stand is owed nothing.
-  if (event.facts?.keeps === "favor-owed" && event.facts?.asked === "plea")
+  if (event.facts?.asked === "plea")
     table(api, "obligations").put({
       id: `obligation:${bill.id}:${held.chairId}:hearing`,
       owedBy: bill.sponsorId,
@@ -5194,9 +5194,8 @@ function committeeStage(
     hearingTrait,
     cosponsorPull,
   } = chairHears(api, bill, chamber);
-  // The chair's reasons are kept on the committee record; no scene or story
-  // reads them yet. stopgapId: SG-LAW-held-bill-chair-reasons-unread
-  api.stopgap("SG-LAW-held-bill-chair-reasons-unread");
+  // The chair's reasons are kept on the committee record; the sponsor's ask of
+  // the chair (`hold-chair-sought`) reads them.
   const witnesses: HearingWitness[] = [];
   if (heard) {
     const wage = bill.provisions.find((p) => p.series === "minimum-wage");

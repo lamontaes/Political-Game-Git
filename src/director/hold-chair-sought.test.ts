@@ -1,0 +1,224 @@
+/**
+ * The player asks the chair of the committee that held their bill for a hearing
+ * (pool item gov-player-asks-chair-for-hearing). The chair answers from the
+ * committee's own record of why it held the bill (`chairReasons`: their position,
+ * their temper and the cosponsors' pull) and what a favor to the player is worth to
+ * them; the answer reopens the hearing or leaves the hold. Played at Texas (place
+ * 4846968, world seed 8647-mason), the player a state senator who drafts one bill and
+ * plays the days by the game's own presses; the seats and questions were found by a
+ * script outside the test (every seat draws one question and the holds' chair leans and
+ * favor are listed after Mar 20).
+ */
+import { expect, it } from "vitest";
+import { seatAct, seatView } from "../bench/legislature";
+import { buildBenchWorld } from "../bench/world";
+import { setBookkeeping } from "../core2/bookkeeping";
+import { gameStartDate } from "../core2/game-start";
+import { makeIsoDate } from "../core2/kernel/dates";
+import {
+  billOf,
+  committeeRecords,
+  favorWorth,
+  memberKey,
+  members,
+  obligationsOwedBetween,
+} from "../core2/modules/legislature";
+import { townSeats } from "../core2/modules/offices";
+import { advanceCore } from "../core2/life";
+import { advancePlayerV1, resumePlayerV1 } from "../core2/player-v1";
+import { coreAPI, fillInPerson } from "../core2/state";
+import reasonTermsFile from "./data/bargain-reasons.json" with { type: "json" };
+import { purposeScene, replyInScene } from "./purpose-scene";
+
+const play = (
+  core: Parameters<typeof advancePlayerV1>[0],
+  player: string,
+  through: string,
+) => {
+  let packet: ReturnType<typeof advancePlayerV1> | undefined = advancePlayerV1(
+    core,
+    {
+      controlledPersonId: player as never,
+      through: { date: makeIsoDate(through), minuteOfDay: 0 },
+    },
+  );
+  for (let n = 0; packet && packet.kind !== "complete" && n < 600; n += 1)
+    packet =
+      packet.kind === "stop"
+        ? resumePlayerV1(core, { kind: "stop", pauseId: packet.pauseId })
+        : resumePlayerV1(core, {
+            kind: "choice",
+            pauseId: packet.pauseId,
+            offerId: packet.offers[0]!.offerId,
+          });
+};
+
+/** The player in seat `seatNo` drafts the body's `question`th question and plays to Mar 20. */
+const world = (seatNo: number, question: number) => {
+  setBookkeeping(false);
+  const { core, director } = buildBenchWorld("8647-mason", gameStartDate(), {
+    twoLevel: true,
+    placeKey: "4846968",
+  });
+  const api = coreAPI(core);
+  const seat = townSeats(api).find(
+    (r) =>
+      r.office.level === "state" &&
+      members(api, r.office.id).length >= 3 &&
+      members(api, r.office.id).every((t) => t.personId),
+  )!;
+  const ids = members(api, seat.office.id).map(memberKey).sort();
+  for (const id of ids) fillInPerson(core, id);
+  const player = ids[seatNo]!;
+  core.playerId = player as never;
+  for (const id of ids) director.watch(core, id as never);
+  const bill = seatAct(core, player, {
+    kind: "draft",
+    officeId: seat.office.id,
+    question: seatView(core, player).questions[question]!,
+  }) as unknown as { id: string; number: string };
+  play(core, player, "2025-01-23");
+  play(core, player, "2025-03-20");
+  const hold = [...core.durableLog.values()].find(
+    (row) =>
+      row.kind === "bill-held-in-committee" && row.facts?.billId === bill.id,
+  );
+  expect(hold, "the chair held the bill").toBeTruthy();
+  const entry = director.ledger.people
+    .get(player as never)!
+    .schedule.find((row) => row.momentId.includes(hold!.id))!;
+  const composed = purposeScene(core, director, player as never, entry, {
+    typeKey: "hold-chair-sought",
+  });
+  expect(composed?.kind).toBe("composed");
+  if (composed?.kind !== "composed") throw new Error("not composed");
+  const record = committeeRecords(api, bill.id).find((c) => !c.heard)!;
+  const r = record.chairReasons;
+  return {
+    core,
+    director,
+    api,
+    player,
+    bill,
+    hold: hold!,
+    entry,
+    scene: composed.scene,
+    chair: String(record.chairId),
+    lean: r.position.total + r.hearingTrait + (r.cosponsorPull ?? 0),
+    record,
+  };
+};
+
+it("a chair whose stand is against it but whom a favor carries stalls, then hears the bill after a plea, and the hearing is a debt (seat 007)", () => {
+  const w = world(6, 7);
+  const { scene, chair, api, player, bill } = w;
+  expect(w.entry.outcome, "met as a scene, not a journal line").toBe(
+    "scene-now",
+  );
+  expect(scene.playerAsks).toBe(true);
+  expect(scene.talk.state.speakerId).toBe(player);
+  const favor = favorWorth(api, chair, player);
+  expect(w.lean).toBeLessThan(0);
+  expect(w.lean + favor).toBeGreaterThan(0);
+  const first = scene.talk.tree.lines[0]!;
+  expect(first.speakerId).toBe(chair);
+  expect(first.move).toBe("stall");
+  const plea = scene.talk.tree.replies.findIndex((r) => r.line.move === "plea");
+  expect(["agree", "relent"]).toContain(
+    scene.talk.tree.replies[plea]!.next?.lines.find(
+      (l) => l.speakerId === chair,
+    )?.move,
+  );
+  expect(billOf(api, bill.id).status).toBe("failed");
+  const replyId = replyInScene(
+    w.core,
+    w.director,
+    player as never,
+    w.entry,
+    [plea],
+    {
+      typeKey: "hold-chair-sought",
+    },
+  )!;
+  expect(replyId).toBeTruthy();
+  // The hearing is back on the calendar and the favor is owed to the chair.
+  const heard = committeeRecords(api, bill.id).find(
+    (c) => c.chamber === w.record.chamber,
+  )!;
+  expect(heard.heard, "the committee heard it").toBe(true);
+  expect(heard.chairReasons.agreedReplyId).toBe(replyId);
+  expect(
+    obligationsOwedBetween(api, player, chair).map((o) => [
+      o.billId,
+      o.replyId,
+      o.settled,
+    ]),
+  ).toEqual([[bill.id, replyId, false]]);
+  expect(favorWorth(api, chair, player)).toBe(0);
+}, 120_000);
+
+it("a chair the favor cannot carry says no, and the no gives the reason the committee record holds (seat 016)", () => {
+  const w = world(15, 3);
+  const { scene, chair, api, player, bill } = w;
+  expect(w.entry.outcome).toBe("scene-now");
+  const favor = favorWorth(api, chair, player);
+  expect(w.lean + favor).toBeLessThan(0);
+  const first = scene.talk.tree.lines[0]!;
+  expect(first.speakerId).toBe(chair);
+  expect(first.move).toBe("refuse");
+  // Asking again changes nothing: no plea is answered with a yes.
+  for (const reply of scene.talk.tree.replies)
+    expect(
+      ["agree", "relent"],
+      `${reply.line.move} was answered with a yes`,
+    ).not.toContain(reply.next?.lines.find((l) => l.speakerId === chair)?.move);
+  // The reason the chair gives is the strongest term against the bill in the
+  // committee's own record (each term of their position, the cosponsors' pull on the
+  // sponsor's and their temper on the trait), said in the bargaining reasons' words.
+  const r = w.record.chairReasons;
+  const terms: Record<string, number> = {
+    ...(r.position as unknown as Record<string, number>),
+  };
+  terms.sponsor = (Number(terms.sponsor) || 0) + (r.cosponsorPull ?? 0);
+  terms.trait = (Number(terms.trait) || 0) + r.hearingTrait;
+  const words = reasonTermsFile.reasonTerms as Record<string, string>;
+  const strongest = Object.keys(words)
+    .map((term) => [term, Number(terms[term]) || 0] as const)
+    .filter(([, value]) => value < 0)
+    .sort((x, y) => x[1] - y[1] || x[0].localeCompare(y[0]))[0]!;
+  expect(
+    scene.facts.filter((f) => f.key.startsWith("reason-")).map((f) => f.key),
+  ).toEqual([`reason-${words[strongest[0]]}`]);
+  expect(billOf(api, bill.id).status).toBe("failed");
+}, 120_000);
+
+it("the chair of the committee that held a bill meets the sponsor's ask as a scene that stops the day (seat lower 059)", () => {
+  setBookkeeping(false);
+  const { core, director } = buildBenchWorld("8647-mason", gameStartDate(), {
+    twoLevel: true,
+    placeKey: "4846968",
+  });
+  const api = coreAPI(core);
+  const chair = "official:term:seat:US-TX:lower:059:0:2025-01-20";
+  director.watch(core, chair as never);
+  advanceCore(core, makeIsoDate("2025-02-20"));
+  core.playerId = chair as never;
+  const hold = [...core.durableLog.values()].find(
+    (row) =>
+      row.kind === "bill-held-in-committee" &&
+      row.facts?.chair === chair &&
+      row.facts?.level === "state",
+  );
+  expect(hold, "a bill the player's committee held").toBeTruthy();
+  const entry = director.ledger.people
+    .get(chair as never)!
+    .schedule.find((row) => row.momentId.includes(hold!.id))!;
+  const binding = entry.bindings.find((b) => b.typeKey === "bill-held-chair");
+  expect(binding, "the sponsor's ask is staged for the chair").toBeTruthy();
+  expect(entry.outcome).toBe("scene-now");
+  const composed = purposeScene(core, director, chair as never, entry, {
+    typeKey: "bill-held-chair",
+  });
+  expect(composed?.kind).toBe("composed");
+  expect(api).toBeTruthy();
+}, 120_000);
