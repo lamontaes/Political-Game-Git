@@ -176,7 +176,8 @@ function everyPriceDecidable(
  */
 it(
   `a price falls to the strongest question the office can decide (${PLACE}, seed 5e6f7a8b9c0d1e2f)`,
-  { timeout: 120_000 },
+  // 22.2 s alone and 26.4 s beside the promise and scene tests (Nov 16): about twice the slower.
+  { timeout: 55_000 },
   () => {
     setBookkeeping(false);
     try {
@@ -202,7 +203,8 @@ it(
 for (const c of CASES)
   it(
     `a priced no names its price; the player ${c.take === "promise" ? `promises and votes ${c.vote} it` : "refuses"} (${PLACE}, seed ${c.seed})`,
-    { timeout: 300_000 },
+    // 22.6 to 24.3 s alone and 24.6 to 26.5 s beside (Nov 16): about twice the slower.
+    { timeout: 55_000 },
     () => {
       setBookkeeping(false);
       try {

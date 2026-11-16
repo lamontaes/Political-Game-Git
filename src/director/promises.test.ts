@@ -242,7 +242,10 @@ const ATTEMPTS = 4;
 const WAIT_DAYS = 7;
 /** Nine in the morning: the minute of the window's last day the player talks. */
 const LAST_DAY_MINUTE = 9 * 60;
-const TIMEOUT = 600_000;
+/** The vote case: 172.6 s alone and 168.0 s beside the other promise and scene tests (Nov 16), so about twice the slower. */
+const VOTE_TIMEOUT = 350_000;
+/** The attend case: 53.4 s alone and 50.2 s beside (Nov 16), so about twice the slower. */
+const ATTEND_TIMEOUT = 110_000;
 /** The show-around case: 119.5 s alone and 126.7 s beside the other promise and scene tests (Nov 16), so about twice the slower. */
 const SHOW_AROUND_TIMEOUT = 260_000;
 
@@ -868,7 +871,7 @@ it(
       setBookkeeping(true);
     }
   },
-  TIMEOUT,
+  VOTE_TIMEOUT,
 );
 
 /** Days a friend's ask may wait, one at a time, for a town body to post its next meeting. */
@@ -1030,5 +1033,5 @@ it(
       setBookkeeping(true);
     }
   },
-  TIMEOUT,
+  ATTEND_TIMEOUT,
 );

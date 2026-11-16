@@ -253,6 +253,5 @@ it(`a quarrel over a missed payment plays the variant its records give (seed ${L
   } finally {
     setBookkeeping(true);
   }
-  // The borrower's days until the missed payment and the scene: 161 seconds
-  // measured on Nov 15, so twice that.
-}, 330_000);
+  // The borrower's days until the missed payment and the scene: 66.4 s alone and 72.1 s beside the promise and scene tests (Nov 16): about twice the slower.
+}, 150_000);
