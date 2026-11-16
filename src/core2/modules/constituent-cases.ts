@@ -20,7 +20,7 @@
 import { ageInYears } from "../kernel/dates";
 import { coreAPI, fillInPerson, registerModule } from "../state";
 import { fundBalance } from "../counted-money";
-import { closenessBetween } from "../closeness";
+import { closenessBetween, familyFactsOf } from "../closeness";
 import { engagementOf } from "../electorate";
 import type {
   CoreAPI,
@@ -216,11 +216,13 @@ export function problemOf(
   const age = ageOn(person, date);
   if (age < adultAge) return null;
   // A living relative serving a term: how much of it is still ahead presses on
-  // them, read from the custody record.
+  // them, read from the custody record. The family record says what the
+  // relative is to them; a case is about someone they can name that way.
+  const family = familyFactsOf(person);
   for (const kinId of [...person.familyIds].sort()) {
     const kin = api.state.people.get(kinId);
     const custody = kin?.alive ? servingCustodyOf(api, kinId) : undefined;
-    if (!custody) continue;
+    if (!custody || !family.get(kinId)?.relation) continue;
     const term = Date.parse(custody.until) - Date.parse(custody.from);
     const ahead = Date.parse(custody.until) - Date.parse(date);
     return {
