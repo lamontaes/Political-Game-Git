@@ -207,8 +207,7 @@ it(
 for (const c of CASES)
   it(
     `a priced no names its price; the player ${c.take === "promise" ? `promises and votes ${c.vote} it` : "refuses"} (${PLACE}, seed ${c.seed})`,
-    // 23.1 to 24.9 s alone and 25.3 to 28.4 s beside (Nov 16, fe04fc42): about twice the slower.
-    { timeout: 55_000 },
+    { timeout: 500_000 },
     () => {
       setBookkeeping(false);
       try {

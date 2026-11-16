@@ -221,6 +221,11 @@ it(
           continue;
         }
         const template = open(employer)[0]!;
+        // The player may already hold a job in this world; a start needs the
+        // current one ended first (job-lifecycle.ts).
+        const held = core.people.get(id)?.jobId;
+        if (held && core.jobs.get(held)?.endsAt === undefined)
+          coreAPI(core).endJob(held, "promises-test:player-moves-jobs");
         hireLike(core, id, template, "player");
         director.watch(core, id);
         core.focusPersonIds.add(id);
