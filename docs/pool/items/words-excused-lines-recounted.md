@@ -5,10 +5,10 @@ area: words
 kind: wiring
 priority: 1
 size: S
-status: open
+status: in-pr
 standard: 2
 claimed-by: Story lead (claude/dazzling-wozniak-vgomoz-recount)
-pr:
+pr: 9757
 after:
 blocked-on:
 lead: words
