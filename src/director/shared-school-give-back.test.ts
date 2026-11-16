@@ -36,8 +36,9 @@ import { subjectsBetween } from "./conversation";
 // the town's schools, and over 69 seeds drawn through these presses none
 // heard more than one school question. New pin: seed f574fd270912a678,
 // Golden Valley, one schoolmate in reach and one question; the test proves
-// the give-back, not a count. Measured at about 30 seconds alone; the
-// limits, 65 seconds for the life and for the play, are about twice that.
+// the give-back, not a count. Measured at about 30 seconds alone and 73 beside other
+// tests; the limits, 150 seconds for the life and for the play, are about
+// twice the slower.
 const SEED = "f574fd270912a678";
 const PLAYER = {
   givenName: "Dana",
@@ -97,7 +98,7 @@ describe("a question about a school both went to", () => {
     was = setBookkeeping(false);
     const person = encodeURIComponent(JSON.stringify(PLAYER));
     built = await ask("POST", `/api/newlife?seed=${SEED}&person=${person}`);
-  }, 65_000);
+  }, 150_000);
   afterAll(() => {
     setBookkeeping(was);
   });
@@ -241,5 +242,5 @@ describe("a question about a school both went to", () => {
         `${where}: questions about a school both went to`,
       ).toBeGreaterThanOrEqual(NEEDED);
     }
-  }, 65_000);
+  }, 150_000);
 });
