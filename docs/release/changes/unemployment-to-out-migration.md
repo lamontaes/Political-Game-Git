@@ -5,4 +5,4 @@ section: Fixed
 title: People leave a town when its work dries up
 ---
 
-When a town's unemployment rises, its households now move away faster: about 2.5 percent more leaving for every point of unemployment above 4 percent, from what a mass layoff did to county labor forces in 2000 to 2010. Before this, a town that lost most of its jobs kept growing, because leaving read only the state's conditions. The same rule applies to named people and to the wider population.
+When a town's unemployment climbs above the nation's by more than it did when the game began, its people now move away faster: about 4 percent more leaving for each point (Blanchard and Katz 1992). A town that has always run above the nation keeps its usual pace, since its leaving rates already reflect that. When the whole country's unemployment rises together, nobody leaves for a better place that doesn't exist. The same rule now applies to named people and to the wider population. Before this, only named people felt it, and only when the whole state moved, so a town that lost most of its jobs kept growing.

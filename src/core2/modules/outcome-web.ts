@@ -27,6 +27,7 @@ import {
   keptOutcome,
   LAW_PREFIX,
   linkEffect,
+  nationGapBaseline,
   OUTCOME_WEB_MODULE_ID,
   moderatorScale,
   scaleOf,
@@ -332,6 +333,52 @@ const BASELINE_READERS: Readonly<
   },
 };
 
+/**
+ * A link's own baseline (WebLink.baselineFrom), read for the month the cause
+ * is read in. "nation-gap-at-opening": the nation's unemployment that month
+ * (the country tier's kept month, or the nearest earlier one) plus the gap the
+ * place opened with against the nation's opening month. Without the country
+ * tier there is no nation to read against, and the link does not run.
+ */
+const LINK_BASELINES: Readonly<
+  Record<
+    NonNullable<WebLink["baselineFrom"]>,
+    (r: Reading, link: WebLink, index: number) => number | undefined
+  >
+> = {
+  "nation-gap-at-opening": (r, link, index) => {
+    if (!r.api.state.modules.has(MACRO_MODULE)) return undefined;
+    const nationNow = nationUnemploymentAt(r.api, index);
+    const nationAtOpening = nationUnemploymentAt(r.api, r.openingIndex);
+    const placeAtOpening =
+      r.first[link.from] ?? causeAt(r, link.from, r.openingIndex);
+    if (
+      nationNow === undefined ||
+      nationAtOpening === undefined ||
+      placeAtOpening === null ||
+      placeAtOpening === undefined
+    )
+      return undefined;
+    return nationGapBaseline(nationNow, nationAtOpening, placeAtOpening);
+  },
+};
+
+/** The module whose kept months hold the nation's unemployment rate. */
+const MACRO_MODULE = "macro";
+/** How many months back the nation's latest kept month may sit. */
+const NATION_MONTHS_BACK = 12;
+
+/** The nation's unemployment rate in month `index`, or the nearest earlier month the country tier kept. */
+function nationUnemploymentAt(api: CoreAPI, index: number): number | undefined {
+  const months = api.moduleState(MACRO_MODULE).table("months");
+  for (let at = index; at > index - NATION_MONTHS_BACK; at -= 1) {
+    const row = months.get(`macro-month:${monthKey(at)}`) as
+      { unemploymentPct: number } | undefined;
+    if (row) return row.unemploymentPct;
+  }
+  return undefined;
+}
+
 /** The laws module's chain is the town's: other places keep their own laws. */
 function readsTownLaw(api: CoreAPI, placeId: string): boolean {
   return (
@@ -533,7 +580,9 @@ function effectOf(r: Reading, link: WebLink): number | null {
   const chained = keptOutcome(derivedOf(link.from)?.measure ?? link.from);
   const index = r.index - Math.max(link.lagMonths, chained ? 1 : 0);
   const value = phasedCause(r, link, index);
-  const baseline = baselineOf(r, link.from);
+  const baseline = link.baselineFrom
+    ? LINK_BASELINES[link.baselineFrom](r, link, index)
+    : baselineOf(r, link.from);
   if (value === null || baseline === undefined) return null;
   // A lagged law effect does not outlast the law: once the law is back where
   // the place began, the effect ends that day, not a lag later.

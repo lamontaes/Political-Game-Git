@@ -831,19 +831,20 @@
       "to": "population.out-migration",
       "strength": "moderate",
       "shape": {
-        "kind": "linear"
+        "kind": "exponential"
       },
-      "size": 0.025,
-      "per": "percentage point of unemployment above 4%",
+      "size": 0.043,
+      "per": "percentage point of the town's unemployment above the nation's, beyond the gap it opened with (log change in the leaving rate)",
       "lagMonths": 0,
       "group": "place",
       "owner": "JOBS",
-      "anchor": "A mass layoff of 1% of a county's workers shrinks its labor force by 0.19 percentage points, mostly through people moving out of the area; the response after 2007 is about half as large. Read as one more point of unemployment and against a county's yearly leaving of about 6 to 8%, that is roughly 1 to 4% more people leaving a year per point. Conversion is ours, so ESTIMATED.",
-      "source": "Foote, Grosz and Stevens 2019, Locate Your Nearest Exit: Mass Layoffs and Local Labor Market Response, ILR Review 72(1):101-126 (NBER w21618); figures from the NBER summary (nber.org/sites/default/files/2023-05/NB15-04d Foote, Grosz, Stevens - SUMMARY.pdf); the journal tables were not read",
+      "anchor": "Net out-migration of about 0.25% of a region's people a year per point of unemployment above the nation's (Blanchard and Katz 1992), over adults' yearly county departure rate of about 5.8% (ACS 2024, data/research/migration/mover-rates-acs-2024.json): 0.25 / 5.8 = 0.043 on the log scale. A town's leaving rates are its own ACS rates, which already hold the gap it opened with, so only the gap's change since the opening counts; a change the whole nation shares counts for nothing.",
+      "source": "Blanchard and Katz 1992, Regional Evolutions, Brookings Papers on Economic Activity 1992(1):1-75; spread from Dao, Furceri and Loungani 2017, Regional Labor Market Adjustment in the United States, Review of Economics and Statistics 99(2):243-257 (the migration response is a quarter to a half of a local shock); ACS 2024 county departure rate",
       "from": "labor.unemployment-pct",
       "evidence": "researched",
-      "range": [0.01, 0.04],
-      "notes": "The study's unit is a layoff's share of the county's workers, not the unemployment rate; one point of layoffs is read as one point of unemployment, which overstates it where some of those laid off leave the labor force or find work at once. The low end is the post-2007 response (about half); the high end reads the whole 0.19 points as moves out of a labor force whose yearly out-migration is at the low end of the ACS range. Applies to every household, full and counted, through each engine's web factor on leaving (moves.ts, counted-moves.ts)."
+      "range": [0.02, 0.09],
+      "notes": "Read by named people (moves.ts) and counted households (counted-moves.ts) alike through webFactorFor. Replaces the region-against-nation factor moves.ts applied to named people alone (movesUnemploymentGapWeight, the same 0.043): the town's own rate is read now, so a closing in a town moves its leaving even when the state's rate barely moves. Foote, Grosz and Stevens 2019 (ILR Review 72(1):101-126) find a mass layoff of 1% of a county's workers shrinks its labor force by about 0.19 points, mostly through out-migration, which sits inside the spread.",
+      "baselineFrom": "nation-gap-at-opening"
     },
     {
       "key": "disaster-to-home-values",

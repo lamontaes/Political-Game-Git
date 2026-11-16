@@ -186,19 +186,6 @@
     },
     "stopgapId": "SG-P15-moves-weights"
   },
-  "movesUnemploymentGapWeight": {
-    "value": 0.043,
-    "tag": "ESTIMATED",
-    "citation": "How much each point of the region's unemployment above the nation's, beyond the gap it opened with, speeds everyone's pull to leave (and each point below slows it), as a share of the rate on the log scale. Net out-migration of about 0.25% of the population a year per point of relative unemployment (Blanchard and Katz 1992, BPEA; the regional engine's regionalMigrationPerUnemploymentPoint) over adults' county departure rate of about 5.8% a year (ACS 2024, data/research/migration/mover-rates-acs-2024.json): 0.25 / 5.8 = 0.043.",
-    "estimatedFrom": "Blanchard and Katz 1992; Dao, Furceri and Loungani 2017 put the migration response at a quarter to a half of a local shock; spread 0.02 to 0.09",
-    "spread": {
-      "low": 0.02,
-      "high": 0.09,
-      "unit": "log change in the leaving rate per point of relative unemployment",
-      "citation": "Dao, Furceri and Loungani 2017 put the migration response at a quarter to a half of a local shock, against Blanchard and Katz 1992 (as the starting value states); not reopened in this research."
-    },
-    "stopgapId": "SG-P15-moves-weights"
-  },
   "movesKinHoldDecay": {
     "value": 0.9,
     "tag": "TUNABLE",
