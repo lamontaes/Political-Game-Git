@@ -91,7 +91,19 @@ it("the scene trace lists every scene, ties its lines and marks a forced scene (
   expect(lines.length).toBe(row.lines);
   expect(
     lines.every((line) =>
-      ["facts", "slot-pair", "slot-world", "weak", "none"].includes(line.tie),
+      [
+        "declared",
+        "binding",
+        "facts",
+        "subject",
+        "frame",
+        "scene",
+        "document",
+        "slot-pair",
+        "slot-world",
+        "weak",
+        "none",
+      ].includes(line.tie),
     ),
   ).toBe(true);
 
@@ -102,8 +114,10 @@ it("the scene trace lists every scene, ties its lines and marks a forced scene (
       "scene-trace/line?key=conversation.news-answer-react.oh-my",
     )
   ).value as { tie: string; bank: string };
-  expect(oh).toMatchObject({ bank: "conversation", tie: "weak" });
-  expect(lineByKey("conversation.news-answer-react.oh-my")?.tie).toBe("weak");
+  expect(oh).toMatchObject({ bank: "conversation", tie: "subject" });
+  expect(lineByKey("conversation.news-answer-react.oh-my")?.tie).toBe(
+    "subject",
+  );
 
   // The player's staged scenes read as a list.
   expect(Array.isArray((await ask("GET", "scene-trace/moments")).value)).toBe(

@@ -144,7 +144,13 @@ export function registerCounts() {
   /** Lines tied to nothing of the speaker or the hearer: weak, none, or only a slot of the world. They can be said to anyone. */
   const untied: Record<string, number> = {};
   const byTie: Record<Tie, number> = {
+    declared: 0,
+    binding: 0,
     facts: 0,
+    subject: 0,
+    frame: 0,
+    scene: 0,
+    document: 0,
     "slot-pair": 0,
     "slot-world": 0,
     weak: 0,
@@ -160,6 +166,10 @@ export function registerCounts() {
     bankCount,
     byTie,
     untied,
+    saysNothing: lines
+      .filter((line) => line.empty)
+      .map((line) => line.key)
+      .sort(),
     unreachedConversation: lines
       .filter((line) => line.reach === "unreached")
       .map((line) => line.key)
@@ -174,6 +184,7 @@ export function registerCounts() {
 export function baselineOf(counts = registerCounts()) {
   return {
     untiedBankLines: counts.untied,
+    saysNothing: counts.saysNothing,
     unreachedConversation: counts.unreachedConversation,
     unreadBanks: counts.unreadBanks,
     codeLines: counts.codeLines,
@@ -198,6 +209,7 @@ if (process.argv[1]?.endsWith("line-register.ts")) {
         bankLines: sum(counts.bankCount),
         byTie: counts.byTie,
         untiedBankLines: sum(counts.untied),
+        saysNothingReplies: counts.saysNothing.length,
         unreachedConversationLines: counts.unreachedConversation.length,
         unreadBanks: counts.unreadBanks,
         codeLines: sum(counts.codeLines),
