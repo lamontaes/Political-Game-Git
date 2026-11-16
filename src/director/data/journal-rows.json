@@ -496,8 +496,14 @@
       "entry": "story",
       "toldWithoutOther": true,
       "eventFacts": {
-        "office": { "fact": "office", "format": "text" },
-        "doors": { "fact": "doorsKnocked", "format": "count" }
+        "office": {
+          "fact": "office",
+          "format": "text"
+        },
+        "doors": {
+          "fact": "doorsKnocked",
+          "format": "count"
+        }
       }
     },
     {
@@ -505,9 +511,18 @@
       "turn": false,
       "entry": "story",
       "eventFacts": {
-        "office": { "fact": "office", "format": "text" },
-        "valid": { "fact": "valid", "format": "count" },
-        "needed": { "fact": "needed", "format": "count" }
+        "office": {
+          "fact": "office",
+          "format": "text"
+        },
+        "valid": {
+          "fact": "valid",
+          "format": "count"
+        },
+        "needed": {
+          "fact": "needed",
+          "format": "count"
+        }
       }
     },
     {
@@ -694,7 +709,8 @@
       "kindPrefix": "scene-ending:petition-circulators",
       "turn": false,
       "entry": "story",
-      "toldWithoutOther": true
+      "toldWithoutOther": true,
+      "standsAlone": true
     },
     {
       "kindPrefix": "scene-ending:petition-not-today",

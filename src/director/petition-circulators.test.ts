@@ -239,6 +239,13 @@ it("Newry: the clerk, with money raised by the player's own calls, says how peti
       .filter((text) => text >= `${filing.filedOn ?? ""}`)
       .join("\n  ")}\n`,
   );
+  const paid = composeJournal(core, director, me)
+    .flatMap((chapter) => chapter.lines)
+    .find((line) => /paid people to carry/.test(line.text));
+  expect(paid, "the Journal says it").toBeDefined();
+  expect(paid!.text, "the filing is not its cause").not.toMatch(
+    /^Because of that/,
+  );
   expect(after.outsideTown, "paid circulators brought names").toBeGreaterThan(
     0,
   );

@@ -192326,7 +192326,8 @@
           "move": "take",
           "role": "asker",
           "after": "hire",
-          "requiresFacts": ["teller-helper"]
+          "requiresFacts": ["teller-helper"],
+          "excludesFacts": ["covers-part"]
         }
       ],
       "origin": "authored",
@@ -192442,6 +192443,66 @@
       "date": "2026-11-16",
       "tag": {
         "move": "answer",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-take.then-we-take-what-it-buys-it-s-better-than-nothing",
+      "move": "follow-take",
+      "kind": "spoken",
+      "text": "Then we take what it buys. It's better than nothing.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "petition-short",
+          "key": "news-received",
+          "step": "follow",
+          "move": "take",
+          "role": "asker",
+          "after": "hire",
+          "requiresFacts": [
+            "teller-helper",
+            "circulators",
+            "money",
+            "covers-part"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (petition-short circulators lines, Nov 16), placed by the record",
+      "date": "2026-11-16",
+      "tag": {
+        "move": "take",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-take.part-is-better-than-none-i-ll-get-it-started",
+      "move": "follow-take",
+      "kind": "spoken",
+      "text": "Part is better than none. I'll get it started.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "petition-short",
+          "key": "news-received",
+          "step": "follow",
+          "move": "take",
+          "role": "asker",
+          "after": "hire",
+          "requiresFacts": [
+            "teller-helper",
+            "circulators",
+            "money",
+            "covers-part"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (petition-short circulators lines, Nov 16), placed by the record",
+      "date": "2026-11-16",
+      "tag": {
+        "move": "take",
         "key": "news-received"
       }
     }

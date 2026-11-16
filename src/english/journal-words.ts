@@ -82,6 +82,8 @@ export interface JournalWordRow {
   lookBack?: "memorable";
   /** The line says its own time ("Today I turned eighteen."): no words of time passed open it. */
   ownTime?: boolean;
+  /** The line stands on its own: no words of cause or time passed open it, for its records share the line before only by the race, never its cause. */
+  standsAlone?: boolean;
   /**
    * The memoir fields told after the event, in order, each only when the
    * record gives the facts its sentences name: the event is a small story
@@ -113,6 +115,8 @@ export interface RowShape {
   lookBack?: "memorable";
   /** The line says its own time ("Today I turned eighteen."): no words of time passed open it. */
   ownTime?: boolean;
+  /** The line stands on its own: no words of cause or time passed open it, for its records share the line before only by the race, never its cause. */
+  standsAlone?: boolean;
   /** The memoir fields told after the event, when the record gives their facts. */
   follow?: readonly string[];
   /** The mined target whose sentences word this row, when it is not the row's own kind. */

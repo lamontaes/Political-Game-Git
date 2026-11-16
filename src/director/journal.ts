@@ -2000,7 +2000,7 @@ export function composeJournal(
     lineFacts.set(moment.id, facts);
     // A line that says its own time ("Today I turned eighteen.") opens on
     // no other.
-    if (row.ownTime) framed.add(moment.id);
+    if (row.ownTime || row.standsAlone) framed.add(moment.id);
     // The note on the family's work is one sentence per person, each standing
     // on its own: it never opens on the time since the line before.
     if (moment.beat === "work") framed.add(moment.id);
