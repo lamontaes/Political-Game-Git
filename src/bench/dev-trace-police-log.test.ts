@@ -139,5 +139,6 @@ it("Trace opens a printed police log to its usual, its space, its months and who
     expect(dev.trace(tally.id).answer, `${where}: ${tally.id}`).not.toBe(
       "not-a-record",
     );
-  // Limit near twice the slowest run (train-gate): 50.1 s and 53.6 s alone (Nov 16).
-}, 110_000);
+  // Limit near twice the slowest run (train-gate): 50.1 s and 53.6 s alone,
+  // 68.3 s beside the police-log and dev-trace tests (Nov 16).
+}, 140_000);
