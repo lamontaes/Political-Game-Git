@@ -127,7 +127,7 @@ it("shows how the town, the player, their household, a business and an office op
 
   const business = await ask("subject=business");
   expect(business.rows.find((r) => r.label === "Cash on day one")?.made).toBe(
-    SOURCES.kinds["ad-hoc-draw"],
+    SOURCES.kinds.generation,
   );
 
   const office = await ask("subject=office");

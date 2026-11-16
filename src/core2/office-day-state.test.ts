@@ -568,4 +568,5 @@ it("dev start seats the player through the offices term writer: serving term end
   const later = stateOfficeOf(api, player.id);
   expect(later?.personId, `${where}: the state office day`).toBe(player.id);
   expect(later?.termId, `${where}: the term read`).toBe(mine.id);
-});
+  // Alone 63 to 85 s a run (a drawn place, so it varies), against vitest's 30 s default.
+}, 170_000);

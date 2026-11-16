@@ -36,3 +36,4 @@ Seen: on the Train at 6d12556a in the trial batch, by `npx vitest run src/bench/
 **Files.** src/bench/card-life.test.ts, src/bench/card.ts
 
 **Notes.**
+Nov 16 (views thread): Correction. Both pinned East Merrimack, New Hampshire cases are red on every Train head from the pin (749af289, f1ec70f9, 6e9df72b, 18d92e2e, b91d3fb3), three runs a head with the same records each time: no living household member, then an employer the organizations table does not hold. The note that they passed at 8d26a629 was wrong. They are expected failures again with this item.

@@ -36,3 +36,4 @@ Seen: on the Train at 6d12556a in the trial batch, by `npx vitest run src/bench/
 **Files.** src/bench/campaign-asks-spoken.test.ts
 
 **Notes.**
+Nov 16 (views thread): Correction. The pinned St. Hedwig, Texas case is red on every Train head from the pin (749af289, f1ec70f9, 6e9df72b, 18d92e2e, b91d3fb3), three runs a head with the same record each time: person_08ff0f2079a06a98 answers with an empty line. The note that it passed at 8d26a629 was wrong. It is an expected failure again with this item.
