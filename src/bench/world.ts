@@ -141,14 +141,17 @@ export const PLAYER_MIN_AGE = 18;
  * counts the adults who live in group quarters instead (all of them, when it is above zero).
  */
 export class NoPlayerHereError extends Error {
+  /** The place's key, set where the build chose the place (`benchWorldStages`). */
+  placeKey?: string;
   constructor(
     readonly placeId: string,
     readonly adultsInQuarters: number,
   ) {
     // A developer's message, written as an Error's so the line register
     // (scripts/words/line-register.ts) reads it as one and not as a game line.
-    // The new-game screen shows it raw only until the new-game draw passes such
-    // a place over (pool item world-opening-no-player-where-everyone-lives-in-group-quarters).
+    // A new game's draw passes such a place over (`passOver`), so a player
+    // never meets it; a place asked for by key throws it to its test or dev
+    // caller.
     super(
       (adultsInQuarters
         ? new Error(
@@ -327,6 +330,12 @@ export type BuildStage =
   | "done";
 type BuildOptions = {
   placeKey?: string;
+  /**
+   * Places a new game's draw already found no player in (every adult in group
+   * quarters), each with its reason: the draw passes them over and takes the
+   * same state's next place by the same ranking. Set by the build itself.
+   */
+  passedOver?: readonly { key: string; reason: string }[];
   minimumPeople?: number;
   /**
    * The two-level world (OPUS-CORE): the player, their household and
@@ -389,11 +398,38 @@ export function buildBenchWorld(
   date: string,
   options: BuildOptions = {},
 ): Built {
-  const stages = benchWorldStages(seed, date, options);
-  for (;;) {
-    const step = stages.next();
-    if (step.done) return step.value;
+  for (let passing = options; ;) {
+    try {
+      const stages = benchWorldStages(seed, date, passing);
+      for (;;) {
+        const step = stages.next();
+        if (step.done) return step.value;
+      }
+    } catch (error) {
+      passing = passOver(passing, error);
+    }
   }
+}
+
+/**
+ * A new game's drawn place where no player can be picked is passed over and
+ * the draw taken again without it; a place asked for by key, or any other
+ * error, is thrown.
+ */
+function passOver(options: BuildOptions, error: unknown): BuildOptions {
+  if (
+    options.placeKey ||
+    !(error instanceof NoPlayerHereError) ||
+    !error.placeKey
+  )
+    throw error;
+  return {
+    ...options,
+    passedOver: [
+      ...(options.passedOver ?? []),
+      { key: error.placeKey, reason: error.message },
+    ],
+  };
 }
 
 /**
@@ -406,15 +442,21 @@ export async function buildBenchWorldInStages(
   options: BuildOptions,
   onStage: (stage: BuildStage) => void,
 ): Promise<Built> {
-  const stages = benchWorldStages(seed, date, options);
-  for (;;) {
-    const step = stages.next();
-    if (step.done) {
-      onStage("done");
-      return step.value;
+  for (let passing = options; ;) {
+    try {
+      const stages = benchWorldStages(seed, date, passing);
+      for (;;) {
+        const step = stages.next();
+        if (step.done) {
+          onStage("done");
+          return step.value;
+        }
+        onStage(step.value);
+        await new Promise((resolve) => setImmediate(resolve));
+      }
+    } catch (error) {
+      passing = passOver(passing, error);
     }
-    onStage(step.value);
-    await new Promise((resolve) => setImmediate(resolve));
   }
 }
 
@@ -440,7 +482,14 @@ function* benchWorldStages(
   yield "people";
   const place = options.placeKey
     ? realLocalities().find((row) => row.key === options.placeKey)
-    : selectBenchPlace(seed, corePlaceStateIdentities(), realLocalities());
+    : selectBenchPlace(
+        seed,
+        corePlaceStateIdentities(),
+        realLocalities().filter(
+          (row) =>
+            !options.passedOver?.some((passed) => passed.key === row.key),
+        ),
+      );
   if (!place) throw new Error(`Unknown place key: ${options.placeKey}`);
   const settings = options.settings ?? {};
   checkWorldSettings(settings);
@@ -495,12 +544,18 @@ function* benchWorldStages(
     // and their peers first, then the economy with the closures fix (outside
     // buyers by industry), light terms for counted households, two levels and
     // the counted voter groups.
-    const pick = entrantChoice(
-      input,
-      place.context.jurisdiction.id,
-      options.playerBirthDate,
-      options.playerGender,
-    );
+    let pick: ReturnType<typeof entrantChoice>;
+    try {
+      pick = entrantChoice(
+        input,
+        place.context.jurisdiction.id,
+        options.playerBirthDate,
+        options.playerGender,
+      );
+    } catch (error) {
+      if (error instanceof NoPlayerHereError) error.placeKey = place.key;
+      throw error;
+    }
     playerId = pick.id;
     // A town opens at its real Census size: the sample is the
     // people generated, and each counted household stands for as many real
@@ -514,6 +569,11 @@ function* benchWorldStages(
       placeMetadata: {
         ...(input.placeMetadata ?? {}),
         openingPlayerPick: JSON.stringify(pick),
+        // The places the new game's draw passed over first, for dev mode's
+        // "How this world opened".
+        ...(options.passedOver?.length
+          ? { openingPassedOver: JSON.stringify(options.passedOver) }
+          : {}),
       },
     };
     withPlayer = {
