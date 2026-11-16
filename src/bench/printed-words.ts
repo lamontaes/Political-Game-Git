@@ -45,6 +45,7 @@ import { officialOf } from "../core2/modules/officials";
 import {
   commentOn,
   PRESS_MODULE_ID,
+  printedStoryOf,
   type InterviewRow,
 } from "../core2/modules/press";
 import { placeNameSaid, coreStateName } from "../core2/place-lookup";
@@ -263,13 +264,21 @@ export function printedFacts(
         facts?: Record<string, string>;
       }
     | undefined;
-  // A source the durable log doesn't keep (a module's own record, a dated
-  // event) is named by its id: "event:<kind>:…" or "<kind>:…".
+  // A source the durable log doesn't keep (a public record of a place the
+  // player can't see, a module's own record, a dated event) is the kind the
+  // press desk printed the story as, where a story of that kind is worded;
+  // else it is named by its id: "event:<kind>:…" or "<kind>:…". A birth's id
+  // begins with the baby's, so only the desk's own row says it was a birth.
+  const printedAs = source
+    ? undefined
+    : printedStoryOf(coreAPI(core), story.id)?.kind;
   const kind =
     source?.kind ??
-    (sourceId.startsWith("event:")
-      ? sourceId.split(":")[1]!
-      : sourceId.split(":")[0]!);
+    (printedAs && BUILDERS[printedAs]
+      ? printedAs
+      : sourceId.startsWith("event:")
+        ? sourceId.split(":")[1]!
+        : sourceId.split(":")[0]!);
   const facts: Record<string, string> = { ...(source?.facts ?? {}) };
   for (const [key, value] of Object.entries(story.facts))
     if (typeof value === "string") facts[key] = value;
