@@ -206,14 +206,6 @@ export interface SituationType {
    */
   openDecision?: boolean;
   /**
-   * What the repeat window tells scenes apart by besides the cast: "bill"
-   * for a scene about one bill (a vote asked for), so the same two people
-   * about another bill on a later day is a new scene; "cause" for a scene
-   * about one record (a reporter's call), so the same reporter calling about
-   * a bill's vote after its introduction is a new scene.
-   */
-  repeatsBy?: string;
-  /**
    * What keeps the scene worth staging: "contest-open" for a scene about a
    * race (a rival's word of it), which is not staged once the cause's
    * contest has had its election day. Absent: no such condition.
@@ -241,8 +233,6 @@ export interface SituationLibrary {
     paces: Readonly<Record<string, number>>;
     paceBands: readonly { band: string; maxAge?: number }[];
     trailingDays: number;
-    /** Days within which the same scene with the same people is staged once. */
-    repeatDays: number;
     /** The most scenes of one type in a season's window of days. */
     seasonCap: { value: number; days: number };
     openDays: Readonly<Record<string, number>>;
@@ -950,46 +940,22 @@ export function scheduleMoment(
   const allowed = options.allowedKinds;
   // One sitting covers a day: a scene of the same kind with the same people
   // already staged today takes this cause in (five bills signed in one
-  // afternoon are one press availability, not five). The same scene with the
-  // same people is not staged again within the repeat window either (a
-  // neighbor who shares the same cause seven days running asks once).
+  // afternoon are one press availability, not five). A later day is a new
+  // cause with its own record: what holds a repeat back is the record, below.
   const castOf = (row: SceneBinding) =>
     `${row.typeKey}|${row.roles
       .flatMap((role) => role.personIds)
       .sort()
       .join(",")}`;
-  // A type whose scene is about one bill (a vote asked for) repeats by the
-  // bill: on an earlier day in the window the same people about another bill
-  // is a new scene; the same day still folds into one sitting.
-  const repeatsBy = (row: SceneBinding) =>
-    library.types.find((type) => type.key === row.typeKey)?.repeatsBy;
-  const causeOf = (momentId: string) =>
-    book.momentsById.get(momentId)?.causeId ?? "";
-  const billOf = (momentId: string) =>
-    core.durableLog.get(causeOf(momentId))?.facts?.billId ?? "";
-  const windowKey = (row: SceneBinding, momentId: string) =>
-    repeatsBy(row) === "bill"
-      ? `${castOf(row)}|${billOf(momentId)}`
-      : repeatsBy(row) === "cause"
-        ? `${castOf(row)}|${causeOf(momentId)}`
-        : castOf(row);
   const sittingToday = new Set(
     book.schedule
       .filter(
         (entry) =>
-          entry.date <= moment.date &&
-          entry.date >
-            addDays(makeIsoDate(moment.date), -library.scheduling.repeatDays) &&
+          entry.date === moment.date &&
           entry.momentId !== moment.id &&
           entry.outcome !== "journal-line",
       )
-      .flatMap((entry) =>
-        entry.bindings.map((row) =>
-          entry.date === moment.date
-            ? castOf(row)
-            : windowKey(row, entry.momentId),
-        ),
-      ),
+      .flatMap((entry) => entry.bindings.map((row) => castOf(row))),
   );
   const wanted = allowed
     ? staged.filter((row) => allowed.has(row.typeKey))
@@ -1066,6 +1032,39 @@ export function scheduleMoment(
     );
     return Object.keys(said).length === zero;
   };
+  // The same scene with the same people about the same record again is not
+  // staged: an earlier day's scene of this cast was staged for a cause record of
+  // the same kind with the same facts, so nothing on record is new. A record
+  // with any fact of its own (another bill, another law, another speech) is a
+  // new cause and stages. A letter reads what has happened since instead
+  // (above), and a scene about each cause keeps every one.
+  const factsKey = (id: string) => {
+    const record = core.durableLog.get(id);
+    return record
+      ? `${record.kind}|${JSON.stringify(Object.entries(record.facts ?? {}).sort(([a], [b]) => a.localeCompare(b)))}`
+      : "";
+  };
+  const stagedCauses = new Map<string, Set<string>>();
+  for (const entry of book.schedule) {
+    if (
+      entry.date >= moment.date ||
+      entry.momentId === moment.id ||
+      entry.outcome === "journal-line"
+    )
+      continue;
+    const cause = book.momentsById.get(entry.momentId)?.causeId;
+    const key = cause ? factsKey(cause) : "";
+    if (!key) continue;
+    for (const row of entry.bindings) {
+      const seen = stagedCauses.get(castOf(row)) ?? new Set<string>();
+      seen.add(key);
+      stagedCauses.set(castOf(row), seen);
+    }
+  }
+  const sameRecordAgain = (row: SceneBinding) =>
+    !eachCause(row) &&
+    row.typeKey !== LETTER_TYPE &&
+    !!stagedCauses.get(castOf(row))?.has(factsKey(moment.causeId));
   // A friend asks only for what the game can settle now (the Words lead,
   // Nov 15; owner's ruling: a colleague asks only for what the game can do):
   // the next posted town meeting the player may come to. With none, the
@@ -1079,7 +1078,7 @@ export function scheduleMoment(
     (row): NonNullable<ScheduleEntry["heldBack"]> =>
       seasonFull(row)
         ? [{ typeKey: row.typeKey, reason: "season-cap" }]
-        : sameLetter(row)
+        : sameLetter(row) || sameRecordAgain(row)
           ? [{ typeKey: row.typeKey, reason: "nothing-changed" }]
           : nothingToAsk(row)
             ? [{ typeKey: row.typeKey, reason: "nothing-to-ask" }]
@@ -1090,9 +1089,7 @@ export function scheduleMoment(
     (row) =>
       receivable(row) &&
       !held.has(row.typeKey) &&
-      (eachCause(row) ||
-        (!sittingToday.has(castOf(row)) &&
-          !sittingToday.has(windowKey(row, moment.id)))),
+      (eachCause(row) || !sittingToday.has(castOf(row))),
   );
   // The day's own sitting takes this cause in, so its scene cites both
   // records. A sitting on an earlier day within the repeat window does not:

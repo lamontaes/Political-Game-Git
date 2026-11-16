@@ -11,7 +11,6 @@ import { townSeats } from "../core2/modules/offices";
 import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
 import { purposeScene } from "./purpose-scene";
-import { SITUATION_LIBRARY } from "./scheduling";
 
 // A vote traded in committee comes due on the floor. When a holdout traded
 // their vote for their own section at the committee's markup, the legislature
@@ -65,19 +64,12 @@ it(`a vote traded in committee is the member's vote-confirmed scene on the floor
         (row) => row.typeKey === "vote-confirmed",
       );
       if (!binding) {
-        // One sitting covers a day for the same people, and the same scene
-        // with the same people is not staged again within the repeat window
-        // (scheduling.ts): this sponsor already came asking after a promise
-        // of this member's, that day or within the window.
-        const from = addDays(
-          makeIsoDate(promise.date),
-          -SITUATION_LIBRARY.scheduling.repeatDays,
-        );
+        // One sitting covers a day for the same people (scheduling.ts): this
+        // sponsor already came asking after a promise of this member's that day.
         const asked = book.schedule.find(
           (row) =>
             row !== entry &&
-            row.date <= promise.date &&
-            row.date > from &&
+            row.date === promise.date &&
             row.bindings.some(
               (other) =>
                 other.typeKey === "vote-confirmed" &&
