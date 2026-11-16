@@ -1484,6 +1484,18 @@
       "governmentOwn": "Committed on the government's own record, not paid",
       "none": "No record names this law yet"
     },
+    "ended": {
+      "repealed": "Ended by this bill",
+      "replaced": "Took over from",
+      "endsOn": "Ends {date}",
+      "endedOn": "Ended {date}",
+      "replacedOn": "Replaced {date}",
+      "runToEnd": "Run until it ends",
+      "whileInForce": "Who it reached while in force",
+      "noLongerReached": "No longer reached",
+      "since": "last ended {date}",
+      "noneEnded": "None of its reach has ended yet"
+    },
     "endings": {
       "pending": "Not decided yet",
       "law": "Became law",
