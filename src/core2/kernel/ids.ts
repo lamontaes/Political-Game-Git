@@ -1,5 +1,5 @@
 /** The core's stable ids and hashes. */
-import { recordDraw } from "../draw-recorder";
+import { recordDraw } from "./draw-recorder";
 import type { EntityId, EntityKind } from "./brands";
 
 /**

@@ -1,5 +1,5 @@
 /** Seeded numbers for generating a world: no imports beyond hashing, so any model can use them without an import cycle. */
-import { recordDraw } from "./draw-recorder";
+import { recordDraw } from "./kernel/draw-recorder";
 import { createHash } from "node:crypto";
 
 /**

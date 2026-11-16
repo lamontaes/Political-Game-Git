@@ -1,7 +1,8 @@
 /* global console, process, document */
 // With Dev mode on, Politics > Metrics carries "How this world opened" under the board: the town's
 // rows, then the player's, their household's, a business's and an office's, each with how the
-// opening made it. Fails on a page error or a subject with no rows.
+// opening made it; then Record lists every draw the opening took, and a household member's card
+// shows their own rows. Fails on a page error, a subject with no rows or a card without them.
 // Run against a fresh bench: node src/bench/dev-opening.browser.mjs [screenshot-dir]
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
@@ -49,6 +50,42 @@ try {
       await view.evaluate((n) => n.scrollIntoView({ block: "start" }));
       await page.screenshot({ path: `${shots}/dev-opening-${subject}.png` });
     }
+  }
+  // Record: the world rebuilt from its recipe with the recorder on, every draw listed.
+  await page.locator('[data-testid="dev-opening-record"]').click();
+  await page.waitForFunction(
+    () => document.querySelectorAll(".dev-opening-draw").length > 0,
+    null,
+    { timeout: 1_200_000 },
+  );
+  const drawn = await page.locator(".dev-opening-draw").count();
+  const unknown = await page.locator(".dev-opening-draw.unknown").count();
+  console.log("draw sites", drawn, "not in the list", unknown);
+  assert.ok(drawn > 50, "the recording listed too few draw sites");
+  if (shots) {
+    await page
+      .locator(".dev-opening-draws")
+      .evaluate((n) => n.scrollIntoView({ block: "start" }));
+    await page.screenshot({ path: `${shots}/dev-opening-draws.png` });
+  }
+  // A person's card: the person slot shows how they opened.
+  await page.locator("#sheet-close").click();
+  await page
+    .locator('#rings [data-tab="who"]')
+    .first()
+    .evaluate((e) => e.click());
+  await page.locator("#sheet-body .hispeople .nm.pick").first().click();
+  await page.locator("#person:not([hidden]) .dev-opening").waitFor();
+  const cardRows = await page
+    .locator("#person .dev-opening .dev-opening-row")
+    .count();
+  console.log("person card", cardRows, "rows");
+  assert.ok(cardRows > 0, "the person card shows no opening rows");
+  if (shots) {
+    await page
+      .locator("#person .dev-opening")
+      .evaluate((n) => n.scrollIntoView({ block: "start" }));
+    await page.screenshot({ path: `${shots}/dev-opening-person-card.png` });
   }
   assert.deepEqual(errors, []);
 } finally {

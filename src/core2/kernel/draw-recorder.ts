@@ -29,7 +29,7 @@ const PRIMITIVE_FILES = [
   "/core2/kernel/rng.ts",
   "/core2/seeded.ts",
   "/core2/kernel/ids.ts",
-  "/core2/draw-recorder.ts",
+  "/core2/kernel/draw-recorder.ts",
   "/core2/world-draw.ts",
 ];
 /** Helpers inside other files that only wrap a primitive (their caller is the site). */
@@ -38,16 +38,23 @@ const WRAPPERS = new Set(["uniform", "seededNormal", "hash"]);
 /** Called by a draw primitive while a recording runs. */
 export function recordDraw(primitive: string): void {
   if (!recording) return;
+  // The call sites as V8 holds them: no text stack, and no source-map pass a test runner adds.
   const limit = Error.stackTraceLimit;
+  const prepare = Error.prepareStackTrace;
   Error.stackTraceLimit = 12;
-  const lines = (new Error().stack ?? "").split("\n").slice(2);
+  Error.prepareStackTrace = (_error, sites) => sites;
+  const holder: { stack?: unknown } = {};
+  Error.captureStackTrace(holder, recordDraw);
+  const frames = (holder.stack ?? []) as NodeJS.CallSite[];
   Error.stackTraceLimit = limit;
+  Error.prepareStackTrace = prepare;
   let kind = primitive;
-  for (const line of lines) {
-    const match = /at (?:(\S+) \()?.*?(src\/[^:)]+):\d+/.exec(line);
-    if (!match) continue;
-    const file = match[2]!;
-    const fn = (match[1] ?? "<anonymous>").replace(/^.*\./, "");
+  for (const frame of frames) {
+    const path = frame.getFileName() ?? "";
+    const at = path.indexOf("src/");
+    if (at < 0) continue;
+    const file = path.slice(at);
+    const fn = frame.getFunctionName() ?? "<anonymous>";
     // createStableId makes a record's id, not a draw.
     if (fn === "createStableId") return;
     if (file.endsWith("core2/world-draw.ts")) kind = "world offset";

@@ -1,5 +1,5 @@
 /** The core's seeded generator. */
-import { recordDraw } from "../draw-recorder";
+import { recordDraw } from "./draw-recorder";
 const UINT32_RANGE = 0x1_0000_0000;
 
 function hashSeed(seed: string): number {

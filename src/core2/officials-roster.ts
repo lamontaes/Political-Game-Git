@@ -10,7 +10,7 @@
  * first-dimension spread in the 119th Congress (Voteview), pulled toward the
  * member's district as members really are.
  */
-import { recordDraw } from "./draw-recorder";
+import { recordDraw } from "./kernel/draw-recorder";
 import officialsData from "./data/officials/officials.json" with { type: "json" };
 import { stableHash } from "./kernel/ids";
 import { partySide } from "./appointments";

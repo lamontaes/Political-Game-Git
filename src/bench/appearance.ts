@@ -1,4 +1,4 @@
-import { recordDraw } from "../core2/draw-recorder";
+import { recordDraw } from "../core2/kernel/draw-recorder";
 import type { PersonFace } from "./scene";
 import {
   bustChoices,

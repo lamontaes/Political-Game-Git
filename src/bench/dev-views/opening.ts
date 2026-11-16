@@ -9,7 +9,7 @@
  * audit's list (src/bench/dev-views/opening-sources.json, from the Account lead's report
  * opening-draws-and-fixed-values in the project's shared folder); the values are read from the
  * records each time. "Every draw the opening took" is not a hand list: Record rebuilds this world
- * from its recipe with the draw recorder on (src/core2/draw-recorder.ts) and lists each line of
+ * from its recipe with the draw recorder on (src/core2/kernel/draw-recorder.ts) and lists each line of
  * code that drew, by file and function, with what the list says of it; a site the list does not
  * know shows as such, and dev-opening-draws.test.ts fails on one. Read-only: it writes nothing to
  * this world and spends none of its time.
@@ -37,7 +37,7 @@ import {
   startDrawRecording,
   stopDrawRecording,
   type DrawSite,
-} from "../../core2/draw-recorder";
+} from "../../core2/kernel/draw-recorder";
 import type { DevView } from "../dev-views";
 import {
   buildBenchWorldInStages,

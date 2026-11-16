@@ -1,5 +1,5 @@
 {
-  "about": "How the opening made each value dev mode's \"How this world opened\" shows (src/bench/dev-views/opening.ts). From the opening audit of Nov 16, 2026: every seeded draw and table read a New Game world takes, recorded by line at Loudon NH, St. Louis MO and Cambridge MN (the Account lead's report opening-draws-and-fixed-values, in the project's shared folder). Rows say how each value shown was made; sites say how each line of code that draws at the opening draws, keyed by file and function, as src/core2/draw-recorder.ts records them. dev-opening-draws.test.ts records a pinned opening and fails on a site not listed here. A row or site changes in the same pull request that changes how the opening makes its value.",
+  "about": "How the opening made each value dev mode's \"How this world opened\" shows (src/bench/dev-views/opening.ts). From the opening audit of Nov 16, 2026: every seeded draw and table read a New Game world takes, recorded by line at Loudon NH, St. Louis MO and Cambridge MN (the Account lead's report opening-draws-and-fixed-values, in the project's shared folder). Rows say how each value shown was made; sites say how each line of code that draws at the opening draws, keyed by file and function, as src/core2/kernel/draw-recorder.ts records them. dev-opening-draws.test.ts records a pinned opening and fails on a site not listed here. A row or site changes in the same pull request that changes how the opening makes its value.",
   "kinds": {
     "real-data": "Real data",
     "world-offset": "World offset from a published figure",
@@ -28,7 +28,7 @@
     "open": "Open",
     "counts": "Rows by kind",
     "record": "Record this world's opening",
-    "recording": "Rebuilding this world from its recipe and recording every draw (about three minutes)",
+    "recording": "Rebuilding this world from its recipe and recording every draw (several minutes; a big town takes longer)",
     "draws": "Every draw the opening took",
     "unknown": "Not in the list",
     "count": "Draws",
@@ -192,6 +192,11 @@
       "what": "Whether a new person is a citizen, a roll against a share",
       "replace": "From the parents' records; arrivals from origin data"
     },
+    "src/core2/civic-inputs.ts#districtHasJointUse": {
+      "made": "ad-hoc-draw",
+      "what": "Whether a school district shares its buildings, a roll against a share",
+      "replace": "Real data where the district reports it, else a world offset"
+    },
     "src/core2/coarse-place.ts#metResident": {
       "made": "generation",
       "what": "A person met in another place, from its Census rows",
@@ -202,7 +207,7 @@
       "what": "Which illnesses a person has, a hash against rates",
       "replace": "The world's seeded unit keyed by the record's id"
     },
-    "src/core2/counted-money.ts#key": {
+    "src/core2/counted-money.ts#savingWeight": {
       "made": "ad-hoc-draw",
       "what": "Counted households' savings, a hash with 8 times too many extremes",
       "replace": "Renters thread: the world's seeded unit keyed by the record's id"
@@ -477,6 +482,15 @@
       "made": "id",
       "what": "A record's id"
     },
+    "src/core2/opening-department-pay.ts#withDistrictPayAuthority": {
+      "made": "id",
+      "what": "A record's id"
+    },
+    "src/core2/opening-employment.ts#<anonymous>": {
+      "made": "ad-hoc-draw",
+      "what": "Order residents are hired in, a hash order",
+      "replace": "The world's seeded unit keyed by the record's id"
+    },
     "src/core2/opening-employment.ts#openingJobStart": {
       "made": "ad-hoc-draw",
       "what": "When a worker started their job, a hash",
@@ -538,6 +552,11 @@
       "what": "Count of earlier partnerships (own stream)",
       "replace": "The world's seeded unit keyed by the record's id"
     },
+    "src/core2/opening-partnership.ts#partnerAgedHousehold": {
+      "made": "ad-hoc-draw",
+      "what": "Whether a couple are relatives, a roll against a share",
+      "replace": "Relatedness from kin records"
+    },
     "src/core2/opening-partnership.ts#pickAge": {
       "made": "generation",
       "what": "A partner's age, from data weights (own stream)",
@@ -558,6 +577,10 @@
       "what": "A filled-in person's kept trait score, a hash",
       "replace": "The world's seeded unit keyed by the record's id"
     },
+    "src/core2/opening-private-tuition.ts#privateShareOf": {
+      "made": "world-offset",
+      "what": "Share of children in private school"
+    },
     "src/core2/opening-private-tuition.ts#worldPrivateTuitionAnnualUsd": {
       "made": "world-offset",
       "what": "Private school tuition"
@@ -570,6 +593,11 @@
     "src/core2/opening-public-pay.ts#prepareOpeningPublicPayAuthorities": {
       "made": "id",
       "what": "A record's id"
+    },
+    "src/core2/opening-public-schools.ts#<anonymous>": {
+      "made": "generation",
+      "what": "Which public school a child attends, a hash order",
+      "replace": "The world's seeded unit keyed by the record's id"
     },
     "src/core2/opening-roles.ts#quantile": {
       "made": "ad-hoc-draw",
@@ -720,6 +748,11 @@
       "made": "ad-hoc-draw",
       "what": "Who shares a past at an organization, a hash",
       "replace": "From the organization's own records"
+    },
+    "src/core2/sibling-names.ts#distinctSiblingGivenName": {
+      "made": "generation",
+      "what": "A sibling's given name, distinct from the others",
+      "replace": "The world's seeded unit keyed by the record's id"
     },
     "src/core2/starting-cash.ts#medianTransactionBalance": {
       "made": "world-offset",
