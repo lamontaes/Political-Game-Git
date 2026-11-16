@@ -1,4 +1,5 @@
 ---
+id: tests-pick-residents-not-the-richest-anywhere
 impact: none
 ---
 
