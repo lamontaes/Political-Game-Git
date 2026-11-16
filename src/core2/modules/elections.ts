@@ -55,6 +55,7 @@ import {
   nextElectionForSeat,
   officeFamily,
   specialElectionDate,
+  termStartAfter,
   type ElectionDates,
   type OfficeFamily,
 } from "../elections-calendar";
@@ -100,6 +101,10 @@ export interface ContestRow extends ElectionDates {
     readonly vacancyId: string;
     readonly termEnd: string | null;
   };
+  /** A held-over seat's regular election before its normal year: its winner serves what is left of the term the law set, to this day. */
+  readonly termEnd?: string;
+  /** That election's cause: the seat's contest no one won, whose holder serves on (dev mode's trace opens it). */
+  readonly heldOverAfter?: string;
 }
 
 export interface FilingRequirements {
@@ -734,17 +739,44 @@ function contestFor(
   // An office its law creates later is first filled at the last election
   // before its first term, as a term ending then would be.
   let dates = at(holder?.endDate ?? office.firstTermStart ?? null);
-  // A holder whose seat's election passed with no one elected holds over;
-  // the seat's next election comes a full term on.
-  if (
-    dates &&
-    dates.electionDate <= api.state.date &&
-    holder?.endDate &&
-    office.termYears
-  )
-    dates = at(
-      `${Number(holder.endDate.slice(0, 4)) + office.termYears}${holder.endDate.slice(4)}`,
-    );
+  // A holder whose term has ended holds over only until a successor is
+  // chosen: the term's clock stays where the law put it. The seat is filled at
+  // the office's next regular election for what is left of that term, then
+  // comes up on its normal year; when the next regular election is the normal
+  // one, it elects a full term.
+  let termEnd: string | null = null;
+  let heldOverAfter: string | null = null;
+  if (holder?.endDate && office.termYears) {
+    const clockEnd = `${Number(holder.endDate.slice(0, 4)) + office.termYears}${holder.endDate.slice(4)}`;
+    if (holder.endDate <= api.state.date) {
+      const normal = at(clockEnd);
+      const sooner = at(null, tomorrow);
+      if (
+        sooner &&
+        sooner.electionDate > api.state.date &&
+        (!normal || sooner.electionDate < normal.electionDate)
+      ) {
+        dates = sooner;
+        // The race no one won, which left the holder serving on.
+        heldOverAfter =
+          (
+            table(api, "contests").query("bySeat", [
+              seat.id,
+            ]) as unknown as ContestRow[]
+          )
+            .filter((c) => c.electionDate <= api.state.date)
+            .sort((a, b) => b.electionDate.localeCompare(a.electionDate))[0]
+            ?.id ?? null;
+        // It ends the day the normal year's winner takes office.
+        termEnd = normal
+          ? termStartAfter(office, normal.electionDate)
+          : clockEnd;
+      } else dates = normal;
+    } else if (dates && dates.electionDate <= api.state.date)
+      // The seat's election has passed and its holder's term runs on: the
+      // next election is a full term on.
+      dates = at(clockEnd);
+  }
   // A seat whose election is today (decided, or with no one elected) looks
   // for the regular election after it.
   if (dates && dates.electionDate <= api.state.date) {
@@ -771,6 +803,8 @@ function contestFor(
     district: seat.district,
     family,
     incumbentTermId: holder?.id ?? null,
+    ...(termEnd ? { termEnd } : {}),
+    ...(heldOverAfter ? { heldOverAfter } : {}),
   });
   // Every contest opens its filing on a day (elections-filing-window-opens):
   // the calendar's read date where it has one, else the window the place's
