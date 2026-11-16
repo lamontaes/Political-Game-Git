@@ -18541,7 +18541,8 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-answer.try-me-give-me-a-reason-i-d-get-wrong"
+          "after": "scene-talk.follow-answer.try-me-give-me-a-reason-i-d-get-wrong",
+          "excludesFacts": ["wrote-bill"]
         }
       ],
       "bearing": "braced",

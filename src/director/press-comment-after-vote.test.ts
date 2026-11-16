@@ -72,8 +72,10 @@ const CASES: readonly Case[] = [
     tops: ["top-reason-own-view", "top-reason-sponsor"],
     said: [{ moves: ["answer"], text: "I trust the member who wrote it." }],
   },
-  // On their own bill no part leans no, so no line gives a reason: the two
-  // plain wordings say the vote and nothing more (Words lead, Nov 16).
+  // Against their own bill no reason is set (vote-stand-facts.ts reads the
+  // sponsor off the bill), so no line gives one: the two plain wordings say
+  // the vote and nothing more (Words lead, Nov 16; second reader's hold,
+  // upheld by the Account lead).
   {
     who: "the author",
     seed: "yes-vote-6:0",
@@ -106,25 +108,39 @@ const CASES: readonly Case[] = [
       },
     ],
   },
+  // Here the author's own view leans no, and still no reason is said.
   {
     who: "the author",
     seed: "yes-vote-3:0",
     key: "2018500",
     own: true,
     vote: "no",
-    tops: ["top-reason-own-view"],
+    tops: [],
     said: [
       {
         moves: ["answer"],
-        text: "I voted against it. It wasn't right for Downs.",
+        text: "When it came to the vote, I couldn't say yes.",
       },
+    ],
+  },
+  // A no on a colleague's bill that came up in play, with the member's own
+  // view leaning no.
+  {
+    who: "a member voting on a colleague's bill",
+    seed: "pr-44:0",
+    key: "5035725",
+    own: false,
+    vote: "no",
+    tops: ["top-reason-own-view"],
+    said: [
+      { moves: ["answer"], text: "I voted no because I don't believe in it." },
       {
         moves: ["deflect", "answer"],
-        text: "I voted no because I don't believe in it.",
+        text: "I voted against it. It wasn't right for Island Pond.",
       },
       {
         moves: ["refuse", "answer"],
-        text: "I voted against it. Downs deserves better than that.",
+        text: "I voted against it. Island Pond deserves better than that.",
       },
     ],
   },
@@ -260,6 +276,8 @@ it.each(CASES)(
     }
     const wrong = c.vote === "yes" ? /I voted (no|against)/ : /I voted for/;
     for (const line of offered) expect(line).not.toMatch(wrong);
+    // The author is never told the reporter "never asks who wrote the bill".
+    if (c.own) expect(offered.join("\n")).not.toContain("who wrote the bill");
     expect(offered.join("\n")).not.toContain("hasn't changed since day one");
     // A judgment on the bill needs a reason that leans no (Words lead, Nov 16).
     if (

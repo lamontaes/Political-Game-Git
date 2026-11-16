@@ -11,15 +11,8 @@ import { advanceCore } from "../core2/life";
 import { electorateSides } from "../core2/modules/voting";
 import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
-import type { Fact } from "../english/scene-talk-words";
 import { purposeScene } from "./purpose-scene";
-import {
-  composeSceneTalk,
-  playedNode,
-  type PurposeType,
-  type TreeNode,
-} from "./scene-talk";
-import { SITUATION_LIBRARY } from "./scheduling";
+import { playedNode, type TreeNode } from "./scene-talk";
 
 // A reporter's call is about something, and every line after the opening has
 // to stand on what was said. The scene carries `story`, the bill the record
@@ -32,12 +25,11 @@ import { SITUATION_LIBRARY } from "./scheduling";
 // tap by tap at pinned places in press-comment-after-vote.test.ts; this test
 // no longer words the call again under other arcs or hand-set traits
 // (Account lead, Nov 15: no two tests of the same lines by two methods).
+// The national arc is not played here: play gives it only to a national
+// outlet's reporter (pool item press-comment-national-arc-unplayed).
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 const ATTEMPTS = 12;
 const VOTE_DAYS = 120;
-const TYPE = SITUATION_LIBRARY.types.find(
-  (row) => row.key === "press-interview",
-) as unknown as PurposeType;
 
 it(`a reporter's call names its story, and every line stands on it (seed ${seed})`, () => {
   const tried: string[] = [];
@@ -133,28 +125,6 @@ it(`a reporter's call names its story, and every line stands on it (seed ${seed}
         /the paragraph|your neighbors|big claim\. I'll check it with/,
       );
     }
-    // Kept composed: the national arc. Play gives it only to a national
-    // outlet's reporter, never on a town's call, so no played call here
-    // reaches it; its opening must still name the story. The reporter's own
-    // traits, no hand-set ones.
-    const national = composeSceneTalk(
-      core,
-      director,
-      { askerId: scene.askerId, askedId: scene.askedId },
-      { ...TYPE, purpose: "press-comment.national", family: "press-comment" },
-      Object.fromEntries(
-        scene.facts.map((row) => [
-          row.key,
-          { text: row.text, sourceRecordIds: row.recordIds } as Fact,
-        ]),
-      ),
-    );
-    expect(national.kind, where).toBe("composed");
-    if (national.kind === "composed")
-      expect(
-        national.talk.lines.map((row) => row.text).join(" "),
-        `${where}: the national arc's opening names the story`,
-      ).toContain(story!.text);
     process.stdout.write(
       `PRESS CONTEXT ${where}: story "${story!.text}" cited to ${story!.recordIds.join(", ")}; vote ${voteId}\n${lines.map((t) => `  ${t}`).join("\n")}\n`,
     );
