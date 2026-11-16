@@ -207,13 +207,15 @@
       "aide": "who works for {official}"
     },
     "sceneSaysIt": {
-      "about": "Scene types whose own lines say what the cast person is, so the scene names them alone: a job offer's next line says the employer ('They're calling from {org} about the {title} job.'), and a reporter's scenes say a reporter is asking until the reporter line has a played case (Words lead, Nov 16).",
+      "about": "Scene types whose own lines say what the cast person is, so the scene names them alone: a job offer's next line says the employer ('They're calling from {org} about the {title} job.'), and a reporter's or a debate host's scenes say it themselves until the reporter line has a played case (Words lead, Nov 16).",
       "types": [
         "job-offer",
         "press-interview",
         "scandal",
         "interview-invite",
-        "interview-sitting"
+        "interview-sitting",
+        "debate-invite",
+        "debate-sitting"
       ]
     },
     "constituent": {
