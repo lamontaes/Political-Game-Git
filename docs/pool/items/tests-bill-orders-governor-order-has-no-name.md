@@ -8,7 +8,7 @@ size: S
 status: in-pr
 standard: 2
 claimed-by: claude/long-game-mark-bill-orders
-pr:
+pr: #9766
 after:
 blocked-on:
 root: none
