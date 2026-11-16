@@ -100,7 +100,7 @@ describe("a new game's player is 18 or older", () => {
         ageRules.filter((check) => !check!.met),
         `${where}: the player meets each 18 minimum`,
       ).toEqual([]);
-    }, 60_000);
+    }, 35_000);
 
     it(`with the creator: a resident of the chosen age, whose family fits it (${place.name})`, () => {
       setBookkeeping(false);
@@ -136,7 +136,7 @@ describe("a new game's player is 18 or older", () => {
       expect(ageOf(core, world.playerId!), where).toBe(drawnAge);
       if (!pick.estimated) expect(drawnAge, where).toBe(chosenAge);
       familyFits(core, world.playerId!, where);
-    }, 60_000);
+    }, 25_000);
   }
 
   // On the code before this change, the creator's age of 20 here was written onto a 21-year-old
@@ -169,5 +169,5 @@ describe("a new game's player is 18 or older", () => {
     expect(drawnAge, `${where}: a resident who is 20`).toBe(chosenAge);
     expect(ageOf(world.core, world.playerId!), where).toBe(chosenAge);
     familyFits(world.core, world.playerId!, where);
-  }, 60_000);
+  }, 20_000);
 });

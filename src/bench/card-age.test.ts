@@ -52,5 +52,5 @@ describe(`the card's age in ${place.name}, ${place.state} (seed ${seed})`, () =>
     expect(personCard(core, person.id).age).toBe(age);
     advanceCore(core, birthday);
     expect(personCard(core, person.id).age).toBe(age + 1);
-  }, 300_000);
+  }, 130_000);
 });
