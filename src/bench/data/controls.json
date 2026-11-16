@@ -1066,7 +1066,7 @@
     "alsoOnBallot": "Also on your ballot",
     "countyOffice": "County office",
     "refusal": {
-      "not-your-office": "You can't run for this office from where you live.",
+      "not-your-office": "You can't run for this office.",
       "window-not-open": "Filing for this race hasn't opened yet.",
       "window-closed": "Filing for this race has closed."
     },
