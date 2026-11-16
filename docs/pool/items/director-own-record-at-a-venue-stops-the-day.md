@@ -5,10 +5,10 @@ area: director
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/project-thread-5efbu8-venue
-pr:
+pr: #9655
 after:
 blocked-on:
 lead: words
