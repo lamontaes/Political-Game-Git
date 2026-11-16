@@ -7,31 +7,24 @@
  * a kind and its slots, never words; the said-as reader words it from
  * `data/english/said-as.json` `whatTheyAre` (the Words lead's lines).
  *
- * The kinds, first that holds and has a line, by what matters in a scene:
+ * The kinds, first that holds, by what matters in a scene:
  * 1. office: a seat they hold (offices and officials engines) or a post they
  *    were appointed to (the executive engine), said by the office-name
  *    reader (`officeSaid`); a presiding officer with a title of their own
  *    ("Speaker") is said by that title.
  * 2. staff: an aide of an official (the staff engine).
- * 3. tie: a tie on record with the player: schoolmates, the player's own
- *    campaign (`sharedHistory`), or an act on the public record between them
- *    (`actBetween`: a veto, a signing, an appointment).
- * 4. press: a reporter for an outlet (the press engine's outlet rows).
- * 5. constituent: someone in the town a seat the player holds covers.
- * 6. workplace: where they work, and whether the player works there too.
- * Someone none of these holds for is named alone. A kind or stage with no
- * line in said-as.json is passed over: only lines a played scene has said
- * are kept (lead and Words lead, Nov 15).
+ * 3. constituent: someone in the town a seat the player holds covers.
+ * Someone none of these holds for is named alone. Only kinds a scene the
+ * player reached by their own presses has said are read (lead and Words lead,
+ * Nov 16); the others' lines wait in the Words lead's lines.md, and pool item
+ * director-narrator-says-who-a-person-is lists them.
  *
  * Nothing is returned for someone the player has met (the met record, #9489's
  * `relationFacts`), family, a partner or a housemate: the first name says
  * enough there.
  */
-import rulesFile from "./data/conversation-rules.json" with { type: "json" };
 import { officeSaid } from "./cause-facts";
 import { relationFacts } from "./relation-facts";
-import { organizationName } from "./words";
-import { sharedHistory } from "../core2/past";
 import { P } from "../core2/parameters";
 import { coreAPI } from "../core2/state";
 import { officialOf } from "../core2/modules/officials";
@@ -41,17 +34,11 @@ import {
   townSeats,
   type TermRow,
 } from "../core2/modules/offices";
-import { ELECTIONS_MODULE_ID } from "../core2/modules/elections";
 import { EXECUTIVE_MODULE_ID } from "../core2/modules/executive";
 import { lawChain } from "../core2/modules/laws";
-import {
-  PRESS_MODULE_ID,
-  outletTelling,
-  outletsHere,
-} from "../core2/modules/press";
 import { STAFF_MODULE_ID } from "../core2/modules/staff";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
-import { officeWords, whatSaid } from "../english/said-as";
+import { officeWords } from "../english/said-as";
 import { jobSaid } from "../english/journal-words";
 import { spoken } from "./words";
 import type { Fact } from "../english/bank-line";
@@ -62,58 +49,9 @@ export type WhatKind = "office" | "staff" | "tie" | "constituent" | "workplace";
 /** What a person is to the player: the kind, its stage and its slots, from the records. */
 export interface WhatTheyAre {
   readonly kind: WhatKind;
-  /** office: "alone" | "member"; staff: "aide"; press: "reporter"; tie: "schoolmate" | "campaign" | "act-<what>-mine" | "act-<what>-theirs"; constituent: "district" | "place"; workplace: "apart" | "with-you". */
+  /** office: "alone" | "member"; staff: "aide"; constituent: "district" | "place". */
   readonly stage: string;
   readonly facts: Readonly<Record<string, Fact>>;
-}
-
-const KNOWN_BY_ACT = (
-  rulesFile as unknown as {
-    knownByAct: {
-      kinds: Record<
-        string,
-        { what: string; doer: string; said?: Record<string, string> }
-      >;
-      stage: string;
-    };
-  }
-).knownByAct;
-
-/**
- * The newest record of an act made apart that names both people (a veto or
- * signing of one's bill by the other, an appointment), and what it was;
- * null when none (conversation-rules.json knownByAct). `byA` is whether `a`
- * did it.
- */
-export function actBetween(
-  core: Readonly<CoreState>,
-  a: PersonId,
-  b: PersonId,
-): { id: string; what: string; byA: boolean } | null {
-  const ofA = core.logByPerson.get(a);
-  const ofB = core.logByPerson.get(b);
-  if (!ofA || !ofB) return null;
-  const [few, many] = ofA.size <= ofB.size ? [ofA, ofB] : [ofB, ofA];
-  let best: { id: string; what: string; byA: boolean; date: string } | null =
-    null;
-  for (const id of few) {
-    if (!many.has(id)) continue;
-    const record = core.durableLog.get(id);
-    const rule = record && KNOWN_BY_ACT.kinds[record.kind];
-    if (!record || !rule) continue;
-    const what = rule.said
-      ? rule.said[String(record.facts?.[rule.what] ?? "")]
-      : rule.what;
-    if (!what) continue;
-    if (best && record.date <= best.date) continue;
-    best = {
-      id,
-      what,
-      byA: record.facts?.[rule.doer] === a,
-      date: record.date,
-    };
-  }
-  return best && { id: best.id, what: best.what, byA: best.byA };
 }
 
 const fact = (text: string, ...ids: string[]): Fact => ({
@@ -274,87 +212,6 @@ function staffOf(
   return null;
 }
 
-/** A tie on record between the two: school, a campaign, or an act made apart. */
-function tieOf(
-  core: Readonly<CoreState>,
-  playerId: PersonId,
-  otherId: PersonId,
-): WhatTheyAre | null {
-  const history = sharedHistory(core, playerId, otherId);
-  const school = history.find((row) => row.kind === "schoolmate");
-  if (school) {
-    const org = core.organizations.get(school.recordId as never);
-    if (org)
-      return {
-        kind: "tie",
-        stage: "schoolmate",
-        facts: { school: fact(organizationName(org), school.recordId) },
-      };
-  }
-  const campaign = history.find((row) => row.kind === "campaign");
-  if (campaign) {
-    const filing = core.modules.has(ELECTIONS_MODULE_ID)
-      ? (coreAPI(core as CoreState)
-          .moduleState(ELECTIONS_MODULE_ID)
-          .table("filings")
-          .get(campaign.recordId) as unknown as
-          { contestId?: string; personId?: string } | undefined)
-      : undefined;
-    const office = filing?.contestId
-      ? officeSaid(core, { contestId: filing.contestId })
-      : null;
-    // The player's own campaign: "your campaign" (a line for theirs is not written yet).
-    if (office && filing?.personId === playerId)
-      return {
-        kind: "tie",
-        stage: "campaign",
-        facts: {
-          campaign_office: fact(office.text, campaign.recordId, ...office.ids),
-        },
-      };
-  }
-  const act = actBetween(core, playerId, otherId);
-  if (act) {
-    const facts: Record<string, Fact> = {};
-    if (act.what === "appointed") {
-      const title = appointmentOf(core, act.id)?.title;
-      if (title) facts.office = fact(title, act.id);
-    }
-    const untitled = act.what === "appointed" && !facts.office;
-    return {
-      kind: "tie",
-      stage: `act-${act.what}-${act.byA ? "mine" : "theirs"}${untitled ? "-untitled" : ""}`,
-      facts,
-    };
-  }
-  return null;
-}
-
-/** A reporter, by the outlet whose row names them and whose payroll they are on. */
-function reporterOf(
-  core: Readonly<CoreState>,
-  otherId: PersonId,
-): WhatTheyAre | null {
-  if (!core.modules.has(PRESS_MODULE_ID)) return null;
-  const api = coreAPI(core as CoreState);
-  const other = core.people.get(otherId);
-  const job = other?.jobId ? core.jobs.get(other.jobId) : undefined;
-  for (const outlet of outletsHere(api)) {
-    if (!outlet.reporterIds.includes(otherId)) continue;
-    if (job && job.organizationId !== outlet.organizationId) continue;
-    const org = core.organizations.get(outlet.organizationId as never);
-    if (!org) continue;
-    const name = organizationName(org);
-    const the = outletTelling(api, outlet.organizationId, name)?.the;
-    return {
-      kind: "press",
-      stage: "reporter",
-      facts: { outlet: fact(the ? `the ${name}` : name, outlet.id, org.id) },
-    };
-  }
-  return null;
-}
-
 /** Someone in the town a seat the player holds covers. */
 function constituentOf(
   core: Readonly<CoreState>,
@@ -386,29 +243,8 @@ function constituentOf(
   return null;
 }
 
-/** Where they work, and whether the player works there too. */
-function workplaceOf(
-  core: Readonly<CoreState>,
-  playerId: PersonId,
-  otherId: PersonId,
-): WhatTheyAre | null {
-  const other = core.people.get(otherId);
-  const job = other?.jobId ? core.jobs.get(other.jobId) : undefined;
-  const org = job ? core.organizations.get(job.organizationId) : undefined;
-  // A government's payroll is not a workplace people share (pool item
-  // people-shared-employer-is-not-a-workplace): it is said by office, or not at all.
-  if (!job || !org || org.governmentFacts?.governmentKey) return null;
-  const player = core.people.get(playerId);
-  const mine = player?.jobId ? core.jobs.get(player.jobId) : undefined;
-  return {
-    kind: "workplace",
-    stage: mine?.organizationId === org.id ? "with-you" : "apart",
-    facts: { employer: fact(organizationName(org), job.id, org.id) },
-  };
-}
-
 /**
- * What `otherId` is to the player, the first kind that holds and has a line;
+ * What `otherId` is to the player, the first kind that holds;
  * null for someone the player has met, family, a partner, a housemate, or
  * someone none of the kinds holds for (named alone).
  */
@@ -424,14 +260,11 @@ export function whatTheyAre(
   const reads = [
     () => officeOf(core, otherId),
     () => staffOf(core, otherId),
-    () => tieOf(core, playerId, otherId),
-    () => reporterOf(core, otherId),
     () => constituentOf(core, playerId, otherId),
-    () => workplaceOf(core, playerId, otherId),
   ];
   for (const read of reads) {
     const what = read();
-    if (what && whatSaid(what)) return what;
+    if (what) return what;
   }
   return null;
 }
