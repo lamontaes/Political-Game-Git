@@ -28,7 +28,7 @@ source: "World-opening thread, Nov 16, gating the recorded-share change on train
 
 **Rules.** No dice. The test is pinned through REALISTIC_SEED. One rule, all 56 places.
 
-**Done when.** The test passes at REALISTIC_SEED=637e415cfd281725, and it still fails when the two worlds are given the same seed.
+**Done when.** The test passes at REALISTIC_SEED=637e415cfd281725 (Coinjock, North Carolina) and at a drawn place it names with its seed, and it still fails when the two worlds are given the same seed. A second session sees in the running game, at a drawn place it names with its seed, that dev mode's "How this world opened" shows the household's living costs as a world offset, not the published figure.
 
 **Waits on.** Nothing.
 
