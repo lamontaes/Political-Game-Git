@@ -663,7 +663,12 @@ it(
         } else {
           // Kept on the last day: the player goes the whole two weeks and
           // talks with the newcomer on the window's last day, which keeps it;
-          // the next morning, when the window closes, leaves it kept.
+          // the next morning, when the window closes, leaves it kept. This is
+          // the one played proof that the player's own presses on a last day
+          // still count. It is green on a close at the start of the day's
+          // world step too (the player's day comes before that step), so it
+          // does not prove the world records of a last day count; that case
+          // waits on a pay-on-time promise made on a missed payment's day.
           const lastDay = find().dueOn;
           // To the morning of the last day, the player still inside it.
           // play() stops at a midnight with the day before finished, so
