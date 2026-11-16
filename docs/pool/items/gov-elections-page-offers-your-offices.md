@@ -21,11 +21,11 @@ checked:
 
 **What.** The owner's Elections page listed every seat of a district body (seven commissioner seats at McMinnville, Tennessee) and no way to run, and a refusal named the wrong cause. It now leads with "Offices you can run for" and the day each can be filed, shows only the player's own district seat, labels county offices as the county's, and refuses in words for the real cause. Seen: Politics, Elections at McMinnville TN and Bonanza OR, 1440x900.
 
-**Cause.** Found in code: localRaces in src/bench/government.ts listed every contest of the date, district seats included, and play.mjs drew them in one list; playerMayFileWith in src/core2/modules/elections.ts returned a bare yes or no, so the page and the counter kept separate reasons.
+**Cause.** Found in code: `localRaces` (function) in src/bench/government.ts listed every contest of the date, district seats included, and play.mjs drew them in one list; playerMayFileWith in src/core2/modules/elections.ts returned a bare yes or no, so the page and the counter kept separate reasons.
 
 **Fix.** One reader, playerFilingBar in elections.ts, names the one bar (not your office, not your town, window not open, window closed, other district, filed elsewhere, at-large elsewhere); the page and the counter both read it; worded refusals live in controls.json.
 
-**Time box.** Done in one session.
+**Time box.** 3 hours for one Sonnet session.
 
 **Rules.** Standing rule one-engine-per-mechanic: the page asks the clerk's own check and keeps no rules copy of its own. Standing rule player-screen-text: every label is a worded control, never a raw kind or id.
 
