@@ -22,7 +22,7 @@ root: rc8-law-judged-by-paperwork
 
 **Cause.** Found in code: `checkRise` in src/bench/ui/draft-card.mjs set `draft.disabled = false` when the panel closed, dropping the subject's `blocked`; the card let any day be picked, and `act` in src/bench/play.mjs had no catch, so the refusal from `seatAct` in src/bench/legislature.ts ("Each step of a phase-in takes effect after today and after the step before it.") became a page error. Measured at Bear, Delaware, seed ddf37910-a72f-415e-8c0d-abbf8d0ad0c7, on the Train at 29ef4685.
 
-**Fix.** `checkRise` keeps Draft as the subject allows when the panel closes, and keeps it dark until the first increase, or every dated step, falls after the game's today and after the step before it, with the controls words saying which is missing. The date fields start at the game's tomorrow. A refusal the card did not prevent shows "Nothing was drafted." from the controls, never the engine's text. The player sees it on the draft card in Your office.
+**Fix.** `checkRise` keeps Draft as the subject allows when the panel closes, and keeps it dark until the first increase, or every dated step, falls after the game's today and after the step before it, with the controls words saying which is missing. The date fields start at the game's tomorrow. No press then reaches an engine refusal, so `act` keeps no catch: a refusal would be a fault and throws as a page error the browser checks catch. The player sees it on the draft card in Your office.
 
 **Time box.** 2 hours for one Sonnet session at medium effort.
 

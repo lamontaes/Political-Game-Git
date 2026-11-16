@@ -3577,19 +3577,9 @@ async function seatRows() {
     );
   };
   const act = async (params) => {
-    let r;
-    try {
-      r = await post(`/api/seat/act?${new URLSearchParams(params)}`);
-    } catch (error) {
-      // The engine refused the bill. The card keeps every date after today and in order, so
-      // a refusal here is a fault in the card; the seat says in its own words that nothing
-      // was drafted rather than showing the engine's reason, which is not player text.
-      void error;
-      seatText = [];
-      seatResult = controls.seat?.draftNotTaken ?? "";
-      openSheet("office");
-      return;
-    }
+    // The draft card keeps Draft dark for every bill the engine would refuse, so no press
+    // reaches a refusal here; one would be a fault, and it throws as a page error.
+    const r = await post(`/api/seat/act?${new URLSearchParams(params)}`);
     seatText = r.text ?? [];
     // An executive's bill goes through a member: who was asked and what they said.
     const askedWord = r.asked
