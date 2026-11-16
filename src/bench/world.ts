@@ -1,4 +1,7 @@
 import { purposeScene } from "../director/purpose-scene";
+import { composeScene } from "../director/scene";
+import { openConversation } from "../director/conversation";
+import { SITUATION_LIBRARY } from "../director/scheduling";
 import {
   addDays,
   ageOnDate,
@@ -545,6 +548,30 @@ function* benchWorldStages(
     wordsPurpose: (state, self, personId, entry) =>
       purposeScene(state, self, personId, entry, { includeHeld: true })
         ?.kind !== "skipped",
+    // A scene that opens a talk stops the day only when the talk says
+    // something past its opener: the talk's own composer, looking only, with
+    // the one the scene opens with and the moment as its occasion.
+    saysPastOpener: (state, self, personId, entry) => {
+      const binding = entry.bindings[0];
+      const type = SITUATION_LIBRARY.types.find(
+        (row) => row.key === binding?.typeKey,
+      ) as { purpose?: string } | undefined;
+      if (!binding || binding.said || type?.purpose) return true;
+      const talkToId = composeScene(state, self, personId, entry)?.talkToId;
+      if (!talkToId) return true;
+      const talk = openConversation(state, personId, talkToId, {
+        director: self,
+        occasionId: entry.momentId,
+        presentIds: binding.presentIds,
+        look: true,
+      });
+      return (
+        talk.choices.length > 0 ||
+        talk.lines.some(
+          (line) => line.kind !== "greet" && line.kind !== "family-open",
+        )
+      );
+    },
   });
   const core = createLifeCore(opening, {
     observer: false,
@@ -565,7 +592,7 @@ function* benchWorldStages(
   // Government: the place's law in force, its offices and seats, and the
   // next elections with their filing rules (OPUS-GOV).
   openLaws(core);
-  openOffices(core, seed);
+  openOffices(core, seed, startDate);
   // Officials outside the town are people before anyone files, so state and
   // federal races draw named candidates from them (OPUS-OFFICIALS).
   openOfficials(core);

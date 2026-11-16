@@ -86,7 +86,7 @@ function career(family: "stateLegislative" | "usHouse", label: string) {
         collapseToTwoLevels({ ...full, playerId: you.id }),
       );
       openLaws(core);
-      openOffices(core, seed);
+      openOffices(core, seed, core.date);
       openElections(core);
       openCampaigns(core);
       openParties(core);
