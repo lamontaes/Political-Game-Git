@@ -41,6 +41,7 @@ import {
 import type { ModuleRow } from "../module-data";
 import type { CoreAPI, CoreEventInput, CoreModule, CoreState } from "../types";
 import { townMetrics, WORLD_METRICS_MODULE_ID } from "./world-metrics";
+import { regionalLevel, regionalRegistered } from "./regional";
 import { schoolMeasure } from "../school-measures";
 import { propertyTaxRateInForce } from "../housing-property-tax";
 import { schoolsLineAboveBase } from "../school-budget-line";
@@ -337,8 +338,13 @@ const BASELINE_READERS: Readonly<
  * A link's own baseline (WebLink.baselineFrom), read for the month the cause
  * is read in. "nation-gap-at-opening": the nation's unemployment that month
  * (the country tier's kept month, or the nearest earlier one) plus the gap the
- * place opened with against the nation's opening month. Without the country
- * tier there is no nation to read against, and the link does not run.
+ * place's region opened with in the real figures (the regional engine's
+ * openingGapPct, LAUS against the nation). The place's own first months are
+ * not read for the gap: the jobs engine's opening stock drifts toward its
+ * flows in them (pool item jobs-opening-jobless-stock-drains-toward-flows),
+ * and the place's ACS leaving rates hold its real gap, not that drift. Without
+ * the country tier or the regional engine there is nothing to read against,
+ * and the link does not run.
  */
 const LINK_BASELINES: Readonly<
   Record<
@@ -346,20 +352,13 @@ const LINK_BASELINES: Readonly<
     (r: Reading, link: WebLink, index: number) => number | undefined
   >
 > = {
-  "nation-gap-at-opening": (r, link, index) => {
-    if (!r.api.state.modules.has(MACRO_MODULE)) return undefined;
-    const nationNow = nationUnemploymentAt(r.api, index);
-    const nationAtOpening = nationUnemploymentAt(r.api, r.openingIndex);
-    const placeAtOpening =
-      r.first[link.from] ?? causeAt(r, link.from, r.openingIndex);
-    if (
-      nationNow === undefined ||
-      nationAtOpening === undefined ||
-      placeAtOpening === null ||
-      placeAtOpening === undefined
-    )
+  "nation-gap-at-opening": (r, _link, index) => {
+    if (!r.api.state.modules.has(MACRO_MODULE) || !regionalRegistered(r.api))
       return undefined;
-    return nationGapBaseline(nationNow, nationAtOpening, placeAtOpening);
+    const nationNow = nationUnemploymentAt(r.api, index);
+    const region = regionalLevel(r.api, r.placeId);
+    if (nationNow === undefined || !region) return undefined;
+    return nationGapBaseline(nationNow, region.openingGapPct);
   },
 };
 

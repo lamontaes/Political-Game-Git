@@ -1,7 +1,8 @@
 /**
  * A town's unemployment moves its people's leaving through the outcome web
  * (unemployment-to-out-migration, Blanchard and Katz 1992): the town's rate is
- * read against the nation's same month plus the gap the town opened with, and
+ * read against the nation's same month plus the gap its region's real figures
+ * opened with, and
  * each point beyond it raises leaving by exp(0.043) on the log scale. Named
  * people (moves.ts) and counted households (counted-moves.ts) both multiply
  * their leaving by the web's factor (moves-web.test.ts). The gap a town opened
@@ -18,6 +19,7 @@ import { advanceCore } from "./life";
 import { coreAPI } from "./state";
 import { lawChain } from "./modules/laws";
 import { placeOutcome } from "./modules/outcome-web";
+import { regionalLevel } from "./modules/regional";
 import { webReach } from "./outcome-web-reach";
 import { linkEffect, nationGapBaseline, WEB_LINKS } from "./outcome-web-model";
 
@@ -32,15 +34,14 @@ describe("unemployment-to-out-migration", () => {
     expect(link.size).toBe(0.043);
     expect(link.shape.kind).toBe("exponential");
     expect(link.baselineFrom).toBe("nation-gap-at-opening");
-    // A town that opened at 6% with the nation at 4%.
-    const townAtOpening = 6;
-    const nationAtOpening = 4;
+    // A town whose region opened two points above the nation (4%).
+    const openingGap = 2;
     // The nation's rate rises five points and the town's rises with it:
     // nobody has a better place to go, so nobody extra leaves.
-    const shared = nationGapBaseline(9, nationAtOpening, townAtOpening);
+    const shared = nationGapBaseline(9, openingGap);
     expect(linkEffect(link, link.size!, 11, shared)).toBe(0);
     // The town keeps the gap it opened with while the nation holds: no drain.
-    const standing = nationGapBaseline(4, nationAtOpening, townAtOpening);
+    const standing = nationGapBaseline(4, openingGap);
     expect(linkEffect(link, link.size!, 6, standing)).toBe(0);
     // The town's own closing takes it ten points past the nation: leaving
     // rises by exp(0.43), about half again.
@@ -69,9 +70,27 @@ describe("unemployment-to-out-migration", () => {
         (row) => row.link === "unemployment-to-out-migration",
       );
       expect(part, `the link runs on ${reach.recordId}`).toBeDefined();
-      // One month in, the town sits near the gap it opened with: the factor is
-      // near one, not the standing drain of reading the whole gap.
-      expect(Math.abs(part!.effect)).toBeLessThan(Math.expm1(link.size! * 3));
+      // The effect is the link's size on the town's rate beyond the nation's
+      // this month plus its region's opening gap.
+      const months = api.moduleState("macro").table("months");
+      const state = api
+        .moduleState("macro")
+        .table("state")
+        .get("macro:state") as { latestMonth: string };
+      const nation = (
+        months.get(`macro-month:${state.latestMonth}`) as {
+          unemploymentPct: number;
+        }
+      ).unemploymentPct;
+      const region = regionalLevel(api, town)!;
+      expect(part!.effect).toBeCloseTo(
+        Math.expm1(
+          link.size! *
+            (unemployment!.value -
+              nationGapBaseline(nation, region.openingGapPct)),
+        ),
+        6,
+      );
     },
   );
 });

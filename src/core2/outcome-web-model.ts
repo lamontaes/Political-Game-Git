@@ -77,9 +77,9 @@ export interface WebLink {
   /**
    * Where the cause is measured from when not the measure's own baseline
    * (src/core2/modules/outcome-web.ts, LINK_BASELINES): "nation-gap-at-opening"
-   * reads the place against the nation's same month, beyond the gap the place
-   * opened with, so a gap already in the place's observed rates moves nothing
-   * and neither does a change the whole nation shares.
+   * reads the place against the nation's same month, beyond the gap its region's
+   * real figures opened with, so a gap already in the place's observed rates
+   * moves nothing and neither does a change the whole nation shares.
    */
   readonly baselineFrom?: "nation-gap-at-opening";
 }
@@ -578,13 +578,13 @@ export function coverageTable(): typeof COVERAGE_DATA {
 
 /**
  * The level a place's cause is measured from when it is read against the
- * nation: the nation's level now plus the gap the place opened with. A place
- * whose gap is what it opened with reads no change, whatever the nation does.
+ * nation: the nation's level now plus the gap the place's real figures opened
+ * with. A place whose gap is what it opened with reads no change, whatever the
+ * nation does.
  */
 export function nationGapBaseline(
   nationNow: number,
-  nationAtOpening: number,
-  placeAtOpening: number,
+  openingGapPct: number,
 ): number {
-  return nationNow + (placeAtOpening - nationAtOpening);
+  return nationNow + openingGapPct;
 }
