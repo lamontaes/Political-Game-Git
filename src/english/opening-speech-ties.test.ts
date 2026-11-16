@@ -107,7 +107,7 @@ it("every use of the address bank declares a tie its facts bear out", () => {
         );
     }
   expect(wrong).toEqual([]);
-});
+}, 50); // 16 ms beside other work, 10 alone (a5bf2edd); limit near twice the slower.
 
 it("every field a question's row holds declares its tie (question-names.json ties)", () => {
   const file = names as unknown as {
@@ -124,4 +124,4 @@ it("every field a question's row holds declares its tie (question-names.json tie
   // A side's account of today and its reason are its view, never the law's.
   for (const field of ["for", "against", "today", "todayMore", "reasons"])
     expect(file.ties.fields[field], field).toBe("stand");
-});
+}, 50); // 1 ms beside and alone; held at the first test's limit.
