@@ -1,4 +1,3 @@
-import type { GenderIdentityKey } from "../core2/gov-rules/types";
 import { parameter } from "../core2/parameters";
 
 /**
@@ -389,72 +388,4 @@ export function registerAllows(
   device: SpeechDevice,
 ): boolean {
   return REGISTER_CARDS[register].devices.includes(device);
-}
-
-/**
- * The person a form of address points at: their recorded gender (never
- * guessed; `unstated` is a real value) and, for a colleague, where they are
- * from as the room says it — a state in Congress, a county in a state house.
- */
-export interface AddressedPerson {
-  readonly gender: GenderIdentityKey | null;
-  readonly fromLabel?: string;
-}
-
-export type AddressRole = "chair" | "colleague";
-
-/**
- * How the room addresses the chair or refers to a colleague, from the
- * register, the role and the jurisdiction's own label.
- *
- * Formulas are the Congressional Record's ("Mr. Speaker," "Madam President,"
- * "the gentlewoman from Texas," "the Senator from Maine"). "Mr." and "Madam"
- * need a recorded gender; with none the chair form is refused rather than
- * guessed, and a colleague is named by office ("the Representative from
- * Ohio"), which the Record also uses. Returns null where the register has no
- * such form.
- */
-export function formOfAddress(
-  register: SpeechRegister,
-  role: AddressRole,
-  person: AddressedPerson,
-): string | null {
-  const male = person.gender === "male";
-  const female = person.gender === "female";
-  if (role === "chair") {
-    const title =
-      register === "house-one-minute" ||
-      register === "house-debate" ||
-      register === "state-floor"
-        ? "Speaker"
-        : register === "senate-floor"
-          ? "President"
-          : register === "committee-questioning"
-            ? "Chair"
-            : null;
-    if (!title) return null;
-    if (title === "Chair")
-      return male ? "Mr. Chairman" : female ? "Madam Chair" : null;
-    return male ? `Mr. ${title}` : female ? `Madam ${title}` : null;
-  }
-  if (!person.fromLabel) return null;
-  switch (register) {
-    case "house-one-minute":
-    case "house-debate":
-      return male
-        ? `the gentleman from ${person.fromLabel}`
-        : female
-          ? `the gentlewoman from ${person.fromLabel}`
-          : `the Representative from ${person.fromLabel}`;
-    case "senate-floor":
-      return `the Senator from ${person.fromLabel}`;
-    case "state-floor":
-      return male
-        ? `the gentleman from ${person.fromLabel}`
-        : female
-          ? `the gentlelady from ${person.fromLabel}`
-          : `the Member from ${person.fromLabel}`;
-    default:
-      return null;
-  }
 }

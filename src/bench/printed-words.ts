@@ -70,6 +70,7 @@ import {
   stanceGroupAmong,
 } from "../english/group-names";
 import { areaName } from "../english/area-names";
+import { SAID_AS_DATA } from "../english/said-as";
 import { lineName } from "./budget";
 import { measureSaid, policyNames } from "./words";
 import { placeLabel } from "../director/journal";
@@ -468,13 +469,14 @@ class Reader {
     const bank = board.districts.find(
       (district) => district.id === member.districtId,
     )?.institution;
+    const said = SAID_AS_DATA.centralBank;
     return {
       office:
         member.seatKind === "governor"
-          ? "Federal Reserve governor"
+          ? said.governor
           : bank
-            ? `president of the ${bank}`
-            : "Federal Reserve Bank president",
+            ? said.districtPresident.replace("{bank}", bank)
+            : said.president,
       since: member.appointedAt,
     };
   }
