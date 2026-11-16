@@ -149,6 +149,26 @@ export function countedHouseholdSavings(
   };
 }
 
+/**
+ * What a counted household opens with, against the survey's median for a
+ * family like it (`medianTransactionBalance`): its own savings draw,
+ * exp(σz), the same draw `savingWeight` keeps as exp(σz − σ²/2). A group's
+ * account then opens at what its households hold, and since the account is
+ * shared by those weights, each household's share is its own median times its
+ * draw: the median household holds the survey's median, and the group's mean
+ * is the survey's mean within the group. Not a second weight: the one draw,
+ * read before the household is a record.
+ */
+export function countedOpeningSpread(
+  seed: string,
+  householdId: string,
+): number {
+  const sigma = countedParameter("countedSavingsSpreadLog");
+  return (
+    savingWeight(seed, { id: householdId }) * Math.exp((sigma * sigma) / 2)
+  );
+}
+
 /** A household's claim on its group's account: its people, each counted at its savings weight. */
 export function savingClaim(rt: ResidentsRuntime, h: CountedHousehold): number {
   return (

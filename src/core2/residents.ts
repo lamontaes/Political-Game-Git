@@ -12,6 +12,7 @@
  */
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { stopgap } from "./stopgaps";
+import { countedOpeningSpread } from "./counted-money";
 import {
   OUTSIDE_MARKET_KIND,
   outsideMarketAccount,
@@ -341,6 +342,19 @@ export function collapseToTwoLevels(
     }
     return id;
   };
+  // A counted household opens with the survey's median for a family like it
+  // (the opening's rule) spread by its own savings draw (`countedOpeningSpread`):
+  // its group's account then holds what its households hold, and the group's
+  // median household holds the median.
+  const countedCash = new Map<PersonId, number>();
+  for (const home of collapsedHomes) {
+    const spread = countedOpeningSpread(input.seed, home.id);
+    for (const id of home.memberIds)
+      countedCash.set(
+        id,
+        Math.round((peopleById.get(id)?.liquidMinor ?? 0) * spread),
+      );
+  }
   const homeOf = new Map<PersonId, HouseholdInput>();
   for (const home of collapsedHomes) {
     const account = accountFor(home.placeId);
@@ -350,7 +364,7 @@ export function collapseToTwoLevels(
       residentCash.set(
         account,
         residentCash.get(account)! +
-          (peopleById.get(id)?.liquidMinor ?? 0) *
+          countedCash.get(id)! *
             (home.weight ?? options.weights?.[home.placeId] ?? 1),
       );
     }
@@ -947,7 +961,7 @@ export function collapseToTwoLevels(
     people: home.memberIds.map((id) => {
       const { knownIdSources: _sources, ...row } = peopleById.get(id)!;
       void _sources;
-      return row;
+      return { ...row, liquidMinor: countedCash.get(id)! };
     }),
     jobs: home.memberIds.flatMap((id) => jobsByPerson.get(id) ?? []),
     workCommitments: home.memberIds.flatMap(
