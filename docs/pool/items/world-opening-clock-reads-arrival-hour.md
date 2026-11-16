@@ -10,6 +10,7 @@ standard: 2
 claimed-by: claude-world
 pr: 9770
 blocked-on:
+after:
 lead: world
 model: sonnet
 effort: medium
