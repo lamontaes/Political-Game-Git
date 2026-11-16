@@ -1111,6 +1111,30 @@
     },
     "hearing-ask": {
       "state": "request",
+      "asks": {
+        "note": "Where the player is the sponsor and asks the chair of the committee that held the bill: the chair says yes only if their own stand already reaches a hearing, not yet if a favor would carry them, no otherwise, and the no gives the reason the committee record holds. Asked again: a plea carries them where the favor would, pressing holds them where they stood, and letting it go wins nothing.",
+        "yes": "agree",
+        "carried": "stall",
+        "no": "refuse",
+        "relent": ["relent", "agree"],
+        "thanks": "thank",
+        "again": [
+          {
+            "move": "plea",
+            "carries": "favor"
+          },
+          {
+            "move": "press",
+            "carries": "lean"
+          },
+          {
+            "move": "accept",
+            "carries": "none"
+          }
+        ],
+        "paid": "accept",
+        "absent": "decline"
+      },
       "replies": ["agree", "refuse", "bargain", "stall"],
       "endings": [
         {

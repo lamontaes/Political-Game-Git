@@ -48,7 +48,7 @@ it("a local race closed at the opening has its holder weigh standing again, and 
     collapseToTwoLevels({ ...full, playerId: player.id }),
   );
   openLaws(core);
-  openOffices(core, SEED);
+  openOffices(core, SEED, core.date);
   openElections(core);
   openCampaigns(core);
   openParties(core);

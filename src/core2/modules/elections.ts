@@ -336,6 +336,18 @@ function readRequirements(
   ).places[stateKey]?.[family];
 }
 
+/**
+ * Whether a place takes filings for a family of offices at all: false only
+ * where its record says the family does not apply (a territory with no county
+ * or municipal governments, or local leaders chosen by custom or appointment).
+ */
+export function filingFamilyApplies(
+  stateKey: string,
+  family: OfficeFamily,
+): boolean {
+  return readRequirements(stateKey, family)?.applicable !== false;
+}
+
 /** What one place requires to file for one family of offices. */
 export function filingRequirements(
   stateKey: string,

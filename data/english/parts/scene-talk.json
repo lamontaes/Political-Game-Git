@@ -170,7 +170,8 @@
     "members": "The other people who sit on the study committee, by name, from the study record.",
     "runs-on": "The day the paper runs the story, as the reporter says it (\"tomorrow\", \"Tuesday\"), from the exposure's run day on the record.",
     "briber": "Who paid the bribe a paper exposed, by name, from the corruption engine's crime record.",
-    "firm": "The firm a contract award went to, by name, from the contracts engine's award record."
+    "firm": "The firm a contract award went to, by name, from the contracts engine's award record.",
+    "chair-name": "The committee chair the sponsor goes to, named as the player knows them: by given name, or introduced for a stranger (from the committee record)."
   },
   "maxWords": 70,
   "parts": [
@@ -5882,7 +5883,8 @@
           "move": "tell",
           "role": "asked",
           "purpose": "family-loss",
-          "key": "loss"
+          "key": "loss",
+          "requiresFacts": ["recount-automatic"]
         }
       ],
       "bearing": "hurt",
@@ -7193,14 +7195,6 @@
           "purpose": "donor-ask",
           "key": "favor-asked",
           "after": "bargain"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "hearing-ask",
-          "key": "favor-asked"
         }
       ],
       "bearing": "calm",
@@ -29838,30 +29832,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-ask.what-s-still-out-tell-me-the-precincts",
-      "move": "reply-ask",
-      "kind": "spoken",
-      "text": "What's still out? Tell me the precincts.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "purpose": "concession-call",
-          "key": "loss"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "ask",
-        "key": "loss"
-      }
-    },
-    {
       "key": "scene-talk.reply-refuse.not-tonight-not-until-every-ballot-s-counted",
       "move": "reply-refuse",
       "kind": "spoken",
@@ -29932,31 +29902,6 @@
       "date": "2026-10-15",
       "tag": {
         "move": "thank",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.two-and-they-re-both-opponent-s-even-if-we-took-every-vote-it-s-not-en",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "Two, and they're both {opponent}'s. Even if we took every vote, it's not enough.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "concession-call",
-          "key": "loss",
-          "after": "ask"
-        }
-      ],
-      "bearing": "solemn",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "answer",
         "key": "loss"
       }
     },
@@ -39342,7 +39287,8 @@
           "move": "ask",
           "role": "asked",
           "purpose": "concession-call",
-          "key": "loss"
+          "key": "loss",
+          "requiresFacts": ["recount-none", "poll-wider"]
         }
       ],
       "bearing": "braced",
@@ -39478,10 +39424,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-answer.closer-than-anybody-expected-not-close-enough-to-count-again",
+      "key": "scene-talk.follow-answer.worse-than-our-poll-had-it-it-wasnt-close",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "Closer than anybody expected. Not close enough to count again.",
+      "text": "Worse than our poll had it. It wasn't close.",
       "uses": [
         {
           "subject": "scene",
@@ -39490,13 +39436,14 @@
           "role": "asker",
           "purpose": "concession-call",
           "key": "loss",
-          "after": "scene-talk.reply-ask.how-close-was-it"
+          "after": "scene-talk.reply-ask.how-close-was-it",
+          "requiresFacts": ["recount-none", "poll-wider"]
         }
       ],
       "bearing": "solemn",
       "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
+      "author": "Words lead",
+      "date": "2026-11-16",
       "tag": {
         "move": "answer",
         "key": "loss"
@@ -39578,10 +39525,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.closer-than-anybody-expected-i-can-live-on-that-dial-it",
+      "key": "scene-talk.reply-agree.then-theres-nothing-to-wait-for-dial-it",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Closer than anybody expected. I can live on that. Dial it.",
+      "text": "Then there's nothing to wait for. Dial it.",
       "uses": [
         {
           "subject": "scene",
@@ -39590,13 +39537,14 @@
           "role": "asked",
           "purpose": "concession-call",
           "key": "loss",
-          "after": "answer"
+          "after": "answer",
+          "requiresFacts": ["recount-none"]
         }
       ],
       "bearing": "solemn",
       "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
+      "author": "Words lead",
+      "date": "2026-11-16",
       "tag": {
         "move": "agree",
         "key": "loss"
@@ -39615,7 +39563,8 @@
           "role": "asked",
           "purpose": "concession-call",
           "key": "loss",
-          "after": "answer"
+          "after": "answer",
+          "requiresFacts": ["recount-automatic"]
         }
       ],
       "bearing": "braced",
@@ -79354,54 +79303,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-stall.i-can-t-put-it-on-the-calendar-this-session-ask-me-again-next-session",
-      "move": "reply-stall",
-      "kind": "spoken",
-      "text": "I can't put it on the calendar this session. Ask me again next session.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "stall",
-          "role": "asked",
-          "purpose": "hearing-ask",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session (scene builder C, pool item words-scene-bill-held-in-committee)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "stall",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.reply-stall.let-staff-go-through-it-first-then-we-ll-see",
-      "move": "reply-stall",
-      "kind": "spoken",
-      "text": "Let staff go through it first. Then we'll see.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "stall",
-          "role": "asked",
-          "purpose": "hearing-ask",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words session (scene builder C, pool item words-scene-bill-held-in-committee)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "stall",
-        "key": "favor-asked"
-      }
-    },
-    {
       "key": "scene-talk.reply-stall.i-haven-t-made-up-my-mind-about-bill-give-me-time",
       "move": "reply-stall",
       "kind": "spoken",
@@ -79703,7 +79604,8 @@
           "move": "press",
           "role": "asker",
           "purpose": "hearing-ask",
-          "key": "favor-asked"
+          "key": "favor-asked",
+          "after": "stall"
         }
       ],
       "bearing": "braced",
@@ -79727,7 +79629,8 @@
           "move": "press",
           "role": "asker",
           "purpose": "hearing-ask",
-          "key": "favor-asked"
+          "key": "favor-asked",
+          "after": "stall"
         }
       ],
       "bearing": "braced",
@@ -79751,7 +79654,8 @@
           "move": "press",
           "role": "asker",
           "purpose": "hearing-ask",
-          "key": "favor-asked"
+          "key": "favor-asked",
+          "after": "stall"
         }
       ],
       "bearing": "guarded",
@@ -79832,54 +79736,6 @@
       "date": "2026-10-27",
       "tag": {
         "move": "threaten",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.fair-enough-i-ll-come-back-with-a-better-draft",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "Fair enough. I'll come back with a better draft.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "hearing-ask",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session (scene builder C, pool item words-scene-bill-held-in-committee)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "accept",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.suit-yourself-i-ll-remember-you-said-that",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "Suit yourself. I'll remember you said that.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "hearing-ask",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words session (scene builder C, pool item words-scene-bill-held-in-committee)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "accept",
         "key": "favor-asked"
       }
     },
@@ -193879,6 +193735,331 @@
           "excludesFacts": ["asked-more-than-once"]
         }
       ]
+    },
+    {
+      "key": "scene-talk.reply-stall.i-m-not-putting-it-on-the-calendar-i-d-rather-not-go-into-why",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "I'm not putting it on the calendar. I'd rather not go into why.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "purpose": "hearing-ask",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words lead (Nov 16, hold-chair-sought lines)",
+      "date": "2026-11-16",
+      "tag": {
+        "move": "stall",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.you-find-first-in-the-office-bill-still-has-no-hearing",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "You find {chair-name} in the office. {bill} still has no hearing.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "hearing-ask",
+          "requiresFacts": ["bill"],
+          "key": "hold-chair-sought"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (Nov 16, hold-chair-sought lines)",
+      "date": "2026-11-16",
+      "tag": {
+        "move": "narrate",
+        "key": "hold-chair-sought"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.first-s-door-is-open-you-came-about-bill",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{chair-name}'s door is open. You came about {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "hearing-ask",
+          "requiresFacts": ["bill"],
+          "key": "hold-chair-sought"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (Nov 16, hold-chair-sought lines)",
+      "date": "2026-11-16",
+      "tag": {
+        "move": "narrate",
+        "key": "hold-chair-sought"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.i-think-it-s-a-bad-bill-i-won-t-give-it-a-hearing",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I think it's a bad bill. I won't give it a hearing.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "hearing-ask",
+          "requiresFacts": ["reason-own-view"],
+          "key": "favor-asked",
+          "setsFacts": ["answer-given"],
+          "excludesFacts": ["answer-given"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words lead (Nov 16, hold-chair-sought lines)",
+      "date": "2026-11-16",
+      "tag": {
+        "move": "refuse",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.people-in-my-district-don-t-want-it-i-won-t-put-it-up",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "People in my district don't want it. I won't put it up.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "hearing-ask",
+          "requiresFacts": ["reason-district"],
+          "key": "favor-asked",
+          "setsFacts": ["answer-given"],
+          "excludesFacts": ["answer-given"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words lead (Nov 16, hold-chair-sought lines)",
+      "date": "2026-11-16",
+      "tag": {
+        "move": "refuse",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.my-party-doesn-t-want-it-heard-i-m-going-with-them",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "My party doesn't want it heard. I'm going with them.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "hearing-ask",
+          "requiresFacts": ["reason-party"],
+          "key": "favor-asked",
+          "setsFacts": ["answer-given"],
+          "excludesFacts": ["answer-given"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words lead (Nov 16, hold-chair-sought lines)",
+      "date": "2026-11-16",
+      "tag": {
+        "move": "refuse",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.i-voted-against-this-the-last-time-it-came-up-i-m-not-hearing-it-again",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I voted against this the last time it came up. I'm not hearing it again.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "hearing-ask",
+          "requiresFacts": ["reason-last-vote"],
+          "key": "favor-asked",
+          "setsFacts": ["answer-given"],
+          "excludesFacts": ["answer-given"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words lead (Nov 16, hold-chair-sought lines)",
+      "date": "2026-11-16",
+      "tag": {
+        "move": "refuse",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.i-ve-given-you-my-answer",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I've given you my answer.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "hearing-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["answer-given"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "hearing-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["reason-none"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words lead (Nov 16, hold-chair-sought lines)",
+      "date": "2026-11-16",
+      "tag": {
+        "move": "refuse",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.you-have-my-answer-it-hasn-t-changed",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "You have my answer. It hasn't changed.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "hearing-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["answer-given"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "hearing-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["reason-none"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words lead (Nov 16, hold-chair-sought lines)",
+      "date": "2026-11-16",
+      "tag": {
+        "move": "refuse",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-relent.alright-i-ll-put-it-on-the-calendar-you-owe-me-for-this",
+      "move": "reply-relent",
+      "kind": "spoken",
+      "text": "Alright. I'll put it on the calendar. You owe me for this.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "relent",
+          "role": "asked",
+          "purpose": "hearing-ask",
+          "key": "favor-asked",
+          "after": "plea"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (Nov 16, hold-chair-sought lines)",
+      "date": "2026-11-16",
+      "tag": {
+        "move": "relent",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-relent.it-goes-on-the-calendar-i-ll-remember-that-i-did-this-for-you",
+      "move": "reply-relent",
+      "kind": "spoken",
+      "text": "It goes on the calendar. I'll remember that I did this for you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "relent",
+          "role": "asked",
+          "purpose": "hearing-ask",
+          "key": "favor-asked",
+          "after": "plea"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (Nov 16, hold-chair-sought lines)",
+      "date": "2026-11-16",
+      "tag": {
+        "move": "relent",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.i-m-not-dropping-this",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "I'm not dropping this.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "hearing-ask",
+          "key": "favor-asked",
+          "after": "refuse"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words lead (Nov 16, hold-chair-sought lines)",
+      "date": "2026-11-16",
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      }
     }
   ]
 }
