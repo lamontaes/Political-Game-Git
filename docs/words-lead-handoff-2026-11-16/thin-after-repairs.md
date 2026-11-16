@@ -8,14 +8,14 @@ Counts are lines, from the line register (15,373 lines in all).
 
 Read by text only, not yet seen on a played page (mined from old records; I read every one and ruled it, but nobody has pressed to it):
 
-| Bank | Lines read by text | Ruled delete | Ruled gate | Stay, unplayed |
-|---|---|---|---|---|
-| Journal | 126 | | | |
-| Newscast | 69 | | | |
-| Choice names | 62 | | | |
-| Headlines | 48 | | | |
-| News | 9 | | | |
-| All five | 314 | 37 | 32 | 245 |
+| Bank         | Lines read by text | Ruled delete | Ruled gate | Stay, unplayed |
+| ------------ | ------------------ | ------------ | ---------- | -------------- |
+| Journal      | 126                |              |            |                |
+| Newscast     | 69                 |              |            |                |
+| Choice names | 62                 |              |            |                |
+| Headlines    | 48                 |              |            |                |
+| News         | 9                  |              |            |                |
+| All five     | 314                | 37           | 32         | 245            |
 
 I did not split the delete, gate and stay counts by bank; the list by line is in `line-register-delete-list.md`, section I.
 
