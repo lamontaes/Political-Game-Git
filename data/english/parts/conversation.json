@@ -8554,66 +8554,6 @@
       "date": "2026-11-14"
     },
     {
-      "key": "conversation.charge-reply-back-core.nobody-s-told-me-what-comes-next",
-      "move": "charge-reply-back-core",
-      "kind": "spoken",
-      "text": "Nobody's told me what comes next.",
-      "uses": [
-        {
-          "move": "charge-reply-back-core",
-          "subject": "charge-reply-back",
-          "role": "core",
-          "stages": ["ask"],
-          "excludesFacts": [
-            "plea",
-            "told-plea",
-            "trial",
-            "told-trial",
-            "bailPosted"
-          ]
-        }
-      ],
-      "piece": {
-        "of": "charge-reply-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words lead (leftovers deletion, Nov 16)",
-      "date": "2026-11-16"
-    },
-    {
-      "key": "conversation.charge-reply-back-core.no-court-date-yet-that-s-all-i-know",
-      "move": "charge-reply-back-core",
-      "kind": "spoken",
-      "text": "No court date yet. That's all I know.",
-      "uses": [
-        {
-          "move": "charge-reply-back-core",
-          "subject": "charge-reply-back",
-          "role": "core",
-          "stages": ["ask"],
-          "excludesFacts": [
-            "plea",
-            "told-plea",
-            "trial",
-            "told-trial",
-            "bailPosted"
-          ]
-        }
-      ],
-      "piece": {
-        "of": "charge-reply-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words lead (leftovers deletion, Nov 16)",
-      "date": "2026-11-16"
-    },
-    {
       "key": "conversation.charge-reply-back-core.out-on-bail",
       "move": "charge-reply-back-core",
       "kind": "spoken",
