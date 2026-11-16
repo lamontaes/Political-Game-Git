@@ -71,7 +71,6 @@ import {
 import type { FinanceContractInput } from "../finance-types";
 import COUNTED_ROWS from "../data/counted/parameters.json" with { type: "json" };
 import { incomeBandOf } from "../counted-income-fifth";
-import { assistanceIncomeOf } from "../law-reach/group-b-money";
 import { parameter } from "../parameters";
 
 export { incomeBandOf };
@@ -382,10 +381,16 @@ function householdKeys(
   return out;
 }
 
-/** What the welfare line pays a counted household a year (the Census counts public assistance in income). */
+/** Reads what the welfare line pays one household a year; law reach sets it when it registers (the Census counts public assistance in income). */
+type AssistanceReader = (core: CoreState, householdId: string) => number;
+let assistanceReader: AssistanceReader | undefined;
+export function setAssistanceReader(reader: AssistanceReader): void {
+  assistanceReader = reader;
+}
+
 function assistanceYear(rt: ResidentsRuntime, householdId: string): number {
   const core = coreOfRuntime.get(rt);
-  return core ? assistanceIncomeOf(core, householdId) : 0;
+  return core && assistanceReader ? assistanceReader(core, householdId) : 0;
 }
 
 /** A counted household's yearly income: recorded pay, retirement awards, its unplaced workers' pay and the welfare line's cash assistance. */
