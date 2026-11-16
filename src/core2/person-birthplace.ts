@@ -172,6 +172,27 @@ export function birthOrigin(input: {
   }
 }
 
+/**
+ * The share of a town's grown residents born in their own state, by the same
+ * shares and citizenship `birthOrigin` draws from: what being born outside
+ * the state leaves of the residents who could have grown up nearby
+ * (opening-kin.ts reads it so that a birth outside is not counted twice
+ * against growing up in the county).
+ */
+export function bornInStateShare(input: {
+  readonly seed: string;
+  readonly placeKey: string | undefined;
+  readonly usps: string;
+}): number {
+  const citizenShare = citizenShareOf(input.placeKey, input.usps, input.seed);
+  const [here, other, rico, islands, toCitizens, foreign] = sharesOf(
+    input.usps,
+  ) as [number, number, number, number, number, number];
+  const naturalized = Math.max(0, foreign - (1 - citizenShare));
+  const total = here + other + rico + islands + toCitizens + naturalized;
+  return total > 0 ? (citizenShare * here) / total : 0;
+}
+
 /** The place id a birth outside the person's state is kept under: the state's own record, or abroad. */
 export function bornOutsideId(origin: BirthOrigin): string | undefined {
   if (origin.where === "here") return undefined;

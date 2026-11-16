@@ -26,11 +26,8 @@ import type { LawRowInput } from "./laws-starting";
 import { advanceCore } from "./life";
 import { LAWS_MODULE_ID, lawChain } from "./modules/laws";
 import { LEGISLATURE_MODULE_ID, type BillRow } from "./modules/legislature";
-import {
-  answerIn,
-  legislativeSessionsOf,
-  windowsIn,
-} from "./modules/world-legislating";
+import { legislativeSessionsOf, windowsIn } from "./modules/world-legislating";
+import { answerIn } from "./modules/laws";
 import { coreAPI } from "./state";
 import { auditPassed, laterOf, oppositePairs } from "./session-law-audit";
 

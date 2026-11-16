@@ -7,7 +7,7 @@
  */
 import type { CoreAPI, CoreState } from "./types";
 import { residentsRuntime } from "./modules/residents";
-import { BUSINESS_MODULE_ID } from "./modules/business";
+import { BUSINESS_MODULE_ID } from "./business-module-id";
 import {
   EMPLOYER_TAXES_MODULE_ID,
   employerArrears,

@@ -9,7 +9,6 @@ import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
 import { composeScene } from "./scene";
-import { SITUATION_LIBRARY } from "./scheduling";
 
 // A relative far away marries or splits and the player hears of it (owner,
 // Nov 1: "EVERY. LIFE. IS. SIMULATED."; the Nov 8 lives rulings): the
@@ -67,15 +66,8 @@ describe("a relative's marriage or split is news at home", () => {
         adult(row.birthDate),
     )!;
     for (const together of [true, false]) {
-      // The same scene with the same people is not staged again inside the repeat window.
-      if (!together)
-        advanceCore(
-          core,
-          addDays(
-            makeIsoDate(core.date),
-            SITUATION_LIBRARY.scheduling.repeatDays + 1,
-          ),
-        );
+      // The same scene with the same people about the same record is not staged again; a day on, the next union is a new record.
+      if (!together) advanceCore(core, addDays(makeIsoDate(core.date), 1));
       api.setPartnersV1({
         personIds: [relative!.id, partner.id],
         together,
