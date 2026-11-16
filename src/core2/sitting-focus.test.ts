@@ -92,4 +92,4 @@ it("colleagues the player sat with lately choose daily", () => {
     if (shown.daysSinceTogether! <= shown.daysAllowed)
       expect(["focus-person", "player-circle"], id).toContain(shown.because);
   }
-}, 120_000);
+}, 65_000);
