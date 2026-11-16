@@ -108,6 +108,7 @@ import {
   countedJobsOf,
   endCountedJob,
   rerateCountedJobs,
+  wasLargestEmployer,
 } from "../residents-economy";
 import type {
   ActOffer,
@@ -1865,6 +1866,14 @@ function reviewEmployers(api: CoreAPI): void {
           jobChangeIds: JSON.stringify(jobChangeIds),
           jobsLost: String(jobChangeIds.length),
           headsLost: String(headsLost),
+          // Whether it was the place's largest employer before the cut, by the jobs records.
+          ...(wasLargestEmployer(
+            c,
+            row.id,
+            headsLost + staffHeads(c, currentJobs(api, row.id)),
+          )
+            ? { largestEmployer: "true" }
+            : {}),
           projectedStaff: String(projected),
           targetStaff: String(target),
           // The staff the business has after the cut, from its own jobs: what a story says still work there.

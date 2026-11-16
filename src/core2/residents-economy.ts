@@ -12,6 +12,7 @@ import {
 } from "./modules/residents";
 import type { ResidentFlowInput } from "./residents";
 import type { CoreState, JobInput, WorkCommitmentInput } from "./types";
+import type { EntityId } from "./kernel/brands";
 import { registerWorldMapPart } from "./snapshot";
 import { stopgap } from "./stopgaps";
 
@@ -223,6 +224,32 @@ export function countedHeadcountOf(
   for (const job of countedJobsOf(core, organizationId))
     heads += countedJobHeads(core, job);
   return heads;
+}
+
+/**
+ * Whether an employer was its place's largest, by the jobs records: its staff
+ * in heads before a closing or a cut is at least what every other open
+ * business in the place employs. A recorded yes or no, with no cutoff number
+ * (Words lead, Nov 16).
+ */
+export function wasLargestEmployer(
+  core: CoreState,
+  organizationId: string,
+  headsBefore: number,
+): boolean {
+  if (!(headsBefore > 0)) return false;
+  const placeId = core.organizations.get(organizationId as EntityId)?.placeId;
+  if (!placeId) return false;
+  for (const [otherId, book] of core.finance.businesses) {
+    if (otherId === organizationId || book.closedAt) continue;
+    const other = core.organizations.get(otherId as EntityId);
+    if (other?.placeId !== placeId || other.outsideFlow) continue;
+    let staff = countedHeadcountOf(core, otherId);
+    for (const jobId of core.finance.jobsByOrganization.get(otherId) ?? [])
+      if (core.jobs.get(jobId)?.endsAt === undefined) staff += 1;
+    if (staff > headsBefore) return false;
+  }
+  return true;
 }
 
 /**

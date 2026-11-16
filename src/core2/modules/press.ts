@@ -161,6 +161,7 @@ import { newsKey, storiesHeard, type Story } from "./news";
 import { registerCountedNewsSource } from "./news-listeners";
 import { worldLevel } from "../world-draw";
 
+export { SIZED_KINDS } from "../press-desk";
 export const PRESS_MODULE_ID = "core2-press-v1";
 /** The change a speech against an outlet asks of its hearers. */
 export const DISTRUST = "distrust";
@@ -4304,6 +4305,19 @@ function pressWeek(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   if (work.kind !== "press-week") return;
   scheduleWeek(api, api.state.date);
   refreshPressStaff(api);
+  // The weighings dev mode keeps run only as long as the wire keeps the item
+  // (a record about the desk's choice is read while its item is fresh).
+  if (bookkeeping()) {
+    const keep = addDays(
+      makeIsoDate(api.state.date),
+      -2 * api.parameter("storyFreshDays"),
+    );
+    for (const row of table(api, "weighings").rows() as unknown as {
+      id: string;
+      date: string;
+    }[])
+      if (row.date < keep) table(api, "weighings").remove(row.id);
+  }
   // Revenue: each month's yearly rate.
   reviewOutletRevenue(
     api,

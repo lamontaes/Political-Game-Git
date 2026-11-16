@@ -21,7 +21,6 @@ import {
 } from "../core2/modules/elections";
 import { HOUSING_MODULE_ID } from "../core2/modules/housing";
 import { BUSINESS_MODULE_ID } from "../core2/modules/business";
-import { countedHeadcountOf } from "../core2/residents-economy";
 import {
   LAWS_MODULE_ID,
   lawChain,
@@ -2640,42 +2639,11 @@ const officeAct: Builder = (read, f) => {
   );
 };
 
-/**
- * Whether the business was the place's largest employer by the jobs records:
- * its staff before the closing or the cut, in heads, is at least what every
- * other open business in the place employs. A recorded yes or no, with no
- * cutoff number (Words lead, Nov 16).
- */
-function largestEmployer(read: Reader, id: string, heads: number): boolean {
-  if (!(heads > 0)) return false;
-  const core = read.core;
-  const placeId = core.organizations.get(id as EntityId)?.placeId;
-  if (!placeId) return false;
-  for (const [otherId, book] of core.finance.businesses) {
-    if (otherId === id || book.closedAt) continue;
-    const other = core.organizations.get(otherId as EntityId);
-    if (other?.placeId !== placeId || other.outsideFlow) continue;
-    let staff = countedHeadcountOf(core, otherId);
-    for (const jobId of core.finance.jobsByOrganization.get(otherId) ?? [])
-      if (core.jobs.get(jobId)?.endsAt === undefined) staff += 1;
-    if (staff > heads) return false;
-  }
-  return true;
-}
-
 /** The place and the one yes-or-no fact of a closing's or layoff's size: the business was the place's largest employer. */
-function sizeFacts(
-  read: Reader,
-  kind: StoryKind,
-  id: string,
-  jobs: number | undefined,
-  f: Record<string, string>,
-): Facts {
-  const before =
-    (jobs ?? 0) + (kind === "staff-cut" ? (num(f.staffAfter) ?? 0) : 0);
+function sizeFacts(read: Reader, f: Record<string, string>): Facts {
   const where = read.place();
   const out: Facts = where ? { place: read.fact(where) } : {};
-  if (where && largestEmployer(read, id, before)) out.largest = read.yes();
+  if (where && f.largestEmployer === "true") out.largest = read.yes();
   return out;
 }
 
@@ -2699,7 +2667,7 @@ const business =
         ...(jobs ? { number: read.fact(count(jobs)) } : {}),
         year: read.fact(read.story.date.slice(0, 4)),
         ...(kind === "closing" || kind === "staff-cut"
-          ? sizeFacts(read, kind, id, jobs, f)
+          ? sizeFacts(read, f)
           : {}),
         ...businessExtras(read, kind, id, f),
       },

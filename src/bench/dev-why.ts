@@ -23,8 +23,7 @@ import { parameter } from "../core2/parameters";
 import { isExplicitlyControlledPersonV1 } from "../core2/player-control-state-v1";
 import { LAWS_MODULE_ID } from "../core2/modules/laws";
 import { BUSINESS_MODULE_ID } from "../core2/business-module-id";
-import { PRESS_MODULE_ID } from "../core2/modules/press";
-import { SIZED_KINDS } from "../core2/press-desk";
+import { PRESS_MODULE_ID, SIZED_KINDS } from "../core2/modules/press";
 import { BUDGETS_MODULE_ID } from "../core2/modules/budgets";
 import { LEGISLATURE_MODULE_ID } from "../core2/modules/legislature";
 import {
