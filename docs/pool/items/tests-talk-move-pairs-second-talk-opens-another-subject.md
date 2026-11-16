@@ -8,7 +8,7 @@ size: S
 status: in-pr
 standard: 2
 claimed-by: claude/project-thread-5efbu8-movepairs
-pr:
+pr: 9602
 after:
 blocked-on:
 lead: words
