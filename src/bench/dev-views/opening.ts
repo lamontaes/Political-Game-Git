@@ -26,7 +26,6 @@ import { worldOffsetUnit } from "../../core2/world-draw";
 import { pastElections, townSeats } from "../../core2/modules/offices";
 import {
   latestApproval,
-  opinionParameter,
   presidentElection,
 } from "../../core2/modules/national-opinion";
 import { healthReport } from "../../core2/modules/health";
@@ -195,7 +194,7 @@ function townView(core: CoreState, placeId: string): OpeningRow[] {
       "town.presidentApproval",
       "President's approval on day one",
       election
-        ? `${shown(election.share * opinionParameter("percentPerShare"))}% (their share in the ${election.date} election; months of the term before day one: 0; now ${approvalNow(latestApproval(api)?.pct)})`
+        ? `${shown(election.share * api.parameter("macroHundred"))}% (their share in the ${election.date} election; months of the term before day one: 0; now ${approvalNow(latestApproval(api)?.pct)})`
         : "none (no record of the race that seated the president)",
       election ? { recordId: election.termId } : {},
     ),

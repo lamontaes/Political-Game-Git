@@ -16,7 +16,6 @@ import {
   type ApprovalRow,
   NATIONAL_OPINION_MODULE_ID,
   latestApproval,
-  opinionParameter,
   presidentElection,
 } from "./national-opinion";
 
@@ -50,7 +49,7 @@ it(`opens the president's approval at their recorded 2024 share (${PLACE.name})`
   const first = latestApproval(api);
   expect(first?.id, where).toBe("approval:2025-01");
   expect(first!.basePct, where).toBeCloseTo(
-    election!.share * opinionParameter("percentPerShare"),
+    election!.share * api.parameter("macroHundred"),
     9,
   );
   expect(first!.economyPull, where).toBeCloseTo(0, 12);

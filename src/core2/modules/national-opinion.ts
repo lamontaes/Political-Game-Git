@@ -201,7 +201,7 @@ function monthlyRun(api: CoreAPI): void {
     return;
   }
   const lastBase =
-    previous?.basePct ?? election!.share * opinionParameter("percentPerShare");
+    previous?.basePct ?? election!.share * api.parameter("macroHundred");
   const basePct = lastBase + economyPull;
   if (election) sources.unshift(election.termId);
   let pushPct = 0;

@@ -17,7 +17,6 @@ import { coreAPI } from "../core2/state";
 import {
   type ApprovalRow,
   NATIONAL_OPINION_MODULE_ID,
-  opinionParameter,
   presidentElection,
 } from "../core2/modules/national-opinion";
 
@@ -84,7 +83,7 @@ it("shows how the town, the player, their household, a business and an office op
   expect(approval?.made, where).toBe(SOURCES.kinds.decision);
   expect(approval?.recordId, where).toBe(election!.termId);
   expect(approval?.drawKey, where).toBeUndefined();
-  const opened = election!.share * opinionParameter("percentPerShare");
+  const opened = election!.share * api.parameter("macroHundred");
   expect(Number.parseFloat(approval?.value ?? ""), where).toBeCloseTo(
     opened,
     2,
