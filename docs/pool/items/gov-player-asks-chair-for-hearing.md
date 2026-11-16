@@ -5,10 +5,10 @@ area: gov
 kind: feature
 priority: 2
 size: M
-status: open
+status: in-pr
 standard: 2
 claimed-by:
-pr:
+pr: 9630
 blocked-on: gov-favor-owed-only-when-it-carried
 source: "the Account lead, Nov 15: a held player bill got no scene and nothing to press; the chair's reasons sat on the committee record read by nothing"
 claimed-at:
