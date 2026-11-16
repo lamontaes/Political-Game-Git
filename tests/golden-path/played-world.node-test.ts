@@ -547,13 +547,30 @@ function playWorld(seed: string) {
   // src/bench/world.ts quotes him: "Just do 18 and up right now. Life before
   // 18 will come after early access."). Before that ruling this check was
   // that the player turned 18 in play.
+  // The player then ages with the clock: on the run's last anniversary of
+  // the opening, the birth record read at the end gives the opening age plus
+  // the years played (a birth date rewritten in play, or a clock that did
+  // not reach the anniversary, fails it).
   const ageAtStart = ageOnDate(playerBirth, makeIsoDate(start));
+  const anniversary = makeIsoDate(
+    `${Number(start.slice(0, 4)) + years}${start.slice(4, 10)}`,
+  );
+  const birthAtEnd = core.people.get(playerId)?.birthDate;
+  const ageAtEnd = birthAtEnd
+    ? ageOnDate(makeIsoDate(birthAtEnd), anniversary)
+    : undefined;
   verdicts["player starts as an adult"] =
-    ageAtStart >= PLAYER_MIN_AGE
-      ? pass(`the player is ${ageAtStart} at the opening`)
-      : fail(
+    ageAtStart < PLAYER_MIN_AGE
+      ? fail(
           `The player character was ${ageAtStart} at the opening; a new game's player is ${PLAYER_MIN_AGE} or older (src/bench/world.ts, entrantOf).`,
-        );
+        )
+      : core.date >= anniversary && ageAtEnd === ageAtStart + years
+        ? pass(
+            `the player is ${ageAtStart} at the opening and ${ageAtEnd} on ${anniversary}, ${years} year(s) later`,
+          )
+        : fail(
+            `The player was ${ageAtStart} at the opening (${start}) and ${ageAtEnd ?? "missing"} by their birth record on ${anniversary}, ${years} year(s) later, with the clock at ${core.date}; they should be ${ageAtStart + years} (src/core2/life.ts, advanceCore; the person's birthDate).`,
+          );
 
   // School: school-age people go to school.
   const schoolActs = [...schoolAgeIds].filter((id) =>
