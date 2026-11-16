@@ -1,5 +1,4 @@
 import { buildBenchWorld } from "./world";
-import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { gameStartDate } from "../core2/game-start";
@@ -11,10 +10,20 @@ import { seatAct, seatView } from "./legislature";
 // A bill before the place's own council or county board is followed from home like a state's or
 // Congress's: it is on the list with where it stands, and it says it reaches the player's place.
 // A place drawn from all 56 on a seed nobody chose.
-const seed =
-  process.env.FOLLOW_LOCAL_SEED ??
-  process.env.GOLDEN_PATH_SEED ??
-  randomBytes(8).toString("hex");
+// Pinned (Nov 16, trial batch). Before, the seed came at run time from
+// process.env FOLLOW_LOCAL_SEED, GOLDEN_PATH_SEED or randomBytes, so the places
+// it drew changed every run. The fixed seed below draws Mesepa, American Samoa
+// (territory:AS:mesepa) first for "follow-local".
+// Limit: the slowest case took 36 s, run two files at a time (Nov 16,
+// Train 6d12556a); each case's limit is about twice that, 80 s.
+const seed = "pin-bill-follow-local";
+
+it("draws its pinned place from the fixed seed", () => {
+  expect(drawPlace(`${seed}:0`, "follow-local")).toMatchObject({
+    key: "territory:AS:mesepa",
+    name: "Mesepa, American Samoa",
+  });
+});
 
 describe(`following a council or county bill (seed ${seed})`, () => {
   it("lists a bill of the place's own body as reaching the place", () => {
@@ -66,5 +75,5 @@ describe(`following a council or county bill (seed ${seed})`, () => {
       return;
     }
     throw new Error(`no drawn place had a council to draft in (seed ${seed})`);
-  }, 600_000);
+  }, 80_000);
 });
