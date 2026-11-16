@@ -5,10 +5,10 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: lying thread
+pr: 9574
 after:
 blocked-on:
 lead: people
@@ -32,6 +32,8 @@ source: Found by the lying thread, Nov 15 2026, tracing people-free-company-goes
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/calendar.ts, src/core2/decision-detail.ts, src/core2/state.ts
+**Files.** src/core2/observer-cadence.test.ts, src/core2/calendar.test.ts, src/core2/calendar.ts, src/core2/decision-detail.ts, src/core2/state.ts
 
 Nov 15 (lying thread): the first report above counted from `latestChange`, which a tie keeps only when it touches the player's circle (state.ts `retainRelationshipEvidence`), so "11 of 11 to 63001515" was the circle's share. Counted from every change notice, 8ccd5ae0 with the observer off visits every other day, turn about among 63001515, 63001615, 00541b92, 027fc7c7 and three others (29 visits to 7 people); with it on, 027fc7c7 on 27 of 27. Counted by the lying thread's scripts (project files, lying, company), head ee4c3740.
+
+Nov 15 (lying thread): route (1) built on branch claude/project-thread-csmftn-observer, stacked on #9571. The pinned test pins the same people acting with the observer on and off; route (2) stays open on this item. Note: the 26 senators who choose nothing are seen only on the rooms world (#9557); on the Train at 29ef4685, 28 of 31 senators act in Feb 1 to 7 (why the rooms change stops them is not yet traced).

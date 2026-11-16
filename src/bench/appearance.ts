@@ -1,3 +1,4 @@
+import { recordDraw } from "../core2/kernel/draw-recorder";
 import type { PersonFace } from "./scene";
 import {
   bustChoices,
@@ -283,6 +284,7 @@ function settled(recipe: Partial<LookRecipe> & { person: string }): LookRecipe {
 }
 
 export function hash(text: string): number {
+  recordDraw("look hash");
   let h = 2166136261;
   for (const ch of text) h = Math.imul(h ^ ch.charCodeAt(0), 16777619) >>> 0;
   return h;

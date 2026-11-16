@@ -5,7 +5,7 @@ area: laws
 kind: wiring
 priority: 1
 size: S
-status: in-pr
+status: merged
 standard: 2
 claimed-by: claude/pool-laws-adopted-income-tax-learning
 pr: #8321
@@ -18,6 +18,7 @@ root: rc8-law-judged-by-paperwork
 source: added with npm run pool -- add
 claimed-at: 2026-11-10T23:17:41.157Z
 checked: fable 2026-11-10
+merged-at: 2026-11-16T01:00:17.578Z
 ---
 
 **What.** A naturally voted income tax in Meadow Lakes changes named workers' cash, but payroll withholding only writes payment and applied records. The existing monetary-law learning reader handles price rules and does not receive this tax payment. Connect the successful withholding to that same reader, preserving the actual tax posting and the law that caused it; attribution must require a story the payer actually heard. Exact example: Ryan Carr paid 2284 cents of HB 2 state tax in journal:2025-05-20:39812, and the same treasury paid Donna Summers in journal:2025-05-22:39986.

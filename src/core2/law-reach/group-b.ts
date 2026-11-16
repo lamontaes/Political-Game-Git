@@ -80,11 +80,13 @@ import {
   payEnergyAssistance,
   payVouchers,
   recordApplied,
+  assistanceIncomeOf,
   residentsOf,
   scalePayroll,
   serviceLevel,
   source,
 } from "./group-b-money";
+import { setAssistanceReader } from "../modules/residents";
 import { equalizeSchoolFunding } from "./group-b-school-aid";
 import { runFoodAid } from "./group-b-food-aid";
 import { lawNoLongerApplies } from "./applied";
@@ -1169,6 +1171,7 @@ export function registerGroupB(): void {
   if (registered) return;
   registered = true;
   setReachReview(review);
+  setAssistanceReader(assistanceIncomeOf);
   registerMonthlyProgram(runBenefitPrograms);
   registerTreasuryRule(reviewFiscalRules);
   for (const key of TREASURY_RULE_KEYS)

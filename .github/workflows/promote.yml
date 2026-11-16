@@ -1,0 +1,84 @@
+name: Promote
+
+# Copies a passing commit of the work branch to main as ONE plain commit with
+# every test file taken out (owner, Nov 15, 2026: "Two branches. All work and all
+# tests go to a work branch, where every check runs. Main gets only the game:
+# each time the work branch passes, its files are copied to main with every test
+# file stripped. Builds come from main."). Read docs/coordination/TWO-BRANCHES.md.
+#
+# MANUAL ONLY. It is not wired to any push or schedule yet; the cutover plan
+# (section e of that page) says when to chain it. It does nothing until someone
+# runs it: Actions > "Promote" > Run workflow, or
+# `gh workflow run promote.yml -f work_branch=dev -f push=true`.
+# The default is a dry run (push false): it builds the commit, prints the counts
+# and pushes nothing.
+#
+# The script (scripts/promote/promote.mjs) refuses unless the commit descends
+# from the last promoted one, never forces, never rewrites history, and pushes
+# a fast-forward only. The push uses the same token the release workflow uses to
+# push the version commit past branch protection (RELEASE_PUSH_TOKEN); without
+# it the push is refused and nothing changes.
+
+on:
+  workflow_dispatch:
+    inputs:
+      work_branch:
+        description: The work branch to promote (its newest commit)
+        required: true
+        default: dev
+      push:
+        description: Push the promote commit to main (false is a dry run)
+        type: boolean
+        required: true
+        default: false
+
+permissions:
+  contents: write
+
+# One promote at a time, and a running one is never canceled.
+concurrency:
+  group: promote
+  cancel-in-progress: false
+
+jobs:
+  promote:
+    name: Promote the work branch to main
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.work_branch }}
+          # The ancestor check and main's promote messages need history; file
+          # contents are checked out, so the test rule can read them.
+          fetch-depth: 0
+          filter: blob:none
+          # The release workflow's push token: branch protection refuses the
+          # workflow token on main.
+          token: ${{ secrets.RELEASE_PUSH_TOKEN || github.token }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.13.0
+      - name: Promote
+        env:
+          WORK_BRANCH: ${{ inputs.work_branch }}
+          PUSH: ${{ inputs.push }}
+          GIT_AUTHOR_NAME: github-actions[bot]
+          GIT_AUTHOR_EMAIL: 41898282+github-actions[bot]@users.noreply.github.com
+          GIT_COMMITTER_NAME: github-actions[bot]
+          GIT_COMMITTER_EMAIL: 41898282+github-actions[bot]@users.noreply.github.com
+        shell: bash
+        run: |
+          set -euo pipefail
+          [[ "$WORK_BRANCH" =~ ^[A-Za-z0-9._/-]+$ ]]
+          [[ "$WORK_BRANCH" != "main" ]]
+          args=(--work HEAD)
+          if [[ "$PUSH" == "true" ]]; then args+=(--push); fi
+          node scripts/promote/promote.mjs "${args[@]}" | tee "$RUNNER_TEMP/promote.txt"
+          {
+            echo '### Promote'
+            echo
+            echo '```'
+            cat "$RUNNER_TEMP/promote.txt"
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"

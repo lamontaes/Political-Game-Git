@@ -307,6 +307,9 @@
     "donorsGive": "Donors give",
     "raised": "Raised",
     "noneGave": "No one gave",
+    "petitionBehind": "Petition falls behind",
+    "petitionTold": "Told it is short",
+    "petitionNotTold": "Not told before the deadline",
     "saysYes": "Says yes to volunteering",
     "saysNo": "Says no to volunteering",
     "nobody": "No one to ask"
@@ -1503,6 +1506,18 @@
       "governmentOwn": "Committed on the government's own record, not paid",
       "none": "No record names this law yet"
     },
+    "ended": {
+      "repealed": "Ended by this bill",
+      "replaced": "Took over from",
+      "endsOn": "Ends {date}",
+      "endedOn": "Ended {date}",
+      "replacedOn": "Replaced {date}",
+      "runToEnd": "Run until it ends",
+      "whileInForce": "Who it reached while in force",
+      "noLongerReached": "No longer reached",
+      "since": "last ended {date}",
+      "noneEnded": "None of its reach has ended yet"
+    },
     "endings": {
       "pending": "Not decided yet",
       "law": "Became law",
@@ -1549,5 +1564,18 @@
     "trace": "Trace",
     "why": "Why",
     "came": "What came of it"
+  },
+  "devReplyWhy": {
+    "title": "Why these lines",
+    "cause": "Started by",
+    "facts": "What the scene knows",
+    "said": "Said just now",
+    "replies": "Your replies",
+    "needs": "Needs",
+    "rulesOut": "Would be ruled out by",
+    "after": "Follows",
+    "ties": "Also fit",
+    "nothing": "nothing",
+    "unplaced": "No use recorded"
   }
 }

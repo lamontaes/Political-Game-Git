@@ -91,6 +91,7 @@ export interface DirectorData {
     citation: string;
     notMet: string;
     silent: string;
+    nothingSaid: string;
   };
   /**
    * When each kind of setting can hold a scene, in minutes after midnight; a
