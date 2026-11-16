@@ -57,21 +57,36 @@ describe("the paper weighs a closing and a layoff by the town's jobs", () => {
   }, 300_000);
 
   it("weighs each of Center's three layoff months by its share", () => {
-    const { where, stories, weighings } = played("3813180", "2025-06-15", true);
-    const layoffs = weighings.filter(
-      (w) => w.kind === "business.staff-reduced",
-    );
-    const months = new Set(layoffs.map((w) => w.wireId.slice(-10, -3)));
+    setBookkeeping(true);
+    const world = buildBenchWorld("ind-3813180", gameStartDate(), {
+      twoLevel: true,
+      placeKey: "3813180",
+    });
+    const where = `${world.place.displayName} (seed ind-3813180)`;
+    const press = coreAPI(world.core).moduleState(PRESS_MODULE_ID);
+    // Dev mode keeps a weighing only while its item is fresh, so each month
+    // is read the week it is weighed.
+    const months = new Map<string, number>();
+    for (const until of ["2025-03-20", "2025-04-20", "2025-05-20"]) {
+      advanceCore(world.core, until as never);
+      for (const w of press
+        .table("weighings")
+        .rows() as unknown as DeskWeighing[])
+        if (w.kind === "business.staff-reduced")
+          months.set(
+            w.wireId.slice(-10, -3),
+            Math.max(w.reached, months.get(w.wireId.slice(-10, -3)) ?? 0),
+          );
+    }
     process.stdout.write(
-      `WEIGHED ${where}: layoff months ${[...months].sort().join(", ")}\n`,
+      `WEIGHED ${where}: layoff months ${[...months].map(([m, r]) => `${m} reaches ${r.toFixed(1)}`).join(", ")}\n`,
     );
     for (const month of ["2025-03", "2025-04", "2025-05"])
-      expect(months.has(month), `${where}: ${month} was weighed`).toBe(true);
-    for (const w of layoffs)
       expect(
-        w.reached,
-        `${where}: ${w.wireId} reaches some followers`,
+        months.get(month) ?? 0,
+        `${where}: ${month} was weighed`,
       ).toBeGreaterThan(0);
+    const stories = press.table("stories").rows() as unknown as PrintedStory[];
     expect(
       stories.some((s) => s.kind === "business.staff-reduced"),
       `${where}: a layoff was printed`,
