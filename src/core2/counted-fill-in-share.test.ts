@@ -6,13 +6,24 @@
  * (Central Falls, Rhode Island, seed 214f3cabe3d2caa9, and the lender replay
  * seed 8d9c26a8783ad0e0770f9c78d07fca6801e0ac64, Nov 14). Pinned to three
  * named places.
+ *
+ * Old premise (before group-held savings, #9597, and the savings draw): a
+ * group's money was shared by people, so each record's share was bounded by
+ * its people's per-head share of the fund. Since then the fund is shared by
+ * savings claims (a record's people times its savings draw, over the claims
+ * of every record in the group), so a record with a high draw rightly holds
+ * more than its per-head share. Re-pinned with the Account lead's yes (Nov
+ * 16): the bound is each record's own claim, worked out here from the
+ * records (`weightedCount` and the kept `saving` draw), never from the
+ * engine's share function. Seen red with the reader's cap on the record's own
+ * people removed.
  */
 import { expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
 import { coreAPI } from "./state";
-import { fundBalance, fundGroups, peopleInGroup } from "./counted-money";
+import { fundBalance, fundGroups } from "./counted-money";
 import { householdCashReader, residentsRuntime } from "./modules/residents";
 
 const PLACES = [
@@ -65,19 +76,29 @@ for (const place of PLACES)
         store.version++;
         for (const h of records) store.touch(h);
         const fund = fundBalance(api, rt, group);
-        const people = peopleInGroup(rt, group);
         const read = householdCashReader(rt);
-        let total = 0;
-        for (const h of records) {
-          const share = read(h);
+        const shares = records.map((h) => read(h));
+        // Every record of the group, as the group's account counts them, each
+        // at its people times its kept savings draw.
+        const members = [...(store.groups[group]?.households ?? [])].map(
+          (i) => store.households[i]!,
+        );
+        const claim = (h: (typeof members)[number]) => {
           expect(
-            share,
-            `${place.name}: group ${group} record ${h.id} asks more than its people hold`,
-          ).toBeLessThanOrEqual(
-            Math.floor((fund * store.weightedCount(h)) / people),
-          );
-          total += share;
-        }
+            h.saving,
+            `${place.name}: record ${h.id} has no kept savings draw`,
+          ).toBeGreaterThan(0);
+          return store.weightedCount(h) * h.saving!;
+        };
+        const claims = members.reduce((sum, h) => sum + claim(h), 0);
+        let total = 0;
+        records.forEach((h, i) => {
+          expect(
+            shares[i],
+            `${place.name}: group ${group} record ${h.id} asks more than its own claim on the fund`,
+          ).toBeLessThanOrEqual(Math.floor((fund * claim(h)) / claims));
+          total += shares[i]!;
+        });
         expect(
           total,
           `${place.name}: group ${group} records ask more than the fund`,
@@ -86,4 +107,4 @@ for (const place of PLACES)
     } finally {
       setBookkeeping(true);
     }
-  }, 600_000);
+  }, 70_000);
