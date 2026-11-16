@@ -9,11 +9,13 @@
  * estate; Audubon Park, Kentucky, a staff hire). A household the counts move
  * out of town before it can be met again is named by its move record.
  *
- * Pinned (lead, Nov 16): four places and world seeds where the case is known
+ * Pinned (lead, Nov 16): places and world seeds where the case is known
  * to occur, found by scanning drawPlace("hdpin:<n>", "core2-health-demoted")
  * for n = 0 to 9 on train3 6e9df72b18: nine of ten showed it; Hagatna, Guam
  * (hdpin:9) was passed over because an employer hired the person back into
- * play before their illness. A place that passes over now fails, by name.
+ * play before their illness. The two fastest are pinned (lead: two prove the
+ * case and keep the cost near the pinned-tests limit). A place that passes over now
+ * fails, by name.
  * GOLDEN_PATH_SEED with GOLDEN_PATH_PLACE_KEY replays one other place instead.
  */
 import { expect, it } from "vitest";
@@ -45,20 +47,6 @@ const PINNED = [
     limit: 125_000,
     key: "3816940",
     seed: "de2ca99797ae744d654ebb148050372647033f9108f0ee6b9cdcacc42e6141ad",
-  },
-  {
-    name: "Valencia, New Mexico",
-    /** 75.5 s alone, 74.0 s beside day-zero (Nov 16); about twice the slower. */
-    limit: 150_000,
-    key: "3581800",
-    seed: "e0278a23fb654024b086ff98acf13c8a5fde2ee30918d6df9dfa3441f7242585",
-  },
-  {
-    name: "Sanbornville, New Hampshire",
-    /** 80.5 s alone, 80.5 s beside day-zero (Nov 16); about twice the slower. */
-    limit: 160_000,
-    key: "3367460",
-    seed: "e93e485120d41b1a3f029724750d246eb5ff4585402007c809e515b5d26fcfe2",
   },
 ];
 const replay =
