@@ -3637,9 +3637,13 @@ function runWeek(api: CoreAPI): void {
   // considered for every opening near them; an employer that picks them makes
   // an offer, and the player answers it.
   const player = openToOffers(api);
+  // Only where someone at the employer knows them (owner, Oct 27: an offer
+  // comes through a person; Nov 16: "I didn't even apply for one"): a person
+  // the player knows or is kin to, on that employer's staff, speaks for them.
   if (player)
     for (const position of byPlace.get(player.placeId) ?? [])
-      apply(position.id, player);
+      if (speaksForPlayer(api, position.organizationId, player.personId))
+        apply(position.id, player);
   // Counted seekers apply by the same rule as full people, each record for the household it stands for.
   const counted = store(api)
     .table("countedSeekers")
@@ -4860,6 +4864,35 @@ function hiringPerson(
 }
 
 /**
+ * The full person on an employer's staff whom the applicant knows or is kin to
+ * (closest by longest tenure, ties by id): the one who puts their name
+ * forward, so an offer always has a cause the applicant can name. Null when
+ * nobody there knows them.
+ */
+function speaksForPlayer(
+  api: CoreAPI,
+  organizationId: string,
+  applicantId: string,
+): string | null {
+  const c = core(api),
+    applicant = c.people.get(applicantId);
+  if (!applicant) return null;
+  const staff = fullJobs(api, organizationId)
+    .filter((job) => job.personId !== applicantId)
+    .filter((job) => {
+      const who = c.people.get(job.personId)!;
+      return (
+        who.alive &&
+        !isDemoted(who) &&
+        (applicant.knownIds.has(who.id) || applicant.familyIds.has(who.id))
+      );
+    })
+    .map((job) => ({ job, years: tenureYears(api, job) }))
+    .sort((a, b) => b.years - a.years || a.job.id.localeCompare(b.job.id));
+  return staff[0]?.job.personId ?? null;
+}
+
+/**
  * The person the player controls as an applicant this week: out of work, of
  * working age, at home in town, with no offer waiting on them. They decide
  * nothing by applying; an offer is the employer's act.
@@ -4966,7 +4999,9 @@ function offerToPlayer(
   const c = core(api);
   const id = `job-offer:${position.id}:${personId}`;
   if (store(api).table("offers").get(id)) return;
-  const offeredBy = hiringPerson(api, position.organizationId, personId);
+  const offeredBy =
+    speaksForPlayer(api, position.organizationId, personId) ??
+    hiringPerson(api, position.organizationId, personId);
   if (!offeredBy) return;
   const deadline = addDays(makeIsoDate(c.date), api.parameter("jobsOfferDays"));
   const row: JobOfferRow = {
