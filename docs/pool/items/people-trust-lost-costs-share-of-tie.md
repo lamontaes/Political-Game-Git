@@ -5,10 +5,10 @@ area: people
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: merged
 standard: 2
 claimed-by: claude/project-thread-csmftn-share
-pr: 9498
+pr: #9498
 after: core-strain-lost-on-shared-time-ties
 blocked-on:
 lead: people
@@ -16,6 +16,7 @@ model: opus
 effort: medium
 root: none
 source: Lying builder, Nov 15, from the recount of lies told at three places (Account lead's ruling and Words lead's yes)
+merged-at: 2026-11-15T21:50:37.192Z
 ---
 
 **What.** An ending that keeps trust lost (a lie found out, a promise broken to their face) took a fixed two hours off the tie, so a lifelong friend and a stranger lost the same time and the close tie lost almost nothing. People tell fewer everyday lies to those they are close to and are more uncomfortable telling them (DePaulo and Kashy 1998), so losing trust should cost a close tie more. Seen: in dev mode, a scene that ends in trust lost between close friends cools their tie by a quarter of its hours, and between two members who know each other only from the floor by a quarter of theirs.

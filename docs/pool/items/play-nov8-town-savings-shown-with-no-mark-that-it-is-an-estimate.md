@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: merged
 claimed-by: claude/pool-play-nov8-town-savings-shown-with-no-mark-that-it-is-an-estimate
 pr: #8598
 after:

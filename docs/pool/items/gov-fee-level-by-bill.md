@@ -5,7 +5,7 @@ area: gov
 kind: feature
 priority: 3
 size: M
-status: in-pr
+status: merged
 claimed-by: claude/project-thread-xy4wd4
 pr: #9308
 blocked-on:

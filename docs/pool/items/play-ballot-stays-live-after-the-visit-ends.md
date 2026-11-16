@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 3
 size: S
-status: in-pr
+status: merged
 standard: 2
 claimed-by: T56
 pr: 9208
