@@ -20,10 +20,17 @@
  * the test and reads the same numbers through both. The count of stale pairs
  * it also asserted (103, then 6, now 32) described the world, not the rule,
  * and is gone. Re-pinned again when officials' sittings and days at the post
- * came to fill their day (pool: office-hours-never-fill-an-officials-day):
- * the old premise was a last talk on Feb 3 (row 0.03108, tie 0.02855); the
- * pair now last talks a day later, on the floor day of Feb 4, and the tie's
- * number, which runs from their last sitting, is unchanged.
+ * came to fill their day (pool: office-hours-never-fill-an-officials-day),
+ * with the Account lead's yes: the old pins were a last talk on Feb 3 (row
+ * 0.03108, tie 0.02855); the new are Feb 4 (row 0.02985, tie 0.02855). The
+ * cause is one record moving a day: 016's free-time visit to 022
+ * (visit:2025-02-03:016:022 before, visit:2025-02-04:016:022 now). Monday
+ * Feb 3 is now a district day whose post takes 480 minutes, and the free
+ * block (free-block.ts) takes the day's unmodeled hours (`reserveHours`) and
+ * 016's 309.6-minute rest before the 115-minute visit, so the visit no longer
+ * fits; on the session day of Feb 4 the effort term ranks the short visit
+ * above the long rest, so the visit comes first. The tie's number runs from
+ * their last sitting (Feb 24) and is unchanged.
  */
 import { expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
