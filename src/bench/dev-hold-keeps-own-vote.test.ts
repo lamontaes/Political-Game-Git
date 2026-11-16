@@ -90,4 +90,4 @@ it(`dev mode's Hold the vote keeps the player's own No (${KEY}, seed ${SEED})`, 
   for (const row of roll)
     if (row.memberId !== me && !row.override) expect(row.vote).toBe("yes");
   expect(tallies[0]!.no).toBe(1);
-}, 60_000);
+}, 40_000);
