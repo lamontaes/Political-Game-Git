@@ -138,4 +138,36 @@ describe("a new game's player is 18 or older", () => {
       familyFits(core, world.playerId!, where);
     }, 60_000);
   }
+
+  // On the code before this change, the creator's age of 20 here was written onto a 21-year-old
+  // with a partner and three children (found by a probe of 120 small-place builds, 14 of them
+  // rewriting a stand-in's age). Now the player is a resident who is 20, or keeps their own age.
+  it("the chosen age is never written onto another age's life (Abanda, Alabama)", () => {
+    setBookkeeping(false);
+    const seed = "married-probe-0100100";
+    const where = `Abanda, Alabama (0100100), world seed ${seed}`;
+    const born = `${Number(start.slice(0, 4)) - 21}-${start.slice(5, 7)}-${String(Number(start.slice(8, 10)) + 1).padStart(2, "0")}`;
+    const chosenAge = ageOnDate(makeIsoDate(born), start);
+    expect(chosenAge, where).toBe(20);
+    let drawnAge: number | undefined;
+    const world = buildBenchWorld(seed, start, {
+      twoLevel: true,
+      placeKey: "0100100",
+      playerBirthDate: born,
+      chooseIdentity: (core, id) => {
+        drawnAge = ageOf(core, id);
+        applyChosenPerson(core, id, {
+          givenName: "Pat",
+          familyName: "Doe",
+          gender: "female",
+          birthYear: Number(born.slice(0, 4)),
+          birthMonth: Number(born.slice(5, 7)),
+          birthDay: Number(born.slice(8, 10)),
+        } as never);
+      },
+    });
+    expect(drawnAge, `${where}: a resident who is 20`).toBe(chosenAge);
+    expect(ageOf(world.core, world.playerId!), where).toBe(chosenAge);
+    familyFits(world.core, world.playerId!, where);
+  }, 60_000);
 });
