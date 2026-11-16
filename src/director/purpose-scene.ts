@@ -2151,15 +2151,9 @@ function composeBinding(
       text: "yes",
       sourceRecordIds: [moment.causeId],
     };
-  // A chair the sponsor does not know is introduced by their full name (rule 136).
-  if (held) {
-    const chair = core.people.get(askerId);
-    if (chair)
-      facts["full-name"] = {
-        text: `${chair.givenName} ${chair.familyName}`,
-        sourceRecordIds: [askerId],
-      };
-  }
+  // A chair whose recorded reasons have no line says the stall, then that the answer is given.
+  if (held && !held.reason)
+    facts["reason-none"] = { text: "yes", sourceRecordIds: [moment.causeId] };
   const standing = door
     ? door.standing
     : serve
@@ -2342,6 +2336,15 @@ function composeBinding(
         sourceRecordIds: [moment.causeId, serve.askId],
       };
   }
+  // The chair the sponsor goes to, by the given name a known person goes by and the full
+  // name a stranger is introduced with (rule 136).
+  if (held)
+    facts["chair-name"] = {
+      text: facts.acquainted
+        ? asker.givenName
+        : `${asker.givenName} ${asker.familyName}`,
+      sourceRecordIds: [askerId],
+    };
   if (door) {
     facts.name = {
       text: sayPerson(asker),
@@ -2917,8 +2920,11 @@ function holdStanding(
   );
   terms.sponsor = (terms.sponsor ?? P.zero) + (kept.cosponsorPull ?? P.zero);
   terms.trait = (terms.trait ?? P.zero) + kept.hearingTrait;
+  const hasLine = new Set(bargainReasons.heldReasonsSaid);
   const against = Object.entries(terms)
-    .filter(([, value]) => value < P.zero)
+    .filter(
+      ([term, value]) => value < P.zero && hasLine.has(reasonTerms[term]!),
+    )
     .sort(
       ([aTerm, aValue], [bTerm, bValue]) =>
         aValue - bValue || aTerm.localeCompare(bTerm),
@@ -2931,6 +2937,7 @@ function holdStanding(
         kept.hearingTrait +
         (kept.cosponsorPull ?? P.zero),
       favor: favorWorth(api, chairId, playerId),
+      ...(againstTerm ? {} : { noReason: true }),
     },
     ...(againstTerm ? { reason: reasonTerms[againstTerm]! } : {}),
   };

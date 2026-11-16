@@ -27,6 +27,7 @@ import { townSeats } from "../core2/modules/offices";
 import { advanceCore } from "../core2/life";
 import { advancePlayerV1, resumePlayerV1 } from "../core2/player-v1";
 import { coreAPI, fillInPerson } from "../core2/state";
+import sceneTalk from "../../data/english/parts/scene-talk.json" with { type: "json" };
 import reasonTermsFile from "./data/bargain-reasons.json" with { type: "json" };
 import { purposeScene, replyInScene } from "./purpose-scene";
 
@@ -139,7 +140,11 @@ it("a chair whose stand is against it but whom a favor carries stalls, then hear
     "It goes on the calendar. I'll remember that I did this for you.",
   ]).toContain(relent?.text);
   const press = scene.talk.tree.replies.find((r) => r.line.move === "press")!;
-  expect(press.line.text).toBe('A yes or a no. Not "later."');
+  expect([
+    "Give me a date, then.",
+    'A yes or a no. Not "later."',
+    "You can't leave it on the shelf forever.",
+  ]).toContain(press.line.text);
   const accept = scene.talk.tree.replies.find((r) => r.line.move === "accept");
   expect(accept?.line.text).toBe("Alright. I had to ask.");
   expect(billOf(api, bill.id).status).toBe("failed");
@@ -197,7 +202,10 @@ it("a chair the favor cannot carry says no, and the no gives the reason the comm
   const words = reasonTermsFile.reasonTerms as Record<string, string>;
   const strongest = Object.keys(words)
     .map((term) => [term, Number(terms[term]) || 0] as const)
-    .filter(([, value]) => value < 0)
+    .filter(
+      ([term, value]) =>
+        value < 0 && reasonTermsFile.heldReasonsSaid.includes(words[term]!),
+    )
     .sort((x, y) => x[1] - y[1] || x[0].localeCompare(y[0]))[0]!;
   expect(
     scene.facts.filter((f) => f.key.startsWith("reason-")).map((f) => f.key),
@@ -214,7 +222,6 @@ it("a chair the favor cannot carry says no, and the no gives the reason the comm
       "I have a race coming. I can't have this in my committee before it.",
     "last-vote":
       "I voted against this the last time it came up. I'm not hearing it again.",
-    temper: "I don't like being pushed on this. It stays where it is.",
   };
   expect(first.text).toBe(said[words[strongest[0]]!]);
   // Once the reason is said, a plea or a press gets a short hold and the talk ends;
@@ -236,7 +243,7 @@ it("a chair the favor cannot carry says no, and the no gives the reason the comm
       );
     }
     if (reply.line.move === "press")
-      expect(reply.line.text).not.toBe('A yes or a no. Not "later."');
+      expect(reply.line.text).toBe("I'm not dropping this.");
     if (reply.line.move === "accept")
       expect(reply.line.text).toBe("Alright. I had to ask.");
   }
@@ -299,3 +306,30 @@ it.each([
   },
   70_000,
 );
+
+it("the reasons the chair can give are exactly the ones the bank has a line for", () => {
+  const bank = (
+    sceneTalk as unknown as {
+      parts: {
+        uses: {
+          purpose?: string;
+          step?: string;
+          move?: string;
+          requiresFacts?: string[];
+        }[];
+      }[];
+    }
+  ).parts;
+  const said = new Set<string>();
+  for (const part of bank)
+    for (const use of part.uses)
+      if (
+        use.purpose === "hearing-ask" &&
+        use.step === "reply" &&
+        use.move === "refuse"
+      )
+        for (const fact of use.requiresFacts ?? [])
+          if (fact.startsWith("reason-") && fact !== "reason-none")
+            said.add(fact.slice("reason-".length));
+  expect([...said].sort()).toEqual([...reasonTermsFile.heldReasonsSaid].sort());
+});
