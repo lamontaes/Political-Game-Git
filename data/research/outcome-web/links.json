@@ -825,6 +825,28 @@
       "notes": "Unsupported until a disaster record is readable: the game has no per-place reader for a severe disaster; out-migration is kept, so this acts once one exists. Boustan, Kahn, Rhode and Yanguas report no split of the out-migration effect by income, age, tenure or household kind (its heterogeneity section splits by disaster type, severity and period). Stopgap SG-WEB-moves-disaster-severity: the disasters engine records FEMA declarations without deaths, so no per-place severe-disaster record exists; the researched size (0.05, range 0.025 to 0.1) is kept for when one does. Research gives no heterogeneity by person (county-level decade study). Oct 28 update, built: the cause is now read from the disasters engine's own records (src/core2/modules/disasters.ts severeDisasterReading), not from every declaration. Roth Tran and Wilson 2023 (FRBSF Working Paper 2020-34, p. 19-20) size the average FEMA Major Disaster declaration at no out-migration effect: \"the response of population to a disaster is small and generally statistically insignificant up to at least eight years out\", with \"modest longer-run declines in both in-migration and out-migration that roughly cancel each other out\". Only the most damaging disasters move people: \"a disaster with damages p.c. equal to the 99th percentile causes population to decline by roughly 1.5% after eight years\" (p. 25-26), the same size as this row's 1.5 points. So the cause is a severity from 0 to 1 on FEMA's inspected damaged homes per resident, 0 at the 90th percentile of the game's own FEMA town rows and 1 at the 95th (src/core2/data/disasters/severity.json), held for the ten years after the incident begins, and the researched size applies at severity 1. The size and range are unchanged. Assumed and registered as SG-WEB-disaster-severity-damage-proxy: FEMA's damaged-home figures stand for the study's deaths, and the ramp ends stand for its severe class."
     },
     {
+      "key": "unemployment-to-out-migration",
+      "status": "built",
+      "unsupportedReason": null,
+      "to": "population.out-migration",
+      "strength": "moderate",
+      "shape": {
+        "kind": "exponential"
+      },
+      "size": 0.043,
+      "per": "percentage point of the town's unemployment above the nation's, beyond the gap it opened with (log change in the leaving rate)",
+      "lagMonths": 0,
+      "group": "place",
+      "owner": "JOBS",
+      "anchor": "Net out-migration of about 0.25% of a region's people a year per point of unemployment above the nation's (Blanchard and Katz 1992), over adults' yearly county departure rate of about 5.8% (ACS 2024, data/research/migration/mover-rates-acs-2024.json): 0.25 / 5.8 = 0.043 on the log scale. A town's leaving rates are its own ACS rates, which already hold the gap it opened with, so only the gap's change since the opening counts; a change the whole nation shares counts for nothing.",
+      "source": "Blanchard and Katz 1992, Regional Evolutions, Brookings Papers on Economic Activity 1992(1):1-75; spread from Dao, Furceri and Loungani 2017, Regional Labor Market Adjustment in the United States, Review of Economics and Statistics 99(2):243-257 (the migration response is a quarter to a half of a local shock); ACS 2024 county departure rate",
+      "from": "labor.unemployment-pct",
+      "evidence": "researched",
+      "range": [0.02, 0.09],
+      "notes": "Read by named people (moves.ts) and counted households (counted-moves.ts) alike through webFactorFor. Replaces the region-against-nation factor moves.ts applied to named people alone (movesUnemploymentGapWeight, the same 0.043): the town's own rate is read now, so a closing in a town moves its leaving even when the state's rate barely moves. Foote, Grosz and Stevens 2019 (ILR Review 72(1):101-126) find a mass layoff of 1% of a county's workers shrinks its labor force by about 0.19 points, mostly through out-migration, which sits inside the spread.",
+      "baselineFrom": "nation-gap-at-opening"
+    },
+    {
       "key": "disaster-to-home-values",
       "status": "built",
       "unsupportedReason": null,

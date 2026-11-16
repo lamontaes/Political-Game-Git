@@ -98,6 +98,16 @@ describe("dev Businesses: Thief River Falls, Minnesota (seed ind-2764570)", () =
       );
       expect(came.totals["now:looking"]).toBeGreaterThan(0);
       expect(came.town.length).toBeGreaterThan(0);
+      // Each town month carries how its jobless rate moved leaving: the
+      // nation's month, the region's opening gap, and who moved out.
+      for (const month of came.town) {
+        expect(typeof month.movedOutCounted).toBe("number");
+        expect(typeof month.movedOutNamed).toBe("number");
+      }
+      expect(came.town.some((month) => month.nationId !== null)).toBe(true);
+      expect(
+        came.town.every((month) => month.regionOpeningGapPct !== null),
+      ).toBe(true);
       expect(() => closeBusiness(dev, plant.organizationId)).toThrow(
         "It is already closed.",
       );

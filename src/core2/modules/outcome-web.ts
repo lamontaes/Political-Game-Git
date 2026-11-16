@@ -27,6 +27,7 @@ import {
   keptOutcome,
   LAW_PREFIX,
   linkEffect,
+  nationGapBaseline,
   OUTCOME_WEB_MODULE_ID,
   moderatorScale,
   scaleOf,
@@ -40,6 +41,7 @@ import {
 import type { ModuleRow } from "../module-data";
 import type { CoreAPI, CoreEventInput, CoreModule, CoreState } from "../types";
 import { townMetrics, WORLD_METRICS_MODULE_ID } from "./world-metrics";
+import { regionalLevel, regionalRegistered } from "./regional";
 import { schoolMeasure } from "../school-measures";
 import { propertyTaxRateInForce } from "../housing-property-tax";
 import { schoolsLineAboveBase } from "../school-budget-line";
@@ -103,7 +105,7 @@ const SCHOOL_MEASURED = new Set([
 
 export { OUTCOME_WEB_MODULE_ID, WEB_LINKS };
 /** The factor an engine in another family multiplies its own rate by (medical-bills.ts). */
-export { webReach, type WebReach } from "../outcome-web-reach";
+export { webReach, webReachInMonth, type WebReach } from "../outcome-web-reach";
 // The trace of laws the web carries into business prices, for the price engine.
 export {
   traceWebPriceLaws,
@@ -332,6 +334,50 @@ const BASELINE_READERS: Readonly<
   },
 };
 
+/**
+ * A link's own baseline (WebLink.baselineFrom), read for the month the cause
+ * is read in. "nation-gap-at-opening": the nation's unemployment that month
+ * (the country tier's kept month, or the nearest earlier one) plus the gap the
+ * place's region opened with in the real figures (the regional engine's
+ * openingGapPct, LAUS against the nation). The place's own first months are
+ * not read for the gap: the jobs engine's opening stock drifts toward its
+ * flows in them (pool item jobs-opening-jobless-stock-drains-toward-flows),
+ * and the place's ACS leaving rates hold its real gap, not that drift. Without
+ * the country tier or the regional engine there is nothing to read against,
+ * and the link does not run.
+ */
+const LINK_BASELINES: Readonly<
+  Record<
+    NonNullable<WebLink["baselineFrom"]>,
+    (r: Reading, link: WebLink, index: number) => number | undefined
+  >
+> = {
+  "nation-gap-at-opening": (r, _link, index) => {
+    if (!r.api.state.modules.has(MACRO_MODULE) || !regionalRegistered(r.api))
+      return undefined;
+    const nationNow = nationUnemploymentAt(r.api, index);
+    const region = regionalLevel(r.api, r.placeId);
+    if (nationNow === undefined || !region) return undefined;
+    return nationGapBaseline(nationNow, region.openingGapPct);
+  },
+};
+
+/** The module whose kept months hold the nation's unemployment rate. */
+const MACRO_MODULE = "macro";
+/** How many months back the nation's latest kept month may sit. */
+const NATION_MONTHS_BACK = 12;
+
+/** The nation's unemployment rate in month `index`, or the nearest earlier month the country tier kept. */
+function nationUnemploymentAt(api: CoreAPI, index: number): number | undefined {
+  const months = api.moduleState(MACRO_MODULE).table("months");
+  for (let at = index; at > index - NATION_MONTHS_BACK; at -= 1) {
+    const row = months.get(`macro-month:${monthKey(at)}`) as
+      { unemploymentPct: number } | undefined;
+    if (row) return row.unemploymentPct;
+  }
+  return undefined;
+}
+
 /** The laws module's chain is the town's: other places keep their own laws. */
 function readsTownLaw(api: CoreAPI, placeId: string): boolean {
   return (
@@ -533,7 +579,9 @@ function effectOf(r: Reading, link: WebLink): number | null {
   const chained = keptOutcome(derivedOf(link.from)?.measure ?? link.from);
   const index = r.index - Math.max(link.lagMonths, chained ? 1 : 0);
   const value = phasedCause(r, link, index);
-  const baseline = baselineOf(r, link.from);
+  const baseline = link.baselineFrom
+    ? LINK_BASELINES[link.baselineFrom](r, link, index)
+    : baselineOf(r, link.from);
   if (value === null || baseline === undefined) return null;
   // A lagged law effect does not outlast the law: once the law is back where
   // the place began, the effect ends that day, not a lag later.

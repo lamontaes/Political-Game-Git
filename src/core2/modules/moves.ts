@@ -50,7 +50,6 @@ import { sellHome } from "../housing-sale";
 import { endLivingPlan } from "../cost-of-living";
 import { OUTSIDE_MARKET_KIND } from "../opening-outside-market";
 import { currentCloseness } from "../closeness";
-import { regionalLevel, regionalRegistered } from "./regional";
 import { webReach, type Subject } from "../outcome-web-reach";
 import { registerModule } from "../state";
 import { isDemoted } from "../counted-groups";
@@ -149,8 +148,6 @@ interface Pull {
   reads: Record<string, readonly string[]>;
   /** The latest month's pushes, on the scale of the holds. */
   pushes?: Record<string, number>;
-  /** The region's conditions as they last scaled the pull. */
-  placeFactor?: number;
   /** The outcome web's factor on this person's leaving last month, and the web month row it stood on. */
   webFactor?: number;
   webRecord?: string;
@@ -687,36 +684,6 @@ export function pushesOf(
   return { parts, reads };
 }
 
-/**
- * The town's conditions: unemployment in its region against the nation's,
- * as it has moved since the opening (the ACS rates the pull is scaled to
- * are the opening's). A worsening region speeds everyone's pull, sliding;
- * one that improves slows it.
- */
-function placeConditions(
-  api: CoreAPI,
-  placeId: string,
-): { factor: number; reads: string[] } {
-  const core = api.state as CoreState;
-  if (!core.modules.has("macro") || !regionalRegistered(api))
-    return { factor: api.parameter("one"), reads: [] };
-  const region = regionalLevel(api, placeId);
-  const nation = region
-    ? (api
-        .moduleState("macro")
-        .table("months")
-        .get(`macro-month:${region.month}`) as
-        { id: string; unemploymentPct: number } | undefined)
-    : undefined;
-  if (!region || !nation) return { factor: api.parameter("one"), reads: [] };
-  const change =
-    region.unemploymentPct - nation.unemploymentPct - region.openingGapPct;
-  return {
-    factor: Math.exp(m(api, "movesUnemploymentGapWeight") * change),
-    reads: [region.id, nation.id],
-  };
-}
-
 const sum = (values: Readonly<Record<string, number>>, zero: number) =>
   Object.values(values).reduce((total, value) => total + value, zero);
 
@@ -1187,7 +1154,6 @@ function accumulate(
   api: CoreAPI,
   person: Readonly<PersonState>,
   typical?: ReadonlyMap<string, number>,
-  place?: { factor: number; reads: string[] },
 ): void {
   const band = bandOf(api, person);
   if (!band) return;
@@ -1196,10 +1162,10 @@ function accumulate(
   if (officeholders(api).has(person.id)) return;
   const pull = pullOf(api, person);
   const { factor, pushes } = netFactor(api, person);
-  const conditions = place ?? placeConditions(api, person.placeId);
   // Records decide who of an age leaves, not how many: the person's pushes
   // over their ties against the town's typical for their age band. The
-  // region's conditions move how many.
+  // town's conditions move how many, through the outcome web (its jobless
+  // rate against the nation's, beyond the gap it opened with, among them).
   const web = webLeavingFor(api, person);
   const stage =
     ((lifeStageRate(api, person, band) *
@@ -1207,7 +1173,6 @@ function accumulate(
       api.parameter("monthsPerYear")) *
     m(api, "movesLifeStageScale") *
     (factor / (typical?.get(band) ?? factor)) *
-    conditions.factor *
     web.factor;
   pull.value += stage;
   pull.causes = {
@@ -1217,10 +1182,8 @@ function accumulate(
   pull.reads = {
     ...pull.reads,
     ...pushes.reads,
-    ...(conditions.reads.length ? { placeConditions: conditions.reads } : {}),
   };
   pull.pushes = { ...pushes.parts };
-  if (conditions.reads.length) pull.placeFactor = conditions.factor;
   if (web.record) {
     pull.webFactor = web.factor;
     pull.webRecord = web.record;
@@ -1575,25 +1538,14 @@ function monthlyReview(api: CoreAPI): void {
       .table("state")
       .put({ ...ranked, elsewhereRanked: true });
   }
-  const places = new Map<string, { factor: number; reads: string[] }>();
   const before = new Map<PersonId, number>();
   for (const person of adults) {
-    let place = places.get(person.placeId);
-    if (!place) {
-      place = placeConditions(api, person.placeId);
-      places.set(person.placeId, place);
-    }
     before.set(person.id, pullOf(api, person).value);
-    accumulate(api, person, typical, place);
+    accumulate(api, person, typical);
   }
   for (const person of elsewhere) {
-    let place = places.get(person.placeId);
-    if (!place) {
-      place = placeConditions(api, person.placeId);
-      places.set(person.placeId, place);
-    }
     before.set(person.id, pullOf(api, person).value);
-    accumulate(api, person, typicalElsewhere, place);
+    accumulate(api, person, typicalElsewhere);
   }
   // Each couple or adult alone leaves on the day in the month their pull,
   // building evenly, reaches the point where leaving wins; nobody's choice
