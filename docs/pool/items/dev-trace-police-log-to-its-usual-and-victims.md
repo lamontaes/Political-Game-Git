@@ -5,10 +5,10 @@ area: play
 kind: feature
 priority: 2
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: interviews thread (branch claude/project-thread-sew1gc-police-dev-trace)
-pr:
+pr: 9649
 after:
 blocked-on:
 lead: words
