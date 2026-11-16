@@ -5,9 +5,9 @@ area: world
 kind: bug
 priority: 3
 size: S
-status: open
+status: in-pr
 claimed-by:
-pr:
+pr: 9689
 after:
 blocked-on:
 lead: nation
