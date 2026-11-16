@@ -5,10 +5,10 @@ area: play
 kind: feature
 priority: 2
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/project-thread-hjvzia-voter-lean
-pr:
+pr: 9628
 after:
 blocked-on:
 root: none
