@@ -5,10 +5,10 @@ area: people
 kind: bug
 priority: 2
 size: M
-status: in-pr
+status: merged
 standard: 2
 claimed-by: claude/project-thread-csmftn-ties
-pr: 9484
+pr: #9484
 after:
 blocked-on:
 lead: people
@@ -16,6 +16,7 @@ model: opus
 effort: medium
 root: none
 source: Account lead, Nov 15, from the lying PR's counts (people can lie to the player)
+merged-at: 2026-11-15T21:59:45.290Z
 ---
 
 **What.** People who sit on one body for years do not know each other. At 4846968 seed 8647-mason, five council members who have sat together since 2011 to 2025 had a tie in only 2 of their 10 pairs; across 6 drawn state chambers, 329 of 336 member pairs had closeness 0. So anything that reads closeness between colleagues (a vote ask, a favor, a refusal's strain, a broken word) reads zero. Seen: in dev mode, two members of the player's council who have served together for years show a tie, and it grows with each meeting.

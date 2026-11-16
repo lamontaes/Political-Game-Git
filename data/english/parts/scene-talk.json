@@ -3,174 +3,174 @@
   "register": "scene-talk",
   "description": "Scenes with a purpose (owner, Oct 15, evening): the narrator's setup, the asker's opening and statement of purpose, the player's four replies with their stakes, the asker's answer and the close. Authored to calibrated patterns from ordinary American political and family talk (the text rule, Oct 15); no one's text is copied. Each piece serves every scene with its step and move: each use names the purpose it serves, so a line never leaks into a scene it does not fit; a follow that answers one reply names that reply's piece or move in `after`. A piece's bearing is the manner of its wording; the speaker's traits pull toward the bearings they favor. The director's exchange engine (src/director/scene-talk.ts) arranges the pieces by src/director/data/purpose-arcs.json.",
   "slots": {
-    "area": "A policy area, said after 'with' or 'about', from the town's term read.",
-    "stand": "The stand the speaker takes in an address, as a verb phrase after 'to' (\"raise the minimum wage\"), from the speaker's recorded views.",
-    "signatures": "The signatures a filing's petition needs, as a number, from the petition record.",
-    "due": "The last day a petition's signatures may be handed in, as people say it, from the petition record.",
-    "name": "The other person, by name, from the scene's cast record.",
-    "bill": "A bill, by its title, from the legislature record.",
-    "section": "A section of the bill, by number, from the bill's provisions.",
-    "office": "An office, from the office or contest record.",
-    "place": "The player's town or district, from the place record.",
-    "money": "An amount, from the contribution record.",
-    "outlet": "A newspaper or station, from the press record.",
-    "story": "What a story is about, as the bill catalog names its topic, from the press or news record.",
-    "opponent": "The other candidate, from the contest record.",
-    "party": "A party, from the party record.",
-    "share": "What a donor wants back, from the donor's stated interest record.",
-    "source": "Who told the speaker, by relation or name, from the news-received record.",
-    "votes": "How many votes are counted for the bill, from the whip count.",
-    "needed": "How many votes the bill needs to pass, from the chamber's rules.",
-    "deceased": "The person who died, by name, from the death record.",
-    "effect": "What a law changed for this person, from the law-reach record.",
-    "self": "The player's own full name, from the player's person record.",
-    "executive": "The executive's post as people say it (\"governor\", \"mayor\"), from the office record of the desk's executive.",
-    "where": "Where the place takes filings for the race (the clerk, the registrar, the board of elections), from the filing record.",
-    "relative": "A relative of the person in the scene, by name, from the family records.",
-    "candidate": "Present when the person in the scene filed for office, from the filing record.",
-    "cause": "A cause someone shared, by name, from the views engine's cause-shared record.",
-    "kid": "The household's new child, by name, from the household record.",
-    "begins": "The day a scene starts on, with the part of the day, as people say it ('First thing on June 7th'), from the clock.",
-    "when": "When a filing was made, said as the director says a date, from the filing record.",
-    "teller": "Whoever told the person of the law, by name, from the record of how they learned.",
-    "campaigner": "The campaigner whose people came by, by name, from the campaign record.",
-    "title": "How the person is addressed (their office), from their term.",
-    "issue": "The bill's question, named as the bill catalog records it.",
-    "tally": "A vote's count, against to for, from the legislature's record of the bill that lost.",
-    "reporter": "The reporter who wrote a story, by name, from the press record.",
-    "lead": "How far ahead the winner finished, in votes, from the result record's totals.",
-    "first": "The given name of the person spoken to, from their record.",
-    "seat-place": "The town named after a seat only where a bare seat title would be unclear, from the place record (the filing counter's closer).",
-    "counter": "The place the player goes to at a filing counter, as people say it: the clerk's office (\"the town clerk's office\"), or the agency itself when the person heads a state agency.",
-    "post": "The post the person holds, as people say it (\"Secretary of State\", \"city clerk\"), from the office record of the seat the person holds.",
-    "cushion": "How long the household's savings carry its living costs, in months as people say them, from the household's money records.",
-    "remaining": "How long the race has left to run, in months as people say them, from the filing's election date.",
-    "child": "The youngest child at home, by name, from the household record.",
-    "law": "A law, by its policy's name, from the law record.",
-    "cost": "What a law in force costs a household each month, from the price record it moved.",
-    "chair": "The committee's chair, by name, from the committee's hold record.",
-    "percent": "How much of the line that cut was, in whole percent, from the adopted budget on record.",
-    "rivals": "The candidates already on a contest's ballot when the player filed, each said by what their candidacy shows (\"incumbent Ann Lee\", \"Democratic candidate Bo Chen\"), from the contest's filing records.",
-    "building": "The building a precinct votes in, the town government's own, from the voting engine's polling place record.",
-    "precinct": "The number of the voter's precinct, from the voting engine's polling place record (said only where the town has more than one).",
-    "worker": "One of the people who work the voter's polling place that day, by name, from the voting engine's polling place record.",
-    "cut": "What the council cut from a budget line, said to two figures, from the budget-line record.",
-    "years": "Whole years a department head has held their post, from the appointment record.",
-    "roll": "The count on a presented bill, yes to no, from the vote records.",
-    "deadline": "The day a presented bill must be signed or vetoed by, from the presentment.",
-    "for": "Present when the visitor is the bill's sponsor, from the bill record.",
-    "against": "Present when the visitor lobbied against the bill, from the lobbying record.",
-    "winner": "Whoever won the race a count settled, by name, from the election result record.",
-    "employer": "An employer: the one making a job offer, from the jobs engine's offer record, or a donor's own, from their job and its organization.",
-    "school": "A school the two share, by name: the one they were both at in one school year, or the one their children attend, from the school engine's attended rows.",
-    "hometown": "The town the speaker lives in when it is not the town of the scene, from the speaker's person record.",
-    "position": "The position offered, with its article (\"a server\"), from the offer record's title.",
-    "pay": "The pay offered by the hour (\"$18.50\"), from the offer record.",
-    "owed": "What a household owes in back rent, as people say it (\"about $400\"), from the notice record.",
-    "general": "The general election's date, as people say it, from the contest record.",
-    "primary": "The primary's date, as people say it, from the contest record.",
-    "term": "An office's term in years, from the office record.",
-    "all": "How many places report in all, from the count.",
-    "ayes": "The votes for, from the roll or the bill's count.",
-    "cast": "Ballots cast, from the count.",
-    "companion": "A household member going along, by name.",
-    "count": "A count from the record.",
-    "in": "How many places have reported, from the count.",
-    "leader": "The candidate ahead, by name, from the count.",
-    "margin": "The lead in votes, from the count.",
-    "nays": "The votes against, from the roll or the bill's count.",
-    "number": "A count from the record.",
-    "reached": "How many people talked with the candidate, from the canvass record.",
-    "required": "What a filing rule requires (an age, a residence), from the eligibility rule.",
-    "actual": "What a filing rule finds in the person's records (an age, the place they live), from the eligibility rule.",
-    "trail": "The runner-up's votes there, from the count.",
-    "body": "The place's own council or board, as its office record names it: City Council, Board of Selectmen.",
-    "given": "What the candidate gave their own campaign, as people round it, from the campaign's gift record.",
-    "home": "The kind of home a disaster damaged, as people say it (\"mobile home\", \"house\"), from the damaged-home record.",
-    "disaster": "What hit the home, as people say it (\"the tornado\", \"the storm\"), from the damaged-home record's incident type.",
-    "loss": "What the repairs on the damaged home cost, as people round a sum, from the damaged-home record.",
-    "aid": "What the disaster aid paid the household, as people round a sum, from the damaged-home record.",
-    "left": "What the household still owes on the repairs, as people round a sum, from the damaged-home record.",
-    "late": "How long the rent has gone unpaid, as people say it (\"about two months\"), from the notice record.",
-    "destination": "Where a person who is moving away is going, as people name the place, from the departure record.",
-    "away": "How long the person was in prison before they came home, as people say a span of time, from the justice engine's custody record.",
-    "sentence": "How long a prison sentence runs, as people say a span of time, from the justice engine's sentence record.",
-    "release": "The day a person in prison gets out, as people say a date, from the justice engine's sentence record.",
-    "bail": "What a person held before trial would have to pay to get out, as people round a sum, from the justice engine's pretrial record.",
-    "earlier": "The bill the asker already voted for at the asked person's side, as people say its number, from the asker's vote record.",
-    "since": "How long ago a thing happened, as people say a span ('two months', 'a year'), from the record's day.",
-    "floor": "The minimum wage in force by the hour (\"$7.25\"), from the law record.",
-    "married": "The name of the spouse the guest married since the two last talked, from the marriage record.",
-    "age": "The age a person turned on their birthday, from the birth record and the day of the gathering.",
-    "partner": "The name of a new child's other parent, from the birth record.",
-    "absent": "The name of the relative who missed the gathering, from the gathering's record.",
-    "honoree": "The name of the housemate the occasion is for, from the occasion's record.",
-    "new-employer": "The employer the guest started work at since the two last talked, from the job record.",
-    "new-child": "The name of a child born in the guest's household since the two last talked, from the birth record.",
-    "spouse": "The name of the person the celebrant married, from the marriage record.",
-    "vote_share": "The winner's share of the ballots cast in a race, in whole percent, from the count's totals.",
-    "turnout": "The share of the people eligible to vote who voted in a race, in whole percent, from the count's rows.",
-    "best_place": "The place that gave the winner the biggest share of its ballots, by name, from the count's place results.",
-    "line": "What a budget line pays for, in the plain words the budget screen names it (\"police protection\", \"highways\"), from the budget-line record.",
-    "filed": "How many others have filed for the office so far, with their noun (\"two other candidates\"), from the elections engine's filings.",
-    "clerk": "The clerk at the filing counter, by first name, from the cast record.",
-    "seat": "The seat said short, after a screen has named it once (\"the council\", \"mayor\", \"the seat\"), from the office's record (seatSaid).",
-    "hours": "An opening's hours a week, from the job it was modeled on: 40.",
-    "crew": "How many people work at the employer now, full people and counted workers alike: 12.",
-    "replaced": "The full name of the person whose job an opening fills.",
-    "vote-day": "The day of the race's next vote, its primary while one is ahead, else the election, as people say it, from the contest record.",
-    "count-by": "The day before a bill's vote, said from the scene's day (\"Thursday\", \"June 7th\"), from the bill's floor date (floorDateOf).",
-    "vote-next-month": "Set when the bill's vote falls in the calendar month after the scene's, from its floor date.",
-    "vote-on": "The day of the bill's vote when it is a later day not in the next month, said from the scene's day (\"Thursday\", \"March 31st\"), from its floor date.",
-    "vote-tonight": "Set when the bill's vote is on the scene's own day, from its floor date.",
-    "filed-at-counter": "That the player filed at the counter, in the clerk's scene there: the record of the reply that filed.",
-    "filed-so-far": "How many have filed for the office so far, said before the player files (\"two candidates\"), from the elections engine's filings.",
-    "signed": "How many signatures a petition holds so far, from the petition record.",
-    "none-signed": "That a petition holds no signatures yet, from the petition record.",
-    "filed-office": "The office the player already filed for at this counter, from the filing's contest record.",
-    "back-again": "Set when the player is back at a counter where their own filing is already in, for another race.",
-    "lawstate": "The state whose law it is, when it is not the reader's own, from the law record.",
-    "homestate": "The reader's own state, from their place record.",
-    "effective": "The day a law enacted but not yet in force takes effect, as people say it (\"January 1, 2026\"), from the law record.",
-    "about": "What a law or bill is about, as people say it: a law not yet in force by what it changes (\"the Social Security payroll tax\"), from the law record's policy name, or the bill a donor named, from the bill's first provision as the bill catalog words its question (question-names).",
-    "ended": "The day a law stopped being in force, as people say it, from the law record's end date.",
-    "workplace": "Where the person works or worked, the employer their view comes from, from the jobs record.",
-    "contract": "The contract award a bribe offer wants, by the work it pays for (\"the highways contract\"), from the offer record.",
-    "wanted": "What a bribe offer wants, the bill or the contract the offer record names.",
-    "bill-name": "The bill's short name as people say it, from the bill catalog's name for its first section.",
-    "bill-purpose": "What the bill does in plain words, from the bill catalog's purpose for its first section.",
-    "presiding": "The presiding officer's title in the body, from the said-as words for its office kind; the chair where none.",
     "self-full": "The player's full name, as a stranger is introduced to them.",
-    "race-office": "The office the player is running for, from the contest record.",
-    "their-office": "The seat the person asked to serve holds now, as people say it, from their serving term's office record.",
-    "their-first": "The first name of the person the player asks to serve, said by the player after the introduction.",
-    "ask-day": "A day between the ask and the vote, as people say it, from the bill's calendar.",
-    "their-bill": "A colleague's own bill waiting in the same body, by its title as a sentence says it, from the legislature record (askPrice).",
-    "price-section": "The number of the section of the player's bill a colleague would take half of, from the legislature record (askPrice).",
-    "office-held": "A seat or office the party holds in the place, said as 'a seat on the council' or 'the mayor's office', from the offices' terms.",
-    "race-run": "A local race the party has a candidate in, by its office title, from the open contest's filings.",
-    "rent": "The rent a renter pays each month, as said money, from their home's record.",
-    "own-workplace": "The business where a witness works, by its name, from their job's record (the witness after the hearing).",
-    "own-child": "The given name of a witness's child at home, from the child's record (the witness after the hearing).",
-    "purpose": "What a bill does, as a short phrase, from the bill record's own sections.",
-    "names": "The members who voted no on a bill, by name, three or fewer, from the vote record.",
-    "group": "The group that pressed the members who voted no, by its said name, from the lobbying record.",
-    "budget-cost": "What a bill adds to the budget each year, one rounded sum, from its budget-line sections.",
-    "donor-first": "A donor's given name, as the candidate says it to them, from the person record.",
-    "fee": "The sum a place's law charges to file, as people say money, from the filing rules (\"$75\").",
-    "agency": "The office a constituent's case is referred to when the official takes it up (\"the workforce office\"), by the case's problem in the constituent-cases record.",
-    "staffer": "The first name of an aide serving on the official's staff, from the staff record.",
-    "respond-in": "When the office decides a constituent's case if nobody does sooner (\"in seven days\"), from the case's deadline.",
-    "money-left": "How a job seeker's savings stand, in words and never a figure (\"running low\", \"almost gone\"), from their constituent case's severity.",
-    "said": "The subject of the player's bill as a person names it after 'on' (\"voting by mail\"), from the question's `said` in data/english/question-names.json (questionSaid), for the co-sponsor ask; never a side.",
-    "fee-short": "Yes where the one filing cannot pay the fee (their cash is under the sum); nothing otherwise.",
+    "remaining": "How long the race has left to run, in months as people say them, from the filing's election date.",
+    "employer": "An employer: the one making a job offer, from the jobs engine's offer record, or a donor's own, from their job and its organization.",
+    "married": "The name of the spouse the guest married since the two last talked, from the marriage record.",
     "item": "The first bill on a posted meeting's agenda, by its title, from the office-day engine's meeting record.",
-    "meeting-when": "The day a town body's next meeting falls on, as said asking someone along: tonight or today, tomorrow night or tomorrow, else on the weekday within a week or the date, from the office-day engine's meeting record.",
-    "sunset": "The day a study committee's term ends, as people say it, from the study record.",
-    "members": "The other people who sit on the study committee, by name, from the study record.",
+    "effective": "The day a law enacted but not yet in force takes effect, as people say it (\"January 1, 2026\"), from the law record.",
+    "seat": "The seat said short, after a screen has named it once (\"the council\", \"mayor\", \"the seat\"), from the office's record (seatSaid).",
+    "filed": "How many others have filed for the office so far, with their noun (\"two other candidates\"), from the elections engine's filings.",
     "runs-on": "The day the paper runs the story, as the reporter says it (\"tomorrow\", \"Tuesday\"), from the exposure's run day on the record.",
+    "firm": "The firm a contract award went to, by name, from the contracts engine's award record.",
+    "crew": "How many people work at the employer now, full people and counted workers alike: 12.",
+    "for": "Present when the visitor is the bill's sponsor, from the bill record.",
+    "campaigner": "The campaigner whose people came by, by name, from the campaign record.",
+    "floor": "The minimum wage in force by the hour (\"$7.25\"), from the law record.",
+    "disaster": "What hit the home, as people say it (\"the tornado\", \"the storm\"), from the damaged-home record's incident type.",
+    "in": "How many places have reported, from the count.",
+    "count-by": "The day before a bill's vote, said from the scene's day (\"Thursday\", \"June 7th\"), from the bill's floor date (floorDateOf).",
+    "bill": "A bill, by its title, from the legislature record.",
+    "pay": "The pay offered by the hour (\"$18.50\"), from the offer record.",
+    "body": "The place's own council or board, as its office record names it: City Council, Board of Selectmen.",
+    "release": "The day a person in prison gets out, as people say a date, from the justice engine's sentence record.",
+    "group": "The group that pressed the members who voted no, by its said name, from the lobbying record.",
+    "given": "What the candidate gave their own campaign, as people round it, from the campaign's gift record.",
+    "issue": "The bill's question, named as the bill catalog records it.",
+    "rent": "The rent a renter pays each month, as said money, from their home's record.",
+    "absent": "The name of the relative who missed the gathering, from the gathering's record.",
+    "staffer": "The first name of an aide serving on the official's staff, from the staff record.",
+    "party": "A party, from the party record.",
+    "reporter": "The reporter who wrote a story, by name, from the press record.",
+    "position": "The position offered, with its article (\"a server\"), from the offer record's title.",
+    "aid": "What the disaster aid paid the household, as people round a sum, from the damaged-home record.",
+    "companion": "A household member going along, by name.",
+    "office": "An office, from the office or contest record.",
+    "owed": "What a household owes in back rent, as people say it (\"about $400\"), from the notice record.",
+    "when": "When a filing was made, said as the director says a date, from the filing record.",
+    "required": "What a filing rule requires (an age, a residence), from the eligibility rule.",
+    "executive": "The executive's post as people say it (\"governor\", \"mayor\"), from the office record of the desk's executive.",
+    "left": "What the household still owes on the repairs, as people round a sum, from the damaged-home record.",
+    "chair": "The committee's chair, by name, from the committee's hold record.",
+    "building": "The building a precinct votes in, the town government's own, from the voting engine's polling place record.",
+    "office-held": "A seat or office the party holds in the place, said as 'a seat on the council' or 'the mayor's office', from the offices' terms.",
+    "bill-purpose": "What the bill does in plain words, from the bill catalog's purpose for its first section.",
+    "child": "The youngest child at home, by name, from the household record.",
+    "clerk": "The clerk at the filing counter, by first name, from the cast record.",
+    "post": "The post the person holds, as people say it (\"Secretary of State\", \"city clerk\"), from the office record of the seat the person holds.",
+    "years": "Whole years a department head has held their post, from the appointment record.",
+    "general": "The general election's date, as people say it, from the contest record.",
+    "begins": "The day a scene starts on, with the part of the day, as people say it ('First thing on June 7th'), from the clock.",
+    "area": "A policy area, said after 'with' or 'about', from the town's term read.",
+    "said": "The subject of the player's bill as a person names it after 'on' (\"voting by mail\"), from the question's `said` in data/english/question-names.json (questionSaid), for the co-sponsor ask; never a side.",
+    "back-again": "Set when the player is back at a counter where their own filing is already in, for another race.",
+    "their-office": "The seat the person asked to serve holds now, as people say it, from their serving term's office record.",
+    "trail": "The runner-up's votes there, from the count.",
+    "price-section": "The number of the section of the player's bill a colleague would take half of, from the legislature record (askPrice).",
+    "winner": "Whoever won the race a count settled, by name, from the election result record.",
+    "names": "The members who voted no on a bill, by name, three or fewer, from the vote record.",
     "briber": "Who paid the bribe a paper exposed, by name, from the corruption engine's crime record.",
-    "firm": "The firm a contract award went to, by name, from the contracts engine's award record."
+    "kid": "The household's new child, by name, from the household record.",
+    "their-bill": "A colleague's own bill waiting in the same body, by its title as a sentence says it, from the legislature record (askPrice).",
+    "money-left": "How a job seeker's savings stand, in words and never a figure (\"running low\", \"almost gone\"), from their constituent case's severity.",
+    "home": "The kind of home a disaster damaged, as people say it (\"mobile home\", \"house\"), from the damaged-home record.",
+    "honoree": "The name of the housemate the occasion is for, from the occasion's record.",
+    "fee-short": "Yes where the one filing cannot pay the fee (their cash is under the sum); nothing otherwise.",
+    "agency": "The office a constituent's case is referred to when the official takes it up (\"the workforce office\"), by the case's problem in the constituent-cases record.",
+    "best_place": "The place that gave the winner the biggest share of its ballots, by name, from the count's place results.",
+    "cushion": "How long the household's savings carry its living costs, in months as people say them, from the household's money records.",
+    "vote-next-month": "Set when the bill's vote falls in the calendar month after the scene's, from its floor date.",
+    "filed-at-counter": "That the player filed at the counter, in the clerk's scene there: the record of the reply that filed.",
+    "opponent": "The other candidate, from the contest record.",
+    "candidate": "Present when the person in the scene filed for office, from the filing record.",
+    "race-office": "The office the player is running for, from the contest record.",
+    "reached": "How many people talked with the candidate, from the canvass record.",
+    "nays": "The votes against, from the roll or the bill's count.",
+    "spouse": "The name of the person the celebrant married, from the marriage record.",
+    "percent": "How much of the line that cut was, in whole percent, from the adopted budget on record.",
+    "budget-cost": "What a bill adds to the budget each year, one rounded sum, from its budget-line sections.",
+    "line": "What a budget line pays for, in the plain words the budget screen names it (\"police protection\", \"highways\"), from the budget-line record.",
+    "hours": "An opening's hours a week, from the job it was modeled on: 40.",
+    "hometown": "The town the speaker lives in when it is not the town of the scene, from the speaker's person record.",
+    "roll": "The count on a presented bill, yes to no, from the vote records.",
+    "age": "The age a person turned on their birthday, from the birth record and the day of the gathering.",
+    "relative": "A relative of the person in the scene, by name, from the family records.",
+    "against": "Present when the visitor lobbied against the bill, from the lobbying record.",
+    "partner": "The name of a new child's other parent, from the birth record.",
+    "votes": "How many votes are counted for the bill, from the whip count.",
+    "vote-on": "The day of the bill's vote when it is a later day not in the next month, said from the scene's day (\"Thursday\", \"March 31st\"), from its floor date.",
+    "margin": "The lead in votes, from the count.",
+    "filed-office": "The office the player already filed for at this counter, from the filing's contest record.",
+    "presiding": "The presiding officer's title in the body, from the said-as words for its office kind; the chair where none.",
+    "new-child": "The name of a child born in the guest's household since the two last talked, from the birth record.",
+    "section": "A section of the bill, by number, from the bill's provisions.",
+    "effect": "What a law changed for this person, from the law-reach record.",
+    "where": "Where the place takes filings for the race (the clerk, the registrar, the board of elections), from the filing record.",
+    "vote_share": "The winner's share of the ballots cast in a race, in whole percent, from the count's totals.",
+    "purpose": "What a bill does, as a short phrase, from the bill record's own sections.",
+    "term": "An office's term in years, from the office record.",
+    "filed-so-far": "How many have filed for the office so far, said before the player files (\"two candidates\"), from the elections engine's filings.",
+    "meeting-when": "The day a town body's next meeting falls on, as said asking someone along: tonight or today, tomorrow night or tomorrow, else on the weekday within a week or the date, from the office-day engine's meeting record.",
+    "money": "An amount, from the contribution record.",
+    "signatures": "The signatures a filing's petition needs, as a number, from the petition record.",
+    "teller": "Whoever told the person of the law, by name, from the record of how they learned.",
+    "own-workplace": "The business where a witness works, by its name, from their job's record (the witness after the hearing).",
+    "bail": "What a person held before trial would have to pay to get out, as people round a sum, from the justice engine's pretrial record.",
+    "all": "How many places report in all, from the count.",
+    "self": "The player's own full name, from the player's person record.",
+    "turnout": "The share of the people eligible to vote who voted in a race, in whole percent, from the count's rows.",
+    "wanted": "What a bribe offer wants, the bill or the contract the offer record names.",
+    "contract": "The contract award a bribe offer wants, by the work it pays for (\"the highways contract\"), from the offer record.",
+    "counter": "The place the player goes to at a filing counter, as people say it: the clerk's office (\"the town clerk's office\"), or the agency itself when the person heads a state agency.",
+    "leader": "The candidate ahead, by name, from the count.",
+    "number": "A count from the record.",
+    "precinct": "The number of the voter's precinct, from the voting engine's polling place record (said only where the town has more than one).",
+    "vote-tonight": "Set when the bill's vote is on the scene's own day, from its floor date.",
+    "worker": "One of the people who work the voter's polling place that day, by name, from the voting engine's polling place record.",
+    "fee": "The sum a place's law charges to file, as people say money, from the filing rules (\"$75\").",
+    "law": "A law, by its policy's name, from the law record.",
+    "earlier": "The bill the asker already voted for at the asked person's side, as people say its number, from the asker's vote record.",
+    "members": "The other people who sit on the study committee, by name, from the study record.",
+    "loss": "What the repairs on the damaged home cost, as people round a sum, from the damaged-home record.",
+    "replaced": "The full name of the person whose job an opening fills.",
+    "place": "The player's town or district, from the place record.",
+    "race-run": "A local race the party has a candidate in, by its office title, from the open contest's filings.",
+    "cut": "What the council cut from a budget line, said to two figures, from the budget-line record.",
+    "own-child": "The given name of a witness's child at home, from the child's record (the witness after the hearing).",
+    "deadline": "The day a presented bill must be signed or vetoed by, from the presentment.",
+    "rivals": "The candidates already on a contest's ballot when the player filed, each said by what their candidacy shows (\"incumbent Ann Lee\", \"Democratic candidate Bo Chen\"), from the contest's filing records.",
+    "new-employer": "The employer the guest started work at since the two last talked, from the job record.",
+    "name": "The other person, by name, from the scene's cast record.",
+    "sunset": "The day a study committee's term ends, as people say it, from the study record.",
+    "since": "How long ago a thing happened, as people say a span ('two months', 'a year'), from the record's day.",
+    "about": "What a law or bill is about, as people say it: a law not yet in force by what it changes (\"the Social Security payroll tax\"), from the law record's policy name, or the bill a donor named, from the bill's first provision as the bill catalog words its question (question-names).",
+    "count": "A count from the record.",
+    "late": "How long the rent has gone unpaid, as people say it (\"about two months\"), from the notice record.",
+    "lawstate": "The state whose law it is, when it is not the reader's own, from the law record.",
+    "ask-day": "A day between the ask and the vote, as people say it, from the bill's calendar.",
+    "their-first": "The first name of the person the player asks to serve, said by the player after the introduction.",
+    "cost": "What a law in force costs a household each month, from the price record it moved.",
+    "sentence": "How long a prison sentence runs, as people say a span of time, from the justice engine's sentence record.",
+    "homestate": "The reader's own state, from their place record.",
+    "vote-day": "The day of the race's next vote, its primary while one is ahead, else the election, as people say it, from the contest record.",
+    "workplace": "Where the person works or worked, the employer their view comes from, from the jobs record.",
+    "respond-in": "When the office decides a constituent's case if nobody does sooner (\"in seven days\"), from the case's deadline.",
+    "lead": "How far ahead the winner finished, in votes, from the result record's totals.",
+    "cause": "A cause someone shared, by name, from the views engine's cause-shared record.",
+    "actual": "What a filing rule finds in the person's records (an age, the place they live), from the eligibility rule.",
+    "first": "The given name of the person spoken to, from their record.",
+    "primary": "The primary's date, as people say it, from the contest record.",
+    "destination": "Where a person who is moving away is going, as people name the place, from the departure record.",
+    "deceased": "The person who died, by name, from the death record.",
+    "bill-name": "The bill's short name as people say it, from the bill catalog's name for its first section.",
+    "school": "A school the two share, by name: the one they were both at in one school year, or the one their children attend, from the school engine's attended rows.",
+    "donor-first": "A donor's given name, as the candidate says it to them, from the person record.",
+    "needed": "How many votes the bill needs to pass, from the chamber's rules.",
+    "none-signed": "That a petition holds no signatures yet, from the petition record.",
+    "share": "What a donor wants back, from the donor's stated interest record.",
+    "seat-place": "The town named after a seat only where a bare seat title would be unclear, from the place record (the filing counter's closer).",
+    "title": "How the person is addressed (their office), from their term.",
+    "stand": "The stand the speaker takes in an address, as a verb phrase after 'to' (\"raise the minimum wage\"), from the speaker's recorded views.",
+    "ended": "The day a law stopped being in force, as people say it, from the law record's end date.",
+    "away": "How long the person was in prison before they came home, as people say a span of time, from the justice engine's custody record.",
+    "signed": "How many signatures a petition holds so far, from the petition record.",
+    "story": "What a story is about, as the bill catalog names its topic, from the press or news record.",
+    "tally": "A vote's count, against to for, from the legislature's record of the bill that lost.",
+    "source": "Who told the speaker, by relation or name, from the news-received record.",
+    "cast": "Ballots cast, from the count.",
+    "ayes": "The votes for, from the roll or the bill's count.",
+    "due": "The last day a petition's signatures may be handed in, as people say it, from the petition record.",
+    "outlet": "A newspaper or station, from the press record."
   },
   "maxWords": 70,
   "parts": [
@@ -1525,7 +1525,8 @@
           "role": "narrator",
           "purpose": "ask-vote",
           "requiresFacts": ["vote-tomorrow"],
-          "key": "vote-sought"
+          "key": "vote-sought",
+          "excludesFacts": ["asked-before"]
         }
       ],
       "bearing": "calm",
@@ -1575,7 +1576,8 @@
           "role": "narrator",
           "purpose": "ask-vote",
           "requiresFacts": ["vote-tomorrow"],
-          "key": "vote-sought"
+          "key": "vote-sought",
+          "excludesFacts": ["asked-before"]
         }
       ],
       "bearing": "calm",
@@ -1600,7 +1602,8 @@
           "role": "narrator",
           "purpose": "ask-vote",
           "requiresFacts": ["vote-tomorrow"],
-          "key": "vote-sought"
+          "key": "vote-sought",
+          "excludesFacts": ["asked-before"]
         }
       ],
       "bearing": "calm",
@@ -3494,30 +3497,6 @@
       }
     },
     {
-      "key": "scene-talk.state-confront.nice-speech-too-bad-none-of-it-was-true",
-      "move": "state-confront",
-      "kind": "spoken",
-      "text": "Nice speech. Too bad none of it was true.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "confront",
-          "role": "asker",
-          "purpose": "rally-opponent",
-          "key": "threat"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "confront",
-        "key": "threat"
-      }
-    },
-    {
       "key": "scene-talk.state-confront.you-can-t-win-this-you-know",
       "move": "state-confront",
       "kind": "spoken",
@@ -3881,7 +3860,8 @@
           "move": "refuse",
           "role": "asked",
           "purpose": "ask-vote",
-          "key": "vote-wanted"
+          "key": "vote-wanted",
+          "excludesFacts": ["asked-before"]
         },
         {
           "subject": "scene",
@@ -3921,7 +3901,8 @@
           "move": "refuse",
           "role": "asked",
           "purpose": "ask-vote",
-          "key": "vote-wanted"
+          "key": "vote-wanted",
+          "excludesFacts": ["asked-before"]
         },
         {
           "subject": "scene",
@@ -3961,7 +3942,8 @@
           "move": "refuse",
           "role": "asked",
           "purpose": "ask-vote",
-          "key": "vote-wanted"
+          "key": "vote-wanted",
+          "excludesFacts": ["asked-before"]
         },
         {
           "subject": "scene",
@@ -6861,7 +6843,8 @@
           "role": "asker",
           "purpose": "ask-vote",
           "key": "vote-wanted",
-          "after": "stall"
+          "after": "stall",
+          "excludesFacts": ["asked-before"]
         },
         {
           "subject": "scene",
@@ -6922,7 +6905,8 @@
           "role": "asker",
           "purpose": "ask-vote",
           "key": "vote-wanted",
-          "after": "stall"
+          "after": "stall",
+          "excludesFacts": ["asked-before"]
         },
         {
           "subject": "scene",
@@ -6983,7 +6967,8 @@
           "role": "asker",
           "purpose": "ask-vote",
           "key": "vote-wanted",
-          "after": "stall"
+          "after": "stall",
+          "excludesFacts": ["asked-before"]
         },
         {
           "subject": "scene",
@@ -7026,7 +7011,8 @@
           "role": "asker",
           "purpose": "ask-vote",
           "key": "vote-wanted",
-          "after": "stall"
+          "after": "stall",
+          "excludesFacts": ["asked-before"]
         },
         {
           "subject": "scene",
@@ -9982,7 +9968,8 @@
           "role": "asker",
           "purpose": "ask-vote",
           "key": "vote-wanted",
-          "requiresFacts": ["promised-on-bill"]
+          "requiresFacts": ["promised-on-bill"],
+          "excludesFacts": ["asked-before"]
         },
         {
           "subject": "scene",
@@ -10034,7 +10021,8 @@
           "role": "asker",
           "purpose": "ask-vote",
           "key": "vote-wanted",
-          "requiresFacts": ["primary-faced"]
+          "requiresFacts": ["primary-faced"],
+          "excludesFacts": ["asked-before"]
         },
         {
           "subject": "scene",
@@ -10085,7 +10073,8 @@
           "move": "plea",
           "role": "asker",
           "purpose": "ask-vote",
-          "key": "vote-wanted"
+          "key": "vote-wanted",
+          "excludesFacts": ["asked-before"]
         },
         {
           "subject": "scene",
@@ -10134,7 +10123,8 @@
           "role": "asker",
           "purpose": "ask-vote",
           "key": "vote-wanted",
-          "after": "stall"
+          "after": "stall",
+          "excludesFacts": ["asked-before"]
         },
         {
           "subject": "scene",
@@ -10195,7 +10185,8 @@
           "role": "asker",
           "purpose": "ask-vote",
           "key": "vote-wanted",
-          "after": "stall"
+          "after": "stall",
+          "excludesFacts": ["asked-before"]
         },
         {
           "subject": "scene",
@@ -12955,7 +12946,8 @@
           "role": "asker",
           "purpose": "ask-vote",
           "key": "vote-wanted",
-          "after": "scene-talk.reply-refuse.i-can-t-vote-for-bill"
+          "after": "scene-talk.reply-refuse.i-can-t-vote-for-bill",
+          "excludesFacts": ["asked-before"]
         }
       ],
       "bearing": "braced",
@@ -12980,7 +12972,8 @@
           "role": "asker",
           "purpose": "ask-vote",
           "key": "vote-wanted",
-          "after": "scene-talk.reply-refuse.i-can-t-vote-for-bill"
+          "after": "scene-talk.reply-refuse.i-can-t-vote-for-bill",
+          "excludesFacts": ["asked-before"]
         }
       ],
       "bearing": "tender",
@@ -16141,7 +16134,8 @@
           "move": "stall",
           "role": "asked",
           "purpose": "ask-vote",
-          "key": "vote-wanted"
+          "key": "vote-wanted",
+          "excludesFacts": ["asked-before"]
         },
         {
           "subject": "scene",
@@ -16182,7 +16176,8 @@
           "role": "asked",
           "purpose": "ask-vote",
           "key": "vote-wanted",
-          "requiresFacts": ["amendment-pending"]
+          "requiresFacts": ["amendment-pending"],
+          "excludesFacts": ["asked-before"]
         },
         {
           "subject": "scene",
@@ -16225,7 +16220,8 @@
           "role": "asked",
           "purpose": "ask-vote",
           "key": "vote-wanted",
-          "requiresFacts": ["ask-day"]
+          "requiresFacts": ["ask-day"],
+          "excludesFacts": ["asked-before"]
         },
         {
           "subject": "scene",
@@ -16268,7 +16264,8 @@
           "role": "asker",
           "purpose": "ask-vote",
           "key": "vote-wanted",
-          "after": "stall"
+          "after": "stall",
+          "excludesFacts": ["asked-before"]
         },
         {
           "subject": "scene",
@@ -16319,7 +16316,8 @@
           "role": "asker",
           "purpose": "ask-vote",
           "key": "vote-wanted",
-          "after": "scene-talk.reply-stall.i-m-not-there-yet"
+          "after": "scene-talk.reply-stall.i-m-not-there-yet",
+          "excludesFacts": ["asked-before"]
         },
         {
           "subject": "scene",
@@ -16695,7 +16693,9 @@
           "move": "plea",
           "role": "asker",
           "purpose": "ask-vote",
-          "key": "vote-wanted"
+          "key": "vote-wanted",
+          "excludesFacts": ["asked-before"],
+          "onlyWhen": ["read-favor-given"]
         },
         {
           "subject": "scene",
@@ -16735,7 +16735,8 @@
           "move": "plea",
           "role": "asker",
           "purpose": "ask-vote",
-          "key": "vote-wanted"
+          "key": "vote-wanted",
+          "excludesFacts": ["asked-before"]
         },
         {
           "subject": "scene",
@@ -18205,7 +18206,8 @@
           "move": "plea",
           "role": "asker",
           "purpose": "ask-vote",
-          "key": "vote-wanted"
+          "key": "vote-wanted",
+          "excludesFacts": ["asked-before"]
         },
         {
           "subject": "scene",
@@ -18245,7 +18247,8 @@
           "move": "stall",
           "role": "asked",
           "purpose": "ask-vote",
-          "key": "vote-wanted"
+          "key": "vote-wanted",
+          "excludesFacts": ["asked-before"]
         },
         {
           "subject": "scene",
@@ -18285,7 +18288,8 @@
           "move": "stall",
           "role": "asked",
           "purpose": "ask-vote",
-          "key": "vote-wanted"
+          "key": "vote-wanted",
+          "excludesFacts": ["asked-before"]
         },
         {
           "subject": "scene",
@@ -18326,7 +18330,8 @@
           "role": "asker",
           "purpose": "ask-vote",
           "key": "vote-wanted",
-          "after": "stall"
+          "after": "stall",
+          "excludesFacts": ["asked-before"]
         },
         {
           "subject": "scene",
@@ -20175,7 +20180,8 @@
           "role": "asker",
           "purpose": "ask-vote",
           "key": "vote-wanted",
-          "after": "deflect"
+          "after": "deflect",
+          "excludesFacts": ["asked-before"]
         },
         {
           "subject": "scene",
@@ -20286,7 +20292,8 @@
           "role": "asker",
           "purpose": "ask-vote",
           "key": "vote-wanted",
-          "after": "scene-talk.reply-deflect.people-say-a-lot-of-things"
+          "after": "scene-talk.reply-deflect.people-say-a-lot-of-things",
+          "excludesFacts": ["asked-before"]
         },
         {
           "subject": "scene",
@@ -157059,7 +157066,8 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "ask-to-serve",
-          "key": "serve-asked"
+          "key": "serve-asked",
+          "excludesFacts": ["asked-before"]
         }
       ],
       "bearing": "calm",
@@ -157083,7 +157091,8 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "ask-to-serve",
-          "key": "serve-asked"
+          "key": "serve-asked",
+          "excludesFacts": ["asked-before"]
         }
       ],
       "bearing": "calm",
@@ -157107,7 +157116,8 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "ask-to-serve",
-          "key": "serve-asked"
+          "key": "serve-asked",
+          "excludesFacts": ["asked-before"]
         }
       ],
       "bearing": "braced",
@@ -157131,7 +157141,8 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "ask-to-serve",
-          "key": "serve-asked"
+          "key": "serve-asked",
+          "excludesFacts": ["asked-before"]
         }
       ],
       "bearing": "hopeful",
@@ -157156,7 +157167,8 @@
           "role": "narrator",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["stranger"]
+          "requiresFacts": ["stranger"],
+          "excludesFacts": ["asked-before"]
         }
       ],
       "bearing": "calm",
@@ -157181,7 +157193,8 @@
           "role": "narrator",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["acquainted"]
+          "requiresFacts": ["acquainted"],
+          "excludesFacts": ["asked-before"]
         }
       ],
       "bearing": "warm",
@@ -157207,7 +157220,7 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "requiresFacts": ["stranger"],
-          "excludesFacts": ["serve-post"]
+          "excludesFacts": ["serve-post", "asked-before"]
         }
       ],
       "bearing": "calm",
@@ -157233,7 +157246,7 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "requiresFacts": ["stranger"],
-          "excludesFacts": ["serve-post"]
+          "excludesFacts": ["serve-post", "asked-before"]
         }
       ],
       "bearing": "braced",
@@ -157621,7 +157634,11 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "requiresFacts": ["reason-own-seat"],
-          "excludesFacts": ["price-named"]
+          "excludesFacts": [
+            "price-named",
+            "nothing-moved",
+            "asked-more-than-once"
+          ]
         }
       ],
       "bearing": "calm",
@@ -157647,7 +157664,12 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "requiresFacts": ["reason-own-seat"],
-          "excludesFacts": ["stranger", "price-named"]
+          "excludesFacts": [
+            "stranger",
+            "price-named",
+            "nothing-moved",
+            "asked-more-than-once"
+          ]
         }
       ],
       "bearing": "guarded",
@@ -157673,7 +157695,11 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "requiresFacts": ["reason-own-race"],
-          "excludesFacts": ["price-named"]
+          "excludesFacts": [
+            "price-named",
+            "nothing-moved",
+            "asked-more-than-once"
+          ]
         }
       ],
       "bearing": "braced",
@@ -157699,7 +157725,12 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "requiresFacts": ["reason-own-race"],
-          "excludesFacts": ["stranger", "price-named"]
+          "excludesFacts": [
+            "stranger",
+            "price-named",
+            "nothing-moved",
+            "asked-more-than-once"
+          ]
         }
       ],
       "bearing": "calm",
@@ -157725,7 +157756,11 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "requiresFacts": ["reason-apart"],
-          "excludesFacts": ["price-named"]
+          "excludesFacts": [
+            "price-named",
+            "nothing-moved",
+            "asked-more-than-once"
+          ]
         }
       ],
       "bearing": "firm",
@@ -157751,7 +157786,12 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "requiresFacts": ["reason-apart"],
-          "excludesFacts": ["serve-post", "price-named"]
+          "excludesFacts": [
+            "serve-post",
+            "price-named",
+            "nothing-moved",
+            "asked-more-than-once"
+          ]
         }
       ],
       "bearing": "guarded",
@@ -157777,7 +157817,11 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "requiresFacts": ["reason-heard", "outlet"],
-          "excludesFacts": ["price-named"]
+          "excludesFacts": [
+            "price-named",
+            "nothing-moved",
+            "asked-more-than-once"
+          ]
         }
       ],
       "bearing": "braced",
@@ -157803,7 +157847,12 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "requiresFacts": ["reason-heard"],
-          "excludesFacts": ["stranger", "price-named"]
+          "excludesFacts": [
+            "stranger",
+            "price-named",
+            "nothing-moved",
+            "asked-more-than-once"
+          ]
         }
       ],
       "bearing": "guarded",
@@ -157829,7 +157878,12 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "requiresFacts": ["reason-long-shot"],
-          "excludesFacts": ["stranger", "price-named"]
+          "excludesFacts": [
+            "stranger",
+            "price-named",
+            "nothing-moved",
+            "asked-more-than-once"
+          ]
         }
       ],
       "bearing": "calm",
@@ -157855,7 +157909,12 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "requiresFacts": ["reason-long-shot"],
-          "excludesFacts": ["stranger", "price-named"]
+          "excludesFacts": [
+            "stranger",
+            "price-named",
+            "nothing-moved",
+            "asked-more-than-once"
+          ]
         }
       ],
       "bearing": "braced",
@@ -158526,7 +158585,12 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "requiresFacts": ["reason-own-seat"],
-          "excludesFacts": ["stranger", "price-named"]
+          "excludesFacts": [
+            "stranger",
+            "price-named",
+            "nothing-moved",
+            "asked-more-than-once"
+          ]
         }
       ],
       "bearing": "braced",
@@ -158552,7 +158616,12 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "requiresFacts": ["reason-own-seat"],
-          "excludesFacts": ["stranger", "price-named"]
+          "excludesFacts": [
+            "stranger",
+            "price-named",
+            "nothing-moved",
+            "asked-more-than-once"
+          ]
         }
       ],
       "bearing": "firm",
@@ -158578,7 +158647,12 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "requiresFacts": ["reason-own-race"],
-          "excludesFacts": ["stranger", "price-named"]
+          "excludesFacts": [
+            "stranger",
+            "price-named",
+            "nothing-moved",
+            "asked-more-than-once"
+          ]
         }
       ],
       "bearing": "guarded",
@@ -158604,7 +158678,12 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "requiresFacts": ["reason-own-race"],
-          "excludesFacts": ["stranger", "price-named"]
+          "excludesFacts": [
+            "stranger",
+            "price-named",
+            "nothing-moved",
+            "asked-more-than-once"
+          ]
         }
       ],
       "bearing": "firm",
@@ -158630,7 +158709,12 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "requiresFacts": ["reason-apart"],
-          "excludesFacts": ["stranger", "price-named"]
+          "excludesFacts": [
+            "stranger",
+            "price-named",
+            "nothing-moved",
+            "asked-more-than-once"
+          ]
         }
       ],
       "bearing": "calm",
@@ -158656,7 +158740,12 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "requiresFacts": ["reason-apart"],
-          "excludesFacts": ["stranger", "price-named"]
+          "excludesFacts": [
+            "stranger",
+            "price-named",
+            "nothing-moved",
+            "asked-more-than-once"
+          ]
         }
       ],
       "bearing": "braced",
@@ -158682,7 +158771,12 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "requiresFacts": ["reason-heard"],
-          "excludesFacts": ["stranger", "price-named"]
+          "excludesFacts": [
+            "stranger",
+            "price-named",
+            "nothing-moved",
+            "asked-more-than-once"
+          ]
         }
       ],
       "bearing": "calm",
@@ -158708,7 +158802,12 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "requiresFacts": ["reason-heard"],
-          "excludesFacts": ["stranger", "price-named"]
+          "excludesFacts": [
+            "stranger",
+            "price-named",
+            "nothing-moved",
+            "asked-more-than-once"
+          ]
         }
       ],
       "bearing": "firm",
@@ -158734,7 +158833,12 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "requiresFacts": ["reason-long-shot"],
-          "excludesFacts": ["stranger", "price-named"]
+          "excludesFacts": [
+            "stranger",
+            "price-named",
+            "nothing-moved",
+            "asked-more-than-once"
+          ]
         }
       ],
       "bearing": "guarded",
@@ -158760,7 +158864,12 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "requiresFacts": ["reason-long-shot"],
-          "excludesFacts": ["stranger", "price-named"]
+          "excludesFacts": [
+            "stranger",
+            "price-named",
+            "nothing-moved",
+            "asked-more-than-once"
+          ]
         }
       ],
       "bearing": "firm",
@@ -178098,7 +178207,8 @@
           "step": "reply",
           "move": "stall",
           "role": "asked",
-          "requiresFacts": ["reason-district"]
+          "requiresFacts": ["reason-district"],
+          "excludesFacts": ["asked-before"]
         }
       ],
       "bearing": "guarded",
@@ -178123,7 +178233,8 @@
           "step": "reply",
           "move": "stall",
           "role": "asked",
-          "requiresFacts": ["reason-district"]
+          "requiresFacts": ["reason-district"],
+          "excludesFacts": ["asked-before"]
         }
       ],
       "bearing": "tired",
@@ -178148,7 +178259,8 @@
           "step": "reply",
           "move": "stall",
           "role": "asked",
-          "requiresFacts": ["reason-own-view"]
+          "requiresFacts": ["reason-own-view"],
+          "excludesFacts": ["asked-before"]
         }
       ],
       "bearing": "guarded",
@@ -178173,7 +178285,8 @@
           "step": "reply",
           "move": "stall",
           "role": "asked",
-          "requiresFacts": ["reason-own-view"]
+          "requiresFacts": ["reason-own-view"],
+          "excludesFacts": ["asked-before"]
         }
       ],
       "bearing": "calm",
@@ -178198,7 +178311,8 @@
           "step": "reply",
           "move": "stall",
           "role": "asked",
-          "requiresFacts": ["their-bill"]
+          "requiresFacts": ["their-bill"],
+          "excludesFacts": ["asked-before"]
         }
       ],
       "bearing": "warm",
@@ -178223,7 +178337,8 @@
           "step": "reply",
           "move": "stall",
           "role": "asked",
-          "requiresFacts": ["their-bill"]
+          "requiresFacts": ["their-bill"],
+          "excludesFacts": ["asked-before"]
         }
       ],
       "bearing": "calm",
@@ -178248,7 +178363,8 @@
           "step": "reply",
           "move": "stall",
           "role": "asked",
-          "requiresFacts": ["price-section"]
+          "requiresFacts": ["price-section"],
+          "excludesFacts": ["asked-before"]
         }
       ],
       "bearing": "guarded",
@@ -178273,7 +178389,8 @@
           "step": "reply",
           "move": "stall",
           "role": "asked",
-          "requiresFacts": ["reason-last-vote"]
+          "requiresFacts": ["reason-last-vote"],
+          "excludesFacts": ["asked-before"]
         }
       ],
       "bearing": "steady",
@@ -178298,7 +178415,8 @@
           "step": "reply",
           "move": "refuse",
           "role": "asked",
-          "requiresFacts": ["reason-own-view"]
+          "requiresFacts": ["reason-own-view"],
+          "excludesFacts": ["asked-before"]
         }
       ],
       "bearing": "firm",
@@ -178323,7 +178441,8 @@
           "step": "reply",
           "move": "refuse",
           "role": "asked",
-          "requiresFacts": ["reason-party"]
+          "requiresFacts": ["reason-party"],
+          "excludesFacts": ["asked-before"]
         }
       ],
       "bearing": "guarded",
@@ -178348,7 +178467,8 @@
           "step": "reply",
           "move": "refuse",
           "role": "asked",
-          "requiresFacts": ["reason-group"]
+          "requiresFacts": ["reason-group"],
+          "excludesFacts": ["asked-before"]
         }
       ],
       "bearing": "braced",
@@ -178373,7 +178493,8 @@
           "step": "reply",
           "move": "refuse",
           "role": "asked",
-          "requiresFacts": ["reason-next-election"]
+          "requiresFacts": ["reason-next-election"],
+          "excludesFacts": ["asked-before"]
         }
       ],
       "bearing": "guarded",
@@ -178398,7 +178519,8 @@
           "step": "reply",
           "move": "refuse",
           "role": "asked",
-          "requiresFacts": ["reason-sponsor"]
+          "requiresFacts": ["reason-sponsor"],
+          "excludesFacts": ["asked-before"]
         }
       ],
       "bearing": "braced",
@@ -178423,7 +178545,8 @@
           "step": "reply",
           "move": "refuse",
           "role": "asked",
-          "requiresFacts": ["reason-last-vote"]
+          "requiresFacts": ["reason-last-vote"],
+          "excludesFacts": ["asked-before"]
         }
       ],
       "bearing": "firm",
@@ -178799,7 +178922,8 @@
           "step": "reply",
           "move": "refuse",
           "role": "asked",
-          "after": "request"
+          "after": "request",
+          "excludesFacts": ["asked-before"]
         },
         {
           "subject": "scene",
@@ -178844,7 +178968,8 @@
           "step": "reply",
           "move": "refuse",
           "role": "asked",
-          "after": "request"
+          "after": "request",
+          "excludesFacts": ["asked-before"]
         },
         {
           "subject": "scene",
@@ -178889,7 +179014,8 @@
           "step": "reply",
           "move": "refuse",
           "role": "asked",
-          "after": "request"
+          "after": "request",
+          "excludesFacts": ["asked-before"]
         },
         {
           "subject": "scene",
@@ -185694,76 +185820,6 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.you-have-bill-drafted-and-no-names-on-it-but-yours-name-is-in",
-      "move": "narrate-narrate",
-      "kind": "written",
-      "text": "You have {bill} drafted and no names on it but yours. {name} is in.",
-      "origin": "authored",
-      "author": "Bill stages (Claude Code), co-sponsor ask",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "narrate",
-        "key": "bill-sign-on"
-      },
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "cosponsor-ask",
-          "key": "bill-sign-on",
-          "requiresFacts": ["bill"]
-        }
-      ]
-    },
-    {
-      "key": "scene-talk.narrate-narrate.you-catch-name-in-the-hallway-outside-the-chamber-between-meetings",
-      "move": "narrate-narrate",
-      "kind": "written",
-      "text": "You catch {name} in the hallway outside the chamber, between meetings.",
-      "origin": "authored",
-      "author": "Bill stages (Claude Code), co-sponsor ask",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "narrate",
-        "key": "bill-sign-on"
-      },
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "cosponsor-ask",
-          "key": "bill-sign-on"
-        }
-      ]
-    },
-    {
-      "key": "scene-talk.narrate-narrate.name-s-door-is-open-you-knock-on-the-frame-and-step-in",
-      "move": "narrate-narrate",
-      "kind": "written",
-      "text": "{name}'s door is open. You knock on the frame and step in.",
-      "origin": "authored",
-      "author": "Bill stages (Claude Code), co-sponsor ask",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "narrate",
-        "key": "bill-sign-on"
-      },
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "cosponsor-ask",
-          "key": "bill-sign-on"
-        }
-      ]
-    },
-    {
       "key": "scene-talk.state-request.i-m-putting-in-a-bill-on-said-will-you-sign-on-with-me",
       "move": "state-request",
       "kind": "spoken",
@@ -185784,7 +185840,8 @@
           "role": "asker",
           "purpose": "cosponsor-ask",
           "key": "bill-sign-on",
-          "requiresFacts": ["said"]
+          "requiresFacts": ["said"],
+          "excludesFacts": ["asked-before"]
         }
       ]
     },
@@ -185809,7 +185866,8 @@
           "role": "asker",
           "purpose": "cosponsor-ask",
           "key": "bill-sign-on",
-          "requiresFacts": ["said"]
+          "requiresFacts": ["said"],
+          "excludesFacts": ["asked-before"]
         }
       ]
     },
@@ -185834,7 +185892,8 @@
           "role": "asker",
           "purpose": "cosponsor-ask",
           "key": "bill-sign-on",
-          "requiresFacts": ["said"]
+          "requiresFacts": ["said"],
+          "excludesFacts": ["asked-before"]
         }
       ]
     },
@@ -185931,7 +185990,8 @@
           "role": "asked",
           "purpose": "cosponsor-ask",
           "key": "bill-sign-on",
-          "requiresFacts": ["no-views"]
+          "requiresFacts": ["no-views"],
+          "excludesFacts": ["asked-before"]
         }
       ]
     },
@@ -185956,7 +186016,8 @@
           "role": "asked",
           "purpose": "cosponsor-ask",
           "key": "bill-sign-on",
-          "requiresFacts": ["no-views"]
+          "requiresFacts": ["no-views"],
+          "excludesFacts": ["asked-before"]
         }
       ]
     },
@@ -185981,7 +186042,8 @@
           "role": "asked",
           "purpose": "cosponsor-ask",
           "key": "bill-sign-on",
-          "requiresFacts": ["no-constituents"]
+          "requiresFacts": ["no-constituents"],
+          "excludesFacts": ["asked-before"]
         },
         {
           "subject": "scene",
@@ -185990,7 +186052,8 @@
           "role": "asked",
           "purpose": "cosponsor-ask",
           "key": "bill-sign-on",
-          "requiresFacts": ["no-party"]
+          "requiresFacts": ["no-party"],
+          "excludesFacts": ["asked-before"]
         }
       ]
     },
@@ -186015,7 +186078,8 @@
           "role": "asked",
           "purpose": "cosponsor-ask",
           "key": "bill-sign-on",
-          "requiresFacts": ["no-consistency", "voted-against-before"]
+          "requiresFacts": ["no-consistency", "voted-against-before"],
+          "excludesFacts": ["asked-before"]
         }
       ]
     },
@@ -186232,7 +186296,8 @@
           "role": "asked",
           "purpose": "cosponsor-ask",
           "key": "bill-sign-on",
-          "requiresFacts": ["no-views"]
+          "requiresFacts": ["no-views"],
+          "excludesFacts": ["asked-before"]
         }
       ]
     },
@@ -186257,7 +186322,8 @@
           "role": "asked",
           "purpose": "cosponsor-ask",
           "key": "bill-sign-on",
-          "requiresFacts": ["no-views"]
+          "requiresFacts": ["no-views"],
+          "excludesFacts": ["asked-before"]
         }
       ]
     },
@@ -186282,7 +186348,8 @@
           "role": "asked",
           "purpose": "cosponsor-ask",
           "key": "bill-sign-on",
-          "requiresFacts": ["no-constituents"]
+          "requiresFacts": ["no-constituents"],
+          "excludesFacts": ["asked-before"]
         }
       ]
     },
@@ -186307,7 +186374,8 @@
           "role": "asked",
           "purpose": "cosponsor-ask",
           "key": "bill-sign-on",
-          "requiresFacts": ["no-constituents"]
+          "requiresFacts": ["no-constituents"],
+          "excludesFacts": ["asked-before"]
         }
       ]
     },
@@ -186332,7 +186400,8 @@
           "role": "asked",
           "purpose": "cosponsor-ask",
           "key": "bill-sign-on",
-          "requiresFacts": ["no-party"]
+          "requiresFacts": ["no-party"],
+          "excludesFacts": ["asked-before"]
         }
       ]
     },
@@ -186357,7 +186426,8 @@
           "role": "asked",
           "purpose": "cosponsor-ask",
           "key": "bill-sign-on",
-          "requiresFacts": ["no-party"]
+          "requiresFacts": ["no-party"],
+          "excludesFacts": ["asked-before"]
         }
       ]
     },
@@ -186382,7 +186452,8 @@
           "role": "asked",
           "purpose": "cosponsor-ask",
           "key": "bill-sign-on",
-          "requiresFacts": ["no-consistency", "voted-against-before"]
+          "requiresFacts": ["no-consistency", "voted-against-before"],
+          "excludesFacts": ["asked-before"]
         }
       ]
     },
@@ -186407,7 +186478,8 @@
           "role": "asked",
           "purpose": "cosponsor-ask",
           "key": "bill-sign-on",
-          "requiresFacts": ["no-consistency", "voted-against-before"]
+          "requiresFacts": ["no-consistency", "voted-against-before"],
+          "excludesFacts": ["asked-before"]
         }
       ]
     },
@@ -186480,7 +186552,8 @@
           "move": "plea",
           "role": "asker",
           "purpose": "cosponsor-ask",
-          "key": "bill-sign-on"
+          "key": "bill-sign-on",
+          "excludesFacts": ["asked-before"]
         }
       ]
     },
@@ -186504,7 +186577,8 @@
           "move": "plea",
           "role": "asker",
           "purpose": "cosponsor-ask",
-          "key": "bill-sign-on"
+          "key": "bill-sign-on",
+          "excludesFacts": ["asked-before"]
         }
       ]
     },
@@ -186528,7 +186602,8 @@
           "move": "plea",
           "role": "asker",
           "purpose": "cosponsor-ask",
-          "key": "bill-sign-on"
+          "key": "bill-sign-on",
+          "excludesFacts": ["asked-before"]
         }
       ]
     },
@@ -186552,7 +186627,8 @@
           "move": "press",
           "role": "asker",
           "purpose": "cosponsor-ask",
-          "key": "bill-sign-on"
+          "key": "bill-sign-on",
+          "excludesFacts": ["asked-before"]
         }
       ]
     },
@@ -186576,7 +186652,8 @@
           "move": "press",
           "role": "asker",
           "purpose": "cosponsor-ask",
-          "key": "bill-sign-on"
+          "key": "bill-sign-on",
+          "excludesFacts": ["asked-before"]
         }
       ]
     },
@@ -193251,6 +193328,379 @@
         "move": "decline",
         "key": "serve-asked"
       }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.you-have-bill-drafted-and-no-names-on-it-but-yours-you-go-to-see-first",
+      "move": "narrate-narrate",
+      "kind": "written",
+      "text": "You have {bill} drafted and no names on it but yours. You go to see {first}.",
+      "origin": "authored",
+      "author": "Words lead (Nov 15), co-sponsor ask",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "narrate",
+        "key": "bill-sign-on"
+      },
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "cosponsor-ask",
+          "key": "bill-sign-on",
+          "requiresFacts": ["bill"],
+          "excludesFacts": ["asked-before"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.first-said-no-the-last-time-you-brought-a-bill-on-said-you-ask-again",
+      "move": "narrate-narrate",
+      "kind": "written",
+      "text": "{first} said no the last time you brought a bill on {said}. You ask again.",
+      "origin": "authored",
+      "author": "Words lead (Nov 15), second ask of the same person",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "narrate",
+        "key": "bill-sign-on"
+      },
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "cosponsor-ask",
+          "key": "bill-sign-on",
+          "requiresFacts": ["asked-before", "said"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.you-ve-asked-first-to-sign-on-to-a-bill-on-said-before-the-answer-was-no",
+      "move": "narrate-narrate",
+      "kind": "written",
+      "text": "You've asked {first} to sign on to a bill on {said} before. The answer was no.",
+      "origin": "authored",
+      "author": "Words lead (Nov 15), second ask of the same person",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "narrate",
+        "key": "bill-sign-on"
+      },
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "cosponsor-ask",
+          "key": "bill-sign-on",
+          "requiresFacts": ["asked-before", "said"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.state-request.i-m-asking-you-again-on-said-will-you-sign-on-this-time",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I'm asking you again on {said}. Will you sign on this time?",
+      "origin": "authored",
+      "author": "Words lead (Nov 15), second ask of the same person",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "request",
+        "key": "bill-sign-on"
+      },
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "cosponsor-ask",
+          "key": "bill-sign-on",
+          "requiresFacts": ["asked-before", "said"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-vote-on-bill-is-tomorrow-first-voted-against-your-last-bill-on-said",
+      "move": "narrate-narrate",
+      "kind": "written",
+      "text": "The vote on {bill} is tomorrow. {first} voted against your last bill on {said}.",
+      "origin": "authored",
+      "author": "Words lead (Nov 15), second ask of the same person",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "narrate",
+        "key": "vote-sought"
+      },
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "ask-vote",
+          "key": "vote-sought",
+          "requiresFacts": ["asked-before", "said", "vote-tomorrow"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-refuse.you-asked-me-last-time-and-i-voted-no-i-m-voting-no-again",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "You asked me last time, and I voted no. I'm voting no again.",
+      "origin": "authored",
+      "author": "Words lead (Nov 15), second ask of the same person",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "refuse",
+        "key": "vote-wanted"
+      },
+      "bearing": "steady",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "ask-vote",
+          "key": "vote-wanted",
+          "requiresFacts": ["asked-before"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-stall.you-asked-before-i-still-haven-t-made-up-my-mind",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "You asked before. I still haven't made up my mind.",
+      "origin": "authored",
+      "author": "Words lead (Nov 15), second ask of the same person",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "stall",
+        "key": "bill-sign-on"
+      },
+      "bearing": "steady",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "purpose": "cosponsor-ask",
+          "key": "bill-sign-on",
+          "requiresFacts": ["asked-before"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.follow-defer.read-it-that-s-all-i-m-asking",
+      "move": "follow-defer",
+      "kind": "spoken",
+      "text": "Read it. That's all I'm asking.",
+      "origin": "authored",
+      "author": "Words lead (Nov 15), second ask of the same person",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "defer",
+        "key": "bill-sign-on"
+      },
+      "bearing": "calm",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "defer",
+          "role": "asker",
+          "purpose": "cosponsor-ask",
+          "key": "bill-sign-on",
+          "after": "stall",
+          "requiresFacts": ["asked-before"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.follow-defer.take-the-time-you-need",
+      "move": "follow-defer",
+      "kind": "spoken",
+      "text": "Take the time you need.",
+      "origin": "authored",
+      "author": "Words lead (Nov 15), second ask of the same person",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "defer",
+        "key": "vote-wanted"
+      },
+      "bearing": "calm",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "defer",
+          "role": "asker",
+          "purpose": "ask-vote",
+          "key": "vote-wanted",
+          "after": "stall",
+          "requiresFacts": ["asked-before"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-stall.i-was-a-no-last-time-don-t-count-me-either-way-yet",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "I was a no last time. Don't count me either way yet.",
+      "origin": "authored",
+      "author": "Words lead (Nov 15), second ask of the same person",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "stall",
+        "key": "vote-wanted"
+      },
+      "bearing": "steady",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "purpose": "ask-vote",
+          "key": "vote-wanted",
+          "requiresFacts": ["asked-before"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.follow-plea.i-backed-you-when-it-counted-i-need-your-vote-on-this-one",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "I backed you when it counted. I need your vote on this one.",
+      "origin": "authored",
+      "author": "Words lead (Nov 15), second ask of the same person",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "plea",
+        "key": "vote-wanted"
+      },
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "ask-vote",
+          "key": "vote-wanted",
+          "requiresFacts": ["asked-before"],
+          "onlyWhen": ["read-favor-given"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-turned-you-down-for-office-once-you-ask-again",
+      "move": "narrate-narrate",
+      "kind": "written",
+      "text": "{name} turned you down for {office} once. You ask again.",
+      "origin": "authored",
+      "author": "Words lead (Nov 15), second ask of the same person",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "narrate",
+        "key": "serve-asked"
+      },
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["asked-before"],
+          "excludesFacts": ["asked-more-than-once"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-has-already-said-no-to-office-and-said-it-again-you-ask-anyway",
+      "move": "narrate-narrate",
+      "kind": "written",
+      "text": "{name} has already said no to {office}, and said it again. You ask anyway.",
+      "origin": "authored",
+      "author": "Words lead (Nov 15), second ask of the same person",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "narrate",
+        "key": "serve-asked"
+      },
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["asked-more-than-once"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-decline.my-answer-isn-t-going-to-change-let-it-go",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "My answer isn't going to change. Let it go.",
+      "origin": "authored",
+      "author": "Words lead (Nov 15), second ask of the same person",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "decline",
+        "key": "serve-asked"
+      },
+      "bearing": "firm",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["asked-more-than-once"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-decline.i-gave-you-my-answer-it-hasn-t-changed",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I gave you my answer. It hasn't changed.",
+      "origin": "authored",
+      "author": "Words lead (Nov 15), second ask of the same person",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "decline",
+        "key": "serve-asked"
+      },
+      "bearing": "steady",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["nothing-moved"],
+          "excludesFacts": ["asked-more-than-once"]
+        }
+      ]
     },
     {
       "key": "scene-talk.state-comfort.i-worked-this-race-with-you-and-we-lost-it-what-do-we-do-with-all-of-it",

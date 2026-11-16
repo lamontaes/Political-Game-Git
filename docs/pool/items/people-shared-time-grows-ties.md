@@ -5,7 +5,7 @@ area: core
 kind: feature
 priority: 2
 size: M
-status: in-pr
+status: merged
 claimed-by:
 pr: #9364
 blocked-on:
