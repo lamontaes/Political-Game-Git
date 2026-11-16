@@ -93,11 +93,7 @@ function hasDailyFocus(core: CoreState, actor: Readonly<PersonState>): boolean {
 
 /** Why a person chooses every day, the first reason that holds. */
 export type DailyFocusReason =
-  | "player"
-  | "focus-person"
-  | "player-circle"
-  | "focus-place"
-  | "focus-county";
+  "player" | "focus-person" | "player-circle" | "focus-place" | "focus-county";
 
 /**
  * The one daily-focus rule: why `actor` chooses every day, or null when they
