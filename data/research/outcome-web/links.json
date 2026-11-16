@@ -825,6 +825,27 @@
       "notes": "Unsupported until a disaster record is readable: the game has no per-place reader for a severe disaster; out-migration is kept, so this acts once one exists. Boustan, Kahn, Rhode and Yanguas report no split of the out-migration effect by income, age, tenure or household kind (its heterogeneity section splits by disaster type, severity and period). Stopgap SG-WEB-moves-disaster-severity: the disasters engine records FEMA declarations without deaths, so no per-place severe-disaster record exists; the researched size (0.05, range 0.025 to 0.1) is kept for when one does. Research gives no heterogeneity by person (county-level decade study). Oct 28 update, built: the cause is now read from the disasters engine's own records (src/core2/modules/disasters.ts severeDisasterReading), not from every declaration. Roth Tran and Wilson 2023 (FRBSF Working Paper 2020-34, p. 19-20) size the average FEMA Major Disaster declaration at no out-migration effect: \"the response of population to a disaster is small and generally statistically insignificant up to at least eight years out\", with \"modest longer-run declines in both in-migration and out-migration that roughly cancel each other out\". Only the most damaging disasters move people: \"a disaster with damages p.c. equal to the 99th percentile causes population to decline by roughly 1.5% after eight years\" (p. 25-26), the same size as this row's 1.5 points. So the cause is a severity from 0 to 1 on FEMA's inspected damaged homes per resident, 0 at the 90th percentile of the game's own FEMA town rows and 1 at the 95th (src/core2/data/disasters/severity.json), held for the ten years after the incident begins, and the researched size applies at severity 1. The size and range are unchanged. Assumed and registered as SG-WEB-disaster-severity-damage-proxy: FEMA's damaged-home figures stand for the study's deaths, and the ramp ends stand for its severe class."
     },
     {
+      "key": "unemployment-to-out-migration",
+      "status": "built",
+      "unsupportedReason": null,
+      "to": "population.out-migration",
+      "strength": "moderate",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": 0.025,
+      "per": "percentage point of unemployment above 4%",
+      "lagMonths": 0,
+      "group": "place",
+      "owner": "JOBS",
+      "anchor": "A mass layoff of 1% of a county's workers shrinks its labor force by 0.19 percentage points, mostly through people moving out of the area; the response after 2007 is about half as large. Read as one more point of unemployment and against a county's yearly leaving of about 6 to 8%, that is roughly 1 to 4% more people leaving a year per point. Conversion is ours, so ESTIMATED.",
+      "source": "Foote, Grosz and Stevens 2019, Locate Your Nearest Exit: Mass Layoffs and Local Labor Market Response, ILR Review 72(1):101-126 (NBER w21618); figures from the NBER summary (nber.org/sites/default/files/2023-05/NB15-04d Foote, Grosz, Stevens - SUMMARY.pdf); the journal tables were not read",
+      "from": "labor.unemployment-pct",
+      "evidence": "researched",
+      "range": [0.01, 0.04],
+      "notes": "The study's unit is a layoff's share of the county's workers, not the unemployment rate; one point of layoffs is read as one point of unemployment, which overstates it where some of those laid off leave the labor force or find work at once. The low end is the post-2007 response (about half); the high end reads the whole 0.19 points as moves out of a labor force whose yearly out-migration is at the low end of the ACS range. Applies to every household, full and counted, through each engine's web factor on leaving (moves.ts, counted-moves.ts)."
+    },
+    {
       "key": "disaster-to-home-values",
       "status": "built",
       "unsupportedReason": null,
