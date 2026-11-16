@@ -1,6 +1,6 @@
 /**
  * A counted household opens with the Survey of Consumer Finances' median for
- * a family like it, spread by its own savings draw (`countedOpeningSpread`),
+ * a family like it, spread by its own savings draw (`householdBalanceDraw`),
  * so the median household of the town holds its median. Before, each group's
  * account opened at its households' medians and was then shared by savings
  * weights with a mean of one, which put the median household at
@@ -10,7 +10,8 @@
  */
 import { expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
-import { countedDeposits, countedOpeningSpread } from "./counted-money";
+import { countedDeposits } from "./counted-money";
+import { householdBalanceDraw } from "./household-balance-draw";
 import { advanceCore, createLifeCore } from "./life";
 import { householdCashReader, residentsRuntime } from "./modules/residents";
 import { OUTCOME_WEB_MODULE } from "./modules/outcome-web";
@@ -45,7 +46,7 @@ it("the median counted household holds about its survey median on day 1 (Staples
     // Its survey median: what it opened with, over its own draw.
     const median =
       rt.store.countedMembers(h).reduce((n, m) => n + rt.store.liquid[m]!, 0) /
-      countedOpeningSpread(core.seed, h.id);
+      householdBalanceDraw(core.seed, h.id);
     if (median > 0)
       ratios.push((cashOf(h) + countedDeposits(api, rt, h)) / median);
   }

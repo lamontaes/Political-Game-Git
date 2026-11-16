@@ -32,4 +32,4 @@ source: "T54's #9117 trace at Staples CT, Nov 15 23:20Z (fault B); Account lead'
 
 **Waits on.** #9597 (counted-savings-banked-by-group).
 
-**Files.** src/core2/residents.ts, src/core2/counted-money.ts, src/core2/counted-opening-savings-median.test.ts (new).
+**Files.** src/core2/residents.ts, src/core2/counted-money.ts, src/core2/counted-opening-savings-median.test.ts (new), src/bench/dev-why.ts, src/bench/dev-why-counted-money.test.ts (new). Dev mode: the trace of a counted household or person shows its Money and Looking for work panels.

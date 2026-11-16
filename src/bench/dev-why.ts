@@ -27,7 +27,7 @@ import { BUDGETS_MODULE_ID } from "../core2/modules/budgets";
 import { LEGISLATURE_MODULE_ID } from "../core2/modules/legislature";
 import {
   countedDeposits,
-  countedOpeningSpread,
+  householdBalanceDraw,
   fundOf,
   householdCash,
   residentsRuntime,
@@ -47,6 +47,7 @@ import type {
   DecisionReason,
   DecisionResult,
   LogRecord,
+  PersonId,
 } from "../core2/types";
 
 export interface WhyRow {
@@ -754,7 +755,7 @@ function countedMoneyPanels(core: CoreState, householdId: string): WhyPanel[] {
   const banked = rt.api ? countedDeposits(rt.api, rt, home) : 0;
   const days = countedDaysOfMoney(rt, home, (h) => householdCash(rt, h));
   const monthly = dailyCost * monthDays;
-  const spread = countedOpeningSpread(core.seed, home.id);
+  const spread = householdBalanceDraw(core.seed, home.id);
   const account =
     rt.api && home.group >= 0 ? fundOf(rt.api, rt, home.group) : undefined;
   const moneyRows: WhyRow[] = [
@@ -821,6 +822,33 @@ function countedMoneyPanels(core: CoreState, householdId: string): WhyPanel[] {
   ];
 }
 
+/**
+ * A full household's opening savings draw (owner, Nov 16: what a trace finds,
+ * dev mode shows): every household opened at the survey's median for a family
+ * like it times this draw, fixed by the world's seed and the household's id
+ * and never redrawn (household-balance-draw.ts); a counted household's Money
+ * panel shows the same draw beside what it opened with.
+ */
+function openingDrawPanels(core: CoreState, personId: string): WhyPanel[] {
+  const householdId = core.people.get(personId as PersonId)?.householdId;
+  if (!householdId) return [];
+  return [
+    {
+      title: "Opening savings",
+      rows: [
+        { label: "household", value: householdId, id: householdId },
+        {
+          label:
+            "its own savings draw (it opened at the survey's median for a family like it times this)",
+          value: Number(
+            householdBalanceDraw(core.seed, householdId).toFixed(3),
+          ),
+        },
+      ],
+    },
+  ];
+}
+
 export function whyPanels(
   core: CoreState,
   id: string,
@@ -844,7 +872,11 @@ export function whyPanels(
       linePanel(core, String(record.governmentId), line),
     );
   if (found.kind === "person")
-    return [...ledgerPanels(core, id), ...decisionPanels(core, id)];
+    return [
+      ...ledgerPanels(core, id),
+      ...decisionPanels(core, id),
+      ...openingDrawPanels(core, id),
+    ];
   if (found.kind === "counted-household") return countedMoneyPanels(core, id);
   if (found.kind === "counted-person" && typeof record.householdId === "string")
     return countedMoneyPanels(core, record.householdId);

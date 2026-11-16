@@ -95,6 +95,7 @@ import {
   medianTransactionBalance,
 } from "./starting-cash";
 import { placeEarningsOf } from "./residents";
+import { householdBalanceDraw } from "./household-balance-draw";
 import { seedableTraits } from "./opening-trait-table";
 import type { EntityId, IsoDate as WorldDate } from "./kernel/brands";
 import {
@@ -1415,24 +1416,29 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
       (sum, id) => sum + (jobByPerson.get(id)?.wageDailyMinor ?? p("zero")),
       p("zero"),
     );
+    // Its median balance (or, with no pay, its cushion of days) times its own
+    // savings draw, fixed by its id (household-balance-draw.ts).
+    const draw = householdBalanceDraw(options.seed, plan.id);
     const reserve =
       dailyPay > p("zero")
         ? Math.round(
-            medianTransactionBalance(
-              (dailyPay * p("daysPerMeanYear")) / p("minorPerDollar"),
-              options.seed,
-              // The head is the household's oldest adult.
-              Math.max(
-                ...adults.map((id) =>
-                  ageOnDate(
-                    makeIsoDate(world.people[id]!.birthDate),
-                    startedAt,
+            draw *
+              medianTransactionBalance(
+                (dailyPay * p("daysPerMeanYear")) / p("minorPerDollar"),
+                options.seed,
+                // The head is the household's oldest adult.
+                Math.max(
+                  ...adults.map((id) =>
+                    ageOnDate(
+                      makeIsoDate(world.people[id]!.birthDate),
+                      startedAt,
+                    ),
                   ),
                 ),
-              ),
-            ) * p("minorPerDollar"),
+              ) *
+              p("minorPerDollar"),
           )
-        : householdDailyCost * p("moneyBufferDays");
+        : Math.round(draw * householdDailyCost * p("moneyBufferDays"));
     for (const id of plan.ids) {
       const adultIndex = adults.indexOf(id);
       const share = (total: number) =>
@@ -1961,6 +1967,7 @@ function openingFamilies(input: OpeningFamilyInput): {
       p("zero"),
       adults.length,
       input.seed,
+      householdBalanceDraw(input.seed, row.id),
       // The head is the household's oldest adult.
       Math.max(
         ...adults.map((id) =>

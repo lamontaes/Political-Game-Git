@@ -33,11 +33,10 @@ import {
 import { lawApplied } from "./law-reach/applied";
 import { LAWS_MODULE_ID, lawChain, lawInForce } from "./modules/laws";
 import {
-  countedParameter,
   residentsRuntime,
   type ResidentsRuntime,
 } from "./modules/residents";
-import { stableHash } from "./kernel/ids";
+import { balanceDrawZ, balanceSpreadLog } from "./household-balance-draw";
 import type { CountedHousehold } from "./counted-groups";
 import { withCountedQuarterPay } from "./pay-by-quarter";
 import type { ResidentFlowInput } from "./residents";
@@ -98,14 +97,8 @@ export function savingWeight(
   h: { readonly id: string; saving?: number },
 ): number {
   if (h.saving === undefined) {
-    const sigma = countedParameter("countedSavingsSpreadLog");
-    const uniform = (key: string) =>
-      (Number.parseInt(stableHash(key).slice(0, 12), 16) + 0.5) / 16 ** 12;
-    const key = `${seed}:counted-saving:${h.id}`;
-    const z =
-      Math.sqrt(-2 * Math.log(uniform(`${key}:a`))) *
-      Math.cos(2 * Math.PI * uniform(`${key}:b`));
-    h.saving = Math.exp(sigma * z - (sigma * sigma) / 2);
+    const sigma = balanceSpreadLog();
+    h.saving = Math.exp(sigma * balanceDrawZ(seed, h.id) - (sigma * sigma) / 2);
   }
   return h.saving;
 }
@@ -147,26 +140,6 @@ export function countedHouseholdSavings(
     holderId: fundOf(api, rt, h.group),
     minor: countedDeposits(api, rt, h),
   };
-}
-
-/**
- * What a counted household opens with, against the survey's median for a
- * family like it (`medianTransactionBalance`): its own savings draw,
- * exp(σz), the same draw `savingWeight` keeps as exp(σz − σ²/2). A group's
- * account then opens at what its households hold, and since the account is
- * shared by those weights, each household's share is its own median times its
- * draw: the median household holds the survey's median, and the group's mean
- * is the survey's mean within the group. Not a second weight: the one draw,
- * read before the household is a record.
- */
-export function countedOpeningSpread(
-  seed: string,
-  householdId: string,
-): number {
-  const sigma = countedParameter("countedSavingsSpreadLog");
-  return (
-    savingWeight(seed, { id: householdId }) * Math.exp((sigma * sigma) / 2)
-  );
 }
 
 /** A household's claim on its group's account: its people, each counted at its savings weight. */
