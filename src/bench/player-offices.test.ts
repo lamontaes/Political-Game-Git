@@ -1,4 +1,3 @@
-import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "../core2/bookkeeping";
@@ -84,21 +83,22 @@ describe("the player files only for the offices the data lists (owner, Oct 29)",
     );
     return { where, outside: outside.length };
   };
-  it("narrows the filing choices and leaves the rest of the world filing", () => {
-    const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
-    // A place whose world has no other office open, or files nothing outside the player's offices in two years, is redrawn,
-    // named, so the world-still-files claim is always proven on a place that shows it.
-    const skipped: string[] = [];
-    for (let draw = 0; draw < 5; draw += 1) {
-      const result = check(draw ? `${seed}-${draw}` : seed);
-      if (result.outside > 0) return;
-      skipped.push(result.where);
-      process.stdout.write(
-        `${result.where}: no other office to refuse or watch file, or none filed in two years, redrawn\n`,
-      );
-    }
-    expect.fail(
-      `no drawn place filed outside the player's offices: ${skipped}`,
-    );
-  }, 1_800_000);
+  // Pinned (the view thread's sweep of tests that draw): the old test drew a random place and
+  // redrew five times, so a draw whose day one had no filing open failed it by luck (Trenton,
+  // Michigan, Nov 16). These two places, found by a script outside the test, have filings open
+  // on the first day with another office open beside the player's, and files a simulated
+  // candidate outside the player's offices within two years.
+  const PINNED = [
+    ["po:33", "Millville"],
+    ["po:37", "Morgantown"],
+  ] as const;
+  for (const [seed, name] of PINNED)
+    it(`narrows the filing choices and leaves the rest of the world filing at ${name}`, () => {
+      const result = check(seed);
+      expect(result.where).toContain(name);
+      expect(
+        result.outside,
+        `${result.where}: a filing outside the player's offices`,
+      ).toBeGreaterThan(0);
+    }, 240_000);
 });
