@@ -5,10 +5,10 @@ area: people
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: merged
 standard: 2
 claimed-by:
-pr: 9511
+pr: #9511
 after:
 blocked-on:
 lead: m0-m2
@@ -16,6 +16,7 @@ source: "Fable B, Nov 15 (found while tracing the federal wage question at Mario
 model: opus
 effort: medium
 root: none
+merged-at: 2026-11-16T01:47:49.134Z
 ---
 
 **What.** In a town made mostly of counted households, either almost none or almost all of them hold an employer health plan, and a small change in pay can move them from one to the other in a month. At Marion, Mississippi a federal wage floor raised the counted households' income by $6.9 million over 180 days and their premiums by $42.7 million. The player would see a wage law leave the town's households far poorer, with the money gone to the outside account as premiums. Seen: the Metrics tab's money result after a wage law, and a counted household's premium in dev mode's household money.
