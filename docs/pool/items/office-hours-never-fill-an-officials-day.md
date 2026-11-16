@@ -32,4 +32,4 @@ source: Found by the lying thread, Nov 15 2026, checking whether a visit's hours
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/work.ts, src/core2/work-state.ts, src/core2/state.ts, src/core2/types.ts, src/core2/office-day-state.ts, src/core2/modules/world-legislating.ts, src/core2/modules/office-day.ts, src/core2/data/office-day/state-parameters.json, src/core2/office-hours-day.test.ts (new), src/bench/dev-mode.ts
+**Files.** src/core2/modules/work.ts, src/core2/work-state.ts, src/core2/state.ts, src/core2/types.ts, src/core2/office-day-state.ts, src/core2/modules/world-legislating.ts, src/core2/modules/office-day.ts, src/core2/data/office-day/state-parameters.json, src/core2/office-hours-day.test.ts (new), src/bench/dev-views/person-day.ts (new), src/bench/ui/dev-person-day.mjs (new), src/core2/tie-lost-since-sitting.test.ts

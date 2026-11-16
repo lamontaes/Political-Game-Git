@@ -97,7 +97,6 @@ import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import type { EntityId } from "../core2/kernel/brands";
 import { isDemoted, residentsRuntime } from "../core2/modules/residents";
 import { layOffWorker } from "../core2/modules/jobs";
-import { discretionaryHours, officeTimeToday } from "../core2/modules/work";
 import {
   beginSeriousIllness,
   HEALTH_MODULE,
@@ -2259,26 +2258,6 @@ export class DevMode {
     return rows.sort((a, b) => b.learnedAt.localeCompare(a.learnedAt));
   }
 
-  /**
-   * A person's day so far, on the clock every engine reads
-   * (office-hours-never-fill-an-officials-day): minutes at work, of which the
-   * office's hours and the record they come from (an office day entry, a
-   * meeting, a day at the post), minutes of free time spent, and the hours
-   * left for anything else.
-   */
-  dayOf(personId: string) {
-    const core = this.core;
-    const time = core.work.timeByPerson.get(personId as PersonId);
-    const today = time?.date === core.date;
-    return {
-      date: core.date,
-      workMinutes: today ? time.workMinutes : 0,
-      office: officeTimeToday(this.api, personId),
-      freeTimeMinutes: today ? time.discretionaryMinutes : 0,
-      hoursLeft: discretionaryHours(this.api, personId),
-    };
-  }
-
   /** A person's records: money, job, views, drives, health, relationships and the director's ledger. */
   person(personId: string) {
     const core = this.core;
@@ -2303,7 +2282,6 @@ export class DevMode {
       household: core.households.get(person.householdId),
       job,
       payChanges: job ? (core.work.payChanges.get(job.id) ?? []) : [],
-      day: this.dayOf(personId),
       views: ownRows("views"),
       health: {
         conditions: healthReport(core).conditionsByPerson.get(personId) ?? null,
