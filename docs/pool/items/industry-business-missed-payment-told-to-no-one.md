@@ -33,3 +33,5 @@ source: "Industries thread, Nov 16 (trace /mnt/project-files/account-lead/report
 **Waits on.** Nothing.
 
 **Files.** src/core2/modules/credit.ts, src/director/conversation.ts
+
+**Notes.** Nov 16 04:40Z, Words lead: take the six in this order: G1 closing reason, G5 official, G4 owner, G3 raised pay, G2 missed payment (private: only the owner, lender and household speak of it), G6 last; this is number 5. The builder sends a scene-first report (record, packet facts, write-back) before any line; a line names a law only when the closing's record does.
