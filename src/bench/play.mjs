@@ -33,6 +33,7 @@ import { townRow } from "./ui/town-row.mjs";
 import { debateCard, speechCard } from "./ui/campaign-acts.mjs";
 import { devBribePanel } from "./ui/dev-bribe.mjs";
 import { devBillsPanel, devPanelsRow } from "./ui/dev-bills.mjs";
+import { devViewNodes } from "./ui/dev-views.mjs";
 import { devBillCard } from "./ui/dev-bill-card.mjs";
 import { traceBox } from "./ui/dev-trace-box.mjs";
 import { devTraceVote } from "./ui/dev-trace-vote.mjs";
@@ -4395,7 +4396,16 @@ const sheets = {
     // Three columns, like the approved mock's Metrics grid: the sections dealt out in turn.
     const columns = [[], [], []];
     sections.forEach((section, at) => columns[at % 3].push(section));
-    return [stripBoard({ columns: columns.filter((c) => c.length) })];
+    // Views registered from their own files (ui/dev-views.mjs, slot "metrics"), under the board.
+    const devViews = devModeOn()
+      ? await devViewNodes("metrics", {
+          refresh: () => openSheet("metrics"),
+        })
+      : [];
+    return [
+      stripBoard({ columns: columns.filter((c) => c.length) }),
+      ...(devViews.length ? [devPanelsRow(...devViews)] : []),
+    ];
   },
   async budgets() {
     const view = await api(`/api/budget?id=${encodeURIComponent(me.id)}`);
@@ -4678,6 +4688,10 @@ const sheets = {
               onDone: () => refresh(),
             }),
           ].filter(Boolean)
+        : []),
+      // Views registered from their own files (ui/dev-views.mjs, slot "calendar").
+      ...(devModeOn()
+        ? await devViewNodes("calendar", { onDone: () => refresh() })
         : []),
     ];
   },
@@ -5898,7 +5912,15 @@ const sheets = {
         })
       : null;
     const devPanels = devBills
-      ? devPanelsRow(devBills.section, ...(devBribe ? [devBribe] : []))
+      ? devPanelsRow(
+          devBills.section,
+          ...(devBribe ? [devBribe] : []),
+          // Views registered from their own files (ui/dev-views.mjs, slot "panels").
+          ...(await devViewNodes("panels", {
+            billId: devBills.billId,
+            onDone: () => refresh(),
+          })),
+        )
       : null;
     const screen = async () => {
       const level = governmentLevel ?? gov.ownRace?.tier ?? "local";
