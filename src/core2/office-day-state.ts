@@ -38,8 +38,13 @@ import {
   type SittingDay,
 } from "./closeness";
 import { roomTime } from "./modules/people";
+import {
+  chargeOfficeHours,
+  registerOfficeTime,
+  type OfficeTime,
+} from "./modules/work";
 import { personLean, personStance } from "./campaign-views";
-import { PLATFORM_QUESTIONS } from "./campaign-data";
+import { PLATFORM_QUESTIONS, campaignParameter } from "./campaign-data";
 import { lineForPost, registerLinePayments } from "./budgets-treasury";
 import { outsideGovernment } from "./outside-governments";
 import { stableHash, pairKey } from "./kernel/ids";
@@ -1087,6 +1092,21 @@ export function actOn(
       break;
     }
   }
+  // The time the entry took, on the holder's day, when they were there
+  // (office-hours-never-fill-an-officials-day).
+  if (
+    chosen.kind === "attend"
+      ? chosen.attend
+      : chosen.kind === "office-hours"
+        ? chosen.hold
+        : true
+  )
+    chargeOfficeHours(
+      api,
+      entry.holderId,
+      entryHours(api, entry.kind, entry.holderId),
+      entry.id,
+    );
   const result: StateEntryResult = {
     id: entry.id,
     holderId: entry.holderId,
@@ -1432,6 +1452,107 @@ function scheduleTomorrow(api: CoreAPI): void {
       stop: kind && stops[kind] ? kind : null,
     } as unknown as ModuleRow);
   }
+}
+
+/**
+ * The hours one entry of the office day takes from its holder's day
+ * (office-hours-never-fill-an-officials-day): a floor day is the whole session
+ * day at the Capitol (`legislatureSessionDayHours`, which holds that day's
+ * committee and caucus); a committee, caucus or leaders' meeting on its own
+ * is its length (`meetingHours`); anything else is a day at the post for an
+ * official whose office is their job (`postDayHours`), and none for one who
+ * keeps their own job beside it.
+ */
+function entryHours(
+  api: CoreAPI,
+  kind: StateEntryKind,
+  holderId: string,
+): number {
+  if (kind === "floor-session")
+    return campaignParameter("legislatureSessionDayHours");
+  if (
+    kind === "committee" ||
+    kind === "interim-committee" ||
+    kind === "caucus" ||
+    kind === "legislative-leaders"
+  )
+    return stateDayParameter("meetingHours");
+  return holdsPost(api, holderId) ? stateDayParameter("postDayHours") : 0;
+}
+
+/** Whether a person's office is their job: the salaried post official-pay seats them in. */
+function holdsPost(api: CoreAPI, personId: string): boolean {
+  const jobId = api.state.people.get(personId)?.jobId;
+  const job = jobId ? (api.state as CoreState).jobs.get(jobId) : undefined;
+  return (
+    !!job &&
+    job.endsAt === undefined &&
+    job.id.startsWith("job:office:") &&
+    job.hoursDaily === 0
+  );
+}
+
+/**
+ * Each state officeholder's office hours today, from the office day's own
+ * entries for the date (`stateDay`), for every full person holding a seat in
+ * the town's state legislature or its governorship: the longest entry they
+ * sat through, none for an entry their record shows them away from. A
+ * weekday is at least a day at the post for a salaried officeholder, unless
+ * their record shows them away from that day's floor.
+ */
+function stateOfficeHoursToday(api: CoreAPI): ReadonlyMap<string, OfficeTime> {
+  const out = new Map<string, OfficeTime>();
+  const stateKey = lawChain(api).stateKey;
+  if (!stateKey) return out;
+  const offices = api.moduleState(OFFICES_MODULE_ID);
+  const date = api.state.date;
+  const day = weekday(date);
+  const workday = day >= 1 && day <= 5;
+  for (const row of offices
+    .table("offices")
+    .query("byJurisdiction", [stateKey]) as unknown as OfficeRow[]) {
+    if (
+      row.level !== "state" ||
+      !(LEGISLATURE_KINDS.has(row.kind) || row.kind === "governor")
+    )
+      continue;
+    for (const term of offices
+      .table("terms")
+      .query("byOfficeStatus", [row.id, "serving"]) as unknown as TermRow[]) {
+      const personId = term.personId;
+      if (!personId || !api.state.people.get(personId)?.alive) continue;
+      const office = stateOfficeOf(api, personId);
+      if (!office || office.officeId !== row.id) continue;
+      let hours = 0;
+      let sourceId = "";
+      let away = false;
+      for (const entry of stateDay(api, office, date)) {
+        const result = table(api, "results").get(entry.id) as unknown as
+          StateEntryResult | undefined;
+        if (result?.choice.kind === "attend" && !result.choice.attend) {
+          away ||= entry.kind === "floor-session";
+          continue;
+        }
+        const spent = entryHours(api, entry.kind, personId);
+        if (spent > hours) {
+          hours = spent;
+          sourceId = entry.id;
+        }
+      }
+      // A weekday at the post, unless they stayed away from the day's floor.
+      if (
+        workday &&
+        !away &&
+        holdsPost(api, personId) &&
+        stateDayParameter("postDayHours") > hours
+      ) {
+        hours = stateDayParameter("postDayHours");
+        sourceId = `post:${api.state.people.get(personId)!.jobId}`;
+      }
+      if (hours > 0) out.set(personId, { hours, sourceId });
+    }
+  }
+  return out;
 }
 
 /** The morning: what the player hasn't done of today's entries, the character does. */
@@ -1781,6 +1902,7 @@ registerOfficeActs({
 
 export function openOfficeDayState(core: CoreState): void {
   registerSittingCalendar(ROOMS);
+  registerOfficeTime(stateOfficeHoursToday);
   if (!core.modules.has(OFFICE_DAY_STATE_MODULE_ID))
     registerModule(core, OFFICE_DAY_STATE_MODULE);
 }
