@@ -160,7 +160,7 @@ it("a chair whose stand is against it but whom a favor carries stalls, then hear
     ]),
   ).toEqual([[bill.id, replyId, false]]);
   expect(favorWorth(api, chair, player)).toBe(0);
-}, 120_000);
+}, 70_000);
 
 it("a chair the favor cannot carry says no, and the no gives the reason the committee record holds (seat 016)", () => {
   const w = world(15, 3);
@@ -213,7 +213,7 @@ it("a chair the favor cannot carry says no, and the no gives the reason the comm
     for (const line of reply.next?.lines ?? [])
       if (line.speakerId === chair) expect(line.text).toBe(first.text);
   expect(billOf(api, bill.id).status).toBe("failed");
-}, 120_000);
+}, 70_000);
 
 it("a hold in the bill's second chamber is not offered as an ask: a yes there reopens nothing (sponsor upper 004)", () => {
   setBookkeeping(false);
@@ -239,4 +239,4 @@ it("a hold in the bill's second chamber is not offered as an ask: a yes there re
     entry?.bindings.map((b) => b.typeKey) ?? [],
     "the sponsor is not offered an ask the chair's yes cannot act on",
   ).not.toContain("hold-chair-sought");
-}, 120_000);
+}, 70_000);
