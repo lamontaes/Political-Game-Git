@@ -4054,8 +4054,8 @@ function pointSubject(
     kind: POINT,
     aboutId: eventId,
     stage: pick.stand,
-    // Their own stand and reason, from their own life, on the address they heard.
-    tie: { kind: "stand", recordIds: [eventId, speaker.id] },
+    // Their own reason, from the records it stands on (the desk's address scene declares its own tie).
+    tie: { kind: "stand", recordIds: [eventId, ...pick.reasonIds] },
     facts,
     point: { question: pick.point.question, reason: pick.reason },
   };
