@@ -1459,3 +1459,7 @@ export function healthHazardOf(
     fifth: plan.fifth,
   };
 }
+
+// Re-exported so other engine families read the coverage engine's bills through this entry (families guard).
+export { COVERAGE_MODULE_ID } from "../coverage-module-id";
+export type { MedicalBillRow } from "../medical-bills";
