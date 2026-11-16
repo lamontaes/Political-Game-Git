@@ -23,12 +23,15 @@ import {
 import { townWorkplaceWeights } from "../../core2/modules/jobs";
 import type { EntrantPick } from "../world";
 import { worldOffsetUnit } from "../../core2/world-draw";
-import { pastElections, townSeats } from "../../core2/modules/offices";
+import {
+  pastElections,
+  realResult,
+  townSeats,
+} from "../../core2/modules/offices";
 import {
   latestApproval,
   presidentElection,
 } from "../../core2/modules/national-opinion";
-import { realResult } from "../../core2/past-real-results";
 import { healthReport } from "../../core2/modules/health";
 import type { CoreState, PersonId, Source } from "../../core2/types";
 import {

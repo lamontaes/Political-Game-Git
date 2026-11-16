@@ -139,7 +139,7 @@ it("shows how the town, the player, their household, a business and an office op
   );
   // The town's U.S. House seat. Its 2024 race was uncontested (Clerk of the House, AL-03:
   // no two-party share), so the research holds no share for it and the last share is still
-  // drawn inside the House band; past-real-results.test.ts pins a contested seat, read as
+  // drawn inside the House band; offices-past-results.test.ts pins a contested seat, read as
   // the real result moved by the world's drift.
   const houseSeat = office.choices.office.find((c) =>
     c.id.includes(":us-house:"),

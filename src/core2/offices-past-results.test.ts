@@ -1,6 +1,6 @@
 /**
  * The share a sitting U.S. House or Senate holder won by last time is the race's
- * real result as this world drifts it (src/core2/past-real-results.ts), not a draw
+ * real result as this world drifts it (src/core2/offices-past-results.ts), not a draw
  * inside the office kind's band. Pinned: Shubert, Nebraska (3145225), the seed
  * national-opinion.test.ts names.
  */
@@ -14,7 +14,7 @@ import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
 import { coreAPI } from "./state";
 import { OFFICES_MODULE_ID, type TermRow } from "./modules/offices";
-import { realResult, recordedRaceShare } from "./past-real-results";
+import { realResult, recordedRaceShare } from "./offices-past-results";
 
 const PLACE = {
   name: "Shubert, Nebraska",

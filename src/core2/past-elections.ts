@@ -26,7 +26,13 @@ import { questionAxis } from "./campaign-views";
 import { novemberGeneralElectionDay } from "./gov-rules/town-election-calendar";
 import { CAMPAIGNS_MODULE_ID, type PromiseRow } from "./modules/campaigns";
 import { leanOf } from "./modules/legislature";
-import { OFFICES_MODULE_ID, type TermRow } from "./modules/offices";
+import {
+  CORPUS,
+  OFFICES_MODULE_ID,
+  realResult,
+  worldWinnerShare,
+  type TermRow,
+} from "./modules/offices";
 import { officialOf } from "./modules/officials";
 import { POLICY_QUESTIONS } from "./policy-answers";
 import type { ModuleRow } from "./module-data";
@@ -51,7 +57,6 @@ import { countedResidents } from "./electorate";
 import { cpsAgeBand, cpsTurnout } from "./electorate-places";
 import { viewOf } from "./modules/views";
 import { worldLevel } from "./world-draw";
-import { CORPUS, realResult, worldWinnerShare } from "./past-real-results";
 import viewsData from "./data/views/views.json" with { type: "json" };
 import type { CoreAPI, CoreState, PersonId } from "./types";
 import type { HistoryRecord } from "./pre-start";

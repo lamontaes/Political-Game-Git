@@ -166,7 +166,7 @@
     },
     "office.lastShareRecorded": {
       "made": "world-offset",
-      "by": "src/core2/past-real-results.ts recordedRaceShare: the race's real two-party share (data/source/electoral-calibration-2024/corpus.json: the 2024 House, the Senate class last elected, the presidency) moved by the world's drift (pastRealShareDrift)"
+      "by": "src/core2/offices-past-results.ts recordedRaceShare: the race's real two-party share (data/source/electoral-calibration-2024/corpus.json: the 2024 House, the Senate class last elected, the presidency) moved by the world's drift (pastRealShareDrift)"
     }
   },
   "sites": {
