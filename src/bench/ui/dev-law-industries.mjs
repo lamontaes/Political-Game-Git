@@ -1,28 +1,19 @@
-/* global fetch */
 // Dev mode's money check by industry: this world against the same world given a bill that
-// changes nothing (the game's own /api/dev/twin-industries route, src/bench/dev-law-industries.ts).
+// changes nothing (the route POST twin-industries, src/bench/dev-views/law-industries.ts).
 // One line per industry that moved, then the businesses that moved most. Labels come from
-// controls.devBill.industries; industry and business names come from the records.
+// the view's own labels; industry and business names come from the records.
 import { el } from "./dom.mjs";
 import { makeButton } from "./button.mjs";
-
-async function send(path, input) {
-  const response = await fetch(`/api/dev/${path}`, {
-    method: "POST",
-    body: JSON.stringify(input),
-  });
-  const value = await response.json();
-  if (!response.ok) throw new Error(value.error);
-  return value;
-}
 
 const dollars = (minor) =>
   `${minor < 0 ? "-" : ""}$${Math.round(Math.abs(minor) / 100).toLocaleString("en-US")}`;
 const signed = (n) => `${n > 0 ? "+" : ""}${n.toLocaleString("en-US")}`;
-const percent = (here, twin) =>
-  twin === 0
-    ? ""
-    : `${here >= twin ? "+" : ""}${(((here - twin) / Math.abs(twin)) * 100).toFixed(1)}%`;
+const percent = (here, twin) => {
+  const p = twin === 0 ? 0 : ((here - twin) / Math.abs(twin)) * 100;
+  return Math.abs(p) < 0.05 ? "" : `${p > 0 ? "+" : ""}${p.toFixed(1)}%`;
+};
+/** A dollar difference worth a line: at least a whole dollar once rounded. */
+const moved = (here, twin) => Math.round(Math.abs(here - twin) / 100) >= 1;
 
 /** One industry's line: staff, firms open, sales, pay, prices and cash, here against the twin. */
 function industryLine(t, row) {
@@ -32,17 +23,17 @@ function industryLine(t, row) {
     parts.push(`${t.staff} ${here.staff} (${signed(here.staff - twin.staff)})`);
   if (here.open !== twin.open)
     parts.push(`${t.open} ${here.open} (${signed(here.open - twin.open)})`);
-  if (here.salesMinor !== twin.salesMinor)
+  if (moved(here.salesMinor, twin.salesMinor))
     parts.push(
-      `${t.sales} ${dollars(here.salesMinor - twin.salesMinor)} ${percent(here.salesMinor, twin.salesMinor)}`,
+      `${t.sales} ${dollars(here.salesMinor - twin.salesMinor)} ${percent(here.salesMinor, twin.salesMinor)}`.trim(),
     );
-  if (here.wagesPaidMinor !== twin.wagesPaidMinor)
+  if (moved(here.wagesPaidMinor, twin.wagesPaidMinor))
     parts.push(
       `${t.pay} ${dollars(here.wagesPaidMinor - twin.wagesPaidMinor)}`,
     );
-  if (Math.abs(here.priceIndex - twin.priceIndex) >= 0.0005)
+  if (percent(here.priceIndex, twin.priceIndex))
     parts.push(`${t.prices} ${percent(here.priceIndex, twin.priceIndex)}`);
-  if (here.cashMinor !== twin.cashMinor)
+  if (moved(here.cashMinor, twin.cashMinor))
     parts.push(`${t.cash} ${dollars(here.cashMinor - twin.cashMinor)}`);
   return parts.length > 1 ? parts.join(" · ") : null;
 }
@@ -56,20 +47,20 @@ function businessLine(t, row) {
     parts.push(row.here.closedAt ? t.closedHere : t.closedTwin);
   if (row.here.staff !== row.twin.staff)
     parts.push(`${t.staff} ${signed(row.here.staff - row.twin.staff)}`);
-  if (row.here.salesMinor !== row.twin.salesMinor)
+  if (moved(row.here.salesMinor, row.twin.salesMinor))
     parts.push(
       `${t.sales} ${dollars(row.here.salesMinor - row.twin.salesMinor)}`,
     );
-  if (row.here.cashMinor !== row.twin.cashMinor)
+  if (moved(row.here.cashMinor, row.twin.cashMinor))
     parts.push(`${t.cash} ${dollars(row.here.cashMinor - row.twin.cashMinor)}`);
-  return parts.join(" · ");
+  return parts.length > 1 ? parts.join(" · ") : null;
 }
 
 /**
- * The Industries part of the money check. `t` is controls.devBill.industries. With
+ * The Industries part of the money check. `t` is the view's labels. With
  * `opening` ({ series, level }) the twin has that law the town opened with set aside instead.
  */
-export function industriesLines(t, opening) {
+function industriesLines(t, send, opening) {
   const box = el("div", { className: "dev-twin" });
   const run = makeButton(
     { className: "action" },
@@ -114,9 +105,10 @@ export function industriesLines(t, opening) {
           className: "label",
           textContent: t.businesses.replace("{n}", String(out.businessesMoved)),
         }),
-        ...out.businesses.map((row) =>
-          line(businessLine(t, row), "dev-industries-business"),
-        ),
+        ...out.businesses
+          .map((row) => businessLine(t, row))
+          .filter((text) => text !== null)
+          .map((text) => line(text, "dev-industries-business")),
       );
     } catch (error) {
       box.replaceChildren(line(error.message));
@@ -126,3 +118,8 @@ export function industriesLines(t, opening) {
   });
   return [el("h4", { className: "label", textContent: t.title }), run, box];
 }
+
+/** Where the view draws (ui/dev-views.mjs): the bill card, after the money check. */
+export const slots = {
+  "bill-card": ({ labels, send }) => industriesLines(labels, send),
+};
