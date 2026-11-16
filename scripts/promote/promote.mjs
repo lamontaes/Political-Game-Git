@@ -82,6 +82,21 @@ function git(root, args, opts = {}) {
   }).replace(/\n$/, "");
 }
 
+// The promote commit is the automation's, as the release commit is. A runner
+// has no git identity of its own, so the commit names this one unless the
+// caller's environment already names another.
+const BOT_NAME = "github-actions[bot]";
+const BOT_EMAIL = "41898282+github-actions[bot]@users.noreply.github.com";
+export function withIdentity(env) {
+  return {
+    ...env,
+    GIT_AUTHOR_NAME: env.GIT_AUTHOR_NAME || BOT_NAME,
+    GIT_AUTHOR_EMAIL: env.GIT_AUTHOR_EMAIL || BOT_EMAIL,
+    GIT_COMMITTER_NAME: env.GIT_COMMITTER_NAME || BOT_NAME,
+    GIT_COMMITTER_EMAIL: env.GIT_COMMITTER_EMAIL || BOT_EMAIL,
+  };
+}
+
 const MARK = /^Promote ([0-9a-f]{40}): the game without test files/;
 
 /** The work commit main was last built from, or null when main has never been promoted to. */
@@ -227,7 +242,9 @@ function build(root, o, say, work, mainTip, last, attempt) {
     ...[...counts].sort((a, b) => b[1] - a[1]).map(([k, v]) => `  ${v}  ${k}`),
     `Main-side edits: ${edited.length === 0 ? "none" : edited.join(", ")}`,
   ].join("\n");
-  const commit = git(root, ["commit-tree", tree, "-p", mainTip, "-m", body]);
+  const commit = git(root, ["commit-tree", tree, "-p", mainTip, "-m", body], {
+    env: withIdentity(process.env),
+  });
   if (!isAncestor(root, mainTip, commit))
     throw new Error(
       "Internal error: the promote commit is not on top of main.",
