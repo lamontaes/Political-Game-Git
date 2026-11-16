@@ -6,6 +6,8 @@ import {
   personSlot,
   wordPersonSlots,
   sentenceStarts,
+  nameOnceThen,
+  ownGovernmentSaid,
   type SaidPerson,
 } from "./said-as";
 import { clockOf, heardBefore, noteSaid, tellingOf } from "./telling";
@@ -213,5 +215,63 @@ describe("person slots", () => {
     expect(wordPersonSlots(`I heard ${a}. ${a} should act.`, them)).toBe(
       "I heard the President. They should act.",
     );
+  });
+});
+
+describe("the employer said again by a worker", () => {
+  const name = "Marsh Fitness";
+  it("is 'work' in a frame that does not already say it, 'there' in one that does", () => {
+    const again = (text: string) =>
+      nameOnceThen([text], name, "worker", true).texts[0];
+    expect(again("I'm at Marsh Fitness.")).toBe("I'm at work.");
+    expect(again("At Marsh Fitness.")).toBe("At work.");
+    expect(again("I work over at Marsh Fitness.")).toBe("I work there.");
+    expect(again("I work for Marsh Fitness.")).toBe("I work there.");
+    expect(again("I'm with Marsh Fitness.")).toBe("I'm there.");
+  });
+  it("says the place once in a turn, not 'there' in two sentences", () => {
+    expect(
+      nameOnceThen(
+        ["I work over at Marsh Fitness. I'm just a sales associate there."],
+        name,
+        "worker",
+        true,
+      ).texts[0],
+    ).toBe("I work there. I'm just a sales associate.");
+  });
+  it("names it in full the first time, in any frame", () => {
+    expect(
+      nameOnceThen(["I work for Marsh Fitness."], name, "worker", false)
+        .texts[0],
+    ).toBe("I work for Marsh Fitness.");
+  });
+});
+
+describe("a state's own government said in talk", () => {
+  const said = (level: string, key: string) =>
+    ownGovernmentSaid({ kind: "state", level, key });
+  it("says every state 'the state', Kentucky, Massachusetts, Pennsylvania and Virginia included", () => {
+    expect(said("State", "US-NV")).toBe("the state");
+    for (const key of ["US-KY", "US-MA", "US-PA", "US-VA"])
+      expect(said("Commonwealth", key)).toBe("the state");
+  });
+  it("says the commonwealths that are not states, the territories and the District their own way", () => {
+    expect(said("Commonwealth", "US-PR")).toBe("the commonwealth");
+    expect(said("Commonwealth", "US-MP")).toBe("the commonwealth");
+    expect(said("Territory", "US-GU")).toBe("the territory");
+    expect(said("District", "US-DC")).toBe("the District");
+  });
+});
+
+describe("an employer named at the start of a sentence", () => {
+  it("counts as named, so the later mention is 'there' however it is capitalized", () => {
+    const said = nameOnceThen(
+      ["The township for me, 3 years now.", "I'm with the township."],
+      "the township",
+      "worker",
+      false,
+    );
+    expect(said.texts[0]).toBe("The township for me, 3 years now.");
+    expect(said.texts[1]).toBe("I'm there.");
   });
 });

@@ -64,7 +64,7 @@ it("an unmatched town's state legislature is elected in the world races", () => 
     }),
   );
   openLaws(core);
-  openOffices(core, seed);
+  openOffices(core, seed, core.date);
   openElections(core);
   openCampaigns(core);
   openParties(core);

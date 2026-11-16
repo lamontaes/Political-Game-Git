@@ -150,8 +150,12 @@ export interface BilledMember {
   readonly billMinor: number;
   /** Medicaid's own part of the member's care, the cost less their share, which the treasuries pay the seller (Medicaid members only). */
   readonly medicaidMinor?: number;
-  /** What a raised Medicare line pays of the member's care above Medicare's part at its base, which the federal treasury pays the seller (Medicare members only). */
+  /** What a raised Medicare line pays of the member's care above Medicare's part at its base (Medicare members only). */
   readonly medicareLineMinor?: number;
+  /** Medicare's whole part of the member's care at the line in force (its base part and any raised line's addition), which the federal treasury pays the seller (Medicare members only). */
+  readonly medicarePartMinor?: number;
+  /** The employer plan's insurer's part of the member's care, the cost less the member's share, which the insurer pays the seller from where premiums went (employer plan members only). */
+  readonly insurerMinor?: number;
   /**
    * What the work requirement added to the member's bill: the expansion
    * covers them but the requirement ended their coverage (its stretch on
@@ -523,6 +527,12 @@ function billMembers(
           m.plan === "medicare"
             ? Math.round(cost * (medicareBase - medicareShare) * drugs)
             : 0;
+        const medicarePart =
+          m.plan === "medicare" ? Math.round(cost * (one - medicareShare)) : 0;
+        const insurerPart =
+          m.plan === "employer"
+            ? Math.round(cost * (one - shareOf("employer")))
+            : 0;
         const added = billMinor - Math.round(cost * medicaidShare);
         // The law reached this Medicare member by the same rule, full or
         // counted: a counted member stands for their household's weight.
@@ -567,6 +577,8 @@ function billMembers(
             ? { medicaidMinor: Math.round(cost * (one - medicaidShare)) }
             : {}),
           ...(lineMinor > 0 ? { medicareLineMinor: lineMinor } : {}),
+          ...(medicarePart > 0 ? { medicarePartMinor: medicarePart } : {}),
+          ...(insurerPart > 0 ? { insurerMinor: insurerPart } : {}),
           ...(m.endedByRequirement && added > 0
             ? { requirementMinor: added }
             : {}),
@@ -674,6 +686,40 @@ function payFull(
     sellerId: payee ?? null,
     journalIds,
   };
+}
+
+/**
+ * The employer plans' insurers pay each seller their part of their members'
+ * care, from the outside account where the premiums went (the insurers are
+ * outside the town). Returns what each seller was paid.
+ */
+function payInsurerPart(
+  api: CoreAPI,
+  input: {
+    readonly bySeller: ReadonlyMap<string, number>;
+    readonly source: Source;
+  },
+): ReadonlyMap<string, number> {
+  const paidBySeller = new Map<string, number>();
+  const outside = outsideAccountOf(api);
+  if (!outside) return paidBySeller;
+  const accounts = api.accounts();
+  const today = api.state.date;
+  for (const [sellerId, minor] of [...input.bySeller]
+    .filter(([id, m]) => m > 0 && id !== outside)
+    .sort(([a], [b]) => a.localeCompare(b))) {
+    const receipt = accounts.transfer({
+      id: `health.insurer-care:${sellerId}:${today}`,
+      from: accounts.main(outside),
+      to: accounts.main(sellerId),
+      amountMinor: minor,
+      reasonKey: "health.insurer-care",
+      partial: true,
+      source: input.source,
+    });
+    if (receipt.paidMinor > 0) paidBySeller.set(sellerId, receipt.paidMinor);
+  }
+  return paidBySeller;
 }
 
 /** The 1st of the next month. */
@@ -885,8 +931,10 @@ export function billMedicalCare(
   const wait = q("medicalCollectionsWaitDays");
   // Medicaid's part of its members' care, by the seller each household pays.
   const medicaidBySeller = new Map<string, number>();
-  // What a raised Medicare line pays of its members' care, by seller.
+  // Medicare's part of its members' care at the line in force, by seller.
   const medicareBySeller = new Map<string, number>();
+  // The employer plans' insurers' part of their members' care, by seller.
+  const insurerBySeller = new Map<string, number>();
   for (const h of households) {
     const members = bills.get(h.householdId) ?? [];
     const billMinor = billOf(h.householdId);
@@ -914,13 +962,19 @@ export function billMedicalCare(
         (medicaidBySeller.get(payee) ?? 0) + Math.round(medicaid * h.weight),
       );
     const medicare = members.reduce(
-      (n, m) => n + (m.medicareLineMinor ?? 0),
+      (n, m) => n + (m.medicarePartMinor ?? 0),
       0,
     );
     if (medicare > 0 && payee)
       medicareBySeller.set(
         payee,
         (medicareBySeller.get(payee) ?? 0) + Math.round(medicare * h.weight),
+      );
+    const insurer = members.reduce((n, m) => n + (m.insurerMinor ?? 0), 0);
+    if (insurer > 0 && payee)
+      insurerBySeller.set(
+        payee,
+        (insurerBySeller.get(payee) ?? 0) + Math.round(insurer * h.weight),
       );
     const owing = settleOwed(
       prior.get(h.householdId)?.owed ?? [],
@@ -999,6 +1053,12 @@ export function billMedicalCare(
   if (medicareBySeller.size)
     for (const [sellerId, paid] of payMedicareLinePart(api, {
       bySeller: medicareBySeller,
+      source,
+    }))
+      bookSale(core, sellerId, paid);
+  if (insurerBySeller.size)
+    for (const [sellerId, paid] of payInsurerPart(api, {
+      bySeller: insurerBySeller,
       source,
     }))
       bookSale(core, sellerId, paid);
