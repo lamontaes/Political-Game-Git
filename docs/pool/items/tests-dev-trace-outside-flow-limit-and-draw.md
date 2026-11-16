@@ -7,7 +7,7 @@ priority: 3
 size: S
 status: in-pr
 claimed-by: story builder (claude/project-thread-lcf812-outside-flow)
-pr:
+pr: 9648
 after:
 blocked-on:
 lead: renters
