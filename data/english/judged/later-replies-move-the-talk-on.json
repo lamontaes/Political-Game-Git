@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "later-replies-move-the-talk-on",
   "rubric": "After the first exchange the replies offered do not rehash the first options; they move the talk on.",
-  "judged": 993,
+  "judged": 989,
   "no": {
     "00084oe3x4o": {
       "keys": [
@@ -105,19 +105,6 @@
         "scene-talk.reply-decline.i-can-t-say-yes-i-m-happy-with-what-we-have-i-just-can-t-picture-the-w"
       ],
       "why": "Both replies are the yes and no from the opening options again, now in new words."
-    },
-    "02co7m36nc4": {
-      "keys": [
-        "scene-talk.follow-plea.it-s-one-hearing-it-costs-you-an-afternoon",
-        "scene-talk.reply-agree.all-right-i-ll-put-bill-on-the-next-agenda",
-        "scene-talk.reply-refuse.it-doesn-t-get-a-hearing-from-me",
-        "scene-talk.reply-bargain.cut-it-down-to-the-part-everyone-can-live-with-and-i-ll-find-the-time",
-        "scene-talk.reply-stall.i-can-t-put-it-on-the-calendar-this-session-ask-me-again-next-session",
-        "scene-talk.reply-relent.you-ve-worn-me-down-i-ll-set-the-date",
-        "scene-talk.reply-refuse.bill-isn-t-going-on-my-calendar-this-session",
-        "scene-talk.reply-leave.i-m-late-for-a-meeting-we-ll-pick-this-up-another-time"
-      ],
-      "why": "Setting the date and 'isn't going on my calendar this session' restate the first yes and next-session options."
     },
     "02e8nvq1net": {
       "keys": [
@@ -3654,19 +3641,6 @@
       ],
       "why": "Most of the replies offered now repeat the first replies' denial, explanation, defiance or apology in new words."
     },
-    "1wcp0h0glid": {
-      "keys": [
-        "scene-talk.follow-plea.people-are-counting-on-this-i-can-t-go-home-with-nothing",
-        "scene-talk.reply-agree.all-right-i-ll-put-bill-on-the-next-agenda",
-        "scene-talk.reply-refuse.it-doesn-t-get-a-hearing-from-me",
-        "scene-talk.reply-bargain.cut-it-down-to-the-part-everyone-can-live-with-and-i-ll-find-the-time",
-        "scene-talk.reply-stall.i-can-t-put-it-on-the-calendar-this-session-ask-me-again-next-session",
-        "scene-talk.reply-relent.you-ve-worn-me-down-i-ll-set-the-date",
-        "scene-talk.reply-refuse.i-won-t-schedule-it-that-s-my-call-and-it-s-made",
-        "scene-talk.reply-leave.i-have-to-get-to-the-floor"
-      ],
-      "why": "'I'll set the date' and 'I won't schedule it' restate the first yes and no options."
-    },
     "1wgacekydqy": {
       "keys": [
         "scene-talk.follow-plea.i-can-t-carry-it-alone-with-the-whole-town-watching",
@@ -4581,5 +4555,5 @@
       "why": "Two of three replies restate first options: the denial of any payment repeats the first denial, and declining to discuss it repeats having to go."
     }
   },
-  "yesHash": "1om1udz6m3c"
+  "yesHash": "0552gvs6vpx"
 }
