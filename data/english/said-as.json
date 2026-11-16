@@ -198,17 +198,10 @@
     "it": "it"
   },
   "whatTheyAre": {
-    "about": "What a person is to the player, said once after their name the first time narration names someone the player has not met (owner, Nov 15, rule 136). Lines by the Words lead, Nov 15 (/mnt/project-files/words-lead/who-they-are/lines.md), read by whatSaid in src/english/said-as.ts from the kind and stage src/director/who-they-are.ts reads from the records. Lower case, no period: the line it joins carries both.",
+    "about": "What a person is to the player, said once after their name the first time narration names someone the player has not met (owner, Nov 15, rule 136). Lines by the Words lead, Nov 15 (/mnt/project-files/words-lead/who-they-are/lines.md), read by whatSaid in src/english/said-as.ts from the kind and stage src/director/who-they-are.ts reads from the records. Lower case, no period: the line it joins carries both. Only lines a played scene has said are kept (lead and Words lead, Nov 15): the kinds and stages no play reached (a presiding chair with no title, the seat's holder, a resident of another place, a coworker of the player's, and every act but a signing by the player) are left out until a scene says them; their wording stays in lines.md and pool item director-narrator-says-who-a-person-is lists them. A read with no line here is passed over for the next kind.",
     "office": {
       "alone": "the {office}",
       "member": "a member of {body}"
-    },
-    "presides": {
-      "chair": "who chairs {body}"
-    },
-    "seat-holder": {
-      "outgoing": "who held this seat until today",
-      "holding": "who holds the seat you are running for"
     },
     "staff": {
       "aide": "who works for {official}"
@@ -216,27 +209,14 @@
     "tie": {
       "schoolmate": "who went to {school} with you",
       "campaign": "who worked on your campaign for {campaign_office}",
-      "act-vetoed-mine": "whose bill you vetoed",
-      "act-vetoed-theirs": "who vetoed your bill",
-      "act-signed-mine": "whose bill you signed",
-      "act-signed-theirs": "who signed your bill",
-      "act-unsigned-mine": "whose bill became law without your signature",
-      "act-unsigned-theirs": "who let your bill become law unsigned",
-      "act-appointed-mine": "whom you appointed {office}",
-      "act-appointed-theirs": "who appointed you {office}",
-      "act-appointed-mine-untitled": "whom you appointed",
-      "act-appointed-theirs-untitled": "who appointed you"
+      "act-signed-mine": "whose bill you signed"
     },
     "constituent": {
       "district": "who lives in your district",
       "place": "who lives in {place}"
     },
     "workplace": {
-      "apart": "who works at {employer}",
-      "with-you": "who works with you at {employer}"
-    },
-    "resident": {
-      "elsewhere": "from {place}"
+      "apart": "who works at {employer}"
     }
   }
 }

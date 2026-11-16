@@ -7,22 +7,20 @@
  * a kind and its slots, never words; the said-as reader words it from
  * `data/english/said-as.json` `whatTheyAre` (the Words lead's lines).
  *
- * The kinds, first that holds, by what matters in a scene:
+ * The kinds, first that holds and has a line, by what matters in a scene:
  * 1. office: a seat they hold (offices and officials engines) or a post they
  *    were appointed to (the executive engine), said by the office-name
- *    reader (`officeSaid`, `seatSaid`); a presiding officer with a title of
- *    their own ("Speaker") is said by that title.
- * 2. presides: the chair of a body whose presiding seat has no title of its own.
- * 3. seat-holder: the one who held the seat the player is sworn into today,
- *    or who holds the seat the player is running for.
- * 4. staff: an aide of an official (the staff engine).
- * 5. tie: a tie on record with the player: schoolmates, a campaign's people
- *    (`sharedHistory`), or an act on the public record between them
+ *    reader (`officeSaid`); a presiding officer with a title of their own
+ *    ("Speaker") is said by that title.
+ * 2. staff: an aide of an official (the staff engine).
+ * 3. tie: a tie on record with the player: schoolmates, the player's own
+ *    campaign (`sharedHistory`), or an act on the public record between them
  *    (`actBetween`: a veto, a signing, an appointment).
- * 6. constituent: someone in the town a seat the player holds covers.
- * 7. workplace: where they work, and whether the player works there too.
- * 8. resident: another place they live in. A resident of the player's own
- *    town gets no phrase: the name alone (Words lead, Nov 15).
+ * 4. constituent: someone in the town a seat the player holds covers.
+ * 5. workplace: where they work, and whether the player works there too.
+ * Someone none of these holds for is named alone. A kind or stage with no
+ * line in said-as.json is passed over: only lines a played scene has said
+ * are kept (lead and Words lead, Nov 15).
  *
  * Nothing is returned for someone the player has met (the met record, #9489's
  * `relationFacts`), family, a partner or a housemate: the first name says
@@ -47,27 +45,18 @@ import { EXECUTIVE_MODULE_ID } from "../core2/modules/executive";
 import { lawChain } from "../core2/modules/laws";
 import { STAFF_MODULE_ID } from "../core2/modules/staff";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
-import { officeWords } from "../english/said-as";
+import { officeWords, whatSaid } from "../english/said-as";
 import { jobSaid } from "../english/journal-words";
 import { spoken } from "./words";
-import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import type { Fact } from "../english/bank-line";
 import type { CoreState, PersonId } from "../core2/types";
 
-export type WhatKind =
-  | "office"
-  | "presides"
-  | "seat-holder"
-  | "staff"
-  | "tie"
-  | "constituent"
-  | "workplace"
-  | "resident";
+export type WhatKind = "office" | "staff" | "tie" | "constituent" | "workplace";
 
 /** What a person is to the player: the kind, its stage and its slots, from the records. */
 export interface WhatTheyAre {
   readonly kind: WhatKind;
-  /** office: "alone" | "member"; seat-holder: "outgoing" | "holding"; tie: "schoolmate" | "campaign" | "act-<what>-mine" | "act-<what>-theirs"; constituent: "district" | "place"; workplace: "apart" | "with-you". */
+  /** office: "alone" | "member"; staff: "aide"; tie: "schoolmate" | "campaign" | "act-<what>-mine" | "act-<what>-theirs"; constituent: "district" | "place"; workplace: "apart" | "with-you". */
   readonly stage: string;
   readonly facts: Readonly<Record<string, Fact>>;
 }
@@ -162,12 +151,6 @@ function officeOf(
           .get(official.termId) as unknown as TermRow | undefined)
       : undefined;
     const office = term ? officeSaid(core, { officeId: term.officeId }) : null;
-    if (official.leadership === "presiding" && !titled && office)
-      return {
-        kind: "presides",
-        stage: "chair",
-        facts: { body: fact(office.text, ...office.ids, official.id) },
-      };
     if (titled)
       return {
         kind: "office",
@@ -247,51 +230,6 @@ function officeSeats(core: Readonly<CoreState>, officeId: string): number {
     .table("offices")
     .get(officeId) as unknown as { seats?: number } | undefined;
   return office?.seats ?? P.one;
-}
-
-/** The seat the player is sworn into today or runs for, and the other's hold on it. */
-function seatHolder(
-  core: Readonly<CoreState>,
-  playerId: PersonId,
-  otherId: PersonId,
-): WhatTheyAre | null {
-  if (!core.modules.has(OFFICES_MODULE_ID)) return null;
-  const api = coreAPI(core as CoreState);
-  const terms = api.moduleState(OFFICES_MODULE_ID).table("terms");
-  // The seat handed over at the swearing-in: the term that ended the day the
-  // player's began (swearing-in.ts outgoingHolder), said only around that day.
-  const yesterday = addDays(makeIsoDate(core.date), -P.one);
-  for (const own of servingTermsOf(api, playerId)) {
-    if (own.startDate < yesterday || own.startDate > core.date) continue;
-    const before = (
-      terms.query("bySeatStatus", [own.seatId, "ended"]) as unknown as TermRow[]
-    ).find((t) => t.personId === otherId && t.endDate === own.startDate);
-    if (before) return { kind: "seat-holder", stage: "outgoing", facts: {} };
-  }
-  if (!core.modules.has(ELECTIONS_MODULE_ID)) return null;
-  const elections = api.moduleState(ELECTIONS_MODULE_ID);
-  for (const filing of elections
-    .table("filings")
-    .query("byPerson", [playerId]) as unknown as {
-    contestId: string;
-    status: string;
-  }[]) {
-    if (filing.status === "withdrawn") continue;
-    const contest = elections
-      .table("contests")
-      .get(filing.contestId) as unknown as
-      { seatId: string; electionDate: string } | undefined;
-    if (!contest || contest.electionDate < core.date) continue;
-    const holder = (
-      terms.query("bySeatStatus", [
-        contest.seatId,
-        "serving",
-      ]) as unknown as TermRow[]
-    )[P.zero];
-    if (holder?.personId === otherId)
-      return { kind: "seat-holder", stage: "holding", facts: {} };
-  }
-  return null;
 }
 
 /** An aide of an official, by the staff engine's rows. */
@@ -439,9 +377,9 @@ function workplaceOf(
 }
 
 /**
- * What `otherId` is to the player, the first that holds; null for someone the
- * player has met, family, a partner, a housemate, or a resident of the
- * player's own town with nothing else on record.
+ * What `otherId` is to the player, the first kind that holds and has a line;
+ * null for someone the player has met, family, a partner, a housemate, or
+ * someone none of the kinds holds for (named alone).
  */
 export function whatTheyAre(
   core: Readonly<CoreState>,
@@ -449,26 +387,19 @@ export function whatTheyAre(
   otherId: PersonId,
 ): WhatTheyAre | null {
   if (playerId === otherId) return null;
-  const player = core.people.get(playerId);
-  const other = core.people.get(otherId);
-  if (!player || !other) return null;
+  if (!core.people.get(playerId) || !core.people.get(otherId)) return null;
   const met = relationFacts(core, otherId, playerId);
   if (met.kin || met.partners || met.kinSource || met.metBefore) return null;
-  const read =
-    officeOf(core, otherId) ??
-    seatHolder(core, playerId, otherId) ??
-    staffOf(core, otherId) ??
-    tieOf(core, playerId, otherId) ??
-    constituentOf(core, playerId, otherId) ??
-    workplaceOf(core, playerId, otherId);
-  if (read) return read;
-  if (other.placeId === player.placeId) return null;
-  const place = corePlaceByJurisdictionId(other.placeId as never);
-  return place
-    ? {
-        kind: "resident",
-        stage: "elsewhere",
-        facts: { place: fact(spoken(place), other.placeId) },
-      }
-    : null;
+  const reads = [
+    () => officeOf(core, otherId),
+    () => staffOf(core, otherId),
+    () => tieOf(core, playerId, otherId),
+    () => constituentOf(core, playerId, otherId),
+    () => workplaceOf(core, playerId, otherId),
+  ];
+  for (const read of reads) {
+    const what = read();
+    if (what && whatSaid(what)) return what;
+  }
+  return null;
 }
