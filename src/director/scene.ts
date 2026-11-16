@@ -149,7 +149,10 @@ export function composeScene(
     const first = !named.has(id);
     named.add(id);
     // The first time: what they are, when the player has not met them (rule 136).
-    const what = first ? whatTheyAre(core, personId, id) : null;
+    const what =
+      first && !sceneSaysWhat(binding.typeKey)
+        ? whatTheyAre(core, personId, id)
+        : null;
     const full = `${row.givenName} ${row.familyName}`;
     const text = first ? nameWithWhat(full, what ?? undefined) : row.givenName;
     return {
