@@ -449,11 +449,15 @@ function nullBillSchedule(
       at(mark.date, () => {
         const twinId = twinBill.get(billId);
         if (!twinId) return;
-        const votes = mark.facts.votes
+        const votes: Record<string, "yes" | "no" | "abstain"> | undefined = mark
+          .facts.votes
           ? Object.fromEntries(
               mark.facts.votes.split(",").map((pair) => {
                 const cut = pair.lastIndexOf(":");
-                return [pair.slice(0, cut), pair.slice(cut + 1)];
+                return [
+                  pair.slice(0, cut),
+                  pair.slice(cut + 1) as "yes" | "no" | "abstain",
+                ];
               }),
             )
           : undefined;
