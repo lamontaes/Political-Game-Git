@@ -8565,10 +8565,7 @@ function circulatorOffer(
   // What the free money buys at the circulators' price, against the gap the
   // campaign still has: a hire that cannot close it is said to fall short.
   const buys = Math.floor(free / unitPrice(api, "petition-signature"));
-  const gap = Math.max(
-    0,
-    signaturesToGather(api, filingId) - petition.signed,
-  );
+  const gap = Math.max(0, signaturesToGather(api, filingId) - petition.signed);
   return {
     circulators: "yes",
     money: "yes",
