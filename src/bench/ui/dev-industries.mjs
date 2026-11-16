@@ -81,6 +81,10 @@ async function devIndustriesPanel({ labels, send }) {
             name: labels.costs,
             value: (b) => money(b.operatingCostsMinor + b.outsideCostsMinor),
           },
+          {
+            name: labels.outside,
+            value: (b) => money(b.outsideSalesPerYearMinor),
+          },
           { name: labels.profit, value: (b) => money(b.profitMinor) },
           { name: labels.cash, value: (b) => money(b.cashMinor) },
           {
@@ -105,6 +109,10 @@ async function devIndustriesPanel({ labels, send }) {
         { name: labels.staff, value: (r) => count(r.staff) },
         { name: labels.sales, value: (r) => money(r.salesMinor) },
         { name: labels.payroll, value: (r) => money(r.wagesPaidMinor) },
+        {
+          name: labels.outside,
+          value: (r) => money(r.outsideSalesPerYearMinor),
+        },
         { name: labels.profit, value: (r) => money(r.profitMinor) },
         { name: labels.cash, value: (r) => money(r.cashMinor) },
       ],
