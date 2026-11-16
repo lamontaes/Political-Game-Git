@@ -15,21 +15,30 @@ import { subjectsBetween } from "./conversation";
 // Through the player's own presses, as the bench plays them: a new life made
 // in the creator at 45 (born May 12, 1979), so the player's school years are
 // long enough ago for a schoolmate to raise them (conversation-rules.json
-// sharedPast), at seed 7952d3f3e3253ee4, which opens in Dortches, North
-// Carolina. The schoolmates are the school records' (sharedHistory) who work
+// sharedPast), at seed f574fd270912a678, which opens in Golden Valley, North
+// Dakota. The schoolmates are the school records' (sharedHistory) who work
 // at a place the player's Travel menu lists; the player goes to each place
 // and talks to each schoolmate there, answering yes where a yes is offered.
-// Four questions about the school are needed: three come on the first day
-// and the rest on the second.
+// One question about the school is needed, asked by a schoolmate on record,
+// and the asker's answer back after the player's reply is checked.
 //
 // The method changed (Account lead, Nov 15). Old: a played year of the
 // director's scenes, waiting for a scene whose counterpart was a schoolmate;
 // after the Train moved the draw, no school question came in the year. New:
-// the player chooses whom to talk to, so nothing waits on a draw. Measured at
-// about 29 seconds (21 to make the life, 8 of play; 45 with the file's
-// loading); the limits, 65 seconds for the life and for the play, are about
-// twice the whole.
-const SEED = "7952d3f3e3253ee4";
+// the player chooses whom to talk to, so nothing waits on a draw.
+//
+// Re-pinned once (Account lead, Nov 16). Old pin: seed 7952d3f3e3253ee4,
+// Dortches, North Carolina, four questions over two days. Its premise was
+// that every grown resident was born at home and schooled in the town's
+// district (a stopgap #9538 removed), so a 45-year-old had many working
+// schoolmates in reach. With birthplaces drawn from the survey and a birth
+// outside the state counted once (#9643), about one adult in five went to
+// the town's schools, and over 69 seeds drawn through these presses none
+// heard more than one school question. New pin: seed f574fd270912a678,
+// Golden Valley, one schoolmate in reach and one question; the test proves
+// the give-back, not a count. Measured at about 30 seconds alone; the
+// limits, 65 seconds for the life and for the play, are about twice that.
+const SEED = "f574fd270912a678";
 const PLAYER = {
   givenName: "Dana",
   familyName: "Reyes",
@@ -39,24 +48,25 @@ const PLAYER = {
   birthDay: 12,
 };
 /** Questions about the school the test needs heard. */
-const NEEDED = 4;
+const NEEDED = 1;
 /** Played days the player goes around town on. */
 const DAYS = 2;
 const YES = /^(yes|yeah)\b/i;
 /**
- * Two classmates still at Dortches Public Schools together, at one stage and
- * not kin, read from the played world's school records at this seed: Michael
- * (born Nov 18, 2011) and Joseph (born Feb 19, 2011), both in middle school.
+ * Two classmates still at Golden Valley's public schools together, at one
+ * stage and not kin, read from the played world's school records at this
+ * seed: Alex (born Aug 18, 2017) and Jeremiah (born Mar 11, 2017), both in
+ * elementary school.
  */
 const STILL_THERE = [
-  "person_15786a67c3834faf",
-  "person_22d6a96918c16944",
+  "person_16f6cec1fba7cd69",
+  "person_4ec46fcf6ffcbb31",
 ] as PersonId[];
 /**
- * Kimberly (born Apr 20, 1971), in the district's high school from 1985 to
- * 1988 while the player was in its elementary school: never schoolmates.
+ * Levi (born Jul 13, 1989), in the district's elementary school from 1994 to
+ * 1999 while the player was in its high school: never schoolmates.
  */
-const NEVER_TOGETHER = "person_c9cd9bfdd84a1b01" as PersonId;
+const NEVER_TOGETHER = "person_16f6ccc1fba7ca03" as PersonId;
 
 interface Line {
   speakerId: string;
@@ -124,7 +134,7 @@ describe("a question about a school both went to", () => {
       sharedHistory(core, me, NEVER_TOGETHER).some(
         (row) => row.kind === "schoolmate",
       ),
-      `${where}: Kimberly in high school, the player in elementary school`,
+      `${where}: Levi in elementary school, the player in high school`,
     ).toBe(false);
   });
 
