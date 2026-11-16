@@ -1,7 +1,7 @@
 /**
- * Step 0 of director-cap-on-scene-repeats: a played year of one officeholder, with the season cap on or off, and for each
- * situation type how many scenes were staged, how many the cap (or another reason) held back, and how many staged scenes
- * repeated an earlier staged scene's type and cast. Development tooling for the PR's proof; shipped play never imports it.
+ * Step 0 of director-cap-on-scene-repeats: a played year of one officeholder and, for each situation type, how many scenes
+ * were staged, how many another reason held back, and how many staged scenes repeated an earlier staged scene's type and
+ * cast. Development tooling for the PR's proof; shipped play never imports it.
  *
  *   node --import tsx scripts/dialogue-batch/cap-year.ts --place <key> --seed <seed> --persona governor|legislator|mayor [--days 365] [--out file.json]
  */
