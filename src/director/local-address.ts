@@ -20,12 +20,9 @@ import { jurisdictionTermRead, type AreaRead } from "../core2/modules/laws";
 import { applyCoreEvent, coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
 import type { AddressKind } from "./address-kind";
-import {
-  ADDRESS_FACT,
-  ADDRESS_PART_BREAK,
-  addressPiecesFact,
-} from "./opening-facts";
+import { ADDRESS_FACT } from "./opening-facts";
 import { composeBlocks, type OpeningSentence } from "./opening-story";
+import { partsOf, saidFact } from "./address-render";
 import {
   planSpeech,
   type OutlineSpeaker,
@@ -40,6 +37,7 @@ import { markWordsStopgap } from "./stopgaps";
 import { recordAddressResponse } from "./address-response";
 import type { OpeningSpeechKind } from "../english/english-opening-speech";
 import localData from "./data/local-address.json" with { type: "json" };
+import { bodySaid } from "./body-said";
 import { headsLocalExecutive } from "../core2/offices-executives";
 
 export type LocalLevel = "state" | "town";
@@ -112,20 +110,6 @@ type TownSeat = ReturnType<typeof townSeats>[number];
 
 const HEADS = DATA.levels.town.heads!;
 
-/** A local body as people say it, by the first of `bodyWords` its recorded name holds ("Clark Fork City Council" is "the council"), else its name's last word. */
-export function bodySaid(office: {
-  readonly bodyName?: string | undefined;
-}): string | null {
-  const words = (office.bodyName ?? "")
-    .trim()
-    .toLocaleLowerCase("en-US")
-    .split(/\s+/)
-    .filter(Boolean);
-  const word =
-    HEADS.bodyWords.find((row) => words.includes(row)) ?? words.at(-P.one);
-  return word ? `the ${word}` : null;
-}
-
 /** The place a local government governs, as its people say it: the town's own name, else the township's or the county's. */
 function realmSaid(core: CoreState, office: TownSeat["office"]): string | null {
   return office.level === "city"
@@ -188,6 +172,7 @@ export function localSpeaker(
     realmName: realmSaid(core, office),
     body: bodySaid(body),
     bodyName: bodyNameSaid(core, body),
+    bodyOfficeId: body.id,
     officeTitle,
   };
 }
@@ -352,31 +337,6 @@ export function composeLocalAddress(
 }
 
 /**
- * The address in its parts, one per Continue. A greeting is never a part of
- * its own: where the sentence its paragraph opened for was not said (no
- * occasion from the records), it joins the next paragraph.
- */
-function partsOf(sentences: readonly OpeningSentence[]): string[] {
-  const parts = [...new Set(sentences.map((row) => row.part))].map((part) =>
-    sentences.filter((row) => row.part === part),
-  );
-  const out: string[] = [];
-  let carried = "";
-  for (const rows of parts) {
-    const text = [carried, ...rows.map((row) => row.text)]
-      .filter(Boolean)
-      .join(" ");
-    if (rows.every((row) => row.level === "salutation")) carried = text;
-    else {
-      out.push(text);
-      carried = "";
-    }
-  }
-  if (carried) out.push(carried);
-  return out;
-}
-
-/**
  * Record today's governor's or mayor's address once, as a public event: the
  * news carries it to the state or town, the household watching it with the
  * player sees it, and anyone who heard it can bring it up.
@@ -418,15 +378,18 @@ export function recordLocalAddress(
       [ADDRESS_FACT.speaker]: story.speakerId,
       [ADDRESS_FACT.kind]: DATA.levels[level].subject,
       [ADDRESS_FACT.style]: story.addressKind,
-      [ADDRESS_FACT.opening]: story.sentences[P.zero]!.text,
-      [ADDRESS_FACT.remembered]: (
-        story.sentences.find((row) => row.level === "congress") ??
-        story.sentences.find((row) => row.level === "country") ??
-        story.sentences[P.zero]!
-      ).text,
-      [ADDRESS_FACT.text]: story.text,
-      [ADDRESS_FACT.parts]: story.parts.join(ADDRESS_PART_BREAK),
-      [ADDRESS_FACT.pieces]: addressPiecesFact(story.sentences, story.points),
+      [ADDRESS_FACT.said]: saidFact(
+        DATA.levels[level].subject,
+        story.points,
+        story.sentences,
+      ),
+      [ADDRESS_FACT.rememberedAt]: String(
+        story.sentences.indexOf(
+          story.sentences.find((row) => row.level === "congress") ??
+            story.sentences.find((row) => row.level === "country") ??
+            story.sentences[P.zero]!,
+        ),
+      ),
       ...(spoken
         ? {
             [ADDRESS_FACT.office]: spoken.officeWords,

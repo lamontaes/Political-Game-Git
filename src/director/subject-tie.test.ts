@@ -12,7 +12,8 @@ import { gameStartDate } from "../core2/game-start";
 import type { PersonId } from "../core2/types";
 import { buildBenchWorld } from "../bench/world";
 import { subjectsBetween, type Subject } from "./conversation";
-import { acceptSubjects, OWN_RECORD_KINDS } from "./subject-tie";
+import { acceptSubjects, OWN_RECORD_KINDS, storyTie } from "./subject-tie";
+import type { Story } from "../core2/modules/news";
 
 const PINNED = { run: "8341-pin", purpose: "p6", key: "0164656" };
 
@@ -77,4 +78,42 @@ it("every subject a built world's people can raise to the player carries its tie
     }
   }
   expect(raised, `${where}: no subject was raised`).toBeGreaterThan(0);
+}, 60_000);
+
+it("a printed story that names the speaker as its winner, a loser, the appointee or who appointed them is tied to them (Ridgeville AL)", () => {
+  setBookkeeping(false);
+  const place = drawPlace(PINNED.run, PINNED.purpose);
+  const world = buildBenchWorld(place.seed, gameStartDate(), {
+    twoLevel: true,
+    placeKey: place.key,
+  });
+  const { core } = world;
+  const playerId = world.playerId as PersonId;
+  const [speaker, stranger] = [...core.people.values()].filter(
+    (row) =>
+      row.alive &&
+      row.tier !== "husk" &&
+      row.id !== playerId &&
+      row.householdId !== core.people.get(playerId)!.householdId,
+  );
+  const story = (facts: Record<string, string>): Story =>
+    ({ id: "story:test", facts }) as unknown as Story;
+  // The speaker's own record in the story: each way a story names a person.
+  for (const facts of [
+    { winnerId: speaker!.id },
+    { outIds: JSON.stringify([stranger!.id, speaker!.id]) },
+    { appointee: speaker!.id },
+    { appointedBy: speaker!.id },
+  ])
+    expect(
+      storyTie(core, story(facts), speaker!.id, playerId)?.recordIds,
+      JSON.stringify(facts),
+    ).toContain(speaker!.id);
+  // A story that names someone else, or nobody of theirs, is no tie.
+  expect(
+    storyTie(core, story({ winnerId: stranger!.id }), speaker!.id, playerId),
+  ).toBeNull();
+  expect(
+    storyTie(core, story({ outIds: "not json" }), speaker!.id, playerId),
+  ).toBeNull();
 }, 60_000);

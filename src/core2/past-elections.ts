@@ -469,6 +469,7 @@ export function buildPriorElections(
             { seatId: seat.id, date },
             base,
             real ? drift : spread,
+            real?.total,
           );
         const ratio = turnoutRatio(date);
         // This world's votes cast (realistic, not real; owner, Oct 27): the

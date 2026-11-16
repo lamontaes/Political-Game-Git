@@ -88,8 +88,10 @@ import {
   LEGISLATURE_MODULE_ID,
   type BillRow,
 } from "../core2/modules/legislature";
-import { OFFICES_MODULE_ID } from "../core2/modules/offices";
-import { earlierAddressPieces } from "./opening-facts";
+import { OFFICES_MODULE_ID, type TermRow } from "../core2/modules/offices";
+import { dayParts } from "./day-part";
+import { bodySaid } from "./body-said";
+import { earlierAddressPieces } from "./address-render";
 import { coreStateName } from "../core2/place-lookup";
 import { markWordsStopgap } from "./stopgaps";
 import { stateInSentence } from "./words";
@@ -152,6 +154,8 @@ export interface OutlineRow {
   readonly asks: number;
   readonly numberedAsks: boolean;
   readonly ownRecord: boolean;
+  /** The minute of the day the address is given, where the kind has its own hour (rule 141). */
+  readonly minute?: Weight;
 }
 
 interface Weight {
@@ -188,6 +192,8 @@ const OUTLINES = outlineData as unknown as {
   /** What a body's measures are called by their form (bodyNumbering's kind). */
   measureWords: Readonly<Record<string, string>>;
   conditions: { budgetEvenBand: Weight; budgetThemes: readonly string[] };
+  /** The chambers a governor's party holds or lacks (bodyHoldFacts). */
+  bodyHold: { readonly stateChambers: readonly string[] };
   /** How a point's belief joins its ask, one to a point in order (rule 38). */
   beliefJoins: { readonly joins: readonly string[] };
   pointShapes: {
@@ -902,6 +908,8 @@ export interface OutlineSpeaker {
     readonly body: string | null;
     /** The body by its recorded name, said as to its face ("the Groton Select Board"), for a greeting; null where the record names none. */
     readonly bodyName?: string | null;
+    /** The body's office row, whose serving terms say whether the speaker's party holds it. */
+    readonly bodyOfficeId?: string;
     /** The office the speaker holds or seeks, as people say it ("mayor", "county executive"). */
     readonly officeTitle: string | null;
   };
@@ -1576,6 +1584,7 @@ function conditionFacts(
   local: OutlineSpeaker["local"],
   theme: string | null,
   pointQuestions: readonly string[],
+  speakerId: string,
 ): Facts {
   const api = coreAPI(core);
   const out: Facts = {};
@@ -1689,7 +1698,192 @@ function conditionFacts(
       disaster.type.toLocaleLowerCase("en-US"),
       `disaster:${disaster.number}`,
     );
-  return out;
+  // One event of the place's year in an address (the Words lead's rule 7):
+  // a law, else a disaster, else a closing, else the vote.
+  if (enacted || disaster) return out;
+  const closing = closingOfYear(core, yearAgo);
+  if (closing) return { ...out, ...closing };
+  return {
+    ...out,
+    ...electionOfYear(
+      core,
+      level,
+      local,
+      speakerId,
+      yearAgo,
+      local
+        ? local.realmName
+        : jurisdiction
+          ? coreStateName(jurisdiction.replace(/^US-/, ""))
+          : null,
+    ),
+  };
+}
+
+/**
+ * The business in the played place that closed this past year with the most
+ * jobs ended (the finance engine's closure record), said by its name: the
+ * place's closing for an address's event line, and whether it put people
+ * out of work.
+ */
+function closingOfYear(core: CoreState, yearAgo: string): Facts | null {
+  const rows = [...core.finance.closures.values()]
+    .filter((row) => row.date > yearAgo && row.date <= core.date)
+    .map((row) => ({
+      row,
+      org: core.organizations.get(row.organizationId),
+      jobs: row.endedJobIds.length + row.endedCountedJobIds.length,
+    }))
+    .filter((found) => found.org && !found.org.outsideFlow)
+    .sort(
+      (a, b) =>
+        b.jobs - a.jobs ||
+        b.row.date.localeCompare(a.row.date) ||
+        a.row.organizationId.localeCompare(b.row.organizationId),
+    );
+  const top = rows[P.zero];
+  if (!top) return null;
+  const id = `employer-closed:${top.row.date}:${top.row.organizationId}`;
+  return {
+    "condition-closure": fact(top.org!.name, id),
+    ...(top.jobs > P.zero
+      ? {
+          "condition-jobs-ended": fact(
+            "yes",
+            id,
+            ...top.row.endedJobIds,
+            ...top.row.endedCountedJobIds,
+          ),
+        }
+      : {}),
+  };
+}
+
+/** When a term's holder was elected to it: the opening's record of the election behind it, else the day a won race seated them. */
+function electedOn(term: TermRow): string | null {
+  return (
+    term.elected?.date ?? (term.id.endsWith(":elected") ? term.startDate : null)
+  );
+}
+
+/**
+ * The vote the address's government held this past year (the offices
+ * engine's terms): a seat in it filled by election since a year ago, and
+ * whether the speaker's own seat was one.
+ */
+function electionOfYear(
+  core: CoreState,
+  level: PolicyLevel,
+  local: OutlineSpeaker["local"],
+  speakerId: string,
+  yearAgo: string,
+  realm: string | null,
+): Facts {
+  if (!core.modules.has(OFFICES_MODULE_ID)) return {};
+  const api = coreAPI(core);
+  const terms = api.moduleState(OFFICES_MODULE_ID).table("terms");
+  const inYear = (term: TermRow) => {
+    const on = electedOn(term);
+    return !!on && on > yearAgo && on <= core.date;
+  };
+  const officeIds = local
+    ? [local.officeId, local.bodyOfficeId].filter((id): id is string => !!id)
+    : [];
+  const serving = (officeId: string) =>
+    terms.query("byOfficeStatus", [
+      officeId,
+      "serving",
+    ]) as unknown as TermRow[];
+  const own = (
+    terms.query("byPerson", [speakerId]) as unknown as TermRow[]
+  ).filter((term) => term.status === "serving" && inYear(term));
+  const voted = [...own, ...officeIds.flatMap(serving).filter(inYear)].sort(
+    (a, b) => a.id.localeCompare(b.id),
+  );
+  // A state's vote is the speaker's own race: the legislature's seats are
+  // the officials engine's, not terms the offices engine elects.
+  if (!voted.length || (level === "state" && !own.length)) return {};
+  // The office that election filled, by its row's own title: the speaker's
+  // own where they won it, else the first seat voted.
+  const filled = own[P.zero] ?? voted[P.zero]!;
+  const title = (
+    api.moduleState(OFFICES_MODULE_ID).table("offices").get(filled.officeId) as
+      { title?: string } | undefined
+  )?.title?.toLocaleLowerCase("en-US");
+  // Said with the place whose seat it is ("Dixie County commissioner",
+  // "Georgia governor"): the record's seat, never a title any county shares.
+  const office = title && realm ? `${realm} ${title}` : title;
+  return {
+    "condition-election": fact("yes", ...voted.map((term) => term.id)),
+    ...(title
+      ? { "condition-office": fact(office!, filled.id, filled.officeId) }
+      : {}),
+    ...(own[P.zero]
+      ? { "condition-elected-here": fact("yes", own[P.zero]!.id) }
+      : {}),
+  };
+}
+
+/**
+ * Whether the speaker's party holds the body the address is given to
+ * (speech-outlines.json bodyHold): a governor's legislature, every chamber,
+ * from the officials engine's seats; a local head's council or board, from
+ * the offices engine's serving terms. Neither for a speaker with no party or
+ * a body with no members on record.
+ */
+function bodyHoldFacts(
+  core: CoreState,
+  level: PolicyLevel,
+  speaker: OutlineSpeaker,
+): Facts {
+  const party = speaker.official?.party ?? speaker.local?.party ?? null;
+  if (!party) return {};
+  const api = coreAPI(core);
+  const chambers: { id: string; parties: (string | null)[] }[] =
+    level === "state"
+      ? OUTLINES.bodyHold.stateChambers.map((kind) => {
+          const id = `${speaker.jurisdiction}:${kind}`;
+          return { id, parties: officialsIn(api, id).map((row) => row.party) };
+        })
+      : speaker.local?.bodyOfficeId &&
+          speaker.local.bodyOfficeId !== speaker.local.officeId &&
+          core.modules.has(OFFICES_MODULE_ID)
+        ? [
+            {
+              id: speaker.local.bodyOfficeId,
+              parties: (
+                api
+                  .moduleState(OFFICES_MODULE_ID)
+                  .table("terms")
+                  .query("byOfficeStatus", [
+                    speaker.local.bodyOfficeId,
+                    "serving",
+                  ]) as unknown as TermRow[]
+              ).map((term) => term.party),
+            },
+          ]
+        : [];
+  const seated = chambers.filter((row) => row.parties.length > P.zero);
+  if (!seated.length) return {};
+  // More than half the members: more of the speaker's party than of all others.
+  const holds = seated.every((row) => {
+    const theirs = row.parties.filter((one) => one === party).length;
+    return theirs > row.parties.length - theirs;
+  });
+  const ids = seated.map((row) => row.id);
+  // The body said by its one word ("the council", "the legislature").
+  // The body by the word its record holds ("the council", "the legislature").
+  const word = (
+    level === "state"
+      ? bodySaid({
+          bodyName: OUTLINES.bodyHold.stateChambers[P.zero]?.replace(/-/g, " "),
+        })
+      : speaker.local?.body
+  )?.replace(/^the /, "");
+  return {
+    [holds ? "party-holds-body" : "party-lacks-body"]: fact("yes", ...ids),
+    ...(word ? { "body-word": fact(word, ...ids) } : {}),
+  };
 }
 
 /** A figure said in a context sentence: one decimal, no trailing zero. */
@@ -2143,6 +2337,13 @@ export function planSpeech(
   // Whether a meaning line (which leads with the "On X," tag) is said.
   let tagSaid = false;
   const closing = turnsTo[P.zero] ?? themeLead ?? pointStands[P.zero];
+  // The hour the kind is given at (rule 141): a close says good night only
+  // in the evening.
+  const closeHour: Facts =
+    row.minute && dayParts(row.minute.value).includes("evening")
+      ? { evening: fact("yes", `${kindKey}:minute`) }
+      : {};
+  const bodyHold: Facts = federal ? {} : bodyHoldFacts(core, level, speaker);
   const closeFacts = (): Facts => {
     const first = closing;
     const plan = first ? planned[pointStands.indexOf(first)] : undefined;
@@ -2174,6 +2375,19 @@ export function planSpeech(
       SUBJECT_WORDS.of(text).filter((word) => said.includes(word)).length <
       OUTLINES.theme.closeSharedWordsLeast.value;
     return {
+      // The address's own hour, an ask said in it, and whether the speaker's
+      // party holds the body (the Words lead's closes, Nov 16).
+      ...closeHour,
+      ...(asks.length
+        ? {
+            asked: fact("yes", cited),
+            // The ask's own question by its name, said in the close.
+            ...(questionAbout(first.question)
+              ? { "asked-about": fact(questionAbout(first.question)!, cited) }
+              : {}),
+          }
+        : {}),
+      ...bodyHold,
       ...(after && sayingNew(after) && !(plan?.todays ?? []).includes(after)
         ? { "first-after": fact(clauseOf(after), cited, first.law.id) }
         : {}),
@@ -2261,6 +2475,15 @@ export function planSpeech(
             key: "turn",
             level: "country",
             facts: {
+              // From the answer just given to the theme.
+              ...(questionAbout(response.stand.question)
+                ? {
+                    "turn-from": fact(
+                      questionAbout(response.stand.question)!,
+                      `question:${response.stand.question}`,
+                    ),
+                  }
+                : {}),
               "turn-to": fact(
                 themeName,
                 ...turnsTo.map((row) => `question:${row.question}`),
@@ -2306,6 +2529,7 @@ export function planSpeech(
                   local,
                   theme,
                   pointStands.map((stand) => stand.question),
+                  person.id,
                 )),
           },
           moves: [
@@ -2443,11 +2667,33 @@ export function planSpeech(
                     : []),
                 ]
               : [];
+          // One turn line between two points, never before the first (the
+          // Words lead, Nov 16, rule 3): the next point said by its plain
+          // name. A hurt address's turn to its theme is hurtOrder's.
+          const last = pointStands[at - P.one];
+          const turns =
+            !!last &&
+            !(crisis && response && turnsTo[P.zero] === stand) &&
+            !!questionAbout(stand.question) &&
+            !!questionAbout(last.question);
           return {
             key: `point-${stand.question}`,
             level: "country",
             facts: {
               ...themeFacts,
+              ...(turns
+                ? {
+                    // The point just made and the next, by their plain names.
+                    "turn-from": fact(
+                      questionAbout(last!.question)!,
+                      `question:${last!.question}`,
+                    ),
+                    "turn-to": fact(
+                      questionAbout(stand.question)!,
+                      `question:${stand.question}`,
+                    ),
+                  }
+                : {}),
               ...(topic && figureMoves.length
                 ? {
                     ...figuredFacts,
@@ -2505,11 +2751,14 @@ export function planSpeech(
                 ? { "asks-question": fact("yes", `question:${stand.question}`) }
                 : {}),
             },
-            moves: shape.moves.flatMap((name) =>
-              name === "figure"
-                ? figureMoves
-                : [name === "ask" ? askMove(plan.join) : move(name)],
-            ),
+            moves: [
+              ...(turns ? [move("turn")] : []),
+              ...shape.moves.flatMap((name) =>
+                name === "figure"
+                  ? figureMoves
+                  : [name === "ask" ? askMove(plan.join) : move(name)],
+              ),
+            ],
           };
         }),
       ]);

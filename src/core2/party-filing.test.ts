@@ -24,9 +24,8 @@ import {
 } from "./modules/parties";
 import { openVoting } from "./modules/voting";
 import { searchCorePlaces } from "./place-lookup";
-import { buildBenchWorld } from "../bench/world";
+import { benchRequest, benchWorld } from "../bench/handler";
 import { setBookkeeping } from "./bookkeeping";
-import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import { PARTIES_MODULE_ID, type TieRow } from "./modules/parties";
@@ -124,19 +123,48 @@ describe(`filing under a party (seed ${seed})`, () => {
     expect(after.find((c) => c.rule === "party-member")?.met, where).toBe(true);
   });
 
-  // Limit: the played year took 143.2 s alone and 140.7 s beside another
-  // played-world file (Nov 16, Train 6d12556a); twice the slower is about 300 s.
-  it("holds everyone who joined as an act in the party's membership, in a played year", () => {
+  // Before (Nov 16), this case waited for anyone to join a party as an act
+  // in a played year at Three Rivers, and the only one who ever did was a
+  // sitting state senator the voting engine named the party's stand-in
+  // nominee for a statewide race nobody of that party had filed for
+  // (voting.ts, fileStandingCandidates). Whether a stand-in is needed depends
+  // on who files, which moves with the president's approval (#9689 opened it
+  // per world), so on the Train at ce78169a nobody joined and the case went
+  // red. Residents take their ties by the party rule instead, never as an
+  // act. Now the player joins through the request the game's party page
+  // sends (/api/party/join), in a new life at Three Rivers, and the year is
+  // played; everyone who joined as an act, the player among them, must be on
+  // the party's roll at its end.
+  // Limit: the file took 157 s alone and 157 s beside another played-world
+  // file (Nov 16, Train c0f54ca0), nearly all of it the played year; twice
+  // the slower is about 320 s.
+  it("holds everyone who joined as an act in the party's membership, in a played year", async () => {
     setBookkeeping(false);
     try {
       const where = `${PLAYED.name} (${PLAYED.key}), seed ${PLAYED.seed}`;
-      const { core, place } = buildBenchWorld(PLAYED.seed, gameStartDate(), {
-        twoLevel: true,
-        placeKey: PLAYED.key,
-      });
-      expect(place.displayName, where).toBe(PLAYED.name);
-      advanceCore(core, addDays(makeIsoDate(core.date), 365));
-      const api = coreAPI(core);
+      const ask = (method: string, path: string) =>
+        benchRequest(method, new URL(path, "http://bench"), {
+          developer: true,
+        });
+      const opened = await ask(
+        "POST",
+        `/api/newlife?${new URLSearchParams({ seed: PLAYED.seed, placeKey: PLAYED.key })}`,
+      );
+      expect(opened.status, where).toBe(200);
+      const { core, player } = benchWorld();
+      const api = coreAPI(core!);
+      const playerId = player!.personId!;
+      const held = partyTie(api, playerId)?.partyId;
+      const party = [...partiesHere(api)]
+        .sort((a, b) => a.id.localeCompare(b.id))
+        .find((row) => row.id !== held)!;
+      expect(party, `${where}: a party to join`).toBeDefined();
+      const joined = await ask(
+        "POST",
+        `/api/party/join?${new URLSearchParams({ partyId: party.id })}`,
+      );
+      expect(joined.status, where).toBe(200);
+      advanceCore(core!, addDays(makeIsoDate(core!.date), 365));
       const ties = api
         .moduleState(PARTIES_MODULE_ID)
         .table("ties")
@@ -145,19 +173,19 @@ describe(`filing under a party (seed ${seed})`, () => {
         (t) => t.partyId && t.reason.startsWith("joined;"),
       );
       expect(
-        joinedAsAct.length,
-        `${where}: someone joined a party as an act`,
-      ).toBeGreaterThan(0);
+        joinedAsAct.map((t) => t.personId),
+        `${where}: the player joined ${party.id} as an act`,
+      ).toContain(playerId);
       for (const tie of joinedAsAct)
         expect(
           partyMemberIds(api, tie.partyId!),
           `${where}: ${tie.id} joined ${tie.partyId} on ${tie.since}`,
         ).toContain(tie.personId);
       process.stdout.write(
-        `party join membership: ${where}; ${joinedAsAct.length} joined as an act, e.g. ${joinedAsAct[0]!.id}\n`,
+        `party join membership: ${where}; ${joinedAsAct.length} joined as an act, the player ${playerId} in ${party.id}\n`,
       );
     } finally {
       setBookkeeping(true);
     }
-  }, 300_000);
+  }, 320_000);
 });
