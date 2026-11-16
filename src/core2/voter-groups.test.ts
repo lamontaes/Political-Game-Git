@@ -14,7 +14,6 @@ import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
 import { drawPlace } from "../../scripts/core2-year/place";
-import { countedVoters } from "./modules/voting";
 import { corePlaceByKey } from "./place-lookup";
 import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
