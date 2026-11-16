@@ -63,10 +63,10 @@ const ATTEMPTS = 4;
 const LAST_DAY_MINUTE = 9 * 60;
 /**
  * Each test's limit, near twice the slower of its time alone and beside
- * ending-strain-share and english-parts-banks (Nov 16, at #9624): show-around
- * 81 s and 79 s, vote 126 s and 124 s, attend 41 s and 40 s.
+ * ending-strain-share and english-parts-banks (Nov 16, at #9624 on #9568's a1b3517d): show-around
+ * 97 s and 92 s, vote 127 s and 125 s, attend 40 s and 38 s.
  */
-const SHOW_AROUND_TIMEOUT = 165_000;
+const SHOW_AROUND_TIMEOUT = 195_000;
 const VOTE_TIMEOUT = 255_000;
 const ATTEND_TIMEOUT = 85_000;
 
