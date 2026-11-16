@@ -1,4 +1,4 @@
-/* global process, console, document, URL */
+/* global process, console, document, URL, fetch, Event */
 // How I look's two tabs, in a real browser on the bench (npm run bench).
 // Owner, Nov 12, 2026: "two tabs, everyday and formal, bust flips between
 // them". For a woman and a man, each in a place drawn with the creator's
@@ -132,8 +132,22 @@ try {
       "true",
       `${where}: a step left the Everyday tab`,
     );
-    // Begin the life: the played player's bust wears the chosen top.
-    await page.locator("#cr-randomize").click();
+    // Begin the life: the played player's bust wears the chosen top. The
+    // name is the creator's own draw for this gender, put in the fields
+    // directly: the one Random would draw a new look as well.
+    await page.evaluate(async (g) => {
+      const name = await (
+        await fetch(`/api/creator/name?seed=look-tabs&draw=1&gender=${g}`)
+      ).json();
+      for (const [id, value] of [
+        ["cr-given", name.givenName],
+        ["cr-family", name.familyName],
+      ]) {
+        const field = document.getElementById(id);
+        field.value = value;
+        field.dispatchEvent(new Event("input"));
+      }
+    }, gender);
     await page.waitForFunction(
       () =>
         document.getElementById("cr-given").value &&

@@ -22,7 +22,6 @@ try {
   await page.goto(`${base}/play`);
   await page.locator("#new-life").click();
   await page.locator("#new-start").click();
-  await page.locator("#cr-randomize").click();
   await page.locator("#cr-screen:not([hidden])").waitFor();
   for (const gender of ["female", "male"]) {
     await page.locator(`[data-gender=${gender}]`).click();
