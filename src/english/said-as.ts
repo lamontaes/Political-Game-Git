@@ -67,6 +67,14 @@ const WHAT = data.whatTheyAre as unknown as Readonly<
   Record<string, Readonly<Record<string, string>>>
 >;
 
+/** Whether a scene type's own lines say what the person is, so its arrival adds nothing. */
+export function sceneSaysWhat(typeKey: string | undefined): boolean {
+  const says = (
+    WHAT as unknown as { sceneSaysIt?: { types?: readonly string[] } }
+  ).sceneSaysIt?.types;
+  return !!typeKey && !!says?.includes(typeKey);
+}
+
 /**
  * What someone is, as the narration says it after their name the first time
  * ("the town clerk", "who lives in your district"); null where no line is

@@ -23,7 +23,7 @@ import {
 import { organizationName, spoken } from "./words";
 import { dayOpening, daySince } from "../english/day-words";
 import { homeAloneDayFacts } from "./day-part";
-import { nameWithWhat, officeWords } from "../english/said-as";
+import { nameWithWhat, officeWords, sceneSaysWhat } from "../english/said-as";
 import { whatTheyAre } from "./who-they-are";
 import { outletsHere } from "../core2/modules/press";
 import { coreAPI } from "../core2/state";
@@ -245,9 +245,10 @@ export function composeScene(
             facts.since = { text: since, sourceRecordIds: [moment.id] };
           if (meeting) {
             // The first time: what they are, when the player has not met them (rule 136).
-            const what = named.has(meeting.id)
-              ? null
-              : whatTheyAre(core, personId, meeting.id);
+            const what =
+              named.has(meeting.id) || sceneSaysWhat(binding.typeKey)
+                ? null
+                : whatTheyAre(core, personId, meeting.id);
             const full = `${meeting.givenName} ${meeting.familyName}`;
             const text = nameWithWhat(full, what ?? undefined);
             facts.name = {

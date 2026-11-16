@@ -16,8 +16,9 @@
  * 3. tie: a tie on record with the player: schoolmates, the player's own
  *    campaign (`sharedHistory`), or an act on the public record between them
  *    (`actBetween`: a veto, a signing, an appointment).
- * 4. constituent: someone in the town a seat the player holds covers.
- * 5. workplace: where they work, and whether the player works there too.
+ * 4. press: a reporter for an outlet (the press engine's outlet rows).
+ * 5. constituent: someone in the town a seat the player holds covers.
+ * 6. workplace: where they work, and whether the player works there too.
  * Someone none of these holds for is named alone. A kind or stage with no
  * line in said-as.json is passed over: only lines a played scene has said
  * are kept (lead and Words lead, Nov 15).
@@ -43,6 +44,11 @@ import {
 import { ELECTIONS_MODULE_ID } from "../core2/modules/elections";
 import { EXECUTIVE_MODULE_ID } from "../core2/modules/executive";
 import { lawChain } from "../core2/modules/laws";
+import {
+  PRESS_MODULE_ID,
+  outletTelling,
+  outletsHere,
+} from "../core2/modules/press";
 import { STAFF_MODULE_ID } from "../core2/modules/staff";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { officeWords, whatSaid } from "../english/said-as";
@@ -56,7 +62,7 @@ export type WhatKind = "office" | "staff" | "tie" | "constituent" | "workplace";
 /** What a person is to the player: the kind, its stage and its slots, from the records. */
 export interface WhatTheyAre {
   readonly kind: WhatKind;
-  /** office: "alone" | "member"; staff: "aide"; tie: "schoolmate" | "campaign" | "act-<what>-mine" | "act-<what>-theirs"; constituent: "district" | "place"; workplace: "apart" | "with-you". */
+  /** office: "alone" | "member"; staff: "aide"; press: "reporter"; tie: "schoolmate" | "campaign" | "act-<what>-mine" | "act-<what>-theirs"; constituent: "district" | "place"; workplace: "apart" | "with-you". */
   readonly stage: string;
   readonly facts: Readonly<Record<string, Fact>>;
 }
@@ -324,6 +330,31 @@ function tieOf(
   return null;
 }
 
+/** A reporter, by the outlet whose row names them and whose payroll they are on. */
+function reporterOf(
+  core: Readonly<CoreState>,
+  otherId: PersonId,
+): WhatTheyAre | null {
+  if (!core.modules.has(PRESS_MODULE_ID)) return null;
+  const api = coreAPI(core as CoreState);
+  const other = core.people.get(otherId);
+  const job = other?.jobId ? core.jobs.get(other.jobId) : undefined;
+  for (const outlet of outletsHere(api)) {
+    if (!outlet.reporterIds.includes(otherId)) continue;
+    if (job && job.organizationId !== outlet.organizationId) continue;
+    const org = core.organizations.get(outlet.organizationId as never);
+    if (!org) continue;
+    const name = organizationName(org);
+    const the = outletTelling(api, outlet.organizationId, name)?.the;
+    return {
+      kind: "press",
+      stage: "reporter",
+      facts: { outlet: fact(the ? `the ${name}` : name, outlet.id, org.id) },
+    };
+  }
+  return null;
+}
+
 /** Someone in the town a seat the player holds covers. */
 function constituentOf(
   core: Readonly<CoreState>,
@@ -394,6 +425,7 @@ export function whatTheyAre(
     () => officeOf(core, otherId),
     () => staffOf(core, otherId),
     () => tieOf(core, playerId, otherId),
+    () => reporterOf(core, otherId),
     () => constituentOf(core, playerId, otherId),
     () => workplaceOf(core, playerId, otherId),
   ];
