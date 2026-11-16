@@ -69,7 +69,7 @@ it(`the player's doors ask for votes once the petition holds the target (Otisvil
   }
   expect(filed, `no petition race at Otisville by ${start}`).toBeTruthy();
   const { personId, filingId } = filed!;
-  const target = signaturesToGather(petitionOf(api, filingId)!.needed);
+  const target = signaturesToGather(api, filingId);
   const doorSigned = () =>
     petitionSigners(api, filingId).filter((s) => s.via === "door").length;
   const days: string[] = [];

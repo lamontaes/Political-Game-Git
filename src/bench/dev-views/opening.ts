@@ -21,11 +21,16 @@ import {
   placeReferencePopulation,
 } from "../../core2/gov-rules/place-population";
 import { townWorkplaceWeights } from "../../core2/modules/jobs";
+import type { EntrantPick } from "../world";
 import { worldOffsetUnit } from "../../core2/world-draw";
-import { pastElections, townSeats } from "../../core2/modules/offices";
+import {
+  pastElections,
+  realResult,
+  townSeats,
+} from "../../core2/modules/offices";
 import {
   latestApproval,
-  opinionParameter,
+  presidentElection,
 } from "../../core2/modules/national-opinion";
 import { healthReport } from "../../core2/modules/health";
 import type { CoreState, PersonId, Source } from "../../core2/types";
@@ -100,6 +105,11 @@ function row(
     ...(made.replace ? { replace: made.replace } : {}),
     ...extra,
   };
+}
+
+/** Today's approval base, or "none" before the first month has run. */
+function approvalNow(pct: number | undefined): string {
+  return pct === undefined ? shown(pct) : `${shown(pct)}%`;
 }
 
 function shown(value: unknown): string {
@@ -178,10 +188,19 @@ function townView(core: CoreState, placeId: string): OpeningRow[] {
       "Kinds of household",
       core.placeMetadata.householdMixBasis,
     ),
+  );
+  // The president's approval starts at the share of the vote the race that
+  // seated them recorded; the game opens on Inauguration Day, so no month of
+  // their term moved it before day one.
+  const election = presidentElection(api);
+  rows.push(
     row(
       "town.presidentApproval",
       "President's approval on day one",
-      `${opinionParameter("openingPct")}% (now ${shown(latestApproval(api)?.basePct)})`,
+      election
+        ? `${shown(election.share * api.parameter("macroHundred"))}% (their share in the ${election.date} election; months of the term before day one: 0; now ${approvalNow(latestApproval(api)?.pct)})`
+        : "none (no record of the race that seated the president)",
+      election ? { recordId: election.termId } : {},
     ),
   );
   return rows;
@@ -197,6 +216,28 @@ function personView(core: CoreState, personId: string): OpeningRow[] {
     }),
     row("person.birthDate", "Born", person.birthDate),
   ];
+  // The player's age at the start, and how the opening set it (world.ts `entrantChoice`).
+  const pick =
+    personId === core.playerId && core.placeMetadata?.openingPlayerPick
+      ? (JSON.parse(core.placeMetadata.openingPlayerPick) as EntrantPick)
+      : undefined;
+  if (pick)
+    rows.push(
+      row(
+        pick.how === "town-adult"
+          ? "person.playerAge.townAdult"
+          : "person.playerAge.chosen",
+        "Age when the life began",
+        pick.how === "chosen-age"
+          ? `${pick.age} (chosen ${pick.chosenAge}${pick.estimated ? "; nobody in town was that age, so the nearest age stands in" : ""})`
+          : pick.age,
+        pick.how === "town-adult"
+          ? {
+              drawKey: `opening-player:${person.placeId}: ${shown(pick.unit ?? 0)}, one of ${pick.among} adults in id order`,
+            }
+          : {},
+      ),
+    );
   const traitSources = person.traitSources ?? {};
   for (const [trait, value] of Object.entries(person.traits).sort((a, b) =>
     a[0].localeCompare(b[0]),
@@ -289,6 +330,25 @@ function businessView(core: CoreState, organizationId: string): OpeningRow[] {
   ];
 }
 
+/** Whether the research holds the real result of a seat's race. */
+function raceRecorded(
+  jurisdiction: string,
+  officeKind: string,
+  seatId: string,
+  race: { date: string; party: string | null },
+): boolean {
+  return (
+    jurisdiction.startsWith("US-") &&
+    realResult({
+      officeKind,
+      seatId,
+      usps: jurisdiction.split("-").at(-1)!,
+      party: race.party,
+      date: race.date,
+    }) !== null
+  );
+}
+
 function officeView(core: CoreState, seatId: string): OpeningRow[] {
   const api = coreAPI(core);
   const held = townSeats(api).find((s) => s.seat.id === seatId);
@@ -324,12 +384,26 @@ function officeView(core: CoreState, seatId: string): OpeningRow[] {
         : "none",
     ),
     row("office.termsBefore", "Elections won before day one", elections.length),
-    row(
-      "office.lastShare",
-      "Share of the vote last time",
-      last ? `${percent(last.share)} in ${last.date.slice(0, 4)}` : "none",
-      { drawKey: last ? "<seat seed>:<election day>:winner-share" : undefined },
-    ),
+    // A race the research records reads its real result as this world
+    // drifts it; any other is drawn inside the office kind's band.
+    last &&
+    raceRecorded(held.office.jurisdiction, held.office.kind, seatId, last)
+      ? row(
+          "office.lastShareRecorded",
+          "Share of the vote last time",
+          `${percent(last.share)} in ${last.date.slice(0, 4)}`,
+          { drawKey: `${seatId}:${last.date}:share` },
+        )
+      : row(
+          "office.lastShare",
+          "Share of the vote last time",
+          last ? `${percent(last.share)} in ${last.date.slice(0, 4)}` : "none",
+          {
+            drawKey: last
+              ? "<seat seed>:<election day>:winner-share"
+              : undefined,
+          },
+        ),
   ];
 }
 

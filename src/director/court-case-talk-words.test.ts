@@ -8,6 +8,17 @@
  * is answered back (`<kind>-back`, `dayTalk.answersBack`), from what the
  * telling left out, never the figure it said (Nov 13: in the played talks
  * the relative said nothing after the player's reply).
+ *
+ * A charge always carries a plea or a trial day. Until Nov 16 the answers
+ * back were also checked for a charge told with the offense alone; the
+ * justice engine never makes that charge (src/core2/modules/justice.ts sets
+ * `trialDate = pleads ? null : heard`, so a charge has a plea or a trial day),
+ * and in a played world both charges in Dallas, South Dakota (4615300),
+ * seed jw1 of the story builder's justice walk, carried a trial day
+ * (/mnt/project-files/words-lead/leftovers/court-case-talks-played-f94697e7.md).
+ * The two answers written for that case could never play and were deleted, so
+ * the case is gone too. court-case-charge-carries.test.ts holds the premise:
+ * if the engine ever makes a bare charge again, it goes red.
  */
 import { describe, expect, it } from "vitest";
 import { composeConversationLine } from "../english/conversation-words";
@@ -75,7 +86,6 @@ describe("a court case told through the composer", () => {
         [
           told(["offense", "plea"]),
           { ...told(["offense", "trial"]), bail: fact("$5,000") },
-          told(["offense"]),
         ],
       ],
       ["charge-reply-back", ["blame"], [told(["offense", "plea"])]],

@@ -1,4 +1,3 @@
-import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
 import { storyScene } from "../bench/story";
@@ -23,18 +22,29 @@ import { stakeOf } from "./family-stake";
 import { purposeScene, replyInScene } from "./purpose-scene";
 
 // Scenes with a purpose fire in play from their cause records, in the lines
-// that play (no grading view). In the played world, on a fresh seed and places
-// drawn from all 56, residents file for a race counted within the year: the
+// that play (no grading view). In the played world, at one pinned place
+// (found once by draw), residents file for a race counted within the year: the
 // filing's own record fires the household's reaction, which plays as an
 // exchange on the play screen, worded by the English engine and naming the
 // record and every fact it says. The count's result record fires the win or
 // the loss at home for every filer on the night it plays; for one a top-two
 // or top-four primary put out, the primary's record fires the loss that
-// night. The year plays out in full. Many places elect their seats only in even years: a place with
-// no race counted within the year is passed over the day it is built. Most
-// drawn places are (eight in a row in one CI run), so up to 32 are drawn.
-const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
-const ATTEMPTS = 32;
+// night. The year plays out in full.
+//
+// Pinned (Nov 16). Before, the test drew its seed at run time from
+// GOLDEN_PATH_SEED or randomBytes and drew up to 32 places from it, passing
+// over each with no race counted within the year (many places elect only in
+// even years), so a red came and went with the draw (Galatia, Kansas at seed
+// 5a5019ed8cb2fc5d:1 failed on an office name, item
+// tests-purpose-scenes-household-year-by-random-seed). Litchfield,
+// Connecticut is the second draw at seed pin-ps-2 (the first has no race
+// counted in the year); the four seeds tried all passed. Galatia stays here
+// as a red case for that item: replayed on Nov 16 it fails with no race-lost
+// scene for a council filer.
+const CASES = [
+  { seed: "pin-ps-2:1", key: "0943300", name: "Litchfield, Connecticut" },
+  { seed: "5a5019ed8cb2fc5d:1", key: "2025050", name: "Galatia, Kansas" },
+];
 const YEAR = 365;
 
 /** One drawn place: why it could not show both scenes, or null once it has. */
@@ -357,12 +367,11 @@ const run = (drawSeed: string): string | null => {
   return null;
 };
 
-it(`a filing and a count fire the household's scenes in the lines that play, over a full year (seed ${seed})`, () => {
-  const skipped: string[] = [];
-  for (let attempt = 0; attempt < ATTEMPTS; attempt += 1) {
-    const why = run(`${seed}:${attempt}`);
-    if (!why) return;
-    skipped.push(why);
-  }
-  throw new Error(`no drawn place filed and counted: ${skipped.join("; ")}`);
-}, 3_600_000);
+// Limit: 87.1 s alone and 85.9 s beside group-quarters at Litchfield (47.5 s
+// and 47.6 s at Galatia; 94.8 s when the two ran beside each other), Nov 16,
+// Train 800ae520; twice the slower is about 190 s.
+for (const { seed, key, name } of CASES)
+  it(`a filing and a count fire the household's scenes in the lines that play, over a full year (${name}, seed ${seed})`, () => {
+    expect(drawPlace(seed, "purpose-scenes").key).toBe(key);
+    expect(run(seed)).toBeNull();
+  }, 190_000);

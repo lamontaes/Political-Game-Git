@@ -141,7 +141,7 @@ describe("a petition asks its own electorate's count", () => {
     const given = contributeOwnMoney(
       api,
       filing.id,
-      signaturesToGather(petition.needed) * price,
+      signaturesToGather(api, filing.id) * price,
     );
     expect(given).toBeGreaterThan(0);
     expect(hireCirculators(api, filing.id, given)).toBeGreaterThan(0);

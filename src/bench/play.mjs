@@ -2175,7 +2175,28 @@ async function campaignParts() {
                   ]
                 : []),
             ],
-            does: why ? [why] : [],
+            does: why
+              ? [why]
+              : choice.outing === "doors" && petition?.gatherTarget
+                ? [
+                    (petition.asksAtDoors
+                      ? T.askingWhySignatures
+                      : T.askingWhyVotes
+                    )
+                      .replace(
+                        "{signed}",
+                        petition.signed.toLocaleString("en-US"),
+                      )
+                      .replace(
+                        "{needed}",
+                        petition.needed.toLocaleString("en-US"),
+                      )
+                      .replace(
+                        "{target}",
+                        petition.gatherTarget.toLocaleString("en-US"),
+                      ),
+                  ]
+                : [],
           }),
           ...(choice.available
             ? { go: go(() => goOut(choice.outing, choice.outletId)) }
@@ -5503,7 +5524,9 @@ const sheets = {
             ...(mayFile && !cannotFile ? [buttonTray(fileButton)] : []),
             ...(cannotFileWords
               ? [prose(cannotFileWords, "record-empty")]
-              : []),
+              : !mayFile && race.bar && labels.refusal[race.bar]
+                ? [prose(labels.refusal[race.bar], "record-empty")]
+                : []),
           ),
         ),
       ];
@@ -5563,8 +5586,37 @@ const sheets = {
           ]
         : [];
     };
+    // A race of an office the player runs for (the clerk's own answer: it is
+    // not "not-your-office") is theirs; the rest are the town's and county's.
+    const mine = ballot.races.filter((race) => race.bar !== "not-your-office");
+    const entryOf = (race, own) => ({
+      key: race.contestId,
+      label:
+        race.officeLevel === "county"
+          ? `${race.title} · ${labels.countyOffice}`
+          : race.title,
+      aside:
+        own && race.cannotFile?.metOn
+          ? `${labels.filingOpens} ${dateWords(
+              race.filingOpens && race.filingOpens > race.cannotFile.metOn
+                ? race.filingOpens
+                : race.cannotFile.metOn,
+              { year: today() },
+            )}`
+          : own && race.bar === "window-not-open" && race.filingOpens
+            ? `${labels.filingOpens} ${dateWords(race.filingOpens, { year: today() })}`
+            : own && race.playerMayFile && race.filingOpen
+              ? labels.fileForIt
+              : race.filers.length || filed.has(race.contestId)
+                ? status(race)
+                : "",
+      data: { contest: race.contestId },
+      race,
+    });
     const byDate = new Map();
-    for (const race of ballot.races) {
+    for (const race of ballot.races.filter(
+      (race) => race.bar === "not-your-office",
+    )) {
       const day = byDate.get(race.electionDate) ?? [];
       day.push(race);
       byDate.set(race.electionDate, day);
@@ -5584,21 +5636,22 @@ const sheets = {
             },
           ]
         : []),
+      // The offices the player runs for come first, each with when they can file.
+      ...(mine.length
+        ? [
+            {
+              title: labels.yourOffices,
+              entries: mine.map((race) => entryOf(race, true)),
+            },
+          ]
+        : []),
       ...[...byDate.entries()]
         .sort(([a], [b]) => a.localeCompare(b))
         .map(([day, races]) => ({
-          title: dateWords(day, { year: today() }),
-          entries: races.map((race) => ({
-            key: race.contestId,
-            label: race.title,
-            aside:
-              race.filers.length || filed.has(race.contestId)
-                ? status(race)
-                : "",
-            data: { contest: race.contestId },
-            race,
-          })),
-        })),
+          title: `${labels.alsoOnBallot} · ${dateWords(day, { year: today() })}`,
+          entries: races.map((race) => entryOf(race, false)),
+        }))
+        .filter((group) => group.entries.length),
     ];
     if (!groups.length) return [prose(labels.noBallot, "record-empty")];
     return rosterScreen({

@@ -13,7 +13,7 @@ import { govReport } from "./gov-test-report";
 import { buildPopulation } from "./population";
 import { advanceCore, createLifeCore } from "./life";
 import { coreAPI } from "./state";
-import { openLaws } from "./modules/laws";
+import { lawChain, openLaws } from "./modules/laws";
 import { openOffices } from "./modules/offices";
 import {
   fileCandidacy,
@@ -130,6 +130,19 @@ describe("M2-05 and M2-06 campaigning and polls", { timeout: 180_000 }, () => {
     const platformB = platformA.map((s) =>
       s.replace("=1", "=x").replace("=-1", "=1").replace("=x", "=-1"),
     );
+    // The rival lives in the town. A candidate who lives here walks its doors
+    // on an ordinary day; one from elsewhere comes only as far as a threat or
+    // a short petition pulls them (`rivalDay`). The richest adults can live
+    // anywhere the world keeps people, so the test takes the case it needs
+    // from the world, not from the draw (skill drawn-place-tests).
+    const town = lawChain(api).townPlaceId;
+    const rivalPerson = adults.find(
+      (p) => p.id !== adults[0]!.id && p.placeId === town,
+    );
+    expect(
+      rivalPerson,
+      `no second adult of 35 or older lives in the town in ${place}`,
+    ).toBeDefined();
     let you: FilingRow | null = null;
     let rival: FilingRow | null = null;
     // Filing opens on a set day (elections-filing-window-opens): the weeks go
@@ -139,7 +152,7 @@ describe("M2-05 and M2-06 campaigning and polls", { timeout: 180_000 }, () => {
       for (const contest of openContests(api)) {
         you = fileAndQualify(api, adults[0]!.id, contest.id, platformA);
         if (!you) continue;
-        rival = fileAndQualify(api, adults[1]!.id, contest.id, platformB);
+        rival = fileAndQualify(api, rivalPerson!.id, contest.id, platformB);
         if (rival) break;
       }
     }

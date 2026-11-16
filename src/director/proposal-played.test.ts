@@ -23,18 +23,24 @@ import type { TreeNode } from "./scene-talk";
 // dating, asked by the partner to live together and saying yes in that
 // scene, then proposing once the couple has lived together a while. No stage
 // or progress is written by hand; the partnerships engine's own monthly climb
-// moves the couple. Place and seed pinned: Pulaski, Ohio, family-a, a first
-// proposal the partner answers "Yes. I thought you'd never ask." (Nov 15:
-// with Train 29ef4685 merged this read "Yes! Come here." because the
-// relation reader's general asked-before, set by the partner's own ask to
-// move in, hid it; the ask answers now read their own asked-same-before.)
+// moves the couple. Place and seed pinned: Westwood, Kentucky, family-n, a
+// first proposal the partner answers "Yes. I thought you'd never ask."
+//
+// Re-pinned Nov 16 (Account lead's yes). The old premise: Pulaski, Ohio,
+// family-a, where the player was a teen who turned 18 in May 2025, asked out
+// then, was asked to move in on January 1, 2026, and was answered yes in
+// February. Train 3's adult pick (a new game starts at 18 or older) made the
+// Pulaski player a 66-year-old who lives alone in an owned home, and the
+// best-fit single one too; movingOrder (partnerships.ts) lets neither leave,
+// so no move-in ask comes and no proposal can follow. That gap is its own
+// pool item. Westwood's player is single and the couple can move.
 //
 // Played days: this test plays the months a couple takes to move in and then
-// to be ready for a yes (here, asked out in May 2025, asked to move in on
-// January 1, 2026, and a first proposal answered yes in February), a week at
-// a time. That is the game's own
+// to be ready for a yes, a week at a time. That is the game's own
 // clock, so it runs longer than a minute (Account lead, Nov 15: a yes reached
 // through the game's own path, played days, the reason in the comment).
+// Westwood runs 93 s alone and 111 s beside the PR's other changed tests
+// (Nov 16, merged with Train c0f54ca0); the limit is near twice the slower.
 setBookkeeping(false);
 
 const adult = (core: CoreState, born: string) =>
@@ -50,9 +56,9 @@ function pathTo(node: TreeNode, ending: string): number[] | null {
   return null;
 }
 
-it("dated, moved in at the partner's ask, then proposed: the yes plays as a scene (Pulaski, Ohio)", () => {
-  const place = drawPlace("family-a", "family-life");
-  const where = `${place.name} (${place.key}), seed family-a`;
+it("dated, moved in at the partner's ask, then proposed: the yes plays as a scene (Westwood, Kentucky)", () => {
+  const place = drawPlace("family-n", "family-life");
+  const where = `${place.name} (${place.key}), seed family-n`;
   const { core, director, playerId } = buildBenchWorld(
     place.seed,
     gameStartDate(),
@@ -114,7 +120,10 @@ it("dated, moved in at the partner's ask, then proposed: the yes plays as a scen
   const visit = () =>
     api.relationship(me, other.id, kind(), 3, undefined, { cause: "visit" });
   for (let evening = 0; evening < 20; evening += 1) visit();
-  expect(askOut(api, me, other.id), where).toMatchObject({ answer: "yes" });
+  const firstAsk = askOut(api, me, other.id);
+  expect(firstAsk, `${where}: ${JSON.stringify(firstAsk)}`).toMatchObject({
+    answer: "yes",
+  });
 
   const couples = moduleState(core, "partnerships").table("couples");
   const link = [...core.familyLinks.values()].find(
@@ -182,10 +191,10 @@ it("dated, moved in at the partner's ask, then proposed: the yes plays as a scen
   expect(keys, where).toContain("said-yes");
   const lines = scene.scene.talk.lines.map((line) => line.text);
   expect(lines, where).toEqual([
-    "You asked Isaiah to marry you.",
+    `You asked ${other.givenName} to marry you.`,
     "Yes. I thought you'd never ask.",
     "We're getting married.",
     "You're sure?",
     "I've never been more sure.",
   ]);
-}, 130_000);
+}, 220_000);

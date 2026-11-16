@@ -1077,6 +1077,14 @@
     "cantFileResidency": "You can't file for this race. It serves {required}, and your address is in {actual}.",
     "cantFileAge": "You can't file for this race yet. The age to file is {required}, and you are {actual}.",
     "cantFile": "You can't file for this race.",
+    "yourOffices": "Offices you can run for",
+    "alsoOnBallot": "Also on your ballot",
+    "countyOffice": "County office",
+    "refusal": {
+      "not-your-office": "You can't run for this office.",
+      "window-not-open": "Filing for this race hasn't opened yet.",
+      "window-closed": "Filing for this race has closed."
+    },
     "noBallot": "No local election is on the calendar",
     "dates": "Dates",
     "electionDay": "Election day",
@@ -1400,6 +1408,8 @@
     "asking": "Asking for",
     "askingSignatures": "Signatures",
     "askingVotes": "Votes",
+    "askingWhySignatures": "Your petition holds {signed} of the {needed} the clerk asks for. You keep asking for signatures until it holds {target}. After that you ask for the vote.",
+    "askingWhyVotes": "Your petition holds {signed} of the {needed} the clerk asks for. That is enough, so from here you ask for the vote.",
     "endorsements": "Endorsements",
     "go": "Go",
     "howLong": "How long",

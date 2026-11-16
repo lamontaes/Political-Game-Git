@@ -1,7 +1,5 @@
 import { buildBenchWorld } from "../bench/world";
-import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
-import { drawPlace } from "../../scripts/core2-year/place";
 import { coreAPI } from "./state";
 import { holdoverRule } from "./office-holdover";
 import { standingPool, raceScope } from "./candidate-pool";
@@ -24,33 +22,28 @@ import {
   resolveEmptyRace,
   VOTING_MODULE_ID,
 } from "./modules/voting";
-const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
-// A place is drawn from all 56; one with no Senate race in the 2026 cycle
-// (a third of them) has nothing for the senator fixture, so the draw goes on
-// to the next until a House and a Senate contest are both up.
-function drawWithBothChambers(): {
-  place: ReturnType<typeof drawPlace>;
-  world: ReturnType<typeof buildBenchWorld>;
-} {
-  for (let i = 0; i < 12; i += 1) {
-    const place = drawPlace(i ? `${seed}:${i}` : seed, "office-federal");
-    const world = buildBenchWorld(seed, "2026-01-20", {
-      twoLevel: true,
-      placeKey: place.key,
-    });
-    const rows = coreAPI(world.core)
-      .moduleState(ELECTIONS_MODULE_ID)
-      .table("contests")
-      .rows() as unknown as ContestRow[];
-    if (
-      rows.some((c) => c.family === "usHouse") &&
-      rows.some((c) => c.officeId.includes("us-senate"))
-    )
-      return { place, world };
-  }
-  throw new Error(`No place with a House and a Senate race from seed ${seed}.`);
-}
-const { place, world } = drawWithBothChambers();
+// Pinned (Nov 16). Before, the test drew its seed at run time from
+// GOLDEN_PATH_SEED or randomBytes and drew up to twelve places from it until
+// one had a House and a Senate race in the 2026 cycle, so a red came and went
+// with the draw. Henlopen Acres, Delaware is the first draw at seed pin-wr-0
+// and has both. Three cases fail here as they did at every place drawn
+// (Parksley, Virginia and Fort Meade, Maryland among them): the national pool,
+// the stand-in and the empty-race edge fixture, item
+// tests-wide-races-three-cases-red-on-train (Needs cause).
+// Limit: the whole file runs in 31 s alone and 33 s beside group-quarters
+// (Nov 16, Train 800ae520), nearly all of it building the world at load;
+// each case takes under 3 s, well inside the default 30 s.
+const seed = "pin-wr-0";
+const place = {
+  key: "1033900",
+  name: "Henlopen Acres, Delaware",
+  state: "US-DE",
+};
+const world = buildBenchWorld(seed, "2026-01-20", {
+  twoLevel: true,
+  placeKey: place.key,
+});
+
 const api = coreAPI(world.core);
 const elections = api.moduleState(ELECTIONS_MODULE_ID);
 const contests = elections.table("contests").rows() as unknown as ContestRow[];
