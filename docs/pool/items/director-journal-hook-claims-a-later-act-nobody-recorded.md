@@ -16,7 +16,7 @@ after:
 lead: words
 model: sonnet
 effort: medium
-root: journal-hook-reads-any-later-story
+root: rc3-thin-life-record
 ---
 
 **What.** An entry in the Journal can end "Little did I know what {other} would do next." That tells the player a person is about to matter, yet the record holds no act of theirs after that day. A player who reads it waits for something that never comes. Seen: Texas (place 4846968, seed 8647-mason), where the senator's held paid family leave bill ended with the hook naming the committee chair.

@@ -16,7 +16,7 @@ after:
 lead: laws
 model: sonnet
 effort: medium
-root: journal-rows-missing-bill-held
+root: rc3-thin-life-record
 ---
 
 **What.** When the chair of a committee holds a bill without a hearing, the record names the sponsor and puts a journal-line row on their schedule, yet the Journal says nothing, because no Journal row reads `bill-held-in-committee`. A player whose bill is held reads that it was introduced and then nothing, so the bill seems to have vanished. Seen: the played world at Texas (place 4846968, seed 8647-mason), where the state senator in seat 016 drafts a paid family leave bill, the Senate labor chair holds it on Feb 9, and the Journal lists the introduction and no hold.
