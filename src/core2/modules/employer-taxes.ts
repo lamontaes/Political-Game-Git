@@ -37,6 +37,7 @@ import {
 import { addDays, makeIsoDate } from "../kernel/dates";
 import { noteTownRevenue } from "../budgets-treasury";
 import premisesData from "../data/business/premises-tax.json" with { type: "json" };
+import { firmCharged } from "../firm-charges";
 import { transferCash } from "../world-transfer";
 
 export const EMPLOYER_TAXES_MODULE_ID = "core2-employer-taxes-v1";
@@ -231,6 +232,7 @@ function payPremisesTax(
       estimatedFrom: premisesData.estimatedFrom,
     },
   );
+  firmCharged(api, businessId, "premises-tax", paid, [lawId]);
   if (paid > 0)
     lawApplied(api, {
       key: "property-tax",
@@ -417,6 +419,7 @@ function payProfitTaxes(api: CoreAPI): void {
       },
     };
     table(api, "profits").put(record as unknown as ModuleRow);
+    firmCharged(api, id, "profit-tax", paid, record.lawIds);
     if (!postings.length) continue;
     // The corporate line's outside payers owe that much less at their next installment.
     for (const [index, g] of govs.entries())
@@ -807,6 +810,7 @@ function payEmployerShare(
     },
   };
   table(api, "shares").put(record as unknown as ModuleRow);
+  firmCharged(api, receipt.organizationId, "payroll-taxes", paid, lawIds);
   // The employer's side, on the employer's own reach row (a counted employer's
   // payroll stands for its workers: a group with their count).
   for (const r of reached)

@@ -70,6 +70,15 @@ import {
 } from "../business-operating-rules";
 import { outsideLaborForce } from "../gov-rules/place-population";
 
+import {
+  chargeWeighed,
+  FIRM_CHARGE_KINDS,
+  FIRM_CHARGES_TABLE,
+  firmChargesOf,
+  firmCharged,
+  type FirmChargeKind,
+} from "../firm-charges";
+
 export { BUSINESS_MODULE_ID };
 /** A household's books as other families read them: its medical debt and what it keeps back for its home. */
 export {
@@ -111,6 +120,16 @@ interface OwnerRow {
   /** The outside-cost payments' part sent elsewhere (ads), through the last booked month. */
   splitThrough?: number;
   tradingId?: string;
+  /** The running totals of what the business paid under laws and taxes (firm-charges.ts), at the last booked month. */
+  chargesThrough?: Partial<Record<FirmChargeKind, number>>;
+}
+
+/** One cost a month's books hold: what it was, the law rows behind it, and whether the staffing and closing decisions weighed it. */
+export interface BusinessMonthCharge {
+  kind: "wages" | "supplies" | "outside-costs" | FirmChargeKind;
+  minor: number;
+  lawIds: readonly string[];
+  weighed: boolean;
 }
 
 /** A completed month's actual trading, read by the staffing decision. */
@@ -125,6 +144,10 @@ export interface BusinessTradingMonth {
   costsMinor: number;
   complianceMinor: number;
   lossMonths: number;
+  /** Every cost the month paid, by name; `costsMinor` is the sum of the weighed ones. */
+  charges?: readonly BusinessMonthCharge[];
+  /** Staff at the month's end: named jobs held plus counted headcount (businessesIn's rule). */
+  staff?: number;
 }
 
 export function businessTradingMonth(
@@ -214,10 +237,7 @@ function outsideOwned(api: CoreAPI): Map<string, string> {
     .map(([id]) => ({
       id,
       placeId: c.organizations.get(id)?.placeId,
-      staff:
-        [...(c.finance.jobsByOrganization.get(id) ?? [])].filter(
-          (jobId) => c.jobs.get(jobId)?.endsAt === undefined,
-        ).length + countedHeadcountOf(c, id),
+      staff: staffNow(c, id),
     }))
     .sort((a, b) => b.staff - a.staff || a.id.localeCompare(b.id));
   const total = sized.reduce((n, row) => n + row.staff, 0);
@@ -601,6 +621,9 @@ function closeByChoice(
   const account = ownerAccount(c, ownerId),
     book = c.finance.businesses.get(organizationId);
   if (!account || !book || book.closedAt) return false;
+  const tradingId = (
+    store(api).table("owners").get(organizationId) as OwnerRow | undefined
+  )?.tradingId;
   const closureSource = {
     tag: "ESTIMATED" as const,
     asOf: c.date,
@@ -624,6 +647,8 @@ function closeByChoice(
       reasonKey,
       decidedAs: c.people.has(ownerId) ? "full" : "counted",
       values: { ...values },
+      // The month's books the choice read: its full bill, law by law.
+      ...(tradingId ? { tradingId } : {}),
     });
   api.closeBusinessByChoice({
     organizationId,
@@ -895,25 +920,25 @@ function sweepToParent(api: CoreAPI, row: OwnerRow): void {
     });
 }
 
-/** A business's compliance payments this month, from the books of what it paid. */
-function complianceThisMonth(api: CoreAPI, organizationId: string): number {
-  let total = 0;
-  for (const row of store(api)
-    .table("compliance")
-    .query("byOrganization", [organizationId]) as unknown as {
-    date: string;
-    paidMinor: number;
-  }[])
-    if (row.date === core(api).date) total += row.paidMinor;
-  return total;
+/** Staff at a business now: named jobs held plus counted headcount (the rule `businessesIn` uses). */
+function staffNow(c: CoreState, organizationId: string): number {
+  return (
+    [...(c.finance.jobsByOrganization.get(organizationId) ?? [])].filter(
+      (jobId) => c.jobs.get(jobId)?.endsAt === undefined,
+    ).length + countedHeadcountOf(c, organizationId)
+  );
 }
 
 /**
  * The counters to keep at the end of a month: the books' running totals, the
- * outside-costs flow's paid so far, and the months of revenue lost (this
- * month's operating result from the books, fading the older months over the
- * memory window). Operating result is sales less wages, purchases from
- * suppliers, costs bought outside the town and compliance costs.
+ * outside-costs flow's paid so far, what the business paid under laws and
+ * taxes (firm-charges.ts), and the months of revenue lost (this month's
+ * operating result from the books, fading the older months over the memory
+ * window). Operating result is sales less every operating cost the month paid:
+ * wages, purchases from suppliers, costs bought outside the town, compliance
+ * duties, the employer's payroll taxes, property tax on the premises, what
+ * energy price laws added and health premiums. Profit tax is listed but not
+ * weighed: it comes out of profit, so it reaches the decisions through cash.
  */
 function bookedMonth(
   api: CoreAPI,
@@ -929,19 +954,49 @@ function bookedMonth(
   | "lossMonths"
   | "recent"
   | "tradingId"
+  | "chargesThrough"
 > {
   const outsidePaid =
     residentsRuntime(core(api))?.flows.get(`outside-costs:${row.id}`)
       ?.outsidePaidMinor ?? 0;
   const sales = book.salesReceivedMinor - row.salesThrough;
   const payrollMinor = book.wagesPaidMinor - row.wagesThrough;
-  const complianceMinor = complianceThisMonth(api, row.id);
-  const costs =
-    book.wagesPaidMinor -
-    row.wagesThrough +
-    (book.operatingPaidMinor - row.operatingThrough) +
-    (outsidePaid - (row.outsideThrough ?? 0)) +
-    complianceMinor;
+  const totals = firmChargesOf(api, row.id);
+  const chargesThrough: Partial<Record<FirmChargeKind, number>> = {};
+  const charges: BusinessMonthCharge[] = [
+    { kind: "wages", minor: payrollMinor, lawIds: [], weighed: true },
+    {
+      kind: "supplies",
+      minor: book.operatingPaidMinor - row.operatingThrough,
+      lawIds: [],
+      weighed: true,
+    },
+    {
+      kind: "outside-costs",
+      minor: outsidePaid - (row.outsideThrough ?? 0),
+      lawIds: [],
+      weighed: true,
+    },
+  ];
+  for (const kind of FIRM_CHARGE_KINDS) {
+    const total = totals[kind];
+    if (!total) continue;
+    chargesThrough[kind] = total.paidMinor;
+    const minor = total.paidMinor - (row.chargesThrough?.[kind] ?? 0);
+    if (minor !== 0)
+      charges.push({
+        kind,
+        minor,
+        lawIds: total.lawIds,
+        weighed: chargeWeighed(kind),
+      });
+  }
+  const complianceMinor =
+    charges.find((charge) => charge.kind === "compliance")?.minor ?? 0;
+  const costs = charges.reduce(
+    (n, charge) => n + (charge.weighed ? charge.minor : 0),
+    0,
+  );
   // Costs fall due on a cycle (a quarter's supplier invoices, a tax or lease payment), sales do not: the operating result is read over the cycle, so a bill that falls in one month is not a month of loss.
   const window = Math.max(
     1,
@@ -974,18 +1029,22 @@ function bookedMonth(
     : undefined;
   const from = previous?.date ?? row.since;
   const days = daysBetweenText(from, api.state.date);
-  store(api).table("trading").put({
-    id: tradingId,
-    organizationId: row.id,
-    date: api.state.date,
-    from,
-    days,
-    salesMinor: sales,
-    payrollMinor,
-    costsMinor: costs,
-    complianceMinor,
-    lossMonths,
-  });
+  store(api)
+    .table("trading")
+    .put({
+      id: tradingId,
+      organizationId: row.id,
+      date: api.state.date,
+      from,
+      days,
+      salesMinor: sales,
+      payrollMinor,
+      costsMinor: costs,
+      complianceMinor,
+      lossMonths,
+      charges,
+      staff: staffNow(core(api), row.id),
+    });
   return {
     salesThrough: book.salesReceivedMinor,
     wagesThrough: book.wagesPaidMinor,
@@ -997,6 +1056,7 @@ function bookedMonth(
     lossMonths,
     recent,
     tradingId,
+    chargesThrough,
   };
 }
 
@@ -1117,6 +1177,13 @@ function payCompliance(api: CoreAPI): void {
         what: statute.what,
         amountMinor: -paid,
       });
+    firmCharged(
+      api,
+      row.organizationId,
+      "compliance",
+      paid,
+      statute ? [statute.lawId] : [],
+    );
     store(api)
       .table("compliance")
       .put({
@@ -1705,10 +1772,7 @@ function marketRoom(api: CoreAPI): Market[] {
     row.nominal += book.annualDemandMinor;
     row.capacity += book.capacityMinor;
     row.incumbents.push(id);
-    row.staff +=
-      [...(c.finance.jobsByOrganization.get(id) ?? [])].filter(
-        (jobId) => c.jobs.get(jobId)?.endsAt === undefined,
-      ).length + countedHeadcountOf(c, id);
+    row.staff += staffNow(c, id);
     out.set(key, row);
   }
   return [...out.values()].map((row) => ({
@@ -2473,11 +2537,7 @@ export function businessesIn(
     .map((book) => ({
       id: book.organizationId,
       kindId: book.kindId,
-      staff:
-        [
-          ...(c.finance.jobsByOrganization.get(book.organizationId) ?? []),
-        ].filter((jobId) => c.jobs.get(jobId)?.endsAt === undefined).length +
-        countedHeadcountOf(c, book.organizationId),
+      staff: staffNow(c, book.organizationId),
     }))
     .sort((a, b) => a.id.localeCompare(b.id));
 }
@@ -2503,11 +2563,7 @@ function businessHistory(
     .map((book) => ({
       id: book.organizationId,
       kindId: book.kindId,
-      staff:
-        [
-          ...(c.finance.jobsByOrganization.get(book.organizationId) ?? []),
-        ].filter((jobId) => c.jobs.get(jobId)?.endsAt === undefined).length +
-        countedHeadcountOf(c, book.organizationId),
+      staff: staffNow(c, book.organizationId),
     }))
     .sort((a, b) => b.staff - a.staff || a.id.localeCompare(b.id));
   const start = makeIsoDate(c.date);
@@ -2583,6 +2639,7 @@ export const BUSINESS_MODULE: PreStartModule = {
         indexes: { byOrganization: { fields: ["organizationId"] } },
       },
       choices: {},
+      [FIRM_CHARGES_TABLE]: {},
     },
   },
   reasonProviders: {
