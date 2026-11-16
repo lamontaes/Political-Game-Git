@@ -14,7 +14,7 @@ import { LAWS_MODULE_ID, lawChain, lawInForce } from "./laws";
 import { lawApplied } from "../law-reach/applied";
 import { carriedLink } from "./outcome-web";
 import { chooseAct } from "../choice";
-import { countedPayment } from "../counted-money";
+import { countedHouseholdSavings, countedPayment } from "../counted-money";
 import { depositsHeld, withdrawSavings } from "../accounts";
 import businessData from "../data/business/business.json" with { type: "json" };
 import businessParameters from "../data/business/parameters.json" with { type: "json" };
@@ -363,21 +363,28 @@ function ownerPerson(c: CoreState, personId: string) {
     : undefined;
 }
 
-/** A household's common savings are available to a founder on the same per-person basis in either tier. */
+/** A household's common savings are available to a founder on the same per-person basis in either tier: a counted household's are its share of its group's (`countedHouseholdSavings`). */
 function founderSavings(
-  c: CoreState,
+  api: CoreAPI,
   personId: string,
 ): { holderId: string; minor: number } {
+  const c = api.state as CoreState;
   const person = c.people.get(personId);
   const counted = person ? undefined : countedFacts(c, personId);
-  const holderId = person?.householdId ?? counted?.householdId ?? "";
-  const full = c.households.get(holderId);
+  const householdId = person?.householdId ?? counted?.householdId ?? "";
+  const full = c.households.get(householdId);
   const people = full
     ? full.memberIds.filter((id) => c.people.get(id)?.alive).length
     : (counted?.people ?? 0);
+  const saved = full
+    ? { holderId: householdId, minor: depositsHeld(c, householdId) }
+    : (countedHouseholdSavings(api, householdId) ?? {
+        holderId: householdId,
+        minor: 0,
+      });
   return {
-    holderId,
-    minor: people ? Math.floor(depositsHeld(c, holderId) / people) : 0,
+    holderId: saved.holderId,
+    minor: people ? Math.floor(saved.minor / people) : 0,
   };
 }
 
@@ -1911,7 +1918,7 @@ function foundings(api: CoreAPI): void {
           trait: foundTerm({ traits: counted!.packedTraits(m) }),
           unemployed: seeker && !seeker.employed ? 1 : 0,
           income: incomeOf(personId),
-          cash: counted!.liquid[m]! + founderSavings(c, personId).minor,
+          cash: counted!.liquid[m]! + founderSavings(api, personId).minor,
         });
       }
     }
@@ -2000,7 +2007,7 @@ function foundings(api: CoreAPI): void {
             capital(
               market,
               incomeOf(person.id),
-              person.liquidMinor + founderSavings(c, person.id).minor,
+              person.liquidMinor + founderSavings(api, person.id).minor,
             ),
         }),
       ]);
@@ -2106,7 +2113,7 @@ function found(
   if (!ownerFrom) return false;
   const savings = location
     ? { holderId: location.parentId, minor: depositsHeld(c, location.parentId) }
-    : founderSavings(c, founderId);
+    : founderSavings(api, founderId);
   const beforeSavings = founder.liquidMinor;
   const withdrawn = withdrawSavings(c, api, {
     id: `startup-savings:${id}`,
