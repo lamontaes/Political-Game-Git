@@ -85,9 +85,9 @@
       "replace": "Order on the world's seeded unit; pay by tenure from BLS"
     },
     "person.birthplace": {
-      "made": "ad-hoc-draw",
-      "by": "src/core2/nativity.ts: a roll against the share born in state; many are written as born at home (stopgap SG-HIST-birthplace-is-home)",
-      "replace": "The parents' record and the moves pass"
+      "made": "generation",
+      "by": "src/core2/person-birthplace.ts: the person's own draw against their state's Census shares of where its people were born (ACS 2019-2023, table B05002), held to their citizenship and family of origin; a child is born where their parent lived that day",
+      "replace": "The world's seeded unit for the draw"
     },
     "person.knownPeople": {
       "made": "ad-hoc-draw",
@@ -681,6 +681,11 @@
       "made": "generation",
       "what": "Past jobs, a seeded line (opening past)",
       "replace": "The world's seeded unit keyed by the record's id"
+    },
+    "src/core2/person-birthplace.ts#birthOrigin": {
+      "made": "generation",
+      "what": "where a grown resident was born, against their state's ACS B05002 shares",
+      "replace": "The world's seeded unit"
     },
     "src/core2/person-names.ts#drawCanonicalNameForGender": {
       "made": "generation",

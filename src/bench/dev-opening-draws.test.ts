@@ -46,4 +46,4 @@ it("every draw a New Game opening takes is in the opening list (Ridgeville AL)",
     draws.filter((d) => d.made === SOURCES.kinds.id).length,
     `${where}: ids made by createStableId are skipped`,
   ).toBeLessThan(10);
-}, 300_000);
+}, 125_000);
