@@ -28,6 +28,7 @@ const view: DevView = {
     staff: "Staff",
     sales: "Sales",
     payroll: "Payroll",
+    outside: "Outside buyers a year",
     costs: "Costs",
     allCosts: "All costs",
     duties: "Law duties",

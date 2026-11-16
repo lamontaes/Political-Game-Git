@@ -15,6 +15,7 @@ import {
   sectorOfKind,
 } from "../core2/modules/business";
 import { JOBS_MODULE_ID } from "../core2/modules/jobs";
+import { residentsRuntime } from "../core2/modules/residents";
 
 export interface IndustryBusiness {
   readonly organizationId: string;
@@ -32,6 +33,8 @@ export interface IndustryBusiness {
   readonly cashMinor: number;
   /** Its price over its opening price; 1 at the opening. */
   readonly priceIndex: number;
+  /** What its buyers beyond the town pay a year now, at the outside-sales flow's current amount. */
+  readonly outsideSalesPerYearMinor: number;
   readonly closedAt?: string;
 }
 
@@ -49,6 +52,7 @@ export interface IndustryRow {
   readonly outsideCostsMinor: number;
   readonly profitMinor: number;
   readonly cashMinor: number;
+  readonly outsideSalesPerYearMinor: number;
   /** The sales-weighted price index of its businesses (a plain mean with no sales). */
   readonly priceIndex: number;
   readonly businesses: readonly IndustryBusiness[];
@@ -77,11 +81,26 @@ function staffReader(
   };
 }
 
+/** What each seller's buyers beyond its town pay a year now, from the open outside-sales flows. */
+function outsideSalesReader(c: CoreState): Map<string, number> {
+  const out = new Map<string, number>();
+  for (const flow of residentsRuntime(c)?.flows.values() ?? []) {
+    if (flow.kind !== "outside-sales" || flow.endedAt) continue;
+    const perYear =
+      flow.cadence.kind === "days"
+        ? (flow.amountMinor * 365) / flow.cadence.every
+        : (flow.amountMinor * 12) / flow.cadence.every;
+    out.set(flow.payeeId, (out.get(flow.payeeId) ?? 0) + Math.round(perYear));
+  }
+  return out;
+}
+
 /** Every business in the world, or in one place, grouped by its kind. */
 export function industryTally(api: CoreAPI, placeId?: string): IndustryTally {
   const c = api.state as CoreState;
   const byKind = new Map<string, IndustryBusiness[]>();
   const staffOf = staffReader(api);
+  const outsideOf = outsideSalesReader(c);
   for (const book of c.finance.businesses.values()) {
     const at = c.organizations.get(book.organizationId)?.placeId;
     if (!at || (placeId !== undefined && at !== placeId)) continue;
@@ -99,6 +118,7 @@ export function industryTally(api: CoreAPI, placeId?: string): IndustryTally {
       profitMinor: view.profitMinor,
       cashMinor: view.cashMinor,
       priceIndex: book.anchorPrice > 0 ? book.price / book.anchorPrice : 1,
+      outsideSalesPerYearMinor: outsideOf.get(book.organizationId) ?? 0,
       ...(book.closedAt ? { closedAt: book.closedAt } : {}),
     };
     const list = byKind.get(book.kindId) ?? [];
@@ -137,6 +157,7 @@ export function industryTally(api: CoreAPI, placeId?: string): IndustryTally {
         outsideCostsMinor: sum(businesses, "outsideCostsMinor"),
         profitMinor: sum(businesses, "profitMinor"),
         cashMinor: sum(businesses, "cashMinor"),
+        outsideSalesPerYearMinor: sum(businesses, "outsideSalesPerYearMinor"),
         priceIndex,
         businesses,
       };
