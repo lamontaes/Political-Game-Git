@@ -1,0 +1,153 @@
+{
+  "about": "How the opening made each value dev mode's \"How this world opened\" shows (src/bench/dev-views/opening.ts). From the opening audit of Nov 16, 2026: every seeded draw and table read a New Game world takes, recorded by line at Loudon NH, St. Louis MO and Cambridge MN (the Account lead's report opening-draws-and-fixed-values, in the project's shared folder). A row changes in the same pull request that changes how the opening makes its value.",
+  "kinds": {
+    "real-data": "Real data",
+    "world-offset": "World offset from a published figure",
+    "decision": "Decided from a record",
+    "generation": "Generated from data (seeded)",
+    "ad-hoc-draw": "Drawn with no record behind it",
+    "constant": "Fixed number, same in every world"
+  },
+  "labels": {
+    "title": "How this world opened",
+    "subjects": {
+      "town": "Town",
+      "person": "Person",
+      "household": "Household",
+      "business": "Business",
+      "office": "Office"
+    },
+    "value": "Value",
+    "made": "How it was made",
+    "by": "Made by",
+    "source": "Record's source",
+    "drawKey": "Draw",
+    "replace": "To replace it",
+    "trace": "Trace",
+    "open": "Open",
+    "counts": "Rows by kind"
+  },
+  "rows": {
+    "town.population": {
+      "made": "world-offset",
+      "by": "src/core2/gov-rules/place-population.ts worldPopulationOf: the published count moved by the world's offset (worldPopulationSpreadShare)"
+    },
+    "town.jobsMix": {
+      "made": "world-offset",
+      "by": "src/core2/town-employment-mix.ts townWorkplaceWeights: County Business Patterns mix moved by the world's offset (jobsWorldSectorMixSpreadShare)"
+    },
+    "town.employersOfKind": {
+      "made": "constant",
+      "by": "src/core2/town-workplaces.ts outlets per kind of workplace (labeled GAME ASSUMPTIONS)",
+      "replace": "Count from the town's workers and the county's average business size (thread \"Size each town's stores and clinics\")"
+    },
+    "town.householdMix": {
+      "made": "real-data",
+      "by": "src/core2/household-mix.ts: the place's ACS household shares, or its state's where the place has none"
+    },
+    "town.presidentApproval": {
+      "made": "constant",
+      "by": "src/core2/modules/national-opinion.ts reads openingPct (41) from src/core2/data/electorate/national-opinion.json; its own spread is 36 to 45",
+      "replace": "A world offset inside the row's spread"
+    },
+    "person.name": {
+      "made": "generation",
+      "by": "src/core2/person-names.ts and src/core2/gov-rules/given-name-cohorts.ts: given names by birth-year cohort; family names picked evenly from the whole name list (own random stream)",
+      "replace": "Family names weighted by how common they are, on the world's seeded unit"
+    },
+    "person.birthDate": {
+      "made": "generation",
+      "by": "src/core2/population.ts from the place's survey sample; invented people in src/core2/gov-rules/invented-person-age.ts fall only on days 1 to 28",
+      "replace": "Any day of the month"
+    },
+    "person.trait": {
+      "made": "generation",
+      "by": "src/core2/opening-personality.ts: the facet's spread by age and upbringing, drawn with its own random stream (Box-Muller)",
+      "replace": "The world's seeded unit keyed by person and trait"
+    },
+    "person.cash": {
+      "made": "generation",
+      "by": "src/core2/starting-cash.ts: SCF 2022 transaction accounts by income; counted households in src/core2/counted-money.ts drew from a hash with 8 times too many extremes",
+      "replace": "Renters thread: the world's seeded unit"
+    },
+    "person.job": {
+      "made": "generation",
+      "by": "src/core2/opening-employment.ts and src/core2/opening-town-jobs.ts: the town's job mix, hires ordered by a hash; pay from the 25th to the 75th percentile over 20 years (prototype numbers)",
+      "replace": "Order on the world's seeded unit; pay by tenure from BLS"
+    },
+    "person.birthplace": {
+      "made": "ad-hoc-draw",
+      "by": "src/core2/nativity.ts: a roll against the share born in state; many are written as born at home (stopgap SG-HIST-birthplace-is-home)",
+      "replace": "The parents' record and the moves pass"
+    },
+    "person.knownPeople": {
+      "made": "ad-hoc-draw",
+      "by": "src/core2/opening-ties.ts: who among the eligible people is a tie is picked by a hash order; coworker groups of 8",
+      "replace": "Ties from shared records: household, school class, workplace, block"
+    },
+    "person.conditions": {
+      "made": "ad-hoc-draw",
+      "by": "src/core2/modules/health.ts lateConditions and resilienceLine: a hash against each condition's rate",
+      "replace": "The world's seeded unit keyed by person and condition"
+    },
+    "household.members": {
+      "made": "generation",
+      "by": "src/core2/population.ts from the place's survey households; town skeletons in src/core2/town-households.ts use typed ranges (partner within 6 years, 1 to 3 children)",
+      "replace": "ACS household size and age tables"
+    },
+    "household.memberAge": {
+      "made": "generation",
+      "by": "src/core2/population.ts and src/core2/town-households.ts (children's ages even between typed bounds)",
+      "replace": "ACS age tables by household kind"
+    },
+    "household.since": {
+      "made": "generation",
+      "by": "src/core2/opening-tenure.ts: years in place from the mover rates, own random stream",
+      "replace": "The world's seeded unit"
+    },
+    "business.name": {
+      "made": "generation",
+      "by": "src/core2/opening-town-jobs.ts writeTownEmployer"
+    },
+    "business.kind": {
+      "made": "real-data",
+      "by": "src/core2/town-employment-mix.ts: the county's County Business Patterns industries"
+    },
+    "business.cash": {
+      "made": "ad-hoc-draw",
+      "by": "src/core2/opening-capital.ts openingEmployerCashBufferPrior: days of cash by industry, placed by a hash",
+      "replace": "The world's seeded unit keyed by business"
+    },
+    "business.staff": {
+      "made": "generation",
+      "by": "src/core2/opening-town-jobs.ts: hires to the outlet with the fewest staff"
+    },
+    "office.office": {
+      "made": "real-data",
+      "by": "src/core2/modules/offices.ts from the place's government records"
+    },
+    "office.holder": {
+      "made": "generation",
+      "by": "src/core2/officials-identity.ts: an invented holder; positions from src/core2/officials-roster.ts on its own hash"
+    },
+    "office.serviceStart": {
+      "made": "ad-hoc-draw",
+      "by": "src/core2/modules/offices.ts pastTerms: years in office drawn from the office kind's mean tenure",
+      "replace": "Past elections run by the election engine"
+    },
+    "office.termEnds": {
+      "made": "real-data",
+      "by": "src/core2/modules/offices.ts seatTerm: the term length and start day from the place's law (src/core2/data/elections/term-starts.json); estimated where the law is not read (stopgap SG-GOV-term-end-estimate)"
+    },
+    "office.termsBefore": {
+      "made": "ad-hoc-draw",
+      "by": "src/core2/modules/offices.ts pastTerms",
+      "replace": "Past elections run by the election engine"
+    },
+    "office.lastShare": {
+      "made": "ad-hoc-draw",
+      "by": "src/core2/modules/offices.ts electionBehind: drawn evenly inside the office kind's band",
+      "replace": "The past race's result from the election engine"
+    }
+  }
+}
