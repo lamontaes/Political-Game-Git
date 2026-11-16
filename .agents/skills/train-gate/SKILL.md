@@ -42,11 +42,15 @@ Set a new or changed test's limit near twice the slower of two runs: the test al
 ## Shas and lines
 
 - Always the full 40-character sha. A short sha is refused.
-- The builder reports to the lead with the key diff, the tests and the sha. The lead approves; the builder marks the PR ready and posts `Account lead Tn: train-ready #N <sha>` on #8928; the lead names the sha to the Train.
-- Words and story PRs also need `Words lead: train-ready #N <sha>` before they join.
+- The builder reports to the lead with the key diff, the tests and the sha. The lead approves; the builder marks the PR ready and posts `train-ready #N <full sha>` as a comment on the PR itself; the lead names the sha to the Train. Issue #8928 refuses new comments (past 2,500 since about 09:00Z, Nov 16), so every line that used to go there goes on the PR, and a new crew issue has to be named by the owner or the CTO (Account lead, Nov 16).
+- Words and story PRs also need `Words lead: train-ready #N <sha>` before they join; the readers put their stamps on the PR too.
 - PRs that only work together are named to the Train together, in one message, each with its full sha.
 - A PR based on the train branch shows "merged" on GitHub when folded. That is not a merge to main.
 - After a usage limit resets, every thread that failed needs a message.
+
+## The Train works in rounds (CTO, Nov 16)
+
+The Train pushes one head, posts `Train 2 ready at <full sha>` on #9554 with the red test files and why, and leaves that head untouched until validate, golden-path and new game finish; folds named meanwhile go on a second branch. Each push cancels the checks of the push before it, so nothing is pushed between rounds.
 
 ## A moved head needs a new stamp
 
