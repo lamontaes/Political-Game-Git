@@ -25,6 +25,7 @@ if (process.env.PLACE_KEY)
     return route.continue({ url: url.toString() });
   });
 
+const seen = [];
 async function elections(tag) {
   await finishTalk(page);
   const close = page.locator("#sheet-close");
@@ -44,6 +45,27 @@ async function elections(tag) {
   console.log(`-- ${tag}`);
   for (const row of read.rows) console.log(`   ${row}`);
   if (shots) await page.screenshot({ path: `${shots}/elections-${tag}.png` });
+  // Open the first own office's race and the first other office's race, as a player clicks them,
+  // and print what each page says about filing: the words the shipped refusals and dates take.
+  const rows = page.locator("#sheet-body .roster-row[data-contest]");
+  const count = await rows.count();
+  for (const [which, index] of [
+    ["own", 0],
+    ["other", count - 1],
+  ]) {
+    await rows.nth(index).click();
+    await page.locator("#sheet-body .roster-page").waitFor();
+    await page.waitForTimeout(400);
+    const text = await page.evaluate(() =>
+      document
+        .querySelector("#sheet-body .roster-page")
+        .innerText.replace(/\s+/g, " "),
+    );
+    console.log(`   [${which} race page] ${text}`);
+    if (shots)
+      await page.screenshot({ path: `${shots}/race-${which}-${tag}.png` });
+    seen.push(text);
+  }
   return read;
 }
 
@@ -89,10 +111,17 @@ try {
     );
     await elections(reached);
   }
+  for (const want of (process.env.EXPECT ?? "").split("|").filter(Boolean))
+    assert.ok(
+      seen.some((t) => new RegExp(want).test(t)),
+      `no race page said: ${want}`,
+    );
   assert.deepEqual(errors, [], "page errors");
   console.log("PASS the Elections page offers the player their own offices");
 } catch (e) {
-  if (shots) await page.screenshot({ path: `${shots}/failed.png` });
+  console.error(String(e.stack ?? e).slice(0, 600));
+  if (shots)
+    await page.screenshot({ path: `${shots}/failed.png` }).catch(() => {});
   throw e;
 } finally {
   await browser.close();

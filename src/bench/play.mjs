@@ -5318,15 +5318,7 @@ const sheets = {
               : labels.cantFile
           )
             .replace("{required}", cannotFile.required)
-            .replace("{actual}", cannotFile.actual) +
-          (cannotFile.metOn
-            ? ` ${labels.turnsOn
-                .replace("{age}", cannotFile.required)
-                .replace(
-                  "{date}",
-                  dateWords(cannotFile.metOn, { year: today() }),
-                )}.`
-            : "")
+            .replace("{actual}", cannotFile.actual)
         : null;
       const fileButton = makeButton({ textContent: labels.fileForIt });
       fileButton.dataset.testid = "file-for-it";
@@ -5415,7 +5407,9 @@ const sheets = {
             ...(mayFile && !cannotFile ? [buttonTray(fileButton)] : []),
             ...(cannotFileWords
               ? [prose(cannotFileWords, "record-empty")]
-              : []),
+              : !mayFile && race.bar && labels.refusal[race.bar]
+                ? [prose(labels.refusal[race.bar], "record-empty")]
+                : []),
           ),
         ),
       ];
@@ -5486,17 +5480,14 @@ const sheets = {
           : race.title,
       aside:
         own && race.cannotFile?.metOn
-          ? labels.filesFrom.replace(
-              "{date}",
-              dateWords(
-                race.filingOpens && race.filingOpens > race.cannotFile.metOn
-                  ? race.filingOpens
-                  : race.cannotFile.metOn,
-                { year: today() },
-              ),
-            )
+          ? `${labels.filingOpens} ${dateWords(
+              race.filingOpens && race.filingOpens > race.cannotFile.metOn
+                ? race.filingOpens
+                : race.cannotFile.metOn,
+              { year: today() },
+            )}`
           : own && race.bar === "window-not-open" && race.filingOpens
-            ? `${labels.filingOpens} ${dateWords(race.filingOpens, { month: "short", year: today() })}`
+            ? `${labels.filingOpens} ${dateWords(race.filingOpens, { year: today() })}`
             : own && race.playerMayFile && race.filingOpen
               ? labels.fileForIt
               : race.filers.length || filed.has(race.contestId)

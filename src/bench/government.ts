@@ -691,7 +691,12 @@ export function fileForOffice(
   const api = coreAPI(core);
   // One reason per real cause, from the clerk's own check.
   const bar = playerFilingBar(api, contestId);
-  if (bar) throw new Error(controls.localRaces.refusal[bar]);
+  // Only the three bars a player's page shows have words; the others (another district's seat, another town's office, a second seat of a body already filed for) are never listed as a race to file, so a caller gets the generic words.
+  if (bar)
+    throw new Error(
+      (controls.localRaces.refusal as Record<string, string>)[bar] ??
+        controls.localRaces.refusal["not-your-office"],
+    );
   // Nothing handed in: the filing carries the filer's own stands, read from
   // their views on the questions this seat takes up (the same read a
   // simulated candidate's filing makes), and none for a question they have no

@@ -36,3 +36,5 @@ checked:
 **Files.** src/core2/modules/elections.ts, src/bench/government.ts, src/bench/play.mjs, src/bench/data/controls.json, src/bench/dev-views/election-offers.ts
 
 **Notes.** Filed Nov 16 on the branch of its PR.
+
+Removed for want of a screen that shows it (Words lead, #9676): "You turn {age} on {date}" and the words for another-district, not-your-town, filed-elsewhere and at-large-elsewhere refusals. The new game starts at 18 (owner, Nov 16), and only Guam and Northern Marianas villages set a municipal minimum above 18 and hold no local race on this page, so no press reaches an age wait. What would show it: a place whose town office asks more than 18 with a local race, or a state office on this page. The filing date for a not-yet-old-enough player still shows as "Filing opens {date}" (the later of the age date and the window).
