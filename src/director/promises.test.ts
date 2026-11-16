@@ -23,8 +23,8 @@ import { gameStartDate } from "../core2/game-start";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
 import { coreAPI } from "../core2/state";
-import { DevMode } from "../bench/dev-mode";
-import { traceNode } from "../bench/dev-trace";
+import type { IncomingMessage } from "node:http";
+import { handleDev } from "../bench/dev-api";
 import type { CoreState, JobInput, PersonId } from "../core2/types";
 import { seatAct, seatView } from "../bench/legislature";
 import {
@@ -156,7 +156,7 @@ function hireLike(
 
 it(
   `a promise to show a new coworker around is kept by a talk between the two on a later day or on its last day, and broken when two weeks pass with none (seed ${SEED})`,
-  () => {
+  async () => {
     setBookkeeping(false);
     const tried: string[] = [];
     try {
@@ -316,17 +316,41 @@ it(
           expect(find().endedAt, where).toBe(lastDay);
         }
         const ended = find();
-        // Dev mode shows it from the engine's own row: the player's card
-        // lists it with how it ended, and the Trace opens it there, with the
-        // reply that made it and the record that ended it among its links.
-        const dev = new DevMode(core, director, undefined, placeId);
+        // Dev mode shows it from the engine's own row, asked as a tester's
+        // click asks: the player's card lists it with how it ended (the
+        // promises view, src/bench/dev-views/promises.ts), and the Trace opens
+        // it there, with the reply that made it and the record that ended it
+        // among its links.
+        const ask = async (path: string) => {
+          let answer: { status: number; value: unknown } | undefined;
+          const handled = await handleDev(
+            {
+              method: "GET",
+              async *[Symbol.asyncIterator]() {},
+            } as unknown as IncomingMessage,
+            new URL(`http://bench/api/dev/${path}`),
+            (status, value) => (answer = { status, value }),
+            () => ({ core, director, placeId }),
+          );
+          expect(handled, `${where}: ${path} was not handled`).toBe(true);
+          expect(answer?.status, `${where}: ${path}`).toBe(200);
+          return answer!.value;
+        };
         const listed = (
-          dev.person(id).promises as readonly { id: string; outcome: string }[]
-        ).find((row) => row.id === factId);
+          (await ask(`promises?id=${encodeURIComponent(id)}`)) as {
+            promises: readonly { id: string; outcome: string }[];
+          }
+        ).promises.find((row) => row.id === factId);
         expect(listed?.outcome, `${where}: dev mode's list`).toBe(
           ended.outcome,
         );
-        const traced = traceNode(core, director, factId);
+        const traced = (await ask(
+          `trace?id=${encodeURIComponent(factId)}`,
+        )) as {
+          engine: string;
+          children: readonly { id: string }[];
+          record: { endedBy?: string };
+        };
         expect(traced.engine, `${where}: dev mode's Trace`).toBe(
           "core2-promises-v1.promises",
         );
@@ -335,7 +359,7 @@ it(
           `${where}: the Trace links the reply that made it`,
         ).toContain(ended.sourceId);
         expect(
-          (traced.record as { endedBy?: string }).endedBy,
+          traced.record.endedBy,
           `${where}: the Trace shows what ended it`,
         ).toBe(ended.endedBy);
         const said = talkOf(core, director, newcomer, id, where, ok);

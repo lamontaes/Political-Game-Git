@@ -109,7 +109,6 @@ import { buildBenchWorld, buildRecipeOf } from "./world";
 import type { BenchPlayer } from "./player";
 import { budgetView } from "./budget";
 import { decisionPanels, type WhyPanel } from "./dev-why";
-import { promisesOf } from "../core2/modules/promises";
 import { traceNode, type TraceNode } from "./dev-trace";
 import { newsItems } from "./calendar";
 import { causeMatches, SITUATION_LIBRARY } from "../director/scheduling";
@@ -2297,9 +2296,6 @@ export class DevMode {
         .slice(-50)
         .map((id) => core.cashJournal.detailedReceipts.get(id))
         .filter((row) => row !== undefined),
-      // The promises engine's rows, given or owed: made, last day, what
-      // would settle it, and the record that ended it, each id a Trace link.
-      promises: promisesOf(this.api, personId),
       director: this.director?.ledger.people.get(personId) ?? null,
       records: [...(core.logByPerson.get(personId) ?? [])]
         .slice(-100)
