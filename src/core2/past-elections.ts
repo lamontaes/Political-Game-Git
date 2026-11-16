@@ -273,6 +273,24 @@ function townBallots(api: CoreAPI, town: PastTown, date: string): number {
   );
 }
 
+/**
+ * The presidential election before a federal executive term began: the
+ * latest November general election in a presidential year that falls before
+ * the term's first day. A world built some days early (New Game's warm-up)
+ * seats the term on its build day, which is still after that November.
+ */
+function presidentialElectionBefore(termStart: string): string {
+  const cycle = pastParameter(null, "pastPresidentialCycleYears");
+  const anchor = pastParameter(null, "pastPresidentialElectionYear");
+  let year = Number(termStart.slice(0, 4));
+  while (
+    (year - anchor) % cycle !== 0 ||
+    novemberGeneralElectionDay(year) >= termStart
+  )
+    year -= 1;
+  return novemberGeneralElectionDay(year);
+}
+
 /** Turnout against a presidential year, by when the election falls. */
 function turnoutRatio(date: string): number {
   const year = Number(date.slice(0, 4));
@@ -499,9 +517,7 @@ export function buildPriorElections(
           term.elected?.date ??
           (office.kind === "president" || office.kind === "vice-president"
             ? term.startDate <= town.opening
-              ? novemberGeneralElectionDay(
-                  Number(term.startDate.slice(0, 4)) - 1,
-                )
+              ? presidentialElectionBefore(term.startDate)
               : null
             : null);
         if (!date || date >= town.opening) continue;
@@ -595,6 +611,17 @@ export function buildPriorElections(
           Math.max(Math.round(total * share), Math.floor(total / 2) + 1),
         );
         const winnerShare = total > 0 ? winnerVotes / total : share;
+        // A term the offices engine seated with no record of its race (the
+        // federal executive's) keeps this one, so the race's share is read
+        // from the term like every other seat's (offices.ts pastElections).
+        if (!term.elected)
+          api
+            .moduleState(OFFICES_MODULE_ID)
+            .table("terms")
+            .put({
+              ...term,
+              elected: { date, share: winnerShare },
+            } as unknown as ModuleRow);
         const candidates: PastCandidate[] = [
           {
             personId: winnerId,

@@ -26,7 +26,7 @@ import { worldOffsetUnit } from "../../core2/world-draw";
 import { pastElections, townSeats } from "../../core2/modules/offices";
 import {
   latestApproval,
-  opinionParameter,
+  presidentElection,
 } from "../../core2/modules/national-opinion";
 import { healthReport } from "../../core2/modules/health";
 import type { CoreState, PersonId, Source } from "../../core2/types";
@@ -101,6 +101,11 @@ function row(
     ...(made.replace ? { replace: made.replace } : {}),
     ...extra,
   };
+}
+
+/** Today's approval base, or "none" before the first month has run. */
+function approvalNow(pct: number | undefined): string {
+  return pct === undefined ? shown(pct) : `${shown(pct)}%`;
 }
 
 function shown(value: unknown): string {
@@ -179,10 +184,19 @@ function townView(core: CoreState, placeId: string): OpeningRow[] {
       "Kinds of household",
       core.placeMetadata.householdMixBasis,
     ),
+  );
+  // The president's approval starts at the share of the vote the race that
+  // seated them recorded; the game opens on Inauguration Day, so no month of
+  // their term moved it before day one.
+  const election = presidentElection(api);
+  rows.push(
     row(
       "town.presidentApproval",
       "President's approval on day one",
-      `${opinionParameter("openingPct")}% (now ${shown(latestApproval(api)?.basePct)})`,
+      election
+        ? `${shown(election.share * api.parameter("macroHundred"))}% (their share in the ${election.date} election; months of the term before day one: 0; now ${approvalNow(latestApproval(api)?.pct)})`
+        : "none (no record of the race that seated the president)",
+      election ? { recordId: election.termId } : {},
     ),
   );
   return rows;
