@@ -304,8 +304,19 @@ export interface ScheduleEntry {
   /** "scene-now", "scene-waiting" or "journal-line". */
   outcome: string;
   mode: string;
-  /** Impact at or over the interrupt line. */
+  /** The scene stops the day (impact at or over the interrupt line, or a rule in stopsBecause). */
   interrupt: boolean;
+  /**
+   * The rules that stopped the day, for dev mode's trace: "impact" (at or
+   * over the interrupt line), "household" (the household's own record, met
+   * at home), "own-record" (the subject's own record, met where its scene is
+   * set: scheduling.ownRecordSettings), "met-here" (a circumstance where the
+   * player is), "tie" (a tie that turned with someone just seen),
+   * "stops-day" (a type that stops the day for its subject).
+   */
+  stopsBecause?: (
+    "impact" | "household" | "own-record" | "met-here" | "tie" | "stops-day"
+  )[];
   stopsSkip: boolean;
   /** The core player stop registered for this moment, when its person is controlled. */
   stop?: { recordId: string; at: { date: IsoDate; minuteOfDay: number } };
@@ -1172,17 +1183,19 @@ export function scheduleMoment(
   // at home, or for an officeholder at the office or by phone.
   const household = person.householdId;
   const met = new Set(library.scheduling.ownRecordSettings ?? ["home"]);
-  const familyNews =
-    (((library.scheduling.householdScenes.includes(moment.label) &&
+  const householdNews =
+    ((library.scheduling.householdScenes.includes(moment.label) &&
       moment.counterpartIds.some(
         (id) => core.people.get(id)?.householdId === household,
       )) ||
       (library.scheduling.householdRecordScenes?.includes(moment.label) ??
         false)) &&
-      bindings.some((row) => row.setting.kind === "home")) ||
-    ((library.scheduling.ownRecordScenes?.includes(moment.label) ?? false) &&
-      moment.selfNamed === true &&
-      bindings.some((row) => met.has(row.setting.kind) || row.setting.seat));
+    bindings.some((row) => row.setting.kind === "home");
+  const ownNews =
+    (library.scheduling.ownRecordScenes?.includes(moment.label) ?? false) &&
+    moment.selfNamed === true &&
+    bindings.some((row) => met.has(row.setting.kind) || row.setting.seat);
+  const familyNews = householdNews || ownNews;
   // A tie that turned with someone the person spent time with (a friendship
   // grown over many meetings, a falling-out) is met then, with them: its
   // cause is the relationship record, contacted on the day its change was
@@ -1248,6 +1261,21 @@ export function scheduleMoment(
       impact: moment.impact,
       reason: "no-type",
     };
+  // Which of the rules above stopped the day, kept for dev mode's trace.
+  const stopsBecause = interrupt
+    ? (
+        [
+          ["impact", moment.impact >= options.interruptImpact],
+          ["household", householdNews],
+          ["own-record", ownNews],
+          ["met-here", metHere],
+          ["tie", tieMet],
+          ["stops-day", stopsDay],
+        ] as const
+      )
+        .filter(([, holds]) => holds)
+        .map(([rule]) => rule)
+    : [];
   const live = options.mode === "live";
   const outcome =
     !bindings.length || away
@@ -1263,6 +1291,7 @@ export function scheduleMoment(
     outcome,
     mode: options.mode,
     interrupt,
+    ...(stopsBecause.length ? { stopsBecause } : {}),
     stopsSkip: !live && interrupt,
     rank,
     pace,

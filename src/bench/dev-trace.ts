@@ -39,7 +39,8 @@ import { preStartHistory, type HistoryRecord } from "../core2/past-module";
 import { keepsWhy } from "../core2/why-kept";
 import type { CoreState, PersonId, PlaceId } from "../core2/types";
 import type { Director } from "../director/ledger";
-import { whyPanels, type WhyPanel } from "./dev-why";
+import type { Moment } from "../director/types";
+import { momentStagedPanel, whyPanels, type WhyPanel } from "./dev-why";
 
 export type TraceKind = "record" | "reason" | "learned" | "person" | "missing";
 
@@ -1319,6 +1320,15 @@ function answerOf(
   };
 }
 
+/** The schedule row the director wrote for a moment, from its person's book. */
+function momentPanel(director: Director | undefined, moment: Moment): WhyPanel {
+  const book = director?.ledger.people.get(moment.personId);
+  return momentStagedPanel(
+    book?.schedule.find((row) => row.momentId === moment.id),
+    moment.impact,
+  );
+}
+
 /** One node of the tree: the record, the answer, the resolver's own reading and its children. */
 export function traceNode(
   core: CoreState,
@@ -1384,6 +1394,17 @@ export function traceNode(
         ...(moment.causeId === moment.personId ? { about: true as const } : {}),
       });
     }
+    // The moments a record caused, in the book of each person who lived it:
+    // dev mode opens from the record to how the story staged it.
+    for (const book of director?.ledger.people.values() ?? [])
+      for (const moment of book.momentsById.values())
+        if (moment.causeId === id && moment.id !== id)
+          children.push({
+            id: moment.id,
+            kind: "record",
+            via: "director.moment.causedBy",
+            effect: true as const,
+          });
     children.push(...reverseLinks(core, id, found));
     if (found.kind === "payment")
       children.push(...paymentLinks(lookup, found.record));
@@ -1464,7 +1485,12 @@ export function traceNode(
     ...(found?.alsoIn ? { alsoIn: found.alsoIn } : {}),
     record: found?.record ?? null,
     resolver,
-    why: whyPanels(core, id, found?.record ? found : undefined),
+    why: [
+      ...whyPanels(core, id, found?.record ? found : undefined),
+      ...(found?.engine === MOMENT_ENGINE
+        ? [momentPanel(director, found.record as Moment)]
+        : []),
+    ],
     children: shown,
   };
 }
