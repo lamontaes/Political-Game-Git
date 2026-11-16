@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: merged
 standard: 2
 claimed-by: claude/fable-b-retirement-onset-test
 pr: #9468
@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: none
 source: found by opus-5234 on Nov 11, 2026, while wiring the Social Security age laws (item wire-law-links-to-people-part-1-partly-wired-laws)
+merged-at: 2026-11-16T01:40:29.351Z
 ---
 
 **What.** src/core2/retirement-onset-law.test.ts fails on main: after the test's mock of `socialSecurityAges` raises the earliest claim age to 65 and the world advances one day, `retirementOnsetYears` (src/core2/modules/jobs.ts line 3819) still returns 62 ("expected 62 to be 65", test line 52). Seen in Cottontown, Tennessee (4717420), run seed f3a0185fb36f1b72 (RETIRE_ONSET_SEED=f3a0185fb36f1b72), on main 3a9e824dddb, and in Bethlehem, North Carolina (3705530), run seed 31514229e28a0c71. Seen: the test passes in a drawn place.
