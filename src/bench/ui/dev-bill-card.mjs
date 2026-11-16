@@ -171,7 +171,20 @@ export async function devBillCard({
     return [
       out.bill.number,
       out.bill.status,
-      ...out.tallies.map((t) => `${t.yes}–${t.no}`),
+      ...out.tallies.map((t) =>
+        t.abstained
+          ? `${t.yes}–${t.no} (${fill(labels.splitAbstain, {
+              name: t.abstained.name,
+              members: t.abstained.members,
+              vacancy:
+                t.abstained.vacant === 0
+                  ? labels.noSeatVacant
+                  : t.abstained.vacant === 1
+                    ? labels.oneSeatVacant
+                    : fill(labels.seatsVacant, { n: t.abstained.vacant }),
+            })})`
+          : `${t.yes}–${t.no}`,
+      ),
     ].join(" · ");
   };
   // Trace: where the vote went and why, on its own screen (ui/dev-trace-vote.mjs).

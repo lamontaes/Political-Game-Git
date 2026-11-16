@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: open
+status: in-pr
 standard: 2
-claimed-by:
+claimed-by: vote-reasons thread
 pr:
 after:
 blocked-on:
@@ -21,9 +21,9 @@ source: vote-reasons thread, run of src/bench/dev-acceptance.test.ts beside othe
 **What.** The test "Congress at a bare majority fails for want of the votes to end debate, and says so; at a wide margin the bill is law" in src/bench/dev-acceptance.test.ts fails with DEV_MODE_SEED edab0e3052fb6f15 (Edwardsburg, Michigan) on Train a62a2fda. It fails the same way with and without #9646. `dev.decideAt(bill, -3, { chairHears: true })` on a U.S. House minimum-wage bill ends `floor-lost`, but `no - yes` is 2, not 3 (test line 201). The House has 435 members at that seed, so the cause is not an even member count. The test draws its seed with `randomBytes` at run time (line 34), so it passes or fails with the draw.
 Seen: the replay with DEV_MODE_SEED=edab0e3052fb6f15 on both dev-mode.ts versions, from the vote-reasons thread.
 
-**Cause.** Needs cause. Looked at: `DEV_MODE_SEED=edab0e3052fb6f15 npx vitest run src/bench/dev-acceptance.test.ts` fails at line 201 (expected 2 to be 3) on Train a62a2fdad884ccd1313d1e1436088fe05986d49b with and without #9646. A count at that seed found 435 House members in `dev.lawmakingBodies()`, so the miss is not an even member count. Not yet read: how `decideAt` in src/bench/dev-mode.ts fills the margin for a chamber where some members are missing from the roll or already hold a choice.
+**Cause.** Found in code: `decideAt` in src/bench/dev-mode.ts sets yes to `Math.round((roster + margin) / 2)` and gives every other free member no, so a roster and margin of opposite parity can't be met and are rounded without a word. At this seed Jennifer Mitchell (official:seat:US-TX:us-house:23) died before 2025-03-01, so `members()` holds 434. round(431 / 2) is 216, which leaves the vote 216 to 218. The Senate of 100 rounds the same way for any odd margin.
 
-**Fix.** None until the cause is found.
+**Fix.** When the count runs one over or one under the margin, one free member abstains (the last yes, or the first no). The returned tally names that member, the voting members and the seats the offices engine holds open (`seatsHeldOpen`, from its vacancy rows), and the dev card shows it ("434 voting members, one seat vacant"). Pin dev-acceptance.test.ts to this seed to keep the vacancy case.
 
 **Time box.** 1 hour to find the cause, one Sonnet session at medium.
 

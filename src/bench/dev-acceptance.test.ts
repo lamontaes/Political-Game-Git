@@ -3,10 +3,11 @@
  * who a law reached is read from every record an engine keeps when it applies
  * a law (the applied table above all), in people and dollars; a bill that did
  * not become law says why, from the legislature's own rows; and a run stops on
- * the player's own governments, not another state's. A random place and seed
- * each run, named so a failure can be replayed (DEV_MODE_SEED).
+ * the player's own governments, not another state's. Pinned to Edwardsburg,
+ * Michigan (seed edab0e3052fb6f15), where a member of the U.S. House dies before
+ * the Congress test's votes, so the House sits 434 and a margin of three is
+ * held by one member abstaining (pinned-tests; Account lead, Nov 16).
  */
-import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { buildBenchWorld } from "./world";
 import { gameStartDate } from "../core2/game-start";
@@ -27,11 +28,12 @@ import {
   chambersOf,
   executiveDecision,
   FEDERAL_HOUSE,
+  LEGISLATURE_MODULE_ID,
   memberKey,
   members,
 } from "../core2/modules/legislature";
 
-const seed = process.env.DEV_MODE_SEED ?? randomBytes(8).toString("hex");
+const seed = "edab0e3052fb6f15";
 const world = buildBenchWorld(seed, gameStartDate(), { twoLevel: true });
 const core = world.core;
 const dev = new DevMode(
@@ -200,6 +202,23 @@ describe(`dev mode as the acceptance check: ${where}`, () => {
       expect(lost.ending.chamber, where).toBe(FEDERAL_HOUSE);
       expect(lost.ending.no - lost.ending.yes, where).toBe(3);
     }
+    // 434 voting members cannot split yes and no three apart, so one member abstains, and the
+    // result names who and why: the House's one seat the offices engine holds open.
+    const house434 = lost.tallies.find((t) => t.chamber === FEDERAL_HOUSE);
+    expect(house434?.abstained, where).toMatchObject({
+      members: 434,
+      vacant: 1,
+    });
+    expect(
+      (
+        api()
+          .moduleState(LEGISLATURE_MODULE_ID)
+          .table("choices")
+          .get(`${lost.bill.id}|${house434!.abstained!.key}`) as unknown as
+          { vote?: string } | undefined
+      )?.vote,
+      where,
+    ).toBe("abstain");
     const narrow = introduce();
     expect(narrow.status, where).not.toBe("blocked");
     const short = dev.decideAt(narrow.id, 3, { sign: true, chairHears: true });

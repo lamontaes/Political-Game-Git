@@ -361,6 +361,34 @@ function levelRow(rows: readonly LawRowInput[], date: string) {
 }
 
 /** Money in a law is whole cents: a wage floor of 1001 is $10.01 an hour, and 10.01 is not an amount. */
+/**
+ * A chamber's seats the offices engine holds open, from its own vacancy rows: a seat of the body's own
+ * office, or a seat of Congress the officials engine seats (`unheld`), whose vacancy names its state's
+ * office and a seat id of the same kind as the roster's (`seat:<state>:us-house:<district>`).
+ */
+function seatsHeldOpen(
+  api: CoreAPI,
+  chamber: string,
+  roster: readonly { readonly seatId: string }[],
+): number {
+  const kinds = new Set(roster.map((term) => term.seatId.split(":")[2]));
+  const vacancies = api.moduleState(OFFICES_MODULE_ID).table("vacancies");
+  return (["open", "awaiting-election"] as const)
+    .flatMap(
+      (status) =>
+        vacancies.query("byStatus", [status]) as unknown as {
+          officeId: string;
+          seatId: string;
+          unheld?: unknown;
+        }[],
+    )
+    .filter(
+      (row) =>
+        row.officeId === chamber ||
+        (row.unheld !== undefined && kinds.has(row.seatId.split(":")[2])),
+    ).length;
+}
+
 function wholeMoney(unit: string | undefined, value: number): void {
   if (unit?.startsWith("minor") && !Number.isSafeInteger(value))
     throw new Error("An amount of money in a law is in whole cents.");
@@ -1100,7 +1128,18 @@ export class DevMode {
     const table = api.moduleState(LEGISLATURE_MODULE_ID).table("bills");
     const bill = table.get(billId) as unknown as BillRow | undefined;
     if (!bill) throw new Error("No such bill.");
-    const tallies: { chamber: string; yes: number; no: number }[] = [];
+    const tallies: {
+      chamber: string;
+      yes: number;
+      no: number;
+      /** The member set to abstain so the roll shows the margin asked, and why: voting members and seats held open. */
+      abstained?: {
+        key: string;
+        name: string;
+        members: number;
+        vacant: number;
+      };
+    }[] = [];
     // The yes votes go first to the members who sit on the bill's committee in that chamber (where
     // it has one), then to the most senior: a bill the chamber backs is backed in its committee
     // too, and every stage votes through the members' own votes at the one margin.
@@ -1159,6 +1198,16 @@ export class DevMode {
         const total = Math.round((roster.length + wanted) / 2);
         yes = Math.max(0, Math.min(free.length, total - namedYes));
       }
+      // Yes and no on a roster cannot differ by the margin asked when the two have opposite parity (434
+      // voting members after a death, a Senate of 100, and an odd margin): one free member then abstains,
+      // the last yes when the count runs one over the margin or the first no when it runs one under, so
+      // the roll shows the margin asked and the result names who abstained and why (Account lead, Nov 16).
+      let abstainAt = -1;
+      if (wanted !== undefined) {
+        const over = namedYes + yes - (namedNo + free.length - yes) - wanted;
+        if (over === 1 && yes > 0) abstainAt = yes - 1;
+        else if (over === -1 && yes < free.length) abstainAt = yes;
+      }
       let ownYes = 0;
       let ownNo = 0;
       free.forEach((term, index) => {
@@ -1171,7 +1220,7 @@ export class DevMode {
             api,
             billId,
             memberKey(term),
-            index < yes ? "yes" : "no",
+            index === abstainAt ? "abstain" : index < yes ? "yes" : "no",
             override,
           );
       });
@@ -1179,9 +1228,24 @@ export class DevMode {
         const cast = named[memberKey(term)];
         if (cast) castMemberVote(api, billId, memberKey(term), cast, override);
       }
-      return wanted === undefined
-        ? { chamber, yes: namedYes + ownYes, no: namedNo + ownNo }
-        : { chamber, yes: namedYes + yes, no: namedNo + free.length - yes };
+      if (wanted === undefined)
+        return { chamber, yes: namedYes + ownYes, no: namedNo + ownNo };
+      const abstainer = free[abstainAt];
+      return {
+        chamber,
+        yes: namedYes + yes - (abstainAt >= 0 && abstainAt < yes ? 1 : 0),
+        no: namedNo + free.length - yes - (abstainAt >= yes ? 1 : 0),
+        ...(abstainer
+          ? {
+              abstained: {
+                key: memberKey(abstainer),
+                name: `${abstainer.identity.givenName} ${abstainer.identity.familyName}`,
+                members: roster.length,
+                vacant: seatsHeldOpen(api, chamber, roster),
+              },
+            }
+          : {}),
+      };
     };
     const chambers = chambersOf(api, bill);
     // Whether this body has an executive with a veto: a county board, or a mayor where the state
