@@ -2135,6 +2135,15 @@ function composeBinding(
       text: "yes",
       sourceRecordIds: [moment.causeId],
     };
+  // A chair the sponsor does not know is introduced by their full name (rule 136).
+  if (held) {
+    const chair = core.people.get(askerId);
+    if (chair)
+      facts["full-name"] = {
+        text: `${chair.givenName} ${chair.familyName}`,
+        sourceRecordIds: [askerId],
+      };
+  }
   const standing = door
     ? door.standing
     : serve

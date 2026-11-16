@@ -111,7 +111,7 @@ const world = (seatNo: number, question: number) => {
 
 it("a chair whose stand is against it but whom a favor carries stalls, then hears the bill after a plea, and the hearing is a debt (seat 007)", () => {
   const w = world(6, 7);
-  const { scene, chair, api, player, bill } = w;
+  const { scene, chair, api, player, bill, core } = w;
   expect(w.entry.outcome, "met as a scene, not a journal line").toBe(
     "scene-now",
   );
@@ -121,6 +121,11 @@ it("a chair whose stand is against it but whom a favor carries stalls, then hear
   expect(w.lean).toBeLessThan(0);
   expect(w.lean + favor).toBeGreaterThan(0);
   const first = scene.talk.tree.lines[0]!;
+  // The setup is the sponsor's walk to the chair, not the chair coming to the sponsor.
+  expect(scene.talk.narration[0]!.text).not.toMatch(/doorway|read the agenda/);
+  expect(scene.talk.narration[0]!.text).toContain(
+    core.people.get(chair as never)!.givenName,
+  );
   expect(first.speakerId).toBe(chair);
   expect(first.move).toBe("stall");
   const plea = scene.talk.tree.replies.findIndex((r) => r.line.move === "plea");
@@ -189,10 +194,28 @@ it("a chair the favor cannot carry says no, and the no gives the reason the comm
   expect(
     scene.facts.filter((f) => f.key.startsWith("reason-")).map((f) => f.key),
   ).toEqual([`reason-${words[strongest[0]]}`]);
+  // The chair says that reason, in the words the Words lead wrote for it, every time.
+  const said: Record<string, string> = {
+    "own-view": "I think it's a bad bill. I won't give it a hearing.",
+    district: "People in my district don't want it. I won't put it up.",
+    sponsor:
+      "I'll be plain. I don't trust you with this, so it gets no hearing.",
+    group: "People I count on are against it. I'm not putting it up.",
+    party: "My party doesn't want it heard. I'm going with them.",
+    "next-election":
+      "I have a race coming. I can't have this in my committee before it.",
+    "last-vote":
+      "I voted against this the last time it came up. I'm not hearing it again.",
+    temper: "I don't like being pushed on this. It stays where it is.",
+  };
+  expect(first.text).toBe(said[words[strongest[0]]!]);
+  for (const reply of scene.talk.tree.replies)
+    for (const line of reply.next?.lines ?? [])
+      if (line.speakerId === chair) expect(line.text).toBe(first.text);
   expect(billOf(api, bill.id).status).toBe("failed");
 }, 120_000);
 
-it("the chair of the committee that held a bill meets the sponsor's ask as a scene that stops the day (seat lower 059)", () => {
+it("the chair of the committee that held a bill meets the sponsor's ask as a scene that stops the day, and each reply is followed to its record (lower seat 059)", () => {
   setBookkeeping(false);
   const { core, director } = buildBenchWorld("8647-mason", gameStartDate(), {
     twoLevel: true,
@@ -213,12 +236,40 @@ it("the chair of the committee that held a bill meets the sponsor's ask as a sce
   const entry = director.ledger.people
     .get(chair as never)!
     .schedule.find((row) => row.momentId.includes(hold!.id))!;
-  const binding = entry.bindings.find((b) => b.typeKey === "bill-held-chair");
-  expect(binding, "the sponsor's ask is staged for the chair").toBeTruthy();
+  expect(entry.bindings.map((b) => b.typeKey)).toContain("bill-held-chair");
   expect(entry.outcome).toBe("scene-now");
   const composed = purposeScene(core, director, chair as never, entry, {
     typeKey: "bill-held-chair",
   });
   expect(composed?.kind).toBe("composed");
-  expect(api).toBeTruthy();
+  if (composed?.kind !== "composed") return;
+  process.stderr.write(
+    "CHAIR " +
+      JSON.stringify({
+        narr: composed.scene.talk.narration.map((n) => n.text),
+        state: composed.scene.talk.state.text,
+        replies: composed.scene.talk.tree.replies.map((r) => [
+          r.line.move,
+          r.line.text,
+          r.next?.lines.map((l) => l.move + ": " + l.text),
+        ]),
+      }) +
+      "\n",
+  );
+  // Each of the chair's replies, pressed on the page, is a record of the chair's answer.
+  const bill = billOf(api, String(hold!.facts!.billId));
+  expect(bill.status).toBe("failed");
+  const replies = composed.scene.talk.tree.replies;
+  expect(replies.length).toBeGreaterThan(0);
+  const ids = replies.map((_, index) =>
+    replyInScene(core, director, chair as never, entry, [index], {
+      typeKey: "bill-held-chair",
+    }),
+  );
+  for (const [index, id] of ids.entries()) {
+    expect(id, `reply ${index}`).toBeTruthy();
+    expect(core.durableLog.get(id!)!.facts?.move).toBe(
+      replies[index]!.line.move,
+    );
+  }
 }, 120_000);

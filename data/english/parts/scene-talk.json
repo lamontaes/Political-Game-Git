@@ -170,7 +170,8 @@
     "members": "The other people who sit on the study committee, by name, from the study record.",
     "runs-on": "The day the paper runs the story, as the reporter says it (\"tomorrow\", \"Tuesday\"), from the exposure's run day on the record.",
     "briber": "Who paid the bribe a paper exposed, by name, from the corruption engine's crime record.",
-    "firm": "The firm a contract award went to, by name, from the contracts engine's award record."
+    "firm": "The firm a contract award went to, by name, from the contracts engine's award record.",
+    "full-name": "The chair's full name, said by a narrator introducing someone the sponsor does not know yet (rule 136: a stranger is named in full and by what they are)."
   },
   "maxWords": 70,
   "parts": [
@@ -79262,10 +79263,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-stall.i-can-t-put-it-on-the-calendar-this-session-ask-me-again-next-session",
+      "key": "scene-talk.reply-stall.i-m-not-putting-it-on-the-calendar-i-d-rather-not-go-into-why",
       "move": "reply-stall",
       "kind": "spoken",
-      "text": "I can't put it on the calendar this session. Ask me again next session.",
+      "text": "I'm not putting it on the calendar. I'd rather not go into why.",
       "uses": [
         {
           "subject": "scene",
@@ -79276,10 +79277,10 @@
           "key": "favor-asked"
         }
       ],
-      "bearing": "calm",
+      "bearing": "guarded",
       "origin": "authored",
-      "author": "Words session (scene builder C, pool item words-scene-bill-held-in-committee)",
-      "date": "2026-10-27",
+      "author": "Words lead (Nov 16, hold-chair-sought lines)",
+      "date": "2026-11-16",
       "tag": {
         "move": "stall",
         "key": "favor-asked"
@@ -191483,6 +191484,306 @@
       "tag": {
         "move": "decline",
         "key": "serve-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.you-find-first-in-the-office-bill-still-has-no-hearing",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "You find {first} in the office. {bill} still has no hearing.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "hearing-ask",
+          "requiresFacts": ["acquainted", "bill"],
+          "key": "hold-chair-sought"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (Nov 16, hold-chair-sought lines)",
+      "date": "2026-11-16",
+      "tag": {
+        "move": "narrate",
+        "key": "hold-chair-sought"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.first-s-door-is-open-you-came-about-bill",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{first}'s door is open. You came about {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "hearing-ask",
+          "requiresFacts": ["acquainted", "bill"],
+          "key": "hold-chair-sought"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (Nov 16, hold-chair-sought lines)",
+      "date": "2026-11-16",
+      "tag": {
+        "move": "narrate",
+        "key": "hold-chair-sought"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.full-name-chairs-the-committee-holding-bill-you-knock-on-the-office-door",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{full-name} chairs the committee holding {bill}. You knock on the office door.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "hearing-ask",
+          "requiresFacts": ["stranger", "full-name", "bill"],
+          "key": "hold-chair-sought"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (Nov 16, hold-chair-sought lines)",
+      "date": "2026-11-16",
+      "tag": {
+        "move": "narrate",
+        "key": "hold-chair-sought"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.bill-has-no-hearing-date-full-name-the-committee-s-chair-is-in-when-you-come-by",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{bill} has no hearing date. {full-name}, the committee's chair, is in when you come by.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "hearing-ask",
+          "requiresFacts": ["stranger", "full-name", "bill"],
+          "key": "hold-chair-sought"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (Nov 16, hold-chair-sought lines)",
+      "date": "2026-11-16",
+      "tag": {
+        "move": "narrate",
+        "key": "hold-chair-sought"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.i-think-it-s-a-bad-bill-i-won-t-give-it-a-hearing",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I think it's a bad bill. I won't give it a hearing.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "hearing-ask",
+          "requiresFacts": ["reason-own-view"],
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words lead (Nov 16, hold-chair-sought lines)",
+      "date": "2026-11-16",
+      "tag": {
+        "move": "refuse",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.people-in-my-district-don-t-want-it-i-won-t-put-it-up",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "People in my district don't want it. I won't put it up.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "hearing-ask",
+          "requiresFacts": ["reason-district"],
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words lead (Nov 16, hold-chair-sought lines)",
+      "date": "2026-11-16",
+      "tag": {
+        "move": "refuse",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.i-ll-be-plain-i-don-t-trust-you-with-this-so-it-gets-no-hearing",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I'll be plain. I don't trust you with this, so it gets no hearing.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "hearing-ask",
+          "requiresFacts": ["reason-sponsor"],
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words lead (Nov 16, hold-chair-sought lines)",
+      "date": "2026-11-16",
+      "tag": {
+        "move": "refuse",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.people-i-count-on-are-against-it-i-m-not-putting-it-up",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "People I count on are against it. I'm not putting it up.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "hearing-ask",
+          "requiresFacts": ["reason-group"],
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words lead (Nov 16, hold-chair-sought lines)",
+      "date": "2026-11-16",
+      "tag": {
+        "move": "refuse",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.my-party-doesn-t-want-it-heard-i-m-going-with-them",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "My party doesn't want it heard. I'm going with them.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "hearing-ask",
+          "requiresFacts": ["reason-party"],
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words lead (Nov 16, hold-chair-sought lines)",
+      "date": "2026-11-16",
+      "tag": {
+        "move": "refuse",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.i-have-a-race-coming-i-can-t-have-this-in-my-committee-before-it",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I have a race coming. I can't have this in my committee before it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "hearing-ask",
+          "requiresFacts": ["reason-next-election"],
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words lead (Nov 16, hold-chair-sought lines)",
+      "date": "2026-11-16",
+      "tag": {
+        "move": "refuse",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.i-voted-against-this-the-last-time-it-came-up-i-m-not-hearing-it-again",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I voted against this the last time it came up. I'm not hearing it again.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "hearing-ask",
+          "requiresFacts": ["reason-last-vote"],
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words lead (Nov 16, hold-chair-sought lines)",
+      "date": "2026-11-16",
+      "tag": {
+        "move": "refuse",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.i-don-t-like-being-pushed-on-this-it-stays-where-it-is",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I don't like being pushed on this. It stays where it is.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "hearing-ask",
+          "requiresFacts": ["reason-temper"],
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words lead (Nov 16, hold-chair-sought lines)",
+      "date": "2026-11-16",
+      "tag": {
+        "move": "refuse",
+        "key": "favor-asked"
       }
     }
   ]
