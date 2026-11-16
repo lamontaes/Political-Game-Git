@@ -16,6 +16,7 @@ import {
 } from "../core2/modules/legislature";
 import { NEWS_READ, storyOfReadEvent } from "../core2/modules/news";
 import { OFFICES_MODULE_ID } from "../core2/modules/offices";
+import { policeLogWhy } from "../core2/modules/press";
 import { residentsRuntime } from "../core2/modules/residents";
 import { fullLifeStake } from "../core2/modules/views";
 import { raceById, VOTING_MODULE_ID } from "../core2/modules/voting";
@@ -30,6 +31,8 @@ type CountedHousehold =
     ? H
     : never;
 const ACCOUNTS_MODULE_ID = "core2-accounts-v1";
+// The crime engine's id as the laws family keeps it (crime.ts is not its entry).
+const CRIME_MODULE_ID = "core2-crime-v1";
 /** The press desk's module id (modules/press.ts), whose stories table holds a story's reach. */
 const PRESS_MODULE = "core2-press-v1";
 import { preStartHistory, type HistoryRecord } from "../core2/past-module";
@@ -918,6 +921,67 @@ function reverseLinks(
             kind: "record",
             via: "views.stances",
           });
+  }
+  // A crime month: the counted groups it happened to (a full household's
+  // victimization is named in the row's own victims). Why that many is on the
+  // row: each kind's expected count and the fraction carried in.
+  if (found.engine === `${CRIME_MODULE_ID}.months`)
+    for (const tally of rowsOf(core, CRIME_MODULE_ID, "tallies"))
+      if (tally.placeId === record.placeId && tally.month === record.month)
+        out.push({
+          id: String(tally.id),
+          kind: "record",
+          via: `${CRIME_MODULE_ID}.tallies`,
+          effect: true,
+        });
+  // A printed police log: how the month stood against the town's usual, the
+  // closed months that usual rests on, and the share of a brief's space the
+  // desk gave it, read by the press's own function (owner, Nov 16: dev mode
+  // traces what a thread would trace by script).
+  const facts = record?.facts as Record<string, unknown> | undefined;
+  if (
+    found.engine === "news.stories" &&
+    String(facts?.sourceRecordId ?? "").startsWith("police-log:") &&
+    typeof facts?.monthId === "string"
+  ) {
+    const why = policeLogWhy(coreAPI(core), facts.monthId);
+    if (why) {
+      out.push({
+        id: `${id}#reported`,
+        kind: "reason",
+        via: "core2-press-v1.policeLog.reported",
+        value: why.reported,
+      });
+      for (const [key, value] of Object.entries(why.comparison))
+        out.push({
+          id: `${id}#usual.${key}`,
+          kind: "reason",
+          via: `core2-press-v1.policeLogComparison.${key}`,
+          value,
+        });
+      if (!Object.keys(why.comparison).length)
+        out.push({
+          id: `${id}#usual`,
+          kind: "reason",
+          via: "core2-press-v1.policeLogComparison",
+          value:
+            why.usualMonthIds.length < 2
+              ? `no usual: it rests on ${why.usualMonthIds.length} closed month, and a usual needs two`
+              : "no usual: the closed months before it hold no report",
+        });
+      out.push({
+        id: `${id}#space`,
+        kind: "reason",
+        via: "press-desk.usualSpace",
+        value: Math.round(why.space * 1000) / 1000,
+      });
+      for (const monthId of why.usualMonthIds)
+        out.push({
+          id: monthId,
+          kind: "record",
+          via: "core2-press-v1.usualMonth",
+        });
+    }
   }
   // A favor a yes carried: the reply that wrote it, who owes whom and whether it
   // is still owed (a favor owed is spent: the next ask of that member counts it
