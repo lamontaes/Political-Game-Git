@@ -177655,7 +177655,8 @@
           "role": "asker",
           "purpose": "proposal-answer",
           "key": "favor-asked",
-          "requiresFacts": ["said-no", "reason-too-soon"]
+          "requiresFacts": ["said-no", "reason-too-soon"],
+          "excludesFacts": ["asked-same-before"]
         }
       ],
       "bearing": "tender",
@@ -177680,13 +177681,64 @@
           "role": "asker",
           "purpose": "proposal-answer",
           "key": "favor-asked",
-          "requiresFacts": ["said-no", "reason-too-soon"]
+          "requiresFacts": ["said-no", "reason-too-soon"],
+          "excludesFacts": ["asked-same-before"]
         }
       ],
       "bearing": "guarded",
       "origin": "authored",
       "author": "Claude Opus 5.5 (family life builder; Words lead ruling Nov 14 11:30Z)",
       "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.you-asked-before-it-s-still-too-soon-for-me",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "You asked before. It's still too soon for me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "proposal-answer",
+          "key": "favor-asked",
+          "requiresFacts": ["said-no", "reason-too-soon", "asked-same-before"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (family life builder; Words lead ruling Nov 16 00:55Z)",
+      "date": "2026-11-16",
+      "tag": {
+        "move": "tell",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.it-s-still-too-soon-not-much-has-changed-since-you-asked",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "It's still too soon. Not much has changed since you asked.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "proposal-answer",
+          "key": "favor-asked",
+          "requiresFacts": ["said-no", "reason-too-soon", "asked-same-before"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (family life builder; Words lead ruling Nov 16 00:55Z)",
+      "date": "2026-11-16",
       "tag": {
         "move": "tell",
         "key": "favor-asked"
@@ -177959,6 +178011,26 @@
           "key": "favor-asked",
           "requiresFacts": ["said-no"],
           "after": "scene-talk.state-tell.i-haven-t-changed-my-mind-yet-give-me-time"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "proposal-answer",
+          "key": "favor-asked",
+          "requiresFacts": ["said-no"],
+          "after": "scene-talk.state-tell.you-asked-before-it-s-still-too-soon-for-me"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "proposal-answer",
+          "key": "favor-asked",
+          "requiresFacts": ["said-no"],
+          "after": "scene-talk.state-tell.it-s-still-too-soon-not-much-has-changed-since-you-asked"
         }
       ],
       "bearing": "curious",
@@ -178127,13 +178199,40 @@
           "after": "ask",
           "purpose": "proposal-answer",
           "key": "favor-asked",
-          "requiresFacts": ["reason-too-soon"]
+          "requiresFacts": ["reason-too-soon"],
+          "excludesFacts": ["asked-same-before"]
         }
       ],
       "bearing": "tender",
       "origin": "authored",
       "author": "Claude Opus 5.5 (family life builder; Words lead ruling Nov 14 11:30Z)",
       "date": "2026-11-14",
+      "tag": {
+        "move": "answer",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.same-as-before-we-haven-t-had-long-enough",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Same as before. We haven't had long enough.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "ask",
+          "purpose": "proposal-answer",
+          "key": "favor-asked",
+          "requiresFacts": ["reason-too-soon", "asked-same-before"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (family life builder; Words lead ruling Nov 16 00:55Z)",
+      "date": "2026-11-16",
       "tag": {
         "move": "answer",
         "key": "favor-asked"
