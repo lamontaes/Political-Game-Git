@@ -17,6 +17,8 @@ import { setBookkeeping } from "./bookkeeping";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import {
   acceptJobOffer,
+  applyForOpening,
+  fillableOpenings,
   jobOffersFor,
   JOBS_MODULE_ID,
   type JobOfferRow,
@@ -25,7 +27,7 @@ import {
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
 
 describe("the player's job offers", { timeout: 900_000 }, () => {
-  it("an employer offers the player a job and only the player's acceptance hires them", () => {
+  it("an employer offers the player a job on their application and only the player's acceptance hires them", () => {
     setBookkeeping(false);
     // Whether an employer picks the player in eight weeks is the town's to
     // decide: draw towns until one does.
@@ -43,6 +45,9 @@ describe("the player's job offers", { timeout: 900_000 }, () => {
       const api = coreAPI(core);
       const playerId = core.playerId!;
       const before = core.people.get(playerId)!.jobId;
+      // The player applies to the openings in their town: an offer needs a cause (owner, Nov 16).
+      for (const position of fillableOpenings(api))
+        applyForOpening(api, position.id);
       // Eight weeks at a time for up to a year, until an employer picks them
       // (a town's openings and the player's fit decide when, if at all).
       for (let weeks = 0; weeks < 52; weeks += 8) {
