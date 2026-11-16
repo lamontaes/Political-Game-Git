@@ -3642,7 +3642,10 @@ function runWeek(api: CoreAPI): void {
   // the player knows or is kin to, on that employer's staff, speaks for them.
   if (player)
     for (const position of byPlace.get(player.placeId) ?? [])
-      if (speaksForPlayer(api, position.organizationId, player.personId))
+      if (
+        speaksForPlayer(api, position.organizationId, player.personId) ||
+        store(api).table("playerApplications").get(position.id)
+      )
         apply(position.id, player);
   // Counted seekers apply by the same rule as full people, each record for the household it stands for.
   const counted = store(api)
@@ -5095,6 +5098,29 @@ function settleOffer(
   }
 }
 
+/**
+ * The player applies for an opening in their own town (owner ruling: "the
+ * player can apply or get a job through someone they know"). The employer
+ * weighs them with the week's other applicants; an offer then has this
+ * record as its cause. False when the opening is not open to them.
+ */
+export function applyForOpening(api: CoreAPI, positionId: string): boolean {
+  const c = core(api),
+    player = c.playerId ? c.people.get(c.playerId) : undefined;
+  const position = store(api).table("positions").get(positionId) as
+    PositionRow | undefined;
+  if (
+    !player ||
+    position?.status !== "open" ||
+    position.placeId !== player.placeId
+  )
+    return false;
+  store(api)
+    .table("playerApplications")
+    .put({ id: positionId, personId: player.id, appliedAt: c.date } as never);
+  return true;
+}
+
 /** The job offers made to a person, newest first. */
 export function jobOffersFor(api: CoreAPI, personId: string): JobOfferRow[] {
   return (
@@ -5507,6 +5533,8 @@ export const JOBS_MODULE: CoreModule = {
       },
       seekers: { indexes: { all: { fields: ["isSeeker"] } } },
       offers: { indexes: { byPerson: { fields: ["personId", "status"] } } },
+      // The openings the player applied to themselves, by position (the cause of an offer from a stranger).
+      playerApplications: {},
       pay: {},
       raises: { indexes: { byPerson: { fields: ["personId"] } } },
       referrals: { indexes: { byPerson: { fields: ["personId"] } } },
