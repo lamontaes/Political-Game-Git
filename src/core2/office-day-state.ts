@@ -38,7 +38,11 @@ import {
   type SittingDay,
 } from "./closeness";
 import { roomTime } from "./modules/people";
-import { chargeOfficeHours, registerOfficeTime } from "./modules/work";
+import {
+  chargeOfficeHours,
+  registerOfficeTime,
+  type OfficeTime,
+} from "./modules/work";
 import { personLean, personStance } from "./campaign-views";
 import { PLATFORM_QUESTIONS, campaignParameter } from "./campaign-data";
 import { lineForPost, registerLinePayments } from "./budgets-treasury";
@@ -1101,6 +1105,7 @@ export function actOn(
       api,
       entry.holderId,
       entryHours(api, entry.kind, entry.holderId),
+      entry.id,
     );
   const result: StateEntryResult = {
     id: entry.id,
@@ -1495,8 +1500,8 @@ function holdsPost(api: CoreAPI, personId: string): boolean {
  * weekday is at least a day at the post for a salaried officeholder, unless
  * their record shows them away from that day's floor.
  */
-function stateOfficeHoursToday(api: CoreAPI): ReadonlyMap<string, number> {
-  const out = new Map<string, number>();
+function stateOfficeHoursToday(api: CoreAPI): ReadonlyMap<string, OfficeTime> {
+  const out = new Map<string, OfficeTime>();
   const stateKey = lawChain(api).stateKey;
   if (!stateKey) return out;
   const offices = api.moduleState(OFFICES_MODULE_ID);
@@ -1519,6 +1524,7 @@ function stateOfficeHoursToday(api: CoreAPI): ReadonlyMap<string, number> {
       const office = stateOfficeOf(api, personId);
       if (!office || office.officeId !== row.id) continue;
       let hours = 0;
+      let sourceId = "";
       let away = false;
       for (const entry of stateDay(api, office, date)) {
         const result = table(api, "results").get(entry.id) as unknown as
@@ -1527,12 +1533,23 @@ function stateOfficeHoursToday(api: CoreAPI): ReadonlyMap<string, number> {
           away ||= entry.kind === "floor-session";
           continue;
         }
-        hours = Math.max(hours, entryHours(api, entry.kind, personId));
+        const spent = entryHours(api, entry.kind, personId);
+        if (spent > hours) {
+          hours = spent;
+          sourceId = entry.id;
+        }
       }
       // A weekday at the post, unless they stayed away from the day's floor.
-      if (workday && !away && holdsPost(api, personId))
-        hours = Math.max(hours, stateDayParameter("postDayHours"));
-      if (hours > 0) out.set(personId, hours);
+      if (
+        workday &&
+        !away &&
+        holdsPost(api, personId) &&
+        stateDayParameter("postDayHours") > hours
+      ) {
+        hours = stateDayParameter("postDayHours");
+        sourceId = `post:${api.state.people.get(personId)!.jobId}`;
+      }
+      if (hours > 0) out.set(personId, { hours, sourceId });
     }
   }
   return out;

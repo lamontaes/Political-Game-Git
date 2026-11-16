@@ -1165,7 +1165,12 @@ export function adjourn(api: CoreAPI, meetingIdValue: string): MeetingRow {
   // The player who sat through it as a member gave it the evening
   // (office-hours-never-fill-an-officials-day).
   if (row.playerPresent && row.audience === undefined)
-    chargeOfficeHours(api, playerOf(api)!, campaignParameter("sittingHours"));
+    chargeOfficeHours(
+      api,
+      playerOf(api)!,
+      campaignParameter("sittingHours"),
+      row.id,
+    );
   finish(api, { ...row, takenUp: [...row.takenUp, ...left] });
   releaseHeld(api, row.id);
   return meetingOf(api, row.id)!;

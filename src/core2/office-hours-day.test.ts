@@ -18,6 +18,7 @@
  * test, the first council member with a job of their own).
  */
 import { expect, it } from "vitest";
+import { DevMode } from "../bench/dev-mode";
 import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "./bookkeeping";
 import { campaignParameter } from "./campaign-data";
@@ -41,7 +42,7 @@ const COUNCIL_DAY = "2025-02-04";
 
 it("an official's sittings and post fill their day, once, and not a day they stayed away", () => {
   setBookkeeping(false);
-  const { core } = buildBenchWorld("8647-mason", gameStartDate(), {
+  const { core, placeId } = buildBenchWorld("8647-mason", gameStartDate(), {
     twoLevel: true,
     placeKey: "4846968",
   });
@@ -133,4 +134,15 @@ it("an official's sittings and post fill their day, once, and not a day they sta
       left.get(`${COUNCIL_DAY}:${COUNCIL_MEMBER}`)! +
       sleep,
   ).toBeCloseTo(dayHours, 6);
+  // Dev mode's person view shows the same day: on Friday the 14th, a
+  // district day, the senator's minutes at work are the post's, and the
+  // office's hours name the office day's entry they come from.
+  const dev = new DevMode(core, undefined, undefined, placeId);
+  const shown = dev.person(senator).day;
+  expect(shown.workMinutes).toBe(post);
+  expect(shown.office?.hours).toBe(stateDayParameter("postDayHours"));
+  expect(shown.office?.sourceId).toMatch(
+    new RegExp(`^${senator}:2025-02-14:district-office:`),
+  );
+  expect(shown.hoursLeft).toBe(left.get(`2025-02-14:${senator}`));
 }, 180_000);
