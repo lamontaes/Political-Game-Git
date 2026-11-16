@@ -9,6 +9,7 @@
 //   "panels": the Government tab's dev panels row, beside Bills and Bribe; context { billId, onDone }.
 //   "metrics": under the Metrics tab's board, in a dev panels row; context { refresh }.
 //   "calendar": the Calendar sheet's dev panels, after Run, Scene and Campaign; context { onDone }.
+//   "person": the end of a person's card in dev mode; context { personId, onDone }.
 // A new slot is one devViewNodes call on its screen and one line here.
 
 async function send(path, input) {
