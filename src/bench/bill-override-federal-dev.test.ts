@@ -1,5 +1,4 @@
 import { buildBenchWorld } from "./world";
-import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { gameStartDate } from "../core2/game-start";
@@ -17,10 +16,20 @@ import { DevMode } from "./dev-mode";
 // Done-when item 5: the executive's desk and the override vote. A bill both chambers of Congress
 // pass is vetoed by the president and Congress overrides it: the stage view names the veto, the
 // override tallies by chamber and the status. A place drawn from all 56 on a seed nobody chose.
-const seed =
-  process.env.FEDERAL_OVERRIDE_SEED ??
-  process.env.GOLDEN_PATH_SEED ??
-  randomBytes(8).toString("hex");
+// Pinned (Nov 16, trial batch). Before, the seed came at run time from
+// process.env FEDERAL_OVERRIDE_SEED, GOLDEN_PATH_SEED or randomBytes, so the
+// places it drew changed every run. The fixed seed below draws Pikeville,
+// Kentucky (2160852) first for "federal-override".
+// Limit: the slowest case took 62 s, run two files at a time (Nov 16,
+// Train 6d12556a); each case's limit is about twice that, 130 s.
+const seed = "pin-bill-override-federal-dev";
+
+it("draws its pinned place from the fixed seed", () => {
+  expect(drawPlace(`${seed}:0`, "federal-override")).toMatchObject({
+    key: "2160852",
+    name: "Pikeville, Kentucky",
+  });
+});
 
 describe(`a federal veto is overridden (seed ${seed})`, () => {
   it("the president vetoes, both chambers override, and the stage view says so", () => {
@@ -88,5 +97,5 @@ describe(`a federal veto is overridden (seed ${seed})`, () => {
     throw new Error(
       `no drawn place overrode a federal veto (seed ${seed}): ${tried.join("; ")}`,
     );
-  }, 1_800_000);
+  }, 130_000);
 });
