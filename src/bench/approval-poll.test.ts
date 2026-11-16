@@ -125,4 +125,4 @@ it(`a month's approval poll is printed nationally and read by name (${PLACE.name
   process.stdout.write(
     `APPROVAL POLL ${where}: "${worded!.headline}" ${pollId} ${poll!.facts?.pct}% ${poll!.facts?.direction}; ${found!.storyId}; ${found!.readId} names ${readers.length}, first ${first.givenName} ${first.familyName}; reach ${JSON.stringify(reach!.value)}\n`,
   );
-}, 120_000);
+}, 100_000);
