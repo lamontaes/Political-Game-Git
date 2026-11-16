@@ -74,6 +74,33 @@ describe(`dev industries: ${where}`, () => {
         0,
       );
       expect(outside, where).toBeGreaterThan(0);
+      // What each month paid under laws and taxes is its trading record's, with the law rows behind it.
+      const trading = api
+        .moduleState("business")
+        .table("trading")
+        .rows() as unknown as {
+        id: string;
+        charges?: { kind: string; minor: number; lawIds: string[] }[];
+        staff?: number;
+      }[];
+      const paid = view.months.flatMap((m) => m.charges);
+      for (const m of view.months) {
+        const row = trading.find((r) => r.id === m.id)!;
+        const law = (row.charges ?? []).filter(
+          (c) =>
+            !["wages", "supplies", "outside-costs"].includes(c.kind) &&
+            c.minor !== 0,
+        );
+        expect(m.charges, `${where}: ${m.id}`).toEqual(law);
+        expect(m.staff, `${where}: ${m.id}`).toBe(row.staff);
+      }
+      process.stderr.write(
+        `${where}: charges ${JSON.stringify(paid.slice(0, 4))}\n`,
+      );
+      expect(
+        paid.some((c) => c.minor > 0 && c.lawIds.length > 0),
+        `${where}: no month paid a charge under a named law`,
+      ).toBe(true);
     },
   );
 });
