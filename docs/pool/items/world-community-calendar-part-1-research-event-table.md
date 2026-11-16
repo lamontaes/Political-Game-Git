@@ -5,7 +5,7 @@ area: world
 kind: feature
 priority: 2
 size: S
-status: in-pr
+status: merged
 standard: 2
 claimed-by: claude/pool-world-community-calendar-part-1-research-event-table
 pr: #8623
@@ -19,6 +19,7 @@ source: split from world-community-calendar in the pool redo, Nov 10, 2026
 checked: fable 2026-11-10
 claimed-at: 2026-11-11T05:21:33.168Z
 branch: claude/pool-world-community-calendar-part-1-research-event-table
+merged-at: 2026-11-15T22:06:41.633Z
 ---
 
 **What.** A played town has no community events at all: no county fair, Fourth of July parade, harvest or heritage festival, homecoming game, school play, church supper or club meeting. Before any engine work, build the table the rest of the calendar reads: for each kind of place and size, which annual community events happen, in which season or on which date rule, and how large they are. Every row is tagged SOURCED with a citation or ESTIMATED with its source and spread, and the table must resolve every one of the 56 places to a place type so no town is named in logic. Feeds: world-community-calendar

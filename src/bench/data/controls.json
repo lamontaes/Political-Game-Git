@@ -520,7 +520,18 @@
   "desk": {
     "sign": "Sign",
     "veto": "Veto",
-    "own": "Decide for me"
+    "own": "Decide for me",
+    "vetoWhy": "Tell them why",
+    "back": "Back",
+    "reasons": {
+      "opposed-voters": "The voters don't want it",
+      "opposed-groups": "Its opponents are right",
+      "opposed-party": "My party is against it",
+      "opposed-views": "People here don't believe in it",
+      "cost": "We can't afford it",
+      "stance": "I've been against it from the start",
+      "none": "Give no reason"
+    }
   },
   "budgetEditor": {
     "0": "No change",

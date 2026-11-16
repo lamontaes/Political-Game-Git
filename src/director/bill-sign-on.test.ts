@@ -16,6 +16,7 @@
  * path: the player's first bills, one on every question, go to the floor at
  * the chamber's next sitting before the second round is drafted.
  */
+import { stateFloorHolds, voteOnStateFloor } from "../core2/office-day-state";
 import { afterAll, describe, expect, it } from "vitest";
 import { seatAct, seatView } from "../bench/legislature";
 import { buildBenchWorld } from "../bench/world";
@@ -26,9 +27,12 @@ import { advanceCore } from "../core2/life";
 import {
   billOf,
   chairHears,
+  committeeRecords,
   declinedAsks,
+  favorWorth,
   floorDateOf,
   memberKey,
+  memberPosition,
   members,
   obligationsOf,
   scheduleVote,
@@ -38,6 +42,7 @@ import { townSeats } from "../core2/modules/offices";
 import { advancePlayerV1, resumePlayerV1 } from "../core2/player-v1";
 import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
+import sceneBank from "../../data/english/parts/scene-talk.json" with { type: "json" };
 import { purposeScene, replyInScene } from "./purpose-scene";
 
 const PLACES = [
@@ -59,12 +64,70 @@ const PLACES = [
 ] as const;
 const TYPE = "bill-sign-on";
 /** What the three places played, together: the reasons said for a no, and the lines that need a record. */
+/** Colleagues who said no that each place asks again, so every second-ask line plays. */
+const AGAIN = 3;
+
+/** Whether a bank piece is placed by the record of an earlier ask. */
+function readsAskedBefore(key: string): boolean {
+  return (
+    (
+      sceneBank as unknown as {
+        parts: { key: string; uses?: { requiresFacts?: string[] }[] }[];
+      }
+    ).parts
+      .find((part) => part.key === key)
+      ?.uses?.some((use) => use.requiresFacts?.includes("asked-before")) ??
+    false
+  );
+}
+
+/** A talk as the player plays it: what each says, the player's choices under "You say:". */
+function playedTalk(
+  talk: {
+    narration: readonly { text: string }[];
+    state: { speaker: string; text: string };
+    tree: {
+      lines: readonly { speaker: string; text: string }[];
+      replies: readonly {
+        line: { text: string };
+        next?: { lines: readonly { speaker: string; text: string }[] };
+      }[];
+    };
+  },
+  taken?: number,
+): string {
+  return [
+    ...talk.narration.map((line) => `  ${line.text}`),
+    `  ${talk.state.speaker}: ${talk.state.text}`,
+    ...talk.tree.lines.map((line) => `  ${line.speaker}: ${line.text}`),
+    "  You say:",
+    ...talk.tree.replies.flatMap((reply, index) => [
+      `    ${index + 1}. ${reply.line.text}${index === taken ? "  (taken)" : ""}`,
+      ...(reply.next?.lines.map(
+        (line) => `       ${line.speaker}: ${line.text}`,
+      ) ?? []),
+    ]),
+  ].join("\n");
+}
+
 const seen = {
   reasons: new Set<string>(),
   lines: new Set<string>(),
   votedBefore: 0,
   askedAgain: 0,
+  deferred: 0,
 };
+
+/** A member's position on a bill, term by term, as printed beside a talk. */
+function termsOf(position: Readonly<Record<string, unknown>>): string {
+  return Object.entries(position)
+    .filter(
+      ([key, value]) =>
+        typeof value === "number" && value !== 0 && key !== "openingViews",
+    )
+    .map(([key, value]) => `${key} ${(value as number).toFixed(2)}`)
+    .join(", ");
+}
 
 function livePlayer(core: CoreState, player: PersonId, through: string) {
   let packet: ReturnType<typeof advancePlayerV1> | undefined = advancePlayerV1(
@@ -74,7 +137,13 @@ function livePlayer(core: CoreState, player: PersonId, through: string) {
       through: { date: makeIsoDate(through), minuteOfDay: 0 },
     },
   );
-  while (packet && packet.kind !== "complete")
+  while (packet && packet.kind !== "complete") {
+    if (packet.kind === "stop")
+      // A roll the player sits for holds their clock until they vote: the
+      // player answers through the floor's own call, leaving it to their
+      // character's own position.
+      for (const billId of stateFloorHolds(coreAPI(core)))
+        voteOnStateFloor(coreAPI(core), player, billId, "own");
     packet =
       packet.kind === "stop"
         ? resumePlayerV1(core, { kind: "stop", pauseId: packet.pauseId })
@@ -83,6 +152,7 @@ function livePlayer(core: CoreState, player: PersonId, through: string) {
             pauseId: packet.pauseId,
             offerId: packet.offers[0]!.offerId,
           });
+  }
 }
 
 describe("asking colleagues to sign on", () => {
@@ -188,6 +258,8 @@ describe("asking colleagues to sign on", () => {
       expect(units.length, `${where}: the asks are staged`).toBeGreaterThan(0);
       let signed = 0;
       const refused: { billId: string; colleague: string }[] = [];
+      const deferred: { billId: string; colleague: string }[] = [];
+      const firstTalks = new Map<string, string>();
       const reasonsHere = new Set<string>();
       for (const { entry, unit, causeId } of units) {
         const cause = core.durableLog.get(causeId)!;
@@ -198,6 +270,15 @@ describe("asking colleagues to sign on", () => {
         const talk = result.scene.talk;
         const colleague = cause.facts!.askedId!;
         expect(talk.askerId, where).toBe(colleague);
+        // The narration names the colleague the player goes to, never the
+        // player. Two people can share a given name (at Wiggins the player
+        // and a colleague are both James), and then the name alone cannot
+        // tell which one the line means.
+        const theirs = core.people.get(colleague as PersonId)!.givenName;
+        const mine = core.people.get(player)!.givenName;
+        expect(talk.narration[0]!.text, where).toContain(theirs);
+        if (mine !== theirs)
+          expect(talk.narration[0]!.text, where).not.toContain(mine);
         const said: string[] = [talk.state.text];
         const walk = (node: typeof talk.tree | null) => {
           if (!node) return;
@@ -239,6 +320,10 @@ describe("asking colleagues to sign on", () => {
                 ? pick("accept")
                 : 0;
         const chosen = talk.tree.replies[path]!;
+        firstTalks.set(
+          cause.facts!.billId! + "|" + colleague,
+          playedTalk(talk, path),
+        );
         const last = chosen.next?.lines.at(-1) ?? first;
         const heard = [
           talk.state.text,
@@ -285,53 +370,117 @@ describe("asking colleagues to sign on", () => {
       // Asked again on the same question: the colleague who said no knows it,
       // and the one who voted no before says so.
       const again = [
-        ...refused.slice(0, 1).map((row) => ({
+        ...refused.slice(0, AGAIN).map((row) => ({
           question: billOf(api, row.billId)!.provisions[0]!.question!,
           colleague: row.colleague,
         })),
       ];
       for (const { question, colleague } of again) {
+        // The earlier ask on this same question, which the second ask reads.
+        const firstTalk = refused.find(
+          (row) =>
+            row.colleague === colleague &&
+            billOf(api, row.billId)?.provisions[0]?.question === question,
+        );
+        if (firstTalk)
+          process.stdout.write(
+            `SIGN-ON PLAYED ${where} first ask:\n${firstTalks.get(firstTalk.billId + "|" + colleague) ?? ""}\n`,
+          );
         const billId = draft(question);
         if (!billId) continue;
         const id = `sign-on:${billId}:${colleague}`;
         if (!core.durableLog.get(id)) continue;
         livePlayer(core, player, addDays(makeIsoDate(core.date), 2));
         const found = staged().find((row) => row.causeId === id);
-        // The director stages a scene type at most so many times a season
-        // (situation-types.json seasonCap); past it the ask is a Journal line,
-        // and the player is not asked twice in one sitting.
-        if (!found) {
-          const held = book.schedule.find(
-            (row) =>
-              book.momentsById.get(row.momentId)?.causeId === id &&
-              row.heldBack?.some(
-                (h) => h.typeKey === TYPE && h.reason === "season-cap",
-              ),
-          );
-          expect(
-            held,
-            `${where}: the second ask is staged or capped`,
-          ).toBeTruthy();
-          process.stdout.write(
-            `SIGN-ON ${where} asked again: held, the season's asks are full\n`,
-          );
-          continue;
-        }
+        // The player's own ask is not held by a season count: the record
+        // limits it (scheduling.ts pressedByPlayer), so the second ask plays.
+        expect(found, `${where}: the second ask is staged`).toBeTruthy();
         const { entry, unit } = found!;
         const result = purposeScene(core, director, player, entry, {
           typeKey: unit,
         });
-        expect(result?.kind, where).toBe("composed");
+        expect(
+          result?.kind,
+          `${where}: ${result && "reason" in result ? String(result.reason) : ""}`,
+        ).toBe("composed");
         if (result?.kind !== "composed") continue;
         const facts = new Set(result.scene.facts.map((row) => row.key));
+        const talk = result.scene.talk;
         const lines = [
-          result.scene.talk.tree.lines[0]!.text,
-          ...result.scene.talk.tree.replies.flatMap(
+          talk.tree.lines[0]!.text,
+          ...talk.tree.replies.flatMap(
             (reply) => reply.next?.lines.map((line) => line.text) ?? [],
           ),
         ];
         for (const line of lines) seen.lines.add(line);
-        if (facts.has("asked-before")) seen.askedAgain += 1;
+        // The second ask reads the first from the record: the opening, the
+        // player's ask and every no say it was asked before, and a second no
+        // is let go, never pressed a third time.
+        expect(facts.has("asked-before"), where).toBe(true);
+        seen.askedAgain += 1;
+        const saysBefore = (line: { parts: readonly string[] }) =>
+          readsAskedBefore(line.parts[0]!);
+        expect(saysBefore(talk.narration[0]!), talk.narration[0]!.text).toBe(
+          true,
+        );
+        expect(saysBefore(talk.state), talk.state.text).toBe(true);
+        const theirs = [
+          talk.tree.lines[0]!,
+          ...talk.tree.replies.flatMap((reply) => reply.next?.lines ?? []),
+        ];
+        for (const line of theirs.filter((row) => row.move === "refuse"))
+          expect(saysBefore(line), `${where}: ${line.text}`).toBe(true);
+        if (talk.tree.lines[0]!.move === "refuse")
+          expect(
+            talk.tree.replies.map((reply) => reply.line.move),
+            where,
+          ).toEqual(["accept"]);
+        // A plea that claims a past act is offered only where the record
+        // holds the player's yes on a bill of theirs.
+        const backing = facts.has("read-favor-given");
+        if (!backing)
+          expect(
+            talk.tree.replies.map((reply) => reply.line.move),
+            where,
+          ).not.toContain("plea");
+        // Where they stood on the bill they turned down (kept with the no)
+        // and where they stand on this one, term by term: what moved, if
+        // anything, between the two answers.
+        const no = declinedAsks(api, player, colleague, body!.id, "sign-on")
+          .filter((row) =>
+            row.provisions.some((other) => other.question === question),
+          )
+          .at(-1)!;
+        const then = { ...no.position, favor: no.standing };
+        const now = {
+          ...memberPosition(api, billId, colleague),
+          favor: favorWorth(api, colleague, player),
+        };
+        // Their not-yet left open, where it is offered: the player defers to
+        // them, and what comes of it is read from the record afterward.
+        const defer = talk.tree.replies.findIndex(
+          (reply) => reply.line.move === "defer",
+        );
+        const taken =
+          defer >= 0
+            ? defer
+            : talk.tree.replies.findIndex(
+                (reply) => reply.line.move === "accept",
+              );
+        if (taken >= 0)
+          expect(
+            replyInScene(core, director, player, entry, [taken], {
+              typeKey: unit,
+            }),
+            `${where}: the reply is recorded`,
+          ).toBeTruthy();
+        const named = (billOf(api, billId)!.cosponsors ?? []).includes(
+          colleague,
+        );
+        if (defer >= 0) deferred.push({ billId, colleague });
+        process.stdout.write(
+          `SIGN-ON PLAYED ${where} asked again (the player's yes on a bill of theirs on the record: ${backing ? "yes" : "no"}):\n   terms then (the bill they turned down, and what a favor to the player was worth to them): ${termsOf(then)}\n   terms now (this bill, and the favor now): ${termsOf(now)}\n${playedTalk(talk, taken >= 0 ? taken : undefined)}\n   afterward: their name ${named ? "is" : "is not"} on ${billOf(api, billId)!.number}\n`,
+        );
         process.stdout.write(
           `SIGN-ON ${where} asked again (${[...facts].filter((k) => k === "asked-before" || k === "voted-against-before" || k.startsWith("no-")).join(", ")}): ${lines.join(" | ")}\n`,
         );
@@ -344,10 +493,36 @@ describe("asking colleagues to sign on", () => {
         const read = chairHears(api, bill, bill.bodyOfficeId);
         expect(read.cosponsorPull, where).toBeGreaterThanOrEqual(0);
       }
+      // What came of a not-yet the player left open: the bill goes to the
+      // chamber's next sitting, and the colleague votes there as they stand.
+      for (const { billId } of deferred) scheduleVote(api, billId);
+      const sitting = deferred
+        .map((row) => floorDateOf(api, row.billId))
+        .filter((date): date is string => !!date)
+        .sort()
+        .at(-1);
+      if (sitting) livePlayer(core, player, addDays(makeIsoDate(sitting), 1));
+      for (const { billId, colleague } of deferred) {
+        const bill = billOf(api, billId)!;
+        const vote = votesOn(api, billId).find(
+          (row) => row.memberId === colleague,
+        )?.vote;
+        // A bill that never reached the floor stopped in committee: the
+        // committee's own record says whether the chair heard it and how
+        // the colleague voted there.
+        const held = committeeRecords(api, billId).at(-1);
+        const there = held
+          ? `in committee on ${held.date}: ${held.heard ? `heard, ${held.yes} yes and ${held.no} no, ${held.reported ? "reported" : "not reported"}` : "the chair did not hear it"}${held.votes.some((row) => row.memberId === colleague) ? `, their committee vote ${held.votes.find((row) => row.memberId === colleague)!.vote}` : ""}`
+          : "no committee record";
+        seen.deferred += 1;
+        process.stdout.write(
+          `SIGN-ON DEFERRED ${where}: ${core.people.get(colleague as PersonId)!.givenName} on ${bill.number}, at its roll: ${vote ?? "no roll"}; ${there}; ${bill.number} ${bill.status}\n`,
+        );
+      }
       process.stdout.write(
         `SIGN-ON ${where}: ${units.length} asks played, ${signed} signed, ${refused.length} said no (${[...reasonsHere].join(", ")}); ${earlier.length} earlier bills, ${votedNo.size} no votes on them\n`,
       );
-    }, 300_000);
+    }, 200_000);
 
   afterAll(() => {
     // Every reason the bank can say for a no played somewhere, and the two
