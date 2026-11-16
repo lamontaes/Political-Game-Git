@@ -31,7 +31,7 @@ Seen: in the Scenes page's swearing-in sample, the oath giver is named by first 
 
 **Done when.** At a pinned place the swearing-in says the clerk as "the city clerk" after the full name once, a person who is two things on record is said by the one that matters in the scene, family and people met get nothing; a played file shows the swearing-in at a council, mayor and state seat and office hours at two towns; a second session sees it in a new life.
 
-**Waits on.** #9489 (the met record it reads).
+**Waits on.** Nothing: #9489 (the met record it reads) is on the Train.
 
 **Not said to the player by their own presses, wording left out (lead and Words lead, Nov 16).** Composed is not played. Three play walks pressed what a player presses (scripts/play-walks; logs in /mnt/project-files/words-lead/who-they-are/walks/): a mayor at Wales UT for 120 days (seed 7b3e19a24c5d8f60), a board member at LaPlace IL for 40 days (seed c41d0e7a92b35f18), and a new life at Kendall FL for 30 days (seed 5e2a91c07d4b3f86). They said office, member of a body, an official's aide and a constituent. The played swearing-in and office hours at Hardinsburg KY add the office alone and the district. Everything else is out of said-as.json and its reader, and the lines wait in lines.md:
 
