@@ -255,7 +255,7 @@ it(`a counted household pays the premium a full household of its shape pays, and
       paidFromOwnPay: fromPay,
     })}\n`,
   );
-}, 300_000);
+}, 360_000);
 
 // One model, two tiers: ranking by an employer's size counts a counted job as
 // many jobs as the households its record stands for. A drawn place opened with

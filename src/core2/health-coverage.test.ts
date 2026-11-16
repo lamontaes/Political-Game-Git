@@ -112,4 +112,4 @@ it(`coverage records and a premium from each paycheck in ${place.name} [${place.
   process.stderr.write(
     `${where}: ${paid.length} holders paid from pay, ${premiums.size} premium entries\n`,
   );
-}, 300_000);
+}, 150_000);

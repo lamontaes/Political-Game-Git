@@ -78,4 +78,4 @@ it(`premiums come out of pay and no employed policyholder's plan lapses on the 1
     expect(plans.lapsed, where).toBe(0);
   }
   process.stderr.write(`${lines.join("\n")}\n`);
-}, 300_000);
+}, 120_000);
