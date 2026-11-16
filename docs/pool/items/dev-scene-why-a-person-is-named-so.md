@@ -5,9 +5,9 @@ area: play
 kind: wiring
 priority: 2
 size: S
-status: open
+status: in-pr
 standard: 2
-claimed-by:
+claimed-by: desk thread (claude/project-thread-hkqdh2-who-they-are-dev)
 pr:
 after: director-narrator-says-who-a-person-is
 blocked-on:
@@ -27,10 +27,10 @@ Seen: Hardinsburg, Kentucky (2134552), seed 4276344481a2b078e70633cfee47d0caccb6
 
 **Time box.** 2 hours, one Sonnet session at medium effort.
 
-**Rules.** Every effect can be triggered and traced in dev mode: this is the trace line for rule 136. No hand-written player text in code: dev labels come from the controls file.
+**Rules.** Every effect can be triggered and traced in dev mode: this is the trace line for rule 136. No hand-written player text in code: dev labels are control names only, kept with the view (dev-views.ts: a view's labels live in its own file, Account lead, Nov 16).
 
 **Done when.** In dev mode on the running game at Hardinsburg KY (seed above) and at a drawn place with a seed nobody chose, the swearing-in's cast shows the clerk's kind and post record and each colleague's met reason with its record, and a press interview shows the reporter named alone by sceneSaysIt; a second session sees it in the running game.
 
 **Waits on.** #9581.
 
-**Files.** src/director/relation-facts.ts, src/director/who-they-are.ts, src/bench/ui/dev-scene.mjs, src/bench/handler.ts
+**Files.** src/director/relation-facts.ts (`metBy`, `metSource`), src/director/who-they-are.ts (`whyNamed`), src/bench/dev-views/who-named.ts (route GET who-named and its labels, registered through dev-views.ts, #9619), src/bench/ui/dev-who-named.mjs (the Calendar sheet's dev slot), src/bench/dev-who-named.test.ts.

@@ -23,6 +23,14 @@ export interface RelationFacts {
   acquainted: boolean;
   /** The asked knew the asker before today: kin, or learned of them earlier. */
   metBefore: boolean;
+  /**
+   * Which record made `metBefore` (dev mode's trace): family, shared hours on a body's sittings or
+   * an executive's meetings, the asked's own record of the asker (`knownIdSources`), or a tie's
+   * last day together; null when they have not met.
+   */
+  metBy: "family" | "sittings" | "learned" | "together" | null;
+  /** That record: the fact the asked learned of the asker from, or the tie; null for family and sittings. */
+  metSource: { readonly id: string; readonly date: string } | null;
   /** The record that makes them kin or housemates (the household or the family tie), if either. */
   kinSource: string | null;
   /** A tie on record at or past the closeness threshold, quarrel or not. */
@@ -126,14 +134,27 @@ export function relationFacts(
   const shared = sharedHoursBetween(core, askerId, askedId) > P.zero;
   const knows = !!asked?.knownIds.has(askerId) || shared;
   let metBefore = false;
+  let metBy: RelationFacts["metBy"] = null;
+  let metSource: RelationFacts["metSource"] = null;
   if (knows) {
-    if (family || shared) metBefore = true;
-    else {
-      const learned = asked?.knownIdSources?.[askerId]?.learnedAt;
-      if (learned !== undefined) metBefore = learned < core.date;
-      else {
+    if (family || shared) {
+      metBefore = true;
+      metBy = family ? "family" : "sittings";
+    } else {
+      const learned = asked?.knownIdSources?.[askerId];
+      if (learned !== undefined) {
+        metBefore = learned.learnedAt < core.date;
+        if (metBefore) {
+          metBy = "learned";
+          metSource = { id: learned.sourceFactId, date: learned.learnedAt };
+        }
+      } else {
         const seen = lastContact(core, askedId, askerId);
         metBefore = !!seen && seen.date < core.date;
+        if (metBefore) {
+          metBy = "together";
+          metSource = { id: seen!.tieId, date: seen!.date };
+        }
       }
     }
   }
@@ -170,6 +191,8 @@ export function relationFacts(
     close,
     acquainted: knows || partners,
     metBefore,
+    metBy,
+    metSource,
     side,
     tieId: tie ? tieId : null,
     passed: passedBetween(core, askerId, askedId),

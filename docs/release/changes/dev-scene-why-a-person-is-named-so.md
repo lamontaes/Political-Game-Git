@@ -3,4 +3,4 @@ id: dev-scene-why-a-person-is-named-so
 impact: none
 ---
 
-Pool item: dev mode cannot show why a scene names a person the way it does.
+Dev mode's Calendar shows, for the player's scenes, why the narrator names each person the way it does: the words said after their name and the records behind them, or why they are named alone.

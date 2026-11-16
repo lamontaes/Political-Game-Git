@@ -38,7 +38,7 @@ import { EXECUTIVE_MODULE_ID } from "../core2/modules/executive";
 import { lawChain } from "../core2/modules/laws";
 import { STAFF_MODULE_ID } from "../core2/modules/staff";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
-import { officeWords } from "../english/said-as";
+import { officeWords, sceneSaysWhat, whatSaid } from "../english/said-as";
 import { jobSaid } from "../english/journal-words";
 import { spoken } from "./words";
 import type { Fact } from "../english/bank-line";
@@ -267,4 +267,74 @@ export function whatTheyAre(
     if (what) return what;
   }
   return null;
+}
+
+/**
+ * Why a scene names `otherId` the way it does, for dev mode's trace (owner, Nov 16: what a
+ * session traces by script, dev mode shows in the game): the phrase said after the first full
+ * name and the kind, stage and records it came from; or why they are named alone: family or
+ * household, the met record (which arm, from `relationFacts`, and its record), the scene type's
+ * own line saying who they are (said-as.json sceneSaysIt), or nothing on record. The same reads
+ * the narration makes, so the trace cannot drift from what is said.
+ */
+export function whyNamed(
+  core: Readonly<CoreState>,
+  playerId: PersonId,
+  otherId: PersonId,
+  typeKey?: string,
+): {
+  readonly said: string | null;
+  readonly kind: string | null;
+  readonly stage: string | null;
+  readonly recordIds: readonly string[];
+  readonly alone:
+    "family" | "met" | "scene-says-it" | "nothing-on-record" | null;
+  readonly metBy: string | null;
+  readonly metSource: { readonly id: string; readonly date: string } | null;
+} {
+  const met = relationFacts(core, otherId, playerId);
+  const base = {
+    metBy: met.metBy,
+    metSource: met.metSource,
+  };
+  if (met.kin || met.partners || met.kinSource)
+    return {
+      said: null,
+      kind: null,
+      stage: null,
+      recordIds: met.kinSource ? [met.kinSource] : [],
+      alone: "family",
+      ...base,
+    };
+  if (met.metBefore)
+    return {
+      said: null,
+      kind: null,
+      stage: null,
+      recordIds: met.metSource ? [met.metSource.id] : [],
+      alone: "met",
+      ...base,
+    };
+  const what = whatTheyAre(core, playerId, otherId);
+  const recordIds = Object.values(what?.facts ?? {}).flatMap(
+    (f) => f.sourceRecordIds,
+  );
+  if (sceneSaysWhat(typeKey))
+    return {
+      said: null,
+      kind: what?.kind ?? null,
+      stage: what?.stage ?? null,
+      recordIds,
+      alone: "scene-says-it",
+      ...base,
+    };
+  const said = what ? whatSaid(what) : null;
+  return {
+    said,
+    kind: what?.kind ?? null,
+    stage: what?.stage ?? null,
+    recordIds,
+    alone: said ? null : "nothing-on-record",
+    ...base,
+  };
 }
