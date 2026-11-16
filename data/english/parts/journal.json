@@ -10638,32 +10638,6 @@
       }
     },
     {
-      "key": "journal.home-line-met.i-met-named-in-place-when-i-was-age",
-      "move": "home-line-met",
-      "kind": "spoken",
-      "text": "I met {named} in {place} when I was {age}.",
-      "uses": [
-        {
-          "move": "home-line-met",
-          "subject": "home",
-          "role": "met",
-          "choice": "met",
-          "journal": [
-            {
-              "kindPrefix": "household:partners-met",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
       "key": "journal.home-line-met.i-met-named-in-place",
       "move": "home-line-met",
       "kind": "spoken",
