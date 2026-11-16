@@ -5,10 +5,10 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by:
-pr:
+pr: #9612
 after: play-draft-card-dark-for-blocked-subjects-and-past-days
 blocked-on:
 lead: laws
