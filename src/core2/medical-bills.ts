@@ -96,6 +96,9 @@ import {
 import { webReach, type WebReach } from "./modules/outcome-web";
 import { householdIncome, residentsRuntime } from "./modules/residents";
 import { WEB_LINKS } from "./modules/laws";
+import outsideMarket from "./data/outside-market.json" with { type: "json" };
+import { townOutsideOf } from "./opening-outside-market";
+import { addResidentFlow, setOutsideSalesBase } from "./residents-economy";
 import { lawApplied } from "./law-reach/applied";
 
 /** The engine named on the law-reach rows these bills write. */
@@ -148,6 +151,8 @@ export interface BilledMember {
   /** The health engine's care need (0 to 1) the bill read. */
   readonly careNeed: number;
   readonly billMinor: number;
+  /** The all-payer cost of the member's care this month, what the seller's receipts are measured against. */
+  readonly costMinor: number;
   /** Medicaid's own part of the member's care, the cost less their share, which the treasuries pay the seller (Medicaid members only). */
   readonly medicaidMinor?: number;
   /** What a raised Medicare line pays of the member's care above Medicare's part at its base (Medicare members only). */
@@ -573,6 +578,7 @@ function billMembers(
           plan: m.plan,
           careNeed: m.careNeed,
           billMinor,
+          costMinor: Math.round(cost),
           ...(m.plan === "medicaid"
             ? { medicaidMinor: Math.round(cost * (one - medicaidShare)) }
             : {}),
@@ -867,6 +873,238 @@ function settleOwed(
   return out;
 }
 
+/** A town's patients from outside it, sized once at the opening and moved by the town's Medicaid coverage. */
+export interface OutsidePatientsRow {
+  readonly id: string;
+  readonly placeId: string;
+  /** The day the outside patients were sized. */
+  readonly date: IsoDate;
+  /** The town's own care that month (all-payer cost) and its sellers' planned receipts, which the outside patients make up the gap between. */
+  readonly townCareMinor: number;
+  readonly plannedMinor: number;
+  /** The share of the town's residents Medicaid covered at the opening and now. */
+  readonly openingMedicaidShare: number;
+  readonly medicaidShareNow: number;
+  readonly sellers: readonly {
+    readonly sellerId: string;
+    readonly flowId: string;
+    readonly medicaidFlowId: string | null;
+    /** The Medicaid flow's base at the opening, before the town's coverage moved it. */
+    readonly openingMedicaidBaseMinor: number;
+  }[];
+  readonly source: Source;
+}
+
+/** A seller's latest month of receipts by payer: the dev mode's answer to what pays a clinic. */
+export interface ClinicReceiptsRow {
+  readonly id: string;
+  readonly sellerId: string;
+  readonly placeId: string;
+  readonly date: IsoDate;
+  readonly patientMinor: number;
+  readonly medicaidMinor: number;
+  readonly medicareMinor: number;
+  readonly insurerMinor: number;
+  /** What patients from outside the town pay it a month, at today's amounts. */
+  readonly outsideMinor: number;
+  /** The month's receipts the seller's books plan. */
+  readonly plannedMinor: number;
+  readonly source: Source;
+}
+
+/**
+ * The patients a town's medical sellers draw from outside it. A seller's
+ * books plan its receipts; what the town's own households' care does not
+ * make up comes from patients elsewhere (the trade area retail analysis
+ * calls the pull factor, as `addTradeArea` reads for other kinds). Sized
+ * once, at the first billing, as the sellers' plan less the town's own care
+ * then, never below zero: a town whose own care already meets the plan has
+ * none. The Medicaid part of them (an ESTIMATED share) then follows the
+ * town's own Medicaid coverage over its coverage at the opening, a proxy
+ * until a state-level coverage record replaces it. Returns each seller's
+ * outside receipts a month now.
+ */
+function outsidePatients(
+  api: CoreAPI,
+  module: string,
+  households: readonly Household[],
+  bills: ReadonlyMap<string, readonly BilledMember[]>,
+  sellersOf: (placeId: string) => readonly string[],
+): Map<string, number> {
+  const core = api.state as CoreState;
+  const rt = residentsRuntime(core);
+  const out = new Map<string, number>();
+  if (!rt) return out;
+  const rows = api.moduleState(module).table("outsidePatients");
+  const byPlace = new Map<string, Household[]>();
+  for (const h of households) {
+    const list = byPlace.get(h.placeId);
+    if (list) list.push(h);
+    else byPlace.set(h.placeId, [h]);
+  }
+  const perMonth = api.parameter("monthsPerYear");
+  const medicaidOfOutside = q("medicalOutsideMedicaidShare");
+  for (const [placeId, list] of byPlace) {
+    const sellers = sellersOf(placeId);
+    if (!sellers.length) continue;
+    let care = 0,
+      heads = 0,
+      covered = 0;
+    for (const h of list)
+      for (const m of bills.get(h.householdId) ?? []) {
+        care += m.costMinor * h.weight;
+        heads += h.weight;
+        if (m.plan === "medicaid") covered += h.weight;
+      }
+    const shareNow = heads > 0 ? covered / heads : 0;
+    const id = `outside-patients:${placeId}`;
+    let row = rows.get(id) as OutsidePatientsRow | undefined;
+    const date = makeIsoDate(core.date);
+    if (!row) {
+      const account = townOutsideOf(core.organizations.values(), placeId);
+      const plans = new Map<string, number>();
+      for (const sellerId of sellers) {
+        const book = core.finance.businesses.get(sellerId);
+        if (book) plans.set(sellerId, book.annualDemandMinor / perMonth);
+      }
+      const planned = [...plans.values()].reduce((n, v) => n + v, 0);
+      // A seller that already has outside buyers (a care home's payer row) keeps its own.
+      const open = [...plans].filter(
+        ([sellerId]) => !rt.flows.has(`outside-sales:${sellerId}`),
+      );
+      const openPlan = open.reduce((n, [, v]) => n + v, 0);
+      const gap = Math.max(0, planned - care);
+      const first = addDays(date, outsideMarket.firstOffsetDays);
+      const made: OutsidePatientsRow["sellers"][number][] = [];
+      if (account && gap > 0 && openPlan > 0)
+        for (const [sellerId, plan] of open) {
+          const book = core.finance.businesses.get(sellerId)!;
+          const weekly = Math.round(
+            (((gap * plan) / openPlan) * perMonth) / outsideMarket.weeksPerYear,
+          );
+          const medicaid = Math.round(weekly * medicaidOfOutside);
+          if (weekly <= 0) continue;
+          const flow = (flowId: string, amountMinor: number) => ({
+            id: flowId,
+            kind: "outside-sales" as const,
+            financeKind: `outside.customer.${book.kindId}`,
+            payerId: account.id,
+            payeeId: sellerId,
+            residentsId: account.id,
+            placeId: placeId as PlaceId,
+            amountMinor,
+            firstAt: first,
+            cadence: {
+              kind: "days" as const,
+              every: outsideMarket.cadenceDays,
+            },
+            salesReceipt: true,
+            marketAdjusted: false,
+            source: {
+              tag: "ESTIMATED" as const,
+              asOf: date,
+              citation:
+                "Patients from outside the town: the seller's planned receipts less the town's own care at the opening, the pull factor of a town's trade area.",
+              estimatedFrom: "src/core2/data/health/medical-bills.json",
+            },
+          });
+          addResidentFlow(
+            core,
+            flow(`outside-sales:${sellerId}`, weekly - medicaid),
+          );
+          const medicaidFlowId = `outside-sales:${sellerId}:medicaid`;
+          if (medicaid > 0)
+            addResidentFlow(core, flow(medicaidFlowId, medicaid));
+          made.push({
+            sellerId,
+            flowId: `outside-sales:${sellerId}`,
+            medicaidFlowId: medicaid > 0 ? medicaidFlowId : null,
+            openingMedicaidBaseMinor: medicaid,
+          });
+        }
+      row = {
+        id,
+        placeId,
+        date,
+        townCareMinor: Math.round(care),
+        plannedMinor: Math.round(planned),
+        openingMedicaidShare: shareNow,
+        medicaidShareNow: shareNow,
+        sellers: made,
+        source: {
+          tag: "ESTIMATED",
+          asOf: date,
+          citation:
+            "Outside patients sized once at the opening: planned receipts less the town's own care, never below zero; the Medicaid part follows the town's Medicaid coverage.",
+          estimatedFrom: "src/core2/data/health/medical-bills.json",
+        },
+      };
+    } else if (row.openingMedicaidShare > 0) {
+      const ratio = shareNow / row.openingMedicaidShare;
+      for (const s of row.sellers)
+        if (s.medicaidFlowId)
+          setOutsideSalesBase(
+            core,
+            s.medicaidFlowId,
+            s.openingMedicaidBaseMinor * ratio,
+          );
+      row = { ...row, medicaidShareNow: shareNow };
+    }
+    rows.putOwned(row as never);
+    for (const s of row.sellers) {
+      let weekly = 0;
+      for (const flowId of [s.flowId, s.medicaidFlowId])
+        weekly += (flowId && rt.flows.get(flowId)?.amountMinor) || 0;
+      out.set(
+        s.sellerId,
+        Math.round((weekly * outsideMarket.weeksPerYear) / perMonth),
+      );
+    }
+  }
+  return out;
+}
+
+/** One row per medical seller: this month's receipts by payer, kept for dev mode's trace. */
+function recordReceipts(
+  api: CoreAPI,
+  module: string,
+  today: IsoDate,
+  source: Source,
+  parts: {
+    readonly patient: ReadonlyMap<string, number>;
+    readonly medicaid: ReadonlyMap<string, number>;
+    readonly medicare: ReadonlyMap<string, number>;
+    readonly insurer: ReadonlyMap<string, number>;
+    readonly outside: ReadonlyMap<string, number>;
+  },
+): void {
+  const core = api.state as CoreState;
+  const rows = api.moduleState(module).table("clinicReceipts");
+  const perMonth = api.parameter("monthsPerYear");
+  const sellerIds = new Set<string>();
+  for (const map of Object.values(parts))
+    for (const id of map.keys()) sellerIds.add(id);
+  for (const sellerId of sellerIds) {
+    const org = core.organizations.get(sellerId);
+    const book = core.finance.businesses.get(sellerId);
+    if (!org || !book) continue;
+    const row: ClinicReceiptsRow = {
+      id: `clinic-receipts:${sellerId}`,
+      sellerId,
+      placeId: org.placeId,
+      date: today,
+      patientMinor: parts.patient.get(sellerId) ?? 0,
+      medicaidMinor: parts.medicaid.get(sellerId) ?? 0,
+      medicareMinor: parts.medicare.get(sellerId) ?? 0,
+      insurerMinor: parts.insurer.get(sellerId) ?? 0,
+      outsideMinor: parts.outside.get(sellerId) ?? 0,
+      plannedMinor: Math.round(book.annualDemandMinor / perMonth),
+      source,
+    };
+    rows.putOwned(row as never);
+  }
+}
+
 /**
  * The month's bills: every household's members billed by their coverage and
  * health, paid with what it still owed from what the household holds, and
@@ -935,6 +1173,8 @@ export function billMedicalCare(
   const medicareBySeller = new Map<string, number>();
   // The employer plans' insurers' part of their members' care, by seller.
   const insurerBySeller = new Map<string, number>();
+  // What the households paid each seller out of pocket this month, by seller.
+  const patientBySeller = new Map<string, number>();
   for (const h of households) {
     const members = bills.get(h.householdId) ?? [];
     const billMinor = billOf(h.householdId);
@@ -953,6 +1193,12 @@ export function billMedicalCare(
           sellersOf(h.placeId),
           source,
         );
+    if (paid.sellerId && paid.paidMinor > 0)
+      patientBySeller.set(
+        paid.sellerId,
+        (patientBySeller.get(paid.sellerId) ?? 0) +
+          Math.round(paid.paidMinor * h.weight),
+      );
     const medicaid = members.reduce((n, m) => n + (m.medicaidMinor ?? 0), 0);
     const payee =
       paid.sellerId ?? sellersOf(h.placeId)[0] ?? outsideAccountOf(api);
@@ -1042,26 +1288,50 @@ export function billMedicalCare(
     // Built fresh for this write and never touched again: frozen in place, not copied.
     table(api, input.module).putOwned(row as never);
   }
+  const medicaidPaid = new Map<string, number>();
+  const medicarePaid = new Map<string, number>();
+  const insurerPaid = new Map<string, number>();
   if (medicaidBySeller.size) {
     const { paidBySeller } = payMedicaidCare(api, {
       key: data.personLevel.policy,
       bySeller: medicaidBySeller,
       source,
     });
-    for (const [sellerId, paid] of paidBySeller) bookSale(core, sellerId, paid);
+    for (const [sellerId, paid] of paidBySeller) {
+      bookSale(core, sellerId, paid);
+      medicaidPaid.set(sellerId, paid);
+    }
   }
   if (medicareBySeller.size)
     for (const [sellerId, paid] of payMedicareLinePart(api, {
       bySeller: medicareBySeller,
       source,
-    }))
+    })) {
       bookSale(core, sellerId, paid);
+      medicarePaid.set(sellerId, paid);
+    }
   if (insurerBySeller.size)
     for (const [sellerId, paid] of payInsurerPart(api, {
       bySeller: insurerBySeller,
       source,
-    }))
+    })) {
       bookSale(core, sellerId, paid);
+      insurerPaid.set(sellerId, paid);
+    }
+  const outside = outsidePatients(
+    api,
+    input.module,
+    households,
+    bills,
+    sellersOf,
+  );
+  recordReceipts(api, input.module, today, source, {
+    patient: patientBySeller,
+    medicaid: medicaidPaid,
+    medicare: medicarePaid,
+    insurer: insurerPaid,
+    outside,
+  });
   if (!bookkeeping()) dropSettledRows(api, input.module, households);
 }
 

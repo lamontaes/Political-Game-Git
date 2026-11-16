@@ -664,6 +664,9 @@ export const COVERAGE_MODULE: CoreModule = {
       },
       // Each household's latest month of medical bills (medical-bills.ts).
       medicalBills: {},
+      // Each town's outside patients, sized once at the opening, and each medical seller's latest month of receipts by payer (medical-bills.ts).
+      outsidePatients: {},
+      clinicReceipts: {},
     },
   },
   onFillIn(api, { householdId }) {

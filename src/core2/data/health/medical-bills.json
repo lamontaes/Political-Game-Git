@@ -111,6 +111,18 @@
         "unit": "times the average person's cost of care",
         "citation": "Same brief: the top 5 percent (48.3 percent of spending, 9.66 times the average) to the top 1 percent (\"accounted for 21 percent of total healthcare expenditures\", 21 times)."
       }
+    },
+    "medicalOutsideMedicaidShare": {
+      "value": 0.1,
+      "tag": "ESTIMATED",
+      "citation": "CMS National Health Expenditure Accounts, by source of funds: Medicaid pays roughly a tenth of spending on physician and clinical services and about a sixth of all personal health care. Recalled from memory; this container cannot reach cms.gov, so the figure is not fetched.",
+      "estimatedFrom": "The share of a clinic's visits from patients outside its town that Medicaid pays. The place's own Medicaid-covered share of residents moves it: the outside patients' Medicaid part is scaled by the town's current Medicaid coverage over its coverage at the opening, until a state coverage record replaces the proxy.",
+      "spread": {
+        "low": 0.06,
+        "high": 0.17,
+        "unit": "share of outside patients' care paid by Medicaid",
+        "citation": "ESTIMATED from memory: about 6 percent for physician and clinical services up to about 17 percent of all personal health care."
+      }
     }
   },
   "calibration": {

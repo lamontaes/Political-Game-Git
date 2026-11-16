@@ -600,6 +600,35 @@ function divideOutsideSales(
 }
 
 /**
+ * An outside buyers' flow's base (its amount at the opening, before the
+ * sector's factor, the seller's limit and its share of its kind) is set by
+ * the record that drives it: clinic receipts from patients outside the town
+ * follow the town's Medicaid coverage through it. The amount follows now and
+ * at every month's scaling. False when there is no such live flow.
+ */
+export function setOutsideSalesBase(
+  core: CoreState,
+  flowId: string,
+  baseMinor: number,
+): boolean {
+  const flow = residentsRuntime(core)?.flows.get(flowId);
+  if (!flow || flow.endedAt || flow.kind !== "outside-sales") return false;
+  let bases = outsideBases.get(core);
+  if (!bases) outsideBases.set(core, (bases = new Map()));
+  bases.set(flowId, baseMinor);
+  flow.amountMinor = Math.max(
+    0,
+    Math.round(
+      baseMinor *
+        flowFactor(core, flowId) *
+        limitOf(core, flow.payeeId) *
+        shareOfFlow(core, flowId),
+    ),
+  );
+  return true;
+}
+
+/**
  * A business sells outside the town at `limit` of what it could (1 is no
  * limit): its outside buyers' flows are rescaled now and at every month's
  * scaling. Returns the flows changed.
