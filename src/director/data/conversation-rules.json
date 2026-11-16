@@ -187,7 +187,8 @@
   },
   "answersTo": {
     "about": "The reply choices that answer a question, by the move of the bank piece that asked it (owner, Nov 1: questions get answers; Oct 29: a question is answered before anything else). A choice not listed is not offered after that question. Moves and choices only; no sentence.",
-    "news-ask-core": ["for", "against", "why"]
+    "news-ask-core": ["for", "against", "why"],
+    "shared-school-ask-together": ["plain", "brief", "years"]
   },
   "namesOnce": {
     "about": "Lead, Nov 11, 2026, from the reviews of PR 8736 and PR 8750: one screen names a thing once. For these kinds of line, no two of the player's replies say the same record's words (the employer, the job, a name); the reply ranked first keeps it. Kinds only; no sentence.",
