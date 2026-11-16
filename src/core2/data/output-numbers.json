@@ -596,65 +596,62 @@
     },
     "state.unemployment-pct": {
       "id": "state.unemployment-pct",
-      "owner": "regional",
+      "owner": "macro",
       "unit": "percent",
       "level": "state",
-      "denominator": "the state's labor force, its regions weighted by population",
+      "denominator": "the state's labor force",
       "cadence": "monthly",
       "source": {
         "tag": "SOURCED",
-        "citation": "The regional engine's kept months for the state's regions."
+        "citation": "The country tier's kept months for the state."
       },
       "fold": "december",
       "traceInputs": [],
-      "reader": "regional-state:unemploymentPct",
+      "reader": "country-state:unemploymentPct",
       "metrics": {
         "section": "state",
         "key": "unemployment",
-        "unit": "percent",
-        "waitsOn": "metrics-state-figures-one-owner"
+        "unit": "percent"
       }
     },
     "state.hourly-pay": {
       "id": "state.hourly-pay",
-      "owner": "regional",
+      "owner": "macro",
       "unit": "dollars",
       "level": "state",
-      "denominator": "an hour of work, the state's regions weighted by population",
+      "denominator": "an hour of work",
       "cadence": "monthly",
       "source": {
         "tag": "SOURCED",
-        "citation": "The regional engine's kept months for the state's regions."
+        "citation": "The country tier's kept months for the state."
       },
       "fold": "december",
       "traceInputs": [],
-      "reader": "regional-state:hourlyEarnings",
+      "reader": "country-state:hourlyPay",
       "metrics": {
         "section": "state",
         "key": "pay",
-        "unit": "dollars",
-        "waitsOn": "metrics-state-figures-one-owner"
+        "unit": "dollars"
       }
     },
     "state.jobs": {
       "id": "state.jobs",
-      "owner": "regional",
+      "owner": "macro",
       "unit": "count",
       "level": "state",
       "denominator": "none",
       "cadence": "monthly",
       "source": {
         "tag": "SOURCED",
-        "citation": "The regional engine's kept months for the state's regions."
+        "citation": "The country tier's kept months for the state."
       },
       "fold": "december",
       "traceInputs": [],
-      "reader": "regional-state:jobs",
+      "reader": "country-state:jobs",
       "metrics": {
         "section": "state",
         "key": "jobs",
-        "unit": "count",
-        "waitsOn": "metrics-state-figures-one-owner"
+        "unit": "count"
       }
     },
     "population.people-in-town": {

@@ -63,8 +63,11 @@ it("senators keep company with the colleagues they sit with, not all with the pl
   }
   const total = [...to.values()].reduce((a, b) => a + b, 0);
   const others = [...to].filter(([id]) => id !== player).map(([, n]) => n);
-  // Before: every act went to the player (197 of 197). After (measured on
-  // this head): the player 57 of 173, and 13 colleagues 1 to 14 each.
+  // Before: every act went to the player (197 of 197). With D1: the player
+  // 57 of 173, and 13 colleagues 1 to 14 each. With a tie's lost hours read
+  // from the last day together anywhere, a sitting included (pool:
+  // people-tie-lost-hours-ignore-sittings-since): the player 33 of 185, and
+  // 24 colleagues 1 to 17 each, the spread this test asks for.
   expect(total).toBeGreaterThan(0);
   expect(to.get(player) ?? 0).toBeLessThan(total / 2);
   expect(Math.max(...others)).toBeLessThanOrEqual(total / 4);

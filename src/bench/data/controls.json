@@ -201,18 +201,7 @@
     "record": "Record",
     "publicRecordTitle": "Public record",
     "seat": "Seat held",
-    "closenessWords": [
-      "You barely know each other",
-      "You know each other",
-      "You are friendly",
-      "You are close",
-      "You are very close"
-    ],
-    "tieChange": {
-      "closer": "Grew closer",
-      "apart": "Drifted apart",
-      "same": "Last in touch"
-    },
+    "lastInTouch": "Last in touch",
     "tieCauses": {
       "visit": "a visit",
       "care": "care in a hard time",
@@ -402,7 +391,7 @@
       "pay": "Hourly pay",
       "stateUnemployment": "Your state: out of work",
       "statePeople": "Your state: people",
-      "stateJobs": "Your state: jobs",
+      "stateJobs": "Your state: residents with jobs",
       "stateBudget": "Your state: public budgets",
       "percent": "%"
     },
@@ -518,7 +507,18 @@
   "desk": {
     "sign": "Sign",
     "veto": "Veto",
-    "own": "Decide for me"
+    "own": "Decide for me",
+    "vetoWhy": "Tell them why",
+    "back": "Back",
+    "reasons": {
+      "opposed-voters": "The voters don't want it",
+      "opposed-groups": "Its opponents are right",
+      "opposed-party": "My party is against it",
+      "opposed-views": "People here don't believe in it",
+      "cost": "We can't afford it",
+      "stance": "I've been against it from the start",
+      "none": "Give no reason"
+    }
   },
   "budgetEditor": {
     "0": "No change",
@@ -1209,7 +1209,7 @@
   },
   "metrics": {
     "state": "Your state",
-    "jobs": "Jobs",
+    "jobs": "Residents with jobs",
     "city": "Your town",
     "housing": "Homes",
     "rentals": "Rental homes",

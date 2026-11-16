@@ -5,7 +5,7 @@ area: gov
 kind: feature
 priority: 2
 size: M
-status: in-pr
+status: merged
 claimed-by: S6
 pr: 9324
 after:

@@ -5,7 +5,7 @@ area: core
 kind: feature
 priority: 1
 size: M
-status: in-pr
+status: merged
 standard: 2
 claimed-by: claude/pool-core-played-game-saves-and-continues-part-1-bench-saves-life
 pr: #8742
@@ -19,6 +19,7 @@ source: split from core-played-game-saves-and-continues in the pool redo, Nov 10
 checked: fable 2026-11-10
 claimed-at: 2026-11-11T07:31:19.693Z
 branch: claude/pool-core-played-game-saves-and-continues-part-1-bench-saves-life
+merged-at: 2026-11-15T22:26:40.547Z
 ---
 
 **What.** The bench holds the played life only in memory, so restarting the server loses it. Record every action the player takes in a life and write it as a save through saveGame in src/core2/saves.ts when time advances and when the server quits, with no second save writer, and replay it into the same world. A save made under an older CORE_API_VERSION must still load after an update (the clause taken from core-m7-02-saves-that-last), which a replay save does by design. This is part 1 of core-played-game-saves-and-continues. Feeds: core-played-game-saves-and-continues-part-2-continue-saved-games.

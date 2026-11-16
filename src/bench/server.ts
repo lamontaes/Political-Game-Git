@@ -1,6 +1,12 @@
 import { createServer } from "node:http";
 import { readFile } from "node:fs/promises";
+import { homedir } from "node:os";
+import { join } from "node:path";
 import { benchRequest, benchWorld, saveLifeNow, serialize } from "./handler";
+
+// The bench keeps its saves in the player's home folder, which the system
+// never clears (the desktop app uses its own data folder instead).
+process.env.OCD_SAVE_DIR ??= join(homedir(), ".our-civic-duty", "saves");
 import { handleDev } from "./dev-api";
 
 // The developer listener. The play routes live in handler.ts, which the

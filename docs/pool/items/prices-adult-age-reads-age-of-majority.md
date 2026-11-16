@@ -4,7 +4,7 @@ title: Other readers use the voting age to mean "adult"; check each against the 
 area: world
 kind: cleanup
 priority: 3
-status: in-pr
+status: merged
 standard: 2
 claimed-by:
 pr: #9350

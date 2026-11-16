@@ -3810,7 +3810,8 @@
           "subject": "news",
           "role": "chamber",
           "choice": "lede",
-          "requiresFacts": ["presides"]
+          "requiresFacts": ["presides"],
+          "excludesFacts": ["mid-term"]
         }
       ],
       "origin": "authored",
@@ -3822,10 +3823,10 @@
       }
     },
     {
-      "key": "news.chamber.name-is-the-body-s-new-post",
+      "key": "news.chamber.name-is-the-new-post-of-the-body",
       "move": "chamber",
       "kind": "written",
-      "text": "{name} is the {body}'s new {post}.",
+      "text": "{name} is the new {post} of the {body}.",
       "uses": [
         {
           "move": "chamber",

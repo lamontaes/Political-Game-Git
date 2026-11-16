@@ -264,6 +264,12 @@ export interface HouseholdInput {
 export interface RelationshipReason {
   cause: string;
   sourceId?: string;
+  /**
+   * The change happened without the two being together (a veto of the
+   * other's bill, an answer to the whip, a promise settled by a roll call):
+   * the tie moves, but the day they were last together stays as it was.
+   */
+  apart?: boolean;
 }
 
 /** Latest committed tie change; scores exist only when supplied by the actual choice. */
@@ -294,7 +300,14 @@ export interface Relationship {
   otherId: PersonId;
   kind: "family" | "coworker" | "contact" | "group";
   level: number;
+  /** The day the level was last set: closeness fades from here. */
   lastContactDate: IsoDate;
+  /**
+   * When the last change came apart (`RelationshipReason.apart`): the day the
+   * two were last together, or null when they never were. Absent, they were
+   * together on `lastContactDate`. Read through `lastTogether`.
+   */
+  lastMetDate?: IsoDate | null;
   /**
    * Hours of strain the row's own time did not cover, as of its last contact
    * (a quarrel or a broken word between people whose tie is mostly time
