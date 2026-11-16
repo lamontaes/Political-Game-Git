@@ -13,6 +13,7 @@ import { gameStartDate } from "./game-start";
 import { setBookkeeping } from "./bookkeeping";
 import { advanceCore } from "./life";
 import { addDays, makeIsoDate } from "./kernel/dates";
+import { traceNode } from "../bench/dev-trace";
 import { coreAPI } from "./state";
 import { COVERAGE_MODULE_ID } from "./modules/coverage";
 import type { CoreState } from "./types";
@@ -21,6 +22,7 @@ import type { ClinicReceiptsRow, OutsidePatientsRow } from "./medical-bills";
 const PLACE = "4218136";
 const SEED = "ilt-danville";
 const DAYS = 95;
+const OPENING_DAYS = 35;
 
 function run(cut: boolean) {
   setBookkeeping(false);
@@ -30,6 +32,8 @@ function run(cut: boolean) {
   });
   const core = world.core;
   const c = core as unknown as CoreState;
+  // The first billing (February 1) sizes the outside patients; a cut comes after it.
+  advanceCore(core, addDays(makeIsoDate(core.date), OPENING_DAYS));
   if (cut)
     new DevMode(
       core,
@@ -42,7 +46,7 @@ function run(cut: boolean) {
         "us-policy-positions:health-human-services.expand-medicaid-eligibility",
       value: 0,
     });
-  advanceCore(core, addDays(makeIsoDate(core.date), DAYS));
+  advanceCore(core, addDays(makeIsoDate(core.date), DAYS - OPENING_DAYS));
   const state = coreAPI(core).moduleState(COVERAGE_MODULE_ID);
   const outside = (
     state.table("outsidePatients").rows() as unknown as OutsidePatientsRow[]
@@ -54,7 +58,15 @@ function run(cut: boolean) {
         .get(`clinic-receipts:${seller.sellerId}`) as
         ClinicReceiptsRow | undefined)
     : undefined;
+  const traced = seller
+    ? traceNode(core, world.director, `clinic-receipts:${seller.sellerId}`)
+    : undefined;
+  const tracedOutside = outside
+    ? traceNode(core, world.director, outside.id)
+    : undefined;
   return {
+    traced,
+    tracedOutside,
     outside,
     receipts,
     sales: seller
@@ -65,7 +77,7 @@ function run(cut: boolean) {
 
 describe(
   "a town's clinic has patients from outside it",
-  { timeout: 240_000 },
+  { timeout: 200_000 },
   () => {
     it("Danville: sized once at the opening, kept by seller, and a Medicaid cut reaches it", () => {
       const control = run(false);
@@ -78,6 +90,14 @@ describe(
       // With them the clinic sells most of what its books plan.
       expect(control.sales).toBeGreaterThan(
         control.receipts!.plannedMinor * 3 * 0.7,
+      );
+      // Dev mode's trace opens both records by id, in the coverage module's tables.
+      expect(control.traced!.engine).toBe(
+        `${COVERAGE_MODULE_ID}.clinicReceipts`,
+      );
+      expect(control.traced!.kind).toBeTruthy();
+      expect(control.tracedOutside!.engine).toBe(
+        `${COVERAGE_MODULE_ID}.outsidePatients`,
       );
       const cut = run(true);
       // The state ends its expansion: the town's Medicaid coverage falls, and so do the outside patients' Medicaid part and the clinic's receipts.
