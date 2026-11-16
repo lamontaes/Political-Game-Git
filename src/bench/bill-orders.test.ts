@@ -1,5 +1,4 @@
 import { buildBenchWorld } from "./world";
-import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { gameStartDate } from "../core2/game-start";
@@ -14,10 +13,21 @@ import { BenchPlayer } from "./player";
 // An executive order the governor's staff brings is the player's to issue or set aside: the
 // governor stops for it, and what they decide is on the record as theirs. A place drawn from
 // all 56 on a seed nobody chose.
-const seed =
-  process.env.ORDERS_SEED ??
-  process.env.GOLDEN_PATH_SEED ??
-  randomBytes(8).toString("hex");
+// Pinned (Nov 16, trial batch). Before, the seed came at run time from
+// process.env ORDERS_SEED, GOLDEN_PATH_SEED or randomBytes, so the places it
+// drew changed every run. The fixed seed below draws Cassoday, Kansas (2010925)
+// first for "orders".
+// It stays red here for item tests-bill-orders-governor-order-has-no-name (Needs cause).
+// Limit: the slowest case took 21 s, run two files at a time (Nov 16,
+// Train 6d12556a); each case's limit is about twice that, 50 s.
+const seed = "pin-bill-orders";
+
+it("draws its pinned place from the fixed seed", () => {
+  expect(drawPlace(`${seed}:0`, "orders")).toMatchObject({
+    key: "2010925",
+    name: "Cassoday, Kansas",
+  });
+});
 
 describe(`an executive order the player decides (seed ${seed})`, () => {
   it("stops the governor for the order and records their decision as theirs", () => {
@@ -74,5 +84,5 @@ describe(`an executive order the player decides (seed ${seed})`, () => {
     throw new Error(
       `no drawn place brought the governor an order (seed ${seed}): ${tried.join("; ")}`,
     );
-  }, 900_000);
+  }, 50_000);
 });
