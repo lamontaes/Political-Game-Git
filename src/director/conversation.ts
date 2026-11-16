@@ -5436,11 +5436,7 @@ function raiseSubject(
     if (!conversation.topics.length) conversation.topicFacts = subject.facts;
     conversation.topics.push(raised.id);
   }
-  offerChoices(core, conversation, data);
-  // A line the player has no reply to is the other person's last word: the
-  // talk ends there with their goodbye, never on a statement left hanging.
-  if (!conversation.choices.length && !conversation.look)
-    endConversation(core, conversation, data);
+  offerChoicesOrClose(core, conversation, data);
   return true;
 }
 
@@ -7027,6 +7023,22 @@ function raisable(data: ConversationData, kind: string): boolean {
   );
 }
 
+/**
+ * The replies to the last line; where there are none, that line is the other person's last word
+ * and the talk ends there with their goodbye, never on a statement left hanging. Every line they
+ * say that ends a turn goes through here (the answer to a question the player turned back, a
+ * subject they raise), so no talk stops with nothing to press and no goodbye.
+ */
+function offerChoicesOrClose(
+  core: Readonly<CoreState>,
+  conversation: Conversation,
+  data: ConversationData,
+): void {
+  offerChoices(core, conversation, data);
+  if (!conversation.choices.length && !conversation.look)
+    endConversation(core, conversation, data);
+}
+
 function offerChoices(
   core: Readonly<CoreState>,
   conversation: Conversation,
@@ -7204,6 +7216,10 @@ function offerChoices(
         replyFacts(core, otherId, raised)?.facts ?? {},
       )
     )
+      return;
+    // A question the other person has no answer to on record is not offered
+    // (a pressed question is always answered).
+    if (raised && raised !== last.subject && !replyFacts(core, otherId, raised))
       return;
     // Turning the question back asks it; nothing more is said.
     if (raised === last.subject && !answer.asks) return;
@@ -8607,7 +8623,7 @@ function sayNow(
     facts: reply.facts,
     stage: reply.stage,
   };
-  offerChoices(core, conversation, data);
+  offerChoicesOrClose(core, conversation, data);
   return conversation;
 }
 
