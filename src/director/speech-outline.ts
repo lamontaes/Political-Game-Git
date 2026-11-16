@@ -192,7 +192,10 @@ const OUTLINES = outlineData as unknown as {
   measureWords: Readonly<Record<string, string>>;
   conditions: { budgetEvenBand: Weight; budgetThemes: readonly string[] };
   /** The chambers a governor's party holds or lacks (bodyHoldFacts). */
-  bodyHold: { readonly stateChambers: readonly string[] };
+  bodyHold: {
+    readonly stateChambers: readonly string[];
+    readonly stateBody: string;
+  };
   /** How a point's belief joins its ask, one to a point in order (rule 38). */
   beliefJoins: { readonly joins: readonly string[] };
   pointShapes: {
@@ -1781,10 +1784,9 @@ function electionOfYear(
   const own = (
     terms.query("byPerson", [speakerId]) as unknown as TermRow[]
   ).filter((term) => term.status === "serving" && inYear(term));
-  const voted = [
-    ...own,
-    ...officeIds.flatMap(serving).filter(inYear),
-  ].sort((a, b) => a.id.localeCompare(b.id));
+  const voted = [...own, ...officeIds.flatMap(serving).filter(inYear)].sort(
+    (a, b) => a.id.localeCompare(b.id),
+  );
   // A state's vote is the speaker's own race: the legislature's seats are
   // the officials engine's, not terms the offices engine elects.
   if (!voted.length || (level === "state" && !own.length)) return {};
@@ -1843,9 +1845,15 @@ function bodyHoldFacts(
     return theirs > row.parties.length - theirs;
   });
   const ids = seated.map((row) => row.id);
-  return holds
-    ? { "party-holds-body": fact("yes", ...ids) }
-    : { "party-lacks-body": fact("yes", ...ids) };
+  // The body said by its one word ("the council", "the legislature").
+  const word =
+    level === "state"
+      ? OUTLINES.bodyHold.stateBody
+      : speaker.local?.body?.replace(/^the /, "");
+  return {
+    [holds ? "party-holds-body" : "party-lacks-body"]: fact("yes", ...ids),
+    ...(word ? { "body-word": fact(word, ...ids) } : {}),
+  };
 }
 
 /** A figure said in a context sentence: one decimal, no trailing zero. */
@@ -2340,7 +2348,15 @@ export function planSpeech(
       // The address's own hour, an ask said in it, and whether the speaker's
       // party holds the body (the Words lead's closes, Nov 16).
       ...closeHour,
-      ...(asks.length ? { asked: fact("yes", cited) } : {}),
+      ...(asks.length
+        ? {
+            asked: fact("yes", cited),
+            // The ask's own question by its name, said in the close.
+            ...(questionAbout(first.question)
+              ? { "asked-about": fact(questionAbout(first.question)!, cited) }
+              : {}),
+          }
+        : {}),
       ...bodyHold,
       ...(after && sayingNew(after) && !(plan?.todays ?? []).includes(after)
         ? { "first-after": fact(clauseOf(after), cited, first.law.id) }
@@ -2429,6 +2445,15 @@ export function planSpeech(
             key: "turn",
             level: "country",
             facts: {
+              // From the answer just given to the theme.
+              ...(questionAbout(response.stand.question)
+                ? {
+                    "turn-from": fact(
+                      questionAbout(response.stand.question)!,
+                      `question:${response.stand.question}`,
+                    ),
+                  }
+                : {}),
               "turn-to": fact(
                 themeName,
                 ...turnsTo.map((row) => `question:${row.question}`),
@@ -2615,10 +2640,12 @@ export function planSpeech(
           // One turn line between two points, never before the first (the
           // Words lead, Nov 16, rule 3): the next point said by its plain
           // name. A hurt address's turn to its theme is hurtOrder's.
+          const last = pointStands[at - P.one];
           const turns =
-            at > P.zero &&
+            !!last &&
             !(crisis && response && turnsTo[P.zero] === stand) &&
-            !!questionAbout(stand.question);
+            !!questionAbout(stand.question) &&
+            !!questionAbout(last.question);
           return {
             key: `point-${stand.question}`,
             level: "country",
@@ -2626,6 +2653,11 @@ export function planSpeech(
               ...themeFacts,
               ...(turns
                 ? {
+                    // The point just made and the next, by their plain names.
+                    "turn-from": fact(
+                      questionAbout(last!.question)!,
+                      `question:${last!.question}`,
+                    ),
                     "turn-to": fact(
                       questionAbout(stand.question)!,
                       `question:${stand.question}`,

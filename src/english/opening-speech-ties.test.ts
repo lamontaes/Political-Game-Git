@@ -36,7 +36,8 @@ const REALM_FACT =
 function factTie(fact: string, subject: string): PartTie {
   if (PLACE_SUBJECTS.has(subject) && REALM_FACT.test(fact)) return "place";
   if (["party-holds-body", "party-lacks-body"].includes(fact)) return "record";
-  if (["evening", "asked"].includes(fact)) return "frame";
+  if (["evening", "asked", "body-word"].includes(fact)) return "frame";
+  if (fact === "asked-about") return "law";
   if (fact.startsWith("kind-") || fact === "home-state") return "record";
   if (
     /^(vice-president|speaker|realm-|body-name|presiding|office-title|prior-office|theme-|rank-)/.test(
@@ -62,6 +63,7 @@ function factTie(fact: string, subject: string): PartTie {
       "to",
       "first-to",
       "turn-to",
+      "turn-from",
       "about",
       "about-one",
       "about-many",

@@ -554,11 +554,12 @@
     "joins": ["belief-leads", "belief-after", "belief-folded"]
   },
   "bodyHold": {
-    "about": "The closes that say whether the speaker's party holds the body (the Words lead, Nov 16): a governor's body is the state's legislature, every chamber in `stateChambers` (the officials engine's seats); a local head's is their government's council or board (the offices engine's serving terms). Held means more than half the serving members in every chamber share the speaker's party; lacking means some chamber's half is not theirs. A speaker with no party says neither.",
+    "about": "The closes that say whether the speaker's party holds the body (the Words lead, Nov 16): a governor's body is the state's legislature, every chamber in `stateChambers` (the officials engine's seats); a local head's is their government's council or board (the offices engine's serving terms). Held means more than half the serving members in every chamber share the speaker's party; lacking means some chamber's half is not theirs. A speaker with no party says neither. A governor's body is said as `stateBody`; a local head's by the word its record's name holds (local-address.ts bodySaid).",
     "stateChambers": [
       "legislature-upper",
       "legislature-lower",
       "legislature-unicameral"
-    ]
+    ],
+    "stateBody": "legislature"
   }
 }

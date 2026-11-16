@@ -78,11 +78,15 @@
     "body-name": "the body a local speaker addresses, by the name its record gives it, said as to its face ('the Groton Select Board'), from the office record",
     "condition-measure": "a hurt address's worst condition: the area's measure that moved furthest the wrong way, in its measure words (area-names.json), from the term read",
     "condition-change": "how far that measure moved since the speaker took office, through the count-words reader (changeSaid), from the term read's two web rows",
-    "turn-to": "the speech's theme by its spoken name, where a hurt address turns from its answer to the theme",
+    "turn-to": "the next point's question by its plain name (question-names `about`), or the speech's theme where a hurt address turns from its answer to the theme",
     "realm-bare": "the governor's state or the mayor's town by name, from the speaker's jurisdiction record",
     "context-name": "The measure said short, from the speaker's record.",
     "good-name": "The measure the term improved, said short, from the term's own record.",
-    "belief-sentence": "What the speaker believes on the question, as a sentence of its own, from the bank's belief clause."
+    "belief-sentence": "What the speaker believes on the question, as a sentence of its own, from the bank's belief clause.",
+    "turn-from": "the point just made, by its question's plain name (question-names `about`)",
+    "asked-about": "the close's ask, by its question's plain name (question-names `about`)",
+    "body-word": "the body the speaker's party holds or lacks, by its one word: the legislature, or the word a local body's record name holds (council, board)",
+    "condition-closure": "the played place's business that closed this past year with the most jobs ended, by its name (the finance engine's closure record)"
   },
   "maxWords": 40,
   "mining": {
@@ -117747,128 +117751,6 @@
       "date": "2026-11-12"
     },
     {
-      "key": "opening-speech.turn.polished-there-is-other-work-before-us-as-well-and-it",
-      "move": "turn",
-      "kind": "spoken",
-      "text": "There is other work before us as well, and it is {turn-to}.",
-      "uses": [
-        {
-          "move": "turn",
-          "subject": "inaugural",
-          "role": "turn",
-          "choice": "turn",
-          "requiresFacts": ["turn-to"],
-          "tie": "law"
-        },
-        {
-          "move": "turn",
-          "subject": "state-of-the-union",
-          "role": "turn",
-          "choice": "turn",
-          "requiresFacts": ["turn-to"],
-          "tie": "law"
-        },
-        {
-          "move": "turn",
-          "subject": "state-of-the-state",
-          "role": "turn",
-          "choice": "turn",
-          "requiresFacts": ["turn-to"],
-          "tie": "law"
-        },
-        {
-          "move": "turn",
-          "subject": "town-address",
-          "role": "turn",
-          "choice": "turn",
-          "requiresFacts": ["turn-to"],
-          "tie": "law"
-        },
-        {
-          "move": "turn",
-          "subject": "floor-speech",
-          "role": "turn",
-          "choice": "turn",
-          "requiresFacts": ["turn-to"],
-          "tie": "law"
-        },
-        {
-          "move": "turn",
-          "subject": "campaign-speech",
-          "role": "turn",
-          "choice": "turn",
-          "requiresFacts": ["turn-to"],
-          "tie": "law"
-        }
-      ],
-      "voice": "polished",
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder, hurt terms (Claude Code)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.turn.plain-theres-other-work-on-the-table-too-and-its",
-      "move": "turn",
-      "kind": "spoken",
-      "text": "There's other work on the table, too, and it's {turn-to}.",
-      "uses": [
-        {
-          "move": "turn",
-          "subject": "inaugural",
-          "role": "turn",
-          "choice": "turn",
-          "requiresFacts": ["turn-to"],
-          "tie": "law"
-        },
-        {
-          "move": "turn",
-          "subject": "state-of-the-union",
-          "role": "turn",
-          "choice": "turn",
-          "requiresFacts": ["turn-to"],
-          "tie": "law"
-        },
-        {
-          "move": "turn",
-          "subject": "state-of-the-state",
-          "role": "turn",
-          "choice": "turn",
-          "requiresFacts": ["turn-to"],
-          "tie": "law"
-        },
-        {
-          "move": "turn",
-          "subject": "town-address",
-          "role": "turn",
-          "choice": "turn",
-          "requiresFacts": ["turn-to"],
-          "tie": "law"
-        },
-        {
-          "move": "turn",
-          "subject": "floor-speech",
-          "role": "turn",
-          "choice": "turn",
-          "requiresFacts": ["turn-to"],
-          "tie": "law"
-        },
-        {
-          "move": "turn",
-          "subject": "campaign-speech",
-          "role": "turn",
-          "choice": "turn",
-          "requiresFacts": ["turn-to"],
-          "tie": "law"
-        }
-      ],
-      "voice": "plain",
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder, hurt terms (Claude Code)",
-      "date": "2026-11-12"
-    },
-    {
       "key": "opening-speech.ask.folded-short-polished-stance-against-0",
       "move": "ask",
       "kind": "spoken",
@@ -121428,17 +121310,17 @@
       "date": "2026-11-14"
     },
     {
-      "key": "opening-speech.turn.ld-now",
+      "key": "opening-speech.turn.ld-enough-on-now",
       "move": "turn",
       "kind": "spoken",
-      "text": "Now, {turn-to}.",
+      "text": "Enough on {turn-from}. Now, {turn-to}.",
       "uses": [
         {
           "move": "turn",
           "subject": "inaugural",
           "role": "turn",
           "choice": "turn",
-          "requiresFacts": ["turn-to"],
+          "requiresFacts": ["turn-from", "turn-to"],
           "tie": "law"
         },
         {
@@ -121446,7 +121328,7 @@
           "subject": "state-of-the-union",
           "role": "turn",
           "choice": "turn",
-          "requiresFacts": ["turn-to"],
+          "requiresFacts": ["turn-from", "turn-to"],
           "tie": "law"
         },
         {
@@ -121454,7 +121336,7 @@
           "subject": "state-of-the-state",
           "role": "turn",
           "choice": "turn",
-          "requiresFacts": ["turn-to"],
+          "requiresFacts": ["turn-from", "turn-to"],
           "tie": "law"
         },
         {
@@ -121462,7 +121344,7 @@
           "subject": "town-address",
           "role": "turn",
           "choice": "turn",
-          "requiresFacts": ["turn-to"],
+          "requiresFacts": ["turn-from", "turn-to"],
           "tie": "law"
         }
       ],
@@ -121473,17 +121355,17 @@
       "date": "2026-11-16"
     },
     {
-      "key": "opening-speech.turn.ld-let-me-turn-to",
+      "key": "opening-speech.turn.ld-from-let-me-turn-to",
       "move": "turn",
       "kind": "spoken",
-      "text": "Let me turn to {turn-to}.",
+      "text": "From {turn-from}, let me turn to {turn-to}.",
       "uses": [
         {
           "move": "turn",
           "subject": "inaugural",
           "role": "turn",
           "choice": "turn",
-          "requiresFacts": ["turn-to"],
+          "requiresFacts": ["turn-from", "turn-to"],
           "tie": "law"
         },
         {
@@ -121491,7 +121373,7 @@
           "subject": "state-of-the-union",
           "role": "turn",
           "choice": "turn",
-          "requiresFacts": ["turn-to"],
+          "requiresFacts": ["turn-from", "turn-to"],
           "tie": "law"
         },
         {
@@ -121499,7 +121381,7 @@
           "subject": "state-of-the-state",
           "role": "turn",
           "choice": "turn",
-          "requiresFacts": ["turn-to"],
+          "requiresFacts": ["turn-from", "turn-to"],
           "tie": "law"
         },
         {
@@ -121507,7 +121389,7 @@
           "subject": "town-address",
           "role": "turn",
           "choice": "turn",
-          "requiresFacts": ["turn-to"],
+          "requiresFacts": ["turn-from", "turn-to"],
           "tie": "law"
         }
       ],
@@ -121518,17 +121400,17 @@
       "date": "2026-11-16"
     },
     {
-      "key": "opening-speech.turn.ld-the-other-thing-i-came-to-talk-about-is",
+      "key": "opening-speech.turn.ld-i-ve-said-my-piece-on-and-the-other-thing-i-came-to-talk-abo",
       "move": "turn",
       "kind": "spoken",
-      "text": "The other thing I came to talk about is {turn-to}.",
+      "text": "I've said my piece on {turn-from}, and the other thing I came to talk about is {turn-to}.",
       "uses": [
         {
           "move": "turn",
           "subject": "inaugural",
           "role": "turn",
           "choice": "turn",
-          "requiresFacts": ["turn-to"],
+          "requiresFacts": ["turn-from", "turn-to"],
           "tie": "law"
         },
         {
@@ -121536,7 +121418,7 @@
           "subject": "state-of-the-union",
           "role": "turn",
           "choice": "turn",
-          "requiresFacts": ["turn-to"],
+          "requiresFacts": ["turn-from", "turn-to"],
           "tie": "law"
         },
         {
@@ -121544,7 +121426,7 @@
           "subject": "state-of-the-state",
           "role": "turn",
           "choice": "turn",
-          "requiresFacts": ["turn-to"],
+          "requiresFacts": ["turn-from", "turn-to"],
           "tie": "law"
         },
         {
@@ -121552,7 +121434,7 @@
           "subject": "town-address",
           "role": "turn",
           "choice": "turn",
-          "requiresFacts": ["turn-to"],
+          "requiresFacts": ["turn-from", "turn-to"],
           "tie": "law"
         }
       ],
@@ -121563,17 +121445,17 @@
       "date": "2026-11-16"
     },
     {
-      "key": "opening-speech.turn.ld-that-brings-me-to",
+      "key": "opening-speech.turn.ld-talking-about-brings-me-to",
       "move": "turn",
       "kind": "spoken",
-      "text": "That brings me to {turn-to}.",
+      "text": "Talking about {turn-from} brings me to {turn-to}.",
       "uses": [
         {
           "move": "turn",
           "subject": "inaugural",
           "role": "turn",
           "choice": "turn",
-          "requiresFacts": ["turn-to"],
+          "requiresFacts": ["turn-from", "turn-to"],
           "tie": "law"
         },
         {
@@ -121581,7 +121463,7 @@
           "subject": "state-of-the-union",
           "role": "turn",
           "choice": "turn",
-          "requiresFacts": ["turn-to"],
+          "requiresFacts": ["turn-from", "turn-to"],
           "tie": "law"
         },
         {
@@ -121589,7 +121471,7 @@
           "subject": "state-of-the-state",
           "role": "turn",
           "choice": "turn",
-          "requiresFacts": ["turn-to"],
+          "requiresFacts": ["turn-from", "turn-to"],
           "tie": "law"
         },
         {
@@ -121597,7 +121479,7 @@
           "subject": "town-address",
           "role": "turn",
           "choice": "turn",
-          "requiresFacts": ["turn-to"],
+          "requiresFacts": ["turn-from", "turn-to"],
           "tie": "law"
         }
       ],
@@ -121608,17 +121490,17 @@
       "date": "2026-11-16"
     },
     {
-      "key": "opening-speech.turn.ld-i-also-owe-you-a-word-on",
+      "key": "opening-speech.turn.ld-after-i-also-owe-you-a-word-on",
       "move": "turn",
       "kind": "spoken",
-      "text": "I also owe you a word on {turn-to}.",
+      "text": "After {turn-from}, I also owe you a word on {turn-to}.",
       "uses": [
         {
           "move": "turn",
           "subject": "inaugural",
           "role": "turn",
           "choice": "turn",
-          "requiresFacts": ["turn-to"],
+          "requiresFacts": ["turn-from", "turn-to"],
           "tie": "law"
         },
         {
@@ -121626,7 +121508,7 @@
           "subject": "state-of-the-union",
           "role": "turn",
           "choice": "turn",
-          "requiresFacts": ["turn-to"],
+          "requiresFacts": ["turn-from", "turn-to"],
           "tie": "law"
         },
         {
@@ -121634,7 +121516,7 @@
           "subject": "state-of-the-state",
           "role": "turn",
           "choice": "turn",
-          "requiresFacts": ["turn-to"],
+          "requiresFacts": ["turn-from", "turn-to"],
           "tie": "law"
         },
         {
@@ -121642,7 +121524,7 @@
           "subject": "town-address",
           "role": "turn",
           "choice": "turn",
-          "requiresFacts": ["turn-to"],
+          "requiresFacts": ["turn-from", "turn-to"],
           "tie": "law"
         }
       ],
@@ -121682,17 +121564,21 @@
       "date": "2026-11-16"
     },
     {
-      "key": "opening-speech.year-condition.ld-we-lost-this-year-people-here-lost-their-jobs-with-it",
+      "key": "opening-speech.year-condition.ld-we-lost-this-year-and-people-in-lost-their-jobs-with-it",
       "move": "year-condition",
       "kind": "spoken",
-      "text": "We lost {condition-closure} this year. People here lost their jobs with it.",
+      "text": "We lost {condition-closure} this year, and people in {realm-bare} lost their jobs with it.",
       "uses": [
         {
           "move": "year-condition",
           "subject": "state-of-the-state",
           "role": "year-condition",
           "choice": "year-condition",
-          "requiresFacts": ["condition-closure", "condition-jobs-ended"],
+          "requiresFacts": [
+            "condition-closure",
+            "condition-jobs-ended",
+            "realm-bare"
+          ],
           "tie": "place"
         },
         {
@@ -121700,7 +121586,11 @@
           "subject": "town-address",
           "role": "year-condition",
           "choice": "year-condition",
-          "requiresFacts": ["condition-closure", "condition-jobs-ended"],
+          "requiresFacts": [
+            "condition-closure",
+            "condition-jobs-ended",
+            "realm-bare"
+          ],
           "tie": "place"
         }
       ],
@@ -121856,17 +121746,21 @@
       "date": "2026-11-16"
     },
     {
-      "key": "opening-speech.year-condition.ld-you-went-to-the-polls-this-year-i-m-standing-here-because-of",
+      "key": "opening-speech.year-condition.ld-went-to-the-polls-this-year-and-i-m-standing-here-because-of",
       "move": "year-condition",
       "kind": "spoken",
-      "text": "You went to the polls this year. I'm standing here because of it.",
+      "text": "{realm-bare} went to the polls this year, and I'm standing here because of it.",
       "uses": [
         {
           "move": "year-condition",
           "subject": "state-of-the-state",
           "role": "year-condition",
           "choice": "year-condition",
-          "requiresFacts": ["condition-election", "condition-elected-here"],
+          "requiresFacts": [
+            "condition-election",
+            "condition-elected-here",
+            "realm-bare"
+          ],
           "tie": "place"
         },
         {
@@ -121874,7 +121768,11 @@
           "subject": "town-address",
           "role": "year-condition",
           "choice": "year-condition",
-          "requiresFacts": ["condition-election", "condition-elected-here"],
+          "requiresFacts": [
+            "condition-election",
+            "condition-elected-here",
+            "realm-bare"
+          ],
           "tie": "place"
         }
       ],
@@ -121885,30 +121783,17 @@
       "date": "2026-11-16"
     },
     {
-      "key": "opening-speech.close.ld-thank-you-let-s-get-to-work",
+      "key": "opening-speech.close.ld-there-s-work-waiting-in-so-let-s-get-to-it",
       "move": "close",
       "kind": "spoken",
-      "text": "Thank you. Let's get to work.",
+      "text": "There's work waiting in {realm-bare}, so let's get to it.",
       "uses": [
-        {
-          "move": "close",
-          "subject": "inaugural",
-          "role": "close",
-          "choice": "close",
-          "tie": "frame"
-        },
-        {
-          "move": "close",
-          "subject": "state-of-the-union",
-          "role": "close",
-          "choice": "close",
-          "tie": "frame"
-        },
         {
           "move": "close",
           "subject": "state-of-the-state",
           "role": "close",
           "choice": "close",
+          "requiresFacts": ["realm-bare"],
           "tie": "frame"
         },
         {
@@ -121916,6 +121801,7 @@
           "subject": "town-address",
           "role": "close",
           "choice": "close",
+          "requiresFacts": ["realm-bare"],
           "tie": "frame"
         }
       ],
@@ -121926,30 +121812,17 @@
       "date": "2026-11-16"
     },
     {
-      "key": "opening-speech.close.ld-that-s-the-work-thank-you-for-hearing-me-out",
+      "key": "opening-speech.close.ld-that-s-the-work-in-front-of-and-i-thank-you-for-hearing-me-o",
       "move": "close",
       "kind": "spoken",
-      "text": "That's the work. Thank you for hearing me out.",
+      "text": "That's the work in front of {realm-bare}, and I thank you for hearing me out.",
       "uses": [
-        {
-          "move": "close",
-          "subject": "inaugural",
-          "role": "close",
-          "choice": "close",
-          "tie": "frame"
-        },
-        {
-          "move": "close",
-          "subject": "state-of-the-union",
-          "role": "close",
-          "choice": "close",
-          "tie": "frame"
-        },
         {
           "move": "close",
           "subject": "state-of-the-state",
           "role": "close",
           "choice": "close",
+          "requiresFacts": ["realm-bare"],
           "tie": "frame"
         },
         {
@@ -121957,6 +121830,7 @@
           "subject": "town-address",
           "role": "close",
           "choice": "close",
+          "requiresFacts": ["realm-bare"],
           "tie": "frame"
         }
       ],
@@ -121996,42 +121870,42 @@
       "date": "2026-11-16"
     },
     {
-      "key": "opening-speech.close.ld-i-ve-told-you-what-i-want-done-now-i-ll-go-do-it",
+      "key": "opening-speech.close.ld-i-ve-told-you-what-i-want-done-on-and-now-i-ll-go-do-it",
       "move": "close",
       "kind": "spoken",
-      "text": "I've told you what I want done. Now I'll go do it.",
+      "text": "I've told you what I want done on {asked-about}, and now I'll go do it.",
       "uses": [
         {
           "move": "close",
           "subject": "inaugural",
           "role": "close",
           "choice": "close",
-          "requiresFacts": ["asked"],
-          "tie": "frame"
+          "requiresFacts": ["asked", "asked-about"],
+          "tie": "law"
         },
         {
           "move": "close",
           "subject": "state-of-the-union",
           "role": "close",
           "choice": "close",
-          "requiresFacts": ["asked"],
-          "tie": "frame"
+          "requiresFacts": ["asked", "asked-about"],
+          "tie": "law"
         },
         {
           "move": "close",
           "subject": "state-of-the-state",
           "role": "close",
           "choice": "close",
-          "requiresFacts": ["asked"],
-          "tie": "frame"
+          "requiresFacts": ["asked", "asked-about"],
+          "tie": "law"
         },
         {
           "move": "close",
           "subject": "town-address",
           "role": "close",
           "choice": "close",
-          "requiresFacts": ["asked"],
-          "tie": "frame"
+          "requiresFacts": ["asked", "asked-about"],
+          "tie": "law"
         }
       ],
       "voice": ["plain", "polished"],
@@ -122041,42 +121915,42 @@
       "date": "2026-11-16"
     },
     {
-      "key": "opening-speech.close.ld-you-know-what-i-m-asking-for-hold-me-to-it",
+      "key": "opening-speech.close.ld-you-know-what-i-m-asking-for-on-so-hold-me-to-it",
       "move": "close",
       "kind": "spoken",
-      "text": "You know what I'm asking for. Hold me to it.",
+      "text": "You know what I'm asking for on {asked-about}, so hold me to it.",
       "uses": [
         {
           "move": "close",
           "subject": "inaugural",
           "role": "close",
           "choice": "close",
-          "requiresFacts": ["asked"],
-          "tie": "frame"
+          "requiresFacts": ["asked", "asked-about"],
+          "tie": "law"
         },
         {
           "move": "close",
           "subject": "state-of-the-union",
           "role": "close",
           "choice": "close",
-          "requiresFacts": ["asked"],
-          "tie": "frame"
+          "requiresFacts": ["asked", "asked-about"],
+          "tie": "law"
         },
         {
           "move": "close",
           "subject": "state-of-the-state",
           "role": "close",
           "choice": "close",
-          "requiresFacts": ["asked"],
-          "tie": "frame"
+          "requiresFacts": ["asked", "asked-about"],
+          "tie": "law"
         },
         {
           "move": "close",
           "subject": "town-address",
           "role": "close",
           "choice": "close",
-          "requiresFacts": ["asked"],
-          "tie": "frame"
+          "requiresFacts": ["asked", "asked-about"],
+          "tie": "law"
         }
       ],
       "voice": ["plain", "polished"],
@@ -122086,17 +121960,17 @@
       "date": "2026-11-16"
     },
     {
-      "key": "opening-speech.close.ld-we-have-the-votes-to-do-this-thank-you",
+      "key": "opening-speech.close.ld-the-has-the-votes-to-do-this-and-i-mean-to-ask-for-them",
       "move": "close",
       "kind": "spoken",
-      "text": "We have the votes to do this. Thank you.",
+      "text": "The {body-word} has the votes to do this, and I mean to ask for them.",
       "uses": [
         {
           "move": "close",
           "subject": "state-of-the-state",
           "role": "close",
           "choice": "close",
-          "requiresFacts": ["party-holds-body"],
+          "requiresFacts": ["party-holds-body", "body-word"],
           "tie": "record"
         },
         {
@@ -122104,7 +121978,7 @@
           "subject": "town-address",
           "role": "close",
           "choice": "close",
-          "requiresFacts": ["party-holds-body"],
+          "requiresFacts": ["party-holds-body", "body-word"],
           "tie": "record"
         }
       ],
@@ -122115,17 +121989,17 @@
       "date": "2026-11-16"
     },
     {
-      "key": "opening-speech.close.ld-i-can-t-do-this-alone-and-i-won-t-pretend-i-can-thank-you",
+      "key": "opening-speech.close.ld-i-can-t-do-this-without-the-and-i-won-t-pretend-i-can",
       "move": "close",
       "kind": "spoken",
-      "text": "I can't do this alone, and I won't pretend I can. Thank you.",
+      "text": "I can't do this without the {body-word}, and I won't pretend I can.",
       "uses": [
         {
           "move": "close",
           "subject": "state-of-the-state",
           "role": "close",
           "choice": "close",
-          "requiresFacts": ["party-lacks-body"],
+          "requiresFacts": ["party-lacks-body", "body-word"],
           "tie": "record"
         },
         {
@@ -122133,7 +122007,7 @@
           "subject": "town-address",
           "role": "close",
           "choice": "close",
-          "requiresFacts": ["party-lacks-body"],
+          "requiresFacts": ["party-lacks-body", "body-word"],
           "tie": "record"
         }
       ],
