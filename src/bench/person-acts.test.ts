@@ -249,5 +249,8 @@ for (const seed of WORLDS) {
       lateRows.some((row) => row.reason === "late"),
       `${where}: too late to go over`,
     ).toBe(true);
-  }, 45_000);
+    // Each world here is built through the bench: 19 to 39 s beside the PR's
+    // other changed tests (Nov 16, merged with Train c0f54ca0), and over 45 s
+    // on CI's runner (unit job, cd7248a3). The limit is near twice the slower.
+  }, 90_000);
 }

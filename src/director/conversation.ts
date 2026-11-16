@@ -45,6 +45,7 @@ import {
   daysBetween,
   makeIsoDate,
 } from "../core2/kernel/dates";
+import { rememberedOf } from "./address-render";
 import {
   ADDRESS_FACT,
   addressPoints,
@@ -218,7 +219,7 @@ import {
 } from "../english/said-as";
 import { personWorkOf } from "../core2/person-work";
 import localAddressData from "./data/local-address.json" with { type: "json" };
-import { bodySaid } from "./local-address";
+import { bodySaid } from "./body-said";
 import { saidPersonOf } from "./said-person";
 import {
   answerPromise,
@@ -2235,7 +2236,10 @@ function governmentNews(
     -GOVERNMENT_NEWS.withinDays.value,
   );
   const api = coreAPI(core as CoreState);
-  const lean = viewOf(api, speaker.id)?.lean;
+  // Where they lean is read only where the views engine is installed.
+  const lean = core.modules.has(VIEWS_MODULE_ID)
+    ? viewOf(api, speaker.id)?.lean
+    : undefined;
   const ids = [...(core.logByPerson.get(speaker.id) ?? [])];
   for (let at = ids.length - one; at >= zero; at -= one) {
     const row = core.durableLog.get(ids[at] as never) as
@@ -3084,10 +3088,26 @@ export function subjectsBetween(
     // saw her today."). The gap as a greeting hears it, from their own tie.
     const seen = lastContact(core, speakerId, id);
     if (seen && spokenWhenRow(seen.date, core.date).gap === "recent") continue;
+    // A person both know is a tie to both: the two relationship rows that
+    // say they know them, and the fact by which the speaker learned of them
+    // (the third person is neither of the pair, so the rule cannot find it
+    // from the facts alone).
+    const mutualTie = [
+      ...new Set(
+        [
+          seen?.tieId,
+          lastContact(core, listenerId, id)?.tieId,
+          speaker.knownIdSources?.[id]?.sourceFactId,
+        ].filter((row): row is string => !!row),
+      ),
+    ];
     out.push({
       id: `mutual:${id}`,
       kind: "mutual",
       aboutId: id,
+      ...(mutualTie.length
+        ? { tie: { kind: "record" as const, recordIds: mutualTie } }
+        : {}),
       facts: {
         name: {
           text: spokenName(core, [speakerId, listenerId], id),
@@ -3317,12 +3337,15 @@ export function subjectsBetween(
   // after it was given (its record's date), however late someone heard it.
   const known = core.knowledgeByPerson.get(speakerId);
   const address = known?.get(ADDRESS_FACT.event);
-  const quote = known?.get(ADDRESS_FACT.remembered);
+  // The line they quote is the address's own, as its record keeps it.
+  const quoted = address
+    ? rememberedOf(core.durableLog.get(address.value)?.facts)
+    : null;
   const givenOn =
     address?.value.match(/\d{4}-\d{2}-\d{2}$/)?.[zero] ?? address?.learnedAt;
   if (
     address &&
-    quote &&
+    quoted &&
     givenOn &&
     givenOn >
       addDays(
@@ -3335,11 +3358,11 @@ export function subjectsBetween(
       kind: "address",
       aboutId: address.value,
       // The speaker heard it: the record of their hearing ties it (the desk's address scene declares its own).
-      tie: { kind: "frame", recordIds: [address.value, quote.sourceId] },
+      tie: { kind: "frame", recordIds: [address.value, address.sourceId] },
       facts: {
         quote: {
-          text: quote.value,
-          sourceRecordIds: [address.value, quote.sourceId],
+          text: quoted,
+          sourceRecordIds: [address.value, address.sourceId],
         },
         // The day it was given, as people say it ("today", "yesterday").
         when: {
@@ -5436,11 +5459,7 @@ function raiseSubject(
     if (!conversation.topics.length) conversation.topicFacts = subject.facts;
     conversation.topics.push(raised.id);
   }
-  offerChoices(core, conversation, data);
-  // A line the player has no reply to is the other person's last word: the
-  // talk ends there with their goodbye, never on a statement left hanging.
-  if (!conversation.choices.length && !conversation.look)
-    endConversation(core, conversation, data);
+  offerChoicesOrClose(core, conversation, data);
   return true;
 }
 
@@ -7027,6 +7046,22 @@ function raisable(data: ConversationData, kind: string): boolean {
   );
 }
 
+/**
+ * The replies to the last line; where there are none, that line is the other person's last word
+ * and the talk ends there with their goodbye, never on a statement left hanging. Every line they
+ * say that ends a turn goes through here (the answer to a question the player turned back, a
+ * subject they raise), so no talk stops with nothing to press and no goodbye.
+ */
+function offerChoicesOrClose(
+  core: Readonly<CoreState>,
+  conversation: Conversation,
+  data: ConversationData,
+): void {
+  offerChoices(core, conversation, data);
+  if (!conversation.choices.length && !conversation.look)
+    endConversation(core, conversation, data);
+}
+
 function offerChoices(
   core: Readonly<CoreState>,
   conversation: Conversation,
@@ -7204,6 +7239,10 @@ function offerChoices(
         replyFacts(core, otherId, raised)?.facts ?? {},
       )
     )
+      return;
+    // A question the other person has no answer to on record is not offered
+    // (a pressed question is always answered).
+    if (raised && raised !== last.subject && !replyFacts(core, otherId, raised))
       return;
     // Turning the question back asks it; nothing more is said.
     if (raised === last.subject && !answer.asks) return;
@@ -8607,7 +8646,7 @@ function sayNow(
     facts: reply.facts,
     stage: reply.stage,
   };
-  offerChoices(core, conversation, data);
+  offerChoicesOrClose(core, conversation, data);
   return conversation;
 }
 

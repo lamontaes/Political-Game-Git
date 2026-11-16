@@ -5,10 +5,10 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: open
+status: in-pr
 standard: 2
 claimed-by:
-pr:
+pr: 9712
 after:
 blocked-on:
 root: none
@@ -33,3 +33,5 @@ source: "world-opening thread, Nov 16, found gating the past-share pull request 
 **Waits on.** Nothing.
 
 **Files.** src/bench/world.ts, src/core2/population.ts.
+
+- Nov 16, world-opening thread: built on branch claude/project-thread-7ooue6-newgame-passover. The draw passover-152 lands on Evergreen Colony, SD (4620208); the world opens in the same state's next place and dev mode names the place passed over. A failed build at such a place stops after 0.2 to 1.2 s; a full open takes 13 to 15 s.

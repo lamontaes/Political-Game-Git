@@ -1656,7 +1656,10 @@ export function scheduleGovernorAddresses(api: CoreAPI): void {
       stateDayParameter("stateOfTheStateDaysAfterConvening"),
     );
     if (date < today || date > monthEnd) continue;
-    const key = `governor-address:${personId}:${date}`;
+    // The address belongs to the governor's seat, not to whoever holds it on the
+    // first: a governor who leaves before the day is replaced by a successor who
+    // gives it, so the day reads the seat's holder (`governorAddressDay`).
+    const key = `governor-address:${office.officeId}:${date}`;
     if (calendar.get(key)) continue;
     calendar.schedule({
       key,
@@ -1669,8 +1672,8 @@ export function scheduleGovernorAddresses(api: CoreAPI): void {
         citation: `The State of the State, ${office.stateKey}: ${stateDayParameter("stateOfTheStateDaysAfterConvening")} days after the session convenes`,
         asOf: today,
       },
-      sourceRecordIds: [personId],
-      payload: { personId },
+      sourceRecordIds: [office.officeId],
+      payload: { officeId: office.officeId },
     });
   }
 }
@@ -1681,11 +1684,15 @@ function governorAddressDay(
   work: Readonly<ModuleCalendarWork>,
 ): void {
   if (work.kind !== "governor-address") return;
-  const personId = (work.payload as { personId?: string } | undefined)
-    ?.personId;
-  if (!personId || !api.state.people.get(personId)?.alive) return;
-  const office = stateOfficeOf(api, personId);
-  if (office?.role !== "governor" || personId === controlled(api)) return;
+  const officeId = (work.payload as { officeId?: string } | undefined)
+    ?.officeId;
+  if (!officeId) return;
+  // The seat's holder today, as every engine reads a seat: a successor seated
+  // after the schedule was made gives the address.
+  const office = worldGovernors(api)
+    .map((id) => stateOfficeOf(api, id))
+    .find((o) => o?.role === "governor" && o.officeId === officeId);
+  if (!office) return;
   const entry = stateDay(api, office, work.date).find(
     (e) => e.kind === "state-of-the-state",
   );

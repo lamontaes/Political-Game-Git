@@ -189,6 +189,22 @@ function townView(core: CoreState, placeId: string): OpeningRow[] {
       core.placeMetadata.householdMixBasis,
     ),
   );
+  // A new game's draw passes over a place where no player can be picked
+  // (world.ts `passOver`); each one passed over, with why.
+  const passedOver = core.placeMetadata.openingPassedOver
+    ? (JSON.parse(core.placeMetadata.openingPassedOver) as {
+        key: string;
+        reason: string;
+      }[])
+    : [];
+  for (const passed of passedOver)
+    rows.push(
+      row(
+        "town.passedOver",
+        `Passed over first: ${realLocalities().find((p) => p.key === passed.key)?.displayName ?? passed.key}`,
+        passed.reason,
+      ),
+    );
   // The president's approval starts at the share of the vote the race that
   // seated them recorded; the game opens on Inauguration Day, so no month of
   // their term moved it before day one.
