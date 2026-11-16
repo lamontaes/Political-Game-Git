@@ -13,8 +13,15 @@ import { billName } from "./journal";
 // A member's bill to raise or cut one spending line is named for that line,
 // so a meeting's agenda does not list "the Budget Ordinance" twice (pool item
 // legislation-budget-line-bills-all-titled-budget-ordinance). Pinned to
-// Klamath Falls, Oregon, the draw the meetings check saw it at: five months
-// of its board and council, where six bills each change one line.
+// Klamath Falls, Oregon, the draw the meetings check saw it at. Old premise:
+// five months (150 days) of its board and council, where six bills each
+// changed one line, filed at nearly every meeting with no cause. New premise
+// (Nov 16, pool item laws-local-budget-amendments-need-a-recorded-cause): a
+// body files a line bill only for a cause on the treasury's record, which
+// first shows after the year's first closed month, so the played span is 300
+// days from the 2025-01-20 start; at that span Klamath Falls holds four
+// one-line bills (2025-07-14 and 08-04 police, 09-01 welfare, 10-06 police),
+// found by script, not by this test's draw.
 const DRAW = { seed: "meet-a1:2", purpose: "meetings-floor" } as const;
 
 it("one-line budget bills carry their line's name at Klamath Falls, Oregon", () => {
@@ -26,7 +33,7 @@ it("one-line budget bills carry their line's name at Klamath Falls, Oregon", () 
     twoLevel: true,
     placeKey: place.key,
   });
-  advanceCore(core, addDays(makeIsoDate(core.date), 150));
+  advanceCore(core, addDays(makeIsoDate(core.date), 300));
   const bills = coreAPI(core)
     .moduleState(LEGISLATURE_MODULE_ID)
     .table("bills")

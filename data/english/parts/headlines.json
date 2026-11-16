@@ -2042,7 +2042,7 @@
       "key": "headlines.organization-opened.subject-reopens-to-the-public",
       "move": "organization-opened",
       "kind": "spoken",
-      "text": "{subject} reopens to the Public",
+      "text": "{subject} reopens to the public",
       "uses": [
         {
           "move": "organization-opened",

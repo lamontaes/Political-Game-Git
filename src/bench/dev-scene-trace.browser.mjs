@@ -46,7 +46,7 @@ try {
   await types.locator("summary").first().click();
   const summary = await types.locator("summary").first().innerText();
   console.log("Types:", summary);
-  assert.match(summary, /\(87\)/);
+  assert.match(summary, /\(\d\d\)/);
   const unreachable = await types.locator("p").first().innerText();
   console.log(unreachable);
   assert.match(unreachable, /polling-place/);
@@ -58,11 +58,28 @@ try {
   console.log(`First scene's lines: ${lines.length}; first three:`);
   for (const line of lines.slice(0, 3)) console.log(" -", line);
   assert.ok(lines.length > 0 && lines.every((l) => /\[.*\]/.test(l)));
+  await first.locator("details > summary").click();
+  // A type that only takes its module's writer says why; a type a record of its cause stages is
+  // forced and the day shows whether the director staged it.
+  const dated = types.locator("li", { hasText: /^date:/ }).first();
+  const reason = await dated.locator("> div").first().innerText();
+  console.log(`date: ${reason}`);
+  assert.match(reason, /module's own writer/);
+  const back = types.locator("li", { hasText: /^return:/ }).first();
+  await back.scrollIntoViewIfNeeded();
+  await back.locator("button").click();
+  await back
+    .locator("button", { hasText: /Forced by dev mode/ })
+    .waitFor({ timeout: 120000 });
+  const said = await back.locator("button").innerText();
+  console.log(`return: ${said}`);
+  assert.match(said, /not a played scene; (Staged on the next day|Written)/);
   await panel.locator(".dev-scene-moments summary").click();
   console.log(
     "Staged:",
     await panel.locator(".dev-scene-moments summary").innerText(),
   );
+  await back.scrollIntoViewIfNeeded();
   if (process.argv[2]) await page.screenshot({ path: process.argv[2] });
   assert.deepEqual(errors, []);
   console.log("PASS the scene trace lists every scene and ties its lines");

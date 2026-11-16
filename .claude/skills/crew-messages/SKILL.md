@@ -107,7 +107,7 @@ Two Words builders each had an item that said "the engine joins a sentence from 
 
 ## The hourly crew line check (Nov 15, from the crew-check thread)
 
-- Read the crew issue's newest comments from the highest page number down: `gh api repos/<repo>/issues/8928/comments?per_page=100&page=N`, filtered on `.user.login` and a `^(CTO|Coordinator):` start. `--paginate` fails through the proxy.
+- Issue 8928 refuses new comments since about 09:00Z, Nov 16: post the hourly crew line and train-ready lines on the PR, and wait for the owner or the CTO to name a new issue. Read the crew issue's newest comments from the highest page number down: `gh api repos/<repo>/issues/8928/comments?per_page=100&page=N`, filtered on `.user.login` and a `^(CTO|Coordinator):` start. `--paginate` fails through the proxy.
 - `list_threads` with `since` and a limit of 100 shows only threads active since then. Running = total minus this thread, minus done, failed and resolved; say in the report when the list is partial. `list_prs` is truncated, so a PR count is a carried-over estimate and is labeled as one.
 - When several hourly fires pile up after a usage limit or a restart, post one comment, not one per fire.
 - After a usage-limit stop many threads show "failed" until their wake triggers resume them; report that to the coordinator once and do not count them as running.

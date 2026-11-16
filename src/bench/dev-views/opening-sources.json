@@ -55,9 +55,8 @@
       "by": "src/core2/household-mix.ts: the place's ACS household shares, or its state's where the place has none"
     },
     "town.presidentApproval": {
-      "made": "constant",
-      "by": "src/core2/modules/national-opinion.ts reads openingPct (41) from src/core2/data/electorate/national-opinion.json; its own spread is 36 to 45",
-      "replace": "A world offset inside the row's spread"
+      "made": "decision",
+      "by": "src/core2/modules/national-opinion.ts presidentElection: the share of the two-party vote the 2024 presidential election recorded for the sitting president (src/core2/past-elections.ts, kept on their term), moved from the first month of the term by the economy and the pushes other engines write"
     },
     "person.name": {
       "made": "generation",
@@ -68,6 +67,14 @@
       "made": "generation",
       "by": "src/core2/population.ts from the place's survey sample; invented people in src/core2/gov-rules/invented-person-age.ts fall only on days 1 to 28",
       "replace": "Any day of the month"
+    },
+    "person.playerAge.townAdult": {
+      "made": "generation",
+      "by": "src/bench/world.ts entrantChoice: with no birthday chosen, one of the town's own residents aged 18 and up, picked by the world's seeded unit (opening-player:<place>), so the player's age follows the place's adults (owner, Nov 16: \"Just do 18 and up right now\")"
+    },
+    "person.playerAge.chosen": {
+      "made": "decision",
+      "by": "src/bench/world.ts entrantBornNear: the age chosen in the New game creator (18 and up); the player is a resident that age, born nearest the chosen day, and the birthday moves only within that age (creator.ts applyChosenPerson)"
     },
     "person.trait": {
       "made": "generation",
@@ -154,11 +161,19 @@
     },
     "office.lastShare": {
       "made": "ad-hoc-draw",
-      "by": "src/core2/modules/offices.ts electionBehind: drawn evenly inside the office kind's band",
+      "by": "src/core2/modules/offices.ts electionBehind: where the research has no record of the race (state legislative and local seats, and federal races before the corpus's years), drawn evenly inside the office kind's band",
       "replace": "The past race's result from the election engine"
+    },
+    "office.lastShareRecorded": {
+      "made": "world-offset",
+      "by": "src/core2/offices-past-results.ts recordedRaceShare: the race's real two-party share (data/source/electoral-calibration-2024/corpus.json: the 2024 House, the Senate class last elected, the presidency) moved by the world's drift (pastRealShareDrift)"
     }
   },
   "sites": {
+    "src/bench/world.ts#entrantChoice": {
+      "made": "generation",
+      "what": "Which of the town's adults the player begins as, with no birthday chosen"
+    },
     "src/core2/appearance.ts#derivePersonAppearance": {
       "made": "generation",
       "what": "How a person looks"
@@ -368,7 +383,7 @@
     },
     "src/core2/modules/offices.ts#electionBehind": {
       "made": "ad-hoc-draw",
-      "what": "The share each official won by last time",
+      "what": "The share each official won by last time, where the research has no record of the race",
       "replace": "The past race's result from the election engine"
     },
     "src/core2/modules/offices.ts#pastTerms": {
