@@ -3,10 +3,11 @@
  * town's jobs it takes (pool item play-local-layoffs-on-screen). Pinned
  * places and seeds (the industry traces' own): Thief River Falls, Minnesota
  * (2764570, seed ind-2764570), whose one wholesaler closed on June 1, 2025
- * with most of the town's jobs, and Center, North Dakota (3813180, seed
- * ind-3813180), whose county utility laid off in March, April and May 2025
- * and closed. Nothing is staged: the game's own days play. Measured
- * 160 seconds at Thief River Falls and 110 at Center, limit 300 each.
+ * with most of the town's jobs, and Wilmont, Minnesota (2770582, seed
+ * ind-2770582), whose businesses cut staff in March and April 2025 and
+ * whose April closing the desk weighed (Center, North Dakota's layoffs
+ * moved to 2026 when the world changed). Nothing is staged: the game's own
+ * days play. Limit 300 seconds each.
  */
 import { describe, expect, it } from "vitest";
 import { buildBenchWorld } from "./world";
@@ -56,13 +57,13 @@ describe("the paper weighs a closing and a layoff by the town's jobs", () => {
     ).toHaveLength(0);
   }, 300_000);
 
-  it("weighs each of Center's three layoff months by its share", () => {
+  it("weighs each of Wilmont's layoff months and its closing by their share", () => {
     setBookkeeping(true);
-    const world = buildBenchWorld("ind-3813180", gameStartDate(), {
+    const world = buildBenchWorld("ind-2770582", gameStartDate(), {
       twoLevel: true,
-      placeKey: "3813180",
+      placeKey: "2770582",
     });
-    const where = `${world.place.displayName} (seed ind-3813180)`;
+    const where = `${world.place.displayName} (seed ind-2770582)`;
     const press = coreAPI(world.core).moduleState(PRESS_MODULE_ID);
     // Dev mode keeps a weighing only while its item is fresh, so each month
     // is read the week it is weighed.
@@ -81,15 +82,15 @@ describe("the paper weighs a closing and a layoff by the town's jobs", () => {
     process.stdout.write(
       `WEIGHED ${where}: layoff months ${[...months].map(([m, r]) => `${m} reaches ${r.toFixed(1)}`).join(", ")}\n`,
     );
-    for (const month of ["2025-03", "2025-04", "2025-05"])
+    for (const month of ["2025-03", "2025-04"])
       expect(
         months.get(month) ?? 0,
         `${where}: ${month} was weighed`,
       ).toBeGreaterThan(0);
     const stories = press.table("stories").rows() as unknown as PrintedStory[];
     expect(
-      stories.some((s) => s.kind === "business.staff-reduced"),
-      `${where}: a layoff was printed`,
+      stories.some((s) => s.wireId.startsWith("employer-closed:")),
+      `${where}: the April closing was printed`,
     ).toBe(true);
   }, 300_000);
 
