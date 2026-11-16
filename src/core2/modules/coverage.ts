@@ -49,7 +49,6 @@ import { declareSnapshotCovered } from "../snapshot";
 import { registerJournalIdReader } from "../decision-detail";
 import { hasModuleState } from "../module-state";
 import { registerCountedPayDeduction } from "../counted-money";
-import type { WorkPayrollJournalReceipt } from "../work-payroll-cash";
 import {
   countedJob,
   residentsRuntime,
@@ -703,7 +702,7 @@ function premiumForPeriod(
 // plan takes it, so the income and payroll taxes read the whole wage.
 function deductFullPremium(
   api: CoreAPI,
-  receipt: Readonly<WorkPayrollJournalReceipt>,
+  receipt: Parameters<NonNullable<CoreModule["onWorkPayroll"]>>[1],
 ): void {
   if (receipt.paidMinor <= 0) return;
   const person = api.state.people.get(receipt.personId);
