@@ -124,6 +124,7 @@ import {
   BIRTHPLACE_FACT,
   birthOrigin,
   birthplaceSource as bornSource,
+  bornInStateShare,
   bornOutsideId,
 } from "./person-birthplace";
 import {
@@ -1733,6 +1734,11 @@ function openingFamilies(input: OpeningFamilyInput): {
       ).departurePerYearByAge,
       ...(input.stateKey
         ? {
+            bornInStateShare: bornInStateShare({
+              seed: input.seed,
+              placeKey: input.placeKey,
+              usps: input.stateKey!.slice("US-".length),
+            }),
             bornOutside: (adultId: PersonId) =>
               bornOutsideId(
                 birthOrigin({
