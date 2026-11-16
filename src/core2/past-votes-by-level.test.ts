@@ -1,6 +1,6 @@
 import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
-import { buildBenchWorld } from "../bench/world";
+import { buildBenchWorld, NoPlayerHereError } from "../bench/world";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "./bookkeeping";
 import catalog from "./data/legislature/bill-catalog.json" with { type: "json" };
@@ -53,10 +53,20 @@ it(`a local or state chamber's past roll calls are on questions its level decide
   for (let draw = 0; draw < 8 && placesChecked < 2; draw++) {
     const place = drawPlace(`${seed}:${draw}`, "past-votes-by-level");
     const where = `${place.name} (${place.key}), seed ${place.seed}`;
-    const { core } = buildBenchWorld(place.seed, gameStartDate(), {
-      twoLevel: true,
-      placeKey: place.key,
-    });
+    // A place where no player can be picked (every adult in group quarters)
+    // opens no game: passed over and named with its reason; any other error fails.
+    let built: ReturnType<typeof buildBenchWorld>;
+    try {
+      built = buildBenchWorld(place.seed, gameStartDate(), {
+        twoLevel: true,
+        placeKey: place.key,
+      });
+    } catch (error) {
+      if (!(error instanceof NoPlayerHereError)) throw error;
+      passedOver.push(`${where}: ${error.message}`);
+      continue;
+    }
+    const { core } = built;
     const api = coreAPI(core);
     const offices = api.moduleState(OFFICES_MODULE_ID).table("offices");
     const votes = api
@@ -90,4 +100,9 @@ it(`a local or state chamber's past roll calls are on questions its level decide
     placesChecked,
     `two places with past votes; passed over: ${passedOver.join("; ")}`,
   ).toBe(2);
-}, 600_000);
+  // Passing over never outweighs checking, so it cannot hide a broken build.
+  expect(
+    passedOver.length,
+    `passed over more places than checked: ${passedOver.join("; ")}`,
+  ).toBeLessThanOrEqual(placesChecked);
+}, 60_000);

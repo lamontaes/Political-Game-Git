@@ -137,6 +137,22 @@ it("shows how the town, the player, their household, a business and an office op
   expect(office.rows.map((r) => r.label)).toContain(
     "Share of the vote last time",
   );
+  // The town's U.S. House seat. Its 2024 race was uncontested (Clerk of the House, AL-03:
+  // no two-party share), so the research holds no share for it and the last share is still
+  // drawn inside the House band; offices-past-results.test.ts pins a contested seat, read as
+  // the real result moved by the world's drift.
+  const houseSeat = office.choices.office.find((c) =>
+    c.id.includes(":us-house:"),
+  );
+  expect(houseSeat?.id, `${where}: the town's House seat`).toBe(
+    "seat:US-AL:us-house:03",
+  );
+  const house = await ask(`subject=office&id=${houseSeat!.id}`);
+  const houseShare = house.rows.find(
+    (r) => r.label === "Share of the vote last time",
+  );
+  expect(houseShare?.made, where).toBe(SOURCES.kinds["ad-hoc-draw"]);
+  expect(houseShare?.value, where).toMatch(/ in 2024$/);
 
   // Another person from the choices opens by id, and every row's kind is one of the list's.
   const other = person.choices.person.find((c) => c.id !== person.id);
@@ -145,4 +161,4 @@ it("shows how the town, the player, their household, a business and an office op
   for (const view of [town, person, household, business, office])
     for (const row of view.rows)
       expect(kinds.has(row.made), row.label).toBe(true);
-}, 25_000);
+}, 40_000);

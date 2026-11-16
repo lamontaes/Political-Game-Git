@@ -161,8 +161,12 @@
     },
     "office.lastShare": {
       "made": "ad-hoc-draw",
-      "by": "src/core2/modules/offices.ts electionBehind: drawn evenly inside the office kind's band",
+      "by": "src/core2/modules/offices.ts electionBehind: where the research has no record of the race (state legislative and local seats, and federal races before the corpus's years), drawn evenly inside the office kind's band",
       "replace": "The past race's result from the election engine"
+    },
+    "office.lastShareRecorded": {
+      "made": "world-offset",
+      "by": "src/core2/offices-past-results.ts recordedRaceShare: the race's real two-party share (data/source/electoral-calibration-2024/corpus.json: the 2024 House, the Senate class last elected, the presidency) moved by the world's drift (pastRealShareDrift)"
     }
   },
   "sites": {
@@ -379,7 +383,7 @@
     },
     "src/core2/modules/offices.ts#electionBehind": {
       "made": "ad-hoc-draw",
-      "what": "The share each official won by last time",
+      "what": "The share each official won by last time, where the research has no record of the race",
       "replace": "The past race's result from the election engine"
     },
     "src/core2/modules/offices.ts#pastTerms": {

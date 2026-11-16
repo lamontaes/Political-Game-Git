@@ -23,7 +23,11 @@ import {
 import { townWorkplaceWeights } from "../../core2/modules/jobs";
 import type { EntrantPick } from "../world";
 import { worldOffsetUnit } from "../../core2/world-draw";
-import { pastElections, townSeats } from "../../core2/modules/offices";
+import {
+  pastElections,
+  realResult,
+  townSeats,
+} from "../../core2/modules/offices";
 import {
   latestApproval,
   presidentElection,
@@ -326,6 +330,25 @@ function businessView(core: CoreState, organizationId: string): OpeningRow[] {
   ];
 }
 
+/** Whether the research holds the real result of a seat's race. */
+function raceRecorded(
+  jurisdiction: string,
+  officeKind: string,
+  seatId: string,
+  race: { date: string; party: string | null },
+): boolean {
+  return (
+    jurisdiction.startsWith("US-") &&
+    realResult({
+      officeKind,
+      seatId,
+      usps: jurisdiction.split("-").at(-1)!,
+      party: race.party,
+      date: race.date,
+    }) !== null
+  );
+}
+
 function officeView(core: CoreState, seatId: string): OpeningRow[] {
   const api = coreAPI(core);
   const held = townSeats(api).find((s) => s.seat.id === seatId);
@@ -361,12 +384,26 @@ function officeView(core: CoreState, seatId: string): OpeningRow[] {
         : "none",
     ),
     row("office.termsBefore", "Elections won before day one", elections.length),
-    row(
-      "office.lastShare",
-      "Share of the vote last time",
-      last ? `${percent(last.share)} in ${last.date.slice(0, 4)}` : "none",
-      { drawKey: last ? "<seat seed>:<election day>:winner-share" : undefined },
-    ),
+    // A race the research records reads its real result as this world
+    // drifts it; any other is drawn inside the office kind's band.
+    last &&
+    raceRecorded(held.office.jurisdiction, held.office.kind, seatId, last)
+      ? row(
+          "office.lastShareRecorded",
+          "Share of the vote last time",
+          `${percent(last.share)} in ${last.date.slice(0, 4)}`,
+          { drawKey: `${seatId}:${last.date}:share` },
+        )
+      : row(
+          "office.lastShare",
+          "Share of the vote last time",
+          last ? `${percent(last.share)} in ${last.date.slice(0, 4)}` : "none",
+          {
+            drawKey: last
+              ? "<seat seed>:<election day>:winner-share"
+              : undefined,
+          },
+        ),
   ];
 }
 
