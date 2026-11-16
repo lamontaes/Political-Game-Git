@@ -1,4 +1,3 @@
-import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import scf from "../../data/research/money/scf-transaction-accounts-2022.json" with { type: "json" };
 import { buildBenchWorld } from "../bench/world";
@@ -14,9 +13,15 @@ import { coreAPI } from "./state";
 // within the survey's band or belongs to a named group whose own engine or
 // pool item says why (pool item people-adults-opening-cash-husks). A zero that
 // fits no group fails with the person's id.
-const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
-const place = drawPlace(seed, "opening-adults-cash");
-const where = `${place.name}, seed ${seed}`;
+//
+// Pinned places (skill pinned-tests): the test drew a random seed each run
+// until Nov 16 (the old premise: any drawn town holds). The two towns it drew
+// red, Leloaloa AS and Tutu VI, are written here with their seeds (Account
+// lead's yes, Nov 16, pool item opening-adults-cash-pinned-place).
+const PLACES = [
+  { name: "Leloaloa, American Samoa", seed: "6682f9f6c16ebcfb" },
+  { name: "Tutu, U.S. Virgin Islands", seed: "722c036a9cce0bae" },
+];
 
 /** Why an adult with nothing is not a resident left without a wallet, or null for a resident. */
 function explained(id: string, tier: string, inTown: boolean): string | null {
@@ -33,54 +38,57 @@ function explained(id: string, tier: string, inTown: boolean): string | null {
   return null;
 }
 
-it(`every adult with no cash is a survey-sized share of residents or an explained group, in ${place.name}, seed ${seed}`, () => {
-  setBookkeeping(false);
-  const { core } = buildBenchWorld(place.seed, gameStartDate(), {
-    twoLevel: true,
-    placeKey: place.key,
-  });
-  const api = coreAPI(core);
-  const accounts = api.accounts();
-  const town = lawChain(api).townPlaceId;
-  const groups = new Map<string, string[]>();
-  let residents = 0;
-  let residentsWithNothing = 0;
-  for (const person of core.people.values()) {
-    // Adults on the opening day: someone born late in 2007 is still 17 and
-    // holds nothing of their own in their parents' home (Malaeimi, American
-    // Samoa, seed b46fc844a2e79fa2: 17 of its 34 adults with nothing by birth
-    // year alone).
-    if (
-      !person.alive ||
-      ageOnDate(makeIsoDate(person.birthDate), makeIsoDate(core.date)) < 18
-    )
-      continue;
-    const holds =
-      person.liquidMinor > 0 ||
-      accounts.balance(accounts.main(person.id)) > 0 ||
-      depositsHeld(core, person.id) > 0;
-    const why = explained(person.id, person.tier, person.placeId === town);
-    if (why === null) residents += 1;
-    if (holds) continue;
-    if (why) {
-      const ids = groups.get(why) ?? [];
-      ids.push(person.id);
-      groups.set(why, ids);
-    } else residentsWithNothing += 1;
-  }
-  expect(residents, `${where}: resident adults`).toBeGreaterThan(0);
-  // The survey's lowest share of families holding a transaction account, less
-  // the spread for young adults living with their parents (0.15) and two
-  // standard errors of a sample of this many adults (as in
-  // opening-resident-cash.test.ts, which holds the household view).
-  const floor = Math.min(
-    ...scf.groups.map((group) => group.shareHoldingTransactionAccounts),
-  );
-  const sampling = 2 * Math.sqrt((floor * (1 - floor)) / residents);
-  expect(
-    residentsWithNothing / residents,
-    `${where}: ${residentsWithNothing} of ${residents} resident adults hold nothing; other groups: ${JSON.stringify(
-      [...groups].map(([why, ids]) => [why, ids.length]),
-    )}`,
-  ).toBeLessThanOrEqual(1 - (floor - 0.15 - sampling));
-}, 600_000);
+for (const pinned of PLACES)
+  it(`every adult with no cash is a survey-sized share of residents or an explained group, in ${pinned.name}, seed ${pinned.seed}`, () => {
+    const place = drawPlace(pinned.seed, "opening-adults-cash");
+    const where = `${place.name}, seed ${pinned.seed}`;
+    setBookkeeping(false);
+    const { core } = buildBenchWorld(place.seed, gameStartDate(), {
+      twoLevel: true,
+      placeKey: place.key,
+    });
+    const api = coreAPI(core);
+    const accounts = api.accounts();
+    const town = lawChain(api).townPlaceId;
+    const groups = new Map<string, string[]>();
+    let residents = 0;
+    let residentsWithNothing = 0;
+    for (const person of core.people.values()) {
+      // Adults on the opening day: someone born late in 2007 is still 17 and
+      // holds nothing of their own in their parents' home (Malaeimi, American
+      // Samoa, seed b46fc844a2e79fa2: 17 of its 34 adults with nothing by birth
+      // year alone).
+      if (
+        !person.alive ||
+        ageOnDate(makeIsoDate(person.birthDate), makeIsoDate(core.date)) < 18
+      )
+        continue;
+      const holds =
+        person.liquidMinor > 0 ||
+        accounts.balance(accounts.main(person.id)) > 0 ||
+        depositsHeld(core, person.id) > 0;
+      const why = explained(person.id, person.tier, person.placeId === town);
+      if (why === null) residents += 1;
+      if (holds) continue;
+      if (why) {
+        const ids = groups.get(why) ?? [];
+        ids.push(person.id);
+        groups.set(why, ids);
+      } else residentsWithNothing += 1;
+    }
+    expect(residents, `${where}: resident adults`).toBeGreaterThan(0);
+    // The survey's lowest share of families holding a transaction account, less
+    // the spread for young adults living with their parents (0.15) and two
+    // standard errors of a sample of this many adults (as in
+    // opening-resident-cash.test.ts, which holds the household view).
+    const floor = Math.min(
+      ...scf.groups.map((group) => group.shareHoldingTransactionAccounts),
+    );
+    const sampling = 2 * Math.sqrt((floor * (1 - floor)) / residents);
+    expect(
+      residentsWithNothing / residents,
+      `${where}: ${residentsWithNothing} of ${residents} resident adults hold nothing; other groups: ${JSON.stringify(
+        [...groups].map(([why, ids]) => [why, ids.length]),
+      )}`,
+    ).toBeLessThanOrEqual(1 - (floor - 0.15 - sampling));
+  }, 40_000);
