@@ -149,8 +149,8 @@
       "by": "src/core2/officials-identity.ts: an invented holder; positions from src/core2/officials-roster.ts on its own hash"
     },
     "office.serviceStart": {
-      "made": "ad-hoc-draw",
-      "by": "src/core2/modules/offices.ts pastTerms: years in office drawn from the office kind's mean tenure",
+      "made": "generation",
+      "by": "src/core2/modules/offices.ts pastTerms: the current term began a full term before the end the place's law gives it; the terms before it follow the mean service of sitting officials of that kind (src/core2/data/offices/tenure.json) as a geometric spread, the world's seeded unit keyed by the seat; never younger than the minimum age at the first term, never before the office's law created it, never past the state's legislative term limit. The presidency keeps its real record",
       "replace": "Past elections run by the election engine"
     },
     "office.termEnds": {
@@ -158,13 +158,13 @@
       "by": "src/core2/modules/offices.ts seatTerm: the term length and start day from the place's law (src/core2/data/elections/term-starts.json); estimated where the law is not read (stopgap SG-GOV-term-end-estimate)"
     },
     "office.termsBefore": {
-      "made": "ad-hoc-draw",
-      "by": "src/core2/modules/offices.ts pastTerms",
+      "made": "generation",
+      "by": "src/core2/modules/offices.ts pastTerms: the same count as the service start (mean service by office kind, minimum age, the office's creation, the state's term limit), the world's seeded unit keyed by the seat",
       "replace": "Past elections run by the election engine"
     },
     "office.lastShare": {
-      "made": "ad-hoc-draw",
-      "by": "src/core2/modules/offices.ts electionBehind: where the research has no record of the race (state legislative and local seats, and federal races before the corpus's years), drawn evenly inside the office kind's band",
+      "made": "generation",
+      "by": "src/core2/modules/offices.ts electionBehind: where the research has no record of the race (state legislative and local seats, and federal races before the corpus's years), the world's fine seeded unit keyed by the seat and the term's start, evenly inside the office kind's winner-share band (src/core2/data/offices/tenure.json, estimated)",
       "replace": "The past race's result from the election engine"
     },
     "office.lastShareRecorded": {
@@ -384,13 +384,13 @@
       "what": "Days a job stays open"
     },
     "src/core2/modules/offices.ts#electionBehind": {
-      "made": "ad-hoc-draw",
-      "what": "The share each official won by last time, where the research has no record of the race",
+      "made": "generation",
+      "what": "The share each official won by last time, where the research has no record of the race: the world's fine seeded unit inside the office kind's winner-share band",
       "replace": "The past race's result from the election engine"
     },
     "src/core2/modules/offices.ts#pastTerms": {
-      "made": "ad-hoc-draw",
-      "what": "An official's years in office before day one",
+      "made": "generation",
+      "what": "An official's years in office before day one: the mean service of that kind of office as a geometric spread, the world's seeded unit keyed by the seat, bounded by the minimum age, the office's creation and the state's term limit",
       "replace": "Past elections run by the election engine"
     },
     "src/core2/modules/officials.ts#drawnServiceStart": {
