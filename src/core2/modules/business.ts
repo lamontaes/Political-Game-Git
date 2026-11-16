@@ -71,6 +71,13 @@ import {
 import { outsideLaborForce } from "../gov-rules/place-population";
 
 export { BUSINESS_MODULE_ID };
+export { DEFAULT_BUSINESS_BOOKS_DATA };
+/** A business's books and its kind's national sector, as other families read them (dev mode's Industries view). */
+export { sectorOfKind } from "../business-books";
+export {
+  businessBooksView,
+  type BusinessBooksView,
+} from "../business-books-view";
 /** A household's books as other families read them: its medical debt and what it keeps back for its home. */
 export {
   medicalDebtOf,
