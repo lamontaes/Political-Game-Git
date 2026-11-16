@@ -138,4 +138,4 @@ it("a mayor's bill through a member carries its dated steps and its percent a ye
     risenAsk!.provisions.every((p) => p.value > Number(item!.inForce)),
     `${where}: each step raises the amount in force (${item!.inForce})`,
   ).toBe(true);
-}, 120_000);
+}, 45_000);
