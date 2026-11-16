@@ -2661,5 +2661,11 @@ export {
   medianTransactionBalance,
 } from "../starting-cash";
 export { depositsHeld, withdrawSavings } from "../accounts";
+/** The employer taxes a business reads, through the budgets family (families guard: business.ts reaches employer taxes only through here). */
+export {
+  EMPLOYER_TAXES_MODULE_ID,
+  employerTaxShareOfWage,
+  premisesTaxYearMinor,
+} from "./employer-taxes";
 // Re-exported so the climate engine reads the states' bases through this entry (families guard).
 export { residentsOf, STATES } from "./outside-budgets";

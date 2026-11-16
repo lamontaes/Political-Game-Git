@@ -82,7 +82,7 @@ import {
   EMPLOYER_TAXES_MODULE_ID,
   employerTaxShareOfWage,
   premisesTaxYearMinor,
-} from "./employer-taxes";
+} from "./budgets";
 import { PLACE_PRICES_MODULE_ID, businessEnergyLawShare } from "./place-prices";
 
 export { BUSINESS_MODULE_ID };
