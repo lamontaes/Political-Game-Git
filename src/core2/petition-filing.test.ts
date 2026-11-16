@@ -368,7 +368,7 @@ describe("filing is a petition", () => {
       const held = petitionOf(api, filing!.id)!;
       if (
         asksWhenFull === null &&
-        held.signed >= signaturesToGather(held.needed)
+        held.signed >= signaturesToGather(api, filing!.id)
       )
         asksWhenFull = campaignFor(api, filing!.id).doorSignAsks ?? 0;
       const canvass = campaignDayChoices(api, filing!.id).find(

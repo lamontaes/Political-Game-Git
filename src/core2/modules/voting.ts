@@ -164,6 +164,7 @@ import {
   parsePlatform,
   pledgesOf,
   registerDoorChoice,
+  registerPetitionRoll,
   type DoorVisit,
   type PledgeRow,
 } from "./campaigns";
@@ -548,6 +549,7 @@ export function openVoting(core: CoreState): void {
   const api = coreAPI(core);
   registerWardResidency(candidateInWard);
   registerDoorChoice(doorChoiceOf);
+  registerPetitionRoll(onRollToday);
   rememberOpeningElectorate(api);
   pollingPlaces(api);
   // The world opens already in motion: who is registered, and who moved
@@ -931,6 +933,28 @@ function namedElectionTurnout(
 }
 
 /**
+ * Whether a person is on the count's roll today, the roll the clerk checks a
+ * petition against and a campaign reads to size its target. The roll's ids
+ * are held for the day.
+ */
+function onRollToday(api: CoreAPI, personId: string): boolean {
+  const held = rollIdsByDay.get(api.state);
+  if (held?.date === api.state.date && held.size === api.state.people.size)
+    return held.ids.has(personId);
+  const ids = new Set(electorateRoll(api).map((v) => v.id));
+  rollIdsByDay.set(api.state, {
+    date: api.state.date,
+    size: api.state.people.size,
+    ids,
+  });
+  return ids.has(personId);
+}
+const rollIdsByDay = new WeakMap<
+  object,
+  { date: string; size: number; ids: ReadonlySet<string> }
+>();
+
+/**
  * The clerk's check of a petition, the morning after its deadline: each
  * signature stands where its signer is on the count's roll that day (alive,
  * living in the town, of voting age, not barred), and is struck otherwise.
@@ -943,10 +967,9 @@ function checkPetition(api: CoreAPI, petitionId: string): void {
   // One standing signature row is one signature, a counted resident's as a
   // full person's (pool item elections-petition-check-miscount): the clerk
   // counts names on paper, so every row ends up counted or struck.
-  const roll = new Set(electorateRoll(api).map((v) => v.id));
   const signers = petitionSigners(api, filingId);
   const struckIds = signers
-    .filter((s) => !roll.has(s.personId))
+    .filter((s) => !onRollToday(api, s.personId))
     .map((s) => s.personId);
   // The signatures circulators gathered outside the town are the counted
   // voters of the race's places beyond it, on that place's roll.
