@@ -8,6 +8,7 @@
  * Read-only views spend no game time and write nothing. Words come from the
  * English engine; this returns record data and ids only.
  */
+import { askReading } from "../core2/modules/partnerships";
 import type { GovernmentLevel } from "../core2/government-level";
 import billCatalogData from "../core2/data/legislature/bill-catalog.json" with { type: "json" };
 import { moneySince, watchMoney } from "../core2/tooling/money-watch";
@@ -2302,6 +2303,16 @@ export class DevMode {
         .map((id) => core.durableLog.get(id))
         .filter((row) => row !== undefined),
       pending: this.pending.get(personId) ?? null,
+      // What the card's Ask out and Propose read for the player and this
+      // person: the gate, the last answer, and how they would weigh it today.
+      asks:
+        this.player && personId !== this.player.personId
+          ? askReading(
+              this.api,
+              this.player.personId as PersonId,
+              personId as PersonId,
+            )
+          : null,
     };
   }
 

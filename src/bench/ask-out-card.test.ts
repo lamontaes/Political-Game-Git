@@ -1,6 +1,7 @@
 import { expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { ageOnDate, makeIsoDate } from "../core2/kernel/dates";
+import { DevMode } from "./dev-mode";
 import { benchRequest, benchWorld } from "./handler";
 
 /*
@@ -126,4 +127,25 @@ it("the card's Ask out is answered at once as a scene (ask-out-card-1)", async (
     ["yes", "nothing-changed"],
     `${where}: ${JSON.stringify(after)}`,
   ).toContain(said);
+
+  // Dev mode shows why: the person view's record of the answer carries its
+  // weight and the terms it was made of, and the card's gate as it reads now.
+  const view = new DevMode(
+    world.core!,
+    world.director,
+    world.player,
+    world.placeId,
+  ).person(other!);
+  const kept = view.records.find((row) => row.id === record!.id);
+  expect(Number(kept?.facts?.weight), where).toBeGreaterThanOrEqual(0);
+  expect(kept?.facts?.["weighed.fit"], where).toBeDefined();
+  expect(kept?.facts?.["weighed.tie"], where).toBeDefined();
+  const reading = view.asks!;
+  expect(reading["ask-out"]?.lastAnswer, where).toBeTruthy();
+  expect(
+    said === "yes"
+      ? reading.propose?.gate.open
+      : reading["ask-out"]?.gate.reason,
+    where,
+  ).toBe(said === "yes" ? true : "nothing-changed");
 }, 130_000);

@@ -1176,7 +1176,7 @@ function askOutWeight(
   api: CoreAPI,
   asker: Readonly<PersonState>,
   asked: Readonly<PersonState>,
-): { weight: number; reason: AskReason } {
+): Weighed {
   const core = api.state as CoreState;
   const zero = api.parameter("zero");
   const mine = pairScore(core, asked, asker);
@@ -1195,17 +1195,32 @@ function askOutWeight(
     if (score.fit * score.tie > (best ? best.fit * best.tie : zero))
       best = score;
   }
+  const terms = {
+    fit: mine.fit,
+    tie: mine.tie,
+    ...(best ? { bestOtherFit: best.fit, bestOtherTie: best.tie } : {}),
+  };
   if (mine.fit * mine.tie <= zero)
     return {
       weight: zero,
       reason: mine.fit <= zero ? "age-gap" : "barely-know",
+      terms,
     };
-  if (!best) return { weight: api.parameter("one"), reason: "barely-know" };
+  if (!best)
+    return { weight: api.parameter("one"), reason: "barely-know", terms };
   return {
     weight: (mine.fit * mine.tie) / (best.fit * best.tie),
     reason:
       mine.fit / best.fit < mine.tie / best.tie ? "age-gap" : "barely-know",
+    terms,
   };
+}
+
+/** An answer's weight, the reason a no would give, and the terms it was made of (shown in dev mode). */
+interface Weighed {
+  weight: number;
+  reason: AskReason;
+  terms: Readonly<Record<string, number>>;
 }
 
 /** How the partner weighs a proposal: how far the couple has come, and the tie. */
@@ -1214,7 +1229,7 @@ function proposeWeight(
   asker: Readonly<PersonState>,
   asked: Readonly<PersonState>,
   couple: CoupleRow,
-): { weight: number; reason: AskReason } {
+): Weighed {
   const core = api.state as CoreState;
   const half = api.parameter("half");
   // The couple's own climb: dating is the first half of the way to an
@@ -1225,15 +1240,24 @@ function proposeWeight(
       : couple.stage === "dating" || couple.stage === "move-in-asked"
         ? couple.progress * half
         : api.parameter("one");
-  const tie =
-    (closenessBetween(core, asked.id, asker.id) /
-      typicalCloseness(api, asked)) *
-    partnerFactorOf(api, asked);
+  const closeness = closenessBetween(core, asked.id, asker.id);
+  const typical = typicalCloseness(api, asked);
+  const partnerFactor = partnerFactorOf(api, asked);
+  const tie = (closeness / typical) * partnerFactor;
   // A no says whichever falls further short: the time the two have had, or
   // how sure the partner is of the tie.
   return {
     weight: (along / half) * tie,
     reason: along / half < tie ? "too-soon" : "not-sure-yet",
+    terms: {
+      progress: couple.progress,
+      along,
+      half,
+      closeness,
+      typicalCloseness: typical,
+      partnerFactor,
+      tie,
+    },
   };
 }
 
@@ -1300,6 +1324,49 @@ export function canAsk(
 }
 
 /**
+ * What the card's Ask out and Propose read now between the player and this
+ * person, for dev mode's person view: the gate (open, or why not), the last
+ * answer kept, and how the other would weigh the ask today, with its terms.
+ * It reads only.
+ */
+export function askReading(
+  api: CoreAPI,
+  playerId: PersonId,
+  otherId: PersonId,
+): Record<
+  AskKind,
+  {
+    gate: { open: boolean; reason?: AskReason };
+    lastAnswer: Readonly<AskRow> | null;
+    weighedNow: Weighed | null;
+  }
+> {
+  const core = api.state as CoreState;
+  const me = core.people.get(playerId);
+  const other = core.people.get(otherId);
+  const mine = partnerLinkOf(core, playerId);
+  const read = (kind: AskKind) => ({
+    gate: canAsk(api, playerId, otherId, kind),
+    lastAnswer:
+      (store(api)
+        .table("asks")
+        .get(askRowId(kind, playerId, otherId)) as unknown as
+        AskRow | undefined) ?? null,
+    weighedNow:
+      !me || !other || other.tier === "husk"
+        ? null
+        : kind === "ask-out"
+          ? partnerLinkOf(core, otherId)
+            ? null
+            : askOutWeight(api, me, other)
+          : mine?.personIds.includes(otherId)
+            ? proposeWeight(api, me, other, coupleOf(api, mine))
+            : null,
+  });
+  return { "ask-out": read("ask-out"), propose: read("propose") };
+}
+
+/**
  * Where an ask is made: the room the player stands in (an organization or a
  * household), and whether it was by phone because the other was elsewhere.
  */
@@ -1317,6 +1384,8 @@ function keepAnswer(
   weight: number,
   reason?: AskReason,
   where?: AskWhere,
+  /** The terms the weight was made of, kept on the record for dev mode's trace. */
+  terms: Readonly<Record<string, number>> = {},
 ) {
   const core = api.state as CoreState;
   const id = askRowId(kind, me.id, other.id);
@@ -1358,6 +1427,18 @@ function keepAnswer(
       // Asked by phone, the two apart; asked of this person before.
       ...(where?.byPhone ? { by: "phone" } : {}),
       ...(row.count > api.parameter("one") ? { askedBefore: "yes" } : {}),
+      // How the answer weighed (a yes at one or more) and its terms, and the
+      // weight of the no before it, which the card's gate compared against.
+      weight: String(weight),
+      ...Object.fromEntries(
+        Object.entries(terms).map(([name, value]) => [
+          `weighed.${name}`,
+          String(value),
+        ]),
+      ),
+      ...(held?.answer === "no"
+        ? { weightOfNoBefore: String(held.weight) }
+        : {}),
     },
   });
   return recordId;
@@ -1401,7 +1482,7 @@ export function askOut(
     );
     return { asked: true, answer: "no", reason: "with-someone", recordId };
   }
-  const { weight, reason } = askOutWeight(api, me, other);
+  const { weight, reason, terms } = askOutWeight(api, me, other);
   if (weight < api.parameter("one")) {
     const recordId = keepAnswer(
       api,
@@ -1412,6 +1493,7 @@ export function askOut(
       weight,
       reason,
       where,
+      terms,
     );
     return { asked: true, answer: "no", reason, recordId };
   }
@@ -1443,6 +1525,7 @@ export function askOut(
     weight,
     undefined,
     where,
+    terms,
   );
   return { asked: true, answer: "yes", recordId };
 }
@@ -1474,7 +1557,7 @@ export function propose(
   const other = core.people.get(otherId)!;
   const link = partnerLinkOf(core, playerId)!;
   const couple = coupleOf(api, link);
-  const { weight, reason } = proposeWeight(api, me, other, couple);
+  const { weight, reason, terms } = proposeWeight(api, me, other, couple);
   if (weight < api.parameter("one")) {
     const recordId = keepAnswer(
       api,
@@ -1485,6 +1568,7 @@ export function propose(
       weight,
       reason,
       where,
+      terms,
     );
     return { asked: true, answer: "no", reason, recordId };
   }
@@ -1505,6 +1589,7 @@ export function propose(
     weight,
     undefined,
     where,
+    terms,
   );
   return { asked: true, answer: "yes", recordId };
 }
