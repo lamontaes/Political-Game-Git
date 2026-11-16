@@ -7,7 +7,10 @@
  * South Dakota (place 4667340, seed c200623d…): the player's state's House,
  * Ohio's House (a played death of its speaker in spring 2025) and Minnesota's
  * Senate (34 to 33). Tests marked "(vacancy writer)" end a term with the
- * offices engine's own `vacateSeat`, not a played event.
+ * offices engine's own `vacateSeat`, not a played event. Each test's limit is
+ * near twice its slower measured time (alone and beside the file's other
+ * tests, Nov 15): about 14 and 19 s, 11 and 15 s, 32 and 36 s, 15 and 18 s, 35
+ * and 38 s.
  */
 import { describe, expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
@@ -164,7 +167,7 @@ describe("a vacancy fills what its holder held", () => {
     expect(Object.keys(seen[0]!.facts ?? {}).sort()).toEqual(
       ["level", "mid-term", presiding.post].sort(),
     );
-  }, 180_000);
+  }, 40_000);
 
   it("(vacancy writer) a vacancy of a member who held no post prints nothing and changes no post", () => {
     const { api } = setup();
@@ -188,7 +191,7 @@ describe("a vacancy fills what its holder held", () => {
         expect(
           committees(api).find((c) => c.committee === row.committee),
         ).toEqual(row);
-  }, 180_000);
+  }, 30_000);
 
   it("(vacancy writer) a majority that changes hands organizes in full, and every committee keeps its party ratio", () => {
     // Minnesota's Senate sits 34 to 33 in this world; the game's own vacancy
@@ -221,7 +224,7 @@ describe("a vacancy fills what its holder held", () => {
     advanceCore(core, addDays(makeIsoDate(core.date), 60));
     organize(api, chamber);
     ratioHolds(api, chamber);
-  }, 240_000);
+  }, 75_000);
 
   it("(unit check of the ratio rule, eleven resignations at once) a committee that no longer fits its party ratio is seated again by the assigner's rule", () => {
     // Eleven members of Minnesota's Senate minority resign through the
@@ -250,7 +253,7 @@ describe("a vacancy fills what its holder held", () => {
     ).side;
     expect(after).toBe(sideBefore);
     ratioHolds(api, chamber);
-  }, 240_000);
+  }, 40_000);
 
   it("(played) Ohio's House loses its speaker to a death in the played year and fills the post, nothing else", () => {
     // In this world (Vilas, place 4667340, the seed above) the health engine
@@ -316,5 +319,5 @@ describe("a vacancy fills what its holder held", () => {
       );
     }
     expect(printed).toBeGreaterThan(0);
-  }, 300_000);
+  }, 80_000);
 });

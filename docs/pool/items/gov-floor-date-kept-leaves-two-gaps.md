@@ -5,7 +5,7 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: merged
 claimed-by: claude/cluster11-floor-gaps
 pr: #9474
 blocked-on:

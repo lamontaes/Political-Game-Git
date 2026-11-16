@@ -92,6 +92,10 @@
       "kind": "acquittal-reply",
       "stage": "default"
     },
+    "veto": {
+      "kind": "veto-reply",
+      "stage": "default"
+    },
     "address-point": {
       "kind": "address-point",
       "stage": "default"
@@ -286,6 +290,11 @@
       "refuse": "refuse",
       "deflect": "deflect"
     },
+    "veto-reply": {
+      "holds": "refuse",
+      "gives": "apologize",
+      "leave": "decline"
+    },
     "work-day": {
       "plan": "answer",
       "wish": "answer",
@@ -433,6 +442,30 @@
     "farewell": "farewell",
     "phoneSelf": "greet-phone-self",
     "aboutFacts": ["employer", "school", "place", "topic", "relation"]
+  },
+  "knownByAct": {
+    "about": "Account lead, Nov 15 (#9489, point 3): someone who knows the other only from an act on the public record between them (a veto or signing of their bill, an appointment) knows who they are without having spent time together. The greeting's introduction then takes the stage `stage` instead of a stranger's, with the mark `act-<what>` (from `said`) and a second mark saying whose act it was: `act-mine` when the listener did it to the speaker (the speaker's bill, the speaker's appointment), `act-theirs` when the speaker did it (Words lead, Nov 15). The mark `known` holds back every stranger's answer and welcome (\"Good to meet you\", \"now we've met\"). One row for every act made apart: a record of one of these kinds that names both people. A veto writes no shared time; a signing does (world-legislating.ts executiveHours), so a signed bill's sponsor is met, not only known.",
+    "kinds": {
+      "executive-action": {
+        "what": "action",
+        "doer": "executiveId",
+        "said": {
+          "vetoed": "vetoed",
+          "overridden": "vetoed",
+          "signed": "signed",
+          "unsigned": "unsigned"
+        }
+      },
+      "official-appointed": {
+        "what": "appointed",
+        "doer": "appointedBy"
+      }
+    },
+    "stage": "known"
+  },
+  "metThroughPast": {
+    "about": "Account lead, Nov 15 (item people-schoolmates-meet-as-strangers, evidence from the second reader at Dortches): two people the records put in the same school year or on the same campaign spent time together, however long ago, so neither introduces themselves as to a stranger; the shared-school subject is how they place each other. Kinds are sharedHistory's (src/core2/shared-history.ts). Not `coworker`: that row says only that both are or were paid by one employer, which for a state or a large firm holds thousands who never met (a governor and every legislator are the state's).",
+    "kinds": ["schoolmate", "campaign"]
   },
   "familyTalk": {
     "about": "Owner, Oct 15, evening (batch 11 grading): a family talk is a personal scene only, since the family has little involvement in play for now. Between relatives, work, school, where each is from and mutual acquaintances are not talked about ('Where do you work' between relatives is not a scene; neither is 'Have you talked to Diana?'). These are the subject kinds a relative does not raise or ask; what is left is the household's own news (a lost job, an eviction), kin, and news passed on.",
