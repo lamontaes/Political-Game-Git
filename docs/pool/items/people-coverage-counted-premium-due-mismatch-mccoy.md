@@ -5,10 +5,10 @@ area: people
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: merged
 standard: 2
 claimed-by:
-pr: 9514
+pr: #9514
 after:
 blocked-on:
 lead: m0-m2
@@ -16,6 +16,7 @@ source: Laws thread gate on the train, Nov 15, 2026 (PR #9443's gate; red on Tra
 model: opus
 effort: medium
 root: rc8-law-judged-by-paperwork
+merged-at: 2026-11-16T01:32:27.556Z
 ---
 
 **What.** In McCoy, Colorado, a counted household's coverage row says a premium of $524.67 a month is due, but the coverage engine billed it $114.00. The counted household then pays a different premium from a full household of its shape, against the one-rule standard. Seen: the counted household's premium in dev mode's household money and in the coverage records.
