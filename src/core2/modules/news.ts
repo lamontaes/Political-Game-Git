@@ -723,7 +723,7 @@ export function createNewsModule(
         const alive = ids.filter((id) => api.state.people.get(id)?.alive);
         const read = (
           id: string,
-          topic: string,
+          topic: string | undefined,
           desiredChange: string | undefined,
           witnessIds: readonly PersonId[],
           facts: Readonly<Record<string, string>>,
@@ -735,7 +735,7 @@ export function createNewsModule(
             personIds: [],
             witnessIds: [...witnessIds],
             placeId: story.placeId,
-            topic,
+            ...(topic ? { topic } : {}),
             desiredChange,
             ...(story.moodImpulse === undefined
               ? {}
@@ -806,9 +806,15 @@ export function createNewsModule(
         // named official (the story names the crime and the official), so the
         // people who read it can ask the official about it.
         const reportsBribe = !!story.facts.crimeId && !!story.facts.officialId;
+        // A story of a national public event (the President's address, a
+        // nomination, the month's approval) is read with no side too, so a
+        // reader can bring it up later: its record is the nation's, by the
+        // level the wire read from the record's own fields (press-desk.ts).
+        const national = story.facts.wireLevel === "nation";
         if (
-          !story.topic ||
-          (!story.desiredChange && !story.facts.lawId && !reportsBribe)
+          !national &&
+          (!story.topic ||
+            (!story.desiredChange && !story.facts.lawId && !reportsBribe))
         )
           continue;
         const event = read(
