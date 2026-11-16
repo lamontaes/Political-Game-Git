@@ -98,7 +98,7 @@ const CASES: readonly Case[] = [
     said: [
       {
         moves: ["answer"],
-        text: "I couldn't vote for it. That's the whole of it.",
+        text: "I couldn't vote for it. That's all there is to it.",
       },
       {
         moves: ["refuse", "answer"],

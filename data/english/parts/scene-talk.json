@@ -5003,10 +5003,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-answer.i-couldn-t-vote-for-it-that-s-the-whole-of-it",
+      "key": "scene-talk.reply-answer.i-couldn-t-vote-for-it-that-s-all-there-is-to-it",
       "move": "reply-answer",
       "kind": "spoken",
-      "text": "I couldn't vote for it. That's the whole of it.",
+      "text": "I couldn't vote for it. That's all there is to it.",
       "uses": [
         {
           "subject": "scene",
