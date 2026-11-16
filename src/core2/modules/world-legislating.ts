@@ -27,6 +27,7 @@
  * each member's. The session's filings, hearings and votes are counted
  * together on its floor day.
  */
+import { headsLocalExecutive } from "../offices-executives";
 import { snapshotExplicitControlV1 } from "../player-control-state-v1";
 import type { GovernmentLevel } from "../government-level";
 import { townLean } from "./campaigns";
@@ -1222,7 +1223,7 @@ const SITTING_CALENDAR = {
         .table("offices")
         .get(term.officeId) as unknown as
         { kind: string; jurisdiction: string } | undefined;
-      if (!office || !/^(mayor|county-executive)$/.test(office.kind)) continue;
+      if (!office || !headsLocalExecutive(office.kind)) continue;
       for (const other of api
         .moduleState(OFFICES_MODULE_ID)
         .table("offices")
