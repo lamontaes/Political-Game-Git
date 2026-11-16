@@ -58,6 +58,11 @@ describe("the line register", () => {
       grew("untied", now.untiedBankLines, BASELINE.untiedBankLines),
     ).toEqual([]);
   });
+  it("adds no short reply that says nothing of its own", () => {
+    expect(
+      now.saysNothing.filter((key) => !BASELINE.saysNothing.includes(key)),
+    ).toEqual([]);
+  });
   it("adds no sentence typed in code or a data file", () => {
     expect([
       ...grew("code", now.codeLines, BASELINE.codeLines),
@@ -89,6 +94,12 @@ describe("the line register", () => {
         .map(
           (key) =>
             `unreached ${key} is reached now: remove it from the baseline`,
+        ),
+      ...BASELINE.saysNothing
+        .filter((key) => !now.saysNothing.includes(key))
+        .map(
+          (key) =>
+            `${key} is gone or says something now: remove it from the baseline`,
         ),
       ...BASELINE.unreadBanks
         .filter((file) => !now.unreadBanks.includes(file))

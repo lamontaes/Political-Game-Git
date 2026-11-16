@@ -48,7 +48,13 @@ const view: DevView = {
     reach: "Reached by an engine",
     heldByRule: "Held back by the grades or a rule",
     ties: {
+      declared: "the tie its use declares",
+      binding: "a record kind and field its composer places it from",
       facts: "facts of the record",
+      subject: "the subject it answers or raises (a tie record is required)",
+      frame: "the meeting itself: two people in one place",
+      scene: "the scene's cause record and its cast",
+      document: "one record, read by a reader",
       "slot-pair": "a record of the speaker or hearer",
       "slot-world": "a record of the world only",
       weak: "nothing: only the kind of subject",

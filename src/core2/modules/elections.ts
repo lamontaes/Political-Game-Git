@@ -336,6 +336,18 @@ function readRequirements(
   ).places[stateKey]?.[family];
 }
 
+/**
+ * Whether a place takes filings for a family of offices at all: false only
+ * where its record says the family does not apply (a territory with no county
+ * or municipal governments, or local leaders chosen by custom or appointment).
+ */
+export function filingFamilyApplies(
+  stateKey: string,
+  family: OfficeFamily,
+): boolean {
+  return readRequirements(stateKey, family)?.applicable !== false;
+}
+
 /** What one place requires to file for one family of offices. */
 export function filingRequirements(
   stateKey: string,
@@ -1061,33 +1073,45 @@ function homeDistrict(
   return String((draw % districts) + 1);
 }
 
+/** Why the player is not offered a contest today; null where they are (`playerFilingBar`). */
+export type PlayerFilingBar =
+  | "not-your-office"
+  | "not-your-town"
+  | "window-not-open"
+  | "window-closed"
+  | "other-district"
+  | "filed-elsewhere"
+  | "at-large-elsewhere";
+
 /**
- * Whether the player may run in this contest today: an office the player runs
- * for (`playerMayFileForKind`), a seat that covers their home, its filing
- * window open (`filingWindowOpen`), and of a local body's seats only the one
- * race that is theirs (owner, Nov 1 playtest: "I should only be able to run
- * for one council seat"; CTO's town council seats ruling): their own
- * district's seat where the body is elected by district, and where seats are
- * elected at large, the at-large race once, as one candidacy. A candidacy
- * already filed in one of a body's races on that day rules out its others.
+ * The one reader of whether the player is offered a contest and, when not,
+ * the one reason: the clerk's counter, Campaigns and the filing error read
+ * this and keep no copy of the rules (owner, Nov 16: a voter sees and runs
+ * for the seat that is theirs). The order of the checks is the order of the
+ * reasons: the office, the seat's town, the window, the body's other races,
+ * then the district.
  */
-function playerMayFileWith(
+export function playerFilingBar(
   api: CoreAPI,
   contestId: string,
-  localKinds: readonly string[],
-): boolean {
+  localKinds: readonly string[] = townLocalKinds(api),
+): PlayerFilingBar | null {
   const contest = table(api, "contests").get(contestId) as unknown as
     ContestRow | undefined;
-  if (!contest) return false;
+  if (!contest) return "not-your-office";
   const offices = api.moduleState(OFFICES_MODULE_ID);
   const office = offices.table("offices").get(contest.officeId) as
     PlayerSeatOffice | undefined;
-  if (!playerMayFileForKind(office?.kind ?? "", localKinds)) return false;
-  if (!filingWindowOpen(contest, api.state.date)) return false;
+  if (!playerMayFileForKind(office?.kind ?? "", localKinds))
+    return "not-your-office";
   const seat = offices.table("seats").get(contest.seatId) as
     { coversTown?: boolean; district?: string | null } | undefined;
-  if (seat?.coversTown === false) return false;
-  if (!office || !LOCAL_LEVELS.has(office.level ?? "")) return true;
+  if (seat?.coversTown === false) return "not-your-town";
+  if (!filingWindowOpen(contest, api.state.date))
+    return api.state.date < filingWindowOpens(contest)
+      ? "window-not-open"
+      : "window-closed";
+  if (!office || !LOCAL_LEVELS.has(office.level ?? "")) return null;
   // The body's other races on the same day: its seats up together.
   const sameDay = (
     table(api, "contests").query("byOffice", [
@@ -1104,11 +1128,13 @@ function playerMayFileWith(
         playerId,
       ]) as unknown as FilingRow[]
     ).some((f) => f.status !== "withdrawn" && others.has(f.contestId));
-    if (filedElsewhere) return false;
+    if (filedElsewhere) return "filed-elsewhere";
   }
   // A district seat: only the home's own district.
   if (seat?.district)
-    return seat.district === homeDistrict(api, contest.officeId, office);
+    return seat.district === homeDistrict(api, contest.officeId, office)
+      ? null
+      : "other-district";
   // The at-large seats up that day are one race (the voting engine counts
   // them together and seats the top finishers, `atLargeGroup`): the player is
   // offered it once, as the first of those seats' contests whose filing is
@@ -1120,7 +1146,47 @@ function playerMayFileWith(
       return !s?.district && filingWindowOpen(other, api.state.date);
     })
     .sort((a, b) => a.seatId.localeCompare(b.seatId, "en", { numeric: true }));
-  return atLarge[0]?.id === contest.id;
+  return atLarge[0]?.id === contest.id ? null : "at-large-elsewhere";
+}
+
+/**
+ * Whether a district seat is not the viewer's own: a body elected by
+ * district shows its viewer their own district's seat only (Campaigns reads
+ * this, the clerk's counter reads `playerFilingBar`).
+ */
+export function seatIsAnotherDistrict(
+  api: CoreAPI,
+  contestId: string,
+): boolean {
+  const contest = table(api, "contests").get(contestId) as unknown as
+    ContestRow | undefined;
+  if (!contest) return false;
+  const offices = api.moduleState(OFFICES_MODULE_ID);
+  const office = offices.table("offices").get(contest.officeId) as
+    PlayerSeatOffice | undefined;
+  const seat = offices.table("seats").get(contest.seatId) as
+    { district?: string | null } | undefined;
+  if (!office || !seat?.district || !LOCAL_LEVELS.has(office.level ?? ""))
+    return false;
+  return seat.district !== homeDistrict(api, contest.officeId, office);
+}
+
+/**
+ * Whether the player may run in this contest today: an office the player runs
+ * for (`playerMayFileForKind`), a seat that covers their home, its filing
+ * window open (`filingWindowOpen`), and of a local body's seats only the one
+ * race that is theirs (owner, Nov 1 playtest: "I should only be able to run
+ * for one council seat"; CTO's town council seats ruling): their own
+ * district's seat where the body is elected by district, and where seats are
+ * elected at large, the at-large race once, as one candidacy. A candidacy
+ * already filed in one of a body's races on that day rules out its others.
+ */
+function playerMayFileWith(
+  api: CoreAPI,
+  contestId: string,
+  localKinds: readonly string[],
+): boolean {
+  return playerFilingBar(api, contestId, localKinds) === null;
 }
 
 /**

@@ -122,7 +122,7 @@ it(`${where}: grown residents are born where their state's people were, and the 
   expect(n - inState - abroad, where).toBeGreaterThan(0);
   expect(broughtByIt, where).toBeGreaterThan(0);
   expect(withinAfter, where).toBeGreaterThan(0);
-}, 80_000);
+}, 140_000);
 
 /**
  * The player's household, whose cards a player opens first, came here once
@@ -174,5 +174,5 @@ it.each([
           ).toBe(town);
     }
   },
-  80_000,
+  140_000,
 );

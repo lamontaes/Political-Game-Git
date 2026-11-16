@@ -78,7 +78,13 @@ import {
 } from "./laws";
 import type { LawRowInput } from "./laws";
 import stateReach from "../data/places/state-reach.json" with { type: "json" };
-import { OFFICES_MODULE_ID, servingTermsOf, type TermRow } from "./offices";
+import {
+  OFFICES_MODULE_ID,
+  servingTermsOf,
+  townSeats,
+  type TermRow,
+} from "./offices";
+import { registerOfficeTime, type OfficeTime } from "./work";
 import agendaData from "../data/legislature/outside-agenda.json" with { type: "json" };
 import executiveSittings from "../data/legislature/executive-sittings.json" with { type: "json" };
 import localExecutiveRules from "../../../data/research/gov/local-executive-introduction-2026.json" with { type: "json" };
@@ -224,6 +230,7 @@ export function openWorldLegislating(core: CoreState): void {
   registerFloorDateReader(floorDateOf);
   registerFloorCalendarer(projectedFloorDate);
   registerSittingCalendar(SITTING_CALENDAR);
+  registerOfficeTime(townMeetingHoursToday);
   if (!core.modules.has(WORLD_LEGISLATING_MODULE_ID))
     registerModule(core, WORLD_LEGISLATING_MODULE);
   const api = coreAPI(core);
@@ -1207,6 +1214,34 @@ const SITTING_CALENDAR = {
   sittings: sittingsBetween,
   contactHoursPerDay: sittingContactHours,
 };
+
+/**
+ * The hours a town or county body's meeting takes from each member's day, and
+ * the executive's who sits with it (office-hours-never-fill-an-officials-day):
+ * the body's meeting on its own rule today, at its length (`sittingHours`), an
+ * evening on top of a member's own job. A body with no meeting today takes
+ * nothing; a legislature's days are the state office day's (office-day-state.ts).
+ */
+function townMeetingHoursToday(api: CoreAPI): ReadonlyMap<string, OfficeTime> {
+  const out = new Map<string, OfficeTime>();
+  const today = api.state.date;
+  const county = lawChain(api).countyGeoids[0];
+  const bodies = new Set(townSeats(api).map((row) => row.office.id));
+  for (const officeId of bodies) {
+    if (!bodyOf(api, officeId)) continue;
+    if (nextMeeting(api, officeId, plusDays(today, -1), county)?.date !== today)
+      continue;
+    for (const seat of SITTING_CALENDAR.seats(api, officeId)) {
+      const held = out.get(seat.personId);
+      const sourceId = `meeting:${officeId}:${today}`;
+      out.set(seat.personId, {
+        hours: (held?.hours ?? 0) + campaignParameter("sittingHours"),
+        sourceId: held ? `${held.sourceId} ${sourceId}` : sourceId,
+      });
+    }
+  }
+  return out;
+}
 
 /**
  * When a body sits next, for a bill the player puts on its calendar: a town

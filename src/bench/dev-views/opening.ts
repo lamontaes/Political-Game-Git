@@ -21,6 +21,7 @@ import {
   placeReferencePopulation,
 } from "../../core2/gov-rules/place-population";
 import { townWorkplaceWeights } from "../../core2/modules/jobs";
+import type { EntrantPick } from "../world";
 import { worldOffsetUnit } from "../../core2/world-draw";
 import { pastElections, townSeats } from "../../core2/modules/offices";
 import {
@@ -197,6 +198,28 @@ function personView(core: CoreState, personId: string): OpeningRow[] {
     }),
     row("person.birthDate", "Born", person.birthDate),
   ];
+  // The player's age at the start, and how the opening set it (world.ts `entrantChoice`).
+  const pick =
+    personId === core.playerId && core.placeMetadata?.openingPlayerPick
+      ? (JSON.parse(core.placeMetadata.openingPlayerPick) as EntrantPick)
+      : undefined;
+  if (pick)
+    rows.push(
+      row(
+        pick.how === "town-adult"
+          ? "person.playerAge.townAdult"
+          : "person.playerAge.chosen",
+        "Age when the life began",
+        pick.how === "chosen-age"
+          ? `${pick.age} (chosen ${pick.chosenAge}${pick.estimated ? "; nobody in town was that age, so the nearest age stands in" : ""})`
+          : pick.age,
+        pick.how === "town-adult"
+          ? {
+              drawKey: `opening-player:${person.placeId}: ${shown(pick.unit ?? 0)}, one of ${pick.among} adults in id order`,
+            }
+          : {},
+      ),
+    );
   const traitSources = person.traitSources ?? {};
   for (const [trait, value] of Object.entries(person.traits).sort((a, b) =>
     a[0].localeCompare(b[0]),

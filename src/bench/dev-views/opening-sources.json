@@ -69,6 +69,14 @@
       "by": "src/core2/population.ts from the place's survey sample; invented people in src/core2/gov-rules/invented-person-age.ts fall only on days 1 to 28",
       "replace": "Any day of the month"
     },
+    "person.playerAge.townAdult": {
+      "made": "generation",
+      "by": "src/bench/world.ts entrantChoice: with no birthday chosen, one of the town's own residents aged 18 and up, picked by the world's seeded unit (opening-player:<place>), so the player's age follows the place's adults (owner, Nov 16: \"Just do 18 and up right now\")"
+    },
+    "person.playerAge.chosen": {
+      "made": "decision",
+      "by": "src/bench/world.ts entrantBornNear: the age chosen in the New game creator (18 and up); the player is a resident that age, born nearest the chosen day, and the birthday moves only within that age (creator.ts applyChosenPerson)"
+    },
     "person.trait": {
       "made": "generation",
       "by": "src/core2/opening-personality.ts: the facet's spread by age and upbringing, drawn with its own random stream (Box-Muller)",
@@ -76,8 +84,7 @@
     },
     "person.cash": {
       "made": "generation",
-      "by": "src/core2/starting-cash.ts: SCF 2022 transaction accounts by income; counted households in src/core2/counted-money.ts drew from a hash with 8 times too many extremes",
-      "replace": "Renters thread: the world's seeded unit"
+      "by": "src/core2/starting-cash.ts: SCF 2022 transaction accounts by income, times each household's own savings draw on the world's seeded unit (src/core2/household-balance-draw.ts)"
     },
     "person.job": {
       "made": "generation",
@@ -160,6 +167,10 @@
     }
   },
   "sites": {
+    "src/bench/world.ts#entrantChoice": {
+      "made": "generation",
+      "what": "Which of the town's adults the player begins as, with no birthday chosen"
+    },
     "src/core2/appearance.ts#derivePersonAppearance": {
       "made": "generation",
       "what": "How a person looks"
@@ -206,11 +217,6 @@
       "made": "ad-hoc-draw",
       "what": "Which illnesses a person has, a hash against rates",
       "replace": "The world's seeded unit keyed by the record's id"
-    },
-    "src/core2/counted-money.ts#savingWeight": {
-      "made": "ad-hoc-draw",
-      "what": "Counted households' savings, a hash with 8 times too many extremes",
-      "replace": "Renters thread: the world's seeded unit keyed by the record's id"
     },
     "src/core2/electorate-places.ts#citizenShareOf": {
       "made": "world-offset",
@@ -262,6 +268,11 @@
       "made": "ad-hoc-draw",
       "what": "Miles to relatives, a hash",
       "replace": "Distance from the relatives' recorded places"
+    },
+    "src/core2/household-balance-draw.ts#balanceDrawZ": {
+      "made": "generation",
+      "what": "A household's savings against the survey median for a family like it",
+      "replace": "Savings read from the household's record (pool item world-opening-savings-read-from-household-record)"
     },
     "src/core2/housing-construction.ts#phase": {
       "made": "ad-hoc-draw",

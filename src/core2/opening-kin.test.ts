@@ -51,7 +51,11 @@ beforeAll(() => {
     placeKey: drawn.place.key,
     minimumPeople: p("populationTestIncrement"),
   });
-});
+  // Building the town is the file's one slow step: the file's tests and hooks
+  // take about 1.3 seconds alone, its slowest test 0.13 seconds beside other
+  // tests; the limit is set well above both so a loaded machine does not
+  // time it out.
+}, 30_000);
 
 describe("generated opening kin", () => {
   it("gives every resident a family and keeps relatives outside the town, their adults holding the opening cash", () => {
