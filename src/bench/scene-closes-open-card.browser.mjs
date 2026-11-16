@@ -70,9 +70,12 @@ try {
   await finishTalk(page);
 
   // The day's answer waits until the menu is open, as it does when the day is slow.
+  // The gate is made before Day is pressed, so the order holds whichever comes first: the
+  // request reaching the route or the menu showing.
   let release = () => {};
+  let gate = Promise.resolve();
   await page.route("**/api/advance*", async (route) => {
-    await new Promise((resolve) => (release = resolve));
+    await gate;
     await route.continue();
   });
   let seen = null;
@@ -81,6 +84,7 @@ try {
       (r) => r.url().includes("/api/advance"),
       { timeout: 300000 },
     );
+    gate = new Promise((resolve) => (release = resolve));
     await page.locator("#day").click();
     await page.locator('#rings .ring[data-tab="people"]').click();
     await page.locator("#sheet").waitFor({ state: "visible" });
