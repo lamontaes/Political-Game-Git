@@ -29,7 +29,7 @@ Seen: Onida SD, seed 32676d7b87d0bf96:1, filing …council:0:2025-04-01:person_0
 
 **Rules.** One title function: the engine's lowercasing is the single place a title changes case.
 
-**Done when.** A second session sees, at Onida SD seed 32676d7b87d0bf96, that src/director/purpose-scenes.test.ts passes, and that a family-filing scene for a council candidate says the office in lowercase mid-sentence and capitalized at a sentence start.
+**Done when.** A second session sees, at a place drawn from all 56 (name the place and seed) and again at Onida SD seed 32676d7b87d0bf96, that src/director/purpose-scenes.test.ts passes, and that a family-filing scene for a council candidate says the office in lowercase mid-sentence and capitalized at a sentence start.
 
 **Waits on.** Nothing.
 
