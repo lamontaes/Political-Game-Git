@@ -88,6 +88,7 @@ import {
   lawChain,
   lawInForce,
   LAWS_MODULE_ID,
+  townStatePlaces,
   MEDICARE_LINE,
   medicaidCoverageSpells,
   payMedicaidCare,
@@ -97,7 +98,6 @@ import { webReach, type WebReach } from "./modules/outcome-web";
 import { householdIncome, residentsRuntime } from "./modules/residents";
 import { WEB_LINKS } from "./modules/laws";
 import { lawApplied } from "./law-reach/applied";
-import { townStatePlaces } from "./law-reach/group-b-people";
 
 /** The engine named on the law-reach rows these bills write. */
 const MEDICAL_BILLS_ENGINE = "medical-bills";

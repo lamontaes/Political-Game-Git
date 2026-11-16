@@ -32,6 +32,7 @@ import {
   lawChain,
   lawInForce,
   LAWS_MODULE_ID,
+  reachOn,
 } from "../core2/modules/laws";
 import { inForceOn, inTownChain, LAW_SERIES } from "../core2/laws-in-force";
 import type { LawRowInput } from "../core2/laws-starting";
@@ -41,9 +42,6 @@ import { GROUP_B_KEYS } from "../core2/law-reach/group-b";
 import { jobsAt } from "../core2/law-reach/group-b-money";
 import { organizationName } from "../core2/past";
 import { lawReach } from "../core2/law-reach/applied";
-import { reachOn } from "../core2/law-reach/host";
-import type { MedicalBillRow } from "../core2/medical-bills";
-import { COVERAGE_MODULE_ID } from "../core2/modules/coverage";
 import {
   PUBLIC_EMPLOYER_CLASSES,
   PUBLIC_PAY_FLOOR,
@@ -102,8 +100,10 @@ import { isDemoted, residentsRuntime } from "../core2/modules/residents";
 import { layOffWorker } from "../core2/modules/jobs";
 import {
   beginSeriousIllness,
+  COVERAGE_MODULE_ID,
   HEALTH_MODULE,
   healthReport,
+  type MedicalBillRow,
 } from "../core2/modules/health";
 import { snapshotExplicitControlV1 } from "../core2/player-control-state-v1";
 import type { CoreAPI, CoreState, PersonId } from "../core2/types";
