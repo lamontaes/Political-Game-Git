@@ -5,10 +5,10 @@ area: play
 kind: feature
 priority: 2
 size: L
-status: open
+status: merged
 standard: 2
 claimed-by:
-pr:
+pr: #9691
 after:
 blocked-on:
 lead: words
@@ -18,6 +18,7 @@ root: none
 source: Words builder A, Nov 16 (owner: dev mode must "trace and force every scene to play")
 claimed-at:
 checked:
+merged-at: 2026-11-16T20:00:49.426Z
 ---
 
 **What.** Dev mode's scene view can bring about the cause of 5 situation types at once and waits for the world to write the cause of 81 more, so a person cannot force most scenes to play and see why. Each type's cause is a record some engine writes, and the director stages the scene from that record. Seen: in the scene view, every type's force button writes its cause through its engine's own writer, marks it forced, and the scene stages on the next day.
