@@ -77,6 +77,11 @@ it("shows how the town, the player, their household, a business and an office op
   expect(person.rows.find((r) => r.label === "Name")?.recordId).toBe(
     world.core.playerId,
   );
+  // The player's age when the life began, and how the opening set it (no birthday chosen here).
+  const age = person.rows.find((r) => r.label === "Age when the life began");
+  expect(age?.made, where).toBe(SOURCES.kinds.generation);
+  expect(Number(age?.value), where).toBeGreaterThanOrEqual(18);
+  expect(age?.drawKey, where).toMatch(/^opening-player:/);
 
   const household = await ask("subject=household");
   expect(household.rows[0]!.value, where).not.toBe("0");
