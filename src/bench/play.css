@@ -121,6 +121,8 @@
   --control-radius: 2px;
   --control-font: 500 var(--t-ui) / 1.2 var(--ui);
   /* A row a player picks in a list beside its page. */
+  /* The person card's bust column. */
+  --card-bust: 440px;
   --pick-pad: 6px 12px;
   --pick-font: 600 var(--t-ui) var(--ui);
   --pick-aside-font: 400 var(--t-label) var(--ui);
@@ -2779,7 +2781,15 @@ body:not(.dev) .dev-only {
   grid-template-columns: 1fr;
 }
 .roster-screen.people > .roster-page .strip-screen:has(.mxbust) {
-  grid-template-columns: 300px 1fr;
+  grid-template-columns: var(--card-bust) minmax(0, 1fr);
+}
+/* The approved person card (pl-people): the bust at the left, the name over
+   two columns of sections beside it, so no half of the card stands empty. */
+.strip-screen.name-beside .mx3cols {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+}
+.strip-screen.name-beside .mx3cols.one {
+  grid-template-columns: minmax(0, 1fr);
 }
 /* Politics layouts retain the existing Kit 13 panel frame. */
 #sheet-body:has(.government-picker, .entries-rows, .screen-grid) {
