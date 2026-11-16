@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: merged
 standard: 2
 claimed-by: claude/red-main-coming-of-age-scene-morning
 pr: #9035
@@ -16,6 +16,7 @@ model: opus
 effort: low
 root: none
 source: Red desk, Nov 13 (red on main reported on #8928; seed 5cd2e18b)
+merged-at: 2026-11-15T22:17:27.475Z
 ---
 
 **What.** `src/bench/player-day-morning.test.ts` fails "a coming of age met on the way is met on its morning" on clean main at GOLDEN_PATH_SEED=5cd2e18b25c5834c85a09af1d1b6409633727a1049246cde5279b0e8f1fd14f5 (Beaver Springs, Pennsylvania, 4204824): the resident turns eighteen on January 23, 2025, three days into a Week, and the Week ends on January 28 instead of resting on the birthday morning. A director scene (a candidate filed on January 22) stops the clock at 7:00 AM on the birthday; the advance takes that stop as the birthday's, and once the player goes on from the scene the Week runs to its end. Seen: a player who presses Week before turning eighteen and gets a scene that morning never lands on the day they come of voting age.

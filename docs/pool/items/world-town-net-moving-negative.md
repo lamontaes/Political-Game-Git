@@ -5,7 +5,7 @@ area: world
 kind: bug
 priority: 1
 size: M
-status: in-pr
+status: merged
 standard: 2
 claimed-by: account-lead-t28 (Claude Opus 5.5, cloud)
 pr: #9057

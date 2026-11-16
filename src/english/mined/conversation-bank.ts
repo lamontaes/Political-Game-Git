@@ -146,7 +146,23 @@ export function conversationDataFromBank(
       const fits = CONVERSATION_RULES.answerMoves?.[use.subject];
       if (field === "answers" && fits && !fits.includes(use.choice)) continue;
       const moves = ((subjects[use.subject] ??= {})[field] ??= []);
-      if (moves.some((row) => row.part === part.key && row.key === use.choice))
+      // A piece used twice for one answer keeps each use that has its own
+      // facts or stages (the same words to a steady housemate and to a
+      // worried one); only a repeat of the same use is dropped.
+      const sameUse = (row: Move) =>
+        field !== "answers" ||
+        (JSON.stringify(row.requiresFacts ?? []) ===
+          JSON.stringify(
+            (use.requiresFacts ?? []).map((f) => f.replace(/_/g, "-")),
+          ) &&
+          JSON.stringify(row.stages ?? []) ===
+            JSON.stringify(use.stages ?? []));
+      if (
+        moves.some(
+          (row) =>
+            row.part === part.key && row.key === use.choice && sameUse(row),
+        )
+      )
         continue;
       const move =
         field === "answers"

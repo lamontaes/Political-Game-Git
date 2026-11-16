@@ -291,6 +291,11 @@
       "what": "born"
     },
     {
+      "kindPrefix": "birthplace",
+      "life": "born",
+      "what": "born"
+    },
+    {
       "kindPrefix": "family:partner",
       "life": "partner",
       "what": "partnered",

@@ -5,10 +5,10 @@ area: play
 kind: bug
 priority: 3
 size: S
-status: in-pr
+status: merged
 standard: 2
 claimed-by: claude/p1-travel-trail-tile-picture
-pr: 9021
+pr: #9021
 after:
 blocked-on:
 lead: play-first
@@ -17,6 +17,7 @@ effort: low
 root: none
 source: Playtester P1, Nov 13
 claimed-at: 2026-11-13
+merged-at: 2026-11-15T22:43:44.445Z
 ---
 
 **What.** Curtisville, Pennsylvania (bench seed 24b09c77-0589-433f-9b6b-0c77e53b4ff7, main 5e68cde1), after filing for supervisor. Travel shows CAMPAIGN with one card, "The campaign trail", as an empty black box above the filing office and the town's places, which all have pictures. #8681 gave the trail's own tiles (doors, event, forum…) their pictures, but not the card that opens the trail. Seen: the campaign trail's card at the top of Travel once the player has filed.

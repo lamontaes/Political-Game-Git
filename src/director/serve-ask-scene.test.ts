@@ -40,6 +40,7 @@ import { corePlaceByKey } from "../core2/place-lookup";
 import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
 import type { Director } from "./ledger";
+import sceneBank from "../../data/english/parts/scene-talk.json" with { type: "json" };
 import { purposeScene, replyInScene } from "./purpose-scene";
 import type { TreeNode } from "./scene-talk";
 
@@ -172,6 +173,23 @@ const ends = (node: TreeNode): TreeNode[] => [
   ...node.replies.flatMap((reply) => (reply.next ? ends(reply.next) : [])),
 ];
 
+/** Whether a bank piece is placed by a fact (or a fact family, "reason-"). */
+function placedBy(key: string, fact: string): boolean {
+  return (
+    (
+      sceneBank as unknown as {
+        parts: { key: string; uses?: { requiresFacts?: string[] }[] }[];
+      }
+    ).parts
+      .find((part) => part.key === key)
+      ?.uses?.some((use) =>
+        use.requiresFacts?.some((name) =>
+          fact.endsWith("-") ? name.startsWith(fact) : name === fact,
+        ),
+      ) ?? false
+  );
+}
+
 /**
  * The player asks one person; an hour passes on the clock; the scene the
  * director staged plays and the player takes the reply named (`thank`,
@@ -224,16 +242,21 @@ function ask(w: World, personId: string, take: "thank" | "accept") {
   ).toBeGreaterThanOrEqual(0);
   const replyId = replyInScene(w.core, w.director, w.playerId, entry!, [index]);
   const reply = w.core.durableLog.get(replyId!)!;
-  const chosen = scene.talk.tree.replies[index]!;
+  // As the player plays it: the replies offered under "You say:", each with
+  // the answer it draws, and the one taken marked.
   const lines = [
     ...scene.talk.narration.map((l) => `Narrator: ${l.text}`),
     `${scene.talk.state.speaker}: ${scene.talk.state.text}`,
     `${first.speaker}: ${first.text}`,
-    `${chosen.line.speaker}: ${chosen.line.text}`,
-    ...(chosen.next?.lines.map((l) => `${l.speaker}: ${l.text}`) ?? []),
+    "You say:",
+    ...scene.talk.tree.replies.flatMap((r, i) => [
+      `  ${i + 1}. ${r.line.text}${i === index ? "  (taken)" : ""}`,
+      ...(r.next?.lines.map((l) => `     ${l.speaker}: ${l.text}`) ?? []),
+    ]),
   ];
   return {
     row,
+    scene,
     reply,
     lines,
     after: serveAsk(api, row.id) as ServeAskRow | undefined,
@@ -243,7 +266,7 @@ function ask(w: World, personId: string, take: "thank" | "accept") {
 for (const place of PLACES)
   it(
     `asking a running mate plays as a scene; a no stands for now and is asked again a month on (${place.key}, seed ${place.seed})`,
-    { timeout: 600_000 },
+    { timeout: 105_000 },
     () => {
       const w = world(place);
       const api = coreAPI(w.core);
@@ -320,9 +343,45 @@ for (const place of PLACES)
         `   terms now:  ${terms(again.row.standing.terms)}`,
         ...again.lines,
       );
+      // The second ask reads the first from the record (#9369): the opening
+      // says they turned the player down once; a second no on the same
+      // reason says nothing has changed for them, and is let go, never
+      // pressed again.
+      const factsAgain = new Set(again.scene.facts.map((row) => row.key));
+      expect(factsAgain.has("asked-before"), w.where).toBe(true);
+      expect(
+        placedBy(again.scene.talk.narration[0]!.parts[0]!, "asked-before"),
+        `${w.where}: ${again.scene.talk.narration[0]!.text}`,
+      ).toBe(true);
       if (place.later === "no") {
+        const answer = again.scene.talk.tree.lines[0]!;
+        expect(
+          placedBy(
+            answer.parts[0]!,
+            again.row.reasonBefore === again.row.standing.reason
+              ? "nothing-moved"
+              : "reason-",
+          ),
+          `${w.where}: ${answer.text}`,
+        ).toBe(true);
+        expect(
+          again.scene.talk.tree.replies.map((reply) => reply.line.move),
+          w.where,
+        ).toEqual(["accept"]);
         expect(again.reply.facts?.ending, w.where).toBe("turned-down");
         expect(again.after?.answer, w.where).toBe("no");
+        // A third ask a month later reads the second no the same way.
+        advanceCore(w.core, addDays(makeIsoDate(w.core.date), 31));
+        const third = ask(w, no.id, "accept");
+        out.push("-- asked a third time a month on:", ...third.lines);
+        expect(
+          third.scene.facts.some((row) => row.key === "asked-before"),
+          w.where,
+        ).toBe(true);
+        expect(
+          third.scene.talk.tree.replies.map((reply) => reply.line.move),
+          w.where,
+        ).toEqual(["accept"]);
         // 3. A yes from someone willing: seated on the ticket, and the asks
         // for the seat are dropped (the table holds only open seats' asks).
         const pick = offeredRunningMates(api, w.filing.id)!.choices.find(
@@ -356,7 +415,7 @@ for (const place of PLACES)
 
 it(
   `a later yes after the player's stance moves to theirs, asked at once (${CHANGED.key}, seed ${CHANGED.seed})`,
-  { timeout: 600_000 },
+  { timeout: 60_000 },
   () => {
     const w = world(CHANGED);
     const api = coreAPI(w.core);
@@ -416,7 +475,7 @@ it(
 
 it(
   `Choose for me names someone willing, never the one who said no (${PLACES[1].key}, seed ${PLACES[1].seed})`,
-  { timeout: 600_000 },
+  { timeout: 60_000 },
   () => {
     const w = world(PLACES[1]);
     const api = coreAPI(w.core);
@@ -496,7 +555,7 @@ const ASKS_FIRST: {
 for (const place of ASKS_FIRST)
   it(
     `a stranger asks one thing first and answers the player's ${place.reply} (${place.key}, seed ${place.seed})`,
-    { timeout: 600_000 },
+    { timeout: 55_000 },
     () => {
       const w = world(place);
       const api = coreAPI(w.core);

@@ -202,6 +202,56 @@ function countedStanceRow(
     .table("countedStances")
     .get(`${groupId}:${topic}`) as unknown as Stance | undefined;
 }
+/** The counted group a household stands in, as the news and crime rows name it (a filled-in household keeps its last group). */
+function householdGroupId(
+  api: CoreAPI,
+  householdId: string,
+): string | undefined {
+  const store = residentsRuntime(api.state as CoreState)?.store;
+  const ix = store?.householdOf.get(householdId);
+  const h = ix === undefined ? undefined : store!.households[ix];
+  const group = h && h.group >= 0 ? store!.groups[h.group] : undefined;
+  return group ? groupPersonId(group.id) : undefined;
+}
+
+/**
+ * The stance a counted voter holds from what their group has heard or lived
+ * since the opening: the group's row in countedStances, the mean of its
+ * members' moves, so each member holds it (one model, two tiers). None for
+ * anyone not counted.
+ */
+export function countedGroupStance(
+  api: CoreAPI,
+  personId: string,
+  question: string,
+): Stance | undefined {
+  if (!api.state.modules.has(VIEWS_MODULE_ID)) return undefined;
+  const store = residentsRuntime(api.state as CoreState)?.store;
+  const m = store?.countedMember(personId);
+  if (m === undefined) return undefined;
+  const h = store!.households[store!.household[m]!];
+  const group = h && h.group >= 0 ? store!.groups[h.group] : undefined;
+  return group
+    ? countedStanceRow(api, groupPersonId(group.id), question)
+    : undefined;
+}
+
+/**
+ * The stance rows a household's group held when it was filled in: what each
+ * of its adults starts from as a full person, as they held it while counted.
+ */
+export function countedStancesOfHousehold(
+  api: CoreAPI,
+  householdId: string,
+): readonly Stance[] {
+  const id = householdGroupId(api, householdId);
+  if (!id || !api.state.modules.has(VIEWS_MODULE_ID)) return [];
+  return api
+    .moduleState(VIEWS_MODULE_ID)
+    .table("countedStances")
+    .query("byGroup", [id]) as unknown as readonly Stance[];
+}
+
 /** The existing press question reader consumes the groups' heard strength. */
 export function countedNewsConcern(
   api: CoreAPI,
@@ -340,8 +390,6 @@ export function liveCountedCrime(api: CoreAPI, tally: CountedCrimeTally): void {
     exposure: Math.min(1, reached / group.count),
   });
   if (!stance) return;
-  // stopgapId: SG-PEOPLE-counted-victims-lived-crime (counted ballots do not read the group's stance; a member filled in does not carry it)
-  api.stopgap("SG-PEOPLE-counted-victims-lived-crime");
   api
     .moduleState(VIEWS_MODULE_ID)
     .table("countedStances")
