@@ -13,7 +13,7 @@ import {
   type CrimeRecord,
 } from "./modules/corruption";
 import { buildPopulation } from "./population";
-import { currentCloseness } from "./closeness";
+import { currentCloseness, temperedHours, tieHoursBetween } from "./closeness";
 import { coreAPI } from "./state";
 import { decisionLean } from "./trait-decisions";
 import { officialHousehold } from "./official-living";
@@ -185,11 +185,30 @@ function corruptionCases(
       // is already very close, and the chooser (rightly) weighs how far the
       // tie soured, not that a fixed number of hours were lost.
       api.relationship(crime!.offererId, crime!.officialId, "contact", 200);
+      // The rupture is sized to the tie it must take to its floor: every hour
+      // the tie stands on today, over what an hour of falling-out counts for
+      // between these two (`temperedHours`), twice over, and never less than
+      // the 5,000 hours this fixture always took. A fixed 5,000 left a pair
+      // with a long past at 0.96 of 0.98 (Gilbert, West Virginia, seed
+      // 5af5202e...), so neither told anyone.
+      const perHour = -temperedHours(
+        core,
+        core.people.get(crime!.offererId),
+        core.people.get(crime!.officialId),
+        -1,
+      );
+      const rupture = Math.max(
+        5000,
+        Math.ceil(
+          (2 * tieHoursBetween(core, crime!.offererId, crime!.officialId)) /
+            perHour,
+        ),
+      );
       api.relationship(
         crime!.offererId,
         crime!.officialId,
         "contact",
-        -5000,
+        -rupture,
         undefined,
         {
           cause: "fixture-falling-out",
