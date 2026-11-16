@@ -730,11 +730,23 @@ const ROUTES: readonly Route[] = [
       request.method === "POST" && url.pathname === "/api/talk/say",
     run: async ({ url, send }) => {
       if (!state.conversation) throw new Error("No conversation is open.");
-      state.conversation = say(
-        requireCore(),
-        state.conversation,
-        url.searchParams.get("key") ?? "",
-      );
+      try {
+        state.conversation = say(
+          requireCore(),
+          state.conversation,
+          url.searchParams.get("key") ?? "",
+        );
+      } catch (error) {
+        // A press of a reply the talk has already moved past (a second press
+        // that was in flight with the first, or a button from an older beat) is
+        // answered with the talk as it stands now: nothing is said twice and
+        // nothing is lost. The engine still refuses the stale key.
+        if (
+          !(error instanceof Error) ||
+          !/^Not an offered line/.test(error.message)
+        )
+          throw error;
+      }
       send(200, talkView(state.conversation));
       return;
     },

@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "later-replies-move-the-talk-on",
   "rubric": "After the first exchange the replies offered do not rehash the first options; they move the talk on.",
-  "judged": 1006,
+  "judged": 989,
   "no": {
     "00084oe3x4o": {
       "keys": [
@@ -276,19 +276,6 @@
         "scene-talk.reply-leave.hearsay.i-ll-answer-when-i-know-who-said-it"
       ],
       "why": "Most of the replies offered now repeat the first replies' denial, explanation, question about the source or push-back in new words."
-    },
-    "04ikzmt54hp": {
-      "keys": [
-        "scene-talk.follow-plea.then-tell-me-who-to-ask-so-i-m-not-back-in-here-next-week-with-the-same-paper",
-        "scene-talk.reply-promise.i-ll-call-the-housing-office-myself-and-ask-them-to-hold-the-filing-until-you-ve",
-        "scene-talk.reply-ask.who-signed-it-and-has-the-landlord-said-anything-to-you-in-person",
-        "scene-talk.reply-decline.the-town-doesn-t-pay-rent-i-wish-it-did-legal-aid-takes-cases-like-yours",
-        "scene-talk.reply-offer.my-caseworker-can-call-the-landlord-with-you-in-the-room-stay-for-that",
-        "scene-talk.reply-promise.i-ll-ask-the-legal-aid-office-to-take-your-notice-before-the-date-on-it",
-        "scene-talk.reply-offer.sit-down-with-the-caseworker-and-bring-your-lease-together-you-can-read-what-tha",
-        "scene-talk.reply-decline.i-can-t-stop-a-landlord-from-filing-i-can-tell-you-where-tenants-get-free-help"
-      ],
-      "why": "Legal aid, the caseworker and 'I can't stop a landlord' are the first legal aid, caseworker and town-can't-pay options again."
     },
     "04wpjmu3gn0": {
       "keys": [
@@ -2437,20 +2424,6 @@
       ],
       "why": "The replies restate the first refusal, the apply-to-the-posting reply and 'Have him call my office' in new words."
     },
-    "16gowv5px2c": {
-      "keys": [
-        "scene-talk.follow-answer.i-protect-my-sources-that-s-the-job",
-        "scene-talk.reply-confess.it-s-true-and-i-should-have-said-so-sooner-put-that-in-and-put-in-that",
-        "scene-talk.reply-deny.i-d-like-to-see-the-document-you-re-working-from",
-        "scene-talk.reply-refuse.i-m-not-going-to-respond-to-that",
-        "scene-talk.reply-confront.who-gave-you-this",
-        "scene-talk.reply-lie.that-never-crossed-my-desk",
-        "scene-talk.reply-confess.yes-i-did-it-i-m-sorry-and-i-ll-tell-you-what-i-m-doing-about-it",
-        "scene-talk.reply-deny.that-s-wrong-what-s-the-specific-claim-and-who-s-your-source-on-the-da",
-        "scene-talk.reply-leave.i-have-to-go"
-      ],
-      "why": "'Yes, I did it. I'm sorry' restates the first admission and 'That's wrong. What's the specific claim' restates 'I'd like to see the document', so most rehash."
-    },
     "16rn8wczb70": {
       "keys": [
         "scene-talk.follow-press.witness.that-doesn-t-answer-it-first-tell-me-what-you-meant-when-you-offered-the-money",
@@ -3092,20 +3065,6 @@
       ],
       "why": "Taking the job, passing on {position} and not deciding now restate the first yes, no and talk-it-over options."
     },
-    "1iw6wfbpfns": {
-      "keys": [
-        "scene-talk.follow-answer.the-landlord-s-agent-signed-it-he-told-me-in-the-hallway-there-s-nothing-to-talk",
-        "scene-talk.reply-promise.i-ll-call-the-housing-office-myself-and-ask-them-to-hold-the-filing-until-you-ve",
-        "scene-talk.reply-ask.who-signed-it-and-has-the-landlord-said-anything-to-you-in-person",
-        "scene-talk.reply-decline.the-town-doesn-t-pay-rent-i-wish-it-did-legal-aid-takes-cases-like-yours",
-        "scene-talk.reply-offer.my-caseworker-can-call-the-landlord-with-you-in-the-room-stay-for-that",
-        "scene-talk.reply-promise.i-ll-ask-the-legal-aid-office-to-take-your-notice-before-the-date-on-it",
-        "scene-talk.reply-offer.leave-the-notice-with-my-staff-they-ll-copy-it-and-call-the-landlord-s-office-to",
-        "scene-talk.reply-decline.i-can-t-stop-a-landlord-from-filing-i-can-tell-you-where-tenants-get-free-help",
-        "scene-talk.reply-leave.i-have-people-waiting-but-you-re-not-leaving-empty-go-to-the-desk-and-my-staff-w"
-      ],
-      "why": "Legal aid, staff calling the landlord and 'I can't stop a landlord' restate the first legal aid, caseworker call and town-can't-pay options."
-    },
     "1ja1tvhd9zt": {
       "keys": [
         "scene-talk.follow-press.witness.you-ll-have-to-do-better-than-that-first-i-know-what-i-heard",
@@ -3354,20 +3313,6 @@
         "scene-talk.reply-leave.let-me-splash-some-water-on-my-face-first"
       ],
       "why": "Calling, 'Not yet' and splashing water just restate the opening dial, wait and time-alone replies."
-    },
-    "1pecvt3clwf": {
-      "keys": [
-        "scene-talk.follow-answer.my-source-asked-not-to-be-named-the-records-speak-for-themselves",
-        "scene-talk.reply-confess.it-s-true-and-i-should-have-said-so-sooner-put-that-in-and-put-in-that",
-        "scene-talk.reply-deny.that-isn-t-what-happened-show-me-what-you-have",
-        "scene-talk.reply-refuse.talk-to-my-office-i-have-nothing-for-you",
-        "scene-talk.reply-confront.this-is-a-hit-job-and-you-know-it",
-        "scene-talk.reply-lie.i-didn-t-sign-anything-you-can-ask-anyone",
-        "scene-talk.reply-confess.yes-i-did-it-i-m-sorry-and-i-ll-tell-you-what-i-m-doing-about-it",
-        "scene-talk.reply-deny.that-s-wrong-what-s-the-specific-claim-and-who-s-your-source-on-the-da",
-        "scene-talk.reply-leave.i-have-to-go"
-      ],
-      "why": "'Yes, I did it. I'm sorry' rewords the first 'It's true... I'm fixing it', and 'That's wrong. What's the specific claim' rewords 'That isn't what happened. Show me what you have', so two of three rehash."
     },
     "1pn4545aodz": {
       "keys": [
@@ -3774,20 +3719,6 @@
         "scene-talk.reply-deflect.let-me-think-about-whether-i-m-the-right-person-to-help-and-i-ll-tell-you-tomorrow"
       ],
       "why": "'I'll help you', 'I'll take care of it' and 'tell you tomorrow' are the first glad-to-help, I-will and find-me-tomorrow replies again."
-    },
-    "1xd2e7s4j5b": {
-      "keys": [
-        "scene-talk.follow-answer.you-know-i-can-t-tell-you-that",
-        "scene-talk.reply-confess.it-s-true-and-i-should-have-said-so-sooner-put-that-in-and-put-in-that",
-        "scene-talk.reply-deny.i-d-like-to-see-the-document-you-re-working-from",
-        "scene-talk.reply-refuse.i-m-not-going-to-respond-to-that",
-        "scene-talk.reply-confront.this-is-a-hit-job-and-you-know-it",
-        "scene-talk.reply-lie.i-was-never-there-check-the-minutes",
-        "scene-talk.reply-confess.it-s-true-i-made-a-mistake-and-i-m-not-going-to-hide-behind-a-statement",
-        "scene-talk.reply-deny.that-isn-t-what-happened-show-me-what-you-have",
-        "scene-talk.reply-leave.i-have-to-go"
-      ],
-      "why": "'It's true. I made a mistake' rewords the first 'It's true, and I should have said so sooner', and 'Show me what you have' rewords 'I'd like to see the document', so two of three rehash."
     },
     "1xmn8nl0aag": {
       "keys": [
@@ -4610,5 +4541,5 @@
       "why": "Two of three replies restate first options: the denial of any payment repeats the first denial, and declining to discuss it repeats having to go."
     }
   },
-  "yesHash": "1j9cfscca3u"
+  "yesHash": "2ci8gvzplec"
 }

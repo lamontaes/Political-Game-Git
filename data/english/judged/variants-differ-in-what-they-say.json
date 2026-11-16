@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "variants-differ-in-what-they-say",
   "rubric": "Variants of a slot differ in what they say, each tied to a fact in the record, not only in wording; a bank grows by adding conditions and specifics, not more generic lines.",
-  "judged": 1184,
+  "judged": 1170,
   "no": {
     "006el8dj9s1": {
       "keys": [
@@ -175,14 +175,6 @@
         "scene-talk.follow-accept.uh-huh"
       ],
       "why": "Both lines are the same brief acknowledgment."
-    },
-    "030rtld9v54": {
-      "keys": [
-        "scene-talk.reply-refuse.i-m-not-going-to-respond-to-that",
-        "scene-talk.reply-refuse.no-comment-at-this-time",
-        "scene-talk.reply-refuse.talk-to-my-office-i-have-nothing-for-you"
-      ],
-      "why": "All three lines decline to comment in other words."
     },
     "0317gv07zvy": {
       "keys": [
@@ -838,13 +830,6 @@
         "scene-talk.reply-apologize.sorry-i-let-it-slide"
       ],
       "why": "Both lines apologize for not graduating."
-    },
-    "0d71sl6v0lo": {
-      "keys": [
-        "scene-talk.reply-deny.that-isn-t-what-happened-show-me-what-you-have",
-        "scene-talk.reply-deny.that-s-wrong-what-s-the-specific-claim-and-who-s-your-source-on-the-da"
-      ],
-      "why": "Both denials say it is wrong and ask for the evidence, reworded."
     },
     "0dbpnwk9rxw": {
       "keys": [
@@ -2523,13 +2508,6 @@
       ],
       "why": "Both lines say I understand and will give it time, the same acceptance with no fact to choose between them."
     },
-    "14ku036engb": {
-      "keys": [
-        "scene-talk.follow-answer.my-source-asked-not-to-be-named-the-records-speak-for-themselves",
-        "scene-talk.follow-answer.you-know-i-can-t-tell-you-that"
-      ],
-      "why": "Both lines refuse to name the source in other words."
-    },
     "14kyi744kiz": {
       "keys": [
         "scene-talk.follow-thank.first-monday-of-next-month-thanks",
@@ -2664,14 +2642,6 @@
         "scene-talk.reply-apologize.you-re-right-i-ll-leave-it-out"
       ],
       "why": "All five agree to drop the remark, with only the wording changing."
-    },
-    "16z0m2o7ffb": {
-      "keys": [
-        "scene-talk.reply-deflect.a-lot-of-paper-gets-written-that-doesn-t-make-it-right",
-        "scene-talk.reply-deflect.minutes-record-who-spoke-not-who-agreed",
-        "scene-talk.reply-deflect.the-minutes-say-a-lot-of-things"
-      ],
-      "why": "All three lines dismiss the written record in other words."
     },
     "17f69iry26c": {
       "keys": [
@@ -3374,13 +3344,6 @@
         "scene-talk.follow-plea.think-about-what-you-re-doing-no-one-else-will-see-it"
       ],
       "why": "Most of the pleas say the briber has a lot riding on it, with no fact to choose among them."
-    },
-    "1iz6fkpjd1p": {
-      "keys": [
-        "scene-talk.reply-decline.i-can-t-stop-a-landlord-from-filing-i-can-tell-you-where-tenants-get-free-help",
-        "scene-talk.reply-decline.the-town-doesn-t-pay-rent-i-wish-it-did-legal-aid-takes-cases-like-yours"
-      ],
-      "why": "Both lines say the town can't help and point to free legal aid."
     },
     "1j99mpi1shc": {
       "keys": [
@@ -4339,14 +4302,6 @@
       ],
       "why": "All three lines step away to cool off in other words."
     },
-    "209ms6euizt": {
-      "keys": [
-        "scene-talk.reply-confess.it-s-true-and-i-should-have-said-so-sooner-put-that-in-and-put-in-that",
-        "scene-talk.reply-confess.it-s-true-i-made-a-mistake-and-i-m-not-going-to-hide-behind-a-statement",
-        "scene-talk.reply-confess.yes-i-did-it-i-m-sorry-and-i-ll-tell-you-what-i-m-doing-about-it"
-      ],
-      "why": "All three confessions admit it and promise to fix it, reworded."
-    },
     "20d293wro33": {
       "keys": [
         "scene-talk.reply-agree.alright-i-m-in",
@@ -5250,14 +5205,6 @@
       ],
       "why": "All four lines promise to apologize publicly at the meeting, reworded."
     },
-    "2e9hjvd4x26": {
-      "keys": [
-        "scene-talk.follow-thank.all-right-i-ll-print-your-denial-in-full",
-        "scene-talk.follow-thank.noted-the-story-will-say-you-deny-it",
-        "scene-talk.follow-thank.then-i-ll-put-that-you-deny-it"
-      ],
-      "why": "All three lines say the denial will be printed, reworded."
-    },
     "2ewxxhmazkj": {
       "keys": [
         "scene-talk.reply-promise.i-ll-find-the-money-i-don-t-know-how-yet-but-i-will",
@@ -5345,5 +5292,5 @@
       "why": "Both lines promise to look into it before the deadline, the second only adding detail to the same promise."
     }
   },
-  "yesHash": "0x6wpfmxxj8"
+  "yesHash": "02qtayi300h"
 }
