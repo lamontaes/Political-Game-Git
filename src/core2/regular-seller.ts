@@ -1,54 +1,58 @@
 /**
- * A buyer's regular seller, at the opening and for a price law's sale. A
- * household or a business buys a kind of thing from one seller it goes to,
- * not a slice from every seller in town: the buyers of a place are dealt to
- * its sellers so each seller's share of the purchases follows its capacity.
- * Each buyer goes to the seller furthest below its share, then by id. Nothing
- * is drawn, and a town with more sellers holds no more contracts (owner,
- * Nov 16: a town's stores sized from its people; Oct 29: a year must not
- * slow).
+ * A buyer's regular seller. A household or a business buys a kind of thing
+ * from one seller it goes to, not a slice from every seller in town (owner,
+ * Nov 16: a town's stores sized from its people; Oct 29: a year must not slow).
+ *
+ * How near and how liked each seller is to each buyer is generated with the
+ * world, once per pair, from the world's one seeded unit keyed by the buyer's
+ * and the seller's ids (who lives near which store is generation of who
+ * exists, like where they live). The buyer goes to the seller that stands
+ * first for it once each seller's capacity is counted: a seller with twice the
+ * capacity stands first for twice the buyers, in expectation. Because each
+ * pair's standing is fixed, a closing moves only that seller's buyers, each to
+ * its own next seller, and a new store wins exactly the buyers it now stands
+ * first for; nobody else changes stores.
  */
-export class RegularSellers {
-  private readonly dealt = new Map<string, Map<string, number>>();
+import { seededUnit } from "./seeded";
 
-  /**
-   * The seller a buyer of `amount` in market `market` (a place and a kind of
-   * purchase) goes to, of `sellers` with their capacities. Records the
-   * purchase against it.
-   */
-  pick(
-    market: string,
-    sellers: readonly { readonly id: string; readonly weight: number }[],
-    amount: number,
-  ): string | null {
-    if (!sellers.length) return null;
-    const dealt = this.dealt.get(market) ?? new Map<string, number>();
-    this.dealt.set(market, dealt);
-    const positive = sellers.filter((row) => row.weight > 0);
-    // A seller with no recorded capacity takes the average of those with it.
-    const average = positive.length
-      ? positive.reduce((sum, row) => sum + row.weight, 0) / positive.length
-      : 1;
-    const weightOf = (row: { readonly weight: number }) =>
-      row.weight > 0 ? row.weight : average;
-    const total = sellers.reduce((sum, row) => sum + weightOf(row), 0);
-    let dealtTotal = 0;
-    for (const value of dealt.values()) dealtTotal += value;
-    let best: { readonly id: string; readonly weight: number } | null = null;
-    let bestBelow = -Infinity;
-    for (const row of sellers) {
-      const below =
-        (weightOf(row) / total) * (dealtTotal + amount) -
-        (dealt.get(row.id) ?? 0);
-      if (
-        below > bestBelow ||
-        (below === bestBelow && best !== null && row.id < best.id)
-      ) {
-        best = row;
-        bestBelow = below;
-      }
+export interface SellerCapacity {
+  readonly id: string;
+  /** Its capacity: payroll, sales capacity or demand, the same measure for every seller in the list. */
+  readonly weight: number;
+}
+
+/** The seller the buyer goes to, of `sellers`; null when there is none. */
+export function regularSeller(
+  seed: string,
+  buyerId: string,
+  sellers: readonly SellerCapacity[],
+): string | null {
+  if (!sellers.length) return null;
+  let total = 0,
+    counted = 0;
+  for (const row of sellers)
+    if (row.weight > 0) {
+      total += row.weight;
+      counted++;
     }
-    dealt.set(best!.id, (dealt.get(best!.id) ?? 0) + amount);
-    return best!.id;
+  // A seller with no recorded capacity takes the average of those with it.
+  const average = counted ? total / counted : 1;
+  let best: string | null = null,
+    bestStanding = Infinity;
+  for (const row of sellers) {
+    const weight = row.weight > 0 ? row.weight : average;
+    // An exponential standing with rate equal to the capacity: the smallest
+    // stands first, and each seller stands first with its capacity's share.
+    const standing =
+      -Math.log(1 - seededUnit(seed, `regular-seller:${buyerId}:${row.id}`)) /
+      weight;
+    if (
+      standing < bestStanding ||
+      (standing === bestStanding && best !== null && row.id < best)
+    ) {
+      best = row.id;
+      bestStanding = standing;
+    }
   }
+  return best;
 }

@@ -1,5 +1,5 @@
 import { OPENING_CUSTOMER_QUALIFICATION_PREFIX } from "./opening-customer-qualification";
-import { RegularSellers } from "./regular-seller";
+import { regularSeller } from "./regular-seller";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { corePlaceByJurisdictionId, corePlaceByKey } from "./place-lookup";
 import {
@@ -815,7 +815,6 @@ export function createOpeningFinance(
       throw new Error("Opening finance budget apportionment lost minor units.");
     return rows.map(({ id, amount }) => ({ id, amount }));
   };
-  const regularSellers = new RegularSellers();
   const supplierWeights = (rows: readonly OrganizationInput[]) =>
     rows.map((row) => ({
       id: row.id,
@@ -1014,14 +1013,14 @@ export function createOpeningFinance(
       } else parts.push({ amount: budget.amount, suppliers });
       // Each part from the household's one regular seller of it
       // (regular-seller.ts), not a slice from every seller.
-      const shares = parts.flatMap((part, n) =>
+      const shares = parts.flatMap((part) =>
         part.suppliers.length && part.amount > zero
           ? [
               {
-                id: regularSellers.pick(
-                  `${household.placeId}|${budget.id}|${n}`,
+                id: regularSeller(
+                  input.seed,
+                  household.id,
                   supplierWeights(part.suppliers),
-                  part.amount,
                 )!,
                 amount: part.amount,
               },
@@ -1136,10 +1135,10 @@ export function createOpeningFinance(
       // slice from every supplier in town.
       for (const share of [
         {
-          id: regularSellers.pick(
-            `${organization.placeId}|${rule.contractKind}`,
+          id: regularSeller(
+            input.seed,
+            organization.id,
             supplierWeights(suppliers),
-            supplierBudget,
           )!,
           amount: supplierBudget,
         },

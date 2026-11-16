@@ -12,12 +12,20 @@ import type { CoreState } from "../core2/types";
 import { countedHeadcountOf } from "../core2/residents-economy";
 import type { TownBusinessCount } from "../core2/town-establishments";
 import { TOWN_WORKPLACES } from "../core2/town-workplaces";
+import { BUSINESS_MODULE_ID } from "../core2/business-module-id";
+import { coreAPI } from "../core2/state";
+import { DEFAULT_BUSINESS_BOOKS_DATA } from "../core2/business-books";
 
 export interface TownBusinessRow {
   readonly id: string;
   readonly name: string;
   readonly workers: number;
   readonly closedAt: string | null;
+  /** Full households that buy from it now (their everyday-living sellers). */
+  readonly households: number;
+  /** Households that came to it when another store closed or as a new store, and that left it when it closed. */
+  readonly movedIn: number;
+  readonly movedOut: number;
 }
 
 export interface TownBusinessKind {
@@ -59,12 +67,33 @@ export function townBusinesses(
     opening = [];
   }
   const openingOf = new Map(opening.map((row) => [row.kind, row]));
+  // Who buys where, and who changed stores (the business engine's record).
+  const households = new Map<string, number>();
+  for (const plan of core.finance.livingPlans.values())
+    for (const [id, amount] of plan.sellers)
+      if (amount > 0) households.set(id, (households.get(id) ?? 0) + 1);
+  const movedIn = new Map<string, number>(),
+    movedOut = new Map<string, number>();
+  if (core.modules.has(BUSINESS_MODULE_ID))
+    for (const row of coreAPI(core)
+      .moduleState(BUSINESS_MODULE_ID)
+      .table("customerMoves")
+      .rows() as unknown as { fromId: string; toId: string }[]) {
+      movedIn.set(row.toId, (movedIn.get(row.toId) ?? 0) + 1);
+      movedOut.set(row.fromId, (movedOut.get(row.fromId) ?? 0) + 1);
+    }
   const groups = new Map<string, TownBusinessRow[]>();
   for (const [id, book] of core.finance.businesses) {
     const organization = core.organizations.get(id);
     if (!organization || organization.placeId !== placeId) continue;
     if (organization.outsideFlow) continue;
-    const classification = organization.classification ?? organization.kind;
+    // A business founded in play carries its kind on its books.
+    const classification =
+      organization.classification ??
+      DEFAULT_BUSINESS_BOOKS_DATA.classifications.find(
+        (row) => row.kindId === book.kindId,
+      )?.classification ??
+      organization.kind;
     let full = 0;
     if (!book.closedAt)
       for (const jobId of core.finance.jobsByOrganization.get(id) ?? [])
@@ -75,6 +104,9 @@ export function townBusinesses(
       name: organization.name,
       workers: book.closedAt ? 0 : full + countedHeadcountOf(core, id),
       closedAt: book.closedAt ?? null,
+      households: households.get(id) ?? 0,
+      movedIn: movedIn.get(id) ?? 0,
+      movedOut: movedOut.get(id) ?? 0,
     });
     groups.set(classification, list);
   }

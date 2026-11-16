@@ -46,6 +46,15 @@ describe("dev mode's Businesses section (Edgar, Wisconsin, 5522550, seed edgar-p
       return org?.placeId === town && !org.outsideFlow;
     });
     expect(listed).toBe(books.length);
+    // Each business's households are the full households that buy from it.
+    const buying = view.kinds
+      .flatMap((row) => row.businesses)
+      .reduce((n, row) => n + row.households, 0);
+    let held = 0;
+    for (const plan of world.core.finance.livingPlans.values())
+      for (const [id, amount] of plan.sellers)
+        if (amount > 0 && books.includes(id)) held++;
+    expect(buying).toBe(held);
     // The reason names the town's workers, the county's usual size and the count.
     const reason = businessReason(retail, labels);
     expect(reason).toContain("county");

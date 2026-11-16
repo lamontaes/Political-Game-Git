@@ -49,6 +49,9 @@ export async function devBusinessesSection({ labels, send }) {
           [
             { name: labels.business, value: (b) => b.name },
             { name: labels.workers, value: (b) => whole(b.workers) },
+            { name: labels.households, value: (b) => whole(b.households) },
+            { name: labels.movedIn, value: (b) => whole(b.movedIn) },
+            { name: labels.movedOut, value: (b) => whole(b.movedOut) },
             {
               name: labels.closedOn,
               value: (b) => (b.closedAt ? dateWords(b.closedAt) : ""),

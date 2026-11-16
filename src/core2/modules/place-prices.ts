@@ -13,7 +13,7 @@
  * back from outside the town when it falls. Businesses pay a dearer energy
  * price on their own energy costs the same way.
  */
-import { RegularSellers } from "../regular-seller";
+import { regularSeller } from "../regular-seller";
 import { townOutsideOf } from "../opening-outside-market";
 import goods from "../data/prices/goods.json" with { type: "json" };
 import { worldLevel, worldRate } from "../world-draw";
@@ -1526,13 +1526,25 @@ function month(api: CoreAPI): void {
   for (const rule of rules) {
     const sellers =
       rule.kind === "sale" ? licensedSellers(c, rule.placeId) : [];
-    // A household buys from its one regular seller, dealt by the sellers'
-    // demand (regular-seller.ts); a counted group, many households, buys
-    // from them all.
-    const regular = new RegularSellers();
-    const sellerOf = () => {
+    // A household buys from the store it already buys from: the largest of
+    // its everyday-living sellers that is one of these, or else its regular
+    // seller by the same rule (regular-seller.ts). A counted group, many
+    // households, buys from them all.
+    const licensed = new Map(sellers.map((seller) => [seller.id, seller]));
+    const sellerOf = (householdId: string) => {
       if (!sellers.length) return sellers;
-      const id = regular.pick(rule.id, sellers, 1);
+      let own: Seller | undefined,
+        most = 0;
+      for (const [id, amount] of c.finance.livingPlans.get(householdId)
+        ?.sellers ?? []) {
+        const seller = licensed.get(id);
+        if (seller && amount > most) {
+          own = seller;
+          most = amount;
+        }
+      }
+      if (own) return [own];
+      const id = regularSeller(c.seed, householdId, sellers);
       return sellers.filter((seller) => seller.id === id);
     };
     for (const household of c.households.values()) {
@@ -1577,7 +1589,7 @@ function month(api: CoreAPI): void {
         change,
         undefined,
         undefined,
-        sellerOf(),
+        sellerOf(household.id),
         { targetId: household.id, target: "household" },
       );
       learnFromStory(api, rule, payer, household.id, change, pay);

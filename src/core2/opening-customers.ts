@@ -1,5 +1,5 @@
 import { addDays, isoDateFromParts, makeIsoDate } from "./kernel/dates";
-import { RegularSellers } from "./regular-seller";
+import { regularSeller } from "./regular-seller";
 import { stableHash } from "./kernel/ids";
 import {
   OPENING_CUSTOMER_QUALIFICATION_PREFIX,
@@ -890,7 +890,6 @@ export function buildOpeningCustomers(
   const newStocks: OpeningCustomerStockRecord[] = [];
   const usedProviderRecords = new Map<string, RecordedCustomerProvider>();
   const plans: OpeningCustomerBuildReceipt["contractPlans"][number][] = [];
-  const regularSellers = new RegularSellers();
   const householdBudgets: OpeningCustomerBuildReceipt["householdBudgets"][number][] =
     [];
   const publicBudgets: OpeningCustomerBuildReceipt["publicBudgets"][number][] =
@@ -1313,19 +1312,19 @@ export function buildOpeningCustomers(
         continue;
       }
       const agreementId = `${ownedPrefix}household:${household.id}:${service.key}`;
-      // A household buys each service from one regular seller, dealt by the
+      // A household buys each service from one regular seller, by the
       // sellers' recorded capacity (their payroll), not a slice from every
       // seller (regular-seller.ts). The core folds a household's purchases
       // into its everyday living (cost-of-living.ts), where the amount
       // follows prices and pay.
       const seller = {
-        id: regularSellers.pick(
-          `${household.placeId}|${service.key}`,
+        id: regularSeller(
+          input.seed,
+          household.id,
           sellerRows.map((row) => ({
             id: row.id,
             weight: payrollByOrganization.get(row.id) ?? zero,
           })),
-          allocation.amount,
         )!,
       };
       for (const share of [{ id: seller.id, amount: allocation.amount }]) {
