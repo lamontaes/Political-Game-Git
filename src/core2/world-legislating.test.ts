@@ -28,10 +28,10 @@ import {
   openWorldLegislating,
   legislativeSessionsOf,
   sessionsOf,
-  answerIn,
   windowsIn,
   WORLD_LEGISLATING_MODULE_ID,
 } from "./modules/world-legislating";
+import { answerIn } from "./modules/laws";
 import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 
 const START = "2026-01-05";
@@ -76,7 +76,7 @@ describe("M3-10 other governments legislate", () => {
         }),
       );
       openLaws(core);
-      openOffices(core, seed);
+      openOffices(core, seed, core.date);
       openElections(core);
       openCampaigns(core);
       openRecord(core);
@@ -290,7 +290,7 @@ describe("M3-10 other governments legislate", () => {
       }),
     );
     openLaws(core);
-    openOffices(core, seed);
+    openOffices(core, seed, core.date);
     openElections(core);
     openCampaigns(core);
     openRecord(core);
@@ -373,7 +373,7 @@ describe("M3-10 other governments legislate", () => {
         }),
       );
       openLaws(core);
-      openOffices(core, seed);
+      openOffices(core, seed, core.date);
       openElections(core);
       openCampaigns(core);
       openRecord(core);
@@ -490,7 +490,7 @@ describe("M3-10 other governments legislate", () => {
       }),
     );
     openLaws(core);
-    openOffices(core, seed);
+    openOffices(core, seed, core.date);
     openElections(core);
     openCampaigns(core);
     openRecord(core);
@@ -586,7 +586,7 @@ describe("a session already over when the world opens", () => {
       }),
     );
     openLaws(core);
-    openOffices(core, seed);
+    openOffices(core, seed, core.date);
     openElections(core);
     openCampaigns(core);
     openRecord(core);

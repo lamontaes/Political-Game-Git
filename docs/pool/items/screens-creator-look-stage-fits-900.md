@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 3
 size: S
-status: in-pr
+status: merged
 standard: 2
 claimed-by: claude/pool-screens-creator-look-stage-fits-900
 pr: #8601
@@ -18,6 +18,7 @@ effort: low
 root: design-screen-principles
 checked: fable 2026-11-10
 claimed-at: 2026-11-11T05:08:04.169Z
+merged-at: 2026-11-15T22:59:48.987Z
 ---
 
 **What.** The creator's appearance stage (cr-look) is 920 to 943 px tall at 1440x900 on main: the title, the 260px figure preview, ten appearance rows of 40 to 42 px, Randomize, and two rows of actions, so Back and Begin sit under the window's edge and the panel runs off the screen. A look with a wrapped row (Short beard and mustache) is taller still. The owner's rule is no scrolling inside a menu and panels fit the window. This is a layout defect, not a full-body staging one, so the Nov 10 ruling that staging waits for busts does not cover it.

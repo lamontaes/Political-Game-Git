@@ -92,11 +92,10 @@ describe("day zero: the world opens already running", () => {
       }
       for (const row of stock)
         if (row.zeroAtPlaces?.includes(place.placeKey)) {
-          // The first premise here was "no one died in Lewiston's 31-day warm-up window, so its vacancies are empty".
-          // It does not hold: two people died there (the Education Secretary and a press owner). A seat falls vacant
-          // only when the person who held it dies (offices.ts, `life.death`), so the true zero is that neither held
-          // a seat the offices engine keeps; the Secretary's post was refilled on 2025-01-19 by `refillCabinet`
-          // (succession.ts). Illnesses are in progress on day one.
+          // A place whose vacancies table is empty at day 0 (`zeroAtPlaces`) is one where no one who
+          // died in the 31-day warm-up window held a seat the offices engine keeps (a seat falls vacant
+          // only when its holder dies, offices.ts `life.death`); a cabinet post is refilled by
+          // `refillCabinet` (succession.ts). Illnesses are in progress on day one.
           const report = healthReport(world.core);
           const terms = coreAPI(world.core)
             .moduleState(OFFICES_MODULE_ID)

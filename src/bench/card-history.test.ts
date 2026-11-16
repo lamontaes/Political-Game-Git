@@ -1,4 +1,3 @@
-import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "../core2/bookkeeping";
@@ -14,9 +13,41 @@ import { schoolsOf } from "./words";
 // After the world, whose modules it reads (an import cycle otherwise).
 import { lifeOf } from "../core2/person-life";
 
+it("draws its pinned places from the fixed seeds", () => {
+  const drawn = (seed: string, purpose: string) => {
+    const { key, name } = drawPlace(seed, purpose);
+    return { key, name };
+  };
+  expect(drawn("pin-card-history", "card-history")).toEqual({
+    key: "0625300",
+    name: "Fort Washington, California",
+  });
+  expect(drawn("pin-card-history-all", "card-history-all")).toEqual({
+    key: "4137900",
+    name: "Joseph, Oregon",
+  });
+  expect(drawn("pin-card-history-terms", "card-history-terms")).toEqual({
+    key: "2751280",
+    name: "Pine River, Minnesota",
+  });
+  expect(drawn("pin-card-history-couples", "card-history-couples-0")).toEqual({
+    key: "2029250",
+    name: "Gypsum, Kansas",
+  });
+});
+
 describe("a person's history on their card", () => {
   it("tells a parent's life from their records, with your own birth as yours", () => {
-    const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
+    // Pinned (Nov 16, trial batch). Before, each case took its seed at run
+    // time from process.env GOLDEN_PATH_SEED or randomBytes, so the places it
+    // drew changed every run. Each now has a fixed seed: Fort Washington,
+    // California (0625300) here, Joseph, Oregon (4137900) for anyone opened,
+    // Pine River, Minnesota (2751280) for an official's earlier terms, and
+    // Gypsum, Kansas (2029250) first for the couples (Desert Hills, Arizona
+    // and Cedar Hill Lakes, Missouri follow if it has none).
+    // Limit: the slowest case took 48 s, run two files at a time (Nov 16,
+    // Train 6d12556a); each case's limit is about twice that, 100 s.
+    const seed = "pin-card-history";
     const place = drawPlace(seed, "card-history");
     const where = `${place.name}, seed ${seed}`;
     setBookkeeping(false);
@@ -84,10 +115,10 @@ describe("a person's history on their card", () => {
       ),
       where,
     ).toBe(false);
-  }, 600_000);
+  }, 100_000);
 
   it("tells a life for anyone opened, tied to the player or not", () => {
-    const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
+    const seed = "pin-card-history-all";
     const place = drawPlace(seed, "card-history-all");
     const where = `${place.name}, seed ${seed}`;
     setBookkeeping(false);
@@ -168,10 +199,10 @@ describe("a person's history on their card", () => {
         role === "seatHolder" ? 2 : 3,
       );
     }
-  }, 600_000);
+  }, 100_000);
 
   it("tells an official's earlier terms of the same seat, each on its term record", () => {
-    const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
+    const seed = "pin-card-history-terms";
     const place = drawPlace(seed, "card-history-terms");
     const where = `${place.name}, seed ${seed}`;
     setBookkeeping(false);
@@ -226,10 +257,10 @@ describe("a person's history on their card", () => {
       earlier.some((term) => line.records.includes(term.id)),
     );
     expect(run, where).toHaveLength(1);
-  }, 600_000);
+  }, 100_000);
 
   it("tells a couple among people filled in from the counts, on a record both share", () => {
-    const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
+    const seed = "pin-card-history-couples";
     setBookkeeping(false);
     const tried: string[] = [];
     let found = 0;
@@ -269,5 +300,5 @@ describe("a person's history on their card", () => {
       process.stdout.write(`${where}: ${couples.length} couples told\n`);
     }
     expect(found, `a couple told in ${tried.join("; ")}`).toBeGreaterThan(0);
-  }, 900_000);
+  }, 100_000);
 });

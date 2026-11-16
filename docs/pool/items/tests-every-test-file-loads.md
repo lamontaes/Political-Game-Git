@@ -5,7 +5,7 @@ area: release
 kind: feature
 priority: 1
 size: S
-status: in-pr
+status: merged
 standard: 2
 claimed-by: claude/pool-tests-every-test-file-loads
 pr: #8327
@@ -19,6 +19,7 @@ source: CTO, Nov 10, 2026, after three test files on main were found not loading
 checked: fable 2026-11-10
 claimed-at: 2026-11-10T23:12:26.325Z
 branch: claude/pool-tests-every-test-file-loads
+merged-at: 2026-11-16T01:05:08.726Z
 ---
 
 **What.** Three test files on main could not load, so every check inside them silently stopped running: the journal's opening test (fixed in pull request 8227), the officials and president import cycle (8173) and the election law test (8243). Each was found by chance, days or weeks later. A file that cannot load must turn main red within the hour and name itself.

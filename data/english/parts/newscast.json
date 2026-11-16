@@ -185,67 +185,6 @@
       }
     },
     {
-      "key": "newscast.anchor-open.welcome-back",
-      "move": "anchor-open",
-      "kind": "spoken",
-      "text": "Welcome back.",
-      "uses": [
-        {
-          "move": "anchor-open",
-          "subject": "anchor",
-          "role": "open",
-          "choice": "open"
-        }
-      ],
-      "transcriptsUsing": 75,
-      "bySource": {
-        "chrg": 48,
-        "dcpd": 19,
-        "eac": 3,
-        "nasa": 3,
-        "senate": 2
-      },
-      "source": {
-        "document": "Metals, Minerals, And Mining: How The Ccp Fuels Conflict And Exploitation In Africa",
-        "date": "2025-03-25",
-        "granule": "CHRG-119hhrg60388",
-        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg60388",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "greet"
-      }
-    },
-    {
-      "key": "newscast.anchor-open.welcome-back-everyone",
-      "move": "anchor-open",
-      "kind": "spoken",
-      "text": "Welcome back, everyone.",
-      "uses": [
-        {
-          "move": "anchor-open",
-          "subject": "anchor",
-          "role": "open",
-          "choice": "open"
-        }
-      ],
-      "transcriptsUsing": 5,
-      "bySource": {
-        "chrg": 4,
-        "dcpd": 1
-      },
-      "source": {
-        "document": "Oversight Hearing On The Fish And Wildlife Service Gone Wild: Examining Operation Long Tail Liberation",
-        "date": "2024-09-10",
-        "granule": "CHRG-118hhrg56759",
-        "url": "https://www.govinfo.gov/app/details/CHRG-118hhrg56759",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "greet"
-      }
-    },
-    {
       "key": "newscast.anchor-open.im-name",
       "move": "anchor-open",
       "kind": "spoken",
@@ -629,96 +568,6 @@
       }
     },
     {
-      "key": "newscast.anchor-hand-off.what-happens-next",
-      "move": "anchor-hand-off",
-      "kind": "spoken",
-      "text": "What happens next?",
-      "uses": [
-        {
-          "move": "anchor-hand-off",
-          "subject": "anchor",
-          "role": "hand-off",
-          "choice": "hand-off"
-        }
-      ],
-      "transcriptsUsing": 8,
-      "bySource": {
-        "chrg": 4,
-        "dcpd": 2,
-        "nasa": 2
-      },
-      "source": {
-        "document": "The President's News Conference in Ankara, Turkey",
-        "date": "2026-07-08",
-        "granule": "DCPD-202600452",
-        "url": "https://www.govinfo.gov/app/details/DCPD-202600452",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "introduce"
-      }
-    },
-    {
-      "key": "newscast.anchor-hand-off.what-happens-now",
-      "move": "anchor-hand-off",
-      "kind": "spoken",
-      "text": "What happens now?",
-      "uses": [
-        {
-          "move": "anchor-hand-off",
-          "subject": "anchor",
-          "role": "hand-off",
-          "choice": "hand-off"
-        }
-      ],
-      "transcriptsUsing": 7,
-      "bySource": {
-        "chrg": 1,
-        "dcpd": 6
-      },
-      "source": {
-        "document": "Remarks in an Exchange With Reporters Aboard Air Force One En Route to Joint Base Andrews, Maryland",
-        "date": "2026-08-02",
-        "granule": "DCPD-202600511",
-        "url": "https://www.govinfo.gov/app/details/DCPD-202600511",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "introduce"
-      }
-    },
-    {
-      "key": "newscast.anchor-hand-off.whats-next",
-      "move": "anchor-hand-off",
-      "kind": "spoken",
-      "text": "What's next?",
-      "uses": [
-        {
-          "move": "anchor-hand-off",
-          "subject": "anchor",
-          "role": "hand-off",
-          "choice": "hand-off"
-        }
-      ],
-      "transcriptsUsing": 21,
-      "bySource": {
-        "chrg": 3,
-        "dcpd": 6,
-        "house": 1,
-        "nasa": 11
-      },
-      "source": {
-        "document": "Remarks at a Campaign Reception in Philadelphia, Pennsylvania",
-        "date": "2023-12-11",
-        "granule": "DCPD-202301104",
-        "url": "https://www.govinfo.gov/app/details/DCPD-202301104",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "introduce"
-      }
-    },
-    {
       "key": "newscast.anchor-hand-off.thank-you-name",
       "move": "anchor-hand-off",
       "kind": "spoken",
@@ -1030,34 +879,6 @@
       }
     },
     {
-      "key": "newscast.anchor-close.stay-with-us",
-      "move": "anchor-close",
-      "kind": "spoken",
-      "text": "Stay with us.",
-      "uses": [
-        {
-          "move": "anchor-close",
-          "subject": "anchor",
-          "role": "close",
-          "choice": "close"
-        }
-      ],
-      "transcriptsUsing": 3,
-      "bySource": {
-        "dcpd": 3
-      },
-      "source": {
-        "document": "dcpd of 2026-03-17",
-        "date": "2026-03-17",
-        "granule": "DCPD-202600184",
-        "url": "https://www.govinfo.gov/app/details/DCPD-202600184",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "close"
-      }
-    },
-    {
       "key": "newscast.anchor-close.good-night",
       "move": "anchor-close",
       "kind": "spoken",
@@ -1110,35 +931,6 @@
         "date": "2019-02-27",
         "granule": "DCPD-201900104",
         "url": "https://www.govinfo.gov/app/details/DCPD-201900104",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "close"
-      }
-    },
-    {
-      "key": "newscast.anchor-close.well-be-back",
-      "move": "anchor-close",
-      "kind": "spoken",
-      "text": "We'll be back.",
-      "uses": [
-        {
-          "move": "anchor-close",
-          "subject": "anchor",
-          "role": "close",
-          "choice": "close"
-        }
-      ],
-      "transcriptsUsing": 15,
-      "bySource": {
-        "chrg": 2,
-        "dcpd": 13
-      },
-      "source": {
-        "document": "Remarks on the National Economy in Las Vegas, Nevada",
-        "date": "2025-01-25",
-        "granule": "DCPD-202500183",
-        "url": "https://www.govinfo.gov/app/details/DCPD-202500183",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       },
       "tag": {
@@ -1330,99 +1122,6 @@
       }
     },
     {
-      "key": "newscast.reporter-field.we-dont-know",
-      "move": "reporter-field",
-      "kind": "spoken",
-      "text": "We don't know.",
-      "uses": [
-        {
-          "move": "reporter-field",
-          "subject": "reporter",
-          "role": "field",
-          "choice": "field"
-        }
-      ],
-      "transcriptsUsing": 155,
-      "bySource": {
-        "chrg": 67,
-        "dcpd": 53,
-        "eac": 1,
-        "nasa": 31,
-        "senate": 3
-      },
-      "source": {
-        "document": "Remarks on Signing the Secure America Act and an Exchange With Reporters",
-        "date": "2026-06-10",
-        "granule": "DCPD-202600391",
-        "url": "https://www.govinfo.gov/app/details/DCPD-202600391",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "tell",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "newscast.reporter-field.were-still-waiting",
-      "move": "reporter-field",
-      "kind": "spoken",
-      "text": "We're still waiting.",
-      "uses": [
-        {
-          "move": "reporter-field",
-          "subject": "reporter",
-          "role": "field",
-          "choice": "field"
-        }
-      ],
-      "transcriptsUsing": 3,
-      "bySource": {
-        "chrg": 2,
-        "nasa": 1
-      },
-      "source": {
-        "document": "Oversight And Examination Of Railroad Grade Crossing Elimination And Safety",
-        "date": "2024-01-16",
-        "granule": "CHRG-118hhrg57075",
-        "url": "https://www.govinfo.gov/app/details/CHRG-118hhrg57075",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "tell",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "newscast.reporter-field.were-learning-more",
-      "move": "reporter-field",
-      "kind": "spoken",
-      "text": "We're learning more.",
-      "uses": [
-        {
-          "move": "reporter-field",
-          "subject": "reporter",
-          "role": "field",
-          "choice": "field"
-        }
-      ],
-      "transcriptsUsing": 2,
-      "bySource": {
-        "chrg": 1,
-        "nasa": 1
-      },
-      "source": {
-        "document": "The Clean Water Act At Fifty: Highlights And Lessons Learned From A Half Century Of Transformative Legislation",
-        "date": "2022-09-20",
-        "granule": "CHRG-117hhrg49438",
-        "url": "https://www.govinfo.gov/app/details/CHRG-117hhrg49438",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "tell",
-        "key": "news-received"
-      }
-    },
-    {
       "key": "newscast.reporter-field.name-declined-to-comment",
       "move": "reporter-field",
       "kind": "spoken",
@@ -1444,68 +1143,6 @@
         "date": "2024-01-16",
         "granule": "CHRG-118hhrg57075",
         "url": "https://www.govinfo.gov/app/details/CHRG-118hhrg57075",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "tell",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "newscast.reporter-field.people-are-frustrated",
-      "move": "reporter-field",
-      "kind": "spoken",
-      "text": "People are frustrated.",
-      "uses": [
-        {
-          "move": "reporter-field",
-          "subject": "reporter",
-          "role": "field",
-          "choice": "field",
-          "requiresFacts": ["residents-frustrated"]
-        }
-      ],
-      "transcriptsUsing": 3,
-      "bySource": {
-        "chrg": 1,
-        "dcpd": 2
-      },
-      "source": {
-        "document": "The President'S Fiscal Year 2024 Health And Human Services Budget",
-        "date": "2023-02-25",
-        "granule": "CHRG-118shrg57181",
-        "url": "https://www.govinfo.gov/app/details/CHRG-118shrg57181",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "tell",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "newscast.reporter-field.people-are-scared",
-      "move": "reporter-field",
-      "kind": "spoken",
-      "text": "People are scared.",
-      "uses": [
-        {
-          "move": "reporter-field",
-          "subject": "reporter",
-          "role": "field",
-          "choice": "field",
-          "requiresFacts": ["residents-scared"]
-        }
-      ],
-      "transcriptsUsing": 4,
-      "bySource": {
-        "chrg": 2,
-        "dcpd": 2
-      },
-      "source": {
-        "document": "The Southern Poverty Law Center: Manufacturing Hate",
-        "date": "2026-05-20",
-        "granule": "CHRG-119hhrg63799",
-        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg63799",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       },
       "tag": {

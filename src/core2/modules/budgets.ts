@@ -57,6 +57,7 @@ import {
 } from "./laws";
 import { worldOffsetUnit } from "../world-draw";
 import lawParameters from "../data/laws/reach-group-b-parameters.json" with { type: "json" };
+import salesTaxBase from "../data/laws/sales-tax-base.json" with { type: "json" };
 import propertyTaxCaps from "../data/laws/property-tax-caps.json" with { type: "json" };
 import {
   PROPERTY_TAX_AVERAGE_SOURCE,
@@ -1123,11 +1124,32 @@ const GROCERY_EXEMPTION =
 const GROCERY_SELLERS = "enterprise:retail";
 
 /**
+ * What the sales tax reaches by seller kind (data/laws/sales-tax-base.json):
+ * medical care, tuition, insurance and most services are outside the base in
+ * most states, and a state that taxes them says so in its own share. These
+ * are the tax's own exemptions, no law's, so they name no law.
+ */
+function baseExemptions(
+  stateKey: string | null,
+): { classificationPrefix: string; share: number }[] {
+  return salesTaxBase.rows
+    .map((row) => ({
+      classificationPrefix: row.classificationPrefix,
+      share:
+        (stateKey
+          ? (row as { states?: Record<string, number> }).states?.[stateKey]
+          : undefined) ?? row.exemptShare.value,
+    }))
+    .filter((row) => row.share > 0);
+}
+
+/**
  * The sales tax in force collected on every purchase in town (core2-api-v21):
  * each level's rate to its own treasury (a local rate without a city
  * government goes to the county, else the state), set so the levels' shares
- * sum to the combined tax inside the price; groceries are exempt where a
- * grocery exemption is law. Re-run when a sales-tax law takes effect.
+ * sum to the combined tax inside the price; what each kind of seller sells
+ * is taxed by the state's base (data/laws/sales-tax-base.json), and groceries
+ * are exempt where a grocery exemption is law. Re-run when a sales-tax law takes effect.
  */
 export function syncSalesTax(api: CoreAPI): void {
   registerPropertyTax(propertyTaxTerms);
@@ -1171,6 +1193,7 @@ export function syncSalesTax(api: CoreAPI): void {
           l.level === level || (level === "city" && l.level === "township"),
       )
     )?.row ?? null;
+  const base = baseExemptions(placeStateKey(town));
   for (const gov of govs) {
     const exemption = exemptionFor(gov.level);
     const id = `sales-tax:${gov.id}`;
@@ -1184,18 +1207,19 @@ export function syncSalesTax(api: CoreAPI): void {
       placeId: town,
       ratePercent: effective,
       payeeAccountId: account,
-      ...(exemption
-        ? {
-            exemptions: [
+      exemptions: [
+        ...base,
+        ...(exemption
+          ? [
               {
                 classificationPrefix: GROCERY_SELLERS,
                 share: lawParameters.parameters.groceryShareOfRetailSales.value,
                 lawKey: GROCERY_EXEMPTION,
                 lawId: exemption.id,
               },
-            ],
-          }
-        : {}),
+            ]
+          : []),
+      ],
       ...(rows.get(gov.id) ? { laws: rows.get(gov.id)! } : {}),
       from: api.state.date,
       source: {
@@ -2615,6 +2639,75 @@ export function lineChangedInYear(
     { byYear?: Record<string, Record<string, number>> } | undefined;
   return row?.byYear?.[String(fy)]?.[line] ?? 0;
 }
+/**
+ * What a government's year has brought in against what it was bringing in
+ * when its budget was written, net of what its body has already amended in:
+ * the room a body has to amend the adopted budget (owner, Nov 15: a council
+ * amends for a cause on record, not because members wish a line were
+ * different). The cause is the treasury's own months: what it took in a month
+ * (collected, borrowing left out, plus aid received) since the fiscal year
+ * began, over the months before it, as a share of the year's planned revenue
+ * for the months closed. Receipts are compared with the treasury's own earlier
+ * pace so the answer holds for a town, a county and a state alike. Positive
+ * room is money over plan a body may raise lines by; negative is the shortfall
+ * it must cut by; null before a month of the year has closed or with no month
+ * before it to compare.
+ */
+export function amendmentRoom(
+  api: CoreAPI,
+  governmentId: string,
+): {
+  readonly roomMinor: number;
+  readonly cause: "receipts-over-plan" | "receipts-under-plan";
+  readonly months: number;
+  /** The arithmetic behind the room, for dev mode: the monthly take now and in the months before the year, the revenue planned for the months closed, and what is already amended in. */
+  readonly nowMinor: number;
+  readonly paceMinor: number;
+  readonly plannedMinor: number;
+  readonly amendedMinor: number;
+} | null {
+  const gov = governmentOfJurisdiction(api, governmentId);
+  if (!gov) return null;
+  const fy = fiscalYearOf(api.state.date, gov.fiscalYearStart);
+  const budget = budgetsOf(api, gov.id).find((b) => b.fiscalYear === fy);
+  if (!budget) return null;
+  const took = (m: {
+    collectedMinor: number;
+    borrowedMinor: number;
+    aidReceivedMinor: number;
+  }) => m.collectedMinor - m.borrowedMinor + m.aidReceivedMinor;
+  const all = treasuryMonthsOf(api, gov.id);
+  const since = all.filter(
+    (m) => m.date >= budget.startsOn && m.date <= api.state.date,
+  );
+  const before = all
+    .filter((m) => m.date < budget.startsOn)
+    .slice(-treasuryMonthsPerYear());
+  if (!since.length || !before.length) return null;
+  const pace = before.reduce((a, m) => a + took(m), 0) / before.length;
+  if (!(pace > 0)) return null;
+  const now = since.reduce((a, m) => a + took(m), 0) / since.length;
+  const planned =
+    (Object.values(budget.revenueMinor).reduce((a, v) => a + v, 0) *
+      since.length) /
+    treasuryMonthsPerYear();
+  const enacted = table(api, "enacted").get(gov.id) as unknown as
+    { byYear?: Record<string, Record<string, number>> } | undefined;
+  const amended = Object.values(enacted?.byYear?.[String(fy)] ?? {}).reduce(
+    (a, v) => a + v,
+    0,
+  );
+  const roomMinor = Math.round(planned * (now / pace - 1) - amended);
+  return {
+    roomMinor,
+    cause: roomMinor >= 0 ? "receipts-over-plan" : "receipts-under-plan",
+    months: since.length,
+    nowMinor: Math.round(now),
+    paceMinor: Math.round(pace),
+    plannedMinor: Math.round(planned),
+    amendedMinor: amended,
+  };
+}
 export function budgetsOf(
   api: CoreAPI,
   governmentId: string,
@@ -2637,5 +2730,11 @@ export {
   medianTransactionBalance,
 } from "../starting-cash";
 export { depositsHeld, withdrawSavings } from "../accounts";
+/** The employer taxes a business reads, through the budgets family (families guard: business.ts reaches employer taxes only through here). */
+export {
+  EMPLOYER_TAXES_MODULE_ID,
+  employerTaxShareOfWage,
+  premisesTaxYearMinor,
+} from "./employer-taxes";
 // Re-exported so the climate engine reads the states' bases through this entry (families guard).
 export { residentsOf, STATES } from "./outside-budgets";

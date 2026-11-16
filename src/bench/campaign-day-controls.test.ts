@@ -29,6 +29,7 @@ import { interviewsFor } from "../core2/modules/press";
 import { campaignDayChoices } from "../core2/campaign-day";
 import { campaignAct, campaignDay, campaignView } from "./campaign";
 import controls from "./data/controls.json" with { type: "json" };
+import { townResidentsByCash } from "../core2/resident-adults-test-kit";
 
 const runSeed =
   process.env.GOLDEN_PATH_SEED ??
@@ -55,7 +56,7 @@ function openWorld(purpose: string) {
   const api = coreAPI(core);
   const where = `${place.name}, ${place.state} (${place.key}), run seed ${runSeed}, place seed ${place.seed}`;
   const startYear = Number(core.date.slice(0, 4));
-  const adults = [...core.people.values()]
+  const adults = townResidentsByCash(core, coreAPI(core))
     // Filing refuses a resident of another town (residency), so the candidates are the
     // town's own people, not the richest adult anywhere (Valley City, Ohio, run seed
     // c59844dd5a076c023b5303f9724ab57bc7aa1874de869e94ef9d8b70ba3faa72: 0 filed).
@@ -64,8 +65,7 @@ function openWorld(purpose: string) {
         p.alive &&
         p.placeId === lawChain(api).townPlaceId &&
         startYear - Number(p.birthDate.slice(0, 4)) >= 35,
-    )
-    .sort((a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id));
+    );
   return { core: core as CoreState, api, adults, where };
 }
 

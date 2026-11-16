@@ -1,4 +1,3 @@
-import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { gameStartDate } from "../core2/game-start";
@@ -13,10 +12,20 @@ import { buildBenchWorld } from "./world";
 // The governor the player plays is held the day the state budget is due: the lines are theirs to change
 // and send, and what they send is the legislature's priorities for the year. A place drawn from all 56
 // on a seed nobody chose.
-const seed =
-  process.env.BUDGET_STOP_SEED ??
-  process.env.GOLDEN_PATH_SEED ??
-  randomBytes(8).toString("hex");
+// Pinned (Nov 16, trial batch). Before, the seed came at run time from
+// process.env BUDGET_STOP_SEED, GOLDEN_PATH_SEED or randomBytes, so the places
+// it drew changed every run. The fixed seed below draws West Plains, Missouri
+// (2978928) first for "budget-stop".
+// Limit: the slowest case took 242 s, run two files at a time (Nov 16,
+// Train 6d12556a); each case's limit is about twice that, 490 s.
+const seed = "pin-bill-budget-stop";
+
+it("draws its pinned place from the fixed seed", () => {
+  expect(drawPlace(`${seed}:0`, "budget-stop")).toMatchObject({
+    key: "2978928",
+    name: "West Plains, Missouri",
+  });
+});
 
 describe(`the governor sends the state budget (seed ${seed})`, () => {
   it("stops the governor the day the budget is due and sends the lines they set", () => {
@@ -70,5 +79,5 @@ describe(`the governor sends the state budget (seed ${seed})`, () => {
     throw new Error(
       `no drawn place held a governor for the state budget (seed ${seed}): ${tried.join("; ")}`,
     );
-  }, 1_800_000);
+  }, 490_000);
 });
