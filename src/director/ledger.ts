@@ -16,7 +16,7 @@ import { recordLocalAddresses } from "./local-address";
 import { SCHOOL_STARTED, preStartHistory } from "../core2/past";
 import { addDays, daysBetween, makeIsoDate } from "../core2/kernel/dates";
 import type { EventAppraisal } from "../core2/emotion";
-import { familyFactsOf, formerKin, lastTogether } from "../core2/closeness";
+import { familyFactsOf, formerKin, lastMetOnRow } from "../core2/closeness";
 import { sharedHistory, type SharedHistoryKind } from "../core2/shared-history";
 
 /** Where a contact was made, by the record that says so: never a stranger's scene. */
@@ -413,7 +413,7 @@ export function createDirector(
       ties.set(id, {
         otherId: row.actorId === actor.id ? row.otherId : row.actorId,
         level: row.level,
-        lastContact: lastTogether(row) ?? undefined,
+        lastContact: lastMetOnRow(row) ?? undefined,
       });
     }
     return {
@@ -588,7 +588,7 @@ export function createDirector(
         home.has(otherId),
       );
       thread.closeness = row.level;
-      thread.lastContact = lastTogether(row) ?? thread.lastContact;
+      thread.lastContact = lastMetOnRow(row) ?? thread.lastContact;
     }
     // The recorded past (owner answer 5): personal facts are moments with an
     // impact estimated from the stress scale. Facts dated at or after the
@@ -1102,7 +1102,7 @@ export function createDirector(
       const prior = before.ties.get(id);
       const delta = row.level - (prior?.level ?? zero);
       const contacted =
-        lastTogether(row) === date && prior?.lastContact !== date;
+        lastMetOnRow(row) === date && prior?.lastContact !== date;
       if (delta === zero && !contacted) continue;
       const thread = ensureThread(book, otherId);
       const knew = book.keptFacts.get(
@@ -1152,7 +1152,7 @@ export function createDirector(
       thread.tone =
         delta > zero ? "rising" : delta < zero ? "souring" : thread.tone;
       thread.closeness = row.level;
-      thread.lastContact = lastTogether(row) ?? thread.lastContact;
+      thread.lastContact = lastMetOnRow(row) ?? thread.lastContact;
       knewFact(book, otherId, date, "recorded", causeId);
     }
 

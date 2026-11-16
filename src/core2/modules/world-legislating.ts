@@ -113,6 +113,7 @@ import {
   registerSittingReader,
   registerWeeklyFloorReader,
   settledness,
+  sittingContactHours,
   tasteForChange,
   type BillRow,
   type Provision,
@@ -1160,6 +1161,7 @@ function sittingExecutiveNow(
 }
 
 const SITTING_CALENDAR = {
+  owns: (api: CoreAPI, officeId: string) => bodyOf(api, officeId) !== undefined,
   // The members, and the executive who sits with them (a mayor at the
   // council's meetings), each from the day their service began.
   seats: (api: CoreAPI, officeId: string) => {
@@ -1203,7 +1205,7 @@ const SITTING_CALENDAR = {
     return sitsOn;
   },
   sittings: sittingsBetween,
-  hoursPerDay: () => campaignParameter("sittingHours"),
+  contactHoursPerDay: sittingContactHours,
 };
 
 /**

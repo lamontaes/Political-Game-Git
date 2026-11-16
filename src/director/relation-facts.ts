@@ -7,7 +7,7 @@
  */
 import {
   closenessBetween,
-  lastTogether,
+  lastMetOnRow,
   sharedHoursBetween,
 } from "../core2/closeness";
 import { P } from "../core2/parameters";
@@ -100,7 +100,7 @@ export function lastContact(
     if (row.actorId !== otherId && row.otherId !== otherId) continue;
     // The day they were last together, not the day a change made apart
     // (a veto, an answer to the whip) moved the tie.
-    const met = lastTogether(row);
+    const met = lastMetOnRow(row);
     if (met !== null && (!best || met > best.date))
       best = { date: met, tieId: id };
   }
