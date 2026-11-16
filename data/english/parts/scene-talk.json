@@ -189959,6 +189959,33 @@
           "move": "apologize",
           "role": "asked",
           "onlyWhen": ["respond-in"]
+        },
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "onlyWhen": ["respond-in"],
+          "requiresFacts": ["problem-work"]
+        },
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "onlyWhen": ["respond-in"],
+          "requiresFacts": ["problem-wage"]
+        },
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "onlyWhen": ["respond-in"],
+          "requiresFacts": ["problem-custody"]
         }
       ],
       "origin": "authored",
@@ -189988,6 +190015,33 @@
           "move": "apologize",
           "role": "asked",
           "onlyWhen": ["respond-in"]
+        },
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "onlyWhen": ["respond-in"],
+          "requiresFacts": ["problem-work"]
+        },
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "onlyWhen": ["respond-in"],
+          "requiresFacts": ["problem-wage"]
+        },
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "onlyWhen": ["respond-in"],
+          "requiresFacts": ["problem-custody"]
         }
       ],
       "origin": "authored",
@@ -190017,6 +190071,33 @@
           "move": "apologize",
           "role": "asked",
           "onlyWhen": ["respond-in"]
+        },
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "onlyWhen": ["respond-in"],
+          "requiresFacts": ["problem-work"]
+        },
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "onlyWhen": ["respond-in"],
+          "requiresFacts": ["problem-wage"]
+        },
+        {
+          "subject": "scene",
+          "set": "case-help",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "onlyWhen": ["respond-in"],
+          "requiresFacts": ["problem-custody"]
         }
       ],
       "origin": "authored",
