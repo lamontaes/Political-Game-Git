@@ -5,7 +5,7 @@ area: people
 kind: bug
 priority: 1
 size: M
-status: in-pr
+status: merged
 standard: 2
 root: none
 claimed-by: civic roles builder

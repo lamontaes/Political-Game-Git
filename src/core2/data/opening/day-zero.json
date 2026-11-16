@@ -1004,7 +1004,7 @@
       "call": "stock",
       "filledBy": "year 1",
       "reason": "Some seats are vacant on any day (resigned, died, not yet filled).",
-      "knownRed": "opening-offices-vacancies-empty-at-day-0"
+      "zeroAtPlaces": ["2338740"]
     },
     {
       "table": "core2-outcome-web-v1.baselines",
@@ -2432,9 +2432,7 @@
       "level": "town (people and places)",
       "call": "stock",
       "filledBy": "year 1",
-      "reason": "Counted people hold views on any day (one model, two tiers).",
-      "knownRed": "opening-views-stances-empty-at-day-0",
-      "knownRedPlaces": ["1150000"]
+      "reason": "Counted people hold views on any day (one model, two tiers)."
     },
     {
       "table": "views.openings",

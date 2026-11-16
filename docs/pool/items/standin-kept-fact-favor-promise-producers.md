@@ -5,7 +5,7 @@ area: director
 kind: wiring
 priority: 3
 size: S
-status: in-pr
+status: merged
 claimed-by:
 pr: 9192
 after: words-scene-ending-writes-its-record-part-1-favor-and-promise

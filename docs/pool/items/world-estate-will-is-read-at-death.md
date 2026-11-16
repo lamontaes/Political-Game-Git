@@ -5,7 +5,7 @@ area: world
 kind: bug
 priority: 3
 size: S
-status: in-pr
+status: merged
 claimed-by: claude/project-thread-8y55c8
 pr: #9405
 after:
