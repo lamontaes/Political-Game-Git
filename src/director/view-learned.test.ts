@@ -94,6 +94,11 @@ function stageNews(
 // Pinned seeds (skill pinned-tests): the places each test draws are named in its output, never
 // drawn by the run. The own-view test is red on most other seeds (pool item
 // words-own-view-line-fails-on-most-seeds), so it is pinned to one that proves the case.
+// Re-pinned Nov 16 (card and letter tests) from seed 33 to 44. Old premise: at seed 33 a close,
+// outgoing housemate of an adult-or-17 player led a talk with their own view; start-at-18 (#9684)
+// changed the player and who lives with them, and at seed 33 on Train 6d12556a both tests were red
+// (the card test: "1 willing ... Erica led with government-news", no one willing at four draws;
+// the letter test red as well). Seed 44 passes both there (card 96 s, letter 154 s).
 const SEED_CARD = "44";
 const SEED_LETTER = "44";
 const SEED_OWN_VIEW = "c3";
