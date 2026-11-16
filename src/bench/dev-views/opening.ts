@@ -20,10 +20,7 @@ import {
   publishedPlaceReferencePopulation,
   placeReferencePopulation,
 } from "../../core2/gov-rules/place-population";
-import {
-  publishedTownWorkplaceWeights,
-  townWorkplaceWeights,
-} from "../../core2/town-employment-mix";
+import { townWorkplaceWeights } from "../../core2/modules/jobs";
 import { worldOffsetUnit } from "../../core2/world-draw";
 import { pastElections, townSeats } from "../../core2/modules/offices";
 import {
@@ -152,24 +149,17 @@ function townView(core: CoreState, placeId: string): OpeningRow[] {
       ),
     );
   }
-  const published = publishedTownWorkplaceWeights(placeId as never);
   const world = townWorkplaceWeights(placeId as never, core.seed);
   const total = (weights: ReadonlyMap<string, number>) =>
     [...weights.values()].reduce((sum, w) => sum + w, 0) || 1;
-  const pTotal = total(published);
   const wTotal = total(world);
   for (const [part, weight] of [...world]
     .sort((a, b) => b[1] - a[1])
     .slice(0, 6))
     rows.push(
-      row(
-        "town.jobsMix",
-        `Share of jobs: ${part}`,
-        `${percent(weight / wTotal)} (published ${percent((published.get(part) ?? 0) / pTotal)})`,
-        {
-          drawKey: `sector-mix:${placeId}:${part}: ${shown(worldOffsetUnit(core.seed, `sector-mix:${placeId}:${part}`))}`,
-        },
-      ),
+      row("town.jobsMix", `Share of jobs: ${part}`, percent(weight / wTotal), {
+        drawKey: `sector-mix:${placeId}:${part}: ${shown(worldOffsetUnit(core.seed, `sector-mix:${placeId}:${part}`))}`,
+      }),
     );
   const byKind = new Map<string, number>();
   for (const organization of core.organizations.values())
