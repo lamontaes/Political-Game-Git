@@ -205,6 +205,8 @@ export const STORY_KINDS = {
     lede: ["rate"],
     context: ["rate-from"],
   },
+  // The month's poll of the President's approval (printed-words `approval`).
+  approval: { headline: ["approval"], lede: ["approval"] },
   "town-hall": { headline: ["town-hall"], lede: ["town-hall"] },
   "body-meeting": {
     headline: ["body-meeting"],

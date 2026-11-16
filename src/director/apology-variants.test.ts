@@ -1,12 +1,7 @@
-import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
-import { buildBenchWorld } from "../bench/world";
-import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "../core2/bookkeeping";
 import { closenessBetween } from "../core2/closeness";
-import { gameStartDate } from "../core2/game-start";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
-import { advanceCore } from "../core2/life";
 import { FAMILY_QUARREL } from "../core2/modules/quarrel";
 import { applyCoreEvent } from "../core2/state";
 import type { PersonId } from "../core2/types";
@@ -15,9 +10,13 @@ import { chooseVariant } from "./arc-variant";
 import variantFile from "./data/arc-variants.json" with { type: "json" };
 import { purposeScene } from "./purpose-scene";
 import type { TreeNode } from "./scene-talk";
-
-const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
-const ATTEMPTS = 2;
+import {
+  borrowerWorld,
+  LOAN_SEED,
+  BANK_BORROWER,
+  play,
+  playToQuarrel,
+} from "../../tests/support/real-borrower";
 
 // A quarrel over a missed payment (the partnerships engine's own
 // `family.quarrel`, written when the credit engine's `credit.payment-missed`
@@ -26,10 +25,9 @@ const ATTEMPTS = 2;
 // quarrel is about money, how close the two are, the earlier quarrels between
 // them, and the wronged person's own money pressure.
 //
-// HAND-STAGED: the missed payment itself (a `credit.payment-missed` record for
-// the player) and every probe below it, labeled where they stand. From the
-// missed payment on, the quarrel record, the scene and the choice are the
-// engines' own.
+// The missed payment is the credit engine's own, on a pinned player who
+// really borrowed (`BANK_BORROWER`, tests/support/real-borrower.ts). The
+// probes below the scene are hand-made, labeled where they stand.
 const families = (
   variantFile as unknown as {
     families: Record<
@@ -65,42 +63,30 @@ const treeTexts = (node: TreeNode): string[] => [
   ...(node.end?.close ? [node.end.close.text] : []),
 ];
 
-it(`a quarrel over a missed payment plays the variant its records give (seed ${seed})`, () => {
+it(`a quarrel over a missed payment plays the variant its records give (seed ${LOAN_SEED})`, () => {
   setBookkeeping(false);
   const tried: string[] = [];
   let proven = 0;
   try {
-    for (let attempt = 0; attempt < ATTEMPTS; attempt += 1) {
-      const place = drawPlace(seed, `apology:${attempt}`);
-      const where = `${place.name} (${place.key}), seed ${place.seed}`;
-      const { core, director, playerId } = buildBenchWorld(
-        place.seed,
-        gameStartDate(),
-        { twoLevel: true, placeKey: place.key },
-      );
+    // A player who really borrowed: the bank's personal loan and the missed
+    // payment are the credit engine's own (tests/support/real-borrower.ts).
+    for (const { draw, birth } of [BANK_BORROWER]) {
+      const { core, director, playerId, where } = borrowerWorld(draw, birth);
       const id = playerId as PersonId;
       director.watch(core, id);
       const book = director.ledger.people.get(id)!;
-      advanceCore(core, addDays(makeIsoDate(core.date), 30));
-      // HAND-STAGED: the credit engine's missed-payment record for the player.
-      const missedId = `event:credit.payment-missed:probe-${attempt}:${core.date}`;
       const player = core.people.get(id)!;
-      applyCoreEvent(core, {
-        id: missedId,
-        date: core.date,
-        kind: "credit.payment-missed",
-        personIds: [id],
-        placeId: player.placeId,
-        publicRecord: false,
-        source: {
-          tag: "ESTIMATED",
-          asOf: core.date,
-          citation: "Hand-staged missed payment for the apology variants test.",
-        },
-      });
+      // The longer run is the game's own: the player's days until the loan's
+      // payment goes unpaid and the housemate quarrels over it.
+      const first = playToQuarrel(core, id);
+      expect(first, `${where}: no missed payment by ${core.date}`).toBeTruthy();
+      const missedId = String(first!.facts?.missedId);
+      expect(core.durableLog.get(missedId)?.kind, where).toBe(
+        "credit.payment-missed",
+      );
       let entry;
-      for (let day = 0; day < 10 && !entry; day += 1) {
-        advanceCore(core, addDays(makeIsoDate(core.date), 1));
+      for (let day = 0; day < 14 && !entry; day += 1) {
+        play(core, id, 1);
         entry = book.schedule.find((row) =>
           row.bindings.some((b) => b.typeKey === "apology"),
         );
@@ -225,7 +211,7 @@ it(`a quarrel over a missed payment plays the variant its records give (seed ${s
             citation: "Probe quarrel",
           },
         });
-      advanceCore(core, addDays(makeIsoDate(core.date), 1));
+      play(core, id, 1);
       const repeat = chooseVariant(core, {
         family: "owed-apology",
         askerId: again,
@@ -263,8 +249,10 @@ it(`a quarrel over a missed payment plays the variant its records give (seed ${s
       );
       proven += 1;
     }
-    expect(proven, `seed ${seed}: ${tried.join("; ")}`).toBeGreaterThan(0);
+    expect(proven, `seed ${LOAN_SEED}: ${tried.join("; ")}`).toBeGreaterThan(0);
   } finally {
     setBookkeeping(true);
   }
-}, 3_600_000);
+  // The borrower's days until the missed payment and the scene: 161 seconds
+  // measured on Nov 15, so twice that.
+}, 330_000);

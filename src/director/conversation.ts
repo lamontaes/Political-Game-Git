@@ -146,6 +146,7 @@ import {
   type Wording,
 } from "../english/conversation-words";
 import {
+  employerIsGovernment,
   jobSaid,
   kinAddress,
   relationPhrase,
@@ -198,11 +199,13 @@ import {
   stateInSentence,
 } from "./words";
 import { dayParts, sceneMinute } from "./day-part";
+import { employerInTalk } from "./employer-in-talk";
 import {
   employerSaidAs,
   officeWords,
   personSlot,
   nameOnceThen,
+  publicEmployerSaid,
   ownPlaceSaid,
   sentenceStarts,
   wordPersonSlots,
@@ -278,12 +281,6 @@ export interface ConversationData {
    * opinion, not by having heard of it).
    */
   answersTo?: Readonly<Record<string, readonly string[]>>;
-  /**
-   * The fact that answers a question raised as a subject (how long: the
-   * years; what they do there: the position). A reply that asks it is not
-   * offered once the line before already said it.
-   */
-  answeredBy?: Readonly<Record<string, string>>;
   /** The kinds of line whose replies never say the same record's words twice on one screen. */
   namesOnce?: { kinds: readonly string[] };
   /** The ledger labels, by prefix, that are something happening to a person. */
@@ -4257,6 +4254,52 @@ function nameOnce(
   return rest;
 }
 
+/** The facts the talk has not said yet: each one whose words and record an earlier line (either speaker) does not carry. */
+function unsaidFacts(
+  conversation: Pick<Conversation, "lines">,
+  facts: Readonly<Record<string, Fact>>,
+): Facts {
+  return Object.fromEntries(
+    Object.entries(facts).filter(
+      ([, fact]) => !alreadyAnswered(conversation, { fact }),
+    ),
+  );
+}
+
+/** A subject with the facts the talk already said taken out, or null when none is left. */
+function withoutSaid(
+  conversation: Pick<Conversation, "lines">,
+  subject: Subject,
+): Subject | null {
+  const left = unsaidFacts(conversation, subject.facts);
+  const kept = Object.keys(left).length;
+  if (kept === Object.keys(subject.facts).length) return subject;
+  return kept ? { ...subject, facts: left } : null;
+}
+
+/**
+ * Whether the talk already said what a question asks for: every fact the
+ * question's subject holds is in an earlier line, by either speaker, with its
+ * words said and its record cited. One reading of what was said, never a
+ * list of question kinds.
+ */
+function alreadyAnswered(
+  conversation: Pick<Conversation, "lines">,
+  asked: Readonly<Record<string, Fact>>,
+): boolean {
+  const facts = Object.values(asked);
+  return (
+    facts.length > zero &&
+    facts.every((fact) =>
+      conversation.lines.some(
+        (line) =>
+          line.text.includes(fact.text) &&
+          fact.sourceRecordIds.some((id) => line.sourceRecordIds.includes(id)),
+      ),
+    )
+  );
+}
+
 /** What the other person said since the player last spoke. */
 function toldSince(
   lines: readonly ConversationLine[],
@@ -5058,7 +5101,7 @@ function raiseSubject(
   core: Readonly<CoreState>,
   conversation: Conversation,
   data: ConversationData,
-  subject: Subject,
+  asked: Subject,
   /** A side remark on the topic in hand, not a topic of its own. */
   remark = false,
   /** Lines already worded that raise it (what they brought up), said instead. */
@@ -5069,9 +5112,15 @@ function raiseSubject(
   }[],
 ): boolean {
   const { playerId, otherId } = conversation;
-  conversation.used.push(`${otherId}>${subject.id}`);
-  const then = data.otherRaises[subject.kind];
+  conversation.used.push(`${otherId}>${asked.id}`);
+  const then = data.otherRaises[asked.kind];
   if (!then) return false;
+  // What the talk already said is not told again, by either of them ("I'm at
+  // Stark's Kitchen myself." then "Right now I'm at work."; item
+  // words-everyday-talk-asks-the-same-question): the subject is raised with
+  // the facts not yet said, or not at all when none is left.
+  const subject = withoutSaid(conversation, asked);
+  if (!subject) return false;
   // A small question is asked only when the asker has their own answer to
   // give back (lead, Nov 13): a relative with neither work nor a home on
   // record is not asked about.
@@ -6130,19 +6179,39 @@ function openConversationNow(
       ...SITUATION_LIBRARY.scheduling.householdScenes,
       ...(SITUATION_LIBRARY.scheduling.householdRecordScenes ?? []),
     ].includes(occasion.label);
-  const opener =
-    housemate && familyNews
-      ? words(
-          core,
-          data,
-          otherId,
-          "family-open",
-          "open",
-          ALL,
-          {},
-          `${playerId}:${otherId}:${occasion.id}:family-open`,
-        )
-      : null;
+  // The opener is said only when the housemate has this occasion's hard news
+  // to tell: a relative's death, illness or prison term, a lost job, an
+  // eviction, its subject named by the occasion's record (Account lead, Nov
+  // 16: a housemate who never knew the constituent who died opened "I need
+  // to talk to you about something." and said nothing more, Sheridan,
+  // Wyoming, seed 7, April 26).
+  const hasNews =
+    housemate &&
+    familyNews &&
+    subjectsBetween(
+      core,
+      otherId,
+      playerId,
+      options.director,
+      conversation,
+    ).some(
+      (subject) =>
+        NEWS_SUBJECTS.has(subject.kind) &&
+        subject.id === `${subject.kind}:${occasion!.causeId}` &&
+        !!data.otherRaises[subject.kind],
+    );
+  const opener = hasNews
+    ? words(
+        core,
+        data,
+        otherId,
+        "family-open",
+        "open",
+        ALL,
+        {},
+        `${playerId}:${otherId}:${occasion.id}:family-open`,
+      )
+    : null;
   if (opener)
     conversation.lines.push({
       speakerId: otherId,
@@ -6191,7 +6260,12 @@ function openConversationNow(
     // Hello and goodbye with nothing between is not a talk (owner, Oct 24:
     // "that should be going to the hi, have a good day. That makes no
     // sense."): with nothing on record to say, nothing is said.
-    if (conversation.lines.every((line) => line.kind === "greet")) {
+    // The same for a hard-news opener with nothing after it.
+    if (
+      conversation.lines.every(
+        (line) => line.kind === "greet" || line.kind === "family-open",
+      )
+    ) {
       conversation.lines = [];
       conversation.choices = [];
       conversation.lies = [];
@@ -6463,7 +6537,7 @@ function laterMentions(
   conversation: Conversation,
   from: number,
 ): void {
-  employerOnce(conversation, from);
+  employerOnce(conversation, from, publicEmployerFor(core, conversation, from));
   presidentOnce(core, conversation, from);
   questionOnce(conversation);
 }
@@ -6520,21 +6594,74 @@ function questionOnce(conversation: Conversation): void {
 }
 
 /**
+ * A person works for a government, never at it (said-as, `publicEmployerSaid`;
+ * item words-i-work-for-a-public-employer-is-said-as-people-say-it): in a
+ * line whose records name a government as the employer, the frame's
+ * preposition is the one people use, whichever class of government it is.
+ */
+function publicEmployerFor(
+  core: Readonly<CoreState>,
+  conversation: Conversation,
+  from: number,
+): string[] {
+  const { playerId, otherId } = conversation;
+  const spoken: string[] = [];
+  const fix = (
+    row: { text: string; sourceRecordIds: readonly string[] },
+    speakerId: PersonId,
+    listenerId: PersonId,
+  ) => {
+    for (const id of row.sourceRecordIds) {
+      const org = core.organizations.get(id as never);
+      if (!org || !employerIsGovernment(org)) continue;
+      const name = employerWords(org);
+      if (!name) continue;
+      // A government of the talk's own place is said by its class
+      // (Words lead ruling, Nov 15), anything else by its full name.
+      const said = employerInTalk(core, org, speakerId, listenerId) ?? name;
+      // A name at the start of a sentence is capitalized, so it is found
+      // whatever its first letter ("The Township of Wallace for me").
+      if (said !== name)
+        row.text = row.text.replace(
+          new RegExp(name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "gi"),
+          (found) =>
+            /^[A-Z]/.test(found)
+              ? `${said.charAt(zero).toUpperCase()}${said.slice(one)}`
+              : said,
+        );
+      row.text = publicEmployerSaid(row.text, said);
+      if (!spoken.includes(said)) spoken.push(said);
+    }
+  };
+  for (const line of conversation.lines.slice(from))
+    fix(line, line.speakerId, line.speakerId === playerId ? otherId : playerId);
+  for (const choice of [...conversation.choices, ...conversation.lies])
+    fix(choice, playerId, otherId);
+  return spoken;
+}
+
+/**
  * An employer the talk is about is named once, then said as "work" (said-as,
  * `nameOnceThen`; owner via the coordinator, Nov 12: "a day off from Walters
  * Supply Company?" / "Walters Supply Company wears me out."), across the
  * talk's lines and each reply offered.
  */
-function employerOnce(conversation: Conversation, from: number): void {
-  const names = new Set(
-    [conversation.topicFacts?.employer, conversation.last?.facts.employer]
+function employerOnce(
+  conversation: Conversation,
+  from: number,
+  /** A government as the talk now says it ("the township"), named once like a business. */
+  spoken: readonly string[] = [],
+): void {
+  const names = new Set([
+    ...[conversation.topicFacts?.employer, conversation.last?.facts.employer]
       .map((fact) => fact?.text)
       .filter((text): text is string => !!text),
-  );
+    ...spoken,
+  ]);
   for (const name of names) {
     const before = conversation.lines
       .slice(zero, from)
-      .some((line) => line.text.includes(name));
+      .some((line) => line.text.toLowerCase().includes(name.toLowerCase()));
     const lines = conversation.lines.slice(from);
     const said = nameOnceThen(
       lines.map((line) => line.text),
@@ -6967,10 +7094,19 @@ function offerChoices(
       !fitting.includes(choiceKey)
     )
       return;
-    // Never asked what the line before already said ("I've been there six
-    // years." "How long have you been at Kroger?").
-    const answeredBy = raised && data.answeredBy?.[raised.kind];
-    if (answeredBy && said?.wording?.facts.includes(answeredBy)) return;
+    // Never asked what the talk already said, by either of them: a question
+    // whose answer is in an earlier line (its record cited and its words
+    // said) is not offered ("McKenzie's Kitchen for me, 18 years now." then
+    // "How long have you worked there?"; item
+    // words-everyday-talk-asks-the-same-question).
+    if (
+      raised &&
+      alreadyAnswered(
+        conversation,
+        replyFacts(core, otherId, raised)?.facts ?? {},
+      )
+    )
+      return;
     // Turning the question back asks it; nothing more is said.
     if (raised === last.subject && !answer.asks) return;
     // A move that turns the question back says nothing without its subject.
@@ -7653,7 +7789,14 @@ function partingLine(
   }
   if (key) {
     const ids = topic[key]!.sourceRecordIds;
-    facts["about-said"] = topic[key]!;
+    // The closing names the topic only when the talk said it: an employer
+    // the player never named is not one the other person knows
+    // (owner rule 113).
+    const said = conversation.lines
+      .map((line) => line.text.toLowerCase())
+      .join(" ");
+    if (said.includes(topic[key]!.text.toLowerCase()))
+      facts["about-said"] = topic[key]!;
     facts[`about-${key}`] = { text: "yes", sourceRecordIds: ids };
     // Whose it is: the player's own (they were asked about it) or the
     // speaker's (they raised their own), by the topic's subject.
@@ -8142,7 +8285,10 @@ function sayNow(
       core,
       otherId,
       `${last.kind}-back`,
-      { ...backFacts, ...youIn(core, conversation, otherId, playerId) },
+      {
+        ...nameOnce(core, conversation, otherId, playerId, backFacts),
+        ...youIn(core, conversation, otherId, playerId),
+      },
       choice.move,
       `${eventId}:back`,
       saidParts(conversation, otherId),
@@ -8300,9 +8446,20 @@ function sayNow(
   if (raised.own) tell(`${eventId}:told`, raised.own);
   for (const also of saidOwn(raised, choice.wording))
     tell(`${eventId}:told:${also.key}`, also);
-  const reply = replyFacts(core, otherId, raised);
-  const kind = data.replyKinds[raised.kind] ?? raised.kind;
-  const line = reply
+  const replied = replyFacts(core, otherId, raised);
+  // What the give-back just told (where they work) is not told again by the
+  // answer to the question it turned back: the answer says what is new, or
+  // the talk carries on when nothing is.
+  const fresh =
+    gave && replied ? unsaidFacts(conversation, replied.facts) : null;
+  if (replied && fresh && !Object.keys(fresh).length) {
+    carryOn(core, conversation, data);
+    return conversation;
+  }
+  const reply = replied && fresh ? { ...replied, facts: fresh } : replied;
+  let kind = data.replyKinds[raised.kind] ?? raised.kind;
+  const momentKey = `${playerId}:${otherId}:${conversation.lines.length}:${raised.id}:reply`;
+  let line = reply
     ? words(
         core,
         data,
@@ -8311,11 +8468,30 @@ function sayNow(
         "reply",
         ALL,
         reply.facts,
-        `${playerId}:${otherId}:${conversation.lines.length}:${raised.id}:reply`,
+        momentKey,
         reply.stage,
         raised,
       )
     : null;
+  // Where they work was just told, the answer is only what they do there
+  // ("I'm a cook."), said as the answer to what they do (their-position).
+  const doing = fresh?.position;
+  const doingKind = data.replyKinds["their-position"];
+  if (!line && reply && doing && doingKind) {
+    line = words(
+      core,
+      data,
+      otherId,
+      doingKind,
+      "reply",
+      ALL,
+      { position: doing },
+      momentKey,
+      "default",
+      raised,
+    );
+    if (line) kind = doingKind;
+  }
   if (!line || !reply) {
     endConversation(core, conversation, data);
     return conversation;
