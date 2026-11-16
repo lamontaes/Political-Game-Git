@@ -102,5 +102,8 @@ it("tells the sponsor in their Journal that the chair held their bill", () => {
         ),
     );
   expect(others, "only the sponsor tells it").toEqual([]);
-  process.stderr.write(`TOLD ${JSON.stringify(told)}\n`);
+  // No look-back claims what the chair would do next: the record holds no later act.
+  expect(heldLine.join(" "), "no look-back on the hold").not.toMatch(
+    /Little did I know/,
+  );
 }, 240_000);

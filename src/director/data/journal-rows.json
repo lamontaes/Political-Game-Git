@@ -417,12 +417,19 @@
     {
       "kindPrefix": "event:bill-held-in-committee",
       "ownerFact": "sponsorId",
+      "toldWithoutOther": true,
+      "noLookBack": true,
       "turn": false,
       "entry": "story",
       "eventFacts": {
         "law": {
           "fact": "billId",
           "format": "billNumberAndName"
+        },
+        "chair": {
+          "fact": "chair",
+          "format": "personName",
+          "optional": true
         }
       }
     },

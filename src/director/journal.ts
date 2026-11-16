@@ -1934,7 +1934,15 @@ export function composeJournal(
       revisedAlready.add(changed.id);
       parts.push(revision);
     }
-    if (!revision && later && moment.hindsight >= interrupt) {
+    // A row can keep the look-back off (a held bill's chair is named by the
+    // record only as the one who held it, so "what they would do next" would
+    // claim an act no record holds).
+    if (
+      !revision &&
+      later &&
+      moment.hindsight >= interrupt &&
+      !("noLookBack" in row && row.noLookBack)
+    ) {
       // A look-back is said once: no two end the same way ("at the time").
       const hook = render(
         {

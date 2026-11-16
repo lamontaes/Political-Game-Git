@@ -23,7 +23,7 @@ root: journal-rows-missing-bill-held
 
 **Cause.** Measured: at place 4846968, seed 8647-mason, by `npx vitest run src/director/journal-held-bill.test.ts`, the Journal composer finds the held bill's moment and drops it, because `src/director/data/journal-rows.json` has a row for `event:bill-failed` and none for `event:bill-held-in-committee`, and `data/english/parts/journal.json` has no line for it. A moment with no row or no sentence is left out by design.
 
-**Fix.** One row in `journal-rows.json` reads the hold record's bill and chair and tells it only in the sponsor's own Journal (the record also names the chair and every committee member), and five lines from the Words lead word it, three with the bill alone and two with the chair's full name. No line says the bill died; a bill whose session ends still held is the existing failed-in-committee line's job.
+**Fix.** One row in `journal-rows.json` reads the hold record's bill and chair and tells it only in the sponsor's own Journal (the record also names the chair and every committee member), and five lines from the Words lead word it, three with the bill alone and two with the chair's full name. The row is told even when the sponsor does not know the chair by name (found by play: a sponsor whose chair was a stranger told nothing), and it keeps the memoir look-back off, which would claim an act the record does not hold (item `director-journal-hook-claims-a-later-act-nobody-recorded`). No line says the bill died; a bill whose session ends still held is the existing failed-in-committee line's job.
 
 **Time box.** 3 hours for one Sonnet session at medium effort. When it runs out, write what was read in this item and stop.
 
