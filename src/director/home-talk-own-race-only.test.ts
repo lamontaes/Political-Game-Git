@@ -30,6 +30,7 @@ import {
 import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
 import { noteHeard, openConversation, say } from "./conversation";
+import { purposeScene, replyInScene } from "./purpose-scene";
 
 const EVENING = 20 * 60 + 30;
 const VOTE = "2025-11-04";
@@ -54,11 +55,35 @@ function liveThrough(
       minuteOfDay,
     },
   });
-  while (packet.kind !== "complete")
+  while (packet.kind !== "complete") {
+    if (packet.kind === "stop") answerPetitionOffer(world, playerId);
     packet =
       packet.kind === "stop"
         ? resumePlayerV1(core, { kind: "stop", pauseId: packet.pauseId })
         : resumePlayerV1(core, { kind: "own-choice", pauseId: packet.pauseId });
+  }
+}
+
+/**
+ * A player who is told their petition is short says yes, as a player does:
+ * the engine offers and the player decides (OWNER-DECISIONS Oct 14). The
+ * character on its own choice answers no scene.
+ */
+function answerPetitionOffer(world: World, playerId: PersonId): void {
+  const { core, director } = world;
+  const book = director.ledger.people.get(playerId);
+  for (const entry of book?.schedule ?? []) {
+    if (!entry.bindings.some((b) => b.typeKey === "petition-short")) continue;
+    if (entry.answered?.includes("petition-short")) continue;
+    const result = purposeScene(core, director, playerId, entry, {
+      typeKey: "petition-short",
+    });
+    if (result?.kind !== "composed") continue;
+    const yes = result.scene.talk.tree.replies.findIndex(
+      (reply) => reply.line.move === "promise",
+    );
+    if (yes >= 0) replyInScene(core, director, playerId, entry, [yes]);
+  }
 }
 
 /** What the player's housemates say of the player's news in the evenings, one line each. */
@@ -136,7 +161,7 @@ it("a race the player did not enter is not brought up as the player's own (Sherr
   // The player never filed, so none of their news is about a race or a filing.
   expect(filingsOf(world, playerId)).toEqual([]);
   expect(raceNews(said)).toEqual([]);
-}, 900_000);
+}, 100_000);
 
 it("a person who filed through the game's own filing hears their own race (Sherrodsville)", () => {
   const { world, playerId } = setUp();
@@ -184,4 +209,4 @@ it("a person who filed through the game's own filing hears their own race (Sherr
   const mine = raceNews(said);
   expect(mine.length).toBeGreaterThan(0);
   expect(mine.every((row) => row.includes(contestId))).toBe(true);
-}, 900_000);
+}, 120_000);

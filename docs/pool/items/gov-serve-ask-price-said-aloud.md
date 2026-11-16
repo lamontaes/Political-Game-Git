@@ -5,8 +5,8 @@ area: gov
 kind: feature
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/project-thread-d5qa0q
 pr:
 after: gov-serve-ask-price-end
 blocked-on:
@@ -22,12 +22,12 @@ root: none
 
 **Cause.** Found in code: `promiseSubject` (src/director/promise-talk.ts) offers a `hold-question` promise that has been kept or broken as the talk's subject, with the facts `promise-hold-question` and `issue`. The conversation bank (data/english/parts/conversation.json) has promise-kept-raise and promise-broken-raise lines only for `promise-vote`, `promise-pay-on-time` and `promise-show-around`, so the talk finds no line for this subject.
 
-**Fix.** Add the Words lead's lines (Nov 15 06:36Z) to conversation.json, said by the running mate:
+**Fix.** Pass the proposal itself to the talk as `about` (`questionAbout`), and only for a word given for it. Add the Words lead's lines (Nov 15 17:35Z, 17:36Z, 18:23Z and 18:24Z) to conversation.json, said by the running mate. Each requires `promise-hold-question` and `about`:
 
-- `promise-kept-raise`, requiring `promise-hold-question`: "You gave me your word on {issue}. You kept it." and "You held on {issue}, like you said you would."
-- `promise-broken-raise`, requiring `promise-hold-question`: "You gave me your word on {issue}." followed by "Then you went the other way.", and "I ran with you because of {issue}. You moved."
+- `promise-kept-raise`: "You said you'd back {about}. You did." and "You stood up for {about}, like you said you would."
+- `promise-broken-raise`: "You said you'd back {about}. Then you went against it." and "I joined your ticket for {about}. You moved."
 
-After a broken raise, the player gets two different replies: "I did. I changed my mind." and "I had no choice on that one." The second is offered only when the record holds a cause, such as a veto overridden or a party order; otherwise it is not offered. The answer moves in src/director/promise-talk.ts take the second reply's condition from the record, never a fixed share.
+The player answers from the promise talk's existing answers (own-it, explain, deny). make-it-right is not offered, because the kind is not renewable. No new reply lines are added (Words lead, 17:35Z). "I had no choice on that one." is its own item, words-promise-broken-no-choice-from-a-cause.
 
 **Time box.** 3 hours for one sonnet session.
 

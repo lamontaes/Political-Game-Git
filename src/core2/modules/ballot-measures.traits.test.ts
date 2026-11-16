@@ -63,7 +63,7 @@ describe("ballot-measures.vote reads the voter's calibrated lean toward change",
       }),
     );
     openLaws(core);
-    openOffices(core, SEED);
+    openOffices(core, SEED, core.date);
     openElections(core);
     openCampaigns(core);
     openBallotMeasures(core);

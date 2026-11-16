@@ -40,6 +40,7 @@ import {
   sceneMovesWritten,
   wordSceneMove,
   type Fact,
+  type Placed,
   type SceneMove,
   type SceneTalkStep,
 } from "../english/scene-talk-words";
@@ -234,6 +235,8 @@ export interface SceneTalkLine {
   asks: boolean;
   /** The English engine says the line hands the floor over ("Go ahead."). */
   invites: boolean;
+  /** Why the English engine placed this wording here (dev mode's "why this reply"). */
+  placed?: Placed;
 }
 
 export interface SceneTalkRound {
@@ -738,6 +741,7 @@ export function composeSceneTalk(
       ...(worded.tag ? { tag: worded.tag } : {}),
       asks: worded.asks,
       invites: worded.invites,
+      ...(worded.placed ? { placed: worded.placed } : {}),
     };
   };
   let unusedGap = "";

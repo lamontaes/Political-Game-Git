@@ -46,6 +46,8 @@ Measure a table with `node --import tsx scripts/dev-tests/day-zero-year.ts <seed
 
 ## Traps
 
+- **The opening is traced in dev mode with its source (owner, Nov 16: "track everything at open").** Each thing the opening sets names where it came from. A random draw nobody can explain, or a number the same for every place, is a defect; draw from the world's seeded units keyed by id, never an ad hoc hash.
+
 - A unit test that builds its own small world proves nothing about day 0. Read the table in `buildBenchWorld` (`recordProof` lists every table's row count).
 - "It fills in a month" is the bug: the player's first screens, the paper, the first scene and the town meeting all read day 0.
 - A level you did not look at is a level that is empty. Look at the state and the country, not only the town.

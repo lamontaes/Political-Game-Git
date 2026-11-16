@@ -62,7 +62,7 @@ function town() {
       { modules: [viewsModule, speechModule] },
     );
     openLaws(core);
-    openOffices(core, seed);
+    openOffices(core, seed, core.date);
     openElections(core);
     openCampaigns(core);
     openRecord(core);

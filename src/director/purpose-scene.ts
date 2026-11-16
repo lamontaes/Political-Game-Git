@@ -208,6 +208,7 @@ import {
 import {
   CAMPAIGNS_MODULE_ID,
   CANVASS_MESSAGE_KIND,
+  PETITION_SHORT_EVENT,
   RIVAL_WORD_EVENT,
   enlistVolunteer,
   rivalWordMoved,
@@ -1805,6 +1806,18 @@ function composeBinding(
         `moved-${rivalWordMoved(coreAPI(core as CoreState), said.tellerId, said.messageId, record.topic)}`
       ] = { text: "yes", sourceRecordIds: [said.messageId, said.tellerId] };
     }
+  }
+  // A petition that is behind: who tells (the clerk or a helper) and whether
+  // anything is on it yet, each from the record. No count is said.
+  if (record?.kind === PETITION_SHORT_EVENT) {
+    facts[`teller-${said.tellerKind === "clerk" ? "clerk" : "helper"}`] = {
+      text: "yes",
+      sourceRecordIds: [moment.causeId],
+    };
+    facts[said.started === "yes" ? "started" : "not-started"] = {
+      text: "yes",
+      sourceRecordIds: [moment.causeId, said.petitionId ?? moment.causeId],
+    };
   }
   // A rival who runs under the candidate's own party label: a primary
   // challenge. The lines that call it one need both filings to say so.

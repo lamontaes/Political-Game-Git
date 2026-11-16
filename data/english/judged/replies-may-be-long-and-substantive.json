@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "replies-may-be-long-and-substantive",
   "rubric": "Replies are not all short; some carry an argument or a reason, so a reply does not kill the talk.",
-  "judged": 1014,
+  "judged": 1012,
   "no": {
     "0038nen24jy": {
       "keys": [
@@ -3211,16 +3211,6 @@
       ],
       "why": "A thank-you and \"figure out the rest as I go\" carry no argument or reason."
     },
-    "1vzjmku590l": {
-      "keys": [
-        "scene-talk.follow-press.written-questions-get-written-answers-and-the-story-won-t-wait-for-th",
-        "scene-talk.reply-answer.put-this-in-i-ll-vote-yes-and-i-ll-own-it",
-        "scene-talk.reply-confront.you-re-not-going-to-like-any-answer-i-give",
-        "scene-talk.reply-leave.i-ve-said-what-i-m-going-to-say",
-        "scene-talk.reply-lie.nobody-s-even-asked-me-that-before"
-      ],
-      "why": "\"I'll vote yes, and I'll own it\" is a promise without reason, and the other three only deflect."
-    },
     "1w1mbg9et00": {
       "keys": [
         "scene-talk.follow-ask.hearsay.and-you-expect-me-to-believe-that-first",
@@ -4183,5 +4173,5 @@
       "why": "Thanks and a promise to call carry no reason."
     }
   },
-  "yesHash": "2b9kl1ncsq0"
+  "yesHash": "05gk5qepk9y"
 }
