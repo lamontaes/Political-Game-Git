@@ -237,23 +237,29 @@ const run = (
       ),
     ) as string[];
     if (outIds.includes(filer)) continue;
-    // A seat of an at-large race that the count gave them is no loss, yet
-    // the lost-race scene still fires for them (item
-    // director-seated-at-large-candidate-gets-a-lost-race-scene); the played
-    // file says so where it happens.
+    // A seat of an at-large race that the count gave them is no loss: the
+    // count names them nowhere among those who missed, and no lost-race
+    // moment fires for them (the played file says so where it happens).
     const missed = JSON.parse(
       String(core.durableLog.get(causeId)?.facts?.outIds ?? "[]"),
     ) as string[];
-    if (file && !missed.includes(filer))
-      appendFileSync(
-        file,
-        `### ${here}: the count seated this candidate, and the scene below still says they lost (the item above)\n\n`,
-      );
     const entry = director.ledger.people
       .get(filer)!
       .schedule.find((row) =>
         row.momentId.includes(`election-result:${contest!.id}`),
       );
+    if (!missed.includes(filer)) {
+      expect(
+        entry?.bindings.find((row) => row.typeKey === "family-loss"),
+        `${here}: a seated candidate is told they lost`,
+      ).toBeUndefined();
+      if (file)
+        appendFileSync(
+          file,
+          `### ${here}: the count seated this candidate; no lost-race scene fires for them\n\n`,
+        );
+      continue;
+    }
     expect(entry, `${here}: the count fired no moment`).toBeTruthy();
     const household =
       core.households.get(core.people.get(filer)!.householdId)?.memberIds ?? [];
