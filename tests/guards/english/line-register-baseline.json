@@ -109,20 +109,15 @@
     "data/english/parts/minutes.json"
   ],
   "codeLines": {
-    "src/bench/m2-10-seating.ts": 2,
-    "src/bench/printed-words.ts": 3,
+    "src/bench/printed-words.ts": 2,
     "src/bench/progress.ts": 13,
     "src/bench/start-life.mjs": 1,
     "src/bench/verify.mjs": 3,
-    "src/director/purpose-scene.ts": 1,
-    "src/director/reach.ts": 1,
     "src/director/scene-talk.ts": 1,
     "src/english/composed-checks.ts": 1,
     "src/english/english-composition.ts": 2,
     "src/english/grounded-english.ts": 2,
-    "src/english/line-rules.ts": 4,
-    "src/english/reply-follows.ts": 1,
-    "src/english/speech-registers.ts": 43
+    "src/english/speech-registers.ts": 1
   },
   "dataHeldLines": {
     "src/bench/data/controls.json": 628,
