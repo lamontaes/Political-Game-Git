@@ -311,6 +311,16 @@ export function openOfficeDay(core: CoreState, worldSeed: string): void {
     Object.assign(handlers, kit.handlers ?? {});
   }
   if (core.modules.has(OFFICE_DAY_MODULE_ID)) return;
+  // The acts read their hours from the core's data, which is fixed when the
+  // core is made: a world that opens the office day is built on
+  // officeDayData, the one builder the played world uses.
+  const missing = officeActKits()
+    .flatMap((kit) => Object.keys(kit.parameters ?? {}))
+    .filter((key) => !(key in core.data.parameters));
+  if (missing.length)
+    throw new Error(
+      `The office day opened on a world built without officeDayData (missing ${missing.join(", ")}).`,
+    );
   registerModule(core, OFFICE_DAY_MODULE);
   const api = coreAPI(core);
   table(api, "world").put({
