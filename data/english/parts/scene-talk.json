@@ -190034,35 +190034,6 @@
       }
     },
     {
-      "key": "scene-talk.state-request.case-help-custody-2",
-      "move": "state-request",
-      "kind": "spoken",
-      "text": "I have family in jail, and I haven't been able to see them.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "case-help",
-          "step": "state",
-          "move": "request",
-          "role": "asker",
-          "requiresFacts": ["problem-custody"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (office hours, custody, Nov 15 22:45Z), added by the civic roles builder",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "request",
-        "key": "case-help"
-      },
-      "bearing": "anxious",
-      "piece": {
-        "of": "case-help.state-request",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
       "key": "scene-talk.reply-promise.case-help-custody-1",
       "move": "reply-promise",
       "kind": "spoken",
