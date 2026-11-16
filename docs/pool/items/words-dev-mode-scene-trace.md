@@ -8,7 +8,7 @@ size: M
 status: in-pr
 standard: 2
 claimed-by: words builder A
-pr:
+pr: 9661
 after:
 blocked-on:
 lead: words
