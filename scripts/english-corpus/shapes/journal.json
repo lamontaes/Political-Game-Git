@@ -706,7 +706,10 @@
         "{other} called me to concede.",
         "{name} called me to concede.",
         "I lost by a few votes.",
-        "I won by a few votes."
+        "I won by a few votes.",
+        "It was close.",
+        "It wasn't close.",
+        "It was very close."
       ]
     },
     {

@@ -3168,6 +3168,97 @@
       }
     },
     {
+      "key": "journal.election-line-own-result.it-was-close",
+      "move": "election-line-own-result",
+      "kind": "spoken",
+      "text": "It was close.",
+      "uses": [
+        {
+          "move": "election-line-own-result",
+          "subject": "election",
+          "role": "line",
+          "choice": "own-result",
+          "journal": []
+        }
+      ],
+      "transcriptsUsing": 8,
+      "bySource": {
+        "chrg": 1,
+        "dcpd": 4,
+        "nasa": 3
+      },
+      "source": {
+        "document": "Remarks Following a Document Signing Ceremony on Semiconductor Supply and Citizenship and Immigration and an Exchange With Reporters",
+        "date": "2026-08-06",
+        "granule": "DCPD-202600519",
+        "url": "https://www.govinfo.gov/app/details/DCPD-202600519",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.election-line-own-result.it-wasnt-close",
+      "move": "election-line-own-result",
+      "kind": "spoken",
+      "text": "It wasn't close.",
+      "uses": [
+        {
+          "move": "election-line-own-result",
+          "subject": "election",
+          "role": "line",
+          "choice": "own-result",
+          "journal": []
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "dcpd": 2
+      },
+      "source": {
+        "document": "Remarks at a Document Signing Ceremony and an Exchange With Reporters",
+        "date": "2025-05-05",
+        "granule": "DCPD-202500556",
+        "url": "https://www.govinfo.gov/app/details/DCPD-202500556",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.election-line-own-result.it-was-very-close",
+      "move": "election-line-own-result",
+      "kind": "spoken",
+      "text": "It was very close.",
+      "uses": [
+        {
+          "move": "election-line-own-result",
+          "subject": "election",
+          "role": "line",
+          "choice": "own-result",
+          "journal": []
+        }
+      ],
+      "transcriptsUsing": 6,
+      "bySource": {
+        "house": 1,
+        "nasa": 2,
+        "senate": 3
+      },
+      "source": {
+        "document": "NASA oral history interview with Mark S. Geyer",
+        "date": "2019-06-20",
+        "granule": "geyerm-6-20-19",
+        "url": "https://www.nasa.gov/wp-content/uploads/2024/11/geyerm-6-20-19.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
       "key": "journal.office-line-filing.i-went-to-filing-office",
       "move": "office-line-filing",
       "kind": "spoken",
