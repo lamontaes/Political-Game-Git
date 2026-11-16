@@ -247,6 +247,8 @@ function playTo(draw: number) {
 }
 
 describe("elections in the two-level world", () => {
+  // Alone about 18 s at tl-c, 23 s beside three heavy files on four workers
+  // (Nov 16); the limit is near twice the slower.
   it("counted residents vote, challengers get real votes, and statewide results track the state", () => {
     // The place drawn from the seed; one with no race of both parties this
     // November draws the next, up to eight, and each place tried is named.
@@ -361,5 +363,5 @@ describe("elections in the two-level world", () => {
         report,
       }),
     );
-  });
+  }, 45_000);
 });
