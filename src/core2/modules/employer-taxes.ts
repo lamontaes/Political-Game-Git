@@ -23,7 +23,6 @@ import type { ModuleRow } from "../module-data";
 import type { CashJournalSourceSlot } from "../journal-state";
 import { lawChain, lawInForce, lawInForceToday } from "./laws";
 import { lawApplied } from "../law-reach/applied";
-import { ownerOf } from "./business";
 import { residentFacts, residentsRuntime } from "./residents";
 import { businessScaleOf, countedHeadsOf } from "../residents-economy";
 import { countedPayment, paydayLaw } from "../counted-money";
@@ -37,7 +36,7 @@ import {
 import { addDays, makeIsoDate } from "../kernel/dates";
 import { noteTownRevenue } from "../budgets-treasury";
 import premisesData from "../data/business/premises-tax.json" with { type: "json" };
-import { firmCharged } from "../firm-charges";
+import { firmCharged, ownerOf } from "./business";
 import { transferCash } from "../world-transfer";
 
 export const EMPLOYER_TAXES_MODULE_ID = "core2-employer-taxes-v1";

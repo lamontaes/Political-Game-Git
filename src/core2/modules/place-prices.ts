@@ -25,7 +25,7 @@ import { countedPayment } from "../counted-money";
 import { LAWS_MODULE_ID, lawChain, lawInForce } from "./laws";
 import { BUDGETS_MODULE_ID, governments } from "./budgets";
 import lawParameters from "../data/laws/reach-group-b-parameters.json" with { type: "json" };
-import { firmCharged } from "../firm-charges";
+import { firmCharged } from "../business-charges";
 import { DEFAULT_BUSINESS_BOOKS_DATA } from "../business-books";
 import { webLevel, webReach, type Subject } from "../outcome-web-reach";
 import { baseOf } from "../outcome-web-model";

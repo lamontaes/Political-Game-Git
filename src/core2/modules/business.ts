@@ -15,7 +15,7 @@ import { lawApplied } from "../law-reach/applied";
 import { carriedLink } from "./outcome-web";
 import { chooseAct } from "../choice";
 import { countedPayment } from "../counted-money";
-import { depositsHeld, withdrawSavings } from "../accounts";
+import { depositsHeld, withdrawSavings } from "./budgets";
 import businessData from "../data/business/business.json" with { type: "json" };
 import businessParameters from "../data/business/parameters.json" with { type: "json" };
 import { addDays, makeIsoDate, daysBetweenText } from "../kernel/dates";
@@ -77,11 +77,13 @@ import {
   firmChargesOf,
   firmCharged,
   type FirmChargeKind,
-} from "../firm-charges";
+} from "../business-charges";
 import { employerTaxShareOfWage, premisesTaxYearMinor } from "./employer-taxes";
 import { businessEnergyLawShare } from "./place-prices";
 
 export { BUSINESS_MODULE_ID };
+/** What a business paid by name under a law or tax: every payer engine records it here (business-charges.ts). */
+export { firmCharged } from "../business-charges";
 /** A household's books as other families read them: its medical debt and what it keeps back for its home. */
 export {
   medicalDebtOf,
@@ -122,7 +124,7 @@ interface OwnerRow {
   /** The outside-cost payments' part sent elsewhere (ads), through the last booked month. */
   splitThrough?: number;
   tradingId?: string;
-  /** The running totals of what the business paid under laws and taxes (firm-charges.ts), at the last booked month. */
+  /** The running totals of what the business paid under laws and taxes (business-charges.ts), at the last booked month. */
   chargesThrough?: Partial<Record<FirmChargeKind, number>>;
 }
 
@@ -938,7 +940,7 @@ function sweepToParent(api: CoreAPI, row: OwnerRow): void {
  * A business's other operating costs are sized from its industry's margin
  * (IRS net income over receipts), which is what is left after every cost,
  * taxes and licenses included. The taxes and duties the business pays by name
- * (firm-charges.ts) are charged by their own engines, so they come out of the
+ * (business-charges.ts) are charged by their own engines, so they come out of the
  * lump its suppliers bill, once, at the laws in force when it opens:
  *
  *   lump = (margin's other costs - payroll taxes - premises tax) / (1 + duty and energy law shares)
@@ -994,7 +996,7 @@ function staffNow(c: CoreState, organizationId: string): number {
 /**
  * The counters to keep at the end of a month: the books' running totals, the
  * outside-costs flow's paid so far, what the business paid under laws and
- * taxes (firm-charges.ts), and the months of revenue lost (this month's
+ * taxes (business-charges.ts), and the months of revenue lost (this month's
  * operating result from the books, fading the older months over the memory
  * window). Operating result is sales less every operating cost the month paid:
  * wages, purchases from suppliers, costs bought outside the town, compliance

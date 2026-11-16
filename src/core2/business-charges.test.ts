@@ -1,5 +1,5 @@
 /**
- * A business's month's books weigh every cost a law put on it (firm-charges.ts):
+ * A business's month's books weigh every cost a law put on it (business-charges.ts):
  * in a played town, a raise in the employer's Medicare tax shows on each
  * business's monthly bill under the new law row, counts in the costs the
  * staffing and closing decisions read, and leaves those businesses with more
