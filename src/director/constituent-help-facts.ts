@@ -11,11 +11,8 @@
  */
 import { P } from "../core2/parameters";
 import { daysBetweenText } from "../core2/kernel/dates";
-import {
-  careNeedOf,
-  COVERAGE_MODULE_ID,
-  coverageOf,
-} from "../core2/modules/health";
+import { careNeedOf } from "../core2/modules/health";
+import { COVERAGE_MODULE_ID, coverageOf } from "../core2/modules/coverage";
 import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
 import {

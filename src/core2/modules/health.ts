@@ -70,8 +70,6 @@ import type {
   PersonState,
   Source,
 } from "../types";
-// Re-exported so other families read a person's plan through this entry, not the file (families guard).
-export { COVERAGE_MODULE_ID, coverageOf } from "./coverage";
 
 /**
  * P10 producer, not a health engine: the existing Ruling 29/38/39 mortality
