@@ -304,7 +304,7 @@ describe("filing is a petition", () => {
     ).toBe(true);
     if (passedOver.length)
       process.stdout.write(`passed over: ${passedOver.join(" | ")}\n`);
-  }, 900_000);
+  }, 250_000);
 
   /**
    * One pinned town: the player files a month before the town race's

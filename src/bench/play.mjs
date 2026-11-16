@@ -2175,9 +2175,18 @@ async function campaignParts() {
                       ? T.askingWhySignatures
                       : T.askingWhyVotes
                     )
-                      .replace("{signed}", String(petition.signed))
-                      .replace("{needed}", String(petition.needed))
-                      .replace("{target}", String(petition.gatherTarget)),
+                      .replace(
+                        "{signed}",
+                        petition.signed.toLocaleString("en-US"),
+                      )
+                      .replace(
+                        "{needed}",
+                        petition.needed.toLocaleString("en-US"),
+                      )
+                      .replace(
+                        "{target}",
+                        petition.gatherTarget.toLocaleString("en-US"),
+                      ),
                   ]
                 : [],
           }),

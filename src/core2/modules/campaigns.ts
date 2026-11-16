@@ -8435,7 +8435,7 @@ export function petitionShortReading(
   const petition = petitionOf(api, filingId);
   if (!petition?.needed) return null;
   const measure =
-    by === "clerk" ? petition.needed : signaturesToGather(petition.needed);
+    by === "clerk" ? petition.needed : signaturesToGather(api, filingId);
   const gap = measure - petition.signed;
   const daysLeft = daysBetween(api.state.date, petition.due);
   const shift = petitionShiftYield();
@@ -8513,7 +8513,7 @@ export function tellPetitionShort(
     placeId: townRow(api).townPlaceId,
     source: {
       tag: "SOURCED",
-      citation: `Petition ${petition.id}: ${petition.signed} signed, ${petition.needed} needed (${signaturesToGather(petition.needed)} a campaign gathers), ${reading.daysLeft} days left`,
+      citation: `Petition ${petition.id}: ${petition.signed} signed, ${petition.needed} needed (${signaturesToGather(api, filingId)} a campaign gathers), ${reading.daysLeft} days left`,
       asOf: api.state.date,
     },
     facts: {
@@ -8526,7 +8526,7 @@ export function tellPetitionShort(
       started: petition.signed > 0 ? "yes" : "no",
       // What the engine read the day it told them, for the trace.
       signed: String(petition.signed),
-      gathers: String(signaturesToGather(petition.needed)),
+      gathers: String(signaturesToGather(api, filingId)),
       needed: String(petition.needed),
       daysLeft: String(reading.daysLeft),
       canAddAfterNextTurn: reading.canAddAfterNextTurn.toFixed(1),

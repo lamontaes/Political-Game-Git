@@ -195,7 +195,7 @@ function stagedEntry(world: Case) {
 function told(world: Case, label: string, seed: string = SEED) {
   const { core, api, director, me, filing } = world;
   const petition = petitionOf(api, filing.id)!;
-  const gather = signaturesToGather(petition.needed);
+  const gather = signaturesToGather(api, filing.id);
   const day = playToTold(world);
   expect(day, `${PLACE} ${seed} ${label}: told as short`).toBeDefined();
   const record = core.durableLog.get(toldId(filing.id))!;
@@ -258,7 +258,7 @@ function startedByHand(
   const petition = petitionOf(api, filing.id)!;
   expect(petition.signed).toBeGreaterThan(0);
   expect(petition.signed).toBeLessThan(
-    short === "needed" ? petition.needed : signaturesToGather(petition.needed),
+    short === "needed" ? petition.needed : signaturesToGather(api, filing.id),
   );
 }
 
@@ -294,7 +294,7 @@ it("the clerk tells a filed player on a thin petition once; a yes takes their ca
     before,
   );
   write(
-    `Said yes: doors ${before} to ${doorsOf(world)}, signed ${petitionOf(api, filing.id)!.signed} of ${signaturesToGather(petitionOf(api, filing.id)!.needed)}.\n`,
+    `Said yes: doors ${before} to ${doorsOf(world)}, signed ${petitionOf(api, filing.id)!.signed} of ${signaturesToGather(api, filing.id)}.\n`,
   );
   advanceCore(core, addDays(makeIsoDate(petitionOf(api, filing.id)!.due), 1));
   write(`Journal: ${journalAbout(world).join(" | ")}\n`);
@@ -379,7 +379,7 @@ it("a clerk says nothing when the names already meet what the office requires", 
   expect(playToTold(world), "nothing told").toBeUndefined();
   advanceCore(core, addDays(makeIsoDate(petition.due), 1));
   write(
-    `## Clerk, names meet the requirement: ${PLACE} ${SEED}, ${petition.signed} signed, ${petition.needed} needed, a campaign gathers ${signaturesToGather(petition.needed)}. No one tells them; the clerk's check: ${statusOf(world)}.\n`,
+    `## Clerk, names meet the requirement: ${PLACE} ${SEED}, ${petition.signed} signed, ${petition.needed} needed, a campaign gathers ${signaturesToGather(api, filing.id)}. No one tells them; the clerk's check: ${statusOf(world)}.\n`,
   );
 }, 70_000);
 
@@ -394,7 +394,7 @@ it("a petition the count has filled by play is never told", () => {
   const world = filer(ON_PACE_SEED);
   const { core, api, filing } = world;
   const petition = petitionOf(api, filing.id)!;
-  const gather = signaturesToGather(petition.needed);
+  const gather = signaturesToGather(api, filing.id);
   expect(playToTold(world), "nothing told").toBeUndefined();
   advanceCore(core, addDays(makeIsoDate(petition.due), 1));
   const after = petitionOf(api, filing.id)!;
