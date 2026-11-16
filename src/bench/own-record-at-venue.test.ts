@@ -30,7 +30,22 @@ const WHERE = `${PLACE.name} (${PLACE.key}), world seed ${PLACE.seed}, as ${PLAC
 // About 75 s alone on a cloud container; the limit is near twice the slower run.
 const LIMIT_MS = 180_000;
 
-type Json = Record<string, any>;
+/** The parts of the bench's replies this test reads. */
+interface Packet {
+  readonly kind?: string;
+  readonly pauseId?: string;
+}
+interface Body {
+  readonly packet?: Packet;
+  readonly life?: { readonly packet?: Packet };
+  readonly filing?: { readonly id: string; readonly status: string };
+  readonly contestId?: string;
+  readonly resultMomentId?: string | null;
+}
+interface Json {
+  readonly status?: number;
+  readonly json: Body | null;
+}
 const ask = async (method: string, path: string): Promise<Json> => {
   const reply = await benchRequest(method, new URL(path, "http://bench"), {
     developer: true,
@@ -39,7 +54,10 @@ const ask = async (method: string, path: string): Promise<Json> => {
     typeof reply.body === "string"
       ? reply.body
       : Buffer.from(reply.body ?? "").toString("utf8");
-  return { status: reply.status, json: text ? JSON.parse(text) : null };
+  return {
+    status: reply.status,
+    json: text ? (JSON.parse(text) as Body) : null,
+  };
 };
 const q = (o: Record<string, string>) => new URLSearchParams(o).toString();
 
@@ -53,7 +71,7 @@ const resume = async (first: Json): Promise<void> => {
   )
     next = await ask(
       "POST",
-      `/api/resume?${q({ kind: "stop", pauseId: next.json.packet.pauseId })}`,
+      `/api/resume?${q({ kind: "stop", pauseId: next.json.packet.pauseId ?? "" })}`,
     );
 };
 const held = async (): Promise<void> => {
@@ -128,7 +146,7 @@ it(
       "own record, met where its scene is set",
     );
 
-    let night: Json | null = null;
+    let night: Body | null = null;
     for (let presses = 0; presses < 200 && !night; presses += 1) {
       await held();
       const before = core.date;
