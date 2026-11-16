@@ -1,6 +1,28 @@
 {
   "entries": [
     {
+      "version": "0.111.1",
+      "releasedOn": "2026-11-15",
+      "revision": "f1db32674575735a7bbb38b5efc5172575d93445",
+      "changeIds": [
+        "core-speed-regroup-counts-a-group-only-on-a-move",
+        "core-world-files-repeals-of-rules-not-in-force",
+        "elections-counted-ballot-reads-back-the-counts-reasons",
+        "people-coverage-counted-premium-due-mismatch-mccoy",
+        "pool-causes-fable-b-2026-11-15-10",
+        "pool-causes-fable-b-2026-11-15-2",
+        "pool-causes-fable-b-2026-11-15-5",
+        "pool-causes-fable-b-2026-11-15-6",
+        "pool-causes-fable-b-2026-11-15-7",
+        "pool-causes-fable-b-2026-11-15-8",
+        "pool-causes-fable-b-2026-11-15-9",
+        "report-train-test-run-nov-15",
+        "skills-dev-tester-money-by-label",
+        "tests-retirement-onset-law-reads-62-after-the-law-moves",
+        "tests-two-reds-found-in-the-gate-of-9488"
+      ]
+    },
+    {
       "version": "0.111.0",
       "releasedOn": "2026-11-15",
       "revision": "94a14259d970d023eca5e60368446202f4e1d508",

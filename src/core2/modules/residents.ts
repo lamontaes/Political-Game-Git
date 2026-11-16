@@ -478,10 +478,15 @@ export function regroupHousehold(
   date: string,
 ): void {
   const before = h.group;
-  // Its claim on the old group's money, and all the claims there, before it leaves.
+  const key = groupKeyOf(rt, h, date);
+  // Its claim on the old group's money, and all the claims there, before it
+  // leaves. The old group's claims are read only when the household leaves
+  // it: most regroups keep the household where it is (a share of away work
+  // lost each month).
+  const leaving = before >= 0 && rt.store.group(key).index !== before;
   const claim = rt.api ? savingClaim(rt, h) : 0;
-  const groupBefore = rt.api && before >= 0 ? claimsInGroup(rt, before) : 0;
-  rt.store.regroup(h, groupKeyOf(rt, h, date));
+  const groupBefore = rt.api && leaving ? claimsInGroup(rt, before) : 0;
+  rt.store.regroup(h, key);
   if (rt.api) claimMoved(rt, before, h.group, claim);
   // Its share of the old group's money goes with it.
   if (rt.api && before !== h.group)

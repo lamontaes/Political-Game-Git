@@ -69,6 +69,7 @@ import {
   billLevelJurisdiction,
   billValueInForce,
   LAWS_MODULE_ID,
+  lawNeedsChange,
   questionSettled,
   type SettledQuestion,
 } from "./laws";
@@ -5470,13 +5471,17 @@ function ownSections(
   const stanceOn = (q: string) => memberStanceOn(api, memberId, q);
   // A member asks for a section only where it would change their body's law:
   // not one that repeats the law in force or an act already passed, nor one
-  // that cuts across an act waiting on its effective date.
+  // that cuts across an act waiting on its effective date, nor a repeal of a
+  // rule the body never made (the filers' own rule, `lawNeedsChange`).
   const makes = billJurisdiction(api, bill);
   return Object.keys(POLICY_QUESTIONS)
     .filter((q) => !touched.has(q))
     .map((q) => ({ q, stance: stanceOn(q) }))
     .filter(({ stance }) => stance !== 0)
     .filter(({ q, stance }) => !questionSettled(api, makes, q, stance))
+    .filter(({ q, stance }) =>
+      lawNeedsChange(api, level, makes, q, Math.sign(stance)),
+    )
     .sort(
       (a, b) =>
         Math.abs(b.stance) - Math.abs(a.stance) || a.q.localeCompare(b.q),

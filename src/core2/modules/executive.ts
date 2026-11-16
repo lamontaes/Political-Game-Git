@@ -57,7 +57,7 @@ import type {
   PersonState,
 } from "../types";
 import type { ModuleRow } from "../module-data";
-import { enactLaw, lawChain, lawInForce } from "./laws";
+import { answerIn, enactLaw, lawChain, lawInForce } from "./laws";
 import { OFFICES_MODULE_ID, townSeats, type TermRow } from "./offices";
 import {
   appointerWeighing,
@@ -71,7 +71,6 @@ import { personLean } from "../campaign-views";
 import { campaignParameter } from "../campaign-data";
 import { viewOn } from "./views";
 import { leanOf, mayorVeto, memberKey, members } from "./legislature";
-import { answerIn } from "./world-legislating";
 import type { ModuleCalendarWork } from "../module-calendar";
 import { addDays, ageOnDate, makeIsoDate } from "../kernel/dates";
 import {

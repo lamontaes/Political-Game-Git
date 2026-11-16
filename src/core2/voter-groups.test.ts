@@ -20,7 +20,7 @@ import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
 import { coreAPI } from "./state";
 import { residentsRuntime } from "./modules/residents";
-import { electorateSample } from "./modules/voting";
+import { countedVoters, electorateSample } from "./modules/voting";
 import {
   countPlaces,
   countedResidents,
@@ -118,22 +118,29 @@ it(`voter groups are the counted electorate in ${place.name}, seed ${place.seed}
   expect(weighted, where).toBeLessThanOrEqual(recorded + rounding);
   expect(weighted, where).toBeGreaterThan(0);
 
-  // The sample is the town's counted voters, in lean order by real voters.
-  // The eligible set is read here from the electorate's one reader,
-  // `countedVoters` (the counted rows checked above, but for the rooms of
-  // people the state bars while held in prison), not from the sample: every
-  // counted adult voter of the town is in it once, with their household's
-  // weight, and nobody else. Only a town with no counted adult falls back to
-  // its named adults. The spec's premise until Nov 15 was every counted
-  // resident of the town by age; #9145 took barred correctional rooms out of
-  // the electorate, and the premise follows it.
+  // The sample is the town's counted adults who may vote, in lean order by
+  // real voters. The eligible set is read here from the counted rows checked
+  // above (the town is the player's place), not from the sample: every counted
+  // adult of the town who may vote is in it once, with their household's
+  // weight, and nobody else.
+  // Only a town with no counted adult falls back to its named adults.
   const sample = electorateSample(api, core.date, 0);
   expect(sample.length, where).toBeGreaterThan(0);
   const townId = core.people.get(playerId!)!.placeId;
+  const townAdults = voters.filter(
+    (v) => v.placeId === townId && ageOn(v, core.date) >= 18,
+  );
+  // Who may vote: `countedVoters` leaves out the residents of adult
+  // correctional rooms where the state bars people held in prison, and
+  // nobody else. The sample is the rest.
+  const mayVote = new Set(countedVoters(api).map((v) => v.id));
+  const barred = townAdults.filter((v) => !mayVote.has(v.id));
+  for (const v of barred)
+    expect(v.quarters, `${where}: ${v.id} is left out of the voters`).toBe(
+      "adultCorrectional",
+    );
   const adults = new Map(
-    countedVoters(api)
-      .filter((v) => v.placeId === townId && ageOn(v, core.date) >= 18)
-      .map((v) => [v.id, v.weight]),
+    townAdults.filter((v) => mayVote.has(v.id)).map((v) => [v.id, v.weight]),
   );
   const sampled = new Map(sample.map((s) => [s.id, s.weight]));
   expect(sampled.size, `${where}: one row per voter`).toBe(sample.length);
