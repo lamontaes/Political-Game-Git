@@ -7,7 +7,7 @@ priority: 2
 size: M
 status: in-pr
 claimed-by:
-pr:
+pr: 9615
 blocked-on:
 lead: wire-office-budgets-justice
 source: "Account lead thread, Nov 16, 2026, tracing a special election's term at Washington, DC for dev mode's Trace"
