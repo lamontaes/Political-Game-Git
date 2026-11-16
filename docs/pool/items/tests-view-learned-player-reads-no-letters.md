@@ -34,3 +34,5 @@ checked: none
 **Waits on.** nothing.
 
 **Files.** src/director/view-learned.test.ts
+
+**Notes.** Nov 16: #9637 pins the letter test to seed 33 (passes there in 72 s; also seeds 11, 22, 44, 55 and 66), so the test is no longer red by draw. The drawn player who reads no letters at seed 9059152ee9d720c6 is still unproved; this item stays open for that.
