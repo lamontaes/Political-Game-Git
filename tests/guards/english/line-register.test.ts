@@ -3,6 +3,8 @@ import path from "node:path";
 import { describe, expect, it } from "vitest";
 import {
   baselineOf,
+  EXEMPT,
+  exemptProblems,
   jsonStrings,
   literals,
   registerCounts,
@@ -78,6 +80,11 @@ describe("the line register", () => {
     expect(
       now.unreadBanks.filter((file) => !BASELINE.unreadBanks.includes(file)),
     ).toEqual([]);
+    expect(
+      now.goodWaitingForReader.filter(
+        (file) => !BASELINE.goodWaitingForReader.includes(file),
+      ),
+    ).toEqual([]);
   });
   it("lowers the baseline as soon as a line is tied, reached, read or moved", () => {
     expect([
@@ -99,6 +106,9 @@ describe("the line register", () => {
       ...BASELINE.unreadBanks
         .filter((file) => !now.unreadBanks.includes(file))
         .map((file) => `${file} is read now: remove it from the baseline`),
+      ...BASELINE.goodWaitingForReader
+        .filter((file) => !now.goodWaitingForReader.includes(file))
+        .map((file) => `${file} is read now: remove it from the baseline`),
     ]).toEqual([]);
   });
   it("registers every bank file in data/english/parts", () => {
@@ -117,6 +127,16 @@ describe("the line register", () => {
     expect(literals('const a = "Hello there friend"; // "Not code"')).toEqual([
       "Hello there friend",
     ]);
+    // A record value the code compares is never said, as a literal beside
+    // === or !== or as the file's own constant used only in comparisons.
+    expect(
+      literals(
+        'const TOPIC = "Planning and zoning";\nif (a === "Some words to test") x(TOPIC === b, b !== TOPIC);',
+      ),
+    ).toEqual([]);
+    expect(
+      literals('const TOPIC = "Planning and zoning";\nsay(TOPIC);'),
+    ).toEqual(["Planning and zoning"]);
     expect(
       jsonStrings({
         label: "A label here",
@@ -124,5 +144,12 @@ describe("the line register", () => {
         rows: ["Row one"],
       }),
     ).toEqual(["Row one"]);
+  });
+  it("proves every exempt constant by its readers: nothing that puts words on a screen reads it", () => {
+    // line-register-exempt.json: each entry gives its reason, still exists,
+    // and is read outside tests and developer files only through the fields
+    // its row names. A new reader on a player's path fails here.
+    expect(EXEMPT.length).toBeGreaterThan(0);
+    expect(exemptProblems()).toEqual([]);
   });
 });

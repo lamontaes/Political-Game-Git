@@ -1,4 +1,3 @@
-import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
@@ -13,7 +12,7 @@ import {
   type CrimeRecord,
 } from "./modules/corruption";
 import { buildPopulation } from "./population";
-import { currentCloseness } from "./closeness";
+import { currentCloseness, temperedHours, tieHoursBetween } from "./closeness";
 import { coreAPI } from "./state";
 import { decisionLean } from "./trait-decisions";
 import { officialHousehold } from "./official-living";
@@ -185,11 +184,30 @@ function corruptionCases(
       // is already very close, and the chooser (rightly) weighs how far the
       // tie soured, not that a fixed number of hours were lost.
       api.relationship(crime!.offererId, crime!.officialId, "contact", 200);
+      // The rupture is sized to the tie it must take to its floor: every hour
+      // the tie stands on today, over what an hour of falling-out counts for
+      // between these two (`temperedHours`), twice over, and never less than
+      // the 5,000 hours this fixture always took. A fixed 5,000 left a pair
+      // with a long past at 0.96 of 0.98 (Gilbert, West Virginia, seed
+      // 5af5202e...), so neither told anyone.
+      const perHour = -temperedHours(
+        core,
+        core.people.get(crime!.offererId),
+        core.people.get(crime!.officialId),
+        -1,
+      );
+      const rupture = Math.max(
+        5000,
+        Math.ceil(
+          (2 * tieHoursBetween(core, crime!.offererId, crime!.officialId)) /
+            perHour,
+        ),
+      );
       api.relationship(
         crime!.offererId,
         crime!.officialId,
         "contact",
-        -5000,
+        -rupture,
         undefined,
         {
           cause: "fixture-falling-out",
@@ -335,32 +353,62 @@ corruptionCases(
   "2221940",
 );
 
-// Three places drawn from all 56 on a fresh seed (set CORRUPTION_SEED to
-// reproduce a run); each names its place and seed. Bribes are rare by design
-// (a larger one tempts more without overwhelming honesty), so a place whose
-// fixture asks yield fewer than two taken is passed over, by name.
-const fresh = process.env.CORRUPTION_SEED ?? randomBytes(16).toString("hex");
-const passedOver: string[] = [];
-let drawn = 0;
-// CORRUPTION_WORLD_SEED with CORRUPTION_PLACE_KEY replays one recorded draw
-// (the world seed and place a failing run printed) before the fresh ones.
-const replaySeed = process.env.CORRUPTION_WORLD_SEED;
-const replayKey = process.env.CORRUPTION_PLACE_KEY;
-if (replaySeed && replayKey) {
-  const refused = corruptionCases(replaySeed, replayKey, true);
-  if (refused) passedOver.push(`replay: ${refused}`);
-  else drawn += 1;
-}
-for (let draw = 0; drawn < 3 && draw < 12; draw++) {
-  const place = drawPlace(`${fresh}:${draw}`, "corruption");
-  const refused = corruptionCases(place.seed, place.key, true);
-  if (refused) passedOver.push(refused);
-  else drawn += 1;
-}
-describe(`fresh corruption draws (CORRUPTION_SEED ${fresh})`, () => {
-  it("finds three drawn places with at least two taken bribes", () => {
-    if (passedOver.length) console.log(`passed over: ${passedOver.join("; ")}`);
-    expect(drawn, passedOver.join("; ")).toBe(3);
+// Pinned (Nov 16). Before, the last three places were drawn at run time from
+// CORRUPTION_SEED or a random seed (or replayed from CORRUPTION_WORLD_SEED and
+// CORRUPTION_PLACE_KEY), up to twelve draws until three had two taken bribes,
+// so a red came and went with the draw: M3-09 failed in CI at Auburndale,
+// Wisconsin on an unprinted seed. The draws below are the old loop's at seed
+// pin-corruption-0 on the Train at c0f54ca0: Rosburg, Washington, Lebanon,
+// Tennessee and Mullan, Idaho pass (Middle Amana, Iowa was passed over with
+// fewer than two taken). Smithers, West Virginia is the old loop's second draw
+// at seed s34, found by a scan of seeds s11 to s50 on the Train at ce78169a
+// and the only red among them: nobody else learns of the bribe after the
+// fixture's falling-out. It stays here as a red case for item
+// tests-corruption-smithers-nobody-learns-after-falling-out (Needs cause).
+// Limit: the whole file runs in about 27 s; each case is well inside the
+// default 30 s.
+const PINNED = [
+  {
+    name: "Rosburg, Washington",
+    key: "5359845",
+    seed: "d1e677142fbe35642e611db8c5bd4c0db5b16de5304292650dd268baace4cdbd",
+  },
+  {
+    name: "Lebanon, Tennessee",
+    key: "4741520",
+    seed: "4b4e61be363f24b7e4613903f0e50c6c56adf96626093dd32fc2ffaac21b96de",
+  },
+  {
+    name: "Mullan, Idaho",
+    key: "1655630",
+    seed: "f062ba9710d506abca8ebefad9c9bf8008f232a7d1525e055b2c9a74d0c52f57",
+  },
+  {
+    name: "Smithers, West Virginia",
+    key: "5474740",
+    seed: "739dfec671ca78ca207719831d6902f3575dbe23613e48f1ae686e73c311b348",
+  },
+];
+const refusedPins = PINNED.map((pin) => ({
+  pin,
+  refused: corruptionCases(pin.seed, pin.key, true),
+}));
+describe("pinned corruption places", () => {
+  it("draws its pinned places from the fixed seeds", () => {
+    expect(
+      [0, 1, 3].map((draw) =>
+        drawPlace(`pin-corruption-0:${draw}`, "corruption"),
+      ),
+    ).toMatchObject(PINNED.slice(0, 3).map(({ name, key }) => ({ name, key })));
+    expect(drawPlace("s34:1", "corruption")).toMatchObject({
+      name: PINNED[3]!.name,
+      key: PINNED[3]!.key,
+    });
+  });
+  it("finds at least two taken bribes in every pinned place", () => {
+    expect(
+      refusedPins.flatMap(({ refused }) => (refused ? [refused] : [])),
+    ).toEqual([]);
   });
 });
 

@@ -5,10 +5,10 @@ area: words
 kind: cleanup
 priority: 2
 size: L
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: story builder (claude/project-thread-lcf812-leftovers)
+pr: 9697
 after:
 blocked-on:
 lead: words
@@ -16,7 +16,7 @@ model: opus
 effort: medium
 root: none
 source: Words builder A, Nov 16 (owner: every line of dialogue or narration in the code is registered and traced, so there are no leftovers)
-claimed-at:
+claimed-at: 2026-11-16
 checked: words builder A 2026-11-16
 ---
 
@@ -35,3 +35,7 @@ checked: words builder A 2026-11-16
 **Waits on.** Nothing.
 
 **Files.** scripts/words/line-register.ts, tests/guards/english/line-register-baseline.json, data/english/parts/*.json
+
+**Notes.**
+
+- Nov 16, 2026, story builder: #9697 takes the deletion lists (the Words lead's delete list and says-nothing ruling, the 20 unreached pieces) and splits the four graded-good banks out as good lines waiting for a reader. The code and data lists follow in their own pull requests (notes told from player text; player lines into banks; screen labels registered by key).

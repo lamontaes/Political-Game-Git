@@ -7,7 +7,6 @@
  * lines under the name, tell a run of terms in one office once, and date the
  * header's "since" from the same first term the story tells.
  */
-import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "../core2/bookkeeping";
@@ -16,7 +15,14 @@ import { coreAPI } from "../core2/state";
 import { knownCard } from "./card";
 import { buildBenchWorld } from "./world";
 
-const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(10).toString("hex");
+// Pinned (Nov 16, trial batch). Before, the seed came at run time from
+// process.env GOLDEN_PATH_SEED or randomBytes, so the places it drew changed
+// every run. The fixed seed below draws Montfort, Wisconsin (5553950) first for
+// "card-history-story".
+// It stays red here for item tests-card-official-history-does-not-open-with-their-name (Needs cause).
+// Limit: the slowest case took 31 s, run two files at a time (Nov 16,
+// Train 6d12556a); each case's limit is about twice that, 70 s.
+const seed = "pin-card-history-story";
 
 interface TermRow {
   id: string;
@@ -43,6 +49,13 @@ function expectSentences(where: string, lines: readonly { text: string }[]) {
   for (const line of lines)
     expect(line.text, `${where}: "${line.text}"`).toMatch(/^[A-Z].*[.]$/);
 }
+
+it("draws its pinned place from the fixed seed", () => {
+  expect(drawPlace(seed, "card-history-story")).toMatchObject({
+    key: "5553950",
+    name: "Montfort, Wisconsin",
+  });
+});
 
 it("tells an official, a resident and the player as stories, with the header's since from the first term", () => {
   const place = drawPlace(seed, "card-history-story");
@@ -163,4 +176,4 @@ it("tells an official, a resident and the player as stories, with the header's s
   expect(own.summary.length, where).toBeGreaterThanOrEqual(2);
   for (const line of own.summary)
     expect(line, `${where}: under your name`).toMatch(/^You /);
-}, 600_000);
+}, 70_000);
