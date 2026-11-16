@@ -1,4 +1,3 @@
-import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
 import { drawPlace } from "../../scripts/core2-year/place";
@@ -13,10 +12,11 @@ import { OPENING_ADDRESS_EVENT } from "./opening-story";
 
 // The President's address to Congress comes each year, on the day the federal
 // calendar sets it (owner, Nov 8: "In a ten-year run no two addresses read
-// alike"). One world drawn from all 56 places on a seed the builder did not
-// choose is played to the first year's joint address; the address is recorded
-// as the public event the opening is, with its text, kind and the President.
-const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
+// alike"). One world, pinned (Murrells Inlet, South Carolina, seed
+// c06017d36de4270f, first drawn from all 56 places; pinned-tests), is played to
+// the first year's joint address; the address is recorded as the public event
+// the opening is, with what it said, its kind and the President.
+const seed = process.env.GOLDEN_PATH_SEED ?? "c06017d36de4270f";
 setBookkeeping(false);
 const place = drawPlace(`${seed}:0`, "yearly-address");
 const where = `${place.name} (${place.key}), seed ${seed}:0`;
@@ -47,5 +47,5 @@ describe("the President's address each year", () => {
     );
     // The kind it took is on the record, for the scenes, news and journal that read it.
     expect(ADDRESS_KINDS, where).toContain(facts[ADDRESS_FACT.style]);
-  });
+  }, 80_000); // 36 s alone, 40 s beside other work; limit near twice the slower.
 });

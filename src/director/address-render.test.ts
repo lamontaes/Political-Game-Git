@@ -54,4 +54,4 @@ it("says an address from its record, the same a month later and after its speake
   } finally {
     setBookkeeping(was);
   }
-}, 120_000);
+}, 90_000); // 34 s alone, 43 s beside other work; limit near twice the slower.

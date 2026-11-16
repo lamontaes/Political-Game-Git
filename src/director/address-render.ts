@@ -16,6 +16,7 @@ import {
 } from "../english/english-opening-speech";
 import type { PartTie } from "../english/bank-parts";
 import { ADDRESS_FACT } from "./opening-facts";
+import { P } from "../core2/parameters";
 
 /** One sentence of an address, as its record keeps it. */
 export interface SaidSentence {
@@ -66,7 +67,7 @@ export function sentenceText(
     );
     const piece =
       !text || /[.!?]["”]?$/.test(text)
-        ? filled.charAt(0).toUpperCase() + filled.slice(1)
+        ? filled.charAt(P.zero).toUpperCase() + filled.slice(P.one)
         : filled;
     text = text ? `${text} ${piece}` : piece;
   }
@@ -98,7 +99,7 @@ export function saidFact(
       ties: row.pieces.map(
         (key) =>
           USES_OF.get(key)?.find((use) => use.subject === kind)?.tie ??
-          USES_OF.get(key)?.[0]?.tie ??
+          USES_OF.get(key)?.[P.zero]?.tie ??
           null,
       ),
       sources: row.sourceRecordIds,

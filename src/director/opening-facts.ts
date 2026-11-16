@@ -72,7 +72,6 @@ export function addressPiecesFact(
   ].join(" ");
 }
 
-
 /**
  * One point of the address a hearer can raise: a policy question the
  * President spoke on (`policy`), or something the address said about the

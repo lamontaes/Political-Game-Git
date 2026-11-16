@@ -1832,7 +1832,7 @@ export function createDirector(
       return (
         // A speech heard plays only when its record kept the words.
         row.said
-          ? saidOf(cause?.facts).length > 0
+          ? saidOf(cause?.facts).length > P.zero
           : row.roles.some((role) =>
               role.personIds.some((id) => id !== personId),
             )
