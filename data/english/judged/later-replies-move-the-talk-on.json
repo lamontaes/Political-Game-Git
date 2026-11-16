@@ -112,7 +112,7 @@
         "scene-talk.reply-agree.all-right-i-ll-put-bill-on-the-next-agenda",
         "scene-talk.reply-refuse.it-doesn-t-get-a-hearing-from-me",
         "scene-talk.reply-bargain.cut-it-down-to-the-part-everyone-can-live-with-and-i-ll-find-the-time",
-        "scene-talk.reply-stall.i-m-not-putting-it-on-the-calendar-i-d-rather-not-go-into-why",
+        "scene-talk.reply-stall.i-can-t-put-it-on-the-calendar-this-session-ask-me-again-next-session",
         "scene-talk.reply-relent.you-ve-worn-me-down-i-ll-set-the-date",
         "scene-talk.reply-refuse.bill-isn-t-going-on-my-calendar-this-session",
         "scene-talk.reply-leave.i-m-late-for-a-meeting-we-ll-pick-this-up-another-time"
@@ -3660,7 +3660,7 @@
         "scene-talk.reply-agree.all-right-i-ll-put-bill-on-the-next-agenda",
         "scene-talk.reply-refuse.it-doesn-t-get-a-hearing-from-me",
         "scene-talk.reply-bargain.cut-it-down-to-the-part-everyone-can-live-with-and-i-ll-find-the-time",
-        "scene-talk.reply-stall.i-m-not-putting-it-on-the-calendar-i-d-rather-not-go-into-why",
+        "scene-talk.reply-stall.i-can-t-put-it-on-the-calendar-this-session-ask-me-again-next-session",
         "scene-talk.reply-relent.you-ve-worn-me-down-i-ll-set-the-date",
         "scene-talk.reply-refuse.i-won-t-schedule-it-that-s-my-call-and-it-s-made",
         "scene-talk.reply-leave.i-have-to-get-to-the-floor"

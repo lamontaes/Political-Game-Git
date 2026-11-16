@@ -79287,30 +79287,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-stall.let-staff-go-through-it-first-then-we-ll-see",
-      "move": "reply-stall",
-      "kind": "spoken",
-      "text": "Let staff go through it first. Then we'll see.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "stall",
-          "role": "asked",
-          "purpose": "hearing-ask",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words session (scene builder C, pool item words-scene-bill-held-in-committee)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "stall",
-        "key": "favor-asked"
-      }
-    },
-    {
       "key": "scene-talk.reply-stall.i-haven-t-made-up-my-mind-about-bill-give-me-time",
       "move": "reply-stall",
       "kind": "spoken",
@@ -191662,10 +191638,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-refuse.people-i-count-on-are-against-it-i-m-not-putting-it-up",
+      "key": "scene-talk.reply-refuse.people-came-to-see-me-about-it-they-re-against-it-and-i-heard-them",
       "move": "reply-refuse",
       "kind": "spoken",
-      "text": "People I count on are against it. I'm not putting it up.",
+      "text": "People came to see me about it. They're against it, and I heard them.",
       "uses": [
         {
           "subject": "scene",
@@ -191762,10 +191738,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-refuse.i-don-t-like-being-pushed-on-this-it-stays-where-it-is",
+      "key": "scene-talk.reply-refuse.i-m-slow-to-move-on-a-bill-like-this-it-stays-where-it-is",
       "move": "reply-refuse",
       "kind": "spoken",
-      "text": "I don't like being pushed on this. It stays where it is.",
+      "text": "I'm slow to move on a bill like this. It stays where it is.",
       "uses": [
         {
           "subject": "scene",

@@ -415,6 +415,8 @@
     "bill-sign-on:office": ["@office"],
     "bill-sign-on:chamber": ["@seatroom", "@office"],
     "bill-sign-on:phone": ["@office"],
+    "hold-chair-sought:office": ["@office"],
+    "hold-chair-sought:venue": ["public-meeting-room"],
     "move-in:home": ["@home"],
     "hearing-witness:seat": ["@seatroom", "@office"],
     "hearing-witness:venue": ["public-meeting-room"],
