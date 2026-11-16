@@ -10664,32 +10664,6 @@
       }
     },
     {
-      "key": "journal.home-line-met.named-and-i-met-in-place",
-      "move": "home-line-met",
-      "kind": "spoken",
-      "text": "{named} and I met in {place}.",
-      "uses": [
-        {
-          "move": "home-line-met",
-          "subject": "home",
-          "role": "met",
-          "choice": "met",
-          "journal": [
-            {
-              "kindPrefix": "household:partners-met",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
       "key": "journal.office-line-town-hall.i-held-a-town-hall-in-place-as-office",
       "move": "office-line-town-hall",
       "kind": "spoken",
@@ -11541,32 +11515,6 @@
       "origin": "authored",
       "author": "Words session (journal composer, words composer unit 6)",
       "date": "2026-11-12",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.memoir-became.she-later-became-office",
-      "move": "memoir-became",
-      "kind": "spoken",
-      "text": "She later became {office}.",
-      "uses": [
-        {
-          "move": "memoir-became",
-          "subject": "memoir",
-          "role": "became",
-          "choice": "she-later-became-office",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "became"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session (journal composer, words composer unit 6)",
-      "date": "2026-11-13",
       "tag": {
         "move": "tell"
       }

@@ -2000,9 +2000,11 @@ export function composeJournal(
       };
       facts.named = {
         text:
-          phrases.size === one
-            ? `${members[zero]!.phrase}s ${listOf(names)}`
-            : listOf(members.map((m) => `${m.phrase} ${m.name}`)),
+          members.length === one
+            ? `${members[zero]!.phrase} ${members[zero]!.name}`
+            : phrases.size === one
+              ? `${members[zero]!.phrase}s ${listOf(names)}`
+              : listOf(members.map((m) => `${m.phrase} ${m.name}`)),
         sourceRecordIds: members.flatMap((m) => [m.factId, m.id]),
       };
     }
