@@ -9,7 +9,11 @@ import { coreAPI } from "../core2/state";
 import { resolveSavedTraceV1 } from "../core2/saved-trace-v1";
 import { CAMPAIGN_MONEY_KINDS } from "../core2/modules/campaigns";
 import { LAWS_MODULE_ID } from "../core2/modules/laws";
-import { LEGISLATURE_MODULE_ID, votesOn } from "../core2/modules/legislature";
+import {
+  favorWorth,
+  LEGISLATURE_MODULE_ID,
+  votesOn,
+} from "../core2/modules/legislature";
 import { OFFICES_MODULE_ID } from "../core2/modules/offices";
 import { residentsRuntime } from "../core2/modules/residents";
 import { fullLifeStake } from "../core2/modules/views";
@@ -843,6 +847,68 @@ function reverseLinks(
             kind: "record",
             via: "views.stances",
           });
+  }
+  // A favor a yes carried: the reply that wrote it, who owes whom and whether it
+  // is still owed (a favor owed is spent: the next ask of that member counts it
+  // for nothing until it is repaid), and what a favor to the asker is worth to
+  // the member now (`favorWorth`, the sum the next ask reads).
+  if (
+    found.engine === `${LEGISLATURE_MODULE_ID}.obligations` &&
+    record.kind === "favor"
+  ) {
+    if (typeof record.replyId === "string")
+      out.push({
+        id: record.replyId,
+        kind: "record",
+        via: "core2-legislature-v1.keepReply",
+      });
+    out.push({
+      id: `${id}#owed`,
+      kind: "reason",
+      via: "core2-legislature-v1.obligations.settled",
+      value: record.settled ? "repaid" : "still owed",
+    });
+    out.push({
+      id: `${id}#favor-worth`,
+      kind: "reason",
+      via: "core2-legislature-v1.favorWorth",
+      value: favorWorth(
+        coreAPI(core),
+        String(record.owedTo),
+        String(record.owedBy),
+      ),
+    });
+  }
+  // A committee's record: the chair's lean on the bill, term by term, as the
+  // committee summed it (heard when the sum is not below zero).
+  if (found.engine === `${LEGISLATURE_MODULE_ID}.committees`) {
+    const why = record.chairReasons as
+      | {
+          position?: { total?: number };
+          hearingTrait?: number;
+          cosponsorPull?: number;
+        }
+      | undefined;
+    if (why) {
+      const terms: [string, number][] = [
+        ["position", why.position?.total ?? 0],
+        ["hearing-trait", why.hearingTrait ?? 0],
+        ["cosponsor-pull", why.cosponsorPull ?? 0],
+      ];
+      for (const [name, value] of terms)
+        out.push({
+          id: `${id}#chair-${name}`,
+          kind: "reason",
+          via: "core2-legislature-v1.committeeStage",
+          value,
+        });
+      out.push({
+        id: `${id}#chair-lean`,
+        kind: "reason",
+        via: "core2-legislature-v1.chairHears",
+        value: terms.reduce((sum, [, value]) => sum + value, 0),
+      });
+    }
   }
   // A person: their views, job, household and the director's moments.
   if (found.kind === "person") {
