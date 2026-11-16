@@ -177539,7 +177539,18 @@
           "role": "narrator",
           "purpose": "ask-out-answer",
           "key": "favor-asked",
-          "excludesFacts": ["by-phone"]
+          "excludesFacts": ["by-phone"],
+          "requiresFacts": ["said-yes"]
+        },
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "ask-out-answer",
+          "key": "favor-asked",
+          "excludesFacts": ["by-phone"],
+          "requiresFacts": ["said-no"]
         }
       ],
       "bearing": "calm",
@@ -177589,7 +177600,18 @@
           "role": "narrator",
           "purpose": "proposal-answer",
           "key": "favor-asked",
-          "excludesFacts": ["by-phone"]
+          "excludesFacts": ["by-phone"],
+          "requiresFacts": ["said-yes"]
+        },
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "proposal-answer",
+          "key": "favor-asked",
+          "excludesFacts": ["by-phone"],
+          "requiresFacts": ["said-no"]
         }
       ],
       "bearing": "calm",
@@ -178316,7 +178338,8 @@
           "role": "asker",
           "after": "thank",
           "purpose": "ask-out-answer",
-          "key": "favor-asked"
+          "key": "favor-asked",
+          "requiresFacts": ["said-yes"]
         }
       ],
       "bearing": "glad",
@@ -178341,7 +178364,8 @@
           "role": "asker",
           "after": "accept",
           "purpose": "ask-out-answer",
-          "key": "favor-asked"
+          "key": "favor-asked",
+          "requiresFacts": ["said-no"]
         },
         {
           "subject": "scene",
@@ -178350,7 +178374,8 @@
           "role": "asker",
           "after": "withdraw",
           "purpose": "ask-out-answer",
-          "key": "favor-asked"
+          "key": "favor-asked",
+          "requiresFacts": ["said-no"]
         }
       ],
       "bearing": "calm",
@@ -178375,7 +178400,8 @@
           "role": "asker",
           "after": "accept",
           "purpose": "proposal-answer",
-          "key": "favor-asked"
+          "key": "favor-asked",
+          "requiresFacts": ["said-no"]
         },
         {
           "subject": "scene",
@@ -178384,7 +178410,8 @@
           "role": "asker",
           "after": "withdraw",
           "purpose": "proposal-answer",
-          "key": "favor-asked"
+          "key": "favor-asked",
+          "requiresFacts": ["said-no"]
         }
       ],
       "bearing": "tender",
