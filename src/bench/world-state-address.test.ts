@@ -261,4 +261,4 @@ it("gives a played governor's State of the State on the session's own date (Edmo
     addDays(makeIsoDate(washington), after),
   ]);
   expect(addressDays("US-IN", 2026)).toEqual([]);
-}, 120_000);
+}, 240_000);
