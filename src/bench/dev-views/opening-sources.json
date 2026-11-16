@@ -100,14 +100,14 @@
       "replace": "The world's seeded unit for the draw"
     },
     "person.knownPeople": {
-      "made": "ad-hoc-draw",
-      "by": "src/core2/opening-ties.ts: who among the eligible people is a tie is picked by a hash order; coworker groups of 8",
-      "replace": "Ties from shared records: household, school class, workplace, block"
+      "made": "generation",
+      "by": "Day one: src/core2/population.ts, each person knows the members of their own household, from the household record. Filled in later: src/core2/opening-ties.ts, everyone counted at the same employer (the employment record), and as many neighbors as their years in the home give on the neighbors-known curve (neighborsKnownCap, neighborsKnownYears); which neighbor households those are is a stable hash of the world seed, the person and the household",
+      "replace": "Which neighbors from shared records: block, school class"
     },
     "person.conditions": {
-      "made": "ad-hoc-draw",
-      "by": "src/core2/modules/health.ts lateConditions and resilienceLine: a hash against each condition's rate",
-      "replace": "The world's seeded unit keyed by person and condition"
+      "made": "generation",
+      "by": "Day one: src/core2/condition-pack.ts startingConditionAssignments, each condition's prevalence count spread through the place and age cell in household income order, smoking and drug use by conscientiousness, no draw. Anyone added later: src/core2/modules/health.ts lateConditions, a stable hash of the world seed, condition and person against the condition's prevalence at their age, moved by conscientiousness. Everyone's resilience line: a stable hash of the world seed and the person, read as the spread of the hazard a person reaches (owner's ruling, Oct 9)",
+      "replace": "A person's income and work once chronic-condition-income-gradients is sourced"
     },
     "household.members": {
       "made": "generation",
@@ -348,14 +348,13 @@
       "what": "The town bank's terms"
     },
     "src/core2/modules/health.ts#lateConditions": {
-      "made": "ad-hoc-draw",
-      "what": "Illnesses people hold, a hash against rates",
-      "replace": "The world's seeded unit keyed by the record's id"
+      "made": "generation",
+      "what": "Illnesses a person added after day one holds, a stable hash of the world seed and the person against the rate at their age, moved by conscientiousness",
+      "replace": "A person's income and work once chronic-condition-income-gradients is sourced"
     },
     "src/core2/modules/health.ts#resilienceLine": {
-      "made": "ad-hoc-draw",
-      "what": "How much a person can take before illness, a hash",
-      "replace": "The world's seeded unit keyed by the record's id"
+      "made": "generation",
+      "what": "How much a person can take before illness, a stable hash of the world seed and the person (owner's ruling, Oct 9)"
     },
     "src/core2/modules/jobs.ts#bandRatio": {
       "made": "world-offset",
@@ -626,9 +625,9 @@
       "replace": "The world's seeded unit keyed by the record's id"
     },
     "src/core2/opening-ties.ts#order": {
-      "made": "ad-hoc-draw",
-      "what": "Who a person already knows, picked by a hash order",
-      "replace": "Ties from shared records: household, school class, workplace, block"
+      "made": "generation",
+      "what": "Which neighbor households a person filled in already knows: how many from their years in the home, which ones a stable hash of the world seed, the person and the household",
+      "replace": "Which neighbors from shared records: block, school class"
     },
     "src/core2/opening-upbringing.ts#hashPosition": {
       "made": "generation",
