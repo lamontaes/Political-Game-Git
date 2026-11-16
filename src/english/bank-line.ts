@@ -16,6 +16,8 @@ import {
 export interface Fact {
   text: string;
   sourceRecordIds: readonly string[];
+  /** The value without what a name's first mention adds (grounded-english.ts `bare`). */
+  bare?: string;
 }
 export interface Variant {
   key: string;

@@ -7,7 +7,7 @@
  * the cause record, its kind and date, and every fact with the records it
  * came from.
  */
-import { saidAs, sayableJobTitle } from "../english/said-as";
+import { bareName, saidAs, sayableJobTitle } from "../english/said-as";
 import { tellingOf } from "../english/telling";
 import { saidPersonOf } from "./said-person";
 import { placeStateKey } from "../core2/place-map";
@@ -629,9 +629,12 @@ function composeBinding(
 
   const record = core.durableLog.get(moment.causeId);
   const said = (record?.facts ?? {}) as Readonly<Record<string, string>>;
+  const askerSaid = sayPerson(asker);
+  const askerBare = bareName(askerSaid, asker);
   const facts: Record<string, Fact> = {
     name: {
-      text: sayPerson(asker),
+      text: askerSaid,
+      ...(askerBare ? { bare: askerBare } : {}),
       sourceRecordIds: [askerId],
     },
     first: { text: asked.givenName, sourceRecordIds: [askedId] },
