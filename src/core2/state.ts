@@ -56,6 +56,7 @@ import {
   settleWorkResult,
   recordActivityTime,
   recordDiscretionaryTime,
+  recordOfficeTime,
   rehourNamedJob,
 } from "./work-state";
 import {
@@ -1150,6 +1151,9 @@ export function coreAPI(core: CoreState): CoreAPI {
     },
     recordDiscretionaryTime(personId, minutes) {
       recordDiscretionaryTime(core, api, personId, minutes);
+    },
+    recordOfficeTime(personId, minutes) {
+      return recordOfficeTime(core, api, personId, minutes);
     },
     relationship(actorId, otherId, kind, change, decision, reason) {
       if (

@@ -1218,6 +1218,12 @@ export interface CoreAPI {
     source: Source,
   ): void;
   recordDiscretionaryTime(personId: PersonId, minutes: number): void;
+  /**
+   * Minutes an office took from a person's day (a sitting, a committee, a
+   * day at a post), on the same clock as a shift's minutes, with no pay; the
+   * day's remaining hours bound it. Returns the minutes recorded.
+   */
+  recordOfficeTime(personId: PersonId, minutes: number): number;
   relationship(
     actorId: PersonId,
     otherId: PersonId,

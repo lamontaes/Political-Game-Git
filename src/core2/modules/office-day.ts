@@ -32,6 +32,8 @@ import { OFFICES_MODULE_ID, townSeats, type TermRow } from "./offices";
 import { governments } from "./budgets";
 import { payOfficialPaycheck } from "./official-pay";
 import { startPublicJob } from "../public-payroll";
+import { chargeOfficeHours } from "./work";
+import { campaignParameter } from "../campaign-data";
 import { seatPay } from "../office-day-pay";
 import {
   localOfficeKit,
@@ -1160,6 +1162,10 @@ export function adjourn(api: CoreAPI, meetingIdValue: string): MeetingRow {
     castStatedOrAbstain(api, billId);
     voteItem(api, billId);
   }
+  // The player who sat through it as a member gave it the evening
+  // (office-hours-never-fill-an-officials-day).
+  if (row.playerPresent && row.audience === undefined)
+    chargeOfficeHours(api, playerOf(api)!, campaignParameter("sittingHours"));
   finish(api, { ...row, takenUp: [...row.takenUp, ...left] });
   releaseHeld(api, row.id);
   return meetingOf(api, row.id)!;
