@@ -11,7 +11,7 @@
 import { coreAPI } from "../../core2/state";
 import type { DevView } from "../dev-views";
 
-type Row = Record<string, unknown>;
+type Row = Readonly<Record<string, unknown>>;
 
 const text = (value: unknown) => (value === undefined ? null : value);
 
@@ -49,7 +49,9 @@ const view: DevView = {
       if (!householdId || !core.modules.has("credit"))
         return { householdId: null, applications: [], loans: [] };
       const credit = coreAPI(core).moduleState("credit");
-      const applications = (credit.table("applications").rows() as Row[])
+      const applications = [
+        ...(credit.table("applications").rows() as readonly Row[]),
+      ]
         .filter((row) => row.householdId === householdId)
         .sort((a, b) => String(a.date).localeCompare(String(b.date)))
         .map((row) => ({
@@ -64,15 +66,18 @@ const view: DevView = {
           approved: Boolean(row.approved),
           refusedReasonKey: text(row.refusedReasonKey),
         }));
-      const loans = (credit.table("loans").rows() as Row[])
+      const loans = [...(credit.table("loans").rows() as readonly Row[])]
         .filter((row) => row.householdId === householdId)
         .sort((a, b) => String(a.id).localeCompare(String(b.id)))
         .map((loan) => ({
           id: String(loan.id),
           kind: text(loan.kind),
           borrowerId: text(loan.borrowerId),
-          months: (credit.table("payments").query("byLoan", [loan.id]) as Row[])
-            .slice()
+          months: [
+            ...(credit
+              .table("payments")
+              .query("byLoan", [String(loan.id)]) as readonly Row[]),
+          ]
             .sort((a, b) => String(a.date).localeCompare(String(b.date)))
             .map((month) => {
               const missed = `event:credit.payment-missed:${String(loan.id)}:${String(month.date)}`;

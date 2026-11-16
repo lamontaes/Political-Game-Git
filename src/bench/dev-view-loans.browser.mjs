@@ -1,4 +1,4 @@
-/* global process, URL, console, document */
+/* global process, URLSearchParams, console, document */
 // Dev mode's Loans view on the screen (src/bench/dev-views/loans.ts): a played life at Ragland,
 // Alabama (the pinned borrower of tests/support/real-borrower.ts: seed promises-real-loan-1 draw
 // loan:16, born 1995-03-01) runs to Sep 2, 2025 through dev mode's Run, then the Metrics board in
