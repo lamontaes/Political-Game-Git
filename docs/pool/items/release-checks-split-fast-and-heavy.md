@@ -5,9 +5,9 @@ area: release
 kind: feature
 priority: 1
 size: M
-status: open
+status: in-pr
 claimed-by: claude/long-game-split-checks
-pr:
+pr: #9752
 after:
 blocked-on:
 source: the CTO's "how done is proven", rules 1 and 7, on issue 9747 (Nov 16, 2026)
