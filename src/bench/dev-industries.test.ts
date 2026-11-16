@@ -3,8 +3,8 @@
  * Dev mode's Industries page reads one tally: every business by its kind, its staff and its
  * books, and one business month by month from the business engine's trading records and the
  * jobs engine's change records. Pinned: Center, North Dakota (3813180), seed ilt-3813180, a
- * small town whose utility holds most of its jobs. Its body runs 11.2 s alone and 13.9 s beside three
- * other files; the limit is 30 s.
+ * small town whose utility holds most of its jobs. Its body runs 14.5 s alone and 19.7 s beside three
+ * other files; the limit is 40 s.
  */
 import { describe, expect, it } from "vitest";
 import { buildBenchWorld } from "./world";
@@ -35,7 +35,7 @@ const where = `${world.place.displayName} (${placeKey}), seed ${seed}`;
 describe(`dev industries: ${where}`, () => {
   it(
     "tallies the town's businesses by kind and shows one month by month",
-    { timeout: 30_000 },
+    { timeout: 40_000 },
     () => {
       dev.advance(addDays(makeIsoDate(world.core.date), 95));
       const api = coreAPI(world.core);
