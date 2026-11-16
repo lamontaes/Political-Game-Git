@@ -5,7 +5,7 @@ area: laws
 kind: stopgap
 priority: 3
 size: M
-status: in-pr
+status: merged
 standard: 2
 claimed-by:
 pr: #8969

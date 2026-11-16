@@ -5,10 +5,10 @@ area: play
 kind: bug
 priority: 3
 size: S
-status: in-pr
+status: merged
 standard: 2
 claimed-by: claude/p1-no-petition-no-signature-lines
-pr: 9039
+pr: #9039
 after:
 blocked-on:
 lead: play-first
@@ -17,6 +17,7 @@ effort: low
 root: none
 source: Playtester P1, Nov 13
 claimed-at: 2026-11-13
+merged-at: 2026-11-15T22:20:25.562Z
 ---
 
 **What.** Richburg, South Carolina (bench seed a8ad5c79-cb5b-4616-b711-61b16eca1a9d, main 5e68cde1). The player files for the Richburg Town Council on August 19, 2025, a race whose law asks no signatures. The counter shows "SIGNATURES THE CLERK WILL COUNT: 0, HANDED IN BY AUGUST 21, 2025" right above "YOU ARE ON THE BALLOT". Politics → Campaign shows "Signatures 0 of 0, due August 21, 2025 / The clerk's count 0 counted, 0 struck" for the rest of the race.

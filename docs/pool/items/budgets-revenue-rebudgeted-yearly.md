@@ -5,7 +5,7 @@ area: gov
 kind: bug
 priority: 2
 size: M
-status: in-pr
+status: merged
 standard: 2
 claimed-by:
 pr: 9480

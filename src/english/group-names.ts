@@ -120,6 +120,54 @@ export function stanceGroupName(
   return null;
 }
 
+/**
+ * A stance group's name among its town's groups (Words lead, Nov 14): the
+ * town's earlier stance groups (by the day each was formed, its record's own
+ * date, then id) hold their names first, so no two groups of one town share
+ * a name and a name never changes when a later group forms. `town` is the
+ * town's name when the group is the played town's, else null. Null where the
+ * record is not a stance group or no name is left. The one reading the
+ * printed words and the director share.
+ */
+export function stanceGroupAmong(
+  organizations: ReadonlyMap<
+    string,
+    {
+      readonly id: string;
+      readonly kind?: string;
+      readonly topic?: string;
+      readonly placeId?: string;
+      readonly source?: { readonly asOf?: string };
+    }
+  >,
+  id: string,
+  town: string | null,
+): { name: string; plural: boolean } | null {
+  const org = organizations.get(id);
+  if (!org?.topic || !/:(for|against)$/.test(org.id)) return null;
+  const formed = (orgId: string): string =>
+    organizations.get(orgId)?.source?.asOf ?? "";
+  const order = (a: string, b: string) =>
+    formed(a).localeCompare(formed(b)) || a.localeCompare(b);
+  const taken = new Set<string>();
+  const earlier = [...organizations.values()]
+    .filter(
+      (other) =>
+        other.id !== org.id &&
+        other.kind === "interest-group" &&
+        other.topic &&
+        other.placeId === org.placeId &&
+        /:(for|against)$/.test(other.id) &&
+        order(other.id, org.id) < 0,
+    )
+    .sort((a, b) => order(a.id, b.id));
+  for (const other of earlier) {
+    const made = stanceGroupName(other.id, other.topic!, town, taken);
+    if (made) taken.add(made.name);
+  }
+  return stanceGroupName(org.id, org.topic, town, taken);
+}
+
 /** The number a stance group's name takes, read from the form it was made in. */
 export function stanceGroupForm(name: string): { plural: boolean } | null {
   for (const form of [...STANCE_FORMS].sort(
