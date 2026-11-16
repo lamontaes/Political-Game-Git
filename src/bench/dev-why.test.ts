@@ -6,9 +6,10 @@
  * DEV_WHY_SEED or randomBytes, and its place from that seed, so a red came
  * and went with the draw. The places below were found once by running the
  * test at fixed seeds (Hanover, Illinois passed; Charlotte Amalie, Virgin
- * Islands at seed pin-dw-3 failed the ledger case like Kagman). Kagman I stays
- * here as a red case for item tests-dev-why-year-ledger-red-kagman (Needs
- * cause): its year ledger case fails there.
+ * Islands at seed pin-dw-3 failed the ledger case like Kagman). Kagman I was
+ * kept as a red case for item tests-dev-why-year-ledger-red-kagman; its year
+ * ledger case passes on the Train from 8d26a629 (Nov 16), so it is not an
+ * expected failure.
  */
 import { beforeAll, describe, expect, it } from "vitest";
 import { buildBenchWorld } from "./world";

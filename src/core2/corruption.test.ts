@@ -363,8 +363,9 @@ corruptionCases(
 // fewer than two taken). Smithers, West Virginia is the old loop's second draw
 // at seed s34, found by a scan of seeds s11 to s50 on the Train at ce78169a
 // and the only red among them: nobody else learns of the bribe after the
-// fixture's falling-out. It stays here as a red case for item
-// tests-corruption-smithers-nobody-learns-after-falling-out (Needs cause).
+// fixture's falling-out (item
+// tests-corruption-smithers-nobody-learns-after-falling-out). It passes since
+// the fixture's falling-out takes the whole tie (PR 9710).
 // Limit: the whole file runs in about 27 s; each case is well inside the
 // default 30 s.
 const PINNED = [
