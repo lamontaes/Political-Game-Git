@@ -140,10 +140,27 @@ export async function playTalk(walk, label, { most = 5, picture = true } = {}) {
         .nth(given % talk.replies.length)
         .click();
       given += 1;
+      await untilTalkChanges(page, key);
     } else if (await shown(page, "talk-leave"))
       await page.locator("#talk-leave").click();
-    else if (talk.replies.length)
+    else if (talk.replies.length) {
       await page.locator("#talk-choices .reply").first().click();
+      await untilTalkChanges(page, key);
+    }
+  }
+}
+
+/**
+ * Waits for the box to change after a reply is pressed (or the talk to close),
+ * so the walk never presses the same button again while the first answer is on
+ * the way (the Journal walk at New Haven, Vermont, threw "Not an offered line"
+ * that way).
+ */
+async function untilTalkChanges(page, before) {
+  for (let wait = 0; wait < 40; wait += 1) {
+    if (!(await shown(page, "talk"))) return;
+    if (JSON.stringify(await talkOf(page)) !== before) return;
+    await page.waitForTimeout(150);
   }
 }
 

@@ -5,10 +5,10 @@ area: gov
 kind: bug
 priority: 2
 size: M
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/project-thread-hkqdh2-executive-ties
+pr: 9543
 after: legislature-members-have-no-tie-to-each-other
 blocked-on:
 lead: people
@@ -28,7 +28,7 @@ source: Account lead, Nov 15, from the desk-visits work (Bedford KY: the mayor a
 
 **Rules.** One rule, all 56 places: whether an executive presides at or attends the body comes from each place's records, never from a named place. Wire to the world: the shared time is read from records the game already keeps, with no flat number.
 
-**Done when.** At Bedford KY, two more named places and one drawn place, the mayor and council read a tie on day one where the mayor presides, and a governor and their legislature's leaders read one from the records named; a second session sees it in dev mode on main.
+**Done when.** (Widened by the Account lead, Nov 15 16:27Z; narrowed at his review of #9543, 19:14Z.) A mayor reads a tie with every council member on day one, and a county executive with the county's body where that state's executive presides, from the sittings they share; the conversation reads that shared time as met, so these people never open as strangers; a governor, who sits with no body, shares no sitting with the legislature (the leaders' meeting is government-executive-leaders-meeting-as-sitting, a signing with the sponsor present is scene-signing-casts-who-it-reaches); shown at two named places and one drawn place, and a second session sees it in dev mode on main. A veto is an act apart and gives no shared time; how the next talk reads it is #9489's greeting rule.
 
 **Waits on.** The sitting-ties PR.
 

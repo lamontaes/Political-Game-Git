@@ -97,13 +97,15 @@
     "bill": "A bill, by its title, from the legislature record.",
     "meeting-body": "The town body whose meeting a friend asked the player to, as its record names it (City Council), from the office-day engine's meeting record.",
     "meeting-held": "The day that meeting was held, told as past (\"yesterday\", \"the other day\", \"on March 4th\"), from the meeting's record.",
-    "their_when": "When the asker last saw someone both know, said as people say it (\"last week\"), from the asker's own tie's last contact."
+    "their_when": "When the asker last saw someone both know, said as people say it (\"last week\"), from the asker's own tie's last contact.",
+    "group": "The interest group that pressed the members who voted no on a bill hardest, as people say its name, from the interest-groups engine's meetings (veto said at the next talk)."
   },
   "maxWords": 10,
   "lineWords": {
     "about": "A line the engine composes from parts (opener, core, reason, closer) is longer than one part: each part keeps maxWords, and the whole line keeps this many words besides its slots. Set for the address point (owner, Nov 11: the relative raises a real thing the President said and where they stand on it from their own life), which says the point, the stand and the reason in one turn.",
     "address-point": 28,
-    "address-point-back": 12
+    "address-point-back": 12,
+    "veto-say": 20
   },
   "mining": {
     "tool": "scripts/english-corpus/mine-shapes.py",
@@ -5208,14 +5210,14 @@
           "subject": "shared-school",
           "role": "ask",
           "choice": "remember",
-          "requiresFacts": ["long-ago"]
+          "requiresFacts": ["long-ago", "only-past"]
         },
         {
           "move": "shared-school-raise-remember",
           "subject": "shared-school",
           "role": "raise",
           "choice": "remember",
-          "requiresFacts": ["long-ago"]
+          "requiresFacts": ["long-ago", "only-past"]
         }
       ],
       "transcriptsUsing": 33,
@@ -5255,14 +5257,14 @@
           "subject": "shared-school",
           "role": "ask",
           "choice": "remember",
-          "requiresFacts": ["long-ago"]
+          "requiresFacts": ["long-ago", "only-past"]
         },
         {
           "move": "shared-school-raise-remember",
           "subject": "shared-school",
           "role": "raise",
           "choice": "remember",
-          "requiresFacts": ["long-ago"]
+          "requiresFacts": ["long-ago", "only-past"]
         }
       ],
       "transcriptsUsing": 23,
@@ -5299,14 +5301,14 @@
           "subject": "shared-school",
           "role": "ask",
           "choice": "remember",
-          "requiresFacts": ["long-ago"]
+          "requiresFacts": ["long-ago", "only-past"]
         },
         {
           "move": "shared-school-raise-remember",
           "subject": "shared-school",
           "role": "raise",
           "choice": "remember",
-          "requiresFacts": ["long-ago"]
+          "requiresFacts": ["long-ago", "only-past"]
         }
       ],
       "transcriptsUsing": 10,
@@ -14504,14 +14506,14 @@
           "subject": "shared-school",
           "role": "ask",
           "choice": "remember",
-          "requiresFacts": ["long-ago"]
+          "requiresFacts": ["long-ago", "only-past"]
         },
         {
           "move": "shared-school-raise-remember",
           "subject": "shared-school",
           "role": "raise",
           "choice": "remember",
-          "requiresFacts": ["long-ago"]
+          "requiresFacts": ["long-ago", "only-past"]
         }
       ],
       "origin": "authored",
@@ -14523,20 +14525,20 @@
       }
     },
     {
-      "key": "conversation.shared-school-ask-remember.we-were-at-school-together-weren-t-we",
-      "move": "shared-school-ask-remember",
+      "key": "conversation.shared-school-ask-together.we-were-at-school-together-weren-t-we",
+      "move": "shared-school-ask-together",
       "kind": "spoken",
       "text": "We were at {school} together, weren't we?",
       "uses": [
         {
-          "move": "shared-school-ask-remember",
+          "move": "shared-school-ask-together",
           "subject": "shared-school",
           "role": "ask",
           "choice": "remember",
           "requiresFacts": ["long-ago"]
         },
         {
-          "move": "shared-school-raise-remember",
+          "move": "shared-school-raise-together",
           "subject": "shared-school",
           "role": "raise",
           "choice": "remember",
@@ -24666,24 +24668,6 @@
       "date": "2026-11-11"
     },
     {
-      "key": "conversation.own-view-answer-disagree.we-ll-have-to-differ-first",
-      "move": "own-view-answer-disagree",
-      "kind": "spoken",
-      "text": "We'll have to agree to disagree, {first}.",
-      "uses": [
-        {
-          "move": "own-view-answer-disagree",
-          "subject": "own-view",
-          "role": "answer",
-          "choice": "disagree",
-          "requiresFacts": ["my-other"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
-      "date": "2026-11-11"
-    },
-    {
       "key": "conversation.own-view-answer-disagree.i-ve-never-seen-it-your-way-first",
       "move": "own-view-answer-disagree",
       "kind": "spoken",
@@ -31423,7 +31407,7 @@
       "key": "conversation.player-news-answer-take.i-ll-be-careful-first-i-promise",
       "move": "player-news-answer-take",
       "kind": "spoken",
-      "text": "I'll be careful, {first}. I promise.",
+      "text": "I'll be careful. I promise.",
       "uses": [
         {
           "move": "player-news-answer-take",
@@ -31459,7 +31443,7 @@
       "key": "conversation.player-news-answer-tell.somebody-has-to-run-for-office-first",
       "move": "player-news-answer-tell",
       "kind": "spoken",
-      "text": "Somebody has to run for {office}, {first}.",
+      "text": "Somebody has to run for {office}.",
       "uses": [
         {
           "move": "player-news-answer-tell",
@@ -31497,7 +31481,7 @@
       "key": "conversation.player-news-answer-ask.you-think-it-s-a-mistake-first",
       "move": "player-news-answer-ask",
       "kind": "spoken",
-      "text": "You think it's a mistake, {first}?",
+      "text": "You think it's a mistake?",
       "uses": [
         {
           "move": "player-news-answer-ask",
@@ -34445,6 +34429,110 @@
       }
     },
     {
+      "key": "conversation.here-say-core.im-their-name-you-vetoed-my-bill",
+      "move": "here-say-core",
+      "kind": "spoken",
+      "text": "I'm {their_name}. You vetoed my bill.",
+      "uses": [
+        {
+          "move": "here-say-core",
+          "subject": "here-say",
+          "role": "core",
+          "stages": ["known"],
+          "requiresFacts": ["their-name", "act-vetoed", "act-mine"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (desk/known-by-act-introductions.md)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "core"
+      },
+      "piece": {
+        "of": "here-say",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "conversation.here-say-core.im-their-name-youll-know-the-name",
+      "move": "here-say-core",
+      "kind": "spoken",
+      "text": "I'm {their_name}. You'll know the name.",
+      "uses": [
+        {
+          "move": "here-say-core",
+          "subject": "here-say",
+          "role": "core",
+          "stages": ["known"],
+          "requiresFacts": ["their-name", "known"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (desk/known-by-act-introductions.md)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "core"
+      },
+      "piece": {
+        "of": "here-say",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "conversation.here-say-core.im-their-name-we-know-each-other-on-paper",
+      "move": "here-say-core",
+      "kind": "spoken",
+      "text": "I'm {their_name}. We know each other on paper.",
+      "uses": [
+        {
+          "move": "here-say-core",
+          "subject": "here-say",
+          "role": "core",
+          "stages": ["known"],
+          "requiresFacts": ["their-name", "known"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (desk/known-by-act-introductions.md)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "core"
+      },
+      "piece": {
+        "of": "here-say",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "conversation.here-say-core.im-their-name-we-havent-sat-down-before",
+      "move": "here-say-core",
+      "kind": "spoken",
+      "text": "I'm {their_name}. We haven't sat down before.",
+      "uses": [
+        {
+          "move": "here-say-core",
+          "subject": "here-say",
+          "role": "core",
+          "stages": ["known"],
+          "requiresFacts": ["their-name", "known"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (desk/known-by-act-introductions.md)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "core"
+      },
+      "piece": {
+        "of": "here-say",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
       "key": "conversation.here-answer-name.i-m-self",
       "move": "here-answer-name",
       "kind": "spoken",
@@ -34455,7 +34543,8 @@
           "subject": "here",
           "role": "answer",
           "choice": "name",
-          "requiresFacts": ["self"]
+          "requiresFacts": ["self"],
+          "excludesFacts": ["known"]
         }
       ],
       "origin": "authored",
@@ -34476,7 +34565,8 @@
           "subject": "here",
           "role": "answer",
           "choice": "name",
-          "requiresFacts": ["self"]
+          "requiresFacts": ["self"],
+          "excludesFacts": ["known"]
         }
       ],
       "origin": "authored",
@@ -34497,12 +34587,55 @@
           "subject": "here",
           "role": "answer",
           "choice": "name",
-          "requiresFacts": ["self", "their-name"]
+          "requiresFacts": ["self", "their-name"],
+          "excludesFacts": ["known"]
         }
       ],
       "origin": "authored",
       "author": "Words lead (lines-to-add.md section 2)",
       "date": "2026-11-14",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.here-answer-name.im-self-i-know-your-name",
+      "move": "here-answer-name",
+      "kind": "spoken",
+      "text": "I'm {self}. I know your name.",
+      "uses": [
+        {
+          "move": "here-answer-name",
+          "subject": "here",
+          "role": "answer",
+          "choice": "name",
+          "requiresFacts": ["self", "known"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (desk/known-by-act-introductions.md)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.here-answer-name.i-know-who-you-are-im-self",
+      "move": "here-answer-name",
+      "kind": "spoken",
+      "text": "I know who you are. I'm {self}.",
+      "uses": [
+        {
+          "move": "here-answer-name",
+          "subject": "here",
+          "role": "answer",
+          "choice": "name",
+          "requiresFacts": ["self", "known"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (desk/known-by-act-introductions.md)",
+      "date": "2026-11-15",
       "tag": {
         "move": "answer"
       }
@@ -34518,7 +34651,8 @@
           "subject": "here-back",
           "role": "core",
           "stages": ["name"],
-          "requiresFacts": ["you"]
+          "requiresFacts": ["you"],
+          "excludesFacts": ["known"]
         }
       ],
       "origin": "authored",
@@ -34544,7 +34678,8 @@
           "subject": "here-back",
           "role": "core",
           "stages": ["name"],
-          "requiresFacts": ["you"]
+          "requiresFacts": ["you"],
+          "excludesFacts": ["known"]
         }
       ],
       "origin": "authored",
@@ -34570,7 +34705,8 @@
           "subject": "here-back",
           "role": "core",
           "stages": ["name"],
-          "requiresFacts": ["you"]
+          "requiresFacts": ["you"],
+          "excludesFacts": ["known"]
         }
       ],
       "origin": "authored",
@@ -37470,6 +37606,486 @@
       "date": "2026-11-14"
     },
     {
+      "key": "conversation.veto-say-opener.you-vetoed-bill",
+      "move": "veto-say-opener",
+      "kind": "spoken",
+      "text": "You vetoed {bill}.",
+      "uses": [
+        {
+          "move": "veto-say-opener",
+          "subject": "veto-say",
+          "role": "opener",
+          "stages": ["stood"],
+          "requiresFacts": ["bill"],
+          "setsFacts": ["bearing-calm", "bearing-guarded"]
+        }
+      ],
+      "piece": {
+        "of": "veto-say",
+        "part": "opener"
+      },
+      "origin": "authored",
+      "author": "Words lead (desk ruling 5: a veto said at the next talk, Nov 15)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.veto-say-opener.you-killed-bill",
+      "move": "veto-say-opener",
+      "kind": "spoken",
+      "text": "You killed {bill}.",
+      "uses": [
+        {
+          "move": "veto-say-opener",
+          "subject": "veto-say",
+          "role": "opener",
+          "stages": ["stood"],
+          "requiresFacts": ["bill"],
+          "setsFacts": ["bearing-braced"]
+        }
+      ],
+      "piece": {
+        "of": "veto-say",
+        "part": "opener"
+      },
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words lead (desk ruling 5: a veto said at the next talk, Nov 15)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.veto-say-opener.bill-is-law-now-over-your-veto",
+      "move": "veto-say-opener",
+      "kind": "spoken",
+      "text": "{bill} is law now, over your veto.",
+      "uses": [
+        {
+          "move": "veto-say-opener",
+          "subject": "veto-say",
+          "role": "opener",
+          "stages": ["overridden"],
+          "requiresFacts": ["bill"],
+          "setsFacts": ["bearing-warm", "bearing-calm"]
+        }
+      ],
+      "piece": {
+        "of": "veto-say",
+        "part": "opener"
+      },
+      "origin": "authored",
+      "author": "Words lead (desk ruling 5: a veto said at the next talk, Nov 15)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.veto-say-opener.we-passed-bill-over-your-veto",
+      "move": "veto-say-opener",
+      "kind": "spoken",
+      "text": "We passed {bill} over your veto.",
+      "uses": [
+        {
+          "move": "veto-say-opener",
+          "subject": "veto-say",
+          "role": "opener",
+          "stages": ["overridden"],
+          "requiresFacts": ["bill"],
+          "setsFacts": ["bearing-guarded", "bearing-braced"]
+        }
+      ],
+      "piece": {
+        "of": "veto-say",
+        "part": "opener"
+      },
+      "origin": "authored",
+      "author": "Words lead (desk ruling 5: a veto said at the next talk, Nov 15)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.veto-say-core.you-said-the-voters-didnt-want-it",
+      "move": "veto-say-core",
+      "kind": "spoken",
+      "text": "You said the voters didn't want it.",
+      "uses": [
+        {
+          "move": "veto-say-core",
+          "subject": "veto-say",
+          "role": "core",
+          "requiresFacts": ["reason-opposed-voters"]
+        }
+      ],
+      "piece": {
+        "of": "veto-say",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words lead (desk ruling 5: a veto said at the next talk, Nov 15)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.veto-say-core.you-listened-to-group-over-me",
+      "move": "veto-say-core",
+      "kind": "spoken",
+      "text": "You listened to {group} over me.",
+      "uses": [
+        {
+          "move": "veto-say-core",
+          "subject": "veto-say",
+          "role": "core",
+          "requiresFacts": ["reason-opposed-groups", "group"]
+        }
+      ],
+      "piece": {
+        "of": "veto-say",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words lead (desk ruling 5: a veto said at the next talk, Nov 15)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.veto-say-core.you-went-with-your-party-on-it",
+      "move": "veto-say-core",
+      "kind": "spoken",
+      "text": "You went with your party on it.",
+      "uses": [
+        {
+          "move": "veto-say-core",
+          "subject": "veto-say",
+          "role": "core",
+          "requiresFacts": ["reason-opposed-party"]
+        }
+      ],
+      "piece": {
+        "of": "veto-say",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words lead (desk ruling 5: a veto said at the next talk, Nov 15)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.veto-say-core.you-said-people-here-didnt-believe-in-it",
+      "move": "veto-say-core",
+      "kind": "spoken",
+      "text": "You said people here didn't believe in it.",
+      "uses": [
+        {
+          "move": "veto-say-core",
+          "subject": "veto-say",
+          "role": "core",
+          "requiresFacts": ["reason-opposed-views"]
+        }
+      ],
+      "piece": {
+        "of": "veto-say",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words lead (desk ruling 5: a veto said at the next talk, Nov 15)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.veto-say-core.you-said-we-couldnt-afford-it",
+      "move": "veto-say-core",
+      "kind": "spoken",
+      "text": "You said we couldn't afford it.",
+      "uses": [
+        {
+          "move": "veto-say-core",
+          "subject": "veto-say",
+          "role": "core",
+          "requiresFacts": ["reason-cost"]
+        }
+      ],
+      "piece": {
+        "of": "veto-say",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words lead (desk ruling 5: a veto said at the next talk, Nov 15)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.veto-say-core.you-were-against-it-from-the-start",
+      "move": "veto-say-core",
+      "kind": "spoken",
+      "text": "You were against it from the start.",
+      "uses": [
+        {
+          "move": "veto-say-core",
+          "subject": "veto-say",
+          "role": "core",
+          "requiresFacts": ["reason-stance"]
+        }
+      ],
+      "piece": {
+        "of": "veto-say",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words lead (desk ruling 5: a veto said at the next talk, Nov 15)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.veto-say-core.you-never-told-me-why",
+      "move": "veto-say-core",
+      "kind": "spoken",
+      "text": "You never told me why.",
+      "uses": [
+        {
+          "move": "veto-say-core",
+          "subject": "veto-say",
+          "role": "core",
+          "requiresFacts": ["reason-none"]
+        }
+      ],
+      "piece": {
+        "of": "veto-say",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words lead (desk ruling 5: a veto said at the next talk, Nov 15)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.veto-say-closer.i-wanted-you-to-hear-that-from-me",
+      "move": "veto-say-closer",
+      "kind": "spoken",
+      "text": "I wanted you to hear that from me.",
+      "uses": [
+        {
+          "move": "veto-say-closer",
+          "subject": "veto-say",
+          "role": "closer",
+          "stages": ["stood", "overridden"],
+          "requiresFacts": ["bearing-calm"]
+        }
+      ],
+      "piece": {
+        "of": "veto-say",
+        "part": "closer"
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (desk ruling 5: a veto said at the next talk, Nov 15)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.veto-say-closer.ill-remember-it",
+      "move": "veto-say-closer",
+      "kind": "spoken",
+      "text": "I'll remember it.",
+      "uses": [
+        {
+          "move": "veto-say-closer",
+          "subject": "veto-say",
+          "role": "closer",
+          "stages": ["stood"],
+          "requiresFacts": ["bearing-guarded"]
+        }
+      ],
+      "piece": {
+        "of": "veto-say",
+        "part": "closer"
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words lead (desk ruling 5: a veto said at the next talk, Nov 15)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.veto-say-closer.i-wont-forget-it",
+      "move": "veto-say-closer",
+      "kind": "spoken",
+      "text": "I won't forget it.",
+      "uses": [
+        {
+          "move": "veto-say-closer",
+          "subject": "veto-say",
+          "role": "closer",
+          "stages": ["stood"],
+          "requiresFacts": ["bearing-braced"]
+        }
+      ],
+      "piece": {
+        "of": "veto-say",
+        "part": "closer"
+      },
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words lead (desk ruling 5: a veto said at the next talk, Nov 15)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.veto-say-closer.no-hard-feelings-we-got-there",
+      "move": "veto-say-closer",
+      "kind": "spoken",
+      "text": "No hard feelings. We got there.",
+      "uses": [
+        {
+          "move": "veto-say-closer",
+          "subject": "veto-say",
+          "role": "closer",
+          "stages": ["overridden"],
+          "requiresFacts": ["bearing-warm"]
+        }
+      ],
+      "piece": {
+        "of": "veto-say",
+        "part": "closer"
+      },
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Words lead (desk ruling 5: a veto said at the next talk, Nov 15)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.veto-say-closer.ill-remember-who-stood-where",
+      "move": "veto-say-closer",
+      "kind": "spoken",
+      "text": "I'll remember who stood where.",
+      "uses": [
+        {
+          "move": "veto-say-closer",
+          "subject": "veto-say",
+          "role": "closer",
+          "stages": ["overridden"],
+          "requiresFacts": ["bearing-guarded"]
+        }
+      ],
+      "piece": {
+        "of": "veto-say",
+        "part": "closer"
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words lead (desk ruling 5: a veto said at the next talk, Nov 15)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.veto-reply-answer-holds.id-veto-it-again",
+      "move": "veto-reply-answer-holds",
+      "kind": "spoken",
+      "text": "I'd veto it again.",
+      "uses": [
+        {
+          "move": "veto-reply-answer-holds",
+          "subject": "veto-reply",
+          "role": "answer",
+          "choice": "holds",
+          "requiresFacts": ["veto-stood"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (desk ruling 5: a veto said at the next talk, Nov 15)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.veto-reply-answer-holds.i-still-think-it-was-a-mistake",
+      "move": "veto-reply-answer-holds",
+      "kind": "spoken",
+      "text": "I still think it was a mistake.",
+      "uses": [
+        {
+          "move": "veto-reply-answer-holds",
+          "subject": "veto-reply",
+          "role": "answer",
+          "choice": "holds",
+          "requiresFacts": ["veto-overridden"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (desk ruling 5: a veto said at the next talk, Nov 15)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.veto-reply-answer-gives.i-know-what-it-meant-to-you-im-sorry",
+      "move": "veto-reply-answer-gives",
+      "kind": "spoken",
+      "text": "I know what it meant to you. I'm sorry.",
+      "uses": [
+        {
+          "move": "veto-reply-answer-gives",
+          "subject": "veto-reply",
+          "role": "answer",
+          "choice": "gives",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (desk ruling 5: a veto said at the next talk, Nov 15)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.veto-reply-answer-leave.i-have-to-get-back-to-work",
+      "move": "veto-reply-answer-leave",
+      "kind": "spoken",
+      "text": "I have to get back to work.",
+      "uses": [
+        {
+          "move": "veto-reply-answer-leave",
+          "subject": "veto-reply",
+          "role": "answer",
+          "choice": "leave",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (desk ruling 5: a veto said at the next talk, Nov 15)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.veto-reply-back-core.then-we-know-where-we-are",
+      "move": "veto-reply-back-core",
+      "kind": "spoken",
+      "text": "Then we know where we are.",
+      "uses": [
+        {
+          "move": "veto-reply-back-core",
+          "subject": "veto-reply-back",
+          "role": "core",
+          "stages": ["holds"],
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "piece": {
+        "of": "veto-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words lead (desk ruling 5: a veto said at the next talk, Nov 15)",
+      "date": "2026-11-15"
+    },
+    {
+      "key": "conversation.veto-reply-back-core.that-helps-thank-you",
+      "move": "veto-reply-back-core",
+      "kind": "spoken",
+      "text": "That helps. Thank you.",
+      "uses": [
+        {
+          "move": "veto-reply-back-core",
+          "subject": "veto-reply-back",
+          "role": "core",
+          "stages": ["gives"],
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "piece": {
+        "of": "veto-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words lead (desk ruling 5: a veto said at the next talk, Nov 15)",
+      "date": "2026-11-15"
+    },
+    {
       "key": "conversation.promise-kept-raise.thanks-for-coming-to-the-meeting-body-meeting-it-helped",
       "move": "promise-kept-raise",
       "kind": "spoken",
@@ -38454,25 +39070,6 @@
       "move": "farewell-core",
       "kind": "spoken",
       "text": "Talk later.",
-      "uses": [
-        {
-          "move": "farewell-core",
-          "subject": "farewell",
-          "role": "core",
-          "stages": ["default"],
-          "closesTalk": true,
-          "excludesFacts": ["by-phone"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder A (plain goodbyes, first meetings carry no name, round 11)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.farewell-core.thanks-again",
-      "move": "farewell-core",
-      "kind": "spoken",
-      "text": "Thanks again.",
       "uses": [
         {
           "move": "farewell-core",

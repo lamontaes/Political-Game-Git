@@ -47,10 +47,7 @@ import {
   PRESS_MODULE_ID,
   type InterviewRow,
 } from "../core2/modules/press";
-import {
-  corePlaceByJurisdictionId,
-  coreStateName,
-} from "../core2/place-lookup";
+import { placeNameSaid, coreStateName } from "../core2/place-lookup";
 import { familyFactsOf, SPEECH_MODULE_ID } from "../core2/modules/people";
 import { preStartHistory } from "../core2/past";
 import { coreAPI } from "../core2/state";
@@ -70,7 +67,7 @@ import {
   causeGroupForm,
   causeGroupName,
   stanceGroupForm,
-  stanceGroupName,
+  stanceGroupAmong,
 } from "../english/group-names";
 import { areaName } from "../english/area-names";
 import { lineName } from "./budget";
@@ -597,38 +594,16 @@ class Reader {
   }
   /**
    * A group formed over a stance, named from the cause its side would put on
-   * a sign (group-names.ts `stanceGroupName`, Words lead Nov 14). The town's
+   * a sign (group-names.ts `stanceGroupAmong`, Words lead Nov 14). The town's
    * earlier groups (by the day each was formed, then id) hold their names
    * first, so no two groups of one town share a name and a name never changes
    * when a later group forms.
    */
   stanceGroup(id: EntityId): { name: string; plural: boolean } | null {
     const org = this.core.organizations.get(id);
-    if (!org?.topic || !/:(for|against)$/.test(org.id)) return null;
-    // The day a group was formed is its record's own date (its source's asOf).
-    const formed = (orgId: string): string =>
-      this.core.organizations.get(orgId as EntityId)?.source?.asOf ?? "";
-    const order = (a: string, b: string) =>
-      formed(a).localeCompare(formed(b)) || a.localeCompare(b);
     const town =
-      org.placeId === lawChain(this.api).townPlaceId ? this.place() : null;
-    const taken = new Set<string>();
-    const earlier = [...this.core.organizations.values()]
-      .filter(
-        (other) =>
-          other.id !== org.id &&
-          other.kind === "interest-group" &&
-          other.topic &&
-          other.placeId === org.placeId &&
-          /:(for|against)$/.test(other.id) &&
-          order(other.id, org.id) < 0,
-      )
-      .sort((a, b) => order(a.id, b.id));
-    for (const other of earlier) {
-      const made = stanceGroupName(other.id, other.topic!, town, taken);
-      if (made) taken.add(made.name);
-    }
-    return stanceGroupName(org.id, org.topic, town, taken);
+      org?.placeId === lawChain(this.api).townPlaceId ? this.place() : null;
+    return stanceGroupAmong(this.core.organizations, id, town);
   }
   /** An outlet's name, from its organization. */
   outlet(id: string | undefined): string | null {
@@ -671,8 +646,7 @@ class Reader {
       return name ? stateInSentence(name) : name;
     }
     if (jurisdiction && jurisdiction !== chain.townPlaceId) return null;
-    const town = corePlaceByJurisdictionId(chain.townPlaceId as EntityId);
-    return town ? (town.formalName ?? town.displayName.split(",")[0]!) : null;
+    return placeNameSaid(chain.townPlaceId as EntityId);
   }
   /** The first person the record names who has a name. */
   first(ids: readonly string[] = this.people): string | undefined {
@@ -2095,11 +2069,15 @@ function winnersOn(read: Reader, date: string): string[] {
 
 /**
  * Which of the town's outlets that printed a race this story is, in the
- * order of their ids: each takes its own wordings (rule 37). An at-large
- * race may be printed from any of its seats' records.
+ * order of their ids: each takes its own wordings (rule 37), and a town with
+ * one paper takes none by turn. An at-large race may be printed from any of
+ * its seats' records.
  */
-function raceTurn(read: Reader, contest: ContestRow | undefined): number {
-  if (!contest || !read.core.modules.has(PRESS_MODULE_ID)) return 0;
+function raceTurn(
+  read: Reader,
+  contest: ContestRow | undefined,
+): number | undefined {
+  if (!contest || !read.core.modules.has(PRESS_MODULE_ID)) return undefined;
   const outlets = new Set<string>();
   for (const seat of atLargeGroup(read.api, contest))
     for (const row of read.query<{ outletId: string }>(
@@ -2109,6 +2087,9 @@ function raceTurn(read: Reader, contest: ContestRow | undefined): number {
       [`election-result:${seat.id}`],
     ))
       outlets.add(row.outletId);
+  // A town with one paper has no other outlet's wording to differ from, so
+  // its stories take the composer's own pick by story, not all the first.
+  if (outlets.size < 2) return undefined;
   const mine = /^printed:(.+?):election-result:/.exec(read.story.id)?.[1];
   return Math.max(0, [...outlets].sort().indexOf(mine ?? ""));
 }
@@ -2384,20 +2365,31 @@ const exposed: Builder = (read, f) => {
     Object.keys(facts ?? {}).find((key) => key.startsWith("award:"));
   const mine = award(f);
   const earlier = new Set<string>();
-  if (conflict && firm && id && mine)
-    for (const logId of read.core.logByKind.get("press.exposed") ?? []) {
-      const row = read.core.durableLog.get(logId as EntityId);
-      const theirs = award(row?.facts);
-      if (
-        row &&
-        theirs &&
-        theirs !== mine &&
-        row.personIds[0] === id &&
-        row.facts?.organizationId === f.organizationId &&
-        row.date <= (read.happened || read.story.date)
-      )
-        earlier.add(theirs);
-    }
+  const when = read.happened || read.story.date;
+  const exposures =
+    conflict && firm && id && mine
+      ? [...(read.core.logByKind.get("press.exposed") ?? [])]
+          .map((logId) => read.core.durableLog.get(logId as EntityId))
+          .filter((row) => row?.personIds[0] === id)
+      : [];
+  // This story's own finding: two found the same day are told in award
+  // order, so the first is not called the second (Wall, South Dakota, seed
+  // conflict-scan-1).
+  const found =
+    exposures.find((row) => award(row?.facts) === mine)?.date ?? when;
+  for (const row of exposures) {
+    const theirs = award(row?.facts);
+    if (
+      row &&
+      theirs &&
+      theirs !== mine &&
+      row.personIds[0] === id &&
+      row.facts?.organizationId === f.organizationId &&
+      row.date <= when &&
+      (row.date < found || (row.date === found && theirs < (mine ?? "")))
+    )
+      earlier.add(theirs);
+  }
   const time = earlier.size + 1;
   return story(
     "exposed",
@@ -2472,7 +2464,8 @@ const chamber: Builder = (read, f) => {
   )?.[1];
   const body = read.body(officeId);
   const posts = Object.entries(f).filter(
-    ([post, holder]) => post !== "level" && read.name(holder),
+    ([post, holder]) =>
+      post !== "level" && post !== "mid-term" && read.name(holder),
   );
   const [post, holder] =
     posts.find(([key]) => /^(?:speaker|president)$/.test(key)) ??
@@ -2495,6 +2488,7 @@ const chamber: Builder = (read, f) => {
       ...(post && /^(?:speaker|president)$/.test(post)
         ? { presides: read.yes() }
         : {}),
+      ...(f["mid-term"] ? { "mid-term": read.yes() } : {}),
       ...(body ? { body: read.fact(body, officeId ?? "") } : {}),
     },
     ["name", "post"],

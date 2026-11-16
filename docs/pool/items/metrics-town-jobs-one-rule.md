@@ -5,7 +5,7 @@ area: world
 kind: bug
 priority: 1
 size: M
-status: in-pr
+status: merged
 standard: 2
 claimed-by:
 pr: 9391

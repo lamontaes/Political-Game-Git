@@ -5,7 +5,11 @@
  * scene); `askedId` is the one who answers. Kin, acquaintance, closeness and
  * the side of the tie all come from here; nothing else re-reads them.
  */
-import { closenessBetween } from "../core2/closeness";
+import {
+  closenessBetween,
+  lastTogether,
+  sharedHoursBetween,
+} from "../core2/closeness";
 import { P } from "../core2/parameters";
 import type { CoreState, PersonId } from "../core2/types";
 import rulesFile from "./data/scene-talk-rules.json" with { type: "json" };
@@ -94,8 +98,11 @@ export function lastContact(
   for (const id of core.relationshipsByPerson.get(personId) ?? []) {
     const row = core.relationships.get(id)!;
     if (row.actorId !== otherId && row.otherId !== otherId) continue;
-    if (!best || row.lastContactDate > best.date)
-      best = { date: row.lastContactDate, tieId: id };
+    // The day they were last together, not the day a change made apart
+    // (a veto, an answer to the whip) moved the tie.
+    const met = lastTogether(row);
+    if (met !== null && (!best || met > best.date))
+      best = { date: met, tieId: id };
   }
   return best;
 }
@@ -114,10 +121,13 @@ export function relationFacts(
       link.personIds.includes(askedId),
   );
   const family = !!asked?.familyIds.has(askerId);
-  const knows = !!asked?.knownIds.has(askerId);
+  // Time another engine's record says the two shared (the sittings of a
+  // body, an executive's signings and leaders' meetings) is having met.
+  const shared = sharedHoursBetween(core, askerId, askedId) > P.zero;
+  const knows = !!asked?.knownIds.has(askerId) || shared;
   let metBefore = false;
   if (knows) {
-    if (family) metBefore = true;
+    if (family || shared) metBefore = true;
     else {
       const learned = asked?.knownIdSources?.[askerId]?.learnedAt;
       if (learned !== undefined) metBefore = learned < core.date;

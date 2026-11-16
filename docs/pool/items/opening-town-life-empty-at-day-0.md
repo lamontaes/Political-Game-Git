@@ -36,3 +36,5 @@ root: day-one-in-motion
 **Waits on.** Nothing.
 
 **Files.** src/core2/modules/school.ts; src/core2/modules/grievance.ts; src/core2/modules/place-prices.ts; src/core2/modules/public-safety.ts; src/core2/modules/drives.ts; src/core2/modules/business.ts; src/core2/modules/residents.ts; src/core2/data/opening/day-zero.json
+
+**Notes.** Nov 15 (views thread): the known-red marks for `part.core2-drives-runtime.byPerson` and `.drives` were removed by d82bf47e while both were still empty at Washington, District of Columbia (1150000), which turned the day-zero test red there; they are back, at Washington only, naming this item.
