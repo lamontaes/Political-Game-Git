@@ -5,10 +5,10 @@ area: world
 kind: bug
 priority: 3
 size: S
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/project-thread-2h04xv
+pr: #9629
 blocked-on:
 after:
 lead: money
@@ -32,8 +32,10 @@ Seen: in Center, North Dakota (seed lay-3813180) the town's businesses paid $467
 
 **Done when.** A second session plays a year in a drawn place from all 56 with a seed it chose and sees, on dev mode's Why for three businesses, that the month's weighed costs over sales match the industry's IRS margin within its spread, and that year-one closings and jobs stay within the same place's run before the change.
 
-**Waits on.** The layoffs-read-law-costs pull request (business-charges.ts and the trading row's charges).
+**Waits on.** Nothing; built in PR 9629 with the charges it nets out.
 
 **Files.** src/core2/business-books.ts, src/core2/modules/residents.ts
 
 **Notes.** Measured on the layoffs PR at Center ND, Sioux Center IA and Choteau MT, twice a side: counting these charges in the staffing decision changed year-one jobs by at most 12 (Sioux Center, 1,956 to 1,944) and closings not at all, so this is calibration, not a flood of closings.
+
+2026-11-16 (claude/project-thread-2h04xv): built in PR 9629 at the lead's order (the taxes were a second copy of a cost, not calibration). netOutCharges in src/core2/modules/business.ts takes payroll taxes, premises tax and the duty and energy law shares out of the opening and founding cost lump at the laws in force. Three towns twice a side against Train ef708196: closings equal, jobs within 4.
