@@ -121567,6 +121567,35 @@
       "date": "2026-11-16"
     },
     {
+      "key": "opening-speech.year-condition.ld-we-are-not-the-same-without-and-i-won-t-pretend-we-are",
+      "move": "year-condition",
+      "kind": "spoken",
+      "text": "We are not the same without {condition-closure}, and I won't pretend we are.",
+      "uses": [
+        {
+          "move": "year-condition",
+          "subject": "state-of-the-state",
+          "role": "year-condition",
+          "choice": "year-condition",
+          "requiresFacts": ["condition-closure"],
+          "tie": "place"
+        },
+        {
+          "move": "year-condition",
+          "subject": "town-address",
+          "role": "year-condition",
+          "choice": "year-condition",
+          "requiresFacts": ["condition-closure"],
+          "tie": "place"
+        }
+      ],
+      "voice": ["plain", "polished"],
+      "bearing": "grave",
+      "origin": "authored",
+      "author": "Words lead (turn, event and close lines, Nov 16), added by the desk",
+      "date": "2026-11-16"
+    },
+    {
       "key": "opening-speech.year-condition.ld-took-effect-this-year-and-people-here-are-living-under-it-no",
       "move": "year-condition",
       "kind": "spoken",
@@ -121654,10 +121683,105 @@
       "date": "2026-11-16"
     },
     {
+      "key": "opening-speech.year-condition.ld-the-race-for-was-on-your-ballot-this-year-and-i-watched-it-c",
+      "move": "year-condition",
+      "kind": "spoken",
+      "text": "The race for {condition-office} was on your ballot this year, and I watched it closely.",
+      "uses": [
+        {
+          "move": "year-condition",
+          "subject": "state-of-the-state",
+          "role": "year-condition",
+          "choice": "year-condition",
+          "requiresFacts": ["condition-election", "condition-office"],
+          "tie": "place"
+        },
+        {
+          "move": "year-condition",
+          "subject": "town-address",
+          "role": "year-condition",
+          "choice": "year-condition",
+          "requiresFacts": ["condition-election", "condition-office"],
+          "tie": "place"
+        }
+      ],
+      "voice": ["plain", "polished"],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (turn, event and close lines, Nov 16), added by the desk",
+      "date": "2026-11-16"
+    },
+    {
+      "key": "opening-speech.year-condition.ld-you-picked-your-this-year-and-i-took-note-of-how-you-voted",
+      "move": "year-condition",
+      "kind": "spoken",
+      "text": "You picked your {condition-office} this year, and I took note of how you voted.",
+      "uses": [
+        {
+          "move": "year-condition",
+          "subject": "state-of-the-state",
+          "role": "year-condition",
+          "choice": "year-condition",
+          "requiresFacts": ["condition-election", "condition-office"],
+          "tie": "place"
+        },
+        {
+          "move": "year-condition",
+          "subject": "town-address",
+          "role": "year-condition",
+          "choice": "year-condition",
+          "requiresFacts": ["condition-election", "condition-office"],
+          "tie": "place"
+        }
+      ],
+      "voice": ["plain", "polished"],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (turn, event and close lines, Nov 16), added by the desk",
+      "date": "2026-11-16"
+    },
+    {
       "key": "opening-speech.year-condition.ld-you-voted-for-this-year-and-i-m-standing-here-because-of-it",
       "move": "year-condition",
       "kind": "spoken",
       "text": "You voted for {condition-office} this year, and I'm standing here because of it.",
+      "uses": [
+        {
+          "move": "year-condition",
+          "subject": "state-of-the-state",
+          "role": "year-condition",
+          "choice": "year-condition",
+          "requiresFacts": [
+            "condition-election",
+            "condition-elected-here",
+            "condition-office"
+          ],
+          "tie": "place"
+        },
+        {
+          "move": "year-condition",
+          "subject": "town-address",
+          "role": "year-condition",
+          "choice": "year-condition",
+          "requiresFacts": [
+            "condition-election",
+            "condition-elected-here",
+            "condition-office"
+          ],
+          "tie": "place"
+        }
+      ],
+      "voice": ["plain", "polished"],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (turn, event and close lines, Nov 16), added by the desk",
+      "date": "2026-11-16"
+    },
+    {
+      "key": "opening-speech.year-condition.ld-you-put-me-in-the-s-seat-this-year-and-i-haven-t-forgotten-i",
+      "move": "year-condition",
+      "kind": "spoken",
+      "text": "You put me in the {condition-office}'s seat this year, and I haven't forgotten it.",
       "uses": [
         {
           "move": "year-condition",
