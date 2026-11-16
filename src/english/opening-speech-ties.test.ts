@@ -6,9 +6,10 @@
  * table below says which record each fact the address planner supplies comes from
  * (src/director/speech-outline.ts): the speaker's stand, the law in force or a bill, a named record
  * (the macro month, a budget's books, the address's kind read from the year), or a frame
- * (a name, an office, the theme's name). No fact the planner supplies today comes from the
- * hearer's own town or household, so no use is tied to `place`: the reach beat's pieces are the
- * next step's.
+ * (a name, an office, the theme's name). A `place` tie belongs to a governor's or a local
+ * head's address only, on their own state or town: the President's address never names the
+ * hearer's town (owner, Nov 16: "the opening speech, if it's from the president, of course it's
+ * not going to mention the town"), so no use the President's address can reach is tied to it.
  */
 import { expect, it } from "vitest";
 import bank from "../../data/english/parts/opening-speech.json" with { type: "json" };
@@ -54,6 +55,9 @@ function factTie(fact: string): PartTie {
 
 const TIES: readonly PartTie[] = ["stand", "place", "law", "record", "frame"];
 
+/** The addresses a `place` tie may be said in: the governor's and the local head's. */
+const PLACE_SUBJECTS = new Set(["state-of-the-state", "town-address"]);
+
 it("every use of the address bank declares a tie its facts bear out", () => {
   const parts = (
     bank as unknown as {
@@ -71,6 +75,10 @@ it("every use of the address bank declares a tie its facts bear out", () => {
       // An address kind is read from the year's records (address-kind.ts).
       if (part.addressKind) needs.add("record");
       const tie = use.tie;
+      if (tie === "place" && !PLACE_SUBJECTS.has(use.subject))
+        wrong.push(
+          `${part.key}: place, but said in ${use.subject}, not a governor's or local head's address`,
+        );
       if (!tie || !TIES.includes(tie)) wrong.push(`${part.key}: no tie`);
       else if (tie === "frame" && needs.size)
         wrong.push(`${part.key}: frame, but needs ${[...needs].join(", ")}`);
