@@ -20,9 +20,9 @@ claimed-at:
 checked:
 ---
 
-**What.** After the tie rule, a person who knows someone you also know could not bring them up, and a printed story naming a person in the speaker's own record was not tied to them. Seen: at North Hornell (seed 9f8e7d6c) the mutual subject was refused 26 of 26 times and offered 0; after the fix it is offered 7 times; at Ridgeville, Alabama the intro test finds a story for a named stranger again.
+**What.** After the tie rule, a person who knows someone you also know could not bring them up, and a printed story naming a person in the speaker's own record was not tied to them. The player never hears either. Seen: at North Hornell (seed 9f8e7d6c) the mutual subject was refused 26 of 26 times and offered 0; after the fix it is offered 7 times; at Ridgeville, Alabama the intro test finds a story for a named stranger again.
 
-**Cause.** Measured: with the tie rule on, mutual subjects carried no tie record (refused 26, offered 0 at North Hornell) and `storyTie` named only household and kin, not the winner, losers, appointee or appointer a story names.
+**Cause.** Measured: at North Hornell (seed 9f8e7d6c) with the tie rule on, mutual subjects carried no tie record (refused 26, offered 0 at North Hornell) and `storyTie` named only household and kin, not the winner, losers, appointee or appointer a story names.
 
 **Fix.** The mutual subject carries a tie from the last contact and the known-person source (src/director/conversation.ts); `storyTie` also ties a story through `winnerId`, `outIds`, `appointee` and `appointedBy` (src/director/subject-tie.ts); `governmentNews` reads the speaker's lean only when the views module is installed.
 
