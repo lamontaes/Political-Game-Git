@@ -1185,7 +1185,7 @@ export function scheduleMoment(
       bindings.some((row) => row.setting.kind === "home")) ||
     ((library.scheduling.ownRecordScenes?.includes(moment.label) ?? false) &&
       moment.selfNamed === true &&
-      bindings.some((row) => met.has(row.setting.kind)));
+      bindings.some((row) => met.has(row.setting.kind) || row.setting.seat));
   // A tie that turned with someone the person spent time with (a friendship
   // grown over many meetings, a falling-out) is met then, with them: its
   // cause is the relationship record, contacted on the day its change was
