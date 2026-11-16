@@ -3756,10 +3756,16 @@ function circulatorSeller(api: CoreAPI): string | null {
  * who would sign: those on the candidate's side of the lean order, and of the
  * rest the share signing's low bar reaches (`petitionSignOpenness`), less
  * what the place has already given. Paid at the per-signature price, on the
- * journal, to the consulting seller. The money left when the petition is
- * handed in goes back to the campaign. Returns the signatures added.
+ * journal, to the consulting seller. The race's last turn inside the
+ * petition's days spends what is left; money still held when the petition
+ * is handed in goes back to the campaign. Returns the signatures added.
  */
-export function circulatorShift(api: CoreAPI, filingId: string): number {
+export function circulatorShift(
+  api: CoreAPI,
+  filingId: string,
+  /** Days until the race's next turn: a turn whose next one falls past the due day is the petition's last. */
+  nextTurnInDays = 0,
+): number {
   const campaign = campaignFor(api, filingId);
   const fund = campaign.circulatorFundMinor ?? 0;
   if (fund <= 0) return 0;
@@ -3773,7 +3779,12 @@ export function circulatorShift(api: CoreAPI, filingId: string): number {
   const elapsed = Math.max(0, daysBetween(since, api.state.date));
   const remaining = Math.max(0, daysBetween(api.state.date, petition.due));
   if (elapsed <= 0 && remaining > 0) return 0;
-  const share = remaining <= 0 ? 1 : elapsed / (elapsed + remaining);
+  // The last turn the petition's days hold spends what is left: money kept
+  // for a turn that falls after the due day would never reach a signature.
+  const share =
+    remaining < nextTurnInDays || remaining <= 0
+      ? 1
+      : elapsed / (elapsed + remaining);
   const price = unitPrice(api, "petition-signature");
   let want = Math.floor((fund * share) / price);
   const sellerId = circulatorSeller(api);
@@ -8287,7 +8298,7 @@ function campaignWork(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     for (const filing of ballot(api, race.id)) {
       if (filing.filedOn > date) continue;
       volunteerShifts(api, filing.id, walked);
-      circulatorShift(api, filing.id);
+      circulatorShift(api, filing.id, everyTurns * turnDays);
       if (filing.personId !== playerId)
         campaignTurn(api, filing.id, race.electionDate);
       else tellPetitionShort(api, filing.id, everyTurns * turnDays);
