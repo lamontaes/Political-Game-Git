@@ -5,10 +5,10 @@ area: director
 kind: bug
 priority: 2
 size: S
-status: open
+status: merged
 standard: 2
 claimed-by:
-pr:
+pr: #9719
 after:
 blocked-on:
 lead: words
@@ -18,6 +18,7 @@ root: none
 source: Words builder A, Nov 16 (the second reader's played talks for #9697, 14 stops with nothing to press)
 claimed-at:
 checked:
+merged-at: 2026-11-16T20:01:08.270Z
 ---
 
 **What.** A new acquaintance asks "Where do you work?", the player answers and turns the question back, the person tells where they work and what they do, and the talk stops with nothing to press and no goodbye. Played at South Haven, Minnesota (2761402), seed tw3, five talks (Ray Chavez, Carmen Robinson, Jorge Silva, Kayla Rocha, Emily Rose). Seen: the same five talks end on the person's goodbye.
