@@ -684,6 +684,20 @@ function reopenHeldBill(
     side: 1,
     date: event.date,
   } satisfies ReplyRow as unknown as ModuleRow);
+  // A hearing the chair gave after a plea is a favor, owed like any yes the plea
+  // carried (`keepReply`); one they gave on their own stand is owed nothing.
+  if (event.facts?.keeps === "favor-owed" && event.facts?.asked === "plea")
+    table(api, "obligations").put({
+      id: `obligation:${bill.id}:${held.chairId}:hearing`,
+      owedBy: bill.sponsorId,
+      owedTo: held.chairId,
+      kind: "favor",
+      billId: bill.id,
+      measure: bill.number,
+      date: event.date,
+      settled: false,
+      replyId: event.id,
+    } as unknown as ModuleRow);
   table(api, "bills").put({
     ...bill,
     status: "drafted",
