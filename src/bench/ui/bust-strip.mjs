@@ -1,9 +1,10 @@
 // The strip of busts (owner, Nov 11, 2026: "I do like this strip when there's a
 // scene and there's people to talk"): the people in a room as busts standing in
 // a band of soft glass with their names on it, its ends fading into the room and
-// a light along its top. It lies along the foot of the room to say who is here,
-// and joins the top of the talk box in a talk, where whoever speaks is lit and a
-// little larger. A room is its painting alone; nobody is drawn into it.
+// a light along its top. It lies along the foot of the room to say who is here.
+// In a talk the speaker is one bust on the talk card and the quiet people sit
+// small on the card's top edge (play.mjs drawTalkStrip). A room is its painting
+// alone; nobody is drawn into it.
 import { el } from "./dom.mjs";
 import { face } from "./face.mjs";
 

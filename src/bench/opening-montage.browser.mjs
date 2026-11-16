@@ -45,7 +45,7 @@ try {
       if (!(await page.locator("#talk:visible").count())) break;
       const state = await page.evaluate(() => ({
         backdrop: document.getElementById("backdrop").src.split("/").at(-1),
-        people: document.querySelectorAll("#talk-strip .busts-person").length,
+        people: document.querySelectorAll("#talk .busts-person").length,
         text: document.getElementById("talk-lines").innerText,
         who: document.getElementById("talk-name").textContent,
       }));
@@ -73,7 +73,7 @@ try {
     );
     assert.ok(
       beats[0].people >= 1,
-      "the President is not on the strip at the desk",
+      "the President is not on the talk card at the desk",
     );
     assert.ok(
       pictures.size >= 3,

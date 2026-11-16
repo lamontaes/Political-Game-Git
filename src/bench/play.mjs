@@ -251,35 +251,46 @@ function drawHere(scene, onClick) {
   drawTalkStrip();
 }
 /**
- * The same people on top of the talk box while a talk is open, whoever speaks
- * lit and a little larger. A speaker who is not in the room (a caller, someone
- * a scene brings in) stands first, by the face their card gave.
+ * A talk's people (the owner's Desk answer, Nov 16: "the design of a but the
+ * people in the top tight like c"). Whoever speaks is one bust on the talk
+ * card itself; everyone else in the room sits small along the card's top,
+ * packed tight, in a band only as wide as they are. While the narrator speaks
+ * nobody is on the card and everyone sits small at the top. A speaker who is
+ * not in the room (a caller, someone a scene brings in) is on the card by the
+ * face their own card gave and never joins the people of the room; one heard
+ * on television is on the card inside a television's frame.
  */
 let talkFace;
 /** Who you are talking to, when someone speaks; nobody while the narrator does. */
 let talkPersonId;
+/** The person a television shows speaking, when the line is heard on one. */
+let talkScreenId;
 function drawTalkStrip() {
   const name = $("talk-name").textContent;
-  const inRoom = here.people.some((p) => p.personId === talkPersonId);
+  const speakerId = talkPersonId ?? talkScreenId;
+  const inRoom = talkScreenId
+    ? undefined
+    : here.people.find((p) => p.personId === speakerId);
   const speaker =
-    talkPersonId && !inRoom && talkFace
-      ? [{ personId: talkPersonId, name, face: talkFace }]
-      : [];
-  const others = here.people.filter((p) => p.personId !== talkPersonId);
-  const speaking = here.people.filter((p) => p.personId === talkPersonId);
-  // The speaker is always among those shown; the rest keep the room's order.
-  const shown = [...speaker, ...speaking, ...others]
-    .slice(0, TALK_STRIP_PEOPLE)
-    .sort(
-      (a, b) =>
-        (speaker.includes(a) ? -1 : here.people.indexOf(a)) -
-        (speaker.includes(b) ? -1 : here.people.indexOf(b)),
-    );
-  $("talk-strip").replaceChildren(
-    ...(shown.length
-      ? [bustStrip({ people: shown, speakingId: talkPersonId ?? undefined })]
+    inRoom ??
+    (speakerId && talkFace
+      ? { personId: speakerId, name, face: talkFace }
+      : undefined);
+  const quiet = here.people
+    .filter((p) => p.personId !== speakerId)
+    .slice(0, TALK_STRIP_PEOPLE);
+  $("talk-speaker").replaceChildren(
+    ...(speaker
+      ? [bustStrip({ people: [speaker], speakingId: speakerId })]
       : []),
   );
+  $("talk-strip").replaceChildren(
+    ...(quiet.length
+      ? [bustStrip({ people: quiet, speakingId: speakerId ?? undefined })]
+      : []),
+  );
+  $("talk").classList.toggle("has-speaker", Boolean(speaker));
+  $("talk").classList.toggle("on-screen", Boolean(speaker && talkScreenId));
 }
 
 /**
@@ -1454,16 +1465,23 @@ $("continue").addEventListener("click", () => {
 // The scales toggled on: the whole set of choices turns false, each a different move.
 let lying = false;
 /** Who you are talking to: their name on the box, and their bust lit on the strip above it. */
-async function setWho(personId, name) {
+async function setWho(personId, name, { screenId } = {}) {
   talkPersonId = personId;
+  talkScreenId = personId ? undefined : screenId;
   $("talk-name").textContent = name ?? "";
   talkFace = undefined;
   show("talk-who", Boolean(name));
   drawTalkStrip();
-  // Someone in the room is already on the strip; anyone else stands there by their card's face.
-  if (!personId || here.people.some((p) => p.personId === personId)) return;
+  // Someone in the room has their face already; anyone else (a caller, a
+  // speaker on television) is shown by their card's face.
+  const shownId = personId ?? talkScreenId;
+  if (
+    !shownId ||
+    (personId && here.people.some((p) => p.personId === personId))
+  )
+    return;
   const c = await api(
-    `/api/known?${new URLSearchParams({ id: me.id, other: personId })}`,
+    `/api/known?${new URLSearchParams({ id: me.id, other: shownId })}`,
   ).catch(() => undefined);
   if (!c || $("talk-name").textContent !== (name ?? "")) return;
   talkFace = c.face ?? undefined;
@@ -2534,10 +2552,14 @@ async function showStory(momentId) {
       show("talk-skip", true);
       // A speaker heard on a broadcast is named, never drawn in the room
       // (the narrator said how it was heard); one on the montage or in the
-      // room stands on the strip.
+      // room is the bust on the talk card.
       setWho(
         story.beats || story.speech.inRoom ? story.speech.speakerId : null,
         story.names[story.speech.speakerId],
+        // Heard on television: the speaker is on the card in a television's frame.
+        story.speech.heardOn?.medium === "television"
+          ? { screenId: story.speech.speakerId }
+          : {},
       );
       // The part's picture and cast: the desk, the town, the colonnade, the
       // officials on the strip with their office under their name, and home.

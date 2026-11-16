@@ -121,6 +121,18 @@
   --control-radius: 2px;
   --control-font: 500 var(--t-ui) / 1.2 var(--ui);
   /* A row a player picks in a list beside its page. */
+  /* A talk's people: the speaker's bust on the card, the quiet ones small on its top edge. */
+  --talk-speaker-bust: 190px;
+  --talk-speaker-left: 10px;
+  --talk-quiet-bust: 88px;
+  --talk-strip-inset: 14px;
+  --talk-quiet-gap: 8px;
+  /* A television's frame around a speaker heard on one. */
+  --tv-corner: 10px;
+  --tv-glass: linear-gradient(#27323d, #131a21);
+  --tv-frame:
+    0 0 0 5px #17140f, 0 0 0 6px rgba(214, 189, 132, 0.45),
+    0 6px 14px rgba(0, 0, 0, 0.55);
   --pick-pad: 6px 12px;
   --pick-font: 600 var(--t-ui) var(--ui);
   --pick-aside-font: 400 var(--t-label) var(--ui);
@@ -368,16 +380,7 @@ ol {
 .bust-strip .busts-person.talkable:focus-visible .busts-name {
   color: var(--text-strong);
 }
-/* In a talk, whoever speaks is lit and a little larger; the rest stand back. */
-.bust-strip .busts-person.speaking {
-  --mine: calc(var(--bust) * 1.16);
-}
-.bust-strip .busts-person.speaking .busts-face {
-  filter: drop-shadow(0 0 10px rgba(236, 200, 128, 0.4));
-}
-.bust-strip .busts-person.speaking .busts-name {
-  font-size: var(--t-ui);
-}
+/* In a talk the people who are not speaking stand back. */
 .bust-strip .busts-person.quiet .busts-face {
   filter: brightness(0.72) saturate(0.85);
 }
@@ -442,22 +445,80 @@ ol {
 #game:has(#person:not([hidden])) #here {
   visibility: hidden;
 }
-/* On the talk box the strip joins its top edge, and the busts follow how many
-   stand there (the owner's sizes: one, two, and three or four). */
+/* A talk's people (owner, Nov 16). Everyone who is not speaking sits small on
+   the card's top edge, packed tight, in a band only as wide as they are: one
+   person never gets a band across the card. */
 #talk-strip {
   position: absolute;
-  left: 0;
-  right: 0;
+  right: var(--talk-strip-inset);
   bottom: 100%;
-}
-#talk-strip .bust-strip[data-count="1"] {
-  --bust: 200px;
-}
-#talk-strip .bust-strip[data-count="2"] {
-  --bust: 180px;
+  width: max-content;
+  max-width: calc(100% - 2 * var(--talk-strip-inset));
 }
 #talk-strip .bust-strip {
-  --bust: 150px;
+  --bust: var(--talk-quiet-bust);
+}
+#talk-strip .busts-row {
+  gap: var(--talk-quiet-gap);
+  padding: 0 calc(var(--talk-quiet-bust) * 0.25);
+}
+#talk-strip .busts-glass {
+  mask-image: linear-gradient(
+    90deg,
+    transparent,
+    black 18%,
+    black 82%,
+    transparent
+  );
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    transparent,
+    black 18%,
+    black 82%,
+    transparent
+  );
+}
+/* Whoever speaks is one bust on the card itself, at its left, head and
+   shoulders rising over the card's top edge; the words keep clear of it. */
+#talk-speaker {
+  position: absolute;
+  left: var(--talk-speaker-left);
+  bottom: 0;
+  width: calc(var(--talk-speaker-bust) * 0.72);
+  pointer-events: none;
+}
+#talk-speaker .bust-strip {
+  --bust: var(--talk-speaker-bust);
+}
+#talk-speaker .busts-glass,
+#talk-speaker .busts-name {
+  display: none;
+}
+#talk-speaker .busts-row {
+  padding: 0;
+}
+#talk-speaker .busts-person {
+  --mine: var(--bust);
+}
+#talk-speaker .busts-role {
+  padding-bottom: 10px;
+}
+#talk.has-speaker {
+  padding-left: calc(
+    var(--talk-speaker-left) + var(--talk-speaker-bust) * 0.72 + 14px
+  );
+  min-height: calc(var(--talk-speaker-bust) * 0.56);
+  box-sizing: border-box;
+}
+/* A speaker heard on television is on the card inside the set's frame. */
+#talk.on-screen #talk-speaker .busts-face {
+  border-radius: var(--tv-corner);
+  background: var(--tv-glass);
+  box-shadow: var(--tv-frame);
+  mask-image: none;
+  -webkit-mask-image: none;
+  overflow: hidden;
+  margin-bottom: 14px;
 }
 #stage.cut {
   animation: cut 0.6s ease-out;
