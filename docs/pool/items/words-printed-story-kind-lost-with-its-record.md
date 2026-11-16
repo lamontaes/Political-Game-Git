@@ -23,7 +23,7 @@ Seen: Baldwinville, Massachusetts, seed 502259e66d651f5a88b2ad4626a91b6a9fa572c6
 
 **Cause.** Found in code: src/bench/printed-words.ts `printedFacts` reads the source record from the durable log, and src/core2/state.ts keeps a public record there only for a place the player can see. For a record it does not find, `printedFacts` takes the kind from the id's first part. A birth's id is `${baby.id}:birth` (src/core2/modules/renewal.ts), so the kind read is the baby's id, no builder matches, and `wordPrintedStory` returns null.
 
-**Fix.** In `printedFacts`, where the record is not kept, read the kind the press desk printed the story as (`printedStoryOf`, src/core2/modules/press.ts) when a builder exists for it, else fall back to the id as before. The player sees the birth in News in every paper that ran it.
+**Fix.** In `printedFacts`, where the record is not kept, read the kind the press desk printed the story as (`printedStoryOf`, src/core2/modules/press.ts) when a builder exists for it, else fall back to the id as before. A birth from another place reaches the town's papers only because a parent holds an office they cover, so `wireItem` (src/core2/press-topics.ts) sends no other birth from outside the town, and its story is the Words lead's birth-elsewhere lines, which name the parent with the office from the term. A one-parent birth line plays only where the record holds one parent. The player sees the lawmaker's child in News, said with who the parent is.
 
 **Time box.** 1 hour, one Opus session at medium effort.
 
@@ -33,4 +33,4 @@ Seen: Baldwinville, Massachusetts, seed 502259e66d651f5a88b2ad4626a91b6a9fa572c6
 
 **Waits on.** Nothing.
 
-**Files.** src/bench/printed-words.ts
+**Files.** src/bench/printed-words.ts, src/core2/press-topics.ts, src/english/english-newscast.ts, data/english/parts/headlines.json, data/english/parts/news.json

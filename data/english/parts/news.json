@@ -3,6 +3,7 @@
   "register": "news",
   "description": "News ledes for the new core's stories, keyed by the event kind they report (a closure, a death, a filing, a law taking effect, an election result, a council vote, a budget). News sources give patterns only; every part here is a whole sentence said in public-domain federal records (the Congressional Record, hearings, the Federal Register, federal oral histories), with record words as slots.",
   "slots": {
+    "child": "The child born, by name, from the birth record.",
     "yeas": "The votes for a nominee in the Senate, from the confirmation vote.",
     "nays": "The votes against a nominee in the Senate, from the confirmation vote.",
     "starts": "The day a law takes effect, as people say it, from the law record.",
@@ -5047,6 +5048,48 @@
       }
     },
     {
+      "key": "news.birth-elsewhere.child-was-born-on-date-to-parent-who-serves-as-office",
+      "move": "birth-elsewhere",
+      "kind": "written",
+      "text": "{child} was born on {date}, to {parent}, who serves as {office}.",
+      "uses": [
+        {
+          "move": "birth-elsewhere",
+          "subject": "news",
+          "role": "birth-elsewhere",
+          "choice": "lede"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (birth-elsewhere-lines.md, #9726)",
+      "date": "2026-11-16",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.birth-elsewhere.parent-who-serves-as-office-had-a-child-on-date",
+      "move": "birth-elsewhere",
+      "kind": "written",
+      "text": "{parent}, who serves as {office}, had a child on {date}. The child is named {child}.",
+      "uses": [
+        {
+          "move": "birth-elsewhere",
+          "subject": "news",
+          "role": "birth-elsewhere",
+          "choice": "lede"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (birth-elsewhere-lines.md, #9726)",
+      "date": "2026-11-16",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
       "key": "news.birth.name-was-born-on-date-to-parent-and-other",
       "move": "birth",
       "kind": "written",
@@ -5098,7 +5141,8 @@
           "move": "birth",
           "subject": "news",
           "role": "birth",
-          "choice": "lede"
+          "choice": "lede",
+          "excludesFacts": ["other"]
         }
       ],
       "origin": "authored",
@@ -10530,7 +10574,8 @@
           "subject": "news",
           "role": "birth",
           "choice": "lede",
-          "requiresFacts": ["place"]
+          "requiresFacts": ["place"],
+          "excludesFacts": ["other"]
         }
       ],
       "origin": "authored",

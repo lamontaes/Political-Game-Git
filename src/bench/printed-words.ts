@@ -417,6 +417,32 @@ class Reader {
     ).find((row) => row.status === "serving");
     return serving ? this.officeTitle(serving.officeId) : null;
   }
+  /**
+   * The office a person serves in, as a title with its realm ("Massachusetts
+   * State Representative"): the title from the office's record and the
+   * place it is held for, with the term it is read from.
+   */
+  officeWithRealm(id: string): { text: string; recordId: string } | null {
+    const term = this.termOf(id);
+    const office = term
+      ? this.row<{ title?: string; jurisdiction?: string }>(
+          OFFICES_MODULE_ID,
+          "offices",
+          term.officeId,
+        )
+      : undefined;
+    const realm = office?.jurisdiction
+      ? (this.place(office.jurisdiction) ??
+        placeNameSaid(office.jurisdiction as EntityId))
+      : null;
+    if (!term || !office?.title) return null;
+    // The nation's offices are held for the whole country ("U.S. Senator"
+    // names its own realm).
+    if (realm) return { text: `${realm} ${office.title}`, recordId: term.id };
+    return office.jurisdiction === "US"
+      ? { text: office.title, recordId: term.id }
+      : null;
+  }
   /** One row of a module's table, when that module is in this world. */
   row<T>(module: string, name: string, id: string | undefined): T | undefined {
     return id ? (this.table(module, name)?.get(id) as unknown as T) : undefined;
@@ -3180,8 +3206,32 @@ const campaignGift: Builder = (read, f) => {
   );
 };
 
-/** A birth in the town. */
+/**
+ * A birth. One the town does not keep a record of (a birth in a place the
+ * player can't see) reaches its papers only because a parent holds an office
+ * there (press-topics.ts wireItem), so its story says who that parent is,
+ * from their term (Words lead, Nov 16: a story printed because of who someone
+ * is says who they are); without such a parent it is not printed here.
+ */
 const birth: Builder = (read, f) => {
+  if (!read.core.durableLog.has(read.sourceId as EntityId)) {
+    const holder = [f.motherId, f.otherParentId].find(
+      (id) => id && read.officeWithRealm(id),
+    );
+    const office = holder ? read.officeWithRealm(holder) : null;
+    if (!holder || !office) return null;
+    return story(
+      "birth-elsewhere",
+      {
+        ...read.who(f.childId, "child", false),
+        ...read.who(holder, "parent", false),
+        office: read.fact(office.text, office.recordId),
+        date: read.date(),
+      },
+      ["child", "parent", "office"],
+      f.childId,
+    );
+  }
   const town = read.residence(f.childId);
   return story(
     "birth",
