@@ -8584,10 +8584,10 @@
       "date": "2026-11-16"
     },
     {
-      "key": "conversation.charge-reply-back-core.i-don-t-have-a-court-date-yet-that-s-all-i-know",
+      "key": "conversation.charge-reply-back-core.no-court-date-yet-that-s-all-i-know",
       "move": "charge-reply-back-core",
       "kind": "spoken",
-      "text": "I don't have a court date yet. That's all I know.",
+      "text": "No court date yet. That's all I know.",
       "uses": [
         {
           "move": "charge-reply-back-core",
