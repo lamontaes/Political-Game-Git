@@ -45,7 +45,8 @@
     "school_for": "How long the person had been at a school, from the school's attendance record.",
     "body": "The body a relative's seat belongs to, as the reader says it: the Nelson City Council.",
     "workplace": "Where a relative who holds an office also works, as the reader says it: Michael's Market.",
-    "about": "A question someone holds a view on, as people name it, from the views engine's stance record."
+    "about": "A question someone holds a view on, as people name it, from the views engine's stance record.",
+    "clerk": "The clerk who took the filing, said as 'the clerk', from the scene's record (the petition told short by the clerk)."
   },
   "maxWords": 10,
   "mining": {
@@ -10496,6 +10497,84 @@
       "origin": "authored",
       "author": "Claude Opus (door scenes, brief G)",
       "date": "2026-11-14",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.scene-line-petition-going-out.i-went-out-for-more-names-on-my-office-petition",
+      "move": "scene-line-petition-going-out",
+      "kind": "spoken",
+      "text": "I went out for more names on my {office} petition.",
+      "uses": [
+        {
+          "move": "scene-line-petition-going-out",
+          "subject": "scene",
+          "role": "line",
+          "choice": "petition-going-out",
+          "journal": [
+            {
+              "kindPrefix": "scene-ending:petition-going-out",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (petition-short lines, Nov 15), placed by the record",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.scene-line-petition-not-today.other-said-my-petition-was-short-i-let-it-wait",
+      "move": "scene-line-petition-not-today",
+      "kind": "spoken",
+      "text": "{other} said my petition was short. I let it wait.",
+      "uses": [
+        {
+          "move": "scene-line-petition-not-today",
+          "subject": "scene",
+          "role": "line",
+          "choice": "petition-not-today",
+          "journal": [
+            {
+              "kindPrefix": "scene-ending:petition-not-today",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (petition-short lines, Nov 15), placed by the record",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.scene-line-petition-not-today.clerk-said-my-office-petition-was-short-i-waited",
+      "move": "scene-line-petition-not-today",
+      "kind": "spoken",
+      "text": "{clerk} said my {office} petition was short. I waited.",
+      "uses": [
+        {
+          "move": "scene-line-petition-not-today",
+          "subject": "scene",
+          "role": "line",
+          "choice": "petition-not-today",
+          "journal": [
+            {
+              "kindPrefix": "scene-ending:petition-not-today",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words lead (petition-short lines, Nov 15), placed by the record",
+      "date": "2026-11-15",
       "tag": {
         "move": "tell"
       }

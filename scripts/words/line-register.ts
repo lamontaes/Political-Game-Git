@@ -18,12 +18,7 @@
  */
 import { readdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
 import path from "node:path";
-import {
-  CONVERSATION_BANK,
-  MINED_CONVERSATION,
-} from "../../src/english/mined/conversation-bank";
-import { composedConversationBank } from "../../src/english/conversation-words";
-import { playable } from "../../src/english/bank-parts";
+import { bankLines, type Tie } from "../../src/english/line-register";
 
 export const ROOT = path.resolve(import.meta.dirname, "../..");
 const PARTS_DIR = path.join(ROOT, "data/english/parts");
@@ -43,7 +38,7 @@ export const relative = (file: string) =>
 
 /** Developer-only files: the bench's checks and traces, the director's tools. */
 export const DEVELOPER_FILE =
-  /(?:^|\/)(?:[\w-]+-check|dev-[\w-]+|tooling\/[\w/-]+)\.(?:tsx?|mjs)$/;
+  /(?:^|\/)(?:[\w-]+-check|dev-[\w-]+|dev-views\/[\w-]+|tooling\/[\w/-]+)\.(?:tsx?|mjs)$/;
 
 /** A literal that is an error, a log line or a test message, not player text. */
 const DEVELOPER_CALL =
@@ -125,119 +120,15 @@ export function dataHeldLines(): Record<string, number> {
   return out;
 }
 
-/**
- * What a line is tied to. `facts`: its use names the record facts it needs.
- * `slot-pair`: it only fills a slot from the speaker's or the hearer's own
- * record (the slot's own description in the bank says so). `slot-world`: it
- * only fills slots from other records (a news story, a bill, a calendar).
- * `weak`: it names only the kind of subject it is said about, so it can be said
- * to anyone ("Oh, my."). `none`: no use declared.
- */
-export type Tie = "facts" | "slot-pair" | "slot-world" | "weak" | "none";
-export type Reach = "reached" | "unreached" | "by-bank";
-
-export interface RegisteredLine {
-  key: string;
-  bank: string;
-  move: string;
-  text: string;
-  uses: number;
-  /** What in the records the line is tied to; see `Tie`. */
-  tie: Tie;
-  /** The grades or a rule hold it back. */
-  held: boolean;
-  /** Whether an engine can offer it: conversation lines are checked against the engine's own data; other banks are read as a whole by their consumer. */
-  reach: Reach;
-}
-
-interface RawPiece {
-  key: string;
-  move?: string;
-  text: string;
-  uses?: {
-    requiresFacts?: string[];
-    onlyWhen?: string[];
-  }[];
-}
-
-/** The conversation pieces the two conversation paths place (the engine's data and the composed banks). */
-export function reachedConversationKeys(): Set<string> {
-  const seen = new Set<string>();
-  const walkData = (value: unknown): void => {
-    if (!value || typeof value !== "object") return;
-    if (Array.isArray(value)) return value.forEach(walkData);
-    const row = value as Record<string, unknown>;
-    if (typeof row.part === "string") seen.add(row.part);
-    if (typeof row.pieceKey === "string") seen.add(row.pieceKey);
-    if (Array.isArray(row.parts))
-      for (const part of row.parts)
-        if (typeof part === "string") seen.add(part);
-    Object.values(row).forEach(walkData);
-  };
-  walkData(MINED_CONVERSATION);
-  const subjects = new Set(
-    CONVERSATION_BANK.parts.flatMap((part) =>
-      part.uses.map((use) => use.subject),
-    ),
-  );
-  for (const subject of subjects) walkData(composedConversationBank(subject));
-  return seen;
-}
-
-/** A slot's own description says whose record fills it: the speaker's, the player's or a person both know. */
-const PAIR_SLOT =
-  /\b(?:speaker's|player's|listener's|asker's|both people|household record|their own|someone both)\b/i;
-
-function tieOf(piece: RawPiece, slots: Record<string, string>): Tie {
-  const uses = piece.uses ?? [];
-  if (uses.some((use) => use.requiresFacts?.length || use.onlyWhen?.length))
-    return "facts";
-  const named = [...piece.text.matchAll(/\{([\w-]+)\}/g)].map((m) => m[1]!);
-  if (named.length)
-    return named.some((slot) => PAIR_SLOT.test(slots[slot] ?? ""))
-      ? "slot-pair"
-      : "slot-world";
-  return uses.length ? "weak" : "none";
-}
-
-/** Every bank piece, registered. */
-export function bankLines(): RegisteredLine[] {
-  const reached = reachedConversationKeys();
-  const lines: RegisteredLine[] = [];
-  for (const name of readdirSync(PARTS_DIR).filter((f) =>
-    f.endsWith(".json"),
-  )) {
-    const bank = name.replace(/\.json$/, "");
-    const file = JSON.parse(
-      readFileSync(path.join(PARTS_DIR, name), "utf8"),
-    ) as { parts: RawPiece[]; slots?: Record<string, string> };
-    const parts = file.parts;
-    for (const piece of parts)
-      lines.push({
-        key: piece.key,
-        bank,
-        move: piece.move ?? "",
-        text: piece.text,
-        uses: piece.uses?.length ?? 0,
-        tie: tieOf(piece, file.slots ?? {}),
-        held: !playable(piece),
-        reach:
-          bank !== "conversation"
-            ? "by-bank"
-            : reached.has(piece.key)
-              ? "reached"
-              : "unreached",
-      });
-  }
-  return lines;
-}
-
 /** The banks no code in `src` reads (their file name appears in no source file). */
 export function unreadBanks(): string[] {
   const sources = SOURCE_DIRS.concat(["src/core2"]).flatMap((dir) =>
-    walk(path.join(ROOT, dir), (f) => /\.(?:tsx?|mjs)$/.test(f)).map((f) =>
-      readFileSync(f, "utf8"),
-    ),
+    // The register reads every bank itself, so it does not count as a reader.
+    walk(
+      path.join(ROOT, dir),
+      (f) =>
+        /\.(?:tsx?|mjs)$/.test(f) && !f.endsWith("english/line-register.ts"),
+    ).map((f) => readFileSync(f, "utf8")),
   );
   return readdirSync(PARTS_DIR)
     .filter((name) => name.endsWith(".json"))

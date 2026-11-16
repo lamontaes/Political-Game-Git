@@ -79,7 +79,7 @@ function world(placeKey: string) {
   const core = createLifeCore(
     buildPopulation({ seed, placeKey, startedAt: START, minimumPeople: 60 }),
   );
-  openOffices(core, seed);
+  openOffices(core, seed, core.date);
   openElections(core);
   return core;
 }

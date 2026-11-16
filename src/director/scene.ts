@@ -24,7 +24,8 @@ import {
 import { organizationName, spoken } from "./words";
 import { dayOpening } from "../english/day-words";
 import { homeAloneDayFacts } from "./day-part";
-import { officeWords } from "../english/said-as";
+import { nameWithWhat, officeWords, sceneSaysWhat } from "../english/said-as";
+import { whatTheyAre } from "./who-they-are";
 import { outletsHere } from "../core2/modules/press";
 import { coreAPI } from "../core2/state";
 import localAddressData from "./data/local-address.json" with { type: "json" };
@@ -148,9 +149,20 @@ export function composeScene(
     if (!person.knownIds.has(id)) return null;
     const first = !named.has(id);
     named.add(id);
+    // The first time: what they are, when the player has not met them (rule 136).
+    const what =
+      first && !sceneSaysWhat(binding.typeKey)
+        ? whatTheyAre(core, personId, id)
+        : null;
+    const full = `${row.givenName} ${row.familyName}`;
+    const text = first ? nameWithWhat(full, what ?? undefined) : row.givenName;
     return {
-      text: first ? `${row.givenName} ${row.familyName}` : row.givenName,
-      sourceRecordIds: [person.knownIdSources?.[id]?.sourceFactId ?? id],
+      text,
+      ...(text !== full && first ? { bare: full } : {}),
+      sourceRecordIds: [
+        person.knownIdSources?.[id]?.sourceFactId ?? id,
+        ...Object.values(what?.facts ?? {}).flatMap((f) => f.sourceRecordIds),
+      ],
     };
   };
   const place = (id: string): Fact | null => {
@@ -238,11 +250,25 @@ export function composeScene(
           // opens with today (Words lead, Nov 15).
           const happened = happenedSaid(fromRecord());
           if (happened) facts.happened = happened;
-          if (meeting)
+          if (meeting) {
+            // The first time: what they are, when the player has not met them (rule 136).
+            const what =
+              named.has(meeting.id) || sceneSaysWhat(binding.typeKey)
+                ? null
+                : whatTheyAre(core, personId, meeting.id);
+            const full = `${meeting.givenName} ${meeting.familyName}`;
+            const text = nameWithWhat(full, what ?? undefined);
             facts.name = {
-              text: `${meeting.givenName} ${meeting.familyName}`,
-              sourceRecordIds: [meeting.id],
+              text,
+              ...(text !== full ? { bare: full } : {}),
+              sourceRecordIds: [
+                meeting.id,
+                ...Object.values(what?.facts ?? {}).flatMap(
+                  (f) => f.sourceRecordIds,
+                ),
+              ],
             };
+          }
           if (settingOrg)
             facts.where = {
               text: organizationName(settingOrg),

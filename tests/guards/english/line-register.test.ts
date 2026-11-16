@@ -1,4 +1,4 @@
-import { readFileSync } from "node:fs";
+import { readdirSync, readFileSync } from "node:fs";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
 import {
@@ -97,6 +97,15 @@ describe("the line register", () => {
         .filter((file) => !now.goodWaitingForReader.includes(file))
         .map((file) => `${file} is read now: remove it from the baseline`),
     ]).toEqual([]);
+  });
+  it("registers every bank file in data/english/parts", () => {
+    const files = readdirSync(
+      path.resolve(import.meta.dirname, "../../../data/english/parts"),
+    )
+      .filter((name) => name.endsWith(".json"))
+      .map((name) => name.replace(/\.json$/, ""))
+      .sort();
+    expect(Object.keys(registerCounts().bankCount).sort()).toEqual(files);
   });
   it("tells a sentence from a code token", () => {
     expect(sentenceShaped("You meet {name} at the door.")).toBe(true);

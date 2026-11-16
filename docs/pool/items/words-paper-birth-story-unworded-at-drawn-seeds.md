@@ -31,6 +31,8 @@ checked: m3 2026-11-14
 
 **Rules.** No dice; a counted household's birth is told by count, never by inventing a mother.
 
+**More evidence (Nov 15, train head b22cd350).** `src/bench/printed-words.test.ts` (words every story the press prints in a year) leaves stories unworded at two drawn seeds, the same on the clean train head and on #9482 at 713287f1. At Greensburg, Pennsylvania (4231200), seed d9c72f82a05c00ba8e8f94a02db42165af5af796, 17 stories are unworded. At Newcastle, Wyoming (5656215), seed 57ad47e9eb2377d5527752aad1c58035bd32d11f, 4 are unworded. They are the same two kinds: `cause-group.ad:...:budget-line:welfareAndMedicaid:<date>` ads and `justice.visiting-access:custody-referral:case:<person>:<date>` stories.
+
 **Done when.** In the running game, in a place and seed the builder did not choose (random one of the 56) and again at Cavetown, Maryland (seed 2d805cf4d2aceff57ef3) and Crystal Lake, Connecticut (seed a841494a2ab44f7b8e5d1e3ac07b89b7d5410140), a second session reads News and finds every printed birth worded, and both tests pass at their pinned places.
 
 **Waits on.** Nothing.

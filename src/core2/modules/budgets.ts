@@ -57,6 +57,7 @@ import {
 } from "./laws";
 import { worldOffsetUnit } from "../world-draw";
 import lawParameters from "../data/laws/reach-group-b-parameters.json" with { type: "json" };
+import salesTaxBase from "../data/laws/sales-tax-base.json" with { type: "json" };
 import propertyTaxCaps from "../data/laws/property-tax-caps.json" with { type: "json" };
 import {
   PROPERTY_TAX_AVERAGE_SOURCE,
@@ -1123,11 +1124,32 @@ const GROCERY_EXEMPTION =
 const GROCERY_SELLERS = "enterprise:retail";
 
 /**
+ * What the sales tax reaches by seller kind (data/laws/sales-tax-base.json):
+ * medical care, tuition, insurance and most services are outside the base in
+ * most states, and a state that taxes them says so in its own share. These
+ * are the tax's own exemptions, no law's, so they name no law.
+ */
+function baseExemptions(
+  stateKey: string | null,
+): { classificationPrefix: string; share: number }[] {
+  return salesTaxBase.rows
+    .map((row) => ({
+      classificationPrefix: row.classificationPrefix,
+      share:
+        (stateKey
+          ? (row as { states?: Record<string, number> }).states?.[stateKey]
+          : undefined) ?? row.exemptShare.value,
+    }))
+    .filter((row) => row.share > 0);
+}
+
+/**
  * The sales tax in force collected on every purchase in town (core2-api-v21):
  * each level's rate to its own treasury (a local rate without a city
  * government goes to the county, else the state), set so the levels' shares
- * sum to the combined tax inside the price; groceries are exempt where a
- * grocery exemption is law. Re-run when a sales-tax law takes effect.
+ * sum to the combined tax inside the price; what each kind of seller sells
+ * is taxed by the state's base (data/laws/sales-tax-base.json), and groceries
+ * are exempt where a grocery exemption is law. Re-run when a sales-tax law takes effect.
  */
 export function syncSalesTax(api: CoreAPI): void {
   registerPropertyTax(propertyTaxTerms);
@@ -1171,6 +1193,7 @@ export function syncSalesTax(api: CoreAPI): void {
           l.level === level || (level === "city" && l.level === "township"),
       )
     )?.row ?? null;
+  const base = baseExemptions(placeStateKey(town));
   for (const gov of govs) {
     const exemption = exemptionFor(gov.level);
     const id = `sales-tax:${gov.id}`;
@@ -1184,18 +1207,19 @@ export function syncSalesTax(api: CoreAPI): void {
       placeId: town,
       ratePercent: effective,
       payeeAccountId: account,
-      ...(exemption
-        ? {
-            exemptions: [
+      exemptions: [
+        ...base,
+        ...(exemption
+          ? [
               {
                 classificationPrefix: GROCERY_SELLERS,
                 share: lawParameters.parameters.groceryShareOfRetailSales.value,
                 lawKey: GROCERY_EXEMPTION,
                 lawId: exemption.id,
               },
-            ],
-          }
-        : {}),
+            ]
+          : []),
+      ],
       ...(rows.get(gov.id) ? { laws: rows.get(gov.id)! } : {}),
       from: api.state.date,
       source: {
@@ -2637,5 +2661,11 @@ export {
   medianTransactionBalance,
 } from "../starting-cash";
 export { depositsHeld, withdrawSavings } from "../accounts";
+/** The employer taxes a business reads, through the budgets family (families guard: business.ts reaches employer taxes only through here). */
+export {
+  EMPLOYER_TAXES_MODULE_ID,
+  employerTaxShareOfWage,
+  premisesTaxYearMinor,
+} from "./employer-taxes";
 // Re-exported so the climate engine reads the states' bases through this entry (families guard).
 export { residentsOf, STATES } from "./outside-budgets";

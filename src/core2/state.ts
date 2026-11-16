@@ -4,7 +4,7 @@ import { refreshOfficeStaff } from "./civic-inputs";
 import { initialPersonState } from "./person-state";
 import {
   CLOSENESS,
-  lastTogether,
+  lastMetOnRow,
   openingClosenessHours,
   sharedHoursBetween,
   temperedHours,
@@ -1318,7 +1318,7 @@ export function coreAPI(core: CoreState): CoreAPI {
       row.level = nextLevel;
       // A change made apart keeps the day the two were last together.
       if (reason?.apart)
-        row.lastMetDate = previous ? lastTogether(previous) : null;
+        row.lastMetDate = previous ? lastMetOnRow(previous) : null;
       else delete row.lastMetDate;
       if (next.owedHours) row.owedHours = next.owedHours;
       else delete row.owedHours;
