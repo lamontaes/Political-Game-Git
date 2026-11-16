@@ -5,7 +5,7 @@ area: play
 kind: feature
 priority: 1
 size: M
-status: in-pr
+status: merged
 standard: 2
 claimed-by: claude/pool-screens-campaign-board
 pr: #8391
@@ -19,6 +19,7 @@ root: design-screen-principles
 checked: fable 2026-11-10
 claimed-at: 2026-11-11T00:23:20.508Z
 branch: claude/pool-screens-campaign-board
+merged-at: 2026-11-15T23:57:19.081Z
 ---
 
 **What.** The owner ruled at 5 PM on Oct 27 that the campaign screen is one board. It carries an inbox of media requests and the like, and a campaign team the player builds from people they know and met in scenes, such as a partner or best friend as manager, as in The Political Process. The board itself now exists on main: src/bench/play.mjs builds a campaign-board with the race standing and the money. What is missing is the inbox and the team area, and the old Campaigns rows still sit beside the board. The owner sees the board before anything more is asked of him.

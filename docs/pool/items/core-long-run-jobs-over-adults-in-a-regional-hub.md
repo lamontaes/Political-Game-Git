@@ -5,10 +5,10 @@ area: core
 kind: bug
 priority: 1
 size: M
-status: in-pr
+status: merged
 standard: 2
 claimed-by:
-pr: 8886
+pr: #8886
 after:
 blocked-on:
 lead: jobs
@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: none
 source: added with npm run pool -- add
+merged-at: 2026-11-15T23:38:05.694Z
 ---
 
 **What.** Guards: the long run's check that a place never holds more jobs than it has adults. The scheduled twenty-year run on clean main 5dcfc34fff failed jobs-not-over-adults after year 1 (2026-01-20) in Cumberland, Maryland (2421325): jurisdiction_4b72ee154e14b52e held 21,604 jobs for 20,874 adults. Run seed 6b49f43cb1ce8606, world seed a6447e4642bc2af828e66f8d01617720a24380e73888f87ceb7900ad186c10bb (Merger codex-4629 on #7365, comment 6821120532; Actions run 43194697753). Guards: the long run's count of jobs against adults in every place

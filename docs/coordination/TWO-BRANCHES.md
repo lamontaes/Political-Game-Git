@@ -46,7 +46,7 @@ Asked how, he chose this shape:
 
 ## b. The name of the work branch: `dev`
 
-Proposed name: **`dev`**.
+The name is **`dev`** (owner, Nov 16: "Yes, dev is fine").
 
 - It is short, and it is the name most people expect for "where work happens."
 - It does not clash with the branch families already in use (`claude/*`,
@@ -164,6 +164,40 @@ takes effect before then.
     skill `red-main`, the `--main <commit>` flag of `npm run pool -- seen`, the
     receipt key `sourceMain` in speed receipts, and "the main checkout"
     (the primary checkout, not a branch).
+
+### The settings, step by step
+
+The owner said on Nov 16 that these are done from his other account, the one
+with access to the repository's settings, after it resets at 5 a.m. his time.
+They are in two sittings. The acting CTO says in the channel when each is due.
+
+**First sitting (cutover step 5), right after the branch `dev` exists:**
+
+1. If `dev` does not exist yet (the acting CTO's push was refused): on the
+   repository's front page open the branch menu, type `dev`, and choose
+   "Create branch `dev` from `main`".
+2. Settings, General, "Default branch": switch it to `dev`.
+3. Settings, Rules, Rulesets (or Settings, Branches, if the rule for `main` is
+   a classic protection rule): open the rule that covers `main`. Make the same
+   rule cover `dev`: either add `dev` to its target branches or copy the rule
+   and target `dev`. It must require the status checks `validate` and
+   `golden-path`, and it must keep the same bypass list as today, so the
+   release step can push its version commit to `dev` as it does to `main`.
+4. Change nothing on `main` yet.
+
+**Second sitting (cutover step 10), after the first promote is on `main` and
+its build is seen working:**
+
+5. Give `main` its own rule: nobody merges a pull request into it, nobody
+   pushes to it except the actor on the bypass list (the release token, which
+   the promote step uses), no force push, no deletion. Take the required
+   status checks off `main`: a promote commit is pushed, not merged, and its
+   checks ran on `dev`.
+
+The secret `RELEASE_PUSH_TOKEN` needs no change if it is a token for this
+repository with write access to its contents: such a token is not tied to one
+branch. What lets it past protection is the bypass list, which steps 3 and 5
+keep.
 
 ## d. Where the release steps live after cutover
 
@@ -306,6 +340,16 @@ Each step above can be undone, in reverse, and no history is rewritten.
   `main` (the `KEEP` list in `scripts/promote/test-files.mjs`). The rule also
   keeps other test-named files that a script imports or reads (`--kept` lists
   them).
+- **The first promote needs `dev` to be ahead of `main`.** Right after `dev`
+  is cut, the two are the same commit and the promote script answers "Nothing
+  to promote". The machine edits (step 6) are the first commit that `dev` has
+  and `main` lacks, so step 8 comes after step 6, as written.
+- **Dry run, Nov 16.** On `main` at 5cf42fc4236f00f16867fc444e6a6bf825be4c3a
+  with this pull request merged in, the script removed 1,944 test files (1,776
+  under `src`, 81 under `tests`, 64 under `scripts`, 22 under `desktop`, 1
+  under `data`), edited `package.json`, made one commit on top of `main` and
+  pushed nothing. Its tree differs from `preview/main-without-tests` only by
+  what `main` gained since the preview was made.
 - `docs/` is never stripped, even a file named like a test (a reproduction
   file quoting a browser check). Those are prose for the owner and sessions.
 
