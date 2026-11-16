@@ -1135,7 +1135,7 @@ function next(
       return null;
     }
     return open > most
-      ? `The cap is on: ${open} game pull requests are open and the cap is ${most} (docs/pool/order.json). Only a red on dev, a rule, a check or a skill is handed out. Otherwise take no new item: fix what a desk sent back on your own pull requests, bring your open pull requests up to main, then stop and say so (skill pool-notes).`
+      ? `The cap is on: ${open} game pull requests are open and the cap is ${most} (docs/pool/order.json). Only a red on dev, a rule, a check or a skill is handed out. Otherwise take no new item: fix what a desk sent back on your own pull requests, bring your open pull requests up to dev, then stop and say so (skill pool-notes).`
       : null;
   };
   const capLine = capped();

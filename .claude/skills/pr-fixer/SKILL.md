@@ -32,6 +32,7 @@ A sent-back PR is usually one small fix away from merging. Finish it on its own 
 
 1. Claim the item with its branch: `npm run pool -- claim <id> --branch <X>`.
 2. Check out `X` and run `git merge origin/dev` (plain merge). Resolve docs-only conflicts as the merger skill says. A code conflict is part of your fix.
+   Never merge `main` into a branch: it holds the game without tests, and merging it deletes them; merge `dev`. A guard (`scripts/promote/no-promote-in-history.mjs`) fails a branch that has it.
    An English bank conflict (`data/english/parts/scene-talk.json` and the other part files) is not hand-merged: take dev's file, re-add the PR's own pieces and slots by piece key, and run `tests/english-parts-banks.test.ts` before the push. Oct 28: #6685 and #6689 sat sent back on this, as did #6329 on Oct 27. Since Nov 10 only the Story session writes, changes or deletes lines under `data/english/parts/` (owner, "Split by role"): re-adding a PR's existing pieces by key is mechanical and allowed, but any new or reworded line, and any line a rule pulled (`data/english/pulled.json`), goes back to Story as a list on the pull request. The old generated `grade-reach.json` is gone; if a generated grade file conflicts, take dev's and rerun the script that writes it (`scripts/dialogue-batch/apply-grades.ts`).
 3. Read the merger's whole comment and the diff. Fix exactly what was raised, inside the PR's own scope:
    - never loosen, skip or early-return a test;

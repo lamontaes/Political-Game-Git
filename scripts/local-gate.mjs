@@ -45,6 +45,8 @@ const untracked = execFileSync(
   .trim()
   .split("\n")
   .filter(Boolean);
+// A branch with main merged into it would delete tests (TWO-BRANCHES.md).
+run("node", ["scripts/promote/no-promote-in-history.mjs", "--work", WORK_REF]);
 const changed = [...new Set([...tracked, ...untracked])];
 if (changed.length)
   run("npx", ["--no-install", "prettier", "--check", ...changed]);

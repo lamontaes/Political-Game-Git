@@ -29,6 +29,7 @@ Your first claim also puts one small file about you on dev, under `docs/pool/age
 ## The loop
 
 1. **Take an item, unless the cap is on.** While more than 150 game pull requests are open, take no new item: fix what a desk sent back on your own pull requests, then merge dev into your own open pull requests that are behind, then stop and say so on the crew's issue (owner, Nov 11; skill `pool-notes`; the lead's hourly count says whether the cap is on). Reds on dev, rules, checks and skills, and work the CTO or the lead gives you by name are not capped. Otherwise: `npm run pool -- next`. It starts by saying who you are and your tier. A real run can take several minutes (it fetches every claimed branch); it prints a line to standard error as each stage starts, so a quiet terminal is not a hung one.
+   - Never merge `main` into a branch: it holds the game without tests, and merging it deletes them; merge `dev`. A guard (`scripts/promote/no-promote-in-history.mjs`) fails a branch that has it.
    - It picks the first item in the written order that your level may build, claims it on dev so no other agent can take it, makes the item's branch and opens its draft pull request.
    - The branch is named `pool/<item>`. A Claude cloud session may push only under `claude/`, and the tool sees that by itself and names the branch `claude/pool-<item>`. If your tool has a prefix of its own, set `POOL_BRANCH_PREFIX` once or add `--branch-prefix <prefix>`.
    - The owner or the CTO can set a tier or a name by hand with `--tier <tier>` and `--agent <name>`. You do not.

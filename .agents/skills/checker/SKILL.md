@@ -31,6 +31,7 @@ From the moment a PR is open and ready, the builder has moved to its next unit a
 ## The check
 
 1. `git fetch origin <branch> dev`, check out the branch, `git merge origin/dev` (plain merge). Resolve conflicts exactly as the merger skill says (docs, stopgap family files, pool items, `docs/pool/INDEX.md`, matrices). A conflict in code logic goes back to the builder.
+   Never merge `main` into a branch: it holds the game without tests, and merging it deletes them; merge `dev`. A guard (`scripts/promote/no-promote-in-history.mjs`) fails a branch that has it.
 2. Run the local gate on the merged result, every line, in this container with `NODE_OPTIONS=--max-old-space-size=8192` and `OCD_STORAGE_OVERRIDE="cloud session, owner approved Oct 14"`:
    - `npm run typecheck`
    - `npx eslint <changed files>` and `npx prettier --check <changed files>`

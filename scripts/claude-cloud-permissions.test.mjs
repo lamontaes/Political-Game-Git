@@ -69,11 +69,8 @@ test("shared settings preserve report hooks and do not grant a blanket override"
   );
   assert.deepEqual(settings.permissions.allow, [
     "Bash(git merge origin/dev)",
-    "Bash(git merge origin/main)",
     "Edit(/.github/workflows/release.yml)",
     "WebFetch",
-    "Bash(gh pr merge:*)",
-    "Bash(gh api -X PUT repos/lamontaes/Political-Game-Git/pulls/:*)",
   ]);
   assert.ok(
     settings.hooks.PreToolUse.some(
