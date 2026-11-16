@@ -54,7 +54,9 @@ import {
 import type { ModuleRow } from "../module-data";
 import type { CoreAPI, CoreModule, CoreState, IsoDate, Source } from "../types";
 
-export const COVERAGE_MODULE_ID = "core2-coverage-v1";
+import { COVERAGE_MODULE_ID } from "../coverage-module-id";
+
+export { COVERAGE_MODULE_ID };
 
 export type CoveragePlan = "employer" | "medicare" | "none";
 

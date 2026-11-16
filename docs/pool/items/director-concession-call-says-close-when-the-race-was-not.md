@@ -5,9 +5,9 @@ area: director
 kind: bug
 priority: 2
 size: S
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/project-thread-5efbu8-concede2
 pr:
 after:
 blocked-on:
@@ -35,4 +35,4 @@ checked:
 
 **Files.** src/director/purpose-scene.ts, data/english/parts/scene-talk.json
 
-**Notes.** Evidence: /mnt/project-files/words-lead/campaign-events/runs/town-debate1.md (race-lost section).
+**Notes.** Evidence: /mnt/project-files/words-lead/campaign-events/runs/town-debate1.md (race-lost section). Nov 16, Account lead: no count is said (owner, Nov 14); "close" means inside the state's recount rule and nothing else; one race read in src/director/race-turnout-facts.ts (raceReadFacts), with a dev-mode panel; rows not reached by presses moved to director-concession-call-rows-not-reached-by-presses.
