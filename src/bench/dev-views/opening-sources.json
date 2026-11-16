@@ -55,8 +55,8 @@
       "by": "src/core2/household-mix.ts: the place's ACS household shares, or its state's where the place has none"
     },
     "town.presidentApproval": {
-      "made": "world-offset",
-      "by": "src/core2/modules/national-opinion.ts openingApproval: the published openingPct (41, Gallup's 2025 readings) moved by the world's offset inside the row's own spread, 36 to 45, in src/core2/data/electorate/national-opinion.json"
+      "made": "decision",
+      "by": "src/core2/modules/national-opinion.ts presidentElection: the share of the two-party vote the 2024 presidential election recorded for the sitting president (src/core2/past-elections.ts, kept on their term), moved from the first month of the term by the economy and the pushes other engines write"
     },
     "person.name": {
       "made": "generation",
@@ -376,10 +376,6 @@
     "src/core2/modules/jobs.ts#vacancyDays": {
       "made": "world-offset",
       "what": "Days a job stays open"
-    },
-    "src/core2/modules/national-opinion.ts#openingApproval": {
-      "made": "world-offset",
-      "what": "The president's approval on day one"
     },
     "src/core2/modules/offices.ts#electionBehind": {
       "made": "ad-hoc-draw",

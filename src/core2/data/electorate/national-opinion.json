@@ -8,12 +8,11 @@
       "source": "The point where the two parties break even in a vote: approval of 50 percent is neutral for the president's party (the race reads the gap from it, electorate-inputs.ts). The base is not pulled toward it. Coggin, Economics & Politics, 2025, doi 10.1111/ecpo.12322 finds quarterly Gallup approval 1960-2022 stationary around a mean near 50 percent.",
       "spread": [45, 53]
     },
-    "openingPct": {
-      "value": 41,
-      "tag": "ESTIMATED",
-      "role": "opening",
-      "source": "Where the country's approval of the sitting president stands on the first day of play: Gallup's readings for the president in 2025 ran from the high 30s to the low 40s (Gallup, Presidential Job Approval Center). The world then moves it from what happens.",
-      "spread": [36, 45]
+    "percentPerShare": {
+      "value": 100,
+      "tag": "SOURCED",
+      "role": "unit",
+      "source": "Percent per whole share: the past election records the winner's share of the two-party vote from 0 to 1 (src/core2/past-elections.ts), and approval is kept in percent. The first approval row starts at that share, so day one's figure is the election's own result, moved from then on by what happens."
     },
     "pointsPerUnemploymentPoint": {
       "value": 1,

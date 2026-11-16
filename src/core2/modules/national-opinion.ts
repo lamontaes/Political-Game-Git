@@ -14,7 +14,6 @@
 import { addDays, makeIsoDate } from "../kernel/dates";
 import data from "../data/electorate/national-opinion.json";
 import { registerModule } from "../state";
-import { worldOffsetUnit } from "../world-draw";
 import type { CoreAPI, CoreModule, CoreState } from "../types";
 
 export const NATIONAL_OPINION_MODULE_ID = "national-opinion";
@@ -35,22 +34,38 @@ export function opinionParameter(key: string): number {
   return row.value;
 }
 
-/** The key of the world's one draw for the president's approval on the first day of play. */
-export const OPENING_APPROVAL_KEY = "national-opinion:openingPct";
+/** The president's seat (the offices engine's id). */
+const PRESIDENT_SEAT = "seat:US:president";
 
-/**
- * Where the country's approval of the president stands on the first day of play in this world
- * (owner, Oct 27: "realistic, not real"): the published opening figure moved by the world's offset
- * (`worldOffsetUnit`) inside its own row's spread, toward the high end for an offset above zero
- * and toward the low end below it, so no two worlds open on the same figure. Seeded generation
- * of the starting world; nothing after day one is a draw.
- */
-export function openingApproval(seed: string): number {
-  const row = PARAMS.openingPct;
-  if (!row?.spread) throw new Error("openingPct needs its spread");
-  const [low, high] = row.spread;
-  const unit = worldOffsetUnit(seed, OPENING_APPROVAL_KEY);
-  return row.value + unit * (unit > 0 ? high - row.value : row.value - low);
+/** The sitting president's term and the race that seated them, from the offices engine's own table. */
+export interface PresidentElection {
+  readonly termId: string;
+  /** The general election's day. */
+  readonly date: string;
+  /** The winner's share of the two-party vote, 0 to 1, as the past election recorded it. */
+  readonly share: number;
+  /** Inauguration Day after that election (U.S. Const. amend. XX, § 1): January 20 of the next year. */
+  readonly inauguration: string;
+}
+
+export function presidentElection(api: CoreAPI): PresidentElection | undefined {
+  if (!(api.state as CoreState).modules.has(OFFICES_MODULE)) return undefined;
+  const term = (
+    api
+      .moduleState(OFFICES_MODULE)
+      .table("terms")
+      .query("bySeatStatus", [PRESIDENT_SEAT, "serving"]) as unknown as {
+      id: string;
+      elected?: { date: string; share: number };
+    }[]
+  )[0];
+  if (!term?.elected) return undefined;
+  return {
+    termId: term.id,
+    date: term.elected.date,
+    share: term.elected.share,
+    inauguration: `${Number(term.elected.date.slice(0, 4)) + 1}-01-20`,
+  };
 }
 
 export interface ApprovalRow {
@@ -162,7 +177,8 @@ function monthlyRun(api: CoreAPI): void {
   const sources: string[] = [];
   let unemploymentChange = 0;
   let inflationChange = 0;
-  if (now && before && macroState) {
+  // The first row has no month before it to move from.
+  if (previous && now && before && macroState) {
     unemploymentChange = now.unemploymentPct - before.unemploymentPct;
     inflationChange = now.inflationPct - before.inflationPct;
     sources.push(
@@ -174,8 +190,20 @@ function monthlyRun(api: CoreAPI): void {
     opinionParameter("pointsPerUnemploymentPoint") * unemploymentChange +
     opinionParameter("pointsPerInflationPoint") * inflationChange
   );
-  const lastBase = previous?.basePct ?? openingApproval(api.state.seed);
+  // The first row starts where the election that seated the president left
+  // them: their share of the vote. Before Inauguration Day (a world built
+  // early for New Game's warm-up) the term has not begun, and with no record
+  // of the race (a world without the past) there is nothing to start from:
+  // no row is kept either way.
+  const election = previous ? undefined : presidentElection(api);
+  if (!previous && (!election || api.state.date < election.inauguration)) {
+    if (election) scheduleInauguration(api, election.inauguration);
+    return;
+  }
+  const lastBase =
+    previous?.basePct ?? election!.share * opinionParameter("percentPerShare");
   const basePct = lastBase + economyPull;
+  if (election) sources.unshift(election.termId);
   let pushPct = 0;
   for (const push of table(api, "pushes").rows() as unknown as OpinionPush[]) {
     const age = monthIndex(month) - monthIndex(push.month);
@@ -302,6 +330,27 @@ function schedule(api: CoreAPI): void {
   });
 }
 
+/** The first row's day where the world opened before the term began (New Game's warm-up). */
+const INAUGURATION_KIND = "national-opinion-inauguration";
+
+function scheduleInauguration(api: CoreAPI, date: string): void {
+  const calendar = api.moduleCalendar(NATIONAL_OPINION_MODULE_ID);
+  const key = `${INAUGURATION_KIND}:${date}`;
+  if (calendar.get(key)) return;
+  calendar.schedule({
+    key,
+    date,
+    kind: INAUGURATION_KIND,
+    source: {
+      tag: "SOURCED",
+      asOf: api.state.date,
+      citation:
+        "U.S. Const. amend. XX, § 1: the president's term begins on January 20 after the election.",
+    },
+    sourceRecordIds: ["national-opinion:state"],
+  });
+}
+
 export const NATIONAL_OPINION_MODULE: CoreModule = {
   id: NATIONAL_OPINION_MODULE_ID,
   state: {
@@ -309,6 +358,10 @@ export const NATIONAL_OPINION_MODULE: CoreModule = {
     tables: { state: {}, approval: {}, pushes: {} },
   },
   onCalendarWork(api, work) {
+    if (work.kind === INAUGURATION_KIND) {
+      if (!latestApproval(api)) monthlyRun(api);
+      return;
+    }
     if (work.kind !== RUN_KIND) return;
     monthlyRun(api);
     schedule(api);

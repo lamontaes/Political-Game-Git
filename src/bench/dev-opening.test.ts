@@ -17,7 +17,8 @@ import { coreAPI } from "../core2/state";
 import {
   type ApprovalRow,
   NATIONAL_OPINION_MODULE_ID,
-  openingApproval,
+  opinionParameter,
+  presidentElection,
 } from "../core2/modules/national-opinion";
 
 const PINNED = { run: "8341-pin", purpose: "p6", key: "0164656" };
@@ -68,29 +69,38 @@ it("shows how the town, the player, their household, a business and an office op
   expect(population?.made, where).toBe(SOURCES.kinds["world-offset"]);
   expect(population?.value, where).toMatch(/published/);
   expect(population?.drawKey, where).toMatch(/^world-place-population:/);
-  // The president's approval opens at the world's offset inside its row's 36 to 45 spread.
+  // The president's approval opens at the share of the vote their 2024 race recorded, kept on
+  // their term; the game opens on Inauguration Day, so no month of the term moved it before.
+  const api = coreAPI(world.core);
+  const election = presidentElection(api);
+  expect(
+    election,
+    `${where}: the race that seated the president`,
+  ).toBeDefined();
+  expect(election!.date, where).toBe("2024-11-05");
   const approval = town.rows.find(
     (r) => r.label === "President's approval on day one",
   );
-  expect(approval?.made, where).toBe(SOURCES.kinds["world-offset"]);
-  expect(approval?.drawKey, where).toMatch(/^national-opinion:openingPct: /);
-  const opened = Number.parseFloat(approval?.value ?? "");
-  expect(opened, where).toBeGreaterThanOrEqual(36);
-  expect(opened, where).toBeLessThanOrEqual(45);
-  expect(opened, `${where}: not the published 41`).not.toBe(41);
-  // The country's first month of approval starts from that figure: its base less the month's
-  // economic pull is the world's opening, read by the engine, not only shown here.
-  const first = [
-    ...(coreAPI(world.core)
+  expect(approval?.made, where).toBe(SOURCES.kinds.decision);
+  expect(approval?.recordId, where).toBe(election!.termId);
+  expect(approval?.drawKey, where).toBeUndefined();
+  const opened = election!.share * opinionParameter("percentPerShare");
+  expect(Number.parseFloat(approval?.value ?? ""), where).toBeCloseTo(
+    opened,
+    2,
+  );
+  // The engine starts there: its first row is dated on Inauguration Day's month, cites the term,
+  // and none was written for the warm-up's weeks before the term began.
+  const rows = [
+    ...(api
       .moduleState(NATIONAL_OPINION_MODULE_ID)
       .table("approval")
       .rows() as unknown as ApprovalRow[]),
-  ].sort((a, b) => a.month.localeCompare(b.month))[0];
-  expect(first, `${where}: an approval month after the warm-up`).toBeDefined();
-  expect(first!.basePct - first!.economyPull, where).toBeCloseTo(
-    openingApproval(world.core.seed),
-    9,
-  );
+  ].sort((a, b) => a.month.localeCompare(b.month));
+  expect(rows[0]?.month, `${where}: the first approval month`).toBe("2025-01");
+  expect(rows[0]!.basePct, where).toBeCloseTo(opened, 9);
+  expect(rows[0]!.economyPull, where).toBeCloseTo(0, 12);
+  expect(rows[0]!.sourceRecordIds[0], where).toBe(election!.termId);
   expect(
     town.rows.some((r) => r.label.startsWith("Share of jobs: ")),
     where,

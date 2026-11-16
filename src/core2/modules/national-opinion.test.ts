@@ -1,30 +1,63 @@
 /**
- * The president's approval on the first day of play is the published figure moved by the world's
- * offset inside its own row's spread (owner, Oct 27: "realistic, not real"), so no two worlds open
- * on the same figure and none opens on the published 41. Pinned: the world seeds of four named
- * draws, fixed here.
+ * The president's approval on day one is the share of the vote the race that seated them
+ * recorded (src/core2/past-elections.ts keeps it on their term); the game opens on Inauguration
+ * Day, so the first row is that share and later months move it by what happens. Pinned: Shubert,
+ * Nebraska (3145225), the seed player-age.test.ts names, built without New Game's warm-up
+ * (dev-opening.test.ts builds Ridgeville AL with it).
  */
 import { expect, it } from "vitest";
-import data from "../data/electorate/national-opinion.json";
-import { openingApproval, opinionParameter } from "./national-opinion";
+import { buildBenchWorld } from "../../bench/world";
+import { setBookkeeping } from "../bookkeeping";
+import { gameStartDate } from "../game-start";
+import { addDays, makeIsoDate } from "../kernel/dates";
+import { advanceCore } from "../life";
+import { coreAPI } from "../state";
+import {
+  type ApprovalRow,
+  NATIONAL_OPINION_MODULE_ID,
+  latestApproval,
+  opinionParameter,
+  presidentElection,
+} from "./national-opinion";
 
-const SEEDS = [
-  "3ce25319db8dc798de341066399b70e7baea6bfc0a3ff07fb957f8d73f740178", // Ridgeville AL, 8341-pin/p6
-  "175545ba-b8b6-4a67-a9f7-c1fb02fe880c", // Bell Buckle TN, a played life
-  "c1518637-35a2-40af-af90-1a4ea55ff338", // Fort Irwin CA, a played life
-  "259e25c6-9d46-484f-9825-b9bb8504fc89", // Udall KS, a played life
-];
+const PLACE = {
+  name: "Shubert, Nebraska",
+  key: "3145225",
+  seed: "4f084788fb52adfd1e9edfff00040a02e8e8447e725934bd60a26d12fa07322f",
+};
 
-it("opens the president's approval at the world's offset inside 36 to 45", () => {
-  const [low, high] = data.parameters.openingPct.spread;
-  const published = opinionParameter("openingPct");
-  const opened = SEEDS.map((seed) => openingApproval(seed));
-  for (const [i, pct] of opened.entries()) {
-    expect(pct, SEEDS[i]).toBeGreaterThanOrEqual(low);
-    expect(pct, SEEDS[i]).toBeLessThanOrEqual(high);
-    expect(pct, `${SEEDS[i]}: not the published figure`).not.toBe(published);
-  }
-  // The same world opens on the same figure every time; different worlds differ.
-  expect(openingApproval(SEEDS[0])).toBe(opened[0]);
-  expect(new Set(opened).size).toBe(SEEDS.length);
-}, 5_000);
+it(`opens the president's approval at their recorded 2024 share (${PLACE.name})`, () => {
+  setBookkeeping(false);
+  const where = `${PLACE.name} (${PLACE.key}), world seed ${PLACE.seed}`;
+  const world = buildBenchWorld(PLACE.seed, gameStartDate(), {
+    twoLevel: true,
+    placeKey: PLACE.key,
+  });
+  const api = coreAPI(world.core);
+  const election = presidentElection(api);
+  expect(
+    election,
+    `${where}: the race that seated the president`,
+  ).toBeDefined();
+  // The November 2024 general election, whose winner took office on January 20, 2025.
+  expect(election!.date, where).toBe("2024-11-05");
+  expect(election!.inauguration, where).toBe("2025-01-20");
+  // A two-party share the winner won with.
+  expect(election!.share, where).toBeGreaterThan(0.5);
+  expect(election!.share, where).toBeLessThan(0.6);
+  // Day one runs: the engine opens and writes its first row.
+  advanceCore(world.core, addDays(makeIsoDate(world.core.date), 1));
+  const first = latestApproval(api);
+  expect(first?.id, where).toBe("approval:2025-01");
+  expect(first!.basePct, where).toBeCloseTo(
+    election!.share * opinionParameter("percentPerShare"),
+    9,
+  );
+  expect(first!.economyPull, where).toBeCloseTo(0, 12);
+  expect(first!.sourceRecordIds[0], where).toBe(election!.termId);
+  const rows = api
+    .moduleState(NATIONAL_OPINION_MODULE_ID)
+    .table("approval")
+    .rows() as unknown as ApprovalRow[];
+  expect(rows.length, `${where}: one row on day one`).toBe(1);
+}, 30_000);
