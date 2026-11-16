@@ -4,7 +4,6 @@
     "hearing": 3,
     "legislation": 4,
     "minutes": 4,
-    "opening-speech": 204,
     "speech-stages": 1
   },
   "saysNothing": [
@@ -248,6 +247,7 @@
     "src/bench/data/whole-figures.json": 8,
     "src/director/data/address-kinds.json": 1,
     "src/director/data/arc-variants.json": 17,
+    "src/director/data/bargain-reasons.json": 1,
     "src/director/data/bring-it-up-rows.json": 1,
     "src/director/data/constituent-help-facts.json": 4,
     "src/director/data/conversation-rules.json": 46,
