@@ -22,7 +22,7 @@ checked: words builder A 2026-11-16
 
 **What.** To learn why a talk opened on its subject, which lines were eligible and why one was picked, a session reads code or runs a script; dev mode (src/bench/ui/dev-*.mjs) shows no such chain for a talk. Seen: no talk trace in the dev views listed in src/bench/ui/dev-view.mjs, dev-person.mjs or dev-watch.mjs. Seen: after a talk opens, dev mode's Trace line for that person names the record that caused the talk, the subject chosen, each line in the running with why it was held back or lost, and the line picked.
 
-**Cause.** Found in code: the talk engine (src/director/conversation.ts) picks the opener, the subject and each reply from the bank by facts and the heard-today list, and keeps only the picked line's part and slot record ids; the lines passed over and the reasons are computed and dropped, so nothing in dev mode can read them.
+**Cause.** Found in code: `openConversation` and `say` in src/director/conversation.ts pick the opener, the subject and each reply from the bank by facts and the heard-today list, and keeps only the picked line's part and slot record ids; the lines passed over and the reasons are computed and dropped, so nothing in dev mode can read them.
 
 **Fix.** Keep, for the player's talks only and only while dev mode is on (bookkeeping is a debug switch), the candidates and reasons the pick already computes, through the existing trace the dev views read; add one "Why this talk" line to the dev person view naming cause record, subject, candidates with reasons and the pick. No second pick path and no copy of the picker's rules in the view.
 

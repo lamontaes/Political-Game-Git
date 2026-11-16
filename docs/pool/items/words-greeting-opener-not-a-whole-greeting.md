@@ -20,7 +20,7 @@ claimed-at:
 checked: words builder A 2026-11-16
 ---
 
-**What.** A talk opens with two greetings from the same person: "Good to see you." then "Funny running into you, David."; "Hello there." then "There you are, Joseph."; "Hi there." then "Twice in two days. I saw you yesterday." Seen: after this fix a face-to-face talk opens with one greeting, a short hello then the rest, never a whole greeting then a second greeting.
+**What.** A talk opens with two greetings from the same person: "Good to see you." then "Funny running into you, David."; "Hello there." then "There you are, Joseph."; "Hi there." then "Twice in two days. I saw you yesterday." The second greeting repeats the first. Seen: a face-to-face talk opens with one greeting, a short hello then the rest, never a whole greeting then a second greeting.
 
 **Cause.** Found in code: a composed greeting is an opener then a core (data/english/parts/conversation.json, piece greet-open), and `openConversation` says the opener as its own turn (src/director/conversation.ts, the block commented "The hello is its own short turn", from #8822, Nov 11). Three pieces that are whole greetings carried the `greet-opener` use: "Good to see you.", "Hello there." and "Hi there.", so they played before a core that greets again.
 
