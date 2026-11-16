@@ -17,7 +17,7 @@ import type { Story } from "../core2/modules/news";
 import { coreAPI } from "../core2/state";
 import { OFFICES_MODULE_ID, servingTermsOf } from "../core2/modules/offices";
 import { schoolDayOf } from "../core2/modules/people";
-import { reachOn } from "../core2/law-reach/host";
+import { reachOn } from "../core2/modules/laws";
 
 /** The record that ties a Subject to the speaker or the hearer. */
 export interface SubjectTie {
