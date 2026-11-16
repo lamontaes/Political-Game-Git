@@ -39,7 +39,9 @@ it("every draw a New Game opening takes is in the opening list (Ridgeville AL)",
   ).toEqual([]);
   // The recording sees the world's offsets and the draws the audit named, by file and function.
   const sites = new Set(draws.map((d) => d.site));
-  expect(sites.has("src/core2/gov-rules/place-population.ts#worldPopulationOf")).toBe(true);
+  expect(
+    sites.has("src/core2/gov-rules/place-population.ts#worldPopulationOf"),
+  ).toBe(true);
   expect(sites.has("src/core2/modules/offices.ts#pastTerms")).toBe(true);
   // No record id is counted as a draw.
   expect(
