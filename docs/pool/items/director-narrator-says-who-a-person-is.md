@@ -33,12 +33,22 @@ Seen: in the Scenes page's swearing-in sample, the oath giver is named by first 
 
 **Waits on.** Nothing: #9489 (the met record it reads) is on the Train.
 
-**Not said to the player by their own presses, wording left out (lead and Words lead, Nov 16).** Composed is not played. Three play walks pressed what a player presses (scripts/play-walks; logs in /mnt/project-files/words-lead/who-they-are/walks/): a mayor at Wales UT for 120 days (seed 7b3e19a24c5d8f60), a board member at LaPlace IL for 40 days (seed c41d0e7a92b35f18), and a new life at Kendall FL for 30 days (seed 5e2a91c07d4b3f86). They said office, member of a body, an official's aide and a constituent. The played swearing-in and office hours at Hardinsburg KY add the office alone and the district. Everything else is out of said-as.json and its reader, and the lines wait in lines.md:
+**Said to the player by their own presses, and what is not (lead, Words lead and second reader, Nov 16).** Composed is not played. A scene the director composes for an official the script watches, or for a player seated by `seatWinner`, is staging. Six play walks pressed what a player presses at head e36f0269 (scripts/play-walks/official.mjs, Advanced start; logs headed with the sha in /mnt/project-files/words-lead/who-they-are/walks/):
 
-- tie: schoolmate, the player's own campaign, and every act. A one-hour sweep (.probe/who-kinds.mts; who-kinds-a8be8346.md and who-kinds-eadba314.md) composed schoolmate, campaign and "whose bill you signed" only for officeholders the director watched, never for the player.
-- reporter ("a reporter for {outlet}", Words lead, Nov 16): written, but no walk cast a reporter the player had not met.
-- workplace: composed only in job offers, whose own line says the employer, so the job offer takes no phrase (said-as.json sceneSaysIt).
-- presides, seat-holder, another place: never composed. A presiding officer is said by a title or by office. The holder of a seat holds an office, which is said first. Nobody from another place whom the player had not met was cast.
+- mayor at Wales UT, 120 days (seed 7b3e19a24c5d8f60): "William Fernandez, a member of the Sanpete County Commission" and "Ivy Gordon, who lives in Wales";
+- board member at LaPlace IL, 40 days (seed c41d0e7a92b35f18): "Lisa Edwards, who works for Brian Nichols";
+- council members at Jefferson City TN (seed 9a7f3c21e8b04d65) and Elim AK (seed e15c7a3092fb48d6), and a commissioner at Matlacha Isles-Matlacha Shores FL (seed 2d6e8b0f4a1c9357), 59 to 120 days: everyone they met was named alone (met before or nothing on record).
+
+Read by presses: "a member of {body}", "who works for {official}", "who lives in {place}".
+
+Unread rows, kept with the reason (the lead allows this only where the fallback is worse): "the {office}" (a seat held alone or an appointed post) and "who lives in your district". No walk reached them by presses; they show only in the composed swearing-in and office hours (who-played-<sha>.md). The fallback is the bare full name of a stranger ("Shannon Woodward waits for you to step forward" at an oath, "Aria King meets you at the office"), which is the defect the owner reported in rule 136. A pressed walk that reaches a swearing-in or an office-hours visit (scene-office-hours-visit-never-staged-for-player) reads them.
+
+Out of said-as.json and the reader, the lines waiting in the Words lead's lines.md:
+
+- tie: schoolmate, the player's own campaign, and every act. A one-hour sweep composed these only for officeholders the director watched.
+- reporter ("a reporter for {outlet}"): no walk cast a reporter the player had not met. The press interview, scandal, interview and debate scenes name the reporter or host alone (sceneSaysIt) until one does.
+- workplace: composed only in job offers, whose own next line says the employer (sceneSaysIt).
+- presides, seat-holder, another place: never composed.
   Each comes back with the first scene a player reaches that says it.
 
 **Files.** src/director/who-they-are.ts, src/english/said-as.ts, data/english/said-as.json, src/director/said-person.ts, src/director/scene.ts, src/director/purpose-scene.ts, src/english/grounded-english.ts
