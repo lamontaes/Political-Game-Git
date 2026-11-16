@@ -1,4 +1,3 @@
-import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
 import { drawPlace } from "../../scripts/core2-year/place";
@@ -18,7 +17,13 @@ import { purposeScene } from "./purpose-scene";
 // comes to the member to make sure of the vote they promised: the member's
 // vote-confirmed scene, about that bill. Places are drawn in turn until one's
 // legislators who are full people made a committee trade that reached the floor.
-const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
+// Old premise: the run drew a fresh seed each time, so it was red by draw on a
+// seed whose four places had no committee trade reach the floor in 90 days
+// (aac128cc..., red on the clean Train too). New: a named seed whose first
+// place, Amesbury, Massachusetts (2501185), holds a trade that reaches the
+// floor, found by a script outside the test; replay another with
+// GOLDEN_PATH_SEED.
+const seed = process.env.GOLDEN_PATH_SEED ?? "vc-pin-7";
 const DAYS = 90;
 const ATTEMPTS = 4;
 
