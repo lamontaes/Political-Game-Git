@@ -259,7 +259,8 @@
     },
     "src/core2/household-balance-draw.ts#balanceDrawZ": {
       "made": "generation",
-      "what": "A household's savings against the survey median for a family like it"
+      "what": "A household's savings against the survey median for a family like it",
+      "replace": "Savings read from the household's record (pool item world-opening-savings-read-from-household-record)"
     },
     "src/core2/housing-construction.ts#phase": {
       "made": "ad-hoc-draw",
