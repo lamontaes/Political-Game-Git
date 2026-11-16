@@ -1,0 +1,39 @@
+{
+  "header": "The rules of the check-changes guard (scripts/guards/check-changes.mjs): what a pull request may not add to the checks that judge it. The guard reads this file from main, never from the pull request. A change it refuses needs a line on the crew issue, written by the CTO, that starts with the approval words and names the pull request by number.",
+  "crewIssue": 9747,
+  "approval": "^CTO:.*\\bapprov\\w*\\b.*#{number}\\b",
+  "testFiles": "(\\.test\\.[cm]?[jt]sx?$|\\.node-test\\.[cm]?[jt]s$)",
+  "counts": [
+    {
+      "id": "expected-failure",
+      "says": "an expected-failure, skip, only or todo mark",
+      "files": "(\\.test\\.[cm]?[jt]sx?$|\\.node-test\\.[cm]?[jt]s$)",
+      "pattern": "\\b(?:it|test|describe|bench|suite)(?:\\.concurrent|\\.sequential)?\\.(?:fails|skip|only|todo|skipIf|runIf)\\b|\\bx(?:it|describe|test)\\s*\\("
+    },
+    {
+      "id": "known-red-row",
+      "says": "a known-red row",
+      "files": "\\.(?:json|[cm]?[jt]sx?)$",
+      "pattern": "[\"']?knownRed[\"']?\\s*:\\s*[\"']"
+    },
+    {
+      "id": "failing-today-row",
+      "says": "a row in the played year's failing-today list",
+      "files": "played-world\\.node-test\\.ts$",
+      "pattern": "\\bowner:\\s*[\"']"
+    },
+    {
+      "id": "pinned-place-or-seed",
+      "says": "a test pinned to a named town or seed",
+      "files": "(\\.test\\.[cm]?[jt]sx?$|\\.node-test\\.[cm]?[jt]s$)",
+      "pattern": "\\bplaceKey:\\s*[\"'`]|[\"'`][0-9a-f]{64}[\"'`]|\\bkey:\\s*[\"'`](?:\\d{7}|territory:[A-Z]{2}:[a-z0-9-]+)[\"'`]|GOLDEN_PATH_(?:SEED|PLACE_KEY)\\s*=(?!=)"
+    }
+  ],
+  "baselines": "(^|/)[^/]*(?:baseline|ceiling)[^/]*\\.json$",
+  "baselineRoots": "^(tests/|scripts/|data/runtime-text/)",
+  "ownFiles": [
+    "scripts/guards/check-changes.mjs",
+    "tests/guards/check-changes.json",
+    ".github/workflows/checks-guard.yml"
+  ]
+}
