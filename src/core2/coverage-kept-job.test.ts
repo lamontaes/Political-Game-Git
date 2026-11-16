@@ -93,7 +93,7 @@ function keptJob(core: CoreState, personId: string, was: Holder): boolean {
   );
 }
 
-/** Policyholders whose premium went short at the last 1st (they lapse by the rule for any unpaid bill). */
+/** Policyholders whose last premium went short (they lapse at the next review by the rule for any unpaid bill). */
 function short(core: CoreState): Set<string> {
   const api = coreAPI(core);
   const table = api.moduleState(COVERAGE_MODULE_ID);

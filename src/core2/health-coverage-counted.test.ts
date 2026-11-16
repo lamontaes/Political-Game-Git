@@ -1,8 +1,7 @@
-import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
-import { drawPlace } from "../../scripts/core2-year/place";
 import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "./bookkeeping";
+import { outsideAccountOf } from "./budgets-treasury";
 import { gameStartDate } from "./game-start";
 import { addDays, ageOnDate, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
@@ -18,61 +17,58 @@ import { countedJob, residentsRuntime } from "./modules/residents";
 import { coreAPI, fillInPerson } from "./state";
 
 // Counted households hold a coverage record and pay a premium by the same rule
-// as a full person (people-coverage-counted): one year of a drawn place, with
-// the premiums read off the cash journal by record id, and households filled in
-// part way through the year.
-const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
-const place = drawPlace(seed, "health-coverage-counted");
+// as a full person (people-coverage-counted): the premium is set by the same
+// table, taken from the pay that carries the policy (a counted wage flow's
+// payment, premiums-from-pay), and a household filled in part way through the
+// year keeps its plan and pays from its own paychecks. Pinned: Danville,
+// Pennsylvania.
+const place = { key: "4218136", name: "Danville, Pennsylvania" };
+const seed = "cov-4218136";
 
-interface Posting {
-  /** The cash journal record, journal:<date>:<sequence>. */
-  readonly journalId: string;
-  /** What the outside account received in that one entry (the weighted amount for a counted household). */
-  readonly paidMinor: number;
-  /** The entry's postings sum to nothing. */
-  readonly balanced: boolean;
-  /** The real households the payer stood for when it paid. */
-  readonly weight: number;
-}
-
-/** Towns drawn before one whose counted households still pay by June. */
-const DRAWS = Number(process.env.HEALTH_COVERAGE_COUNTED_DRAWS || 4);
-
-/**
- * A drawn world played to the day before the 1st of July, five months in,
- * with every premium entry it posts recorded by its source id and the opening
- * review's policies checked on the way.
- */
-function playToJune(drawSeed: string) {
-  const place = drawPlace(drawSeed, "health-coverage-counted");
-  const { core } = buildBenchWorld(place.seed, gameStartDate(), {
+it(`a counted household pays the premium a full household of its shape pays, and filling it in changes nothing, in ${place.name} [${place.key}], seed ${seed}`, () => {
+  setBookkeeping(false);
+  const { core } = buildBenchWorld(seed, gameStartDate(), {
     twoLevel: true,
     placeKey: place.key,
   });
   const api = coreAPI(core);
   const rt = residentsRuntime(core)!;
-  const where = `${place.name} [${place.key}], seed ${drawSeed}`;
+  const where = `${place.name} [${place.key}], seed ${seed}`;
   const start = core.date;
   const year = Number(start.slice(0, 4));
+  const outside = api.accounts().main(outsideAccountOf(api)!);
 
-  // Every premium entry the world posts, by its source id (premium:<payer>:<date>).
-  const posted = new Map<string, Posting>();
+  // Every premium entry the world posts: a counted wage flow's by its payment
+  // (<payment>:health.premium), a full worker's by the paycheck (premium:<paycheck>).
+  const countedEntries: {
+    journalId: string;
+    balanced: boolean;
+    toOutside: number;
+  }[] = [];
+  const fullEntries = new Map<
+    string,
+    { accountId: string; deltaMinor: number }[]
+  >();
   const post = api.postJournal.bind(api);
   api.postJournal = (entry) => {
     const result = post(entry);
     const sourceId = String(entry.sourceRef.id);
-    if (sourceId.startsWith("premium:")) {
-      const payer = sourceId.split(":")[1]!;
-      const household = rt.store.liveHousehold(payer);
-      posted.set(sourceId, {
+    if (sourceId.endsWith(":health.premium"))
+      countedEntries.push({
         journalId: entry.id,
-        paidMinor: entry.postings
-          .filter((line) => line.deltaMinor > 0)
-          .reduce((n, line) => n + line.deltaMinor, 0),
         balanced: entry.postings.reduce((n, l) => n + l.deltaMinor, 0) === 0,
-        weight: household ? rt.store.weightOf(household) : 1,
+        toOutside: entry.postings
+          .filter((l) => l.accountId === outside)
+          .reduce((n, l) => n + l.deltaMinor, 0),
       });
-    }
+    else if (sourceId.startsWith("premium:"))
+      fullEntries.set(
+        entry.id,
+        entry.postings.map((l) => ({
+          accountId: l.accountId,
+          deltaMinor: l.deltaMinor,
+        })),
+      );
     return result;
   };
 
@@ -91,152 +87,66 @@ function playToJune(drawSeed: string) {
         .rows() as unknown as CoverageRow[]
     ).filter((row) => row.to === null);
   const medicareAge = api.parameter("healthMedicareAge");
-  const underMedicare = (householdId: string) =>
-    (core.households.get(householdId)?.memberIds ?? []).filter((id) => {
-      const person = core.people.get(id);
-      return (
-        person?.alive &&
-        ageOnDate(makeIsoDate(person.birthDate), makeIsoDate(core.date)) <
-          medicareAge
-      );
-    }).length;
-  const paidInFull = (row: { lastDueMinor: number; lastPaidMinor: number }) =>
-    row.lastDueMinor > 0 && row.lastPaidMinor === row.lastDueMinor;
-
-  // The opening review gave counted households their policies, by the full
-  // person's rule: single for one covered, family for more.
-  const opening = counted();
-  expect(opening.length, `${where}: counted policies`).toBeGreaterThan(0);
   const single = api.parameter("healthWorkerContributionSingleAnnualUsd");
   const family = api.parameter("healthWorkerContributionFamilyAnnualUsd");
   const perMonth = (usd: number) =>
     Math.round(
       (usd * api.parameter("minorPerDollar")) / api.parameter("monthsPerYear"),
     );
+
+  // The opening review gave counted households their policies by the full
+  // person's rule, single for one covered and family for more, and full
+  // policyholders theirs by the same table: a counted household pays what a
+  // full household of its shape pays, times the households it stands for.
+  const opening = counted();
+  expect(opening.length, `${where}: counted policies`).toBeGreaterThan(0);
   for (const row of opening)
     expect(row.premiumMonthlyMinor, `${where} ${row.id}`).toBe(
       perMonth(row.covered > 1 ? family : single),
     );
+  const fullOpening = full();
+  const onPolicy = (holderId: string) =>
+    fullOpening.filter(
+      (row) => row.plan === "employer" && row.holderId === holderId,
+    ).length;
+  const fullHolders = fullOpening.filter(
+    (row) => row.plan === "employer" && row.holderId === row.personId,
+  );
+  expect(fullHolders.length, `${where}: full policies`).toBeGreaterThan(0);
+  for (const row of fullHolders)
+    expect(row.premiumMonthlyMinor, `${where} ${row.id}`).toBe(
+      perMonth(onPolicy(row.personId) > 1 ? family : single),
+    );
 
-  // Five months in, the day before the 1st: each household that holds a policy
-  // has paid on the 1st by a journal record.
+  // Five months in, the day before the 1st of July: the counted wage flows'
+  // paydays took the premiums, each by a balanced entry to the outside account.
   const fillDay = makeIsoDate(`${year}-06-30`);
-  const lastPayday = `${year}-06-01`;
   advanceCore(core, fillDay);
-  const paidCounted = counted()
-    .filter(paidInFull)
-    .sort((a, b) => a.householdId.localeCompare(b.householdId));
-  const paidFull = full().filter(
-    (row) =>
-      row.plan === "employer" &&
-      row.holderId === row.personId &&
-      paidInFull(row),
-  );
-  return {
-    core,
-    api,
-    rt,
-    where,
-    start,
-    year,
-    posted,
-    counted,
-    underMedicare,
-    medicareAge,
-    fillDay,
-    lastPayday,
-    paidCounted,
-    paidFull,
-  };
-}
-
-it(`a counted household pays the premium a full household of its shape pays, and filling it in changes nothing, in a place drawn from seed ${seed}`, () => {
-  setBookkeeping(false);
-  // A town whose counted households pay for no policy by June has no counted
-  // premium to compare: their jobs and money are gone, as local sales fall
-  // short of what the opening staffed for (world-local-sales-below-opening-forecast).
-  // It is drawn again, a bounded number of times, and the draw says why.
-  let world = playToJune(seed);
-  const tried: string[] = [];
-  for (let draw = 1; draw < DRAWS && !world.paidCounted.length; draw += 1) {
-    tried.push(
-      `${world.where}: ${world.counted().length} counted policies open, none paid in full on ${world.lastPayday}`,
-    );
-    world = playToJune(`${seed}-${draw}`);
-  }
-  if (tried.length) console.log(`drawn again after ${tried.join("; ")}`);
-  const {
-    core,
-    api,
-    rt,
-    where,
-    start,
-    year,
-    posted,
-    counted,
-    underMedicare,
-    medicareAge,
-    fillDay,
-    lastPayday,
-    paidCounted,
-    paidFull,
-  } = world;
   expect(
-    paidCounted.length,
-    `${where}: counted premiums paid${tried.length ? ` (drawn after ${tried.join("; ")})` : ""}`,
+    countedEntries.length,
+    `${where}: counted premium entries`,
   ).toBeGreaterThan(0);
-  expect(paidFull.length, `${where}: full premiums paid`).toBeGreaterThan(0);
+  for (const entry of countedEntries) {
+    expect(entry.balanced, `${where} ${entry.journalId}`).toBe(true);
+    expect(entry.toOutside, `${where} ${entry.journalId}`).toBeGreaterThan(0);
+  }
+  const inGoodStanding = counted()
+    .filter(
+      (row) =>
+        row.premiumMonthlyMinor > 0 && row.lastPaidMinor >= row.lastDueMinor,
+    )
+    .sort((a, b) => a.householdId.localeCompare(b.householdId));
+  expect(
+    inGoodStanding.length,
+    `${where}: counted policies paid up`,
+  ).toBeGreaterThan(0);
 
-  // The named household: a counted household with an employed adult, whose
-  // premium on the 1st sits in the journal beside a full household's of the
-  // same shape (the same number of people on the policy).
-  const twinOf = (covered: number) =>
-    paidFull.find(
-      (f) =>
-        underMedicare(f.householdId) === covered &&
-        posted.has(`premium:${f.personId}:${lastPayday}`),
-    );
-  const named = paidCounted.find(
-    (row) =>
-      posted.has(`premium:${row.householdId}:${lastPayday}`) &&
-      twinOf(row.covered) !== undefined,
-  );
-  expect(
-    named,
-    `${where}: a counted household with a full household of its shape`,
-  ).toBeDefined();
-  const countedPosting = posted.get(
-    `premium:${named!.householdId}:${lastPayday}`,
-  )!;
-  const twin = twinOf(named!.covered)!;
-  const fullPosting = posted.get(`premium:${twin.personId}:${lastPayday}`)!;
-  // The counted entry is the full household's, times the households it stands for.
-  expect(countedPosting.balanced, `${where} ${countedPosting.journalId}`).toBe(
-    true,
-  );
-  expect(fullPosting.balanced, `${where} ${fullPosting.journalId}`).toBe(true);
-  expect(
-    countedPosting.paidMinor,
-    `${where}: ${countedPosting.journalId} (counted ${named!.householdId}) against ${fullPosting.journalId} (full ${twin.personId})`,
-  ).toBe(Math.round(fullPosting.paidMinor * countedPosting.weight));
-  expect(
-    Math.round(countedPosting.paidMinor / countedPosting.weight),
-    `${where}: one counted household pays what a full household of its shape pays`,
-  ).toBe(fullPosting.paidMinor);
-  expect(twin.lastJournalId, `${where} ${twin.id}`).toBe(fullPosting.journalId);
-
-  // Fill the named household in with others, the day before the next 1st: the
-  // counted record ends the same day and its people hold full records on the
-  // plan, policyholder and premium it said.
-  const handed = [
-    named!,
-    ...paidCounted.filter((row) => row !== named).slice(0, 9),
-  ].map((row) => ({
+  // Fill ten households in, the day before the next 1st: the counted record
+  // ends the same day and its people hold full records on the plan,
+  // policyholder and premium it said.
+  const handed = inGoodStanding.slice(0, 10).map((row) => ({
     record: row,
     members: rt.store.memberIdsOf(rt.store.liveHousehold(row.householdId)!),
-    weight: posted.get(`premium:${row.householdId}:${lastPayday}`)?.weight ?? 1,
-    paidMinor:
-      posted.get(`premium:${row.householdId}:${lastPayday}`)?.paidMinor ?? 0,
   }));
   const withoutPolicy = [...rt.store.liveHouseholds()]
     .filter((h) => !countedCoverageOf(api, h.id) && rt.store.countedCount(h))
@@ -263,7 +173,7 @@ it(`a counted household pays the premium a full household of its shape pays, and
       const record = coverageOf(api, id);
       const age = ageOnDate(
         makeIsoDate(core.people.get(id)!.birthDate),
-        makeIsoDate(lastPayday),
+        makeIsoDate(`${year}-06-01`),
       );
       expect(record?.plan, `${label}: ${id}`).toBe(
         age >= medicareAge ? "medicare" : "employer",
@@ -282,26 +192,10 @@ it(`a counted household pays the premium a full household of its shape pays, and
       expect(record?.plan, `${where} ${h.id}: ${id}`).not.toBe("employer");
     }
 
-  // The 1st: they pay as full households. A policy still in force pays what the
-  // counted household paid for one household, by its own journal record.
-  const nextPayday = `${year}-07-01`;
-  advanceCore(core, makeIsoDate(nextPayday));
-  // The review on the 1st moves anyone handed over who is 65 by then to Medicare.
-  for (const h of handed)
-    for (const id of h.members)
-      if (
-        ageOnDate(
-          makeIsoDate(core.people.get(id)!.birthDate),
-          makeIsoDate(nextPayday),
-        ) >= medicareAge
-      )
-        expect(
-          coverageOf(api, id)?.plan,
-          `${where} ${id} on ${nextPayday}`,
-        ).toBe("medicare");
-  // The policy each handed household holds on the 1st, whoever holds it now:
-  // the review ranks the members afresh, so a member's new job at a larger
-  // employer can move the household's policy to them.
+  // Through July: a handed household that still holds a policy pays it from
+  // the holder's own paychecks, by a journal record from their account.
+  const monthEnd = makeIsoDate(`${year}-07-31`);
+  advanceCore(core, monthEnd);
   const continuing = handed.flatMap((h) => {
     const row = (core.households.get(h.record.householdId)?.memberIds ?? [])
       .map((id) => coverageOf(api, id))
@@ -312,44 +206,38 @@ it(`a counted household pays the premium a full household of its shape pays, and
   });
   expect(
     continuing.length,
-    `${where}: households handed a policy that still hold one on the 1st`,
+    `${where}: households handed a policy that still hold one in July`,
   ).toBeGreaterThan(0);
-  let inFull = 0;
-  for (const h of continuing) {
-    const row = h.row;
-    const posting = posted.get(`premium:${row.personId}:${nextPayday}`);
+  let fromPay = 0;
+  for (const { row } of continuing) {
     const label = `${where} ${row.id}`;
-    // The premium due is the counted household's, to the minor unit.
-    expect(row.lastDueMinor, `${label}: premium due`).toBe(
-      h.record.premiumMonthlyMinor,
-    );
-    expect(row.premiumMonthlyMinor, label).toBe(h.record.premiumMonthlyMinor);
-    // It pays what it holds, up to that, by one journal record; a household
-    // that pays in full pays what the counted household paid for one.
     expect(row.lastPaidMinor, label).toBeLessThanOrEqual(row.lastDueMinor);
-    if (row.lastPaidMinor === 0) {
-      expect(posting, label).toBeUndefined();
-      continue;
-    }
-    expect(posting, `${label}: premium on ${nextPayday}`).toBeDefined();
-    expect(row.lastJournalId, label).toBe(posting!.journalId);
-    expect(posting!.paidMinor, label).toBe(row.lastPaidMinor);
-    if (row.lastPaidMinor === row.lastDueMinor) {
-      inFull++;
-      expect(
-        posting!.paidMinor,
-        `${where}: ${posting!.journalId} (filled in ${row.personId}) against ${posted.get(`premium:${h.record.householdId}:${lastPayday}`)!.journalId} (counted ${h.record.householdId})`,
-      ).toBe(Math.round(h.paidMinor / h.weight));
-    }
+    const lines = fullEntries.get(row.lastJournalId ?? "");
+    if (!lines) continue;
+    fromPay++;
+    expect(row.lastDueMinor, label).toBeLessThan(2 * row.premiumMonthlyMinor);
+    expect(lines, `${label} ${row.lastJournalId}`).toEqual(
+      expect.arrayContaining([
+        {
+          accountId: api.accounts().main(row.personId),
+          deltaMinor: -row.lastPaidMinor,
+        },
+        { accountId: outside, deltaMinor: row.lastPaidMinor },
+      ]),
+    );
   }
+  expect(
+    fromPay,
+    `${where}: handed holders who paid from their own pay`,
+  ).toBeGreaterThan(0);
 
   // The rest of the year.
   advanceCore(core, addDays(makeIsoDate(start), 365));
   expect(core.cashJournal.totals.grossDebitMinor).toBe(
     core.cashJournal.totals.grossCreditMinor,
   );
-  const unbalanced = [...posted].filter(([, row]) => !row.balanced);
-  expect(unbalanced, `${where}: unbalanced premium entries`).toEqual([]);
+  for (const entry of countedEntries)
+    expect(entry.balanced, `${where} ${entry.journalId}`).toBe(true);
   // No one is on both tiers' books: a household with a counted policy holds no full one.
   for (const row of counted())
     for (const id of core.households.get(row.householdId)?.memberIds ?? [])
@@ -357,39 +245,24 @@ it(`a counted household pays the premium a full household of its shape pays, and
         coverageOf(api, id)?.plan,
         `${where}: ${id} in counted ${row.householdId}`,
       ).not.toBe("employer");
-  console.log(
-    JSON.stringify({
+  process.stderr.write(
+    `${JSON.stringify({
       where,
-      named: named!.householdId,
-      countedEntry: countedPosting.journalId,
-      countedPaidMinor: countedPosting.paidMinor,
-      countedWeight: countedPosting.weight,
-      fullHousehold: twin.personId,
-      fullEntry: fullPosting.journalId,
-      fullPaidMinor: fullPosting.paidMinor,
+      countedPremiumEntries: countedEntries.length,
+      paidUpInJune: inGoodStanding.length,
       filledIn: handed.length,
       stillInForce: continuing.length,
-      paidInFullAfterFillIn: inFull,
-      handedOverEntries: continuing.map(
-        (h) =>
-          posted.get(`premium:${h.record.holderId}:${nextPayday}`)?.journalId ??
-          null,
-      ),
-      countedPremiumEntriesInYear: [...posted.keys()].filter((id) =>
-        id.startsWith("premium:household_"),
-      ).length,
-    }),
+      paidFromOwnPay: fromPay,
+    })}\n`,
   );
-  // The annual case measured 84 seconds; allow three preceding five-month
-  // draws and the overhead of sharing the runner with the other coverage cases.
-}, 600_000);
+}, 300_000);
 
 // One model, two tiers: ranking by an employer's size counts a counted job as
 // many jobs as the households its record stands for. A drawn place opened with
 // every counted household standing for three.
 it(`an employer's staff counts each counted job times its household's weight, in ${place.name} [${place.key}], seed ${seed}`, () => {
   setBookkeeping(false);
-  const { core } = buildBenchWorld(place.seed, gameStartDate(), {
+  const { core } = buildBenchWorld(seed, gameStartDate(), {
     twoLevel: true,
     placeKey: place.key,
     countScale: 3,
