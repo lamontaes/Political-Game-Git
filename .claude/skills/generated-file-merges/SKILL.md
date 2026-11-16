@@ -20,6 +20,7 @@ Some files are written by a command from other files. Two branches that each ran
 **Never resolve a generated file by hand. Take either side, then run the command that writes it.**
 
 1. `git merge origin/dev` (a plain merge; never rebase, never force-push).
+   Never merge `main` into a branch: it holds the game without tests, and merging it deletes them; merge `dev`. A guard (`scripts/promote/no-promote-in-history.mjs`) fails a branch that has it.
 2. For each conflicted generated file: `git checkout --theirs <file>` (dev's copy), so the tree is whole.
 3. Resolve the real conflicts in the inputs, if any (see "Keyed files" below).
 4. Run the writer, twice. The second run must change no file; if it does, the writer is not stable and that is a defect to report.

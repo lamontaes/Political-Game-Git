@@ -59,6 +59,13 @@ jobs:
           node-version: 22.13.0
           cache: npm
 
+      # main holds the game without test files; a branch with main merged into
+      # it would delete tests. Dependency-free, so it runs before the install.
+      # The checkout above is fetch-depth 0, so origin/dev and every commit
+      # between it and the head are present for the range origin/dev..HEAD.
+      - name: Refuse a branch that has main merged into it
+        run: node scripts/promote/no-promote-in-history.mjs --work origin/dev
+
       - name: Install deterministic dependencies
         run: npm ci
 
