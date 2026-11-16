@@ -2,7 +2,7 @@
 id: dev-journal-line-shows-the-records-it-was-written-from
 title: "Dev mode cannot show which records wrote a Journal line or why a chapter opened"
 area: words
-kind: gap
+kind: wiring
 priority: 2
 size: M
 status: open
