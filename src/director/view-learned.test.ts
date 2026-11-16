@@ -1,6 +1,6 @@
 /**
  * Where a person stands politically, as the player learns it (the person's
- * card says "You don't know where they stand yet." until a talk or a story
+ * card says "You don't know where he stands yet." (she, they) until a talk or a story
  * teaches it). In places drawn from all 56:
  *
  * - someone close to the player who follows politics and carries a talk on
@@ -147,7 +147,9 @@ it(`a close, outgoing person says where they stand and the card learns it; a str
       const before = knownCard(core, me, id);
       if (!before.viewUnknown) continue;
       expect(viewLine(before), where).toBe(
-        "You don't know where they stand yet.",
+        before.pronouns
+          ? `You don't know where ${before.pronouns.lower} stands yet.`
+          : "You don't know where they stand yet.",
       );
       expect(api.knows(me, viewKey(id)), where).toBeUndefined();
       // The question their stand is on, read before they say it: the
