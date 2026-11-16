@@ -18,6 +18,7 @@ import { OFFICES_MODULE_ID } from "../core2/modules/offices";
 import { residentsRuntime } from "../core2/modules/residents";
 import { fullLifeStake } from "../core2/modules/views";
 import { raceById, VOTING_MODULE_ID } from "../core2/modules/voting";
+import { ELECTIONS_MODULE_ID } from "../core2/modules/elections";
 
 // The counted people's store and household, named through the residents entry
 // rather than their own file; the accounts module's id as the budgets family
@@ -811,6 +812,38 @@ function reverseLinks(
         kind: "record",
         via: "core2-offices-v1.terms.seatId",
       });
+  // A seat: every contest for it, each of which says why it is dated when it
+  // is (a held-over seat's names the race no one won).
+  if (found.kind === "seats" && core.modules.has(ELECTIONS_MODULE_ID))
+    for (const contest of coreAPI(core)
+      .moduleState(ELECTIONS_MODULE_ID)
+      .table("contests")
+      .query("bySeat", [id]))
+      out.push({
+        id: String(contest.id),
+        kind: "record",
+        via: `${ELECTIONS_MODULE_ID}.contests.seatId`,
+        effect: true,
+      });
+  // A contest: its count, and when no one won, the empty race and the state's
+  // rule for it (the holder serving on, or the seat left vacant).
+  if (
+    found.engine === `${ELECTIONS_MODULE_ID}.contests` &&
+    core.modules.has(VOTING_MODULE_ID)
+  ) {
+    const voting = coreAPI(core).moduleState(VOTING_MODULE_ID);
+    for (const [table, kept] of [
+      ["results", `result:${id}`],
+      ["emptyRaces", `empty:${id}`],
+    ] as const)
+      if (voting.table(table).get(kept))
+        out.push({
+          id: kept,
+          kind: "record",
+          via: `${VOTING_MODULE_ID}.${table}`,
+          effect: true,
+        });
+  }
   // A bill: each member's vote with its reasons, and the provisions' laws.
   if (found.engine === `${LEGISLATURE_MODULE_ID}.bills`) {
     for (const vote of votesOn(coreAPI(core), id))
