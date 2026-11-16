@@ -354,6 +354,8 @@ export interface AskStanding {
   favor: number;
   /** They ask the player one thing before they answer (`asks.first`). */
   asksFirst?: boolean;
+  /** They would say no but no reason of theirs has a line: they stall first, then say the answer is given. */
+  noReason?: boolean;
   /** Their position were the player to leave their own stance unsaid. */
   hedged?: number;
   /**
@@ -1153,7 +1155,11 @@ export function composeSceneTalk(
             ? [ask.absent ?? ask.relent[zero]!]
             : ask.relent;
     const first = theirs(
-      standing.lean > zero ? [ask.yes] : carried ? [ask.carried] : [ask.no],
+      standing.lean > zero
+        ? [ask.yes]
+        : carried || standing.noReason
+          ? [ask.carried]
+          : [ask.no],
       request,
       "first",
       said,

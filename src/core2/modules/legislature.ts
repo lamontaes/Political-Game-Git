@@ -664,7 +664,13 @@ function reopenHeldBill(
   move: string,
   sign: number,
 ): void {
-  if (event.facts?.typeKey !== "bill-held-chair" || sign < 0) return;
+  if (
+    !["bill-held-chair", "hold-chair-sought"].includes(
+      String(event.facts?.typeKey),
+    ) ||
+    sign < 0
+  )
+    return;
   const held = table(api, "committees").get(causeId) as unknown as
     CommitteeRecord | undefined;
   if (!held || held.heard || !event.personIds.includes(held.chairId)) return;
@@ -688,6 +694,20 @@ function reopenHeldBill(
     side: 1,
     date: event.date,
   } satisfies ReplyRow as unknown as ModuleRow);
+  // A hearing the chair gave after a plea is a favor, owed like any yes the plea
+  // carried (`keepReply`); one they gave on their own stand is owed nothing.
+  if (event.facts?.asked === "plea")
+    table(api, "obligations").put({
+      id: `obligation:${bill.id}:${held.chairId}:hearing`,
+      owedBy: bill.sponsorId,
+      owedTo: held.chairId,
+      kind: "favor",
+      billId: bill.id,
+      measure: bill.number,
+      date: event.date,
+      settled: false,
+      replyId: event.id,
+    } as unknown as ModuleRow);
   table(api, "bills").put({
     ...bill,
     status: "drafted",
@@ -5289,9 +5309,8 @@ function committeeStage(
     hearingTrait,
     cosponsorPull,
   } = chairHears(api, bill, chamber);
-  // The chair's reasons are kept on the committee record; no scene or story
-  // reads them yet. stopgapId: SG-LAW-held-bill-chair-reasons-unread
-  api.stopgap("SG-LAW-held-bill-chair-reasons-unread");
+  // The chair's reasons are kept on the committee record; the sponsor's ask of
+  // the chair (`hold-chair-sought`) reads them.
   const witnesses: HearingWitness[] = [];
   if (heard) {
     const wage = bill.provisions.find((p) => p.series === "minimum-wage");
@@ -5419,7 +5438,10 @@ function committeeStage(
       // The people the record names: the committee's members and chair (its
       // roll call), the bill's sponsor (a held bill is theirs to take up with
       // the chair), then the witnesses it heard.
+      // The chair is named first: it is the one a held bill's sponsor asks (the
+      // scene casts "the first person the cause names").
       ...new Set([
+        record.chairId,
         ...record.memberIds,
         bill.sponsorId,
         ...witnesses.map((w) => w.personId),
@@ -5442,6 +5464,9 @@ function committeeStage(
       level: billReach(api, bill).level,
       committee: record.committee,
       chair: record.chairId,
+      // Whether this is the bill's first chamber: only there can the chair's yes reopen the
+      // hearing (`reopenHeldBill`), so only there is the sponsor's ask offered.
+      firstChamber: chamber === chambersOf(api, bill)[0] ? "yes" : "no",
       yes: String(yes),
       no: String(no),
       // Who testified, in order, with each one's side and what the bill reaches in their life (a

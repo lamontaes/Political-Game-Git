@@ -48,6 +48,8 @@ import {
   selectResidents,
   forgetTownFacts,
   townFacts,
+  placesFacts,
+  townStatePlaces,
   type PeopleSelector,
   type ResidentFacts,
   type TownFacts,
@@ -361,7 +363,9 @@ function medicaidCovered(
   // The requirement is read here, where coverage is decided: each adult it
   // ends coverage for is recorded against it, and no longer against the
   // expansion that covered them.
-  let endedCounted = 0;
+  // Counted adults it ends coverage for, by the place they live in.
+  const endedCounted = new Map<string, number>();
+  const town = lawChain(api).townPlaceId;
   for (const r of covered) {
     if (!ended.has(r.id)) continue;
     if (r.named) {
@@ -373,17 +377,24 @@ function medicaidCovered(
         target: "person",
         what: "medicaid-coverage-ended",
       });
-    } else endedCounted += (r.weight ?? 1) * (r.scale ?? 1);
+    } else {
+      const placeId = r.placeId ?? town;
+      endedCounted.set(
+        placeId,
+        (endedCounted.get(placeId) ?? 0) + (r.weight ?? 1) * (r.scale ?? 1),
+      );
+    }
   }
-  if (endedCounted > 0)
-    recordApplied(api, {
-      key: MEDICAID_WORK,
-      lawId: workRow.id,
-      targetId: `${lawChain(api).townPlaceId}:medicaid-adults-over-work-rule`,
-      target: "group",
-      what: "medicaid-coverage-ended",
-      count: Math.round(endedCounted),
-    });
+  for (const [placeId, count] of endedCounted)
+    if (count > 0)
+      recordApplied(api, {
+        key: MEDICAID_WORK,
+        lawId: workRow.id,
+        targetId: `${placeId}:medicaid-adults-over-work-rule`,
+        target: "group",
+        what: "medicaid-coverage-ended",
+        count: Math.round(count),
+      });
   return {
     covered: covered.filter((r) => !ended.has(r.id)),
     ended: {
@@ -618,8 +629,15 @@ function runPolicy(
       return;
     }
     case "medicaid-coverage": {
+      // The state's expansion covers its adults wherever the world keeps
+      // their households and the clinic bills them: the town and the places
+      // around it in the same state (law-medicaid-record-keeps-only-the-towns-own-jurisdiction).
+      const billed = placesFacts(
+        api,
+        townStatePlaces(api, chain.townPlaceId, chain.stateKey),
+      );
       const who: ReturnType<typeof medicaidCovered> = inForce
-        ? medicaidCovered(api, facts, chain.stateKey)
+        ? medicaidCovered(api, billed, chain.stateKey)
         : { covered: [] };
       const paid = recordCoverage(api, {
         key,
@@ -639,11 +657,11 @@ function runPolicy(
               organizations: def.organizations,
               terms,
               personTerms: paid.named,
-              selected: facts.residents.filter(
+              selected: billed.residents.filter(
                 (r) => r.named && paid.named.has(r.id),
               ),
               counted: paid.counted,
-              countedOf: facts.residents
+              countedOf: billed.residents
                 .filter((r) => !r.named)
                 .reduce((n, r) => n + (r.scale ?? 1), 0),
             })
