@@ -28,7 +28,7 @@ source: Account lead walk at Lisbon, Nov 16, 2026 (Feb 3 to Mar 26 played in the
 
 **Rules.** An effect is a read, not a record (`standing-rules-self-check`): the dev-mode view reads the same records the screens read. One engine per mechanic: no second tracker.
 
-**Done when.** A second session plays a drawn place (Lisbon ND, `drawPlace("jpr-pin:15", "journal-player-race:15")`) on main from the filing to the petition's target and reads, on the Knock card, why doors collect signatures and when they turn to the vote.
+**Done when.** A second session plays a drawn place (Lisbon ND, `drawPlace("jpr-pin:15", "journal-player-race:0")`) on main from the filing to the petition's target and reads, on the Knock card, why doors collect signatures and when they turn to the vote.
 
 **Waits on.** Nothing.
 
