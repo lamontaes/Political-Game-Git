@@ -149,8 +149,9 @@ export class NoPlayerHereError extends Error {
   ) {
     // A developer's message, written as an Error's so the line register
     // (scripts/words/line-register.ts) reads it as one and not as a game line.
-    // The new-game screen shows it raw only until the new-game draw passes such
-    // a place over (pool item world-opening-no-player-where-everyone-lives-in-group-quarters).
+    // A new game's draw passes such a place over (`passOver`), so a player
+    // never meets it; a place asked for by key throws it to its test or dev
+    // caller.
     super(
       (adultsInQuarters
         ? new Error(
