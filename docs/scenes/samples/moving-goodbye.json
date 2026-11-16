@@ -1,0 +1,482 @@
+{
+  "schema": "scene-sample/1",
+  "head": "c3646d66348ed28139da0e43e3999d00cc7c200d",
+  "scene": {
+    "typeKey": "moving-goodbye",
+    "purpose": "moving-goodbye",
+    "title": "Moving goodbye"
+  },
+  "world": {
+    "place": "Sumatra, Florida",
+    "placeKey": "1269025",
+    "seed": "story-batch-2",
+    "date": "2025-04-17"
+  },
+  "player": {
+    "name": "Haris Michael",
+    "standing": "a resident of Sumatra, Florida, not in office"
+  },
+  "cause": {
+    "id": "person.moved-away:person_b92c954e18a4ba91:2025-04-16",
+    "label": "circumstance:moved-away-farewell"
+  },
+  "cast": [
+    {
+      "role": "asker",
+      "id": "person_b92c954e18a4ba91",
+      "name": "Eva Michael"
+    },
+    {
+      "role": "asked",
+      "id": "person_5c1598b9ffd6149a",
+      "name": "Haris Michael"
+    }
+  ],
+  "opening": [
+    {
+      "n": 1,
+      "speaker": "Narrator",
+      "role": "narrator",
+      "text": "Eva has come by one last time before going.",
+      "move": "narrate",
+      "pieces": [
+        "scene-talk.narrate-narrate.name-has-come-by-one-last-time-before-going"
+      ],
+      "wordings": [
+        {
+          "key": "scene-talk.narrate-narrate.name-is-moving-away-and-has-come-to-say-goodbye-in-person",
+          "text": "{name} is moving away, and has come to say goodbye in person."
+        },
+        {
+          "key": "scene-talk.narrate-narrate.name-is-leaving-town-and-wanted-to-say-it-face-to-face",
+          "text": "{name} is leaving town and wanted to say it face to face."
+        }
+      ],
+      "asks": false
+    }
+  ],
+  "ask": {
+    "n": 2,
+    "speaker": "Eva Michael",
+    "role": "asker",
+    "text": "There's no keeping the place, so I'm going to another part of Florida. I'm not proud of it, but I'm telling you myself.",
+    "move": "tell",
+    "pieces": [
+      "scene-talk.state-tell.there-s-no-keeping-the-place-so-i-m-going-to-destination-i-m-not-proud"
+    ],
+    "wordings": [
+      {
+        "key": "scene-talk.state-tell.after-losing-the-place-i-m-going-to-destination-i-didn-t-want-to-leave",
+        "text": "After losing the place, I'm going to {destination}. I didn't want to leave without telling you."
+      },
+      {
+        "key": "scene-talk.state-tell.i-lost-the-apartment-i-m-going-to-destination-and-i-wanted-to-say-good",
+        "text": "I lost the apartment. I'm going to {destination}, and I wanted to say goodbye first."
+      }
+    ],
+    "asks": false
+  },
+  "tree": {
+    "lines": [],
+    "replies": [
+      {
+        "line": {
+          "n": 3,
+          "speaker": "You",
+          "role": "player",
+          "text": "Go. You've earned a fresh start, and I'm glad for you.",
+          "move": "comfort",
+          "pieces": [
+            "scene-talk.reply-comfort.go-you-ve-earned-a-fresh-start-and-i-m-glad-for-you"
+          ],
+          "wordings": [
+            {
+              "key": "scene-talk.reply-comfort.it-s-not-going-to-be-the-same-around-here-without-you",
+              "text": "It's not going to be the same around here without you."
+            },
+            {
+              "key": "scene-talk.reply-comfort.i-ll-miss-you-i-m-not-going-to-pretend-i-won-t",
+              "text": "I'll miss you. I'm not going to pretend I won't."
+            },
+            {
+              "key": "scene-talk.reply-comfort.you-ll-do-fine-people-like-you-land-on-their-feet",
+              "text": "You'll do fine. People like you land on their feet."
+            },
+            {
+              "key": "scene-talk.reply-comfort.who-am-i-going-to-argue-with-now",
+              "text": "Who am I going to argue with now?"
+            }
+          ],
+          "asks": false
+        },
+        "leadsTo": {
+          "lines": [
+            {
+              "n": 7,
+              "speaker": "Eva Michael",
+              "role": "asker",
+              "text": "I'll miss it here more than I thought I would.",
+              "move": "accept",
+              "pieces": [
+                "scene-talk.follow-accept.i-ll-miss-it-here-more-than-i-thought-i-would"
+              ],
+              "wordings": [
+                {
+                  "key": "scene-talk.follow-accept.thank-you-it-s-harder-to-go-than-i-let-on",
+                  "text": "Thank you. It's harder to go than I let on."
+                },
+                {
+                  "key": "scene-talk.follow-accept.that-means-a-lot-first",
+                  "text": "That means a lot."
+                }
+              ],
+              "asks": false
+            }
+          ],
+          "replies": [],
+          "end": {
+            "outcome": "resolved",
+            "ending": {
+              "id": "said-goodbye",
+              "label": "You said goodbye",
+              "keeps": "none"
+            }
+          }
+        }
+      },
+      {
+        "line": {
+          "n": 4,
+          "speaker": "You",
+          "role": "player",
+          "text": "Can I ask what made you decide?",
+          "move": "ask",
+          "pieces": [
+            "scene-talk.reply-ask.can-i-ask-what-made-you-decide"
+          ],
+          "wordings": [
+            {
+              "key": "scene-talk.reply-ask.why-now-what-changed",
+              "text": "Why now? What changed?"
+            },
+            {
+              "key": "scene-talk.reply-ask.what-s-pulling-you-away",
+              "text": "What's pulling you away?"
+            },
+            {
+              "key": "scene-talk.reply-ask.was-it-something-here-or-something-there",
+              "text": "Was it something here, or something there?"
+            }
+          ],
+          "asks": true
+        },
+        "leadsTo": {
+          "lines": [
+            {
+              "n": 8,
+              "speaker": "Eva Michael",
+              "role": "asker",
+              "text": "After the eviction there was nothing to hold on to here.",
+              "move": "answer",
+              "pieces": [
+                "scene-talk.follow-answer.after-the-eviction-there-was-nothing-to-hold-on-to-here"
+              ],
+              "wordings": [
+                {
+                  "key": "scene-talk.follow-answer.i-lost-the-place-and-i-couldn-t-find-another-i-could-afford-i-m-not-pr",
+                  "text": "I lost the place, and I couldn't find another I could afford. I'm not proud of it."
+                },
+                {
+                  "key": "scene-talk.follow-answer.i-can-t-start-over-where-everybody-knows-how-it-ended-i-need-somewhere",
+                  "text": "I can't start over where everybody knows how it ended. I need somewhere new."
+                }
+              ],
+              "asks": false
+            }
+          ],
+          "replies": [
+            {
+              "line": {
+                "n": 9,
+                "speaker": "You",
+                "role": "player",
+                "text": "Whatever the reason, I'm on your side.",
+                "move": "comfort",
+                "pieces": [
+                  "scene-talk.reply-comfort.whatever-the-reason-i-m-on-your-side"
+                ],
+                "wordings": [
+                  {
+                    "key": "scene-talk.reply-comfort.that-makes-sense-i-d-have-done-the-same",
+                    "text": "That makes sense. I'd have done the same."
+                  }
+                ],
+                "asks": false
+              },
+              "leadsTo": {
+                "lines": [
+                  {
+                    "n": 12,
+                    "speaker": "Eva Michael",
+                    "role": "asker",
+                    "text": "I'll miss it here more than I thought I would.",
+                    "move": "accept",
+                    "pieces": [
+                      "scene-talk.follow-accept.i-ll-miss-it-here-more-than-i-thought-i-would"
+                    ],
+                    "wordings": [
+                      {
+                        "key": "scene-talk.follow-accept.thank-you-it-s-harder-to-go-than-i-let-on",
+                        "text": "Thank you. It's harder to go than I let on."
+                      },
+                      {
+                        "key": "scene-talk.follow-accept.that-means-a-lot-first",
+                        "text": "That means a lot."
+                      }
+                    ],
+                    "asks": false
+                  }
+                ],
+                "replies": [],
+                "end": {
+                  "outcome": "resolved",
+                  "ending": {
+                    "id": "said-goodbye",
+                    "label": "You said goodbye",
+                    "keeps": "none"
+                  }
+                }
+              }
+            },
+            {
+              "line": {
+                "n": 10,
+                "speaker": "You",
+                "role": "player",
+                "text": "This isn't the end of anything. We'll keep in touch.",
+                "move": "promise",
+                "pieces": [
+                  "scene-talk.reply-promise.this-isn-t-the-end-of-anything-we-ll-keep-in-touch"
+                ],
+                "wordings": [
+                  {
+                    "key": "scene-talk.reply-promise.i-ll-come-see-you-wherever-it-is-i-ll-find-it",
+                    "text": "I'll come see you. Wherever it is, I'll find it."
+                  }
+                ],
+                "asks": false
+              },
+              "leadsTo": {
+                "lines": [
+                  {
+                    "n": 13,
+                    "speaker": "Eva Michael",
+                    "role": "asker",
+                    "text": "Good. I'd like that. I'll hold you to it.",
+                    "move": "thank",
+                    "pieces": [
+                      "scene-talk.follow-thank.good-i-d-like-that-i-ll-hold-you-to-it"
+                    ],
+                    "wordings": [
+                      {
+                        "key": "scene-talk.follow-thank.i-m-holding-you-to-that-you-know",
+                        "text": "I'm holding you to that, you know."
+                      },
+                      {
+                        "key": "scene-talk.follow-thank.that-was-all-i-was-hoping-to-hear",
+                        "text": "That was all I was hoping to hear."
+                      }
+                    ],
+                    "asks": false
+                  }
+                ],
+                "replies": [],
+                "end": {
+                  "outcome": "resolved",
+                  "ending": {
+                    "id": "promised-to-visit",
+                    "label": "You promised to keep in touch",
+                    "keeps": "promise"
+                  }
+                }
+              }
+            },
+            {
+              "line": {
+                "n": 11,
+                "speaker": "You",
+                "role": "player",
+                "text": "Thanks for everything. I mean it.",
+                "move": "thank",
+                "pieces": [
+                  "scene-talk.reply-thank.thanks-for-everything-i-mean-it"
+                ],
+                "wordings": [
+                  {
+                    "key": "scene-talk.reply-thank.i-m-glad-you-came-by-i-d-have-hated-to-hear-it-secondhand",
+                    "text": "I'm glad you came by. I'd have hated to hear it secondhand."
+                  }
+                ],
+                "asks": false
+              },
+              "leadsTo": {
+                "lines": [
+                  {
+                    "n": 14,
+                    "speaker": "Eva Michael",
+                    "role": "asker",
+                    "text": "Of course. You'd have done the same.",
+                    "move": "accept",
+                    "pieces": [
+                      "scene-talk.follow-accept.of-course-you-d-have-done-the-same"
+                    ],
+                    "wordings": [
+                      {
+                        "key": "scene-talk.follow-accept.of-course-take-care-of-yourself",
+                        "text": "Of course. Take care of yourself."
+                      },
+                      {
+                        "key": "scene-talk.follow-accept.you-re-welcome-don-t-be-a-stranger",
+                        "text": "You're welcome. Don't be a stranger."
+                      }
+                    ],
+                    "asks": false
+                  }
+                ],
+                "replies": [],
+                "end": {
+                  "outcome": "resolved",
+                  "ending": {
+                    "id": "said-goodbye",
+                    "label": "You said goodbye",
+                    "keeps": "none"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "line": {
+          "n": 5,
+          "speaker": "You",
+          "role": "player",
+          "text": "Call me when you get there, and I'll call back.",
+          "move": "promise",
+          "pieces": [
+            "scene-talk.reply-promise.call-me-when-you-get-there-and-i-ll-call-back"
+          ],
+          "wordings": [
+            {
+              "key": "scene-talk.reply-promise.i-ll-come-see-you-wherever-it-is-i-ll-find-it",
+              "text": "I'll come see you. Wherever it is, I'll find it."
+            },
+            {
+              "key": "scene-talk.reply-promise.this-isn-t-the-end-of-anything-we-ll-keep-in-touch",
+              "text": "This isn't the end of anything. We'll keep in touch."
+            }
+          ],
+          "asks": false
+        },
+        "leadsTo": {
+          "lines": [
+            {
+              "n": 15,
+              "speaker": "Eva Michael",
+              "role": "asker",
+              "text": "Good. I'd like that. I'll hold you to it.",
+              "move": "thank",
+              "pieces": [
+                "scene-talk.follow-thank.good-i-d-like-that-i-ll-hold-you-to-it"
+              ],
+              "wordings": [
+                {
+                  "key": "scene-talk.follow-thank.i-m-holding-you-to-that-you-know",
+                  "text": "I'm holding you to that, you know."
+                },
+                {
+                  "key": "scene-talk.follow-thank.that-was-all-i-was-hoping-to-hear",
+                  "text": "That was all I was hoping to hear."
+                }
+              ],
+              "asks": false
+            }
+          ],
+          "replies": [],
+          "end": {
+            "outcome": "resolved",
+            "ending": {
+              "id": "promised-to-visit",
+              "label": "You promised to keep in touch",
+              "keeps": "promise"
+            }
+          }
+        }
+      },
+      {
+        "line": {
+          "n": 6,
+          "speaker": "You",
+          "role": "player",
+          "text": "Thank you for coming to tell me yourself.",
+          "move": "thank",
+          "pieces": [
+            "scene-talk.reply-thank.thank-you-for-coming-to-tell-me-yourself"
+          ],
+          "wordings": [
+            {
+              "key": "scene-talk.reply-thank.thanks-for-everything-i-mean-it",
+              "text": "Thanks for everything. I mean it."
+            },
+            {
+              "key": "scene-talk.reply-thank.i-m-glad-you-came-by-i-d-have-hated-to-hear-it-secondhand",
+              "text": "I'm glad you came by. I'd have hated to hear it secondhand."
+            }
+          ],
+          "asks": false
+        },
+        "leadsTo": {
+          "lines": [
+            {
+              "n": 16,
+              "speaker": "Eva Michael",
+              "role": "asker",
+              "text": "Of course. Take care of yourself.",
+              "move": "accept",
+              "pieces": [
+                "scene-talk.follow-accept.of-course-take-care-of-yourself"
+              ],
+              "wordings": [
+                {
+                  "key": "scene-talk.follow-accept.of-course-you-d-have-done-the-same",
+                  "text": "Of course. You'd have done the same."
+                },
+                {
+                  "key": "scene-talk.follow-accept.you-re-welcome-don-t-be-a-stranger",
+                  "text": "You're welcome. Don't be a stranger."
+                }
+              ],
+              "asks": false
+            }
+          ],
+          "replies": [],
+          "end": {
+            "outcome": "resolved",
+            "ending": {
+              "id": "said-goodbye",
+              "label": "You said goodbye",
+              "keeps": "none"
+            }
+          }
+        }
+      }
+    ]
+  },
+  "endings": {
+    "said-goodbye": 4,
+    "promised-to-visit": 2
+  },
+  "depth": 2,
+  "gaps": []
+}
