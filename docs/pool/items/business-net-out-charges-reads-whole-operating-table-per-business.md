@@ -20,7 +20,7 @@ effort: medium
 
 **What.** `netOutCharges` in `src/core2/modules/business.ts` (line 969) queries the whole `operating` table (line 994) for every business as a world opens, so opening a large place costs businesses times rows. Guards: the speed and date rules.
 
-**Cause.** Found in code: in src/core2/modules/business.ts, function netOutCharges, the loop `for (const row of store(api).table("operating").query("all", [true]))` runs inside the per-business function and keeps only rows with `organizationId === dutiesOf && kind === "cost"`.
+**Cause.** Found in code: in src/core2/modules/business.ts, `netOutCharges` (line 994), the loop `for (const row of store(api).table("operating").query("all", [true]))` runs inside the per-business function and keeps only rows with `organizationId === dutiesOf && kind === "cost"`.
 
 **Fix.** Group the cost shares by business in one pass over `operating` (or read an index by organization) and have `netOutCharges` look up its business's sum.
 
