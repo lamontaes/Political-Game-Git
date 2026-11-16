@@ -5,7 +5,7 @@ area: gov
 kind: bug
 priority: 3
 size: M
-status: in-pr
+status: merged
 claimed-by: civic roles builder
 pr: 9438
 blocked-on:

@@ -167,7 +167,10 @@
     "item": "The first bill on a posted meeting's agenda, by its title, from the office-day engine's meeting record.",
     "meeting-when": "The day a town body's next meeting falls on, as said asking someone along: tonight or today, tomorrow night or tomorrow, else on the weekday within a week or the date, from the office-day engine's meeting record.",
     "sunset": "The day a study committee's term ends, as people say it, from the study record.",
-    "members": "The other people who sit on the study committee, by name, from the study record."
+    "members": "The other people who sit on the study committee, by name, from the study record.",
+    "runs-on": "The day the paper runs the story, as the reporter says it (\"tomorrow\", \"Tuesday\"), from the exposure's run day on the record.",
+    "briber": "Who paid the bribe a paper exposed, by name, from the corruption engine's crime record.",
+    "firm": "The firm a contract award went to, by name, from the contracts engine's award record."
   },
   "maxWords": 70,
   "parts": [
@@ -1522,7 +1525,8 @@
           "role": "narrator",
           "purpose": "ask-vote",
           "requiresFacts": ["vote-tomorrow"],
-          "key": "vote-sought"
+          "key": "vote-sought",
+          "excludesFacts": ["asked-before"]
         }
       ],
       "bearing": "calm",
@@ -1572,7 +1576,8 @@
           "role": "narrator",
           "purpose": "ask-vote",
           "requiresFacts": ["vote-tomorrow"],
-          "key": "vote-sought"
+          "key": "vote-sought",
+          "excludesFacts": ["asked-before"]
         }
       ],
       "bearing": "calm",
@@ -1597,7 +1602,8 @@
           "role": "narrator",
           "purpose": "ask-vote",
           "requiresFacts": ["vote-tomorrow"],
-          "key": "vote-sought"
+          "key": "vote-sought",
+          "excludesFacts": ["asked-before"]
         }
       ],
       "bearing": "calm",
@@ -3491,30 +3497,6 @@
       }
     },
     {
-      "key": "scene-talk.state-confront.nice-speech-too-bad-none-of-it-was-true",
-      "move": "state-confront",
-      "kind": "spoken",
-      "text": "Nice speech. Too bad none of it was true.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "confront",
-          "role": "asker",
-          "purpose": "rally-opponent",
-          "key": "threat"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "confront",
-        "key": "threat"
-      }
-    },
-    {
       "key": "scene-talk.state-confront.you-can-t-win-this-you-know",
       "move": "state-confront",
       "kind": "spoken",
@@ -3878,7 +3860,8 @@
           "move": "refuse",
           "role": "asked",
           "purpose": "ask-vote",
-          "key": "vote-wanted"
+          "key": "vote-wanted",
+          "excludesFacts": ["asked-before"]
         },
         {
           "subject": "scene",
@@ -3918,7 +3901,8 @@
           "move": "refuse",
           "role": "asked",
           "purpose": "ask-vote",
-          "key": "vote-wanted"
+          "key": "vote-wanted",
+          "excludesFacts": ["asked-before"]
         },
         {
           "subject": "scene",
@@ -3958,7 +3942,8 @@
           "move": "refuse",
           "role": "asked",
           "purpose": "ask-vote",
-          "key": "vote-wanted"
+          "key": "vote-wanted",
+          "excludesFacts": ["asked-before"]
         },
         {
           "subject": "scene",
@@ -6448,7 +6433,8 @@
           "role": "asker",
           "purpose": "ask-vote",
           "key": "vote-wanted",
-          "after": "stall"
+          "after": "stall",
+          "excludesFacts": ["asked-before"]
         },
         {
           "subject": "scene",
@@ -6509,7 +6495,8 @@
           "role": "asker",
           "purpose": "ask-vote",
           "key": "vote-wanted",
-          "after": "stall"
+          "after": "stall",
+          "excludesFacts": ["asked-before"]
         },
         {
           "subject": "scene",
@@ -6570,7 +6557,8 @@
           "role": "asker",
           "purpose": "ask-vote",
           "key": "vote-wanted",
-          "after": "stall"
+          "after": "stall",
+          "excludesFacts": ["asked-before"]
         },
         {
           "subject": "scene",
@@ -6613,7 +6601,8 @@
           "role": "asker",
           "purpose": "ask-vote",
           "key": "vote-wanted",
-          "after": "stall"
+          "after": "stall",
+          "excludesFacts": ["asked-before"]
         },
         {
           "subject": "scene",
@@ -9449,7 +9438,8 @@
           "role": "asker",
           "purpose": "ask-vote",
           "key": "vote-wanted",
-          "requiresFacts": ["promised-on-bill"]
+          "requiresFacts": ["promised-on-bill"],
+          "excludesFacts": ["asked-before"]
         },
         {
           "subject": "scene",
@@ -9501,7 +9491,8 @@
           "role": "asker",
           "purpose": "ask-vote",
           "key": "vote-wanted",
-          "requiresFacts": ["primary-faced"]
+          "requiresFacts": ["primary-faced"],
+          "excludesFacts": ["asked-before"]
         },
         {
           "subject": "scene",
@@ -9552,7 +9543,8 @@
           "move": "plea",
           "role": "asker",
           "purpose": "ask-vote",
-          "key": "vote-wanted"
+          "key": "vote-wanted",
+          "excludesFacts": ["asked-before"]
         },
         {
           "subject": "scene",
@@ -9601,7 +9593,8 @@
           "role": "asker",
           "purpose": "ask-vote",
           "key": "vote-wanted",
-          "after": "stall"
+          "after": "stall",
+          "excludesFacts": ["asked-before"]
         },
         {
           "subject": "scene",
@@ -9662,7 +9655,8 @@
           "role": "asker",
           "purpose": "ask-vote",
           "key": "vote-wanted",
-          "after": "stall"
+          "after": "stall",
+          "excludesFacts": ["asked-before"]
         },
         {
           "subject": "scene",
@@ -12422,7 +12416,8 @@
           "role": "asker",
           "purpose": "ask-vote",
           "key": "vote-wanted",
-          "after": "scene-talk.reply-refuse.i-can-t-vote-for-bill"
+          "after": "scene-talk.reply-refuse.i-can-t-vote-for-bill",
+          "excludesFacts": ["asked-before"]
         }
       ],
       "bearing": "braced",
@@ -12447,7 +12442,8 @@
           "role": "asker",
           "purpose": "ask-vote",
           "key": "vote-wanted",
-          "after": "scene-talk.reply-refuse.i-can-t-vote-for-bill"
+          "after": "scene-talk.reply-refuse.i-can-t-vote-for-bill",
+          "excludesFacts": ["asked-before"]
         }
       ],
       "bearing": "tender",
@@ -15608,7 +15604,8 @@
           "move": "stall",
           "role": "asked",
           "purpose": "ask-vote",
-          "key": "vote-wanted"
+          "key": "vote-wanted",
+          "excludesFacts": ["asked-before"]
         },
         {
           "subject": "scene",
@@ -15649,7 +15646,8 @@
           "role": "asked",
           "purpose": "ask-vote",
           "key": "vote-wanted",
-          "requiresFacts": ["amendment-pending"]
+          "requiresFacts": ["amendment-pending"],
+          "excludesFacts": ["asked-before"]
         },
         {
           "subject": "scene",
@@ -15692,7 +15690,8 @@
           "role": "asked",
           "purpose": "ask-vote",
           "key": "vote-wanted",
-          "requiresFacts": ["ask-day"]
+          "requiresFacts": ["ask-day"],
+          "excludesFacts": ["asked-before"]
         },
         {
           "subject": "scene",
@@ -15735,7 +15734,8 @@
           "role": "asker",
           "purpose": "ask-vote",
           "key": "vote-wanted",
-          "after": "stall"
+          "after": "stall",
+          "excludesFacts": ["asked-before"]
         },
         {
           "subject": "scene",
@@ -15786,7 +15786,8 @@
           "role": "asker",
           "purpose": "ask-vote",
           "key": "vote-wanted",
-          "after": "scene-talk.reply-stall.i-m-not-there-yet"
+          "after": "scene-talk.reply-stall.i-m-not-there-yet",
+          "excludesFacts": ["asked-before"]
         },
         {
           "subject": "scene",
@@ -16162,7 +16163,9 @@
           "move": "plea",
           "role": "asker",
           "purpose": "ask-vote",
-          "key": "vote-wanted"
+          "key": "vote-wanted",
+          "excludesFacts": ["asked-before"],
+          "onlyWhen": ["read-favor-given"]
         },
         {
           "subject": "scene",
@@ -16202,7 +16205,8 @@
           "move": "plea",
           "role": "asker",
           "purpose": "ask-vote",
-          "key": "vote-wanted"
+          "key": "vote-wanted",
+          "excludesFacts": ["asked-before"]
         },
         {
           "subject": "scene",
@@ -17672,7 +17676,8 @@
           "move": "plea",
           "role": "asker",
           "purpose": "ask-vote",
-          "key": "vote-wanted"
+          "key": "vote-wanted",
+          "excludesFacts": ["asked-before"]
         },
         {
           "subject": "scene",
@@ -17712,7 +17717,8 @@
           "move": "stall",
           "role": "asked",
           "purpose": "ask-vote",
-          "key": "vote-wanted"
+          "key": "vote-wanted",
+          "excludesFacts": ["asked-before"]
         },
         {
           "subject": "scene",
@@ -17752,7 +17758,8 @@
           "move": "stall",
           "role": "asked",
           "purpose": "ask-vote",
-          "key": "vote-wanted"
+          "key": "vote-wanted",
+          "excludesFacts": ["asked-before"]
         },
         {
           "subject": "scene",
@@ -17793,7 +17800,8 @@
           "role": "asker",
           "purpose": "ask-vote",
           "key": "vote-wanted",
-          "after": "stall"
+          "after": "stall",
+          "excludesFacts": ["asked-before"]
         },
         {
           "subject": "scene",
@@ -19642,7 +19650,8 @@
           "role": "asker",
           "purpose": "ask-vote",
           "key": "vote-wanted",
-          "after": "deflect"
+          "after": "deflect",
+          "excludesFacts": ["asked-before"]
         },
         {
           "subject": "scene",
@@ -19753,7 +19762,8 @@
           "role": "asker",
           "purpose": "ask-vote",
           "key": "vote-wanted",
-          "after": "scene-talk.reply-deflect.people-say-a-lot-of-things"
+          "after": "scene-talk.reply-deflect.people-say-a-lot-of-things",
+          "excludesFacts": ["asked-before"]
         },
         {
           "subject": "scene",
@@ -21511,7 +21521,8 @@
           "purpose": "scandal-comment",
           "role": "asker",
           "step": "open",
-          "subject": "scene"
+          "subject": "scene",
+          "requiresFacts": ["tie-friend"]
         }
       ],
       "bearing": "calm",
@@ -21520,515 +21531,6 @@
       "date": "2026-11-08",
       "tag": {
         "move": "greet",
-        "key": "threat"
-      }
-    },
-    {
-      "key": "scene-talk.state-ask.we-re-running-a-story-about-story-i-want-to-give-you-a-chance-to-respo",
-      "move": "state-ask",
-      "kind": "spoken",
-      "text": "We're running a story about {story}. I want to give you a chance to respond.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "ask",
-          "role": "asker",
-          "purpose": "scandal-comment",
-          "key": "threat",
-          "requiresFacts": ["story"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "ask",
-        "key": "threat"
-      }
-    },
-    {
-      "key": "scene-talk.state-ask.i-ve-got-a-story-about-story-and-your-name-is-in-it-what-s-your-side",
-      "move": "state-ask",
-      "kind": "spoken",
-      "text": "I've got a story about {story}, and your name is in it. What's your side?",
-      "uses": [
-        {
-          "key": "threat",
-          "move": "ask",
-          "purpose": "scandal-comment",
-          "requiresFacts": ["story"],
-          "role": "asker",
-          "step": "state",
-          "subject": "scene"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Claude Sonnet 5.5 (night: story)",
-      "date": "2026-11-08",
-      "tag": {
-        "move": "ask",
-        "key": "threat"
-      }
-    },
-    {
-      "key": "scene-talk.state-ask.before-it-runs-i-need-to-hear-from-you-about-story",
-      "move": "state-ask",
-      "kind": "spoken",
-      "text": "Before it runs, I need to hear from you about {story}.",
-      "uses": [
-        {
-          "key": "threat",
-          "move": "ask",
-          "purpose": "scandal-comment",
-          "requiresFacts": ["story"],
-          "role": "asker",
-          "step": "state",
-          "subject": "scene"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Claude Sonnet 5.5 (night: story)",
-      "date": "2026-11-08",
-      "tag": {
-        "move": "ask",
-        "key": "threat"
-      }
-    },
-    {
-      "key": "scene-talk.state-ask.we-re-running-a-story-about-you-tomorrow-i-want-to-give-you-a-chance-t",
-      "move": "state-ask",
-      "kind": "spoken",
-      "text": "We're running a story about you tomorrow. I want to give you a chance to respond.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "ask",
-          "role": "asker",
-          "purpose": "scandal-comment",
-          "key": "threat"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "ask",
-        "key": "threat"
-      }
-    },
-    {
-      "key": "scene-talk.state-ask.i-have-documents-that-put-you-at-the-center-of-a-story-do-you-want-to-respond",
-      "move": "state-ask",
-      "kind": "spoken",
-      "text": "I have documents that put you at the center of a story. Do you want to respond?",
-      "uses": [
-        {
-          "key": "threat",
-          "move": "ask",
-          "purpose": "scandal-comment",
-          "role": "asker",
-          "step": "state",
-          "subject": "scene"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Claude Sonnet 5.5 (night: story)",
-      "date": "2026-11-08",
-      "tag": {
-        "move": "ask",
-        "key": "threat"
-      }
-    },
-    {
-      "key": "scene-talk.state-ask.a-story-about-you-is-going-up-and-i-d-rather-have-your-account-than-guess",
-      "move": "state-ask",
-      "kind": "spoken",
-      "text": "A story about you is going up, and I'd rather have your account than guess.",
-      "uses": [
-        {
-          "key": "threat",
-          "move": "ask",
-          "purpose": "scandal-comment",
-          "role": "asker",
-          "step": "state",
-          "subject": "scene"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Claude Sonnet 5.5 (night: story)",
-      "date": "2026-11-08",
-      "tag": {
-        "move": "ask",
-        "key": "threat"
-      }
-    },
-    {
-      "key": "scene-talk.reply-confess.it-s-true-and-i-should-have-said-so-sooner-put-that-in-and-put-in-that",
-      "move": "reply-confess",
-      "kind": "spoken",
-      "text": "It's true, and I should have said so sooner. Put that in. And put in that I'm fixing it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "confess",
-          "role": "asked",
-          "purpose": "scandal-comment",
-          "key": "threat"
-        }
-      ],
-      "bearing": "contrite",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "confess",
-        "key": "threat"
-      }
-    },
-    {
-      "key": "scene-talk.reply-confess.it-s-true-i-made-a-mistake-and-i-m-not-going-to-hide-behind-a-statement",
-      "move": "reply-confess",
-      "kind": "spoken",
-      "text": "It's true. I made a mistake, and I'm not going to hide behind a statement.",
-      "uses": [
-        {
-          "key": "threat",
-          "move": "confess",
-          "purpose": "scandal-comment",
-          "role": "asked",
-          "step": "reply",
-          "subject": "scene"
-        }
-      ],
-      "bearing": "contrite",
-      "origin": "authored",
-      "author": "Claude Sonnet 5.5 (night: story)",
-      "date": "2026-11-08",
-      "tag": {
-        "move": "confess",
-        "key": "threat"
-      }
-    },
-    {
-      "key": "scene-talk.reply-confess.yes-i-did-it-i-m-sorry-and-i-ll-tell-you-what-i-m-doing-about-it",
-      "move": "reply-confess",
-      "kind": "spoken",
-      "text": "Yes, I did it. I'm sorry, and I'll tell you what I'm doing about it.",
-      "uses": [
-        {
-          "key": "threat",
-          "move": "confess",
-          "purpose": "scandal-comment",
-          "role": "asked",
-          "step": "reply",
-          "subject": "scene"
-        }
-      ],
-      "bearing": "contrite",
-      "origin": "authored",
-      "author": "Claude Sonnet 5.5 (night: story)",
-      "date": "2026-11-08",
-      "tag": {
-        "move": "confess",
-        "key": "threat"
-      }
-    },
-    {
-      "key": "scene-talk.reply-deny.that-s-wrong-what-s-the-specific-claim-and-who-s-your-source-on-the-da",
-      "move": "reply-deny",
-      "kind": "spoken",
-      "text": "That's wrong. What's the specific claim, and who's your source on the date?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "deny",
-          "role": "asked",
-          "purpose": "scandal-comment",
-          "key": "threat"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "deny",
-        "key": "threat"
-      }
-    },
-    {
-      "key": "scene-talk.reply-deny.that-isn-t-what-happened-show-me-what-you-have",
-      "move": "reply-deny",
-      "kind": "spoken",
-      "text": "That isn't what happened. Show me what you have.",
-      "uses": [
-        {
-          "key": "threat",
-          "move": "deny",
-          "purpose": "scandal-comment",
-          "role": "asked",
-          "step": "reply",
-          "subject": "scene"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Claude Sonnet 5.5 (night: story)",
-      "date": "2026-11-08",
-      "tag": {
-        "move": "deny",
-        "key": "threat"
-      }
-    },
-    {
-      "key": "scene-talk.reply-deny.i-d-like-to-see-the-document-you-re-working-from",
-      "move": "reply-deny",
-      "kind": "spoken",
-      "text": "I'd like to see the document you're working from.",
-      "uses": [
-        {
-          "key": "threat",
-          "move": "deny",
-          "purpose": "scandal-comment",
-          "role": "asked",
-          "step": "reply",
-          "subject": "scene"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Claude Sonnet 5.5 (night: story)",
-      "date": "2026-11-08",
-      "tag": {
-        "move": "deny",
-        "key": "threat"
-      }
-    },
-    {
-      "key": "scene-talk.reply-refuse.no-comment-at-this-time",
-      "move": "reply-refuse",
-      "kind": "spoken",
-      "text": "No comment at this time.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "refuse",
-          "role": "asked",
-          "purpose": "scandal-comment",
-          "key": "threat"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "refuse",
-        "key": "threat"
-      }
-    },
-    {
-      "key": "scene-talk.reply-refuse.i-m-not-going-to-respond-to-that",
-      "move": "reply-refuse",
-      "kind": "spoken",
-      "text": "I'm not going to respond to that.",
-      "uses": [
-        {
-          "key": "threat",
-          "move": "refuse",
-          "purpose": "scandal-comment",
-          "role": "asked",
-          "step": "reply",
-          "subject": "scene"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Claude Sonnet 5.5 (night: story)",
-      "date": "2026-11-08",
-      "tag": {
-        "move": "refuse",
-        "key": "threat"
-      }
-    },
-    {
-      "key": "scene-talk.reply-refuse.talk-to-my-office-i-have-nothing-for-you",
-      "move": "reply-refuse",
-      "kind": "spoken",
-      "text": "Talk to my office. I have nothing for you.",
-      "uses": [
-        {
-          "key": "threat",
-          "move": "refuse",
-          "purpose": "scandal-comment",
-          "role": "asked",
-          "step": "reply",
-          "subject": "scene"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Claude Sonnet 5.5 (night: story)",
-      "date": "2026-11-08",
-      "tag": {
-        "move": "refuse",
-        "key": "threat"
-      }
-    },
-    {
-      "key": "scene-talk.reply-confront.who-gave-you-this",
-      "move": "reply-confront",
-      "kind": "spoken",
-      "text": "Who gave you this?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "confront",
-          "role": "asked",
-          "purpose": "scandal-comment",
-          "key": "threat"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "confront",
-        "key": "threat"
-      }
-    },
-    {
-      "key": "scene-talk.reply-lie.i-was-never-there-check-the-minutes",
-      "move": "reply-lie",
-      "kind": "spoken",
-      "text": "I was never there. Check the minutes.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "lie",
-          "role": "asked",
-          "purpose": "scandal-comment",
-          "key": "threat"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "lie",
-        "key": "threat"
-      }
-    },
-    {
-      "key": "scene-talk.reply-lie.i-didn-t-sign-anything-you-can-ask-anyone",
-      "move": "reply-lie",
-      "kind": "spoken",
-      "text": "I didn't sign anything. You can ask anyone.",
-      "uses": [
-        {
-          "key": "threat",
-          "move": "lie",
-          "purpose": "scandal-comment",
-          "role": "asked",
-          "step": "reply",
-          "subject": "scene"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Claude Sonnet 5.5 (night: story)",
-      "date": "2026-11-08",
-      "tag": {
-        "move": "lie",
-        "key": "threat"
-      }
-    },
-    {
-      "key": "scene-talk.reply-lie.that-never-crossed-my-desk",
-      "move": "reply-lie",
-      "kind": "spoken",
-      "text": "That never crossed my desk.",
-      "uses": [
-        {
-          "key": "threat",
-          "move": "lie",
-          "purpose": "scandal-comment",
-          "role": "asked",
-          "step": "reply",
-          "subject": "scene"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Claude Sonnet 5.5 (night: story)",
-      "date": "2026-11-08",
-      "tag": {
-        "move": "lie",
-        "key": "threat"
-      }
-    },
-    {
-      "key": "scene-talk.follow-ask.fixing-it-how",
-      "move": "follow-ask",
-      "kind": "spoken",
-      "text": "Fixing it how?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "ask",
-          "role": "asker",
-          "purpose": "scandal-comment",
-          "key": "threat",
-          "after": "confess"
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "ask",
-        "key": "threat"
-      }
-    },
-    {
-      "key": "scene-talk.follow-press.i-ve-got-it-from-two-people-do-you-want-to-correct-anything-specific",
-      "move": "follow-press",
-      "kind": "spoken",
-      "text": "I've got it from two people. Do you want to correct anything specific?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "purpose": "scandal-comment",
-          "key": "threat",
-          "after": "deny"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "press",
         "key": "threat"
       }
     },
@@ -22045,7 +21547,28 @@
           "role": "asker",
           "purpose": "scandal-comment",
           "key": "threat",
-          "after": "refuse"
+          "after": "refuse",
+          "excludesFacts": ["answered-on-call"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "scandal-comment",
+          "key": "threat",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "after": "scene-talk.reply-refuse.i-m-not-commenting",
+          "excludesFacts": ["answered-on-call"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "scandal-comment",
+          "key": "threat",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "after": "scene-talk.reply-refuse.then-i-have-nothing-for-you",
+          "excludesFacts": ["answered-on-call"]
         }
       ],
       "bearing": "calm",
@@ -22070,7 +21593,8 @@
           "purpose": "scandal-comment",
           "role": "asker",
           "step": "follow",
-          "subject": "scene"
+          "subject": "scene",
+          "excludesFacts": ["answered-on-call"]
         }
       ],
       "bearing": "calm",
@@ -22095,7 +21619,8 @@
           "purpose": "scandal-comment",
           "role": "asker",
           "step": "follow",
-          "subject": "scene"
+          "subject": "scene",
+          "excludesFacts": ["answered-on-call"]
         }
       ],
       "bearing": "calm",
@@ -22108,257 +21633,6 @@
       },
       "tag": {
         "move": "accept",
-        "key": "threat"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.you-know-i-can-t-tell-you-that",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "You know I can't tell you that.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "scandal-comment",
-          "key": "threat",
-          "after": "confront"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "answer",
-        "key": "threat"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.my-source-asked-not-to-be-named-the-records-speak-for-themselves",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "My source asked not to be named. The records speak for themselves.",
-      "uses": [
-        {
-          "after": "confront",
-          "key": "threat",
-          "move": "answer",
-          "purpose": "scandal-comment",
-          "role": "asker",
-          "step": "follow",
-          "subject": "scene"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Claude Sonnet 5.5 (night: story)",
-      "date": "2026-11-08",
-      "tag": {
-        "move": "answer",
-        "key": "threat"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.i-protect-my-sources-that-s-the-job",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "I protect my sources. That's the job.",
-      "uses": [
-        {
-          "after": "confront",
-          "key": "threat",
-          "move": "answer",
-          "purpose": "scandal-comment",
-          "role": "asker",
-          "step": "follow",
-          "subject": "scene"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Claude Sonnet 5.5 (night: story)",
-      "date": "2026-11-08",
-      "tag": {
-        "move": "answer",
-        "key": "threat"
-      }
-    },
-    {
-      "key": "scene-talk.follow-confront.the-minutes-have-you-there",
-      "move": "follow-confront",
-      "kind": "spoken",
-      "text": "The minutes have you there.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "confront",
-          "role": "asker",
-          "purpose": "scandal-comment",
-          "key": "threat",
-          "after": "lie",
-          "requiresFacts": ["knows-truth"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "confront",
-        "key": "threat"
-      }
-    },
-    {
-      "key": "scene-talk.follow-thank.then-i-ll-put-that-you-deny-it",
-      "move": "follow-thank",
-      "kind": "spoken",
-      "text": "Then I'll put that you deny it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "scandal-comment",
-          "key": "threat",
-          "after": "lie"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "thank",
-        "key": "threat"
-      }
-    },
-    {
-      "key": "scene-talk.follow-thank.noted-the-story-will-say-you-deny-it",
-      "move": "follow-thank",
-      "kind": "spoken",
-      "text": "Noted. The story will say you deny it.",
-      "uses": [
-        {
-          "after": "lie",
-          "key": "threat",
-          "move": "thank",
-          "purpose": "scandal-comment",
-          "role": "asker",
-          "step": "follow",
-          "subject": "scene"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Claude Sonnet 5.5 (night: story)",
-      "date": "2026-11-08",
-      "tag": {
-        "move": "thank",
-        "key": "threat"
-      }
-    },
-    {
-      "key": "scene-talk.follow-thank.all-right-i-ll-print-your-denial-in-full",
-      "move": "follow-thank",
-      "kind": "spoken",
-      "text": "Alright. I'll print your denial in full.",
-      "uses": [
-        {
-          "after": "lie",
-          "key": "threat",
-          "move": "thank",
-          "purpose": "scandal-comment",
-          "role": "asker",
-          "step": "follow",
-          "subject": "scene"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Claude Sonnet 5.5 (night: story)",
-      "date": "2026-11-08",
-      "tag": {
-        "move": "thank",
-        "key": "threat"
-      }
-    },
-    {
-      "key": "scene-talk.reply-answer.i-m-paying-it-back-and-i-ve-asked-the-clerk-to-post-the-records-you-ca",
-      "move": "reply-answer",
-      "kind": "spoken",
-      "text": "I'm paying it back, and I've asked the clerk to post the records. You can have them tomorrow.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "answer",
-          "role": "asked",
-          "purpose": "scandal-comment",
-          "key": "threat",
-          "after": "scene-talk.follow-ask.fixing-it-how"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "answer",
-        "key": "threat"
-      }
-    },
-    {
-      "key": "scene-talk.reply-deny.one-thing-the-date-s-wrong-i-can-send-you-the-calendar",
-      "move": "reply-deny",
-      "kind": "spoken",
-      "text": "One thing: the date's wrong. I can send you the calendar.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "deny",
-          "role": "asked",
-          "purpose": "scandal-comment",
-          "key": "threat",
-          "after": "press"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "deny",
-        "key": "threat"
-      }
-    },
-    {
-      "key": "scene-talk.reply-confess.fine-most-of-it-s-right-give-me-an-hour-for-a-statement",
-      "move": "reply-confess",
-      "kind": "spoken",
-      "text": "Fine. Most of it's right. Give me an hour for a statement.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "confess",
-          "role": "asked",
-          "purpose": "scandal-comment",
-          "key": "threat",
-          "after": "press"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "confess",
         "key": "threat"
       }
     },
@@ -22384,81 +21658,6 @@
       "date": "2026-10-15",
       "tag": {
         "move": "refuse",
-        "key": "threat"
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.send-it-if-it-checks-out-i-ll-change-it",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "Send it. If it checks out, I'll change it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "scandal-comment",
-          "key": "threat",
-          "after": "scene-talk.reply-deny.one-thing-the-date-s-wrong-i-can-send-you-the-calendar"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "accept",
-        "key": "threat"
-      }
-    },
-    {
-      "key": "scene-talk.follow-thank.an-hour-i-ll-hold-the-space",
-      "move": "follow-thank",
-      "kind": "spoken",
-      "text": "An hour. I'll hold the space.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "scandal-comment",
-          "key": "threat",
-          "after": "scene-talk.reply-confess.fine-most-of-it-s-right-give-me-an-hour-for-a-statement"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "thank",
-        "key": "threat"
-      }
-    },
-    {
-      "key": "scene-talk.follow-thank.that-goes-in-too",
-      "move": "follow-thank",
-      "kind": "spoken",
-      "text": "That goes in too.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "scandal-comment",
-          "key": "threat",
-          "after": "scene-talk.reply-answer.i-m-paying-it-back-and-i-ve-asked-the-clerk-to-post-the-records-you-ca"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "thank",
         "key": "threat"
       }
     },
@@ -22496,10 +21695,10 @@
       }
     },
     {
-      "key": "scene-talk.close-accept.it-runs-tomorrow",
+      "key": "scene-talk.close-accept.it-runs-runs-on",
       "move": "close-accept",
       "kind": "spoken",
-      "text": "It runs tomorrow.",
+      "text": "It runs {runs-on}.",
       "uses": [
         {
           "subject": "scene",
@@ -22509,13 +21708,342 @@
           "purpose": "scandal-comment",
           "key": "threat",
           "after": "leave",
-          "outcome": "open"
+          "outcome": "open",
+          "requiresFacts": ["outlet-newspaper", "runs-on"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "scandal-comment",
+          "key": "threat",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "scene-talk.reply-confront.run-it-then-we-re-done",
+          "requiresFacts": ["outlet-newspaper", "runs-on"]
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "scandal-comment",
+          "key": "threat",
+          "after": "leave",
+          "outcome": "open",
+          "requiresFacts": ["outlet-national-paper", "runs-on"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "scandal-comment",
+          "key": "threat",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "scene-talk.reply-confront.run-it-then-we-re-done",
+          "requiresFacts": ["outlet-national-paper", "runs-on"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "scandal-comment",
+          "key": "threat",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "after": "answer",
+          "requiresFacts": ["outlet-newspaper", "runs-on"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "scandal-comment",
+          "key": "threat",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "after": "scene-talk.reply-leave.i-ve-said-what-i-m-going-to-say",
+          "requiresFacts": ["answered-on-call", "outlet-newspaper", "runs-on"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "scandal-comment",
+          "key": "threat",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "after": "answer",
+          "requiresFacts": ["outlet-national-paper", "runs-on"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "scandal-comment",
+          "key": "threat",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "after": "scene-talk.reply-leave.i-ve-said-what-i-m-going-to-say",
+          "requiresFacts": [
+            "answered-on-call",
+            "outlet-national-paper",
+            "runs-on"
+          ]
         }
       ],
       "bearing": "calm",
       "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
+      "author": "Words lead",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "accept",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.it-airs-runs-on",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "It airs {runs-on}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "scandal-comment",
+          "key": "threat",
+          "after": "leave",
+          "outcome": "open",
+          "requiresFacts": ["outlet-television", "runs-on"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "scandal-comment",
+          "key": "threat",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "scene-talk.reply-confront.run-it-then-we-re-done",
+          "requiresFacts": ["outlet-television", "runs-on"]
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "scandal-comment",
+          "key": "threat",
+          "after": "leave",
+          "outcome": "open",
+          "requiresFacts": ["outlet-cable", "runs-on"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "scandal-comment",
+          "key": "threat",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "scene-talk.reply-confront.run-it-then-we-re-done",
+          "requiresFacts": ["outlet-cable", "runs-on"]
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "scandal-comment",
+          "key": "threat",
+          "after": "leave",
+          "outcome": "open",
+          "requiresFacts": ["outlet-radio", "runs-on"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "scandal-comment",
+          "key": "threat",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "scene-talk.reply-confront.run-it-then-we-re-done",
+          "requiresFacts": ["outlet-radio", "runs-on"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "scandal-comment",
+          "key": "threat",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "after": "answer",
+          "requiresFacts": ["outlet-television", "runs-on"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "scandal-comment",
+          "key": "threat",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "after": "scene-talk.reply-leave.i-ve-said-what-i-m-going-to-say",
+          "requiresFacts": ["answered-on-call", "outlet-television", "runs-on"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "scandal-comment",
+          "key": "threat",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "after": "answer",
+          "requiresFacts": ["outlet-cable", "runs-on"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "scandal-comment",
+          "key": "threat",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "after": "scene-talk.reply-leave.i-ve-said-what-i-m-going-to-say",
+          "requiresFacts": ["answered-on-call", "outlet-cable", "runs-on"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "scandal-comment",
+          "key": "threat",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "after": "answer",
+          "requiresFacts": ["outlet-radio", "runs-on"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "scandal-comment",
+          "key": "threat",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "after": "scene-talk.reply-leave.i-ve-said-what-i-m-going-to-say",
+          "requiresFacts": ["answered-on-call", "outlet-radio", "runs-on"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "accept",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.it-s-in-the-next-issue",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "It's in the next issue.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "scandal-comment",
+          "key": "threat",
+          "after": "leave",
+          "outcome": "open",
+          "requiresFacts": ["outlet-magazine"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "scandal-comment",
+          "key": "threat",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "scene-talk.reply-confront.run-it-then-we-re-done",
+          "requiresFacts": ["outlet-magazine"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "scandal-comment",
+          "key": "threat",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "after": "answer",
+          "requiresFacts": ["outlet-magazine"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "scandal-comment",
+          "key": "threat",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "after": "scene-talk.reply-leave.i-ve-said-what-i-m-going-to-say",
+          "requiresFacts": ["answered-on-call", "outlet-magazine"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "accept",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.it-goes-up-runs-on",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "It goes up {runs-on}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "scandal-comment",
+          "key": "threat",
+          "after": "leave",
+          "outcome": "open",
+          "requiresFacts": ["outlet-online", "runs-on"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "scandal-comment",
+          "key": "threat",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "scene-talk.reply-confront.run-it-then-we-re-done",
+          "requiresFacts": ["outlet-online", "runs-on"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "scandal-comment",
+          "key": "threat",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "after": "answer",
+          "requiresFacts": ["outlet-online", "runs-on"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "scandal-comment",
+          "key": "threat",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "after": "scene-talk.reply-leave.i-ve-said-what-i-m-going-to-say",
+          "requiresFacts": ["answered-on-call", "outlet-online", "runs-on"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead",
+      "date": "2026-11-15",
       "tag": {
         "move": "accept",
         "key": "threat"
@@ -27895,81 +27423,6 @@
       "tag": {
         "move": "ask",
         "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.reply-deflect.the-minutes-say-a-lot-of-things",
-      "move": "reply-deflect",
-      "kind": "spoken",
-      "text": "The minutes say a lot of things.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "deflect",
-          "role": "asked",
-          "purpose": "scandal-comment",
-          "key": "threat",
-          "after": "confront"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "deflect",
-        "key": "threat"
-      }
-    },
-    {
-      "key": "scene-talk.reply-deflect.a-lot-of-paper-gets-written-that-doesn-t-make-it-right",
-      "move": "reply-deflect",
-      "kind": "spoken",
-      "text": "A lot of paper gets written. That doesn't make it right.",
-      "uses": [
-        {
-          "after": "confront",
-          "key": "threat",
-          "move": "deflect",
-          "purpose": "scandal-comment",
-          "role": "asked",
-          "step": "reply",
-          "subject": "scene"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Claude Sonnet 5.5 (night: story)",
-      "date": "2026-11-08",
-      "tag": {
-        "move": "deflect",
-        "key": "threat"
-      }
-    },
-    {
-      "key": "scene-talk.reply-deflect.minutes-record-who-spoke-not-who-agreed",
-      "move": "reply-deflect",
-      "kind": "spoken",
-      "text": "Minutes record who spoke, not who agreed.",
-      "uses": [
-        {
-          "after": "confront",
-          "key": "threat",
-          "move": "deflect",
-          "purpose": "scandal-comment",
-          "role": "asked",
-          "step": "reply",
-          "subject": "scene"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Claude Sonnet 5.5 (night: story)",
-      "date": "2026-11-08",
-      "tag": {
-        "move": "deflect",
-        "key": "threat"
       }
     },
     {
@@ -57616,6 +57069,33 @@
           "purpose": "press-comment",
           "key": "routine",
           "after": "press"
+        },
+        {
+          "subject": "scene",
+          "purpose": "scandal-comment",
+          "key": "threat",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "after": "scene-talk.follow-ask.i-ll-quote-you-on-that-why-did-you-take-it"
+        },
+        {
+          "subject": "scene",
+          "purpose": "scandal-comment",
+          "key": "threat",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "after": "scene-talk.follow-confront.i-have-the-papers-try-again"
+        },
+        {
+          "subject": "scene",
+          "purpose": "scandal-comment",
+          "key": "threat",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "after": "scene-talk.follow-ask.i-ll-quote-you-on-that-why-didn-t-you-step-aside"
         }
       ],
       "bearing": "guarded",
@@ -74424,54 +73904,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-tell.there-s-more-to-it-than-that-let-me-walk-you-through-what-happened",
-      "move": "reply-tell",
-      "kind": "spoken",
-      "text": "There's more to it than that. Let me walk you through what happened.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "scandal-comment",
-          "key": "threat"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Claude Opus (pool item words-scene-web-home-and-family)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "tell",
-        "key": "threat"
-      }
-    },
-    {
-      "key": "scene-talk.reply-confront.this-is-a-hit-job-and-you-know-it",
-      "move": "reply-confront",
-      "kind": "spoken",
-      "text": "This is a hit job, and you know it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "confront",
-          "role": "asked",
-          "purpose": "scandal-comment",
-          "key": "threat"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Claude Opus (pool item words-scene-web-home-and-family)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "confront",
-        "key": "threat"
-      }
-    },
-    {
       "key": "scene-talk.follow-press.sorry-for-what-exactly-our-readers-will-want-to-know",
       "move": "follow-press",
       "kind": "spoken",
@@ -74488,56 +73920,6 @@
         }
       ],
       "bearing": "curious",
-      "origin": "authored",
-      "author": "Claude Opus (pool item words-scene-web-home-and-family)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "press",
-        "key": "threat"
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.go-ahead-i-m-listening-and-i-ll-put-in-what-checks-out",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "Go ahead. I'm listening, and I'll put in what checks out.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "scandal-comment",
-          "key": "threat",
-          "after": "tell"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Claude Opus (pool item words-scene-web-home-and-family)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "accept",
-        "key": "threat"
-      }
-    },
-    {
-      "key": "scene-talk.follow-press.i-have-the-records-tell-me-what-they-re-missing",
-      "move": "follow-press",
-      "kind": "spoken",
-      "text": "I have the records. Tell me what they're missing.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "purpose": "scandal-comment",
-          "key": "threat",
-          "after": "tell"
-        }
-      ],
-      "bearing": "calm",
       "origin": "authored",
       "author": "Claude Opus (pool item words-scene-web-home-and-family)",
       "date": "2026-10-27",
@@ -143739,6 +143121,14 @@
           "role": "asked",
           "purpose": "conflict-accuse.hearsay",
           "key": "threat"
+        },
+        {
+          "subject": "scene",
+          "purpose": "scandal-comment",
+          "key": "threat",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked"
         }
       ],
       "origin": "authored",
@@ -155909,7 +155299,8 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "ask-to-serve",
-          "key": "serve-asked"
+          "key": "serve-asked",
+          "excludesFacts": ["asked-before"]
         }
       ],
       "bearing": "calm",
@@ -155933,7 +155324,8 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "ask-to-serve",
-          "key": "serve-asked"
+          "key": "serve-asked",
+          "excludesFacts": ["asked-before"]
         }
       ],
       "bearing": "calm",
@@ -155957,7 +155349,8 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "ask-to-serve",
-          "key": "serve-asked"
+          "key": "serve-asked",
+          "excludesFacts": ["asked-before"]
         }
       ],
       "bearing": "braced",
@@ -155981,7 +155374,8 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "ask-to-serve",
-          "key": "serve-asked"
+          "key": "serve-asked",
+          "excludesFacts": ["asked-before"]
         }
       ],
       "bearing": "hopeful",
@@ -156006,7 +155400,8 @@
           "role": "narrator",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["stranger"]
+          "requiresFacts": ["stranger"],
+          "excludesFacts": ["asked-before"]
         }
       ],
       "bearing": "calm",
@@ -156031,7 +155426,8 @@
           "role": "narrator",
           "purpose": "ask-to-serve",
           "key": "serve-asked",
-          "requiresFacts": ["acquainted"]
+          "requiresFacts": ["acquainted"],
+          "excludesFacts": ["asked-before"]
         }
       ],
       "bearing": "warm",
@@ -156057,7 +155453,7 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "requiresFacts": ["stranger"],
-          "excludesFacts": ["serve-post"]
+          "excludesFacts": ["serve-post", "asked-before"]
         }
       ],
       "bearing": "calm",
@@ -156083,7 +155479,7 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "requiresFacts": ["stranger"],
-          "excludesFacts": ["serve-post"]
+          "excludesFacts": ["serve-post", "asked-before"]
         }
       ],
       "bearing": "braced",
@@ -156471,7 +155867,11 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "requiresFacts": ["reason-own-seat"],
-          "excludesFacts": ["price-named"]
+          "excludesFacts": [
+            "price-named",
+            "nothing-moved",
+            "asked-more-than-once"
+          ]
         }
       ],
       "bearing": "calm",
@@ -156497,7 +155897,12 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "requiresFacts": ["reason-own-seat"],
-          "excludesFacts": ["stranger", "price-named"]
+          "excludesFacts": [
+            "stranger",
+            "price-named",
+            "nothing-moved",
+            "asked-more-than-once"
+          ]
         }
       ],
       "bearing": "guarded",
@@ -156523,7 +155928,11 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "requiresFacts": ["reason-own-race"],
-          "excludesFacts": ["price-named"]
+          "excludesFacts": [
+            "price-named",
+            "nothing-moved",
+            "asked-more-than-once"
+          ]
         }
       ],
       "bearing": "braced",
@@ -156549,7 +155958,12 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "requiresFacts": ["reason-own-race"],
-          "excludesFacts": ["stranger", "price-named"]
+          "excludesFacts": [
+            "stranger",
+            "price-named",
+            "nothing-moved",
+            "asked-more-than-once"
+          ]
         }
       ],
       "bearing": "calm",
@@ -156575,7 +155989,11 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "requiresFacts": ["reason-apart"],
-          "excludesFacts": ["price-named"]
+          "excludesFacts": [
+            "price-named",
+            "nothing-moved",
+            "asked-more-than-once"
+          ]
         }
       ],
       "bearing": "firm",
@@ -156601,7 +156019,12 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "requiresFacts": ["reason-apart"],
-          "excludesFacts": ["serve-post", "price-named"]
+          "excludesFacts": [
+            "serve-post",
+            "price-named",
+            "nothing-moved",
+            "asked-more-than-once"
+          ]
         }
       ],
       "bearing": "guarded",
@@ -156627,7 +156050,11 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "requiresFacts": ["reason-heard", "outlet"],
-          "excludesFacts": ["price-named"]
+          "excludesFacts": [
+            "price-named",
+            "nothing-moved",
+            "asked-more-than-once"
+          ]
         }
       ],
       "bearing": "braced",
@@ -156653,7 +156080,12 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "requiresFacts": ["reason-heard"],
-          "excludesFacts": ["stranger", "price-named"]
+          "excludesFacts": [
+            "stranger",
+            "price-named",
+            "nothing-moved",
+            "asked-more-than-once"
+          ]
         }
       ],
       "bearing": "guarded",
@@ -156679,7 +156111,12 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "requiresFacts": ["reason-long-shot"],
-          "excludesFacts": ["stranger", "price-named"]
+          "excludesFacts": [
+            "stranger",
+            "price-named",
+            "nothing-moved",
+            "asked-more-than-once"
+          ]
         }
       ],
       "bearing": "calm",
@@ -156705,7 +156142,12 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "requiresFacts": ["reason-long-shot"],
-          "excludesFacts": ["stranger", "price-named"]
+          "excludesFacts": [
+            "stranger",
+            "price-named",
+            "nothing-moved",
+            "asked-more-than-once"
+          ]
         }
       ],
       "bearing": "braced",
@@ -157376,7 +156818,12 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "requiresFacts": ["reason-own-seat"],
-          "excludesFacts": ["stranger", "price-named"]
+          "excludesFacts": [
+            "stranger",
+            "price-named",
+            "nothing-moved",
+            "asked-more-than-once"
+          ]
         }
       ],
       "bearing": "braced",
@@ -157402,7 +156849,12 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "requiresFacts": ["reason-own-seat"],
-          "excludesFacts": ["stranger", "price-named"]
+          "excludesFacts": [
+            "stranger",
+            "price-named",
+            "nothing-moved",
+            "asked-more-than-once"
+          ]
         }
       ],
       "bearing": "firm",
@@ -157428,7 +156880,12 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "requiresFacts": ["reason-own-race"],
-          "excludesFacts": ["stranger", "price-named"]
+          "excludesFacts": [
+            "stranger",
+            "price-named",
+            "nothing-moved",
+            "asked-more-than-once"
+          ]
         }
       ],
       "bearing": "guarded",
@@ -157454,7 +156911,12 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "requiresFacts": ["reason-own-race"],
-          "excludesFacts": ["stranger", "price-named"]
+          "excludesFacts": [
+            "stranger",
+            "price-named",
+            "nothing-moved",
+            "asked-more-than-once"
+          ]
         }
       ],
       "bearing": "firm",
@@ -157480,7 +156942,12 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "requiresFacts": ["reason-apart"],
-          "excludesFacts": ["stranger", "price-named"]
+          "excludesFacts": [
+            "stranger",
+            "price-named",
+            "nothing-moved",
+            "asked-more-than-once"
+          ]
         }
       ],
       "bearing": "calm",
@@ -157506,7 +156973,12 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "requiresFacts": ["reason-apart"],
-          "excludesFacts": ["stranger", "price-named"]
+          "excludesFacts": [
+            "stranger",
+            "price-named",
+            "nothing-moved",
+            "asked-more-than-once"
+          ]
         }
       ],
       "bearing": "braced",
@@ -157532,7 +157004,12 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "requiresFacts": ["reason-heard"],
-          "excludesFacts": ["stranger", "price-named"]
+          "excludesFacts": [
+            "stranger",
+            "price-named",
+            "nothing-moved",
+            "asked-more-than-once"
+          ]
         }
       ],
       "bearing": "calm",
@@ -157558,7 +157035,12 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "requiresFacts": ["reason-heard"],
-          "excludesFacts": ["stranger", "price-named"]
+          "excludesFacts": [
+            "stranger",
+            "price-named",
+            "nothing-moved",
+            "asked-more-than-once"
+          ]
         }
       ],
       "bearing": "firm",
@@ -157584,7 +157066,12 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "requiresFacts": ["reason-long-shot"],
-          "excludesFacts": ["stranger", "price-named"]
+          "excludesFacts": [
+            "stranger",
+            "price-named",
+            "nothing-moved",
+            "asked-more-than-once"
+          ]
         }
       ],
       "bearing": "guarded",
@@ -157610,7 +157097,12 @@
           "purpose": "ask-to-serve",
           "key": "serve-asked",
           "requiresFacts": ["reason-long-shot"],
-          "excludesFacts": ["stranger", "price-named"]
+          "excludesFacts": [
+            "stranger",
+            "price-named",
+            "nothing-moved",
+            "asked-more-than-once"
+          ]
         }
       ],
       "bearing": "firm",
@@ -176948,7 +176440,8 @@
           "step": "reply",
           "move": "stall",
           "role": "asked",
-          "requiresFacts": ["reason-district"]
+          "requiresFacts": ["reason-district"],
+          "excludesFacts": ["asked-before"]
         }
       ],
       "bearing": "guarded",
@@ -176973,7 +176466,8 @@
           "step": "reply",
           "move": "stall",
           "role": "asked",
-          "requiresFacts": ["reason-district"]
+          "requiresFacts": ["reason-district"],
+          "excludesFacts": ["asked-before"]
         }
       ],
       "bearing": "tired",
@@ -176998,7 +176492,8 @@
           "step": "reply",
           "move": "stall",
           "role": "asked",
-          "requiresFacts": ["reason-own-view"]
+          "requiresFacts": ["reason-own-view"],
+          "excludesFacts": ["asked-before"]
         }
       ],
       "bearing": "guarded",
@@ -177023,7 +176518,8 @@
           "step": "reply",
           "move": "stall",
           "role": "asked",
-          "requiresFacts": ["reason-own-view"]
+          "requiresFacts": ["reason-own-view"],
+          "excludesFacts": ["asked-before"]
         }
       ],
       "bearing": "calm",
@@ -177048,7 +176544,8 @@
           "step": "reply",
           "move": "stall",
           "role": "asked",
-          "requiresFacts": ["their-bill"]
+          "requiresFacts": ["their-bill"],
+          "excludesFacts": ["asked-before"]
         }
       ],
       "bearing": "warm",
@@ -177073,7 +176570,8 @@
           "step": "reply",
           "move": "stall",
           "role": "asked",
-          "requiresFacts": ["their-bill"]
+          "requiresFacts": ["their-bill"],
+          "excludesFacts": ["asked-before"]
         }
       ],
       "bearing": "calm",
@@ -177098,7 +176596,8 @@
           "step": "reply",
           "move": "stall",
           "role": "asked",
-          "requiresFacts": ["price-section"]
+          "requiresFacts": ["price-section"],
+          "excludesFacts": ["asked-before"]
         }
       ],
       "bearing": "guarded",
@@ -177123,7 +176622,8 @@
           "step": "reply",
           "move": "stall",
           "role": "asked",
-          "requiresFacts": ["reason-last-vote"]
+          "requiresFacts": ["reason-last-vote"],
+          "excludesFacts": ["asked-before"]
         }
       ],
       "bearing": "steady",
@@ -177148,7 +176648,8 @@
           "step": "reply",
           "move": "refuse",
           "role": "asked",
-          "requiresFacts": ["reason-own-view"]
+          "requiresFacts": ["reason-own-view"],
+          "excludesFacts": ["asked-before"]
         }
       ],
       "bearing": "firm",
@@ -177173,7 +176674,8 @@
           "step": "reply",
           "move": "refuse",
           "role": "asked",
-          "requiresFacts": ["reason-party"]
+          "requiresFacts": ["reason-party"],
+          "excludesFacts": ["asked-before"]
         }
       ],
       "bearing": "guarded",
@@ -177198,7 +176700,8 @@
           "step": "reply",
           "move": "refuse",
           "role": "asked",
-          "requiresFacts": ["reason-group"]
+          "requiresFacts": ["reason-group"],
+          "excludesFacts": ["asked-before"]
         }
       ],
       "bearing": "braced",
@@ -177223,7 +176726,8 @@
           "step": "reply",
           "move": "refuse",
           "role": "asked",
-          "requiresFacts": ["reason-next-election"]
+          "requiresFacts": ["reason-next-election"],
+          "excludesFacts": ["asked-before"]
         }
       ],
       "bearing": "guarded",
@@ -177248,7 +176752,8 @@
           "step": "reply",
           "move": "refuse",
           "role": "asked",
-          "requiresFacts": ["reason-sponsor"]
+          "requiresFacts": ["reason-sponsor"],
+          "excludesFacts": ["asked-before"]
         }
       ],
       "bearing": "braced",
@@ -177273,7 +176778,8 @@
           "step": "reply",
           "move": "refuse",
           "role": "asked",
-          "requiresFacts": ["reason-last-vote"]
+          "requiresFacts": ["reason-last-vote"],
+          "excludesFacts": ["asked-before"]
         }
       ],
       "bearing": "firm",
@@ -177649,7 +177155,8 @@
           "step": "reply",
           "move": "refuse",
           "role": "asked",
-          "after": "request"
+          "after": "request",
+          "excludesFacts": ["asked-before"]
         },
         {
           "subject": "scene",
@@ -177694,7 +177201,8 @@
           "step": "reply",
           "move": "refuse",
           "role": "asked",
-          "after": "request"
+          "after": "request",
+          "excludesFacts": ["asked-before"]
         },
         {
           "subject": "scene",
@@ -177739,7 +177247,8 @@
           "step": "reply",
           "move": "refuse",
           "role": "asked",
-          "after": "request"
+          "after": "request",
+          "excludesFacts": ["asked-before"]
         },
         {
           "subject": "scene",
@@ -184544,76 +184053,6 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.you-have-bill-drafted-and-no-names-on-it-but-yours-name-is-in",
-      "move": "narrate-narrate",
-      "kind": "written",
-      "text": "You have {bill} drafted and no names on it but yours. {name} is in.",
-      "origin": "authored",
-      "author": "Bill stages (Claude Code), co-sponsor ask",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "narrate",
-        "key": "bill-sign-on"
-      },
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "cosponsor-ask",
-          "key": "bill-sign-on",
-          "requiresFacts": ["bill"]
-        }
-      ]
-    },
-    {
-      "key": "scene-talk.narrate-narrate.you-catch-name-in-the-hallway-outside-the-chamber-between-meetings",
-      "move": "narrate-narrate",
-      "kind": "written",
-      "text": "You catch {name} in the hallway outside the chamber, between meetings.",
-      "origin": "authored",
-      "author": "Bill stages (Claude Code), co-sponsor ask",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "narrate",
-        "key": "bill-sign-on"
-      },
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "cosponsor-ask",
-          "key": "bill-sign-on"
-        }
-      ]
-    },
-    {
-      "key": "scene-talk.narrate-narrate.name-s-door-is-open-you-knock-on-the-frame-and-step-in",
-      "move": "narrate-narrate",
-      "kind": "written",
-      "text": "{name}'s door is open. You knock on the frame and step in.",
-      "origin": "authored",
-      "author": "Bill stages (Claude Code), co-sponsor ask",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "narrate",
-        "key": "bill-sign-on"
-      },
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "cosponsor-ask",
-          "key": "bill-sign-on"
-        }
-      ]
-    },
-    {
       "key": "scene-talk.state-request.i-m-putting-in-a-bill-on-said-will-you-sign-on-with-me",
       "move": "state-request",
       "kind": "spoken",
@@ -184634,7 +184073,8 @@
           "role": "asker",
           "purpose": "cosponsor-ask",
           "key": "bill-sign-on",
-          "requiresFacts": ["said"]
+          "requiresFacts": ["said"],
+          "excludesFacts": ["asked-before"]
         }
       ]
     },
@@ -184659,7 +184099,8 @@
           "role": "asker",
           "purpose": "cosponsor-ask",
           "key": "bill-sign-on",
-          "requiresFacts": ["said"]
+          "requiresFacts": ["said"],
+          "excludesFacts": ["asked-before"]
         }
       ]
     },
@@ -184684,7 +184125,8 @@
           "role": "asker",
           "purpose": "cosponsor-ask",
           "key": "bill-sign-on",
-          "requiresFacts": ["said"]
+          "requiresFacts": ["said"],
+          "excludesFacts": ["asked-before"]
         }
       ]
     },
@@ -184781,7 +184223,8 @@
           "role": "asked",
           "purpose": "cosponsor-ask",
           "key": "bill-sign-on",
-          "requiresFacts": ["no-views"]
+          "requiresFacts": ["no-views"],
+          "excludesFacts": ["asked-before"]
         }
       ]
     },
@@ -184806,7 +184249,8 @@
           "role": "asked",
           "purpose": "cosponsor-ask",
           "key": "bill-sign-on",
-          "requiresFacts": ["no-views"]
+          "requiresFacts": ["no-views"],
+          "excludesFacts": ["asked-before"]
         }
       ]
     },
@@ -184831,7 +184275,8 @@
           "role": "asked",
           "purpose": "cosponsor-ask",
           "key": "bill-sign-on",
-          "requiresFacts": ["no-constituents"]
+          "requiresFacts": ["no-constituents"],
+          "excludesFacts": ["asked-before"]
         },
         {
           "subject": "scene",
@@ -184840,7 +184285,8 @@
           "role": "asked",
           "purpose": "cosponsor-ask",
           "key": "bill-sign-on",
-          "requiresFacts": ["no-party"]
+          "requiresFacts": ["no-party"],
+          "excludesFacts": ["asked-before"]
         }
       ]
     },
@@ -184865,7 +184311,8 @@
           "role": "asked",
           "purpose": "cosponsor-ask",
           "key": "bill-sign-on",
-          "requiresFacts": ["no-consistency", "voted-against-before"]
+          "requiresFacts": ["no-consistency", "voted-against-before"],
+          "excludesFacts": ["asked-before"]
         }
       ]
     },
@@ -185082,7 +184529,8 @@
           "role": "asked",
           "purpose": "cosponsor-ask",
           "key": "bill-sign-on",
-          "requiresFacts": ["no-views"]
+          "requiresFacts": ["no-views"],
+          "excludesFacts": ["asked-before"]
         }
       ]
     },
@@ -185107,7 +184555,8 @@
           "role": "asked",
           "purpose": "cosponsor-ask",
           "key": "bill-sign-on",
-          "requiresFacts": ["no-views"]
+          "requiresFacts": ["no-views"],
+          "excludesFacts": ["asked-before"]
         }
       ]
     },
@@ -185132,7 +184581,8 @@
           "role": "asked",
           "purpose": "cosponsor-ask",
           "key": "bill-sign-on",
-          "requiresFacts": ["no-constituents"]
+          "requiresFacts": ["no-constituents"],
+          "excludesFacts": ["asked-before"]
         }
       ]
     },
@@ -185157,7 +184607,8 @@
           "role": "asked",
           "purpose": "cosponsor-ask",
           "key": "bill-sign-on",
-          "requiresFacts": ["no-constituents"]
+          "requiresFacts": ["no-constituents"],
+          "excludesFacts": ["asked-before"]
         }
       ]
     },
@@ -185182,7 +184633,8 @@
           "role": "asked",
           "purpose": "cosponsor-ask",
           "key": "bill-sign-on",
-          "requiresFacts": ["no-party"]
+          "requiresFacts": ["no-party"],
+          "excludesFacts": ["asked-before"]
         }
       ]
     },
@@ -185207,7 +184659,8 @@
           "role": "asked",
           "purpose": "cosponsor-ask",
           "key": "bill-sign-on",
-          "requiresFacts": ["no-party"]
+          "requiresFacts": ["no-party"],
+          "excludesFacts": ["asked-before"]
         }
       ]
     },
@@ -185232,7 +184685,8 @@
           "role": "asked",
           "purpose": "cosponsor-ask",
           "key": "bill-sign-on",
-          "requiresFacts": ["no-consistency", "voted-against-before"]
+          "requiresFacts": ["no-consistency", "voted-against-before"],
+          "excludesFacts": ["asked-before"]
         }
       ]
     },
@@ -185257,7 +184711,8 @@
           "role": "asked",
           "purpose": "cosponsor-ask",
           "key": "bill-sign-on",
-          "requiresFacts": ["no-consistency", "voted-against-before"]
+          "requiresFacts": ["no-consistency", "voted-against-before"],
+          "excludesFacts": ["asked-before"]
         }
       ]
     },
@@ -185330,7 +184785,8 @@
           "move": "plea",
           "role": "asker",
           "purpose": "cosponsor-ask",
-          "key": "bill-sign-on"
+          "key": "bill-sign-on",
+          "excludesFacts": ["asked-before"]
         }
       ]
     },
@@ -185354,7 +184810,8 @@
           "move": "plea",
           "role": "asker",
           "purpose": "cosponsor-ask",
-          "key": "bill-sign-on"
+          "key": "bill-sign-on",
+          "excludesFacts": ["asked-before"]
         }
       ]
     },
@@ -185378,7 +184835,8 @@
           "move": "plea",
           "role": "asker",
           "purpose": "cosponsor-ask",
-          "key": "bill-sign-on"
+          "key": "bill-sign-on",
+          "excludesFacts": ["asked-before"]
         }
       ]
     },
@@ -185402,7 +184860,8 @@
           "move": "press",
           "role": "asker",
           "purpose": "cosponsor-ask",
-          "key": "bill-sign-on"
+          "key": "bill-sign-on",
+          "excludesFacts": ["asked-before"]
         }
       ]
     },
@@ -185426,7 +184885,8 @@
           "move": "press",
           "role": "asker",
           "purpose": "cosponsor-ask",
-          "key": "bill-sign-on"
+          "key": "bill-sign-on",
+          "excludesFacts": ["asked-before"]
         }
       ]
     },
@@ -185525,6 +184985,713 @@
           "key": "bill-sign-on"
         }
       ]
+    },
+    {
+      "key": "scene-talk.state-ask.we-re-running-a-story-that-says-you-took-money-from-briber-before-the-",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "We're running a story that says you took money from {briber} before the vote on {wanted}. What's your side?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "scandal-comment",
+          "key": "threat",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "requiresFacts": ["found-bribe", "briber", "wanted"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Reporter's-call builder (Claude Code), Words lead's lines (reply-sets/oath-bribe-scandal.md C)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "ask",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.we-re-running-a-story-that-says-contract-went-to-firm-while-you-had-a-",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "We're running a story that says {contract} went to {firm} while you had a stake in it. What's your side?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "scandal-comment",
+          "key": "threat",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "requiresFacts": ["found-conflict", "firm-yours", "contract", "firm"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Reporter's-call builder (Claude Code), Words lead's lines (reply-sets/oath-bribe-scandal.md C)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "ask",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confess.it-s-true-i-was-wrong-and-i-ll-say-so",
+      "move": "reply-confess",
+      "kind": "spoken",
+      "text": "It's true. I was wrong, and I'll say so.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "scandal-comment",
+          "key": "threat",
+          "step": "reply",
+          "move": "confess",
+          "role": "asked",
+          "setsFacts": ["answered-on-call"]
+        }
+      ],
+      "bearing": "contrite",
+      "origin": "authored",
+      "author": "Reporter's-call builder (Claude Code), Words lead's lines (reply-sets/oath-bribe-scandal.md C)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "confess",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.i-m-not-commenting",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I'm not commenting.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "scandal-comment",
+          "key": "threat",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Reporter's-call builder (Claude Code), Words lead's lines (reply-sets/oath-bribe-scandal.md C)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "refuse",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.then-i-have-nothing-for-you",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "Then I have nothing for you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "scandal-comment",
+          "key": "threat",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "after": "scene-talk.follow-answer.i-don-t-give-up-the-people-who-talk-to-me-so-what-s-your-side"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Reporter's-call builder (Claude Code), Words lead's line (rulings-f23b8d9a.md, 10:56Z)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "refuse",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-confront.i-have-the-papers-try-again",
+      "move": "follow-confront",
+      "kind": "spoken",
+      "text": "I have the papers. Try again.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "scandal-comment",
+          "key": "threat",
+          "step": "follow",
+          "move": "confront",
+          "role": "asker",
+          "after": "lie",
+          "requiresFacts": ["knows-truth"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Reporter's-call builder (Claude Code), Words lead's lines (reply-sets/oath-bribe-scandal.md C)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "confront",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.then-that-goes-in-the-story-the-way-you-said-it",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Then that goes in the story, the way you said it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "scandal-comment",
+          "key": "threat",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "after": "scene-talk.reply-confess.it-s-true-i-was-wrong-and-i-ll-say-so"
+        },
+        {
+          "subject": "scene",
+          "purpose": "scandal-comment",
+          "key": "threat",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "after": "scene-talk.reply-confess.alright-it-s-true-i-took-it"
+        },
+        {
+          "subject": "scene",
+          "purpose": "scandal-comment",
+          "key": "threat",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "after": "scene-talk.reply-confess.alright-i-should-have-stepped-aside"
+        },
+        {
+          "subject": "scene",
+          "purpose": "scandal-comment",
+          "key": "threat",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "after": "scene-talk.reply-confess.alright-it-s-true-i-took-it"
+        },
+        {
+          "subject": "scene",
+          "purpose": "scandal-comment",
+          "key": "threat",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "after": "scene-talk.reply-confess.alright-i-should-have-stepped-aside"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Reporter's-call builder (Claude Code), Words lead's lines (reply-sets/oath-bribe-scandal.md C, 02:45Z)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "thank",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.i-ll-quote-you-on-that-why-did-you-take-it",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "I'll quote you on that. Why did you take it?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "scandal-comment",
+          "key": "threat",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "after": "scene-talk.reply-confess.it-s-true-i-was-wrong-and-i-ll-say-so",
+          "requiresFacts": ["found-bribe"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Reporter's-call builder (Claude Code), Words lead's lines (reply-sets/oath-bribe-scandal.md C, 02:45Z)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "ask",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.i-couldn-t-say-no-to-someone-that-close-to-me",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "I couldn't say no to someone that close to me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "scandal-comment",
+          "key": "threat",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "after": "scene-talk.follow-ask.i-ll-quote-you-on-that-why-did-you-take-it",
+          "requiresFacts": ["briber-close"]
+        }
+      ],
+      "bearing": "contrite",
+      "origin": "authored",
+      "author": "Reporter's-call builder (Claude Code), Words lead's line (rulings-f23b8d9a.md, 10:51Z)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "answer",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.i-told-myself-it-wouldn-t-change-my-vote",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "I told myself it wouldn't change my vote.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "scandal-comment",
+          "key": "threat",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "after": "scene-talk.follow-ask.i-ll-quote-you-on-that-why-did-you-take-it",
+          "excludesFacts": ["briber-close"]
+        }
+      ],
+      "bearing": "contrite",
+      "origin": "authored",
+      "author": "Reporter's-call builder (Claude Code), Words lead's lines (rulings-f23b8d9a.md, 10:18Z)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "answer",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.i-told-myself-i-could-be-fair-about-it",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "I told myself I could be fair about it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "scandal-comment",
+          "key": "threat",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "after": "scene-talk.follow-ask.i-ll-quote-you-on-that-why-didn-t-you-step-aside",
+          "requiresFacts": ["firm-yours"]
+        }
+      ],
+      "bearing": "contrite",
+      "origin": "authored",
+      "author": "Reporter's-call builder (Claude Code), Words lead's lines (rulings-f23b8d9a.md, 10:18Z)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "answer",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.i-thought-i-could-keep-family-out-of-my-vote",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "I thought I could keep family out of my vote.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "scandal-comment",
+          "key": "threat",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "after": "scene-talk.follow-ask.i-ll-quote-you-on-that-why-didn-t-you-step-aside",
+          "requiresFacts": ["relative"]
+        }
+      ],
+      "bearing": "contrite",
+      "origin": "authored",
+      "author": "Reporter's-call builder (Claude Code), Words lead's line (rulings-f23b8d9a.md, 11:12Z)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "answer",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confess.alright-it-s-true-i-took-it",
+      "move": "reply-confess",
+      "kind": "spoken",
+      "text": "Alright. It's true. I took it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "scandal-comment",
+          "key": "threat",
+          "step": "reply",
+          "move": "confess",
+          "role": "asked",
+          "after": "scene-talk.follow-confront.i-have-the-papers-try-again",
+          "requiresFacts": ["found-bribe"],
+          "setsFacts": ["answered-on-call"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "scandal-comment",
+          "key": "threat",
+          "step": "reply",
+          "move": "confess",
+          "role": "asked",
+          "after": "scene-talk.follow-answer.i-don-t-give-up-the-people-who-talk-to-me-so-what-s-your-side",
+          "requiresFacts": ["found-bribe"],
+          "setsFacts": ["answered-on-call"]
+        }
+      ],
+      "bearing": "contrite",
+      "origin": "authored",
+      "author": "Reporter's-call builder (Claude Code), Words lead's lines (reply-sets/oath-bribe-scandal.md C, 02:45Z)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "confess",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.then-the-story-says-you-denied-it-and-what-the-papers-show",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Then the story says you denied it, and what the papers show.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "scandal-comment",
+          "key": "threat",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "after": "deflect"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Reporter's-call builder (Claude Code), Words lead's lines (reply-sets/oath-bribe-scandal.md C, 02:45Z)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "press",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-lie.those-papers-are-wrong",
+      "move": "reply-lie",
+      "kind": "spoken",
+      "text": "Those papers are wrong.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "scandal-comment",
+          "key": "threat",
+          "step": "reply",
+          "move": "lie",
+          "role": "asked",
+          "after": "scene-talk.follow-confront.i-have-the-papers-try-again",
+          "setsFacts": ["answered-on-call"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Reporter's-call builder (Claude Code), Words lead's lines (reply-sets/oath-bribe-scandal.md C, 02:45Z)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "lie",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.they-re-briber-s-own-the-story-will-say-you-deny-it-and-what-they-show",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "They're {briber}'s own. The story will say you deny it, and what they show.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "scandal-comment",
+          "key": "threat",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "after": "lie",
+          "outcome": "open",
+          "requiresFacts": ["leak-from-briber", "briber"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Reporter's-call builder (Claude Code), Words lead's lines (reply-sets/oath-bribe-scandal.md C, 02:45Z)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "accept",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.the-story-will-say-you-deny-it-and-what-they-show",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "The story will say you deny it, and what they show.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "scandal-comment",
+          "key": "threat",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "after": "lie",
+          "outcome": "open"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Reporter's-call builder (Claude Code), Words lead's lines (reply-sets/oath-bribe-scandal.md C, 02:45Z)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "accept",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.run-it-then-we-re-done",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "Run it, then. We're done.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "scandal-comment",
+          "key": "threat",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "after": "scene-talk.follow-confront.i-have-the-papers-try-again"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Reporter's-call builder (Claude Code), Words lead's lines (reply-sets/oath-bribe-scandal.md C, 02:45Z)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "confront",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-lie.that-s-not-what-happened",
+      "move": "reply-lie",
+      "kind": "spoken",
+      "text": "That's not what happened.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "scandal-comment",
+          "key": "threat",
+          "step": "reply",
+          "move": "lie",
+          "role": "asked",
+          "setsFacts": ["answered-on-call"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Reporter's-call builder (Claude Code), Words lead's lines (reply-sets/oath-bribe-scandal.md, read at 1bedea6b08)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "lie",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.i-don-t-give-up-the-people-who-talk-to-me-so-what-s-your-side",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "I don't give up the people who talk to me. So. What's your side?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "scandal-comment",
+          "key": "threat",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "scene-talk.reply-ask.hearsay.who-told-you-that"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Reporter's-call builder (Claude Code), Words lead's lines (reply-sets/oath-bribe-scandal.md, read at 1bedea6b08)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "answer",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confess.alright-i-should-have-stepped-aside",
+      "move": "reply-confess",
+      "kind": "spoken",
+      "text": "Alright. I should have stepped aside.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "scandal-comment",
+          "key": "threat",
+          "step": "reply",
+          "move": "confess",
+          "role": "asked",
+          "after": "scene-talk.follow-answer.i-don-t-give-up-the-people-who-talk-to-me-so-what-s-your-side",
+          "requiresFacts": ["found-conflict"],
+          "setsFacts": ["answered-on-call"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "scandal-comment",
+          "key": "threat",
+          "step": "reply",
+          "move": "confess",
+          "role": "asked",
+          "after": "scene-talk.follow-confront.i-have-the-papers-try-again",
+          "requiresFacts": ["found-conflict"],
+          "setsFacts": ["answered-on-call"]
+        }
+      ],
+      "bearing": "contrite",
+      "origin": "authored",
+      "author": "Reporter's-call builder (Claude Code), Words lead's lines (reply-sets/oath-bribe-scandal.md, read at 1bedea6b08)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "confess",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-lie.i-never-took-money-from-briber",
+      "move": "reply-lie",
+      "kind": "spoken",
+      "text": "I never took money from {briber}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "scandal-comment",
+          "key": "threat",
+          "step": "reply",
+          "move": "lie",
+          "role": "asked",
+          "after": "scene-talk.follow-answer.i-don-t-give-up-the-people-who-talk-to-me-so-what-s-your-side",
+          "requiresFacts": ["found-bribe", "briber"],
+          "setsFacts": ["answered-on-call"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Reporter's-call builder (Claude Code), Words lead's lines (reply-sets/oath-bribe-scandal.md, read at 1bedea6b08)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "lie",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-lie.i-had-nothing-to-do-with-that-award",
+      "move": "reply-lie",
+      "kind": "spoken",
+      "text": "I had nothing to do with that award.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "scandal-comment",
+          "key": "threat",
+          "step": "reply",
+          "move": "lie",
+          "role": "asked",
+          "after": "scene-talk.follow-answer.i-don-t-give-up-the-people-who-talk-to-me-so-what-s-your-side",
+          "requiresFacts": ["found-conflict"],
+          "setsFacts": ["answered-on-call"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Reporter's-call builder (Claude Code), Words lead's lines (reply-sets/oath-bribe-scandal.md, read at 1bedea6b08)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "lie",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.i-ll-quote-you-on-that-why-didn-t-you-step-aside",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "I'll quote you on that. Why didn't you step aside?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "scandal-comment",
+          "key": "threat",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "after": "scene-talk.reply-confess.it-s-true-i-was-wrong-and-i-ll-say-so",
+          "requiresFacts": ["found-conflict"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Reporter's-call builder (Claude Code), Words lead's lines (reply-sets/oath-bribe-scandal.md, read at 1bedea6b08)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "ask",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.we-re-running-a-story-that-contract-went-to-firm-relative-owns-it-and-li",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "We're running a story that {contract} went to {firm}. {relative} owns it and lives with you. What's your side?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "scandal-comment",
+          "key": "threat",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "requiresFacts": [
+            "found-conflict",
+            "relative-lives-with",
+            "relative",
+            "contract",
+            "firm"
+          ]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Reporter's-call builder (Claude Code), Words lead's lines (reply-sets/oath-bribe-scandal.md, read at 1bedea6b08)",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "ask",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.narrate-narrate.name-asks-for-a-minute-of-your-time",
@@ -191394,6 +191561,379 @@
         "move": "decline",
         "key": "serve-asked"
       }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.you-have-bill-drafted-and-no-names-on-it-but-yours-you-go-to-see-first",
+      "move": "narrate-narrate",
+      "kind": "written",
+      "text": "You have {bill} drafted and no names on it but yours. You go to see {first}.",
+      "origin": "authored",
+      "author": "Words lead (Nov 15), co-sponsor ask",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "narrate",
+        "key": "bill-sign-on"
+      },
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "cosponsor-ask",
+          "key": "bill-sign-on",
+          "requiresFacts": ["bill"],
+          "excludesFacts": ["asked-before"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.first-said-no-the-last-time-you-brought-a-bill-on-said-you-ask-again",
+      "move": "narrate-narrate",
+      "kind": "written",
+      "text": "{first} said no the last time you brought a bill on {said}. You ask again.",
+      "origin": "authored",
+      "author": "Words lead (Nov 15), second ask of the same person",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "narrate",
+        "key": "bill-sign-on"
+      },
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "cosponsor-ask",
+          "key": "bill-sign-on",
+          "requiresFacts": ["asked-before", "said"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.you-ve-asked-first-to-sign-on-to-a-bill-on-said-before-the-answer-was-no",
+      "move": "narrate-narrate",
+      "kind": "written",
+      "text": "You've asked {first} to sign on to a bill on {said} before. The answer was no.",
+      "origin": "authored",
+      "author": "Words lead (Nov 15), second ask of the same person",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "narrate",
+        "key": "bill-sign-on"
+      },
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "cosponsor-ask",
+          "key": "bill-sign-on",
+          "requiresFacts": ["asked-before", "said"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.state-request.i-m-asking-you-again-on-said-will-you-sign-on-this-time",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I'm asking you again on {said}. Will you sign on this time?",
+      "origin": "authored",
+      "author": "Words lead (Nov 15), second ask of the same person",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "request",
+        "key": "bill-sign-on"
+      },
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "cosponsor-ask",
+          "key": "bill-sign-on",
+          "requiresFacts": ["asked-before", "said"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-vote-on-bill-is-tomorrow-first-voted-against-your-last-bill-on-said",
+      "move": "narrate-narrate",
+      "kind": "written",
+      "text": "The vote on {bill} is tomorrow. {first} voted against your last bill on {said}.",
+      "origin": "authored",
+      "author": "Words lead (Nov 15), second ask of the same person",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "narrate",
+        "key": "vote-sought"
+      },
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "ask-vote",
+          "key": "vote-sought",
+          "requiresFacts": ["asked-before", "said", "vote-tomorrow"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-refuse.you-asked-me-last-time-and-i-voted-no-i-m-voting-no-again",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "You asked me last time, and I voted no. I'm voting no again.",
+      "origin": "authored",
+      "author": "Words lead (Nov 15), second ask of the same person",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "refuse",
+        "key": "vote-wanted"
+      },
+      "bearing": "steady",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "ask-vote",
+          "key": "vote-wanted",
+          "requiresFacts": ["asked-before"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-stall.you-asked-before-i-still-haven-t-made-up-my-mind",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "You asked before. I still haven't made up my mind.",
+      "origin": "authored",
+      "author": "Words lead (Nov 15), second ask of the same person",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "stall",
+        "key": "bill-sign-on"
+      },
+      "bearing": "steady",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "purpose": "cosponsor-ask",
+          "key": "bill-sign-on",
+          "requiresFacts": ["asked-before"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.follow-defer.read-it-that-s-all-i-m-asking",
+      "move": "follow-defer",
+      "kind": "spoken",
+      "text": "Read it. That's all I'm asking.",
+      "origin": "authored",
+      "author": "Words lead (Nov 15), second ask of the same person",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "defer",
+        "key": "bill-sign-on"
+      },
+      "bearing": "calm",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "defer",
+          "role": "asker",
+          "purpose": "cosponsor-ask",
+          "key": "bill-sign-on",
+          "after": "stall",
+          "requiresFacts": ["asked-before"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.follow-defer.take-the-time-you-need",
+      "move": "follow-defer",
+      "kind": "spoken",
+      "text": "Take the time you need.",
+      "origin": "authored",
+      "author": "Words lead (Nov 15), second ask of the same person",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "defer",
+        "key": "vote-wanted"
+      },
+      "bearing": "calm",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "defer",
+          "role": "asker",
+          "purpose": "ask-vote",
+          "key": "vote-wanted",
+          "after": "stall",
+          "requiresFacts": ["asked-before"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-stall.i-was-a-no-last-time-don-t-count-me-either-way-yet",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "I was a no last time. Don't count me either way yet.",
+      "origin": "authored",
+      "author": "Words lead (Nov 15), second ask of the same person",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "stall",
+        "key": "vote-wanted"
+      },
+      "bearing": "steady",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "purpose": "ask-vote",
+          "key": "vote-wanted",
+          "requiresFacts": ["asked-before"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.follow-plea.i-backed-you-when-it-counted-i-need-your-vote-on-this-one",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "I backed you when it counted. I need your vote on this one.",
+      "origin": "authored",
+      "author": "Words lead (Nov 15), second ask of the same person",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "plea",
+        "key": "vote-wanted"
+      },
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "ask-vote",
+          "key": "vote-wanted",
+          "requiresFacts": ["asked-before"],
+          "onlyWhen": ["read-favor-given"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-turned-you-down-for-office-once-you-ask-again",
+      "move": "narrate-narrate",
+      "kind": "written",
+      "text": "{name} turned you down for {office} once. You ask again.",
+      "origin": "authored",
+      "author": "Words lead (Nov 15), second ask of the same person",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "narrate",
+        "key": "serve-asked"
+      },
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["asked-before"],
+          "excludesFacts": ["asked-more-than-once"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-has-already-said-no-to-office-and-said-it-again-you-ask-anyway",
+      "move": "narrate-narrate",
+      "kind": "written",
+      "text": "{name} has already said no to {office}, and said it again. You ask anyway.",
+      "origin": "authored",
+      "author": "Words lead (Nov 15), second ask of the same person",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "narrate",
+        "key": "serve-asked"
+      },
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["asked-more-than-once"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-decline.my-answer-isn-t-going-to-change-let-it-go",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "My answer isn't going to change. Let it go.",
+      "origin": "authored",
+      "author": "Words lead (Nov 15), second ask of the same person",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "decline",
+        "key": "serve-asked"
+      },
+      "bearing": "firm",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["asked-more-than-once"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.reply-decline.i-gave-you-my-answer-it-hasn-t-changed",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I gave you my answer. It hasn't changed.",
+      "origin": "authored",
+      "author": "Words lead (Nov 15), second ask of the same person",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "decline",
+        "key": "serve-asked"
+      },
+      "bearing": "steady",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-serve",
+          "key": "serve-asked",
+          "requiresFacts": ["nothing-moved"],
+          "excludesFacts": ["asked-more-than-once"]
+        }
+      ]
     }
   ]
 }

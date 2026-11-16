@@ -6,8 +6,10 @@
  * nothing; each kind names the record it comes from.
  */
 import schoolDays from "./data/school-days.json" with { type: "json" };
+import { makeIsoDate } from "./kernel/dates";
 import { stableHash } from "./kernel/ids";
-import { schoolSpans } from "./past-school";
+import { schoolSpans, stageOf } from "./past-school";
+import { kindergartenYear } from "./past-school-calendar";
 import { PAST_WORK_SPELL } from "./past-work";
 import { preStartHistory } from "./pre-start";
 import { parameter } from "./parameters";
@@ -44,8 +46,10 @@ export interface SharedHistory {
    * volunteer left the campaign to run in its race.
    */
   endedOn?: IsoDate;
-  /** Schoolmates: the school year they shared (its first calendar year). */
+  /** Schoolmates: the first school year they shared (by the calendar year it starts in). */
   year?: number;
+  /** Schoolmates: the last school year they shared (by the calendar year it starts in); the years since they were at school together count from its end. */
+  lastYear?: number;
   /** Schoolmates: the school they shared is behind them, so they are not both enrolled there this school year. */
   ended?: boolean;
 }
@@ -328,16 +332,25 @@ export function sharedHistory(
   out.push(...sharedWork(core, a, b));
   const schoolA = attendedSchool(core, a);
   const schoolB = attendedSchool(core, b);
+  // Together means one school at one stage in one year: a district's
+  // elementary, middle and high schools are separate buildings, and a high
+  // schooler and a first grader there were never schoolmates (Account lead,
+  // Nov 15: Kimberly, in high school, asked Dana, in elementary school,
+  // "Remember Dortches Public Schools?").
+  const stageIn = (person: NonNullable<typeof one>, year: number) =>
+    stageOf(core, year - kindergartenYear(makeIsoDate(person.birthDate)));
   if (
     schoolA &&
     schoolB &&
     schoolA.schoolId === schoolB.schoolId &&
-    schoolA.year === schoolB.year
+    schoolA.year === schoolB.year &&
+    stageIn(one, schoolA.year) === stageIn(other, schoolB.year)
   )
     out.push({
       kind: "schoolmate",
       recordId: schoolA.schoolId,
       year: schoolA.year,
+      lastYear: schoolA.year,
       // Both attended it this school year and are enrolled there today: a
       // graduate is no longer once the year's last day has passed.
       ...(schoolA.year < schoolYearOf(core.date) ||
@@ -355,18 +368,35 @@ export function sharedHistory(
       const peer = theirs.find(
         (row) =>
           row.schoolId === mine.schoolId &&
+          row.stage === mine.stage &&
           row.from <= mine.to &&
           mine.from <= row.to,
       );
       if (peer) {
+        // The last year they were there together: the latest overlap of any
+        // of their runs at one stage of the school.
+        let lastYear = Math.min(mine.to, peer.to);
+        for (const own of schoolSpans(core, a))
+          for (const row of theirs)
+            if (
+              own.schoolId === mine.schoolId &&
+              row.schoolId === mine.schoolId &&
+              own.stage === row.stage &&
+              row.from <= own.to &&
+              own.from <= row.to
+            )
+              lastYear = Math.max(lastYear, Math.min(own.to, row.to));
         out.push({
           kind: "schoolmate",
           recordId: mine.schoolId,
           year: Math.max(mine.from, peer.from),
+          lastYear,
           // Each with a run there that reaches this school year is enrolled
           // there now (a district holds several runs of one person, one per
           // stage); a graduate's last run is over once its last day has passed.
-          ...(enrolledAt(core, a, mine.schoolId) &&
+          // Still together only while their shared stage reaches this year.
+          ...(lastYear >= schoolYearOf(core.date) &&
+          enrolledAt(core, a, mine.schoolId) &&
           enrolledAt(core, b, mine.schoolId)
             ? {}
             : { ended: true }),

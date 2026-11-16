@@ -5,7 +5,7 @@ area: release
 kind: cleanup
 priority: 1
 size: M
-status: in-pr
+status: merged
 claimed-by: claude/pool-release-repo-large-files
 pr: #8385
 after:

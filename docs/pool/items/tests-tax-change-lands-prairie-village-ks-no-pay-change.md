@@ -5,7 +5,7 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: merged
 claimed-by: claude/project-thread-8y55c8
 pr: #9327
 after:

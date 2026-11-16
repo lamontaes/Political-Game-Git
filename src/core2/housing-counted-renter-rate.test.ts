@@ -7,7 +7,7 @@
  * sampling spread of that many households. At a third, Storrs CT, where
  * almost nothing is for sale, the test below checks what counted buying owns
  * there. At all three, no day's purchases take more homes than were for sale
- * that morning.
+ * that morning or a builder finished that day.
  *
  * The band, 2% to 6% of renter households a year (the Account lead's ruling,
  * Nov 15), from:
@@ -70,7 +70,7 @@ type Purchase = {
  * A played year at a named place, a day at a time: the town's counted renter
  * households on the first day, those that bought, the most of them left
  * searching for a home at once, and every day whose counted purchases took
- * more homes than were for sale that morning.
+ * more homes than were for sale that morning or finished that day.
  */
 function playYear({ key, seed, name }: typeof BASTROP) {
   setBookkeeping(false);
@@ -103,6 +103,21 @@ function playYear({ key, seed, name }: typeof BASTROP) {
       Math.max(0, Math.floor(row?.newHomesForSale ?? 0))
     );
   };
+  // Builders' houses in town under way: one finished during a day is for sale that day.
+  const building = () =>
+    new Map(
+      (
+        housing.table("projects").rows() as unknown as {
+          id: string;
+          placeId: string;
+          kind: string;
+          units: number;
+          open: boolean;
+        }[]
+      )
+        .filter((p) => p.placeId === town && p.kind === "single" && p.open)
+        .map((p) => [p.id, p.units] as const),
+    );
   const purchases = () =>
     housing.table("purchases").rows() as unknown as Purchase[];
   const end = makeIsoDate(addMonths(opening, 12));
@@ -110,14 +125,19 @@ function playYear({ key, seed, name }: typeof BASTROP) {
   let searching = 0;
   for (let day = opening; day < end;) {
     const morning = forSale();
+    const underWay = building();
     day = makeIsoDate(addDays(day, 1));
     advanceCore(core, day);
+    const still = building();
+    const finished = [...underWay]
+      .filter(([id]) => !still.has(id))
+      .reduce((n, [, units]) => n + units, 0);
     const taken = purchases()
       .filter((row) => row.counted && row.date === day)
       .reduce((n, row) => n + row.weight, 0);
-    if (taken > morning + 1e-6)
+    if (taken > morning + finished + 1e-6)
       overdrawn.push(
-        `${day}: ${taken.toFixed(2)} homes bought, ${morning} for sale`,
+        `${day}: ${taken.toFixed(2)} homes bought, ${morning} for sale that morning and ${finished} finished that day`,
       );
     searching = Math.max(
       searching,
@@ -148,7 +168,7 @@ it.each([BASTROP, BLOOMINGDALE])(
   (place) => {
     const year = playYear(place);
     expect(year.n, year.detail).toBeGreaterThan(0);
-    // Every home bought was for sale that morning.
+    // Every home bought was for sale that morning or finished that day.
     expect(year.overdrawn, year.detail).toEqual([]);
     expect(year.rate, year.detail).toBeGreaterThanOrEqual(
       BAND.floor - year.spread(BAND.floor),

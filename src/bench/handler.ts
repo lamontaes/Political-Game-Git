@@ -12,10 +12,12 @@ import { writeLineGrade } from "./grade-line";
 import { corePlaceStateIdentities } from "../core2/place-lookup";
 import { fillInCount, personOrFillIn } from "../core2/state";
 import {
+  parseSave,
   registerCommand,
   replaySave,
   saveGame,
   type Game,
+  type SaveCover,
   type SaveCommand,
   type SaveV1,
 } from "../core2/saves";
@@ -23,7 +25,13 @@ import { parameter } from "../core2/parameters";
 import { SITUATION_LIBRARY } from "../director/scheduling";
 import { relatedGuideTerms, searchGuideTerms } from "./guide-terms";
 import { readFile } from "node:fs/promises";
-import { writeFileSync } from "node:fs";
+import {
+  mkdirSync,
+  readFileSync,
+  readdirSync,
+  statSync,
+  writeFileSync,
+} from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { randomUUID } from "node:crypto";
@@ -219,6 +227,8 @@ interface ServerState {
   marker: DevMode | undefined;
   /** The life as a save (saves.ts): the recipe and every request the player made. */
   life: Game | undefined;
+  /** The life's save file, by id (savePath). */
+  lifeId: string | undefined;
 }
 const state: ServerState = {
   core: undefined,
@@ -239,6 +249,7 @@ const state: ServerState = {
   opening: undefined,
   marker: undefined,
   life: undefined,
+  lifeId: undefined,
 };
 /** What the server holds before any life, for a replay to start from. */
 const EMPTY_STATE: ServerState = { ...state };
@@ -730,11 +741,23 @@ const ROUTES: readonly Route[] = [
       request.method === "POST" && url.pathname === "/api/talk/say",
     run: async ({ url, send }) => {
       if (!state.conversation) throw new Error("No conversation is open.");
-      state.conversation = say(
-        requireCore(),
-        state.conversation,
-        url.searchParams.get("key") ?? "",
-      );
+      try {
+        state.conversation = say(
+          requireCore(),
+          state.conversation,
+          url.searchParams.get("key") ?? "",
+        );
+      } catch (error) {
+        // A press of a reply the talk has already moved past (a second press
+        // that was in flight with the first, or a button from an older beat) is
+        // answered with the talk as it stands now: nothing is said twice and
+        // nothing is lost. The engine still refuses the stale key.
+        if (
+          !(error instanceof Error) ||
+          !/^Not an offered line/.test(error.message)
+        )
+          throw error;
+      }
       send(200, talkView(state.conversation));
       return;
     },
@@ -903,48 +926,53 @@ const ROUTES: readonly Route[] = [
     match: ({ request, url }) =>
       request.method === "GET" && url.pathname === "/api/title",
     run: async ({ send }) => {
-      // One visit to the title: its scene, and the life in progress to
-      // continue (the server's current life), or none.
-      const personId = state.core ? state.player?.personId : undefined;
+      // One visit to the title: its scene; the life to continue (the one in
+      // play, else the most recent save); and every saved life.
       const scenes = titleRotation(
         new Date().toISOString().slice(0, 10),
         state.titleVisits++,
       );
+      const playing = lifeCover();
+      const saves = savedLives().map(({ id, save }) => ({
+        ...(id === state.lifeId && playing ? playing : save.cover),
+        saveId: id,
+        // In play now: Continue opens it without loading.
+        playing: id === state.lifeId && Boolean(playing),
+      }));
       send(200, {
         ...scenes[0]!,
         scenes,
         rotateSeconds: TITLE_ROTATE_SECONDS,
         // New game's busts, before any world exists.
         newGame: newGameFaces(),
-        life: personId
+        life: playing
           ? {
-              personId,
-              name: `${state.core!.people.get(personId)?.givenName ?? ""} ${state.core!.people.get(personId)?.familyName ?? ""}`,
-              age: ageOnDate(
-                makeIsoDate(
-                  state.core!.people.get(personId)?.birthDate ??
-                    state.core!.date,
-                ),
-                makeIsoDate(state.core!.date),
-              ),
-              // Continue's and Saved games' face: the player's one face, as
-              // every screen in play draws it (older head and gray hair past
-              // 65), never the creator's look drawn a second way.
-              face: faceOf(
-                state.core!,
-                personId,
-                scenePlace(state.core!, personId).place,
-              ),
-              placeName: state.placeName,
-              date: state.core!.date,
-              minuteOfDay:
-                state.player!.packet?.at.minuteOfDay ??
-                state.opening?.home?.minuteOfDay ??
-                0,
+              ...playing,
+              saveId: state.lifeId,
+              playing: true,
               packet: state.player!.packet,
             }
-          : null,
+          : (saves.find((life) => life.personId) ?? null),
+        saves: saves.filter((life) => life.personId),
       });
+      return;
+    },
+  },
+  {
+    match: ({ request, url }) =>
+      request.method === "POST" && url.pathname === "/api/load",
+    run: async ({ url, options, send }) => {
+      // A saved life loaded: its requests replayed into this server, so the
+      // same world, day and household come back (saves.ts).
+      const id = url.searchParams.get("save") ?? "";
+      const found = savedLives().find((life) => life.id === id);
+      if (!found) throw new Error("No such saved life.");
+      // The life in play is written first: what it did since its last day is kept.
+      saveLifeNow();
+      await replayLife(found.save, options, id);
+      const life = lifeCover();
+      if (!life) throw new Error("The saved life did not load.");
+      send(200, { ...life, saveId: id, packet: state.player!.packet });
       return;
     },
   },
@@ -2861,37 +2889,131 @@ const BENCH_REQUEST = "bench.request";
 registerCommand<{ method: string; url: string }>(BENCH_REQUEST, () => {
   throw new Error("A bench request replays through the bench (replayLife).");
 });
-/** Requests that write files, not the world: never recorded. */
-const UNRECORDED = new Set(["/api/grade", "/api/gap"]);
+/** Requests that write files or load a save, not the world: never recorded. */
+const UNRECORDED = new Set(["/api/grade", "/api/gap", "/api/load"]);
 
-/** Where the life's save is written: OCD_SAVE_PATH, else the system's temporary folder (part 3 picks the folder). */
-export function lifeSavePath(): string {
-  return process.env.OCD_SAVE_PATH ?? join(tmpdir(), "ocd-bench-life.json");
+/**
+ * The folder the saves are kept in, one file per life: OCD_SAVE_DIR, which
+ * every way the game is launched sets (the desktop app to its own data
+ * folder, the bench server to the home folder), else a folder in the
+ * system's temporary folder for tests and scripts.
+ */
+export function saveFolder(): string {
+  return process.env.OCD_SAVE_DIR ?? join(tmpdir(), "ocd-saves");
 }
 
-/** Writes the life's save (the recipe and its requests, no snapshot) through saves.ts. */
+/** The file a life's save is written to, by the life's id. */
+export function savePath(lifeId: string): string {
+  return join(saveFolder(), `${lifeId}.json`);
+}
+
+/** The id of the life a replay is rebuilding: no save is written until it is done. */
+let replaying: string | undefined;
+
+/** The player's life as the title shows it (Continue and Saved games), from the records now. */
+function lifeCover(): SaveCover | undefined {
+  const core = state.core;
+  const personId = core ? state.player?.personId : undefined;
+  const person = personId ? core!.people.get(personId) : undefined;
+  if (!core || !personId) return undefined;
+  return {
+    personId,
+    name: `${person?.givenName ?? ""} ${person?.familyName ?? ""}`,
+    age: ageOnDate(
+      makeIsoDate(person?.birthDate ?? core.date),
+      makeIsoDate(core.date),
+    ),
+    // The player's one face, as every screen in play draws it (older head
+    // and gray hair past 65), never the creator's look drawn a second way.
+    face: faceOf(core, personId, scenePlace(core, personId).place),
+    placeName: state.placeName,
+    date: core.date,
+    minuteOfDay:
+      state.player!.packet?.at.minuteOfDay ??
+      state.opening?.home?.minuteOfDay ??
+      0,
+  };
+}
+
+/** Writes the life's save (the recipe, its requests and its cover, no snapshot) through saves.ts. */
 export function saveLifeNow(): SaveV1 | undefined {
-  if (!state.life || !state.core) return undefined;
-  const save = saveGame(state.life, { snapshot: false });
-  writeFileSync(lifeSavePath(), JSON.stringify(save));
+  if (!state.life || !state.core || !state.lifeId || replaying)
+    return undefined;
+  const cover = lifeCover();
+  const save = saveGame(state.life, {
+    snapshot: false,
+    ...(cover ? { cover } : {}),
+  });
+  mkdirSync(saveFolder(), { recursive: true });
+  writeFileSync(savePath(state.lifeId), JSON.stringify(save));
   return save;
 }
 
-/**
- * Replays a saved life into this server: the bench starts empty and runs
- * each recorded request again, so the same world is rebuilt (the bench world
- * is the same from the same seed) and the save is recorded afresh.
- */
-export async function replayLife(
-  save: SaveV1,
-  options: BenchRequestOptions = { developer: true },
-): Promise<Pick<Game, "skipped" | "upgradedFrom">> {
+/** Every save in the folder that this version can read, the most recently written first. */
+export function savedLives(): { id: string; save: SaveV1 }[] {
+  let names: string[];
+  try {
+    names = readdirSync(saveFolder()).filter((name) => name.endsWith(".json"));
+  } catch {
+    return [];
+  }
+  const lives: { id: string; save: SaveV1; written: number }[] = [];
+  for (const name of names) {
+    const file = join(saveFolder(), name);
+    try {
+      lives.push({
+        id: name.slice(0, -".json".length),
+        save: parseSave(readFileSync(file, "utf8")),
+        written: statSync(file).mtimeMs,
+      });
+    } catch {
+      // Not a save this version reads (owner, Nov 15: saves "don't need to be transferable between versions").
+    }
+  }
+  return lives
+    .sort((a, b) => b.written - a.written)
+    .map(({ id, save }) => ({ id, save }));
+}
+
+/** The server as it starts, before any life: as a restart leaves it, and where a replay begins. */
+export function emptyBench(): void {
   Object.assign(state, {
     ...EMPTY_STATE,
     nightsWatched: new Set<string>(),
     canvassedOn: new Set<string>(),
     life: undefined,
+    lifeId: undefined,
   });
+}
+
+/**
+ * Replays a saved life into this server: the bench starts empty and runs
+ * each recorded request again, so the same world is rebuilt (the bench world
+ * is the same from the same seed) and the save is recorded afresh. Given the
+ * life's id, the life keeps it and its file is written once, at the end.
+ */
+export async function replayLife(
+  save: SaveV1,
+  options: BenchRequestOptions = { developer: true },
+  lifeId?: string,
+): Promise<Pick<Game, "skipped" | "upgradedFrom">> {
+  emptyBench();
+  replaying = lifeId ?? "replay";
+  try {
+    return await replayCommands(save, options);
+  } finally {
+    replaying = undefined;
+    if (lifeId && state.life) {
+      state.lifeId = lifeId;
+      saveLifeNow();
+    }
+  }
+}
+
+async function replayCommands(
+  save: SaveV1,
+  options: BenchRequestOptions,
+): Promise<Pick<Game, "skipped" | "upgradedFrom">> {
   return replaySave(save, async (command) => {
     const { method, url } = command.payload as { method: string; url: string };
     const reply = await benchRequest(
@@ -2932,7 +3054,9 @@ export async function benchRequest(
       kind: BENCH_REQUEST,
       payload: { method, url: `${url.pathname}${url.search}` },
     };
-    if (url.pathname === "/api/newlife" && state.core !== was)
+    if (url.pathname === "/api/newlife" && state.core !== was) {
+      // A new life is a new save file; a replayed one keeps its own.
+      state.lifeId = replaying ? undefined : `life-${Date.now()}`;
       state.life = {
         core: state.core,
         recipe: {
@@ -2945,7 +3069,8 @@ export async function benchRequest(
         commands: [command],
         skipped: [],
       };
-    else if (state.life?.core === state.core) state.life.commands.push(command);
+    } else if (state.life?.core === state.core)
+      state.life.commands.push(command);
     // Written after every request that moved the date (and a new life).
     if (state.core.date !== date || state.core !== was) saveLifeNow();
   }

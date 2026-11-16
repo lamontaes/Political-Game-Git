@@ -2956,6 +2956,15 @@ export function subjectsBetween(
     if (row.kind === "schoolmate" && row.year !== undefined) {
       const school = core.organizations.get(row.recordId);
       if (!school) continue;
+      // The years since they were last at school together: from the end of
+      // the last school year they shared (its June, in the calendar year
+      // after the one it starts in), never from the first (Account lead,
+      // Nov 15: a 45-year-old heard kindergarten was 41 years ago). Two still
+      // there together have no years since.
+      const since =
+        row.ended && row.lastYear !== undefined
+          ? thisYear - (row.lastYear + one)
+          : zero;
       out.push({
         id: `shared-school:${row.recordId}:${row.year}`,
         kind: "shared-school",
@@ -2965,13 +2974,27 @@ export function subjectsBetween(
             text: organizationName(school),
             sourceRecordIds: [row.recordId],
           },
-          years: {
-            text: String(thisYear - row.year),
-            sourceRecordIds: [row.recordId],
-          },
+          ...(since >= one
+            ? {
+                years: {
+                  text: String(since),
+                  sourceRecordIds: [row.recordId],
+                },
+              }
+            : {}),
           // A reason to raise it: the years since, past the rules' threshold.
-          ...(thisYear - row.year >= LONG_AGO_YEARS
+          ...(since >= LONG_AGO_YEARS
             ? { "long-ago": { text: "yes", sourceRecordIds: [row.recordId] } }
+            : {}),
+          // The school is only their past: they have left it and neither
+          // works there now, so it may be asked about as a memory (Words lead, Nov 15: Blair, a
+          // teacher there, asked "Do you ever think about Dortches Public
+          // Schools?"). Read from their jobs on record; nothing kept.
+          ...(row.ended &&
+          ![speakerId, listenerId].some(
+            (id) => jobOf(core, core.people.get(id)!)?.org.id === row.recordId,
+          )
+            ? { "only-past": { text: "yes", sourceRecordIds: [row.recordId] } }
             : {}),
         },
       });
@@ -4353,6 +4376,10 @@ function playerFacts(
       stage = "moved";
     } else if (born) stage = "born";
   }
+  // The player's own news is answered by what it was (a race won or lost, a
+  // job got or lost): its replies read the subject's stage, not the raise's.
+  if (last.kind === "player-news" && last.subject.stage)
+    stage = last.subject.stage;
   if (last.kind === "home-reply") {
     const theirs = last.facts.place?.text;
     if (theirs && theirs === facts["my-place"]?.text) stage = "same";
@@ -7233,8 +7260,13 @@ export function sayNothing(
   // In a sitting, silence declines the question put.
   if (conversation.sitting) return declineInSitting(core, conversation, data);
   const from = conversation.lines.length;
-  carryOn(core, conversation, data);
+  // As `say` does: what the player heard today is held back from the pick, and
+  // what the other person says next is kept as heard.
+  withHeard(core, conversation.playerId, () =>
+    carryOn(core, conversation, data),
+  );
   laterMentions(core, conversation, from);
+  noteHeard(core, conversation);
   return conversation;
 }
 

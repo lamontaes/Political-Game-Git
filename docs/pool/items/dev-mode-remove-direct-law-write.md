@@ -5,10 +5,10 @@ area: play
 kind: cleanup
 priority: 3
 size: S
-status: open
+status: merged
 standard: 2
 claimed-by:
-pr:
+pr: #8684
 after:
 blocked-on:
 lead: play-first
@@ -19,6 +19,7 @@ source: added with npm run pool -- add
 checked: fable 2026-11-10
 claimed-at:
 branch: claude/pool-dev-mode-remove-direct-law-write
+merged-at: 2026-11-15T22:38:14.575Z
 ---
 
 **What.** With the /dev page deleted, dev mode's server still serves a direct set-a-law write (setLaw through enactLaw, no bill, vote or signature), the built-in and saved experiments and the saved-experiments file, and dev-mode.test.ts tests them. The Bills panel and Run until do the same through the game's own code, so these are leftovers. Delete the routes, the methods, the saved-experiments storage and the tests that only cover them, and keep any test that proves a law's effect by another route.

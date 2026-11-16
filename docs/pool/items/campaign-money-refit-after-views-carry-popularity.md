@@ -5,7 +5,7 @@ area: elections
 kind: feature
 priority: 2
 size: M
-status: in-pr
+status: merged
 standard: 2
 claimed-by: claude (views thread)
 pr: 9307
