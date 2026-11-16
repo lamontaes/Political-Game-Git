@@ -8,6 +8,7 @@ import { makeButton } from "./button.mjs";
 import { lookRow } from "./look-row.mjs";
 import { statusLine } from "./fields.mjs";
 import { stripSection } from "./strips.mjs";
+import { devViewNodes } from "./dev-views.mjs";
 
 async function send(path, input) {
   const response = await fetch(`/api/dev/${path}`, {
@@ -208,6 +209,8 @@ export async function devBillCard({
     result,
     ...(await outcomeLines({ billId: paper.id, labels, onDone })),
     ...twinLines(labels),
+    // Views registered from their own files draw here (ui/dev-views.mjs, slot "bill-card").
+    ...(await devViewNodes("bill-card", { billId: paper.id, onDone })),
   );
   section.classList.add("dev-only", "dev-bill-card");
   return section;
