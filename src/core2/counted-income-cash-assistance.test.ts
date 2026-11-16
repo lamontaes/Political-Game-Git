@@ -51,4 +51,4 @@ it("Danville: a counted household's income rises once by its welfare payment", (
     yearly / months,
     0,
   );
-}, 120_000);
+}, 60_000);
