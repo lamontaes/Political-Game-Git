@@ -5,10 +5,10 @@ area: play
 kind: bug
 priority: 1
 size: M
-status: open
+status: in-pr
 standard: 2
 claimed-by: screens lane (Nov 16)
-pr:
+pr: 9758
 blocked-on:
 source: owner, Nov 16, crew line item 4e and his Desk answer on the creator
 after:
