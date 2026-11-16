@@ -6,3 +6,4 @@ Place: Afono, American Samoa. Seed: 9a65400c-3f3d-4684-a1ff-417391fc98ed. The pl
 - `government-before.png` and `government-after.png`: the same screen on main ca195112 and on this branch.
 - `every-screen-after.png`: the title, the room and every rail screen and tab on this branch.
 - `room-after.png`: the player card and the two notes in the room.
+- `people-row-hover.png`: the pointer on a row of People (Ryan Olsen), showing the halo.
