@@ -7,8 +7,8 @@
  * snapshot matches the played one field by field. A save whose version is
  * changed by hand still replays and says what it was made under.
  */
-import { createHash, randomUUID } from "node:crypto";
-import { mkdtempSync, readFileSync } from "node:fs";
+import { createHash } from "node:crypto";
+import { mkdtempSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { expect, it } from "vitest";
@@ -16,10 +16,12 @@ import { countedResidents } from "../core2/electorate";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { snapshotWorld } from "../core2/snapshot";
 import type { SaveV1 } from "../core2/saves";
-import { benchRequest, benchWorld, lifeSavePath, replayLife } from "./handler";
+import { benchRequest, benchWorld, replayLife, savedLives } from "./handler";
 
-const seed = process.env.BENCH_SEED ?? randomUUID();
-const DAYS = Number(process.env.SAVE_LIFE_DAYS ?? 4);
+// Pinned (pinned-tests): this seed draws Opal, Wyoming. About 60 seconds
+// alone and 75 beside the other save tests.
+const seed = "save-continue-1";
+const DAYS = 4;
 
 let made = 0;
 const ask = async (method: string, path: string) => {
@@ -75,10 +77,7 @@ const differing = (a: Map<string, string>, b: Map<string, string>) =>
   [...new Set([...a.keys(), ...b.keys()])].filter((k) => a.get(k) !== b.get(k));
 
 it(`a played life saves and replays into the same world, seed ${seed}`, async () => {
-  process.env.OCD_SAVE_PATH = join(
-    mkdtempSync(join(tmpdir(), "save-life-")),
-    "life.json",
-  );
+  process.env.OCD_SAVE_DIR = mkdtempSync(join(tmpdir(), "save-life-"));
   await ask("POST", `/api/newlife?seed=${seed}`);
   const placeId = `${corePlaceByJurisdictionId(benchWorld().placeId as never)?.displayName ?? "?"} (${benchWorld().placeId})`;
   for (let n = 0; n < DAYS; n += 1) await day();
@@ -91,7 +90,7 @@ it(`a played life saves and replays into the same world, seed ${seed}`, async ()
   await ask("GET", `/api/card?id=${counted!.id}`);
   await day();
   const played = parts();
-  const save = JSON.parse(readFileSync(lifeSavePath(), "utf8")) as SaveV1;
+  const save: SaveV1 = savedLives()[0]!.save;
   expect(save.commands.length, "the save holds the life's requests").toBe(made);
   expect(
     save.commands.some((c) =>
@@ -122,4 +121,4 @@ it(`a played life saves and replays into the same world, seed ${seed}`, async ()
   process.stdout.write(
     `save-life seed ${seed} (${placeId}): ${save.commands.length} requests saved (${JSON.stringify(save).length} bytes), replayed with ${played.size} fields equal; a save marked 0.0.0-older replayed with upgradedFrom set.\n`,
   );
-}, 1_800_000);
+}, 150_000);

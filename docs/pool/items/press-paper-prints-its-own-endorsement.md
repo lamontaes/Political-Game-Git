@@ -5,7 +5,7 @@ area: elections
 kind: bug
 priority: 3
 size: S
-status: in-pr
+status: merged
 standard: 2
 claimed-by: claude/project-thread-hjvzia
 pr: 9466

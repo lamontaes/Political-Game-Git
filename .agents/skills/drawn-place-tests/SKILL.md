@@ -37,6 +37,8 @@ A test that builds a world draws its place from all 56 (`drawPlace` in `scripts/
 
 Replay it. A check that failed once and passed on a second draw has told you nothing yet: run it again on the failed seed (`BENCH_SEED` for a browser check). If it fails every time on that seed, it is a finding about that place. On Nov 11 the merge desk saw `bill-stage` time out once in Red Hook, U.S. Virgin Islands. On replay it failed every time, and showed three defects: Play as offered another place's council, a bill's page cut off its vote, and a heading stood with nothing under it.
 
+**Compare a branch with its base on the same seed (story builder, Nov 15).** A test that takes `GOLDEN_PATH_SEED ?? randomBytes(...)` draws a new world every run, so "red on my head, green on the base" proves nothing until both ran with the failed seed in `GOLDEN_PATH_SEED`. On Nov 15 `src/director/ask-vote-variants.test.ts` and `ask-before-the-roll.test.ts` were red at all six places on a #9369 head; both failed the same on the clean Train at the same seeds, and a revert bisect had begun before the seed was read from the log.
+
 - **A check that steps in as an official picks one whose office the played place runs.** A match on a word in the list ("council") found another place's council, whose office is held as results only. Match the body by its government, never by a word in a name.
 - **A check never drafts around a missing case.** One that fell back to "the first subject" when none had a law in force went on and failed two minutes later, somewhere else. Fail by name at the point the case is missing, with the seed and what was passed over.
 

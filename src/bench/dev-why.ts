@@ -19,12 +19,25 @@
  *     town and county hold in full and the rest, which add to the state's.
  */
 import { coreAPI } from "../core2/state";
+import { raceReadFacts } from "../director/race-turnout-facts";
 import { parameter } from "../core2/parameters";
 import { isExplicitlyControlledPersonV1 } from "../core2/player-control-state-v1";
 import { LAWS_MODULE_ID } from "../core2/modules/laws";
 import { BUSINESS_MODULE_ID } from "../core2/business-module-id";
+import type {
+  BusinessMonthCharge,
+  BusinessTradingMonth,
+} from "../core2/modules/business";
 import { BUDGETS_MODULE_ID } from "../core2/modules/budgets";
 import { LEGISLATURE_MODULE_ID } from "../core2/modules/legislature";
+import {
+  countedDeposits,
+  householdBalanceDraw,
+  fundOf,
+  householdCash,
+  residentsRuntime,
+} from "../core2/modules/residents";
+import { JOBS_MODULE_ID, countedDaysOfMoney } from "../core2/modules/jobs";
 import {
   COUNTRY_SECTORS,
   MACRO_MODULE_ID,
@@ -39,7 +52,9 @@ import type {
   DecisionReason,
   DecisionResult,
   LogRecord,
+  PersonId,
 } from "../core2/types";
+import type { ScheduleEntry } from "../director/scheduling";
 
 export interface WhyRow {
   readonly label: string;
@@ -140,6 +155,7 @@ function closingPanels(core: CoreState, organizationId: string): WhyPanel[] {
         value: money(Number(owner.retainedMinor ?? 0)),
       },
     );
+  rows.push(...monthBillRows(core, owner?.tradingId));
   const choices = table(core, BUSINESS_MODULE_ID, "choices")
     .filter((row) => row.organizationId === organizationId)
     .sort((a, b) => String(a.date).localeCompare(String(b.date)));
@@ -179,6 +195,45 @@ function closingPanels(core: CoreState, organizationId: string): WhyPanel[] {
     },
   ];
 }
+
+/**
+ * The last booked month's full bill: every cost by name, the law rows behind
+ * it, and whether the staffing and closing decisions weighed it (the trading
+ * row the business engine wrote, which those decisions read).
+ */
+function monthBillRows(core: CoreState, tradingId: unknown): WhyRow[] {
+  if (typeof tradingId !== "string" || !core.modules.get(BUSINESS_MODULE_ID))
+    return [];
+  const month = coreAPI(core)
+    .moduleState(BUSINESS_MODULE_ID)
+    .table("trading")
+    .get(tradingId) as unknown as BusinessTradingMonth | undefined;
+  if (!month) return [];
+  return [
+    {
+      label: `the month's books to ${month.date}`,
+      value: `sales ${money(month.salesMinor)}, costs weighed ${money(month.costsMinor)}, staff ${number(month.staff ?? 0)}`,
+      id: month.id,
+    },
+    ...(month.charges ?? []).map((charge) => ({
+      label: `  ${CHARGE_LABELS[charge.kind]}`,
+      value: `${money(charge.minor)}, ${charge.weighed ? "weighed in hiring, layoffs and closing" : "not weighed as a loss; it comes out of cash"}${charge.lawIds.length ? `, under ${charge.lawIds.length === 1 ? "one law" : `${charge.lawIds.length} laws`}` : ""}`,
+      ...(charge.lawIds[0] ? { id: charge.lawIds[0] } : {}),
+    })),
+  ];
+}
+
+const CHARGE_LABELS: Record<BusinessMonthCharge["kind"], string> = {
+  wages: "wages",
+  supplies: "supplies bought in town",
+  "outside-costs": "costs paid outside the town",
+  compliance: "compliance duties",
+  "payroll-taxes": "employer's payroll taxes",
+  "premises-tax": "property tax on its premises",
+  "energy-laws": "energy price laws",
+  "health-premiums": "health premiums",
+  "profit-tax": "profit tax",
+};
 
 // ---- A budget line change --------------------------------------------------
 
@@ -717,7 +772,182 @@ function countryStatePartPanels(
   ];
 }
 
+// ---- How a race went (the one race read) ------------------------------------
+
+/** Each race read fact, said for the panel. */
+const RACE_READ_SAID: Record<string, string> = {
+  "recount-automatic": "inside the state's automatic recount margin",
+  "recount-offered": "inside the margin the one behind may ask a recount in",
+  "recount-none": "outside the state's recount margins",
+  "recount-between-others":
+    "a recount between two other candidates; this one was not close",
+  "poll-closer": "closer than the campaign's last poll",
+  "poll-as-polled":
+    "as the campaign's last poll had it, inside its margin of error",
+  "poll-wider": "wider than the campaign's last poll",
+  "poll-ahead": "the campaign's last poll had this candidate ahead",
+};
+
+/** An election result: the race read (src/director/race-turnout-facts.ts) for the race and for each candidate in the count, with the records behind each. */
+function racePanels(
+  core: CoreState,
+  facts: Record<string, string>,
+): WhyPanel[] {
+  const contestId = facts.contestId;
+  if (!contestId) return [];
+  const totals = JSON.parse(facts.totals ?? "{}") as Record<string, number>;
+  const rowsOf = (read: ReturnType<typeof raceReadFacts>, skip: Set<string>) =>
+    Object.entries(read)
+      .filter(([key]) => !skip.has(key))
+      .map(([key, fact]) => ({
+        label: RACE_READ_SAID[key] ?? key,
+        value: fact.sourceRecordIds.join(", "),
+        id: fact.sourceRecordIds.at(-1),
+      }));
+  const race = raceReadFacts(core, contestId);
+  const raceKeys = new Set(Object.keys(race));
+  return [
+    { title: `How the race went: ${contestId}`, rows: rowsOf(race, new Set()) },
+    ...Object.keys(totals)
+      .sort((a, b) => (totals[b] ?? 0) - (totals[a] ?? 0) || a.localeCompare(b))
+      .map((id) => {
+        const person = core.people.get(id as never);
+        const rows = rowsOf(raceReadFacts(core, contestId, id), raceKeys);
+        return {
+          title: `Against the polls: ${person ? `${person.givenName} ${person.familyName}` : id}`,
+          rows,
+          ...(rows.length
+            ? {}
+            : {
+                gap: "This candidate's campaign bought no poll before the vote, so it kept nothing that says what it expected.",
+              }),
+        };
+      }),
+  ];
+}
+
 // ---- The entry point -------------------------------------------------------
+
+/**
+ * A counted household's money (owner, Nov 16: what a trace finds, dev mode
+ * shows): its share of its group's cash and bank savings, the months they
+ * cover its costs, and what it opened with against the survey's median for a
+ * family like it, spread by its own savings draw. Then why each of its people
+ * out of work is looking: the search's recorded reason and the chooser's
+ * terms. All read from the residents and jobs engines; nothing is worked out
+ * here that they do not keep.
+ */
+function countedMoneyPanels(core: CoreState, householdId: string): WhyPanel[] {
+  const rt = residentsRuntime(core);
+  const ix = rt?.store.householdOf.get(householdId);
+  const home = ix === undefined ? undefined : rt!.store.households[ix];
+  if (!rt || !home) return [];
+  const api = coreAPI(core);
+  const monthDays =
+    api.parameter("jobsDaysPerYear") / api.parameter("macroMonthsPerYear");
+  let opened = 0,
+    dailyCost = 0;
+  for (const member of rt.store.factsOfHousehold(home)) {
+    opened += member.liquidMinor;
+    dailyCost += member.livingCostDailyMinor;
+  }
+  const cash = householdCash(rt, home);
+  const banked = rt.api ? countedDeposits(rt.api, rt, home) : 0;
+  const days = countedDaysOfMoney(rt, home, (h) => householdCash(rt, h));
+  const monthly = dailyCost * monthDays;
+  const spread = householdBalanceDraw(core.seed, home.id);
+  const account =
+    rt.api && home.group >= 0 ? fundOf(rt.api, rt, home.group) : undefined;
+  const moneyRows: WhyRow[] = [
+    {
+      label: "cash, its share of its group's account",
+      value: money(cash),
+      ...(account ? { id: account } : {}),
+    },
+    { label: "bank savings, its share of its group's", value: money(banked) },
+    { label: "living costs a month", value: money(Math.round(monthly)) },
+    {
+      label: "months its cash covers (what a search for work reads)",
+      value: Number.isFinite(days)
+        ? Number((days / monthDays).toFixed(2))
+        : "no costs",
+    },
+    {
+      label: "months its cash and savings cover",
+      value:
+        monthly > 0
+          ? Number(((cash + banked) / monthly).toFixed(2))
+          : "no costs",
+    },
+    { label: "wages a year", value: money(home.wagesMinorYear) },
+    {
+      label: "retirement income a year",
+      value: money(home.retirementMinorYear),
+    },
+    {
+      label:
+        "opened with (the survey's median for a family like it, times its own savings draw)",
+      value: money(opened),
+    },
+    {
+      label: "the survey's median for a family like it",
+      value: money(Math.round(opened / spread)),
+    },
+    { label: "its own savings draw", value: Number(spread.toFixed(3)) },
+  ];
+  const seekers = table(core, JOBS_MODULE_ID, "countedSeekers");
+  const looking: WhyRow[] = [];
+  for (const personId of rt.store.memberIdsOf(home)) {
+    const row = seekers.find((r) => r.personId === personId && !r.employed);
+    if (!row) continue;
+    const terms = Object.entries((row.reasons ?? {}) as Record<string, number>)
+      .filter(([, v]) => typeof v === "number" && v !== 0)
+      .map(([k, v]) => `${k} ${v.toFixed(3)}`)
+      .join(", ");
+    looking.push({
+      label: `${String(row.reasonKey)} since ${String(row.since)}`,
+      value: terms || "no terms kept",
+      id: personId,
+    });
+  }
+  return [
+    { title: "Money", rows: moneyRows },
+    {
+      title: "Looking for work",
+      rows: looking,
+      ...(looking.length
+        ? {}
+        : { gap: "Nobody in this household is looking for work." }),
+    },
+  ];
+}
+
+/**
+ * A full household's opening savings draw (owner, Nov 16: what a trace finds,
+ * dev mode shows): every household opened at the survey's median for a family
+ * like it times this draw, fixed by the world's seed and the household's id
+ * and never redrawn (household-balance-draw.ts); a counted household's Money
+ * panel shows the same draw beside what it opened with.
+ */
+function openingDrawPanels(core: CoreState, personId: string): WhyPanel[] {
+  const householdId = core.people.get(personId as PersonId)?.householdId;
+  if (!householdId) return [];
+  return [
+    {
+      title: "Opening savings",
+      rows: [
+        { label: "household", value: householdId, id: householdId },
+        {
+          label:
+            "its own savings draw (it opened at the survey's median for a family like it times this)",
+          value: Number(
+            householdBalanceDraw(core.seed, householdId).toFixed(3),
+          ),
+        },
+      ],
+    },
+  ];
+}
 
 export function whyPanels(
   core: CoreState,
@@ -737,12 +967,20 @@ export function whyPanels(
   if (found.engine === "core.organizations" && core.finance.businesses.has(id))
     return closingPanels(core, id);
   if (found.kind === "budget-line-changed") return budgetPanels(core, facts);
+  if (found.kind === "election-result") return racePanels(core, facts);
   if (found.engine === `${BUDGETS_MODULE_ID}.budgets`)
     return Object.keys((record.spendingMinor ?? {}) as object).map((line) =>
       linePanel(core, String(record.governmentId), line),
     );
   if (found.kind === "person")
-    return [...ledgerPanels(core, id), ...decisionPanels(core, id)];
+    return [
+      ...ledgerPanels(core, id),
+      ...decisionPanels(core, id),
+      ...openingDrawPanels(core, id),
+    ];
+  if (found.kind === "counted-household") return countedMoneyPanels(core, id);
+  if (found.kind === "counted-person" && typeof record.householdId === "string")
+    return countedMoneyPanels(core, record.householdId);
   if (found.engine === `${MACRO_MODULE_ID}.countryStates`)
     return [
       ...countryStatePartPanels(core, record as unknown as CountryState),
@@ -751,4 +989,62 @@ export function whyPanels(
   if (found.engine === `${MACRO_MODULE_ID}.repricings`)
     return repricingPanels(core, String(record.facilityId));
   return [];
+}
+
+const STOPS_BECAUSE: Record<string, string> = {
+  impact: "it weighed enough to stop the day",
+  household: "the household's own record, met at home",
+  "own-record": "the person's own record, met where its scene is set",
+  "met-here": "a circumstance where the person is",
+  tie: "a tie that turned with someone just seen",
+  "stops-day": "a scene of its kind always stops its subject's day",
+};
+const OUTCOME_SAID: Record<string, string> = {
+  "scene-now": "staged, and it stops the day",
+  "scene-waiting": "staged, waiting for its setting to open",
+  "journal-line": "a Journal line, no scene",
+};
+
+/**
+ * How the story director staged a moment (owner, Nov 16: what a script
+ * traces, dev mode traces): the schedule row the director wrote for it,
+ * read as kept, never worked out again here.
+ */
+export function momentStagedPanel(
+  entry: ScheduleEntry | undefined,
+  impact: number,
+): WhyPanel {
+  if (!entry)
+    return {
+      title: "How the story staged it",
+      rows: [],
+      gap: "This moment has no schedule row: the director scored it but staged nothing for it.",
+    };
+  const rows: WhyRow[] = [
+    { label: "outcome", value: OUTCOME_SAID[entry.outcome] ?? entry.outcome },
+    ...entry.bindings.map((row) => ({
+      label: `scene ${row.typeKey}`,
+      value: `set at ${row.setting.kind}`,
+      id: row.setting.recordId,
+    })),
+    {
+      label: "stopped the day because",
+      value: entry.stopsBecause?.length
+        ? entry.stopsBecause
+            .map((rule) => STOPS_BECAUSE[rule] ?? rule)
+            .join("; ")
+        : "no rule held",
+    },
+    { label: "weight", value: Math.round(impact * 100) / 100 },
+    {
+      label: "rank among recent moments",
+      value: `${entry.rank}, room for ${entry.pace}`,
+    },
+    ...(entry.closed ? [{ label: "closed", value: entry.closed }] : []),
+    ...(entry.heldBack ?? []).map((row) => ({
+      label: `held back ${row.typeKey}`,
+      value: row.reason,
+    })),
+  ];
+  return { title: "How the story staged it", rows };
 }

@@ -4,6 +4,7 @@ import { refreshOfficeStaff } from "./civic-inputs";
 import { initialPersonState } from "./person-state";
 import {
   CLOSENESS,
+  lastMetOnRow,
   openingClosenessHours,
   sharedHoursBetween,
   temperedHours,
@@ -56,6 +57,7 @@ import {
   settleWorkResult,
   recordActivityTime,
   recordDiscretionaryTime,
+  recordOfficeTime,
   rehourNamedJob,
 } from "./work-state";
 import {
@@ -1151,6 +1153,9 @@ export function coreAPI(core: CoreState): CoreAPI {
     recordDiscretionaryTime(personId, minutes) {
       recordDiscretionaryTime(core, api, personId, minutes);
     },
+    recordOfficeTime(personId, minutes) {
+      return recordOfficeTime(core, api, personId, minutes);
+    },
     relationship(actorId, otherId, kind, change, decision, reason) {
       if (
         !core.people.has(actorId) ||
@@ -1315,6 +1320,10 @@ export function coreAPI(core: CoreState): CoreAPI {
       )
         throw new Error("Stale relationship change basis.");
       row.level = nextLevel;
+      // A change made apart keeps the day the two were last together.
+      if (reason?.apart)
+        row.lastMetDate = previous ? lastMetOnRow(previous) : null;
+      else delete row.lastMetDate;
       if (next.owedHours) row.owedHours = next.owedHours;
       else delete row.owedHours;
       row.lastContactDate = at;

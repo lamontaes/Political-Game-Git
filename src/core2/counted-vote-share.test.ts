@@ -30,6 +30,7 @@ import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import {
   ELECTIONS_MODULE_ID,
+  atLargeGroup,
   isLocalFamily,
   type ContestRow,
 } from "./modules/elections";
@@ -59,6 +60,39 @@ function formulaShares(
   return Object.fromEntries(
     ids.map((id) => [id, Math.exp(k * appeal[id]!.total) / sum]),
   );
+}
+
+/**
+ * A race for several seats, worked out here: each of a record's people votes
+ * for up to `seats` candidates, so the one-seat shares are scaled to sum to
+ * `seats`, and no candidate takes more than the whole record (one who would
+ * is held at it and the others share the votes left).
+ */
+function blockVotes(
+  shares: Record<string, number>,
+  seats: number,
+): Record<string, number> {
+  const ids = Object.keys(shares);
+  if (seats <= 1 || !ids.length) return shares;
+  if (ids.length <= seats)
+    return Object.fromEntries(
+      ids.filter((id) => shares[id]! > 0).map((id) => [id, 1]),
+    );
+  const held = new Set<string>();
+  for (;;) {
+    const left = ids.filter((id) => !held.has(id));
+    const sum = left.reduce((n, id) => n + shares[id]!, 0);
+    const scale = sum > 0 ? (seats - held.size) / sum : 0;
+    const over = left.filter((id) => shares[id]! * scale >= 1);
+    if (!over.length)
+      return Object.fromEntries(
+        ids.map((id) => [id, held.has(id) ? 1 : shares[id]! * scale]),
+      );
+    // The largest share over the whole record is held first, as the count does.
+    held.add(
+      over.sort((a, b) => shares[b]! - shares[a]! || a.localeCompare(b))[0]!,
+    );
+  }
 }
 
 /** Two nonpartisan candidates, the leader 0.1 appeal units ahead in public standing. */
@@ -318,10 +352,13 @@ it(`(d) a played local contested race's tally is the records' shares times their
         // A ballot with party labels keeps first place for a record's people
         // (CTO, Nov 1, 22:10); one without divides them by the formula.
         const labelled = kept.field.some((f) => f.side !== 0);
+        // A body's at-large seats up that day are one race: each of a
+        // record's people votes for up to as many candidates as seats.
+        const seats = atLargeGroup(api, contest).length;
         const divide = (
           appeal: Readonly<Record<string, { readonly total: number }>>,
         ): Record<string, number> => {
-          if (!labelled) return formulaShares(appeal);
+          if (!labelled) return blockVotes(formulaShares(appeal), seats);
           const first = countedChoice(appeal);
           return first ? { [first]: 1 } : {};
         };
@@ -379,7 +416,9 @@ it(`(d) a played local contested race's tally is the records' shares times their
         const namedVotes: Record<string, number> = {};
         let firstPlaceChecked = 0;
         for (const b of named) {
-          if (b.choice) namedVotes[b.choice] = (namedVotes[b.choice] ?? 0) + 1;
+          // In a race for several seats a named voter picks up to that many.
+          for (const picked of b.choices ?? (b.choice ? [b.choice] : []))
+            namedVotes[picked] = (namedVotes[picked] ?? 0) + 1;
           if (
             b.voted &&
             !ids.includes(b.voterId) &&

@@ -46,7 +46,7 @@ describe(`polling places (seed ${seed})`, () => {
       collapseToTwoLevels({ ...full, playerId: player.id }),
     );
     openLaws(core);
-    openOffices(core, place.seed);
+    openOffices(core, place.seed, core.date);
     openElections(core);
     openCampaigns(core);
     openParties(core);

@@ -110,7 +110,7 @@ function worldAt(places: readonly { key: string }[], attempt: number) {
     }),
   );
   openLaws(core);
-  openOffices(core, seed);
+  openOffices(core, seed, core.date);
   openElections(core);
   openCampaigns(core);
   openRecord(core);

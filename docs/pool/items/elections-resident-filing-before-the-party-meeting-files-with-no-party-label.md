@@ -35,3 +35,5 @@ source: Account lead measurement, Nov 15, 2026 (party-asks item)
 **Files.** src/core2/modules/parties.ts, src/core2/modules/candidacy.ts
 
 **Notes.** Gabbs, Nevada still shows three Democratic filers and no Republican: a small safe seat, in the range real House races show, so the party ask for people outside the town (`partyProspects` reaches only town members) is not changed here. Read a larger named set before calling it.
+
+Read at 16 named places (`drawPlace("fields-measure2", tag)`, tags a to p, played to April 2026, head 8c173f9c), so nobody measures it again: 12 places had a seat past its filing deadline by then. U.S. House: 9 seats, 1 with a major party missing (Gabbs, Nevada), 11 percent. State legislative: 15 seats, 3 missing (Las Cruces NM 1 of 2, Elohim City OK 1 of 2, Gabbs NV 1 of 1), 20 percent, against at least the 38.5 percent single-candidate share in `benchmarks.json`, so the world is on the low side. Six places (Thorne Bay AK, Big Horn WY, Valley Falls RI, Downing WI, West Wareham MA, Inglis FL) had no seat past its deadline by April 10. The party ask was not changed; Gabbs, Nevada is the one open case.

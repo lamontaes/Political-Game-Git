@@ -32,7 +32,6 @@ import type { GovernmentLevel } from "../government-level";
 import { townLean } from "./campaigns";
 import questionScopes from "../../../data/research/powers-catalog/question-powers.json" with { type: "json" };
 import geography from "../../../data/research/geography/state-reference.json" with { type: "json" };
-import federalAnswers from "../data/legislature/federal-answers.json" with { type: "json" };
 import federalQuestions from "../../../data/research/campaigns/federal-questions-2026.json" with { type: "json" };
 import congressSessions from "../data/legislature/congress-sessions.json" with { type: "json" };
 import {
@@ -71,16 +70,21 @@ import {
 import {
   enactLaw,
   lastEnactment,
-  lawRows,
+  lawNeedsChange,
   lawChain,
   LAWS_MODULE_ID,
   questionSettled,
   type SettledQuestion,
 } from "./laws";
 import type { LawRowInput } from "./laws";
-import { policySeriesAtLevel } from "./laws";
 import stateReach from "../data/places/state-reach.json" with { type: "json" };
-import { OFFICES_MODULE_ID, servingTermsOf, type TermRow } from "./offices";
+import {
+  OFFICES_MODULE_ID,
+  servingTermsOf,
+  townSeats,
+  type TermRow,
+} from "./offices";
+import { registerOfficeTime, type OfficeTime } from "./work";
 import agendaData from "../data/legislature/outside-agenda.json" with { type: "json" };
 import executiveSittings from "../data/legislature/executive-sittings.json" with { type: "json" };
 import localExecutiveRules from "../../../data/research/gov/local-executive-introduction-2026.json" with { type: "json" };
@@ -115,6 +119,7 @@ import {
   registerSittingReader,
   registerWeeklyFloorReader,
   settledness,
+  sittingContactHours,
   tasteForChange,
   type BillRow,
   type Provision,
@@ -225,6 +230,7 @@ export function openWorldLegislating(core: CoreState): void {
   registerFloorDateReader(floorDateOf);
   registerFloorCalendarer(projectedFloorDate);
   registerSittingCalendar(SITTING_CALENDAR);
+  registerOfficeTime(townMeetingHoursToday);
   if (!core.modules.has(WORLD_LEGISLATING_MODULE_ID))
     registerModule(core, WORLD_LEGISLATING_MODULE);
   const api = coreAPI(core);
@@ -301,31 +307,6 @@ export function federalQuestionAdmitted(question: string): boolean {
   return FEDERAL_ADMITTED.has(question.split(":")[1] ?? question);
 }
 
-/** A government's own answer in force on a policy question: its latest enacted row, else its recorded starting answer. */
-const FEDERAL_ANSWERS = (
-  federalAnswers as unknown as {
-    questions: Record<string, { answer: string }>;
-  }
-).questions;
-
-export function answerIn(
-  api: CoreAPI,
-  stateKey: string,
-  question: string,
-  /** Count acts already enacted that haven't taken effect yet. */
-  enacted = false,
-): number | null {
-  const rows = lawRows(api, question, stateKey)
-    .filter((r) => enacted || r.effectiveDate <= api.state.date)
-    .sort((a, b) => b.effectiveDate.localeCompare(a.effectiveDate));
-  if (rows[0]) return rows[0].value === 1 ? 1 : -1;
-  const answer =
-    stateKey === "US"
-      ? FEDERAL_ANSWERS[policySeriesAtLevel(question, "federal")]?.answer
-      : POLICY_QUESTIONS[question]?.answers[stateKey]?.answer;
-  return answer === "yes" ? 1 : answer === "no" ? -1 : null;
-}
-
 function chamber(
   api: CoreAPI,
   stateKey: string,
@@ -349,41 +330,6 @@ function houseOffice(api: CoreAPI): {
   members: readonly TermRow[];
 } {
   return { id: FEDERAL_HOUSE, members: members(api, FEDERAL_HOUSE) };
-}
-
-/**
- * Whether the law in force needs changing for a bill pointing this way: a
- * policy wanted where it isn't law, or wanted gone where it is. Nothing to
- * undo where no law stands.
- */
-function needsChange(direction: number, now: number | null): boolean {
-  return direction > 0 ? now !== 1 : now === 1;
-}
-
-/**
- * Whether a policy is law for the town at any level as enacted, an act
- * waiting on its effective date included (the state's recorded starting
- * answer counting until a state act replaces it).
- */
-function inForceForTown(api: CoreAPI, question: string): boolean {
-  const chain = lawChain(api);
-  return chain.levels.some(({ level, jurisdiction }) =>
-    level === "state"
-      ? answerIn(api, jurisdiction, question, true) === 1
-      : ownRow(api, jurisdiction, question) === 1,
-  );
-}
-
-/** A jurisdiction's own latest enacted row on a question, whether or not it has taken effect yet. */
-function ownRow(
-  api: CoreAPI,
-  jurisdiction: string,
-  question: string,
-): number | null {
-  const row = [...lawRows(api, question, jurisdiction)].sort((a, b) =>
-    b.effectiveDate.localeCompare(a.effectiveDate),
-  )[0];
-  return row ? (row.value === 1 ? 1 : -1) : null;
 }
 
 interface Body {
@@ -1222,6 +1168,7 @@ function sittingExecutiveNow(
 }
 
 const SITTING_CALENDAR = {
+  owns: (api: CoreAPI, officeId: string) => bodyOf(api, officeId) !== undefined,
   // The members, and the executive who sits with them (a mayor at the
   // council's meetings), each from the day their service began.
   seats: (api: CoreAPI, officeId: string) => {
@@ -1265,8 +1212,36 @@ const SITTING_CALENDAR = {
     return sitsOn;
   },
   sittings: sittingsBetween,
-  hoursPerDay: () => campaignParameter("sittingHours"),
+  contactHoursPerDay: sittingContactHours,
 };
+
+/**
+ * The hours a town or county body's meeting takes from each member's day, and
+ * the executive's who sits with it (office-hours-never-fill-an-officials-day):
+ * the body's meeting on its own rule today, at its length (`sittingHours`), an
+ * evening on top of a member's own job. A body with no meeting today takes
+ * nothing; a legislature's days are the state office day's (office-day-state.ts).
+ */
+function townMeetingHoursToday(api: CoreAPI): ReadonlyMap<string, OfficeTime> {
+  const out = new Map<string, OfficeTime>();
+  const today = api.state.date;
+  const county = lawChain(api).countyGeoids[0];
+  const bodies = new Set(townSeats(api).map((row) => row.office.id));
+  for (const officeId of bodies) {
+    if (!bodyOf(api, officeId)) continue;
+    if (nextMeeting(api, officeId, plusDays(today, -1), county)?.date !== today)
+      continue;
+    for (const seat of SITTING_CALENDAR.seats(api, officeId)) {
+      const held = out.get(seat.personId);
+      const sourceId = `meeting:${officeId}:${today}`;
+      out.set(seat.personId, {
+        hours: (held?.hours ?? 0) + campaignParameter("sittingHours"),
+        sourceId: held ? `${held.sourceId} ${sourceId}` : sourceId,
+      });
+    }
+  }
+  return out;
+}
 
 /**
  * When a body sits next, for a bill the player puts on its calendar: a town
@@ -1550,7 +1525,13 @@ function openSession(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
           floorDays: 0,
           billsPerFloorDay: 0,
           needsChange: (question, direction) =>
-            needsChange(direction, answerIn(api, jurisdiction, question, true)),
+            lawNeedsChange(
+              api,
+              federal ? "federal" : "state",
+              jurisdiction,
+              question,
+              direction,
+            ),
           // A legislature answers only the questions its level may (data); Congress,
           // only those the research list admits.
           allowed: (question, value) =>
@@ -1712,7 +1693,7 @@ function openOutsideSession(
     if (!agenda.has(question)) continue;
     let best: Result | null = null;
     for (const direction of [1, -1]) {
-      if (!needsChange(direction, answerIn(api, jurisdiction, question, true)))
+      if (!lawNeedsChange(api, "state", jurisdiction, question, direction))
         continue;
       if (!levelMayDecide(api, "state", question, direction, jurisdiction))
         continue;
@@ -1972,8 +1953,7 @@ function outsideEnact(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   const cause = JSON.parse(agendaCause ?? "null") as AgendaCause | null;
   const direction = Number(directionText);
   // The law may have changed since the session opened: then nothing passes.
-  if (!needsChange(direction, answerIn(api, jurisdiction, question, true)))
-    return;
+  if (!lawNeedsChange(api, "state", jurisdiction, question, direction)) return;
   const today = api.state.date;
   const rule = stateActEffectiveDate(jurisdiction, today, today);
   if (!rule)
@@ -2601,9 +2581,7 @@ function localMeeting(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
         campaignParameter("policyOrdinanceMinutes"),
     ),
     needsChange: (question, direction) =>
-      direction > 0
-        ? !inForceForTown(api, question)
-        : ownRow(api, jurisdiction, question) === 1,
+      lawNeedsChange(api, "city", jurisdiction, question, direction),
     allowed: (question, value) =>
       levelMayDecide(api, office?.level ?? "city", question, value),
     barred: (question, direction) =>

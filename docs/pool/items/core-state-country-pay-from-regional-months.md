@@ -5,7 +5,7 @@ area: core
 kind: feature
 priority: 2
 size: S
-status: in-pr
+status: merged
 claimed-by: account lead thread "Give rivals more than one issue"
 pr: 9382
 blocked-on:

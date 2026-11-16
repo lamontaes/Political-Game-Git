@@ -46,6 +46,9 @@ Measure a table with `node --import tsx scripts/dev-tests/day-zero-year.ts <seed
 
 ## Traps
 
+- **The opening is traced in dev mode with its source (owner, Nov 16: "track everything at open").** Each thing the opening sets names where it came from. A random draw nobody can explain, or a number the same for every place, is a defect; draw from the world's seeded units keyed by id, never an ad hoc hash.
+
 - A unit test that builds its own small world proves nothing about day 0. Read the table in `buildBenchWorld` (`recordProof` lists every table's row count).
 - "It fills in a month" is the bug: the player's first screens, the paper, the first scene and the town meeting all read day 0.
 - A level you did not look at is a level that is empty. Look at the state and the country, not only the town.
+- **A table that stays empty at a pinned place may be a true zero, and the test says why (Nov 15).** The vacancies row has `zeroAtPlaces` in `day-zero.json` for a place whose warm-up window held no death of a seat holder; `src/core2/day-zero.test.ts` asserts the cause there (none who died held a seat, illnesses in progress), never a bare waiver. Check the cause before writing it: Lewiston's window held two deaths (a cabinet secretary already replaced, a press owner), so "no one died" was false. An opening whose health engine starts from nobody ill (no look-back) cannot have a dated-past death at all.
