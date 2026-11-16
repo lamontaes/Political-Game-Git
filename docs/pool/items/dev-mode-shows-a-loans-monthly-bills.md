@@ -6,9 +6,9 @@ lead: lane
 kind: feature
 priority: 2
 size: M
-status: open
+status: in-pr
 standard: 2
-claimed-by:
+claimed-by: claude/project-thread-yq65dx-loanview
 pr:
 after:
 blocked-on:
@@ -34,3 +34,5 @@ checked:
 **Waits on.** Nothing.
 
 **Files.** src/core2/modules/credit.ts, src/bench/ui/dev-watch.mjs, src/bench/dev-trace.ts
+
+**Notes.** Nov 16: built as a view from its own file on #9619's registry (src/bench/dev-views/loans.ts, page part src/bench/ui/dev-view-loans.mjs), under dev mode's Metrics board rather than Watch or Trace, since the view registry's slots are bill-card, panels, metrics and calendar. It also lists the household's applications (income read, asked, offered, answer, reason), which the borrower's-own-loan item needs. On 8b5d1eac the player takes no work, so the Ragland rows read Aug 1 $161 and Sep 1 $322 (the missed August amount carried), both missed at $0 with their credit.payment-missed record ids; the done-when's "Sep 1 $161, Oct 1 paid" came from a run that took work and is not this base's world.
