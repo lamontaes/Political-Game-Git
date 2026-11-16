@@ -32,10 +32,7 @@ import {
 } from "./modules/budgets";
 import { lawApplied } from "./law-reach/applied";
 import { LAWS_MODULE_ID, lawChain, lawInForce } from "./modules/laws";
-import {
-  residentsRuntime,
-  type ResidentsRuntime,
-} from "./modules/residents";
+import { residentsRuntime, type ResidentsRuntime } from "./modules/residents";
 import { balanceDrawZ, balanceSpreadLog } from "./household-balance-draw";
 import type { CountedHousehold } from "./counted-groups";
 import { withCountedQuarterPay } from "./pay-by-quarter";
