@@ -3,6 +3,7 @@
 For the story builder, #9658's item words-line-register-leftovers. Each row is a piece key at Train a62a2fda. Delete the whole piece unless a note says otherwise. Skip any piece part-grades.json marks good by the owner and list it back to me. Texts stay in this file, so nothing is lost.
 
 ## A. Replies that say nothing (rule 155). Delete the piece.
+
 - `conversation.ack-reply-right.uh-huh` "Uh-huh."
 - `conversation.home-reply-answer-ack.oh-nice` "Oh, nice."
 - `conversation.home-reply-answer-ack.thats-nice` "That's nice."
@@ -26,6 +27,7 @@ For the story builder, #9658's item words-line-register-leftovers. Each row is a
 - `conversation.other-work-answer-ack.oh-employer` "Oh, {employer}."
 
 ## B. Bare news answers. Delete the piece.
+
 - `conversation.news-answer-yes.i-know` "I know."
 - `conversation.news-answer-no.no` "No."
 - `conversation.news-answer-no.what` "What?"
@@ -40,10 +42,12 @@ For the story builder, #9658's item words-line-register-leftovers. Each row is a
 - `conversation.news-answer-no.did-they-say-when-you-can-see-them` "Did they say when you can see them?"
 
 ## C. News raised with no tie (rules 143, 147, 156). Delete the piece.
+
 - `conversation.news-raise-heard.did-you-hear-about-topic` "Did you hear about {topic}?"
 - `conversation.news-raise-heard.have-you-heard-about-topic` "Have you heard about {topic}?"
 
 ## D. How-are-you talk: a greeting asks nothing (rule 147). Delete the piece.
+
 - `conversation.greet-open-hello.how-are-you` "How are you?"
 - `conversation.greet-open-hello.how-you-doing` "How you doing?"
 - `conversation.greet-open-hello.hows-it-going` "How's it going?"
@@ -65,15 +69,18 @@ For the story builder, #9658's item words-line-register-leftovers. Each row is a
 - `conversation.greet-answer-fine.pretty-good` "Pretty good."
 
 ## E. Presumes what no record holds. Delete the piece.
+
 - `conversation.family-ask-how.hows-your-wife` "How's your wife?"
 - `conversation.mutual-reply-not.i-havent-seen-her` "I haven't seen her."
 - `conversation.mutual-reply-not.i-havent-seen-him` "I haven't seen him."
 
 ## F. Blame with no record behind it (ask-why). Delete the piece.
+
 - `bring-it-up.blame-assumed-assumed.i-think-it-was-who` "I think it was {who}."
 - `bring-it-up.blame-assumed-assumed.it-must-have-been-who` "It must have been {who}."
 
 ## G. The 20 conversation pieces no engine places. Delete all.
+
 - `conversation.charge-answer-refuse.i-m-not-going-to-talk-about-that` "I'm not going to talk about that."
 - `conversation.family-answer-well.fine` "Fine."
 - `conversation.family-answer-well.good` "Good."
@@ -96,6 +103,7 @@ For the story builder, #9658's item words-line-register-leftovers. Each row is a
 - `conversation.shared-work-ask-remember.do-you-remember-employer` "Do you remember {employer}?"
 
 ## H. The four banks nothing reads. Amended Nov 16 05:10Z (Account lead): a piece part-grades.json marks good by the owner STAYS and gets an item naming the scene that should read it; delete only the ungraded and bad-graded rest.
+
 - data/english/parts/address.json: `address.chair-run-meeting.the-motion-carries` "The motion carries."
 - data/english/parts/hearing.json: `hearing.answer.yes-thank-you` "Yes, thank you."
 - data/english/parts/hearing.json: `hearing.thanks.thank-you-chairman` "Thank you, Chairman."
@@ -110,20 +118,25 @@ For the story builder, #9658's item words-line-register-leftovers. Each row is a
 - data/english/parts/minutes.json: `minutes.vote.voting-against-this-action-members` "Voting against this action: {members}."
 
 ## Gate, do not delete (the tie rule's PR)
+
 - "That's good news.", "That's terrible.", "We'll manage. We always do.": offered only when the story's record says it is good or bad for the hearer.
 - family-open-open "We need to talk.", "Can we talk?", "Let's talk.", "Have a seat.": only before household news that is on record; I read them played before they stay.
 - "I'm not sure." and "I don't know." stay as the player's answer when they hold no view.
 
 ## Not deleted tonight
+
 Mined pieces in journal (126), newscast (69), choice-names (62), headlines (48), news (9): these are record lines ("I got married.", "{name} died on {date}."), not talk. Each bank is its own later read.
 
 ## After the deletions
+
 Tell me every question left with fewer than two answers that differ, and every move left with no piece. I write for those; that list feeds the morning's thin list.
 
 ## I. The 314 mined record lines, read by text (Words lead, Nov 16 05:45Z)
+
 Banks: journal 126, newscast 69, choice-names 62, headlines 48, news 9. Read line by line against the rules, not as played. Delete 37; gate 32; the rest (245) are plain record lines ("I got married.", "{name} died on {date}.", "{body} approves {measure}") and stay. A played read per bank is still owed and is on the morning list.
 
 ### Delete
+
 - `journal.day-line-routine.it-was-a-long-day` "It was a long day."
 - `journal.day-line-routine.nothing-happened` "Nothing happened."
 - `journal.day-line-routine.it-was-hot` "It was hot."
@@ -165,6 +178,7 @@ Banks: journal 126, newscast 69, choice-names 62, headlines 48, news 9. Read lin
 Why: nothing lines and weather no record holds; "close" outside the recount rule; memoir hooks that claim what the record does not; a pronoun the record cannot pick; anchor filler; stance answers that do not answer "What do you think about {topic}?"; "Network." is jargon.
 
 ### Gate (stays only with the named record behind it; the tie rule's PR)
+
 - `journal.memoir-remember.name-was-a-good-friend` "{name} was a good friend."
 - `journal.memoir-remember.name-was-a-friend-of-mine` "{name} was a friend of mine."
 - `journal.memoir-remember.name-and-i-were-good-friends` "{name} and I were good friends."

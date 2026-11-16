@@ -4,7 +4,7 @@ Item words-out-of-town-work-has-a-true-answer. Facts: the job record's title, th
 
 - "Out of town. I'm {job}."
 - "I'm {job}. The work's not around here."
-- "Not here. I drive out of town for it. I'm {job}."  (two sentences after the first; if over the word limit, use: "I drive out of town for it. I'm {job}.")
-- "Over in {place}. I'm {job} there."  (only when the record names the place)
+- "Not here. I drive out of town for it. I'm {job}." (two sentences after the first; if over the word limit, use: "I drive out of town for it. I'm {job}.")
+- "Over in {place}. I'm {job} there." (only when the record names the place)
 
 The question is offered to these people once the lines are in.
