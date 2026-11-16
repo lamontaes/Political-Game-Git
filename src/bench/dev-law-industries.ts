@@ -38,7 +38,6 @@ import {
 } from "../core2/modules/laws";
 import type { LawRowInput } from "../core2/laws-starting";
 import { DEFAULT_BUSINESS_BOOKS_DATA } from "../core2/business-books";
-import { organizationName } from "../core2/past";
 import { coreAPI } from "../core2/state";
 import type { CoreAPI, CoreState } from "../core2/types";
 import {
@@ -224,7 +223,6 @@ function industryName(kindId: string): string {
 export function compareTallies(
   here: IndustryTally,
   twin: IndustryTally,
-  nameOf: (organizationId: string) => string = (id) => id,
 ): Pick<IndustriesCheck, "industries" | "businesses" | "businessesMoved"> {
   const kinds = new Map<string, { here?: IndustryRow; twin?: IndustryRow }>();
   for (const row of here.industries)
@@ -258,7 +256,7 @@ export function compareTallies(
   const moved = [...firms.entries()]
     .map(([organizationId, pair]) => ({
       organizationId,
-      name: nameOf(organizationId),
+      name: (pair.here ?? pair.twin)!.name,
       kindId: pair.kindId,
       here: pair.here ? businessFigures(pair.here) : null,
       twin: pair.twin ? businessFigures(pair.twin) : null,
@@ -519,7 +517,6 @@ export function industriesAgainstNullBill(
     ...compareTallies(
       industryTally(coreAPI(core), townOf(core)),
       industryTally(coreAPI(twin), townOf(twin)),
-      (id) => organizationName(core, id) ?? organizationName(twin, id) ?? "",
     ),
     twinMs: Date.now() - started,
   };
@@ -592,7 +589,6 @@ export function industriesWithoutOpeningLaw(
     ...compareTallies(
       industryTally(coreAPI(core), townOf(core)),
       industryTally(twinApi, townOf(twin)),
-      (id) => organizationName(core, id) ?? organizationName(twin, id) ?? "",
     ),
     twinMs: Date.now() - started,
   };
