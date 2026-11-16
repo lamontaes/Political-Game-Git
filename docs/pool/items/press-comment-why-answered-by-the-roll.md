@@ -5,10 +5,10 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/project-thread-a6n4tc-vote-reasons
-pr:
+pr: 9584
 after:
 blocked-on:
 lead: words
