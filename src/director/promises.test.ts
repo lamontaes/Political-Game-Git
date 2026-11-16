@@ -44,6 +44,8 @@ import { wordConversationMove } from "../english/conversation-words";
 import type { Director } from "./ledger";
 import { promiseAnswers, promiseSubject } from "./promise-talk";
 import { restoreWorld, snapshotWorld } from "../core2/snapshot";
+import { DevMode } from "../bench/dev-mode";
+import { traceNode } from "../bench/dev-trace";
 import { kindOf, promisesBetween } from "../core2/modules/promises";
 import { purposeScene, replyInScene } from "./purpose-scene";
 import type { ScheduleEntry } from "./scheduling";
@@ -544,7 +546,10 @@ it(
         attempt < ATTEMPTS && done.length < 3;
         attempt += 1
       ) {
-        const { core, director, playerId, where } = world(attempt, "coworker");
+        const { core, director, playerId, placeId, where } = world(
+          attempt,
+          "coworker",
+        );
         const id = playerId as PersonId;
         const player = core.people.get(id)!;
         const open = (org: string) =>
@@ -691,6 +696,28 @@ it(
           expect(find().endedAt, where).toBe(lastDay);
         }
         const ended = find();
+        // Dev mode shows it from the engine's own row: the player's card
+        // lists it with how it ended, and the Trace opens it there, with the
+        // reply that made it and the record that ended it among its links.
+        const dev = new DevMode(core, director, undefined, placeId);
+        const listed = (
+          dev.person(id).promises as readonly { id: string; outcome: string }[]
+        ).find((row) => row.id === factId);
+        expect(listed?.outcome, `${where}: dev mode's list`).toBe(
+          ended.outcome,
+        );
+        const traced = traceNode(core, director, factId);
+        expect(traced.engine, `${where}: dev mode's Trace`).toBe(
+          "core2-promises-v1.promises",
+        );
+        expect(
+          traced.children.map((child) => child.id),
+          `${where}: the Trace links the reply that made it`,
+        ).toContain(ended.sourceId);
+        expect(
+          (traced.record as { endedBy?: string }).endedBy,
+          `${where}: the Trace shows what ended it`,
+        ).toBe(ended.endedBy);
         const said = talkOf(core, director, newcomer, id, where);
         done.push(
           `${where}: ${said}\n    ${factId} owed to ${newcomer}, ${ended.outcome} by ${ended.endedBy} on ${ended.endedAt}, closeness ${before.toFixed(5)} to ${closenessBetween(core, id, newcomer).toFixed(5)}`,

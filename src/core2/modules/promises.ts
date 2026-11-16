@@ -515,6 +515,10 @@ export const PROMISES_MODULE: CoreModule = {
         indexes: {
           byPair: { fields: ["pair"] },
           byDue: { fields: ["dueOn"] },
+          // Who gave their word and who is owed it: dev mode's list of a
+          // person's promises, written only where a promise row is.
+          byHolder: { fields: ["holderId"] },
+          byOther: { fields: ["otherId"] },
         },
       },
       settle: { indexes: { byKey: { fields: ["key"] } } },
@@ -559,6 +563,18 @@ export function promisesBetween(
   if (!api.state.modules.has(PROMISES_MODULE_ID)) return [];
   return [
     ...(table(api).query("byPair", [pairKey(a, b)]) as unknown as PromiseRow[]),
+  ].sort((x, y) => y.since.localeCompare(x.since) || x.id.localeCompare(y.id));
+}
+
+/**
+ * Every promise a person gave or is owed, newest first: what dev mode lists
+ * on their card, each opening in the Trace.
+ */
+export function promisesOf(api: CoreAPI, personId: string): PromiseRow[] {
+  if (!api.state.modules.has(PROMISES_MODULE_ID)) return [];
+  return [
+    ...(table(api).query("byHolder", [personId]) as unknown as PromiseRow[]),
+    ...(table(api).query("byOther", [personId]) as unknown as PromiseRow[]),
   ].sort((x, y) => y.since.localeCompare(x.since) || x.id.localeCompare(y.id));
 }
 
