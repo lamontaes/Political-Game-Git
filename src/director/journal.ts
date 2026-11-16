@@ -1711,6 +1711,14 @@ export function composeJournal(
       (lifeById.get(moment.causeId) as
         | { facts?: Readonly<Record<string, string>>; topic?: string }
         | undefined);
+    // A row that is one person's own to tell (a held bill is its sponsor's)
+    // is left out of everyone else the record names.
+    if (
+      row &&
+      "ownerFact" in row &&
+      logged?.facts?.[String(row.ownerFact)] !== personId
+    )
+      return null;
     for (const [key, spec] of Object.entries(row?.eventFacts ?? {})) {
       // How far a count fell ("before" an official's answer to the count
       // after it), told only where it fell, citing the records that moved it.
@@ -1760,7 +1768,16 @@ export function composeJournal(
               )
             : spec.format === "lawName"
               ? law?.text
-              : logged?.facts?.[spec.fact];
+              : spec.format === "personName"
+                ? (() => {
+                    const who = core.people.get(
+                      String(logged?.facts?.[spec.fact] ?? "") as PersonId,
+                    );
+                    return who
+                      ? `${who.givenName} ${who.familyName}`
+                      : undefined;
+                  })()
+                : logged?.facts?.[spec.fact];
       // A count the record needs to be told at all (the signatures a
       // petition needed): none means the thing does not exist for this record.
       if ("needed" in spec && spec.needed && !(Number(value) > zero))

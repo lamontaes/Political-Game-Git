@@ -437,6 +437,24 @@
       }
     },
     {
+      "kindPrefix": "event:bill-held-in-committee",
+      "ownerFact": "sponsorId",
+      "toldWithoutOther": true,
+      "turn": false,
+      "entry": "story",
+      "eventFacts": {
+        "law": {
+          "fact": "billId",
+          "format": "billNumberAndName"
+        },
+        "chair": {
+          "fact": "chair",
+          "format": "personName",
+          "optional": true
+        }
+      }
+    },
+    {
       "kindPrefix": "event:bill-failed",
       "turn": false,
       "entry": "story",
