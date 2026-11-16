@@ -126,14 +126,38 @@ const BANKS: Record<
 };
 
 /**
- * What a line is tied to. `facts`: its use names the record facts it needs.
- * `slot-pair`: it only fills a slot from the speaker's or the hearer's own
- * record (the slot's own description in the bank says so). `slot-world`: it
- * only fills slots from other records (a news story, a bill, a calendar).
- * `weak`: it names only the kind of subject it is said about, so it can be said
- * to anyone ("Oh, my."). `none`: no use declared.
+ * What a line is tied to, in the order the register reads it.
+ *  - `declared`: a use of the piece names its tie (`tie` on the use: stand,
+ *    place, law, record or frame).
+ *  - `binding`: a composer places it from one named record kind and field
+ *    (the Journal's `journal` binding, in the player's own story).
+ *  - `facts`: its use names the record facts it needs.
+ *  - `subject`: a conversation line, said only through a Subject the tie rule
+ *    accepted (src/director/subject-tie.ts: no tie record to the speaker or
+ *    the hearer, no Subject); a reply takes the Subject it answers.
+ *  - `frame`: a conversation line of the meeting itself (a greeting, a
+ *    farewell, an acknowledgment), tied by the two people being there.
+ *  - `scene`: a scene line, said inside a scene staged from a cause record,
+ *    between the people that record names (not checked per line).
+ *  - `document`: printed or shown from one record to a reader, said to no
+ *    listener (a headline, a newscast, a notice, a person's history).
+ * Below that, lines no enforcement reaches: `slot-pair` fills a slot from the
+ * speaker's or hearer's own record; `slot-world` only from other records;
+ * `weak` names only the kind of subject it is said about; `none` declares no
+ * use. Those three last classes can be said to anyone and are the leftovers.
  */
-export type Tie = "facts" | "slot-pair" | "slot-world" | "weak" | "none";
+export type Tie =
+  | "declared"
+  | "binding"
+  | "facts"
+  | "subject"
+  | "frame"
+  | "scene"
+  | "document"
+  | "slot-pair"
+  | "slot-world"
+  | "weak"
+  | "none";
 export type Reach = "reached" | "unreached" | "by-bank";
 
 export interface RegisteredLine {
@@ -146,6 +170,8 @@ export interface RegisteredLine {
   tie: Tie;
   /** The grades or a rule hold it back. */
   held: boolean;
+  /** A conversation reply that says nothing of its own: no slot, no fact it needs and three words or fewer ("Oh, my."). */
+  empty: boolean;
   /** The scene purposes (situation types' `purpose`) that use it, for scene-talk lines. */
   purposes: string[];
   /** The facts its uses require, joined: what the record must hold for it to be offered. */
@@ -162,8 +188,42 @@ interface RawPiece {
     requiresFacts?: string[];
     onlyWhen?: string[];
     purpose?: string;
+    subject?: string;
+    tie?: string;
+    journal?: unknown[];
   }[];
 }
+
+/**
+ * How each bank's lines are kept to a tie where no use says so: the one
+ * enforcement its only consumer applies. Banks no code reads are absent.
+ */
+const BANK_ENFORCEMENT: Readonly<Record<string, Tie>> = {
+  conversation: "subject",
+  "bring-it-up": "subject",
+  "scene-talk": "scene",
+  "scene-words": "scene",
+  headlines: "document",
+  news: "document",
+  newscast: "document",
+  notice: "document",
+  "person-history": "document",
+  "bill-paper": "document",
+  calendar: "document",
+  meeting: "document",
+  "choice-names": "document",
+  "campaign-standing": "document",
+  journal: "binding",
+};
+
+/** The conversation subjects that are the meeting itself, tied by two people being in one place. */
+const FRAME_SUBJECTS = new Set([
+  "greet",
+  "greet-phone-self",
+  "farewell",
+  "ack",
+  "lie",
+]);
 
 /** The conversation pieces the two conversation paths place (the engine's data and the composed banks). */
 export function reachedConversationKeys(): Set<string> {
@@ -193,16 +253,42 @@ export function reachedConversationKeys(): Set<string> {
 const PAIR_SLOT =
   /\b(?:speaker's|player's|listener's|asker's|both people|household record|their own|someone both)\b/i;
 
-function tieOf(piece: RawPiece, slots: Record<string, string>): Tie {
+function tieOf(
+  piece: RawPiece,
+  slots: Record<string, string>,
+  bank: string,
+): Tie {
   const uses = piece.uses ?? [];
+  if (uses.some((use) => use.tie)) return "declared";
+  if (uses.some((use) => use.journal?.length)) return "binding";
   if (uses.some((use) => use.requiresFacts?.length || use.onlyWhen?.length))
     return "facts";
+  const enforced = BANK_ENFORCEMENT[bank];
+  if (enforced && (uses.length || enforced === "document")) {
+    if (
+      bank === "conversation" &&
+      uses.every((use) => FRAME_SUBJECTS.has(use.subject ?? ""))
+    )
+      return "frame";
+    return enforced;
+  }
   const named = [...piece.text.matchAll(/\{([\w-]+)\}/g)].map((m) => m[1]!);
   if (named.length)
     return named.some((slot) => PAIR_SLOT.test(slots[slot] ?? ""))
       ? "slot-pair"
       : "slot-world";
   return uses.length ? "weak" : "none";
+}
+
+/** A conversation line that carries nothing from the record: its subject's tie is all it has. */
+function saysNothing(piece: RawPiece, bank: string): boolean {
+  if (bank !== "conversation") return false;
+  const uses = piece.uses ?? [];
+  if (uses.some((use) => use.requiresFacts?.length || use.onlyWhen?.length))
+    return false;
+  if (/\{[\w-]+\}/.test(piece.text)) return false;
+  if (uses.every((use) => FRAME_SUBJECTS.has(use.subject ?? ""))) return false;
+  return piece.text.trim().split(/\s+/).length <= 3;
 }
 
 let cached: RegisteredLine[] | undefined;
@@ -234,7 +320,7 @@ function readBankLines(): RegisteredLine[] {
         move: piece.move ?? "",
         text: piece.text,
         uses: piece.uses?.length ?? 0,
-        tie: tieOf(piece, file.slots ?? {}),
+        tie: tieOf(piece, file.slots ?? {}, bank),
         purposes: [
           ...new Set(
             (piece.uses ?? []).flatMap((use) =>
@@ -251,6 +337,7 @@ function readBankLines(): RegisteredLine[] {
           ),
         ],
         held: !playable(piece),
+        empty: saysNothing(piece, bank),
         reach:
           bank !== "conversation"
             ? "by-bank"
