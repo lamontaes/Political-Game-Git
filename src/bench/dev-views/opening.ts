@@ -7,8 +7,12 @@
  * for every world), the line of code and the data row that made it, the record's own saved source,
  * and what replaces it when it is a draw or a fixed number. How each value was made is the opening
  * audit's list (src/bench/dev-views/opening-sources.json, from the Account lead's report
- * opening-draws-and-fixed-values in the project's shared folder); the values are read from the records each time. Read-only:
- * it writes nothing and spends no time.
+ * opening-draws-and-fixed-values in the project's shared folder); the values are read from the
+ * records each time. "Every draw the opening took" is not a hand list: Record rebuilds this world
+ * from its recipe with the draw recorder on (src/core2/draw-recorder.ts) and lists each line of
+ * code that drew, by file and function, with what the list says of it; a site the list does not
+ * know shows as such, and dev-opening-draws.test.ts fails on one. Read-only: it writes nothing to
+ * this world and spends none of its time.
  */
 import { coreAPI, personOrFillIn } from "../../core2/state";
 import { realLocalities } from "../../core2/places";
@@ -28,7 +32,18 @@ import {
 } from "../../core2/modules/national-opinion";
 import { healthReport } from "../../core2/modules/health";
 import type { CoreState, PersonId, Source } from "../../core2/types";
+import {
+  drawStage,
+  startDrawRecording,
+  stopDrawRecording,
+  type DrawSite,
+} from "../../core2/draw-recorder";
 import type { DevView } from "../dev-views";
+import {
+  buildBenchWorldInStages,
+  buildRecipeOf,
+  type BuildRecipe,
+} from "../world";
 import SOURCES from "./opening-sources.json" with { type: "json" };
 
 /** How the opening made a value (src/bench/dev-views/opening-sources.json). */
@@ -401,6 +416,98 @@ export function openingView(
   return { subject, id: at, title, rows, choices: options, kinds };
 }
 
+/** How a line of code that draws at the opening draws (opening-sources.json `sites`). */
+interface SiteRow {
+  readonly made: keyof typeof SOURCES.kinds;
+  readonly what: string;
+  readonly replace?: string;
+}
+
+const SITES = SOURCES.sites as Readonly<Record<string, SiteRow>>;
+
+/** One line of code that drew while this world opened, with how often and what the list says of it. */
+export interface OpeningDraw {
+  readonly site: string;
+  readonly stages: string;
+  readonly count: number;
+  readonly primitive: string;
+  /** Absent when the list does not know the site: a new draw to classify. */
+  readonly made?: string;
+  readonly what?: string;
+  readonly replace?: string;
+}
+
+/** The sites a recorded opening drew at, folded by file and function, most draws first. */
+export function openingDraws(sites: readonly DrawSite[]): OpeningDraw[] {
+  const folded = new Map<
+    string,
+    { count: number; stages: Set<string>; primitives: Set<string> }
+  >();
+  for (const site of sites) {
+    const key = `${site.file}#${site.fn}`;
+    const row = folded.get(key) ?? {
+      count: 0,
+      stages: new Set<string>(),
+      primitives: new Set<string>(),
+    };
+    row.count += site.count;
+    row.stages.add(site.stage);
+    row.primitives.add(site.primitive);
+    folded.set(key, row);
+  }
+  return [...folded]
+    .map(([site, row]) => {
+      const listed = SITES[site];
+      return {
+        site,
+        stages: [...row.stages].join(", "),
+        count: row.count,
+        primitive: [...row.primitives].sort().join(", "),
+        ...(listed
+          ? {
+              made: SOURCES.kinds[listed.made],
+              what: listed.what,
+              ...(listed.replace ? { replace: listed.replace } : {}),
+            }
+          : {}),
+      };
+    })
+    .sort((a, b) => b.count - a.count || a.site.localeCompare(b.site));
+}
+
+/**
+ * Builds this world again from its recipe with the draw recorder on and returns every site that
+ * drew, by the bench's build stage (the warm-up's days included). The twin is built, read and
+ * dropped; this world is not touched.
+ */
+export async function recordOpening(
+  recipe: BuildRecipe,
+): Promise<{ draws: OpeningDraw[]; seconds: number }> {
+  const started = Date.now();
+  startDrawRecording();
+  let sites: DrawSite[] = [];
+  try {
+    await buildBenchWorldInStages(
+      recipe.seed,
+      recipe.date,
+      recipe.options,
+      (stage) => drawStage(stage),
+    );
+  } finally {
+    sites = stopDrawRecording();
+  }
+  return {
+    draws: openingDraws(sites),
+    seconds: Math.round((Date.now() - started) / 1000),
+  };
+}
+
+/** The last recording of each world, kept while the world lives. */
+const recorded = new WeakMap<
+  CoreState,
+  { draws: OpeningDraw[]; seconds: number }
+>();
+
 const SUBJECTS: readonly OpeningSubject[] = [
   "town",
   "person",
@@ -425,7 +532,31 @@ const view: DevView = {
         q("id") || undefined,
       );
     },
+    "GET opening/draws": ({ mode }) => drawsAnswer(recorded.get(mode.core)),
+    "POST opening/record": async ({ mode }) => {
+      const recipe = buildRecipeOf(mode.core);
+      if (!recipe)
+        throw new Error(
+          "This world was not built in this session, so it has no recipe to rebuild its opening from.",
+        );
+      const done = await recordOpening(recipe);
+      recorded.set(mode.core, done);
+      return drawsAnswer(done);
+    },
   },
 };
+
+function drawsAnswer(
+  done: { draws: OpeningDraw[]; seconds: number } | undefined,
+) {
+  return done
+    ? {
+        recorded: true,
+        seconds: done.seconds,
+        draws: done.draws,
+        unknown: done.draws.filter((d) => !d.made).length,
+      }
+    : { recorded: false, seconds: 0, draws: [], unknown: 0 };
+}
 
 export default view;

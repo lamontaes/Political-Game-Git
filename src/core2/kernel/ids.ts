@@ -1,4 +1,5 @@
 /** The core's stable ids and hashes. */
+import { recordDraw } from "../draw-recorder";
 import type { EntityId, EntityKind } from "./brands";
 
 /**
@@ -11,6 +12,7 @@ import type { EntityId, EntityKind } from "./brands";
  * arithmetic stays exact: no intermediate exceeds 2^26.
  */
 export function stableHash(value: string): string {
+  recordDraw("stable hash");
   // 0xcbf29ce484222325, least significant limb first.
   let h0 = 0x2325;
   let h1 = 0x8422;

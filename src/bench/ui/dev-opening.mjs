@@ -54,6 +54,32 @@ function table(view, labels, open) {
   return el("table", { className: "dev-opening-table" }, head, ...rows);
 }
 
+/** Every draw the opening took, from the last recording of this world. */
+function drawsTable(recording, labels) {
+  if (!recording.recorded) return el("p", { textContent: labels.notRecorded });
+  const head = el(
+    "tr",
+    {},
+    ...["site", "count", "stage", "made", "replace"].map((key) =>
+      el("th", { textContent: labels[key] ?? labels.by }),
+    ),
+  );
+  const rows = recording.draws.map((d) =>
+    el(
+      "tr",
+      { className: `dev-opening-draw${d.made ? "" : " unknown"}` },
+      el("td", { textContent: `${d.site} (${d.primitive})` }),
+      el("td", { textContent: d.count.toLocaleString("en-US") }),
+      el("td", { textContent: d.stages }),
+      el("td", {
+        textContent: d.made ? `${d.made}: ${d.what}` : labels.unknown,
+      }),
+      el("td", { textContent: d.replace ?? "" }),
+    ),
+  );
+  return el("table", { className: "dev-opening-table" }, head, ...rows);
+}
+
 export const slots = {
   // On a person's card (the "person" slot, PR #9628): how that person opened, without the picker.
   async person({ personId, labels, send }) {
@@ -123,13 +149,40 @@ export const slots = {
       draw();
     });
     await draw();
+    // Every draw: rebuilt from this world's recipe with the recorder on, on a press.
+    const draws = el("div", { className: "dev-opening-draws" });
+    const showDraws = (recording) =>
+      draws.replaceChildren(
+        el("h4", {
+          textContent: recording.recorded
+            ? `${labels.draws}: ${recording.draws.length} (${labels.unknown}: ${recording.unknown})`
+            : labels.draws,
+        }),
+        drawsTable(recording, labels),
+      );
+    showDraws(await send("opening/draws"));
+    const record = makeButton({ className: "action small" }, labels.record);
+    record.dataset.testid = "dev-opening-record";
+    record.addEventListener("click", async () => {
+      record.disabled = true;
+      result.textContent = labels.recording;
+      try {
+        showDraws(await send("opening/record", {}));
+        result.textContent = "";
+      } catch (error) {
+        result.textContent = error.message;
+      } finally {
+        record.disabled = false;
+      }
+    });
     return el(
       "section",
       { className: "dev-only dev-opening" },
       el("h3", { textContent: labels.title }),
-      el("div", { className: "dev-bills-row" }, subject, which),
+      el("div", { className: "dev-bills-row" }, subject, which, record),
       result,
       body,
+      draws,
       trace.node,
     );
   },
