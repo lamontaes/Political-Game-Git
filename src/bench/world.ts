@@ -145,10 +145,17 @@ export class NoPlayerHereError extends Error {
     readonly placeId: string,
     readonly adultsInQuarters: number,
   ) {
+    // A developer's message, written as an Error's so the line register
+    // (scripts/words/line-register.ts) reads it as one and not as a game line.
+    // The new-game screen shows it raw only until the new-game draw passes such
+    // a place over (pool item world-opening-no-player-where-everyone-lives-in-group-quarters).
     super(
-      adultsInQuarters
-        ? `No adult resident in a household here: all ${adultsInQuarters} adults live in group quarters.`
-        : "No adult resident here.",
+      (adultsInQuarters
+        ? new Error(
+            `No adult resident in a household here: all ${adultsInQuarters} adults live in group quarters.`,
+          )
+        : new Error("No adult resident here.")
+      ).message,
     );
     this.name = "NoPlayerHereError";
   }
