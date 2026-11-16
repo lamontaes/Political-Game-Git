@@ -99,3 +99,33 @@ false`; `tieOwed` holds the hours, and `payTieOwed` moves the tie when the
 - **A question the ask already answers.** When a request names its day, a
   reply that asks "when" asks for something already said; the Words lead
   deletes it and any answer that only it reached.
+- **A real loan, never a written one (Account lead, Nov 15).** A played file
+  for a promise about money shows a loan the credit engine wrote and a
+  payment it billed, never an `applyCoreEvent` missed payment. The engine
+  lends only to a household's oldest member whose cash is short, so a new
+  18-year-old at home never borrows (item
+  credit-young-adult-at-home-never-borrows). Play the pinned borrower in
+  `tests/support/real-borrower.ts` (`PAYDAY_BORROWER`, picked with the New
+  game creator's birthday) to its first quarrel with `playToQuarrel`.
+- **Kept needs a way out.** A borrower with no income keeps missing, so a
+  kept pay-on-time promise comes from the player taking work: answer the
+  next employer's call with its `agree` reply in the `job-offer` scene. The
+  schedule also holds calls about offers that have lapsed; pick the entry
+  whose cause's offer is still `pending` in the jobs engine's `offers` table.
+- **Drawn is not said.** A raise listed under "also drawn on other days" was
+  never said in a talk. The second reader stamps only lines said; a line that
+  no played talk says is deleted, or played until a talk says it.
+- **Every name that fills a slot is seen said (Account lead, Nov 15).** A
+  name in `data/english/payment-words.json` ships only once a played talk
+  says it; an unseen kind comes out of the file, and `paymentNamed`
+  (promise-talk.ts) keeps its talk from firing at all, never a fallback name.
+  Before hunting a kind, read whether the engine can bill it: medical debt is
+  written closed and never billed, a business loan's borrower is the firm
+  (no `credit.payment-missed` for a person), and an opening mortgage lives in
+  the housing module's own table. Hunt town-wide first (count every missed
+  payment by kind in a played year), then hunt players in the towns that
+  have them, since a bought home's mortgage is the household head's.
+- **Hunt scripts run as scratch tests, moved out after.** A background
+  `sh -c` with `rm` in it is refused by the safety check; move the scratch
+  file out of `src/` with `mv` once its run ends, before the guards run, or
+  zero-dice and the guards read it.

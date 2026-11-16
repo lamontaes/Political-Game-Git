@@ -98,7 +98,8 @@
     "meeting-body": "The town body whose meeting a friend asked the player to, as its record names it (City Council), from the office-day engine's meeting record.",
     "meeting-held": "The day that meeting was held, told as past (\"yesterday\", \"the other day\", \"on March 4th\"), from the meeting's record.",
     "their_when": "When the asker last saw someone both know, said as people say it (\"last week\"), from the asker's own tie's last contact.",
-    "group": "The interest group that pressed the members who voted no on a bill hardest, as people say its name, from the interest-groups engine's meetings (veto said at the next talk)."
+    "group": "The interest group that pressed the members who voted no on a bill hardest, as people say its name, from the interest-groups engine's meetings (veto said at the next talk).",
+    "payment": "The payment a promise to pay on time was about, as people name it (\"the loan\"), from the credit engine's missed-payment record and its loan (data/english/payment-words.json)."
   },
   "maxWords": 10,
   "lineWords": {
@@ -37397,22 +37398,22 @@
       "bearing": "guarded"
     },
     {
-      "key": "conversation.promise-broken-raise.we-talked-about-this-already",
+      "key": "conversation.promise-broken-raise.you-said-youd-pay-payment-on-time-its-late-again",
       "move": "promise-broken-raise",
       "kind": "spoken",
-      "text": "We talked about this already.",
+      "text": "You said you'd pay {payment} on time. It's late again.",
       "uses": [
         {
           "move": "promise-broken-raise",
           "subject": "promise-broken",
           "role": "raise",
-          "requiresFacts": ["promise-pay-on-time"]
+          "requiresFacts": ["promise-pay-on-time", "payment"]
         }
       ],
       "origin": "authored",
-      "author": "Words lead (promises rulings-1, Nov 14)",
-      "date": "2026-11-14",
-      "bearing": "guarded"
+      "author": "Words lead (pay-on-time raises, Nov 15)",
+      "date": "2026-11-15",
+      "bearing": "braced"
     },
     {
       "key": "conversation.promise-kept-raise.thanks-for-showing-me-around",
