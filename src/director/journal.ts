@@ -3596,7 +3596,7 @@ export function composeJournal(
     if (typeof contestId === "string") byContest.set(contestId, fresh);
   }
   let chapterKind: string | undefined;
-  let chapterContest: string | undefined;
+  const raceChapters = new Map<string, string>();
   for (const raw of groups) {
     // A race is told by its certified result once (playtest, Nov 13: "We
     // lost. ... So, I was elected"): of one contest's results, the last.
@@ -3624,21 +3624,29 @@ export function composeJournal(
             title.text === `${row.givenName} ${row.familyName}`)
         );
       });
-    // Taking the seat a race won is the same chapter as the race, under the
-    // office's one name ("The New Llano Board of Aldermen"), never a second
-    // chapter for the same office under its title.
+    // Taking the seat a race won goes under the race's chapter name ("The
+    // New Llano Board of Aldermen"), never a second name for the same office
+    // ("Council member"); a chapter between the two (a death, a child) does
+    // not give the office a new name.
     const factsOf = (unit: Unit | undefined, name: string) => {
       const value = unit
         ? core.durableLog.get(unit.moment.causeId)?.facts?.[name]
         : undefined;
       return typeof value === "string" ? value : undefined;
     };
-    const seatTaken = factsOf(turn, "seatId");
+    const seatTaken =
+      turn?.row.kindPrefix === "event:took-office"
+        ? factsOf(turn, "seatId")
+        : undefined;
+    const raceName = seatTaken
+      ? [...raceChapters].find(([contest]) =>
+          contest.startsWith(`contest:${seatTaken}:`),
+        )?.[one]
+      : undefined;
     const sameOffice =
-      turn?.row.kindPrefix === "event:took-office" &&
+      !!raceName &&
       chapterKind === "event:candidate-filed" &&
-      !!seatTaken &&
-      !!chapterContest?.startsWith(`contest:${seatTaken}:`);
+      chapter?.title === raceName;
     if (
       !chapter ||
       (turn &&
@@ -3648,7 +3656,6 @@ export function composeJournal(
         (chapterKind !== turn.row.kindPrefix || title.text !== chapter.title))
     ) {
       chapterKind = turn?.row.kindPrefix;
-      chapterContest = factsOf(turn, "contestId");
       const place = placeName(person.placeId);
       const opening =
         (title && !byName ? title : null) ??
@@ -3658,11 +3665,11 @@ export function composeJournal(
           `${group[zero]!.moment.id}:title`,
           [group[zero]!.moment.causeId],
         );
-      open(
-        group[zero]!.moment.id,
-        opening?.text ?? "",
-        group[zero]!.moment.date,
-      );
+      const chapterTitle = raceName ?? opening?.text ?? "";
+      const contestOf = factsOf(turn, "contestId");
+      if (turn?.row.kindPrefix === "event:candidate-filed" && contestOf)
+        raceChapters.set(contestOf, chapterTitle);
+      open(group[zero]!.moment.id, chapterTitle, group[zero]!.moment.date);
     }
     // A race's certified result is its own entry, on the day it was certified
     // (Words lead, Nov 15: an entry does not tell a later event under an

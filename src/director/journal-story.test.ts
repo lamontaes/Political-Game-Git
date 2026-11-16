@@ -4,8 +4,12 @@ import { buildBenchWorld } from "../bench/world";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { gameStartDate } from "../core2/game-start";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
+import { setBookkeeping } from "../core2/bookkeeping";
 import { advanceCore } from "../core2/life";
 import { preStartHistory } from "../core2/pre-start";
+import { gatherSignatures } from "../core2/campaign-petition-kit";
+import { fileCandidacy, openContests } from "../core2/modules/elections";
+import { coreAPI } from "../core2/state";
 import { composeJournal } from "./journal";
 import { tieSide } from "./relation-facts";
 import journalBank from "../../data/english/parts/journal.json";
@@ -265,4 +269,50 @@ describe("the journal as a story from birth", () => {
       expect(others.map((moment) => moment.id)).not.toContain(opened.id);
     }
   }, 600_000);
+
+  // A race the player won and the seat it gave are one office: the chapter
+  // the seat is told in carries the race's name, never a second name for the
+  // same office ("Council member" after "The Hephzibah City Council"), with
+  // another chapter (a parent's) between the two. Hephzibah, Georgia, seed
+  // abc5c7d3..., the council race of 2025-11-04, found by a script outside
+  // the test (scripts/.hunt/win.ts: seven drawn places, the first that has
+  // a win and a seating); before the rule the same run printed the chapters
+  // "The Hephzibah City Council", "My father", "Council member".
+  it("tells taking the seat a race won under the race's chapter name", () => {
+    setBookkeeping(false);
+    try {
+      const { core, director } = buildBenchWorld(
+        "abc5c7d3da7e22c3a2c3c28ec635e6ae09c9bafe03d75273bf5b21aec300b979",
+        gameStartDate(),
+        { twoLevel: true, placeKey: "1338040" },
+      );
+      const api = coreAPI(core);
+      const pid = core.playerId as PersonId;
+      director.watch(core, pid);
+      const contestId = "contest:seat:gus2025:225768:council:0:2025-11-04";
+      let contest = openContests(api).find((row) => row.id === contestId);
+      for (let week = 0; week < 104 && !contest; week += 1) {
+        advanceCore(core, addDays(makeIsoDate(core.date), 7));
+        contest = openContests(api).find((row) => row.id === contestId);
+      }
+      expect(contest, "the council race is open for filing").toBeDefined();
+      fileCandidacy(api, { personId: pid, contestId, platform: [] });
+      gatherSignatures(core, `filing:${contestId}:${pid}`);
+      advanceCore(core, addDays(makeIsoDate(contest!.electionDate), 90));
+      const chapters = composeJournal(core, director, pid);
+      const took = chapters.find((chapter) =>
+        chapter.lines.some((line) => /^I took office as/.test(line.text)),
+      );
+      const won = chapters.find((chapter) =>
+        chapter.lines.some((line) => /^I won the election/.test(line.text)),
+      );
+      expect(took, "the seat is told").toBeDefined();
+      expect(took!.title).toBe(won!.title);
+      expect(chapters.map((chapter) => chapter.title)).not.toContain(
+        "Council member",
+      );
+    } finally {
+      setBookkeeping(true);
+    }
+  }, 300_000);
 });
