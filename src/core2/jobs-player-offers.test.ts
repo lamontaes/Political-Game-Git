@@ -45,12 +45,12 @@ describe("the player's job offers", { timeout: 900_000 }, () => {
       const api = coreAPI(core);
       const playerId = core.playerId!;
       const before = core.people.get(playerId)!.jobId;
-      // The player applies to the openings in their town: an offer needs a cause (owner, Nov 16).
-      for (const position of fillableOpenings(api))
-        applyForOpening(api, position.id);
       // Eight weeks at a time for up to a year, until an employer picks them
       // (a town's openings and the player's fit decide when, if at all).
       for (let weeks = 0; weeks < 52; weeks += 8) {
+        // The player applies to the openings in their town: an offer needs a cause (owner, Nov 16).
+        for (const position of fillableOpenings(api))
+          applyForOpening(api, position.id);
         advanceCore(core, addDays(makeIsoDate(core.date), 8 * 7));
         if (jobOffersFor(api, playerId).length) break;
       }

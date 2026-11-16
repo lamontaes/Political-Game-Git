@@ -70,15 +70,16 @@ describe("the player's job offers have a cause", { timeout: 900_000 }, () => {
     const api = coreAPI(core);
     const player = core.people.get(core.playerId!)!;
     const applied = new Set<string>();
-    for (const position of fillableOpenings(api))
-      if (
-        position.placeId === player.placeId &&
-        applyForOpening(api, position.id)
-      )
-        applied.add(position.organizationId);
+    for (let week = 0; week < 12; week += 1) {
+      for (const position of fillableOpenings(api))
+        if (
+          position.placeId === player.placeId &&
+          applyForOpening(api, position.id)
+        )
+          applied.add(position.organizationId);
+      advanceCore(core, addDays(makeIsoDate(core.date), 7));
+    }
     expect(applied.size, "openings in the player's town").toBeGreaterThan(0);
-    for (let weeks = 0; weeks < 12; weeks += 4)
-      advanceCore(core, addDays(makeIsoDate(core.date), 4 * 7));
     const offers = (
       api
         .moduleState(JOBS_MODULE_ID)
