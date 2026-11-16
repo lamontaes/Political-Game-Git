@@ -595,221 +595,6 @@
       "bearing": "guarded"
     },
     {
-      "key": "conversation.greet-answer-fine.and-you",
-      "move": "greet-answer-fine",
-      "kind": "spoken",
-      "text": "And you?",
-      "uses": [
-        {
-          "move": "greet-answer-fine",
-          "subject": "greet",
-          "role": "answer",
-          "choice": "fine"
-        },
-        {
-          "move": "own-work-answer-turn",
-          "subject": "own-work",
-          "role": "answer",
-          "choice": "turn",
-          "raises": "their-work"
-        },
-        {
-          "move": "home-answer-turn",
-          "subject": "home",
-          "role": "answer",
-          "choice": "turn",
-          "raises": "home"
-        },
-        {
-          "move": "heard-work-answer-turn",
-          "subject": "heard-work",
-          "role": "answer",
-          "choice": "turn",
-          "raises": "their-work"
-        },
-        {
-          "move": "own-work-new-answer-turn",
-          "subject": "own-work-new",
-          "role": "answer",
-          "choice": "turn",
-          "raises": "their-work"
-        },
-        {
-          "move": "home-new-answer-turn",
-          "subject": "home-new",
-          "role": "answer",
-          "choice": "turn",
-          "raises": "home"
-        }
-      ],
-      "transcriptsUsing": 3,
-      "bySource": {
-        "Jimmy Carter Library (NARA) White House Exit Interview Project": 1,
-        "dcpd": 1,
-        "nps": 1
-      },
-      "source": {
-        "document": "Remarks Prior to a Meeting With President Recep Tayyip Erdoğan of Turkey and an Exchange With Reporters",
-        "date": "2025-09-25",
-        "granule": "DCPD-202500954",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202500954/html/DCPD-202500954.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "answer",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "conversation.greet-answer-fine.how-about-you",
-      "move": "greet-answer-fine",
-      "kind": "spoken",
-      "text": "How about you?",
-      "uses": [
-        {
-          "move": "greet-answer-fine",
-          "subject": "greet",
-          "role": "answer",
-          "choice": "fine"
-        },
-        {
-          "move": "own-work-answer-turn",
-          "subject": "own-work",
-          "role": "answer",
-          "choice": "turn",
-          "raises": "their-work"
-        },
-        {
-          "move": "home-answer-turn",
-          "subject": "home",
-          "role": "answer",
-          "choice": "turn",
-          "raises": "home"
-        },
-        {
-          "move": "heard-work-answer-turn",
-          "subject": "heard-work",
-          "role": "answer",
-          "choice": "turn",
-          "raises": "their-work"
-        },
-        {
-          "move": "own-work-new-answer-turn",
-          "subject": "own-work-new",
-          "role": "answer",
-          "choice": "turn",
-          "raises": "their-work"
-        },
-        {
-          "move": "home-new-answer-turn",
-          "subject": "home-new",
-          "role": "answer",
-          "choice": "turn",
-          "raises": "home"
-        },
-        {
-          "move": "asked-mutual-answer-turn",
-          "subject": "asked-mutual",
-          "role": "answer",
-          "choice": "turn"
-        }
-      ],
-      "transcriptsUsing": 81,
-      "bySource": {
-        "Jimmy Carter Library (NARA) White House Exit Interview Project": 1,
-        "National Archives History Office oral history project": 1,
-        "U.S. Election Assistance Commission (eac.gov)": 1,
-        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 2,
-        "briefing": 3,
-        "crec": 2,
-        "dcpd": 23,
-        "hearings": 42,
-        "nasa2": 2,
-        "nps": 3,
-        "wpa": 1
-      },
-      "source": {
-        "document": "The President's News Conference in Évian-les-Bains, France",
-        "date": "2026-06-17",
-        "granule": "DCPD-202600410",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600410/html/DCPD-202600410.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "answer",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "conversation.greet-answer-fine.what-about-you",
-      "move": "greet-answer-fine",
-      "kind": "spoken",
-      "text": "What about you?",
-      "uses": [
-        {
-          "move": "greet-answer-fine",
-          "subject": "greet",
-          "role": "answer",
-          "choice": "fine"
-        },
-        {
-          "move": "own-work-answer-turn",
-          "subject": "own-work",
-          "role": "answer",
-          "choice": "turn",
-          "raises": "their-work"
-        },
-        {
-          "move": "home-answer-turn",
-          "subject": "home",
-          "role": "answer",
-          "choice": "turn",
-          "raises": "home"
-        },
-        {
-          "move": "heard-work-answer-turn",
-          "subject": "heard-work",
-          "role": "answer",
-          "choice": "turn",
-          "raises": "their-work"
-        },
-        {
-          "move": "own-work-new-answer-turn",
-          "subject": "own-work-new",
-          "role": "answer",
-          "choice": "turn",
-          "raises": "their-work"
-        },
-        {
-          "move": "home-new-answer-turn",
-          "subject": "home-new",
-          "role": "answer",
-          "choice": "turn",
-          "raises": "home"
-        }
-      ],
-      "transcriptsUsing": 32,
-      "bySource": {
-        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 2,
-        "dcpd": 9,
-        "hearings": 17,
-        "house": 1,
-        "nps": 2,
-        "nps.gov": 1
-      },
-      "source": {
-        "document": "Remarks on Signing Executive Orders To Promote United States Ranching and an Exchange With Reporters",
-        "date": "2026-09-04",
-        "granule": "DCPD-202600575",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600575/html/DCPD-202600575.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "answer",
-        "key": "routine"
-      }
-    },
-    {
       "key": "conversation.own-work-ask-still-at.how-are-things-at-employer",
       "move": "own-work-ask-still-at",
       "kind": "spoken",
@@ -1410,36 +1195,6 @@
       }
     },
     {
-      "key": "conversation.own-work-answer-turn.how-about-yourself",
-      "move": "own-work-answer-turn",
-      "kind": "spoken",
-      "text": "How about yourself?",
-      "uses": [
-        {
-          "move": "own-work-answer-turn",
-          "subject": "own-work",
-          "role": "answer",
-          "choice": "turn",
-          "raises": "their-work"
-        }
-      ],
-      "transcriptsUsing": 3,
-      "bySource": {
-        "briefing": 1,
-        "dcpd": 2
-      },
-      "source": {
-        "document": "Press Briefing by Press Secretary Karine Jean-Pierre and NSC Coordinator for Strategic Communications John Kirby",
-        "date": "2024-01-16",
-        "granule": "WH-2024-01-16-press-briefing-by-press-secretary-karine-jean-pierre-and-nsc-coordinat",
-        "url": "https://bidenwhitehouse.archives.gov/briefing-room/press-briefings/2024/01/16/press-briefing-by-press-secretary-karine-jean-pierre-and-nsc-coordinator-for-strategic-communications-john-kirby-38/",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "ask"
-      }
-    },
-    {
       "key": "conversation.own-work-answer-turn.what-are-you-doing-now",
       "move": "own-work-answer-turn",
       "kind": "spoken",
@@ -1570,73 +1325,6 @@
       "tag": {
         "move": "ask"
       }
-    },
-    {
-      "key": "conversation.own-work-answer-brief.nothings-changed",
-      "move": "own-work-answer-brief",
-      "kind": "spoken",
-      "text": "Nothing's changed.",
-      "uses": [
-        {
-          "move": "own-work-answer-brief",
-          "subject": "own-work",
-          "role": "answer",
-          "choice": "brief",
-          "raises": "next"
-        }
-      ],
-      "transcriptsUsing": 2,
-      "bySource": {
-        "U.S. Senate Historical Office oral history": 1,
-        "nasa2": 1
-      },
-      "source": {
-        "document": "Robert M. Lightfoot oral history (nasa-senior-leadership collection)",
-        "date": "2018-07-26",
-        "granule": "nasa-senior-leadership-lightfootrm-7-26-18",
-        "url": "https://www.nasa.gov/wp-content/uploads/2024/11/lightfootrm-7-26-18.pdf",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "answer"
-      },
-      "bearing": "guarded"
-    },
-    {
-      "key": "conversation.own-work-answer-brief.its-the-same",
-      "move": "own-work-answer-brief",
-      "kind": "spoken",
-      "text": "It's the same.",
-      "uses": [
-        {
-          "move": "own-work-answer-brief",
-          "subject": "own-work",
-          "role": "answer",
-          "choice": "brief",
-          "raises": "next"
-        }
-      ],
-      "transcriptsUsing": 13,
-      "bySource": {
-        "Jimmy Carter Library (NARA) White House Exit Interview Project": 1,
-        "U.S. Election Assistance Commission (eac.gov)": 1,
-        "briefing": 1,
-        "dcpd": 5,
-        "nasa": 1,
-        "nasa2": 2,
-        "nps": 2
-      },
-      "source": {
-        "document": "Remarks and an Exchange With Reporters Aboard Air Force One En Route to Anchorage, Alaska",
-        "date": "2025-10-30",
-        "granule": "DCPD-202501078",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202501078/html/DCPD-202501078.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "answer"
-      },
-      "bearing": "guarded"
     },
     {
       "key": "conversation.own-work-lie-left.i-left-employer",
@@ -2140,220 +1828,6 @@
         "move": "answer"
       },
       "bearing": "guarded"
-    },
-    {
-      "key": "conversation.other-work-answer-ack.i-see",
-      "move": "other-work-answer-ack",
-      "kind": "spoken",
-      "text": "I see.",
-      "uses": [
-        {
-          "move": "other-work-answer-ack",
-          "subject": "other-work",
-          "role": "answer",
-          "choice": "ack",
-          "stages": ["working"]
-        },
-        {
-          "move": "home-reply-answer-ack",
-          "subject": "home-reply",
-          "role": "answer",
-          "choice": "ack"
-        },
-        {
-          "move": "other-work-answer-ack-none",
-          "subject": "other-work",
-          "role": "answer",
-          "choice": "ack-none",
-          "stages": ["none"]
-        },
-        {
-          "move": "heard-work-reply-ok",
-          "subject": "heard-work",
-          "role": "reply",
-          "choice": "ok"
-        },
-        {
-          "move": "mutual-answer-turn",
-          "subject": "mutual",
-          "role": "answer",
-          "choice": "turn",
-          "raises": "next-2"
-        },
-        {
-          "move": "ack-reply-right",
-          "subject": "ack",
-          "role": "reply",
-          "choice": "right"
-        }
-      ],
-      "transcriptsUsing": 348,
-      "bySource": {
-        "Dwight D. Eisenhower Presidential Library (NARA) oral history project": 3,
-        "Jimmy Carter Library (NARA) Carter/Smith Family Oral History Project": 5,
-        "Jimmy Carter Library (NARA) White House Exit Interview Project": 3,
-        "National Archives History Office oral history project": 3,
-        "National Archives History Office oral history project (nprc-oral-histories)": 3,
-        "Naval History and Heritage Command, Navy strategy oral histories": 1,
-        "Richard Nixon Presidential Library (NARA) oral history project": 2,
-        "U.S. Election Assistance Commission (eac.gov)": 5,
-        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 9,
-        "U.S. Senate Historical Office oral history": 8,
-        "briefing": 38,
-        "crec": 1,
-        "dcpd": 43,
-        "hearings": 100,
-        "house": 6,
-        "nasa": 3,
-        "nasa2": 4,
-        "nih": 12,
-        "nps": 99
-      },
-      "source": {
-        "document": "Remarks at a Campaign Rally for South Carolina Republican Senatorial Candidate Senator Darline Graham Nordone in Myrtle Beach, South Carolina",
-        "date": "2026-08-21",
-        "granule": "DCPD-202600552",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600552/html/DCPD-202600552.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "answer"
-      },
-      "bearing": "calm"
-    },
-    {
-      "key": "conversation.other-work-answer-ack.good-for-you",
-      "move": "other-work-answer-ack",
-      "kind": "spoken",
-      "text": "Good for you.",
-      "uses": [
-        {
-          "move": "other-work-answer-ack",
-          "subject": "other-work",
-          "role": "answer",
-          "choice": "ack",
-          "stages": ["working"]
-        },
-        {
-          "move": "tenure-reply-answer-turn",
-          "subject": "tenure-reply",
-          "role": "answer",
-          "choice": "turn",
-          "raises": "next-2"
-        },
-        {
-          "move": "tenure-reply-answer-ack",
-          "subject": "tenure-reply",
-          "role": "answer",
-          "choice": "ack"
-        },
-        {
-          "move": "heard-work-reply-ok",
-          "subject": "heard-work",
-          "role": "reply",
-          "choice": "ok"
-        },
-        {
-          "move": "job-new-reply-answer-congratulate",
-          "subject": "job-new-reply",
-          "role": "answer",
-          "choice": "congratulate"
-        }
-      ],
-      "transcriptsUsing": 27,
-      "bySource": {
-        "National Archives History Office oral history project": 1,
-        "Richard Nixon Presidential Library (NARA) oral history project": 1,
-        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 1,
-        "U.S. Senate Historical Office oral history": 1,
-        "crec": 3,
-        "dcpd": 3,
-        "hearings": 3,
-        "house": 1,
-        "nasa": 1,
-        "nasa2": 1,
-        "nps": 10,
-        "wpa": 1
-      },
-      "source": {
-        "document": "NOMINATIONS OF HON. HAMPTON Y. DELLINGER AND HON. HENRY J. KERNER",
-        "date": "2023-11-30",
-        "granule": "CHRG-118shrg54423",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-118shrg54423/html/CHRG-118shrg54423.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "answer"
-      },
-      "bearing": "glad"
-    },
-    {
-      "key": "conversation.other-work-answer-ack.thats-great",
-      "move": "other-work-answer-ack",
-      "kind": "spoken",
-      "text": "That's great.",
-      "uses": [
-        {
-          "move": "other-work-answer-ack",
-          "subject": "other-work",
-          "role": "answer",
-          "choice": "ack",
-          "stages": ["working"]
-        },
-        {
-          "move": "tenure-reply-answer-turn",
-          "subject": "tenure-reply",
-          "role": "answer",
-          "choice": "turn",
-          "raises": "next-2"
-        },
-        {
-          "move": "tenure-reply-answer-ack",
-          "subject": "tenure-reply",
-          "role": "answer",
-          "choice": "ack"
-        },
-        {
-          "move": "heard-work-reply-ok",
-          "subject": "heard-work",
-          "role": "reply",
-          "choice": "ok"
-        }
-      ],
-      "transcriptsUsing": 744,
-      "bySource": {
-        "Jimmy Carter Library (NARA) White House Exit Interview Project": 5,
-        "National Archives History Office oral history project": 12,
-        "National Archives History Office oral history project (nprc-oral-histories)": 4,
-        "National Archives History Office oral history project (nyc-oral-histories)": 5,
-        "Richard Nixon Presidential Library (NARA) oral history project": 1,
-        "U.S. Army Center of Military History": 1,
-        "U.S. Election Assistance Commission (eac.gov)": 12,
-        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 5,
-        "U.S. Senate Historical Office oral history": 16,
-        "briefing": 15,
-        "crec": 1,
-        "dcpd": 457,
-        "doi": 1,
-        "hearings": 34,
-        "house": 16,
-        "nasa": 55,
-        "nasa2": 41,
-        "nih": 7,
-        "nps": 55,
-        "nps.gov": 1
-      },
-      "source": {
-        "document": "Remarks at the Republican National Committee Midterm Convention in Dallas, Texas",
-        "date": "2026-09-09",
-        "granule": "DCPD-202600590",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600590/html/DCPD-202600590.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "answer"
-      },
-      "bearing": "glad"
     },
     {
       "key": "conversation.other-work-answer-tenure.how-long-have-you-been-there",
@@ -3236,44 +2710,6 @@
       }
     },
     {
-      "key": "conversation.home-new-answer-brief.right-here",
-      "move": "home-new-answer-brief",
-      "kind": "spoken",
-      "text": "Right here.",
-      "uses": [
-        {
-          "move": "home-new-answer-brief",
-          "subject": "home-new",
-          "role": "answer",
-          "choice": "brief",
-          "raises": "next"
-        }
-      ],
-      "transcriptsUsing": 160,
-      "bySource": {
-        "Dwight D. Eisenhower Presidential Library (NARA) oral history project": 1,
-        "Richard Nixon Presidential Library (NARA) oral history project": 1,
-        "U.S. Election Assistance Commission (eac.gov)": 2,
-        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 1,
-        "briefing": 22,
-        "dcpd": 121,
-        "hearings": 5,
-        "nasa": 1,
-        "nps": 5,
-        "wpa": 1
-      },
-      "source": {
-        "document": "Remarks During a Greeting With California State Parks Lifeguard Ryder Williams and an Exchange With Reporters",
-        "date": "2026-08-17",
-        "granule": "DCPD-202600543",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600543/html/DCPD-202600543.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "answer"
-      }
-    },
-    {
       "key": "conversation.home-reply-reply-still.i-live-in-place",
       "move": "home-reply-reply-still",
       "kind": "spoken",
@@ -3379,110 +2815,6 @@
       "tag": {
         "move": "answer"
       }
-    },
-    {
-      "key": "conversation.home-reply-answer-brief.right",
-      "move": "home-reply-answer-brief",
-      "kind": "spoken",
-      "text": "Right.",
-      "uses": [
-        {
-          "move": "home-reply-answer-brief",
-          "subject": "home-reply",
-          "role": "answer",
-          "choice": "brief",
-          "raises": "next"
-        },
-        {
-          "move": "shared-work-answer-brief",
-          "subject": "shared-work",
-          "role": "answer",
-          "choice": "brief",
-          "raises": "next"
-        },
-        {
-          "move": "mutual-answer-brief",
-          "subject": "mutual",
-          "role": "answer",
-          "choice": "brief",
-          "raises": "next"
-        },
-        {
-          "move": "tenure-reply-answer-brief",
-          "subject": "tenure-reply",
-          "role": "answer",
-          "choice": "brief",
-          "raises": "next"
-        },
-        {
-          "move": "heard-work-answer-yes",
-          "subject": "heard-work",
-          "role": "answer",
-          "choice": "yes"
-        },
-        {
-          "move": "heard-work-answer-brief",
-          "subject": "heard-work",
-          "role": "answer",
-          "choice": "brief",
-          "raises": "next"
-        },
-        {
-          "move": "mutual-answer-turn",
-          "subject": "mutual",
-          "role": "answer",
-          "choice": "turn",
-          "raises": "next-2"
-        },
-        {
-          "move": "ack-reply-right",
-          "subject": "ack",
-          "role": "reply",
-          "choice": "right"
-        }
-      ],
-      "transcriptsUsing": 2926,
-      "bySource": {
-        "Dwight D. Eisenhower Presidential Library (NARA) oral history project": 3,
-        "Federal Election Commission (fec.gov)": 1,
-        "Jimmy Carter Library (NARA) Carter/Smith Family Oral History Project": 7,
-        "Jimmy Carter Library (NARA) White House Exit Interview Project": 41,
-        "National Archives History Office oral history project": 33,
-        "National Archives History Office oral history project (brooks-oral-histories)": 13,
-        "National Archives History Office oral history project (nprc-oral-histories)": 9,
-        "National Archives History Office oral history project (nyc-oral-histories)": 6,
-        "National Archives History Office oral history project (ross-oral-histories)": 1,
-        "National Archives History Office oral history project (veterans-oral-histories)": 1,
-        "Naval History and Heritage Command, Navy Department Library oral histories": 1,
-        "Naval History and Heritage Command, Navy strategy oral histories": 2,
-        "Richard Nixon Presidential Library (NARA) oral history project": 28,
-        "U.S. Army Center of Military History": 1,
-        "U.S. Election Assistance Commission (eac.gov)": 31,
-        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 89,
-        "U.S. Senate Historical Office oral history": 96,
-        "briefing": 208,
-        "crec": 6,
-        "dcpd": 604,
-        "hearings": 1086,
-        "house": 66,
-        "nasa": 131,
-        "nasa2": 137,
-        "nih": 25,
-        "nps": 297,
-        "nps.gov": 2,
-        "nps.gov (PDF)": 1
-      },
-      "source": {
-        "document": "LEGISLATIVE BRANCH APPROPRIATIONS FOR FISCAL YEAR 2026",
-        "date": "2026-09-30",
-        "granule": "CHRG-119shrg60273",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-119shrg60273/html/CHRG-119shrg60273.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "react"
-      },
-      "bearing": "guarded"
     },
     {
       "key": "conversation.shared-school-ask-remember.remember-school",
@@ -3892,61 +3224,6 @@
       }
     },
     {
-      "key": "conversation.shared-school-answer-plain.of-course",
-      "move": "shared-school-answer-plain",
-      "kind": "spoken",
-      "text": "Of course.",
-      "uses": [
-        {
-          "move": "shared-school-answer-plain",
-          "subject": "shared-school",
-          "role": "answer",
-          "choice": "plain"
-        },
-        {
-          "move": "shared-work-answer-plain",
-          "subject": "shared-work",
-          "role": "answer",
-          "choice": "plain"
-        }
-      ],
-      "transcriptsUsing": 468,
-      "bySource": {
-        "Jimmy Carter Library (NARA) Carter/Smith Family Oral History Project": 1,
-        "Jimmy Carter Library (NARA) White House Exit Interview Project": 1,
-        "National Archives History Office oral history project": 4,
-        "National Archives History Office oral history project (nprc-oral-histories)": 1,
-        "National Archives History Office oral history project (nyc-oral-histories)": 1,
-        "National Archives History Office oral history project (ross-oral-histories)": 1,
-        "National Archives History Office oral history project (veterans-oral-histories)": 1,
-        "Naval History and Heritage Command, Navy strategy oral histories": 2,
-        "Richard Nixon Presidential Library (NARA) oral history project": 5,
-        "U.S. Army Center of Military History": 1,
-        "U.S. Election Assistance Commission (eac.gov)": 3,
-        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 9,
-        "U.S. Senate Historical Office oral history": 14,
-        "briefing": 60,
-        "crec": 14,
-        "dcpd": 83,
-        "hearings": 188,
-        "house": 11,
-        "nasa": 18,
-        "nasa2": 24,
-        "nps": 26
-      },
-      "source": {
-        "document": "Remarks Prior to a Meeting With President Volodymyr Zelenskyy of Ukraine and an Exchange With Reporters in Ankara, Turkey",
-        "date": "2026-07-08",
-        "granule": "DCPD-202600450",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600450/html/DCPD-202600450.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "answer"
-      },
-      "bearing": "calm"
-    },
-    {
       "key": "conversation.shared-school-answer-plain.i-remember",
       "move": "shared-school-answer-plain",
       "kind": "spoken",
@@ -4074,116 +3351,6 @@
       "tag": {
         "move": "answer"
       }
-    },
-    {
-      "key": "conversation.shared-school-answer-plain.oh-yes",
-      "move": "shared-school-answer-plain",
-      "kind": "spoken",
-      "text": "Oh, yes.",
-      "uses": [
-        {
-          "move": "shared-school-answer-plain",
-          "subject": "shared-school",
-          "role": "answer",
-          "choice": "plain"
-        }
-      ],
-      "transcriptsUsing": 763,
-      "bySource": {
-        "Air Force Historical Research Agency, USAF Oral History Program": 1,
-        "Dwight D. Eisenhower Presidential Library (NARA) oral history project": 2,
-        "Jimmy Carter Library (NARA) Carter/Smith Family Oral History Project": 3,
-        "Jimmy Carter Library (NARA) White House Exit Interview Project": 13,
-        "National Archives History Office oral history project": 4,
-        "National Archives History Office oral history project (brooks-oral-histories)": 4,
-        "National Archives History Office oral history project (nprc-oral-histories)": 3,
-        "National Archives History Office oral history project (nyc-oral-histories)": 2,
-        "National Archives History Office oral history project (ross-oral-histories)": 1,
-        "National Archives History Office oral history project (veterans-oral-histories)": 1,
-        "Naval History and Heritage Command, Navy Department Library oral histories": 3,
-        "Richard Nixon Presidential Library (NARA) oral history project": 8,
-        "U.S. Army Center of Military History": 1,
-        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 99,
-        "U.S. Senate Historical Office oral history": 99,
-        "briefing": 9,
-        "crec": 1,
-        "dcpd": 113,
-        "hearings": 77,
-        "house": 43,
-        "nasa": 80,
-        "nasa2": 42,
-        "nih": 10,
-        "nps": 142,
-        "wpa": 2
-      },
-      "source": {
-        "document": "Remarks at a Campaign Rally for South Carolina Republican Senatorial Candidate Senator Darline Graham Nordone in Myrtle Beach, South Carolina",
-        "date": "2026-08-21",
-        "granule": "DCPD-202600552",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600552/html/DCPD-202600552.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "answer"
-      }
-    },
-    {
-      "key": "conversation.shared-school-answer-plain.oh-sure",
-      "move": "shared-school-answer-plain",
-      "kind": "spoken",
-      "text": "Oh, sure.",
-      "uses": [
-        {
-          "move": "shared-school-answer-plain",
-          "subject": "shared-school",
-          "role": "answer",
-          "choice": "plain"
-        },
-        {
-          "move": "shared-work-answer-plain",
-          "subject": "shared-work",
-          "role": "answer",
-          "choice": "plain"
-        },
-        {
-          "move": "shared-work-answer-turn",
-          "subject": "shared-work",
-          "role": "answer",
-          "choice": "turn",
-          "raises": "their-work"
-        }
-      ],
-      "transcriptsUsing": 158,
-      "bySource": {
-        "Jimmy Carter Library (NARA) Carter/Smith Family Oral History Project": 1,
-        "Jimmy Carter Library (NARA) White House Exit Interview Project": 2,
-        "National Archives History Office oral history project": 3,
-        "National Archives History Office oral history project (nprc-oral-histories)": 2,
-        "Naval History and Heritage Command, Navy Department Library oral histories": 1,
-        "Richard Nixon Presidential Library (NARA) oral history project": 1,
-        "U.S. Election Assistance Commission (eac.gov)": 1,
-        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 16,
-        "U.S. Senate Historical Office oral history": 20,
-        "briefing": 17,
-        "dcpd": 19,
-        "hearings": 14,
-        "house": 14,
-        "nasa": 12,
-        "nasa2": 9,
-        "nih": 3,
-        "nps": 23
-      },
-      "source": {
-        "document": "TRANSPORTATION, HOUSING AND URBAN DEVELOPMENT, AND RELATED AGENCIES APPROPRIATIONS FOR FISCAL YEAR 2026",
-        "date": "2026-09-30",
-        "granule": "CHRG-119shrg60282",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-119shrg60282/html/CHRG-119shrg60282.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "answer"
-      },
-      "bearing": "glad"
     },
     {
       "key": "conversation.shared-school-answer-plain.ill-never-forget-it",
@@ -5020,102 +4187,6 @@
       }
     },
     {
-      "key": "conversation.kin-answer-brief.you-will",
-      "move": "kin-answer-brief",
-      "kind": "spoken",
-      "text": "You will.",
-      "uses": [
-        {
-          "move": "kin-answer-brief",
-          "subject": "kin",
-          "role": "answer",
-          "choice": "brief",
-          "raises": "next"
-        }
-      ],
-      "transcriptsUsing": 20,
-      "bySource": {
-        "briefing": 2,
-        "dcpd": 13,
-        "hearings": 2,
-        "house": 1,
-        "nps": 2
-      },
-      "source": {
-        "document": "Remarks at the Republican National Committee Midterm Convention in Dallas, Texas",
-        "date": "2026-09-09",
-        "granule": "DCPD-202600590",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600590/html/DCPD-202600590.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "answer"
-      }
-    },
-    {
-      "key": "conversation.kin-answer-turn.maybe-someday",
-      "move": "kin-answer-turn",
-      "kind": "spoken",
-      "text": "Maybe someday.",
-      "uses": [
-        {
-          "move": "kin-answer-turn",
-          "subject": "kin",
-          "role": "answer",
-          "choice": "turn",
-          "raises": "next-2"
-        }
-      ],
-      "transcriptsUsing": 4,
-      "bySource": {
-        "briefing": 1,
-        "dcpd": 1,
-        "hearings": 1,
-        "nps": 1
-      },
-      "source": {
-        "document": "Remarks at a Black History Month Reception",
-        "date": "2025-02-20",
-        "granule": "DCPD-202500286",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202500286/html/DCPD-202500286.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "ask"
-      },
-      "bearing": "nervous"
-    },
-    {
-      "key": "conversation.kin-answer-turn.someday",
-      "move": "kin-answer-turn",
-      "kind": "spoken",
-      "text": "Someday.",
-      "uses": [
-        {
-          "move": "kin-answer-turn",
-          "subject": "kin",
-          "role": "answer",
-          "choice": "turn",
-          "raises": "next-2"
-        }
-      ],
-      "transcriptsUsing": 2,
-      "bySource": {
-        "dcpd": 2
-      },
-      "source": {
-        "document": "Remarks on Signing a Memorandum on Reciprocal Trade and Tariffs and an Exchange With Reporters",
-        "date": "2025-02-13",
-        "granule": "DCPD-202500259",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202500259/html/DCPD-202500259.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "ask"
-      },
-      "bearing": "nervous"
-    },
-    {
       "key": "conversation.kin-answer-turn.maybe-next-time",
       "move": "kin-answer-turn",
       "kind": "spoken",
@@ -5627,226 +4698,6 @@
       },
       "author": "Words builder M3 (words-neighbor-asks-the-player-about-a-printed-story-by-its-medium)",
       "date": "2026-11-15"
-    },
-    {
-      "key": "conversation.news-answer-yes.i-heard",
-      "move": "news-answer-yes",
-      "kind": "spoken",
-      "text": "I heard.",
-      "uses": [
-        {
-          "move": "news-answer-yes",
-          "subject": "news",
-          "role": "answer",
-          "choice": "yes",
-          "stages": ["heard"],
-          "excludesFacts": ["asked-by-medium"]
-        }
-      ],
-      "transcriptsUsing": 2,
-      "bySource": {
-        "dcpd": 2
-      },
-      "source": {
-        "document": "Remarks and an Exchange With Reporters Upon Arrival at Joint Base Andrews, Maryland",
-        "date": "2026-08-11",
-        "granule": "DCPD-202600533",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600533/html/DCPD-202600533.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "answer",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "conversation.news-answer-yes.i-saw-that",
-      "move": "news-answer-yes",
-      "kind": "spoken",
-      "text": "I saw that.",
-      "uses": [
-        {
-          "move": "news-answer-yes",
-          "subject": "news",
-          "role": "answer",
-          "choice": "yes",
-          "stages": ["heard"],
-          "excludesFacts": ["asked-by-medium", "outlet-radio"]
-        }
-      ],
-      "transcriptsUsing": 44,
-      "bySource": {
-        "Naval History and Heritage Command, Navy Department Library oral histories": 1,
-        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 3,
-        "U.S. Senate Historical Office oral history": 1,
-        "briefing": 5,
-        "dcpd": 14,
-        "hearings": 6,
-        "house": 2,
-        "nasa": 3,
-        "nasa2": 4,
-        "nps": 5
-      },
-      "source": {
-        "document": "Remarks at a Swearing-in Ceremony for Markwayne Mullin as Secretary of Homeland Security and an Exchange With Reporters",
-        "date": "2026-03-24",
-        "granule": "DCPD-202600199",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600199/html/DCPD-202600199.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "answer",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "conversation.news-answer-no.i-didnt-hear",
-      "move": "news-answer-no",
-      "kind": "spoken",
-      "text": "I didn't hear.",
-      "uses": [
-        {
-          "move": "news-answer-no",
-          "subject": "news",
-          "role": "answer",
-          "choice": "no",
-          "stages": ["not-heard"],
-          "excludesFacts": ["asked-by-medium"]
-        }
-      ],
-      "transcriptsUsing": 7,
-      "bySource": {
-        "crec": 1,
-        "hearings": 6
-      },
-      "source": {
-        "document": "KEEPING THE LIGHTS ON: EXAMINING THE STATE OF REGIONAL GRID RELIABILITY",
-        "date": "2025-03-25",
-        "granule": "CHRG-119hhrg60019",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-119hhrg60019/html/CHRG-119hhrg60019.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "ask",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "conversation.news-answer-no.i-havent-heard",
-      "move": "news-answer-no",
-      "kind": "spoken",
-      "text": "I haven't heard.",
-      "uses": [
-        {
-          "move": "news-answer-no",
-          "subject": "news",
-          "role": "answer",
-          "choice": "no",
-          "stages": ["not-heard"],
-          "excludesFacts": ["asked-by-medium"]
-        }
-      ],
-      "transcriptsUsing": 12,
-      "bySource": {
-        "briefing": 2,
-        "crec": 1,
-        "dcpd": 7,
-        "nasa2": 1,
-        "nps": 1
-      },
-      "source": {
-        "document": "Remarks on Signing the Whole Milk for Healthy Kids Act of 2025 and an Exchange With Reporters",
-        "date": "2026-01-14",
-        "granule": "DCPD-202600023",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600023/html/DCPD-202600023.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "ask",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "conversation.news-answer-no.no-i-didnt",
-      "move": "news-answer-no",
-      "kind": "spoken",
-      "text": "No, I didn't.",
-      "uses": [
-        {
-          "move": "news-answer-no",
-          "subject": "news",
-          "role": "answer",
-          "choice": "no",
-          "stages": ["not-heard"],
-          "excludesFacts": ["asked-by-medium"]
-        }
-      ],
-      "transcriptsUsing": 104,
-      "bySource": {
-        "Jimmy Carter Library (NARA) Carter/Smith Family Oral History Project": 1,
-        "Jimmy Carter Library (NARA) White House Exit Interview Project": 1,
-        "National Archives History Office oral history project": 1,
-        "National Archives History Office oral history project (nprc-oral-histories)": 1,
-        "National Archives History Office oral history project (nyc-oral-histories)": 2,
-        "Richard Nixon Presidential Library (NARA) oral history project": 3,
-        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 10,
-        "U.S. Senate Historical Office oral history": 8,
-        "briefing": 5,
-        "dcpd": 31,
-        "hearings": 5,
-        "house": 6,
-        "nasa": 7,
-        "nasa2": 5,
-        "nps": 18
-      },
-      "source": {
-        "document": "Remarks on the Environmental Protection Agency's Rescission of the \"Endangerment Finding\" With Respect to Greenhouse Gas Emissions and an Exchange With Reporters",
-        "date": "2026-02-12",
-        "granule": "DCPD-202600098",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600098/html/DCPD-202600098.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "ask",
-        "key": "news-received"
-      },
-      "bearing": "braced"
-    },
-    {
-      "key": "conversation.news-answer-react.thats-good-news",
-      "move": "news-answer-react",
-      "kind": "spoken",
-      "text": "That's good news.",
-      "uses": [
-        {
-          "move": "acquittal-reply-answer-congratulate",
-          "subject": "acquittal-reply",
-          "role": "answer",
-          "choice": "congratulate"
-        }
-      ],
-      "transcriptsUsing": 37,
-      "bySource": {
-        "U.S. Election Assistance Commission (eac.gov)": 2,
-        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 1,
-        "briefing": 12,
-        "dcpd": 13,
-        "hearings": 7,
-        "nasa": 1,
-        "nasa2": 1
-      },
-      "source": {
-        "document": "TRANSPORTATION, HOUSING AND URBAN DEVELOPMENT, AND RELATED AGENCIES APPROPRIATIONS FOR FISCAL YEAR 2026",
-        "date": "2026-09-30",
-        "granule": "CHRG-119shrg60282",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-119shrg60282/html/CHRG-119shrg60282.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "react",
-        "key": "news-received"
-      },
-      "bearing": "glad"
     },
     {
       "key": "conversation.news-answer-opinion.i-dont-know",
@@ -7226,59 +6077,6 @@
       }
     },
     {
-      "key": "conversation.heard-work-answer-yes.yep",
-      "move": "heard-work-answer-yes",
-      "kind": "spoken",
-      "text": "Yep.",
-      "uses": [
-        {
-          "move": "heard-work-answer-yes",
-          "subject": "heard-work",
-          "role": "answer",
-          "choice": "yes"
-        },
-        {
-          "move": "heard-work-answer-brief",
-          "subject": "heard-work",
-          "role": "answer",
-          "choice": "brief",
-          "raises": "next"
-        }
-      ],
-      "transcriptsUsing": 324,
-      "bySource": {
-        "Jimmy Carter Library (NARA) Carter/Smith Family Oral History Project": 1,
-        "National Archives History Office oral history project": 5,
-        "National Archives History Office oral history project (nyc-oral-histories)": 2,
-        "National Archives History Office oral history project (veterans-oral-histories)": 2,
-        "Naval History and Heritage Command, Navy strategy oral histories": 1,
-        "Richard Nixon Presidential Library (NARA) oral history project": 4,
-        "U.S. Election Assistance Commission (eac.gov)": 12,
-        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 1,
-        "U.S. Senate Historical Office oral history": 4,
-        "briefing": 150,
-        "crec": 1,
-        "dcpd": 5,
-        "hearings": 75,
-        "house": 2,
-        "nasa": 5,
-        "nasa2": 1,
-        "nih": 1,
-        "nps": 52
-      },
-      "source": {
-        "document": "2026 EAC Board of Advisors Annual Meeting — transcript (board_of_advisors_2026_annual_meeting_compiled_rough_transcript.pdf)",
-        "date": "2026-04-28",
-        "granule": "eac-2026-04-28-board-of-advisors-2026-annual-meeting-compiled-rough-transcr",
-        "url": "https://www.eac.gov/sites/default/files/2026-05/board_of_advisors_2026_annual_meeting_compiled_rough_transcript.pdf",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "answer"
-      },
-      "bearing": "guarded"
-    },
-    {
       "key": "conversation.home-reply-answer-own.i-live-in-my-place",
       "move": "home-reply-answer-own",
       "kind": "spoken",
@@ -7733,58 +6531,6 @@
       }
     },
     {
-      "bySource": {
-        "Air Force Historical Research Agency, USAF Oral History Program": 1,
-        "Jimmy Carter Library (NARA) Carter/Smith Family Oral History Project": 3,
-        "Jimmy Carter Library (NARA) White House Exit Interview Project": 3,
-        "National Archives History Office oral history project": 5,
-        "National Archives History Office oral history project (nprc-oral-histories)": 1,
-        "Naval History and Heritage Command, Navy Department Library oral histories": 1,
-        "Naval History and Heritage Command, Navy strategy oral histories": 2,
-        "Richard Nixon Presidential Library (NARA) oral history project": 8,
-        "U.S. Army Center of Military History": 1,
-        "U.S. Election Assistance Commission (eac.gov)": 10,
-        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 12,
-        "U.S. Senate Historical Office oral history": 29,
-        "briefing": 65,
-        "crec": 177,
-        "dcpd": 225,
-        "hearings": 223,
-        "house": 21,
-        "nasa": 32,
-        "nasa2": 41,
-        "nih": 3,
-        "nps": 62,
-        "nps.gov": 5,
-        "nps.gov (PDF)": 19,
-        "weather.gov": 1,
-        "wpa": 6
-      },
-      "key": "conversation.asked-mutual-answer-ask-why.why",
-      "kind": "spoken",
-      "move": "asked-mutual-answer-ask-why",
-      "source": {
-        "date": "2026-09-10",
-        "document": "Remarks at the Republican National Committee Midterm Convention Closing in Dallas, Texas",
-        "granule": "DCPD-202600592",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600592/html/DCPD-202600592.htm"
-      },
-      "tag": {
-        "move": "ask"
-      },
-      "text": "Why?",
-      "transcriptsUsing": 956,
-      "uses": [
-        {
-          "choice": "ask-why",
-          "move": "asked-mutual-answer-ask-why",
-          "role": "answer",
-          "subject": "asked-mutual"
-        }
-      ]
-    },
-    {
       "key": "conversation.asked-kin-answer-not-yet.no-not-yet",
       "move": "asked-kin-answer-not-yet",
       "kind": "spoken",
@@ -7999,36 +6745,6 @@
       "tag": {
         "move": "answer"
       }
-    },
-    {
-      "key": "conversation.kin-answer-turn.maybe-one-day",
-      "move": "kin-answer-turn",
-      "kind": "spoken",
-      "text": "Maybe one day.",
-      "uses": [
-        {
-          "move": "kin-answer-turn",
-          "subject": "kin",
-          "role": "answer",
-          "choice": "turn",
-          "raises": "next-2"
-        }
-      ],
-      "transcriptsUsing": 3,
-      "bySource": {
-        "nasa": 3
-      },
-      "source": {
-        "document": "NASA oral history interview with Jane D. Dreyfus",
-        "date": "2019-11-12",
-        "granule": "dreyfusjc-11-12-19",
-        "url": "https://www.nasa.gov/wp-content/uploads/2025/07/dreyfusjc-11-12-19.pdf",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "ask"
-      },
-      "bearing": "nervous"
     },
     {
       "key": "conversation.farewell-leave-bye.tell-name-i-said-hello",
@@ -9065,48 +7781,6 @@
       }
     },
     {
-      "key": "conversation.acquittal-reply-answer-congratulate.good-to-hear",
-      "move": "acquittal-reply-answer-congratulate",
-      "kind": "spoken",
-      "text": "Good to hear.",
-      "uses": [
-        {
-          "move": "acquittal-reply-answer-congratulate",
-          "subject": "acquittal-reply",
-          "role": "answer",
-          "choice": "congratulate"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
-      "date": "2026-10-19",
-      "tag": {
-        "move": "congratulate",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "conversation.acquittal-reply-answer-congratulate.good-news",
-      "move": "acquittal-reply-answer-congratulate",
-      "kind": "spoken",
-      "text": "Good news.",
-      "uses": [
-        {
-          "move": "acquittal-reply-answer-congratulate",
-          "subject": "acquittal-reply",
-          "role": "answer",
-          "choice": "congratulate"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
-      "date": "2026-10-19",
-      "tag": {
-        "move": "congratulate",
-        "key": "news-received"
-      }
-    },
-    {
       "key": "conversation.acquittal-reply-answer-comfort.you-can-put-it-behind-you",
       "move": "acquittal-reply-answer-comfort",
       "kind": "spoken",
@@ -9611,29 +8285,6 @@
       "date": "2026-11-14"
     },
     {
-      "key": "conversation.charge-reply-back-core.that-helps",
-      "move": "charge-reply-back-core",
-      "kind": "spoken",
-      "text": "That helps.",
-      "uses": [
-        {
-          "move": "charge-reply-back-core",
-          "subject": "charge-reply-back",
-          "role": "core",
-          "stages": ["comfort"]
-        }
-      ],
-      "piece": {
-        "of": "charge-reply-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Words builder S3 (a housemate's court case, carry of #8979 part 3, Nov 14)",
-      "date": "2026-11-14"
-    },
-    {
       "key": "conversation.charge-reply-back-core.i-know-sorry",
       "move": "charge-reply-back-core",
       "kind": "spoken",
@@ -9753,30 +8404,6 @@
       "date": "2026-11-14"
     },
     {
-      "key": "conversation.conviction-reply-back-core.i-know-it",
-      "move": "conviction-reply-back-core",
-      "kind": "spoken",
-      "text": "I know it.",
-      "uses": [
-        {
-          "move": "conviction-reply-back-core",
-          "subject": "conviction-reply-back",
-          "role": "core",
-          "stages": ["blame"],
-          "excludesFacts": ["contested"]
-        }
-      ],
-      "piece": {
-        "of": "conviction-reply-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "solemn",
-      "origin": "authored",
-      "author": "Words builder S3 (a housemate's court case, carry of #8979 part 3, Nov 14)",
-      "date": "2026-11-14"
-    },
-    {
       "key": "conversation.acquittal-reply-back-core.finally-over",
       "move": "acquittal-reply-back-core",
       "kind": "spoken",
@@ -9800,56 +8427,10 @@
       "date": "2026-11-14"
     },
     {
-      "key": "conversation.acquittal-reply-back-core.thanks-finally",
-      "move": "acquittal-reply-back-core",
-      "kind": "spoken",
-      "text": "Thanks. Finally.",
-      "uses": [
-        {
-          "move": "acquittal-reply-back-core",
-          "subject": "acquittal-reply-back",
-          "role": "core",
-          "stages": ["congratulate"]
-        }
-      ],
-      "piece": {
-        "of": "acquittal-reply-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Words builder S3 (a housemate's court case, carry of #8979 part 3, Nov 14)",
-      "date": "2026-11-14"
-    },
-    {
       "key": "conversation.acquittal-reply-back-core.behind-me-now",
       "move": "acquittal-reply-back-core",
       "kind": "spoken",
       "text": "Behind me now.",
-      "uses": [
-        {
-          "move": "acquittal-reply-back-core",
-          "subject": "acquittal-reply-back",
-          "role": "core",
-          "stages": ["ask"]
-        }
-      ],
-      "piece": {
-        "of": "acquittal-reply-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder S3 (a housemate's court case, carry of #8979 part 3, Nov 14)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.acquittal-reply-back-core.back-to-normal",
-      "move": "acquittal-reply-back-core",
-      "kind": "spoken",
-      "text": "Back to normal.",
       "uses": [
         {
           "move": "acquittal-reply-back-core",
@@ -9915,29 +8496,6 @@
       "date": "2026-11-14"
     },
     {
-      "key": "conversation.acquittal-reply-back-core.leave-it-there",
-      "move": "acquittal-reply-back-core",
-      "kind": "spoken",
-      "text": "Leave it there.",
-      "uses": [
-        {
-          "move": "acquittal-reply-back-core",
-          "subject": "acquittal-reply-back",
-          "role": "core",
-          "stages": ["comfort"]
-        }
-      ],
-      "piece": {
-        "of": "acquittal-reply-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder S3 (a housemate's court case, carry of #8979 part 3, Nov 14)",
-      "date": "2026-11-14"
-    },
-    {
       "key": "conversation.charge-reply-back-core.sentencing-comes-next",
       "move": "charge-reply-back-core",
       "kind": "spoken",
@@ -9957,29 +8515,6 @@
         "required": true
       },
       "bearing": "solemn",
-      "origin": "authored",
-      "author": "Words builder S3 (a housemate's court case; Words lead rulings on #9190, Nov 14)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.charge-reply-back-core.i-wait",
-      "move": "charge-reply-back-core",
-      "kind": "spoken",
-      "text": "I wait.",
-      "uses": [
-        {
-          "move": "charge-reply-back-core",
-          "subject": "charge-reply-back",
-          "role": "core",
-          "stages": ["ask"]
-        }
-      ],
-      "piece": {
-        "of": "charge-reply-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "calm",
       "origin": "authored",
       "author": "Words builder S3 (a housemate's court case; Words lead rulings on #9190, Nov 14)",
       "date": "2026-11-14"
@@ -10048,29 +8583,6 @@
       ],
       "piece": {
         "of": "conviction-reply-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder S3 (a housemate's court case; Words lead rulings on #9190, Nov 14)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.acquittal-reply-back-core.nothing-more",
-      "move": "acquittal-reply-back-core",
-      "kind": "spoken",
-      "text": "Nothing more.",
-      "uses": [
-        {
-          "move": "acquittal-reply-back-core",
-          "subject": "acquittal-reply-back",
-          "role": "core",
-          "stages": ["ask"]
-        }
-      ],
-      "piece": {
-        "of": "acquittal-reply-back",
         "part": "core",
         "required": true
       },
@@ -10648,49 +9160,6 @@
       "date": "2026-10-15",
       "tag": {
         "move": "deliver-news",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "conversation.job-new-reply-answer-congratulate.congratulations",
-      "move": "job-new-reply-answer-congratulate",
-      "kind": "spoken",
-      "text": "Congratulations!",
-      "uses": [
-        {
-          "move": "job-new-reply-answer-congratulate",
-          "subject": "job-new-reply",
-          "role": "answer",
-          "choice": "congratulate"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "bearing": "glad",
-      "tag": {
-        "move": "congratulate",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "conversation.job-new-reply-answer-congratulate.that-s-great-news",
-      "move": "job-new-reply-answer-congratulate",
-      "kind": "spoken",
-      "text": "That's great news.",
-      "uses": [
-        {
-          "move": "job-new-reply-answer-congratulate",
-          "subject": "job-new-reply",
-          "role": "answer",
-          "choice": "congratulate"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "congratulate",
         "key": "honor"
       }
     },
@@ -11327,27 +9796,6 @@
       "origin": "authored",
       "author": "Claude (thread: election results brought up), for the Words lead's stamp",
       "date": "2026-11-15"
-    },
-    {
-      "key": "conversation.asked-kin-answer-brief.no-should-i",
-      "move": "asked-kin-answer-brief",
-      "kind": "spoken",
-      "text": "No. Should I?",
-      "uses": [
-        {
-          "move": "asked-kin-answer-brief",
-          "subject": "asked-kin",
-          "role": "answer",
-          "choice": "brief"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "bearing": "curious",
-      "tag": {
-        "move": "answer"
-      }
     },
     {
       "key": "conversation.asked-kin-answer-brief.no-tell-me-about-name",
@@ -12114,28 +10562,6 @@
         "key": "household"
       },
       "bearing": "calm"
-    },
-    {
-      "key": "conversation.quiet-answer-fine.pretty-good-actually",
-      "move": "quiet-answer-fine",
-      "kind": "spoken",
-      "text": "Pretty good, actually.",
-      "uses": [
-        {
-          "move": "quiet-answer-fine",
-          "subject": "quiet",
-          "role": "answer",
-          "choice": "fine"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Opus (pool item words-home-talks-rewritten)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "reply",
-        "key": "household"
-      },
-      "bearing": "glad"
     },
     {
       "key": "conversation.quiet-answer-talk.i-missed-you-today",
@@ -17507,23 +15933,6 @@
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
       "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.own-view-answer-hear.good-to-know",
-      "move": "own-view-answer-hear",
-      "kind": "spoken",
-      "text": "Good to know.",
-      "uses": [
-        {
-          "move": "own-view-answer-hear",
-          "subject": "own-view",
-          "role": "answer",
-          "choice": "hear"
-        }
-      ],
-      "origin": "authored",
-      "author": "Story session (story-person-view-learned)",
-      "date": "2026-11-09"
     },
     {
       "key": "conversation.own-work-answer-detail.still-there-still-living-in-my-place",
@@ -31952,26 +30361,6 @@
       }
     },
     {
-      "key": "conversation.player-day-answer-plain.nothing-much",
-      "move": "player-day-answer-plain",
-      "kind": "spoken",
-      "text": "Nothing much.",
-      "uses": [
-        {
-          "move": "player-day-answer-plain",
-          "subject": "player-day",
-          "role": "answer",
-          "choice": "plain"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (lines-to-add.md section 4, revised 03:29Z)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "answer"
-      }
-    },
-    {
       "key": "conversation.player-day-back-core.good-i-m-glad",
       "move": "player-day-back-core",
       "kind": "spoken",
@@ -32111,31 +30500,6 @@
           "role": "core",
           "stages": ["bad"],
           "requiresFacts": ["you"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (lines-to-add.md section 4, revised 03:29Z)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "core"
-      },
-      "piece": {
-        "of": "player-day-back",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "conversation.player-day-back-core.i-only-wondered",
-      "move": "player-day-back-core",
-      "kind": "spoken",
-      "text": "I only wondered.",
-      "uses": [
-        {
-          "move": "player-day-back-core",
-          "subject": "player-day-back",
-          "role": "core",
-          "stages": ["plain"]
         }
       ],
       "origin": "authored",
@@ -38182,29 +36546,6 @@
       "date": "2026-11-14"
     },
     {
-      "key": "conversation.illness-news-back-core.it-s-a-lot",
-      "move": "illness-news-back-core",
-      "kind": "spoken",
-      "text": "It's a lot.",
-      "uses": [
-        {
-          "move": "illness-news-back-core",
-          "subject": "illness-news-back",
-          "role": "core",
-          "stages": ["comfort"]
-        }
-      ],
-      "piece": {
-        "of": "illness-news-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "solemn",
-      "origin": "authored",
-      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
-      "date": "2026-11-14"
-    },
-    {
       "key": "conversation.illness-news-back-core.don-t-know-yet",
       "move": "illness-news-back-core",
       "kind": "spoken",
@@ -38317,29 +36658,6 @@
         "required": true
       },
       "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.illness-news-back-core.thanks-for-asking",
-      "move": "illness-news-back-core",
-      "kind": "spoken",
-      "text": "Thanks for asking.",
-      "uses": [
-        {
-          "move": "illness-news-back-core",
-          "subject": "illness-news-back",
-          "role": "core",
-          "stages": ["help"]
-        }
-      ],
-      "piece": {
-        "of": "illness-news-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "tender",
       "origin": "authored",
       "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
       "date": "2026-11-14"
@@ -38602,29 +36920,6 @@
         "required": true
       },
       "bearing": "solemn",
-      "origin": "authored",
-      "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.death-news-back-core.thanks-i-m-okay",
-      "move": "death-news-back-core",
-      "kind": "spoken",
-      "text": "Thanks. I'm okay.",
-      "uses": [
-        {
-          "move": "death-news-back-core",
-          "subject": "death-news-back",
-          "role": "core",
-          "stages": ["condole"]
-        }
-      ],
-      "piece": {
-        "of": "death-news-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "calm",
       "origin": "authored",
       "author": "Words builder S3 (a relative's news, Words lead's ruling of Nov 14)",
       "date": "2026-11-14"
@@ -41074,29 +39369,6 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.interview-take-declined-reply-take.no-answer-then",
-      "move": "interview-take-declined-reply-take",
-      "kind": "spoken",
-      "text": "No answer, then.",
-      "uses": [
-        {
-          "move": "interview-take-declined-reply-take",
-          "subject": "interview-take-declined",
-          "role": "reply",
-          "choice": "take"
-        },
-        {
-          "move": "debate-take-declined-reply-take",
-          "subject": "debate-take-declined",
-          "role": "reply",
-          "choice": "take"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W1 (interviews and debates say what was asked and answered)",
-      "date": "2026-11-12"
-    },
-    {
       "key": "conversation.interview-take-declined-reply-take.no-comment-then",
       "move": "interview-take-declined-reply-take",
       "kind": "spoken",
@@ -41545,109 +39817,6 @@
       ]
     },
     {
-      "bySource": {
-        "Dwight D. Eisenhower Presidential Library (NARA) oral history project": 1,
-        "Jimmy Carter Library (NARA) White House Exit Interview Project": 5,
-        "National Archives History Office oral history project": 6,
-        "National Archives History Office oral history project (brooks-oral-histories)": 1,
-        "National Archives History Office oral history project (nprc-oral-histories)": 2,
-        "National Archives History Office oral history project (nyc-oral-histories)": 1,
-        "Naval History and Heritage Command, Navy Department Library oral histories": 1,
-        "Richard Nixon Presidential Library (NARA) oral history project": 3,
-        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 19,
-        "U.S. Senate Historical Office oral history": 23,
-        "briefing": 12,
-        "crec": 10,
-        "dcpd": 32,
-        "hearings": 18,
-        "house": 14,
-        "nasa": 23,
-        "nasa2": 27,
-        "nih": 2,
-        "nps": 48,
-        "wpa": 1
-      },
-      "key": "conversation.news-answer-react.oh-no",
-      "kind": "spoken",
-      "move": "news-answer-react",
-      "source": {
-        "date": "2026-07-15",
-        "document": "Remarks at the Pennsylvania Defense and Innovation Summit in Carlisle, Pennsylvania",
-        "granule": "DCPD-202600465",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600465/html/DCPD-202600465.htm"
-      },
-      "tag": {
-        "key": "news-received",
-        "move": "react"
-      },
-      "text": "Oh, no.",
-      "transcriptsUsing": 249,
-      "uses": [
-        {
-          "choice": "ack-none",
-          "move": "other-work-answer-ack-none",
-          "role": "answer",
-          "stages": ["none"],
-          "subject": "other-work"
-        },
-        {
-          "choice": "comfort",
-          "move": "victimization-reply-answer-comfort",
-          "role": "answer",
-          "subject": "victimization-reply"
-        },
-        {
-          "move": "death-news-answer-condole",
-          "subject": "death-news",
-          "role": "answer",
-          "choice": "condole"
-        },
-        {
-          "move": "illness-news-answer-comfort",
-          "subject": "illness-news",
-          "role": "answer",
-          "choice": "comfort"
-        }
-      ]
-    },
-    {
-      "bearing": "braced",
-      "bySource": {
-        "National Archives History Office oral history project (nprc-oral-histories)": 1,
-        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 1,
-        "briefing": 3,
-        "dcpd": 30,
-        "house": 2,
-        "nasa": 1,
-        "nps": 4
-      },
-      "key": "conversation.news-answer-react.thats-terrible",
-      "kind": "spoken",
-      "move": "news-answer-react",
-      "source": {
-        "date": "2026-07-06",
-        "document": "Remarks on the Trump Accounts Children's Savings Program and an Exchange With Reporters",
-        "granule": "DCPD-202600446",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600446/html/DCPD-202600446.htm"
-      },
-      "tag": {
-        "key": "news-received",
-        "move": "react"
-      },
-      "text": "That's terrible.",
-      "transcriptsUsing": 42,
-      "uses": [
-        {
-          "choice": "comfort",
-          "move": "victimization-reply-answer-comfort",
-          "role": "answer",
-          "subject": "victimization-reply"
-        }
-      ]
-    },
-    {
       "bearing": "tender",
       "bySource": {
         "Federal Election Commission (fec.gov)": 1,
@@ -41744,56 +39913,6 @@
           "choice": "comfort"
         }
       ]
-    },
-    {
-      "key": "conversation.job-cause-reply-answer-comfort.thats-hard",
-      "move": "job-cause-reply-answer-comfort",
-      "kind": "spoken",
-      "text": "That's hard.",
-      "uses": [
-        {
-          "move": "charge-reply-answer-comfort",
-          "subject": "charge-reply",
-          "role": "answer",
-          "choice": "comfort"
-        },
-        {
-          "move": "conviction-reply-answer-comfort",
-          "subject": "conviction-reply",
-          "role": "answer",
-          "choice": "comfort"
-        },
-        {
-          "move": "prison-news-answer-comfort",
-          "subject": "prison-news",
-          "role": "answer",
-          "choice": "comfort"
-        },
-        {
-          "move": "job-lost-answer-comfort",
-          "subject": "job-lost",
-          "role": "answer",
-          "choice": "comfort"
-        }
-      ],
-      "transcriptsUsing": 13,
-      "bySource": {
-        "chrg": 1,
-        "house-oral": 1,
-        "nasa-oral": 9,
-        "senate-oral": 2
-      },
-      "source": {
-        "document": "EXAMINING NIST'S PRIORITIES FOR 2025 AND BEYOND",
-        "date": "2024-05-22",
-        "granule": "CHRG-118hhrg55659",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg55659/html/CHRG-118hhrg55659.htm",
-        "license": "public domain (U.S. government work, 17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "comfort",
-        "key": "loss"
-      }
     },
     {
       "bearing": "tender",
@@ -42648,29 +40767,6 @@
         "required": true
       },
       "bearing": "braced",
-      "origin": "authored",
-      "author": "Words lead (rulings-2 with 06:55Z additions, Nov 14, 2026)",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "conversation.job-lost-back-core.i-m-fine-really",
-      "move": "job-lost-back-core",
-      "kind": "spoken",
-      "text": "I'm fine. Really.",
-      "uses": [
-        {
-          "move": "job-lost-back-core",
-          "subject": "job-lost-back",
-          "role": "core",
-          "stages": ["help"]
-        }
-      ],
-      "piece": {
-        "of": "job-lost-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "guarded",
       "origin": "authored",
       "author": "Words lead (rulings-2 with 06:55Z additions, Nov 14, 2026)",
       "date": "2026-11-14"
@@ -43731,28 +41827,6 @@
       }
     },
     {
-      "key": "conversation.asked-mutual-give-core.same-about-then",
-      "move": "asked-mutual-give-core",
-      "kind": "spoken",
-      "text": "Same, about then.",
-      "uses": [
-        {
-          "move": "asked-mutual-give-core",
-          "subject": "asked-mutual-give",
-          "role": "core",
-          "stages": ["same"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude (thread: election results brought up), for the Words lead's stamp",
-      "date": "2026-11-15",
-      "piece": {
-        "of": "asked-mutual-give",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
       "key": "conversation.news-back-core.the-body-passed-it",
       "move": "news-back-core",
       "kind": "spoken",
@@ -43873,29 +41947,6 @@
           "role": "core",
           "stages": ["years"],
           "requiresFacts": ["years"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude (thread: election results brought up), for the Words lead's stamp",
-      "date": "2026-11-15",
-      "piece": {
-        "of": "shared-school-give",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "conversation.shared-school-give-core.time-flies",
-      "move": "shared-school-give-core",
-      "kind": "spoken",
-      "text": "Time flies.",
-      "uses": [
-        {
-          "move": "shared-school-give-core",
-          "subject": "shared-school-give",
-          "role": "core",
-          "stages": ["agree"],
-          "requiresFacts": []
         }
       ],
       "origin": "authored",
