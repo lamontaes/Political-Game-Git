@@ -21,9 +21,9 @@ source: Desk, Nov 16, pressed walks for words-addresses-are-scenes-with-ties
 **What.** An ask said with a "Because I ... {belief}," lead-in loses its comma, so the belief runs into the stand. The bank piece ends with the comma; the said sentence does not.
 Seen: Cearfoss, Maryland, seed fb60d04e-cc86-440c-ba77-48f26b745c01, pressed walk at the address step-3 head, the President saying "Because I hold that some rules ought to be the same no matter where you live I urge Congress to reject statehood for the nation's capital."
 
-**Cause.** Needs cause. The opener piece opening-speech.ask.polished-inaugural-because-i-hold-that-belief-belief-leads keeps "Because I hold that {belief}," in data/english/parts/opening-speech.json, so the comma is lost where an opener is joined to its core or where a belief fact ending is trimmed; the same loss shows on the Train head before this item's branch.
+**Cause.** Found in code: src/english/grounded-english.ts `renderGroundedEnglish` ends its render with `.replace(/,+(?=[.!?;:,)"\u201d]|$)/g, "")`, which drops a comma before a closing mark and also at the very end of the text. An opener piece is rendered on its own ("Because I hold that {belief},"), so its closing comma is at the end of its own text and is removed before it is joined to the core.
 
-**Fix.** None until the cause is found.
+**Fix.** Drop the `|$` alternative so only a comma before a closing mark goes; check that no other bank relies on a trailing comma being cut (search the banks for pieces ending in "," and read one composed line of each), and add a case to the address tests that the said sentence holds ", I".
 
 **Time box.** 1 hour, one Sonnet session at medium effort.
 
