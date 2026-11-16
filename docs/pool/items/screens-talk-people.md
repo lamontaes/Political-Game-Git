@@ -5,10 +5,10 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: open
+status: in-pr
 standard: 2
 claimed-by: screens lane (Nov 16)
-pr:
+pr: 9753
 blocked-on:
 source: owner, Nov 16, crew line item 4f and his Desk answer on the scene speaker
 after:
