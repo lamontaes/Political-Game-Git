@@ -5,7 +5,7 @@
  * any record (closeness.ts `lastTogether`: their tie or a sitting both sat), the last day on their
  * tie row alone, and the days the rule allows before they fall back to their tier's pace.
  */
-import { dailyFocusReason, knowsThePlayer } from "../../core2/calendar";
+import { dailyFocusReason, knowsThePlayer } from "../../core2/life";
 import { lastMetOnRow, lastTogether } from "../../core2/closeness";
 import { daysBetweenText } from "../../core2/kernel/dates";
 import { parameter } from "../../core2/parameters";
