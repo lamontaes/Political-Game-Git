@@ -226,9 +226,16 @@ function variantsFor(
   return (
     line !== "core" ? [...general(), ...own] : own.length ? own : general()
   ).map((part) => {
-    const requires =
-      part.uses.find((use) => use.subject === kind && use.role === role)
-        ?.requiresFacts ?? [];
+    // A fact that keeps the line true without being named in it
+    // (`onlyWhen`: a close that says good night, only in the evening) is
+    // held as a slot's fact is.
+    const use = part.uses.find(
+      (row) => row.subject === kind && row.role === role,
+    );
+    const requires = [
+      ...(use?.requiresFacts ?? []),
+      ...(use?.onlyWhen ?? []),
+    ];
     return {
       key: part.key,
       kind: "template" as const,

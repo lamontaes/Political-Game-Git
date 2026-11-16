@@ -188,6 +188,7 @@ export function localSpeaker(
     realmName: realmSaid(core, office),
     body: bodySaid(body),
     bodyName: bodyNameSaid(core, body),
+    bodyOfficeId: body.id,
     officeTitle,
   };
 }

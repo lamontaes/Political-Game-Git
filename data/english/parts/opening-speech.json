@@ -301,7 +301,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["rent-worse", "context-years"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "story-says",
@@ -309,7 +309,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["rent-worse", "context-years"],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "polished",
@@ -331,7 +331,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["rent-worse", "context-years"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "story-says",
@@ -339,7 +339,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["rent-worse", "context-years"],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "plain",
@@ -361,7 +361,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["rent-better", "context-years"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "story-says",
@@ -369,7 +369,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["rent-better", "context-years"],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "polished",
@@ -391,7 +391,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["rent-better", "context-years"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "story-says",
@@ -399,7 +399,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["rent-better", "context-years"],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "plain",
@@ -421,7 +421,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["crime-worse", "context-years"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "story-says",
@@ -429,7 +429,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["crime-worse", "context-years"],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "polished",
@@ -451,7 +451,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["crime-worse", "context-years"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "story-says",
@@ -459,7 +459,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["crime-worse", "context-years"],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "plain",
@@ -481,7 +481,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["crime-better", "context-years"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "story-says",
@@ -489,7 +489,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["crime-better", "context-years"],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "polished",
@@ -511,7 +511,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["crime-better", "context-years"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "story-says",
@@ -519,7 +519,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["crime-better", "context-years"],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "plain",
@@ -541,7 +541,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["health-worse", "context-years"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "story-says",
@@ -549,7 +549,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["health-worse", "context-years"],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "polished",
@@ -571,7 +571,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["health-worse", "context-years"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "story-says",
@@ -579,7 +579,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["health-worse", "context-years"],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "plain",
@@ -601,7 +601,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["health-better", "context-years"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "story-says",
@@ -609,7 +609,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["health-better", "context-years"],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "polished",
@@ -631,7 +631,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["health-better", "context-years"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "story-says",
@@ -639,7 +639,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["health-better", "context-years"],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "plain",
@@ -661,7 +661,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["roads-worse", "context-years"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "story-says",
@@ -669,7 +669,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["roads-worse", "context-years"],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "polished",
@@ -691,7 +691,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["roads-worse", "context-years"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "story-says",
@@ -699,7 +699,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["roads-worse", "context-years"],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "plain",
@@ -721,7 +721,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["roads-better", "context-years"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "story-says",
@@ -729,7 +729,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["roads-better", "context-years"],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "polished",
@@ -751,7 +751,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["roads-better", "context-years"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "story-says",
@@ -759,7 +759,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["roads-better", "context-years"],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "plain",
@@ -781,7 +781,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["environment-worse", "context-years"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "story-says",
@@ -789,7 +789,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["environment-worse", "context-years"],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "polished",
@@ -811,7 +811,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["environment-worse", "context-years"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "story-says",
@@ -819,7 +819,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["environment-worse", "context-years"],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "plain",
@@ -841,7 +841,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["environment-better", "context-years"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "story-says",
@@ -849,7 +849,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["environment-better", "context-years"],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "polished",
@@ -871,7 +871,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["environment-better", "context-years"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "story-says",
@@ -879,7 +879,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["environment-better", "context-years"],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "plain",
@@ -1133,7 +1133,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["schools-worse", "realm-name"],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "polished",
@@ -1155,7 +1155,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["schools-worse", "realm-name"],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "plain",
@@ -1177,7 +1177,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["schools-better", "realm-name"],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "polished",
@@ -1199,7 +1199,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["schools-better", "realm-name"],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "plain",
@@ -1450,7 +1450,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["schools-worse", "context-years"],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "polished",
@@ -1472,7 +1472,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["schools-worse", "context-years"],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "plain",
@@ -1494,7 +1494,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["schools-better", "context-years"],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "polished",
@@ -1516,7 +1516,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["schools-better", "context-years"],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "plain",
@@ -8812,33 +8812,6 @@
       "date": "2026-11-11"
     },
     {
-      "key": "opening-speech.salutation.plain-ina-policy-core-thanks-to-vice-president-vice-president-and-i-ll",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "{vice-president-object} is here, and I'll keep this to the work ahead and how we're going to get it done.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "inaugural",
-          "role": "salutation",
-          "choice": "salutation",
-          "requiresFacts": ["vice-president-object"],
-          "tie": "record"
-        }
-      ],
-      "voice": "plain",
-      "bearing": "calm",
-      "addressKind": "policy",
-      "piece": {
-        "of": "opening-salutation",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
       "key": "opening-speech.salutation.plain-ina-policy-core-i-m-glad-to-see-speaker-speaker-and-the",
       "move": "salutation",
       "kind": "spoken",
@@ -12181,14 +12154,13 @@
       "key": "opening-speech.oath.plain-ina-hopeful-core-that-oath-is-a-beginning-and-i-took-it",
       "move": "oath",
       "kind": "spoken",
-      "text": "that oath is a beginning, and I took it feeling good about what we can do, even on {hardest}.",
+      "text": "That oath is a beginning. I took it meaning every word.",
       "uses": [
         {
           "move": "oath",
           "subject": "inaugural",
           "role": "oath",
           "choice": "oath",
-          "requiresFacts": ["hardest"],
           "tie": "record"
         }
       ],
@@ -12201,7 +12173,7 @@
         "required": true
       },
       "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
+      "author": "Words lead (reworded Nov 16, desk)",
       "date": "2026-11-11"
     },
     {
@@ -42293,32 +42265,6 @@
       "date": "2026-11-11"
     },
     {
-      "key": "opening-speech.salutation.plain-ina-hopeful-core-i-m-glad-vice-president-vice-president-is-with",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "I'm glad {vice-president-object} is with me, and I'm feeling good.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "inaugural",
-          "role": "salutation",
-          "choice": "salutation",
-          "requiresFacts": ["vice-president-object"],
-          "tie": "record"
-        }
-      ],
-      "voice": "plain",
-      "addressKind": "hopeful",
-      "piece": {
-        "of": "opening-salutation",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
       "key": "opening-speech.salutation.plain-ina-hopeful-core-i-m-from-home-state-and-i-m-starting",
       "move": "salutation",
       "kind": "spoken",
@@ -43804,14 +43750,13 @@
       "key": "opening-speech.oath.plain-ina-hopeful-core-i-took-that-oath-feeling-good-about-what-s",
       "move": "oath",
       "kind": "spoken",
-      "text": "I took that oath feeling good about what's coming on {best}.",
+      "text": "I took that oath, and I mean to keep it.",
       "uses": [
         {
           "move": "oath",
           "subject": "inaugural",
           "role": "oath",
           "choice": "oath",
-          "requiresFacts": ["best"],
           "tie": "record"
         }
       ],
@@ -43823,7 +43768,7 @@
         "required": true
       },
       "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
+      "author": "Words lead (reworded Nov 16, desk)",
       "date": "2026-11-11"
     },
     {
@@ -56693,40 +56638,6 @@
       "date": "2026-11-11"
     },
     {
-      "key": "opening-speech.occasion.plain-ina-sta-hopeful-core-i-m-feeling-good-about-this-country-and-best",
-      "move": "occasion",
-      "kind": "spoken",
-      "text": "I'm feeling good about this country, and {best} is a big reason why.",
-      "uses": [
-        {
-          "move": "occasion",
-          "subject": "inaugural",
-          "role": "occasion",
-          "choice": "occasion",
-          "requiresFacts": ["best"],
-          "tie": "record"
-        },
-        {
-          "move": "occasion",
-          "subject": "state-of-the-union",
-          "role": "occasion",
-          "choice": "occasion",
-          "requiresFacts": ["best"],
-          "tie": "record"
-        }
-      ],
-      "voice": "plain",
-      "addressKind": "hopeful",
-      "piece": {
-        "of": "opening-occasion",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
       "key": "opening-speech.oath.polished-ina-hopeful-core-i-swore-to-serve-every-american-and-i-mean",
       "move": "oath",
       "kind": "spoken",
@@ -59186,40 +59097,6 @@
           "role": "story-turn",
           "choice": "story-turn",
           "requiresFacts": ["kind-hopeful", "hardest"],
-          "tie": "record"
-        }
-      ],
-      "voice": "plain",
-      "addressKind": "hopeful",
-      "piece": {
-        "of": "opening-story-turn",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "opening-speech.story-turn.plain-ina-sta-hopeful-core-feeling-good-about-best-doesn-t-mean-we-stop",
-      "move": "story-turn",
-      "kind": "spoken",
-      "text": "feeling good about {best} doesn't mean we stop working.",
-      "uses": [
-        {
-          "move": "story-turn",
-          "subject": "inaugural",
-          "role": "story-turn",
-          "choice": "story-turn",
-          "requiresFacts": ["kind-hopeful", "best"],
-          "tie": "record"
-        },
-        {
-          "move": "story-turn",
-          "subject": "state-of-the-union",
-          "role": "story-turn",
-          "choice": "story-turn",
-          "requiresFacts": ["kind-hopeful", "best"],
           "tie": "record"
         }
       ],
@@ -79544,7 +79421,7 @@
           "role": "context",
           "choice": "context",
           "requiresFacts": ["context-rent", "context-years", "rent-worse"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "context",
@@ -79552,7 +79429,7 @@
           "role": "context",
           "choice": "context",
           "requiresFacts": ["context-rent", "context-years", "rent-worse"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "context",
@@ -79606,7 +79483,7 @@
           "role": "context",
           "choice": "context",
           "requiresFacts": ["context-rent", "context-years", "rent-worse"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "context",
@@ -79614,7 +79491,7 @@
           "role": "context",
           "choice": "context",
           "requiresFacts": ["context-rent", "context-years", "rent-worse"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "context",
@@ -79668,7 +79545,7 @@
           "role": "context",
           "choice": "context",
           "requiresFacts": ["context-crime", "context-years", "crime-worse"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "context",
@@ -79676,7 +79553,7 @@
           "role": "context",
           "choice": "context",
           "requiresFacts": ["context-crime", "context-years", "crime-worse"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "context",
@@ -79730,7 +79607,7 @@
           "role": "context",
           "choice": "context",
           "requiresFacts": ["context-crime", "context-years", "crime-worse"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "context",
@@ -79738,7 +79615,7 @@
           "role": "context",
           "choice": "context",
           "requiresFacts": ["context-crime", "context-years", "crime-worse"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "context",
@@ -79804,7 +79681,7 @@
             "context-years",
             "schools-worse"
           ],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "context",
@@ -79816,7 +79693,7 @@
             "context-years",
             "schools-worse"
           ],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "context",
@@ -79890,7 +79767,7 @@
             "context-years",
             "schools-worse"
           ],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "context",
@@ -79902,7 +79779,7 @@
             "context-years",
             "schools-worse"
           ],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "context",
@@ -79964,7 +79841,7 @@
           "role": "context",
           "choice": "context",
           "requiresFacts": ["context-health", "context-years", "health-worse"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "context",
@@ -79972,7 +79849,7 @@
           "role": "context",
           "choice": "context",
           "requiresFacts": ["context-health", "context-years", "health-worse"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "context",
@@ -80026,7 +79903,7 @@
           "role": "context",
           "choice": "context",
           "requiresFacts": ["context-health", "context-years", "health-worse"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "context",
@@ -80034,7 +79911,7 @@
           "role": "context",
           "choice": "context",
           "requiresFacts": ["context-health", "context-years", "health-worse"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "context",
@@ -80088,7 +79965,7 @@
           "role": "context",
           "choice": "context",
           "requiresFacts": ["context-roads", "context-years", "roads-worse"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "context",
@@ -80096,7 +79973,7 @@
           "role": "context",
           "choice": "context",
           "requiresFacts": ["context-roads", "context-years", "roads-worse"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "context",
@@ -80150,7 +80027,7 @@
           "role": "context",
           "choice": "context",
           "requiresFacts": ["context-roads", "context-years", "roads-worse"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "context",
@@ -80158,7 +80035,7 @@
           "role": "context",
           "choice": "context",
           "requiresFacts": ["context-roads", "context-years", "roads-worse"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "context",
@@ -80224,7 +80101,7 @@
             "context-years",
             "environment-worse"
           ],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "context",
@@ -80236,7 +80113,7 @@
             "context-years",
             "environment-worse"
           ],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "context",
@@ -80310,7 +80187,7 @@
             "context-years",
             "environment-worse"
           ],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "context",
@@ -80322,7 +80199,7 @@
             "context-years",
             "environment-worse"
           ],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "context",
@@ -80898,7 +80775,7 @@
           "role": "meaning",
           "choice": "meaning",
           "requiresFacts": ["context-rent", "context-name"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "meaning",
@@ -80906,7 +80783,7 @@
           "role": "meaning",
           "choice": "meaning",
           "requiresFacts": ["context-rent", "context-name"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "meaning",
@@ -80960,7 +80837,7 @@
           "role": "meaning",
           "choice": "meaning",
           "requiresFacts": ["context-rent", "context-name"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "meaning",
@@ -80968,7 +80845,7 @@
           "role": "meaning",
           "choice": "meaning",
           "requiresFacts": ["context-rent", "context-name"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "meaning",
@@ -81022,7 +80899,7 @@
           "role": "meaning",
           "choice": "meaning",
           "requiresFacts": ["context-crime", "context-name"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "meaning",
@@ -81030,7 +80907,7 @@
           "role": "meaning",
           "choice": "meaning",
           "requiresFacts": ["context-crime", "context-name"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "meaning",
@@ -81084,7 +80961,7 @@
           "role": "meaning",
           "choice": "meaning",
           "requiresFacts": ["context-crime", "context-name"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "meaning",
@@ -81092,7 +80969,7 @@
           "role": "meaning",
           "choice": "meaning",
           "requiresFacts": ["context-crime", "context-name"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "meaning",
@@ -81146,7 +81023,7 @@
           "role": "meaning",
           "choice": "meaning",
           "requiresFacts": ["context-schools", "context-name"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "meaning",
@@ -81154,7 +81031,7 @@
           "role": "meaning",
           "choice": "meaning",
           "requiresFacts": ["context-schools", "context-name"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "meaning",
@@ -81208,7 +81085,7 @@
           "role": "meaning",
           "choice": "meaning",
           "requiresFacts": ["context-schools", "context-name"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "meaning",
@@ -81216,7 +81093,7 @@
           "role": "meaning",
           "choice": "meaning",
           "requiresFacts": ["context-schools", "context-name"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "meaning",
@@ -81270,7 +81147,7 @@
           "role": "meaning",
           "choice": "meaning",
           "requiresFacts": ["context-health", "context-name"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "meaning",
@@ -81278,7 +81155,7 @@
           "role": "meaning",
           "choice": "meaning",
           "requiresFacts": ["context-health", "context-name"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "meaning",
@@ -81332,7 +81209,7 @@
           "role": "meaning",
           "choice": "meaning",
           "requiresFacts": ["context-health", "context-name"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "meaning",
@@ -81340,7 +81217,7 @@
           "role": "meaning",
           "choice": "meaning",
           "requiresFacts": ["context-health", "context-name"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "meaning",
@@ -81394,7 +81271,7 @@
           "role": "meaning",
           "choice": "meaning",
           "requiresFacts": ["context-roads", "context-name"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "meaning",
@@ -81402,7 +81279,7 @@
           "role": "meaning",
           "choice": "meaning",
           "requiresFacts": ["context-roads", "context-name"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "meaning",
@@ -81456,7 +81333,7 @@
           "role": "meaning",
           "choice": "meaning",
           "requiresFacts": ["context-roads", "context-name"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "meaning",
@@ -81464,7 +81341,7 @@
           "role": "meaning",
           "choice": "meaning",
           "requiresFacts": ["context-roads", "context-name"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "meaning",
@@ -81518,7 +81395,7 @@
           "role": "meaning",
           "choice": "meaning",
           "requiresFacts": ["context-environment", "context-name"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "meaning",
@@ -81526,7 +81403,7 @@
           "role": "meaning",
           "choice": "meaning",
           "requiresFacts": ["context-environment", "context-name"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "meaning",
@@ -81580,7 +81457,7 @@
           "role": "meaning",
           "choice": "meaning",
           "requiresFacts": ["context-environment", "context-name"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "meaning",
@@ -81588,7 +81465,7 @@
           "role": "meaning",
           "choice": "meaning",
           "requiresFacts": ["context-environment", "context-name"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "meaning",
@@ -106221,7 +106098,8 @@
           "role": "close",
           "choice": "close",
           "requiresFacts": ["realm-bare"],
-          "tie": "frame"
+          "tie": "frame",
+          "onlyWhen": ["evening"]
         },
         {
           "move": "close",
@@ -106229,7 +106107,8 @@
           "role": "close",
           "choice": "close",
           "requiresFacts": ["realm-bare"],
-          "tie": "frame"
+          "tie": "frame",
+          "onlyWhen": ["evening"]
         }
       ],
       "voice": "polished",
@@ -106279,7 +106158,8 @@
           "role": "close",
           "choice": "close",
           "requiresFacts": ["first-reason", "realm-bare"],
-          "tie": "stand"
+          "tie": "stand",
+          "onlyWhen": ["evening"]
         },
         {
           "move": "close",
@@ -106287,7 +106167,8 @@
           "role": "close",
           "choice": "close",
           "requiresFacts": ["first-reason", "realm-bare"],
-          "tie": "stand"
+          "tie": "stand",
+          "onlyWhen": ["evening"]
         }
       ],
       "voice": "polished",
@@ -106347,27 +106228,6 @@
       "date": "2026-11-14"
     },
     {
-      "key": "opening-speech.close.plain-inaugural-on-theme-short-i-mean-what-i-said-thanks-vice-president-addr",
-      "move": "close",
-      "kind": "spoken",
-      "text": "On {theme-short}, I mean what I said. Thanks, {vice-president-addressed}, and God bless America.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "inaugural",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["theme-short", "vice-president-addressed"],
-          "tie": "frame"
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Words builder D (Claude Code), by the words lead's rule 41",
-      "date": "2026-11-14"
-    },
-    {
       "key": "opening-speech.close.plain-inaugural-here-s-why-first-reason-thank-you-vice-president-addressed-a",
       "move": "close",
       "kind": "spoken",
@@ -106400,7 +106260,8 @@
           "role": "close",
           "choice": "close",
           "requiresFacts": ["first-after", "vice-president-addressed"],
-          "tie": "law"
+          "tie": "law",
+          "onlyWhen": ["evening"]
         }
       ],
       "voice": "plain",
@@ -106421,27 +106282,6 @@
           "role": "close",
           "choice": "close",
           "requiresFacts": ["speaker-addressed"],
-          "tie": "frame"
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Words builder D (Claude Code), by the words lead's rule 41",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "opening-speech.close.plain-state-of-the-union-on-theme-short-i-mean-what-i-said-thanks-speaker-addressed-a",
-      "move": "close",
-      "kind": "spoken",
-      "text": "On {theme-short}, I mean what I said. Thanks, {speaker-addressed}, and God bless America.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "state-of-the-union",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["theme-short", "speaker-addressed"],
           "tie": "frame"
         }
       ],
@@ -106484,7 +106324,8 @@
           "role": "close",
           "choice": "close",
           "requiresFacts": ["first-after", "speaker-addressed"],
-          "tie": "law"
+          "tie": "law",
+          "onlyWhen": ["evening"]
         }
       ],
       "voice": "plain",
@@ -106505,7 +106346,8 @@
           "role": "close",
           "choice": "close",
           "requiresFacts": ["realm-bare"],
-          "tie": "frame"
+          "tie": "frame",
+          "onlyWhen": ["evening"]
         },
         {
           "move": "close",
@@ -106513,36 +106355,8 @@
           "role": "close",
           "choice": "close",
           "requiresFacts": ["realm-bare"],
-          "tie": "frame"
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Words builder D (Claude Code), by the words lead's rule 41",
-      "date": "2026-11-14"
-    },
-    {
-      "key": "opening-speech.close.plain-state-of-the-state-on-theme-short-i-mean-what-i-said-thanks-realm-bare",
-      "move": "close",
-      "kind": "spoken",
-      "text": "On {theme-short}, I mean what I said, and thanks, {realm-bare}.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "state-of-the-state",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["theme-short", "realm-bare"],
-          "tie": "frame"
-        },
-        {
-          "move": "close",
-          "subject": "town-address",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["theme-short", "realm-bare"],
-          "tie": "frame"
+          "tie": "frame",
+          "onlyWhen": ["evening"]
         }
       ],
       "voice": "plain",
@@ -106563,7 +106377,8 @@
           "role": "close",
           "choice": "close",
           "requiresFacts": ["first-reason", "realm-bare"],
-          "tie": "stand"
+          "tie": "stand",
+          "onlyWhen": ["evening"]
         },
         {
           "move": "close",
@@ -106571,7 +106386,8 @@
           "role": "close",
           "choice": "close",
           "requiresFacts": ["first-reason", "realm-bare"],
-          "tie": "stand"
+          "tie": "stand",
+          "onlyWhen": ["evening"]
         }
       ],
       "voice": "plain",
@@ -106621,7 +106437,7 @@
           "role": "year-condition",
           "choice": "year-condition",
           "requiresFacts": ["condition-disaster"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "year-condition",
@@ -106629,7 +106445,7 @@
           "role": "year-condition",
           "choice": "year-condition",
           "requiresFacts": ["condition-disaster"],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "polished",
@@ -106650,7 +106466,7 @@
           "role": "year-condition",
           "choice": "year-condition",
           "requiresFacts": ["condition-disaster"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "year-condition",
@@ -106658,7 +106474,7 @@
           "role": "year-condition",
           "choice": "year-condition",
           "requiresFacts": ["condition-disaster"],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "plain",
@@ -106684,7 +106500,7 @@
             "budget-year",
             "budget-gap"
           ],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "polished",
@@ -106711,7 +106527,7 @@
             "budget-gap",
             "realm-name"
           ],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "plain",
@@ -106737,7 +106553,7 @@
             "budget-year",
             "budget-gap"
           ],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "polished",
@@ -106763,7 +106579,7 @@
             "budget-year",
             "budget-gap"
           ],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "plain",
@@ -106789,7 +106605,7 @@
             "budget-year",
             "budget-gap"
           ],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "polished",
@@ -106815,7 +106631,7 @@
             "budget-year",
             "budget-gap"
           ],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "plain",
@@ -106841,7 +106657,7 @@
             "budget-year",
             "budget-gap"
           ],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "polished",
@@ -106868,7 +106684,7 @@
             "budget-gap",
             "realm-name"
           ],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "plain",
@@ -106894,7 +106710,7 @@
             "budget-year",
             "budget-gap"
           ],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "polished",
@@ -106920,7 +106736,7 @@
             "budget-year",
             "budget-gap"
           ],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "polished",
@@ -106946,7 +106762,7 @@
             "budget-year",
             "budget-gap"
           ],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "plain",
@@ -106971,7 +106787,7 @@
             "condition-budget-steady",
             "budget-year"
           ],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "polished",
@@ -106996,7 +106812,7 @@
             "condition-budget-steady",
             "budget-year"
           ],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "plain",
@@ -107022,7 +106838,7 @@
             "budget-year",
             "realm-name"
           ],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "polished",
@@ -107048,7 +106864,7 @@
             "budget-year",
             "realm-name"
           ],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "plain",
@@ -107074,7 +106890,7 @@
             "budget-year",
             "realm-name"
           ],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "polished",
@@ -107100,7 +106916,7 @@
             "budget-year",
             "realm-name"
           ],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "plain",
@@ -107126,7 +106942,7 @@
             "budget-year",
             "budget-gap"
           ],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "polished",
@@ -107152,7 +106968,7 @@
             "budget-year",
             "budget-gap"
           ],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "plain",
@@ -107178,7 +106994,7 @@
             "budget-year",
             "budget-gap"
           ],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "polished",
@@ -107204,7 +107020,7 @@
             "budget-year",
             "budget-gap"
           ],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "plain",
@@ -107230,7 +107046,7 @@
             "budget-year",
             "budget-gap"
           ],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "polished",
@@ -107256,7 +107072,7 @@
             "budget-year",
             "budget-gap"
           ],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "plain",
@@ -107282,7 +107098,7 @@
             "budget-year",
             "budget-gap"
           ],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "polished",
@@ -107308,7 +107124,7 @@
             "budget-year",
             "budget-gap"
           ],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "plain",
@@ -107334,7 +107150,7 @@
             "budget-year",
             "budget-gap"
           ],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "polished",
@@ -107360,7 +107176,7 @@
             "budget-year",
             "budget-gap"
           ],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "plain",
@@ -107385,7 +107201,7 @@
             "condition-budget-steady",
             "budget-year"
           ],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "polished",
@@ -107410,7 +107226,7 @@
             "condition-budget-steady",
             "budget-year"
           ],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "plain",
@@ -107435,7 +107251,7 @@
             "condition-budget-better",
             "budget-year"
           ],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "polished",
@@ -107460,7 +107276,7 @@
             "condition-budget-better",
             "budget-year"
           ],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "plain",
@@ -107485,7 +107301,7 @@
             "condition-budget-worse",
             "budget-year"
           ],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "polished",
@@ -107510,7 +107326,7 @@
             "condition-budget-worse",
             "budget-year"
           ],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "plain",
@@ -107582,7 +107398,7 @@
             "budget-year",
             "budget-gap"
           ],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "plain",
@@ -107608,7 +107424,7 @@
             "budget-year",
             "budget-gap"
           ],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "plain",
@@ -107634,7 +107450,7 @@
             "budget-year",
             "budget-gap"
           ],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "polished",
@@ -117454,7 +117270,7 @@
             "condition-measure",
             "condition-change"
           ],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "story-says",
@@ -117466,7 +117282,7 @@
             "condition-measure",
             "condition-change"
           ],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "story-says",
@@ -117540,7 +117356,7 @@
             "condition-measure",
             "condition-change"
           ],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "story-says",
@@ -117552,7 +117368,7 @@
             "condition-measure",
             "condition-change"
           ],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "story-says",
@@ -117626,7 +117442,7 @@
             "condition-measure",
             "condition-change"
           ],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "story-says",
@@ -117638,7 +117454,7 @@
             "condition-measure",
             "condition-change"
           ],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "story-says",
@@ -117712,7 +117528,7 @@
             "condition-measure",
             "condition-change"
           ],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "story-says",
@@ -117724,7 +117540,7 @@
             "condition-measure",
             "condition-change"
           ],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "story-says",
@@ -117798,7 +117614,7 @@
             "condition-measure",
             "condition-change"
           ],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "story-says",
@@ -117810,7 +117626,7 @@
             "condition-measure",
             "condition-change"
           ],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "story-says",
@@ -117884,7 +117700,7 @@
             "condition-measure",
             "condition-change"
           ],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "story-says",
@@ -117896,7 +117712,7 @@
             "condition-measure",
             "condition-change"
           ],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "story-says",
@@ -118941,7 +118757,7 @@
           "role": "meaning",
           "choice": "meaning",
           "requiresFacts": ["context-crime", "context-name"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "meaning",
@@ -118949,7 +118765,7 @@
           "role": "meaning",
           "choice": "meaning",
           "requiresFacts": ["context-crime", "context-name"],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "polished",
@@ -118971,7 +118787,7 @@
           "role": "meaning",
           "choice": "meaning",
           "requiresFacts": ["context-crime", "context-name"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "meaning",
@@ -118979,7 +118795,7 @@
           "role": "meaning",
           "choice": "meaning",
           "requiresFacts": ["context-crime", "context-name"],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "polished",
@@ -119001,7 +118817,7 @@
           "role": "meaning",
           "choice": "meaning",
           "requiresFacts": ["context-crime", "context-name"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "meaning",
@@ -119009,7 +118825,7 @@
           "role": "meaning",
           "choice": "meaning",
           "requiresFacts": ["context-crime", "context-name"],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "polished",
@@ -119031,7 +118847,7 @@
           "role": "meaning",
           "choice": "meaning",
           "requiresFacts": ["context-crime", "context-name"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "meaning",
@@ -119039,7 +118855,7 @@
           "role": "meaning",
           "choice": "meaning",
           "requiresFacts": ["context-crime", "context-name"],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "plain",
@@ -119061,7 +118877,7 @@
           "role": "meaning",
           "choice": "meaning",
           "requiresFacts": ["context-crime", "context-name"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "meaning",
@@ -119069,7 +118885,7 @@
           "role": "meaning",
           "choice": "meaning",
           "requiresFacts": ["context-crime", "context-name"],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "plain",
@@ -119091,7 +118907,7 @@
           "role": "meaning",
           "choice": "meaning",
           "requiresFacts": ["context-crime", "context-name"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "meaning",
@@ -119099,7 +118915,7 @@
           "role": "meaning",
           "choice": "meaning",
           "requiresFacts": ["context-crime", "context-name"],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "plain",
@@ -119121,7 +118937,7 @@
           "role": "meaning",
           "choice": "meaning",
           "requiresFacts": ["context-environment", "context-name"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "meaning",
@@ -119129,7 +118945,7 @@
           "role": "meaning",
           "choice": "meaning",
           "requiresFacts": ["context-environment", "context-name"],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "polished",
@@ -119151,7 +118967,7 @@
           "role": "meaning",
           "choice": "meaning",
           "requiresFacts": ["context-environment", "context-name"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "meaning",
@@ -119159,7 +118975,7 @@
           "role": "meaning",
           "choice": "meaning",
           "requiresFacts": ["context-environment", "context-name"],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "polished",
@@ -119181,7 +118997,7 @@
           "role": "meaning",
           "choice": "meaning",
           "requiresFacts": ["context-environment", "context-name"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "meaning",
@@ -119189,7 +119005,7 @@
           "role": "meaning",
           "choice": "meaning",
           "requiresFacts": ["context-environment", "context-name"],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "polished",
@@ -119211,7 +119027,7 @@
           "role": "meaning",
           "choice": "meaning",
           "requiresFacts": ["context-environment", "context-name"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "meaning",
@@ -119219,7 +119035,7 @@
           "role": "meaning",
           "choice": "meaning",
           "requiresFacts": ["context-environment", "context-name"],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "plain",
@@ -119241,7 +119057,7 @@
           "role": "meaning",
           "choice": "meaning",
           "requiresFacts": ["context-environment", "context-name"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "meaning",
@@ -119249,7 +119065,7 @@
           "role": "meaning",
           "choice": "meaning",
           "requiresFacts": ["context-environment", "context-name"],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "plain",
@@ -119271,7 +119087,7 @@
           "role": "meaning",
           "choice": "meaning",
           "requiresFacts": ["context-environment", "context-name"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "meaning",
@@ -119279,7 +119095,7 @@
           "role": "meaning",
           "choice": "meaning",
           "requiresFacts": ["context-environment", "context-name"],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "plain",
@@ -119301,7 +119117,7 @@
           "role": "meaning",
           "choice": "meaning",
           "requiresFacts": ["context-health", "context-name"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "meaning",
@@ -119309,7 +119125,7 @@
           "role": "meaning",
           "choice": "meaning",
           "requiresFacts": ["context-health", "context-name"],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "polished",
@@ -119331,7 +119147,7 @@
           "role": "meaning",
           "choice": "meaning",
           "requiresFacts": ["context-health", "context-name"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "meaning",
@@ -119339,7 +119155,7 @@
           "role": "meaning",
           "choice": "meaning",
           "requiresFacts": ["context-health", "context-name"],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "polished",
@@ -119361,7 +119177,7 @@
           "role": "meaning",
           "choice": "meaning",
           "requiresFacts": ["context-health", "context-name"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "meaning",
@@ -119369,7 +119185,7 @@
           "role": "meaning",
           "choice": "meaning",
           "requiresFacts": ["context-health", "context-name"],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "polished",
@@ -119391,7 +119207,7 @@
           "role": "meaning",
           "choice": "meaning",
           "requiresFacts": ["context-health", "context-name"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "meaning",
@@ -119399,7 +119215,7 @@
           "role": "meaning",
           "choice": "meaning",
           "requiresFacts": ["context-health", "context-name"],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "plain",
@@ -119421,7 +119237,7 @@
           "role": "meaning",
           "choice": "meaning",
           "requiresFacts": ["context-health", "context-name"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "meaning",
@@ -119429,7 +119245,7 @@
           "role": "meaning",
           "choice": "meaning",
           "requiresFacts": ["context-health", "context-name"],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "plain",
@@ -119451,7 +119267,7 @@
           "role": "meaning",
           "choice": "meaning",
           "requiresFacts": ["context-health", "context-name"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "meaning",
@@ -119459,7 +119275,7 @@
           "role": "meaning",
           "choice": "meaning",
           "requiresFacts": ["context-health", "context-name"],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "plain",
@@ -119481,7 +119297,7 @@
           "role": "meaning",
           "choice": "meaning",
           "requiresFacts": ["context-rent", "context-name"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "meaning",
@@ -119489,7 +119305,7 @@
           "role": "meaning",
           "choice": "meaning",
           "requiresFacts": ["context-rent", "context-name"],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "polished",
@@ -119511,7 +119327,7 @@
           "role": "meaning",
           "choice": "meaning",
           "requiresFacts": ["context-rent", "context-name"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "meaning",
@@ -119519,7 +119335,7 @@
           "role": "meaning",
           "choice": "meaning",
           "requiresFacts": ["context-rent", "context-name"],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "polished",
@@ -119541,7 +119357,7 @@
           "role": "meaning",
           "choice": "meaning",
           "requiresFacts": ["context-rent", "context-name"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "meaning",
@@ -119549,7 +119365,7 @@
           "role": "meaning",
           "choice": "meaning",
           "requiresFacts": ["context-rent", "context-name"],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "polished",
@@ -119571,7 +119387,7 @@
           "role": "meaning",
           "choice": "meaning",
           "requiresFacts": ["context-rent", "context-name"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "meaning",
@@ -119579,7 +119395,7 @@
           "role": "meaning",
           "choice": "meaning",
           "requiresFacts": ["context-rent", "context-name"],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "plain",
@@ -119601,7 +119417,7 @@
           "role": "meaning",
           "choice": "meaning",
           "requiresFacts": ["context-rent", "context-name"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "meaning",
@@ -119609,7 +119425,7 @@
           "role": "meaning",
           "choice": "meaning",
           "requiresFacts": ["context-rent", "context-name"],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "plain",
@@ -119631,7 +119447,7 @@
           "role": "meaning",
           "choice": "meaning",
           "requiresFacts": ["context-rent", "context-name"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "meaning",
@@ -119639,7 +119455,7 @@
           "role": "meaning",
           "choice": "meaning",
           "requiresFacts": ["context-rent", "context-name"],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "plain",
@@ -119661,7 +119477,7 @@
           "role": "meaning",
           "choice": "meaning",
           "requiresFacts": ["context-roads", "context-name"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "meaning",
@@ -119669,7 +119485,7 @@
           "role": "meaning",
           "choice": "meaning",
           "requiresFacts": ["context-roads", "context-name"],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "polished",
@@ -119691,7 +119507,7 @@
           "role": "meaning",
           "choice": "meaning",
           "requiresFacts": ["context-roads", "context-name"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "meaning",
@@ -119699,7 +119515,7 @@
           "role": "meaning",
           "choice": "meaning",
           "requiresFacts": ["context-roads", "context-name"],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "polished",
@@ -119721,7 +119537,7 @@
           "role": "meaning",
           "choice": "meaning",
           "requiresFacts": ["context-roads", "context-name"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "meaning",
@@ -119729,7 +119545,7 @@
           "role": "meaning",
           "choice": "meaning",
           "requiresFacts": ["context-roads", "context-name"],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "polished",
@@ -119751,7 +119567,7 @@
           "role": "meaning",
           "choice": "meaning",
           "requiresFacts": ["context-roads", "context-name"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "meaning",
@@ -119759,7 +119575,7 @@
           "role": "meaning",
           "choice": "meaning",
           "requiresFacts": ["context-roads", "context-name"],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "plain",
@@ -119781,7 +119597,7 @@
           "role": "meaning",
           "choice": "meaning",
           "requiresFacts": ["context-roads", "context-name"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "meaning",
@@ -119789,7 +119605,7 @@
           "role": "meaning",
           "choice": "meaning",
           "requiresFacts": ["context-roads", "context-name"],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "plain",
@@ -119811,7 +119627,7 @@
           "role": "meaning",
           "choice": "meaning",
           "requiresFacts": ["context-roads", "context-name"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "meaning",
@@ -119819,7 +119635,7 @@
           "role": "meaning",
           "choice": "meaning",
           "requiresFacts": ["context-roads", "context-name"],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "plain",
@@ -119841,7 +119657,7 @@
           "role": "meaning",
           "choice": "meaning",
           "requiresFacts": ["context-schools", "context-name"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "meaning",
@@ -119849,7 +119665,7 @@
           "role": "meaning",
           "choice": "meaning",
           "requiresFacts": ["context-schools", "context-name"],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "polished",
@@ -119871,7 +119687,7 @@
           "role": "meaning",
           "choice": "meaning",
           "requiresFacts": ["context-schools", "context-name"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "meaning",
@@ -119879,7 +119695,7 @@
           "role": "meaning",
           "choice": "meaning",
           "requiresFacts": ["context-schools", "context-name"],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "polished",
@@ -119901,7 +119717,7 @@
           "role": "meaning",
           "choice": "meaning",
           "requiresFacts": ["context-schools", "context-name"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "meaning",
@@ -119909,7 +119725,7 @@
           "role": "meaning",
           "choice": "meaning",
           "requiresFacts": ["context-schools", "context-name"],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "polished",
@@ -119931,7 +119747,7 @@
           "role": "meaning",
           "choice": "meaning",
           "requiresFacts": ["context-schools", "context-name"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "meaning",
@@ -119939,7 +119755,7 @@
           "role": "meaning",
           "choice": "meaning",
           "requiresFacts": ["context-schools", "context-name"],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "plain",
@@ -119961,7 +119777,7 @@
           "role": "meaning",
           "choice": "meaning",
           "requiresFacts": ["context-schools", "context-name"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "meaning",
@@ -119969,7 +119785,7 @@
           "role": "meaning",
           "choice": "meaning",
           "requiresFacts": ["context-schools", "context-name"],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "plain",
@@ -119991,7 +119807,7 @@
           "role": "meaning",
           "choice": "meaning",
           "requiresFacts": ["context-schools", "context-name"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "meaning",
@@ -119999,7 +119815,7 @@
           "role": "meaning",
           "choice": "meaning",
           "requiresFacts": ["context-schools", "context-name"],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "plain",
@@ -120021,7 +119837,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["crime-better", "good-name"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "story-says",
@@ -120029,7 +119845,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["crime-better", "good-name"],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "polished",
@@ -120051,7 +119867,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["crime-better", "good-name"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "story-says",
@@ -120059,7 +119875,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["crime-better", "good-name"],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "polished",
@@ -120081,7 +119897,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["crime-better", "good-name"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "story-says",
@@ -120089,7 +119905,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["crime-better", "good-name"],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "polished",
@@ -120111,7 +119927,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["crime-better", "good-name"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "story-says",
@@ -120119,7 +119935,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["crime-better", "good-name"],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "plain",
@@ -120141,7 +119957,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["crime-better", "good-name"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "story-says",
@@ -120149,7 +119965,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["crime-better", "good-name"],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "plain",
@@ -120171,7 +119987,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["crime-better", "good-name"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "story-says",
@@ -120179,7 +119995,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["crime-better", "good-name"],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "plain",
@@ -120201,7 +120017,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["environment-better", "good-name"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "story-says",
@@ -120209,7 +120025,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["environment-better", "good-name"],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "polished",
@@ -120231,7 +120047,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["environment-better", "good-name"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "story-says",
@@ -120239,7 +120055,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["environment-better", "good-name"],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "polished",
@@ -120261,7 +120077,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["environment-better", "good-name"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "story-says",
@@ -120269,7 +120085,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["environment-better", "good-name"],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": ["polished", "plain"],
@@ -120291,7 +120107,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["environment-better", "good-name"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "story-says",
@@ -120299,7 +120115,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["environment-better", "good-name"],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "plain",
@@ -120321,7 +120137,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["environment-better", "good-name"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "story-says",
@@ -120329,7 +120145,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["environment-better", "good-name"],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "plain",
@@ -120351,7 +120167,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["health-better", "good-name"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "story-says",
@@ -120359,7 +120175,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["health-better", "good-name"],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "polished",
@@ -120381,7 +120197,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["health-better", "good-name"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "story-says",
@@ -120389,7 +120205,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["health-better", "good-name"],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": ["polished", "plain"],
@@ -120411,7 +120227,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["health-better", "good-name"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "story-says",
@@ -120419,7 +120235,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["health-better", "good-name"],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": ["polished", "plain"],
@@ -120441,7 +120257,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["health-better", "good-name"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "story-says",
@@ -120449,7 +120265,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["health-better", "good-name"],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "plain",
@@ -120471,7 +120287,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["rent-better", "good-name"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "story-says",
@@ -120479,7 +120295,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["rent-better", "good-name"],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "polished",
@@ -120501,7 +120317,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["rent-better", "good-name"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "story-says",
@@ -120509,7 +120325,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["rent-better", "good-name"],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": ["polished", "plain"],
@@ -120531,7 +120347,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["rent-better", "good-name"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "story-says",
@@ -120539,7 +120355,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["rent-better", "good-name"],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": ["polished", "plain"],
@@ -120561,7 +120377,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["rent-better", "good-name"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "story-says",
@@ -120569,7 +120385,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["rent-better", "good-name"],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "plain",
@@ -120591,7 +120407,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["roads-better", "good-name"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "story-says",
@@ -120599,7 +120415,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["roads-better", "good-name"],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "polished",
@@ -120621,7 +120437,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["roads-better", "good-name"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "story-says",
@@ -120629,7 +120445,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["roads-better", "good-name"],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "polished",
@@ -120651,7 +120467,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["roads-better", "good-name"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "story-says",
@@ -120659,7 +120475,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["roads-better", "good-name"],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "polished",
@@ -120681,7 +120497,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["roads-better", "good-name"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "story-says",
@@ -120689,7 +120505,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["roads-better", "good-name"],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "plain",
@@ -120711,7 +120527,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["roads-better", "good-name"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "story-says",
@@ -120719,7 +120535,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["roads-better", "good-name"],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "plain",
@@ -120741,7 +120557,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["roads-better", "good-name"],
-          "tie": "record"
+          "tie": "place"
         },
         {
           "move": "story-says",
@@ -120749,7 +120565,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["roads-better", "good-name"],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "plain",
@@ -120771,7 +120587,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["schools-better", "good-name"],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "polished",
@@ -120793,7 +120609,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["schools-better", "good-name"],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "polished",
@@ -120815,7 +120631,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["schools-better", "good-name"],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "polished",
@@ -120837,7 +120653,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["schools-better", "good-name"],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "plain",
@@ -120859,7 +120675,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["schools-better", "good-name"],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "plain",
@@ -120881,7 +120697,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["schools-better", "good-name"],
-          "tie": "record"
+          "tie": "place"
         }
       ],
       "voice": "plain",
@@ -121610,6 +121426,722 @@
       "origin": "authored",
       "author": "Claude (Words builder S, local work, pay and prices)",
       "date": "2026-11-14"
+    },
+    {
+      "key": "opening-speech.turn.ld-now",
+      "move": "turn",
+      "kind": "spoken",
+      "text": "Now, {turn-to}.",
+      "uses": [
+        {
+          "move": "turn",
+          "subject": "inaugural",
+          "role": "turn",
+          "choice": "turn",
+          "requiresFacts": ["turn-to"],
+          "tie": "law"
+        },
+        {
+          "move": "turn",
+          "subject": "state-of-the-union",
+          "role": "turn",
+          "choice": "turn",
+          "requiresFacts": ["turn-to"],
+          "tie": "law"
+        },
+        {
+          "move": "turn",
+          "subject": "state-of-the-state",
+          "role": "turn",
+          "choice": "turn",
+          "requiresFacts": ["turn-to"],
+          "tie": "law"
+        },
+        {
+          "move": "turn",
+          "subject": "town-address",
+          "role": "turn",
+          "choice": "turn",
+          "requiresFacts": ["turn-to"],
+          "tie": "law"
+        }
+      ],
+      "voice": ["plain", "polished"],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (turn, event and close lines, Nov 16), added by the desk",
+      "date": "2026-11-16"
+    },
+    {
+      "key": "opening-speech.turn.ld-let-me-turn-to",
+      "move": "turn",
+      "kind": "spoken",
+      "text": "Let me turn to {turn-to}.",
+      "uses": [
+        {
+          "move": "turn",
+          "subject": "inaugural",
+          "role": "turn",
+          "choice": "turn",
+          "requiresFacts": ["turn-to"],
+          "tie": "law"
+        },
+        {
+          "move": "turn",
+          "subject": "state-of-the-union",
+          "role": "turn",
+          "choice": "turn",
+          "requiresFacts": ["turn-to"],
+          "tie": "law"
+        },
+        {
+          "move": "turn",
+          "subject": "state-of-the-state",
+          "role": "turn",
+          "choice": "turn",
+          "requiresFacts": ["turn-to"],
+          "tie": "law"
+        },
+        {
+          "move": "turn",
+          "subject": "town-address",
+          "role": "turn",
+          "choice": "turn",
+          "requiresFacts": ["turn-to"],
+          "tie": "law"
+        }
+      ],
+      "voice": ["plain", "polished"],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (turn, event and close lines, Nov 16), added by the desk",
+      "date": "2026-11-16"
+    },
+    {
+      "key": "opening-speech.turn.ld-the-other-thing-i-came-to-talk-about-is",
+      "move": "turn",
+      "kind": "spoken",
+      "text": "The other thing I came to talk about is {turn-to}.",
+      "uses": [
+        {
+          "move": "turn",
+          "subject": "inaugural",
+          "role": "turn",
+          "choice": "turn",
+          "requiresFacts": ["turn-to"],
+          "tie": "law"
+        },
+        {
+          "move": "turn",
+          "subject": "state-of-the-union",
+          "role": "turn",
+          "choice": "turn",
+          "requiresFacts": ["turn-to"],
+          "tie": "law"
+        },
+        {
+          "move": "turn",
+          "subject": "state-of-the-state",
+          "role": "turn",
+          "choice": "turn",
+          "requiresFacts": ["turn-to"],
+          "tie": "law"
+        },
+        {
+          "move": "turn",
+          "subject": "town-address",
+          "role": "turn",
+          "choice": "turn",
+          "requiresFacts": ["turn-to"],
+          "tie": "law"
+        }
+      ],
+      "voice": ["plain", "polished"],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (turn, event and close lines, Nov 16), added by the desk",
+      "date": "2026-11-16"
+    },
+    {
+      "key": "opening-speech.turn.ld-that-brings-me-to",
+      "move": "turn",
+      "kind": "spoken",
+      "text": "That brings me to {turn-to}.",
+      "uses": [
+        {
+          "move": "turn",
+          "subject": "inaugural",
+          "role": "turn",
+          "choice": "turn",
+          "requiresFacts": ["turn-to"],
+          "tie": "law"
+        },
+        {
+          "move": "turn",
+          "subject": "state-of-the-union",
+          "role": "turn",
+          "choice": "turn",
+          "requiresFacts": ["turn-to"],
+          "tie": "law"
+        },
+        {
+          "move": "turn",
+          "subject": "state-of-the-state",
+          "role": "turn",
+          "choice": "turn",
+          "requiresFacts": ["turn-to"],
+          "tie": "law"
+        },
+        {
+          "move": "turn",
+          "subject": "town-address",
+          "role": "turn",
+          "choice": "turn",
+          "requiresFacts": ["turn-to"],
+          "tie": "law"
+        }
+      ],
+      "voice": ["plain", "polished"],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (turn, event and close lines, Nov 16), added by the desk",
+      "date": "2026-11-16"
+    },
+    {
+      "key": "opening-speech.turn.ld-i-also-owe-you-a-word-on",
+      "move": "turn",
+      "kind": "spoken",
+      "text": "I also owe you a word on {turn-to}.",
+      "uses": [
+        {
+          "move": "turn",
+          "subject": "inaugural",
+          "role": "turn",
+          "choice": "turn",
+          "requiresFacts": ["turn-to"],
+          "tie": "law"
+        },
+        {
+          "move": "turn",
+          "subject": "state-of-the-union",
+          "role": "turn",
+          "choice": "turn",
+          "requiresFacts": ["turn-to"],
+          "tie": "law"
+        },
+        {
+          "move": "turn",
+          "subject": "state-of-the-state",
+          "role": "turn",
+          "choice": "turn",
+          "requiresFacts": ["turn-to"],
+          "tie": "law"
+        },
+        {
+          "move": "turn",
+          "subject": "town-address",
+          "role": "turn",
+          "choice": "turn",
+          "requiresFacts": ["turn-to"],
+          "tie": "law"
+        }
+      ],
+      "voice": ["plain", "polished"],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (turn, event and close lines, Nov 16), added by the desk",
+      "date": "2026-11-16"
+    },
+    {
+      "key": "opening-speech.year-condition.ld-closed-this-year-and-felt-it",
+      "move": "year-condition",
+      "kind": "spoken",
+      "text": "{condition-closure} closed this year, and {realm-bare} felt it.",
+      "uses": [
+        {
+          "move": "year-condition",
+          "subject": "state-of-the-state",
+          "role": "year-condition",
+          "choice": "year-condition",
+          "requiresFacts": ["condition-closure", "realm-bare"],
+          "tie": "place"
+        },
+        {
+          "move": "year-condition",
+          "subject": "town-address",
+          "role": "year-condition",
+          "choice": "year-condition",
+          "requiresFacts": ["condition-closure", "realm-bare"],
+          "tie": "place"
+        }
+      ],
+      "voice": ["plain", "polished"],
+      "bearing": "grave",
+      "origin": "authored",
+      "author": "Words lead (turn, event and close lines, Nov 16), added by the desk",
+      "date": "2026-11-16"
+    },
+    {
+      "key": "opening-speech.year-condition.ld-we-lost-this-year-people-here-lost-their-jobs-with-it",
+      "move": "year-condition",
+      "kind": "spoken",
+      "text": "We lost {condition-closure} this year. People here lost their jobs with it.",
+      "uses": [
+        {
+          "move": "year-condition",
+          "subject": "state-of-the-state",
+          "role": "year-condition",
+          "choice": "year-condition",
+          "requiresFacts": ["condition-closure", "condition-jobs-ended"],
+          "tie": "place"
+        },
+        {
+          "move": "year-condition",
+          "subject": "town-address",
+          "role": "year-condition",
+          "choice": "year-condition",
+          "requiresFacts": ["condition-closure", "condition-jobs-ended"],
+          "tie": "place"
+        }
+      ],
+      "voice": ["plain", "polished"],
+      "bearing": "grave",
+      "origin": "authored",
+      "author": "Words lead (turn, event and close lines, Nov 16), added by the desk",
+      "date": "2026-11-16"
+    },
+    {
+      "key": "opening-speech.year-condition.ld-the-hit-hard-this-year",
+      "move": "year-condition",
+      "kind": "spoken",
+      "text": "The {condition-disaster} hit {realm-bare} hard this year.",
+      "uses": [
+        {
+          "move": "year-condition",
+          "subject": "state-of-the-state",
+          "role": "year-condition",
+          "choice": "year-condition",
+          "requiresFacts": ["condition-disaster", "realm-bare"],
+          "tie": "place"
+        },
+        {
+          "move": "year-condition",
+          "subject": "town-address",
+          "role": "year-condition",
+          "choice": "year-condition",
+          "requiresFacts": ["condition-disaster", "realm-bare"],
+          "tie": "place"
+        }
+      ],
+      "voice": ["plain", "polished"],
+      "bearing": "grave",
+      "origin": "authored",
+      "author": "Words lead (turn, event and close lines, Nov 16), added by the desk",
+      "date": "2026-11-16"
+    },
+    {
+      "key": "opening-speech.year-condition.ld-nobody-in-has-forgotten-the",
+      "move": "year-condition",
+      "kind": "spoken",
+      "text": "Nobody in {realm-bare} has forgotten the {condition-disaster}.",
+      "uses": [
+        {
+          "move": "year-condition",
+          "subject": "state-of-the-state",
+          "role": "year-condition",
+          "choice": "year-condition",
+          "requiresFacts": ["condition-disaster", "realm-bare"],
+          "tie": "place"
+        },
+        {
+          "move": "year-condition",
+          "subject": "town-address",
+          "role": "year-condition",
+          "choice": "year-condition",
+          "requiresFacts": ["condition-disaster", "realm-bare"],
+          "tie": "place"
+        }
+      ],
+      "voice": ["plain", "polished"],
+      "bearing": "grave",
+      "origin": "authored",
+      "author": "Words lead (turn, event and close lines, Nov 16), added by the desk",
+      "date": "2026-11-16"
+    },
+    {
+      "key": "opening-speech.year-condition.ld-took-effect-this-year-and-people-here-are-living-under-it-no",
+      "move": "year-condition",
+      "kind": "spoken",
+      "text": "{condition-law} took effect this year, and people here are living under it now.",
+      "uses": [
+        {
+          "move": "year-condition",
+          "subject": "state-of-the-state",
+          "role": "year-condition",
+          "choice": "year-condition",
+          "requiresFacts": ["condition-law", "condition-law-reached"],
+          "tie": "law"
+        },
+        {
+          "move": "year-condition",
+          "subject": "town-address",
+          "role": "year-condition",
+          "choice": "year-condition",
+          "requiresFacts": ["condition-law", "condition-law-reached"],
+          "tie": "law"
+        }
+      ],
+      "voice": ["plain", "polished"],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (turn, event and close lines, Nov 16), added by the desk",
+      "date": "2026-11-16"
+    },
+    {
+      "key": "opening-speech.year-condition.ld-this-was-the-year-became-law-here",
+      "move": "year-condition",
+      "kind": "spoken",
+      "text": "This was the year {condition-law} became law here.",
+      "uses": [
+        {
+          "move": "year-condition",
+          "subject": "state-of-the-state",
+          "role": "year-condition",
+          "choice": "year-condition",
+          "requiresFacts": ["condition-law"],
+          "tie": "law"
+        },
+        {
+          "move": "year-condition",
+          "subject": "town-address",
+          "role": "year-condition",
+          "choice": "year-condition",
+          "requiresFacts": ["condition-law"],
+          "tie": "law"
+        }
+      ],
+      "voice": ["plain", "polished"],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (turn, event and close lines, Nov 16), added by the desk",
+      "date": "2026-11-16"
+    },
+    {
+      "key": "opening-speech.year-condition.ld-voted-this-year-and-i-heard-what-you-said",
+      "move": "year-condition",
+      "kind": "spoken",
+      "text": "{realm-bare} voted this year, and I heard what you said.",
+      "uses": [
+        {
+          "move": "year-condition",
+          "subject": "state-of-the-state",
+          "role": "year-condition",
+          "choice": "year-condition",
+          "requiresFacts": ["condition-election", "realm-bare"],
+          "tie": "place"
+        },
+        {
+          "move": "year-condition",
+          "subject": "town-address",
+          "role": "year-condition",
+          "choice": "year-condition",
+          "requiresFacts": ["condition-election", "realm-bare"],
+          "tie": "place"
+        }
+      ],
+      "voice": ["plain", "polished"],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (turn, event and close lines, Nov 16), added by the desk",
+      "date": "2026-11-16"
+    },
+    {
+      "key": "opening-speech.year-condition.ld-you-went-to-the-polls-this-year-i-m-standing-here-because-of",
+      "move": "year-condition",
+      "kind": "spoken",
+      "text": "You went to the polls this year. I'm standing here because of it.",
+      "uses": [
+        {
+          "move": "year-condition",
+          "subject": "state-of-the-state",
+          "role": "year-condition",
+          "choice": "year-condition",
+          "requiresFacts": ["condition-election", "condition-elected-here"],
+          "tie": "place"
+        },
+        {
+          "move": "year-condition",
+          "subject": "town-address",
+          "role": "year-condition",
+          "choice": "year-condition",
+          "requiresFacts": ["condition-election", "condition-elected-here"],
+          "tie": "place"
+        }
+      ],
+      "voice": ["plain", "polished"],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (turn, event and close lines, Nov 16), added by the desk",
+      "date": "2026-11-16"
+    },
+    {
+      "key": "opening-speech.close.ld-thank-you-let-s-get-to-work",
+      "move": "close",
+      "kind": "spoken",
+      "text": "Thank you. Let's get to work.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "inaugural",
+          "role": "close",
+          "choice": "close",
+          "tie": "frame"
+        },
+        {
+          "move": "close",
+          "subject": "state-of-the-union",
+          "role": "close",
+          "choice": "close",
+          "tie": "frame"
+        },
+        {
+          "move": "close",
+          "subject": "state-of-the-state",
+          "role": "close",
+          "choice": "close",
+          "tie": "frame"
+        },
+        {
+          "move": "close",
+          "subject": "town-address",
+          "role": "close",
+          "choice": "close",
+          "tie": "frame"
+        }
+      ],
+      "voice": ["plain", "polished"],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Words lead (turn, event and close lines, Nov 16), added by the desk",
+      "date": "2026-11-16"
+    },
+    {
+      "key": "opening-speech.close.ld-that-s-the-work-thank-you-for-hearing-me-out",
+      "move": "close",
+      "kind": "spoken",
+      "text": "That's the work. Thank you for hearing me out.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "inaugural",
+          "role": "close",
+          "choice": "close",
+          "tie": "frame"
+        },
+        {
+          "move": "close",
+          "subject": "state-of-the-union",
+          "role": "close",
+          "choice": "close",
+          "tie": "frame"
+        },
+        {
+          "move": "close",
+          "subject": "state-of-the-state",
+          "role": "close",
+          "choice": "close",
+          "tie": "frame"
+        },
+        {
+          "move": "close",
+          "subject": "town-address",
+          "role": "close",
+          "choice": "close",
+          "tie": "frame"
+        }
+      ],
+      "voice": ["plain", "polished"],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Words lead (turn, event and close lines, Nov 16), added by the desk",
+      "date": "2026-11-16"
+    },
+    {
+      "key": "opening-speech.close.ld-thank-you",
+      "move": "close",
+      "kind": "spoken",
+      "text": "Thank you, {realm-bare}.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "state-of-the-state",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["realm-bare"],
+          "tie": "frame"
+        },
+        {
+          "move": "close",
+          "subject": "town-address",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["realm-bare"],
+          "tie": "frame"
+        }
+      ],
+      "voice": ["plain", "polished"],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Words lead (turn, event and close lines, Nov 16), added by the desk",
+      "date": "2026-11-16"
+    },
+    {
+      "key": "opening-speech.close.ld-i-ve-told-you-what-i-want-done-now-i-ll-go-do-it",
+      "move": "close",
+      "kind": "spoken",
+      "text": "I've told you what I want done. Now I'll go do it.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "inaugural",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["asked"],
+          "tie": "frame"
+        },
+        {
+          "move": "close",
+          "subject": "state-of-the-union",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["asked"],
+          "tie": "frame"
+        },
+        {
+          "move": "close",
+          "subject": "state-of-the-state",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["asked"],
+          "tie": "frame"
+        },
+        {
+          "move": "close",
+          "subject": "town-address",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["asked"],
+          "tie": "frame"
+        }
+      ],
+      "voice": ["plain", "polished"],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Words lead (turn, event and close lines, Nov 16), added by the desk",
+      "date": "2026-11-16"
+    },
+    {
+      "key": "opening-speech.close.ld-you-know-what-i-m-asking-for-hold-me-to-it",
+      "move": "close",
+      "kind": "spoken",
+      "text": "You know what I'm asking for. Hold me to it.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "inaugural",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["asked"],
+          "tie": "frame"
+        },
+        {
+          "move": "close",
+          "subject": "state-of-the-union",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["asked"],
+          "tie": "frame"
+        },
+        {
+          "move": "close",
+          "subject": "state-of-the-state",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["asked"],
+          "tie": "frame"
+        },
+        {
+          "move": "close",
+          "subject": "town-address",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["asked"],
+          "tie": "frame"
+        }
+      ],
+      "voice": ["plain", "polished"],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Words lead (turn, event and close lines, Nov 16), added by the desk",
+      "date": "2026-11-16"
+    },
+    {
+      "key": "opening-speech.close.ld-we-have-the-votes-to-do-this-thank-you",
+      "move": "close",
+      "kind": "spoken",
+      "text": "We have the votes to do this. Thank you.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "state-of-the-state",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["party-holds-body"],
+          "tie": "record"
+        },
+        {
+          "move": "close",
+          "subject": "town-address",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["party-holds-body"],
+          "tie": "record"
+        }
+      ],
+      "voice": ["plain", "polished"],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Words lead (turn, event and close lines, Nov 16), added by the desk",
+      "date": "2026-11-16"
+    },
+    {
+      "key": "opening-speech.close.ld-i-can-t-do-this-alone-and-i-won-t-pretend-i-can-thank-you",
+      "move": "close",
+      "kind": "spoken",
+      "text": "I can't do this alone, and I won't pretend I can. Thank you.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "state-of-the-state",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["party-lacks-body"],
+          "tie": "record"
+        },
+        {
+          "move": "close",
+          "subject": "town-address",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["party-lacks-body"],
+          "tie": "record"
+        }
+      ],
+      "voice": ["plain", "polished"],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Words lead (turn, event and close lines, Nov 16), added by the desk",
+      "date": "2026-11-16"
     }
   ]
 }
