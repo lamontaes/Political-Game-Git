@@ -35,3 +35,5 @@ checked:
 **Waits on.** Nothing.
 
 **Files.** src/bench/dev-mode.ts, src/bench/dev-views/scene-trace.ts, src/director/circumstance.ts
+
+**Notes.** Nov 16, #9691: dev mode's scene view now forces the 18 types a bare record of their cause stages (src/bench/dev-views/scene-trace.ts, map in scene-force-map.json written by `scripts/words/force-all-probe.mts --write-map`), marks each `scene-forced`, and names the other 71 with why (23 journal-line, 45 circumstance or tie turn, 2 refused bare, 1 no cause). Seen at Sheridan WY, seed 7, 1440x900: words-lead/tie-rule/force-view-sheridan-7.png. This item takes the 71 one module at a time.

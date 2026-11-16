@@ -1,7 +1,7 @@
 /**
  * Dev mode's scene trace (src/bench/dev-views/scene-trace.ts) through the bench's own request
  * handler on a built world: Ridgeville, Alabama (0164656), the draw "8341-pin"/"p6" the dev-views
- * test names. Every situation type is listed with how dev mode can cause it (87 types: 5 caused at
+ * test names. Every situation type is listed with how dev mode can cause it (89 types: 5 caused at
  * once, 81 by running the world until their cause record comes, 1 no engine writes: polling-place),
  * the register's tie class is read for a scene's lines, and a forced scene is a dev mark, never a
  * played scene.
@@ -132,4 +132,26 @@ it("the scene trace lists every scene, ties its lines and marks a forced scene (
   expect(
     devModeMarks(world.core).some((id) => id.includes(":scene-forced:")),
   ).toBe(true);
-}, 30_000);
+
+  // The map: a type a record of its cause kind stages is forced at once; the rest say why not.
+  const byKey = new Map(types.types.map((row) => [row.key, row]));
+  const mapped = types.types as unknown as {
+    key: string;
+    recipe: string | null;
+    why: string | null;
+  }[];
+  expect(
+    mapped.filter((row) => row.recipe === "event").length,
+    `${where}: types forced by a record of their cause kind`,
+  ).toBeGreaterThan(10);
+  expect(mapped.find((row) => row.key === "date")?.why).toBe("journal-line");
+  expect(byKey.has("return")).toBe(true);
+  const event = await ask("POST", "scene-trace/force", { typeKey: "return" });
+  expect(event.status, `${where}: ${JSON.stringify(event.value)}`).toBe(200);
+  const answer = event.value as { recipe: string; staged: boolean };
+  expect(answer.recipe).toBe("event");
+  expect(answer.staged, `${where}: the forced scene staged`).toBe(true);
+  process.stdout.write(
+    `${where}: forcing "return" staged it: ${answer.staged}\n`,
+  );
+}, 60_000);
