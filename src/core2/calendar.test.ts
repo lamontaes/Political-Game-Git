@@ -168,7 +168,7 @@ describe("indexed person calendar", () => {
     ]);
   });
 
-  it("runs every living active full actor daily in observer mode while retaining husks and deceased actors", () => {
+  it("keeps each tier's cadence in observer mode, as without it, and retains husks", () => {
     const living = [
       person("person:weekly", "weekly"),
       person("person:monthly", "monthly"),
@@ -192,22 +192,16 @@ describe("indexed person calendar", () => {
     core.people.get("person:deceased")!.alive = false;
     const before = snapshot(core);
     expect(duePeople(core, "2021-01-01")).toEqual([]);
-    expect(
-      new Map(
-        duePeople(core, "2021-01-02").map((row) => [row.personId, row.days]),
-      ),
-    ).toEqual(
-      new Map(
-        living
-          .filter((actor) => actor.tier !== "husk")
-          .map((actor) => [actor.id, p("one")]),
-      ),
-    );
+    // Watching never sets who chooses: on the second day no coarse tier is
+    // due, with the observer on or off (core-observer-changes-choices).
+    expect(duePeople(core, "2021-01-02")).toEqual([]);
     expect(core.people.has("person:retained-husk")).toBe(false);
     expect(core.husks.has("person:retained-husk")).toBe(true);
     expect(snapshot(core)).toEqual(before);
+    const watched = duePeople(core, "2021-01-08");
     core.observer = false;
-    expect(duePeople(core, "2021-01-02")).toEqual([]);
+    expect(duePeople(core, "2021-01-08")).toEqual(watched);
+    expect(watched.map((row) => row.personId)).toContain("person:weekly");
   });
 
   it("reads new tier identities and intervals from extended data", () => {

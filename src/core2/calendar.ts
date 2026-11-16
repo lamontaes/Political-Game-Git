@@ -93,12 +93,7 @@ function hasDailyFocus(core: CoreState, actor: Readonly<PersonState>): boolean {
 
 /** Why a person chooses every day, the first reason that holds. */
 export type DailyFocusReason =
-  | "observer"
-  | "player"
-  | "focus-person"
-  | "player-circle"
-  | "focus-place"
-  | "focus-county";
+  "player" | "focus-person" | "player-circle" | "focus-place" | "focus-county";
 
 /**
  * The one daily-focus rule: why `actor` chooses every day, or null when they
@@ -109,7 +104,8 @@ export function dailyFocusReason(
   actor: Readonly<PersonState>,
 ): DailyFocusReason | null {
   if (inactive(core, actor)) return null;
-  if (core.observer) return "observer";
+  // The debug observer keeps more of the record and never sets who chooses
+  // when (core-observer-changes-choices).
   if (actor.id === core.playerId) return "player";
   const focus = core.focusPersonIds.has(actor.id);
   if ((focus || knowsThePlayer(core, actor.id)) && seenLately(core, actor))

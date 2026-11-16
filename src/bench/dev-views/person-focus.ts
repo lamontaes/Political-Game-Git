@@ -19,7 +19,6 @@ const view: DevView = {
     title: "Focus",
     daily: "Chooses every day",
     paced: "Chooses at their tier's pace",
-    observer: "Observer mode",
     player: "The player",
     "focus-person": "Put in focus",
     "player-circle": "In the player's circle, seen lately",
