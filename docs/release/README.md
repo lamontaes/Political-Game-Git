@@ -157,6 +157,11 @@ is made last, as a draft, and shown only after every file is uploaded.
 | A package job fails                                   | `main` holds the commit; no release                          | The next run finds the record, finds the main commit, packages again.                                                                                                |
 | Publish fails after upload starts                     | A draft release may exist, never shown                       | The next run reuses the draft tag and uploads again with `--clobber`.                                                                                                |
 
+**Ruling (the acting CTO, Nov 16):** `main` is updated once per passing release
+run, at most every two hours and only when a change is pending, because the
+release run is the one place where the whole candidate is built and validated.
+A promote on every merge into `dev` is not built.
+
 A manual run of `promote.yml` stays as the fallback (Actions > "Promote" > Run
 workflow, `work_branch` `dev`, `push` true).
 

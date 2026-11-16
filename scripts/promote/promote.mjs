@@ -73,7 +73,12 @@ export function mainPackageJson(text, removed) {
 // is never edited. Part 2's run showed the tree builds, typechecks and passes
 // zero-dice and release:check with no other edit; vite.config.ts and the tsconfig
 // files still name test folders, which match nothing and do no harm.
-export const MAIN_SIDE = [{ path: "package.json", edit: mainPackageJson }];
+// desktop/package.json keeps `test` (node --test "tests/**/*.test.mjs"), which
+// points at files this step removes; the same edit drops it.
+export const MAIN_SIDE = [
+  { path: "package.json", edit: mainPackageJson },
+  { path: "desktop/package.json", edit: mainPackageJson },
+];
 
 function git(root, args, opts = {}) {
   return execFileSync("git", args, {

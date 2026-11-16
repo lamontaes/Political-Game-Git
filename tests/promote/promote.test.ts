@@ -159,6 +159,36 @@ describe("promote: the commit on main", () => {
     expect(findPromoted(dir, "main", g(dir, "rev-parse", "HEAD"))).toBeNull();
   });
 
+  it("drops the desktop package's test script too, and keeps its other scripts", () => {
+    const dir = setup();
+    put(dir, {
+      "desktop/package.json": JSON.stringify({
+        name: "desktop",
+        scripts: {
+          stage: "node scripts/stage.mjs",
+          test: 'node --test "tests/**/*.test.mjs"',
+        },
+      }),
+      "desktop/tests/a.test.mjs": "// a test\n",
+    });
+    g(dir, "commit", "-qm", "desktop");
+    const commit = promote(
+      dir,
+      { work: "HEAD", main: "main", remote: "origin", push: false },
+      quiet,
+    );
+    const pkg = JSON.parse(g(dir, "show", `${commit}:desktop/package.json`));
+    expect(Object.keys(pkg.scripts)).toEqual(["stage"]);
+    const files = g(dir, "ls-tree", "-r", "--name-only", commit).split("\n");
+    expect(files).not.toContain("desktop/tests/a.test.mjs");
+    // The work branch keeps its own copy.
+    expect(
+      Object.keys(
+        JSON.parse(g(dir, "show", "HEAD:desktop/package.json")).scripts,
+      ),
+    ).toEqual(["stage", "test"]);
+  });
+
   it("refuses a dirty tree", () => {
     const dir = setup();
     writeFileSync(path.join(dir, "src/b.ts"), "changed\n");
