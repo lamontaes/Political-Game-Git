@@ -52,6 +52,7 @@ import { openLawReach } from "../core2/law-reach/host";
 import { OUTCOME_WEB_MODULE } from "../core2/modules/outcome-web";
 import { openStaff } from "../core2/modules/staff";
 import { openServeAsks } from "../core2/modules/serve-asks";
+import { PROMISES_MODULE } from "../core2/modules/promises";
 import { openLeadership } from "../core2/modules/leadership";
 import { openSuccession } from "../core2/modules/succession";
 import { openExecutive } from "../core2/modules/executive";
@@ -693,6 +694,8 @@ function* benchWorldStages(
       // drives, views, news, speeches, corruption and beliefs (who runs is
       // installed by the voting engine, in every world).
       ...peopleModules(),
+      // Promises kept and broken: settled before the director reads the day.
+      PROMISES_MODULE,
       director.module,
     ],
   });

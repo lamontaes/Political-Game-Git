@@ -23,6 +23,8 @@ import { gameStartDate } from "../core2/game-start";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
 import { coreAPI } from "../core2/state";
+import type { IncomingMessage } from "node:http";
+import { handleDev } from "../bench/dev-api";
 import type { CoreState, JobInput, PersonId } from "../core2/types";
 import { seatAct, seatView } from "../bench/legislature";
 import {
@@ -38,7 +40,7 @@ import { attendMeeting, meetingOf } from "../core2/modules/office-day";
 import { sharedHistory } from "../core2/past";
 import { nextMeetingFacts } from "./meeting-facts";
 import { openConversation, say } from "./conversation";
-import { promisesBetween } from "./promises";
+import { promisesBetween } from "../core2/modules/promises";
 import { purposeScene, replyInScene } from "./purpose-scene";
 import {
   LOAN_SEED,
@@ -59,7 +61,14 @@ const ok: Check = (holds, message) => expect(holds, message).toBe(true);
 /** The fixed seed the places are drawn on. */
 const SEED = "promises-kept-and-broken-1";
 const ATTEMPTS = 4;
-const TIMEOUT = 600_000;
+/** Nine in the morning: the minute of the window's last day the player talks. */
+const LAST_DAY_MINUTE = 9 * 60;
+/** The vote case: 187.0 s alone and 181.0 s beside the other promise and scene tests (Nov 16, fe04fc42), so about twice the slower. */
+const VOTE_TIMEOUT = 375_000;
+/** The attend case: 63.8 s alone and 55.3 s beside (Nov 16, fe04fc42), so about twice the slower. */
+const ATTEND_TIMEOUT = 130_000;
+/** The show-around case: 132.7 s alone and 131.9 s beside the other promise and scene tests (Nov 16, fe04fc42), so about twice the slower. */
+const SHOW_AROUND_TIMEOUT = 265_000;
 
 function world(attempt: number, label: string) {
   const place = drawPlace(SEED, `${label}:${attempt}`);
@@ -88,6 +97,20 @@ function world(attempt: number, label: string) {
  * and comes back when that item lands.
  */
 const PAY_TIMEOUT = 270_000;
+
+/**
+ * Each broken promise this file plays, with what the break cost the tie
+ * (the row's `tieCost`, the trust-lost share of the tie that day), so the
+ * last test can compare a close tie with a slight one
+ * (people-broken-promise-costs-share-of-tie).
+ */
+const BROKEN_COSTS: {
+  tie: "close" | "slight";
+  where: string;
+  id: string;
+  cost: number;
+  closeness: [number, number];
+}[] = [];
 it(
   `a promise to pay on time after a money quarrel over a real missed payment is broken by the next one (seed ${LOAN_SEED})`,
   () => {
@@ -146,18 +169,21 @@ function hireLike(
 }
 
 it(
-  `a promise to show a new coworker around is kept by a talk between the two and broken when two weeks pass with none (seed ${SEED})`,
-  () => {
+  `a promise to show a new coworker around is kept by a talk between the two on a later day or on its last day, and broken when two weeks pass with none (seed ${SEED})`,
+  async () => {
     setBookkeeping(false);
     const tried: string[] = [];
     try {
       const done: string[] = [];
       for (
         let attempt = 0;
-        attempt < ATTEMPTS && done.length < 2;
+        attempt < ATTEMPTS && done.length < 3;
         attempt += 1
       ) {
-        const { core, director, playerId, where } = world(attempt, "coworker");
+        const { core, director, playerId, placeId, where } = world(
+          attempt,
+          "coworker",
+        );
         const id = playerId as PersonId;
         const player = core.people.get(id)!;
         const open = (org: string) =>
@@ -235,7 +261,7 @@ it(
         }
         const { factId, newcomer, since } = made;
         const find = () =>
-          promisesBetween(director.ledger, id, newcomer).find(
+          promisesBetween(coreAPI(core), id, newcomer).find(
             (row) => row.id === factId,
           )!;
         expect(find().outcome, where).toBe("open");
@@ -268,19 +294,103 @@ it(
           expect(closenessBetween(core, id, newcomer), where).toBeGreaterThan(
             before,
           );
-        } else {
+        } else if (done.length === 1) {
           // Broken: two weeks of the player's days with no talk between them.
           play(core, id, 15);
           expect(find().outcome, where).toBe("broken");
           expect(find().endedAt, where).toBe(addDays(makeIsoDate(since), 14));
+          expect(find().tieCost, where).toBeGreaterThan(0);
+        } else {
+          // Kept on the last day: the player goes the whole two weeks and
+          // talks with the newcomer on the window's last day, which keeps it;
+          // the next morning, when the window closes, leaves it kept. This is
+          // the one played proof that the player's own presses on a last day
+          // still count. It is green on a close at the start of the day's
+          // world step too (the player's day comes before that step), so it
+          // does not prove the world records of a last day count; that case
+          // waits on a pay-on-time promise made on a missed payment's day.
+          const lastDay = find().dueOn;
+          // To the morning of the last day, the player still inside it.
+          // play() stops at a midnight with the day before finished, so
+          // fourteen days end the day before the last; then into the last.
+          play(core, id, 14);
+          play(core, id, 1, LAST_DAY_MINUTE);
+          expect(core.date.slice(0, 10), where).toBe(lastDay);
+          const talk = openConversation(core, id, newcomer, { director });
+          const choice = talk.choices[0];
+          if (!choice) {
+            tried.push(
+              `${where}: nothing to say with the newcomer on ${lastDay}`,
+            );
+            continue;
+          }
+          say(core, talk, choice.key);
+          play(core, id, 1);
+          expect(find().outcome, where).toBe("kept");
+          expect(find().endedBy, where).toMatch(/^conversation:/);
+          expect(find().endedAt, where).toBe(lastDay);
         }
         const ended = find();
+        // Dev mode shows it from the engine's own row, asked as a tester's
+        // click asks: the player's card lists it with how it ended (the
+        // promises view, src/bench/dev-views/promises.ts), and the Trace opens
+        // it there, with the reply that made it and the record that ended it
+        // among its links.
+        const ask = async (path: string) => {
+          let answer: { status: number; value: unknown } | undefined;
+          const handled = await handleDev(
+            {
+              method: "GET",
+              async *[Symbol.asyncIterator]() {},
+            } as unknown as IncomingMessage,
+            new URL(`http://bench/api/dev/${path}`),
+            (status, value) => (answer = { status, value }),
+            () => ({ core, director, placeId }),
+          );
+          expect(handled, `${where}: ${path} was not handled`).toBe(true);
+          expect(answer?.status, `${where}: ${path}`).toBe(200);
+          return answer!.value;
+        };
+        const listed = (
+          (await ask(`promises?id=${encodeURIComponent(id)}`)) as {
+            promises: readonly { id: string; outcome: string }[];
+          }
+        ).promises.find((row) => row.id === factId);
+        expect(listed?.outcome, `${where}: dev mode's list`).toBe(
+          ended.outcome,
+        );
+        const traced = (await ask(
+          `trace?id=${encodeURIComponent(factId)}`,
+        )) as {
+          engine: string;
+          children: readonly { id: string }[];
+          record: { endedBy?: string };
+        };
+        expect(traced.engine, `${where}: dev mode's Trace`).toBe(
+          "core2-promises-v1.promises",
+        );
+        expect(
+          traced.children.map((child) => child.id),
+          `${where}: the Trace links the reply that made it`,
+        ).toContain(ended.sourceId);
+        expect(
+          traced.record.endedBy,
+          `${where}: the Trace shows what ended it`,
+        ).toBe(ended.endedBy);
         const said = talkOf(core, director, newcomer, id, where, ok);
+        if (ended.outcome === "broken")
+          BROKEN_COSTS.push({
+            tie: "slight",
+            where: `${where}, new coworker ${newcomer}`,
+            id: factId,
+            cost: ended.tieCost!,
+            closeness: [before, closenessBetween(core, id, newcomer)],
+          });
         done.push(
           `${where}: ${said}\n    ${factId} owed to ${newcomer}, ${ended.outcome} by ${ended.endedBy} on ${ended.endedAt}, closeness ${before.toFixed(5)} to ${closenessBetween(core, id, newcomer).toFixed(5)}`,
         );
       }
-      if (done.length === 2) {
+      if (done.length === 3) {
         process.stdout.write(
           `SHOW AROUND\n  ${done.join("\n  ")}\n  Passed over: ${tried.join("; ") || "none"}\n`,
         );
@@ -291,7 +401,7 @@ it(
       setBookkeeping(true);
     }
   },
-  TIMEOUT,
+  SHOW_AROUND_TIMEOUT,
 );
 
 /** Days played in a place at most, one at a time, so the evening before a roll is caught. */
@@ -420,7 +530,7 @@ it(
           expect(reply.facts?.["promise-billId"], where).toBe(billId);
           const factId = `promise:${replyId}`;
           const find = () =>
-            promisesBetween(director.ledger, askerId, colleagueId).find(
+            promisesBetween(coreAPI(core), askerId, colleagueId).find(
               (row) => row.id === factId,
             )!;
           expect(find().holderId, where).toBe(colleagueId);
@@ -471,7 +581,7 @@ it(
       setBookkeeping(true);
     }
   },
-  TIMEOUT,
+  VOTE_TIMEOUT,
 );
 
 /** Days a friend's ask may wait, one at a time, for a town body to post its next meeting. */
@@ -583,7 +693,7 @@ it(
         const date = meetingId.slice(-10);
         const factId = `promise:${replyId}`;
         const find = () =>
-          promisesBetween(director.ledger, id, friendId).find(
+          promisesBetween(coreAPI(core), id, friendId).find(
             (entry) => entry.id === factId,
           )!;
         expect(find().outcome, where).toBe("open");
@@ -616,8 +726,18 @@ it(
         if (!kept) {
           expect(tie.lastContactDate < date, where).toBe(true);
           expect(find().outcome, where).toBe("broken");
+          expect(find().tieCost, where).toBeGreaterThan(0);
         }
+        const beforeTalk = closenessBetween(core, id, friendId);
         const said = talkOf(core, director, friendId, id, where, ok);
+        if (!kept)
+          BROKEN_COSTS.push({
+            tie: "close",
+            where: `${where}, friend ${friendId}`,
+            id: factId,
+            cost: find().tieCost!,
+            closeness: [beforeTalk, closenessBetween(core, id, friendId)],
+          });
         done.push(
           `${where}: asked "${request!.text}"\n    ${factId}, ${find().outcome} by ${held!.id} on ${find().endedAt}\n  ${said}`,
         );
@@ -633,5 +753,21 @@ it(
       setBookkeeping(true);
     }
   },
-  TIMEOUT,
+  ATTEND_TIMEOUT,
 );
+
+it("a broken promise costs a close tie more hours than a slight one (the two broken promises played above)", () => {
+  // The friend's tie (attend) or the housemate's (pay on time): either is
+  // closer than a coworker met days before.
+  const close = BROKEN_COSTS.find((row) => row.tie === "close");
+  const slight = BROKEN_COSTS.find((row) => row.tie === "slight");
+  expect(
+    close,
+    "neither the pay-on-time nor the attend test broke a promise",
+  ).toBeTruthy();
+  expect(slight, "the show-around test broke no promise").toBeTruthy();
+  process.stdout.write(
+    `BROKEN COSTS\n${BROKEN_COSTS.map((row) => `  ${row.tie}: ${row.where}: ${row.id} cost ${row.cost.toFixed(4)} hours; closeness ${row.closeness[0].toFixed(8)} to ${row.closeness[1].toFixed(8)}`).join("\n")}\n`,
+  );
+  expect(close!.cost).toBeGreaterThan(slight!.cost);
+});

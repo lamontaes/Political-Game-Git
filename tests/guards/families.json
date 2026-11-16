@@ -310,7 +310,8 @@
         "src/core2/person-work.ts",
         "src/core2/home-distance.ts",
         "src/core2/life-stake-rule.ts",
-        "src/core2/coverage-module-id.ts"
+        "src/core2/coverage-module-id.ts",
+        "src/core2/modules/promises.ts"
       ],
       "paths": [
         "src/core2/modules/people.ts",
@@ -408,7 +409,8 @@
         "src/core2/life-plan-readers.ts",
         "src/core2/life-stake-rule.ts",
         "src/core2/life-stakes.ts",
-        "src/core2/coverage-module-id.ts"
+        "src/core2/coverage-module-id.ts",
+        "src/core2/modules/promises.ts"
       ]
     },
     {

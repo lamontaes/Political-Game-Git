@@ -1045,15 +1045,6 @@
       "producedByFact": [
         { "eventKind": "scene.reply", "fact": "keeps", "equals": "favor-owed" }
       ]
-    },
-    {
-      "id": "promise",
-      "endsOn": "settling-record",
-      "producedBy": [],
-      "producedByFact": [
-        { "eventKind": "scene.reply", "fact": "promise" },
-        { "eventKind": "promise.answer", "fact": "promise" }
-      ]
     }
   ],
   "broadEventFlags": ["publicRecord", "news"],

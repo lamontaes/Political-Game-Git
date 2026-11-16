@@ -2559,6 +2559,7 @@
     "core2-public-action-v1": "classified in rows",
     "core2-public-projects-v1": "no table is empty at creation and filled later at the two measured places",
     "core2-public-safety-v1": "classified in rows",
+    "core2-promises-v1": "classified in playActOnly: a promise is a word given in a scene the player plays, so no place has one before the first scene",
     "core2-purchase-tax-v1": "no table is empty at creation and filled later at the two measured places",
     "core2-recalls-v1": "no table is empty at creation and filled later at the two measured places",
     "core2-record-v1": "classified in rows",
@@ -2597,6 +2598,8 @@
     "tables": [
       "candidacy.decisions",
       "candidacy.weighed",
+      "core2-promises-v1.promises",
+      "core2-promises-v1.settle",
       "part.core2-decision-detail-player-queue",
       "part.core2-free-block-plans"
     ],

@@ -43,12 +43,18 @@ export function borrowerWorld(draw: number, birth: string) {
 }
 
 /** Plays the player's days with the clock, taking the first choice at each pause (meeting-scene.test.ts). */
-export function play(core: CoreState, playerId: PersonId, days: number) {
+export function play(
+  core: CoreState,
+  playerId: PersonId,
+  days: number,
+  /** Stop partway into the last day (the player still inside it); midnight by default. */
+  minuteOfDay = 0,
+) {
   let packet: ReturnType<typeof advancePlayerV1> | undefined = advancePlayerV1(
     core,
     {
       controlledPersonId: playerId,
-      through: { date: addDays(makeIsoDate(core.date), days), minuteOfDay: 0 },
+      through: { date: addDays(makeIsoDate(core.date), days), minuteOfDay },
     },
   );
   while (packet && packet.kind !== "complete") {
