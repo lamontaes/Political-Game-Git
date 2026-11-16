@@ -8,7 +8,7 @@ piece is written right after its anchor (the piece that already held the
 slot), so the diff is additions in place and two branches that add lines to
 different slots do not touch the same lines. Nothing existing is edited,
 re-ordered or re-wrapped. A piece whose key is already in the bank is skipped,
-so the script can run again on a fresh main; a piece whose text matches
+so the script can run again on a fresh dev; a piece whose text matches
 another piece's text (any case) is refused, as the bank test requires unique
 texts. Run prettier on the bank afterwards.
 

@@ -43,7 +43,7 @@ describe("year speed budget", () => {
     };
     expect(compareYears(baseline, changed)).toEqual([]);
     expect(compareYears(baseline, changed, true)).toEqual([
-      "Year 1: a receipt has no records proof; rerun main with this run.ts",
+      "Year 1: a receipt has no records proof; rerun dev with this run.ts",
     ]);
   });
   it("names the tables whose records differ", () => {
