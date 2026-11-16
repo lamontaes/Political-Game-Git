@@ -40,28 +40,48 @@ export const relative = (file: string) =>
 export const DEVELOPER_FILE =
   /(?:^|\/)(?:[\w-]+-check|dev-[\w-]+|dev-views\/[\w-]+|tooling\/[\w/-]+)\.(?:tsx?|mjs)$/;
 
-/** A literal that is an error, a log line or a test message, not player text. */
+/**
+ * A literal that is a note, not player text, told by the call or the field it
+ * is written into, never by its file (so a player line cannot hide in a notes
+ * file): an error, a log line or a test message; a check's problem list; a
+ * record's citation or provenance; a browser check finding a control by the
+ * name the player reads (the label itself lives in controls.json).
+ */
 const DEVELOPER_CALL =
-  /(?:\b(?:Error|console\.\w+|assert\w*|fail|gap|log|warn)\([^;(){}]*|estimatedFrom:\s*)$/;
+  /(?:\b(?:Error|console\.\w+|assert\w*|fail|gap|log|warn|super|missing)\(\[?[^;(){}]*|\b(?:problems|failures|blocked)\.push\(\s*|\b(?:estimatedFrom|citation|error|hasText):\s*|\bgetByRole\([^;()]*\{\s*name:\s*)$/;
 
 /** String and template literals a player could read, comments skipped. */
 export function literals(source: string): string[] {
   const code = source
     .replace(/\/\*[\s\S]*?\*\//g, " ")
     .replace(/(^|[^:"'`\\])\/\/[^\n]*/g, "$1");
-  return [...code.matchAll(/"((?:[^"\\\n]|\\.)*)"|`((?:[^`\\]|\\.)*)`/g)]
+  // A single-quoted literal is read whole, so the double quotes inside it are
+  // not taken for literals of their own.
+  return [
+    ...code.matchAll(
+      /"((?:[^"\\\n]|\\.)*)"|`((?:[^`\\]|\\.)*)`|'((?:[^'\\\n]|\\.)*)'/g,
+    ),
+  ]
     .filter(
       (match) =>
         !DEVELOPER_CALL.test(
           code.slice(Math.max(0, match.index - 120), match.index),
         ),
     )
-    .map((match) => match[1] ?? match[2] ?? "");
+    .map((match) => match[1] ?? match[2] ?? match[3] ?? "");
 }
 
-/** Keys a data file keeps its provenance and notes under, which the player never reads. */
+/**
+ * Keys a data file keeps its provenance and notes under, which the player
+ * never reads, by field name and never by file: provenance and ids; a
+ * stopgap row's own fields; how a number was checked; a file's or a rule's
+ * about (no data file in the scanned folders is read for its about as words);
+ * any key ending Note or About; and the description maps a situation type
+ * names its fills, settings, timings and bearings in, and the picture briefs
+ * written for whoever paints them (wantedPictures, wantedScenes).
+ */
 export const RECORD_KEY =
-  /^(?:source|sources|citation|cites|retrieved|accessed|date|at|note|notes|provenance|evidence|description|estimatedFrom|reason|id|key|kind|type|name|label|title|schema|version)$/i;
+  /^(?:source|sources|citation|cites|retrieved|accessed|date|at|note|notes|provenance|evidence|description|estimatedFrom|reason|id|key|kind|type|name|label|title|schema|version|whatItFakes|replacement|addedBy|resolution|why|author|checkedAgainst|spread|about|fills|settings|timings|bearings|wantedPictures|wantedScenes|\w+Note|\w+About)$/i;
 
 export function jsonStrings(
   value: unknown,
