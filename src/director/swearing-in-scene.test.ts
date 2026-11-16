@@ -55,7 +55,13 @@ const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(10).toString("hex");
 const ATTEMPTS = 8;
 const BODIES = ["council", "county-board", "township-board"];
 const LOCAL_EXECUTIVES = ["mayor", "county-executive"];
-const ADDRESS_KINDS: readonly string[] = swearingData.address.kinds;
+/** The offices whose holder speaks when sworn in: the heads of an executive branch (executives.json), named here so the rows are checked against them. */
+const ADDRESS_KINDS: readonly string[] = [
+  "mayor",
+  "county-executive",
+  "governor",
+  "president",
+];
 const TYPE = SITUATION_LIBRARY.types.find(
   (row) => row.key === "swearing-in",
 ) as unknown as PurposeType;

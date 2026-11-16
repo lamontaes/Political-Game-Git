@@ -8,6 +8,7 @@ import { readFile, writeFile, mkdir } from "node:fs/promises";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { DevMode, type RunEvent, type LawLevel } from "./dev-mode";
 import { traceReport } from "./dev-trace";
+import { devViewList, devViewRoute, loadDevViews } from "./dev-views";
 import { compareProofs, recordProof, type RecordProof } from "./dev-proof";
 import type { CoreState } from "../core2/types";
 import type { Director } from "../director/ledger";
@@ -79,6 +80,12 @@ export async function handleDev(
   if (!path.startsWith("/api/dev/")) return false;
   const route = `${request.method} ${path.slice("/api/dev/".length)}`;
   const q = (key: string) => url.searchParams.get(key) ?? "";
+  if (route === "GET views") {
+    // The views registered from src/bench/dev-views/ (dev-views.ts), for the page's slots; no town needed.
+    await loadDevViews();
+    send(200, devViewList());
+    return true;
+  }
   const mode = devFor(world());
   const core = mode.core;
   switch (route) {
@@ -280,6 +287,11 @@ export async function handleDev(
       send(200, mode.raiseMoney(String(input.filingId)));
       return true;
     }
+    case "POST petition-short": {
+      const input = await body(request);
+      send(200, mode.petitionShort(String(input.filingId)));
+      return true;
+    }
     case "POST volunteer-cast": {
       const input = await body(request);
       send(
@@ -471,6 +483,14 @@ export async function handleDev(
     case "GET watch":
       send(200, mode.watchView(q("since") || undefined));
       return true;
+  }
+  // A route a view in src/bench/dev-views/ answers (dev-views.ts); dev mode's own routes above win.
+  await loadDevViews();
+  const viewRoute = devViewRoute(route);
+  if (viewRoute) {
+    const input = request.method === "POST" ? await body(request) : {};
+    send(200, await viewRoute({ mode, q, input }));
+    return true;
   }
   send(404, { error: "Unknown dev mode route." });
   return true;

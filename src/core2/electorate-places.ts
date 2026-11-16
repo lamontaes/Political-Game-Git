@@ -31,7 +31,8 @@ import {
   legislativeSeatParts,
 } from "./legislative-district-results";
 import { parameter } from "./parameters";
-import { corePlaceStateIdentities } from "./place-lookup";
+import { corePlaceByKey, corePlaceStateIdentities } from "./place-lookup";
+import { placeCountyPopulationShares, placeStateKey } from "./place-map";
 import { lazyValue, readJsonData } from "./reference/lazy-data";
 import { worldOffsetUnit, worldRate } from "./world-draw";
 
@@ -546,6 +547,44 @@ export function countyPlaceIdOf(
     .filter(Boolean))
     if (COUNTY_ROWS[`${usps}|${name}`]) return `county:${usps}|${name}`;
   return null;
+}
+
+/** The county the town lies in, if the world records one. */
+export function countyOf(input: {
+  seed: string;
+  placeMetadata?: Readonly<Record<string, unknown>>;
+}) {
+  const placeKey = input.placeMetadata?.placeKey as string | undefined;
+  const town = placeKey ? corePlaceByKey(placeKey) : null;
+  const usps = placeStateKey(placeKey ?? "")?.slice(3);
+  if (!town?.sourceGeoid || !usps) return null;
+  const countyName = countyPlaceIdOf(
+    input.placeMetadata?.countyNames as string | undefined,
+    usps,
+  );
+  if (!countyName) return null;
+  const electorate = statePlaces(usps, input.seed).find(
+    (row) => row.id === countyName,
+  );
+  const shares = placeCountyPopulationShares(town.sourceGeoid);
+  const geoid = [...shares].sort((a, b) => (b[1] ?? 0) - (a[1] ?? 0))[0]?.[0];
+  const county = geoid ? corePlaceByKey(`county:${geoid}`) : null;
+  if (!electorate || !geoid || !county) return null;
+  return {
+    usps,
+    geoid,
+    placeKey: placeKey!,
+    eligible: electorate.eligible,
+    jurisdictionId: county.context.jurisdiction.id as string,
+  };
+}
+
+/** The place (jurisdiction id) of the town's county, where the world records one. */
+export function countyPlaceOfWorld(world: {
+  seed: string;
+  placeMetadata?: Readonly<Record<string, unknown>>;
+}): string | null {
+  return countyOf(world)?.jurisdictionId ?? null;
 }
 
 /** A state's 2024 Republican two-party share for president, as published. */

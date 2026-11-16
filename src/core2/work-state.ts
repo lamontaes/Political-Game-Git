@@ -314,6 +314,38 @@ export function recordDiscretionaryTime(
   });
 }
 
+/**
+ * An office's minutes in a person's day (office-hours-never-fill-an-officials-day):
+ * the work clock's minutes, as a shift's are, so the hours left for anything
+ * else (`discretionaryHours`) count them. No pay moves here: an official's pay
+ * is their office's own (official-pay.ts, office-day.ts). Bounded by what is
+ * left of the day; returns the minutes recorded.
+ */
+export function recordOfficeTime(
+  core: CoreState,
+  api: CoreAPI,
+  personId: string,
+  minutes: number,
+): number {
+  if (!core.people.has(personId) || !Number.isFinite(minutes))
+    throw new Error("Invalid office time.");
+  const taken = Math.min(
+    Math.max(minutes, api.parameter("zero")),
+    discretionaryHours(api, personId) * api.parameter("minutesPerHour"),
+  );
+  if (taken <= api.parameter("zero")) return api.parameter("zero");
+  const time = core.work.timeByPerson.get(personId);
+  const today = time?.date === core.date;
+  core.work.timeByPerson.set(personId, {
+    date: core.date,
+    workMinutes: (today ? time.workMinutes : api.parameter("zero")) + taken,
+    discretionaryMinutes: today
+      ? time.discretionaryMinutes
+      : api.parameter("zero"),
+  });
+  return taken;
+}
+
 /** Indexed completed weekly buckets only; full focus receipts and cumulative totals remain. */
 export function compactQuietWorkResults(core: CoreState, api: CoreAPI): void {
   const data = core.data.work;

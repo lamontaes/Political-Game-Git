@@ -69,6 +69,17 @@ export async function devCampaignPanel({ labels, onDone }) {
       out.mark.id,
     ].join(" · ");
   });
+  const behind = makeButton({ className: "action" }, labels.petitionBehind);
+  behind.dataset.testid = "dev-petition-behind";
+  act(behind, async () => {
+    const out = await send("petition-short", { filingId: campaign.value });
+    return [
+      out.told ? labels.petitionTold : labels.petitionNotTold,
+      ...(out.tellerId ? [out.tellerId] : []),
+      `${out.signed}/${out.gathers}`,
+      out.mark.id,
+    ].join(" · ");
+  });
   const cast = (yes) => async () => {
     if (!people.value) throw new Error(labels.nobody);
     const out = await send("volunteer-cast", {
@@ -88,7 +99,7 @@ export async function devCampaignPanel({ labels, onDone }) {
     "section",
     { className: "dev-only dev-campaign" },
     el("h3", { textContent: labels.title }),
-    el("div", { className: "dev-run-row" }, campaign, give),
+    el("div", { className: "dev-run-row" }, campaign, give, behind),
     el("div", { className: "dev-run-row" }, people, yes, no),
     result,
   );

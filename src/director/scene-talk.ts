@@ -40,6 +40,7 @@ import {
   sceneMovesWritten,
   wordSceneMove,
   type Fact,
+  type Placed,
   type SceneMove,
   type SceneTalkStep,
 } from "../english/scene-talk-words";
@@ -234,6 +235,8 @@ export interface SceneTalkLine {
   asks: boolean;
   /** The English engine says the line hands the floor over ("Go ahead."). */
   invites: boolean;
+  /** Why the English engine placed this wording here (dev mode's "why this reply"). */
+  placed?: Placed;
 }
 
 export interface SceneTalkRound {
@@ -351,6 +354,8 @@ export interface AskStanding {
   favor: number;
   /** They ask the player one thing before they answer (`asks.first`). */
   asksFirst?: boolean;
+  /** They would say no but no reason of theirs has a line: they stall first, then say the answer is given. */
+  noReason?: boolean;
   /** Their position were the player to leave their own stance unsaid. */
   hedged?: number;
   /**
@@ -738,6 +743,7 @@ export function composeSceneTalk(
       ...(worded.tag ? { tag: worded.tag } : {}),
       asks: worded.asks,
       invites: worded.invites,
+      ...(worded.placed ? { placed: worded.placed } : {}),
     };
   };
   let unusedGap = "";
@@ -1149,7 +1155,11 @@ export function composeSceneTalk(
             ? [ask.absent ?? ask.relent[zero]!]
             : ask.relent;
     const first = theirs(
-      standing.lean > zero ? [ask.yes] : carried ? [ask.carried] : [ask.no],
+      standing.lean > zero
+        ? [ask.yes]
+        : carried || standing.noReason
+          ? [ask.carried]
+          : [ask.no],
       request,
       "first",
       said,

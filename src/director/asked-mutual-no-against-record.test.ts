@@ -11,7 +11,13 @@ import { spokenWhenRow } from "./words";
 // 9f8e7d6c5b4a3921, Mar 2, 2025), the director's own scenes over its first
 // four months. The player still has a choice of acts: the true answer, or
 // the true answer with a question back, said with the person's pronoun.
-const SEED = "9f8e7d6c5b4a3921";
+// Re-pinned Nov 16 from seed 9f8e7d6c5b4a3921 to d4 (Sidon, Mississippi). Old premise: at that seed the
+// world had a scene that ends in this question; since start at 18 moved the people and the
+// opening, none leads to it any more (0 asked of 45 and 48 scenes), and asked-mutual is no
+// opening subject, only a follow-up. Scanned over 120 days at nine seeds: asked at a1, d4, f6
+// and 18 (one to three times), never at 7952d3f3, 9f8e7d6c, b2, e5 or 07. Red at the old seed
+// (0 asked), green at d4.
+const SEED = "d4";
 const NO = /^(not|brief)$/;
 
 describe("asked after someone the player saw lately", () => {

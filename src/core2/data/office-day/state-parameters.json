@@ -102,6 +102,13 @@
       "tag": "TUNABLE",
       "source": "The share of a term a person has served that, with a neutral temperament, tips a governor to grant clemency: commutations go overwhelmingly to people far into long terms. A trait lean moves it either way; no dataset in the repository measures it.",
       "spread": [0.5, 0.95]
+    },
+    "postDayHours": {
+      "value": 8,
+      "tag": "ESTIMATED",
+      "source": "Hours a weekday at the post takes from an official whose office is their job (a governor, a statewide officer, a full-time legislator on a district or interim day) when no sitting or meeting record says more: an ordinary full-time working day. From memory, not fetched: full-time state legislators and executives report working weeks of forty to sixty hours (NCSL, 'Full- and Part-Time Legislatures'). The spread runs from a short office day to a long one.",
+      "spread": [7, 10],
+      "role": "coefficient"
     }
   }
 }

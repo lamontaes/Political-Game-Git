@@ -307,6 +307,9 @@
     "donorsGive": "Donors give",
     "raised": "Raised",
     "noneGave": "No one gave",
+    "petitionBehind": "Petition falls behind",
+    "petitionTold": "Told it is short",
+    "petitionNotTold": "Not told before the deadline",
     "saysYes": "Says yes to volunteering",
     "saysNo": "Says no to volunteering",
     "nobody": "No one to ask"
@@ -761,7 +764,8 @@
     "strong": "Strong",
     "mild": "Moderate",
     "views": "Politics",
-    "viewUnknown": "You don't know where they stand yet.",
+    "viewUnknown": "You don't know where {lower} stands yet.",
+    "viewUnknownThey": "You don't know where they stand yet.",
     "viewAbout": "Cares most about {about}.",
     "townPeople": "Population {n}",
     "townMoves": "{in} moved in, {out} moved out this year"
@@ -1059,6 +1063,14 @@
     "cantFileResidency": "You can't file for this race. It serves {required}, and your address is in {actual}.",
     "cantFileAge": "You can't file for this race yet. The age to file is {required}, and you are {actual}.",
     "cantFile": "You can't file for this race.",
+    "yourOffices": "Offices you can run for",
+    "alsoOnBallot": "Also on your ballot",
+    "countyOffice": "County office",
+    "refusal": {
+      "not-your-office": "You can't run for this office.",
+      "window-not-open": "Filing for this race hasn't opened yet.",
+      "window-closed": "Filing for this race has closed."
+    },
     "noBallot": "No local election is on the calendar",
     "dates": "Dates",
     "electionDay": "Election day",
@@ -1382,6 +1394,8 @@
     "asking": "Asking for",
     "askingSignatures": "Signatures",
     "askingVotes": "Votes",
+    "askingWhySignatures": "Your petition holds {signed} of the {needed} the clerk asks for. You keep asking for signatures until it holds {target}. After that you ask for the vote.",
+    "askingWhyVotes": "Your petition holds {signed} of the {needed} the clerk asks for. That is enough, so from here you ask for the vote.",
     "endorsements": "Endorsements",
     "go": "Go",
     "howLong": "How long",
@@ -1476,6 +1490,10 @@
     "veto": "Veto",
     "override": "Override",
     "chairHears": "Chair hears it",
+    "splitAbstain": "{name} abstains to hold the margin: {members} voting members, {vacancy}",
+    "noSeatVacant": "no seat vacant",
+    "oneSeatVacant": "one seat vacant",
+    "seatsVacant": "{n} seats vacant",
     "outcome": "What came of it",
     "addedSections": "Sections added by a trade: {n}",
     "noLaw": "No law row yet",
@@ -1494,6 +1512,18 @@
       "money": "Money moved",
       "governmentOwn": "Committed on the government's own record, not paid",
       "none": "No record names this law yet"
+    },
+    "ended": {
+      "repealed": "Ended by this bill",
+      "replaced": "Took over from",
+      "endsOn": "Ends {date}",
+      "endedOn": "Ended {date}",
+      "replacedOn": "Replaced {date}",
+      "runToEnd": "Run until it ends",
+      "whileInForce": "Who it reached while in force",
+      "noLongerReached": "No longer reached",
+      "since": "last ended {date}",
+      "noneEnded": "None of its reach has ended yet"
     },
     "endings": {
       "pending": "Not decided yet",
@@ -1541,5 +1571,18 @@
     "trace": "Trace",
     "why": "Why",
     "came": "What came of it"
+  },
+  "devReplyWhy": {
+    "title": "Why these lines",
+    "cause": "Started by",
+    "facts": "What the scene knows",
+    "said": "Said just now",
+    "replies": "Your replies",
+    "needs": "Needs",
+    "rulesOut": "Would be ruled out by",
+    "after": "Follows",
+    "ties": "Also fit",
+    "nothing": "nothing",
+    "unplaced": "No use recorded"
   }
 }

@@ -7,7 +7,6 @@
  * the desk, the deals, the bill's stage and page, Bills and Coming up are read, and any number
  * that reads as a year, a dash and a number fails, by place and seed (BILL_SEED replays).
  */
-import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { gameStartDate } from "../core2/game-start";
@@ -20,10 +19,23 @@ import { officeView } from "./office";
 import { BenchPlayer } from "./player";
 import { buildBenchWorld } from "./world";
 
-const seed = process.env.BILL_SEED ?? randomBytes(8).toString("hex");
+// Pinned (Nov 16, trial batch). Before, the seed came at run time from
+// process.env BILL_SEED or randomBytes, so the places it drew changed every
+// run. The fixed seed below draws Sinajana, Guam (territory:GU:sinajana) first
+// for "bill-numbers-worded".
+// Limit: the slowest case took 46 s, run two files at a time (Nov 16,
+// Train 6d12556a); each case's limit is about twice that, 100 s.
+const seed = "pin-bill-numbers-worded";
 /** A designation said bare: a year, a dash and a number ("2025-8"), or no word at all. */
 const bare = (text: unknown) =>
   typeof text === "string" && /^\s*\d{4}-\d+\s*$/.test(text);
+
+it("draws its pinned place from the fixed seed", () => {
+  expect(drawPlace(`${seed}:0`, "bill-numbers-worded")).toMatchObject({
+    key: "territory:GU:sinajana",
+    name: "Sinajana, Guam",
+  });
+});
 
 describe(`a bill's number is said with its word on every screen (seed ${seed})`, () => {
   it("reaches no bench view bare", () => {
@@ -148,5 +160,5 @@ describe(`a bill's number is said with its word on every screen (seed ${seed})`,
     throw new Error(
       `no draw seated a full person on a local body: ${tried.join("; ")}`,
     );
-  }, 600_000);
+  }, 100_000);
 });

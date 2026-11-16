@@ -305,7 +305,7 @@ export interface Relationship {
   /**
    * When the last change came apart (`RelationshipReason.apart`): the day the
    * two were last together, or null when they never were. Absent, they were
-   * together on `lastContactDate`. Read through `lastTogether`.
+   * together on `lastContactDate`. Read through `lastMetOnRow`.
    */
   lastMetDate?: IsoDate | null;
   /**
@@ -1231,6 +1231,12 @@ export interface CoreAPI {
     source: Source,
   ): void;
   recordDiscretionaryTime(personId: PersonId, minutes: number): void;
+  /**
+   * Minutes an office took from a person's day (a sitting, a committee, a
+   * day at a post), on the same clock as a shift's minutes, with no pay; the
+   * day's remaining hours bound it. Returns the minutes recorded.
+   */
+  recordOfficeTime(personId: PersonId, minutes: number): number;
   relationship(
     actorId: PersonId,
     otherId: PersonId,

@@ -5118,6 +5118,55 @@ select.release-pick {
   white-space: nowrap;
 }
 
+/* Dev mode's Industries panel: industries, a picked industry's businesses, a picked business's months. */
+.dev-industries,
+.dev-industry-businesses,
+.dev-industry-months {
+  display: table;
+  width: 100%;
+  margin-bottom: 10px;
+  border-collapse: collapse;
+  font: 400 var(--t-ui) var(--ui);
+  font-variant-numeric: tabular-nums lining-nums;
+  color: var(--cream);
+}
+.dev-industries tr,
+.dev-industry-businesses tr,
+.dev-industry-months tr {
+  display: table-row;
+}
+.dev-industries th,
+.dev-industry-businesses th,
+.dev-industry-months th {
+  display: table-cell;
+  padding: 4px 12px 4px 0;
+  text-align: left;
+  font: 600 var(--t-label) var(--ui);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+.dev-industries td,
+.dev-industry-businesses td,
+.dev-industry-months td {
+  display: table-cell;
+  padding: 3px 12px 3px 0;
+  white-space: nowrap;
+}
+.dev-industries tr.item,
+.dev-industry-businesses tr.item {
+  cursor: pointer;
+}
+.dev-industries tr.on,
+.dev-industry-businesses tr.on {
+  color: var(--gold);
+}
+.dev-industry-months .id {
+  margin-right: 6px;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
 /* Journal (Nov 8 play mock, pl-journal): two columns of prose with a drop cap. */
 .journal-text {
   column-count: 2;

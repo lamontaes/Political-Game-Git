@@ -5,10 +5,10 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/project-thread-5efbu8-movepairs
+pr: 9602
 after:
 blocked-on:
 lead: words
@@ -33,3 +33,5 @@ source: Found while gating #9279 (Nov 14); red the same on the clean train 8bb1f
 **Waits on.** Nothing.
 
 **Files.** src/director/talk-move-pairs.test.ts
+
+**Notes.** Nov 16, election-results thread: red at seed 82998207500ce8e2 on the Train ef708196 (Basco, Illinois: the second talk said "The President is for admitting more immigrants..." after "Ask me about paid family leave."). Fixed in the test: the graded talk opens in a twin world built from the same seed and played the same days, so both talks are that day's first with that person; pinned to Basco, Illinois (1704052) and Platteville, Colorado (0860160) with their seeds; green at both (14 and 18 talks, 12 and 18 moved). 75 s alone, 83 s beside two talk tests, limit 180 s.

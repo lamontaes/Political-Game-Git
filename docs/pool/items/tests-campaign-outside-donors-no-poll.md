@@ -5,7 +5,7 @@ area: elections
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: merged
 standard: 2
 claimed-by: claude/pool-tests-campaign-outside-donors-no-poll
 pr: #8749
@@ -19,6 +19,7 @@ root: none
 checked: fable 2026-11-10
 claimed-at: 2026-11-11T07:58:02.759Z
 branch: claude/pool-tests-campaign-outside-donors-no-poll
+merged-at: 2026-11-15T22:51:27.621Z
 ---
 
 **What.** src/core2/campaign-outside-donors.test.ts fails on clean main: 'no wider race with outside gifts in 6 places' (GOLDEN_PATH_SEED=pet-run-1: Strasburg, North Dakota; Onaway, Idaho; Amsterdam, Ohio; Mountain City, Georgia; Lake Point, Utah; Big Coppitt Key, Florida). No campaign ever starts: the test files on the opening day, and no state or federal race is open for filing then. The Oct 28 symptom (a 2030 Senate campaign that bought no poll) is gone with it. Guards: a statewide campaign's outside donors and its poll, which the player sees on the campaign screen.
