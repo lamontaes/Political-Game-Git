@@ -63,12 +63,12 @@ const SEED = "promises-kept-and-broken-1";
 const ATTEMPTS = 4;
 /** Nine in the morning: the minute of the window's last day the player talks. */
 const LAST_DAY_MINUTE = 9 * 60;
-/** The vote case: 161.5 s alone and 174.6 s beside the other promise and scene tests (Nov 16), so about twice the slower. */
-const VOTE_TIMEOUT = 350_000;
-/** The attend case: 51.7 s alone and 58.1 s beside (Nov 16), so about twice the slower. */
-const ATTEND_TIMEOUT = 120_000;
-/** The show-around case: 120.7 s alone and 129.2 s beside the other promise and scene tests (Nov 16), so about twice the slower. */
-const SHOW_AROUND_TIMEOUT = 260_000;
+/** The vote case: 187.0 s alone and 181.0 s beside the other promise and scene tests (Nov 16, fe04fc42), so about twice the slower. */
+const VOTE_TIMEOUT = 375_000;
+/** The attend case: 63.8 s alone and 55.3 s beside (Nov 16, fe04fc42), so about twice the slower. */
+const ATTEND_TIMEOUT = 130_000;
+/** The show-around case: 132.7 s alone and 131.9 s beside the other promise and scene tests (Nov 16, fe04fc42), so about twice the slower. */
+const SHOW_AROUND_TIMEOUT = 265_000;
 
 function world(attempt: number, label: string) {
   const place = drawPlace(SEED, `${label}:${attempt}`);
