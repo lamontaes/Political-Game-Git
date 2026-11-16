@@ -26,9 +26,9 @@ root: none
 
 **Time box.** 2 hours for one Opus session at medium effort. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
 
-**Rules.** Fix at the root; never loosen the test.
+**Rules.** Ask why: the fix names, by record, why the named worker's pay carried no city income tax, and never loosens the test.
 
-**Done when.** The test passes at replay cto1 and a second session sees a named worker's withholding in dev mode's reach of the city income tax.
+**Done when.** The test passes at replay cto1, and a second session in a drawn place with a city income tax (named, with its seed) sees a named worker's withholding in dev mode's reach of that law.
 
 **Waits on.** Nothing.
 
