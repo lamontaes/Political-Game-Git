@@ -16,21 +16,22 @@
  * Places: Storrs, Connecticut (0973980), the item's case (its 11,452 of
  * 15,207 residents in group quarters once rented as households and filled
  * the year with evictions); Ogden, Utah, whose sample holds residents of a
- * prison, a juvenile facility or a military base; and Muscatine, Iowa, with
+ * prison, a juvenile facility or a military base; and Brewer, Maine, with
  * group quarters of its own.
  *
  * Pinned (Nov 16). Before, the test drew its seed at run time from
  * GOLDEN_PATH_SEED or randomBytes and drew the second and third places from
  * it with `drawPlace`'s accept tests, so a red came and went with the draw.
  * The places were found once by running the old draw at seeds pin-gq-0 to
- * pin-gq-2: pin-gq-1 passed all three (Storrs, Ogden, Muscatine). Two faults
- * seen at other draws stay here as red cases: Storrs at seed 085af212… holds
- * a group-quarters home neither opened nor admitted (item
- * tests-group-quarters-room-neither-opened-nor-admitted), and Holden, West
- * Virginia, the institution draw at pin-gq-0, returns a room met on day one
- * to the counts with no tenure (item
- * tests-group-quarters-met-room-returns-without-group-tenure; Mount Hope,
- * West Virginia at pin-gq-2 fails the same way).
+ * pin-gq-2 (Storrs and Ogden at pin-gq-1, Brewer at pin-gq-0). Two faults
+ * stay here as red cases. Muscatine, Iowa (pin-gq-1's third draw) holds a
+ * group-quarters home neither opened nor admitted on the Train at f26c10de
+ * (item tests-group-quarters-room-neither-opened-nor-admitted; on the Train
+ * at a62a2fda the same fault showed at Storrs, seed 085af212…, and the fault
+ * moves between places as the code changes). Holden, West Virginia (the
+ * institution draw at pin-gq-0) returns a room met on day one to the counts
+ * with no tenure (item tests-group-quarters-met-room-returns-without-group-
+ * tenure; Mount Hope, West Virginia at pin-gq-2 fails the same way).
  */
 import { describe, expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
@@ -86,7 +87,10 @@ const stateFilingRate = (usps: string | undefined) => {
   return row ? `${usps} ${String(row[rate])} (${String(row[2])})` : "none";
 };
 
-describe("group quarters in the played world", { timeout: 1_800_000 }, () => {
+// Limit: the slowest case took 373.8 s (Muscatine) and the others 282.9 s
+// (Storrs), 371.5 s (Ogden), 305.2 s (Brewer) and 68.5 s (Holden), run one
+// file at a time; twice the slowest is about 750 s.
+describe("group quarters in the played world", { timeout: 750_000 }, () => {
   it.each([
     {
       key: "0973980",
@@ -102,17 +106,18 @@ describe("group quarters in the played world", { timeout: 1_800_000 }, () => {
       institutions: true,
     },
     {
-      key: "1955110",
+      key: "2306925",
       worldSeed:
-        "699ba32e2ba2dbfca445ba8ce32f5b6b504de63eb4b81c18db5aa95b075ca764",
+        "f8a777ef05665c5c2d45c5f0c5f5fdcf65f128e5592031839c62f0f134041964",
       filingCheck: false,
       institutions: false,
     },
     // Red: tests-group-quarters-room-neither-opened-nor-admitted.
     {
-      key: "0973980",
-      worldSeed: "085af212ffbc1c6c40eb8b1d4c7b8799395ba939",
-      filingCheck: true,
+      key: "1955110",
+      worldSeed:
+        "699ba32e2ba2dbfca445ba8ce32f5b6b504de63eb4b81c18db5aa95b075ca764",
+      filingCheck: false,
       institutions: false,
     },
     // Red: tests-group-quarters-met-room-returns-without-group-tenure.
