@@ -74,6 +74,7 @@ import {
   lawNeedsChange,
   lawChain,
   LAWS_MODULE_ID,
+  labelOfAnotherAtLevel,
   questionSettled,
   type SettledQuestion,
 } from "./laws";
@@ -175,10 +176,19 @@ function questionForLevel(
   const kind =
     JURISDICTIONS[state.slice(state.lastIndexOf("-") + 1)]?.jurisdictionKind;
   const levels = QUESTION_SCOPES[question]?.levels ?? [];
-  return kind === "federal-district" && level !== "federal"
-    ? levels.some((own) => ["state", "county", "city"].includes(own))
-    : levels.includes(level);
+  const scoped =
+    kind === "federal-district" && level !== "federal"
+      ? levels.some((own) => ["state", "county", "city"].includes(own))
+      : levels.includes(level);
+  // One label per rule at a level: a question this level reads as another
+  // platform question's rule is that question's label here, not a decision.
+  return scoped && !labelOfAnotherAtLevel(question, level, platform());
 }
+
+/** The platform questions as a set, built on first use: a load-order cycle can leave the list unset while modules load. */
+let platformSet: ReadonlySet<string> | undefined;
+const platform = (): ReadonlySet<string> =>
+  (platformSet ??= new Set(PLATFORM_QUESTIONS));
 
 /**
  * Whether the government an office belongs to may decide a policy question

@@ -97,3 +97,19 @@ export const POLICY_SERIES_BY_LEVEL: Readonly<
 export function policySeriesAtLevel(question: string, level: string): string {
   return POLICY_SERIES_BY_LEVEL[question]?.[level] ?? question;
 }
+
+/**
+ * Whether a level reads this question as another platform question's rule:
+ * then it is that question's label at this level, not a decision of its own
+ * (the states' wage question is Congress's federal wage question at the
+ * federal level). One label per rule at each level; the data decides, never a
+ * list of names. `platform` is the set of platform questions.
+ */
+export function labelOfAnotherAtLevel(
+  question: string,
+  level: string,
+  platform: ReadonlySet<string>,
+): boolean {
+  const series = policySeriesAtLevel(question, level);
+  return series !== question && platform.has(series);
+}
