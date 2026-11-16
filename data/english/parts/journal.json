@@ -4618,29 +4618,6 @@
       }
     },
     {
-      "key": "journal.memoir-hook.i-still-remember-what-day-of-the-week-it-was",
-      "move": "memoir-hook",
-      "kind": "spoken",
-      "text": "I still remember what day of the week it was.",
-      "uses": [
-        {
-          "move": "memoir-hook",
-          "subject": "memoir",
-          "role": "hook",
-          "choice": "hook",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "hook"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (leftovers deletion, Nov 16)",
-      "date": "2026-11-16"
-    },
-    {
       "key": "journal.memoir-hook.i-didnt-know-that-at-the-time",
       "move": "memoir-hook",
       "kind": "spoken",

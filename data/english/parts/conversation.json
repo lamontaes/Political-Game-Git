@@ -8422,7 +8422,8 @@
           "move": "acquittal-reply-back-core",
           "subject": "acquittal-reply-back",
           "role": "core",
-          "stages": ["comfort"]
+          "stages": ["comfort"],
+          "requiresFacts": ["told-offense"]
         }
       ],
       "piece": {
@@ -8445,7 +8446,8 @@
           "move": "acquittal-reply-back-core",
           "subject": "acquittal-reply-back",
           "role": "core",
-          "stages": ["comfort"]
+          "stages": ["comfort"],
+          "requiresFacts": ["told-offense"]
         }
       ],
       "piece": {
@@ -8561,7 +8563,14 @@
           "move": "charge-reply-back-core",
           "subject": "charge-reply-back",
           "role": "core",
-          "stages": ["ask"]
+          "stages": ["ask"],
+          "excludesFacts": [
+            "plea",
+            "told-plea",
+            "trial",
+            "told-trial",
+            "bailPosted"
+          ]
         }
       ],
       "piece": {
@@ -8584,7 +8593,14 @@
           "move": "charge-reply-back-core",
           "subject": "charge-reply-back",
           "role": "core",
-          "stages": ["ask"]
+          "stages": ["ask"],
+          "excludesFacts": [
+            "plea",
+            "told-plea",
+            "trial",
+            "told-trial",
+            "bailPosted"
+          ]
         }
       ],
       "piece": {
