@@ -133,5 +133,17 @@
     "status": "resolved",
     "resolvedAt": "2026-11-10",
     "resolvedBy": "stand-in triage"
+  },
+  {
+    "id": "SG-LAWS-revenue-hole-rate-share",
+    "kind": "estimated-calibration",
+    "file": "src/core2/budget-stakes.ts",
+    "line": 68,
+    "whatItFakes": "A member weighing a bill that lowers a tax rate reads the revenue it gives up as the cut's share of the rate times the tax's line in the budget in force, as if what the tax brings in fell in step with its rate.",
+    "why": "No record prices a new rate or schedule against the payers' incomes before it is law; the treasury learns what a rate brings in only from the months after it takes effect.",
+    "addedBy": "claude/laws-congress-income-tax-repeal",
+    "addedAt": "2026-11-16",
+    "replacement": "A fiscal note for the bill: the tax engine's own withholding and payment readers run on the proposed rate over the payers on record, and the member reads the note's dollars in place of the rate's share.",
+    "status": "open"
   }
 ]

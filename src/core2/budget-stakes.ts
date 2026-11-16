@@ -5,9 +5,84 @@
  * (data/research/federal/federal-spending-by-state-fy2024.json); each world's
  * stake is drawn around the published one (owner, Oct 27: realistic, not real).
  */
-import { budgetWorldFactor } from "./modules/budgets";
+import {
+  budgetsOf,
+  budgetWorldFactor,
+  governmentOfJurisdiction,
+} from "./modules/budgets";
 import type { CoreAPI } from "./types";
 import spending from "../../data/research/federal/federal-spending-by-state-fy2024.json" with { type: "json" };
+import revenueLines from "./data/legislature/revenue-lines.json" with { type: "json" };
+
+const REVENUE = revenueLines as unknown as {
+  questions: Record<string, { line: string; endsOn: number } | undefined>;
+  series: Record<string, { line: string } | undefined>;
+};
+
+/** One change a bill makes to the law: an answer to a question, or a rate moved from one amount to another. */
+export type RevenueChange =
+  | { readonly question: string; readonly direction: number }
+  | {
+      readonly series: string;
+      readonly from: number | null;
+      readonly to: number;
+    };
+
+/** Whether any budget's revenue line rests on this question or series (a cheap test before the budget is read). */
+export function carriesRevenue(key: string | undefined): boolean {
+  return (
+    key !== undefined &&
+    (REVENUE.questions[key] !== undefined || REVENUE.series[key] !== undefined)
+  );
+}
+
+/**
+ * The share of a government's planned revenue, in its budget in force, that
+ * one change to its own law gives up (0 to 1): the whole line for an answer
+ * that ends the tax, and the cut's share of the line for a rate lowered. A
+ * member weighing the bill reads it as the hole the change leaves in the
+ * budget they must still pass (legislature positionOfMember, the agenda's
+ * filingReason). Nothing for a government with no such line in its budget (a
+ * state with no income tax), for a raise, or for a law no revenue line rests
+ * on: what a raise brings in is already in the member's own view of it.
+ */
+export function revenueGivenUp(
+  api: CoreAPI,
+  jurisdiction: string,
+  change: RevenueChange,
+): number {
+  let line: string | undefined;
+  let cut = 0;
+  if ("question" in change) {
+    const row = REVENUE.questions[change.question];
+    if (row && Math.sign(change.direction) === row.endsOn) {
+      line = row.line;
+      cut = 1;
+    }
+  } else if (
+    change.from !== null &&
+    change.from > 0 &&
+    change.to < change.from
+  ) {
+    line = REVENUE.series[change.series]?.line;
+    // stopgapId: SG-LAWS-revenue-hole-rate-share
+    // A rate cut is read as giving up the same share of its line; no record
+    // prices a new schedule against the payers' incomes before it is law.
+    if (line) api.stopgap("SG-LAWS-revenue-hole-rate-share");
+    cut = 1 - Math.max(0, change.to) / change.from;
+  }
+  if (!line || cut <= 0) return 0;
+  const government = governmentOfJurisdiction(api, jurisdiction);
+  if (!government) return 0;
+  const budget = budgetsOf(api, government.id)
+    .filter((b) => b.startsOn <= api.state.date)
+    .sort((a, b) => a.startsOn.localeCompare(b.startsOn))
+    .at(-1);
+  if (!budget) return 0;
+  const planned = Object.values(budget.revenueMinor).reduce((a, v) => a + v, 0);
+  const carried = budget.revenueMinor[line] ?? 0;
+  return planned > 0 && carried > 0 ? (carried / planned) * cut : 0;
+}
 
 const LINES = (
   spending as unknown as {

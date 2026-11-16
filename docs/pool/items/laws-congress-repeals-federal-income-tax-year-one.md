@@ -5,9 +5,9 @@ area: laws
 kind: bug
 priority: 1
 size: M
-status: open
+status: in-pr
 standard: 2
-claimed-by:
+claimed-by: laws-and-effects (builder crew, Nov 16)
 pr:
 after:
 blocked-on:
@@ -33,3 +33,5 @@ source: Red desk, Nov 12 (golden-path M0-13 red on main, reported by merger sonn
 **Waits on.** Nothing.
 
 **Files.** src/core2/modules/world-legislating.ts, src/core2/law-reach/group-b-money.ts, tests/golden-path/played-world.node-test.ts
+
+**Notes.** Nov 16 (Laws and effects lane, branch claude/laws-congress-income-tax-repeal): read on main ca195112. Congress no longer files this question at all, because its agenda now admits only the questions in `data/research/campaigns/federal-questions-2026.json` that name a reader, and this one is not there; Exeter at the seed above keeps the tax through 2025-06-01. The reason the Fix asks for was still missing, so a rider, a player's bill, a state body or a wider list would bring the repeal back. Built: every member's position on a bill, and every member's reason to file, now carries the share of their own government's planned revenue the bill gives up (`revenueGivenUp` in src/core2/budget-stakes.ts, weight `budgetHoleWeight`, data in src/core2/data/legislature/revenue-lines.json).
