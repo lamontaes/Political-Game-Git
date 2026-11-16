@@ -27,7 +27,7 @@ claimed-at:
 
 **Time box.** 5 hours.
 
-**Rules.** Every effect can be triggered from the game's own code in dev mode and its effect seen and traced there (owner, Nov 14): a Journal line is an effect of its records, and the trace shows them. Bookkeeping is a debug switch: the extra fields exist only in dev mode and tests, never in play. Words come from labels, never raw kinds or ids on the player's screen. Read-only: opening a trace spends no game time.
+**Rules.** An effect is a read, not a record: the trace reads each Journal line's records and shows them without keeping a copy. Every effect can be triggered from the game's own code in dev mode and its effect seen and traced there (owner, Nov 14): a Journal line is an effect of its records, and the trace shows them. Bookkeeping is a debug switch: the extra fields exist only in dev mode and tests, never in play. Words come from labels, never raw kinds or ids on the player's screen. Read-only: opening a trace spends no game time.
 
 **Done when.** In a played world built with buildBenchWorld at a named place and seed, in dev mode, a second session opens a Journal line's Trace and sees its records and the other eligible wordings, and opens a chapter's trace and sees the record that opened it, by record id in the trace box; in play (dev mode off) none of it appears.
 
