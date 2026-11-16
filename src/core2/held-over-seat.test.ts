@@ -46,7 +46,7 @@ function world(seed: string, place: string) {
     collapseToTwoLevels({ ...full, playerId: player.id }),
   );
   openLaws(core);
-  openOffices(core, seed, core.date);
+  openOffices(core, seed);
   openElections(core);
   openCampaigns(core);
   openParties(core);

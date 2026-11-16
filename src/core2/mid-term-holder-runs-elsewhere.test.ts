@@ -69,7 +69,7 @@ function playTo(seed: string, date: string) {
     }),
   );
   openLaws(core);
-  openOffices(core, seed, core.date);
+  openOffices(core, seed);
   openElections(core);
   openCampaigns(core);
   openParties(core);
