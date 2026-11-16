@@ -15,7 +15,7 @@ description: How Our Civic Duty reads an official's or a town's term by policy a
 
 ## The kind of an address
 
-- `address-kind.ts` scores six kinds (crisis, combative, hopeful, victory, mourning, policy) as what the world gives the kind to say times one plus the speaker's mean trait pull (`src/director/data/address-kinds.json`). Highest wins, ties by name. No roll. A President in their first year cannot take `victory`.
+- `address-kind.ts` scores six kinds (crisis, combative, hopeful, victory, mourning, policy) as what the world gives the kind to say times one plus the speaker's mean trait pull (`src/director/data/address-kinds.json`). Highest wins, ties by name. No roll. A President in their first year cannot take `victory`. The President's address speaks to the country and carries no town ties: no line or fact in it is tied to the President's home town (Account lead, Nov 16).
 - A bank piece with `addressKind` belongs to that kind; a kind with pieces of its own for a role says only those and every other kind says the role's general pieces (`variantsFor`). Every piece needs both voices (polished, plain) and, for each, both subjects (`inaugural`, `state-of-the-union`); `english-opening-speech.test.ts` fails on a missing pair. A new area topic needs `<area>-worse` and `<area>-better` pieces with `topic` and `requiresFacts`.
 - Bank pieces (`data/english/parts/opening-speech.json`) are written by the Story session only (owner, Nov 10). A builder lists the kinds, subjects and voices that lack pieces on the item's pull request. Story generates them with a throwaway script and runs `npx prettier --write` on the bank after; nobody hand-edits a 200-piece file.
 

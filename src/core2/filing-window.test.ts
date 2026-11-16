@@ -43,7 +43,7 @@ it(`every regular contest opens its filing on a read or estimated day, not on th
       }),
     );
     openLaws(core);
-    openOffices(core, place.seed);
+    openOffices(core, place.seed, core.date);
     openElections(core);
     const api = coreAPI(core);
     const contests = (

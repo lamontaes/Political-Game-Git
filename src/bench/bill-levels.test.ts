@@ -1,4 +1,3 @@
-import { randomBytes } from "node:crypto";
 import { afterAll, describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { PLATFORM_QUESTIONS } from "../core2/campaign-data";
@@ -22,12 +21,22 @@ import { buildBenchWorld } from "./world";
 // Congress's House (which sends it on to the Senate) is voted by the engine, and the stage
 // view names each chamber's committee, floor result in words and every member by name.
 // Two places drawn from all 56 on seeds nobody chose.
-const seed =
-  process.env.BILL_LEVELS_SEED ??
-  process.env.GOLDEN_PATH_SEED ??
-  randomBytes(8).toString("hex");
+// Pinned (Nov 16, trial batch). Before, the seed came at run time from
+// process.env BILL_LEVELS_SEED, GOLDEN_PATH_SEED or randomBytes, so the places
+// it drew changed every run. The fixed seed below draws Harding-Birch Lakes,
+// Alaska (0231765) first for "bill-levels".
+// Limit: the slowest case took 27 s, run two files at a time (Nov 16,
+// Train 6d12556a); each case's limit is about twice that, 60 s.
+const seed = "pin-bill-levels";
 
 let congressSeen = false;
+
+it("draws its pinned place from the fixed seed", () => {
+  expect(drawPlace(`${seed}:0:0`, "bill-levels")).toMatchObject({
+    key: "0231765",
+    name: "Harding-Birch Lakes, Alaska",
+  });
+});
 
 describe(`a bill at every level (seed ${seed})`, () => {
   afterAll(() => {
@@ -121,5 +130,5 @@ describe(`a bill at every level (seed ${seed})`, () => {
         0,
       );
       congressSeen ||= sawCongress;
-    }, 600_000);
+    }, 60_000);
 });

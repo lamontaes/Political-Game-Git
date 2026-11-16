@@ -788,6 +788,96 @@ export function notifyWorkChoice(
 }
 
 /** Work decisions use the same recorded named reasons and trait pulls as other acts. */
+/**
+ * The hours each person's office takes from their day today, from that
+ * office's own records (office-hours-never-fill-an-officials-day): a state
+ * legislator's session, committee and caucus days, a town body's meetings, a
+ * salaried post's weekday. Each engine that keeps an office's days registers
+ * one; a person's office time is the sum of what each says.
+ */
+export type OfficeTimeReader = (
+  api: CoreAPI,
+) => ReadonlyMap<string, OfficeTime>;
+/** An office's hours in a day and the record they come from (an entry, a meeting, a post). */
+export interface OfficeTime {
+  readonly hours: number;
+  readonly sourceId: string;
+}
+const officeTimeReaders: OfficeTimeReader[] = [];
+export function registerOfficeTime(reader: OfficeTimeReader): void {
+  if (!officeTimeReaders.includes(reader)) officeTimeReaders.push(reader);
+}
+
+/** Office hours already put on each person's day today, so no office is counted twice. */
+const officeCharged = new WeakMap<
+  object,
+  { date: string; hours: Map<string, OfficeTime> }
+>();
+
+/**
+ * The office hours on a person's day today and the record they come from,
+ * for dev mode's person view (office-hours-never-fill-an-officials-day); null
+ * when no office took any of it.
+ */
+export function officeTimeToday(
+  api: CoreAPI,
+  personId: string,
+): OfficeTime | null {
+  const kept = officeCharged.get(api.state);
+  return kept?.date === api.state.date
+    ? (kept.hours.get(personId) ?? null)
+    : null;
+}
+
+/**
+ * Put `hours` of office time on a person's day, less what their office has
+ * already taken today: the day's longest office record stands for the day (a
+ * session day at the Capitol holds its committee and caucus). Read by the
+ * day's pass below and by an office day the player lives (office-day-state.ts
+ * `actOn`), so the two never count the same day twice.
+ */
+export function chargeOfficeHours(
+  api: CoreAPI,
+  personId: string,
+  hours: number,
+  sourceId: string,
+): void {
+  if (!api.state.data.work || !api.state.people.has(personId)) return;
+  let kept = officeCharged.get(api.state);
+  if (!kept || kept.date !== api.state.date) {
+    kept = { date: api.state.date, hours: new Map() };
+    officeCharged.set(api.state, kept);
+  }
+  const already = kept.hours.get(personId)?.hours ?? api.parameter("zero");
+  if (hours <= already) return;
+  kept.hours.set(personId, { hours, sourceId });
+  api.recordOfficeTime(
+    personId as PersonState["id"],
+    (hours - already) * api.parameter("minutesPerHour"),
+  );
+}
+
+/** Each office's hours today, on its holder's day, before anyone's shift or free time. */
+function chargeOfficeTime(api: CoreAPI, excludePersonId?: string): void {
+  const total = new Map<string, OfficeTime>();
+  for (const reader of officeTimeReaders)
+    for (const [personId, time] of reader(api)) {
+      const held = total.get(personId);
+      total.set(
+        personId,
+        held
+          ? {
+              hours: held.hours + time.hours,
+              sourceId: `${held.sourceId} ${time.sourceId}`,
+            }
+          : time,
+      );
+    }
+  for (const [personId, time] of total)
+    if (personId !== excludePersonId && api.state.people.get(personId)?.alive)
+      chargeOfficeHours(api, personId, time.hours, time.sourceId);
+}
+
 export function runScheduledWork(
   api: CoreAPI,
   decide: (
@@ -806,6 +896,9 @@ export function runScheduledWork(
     return { decisions: api.parameter("zero"), acts: api.parameter("zero") };
   let decisions = api.parameter("zero"),
     acts = api.parameter("zero");
+  // An official's office comes first: a session day takes the day a shift
+  // would have had (office-hours-never-fill-an-officials-day).
+  chargeOfficeTime(api, excludePersonId);
   const p = api.parameter;
   const elapsed = daysBetweenText(api.state.startedAt, api.state.date);
   const due = new Set<string>();

@@ -30,6 +30,8 @@ They live in `scripts/play-walks/` and share `scripts/play-walks/lib.mjs`. Each 
 
 The log has one block per thing said: the clock, who spoke, the last lines of the talk box, and the replies offered. A reply is taken in turn (first, then second, and so on), so a walk hears more than the first answer.
 
+A new life starts at 18 only; a walk never starts one at another age (Account lead, Nov 16).
+
 ## How to run one
 
 1. Start a fresh bench on the tree you want to read: `npm run bench` (port 3000; `BENCH_PORT` changes it). The bench serves the checkout it was started in. After a change to server code (`src/bench/*.ts`), stop it and start it again; a change to the page (`play.mjs`, `play.css`) needs only a new life.

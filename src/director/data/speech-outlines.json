@@ -32,7 +32,13 @@
         "spread": "12 to 26",
         "note": "Real inaugurals run about 1,400 to 2,400 words; the game's paragraph-per-Continue address keeps the shape at a third of that."
       },
-      "leastPoints": 1
+      "leastPoints": 1,
+      "minute": {
+        "value": 720,
+        "tag": "SOURCED",
+        "source": "U.S. Const. amend. XX, sec. 1: the President's term begins at noon on January 20.",
+        "note": "The minute of the day the address is given, which decides whether its close may say good night (rule 141: a scene's time words come from the event's own hour)."
+      }
     },
     "state-of-the-union": {
       "bank": "state-of-the-union",
@@ -59,7 +65,14 @@
         "spread": "14 to 30",
         "note": "A State of the Union runs 5,000 to 7,000 words; the game keeps its order at a small share of that."
       },
-      "leastPoints": 1
+      "leastPoints": 1,
+      "minute": {
+        "value": 1260,
+        "tag": "ESTIMATED",
+        "spread": "1200 to 1290",
+        "source": "From memory, not fetched: addresses to a joint session have been given at 9 p.m. Eastern for decades.",
+        "note": "The minute of the day the address is given, which decides whether its close may say good night (rule 141: a scene's time words come from the event's own hour)."
+      }
     },
     "state-of-the-state": {
       "bank": "state-of-the-state",
@@ -77,7 +90,14 @@
         "spread": "8 to 18",
         "note": "Shorter than the President's: a governor's address is about a third as long as a State of the Union (Polis 2024)."
       },
-      "leastPoints": 1
+      "leastPoints": 1,
+      "minute": {
+        "value": 720,
+        "tag": "ESTIMATED",
+        "spread": "600 to 1140",
+        "source": "From memory, not fetched: most governors give the State of the State to a joint session at midday on the session's opening days, a few in the evening for broadcast.",
+        "note": "The minute of the day the address is given, which decides whether its close may say good night (rule 141: a scene's time words come from the event's own hour)."
+      }
     },
     "town-address": {
       "bank": "town-address",
@@ -95,7 +115,14 @@
         "spread": "6 to 16",
         "note": "A State of the City gives three or four points (Ginther 2024)."
       },
-      "leastPoints": 1
+      "leastPoints": 1,
+      "minute": {
+        "value": 1110,
+        "tag": "ESTIMATED",
+        "spread": "720 to 1140",
+        "source": "From memory, not fetched: a State of the City is most often given at an evening council meeting or community event, some at a midday lunch.",
+        "note": "The minute of the day the address is given, which decides whether its close may say good night (rule 141: a scene's time words come from the event's own hour)."
+      }
     },
     "campaign": {
       "bank": "campaign-speech",
@@ -525,5 +552,13 @@
   "beliefJoins": {
     "about": "How a point's belief joins its ask, one join to a point in the order of the speech's points, so no two points share one and \"Because I ...\" opens at most one sentence (the words lead, Nov 14, rule 38): `belief-leads` says the belief first (\"Because I believe X, I will Y\"); `belief-after` says the ask and then the belief as its own sentence; `belief-folded` folds it into the ask (\"I am against X because Y, and ...\"). A point after the last join says no belief.",
     "joins": ["belief-leads", "belief-after", "belief-folded"]
+  },
+  "bodyHold": {
+    "note": "The closes that say whether the speaker's party holds the body (the Words lead, Nov 16): a governor's body is the state's legislature, every chamber in `stateChambers` (the officials engine's seats); a local head's is their government's council or board (the offices engine's serving terms). Held means more than half the serving members in every chamber share the speaker's party; lacking means some chamber's half is not theirs. A speaker with no party says neither. Either body is said by the word its record's name holds (local-address.ts bodySaid): a chamber by its office kind, a council or board by its name.",
+    "stateChambers": [
+      "legislature-upper",
+      "legislature-lower",
+      "legislature-unicameral"
+    ]
   }
 }

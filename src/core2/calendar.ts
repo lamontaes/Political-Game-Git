@@ -4,7 +4,7 @@ import {
   makeIsoDate,
   daysBetweenText,
 } from "./kernel/dates";
-import { pairKey } from "./kernel/ids";
+import { knownThroughRecords, lastTogether } from "./closeness";
 import { parameter } from "./parameters";
 import type { CoreState, IsoDate, PersonState, TierDefinition } from "./types";
 
@@ -88,23 +88,63 @@ function inactive(core: CoreState, actor: Readonly<PersonState>): boolean {
 }
 
 function hasDailyFocus(core: CoreState, actor: Readonly<PersonState>): boolean {
-  if (inactive(core, actor)) return false;
-  return (
-    core.observer ||
-    actor.id === core.playerId ||
-    (core.focusPersonIds.has(actor.id) && seenLately(core, actor)) ||
-    core.focusPlaceIds.has(actor.placeId) ||
-    (actor.countyId !== undefined && core.focusPlaceIds.has(actor.countyId))
-  );
+  return dailyFocusReason(core, actor) !== null;
+}
+
+/** Why a person chooses every day, the first reason that holds. */
+export type DailyFocusReason =
+  "player" | "focus-person" | "player-circle" | "focus-place" | "focus-county";
+
+/**
+ * The one daily-focus rule: why `actor` chooses every day, or null when they
+ * choose at their tier's cadence. Dev mode's Focus view reads it to say why.
+ */
+export function dailyFocusReason(
+  core: CoreState,
+  actor: Readonly<PersonState>,
+): DailyFocusReason | null {
+  if (inactive(core, actor)) return null;
+  // The debug observer keeps more of the record and never sets who chooses
+  // when (core-observer-changes-choices).
+  if (actor.id === core.playerId) return "player";
+  const focus = core.focusPersonIds.has(actor.id);
+  if ((focus || knowsThePlayer(core, actor.id)) && seenLately(core, actor))
+    return focus ? "focus-person" : "player-circle";
+  if (core.focusPlaceIds.has(actor.placeId)) return "focus-place";
+  if (actor.countyId !== undefined && core.focusPlaceIds.has(actor.countyId))
+    return "focus-county";
+  return null;
+}
+
+/**
+ * The people a record says the player knows without a tie row: colleagues on
+ * a body the player sits on, from the sitting reader (closeness.ts
+ * `knownThroughRecords`). They are in the player's circle as surely as
+ * someone the player's own act touched. Read once a day.
+ */
+const knownToPlayer = new WeakMap<
+  CoreState,
+  { date: IsoDate; player: string; ids: ReadonlySet<string> }
+>();
+export function knowsThePlayer(core: CoreState, id: string): boolean {
+  const player = core.playerId;
+  if (!player) return false;
+  let kept = knownToPlayer.get(core);
+  if (kept?.date !== core.date || kept.player !== player) {
+    kept = { date: core.date, player, ids: knownThroughRecords(core, player) };
+    knownToPlayer.set(core, kept);
+  }
+  return kept.ids.has(id);
 }
 
 /**
  * A focus person chooses daily while the player sees them: the player's
- * family and household always, anyone else while their tie
- * with the player had contact in the last `focusDailyContactDays` days, read
- * from that one tie. Out of touch, they choose at their tier's cadence until
- * the two meet again. Someone in focus with no tie to the player (a coworker,
- * or a person a caller put in focus) keeps choosing daily.
+ * family and household always, anyone else while they and the player were
+ * last together within `focusDailyContactDays` days by any record, their tie
+ * or a sitting both sat (closeness.ts `lastTogether`). Out of touch, they
+ * choose at their tier's cadence until the two meet again. Someone in
+ * focus who has never been with the player (a coworker, or a person a caller
+ * put in focus) keeps choosing daily.
  */
 function seenLately(core: CoreState, actor: Readonly<PersonState>): boolean {
   const player = core.playerId ? core.people.get(core.playerId) : undefined;
@@ -114,10 +154,10 @@ function seenLately(core: CoreState, actor: Readonly<PersonState>): boolean {
     player.householdId === actor.householdId
   )
     return true;
-  const tie = core.relationships.get(pairKey(player.id, actor.id));
+  const last = lastTogether(core, player.id, actor.id);
   return (
-    !tie ||
-    daysBetweenText(tie.lastContactDate, core.date) <=
+    !last ||
+    daysBetweenText(last, core.date) <=
       parameter("focusDailyContactDays", core.data.parameters)
   );
 }
