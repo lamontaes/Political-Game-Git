@@ -29,13 +29,17 @@ async function types({ labels, send }) {
       button.addEventListener("click", async () => {
         button.disabled = true;
         try {
-          await send("scene-trace/force", { typeKey: row.key });
-          button.textContent = labels.forced;
+          const done = await send("scene-trace/force", { typeKey: row.key });
+          button.textContent =
+            done.staged === undefined
+              ? labels.forced
+              : `${labels.forced}; ${done.staged ? labels.stagedNow : labels.notStagedNow}`;
         } catch (error) {
           button.textContent = error.message;
         }
       });
       item.append(" ", button);
+      if (row.why) item.append(el("div", labels.reasons[row.why]));
     } else item.append(` (${labels.unreachable})`);
     const more = el("details");
     more.append(el("summary", labels.lines));

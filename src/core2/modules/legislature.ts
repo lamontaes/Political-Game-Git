@@ -167,6 +167,8 @@ export interface Provision {
   readonly repeal?: boolean;
   /** For a budget line: the line's amount the change is made to, so a stance weighs its size. */
   readonly of?: number;
+  /** For a budget-line amendment to an adopted budget: the treasury's record that let the body take it up (receipts over or under plan). */
+  readonly cause?: string;
   /** The catalog policy the section was drafted from, and what it does to it. */
   readonly policyId?: string;
   readonly operation?: string;

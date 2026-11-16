@@ -42,11 +42,15 @@ Set a new or changed test's limit near twice the slower of two runs: the test al
 ## Shas and lines
 
 - Always the full 40-character sha. A short sha is refused.
-- The builder reports to the lead with the key diff, the tests and the sha. The lead approves; the builder marks the PR ready and posts `Account lead Tn: train-ready #N <sha>` on #8928; the lead names the sha to the Train.
-- Words and story PRs also need `Words lead: train-ready #N <sha>` before they join.
+- The builder reports to the lead with the key diff, the tests and the sha. The lead approves; the builder marks the PR ready and posts `train-ready #N <full sha>` as a comment on the PR itself; the lead names the sha to the Train. Issue #8928 refuses new comments (past 2,500 since about 09:00Z, Nov 16), so every line that used to go there goes on the PR, and a new crew issue has to be named by the owner or the CTO (Account lead, Nov 16).
+- Words and story PRs also need `Words lead: train-ready #N <sha>` before they join; the readers put their stamps on the PR too.
 - PRs that only work together are named to the Train together, in one message, each with its full sha.
 - A PR based on the train branch shows "merged" on GitHub when folded. That is not a merge to main.
 - After a usage limit resets, every thread that failed needs a message.
+
+## The Train works in rounds (CTO, Nov 16)
+
+The Train pushes one head, posts `Train 2 ready at <full sha>` on #9554 with the red test files and why, and leaves that head untouched until validate, golden-path and new game finish; folds named meanwhile go on a second branch. Each push cancels the checks of the push before it, so nothing is pushed between rounds.
 
 ## A moved head needs a new stamp
 
@@ -103,3 +107,7 @@ After a merge stops on conflicts, count them with `git diff --name-only --diff-f
 - **A red that passes alone on a PR's own head but fails at its fold is a collision with an earlier fold,** not the PR's fault alone: binary search the Train's first-parent folds with the one test file in the sparse copy (about a minute a step), and tell the builder the fold it first goes red at. A red that also fails on the pushed head before the fold is old and goes in the push note with its item.
 - **Compare every new red against the last pushed head in the sparse copy** before naming it: many reds on a long batch were already red there (a changed opener, a drawn seed). Run only the failing files, in the order of the batch output.
 - **A Train that merged main resets the pool INDEX guard's base;** a Train that did not is red on it against a newer main until the merge lands, and the push note says so.
+- **Train-ready lines are comments on the PR itself since Nov 16, 09:00Z** (issue #8928 refuses comments past 2,500, and no new issue is opened). Read the PR's own comments for the line with the full sha, same wording as before; `gh api --paginate repos/<repo>/issues/<N>/comments` lists them.
+- **A test file that did not exist at the last pushed head cannot be compared there:** its red is its own head's or a collision, so name it as new and send it to its builder; do not spend a run on the old head.
+- **A day-zero known-red mark can flip between folds** (Washington's drives tables were full at one head and empty again at the next): run `src/core2/day-zero.test.ts` on the final head and restore or drop the marks by what it prints.
+- **A test whose limit is near its alone time fails the moment the machine is busy or a later fold adds work:** time it alone on an idle machine before blaming the fold (Amherst NH tests ran 215 s against 180 s).
