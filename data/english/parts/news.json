@@ -15790,76 +15790,10 @@
       }
     },
     {
-      "key": "news.approval.president-name-s-approval-rose-to-percent-in-month",
-      "move": "approval",
-      "kind": "written",
-      "text": "President {name}'s approval rose to {percent} in {month}.",
-      "uses": [
-        {
-          "move": "approval",
-          "subject": "news",
-          "role": "approval",
-          "choice": "lede",
-          "requiresFacts": ["up"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (C1, the President's monthly approval)",
-      "date": "2026-11-16",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.approval.more-americans-approved-of-president-name-in-month-the-figur",
-      "move": "approval",
-      "kind": "written",
-      "text": "More Americans approved of President {name} in {month}. The figure was {percent}.",
-      "uses": [
-        {
-          "move": "approval",
-          "subject": "news",
-          "role": "approval",
-          "choice": "lede",
-          "requiresFacts": ["up"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (C1, the President's monthly approval)",
-      "date": "2026-11-16",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
       "key": "news.approval.president-name-s-approval-fell-to-percent-in-month",
       "move": "approval",
       "kind": "written",
       "text": "President {name}'s approval fell to {percent} in {month}.",
-      "uses": [
-        {
-          "move": "approval",
-          "subject": "news",
-          "role": "approval",
-          "choice": "lede",
-          "requiresFacts": ["down"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (C1, the President's monthly approval)",
-      "date": "2026-11-16",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.approval.fewer-americans-approved-of-president-name-in-month-the-figu",
-      "move": "approval",
-      "kind": "written",
-      "text": "Fewer Americans approved of President {name} in {month}. The figure was {percent}.",
       "uses": [
         {
           "move": "approval",
@@ -15922,28 +15856,6 @@
       }
     },
     {
-      "key": "news.approval.americans-view-of-president-name-was-unchanged-in-month-at-p",
-      "move": "approval",
-      "kind": "written",
-      "text": "Americans' view of President {name} was unchanged in {month}, at {percent}.",
-      "uses": [
-        {
-          "move": "approval",
-          "subject": "news",
-          "role": "approval",
-          "choice": "lede",
-          "requiresFacts": ["held"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (C1, the President's monthly approval)",
-      "date": "2026-11-16",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
       "key": "news.approval.president-name-s-approval-stood-at-percent-in-month",
       "move": "approval",
       "kind": "written",
@@ -15953,30 +15865,7 @@
           "move": "approval",
           "subject": "news",
           "role": "approval",
-          "choice": "lede",
-          "excludesFacts": ["up", "down", "held"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (C1, the President's monthly approval)",
-      "date": "2026-11-16",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.approval.in-month-percent-of-americans-approved-of-the-job-president-",
-      "move": "approval",
-      "kind": "written",
-      "text": "In {month}, {percent} of Americans approved of the job President {name} is doing.",
-      "uses": [
-        {
-          "move": "approval",
-          "subject": "news",
-          "role": "approval",
-          "choice": "lede",
-          "excludesFacts": ["up", "down", "held"]
+          "choice": "lede"
         }
       ],
       "origin": "authored",
