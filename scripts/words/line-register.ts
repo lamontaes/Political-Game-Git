@@ -161,6 +161,45 @@ export function unreadBanks(): string[] {
     .sort();
 }
 
+/** The owner's grades by piece (data/english/part-grades.json). */
+function gradedGood(): Set<string> {
+  const grades = JSON.parse(
+    readFileSync(path.join(ROOT, "data/english/part-grades.json"), "utf8"),
+  ) as { parts: Record<string, { good: number; sharedGood: number }> };
+  return new Set(
+    Object.entries(grades.parts)
+      .filter(([, grade]) => grade.good > 0 || grade.sharedGood > 0)
+      .map(([key]) => key),
+  );
+}
+
+/**
+ * Unread banks split in two. A bank whose every piece the owner graded good is
+ * not junk: his Nov 8 ruling keeps a line he graded good, so it waits for the
+ * engine that should read it (each has a pool item naming that scene). Any
+ * other unread bank is a leftover to delete.
+ */
+export function unreadBanksByGrade(): {
+  goodWaitingForReader: string[];
+  unreadBanks: string[];
+} {
+  const good = gradedGood();
+  const waiting: string[] = [];
+  const junk: string[] = [];
+  for (const file of unreadBanks()) {
+    const parts = (
+      JSON.parse(readFileSync(path.join(ROOT, file), "utf8")) as {
+        parts: RawPiece[];
+      }
+    ).parts;
+    (parts.length && parts.every((piece) => good.has(piece.key))
+      ? waiting
+      : junk
+    ).push(file);
+  }
+  return { goodWaitingForReader: waiting, unreadBanks: junk };
+}
+
 /** The figures the guard and the report read. */
 export function registerCounts() {
   const lines = bankLines();
@@ -198,7 +237,7 @@ export function registerCounts() {
       .filter((line) => line.reach === "unreached")
       .map((line) => line.key)
       .sort(),
-    unreadBanks: unreadBanks(),
+    ...unreadBanksByGrade(),
     codeLines: codeLines(),
     dataHeldLines: dataHeldLines(),
   };
@@ -211,6 +250,7 @@ export function baselineOf(counts = registerCounts()) {
     saysNothing: counts.saysNothing,
     unreachedConversation: counts.unreachedConversation,
     unreadBanks: counts.unreadBanks,
+    goodWaitingForReader: counts.goodWaitingForReader,
     codeLines: counts.codeLines,
     dataHeldLines: counts.dataHeldLines,
   };
@@ -236,6 +276,7 @@ if (process.argv[1]?.endsWith("line-register.ts")) {
         saysNothingReplies: counts.saysNothing.length,
         unreachedConversationLines: counts.unreachedConversation.length,
         unreadBanks: counts.unreadBanks,
+        goodWaitingForReader: counts.goodWaitingForReader,
         codeLines: sum(counts.codeLines),
         dataHeldLines: sum(counts.dataHeldLines),
       },
