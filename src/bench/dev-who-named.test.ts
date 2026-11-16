@@ -128,5 +128,8 @@ it(`dev mode's Who is named says the clerk's post and the colleagues' met record
     expect(row.said, `${where}: ${id}`).toBeNull();
     expect(row.metBy, `${where}: ${id}`).toBe(facts.metBy);
     expect(row.metBy, `${where}: ${id}`).not.toBeNull();
+    // Met by sitting together: the record the two first sat in, dated on or before today.
+    expect(row.metSource, `${where}: ${id} has no met record`).not.toBeNull();
+    expect(row.metSource!.date <= core.date, `${where}: ${id}`).toBe(true);
   }
 }, 45_000);

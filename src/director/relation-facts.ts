@@ -8,6 +8,7 @@
 import {
   closenessBetween,
   lastTogether,
+  metThrough,
   sharedHoursBetween,
 } from "../core2/closeness";
 import { P } from "../core2/parameters";
@@ -29,7 +30,7 @@ export interface RelationFacts {
    * last day together; null when they have not met.
    */
   metBy: "family" | "sittings" | "learned" | "together" | null;
-  /** That record: the fact the asked learned of the asker from, or the tie; null for family and sittings. */
+  /** That record: the fact the asked learned of the asker from, the tie, or the sitting both first sat; null for family. */
   metSource: { readonly id: string; readonly date: string } | null;
   /** The record that makes them kin or housemates (the household or the family tie), if either. */
   kinSource: string | null;
@@ -140,6 +141,9 @@ export function relationFacts(
     if (family || shared) {
       metBefore = true;
       metBy = family ? "family" : "sittings";
+      // The record the two first shared time in (a body's first sitting both sat), or their tie.
+      const through = family ? null : metThrough(core, askerId, askedId);
+      if (through) metSource = { id: through.sourceId, date: through.date };
     } else {
       const learned = asked?.knownIdSources?.[askerId];
       if (learned !== undefined) {

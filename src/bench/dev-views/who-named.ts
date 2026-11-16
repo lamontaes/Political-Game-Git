@@ -22,6 +22,7 @@ const view: DevView = {
     title: "Who is named",
     show: "Show who is named",
     none: "No scenes yet",
+    asOfToday: "Read from today's records",
     alone: {
       family: "family",
       met: "met before",
@@ -38,7 +39,10 @@ const view: DevView = {
   routes: {
     "GET who-named": ({ mode, q }) => {
       const core = mode.core;
-      const playerId = (q("personId") || core.playerId) as PersonId | null;
+      // The person the player plays now (an Advanced start steps into someone else), as waitingScenes reads it.
+      const playerId = (q("personId") ||
+        mode.player?.personId ||
+        core.playerId) as PersonId | null;
       if (!playerId || !mode.director) return { scenes: [] };
       const book = mode.director.ledger.people.get(playerId);
       const nameOf = (id: string) => {

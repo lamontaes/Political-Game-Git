@@ -80,6 +80,7 @@ export const slots = {
       { className: "dev-only dev-who-named" },
       el("h3", { textContent: labels.title }),
       el("div", { className: "acts" }, show),
+      el("p", { textContent: labels.asOfToday }),
       result,
       list,
       trace.node,
