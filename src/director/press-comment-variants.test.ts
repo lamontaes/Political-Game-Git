@@ -22,7 +22,7 @@ const ATTEMPTS = 12;
 const VOTE_DAYS = 120;
 
 // A reporter's call about a vote is the press-comment scene. Which arc plays
-// is read from the records (arc-variant.ts, data/arc-variants.json): how far
+// is read from the records (arc-variant.ts, data/arc-variants.json (removed)): how far
 // the town stands against the side the member's vote took (the electorate's
 // shares on the bill's question), the earlier talks between the reporter and
 // the member, their tie, the stories of scandal against the member, and the

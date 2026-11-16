@@ -1,7 +1,7 @@
 /**
  * The director's casting records, read as they are: the situation types
  * (`data/situation-types.json`) and the arc variants by family
- * (`data/arc-variants.json`). The English engine's rules read who says a line
+ * (`data/arc-variants.json (removed)`). The English engine's rules read who says a line
  * to whom and where from these (`src/english/spot-tags.ts`), through this
  * entry rather than the data files. No logic here.
  */

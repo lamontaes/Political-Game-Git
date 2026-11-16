@@ -13,7 +13,7 @@
  * bribe a little smaller than another is a little more of a gift.
  *
  * This is the one engine for every kind. A kind with no row in
- * `data/arc-variants.json` plays its purpose's single arc as before. The
+ * `data/arc-variants.json (removed)` plays its purpose's single arc as before. The
  * variant's arc (state, replies, follow, again, endings) is a row of the same
  * data; the words are the scene bank's, by the variant's own purpose id, and
  * the family's pieces serve where a variant has none of its own

@@ -35,7 +35,7 @@ const PENDING = 6;
 
 // A donor's gift is a campaign-gift record (campaigns.ts recordGift). Which
 // donor-ask arc plays is read from it and from the two people's records
-// (arc-variant.ts, data/arc-variants.json): the gift against the donor's own
+// (arc-variant.ts, data/arc-variants.json (removed)): the gift against the donor's own
 // year, its share of what others gave, how close the two are, earlier gifts
 // and earlier asks the candidate put off. The gifts of a played campaign each
 // play the variant their reads give; the controlled causes below change one

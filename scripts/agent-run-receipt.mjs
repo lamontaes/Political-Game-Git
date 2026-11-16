@@ -581,7 +581,7 @@ function runVerify({ receiptPath, expectBranch }) {
       // told to look), which a forged receipt cannot rewrite, rather than
       // from the receipt's own stage name matched loosely by basename: the
       // earlier basename-only check let a receipt claim to exclude any
-      // same-named path anywhere in the tree (e.g. "src/check.json" for a
+      // same-named path anywhere in the tree (e.g. "src/check.json (removed)" for a
       // "check" stage truly rooted at ".agent-receipts/"), which meant real
       // tampering landed under a matching name could be laundered as an
       // "owned" artifact and the fingerprint would recompute clean.

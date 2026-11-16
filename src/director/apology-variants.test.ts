@@ -21,7 +21,7 @@ import {
 // A quarrel over a missed payment (the partnerships engine's own
 // `family.quarrel`, written when the credit engine's `credit.payment-missed`
 // names a borrower with a grown housemate) is the apology scene. Which arc it
-// plays is read from the records (arc-variant.ts, data/arc-variants.json): the
+// plays is read from the records (arc-variant.ts, data/arc-variants.json (removed)): the
 // quarrel is about money, how close the two are, the earlier quarrels between
 // them, and the wronged person's own money pressure.
 //

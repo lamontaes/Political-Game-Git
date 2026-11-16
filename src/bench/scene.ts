@@ -701,7 +701,7 @@ const PLATED = new Set(
   plates().map((plate) => placeOfBackdrop(plate.backdrop)),
 );
 
-/** How many people the who's-here strip names before it counts the rest (data/whole-figures.json). */
+/** How many people the who's-here strip names before it counts the rest (data/whole-figures.json (removed)). */
 const HERE_SHOWN = figureRules.here.shown;
 /** The reasons that put someone first in the strip: the scene is about them. */
 const FRONT: ReadonlySet<StageReason> = new Set(["act", "moment", "clerk"]);

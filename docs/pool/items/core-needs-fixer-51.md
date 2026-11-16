@@ -18,7 +18,7 @@ claimed-at: 2026-10-15T22:50:44.022Z
 Lines (as of 2026-10-15, from the status file):
 
 - **OPUS-PLAY:** an app entry and build target for `/play` (root `index.html`, `review.html` and `vite.config.ts` inputs still name the deleted old app entry), so the web build works once #4036 lands.
-- **OPUS-CORE / OPUS-GOV:** to delete the other ~1,600 old files, move what `src/bench/scene.ts`, `src/rules/legislatures`, `src/rules/economy` and `tests/golden-path/place.ts` import from `src/simulation` and `src/presentation` into core2 or rules.
+- **OPUS-CORE / OPUS-GOV:** to delete the other ~1,600 old files, move what `src/bench/scene.ts`, `src/rules/legislatures`, `src/rules/economy` and `tests/golden-path/place.ts` import from `src/simulation` (removed) and `src/presentation` into core2 or rules.
   **Stand-in figures (CTO list, Oct 12, 3:45 p.m.).** Of the 111 rows in `data/research/stand-in-figures-2026-10-12.json`, 44 are "not research" (a missing mechanic, no number to set) and 67 have a recommended value. FIXER replaced none of the 67 itself: 61 sit in files that an open pillar branch changes (checked with `g
 - **OPUS-CORE** (37 rows with a number to set; every code location is in a file an open pillar branch changes, so FIXER did not touch them):
   - `SG-P8-param-marriageReferenceAge` — researchable, high, `src/core2/data/parameters.json`

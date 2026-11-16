@@ -27,7 +27,7 @@ const OFFICIALS = 25;
 // A complaint to the prosecutor that names the player (the justice engine's
 // own `justice.accused`, written after an official refused a bribe and
 // reported it) is the accusation scene. Which arc it plays is read from the
-// records (arc-variant.ts, data/arc-variants.json): the complaint's basis (the
+// records (arc-variant.ts, data/arc-variants.json (removed)): the complaint's basis (the
 // accuser saw it, or was told), whether the bribe was taken, and how close the
 // two are.
 //

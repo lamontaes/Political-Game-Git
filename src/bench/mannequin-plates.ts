@@ -32,7 +32,7 @@ export interface PlateSpot {
   readonly deskEdge?: number;
   /** The furniture in front of the mannequin, a mask over `box`. */
   readonly front?: string;
-  /** A seat kept for an office's holder (data/whole-figures.json `seatRoles`). */
+  /** A seat kept for an office's holder (data/whole-figures.json (removed) `seatRoles`). */
   readonly role?: string;
 }
 export interface Plate {

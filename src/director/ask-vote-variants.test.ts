@@ -51,7 +51,7 @@ const PLAIN_ENDINGS = (
 ).purposes["ask-vote"]!.endings;
 
 // A colleague asking the player for a vote is the ask-vote scene. Which arc
-// plays is read from the records (arc-variant.ts, data/arc-variants.json): the
+// plays is read from the records (arc-variant.ts, data/arc-variants.json (removed)): the
 // post the asker holds and the party they share with the asked, the earlier
 // bills of the asked person's own that the asker voted for, how far the town
 // stands for or against the bill (the electorate's shares on the questions

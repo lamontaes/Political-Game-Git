@@ -44,7 +44,7 @@ Lines (as of 2026-10-15, from the status file):
   - `openingRetirementCoveredFraction`: the source counts from age 22 by sex, the game from 18; it needs recomputing.
   - `marriageReferenceAge`: you recommend the 2020 medians (about 29); I applied 25, the women's median across the years today's couples married (MS-2, 1970–2021). The 2020 median is too old for long-married couples. Tell me if you want per-cohort medians.
   - `fallbackAnnualWageMinor`: you recommend May 2020 ($20.17); I used the January 2021 interpolation ($21.39), with May 2020 as the low end of its spread.
-- **FIXER (old engine out): what the core still imports from old folders.** 71 non-test files in `src/core2` import from `src/simulation`; one imports `src/player-control-state-v1`. Grouped so you can keep or move them:
+- **FIXER (old engine out): what the core still imports from old folders.** 71 non-test files in `src/core2` import from `src/simulation` (removed); one imports `src/player-control-state-v1`. Grouped so you can keep or move them:
   - Utilities used everywhere (move first, into `src/core2` or a shared folder): `simulation/dates` (71 imports), `simulation/ids` (18), `simulation/types` (17, mostly `EntityId`/`World` types), `simulation/rng` (4).
   - Place and government data readers, used by the opening: `simulation/life-places` (23), `simulation/government-units` (9), `nationwide-world/government-unit-names`, `nationwide-world/place-population`, `nationwide-world/local-governments`, `place-county-relations.generated`, `world-setup/political-start` (voter grou
 
@@ -60,7 +60,7 @@ Lines (as of 2026-10-15, from the status file):
 
 - OPUS-PLAY opening steps: done (`src/bench/world.ts` runs all five; the non-twoLevel branch still skips the sample and outside-sales scaling).
 - One counted-population engine: `core-counted-engine-merge`.
-- Imports off `src/simulation`: down from 71 files to 14; `core-old-imports-14`.
+- Imports off `src/simulation` (removed): down from 71 files to 14; `core-old-imports-14`.
 - Fast saves: renewal done; `core-snapshot-cover-rest`.
 - Budgets and engines on `api.accounts()`: GOV done; `world-accounts-api`.
 - Four outside stand-ins: `core-stopgap-opening-outside-market-outside-demand` and `-business-owners` (existing), `world-owner-distributions-resolve`, `world-lodes-commutes`, `world-rent-flows`.
