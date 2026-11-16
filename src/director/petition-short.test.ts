@@ -52,7 +52,7 @@ import type { TreeNode } from "./scene-talk";
 const PLACE = "3972242";
 const SEED = "scan-3";
 /** Seeds of this town where the petition runs short and the clerk tells the player, found by hand. */
-const CLERK_SEEDS = ["scan-4", "scan-9", "scan-14", "scan-24"];
+const CLERK_SEEDS = ["scan-4", "scan-9", "scan-14", "scan-24", "scan-60"];
 /** Seeds where a played yes to an offer of help puts a helper on the campaign who then tells the player, found by hand. */
 const HELPER_SEEDS = ["scan-5", "scan-19"];
 /** A seed of this town where a household member's offer to run the campaign comes and the player's yes puts them on its staff. */
@@ -472,4 +472,4 @@ it("other worlds show the other wordings of the clerk's and the helper's talk", 
       }
     }
   }
-}, 920_000);
+}, 1_100_000);
