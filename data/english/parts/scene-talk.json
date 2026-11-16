@@ -30051,10 +30051,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-answer.that-they-ran-hard-and-i-ll-need-their-voters-by-monday-write-that",
+      "key": "scene-talk.reply-answer.that-opponent-ran-hard-and-i-ll-need-those-voters-by-monday",
       "move": "reply-answer",
       "kind": "spoken",
-      "text": "That they ran hard, and I'll need their voters by Monday. Write that.",
+      "text": "That {opponent} ran hard, and I'll need those voters by Monday.",
       "uses": [
         {
           "subject": "scene",
@@ -30062,13 +30062,14 @@
           "move": "answer",
           "role": "asked",
           "purpose": "victory-night",
-          "key": "honor"
+          "key": "honor",
+          "requiresFacts": ["opponent"]
         }
       ],
       "bearing": "calm",
       "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
+      "author": "Words lead",
+      "date": "2026-11-16",
       "tag": {
         "move": "answer",
         "key": "honor"
@@ -30160,7 +30161,7 @@
           "role": "asker",
           "purpose": "victory-night",
           "key": "honor",
-          "after": "scene-talk.reply-answer.that-they-ran-hard-and-i-ll-need-their-voters-by-monday-write-that"
+          "after": "scene-talk.reply-answer.that-opponent-ran-hard-and-i-ll-need-those-voters-by-monday"
         }
       ],
       "bearing": "glad",
@@ -30185,7 +30186,7 @@
           "role": "asker",
           "purpose": "victory-night",
           "key": "honor",
-          "after": "scene-talk.reply-answer.that-they-ran-hard-and-i-ll-need-their-voters-by-monday-write-that"
+          "after": "scene-talk.reply-answer.that-opponent-ran-hard-and-i-ll-need-those-voters-by-monday"
         }
       ],
       "bearing": "glad",
@@ -43758,10 +43759,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-answer.that-i-ll-be-calling-them-tomorrow-to-ask-for-help",
+      "key": "scene-talk.reply-answer.that-i-ll-call-opponent-tomorrow-and-ask-for-help",
       "move": "reply-answer",
       "kind": "spoken",
-      "text": "That I'll be calling them tomorrow to ask for help.",
+      "text": "That I'll call {opponent} tomorrow and ask for help.",
       "uses": [
         {
           "subject": "scene",
@@ -43769,13 +43770,14 @@
           "move": "answer",
           "role": "asked",
           "purpose": "victory-night",
-          "key": "honor"
+          "key": "honor",
+          "requiresFacts": ["opponent"]
         }
       ],
       "bearing": "calm",
       "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
+      "author": "Words lead",
+      "date": "2026-11-16",
       "tag": {
         "move": "answer",
         "key": "honor"
@@ -43794,7 +43796,7 @@
           "role": "asker",
           "purpose": "victory-night",
           "key": "honor",
-          "after": "scene-talk.reply-answer.that-i-ll-be-calling-them-tomorrow-to-ask-for-help"
+          "after": "scene-talk.reply-answer.that-i-ll-call-opponent-tomorrow-and-ask-for-help"
         }
       ],
       "bearing": "glad",
@@ -93908,31 +93910,6 @@
         }
       ],
       "bearing": "glad",
-      "origin": "authored",
-      "author": "Words builder W3",
-      "date": "2026-11-13",
-      "tag": {
-        "move": "agree",
-        "key": "filed"
-      }
-    },
-    {
-      "key": "scene-talk.reply-agree.i-have-i-ll-take-it-from-here",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "I have. I'll be ready for {vote-day}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "filing-petition",
-          "key": "filed",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "requiresFacts": ["first-filing", "no-petition", "vote-day"]
-        }
-      ],
-      "bearing": "calm",
       "origin": "authored",
       "author": "Words builder W3",
       "date": "2026-11-13",
