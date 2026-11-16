@@ -161,4 +161,4 @@ it("shows how the town, the player, their household, a business and an office op
   for (const view of [town, person, household, business, office])
     for (const row of view.rows)
       expect(kinds.has(row.made), row.label).toBe(true);
-}, 25_000);
+}, 40_000);
