@@ -95,4 +95,4 @@ it("a counted household's cash and bank savings are one share of its group's mon
     .filter((i) => rt.funds.has(i))
     .reduce((n, i) => n + depositsHeld(core, fundOf(api, rt, i)), 0);
   expect(deposits, `${where}: the groups' bank savings`).toBeGreaterThan(0);
-}, 40_000);
+}, 20_000);
