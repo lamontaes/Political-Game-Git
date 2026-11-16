@@ -5,10 +5,10 @@ area: world
 kind: wiring
 priority: 2
 size: M
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: laws thread (claude/project-thread-8fxsy5-medicaid)
+pr: '#9660'
 blocked-on:
 after:
 lead: laws
@@ -33,6 +33,6 @@ claimed-at:
 
 **Waits on.** The jurisdiction fix (world-medical-bills-outside-the-sellers-jurisdiction-go-outside).
 
-**Files.** src/core2/medical-bills.ts, src/core2/law-reach/group-b-money.ts
+**Files.** src/core2/medical-bills.ts, src/core2/law-reach/group-b-money.ts, src/core2/law-reach/group-b-people.ts, src/core2/law-reach/group-b.ts, src/bench/dev-mode.ts, src/bench/dev-medicaid-outside-town.test.ts (new)
 
-**Notes.** TODO
+**Notes.** #9660 (laws thread): the town and the places the residents runtime bills in its state are covered by one rule (`townStatePlaces`, `placesFacts`). At West Union 40 days in, 0 billed outside the town were on Medicaid before and 558 after; dev mode's person card shows the law (`laws`, read with `reachOn`). The other town-only handlers are filed as their own items, listed in the PR body.
