@@ -8,7 +8,7 @@ size: M
 status: in-pr
 standard: 2
 claimed-by: vote-reasons thread
-pr:
+pr: 9611
 after: press-comment-why-answered-by-the-roll
 blocked-on:
 lead: words
