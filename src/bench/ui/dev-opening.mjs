@@ -13,19 +13,21 @@ const SUBJECTS = ["town", "person", "household", "business", "office"];
 /** Remembered across the sheet's redraws, so a refresh keeps what was open. */
 let shown = { subject: "town", id: "" };
 
-function table(view, labels, open) {
+const ALL_COLUMNS = ["value", "made", "by", "source", "drawKey", "replace"];
+/** A person's card is narrow: there, the value, how it was made and what replaces it. */
+const CARD_COLUMNS = ["value", "made", "replace"];
+
+function table(view, labels, open, columns = ALL_COLUMNS) {
   const head = el(
     "tr",
     {},
-    ...["value", "made", "by", "source", "drawKey", "replace"].map((key) =>
+    ...columns.map((key) =>
       el("th", { textContent: key === "value" ? "" : labels[key] }),
     ),
   );
-  const rows = view.rows.map((row) =>
-    el(
-      "tr",
-      { className: "dev-opening-row" },
-      el(
+  const rows = view.rows.map((row) => {
+    const cells = {
+      value: el(
         "td",
         {},
         el("b", { textContent: `${row.label}: ` }),
@@ -37,20 +39,25 @@ function table(view, labels, open) {
             })()
           : el("span", { textContent: row.value }),
       ),
-      el("td", { textContent: row.made }),
-      el("td", { textContent: row.by }),
+      made: el("td", { textContent: row.made }),
+      by: el("td", { textContent: row.by }),
       // A record's source can run to a paragraph: its start here, the whole of it on hover.
-      el("td", {
+      source: el("td", {
         textContent:
           (row.source ?? "").length > 180
             ? `${row.source.slice(0, 177)}...`
             : (row.source ?? ""),
         title: row.source ?? "",
       }),
-      el("td", { textContent: row.drawKey ?? "" }),
-      el("td", { textContent: row.replace ?? "" }),
-    ),
-  );
+      drawKey: el("td", { textContent: row.drawKey ?? "" }),
+      replace: el("td", { textContent: row.replace ?? "" }),
+    };
+    return el(
+      "tr",
+      { className: "dev-opening-row" },
+      ...columns.map((key) => cells[key]),
+    );
+  });
   return el("table", { className: "dev-opening-table" }, head, ...rows);
 }
 
@@ -92,7 +99,7 @@ export const slots = {
         "section",
         { className: "dev-only dev-opening" },
         el("h3", { textContent: labels.title }),
-        table(view, labels, trace.open),
+        table(view, labels, trace.open, CARD_COLUMNS),
         trace.node,
       );
     } catch (error) {
