@@ -12,7 +12,7 @@ pr:
 after:
 blocked-on: early access ships first (owner, Nov 16)
 lead: people
-source: "owner, Nov 16, 2026, 05:02 UTC: \"Just do 18 and up right now. Life before 18 will come after early access.\""
+source: 'owner, Nov 16, 2026, 05:02 UTC: "Just do 18 and up right now. Life before 18 will come after early access."'
 model: sonnet
 effort: medium
 root: none
