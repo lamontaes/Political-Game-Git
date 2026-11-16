@@ -1,6 +1,6 @@
 ---
 name: words-reads
-description: How the Words lead of Our Civic Duty reads a change to anything a player reads (a scene, a talk, the paper, a speech, the Journal, a screen label) before it joins a train or main, and the numbered rules those reads have set since Nov 13 (rules 30 to 107, after the first twenty-nine on the crew issue). Use when you build or change player words and want to know what the read will ask for, when you are the Words lead or a builder working for it, and when writing lines for a door, a first meeting, home talk, an address, the Journal or an election story. Not for the engine's mechanics (words-engine), the standard a scene must meet to exist (scene-standard) or checking a screen for developer text (player-screen-text).
+description: How the Words lead of Our Civic Duty reads a change to anything a player reads (a scene, a talk, the paper, a speech, the Journal, a screen label) before it joins a train or main, and the numbered rules those reads have set since Nov 13 (rules 30 to 157, after the first twenty-nine on the crew issue). Use when you build or change player words and want to know what the read will ask for, when you are the Words lead or a builder working for it, and when writing lines for a door, a first meeting, home talk, an address, the Journal or an election story. Not for the engine's mechanics (words-engine), the standard a scene must meet to exist (scene-standard) or checking a screen for developer text (player-screen-text).
 ---
 
 # Words reads
@@ -167,6 +167,35 @@ His words are kept whole, with his message ids, in the Words lead's feedback fil
 135. One back-end place accounts for every scene and line, so any line can be found later. A line it cannot list is a fault.
 
 Rulings that go with these. A said name of a subject ({issue}, {said}) goes only after "on" or "about". A put-off that promises a later talk is offered only when the record keeps the ask open and someone raises it again. Every spot where the player answers offers two or three answers that differ; one only for a courtesy. In a first meeting the name is said once, at the introduction, and a stranger at a door never uses the candidate's first name. What the player just said sets a fact, and the next line must answer it. A person remembers what passed with the player: a second ask of the same person opens on the first answer, a third on both, and after a second no the player gets a plain close only. A plea is offered only when the record holds what it leans on. A bribe says what is wanted first and the money second. A news story shows the day it ran. A line taken out of a scene is deleted from the bank, and a played file, sheet or verdict for a head that no longer exists is deleted, never renamed "old" (owner, Nov 15: "don't leave old shit in the files. Delete it.").
+
+## Rules 136 to 157: context, conditions and the opening talk (owner, Nov 15 and 16 2026)
+
+His words are whole on the Story thread, issue #9750 (the CTO's first comment) and in docs/words-lead-handoff-2026-11-16/played-scenes-feedback.md.
+
+136. The narrator says who a person is the first time the player meets them at a story point: full name and what they are to the player or the place, from the record. A first name alone only where the record says the player knows them. One rule in the director, at every level.
+137. A line never presumes something the record does not hold. A lie is a reply the player picks, marked as one, and possible at that moment; a line about an earlier act plays only when the record shows it.
+138. Every office, department or body a line names is one the place's records hold, by its own name there. Where the place has none, the line says the act, not an office.
+139. Replies under one choice are different things to say, each standing on its own; a no says what is refused and why.
+140. Plain phrasing people use ("I've been out of work a while, and my savings are almost gone.").
+141. The time words at the top of a scene come from the hour the event happens on the calendar; an event with no hour of its own is given one from the record.
+142. The Scenes page shows what a player would read: the seat's own title, sample names that are one person, conditions in plain English.
+143. People already in the player's life carry context and news: a friend calls after a big event, and the talk is how the player learns about the world. Any major public event can cause such a talk with someone the record ties to the player.
+144. Laws and ordinances that can pass are material for scenes at every level.
+145. Scenes are conditional by who the player is: sets for a state legislator only, for a legislator or an executive at any level, for a person not in office. The scene record says who it can play for.
+146. Sessions may ask the owner questions, after the repository and his rulings are searched (rule 132); a real question left goes in one line with what was found.
+147. No chit-chat scene. The coffee is never the point: the friend is deciding whether to run, a protest is on the way, someone from a party committee is met.
+148. Directing is narrowing: the director reads what is simulated and what the player is doing and can do, cuts the whole bank of scenes by those conditions, then picks a few.
+149. A no is a record: declining takes that scene out, and because the player said no, something else may come later. The game nudges and never says so.
+150. Many scenes with real variance: a scene is eligible through its wordings, each wording with its own conditions (requiresFacts, excludesFacts); a new wording is a different condition or thing to say, never a copy.
+151. "Tagging" means these conditions, on scenes and on lines.
+152. A recorded yes-or-no fact may gate a scene or a line; an amount weights the pick and never gates at a number.
+153. Whatever a thread traces by script or by reading code, dev mode in the game must show; a PR that comes out of a trace adds the missing dev-mode view.
+154. One path: every talk, the opening one included, is built by the same engine under the same rules; a fix is proved on the opening talk of a new life as well as on the scene it was made for.
+155. A reply that says nothing ("Oh, my.") is not a reply.
+156. Someone in the player's house does not open with "Did you hear about" a story that has nothing to do with them; a story is raised only with a recorded tie to the speaker or the player.
+157. The Elections page shows what the player can run for, in the office's own name, one entry per office, not one per seat.
+
+Rulings that go with these (owner, Nov 16, on the Story thread): the Nov 14 excuse for a fixed line "the world places" is withdrawn ("No. Count them again and rewrite them with inserts"; "either that or remove them and start fresh"); every line of dialogue or narration is registered in one place so there are no leftovers; dev mode traces and forces every scene and shows why each played and why each reply was offered; the director is a board of strings, each scene a card pinned to the records it needs (the CTO's reading of his Nov 16 picture).
 
 ## Traps
 
