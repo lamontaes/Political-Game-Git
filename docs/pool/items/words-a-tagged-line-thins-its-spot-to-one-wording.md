@@ -38,3 +38,4 @@ Seen: on the reporter's call after a council vote, the same reply and the same p
 **Notes.**
 
 - Nov 15: found from stall-after-vote.test.ts, red since #9433 (fold 1d090330). The test's packet now carries `acted` (Account lead's yes, 12:50Z). It stays red until the Words lead's lines exist.
+- Nov 15, 23:00Z (press-comment-why-answered-by-the-roll): after a vote, the reporter's "why" is answered by the two largest reasons the roll holds. The plain yes answer, for a member with no part of their position leaning yes, is taken out: no vote reached it. A script drew 60 places (`plain-yes:0` to `plain-yes:59`, one bill each, for and against), and every voting member had their own view, the people or trust in the bill's author leaning yes. On their own bill the player has one reason leaning yes, so that answer has one wording ("It's my bill. I believe in it.") until the Words lead writes a second.

@@ -33,3 +33,5 @@ root: rc10-screens-keep-own-facts
 **Waits on.** Nothing.
 
 **Files.** src/core2/jobs-elsewhere.ts, src/core2/modules/jobs.ts, src/core2/opening-jobless-stock.test.ts
+
+**Notes.** 2026-11-16 (claude/project-thread-2h04xv, measured for PR 9629 on Train a62a2fda): one played year, residents unemployed over the labor force from `townLaborByPlace` at year end, the same twice a side. Sioux Center, Iowa (seed lay-1973290) 9.9% (498 looking of 5,045), against Sioux County's rate of about 2 to 3%; Choteau, Montana (seed lay-3014650) 3.8%; Center, North Dakota (seed lay-3813180) 2.8%. Sioux Center is the "opens low and climbs" case at a larger town. These are the Train's levels; PR 9629 moved them to 9.6%, 6.2% and 2.8%.

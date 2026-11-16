@@ -1,0 +1,6 @@
+{
+  "about": "How people name a payment they owe, by the kind of loan behind it (the credit engine's loan kinds, src/core2/modules/credit.ts), read by src/english/payment-words.ts. Said after a verb or preposition, never first in a line ('You said you'd pay the loan on time.'). Only kinds a played borrower was seen to miss and be held to a promise are named; a pay-on-time promise on any other kind is never said (paymentNamed, src/director/promise-talk.ts). Words lead, Nov 15. The payday loan was taken out on Nov 15 when its played borrower stopped borrowing (pool item world-counted-households-flood-lenders-month-one).",
+  "payments": {
+    "personal": "the loan"
+  }
+}
