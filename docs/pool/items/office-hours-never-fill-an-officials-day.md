@@ -5,10 +5,10 @@ area: office
 kind: bug
 priority: 1
 size: M
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/project-thread-csmftn-officehours
-pr:
+pr: 9679
 after: legislature-colleague-ties-stay-slight
 blocked-on:
 lead: people
