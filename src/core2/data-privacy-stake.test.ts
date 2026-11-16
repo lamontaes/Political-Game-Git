@@ -14,7 +14,8 @@ import { coreAPI } from "./state";
 // operating costs the business engine's monthly cost review charges, so an
 // employer's stake in the bill reads that cost instead of a share of payroll
 // (SG-GOV-bound-employer-cost-estimate). It scales with the business's own
-// books, and any other law is priced elsewhere. A drawn place, a seed nobody chose.
+// books, binds only a business over the statute's size test, and any other
+// law is priced elsewhere. A drawn place, a seed nobody chose.
 const seed = process.env.PRIVACY_STAKE_SEED ?? randomBytes(8).toString("hex");
 const place = drawPlace(seed, "data-privacy-stake");
 
@@ -26,15 +27,18 @@ it(`a data privacy law costs a business its share of other costs, scaling with i
       placeKey: place.key,
     });
     const api = coreAPI(core);
+    const over = api.parameter("businessDataPrivacyMinSalesMinor");
     const small = businessDataPrivacyCostYear(
       api,
       DATA_PRIVACY_QUESTION,
       1_000_000,
+      over,
     )!;
     const large = businessDataPrivacyCostYear(
       api,
       DATA_PRIVACY_QUESTION,
       2_000_000,
+      over,
     )!;
     expect(small).toBe(
       Math.round(1_000_000 * api.parameter("businessDataPrivacyShareOfCosts")),
@@ -46,8 +50,18 @@ it(`a data privacy law costs a business its share of other costs, scaling with i
         api,
         "us-policy-positions:environment-energy.bottle-deposit",
         1_000_000,
+        over,
       ),
     ).toBeNull();
+    // A business under the statute's size test is not bound: the law costs it nothing.
+    expect(
+      businessDataPrivacyCostYear(
+        api,
+        DATA_PRIVACY_QUESTION,
+        1_000_000,
+        over - 1,
+      ),
+    ).toBe(0);
   } finally {
     setBookkeeping(true);
   }
