@@ -13,7 +13,7 @@
  * counts keeps its money and its share.
  */
 import COUNTED_ROWS from "./data/counted/parameters.json" with { type: "json" };
-import { stableHash } from "./kernel/ids";
+import { seededFineUnit } from "./seeded";
 
 /** σ: the spread of the log balance among families alike in income (ESTIMATED from the survey's mean over median). */
 export function balanceSpreadLog(): number {
@@ -21,14 +21,18 @@ export function balanceSpreadLog(): number {
     .countedSavingsSpreadLog!.value;
 }
 
-/** The household's standard normal draw, from the world's seed and its id. */
+/**
+ * The household's standard normal draw, from the world's seed and its id, by
+ * Box-Muller on two of the world's seeded units (seeded.ts, SHA-256), which
+ * are independent (pool item counted-saving-draw-not-normal).
+ */
 export function balanceDrawZ(seed: string, householdId: string): number {
-  const uniform = (key: string) =>
-    (Number.parseInt(stableHash(key).slice(0, 12), 16) + 0.5) / 16 ** 12;
-  const key = `${seed}:counted-saving:${householdId}`;
+  const key = `counted-saving:${householdId}`;
+  // Half a step above zero, so the logarithm is finite.
+  const u = seededFineUnit(seed, `${key}:a`) + 2 ** -53;
   return (
-    Math.sqrt(-2 * Math.log(uniform(`${key}:a`))) *
-    Math.cos(2 * Math.PI * uniform(`${key}:b`))
+    Math.sqrt(-2 * Math.log(u)) *
+    Math.cos(2 * Math.PI * seededFineUnit(seed, `${key}:b`))
   );
 }
 

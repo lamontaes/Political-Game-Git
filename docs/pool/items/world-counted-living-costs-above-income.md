@@ -22,7 +22,7 @@ source: "T54's trace of the two away-workers reds left on the opening-savings fi
 
 **Cause.** Needs cause. Found so far: the jobs engine's choice to look reads the household's days of money (`countedDaysOfMoney`, src/core2/modules/jobs.ts), correctly, and the households really are short. Staples is a well-off place, so wages near $33,000 a year for the median household point at the income side (what `wagesMinorYear` and `retirementMinorYear` hold for a counted household, and which earners or transfers they leave out, such as away workers' pay or Social Security), or at living costs set from a richer table than the income. Trace one household by id from the opening's draw to these two fields and to `livingCostDailyMinor`, against the town's survey income.
 
-**Fix.** None until the cause is found. No tuned weights: the choice to look stays as it is.
+**Fix.** None until the cause is found.
 
 **Time box.** 3 hours, Opus, medium.
 
