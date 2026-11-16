@@ -590,7 +590,7 @@ function membershipPayouts(api: CoreAPI): void {
 }
 
 /** The owner closes the business by choice; its remaining cash goes to them (or their place's pool while counted). */
-function closeByChoice(
+export function closeByChoice(
   api: CoreAPI,
   organizationId: string,
   ownerId: string,
