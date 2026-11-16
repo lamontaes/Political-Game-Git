@@ -5,7 +5,7 @@ A political and government RPG with a full life simulation underneath. Every age
 ## Where the game is going (owner, Oct 10, 2026)
 
 - **The new core (`src/core2`) is the engine.** Build onto it through modules and data rows. Never start a parallel engine, writer, scheduler or system. **One engine per mechanic (owner, Oct 27): there is one election engine, one body engine, one executive engine, one budget engine, one scene engine, one screen renderer per menu type; the level, office, body, place and law are data rows the one engine reads. A second engine or a per-level code path is a duplicate to delete. The simulation is the one layer that knows anything; every screen, scene, journal entry, news story and speech is a view of the same records (owner, Oct 28: "It's just different ways of displaying the same information... That's how literally every single game works"). A view that computes or stores its own version of a fact is a duplicate.** The old core (`src/simulation`) was deleted on Oct 28 (#6659); the `old-imports` guard refuses any attempt to bring it or its folder back.
-- **Progress is the golden path with the world running.** The player's path: turn 18 → meet people → file for office where that place files (clerk, registrar or board of elections, from its records) → campaign → win or lose → propose an ordinance → negotiate → pass or fail → the town visibly changes → people bring it up → the next election uses the record. Around it the whole time: the national economy, state and federal governments acting through the same engines as local government, and other places at a coarser level. Report the furthest step a player reaches, never an audit percentage.
+- **Progress is the golden path with the world running.** The player's path: start as an adult, 18 unless the player picks another age (owner, Nov 16) → meet people → file for office where that place files (clerk, registrar or board of elections, from its records) → campaign → win or lose → propose an ordinance → negotiate → pass or fail → the town visibly changes → people bring it up → the next election uses the record. Around it the whole time: the national economy, state and federal governments acting through the same engines as local government, and other places at a coarser level. Report the furthest step a player reaches, never an audit percentage.
 - **The Political Process is the baseline (owner, Oct 12).** The game does everything _The Political Process_ (Verlumino Studios) does, then goes deeper from the owner's decisions and the design record. `docs/roadmap/political-process-baseline.md` maps each of its systems to our specs.
 - **Early access:** local and state offices playable (council, mayor, county, state legislature, governor), including the executive role. Federal is built in parallel on the same engines; playing as president is a goal that early access doesn't wait for. Courts come after early access.
 - **The roadmap is `docs/ROADMAP.md`; the work is the pool (`docs/pool/`).** Owner ideas become pool items the same hour.
@@ -92,6 +92,16 @@ Detail and self-checks are in the matching `.agents/rules/standing-skills/<name>
 - **A fix lands on the branch where the failure reproduces.** Diagnose from the log on every platform that shows the failure.
 - **Owner reports** use `civic-reports`: what changed for the player first, then the numbers, in plain American English.
 
+## How done is proven (CTO, Nov 16)
+
+The CTO's rules on the crew's thread (#9747), from the owner's standing rule "fix the cause, don't loosen the check". Load skill `done-proof` before opening a pull request or marking one ready.
+
+- **No session edits the checks that judge it.** A pull request adds no `it.fails`, `.skip`, `.only` or `todo`, no raised baseline or budget, no widened tolerance and no test pinned to a named town or seed, unless a CTO line on the crew's thread approves that exact pull request.
+- **Done means seen in the running game:** a screenshot from the game, reached by playing (dev mode allowed), beside its mock or the owner's words. A passing test alone is not done. A pull request that touches a row of the feature map, `docs/feature-map.md` (new), runs that row's check.
+- **Three strikes:** after three real attempts at a failing check's cause, stop and post "for the CTO" with what you tried. A flaky test is fixed at its cause or deleted with the reason written, never skipped, slept or retried.
+- **Repeats become checks:** a complaint the owner made twice gets a check, shipped in the pull request of its fix, that fails on the old code.
+- **Stamp it:** every pull request body says which checks ran and gives the screenshot, or writes "none".
+
 ## Skills
 
 **Every session grows the skills (owner, Oct 29: "Make sure every session knows that it can proactively create skills and update the skills that they use if they find stuff, or they can ask... I want skills to be made").** When you find something a skill should have told you (a trap you fell into, a fix that worked, a method you used twice, a check that caught a defect), add the line to that skill, or create a new skill when none covers it, in the same pass. A skill can be about how the crew works (owner, Oct 29: keeping helpers' cloned workspaces down to what they need, so sessions have disk space to work with) or about anything in the game. A new skill is `.agents/skills/<name>/SKILL.md` with frontmatter `name` (the folder name) and a `description` of 41 to 1,024 characters that says when to use it and when not; mirror it byte for byte to `.claude/skills/<name>/`, add one line for it to the list below, in alphabetical order, run `npm run test:skill-ops` and prettier, and add a release declaration with `impact: none`. Ship it inside your work PR, or as its own `skills:` PR, which the CTO merges at once without waiting on CI (owner, Oct 29: "You shouldn't need to wait for checks to pass on new skills"), after running the skill test locally for the mirror and the list. A skill line records a ruling, a standing rule or a method that worked; it never makes new policy. When you are unsure whether something is a skill line or a question for the owner, ask the CTO. **A process is a skill, not a message (owner, Nov 1: "i saw one messaging about communicating a process. just make it a skill").** When you are about to explain in a message how to do something, write it into the skill that covers it (or a new one) and send the skill's name instead; a process received in a message that no skill holds becomes a skill line in the same pass (`crew-messages`).
@@ -109,6 +119,7 @@ Load a skill when its trigger fits; descriptions say when. Every session, first:
 - `current-pointers`: the master file that says what is current, and keeping every pointer on a path that exists
 - `day-one-in-motion`: every world opens already running, at town, state and federal level; the day-zero file, test and guard
 - `dev-tester`: proving laws, bodies and drifting worlds with scripts/dev-tests, and its traps
+- `done-proof`: how done is proven: what a pull request never adds without a CTO line, the screenshot from the running game, the feature map, three strikes, the verification stamp
 - `drawn-place-tests`: a test that needs a case in the world finds one by drawing and waiting, and names what it passed over
 - `file-a-pool-item`: adding a pool item by hand, with its Cause prefix
 - `gap-trace`: tracing a problem seen in play to its cause, its fix and its ruling, and the gap sheet row
@@ -128,7 +139,7 @@ Load a skill when its trigger fits; descriptions say when. Every session, first:
 - `nation`: the rest of the country as results: national opinion, other states' disasters, budgets and measures, the President's acts, the federal courts
 - `owners-words-to-threads`: the owner's words go to threads verbatim, his examples are generalities, the standing rules for words
 - `people-pack`: drawing people from the pack, on mannequin plates
-- `pinned-tests`: tests pinned to named places and seeds, never red by draw
+- `pinned-tests`: writing a test pinned to named places and seeds, once a CTO line approves the pin for that pull request
 - `play-first`: one item of the play-first lane; the screenshot and browser check
 - `play-walks`: playing a new life with scripts that click what a player clicks and write down every line
 - `played-world-proof`: proving a feature in a played year
