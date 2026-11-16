@@ -12,7 +12,6 @@ import {
 import reference from "./data/opening-employer-cash-reference.json" with { type: "json" };
 import originalContext from "../../data/research/money/opening-employer-cash-buffers.json" with { type: "json" };
 import { PARAMETERS, parameter as p, type Parameter } from "./parameters";
-import { seededUnit } from "./seeded";
 import { buildPopulation } from "./population";
 import { buildOpeningCustomers } from "./opening-customers";
 import { OPENING_CUSTOMER_QUALIFICATION_PREFIX } from "./opening-customer-qualification";
@@ -129,15 +128,16 @@ function fixture(): CoreInput {
   };
 }
 
-/** A business's place in its industry's spread: the world's seeded unit keyed by the business (opening-capital.ts). */
-const unitOf = (seed: string, organizationId: string) =>
-  seededUnit(
-    seed,
-    `${DEFAULT_OPENING_CAPITAL_DATA.openingPriorNamespace}:${organizationId}`,
-  );
-const daysOf = (industry: string, seed: string, organizationId: string) =>
-  openingEmployerCashBufferAtQuantile(industry, unitOf(seed, organizationId))
-    .bufferDays;
+/**
+ * Pinned for seed "capital:no-dice", business "capital:firm": the world's seeded unit
+ * keyed by the business (opening-capital.ts) puts it at quantile 0.6406165638472885.
+ * Old premise, before Nov 16: a private stableHash put the same business at
+ * 0.7843550593825057 (36.565519619965926 restaurant days, 74.98621244658716 overall).
+ * Re-pinned with the lead's yes on #9717.
+ */
+const PINNED_QUANTILE = 0.6406165638472885;
+const PINNED_RESTAURANT_DAYS = 24.43699383083731;
+const PINNED_OVERALL_DAYS = 46.68631893862039;
 
 function estimate(input: CoreInput = fixture()) {
   return createOpeningEmployerCapital(
@@ -154,12 +154,8 @@ describe("fresh sourced private-employer opening stocks (source-only fixtures)",
     const row = result.estimates[0]!;
     expect(row.status).toBe("estimated-private-buffer");
     expect(row.industry).toBe("restaurants");
-    expect(row.startupQuantile).toBe(
-      unitOf(input.seed, input.organizations[0]!.id),
-    );
-    expect(row.bufferDays).toBe(
-      daysOf("restaurants", input.seed, input.organizations[0]!.id),
-    );
+    expect(row.startupQuantile).toBe(PINNED_QUANTILE);
+    expect(row.bufferDays).toBe(PINNED_RESTAURANT_DAYS);
     expect(row.observedBufferDays).toEqual({
       percentile25: 9,
       median: 16,
@@ -323,9 +319,7 @@ describe("fresh sourced private-employer opening stocks (source-only fixtures)",
       expect(row.overallFallback).toBe(true);
       expect(row.industry).toBe("all-small-businesses");
       expect(row.observedBufferDays!.median).toBe(27);
-      expect(row.bufferDays).toBe(
-        daysOf("all-small-businesses", input.seed, input.organizations[0]!.id),
-      );
+      expect(row.bufferDays).toBe(PINNED_OVERALL_DAYS);
       expect(row.parameterRefs).toContain("openingEmployerCashBufferDaysAll");
     },
   );
@@ -819,12 +813,8 @@ describe("fresh sourced private-employer opening stocks (source-only fixtures)",
       input.organizations[0]!.id,
       "restaurants",
     );
-    expect(prior.startupQuantile).toBe(
-      unitOf(input.seed, input.organizations[0]!.id),
-    );
-    expect(prior.bufferDays).toBe(
-      daysOf("restaurants", input.seed, input.organizations[0]!.id),
-    );
+    expect(prior.startupQuantile).toBe(PINNED_QUANTILE);
+    expect(prior.bufferDays).toBe(PINNED_RESTAURANT_DAYS);
     expect(prior.startupQuantile).toBeGreaterThan(0);
     expect(prior.startupQuantile).toBeLessThan(1);
     expect(
@@ -877,9 +867,17 @@ describe("fresh sourced private-employer opening stocks (source-only fixtures)",
       workCommitments: copies.map((row) => row.commitment),
     };
     const rows = estimate(input).estimates;
-    expect(rows.map((row) => row.bufferDays)).toEqual(
-      rows.map((row) => daysOf("restaurants", input.seed, row.organizationId)),
-    );
+    expect(
+      Object.fromEntries(
+        rows.map((row) => [row.organizationId, row.bufferDays]),
+      ),
+    ).toEqual({
+      "firm:alpha": 62.72518462734297,
+      "firm:beta": 14.052545345388353,
+      "firm:gamma": 21.946136051788926,
+      "firm:delta": 19.441022653132677,
+      "firm:epsilon": 10.000086835585535,
+    });
     expect(new Set(rows.map((row) => row.startupQuantile)).size).toBe(5);
     expect(new Set(rows.map((row) => row.liquidMinor)).size).toBe(5);
     expect(new Set(rows.map((row) => row.plannedPayrollMinor))).toEqual(
