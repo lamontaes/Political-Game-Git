@@ -86,7 +86,8 @@
     "turn-from": "the point just made, by its question's plain name (question-names `about`)",
     "asked-about": "the close's ask, by its question's plain name (question-names `about`)",
     "body-word": "the body the speaker's party holds or lacks, by its one word: the legislature, or the word a local body's record name holds (council, board)",
-    "condition-closure": "the played place's business that closed this past year with the most jobs ended, by its name (the finance engine's closure record)"
+    "condition-closure": "the played place's business that closed this past year with the most jobs ended, by its name (the finance engine's closure record)",
+    "condition-office": "the office filled at this past year's election in the speaker's government, by its title on the offices engine's row, lower case"
   },
   "maxWords": 40,
   "mining": {
@@ -121537,17 +121538,17 @@
       "date": "2026-11-16"
     },
     {
-      "key": "opening-speech.year-condition.ld-closed-this-year-and-felt-it",
+      "key": "opening-speech.year-condition.ld-closed-this-year-and-we-all-felt-it",
       "move": "year-condition",
       "kind": "spoken",
-      "text": "{condition-closure} closed this year, and {realm-bare} felt it.",
+      "text": "{condition-closure} closed this year, and we all felt it.",
       "uses": [
         {
           "move": "year-condition",
           "subject": "state-of-the-state",
           "role": "year-condition",
           "choice": "year-condition",
-          "requiresFacts": ["condition-closure", "realm-bare"],
+          "requiresFacts": ["condition-closure"],
           "tie": "place"
         },
         {
@@ -121555,7 +121556,7 @@
           "subject": "town-address",
           "role": "year-condition",
           "choice": "year-condition",
-          "requiresFacts": ["condition-closure", "realm-bare"],
+          "requiresFacts": ["condition-closure"],
           "tie": "place"
         }
       ],
@@ -121566,21 +121567,17 @@
       "date": "2026-11-16"
     },
     {
-      "key": "opening-speech.year-condition.ld-we-lost-this-year-and-people-in-lost-their-jobs-with-it",
+      "key": "opening-speech.year-condition.ld-we-lost-this-year-and-people-here-lost-their-jobs-with-it",
       "move": "year-condition",
       "kind": "spoken",
-      "text": "We lost {condition-closure} this year, and people in {realm-bare} lost their jobs with it.",
+      "text": "We lost {condition-closure} this year, and people here lost their jobs with it.",
       "uses": [
         {
           "move": "year-condition",
           "subject": "state-of-the-state",
           "role": "year-condition",
           "choice": "year-condition",
-          "requiresFacts": [
-            "condition-closure",
-            "condition-jobs-ended",
-            "realm-bare"
-          ],
+          "requiresFacts": ["condition-closure", "condition-jobs-ended"],
           "tie": "place"
         },
         {
@@ -121588,11 +121585,7 @@
           "subject": "town-address",
           "role": "year-condition",
           "choice": "year-condition",
-          "requiresFacts": [
-            "condition-closure",
-            "condition-jobs-ended",
-            "realm-bare"
-          ],
+          "requiresFacts": ["condition-closure", "condition-jobs-ended"],
           "tie": "place"
         }
       ],
@@ -121603,17 +121596,17 @@
       "date": "2026-11-16"
     },
     {
-      "key": "opening-speech.year-condition.ld-the-hit-hard-this-year",
+      "key": "opening-speech.year-condition.ld-the-hit-us-hard-this-year",
       "move": "year-condition",
       "kind": "spoken",
-      "text": "The {condition-disaster} hit {realm-bare} hard this year.",
+      "text": "The {condition-disaster} hit us hard this year.",
       "uses": [
         {
           "move": "year-condition",
           "subject": "state-of-the-state",
           "role": "year-condition",
           "choice": "year-condition",
-          "requiresFacts": ["condition-disaster", "realm-bare"],
+          "requiresFacts": ["condition-disaster"],
           "tie": "place"
         },
         {
@@ -121621,7 +121614,7 @@
           "subject": "town-address",
           "role": "year-condition",
           "choice": "year-condition",
-          "requiresFacts": ["condition-disaster", "realm-bare"],
+          "requiresFacts": ["condition-disaster"],
           "tie": "place"
         }
       ],
@@ -121632,17 +121625,17 @@
       "date": "2026-11-16"
     },
     {
-      "key": "opening-speech.year-condition.ld-nobody-in-has-forgotten-the",
+      "key": "opening-speech.year-condition.ld-nobody-here-has-forgotten-the",
       "move": "year-condition",
       "kind": "spoken",
-      "text": "Nobody in {realm-bare} has forgotten the {condition-disaster}.",
+      "text": "Nobody here has forgotten the {condition-disaster}.",
       "uses": [
         {
           "move": "year-condition",
           "subject": "state-of-the-state",
           "role": "year-condition",
           "choice": "year-condition",
-          "requiresFacts": ["condition-disaster", "realm-bare"],
+          "requiresFacts": ["condition-disaster"],
           "tie": "place"
         },
         {
@@ -121650,7 +121643,7 @@
           "subject": "town-address",
           "role": "year-condition",
           "choice": "year-condition",
-          "requiresFacts": ["condition-disaster", "realm-bare"],
+          "requiresFacts": ["condition-disaster"],
           "tie": "place"
         }
       ],
@@ -121719,17 +121712,17 @@
       "date": "2026-11-16"
     },
     {
-      "key": "opening-speech.year-condition.ld-voted-this-year-and-i-heard-what-you-said",
+      "key": "opening-speech.year-condition.ld-you-voted-for-this-year-and-i-heard-what-you-said",
       "move": "year-condition",
       "kind": "spoken",
-      "text": "{realm-bare} voted this year, and I heard what you said.",
+      "text": "You voted for {condition-office} this year, and I heard what you said.",
       "uses": [
         {
           "move": "year-condition",
           "subject": "state-of-the-state",
           "role": "year-condition",
           "choice": "year-condition",
-          "requiresFacts": ["condition-election", "realm-bare"],
+          "requiresFacts": ["condition-election", "condition-office"],
           "tie": "place"
         },
         {
@@ -121737,7 +121730,7 @@
           "subject": "town-address",
           "role": "year-condition",
           "choice": "year-condition",
-          "requiresFacts": ["condition-election", "realm-bare"],
+          "requiresFacts": ["condition-election", "condition-office"],
           "tie": "place"
         }
       ],
@@ -121748,10 +121741,10 @@
       "date": "2026-11-16"
     },
     {
-      "key": "opening-speech.year-condition.ld-went-to-the-polls-this-year-and-i-m-standing-here-because-of",
+      "key": "opening-speech.year-condition.ld-you-voted-for-this-year-and-i-m-standing-here-because-of-it",
       "move": "year-condition",
       "kind": "spoken",
-      "text": "{realm-bare} went to the polls this year, and I'm standing here because of it.",
+      "text": "You voted for {condition-office} this year, and I'm standing here because of it.",
       "uses": [
         {
           "move": "year-condition",
@@ -121761,7 +121754,7 @@
           "requiresFacts": [
             "condition-election",
             "condition-elected-here",
-            "realm-bare"
+            "condition-office"
           ],
           "tie": "place"
         },
@@ -121773,7 +121766,7 @@
           "requiresFacts": [
             "condition-election",
             "condition-elected-here",
-            "realm-bare"
+            "condition-office"
           ],
           "tie": "place"
         }

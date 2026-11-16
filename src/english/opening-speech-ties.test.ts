@@ -25,7 +25,7 @@ const PLACE_SUBJECTS = new Set(["state-of-the-state", "town-address"]);
  * year's event there (a disaster, a closing, the vote). Said in those addresses, they are `place`.
  */
 const REALM_FACT =
-  /^(context-|(rent|crime|schools|health|roads|environment)-(worse|better)$|(change|say)-(rent|crime|schools|health|roads|environment)$|budget-|condition-(budget|disaster|closure|jobs-ended|election|elected-here))/;
+  /^(context-|(rent|crime|schools|health|roads|environment)-(worse|better)$|(change|say)-(rent|crime|schools|health|roads|environment)$|budget-|condition-(budget|disaster|closure|jobs-ended|election|elected-here|office))/;
 
 /**
  * Which record a supplied fact comes from, by its name and the address it is said in. How a

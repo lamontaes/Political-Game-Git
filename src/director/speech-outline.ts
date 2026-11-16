@@ -1788,8 +1788,18 @@ function electionOfYear(
   // A state's vote is the speaker's own race: the legislature's seats are
   // the officials engine's, not terms the offices engine elects.
   if (!voted.length || (level === "state" && !own.length)) return {};
+  // The office that election filled, by its row's own title: the speaker's
+  // own where they won it, else the first seat voted.
+  const filled = own[P.zero] ?? voted[P.zero]!;
+  const title = (
+    api.moduleState(OFFICES_MODULE_ID).table("offices").get(filled.officeId) as
+      { title?: string } | undefined
+  )?.title?.toLocaleLowerCase("en-US");
   return {
     "condition-election": fact("yes", ...voted.map((term) => term.id)),
+    ...(title
+      ? { "condition-office": fact(title, filled.id, filled.officeId) }
+      : {}),
     ...(own[P.zero]
       ? { "condition-elected-here": fact("yes", own[P.zero]!.id) }
       : {}),
