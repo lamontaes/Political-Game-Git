@@ -50,9 +50,7 @@
  * adds over Medicaid's share is paid first, under ids that cite the
  * requirement. The expansion's and the requirement's coverage links are
  * carried by those records (links.json carriedBy), so the web does not run
- * them. Medicaid coverage is not an employer plan: the coverage engine reads
- * no Medicaid law into any worker's employer plan in any place
- * (EMPLOYER_PLAN_LEAVES_OUT). A household in another place the world keeps
+ * them. A household in another place the world keeps
  * (the places around the town), whose coverage the reach does not keep,
  * meets the expansion through the place-level row on the share sent to
  * collections, its one path there.
@@ -364,21 +362,10 @@ function plans(
   };
 }
 
-/**
- * What every worker's employer plan leaves out of the coverage engine's
- * health.uninsured-pct read, in every place: the expansion as a moderator
- * (its halving of unemployment's link), since Medicaid coverage is not an
- * employer plan. A worker who loses a job loses the plan whether or not
- * Medicaid then covers them; the reach's coverage record catches them in the
- * town, and the place-level medical-debt row carries the expansion elsewhere.
- */
 // stopgapId: SG-WEB-uninsured-share-misses-medicaid-coverage — the web no
 // longer runs the expansion's or the work requirement's uninsured links (the
 // coverage records carry them), so a place's health.uninsured-pct, and the
 // graduation link that reads it, miss the Medicaid coverage those records hold.
-export const EMPLOYER_PLAN_LEAVES_OUT: ReadonlySet<string> = new Set(
-  data.personLevel.employerPlanLeavesOut.moderators,
-);
 
 /**
  * Everyone the pass bills this month, full and counted, by household: the
