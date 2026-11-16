@@ -6,6 +6,14 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
 
 - None open. The Nov 9 question on arrows for single-value steppers was answered the same day (below).
 
+## Nov 16: the work branch is named `dev`; the settings wait for the owner's other account; main takes only the copy-over step (owner, typed to Fable B on the second account, about 02:05Z)
+
+- **His words, answering three questions on the two-branch plan (the name `dev`; that the GitHub settings need him; that main should refuse every push but the copy-over step):** "Yes, dev is fine. Don't worry about if something needs to be done. Don't worry about that because my account that has access to all that resets at 5 a.m. So it's fine. So we'll go with your recommendation for number 3."
+  - **The name.** The work branch is `dev`.
+  - **The settings.** The default branch, the protection rule for `dev`, and the lock on main are changed from his other account after it resets at 5 a.m. his time. Everything else is prepared before then and nothing waits on him. The exact steps are in `docs/coordination/TWO-BRANCHES.md`, "The settings, step by step".
+  - **Main is locked.** After the cutover, main refuses every push except the promote step's (`scripts/promote/promote.mjs`). No session pushes to main or merges a pull request into it.
+- **Until the cutover is posted, nothing changes:** pull requests target main and keep their tests, no branch named `dev` exists, and no session removes a test from main.
+
 ## Nov 15: Fable B is acting CTO until Monday afternoon and reads the train; promises move into the engine; saves get built now; the filing fee comes out (owner, typed to Fable B on the second account)
 
 - **Acting CTO (owner, about 19:36Z):** "So the other day when I ran out of usage on my CTO account, which you're going to act as for right now until tomorrow, basically, until Monday afternoon, you're going to be the CTO. I had all the PRs on another account just being made on a train. So look for that train PR, and then I want you to take a look at all of it. You yourself as Fable, not subagents. Or maybe you can have subagents check rulings, do tests and stuff, but I want you to actually look at the code and reason. And get that PR ready for merge. If it's ready for merge, let me know. Look at the code, make sure it's not adding anything new. You know, it's following all the game rules, things like that. And then, yeah, I want to get it merged and then get a new game build out because I think there's a ton of changes." He added that comments may go on the train pull request for the other account, and that he had told it to start a new train so #9052 stops moving (frozen at 892427ec15198d1bedcf8b7b8e4de0c7d8956264).

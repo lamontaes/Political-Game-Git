@@ -42,6 +42,10 @@
       "path": "docs/coordination/MERGE-FIRST.md"
     },
     {
+      "kind": "The two-branch plan (work branch and main without test files), the map and the way back",
+      "path": "docs/coordination/TWO-BRANCHES.md"
+    },
+    {
       "kind": "The roadmap",
       "path": "docs/ROADMAP.md"
     },
