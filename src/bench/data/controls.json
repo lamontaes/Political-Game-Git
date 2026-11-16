@@ -201,18 +201,7 @@
     "record": "Record",
     "publicRecordTitle": "Public record",
     "seat": "Seat held",
-    "closenessWords": [
-      "You barely know each other",
-      "You know each other",
-      "You are friendly",
-      "You are close",
-      "You are very close"
-    ],
-    "tieChange": {
-      "closer": "Grew closer",
-      "apart": "Drifted apart",
-      "same": "Last in touch"
-    },
+    "lastInTouch": "Last in touch",
     "tieCauses": {
       "visit": "a visit",
       "care": "care in a hard time",
@@ -402,7 +391,7 @@
       "pay": "Hourly pay",
       "stateUnemployment": "Your state: out of work",
       "statePeople": "Your state: people",
-      "stateJobs": "Your state: jobs",
+      "stateJobs": "Your state: residents with jobs",
       "stateBudget": "Your state: public budgets",
       "percent": "%"
     },
@@ -1211,7 +1200,7 @@
   },
   "metrics": {
     "state": "Your state",
-    "jobs": "Jobs",
+    "jobs": "Residents with jobs",
     "city": "Your town",
     "housing": "Homes",
     "rentals": "Rental homes",
