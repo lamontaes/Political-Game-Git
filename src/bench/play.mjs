@@ -2167,7 +2167,28 @@ async function campaignParts() {
                   ]
                 : []),
             ],
-            does: why ? [why] : [],
+            does: why
+              ? [why]
+              : choice.outing === "doors" && petition?.gatherTarget
+                ? [
+                    (petition.asksAtDoors
+                      ? T.askingWhySignatures
+                      : T.askingWhyVotes
+                    )
+                      .replace(
+                        "{signed}",
+                        petition.signed.toLocaleString("en-US"),
+                      )
+                      .replace(
+                        "{needed}",
+                        petition.needed.toLocaleString("en-US"),
+                      )
+                      .replace(
+                        "{target}",
+                        petition.gatherTarget.toLocaleString("en-US"),
+                      ),
+                  ]
+                : [],
           }),
           ...(choice.available
             ? { go: go(() => goOut(choice.outing, choice.outletId)) }
