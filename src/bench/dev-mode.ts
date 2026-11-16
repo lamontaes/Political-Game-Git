@@ -1186,8 +1186,27 @@ export class DevMode {
         new Set(committeeMemberKeys(api, billId, chamber)),
       );
       // Members named in `votes` vote as named, a dev's decision; the others fill the margin
-      // (negative to defeat), or vote their own position where no margin was given.
-      const named = options.votes ?? {};
+      // (negative to defeat), or vote their own position where no margin was given. A vote the
+      // player already chose with their own press (bill-stage.ts chooseOwnVote, the meeting)
+      // stands as named: dev mode never overwrites the player's press (Account lead, Nov 16).
+      const player = this.player?.personId ?? (api.state as CoreState).playerId;
+      const pressed = player
+        ? (api
+            .moduleState(LEGISLATURE_MODULE_ID)
+            .table("choices")
+            .get(
+              `${billId}|${player}${override ? "|override" : ""}`,
+            ) as unknown as { vote?: string } | undefined)
+        : undefined;
+      const named: Readonly<Record<string, "yes" | "no" | "abstain">> = {
+        ...(options.votes ?? {}),
+        ...(player &&
+        (pressed?.vote === "yes" ||
+          pressed?.vote === "no" ||
+          pressed?.vote === "abstain")
+          ? { [player]: pressed.vote }
+          : {}),
+      };
       const free = roster.filter((term) => !named[memberKey(term)]);
       const namedYes = roster.filter(
         (term) => named[memberKey(term)] === "yes",
