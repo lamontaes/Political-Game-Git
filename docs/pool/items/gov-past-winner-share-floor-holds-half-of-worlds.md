@@ -5,10 +5,10 @@ area: world
 kind: bug
 priority: 3
 size: S
-status: open
+status: in-pr
 standard: 2
 claimed-by:
-pr:
+pr: 9709
 after:
 blocked-on:
 root: none
