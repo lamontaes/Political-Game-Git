@@ -5,10 +5,10 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: open
+status: in-pr
 standard: 2
 claimed-by:
-pr:
+pr: 9592
 blocked-on:
 source: "the Account lead, Nov 15: a held player bill got no Journal line, no scene and nothing to press"
 claimed-at:
