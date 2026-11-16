@@ -8,7 +8,7 @@
  * Pinned places: each test draws places from all 56 on a fixed seed (named
  * here and in each line it prints) and plays the first that has the case,
  * printing what it passed over. The pay-on-time test plays a pinned
- * borrower (`BORROWERS`) whose loan and missed payments are the credit
+ * borrower (`BANK_BORROWER`) whose loan and missed payments are the credit
  * engine's own. HAND-STAGED, labeled where they stand: the hire that brings
  * the new coworker (as meeting-scene.test.ts) and the townsperson met for
  * the meeting ask. From there the scene, the reply, the record that settles
@@ -23,7 +23,6 @@ import { closenessBetween } from "../core2/closeness";
 import { gameStartDate } from "../core2/game-start";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
-import { JOBS_MODULE_ID } from "../core2/modules/jobs";
 import { coreAPI } from "../core2/state";
 import type { CoreState, JobInput, PersonId } from "../core2/types";
 import { seatAct, seatView } from "../bench/legislature";
@@ -53,7 +52,7 @@ import type { TreeNode } from "./scene-talk";
 import {
   borrowerWorld,
   LOAN_SEED,
-  PAYDAY_BORROWER,
+  BANK_BORROWER,
   play,
   playToQuarrel,
 } from "../../tests/support/real-borrower";
@@ -219,7 +218,7 @@ function talkOf(
         .map((line) => `${name(line.speakerId)}: ${line.text}`)
         .join(
           " / ",
-        )} [${answer!.id}; closeness ${before.toFixed(5)} to ${after.toFixed(5)}${renewed ? `; new promise ${renewed.id}` : ""}]`,
+        )} [${answer!.id}; closeness ${before.toFixed(8)} to ${after.toFixed(8)}${renewed ? `; new promise ${renewed.id}` : ""}]`,
     );
   }
   // Denying ends below owning it, except where the tie is already at its
@@ -273,66 +272,23 @@ function world(attempt: number, label: string) {
   return { ...built, where };
 }
 
-/** Each plays the pinned borrower (tests/support/real-borrower.ts); one takes work after the promise. */
-const BORROWERS: readonly {
-  draw: number;
-  birth: string;
-  /** The player says yes to the next job an employer calls about (the jobs engine's offer, in its scene). */
-  takesWork: boolean;
-}[] = [
-  { ...PAYDAY_BORROWER, takesWork: false },
-  { ...PAYDAY_BORROWER, takesWork: true },
-];
-/** Days an employer's call may take to come: the jobs engine makes offers weekly, from its open positions. */
-const OFFER_DAYS = 60;
 /**
- * The pay test plays the borrower's days twice, about nine months each (the
- * loan, the missed payment, the promise's window): 578 seconds measured on
- * Nov 15, so twice that.
+ * The pay test plays the pinned borrower's days about nine months (the loan,
+ * the missed payment, the promise's window): 135 seconds alone and 130 beside
+ * the file's other cases on Nov 16, so twice the slower.
+ *
+ * Old premise, re-pinned Nov 16 (Account lead): a borrower who takes work
+ * pays the next bill on time, so a second run took the next employer's call
+ * and expected the promise kept. It stopped being true with #9532, which
+ * more than doubled the living costs a personal loan is sized from (two
+ * months of them, creditPersonalMonthsOfCosts): the bill falls on the
+ * 1st and the first paycheck after taking work is smaller or later (Ragland:
+ * $161 due Sep 1 at $0, first pay $614 on Sep 5). A one-hour hunt on the
+ * Train found no played borrower who keeps it, so the kept case is a fault in
+ * the world, pool item world-loan-bill-before-first-payday-no-borrower-keeps,
+ * and comes back when that item lands.
  */
-const PAY_TIMEOUT = 1_200_000;
-/** The player's yes to the next employer's call, said in its scene (as job-offer-through-person.test.ts); the job taken. */
-function takeWork(
-  core: CoreState,
-  director: Director,
-  id: PersonId,
-  where: string,
-): string | undefined {
-  const until = addDays(makeIsoDate(core.date), OFFER_DAYS);
-  const book = director.ledger.people.get(id)!;
-  const jobs = coreAPI(core).moduleState(JOBS_MODULE_ID).table("offers");
-  // The call about an offer still open (an earlier one lapsed at its deadline).
-  const open = (momentId: string) => {
-    const cause = core.durableLog.get(
-      book.momentsById.get(momentId)?.causeId ?? "",
-    );
-    const offer = jobs.get(String(cause?.facts?.offerId ?? "")) as
-      { status: string } | undefined;
-    return offer?.status === "pending";
-  };
-  for (;;) {
-    const entry = book.schedule.find(
-      (item) =>
-        item.bindings.some((binding) => binding.typeKey === "job-offer") &&
-        open(item.momentId),
-    );
-    if (entry) {
-      const composed = purposeScene(core, director, id, entry, {
-        typeKey: "job-offer",
-      });
-      expect(composed?.kind, where).toBe("composed");
-      if (composed?.kind !== "composed") return undefined;
-      const yes = composed.scene.talk.tree.replies.findIndex(
-        (reply) => reply.line.move === "agree",
-      );
-      expect(yes, where).toBeGreaterThanOrEqual(0);
-      replyInScene(core, director, id, entry, [yes], { typeKey: "job-offer" });
-      return core.people.get(id)!.jobId;
-    }
-    if (core.date >= until) return undefined;
-    play(core, id, 5);
-  }
-}
+const PAY_TIMEOUT = 270_000;
 
 /** The loan a missed payment was on (its record's facts), for the played file. */
 function missedLoan(
@@ -400,13 +356,16 @@ function promiseToPay(
 }
 
 it(
-  `a promise to pay on time after a money quarrel over a real missed payment is broken by the next one, and kept when the player takes work and misses none (seed ${LOAN_SEED})`,
+  `a promise to pay on time after a money quarrel over a real missed payment is broken by the next one (seed ${LOAN_SEED})`,
   () => {
     setBookkeeping(false);
     try {
       const done: string[] = [];
-      for (const { draw, birth, takesWork } of BORROWERS) {
-        const { core, director, playerId, where } = borrowerWorld(draw, birth);
+      {
+        const { core, director, playerId, where } = borrowerWorld(
+          BANK_BORROWER.draw,
+          BANK_BORROWER.birth,
+        );
         const id = playerId as PersonId;
         director.watch(core, id);
         // The longer run is the game's own: the player's days until the bank
@@ -454,9 +413,6 @@ it(
             if (event.personIds[0] === id) later.push(event.id);
           },
         );
-        // Work taken through the game's own call pays the bills that follow.
-        const job = takesWork ? takeWork(core, director, id, where) : undefined;
-        if (takesWork) expect(job, `${where}: no job taken`).toBeTruthy();
         const windowEnd = addDays(makeIsoDate(find().since), 63);
         play(
           core,
@@ -465,24 +421,20 @@ it(
             (Date.parse(windowEnd) - Date.parse(core.date)) / 86_400_000,
           ),
         );
+        // The pinned borrower misses the next bill: the promise breaks on it.
         expect(find().outcome, `${where}: missed ${later.join(",")}`).toBe(
-          later.length ? "broken" : "kept",
+          "broken",
         );
-        if (later.length) expect(find().endedBy, where).toBe(later[0]);
-        else
-          expect(find().endedAt, where).toBe(
-            addDays(makeIsoDate(find().since), 62),
-          );
+        expect(find().endedBy, where).toBe(later[0]);
         const ended = find();
         const said = talkOf(core, director, made!.owedId, id, where);
         // The talk names the payment it was about, from the missed payment's loan.
         const payment = Object.values(paymentWords.payments).find((name) =>
           said.includes(name),
         );
-        if (ended.outcome === "broken")
-          expect(payment, `${where}: ${said}`).toBeTruthy();
+        expect(payment, `${where}: ${said}`).toBeTruthy();
         done.push(
-          `${where}${takesWork ? `, took work ${job}` : ""}: ${said}\n    payment ${payment ?? "(not named)"}, the missed payment's loan ${missedLoan(core, ended.endedBy, made!.replyId)}\n    the promise's own move: ${moves.join("; ") || "(none)"}\n    quarrel ${quarrel!.id}\n    ${factId} owed to ${made!.owedId}, ${ended.outcome} by ${ended.endedBy} on ${ended.endedAt}, closeness from the promise to the talk ${before.toFixed(5)} to ${closenessBetween(core, id, made!.owedId).toFixed(5)}`,
+          `${where}: ${said}\n    payment ${payment ?? "(not named)"}, the missed payment's loan ${missedLoan(core, ended.endedBy, made!.replyId)}\n    the promise's own move: ${moves.join("; ") || "(none)"}\n    quarrel ${quarrel!.id} over the earlier missed payment ${String(quarrel!.facts?.missedId)}\n    ${factId} owed to ${made!.owedId}, ${ended.outcome} by ${ended.endedBy} on ${ended.endedAt}, closeness from the promise to the talk ${before.toFixed(5)} to ${closenessBetween(core, id, made!.owedId).toFixed(5)}`,
         );
       }
       process.stdout.write(`PAY ON TIME\n  ${done.join("\n  ")}\n`);

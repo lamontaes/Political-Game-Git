@@ -117,7 +117,7 @@ export function promiseSubject(
       facts["meeting-held"] = { text: held, sourceRecordIds: [meeting.id] };
   }
   // A payment promised: the loan behind the missed payment, named as people
-  // say it ("the payday loan"). Broken, the new missed payment that broke it;
+  // say it ("the loan"). Broken, the new missed payment that broke it;
   // kept, the one the quarrel was over (the cause of the reply).
   const missed = paymentMissedOf(core, row);
   const payment = paymentSaid(missed?.facts?.loanKind);
