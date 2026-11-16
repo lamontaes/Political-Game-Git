@@ -48,6 +48,10 @@ Set a new or changed test's limit near twice the slower of two runs: the test al
 - A PR based on the train branch shows "merged" on GitHub when folded. That is not a merge to main.
 - After a usage limit resets, every thread that failed needs a message.
 
+## The Train works in rounds (CTO, Nov 16)
+
+The Train pushes one head, posts `Train 2 ready at <full sha>` on #9554 with the red test files and why, and leaves that head untouched until validate, golden-path and new game finish; folds named meanwhile go on a second branch. Each push cancels the checks of the push before it, so nothing is pushed between rounds.
+
 ## A moved head needs a new stamp
 
 A `Words lead: train-ready` stamp is for one sha. If the head moves afterward, the stamp is void and the PR is read again, unless the diff since the stamp is lint only (prettier or eslint, nothing a player sees). Say in the post what changed between the two heads. A played-file sha may also be waived when the last commit holds a pool item and its release note and nothing else (Account lead, Nov 16).
