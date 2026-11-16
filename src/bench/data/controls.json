@@ -1371,6 +1371,8 @@
     "asking": "Asking for",
     "askingSignatures": "Signatures",
     "askingVotes": "Votes",
+    "askingWhySignatures": "Your petition holds {signed} of the {needed} the clerk asks for. The doors keep gathering until {target}, so the names the clerk strikes do not leave you short. After that they ask for the vote.",
+    "askingWhyVotes": "Your petition holds {signed} of the {needed} the clerk asks for, past the {target} the doors gather. From here the doors ask for the vote.",
     "endorsements": "Endorsements",
     "go": "Go",
     "howLong": "How long",

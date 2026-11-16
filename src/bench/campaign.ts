@@ -8,6 +8,7 @@ import {
   askToVolunteer,
   campaignFor,
   petitionAsksAtDoors,
+  signaturesToGather,
   commissionPoll,
   endorsementsOf,
   giveSpeech,
@@ -105,6 +106,8 @@ export function petitionView(api: CoreAPI, filingId: string) {
     outside: circulatorsCanWork(api, filingId),
     /** Whether the doors still ask for signatures; past the target plus the cushion they ask for the vote. */
     asksAtDoors: petitionAsksAtDoors(api, filingId),
+    /** The signatures the doors gather before they turn to the vote: the clerk's count plus what the clerk may strike. */
+    gatherTarget: signaturesToGather(petition.needed),
   };
 }
 const CAMPAIGNS = "core2-campaigns-v1";

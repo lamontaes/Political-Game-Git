@@ -2132,7 +2132,19 @@ async function campaignParts() {
                   ]
                 : []),
             ],
-            does: why ? [why] : [],
+            does: why
+              ? [why]
+              : choice.outing === "doors" && petition?.gatherTarget
+                ? [
+                    (petition.asksAtDoors
+                      ? T.askingWhySignatures
+                      : T.askingWhyVotes
+                    )
+                      .replace("{signed}", String(petition.signed))
+                      .replace("{needed}", String(petition.needed))
+                      .replace("{target}", String(petition.gatherTarget)),
+                  ]
+                : [],
           }),
           ...(choice.available
             ? { go: go(() => goOut(choice.outing, choice.outletId)) }
