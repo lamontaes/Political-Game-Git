@@ -5,7 +5,7 @@ area: director
 kind: bug
 priority: 3
 size: S
-status: in-pr
+status: merged
 claimed-by: S3
 pr: 9359
 after:

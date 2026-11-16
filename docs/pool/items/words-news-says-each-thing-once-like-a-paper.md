@@ -5,10 +5,10 @@ area: words
 kind: bug
 priority: 2
 size: M
-status: in-pr
+status: merged
 standard: 2
 claimed-by: Words builder W3
-pr: 9046
+pr: #9046
 after:
 blocked-on:
 lead: words
@@ -18,6 +18,7 @@ root: rc2-done-from-records
 source: "Fable A's rule 15, Nov 13, 2026 05:19Z on #8928, from Playtester P3 (6) and Playtester P2 (batch 2, 3)"
 checked:
 claimed-at: 2026-11-13
+merged-at: 2026-11-15T22:46:24.138Z
 ---
 
 **What.** In Fruitland, Idaho (seed 6c66ce96-86ed-47d7-ad37-063de2ddc0bf, July 27, 2025), the Fruitland Press Briefs printed: "The friends of policing backs Clara Evans for Mayor. The friends of policing endorsed Clara Evans for Mayor." The headline and the body say the same thing, a plural name takes "backs", and the group's name loses its capitals ("The neighbors Concerned About rental rules"). Elsewhere in News:

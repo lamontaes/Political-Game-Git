@@ -34,3 +34,5 @@ checked: fable 2026-11-10
 **Waits on.** core-played-game-saves-and-continues-part-1-bench-saves-life.
 
 **Files.** src/core2/saves.ts, src/core2/snapshot.ts, src/core2/saves.test.ts, scripts/core2-year/saves.mjs
+
+**Notes.** Measured Nov 15, 2026, on part 2 (#9555; Opal, Wyoming, seed save-continue-1, cloud container): loading a saved life (POST /api/load, which replays every recorded request) took 13.7 s after 5 played days, 21.3 s after 31 and 31.1 s after 61. That is about 13 s to build the world plus about 0.3 s per day played, so a ten-year life (about 3,650 days) would take about 18 minutes to load. This is why the part is priority 1.
