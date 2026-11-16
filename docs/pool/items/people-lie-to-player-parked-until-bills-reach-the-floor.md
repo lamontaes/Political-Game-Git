@@ -35,7 +35,7 @@ Where the other 51 died on 29ef4685: the chair never heard the bill (45), or the
 
 **Rules.** No dice and no staging: the case comes from a played world, never a tuned bill or a hand-set position. Look before you ask: the rulings are the Account lead's of Nov 15.
 
-**Done when.** At the named place 4846968 seed 8647-mason, the bounded search finds a played eve where an ask reaches one of the 12, or reports that none does with its numbers. A second session sees in dev mode on main a colleague's yes found false at the roll call, once #9456 lands.
+**Done when.** At the named place 4846968 seed 8647-mason, the bounded search finds a played eve where an ask reaches one of the 12, or reports that none does with its numbers. A second session sees in dev mode on main a colleague's yes found false at the roll call, once #9456 lands. Dev mode's person view shows, for that answer, whether it was true, what the speaker knew of their own vote when they said it, and the terms that made them say it (owner, Nov 16: what a trace finds, dev mode shows).
 
 **Waits on.** The committees thread's fix for bills that carry the senate and then end failed with no House roll call.
 
