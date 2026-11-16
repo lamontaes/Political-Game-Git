@@ -333,8 +333,7 @@ export function wireItem(
         desiredChange: "enact",
         ending: false,
       };
-    case "organization.closed":
-    case "business.closed": {
+    case "organization.closed": {
       const key = Object.keys(facts).find(
         (k) => k.startsWith("organization:") && k.endsWith(":status"),
       );

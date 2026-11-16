@@ -168,6 +168,7 @@ import { newsKey, storiesHeard, type Story } from "./news";
 import { registerCountedNewsSource } from "./news-listeners";
 import { worldLevel } from "../world-draw";
 
+export { SIZED_KINDS } from "../press-desk";
 export const PRESS_MODULE_ID = "core2-press-v1";
 /** The change a speech against an outlet asks of its hearers. */
 export const DISTRUST = "distrust";
@@ -441,6 +442,9 @@ export const PRESS_MODULE: CoreModule = {
       tips: {},
       // Stories the press wrote about the year before day one.
       archive: { indexes: { byOutlet: { fields: ["outletId"] } } },
+      // How the desk weighed a closing, a layoff or a disaster at each outlet
+      // (dev mode's bookkeeping only; play keeps none).
+      weighings: { indexes: { byWire: { fields: ["wireId"] } } },
       stories: {
         indexes: {
           byWire: { fields: ["wireId"] },
@@ -2905,6 +2909,12 @@ export function deskContext(api: CoreAPI): DeskContext {
     printedAnywhere: (wireId) =>
       (table(api, "stories").query("byWire", [wireId]) as unknown[]).length > 0,
     save: (story) => table(api, "stories").put(story as unknown as ModuleRow),
+    ...(bookkeeping()
+      ? {
+          weighed: (row) =>
+            table(api, "weighings").put(row as unknown as ModuleRow),
+        }
+      : {}),
     countedFollowers: (outlet) => countedFollowersOf(api, outlet as OutletRow),
     paperOfRecord: (outlet) =>
       outlet.tier !== "national" && townOutlet(api)?.id === outlet.id,
@@ -4302,6 +4312,19 @@ function pressWeek(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   if (work.kind !== "press-week") return;
   scheduleWeek(api, api.state.date);
   refreshPressStaff(api);
+  // The weighings dev mode keeps run only as long as the wire keeps the item
+  // (a record about the desk's choice is read while its item is fresh).
+  if (bookkeeping()) {
+    const keep = addDays(
+      makeIsoDate(api.state.date),
+      -2 * pressParameter("storyFreshDays"),
+    );
+    for (const row of table(api, "weighings").rows() as unknown as {
+      id: string;
+      date: string;
+    }[])
+      if (row.date < keep) table(api, "weighings").remove(row.id);
+  }
   // Revenue: each month's yearly rate.
   reviewOutletRevenue(
     api,
