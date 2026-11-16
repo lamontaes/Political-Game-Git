@@ -12158,14 +12158,15 @@
       "key": "opening-speech.oath.plain-ina-hopeful-core-that-oath-is-a-beginning-and-i-took-it",
       "move": "oath",
       "kind": "spoken",
-      "text": "That oath is a beginning. I took it meaning every word.",
+      "text": "That oath is a beginning, and I meant every word of it, on {hardest} most of all.",
       "uses": [
         {
           "move": "oath",
           "subject": "inaugural",
           "role": "oath",
           "choice": "oath",
-          "tie": "record"
+          "tie": "record",
+          "requiresFacts": ["hardest"]
         }
       ],
       "voice": "plain",
@@ -43754,14 +43755,15 @@
       "key": "opening-speech.oath.plain-ina-hopeful-core-i-took-that-oath-feeling-good-about-what-s",
       "move": "oath",
       "kind": "spoken",
-      "text": "I took that oath, and I mean to keep it.",
+      "text": "I took that oath knowing what we can still do on {best}, and I mean to keep it.",
       "uses": [
         {
           "move": "oath",
           "subject": "inaugural",
           "role": "oath",
           "choice": "oath",
-          "tie": "record"
+          "tie": "record",
+          "requiresFacts": ["best"]
         }
       ],
       "voice": "plain",
@@ -121400,10 +121402,10 @@
       "date": "2026-11-16"
     },
     {
-      "key": "opening-speech.turn.ld-i-ve-said-my-piece-on-and-the-other-thing-i-came-to-talk-abo",
+      "key": "opening-speech.turn.ld-i-ve-had-my-say-on-and-the-other-thing-i-came-to-talk-about",
       "move": "turn",
       "kind": "spoken",
-      "text": "I've said my piece on {turn-from}, and the other thing I came to talk about is {turn-to}.",
+      "text": "I've had my say on {turn-from}, and the other thing I came to talk about is {turn-to}.",
       "uses": [
         {
           "move": "turn",

@@ -40,6 +40,7 @@ import { markWordsStopgap } from "./stopgaps";
 import { recordAddressResponse } from "./address-response";
 import type { OpeningSpeechKind } from "../english/english-opening-speech";
 import localData from "./data/local-address.json" with { type: "json" };
+import { bodySaid } from "./body-said";
 import { headsLocalExecutive } from "../core2/offices-executives";
 
 export type LocalLevel = "state" | "town";
@@ -111,20 +112,6 @@ interface Speaker {
 type TownSeat = ReturnType<typeof townSeats>[number];
 
 const HEADS = DATA.levels.town.heads!;
-
-/** A local body as people say it, by the first of `bodyWords` its recorded name holds ("Clark Fork City Council" is "the council"), else its name's last word. */
-export function bodySaid(office: {
-  readonly bodyName?: string | undefined;
-}): string | null {
-  const words = (office.bodyName ?? "")
-    .trim()
-    .toLocaleLowerCase("en-US")
-    .split(/\s+/)
-    .filter(Boolean);
-  const word =
-    HEADS.bodyWords.find((row) => words.includes(row)) ?? words.at(-P.one);
-  return word ? `the ${word}` : null;
-}
 
 /** The place a local government governs, as its people say it: the town's own name, else the township's or the county's. */
 function realmSaid(core: CoreState, office: TownSeat["office"]): string | null {

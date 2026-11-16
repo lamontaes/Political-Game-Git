@@ -232,10 +232,7 @@ function variantsFor(
     const use = part.uses.find(
       (row) => row.subject === kind && row.role === role,
     );
-    const requires = [
-      ...(use?.requiresFacts ?? []),
-      ...(use?.onlyWhen ?? []),
-    ];
+    const requires = [...(use?.requiresFacts ?? []), ...(use?.onlyWhen ?? [])];
     return {
       key: part.key,
       kind: "template" as const,

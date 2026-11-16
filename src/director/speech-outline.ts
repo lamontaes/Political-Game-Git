@@ -90,6 +90,7 @@ import {
 } from "../core2/modules/legislature";
 import { OFFICES_MODULE_ID, type TermRow } from "../core2/modules/offices";
 import { dayParts } from "./day-part";
+import { bodySaid } from "./body-said";
 import { earlierAddressPieces } from "./opening-facts";
 import { coreStateName } from "../core2/place-lookup";
 import { markWordsStopgap } from "./stopgaps";
@@ -192,10 +193,7 @@ const OUTLINES = outlineData as unknown as {
   measureWords: Readonly<Record<string, string>>;
   conditions: { budgetEvenBand: Weight; budgetThemes: readonly string[] };
   /** The chambers a governor's party holds or lacks (bodyHoldFacts). */
-  bodyHold: {
-    readonly stateChambers: readonly string[];
-    readonly stateBody: string;
-  };
+  bodyHold: { readonly stateChambers: readonly string[] };
   /** How a point's belief joins its ask, one to a point in order (rule 38). */
   beliefJoins: { readonly joins: readonly string[] };
   pointShapes: {
@@ -1846,10 +1844,14 @@ function bodyHoldFacts(
   });
   const ids = seated.map((row) => row.id);
   // The body said by its one word ("the council", "the legislature").
-  const word =
+  // The body by the word its record holds ("the council", "the legislature").
+  const word = (
     level === "state"
-      ? OUTLINES.bodyHold.stateBody
-      : speaker.local?.body?.replace(/^the /, "");
+      ? bodySaid({
+          bodyName: OUTLINES.bodyHold.stateChambers[P.zero]?.replace(/-/g, " "),
+        })
+      : speaker.local?.body
+  )?.replace(/^the /, "");
   return {
     [holds ? "party-holds-body" : "party-lacks-body"]: fact("yes", ...ids),
     ...(word ? { "body-word": fact(word, ...ids) } : {}),
