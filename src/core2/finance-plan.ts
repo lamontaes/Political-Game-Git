@@ -13,6 +13,11 @@ import type {
   CashJournalMetadataWrite,
   CashJournalRuntime,
 } from "./journal-state";
+import {
+  cashJournalSignedLifetimeMinor,
+  isCashJournalSignedLifetimeMinor,
+  type CashJournalSignedLifetimeMinor,
+} from "./journal";
 import type {
   CashJournalPosting,
   CashJournalSourceRef,
@@ -738,7 +743,7 @@ type PlannedCashOwner = {
   currentMinor: number;
   allocatedMinor: number;
   outside: boolean;
-  outsideNetMinor: number;
+  outsideNetMinor: CashJournalSignedLifetimeMinor;
 };
 
 /** Only touched complete portfolios are read; only temporary balances are changed. */
@@ -842,7 +847,8 @@ export class FinanceCashPlanner {
       ? this.reads.field(flow, "netMinor")
       : this.zero;
     // The gross sums since the world opened may pass 2^53 as exact bigints;
-    // the plan reads them only to prove the signed net, which stays safe.
+    // the plan reads them only to prove the signed net, which is exact past
+    // 2^53 the same way.
     const outsideIncomingMinor = flow
       ? this.reads.field(flow, "incomingMinor")
       : this.zero;
@@ -857,7 +863,7 @@ export class FinanceCashPlanner {
         "Invalid nonnegative integer finance amount: outside gross totals",
       );
     if (
-      !Number.isSafeInteger(outsideNetMinor) ||
+      !isCashJournalSignedLifetimeMinor(outsideNetMinor) ||
       BigInt(outsideNetMinor) !==
         BigInt(outsideIncomingMinor) - BigInt(outsideOutgoingMinor)
     )
@@ -952,12 +958,7 @@ export class FinanceCashPlanner {
           this.zero,
           "intermediate paying balance",
         );
-    const signed = (value: bigint) => {
-      const result = Number(value);
-      if (!Number.isSafeInteger(result) || BigInt(result) !== value)
-        throw new Error("Intermediate outside net flow overflows.");
-      return result;
-    };
+    const signed = cashJournalSignedLifetimeMinor;
     const payerNet = payer.outside
       ? signed(BigInt(payer.outsideNetMinor) - BigInt(paid))
       : payer.outsideNetMinor;
