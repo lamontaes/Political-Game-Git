@@ -2057,6 +2057,7 @@ function officesCalendarWork(
 // Re-exported so other engine families import through this entry, not the file (families guard).
 export {
   CASES_MODULE_ID,
+  caseLoad,
   casesOpenFor,
   handleCase,
   openCasesOf,

@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "no-quick-resolution",
   "rubric": "No instant, agreeable wrap-up: a reply may push back, deflect or escalate instead of giving in in one line.",
-  "judged": 747,
+  "judged": 743,
   "no": {
     "0f0tx72zwym": {
       "keys": [
@@ -38,22 +38,6 @@
       ],
       "why": "Both replies promptly agree to help, so the exchange wraps up agreeably with no pushback."
     },
-    "0thvh5jnyw8": {
-      "keys": [
-        "scene-talk.follow-plea.then-who-helps-people-like-us-i-m-trying-not-to-lose-everything-else-on-top-of-t",
-        "scene-talk.reply-promise.i-ll-find-out-what-the-town-and-the-state-pay-for-in-home-help-and-i-ll-have-it",
-        "scene-talk.reply-offer.leave-me-a-number-where-you-can-answer-at-odd-hours-my-staff-will-call-when-ther"
-      ],
-      "why": "Both replies readily commit to help, leaving no option that pushes back or deflects."
-    },
-    "1powyeazj0g": {
-      "keys": [
-        "scene-talk.follow-plea.then-who-helps-people-like-us-i-m-trying-not-to-lose-everything-else-on-top-of-t",
-        "scene-talk.reply-promise.i-ll-find-out-what-the-town-and-the-state-pay-for-in-home-help-and-i-ll-have-it",
-        "scene-talk.reply-offer.stay-with-my-caseworker-she-ll-go-through-what-you-may-qualify-for-and-fill-out"
-      ],
-      "why": "Both replies are ready commitments to help, with no reply that pushes back or deflects."
-    },
     "1rrb35pu0v0": {
       "keys": [
         "scene-talk.follow-press.it-s-on-the-list-in-the-packet-page-four",
@@ -87,5 +71,5 @@
       "why": "Both replies give in: one concedes the point and the other apologizes, so none pushes back, deflects or raises the stakes."
     }
   },
-  "yesHash": "1smi83u2npm"
+  "yesHash": "01986eqb5rk"
 }

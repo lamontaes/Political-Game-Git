@@ -11,17 +11,20 @@
  */
 import { P } from "../core2/parameters";
 import { daysBetweenText } from "../core2/kernel/dates";
-import { careNeedOf } from "../core2/modules/health";
+import {
+  careNeedOf,
+  COVERAGE_MODULE_ID,
+  coverageOf,
+} from "../core2/modules/health";
 import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
 import {
   CASES_MODULE_ID,
+  caseLoad,
   openCasesOf,
   type CaseRow,
 } from "../core2/modules/offices";
-import { caseLoad } from "../core2/modules/constituent-cases";
 import { STAFF_MODULE_ID, servingStaffOf } from "../core2/modules/staff";
-import { COVERAGE_MODULE_ID, coverageOf } from "../core2/modules/coverage";
 import { lawInForce } from "../core2/modules/laws";
 import { JUSTICE_MODULE_ID, type CustodyRow } from "../core2/modules/justice";
 import { familyFactsOf } from "../core2/closeness";

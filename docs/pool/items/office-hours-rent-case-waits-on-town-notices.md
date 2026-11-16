@@ -13,7 +13,7 @@ pr:
 after: world-rent-notices-miss-town-renters
 blocked-on: world-rent-notices-miss-town-renters
 lead: words
-source: "Civic roles builder, Nov 16: the rent branch of words-office-hours-says-the-act came out unplayed (the Account lead: \"Play it by presses or take the rent branch out of this PR with an item saying what blocks it\")"
+source: 'Civic roles builder, Nov 16: the rent branch of words-office-hours-says-the-act came out unplayed (the Account lead: "Play it by presses or take the rent branch out of this PR with an item saying what blocks it")'
 model: opus
 effort: medium
 ---

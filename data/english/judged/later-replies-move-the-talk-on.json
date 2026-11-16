@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "later-replies-move-the-talk-on",
   "rubric": "After the first exchange the replies offered do not rehash the first options; they move the talk on.",
-  "judged": 1008,
+  "judged": 1006,
   "no": {
     "00084oe3x4o": {
       "keys": [
@@ -2532,19 +2532,6 @@
       ],
       "why": "Most of the replies offered now repeat the first replies' denial, explanation, defiance or apology in new words."
     },
-    "18v4qkjpnxf": {
-      "keys": [
-        "scene-talk.follow-plea.then-where-do-i-take-it-i-can-t-get-to-three-different-offices-with-someone-who",
-        "scene-talk.reply-promise.i-ll-call-the-clinic-s-social-worker-myself-and-ask-her-to-see-you-this-week",
-        "scene-talk.reply-ask.who-is-helping-you-right-now-and-who-isn-t",
-        "scene-talk.reply-decline.the-town-doesn-t-pay-medical-bills-i-can-tell-you-who-does",
-        "scene-talk.reply-offer.my-caseworker-can-sit-down-with-you-and-the-bills-bring-all-of-them-even-the-one",
-        "scene-talk.reply-promise.i-ll-ask-the-county-health-department-who-can-come-to-your-house-and-i-ll-call-y",
-        "scene-talk.reply-offer.stay-with-my-caseworker-she-ll-go-through-what-you-may-qualify-for-and-fill-out",
-        "scene-talk.reply-decline.health-coverage-is-the-state-s-not-mine-i-can-send-you-to-the-people-who-can-loo"
-      ],
-      "why": "The caseworker and 'health coverage is the state's' restate the first caseworker and town-doesn't-pay options, leaving only the home-visit line new."
-    },
     "193xo94kjb7": {
       "keys": [
         "scene-talk.follow-press.walking-away-doesnt-make-it-go-away",
@@ -4623,5 +4610,5 @@
       "why": "Two of three replies restate first options: the denial of any payment repeats the first denial, and declining to discuss it repeats having to go."
     }
   },
-  "yesHash": "0etlok9c23p"
+  "yesHash": "1j9cfscca3u"
 }
