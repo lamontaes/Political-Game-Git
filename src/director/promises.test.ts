@@ -268,8 +268,8 @@ function world(attempt: number, label: string) {
 
 /**
  * The pay test plays the pinned borrower's days about nine months (the loan,
- * the missed payment, the promise's window): 578 seconds measured for two
- * runs on Nov 15, so twice one run's share.
+ * the missed payment, the promise's window): 135 seconds alone and 130 beside
+ * the file's other cases on Nov 16, so twice the slower.
  *
  * Old premise, re-pinned Nov 16 (Account lead): a borrower who takes work
  * pays the next bill on time, so a second run took the next employer's call
@@ -282,7 +282,7 @@ function world(attempt: number, label: string) {
  * the world, pool item world-loan-bill-before-first-payday-no-borrower-keeps,
  * and comes back when that item lands.
  */
-const PAY_TIMEOUT = 600_000;
+const PAY_TIMEOUT = 270_000;
 
 /** The loan a missed payment was on (its record's facts), for the played file. */
 function missedLoan(
