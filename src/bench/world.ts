@@ -89,7 +89,6 @@ import { withPublicSchoolDistrict } from "../core2/opening-public-schools";
 import { withPrivateTuition } from "../core2/opening-private-tuition";
 import { withOrigins } from "../core2/opening-origin";
 import { representativeSample } from "../core2/representative-sample";
-import { seededUnit } from "../core2/seeded";
 import { withCountySample } from "../core2/opening-county-sample";
 import { withRoles } from "../core2/opening-roles";
 import { withYearsInPlace } from "../core2/opening-tenure";
@@ -137,6 +136,13 @@ export interface BenchWorld {
 export const PLAYER_MIN_AGE = 18;
 
 /**
+ * The age a life begins at unless the player picks another (owner, Nov 16: "18, unless you pick
+ * another age. Every default life starts young, with the most years ahead."): a new game with no
+ * birthday chosen, and the creator's first birthday.
+ */
+export const DEFAULT_PLAYER_AGE = PLAYER_MIN_AGE;
+
+/**
  * A new game cannot open here: no adult lives in a household in the place. `adultsInQuarters`
  * counts the adults who live in group quarters instead (all of them, when it is above zero).
  */
@@ -170,12 +176,9 @@ export interface EntrantPick {
   readonly age: number;
   /** True where nobody in town was the chosen age and the nearest resident stands in. */
   readonly estimated: boolean;
-  /** "town-adult": drawn from the town's adults; "chosen-age": the creator's age, a resident that age. */
-  readonly how: "town-adult" | "chosen-age";
+  /** "default-age": no birthday chosen, a resident of the default age; "chosen-age": the creator's age, a resident that age. */
+  readonly how: "default-age" | "chosen-age";
   readonly chosenAge?: number;
-  /** "town-adult" only: the world's seeded unit that picked, and how many adults it picked among (in id order). */
-  readonly unit?: number;
-  readonly among?: number;
 }
 
 /** The residents a player may be: in a household of the town, never a relative's husk record. */
@@ -213,14 +216,11 @@ export function entrantChoice(
   if (birthDate)
     return entrantBornNear(input, placeId, makeIsoDate(birthDate), gender);
   const at = makeIsoDate(input.placeMetadata?.openingAgeOn ?? input.startedAt);
-  const adults = townResidents(input, placeId)
-    .map((person) => ({
-      id: person.id,
-      age: ageOnDate(makeIsoDate(person.birthDate), at),
-    }))
-    .filter((row) => row.age >= PLAYER_MIN_AGE)
-    .sort((a, b) => a.id.localeCompare(b.id));
-  if (!adults.length) {
+  if (
+    !townResidents(input, placeId).some(
+      (person) => ageOnDate(makeIsoDate(person.birthDate), at) >= PLAYER_MIN_AGE,
+    )
+  ) {
     // Who is in the place at all: a place whose every adult lives in group
     // quarters (a colony, a dormitory, a barracks) has no household to open in
     // (pool item world-opening-no-player-where-everyone-lives-in-group-quarters).
@@ -232,15 +232,18 @@ export function entrantChoice(
     ).length;
     throw new NoPlayerHereError(placeId, inQuarters);
   }
-  const unit = seededUnit(input.seed, `opening-player:${placeId}`);
-  const pick = adults[Math.floor(unit * adults.length)]!;
-  return {
-    ...pick,
-    estimated: false,
-    how: "town-adult",
-    unit,
-    among: adults.length,
-  };
+  // No birthday chosen: the life begins at the default age, the resident that age born
+  // nearest the opening day's date (owner, Nov 16).
+  const pick = entrantBornNear(input, placeId, defaultBirthDate(at), gender);
+  return { ...pick, how: "default-age" };
+}
+
+/** The birth date of someone who is `DEFAULT_PLAYER_AGE` on the opening day. */
+export function defaultBirthDate(at: ReturnType<typeof makeIsoDate>) {
+  const [year, month, day] = String(at).split("-");
+  return makeIsoDate(
+    `${Number(year) - DEFAULT_PLAYER_AGE}-${month}-${month === "02" && day === "29" ? "28" : day}`,
+  );
 }
 
 /**
@@ -279,11 +282,13 @@ function entrantBornNear(
         return ageOnDate(chosen, makeIsoDate(other)) >= minParentAge;
       return true;
     });
-  const residents = townResidents(input, placeId).map((person) => ({
-    person,
-    age: ageOnDate(makeIsoDate(person.birthDate), at),
-    apart: Math.abs(daysBetween(chosen, makeIsoDate(person.birthDate))),
-  }));
+  const residents = townResidents(input, placeId)
+    .map((person) => ({
+      person,
+      age: ageOnDate(makeIsoDate(person.birthDate), at),
+      apart: Math.abs(daysBetween(chosen, makeIsoDate(person.birthDate))),
+    }))
+    .filter((row) => row.age >= PLAYER_MIN_AGE);
   if (!residents.length) throw new Error("No resident here.");
   // The chosen age where anyone in town is that age, else the nearest age anyone is.
   const ageGap = (age: number) => Math.abs(age - chosenAge);
@@ -502,12 +507,15 @@ function* benchWorldStages(
     ...(minimumPeople ? { minimumPeople } : {}),
     // With a resident of the age the creator's birthday makes the player, as
     // far as the place's households allow (`entrantBornNear`).
-    ...(options.playerBirthDate
+    // With a resident of the age the creator's birthday makes the player, else of the default age.
+    ...(options.twoLevel || options.playerBirthDate
       ? {
-          playerAge: ageOnDate(
-            makeIsoDate(options.playerBirthDate),
-            makeIsoDate(startDate),
-          ),
+          playerAge: options.playerBirthDate
+            ? ageOnDate(
+                makeIsoDate(options.playerBirthDate),
+                makeIsoDate(startDate),
+              )
+            : DEFAULT_PLAYER_AGE,
         }
       : {}),
   });

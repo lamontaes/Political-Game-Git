@@ -240,8 +240,8 @@ function personView(core: CoreState, personId: string): OpeningRow[] {
   if (pick)
     rows.push(
       row(
-        pick.how === "town-adult"
-          ? "person.playerAge.townAdult"
+        pick.how === "default-age"
+          ? "person.playerAge.default"
           : "person.playerAge.chosen",
         "Age when the life began",
         pick.how === "chosen-age"
