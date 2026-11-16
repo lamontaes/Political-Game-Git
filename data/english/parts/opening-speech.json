@@ -121931,14 +121931,14 @@
       "key": "opening-speech.close.ld-the-has-the-votes-to-do-this-and-i-mean-to-ask-for-them",
       "move": "close",
       "kind": "spoken",
-      "text": "The {body-word} has the votes to do this, and I mean to ask for them.",
+      "text": "The {realm-bare} {body-word} has the votes to do this, and I mean to ask for them.",
       "uses": [
         {
           "move": "close",
           "subject": "state-of-the-state",
           "role": "close",
           "choice": "close",
-          "requiresFacts": ["party-holds-body", "body-word"],
+          "requiresFacts": ["party-holds-body", "body-word", "realm-bare"],
           "tie": "record"
         },
         {
@@ -121946,7 +121946,7 @@
           "subject": "town-address",
           "role": "close",
           "choice": "close",
-          "requiresFacts": ["party-holds-body", "body-word"],
+          "requiresFacts": ["party-holds-body", "body-word", "realm-bare"],
           "tie": "record"
         }
       ],
@@ -121960,14 +121960,14 @@
       "key": "opening-speech.close.ld-i-can-t-do-this-without-the-and-i-won-t-pretend-i-can",
       "move": "close",
       "kind": "spoken",
-      "text": "I can't do this without the {body-word}, and I won't pretend I can.",
+      "text": "I can't do this without the {realm-bare} {body-word}, and I won't pretend I can.",
       "uses": [
         {
           "move": "close",
           "subject": "state-of-the-state",
           "role": "close",
           "choice": "close",
-          "requiresFacts": ["party-lacks-body", "body-word"],
+          "requiresFacts": ["party-lacks-body", "body-word", "realm-bare"],
           "tie": "record"
         },
         {
@@ -121975,7 +121975,7 @@
           "subject": "town-address",
           "role": "close",
           "choice": "close",
-          "requiresFacts": ["party-lacks-body", "body-word"],
+          "requiresFacts": ["party-lacks-body", "body-word", "realm-bare"],
           "tie": "record"
         }
       ],
