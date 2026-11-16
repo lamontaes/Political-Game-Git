@@ -51,7 +51,7 @@ it("after a primary is counted its nominee's race stays live for the general and
         minimumPeople: 300,
       }),
     );
-    openOffices(core, place.seed);
+    openOffices(core, place.seed, core.date);
     openElections(core);
     openCampaigns(core);
     openParties(core);

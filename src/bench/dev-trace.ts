@@ -10,6 +10,7 @@ import { resolveSavedTraceV1 } from "../core2/saved-trace-v1";
 import { CAMPAIGN_MONEY_KINDS } from "../core2/modules/campaigns";
 import { LAWS_MODULE_ID } from "../core2/modules/laws";
 import { LEGISLATURE_MODULE_ID, votesOn } from "../core2/modules/legislature";
+import { OFFICES_MODULE_ID } from "../core2/modules/offices";
 import { residentsRuntime } from "../core2/modules/residents";
 import { fullLifeStake } from "../core2/modules/views";
 import { raceById, VOTING_MODULE_ID } from "../core2/modules/voting";
@@ -792,6 +793,20 @@ function reverseLinks(
           effect: true,
         });
   }
+  // A seat: the terms held in it, the one in office first, each with its start and end.
+  if (found.engine === `${OFFICES_MODULE_ID}.seats`)
+    for (const term of rowsOf(core, OFFICES_MODULE_ID, "terms")
+      .filter((row) => row.seatId === id)
+      .sort(
+        (a, b) =>
+          Number(b.status === "serving") - Number(a.status === "serving") ||
+          String(b.startDate).localeCompare(String(a.startDate)),
+      ))
+      out.push({
+        id: String(term.id),
+        kind: "record",
+        via: "core2-offices-v1.terms.seatId",
+      });
   // A bill: each member's vote with its reasons, and the provisions' laws.
   if (found.engine === `${LEGISLATURE_MODULE_ID}.bills`) {
     for (const vote of votesOn(coreAPI(core), id))
