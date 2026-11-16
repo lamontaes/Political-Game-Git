@@ -113,6 +113,12 @@ export const DAYS_PER_YEAR = 365;
 
 /** Whether a person was returned to the counts (counted-groups.ts); screens and tools read it here. */
 export { isDemoted } from "../counted-groups";
+// A counted household's share of its group's bank savings, its opening savings draw and its group's account, for dev mode's money panel.
+export {
+  countedDeposits,
+  countedOpeningSpread,
+  fundOf,
+} from "../counted-money";
 // The counted jobs of an employer, for engines outside this family (the patrol-hours record).
 export { countedJobHeads, countedJobsOf };
 
