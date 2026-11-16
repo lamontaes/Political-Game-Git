@@ -417,6 +417,80 @@
       "bearing": "braced"
     },
     {
+      "key": "bring-it-up.blame-assumed-assumed.i-think-it-was-who",
+      "move": "blame-assumed-assumed",
+      "kind": "spoken",
+      "text": "I think it was {who}.",
+      "uses": [
+        {
+          "move": "blame-assumed-assumed",
+          "subject": "blame",
+          "role": "assumed",
+          "choice": "assumed"
+        }
+      ],
+      "transcriptsUsing": 64,
+      "bySource": {
+        "Jimmy Carter Library (NARA) White House Exit Interview Project": 1,
+        "National Archives History Office oral history project": 2,
+        "National Archives History Office oral history project (nyc-oral-histories)": 1,
+        "Richard Nixon Presidential Library (NARA) oral history project": 3,
+        "U.S. Election Assistance Commission (eac.gov)": 1,
+        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 7,
+        "U.S. Senate Historical Office oral history": 6,
+        "briefing": 1,
+        "dcpd": 1,
+        "hearings": 4,
+        "house": 3,
+        "nasa": 12,
+        "nasa2": 8,
+        "nps": 13,
+        "wpa": 1
+      },
+      "source": {
+        "document": "Remarks Honoring the 2025 World Series Champion Los Angeles Dodgers",
+        "date": "2026-07-23",
+        "granule": "DCPD-202600487",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600487/html/DCPD-202600487.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "blame"
+      },
+      "bearing": "nervous"
+    },
+    {
+      "key": "bring-it-up.blame-assumed-assumed.it-must-have-been-who",
+      "move": "blame-assumed-assumed",
+      "kind": "spoken",
+      "text": "It must have been {who}.",
+      "uses": [
+        {
+          "move": "blame-assumed-assumed",
+          "subject": "blame",
+          "role": "assumed",
+          "choice": "assumed"
+        }
+      ],
+      "transcriptsUsing": 4,
+      "bySource": {
+        "dcpd": 1,
+        "house": 2,
+        "nasa": 1
+      },
+      "source": {
+        "document": "Remarks Commemorating the 25th Anniversary of the Belfast/Good Friday Agreement at Ulster University in Belfast, Northern Ireland, United Kingdom",
+        "date": "2023-04-12",
+        "granule": "DCPD-202300291",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202300291/html/DCPD-202300291.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "blame"
+      },
+      "bearing": "curious"
+    },
+    {
       "key": "bring-it-up.change-news.read-read.i-read-in-subject-about-topic",
       "move": "change-news.read-read",
       "text": "I read in {subject} about {topic}.",

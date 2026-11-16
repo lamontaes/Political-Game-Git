@@ -8427,6 +8427,52 @@
       "date": "2026-11-14"
     },
     {
+      "key": "conversation.acquittal-reply-back-core.i-keep-waiting-for-it-to-feel-over",
+      "move": "acquittal-reply-back-core",
+      "kind": "spoken",
+      "text": "I keep waiting for it to feel over.",
+      "uses": [
+        {
+          "move": "acquittal-reply-back-core",
+          "subject": "acquittal-reply-back",
+          "role": "core",
+          "stages": ["comfort"]
+        }
+      ],
+      "piece": {
+        "of": "acquittal-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (leftovers deletion, Nov 16)",
+      "date": "2026-11-16"
+    },
+    {
+      "key": "conversation.acquittal-reply-back-core.thank-you-i-needed-somebody-to-say-that",
+      "move": "acquittal-reply-back-core",
+      "kind": "spoken",
+      "text": "Thank you. I needed somebody to say that.",
+      "uses": [
+        {
+          "move": "acquittal-reply-back-core",
+          "subject": "acquittal-reply-back",
+          "role": "core",
+          "stages": ["comfort"]
+        }
+      ],
+      "piece": {
+        "of": "acquittal-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (leftovers deletion, Nov 16)",
+      "date": "2026-11-16"
+    },
+    {
       "key": "conversation.acquittal-reply-back-core.behind-me-now",
       "move": "acquittal-reply-back-core",
       "kind": "spoken",
@@ -8518,6 +8564,52 @@
       "origin": "authored",
       "author": "Words builder S3 (a housemate's court case; Words lead rulings on #9190, Nov 14)",
       "date": "2026-11-14"
+    },
+    {
+      "key": "conversation.charge-reply-back-core.nobody-s-told-me-what-comes-next",
+      "move": "charge-reply-back-core",
+      "kind": "spoken",
+      "text": "Nobody's told me what comes next.",
+      "uses": [
+        {
+          "move": "charge-reply-back-core",
+          "subject": "charge-reply-back",
+          "role": "core",
+          "stages": ["ask"]
+        }
+      ],
+      "piece": {
+        "of": "charge-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (leftovers deletion, Nov 16)",
+      "date": "2026-11-16"
+    },
+    {
+      "key": "conversation.charge-reply-back-core.i-don-t-have-a-court-date-yet-that-s-all-i-know",
+      "move": "charge-reply-back-core",
+      "kind": "spoken",
+      "text": "I don't have a court date yet. That's all I know.",
+      "uses": [
+        {
+          "move": "charge-reply-back-core",
+          "subject": "charge-reply-back",
+          "role": "core",
+          "stages": ["ask"]
+        }
+      ],
+      "piece": {
+        "of": "charge-reply-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words lead (leftovers deletion, Nov 16)",
+      "date": "2026-11-16"
     },
     {
       "key": "conversation.charge-reply-back-core.out-on-bail",
