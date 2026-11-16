@@ -65,6 +65,7 @@ import {
   campaignFor,
   campaignRecognition,
   interviewHeldInTown,
+  townShareOfRace,
   makeStatements,
   touchImpression,
   registerAdOutlet,
@@ -77,7 +78,12 @@ import {
 import { promisesOf, votesOf } from "./record";
 import { partySide } from "../appointments";
 import { deliverSpeech, SPEECH_MODULE_ID } from "./speech";
-import { CORRUPTION_MODULE_ID, type CrimeRecord } from "./corruption";
+import {
+  CORRUPTION_MODULE_ID,
+  crimeRecord,
+  wantedFacts,
+  type CrimeRecord,
+} from "./corruption";
 import {
   awardsOn,
   CONTRACTS_MODULE_ID,
@@ -129,7 +135,12 @@ import {
 } from "../press-money";
 import { countedJobHeads, countedJobsOf } from "../residents-economy";
 import { pressStaffChanged } from "../press-conflict";
-import { isPolicyTopic, wireItem, type WireItem } from "../press-topics";
+import {
+  isPolicyTopic,
+  wireItem,
+  type WireItem,
+  type WireLevel,
+} from "../press-topics";
 import { CRIME_EVENT, CRIME_MODULE_ID } from "./crime";
 import {
   familyRelation,
@@ -146,10 +157,13 @@ import {
   runDesk,
   slantOf,
   type DeskContext,
+  type DeskOutlet,
   type PrintedStory,
 } from "../press-desk";
 // The press desk's own story record, read by the director through this entry.
 export { PRESS_STORY_EVENT } from "../press-desk";
+/** A story a paper ran on an official's hidden act: a bribe taken, or a vote for a firm they or their family own. */
+export const PRESS_EXPOSED = "press.exposed";
 import { newsKey, storiesHeard, type Story } from "./news";
 import { registerCountedNewsSource } from "./news-listeners";
 import { worldLevel } from "../world-draw";
@@ -230,6 +244,18 @@ export interface OutletRow {
   readonly lean: number;
   /** Yearly revenue it took from its audience's spending at the opening. */
   readonly audienceRevenueMinor: number;
+  /**
+   * For a local outlet: the people it serves (`servedPeopleOf`), so a race or
+   * a story is weighed against its own audience, not the town's. A national
+   * outlet has none: its bar (`nationalInterviewBar`) and its beat weigh it.
+   */
+  readonly audiencePeople?: number;
+  /** The town's outlet of record (`townOutlet`), settled at the opening. */
+  readonly ofRecord?: boolean;
+  /** How far each seat's race has built toward a turn at this outlet (`raceTurns`). */
+  readonly raceCredit?: Readonly<Record<string, number>>;
+  /** How far each level's stories have built up at this outlet (`levelRoom`). */
+  readonly storyCredit?: Readonly<Partial<Record<WireLevel, number>>>;
 }
 
 /**
@@ -835,8 +861,19 @@ export function openPress(core: CoreState): readonly OutletRow[] {
     readonly reporters: number;
     readonly tier: "local" | "national";
     readonly audienceLean?: number;
+    readonly audiencePeople?: number;
   }
   const specs: Spec[] = [];
+  // The people each outlet serves: a station its market's (the state's people
+  // over its markets), a paper or a radio station its county's, shared with
+  // the county's other outlets of its kind. Never fewer than the town's.
+  const served = (kind: LocalKind): number =>
+    Math.max(
+      townPeople,
+      kind === "television"
+        ? statePeople / Math.max(1, counts?.tvMarkets ?? 1)
+        : countyPeople / Math.max(1, Math.min(cap, wanted[kind])),
+    );
   for (const kind of KINDS)
     for (let index = 0; index < Math.min(cap, wanted[kind]); index += 1) {
       const id = `outlet:${kind}:${index}:${town}`;
@@ -865,6 +902,7 @@ export function openPress(core: CoreState): readonly OutletRow[] {
             : "reportersPerStation",
         ),
         tier: "local",
+        audiencePeople: Math.round(served(kind)),
       });
     }
   for (const row of NATIONAL.kinds)
@@ -990,6 +1028,9 @@ export function openPress(core: CoreState): readonly OutletRow[] {
       ...(spec.audienceLean === undefined
         ? {}
         : { audienceLean: spec.audienceLean }),
+      ...(spec.audiencePeople === undefined
+        ? {}
+        : { audiencePeople: spec.audiencePeople }),
       ownerId,
       headId,
       reporterIds,
@@ -1033,6 +1074,13 @@ export function openPress(core: CoreState): readonly OutletRow[] {
       audienceRevenueMinor: expectedRevenueYearMinor(api, outlet),
     } as unknown as ModuleRow);
   }
+  // The town's outlet of record, settled once its followers are known.
+  const record = townOutlet(api);
+  if (record)
+    table(api, "outlets").put({
+      ...record,
+      ofRecord: true,
+    } as unknown as ModuleRow);
   scheduleWeek(api, api.state.date);
   pressStaffChanged(api);
   return outletsHere(api);
@@ -1172,14 +1220,21 @@ export function outletTelling(
 }
 
 /**
- * The outlet that carries the town's public record: the town's own
- * newspaper, else its first local outlet. Null where no press is installed.
+ * The town's outlet of record, which carries its public record (its legal
+ * notices, its police log, its government as a beat): the town's own
+ * newspaper, else the local outlet the most of the town follows
+ * (`widestLocalOutlet`), whatever its kind. Settled at the opening and kept
+ * on the outlet (`ofRecord`), so the town's record does not move from one
+ * station to another as followers shift week to week. Null where the town has no local
+ * outlet at all; then no outlet holds the town as its beat, and each weighs
+ * the town against its own audience.
  */
 export function townOutlet(api: CoreAPI): OutletRow | null {
   const local = outletsHere(api).filter((o) => o.tier === "local");
   return (
+    local.find((o) => o.ofRecord) ??
     local.find((o) => o.kind === "newspaper" && o.index === 0) ??
-    local[0] ??
+    widestLocalOutlet(api)?.outlet ??
     null
   );
 }
@@ -1361,30 +1416,40 @@ export function followersOf(api: CoreAPI, outletId: string): readonly string[] {
 }
 
 /**
+ * The town's own outlet with the widest audience in town, television first
+ * where audiences tie. A national outlet's audience in town is not the town's.
+ */
+function widestLocalOutlet(
+  api: CoreAPI,
+): { outlet: OutletRow; followers: readonly string[] } | null {
+  if (!api.state.modules.has(PRESS_MODULE_ID)) return null;
+  const best = outletsHere(api)
+    .filter((o) => o.tier !== "national")
+    .map((o) => ({ outlet: o, followers: followersOf(api, o.id) }))
+    .sort(
+      (a, b) =>
+        b.followers.length - a.followers.length ||
+        ALL_KINDS.indexOf(b.outlet.kind) - ALL_KINDS.indexOf(a.outlet.kind) ||
+        a.outlet.id.localeCompare(b.outlet.id),
+    )[0];
+  return best ?? null;
+}
+
+/**
  * Where a campaign buys an ad: the town's own outlet with the widest
- * audience, television first where audiences tie. A national outlet's
- * audience in town is not sold to a town's race.
+ * audience (`widestLocalOutlet`).
  */
 function adOutlet(api: CoreAPI): {
   organizationId: string;
   followerIds: readonly string[];
   countedFollowers: number;
 } | null {
-  if (!api.state.modules.has(PRESS_MODULE_ID)) return null;
-  const best = outletsHere(api)
-    .filter((o) => o.tier !== "national")
-    .map((o) => ({ o, followers: followersOf(api, o.id) }))
-    .sort(
-      (a, b) =>
-        b.followers.length - a.followers.length ||
-        ALL_KINDS.indexOf(b.o.kind) - ALL_KINDS.indexOf(a.o.kind) ||
-        a.o.id.localeCompare(b.o.id),
-    )[0];
+  const best = widestLocalOutlet(api);
   return best
     ? {
-        organizationId: best.o.organizationId,
+        organizationId: best.outlet.organizationId,
         followerIds: best.followers,
-        countedFollowers: countedFollowers(api, best.o.id),
+        countedFollowers: countedFollowers(api, best.outlet.id),
       }
     : null;
 }
@@ -1557,12 +1622,137 @@ export function acceptCase(reasons: {
 }
 
 /**
+ * The people of one level of the town's government: the town, its county, its
+ * state, or the nation (more than any outlet serves).
+ */
+function peopleAt(api: CoreAPI, level: WireLevel): number {
+  const town =
+    Number(api.state.placeMetadata.referencePopulation) ||
+    api.state.people.size;
+  if (level === "town") return town;
+  if (level === "nation") return Number.POSITIVE_INFINITY;
+  const chain = lawChain(api);
+  if (level === "state") {
+    const base = BASES.places[chain.stateKey];
+    return Math.max(
+      town,
+      base?.population2024 ??
+        base?.puertoRicoPopulation2025 ??
+        base?.islandAreaPopulation2020 ??
+        town,
+    );
+  }
+  const county = chain.countyGeoids[0];
+  return Math.max(
+    town,
+    (county ? BASES.countyPopulation2024[county] : undefined) ?? town,
+  );
+}
+
+/** The level whose people an office answers to. */
+const OFFICE_LEVEL: Readonly<Record<string, WireLevel>> = {
+  federal: "nation",
+  state: "state",
+  county: "county",
+};
+
+/**
+ * The share of an outlet's audience that a level's people make up, 0 to 1:
+ * one for a national outlet, and for a town's outlet the level's people over
+ * the people it serves. A market's station serves the state's people over its
+ * markets, so a village is a sliver of it and the state is all of it.
+ */
+export function levelAudienceShare(
+  api: CoreAPI,
+  outlet: OutletRow,
+  level: WireLevel,
+): number {
+  const served = servedPeople(api, outlet);
+  return served ? Math.min(1, peopleAt(api, level) / served) : 1;
+}
+
+/**
+ * The people an outlet answers to: those it serves (`audiencePeople`), but
+ * the town's own for the outlet that holds its record (`recordOutletOf`), whose beat is
+ * the town's government and record however wide it reaches. None for a
+ * national outlet.
+ */
+function servedPeople(api: CoreAPI, outlet: OutletRow): number | undefined {
+  if (!outlet.audiencePeople) return undefined;
+  // The outlet that holds the town's record now: the outlet of record, or,
+  // once it has no reporter living to file, the local outlet that took the
+  // record over (`recordOutletOf`, which the police log reads too).
+  return outlet.id === (recordOutletOf(api) ?? townOutlet(api)?.id)
+    ? Math.min(outlet.audiencePeople, peopleAt(api, "town"))
+    : outlet.audiencePeople;
+}
+
+/**
+ * The share of an outlet's audience a race's voters make up, 0 to 1: the
+ * race's people (the town's over the town's share of the race,
+ * `townShareOfRace`) over the people the outlet serves.
+ */
+export function raceAudienceShare(
+  api: CoreAPI,
+  outlet: OutletRow,
+  contestId: string,
+): number {
+  const served = servedPeople(api, outlet);
+  if (!served) return 1;
+  const ofRace = api.state.modules.has(CAMPAIGNS_MODULE_ID)
+    ? townShareOfRace(api, contestId)
+    : 1;
+  if (!(ofRace > 0)) return 1;
+  return Math.min(1, peopleAt(api, "town") / ofRace / served);
+}
+
+/**
+ * The share of an outlet's audience a person answers to: their race's voters
+ * when they are on a ballot, else the people of the highest office they hold.
+ */
+function speakerAudienceShare(
+  api: CoreAPI,
+  outlet: OutletRow,
+  speaker: Speaker,
+): number {
+  if (speaker.filing)
+    return raceAudienceShare(api, outlet, speaker.filing.contestId);
+  return servingTerms(api, speaker.personId).reduce((widest, term) => {
+    const office = api
+      .moduleState(OFFICES_MODULE_ID)
+      .table("offices")
+      .get(term.officeId) as unknown as { level: string } | undefined;
+    return Math.max(
+      widest,
+      levelAudienceShare(
+        api,
+        outlet,
+        OFFICE_LEVEL[office?.level ?? ""] ?? "town",
+      ),
+    );
+  }, 0);
+}
+
+/**
  * How newsworthy a candidate is to a reporter: how many people in town have
  * heard of them, whether they hold the seat, and their share of the money
- * raised in the race.
+ * raised in the race. To one outlet, that worth is weighed against the
+ * outlet's own audience (`speakerAudienceShare`): a village race is a sliver
+ * of a market station's viewers, however well the village knows its
+ * candidates.
  */
-export function newsworthiness(api: CoreAPI, who: FilingRow | Speaker): number {
+export function newsworthiness(
+  api: CoreAPI,
+  who: FilingRow | Speaker,
+  outlet?: OutletRow,
+): number {
   const speaker = asSpeaker(who);
+  const worth = townNewsworthiness(api, speaker);
+  return outlet ? worth * speakerAudienceShare(api, outlet, speaker) : worth;
+}
+
+/** A person's newsworthiness to the town (`newsworthiness`). */
+function townNewsworthiness(api: CoreAPI, speaker: Speaker): number {
   const filing = speaker.filing;
   const officeWorth = servingTerms(api, speaker.personId).reduce(
     (highest, term) => {
@@ -2006,7 +2196,7 @@ export function outletInterest(
     id && api.state.people.get(id)?.alive
       ? regard(api, p, id, speaker.personId)
       : 0;
-  const worth = newsworthiness(api, speaker);
+  const worth = newsworthiness(api, speaker, outlet);
   const head = p("interestHeadWeight") * regardOf(outlet.headId);
   const owner = p("slantOwnerWeight") * regardOf(outlet.ownerId);
   const followers = followersOf(api, outlet.id);
@@ -2086,7 +2276,7 @@ function arrangeWith(
     OutletRow | undefined;
   if (!outlet) throw new Error(`No outlet ${outletId}`);
   const filing = speaker.filing;
-  const worth = newsworthiness(api, speaker);
+  const worth = newsworthiness(api, speaker, outlet);
   const key = filing?.id ?? speaker.personId;
   const base = {
     // One row per ask: a second ask the same day never overwrites the first.
@@ -2717,8 +2907,7 @@ export function deskContext(api: CoreAPI): DeskContext {
     save: (story) => table(api, "stories").put(story as unknown as ModuleRow),
     countedFollowers: (outlet) => countedFollowersOf(api, outlet as OutletRow),
     paperOfRecord: (outlet) =>
-      outlet.tier !== "national" &&
-      adOutlet(api)?.organizationId === outlet.organizationId,
+      outlet.tier !== "national" && townOutlet(api)?.id === outlet.id,
   };
 }
 
@@ -2927,7 +3116,7 @@ function weighTip(
     api.emit({
       id: exposedId,
       date: api.state.date,
-      kind: "press.exposed",
+      kind: PRESS_EXPOSED,
       personIds: api.state.people.has(officialId) ? [officialId] : [],
       placeId: outlet.placeId,
       publicRecord: true,
@@ -2991,7 +3180,7 @@ function runExposure(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     reporterId,
     {
       id: exposedId,
-      kind: "press.exposed",
+      kind: PRESS_EXPOSED,
       date: api.state.date,
       level: "town",
       topic: `conduct:${officialId}`,
@@ -4077,6 +4266,38 @@ function pressPeopleLive(api: CoreAPI): void {
   }
 }
 
+const LEVELS: readonly WireLevel[] = ["town", "county", "state", "nation"];
+
+/**
+ * The stories of each level an outlet has room for this week: its week's
+ * space (its reporters' stories and its briefs) times the level's share of
+ * its audience (`levelAudienceShare`), added to what the level had left, and
+ * never more than a week's space. A level that is all of the outlet's
+ * audience has its whole space every week; a village at a market's station
+ * builds up a story now and then, and the rest of the week goes to the
+ * county's, the state's and the nation's records on the wire. No dice.
+ */
+function levelRoom(api: CoreAPI, outlet: OutletRow): Map<WireLevel, number> {
+  const room = new Map<WireLevel, number>();
+  if (!outlet.audiencePeople) return room;
+  const reporters = outlet.reporterIds.filter(
+    (id) => api.state.people.get(id)?.alive,
+  ).length;
+  const space =
+    reporters * pressParameter("storiesPerReporterWeek") +
+    pressParameter("briefsPerOutletWeek");
+  for (const level of LEVELS)
+    room.set(
+      level,
+      Math.min(
+        space,
+        (outlet.storyCredit?.[level] ?? 0) +
+          levelAudienceShare(api, outlet, level) * space,
+      ),
+    );
+  return room;
+}
+
 function pressWeek(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   if (work.kind !== "press-week") return;
   scheduleWeek(api, api.state.date);
@@ -4097,10 +4318,22 @@ function pressWeek(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   // A national outlet covers the nation and the town's own state; a town's
   // council is not its beat.
   const wider = wire.filter((i) => i.level === "nation" || i.level === "state");
-  const ctx = deskContext(api);
+  const rooms = new Map<string, Map<WireLevel, number>>(
+    outletsHere(api).map((outlet) => [outlet.id, levelRoom(api, outlet)]),
+  );
+  const ctx = {
+    ...deskContext(api),
+    levelRoom: (o: DeskOutlet) => rooms.get(o.id)!,
+  };
   for (const outlet of outletsHere(api)) {
     const beat = outlet.tier === "national" ? wider : wire;
     runDesk(api, ctx, outlet, beat);
+    // What each level has left carries to next week.
+    if (outlet.audiencePeople)
+      table(api, "outlets").put({
+        ...(table(api, "outlets").get(outlet.id) as unknown as OutletRow),
+        storyCredit: Object.fromEntries(rooms.get(outlet.id)!),
+      } as unknown as ModuleRow);
     if (outlet.kind === "magazine") writeProfile(api, ctx, outlet, beat);
   }
   forgetOldWire(api);
@@ -4135,11 +4368,16 @@ function pressWeek(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   const invitedThisWeek = new Map<string, InterviewRow[]>();
   const townAdults =
     api.state.peopleByPlace.get(lawChain(api).townPlaceId)?.size || 1;
-  for (const outlet of outletsHere(api))
+  for (const outlet of outletsHere(api)) {
+    // The races whose turn at this outlet came this week, by their share of
+    // its audience (`raceTurns`).
+    const turns = raceTurns(api, outlet, contests);
     // Access: a candidate close to the outlet's reporters is asked first.
     for (const { f, worth } of filings
+      .filter((row) => turns.has(row.f.contestId))
       .map((row) => ({
         ...row,
+        worth: row.worth * raceAudienceShare(api, outlet, row.f.contestId),
         access: Math.max(
           0,
           ...(outlet.reporterIds ?? []).map((id) =>
@@ -4210,6 +4448,7 @@ function pressWeek(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
       if (!accepts) refuse(api, weighed);
       else publish(api, weighed, candidateAnswers(api, row.questions, f));
     }
+  }
   // Those still waiting on the player's answer reach them as one call.
   if (playerId) {
     const open = (invitedThisWeek.get(playerId) ?? []).filter(
@@ -4313,6 +4552,41 @@ export const ACCEPTING_MOVES: ReadonlySet<string> = new Set([
 ]);
 /** The replies in an invitation's scene that turn it down. */
 export const REFUSING_MOVES: ReadonlySet<string> = new Set(["decline"]);
+
+/**
+ * The races an outlet takes up this week. Each week a race in its horizon
+ * adds its share of the outlet's audience (`raceAudienceShare`) to what the
+ * outlet owes it, and its turn comes when that reaches one: a race that is
+ * the whole of an outlet's audience has a turn every week, and a village's
+ * race at a station serving a market of a million about once in a lifetime.
+ * No dice. What is owed is kept on the outlet, by seat.
+ */
+function raceTurns(
+  api: CoreAPI,
+  outlet: OutletRow,
+  contests: readonly ContestRow[],
+): ReadonlySet<string> {
+  const turns = new Set<string>();
+  if (!outlet.audiencePeople) {
+    for (const contest of contests) turns.add(contest.id);
+    return turns;
+  }
+  // Kept by seat, so what a small race is owed carries to the seat's next
+  // election rather than lapsing with its six weeks.
+  const credit: Record<string, number> = { ...outlet.raceCredit };
+  for (const contest of contests) {
+    const owed =
+      (credit[contest.seatId] ?? 0) +
+      raceAudienceShare(api, outlet, contest.id);
+    if (owed >= 1) turns.add(contest.id);
+    credit[contest.seatId] = owed >= 1 ? owed - 1 : owed;
+  }
+  table(api, "outlets").put({
+    ...outlet,
+    raceCredit: credit,
+  } as unknown as ModuleRow);
+  return turns;
+}
 
 /**
  * Whether a race is on an outlet's beat. A national outlet covers the nation
@@ -4529,26 +4803,53 @@ export function commentOn(api: CoreAPI, causeId: string): CommentRow | null {
   );
 }
 
+/** The scandal call's answers the paper quotes: owning it, denying it, or a lie. */
+const CALL_ANSWERS: ReadonlySet<string> = new Set(["confess", "deny", "lie"]);
+/** The endings whose story quotes what the person said (purpose-arcs.json). */
+const SAID_ENDINGS: ReadonlySet<string> = new Set([
+  "on-record",
+  "on-the-record",
+  "denial-printed",
+  "lie-printed",
+  "caught",
+]);
+
 /**
  * A press interview that ends on the record keeps what the person said; one
  * that ends in no comment or a walk-off keeps that they declined. A story
  * that runs (the ending's keeps) is told in the paper's story of the record
- * the reporter asked about.
+ * the reporter asked about. The reporter's call on an exposure (a scandal
+ * call) is kept the same way, before the story runs (runExposure): what the
+ * paper quotes is the official's own answer on the call (owning it, denying
+ * it or a lie), not a parting line after it; an answer is kept as it is said,
+ * so a call that stops after it still reaches the story; a call that ends
+ * without one is a decline. With no call there is no row, and the story
+ * says nothing of comment.
  */
 function keepComment(api: CoreAPI, event: Readonly<CoreEventInput>): void {
   const facts = event.facts ?? {};
-  if (facts.typeKey !== "press-interview" || facts.keeps !== "story-runs")
-    return;
+  const call = facts.typeKey === "scandal";
+  const answer = call && CALL_ANSWERS.has(String(facts.move ?? ""));
+  const kept =
+    (facts.typeKey === "press-interview" && facts.keeps === "story-runs") ||
+    (call && (answer || Boolean(facts.ending)));
+  if (!kept) return;
   const causeId = String(facts.causeId ?? "");
   const personId = event.personIds[0];
   if (!causeId || !personId) return;
-  const said = facts.ending === "on-record" || facts.ending === "lie-printed";
+  const line = String(facts.line ?? "") || null;
+  const answered = call ? (commentOn(api, causeId)?.quote ?? null) : null;
+  const quote = answer
+    ? line
+    : SAID_ENDINGS.has(String(facts.ending ?? ""))
+      ? (answered ?? line)
+      : null;
   table(api, "comments").put({
     id: causeId,
     causeId,
     personId,
     date: api.state.date,
-    quote: said ? String(facts.line ?? "") || null : null,
+    quote,
     replyId: event.id,
   } satisfies CommentRow as unknown as ModuleRow);
 }
@@ -4742,3 +5043,75 @@ registerCountedNewsSource((api, storyId, namedReaders) => {
       reached: (delivered * followers) / total,
     }));
 });
+
+/*
+ * What a paper found when it exposed an official (`press.exposed`),
+ * read from the act's own record so the reporter who calls says what the
+ * story says, not only that there is one (owner, Nov 15, on the scandal call:
+ * "I've got a story about the water rates, and your name is in it... that's
+ * very ambiguous"; Words lead's lines in reply-sets/oath-bribe-scandal.md C).
+ *
+ * - a bribe taken (corruption.ts crime record): who paid, and what the money
+ *   was for, the bill or the contract award, read the same way the offer
+ *   scene reads it (`wantedFacts`);
+ * - a conflict on an award (contracts.ts award row, its conflict): the award
+ *   by the work it pays for, the firm, and whose firm it is, the official's
+ *   own or a relative's.
+ */
+/** The finding behind an exposure, with the records that hold it. */
+export interface ExposedFinding {
+  readonly found: "bribe" | "conflict";
+  /** The crime record or the award the story is on. */
+  readonly recordId: string;
+  /** The bill a bribe bought a vote on. */
+  readonly billId?: string;
+  /** The award, by its id and its spending line. */
+  readonly contractId?: string;
+  readonly contractLine?: string;
+  /** Who paid the bribe. */
+  readonly briberId?: string;
+  /** The firm an interested member chose, its owner and the owner's relation to the member. */
+  readonly firmId?: string;
+  readonly ownerId?: string;
+  readonly ownFirm?: boolean;
+}
+
+/** The finding an exposure's facts name; null when its record is gone. */
+export function exposedFinding(
+  api: CoreAPI,
+  said: Readonly<Record<string, string>>,
+): ExposedFinding | null {
+  const key = (prefix: string) =>
+    Object.keys(said).find((row) => row.startsWith(prefix));
+  const crimeKey = key("crime:");
+  if (crimeKey && said[crimeKey] === "bribe-taken") {
+    if (!api.state.modules.has(CORRUPTION_MODULE_ID)) return null;
+    const crimeId = crimeKey.slice("crime:".length);
+    const crime = crimeRecord(api, crimeId);
+    if (!crime) return null;
+    const wanted = wantedFacts(crime.subjectId);
+    return {
+      found: "bribe",
+      recordId: crime.id,
+      briberId: crime.offererId,
+      ...(wanted.billId ? { billId: wanted.billId } : {}),
+      ...(wanted.contractId ? { contractId: wanted.contractId } : {}),
+      ...(wanted.contractLine ? { contractLine: wanted.contractLine } : {}),
+    };
+  }
+  const awardKey = key("award:");
+  if (awardKey && said[awardKey] === "conflict-of-interest") {
+    const awardId = awardKey.slice("award:".length);
+    const wanted = wantedFacts(awardId);
+    return {
+      found: "conflict",
+      recordId: awardId,
+      contractId: awardId,
+      ...(wanted.contractLine ? { contractLine: wanted.contractLine } : {}),
+      ...(said.organizationId ? { firmId: said.organizationId } : {}),
+      ...(said.ownerId ? { ownerId: said.ownerId } : {}),
+      ownFirm: said.relation === OWNER_RELATION,
+    };
+  }
+  return null;
+}

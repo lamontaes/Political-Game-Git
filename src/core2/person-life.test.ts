@@ -555,16 +555,16 @@ describe(`the life record in ${where}`, () => {
     const life = lifeOf(pcore, chief!.id);
     const label = `${where}: ${chief!.id} ${life.map((e) => `${e.life}/${e.what}`).join(", ")}`;
     expect(life.length, label).toBeGreaterThanOrEqual(4);
-    // Born where they live, as every opening resident's birthplace defaults to home.
+    // Born, with one birthplace record from the same draw residents take
+    // (src/core2/person-birthplace.ts): where they live, or outside the state.
     expect(
       life.some((event) => event.life === "born"),
       label,
     ).toBe(true);
     expect(
-      chief!.pastFacts?.find((row) => row.kind === "person:birth")?.facts
-        ?.placeId,
+      chief!.pastFacts?.filter((row) => row.kind === "birthplace").length,
       label,
-    ).toBe(chief!.placeId);
+    ).toBe(1);
     // Work before the role: an earlier post at the same organization, left for the role.
     const earlier = life.filter(
       (event) =>

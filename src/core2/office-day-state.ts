@@ -32,6 +32,7 @@ import { sessionYear, type SessionWindow } from "./state-session-calendar";
 import { registerModule } from "./state";
 import { decisionLean, leanedTerm } from "./trait-decisions";
 import { closenessBetween } from "./closeness";
+import { roomTime } from "./modules/people";
 import { personLean, personStance } from "./campaign-views";
 import { PLATFORM_QUESTIONS } from "./campaign-data";
 import { lineForPost, registerLinePayments } from "./budgets-treasury";
@@ -638,18 +639,30 @@ function room(api: CoreAPI, entry: StateDayEntry, office: StateOffice) {
   return [];
 }
 
-/** Time together with each colleague in the room: their tie grows (or begins). */
+/**
+ * Time together with the colleagues one knows in the room: their tie grows
+ * (or begins). A committee or caucus meeting is a sitting of a smaller room,
+ * shared by the sitting's own rule (sitting-closeness.ts `roomTime`): the
+ * meeting's hours times the contact share, split among the colleagues one
+ * comes to know there, never the whole meeting with each of them.
+ */
 function spendTime(
   api: CoreAPI,
   holderId: string,
-  others: readonly string[],
+  officeId: string,
+  room: readonly string[],
   sourceId: string,
 ): string[] {
-  const hours = stateDayParameter("meetingHours");
+  const { ids: others, hours } = roomTime(
+    api,
+    officeId,
+    holderId,
+    room.filter((id) => api.state.people.get(id)?.alive),
+    stateDayParameter("meetingHours"),
+  );
   const placeId = lawChain(api).townPlaceId;
   const touched: string[] = [];
   for (const other of others) {
-    if (other === holderId || !api.state.people.get(other)?.alive) continue;
     const id = pairKey(holderId, other);
     if ((api.state as CoreState).relationships.has(id))
       api.relationship(holderId, other, "contact", hours, undefined, {
@@ -749,7 +762,13 @@ export function actOn(
       const sourceId = `office-day:${entry.id}`;
       if (chosen.attend) {
         recordIds.push(
-          ...spendTime(api, entry.holderId, room(api, entry, office), sourceId),
+          ...spendTime(
+            api,
+            entry.holderId,
+            office.officeId,
+            room(api, entry, office),
+            sourceId,
+          ),
         );
       }
       // A member at their committee learns where they sit, and what it heard
@@ -922,6 +941,7 @@ export function actOn(
           ...spendTime(
             api,
             entry.holderId,
+            office.officeId,
             legislativeLeaders(api, office.stateKey),
             `office-day:${entry.id}`,
           ),

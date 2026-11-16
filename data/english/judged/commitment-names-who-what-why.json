@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "commitment-names-who-what-why",
   "rubric": "A line that commits (a stance, a threat, a refusal) names who, what or why in plain words.",
-  "judged": 493,
+  "judged": 474,
   "no": {
     "000kvn97gfw": {
       "keys": [
@@ -1544,24 +1544,6 @@
       ],
       "why": "A threat over an unnamed 'deal'; what the presser wants is never said."
     },
-    "1hc0bte8hcc": {
-      "keys": [
-        "scene-talk.narrate-narrate.name-of-outlet-has-papers-under-one-arm-and-hasn-t-said-hello",
-        "scene-talk.state-confront.i-have-a-question-i-d-rather-ask-you-than-print-without-you-may-i",
-        "scene-talk.beat-beat.a-second-reporter-drifts-over-then-a-third",
-        "scene-talk.reply-deflect.the-file-is-public-read-it-then-ask-me-what-s-not-in-it",
-        "scene-talk.follow-press.written-answers-get-written-headlines-do-you-deny-it-or-not",
-        "scene-talk.reply-refuse.not-until-i-ve-seen-what-you-plan-to-print-send-it-to-my-office",
-        "scene-talk.follow-press.a-refusal-reads-one-way-in-print-give-me-anything-i-can-use",
-        "scene-talk.beat-beat.across-the-lobby-someone-else-s-camera-swings-your-way",
-        "scene-talk.reply-answer.put-this-in-i-ll-vote-yes-and-i-ll-own-it",
-        "scene-talk.follow-ask.can-you-document-that-i-ll-take-the-records-not-only-your-word",
-        "scene-talk.reply-refuse.i-m-not-answering-that-one",
-        "scene-talk.follow-press.not-answering-is-an-answer-too",
-        "scene-talk.reply-refuse.not-today"
-      ],
-      "why": "'Not today' answers 'not answering is an answer' in a scandal whose subject, and the vote mentioned, are never named."
-    },
     "1hlrut80wzq": {
       "keys": [
         "scene-talk.narrate-narrate.name-hangs-back-and-asks-for-a-word",
@@ -1985,20 +1967,6 @@
       ],
       "why": "'Take the deal' with threats; the deal's object is never named."
     },
-    "21k6pnix0n5": {
-      "keys": [
-        "scene-talk.narrate-narrate.name-of-outlet-has-papers-under-one-arm-and-hasn-t-said-hello",
-        "scene-talk.state-confront.i-have-a-question-i-d-rather-ask-you-than-print-without-you-may-i",
-        "scene-talk.beat-beat.a-second-reporter-drifts-over-then-a-third",
-        "scene-talk.reply-deflect.the-file-is-public-read-it-then-ask-me-what-s-not-in-it",
-        "scene-talk.follow-press.written-answers-get-written-headlines-do-you-deny-it-or-not",
-        "scene-talk.reply-answer.fine-i-m-leaning-yes-that-s-all-you-get",
-        "scene-talk.follow-ask.can-you-document-that-i-ll-take-the-records-not-only-your-word",
-        "scene-talk.beat-beat.across-the-lobby-someone-else-s-camera-swings-your-way",
-        "scene-talk.reply-refuse.i-m-not-answering-that-one"
-      ],
-      "why": "The scandal subject is never said; 'document that' refers to a lean on an unnamed matter."
-    },
     "222jsqjcwym": {
       "keys": [
         "scene-talk.narrate-narrate.name-has-come-around-a-second-time-as-if-the-first-answer-had-been-a-d",
@@ -2052,22 +2020,6 @@
         "scene-talk.reply-refuse.i-m-sorry-my-answer-doesn-t-change"
       ],
       "why": "'See that it goes my way' never names the vote or decision."
-    },
-    "22u35r3lcel": {
-      "keys": [
-        "scene-talk.narrate-narrate.name-of-outlet-has-papers-under-one-arm-and-hasn-t-said-hello",
-        "scene-talk.state-confront.i-have-a-question-i-d-rather-ask-you-than-print-without-you-may-i",
-        "scene-talk.beat-beat.a-second-reporter-drifts-over-then-a-third",
-        "scene-talk.reply-deflect.the-file-is-public-read-it-then-ask-me-what-s-not-in-it",
-        "scene-talk.follow-press.written-answers-get-written-headlines-do-you-deny-it-or-not",
-        "scene-talk.reply-answer.fine-i-m-leaning-yes-that-s-all-you-get",
-        "scene-talk.follow-ask.can-you-document-that-i-ll-take-the-records-not-only-your-word",
-        "scene-talk.beat-beat.across-the-lobby-someone-else-s-camera-swings-your-way",
-        "scene-talk.reply-refuse.i-m-not-answering-that-one",
-        "scene-talk.follow-press.a-refusal-reads-one-way-in-print-give-me-anything-i-can-use",
-        "scene-talk.reply-refuse.i-m-not-doing-this-in-a-hallway"
-      ],
-      "why": "Scandal interview with no named subject; the hallway refusal refuses an unnamed topic."
     },
     "23fd22zkl9v": {
       "keys": [
@@ -2383,23 +2335,7 @@
         "scene-talk.reply-refuse.then-find-another-way-to-win-it-this-isn-t-it"
       ],
       "why": "Bribe for 'it goes my way'; what 'it' is never appears."
-    },
-    "2gl4hl1f2dr": {
-      "keys": [
-        "scene-talk.narrate-narrate.name-of-outlet-has-papers-under-one-arm-and-hasn-t-said-hello",
-        "scene-talk.state-confront.i-have-a-question-i-d-rather-ask-you-than-print-without-you-may-i",
-        "scene-talk.beat-beat.a-second-reporter-drifts-over-then-a-third",
-        "scene-talk.reply-deflect.the-file-is-public-read-it-then-ask-me-what-s-not-in-it",
-        "scene-talk.follow-press.written-answers-get-written-headlines-do-you-deny-it-or-not",
-        "scene-talk.reply-refuse.not-until-i-ve-seen-what-you-plan-to-print-send-it-to-my-office",
-        "scene-talk.follow-press.a-refusal-reads-one-way-in-print-give-me-anything-i-can-use",
-        "scene-talk.beat-beat.across-the-lobby-someone-else-s-camera-swings-your-way",
-        "scene-talk.reply-answer.put-this-in-i-ll-vote-yes-and-i-ll-own-it",
-        "scene-talk.follow-ask.can-you-document-that-i-ll-take-the-records-not-only-your-word",
-        "scene-talk.reply-refuse.i-m-not-answering-that-one"
-      ],
-      "why": "The scandal interview never names its subject or the vote the player says yes to; the documentation question refers to an unnamed matter."
     }
   },
-  "yesHash": "0jma5v8kd7v"
+  "yesHash": "1kvjzznpfqm"
 }

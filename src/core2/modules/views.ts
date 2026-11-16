@@ -70,6 +70,12 @@ import { placeStateKey } from "../place-map";
 import { registerStanceListener, stanceMoved } from "../stance-listeners";
 import { VIEWS_KEYS, type CellKey } from "../views-keys";
 import { PAST_WORK_SPELL, pastWorkOf } from "../past-module";
+import {
+  countedGroupStance,
+  countedStancesOfHousehold,
+  liveCountedCrime,
+  type CountedCrimeTally,
+} from "../counted-news-views";
 
 export const VIEWS_DATA = viewsJson as {
   version: string;
@@ -993,9 +999,18 @@ export function countedStanceProfile(
   profiles.set(api.state, held);
   let kept = held.get(voter.id);
   if (!kept) {
+    const id = voter.id;
     kept = {
       ...profileFromAverage(voter, api.state.startedAt, api.state.seed),
       seed: api.state.seed,
+      // What their group has heard or lived since, read as a full person's
+      // own stance is in `viewOn` (src/core2/counted-news-views.ts).
+      heard: (question: string) => {
+        const row = countedGroupStance(api, id, question);
+        return row
+          ? v("stanceViewWeight") * direction(row.desiredChange) * row.strength
+          : v("zero");
+      },
     };
     held.set(voter.id, kept);
   }
@@ -1023,6 +1038,30 @@ export function countedViewOn(
     personLean(api.state.people, voter, town),
     question,
     countedStanceProfile(api, voter),
+  );
+}
+
+/**
+ * A counted group's view of one question, -1 to 1, read as a full person's
+ * `viewOn` is: where the group's mean lean puts it on the question's axis,
+ * the question's popularity, and how far what the group has heard or lived
+ * since has moved it (`heard`, its row in countedStances).
+ */
+export function countedGroupViewOn(
+  api: CoreAPI,
+  lean: number,
+  question: string,
+  heard: Stance | undefined,
+): number {
+  return Math.max(
+    -v("one"),
+    Math.min(
+      v("one"),
+      personStance(lean, question) +
+        popularity(question, api.state.seed) +
+        v("stanceViewWeight") *
+          (heard ? direction(heard.desiredChange) * heard.strength : v("zero")),
+    ),
   );
 }
 
@@ -1273,6 +1312,33 @@ export const viewsModule: CoreModule = {
       },
     },
   },
+  // A household filled in from the counts brings what its group heard or
+  // lived: each adult starts from the group's stance rows, the mean they held
+  // while counted, and moves on their own from there.
+  onFillIn(api, { householdId, memberIds }) {
+    const rows = countedStancesOfHousehold(api, householdId);
+    if (!rows.length) return;
+    const adult = api.parameter("votingAge");
+    const table = stancesTable(api);
+    for (const personId of memberIds) {
+      const person = api.state.people.get(personId as PersonId);
+      if (!person || ageOnDate(person.birthDate, api.state.date) < adult)
+        continue;
+      for (const row of rows) {
+        const id = `${personId}:${row.topic}`;
+        if (table.get(id)) continue;
+        table.putOwned({
+          id,
+          personId,
+          topic: row.topic,
+          desiredChange: row.desiredChange,
+          strength: row.strength,
+          causes: row.causes,
+        } as unknown as { id: string });
+        stanceMoved(api, personId as PersonId, row.topic);
+      }
+    }
+  },
   onCalendarWork(api, work) {
     if (work.kind !== LIFE_REVIEW) return;
     for (const id of lifeReadPeople(api.state as CoreState))
@@ -1310,7 +1376,8 @@ export const viewsModule: CoreModule = {
       if (!view) continue;
       let desiredChange = event.desiredChange;
       if (lived) {
-        // stopgapId: SG-PEOPLE-counted-victims-lived-crime (a counted group's victimizations are a tally row; its view on the police does not move)
+        // A counted group lives its victimizations through its tally row
+        // (`liveCountedCrime` in src/core2/counted-news-views.ts).
         if (!event.personIds.includes(personId)) continue;
         const current = viewOn(api, personId, lived, view.lean);
         if (current === v("zero")) continue;
@@ -1384,3 +1451,17 @@ export {
   hearCountedNews,
   type CountedNewsAudience,
 } from "../counted-news-views";
+
+/**
+ * A counted group lives the victimizations the crime engine tallied for it
+ * (`liveCountedCrime` in src/core2/counted-news-views.ts), on the question
+ * the full victim's record of that kind ties to.
+ */
+export function liveCountedCrimeTally(
+  api: CoreAPI,
+  eventKind: string,
+  tally: Omit<CountedCrimeTally, "question">,
+): void {
+  const question = livedQuestion(eventKind);
+  if (question) liveCountedCrime(api, { ...tally, question });
+}

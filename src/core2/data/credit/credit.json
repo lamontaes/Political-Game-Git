@@ -10,6 +10,7 @@
   "reasons": {
     "approved": "line-approved",
     "applied": "cash-below-cover",
+    "heldAtOpening": "line-held-at-opening",
     "chargeOff": "borrower-closed"
   },
   "actions": {

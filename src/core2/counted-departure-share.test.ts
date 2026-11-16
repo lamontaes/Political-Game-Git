@@ -1,7 +1,8 @@
 /**
  * A counted record leaves with its own share of its group's fund (pool item
  * world-counted-departure-insufficient-group-funds; one model, two tiers):
- * the fund's balance per person times the people the record stands for.
+ * the fund's balance per claim times the record's claim (the people it
+ * stands for at its savings weight).
  * A record of weight one half must never move more than the fund holds; a
  * record of weight three moves three households' share. Places are drawn by
  * seed (set COUNTED_DEPARTURE_SEED to reproduce); the place and seed are in
@@ -12,7 +13,12 @@ import { expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "./bookkeeping";
-import { fundBalance, peopleInGroup } from "./counted-money";
+import {
+  claimsInGroup,
+  fundBalance,
+  savingClaim,
+  savingWeight,
+} from "./counted-money";
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
@@ -48,11 +54,13 @@ for (const [label, weight] of [
         const h = target!;
         h.weight = weight;
         store.version++;
-        const people = peopleInGroup(rt, h.group);
+        // Each household's claim on the fund is its people at its savings weight (savingWeight).
+        const claims = claimsInGroup(rt, h.group);
         const before = fundBalance(rt.api!, rt, h.group);
-        const expected = Math.floor((before * store.weightedCount(h)) / people);
+        const expected = Math.floor((before * savingClaim(rt, h)) / claims);
         const oneHousehold = Math.floor(
-          (before * store.countedCount(h)) / people,
+          (before * store.countedCount(h) * savingWeight(core.seed, h)) /
+            claims,
         );
         const out = departCountedHousehold(core, h.id);
         expect(out, `${where}: departure`).toBeTruthy();

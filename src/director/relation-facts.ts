@@ -5,7 +5,11 @@
  * scene); `askedId` is the one who answers. Kin, acquaintance, closeness and
  * the side of the tie all come from here; nothing else re-reads them.
  */
-import { closenessBetween } from "../core2/closeness";
+import {
+  closenessBetween,
+  lastTogether,
+  sharedHoursBetween,
+} from "../core2/closeness";
 import { P } from "../core2/parameters";
 import type { CoreState, PersonId } from "../core2/types";
 import rulesFile from "./data/scene-talk-rules.json" with { type: "json" };
@@ -27,6 +31,62 @@ export interface RelationFacts {
   side: "friend" | "rival" | null;
   /** The tie record the side or closeness rests on, if any. */
   tieId: string | null;
+  /** What earlier scene replies between the two left: ids of the `scene.reply` records, by what they say. */
+  passed: {
+    /** The asker came to the asked before, in an earlier scene. */
+    askedBefore: string[];
+    /** The asked person's answer to the asker then was help. */
+    helpedBefore: string[];
+    /** The asked person's answer to the asker then was a refusal. */
+    refusedBefore: string[];
+  };
+}
+
+const PASSED = rulesFile.passedBetween;
+
+/**
+ * What earlier scene replies between two people say: who came to whom and how
+ * the one asked answered (a `scene.reply` names the player first; its `asked`
+ * fact is there only where the player asked, and its `move` is the answerer's).
+ */
+function passedBetween(
+  core: Readonly<CoreState>,
+  askerId: PersonId,
+  askedId: PersonId,
+): RelationFacts["passed"] {
+  const passed: RelationFacts["passed"] = {
+    askedBefore: [],
+    helpedBefore: [],
+    refusedBefore: [],
+  };
+  const ids = core.logByKind.get("scene.reply");
+  if (!ids) return passed;
+  for (const id of ids) {
+    const event = core.durableLog.get(id);
+    if (!event) continue;
+    if (event.date >= core.date) continue;
+    const [first, second] = event.personIds;
+    if (!first || !second) continue;
+    if (!(
+      (first === askerId && second === askedId) ||
+      (first === askedId && second === askerId)
+    ))
+      continue;
+    const playerAsked = event.facts?.asked !== undefined;
+    const recordAsker = playerAsked ? first : second;
+    if (recordAsker !== askerId) continue;
+    passed.askedBefore.push(id);
+    const move = event.facts?.move;
+    // A promise is help only once an engine's record says it was done: an
+    // ending that keeps a promise counts when it also settled as help
+    // (office hours: the case row is helped); other helping moves count as said.
+    const kept =
+      event.facts?.keeps !== "promise" || event.facts?.settled === "help";
+    if (move && PASSED.helped.includes(move) && kept)
+      passed.helpedBefore.push(id);
+    if (move && PASSED.refused.includes(move)) passed.refusedBefore.push(id);
+  }
+  return passed;
 }
 
 export function lastContact(
@@ -38,8 +98,11 @@ export function lastContact(
   for (const id of core.relationshipsByPerson.get(personId) ?? []) {
     const row = core.relationships.get(id)!;
     if (row.actorId !== otherId && row.otherId !== otherId) continue;
-    if (!best || row.lastContactDate > best.date)
-      best = { date: row.lastContactDate, tieId: id };
+    // The day they were last together, not the day a change made apart
+    // (a veto, an answer to the whip) moved the tie.
+    const met = lastTogether(row);
+    if (met !== null && (!best || met > best.date))
+      best = { date: met, tieId: id };
   }
   return best;
 }
@@ -58,10 +121,13 @@ export function relationFacts(
       link.personIds.includes(askedId),
   );
   const family = !!asked?.familyIds.has(askerId);
-  const knows = !!asked?.knownIds.has(askerId);
+  // Time another engine's record says the two shared (the sittings of a
+  // body, an executive's signings and leaders' meetings) is having met.
+  const shared = sharedHoursBetween(core, askerId, askedId) > P.zero;
+  const knows = !!asked?.knownIds.has(askerId) || shared;
   let metBefore = false;
   if (knows) {
-    if (family) metBefore = true;
+    if (family || shared) metBefore = true;
     else {
       const learned = asked?.knownIdSources?.[askerId]?.learnedAt;
       if (learned !== undefined) metBefore = learned < core.date;
@@ -106,6 +172,7 @@ export function relationFacts(
     metBefore,
     side,
     tieId: tie ? tieId : null,
+    passed: passedBetween(core, askerId, askedId),
   };
 }
 

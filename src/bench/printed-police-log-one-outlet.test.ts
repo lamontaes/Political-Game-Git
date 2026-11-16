@@ -1,12 +1,24 @@
 /**
- * A town's police log runs in one outlet, its paper of record (coordinator
- * ruling, Nov 14): in played months of pinned drawn places with more than one
- * outlet, every printed month's log is in the town's paper of record, and in
- * another outlet only in a month the town's own record puts well over its
- * usual (the usual rests on enough months and chance rarely gives a month that
- * busy). A tiny town (seed s12, usual of one or two reports) and a town with a ratio of
- * two over a usual of two (seed s10) have no such month; Lucky LA (seed s23)
- * has two, and both run in a second outlet.
+ * A town's police log runs in one outlet, its paper of record: in played
+ * months of pinned drawn places with more than one outlet, every printed
+ * month's log is in the town's paper of record. A tiny town (seed s12, usual
+ * of one or two reports) and a town with a ratio of two over a usual of two
+ * (seed s10) have no month the town's own record puts well over its usual (the
+ * usual rests on enough months and chance rarely gives a month that busy).
+ *
+ * Premise changed Nov 15 (the Account lead's yes). The old premise
+ * (coordinator ruling, Nov 14) was that a month well over usual also runs in
+ * a second outlet, and Lucky LA (seed s23) and Fries VA (seed s19) had to show
+ * one. The lead's 07:23Z call replaces it: the town's outlet of record holds
+ * the town as its full beat, and any other outlet carries a town's story only
+ * when it clears that outlet's own bar for its own audience
+ * (press-market-stations-seek-village-candidates). So at Fries a month well
+ * over usual runs in the outlet of record, and the market stations do not
+ * carry it. Lucky LA no longer has such a month in its 300 days on the train
+ * before this change (the Sept and Oct 2025 logs stand at 7 and 4 times usual
+ * and are not called well over); that is pool item
+ * tests-police-log-lucky-no-month-well-over, so s23 keeps only the checks
+ * every place has.
  * Places and seeds are named.
  */
 import { appendFileSync } from "node:fs";
@@ -132,13 +144,18 @@ for (const seed of Object.keys(DAYS))
         `${where}: ${source} vsUsual ${wire.get(source)?.vsUsual ?? "none"} in ${[...by].join(", ")} (record ${[...record].join(", ")})\n`,
       );
     }
-    if (seed === "s23" || seed === "s19") {
-      const wide = [...printedBy].filter(
-        ([source, by]) => wire.get(source)?.busier === "yes" && by.size > 1,
+    if (seed === "s19") {
+      const busy = [...printedBy].filter(
+        ([source]) => wire.get(source)?.busier === "yes",
       );
       expect(
-        wide.length,
-        `${where}: no month well over usual ran in a second outlet`,
+        busy.length,
+        `${where}: no month well over usual was printed`,
       ).toBeGreaterThan(0);
+      for (const [source, by] of busy)
+        expect(
+          [...by],
+          `${where}: ${source} (well over usual) ran beyond the outlet of record`,
+        ).toEqual([...recordsOf(source)].filter((id) => by.has(id)));
     }
   }, 170_000);

@@ -35,7 +35,7 @@
     "ask-vote": {
       "state": "request",
       "asks": {
-        "note": "Where the player does the asking: the one asked answers yes if they already lean for it, not yet if a favor would carry them, no otherwise. Asked again: a plea carries them where the favor would at the roll; taking up their price (legislature askPrice: the player's vote on their own bill, or half a section) carries them where the price would, and is offered only where the record holds one; asking them only to stay out of the room carries them where a favor covers half their lean (absenceCarries), and they agree in a decline; pressing holds them only where they lean for it; letting it go wins nothing.",
+        "note": "Where the player does the asking: the one asked answers yes if they already lean for it, not yet if a favor would carry them, no otherwise. Asked again: a plea carries them where the favor would at the roll; taking up their price (legislature askPrice: the player's vote on their own bill, or half a section) carries them where the price would, and is offered only where the record holds one; asking them only to stay out of the room carries them where a favor covers half their lean (absenceCarries), and they agree in a decline; pressing holds them only where they lean for it; letting it go wins nothing. On a second ask after their not yet, deferring to them (\"Read it.\", \"Take the time you need.\") keeps the ask open and wins nothing now; it is offered only on a second ask (Words lead, Nov 15).",
         "yes": "agree",
         "carried": "stall",
         "no": "refuse",
@@ -57,6 +57,11 @@
           {
             "move": "press",
             "carries": "lean"
+          },
+          {
+            "move": "defer",
+            "carries": "none",
+            "secondAsk": true
           },
           {
             "move": "accept",
@@ -1256,17 +1261,17 @@
     },
     "scandal-comment": {
       "state": "ask",
-      "replies": ["confess", "deny", "refuse", "confront", "lie"],
+      "replies": ["confess", "refuse", "confront", "lie"],
       "follow": {
         "confess": ["ask", "thank"],
-        "deny": ["press", "accept"],
         "refuse": ["accept", "press"],
-        "confront": ["answer"]
+        "confront": ["answer"],
+        "answer": ["accept"]
       },
       "again": {
         "ask": ["answer", "refuse", "leave"],
-        "press": ["deny", "confess", "leave"],
-        "answer": ["confess", "deny", "leave"],
+        "press": ["confess", "leave"],
+        "answer": ["confess", "lie", "refuse"],
         "confront": ["deflect", "confess", "leave"]
       },
       "endings": [
@@ -1276,14 +1281,6 @@
           "keeps": "story-runs",
           "when": {
             "anyReply": ["confess"]
-          }
-        },
-        {
-          "id": "denial-printed",
-          "label": "Story runs with your denial",
-          "keeps": "story-runs",
-          "when": {
-            "anyReply": ["deny"]
           }
         },
         {
@@ -2271,22 +2268,15 @@
     },
     "filing-clerk": {
       "state": "tell",
-      "stateMoves": [
-        "tell-running",
-        "tell-race",
-        "tell-duty",
-        "tell-deadline",
-        "tell-filing-fee"
-      ],
+      "stateMoves": ["tell-running", "tell-race", "tell-duty", "tell-deadline"],
       "replies": ["agree", "ask", "confront", "leave"],
       "follow": {
-        "agree": ["accept", "refuse"],
+        "agree": ["accept"],
         "ask": ["answer"],
         "confront": ["answer"]
       },
       "again": {
-        "answer": ["agree", "leave"],
-        "refuse": ["come-back", "leave"]
+        "answer": ["agree", "leave"]
       },
       "endings": [
         {
@@ -4204,9 +4194,9 @@
     "ask-to-serve": {
       "state": "request",
       "asks": {
-        "note": "The player asks someone to serve (brief J): the one asked answers from where the serve-asks engine reads them (their ambition, the seat they would give up, how far apart the two stand on their question, what they have read about the player, whether they know the player). Yes where that read is above zero, no otherwise; pressing holds them where they stood, and letting it go wins nothing. A price comes later.",
+        "note": "The player asks someone to serve (brief J): the one asked answers from where the serve-asks engine reads them (their ambition, the seat they would give up, how far apart the two stand on their question, what they have read about the player, whether they know the player). Yes where that read is above zero, no otherwise; pressing holds them where they stood, and letting it go wins nothing. Short of yes by less than the player's word on their own question is worth to them, they name that promise as their price (bargain): giving their word carries them and keeps a hold-question promise the player's next vote or signature on the question settles; refusing it does not carry them (gov-serve-ask-price-end).",
         "yes": "agree",
-        "carried": "decline",
+        "carried": "bargain",
         "no": "decline",
         "relent": ["agree"],
         "thanks": "thank",
@@ -4218,6 +4208,14 @@
           {
             "move": "accept",
             "carries": "none"
+          },
+          {
+            "move": "promise",
+            "carries": "price"
+          },
+          {
+            "move": "refuse",
+            "carries": "price-refused"
           }
         ],
         "first": {
@@ -4236,13 +4234,23 @@
               "carries": "hedged"
             }
           ]
-        }
+        },
+        "paid": "agree"
       },
       "replies": ["agree", "decline", "ask"],
       "again": {
         "answer": ["agree", "decline"]
       },
       "endings": [
+        {
+          "id": "promised",
+          "label": "On your ticket, on your word",
+          "keeps": "promise",
+          "when": {
+            "reply": ["agree"],
+            "asker": ["promise"]
+          }
+        },
         {
           "id": "serving",
           "label": "On your ticket",
@@ -4362,7 +4370,7 @@
     "cosponsor-ask": {
       "state": "request",
       "asks": {
-        "note": "The player asks a colleague to sign on to their bill: the colleague answers yes if they already lean for it, not yet if a favor to the player would carry them, no otherwise, and a no says the reason the record holds (publicDeclineReason). Asked again: a plea carries them where the favor would; pressing holds them only where they lean for it; letting it go wins nothing. A yes is thanked, and the colleague closes on it.",
+        "note": "The player asks a colleague to sign on to their bill: the colleague answers yes if they already lean for it, not yet if a favor to the player would carry them, no otherwise, and a no says the reason the record holds (publicDeclineReason). Asked again: a plea carries them where the favor would; pressing holds them only where they lean for it; letting it go wins nothing. A yes is thanked, and the colleague closes on it. On a second ask after their not yet, deferring to them (\"Read it.\", \"Take the time you need.\") keeps the ask open and wins nothing now; it is offered only on a second ask (Words lead, Nov 15).",
         "yes": "agree",
         "carried": "stall",
         "no": "refuse",
@@ -4377,6 +4385,11 @@
           {
             "move": "press",
             "carries": "lean"
+          },
+          {
+            "move": "defer",
+            "carries": "none",
+            "secondAsk": true
           },
           {
             "move": "accept",

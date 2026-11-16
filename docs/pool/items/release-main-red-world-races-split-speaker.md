@@ -5,7 +5,7 @@ area: release
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: merged
 standard: 2
 claimed-by: claude/red-main-world-races-split-election
 pr: #9032
@@ -16,6 +16,7 @@ model: opus
 effort: low
 root: none
 source: Red desk, Nov 13 (Account lead T1 on #8928, comment 6846824079)
+merged-at: 2026-11-15T22:25:41.874Z
 ---
 
 **What.** `src/core2/world-races.test.ts` fails its split-election case on clean main at GOLDEN_PATH_SEED=0a7f7b06a84247f51f37b1c2af021363f6f84134e880761fcc4b0e1ebd4a9fa9 (Indiana, place 1828296): the House deadlocks 25 states to 23 (26 needed) and the Senate ties 50 to 50 (51 needed), so the acting president falls to the Speaker, and the record's acting is null. The case's own world never installs the leadership module, so the House has no Speaker in it, though the played world installs it (src/bench/world.ts). Guards: the contingent election's acting president when the House and the Senate both fail to choose.

@@ -5,9 +5,9 @@ area: world
 kind: feature
 priority: 1
 size: L
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: Account lead T49 (claude/project-thread-n4dxps)
 pr:
 after: history-housing-before-start
 blocked-on:

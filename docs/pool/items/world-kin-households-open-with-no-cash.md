@@ -5,7 +5,7 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: in-pr
+status: merged
 standard: 2
 claimed-by: T54
 pr: 9465
@@ -39,3 +39,5 @@ source: Account lead T54, measuring counted groups' savings for world-counted-re
 **Notes.**
 
 Built Nov 15 (T54, on the Account lead's ruling, ahead of #9117). A relative has no recorded job at the opening; its share of the place's unplaced work is set later, when the residents engine packs the counts. So it opens by the rule the county's sampled households already use for a household with no recorded worker: the survey's median balance at one earner's pay of the town (`householdOpeningCash` in src/core2/starting-cash.ts, now the one function both call). The town's pay stands in for the relative's own place as its living cost already does (SG-P15-kin-living-cost-region, kept as the game's answer Nov 10).
+
+On #9117 (Nov 15, T54): with #9117's head-age factor in the survey's balance, `householdOpeningCash` takes the head's age, and the relatives and the county sample pass their oldest adult's, as the town's households do.
