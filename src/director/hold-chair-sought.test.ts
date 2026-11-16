@@ -215,61 +215,28 @@ it("a chair the favor cannot carry says no, and the no gives the reason the comm
   expect(billOf(api, bill.id).status).toBe("failed");
 }, 120_000);
 
-it("the chair of the committee that held a bill meets the sponsor's ask as a scene that stops the day, and each reply is followed to its record (lower seat 059)", () => {
+it("a hold in the bill's second chamber is not offered as an ask: a yes there reopens nothing (sponsor upper 004)", () => {
   setBookkeeping(false);
   const { core, director } = buildBenchWorld("8647-mason", gameStartDate(), {
     twoLevel: true,
     placeKey: "4846968",
   });
-  const api = coreAPI(core);
-  const chair = "official:term:seat:US-TX:lower:059:0:2025-01-20";
-  director.watch(core, chair as never);
+  const sponsor = "official:term:seat:US-TX:upper:004:0:2025-01-20";
+  director.watch(core, sponsor as never);
   advanceCore(core, makeIsoDate("2025-02-20"));
-  core.playerId = chair as never;
   const hold = [...core.durableLog.values()].find(
     (row) =>
       row.kind === "bill-held-in-committee" &&
-      row.facts?.chair === chair &&
+      row.facts?.sponsorId === sponsor &&
       row.facts?.level === "state",
   );
-  expect(hold, "a bill the player's committee held").toBeTruthy();
+  expect(hold, "a state hold of the sponsor's bill").toBeTruthy();
+  expect(hold!.facts?.firstChamber).toBe("no");
   const entry = director.ledger.people
-    .get(chair as never)!
-    .schedule.find((row) => row.momentId.includes(hold!.id))!;
-  expect(entry.bindings.map((b) => b.typeKey)).toContain("bill-held-chair");
-  expect(entry.outcome).toBe("scene-now");
-  const composed = purposeScene(core, director, chair as never, entry, {
-    typeKey: "bill-held-chair",
-  });
-  expect(composed?.kind).toBe("composed");
-  if (composed?.kind !== "composed") return;
-  process.stderr.write(
-    "CHAIR " +
-      JSON.stringify({
-        narr: composed.scene.talk.narration.map((n) => n.text),
-        state: composed.scene.talk.state.text,
-        replies: composed.scene.talk.tree.replies.map((r) => [
-          r.line.move,
-          r.line.text,
-          r.next?.lines.map((l) => l.move + ": " + l.text),
-        ]),
-      }) +
-      "\n",
-  );
-  // Each of the chair's replies, pressed on the page, is a record of the chair's answer.
-  const bill = billOf(api, String(hold!.facts!.billId));
-  expect(bill.status).toBe("failed");
-  const replies = composed.scene.talk.tree.replies;
-  expect(replies.length).toBeGreaterThan(0);
-  const ids = replies.map((_, index) =>
-    replyInScene(core, director, chair as never, entry, [index], {
-      typeKey: "bill-held-chair",
-    }),
-  );
-  for (const [index, id] of ids.entries()) {
-    expect(id, `reply ${index}`).toBeTruthy();
-    expect(core.durableLog.get(id!)!.facts?.move).toBe(
-      replies[index]!.line.move,
-    );
-  }
+    .get(sponsor as never)!
+    .schedule.find((row) => row.momentId.includes(hold!.id));
+  expect(
+    entry?.bindings.map((b) => b.typeKey) ?? [],
+    "the sponsor is not offered an ask the chair's yes cannot act on",
+  ).not.toContain("hold-chair-sought");
 }, 120_000);

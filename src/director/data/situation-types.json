@@ -4312,7 +4312,8 @@
               {
                 "key": "sponsorId",
                 "is": "subject"
-              }
+              },
+              { "key": "firstChamber", "equals": ["yes"] }
             ]
           },
           "causeEngine": "legislature",

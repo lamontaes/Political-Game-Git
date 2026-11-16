@@ -5349,6 +5349,9 @@ function committeeStage(
       level: billReach(api, bill).level,
       committee: record.committee,
       chair: record.chairId,
+      // Whether this is the bill's first chamber: only there can the chair's yes reopen the
+      // hearing (`reopenHeldBill`), so only there is the sponsor's ask offered.
+      firstChamber: chamber === chambersOf(api, bill)[0] ? "yes" : "no",
       yes: String(yes),
       no: String(no),
       // Who testified, in order, with each one's side and what the bill reaches in their life (a
