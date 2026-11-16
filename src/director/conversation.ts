@@ -8201,8 +8201,7 @@ function sayNow(
   // The player's answer to a promise brought up counts (promise-talk.ts).
   const promise =
     !choice.lie && conversation.director ? promiseOfRaised(last.subject) : null;
-  if (promise)
-    answerPromise(core, promise, playerId, choice.move);
+  if (promise) answerPromise(core, promise, playerId, choice.move);
   // The player's reply to a veto brought up moves the tie through the
   // writer the veto used (veto-talk.ts); the sponsor answers it, and the
   // talk ends there: on their answer, or on the player's leaving.
