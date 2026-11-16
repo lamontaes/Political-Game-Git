@@ -346,12 +346,6 @@
           "role": "open",
           "choice": "hello",
           "excludesFacts": ["by-phone"]
-        },
-        {
-          "move": "greet-opener",
-          "subject": "greet",
-          "role": "opener",
-          "excludesFacts": ["by-phone"]
         }
       ],
       "transcriptsUsing": 9,
@@ -384,12 +378,6 @@
           "subject": "greet",
           "role": "open",
           "choice": "hello",
-          "excludesFacts": ["by-phone"]
-        },
-        {
-          "move": "greet-opener",
-          "subject": "greet",
-          "role": "opener",
           "excludesFacts": ["by-phone"]
         }
       ],
@@ -566,15 +554,12 @@
       "move": "greet-open-hello",
       "kind": "spoken",
       "text": "Good to see you.",
-      "piece": {
-        "of": "greet-open",
-        "part": "opener"
-      },
       "uses": [
         {
-          "move": "greet-opener",
+          "move": "greet-open-hello",
           "subject": "greet",
-          "role": "opener",
+          "role": "open",
+          "choice": "hello",
           "requiresFacts": ["name"],
           "excludesFacts": ["by-phone"]
         }
