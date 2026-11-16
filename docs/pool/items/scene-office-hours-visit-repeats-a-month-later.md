@@ -26,7 +26,7 @@ effort: medium
 
 **Time box.** 1 hour, Sonnet.
 
-**Rules.** Scene standard: a scene exists only if it writes something back, and a visit already played has written its outcome and is not staged again.
+**Rules.** Ask why: each staged visit answers to one office-approached record, and a record already played is not staged again. One rule, all 56 places: the fix is in the staging rule, with no town named.
 
 **Done when.** At Thompsonville, at the seed the readers played, each office-approached event is staged at most once over the year. A second session sees no repeated visit over a played year at a drawn place, named with its seed.
 
