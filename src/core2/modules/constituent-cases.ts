@@ -191,12 +191,18 @@ function localOfficials(api: CoreAPI): readonly TermRow[] {
     .sort((a, b) => a.id.localeCompare(b.id));
 }
 
-/** The household's open rent notice that has not reached filing, if any (the housing engine's case). */
+/**
+ * The household's open rent case while rent help can still end it: a notice
+ * not yet past its day to pay, or a filing not yet heard, since the hearing
+ * dismisses a case whose rent is paid up by then (housing.ts, the hearing
+ * step). `endsAt` is that day.
+ */
 export function openRentNotice(
   api: CoreAPI,
   householdId: string,
-): { id: string; noticeAt: string; cureBy: string } | undefined {
+): { id: string; noticeAt: string; endsAt: string } | undefined {
   if (!api.state.modules.has(HOUSING_MODULE_ID)) return undefined;
+  const today = api.state.date;
   return (
     api
       .moduleState(HOUSING_MODULE_ID)
@@ -207,15 +213,25 @@ export function openRentNotice(
       stage?: string;
       noticeAt?: string;
       cureBy?: string;
+      hearingAt?: string;
     }[]
   )
-    .filter((row) => row.open && row.stage === "notice" && row.cureBy)
-    .sort((a, b) => b.id.localeCompare(a.id))
+    .filter((row) => row.open)
     .map((row) => ({
       id: row.id,
-      noticeAt: row.noticeAt ?? row.cureBy!,
-      cureBy: row.cureBy!,
-    }))[0];
+      noticeAt: row.noticeAt ?? row.cureBy ?? today,
+      endsAt:
+        row.stage === "notice"
+          ? row.cureBy
+          : row.stage === "filed"
+            ? row.hearingAt
+            : undefined,
+    }))
+    .filter(
+      (row): row is { id: string; noticeAt: string; endsAt: string } =>
+        !!row.endsAt && row.endsAt >= today,
+    )
+    .sort((a, b) => b.id.localeCompare(a.id))[0];
 }
 
 /** The member of a person's household, themselves first, with a serious illness on the health record. */
@@ -259,12 +275,13 @@ export function problemOf(
       facts: { relativeId: kinId, custodyId: custody.id },
     };
   }
-  // A rent notice served on their household and not yet cured: how close the
-  // day it must be paid by is presses on them, read from the housing case.
+  // A rent case on their household that rent help can still end: how close
+  // its day (the day to pay, or the hearing) is presses on them, read from
+  // the housing case.
   const notice = openRentNotice(api, person.householdId);
   if (notice) {
-    const span = Date.parse(notice.cureBy) - Date.parse(notice.noticeAt);
-    const left = Date.parse(notice.cureBy) - Date.parse(date);
+    const span = Date.parse(notice.endsAt) - Date.parse(notice.noticeAt);
+    const left = Date.parse(notice.endsAt) - Date.parse(date);
     return {
       problem: "behind-on-rent",
       severity: span > 0 ? Math.max(0, Math.min(1, 1 - left / span)) : 1,

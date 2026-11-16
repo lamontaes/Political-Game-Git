@@ -30,6 +30,8 @@ effort: medium
 
 **Done when.** In a played world built with buildBenchWorld at Taylors, South Carolina (4571395), seed office-hours-a, and two more named towns, a played file at the PR's sha shows, by record id, office-hours visits where the official's presses say a promise, an aide offer, a desk offer, each decline, an apology after a press and the two leave lines, for a case out of work and one short of pay, with an official holding other cases and one holding none; a custody visit from request to the visit asked for, a rent case put first for rent help or told the town has none, and an illness case ending in the honest no, each followed to its record (the referral, the rent paid, the case declined with the resident's impression of the official); no line names an office no record holds, and no custody, rent or illness case hears a work or wage line. A second session sees an office-hours visit in a drawn place it names with its seed.
 
+**Waits on.** Nothing.
+
 **Files.** src/director/constituent-help-facts.ts, src/director/data/constituent-help-facts.json, src/director/data/purpose-arcs.json, src/director/data/arc-variants.json, data/english/parts/scene-talk.json, data/english/scene-move-sets.json, src/core2/modules/constituent-cases.ts, src/core2/housing-assistance.ts, src/core2/modules/housing.ts
 
 **Notes.** Filed by hand by the civic roles builder, Nov 15.
