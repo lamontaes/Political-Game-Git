@@ -29,7 +29,7 @@ checked:
 
 **Rules.** Standing rule one-engine-per-mechanic: the page asks the clerk's own check and keeps no rules copy of its own. Standing rule player-screen-text: every label is a worded control, never a raw kind or id.
 
-**Done when.** At McMinnville TN and Bonanza OR a played life's Elections page lists its own offices first with the filing date, shows one commissioner seat, labels county offices, and a pinned test is red without the district filter and green with it.
+**Done when.** At a drawn place and seed (McMinnville TN and Bonanza OR first), a second session plays a new life in the running game, opens Politics, Elections, and sees its own offices first with the filing date, one seat of its district body, county offices labeled, and the dev view saying why each is or is not offered; a pinned test is red without the district filter and green with it.
 
 **Waits on.** Words lead stamp on the controls.json labels.
 
