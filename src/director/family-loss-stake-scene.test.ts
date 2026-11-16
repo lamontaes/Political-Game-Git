@@ -27,8 +27,8 @@ import { expectUpToFourDifferent } from "./reply-set-check";
 // scripts/words/family-loss-life-scan.ts (the report names the picks and what
 // it passed over). Each is about a minute.
 const LIVES: { seed: string; presses: Presses }[] = [
-  // Pembroke GA: volunteers asked, $100 of the player's own money; a gift that reads small.
-  { seed: "losslife:4", presses: { volunteer: true, give: 100 } },
+  // Ili'ili AS: volunteers asked, no money given; a household member worked it.
+  { seed: "losslife:5", presses: { volunteer: true, give: 0 } },
 ];
 
 /** Every line under a node, with the reply that led to it. */

@@ -31,8 +31,8 @@ import { drawPlace } from "../core2-year/place";
 export interface Presses {
   /** Ask everyone the player knows to volunteer. */
   readonly volunteer: boolean;
-  /** Whole dollars of the player's own money, or a quarter of the cash they hold. */
-  readonly give: number | "quarter";
+  /** Whole dollars of the player's own money, a quarter, or four fifths, of the cash they hold. */
+  readonly give: number | "quarter" | "most";
 }
 
 export interface Life {
@@ -120,7 +120,9 @@ export function playLife(
   const dollars =
     presses.give === "quarter"
       ? Math.floor(core.people.get(me)!.liquidMinor / 400)
-      : presses.give;
+      : presses.give === "most"
+        ? Math.floor((core.people.get(me)!.liquidMinor * 4) / 500)
+        : presses.give;
   let gaveMinor = 0;
   if (dollars > 0) {
     const out = campaignAct(core, me, {

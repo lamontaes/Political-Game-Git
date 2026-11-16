@@ -20,6 +20,7 @@ const PLANS: Presses[] = [
   { volunteer: true, give: 0 },
   { volunteer: true, give: 100 },
   { volunteer: true, give: "quarter" },
+  { volunteer: true, give: "most" },
 ];
 for (let n = start; n < start + count && Date.now() < deadline; n += 1) {
   for (const presses of onlyPlan ? [PLANS[Number(onlyPlan)]!] : PLANS) {
