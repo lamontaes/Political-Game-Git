@@ -29,6 +29,7 @@ import {
   absenceCarries,
   askPrice,
   billOf,
+  committeeRecords,
   declinedAsks,
   bodyRow,
   deskPassage,
@@ -139,6 +140,7 @@ import {
 } from "./scene-talk";
 import { factsSetBy, type Fact } from "../english/scene-talk-words";
 import { bargainFacts } from "./bargain-facts";
+import bargainReasons from "./data/bargain-reasons.json" with { type: "json" };
 import { voteStandFacts } from "./vote-stand-facts";
 import { custodyFacts } from "./custody-facts";
 import { meetingFacts } from "./meeting-facts";
@@ -2126,14 +2128,30 @@ function composeBinding(
     type.playerAsks && moment.causeKind === `event:${SERVE_ASKED_EVENT}`
       ? serveStanding(core, said, askerId)
       : undefined;
+  // The chair the sponsor asks to hear the bill their committee held: where
+  // the committee record says the chair stands.
+  const held =
+    type.playerAsks && moment.causeKind === HOLD_KIND
+      ? holdStanding(core, said, moment.causeId, askerId, askedId)
+      : undefined;
+  if (held?.reason)
+    facts[`reason-${held.reason}`] = {
+      text: "yes",
+      sourceRecordIds: [moment.causeId],
+    };
+  // A chair whose recorded reasons have no line says the stall, then that the answer is given.
+  if (held && !held.reason)
+    facts["reason-none"] = { text: "yes", sourceRecordIds: [moment.causeId] };
   const standing = door
     ? door.standing
     : serve
       ? serve.standing
       : type.playerAsks
-        ? askStanding(core, said, askerId, askedId)
+        ? moment.causeKind === HOLD_KIND
+          ? held?.standing
+          : askStanding(core, said, askerId, askedId)
         : undefined;
-  if (standing && !door && !serve && said.billId)
+  if (standing && !door && !serve && !held && said.billId)
     bargainFacts(core, facts, said.billId, askerId, askedId, moment.causeId);
   if (type.playerAsks && !standing)
     return {
@@ -2306,6 +2324,15 @@ function composeBinding(
         sourceRecordIds: [moment.causeId, serve.askId],
       };
   }
+  // The chair the sponsor goes to, by the given name a known person goes by and the full
+  // name a stranger is introduced with (rule 136).
+  if (held)
+    facts["chair-name"] = {
+      text: facts.acquainted
+        ? asker.givenName
+        : `${asker.givenName} ${asker.familyName}`,
+      sourceRecordIds: [askerId],
+    };
   if (door) {
     facts.name = {
       text: sayPerson(asker),
@@ -2838,6 +2865,71 @@ const POLICY_LEVELS: ReadonlySet<string> = new Set([
   "county",
   "city",
 ]);
+
+/** The record of a bill the committee chair held without a hearing. */
+const HOLD_KIND = "event:bill-held-in-committee";
+
+/**
+ * Where the chair stands whom the bill's sponsor (the player) asks to hear a
+ * bill the committee held: the sum the committee decided on (the chair's
+ * position on the bill, their temperament and a close co-sponsor's pull),
+ * read from the committee record itself, and what a favor to the player is
+ * worth to them (`favorWorth`, more the closer the two are). `reason` is the
+ * term that weighed most against a hearing, which the chair gives when they
+ * say no: said by the names a colleague's reason for a vote has
+ * (`bargain-reasons.json`) and read from the committee record, not today's
+ * position, so the bill page tells the sponsor from the same record.
+ */
+function holdStanding(
+  core: Readonly<CoreState>,
+  said: Readonly<Record<string, string>>,
+  committeeId: string,
+  chairId: PersonId,
+  playerId: PersonId,
+): { standing: AskStanding; reason?: string } | undefined {
+  if (!said.billId || !core.modules.has(LEGISLATURE_MODULE_ID))
+    return undefined;
+  const api = coreAPI(core as CoreState);
+  const record = committeeRecords(api, said.billId).find(
+    (row) => row.id === committeeId,
+  );
+  if (!record || record.heard || record.chairId !== chairId) return undefined;
+  const kept = record.chairReasons;
+  // Each term of the chair's position on its own, a co-sponsor's pull added
+  // to the sponsor's and temperament to the trait: the terms the bill page
+  // lists, so the page and the scene name the same strongest one.
+  const reasonTerms = bargainReasons.reasonTerms as Record<string, string>;
+  const terms = Object.fromEntries(
+    Object.keys(reasonTerms).map((term) => [
+      term,
+      Number((kept.position as unknown as Record<string, unknown>)[term]) ||
+        P.zero,
+    ]),
+  );
+  terms.sponsor = (terms.sponsor ?? P.zero) + (kept.cosponsorPull ?? P.zero);
+  terms.trait = (terms.trait ?? P.zero) + kept.hearingTrait;
+  const hasLine = new Set(bargainReasons.heldReasonsSaid);
+  const against = Object.entries(terms)
+    .filter(
+      ([term, value]) => value < P.zero && hasLine.has(reasonTerms[term]!),
+    )
+    .sort(
+      ([aTerm, aValue], [bTerm, bValue]) =>
+        aValue - bValue || aTerm.localeCompare(bTerm),
+    )[P.zero];
+  const [againstTerm] = against ?? [];
+  return {
+    standing: {
+      lean:
+        kept.position.total +
+        kept.hearingTrait +
+        (kept.cosponsorPull ?? P.zero),
+      favor: favorWorth(api, chairId, playerId),
+      ...(againstTerm ? {} : { noReason: true }),
+    },
+    ...(againstTerm ? { reason: reasonTerms[againstTerm]! } : {}),
+  };
+}
 
 /**
  * Where a colleague the player asks stands on the bill the record names: their
