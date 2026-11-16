@@ -100,9 +100,9 @@
       "replace": "The world's seeded unit for the draw"
     },
     "person.knownPeople": {
-      "made": "ad-hoc-draw",
-      "by": "src/core2/opening-ties.ts: who among the eligible people is a tie is picked by a hash order; coworker groups of 8",
-      "replace": "Ties from shared records: household, school class, workplace, block"
+      "made": "generation",
+      "by": "Day one: src/core2/population.ts, each person knows the members of their own household, from the household record. Filled in later: src/core2/opening-ties.ts, everyone counted at the same employer (the employment record), and as many neighbors as their years in the home give on the neighbors-known curve (neighborsKnownCap, neighborsKnownYears); which neighbor households those are is a stable hash of the world seed, the person and the household",
+      "replace": "Which neighbors from shared records: block, school class"
     },
     "person.conditions": {
       "made": "generation",
@@ -625,9 +625,9 @@
       "replace": "The world's seeded unit keyed by the record's id"
     },
     "src/core2/opening-ties.ts#order": {
-      "made": "ad-hoc-draw",
-      "what": "Who a person already knows, picked by a hash order",
-      "replace": "Ties from shared records: household, school class, workplace, block"
+      "made": "generation",
+      "what": "Which neighbor households a person filled in already knows: how many from their years in the home, which ones a stable hash of the world seed, the person and the household",
+      "replace": "Which neighbors from shared records: block, school class"
     },
     "src/core2/opening-upbringing.ts#hashPosition": {
       "made": "generation",
