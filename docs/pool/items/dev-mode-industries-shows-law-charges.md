@@ -8,7 +8,7 @@ size: S
 status: in-pr
 standard: 2
 claimed-by: industries thread (Account lead)
-pr:
+pr: "#9675"
 after: dev-mode-industries-page
 blocked-on:
 root: none
