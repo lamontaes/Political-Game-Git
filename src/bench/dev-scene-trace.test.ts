@@ -118,4 +118,4 @@ it("the scene trace lists every scene, ties its lines and marks a forced scene (
   expect(
     devModeMarks(world.core).some((id) => id.includes(":scene-forced:")),
   ).toBe(true);
-}, 120_000);
+}, 30_000);
