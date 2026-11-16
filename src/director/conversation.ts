@@ -2349,6 +2349,8 @@ function governmentNews(
       id,
       kind: "government-news",
       aboutId: row.id,
+      // A record the speaker has of it, in their own log.
+      tie: { kind: "record", recordIds: [row.id, speaker.id] },
       stage,
       ...(question ? { news: { question } } : {}),
       facts: out,
