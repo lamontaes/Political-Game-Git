@@ -9,7 +9,7 @@ size: L
 status: in-pr
 standard: 2
 claimed-by:
-pr: 0
+pr: 9652
 after:
 blocked-on:
 model: opus
