@@ -5,9 +5,9 @@ area: words
 kind: feature
 priority: 2
 size: M
-status: open
+status: in-pr
 standard: 2
-claimed-by:
+claimed-by: vote-reasons thread
 pr:
 after: press-comment-why-answered-by-the-roll
 blocked-on:

@@ -1530,5 +1530,18 @@
     "trace": "Trace",
     "why": "Why",
     "came": "What came of it"
+  },
+  "devReplyWhy": {
+    "title": "Why these lines",
+    "cause": "Started by",
+    "facts": "What the scene knows",
+    "said": "Said just now",
+    "replies": "Your replies",
+    "needs": "Needs",
+    "rulesOut": "Would be ruled out by",
+    "after": "Follows",
+    "ties": "Also fit",
+    "nothing": "nothing",
+    "unplaced": "No use recorded"
   }
 }

@@ -96,8 +96,12 @@ export function voteStandFacts(
   if (memberId === core.playerId) reasons.add("own-view");
   if (own.traded?.length) reasons.add("deal");
   if (own.position.consistency * sign > P.zero) reasons.add("last-vote");
+  // A reason cites the member's own vote row too, whose trace opens the
+  // position's parts and their sum (dev-trace.ts, memberPosition): the reply
+  // that says a reason is one click in dev mode from the terms behind it.
+  const why = [...cited, `vote:${bill.id}:${memberId}`];
   for (const reason of reasons)
-    facts[`reason-${reason}`] = { text: "yes", sourceRecordIds: cited };
+    facts[`reason-${reason}`] = { text: "yes", sourceRecordIds: why };
   if (own.position.constituents * sign < P.zero) facts["against-people"] = yes;
   if (wroteIt)
     facts["wrote-bill"] = { text: "yes", sourceRecordIds: [bill.id, voteId] };
@@ -107,7 +111,7 @@ export function voteStandFacts(
   if (wroteIt && !votedFor) return;
   for (const reason of saidReasons(own.position, sign, wroteIt))
     if (WORDED_REASONS.has(reason))
-      facts[`top-reason-${reason}`] = { text: "yes", sourceRecordIds: cited };
+      facts[`top-reason-${reason}`] = { text: "yes", sourceRecordIds: why };
 }
 
 /**
