@@ -75,4 +75,4 @@ it("every relatives' household with an adult opens with the survey's balance at 
     checked += 1;
   }
   expect(checked, `${detail}: households with an adult`).toBeGreaterThan(0);
-}, 120_000);
+}, 30_000);

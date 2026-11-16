@@ -293,4 +293,4 @@ it("counted renters on their lease month buy from their own savings, short ones 
     weigh(fullHead.id, lease.householdId!, enough.downMinor - 1).buy,
     detail,
   ).toBe(false);
-}, 300_000);
+}, 200_000);
