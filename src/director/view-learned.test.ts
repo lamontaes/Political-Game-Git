@@ -256,7 +256,7 @@ it(`a close, outgoing person says where they stand and the card learns it; a str
   }
   process.stdout.write(`${notes.join("\n")}\n${told.join("\n")}\n`);
   expect(told.length, notes.join("; ")).toBeGreaterThan(0);
-}, 1_800_000);
+}, 120_000);
 
 it(`a letter to the editor the player reads teaches where its writer stands, and one they do not read teaches nothing (seed ${SEED_LETTER})`, () => {
   setBookkeeping(false);
@@ -315,7 +315,7 @@ it(`a letter to the editor the player reads teaches where its writer stands, and
   }
   process.stdout.write(`${notes.join("\n")}\n`);
   expect(proved, notes.join("; ")).toBeGreaterThan(0);
-}, 3_000_000);
+}, 180_000);
 
 // words-home-own-view-lines-are-composed (owner, Nov 11, 2026: "all the lines
 // in the game need to be run through the English engine"): someone who says
@@ -333,7 +333,7 @@ it(`where someone stands names their strongest question, from their own life, an
   throw new Error(
     `no drawn place had anyone say where they stand: ${skipped.join("; ")}`,
   );
-}, 1_800_000);
+}, 30_000);
 
 /** The own-view checks in one drawn place; false when nobody there would say it. */
 function ownViewIn(drawSeed: string, skipped: string[]): boolean {
