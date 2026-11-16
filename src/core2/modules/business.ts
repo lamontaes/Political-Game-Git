@@ -78,8 +78,12 @@ import {
   firmCharged,
   type FirmChargeKind,
 } from "../business-charges";
-import { employerTaxShareOfWage, premisesTaxYearMinor } from "./employer-taxes";
-import { businessEnergyLawShare } from "./place-prices";
+import {
+  EMPLOYER_TAXES_MODULE_ID,
+  employerTaxShareOfWage,
+  premisesTaxYearMinor,
+} from "./employer-taxes";
+import { PLACE_PRICES_MODULE_ID, businessEnergyLawShare } from "./place-prices";
 
 export { BUSINESS_MODULE_ID };
 /** What a business paid by name under a law or tax: every payer engine records it here (business-charges.ts). */
@@ -958,14 +962,19 @@ function netOutCharges(
   const c = core(api);
   const book = c.finance.businesses.get(organizationId);
   if (!book || book.annualOtherCostsMinor <= 0) return;
-  const payrollTaxes =
-    book.annualPayrollMinor * employerTaxShareOfWage(api, annualWageMinor);
-  const premises = premisesTaxYearMinor(
-    api,
-    organizationId,
-    book.annualDemandMinor,
-  );
-  let shares = businessEnergyLawShare(api);
+  // Only what an installed payer engine charges comes out: with no payer, the
+  // cost is paid nowhere, so the lump keeps it.
+  const taxed =
+    c.modules.has(EMPLOYER_TAXES_MODULE_ID) && c.modules.has(LAWS_MODULE_ID);
+  const payrollTaxes = taxed
+    ? book.annualPayrollMinor * employerTaxShareOfWage(api, annualWageMinor)
+    : 0;
+  const premises = taxed
+    ? premisesTaxYearMinor(api, organizationId, book.annualDemandMinor)
+    : 0;
+  let shares = c.modules.has(PLACE_PRICES_MODULE_ID)
+    ? businessEnergyLawShare(api)
+    : 0;
   for (const row of store(api)
     .table("operating")
     .query("all", [true]) as unknown as {
