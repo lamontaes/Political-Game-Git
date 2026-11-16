@@ -28,6 +28,7 @@ import {
 import { corePlaceByKey } from "./place-lookup";
 import { placeCountyPopulationShares, placeStateKey } from "./place-map";
 import { householdOpeningCash } from "./modules/budgets";
+import { householdBalanceDraw } from "./modules/residents";
 import { citizenShareOf } from "./modules/voting";
 import { parameter as p } from "./parameters";
 import { stopgap } from "./stopgaps";
@@ -287,6 +288,9 @@ export function withCountySample(
       employment.get(home.id)?.length ?? p("zero"),
       adultsHere.length,
       input.seed,
+      householdBalanceDraw(input.seed, home.id),
+      // The head is the household's oldest adult.
+      Math.max(...adultsHere.map((row) => ageInYears(row.birthDate, start))),
     );
     adultsHere.forEach((row, n) => {
       row.liquidMinor = cash[n]!;

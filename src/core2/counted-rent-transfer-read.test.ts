@@ -1,7 +1,5 @@
-import { randomBytes } from "node:crypto";
-import { describe, expect, it, vi } from "vitest";
+import { beforeAll, describe, expect, it, vi } from "vitest";
 import { buildBenchWorld } from "../bench/world";
-import { drawPlace } from "../../scripts/core2-year/place";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import { gameStartDate } from "./game-start";
@@ -14,8 +12,15 @@ import type { CoreState } from "./types";
 // Two of the counted-group hooks, read in a played year (one model, two
 // tiers): a counted tenant's rent is renewed by the same rule as a full
 // tenant's lease, and payments between an organization and a place's counted
-// residents go through the group accounts. The played bench world, a place
-// drawn from all 56 on a seed nobody chose, thirteen months of days.
+// residents go through the group accounts. The played bench world at one
+// pinned place, thirteen months of days.
+//
+// Pinned (Nov 16). Before, the test drew its seed at run time from
+// COUNTED_RENT_SEED or randomBytes and drew up to eight places from it until
+// one renewed a counted tenant's lease, so a red came and went with the draw.
+// St. Edward, Nebraska was found once by running the old draw at seed
+// pin-cr-2 (its first draw renews one); Polk City, Florida and Berry College,
+// Georgia passed the same way.
 const calls: { id: string; reasonKey: string; placeId: string }[] = [];
 vi.mock("./counted-money", async (importOriginal) => {
   const real = await importOriginal<typeof Money>();
@@ -35,11 +40,15 @@ vi.mock("./counted-money", async (importOriginal) => {
   };
 });
 
-const seed = process.env.COUNTED_RENT_SEED ?? randomBytes(8).toString("hex");
+const place = {
+  key: "3143055",
+  name: "St. Edward, Nebraska",
+  seed: "b32785a069f0f8996bf5862f6390c654564a104f25426fc55b0ae5cd0c1cf028",
+};
+const seed = place.seed;
 
-/** The played year in one drawn place, and whether a counted tenant's rent renewed in it. */
-function playYear(attempt: number) {
-  const place = drawPlace(`${seed}:${attempt}`, "counted-rent-transfer");
+/** The played year at the pinned place, and whether a counted tenant's rent renewed in it. */
+function playYear() {
   const world = buildBenchWorld(place.seed, gameStartDate(), {
     twoLevel: true,
     placeKey: place.key,
@@ -64,18 +73,25 @@ function playYear(attempt: number) {
       row.householdId !== undefined &&
       rt.households.has(row.householdId),
   );
-  return { place, core, api, start, renewed };
+  return { core, api, start, renewed };
 }
 
-// A small town may have no counted tenant whose lease comes up in the year, so
-// another place is drawn (up to eight) before the checks run.
-let played = playYear(0);
-for (let attempt = 1; attempt < 8 && !played.renewed; attempt += 1)
-  played = playYear(attempt);
-const { place, core, api, start } = played;
+type Played = ReturnType<typeof playYear>;
+let core!: Played["core"];
+let api!: Played["api"];
+let start!: Played["start"];
+let renewed!: Played["renewed"];
 
+// Limit: the played year takes 233 s alone and 228 s beside group-quarters
+// (Nov 16, Train 800ae520); twice the slower is about 480 s. It was built at
+// load before, where no limit applied.
 describe(`counted rent and payments in a played year (${place.name}, seed ${seed})`, () => {
+  beforeAll(() => {
+    ({ core, api, start, renewed } = playYear());
+  }, 480_000);
   it("renews a counted tenant's rent by the same rule as a full tenant's lease", () => {
+    // The pinned place renews a counted tenant's lease in the year.
+    expect(renewed, `${place.name} (${place.key})`).toBe(true);
     const rt = residentsRuntime(core)!;
     // Both tiers renew through renewRentalLeases (housing-occupancy.ts): a
     // counted tenant's renewal is keyed by its rent flow, tier "counted".

@@ -46,6 +46,7 @@ import {
   residentsAccountFor,
   residentsRuntime,
 } from "./residents";
+import { executiveRow } from "../offices-executives";
 
 export const DISASTERS_MODULE_ID = "core2-disasters-v1";
 const STOPGAP = "SG-CORE-disasters-from-records";
@@ -454,12 +455,11 @@ export function damagedHomesOf(
   );
 }
 
-/** The offices whose holder is the executive of a government the disaster touches: the town's mayor, the county's executive and the state's governor. */
-const EXECUTIVE_OFFICES: ReadonlySet<string> = new Set([
-  "mayor",
-  "county-executive",
-  "governor",
-]);
+/** Whether an office's holder is the executive of a government the disaster touches: the town's mayor, the county's executive and the state's governor (executives.json). */
+function touchedExecutive(kind: string): boolean {
+  const row = executiveRow(kind);
+  return row?.heads === true && row.level !== "federal";
+}
 
 /**
  * Whoever sits in the executive offices over the town on the day, as full
@@ -470,7 +470,7 @@ function executivesOf(api: CoreAPI): readonly PersonId[] {
   if (!api.state.modules.has(OFFICES_MODULE_ID)) return [];
   for (const { office, holder } of townSeats(api)) {
     const id = holder?.personId as PersonId | undefined;
-    if (EXECUTIVE_OFFICES.has(office.kind) && id && api.state.people.has(id))
+    if (touchedExecutive(office.kind) && id && api.state.people.has(id))
       ids.add(id);
   }
   return [...ids].sort();

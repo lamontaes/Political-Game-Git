@@ -5,7 +5,7 @@ area: core
 kind: feature
 priority: 1
 size: M
-status: in-pr
+status: merged
 claimed-by: claude/pool-core-country-tier-federal-budget-reaches-the-states
 pr: #8388
 after:
@@ -19,6 +19,7 @@ root: design-country-tier
 checked: fable 2026-11-10
 claimed-at: 2026-11-11T00:37:01.850Z
 branch: claude/pool-core-country-tier-federal-budget-reaches-the-states
+merged-at: 2026-11-16T00:49:22.136Z
 ---
 
 **What.** Before the country tier, the played town's paid income was fed into the national formula, so a federal budget line that paid people in town moved national output (the last link of the golden-path check tests/golden-path/federal-dollar.node-test.ts). That feed was deleted with the formula in #8116, and the tier does not read the federal budget yet: its federal side is the benefits its cells receive plus one figure, federalOther in src/core2/country-model.ts, fitted so the federal books balance on day one (stopgap SG-NATION-country-tier-federal-spending). So today a budget the game's Congress adopts changes payments in the played town and nothing in any state's cells or in the national row. This item makes the tier's federal ledger read the federal budget in force (budgetInForce in src/core2/budgets-treasury.ts) line by line, with each line's dollars shared among the states from data/research/federal/federal-spending-by-state-fy2024.json, so a changed line changes what households and employers in every state receive, and jobs, prices and the national row follow.

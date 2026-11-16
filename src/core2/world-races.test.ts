@@ -92,7 +92,7 @@ describe("M2-10 state and federal races in the world", () => {
       }),
     );
     openLaws(core);
-    openOffices(core, seed);
+    openOffices(core, seed, core.date);
     openElections(core);
     openCampaigns(core);
     openParties(core);
@@ -255,7 +255,7 @@ describe("M2-10 state and federal races in the world", () => {
       }),
     );
     openLaws(core);
-    openOffices(core, seed);
+    openOffices(core, seed, core.date);
     openElections(core);
     openCampaigns(core);
     openParties(core);
@@ -326,7 +326,7 @@ describe("M2-10 state and federal races in the world", () => {
       }),
     );
     openLaws(core);
-    openOffices(core, seed);
+    openOffices(core, seed, core.date);
     openElections(core);
     openCampaigns(core);
     openParties(core);

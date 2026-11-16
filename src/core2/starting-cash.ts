@@ -36,16 +36,32 @@ export function publishedTransactionBalance(annualPay: number): number {
 }
 
 /**
- * What a family at this income keeps in its accounts in this world: the
- * published median, scaled by one balance level drawn per world from its seed
- * (realistic, not real; owner, Oct 27). Every opening cash reads this.
+ * How a family's balance runs against all families' at its head's age: the
+ * survey's median for the head's age group over the median for all families
+ * (younger heads hold less, heads of 65 to 74 the most). It multiplies the
+ * income group's median, taking age and income as separate effects.
+ */
+export function ageBalanceFactor(headAge: number): number {
+  const rows = scf.byAgeOfHead.groups;
+  let row = rows[0]!;
+  for (const next of rows) if (headAge >= next.fromAge) row = next;
+  return row.medianTransactionAccounts / scf.byAgeOfHead.allFamiliesMedian;
+}
+
+/**
+ * What a family at this income, and with a head of this age when it is
+ * known, keeps in its accounts in this world: the published median, scaled
+ * by one balance level drawn per world from its seed (realistic, not real;
+ * owner, Oct 27). Every opening cash reads this.
  */
 export function medianTransactionBalance(
   annualPay: number,
   seed: string,
+  headAge?: number,
 ): number {
   return worldLevel(
-    publishedTransactionBalance(annualPay),
+    publishedTransactionBalance(annualPay) *
+      (headAge === undefined ? 1 : ageBalanceFactor(headAge)),
     seed,
     "world-cash-level",
     "worldCashSpreadShare",
@@ -54,7 +70,7 @@ export function medianTransactionBalance(
 
 /**
  * A household's opening cash shared among its adults: the median balance at
- * its pay, its workers times the place's earnings, where a household with no
+ * its pay times its own savings draw, its workers times the place's earnings, where a household with no
  * recorded worker keeps that of one earner. The county's sampled households
  * and the relatives placed around the town open by this one rule. Returns
  * each adult's share in cents, in the order given.
@@ -64,10 +80,19 @@ export function householdOpeningCash(
   workers: number,
   adults: number,
   seed: string,
+  /** The household's own savings draw against the median (`householdBalanceDraw`, household-balance-draw.ts). */
+  draw: number,
+  /** The household's oldest adult's age, when known. */
+  headAge?: number,
 ): number[] {
   if (adults <= p("zero")) return [];
   const reserve = Math.round(
-    medianTransactionBalance(earnings * Math.max(p("one"), workers), seed) *
+    draw *
+      medianTransactionBalance(
+        earnings * Math.max(p("one"), workers),
+        seed,
+        headAge,
+      ) *
       p("minorPerDollar"),
   );
   return Array.from(

@@ -5,7 +5,7 @@ area: play
 kind: feature
 priority: 2
 size: S
-status: in-pr
+status: merged
 standard: 2
 claimed-by: claude/pool-play-draft-phase-in-steps
 pr: #8457
@@ -20,6 +20,7 @@ root: rc7-player-cannot-drive
 checked: fable 2026-11-10
 claimed-at: 2026-11-11T01:54:05.682Z
 branch: claude/pool-play-draft-phase-in-steps
+merged-at: 2026-11-15T23:10:36.772Z
 ---
 
 **What.** A seated member can draft a raise in dated steps: the engine's `seatAct` takes steps of a value and an effective date for a law amount, and each step is a dated section of the one bill, whose law in force follows each date. The play screen cannot reach it yet, because the server route and the draft card pass a single amount. The route needs a steps parameter, `onDraft` in src/bench/play.mjs builds the act's parameters, and the draft card needs an amount and a date for each step.

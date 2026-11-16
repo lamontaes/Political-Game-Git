@@ -1,4 +1,5 @@
 /** Seeded numbers for generating a world: no imports beyond hashing, so any model can use them without an import cycle. */
+import { recordDraw } from "./kernel/draw-recorder";
 import { createHash } from "node:crypto";
 
 /**
@@ -7,6 +8,7 @@ import { createHash } from "node:crypto";
  * choice in play.
  */
 export function seededUnit(seed: string, key: string): number {
+  recordDraw("seeded unit");
   const hex = createHash("sha256").update(`${seed}:${key}`).digest("hex");
   return parseInt(hex.slice(0, 8), 16) / 0x1_0000_0000;
 }
@@ -17,6 +19,7 @@ export function seededUnit(seed: string, key: string): number {
  * of 21,000 holders the same winning share about one world in twenty.
  */
 export function seededFineUnit(seed: string, key: string): number {
+  recordDraw("seeded unit");
   const hex = createHash("sha256").update(`${seed}:${key}`).digest("hex");
   return parseInt(hex.slice(0, 13), 16) / 0x10_0000_0000_0000;
 }

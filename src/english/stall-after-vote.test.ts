@@ -11,6 +11,12 @@ import { fitting, type SceneMove } from "./scene-talk-words";
 // New premise (Account lead, Nov 15 12:50Z): after the vote it carries
 // `acted`, as play now sets it for a member who voted on the call's bill
 // (src/director/vote-stand-facts.ts); before the vote it does not.
+// Old premise for the yes packet: after a yes vote the plain answer offers
+// two wordings with no reason behind them. New premise (Account lead, Nov 15
+// 22:24Z): a "why" is answered by the largest reason the roll holds, so the
+// yes packet carries `top-reason-own-view` and `top-reason-people`, as play
+// builds them at Bagdad, Arizona (0405140) when the player votes yes on
+// another member's bill (src/director/press-comment-after-vote.test.ts).
 const fact = (text: string): Fact => ({ text, sourceRecordIds: ["r1"] });
 const words: Record<string, string> = {
   name: "River",
@@ -95,6 +101,8 @@ describe("after the vote, no reply says the vote is still ahead", () => {
       Object.entries(voted).filter(([key]) => key !== "voted-no"),
     ),
     "voted-yes": fact("2025-1"),
+    "top-reason-own-view": fact("yes"),
+    "top-reason-people": fact("yes"),
   };
   const before = Object.fromEntries(
     Object.entries(voted).filter(

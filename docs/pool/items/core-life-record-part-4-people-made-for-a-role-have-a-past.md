@@ -5,7 +5,7 @@ area: people
 kind: stopgap
 priority: 1
 size: M
-status: in-pr
+status: merged
 standard: 2
 claimed-by: claude/pool-core-life-record-part-4-people-made-for-a-role-have-a-past
 pr: #8381
@@ -19,6 +19,7 @@ source: split from core-life-record by Fable, Nov 10, 2026 (owner, Nov 10: every
 checked: fable 2026-11-10
 claimed-at: 2026-11-11T00:27:49.911Z
 branch: claude/pool-core-life-record-part-4-people-made-for-a-role-have-a-past
+merged-at: 2026-11-16T00:06:04.799Z
 ---
 
 **What.** A newspaper's owner, an election chief and others the engines make to fill a role open with schooling and almost nothing else. Their cards are the shortest in the game. This part gives them a birthplace and the working life that led to the role, when they are opened or met. Seen: the card of a newspaper owner, an election chief or another role-holder, which now has a birthplace and a working life.

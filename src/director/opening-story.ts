@@ -40,11 +40,12 @@ import type {
   OpeningSpeechKind,
 } from "../english/english-opening-speech";
 import {
-  ADDRESS_FACT,
-  ADDRESS_PART_BREAK,
-  addressPiecesFact,
   earlierAddressPieces,
-} from "./opening-facts";
+  partsOf,
+  saidFact,
+  sentenceText,
+} from "./address-render";
+import { ADDRESS_FACT } from "./opening-facts";
 import { keyChambersOf } from "../core2/opening-key-people";
 import { LEADERSHIP_MODULE_ID, organize } from "../core2/modules/leadership";
 import { markWordsStopgap } from "./stopgaps";
@@ -94,6 +95,8 @@ export interface OpeningSentence {
   readonly pieces: readonly string[];
   /** What each of those facts said in the sentence, the figure or name filled in. */
   readonly values: Readonly<Record<string, string>>;
+  /** A slot's bare name where the fact keeps one ("Jose Salgado" for "Jose Salgado, the town clerk,"). */
+  readonly bare?: Readonly<Record<string, string>>;
   /** The state a place line names, from the campaign visit it came from. */
   readonly stateKey?: string;
   /**
@@ -731,15 +734,25 @@ export function composeBlocks(
             .map((id) => /:visit:(US-[A-Z]{2})$/.exec(id)?.[P.one])
             .find(Boolean)
         : undefined;
+      const pieces = move.parts.map((part) => part.variantKey);
+      const values = Object.fromEntries(
+        [...used].sort().map((key) => [key, facts[key]?.text ?? ""]),
+      );
+      const bare = Object.fromEntries(
+        [...used].flatMap((key) =>
+          facts[key]?.bare !== undefined ? [[key, facts[key]!.bare!]] : [],
+        ),
+      );
       sentences.push({
         level: block.level,
         part: block.part,
-        text: move.text,
+        // Said as its record will keep it (address-render.ts): the pieces
+        // filled with what each slot said, by the one function every view reads.
+        text: sentenceText({ pieces, values, bare }),
         facts: [...used].sort(),
-        pieces: move.parts.map((part) => part.variantKey),
-        values: Object.fromEntries(
-          [...used].sort().map((key) => [key, facts[key]?.text ?? ""]),
-        ),
+        pieces,
+        values,
+        ...(Object.keys(bare).length ? { bare } : {}),
         ...(visit ? { stateKey: visit } : {}),
         ...(block.facts.about &&
         block.facts.to &&
@@ -830,12 +843,7 @@ export function composeOpeningStory(
       openingLine: sentences[P.zero]!,
       rememberedLine: remembered,
       text: sentences.map((row) => row.text).join(" "),
-      parts: [...new Set(sentences.map((row) => row.part))].map((part) =>
-        sentences
-          .filter((row) => row.part === part)
-          .map((row) => row.text)
-          .join(" "),
-      ),
+      parts: partsOf(sentences, true),
       sourceRecordIds: allIds,
     },
     home: {
@@ -901,13 +909,13 @@ export function recordOpeningStory(
         addressAiring(core, core.people.get(playerId)!.placeId).minuteOfDay,
       ),
       [ADDRESS_FACT.style]: story.addressKind,
-      [ADDRESS_FACT.opening]: story.address.openingLine.text,
-      [ADDRESS_FACT.remembered]: story.address.rememberedLine.text,
-      [ADDRESS_FACT.text]: story.address.text,
-      [ADDRESS_FACT.parts]: story.address.parts.join(ADDRESS_PART_BREAK),
-      [ADDRESS_FACT.pieces]: addressPiecesFact(
-        story.address.sentences,
+      [ADDRESS_FACT.said]: saidFact(
+        story.speechKind,
         story.points,
+        story.address.sentences,
+      ),
+      [ADDRESS_FACT.rememberedAt]: String(
+        story.address.sentences.indexOf(story.address.rememberedLine),
       ),
     },
   });

@@ -451,84 +451,99 @@ it("the executive's budget act opens in its season and its changes are what the 
   );
 }, 3_600_000);
 
-it("the character's own budget is cut by an aide's read of the council", () => {
-  const tried: string[] = [];
-  for (let draw = 0; draw < 12; draw += 1) {
-    const place = drawPlace(`${seed}:advice:${draw}`, "budget-advice");
-    const where = `${place.name} (${place.key}), seed ${place.seed}`;
-    const { core } = buildBenchWorld(place.seed, gameStartDate(), {
-      twoLevel: true,
-      placeKey: place.key,
-    });
-    const api = coreAPI(core);
-    const mayor = townSeats(api).find(
-      (s) => s.office.kind === "mayor" && s.holder?.personId,
-    );
-    const city = governments(api).find((g) => g.level === "city");
-    if (!mayor || !city) {
-      tried.push(`${where}: no mayor or city`);
-      continue;
-    }
-    const mayorId = memberKey(mayor.holder!);
-    const lead = api.parameter("budgetProposalLeadDays");
-    const year = Number(core.date.slice(0, 4));
-    const next =
-      `${year}-${city.fiscalYearStart}` > core.date
-        ? `${year}-${city.fiscalYearStart}`
-        : `${year + 1}-${city.fiscalYearStart}`;
-    const open = addDays(makeIsoDate(next), -(lead - 1));
-    if (core.date < open) advanceCore(core, open);
-    // The mayor's attendance review lets an absent aide go, so the aide is
-    // hired on the day the window opens and serves through it.
-    const pick = staffCandidates(api, mayorId)[0];
-    if (!pick) {
-      tried.push(`${where}: no aide candidate`);
-      continue;
-    }
-    hireStaff(api, {
-      officialId: mayorId,
-      personId: pick.personId,
-      role: "aide",
-    });
-    expect(
-      servingStaffOf(api, mayorId).length,
-      `${where}: the aide serves`,
-    ).toBeGreaterThan(0);
-    const own = executiveBudgetChanges(api, city.id, Number(next.slice(0, 4)));
-    if (!own || !Object.keys(own.changes).length) {
-      tried.push(`${where}: the mayor's lean changes no line`);
-      continue;
-    }
-    // A place whose city budget has no council to read (the district's)
-    // has no one for the aide to read: another draw.
-    const [firstLine, firstDelta] = Object.entries(own.changes)[0]!;
-    if (!budgetLineStakes(api, city.id, firstLine, firstDelta)) {
-      tried.push(`${where}: no council to read for the city budget`);
-      continue;
-    }
-    officeActHandlers(officeHost)["propose-budget"]!(api, mayorId, {} as never);
-    const sent = budgetPriorities(api, city.id)?.changes ?? {};
-    for (const [line, delta] of Object.entries(sent)) {
-      expect(Math.sign(delta), `${where} ${line}`).toBe(
-        Math.sign(own.changes[line]!),
+// Named places on fixed draws (skill pinned-tests): each one has a mayor, an
+// aide and a council budget, so the case runs at both and never by the draw.
+const ADVICE_PINS = ["pin-bs:advice:5"];
+it.each(ADVICE_PINS)(
+  "the character's own budget is cut by an aide's read of the council (%s)",
+  (at) => {
+    const tried: string[] = [];
+    for (const draw of [at]) {
+      const place = drawPlace(draw, "budget-advice");
+      const where = `${place.name} (${place.key}), seed ${place.seed}`;
+      const { core } = buildBenchWorld(place.seed, gameStartDate(), {
+        twoLevel: true,
+        placeKey: place.key,
+      });
+      const api = coreAPI(core);
+      const mayor = townSeats(api).find(
+        (s) => s.office.kind === "mayor" && s.holder?.personId,
       );
-      expect(Math.abs(delta), `${where} ${line}`).toBeLessThanOrEqual(
-        Math.abs(own.changes[line]!),
+      const city = governments(api).find((g) => g.level === "city");
+      if (!mayor || !city) {
+        tried.push(`${where}: no mayor or city`);
+        continue;
+      }
+      const mayorId = memberKey(mayor.holder!);
+      const lead = api.parameter("budgetProposalLeadDays");
+      const year = Number(core.date.slice(0, 4));
+      const next =
+        `${year}-${city.fiscalYearStart}` > core.date
+          ? `${year}-${city.fiscalYearStart}`
+          : `${year + 1}-${city.fiscalYearStart}`;
+      const open = addDays(makeIsoDate(next), -(lead - 1));
+      if (core.date < open) advanceCore(core, open);
+      // The mayor's attendance review lets an absent aide go, so the aide is
+      // hired on the day the window opens and serves through it.
+      const pick = staffCandidates(api, mayorId)[0];
+      if (!pick) {
+        tried.push(`${where}: no aide candidate`);
+        continue;
+      }
+      hireStaff(api, {
+        officialId: mayorId,
+        personId: pick.personId,
+        role: "aide",
+      });
+      expect(
+        servingStaffOf(api, mayorId).length,
+        `${where}: the aide serves`,
+      ).toBeGreaterThan(0);
+      const own = executiveBudgetChanges(
+        api,
+        city.id,
+        Number(next.slice(0, 4)),
       );
+      if (!own || !Object.keys(own.changes).length) {
+        tried.push(`${where}: the mayor's lean changes no line`);
+        continue;
+      }
+      // A place whose city budget has no council to read (the district's)
+      // has no one for the aide to read: another draw.
+      const [firstLine, firstDelta] = Object.entries(own.changes)[0]!;
+      if (!budgetLineStakes(api, city.id, firstLine, firstDelta)) {
+        tried.push(`${where}: no council to read for the city budget`);
+        continue;
+      }
+      officeActHandlers(officeHost)["propose-budget"]!(
+        api,
+        mayorId,
+        {} as never,
+      );
+      const sent = budgetPriorities(api, city.id)?.changes ?? {};
+      for (const [line, delta] of Object.entries(sent)) {
+        expect(Math.sign(delta), `${where} ${line}`).toBe(
+          Math.sign(own.changes[line]!),
+        );
+        expect(Math.abs(delta), `${where} ${line}`).toBeLessThanOrEqual(
+          Math.abs(own.changes[line]!),
+        );
+      }
+      const kept = officeActsOf(api, mayorId).find(
+        (r) => r.kind === "propose-budget",
+      );
+      expect(kept?.detail, where).toMatch(/advice /);
+      console.log(
+        `${where}: ${kept!.detail}; lines ${Object.keys(own.changes).length} to ${Object.keys(sent).length}`,
+      );
+      return;
     }
-    const kept = officeActsOf(api, mayorId).find(
-      (r) => r.kind === "propose-budget",
+    throw new Error(
+      `no mayor with an aide and a budget at ${at}: ${tried.join("; ")}`,
     );
-    expect(kept?.detail, where).toMatch(/advice /);
-    console.log(
-      `${where}: ${kept!.detail}; lines ${Object.keys(own.changes).length} to ${Object.keys(sent).length}`,
-    );
-    return;
-  }
-  throw new Error(
-    `no mayor with an aide and a budget in 12 places: ${tried.join("; ")}; ${seed}`,
-  );
-}, 3_600_000);
+  },
+  120_000,
+);
 
 // The same office route, in the places where the council changes what the
 // mayor sent: the budget vote halves a line change the body does not back

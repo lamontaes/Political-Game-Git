@@ -1,0 +1,71 @@
+{
+  "about": "Constants and functions whose literals the line register does not count, because nothing that puts words on a player's screen reads them. Each is proved by its readers in tests/guards/english/line-register.test.ts (exemptProblems): every use of the name in a source file that is not a test or developer file reads only a field named in reads. A new entry needs a reason; a new reader fails the guard.",
+  "symbols": [
+    {
+      "file": "src/english/reply-follows.ts",
+      "name": "REPLY_FOLLOWS_RUBRIC",
+      "reason": "The reader's rubric for whether a reply follows its line; read only by the words scripts and tests that grade pairs.",
+      "reads": []
+    },
+    {
+      "file": "src/english/speech-registers.ts",
+      "name": "REGISTER_CARDS",
+      "reason": "Each speech register's measured checks and their sources; play reads only a card's setting and devices, which are record values, never its check labels.",
+      "reads": ["setting", "devices"]
+    },
+    {
+      "file": "src/english/speech-registers.ts",
+      "name": "RECORD_2025",
+      "reason": "Source citation for the register checks, read only inside REGISTER_CARDS.",
+      "reads": []
+    },
+    {
+      "file": "src/english/speech-registers.ts",
+      "name": "HEARINGS_2025",
+      "reason": "Source citation for the register checks, read only inside REGISTER_CARDS.",
+      "reads": []
+    },
+    {
+      "file": "src/english/speech-registers.ts",
+      "name": "PA_2025",
+      "reason": "Source citation for the register checks, read only inside REGISTER_CARDS.",
+      "reads": []
+    },
+    {
+      "file": "src/english/speech-registers.ts",
+      "name": "MEETINGBANK",
+      "reason": "Source citation for the register checks, read only inside REGISTER_CARDS.",
+      "reads": []
+    },
+    {
+      "file": "src/english/speech-registers.ts",
+      "name": "BRIEFINGS",
+      "reason": "Source citation for the register checks, read only inside REGISTER_CARDS.",
+      "reads": []
+    },
+    {
+      "file": "src/english/speech-registers.ts",
+      "name": "SANTA_BARBARA",
+      "reason": "Source citation for the register checks, read only inside REGISTER_CARDS.",
+      "reads": []
+    },
+    {
+      "file": "src/bench/m2-10-seating.ts",
+      "name": "seatingProblems",
+      "reason": "Seating check's problem list; read only by the developer check m2-10-check.ts and its test.",
+      "reads": []
+    },
+    {
+      "file": "src/director/reach.ts",
+      "name": "reachReport",
+      "reason": "A scene-reach report for developers; read only by its test and the scene-year script.",
+      "reads": []
+    },
+    {
+      "file": "src/english/line-rules.ts",
+      "name": "placeRuleProblems",
+      "reason": "A line rule's problems in the bank files; read only by its test and the line-rules guard.",
+      "reads": []
+    }
+  ]
+}
