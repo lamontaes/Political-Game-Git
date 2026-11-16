@@ -3577,6 +3577,8 @@ async function seatRows() {
     );
   };
   const act = async (params) => {
+    // The draft card keeps Draft dark for every bill the engine would refuse, so no press
+    // reaches a refusal here; one would be a fault, and it throws as a page error.
     const r = await post(`/api/seat/act?${new URLSearchParams(params)}`);
     seatText = r.text ?? [];
     // An executive's bill goes through a member: who was asked and what they said.
@@ -3637,6 +3639,7 @@ async function seatRows() {
           ? `question:${item.question}`
           : `line:${item.line}`;
     const draftBlock = draftCard({
+      today: String(today()).slice(0, 10),
       words: {
         title: seat.title ?? "",
         issue: seat.issue ?? "",
@@ -3655,6 +3658,7 @@ async function seatRows() {
         risePercentNeeded: seat.risePercentNeeded ?? "",
         riseYearsNeeded: seat.riseYearsNeeded ?? "",
         riseDateNeeded: seat.riseDateNeeded ?? "",
+        stepDatesNeeded: seat.stepDatesNeeded ?? "",
         none: controls.bill?.none ?? "",
       },
       groups: (body.menus ?? []).map((menu) => ({
