@@ -99,6 +99,34 @@ describe("check-changes: what a pull request may not add to its own checks", () 
     ).toEqual([]);
   });
 
+  it("refuses a drawn seed taken out of a test, the commonest pin", () => {
+    const drawn = (from: string) =>
+      `const seed = ${from};\nconst place = drawPlace(\`\${seed}:0\`, "a");\n${plain}`;
+    const pinned = `const PLACES = ["a-pin:1", "a-pin:3"];\n${plain}`;
+    expect(
+      ids(
+        "src/a.test.ts",
+        drawn(`${"randomBytes"}(8).toString("hex")`),
+        pinned,
+      ),
+    ).toEqual(["drawn-seed-dropped"]);
+    expect(
+      ids(
+        "src/a.test.ts",
+        drawn(`process.env.GOLDEN_PATH_${"SEED"} ?? "x"`),
+        pinned,
+      ),
+    ).toEqual(["drawn-seed-dropped"]);
+    // Putting the draw back is not a finding.
+    expect(
+      ids(
+        "src/a.test.ts",
+        pinned,
+        drawn(`${"randomBytes"}(8).toString("hex")`),
+      ),
+    ).toEqual([]);
+  });
+
   it("refuses a deleted test file, dropped cases and dropped assertions", () => {
     expect(ids("src/a.test.ts", plain, null)).toEqual(["test-deleted"]);
     expect(ids("src/a.test.ts", plain + plain, plain)).toEqual([

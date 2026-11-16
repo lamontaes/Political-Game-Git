@@ -27,6 +27,13 @@
       "says": "a test pinned to a named town or seed",
       "files": "(\\.test\\.[cm]?[jt]sx?$|\\.node-test\\.[cm]?[jt]s$)",
       "pattern": "\\bplaceKey:\\s*[\"'`]|[\"'`][0-9a-f]{64}[\"'`]|\\bkey:\\s*[\"'`](?:\\d{7}|territory:[A-Z]{2}:[a-z0-9-]+)[\"'`]|GOLDEN_PATH_(?:SEED|PLACE_KEY)\\s*=(?!=)"
+    },
+    {
+      "id": "drawn-seed-dropped",
+      "says": "a drawn seed (randomBytes or a seed read from the environment), which pins the test",
+      "files": "(\\.test\\.[cm]?[jt]sx?$|\\.node-test\\.[cm]?[jt]s$)",
+      "pattern": "\\brandomBytes\\s*\\(|\\bprocess\\.env\\.[A-Z_]*SEED\\b",
+      "refuse": "fewer"
     }
   ],
   "baselines": "(^|/)[^/]*(?:baseline|ceiling)[^/]*\\.json$",

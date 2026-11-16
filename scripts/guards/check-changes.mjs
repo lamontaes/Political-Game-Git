@@ -3,7 +3,8 @@
  * No session edits the checks that judge it (the CTO's "how done is proven",
  * rule 1, on the crew issue). A pull request may not add an expected-failure,
  * skip, only or todo mark, a known-red row, a test pinned to a named town or
- * seed, or a larger baseline; and it may not delete a test file, drop test
+ * seed (or a drawn seed taken out of a test), or a larger baseline; and it
+ * may not delete a test file, drop test
  * cases or drop assertions from a test file it keeps. Each of those needs a
  * line from the CTO on the crew issue that approves that pull request by
  * number.
@@ -57,8 +58,11 @@ export function checkChanges(changes, rules) {
       if (!new RegExp(rule.files).test(change.path)) continue;
       const before = count(change.before, rule.pattern),
         after = count(change.after, rule.pattern);
-      if (after > before)
-        add(rule.id, `adds ${rule.says} (${before} before, ${after} after)`);
+      if (rule.refuse === "fewer" ? after < before : after > before)
+        add(
+          rule.id,
+          `${rule.refuse === "fewer" ? "takes out" : "adds"} ${rule.says} (${before} before, ${after} after)`,
+        );
     }
     if (isTest.test(change.path)) {
       if (change.after === null) {
