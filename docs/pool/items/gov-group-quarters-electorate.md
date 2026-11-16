@@ -6,7 +6,7 @@ lead: governing
 kind: stopgap
 priority: 2
 size: M
-status: in-pr
+status: merged
 claimed-by:
 pr: 9145
 blocked-on:

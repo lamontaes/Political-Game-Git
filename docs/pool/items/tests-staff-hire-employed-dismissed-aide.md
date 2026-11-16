@@ -5,7 +5,7 @@ area: office
 kind: bug
 priority: 3
 size: S
-status: in-pr
+status: merged
 standard: 2
 claimed-by: claude/pool-tests-staff-hire-employed-dismissed-aide
 pr: #8567

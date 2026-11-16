@@ -27,6 +27,8 @@ import type { CoreAPI, CoreModule, CoreState, Source } from "../types";
 import type { ModuleRow } from "../module-data";
 import type { ModuleCalendarWork } from "../module-calendar";
 import { lawChain } from "./laws";
+import { federalParameter } from "../office-day-federal";
+import { closenessBetween } from "../closeness";
 import { remarksOn, signUpToSpeak } from "./meetings";
 import { OFFICES_MODULE_ID, townSeats, type TermRow } from "./offices";
 import { governments } from "./budgets";
@@ -64,8 +66,10 @@ import {
   voteBudgetAtMeeting,
   registerCommitteeWait,
   playerSitsOnCommittee,
+  vetoReasons,
   type BillRow,
   type DeskAction,
+  type VetoReason,
 } from "./legislature";
 import {
   filesAhead,
@@ -172,6 +176,11 @@ export interface OfficeActRow {
   /** For the character's own choice: the position it acted on (the engine's own reasons). */
   readonly position: number | null;
   readonly detail: string;
+  /** A veto's reason the player gave, from the reasons the record supports (`vetoReasons`), and the records it rests on. */
+  readonly reason?: VetoReason["key"];
+  readonly reasonRecordIds?: readonly string[];
+  /** How much closer the sponsor and the executive were before a veto than after it: what a reply may give back. */
+  readonly cooled?: number;
 }
 
 export const OFFICE_DAY_MODULE: CoreModule = {
@@ -1540,16 +1549,42 @@ function deskOwnChoice(api: CoreAPI, billId: string): void {
   executiveDecision(api, billId, sign);
 }
 
-/** The player signs or vetoes a bill on their desk themselves. */
+/**
+ * The player signs or vetoes a bill on their desk themselves. A veto carries
+ * the reason they gave, one of the reasons the record supports
+ * (`vetoReasons`; "none" when they gave none), kept on the act for the
+ * sponsor to bring up (Words lead, desk ruling 5), and it cools the tie
+ * between the sponsor and the player as a refused ask on a bill does
+ * (`whipAnswerCloseness`).
+ */
 export function decideDesk(
   api: CoreAPI,
   billId: string,
   sign: boolean,
+  reasonKey: VetoReason["key"] = "none",
 ): BillRow {
   const player = playerOf(api);
   const bill = billOf(api, billId);
   if (!player || bill?.status !== "awaiting-signature")
     throw new Error("No bill is waiting on your desk.");
+  const reason = sign
+    ? undefined
+    : vetoReasons(api, billId, player).find((row) => row.key === reasonKey);
+  if (!sign && !reason)
+    throw new Error(`The record gives no reason "${reasonKey}" to veto it.`);
+  let cooled: number | undefined;
+  if (
+    !sign &&
+    bill.sponsorId !== player &&
+    api.state.people.get(bill.sponsorId)?.alive
+  ) {
+    const before = closenessBetween(api.state, player, bill.sponsorId);
+    const step = -vetoCloseness();
+    const why = { cause: "veto", sourceId: billId, apart: true };
+    api.relationship(bill.sponsorId, player, "contact", step, undefined, why);
+    api.relationship(player, bill.sponsorId, "contact", step, undefined, why);
+    cooled = before - closenessBetween(api.state, player, bill.sponsorId);
+  }
   keepAct(api, {
     personId: player,
     kind: sign ? "sign" : "veto",
@@ -1557,10 +1592,28 @@ export function decideDesk(
     recordId: billId,
     position: null,
     detail: sign ? "sign" : "veto",
+    ...(reason
+      ? { reason: reason.key, reasonRecordIds: [...reason.recordIds] }
+      : {}),
+    ...(cooled !== undefined ? { cooled } : {}),
   });
   const decided = executiveDecision(api, billId, sign);
   releaseHeld(api, deskStopId(billId));
   return decided;
+}
+
+/** How far a veto moves the tie between the executive and the sponsor (the whip-answer step, `whipAnswerCloseness`), for what a reply gives back. */
+export function vetoCloseness(): number {
+  return federalParameter("whipAnswerCloseness");
+}
+
+/** The reasons the record supports for the player to give with a veto of a bill on their desk (`vetoReasons`). */
+export function deskVetoReasons(
+  api: CoreAPI,
+  billId: string,
+): readonly VetoReason[] {
+  const player = playerOf(api);
+  return player ? vetoReasons(api, billId, player) : [];
 }
 
 /** The governor strikes appropriation items under the place's law and lets the body weigh overrides. */

@@ -6,10 +6,10 @@ lead: laws
 kind: bug
 priority: 3
 size: M
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: account-lead-builder
+pr: 9503
 after:
 blocked-on:
 model: sonnet
@@ -24,6 +24,8 @@ checked:
 **Cause.** Found in code: both tests take their seed from `randomBytes(8)` (src/core2/office-day-name-head.test.ts line 28; the budget-season file builds `${seed}:${draw}` the same way), so each run draws new places and a place where the town's pay line, head or council differs fails. They break the pinned-tests rule: named places with fixed seeds.
 
 **Fix.** Pin each case to named places with fixed seeds (the places it passed at, and one where it failed, with the reason the failing one differs: found by reading the failure at that place), explicit time limits near twice the measured run, no draw loops. Do not loosen an assertion; where a place fails for a real reason, file that as its own item.
+
+**Built (Nov 15).** The name-head case is pinned at Fenwick Island DE, East Bend NC and Van Wyck SC (draws `name-head-pin:1`, `:3`, `:5`, 83 s for the file); its pick case was already pinned on the Train. The budget-season aide's-read case is pinned at Williams SC (draw `pin-bs:advice:5`, 65 s). The other two budget-season cases are not pinned because they are red where they reach: at Golovin AK, Lincolnshire KY and Trenton UT (draws `pin-bs:0`, `:1`, `:4`) the line the council passed is lower at year's end than when it passed (Lincolnshire: 24,191,828 against 25,182,405, with `receiptsFactor` 1), and at Golovin and Trenton the month's paid schools line differs from the passed one; draws 2, 3 and 5 have no firm that does the line's work or no mayor. Ortley SD, the amend case's pinned start, no longer amends. That is a world defect (councils amend adopted budget lines with no cause at nearly every meeting), left for its own item and not re-pinned. The town-hall cadence test (its premise changed in #9472) is pinned at two named places (`town-hall-pin:0` and `:1`, 81 s and 47 s).
 
 **Time box.** 3 hours for one Sonnet session.
 
