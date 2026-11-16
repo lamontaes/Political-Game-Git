@@ -19,7 +19,7 @@ source: vote-reasons thread, bench walk at Island Pond, Vermont, Nov 16 (screens
 ---
 
 **What.** In the running game at Island Pond, Vermont (placeKey 5035725, seed 9144879383429625b93eb5778cf3109a49d7099a0c4451554962a94f2fefaaf0), the reporter's call after a No vote shows the panel under the talk with dev mode on. Its record ids are plain grey text, the same as the words around them, though each opens the Trace box when clicked. The panel lists every fact with every record id in full, so it runs longer than the talk box. The opening lines of the call scroll out of view, and the replies sit at the bottom under about forty lines of ids.
-Seen: /mnt/project-files/vote-reasons/dev-reply-why/3-reporters-call-why-these-lines.png, 1440x900.
+Seen: in the reporter's call on the bench at 1440x900 (screenshot 3-reporters-call-why-these-lines.png in /mnt/project-files/vote-reasons/dev-reply-why/).
 
 **Cause.** Found in code: `replyWhy` in src/bench/ui/dev-reply-why.mjs builds the ids with `idList` from src/bench/ui/dev-view.mjs (class `id`). The panel sits inside `#talk-lines` as an `li.why`, and play.css styles `.id` only inside dev panels outside the talk box. Nothing folds the facts list or puts the panel beside the talk instead of inside it.
 
