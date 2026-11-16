@@ -192640,30 +192640,6 @@
       }
     },
     {
-      "key": "scene-talk.follow-answer.town-doors-won-t-get-us-there-we-can-pay-people-to-carry-it-to-the-voters-outside-town",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "Town doors won't get us there. We can pay people to carry it to the voters outside town.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "petition-short",
-          "key": "news-received",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "requiresFacts": ["teller-helper", "circulators", "money"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (petition-short circulators lines, Nov 16), placed by the record",
-      "date": "2026-11-16",
-      "tag": {
-        "move": "answer",
-        "key": "news-received"
-      }
-    },
-    {
       "key": "scene-talk.follow-answer.town-doors-won-t-get-us-there-people-can-be-paid-to-carry-it-farther-but-the-campaign-doesn-t-have-the-money",
       "move": "follow-answer",
       "kind": "spoken",
@@ -192713,31 +192689,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-hire.i-ll-put-the-campaign-s-money-into-it",
-      "move": "reply-hire",
-      "kind": "spoken",
-      "text": "I'll put the campaign's money into it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "petition-short",
-          "key": "news-received",
-          "step": "reply",
-          "move": "hire",
-          "role": "asked",
-          "after": "answer",
-          "requiresFacts": ["circulators", "money"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (petition-short circulators lines, Nov 16), placed by the record",
-      "date": "2026-11-16",
-      "tag": {
-        "move": "hire",
-        "key": "news-received"
-      }
-    },
-    {
       "key": "scene-talk.follow-take.that-s-yours-to-decide-the-deadline-doesn-t-move",
       "move": "follow-take",
       "kind": "spoken",
@@ -192759,31 +192710,6 @@
       "date": "2026-11-16",
       "tag": {
         "move": "take",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.reply-hire.i-ll-put-in-what-the-campaign-has-it-won-t-cover-all-of-it",
-      "move": "reply-hire",
-      "kind": "spoken",
-      "text": "I'll put in what the campaign has. It won't cover all of it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "petition-short",
-          "key": "news-received",
-          "step": "reply",
-          "move": "hire",
-          "role": "asked",
-          "after": "answer",
-          "requiresFacts": ["circulators", "covers-part"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (petition-short circulators lines, Nov 16), placed by the record",
-      "date": "2026-11-16",
-      "tag": {
-        "move": "hire",
         "key": "news-received"
       }
     },
@@ -192837,64 +192763,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-answer.we-can-pay-people-to-carry-it-outside-town-the-money-we-have-covers-part-of-what-s-missing-not-all-of-it",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "We can pay people to carry it outside town. The money we have covers part of what's missing, not all of it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "petition-short",
-          "key": "news-received",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "requiresFacts": ["teller-helper", "circulators", "covers-part"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (petition-short circulators lines, Nov 16), placed by the record",
-      "date": "2026-11-16",
-      "tag": {
-        "move": "answer",
-        "key": "news-received"
-      }
-    },
-    {
       "key": "scene-talk.follow-take.then-we-take-what-it-buys-it-s-better-than-nothing",
       "move": "follow-take",
       "kind": "spoken",
       "text": "Then we take what it buys. It's better than nothing.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "petition-short",
-          "key": "news-received",
-          "step": "follow",
-          "move": "take",
-          "role": "asker",
-          "after": "hire",
-          "requiresFacts": [
-            "teller-helper",
-            "circulators",
-            "money",
-            "covers-part"
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (petition-short circulators lines, Nov 16), placed by the record",
-      "date": "2026-11-16",
-      "tag": {
-        "move": "take",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.follow-take.part-is-better-than-none-i-ll-get-it-started",
-      "move": "follow-take",
-      "kind": "spoken",
-      "text": "Part is better than none. I'll get it started.",
       "uses": [
         {
           "subject": "scene",
