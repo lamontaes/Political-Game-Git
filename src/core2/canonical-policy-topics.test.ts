@@ -1,6 +1,5 @@
 // @vitest-environment node
 /** Background law reads use the same canonical record as the bill writer. */
-import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { buildBenchWorld } from "../bench/world";
@@ -20,7 +19,15 @@ import { answerIn } from "./modules/laws";
 import { policySeriesAtLevel } from "./policy-answers";
 import { coreAPI } from "./state";
 
-const replay = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
+// Pinned (Nov 16). Before, the test drew its replay seed at run time from
+// GOLDEN_PATH_SEED or randomBytes and its place from that seed. The fixed seed
+// below draws Ashland, New Hampshire. The first check fails there ("expected
+// 18 to be 19") as it did at Cruz Bay, U.S. Virgin Islands (pin-cpt-0) and
+// Trenton, Texas (pin-cpt-2) on the Train at 6d12556a: a real fault at every
+// place, item laws-congress-holds-two-questions-for-one-federal-wage-rule.
+// Limit: 17.6 s alone and 20.7 s beside another played-world file (Nov 16,
+// Train 6d12556a); twice the slower is about 45 s.
+const replay = "pin-cpt-1";
 const place = drawPlace(replay, "canonical-policy-topics");
 const shared = "us-policy-positions:labor-workforce.raise-minimum-wage";
 const canonical =
@@ -28,6 +35,10 @@ const canonical =
 it(`canonical background law reads: ${place.name}, replay ${replay}`, () => {
   setBookkeeping(false);
   try {
+    expect([place.key, place.name]).toEqual([
+      "3301940",
+      "Ashland, New Hampshire",
+    ]);
     const world = buildBenchWorld(place.seed, gameStartDate(), {
       placeKey: place.key,
       twoLevel: true,
@@ -93,4 +104,4 @@ it(`canonical background law reads: ${place.name}, replay ${replay}`, () => {
   } finally {
     setBookkeeping(true);
   }
-}, 600_000);
+}, 45_000);
