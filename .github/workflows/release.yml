@@ -2,43 +2,43 @@ name: Release
 
 # WHEN BUILDS HAPPEN, AND HOW TO ASK FOR ONE (owner, Oct 27, 2026)
 #
-# This workflow, on every push to main (and on workflow_dispatch), builds and
+# This workflow, on every push to dev (and on workflow_dispatch), builds and
 # validates the candidate (release-candidate.yml) and publishes NOTHING. It
-# takes minutes and goes red on a broken candidate, so a red main is seen at
+# takes minutes and goes red on a broken candidate, so a red dev is seen at
 # once. Merges landing every few minutes used to starve publishing, because
 # the publish job queued behind the next push; publishing, like packaging,
 # now happens only in release-package.yml.
 #
 # release-package.yml runs every two hours (GitHub cron may lag) and on
-# workflow_dispatch: it validates the newest main, pushes the version commit,
+# workflow_dispatch: it validates the newest dev, pushes the version commit to dev,
 # writes the `publish-record` artifact (version, candidateSha, bundleSha256,
 # sourceSha, published commit), and packages that same candidate for Mac and
 # Windows. A merge during it never cancels or supersedes it. To ask for a
-# release now: Actions > "Release package" > Run workflow (branch main), or
-# `gh workflow run release-package.yml --ref main`.
+# release now: Actions > "Release package" > Run workflow (branch dev), or
+# `gh workflow run release-package.yml --ref dev`.
 # See docs/release/README.md.
 
 on:
   push:
-    branches: [main]
+    branches: [dev]
     # A commit that touches only the pool (a claim, a status change, an add)
     # changes no code or declaration, so it starts no run to be cancelled by
     # the next one. A push that also changes anything else still runs.
     paths-ignore:
       - "docs/pool/**"
       # The play-first lane's shared files: its progress log and lead sheets,
-      # appended to straight on main; none changes the client.
+      # appended to straight on dev; none changes the client.
       - "docs/play-first/PROGRESS.md"
       - "docs/coordination/LEADS-2026-10-24.md"
       - "docs/coordination/MERGE-FIRST.md"
-      # The lanes' pages, state files and agreements, written straight to main.
+      # The lanes' pages, state files and agreements, written straight to dev.
       - "docs/lanes/**"
-  # Manual final drain for a release candidate that lost a main fast-forward
+  # Manual final drain for a release candidate that lost a dev fast-forward
   # race and had no later merge to trigger another run.
   workflow_dispatch:
 
-# Concurrency is per job inside the called workflow: a newer push to main
-# waits for a candidate still building or validating (release-main-validate),
+# Concurrency is per job inside the called workflow: a newer push to dev
+# waits for a candidate still building or validating (release-dev-validate),
 # and GitHub keeps only the newest pending run. That only ever delays a
 # validation; nothing publishes from here.
 
@@ -56,4 +56,4 @@ jobs:
     uses: ./.github/workflows/release-candidate.yml
     with:
       publish: false
-      concurrency_group: release-main-validate
+      concurrency_group: release-dev-validate

@@ -4,7 +4,7 @@
 // It goes through the game's own request handler, the same routes the screen
 // calls: a new life in a town drawn from all 56 places, then a few weeks of play.
 // The town comes from a replay number printed first, so a failure can be
-// replayed on the same town against main to see whose fault it is (ruling 3):
+// replayed on the same town against dev to see whose fault it is (ruling 3):
 //   npm run new-game-check -- <replay number>
 // With no replay number one is drawn. Exit 0 is a pass; any crash or refused
 // request is exit 1 with the route, the replay number and the error.

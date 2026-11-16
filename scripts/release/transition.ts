@@ -42,7 +42,7 @@ function git(root: string, args: readonly string[]): string {
     // A shallow clone (a cloud session's) lacks the base commit; say how to fetch it.
     const shallow =
       args[0] === "rev-parse" && /Needed a single revision/.test(detail ?? "")
-        ? " The clone may be shallow and lack that commit: run `git fetch --unshallow origin` (or `git fetch origin main`) and retry."
+        ? " The clone may be shallow and lack that commit: run `git fetch --unshallow origin` (or `git fetch origin dev`) and retry."
         : "";
     throw new Error(
       `Could not run 'git ${args.join(" ")}'${detail ? `: ${detail}` : "."}${shallow}`,
@@ -200,7 +200,7 @@ function pushBranchPoint(
 }
 
 /**
- * Shared lane files written straight to main by the play-first lane: the
+ * Shared lane files written straight to dev by the play-first lane: the
  * progress log and the lead sheets. None of them changes the client.
  */
 export const LANE_STATUS_PATHS: ReadonlySet<string> = new Set([
@@ -253,11 +253,11 @@ export function checkDeclarationTransition(
 
   const paths = changedPaths(root, comparisonBase, head);
   // Session status files (docs/coordination), the pool (docs/pool, whose
-  // claims are pushed straight to main) and the lanes' pages, state files and
-  // agreements (docs/lanes, written straight to main by every lane and the
+  // claims are pushed straight to dev) and the lanes' pages, state files and
+  // agreements (docs/lanes, written straight to dev by every lane and the
   // merge desk) carry no release impact, and so does the play-first lane's
   // progress log (docs/play-first/PROGRESS.md), which every lane session
-  // appends to straight on main.
+  // appends to straight on dev.
   const eligiblePaths = paths.filter(
     (path) =>
       !isDeclarationPath(path) &&

@@ -13,7 +13,7 @@ description: >
 
 # The train gate
 
-Owner, Nov 13: "run the checks and fix and just add it all to the train." Nothing on this account merges into main; the Train thread folds only shas the lead names.
+Owner, Nov 13: "run the checks and fix and just add it all to the train." Nothing on this account merges into dev; the Train thread folds only shas the lead names.
 
 ## The checks, on the PR's own head
 
@@ -22,7 +22,7 @@ Owner, Nov 13: "run the checks and fix and just add it all to the train." Nothin
 3. Prettier and eslint on changed files. When a words, bank or line file changed, `tests/english-parts-banks.test.ts` is in the gate.
 4. `npx vitest run --dir . tests/guards --maxWorkers=2`, then `npm run guards` (20 guards).
 5. `npm run release:check -- --mode pr` **on a full clone**: run `git fetch --unshallow` first. "Cannot relate branch point" or a pool INDEX red means the clone is shallow, not that the PR is wrong.
-   Run it against the PR's own base, the Train head it merged, not main: `RELEASE_DECLARATION_BASE=<train sha> RELEASE_DECLARATION_HEAD=$(git rev-parse HEAD) RELEASE_DECLARATION_MODE=pr npm run release:check`. Against main's merge-base it can pass because the Train's own declarations cover the range, while CI on the PR fails for a missing declaration (#9430, Nov 15: six skill files with no declaration passed locally and went red in CI).
+   Run it against the PR's own base, the Train head it merged, not dev: `RELEASE_DECLARATION_BASE=<train sha> RELEASE_DECLARATION_HEAD=$(git rev-parse HEAD) RELEASE_DECLARATION_MODE=pr npm run release:check`. Against dev's merge-base it can pass because the Train's own declarations cover the range, while CI on the PR fails for a missing declaration (#9430, Nov 15: six skill files with no declaration passed locally and went red in CI).
 6. `npm run zero-dice`, `npm run pool -- --check`, and `npm run test:skill-ops` when an instruction or skill file changed.
 
 Cloud sessions set `OCD_STORAGE_OVERRIDE="cloud session, owner approved Oct 14"` on every npm command.
@@ -33,14 +33,14 @@ A gate line names each command, its exit code and where it ran (which container,
 
 ## Reds that are not yours
 
-Compare against the clean train head, not only main: main's reds and the train's reds differ. Keep the current known-red list in project memory and in the PR body; a red also red on the clean base does not block, and a red the PR introduces does. Never skip, loosen or quarantine a test to get green (`pinned-tests`).
+Compare against the clean train head, not only dev: dev's reds and the train's reds differ. Keep the current known-red list in project memory and in the PR body; a red also red on the clean base does not block, and a red the PR introduces does. Never skip, loosen or quarantine a test to get green (`pinned-tests`).
 
 ## Shas and lines
 
 - Always the full 40-character sha. A short sha is refused.
 - The builder reports to the lead with the key diff, the tests and the sha. The lead approves; the builder marks the PR ready and posts `Account lead Tn: train-ready #N <sha>` on #8928; the lead names the sha to the Train.
 - Words and story PRs also need `Words lead: train-ready #N <sha>` before they join.
-- A PR based on the train branch shows "merged" on GitHub when folded. That is not a merge to main.
+- A PR based on the train branch shows "merged" on GitHub when folded. That is not a merge to dev.
 - After a usage limit resets, every thread that failed needs a message.
 
 ## A moved head needs a new stamp
@@ -64,7 +64,7 @@ After a merge stops on conflicts, count them with `git diff --name-only --diff-f
 - A new source file in `src/core2` needs its path in `tests/guards/families.json` (inside the family it belongs to) and a CODEOWNERS line from `node --import tsx scripts/guards/codeowners.ts`.
 - A release declaration with `impact: none` carries no `section` or `title`; a patch note is for a player-visible change.
 - A pool item that is `in-pr` needs `pr:` set, `after:` and `blocked-on:` present (empty is fine), a `root:` listed in `docs/pool/roots.md` (or `none`) and a Done when that says what a second session sees in the running game.
-- `npm run guards` names its pool red "docs/pool/INDEX.md ... this branch changes it" when the clone's `origin/main` is old, not when the branch touched the index: fetch, and it passes.
+- `npm run guards` names its pool red "docs/pool/INDEX.md ... this branch changes it" when the clone's `origin/dev` is old, not when the branch touched the index: fetch, and it passes.
 
 ## Skill-file conflicts when folding a named sha (coordinator ruling, Nov 15)
 

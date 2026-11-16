@@ -92,7 +92,7 @@ export function makeFixture(options: FixtureOptions = {}): Fixture {
     const run = (...args: string[]): void => {
       execFileSync("git", args, { cwd: root, stdio: "ignore" });
     };
-    run("init", "-q", "-b", "main");
+    run("init", "-q", "-b", "dev");
     run("config", "user.email", "fixture@example.invalid");
     run("config", "user.name", "Fixture");
     run("add", "-A");

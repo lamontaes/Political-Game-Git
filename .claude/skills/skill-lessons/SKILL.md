@@ -15,7 +15,7 @@ Owner, Oct 27, again: "not just errors, but work processes as well... if somethi
 
 1. **Collect the last 4 hours of failures**, each with its cause in one line:
    - merger comments starting with `Merger` that contain "sent back" (`gh api repos/<repo>/issues/<n>/comments` over open and recently closed PRs; list PRs updated in the window and read their newest comments; send-backs now also live on the item's own pull request (`docs/pool/START-A-BUILDER.md`), where the checker's and merge desk's comments are);
-   - Release and PR workflow runs with `conclusion: failure` (`gh api repos/<repo>/actions/runs?branch=main`), the failing job's first `##[error]` and the `FAIL` line before it;
+   - Release and PR workflow runs with `conclusion: failure` (`gh api repos/<repo>/actions/runs?branch=dev`), the failing job's first `##[error]` and the `FAIL` line before it;
    - the owner's newest `docs/coordination/playtest/*.md` stops and the CTO section of the channel, for "again", "still", "keeps";
    - pool items set back to open with a Note in the window (`git log --since=4.hours -- docs/pool/items`).
      1b. **Collect the window's successes the same way:** PRs merged on the first recheck with no send-back (their method is in the body: which checks, which proof, which order); the owner's words of approval in `docs/coordination/playtest/*.md`, the channel and PR comments ("good", "that's it", "exactly", "keep doing that"); a lead's status block that names a method it used twice with a result (a sweep over N places, a fact-packet loop, a stacked-PR order, a bench-restart rule); and any new skill tried in the window (`scenes-from-life`, a lead's work order) with how its first sweep went.

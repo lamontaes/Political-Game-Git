@@ -21,7 +21,7 @@ import { describe, expect, it } from "vitest";
  * scenes"; it must be in no bank, and every other liked line stays.
  *
  * Where to find an old piece: `git show <deleting commit>^:<path>` (a shallow
- * clone may need `git fetch origin main --deepen=2000` first).
+ * clone may need `git fetch origin dev --deepen=2000` first).
  */
 type Counts = { good: number };
 const ledger = JSON.parse(

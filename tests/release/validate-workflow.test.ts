@@ -35,7 +35,7 @@ describe("deterministic validation workflow capacity", () => {
     expect(validate).not.toContain("npx playwright test --shard=");
   });
 
-  it("cancels a superseded run, validates main hourly, and leaves pool-only pushes to no workflow", () => {
+  it("cancels a superseded run, validates dev hourly, and leaves pool-only pushes to no workflow", () => {
     expect(validate).toContain(
       "group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.ref }}",
     );
@@ -46,9 +46,9 @@ describe("deterministic validation workflow capacity", () => {
       "cancel-in-progress: ${{ github.event_name == 'pull_request' }}",
     );
     expect(validate).not.toContain("cancel-in-progress: true");
-    // Main is validated once an hour, not on every push (owner, Oct 28, 2026;
+    // Dev is validated once an hour, not on every push (owner, Oct 28, 2026;
     // pool item tooling-ci-main-validation-hourly): every pull request runs
-    // this workflow on its merged result, the hour's run covers main, and a
+    // this workflow on its merged result, the hour's run covers dev, and a
     // run can be started by hand.
     const triggers = validate.slice(
       validate.indexOf("\non:\n"),
@@ -58,13 +58,13 @@ describe("deterministic validation workflow capacity", () => {
     expect(triggers).toMatch(/\n {2}schedule:\n\s+- cron: "\d+ \* \* \* \*"/);
     expect(triggers).toMatch(/\n {2}workflow_dispatch:/);
     expect(triggers).not.toMatch(/\n {2}push:/);
-    // The workflow that does run on every push to main is the release one, and
+    // The workflow that does run on every push to dev is the release one, and
     // a commit that changes only pool files starts no run of it.
     const releasePush = release.slice(
       release.indexOf("\non:\n"),
       release.indexOf("\npermissions:"),
     );
-    expect(releasePush).toMatch(/\n {2}push:\n\s+branches: \[main\]/);
+    expect(releasePush).toMatch(/\n {2}push:\n\s+branches: \[dev\]/);
     expect(releasePush).toMatch(
       /paths-ignore:\n(?:\s+#.*\n)*\s+- "docs\/pool\/\*\*"/,
     );

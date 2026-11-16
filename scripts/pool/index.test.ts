@@ -167,7 +167,7 @@ describe("claims and gates", () => {
 });
 
 /**
- * A working repo with docs/pool under it and a bare origin whose main holds
+ * A working repo with docs/pool under it and a bare origin whose dev holds
  * the same commit. `reject` is how many pushes the origin's pre-receive hook
  * refuses before it accepts; the hook counts every attempt in `attempts`.
  */
@@ -185,8 +185,8 @@ function pushFixture(reject: number): {
   mkdirSync(join(pool, "items"), { recursive: true });
   const g = (...a: string[]): string =>
     execFileSync("git", a, { cwd: join(dir, "work"), encoding: "utf8" });
-  execFileSync("git", ["init", "-q", "--bare", "-b", "main", origin]);
-  g("init", "-q", "-b", "main");
+  execFileSync("git", ["init", "-q", "--bare", "-b", "dev", origin]);
+  g("init", "-q", "-b", "dev");
   g("config", "user.email", "t@t");
   g("config", "user.name", "t");
   writeFileSync(join(pool, "items", "laws-a.md"), item("laws-a"));
@@ -194,7 +194,7 @@ function pushFixture(reject: number): {
   g("add", ".");
   g("commit", "-qm", "init");
   g("remote", "add", "origin", origin);
-  g("push", "-q", "origin", "main");
+  g("push", "-q", "origin", "dev");
   // The hook goes in after the seed push so only the pool command's pushes count.
   writeFileSync(
     join(origin, "hooks", "pre-receive"),
@@ -206,7 +206,7 @@ function pushFixture(reject: number): {
 }
 
 describe("push retries and the nothing-staged path", () => {
-  it("a claim already on main stages nothing and finishes without error", () => {
+  it("a claim already on dev stages nothing and finishes without error", () => {
     const dir = mkdtempSync(join(tmpdir(), "pool-noop-"));
     const pool = join(dir, "docs", "pool");
     mkdirSync(join(pool, "items"), { recursive: true });
@@ -244,11 +244,11 @@ describe("push retries and the nothing-staged path", () => {
     process.chdir(join(dir, "work"));
     try {
       const err = command(["claim", "laws-a", "--branch", "b1"]);
-      expect(err).toMatch(/^push to main failed 8 times: /);
+      expect(err).toMatch(/^push to dev failed 8 times: /);
       expect(readFileSync(attempts, "utf8").trim()).toBe("8");
-      expect(g("rev-parse", "--abbrev-ref", "HEAD").trim()).toBe("main");
+      expect(g("rev-parse", "--abbrev-ref", "HEAD").trim()).toBe("dev");
       expect(g("branch", "--list", "pool-claim-laws-a").trim()).toBe("");
-      expect(g("show", "origin/main:docs/pool/items/laws-a.md")).toContain(
+      expect(g("show", "origin/dev:docs/pool/items/laws-a.md")).toContain(
         "status: open",
       );
     } finally {
@@ -256,7 +256,7 @@ describe("push retries and the nothing-staged path", () => {
     }
   });
 
-  it("a push refused three times then accepted lands the claim on main", () => {
+  it("a push refused three times then accepted lands the claim on dev", () => {
     const { dir, origin, attempts } = pushFixture(3);
     const cwd = process.cwd();
     process.chdir(join(dir, "work"));
@@ -265,7 +265,7 @@ describe("push retries and the nothing-staged path", () => {
       expect(readFileSync(attempts, "utf8").trim()).toBe("4");
       const onMain = execFileSync(
         "git",
-        ["show", "main:docs/pool/items/laws-a.md"],
+        ["show", "dev:docs/pool/items/laws-a.md"],
         { cwd: origin, encoding: "utf8" },
       );
       expect(onMain).toContain("status: claimed");
@@ -532,7 +532,7 @@ const withValue = (flag: string, value: string): string[] =>
   SEEN.map((x, n) => (SEEN[n - 1] === flag ? value : x));
 const PR_12 = "[#12](https://github.com/lamontaes/Political-Game-Git/pull/12)";
 
-describe("merged is on main, done is seen in the game", () => {
+describe("merged is on dev, done is seen in the game", () => {
   it("the merge flip needs no --by, stamps merged-at once, opens the gate and lists the item as merged", () => {
     const { dir, pool, read, index } = poolRepo({
       "laws-a": inPr("laws-a"),

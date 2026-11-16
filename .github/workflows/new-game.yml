@@ -1,9 +1,9 @@
 name: New game
 # The one check before a merge (owner, Nov 3, ruling 2): "a new game opens and
 # runs briefly without crashing; nothing else holds a merge." One job, on the
-# pull request merged with main (Actions' merge ref), in a town drawn from all
+# pull request merged with its base, dev (Actions' merge ref), in a town drawn from all
 # 56 places. The log's first line is the replay number; replay a failure on
-# main with `npm run new-game-check -- <replay number>` to see whose it is
+# dev with `npm run new-game-check -- <replay number>` to see whose it is
 # (ruling 3).
 on:
   pull_request:

@@ -91,7 +91,7 @@ const git = (cwd: string, ...a: string[]): string =>
   execFileSync("git", a, { cwd, encoding: "utf8", stdio: "pipe" }).trim();
 
 /**
- * A bare origin whose main holds the items, the real order.json, start page
+ * A bare origin whose dev holds the items, the real order.json, start page
  * and pull request template, and `n` clones of it (a, b, ...). `branches` are
  * pushed to origin as they are, with one commit each at the given time.
  */
@@ -105,7 +105,7 @@ function world(
 } {
   const dir = mkdtempSync(join(tmpdir(), "pool-next-"));
   const origin = join(dir, "origin.git");
-  execFileSync("git", ["init", "-q", "--bare", "-b", "main", origin]);
+  execFileSync("git", ["init", "-q", "--bare", "-b", "dev", origin]);
   const seed = join(dir, "seed");
   const pool = join(seed, "docs", "pool");
   mkdirSync(join(pool, "items"), { recursive: true });
@@ -123,15 +123,15 @@ function world(
   for (const [id, text] of Object.entries(items))
     writeFileSync(join(pool, "items", `${id}.md`), text);
   run(pool, false);
-  git(dir, "init", "-q", "-b", "main", seed);
+  git(dir, "init", "-q", "-b", "dev", seed);
   git(seed, "config", "user.email", "t@t");
   git(seed, "config", "user.name", "t");
   git(seed, "add", ".");
   git(seed, "commit", "-qm", "init");
   git(seed, "remote", "add", "origin", origin);
-  git(seed, "push", "-q", "origin", "main");
+  git(seed, "push", "-q", "origin", "dev");
   for (const [branch, at] of Object.entries(opts.branches ?? {})) {
-    git(seed, "checkout", "-q", "-B", branch, "main");
+    git(seed, "checkout", "-q", "-B", branch, "dev");
     writeFileSync(join(seed, "work.txt"), branch);
     git(seed, "add", "work.txt");
     execFileSync("git", ["commit", "-qm", `work on ${branch}`], {
@@ -139,7 +139,7 @@ function world(
       env: { ...process.env, GIT_COMMITTER_DATE: at, GIT_AUTHOR_DATE: at },
     });
     git(seed, "push", "-q", "origin", branch);
-    git(seed, "checkout", "-q", "main");
+    git(seed, "checkout", "-q", "dev");
   }
   const clones = Array.from({ length: opts.clones ?? 1 }, (_, n) => {
     const c = join(dir, String.fromCharCode(97 + n));
@@ -312,7 +312,7 @@ describe("claimable", () => {
       onMain,
       known,
     );
-  it("takes an open, checked item that waits on nothing or only on items on main", () => {
+  it("takes an open, checked item that waits on nothing or only on items on dev", () => {
     expect(ok({})).toBe(true);
     expect(ok({ "waits-on": "Nothing to start. Read the parent first." })).toBe(
       true,
@@ -484,10 +484,10 @@ describe("next --for <kind>", () => {
     const r = pool(clones[0], ["next", "--for", "play"]);
     expect(r.err).toBeNull();
     expect(r.out[1]).toBe("Item: play-area");
-    expect(onOrigin("main", `${ITEM}/play-area.md`)).toContain(
+    expect(onOrigin("dev", `${ITEM}/play-area.md`)).toContain(
       "status: claimed",
     );
-    expect(onOrigin("main", `${ITEM}/laws-top.md`)).toContain("status: open");
+    expect(onOrigin("dev", `${ITEM}/laws-top.md`)).toContain("status: open");
   });
   it("an unknown kind is an error that names the kinds order.json has", () => {
     const { clones } = world(items);
@@ -507,7 +507,7 @@ describe("next --for <kind>", () => {
 });
 
 describe("next for real", () => {
-  it("claims on main, starts the branch with the placeholder note, writes the body, and release keeps the branch", () => {
+  it("claims on dev, starts the branch with the placeholder note, writes the body, and release keeps the branch", () => {
     const gh = fakeGh(null);
     const { clones, onOrigin } = world({
       "laws-h": unit("laws-h", { model: "haiku" }),
@@ -527,17 +527,17 @@ describe("next for real", () => {
     expect(r.out).toContain("Pull request title: laws-h: Title of laws-h");
     expect(r.out.some((l) => l.startsWith("continue"))).toBe(false);
     expect(readFileSync(gh, "utf8")).toMatch(
-      /^pr create --draft --head pool\/laws-h --base main --title laws-h: Title of laws-h --body-file /,
+      /^pr create --draft --head pool\/laws-h --base dev --title laws-h: Title of laws-h --body-file /,
     );
-    // The claim is on main, with the branch and the agent's line.
-    const claimed = onOrigin("main", `${ITEM}/laws-h.md`);
+    // The claim is on dev, with the branch and the agent's line.
+    const claimed = onOrigin("dev", `${ITEM}/laws-h.md`);
     expect(claimed).toContain("status: claimed");
     expect(claimed).toContain("claimed-by: pool/laws-h");
     expect(claimed).toContain("branch: pool/laws-h");
     expect(claimed).toMatch(
       /Claimed by next for check \(.+ UTC\) on branch pool\/laws-h\./,
     );
-    expect(onOrigin("main", "docs/pool/INDEX.md")).toContain("1 claimed");
+    expect(onOrigin("dev", "docs/pool/INDEX.md")).toContain("1 claimed");
     // The branch holds one commit: the release note's placeholder.
     expect(onOrigin("pool/laws-h", "docs/release/changes/laws-h.md")).toBe(
       `---\nid: laws-h\nimpact: none\n---\n\n${NOTE_PLACEHOLDER}`,
@@ -584,7 +584,7 @@ describe("next for real", () => {
         "The cause did not match the code.",
       ]).err,
     ).toBeNull();
-    const back = onOrigin("main", `${ITEM}/laws-h.md`);
+    const back = onOrigin("dev", `${ITEM}/laws-h.md`);
     expect(back).toContain("status: open");
     expect(back).toMatch(/^claimed-by:$/m);
     expect(back).toContain("branch: pool/laws-h");
@@ -611,7 +611,7 @@ describe("next for real", () => {
     ]);
     expect(r.err).toBeNull();
     expect(r.out).toContain("Pull request: #77 (draft)");
-    const text = onOrigin("main", `${ITEM}/laws-h.md`);
+    const text = onOrigin("dev", `${ITEM}/laws-h.md`);
     expect(text).toContain("pr: #77");
     expect(text).toContain("claimed-by: claude/pool-laws-h");
     // The builder writes the note on the branch; in-pr then goes through.
@@ -630,19 +630,19 @@ describe("next for real", () => {
     );
     git(a, "commit", "-qam", "laws-h: the release note");
     git(a, "push", "-q", "origin", "claude/pool-laws-h");
-    git(a, "checkout", "-q", "main");
+    git(a, "checkout", "-q", "dev");
     expect(pool(a, ["status", "laws-h", "in-pr", "--pr", "77"]).err).toBeNull();
-    expect(onOrigin("main", `${ITEM}/laws-h.md`)).toContain("status: in-pr");
+    expect(onOrigin("dev", `${ITEM}/laws-h.md`)).toContain("status: in-pr");
   });
 
-  it("starts the note under a free id: the item's own when free, -2 when main already used it", () => {
+  it("starts the note under a free id: the item's own when free, -2 when dev already used it", () => {
     fakeGh(null);
     const { clones, onOrigin } = world({
       "laws-h": unit("laws-h", { model: "haiku" }),
       "laws-k": unit("laws-k", { model: "haiku", priority: "2" }),
     });
     const [a] = clones;
-    // main has released laws-h before (a sent-back item): listed in consumed-changes.json.
+    // dev has released laws-h before (a sent-back item): listed in consumed-changes.json.
     mkdirSync(join(a, "docs/release"), { recursive: true });
     writeFileSync(
       join(a, "docs/release/consumed-changes.json"),
@@ -650,7 +650,7 @@ describe("next for real", () => {
     );
     git(a, "add", ".");
     git(a, "commit", "-qm", "consumed");
-    git(a, "push", "-q", "origin", "main");
+    git(a, "push", "-q", "origin", "dev");
     // laws-k has priority 2 so it is offered first: its id is free.
     const first = pool(a, ["next", "--model", "haiku", "--agent", "x"]);
     expect(first.err).toBeNull();
@@ -690,12 +690,12 @@ describe("next for real", () => {
     writeFileSync(join(a, `${ITEM}/laws-h.md`), item);
     git(a, "add", ".");
     git(a, "commit", "-qm", "pr");
-    git(a, "push", "-q", "origin", "main");
+    git(a, "push", "-q", "origin", "dev");
     const r = pool(a, ["next", "--model", "haiku", "--agent", "x"]);
     expect(r.err).toBeNull();
     expect(r.out).toContain("Pull request #55 is closed; opening a new draft.");
     expect(r.out).toContain("Pull request: #90 (draft)");
-    expect(onOrigin("main", `${ITEM}/laws-h.md`)).toContain("pr: #90");
+    expect(onOrigin("dev", `${ITEM}/laws-h.md`)).toContain("pr: #90");
   });
 
   it("two callers racing for one item end with two different items", () => {
@@ -710,7 +710,7 @@ describe("next for real", () => {
     const [a, b] = clones;
     let raced = false;
     let first: { err: string | null; out: string[] } | null = null;
-    // B picks laws-1 from main; before its push lands, A takes laws-1 first.
+    // B picks laws-1 from dev; before its push lands, A takes laws-1 first.
     const second = pool(
       b,
       ["next", "--model", "sonnet", "--agent", "b"],
@@ -725,10 +725,10 @@ describe("next for real", () => {
     expect(first!.out[1]).toBe("Item: laws-1");
     expect(second.err).toBeNull();
     expect(second.out[1]).toBe("Item: laws-2");
-    expect(onOrigin("main", `${ITEM}/laws-1.md`)).toContain(
+    expect(onOrigin("dev", `${ITEM}/laws-1.md`)).toContain(
       "Claimed by next for a ",
     );
-    expect(onOrigin("main", `${ITEM}/laws-2.md`)).toContain(
+    expect(onOrigin("dev", `${ITEM}/laws-2.md`)).toContain(
       "Claimed by next for b ",
     );
   });
@@ -787,7 +787,7 @@ describe("next for real", () => {
     expect(r.out[r.out.length - 1]).toMatch(
       /^continue: another agent started this item/,
     );
-    const quiet = onOrigin("main", `${ITEM}/laws-quiet.md`);
+    const quiet = onOrigin("dev", `${ITEM}/laws-quiet.md`);
     expect(quiet).toContain("status: claimed");
     expect(quiet).toContain("branch: lane/quiet");
     expect(quiet).toMatch(
@@ -798,8 +798,8 @@ describe("next for real", () => {
       "work on lane/quiet\ninit",
     );
     for (const id of ["laws-pushed", "laws-fresh"])
-      expect(onOrigin("main", `${ITEM}/${id}.md`)).toContain("status: claimed");
-    const nobranch = onOrigin("main", `${ITEM}/laws-nobranch.md`);
+      expect(onOrigin("dev", `${ITEM}/${id}.md`)).toContain("status: claimed");
+    const nobranch = onOrigin("dev", `${ITEM}/laws-nobranch.md`);
     expect(nobranch).toContain("status: open");
     expect(nobranch).toContain("branch: lane/none");
   });
@@ -812,13 +812,13 @@ describe("claim --pr, branch and flags", () => {
     expect(
       pool(a, ["claim", "laws-a", "--branch", "any/branch"]).err,
     ).toBeNull();
-    let text = onOrigin("main", `${ITEM}/laws-a.md`);
+    let text = onOrigin("dev", `${ITEM}/laws-a.md`);
     expect(text).toContain("claimed-by: any/branch");
     expect(text).not.toMatch(/^branch:/m);
     expect(
       pool(a, ["claim", "laws-a", "--branch", "any/branch", "--pr", "41"]).err,
     ).toBeNull();
-    text = onOrigin("main", `${ITEM}/laws-a.md`);
+    text = onOrigin("dev", `${ITEM}/laws-a.md`);
     expect(text).toContain("pr: #41");
     expect(
       pool(a, ["claim", "laws-a", "--branch", "other", "--pr", "42"]).err,
@@ -993,11 +993,11 @@ describe("an agent names itself and takes its own tier", () => {
     expect(plain.out[0]).toMatch(/^You are agent-[0-9a-f]{4}, tier mid\.$/);
     expect(plain.out[1]).toBe("Item: laws-s");
     const name = /^You are (\S+),/.exec(plain.out[0])![1];
-    expect(onOrigin("main", `${ITEM}/laws-s.md`)).toContain(
+    expect(onOrigin("dev", `${ITEM}/laws-s.md`)).toContain(
       `Claimed by next for ${name} (tier mid)`,
     );
     expect(
-      JSON.parse(onOrigin("main", `docs/pool/agents/${name}.json`)),
+      JSON.parse(onOrigin("dev", `docs/pool/agents/${name}.json`)),
     ).toMatchObject({
       name,
       tier: "mid",
@@ -1015,10 +1015,10 @@ describe("an agent names itself and takes its own tier", () => {
     expect(top.out[0]).toBe(said.out[0]);
     expect(top.out[1]).toBe("Item: laws-o");
     const opus = /^You are (\S+),/.exec(top.out[0])![1];
-    expect(onOrigin("main", `${ITEM}/laws-o.md`)).toContain(
+    expect(onOrigin("dev", `${ITEM}/laws-o.md`)).toContain(
       `Claimed by next for ${opus} (Claude Opus 5.5 in Claude Code, tier top)`,
     );
-    expect(onOrigin("main", `docs/pool/agents/${opus}.json`)).toContain(
+    expect(onOrigin("dev", `docs/pool/agents/${opus}.json`)).toContain(
       '"tier": "top"',
     );
     // The same agent's next claim files no second card.
@@ -1028,7 +1028,7 @@ describe("an agent names itself and takes its own tier", () => {
         clones[0],
         "ls-tree",
         "--name-only",
-        "origin/main",
+        "origin/dev",
         "docs/pool/agents/",
       )
         .split("\n")

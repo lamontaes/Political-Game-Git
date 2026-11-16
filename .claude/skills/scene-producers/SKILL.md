@@ -72,7 +72,7 @@ The recipe, in the order that worked (the rally, the doubt at home and the lobby
 - **Pieces** (Story writes them; this is what its pieces must satisfy, so list the moves you need). The scene-talk and tree tests compose every purpose from a generic fixture, so every purpose needs at least one narration and one ask with no required facts, and at least one reply of each follow move; a tree needs depth 2, so a reply the asker cannot let rest (a deflect) must draw a press.
 - **Narration** may not carry "today", "tonight", "yesterday" or "this ...". A piece key is its move and text, so two pieces with the same words collide even under different facts.
 - **Area and issue words.** Say an area after "with" or "about", never "on" ("safety on our streets"), and never as a verb's subject ("our schools has").
-- **After a bank change** run `apply-grades.ts` and `npm run words:rules`; when main moved a generated file (`data/english/pulled.json`, `part-grades.json`), take main's and regenerate it, never merge it by hand.
+- **After a bank change** run `apply-grades.ts` and `npm run words:rules`; when dev moved a generated file (`data/english/pulled.json`, `part-grades.json`), take dev's and regenerate it, never merge it by hand.
 - **A threat's cost** (money, an endorsement) is the interest-group engine's to read; until it does, register the stopgap and say so.
 - **Read the PR's own state right before every push to its branch.** A push to a PR that merged a minute earlier is stranded (Nov 8, twice: a floor-debate export that missed #7529's merge, and a first push the desk's own commit bounced). Check merged or open, and pull the desk's commits in, then push.
 

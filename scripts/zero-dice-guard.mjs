@@ -564,7 +564,7 @@ function totals(entries) {
 
 /**
  * Files whose count of one kind grew from `previous` to `current` (for
- * example from main's allowlist to a branch's). Rewording an allowed line
+ * example from the work branch's allowlist to a branch's). Rewording an allowed line
  * keeps its file's count; adding one raises it.
  * @returns {{ file: string; kind: string; before: number; after: number }[]}
  */

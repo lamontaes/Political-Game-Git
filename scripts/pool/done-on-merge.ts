@@ -1,4 +1,4 @@
-// Flips a pool item to merged on main when its pull request merges. Merged is
+// Flips a pool item to merged on dev when its pull request merges. Merged is
 // not done: a second session makes it done by seeing it in the running game
 // (`pool seen`; owner, Nov 3).
 // Run by .github/workflows/pool-done-on-merge.yml with PR_NUMBER and PR_BODY.
@@ -58,7 +58,7 @@ export function itemForMergedPr(
   return idFromBody(body, pool.ids) ?? pool.byPr.get(prNumber) ?? null;
 }
 
-/** Statuses a merge leaves alone: already on main, already seen, or dropped. */
+/** Statuses a merge leaves alone: already on dev, already seen, or dropped. */
 const SETTLED = ["merged", "done", "dropped"];
 
 /**

@@ -13,6 +13,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { createRequire } from "node:module";
 import { pathToFileURL } from "node:url";
+import { WORK_BRANCH, WORK_REF } from "../branches.mjs";
 import {
   branchPrefix,
   identify,
@@ -84,15 +85,15 @@ export const STATUSES = [
   "dropped",
 ];
 /**
- * `merged`: the work is on main and no second session has seen it in the
+ * `merged`: the work is on the work branch and no second session has seen it in the
  * running game yet. Only `pool seen` (or the CTO, for work with no running-game
  * check) makes an item `done` (owner, Nov 3: "nothing is done until a second
  * session replays its finish line on main").
  */
-const ON_MAIN = ["merged", "done"];
-/** An `after:` gate opens when the item it names is on main: checkers never hold work. */
+const ON_WORK_BRANCH = ["merged", "done"];
+/** An `after:` gate opens when the item it names is on the work branch (dev): checkers never hold work. */
 export const gateOpen = (status: string | undefined): boolean =>
-  ON_MAIN.includes(status ?? "");
+  ON_WORK_BRANCH.includes(status ?? "");
 export const PRIORITIES = ["1", "2", "3"];
 /** A name git and the pool accept for a branch: no spaces, not starting with a dash. */
 const BRANCH = /^[\w.][\w./-]*$/;
@@ -366,7 +367,7 @@ export function buildIndex(
     "",
     "## Ready by model",
     "",
-    "What `npm run pool -- next` can take now, by the level each item names (an agent's tier maps to a level in tiers.json): open, checked by Fable, cause known, and waiting on nothing that is not on main. Each level counts only its own items; `next` takes lower levels when its own run out.",
+    "What `npm run pool -- next` can take now, by the level each item names (an agent's tier maps to a level in tiers.json): open, checked by Fable, cause known, and waiting on nothing that is not on the work branch. Each level counts only its own items; `next` takes lower levels when its own run out.",
     "",
     order.levels
       .map((l) => `**${l}:** ${ready.get(l)?.length ?? 0}`)
@@ -499,32 +500,32 @@ export function run(
   };
 }
 
-/** The index main's items would produce, without writing it. */
+/** The index the work branch's items would produce, without writing it. */
 export function buildIndexFor(poolDir: string): string {
   return run(poolDir, true, new Set(), { staleCheck: false }).index;
 }
 
 /**
- * The index is main's alone (pool-generated-index-merge-starvation): its count
+ * The index is the work branch's alone (pool-generated-index-merge-starvation): its count
  * line and lists change with every status, so any two branches that each wrote
  * it conflicted, and checked PRs starved. It is written only where the checkout
- * stands on main (a claim's push, the pool index workflow, the merge flip, a
- * seen check, each on a branch made at origin/main to push to it); a branch never
- * changes it. A checkout with no origin/main is its own main.
+ * stands on the work branch (a claim's push, the pool index workflow, the merge flip, a
+ * seen check, each on a branch made at origin/dev to push to it); a branch never
+ * changes it. A checkout with no origin/dev is its own work branch.
  */
 export function onIndexHome(): boolean {
   try {
-    git("rev-parse", "--verify", "-q", "origin/main");
+    git("rev-parse", "--verify", "-q", WORK_REF);
   } catch {
     return true;
   }
-  return git("rev-parse", "--abbrev-ref", "HEAD") === "main";
+  return git("rev-parse", "--abbrev-ref", "HEAD") === WORK_BRANCH;
 }
 
 /**
- * The index's part of `--check`. On main it must be current. On a branch it
- * must equal main's copy at the merge base: the branch changed nothing in it,
- * so no merge can conflict there, and the workflow on main regenerates it.
+ * The index's part of `--check`. On the work branch it must be current. On a branch it
+ * must equal the work branch's copy at the merge base: the branch changed nothing in it,
+ * so no merge can conflict there, and the workflow on the work branch regenerates it.
  */
 export function indexCheck(poolDir: string): string[] {
   const path = join(poolDir, "INDEX.md");
@@ -534,7 +535,7 @@ export function indexCheck(poolDir: string): string[] {
       ? []
       : ["docs/pool/INDEX.md is stale: run `npm run pool`"];
   }
-  const base = git("merge-base", "HEAD", "origin/main");
+  const base = git("merge-base", "HEAD", WORK_REF);
   const rel = git("ls-files", "--full-name", path) || "docs/pool/INDEX.md";
   let mains = "";
   try {
@@ -550,7 +551,7 @@ export function indexCheck(poolDir: string): string[] {
   return own === mains
     ? []
     : [
-        "docs/pool/INDEX.md is written on main only and this branch changes it: run `git checkout origin/main -- docs/pool/INDEX.md` (after merging main) and commit",
+        `docs/pool/INDEX.md is written on ${WORK_BRANCH} only and this branch changes it: run \`git checkout ${WORK_REF} -- docs/pool/INDEX.md\` (after merging ${WORK_BRANCH}) and commit`,
       ];
 }
 
@@ -647,13 +648,13 @@ function applyAndCommit(
     ? ["docs/pool/INDEX.md", `docs/pool/items/${id}.md`]
     : [`docs/pool/items/${id}.md`];
   git("add", ...files);
-  // Another writer (a merger, the CTO) may have made the same change on main
+  // Another writer (a merger, the CTO) may have made the same change on the work branch
   // between the read and the fetch; nothing to commit is then a finished job.
   if (!git("diff", "--cached", "--name-only")) return;
   git("commit", "-m", message, "--", ...files);
 }
 
-/** Runs `step` on a fresh branch at origin/main and pushes it to main, retrying a lost race. */
+/** Runs `step` on a fresh branch at origin/dev and pushes it to dev, retrying a lost race. */
 function onMain(tmp: string, step: () => void, beforePush?: () => void): void {
   const prev = git("rev-parse", "--abbrev-ref", "HEAD");
   let last: unknown;
@@ -661,18 +662,18 @@ function onMain(tmp: string, step: () => void, beforePush?: () => void): void {
     // A merge burst runs many flips at once; each loses the push race to the
     // one before it, so the retries cover a burst, not just a pair.
     for (let n = 0; n < 8; n++) {
-      git("fetch", "origin", "main");
-      git("checkout", "-B", tmp, "origin/main");
+      git("fetch", "origin", WORK_BRANCH);
+      git("checkout", "-B", tmp, WORK_REF);
       step();
       beforePush?.();
       try {
-        git("push", "origin", "HEAD:main");
+        git("push", "origin", `HEAD:${WORK_BRANCH}`);
         return;
       } catch (e) {
         last = e;
       }
     }
-    throw new Error(`push to main failed 8 times: ${String(last)}`);
+    throw new Error(`push to ${WORK_BRANCH} failed 8 times: ${String(last)}`);
   } finally {
     try {
       git("checkout", prev === "HEAD" ? "-" : prev);
@@ -684,8 +685,8 @@ function onMain(tmp: string, step: () => void, beforePush?: () => void): void {
 }
 
 /**
- * Regenerates the index on main from main's items and pushes it when it moved.
- * The pool index workflow runs it after every push to main that changes an item.
+ * Regenerates the index on the work branch from its items and pushes it when it moved.
+ * The pool index workflow runs it after every push to dev that changes an item.
  * Returns an error message or null.
  */
 export function reindex(): string | null {
@@ -855,7 +856,7 @@ function notesOnBranch(
       "diff",
       "--name-only",
       "--diff-filter=AM",
-      `origin/main...${ref}`,
+      `${WORK_REF}...${ref}`,
       "--",
       "docs/release/changes/",
     )
@@ -867,30 +868,30 @@ function notesOnBranch(
   }
 }
 
-/** Every change id already used on main: those listed in consumed-changes.json and the files in docs/release/changes/. */
+/** Every change id already used on the work branch: those listed in consumed-changes.json and the files in docs/release/changes/. */
 function usedNoteIds(): Set<string> {
   const used = new Set<string>();
   try {
     const j = JSON.parse(
-      git("show", "origin/main:docs/release/consumed-changes.json"),
+      git("show", `${WORK_REF}:docs/release/consumed-changes.json`),
     ) as { entries?: { changeIds?: string[] }[] };
     for (const e of j.entries ?? [])
       for (const c of e.changeIds ?? []) used.add(c);
   } catch {
-    /* no list on main */
+    /* no list on the work branch */
   }
   try {
     for (const f of git(
       "ls-tree",
       "--name-only",
-      "origin/main",
+      WORK_REF,
       "docs/release/changes/",
     )
       .split("\n")
       .filter(Boolean))
       used.add(f.replace(/^.*\//, "").replace(/\.md$/, ""));
   } catch {
-    /* no changes folder on main */
+    /* no changes folder on the work branch */
   }
   return used;
 }
@@ -1015,7 +1016,7 @@ const NEXT_USAGE =
 const startSubject = (id: string): string =>
   `${id}: start the branch with its release note`;
 
-/** Makes `branch` on origin from origin/main with one commit adding the item's release note, without touching the working tree. */
+/** Makes `branch` on origin from origin/dev with one commit adding the item's release note, without touching the working tree. */
 function startBranch(id: string, noteId: string, branch: string): void {
   const dir = mkdtempSync(join(tmpdir(), "pool-branch-"));
   const env = { ...process.env, GIT_INDEX_FILE: join(dir, "index") };
@@ -1028,7 +1029,7 @@ function startBranch(id: string, noteId: string, branch: string): void {
     }).trim();
   try {
     const blob = g(["hash-object", "-w", "--stdin"], releaseNote(noteId));
-    g(["read-tree", "origin/main"]);
+    g(["read-tree", WORK_REF]);
     g([
       "update-index",
       "--add",
@@ -1040,7 +1041,7 @@ function startBranch(id: string, noteId: string, branch: string): void {
       "commit-tree",
       tree,
       "-p",
-      "origin/main",
+      WORK_REF,
       "-m",
       startSubject(id),
     ]);
@@ -1056,7 +1057,7 @@ const when = (t: number): string =>
 
 /**
  * `npm run pool -- next`: releases quiet claims, takes the first claimable item
- * at the caller's level or the nearest level below, claims it on main, starts
+ * at the caller's level or the nearest level below, claims it on dev, starts
  * its branch and opens its draft pull request. Returns an error or null.
  */
 function next(
@@ -1134,7 +1135,7 @@ function next(
       return null;
     }
     return open > most
-      ? `The cap is on: ${open} game pull requests are open and the cap is ${most} (docs/pool/order.json). Only a red on main, a rule, a check or a skill is handed out. Otherwise take no new item: fix what a desk sent back on your own pull requests, bring your open pull requests up to main, then stop and say so (skill pool-notes).`
+      ? `The cap is on: ${open} game pull requests are open and the cap is ${most} (docs/pool/order.json). Only a red on dev, a rule, a check or a skill is handed out. Otherwise take no new item: fix what a desk sent back on your own pull requests, bring your open pull requests up to main, then stop and say so (skill pool-notes).`
       : null;
   };
   const capLine = capped();
@@ -1176,7 +1177,7 @@ function next(
     );
     let started = "";
     try {
-      started = git("log", "--format=%s", `origin/main..origin/${branch}`);
+      started = git("log", "--format=%s", `${WORK_REF}..origin/${branch}`);
     } catch {
       /* no branch yet */
     }
@@ -1186,7 +1187,7 @@ function next(
     return null;
   }
 
-  stage("Releasing quiet claims, choosing the item and claiming it on main.");
+  stage("Releasing quiet claims, choosing the item and claiming it on dev.");
   let taken: Item | null = null;
   let released: Stale[] = [];
   onMain(
@@ -1256,7 +1257,7 @@ function next(
   stage(`Starting the branch ${branch}.`);
   try {
     git("fetch", "-q", "origin", branch);
-    started = git("log", "--format=%s", "origin/main..FETCH_HEAD")
+    started = git("log", "--format=%s", `${WORK_REF}..FETCH_HEAD`)
       .split("\n")
       .filter(Boolean);
   } catch {
@@ -1291,7 +1292,7 @@ function next(
     const title = prTitle(item.id, item.title);
     const body = prBody(
       item.id,
-      git("show", `origin/main:docs/pool/items/${item.id}.md`),
+      git("show", `${WORK_REF}:docs/pool/items/${item.id}.md`),
       readFileSync(template, "utf8"),
       readFileSync(startPage, "utf8"),
     );
@@ -1309,7 +1310,7 @@ function next(
             "--head",
             branch,
             "--base",
-            "main",
+            WORK_BRANCH,
             "--title",
             title,
             "--body-file",
@@ -1345,7 +1346,7 @@ function next(
       io.out(`Pull request title: ${title}`);
       io.out(`Pull request body file: ${bodyFile}`);
       io.out(
-        `Open a draft pull request from ${branch} to main with that title and body, then record it: npm run pool -- claim ${item.id} --branch ${branch} --pr <number>`,
+        `Open a draft pull request from ${branch} to ${WORK_BRANCH} with that title and body, then record it: npm run pool -- claim ${item.id} --branch ${branch} --pr <number>`,
       );
     }
   } else io.out(`Pull request: ${pr}`);
@@ -1473,7 +1474,7 @@ export function command(
           throw new Error(`${id} was already seen by ${fm["seen-by"]}`);
         if (fm.status !== "merged" && fm.status !== "done")
           throw new Error(
-            `${id} is ${fm.status}, not merged; only work on main can be seen in the game`,
+            `${id} is ${fm.status}, not merged; only work on the work branch can be seen in the game`,
           );
         // Only the confirmation needs a second session: a builder who finds
         // their own work missing may say so, since that never moves the number.
@@ -1586,10 +1587,10 @@ if (
     }
     console.log(
       check
-        ? "pool items are valid and the index is main's"
+        ? "pool items are valid and the index is the work branch's"
         : home
           ? "pool index written"
-          : "pool items are valid; the index is written on main only, by the pool index workflow",
+          : "pool items are valid; the index is written on the work branch only, by the pool index workflow",
     );
   }
 }

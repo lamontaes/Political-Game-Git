@@ -68,7 +68,7 @@ export function compareYears(
       problems.push(
         `Year ${after.year}: ${after.seconds.toFixed(3)}s exceeds ${(
           before.seconds * SLOWER_LIMIT
-        ).toFixed(3)}s (105% of main)`,
+        ).toFixed(3)}s (105% of the work branch)`,
       );
     if (requireIdentical && before.fingerprint !== after.fingerprint) {
       if (!before.tables || !after.tables)

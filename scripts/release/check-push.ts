@@ -1,4 +1,5 @@
 import { execFileSync } from "node:child_process";
+import { WORK_REF } from "../branches.mjs";
 
 /**
  * Will the gate accept the push I am about to make?
@@ -42,9 +43,9 @@ function main(): void {
      * the merge-base with the default branch for a first push, and so does
      * this: guessing an empty base would declare every commit in history.
      */
-    base = git("merge-base", "origin/main", "HEAD");
+    base = git("merge-base", WORK_REF, "HEAD");
     console.log(
-      `release:check-push — no upstream for ${branch}; using merge-base with origin/main.`,
+      `release:check-push — no upstream for ${branch}; using merge-base with ${WORK_REF}.`,
     );
   }
 

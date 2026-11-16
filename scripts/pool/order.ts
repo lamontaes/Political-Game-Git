@@ -19,7 +19,7 @@ export interface OrderKind {
 /**
  * What the player sees comes first (order.json `visible`; owner, Nov 11,
  * 2026). `first` names the classes that still come before everything, `reds`
- * is a pattern for the ids of reds on main, and `playKind` names the kind of
+ * is a pattern for the ids of reds on dev, and `playKind` names the kind of
  * work (order.json `kinds`) that leads the seen items.
  */
 export interface OrderVisible {
@@ -31,7 +31,7 @@ export interface OrderVisible {
 /**
  * The cap on new work (order.json `cap`; owner, Nov 11, 2026): while more
  * than `openGamePullRequests` game pull requests are open, `next` hands out
- * only what still comes first (a red on main, a rule, a check or a skill).
+ * only what still comes first (a red on dev, a rule, a check or a skill).
  */
 export interface OrderCap {
   why?: string;
@@ -103,7 +103,7 @@ export function classOf(i: Row, order: Order): number {
 
 /**
  * Where an item stands by what the player sees of it (order.json `visible`):
- * 0 a red on main or a class that still comes first (rules, checks and
+ * 0 a red on dev or a class that still comes first (rules, checks and
  * skills); 1 play or screens work whose What says `Seen:` or says none of
  * the three; 2 any other `Seen:` item; 3 `Feeds:`; 4 `Guards:`; 5 any other
  * item that says none of them. Every item is 0 when the order has no `visible`. The
@@ -205,8 +205,8 @@ const ONLY_JOINERS =
 
 /**
  * Whether `next` may take an item: open, checked by Fable, cause known, every
- * `after:` on main, and a Waits on that says Nothing or names only items that
- * are all on main. `onMain` holds the ids of merged and done items.
+ * `after:` on dev, and a Waits on that says Nothing or names only items that
+ * are all on dev. `onMain` holds the ids of merged and done items.
  */
 export function claimable(
   i: Row,

@@ -1,5 +1,5 @@
 name: Pool done on merge
-# A merged pull request flips its pool item to merged on main, so no merger step can be skipped.
+# A merged pull request flips its pool item to merged on dev, so no merger step can be skipped.
 # Merged is not done: a second session makes it done with `pool seen` (owner, Nov 3).
 on:
   pull_request:
@@ -9,23 +9,23 @@ permissions:
 # One group per pull request. A shared group lets GitHub hold only one pending
 # run, and each newer merge canceled the one waiting (303 of 400 runs on Oct
 # 20-23), so the items stayed in-pr. The pool command's own fetch-and-retry on
-# the push is what keeps two flips from racing for main.
+# the push is what keeps two flips from racing for dev.
 concurrency:
   group: pool-done-on-merge-${{ github.event.pull_request.number }}
   cancel-in-progress: false
 jobs:
   flip:
-    # Only merges into main flip an item; a fixer merged into another PR's branch does not.
-    if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'main'
+    # Only merges into dev flip an item; a fixer merged into another PR's branch does not.
+    if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'dev'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: main
-          # Branch protection refuses a push to main from the workflow token
+          ref: dev
+          # Branch protection refuses a push to dev from the workflow token
           # (GH006: required status checks), so the flip pushes with the
-          # owner's token, as the release publish does. The job runs main's
+          # owner's token, as the release publish does. The job runs dev's
           # code, never the pull request's, so the token meets no PR code.
           token: ${{ secrets.RELEASE_PUSH_TOKEN || github.token }}
       - uses: actions/setup-node@v4

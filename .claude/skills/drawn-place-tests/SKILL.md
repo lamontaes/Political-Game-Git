@@ -5,14 +5,14 @@ description: >
   a renter, a named person the law covers, a body of three seats) finds one by
   drawing places and waiting, and says what it passed over, so it never fails
   or passes by the luck of the draw. Use when writing or fixing any test that
-  builds a played world, and when a test is red "by seed" on main. Not for
+  builds a played world, and when a test is red "by seed" on dev. Not for
   proving a feature in a played year (played-world-proof) or for reading a red
-  on main from its log (red-main).
+  on dev from its log (red-main).
 ---
 
 # Tests that draw their place
 
-A test that builds a world draws its place from all 56 (`drawPlace` in `scripts/core2-year/place.ts`) and names the place and seed in every message. That rule (`AGENTS.md`, "One rule, all 56 places") has a trap: the place drawn may not hold the case the test needs. On Nov 10, 2026 three reds on main were this trap and none was a defect in the game.
+A test that builds a world draws its place from all 56 (`drawPlace` in `scripts/core2-year/place.ts`) and names the place and seed in every message. That rule (`AGENTS.md`, "One rule, all 56 places") has a trap: the place drawn may not hold the case the test needs. On Nov 10, 2026 three reds on dev were this trap and none was a defect in the game.
 
 ## The three ways it goes wrong
 
@@ -28,7 +28,7 @@ A test that builds a world draws its place from all 56 (`drawPlace` in `scripts/
 3. **Choose the person from the people the case covers.** When the test needs a named person with a trait, read who qualifies among all residents, named or counted, and build the place again with one of them as the player. Do not redraw places until a named person happens to qualify.
 4. **Name every place passed over,** with the date reached and the reason (each refusal's rule, each count that was zero). A reader of the log must be able to tell a thin place from a defect.
 5. **Fail by name when nothing is found.** After the last draw, throw with the whole list. Never `return` early, and never mark the test skipped: a test that passes without checking proves nothing.
-6. **Never pin a place or a seed** to get green. A pinned world breaks the day main changes the world. A named place appears only as a labeled case beside the drawn ones.
+6. **Never pin a place or a seed** to get green. A pinned world breaks the day dev changes the world. A named place appears only as a labeled case beside the drawn ones.
    On the train (Nov 13 to 14) the Account lead requires tests that gate a PR to be pinned in the test file to named places and fixed seeds so they are never red by draw; see `pinned-tests`. The CTO reconciles the two. Reading of the history: this skill's tests hunt for faults across the 56 places, so a drawn place is the point; a pinned test only gates a PR on one known case.
 7. **Change no assertion.** The search for a witness changes; what is asserted about it does not.
 8. **Print the place with `process.stdout.write`, never `console.log`.** The runner swallows `console.log`, so a passing test that logs its place and its passed-over list shows nothing (found Nov 12, #8580 and #8567). A pass line names the place used, its seed and every place passed over, on stdout.

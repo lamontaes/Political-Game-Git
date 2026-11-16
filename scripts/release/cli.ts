@@ -31,6 +31,7 @@ import {
 } from "./transaction";
 import { parseVersion } from "./version";
 import type { ReleasePlan } from "./model";
+import { WORK_REF } from "../branches.mjs";
 
 export const REPO_ROOT = process.cwd();
 
@@ -174,7 +175,7 @@ function declarationComparison(
   const base =
     baseFlag ??
     process.env.RELEASE_DECLARATION_BASE ??
-    gitRevision(root, ["rev-parse", "origin/main"]) ??
+    gitRevision(root, ["rev-parse", WORK_REF]) ??
     gitRevision(root, ["rev-parse", "HEAD^"]) ??
     head;
   return { base, head, mode };

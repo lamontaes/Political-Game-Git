@@ -9,7 +9,7 @@ A law is explained only when its authority, recorded changes and consequences ca
 
 ## Trace
 
-Pin main and any candidate branch separately. Inventory assigned production catalog IDs and out-of-catalog modules. Cross-link overlapping topics to their owner instead of duplicating implementation. Read the current feature-walkthrough skill for the broader hand-back and run its why-chain before reporting.
+Pin dev and any candidate branch separately. Inventory assigned production catalog IDs and out-of-catalog modules. Cross-link overlapping topics to their owner instead of duplicating implementation. Read the current feature-walkthrough skill for the broader hand-back and run its why-chain before reporting.
 
 Follow enactment to canonical law-in-force records, effective dates, producers, affected people, money or services, knowledge and player consumers. Ask why each transition occurs until it reaches recorded circumstances, researched behavior, an authored stand-in, a draw or an absent producer. A catalog entry or passing fixture alone does not establish a working effect.
 
@@ -37,4 +37,4 @@ Start with law ID/name, owner, source head and candidate head, then:
 5. **Gap and fix:** smallest existing-system number, wiring or record repair; separate new features for owner review.
 6. **Proof:** the law's row from `scripts/law-wiring/check.ts` (or another executed run) naming whose money or outcome changed and by how much; otherwise NOT RUN with the missing check.
 
-Finish with one status: works, fixed tonight, needs research or needs a feature. Qualify source-only versus watched proof, and candidate versus landed. Include exact changed-file checks, failures, ownership dependencies and next action. Open each fix as a ready PR against main; the mergers merge it.
+Finish with one status: works, fixed tonight, needs research or needs a feature. Qualify source-only versus watched proof, and candidate versus landed. Include exact changed-file checks, failures, ownership dependencies and next action. Open each fix as a ready PR against dev; the mergers merge it.

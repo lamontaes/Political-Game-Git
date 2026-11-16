@@ -36,6 +36,7 @@ import { addDays, makeIsoDate } from "../../src/core2/kernel/dates";
 import { advanceCore } from "../../src/core2/life";
 import { corePlaceByKey } from "../../src/core2/place-lookup";
 import { drawPlace } from "../core2-year/place";
+import { WORK_REF } from "../branches.mjs";
 import {
   compareYears,
   recordsKept,
@@ -83,11 +84,11 @@ const receipt = (): SpeedReceipt => ({
   place: placeKey,
   stepDays: 365,
   head: git("rev-parse", "HEAD"),
-  // Main's commit only when src and data match it exactly.
+  // The work branch's commit (the receipt key stays `sourceMain`) only when src and data match it exactly.
   sourceMain: (() => {
     try {
-      git("diff", "--quiet", "origin/main", "--", "src", "data");
-      return git("rev-parse", "origin/main");
+      git("diff", "--quiet", WORK_REF, "--", "src", "data");
+      return git("rev-parse", WORK_REF);
     } catch {
       return null;
     }

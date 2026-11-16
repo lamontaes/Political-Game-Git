@@ -55,7 +55,7 @@ What makes it his game: the people are the ones he made, nobody stands around wi
 29. `play-first-18-politics-guide` [open] · 3 h · A Guide in Politics says what each tab is and how he could run here.
 30. `play-stop-18-race-line-unreadable` [open] · 2 h · Campaigns says in a sentence how the race stands and who he is running against.
 31. `play-first-13-campaign-screen-to-mock-a` [open, after 18-race-line-unreadable] · 3 h · Campaigns appears once he files, headed in words, standing and polls only, no ON-BALLOT code or stray 0.
-32. `play-stop-04-filing-panel-runs-off-screen` [open] · 1 h · The filing panel fits, scrolls inside, party and positions on screen. · #5888 merged after the tested build: verify on main in a drawn place; if it holds, screenshot and hand to the merger.
+32. `play-stop-04-filing-panel-runs-off-screen` [open] · 1 h · The filing panel fits, scrolls inside, party and positions on screen. · #5888 merged after the tested build: verify on dev in a drawn place; if it holds, screenshot and hand to the merger.
 33. `play-stop-16-identical-council-seat-choices` [open] · 2 h · Each council choice names its seat, its date and who holds it now. · #5888 merged ("Council member (2025, 1)"): finish with the incumbent and plain words.
 34. `play-first-08-news-box-fades-or-dismisses` [open] · 2 h · The news toast fades or goes with one click.
 35. `play-stop-10-two-unemployment-rates-one-night` [done #6105] · 2 h · Every unemployment rate names where it applies.

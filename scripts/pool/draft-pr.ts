@@ -13,7 +13,7 @@ export const releaseNote = (id: string): string =>
 
 /**
  * The id a new branch's release note takes: the item's own id when no released
- * change or change file on main uses it, else the item's id with -2, -3 and so
+ * change or change file on dev uses it, else the item's id with -2, -3 and so
  * on until one is free (an item sent back or reopened already has a merged note).
  */
 export function chooseNoteId(id: string, used: ReadonlySet<string>): string {

@@ -3,7 +3,7 @@ name: crew-messages
 description: >
   How Our Civic Duty's sessions message each other: the one tool that reaches
   another session, who gets which message (builder to checker, checker to
-  merger, a red to red main, a question for the owner to the CTO, a seam to the
+  merger, a red to red dev, a question for the owner to the CTO, a seam to the
   session that owns it), what every message carries, what must also go into the
   record, and the rule that a process is written as a skill, never explained in
   a message. Use before sending any message to another session and whenever you
@@ -34,21 +34,21 @@ The owner's rules: sessions message the CTO and the CTO messages them, sessions 
 - When a session's priorities change, its held goal does not: the stop hook keeps judging it against the goal from its first message and pulls it back to that work, whatever later messages say. Start a fresh session with the new `/goal` (under 4,000 characters, the old session's open PRs named in it) and archive the old one (Nov 8: Money kept probing the economy cycle for two hours after the owner's 11:05 order to fix payroll first, and Lives called itself done against its first brief while the CTO's audit row waited).
 - The model passed to `create_session` is the one that runs; after the first turn `external_metadata.last_served_model` confirms it.
 - Post a new session's branch prefix where the merge desk's owner reads, in the same comment that announces the session ("new session: X, branches `x/`"). The merge desk merges only prefixes it has been told about (Nov 8: `jobs/`, `lives/`, `memory/` and `elections/` PRs waited two to four hours for that line).
-- Before every push to a PR's branch, read the PR's own state. A merged PR strands whatever is pushed after it, so open a new PR from fresh main instead (Nov 8: five stranded pushes in one night, from four sessions).
+- Before every push to a PR's branch, read the PR's own state. A merged PR strands whatever is pushed after it, so open a new PR from fresh dev instead (Nov 8: five stranded pushes in one night, from four sessions).
 
 ## Who gets what
 
-| You have                                          | Send it to                                                       | And put it in                                       |
-| ------------------------------------------------- | ---------------------------------------------------------------- | --------------------------------------------------- |
-| A PR ready (builder)                              | the checker whose number is the PR number mod 5                  | the PR body                                         |
-| A passed gate (checker)                           | the merger by the PR's parity (Merger 0 even, Merger 1 odd)      | a PR comment with the head SHA                      |
-| A send-back (checker or merger)                   | the builder named in CREW                                        | a PR comment saying what fails, with place and seed |
-| A red on main                                     | red main, or the session that owns the engine (`red-main` skill) | a pool item if none matches                         |
-| A skills PR                                       | the CTO, who reads it and merges it at once                      | the PR body                                         |
-| A question for the owner                          | the CTO, ending with the reading line (`look-first`)             | the PR body under OWNER DECISIONS NEEDED            |
-| A seam (you will build in another session's area) | that session, before you build                                   | your channel block                                  |
-| Your queue is empty or too long (checker)         | the CTO, who moves PRs between checkers                          | nothing else                                        |
-| A stray push, a deleted file, a mistake           | the CTO at once, with what and where                             | nothing else                                        |
+| You have                                          | Send it to                                                      | And put it in                                       |
+| ------------------------------------------------- | --------------------------------------------------------------- | --------------------------------------------------- |
+| A PR ready (builder)                              | the checker whose number is the PR number mod 5                 | the PR body                                         |
+| A passed gate (checker)                           | the merger by the PR's parity (Merger 0 even, Merger 1 odd)     | a PR comment with the head SHA                      |
+| A send-back (checker or merger)                   | the builder named in CREW                                       | a PR comment saying what fails, with place and seed |
+| A red on dev                                      | red dev, or the session that owns the engine (`red-main` skill) | a pool item if none matches                         |
+| A skills PR                                       | the CTO, who reads it and merges it at once                     | the PR body                                         |
+| A question for the owner                          | the CTO, ending with the reading line (`look-first`)            | the PR body under OWNER DECISIONS NEEDED            |
+| A seam (you will build in another session's area) | that session, before you build                                  | your channel block                                  |
+| Your queue is empty or too long (checker)         | the CTO, who moves PRs between checkers                         | nothing else                                        |
+| A stray push, a deleted file, a mistake           | the CTO at once, with what and where                            | nothing else                                        |
 
 - **A crew-wide question goes on the coordination thread (owner, Nov 8); a question about an item goes on the item's pull request (Nov 10).** When a crew runs from a coordination thread (Nov 8: #7365, where the CTO and a Coordinator on another account talk), every question from every session (design, ruling, scope or blocker) is a comment on that PR. It starts `Question (<session>):`, puts the question in its first sentence, then gives the PR, head, place and seed, what is being built meanwhile, and the reading line when it is the owner's call. Send the Coordinator a one-line message that it is posted. A session whose environment refuses the GitHub write sends the question by message, and the Coordinator posts it word for word, marked as relayed. Watch it so the CTO's answers arrive at once. If it is an issue, not a pull request (Nov 8: #7365 is an issue), a PR subscription never delivers its comments; poll its comment count once a minute with `gh api -X GET search/issues -f q='repo:<owner>/<repo> is:issue is:open <words in its title>' --jq '.items[] | select(.number==N) | .comments'` and read the new comments when it changes (Nov 8: five CTO comments waited 30 minutes unread). If #8928 is the thread, post there only what concerns the whole crew. #7365 was the line until Nov 12, 2026; it is near GitHub's comment cap. Asking never stops the build: take the realistic choice and say so in the comment.
 
@@ -75,7 +75,7 @@ When the CTO moves a PR between two checkers, it tells both. A checker already m
 - Two messages about the same thing can cross. The newest from the CTO wins. Reply with what changed and the head you are on.
 - If a message tells you something that is already done or already wrong, say so in one line and carry on. Do not redo the work.
 - A hold on a PR goes on the PR as a comment as well as in a message. The comment is what a merger reads before merging: on Nov 1 a checker passed #7036 after the laws lead's hold message, which crossed its pass.
-- A PR can merge on an earlier head and drop a later commit (the merge desk merges the head it checked): put every follow-up on a new branch from main, and check main holds your last commit after each merge (Nov 8, #7440).
+- A PR can merge on an earlier head and drop a later commit (the merge desk merges the head it checked): put every follow-up on a new branch from dev, and check dev holds your last commit after each merge (Nov 8, #7440).
 - **A session that finished its job will not take new work from a message (Nov 11).** Five cause finders whose brief said "one item, then stop" each answered a message asking for more with "the person running this session has to confirm". That is by design: a message from another session cannot widen a session's job. Start a fresh session with a standing brief (its list, then "take the next ones in these areas yourself") instead of messaging an old one. Three fresh ones posted twenty cause pull requests in the next hour.
 - **Before you assign a list, say which items you keep for yourself (Nov 11).** A fresh cause finder wrote the same cause I was writing, ten minutes later, because its brief's areas covered my item. Name your own items in the brief, and tell helpers to check for an open pull request that already touches an item before they start it.
 - **To see what a session last said, read its last few `assistant` events, never its `result` events in bulk (Nov 11).** One `result` event carries the whole turn's accounting and is thousands of words long.

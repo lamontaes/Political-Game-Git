@@ -2,25 +2,25 @@ name: Release package
 
 # WHEN THIS RUNS, AND HOW TO ASK FOR IT (owner, Oct 27, 2026)
 #
-# Builds, validates and PUBLISHES the newest main, then packages the Mac and
+# Builds, validates and PUBLISHES the newest dev, then packages the Mac and
 # Windows desktop apps and publishes the GitHub release the installed app's
 # Check for Updates reads. It runs:
 #   - every two hours on a schedule (GitHub cron can lag; that is fine), and
 #   - on workflow_dispatch: Actions > "Release package" > Run workflow, or
-#     `gh workflow run release-package.yml --ref main`.
-# It is never started by a push to main, so merges cannot starve it, and one
+#     `gh workflow run release-package.yml --ref dev`.
+# It is never started by a push to dev, so merges cannot starve it, and one
 # concurrency group that never cancels means a merge, another schedule tick or
 # a second request cannot cancel or supersede a run already going. The per-push
 # Release run (release.yml) only validates; publishing happens here.
 #
 # Steps: (1) `candidate` (release-candidate.yml, publish true) builds and
-# validates the newest main and pushes the version commit, retrying when main
+# validates the newest dev and pushes the version commit, retrying when dev
 # moved, and writes the `publish-record` artifact (version, candidateSha,
 # bundleSha256, sourceSha, published commit). A red candidate stops the run.
 # (2) `find_candidate` takes that candidate, or, when nothing new needed a
 # version commit, the newest earlier record not yet released. If its version
 # already has a GitHub release it exits cleanly and says so. (3) The apps are
-# packaged from exactly that published commit, never a newer main, played
+# packaged from exactly that published commit, never a newer dev, played
 # once by the smoke test (unchanged) and published. See docs/release/README.md.
 
 on:
@@ -32,7 +32,7 @@ permissions:
   contents: read
 
 # One package at a time, and a running one is never canceled: a later tick or
-# request waits (GitHub keeps only the newest pending), and no push to main
+# request waits (GitHub keeps only the newest pending), and no push to dev
 # starts this workflow at all.
 concurrency:
   group: release-package
@@ -40,8 +40,8 @@ concurrency:
 
 jobs:
   candidate:
-    name: Build, validate and publish the newest main
-    # The called workflow's publish job writes the version commit to main and
+    name: Build, validate and publish the newest dev
+    # The called workflow's publish job writes the version commit to dev and
     # lists runs; its build and validation jobs stay read only.
     permissions:
       actions: read
@@ -96,7 +96,7 @@ jobs:
           else
           # Nothing new needed a version commit: look for the newest earlier
           # record that never got its release (a package that failed or lagged).
-          runs="$(gh api "repos/${GITHUB_REPOSITORY}/actions/workflows/release-package.yml/runs?branch=main&status=completed&per_page=40" --jq '.workflow_runs[].id')"
+          runs="$(gh api "repos/${GITHUB_REPOSITORY}/actions/workflows/release-package.yml/runs?branch=dev&status=completed&per_page=40" --jq '.workflow_runs[].id')"
           for id in $runs; do
             artifact="$(gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${id}/artifacts?name=publish-record" --jq '.artifacts | map(select(.expired == false)) | .[0].id // empty')"
             [[ -n "$artifact" ]] || continue

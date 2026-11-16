@@ -338,7 +338,7 @@ md.push(
   "A scene is kept when an engine's record causes it, it writes something back that another engine reads, and the player can reach it. Scenes whose matter is a tie (family, friends, a quarrel) write back through the closeness engine, which is the right reader; scenes whose matter is a vote, a bill, a race or a law must be read by that engine, and one that writes only time together is a scene that only talks.",
 );
 md.push("");
-md.push(`Judged against ${doc.judgedAgainst ?? "main"}.`);
+md.push(`Judged against ${doc.judgedAgainst ?? "dev"}.`);
 md.push("");
 md.push("## The golden path, scene by scene");
 md.push("");

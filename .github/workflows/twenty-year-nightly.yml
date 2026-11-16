@@ -1,5 +1,5 @@
 name: Twenty year nightly
-# One long game on main, in a place drawn fresh each night from all 56, played
+# One long game on dev, in a place drawn fresh each night from all 56, played
 # to the end: seconds, heap after a collection and records kept for each year,
 # and the sense checks (more jobs than adults, a negative count, the country
 # tier's impossible counts). The table goes to the run summary and the JSON

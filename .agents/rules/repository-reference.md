@@ -17,11 +17,11 @@ Commands and lasting technical constraints. `AGENTS.md` holds the rules; consult
 - `npm run typecheck`, `npm run lint`, `npm run build`: whole-project checks. Run eslint and prettier on changed files for a PR.
 - `npm run test`: the full vitest run. `npm run validate`: the full suite. Neither is a PR gate; run the tests for changed files.
 - `npm run zero-dice`: the dice guard. `npm run old-imports`: refuses any import of the deleted old core (`src/simulation`, gone Oct 28).
-- `npm run tests:load`: loads every tracked test file's imports, in order, and every golden-path command's script in fresh processes (about 18 minutes on 4 cores, so it runs in the hourly validate run on main, not in a PR gate). Prints each file that cannot load with its first error line.
+- `npm run tests:load`: loads every tracked test file's imports, in order, and every golden-path command's script in fresh processes (about 18 minutes on 4 cores, so it runs in the hourly validate run on dev, not in a PR gate). Prints each file that cannot load with its first error line.
 - `npm run speed:year`: four timed years of the played world, an election year among them (two-minute limit for each year, no more than 20% slower than its base; CTO, Oct 30), with each year's memory and records kept.
 - `npm run all-places`: the played world in all 56 places (cloud only).
 - `npm run pool` and `npm run pool -- --check | claim | status | add`: the pool (`docs/pool/README.md`).
-- `npm run release:declare -- <id>`: declare a change for the player-facing notes. `npm run release:check` (`-- --mode pr` for a PR) validates declarations and versions. `npm run release:preview` shows what the next push to `main` would release.
+- `npm run release:declare -- <id>`: declare a change for the player-facing notes. `npm run release:check` (`-- --mode pr` for a PR) validates declarations and versions. `npm run release:preview` shows what the next push to `dev` would release.
 - `npm run stopgaps:report`: the open stopgaps.
 - `npm run spelling` (American English), `npm run wording:check` (player wording), `npm run report:check -- <file>` (owner reports).
 - `npm run agent:preflight`, `npm run agent:test-cadence`: workspace facts, and focused commands for changed files. `npm run test:skill-ops`: the instruction-file contract (skills, mirrors, these rules).
@@ -33,7 +33,7 @@ Commands and lasting technical constraints. `AGENTS.md` holds the rules; consult
 - Keep jurisdiction rules and sourced facts in data; never name a state, city or GEOID in logic.
 - Preserve stable IDs, keyed generation, established facts and append-only history.
 - Update the affected docs and tests with a behavior change.
-- Every eligible change declares `impact: patch`, `minor` or `none` once in `docs/release/changes/`. `package.json` `version` and `PATCH_NOTES.md` are advanced only by the release on `main`, never by a branch or an agent. See [Releases](../../docs/release/README.md).
+- Every eligible change declares `impact: patch`, `minor` or `none` once in `docs/release/changes/`. `package.json` `version` and `PATCH_NOTES.md` are advanced only by the release on `dev`, never by a branch or an agent. See [Releases](../../docs/release/README.md).
 - Use no proprietary code, assets, text or implementation from other games.
 
 ## Art and asset constraints

@@ -1,7 +1,7 @@
 ---
 name: merge-audit
 description: >
-  Audits pull requests already merged into Our Civic Duty's main: fans the
+  Audits pull requests already merged into Our Civic Duty's dev: fans the
   diffs out to read-only reviewers with a fixed checklist, verifies the bad
   findings, files the fixes and folds the lessons into the merger skill. Use
   after a merger runs unattended, after any merger or skill change, or when
@@ -43,6 +43,6 @@ Who merges and who checks is in `docs/coordination/CREW.md` (mergers split by PR
 5. **File:**
    - Fixes owned by a running lead session go to that session: a pool item with `lead:` set and a line in the CTO section of the channel (`how-we-talk`); a message to that session may follow but never replaces the record (owner, Oct 29).
    - Everything else goes into one pool item, `release-merge-audit-<date>-fixes`: area release, kind bug, priority 1, numbered fixes, and every field the item standard asks for (`standard: 2`, a Cause beginning `Found in code:` with file and line, a Fix, a time box, model and effort, Rules, and a Done when a second session can see), so it can be built from the item alone. Set `checked: fable` only if Fable's review has checked it; otherwise say it waits for the check.
-   - A defect on main that blocks others (a red test) is priority 1 on its own.
+   - A defect on dev that blocks others (a red test) is priority 1 on its own.
 6. **Fix the cause:** add each new class of slip to "What went wrong before" in `merger`, in both `.agents/skills/merger/` and `.claude/skills/merger/`.
 7. **Report:** counts of good, concerns and bad, per merger (their comment prefixes tell them apart); the bad ones in plain words; and where each fix went.

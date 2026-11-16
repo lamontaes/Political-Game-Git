@@ -10,7 +10,7 @@
 #
 #   scripts/storage/helper-checkout.sh new <dir> <branch> [--keep-images]
 #       A sparse copy at <dir> (outside the main checkout), on <branch>: the
-#       remote branch if it exists, otherwise a new branch from origin/main.
+#       remote branch if it exists, otherwise a new branch from origin/dev.
 #   scripts/storage/helper-checkout.sh narrow <dir> [--keep-images]
 #       Turns an existing full worktree or clone at <dir> sparse in place;
 #       edits and commits are kept.
@@ -74,7 +74,7 @@ case $mode in
       start=$(git -C "$main" rev-parse FETCH_HEAD)
       remote=yes
     else
-      git -C "$main" fetch --quiet origin main
+      git -C "$main" fetch --quiet origin dev
       start=$(git -C "$main" rev-parse FETCH_HEAD)
       remote=no
     fi

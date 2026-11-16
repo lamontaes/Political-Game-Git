@@ -26,9 +26,9 @@ describe("the pool flips to merged when a pull request merges", () => {
     expect(workflow).not.toContain("pull_request_target");
   });
 
-  it("works on main with write access and the existing pool command", () => {
+  it("works on dev with write access and the existing pool command", () => {
     expect(workflow).toContain("contents: write");
-    expect(workflow).toContain("ref: main");
+    expect(workflow).toContain("ref: dev");
     expect(workflow).toContain("scripts/pool/done-on-merge.ts");
     expect(workflow).toContain("name: Flip the pool item to merged");
     // A group per pull request: a shared group let each newer merge cancel the
@@ -38,7 +38,7 @@ describe("the pool flips to merged when a pull request merges", () => {
       "group: pool-done-on-merge-${{ github.event.pull_request.number }}",
     );
     expect(workflow).toContain("cancel-in-progress: false");
-    // Branch protection refuses the workflow token's push to main (GH006), so
+    // Branch protection refuses the workflow token's push to dev (GH006), so
     // the checkout that the flip pushes through carries the owner's token.
     expect(workflow).toContain(
       "token: ${{ secrets.RELEASE_PUSH_TOKEN || github.token }}",

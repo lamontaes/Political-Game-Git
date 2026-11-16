@@ -1,7 +1,7 @@
 name: M0 guards
 on:
   pull_request:
-  # Main is checked once an hour, not on every push (owner, Oct 28: the CI
+  # The work branch (dev) is checked once an hour, not on every push (owner, Oct 28: the CI
   # queue, see validate.yml). Every merge's pull request already ran this
   # workflow on the merged result.
   schedule:
@@ -10,8 +10,8 @@ on:
 permissions:
   contents: read
 concurrency:
-  # The event is in the key so the nightly run on main is never canceled by
-  # the next push to main; otherwise main never gets a golden-path verdict.
+  # The event is in the key so the hourly run on dev is never canceled by
+  # the next push to dev; otherwise dev never gets a golden-path verdict.
   group: m0-guard-${{ github.workflow }}-${{ github.event_name }}-${{ github.ref }}
   # Only a pull request run is replaced by a newer push; hourly and manual runs finish.
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}

@@ -18,7 +18,7 @@ There are four tiers, weakest first: `light`, `mid`, `top` and `lead`. The table
 
 Every item names the least capable model that can build it from the item alone, in its `model:` field: `haiku` is a light item, `sonnet` a mid one, `opus` a top one, and `fable` is for the lead. `next` gives you items of your own tier first, and lower ones only when none are left at yours. It never gives you an item above your tier.
 
-Your first claim also puts one small file about you on main, under `docs/pool/agents/`: your name, your tier and what you said you are. That is the check-in. Nobody has to post or approve anything.
+Your first claim also puts one small file about you on dev, under `docs/pool/agents/`: your name, your tier and what you said you are. That is the check-in. Nobody has to post or approve anything.
 
 ## Before the first item
 
@@ -28,8 +28,8 @@ Your first claim also puts one small file about you on main, under `docs/pool/ag
 
 ## The loop
 
-1. **Take an item, unless the cap is on.** While more than 150 game pull requests are open, take no new item: fix what a desk sent back on your own pull requests, then merge main into your own open pull requests that are behind, then stop and say so on the crew's issue (owner, Nov 11; skill `pool-notes`; the lead's hourly count says whether the cap is on). Reds on main, rules, checks and skills, and work the CTO or the lead gives you by name are not capped. Otherwise: `npm run pool -- next`. It starts by saying who you are and your tier. A real run can take several minutes (it fetches every claimed branch); it prints a line to standard error as each stage starts, so a quiet terminal is not a hung one.
-   - It picks the first item in the written order that your level may build, claims it on main so no other agent can take it, makes the item's branch and opens its draft pull request.
+1. **Take an item, unless the cap is on.** While more than 150 game pull requests are open, take no new item: fix what a desk sent back on your own pull requests, then merge dev into your own open pull requests that are behind, then stop and say so on the crew's issue (owner, Nov 11; skill `pool-notes`; the lead's hourly count says whether the cap is on). Reds on dev, rules, checks and skills, and work the CTO or the lead gives you by name are not capped. Otherwise: `npm run pool -- next`. It starts by saying who you are and your tier. A real run can take several minutes (it fetches every claimed branch); it prints a line to standard error as each stage starts, so a quiet terminal is not a hung one.
+   - It picks the first item in the written order that your level may build, claims it on dev so no other agent can take it, makes the item's branch and opens its draft pull request.
    - The branch is named `pool/<item>`. A Claude cloud session may push only under `claude/`, and the tool sees that by itself and names the branch `claude/pool-<item>`. If your tool has a prefix of its own, set `POOL_BRANCH_PREFIX` once or add `--branch-prefix <prefix>`.
    - The owner or the CTO can set a tier or a name by hand with `--tier <tier>` and `--agent <name>`. You do not.
    - If the item already names a pull request, `next` asks `gh` whether it is open; a closed or merged one is replaced by a new draft, and the new number is recorded.
@@ -40,11 +40,11 @@ Your first claim also puts one small file about you on main, under `docs/pool/ag
    - Check out the branch it names before you change anything: `git fetch origin <branch> && git checkout -B <branch> origin/<branch>`.
 2. **Read the item,** `docs/pool/items/<id>.md`, and every document and skill its Rules name. Skills are plain markdown under `.agents/skills/<name>/SKILL.md`.
 3. **Check the Cause against the code** before changing anything. If a function is gone, or the code does not do what the Cause says, do not guess and build. Write what differs on the pull request, with file and line, run `npm run pool -- release <id> --reason "<one sentence>"`, and take the next item.
-   - When you change an item's Cause to "Needs cause.", set its Fix to "None until the cause is found." in the same commit, and move the old fix text to Notes. Otherwise main's pool check goes red for everyone (Nov 10: three items, fixed by the CTO by hand).
+   - When you change an item's Cause to "Needs cause.", set its Fix to "None until the cause is found." in the same commit, and move the old fix text to Notes. Otherwise dev's pool check goes red for everyone (Nov 10: three items, fixed by the CTO by hand).
 4. **Build the Fix and nothing more.** Commit each working unit with its test passing, and push after every commit.
 5. **Prove it in two drawn places.** Write the test or printed proof the item's Done when names, and run it with two seeds. Name each place and seed. A test draws its place with the repository's `drawPlace`, names the place and seed in every failure, and never returns early in a way that passes without checking.
-6. **Run only your own checks:** the test files you wrote or changed and those the item names, one at a time; prettier and eslint on the files you changed; `npm run zero-dice` if you changed anything under `src/core2`; `npm run test:skill-ops` if you changed a skill or `AGENTS.md`. A checker runs the full gate, not you. If a test you did not write fails, run it on clean main with the same seed. If it fails there too it is not yours: say so on the pull request with the test, place and seed.
-7. **Fill in the pull request.** Its body was made for you from the template: say what changed for the player, give the evidence for each Done-when line, how a second session checks it in the game, the break-it check, and what was removed. Replace the release note's placeholder line in the note file `next` printed (`docs/release/changes/<id>.md`, or `<id>-2.md` and so on when main already used the item's id) and push it; `status <id> in-pr` refuses until you do. Then mark the pull request ready (`gh pr ready <number>`, or your tool's own button or API) and run `npm run pool -- status <id> in-pr --pr <number>`. Ready means the pull request is no longer a draft; if your tool cannot take it out of draft, post one comment on it that starts with `Ready for the desk:` followed by the head commit's hash, and the desk treats that the same way.
+6. **Run only your own checks:** the test files you wrote or changed and those the item names, one at a time; prettier and eslint on the files you changed; `npm run zero-dice` if you changed anything under `src/core2`; `npm run test:skill-ops` if you changed a skill or `AGENTS.md`. A checker runs the full gate, not you. If a test you did not write fails, run it on clean dev with the same seed. If it fails there too it is not yours: say so on the pull request with the test, place and seed.
+7. **Fill in the pull request.** Its body was made for you from the template: say what changed for the player, give the evidence for each Done-when line, how a second session checks it in the game, the break-it check, and what was removed. Replace the release note's placeholder line in the note file `next` printed (`docs/release/changes/<id>.md`, or `<id>-2.md` and so on when dev already used the item's id) and push it; `status <id> in-pr` refuses until you do. Then mark the pull request ready (`gh pr ready <number>`, or your tool's own button or API) and run `npm run pool -- status <id> in-pr --pr <number>`. Ready means the pull request is no longer a draft; if your tool cannot take it out of draft, post one comment on it that starts with `Ready for the desk:` followed by the head commit's hash, and the desk treats that the same way.
 8. **Take the next item.** You never merge your own pull request.
 
 ## The pull request is the item's thread
@@ -69,13 +69,13 @@ A session can end at any moment. Nothing may live only in your conversation.
 
 `next` sorts by the order in `docs/pool/order.json`, and nothing else decides it:
 
-1. **What the player sees** (owner, Nov 11: "prioritize all of the visible changes"). Reds on main and rules, checks and skills still come before everything. Then play and screens work. Then every other item whose What says `Seen:`. Then `Feeds:`, then `Guards:`, then the rest.
-2. **Priority.** 1 before 2 before 3. Priority 1 is a red on main or what the owner asked for now.
+1. **What the player sees** (owner, Nov 11: "prioritize all of the visible changes"). Reds on dev and rules, checks and skills still come before everything. Then play and screens work. Then every other item whose What says `Seen:`. Then `Feeds:`, then `Guards:`, then the rest.
+2. **Priority.** 1 before 2 before 3. Priority 1 is a red on dev or what the owner asked for now.
 3. **Class.** Rules, checks and skills first. Then the critical path: the country tier and its clock, the life record, the words machine. Then what stops play. Then the rest.
 4. **What it unblocks.** The item more items wait on comes first.
 5. **Effort,** low before high, then **size,** small before large.
 
-An item is offered only when it is open, carries `checked: fable`, has a known cause, has every `after:` item on main, and has a Waits on that says "Nothing" or names only items already on main. A Waits on that names anything else (an owner decision, the Story session's lines, early-access preparation) is not offered.
+An item is offered only when it is open, carries `checked: fable`, has a known cause, has every `after:` item on dev, and has a Waits on that says "Nothing" or names only items already on dev. A Waits on that names anything else (an owner decision, the Story session's lines, early-access preparation) is not offered.
 
 ## What you never do
 

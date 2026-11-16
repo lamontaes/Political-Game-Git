@@ -1,5 +1,5 @@
 // The generated index must never stop a checked pull request from merging
-// (pool-generated-index-merge-starvation): main moves item statuses while a
+// (pool-generated-index-merge-starvation): dev moves item statuses while a
 // planning branch adds items, and both land by ordinary merges with nothing lost.
 import {
   appendFileSync,
@@ -18,7 +18,7 @@ import { buildIndexFor, command, indexCheck, reindex, run } from "./index";
 const item = (id: string, extra = ""): string =>
   `---\nid: ${id}\ntitle: "Title of ${id}"\narea: laws\nkind: wiring\npriority: 1\nstatus: open\n${extra}---\n\n${GOOD}`;
 
-/** A bare origin whose main holds two items and their index, and a clone of it. */
+/** A bare origin whose dev holds two items and their index, and a clone of it. */
 function world(): {
   origin: string;
   work: string;
@@ -32,8 +32,8 @@ function world(): {
   mkdirSync(join(pool, "items"), { recursive: true });
   const g = (...a: string[]): string =>
     execFileSync("git", a, { cwd: work, encoding: "utf8" }).trim();
-  execFileSync("git", ["init", "-q", "--bare", "-b", "main", origin]);
-  g("init", "-q", "-b", "main");
+  execFileSync("git", ["init", "-q", "--bare", "-b", "dev", origin]);
+  g("init", "-q", "-b", "dev");
   g("config", "user.email", "t@t");
   g("config", "user.name", "t");
   writeFileSync(join(pool, "items", "laws-a.md"), item("laws-a"));
@@ -42,14 +42,14 @@ function world(): {
   g("add", ".");
   g("commit", "-qm", "init");
   g("remote", "add", "origin", origin);
-  g("push", "-q", "-u", "origin", "main");
+  g("push", "-q", "-u", "origin", "dev");
   g("fetch", "-q", "origin");
   return { origin, work, pool, g };
 }
 
-/** What the index would be if regenerated from main's items, against main's tracked copy. */
+/** What the index would be if regenerated from dev's items, against dev's tracked copy. */
 function mainIndexIsExact(origin: string): void {
-  const clone = mkdtempSync(join(tmpdir(), "pool-main-"));
+  const clone = mkdtempSync(join(tmpdir(), "pool-dev-"));
   execFileSync("git", ["clone", "-q", origin, clone]);
   const pool = join(clone, "docs", "pool");
   expect(readFileSync(join(pool, "INDEX.md"), "utf8")).toBe(
@@ -58,7 +58,7 @@ function mainIndexIsExact(origin: string): void {
 }
 
 describe("the index never blocks a merge", () => {
-  it("a planning branch and two status changes on main both land, nothing lost, index exact after each step", () => {
+  it("a planning branch and two status changes on dev both land, nothing lost, index exact after each step", () => {
     const { origin, work, pool, g } = world();
     const cwd = process.cwd();
     process.chdir(work);
@@ -79,7 +79,7 @@ describe("the index never blocks a merge", () => {
       expect(indexCheck(pool)).toEqual([]);
       g("push", "-q", "origin", "plan");
 
-      // Meanwhile main moves: a claim and a status change, each pushed to main.
+      // Meanwhile dev moves: a claim and a status change, each pushed to dev.
       expect(command(["claim", "laws-a", "--branch", "b1"])).toBeNull();
       mainIndexIsExact(origin);
       expect(command(["claim", "laws-parent", "--branch", "b2"])).toBeNull();
@@ -87,11 +87,11 @@ describe("the index never blocks a merge", () => {
 
       // The merge desk merges the planning branch with an ordinary merge.
       g("fetch", "-q", "origin");
-      g("checkout", "-q", "-B", "desk", "origin/main");
+      g("checkout", "-q", "-B", "desk", "origin/dev");
       g("merge", "-q", "--no-edit", "origin/plan");
-      g("push", "-q", "origin", "HEAD:main");
+      g("push", "-q", "origin", "HEAD:dev");
 
-      // The workflow on main regenerates the index from main's items.
+      // The workflow on dev regenerates the index from dev's items.
       g("checkout", "-q", "plan");
       expect(reindex()).toBeNull();
       mainIndexIsExact(origin);
@@ -131,17 +131,17 @@ describe("the index never blocks a merge", () => {
       g("add", ".");
       g("commit", "-qm", "branch writes the index");
       expect(indexCheck(pool).join("\n")).toMatch(
-        /git checkout origin\/main -- docs\/pool\/INDEX\.md/,
+        /git checkout origin\/dev -- docs\/pool\/INDEX\.md/,
       );
-      g("checkout", "-q", "main", "--", "docs/pool/INDEX.md");
-      g("commit", "-qm", "take main's index");
+      g("checkout", "-q", "dev", "--", "docs/pool/INDEX.md");
+      g("commit", "-qm", "take dev's index");
       expect(indexCheck(pool)).toEqual([]);
     } finally {
       process.chdir(cwd);
     }
   });
 
-  it("on main a stale index is still an error", () => {
+  it("on dev a stale index is still an error", () => {
     const { pool } = world();
     const cwd = process.cwd();
     process.chdir(join(pool, "..", ".."));

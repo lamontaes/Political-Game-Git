@@ -48,7 +48,7 @@ When one situation (a knock at a door, a visit to office hours) needs many scene
 
 ## Where to start (owner's examples)
 
-`docs/design/scenes/owner-scene-examples.md` lists every scene the owner has asked for, by where it happens in play, with what exists on main. Work a season at a time in the order the owner meets it: home and family, meeting people, filing, the campaign season, election day and night, holding office. Each pass picks the quietest stretch of a played year and finds the real-life episode that belongs there.
+`docs/design/scenes/owner-scene-examples.md` lists every scene the owner has asked for, by where it happens in play, with what exists on dev. Work a season at a time in the order the owner meets it: home and family, meeting people, filing, the campaign season, election day and night, holding office. Each pass picks the quietest stretch of a played year and finds the real-life episode that belongs there.
 
 ## Never
 

@@ -7,7 +7,7 @@ description: >
   decision-ready row for it: A, the code; B, GitHub and the pool; C, the
   rulings. Use when a builder, reviewer or the owner reports a gap in play and
   the question is what, where, why and who fixes it. Not for building the fix
-  (session-start), for a red on main (red-main) or for a question that no
+  (session-start), for a red on dev (red-main) or for a question that no
   reading has been done for (look-first).
 ---
 

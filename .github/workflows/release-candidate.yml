@@ -2,19 +2,19 @@ name: Release candidate
 
 # The build, validation and (optionally) publication of one release candidate.
 # A reusable workflow, called by two callers:
-#   - release.yml, on every push to main: publish false. It builds and validates
-#     every merge, so a red main is seen within minutes, and publishes nothing.
+#   - release.yml, on every push to dev: publish false. It builds and validates
+#     every merge, so a red dev is seen within minutes, and publishes nothing.
 #   - release-package.yml, on the two-hour clock and on request: publish true.
-#     It validates the newest main, pushes the version commit, writes the
+#     It validates the newest dev, pushes the version commit to dev, writes the
 #     publish record, and the caller then packages that same candidate.
-# Each caller passes its own concurrency group, so a push to main can never
+# Each caller passes its own concurrency group, so a push to dev can never
 # cancel or supersede a clock run waiting to start.
 
 on:
   workflow_call:
     inputs:
       publish:
-        description: Push the validated version commit to main and write the publish record.
+        description: Push the validated version commit to dev and write the publish record.
         type: boolean
         required: true
       concurrency_group:
@@ -30,7 +30,7 @@ on:
         description: release, no-op or blocked.
         value: ${{ jobs.build_candidate.outputs.outcome }}
       published:
-        description: "true when the version commit was pushed to main."
+        description: "true when the version commit was pushed to dev."
         value: ${{ jobs.publish_candidate.outputs.published }}
       published_sha:
         value: ${{ jobs.publish_candidate.outputs.published_sha }}
@@ -200,7 +200,7 @@ jobs:
     timeout-minutes: 60
     permissions:
       contents: read
-    # A newer push to main waits for a candidate that is still validating to
+    # A newer push to dev waits for a candidate that is still validating to
     # finish (GitHub keeps only the newest pending run); one that has passed
     # is never cancelled (the publish jobs below).
     concurrency:
@@ -313,7 +313,7 @@ jobs:
       inputs.publish &&
       vars.RELEASE_AUTOMATION == 'enabled'
     concurrency:
-      group: release-main-publish
+      group: release-dev-publish
       cancel-in-progress: false
     runs-on: ubuntu-latest
     timeout-minutes: 15
@@ -332,11 +332,11 @@ jobs:
           name: release-candidate
           path: ${{ runner.temp }}/release-candidate
 
-      - name: Verify the candidate and publish it onto main
+      - name: Verify the candidate and publish it onto dev
         id: publish
         env:
           # Branch protection requires validate and golden-path on every push to
-          # main; the workflow token is not an admin, so the version commit
+          # dev; the workflow token is not an admin, so the version commit
           # needs the owner's token (a fine-grained PAT with write access to the contents of
           # this repository, saved as the secret RELEASE_PUSH_TOKEN). Without
           # it the push is refused and nothing publishes.
@@ -374,7 +374,7 @@ jobs:
           cd "$publisher"
           remote_url="https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
           git remote add origin "$remote_url"
-          # The checked parent is fetched by id, so main may already have moved on.
+          # The checked parent is fetched by id, so dev may already have moved on.
           # Trees only: this step compares tree entries and reads blob ids, and the
           # release files' blobs come from the bundle, so the repository's images
           # are never downloaded (Oct 29: a full depth-1 fetch stalled past the
@@ -429,21 +429,21 @@ jobs:
           [[ "$lock_version" == "$package_version" ]]
           [[ "$lock_root_version" == "$package_version" ]]
 
-          # Main keeps moving while the candidate is validated. The release
-          # delta touches only release metadata, so when main has moved the
-          # same delta is laid onto main's new tip, provided every file it
+          # Dev keeps moving while the candidate is validated. The release
+          # delta touches only release metadata, so when dev has moved the
+          # same delta is laid onto dev's new tip, provided every file it
           # touches is still byte-identical to the validated parent. Anything
           # else is left for the next package run, which releases what is pending.
           for attempt in 1 2 3 4 5; do
-            remote_head="$(git ls-remote origin refs/heads/main | awk '{print $1}')"
+            remote_head="$(git ls-remote origin refs/heads/dev | awk '{print $1}')"
             if [[ "$remote_head" == "$SOURCE_SHA" ]]; then
               target="$CANDIDATE_SHA"
             else
-              git fetch --no-tags --depth=1 --filter=blob:none origin "+refs/heads/main:refs/remotes/origin/main"
-              main_tip="$(git rev-parse refs/remotes/origin/main)"
+              git fetch --no-tags --depth=1 --filter=blob:none origin "+refs/heads/dev:refs/remotes/origin/dev"
+              work_tip="$(git rev-parse refs/remotes/origin/dev)"
               while IFS=$'\t' read -r status path; do
                 if [[ "$(git rev-parse -q --verify "${SOURCE_SHA}:${path}" || true)" != \
-                      "$(git rev-parse -q --verify "${main_tip}:${path}" || true)" ]]; then
+                      "$(git rev-parse -q --verify "${work_tip}:${path}" || true)" ]]; then
                   # A consumed declaration that was reworded after validation is
                   # still consumed: the release deletes it, and what was
                   # validated (its text at the validated parent) is what the
@@ -451,16 +451,16 @@ jobs:
                   # lockfile, patch notes, ledger) changing means another release
                   # landed, and this one stands down.
                   if [[ "$status" == "D" && "$path" == docs/release/changes/*.md ]]; then
-                    echo "::warning::main reworded $path after the candidate was validated; the release consumes it as validated and the reworded text is not in this release's notes."
+                    echo "::warning::dev reworded $path after the candidate was validated; the release consumes it as validated and the reworded text is not in this release's notes."
                     continue
                   fi
-                  echo "::warning::main changed $path after the candidate was validated. Nothing was published; the next two-hourly or requested package run releases what is pending."
+                  echo "::warning::dev changed $path after the candidate was validated. Nothing was published; the next two-hourly or requested package run releases what is pending."
                   exit 0
                 fi
               done < "$delta"
               index="$RUNNER_TEMP/release-index"
               rm -f "$index"
-              GIT_INDEX_FILE="$index" git read-tree "$main_tip"
+              GIT_INDEX_FILE="$index" git read-tree "$work_tip"
               while IFS=$'\t' read -r status path; do
                 if [[ "$status" == "D" ]]; then
                   GIT_INDEX_FILE="$index" git update-index --force-remove -- "$path"
@@ -470,32 +470,32 @@ jobs:
                 fi
               done < "$delta"
               tree="$(GIT_INDEX_FILE="$index" git write-tree)"
-              target="$(git commit-tree "$tree" -p "$main_tip" -m "$subject")"
-              [[ "$(git diff-tree --no-commit-id --name-status -r "$main_tip" "$target")" == \
+              target="$(git commit-tree "$tree" -p "$work_tip" -m "$subject")"
+              [[ "$(git diff-tree --no-commit-id --name-status -r "$work_tip" "$target")" == \
                  "$(git diff-tree --no-commit-id --name-status -r "$SOURCE_SHA" "$CANDIDATE_SHA")" ]]
               for path in package.json package-lock.json PATCH_NOTES.md docs/release/consumed-changes.json; do
                 [[ "$(git rev-parse "${target}:${path}")" == "$(git rev-parse "${CANDIDATE_SHA}:${path}")" ]]
               done
             fi
 
-            if git push origin "${target}:refs/heads/main"; then
+            if git push origin "${target}:refs/heads/dev"; then
               echo "Published release ${NEXT_VERSION} as $target (validated candidate $CANDIDATE_SHA)."
               printf 'published=true\npublished_sha=%s\n' "$target" >> "$GITHUB_OUTPUT"
               exit 0
             fi
-            remote_after="$(git ls-remote origin refs/heads/main | awk '{print $1}')"
+            remote_after="$(git ls-remote origin refs/heads/dev | awk '{print $1}')"
             if [[ "$remote_after" == "$remote_head" ]]; then
-              echo "::error::Publication failed while main had not moved. Nothing was published."
+              echo "::error::Publication failed while dev had not moved. Nothing was published."
               exit 1
             fi
-            echo "main moved during publication (attempt $attempt); laying the release onto the new tip."
+            echo "dev moved during publication (attempt $attempt); laying the release onto the new tip."
           done
-          echo "::warning::main kept moving through five attempts. Nothing was published; the next package run releases what is pending."
+          echo "::warning::dev kept moving through five attempts. Nothing was published; the next package run releases what is pending."
           exit 0
 
       # The publish ledger. release-package.yml packages the newest record,
       # so it packages exactly what was validated and published, never a
-      # newer main.
+      # newer dev.
       - name: Record the published candidate
         if: steps.publish.outputs.published == 'true'
         env:

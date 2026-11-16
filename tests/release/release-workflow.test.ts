@@ -4,7 +4,7 @@ import { check, main } from "../../scripts/release/cli";
 import { declarationText, makeFixture } from "./fixtures";
 
 // The jobs live in the reusable release-candidate.yml; release.yml (every push
-// to main) and release-package.yml (the clock) call it.
+// to dev) and release-package.yml (the clock) call it.
 const workflow = readFileSync(
   ".github/workflows/release-candidate.yml",
   "utf8",
@@ -29,11 +29,11 @@ function job(name: string, next?: string): string {
 }
 
 describe("the release event", () => {
-  it("runs on main pushes with a manual final drain", () => {
-    expect(pushWorkflow).toContain("push:\n    branches: [main]");
+  it("runs on dev pushes with a manual final drain", () => {
+    expect(pushWorkflow).toContain("push:\n    branches: [dev]");
     // Pool-only commits start no run; any push touching other files does.
     expect(pushWorkflow).toMatch(/paths-ignore:\n\s+- "docs\/pool\/\*\*"/);
-    // So do the play-first lane's shared files, appended to straight on main.
+    // So do the play-first lane's shared files, appended to straight on dev.
     for (const path of [
       "docs/play-first/PROGRESS.md",
       "docs/coordination/LEADS-2026-10-24.md",
@@ -41,7 +41,7 @@ describe("the release event", () => {
     ]) {
       expect(pushWorkflow).toContain(`      - "${path}"`);
     }
-    // And the lanes' state files, written straight to main by every lane.
+    // And the lanes' state files, written straight to dev by every lane.
     expect(pushWorkflow).toContain('      - "docs/lanes/**"');
     expect(pushWorkflow).toContain("workflow_dispatch:");
     expect(pushWorkflow).not.toContain("pull_request_target");
@@ -62,10 +62,10 @@ describe("the release event", () => {
     }
     // The push run validates under the push group; the clock run under its own,
     // so a merge can never take a clock run's place in the queue.
-    expect(pushWorkflow).toContain("concurrency_group: release-main-validate");
+    expect(pushWorkflow).toContain("concurrency_group: release-dev-validate");
     expect(packaging).toContain("concurrency_group: release-package-candidate");
     const publish = job("publish_candidate");
-    expect(publish).toContain("group: release-main-publish");
+    expect(publish).toContain("group: release-dev-publish");
     expect(publish).toContain("cancel-in-progress: false");
   });
 
@@ -86,7 +86,7 @@ describe("the release event", () => {
     expect(packaging).toContain("needs: candidate");
   });
 
-  it("packages on a clock or on request, never on a push to main", () => {
+  it("packages on a clock or on request, never on a push to dev", () => {
     // Owner, Oct 27, 2026: merges starved the package for five hours.
     expect(workflow).not.toContain("desktop_package");
     expect(workflow).not.toContain("desktop_publish");
@@ -102,7 +102,7 @@ describe("the release event", () => {
       /^concurrency:\n {2}group: release-package\n {2}cancel-in-progress: false/m,
     );
     expect(packaging).not.toContain("cancel-in-progress: true");
-    // It packages the ledger's published commit, never a newer main.
+    // It packages the ledger's published commit, never a newer dev.
     expect(packaging).toContain("artifacts?name=publish-record");
     expect(packaging).toContain("workflows/release-package.yml/runs");
     expect(packaging).toContain(
@@ -262,33 +262,33 @@ describe("exact validated candidate identity", () => {
       '"$(git rev-parse "${CANDIDATE_SHA}^{tree}")" == "$CANDIDATE_TREE"',
     );
     expect(publisher).toContain('target="$CANDIDATE_SHA"');
-    expect(publisher).toContain('git push origin "${target}:refs/heads/main"');
+    expect(publisher).toContain('git push origin "${target}:refs/heads/dev"');
     expect(publisher).not.toMatch(/git push[^\n]*(--force|\s"?\+)/);
   });
 
-  it("lays the release onto a main that moved, touching only release files", () => {
+  it("lays the release onto a dev that moved, touching only release files", () => {
     const publisher = job("publish_candidate");
-    // Main moves every few minutes and a validated candidate takes far
+    // Dev moves every few minutes and a validated candidate takes far
     // longer, so a fast-forward-only publisher never published at all.
     expect(publisher).not.toContain(
-      "main advanced before publication. Nothing was published",
+      "dev advanced before publication. Nothing was published",
     );
     // The delta is re-applied only when every path it touches is still
     // byte-identical to the validated parent.
     expect(publisher).toContain('"${SOURCE_SHA}:${path}"');
-    expect(publisher).toContain('"${main_tip}:${path}"');
+    expect(publisher).toContain('"${work_tip}:${path}"');
     expect(publisher).toContain(
-      "main changed $path after the candidate was validated. Nothing was published",
+      "dev changed $path after the candidate was validated. Nothing was published",
     );
     // A consumed declaration reworded after validation does not stop the
     // release; a file the release rewrites changing does.
     expect(publisher).toContain(
       '"$status" == "D" && "$path" == docs/release/changes/*.md',
     );
-    expect(publisher).toContain('git commit-tree "$tree" -p "$main_tip"');
+    expect(publisher).toContain('git commit-tree "$tree" -p "$work_tip"');
     // The laid commit changes exactly what the validated candidate changed.
     expect(publisher).toContain(
-      '"$(git diff-tree --no-commit-id --name-status -r "$main_tip" "$target")"',
+      '"$(git diff-tree --no-commit-id --name-status -r "$work_tip" "$target")"',
     );
     expect(publisher).toContain(
       '"$(git diff-tree --no-commit-id --name-status -r "$SOURCE_SHA" "$CANDIDATE_SHA")"',
@@ -299,10 +299,10 @@ describe("exact validated candidate identity", () => {
     const publisher = job("publish_candidate");
     expect(publisher).toContain("for attempt in 1 2 3 4 5; do");
     expect(publisher).toContain(
-      "main kept moving through five attempts. Nothing was published",
+      "dev kept moving through five attempts. Nothing was published",
     );
     expect(publisher).toContain(
-      "Publication failed while main had not moved. Nothing was published.",
+      "Publication failed while dev had not moved. Nothing was published.",
     );
   });
 });

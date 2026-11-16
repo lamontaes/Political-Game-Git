@@ -17,7 +17,7 @@ plain American English.
 
 ## 1. Why-chain (five whys, to bedrock)
 
-Start from the code on current main, not from memory. State the behavior, then
+Start from the code on current dev, not from memory. State the behavior, then
 ask why, and why again: "X happens because Y; why does Y happen?" Stop only when
 the chain bottoms out, and label the bottom:
 
@@ -59,7 +59,7 @@ stopgap, never waited on.
 - SIMULATED: people deciding from their own records (who, what they read, why).
 - RECORDS: bookkeeping only.
 - WORLD PIECES that must exist for the decisions to work. Say whether each
-  exists on main today.
+  exists on dev today.
 - CHECKS: research outcomes the world must land near.
 
 Cover the "what if there is none" case (no shelter, no relatives, no transit, no

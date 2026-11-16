@@ -1,6 +1,6 @@
 // Moves a branch's rows from the old single register file into the family
 // files (tooling-stopgaps-register-per-family). For a PR cut before the split:
-// after `git merge origin/main` stops on "deleted in HEAD/modified in theirs"
+// after `git merge origin/dev` stops on "deleted in HEAD/modified in theirs"
 // for src/core2/data/stopgaps.json, run
 //   node --import tsx scripts/stopgaps-move-old.ts
 // It reads the branch's copy of the old file, writes every row the branch added
@@ -30,10 +30,10 @@ export function mergeRows(current: Row[], rows: Row[]): Row[] {
 
 /**
  * The rows the branch added or changed against the merge base, each merged
- * field by field onto main's current row: a field comes from the branch only
- * where the branch changed it and main did not, so a row the branch touched
- * for its line keeps every later change main made to its text or status. A
- * field both sides changed differently keeps main's and is reported.
+ * field by field onto dev's current row: a field comes from the branch only
+ * where the branch changed it and dev did not, so a row the branch touched
+ * for its line keeps every later change dev made to its text or status. A
+ * field both sides changed differently keeps dev's and is reported.
  */
 export function branchRows(
   base: Row[],
@@ -59,7 +59,7 @@ export function branchRows(
       if (same(row[key], was[key])) continue;
       if (same(main[key], was[key])) out[key] = row[key];
       else if (!same(main[key], row[key]))
-        conflicts.push(`${row.id}.${key}: kept main's`);
+        conflicts.push(`${row.id}.${key}: kept dev's`);
     }
     rows.push(out);
   }
@@ -84,8 +84,8 @@ if (
 ) {
   const root = process.cwd();
   // In a stopped merge the branch's copy is whichever side kept the file:
-  // stage 2 when main is merged into the branch, stage 3 when the branch is
-  // merged into main. Otherwise it is the working file.
+  // stage 2 when dev is merged into the branch, stage 3 when the branch is
+  // merged into dev. Otherwise it is the working file.
   const text =
     show(`:2:${OLD}`) ||
     show(`:3:${OLD}`) ||
@@ -94,8 +94,8 @@ if (
     console.log(`No ${OLD} on this branch; nothing to move.`);
     process.exit(0);
   }
-  // The merge base's copy: rows the branch never touched stay as main has
-  // them now, even where main changed them since the branch was cut.
+  // The merge base's copy: rows the branch never touched stay as dev has
+  // them now, even where dev changed them since the branch was cut.
   let baseText = show(`:1:${OLD}`);
   if (!baseText) {
     try {

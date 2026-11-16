@@ -111,7 +111,7 @@ Every shortcut is a row in `src/core2/data/stopgaps.json` (the director has its 
 - `npm run speed:year`: a game year must run inside two minutes, and no change may slow it by more than 20%.
 - `scripts/core2-guard/`: paired base-against-head runs that catch golden-path regressions and slowdowns.
 - `npm run release:check` (`scripts/release/`): every change has a declaration in `docs/release/changes/`. With build and typecheck, it is the client release gate.
-- `npm run pool` (`scripts/pool/`): the work pool. `.github/workflows/pool-done-on-merge.yml` flips an item to done when its PR merges into main.
+- `npm run pool` (`scripts/pool/`): the work pool. `.github/workflows/pool-done-on-merge.yml` flips an item to done when its PR merges into dev.
 
 ## Where to start reading
 

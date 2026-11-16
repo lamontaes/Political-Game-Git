@@ -65,4 +65,4 @@ Add a `topLevel` row that says what it is. Think first whether it belongs inside
 - **An item that will create a file** writes the path as `` `path/to/file.ts` (new) ``.
 - **A file whose name has spaces or special characters** is listed by git in quotes unless you ask for `-z`; the scanner does.
 - **Deleting a folder of old reports lowers its own area's count and can leave pointers to it elsewhere.** Search the whole repository for the folder's name before you open the pull request.
-- **A pull request written before a rule can break it on main.** The strip's pull request deleted five files and merged an hour after this guard did; four old documents still named them, and main went red. Whoever deletes a file runs the guard on main merged in, the same hour.
+- **A pull request written before a rule can break it on dev.** The strip's pull request deleted five files and merged an hour after this guard did; four old documents still named them, and dev went red. Whoever deletes a file runs the guard on dev merged in, the same hour.

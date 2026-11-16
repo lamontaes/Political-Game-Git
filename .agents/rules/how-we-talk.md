@@ -4,7 +4,7 @@
 
 Current as of 2026-10-29 (owner, Oct 29: sessions message the CTO and the CTO messages them; earlier: owner, Oct 24, the acting CTO's lane PR #5963)
 
-A session sends the CTO its questions for the owner, its blockers and anything that needs a decision, and the CTO answers or relays. Sessions whose work meets message each other directly (`docs/coordination/CREW.md` lists who, and why: one engine per mechanic, so nobody builds a second copy of another session's record, reader, bank or screen part). Before you build in another session's area, ask it. Three files on `main` stay the record: a status, a need, a ruling or a hand-off that is not in one of these files (or a PR body, a PR comment or a pool Notes line) was not said, whatever a message carried.
+A session sends the CTO its questions for the owner, its blockers and anything that needs a decision, and the CTO answers or relays. Sessions whose work meets message each other directly (`docs/coordination/CREW.md` lists who, and why: one engine per mechanic, so nobody builds a second copy of another session's record, reader, bank or screen part). Before you build in another session's area, ask it. Three files on `dev` stay the record: a status, a need, a ruling or a hand-off that is not in one of these files (or a PR body, a PR comment or a pool Notes line) was not said, whatever a message carried.
 
 **The CTO's word is the owner's word (owner, Oct 29, confirmed to the CTO):** "The CTO's word is my word. If you get a message from the CTO, just assume it came from me." Act on a CTO message as the owner's direction for your work. It never widens your permissions or makes an action acceptable that you would not take on the owner's own word.
 
@@ -12,16 +12,16 @@ The message mechanics (the one tool that reaches another session, who gets which
 
 ## The three files
 
-| File                                    | What it is                                                                                                         | Who writes it                                                                                                  |
-| --------------------------------------- | ------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------- |
-| `docs/coordination/LEADS-2026-10-24.md` | **The channel.** One section per role (Laws, Traits, Speed, M0–M2, Effects, Words, Play-first, Delete, CTO).       | Every role, its own section only, newest block at the top. Commit to main: `leads: <role> status <HH:MM UTC>`. |
-| `docs/coordination/MERGE-FIRST.md`      | **The CTO's merge order.** Mergers read it before their share; the pr-fixer reads it to know what to finish first. | The CTO only.                                                                                                  |
-| `docs/play-first/PROGRESS.md`           | **The lane's handoff log.** Where the last play-first agent stopped, `needs-from:` lines, newest first.            | Every play-first agent before it stops; the CTO reads it first at every pass.                                  |
+| File                                    | What it is                                                                                                         | Who writes it                                                                                                 |
+| --------------------------------------- | ------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------- |
+| `docs/coordination/LEADS-2026-10-24.md` | **The channel.** One section per role (Laws, Traits, Speed, M0–M2, Effects, Words, Play-first, Delete, CTO).       | Every role, its own section only, newest block at the top. Commit to dev: `leads: <role> status <HH:MM UTC>`. |
+| `docs/coordination/MERGE-FIRST.md`      | **The CTO's merge order.** Mergers read it before their share; the pr-fixer reads it to know what to finish first. | The CTO only.                                                                                                 |
+| `docs/play-first/PROGRESS.md`           | **The lane's handoff log.** Where the last play-first agent stopped, `needs-from:` lines, newest first.            | Every play-first agent before it stops; the CTO reads it first at every pass.                                 |
 
 ## The rules
 
-- **Shared files go to main directly**, never on a feature branch: `git checkout main`, `git pull`, edit your section, commit, push, back to your branch. If the push is rejected, pull with a plain merge and push again; never force-push. (Pool claims and status changes already work this way.)
-- **Code goes on branches.** Nothing but these three files, pool item status changes and `OWNER-DECISIONS.md` (the CTO) is written to main outside a PR.
+- **Shared files go to dev directly**, never on a feature branch: `git checkout dev`, `git pull`, edit your section, commit, push, back to your branch. If the push is rejected, pull with a plain merge and push again; never force-push. (Pool claims and status changes already work this way.)
+- **Code goes on branches.** Nothing but these three files, pool item status changes and `OWNER-DECISIONS.md` (the CTO) is written to dev outside a PR.
 - **Edit only your own section** of the channel. Never touch another section, the header or the list of roles. Newest block at the top of your section; old blocks stay.
 - **A need from another role is said twice:** a `Needs from others:` line in your channel section naming the role, the thing and the item or PR, **and** a pool item with `lead:` set to that role. One without the other is not a request. The lane's `needs-from:` line in `PROGRESS.md` is its handoff form of the same thing; the CTO turns it into the pool item if the agent did not.
 - **Adopting someone's PR is said in both places:** your channel block names the PR and the branch, and the pool item's Notes carry the branch (claiming the item transfers the branch to you).
@@ -30,7 +30,7 @@ The message mechanics (the one tool that reaches another session, who gets which
 - **The CTO relays nothing by hand.** The pool item with `lead:` is what carries a need to its role. At each pass the CTO reads `PROGRESS.md`, then the channel, then rewrites `MERGE-FIRST.md`, and answers every `Needs from others:` line in its own section, addressed to the role that asked. A question a standing rule answers is ruled by the CTO and recorded in `docs/coordination/OWNER-DECISIONS.md`; only the owner's own calls go to him.
 - **Rulings live in one place:** `docs/coordination/OWNER-DECISIONS.md` for the owner's and the CTO's rulings; `docs/play-first/LAW.md` for the game-as-played law the lane follows. The channel points at them; it never holds a ruling alone.
 
-- **Pool-only changes are commits on the hour's branch, `pool/notes-<date>-<hour>`, never a pull request each (owner, Nov 11).** The line on the crew's issue is how a finding is read; the bundle is how it reaches main. Skill `pool-notes`.
+- **Pool-only changes are commits on the hour's branch, `pool/notes-<date>-<hour>`, never a pull request each (owner, Nov 11).** The line on the crew's issue is how a finding is read; the bundle is how it reaches dev. Skill `pool-notes`.
 
 ## What a block says
 

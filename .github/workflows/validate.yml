@@ -6,10 +6,10 @@ name: Deterministic validation
 
 on:
   pull_request:
-  # Main is validated once an hour, not on every push (owner, Oct 28: the CI
+  # The work branch (dev) is validated once an hour, not on every push (owner, Oct 28: the CI
   # queue reached 85 runs on 12 runners at thirty merges an hour, and every
   # merge's pull request had already run this workflow on the merged result).
-  # The Release workflow still builds and typechecks every push to main.
+  # The Release workflow still builds and typechecks every push to dev.
   schedule:
     - cron: "7 * * * *"
   workflow_dispatch:
@@ -86,7 +86,7 @@ jobs:
             declaration_mode="push"
           else
             base="$(git rev-parse HEAD~1)"
-            declaration_base="$(git merge-base HEAD origin/main)"
+            declaration_base="$(git merge-base HEAD origin/dev)"
             declaration_mode="pr"
           fi
           mapfile -t changed < <(git diff --name-only --diff-filter=AMR "$base" HEAD)
@@ -119,7 +119,7 @@ jobs:
         uses: actions/checkout@v7
         with:
           fetch-depth: 0
-          # The guards judge what main becomes: the pull request merged into
+          # The guards judge what dev becomes: the pull request merged into
           # its base (GitHub's merge commit), so a branch cut before a guard
           # existed is judged by today's guards, not by its own old copy.
           ref: ${{ github.sha }}
@@ -233,7 +233,7 @@ jobs:
 
   # Every test file and golden-path command must still load (npm run tests:load).
   # The unit job loads only the files a change touched, so a break in how any
-  # other file loads is seen here, within the hour, on main's scheduled run.
+  # other file loads is seen here, within the hour, on dev's scheduled run.
   tests-load:
     name: tests-load
     if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'

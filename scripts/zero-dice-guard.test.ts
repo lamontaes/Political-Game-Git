@@ -17,11 +17,11 @@ import {
 const kinds = (source: string) =>
   scanSource(source).map((finding: { kind: string }) => finding.kind);
 
-/** Main's allowlist, when this checkout can see main. */
+/** The work branch's allowlist, when this checkout can see it. */
 function mainAllowlist() {
   try {
     return JSON.parse(
-      execFileSync("git", ["show", `origin/main:${ALLOWLIST_PATH}`], {
+      execFileSync("git", ["show", `origin/dev:${ALLOWLIST_PATH}`], {
         cwd: REPO_ROOT,
         encoding: "utf8",
         stdio: ["ignore", "pipe", "ignore"],

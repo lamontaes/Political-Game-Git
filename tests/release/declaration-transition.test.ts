@@ -28,7 +28,7 @@ function historyFixture(
     return run("rev-parse", "HEAD");
   };
 
-  run("init", "-q", "-b", "main");
+  run("init", "-q", "-b", "dev");
   run("config", "user.email", "fixture@example.invalid");
   run("config", "user.name", "Fixture");
   writeFileSync(join(root, "base.txt"), "legacy base\n");
@@ -64,7 +64,7 @@ function historyFixture(
   );
   const legacyHead = commit("Legacy branch change");
 
-  run("checkout", "-q", "main");
+  run("checkout", "-q", "dev");
   writeFileSync(
     join(root, "docs", "release", "rollout.json"),
     `${JSON.stringify({ schemaVersion: 1, legacyCutoffCommit: cutoff }, null, 2)}\n`,
@@ -207,7 +207,7 @@ describe("transition-aware release declarations", { timeout: 120_000 }, () => {
     }
   });
 
-  it("needs no declaration for a lane's state file, as the merge desk pushes to main", () => {
+  it("needs no declaration for a lane's state file, as the merge desk pushes to dev", () => {
     const fixture = historyFixture();
     try {
       fixture.run("checkout", "-q", "-b", "desk", fixture.rollout);
@@ -230,7 +230,7 @@ describe("transition-aware release declarations", { timeout: 120_000 }, () => {
     }
   });
 
-  it("needs no declaration for a pool-only change, as a claim pushed to main is", () => {
+  it("needs no declaration for a pool-only change, as a claim pushed to dev is", () => {
     const fixture = historyFixture();
     try {
       fixture.run("checkout", "-q", "-b", "claim", fixture.rollout);
@@ -401,7 +401,7 @@ describe("transition-aware release declarations", { timeout: 120_000 }, () => {
     }
   });
 
-  it("enforces a fresh ordinary main merge and sees its declaration", () => {
+  it("enforces a fresh ordinary dev merge and sees its declaration", () => {
     const fixture = historyFixture();
     try {
       fixture.run("checkout", "-q", "-b", "fresh", fixture.rollout);
@@ -411,7 +411,7 @@ describe("transition-aware release declarations", { timeout: 120_000 }, () => {
       );
       addNoneDeclaration(fixture.root, "fresh-source-only");
       fixture.commit("Fresh declared work");
-      fixture.run("checkout", "-q", "main");
+      fixture.run("checkout", "-q", "dev");
       fixture.run("merge", "--no-ff", "-q", "-m", "Merge fresh", "fresh");
       const head = fixture.run("rev-parse", "HEAD");
       const result = checkDeclarationTransition(fixture.root, {
@@ -426,10 +426,10 @@ describe("transition-aware release declarations", { timeout: 120_000 }, () => {
     }
   });
 
-  it("recognizes an ordinary main merge of a legacy branch", () => {
+  it("recognizes an ordinary dev merge of a legacy branch", () => {
     const fixture = historyFixture();
     try {
-      fixture.run("checkout", "-q", "main");
+      fixture.run("checkout", "-q", "dev");
       fixture.run("merge", "--no-ff", "-q", "-m", "Merge legacy", "legacy");
       const head = fixture.run("rev-parse", "HEAD");
       const result = checkDeclarationTransition(fixture.root, {

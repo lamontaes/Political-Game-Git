@@ -1,5 +1,5 @@
 /**
- * One long game on main: a place drawn from all 56, the played world
+ * One long game on dev: a place drawn from all 56, the played world
  * (`buildBenchWorld`, every module) advanced a year at a time, with a line a
  * year (seconds, heap after a collection, records kept, the sense checks).
  * It ends the run, with a non-zero exit, on a failed check, a thrown error or

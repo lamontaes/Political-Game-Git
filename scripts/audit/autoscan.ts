@@ -9,7 +9,7 @@
  *   present  a replacement must be called from production code: `pattern`
  *            matches a line of `file`
  *   reader   `dataFile` is read by some non-test file under src/
- *   test     the test that proves a behavioral item exists on main: `file`
+ *   test     the test that proves a behavioral item exists on dev: `file`
  *            exists and, when given, `pattern` matches its title line
  *
  * A `file` ending in "/" means every non-test code file under that folder.
@@ -19,7 +19,7 @@
  * An item is done only when every check passes and its rules cover the whole
  * item (`covers: "whole"`); rules that cover part of an item can at most make
  * it partly done. Some checks passing is partly, none is not started. An item
- * with no rules is unknown, and so is one whose proving test is not on main
+ * with no rules is unknown, and so is one whose proving test is not on dev
  * yet while its code checks (if any) all pass; otherwise its code checks say.
  *
  * Engine, sequence, owner and "after" come from the verified JSON; the engine
@@ -221,14 +221,14 @@ export function runCheck(
   }
   if (check.kind === "test") {
     if (textOf(check.file) === null)
-      return { check, pass: false, at: [], note: "test not on main yet" };
+      return { check, pass: false, at: [], note: "test not on dev yet" };
     if (!check.pattern) return { check, pass: true, at: [check.file] };
     const { at } = matches(check.file, check.pattern);
     return {
       check,
       pass: at.length > 0,
       at,
-      ...(at.length ? {} : { note: "test not on main yet" }),
+      ...(at.length ? {} : { note: "test not on dev yet" }),
     };
   }
   const { at, missing } = matches(check.file, check.pattern);
@@ -263,7 +263,7 @@ function statusOf(
   if (testMissing && codePassed === code.length)
     return {
       scanned: "unknown",
-      unknownBecause: "its proving test is not on main yet",
+      unknownBecause: "its proving test is not on dev yet",
     };
   if (testMissing)
     return { scanned: codePassed > 0 ? "partly" : "not-started" };
