@@ -183,9 +183,7 @@ export function householdPoverty(core: CoreState): HouseholdPoverty[] {
         h.placeId,
         false,
         ages,
-        householdIncome(rt, h) +
-          (assistance.get(h.id) ?? 0) +
-          (claims.get(h.id) ?? 0),
+        householdIncome(rt, h) + (claims.get(h.id) ?? 0),
         rt.store.weightOf(h),
       );
     }

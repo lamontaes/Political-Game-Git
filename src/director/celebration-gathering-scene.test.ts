@@ -16,7 +16,6 @@ import { celebrationFacts } from "./celebration-facts";
 import { gatheringFacts } from "./gathering-facts";
 import { destinationSaid, purposeScene, replyInScene } from "./purpose-scene";
 import { tieSide } from "./relation-facts";
-import { SITUATION_LIBRARY } from "./scheduling";
 import type { TreeNode } from "./scene-talk";
 import { expectUpToFourDifferent } from "./reply-set-check";
 
@@ -342,13 +341,7 @@ it(`a wedding celebration asks the player for something, and a new job's facts c
           together: false,
           source,
         });
-      advanceCore(
-        core,
-        addDays(
-          makeIsoDate(core.date),
-          SITUATION_LIBRARY.scheduling.repeatDays + 1,
-        ),
-      );
+      advanceCore(core, addDays(makeIsoDate(core.date), 1));
       api.setPartnersV1({
         personIds: [id, other.id],
         together: true,

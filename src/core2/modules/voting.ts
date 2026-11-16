@@ -4184,6 +4184,7 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
     contestId,
     date,
     field,
+    // The world whose view of each question every voter's stance carries.
     seed: api.state.seed,
     ...kept,
   } as unknown as ModuleRow);

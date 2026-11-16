@@ -261,7 +261,7 @@
       "file": "src/core2/opening-kin.ts",
       "kind": "roll",
       "count": 1,
-      "code": "if (moveHazard(rates, fromAge, age) < line) return true;",
+      "code": "if (moveHazard(rates, fromAge, age) + Math.log(given) < line) return true;",
       "class": "GENERATION",
       "keyedBy": "world seed + household id",
       "reason": "The relatives a person at the opening has, whether each has left home and whether their parents stayed together, drawn from published rates: who exists around them.",

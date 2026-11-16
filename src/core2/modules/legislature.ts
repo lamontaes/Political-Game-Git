@@ -69,6 +69,7 @@ import {
   billLevelJurisdiction,
   billValueInForce,
   LAWS_MODULE_ID,
+  lawNeedsChange,
   questionSettled,
   type SettledQuestion,
 } from "./laws";
@@ -3148,6 +3149,36 @@ function isLegislature(api: CoreAPI, officeId: string): boolean {
 }
 
 /**
+ * How long a body sits on a sitting day: a legislature's floor day
+ * (`legislatureFloorDayHours`), or a town or county body's regular meeting
+ * (`sittingHours`).
+ */
+export function sittingDayHours(api: CoreAPI, officeId: string): number {
+  return campaignParameter(
+    isLegislature(api, officeId) ? "legislatureFloorDayHours" : "sittingHours",
+  );
+}
+
+/**
+ * The hours a body's members spend in contact on one of its sitting days,
+ * before they are split among the colleagues each knows there: the sitting
+ * at the sitting's share (`sittingContactShare`), and for a legislature the
+ * rest of the member's session day at the Capitol at a workplace's share
+ * (`workContactShare`), the chamber being their place of work on the days it
+ * sits. A town body meets in an evening and is no one's workplace by it.
+ */
+export function sittingContactHours(api: CoreAPI, officeId: string): number {
+  const sitting = sittingDayHours(api, officeId);
+  const atSitting = sitting * api.parameter("sittingContactShare");
+  if (!isLegislature(api, officeId)) return atSitting;
+  const rest = Math.max(
+    0,
+    campaignParameter("legislatureSessionDayHours") - sitting,
+  );
+  return atSitting + rest * api.parameter("workContactShare");
+}
+
+/**
  * A bill's body: its office row, or for Congress, the one national chamber
  * (the House or the Senate, the same in every world), not any state's seat.
  */
@@ -4639,7 +4670,7 @@ export function missesSitting(
   // A member never misses a vote they care about: only a bill they stand
   // near even on leaves room for the rest of their day to win.
   if (Math.abs(stake) >= campaignParameter("sittingIndifference")) return false;
-  const hours = campaignParameter("sittingHours");
+  const hours = sittingDayHours(api, officeId);
   // A legislature's or Congress's session days are the member's working
   // days, planned around (states protect a legislator's job during session);
   // a town body's evening meeting comes out of the member's own free hours.
@@ -5496,13 +5527,17 @@ function ownSections(
   const stanceOn = (q: string) => memberStanceOn(api, memberId, q);
   // A member asks for a section only where it would change their body's law:
   // not one that repeats the law in force or an act already passed, nor one
-  // that cuts across an act waiting on its effective date.
+  // that cuts across an act waiting on its effective date, nor a repeal of a
+  // rule the body never made (the filers' own rule, `lawNeedsChange`).
   const makes = billJurisdiction(api, bill);
   return Object.keys(POLICY_QUESTIONS)
     .filter((q) => !touched.has(q))
     .map((q) => ({ q, stance: stanceOn(q) }))
     .filter(({ stance }) => stance !== 0)
     .filter(({ q, stance }) => !questionSettled(api, makes, q, stance))
+    .filter(({ q, stance }) =>
+      lawNeedsChange(api, level, makes, q, Math.sign(stance)),
+    )
     .sort(
       (a, b) =>
         Math.abs(b.stance) - Math.abs(a.stance) || a.q.localeCompare(b.q),

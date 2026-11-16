@@ -1523,6 +1523,20 @@
       "source": "How long a town council or county board's regular meeting runs, the time a member gives up to attend: most run two to four hours (National League of Cities, 'City Councils in a Changing Environment', 2018 member survey; ICMA meeting-length surveys). A member whose own day leaves fewer free hours than this misses the vote.",
       "spread": [2, 4]
     },
+    "legislatureFloorDayHours": {
+      "value": 4,
+      "role": "coefficient",
+      "tag": "ESTIMATED",
+      "source": "How long a legislature's floor sits on a floor day, the time the members spend together in the chamber (read in place of the town meeting's sittingHours for a state legislature or Congress). From memory, not fetched: state floor sessions usually convene in the late morning and run a few hours, short early in the session and long near deadlines (NCSL, 'Legislative Session Length' and its pages on daily calendars; Rosenthal, 'Heavy Lifting', 2004). One value for every legislature; the spread covers a short morning floor to a deadline day.",
+      "spread": [2, 8]
+    },
+    "legislatureSessionDayHours": {
+      "value": 10,
+      "role": "coefficient",
+      "tag": "ESTIMATED",
+      "source": "How long a member's floor day at the Capitol runs in session, the time they share the building with the chamber's other members (offices, hallways, the floor and the hours around it). From memory, not fetched: legislators in session report working weeks of fifty hours and more, and the floor day is the longest of them (NCSL, 'Full- and Part-Time Legislatures', its time-on-the-job figures by legislature type). The hours outside the floor sitting count as a workplace's do (workContactShare). The spread runs from a part-time legislature's day to a full-time one's.",
+      "spread": [8, 12]
+    },
     "sittingIndifference": {
       "value": 0.25,
       "tag": "TUNABLE",

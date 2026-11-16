@@ -292,6 +292,7 @@
         "src/core2/modules/life.ts",
         "src/core2/modules/housing.ts",
         "src/core2/modules/health.ts",
+        "src/core2/modules/coverage.ts",
         "src/core2/modules/partnerships.ts",
         "src/core2/trait-decision-table.ts",
         "src/core2/modules/views.ts",

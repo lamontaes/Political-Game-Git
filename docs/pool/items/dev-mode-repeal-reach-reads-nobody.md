@@ -5,10 +5,10 @@ area: laws
 kind: bug
 priority: 1
 size: M
-status: open
+status: in-pr
 standard: 2
 claimed-by:
-pr:
+pr: #9638
 after:
 blocked-on:
 lead: laws
@@ -22,7 +22,7 @@ root: rc8-law-judged-by-paperwork
 
 **Cause.** Measured: West Union, Ohio (3984294), seed ilt-west-union, Medicaid expansion ended in a 365-day run against the same world with no law, clinic sales -41% and reach 0 people, $0 (stores-health-services.md finding 4); Mammoth Lakes, California (0645358), seed ind-0645358, privacy repeal (factories-freight.md finding 11). Found in code: `lawReach` in src/core2/law-reach/applied.ts reads the rows engines write under a law row's id while it is in force; a repeal row is not in force, so no engine writes under its id, and `DevMode.reach` in src/bench/dev-mode.ts shows that empty set.
 
-**Fix.** `DevMode.reach` (src/bench/dev-mode.ts) gives a row that ends or lowers a law the reach of the row it replaced: the people and dollars that row reached in the month before the end date, set beside what it reached after, read with `lawReach` from the replaced row's id. The bill card's What this did and the law page show "no longer reached" with those people and dollars. No new record is written; it reuses the reach rows the engines already keep.
+**Fix.** `lawReach` in src/core2/law-reach/applied.ts adds `ended`: the records, full people, counted people, organizations, governments and money of the rows whose end day the engines recorded, and the latest end day. `DevMode.billOutcome` in src/bench/dev-mode.ts lists `ended`, the rows a bill's repeal sections ended (`repealLaw` keeps the row with `repealedByBill`), and gives each law row it made `replaced`, the rows on its series at its level in force the day before it took effect (a yes-or-no answered No, an amount lowered); `setLaw` returns `replaced` too. Run until stops on a law's end day (`endedLawId`). The bill card (src/bench/ui/dev-bill-card.mjs) shows each such row, Run until it ends while it is still in force, who it reached while in force, and No longer reached with those people and dollars and the day it ended. It reuses the reach rows the engines already keep and writes nothing.
 
 **Time box.** 4 hours for one Sonnet session at medium effort.
 
@@ -32,4 +32,4 @@ root: rc8-law-judged-by-paperwork
 
 **Waits on.** Nothing.
 
-**Files.** src/bench/dev-mode.ts, src/core2/law-reach/applied.ts, src/bench/data/controls.json, src/bench/dev-mode.test.ts
+**Files.** src/bench/dev-mode.ts, src/core2/law-reach/applied.ts, src/bench/data/controls.json, src/bench/ui/dev-bill-card.mjs, src/bench/dev-repeal-reach.test.ts (new), src/bench/dev-repeal.browser.mjs (new)
