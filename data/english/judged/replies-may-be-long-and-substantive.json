@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "replies-may-be-long-and-substantive",
   "rubric": "Replies are not all short; some carry an argument or a reason, so a reply does not kill the talk.",
-  "judged": 1038,
+  "judged": 1025,
   "no": {
     "0038nen24jy": {
       "keys": [
@@ -3813,15 +3813,6 @@
       ],
       "why": "The replies are an unexplained promise of why, a slogan about {place}, a hold for voters and an exit."
     },
-    "27hu1piv6m3": {
-      "keys": [
-        "scene-talk.follow-answer.you-know-i-can-t-tell-you-that",
-        "scene-talk.reply-confess.it-s-true-i-made-a-mistake-and-i-m-not-going-to-hide-behind-a-statement",
-        "scene-talk.reply-deny.that-isn-t-what-happened-show-me-what-you-have",
-        "scene-talk.reply-leave.i-have-to-go"
-      ],
-      "why": "An admission of a mistake, a bare denial and an exit give no reason or argument."
-    },
     "27ja7uxraxh": {
       "keys": [
         "scene-talk.state-warn.there-ll-be-two-hundred-people-outside-your-event-saturday-maybe-more-",
@@ -4275,5 +4266,5 @@
       "why": "Thanks and a promise to call carry no reason."
     }
   },
-  "yesHash": "1qc55vg9tn9"
+  "yesHash": "0fyi9qklfqk"
 }

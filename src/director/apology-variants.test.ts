@@ -13,7 +13,7 @@ import type { TreeNode } from "./scene-talk";
 import {
   borrowerWorld,
   LOAN_SEED,
-  PAYDAY_BORROWER,
+  BANK_BORROWER,
   play,
   playToQuarrel,
 } from "../../tests/support/real-borrower";
@@ -26,7 +26,7 @@ import {
 // them, and the wronged person's own money pressure.
 //
 // The missed payment is the credit engine's own, on a pinned player who
-// really borrowed (`PAYDAY_BORROWER`, tests/support/real-borrower.ts). The
+// really borrowed (`BANK_BORROWER`, tests/support/real-borrower.ts). The
 // probes below the scene are hand-made, labeled where they stand.
 const families = (
   variantFile as unknown as {
@@ -68,9 +68,9 @@ it(`a quarrel over a missed payment plays the variant its records give (seed ${L
   const tried: string[] = [];
   let proven = 0;
   try {
-    // A player who really borrowed: the payday lender's loan and the missed
+    // A player who really borrowed: the bank's personal loan and the missed
     // payment are the credit engine's own (tests/support/real-borrower.ts).
-    for (const { draw, birth } of [PAYDAY_BORROWER]) {
+    for (const { draw, birth } of [BANK_BORROWER]) {
       const { core, director, playerId, where } = borrowerWorld(draw, birth);
       const id = playerId as PersonId;
       director.watch(core, id);
