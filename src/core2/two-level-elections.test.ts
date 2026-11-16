@@ -97,7 +97,7 @@ function playTo(draw: number) {
     collapseToTwoLevels({ ...full, playerId: player.id }),
   );
   openLaws(core);
-  openOffices(core, seed);
+  openOffices(core, seed, core.date);
   openElections(core);
   openCampaigns(core);
   openParties(core);
@@ -247,6 +247,8 @@ function playTo(draw: number) {
 }
 
 describe("elections in the two-level world", () => {
+  // Alone about 18 s at tl-c, 23 s beside three heavy files on four workers
+  // (Nov 16); the limit is near twice the slower.
   it("counted residents vote, challengers get real votes, and statewide results track the state", () => {
     // The place drawn from the seed; one with no race of both parties this
     // November draws the next, up to eight, and each place tried is named.
@@ -268,6 +270,10 @@ describe("elections in the two-level world", () => {
 
     // Each decided seat opens its next cycle's contest once its winner is
     // seated (audit 2, item 2): one contest per seat would end the record.
+    // A race no one won opens it when the empty race is settled by the
+    // state's law on its due day, the term's start (`resolveEmptyRace`), so
+    // the wait is the later of the two.
+    const emptyRaces = api.moduleState(VOTING_MODULE_ID).table("emptyRaces");
     const seatedBy = (
       api
         .moduleState(ELECTIONS_MODULE_ID)
@@ -275,7 +281,12 @@ describe("elections in the two-level world", () => {
         .rows() as unknown as ContestRow[]
     )
       .filter((c) => c.electionDate === "2026-11-03")
-      .map((c) => resultOf(api, c.id)?.takesOffice ?? "2026-11-04")
+      .map(
+        (c) =>
+          resultOf(api, c.id)?.takesOffice ??
+          (emptyRaces.get(`empty:${c.id}`)?.due as string | undefined) ??
+          "2026-11-04",
+      )
       .sort()
       .at(-1)!;
     const after = new Date(Date.parse(`${seatedBy}T00:00:00Z`) + 86_400_000)
@@ -352,5 +363,5 @@ describe("elections in the two-level world", () => {
         report,
       }),
     );
-  });
+  }, 45_000);
 });

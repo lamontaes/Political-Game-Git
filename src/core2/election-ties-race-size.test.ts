@@ -96,7 +96,7 @@ describe("a tie rule that depends on the size of the race", () => {
         collapseToTwoLevels({ ...full, playerId: player.id }),
       );
       openLaws(core);
-      openOffices(core, seed);
+      openOffices(core, seed, core.date);
       openOfficials(core);
       openElections(core);
       openCampaigns(core);

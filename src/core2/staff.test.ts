@@ -87,7 +87,7 @@ describe("M3-06 staff", () => {
         }),
       );
       openLaws(core);
-      openOffices(core, seed);
+      openOffices(core, seed, core.date);
       openElections(core);
       openCampaigns(core);
       openLegislature(core);

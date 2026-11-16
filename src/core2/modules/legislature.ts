@@ -523,7 +523,14 @@ function keepReply(api: CoreAPI, event: CoreEventInput): void {
     } satisfies ReplyRow as unknown as ModuleRow);
     // A yes given as a favor is a debt, kept where a deal's debts are: the
     // one who asked owes the one who gave it, until it is called in.
-    if (sign > 0 && event.facts?.keeps === "favor-owed")
+    // Only where the favor carried the yes: a colleague who said yes on their
+    // own lean (the player thanked them) owes the player nothing and is owed
+    // nothing; one who said yes after the player pleaded did them a favor.
+    if (
+      sign > 0 &&
+      event.facts?.keeps === "favor-owed" &&
+      String(event.facts?.asked ?? "") === "plea"
+    )
       table(api, "obligations").put({
         id: `obligation:${bill.id}:${ask.askedId}:reply`,
         owedBy: ask.askerId,
@@ -4311,6 +4318,14 @@ export function favorWorth(
   memberId: string,
   askerId: string,
 ): number {
+  // A favor the asker still owes this member (the yes they pleaded for, not yet
+  // repaid) is not asked for twice: the member has done them one already.
+  if (
+    obligationsOwedBetween(api, askerId, memberId).some(
+      (o) => o.kind === "favor",
+    )
+  )
+    return 0;
   return dealValue(api, "favor", memberId, askerId);
 }
 
@@ -4332,7 +4347,16 @@ export function favorReturnedSince(
       memberId,
       sponsorId,
     ]) as unknown as ReplyRow[]
-  ).some((row) => row.scope === "bill" && row.sign > 0 && row.date > since);
+  ).some(
+    (row) =>
+      row.scope === "bill" &&
+      row.sign > 0 &&
+      row.date > since &&
+      // A yes the favor carried: it wrote the favor owed (`keepReply`).
+      table(api, "obligations")
+        .rows()
+        .some((o) => (o as unknown as ObligationRow).replyId === row.id),
+  );
 }
 
 /**
@@ -4478,6 +4502,8 @@ export interface ObligationRow {
   /** The record that called it in (an endorsement given), and when. */
   readonly settledBy?: string;
   readonly settledOn?: string;
+  /** The scene reply that wrote it (a yes the favor carried). */
+  readonly replyId?: string;
   /** The record that refused it (the debtor's no when it was called in), and when: a refused favor is not called in again. */
   readonly refusedBy?: string;
   readonly refusedOn?: string;
