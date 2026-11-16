@@ -54,11 +54,11 @@ const play = (
 };
 
 /** The player in seat `seatNo` drafts the body's `question`th question and plays to Mar 20. */
-const world = (seatNo: number, question: number) => {
+const world = (seatNo: number, question: number, placeKey = "4846968") => {
   setBookkeeping(false);
   const { core, director } = buildBenchWorld("8647-mason", gameStartDate(), {
     twoLevel: true,
-    placeKey: "4846968",
+    placeKey,
   });
   const api = coreAPI(core);
   const seat = townSeats(api).find(
@@ -129,11 +129,19 @@ it("a chair whose stand is against it but whom a favor carries stalls, then hear
   expect(first.speakerId).toBe(chair);
   expect(first.move).toBe("stall");
   const plea = scene.talk.tree.replies.findIndex((r) => r.line.move === "plea");
-  expect(["agree", "relent"]).toContain(
-    scene.talk.tree.replies[plea]!.next?.lines.find(
-      (l) => l.speakerId === chair,
-    )?.move,
+  const relent = scene.talk.tree.replies[plea]!.next?.lines.find(
+    (l) => l.speakerId === chair,
   );
+  expect(relent?.move).toBe("relent");
+  // The chair says the debt when the record is written.
+  expect([
+    "Alright. I'll put it on the calendar. You owe me for this.",
+    "It goes on the calendar. I'll remember that I did this for you.",
+  ]).toContain(relent?.text);
+  const press = scene.talk.tree.replies.find((r) => r.line.move === "press")!;
+  expect(press.line.text).toBe('A yes or a no. Not "later."');
+  const accept = scene.talk.tree.replies.find((r) => r.line.move === "accept");
+  expect(accept?.line.text).toBe("Alright. I had to ask.");
   expect(billOf(api, bill.id).status).toBe("failed");
   const replyId = replyInScene(
     w.core,
@@ -209,9 +217,29 @@ it("a chair the favor cannot carry says no, and the no gives the reason the comm
     temper: "I don't like being pushed on this. It stays where it is.",
   };
   expect(first.text).toBe(said[words[strongest[0]]!]);
-  for (const reply of scene.talk.tree.replies)
-    for (const line of reply.next?.lines ?? [])
-      if (line.speakerId === chair) expect(line.text).toBe(first.text);
+  // Once the reason is said, a plea or a press gets a short hold and the talk ends;
+  // the chair never says the reason a second time, and "a yes or a no, not later"
+  // (an answer to a stall) is not offered after a flat no.
+  const held = [
+    "I've given you my answer.",
+    "You have my answer. It hasn't changed.",
+  ];
+  for (const reply of scene.talk.tree.replies) {
+    const answer = reply.next?.lines.find((l) => l.speakerId === chair);
+    if (["plea", "press"].includes(reply.line.move)) {
+      expect(
+        held,
+        `${reply.line.move} was answered with the reason again`,
+      ).toContain(answer?.text);
+      expect(reply.next?.replies ?? [], "the talk ends on the hold").toEqual(
+        [],
+      );
+    }
+    if (reply.line.move === "press")
+      expect(reply.line.text).not.toBe('A yes or a no. Not "later."');
+    if (reply.line.move === "accept")
+      expect(reply.line.text).toBe("Alright. I had to ask.");
+  }
   expect(billOf(api, bill.id).status).toBe("failed");
 }, 70_000);
 
@@ -240,3 +268,34 @@ it("a hold in the bill's second chamber is not offered as an ask: a yes there re
     "the sponsor is not offered an ask the chair's yes cannot act on",
   ).not.toContain("hold-chair-sought");
 }, 70_000);
+
+const REASON_LINES: Record<string, string> = {
+  district: "People in my district don't want it. I won't put it up.",
+  "last-vote":
+    "I voted against this the last time it came up. I'm not hearing it again.",
+};
+
+// Each reason the chair gives, said by the player's own presses. Texas and (for the last vote) place 4864268, seed 8647-mason; the seats and questions were found by a script outside
+// the test over eight places (temper, sponsor, group and next-election were not reached). Where the chair stalls, the press draws the reason; where
+// the chair has already said no, the reason is the first answer.
+it.each([
+  ["district", "4846968", 0, 21],
+  ["last-vote", "4864268", 0, 20],
+] as const)(
+  "the chair's reason %s is said when the player presses (place %s, seat %i, question %i)",
+  (reason, placeKey, seatNo, question) => {
+    const w = world(seatNo, question, placeKey);
+    const { scene, chair } = w;
+    const first = scene.talk.tree.lines[0]!;
+    expect(first.speakerId).toBe(chair);
+    const line = REASON_LINES[reason]!;
+    if (first.move === "stall") {
+      const press = scene.talk.tree.replies.find(
+        (r) => r.line.move === "press",
+      )!;
+      const said = press.next?.lines.find((l) => l.speakerId === chair);
+      expect(said?.text).toBe(line);
+    } else expect(first.text).toBe(line);
+  },
+  70_000,
+);

@@ -5,7 +5,7 @@ area: art
 kind: bug
 priority: 2
 size: M
-status: in-pr
+status: merged
 standard: 2
 claimed-by: claude/project-thread-md7v2m
 pr: #9094

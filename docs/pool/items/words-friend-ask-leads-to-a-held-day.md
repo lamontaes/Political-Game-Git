@@ -5,7 +5,7 @@ area: words
 kind: bug
 priority: 3
 size: M
-status: in-pr
+status: merged
 standard: 2
 claimed-by: claude/project-thread-yq65dx
 pr: 9436

@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: merged
 claimed-by: claude/play-presiding-executive-drafts-as-chair
 branch: claude/play-presiding-executive-drafts-as-chair
 pr: #9177

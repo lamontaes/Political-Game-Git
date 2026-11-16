@@ -86,7 +86,7 @@
       "days": 91,
       "tag": "TUNABLE",
       "spread": [3, 12],
-      "note": "The most scenes of one situation type a person is staged in a season (91 days, a quarter of a year); past it, that type's causes go to the journal until the window moves on. Checked against the played year Neodesha, Kansas, seed words-0115 (docs/reports/scene-web.md), where the floor vote fired 121 times and 29 of 80 types fired: six a season leaves room for a legislator's weekly sittings to stage one scene in two and lets other types through (the plan of Oct 28, section 3)."
+      "note": "The most scenes of one situation type a person is staged in a season (91 days, a quarter of a year); past it, that type's causes go to the journal until the window moves on. Checked against the played year Neodesha, Kansas, seed words-0115 (docs/reports/scene-web.md), where the floor vote fired 121 times and 29 of 80 types fired: six a season leaves room for a legislator's weekly sittings to stage one scene in two and lets other types through (the plan of Oct 28, section 3). The player's own asks (a type that is playerAsks and caused only by an event of the player's act: bill-sign-on, vote-sought, serve-sought) are not counted or held: the record limits them (scheduling.ts pressedByPlayer; stages of a bill, Nov 14)."
     },
     "openDays": {
       "at-cause": 7,
@@ -3191,7 +3191,15 @@
           "key": "you",
           "fill": "subject",
           "count": "one",
-          "moves": ["request", "plea", "bargain", "press", "thank", "accept"],
+          "moves": [
+            "request",
+            "plea",
+            "bargain",
+            "press",
+            "thank",
+            "defer",
+            "accept"
+          ],
           "wants": ["commit"],
           "bearing": "hopeful"
         }
@@ -4302,7 +4310,7 @@
         }
       ],
 
-      "setting": ["office", "venue"],
+      "setting": ["office", "chamber", "phone"],
       "timing": "at-cause",
       "causes": [
         {
@@ -5950,7 +5958,7 @@
           "key": "you",
           "fill": "subject",
           "count": "one",
-          "moves": ["request", "plea", "press", "thank", "accept"],
+          "moves": ["request", "plea", "press", "thank", "defer", "accept"],
           "wants": ["commit"],
           "bearing": "hopeful"
         }

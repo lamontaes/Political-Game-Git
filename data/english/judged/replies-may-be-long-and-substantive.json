@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "replies-may-be-long-and-substantive",
   "rubric": "Replies are not all short; some carry an argument or a reason, so a reply does not kill the talk.",
-  "judged": 1024,
+  "judged": 1019,
   "no": {
     "0038nen24jy": {
       "keys": [
@@ -1453,15 +1453,6 @@
       ],
       "why": "\"I'll tell you what I weighed\" promises but does not give a reason; the rest defer or dismiss."
     },
-    "0ry2jpwt69j": {
-      "keys": [
-        "scene-talk.follow-plea.people-are-counting-on-this-i-can-t-go-home-with-nothing",
-        "scene-talk.reply-relent.you-ve-worn-me-down-i-ll-set-the-date",
-        "scene-talk.reply-refuse.i-won-t-schedule-it-that-s-my-call-and-it-s-made",
-        "scene-talk.reply-leave.i-have-to-get-to-the-floor"
-      ],
-      "why": "\"That's my call, and it's made\" asserts authority rather than a reason, and the others are a concession and an exit."
-    },
     "0s5xg2c4qfn": {
       "keys": [
         "scene-talk.follow-press.stay-then-but-promise-me-you-ll-go-after",
@@ -1536,15 +1527,6 @@
         "scene-talk.reply-leave.i-need-to-sit-down-for-a-while"
       ],
       "why": "\"I mean it. Thank you\" and sitting down carry no reason."
-    },
-    "0t9anrv50ik": {
-      "keys": [
-        "scene-talk.follow-plea.it-s-one-hearing-it-costs-you-an-afternoon",
-        "scene-talk.reply-relent.you-ve-worn-me-down-i-ll-set-the-date",
-        "scene-talk.reply-refuse.bill-isn-t-going-on-my-calendar-this-session",
-        "scene-talk.reply-leave.i-m-late-for-a-meeting-we-ll-pick-this-up-another-time"
-      ],
-      "why": "Being worn down, refusing the calendar and leaving for a meeting give no argument."
     },
     "0ta148yauab": {
       "keys": [
@@ -4266,5 +4248,5 @@
       "why": "Thanks and a promise to call carry no reason."
     }
   },
-  "yesHash": "1qfgcyvkob0"
+  "yesHash": "1brse3r6xwa"
 }

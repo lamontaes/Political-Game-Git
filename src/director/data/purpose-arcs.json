@@ -35,7 +35,7 @@
     "ask-vote": {
       "state": "request",
       "asks": {
-        "note": "Where the player does the asking: the one asked answers yes if they already lean for it, not yet if a favor would carry them, no otherwise. Asked again: a plea carries them where the favor would at the roll; taking up their price (legislature askPrice: the player's vote on their own bill, or half a section) carries them where the price would, and is offered only where the record holds one; asking them only to stay out of the room carries them where a favor covers half their lean (absenceCarries), and they agree in a decline; pressing holds them only where they lean for it; letting it go wins nothing.",
+        "note": "Where the player does the asking: the one asked answers yes if they already lean for it, not yet if a favor would carry them, no otherwise. Asked again: a plea carries them where the favor would at the roll; taking up their price (legislature askPrice: the player's vote on their own bill, or half a section) carries them where the price would, and is offered only where the record holds one; asking them only to stay out of the room carries them where a favor covers half their lean (absenceCarries), and they agree in a decline; pressing holds them only where they lean for it; letting it go wins nothing. On a second ask after their not yet, deferring to them (\"Read it.\", \"Take the time you need.\") keeps the ask open and wins nothing now; it is offered only on a second ask (Words lead, Nov 15).",
         "yes": "agree",
         "carried": "stall",
         "no": "refuse",
@@ -57,6 +57,11 @@
           {
             "move": "press",
             "carries": "lean"
+          },
+          {
+            "move": "defer",
+            "carries": "none",
+            "secondAsk": true
           },
           {
             "move": "accept",
@@ -2287,22 +2292,15 @@
     },
     "filing-clerk": {
       "state": "tell",
-      "stateMoves": [
-        "tell-running",
-        "tell-race",
-        "tell-duty",
-        "tell-deadline",
-        "tell-filing-fee"
-      ],
+      "stateMoves": ["tell-running", "tell-race", "tell-duty", "tell-deadline"],
       "replies": ["agree", "ask", "confront", "leave"],
       "follow": {
-        "agree": ["accept", "refuse"],
+        "agree": ["accept"],
         "ask": ["answer"],
         "confront": ["answer"]
       },
       "again": {
-        "answer": ["agree", "leave"],
-        "refuse": ["come-back", "leave"]
+        "answer": ["agree", "leave"]
       },
       "endings": [
         {
@@ -4396,7 +4394,7 @@
     "cosponsor-ask": {
       "state": "request",
       "asks": {
-        "note": "The player asks a colleague to sign on to their bill: the colleague answers yes if they already lean for it, not yet if a favor to the player would carry them, no otherwise, and a no says the reason the record holds (publicDeclineReason). Asked again: a plea carries them where the favor would; pressing holds them only where they lean for it; letting it go wins nothing. A yes is thanked, and the colleague closes on it.",
+        "note": "The player asks a colleague to sign on to their bill: the colleague answers yes if they already lean for it, not yet if a favor to the player would carry them, no otherwise, and a no says the reason the record holds (publicDeclineReason). Asked again: a plea carries them where the favor would; pressing holds them only where they lean for it; letting it go wins nothing. A yes is thanked, and the colleague closes on it. On a second ask after their not yet, deferring to them (\"Read it.\", \"Take the time you need.\") keeps the ask open and wins nothing now; it is offered only on a second ask (Words lead, Nov 15).",
         "yes": "agree",
         "carried": "stall",
         "no": "refuse",
@@ -4411,6 +4409,11 @@
           {
             "move": "press",
             "carries": "lean"
+          },
+          {
+            "move": "defer",
+            "carries": "none",
+            "secondAsk": true
           },
           {
             "move": "accept",
