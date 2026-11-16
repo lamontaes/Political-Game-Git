@@ -29,9 +29,11 @@
  * (item tests-group-quarters-room-neither-opened-nor-admitted; on the Train
  * at a62a2fda the same fault showed at Storrs, seed 085af212…, and the fault
  * moves between places as the code changes). Holden, West Virginia (the
- * institution draw at pin-gq-0) returns a room met on day one to the counts
- * with no tenure (item tests-group-quarters-met-room-returns-without-group-
- * tenure; Mount Hope, West Virginia at pin-gq-2 fails the same way).
+ * institution draw at pin-gq-0) returned a room met on day one to the counts
+ * with no tenure on the Train at f26c10de (item tests-group-quarters-met-
+ * room-returns-without-group-tenure; Mount Hope, West Virginia at pin-gq-2
+ * failed the same way); on the Train at 800ae520 it passes, and it stays
+ * here as an institution place.
  */
 import { describe, expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
@@ -87,9 +89,10 @@ const stateFilingRate = (usps: string | undefined) => {
   return row ? `${usps} ${String(row[rate])} (${String(row[2])})` : "none";
 };
 
-// Limit: the slowest case took 373.8 s (Muscatine) and the others 282.9 s
-// (Storrs), 371.5 s (Ogden), 305.2 s (Brewer) and 68.5 s (Holden), run one
-// file at a time; twice the slowest is about 750 s.
+// Limit, Nov 16 on the Train at 800ae520, alone and beside the other pinned
+// files: Muscatine 356.1 s and 370.5 s, Ogden 355.9 s and 349.7 s, Brewer
+// 312.5 s and 318.5 s, Storrs 236.8 s and 254.7 s, Holden 68.1 s and 72.6 s;
+// twice the slowest is about 750 s.
 describe("group quarters in the played world", { timeout: 750_000 }, () => {
   it.each([
     {
@@ -120,7 +123,8 @@ describe("group quarters in the played world", { timeout: 750_000 }, () => {
       filingCheck: false,
       institutions: false,
     },
-    // Red: tests-group-quarters-met-room-returns-without-group-tenure.
+    // Red at f26c10de, green at 800ae520:
+    // tests-group-quarters-met-room-returns-without-group-tenure.
     {
       key: "5437948",
       worldSeed:

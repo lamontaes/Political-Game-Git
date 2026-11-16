@@ -1,4 +1,4 @@
-import { describe, expect, it, vi } from "vitest";
+import { beforeAll, describe, expect, it, vi } from "vitest";
 import { buildBenchWorld } from "../bench/world";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
@@ -76,9 +76,19 @@ function playYear() {
   return { core, api, start, renewed };
 }
 
-const { core, api, start, renewed } = playYear();
+type Played = ReturnType<typeof playYear>;
+let core!: Played["core"];
+let api!: Played["api"];
+let start!: Played["start"];
+let renewed!: Played["renewed"];
 
+// Limit: the played year takes 233 s alone and 228 s beside group-quarters
+// (Nov 16, Train 800ae520); twice the slower is about 480 s. It was built at
+// load before, where no limit applied.
 describe(`counted rent and payments in a played year (${place.name}, seed ${seed})`, () => {
+  beforeAll(() => {
+    ({ core, api, start, renewed } = playYear());
+  }, 480_000);
   it("renews a counted tenant's rent by the same rule as a full tenant's lease", () => {
     // The pinned place renews a counted tenant's lease in the year.
     expect(renewed, `${place.name} (${place.key})`).toBe(true);

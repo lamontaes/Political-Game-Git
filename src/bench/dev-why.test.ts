@@ -29,13 +29,14 @@ const PINS = [
   },
 ];
 
-// Limit: the year ledger case is the slowest, 59.0 s at Hanover and 43.3 s
-// at Kagman alone (the world builds in about 13 s in beforeAll); twice the
-// slower is about 120 s.
+// Limit: the year ledger case is the slowest, 68.7 s alone and 72.0 s beside
+// group-quarters at Hanover (43.2 s and 42.7 s at Kagman); the world builds in
+// about 13 s in beforeAll. Twice the slower is about 150 s (Nov 16, Train
+// 800ae520). The other cases take under 20 s.
 for (const { seed, placeKey, name } of PINS)
   describe(
     `dev why panels: ${name} (seed ${seed})`,
-    { timeout: 120_000 },
+    { timeout: 150_000 },
     () => {
       let world!: ReturnType<typeof buildBenchWorld>;
       let core!: ReturnType<typeof buildBenchWorld>["core"];
@@ -77,7 +78,7 @@ for (const { seed, placeKey, name } of PINS)
         if (worker)
           expect(ledger!.rows.some((r) => r.label === "pay")).toBe(true);
         else expect(ledger!.gap).toContain("not itemized");
-      }, 240_000);
+      }, 150_000);
 
       it("a followed resident's decisions list each kept act by record id, and an unfollowed one says its acts keep no reasons", () => {
         const where = `${world.place.displayName} (seed ${seed})`;
@@ -212,7 +213,7 @@ for (const { seed, placeKey, name } of PINS)
           "keep no reasons until followed",
         );
         expect(decisionsOf(first.id)!.rows.length).toBeGreaterThan(0);
-      }, 240_000);
+      }, 150_000);
 
       it("following someone the player deals with changes nothing, and stopping leaves them kept", () => {
         const dev = new DevMode(core, world.director, undefined, world.placeId);

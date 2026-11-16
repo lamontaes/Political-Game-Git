@@ -30,6 +30,9 @@ import {
 // (Parksley, Virginia and Fort Meade, Maryland among them): the national pool,
 // the stand-in and the empty-race edge fixture, item
 // tests-wide-races-three-cases-red-on-train (Needs cause).
+// Limit: the whole file runs in 31 s alone and 33 s beside group-quarters
+// (Nov 16, Train 800ae520), nearly all of it building the world at load;
+// each case takes under 3 s, well inside the default 30 s.
 const seed = "pin-wr-0";
 const place = {
   key: "1033900",

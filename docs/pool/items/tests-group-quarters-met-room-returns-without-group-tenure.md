@@ -38,3 +38,4 @@ Seen: Holden, West Virginia (5437948), the test's drawn place at seed pin-gq-0, 
 **Notes.**
 
 - Nov 16, views thread: kept in the pinned test as a red case.
+- Nov 16, views thread: the Holden case was red on the Train at f26c10de (household_dbc7dd124856b6e9) and passes at 800ae520 (68.1 s alone, 72.6 s beside), so the pinned test no longer shows this fault. The item stays open for the Marietta seed on main until a session replays it on the Train.

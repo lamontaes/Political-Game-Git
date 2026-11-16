@@ -23,6 +23,9 @@ import { coreAPI } from "./state";
 // commit 6eb1ff91, where 1.2 percent of displaced workers set out to prove
 // themselves against a floor of 3.0; it stays here as a red case for item
 // tests-drives-economy-prove-oneself-low-maytown (Needs cause).
+// Limit: the whole file runs in 20 s alone and 21 s beside group-quarters
+// (Nov 16, Train 800ae520), nearly all of it building the two worlds at load;
+// each case takes under a second, well inside the default 30 s.
 const PINS = [
   { seed: "drives-economy", placeKey: "1212250" },
   {
