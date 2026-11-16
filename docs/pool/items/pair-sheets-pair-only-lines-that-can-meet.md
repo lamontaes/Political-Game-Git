@@ -5,7 +5,7 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: merged
 pr: 9338
 standard: 2
 after: ""

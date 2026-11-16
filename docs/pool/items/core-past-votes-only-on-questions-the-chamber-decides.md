@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: merged
 standard: 2
 claimed-by: claude/p2-past-votes-by-level
 pr: #9009
@@ -16,6 +16,7 @@ model: sonnet
 effort: low
 root: none
 source: Playtester P2, Nov 13 (French Island, Wisconsin, seed 49f52639-1873-49db-9500-bac35d6dc22b)
+merged-at: 2026-11-15T21:53:58.835Z
 ---
 
 **What.** In an Advanced start in French Island, Wisconsin (seed 49f52639-1873-49db-9500-bac35d6dc22b) as La Crosse County Commissioner Anika Emerson, Politics → Elections → Your record in office → Votes you cast lists "Forgive student loans · April 26, 2023", "Raise federal minimum wage · October 15, 2023", "Admit more immigrants · March 11, 2024" and "Limit power plant carbon · November 12, 2024", each "You voted for it · it passed". A county board never decides those. The same happens to state legislatures: the Utah House "voted" on admitting more immigrants and the Kentucky Senate on the federal minimum wage. Seen: an officeholder's past votes are on questions their own body decides.

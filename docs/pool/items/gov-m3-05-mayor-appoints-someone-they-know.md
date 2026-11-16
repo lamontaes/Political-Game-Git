@@ -6,7 +6,7 @@ lead: governing
 kind: wiring
 priority: 2
 size: S
-status: in-pr
+status: merged
 claimed-by: claude/pool-gov-m3-05-mayor-appoints-someone-they-know
 pr: #8394
 blocked-on:

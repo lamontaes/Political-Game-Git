@@ -48,7 +48,12 @@ describe("workers who live in town and work out of town lose work by the layoff 
         // and where it is true that they show up looking (re-pinned Nov 14
         // from December, when the search began from nothing and Staples,
         // Maloata and Tanapag read 7, 27 and 19 in December; with the search
-        // seeded they read 3, 16 and 18 in December and 6, 31 and 14 in June, which the floors below halve).
+        // seeded they read 3, 16 and 18 in December and 6, 31 and 14 in June).
+        // The floors are half the measured June counts: the count moves with
+        // the opening's progress and the regional hiring around it, so a floor
+        // at the measured figure would go red when either changes, while half
+        // still fails the one defect this test guards (away workers never let
+        // go, which reads 0).
         advanceCore(core, `${year}-06-01`);
         // Looking now, out of work because their household's away share lost work, since the opening month:
         // the counted people the away workers' share made jobless.
