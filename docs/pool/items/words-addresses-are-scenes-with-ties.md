@@ -8,7 +8,7 @@ size: L
 status: in-pr
 standard: 2
 claimed-by: desk thread (claude/project-thread-hkqdh2-address-scene)
-pr:
+pr: 9663
 after:
 blocked-on:
 lead: words
