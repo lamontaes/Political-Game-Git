@@ -241,7 +241,14 @@ const ATTEMPTS = 4;
 const WAIT_DAYS = 7;
 /** Nine in the morning: the minute of the window's last day the player talks. */
 const LAST_DAY_MINUTE = 9 * 60;
-const TIMEOUT = 600_000;
+/**
+ * Each test's limit, near twice the slower of its time alone and beside
+ * ending-strain-share and english-parts-banks (Nov 16, at #9624): show-around
+ * 81 s and 79 s, vote 126 s and 124 s, attend 41 s and 40 s.
+ */
+const SHOW_AROUND_TIMEOUT = 165_000;
+const VOTE_TIMEOUT = 255_000;
+const ATTEND_TIMEOUT = 85_000;
 
 const paths = (node: TreeNode, prefix: number[] = []): number[][] =>
   node.replies.flatMap((reply, index) =>
@@ -740,7 +747,7 @@ it(
       setBookkeeping(true);
     }
   },
-  TIMEOUT,
+  SHOW_AROUND_TIMEOUT,
 );
 
 /** Days played in a place at most, one at a time, so the evening before a roll is caught. */
@@ -920,7 +927,7 @@ it(
       setBookkeeping(true);
     }
   },
-  TIMEOUT,
+  VOTE_TIMEOUT,
 );
 
 /** Days a friend's ask may wait, one at a time, for a town body to post its next meeting. */
@@ -1092,7 +1099,7 @@ it(
       setBookkeeping(true);
     }
   },
-  TIMEOUT,
+  ATTEND_TIMEOUT,
 );
 
 it("a broken promise costs a close tie more hours than a slight one (the two broken promises played above)", () => {

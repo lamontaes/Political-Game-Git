@@ -212,8 +212,8 @@
     },
     "promiseDeniedShare": {
       "value": 0.5,
-      "tag": "TUNABLE",
-      "citation": "Words lead rulings 2 (Nov 14): denying a broken promise cools the tie further, by half of what the promise cost (the trust-lost share the break took, closeness.ts trustLostHours; people-broken-promise-costs-share-of-tie, Nov 16).",
+      "tag": "ESTIMATED",
+      "citation": "Words lead rulings 2 (Nov 14): denying a broken promise cools the tie further, by half of what the promise cost (the trust-lost share the break took, closeness.ts trustLostHours). New on Nov 16 (people-broken-promise-costs-share-of-tie): it replaces promiseDeniedHours (1 hour), whose citation already said half. From memory, not measured: no study read gives what a denial costs beyond the break. Sizing it from the record is item people-trust-lost-share-sized-from-the-record.",
       "spread": "0.25 to 1",
       "checkRange": {
         "min": 0.25,
