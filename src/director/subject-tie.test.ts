@@ -33,14 +33,18 @@ it("refuses a subject with no tie, whichever builder made it", () => {
       row("news", {
         tie: { kind: "place", recordIds: ["story:1", "office:a"] },
       }),
-      row("home"), // the speaker's own household record, tied by its kind
+      row("home", { facts: { x: { sourceRecordIds: ["record:a:1"] } } }), // cites the speaker's own record
+      row("home", { facts: { x: { sourceRecordIds: ["organization:z"] } } }), // cites nobody's record: the kind alone is no tie
     ],
-    "person_a",
+    (id) => id.startsWith("record:a:"),
     (subject) => refused.push(subject.kind),
   );
-  expect(refused).toEqual(["weather-chat", "news", "headline-gossip"]);
+  expect(refused).toEqual(["weather-chat", "news", "headline-gossip", "home"]);
   expect(accepted.map((subject) => subject.kind)).toEqual(["news", "home"]);
-  expect(accepted[1]!.tie).toEqual({ kind: "record", recordIds: ["person_a"] });
+  expect(accepted[1]!.tie).toEqual({
+    kind: "record",
+    recordIds: ["record:a:1"],
+  });
   expect(OWN_RECORD_KINDS.has("weather-chat")).toBe(false);
 });
 
@@ -55,13 +59,16 @@ it("every subject a built world's people can raise to the player carries its tie
   });
   const { core, director } = world;
   const playerId = world.playerId as PersonId;
-  const refusedKinds = new Set<string>();
   let raised = 0;
   for (const person of core.people.values()) {
     if (person.id === playerId || !person.alive) continue;
-    for (const subject of subjectsBetween(core, person.id, playerId, director, {
-      refused: (refused) => refusedKinds.add(refused.kind),
-    })) {
+    for (const subject of subjectsBetween(
+      core,
+      person.id,
+      playerId,
+      director,
+      {},
+    )) {
       raised += 1;
       expect(
         subject.tie?.recordIds.length,
@@ -70,8 +77,4 @@ it("every subject a built world's people can raise to the player carries its tie
     }
   }
   expect(raised, `${where}: no subject was raised`).toBeGreaterThan(0);
-  for (const kind of refusedKinds)
-    expect(OWN_RECORD_KINDS.has(kind), `${kind} is tied by its kind`).toBe(
-      false,
-    );
 }, 60_000);

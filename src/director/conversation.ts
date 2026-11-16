@@ -69,7 +69,12 @@ import { CRIME_EVENT, CRIME_MODULE_ID } from "../core2/modules/crime";
 import { JOBS_MODULE_ID } from "../core2/modules/jobs";
 import { applyCoreEvent, coreAPI } from "../core2/state";
 import { sharedHistory } from "../core2/shared-history";
-import { acceptSubjects, storyTie, type SubjectTie } from "./subject-tie";
+import {
+  acceptSubjects,
+  belongsToPair,
+  storyTie,
+  type SubjectTie,
+} from "./subject-tie";
 import {
   NEWS_MODULE_ID,
   newsKey,
@@ -2769,7 +2774,14 @@ function introduction(
       };
     }
   }
-  return { id: `here:${speaker.id}`, kind: "here", facts, stage };
+  // Strangers in one place: the meeting is the tie.
+  return {
+    id: `here:${speaker.id}`,
+    kind: "here",
+    tie: { kind: "frame", recordIds: [speaker.id, listener.id] },
+    facts,
+    stage,
+  };
 }
 
 /** The subjects a speaker can raise with a listener, from the speaker's records. */
@@ -2943,12 +2955,21 @@ export function subjectsBetween(
   out.push(...justiceSubjects(core, director, speakerId, listenerId));
   const theirs = jobOf(core, listener);
   if (!mine || theirs?.org.id !== mine.org.id)
-    out.push({ id: `their-work:${listenerId}`, kind: "their-work", facts: {} });
+    out.push({
+      id: `their-work:${listenerId}`,
+      kind: "their-work",
+      // Their job, if they hold one: no job, nothing to ask about.
+      ...(listener.jobId
+        ? { tie: { kind: "record" as const, recordIds: [listener.jobId] } }
+        : {}),
+      facts: {},
+    });
   // Asked only right after they name their work.
   if (theirs && tenureYears(startedOf(core, listener), core.date))
     out.push({
       id: `their-tenure:${listenerId}`,
       kind: "their-tenure",
+      tie: { kind: "record" as const, recordIds: [theirs.job.id] },
       facts: {},
     });
   // What they do there, asked right after they name their work: answered
@@ -3247,6 +3268,10 @@ export function subjectsBetween(
     out.push({
       id: `their-school:${listenerId}`,
       kind: "their-school",
+      tie: {
+        kind: "record" as const,
+        recordIds: [schoolOf(core, listener)!.recordId],
+      },
       facts: {},
     });
   // The newest printed story the speaker read or heard of lately, said by
@@ -3529,7 +3554,7 @@ export function subjectsBetween(
   // Only what is tied to the speaker or the hearer is raised (subject-tie.ts).
   const told = acceptSubjects(
     out.map((row) => withoutToldFigures(row, speakerId, core.date)),
-    speakerId,
+    belongsToPair(core, speakerId, listenerId),
     room.refused,
   );
   // Between relatives, a talk is personal only.

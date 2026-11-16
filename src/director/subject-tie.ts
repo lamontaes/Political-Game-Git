@@ -16,6 +16,8 @@ import type { CoreState, PersonId } from "../core2/types";
 import type { Story } from "../core2/modules/news";
 import { coreAPI } from "../core2/state";
 import { OFFICES_MODULE_ID, servingTermsOf } from "../core2/modules/offices";
+import { schoolDayOf } from "../core2/modules/people";
+import { reachOn } from "../core2/law-reach/host";
 
 /** The record that ties a Subject to the speaker or the hearer. */
 export interface SubjectTie {
@@ -78,18 +80,65 @@ export const OWN_RECORD_KINDS: ReadonlySet<string> = new Set([
 export interface TieReadable {
   id: string;
   kind: string;
+  aboutId?: string;
   tie?: SubjectTie;
   facts: Readonly<Record<string, { sourceRecordIds: readonly string[] }>>;
 }
 
-/** The tie a Subject carries or its kind gives it, or null: the Subject is refused. */
+/** Whether a record id is one of the speaker's or the hearer's own: a record that names them, their household, or sits in their log. */
+export type Belongs = (id: string) => boolean;
+
+/** The records of the pair, read from the world: ids that name either person or their household, or are in either's log. */
+export function belongsToPair(
+  core: Readonly<CoreState>,
+  speakerId: PersonId,
+  listenerId: PersonId,
+): Belongs {
+  const api = coreAPI(core as CoreState);
+  const people = [speakerId, listenerId]
+    .map((id) => core.people.get(id))
+    .filter((person): person is NonNullable<typeof person> => !!person);
+  /** The rows that are theirs: their household, their job and its employer, their school. */
+  const rows = new Set<string>();
+  for (const person of people) {
+    if (person.householdId) rows.add(person.householdId);
+    const job = person.jobId ? core.jobs.get(person.jobId) : undefined;
+    if (job) {
+      rows.add(job.id);
+      rows.add(job.organizationId);
+    }
+    const school = schoolDayOf(api, person.id);
+    if (school) rows.add(school.schoolId);
+  }
+  const names = people.map((person) => person.id as string);
+  return (id) =>
+    rows.has(id) ||
+    // A bare person id is the person, not a record of theirs.
+    (!names.includes(id) &&
+      (names.some((name) => id.includes(name)) ||
+        people.some((person) =>
+          core.logByPerson.get(person.id)?.has(id as never),
+        )));
+}
+
+/**
+ * The tie a Subject carries or its kind gives it, or null: the Subject is
+ * refused. A Subject of the speaker's or hearer's own life is tied by the
+ * records it cites that are theirs (never by its kind alone): with none, it
+ * is refused.
+ */
 export function tieOfSubject(
   subject: TieReadable,
-  speakerId: string,
+  belongs: Belongs,
 ): SubjectTie | null {
   if (subject.tie) return subject.tie.recordIds.length ? subject.tie : null;
   if (!OWN_RECORD_KINDS.has(subject.kind)) return null;
-  return { kind: "record", recordIds: [speakerId] };
+  const ids = [
+    ...(subject.aboutId ? [subject.aboutId] : []),
+    ...Object.values(subject.facts).flatMap((fact) => fact.sourceRecordIds),
+  ];
+  const own = [...new Set(ids.filter(belongs))];
+  return own.length ? { kind: "record", recordIds: own } : null;
 }
 
 /**
@@ -98,12 +147,12 @@ export function tieOfSubject(
  */
 export function acceptSubjects<T extends TieReadable>(
   subjects: readonly T[],
-  speakerId: string,
+  belongs: Belongs,
   refused?: (subject: T) => void,
 ): T[] {
   const out: T[] = [];
   for (const subject of subjects) {
-    const tie = tieOfSubject(subject, speakerId);
+    const tie = tieOfSubject(subject, belongs);
     if (tie) out.push({ ...subject, tie });
     else refused?.(subject);
   }
@@ -111,12 +160,48 @@ export function acceptSubjects<T extends TieReadable>(
 }
 
 /**
- * The tie a printed story has to the pair, from the story's own record, or
- * null (the speaker only holds a stance on its question, which is a view of
- * the story and no tie to it): the sponsor is in the speaker's or the
- * hearer's household or kin or is known to one of them; the body it covers
- * is the one the hearer holds a seat on; the body is the town's own and the
- * speaker or hearer lives there;.
+ * The record kinds that are a person's own act on a bill or a question, and
+ * the fact each carries it by: a vote an official cast, a comment given on a
+ * bill, a vote recorded on a measure, a bill introduced. A lean on the question (everyone holds
+ * one) is an amount and is never one of these.
+ */
+const ACT_RECORDS: Readonly<Record<string, "billId" | "question">> = {
+  "office.voted": "billId",
+  "office.introduced": "billId",
+  "public-comment": "billId",
+  "vote-recorded": "question",
+  "town-hall": "questions",
+};
+
+/** The id of the person's own recorded act on the story's bill or question, or null. */
+function recordedAct(
+  core: Readonly<CoreState>,
+  personId: PersonId,
+  story: Story,
+): string | null {
+  const bill = story.facts.billId;
+  const question = story.topic;
+  for (const id of core.logByPerson.get(personId) ?? []) {
+    const record = core.durableLog.get(id as never);
+    const by = record && ACT_RECORDS[record.kind];
+    if (!by) continue;
+    const value = record.facts?.[by];
+    if (by === "billId" && !!bill && value === bill) return id;
+    if (by === "question" && !!question && value === question) return id;
+  }
+  return null;
+}
+
+/**
+ * The tie a printed story has to the pair, from records of theirs, or null.
+ * The speaker holding a stance on its question is a view of the story, not a
+ * tie to it, and living in the town is not one either: the story must reach
+ * one of the two through a record. It does when the person it names (the
+ * sponsor, a member) is in the speaker's or hearer's household or kin; when
+ * it covers a body the hearer holds a seat on; or when the law it reports
+ * took effect on the speaker or the hearer (the law-reach record); or when
+ * the speaker or the hearer has a recorded act of their own on its bill or
+ * question (`ACT_RECORDS`).
  */
 export function storyTie(
   core: Readonly<CoreState>,
@@ -134,29 +219,36 @@ export function storyTie(
   for (const id of named) {
     const person = core.people.get(id as PersonId);
     if (!person) continue;
-    if (
-      person.householdId === speaker.householdId ||
-      person.householdId === listener.householdId ||
-      speaker.familyIds.has(person.id) ||
-      listener.familyIds.has(person.id) ||
-      id === speakerId ||
-      id === listenerId
-    )
-      return { kind: "record", recordIds: [story.id, id] };
+    for (const mine of [speaker, listener])
+      if (
+        person.id === mine.id ||
+        (person.householdId && person.householdId === mine.householdId) ||
+        mine.familyIds.has(person.id)
+      )
+        return {
+          kind: "record",
+          recordIds: [story.id, mine.householdId ?? mine.id, person.id],
+        };
   }
+  const api = coreAPI(core as CoreState);
   const chamber = facts.chamber;
   if (chamber && core.modules.has(OFFICES_MODULE_ID)) {
-    const api = coreAPI(core as CoreState);
     const held = servingTermsOf(api, listenerId).find(
       (term) => term.officeId === chamber,
     );
     if (held) return { kind: "record", recordIds: [story.id, held.id] };
-    const office = api
-      .moduleState(OFFICES_MODULE_ID)
-      .table("offices")
-      .get(chamber) as { coversTown?: boolean } | undefined;
-    if (office?.coversTown)
-      return { kind: "place", recordIds: [story.id, chamber] };
   }
+  // A recorded act of their own on the story's bill or question.
+  for (const id of [speakerId, listenerId]) {
+    const act = recordedAct(core, id, story);
+    if (act) return { kind: "stand", recordIds: [story.id, act] };
+  }
+  if (facts.lawId)
+    for (const id of [speakerId, listenerId]) {
+      const reach = reachOn(api, id).find(
+        (row) => row.lawId === facts.lawId && !row.endedOn,
+      );
+      if (reach) return { kind: "law", recordIds: [story.id, reach.id] };
+    }
   return null;
 }
