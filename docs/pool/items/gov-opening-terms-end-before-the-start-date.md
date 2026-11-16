@@ -5,7 +5,7 @@ area: gov
 kind: bug
 priority: 2
 size: M
-status: open
+status: in-pr
 claimed-by:
 pr:
 blocked-on:
@@ -29,10 +29,12 @@ Seen: dev mode's Trace on any serving term at the start shows an end date earlie
 
 **Rules.** One engine per mechanic: the seating stays in the one opening writer, with no second pass. No dice: the holder after the pre-start election comes from the seat's record, never a roll. One rule, all 56 places. Replace, never layer: the stale rows are replaced, not kept beside new ones.
 
-**Done when.** A second session builds a world at a drawn place and seed it names and finds no serving term whose end date is before the start date (or names each exception and why), and at Washington, DC (seed above) the 5,854 are 0 and the vacancy of seat:US-NY:lower:136:0 is filled by a term that runs forward from its start; year time within 20 percent at three places.
+**Done when.** A second session builds a world at a drawn place and seed it names and finds no serving term whose end date is before the start date (or names each exception and why), and at Washington, DC (seed above) the 5,854 are 0; year time within 20 percent at three places.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/offices.ts, src/core2/modules/voting.ts, src/core2/opening-vacancy-handled.test.ts
+**Files.** src/core2/modules/offices.ts, src/bench/world.ts, src/bench/dev-trace.ts, src/core2/opening-terms-in-office.test.ts
 
 **Notes.** Found while tracing gov-special-election-term-ends-before-it-starts, which this item contains: with every term in office current, a special election's vacated term has not run out. Whether the pre-start November 2024 winners should be the same people is a question of the seat's record the opening already holds (`elected` on the term); no number is typed. Counts above are one place; a scan at three drawn places is the first step.
+
+The fix is the start date given to `openOffices` (`world.ts` passes the game's start day); serving terms ending on or before it: 0 at Washington, DC, place 2338740 and place 5522550 (was 5,854 of 7,885 at DC). A term that begins in the warm-up is held from the day the world opened. The DC death that opened a vacancy in the warm-up no longer happens in that world, because the holders are drawn as of the start day.

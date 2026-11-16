@@ -1005,7 +1005,9 @@ function pastTerms(
 ): void {
   const years = office.termYears;
   // The day the offices were seated for, also when a holder is opened later (openPastTerms).
-  const opening = (table(api, "loaded").get("opening") as unknown as { date: string }).date;
+  const opening = (
+    table(api, "loaded").get("opening") as unknown as { date: string }
+  ).date;
   if (!years || !term.endDate) return;
   const start = termStartInYear(office, shiftYears(term.endDate, -years));
   // The federal executive keeps its real record: the current term began a

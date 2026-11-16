@@ -14,6 +14,7 @@ import { buildPopulation } from "./population";
 import { advanceCore, createLifeCore } from "./life";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { coreAPI } from "./state";
+import { traceNode } from "../bench/dev-trace";
 import {
   OFFICES_MODULE_ID,
   openOffices,
@@ -60,6 +61,14 @@ it("every serving term is in office on the start day, and a death in the warm-up
       /seat:US-[A-Z]{2}:house/.test(term.seatId),
   );
   expect(house, "a serving House term").toBeDefined();
+  // Dev mode's Trace on the seat names the term in office first, and the term's own Trace shows its start and end.
+  const seatTrace = traceNode(core, undefined, house!.seatId);
+  expect(seatTrace.children.map((child) => child.id)[0]).toBe(house!.id);
+  const termTrace = traceNode(core, undefined, house!.id);
+  expect(termTrace.record).toMatchObject({
+    startDate: house!.startDate,
+    endDate: house!.endDate,
+  });
   advanceCore(core, addDays(makeIsoDate(core.date), 4));
   expect(core.date).toBe("2024-12-24");
   const vacancy = vacateSeat(api, house!.seatId, "death") as VacancyRow;
