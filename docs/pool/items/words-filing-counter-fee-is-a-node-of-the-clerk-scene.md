@@ -5,7 +5,7 @@ area: words
 kind: feature
 priority: 2
 size: M
-status: in-pr
+status: merged
 pr: 9348
 standard: 2
 after: elections-filing-fee-paid

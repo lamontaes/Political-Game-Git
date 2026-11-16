@@ -5,7 +5,7 @@ area: elections
 kind: wiring
 priority: 1
 size: S
-status: in-pr
+status: merged
 claimed-by: claude/pool-campaign-real-race-played-proof
 pr: #8389
 after:

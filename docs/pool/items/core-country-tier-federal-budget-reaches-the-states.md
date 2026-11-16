@@ -5,7 +5,7 @@ area: core
 kind: feature
 priority: 1
 size: M
-status: in-pr
+status: merged
 claimed-by: claude/pool-core-country-tier-federal-budget-reaches-the-states
 pr: #8388
 after:
