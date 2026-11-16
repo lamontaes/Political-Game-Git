@@ -8,7 +8,7 @@ size: L
 status: merged
 standard: 2
 claimed-by: story builder (claude/project-thread-lcf812-leftovers)
-pr: #9678
+pr: #9692
 after:
 blocked-on:
 lead: words
