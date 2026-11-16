@@ -111,7 +111,11 @@ export function codeLines(): Record<string, number> {
 export function dataHeldLines(): Record<string, number> {
   const out: Record<string, number> = {};
   for (const dir of SOURCE_DIRS)
-    for (const file of walk(path.join(ROOT, dir), (f) => f.endsWith(".json"))) {
+    for (const file of walk(
+      path.join(ROOT, dir),
+      // Dev mode's own data (src/bench/dev-views) is read by the developer, not the player.
+      (f) => f.endsWith(".json") && !/\/dev-views\//.test(f),
+    )) {
       const count = jsonStrings(JSON.parse(readFileSync(file, "utf8"))).filter(
         sentenceShaped,
       ).length;

@@ -17,6 +17,7 @@ setBookkeeping(false);
 const offered: Record<string, number> = {};
 const refused: Record<string, number> = {};
 const byTie: Record<string, number> = {};
+const byAct: Record<string, number> = {};
 let pairs = 0;
 const limit = Number(process.env.LIMIT ?? 300);
 for (const seed of (process.env.SEEDS ?? "21,22,23").split(",")) {
@@ -43,7 +44,16 @@ for (const seed of (process.env.SEEDS ?? "21,22,23").split(",")) {
       offered[row.kind] = (offered[row.kind] ?? 0) + 1;
       const key = `${row.kind}:${row.tie?.kind}`;
       byTie[key] = (byTie[key] ?? 0) + 1;
+      // What the news tie rests on: the kind of the record behind it (a recorded act, a household, a law's reach).
+      if (row.kind === "news" && row.tie) {
+        const behind = row.tie.recordIds[1] ?? "";
+        const kind =
+          core.durableLog.get(behind as never)?.kind ??
+          "household or reach row";
+        const label = `${row.tie.kind}:${kind}`;
+        byAct[label] = (byAct[label] ?? 0) + 1;
+      }
     }
   }
 }
-console.log(JSON.stringify({ pairs, offered, refused, byTie }, null, 2));
+console.log(JSON.stringify({ pairs, offered, refused, byTie, byAct }, null, 2));
