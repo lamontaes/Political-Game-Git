@@ -305,7 +305,7 @@ export interface Relationship {
   /**
    * When the last change came apart (`RelationshipReason.apart`): the day the
    * two were last together, or null when they never were. Absent, they were
-   * together on `lastContactDate`. Read through `lastTogether`.
+   * together on `lastContactDate`. Read through `lastMetOnRow`.
    */
   lastMetDate?: IsoDate | null;
   /**

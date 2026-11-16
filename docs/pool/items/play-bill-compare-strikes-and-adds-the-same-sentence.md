@@ -18,6 +18,7 @@ root: rc10-screens-keep-own-facts
 source: lead's play walk as a council member on Nov 11, 2026 (Lino Lakes, Minnesota, seed 046d2235-27df-4daa-a680-423d6f24d0d7, Ordinance 2025-6 at the meeting of February 4, 2025)
 checked:
 claimed-at:
+merged-at: 2026-11-15T23:25:59.780Z
 ---
 
 **What.** A council member reading a bill before they vote presses Compare to see what the bill changes. On the walk above, Ordinance 2025-6 (to repeal the town's rules on affordable homes in new buildings) showed its one section struck through and then the same sentence, word for word, underlined as added: "Section 1. Be it ordained by the Lino Lakes City Council, That the rules now in force on affordable homes in new buildings are repealed and shall have no further effect." A reader cannot tell what the law says today or what the vote would change. The panel beside it says only that no dollar figure is on record for the section. Seen: the bill page's Compare view at a meeting or in Politics, Bills, at 1440x900, where the struck text is the law in force today and the added text is what the bill would make it.

@@ -1,6 +1,12 @@
-import { readdirSync, readFileSync, statSync } from "fs";
+import { readFileSync } from "fs";
 import path from "path";
 import { describe, expect, it } from "vitest";
+import {
+  DEVELOPER_FILE,
+  jsonStrings,
+  literals,
+  walk,
+} from "../../../scripts/words/line-register";
 import { KNOWN_DEVELOPER_TEXT } from "./allowlist";
 
 /**
@@ -39,50 +45,9 @@ export function developerText(text: string): string | null {
   return null;
 }
 
-function walk(dir: string, keep: (file: string) => boolean): string[] {
-  return readdirSync(dir).flatMap((name) => {
-    const full = path.join(dir, name);
-    if (statSync(full).isDirectory()) return walk(full, keep);
-    return keep(full) ? [full] : [];
-  });
-}
-
-/** Developer-only files: the bench's checks and traces, the director's tools. */
-const DEVELOPER_FILE =
-  /(?:^|\/)(?:[\w-]+-check|dev-[\w-]+|tooling\/[\w/-]+)\.tsx?$/;
-
-/** A literal that is an error, a log line or a test message, not player text. */
-const DEVELOPER_CALL =
-  /(?:\b(?:Error|console\.\w+|assert\w*|fail|gap|log|warn)\([^;(){}]*|estimatedFrom:\s*)$/;
-
-/** String and template literals a player could read, comments skipped. */
-function literals(source: string): string[] {
-  const code = source
-    .replace(/\/\*[\s\S]*?\*\//g, " ")
-    .replace(/(^|[^:"'`\\])\/\/[^\n]*/g, "$1");
-  return [...code.matchAll(/"((?:[^"\\\n]|\\.)*)"|`((?:[^`\\]|\\.)*)`/g)]
-    .filter(
-      (match) =>
-        !DEVELOPER_CALL.test(
-          code.slice(Math.max(0, match.index - 120), match.index),
-        ),
-    )
-    .map((match) => match[1] ?? match[2] ?? "");
-}
-
 /** Where a bank keeps its provenance, which the player never reads. */
 const RECORD_KEY =
   /^(?:source|sources|citation|cites|retrieved|accessed|date|at|note|notes|provenance|evidence|description|estimatedFrom|reason)$/i;
-
-function jsonStrings(value: unknown, out: string[] = []): string[] {
-  if (typeof value === "string") out.push(value);
-  else if (Array.isArray(value))
-    for (const item of value) jsonStrings(item, out);
-  else if (value && typeof value === "object")
-    for (const [key, item] of Object.entries(value))
-      if (!RECORD_KEY.test(key)) jsonStrings(item, out);
-  return out;
-}
 
 function findings(): Map<string, string[]> {
   const byFile = new Map<string, string[]>();
@@ -111,7 +76,11 @@ function findings(): Map<string, string[]> {
       // The rules file quotes the owner's notes and the lines each rule must catch.
       !file.endsWith("line-rules.json"),
   ))
-    for (const text of jsonStrings(JSON.parse(readFileSync(file, "utf8"))))
+    for (const text of jsonStrings(
+      JSON.parse(readFileSync(file, "utf8")),
+      [],
+      RECORD_KEY,
+    ))
       add(file, text);
   return byFile;
 }

@@ -57,7 +57,7 @@ import type {
   PersonState,
 } from "../types";
 import type { ModuleRow } from "../module-data";
-import { enactLaw, lawChain, lawInForce } from "./laws";
+import { answerIn, enactLaw, lawChain, lawInForce } from "./laws";
 import { OFFICES_MODULE_ID, townSeats, type TermRow } from "./offices";
 import {
   appointerWeighing,
@@ -71,7 +71,6 @@ import { personLean } from "../campaign-views";
 import { campaignParameter } from "../campaign-data";
 import { viewOn } from "./views";
 import { leanOf, mayorVeto, memberKey, members } from "./legislature";
-import { answerIn } from "./world-legislating";
 import type { ModuleCalendarWork } from "../module-calendar";
 import { addDays, ageOnDate, makeIsoDate } from "../kernel/dates";
 import {
@@ -91,6 +90,7 @@ import {
 } from "../filing-rule-office";
 import { localClerkFor } from "./candidacy";
 import { pairKey } from "../kernel/ids";
+import { headsLocalExecutive } from "../offices-executives";
 
 export const EXECUTIVE_MODULE_ID = "core2-executive-v1";
 
@@ -753,7 +753,8 @@ function appointTownDepartments(api: CoreAPI): void {
   if (
     !townSeats(api).some(
       (s) =>
-        [...BOARD_KINDS, "mayor", "county-executive"].includes(s.office.kind) &&
+        (BOARD_KINDS.includes(s.office.kind) ||
+          headsLocalExecutive(s.office.kind)) &&
         s.holder,
     )
   )

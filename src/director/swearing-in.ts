@@ -15,6 +15,7 @@ import { OFFICES_MODULE_ID, type TermRow } from "../core2/modules/offices";
 import { memberKey } from "../core2/modules/legislature";
 import { P } from "../core2/parameters";
 import data from "./data/swearing-in.json" with { type: "json" };
+import { headsExecutive } from "../core2/offices-executives";
 
 /** The record the offices engine writes when it seats someone. */
 export const TOOK_OFFICE = "took-office";
@@ -23,8 +24,6 @@ export const OATH_KEEPS = "oath";
 export const ADDRESS_KEEPS = "address";
 /** Why two people first met, on the encounter the oath is. */
 const MET_AT_OATH = "swearing-in";
-
-const ADDRESS_KINDS: ReadonlySet<string> = new Set(data.address.kinds);
 
 /** What this reads of an office's row in the offices engine. */
 interface OfficeRow {
@@ -92,7 +91,7 @@ export function swornOffice(
     date: record.date,
     placeId: record.placeId,
     resultId: record.facts?.resultId,
-    givesAddress: ADDRESS_KINDS.has(office.kind),
+    givesAddress: headsExecutive(office.kind),
   };
 }
 

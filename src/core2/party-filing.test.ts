@@ -66,7 +66,7 @@ describe(`filing under a party (seed ${seed})`, () => {
           minimumPeople: 300,
         }),
       );
-      openOffices(core, seed);
+      openOffices(core, seed, core.date);
       openElections(core);
       openCampaigns(core);
       openParties(core);
