@@ -20,7 +20,7 @@ source: "T54's search for the class of counted-saving-draw-not-normal, Nov 16 02
 
 **What.** The fault found in `savingWeight` (counted-saving-draw-not-normal) is in two more normals, and the same hash makes uniforms in seven more places. Seen: a script over 20,000 to 200,000 keys, below.
 
-**Cause.** Found in code and measured: `stableHash` (src/core2/kernel/ids.ts) is 64-bit FNV-1a, and a different last letter changes only its low digits. Two units from the same key ending ":a" and ":b" agreed to within 0.01 for all 50,000 keys tried, so Box-Muller on them is a function of one unit (213 of 20,000 above 3 against 27). A uniform from its first 8 hex digits over keys ending in a running number failed a 20-bin test (χ² 624 on 19 degrees of freedom, 510 below 0.001 against 200); over long random ids it passed (χ² 24).
+**Cause.** Found in code: `stableHash` (src/core2/kernel/ids.ts) is 64-bit FNV-1a, and a different last letter changes only its low digits. Two units from the same key ending ":a" and ":b" agreed to within 0.01 for all 50,000 keys tried, so Box-Muller on them is a function of one unit (213 of 20,000 above 3 against 27). A uniform from its first 8 hex digits over keys ending in a running number failed a 20-bin test (χ² 624 on 19 degrees of freedom, 510 below 0.001 against 200); over long random ids it passed (χ² 24).
 
 The normals (same one-line fault, Box-Muller on ":a" and ":b"):
 
