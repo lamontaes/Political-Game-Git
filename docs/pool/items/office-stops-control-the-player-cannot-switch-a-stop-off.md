@@ -5,7 +5,7 @@ area: office
 kind: bug
 priority: 1
 size: M
-status: in-pr
+status: merged
 standard: 2
 claimed-by: Account lead T56 (claude-sonnet-5-5)
 pr: 9126

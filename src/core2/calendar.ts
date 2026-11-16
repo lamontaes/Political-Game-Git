@@ -88,16 +88,36 @@ function inactive(core: CoreState, actor: Readonly<PersonState>): boolean {
 }
 
 function hasDailyFocus(core: CoreState, actor: Readonly<PersonState>): boolean {
-  if (inactive(core, actor)) return false;
+  return dailyFocusReason(core, actor) !== null;
+}
+
+/** Why a person chooses every day, the first reason that holds. */
+export type DailyFocusReason =
+  | "player"
+  | "focus-person"
+  | "player-circle"
+  | "focus-place"
+  | "focus-county";
+
+/**
+ * The one daily-focus rule: why `actor` chooses every day, or null when they
+ * choose at their tier's cadence. Dev mode's Focus view reads it to say why.
+ */
+export function dailyFocusReason(
+  core: CoreState,
+  actor: Readonly<PersonState>,
+): DailyFocusReason | null {
+  if (inactive(core, actor)) return null;
   // The debug observer keeps more of the record and never sets who chooses
   // when (core-observer-changes-choices).
-  return (
-    actor.id === core.playerId ||
-    ((core.focusPersonIds.has(actor.id) || knowsThePlayer(core, actor.id)) &&
-      seenLately(core, actor)) ||
-    core.focusPlaceIds.has(actor.placeId) ||
-    (actor.countyId !== undefined && core.focusPlaceIds.has(actor.countyId))
-  );
+  if (actor.id === core.playerId) return "player";
+  const focus = core.focusPersonIds.has(actor.id);
+  if ((focus || knowsThePlayer(core, actor.id)) && seenLately(core, actor))
+    return focus ? "focus-person" : "player-circle";
+  if (core.focusPlaceIds.has(actor.placeId)) return "focus-place";
+  if (actor.countyId !== undefined && core.focusPlaceIds.has(actor.countyId))
+    return "focus-county";
+  return null;
 }
 
 /**
@@ -110,7 +130,7 @@ const knownToPlayer = new WeakMap<
   CoreState,
   { date: IsoDate; player: string; ids: ReadonlySet<string> }
 >();
-function knowsThePlayer(core: CoreState, id: string): boolean {
+export function knowsThePlayer(core: CoreState, id: string): boolean {
   const player = core.playerId;
   if (!player) return false;
   let kept = knownToPlayer.get(core);
@@ -124,9 +144,9 @@ function knowsThePlayer(core: CoreState, id: string): boolean {
 /**
  * A focus person chooses daily while the player sees them: the player's
  * family and household always, anyone else while they and the player were
- * last together within `focusDailyContactDays` days: their tie's last contact
- * or the last sitting both sat (closeness.ts `lastTogether`). Out of touch,
- * they choose at their tier's cadence until the two meet again. Someone in
+ * last together within `focusDailyContactDays` days by any record, their tie
+ * or a sitting both sat (closeness.ts `lastTogether`). Out of touch, they
+ * choose at their tier's cadence until the two meet again. Someone in
  * focus who has never been with the player (a coworker, or a person a caller
  * put in focus) keeps choosing daily.
  */

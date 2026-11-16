@@ -1,13 +1,13 @@
 import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
+import { chooseOwnVote } from "../bench/bill-stage";
 import { seatAct, seatView } from "../bench/legislature";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
-import { castMemberVote } from "../core2/modules/legislature";
 import { electorateSides } from "../core2/modules/voting";
 import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
@@ -21,7 +21,8 @@ import { SITUATION_LIBRARY } from "./scheduling";
 // names (else its topic), cited to the records it came from; the opening of
 // each arc names it, and no reaction leans on a "paragraph" or a "claim" that
 // nothing introduced. Played in a drawn place: a member brings a question,
-// votes, and the reporter's call about the vote composes; each of the four
+// votes with the player's own press (bill-stage.ts chooseOwnVote), and the
+// reporter's call about the vote composes; each of the four
 // arcs is then said from the same facts.
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 const ATTEMPTS = 12;
@@ -74,7 +75,7 @@ it(`a reporter's call names its story, and every line stands on it (seed ${seed}
       }) as { id: string; status: string };
       if (bill.status !== "blocked") {
         const sides = electorateSides(api, question);
-        castMemberVote(api, bill.id, me, sides.yes >= sides.no ? "no" : "yes");
+        chooseOwnVote(core, bill.id, sides.yes >= sides.no ? "no" : "yes", me);
       }
     }
     const voteId = `bill-vote:${bill.id}:${body.officeId}`;

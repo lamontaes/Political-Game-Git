@@ -5,9 +5,9 @@ area: gov
 kind: bug
 priority: 3
 size: S
-status: open
+status: merged
 claimed-by:
-pr:
+pr: #8572
 blocked-on:
 standard: 2
 model: sonnet
@@ -19,6 +19,7 @@ claimed-at:
 after:
 checked: fable 2026-11-10
 branch: claude/pool-gov-staff-review-hires-unpaid-aide
+merged-at: 2026-11-15T22:43:26.694Z
 ---
 
 **What.** An aide's pay is now capped at what its budget line can carry (hireStaff in src/core2/modules/staff.ts, as executive.ts caps a town's department heads), so a hire onto a line with no room left is held unpaid: startPublicJob returns no job and the aide keeps whatever job they had. The monthly staff review still decides to hire with only budgetLean's soft lean against an exhausted line, and its applicant check compares people's pay with the full staff wage, not the capped pay. So in a small town such as Brookford, North Carolina an official can still take on an aide the town pays nothing.

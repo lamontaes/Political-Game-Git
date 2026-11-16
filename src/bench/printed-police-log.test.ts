@@ -47,15 +47,21 @@ const figure = (text: string) =>
  * The town a seed draws, by its record id, so a change to the draw fails here
  * and not in a lookalike town. The fourth case once drew Surrency, Georgia
  * (seed pl4), on the premise that it reported crime in more than one closed
- * month; after the cabinet change folded (#9385) it reports in one month of
- * its first eleven, so its premise is gone and that case is kept below as a
- * check of what a town with no earlier reports prints. The comparison case now
- * runs at Hesperia, Michigan (seed pl8), which reports in ten of its first
- * eleven months, so the comparison does not hang on one report.
+ * month; after the cabinet change folded (#9385) it reported in one month of
+ * its first eleven and was kept as the check of what a town with no earlier
+ * reports prints. After renters-buy folded (#9117) Surrency keeps more renting
+ * households, whose property-crime exposure moves a theft report from
+ * December into November, so its November log has July behind it and a usual
+ * to compare: that premise is gone too. The check now runs at St. Marys, Iowa
+ * (seed pl42), which reports crime in one month (October 2025) of its first
+ * eleven, found by a search of seeds pl10 to pl60 on Train head 29ef4685 run
+ * outside the test (Nov 15). The comparison case runs at Hesperia, Michigan
+ * (seed pl8), which reports in ten of its first eleven months, so the
+ * comparison does not hang on one report.
  */
 const TOWNS: Readonly<Record<string, string>> = {
   pl8: "2637860",
-  pl4: "1374852",
+  pl42: "1970095",
 };
 
 /** The town's first 330 played days: the crime months that reached the wire. */
@@ -86,8 +92,8 @@ function playedWire(seed: string) {
   return { core, api, wire, where };
 }
 
-it("a town with no earlier reports compares no month and says nothing of the usual (Surrency, seed pl4)", () => {
-  const { core, api, wire, where } = playedWire("pl4");
+it("a town with no earlier reports compares no month and says nothing of the usual (St. Marys, seed pl42)", () => {
+  const { core, api, wire, where } = playedWire("pl42");
   expect(wire.size, `${where}: a month reached the wire`).toBeGreaterThan(0);
   // The town's earlier closed months hold no reports, so there is no usual.
   for (const [id, facts] of wire)

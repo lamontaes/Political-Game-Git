@@ -4,7 +4,7 @@ title: "Stopgaps in controls (text): 1 open"
 area: play
 kind: stopgap
 priority: 3
-status: in-pr
+status: merged
 claimed-by: claude/button-names
 pr: 9233
 after:

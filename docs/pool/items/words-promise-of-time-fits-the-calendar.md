@@ -5,10 +5,10 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: merged
 standard: 2
 claimed-by: Words builder W3
-pr: 9048
+pr: #9048
 after:
 blocked-on:
 lead: words
@@ -18,6 +18,7 @@ root: rc2-done-from-records
 source: "Fable A's rule 22, Nov 13, 2026 06:05Z on #8928, from Playtester P3"
 checked:
 claimed-at: 2026-11-13
+merged-at: 2026-11-15T21:57:48.451Z
 ---
 
 **What.** On Aug 5 at 8:00 AM, Logan Tyson asks the player to carry Ordinance 2025-8 and says "I'll have a real count by Friday." The board votes on it at 6:00 PM that same day. A day named in a promise must come before the thing it is for, from the record (P3, batch 3). Seen: the carry-bill scene's answer to "Where are we now?"
