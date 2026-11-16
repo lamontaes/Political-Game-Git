@@ -13,6 +13,7 @@ import { coreAPI, registerModule } from "../core2/state";
 import type { PersonId } from "../core2/types";
 import { wordPrintedStory } from "./archive-words";
 import { buildBenchWorld } from "./world";
+import { townResidentsByCash } from "../core2/resident-adults-test-kit";
 
 // The player, pressed again after handing a bribe back, says they will report
 // it (the scene's ending), and the press runs the offer as the exposure of the
@@ -43,7 +44,7 @@ it(`reporting a pressed offer is the offerer's exposure in print (seed ${seed})`
         pressed.push(event.id);
       },
     });
-    const adults = [...core.people.values()]
+    const adults = townResidentsByCash(core, coreAPI(core))
       .filter(
         (person) =>
           person.alive &&
@@ -51,7 +52,6 @@ it(`reporting a pressed offer is the offerer's exposure in print (seed ${seed})`
           person.id !== me &&
           person.birthDate <= "2000-01-01",
       )
-      .sort((a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id))
       .slice(0, 80);
     for (const offerer of adults) {
       const record = considerBribe(api, {

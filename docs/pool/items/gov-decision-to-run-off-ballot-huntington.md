@@ -19,6 +19,7 @@ effort: medium
 root: rc2-done-from-records
 checked: fable 2026-11-10
 branch: claude/pool-gov-decision-to-run-off-ballot-huntington
+merged-at: 2026-11-16T01:06:13.059Z
 ---
 
 **What.** A resident who decided to run never reaches the ballot, and a council race goes empty (golden-path M0-13 red on main by seed). The check "a named challenger runs" reads "1 adults other than the incumbent chose to run in the 4 races decided, and none was on the ballot" and "every race has someone on the ballot" reads 1 of 4 races empty. First seen in Huntington, Utah (place key 4936950, seed ca75d1e89cfcf56ed5c202205d4d2f7c1eefffc04d87f324dc5ed818233ab4c7), which passed again on Oct 26, and red on Nov 10 in Marlborough, New Hampshire, Southbridge Town, Massachusetts and Leominster, Massachusetts (key 2535075, seed 3f8277b54c6ccfe94f69e44a36bb3051241d13da2dc90faba045807fbb26ad6d). The primary-loss case is already counted, so this decision to run did not reach a filing at all, or its filing never reached the ballot. Seen: the ballot, where a resident who decided to run is on it and no council race goes empty (a red golden-path check).

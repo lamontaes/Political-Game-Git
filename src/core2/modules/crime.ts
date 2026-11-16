@@ -59,12 +59,20 @@ const PROPERTY: readonly CrimeType[] = ["burglary", "other-property"];
 export interface TypeMonth {
   /** The expected count before rounding: rate x web factor x exposure, summed by weight. */
   expected: number;
+  /**
+   * The fraction of a crime the place carried into the month from the months
+   * before; with `expected` it is how many happened (their sum, rounded down).
+   * Kept so dev mode's trace shows why a month had the count it had.
+   */
+  carriedIn: number;
   /** Victimizations that happened (full households and counted groups). */
   count: number;
   fullCount: number;
   countedCount: number;
   /** Of those, how many were reported to police (the NCVS share, carried). */
   reported: number;
+  /** The fraction of a report carried in from the months before, as `carriedIn` for reports. */
+  reportedCarriedIn: number;
   /** The web's factor on the national rate for this place and kind. */
   factor: number;
   /** The web links behind the factor. */
@@ -366,7 +374,8 @@ function runPlace(
       owed.set(unit.id, before + e);
     }
     const carryKey = `${placeId}:${type}`;
-    const total = carried(api, carryKey) + expectedFull + expectedCounted;
+    const carriedIn = carried(api, carryKey);
+    const total = carriedIn + expectedFull + expectedCounted;
     const happen = Math.floor(total);
     keep(api, carryKey, total - happen);
     const hits = new Map<string, number>();
@@ -441,16 +450,18 @@ function runPlace(
     }
     const count = fullCount + countedCount;
     const reportKey = `${placeId}:${type}:reported`;
-    const reportedTotal =
-      carried(api, reportKey) + count * TYPES[type].reportedShare;
+    const reportedCarriedIn = carried(api, reportKey);
+    const reportedTotal = reportedCarriedIn + count * TYPES[type].reportedShare;
     const reported = Math.floor(reportedTotal);
     keep(api, reportKey, reportedTotal - reported);
     types[type] = {
       expected: expectedFull + expectedCounted,
+      carriedIn,
       count,
       fullCount,
       countedCount,
       reported,
+      reportedCarriedIn,
       factor,
       links,
     };

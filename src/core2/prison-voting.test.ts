@@ -30,6 +30,7 @@ import { OFFICES_MODULE_ID, type TermRow } from "./modules/offices";
 import { placeStateKeys } from "./places";
 import { coreAPI } from "./state";
 import type { CoreAPI } from "./types";
+import { townResidentsByCash } from "./resident-adults-test-kit";
 
 it("has a sourced or estimated row for all 56 places, and the vote stays only where the law keeps it", () => {
   const rows = prisonVoting.places as Record<
@@ -82,7 +83,7 @@ it("keeps someone serving a prison term off the roll where the law bars them, an
           .map((t) => t.personId!),
       ),
     ].slice(0, 40);
-    const rich = [...core.people.values()]
+    const rich = townResidentsByCash(core, coreAPI(core))
       .filter(
         (p) =>
           p.alive &&
@@ -90,7 +91,6 @@ it("keeps someone serving a prison term off the roll where the law bars them, an
           !members.includes(p.id) &&
           alive(p.id),
       )
-      .sort((a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id))
       .slice(0, 15);
     // The only forced part is the offers; reports, charges, trials and
     // sentences are the justice engine's own.

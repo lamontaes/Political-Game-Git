@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: merged
 claimed-by: claude/pool-play-bill-numbers-and-dates-worded
 pr: #8856
 after:
@@ -16,6 +16,7 @@ effort: medium
 root: none
 lead: screens
 source: owner, Nov 11, 2026, on a picture of the council meeting, relayed by Fable B
+merged-at: 2026-11-15T22:55:52.026Z
 ---
 
 **What.** The owner, Nov 11, 2026, on a picture of the council meeting: "Rule: don't let dates go 2025-8 like how they are in the council member thing. Like, have August 2025 or something." What he saw was an ordinance's bare number, "2025-8", under its name; it reads as a date. #8848 worded it at the meeting and the desk's agenda item. The same bare number still reached Your office (the desk's title, the deals heading, the seat's result line), the Bills list and the bill's page, and two dates reached a screen as digits: the debate card's heading ("Debate invitation · 2026-10-20") and Your office's line for a seat the law made you leave. Seen: Your office's desk and deals, the Bills list beside each bill, the bill's page, and the debate card's heading.

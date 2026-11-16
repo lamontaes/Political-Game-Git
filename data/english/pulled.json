@@ -1,9 +1,6 @@
 {
   "schema": "english-pulled/1",
   "pulled": {
-    "conversation.farewell-leave-bye.all-right-then": [
-      "plain-american-spelling-and-phrasing"
-    ],
     "opening-speech.ask.folded-polished-keep-law-short": [
       "plain-american-spelling-and-phrasing"
     ],
@@ -73,9 +70,6 @@
     "conversation.charge-answer-deflect.that-s-for-the-court-to-sort-out": [
       "plain-american-reads-stiff"
     ],
-    "conversation.charge-answer-refuse.i-m-not-going-to-talk-about-that": [
-      "evasion-points-somewhere"
-    ],
     "conversation.eviction-back-core.host-s-i-ll-sort-out-the-rest-from-there": [
       "plain-american-reads-stiff"
     ],
@@ -92,8 +86,6 @@
     "conversation.farewell-core.well-see-you": ["no-filler"],
     "conversation.farewell-core.well-take-care": ["no-filler"],
     "conversation.farewell-core.well-that-s-that": ["no-filler"],
-    "conversation.farewell-leave-bye.all-right-then": ["alright-in-dialogue"],
-    "conversation.greet-answer-fine.im-all-right": ["alright-in-dialogue"],
     "conversation.greet-core.phone-well-hello-it-s-been-a-while": ["no-filler"],
     "conversation.here-back-core.well-you-now-we-ve-met": ["no-filler"],
     "conversation.job-lost-back-core.thanks-you-i-ll-be-all-right": [
@@ -482,6 +474,6 @@
   "awaitingVerdict": {
     "narration-assumes-no-reason": 0,
     "player-never-says-unchosen (pairs)": 0,
-    "reply-second-move-follows-the-first (pairs)": 11299
+    "reply-second-move-follows-the-first (pairs)": 11274
   }
 }

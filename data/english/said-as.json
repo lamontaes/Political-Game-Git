@@ -93,10 +93,22 @@
       "before": "County Executive",
       "again": "the county executive"
     },
-    "county-board": { "before": "Commissioner", "again": "the commissioner" },
-    "township-board": { "before": "Trustee", "again": "the trustee" },
-    "county-board:presiding": { "before": "Chair", "again": "the chair" },
-    "township-board:presiding": { "before": "Chair", "again": "the chair" }
+    "county-board": {
+      "before": "Commissioner",
+      "again": "the commissioner"
+    },
+    "township-board": {
+      "before": "Trustee",
+      "again": "the trustee"
+    },
+    "county-board:presiding": {
+      "before": "Chair",
+      "again": "the chair"
+    },
+    "township-board:presiding": {
+      "before": "Chair",
+      "again": "the chair"
+    }
   },
   "they": {
     "about": "Someone with no he or she on record is said again as they (src/english/said-as.ts wordPersonSlots), never by their role twice in one line (owner, Nov 12: \"There needs to be pronouns and titles\"). A line's verbs are written for one person, so the word after they (\"knows\" to \"know\") and a question's verb before it (\"does\" to \"do\") take the plural.",
@@ -154,7 +166,10 @@
     "office": "the {agency}",
     "ownOffice": "the {agency}'s office",
     "namedAsOffice": ["Secretary of State"],
-    "copies": { "kept": "original", "dropped": "duplicate" }
+    "copies": {
+      "kept": "original",
+      "dropped": "duplicate"
+    }
   },
   "federal": {
     "about": "How talk says the federal government (src/director/conversation.ts pointSubject): by its capital, or plainly in a state that goes by the capital's name (composed-checks.json placeSaidOnlyAs), so \"whatever Washington says\" never means the state (owner, Nov 12: \"Which Washington?\").",
@@ -176,10 +191,81 @@
     "worker": "work",
     "resident": "town"
   },
+  "publicEmployer": {
+    "about": "Account lead, Nov 15, 2026, from M5's read of #9479 (item words-i-work-for-a-public-employer-is-said-as-people-say-it): a person works for a government, never at it (\"I work at the government of Ohio.\"). One row per frame the bank says an employer in; {name} is the government as employerSaid says it, whatever its class (town, county, state, federal; a school system is not a government here, it is said by its name as a business is). The frame is kept and its preposition goes.",
+    "frames": [
+      {
+        "from": "(\\b(?:work|works|working|worked)\\s+)(?:over\\s+)?(?:at|with)\\s+{name}",
+        "to": "$1for {name}"
+      },
+      {
+        "from": "((?:I'm|I am|we're|we are)\\s+)(?:over\\s+)?at\\s+{name}",
+        "to": "$1with {name}"
+      },
+      { "from": "(\\b(?:job|jobs)\\s+)at\\s+{name}", "to": "$1with {name}" }
+    ]
+  },
+  "governmentInTalk": {
+    "about": "Words lead ruling, Nov 15, 2026 (/mnt/project-files/words-lead/public-employer-said-in-talk.md): in talk, a government of the talk's own place (the speaker's and listener's town, county or state) is said by its class; any other government (another state's included, which no one who lives in the played town works for) keeps its full name; the federal government is \"the federal government\" everywhere; the Journal keeps its own forms. state: by the state identity's level word, a commonwealth that is a state (Kentucky, Massachusetts, Pennsylvania, Virginia) being \"the state\" like any other; stateByKey lists the two that say it their own way (Puerto Rico and the Northern Mariana Islands: \"the commonwealth\"), a ruling for the Words lead. classWords: a town's or county's own class word as its record's name carries it (\"Village of X\", \"X County\"); a class word not listed is said by the full name.",
+    "state": {
+      "State": "the state",
+      "District": "the District",
+      "Territory": "the territory",
+      "Commonwealth": "the state"
+    },
+    "stateByKey": {
+      "US-PR": "the commonwealth",
+      "US-MP": "the commonwealth"
+    },
+    "classWords": [
+      "city",
+      "town",
+      "village",
+      "township",
+      "county",
+      "parish",
+      "borough"
+    ],
+    "ownClass": "the {class}"
+  },
+  "ownPlaceThere": {
+    "about": "Account lead, Nov 15, 2026, from M5's read of #9502 (item words-i-work-for-a-public-employer-is-said-as-people-say-it): a later mention of the employer is 'work' (ownPlace), except after a frame that already says work or takes 'with' or 'for' (\"I work over at work.\", \"I'm with work.\", \"I work for work.\"), where it is 'there' (\"I work there.\", \"I'm there.\"). Each row is the words before the name, kept, and the preposition that goes; {name} is the employer.",
+    "said": "there",
+    "frames": [
+      "(\\b(?:work|works|working|worked)\\s+)(?:over\\s+)?(?:at|for|with)\\s+{name}",
+      "((?:I'm|I am|we're|we are)\\s+)with\\s+{name}"
+    ]
+  },
   "questionAgain": {
     "about": "Lead, Nov 12 (\"say no to raising the debt limit only with spending cuts to match\" right after the opener named it in full): once a line has named a question, its act is said again in a short form, by the slot it fills. Lead, Nov 13: while it is the only question on the table, a later mention of its name in the talk is `it`. Words only; the composer reads them.",
     "against": "say no to it",
     "to": "pass it",
     "it": "it"
+  },
+  "whatTheyAre": {
+    "about": "What a person is to the player, said once after their name the first time narration names someone the player has not met (owner, Nov 15, rule 136). Lines by the Words lead, Nov 15 (/mnt/project-files/words-lead/who-they-are/lines.md), read by whatSaid in src/english/said-as.ts from the kind and stage src/director/who-they-are.ts reads from the records. Lower case, no period: the line it joins carries both. Only kinds a scene the player reached by their own presses has said are kept (lead and Words lead, Nov 16); the other lines wait in lines.md, and pool item director-narrator-says-who-a-person-is lists them.",
+    "office": {
+      "alone": "the {office}",
+      "member": "a member of {body}"
+    },
+    "staff": {
+      "aide": "who works for {official}"
+    },
+    "sceneSaysIt": {
+      "about": "Scene types whose own lines say what the cast person is, so the scene names them alone: a job offer's next line says the employer ('They're calling from {org} about the {title} job.'), and a reporter's or a debate host's scenes say it themselves until the reporter line has a played case (Words lead, Nov 16).",
+      "types": [
+        "job-offer",
+        "press-interview",
+        "scandal",
+        "interview-invite",
+        "interview-sitting",
+        "debate-invite",
+        "debate-sitting"
+      ]
+    },
+    "constituent": {
+      "district": "who lives in your district",
+      "place": "who lives in {place}"
+    }
   }
 }

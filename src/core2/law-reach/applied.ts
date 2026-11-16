@@ -280,6 +280,21 @@ export interface LawReach {
    */
   readonly governmentOwnMinor: number;
   readonly by: readonly LawReachSide[];
+  /**
+   * The part of its reach that has ended (a repeal, a law that replaced it, a
+   * move): the rows whose end day is recorded, the full people none of whose
+   * rows is still open, and the money those rows moved while they were open.
+   * `lastEndedOn` is the latest of those end days, or null when none ended.
+   */
+  readonly ended: {
+    readonly records: number;
+    readonly fullPeople: number;
+    readonly counted: number;
+    readonly organizations: number;
+    readonly governments: number;
+    readonly amountMinor: number;
+    readonly lastEndedOn: string | null;
+  };
   /** Each organization it reached, the most money first. */
   readonly organizationsReached: readonly {
     readonly organizationId: string;
@@ -341,6 +356,15 @@ export function lawReach(
   };
   let countedMinor = 0;
   let governmentOwnMinor = 0;
+  // What has ended: rows with an end day, their counted people, organizations, governments and money.
+  const ended = {
+    records: 0,
+    counted: 0,
+    amountMinor: 0,
+    organizations: new Set<string>(),
+    governments: new Set<string>(),
+    lastEndedOn: null as string | null,
+  };
   // The row being read: its end, for the person it names.
   let rowEnded: string | null = null;
   const side = (engine: string, what: string) => {
@@ -455,6 +479,17 @@ export function lawReach(
         }
         // A row read as counted people: its money is theirs.
         if (into.counted > counted) countedMinor += amount;
+        if (rowEnded !== null) {
+          ended.records += 1;
+          ended.counted += into.counted - counted;
+          if (!own) ended.amountMinor += amount;
+          if (typeof row.organizationId === "string")
+            ended.organizations.add(row.organizationId);
+          else if (target === "organization") ended.organizations.add(targetId);
+          else if (target === "government") ended.governments.add(targetId);
+          if (ended.lastEndedOn === null || rowEnded > ended.lastEndedOn)
+            ended.lastEndedOn = rowEnded;
+        }
       }
     }
   }
@@ -518,6 +553,15 @@ export function lawReach(
           b.records - a.records ||
           `${a.engine}|${a.what}`.localeCompare(`${b.engine}|${b.what}`),
       ),
+    ended: {
+      records: ended.records,
+      fullPeople: people.filter((p) => p.endedOn !== null).length,
+      counted: ended.counted,
+      organizations: ended.organizations.size,
+      governments: ended.governments.size,
+      amountMinor: ended.amountMinor,
+      lastEndedOn: ended.lastEndedOn,
+    },
     organizationsReached: [...perOrganization]
       .map(([organizationId, amountMinor]) => ({ organizationId, amountMinor }))
       .sort(

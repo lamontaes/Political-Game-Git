@@ -37,3 +37,5 @@ Seen: the doors outing's "{n} signed" and the porch scenes, which stay signature
 **Waits on.** #9097 on the train (it adds `answered` to the doors strip).
 
 **Files.** src/core2/modules/campaigns.ts, src/director/doors.ts
+
+**Notes.** Account lead, Nov 16: the cushion this item names (`petitionSignatureCushion`) is replaced by the signers already off the roll (`signaturesToGather(api, filingId)`), in the doors-card PR; the switch itself is unchanged.

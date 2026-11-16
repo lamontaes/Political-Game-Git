@@ -3,7 +3,7 @@ import { buildBenchWorld } from "../bench/world";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "../core2/bookkeeping";
 import { PLATFORM_QUESTIONS } from "../core2/campaign-data";
-import { closenessBetween, lastTogether } from "../core2/closeness";
+import { closenessBetween, lastMetOnRow } from "../core2/closeness";
 import { gameStartDate } from "../core2/game-start";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
@@ -141,7 +141,7 @@ it(`the sponsor brings up a veto once at the next talk, seed ${seed}`, () => {
     const tieKey =
       mayor! < sponsor ? `${mayor}:${sponsor}` : `${sponsor}:${mayor}`;
     expect(
-      lastTogether(core.relationships.get(tieKey)!),
+      lastMetOnRow(core.relationships.get(tieKey)!),
       `${where}: a veto is not time together`,
     ).toBe(metOn);
     const act = (
