@@ -52,7 +52,7 @@ import {
 } from "../health-hazard";
 import { SSA_2023_MAX_AGE } from "../health-mortality-table";
 import { survivalThresholdFromDraws } from "../kernel/fixed-point";
-import { seededFineUnit, seededUnit } from "../seeded";
+import { stableHash } from "../kernel/ids";
 import { parameter } from "../parameters";
 import { countedIllnessOf, endCountedIllness } from "../counted-illness";
 import { isDemoted } from "../counted-groups";
@@ -366,16 +366,15 @@ function exactAge(api: CoreAPI, birthDate: IsoDate, date: IsoDate): number {
  */
 function resilienceLine(api: CoreAPI, data: HealthData, personId: string) {
   api.stopgap(data.resilience.stopgapId);
-  // The world's one fine unit keyed by the person, split into the two 32-bit
-  // halves the fixed-point survival line reads.
-  const halves =
-    api.parameter("seedPlaceHashRadix") **
-    api.parameter("resilienceHashDigits");
-  const scaled =
-    seededFineUnit(api.state.seed, `${data.resilienceKey}:${personId}`) *
-    halves;
-  const high = Math.floor(scaled);
-  return survivalThresholdFromDraws(high, Math.floor((scaled - high) * halves));
+  const digits = api.parameter("resilienceHashDigits");
+  const radix = api.parameter("seedPlaceHashRadix");
+  const hash = stableHash(
+    `${api.state.seed}:${data.resilienceKey}:${personId}`,
+  );
+  return survivalThresholdFromDraws(
+    Number.parseInt(hash.slice(api.parameter("zero"), digits), radix),
+    Number.parseInt(hash.slice(digits, digits + digits), radix),
+  );
 }
 
 /**
@@ -394,6 +393,8 @@ function lateConditions(
   person: Readonly<PersonState>,
   age: number,
 ): readonly string[] {
+  const digits = api.parameter("resilienceHashDigits");
+  const radix = api.parameter("seedPlaceHashRadix");
   const held: string[] = [];
   const row = runtime(api.state);
   const slopes = behaviorSlopes(api, data);
@@ -406,10 +407,12 @@ function lateConditions(
         ? api.parameter("one")
         : Math.exp(slope * conscientiousness(data, person)) /
           (row.traitNorm.get(condition.key) ?? api.parameter("one"));
-    const quantile = seededUnit(
-      api.state.seed,
-      `${data.conditionHoldingKey}:${condition.key}:${person.id}`,
+    const hash = stableHash(
+      `${api.state.seed}:${data.conditionHoldingKey}:${condition.key}:${person.id}`,
     );
+    const quantile =
+      Number.parseInt(hash.slice(api.parameter("zero"), digits), radix) /
+      radix ** digits;
     if (
       quantile <
       conditionPrevalence(

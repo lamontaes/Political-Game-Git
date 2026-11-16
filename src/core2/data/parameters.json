@@ -5096,7 +5096,7 @@
   "resilienceHashDigits": {
     "value": 8,
     "tag": "SOURCED",
-    "citation": "Eight hexadecimal digits make one 32-bit half (16 to the 8th is 2 to the 32nd); the world's fine seeded unit (src/core2/seeded.ts) is split into the two 32-bit halves the fixed-point survival-line helper reads (src/core2/kernel/fixed-point.ts). A generation key, not a behavioral draw."
+    "citation": "Half of the existing stable hash's sixteen hexadecimal digits (64-bit FNV-1a, src/core2/kernel/ids.ts); two 32-bit halves feed the existing fixed-point survival-line helper (src/core2/kernel/fixed-point.ts). A generation key, not a behavioral draw."
   },
   "driveClosureImpulse": {
     "value": 0.47,

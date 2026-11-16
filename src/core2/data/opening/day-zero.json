@@ -1003,7 +1003,8 @@
       "level": "town, state and federal",
       "call": "stock",
       "filledBy": "year 1",
-      "reason": "Some seats are vacant on any day (resigned, died, not yet filled)."
+      "reason": "Some seats are vacant on any day (resigned, died, not yet filled).",
+      "zeroAtPlaces": ["1150000"]
     },
     {
       "table": "core2-outcome-web-v1.baselines",
@@ -1933,7 +1934,9 @@
       "level": "town (people and places)",
       "call": "stock",
       "filledBy": "year 1",
-      "reason": "Index of drives."
+      "reason": "Index of drives.",
+      "knownRed": "opening-town-life-empty-at-day-0",
+      "knownRedPlaces": ["1150000"]
     },
     {
       "table": "part.core2-drives-runtime.causeGroups",
@@ -1961,7 +1964,9 @@
       "level": "town (people and places)",
       "call": "stock",
       "filledBy": "year 1",
-      "reason": "Goals people hold on any day."
+      "reason": "Goals people hold on any day.",
+      "knownRed": "opening-town-life-empty-at-day-0",
+      "knownRedPlaces": ["1150000"]
     },
     {
       "table": "part.core2-drives-runtime.formedByYearKind",

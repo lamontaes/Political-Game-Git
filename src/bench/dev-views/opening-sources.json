@@ -106,7 +106,7 @@
     },
     "person.conditions": {
       "made": "generation",
-      "by": "Day one: src/core2/condition-pack.ts startingConditionAssignments, each condition's prevalence count spread through the place and age cell in household income order, smoking and drug use by conscientiousness, no draw. Anyone added later: src/core2/modules/health.ts lateConditions, the world's seeded unit keyed by condition and person against the condition's prevalence at their age, moved by conscientiousness. Everyone's resilience line: the world's fine seeded unit keyed by the person",
+      "by": "Day one: src/core2/condition-pack.ts startingConditionAssignments, each condition's prevalence count spread through the place and age cell in household income order, smoking and drug use by conscientiousness, no draw. Anyone added later: src/core2/modules/health.ts lateConditions, a stable hash of the world seed, condition and person against the condition's prevalence at their age, moved by conscientiousness. Everyone's resilience line: a stable hash of the world seed and the person, read as the spread of the hazard a person reaches (owner's ruling, Oct 9)",
       "replace": "A person's income and work once chronic-condition-income-gradients is sourced"
     },
     "household.members": {
@@ -350,12 +350,12 @@
     },
     "src/core2/modules/health.ts#lateConditions": {
       "made": "generation",
-      "what": "Illnesses a person added after day one holds, the world's seeded unit against the rate at their age",
+      "what": "Illnesses a person added after day one holds, a stable hash of the world seed and the person against the rate at their age, moved by conscientiousness",
       "replace": "A person's income and work once chronic-condition-income-gradients is sourced"
     },
     "src/core2/modules/health.ts#resilienceLine": {
       "made": "generation",
-      "what": "How much a person can take before illness, the world's fine seeded unit (owner's ruling, Oct 9)"
+      "what": "How much a person can take before illness, a stable hash of the world seed and the person (owner's ruling, Oct 9)"
     },
     "src/core2/modules/jobs.ts#bandRatio": {
       "made": "world-offset",
