@@ -543,14 +543,20 @@ function playWorld(seed: string) {
           `Full people other than the player chose only ${[...chosen.keys()].join(", ") || "nothing"} (${choosers.size} people; ${outsideFocus.length} outside the director's focus set of ${focusAtStart.size}). The core's choices (src/core2/life.ts, choice offers) must give people more than rest and contact, and people outside the focus set must choose too.`,
         );
 
-  // Break 2: the golden path's first step happens in play.
+  // The player starts at 18 or older (owner, Nov 16 05:02Z: "Just do 18 and
+  // up right now. Life before 18 will come after early access."), and their
+  // birth record ages them one year across the played year. Old premise
+  // (accepted spec until Nov 16): the player turned 18 during the year
+  // (ageAtStart < 18 && ageAtEnd >= 18); start-at-18 retired it.
   const ageAtStart = ageOnDate(playerBirth, makeIsoDate(start));
   const ageAtEnd = ageOnDate(playerBirth, makeIsoDate(end));
-  verdicts["player turns 18"] =
-    ageAtStart < 18 && ageAtEnd >= 18
-      ? pass(`the player turns 18 in play (from ${ageAtStart})`)
+  verdicts["player starts at 18 or older and ages a year"] =
+    ageAtStart >= 18 && ageAtEnd === ageAtStart + years
+      ? pass(
+          `the player is ${ageAtStart} at the opening and ${ageAtEnd} at the end, by the birth record ${playerBirth}`,
+        )
       : fail(
-          `The player character was ${ageAtStart} at the opening and ${ageAtEnd} at the end, so turning 18 never happens in play. The bench's entrant pick (src/bench/world.ts, entrantOf) must choose the resident closest to turning 18.`,
+          `The player character was ${ageAtStart} at the opening and ${ageAtEnd} at the end (birth record ${playerBirth}): a new life starts at 18 or older (src/bench/world.ts, entrantChoice) and ages one year for each played year (${years} here).`,
         );
 
   // School: school-age people go to school.
@@ -1135,7 +1141,7 @@ for (const [index, seed] of seeds.entries()) {
     alive("every module");
     alive("national races, lawmaking and outcomes are installed");
     alive("people choose varied acts");
-    alive("player turns 18");
+    alive("player starts at 18 or older and ages a year");
     alive("school-age people attend school");
     alive("taxes are withheld after January 1");
     alive("a passed budget changes spending");
