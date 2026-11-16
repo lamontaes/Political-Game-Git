@@ -64,7 +64,7 @@ describe("the player files only for the offices the data lists (owner, Oct 29)",
     if (!others.length) return { where, outside: 0 };
     // The player's filing is refused for the rest, by the one reader.
     expect(() => fileForOffice(core, player.id, others[0]!.id), where).toThrow(
-      /files only for/,
+      /can.t run for this office/,
     );
     // Simulated candidates file for the others through the same filing engine: run the
     // world's year and some filing lands on an office outside the player's offices.

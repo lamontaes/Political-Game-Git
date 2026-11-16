@@ -5304,7 +5304,15 @@ const sheets = {
               : labels.cantFile
           )
             .replace("{required}", cannotFile.required)
-            .replace("{actual}", cannotFile.actual)
+            .replace("{actual}", cannotFile.actual) +
+          (cannotFile.metOn
+            ? ` ${labels.turnsOn
+                .replace("{age}", cannotFile.required)
+                .replace(
+                  "{date}",
+                  dateWords(cannotFile.metOn, { year: today() }),
+                )}.`
+            : "")
         : null;
       const fileButton = makeButton({ textContent: labels.fileForIt });
       fileButton.dataset.testid = "file-for-it";
@@ -5453,8 +5461,40 @@ const sheets = {
           ]
         : [];
     };
+    // A race of an office the player runs for (the clerk's own answer: it is
+    // not "not-your-office") is theirs; the rest are the town's and county's.
+    const mine = ballot.races.filter((race) => race.bar !== "not-your-office");
+    const entryOf = (race, own) => ({
+      key: race.contestId,
+      label:
+        race.officeLevel === "county"
+          ? `${race.title} · ${labels.countyOffice}`
+          : race.title,
+      aside:
+        own && race.cannotFile?.metOn
+          ? labels.filesFrom.replace(
+              "{date}",
+              dateWords(
+                race.filingOpens && race.filingOpens > race.cannotFile.metOn
+                  ? race.filingOpens
+                  : race.cannotFile.metOn,
+                { year: today() },
+              ),
+            )
+          : own && race.bar === "window-not-open" && race.filingOpens
+            ? `${labels.filingOpens} ${dateWords(race.filingOpens, { month: "short", year: today() })}`
+            : own && race.playerMayFile && race.filingOpen
+              ? labels.fileForIt
+              : race.filers.length || filed.has(race.contestId)
+                ? status(race)
+                : "",
+      data: { contest: race.contestId },
+      race,
+    });
     const byDate = new Map();
-    for (const race of ballot.races) {
+    for (const race of ballot.races.filter(
+      (race) => race.bar === "not-your-office",
+    )) {
       const day = byDate.get(race.electionDate) ?? [];
       day.push(race);
       byDate.set(race.electionDate, day);
@@ -5474,21 +5514,22 @@ const sheets = {
             },
           ]
         : []),
+      // The offices the player runs for come first, each with when they can file.
+      ...(mine.length
+        ? [
+            {
+              title: labels.yourOffices,
+              entries: mine.map((race) => entryOf(race, true)),
+            },
+          ]
+        : []),
       ...[...byDate.entries()]
         .sort(([a], [b]) => a.localeCompare(b))
         .map(([day, races]) => ({
-          title: dateWords(day, { year: today() }),
-          entries: races.map((race) => ({
-            key: race.contestId,
-            label: race.title,
-            aside:
-              race.filers.length || filed.has(race.contestId)
-                ? status(race)
-                : "",
-            data: { contest: race.contestId },
-            race,
-          })),
-        })),
+          title: `${labels.alsoOnBallot} · ${dateWords(day, { year: today() })}`,
+          entries: races.map((race) => entryOf(race, false)),
+        }))
+        .filter((group) => group.entries.length),
     ];
     if (!groups.length) return [prose(labels.noBallot, "record-empty")];
     return rosterScreen({
