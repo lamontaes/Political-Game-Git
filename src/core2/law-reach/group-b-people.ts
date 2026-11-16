@@ -9,6 +9,8 @@ import parameters from "../data/laws/reach-group-b-parameters.json" with { type:
 import { ageOnDate, makeIsoDate } from "../kernel/dates";
 import { parameter } from "../parameters";
 import { BUSINESS_MODULE_ID } from "../business-module-id";
+import { placeStateKey } from "../place-map";
+import { coreStateKeyOfPlaceholderId } from "../place-lookup";
 import {
   countedJob,
   countedParameter,
@@ -92,6 +94,8 @@ export interface ResidentFacts {
   readonly id: string;
   readonly named: boolean;
   readonly householdId: string;
+  /** The place the resident lives in. */
+  readonly placeId?: string;
   readonly age: number;
   readonly weeklyMinutes: number;
   readonly employed: boolean;
@@ -124,7 +128,11 @@ export interface TownFacts {
   readonly modeled: number;
 }
 
-const cache = new WeakMap<object, { date: string; facts: TownFacts }>();
+/** Each day's facts by the places read (their ids joined), so a pass reads each set once a day. */
+const cache = new WeakMap<
+  object,
+  { date: string; byPlaces: Map<string, TownFacts> }
+>();
 
 /** A new pass reads the town as it stands now: births, moves and fill-ins since the last read the same day count. */
 export function forgetTownFacts(api: CoreAPI): void {
@@ -142,11 +150,53 @@ function activeMinutes(
   return out;
 }
 
+/**
+ * The places of the world's modeled households in the town's state: the
+ * residents runtime's places (the town and the places around it, whose
+ * households the clinic bills) whose state is the town's, the town first. A
+ * place the lookup does not know is the town's governing unit, in its state,
+ * by the same rule as `householdStateOf` (modules/counted-moves.ts). Where no
+ * runtime runs, the town alone. A state law that reaches people where they
+ * are billed reads these places, and the bills read the same list.
+ */
+export function townStatePlaces(
+  api: CoreAPI,
+  townPlaceId: string,
+  stateKey: string,
+): string[] {
+  const out = new Set([townPlaceId]);
+  for (const row of residentsRuntime(api.state as CoreState)?.input.accounts ??
+    []) {
+    const state =
+      placeStateKey(row.placeId) ?? coreStateKeyOfPlaceholderId(row.placeId);
+    if ((state ?? stateKey) === stateKey) out.add(row.placeId);
+  }
+  return [...out];
+}
+
 /** The town's residents and households on today's date, from their records. */
 export function townFacts(api: CoreAPI, townPlaceId: string): TownFacts {
+  return placesFacts(api, [townPlaceId]);
+}
+
+/**
+ * The residents and households of several places on today's date, from their
+ * records, by the same rule as the town's (one model, two tiers): each
+ * resident names their place. A law that reaches people beyond the town (the
+ * households the clinic bills in the places around it) reads them here.
+ */
+export function placesFacts(
+  api: CoreAPI,
+  placeIds: readonly string[],
+): TownFacts {
   const core = api.state as CoreState;
-  const hit = cache.get(core);
-  if (hit && hit.date === core.date) return hit.facts;
+  const places = new Set(placeIds);
+  const key = [...places].sort().join("|");
+  let day = cache.get(core);
+  if (!day || day.date !== core.date)
+    cache.set(core, (day = { date: core.date, byPlaces: new Map() }));
+  const hit = day.byPlaces.get(key);
+  if (hit) return hit;
   const date = makeIsoDate(core.date);
   const days = reachParameter("daysPerYear");
   const cents = reachParameter("centsPerDollar");
@@ -176,7 +226,10 @@ export function townFacts(api: CoreAPI, townPlaceId: string): TownFacts {
     }
   // Named people: their own jobs and commitments.
   const commitments: WorkCommitmentInput[] = [];
-  for (const id of core.peopleByPlace.get(townPlaceId) ?? [])
+  const namedIn = [...places].flatMap((placeId) => [
+    ...(core.peopleByPlace.get(placeId) ?? []),
+  ]);
+  for (const id of namedIn)
     for (const cid of core.work.commitmentsByPerson.get(id) ?? []) {
       const row = core.work.commitments.get(cid);
       if (row) commitments.push(row);
@@ -189,7 +242,10 @@ export function townFacts(api: CoreAPI, townPlaceId: string): TownFacts {
     reachParameter("ownerWeeklyHours") * reachParameter("minutesPerHour");
   const owners = new Set<string>();
   for (const [orgId, book] of core.finance.businesses) {
-    if (book.closedAt || core.organizations.get(orgId)?.placeId !== townPlaceId)
+    if (
+      book.closedAt ||
+      !places.has(core.organizations.get(orgId)?.placeId ?? "")
+    )
       continue;
     const owner = (
       core.modules.has(BUSINESS_MODULE_ID)
@@ -201,7 +257,7 @@ export function townFacts(api: CoreAPI, townPlaceId: string): TownFacts {
   for (const id of owners)
     namedMinutes.set(id, Math.max(namedMinutes.get(id) ?? 0, ownerMinutes));
   const namedByHousehold = new Map<string, string[]>();
-  for (const id of core.peopleByPlace.get(townPlaceId) ?? []) {
+  for (const id of namedIn) {
     const person = core.people.get(id);
     if (!person?.alive) continue;
     const list = namedByHousehold.get(person.householdId) ?? [];
@@ -222,6 +278,7 @@ export function townFacts(api: CoreAPI, townPlaceId: string): TownFacts {
         id,
         named: true,
         householdId,
+        placeId: person.placeId,
         age,
         weeklyMinutes: namedMinutes.get(id) ?? 0,
         employed: working,
@@ -252,7 +309,7 @@ export function townFacts(api: CoreAPI, townPlaceId: string): TownFacts {
     const from = countedParameter("countedWorkingAgeFrom"),
       below = countedParameter("countedWorkingAgeBelow");
     for (const h of store.liveHouseholds()) {
-      if (h.placeId !== townPlaceId) continue;
+      if (!places.has(h.placeId)) continue;
       const minutes = activeMinutes(h.workCommitments, date);
       for (const id of owners)
         if (minutes.has(id))
@@ -280,6 +337,7 @@ export function townFacts(api: CoreAPI, townPlaceId: string): TownFacts {
           id,
           named: false,
           householdId: h.id,
+          placeId: h.placeId,
           age: ages[i]!,
           weeklyMinutes: minutes.get(id) ?? 0,
           employed: workers.has(id),
@@ -310,7 +368,7 @@ export function townFacts(api: CoreAPI, townPlaceId: string): TownFacts {
     households,
     modeled: residents.reduce((n, r) => n + (r.scale ?? 1), 0),
   };
-  cache.set(core, { date: core.date, facts });
+  day.byPlaces.set(key, facts);
   return facts;
 }
 

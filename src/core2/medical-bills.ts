@@ -97,6 +97,7 @@ import { webReach, type WebReach } from "./modules/outcome-web";
 import { householdIncome, residentsRuntime } from "./modules/residents";
 import { WEB_LINKS } from "./modules/laws";
 import { lawApplied } from "./law-reach/applied";
+import { townStatePlaces } from "./law-reach/group-b-people";
 
 /** The engine named on the law-reach rows these bills write. */
 const MEDICAL_BILLS_ENGINE = "medical-bills";
@@ -287,7 +288,7 @@ interface Household {
   readonly weight: number;
   readonly incomeFifth: number;
   readonly members: readonly Person[];
-  /** Whether the household's members' Medicaid coverage is read from their own records (the town's, whose coverage the law reach keeps). */
+  /** Whether the household's members' Medicaid coverage is read from their own records (the town's and its state's places around it, whose coverage the law reach keeps). */
   readonly ownMedicaid: boolean;
 }
 
@@ -330,8 +331,9 @@ function medicalSellers(api: CoreAPI, placeId: string): string[] {
  * Each person's plan today, full or counted, by the same rule: Medicare at
  * its age, Medicaid where the law reach keeps their coverage
  * (coverageSpellsNow, by person id), an employer plan, or none. Their own
- * Medicaid record is read in the town, the place whose residents' coverage
- * the reach keeps; null spells mean the world does not model it.
+ * Medicaid record is read in the places whose residents' coverage the reach
+ * keeps (the town and the places around it in its state, `townStatePlaces`);
+ * null spells mean the world does not model it.
  */
 function plans(
   api: CoreAPI,
@@ -344,11 +346,15 @@ function plans(
   const spells = coverageSpellsNow(api);
   const ended = medicaidCoverageSpells(api, ENDED_BY_REQUIREMENT);
   const medicare = api.parameter("healthMedicareAge");
-  const town = api.state.modules.has(LAWS_MODULE_ID)
-    ? lawChain(api).townPlaceId
+  // The places whose coverage the reach keeps: the town and the places
+  // around it in its state, the same list the expansion's handler covers.
+  const kept = api.state.modules.has(LAWS_MODULE_ID)
+    ? new Set(
+        townStatePlaces(api, lawChain(api).townPlaceId, lawChain(api).stateKey),
+      )
     : null;
   return {
-    ownMedicaid: (placeId) => spells !== null && placeId === town,
+    ownMedicaid: (placeId) => spells !== null && !!kept?.has(placeId),
     endedByRequirement: (personId, plan) =>
       (plan === "employer" || plan === "none") &&
       !!spellOn(ended?.get(personId), today),

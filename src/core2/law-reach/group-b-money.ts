@@ -833,7 +833,9 @@ export function assistanceIncomeByHousehold(
  * counted, kept by person id as stretches of coverage (the reach's coverage
  * table): a stretch opens the day after an adult is first covered and ends
  * the day they no longer are (the work requirement ends it, they leave the
- * town, or the expansion is repealed). The coverage engine's medical bills
+ * state's places the world keeps households in, or the expansion is
+ * repealed). It covers the town and the places around it in the same state
+ * (`townStatePlaces`), one counted group a place. The coverage engine's medical bills
  * read it (medical-bills.ts: a covered member pays Medicaid's patient share),
  * and the health engine's monthly look reads a named adult's
  * (coverage-to-mortality-55-64). No payment to the adult: the bill is the
@@ -874,7 +876,8 @@ export function recordCoverage(
   const named = new Map<string, Record<string, number>>();
   let counted = 0;
   if (input.inForce && governmentAt(api, "state")) {
-    let countedPeople = 0;
+    // Counted adults covered, by the place they live in: one group a place.
+    const countedPeople = new Map<string, number>();
     for (const r of input.covered) {
       want.add(r.id);
       if (r.named) {
@@ -886,17 +889,25 @@ export function recordCoverage(
           target: "person",
           what: "medicaid-coverage",
         });
-      } else countedPeople += (r.weight ?? 1) * (r.scale ?? 1);
+      } else {
+        const placeId = r.placeId ?? town;
+        countedPeople.set(
+          placeId,
+          (countedPeople.get(placeId) ?? 0) + (r.weight ?? 1) * (r.scale ?? 1),
+        );
+      }
     }
-    if (countedPeople > 0) {
-      counted = Math.round(countedPeople);
+    for (const [placeId, people] of countedPeople) {
+      if (people <= 0) continue;
+      const count = Math.round(people);
+      counted += count;
       recordApplied(api, {
         key: input.key,
         lawId: input.lawId,
-        targetId: `${town}:medicaid-covered-adults`,
+        targetId: `${placeId}:medicaid-covered-adults`,
         target: "group",
         what: "medicaid-coverage",
-        count: counted,
+        count,
       });
     }
   }
