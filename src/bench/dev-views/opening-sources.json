@@ -133,9 +133,8 @@
       "by": "src/core2/town-employment-mix.ts: the county's County Business Patterns industries"
     },
     "business.cash": {
-      "made": "ad-hoc-draw",
-      "by": "src/core2/opening-capital.ts openingEmployerCashBufferPrior: days of cash by industry, placed by a hash",
-      "replace": "The world's seeded unit keyed by business"
+      "made": "generation",
+      "by": "src/core2/opening-capital.ts openingEmployerCashBufferPrior: days of cash by industry (JPMorgan Chase Institute's small-business buffer days), the business's place in that spread read from the world's seeded unit keyed by the business"
     },
     "business.staff": {
       "made": "generation",
@@ -483,9 +482,8 @@
       "replace": "The world's seeded unit keyed by the record's id"
     },
     "src/core2/opening-capital.ts#openingEmployerCashBufferPrior": {
-      "made": "ad-hoc-draw",
-      "what": "A business's cash on day one, placed by a hash",
-      "replace": "The world's seeded unit keyed by the record's id"
+      "made": "generation",
+      "what": "A business's place in its industry's spread of cash on day one, on the world's seeded unit keyed by the business"
     },
     "src/core2/opening-county-sample.ts#<anonymous>": {
       "made": "ad-hoc-draw",
