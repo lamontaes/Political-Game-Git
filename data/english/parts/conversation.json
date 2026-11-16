@@ -8864,7 +8864,8 @@
           "subject": "farewell",
           "role": "leave",
           "choice": "bye",
-          "stages": ["default"]
+          "stages": ["default"],
+          "excludesFacts": ["word-denied"]
         },
         {
           "move": "farewell-closer",
@@ -8900,7 +8901,8 @@
           "subject": "farewell",
           "role": "leave",
           "choice": "bye",
-          "stages": ["default"]
+          "stages": ["default"],
+          "excludesFacts": ["word-denied"]
         },
         {
           "move": "farewell-answer-bye",
@@ -8944,7 +8946,8 @@
           "subject": "farewell",
           "role": "leave",
           "choice": "bye",
-          "stages": ["default"]
+          "stages": ["default"],
+          "excludesFacts": ["word-broken", "word-denied"]
         },
         {
           "move": "farewell-closer",
@@ -8982,7 +8985,8 @@
           "subject": "farewell",
           "role": "leave",
           "choice": "bye",
-          "stages": ["default"]
+          "stages": ["default"],
+          "excludesFacts": ["word-broken", "word-denied"]
         },
         {
           "move": "farewell-answer-bye",
@@ -9035,7 +9039,7 @@
           "role": "leave",
           "choice": "bye",
           "stages": ["default"],
-          "excludesFacts": ["by-phone"]
+          "excludesFacts": ["by-phone", "word-denied"]
         }
       ],
       "transcriptsUsing": 2,
@@ -9066,7 +9070,7 @@
           "role": "leave",
           "choice": "bye",
           "stages": ["default"],
-          "excludesFacts": ["by-phone"]
+          "excludesFacts": ["by-phone", "word-denied"]
         }
       ],
       "transcriptsUsing": 5,
@@ -9172,7 +9176,7 @@
           "role": "leave",
           "choice": "bye",
           "stages": ["default"],
-          "excludesFacts": ["by-phone"]
+          "excludesFacts": ["by-phone", "word-broken", "word-denied"]
         }
       ],
       "transcriptsUsing": 2,
@@ -9203,7 +9207,7 @@
           "subject": "farewell",
           "role": "leave",
           "choice": "bye",
-          "excludesFacts": ["by-phone"]
+          "excludesFacts": ["by-phone", "word-broken", "word-denied"]
         }
       ],
       "transcriptsUsing": 4,
@@ -33758,7 +33762,7 @@
           "subject": "farewell",
           "role": "leave",
           "choice": "bye",
-          "excludesFacts": ["by-phone"]
+          "excludesFacts": ["by-phone", "word-broken", "word-denied"]
         },
         {
           "move": "farewell-leave-bye",
@@ -33785,7 +33789,7 @@
           "subject": "farewell",
           "role": "leave",
           "choice": "bye",
-          "excludesFacts": ["by-phone"]
+          "excludesFacts": ["by-phone", "word-denied"]
         },
         {
           "move": "farewell-leave-bye",
@@ -33811,7 +33815,8 @@
           "move": "farewell-leave-bye",
           "subject": "farewell",
           "role": "leave",
-          "choice": "bye"
+          "choice": "bye",
+          "excludesFacts": ["word-broken", "word-denied"]
         },
         {
           "move": "farewell-leave-bye",
@@ -33837,7 +33842,7 @@
           "subject": "farewell",
           "role": "leave",
           "choice": "bye",
-          "excludesFacts": ["by-phone"]
+          "excludesFacts": ["by-phone", "word-denied"]
         },
         {
           "move": "farewell-leave-bye",
@@ -33863,7 +33868,8 @@
           "move": "farewell-leave-bye",
           "subject": "farewell",
           "role": "leave",
-          "choice": "bye"
+          "choice": "bye",
+          "excludesFacts": ["word-broken", "word-denied"]
         },
         {
           "move": "farewell-leave-bye",
@@ -33889,7 +33895,7 @@
           "subject": "farewell",
           "role": "leave",
           "choice": "bye",
-          "excludesFacts": ["by-phone"]
+          "excludesFacts": ["by-phone", "word-denied"]
         },
         {
           "move": "farewell-leave-bye",
@@ -33917,7 +33923,7 @@
           "role": "leave",
           "choice": "bye",
           "requiresFacts": ["first-meeting"],
-          "excludesFacts": ["by-phone"]
+          "excludesFacts": ["by-phone", "word-denied"]
         }
       ],
       "origin": "authored",
@@ -33939,7 +33945,7 @@
           "role": "leave",
           "choice": "bye",
           "requiresFacts": ["first-meeting"],
-          "excludesFacts": ["by-phone"]
+          "excludesFacts": ["by-phone", "word-denied"]
         }
       ],
       "origin": "authored",
@@ -33961,7 +33967,7 @@
           "role": "leave",
           "choice": "bye",
           "requiresFacts": ["first-meeting"],
-          "excludesFacts": ["by-phone"]
+          "excludesFacts": ["by-phone", "word-denied"]
         }
       ],
       "origin": "authored",
@@ -33983,7 +33989,7 @@
           "role": "leave",
           "choice": "bye",
           "requiresFacts": ["daytime"],
-          "excludesFacts": ["by-phone"]
+          "excludesFacts": ["by-phone", "word-broken", "word-denied"]
         }
       ],
       "origin": "authored",
@@ -34005,7 +34011,7 @@
           "role": "leave",
           "choice": "bye",
           "requiresFacts": ["evening"],
-          "excludesFacts": ["by-phone"]
+          "excludesFacts": ["by-phone", "word-denied"]
         }
       ],
       "origin": "authored",
@@ -34025,7 +34031,8 @@
           "move": "farewell-leave-bye",
           "subject": "farewell",
           "role": "leave",
-          "choice": "bye"
+          "choice": "bye",
+          "excludesFacts": ["word-broken", "word-denied"]
         },
         {
           "move": "farewell-leave-bye",
@@ -34051,7 +34058,7 @@
           "subject": "farewell",
           "role": "leave",
           "choice": "bye",
-          "excludesFacts": ["by-phone"]
+          "excludesFacts": ["by-phone", "word-denied"]
         },
         {
           "move": "farewell-leave-bye",
@@ -34078,7 +34085,7 @@
           "subject": "farewell",
           "role": "leave",
           "choice": "bye",
-          "excludesFacts": ["by-phone"]
+          "excludesFacts": ["by-phone", "word-denied"]
         }
       ],
       "origin": "authored",
@@ -34098,7 +34105,8 @@
           "move": "farewell-leave-bye",
           "subject": "farewell",
           "role": "leave",
-          "choice": "bye"
+          "choice": "bye",
+          "excludesFacts": ["word-denied"]
         },
         {
           "move": "farewell-leave-bye",
@@ -34124,7 +34132,7 @@
           "subject": "farewell",
           "role": "leave",
           "choice": "bye",
-          "excludesFacts": ["by-phone"]
+          "excludesFacts": ["by-phone", "word-broken", "word-denied"]
         },
         {
           "move": "farewell-leave-bye",
@@ -34151,7 +34159,7 @@
           "subject": "farewell",
           "role": "leave",
           "choice": "bye",
-          "excludesFacts": ["by-phone"]
+          "excludesFacts": ["by-phone", "word-denied"]
         },
         {
           "move": "farewell-leave-bye",
@@ -34179,7 +34187,7 @@
           "role": "leave",
           "choice": "bye",
           "requiresFacts": ["both-here", "place"],
-          "excludesFacts": ["by-phone"]
+          "excludesFacts": ["by-phone", "word-denied"]
         }
       ],
       "origin": "authored",
@@ -34201,7 +34209,7 @@
           "role": "leave",
           "choice": "bye",
           "requiresFacts": ["both-here", "place"],
-          "excludesFacts": ["by-phone"]
+          "excludesFacts": ["by-phone", "word-broken", "word-denied"]
         }
       ],
       "origin": "authored",
@@ -37630,7 +37638,7 @@
       "origin": "authored",
       "author": "Words lead (answer replies, Nov 16)",
       "date": "2026-11-16",
-      "bearing": "warm"
+      "bearing": "tender"
     },
     {
       "key": "conversation.promise-broken-reply-own-it.at-least-you-said-it-plainly",
@@ -37648,7 +37656,7 @@
       "origin": "authored",
       "author": "Words lead (answer replies, Nov 16)",
       "date": "2026-11-16",
-      "bearing": "plain"
+      "bearing": "calm"
     },
     {
       "key": "conversation.promise-broken-reply-own-it.alright-i-heard-you-im-not-over-it",
@@ -37666,7 +37674,7 @@
       "origin": "authored",
       "author": "Words lead (answer replies, Nov 16)",
       "date": "2026-11-16",
-      "bearing": "cool"
+      "bearing": "guarded"
     },
     {
       "key": "conversation.promise-broken-reply-explain.maybe-it-doesnt-change-what-happened",
@@ -37684,7 +37692,7 @@
       "origin": "authored",
       "author": "Words lead (answer replies, Nov 16)",
       "date": "2026-11-16",
-      "bearing": "plain"
+      "bearing": "calm"
     },
     {
       "key": "conversation.promise-broken-reply-explain.that-may-be-true-i-still-counted-on-you",
@@ -37702,7 +37710,7 @@
       "origin": "authored",
       "author": "Words lead (answer replies, Nov 16)",
       "date": "2026-11-16",
-      "bearing": "warm"
+      "bearing": "tender"
     },
     {
       "key": "conversation.promise-broken-reply-explain.ive-heard-reasons-before-id-hoped-for-better-from-you",
@@ -37720,7 +37728,7 @@
       "origin": "authored",
       "author": "Words lead (answer replies, Nov 16)",
       "date": "2026-11-16",
-      "bearing": "cool"
+      "bearing": "guarded"
     },
     {
       "key": "conversation.promise-broken-reply-deny.we-both-know-what-you-said",
@@ -37738,7 +37746,7 @@
       "origin": "authored",
       "author": "Words lead (answer replies, Nov 16)",
       "date": "2026-11-16",
-      "bearing": "blunt"
+      "bearing": "braced"
     },
     {
       "key": "conversation.promise-broken-reply-deny.that-isnt-how-i-remember-it",
@@ -37756,13 +37764,13 @@
       "origin": "authored",
       "author": "Words lead (answer replies, Nov 16)",
       "date": "2026-11-16",
-      "bearing": "plain"
+      "bearing": "calm"
     },
     {
-      "key": "conversation.promise-broken-reply-deny.if-thats-your-answer-i-have-nothing-more-to-say-about-it",
+      "key": "conversation.promise-broken-reply-deny.if-thats-your-answer-im-done-talking-about-it",
       "move": "promise-broken-reply-deny",
       "kind": "spoken",
-      "text": "If that's your answer, I have nothing more to say about it.",
+      "text": "If that's your answer, I'm done talking about it.",
       "uses": [
         {
           "move": "promise-broken-reply-deny",
@@ -37774,7 +37782,7 @@
       "origin": "authored",
       "author": "Words lead (answer replies, Nov 16)",
       "date": "2026-11-16",
-      "bearing": "cool"
+      "bearing": "guarded"
     },
     {
       "key": "conversation.promise-broken-reply-make-it-right.alright-ill-hold-you-to-that",
@@ -37792,7 +37800,7 @@
       "origin": "authored",
       "author": "Words lead (answer replies, Nov 16)",
       "date": "2026-11-16",
-      "bearing": "plain"
+      "bearing": "calm"
     },
     {
       "key": "conversation.promise-broken-reply-make-it-right.do-it-then-ill-believe-it-when-i-see-it",
@@ -37810,7 +37818,7 @@
       "origin": "authored",
       "author": "Words lead (answer replies, Nov 16)",
       "date": "2026-11-16",
-      "bearing": "blunt"
+      "bearing": "braced"
     },
     {
       "key": "conversation.promise-broken-reply-make-it-right.id-like-that-dont-make-me-ask-again",
@@ -37828,7 +37836,7 @@
       "origin": "authored",
       "author": "Words lead (answer replies, Nov 16)",
       "date": "2026-11-16",
-      "bearing": "warm"
+      "bearing": "tender"
     },
     {
       "key": "conversation.promise-kept-reply-plain.you-did-thank-you",
