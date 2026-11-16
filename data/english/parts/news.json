@@ -15833,50 +15833,6 @@
       }
     },
     {
-      "key": "news.closing-account.its-owner-owner-is-retiring",
-      "move": "closing-account",
-      "kind": "written",
-      "text": "Its owner, {owner}, is retiring.",
-      "uses": [
-        {
-          "move": "closing-account",
-          "subject": "news",
-          "role": "closing-account",
-          "choice": "context",
-          "requiresFacts": ["retiring", "owner"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (pool item play-local-layoffs-on-screen)",
-      "date": "2026-11-16",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.closing-account.owner-found-nobody-to-take-the-business-over",
-      "move": "closing-account",
-      "kind": "written",
-      "text": "{owner} found nobody to take the business over.",
-      "uses": [
-        {
-          "move": "closing-account",
-          "subject": "news",
-          "role": "closing-account",
-          "choice": "context",
-          "requiresFacts": ["no-successor", "owner"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words lead (pool item play-local-layoffs-on-screen)",
-      "date": "2026-11-16",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
       "key": "news.closing-account.the-business-had-been-losing-money",
       "move": "closing-account",
       "kind": "written",
