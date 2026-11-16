@@ -226,9 +226,15 @@ export function placesFacts(
     }
   // Named people: their own jobs and commitments.
   const commitments: WorkCommitmentInput[] = [];
-  const namedIn = [...places].flatMap((placeId) => [
-    ...(core.peopleByPlace.get(placeId) ?? []),
-  ]);
+  // Once each: a place's index can hold people another listed place's also
+  // holds (a town inside a county the runtime keeps households for).
+  const namedIn = [
+    ...new Set(
+      [...places].flatMap((placeId) => [
+        ...(core.peopleByPlace.get(placeId) ?? []),
+      ]),
+    ),
+  ];
   for (const id of namedIn)
     for (const cid of core.work.commitmentsByPerson.get(id) ?? []) {
       const row = core.work.commitments.get(cid);
