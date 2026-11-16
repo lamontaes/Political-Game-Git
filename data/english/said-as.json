@@ -269,9 +269,8 @@
     }
   },
   "centralBank": {
-    "about": "A seat on the central bank's board as a profile says it (src/bench/printed-words.ts boardPost, from the macro module's members and src/core2/data/macro/board.json): a governor by the board's own title, a reserve bank's president by the bank the district names, and by the system's title where the district names none.",
+    "about": "A seat on the central bank's board as a profile says it (src/bench/printed-words.ts boardPost, from the macro module's members and src/core2/data/macro/board.json): a governor by the board's own title, and a reserve bank's president by the bank their district names (every president's seat is made from a district in src/core2/data/macro/board.json, and every district names its bank).",
     "governor": "Federal Reserve governor",
-    "districtPresident": "president of the {bank}",
-    "president": "Federal Reserve Bank president"
+    "districtPresident": "president of the {bank}"
   }
 }

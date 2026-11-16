@@ -469,16 +469,14 @@ class Reader {
     const bank = board.districts.find(
       (district) => district.id === member.districtId,
     )?.institution;
+    // Every president's seat is made from a district in board.json, and
+    // every district names its bank, so a president is said by their bank.
     const said = SAID_AS_DATA.centralBank;
-    return {
-      office:
-        member.seatKind === "governor"
-          ? said.governor
-          : bank
-            ? said.districtPresident.replace("{bank}", bank)
-            : said.president,
-      since: member.appointedAt,
-    };
+    const office =
+      member.seatKind === "governor"
+        ? said.governor
+        : bank && said.districtPresident.replace("{bank}", bank);
+    return office ? { office, since: member.appointedAt } : null;
   }
   /** What a business does, in a few words ("retail trade"), by its classification. */
   industry(organizationId: string | undefined): string | null {
