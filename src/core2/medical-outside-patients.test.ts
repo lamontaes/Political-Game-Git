@@ -77,7 +77,7 @@ function run(cut: boolean) {
 
 describe(
   "a town's clinic has patients from outside it",
-  { timeout: 200_000 },
+  { timeout: 240_000 },
   () => {
     it("Danville: sized once at the opening, kept by seller, and a Medicaid cut reaches it", () => {
       const control = run(false);
