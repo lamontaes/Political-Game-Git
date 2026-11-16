@@ -177705,7 +177705,8 @@
           "role": "asker",
           "purpose": "proposal-answer",
           "key": "favor-asked",
-          "requiresFacts": ["said-no", "reason-not-sure-yet"]
+          "requiresFacts": ["said-no", "reason-not-sure-yet"],
+          "excludesFacts": ["asked-same-before"]
         }
       ],
       "bearing": "solemn",
@@ -177730,13 +177731,72 @@
           "role": "asker",
           "purpose": "proposal-answer",
           "key": "favor-asked",
-          "requiresFacts": ["said-no", "reason-not-sure-yet"]
+          "requiresFacts": ["said-no", "reason-not-sure-yet"],
+          "excludesFacts": ["asked-same-before"]
         }
       ],
       "bearing": "solemn",
       "origin": "authored",
       "author": "Claude Opus 5.5 (family life builder; second words reader's read, Nov 14 16:45Z)",
       "date": "2026-11-14",
+      "tag": {
+        "move": "tell",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.you-asked-me-last-time-i-m-still-not-sure",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "You asked me last time. I'm still not sure.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "proposal-answer",
+          "key": "favor-asked",
+          "requiresFacts": [
+            "said-no",
+            "reason-not-sure-yet",
+            "asked-same-before"
+          ]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (family life builder; Words lead ruling Nov 16 00:36Z)",
+      "date": "2026-11-16",
+      "tag": {
+        "move": "tell",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.i-haven-t-changed-my-mind-yet-give-me-time",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "I haven't changed my mind yet. Give me time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "proposal-answer",
+          "key": "favor-asked",
+          "requiresFacts": [
+            "said-no",
+            "reason-not-sure-yet",
+            "asked-same-before"
+          ]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (family life builder; Words lead ruling Nov 16 00:36Z)",
+      "date": "2026-11-16",
       "tag": {
         "move": "tell",
         "key": "favor-asked"
@@ -177879,6 +177939,26 @@
           "key": "favor-asked",
           "requiresFacts": ["said-no"],
           "after": "scene-talk.state-tell.i-can-t-say-yes-i-m-sorry"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "proposal-answer",
+          "key": "favor-asked",
+          "requiresFacts": ["said-no"],
+          "after": "scene-talk.state-tell.you-asked-me-last-time-i-m-still-not-sure"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "proposal-answer",
+          "key": "favor-asked",
+          "requiresFacts": ["said-no"],
+          "after": "scene-talk.state-tell.i-haven-t-changed-my-mind-yet-give-me-time"
         }
       ],
       "bearing": "curious",
@@ -178073,13 +178153,40 @@
           "after": "ask",
           "purpose": "proposal-answer",
           "key": "favor-asked",
-          "requiresFacts": ["reason-not-sure-yet"]
+          "requiresFacts": ["reason-not-sure-yet"],
+          "excludesFacts": ["asked-same-before"]
         }
       ],
       "bearing": "solemn",
       "origin": "authored",
       "author": "Claude Opus 5.5 (family life builder; Words lead ruling Nov 14 11:30Z)",
       "date": "2026-11-14",
+      "tag": {
+        "move": "answer",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.the-same-reason-as-before-i-need-to-be-sure",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "The same reason as before. I need to be sure.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "ask",
+          "purpose": "proposal-answer",
+          "key": "favor-asked",
+          "requiresFacts": ["reason-not-sure-yet", "asked-same-before"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Claude Opus 5.5 (family life builder; Words lead ruling Nov 16 00:36Z)",
+      "date": "2026-11-16",
       "tag": {
         "move": "answer",
         "key": "favor-asked"
