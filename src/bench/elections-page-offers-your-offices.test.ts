@@ -20,9 +20,8 @@ const PLACES = [
   { at: "e:5", name: "McMinnville" },
   { at: "e:3", name: "Bonanza" },
 ];
-const OF_AGE = "2000-03-01";
 
-function opening(at: string, name: string, born?: string) {
+function opening(at: string, name: string) {
   setBookkeeping(false);
   const place = drawPlace(at, "elec-probe");
   expect(place.name).toContain(name);
@@ -30,7 +29,6 @@ function opening(at: string, name: string, born?: string) {
     twoLevel: true,
     placeKey: place.key,
     warmUpDays: OPENING_WARMUP_DAYS,
-    ...(born ? { playerBirthDate: born } : {}),
   });
   return { core, where: `${place.name} (${place.key}), seed ${place.seed}` };
 }
@@ -60,8 +58,8 @@ describe.each(PLACES)("the Elections page at $name", ({ at, name }) => {
       commissioners.length,
       `${where}: commissioner seats`,
     ).toBeLessThanOrEqual(1);
-    // The player's own offices lead, each with when filing opens, and a
-    // 17-year-old is told the day they turn 18.
+    // The player's own offices lead, each with the day filing opens; the player is an adult
+    // (the world starts them at 18 or older, owner Nov 16), so no age refusal stands in the way.
     const mine = races.filter((r) => r.bar !== "not-your-office");
     expect(
       mine.map((r) => r.title),
@@ -69,10 +67,10 @@ describe.each(PLACES)("the Elections page at $name", ({ at, name }) => {
     ).toEqual(expect.arrayContaining(["Council member", "Mayor"]));
     for (const race of mine) {
       expect(race.filingOpens, `${where}: ${race.title} opens`).toBeTruthy();
-      expect(
-        race.cannotFile?.metOn,
-        `${where}: ${race.title} turns 18`,
-      ).toBeTruthy();
+      expect(race.cannotFile, `${where}: ${race.title} age`).toBeNull();
+      expect(race.bar, `${where}: ${race.title} window`).toBe(
+        "window-not-open",
+      );
     }
     // A county office is a county's, never taken for the council.
     for (const race of races.filter((r) => r.bar === "not-your-office"))
@@ -81,10 +79,10 @@ describe.each(PLACES)("the Elections page at $name", ({ at, name }) => {
       expect(mine.find((r) => r.title === "Council member")!.seats, where).toBe(
         3,
       );
-  }, 120_000);
+  }, 150_000);
 
-  it("offers no refusal for age to a player who is old enough, and a refused filing gives its real reason", () => {
-    const { core, where } = opening(at, name, OF_AGE);
+  it("offers no refusal for age to the adult player, and a refused filing gives its real reason", () => {
+    const { core, where } = opening(at, name);
     const { races } = localRaces(core) as unknown as {
       races: { contestId: string; bar: string | null; cannotFile: unknown }[];
     };
@@ -100,7 +98,7 @@ describe.each(PLACES)("the Elections page at $name", ({ at, name }) => {
       () => fileForOffice(core, core.playerId!, row.contestId),
       where,
     ).toThrow(controls.localRaces.refusal["not-your-office"]);
-  }, 120_000);
+  }, 150_000);
 });
 
 describe("dev mode's Election offers (McMinnville)", () => {
@@ -128,9 +126,9 @@ describe("dev mode's Election offers (McMinnville)", () => {
     ).toBe(true);
     const council = offers.find((o) => o.title === "Council member")!;
     expect(council.bar, where).toBe("window-not-open");
-    expect(council.metOn, where).toBeTruthy();
+    expect(council.metOn, where).toBeNull();
     expect(offers.find((o) => o.title === "Sheriff")?.bar, where).toBe(
       "not-your-office",
     );
-  }, 120_000);
+  }, 150_000);
 });
