@@ -2636,6 +2636,11 @@ export function amendmentRoom(
   readonly roomMinor: number;
   readonly cause: "receipts-over-plan" | "receipts-under-plan";
   readonly months: number;
+  /** The arithmetic behind the room, for dev mode: the monthly take now and in the months before the year, the revenue planned for the months closed, and what is already amended in. */
+  readonly nowMinor: number;
+  readonly paceMinor: number;
+  readonly plannedMinor: number;
+  readonly amendedMinor: number;
 } | null {
   const gov = governmentOfJurisdiction(api, governmentId);
   if (!gov) return null;
@@ -2673,6 +2678,10 @@ export function amendmentRoom(
     roomMinor,
     cause: roomMinor >= 0 ? "receipts-over-plan" : "receipts-under-plan",
     months: since.length,
+    nowMinor: Math.round(now),
+    paceMinor: Math.round(pace),
+    plannedMinor: Math.round(planned),
+    amendedMinor: amended,
   };
 }
 export function budgetsOf(
