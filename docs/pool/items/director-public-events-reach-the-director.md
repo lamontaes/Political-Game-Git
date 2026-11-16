@@ -5,10 +5,10 @@ area: director
 kind: feature
 priority: 2
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: story builder (claude/project-thread-lcf812-approval)
-pr:
+pr: 9614
 after:
 blocked-on:
 lead: words
