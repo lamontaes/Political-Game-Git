@@ -206,6 +206,8 @@ export { keyPeopleOf } from "../opening-key-people";
 // move records and a named resident's moved-away event.
 export { COUNTED_MOVES_MODULE_ID, countedMoves } from "./counted-moves";
 export { MOVED_AWAY_EVENT } from "./moves";
+// A business's staff in heads and the limit on its outside orders, for dev mode's Businesses.
+export { countedHeadcountOf, limitOutsideSales } from "../residents-economy";
 // A person's life as one list, for the screens that tell it (the card, the You screen).
 export { lifeOf, type LifeEvent } from "../person-life";
 // A relative's letter and a missed family gathering, for the director's letter scene.

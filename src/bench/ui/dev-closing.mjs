@@ -1,9 +1,8 @@
-/* global fetch */
 // Dev mode's Businesses panel, on Metrics: the town's businesses, a control that cuts one's
 // outside orders (the engine's own output limit, as a law's limit sets it) or closes it through its
 // owner's own closing, and "What came of it": everyone it let go, why, the record each heard and
 // where they are now, and the town month by month. Control names and record data only; every id
-// opens in Trace.
+// opens in Trace. Registered from dev-views/dev-closing.ts; drawn in the "metrics" slot.
 import { el } from "./dom.mjs";
 import { makeButton } from "./button.mjs";
 import { numberBox, select, statusLine } from "./fields.mjs";
@@ -11,21 +10,11 @@ import { stripSection } from "./strips.mjs";
 import { idLink, recordTree, tableRows } from "./dev-view.mjs";
 import { traceBox } from "./dev-trace-box.mjs";
 
-async function send(path, input) {
-  const response = await fetch(`/api/dev/${path}`, {
-    method: input ? "POST" : "GET",
-    ...(input ? { body: JSON.stringify(input) } : {}),
-  });
-  const value = await response.json();
-  if (!response.ok) throw new Error(value.error);
-  return value;
-}
-
 /** The business picked, kept across the sheet's redraws. */
 let picked = "";
 
-/** The panel. `labels` is controls.devClosing; `onDone()` refreshes the game's screens. */
-export async function devClosingPanel({ labels, onDone }) {
+/** The panel. `labels` are the view's (dev-views/dev-closing.ts); `refresh()` redraws Metrics. */
+async function devClosingPanel({ labels, refresh, send }) {
   const businesses = await send("businesses");
   picked =
     businesses.find((row) => row.organizationId === picked)?.organizationId ??
@@ -34,7 +23,12 @@ export async function devClosingPanel({ labels, onDone }) {
   const result = statusLine();
   const { node: trace, open } = traceBox(labels.trace);
   const view = el("div", { className: "dev-closing" });
-  const keep = numberBox({ value: 0.25, min: 0.01, step: 0.05, label: labels.keep });
+  const keep = numberBox({
+    value: 0.25,
+    min: 0.01,
+    step: 0.05,
+    label: labels.keep,
+  });
 
   const draw = async () => {
     if (!picked) return view.replaceChildren();
@@ -48,7 +42,9 @@ export async function devClosingPanel({ labels, onDone }) {
         { className: "kv" },
         idLink(came.organizationId, open, came.name),
         el("span", {}, ` ${labels.staff} ${came.staffNow}`),
-        ...(came.closureId ? [el("span", {}, " "), idLink(came.closureId, open)] : []),
+        ...(came.closureId
+          ? [el("span", {}, " "), idLink(came.closureId, open)]
+          : []),
       ),
       recordTree(came.totals, open, labels.totals),
       el(
@@ -84,7 +80,8 @@ export async function devClosingPanel({ labels, onDone }) {
           [
             {
               name: labels.month,
-              value: (r) => (r.metricsId ? idLink(r.metricsId, open, r.month) : r.month),
+              value: (r) =>
+                r.metricsId ? idLink(r.metricsId, open, r.month) : r.month,
             },
             { name: labels.jobsInTown, value: (r) => r.jobsInTown ?? "" },
             { name: labels.people, value: (r) => r.people ?? "" },
@@ -92,7 +89,8 @@ export async function devClosingPanel({ labels, onDone }) {
             { name: labels.claims, value: (r) => r.claimsOpen ?? "" },
             {
               name: labels.sales,
-              value: (r) => recordTree(r.salesByIndustryMinor, open, labels.sales, 2),
+              value: (r) =>
+                recordTree(r.salesByIndustryMinor, open, labels.sales, 2),
             },
           ],
           came.town,
@@ -111,7 +109,7 @@ export async function devClosingPanel({ labels, onDone }) {
       try {
         const out = await work();
         result.replaceChildren(idLink(out.mark.id, open));
-        await onDone();
+        await refresh();
       } catch (error) {
         result.textContent = error.message;
       } finally {
@@ -144,7 +142,10 @@ export async function devClosingPanel({ labels, onDone }) {
       { className: "acts" },
       keep,
       act(labels.shrink, "dev-shrink-business", () =>
-        send("shrink-business", { organizationId: picked, keep: Number(keep.value) }),
+        send("shrink-business", {
+          organizationId: picked,
+          keep: Number(keep.value),
+        }),
       ),
       act(labels.close, "dev-close-business", () =>
         send("close-business", { organizationId: picked }),
@@ -155,3 +156,6 @@ export async function devClosingPanel({ labels, onDone }) {
     trace,
   );
 }
+
+/** Where it draws: under the Metrics board (ui/dev-views.mjs). */
+export const slots = { metrics: devClosingPanel };

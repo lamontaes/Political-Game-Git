@@ -19,32 +19,22 @@ import {
   residentsRuntime,
 } from "../../core2/modules/residents";
 import {
-  countedHeadcountOf,
-  limitOutsideSales,
-} from "../../core2/residents-economy";
-import {
   COUNTED_MOVES_MODULE_ID,
+  countedHeadcountOf,
   countedMoves,
-} from "../../core2/modules/counted-moves";
+  limitOutsideSales,
+} from "../../core2/modules/people";
 import { MOVED_AWAY_EVENT } from "../../core2/moved-away-event";
 import { metricsPanel } from "../../core2/modules/world-panels";
 import type { CoreAPI, CoreState, PersonId } from "../../core2/types";
+import type { DevMode } from "../dev-mode";
+import type { DevView } from "../dev-views";
 
 /** The closing reason a dev-mode close keeps on the business's books: the record says who closed it. */
 export const DEV_CLOSE_REASON = "dev-mode";
 
-/** What a control returns: the dev-mode change record it wrote. */
-export type DevMarker = (
-  control: string,
-  recordIds: readonly string[],
-  facts: Record<string, string>,
-) => { id: string };
-
-interface Devish {
-  readonly core: CoreState;
-  readonly placeId: string;
-  mark: DevMarker;
-}
+/** What the view reads and marks through: the bench's dev mode (its public mark). */
+type Devish = Pick<DevMode, "core" | "placeId" | "mark">;
 
 interface ChangeRow {
   id: string;
@@ -71,7 +61,8 @@ interface TradingRow {
 
 const has = (core: CoreState, id: string) => core.modules.has(id);
 
-function townOf(dev: Devish): string {
+/** The played town, as dev mode reads it. */
+function playedTown(dev: Devish): string {
   return has(dev.core, LAWS_MODULE_ID)
     ? lawChain(coreAPI(dev.core)).townPlaceId
     : dev.placeId;
@@ -105,7 +96,7 @@ function changeRows(api: CoreAPI): ChangeRow[] {
 export function townBusinesses(dev: Devish) {
   const core = dev.core;
   const api = coreAPI(core);
-  const town = townOf(dev);
+  const town = playedTown(dev);
   const last = new Map<string, TradingRow>();
   for (const row of tradingRows(api)) {
     const kept = last.get(row.organizationId);
@@ -126,9 +117,7 @@ export function townBusinesses(dev: Devish) {
       // Whether it sells outside the town: the one kind of business an orders cut reaches.
       sellsOutside: [...(residentsRuntime(core)?.flows.values() ?? [])].some(
         (flow) =>
-          flow.kind === "outside-sales" &&
-          !flow.endedAt &&
-          flow.payeeId === id,
+          flow.kind === "outside-sales" && !flow.endedAt && flow.payeeId === id,
       ),
       lastMonth: month ?? null,
       closedAt: book.closedAt ?? null,
@@ -136,7 +125,8 @@ export function townBusinesses(dev: Devish) {
     });
   }
   return rows.sort(
-    (a, b) => b.staff - a.staff || a.organizationId.localeCompare(b.organizationId),
+    (a, b) =>
+      b.staff - a.staff || a.organizationId.localeCompare(b.organizationId),
   );
 }
 
@@ -210,9 +200,11 @@ function whereNow(
   movesOut: ReadonlyMap<string, { id: string; date: string; toPlace: string }>,
   movedFull: ReadonlyMap<string, string>,
 ) {
-  const rehired = (hires.get(row.personId) ?? []).find(
-    (hire) => hire.date >= row.date && hire.organizationId !== row.organizationId,
-  ) ?? (hires.get(row.personId) ?? []).find((hire) => hire.date > row.date);
+  const rehired =
+    (hires.get(row.personId) ?? []).find(
+      (hire) =>
+        hire.date >= row.date && hire.organizationId !== row.organizationId,
+    ) ?? (hires.get(row.personId) ?? []).find((hire) => hire.date > row.date);
   const full = core.people.get(row.personId as PersonId);
   if (full && !isDemoted(full)) {
     if (!full.alive) return { now: "died", recordId: null };
@@ -225,9 +217,10 @@ function whereNow(
         recordId: rehired?.id ?? full.jobId,
         employerId: core.jobs.get(full.jobId)?.organizationId ?? null,
       };
-    const seeking = api.moduleState(JOBS_MODULE_ID).table("seekers").get(
-      row.personId,
-    );
+    const seeking = api
+      .moduleState(JOBS_MODULE_ID)
+      .table("seekers")
+      .get(row.personId);
     return seeking
       ? { now: "looking", recordId: null }
       : { now: "not-looking", recordId: null };
@@ -261,13 +254,17 @@ function whereNow(
  * for the people it named and where they are now, and the town month by
  * month (jobs, people, looking, claims, sales by industry).
  */
-export function whatCameOf(dev: Devish, organizationId: string, since?: string) {
+export function whatCameOf(
+  dev: Devish,
+  organizationId: string,
+  since?: string,
+) {
   const core = dev.core;
   const api = coreAPI(core);
   const org = core.organizations.get(organizationId);
   const book = core.finance.businesses.get(organizationId);
   if (!org || !book) throw new Error("No such business.");
-  const town = townOf(dev);
+  const town = playedTown(dev);
   const from = since ?? "";
   const changes = changeRows(api);
   const hires = new Map<string, ChangeRow[]>();
@@ -279,7 +276,10 @@ export function whatCameOf(dev: Devish, organizationId: string, since?: string) 
     }
   for (const list of hires.values())
     list.sort((a, b) => a.date.localeCompare(b.date));
-  const movesOut = new Map<string, { id: string; date: string; toPlace: string }>();
+  const movesOut = new Map<
+    string,
+    { id: string; date: string; toPlace: string }
+  >();
   if (has(core, COUNTED_MOVES_MODULE_ID))
     for (const move of countedMoves(api))
       if (move.direction === "out" && move.date >= from)
@@ -373,10 +373,63 @@ export function whatCameOf(dev: Devish, organizationId: string, since?: string) 
       ? `employer-closed:${core.finance.closures.get(organizationId)!.date}:${organizationId}`
       : null,
     trading: tradingRows(api)
-      .filter((row) => row.organizationId === organizationId && row.date >= from)
+      .filter(
+        (row) => row.organizationId === organizationId && row.date >= from,
+      )
       .sort((a, b) => a.date.localeCompare(b.date)),
     letGo,
     totals,
     town: months,
   };
 }
+
+/** The view: its routes under /api/dev/, its page part on Metrics and the words that part shows. */
+const view: DevView = {
+  name: "dev-closing",
+  routes: {
+    "GET businesses": ({ mode }) => townBusinesses(mode),
+    "GET closing": ({ mode, q }) =>
+      whatCameOf(mode, q("organizationId"), q("since") || undefined),
+    "POST shrink-business": ({ mode, input }) =>
+      shrinkBusiness(mode, String(input.organizationId), Number(input.keep)),
+    "POST close-business": ({ mode, input }) =>
+      closeBusiness(mode, String(input.organizationId)),
+  },
+  client: "dev-closing.mjs",
+  labels: {
+    title: "Businesses",
+    business: "Business",
+    keep: "Share of its outside orders kept",
+    shrink: "Cut its outside orders",
+    close: "Close it",
+    closed: "closed",
+    trace: "Trace",
+    cameOf: "What came of it",
+    staff: "Staff",
+    totals: "People let go",
+    date: "Date",
+    kind: "How",
+    heads: "People",
+    reason: "Why",
+    person: "Who",
+    heard: "Record they heard",
+    none: "none",
+    now: "Now",
+    change: "Job change",
+    where: {
+      looking: "Looking for work",
+      working: "Working",
+      "moved-away": "Moved away",
+      "not-looking": "Not looking",
+      died: "Died",
+    },
+    month: "Month",
+    jobsInTown: "Jobs in town",
+    people: "People",
+    looking: "Looking for work",
+    claims: "Claims open",
+    sales: "Sales by industry",
+    trading: "Its months",
+  },
+};
+export default view;
