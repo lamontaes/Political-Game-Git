@@ -1,4 +1,5 @@
 import { OPENING_CUSTOMER_QUALIFICATION_PREFIX } from "./opening-customer-qualification";
+import { RegularSellers } from "./regular-seller";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { corePlaceByJurisdictionId, corePlaceByKey } from "./place-lookup";
 import {
@@ -814,6 +815,7 @@ export function createOpeningFinance(
       throw new Error("Opening finance budget apportionment lost minor units.");
     return rows.map(({ id, amount }) => ({ id, amount }));
   };
+  const regularSellers = new RegularSellers();
   const supplierWeights = (rows: readonly OrganizationInput[]) =>
     rows.map((row) => ({
       id: row.id,
@@ -1010,9 +1012,20 @@ export function createOpeningFinance(
             suppliers: groups[0]!.length ? groups[0]! : groups[1]!,
           });
       } else parts.push({ amount: budget.amount, suppliers });
-      const shares = parts.flatMap((part) =>
-        part.suppliers.length
-          ? allocate(part.amount, supplierWeights(part.suppliers))
+      // Each part from the household's one regular seller of it
+      // (regular-seller.ts), not a slice from every seller.
+      const shares = parts.flatMap((part, n) =>
+        part.suppliers.length && part.amount > zero
+          ? [
+              {
+                id: regularSellers.pick(
+                  `${household.placeId}|${budget.id}|${n}`,
+                  supplierWeights(part.suppliers),
+                  part.amount,
+                )!,
+                amount: part.amount,
+              },
+            ]
           : [],
       );
       for (const share of shares) {
@@ -1119,10 +1132,18 @@ export function createOpeningFinance(
     let boundMonthly = zero;
     if (rule && suppliers.length && supplierBudget > zero) {
       const additional: FinanceContractInput[] = [];
-      for (const share of allocate(
-        supplierBudget,
-        supplierWeights(suppliers),
-      )) {
+      // The business's one regular supplier (regular-seller.ts), not a
+      // slice from every supplier in town.
+      for (const share of [
+        {
+          id: regularSellers.pick(
+            `${organization.placeId}|${rule.contractKind}`,
+            supplierWeights(suppliers),
+            supplierBudget,
+          )!,
+          amount: supplierBudget,
+        },
+      ]) {
         if (share.amount <= zero) continue;
         const contract: FinanceContractInput = {
           id: JSON.stringify([

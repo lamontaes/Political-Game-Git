@@ -36,6 +36,7 @@ import {
 import { addDays, ageOnDate, makeIsoDate } from "./kernel/dates";
 import { createStableId } from "./kernel/ids";
 import type { EntityId, IsoDate } from "./kernel/brands";
+import type { JobInput } from "./types";
 import {
   draftOrganizationProfiles,
   takeSequence,
@@ -61,6 +62,10 @@ import {
   townWorkplaceWeights,
 } from "./town-employment-mix";
 import { parameter as p } from "./parameters";
+import {
+  townBusinessCount,
+  type TownBusinessCount,
+} from "./town-establishments";
 import {
   TOWN_MEDIAN_TENURE_BY_AGE,
   TOWN_WORKPLACE_BY_KEY,
@@ -434,18 +439,27 @@ export function writableTownWeights(
   return [...weights].filter(([, weight]) => weight > p("zero"));
 }
 
-/** Public facilities get a real source name, or they do not enter the world. */
+/** The town's source records of a kind of workplace: its banks, hospitals or clinics. */
+function sourcedTownInstitutions(
+  town: EntityId,
+  key: string,
+): readonly LocalInstitutionRow[] {
+  const institutions = localInstitutionsFor(town);
+  if (key === "bank") return institutions.banks;
+  if (key === "hospital")
+    return institutions.hospitals.filter((row) => row.kind === "hospital");
+  if (key === "clinic")
+    return institutions.hospitals.filter((row) => row.kind === "clinic");
+  return [];
+}
+
+/** Public facilities get a real source name, or they do not enter the world: business `outlet`'s record. */
 function sourcedTownInstitution(
   town: EntityId,
   key: string,
+  outlet = 0,
 ): LocalInstitutionRow | undefined {
-  const institutions = localInstitutionsFor(town);
-  if (key === "bank") return institutions.banks[0];
-  if (key === "hospital")
-    return institutions.hospitals.find((row) => row.kind === "hospital");
-  if (key === "clinic")
-    return institutions.hospitals.find((row) => row.kind === "clinic");
-  return undefined;
+  return sourcedTownInstitutions(town, key)[outlet];
 }
 
 /**
@@ -470,7 +484,7 @@ function writeTownEmployer(
   if (draft.history.organizations.some((row) => row.id === id)) return;
   const institutions = localInstitutionsFor(town);
   const institution =
-    sourcedTownInstitution(town, workplace.key) ??
+    sourcedTownInstitution(town, workplace.key, outlet) ??
     (workplace.key === "public-school"
       ? institutions.largeEmployers.find(
           (row) => row.kind === "school-district",
@@ -568,7 +582,6 @@ function fillTownJobs(
     : null;
   const weights = writableTownWeights(town, draft.seed);
   const organizations = new Map<string, EntityId>();
-  const outletsOf = new Map<string, readonly number[]>();
   // The town's jobs today, counting the hires made here: staff and
   // part-time staff at each employer, staff and roles by kind of workplace,
   // and the kinds of work each resident has done in town before.
@@ -726,8 +739,9 @@ function fillTownJobs(
   /**
    * The employer a hire at `workplace` works for, or null when no employer
    * of that kind can be written: the least staffed of its existing
-   * organizations, else the outlet with the fewest staff, lowest number
-   * first (every outlet has room at the opening; the books are written by play).
+   * organizations, else the kind's first business. The opening's hires are
+   * spread over as many businesses as the town's workers fill once every job
+   * is made (`spreadTownBusinesses`).
    */
   const employer = (
     workplace: Workplace,
@@ -741,24 +755,7 @@ function fillTownJobs(
             (a, b) => staffAt(a) - staffAt(b) || a.localeCompare(b),
           )[0]!
         : null;
-    let outlets = outletsOf.get(workplace.key);
-    if (!outlets) {
-      outlets = Array.from({ length: workplace.outlets }, (_, n) => n);
-      outletsOf.set(workplace.key, outlets);
-    }
-    if (outlets.length === 0) return null;
-    let outlet: number | null = null;
-    let fewest = Infinity;
-    for (const candidate of outlets) {
-      const key = `${prefix}:employer:${workplace.key}:${candidate}`;
-      const id =
-        organizations.get(key) ??
-        createStableId("organization", `${draft.id}:${key}`);
-      if (staffAt(id) >= fewest) continue;
-      outlet = candidate;
-      fewest = staffAt(id);
-    }
-    if (outlet === null) return null;
+    const outlet = 0;
     const stableKey = `${prefix}:employer:${workplace.key}:${outlet}`;
     const cached = organizations.get(stableKey);
     if (cached) return cached;
@@ -944,5 +941,84 @@ function heldTownRoles(
     const key = `${role.title}|${workplaceOf.get(organizationId) ?? organizationId}`;
     counts.set(key, (counts.get(key) ?? 0) + 1);
   }
+  return counts;
+}
+
+/**
+ * Spread the town's opening jobs over as many businesses of each kind as its
+ * workers fill (owner, Nov 16: no fixed count of stores, restaurants or
+ * clinics): every job of a kind's first business, from both opening passes,
+ * is dealt in job order over `townBusinessCount` businesses, each written
+ * with its first worker as its founder and named as play names a new
+ * business. A bank or a hospital is one per source record the town has. The
+ * jobs' and the work relationships' employers change in place; returns what
+ * each kind opened with and why.
+ */
+export function spreadTownBusinesses(
+  draft: OpeningDraft,
+  town: EntityId,
+  jobs: JobInput[],
+  countScale: number,
+): readonly TownBusinessCount[] {
+  const prefix = `${TOWN_EMPLOYMENT_VERSION}:${town}:employer:`;
+  const kindOf = new Map<string, string>();
+  for (const organization of draft.history.organizations) {
+    if (!organization.stableKey.startsWith(prefix)) continue;
+    const match = /:employer:([a-z-]+):0$/.exec(organization.stableKey);
+    if (match) kindOf.set(organization.id, match[1]!);
+  }
+  const byKind = new Map<string, JobInput[]>();
+  for (const job of jobs) {
+    const kind = kindOf.get(job.organizationId);
+    if (!kind) continue;
+    const list = byKind.get(kind) ?? [];
+    list.push(job);
+    byKind.set(kind, list);
+  }
+  const moved = new Map<string, EntityId>();
+  const counts: TownBusinessCount[] = [];
+  for (const [kind, held] of [...byKind].sort(([a], [b]) =>
+    a.localeCompare(b),
+  )) {
+    const workplace = TOWN_WORKPLACE_BY_KEY.get(kind)!;
+    const sized = townBusinessCount(town, kind, held.length, countScale);
+    const plan = SOURCED_ONLY.has(kind)
+      ? {
+          ...sized,
+          count: Math.max(
+            p("one"),
+            Math.min(sourcedTownInstitutions(town, kind).length, sized.count),
+          ),
+        }
+      : sized;
+    counts.push(plan);
+    if (plan.count <= p("one")) continue;
+    held
+      .sort((a, b) => a.id.localeCompare(b.id))
+      .forEach((job, n) => {
+        const outlet = n % plan.count;
+        if (outlet === 0) return;
+        if (n < plan.count)
+          writeTownEmployer(
+            draft,
+            town,
+            workplace,
+            outlet,
+            draft.currentDate,
+            job.personId as EntityId,
+          );
+        job.organizationId = createStableId(
+          "organization",
+          `${draft.id}:${prefix}${kind}:${outlet}`,
+        );
+        moved.set(job.id, job.organizationId as EntityId);
+      });
+  }
+  if (moved.size > 0)
+    draft.history.workRelationships.forEach((row, n) => {
+      const to = moved.get(row.id);
+      if (to)
+        draft.history.workRelationships[n] = { ...row, organizationId: to };
+    });
   return counts;
 }

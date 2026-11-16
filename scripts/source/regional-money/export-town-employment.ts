@@ -7,8 +7,9 @@
  *
  * - For every county in the Census 2023 County Business Patterns file, its
  *   March employment in each two-digit industry sector, in the fixed sector
- *   order `TOWN_EMPLOYMENT_SECTORS`. County Business Patterns covers private
- *   employers only.
+ *   order `TOWN_EMPLOYMENT_SECTORS`, and its count of establishments in each
+ *   (the town's businesses of a kind are sized from the two). County Business
+ *   Patterns covers private employers only.
  * - For every state and D.C. in the BLS May 2025 OEWS state tables, its total
  *   wage and salary employment, and from the BLS state ownership research
  *   estimates its federal, state and local government employment, with local
@@ -82,6 +83,7 @@ const cell = (value: unknown) =>
 export function renderTownEmploymentModule(): string {
   const cbp = load("county-business-patterns");
   const counties = new Map<string, Map<string, number>>();
+  const establishments = new Map<string, Map<string, number>>();
   for (const row of cbp.rows) {
     const naics = String(row.naics).slice(0, 2);
     if (!(SECTORS as readonly string[]).includes(naics)) continue;
@@ -89,12 +91,23 @@ export function renderTownEmploymentModule(): string {
     let sectors = counties.get(fips);
     if (!sectors) counties.set(fips, (sectors = new Map()));
     if (typeof row.employment === "number") sectors.set(naics, row.employment);
+    let places = establishments.get(fips);
+    if (!places) establishments.set(fips, (places = new Map()));
+    if (typeof row.establishments === "number")
+      places.set(naics, row.establishments);
   }
   const countyRows = [...counties.keys()]
     .sort()
     .map(
       (fips) =>
         `${fips}:${SECTORS.map((sector) => cell(counties.get(fips)!.get(sector))).join(",")}`,
+    )
+    .join(";");
+  const establishmentRows = [...establishments.keys()]
+    .sort()
+    .map(
+      (fips) =>
+        `${fips}:${SECTORS.map((sector) => cell(establishments.get(fips)!.get(sector))).join(",")}`,
     )
     .join(";");
 
@@ -151,7 +164,7 @@ export function renderTownEmploymentModule(): string {
   const meta = {
     countyBusinessPatterns: {
       source:
-        "Census Bureau, 2023 County Business Patterns, county file, March employment by two-digit NAICS sector (private employers).",
+        "Census Bureau, 2023 County Business Patterns, county file, March employment and establishments by two-digit NAICS sector (private employers).",
       corpusSha256: cbp.manifest.canonicalSha256,
       asOf: cbp.manifest.asOf,
     },
@@ -184,6 +197,10 @@ export const TOWN_EMPLOYMENT_META = ${JSON.stringify(meta, null, 2)} as const;
 /** \`county:employment per sector, in TOWN_EMPLOYMENT_META.sectors order\`. */
 export const COUNTY_SECTOR_EMPLOYMENT =
   ${JSON.stringify(countyRows)};
+
+/** \`county:establishments per sector, in TOWN_EMPLOYMENT_META.sectors order\`. */
+export const COUNTY_SECTOR_ESTABLISHMENTS =
+  ${JSON.stringify(establishmentRows)};
 
 /**
  * \`state:total,federal,state government,local government,local government by

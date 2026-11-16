@@ -374,15 +374,6 @@ export async function buildBenchWorldInStages(
 }
 
 /** Real people per sampled person: the world's count of the town (drawn around the Census count when the population was built) over the people generated, one where the sample is the whole town. */
-function censusScale(population: CoreInput): number {
-  const held = Number(population.placeMetadata?.referencePopulation);
-  const real = Number.isFinite(held) ? held : undefined;
-  const sample = population.people.filter(
-    (person) => person.tier !== OPENING_KIN.kinTier,
-  ).length;
-  return real !== undefined && real > sample ? real / sample : 1;
-}
-
 function* benchWorldStages(
   seed: string,
   date: string,
@@ -406,6 +397,11 @@ function* benchWorldStages(
     ...(warmUp ? { cohortsOn: makeIsoDate(startDate) } : {}),
     placeKey: place.key,
     ...(minimumPeople ? { minimumPeople } : {}),
+    // A two-level town opens at its real Census size unless a size or a
+    // scale is asked for; the opening sizes its businesses to it.
+    ...(options.countScale !== undefined
+      ? { countScale: options.countScale }
+      : { openAtCensusScale: Boolean(options.twoLevel && !minimumPeople) }),
     // Every place opens with the player's cohort, even one whose own survey
     // sample shows no family with children (`entrantOf`).
     cohortAge: ENTRY_AGE - 1,
@@ -462,8 +458,7 @@ function* benchWorldStages(
     // A town opens at its real Census size: the sample is the
     // people generated, and each counted household stands for as many real
     // households as the Census count is over the sample, unless asked for.
-    const countScale =
-      options.countScale ?? (minimumPeople ? 1 : censusScale(population));
+    const countScale = Number(population.placeMetadata?.openingCountScale) || 1;
     let withPlayer: CoreInput = { ...input, playerId };
     withPlayer = {
       ...withPlayer,
