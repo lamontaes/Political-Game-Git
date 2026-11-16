@@ -13,7 +13,10 @@ import {
 } from "../../src/bench/world";
 import { openingArrivalMinute, openingFrames } from "../../src/bench/opening";
 import { roomIds } from "../../src/bench/scene";
-import { openConversation } from "../../src/director/conversation";
+import {
+  openConversation,
+  subjectsBetween,
+} from "../../src/director/conversation";
 
 setBookkeeping(false);
 console.log(
@@ -64,6 +67,18 @@ for (const seed of (process.env.SEEDS ?? "21,22,23").split(",")) {
       ...(staged ? { occasionId: staged.momentId } : {}),
     });
     console.log(`### With ${id} (${other.relationLabel ?? ""})\n`);
+    // Why each subject could be raised: the tie record the rule accepted, and what it refused.
+    const refused: string[] = [];
+    const offered = subjectsBetween(core, id as PersonId, playerId, director, {
+      presentIds: room as PersonId[],
+      minuteOfDay: minute,
+      refused: (subject) => refused.push(subject.id),
+    });
+    for (const row of offered)
+      console.log(
+        `  tie: ${row.id} -> ${row.tie?.kind} on ${row.tie?.recordIds.join(", ")}`,
+      );
+    for (const row of refused) console.log(`  refused (no tie): ${row}`);
     for (const line of talk.lines)
       console.log(
         `- [${line.kind}/${line.act}] "${line.text}"  bank=${line.wording?.bank} parts=${(line.wording?.parts ?? []).join("+")} subject=${line.subjectId} records=${line.sourceRecordIds.join(",")}`,
