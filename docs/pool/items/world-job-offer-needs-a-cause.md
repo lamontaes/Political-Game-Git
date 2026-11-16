@@ -31,6 +31,6 @@ source: Owner, Nov 16, 2026 ("I didn't even apply for one."), crew line #9747, i
 
 **Waits on.** A screen where the player applies to an opening (Screens lane).
 
-**Files.** src/core2/modules/jobs.ts, src/core2/jobs-player-offer-cause.test.ts, src/core2/jobs-player-offers.test.ts
+**Files.** src/core2/modules/jobs.ts, src/core2/modules/staff.ts, src/core2/jobs-player-offer-cause.test.ts, src/core2/jobs-player-offers.test.ts, src/core2/staff-never-hires-the-player.test.ts
 
 **Notes.** Owner's earlier rulings: "The player can apply or get a job through someone they know, and can be turned down" (prior-rulings/economy.md); "a job offer comes through a person and a scene or not at all" (Oct 27).
