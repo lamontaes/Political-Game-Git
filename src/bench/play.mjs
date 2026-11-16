@@ -3581,10 +3581,12 @@ async function seatRows() {
     try {
       r = await post(`/api/seat/act?${new URLSearchParams(params)}`);
     } catch (error) {
-      // The engine refused the bill (a step's day out of order, a day already past): its
-      // reason is shown on the seat, and nothing was drafted.
+      // The engine refused the bill. The card keeps every date after today and in order, so
+      // a refusal here is a fault in the card; the seat says in its own words that nothing
+      // was drafted rather than showing the engine's reason, which is not player text.
+      void error;
       seatText = [];
-      seatResult = error.message;
+      seatResult = controls.seat?.draftNotTaken ?? "";
       openSheet("office");
       return;
     }
@@ -3647,6 +3649,7 @@ async function seatRows() {
           ? `question:${item.question}`
           : `line:${item.line}`;
     const draftBlock = draftCard({
+      today: String(today()).slice(0, 10),
       words: {
         title: seat.title ?? "",
         issue: seat.issue ?? "",
@@ -3665,6 +3668,7 @@ async function seatRows() {
         risePercentNeeded: seat.risePercentNeeded ?? "",
         riseYearsNeeded: seat.riseYearsNeeded ?? "",
         riseDateNeeded: seat.riseDateNeeded ?? "",
+        stepDatesNeeded: seat.stepDatesNeeded ?? "",
         none: controls.bill?.none ?? "",
       },
       groups: (body.menus ?? []).map((menu) => ({
