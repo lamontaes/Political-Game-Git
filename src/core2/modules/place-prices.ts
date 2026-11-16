@@ -1501,6 +1501,12 @@ function householdWeb(
 }
 
 /** Each month: every rule's change in spending, settled for each full household and each place's counted households together. */
+/** Each buyer's regular seller, by the place's sellers it was picked from. */
+const regularPicks = new WeakMap<
+  CoreState,
+  Map<string, { field: string; id: string | null }>
+>();
+
 function month(api: CoreAPI): void {
   const c = core(api);
   readPriceLaws(api);
@@ -1528,9 +1534,27 @@ function month(api: CoreAPI): void {
       rule.kind === "sale" ? licensedSellers(c, rule.placeId) : [];
     // A household buys from the store it already buys from: the largest of
     // its everyday-living sellers that is one of these, or else its regular
-    // seller by the same rule (regular-seller.ts). A counted group, many
-    // households, buys from them all.
+    // seller by the same rule (regular-seller.ts), by the sellers' capacity
+    // so the pick holds from month to month while demand moves.
     const licensed = new Map(sellers.map((seller) => [seller.id, seller]));
+    const capacities = sellers.map((seller) => ({
+      id: seller.id,
+      weight: c.finance.businesses.get(seller.id)?.capacityMinor ?? 0,
+    }));
+    // Kept per buyer until the place's sellers change (one opens or closes).
+    const field = sellers.map((seller) => seller.id).join("|");
+    let picked = regularPicks.get(c);
+    if (!picked) regularPicks.set(c, (picked = new Map()));
+    const regularOf = (buyerId: string) => {
+      if (!sellers.length) return sellers;
+      const kept = picked.get(buyerId);
+      const id =
+        kept?.field === field
+          ? kept.id
+          : regularSeller(c.seed, buyerId, capacities);
+      if (kept?.field !== field) picked.set(buyerId, { field, id });
+      return sellers.filter((seller) => seller.id === id);
+    };
     const sellerOf = (householdId: string) => {
       if (!sellers.length) return sellers;
       let own: Seller | undefined,
@@ -1544,8 +1568,7 @@ function month(api: CoreAPI): void {
         }
       }
       if (own) return [own];
-      const id = regularSeller(c.seed, householdId, sellers);
-      return sellers.filter((seller) => seller.id === id);
+      return regularOf(householdId);
     };
     for (const household of c.households.values()) {
       if (household.placeId !== rule.placeId) continue;
@@ -1647,6 +1670,9 @@ function month(api: CoreAPI): void {
       total.refundMinor += Math.round(change.refundMinor);
       byGroup.set(household.group, total);
     }
+    // A counted group buys by the same rule as a full household: from its
+    // one regular seller (regular-seller.ts), times its count (owner, Oct 14:
+    // one model, two tiers).
     for (const [group, total] of byGroup)
       settle(
         api,
@@ -1656,7 +1682,7 @@ function month(api: CoreAPI): void {
         total,
         total.household,
         outside,
-        sellers,
+        regularOf(`${rule.placeId}:group-${group}`),
         {
           targetId: `${rule.placeId}:counted-group-${group}`,
           target: "group",
