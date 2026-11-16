@@ -8,7 +8,7 @@ size: S
 status: in-pr
 standard: 2
 claimed-by: industries thread (Account lead)
-pr: "#PR"
+pr: "#9631"
 after: dev-mode-views-register-from-their-own-files
 blocked-on:
 root: none
