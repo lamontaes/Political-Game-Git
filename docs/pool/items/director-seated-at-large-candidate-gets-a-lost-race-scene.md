@@ -38,3 +38,4 @@ Seen: Walled Lake MI, seed losscan:25, a filer with 215 votes against a last win
 **Files.** src/director/data/situation-types.json, src/director/family-loss-stake-scene.test.ts
 
 **Notes.** Filed Nov 15 by hand with pull request 9512. The scene and the cause match are on the Train already; 9512 does not touch them. The played proof is the played file of scripts/words/family-loss-played.ts, which names the seated candidate at Walled Lake MI (seed losscan:25), and the pinned gate test plays Pomeroy WA, where one seat is filled and the case does not arise.
+On the current Train a seated filer at Poplar Plains CT (seed losscan:34) gets no family-loss scene, and the pinned test asserts it there; whether Walled Lake MI (losscan:25) is fixed too is not yet shown, so the second session checks it first and closes this item if it is. The narration's "by 1 vote" wording at a gap of 0 votes belongs to the same check.
