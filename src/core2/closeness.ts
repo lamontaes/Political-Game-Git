@@ -187,6 +187,18 @@ export function metThrough(
   const key = a < b ? `${a}:${b}` : `${b}:${a}`;
   const row = core.relationships.get(key);
   if (row) return { date: row.lastContactDate, sourceId: row.id };
+  return firstTogetherInRecords(core, a, b);
+}
+
+/**
+ * The first day a registered reader's record says two people shared time (the
+ * first sitting of a body both sit on) and that record; null when none does.
+ */
+export function firstTogetherInRecords(
+  core: object,
+  a: PersonId,
+  b: PersonId,
+): { date: IsoDate; sourceId: string } | null {
   let first: { date: IsoDate; sourceId: string } | null = null;
   for (const known of knownReaders.values()) {
     const met = known.together(core, a, b);

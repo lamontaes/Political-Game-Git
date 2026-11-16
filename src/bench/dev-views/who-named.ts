@@ -5,12 +5,29 @@
  * does, from the one read the narration makes (`whyNamed`, who-they-are.ts): the phrase said after
  * their full name with the kind, stage and records it came from, or why they are named alone
  * (family, met before and by which record, the scene's own line says who they are, or nothing on
- * record). Read as of today's records: a scene already played may show "met" for someone it
- * introduced. Rule 136, item dev-scene-why-a-person-is-named-so.
+ * record). Whether they had met is read as of the day the scene is said (`sceneDay`), from the
+ * met records' own dates;
+ * a meeting dated later is shown as met later. Rule 136, item dev-scene-why-a-person-is-named-so.
  */
 import type { DevView } from "../dev-views";
 import type { PersonId } from "../../core2/types";
+import { addDays, makeIsoDate } from "../../core2/kernel/dates";
+import type { ScheduleEntry } from "../../director/scheduling";
 import { whyNamed } from "../../director/who-they-are";
+
+/**
+ * The day a scene is said: the day its stop opened it (`stop`, written when the clock stops for
+ * it); a scene still waiting to open, today, since it is composed when it opens; a scene to play
+ * now with no stop, the morning after it was staged, as the ledger opens one with no clock
+ * frontier (ledger.ts, `openedAt`); else the day it was staged (a journal line).
+ */
+function sceneDay(entry: ScheduleEntry, today: string): string {
+  if (entry.stop) return entry.stop.at.date;
+  if (entry.closed) return entry.date;
+  if (entry.outcome === "scene-waiting") return today;
+  if (entry.outcome === "scene-now") return addDays(makeIsoDate(entry.date), 1);
+  return entry.date;
+}
 
 /** How many of the player's scenes the trace lists, newest first (a screen's length). */
 const SCENES_LISTED = 12;
@@ -22,7 +39,7 @@ const view: DevView = {
     title: "Who is named",
     show: "Show who is named",
     none: "No scenes yet",
-    asOfToday: "Read from today's records",
+    metLater: "met later",
     alone: {
       family: "family",
       met: "met before",
@@ -65,7 +82,13 @@ const view: DevView = {
               personId: id,
               name: nameOf(id),
               role: binding.presentReasons[id] ?? null,
-              ...whyNamed(core, playerId, id, binding.typeKey),
+              ...whyNamed(
+                core,
+                playerId,
+                id,
+                binding.typeKey,
+                sceneDay(entry, core.date),
+              ),
             })),
         }));
       return { scenes };

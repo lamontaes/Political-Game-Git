@@ -8,6 +8,7 @@
 import {
   closenessBetween,
   lastTogether,
+  firstTogetherInRecords,
   metThrough,
   sharedHoursBetween,
 } from "../core2/closeness";
@@ -114,6 +115,52 @@ export function lastContact(
       best = { date: met, tieId: id };
   }
   return best;
+}
+
+/** One record that says two people met, by arm, with its date. */
+export interface MetRecord {
+  readonly by: "sittings" | "learned" | "together";
+  readonly id: string;
+  readonly date: string;
+}
+
+/**
+ * Every record that says the player (`askedId`) met `askerId`, by the
+ * same arms `relationFacts` reads, each with its own date: the player's
+ * record of learning of them (`knownIdSources`), the meeting the core wrote
+ * when they met in person (`person:<id>:met`), the first sitting both sat
+ * (the shared-hours readers), and their tie's last day together (a bound on
+ * the first), earliest first. `by` names the arm. For dev mode's trace of a scene already
+ * played, which asks whether they had met by the scene's day.
+ */
+export function metRecords(
+  core: Readonly<CoreState>,
+  askerId: PersonId,
+  askedId: PersonId,
+): readonly MetRecord[] {
+  const asked = core.people.get(askedId);
+  const found: MetRecord[] = [];
+  const learned = asked?.knownIdSources?.[askerId];
+  if (learned)
+    found.push({
+      by: "learned",
+      id: learned.sourceFactId,
+      date: learned.learnedAt,
+    });
+  const metFact = core.knowledgeByPerson
+    .get(askedId)
+    ?.get(`person:${askerId}:met`);
+  if (metFact)
+    found.push({
+      by: "together",
+      id: metFact.sourceId,
+      date: metFact.learnedAt,
+    });
+  const sat = firstTogetherInRecords(core, askerId, askedId);
+  if (sat) found.push({ by: "sittings", id: sat.sourceId, date: sat.date });
+  const seen = lastContact(core, askedId, askerId);
+  if (seen) found.push({ by: "together", id: seen.tieId, date: seen.date });
+  return found.sort((x, y) => x.date.localeCompare(y.date));
 }
 
 export function relationFacts(

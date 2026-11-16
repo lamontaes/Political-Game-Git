@@ -23,8 +23,13 @@ function personLine(row, labels, open) {
     : (labels.alone[row.alone] ?? row.alone ?? "");
   const met = row.metBy
     ? ` · ${labels.metBy[row.metBy] ?? row.metBy}${row.metSource ? ` ${day(row.metSource.date)}` : ""}`
-    : "";
-  const ids = row.recordIds.map((id) => {
+    : row.metLater
+      ? ` · ${labels.metLater} ${day(row.metLater.date)}`
+      : "";
+  const ids = [
+    ...row.recordIds,
+    ...(row.metLater ? [row.metLater.id] : []),
+  ].map((id) => {
     const link = makeButton({ className: "link small", textContent: id });
     link.addEventListener("click", () => void open(id));
     return link;
@@ -80,7 +85,6 @@ export const slots = {
       { className: "dev-only dev-who-named" },
       el("h3", { textContent: labels.title }),
       el("div", { className: "acts" }, show),
-      el("p", { textContent: labels.asOfToday }),
       result,
       list,
       trace.node,

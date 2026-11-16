@@ -19,8 +19,10 @@ import {
   type ContestRow,
 } from "../core2/modules/elections";
 import { seatWinner, townSeats } from "../core2/modules/offices";
+import { ENCOUNTERS } from "../core2/modules/people";
 import type { PersonId } from "../core2/types";
 import { relationFacts } from "../director/relation-facts";
+import { whyNamed } from "../director/who-they-are";
 import { composeScene } from "../director/scene";
 import { handleDev } from "./dev-api";
 import { buildBenchWorld } from "./world";
@@ -36,6 +38,7 @@ interface Row {
   alone: string | null;
   metBy: string | null;
   metSource: { id: string; date: string } | null;
+  metLater: { by: string; id: string; date: string } | null;
 }
 
 it(`dev mode's Who is named says the clerk's post and the colleagues' met record (Hardinsburg, Kentucky, seed ${SEED})`, async () => {
@@ -132,4 +135,33 @@ it(`dev mode's Who is named says the clerk's post and the colleagues' met record
     expect(row.metSource, `${where}: ${id} has no met record`).not.toBeNull();
     expect(row.metSource!.date <= core.date, `${where}: ${id}`).toBe(true);
   }
+
+  // Read as of the day the scene is said: the player meets the clerk in person the next day, and the trace
+  // of the swearing-in still says what the narration said then, with the meeting as met later,
+  // while the same read as of today says met.
+  advanceCore(core, addDays(makeIsoDate(core.date), 1));
+  const meetingId = `who-named:meeting:${core.date}`;
+  api.meet(playerId, officiant!, {
+    placeId: player.placeId,
+    sourceId: meetingId,
+    cause: ENCOUNTERS.causes.metOnVisit,
+    hours: 1,
+  });
+  advanceCore(core, addDays(makeIsoDate(core.date), 1));
+  expect(whyNamed(core, playerId, officiant!).alone, where).toBe("met");
+  await handleDev(
+    { method: "GET" } as IncomingMessage,
+    new URL("http://bench/api/dev/who-named"),
+    (status, value) => (answer = { status, value }),
+    () => ({ core, director, placeId: world.placeId }),
+  );
+  const later = (
+    answer!.value as { scenes: { momentId: string; cast: Row[] }[] }
+  ).scenes
+    .find((row) => row.momentId === scene!.momentId)!
+    .cast.find((row) => row.personId === officiant)!;
+  expect(later.said, `${where}: the clerk's line moved`).toBe("the city clerk");
+  expect(later.alone, where).toBeNull();
+  expect(later.metLater?.id, where).toBe(meetingId);
+  expect(later.metLater!.date > entry.date, where).toBe(true);
 }, 45_000);
