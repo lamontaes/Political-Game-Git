@@ -142,4 +142,4 @@ it(`workers who keep their job and pay keep their plan as the town's jobless sha
     expect(share, lines.join("\n")).toBeLessThan(0.02);
   }
   process.stderr.write(`${lines.join("\n")}\n`);
-}, 240_000);
+}, 180_000);
