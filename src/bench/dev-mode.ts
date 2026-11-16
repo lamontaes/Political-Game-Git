@@ -1801,7 +1801,7 @@ export class DevMode {
         record?.facts?.signed ?? petitionOf(this.api, filingId)!.signed,
       ),
       gathers: Number(
-        record?.facts?.gathers ?? signaturesToGather(petition.needed),
+        record?.facts?.gathers ?? signaturesToGather(this.api, filingId),
       ),
       daysLeft: record ? Number(record.facts?.daysLeft) : null,
       canAddAfterNextTurn: record

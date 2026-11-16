@@ -304,7 +304,7 @@ function stand(): { held: boolean; takesOffice: string | null } {
       if (
         !petition ||
         !petitionCirculating(api, filing.id) ||
-        petition.signed >= signaturesToGather(petition.needed)
+        petition.signed >= signaturesToGather(api, filing.id)
       )
         break;
       liveUntil(addDays(makeIsoDate(w.core.date), 1));

@@ -69,6 +69,14 @@
       "by": "src/core2/population.ts from the place's survey sample; invented people in src/core2/gov-rules/invented-person-age.ts fall only on days 1 to 28",
       "replace": "Any day of the month"
     },
+    "person.playerAge.townAdult": {
+      "made": "generation",
+      "by": "src/bench/world.ts entrantChoice: with no birthday chosen, one of the town's own residents aged 18 and up, picked by the world's seeded unit (opening-player:<place>), so the player's age follows the place's adults (owner, Nov 16: \"Just do 18 and up right now\")"
+    },
+    "person.playerAge.chosen": {
+      "made": "decision",
+      "by": "src/bench/world.ts entrantBornNear: the age chosen in the New game creator (18 and up); the player is a resident that age, born nearest the chosen day, and the birthday moves only within that age (creator.ts applyChosenPerson)"
+    },
     "person.trait": {
       "made": "generation",
       "by": "src/core2/opening-personality.ts: the facet's spread by age and upbringing, drawn with its own random stream (Box-Muller)",
@@ -159,6 +167,10 @@
     }
   },
   "sites": {
+    "src/bench/world.ts#entrantChoice": {
+      "made": "generation",
+      "what": "Which of the town's adults the player begins as, with no birthday chosen"
+    },
     "src/core2/appearance.ts#derivePersonAppearance": {
       "made": "generation",
       "what": "How a person looks"

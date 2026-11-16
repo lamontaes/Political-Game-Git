@@ -18,6 +18,9 @@ const seed = process.env.DEV_WHY_SEED ?? randomBytes(8).toString("hex");
 const world = buildBenchWorld(seed, gameStartDate(), { twoLevel: true });
 const core = world.core;
 const why = (id: string) => whyPanels(core, id, findRecord(core, id));
+// A person's decisions panel, by its title: other panels (the ledger, the opening savings) sit beside it.
+const decisionsOf = (id: string) =>
+  why(id).find((panel) => panel.title.endsWith(": decisions"));
 
 describe(`dev why panels: ${world.place.displayName} (seed ${seed})`, () => {
   it("a person's year ledger lists pay, hours and cash, and says when receipts are not itemized", () => {
@@ -71,7 +74,7 @@ describe(`dev why panels: ${world.place.displayName} (seed ${seed})`, () => {
     expect(dev.followStatus(unfollowed.id).status).toBe("none");
 
     // Before any time passes, a followed person has nothing kept yet and says so.
-    const [, empty] = why(first.id);
+    const empty = decisionsOf(first.id);
     expect(empty!.title).toBe(
       `${first.givenName} ${first.familyName}: decisions`,
     );
@@ -92,7 +95,7 @@ describe(`dev why panels: ${world.place.displayName} (seed ${seed})`, () => {
     );
     let condensed = 0;
     for (const person of [first, second]) {
-      const [, decisions] = why(person.id);
+      const decisions = decisionsOf(person.id);
       expect(decisions!.title, where).toContain("decisions");
       expect(decisions!.rows.length, where).toBeGreaterThan(0);
       expect(decisions!.gap, where).toBeUndefined();
@@ -141,10 +144,13 @@ describe(`dev why panels: ${world.place.displayName} (seed ${seed})`, () => {
         expect(row.value.toString()).toMatch(/trait [+-]?\d/);
       }
       condensed += old.length;
-      // The trace node carries the same panel beside the ledger.
-      expect(
-        traceNode(core, world.director, person.id).why.map((p) => p.title),
-      ).toEqual([expect.stringContaining("the year to"), decisions!.title]);
+      // The trace node carries the same panels as the page, the decisions among them.
+      const traced = traceNode(core, world.director, person.id).why.map(
+        (p) => p.title,
+      );
+      expect(traced).toEqual(why(person.id).map((p) => p.title));
+      expect(traced[0]).toContain("the year to");
+      expect(traced).toContain(decisions!.title);
     }
 
     expect(
@@ -153,15 +159,17 @@ describe(`dev why panels: ${world.place.displayName} (seed ${seed})`, () => {
     ).toBeGreaterThan(0);
 
     // Someone nobody follows kept no act with reasons.
-    const [, quiet] = why(unfollowed.id);
+    const quiet = decisionsOf(unfollowed.id);
     expect(quiet!.rows, where).toEqual([]);
     expect(quiet!.gap, where).toContain("keep no reasons until followed");
 
     // Stopping returns them to the quiet case for new acts (their old rows stay).
     expect(dev.unfollow(first.id).status).toBe("none");
     expect(core.focusPersonIds.has(first.id)).toBe(false);
-    expect(why(first.id)[1]!.gap).toContain("keep no reasons until followed");
-    expect(why(first.id)[1]!.rows.length).toBeGreaterThan(0);
+    expect(decisionsOf(first.id)!.gap).toContain(
+      "keep no reasons until followed",
+    );
+    expect(decisionsOf(first.id)!.rows.length).toBeGreaterThan(0);
   }, 240_000);
 
   it("following someone the player deals with changes nothing, and stopping leaves them kept", () => {
