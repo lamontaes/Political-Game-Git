@@ -92,7 +92,7 @@ function wellOverUsual(item: {
  * every share between has its own. A brief with no usual to compare keeps all
  * its space.
  */
-function usualSpace(
+export function usualSpace(
   item: { readonly facts?: Readonly<Record<string, unknown>> },
   p: (key: string) => number,
 ): number {
