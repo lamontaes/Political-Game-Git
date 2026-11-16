@@ -341,85 +341,36 @@ export function seatView(core: CoreState, personId: string) {
   };
 }
 
+/** A phase-in as the player wrote it: dated steps, or a percent a year from the amount in force. */
+type PhaseIn = {
+  officeId?: string;
+  series?: string;
+  line?: string;
+  value?: number;
+  /** A phase-in: each step's amount and the date it takes effect, in place of `value`. */
+  steps?: readonly { value: number; effectiveDate: string }[];
+  /**
+   * A phase-in by a percent a year, in place of `steps`: the amount in force rises by the percent
+   * on `firstDate` and again on each of the next `years - 1` anniversaries, each step the amount
+   * before it raised by the percent. It is drafted as the same dated steps, one section a year.
+   */
+  risePerYear?: { percent: number; years: number; firstDate: string };
+};
+
 /**
- * Draft a bill from your seat: it goes on the body's next agenda that is not
- * yet posted. Asking a colleague, offering a deal and taking the vote are
- * acts in the day and the meeting scene (office-day), not buttons here.
- *
- * A phase-in is the same bill in dated steps (the owner's ruling, Sept 12
- * travel clarification, item 1): one section per step, each the same law
- * with its own amount and date, never a second bill. The legislature
- * engine puts each section into law on its own date when the bill is
- * enacted, for the bill's government and by that government's rule
- * (`enact`), so the seat names no jurisdiction and computes no date.
+ * The dated steps of a phase-in, the one maker for every sponsor the player writes as: a member
+ * drafting from their seat (`seatAct`) and an executive asking a member to carry it (`seatAsk`).
+ * The owner's ruling of Sept 30 has every sponsor write "a start date and a phase-in", so an
+ * executive's bill carries its steps like a member's. None when the bill is one amount.
  */
-export function seatAct(
+function phaseInSteps(
   core: CoreState,
-  personId: string,
-  input: {
-    kind: string;
-    officeId?: string;
-    series?: string;
-    question?: string;
-    /** A budget line the bill changes, by the amount in cents. */
-    line?: string;
-    value?: number;
-    /** A phase-in: each step's amount and the date it takes effect, in place of `value`. */
-    steps?: readonly { value: number; effectiveDate: string }[];
-    /**
-     * A phase-in by a percent a year, in place of `steps`: the amount in force rises by the percent
-     * on `firstDate` and again on each of the next `years - 1` anniversaries, each step the amount
-     * before it raised by the percent. It is drafted as the same dated steps, one section a year.
-     */
-    risePerYear?: { percent: number; years: number; firstDate: string };
-  },
-) {
-  const api = coreAPI(core);
-  if (input.kind !== "draft") throw new Error("Unknown act from your seat.");
+  api: ReturnType<typeof coreAPI>,
+  body: { level: string },
+  input: PhaseIn,
+): readonly { value: number; effectiveDate: string }[] | undefined {
   if (input.risePerYear && input.steps?.length)
     throw new Error("A phase-in is dated steps or a percent a year, not both.");
-  const body = bodiesOf(core, personId).find(
-    (b) => b.officeId === input.officeId,
-  );
-  if (!body) throw new Error("You don't sit on that body.");
-  // An executive's bill goes through a member (`seatAsk`), never drafted in their name.
-  if ("byRequest" in body && body.byRequest)
-    throw new Error("An executive asks a member (seatAsk).");
-  // A budget line's amount in force today, as the writing screen shows it
-  // beside the box: the player types the line's new amount, and a budget-line
-  // section records the change to the line (`value`) on that amount (`of`),
-  // as every other drafter of a budget bill does (legislature.ts
-  // `budgetProvisions`, world-legislating), so the law sets the line to what
-  // was typed.
-  const lineToday = input.line
-    ? (menusFor(api, body.level, input.officeId!)
-        .flatMap((menu) => menu.items)
-        .find((row) => row.line === input.line)?.inForce ?? null)
-    : null;
-  const sectionOf = (value: number | undefined): Provision =>
-    input.line
-      ? {
-          kind: "budget-line",
-          line: input.line,
-          value: value === undefined ? 0 : value - (lineToday ?? 0),
-          ...(lineToday ? { of: lineToday } : {}),
-        }
-      : input.series
-        ? {
-            kind: "law-amount",
-            series: input.series,
-            value: value ?? 0,
-            unit:
-              menusFor(api, body.level, input.officeId!)
-                .flatMap((menu) => menu.items)
-                .find((row) => row.series === input.series)?.unit ?? undefined,
-            ...feeNaming(input.series, value),
-          }
-        : {
-            kind: "policy-question",
-            question: input.question ?? "",
-            value: value ?? 1,
-          };
   // A percent a year is the same dated steps, one a year, each the amount before it raised by the percent.
   const rise = input.risePerYear;
   let steps = input.steps;
@@ -470,16 +421,97 @@ export function seatAct(
       last = date;
     }
   }
-  if ("byRequest" in body && body.byRequest && steps?.length)
-    throw new Error(
-      "An executive's bill is sent as one amount, not a phase-in.",
-    );
-  const provisions: Provision[] = steps?.length
+  return steps;
+}
+
+/** A bill's sections: one per dated step of a phase-in, else one. */
+function sectionsOf(
+  steps: readonly { value: number; effectiveDate: string }[] | undefined,
+  sectionOf: (value: number | undefined) => Provision,
+  value: number | undefined,
+): Provision[] {
+  return steps?.length
     ? steps.map((step) => ({
         ...sectionOf(step.value),
         effectiveDate: makeIsoDate(step.effectiveDate),
       }))
-    : [sectionOf(input.value)];
+    : [sectionOf(value)];
+}
+
+/**
+ * Draft a bill from your seat: it goes on the body's next agenda that is not
+ * yet posted. Asking a colleague, offering a deal and taking the vote are
+ * acts in the day and the meeting scene (office-day), not buttons here.
+ *
+ * A phase-in is the same bill in dated steps (the owner's ruling, Sept 12
+ * travel clarification, item 1): one section per step, each the same law
+ * with its own amount and date, never a second bill. The legislature
+ * engine puts each section into law on its own date when the bill is
+ * enacted, for the bill's government and by that government's rule
+ * (`enact`), so the seat names no jurisdiction and computes no date.
+ */
+export function seatAct(
+  core: CoreState,
+  personId: string,
+  input: {
+    kind: string;
+    officeId?: string;
+    series?: string;
+    question?: string;
+    /** A budget line the bill changes, by the amount in cents. */
+    line?: string;
+    value?: number;
+  } & PhaseIn,
+) {
+  const api = coreAPI(core);
+  if (input.kind !== "draft") throw new Error("Unknown act from your seat.");
+  const body = bodiesOf(core, personId).find(
+    (b) => b.officeId === input.officeId,
+  );
+  if (!body) throw new Error("You don't sit on that body.");
+  // An executive's bill goes through a member (`seatAsk`), never drafted in their name.
+  if ("byRequest" in body && body.byRequest)
+    throw new Error("An executive asks a member (seatAsk).");
+  // A budget line's amount in force today, as the writing screen shows it
+  // beside the box: the player types the line's new amount, and a budget-line
+  // section records the change to the line (`value`) on that amount (`of`),
+  // as every other drafter of a budget bill does (legislature.ts
+  // `budgetProvisions`, world-legislating), so the law sets the line to what
+  // was typed.
+  const lineToday = input.line
+    ? (menusFor(api, body.level, input.officeId!)
+        .flatMap((menu) => menu.items)
+        .find((row) => row.line === input.line)?.inForce ?? null)
+    : null;
+  const sectionOf = (value: number | undefined): Provision =>
+    input.line
+      ? {
+          kind: "budget-line",
+          line: input.line,
+          value: value === undefined ? 0 : value - (lineToday ?? 0),
+          ...(lineToday ? { of: lineToday } : {}),
+        }
+      : input.series
+        ? {
+            kind: "law-amount",
+            series: input.series,
+            value: value ?? 0,
+            unit:
+              menusFor(api, body.level, input.officeId!)
+                .flatMap((menu) => menu.items)
+                .find((row) => row.series === input.series)?.unit ?? undefined,
+            ...feeNaming(input.series, value),
+          }
+        : {
+            kind: "policy-question",
+            question: input.question ?? "",
+            value: value ?? 1,
+          };
+  const provisions = sectionsOf(
+    phaseInSteps(core, api, body, input),
+    sectionOf,
+    input.value,
+  );
   const bill = draftBill(api, {
     bodyOfficeId: input.officeId!,
     sponsorId: personId,
@@ -991,7 +1023,8 @@ function feeNaming(
   };
 }
 
-function askProvision(
+function askProvisions(
+  core: CoreState,
   api: ReturnType<typeof coreAPI>,
   body: { level: string },
   input: {
@@ -1000,26 +1033,32 @@ function askProvision(
     question?: string;
     line?: string;
     value?: number;
-  },
-): Provision {
-  return input.line
-    ? { kind: "budget-line", line: input.line, value: input.value ?? 0 }
-    : input.series
-      ? {
-          kind: "law-amount",
-          series: input.series,
-          value: input.value ?? 0,
-          unit:
-            menusFor(api, body.level, input.officeId!)
-              .flatMap((menu) => menu.items)
-              .find((row) => row.series === input.series)?.unit ?? undefined,
-          ...feeNaming(input.series, input.value),
-        }
-      : {
-          kind: "policy-question",
-          question: input.question ?? "",
-          value: input.value ?? 1,
-        };
+  } & PhaseIn,
+): Provision[] {
+  const sectionOf = (value: number | undefined): Provision =>
+    input.line
+      ? { kind: "budget-line", line: input.line, value: value ?? 0 }
+      : input.series
+        ? {
+            kind: "law-amount",
+            series: input.series,
+            value: value ?? 0,
+            unit:
+              menusFor(api, body.level, input.officeId!)
+                .flatMap((menu) => menu.items)
+                .find((row) => row.series === input.series)?.unit ?? undefined,
+            ...feeNaming(input.series, value),
+          }
+        : {
+            kind: "policy-question",
+            question: input.question ?? "",
+            value: value ?? 1,
+          };
+  return sectionsOf(
+    phaseInSteps(core, api, body, input),
+    sectionOf,
+    input.value,
+  );
 }
 
 /**
@@ -1035,16 +1074,18 @@ export function seatAskOptions(
     question?: string;
     line?: string;
     value?: number;
-  },
+  } & PhaseIn,
 ) {
   const api = coreAPI(core);
   const body = bodiesOf(core, personId).find(
     (b) => b.officeId === input.officeId && "byRequest" in b && b.byRequest,
   );
   if (!body) throw new Error("You can't send a bill to that body.");
-  const ranked = likelyCarriers(api, input.officeId!, [
-    askProvision(api, body, input),
-  ]);
+  const ranked = likelyCarriers(
+    api,
+    input.officeId!,
+    askProvisions(core, api, body, input),
+  );
   return {
     members: ranked.map((row, index) => ({
       key: row.key,
@@ -1066,17 +1107,17 @@ export function seatAsk(
     value?: number;
     /** The member the executive chose to ask; none asks the likeliest yes. */
     memberId?: string;
-  },
+  } & PhaseIn,
 ) {
   const api = coreAPI(core);
   const body = bodiesOf(core, personId).find(
     (b) => b.officeId === input.officeId && "byRequest" in b && b.byRequest,
   );
   if (!body) throw new Error("You can't send a bill to that body.");
-  const provision = askProvision(api, body, input);
+  const provisions = askProvisions(core, api, body, input);
   const asked = proposeAsExecutive(api, {
     bodyOfficeId: input.officeId!,
-    provisions: [provision],
+    provisions,
     byPlayer: true,
     ...(input.memberId ? { memberId: input.memberId } : {}),
   });

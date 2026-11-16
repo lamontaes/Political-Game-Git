@@ -230,6 +230,36 @@ interface ServerState {
   /** The life's save file, by id (savePath). */
   lifeId: string | undefined;
 }
+/**
+ * A bill's phase-in from the seat's query, the same for a member's draft and an executive's ask:
+ * each step's amount and the day it takes effect, or a percent a year, its years and its first day.
+ */
+function phaseInQuery(q: (key: string) => string | undefined) {
+  return {
+    ...(q("steps")
+      ? {
+          steps: (
+            JSON.parse(q("steps")!) as {
+              value: number;
+              effectiveDate: string;
+            }[]
+          ).map((step) => ({
+            value: Number(step.value),
+            effectiveDate: String(step.effectiveDate),
+          })),
+        }
+      : {}),
+    ...(q("risePercent")
+      ? {
+          risePerYear: {
+            percent: Number(q("risePercent")),
+            years: Number(q("riseYears")),
+            firstDate: String(q("riseFirstDate")),
+          },
+        }
+      : {}),
+  };
+}
 const state: ServerState = {
   core: undefined,
   director: undefined,
@@ -1776,6 +1806,7 @@ const ROUTES: readonly Route[] = [
           question: q("question"),
           line: q("line"),
           value: q("value") === undefined ? undefined : Number(q("value")),
+          ...phaseInQuery(q),
         }),
       );
       return;
@@ -1796,6 +1827,7 @@ const ROUTES: readonly Route[] = [
             question: q("question"),
             line: q("line"),
             value: q("value") === undefined ? undefined : Number(q("value")),
+            ...phaseInQuery(q),
             memberId: q("memberId"),
           }),
         );
@@ -1810,30 +1842,7 @@ const ROUTES: readonly Route[] = [
           question: q("question"),
           line: q("line"),
           value: q("value") === undefined ? undefined : Number(q("value")),
-          // A phase-in: each step's amount and the day it takes effect.
-          ...(q("steps")
-            ? {
-                steps: (
-                  JSON.parse(q("steps")!) as {
-                    value: number;
-                    effectiveDate: string;
-                  }[]
-                ).map((step) => ({
-                  value: Number(step.value),
-                  effectiveDate: String(step.effectiveDate),
-                })),
-              }
-            : {}),
-          // A phase-in by a percent a year.
-          ...(q("risePercent")
-            ? {
-                risePerYear: {
-                  percent: Number(q("risePercent")),
-                  years: Number(q("riseYears")),
-                  firstDate: String(q("riseFirstDate")),
-                },
-              }
-            : {}),
+          ...phaseInQuery(q),
         }),
       );
       return;
