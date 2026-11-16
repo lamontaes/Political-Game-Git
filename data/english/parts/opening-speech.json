@@ -12159,15 +12159,15 @@
       "key": "opening-speech.oath.plain-ina-hopeful-core-that-oath-is-a-beginning-and-i-took-it",
       "move": "oath",
       "kind": "spoken",
-      "text": "That oath is a beginning, and I meant every word of it, on {hardest} most of all.",
+      "text": "that oath is a beginning, and I took it feeling good about what we can do, even on {hardest}.",
       "uses": [
         {
           "move": "oath",
           "subject": "inaugural",
           "role": "oath",
           "choice": "oath",
-          "tie": "record",
-          "requiresFacts": ["hardest"]
+          "requiresFacts": ["hardest"],
+          "tie": "record"
         }
       ],
       "voice": "plain",
@@ -12179,7 +12179,7 @@
         "required": true
       },
       "origin": "authored",
-      "author": "Words lead (reworded Nov 16, desk)",
+      "author": "Claude (Words builder, opening address versions)",
       "date": "2026-11-11"
     },
     {
@@ -43756,15 +43756,15 @@
       "key": "opening-speech.oath.plain-ina-hopeful-core-i-took-that-oath-feeling-good-about-what-s",
       "move": "oath",
       "kind": "spoken",
-      "text": "I took that oath knowing what we can still do on {best}, and I mean to keep it.",
+      "text": "I took that oath feeling good about what's coming on {best}.",
       "uses": [
         {
           "move": "oath",
           "subject": "inaugural",
           "role": "oath",
           "choice": "oath",
-          "tie": "record",
-          "requiresFacts": ["best"]
+          "requiresFacts": ["best"],
+          "tie": "record"
         }
       ],
       "voice": "plain",
@@ -43775,7 +43775,7 @@
         "required": true
       },
       "origin": "authored",
-      "author": "Words lead (reworded Nov 16, desk)",
+      "author": "Claude (Words builder, opening address versions)",
       "date": "2026-11-11"
     },
     {
