@@ -626,8 +626,12 @@ export function circumstancePicks(
     importance: (otherId: PersonId) => number;
     staged: ReadonlySet<string>;
     due: (row: CircumstanceRow) => boolean;
-    /** Whether a person may be cast today (not cast again inside the repeat window). */
-    castDue?: (id: PersonId, row: CircumstanceRow) => boolean;
+    /** Whether a person may be cast for this record (not cast again for a record they already told). */
+    castDue?: (
+      id: PersonId,
+      row: CircumstanceRow,
+      record: QueuedRecord,
+    ) => boolean;
     byKind?: Map<string, CircumstanceRow[]>;
   },
 ): CircumstancePick[] {
@@ -672,7 +676,7 @@ export function circumstancePicks(
               weights.newsTellerMinAge
           )
             continue;
-          if (options.castDue && !options.castDue(id, row)) continue;
+          if (options.castDue && !options.castDue(id, row, record)) continue;
           if (!placedWith(row.where, core, playerId, id)) continue;
           // The one who comes does not live with the player where the row
           // says apart, and a seat's scene reaches only a player in office.

@@ -1671,14 +1671,13 @@ export function createDirector(
               param(row.everyParameter),
               date,
             ),
-          // The same person is not cast again inside the scheduler's window
-          // for the same scene with the same people: the next with a reason is.
-          castDue: (id, row) =>
+          // The same person does not tell the player the same record twice: a
+          // new record is a new cause, so a neighbor who shares another cause
+          // is cast again, and the next with a reason is too.
+          castDue: (id, row, record) =>
             !!row.recast ||
-            spacingAllows(
-              ledger.circumstanceLast.get(`${book.personId}|cast|${id}`),
-              SITUATION_LIBRARY.scheduling.repeatDays,
-              date,
+            !ledger.circumstanceLast.has(
+              `${book.personId}|cast|${id}|${record.id}`,
             ),
           byKind: circumstanceRows,
         },
@@ -1739,7 +1738,10 @@ export function createDirector(
       // met as a journal line does not come again the next day.
       ledger.circumstanceLast.set(`${book.personId}|${pick.row.id}`, date);
       ledger.circumstanceLast.set(`${book.personId}|*`, date);
-      ledger.circumstanceLast.set(`${book.personId}|cast|${pick.castId}`, date);
+      ledger.circumstanceLast.set(
+        `${book.personId}|cast|${pick.castId}|${pick.record.id}`,
+        date,
+      );
       if (pick.row.keepsDays)
         ledger.circumstanceLast.set(
           `${book.personId}|${pick.row.id}|${pick.record.id}`,
