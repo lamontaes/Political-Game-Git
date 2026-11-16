@@ -81786,7 +81786,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -81794,7 +81794,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -81802,7 +81802,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -81810,7 +81810,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -81818,7 +81818,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -81826,7 +81826,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today"],
-          "tie": "law"
+          "tie": "stand"
         }
       ],
       "voice": ["polished", "plain"],
@@ -81847,7 +81847,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -81855,7 +81855,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -81863,7 +81863,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -81871,7 +81871,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -81879,7 +81879,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -81887,7 +81887,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause"],
-          "tie": "law"
+          "tie": "stand"
         }
       ],
       "voice": "polished",
@@ -81908,7 +81908,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -81916,7 +81916,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -81924,7 +81924,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -81932,7 +81932,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -81940,7 +81940,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -81948,7 +81948,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause"],
-          "tie": "law"
+          "tie": "stand"
         }
       ],
       "voice": "polished",
@@ -81969,7 +81969,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -81977,7 +81977,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -81985,7 +81985,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -81993,7 +81993,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -82001,7 +82001,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -82009,7 +82009,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause"],
-          "tie": "law"
+          "tie": "stand"
         }
       ],
       "voice": "plain",
@@ -95298,7 +95298,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -95306,7 +95306,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -95314,7 +95314,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -95322,7 +95322,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -95330,7 +95330,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -95338,7 +95338,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause"],
-          "tie": "law"
+          "tie": "stand"
         }
       ],
       "voice": "polished",
@@ -95359,7 +95359,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -95367,7 +95367,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -95375,7 +95375,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -95383,7 +95383,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -95391,7 +95391,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -95399,7 +95399,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause"],
-          "tie": "law"
+          "tie": "stand"
         }
       ],
       "voice": "polished",
@@ -95420,7 +95420,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -95428,7 +95428,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -95436,7 +95436,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -95444,7 +95444,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -95452,7 +95452,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -95460,7 +95460,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause"],
-          "tie": "law"
+          "tie": "stand"
         }
       ],
       "voice": "plain",
@@ -95581,7 +95581,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -95589,7 +95589,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -95597,7 +95597,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -95605,7 +95605,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -95613,7 +95613,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -95621,7 +95621,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause"],
-          "tie": "law"
+          "tie": "stand"
         }
       ],
       "voice": "polished",
@@ -95642,7 +95642,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -95650,7 +95650,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -95658,7 +95658,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -95666,7 +95666,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -95674,7 +95674,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -95682,7 +95682,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause"],
-          "tie": "law"
+          "tie": "stand"
         }
       ],
       "voice": "polished",
@@ -95988,7 +95988,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -95996,7 +95996,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -96004,7 +96004,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -96012,7 +96012,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -96020,7 +96020,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -96028,7 +96028,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause"],
-          "tie": "law"
+          "tie": "stand"
         }
       ],
       "voice": "plain",
@@ -96231,7 +96231,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -96239,7 +96239,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -96247,7 +96247,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -96255,7 +96255,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -96263,7 +96263,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -96271,7 +96271,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause"],
-          "tie": "law"
+          "tie": "stand"
         }
       ],
       "voice": "plain",
@@ -96292,7 +96292,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -96300,7 +96300,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -96308,7 +96308,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -96316,7 +96316,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -96324,7 +96324,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -96332,7 +96332,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause"],
-          "tie": "law"
+          "tie": "stand"
         }
       ],
       "voice": "plain",
@@ -96353,7 +96353,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -96361,7 +96361,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -96369,7 +96369,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -96377,7 +96377,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -96385,7 +96385,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -96393,7 +96393,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause"],
-          "tie": "law"
+          "tie": "stand"
         }
       ],
       "voice": "plain",
@@ -100163,7 +100163,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-second"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -100171,7 +100171,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-second"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -100179,7 +100179,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-second"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -100187,7 +100187,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-second"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -100195,7 +100195,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-second"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -100203,7 +100203,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-second"],
-          "tie": "law"
+          "tie": "stand"
         }
       ],
       "voice": ["polished", "plain"],
@@ -100224,7 +100224,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-third"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -100232,7 +100232,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-third"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -100240,7 +100240,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-third"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -100248,7 +100248,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-third"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -100256,7 +100256,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-third"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -100264,7 +100264,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-third"],
-          "tie": "law"
+          "tie": "stand"
         }
       ],
       "voice": ["polished", "plain"],
@@ -100285,7 +100285,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-second"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -100293,7 +100293,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-second"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -100301,7 +100301,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-second"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -100309,7 +100309,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-second"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -100317,7 +100317,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-second"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -100325,7 +100325,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-second"],
-          "tie": "law"
+          "tie": "stand"
         }
       ],
       "voice": "polished",
@@ -100346,7 +100346,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-third"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -100354,7 +100354,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-third"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -100362,7 +100362,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-third"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -100370,7 +100370,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-third"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -100378,7 +100378,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-third"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -100386,7 +100386,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-third"],
-          "tie": "law"
+          "tie": "stand"
         }
       ],
       "voice": "polished",
@@ -100407,7 +100407,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-second"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -100415,7 +100415,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-second"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -100423,7 +100423,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-second"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -100431,7 +100431,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-second"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -100439,7 +100439,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-second"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -100447,7 +100447,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-second"],
-          "tie": "law"
+          "tie": "stand"
         }
       ],
       "voice": "plain",
@@ -100468,7 +100468,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-third"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -100476,7 +100476,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-third"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -100484,7 +100484,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-third"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -100492,7 +100492,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-third"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -100500,7 +100500,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-third"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -100508,7 +100508,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-third"],
-          "tie": "law"
+          "tie": "stand"
         }
       ],
       "voice": "plain",
@@ -100529,7 +100529,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-second"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -100537,7 +100537,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-second"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -100545,7 +100545,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-second"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -100553,7 +100553,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-second"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -100561,7 +100561,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-second"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -100569,7 +100569,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-second"],
-          "tie": "law"
+          "tie": "stand"
         }
       ],
       "voice": "polished",
@@ -100590,7 +100590,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-third"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -100598,7 +100598,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-third"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -100606,7 +100606,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-third"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -100614,7 +100614,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-third"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -100622,7 +100622,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-third"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -100630,7 +100630,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-third"],
-          "tie": "law"
+          "tie": "stand"
         }
       ],
       "voice": "polished",
@@ -100651,7 +100651,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-second"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -100659,7 +100659,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-second"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -100667,7 +100667,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-second"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -100675,7 +100675,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-second"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -100683,7 +100683,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-second"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -100691,7 +100691,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-second"],
-          "tie": "law"
+          "tie": "stand"
         }
       ],
       "voice": "plain",
@@ -100712,7 +100712,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-third"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -100720,7 +100720,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-third"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -100728,7 +100728,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-third"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -100736,7 +100736,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-third"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -100744,7 +100744,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-third"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -100752,7 +100752,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-third"],
-          "tie": "law"
+          "tie": "stand"
         }
       ],
       "voice": "plain",
@@ -100773,7 +100773,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-second"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -100781,7 +100781,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-second"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -100789,7 +100789,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-second"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -100797,7 +100797,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-second"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -100805,7 +100805,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-second"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -100813,7 +100813,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-second"],
-          "tie": "law"
+          "tie": "stand"
         }
       ],
       "voice": "polished",
@@ -100834,7 +100834,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-third"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -100842,7 +100842,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-third"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -100850,7 +100850,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-third"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -100858,7 +100858,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-third"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -100866,7 +100866,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-third"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -100874,7 +100874,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-third"],
-          "tie": "law"
+          "tie": "stand"
         }
       ],
       "voice": "polished",
@@ -100895,7 +100895,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-second"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -100903,7 +100903,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-second"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -100911,7 +100911,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-second"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -100919,7 +100919,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-second"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -100927,7 +100927,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-second"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -100935,7 +100935,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-second"],
-          "tie": "law"
+          "tie": "stand"
         }
       ],
       "voice": "plain",
@@ -100956,7 +100956,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-third"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -100964,7 +100964,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-third"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -100972,7 +100972,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-third"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -100980,7 +100980,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-third"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -100988,7 +100988,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-third"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -100996,7 +100996,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-third"],
-          "tie": "law"
+          "tie": "stand"
         }
       ],
       "voice": "plain",
@@ -101017,7 +101017,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-second"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -101025,7 +101025,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-second"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -101033,7 +101033,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-second"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -101041,7 +101041,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-second"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -101049,7 +101049,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-second"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -101057,7 +101057,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-second"],
-          "tie": "law"
+          "tie": "stand"
         }
       ],
       "voice": "polished",
@@ -101078,7 +101078,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-third"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -101086,7 +101086,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-third"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -101094,7 +101094,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-third"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -101102,7 +101102,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-third"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -101110,7 +101110,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-third"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -101118,7 +101118,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-third"],
-          "tie": "law"
+          "tie": "stand"
         }
       ],
       "voice": "polished",
@@ -101139,7 +101139,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-second"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -101147,7 +101147,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-second"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -101155,7 +101155,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-second"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -101163,7 +101163,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-second"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -101171,7 +101171,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-second"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -101179,7 +101179,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-second"],
-          "tie": "law"
+          "tie": "stand"
         }
       ],
       "voice": "polished",
@@ -101200,7 +101200,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-third"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -101208,7 +101208,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-third"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -101216,7 +101216,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-third"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -101224,7 +101224,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-third"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -101232,7 +101232,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-third"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -101240,7 +101240,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-third"],
-          "tie": "law"
+          "tie": "stand"
         }
       ],
       "voice": "polished",
@@ -101261,7 +101261,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-second"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -101269,7 +101269,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-second"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -101277,7 +101277,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-second"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -101285,7 +101285,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-second"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -101293,7 +101293,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-second"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -101301,7 +101301,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-second"],
-          "tie": "law"
+          "tie": "stand"
         }
       ],
       "voice": "polished",
@@ -101322,7 +101322,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-third"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -101330,7 +101330,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-third"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -101338,7 +101338,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-third"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -101346,7 +101346,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-third"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -101354,7 +101354,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-third"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -101362,7 +101362,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-third"],
-          "tie": "law"
+          "tie": "stand"
         }
       ],
       "voice": "polished",
@@ -101383,7 +101383,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-second"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -101391,7 +101391,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-second"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -101399,7 +101399,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-second"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -101407,7 +101407,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-second"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -101415,7 +101415,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-second"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -101423,7 +101423,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-second"],
-          "tie": "law"
+          "tie": "stand"
         }
       ],
       "voice": "plain",
@@ -101444,7 +101444,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-third"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -101452,7 +101452,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-third"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -101460,7 +101460,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-third"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -101468,7 +101468,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-third"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -101476,7 +101476,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-third"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -101484,7 +101484,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-third"],
-          "tie": "law"
+          "tie": "stand"
         }
       ],
       "voice": "plain",
@@ -101505,7 +101505,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-second"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -101513,7 +101513,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-second"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -101521,7 +101521,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-second"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -101529,7 +101529,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-second"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -101537,7 +101537,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-second"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -101545,7 +101545,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-second"],
-          "tie": "law"
+          "tie": "stand"
         }
       ],
       "voice": "plain",
@@ -101566,7 +101566,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-third"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -101574,7 +101574,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-third"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -101582,7 +101582,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-third"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -101590,7 +101590,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-third"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -101598,7 +101598,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-third"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -101606,7 +101606,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-third"],
-          "tie": "law"
+          "tie": "stand"
         }
       ],
       "voice": "plain",
@@ -101627,7 +101627,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-second"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -101635,7 +101635,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-second"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -101643,7 +101643,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-second"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -101651,7 +101651,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-second"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -101659,7 +101659,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-second"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -101667,7 +101667,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-second"],
-          "tie": "law"
+          "tie": "stand"
         }
       ],
       "voice": "plain",
@@ -101688,7 +101688,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-third"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -101696,7 +101696,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-third"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -101704,7 +101704,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-third"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -101712,7 +101712,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-third"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -101720,7 +101720,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-third"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "today",
@@ -101728,7 +101728,7 @@
           "role": "today",
           "choice": "today",
           "requiresFacts": ["today-clause-third"],
-          "tie": "law"
+          "tie": "stand"
         }
       ],
       "voice": "plain",
@@ -117430,7 +117430,7 @@
             "condition-measure",
             "condition-change"
           ],
-          "tie": "law"
+          "tie": "record"
         },
         {
           "move": "story-says",
@@ -117442,7 +117442,7 @@
             "condition-measure",
             "condition-change"
           ],
-          "tie": "law"
+          "tie": "record"
         },
         {
           "move": "story-says",
@@ -117454,7 +117454,7 @@
             "condition-measure",
             "condition-change"
           ],
-          "tie": "law"
+          "tie": "record"
         },
         {
           "move": "story-says",
@@ -117466,7 +117466,7 @@
             "condition-measure",
             "condition-change"
           ],
-          "tie": "law"
+          "tie": "record"
         },
         {
           "move": "story-says",
@@ -117478,7 +117478,7 @@
             "condition-measure",
             "condition-change"
           ],
-          "tie": "law"
+          "tie": "record"
         },
         {
           "move": "story-says",
@@ -117490,7 +117490,7 @@
             "condition-measure",
             "condition-change"
           ],
-          "tie": "law"
+          "tie": "record"
         }
       ],
       "voice": ["polished", "plain"],
@@ -117516,7 +117516,7 @@
             "condition-measure",
             "condition-change"
           ],
-          "tie": "law"
+          "tie": "record"
         },
         {
           "move": "story-says",
@@ -117528,7 +117528,7 @@
             "condition-measure",
             "condition-change"
           ],
-          "tie": "law"
+          "tie": "record"
         },
         {
           "move": "story-says",
@@ -117540,7 +117540,7 @@
             "condition-measure",
             "condition-change"
           ],
-          "tie": "law"
+          "tie": "record"
         },
         {
           "move": "story-says",
@@ -117552,7 +117552,7 @@
             "condition-measure",
             "condition-change"
           ],
-          "tie": "law"
+          "tie": "record"
         },
         {
           "move": "story-says",
@@ -117564,7 +117564,7 @@
             "condition-measure",
             "condition-change"
           ],
-          "tie": "law"
+          "tie": "record"
         },
         {
           "move": "story-says",
@@ -117576,7 +117576,7 @@
             "condition-measure",
             "condition-change"
           ],
-          "tie": "law"
+          "tie": "record"
         }
       ],
       "voice": ["polished", "plain"],
@@ -117602,7 +117602,7 @@
             "condition-measure",
             "condition-change"
           ],
-          "tie": "law"
+          "tie": "record"
         },
         {
           "move": "story-says",
@@ -117614,7 +117614,7 @@
             "condition-measure",
             "condition-change"
           ],
-          "tie": "law"
+          "tie": "record"
         },
         {
           "move": "story-says",
@@ -117626,7 +117626,7 @@
             "condition-measure",
             "condition-change"
           ],
-          "tie": "law"
+          "tie": "record"
         },
         {
           "move": "story-says",
@@ -117638,7 +117638,7 @@
             "condition-measure",
             "condition-change"
           ],
-          "tie": "law"
+          "tie": "record"
         },
         {
           "move": "story-says",
@@ -117650,7 +117650,7 @@
             "condition-measure",
             "condition-change"
           ],
-          "tie": "law"
+          "tie": "record"
         },
         {
           "move": "story-says",
@@ -117662,7 +117662,7 @@
             "condition-measure",
             "condition-change"
           ],
-          "tie": "law"
+          "tie": "record"
         }
       ],
       "voice": ["polished", "plain"],
@@ -117688,7 +117688,7 @@
             "condition-measure",
             "condition-change"
           ],
-          "tie": "law"
+          "tie": "record"
         },
         {
           "move": "story-says",
@@ -117700,7 +117700,7 @@
             "condition-measure",
             "condition-change"
           ],
-          "tie": "law"
+          "tie": "record"
         },
         {
           "move": "story-says",
@@ -117712,7 +117712,7 @@
             "condition-measure",
             "condition-change"
           ],
-          "tie": "law"
+          "tie": "record"
         },
         {
           "move": "story-says",
@@ -117724,7 +117724,7 @@
             "condition-measure",
             "condition-change"
           ],
-          "tie": "law"
+          "tie": "record"
         },
         {
           "move": "story-says",
@@ -117736,7 +117736,7 @@
             "condition-measure",
             "condition-change"
           ],
-          "tie": "law"
+          "tie": "record"
         },
         {
           "move": "story-says",
@@ -117748,7 +117748,7 @@
             "condition-measure",
             "condition-change"
           ],
-          "tie": "law"
+          "tie": "record"
         }
       ],
       "voice": ["polished", "plain"],
@@ -117774,7 +117774,7 @@
             "condition-measure",
             "condition-change"
           ],
-          "tie": "law"
+          "tie": "record"
         },
         {
           "move": "story-says",
@@ -117786,7 +117786,7 @@
             "condition-measure",
             "condition-change"
           ],
-          "tie": "law"
+          "tie": "record"
         },
         {
           "move": "story-says",
@@ -117798,7 +117798,7 @@
             "condition-measure",
             "condition-change"
           ],
-          "tie": "law"
+          "tie": "record"
         },
         {
           "move": "story-says",
@@ -117810,7 +117810,7 @@
             "condition-measure",
             "condition-change"
           ],
-          "tie": "law"
+          "tie": "record"
         },
         {
           "move": "story-says",
@@ -117822,7 +117822,7 @@
             "condition-measure",
             "condition-change"
           ],
-          "tie": "law"
+          "tie": "record"
         },
         {
           "move": "story-says",
@@ -117834,7 +117834,7 @@
             "condition-measure",
             "condition-change"
           ],
-          "tie": "law"
+          "tie": "record"
         }
       ],
       "voice": ["polished", "plain"],
@@ -117860,7 +117860,7 @@
             "condition-measure",
             "condition-change"
           ],
-          "tie": "law"
+          "tie": "record"
         },
         {
           "move": "story-says",
@@ -117872,7 +117872,7 @@
             "condition-measure",
             "condition-change"
           ],
-          "tie": "law"
+          "tie": "record"
         },
         {
           "move": "story-says",
@@ -117884,7 +117884,7 @@
             "condition-measure",
             "condition-change"
           ],
-          "tie": "law"
+          "tie": "record"
         },
         {
           "move": "story-says",
@@ -117896,7 +117896,7 @@
             "condition-measure",
             "condition-change"
           ],
-          "tie": "law"
+          "tie": "record"
         },
         {
           "move": "story-says",
@@ -117908,7 +117908,7 @@
             "condition-measure",
             "condition-change"
           ],
-          "tie": "law"
+          "tie": "record"
         },
         {
           "move": "story-says",
@@ -117920,7 +117920,7 @@
             "condition-measure",
             "condition-change"
           ],
-          "tie": "law"
+          "tie": "record"
         }
       ],
       "voice": ["polished", "plain"],
@@ -120021,7 +120021,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["crime-better", "good-name"],
-          "tie": "stand"
+          "tie": "record"
         },
         {
           "move": "story-says",
@@ -120029,7 +120029,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["crime-better", "good-name"],
-          "tie": "stand"
+          "tie": "record"
         }
       ],
       "voice": "polished",
@@ -120051,7 +120051,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["crime-better", "good-name"],
-          "tie": "stand"
+          "tie": "record"
         },
         {
           "move": "story-says",
@@ -120059,7 +120059,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["crime-better", "good-name"],
-          "tie": "stand"
+          "tie": "record"
         }
       ],
       "voice": "polished",
@@ -120081,7 +120081,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["crime-better", "good-name"],
-          "tie": "stand"
+          "tie": "record"
         },
         {
           "move": "story-says",
@@ -120089,7 +120089,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["crime-better", "good-name"],
-          "tie": "stand"
+          "tie": "record"
         }
       ],
       "voice": "polished",
@@ -120111,7 +120111,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["crime-better", "good-name"],
-          "tie": "stand"
+          "tie": "record"
         },
         {
           "move": "story-says",
@@ -120119,7 +120119,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["crime-better", "good-name"],
-          "tie": "stand"
+          "tie": "record"
         }
       ],
       "voice": "plain",
@@ -120141,7 +120141,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["crime-better", "good-name"],
-          "tie": "stand"
+          "tie": "record"
         },
         {
           "move": "story-says",
@@ -120149,7 +120149,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["crime-better", "good-name"],
-          "tie": "stand"
+          "tie": "record"
         }
       ],
       "voice": "plain",
@@ -120171,7 +120171,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["crime-better", "good-name"],
-          "tie": "stand"
+          "tie": "record"
         },
         {
           "move": "story-says",
@@ -120179,7 +120179,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["crime-better", "good-name"],
-          "tie": "stand"
+          "tie": "record"
         }
       ],
       "voice": "plain",
@@ -120201,7 +120201,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["environment-better", "good-name"],
-          "tie": "stand"
+          "tie": "record"
         },
         {
           "move": "story-says",
@@ -120209,7 +120209,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["environment-better", "good-name"],
-          "tie": "stand"
+          "tie": "record"
         }
       ],
       "voice": "polished",
@@ -120231,7 +120231,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["environment-better", "good-name"],
-          "tie": "stand"
+          "tie": "record"
         },
         {
           "move": "story-says",
@@ -120239,7 +120239,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["environment-better", "good-name"],
-          "tie": "stand"
+          "tie": "record"
         }
       ],
       "voice": "polished",
@@ -120261,7 +120261,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["environment-better", "good-name"],
-          "tie": "stand"
+          "tie": "record"
         },
         {
           "move": "story-says",
@@ -120269,7 +120269,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["environment-better", "good-name"],
-          "tie": "stand"
+          "tie": "record"
         }
       ],
       "voice": ["polished", "plain"],
@@ -120291,7 +120291,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["environment-better", "good-name"],
-          "tie": "stand"
+          "tie": "record"
         },
         {
           "move": "story-says",
@@ -120299,7 +120299,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["environment-better", "good-name"],
-          "tie": "stand"
+          "tie": "record"
         }
       ],
       "voice": "plain",
@@ -120321,7 +120321,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["environment-better", "good-name"],
-          "tie": "stand"
+          "tie": "record"
         },
         {
           "move": "story-says",
@@ -120329,7 +120329,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["environment-better", "good-name"],
-          "tie": "stand"
+          "tie": "record"
         }
       ],
       "voice": "plain",
@@ -120351,7 +120351,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["health-better", "good-name"],
-          "tie": "stand"
+          "tie": "record"
         },
         {
           "move": "story-says",
@@ -120359,7 +120359,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["health-better", "good-name"],
-          "tie": "stand"
+          "tie": "record"
         }
       ],
       "voice": "polished",
@@ -120381,7 +120381,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["health-better", "good-name"],
-          "tie": "stand"
+          "tie": "record"
         },
         {
           "move": "story-says",
@@ -120389,7 +120389,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["health-better", "good-name"],
-          "tie": "stand"
+          "tie": "record"
         }
       ],
       "voice": ["polished", "plain"],
@@ -120411,7 +120411,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["health-better", "good-name"],
-          "tie": "stand"
+          "tie": "record"
         },
         {
           "move": "story-says",
@@ -120419,7 +120419,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["health-better", "good-name"],
-          "tie": "stand"
+          "tie": "record"
         }
       ],
       "voice": ["polished", "plain"],
@@ -120441,7 +120441,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["health-better", "good-name"],
-          "tie": "stand"
+          "tie": "record"
         },
         {
           "move": "story-says",
@@ -120449,7 +120449,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["health-better", "good-name"],
-          "tie": "stand"
+          "tie": "record"
         }
       ],
       "voice": "plain",
@@ -120471,7 +120471,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["rent-better", "good-name"],
-          "tie": "stand"
+          "tie": "record"
         },
         {
           "move": "story-says",
@@ -120479,7 +120479,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["rent-better", "good-name"],
-          "tie": "stand"
+          "tie": "record"
         }
       ],
       "voice": "polished",
@@ -120501,7 +120501,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["rent-better", "good-name"],
-          "tie": "stand"
+          "tie": "record"
         },
         {
           "move": "story-says",
@@ -120509,7 +120509,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["rent-better", "good-name"],
-          "tie": "stand"
+          "tie": "record"
         }
       ],
       "voice": ["polished", "plain"],
@@ -120531,7 +120531,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["rent-better", "good-name"],
-          "tie": "stand"
+          "tie": "record"
         },
         {
           "move": "story-says",
@@ -120539,7 +120539,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["rent-better", "good-name"],
-          "tie": "stand"
+          "tie": "record"
         }
       ],
       "voice": ["polished", "plain"],
@@ -120561,7 +120561,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["rent-better", "good-name"],
-          "tie": "stand"
+          "tie": "record"
         },
         {
           "move": "story-says",
@@ -120569,7 +120569,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["rent-better", "good-name"],
-          "tie": "stand"
+          "tie": "record"
         }
       ],
       "voice": "plain",
@@ -120591,7 +120591,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["roads-better", "good-name"],
-          "tie": "stand"
+          "tie": "record"
         },
         {
           "move": "story-says",
@@ -120599,7 +120599,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["roads-better", "good-name"],
-          "tie": "stand"
+          "tie": "record"
         }
       ],
       "voice": "polished",
@@ -120621,7 +120621,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["roads-better", "good-name"],
-          "tie": "stand"
+          "tie": "record"
         },
         {
           "move": "story-says",
@@ -120629,7 +120629,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["roads-better", "good-name"],
-          "tie": "stand"
+          "tie": "record"
         }
       ],
       "voice": "polished",
@@ -120651,7 +120651,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["roads-better", "good-name"],
-          "tie": "stand"
+          "tie": "record"
         },
         {
           "move": "story-says",
@@ -120659,7 +120659,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["roads-better", "good-name"],
-          "tie": "stand"
+          "tie": "record"
         }
       ],
       "voice": "polished",
@@ -120681,7 +120681,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["roads-better", "good-name"],
-          "tie": "stand"
+          "tie": "record"
         },
         {
           "move": "story-says",
@@ -120689,7 +120689,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["roads-better", "good-name"],
-          "tie": "stand"
+          "tie": "record"
         }
       ],
       "voice": "plain",
@@ -120711,7 +120711,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["roads-better", "good-name"],
-          "tie": "stand"
+          "tie": "record"
         },
         {
           "move": "story-says",
@@ -120719,7 +120719,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["roads-better", "good-name"],
-          "tie": "stand"
+          "tie": "record"
         }
       ],
       "voice": "plain",
@@ -120741,7 +120741,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["roads-better", "good-name"],
-          "tie": "stand"
+          "tie": "record"
         },
         {
           "move": "story-says",
@@ -120749,7 +120749,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["roads-better", "good-name"],
-          "tie": "stand"
+          "tie": "record"
         }
       ],
       "voice": "plain",
@@ -120771,7 +120771,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["schools-better", "good-name"],
-          "tie": "stand"
+          "tie": "record"
         }
       ],
       "voice": "polished",
@@ -120793,7 +120793,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["schools-better", "good-name"],
-          "tie": "stand"
+          "tie": "record"
         }
       ],
       "voice": "polished",
@@ -120815,7 +120815,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["schools-better", "good-name"],
-          "tie": "stand"
+          "tie": "record"
         }
       ],
       "voice": "polished",
@@ -120837,7 +120837,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["schools-better", "good-name"],
-          "tie": "stand"
+          "tie": "record"
         }
       ],
       "voice": "plain",
@@ -120859,7 +120859,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["schools-better", "good-name"],
-          "tie": "stand"
+          "tie": "record"
         }
       ],
       "voice": "plain",
@@ -120881,7 +120881,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["schools-better", "good-name"],
-          "tie": "stand"
+          "tie": "record"
         }
       ],
       "voice": "plain",
@@ -120903,7 +120903,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["jobs-better", "good-name"],
-          "tie": "stand"
+          "tie": "record"
         },
         {
           "move": "story-says",
@@ -120911,7 +120911,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["jobs-better", "good-name"],
-          "tie": "stand"
+          "tie": "record"
         }
       ],
       "voice": ["polished", "plain"],
@@ -120933,7 +120933,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["jobs-better", "good-name"],
-          "tie": "stand"
+          "tie": "record"
         },
         {
           "move": "story-says",
@@ -120941,7 +120941,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["jobs-better", "good-name"],
-          "tie": "stand"
+          "tie": "record"
         }
       ],
       "voice": ["polished", "plain"],
@@ -120963,7 +120963,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["jobs-better", "good-name"],
-          "tie": "stand"
+          "tie": "record"
         },
         {
           "move": "story-says",
@@ -120971,7 +120971,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["jobs-better", "good-name"],
-          "tie": "stand"
+          "tie": "record"
         }
       ],
       "voice": "polished",
@@ -120993,7 +120993,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["jobs-better", "good-name"],
-          "tie": "stand"
+          "tie": "record"
         },
         {
           "move": "story-says",
@@ -121001,7 +121001,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["jobs-better", "good-name"],
-          "tie": "stand"
+          "tie": "record"
         }
       ],
       "voice": "plain",
@@ -121023,7 +121023,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["pay-better", "good-name"],
-          "tie": "stand"
+          "tie": "record"
         },
         {
           "move": "story-says",
@@ -121031,7 +121031,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["pay-better", "good-name"],
-          "tie": "stand"
+          "tie": "record"
         }
       ],
       "voice": ["polished", "plain"],
@@ -121053,7 +121053,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["pay-better", "good-name"],
-          "tie": "stand"
+          "tie": "record"
         },
         {
           "move": "story-says",
@@ -121061,7 +121061,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["pay-better", "good-name"],
-          "tie": "stand"
+          "tie": "record"
         }
       ],
       "voice": "polished",
@@ -121083,7 +121083,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["pay-better", "good-name"],
-          "tie": "stand"
+          "tie": "record"
         },
         {
           "move": "story-says",
@@ -121091,7 +121091,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["pay-better", "good-name"],
-          "tie": "stand"
+          "tie": "record"
         }
       ],
       "voice": ["polished", "plain"],
@@ -121113,7 +121113,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["pay-better", "good-name"],
-          "tie": "stand"
+          "tie": "record"
         },
         {
           "move": "story-says",
@@ -121121,7 +121121,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["pay-better", "good-name"],
-          "tie": "stand"
+          "tie": "record"
         }
       ],
       "voice": "plain",
@@ -121143,7 +121143,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["prices-better", "good-name"],
-          "tie": "stand"
+          "tie": "record"
         },
         {
           "move": "story-says",
@@ -121151,7 +121151,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["prices-better", "good-name"],
-          "tie": "stand"
+          "tie": "record"
         }
       ],
       "voice": ["polished", "plain"],
@@ -121173,7 +121173,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["prices-better", "good-name"],
-          "tie": "stand"
+          "tie": "record"
         },
         {
           "move": "story-says",
@@ -121181,7 +121181,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["prices-better", "good-name"],
-          "tie": "stand"
+          "tie": "record"
         }
       ],
       "voice": ["polished", "plain"],
@@ -121203,7 +121203,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["prices-better", "good-name"],
-          "tie": "stand"
+          "tie": "record"
         },
         {
           "move": "story-says",
@@ -121211,7 +121211,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["prices-better", "good-name"],
-          "tie": "stand"
+          "tie": "record"
         }
       ],
       "voice": ["polished", "plain"],

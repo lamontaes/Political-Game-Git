@@ -13,9 +13,14 @@
  */
 import { expect, it } from "vitest";
 import bank from "../../data/english/parts/opening-speech.json" with { type: "json" };
+import names from "../../data/english/question-names.json" with { type: "json" };
 import type { PartTie, PartUse } from "./bank-parts";
 
-/** Which record a supplied fact comes from, by its name. */
+/**
+ * Which record a supplied fact comes from, by its name. How a question stands today (`today*`) is
+ * the speaker's side's own account of the law in force (question-names.json `today`), so it is
+ * the speaker's stand, not the law's.
+ */
 function factTie(fact: string): PartTie {
   if (fact.startsWith("kind-") || fact === "home-state") return "record";
   if (
@@ -25,7 +30,7 @@ function factTie(fact: string): PartTie {
   )
     return "frame";
   if (
-    /^(belief|stance-|pole-|family-|party-)/.test(fact) ||
+    /^(belief|stance-|pole-|family-|party-|today)/.test(fact) ||
     [
       "side",
       "first-side",
@@ -36,7 +41,7 @@ function factTie(fact: string): PartTie {
   )
     return "stand";
   if (
-    /^(law-|today|condition-law|condition-measure)/.test(fact) ||
+    /^(law-|condition-law|condition-measure)/.test(fact) ||
     [
       "measure",
       "to",
@@ -88,4 +93,21 @@ it("every use of the address bank declares a tie its facts bear out", () => {
         );
     }
   expect(wrong).toEqual([]);
+});
+
+it("every field a question's row holds declares its tie (question-names.json ties)", () => {
+  const file = names as unknown as {
+    ties: { fields: Record<string, PartTie> };
+    names: Record<string, Record<string, unknown>>;
+  };
+  const fields = new Set(
+    Object.values(file.names).flatMap((row) => Object.keys(row)),
+  );
+  const untied = [...fields].filter(
+    (field) => !TIES.includes(file.ties.fields[field]!),
+  );
+  expect(untied).toEqual([]);
+  // A side's account of today and its reason are its view, never the law's.
+  for (const field of ["for", "against", "today", "todayMore", "reasons"])
+    expect(file.ties.fields[field], field).toBe("stand");
 });
