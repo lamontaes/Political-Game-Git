@@ -96,6 +96,7 @@ import {
 } from "../player-stops-v1";
 import { snapshotExplicitControlV1 } from "../player-control-state-v1";
 import { addDays, makeIsoDate } from "../kernel/dates";
+import { headsLocalExecutive } from "../offices-executives";
 
 export const OFFICE_DAY_MODULE_ID = "core2-office-day-v1";
 
@@ -408,7 +409,7 @@ export function openingActs(api: CoreAPI): void {
   const executives = [
     ...new Set(
       townSeats(api)
-        .filter((row) => ADDRESS_KINDS.has(row.office.kind))
+        .filter((row) => headsLocalExecutive(row.office.kind))
         .map((row) => row.holder?.personId)
         .filter((id): id is string => !!id && api.state.people.has(id)),
     ),
@@ -437,8 +438,6 @@ const OPENING_KINDS: readonly (readonly [string, string])[] = [
   ["office-hours", "officeHoursIntervalDays"],
   ["town-hall", "townHallIntervalDays"],
 ];
-/** The seats whose holder gives the yearly address (a mayor or county executive). */
-const ADDRESS_KINDS = new Set(["mayor", "county-executive"]);
 
 // ---- Stops -------------------------------------------------------------
 
