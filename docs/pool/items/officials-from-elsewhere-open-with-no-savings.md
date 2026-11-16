@@ -8,7 +8,7 @@ size: S
 status: in-pr
 standard: 2
 claimed-by: T54
-pr:
+pr: "#9682"
 after:
 blocked-on:
 root: none
