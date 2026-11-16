@@ -8,6 +8,8 @@
 import {
   closenessBetween,
   lastMetOnRow,
+  firstTogetherInRecords,
+  metThrough,
   sharedHoursBetween,
 } from "../core2/closeness";
 import { P } from "../core2/parameters";
@@ -23,6 +25,14 @@ export interface RelationFacts {
   acquainted: boolean;
   /** The asked knew the asker before today: kin, or learned of them earlier. */
   metBefore: boolean;
+  /**
+   * Which record made `metBefore` (dev mode's trace): family, shared hours on a body's sittings or
+   * an executive's meetings, the asked's own record of the asker (`knownIdSources`), or a tie's
+   * last day together; null when they have not met.
+   */
+  metBy: "family" | "sittings" | "learned" | "together" | null;
+  /** That record: the fact the asked learned of the asker from, the tie, or the sitting both first sat; null for family. */
+  metSource: { readonly id: string; readonly date: string } | null;
   /** The record that makes them kin or housemates (the household or the family tie), if either. */
   kinSource: string | null;
   /** A tie on record at or past the closeness threshold, quarrel or not. */
@@ -107,6 +117,52 @@ export function lastContact(
   return best;
 }
 
+/** One record that says two people met, by arm, with its date. */
+export interface MetRecord {
+  readonly by: "sittings" | "learned" | "together";
+  readonly id: string;
+  readonly date: string;
+}
+
+/**
+ * Every record that says the player (`askedId`) met `askerId`, by the
+ * same arms `relationFacts` reads, each with its own date: the player's
+ * record of learning of them (`knownIdSources`), the meeting the core wrote
+ * when they met in person (`person:<id>:met`), the first sitting both sat
+ * (the shared-hours readers), and their tie's last day together (a bound on
+ * the first), earliest first. `by` names the arm. For dev mode's trace of a scene already
+ * played, which asks whether they had met by the scene's day.
+ */
+export function metRecords(
+  core: Readonly<CoreState>,
+  askerId: PersonId,
+  askedId: PersonId,
+): readonly MetRecord[] {
+  const asked = core.people.get(askedId);
+  const found: MetRecord[] = [];
+  const learned = asked?.knownIdSources?.[askerId];
+  if (learned)
+    found.push({
+      by: "learned",
+      id: learned.sourceFactId,
+      date: learned.learnedAt,
+    });
+  const metFact = core.knowledgeByPerson
+    .get(askedId)
+    ?.get(`person:${askerId}:met`);
+  if (metFact)
+    found.push({
+      by: "together",
+      id: metFact.sourceId,
+      date: metFact.learnedAt,
+    });
+  const sat = firstTogetherInRecords(core, askerId, askedId);
+  if (sat) found.push({ by: "sittings", id: sat.sourceId, date: sat.date });
+  const seen = lastContact(core, askedId, askerId);
+  if (seen) found.push({ by: "together", id: seen.tieId, date: seen.date });
+  return found.sort((x, y) => x.date.localeCompare(y.date));
+}
+
 export function relationFacts(
   core: Readonly<CoreState>,
   askerId: PersonId,
@@ -126,14 +182,30 @@ export function relationFacts(
   const shared = sharedHoursBetween(core, askerId, askedId) > P.zero;
   const knows = !!asked?.knownIds.has(askerId) || shared;
   let metBefore = false;
+  let metBy: RelationFacts["metBy"] = null;
+  let metSource: RelationFacts["metSource"] = null;
   if (knows) {
-    if (family || shared) metBefore = true;
-    else {
-      const learned = asked?.knownIdSources?.[askerId]?.learnedAt;
-      if (learned !== undefined) metBefore = learned < core.date;
-      else {
+    if (family || shared) {
+      metBefore = true;
+      metBy = family ? "family" : "sittings";
+      // The record the two first shared time in (a body's first sitting both sat), or their tie.
+      const through = family ? null : metThrough(core, askerId, askedId);
+      if (through) metSource = { id: through.sourceId, date: through.date };
+    } else {
+      const learned = asked?.knownIdSources?.[askerId];
+      if (learned !== undefined) {
+        metBefore = learned.learnedAt < core.date;
+        if (metBefore) {
+          metBy = "learned";
+          metSource = { id: learned.sourceFactId, date: learned.learnedAt };
+        }
+      } else {
         const seen = lastContact(core, askedId, askerId);
         metBefore = !!seen && seen.date < core.date;
+        if (metBefore) {
+          metBy = "together";
+          metSource = { id: seen!.tieId, date: seen!.date };
+        }
       }
     }
   }
@@ -170,6 +242,8 @@ export function relationFacts(
     close,
     acquainted: knows || partners,
     metBefore,
+    metBy,
+    metSource,
     side,
     tieId: tie ? tieId : null,
     passed: passedBetween(core, askerId, askedId),

@@ -33,7 +33,7 @@ Seen: in the Scenes page's swearing-in sample, the oath giver is named by first 
 
 **Waits on.** Nothing: #9489 (the met record it reads) is on the Train.
 
-**Said to the player by their own presses, and what is not (lead, Words lead and second reader, Nov 16).** Composed is not played. A scene the director composes for an official the script watches, or for a player seated by `seatWinner`, is staging. Six play walks pressed what a player presses at head e36f0269 (scripts/play-walks/official.mjs, Advanced start; logs headed with the sha in /mnt/project-files/words-lead/who-they-are/walks/):
+**Said to the player by their own presses, and what is not (lead, Words lead and second reader, Nov 16).** Composed is not played. A scene the director composes for an official the script watches, or for a player seated by `seatWinner`, is staging. Five play walks pressed what a player presses at head e36f0269 (scripts/play-walks/official.mjs, Advanced start; logs headed with the sha in /mnt/project-files/words-lead/who-they-are/walks/):
 
 - mayor at Wales UT, 120 days (seed 7b3e19a24c5d8f60): "William Fernandez, a member of the Sanpete County Commission" and "Ivy Gordon, who lives in Wales";
 - board member at LaPlace IL, 40 days (seed c41d0e7a92b35f18): "Lisa Edwards, who works for Brian Nichols";
